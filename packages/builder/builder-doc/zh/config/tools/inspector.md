@@ -5,11 +5,9 @@
 
 当配置不为 `undefined` 时，则表示开启了 `webpack-inspector`，此时 `tools.inspector` 的类型可以为 `Object` 或者 `Function`。
 
-### 类型
+### Object 类型
 
-#### Object
-
-当 `tools.inspector` 配置为 `Object` 类型时，与默认配置通过 Object.assign 合并。比如：
+当 `tools.inspector` 的值为 `Object` 类型时，会与默认配置通过 Object.assign 合并。比如：
 
 ```js
 export default {
@@ -22,7 +20,7 @@ export default {
 };
 ```
 
-#### Function
+### Function 类型
 
 当 `tools.inspector` 为 Function 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果。比如：
 

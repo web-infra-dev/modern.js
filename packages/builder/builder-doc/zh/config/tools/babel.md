@@ -3,11 +3,9 @@
 
 通过 `tools.babel` 可以修改 [babel-loader](https://github.com/babel/babel-loader) 的配置项。
 
-### 类型
+### Object 类型
 
-#### Object 类型
-
-当 `tools.babel` 配置为 `Object` 类型时，与默认配置通过 Object.assign 合并。
+当 `tools.babel` 的值为 `Object` 类型时，会与默认配置通过 Object.assign 合并。
 
 ```js
 export default {
@@ -28,7 +26,7 @@ export default {
 };
 ```
 
-#### Function 类型
+### Function 类型
 
 当 `tools.babel` 为 Function 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果，第二个参数提供了一些可以直接调用的工具函数：
 
@@ -64,12 +62,14 @@ export default {
   tools: {
     babel(config, { addPlugins }) {
       addPlugins([
-        'babel-plugin-import',
-        {
-          libraryName: 'xxx-components',
-          libraryDirectory: 'es',
-          style: true,
-        },
+        [
+          'babel-plugin-import',
+          {
+            libraryName: 'xxx-components',
+            libraryDirectory: 'es',
+            style: true,
+          },
+        ],
       ]);
     },
   },

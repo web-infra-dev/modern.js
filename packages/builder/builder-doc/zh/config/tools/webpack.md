@@ -5,9 +5,7 @@
 
 > [tools.webpackChain](#tools-webpackchain) 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.webpackChain`。
 
-### 类型
-
-#### Object
+### Object 类型
 
 你可以配置为一个对象，这个对象将会和原始的 webpack 配置通过 `webpack-merge` 进行合并。比如：
 
@@ -25,14 +23,14 @@ export default {
 };
 ```
 
-#### Function
+### Function 类型
 
 你也可以配置为一个函数，这个函数接收一个参数，即原始的 webpack 配置，你可以对这个配置进行修改，然后返回一个新的配置。比如：
 
 ```js
 export default {
   tools: {
-    webpack: (config) => {
+    webpack: config => {
       config.resolve.alias['@util'] = 'src/util';
       return config;
     },

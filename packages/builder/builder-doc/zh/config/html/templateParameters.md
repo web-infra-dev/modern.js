@@ -39,7 +39,7 @@ export default {
 ```ts
 export default {
   html: {
-    templateParameters: (defaultParameters) => {
+    templateParameters: defaultParameters => {
       console.log(defaultParameters.compilation);
       console.log(defaultParameters.title);
       return {
@@ -69,7 +69,7 @@ export default {
 ```js
 export default {
   html: {
-    templateParameters: (defaultParameters) => {
+    templateParameters: defaultParameters => {
       return {
         foo: 'bar',
       };

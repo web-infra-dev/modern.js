@@ -20,7 +20,6 @@ export default {
 };
 ```
 
-
 重新编译后，可以看到:
 
 - 页面 `foo` 的 title 为 `Tiktok`。

@@ -15,7 +15,7 @@ const defaultTerserOptions = {
 
 ### Object 类型
 
-当 `tools.terser` 配置为 `Object` 类型时，会与默认配置通过 `Object.assign` 合并。
+当 `tools.terser` 的值为 `Object` 类型时，会与默认配置通过 `Object.assign` 合并。
 
 例如通过 `exclude` 排除部分文件的压缩：
 

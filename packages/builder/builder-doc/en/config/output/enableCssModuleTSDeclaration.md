@@ -19,7 +19,7 @@ After building, there will be a `.d.ts` file for each CSS module file. For examp
 
 ```ts
 interface CssExports {
-  'title': string;
+  title: string;
 }
 export const cssExports: CssExports;
 export default cssExports;

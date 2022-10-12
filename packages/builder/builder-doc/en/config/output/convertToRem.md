@@ -2,6 +2,7 @@
 - Default: `false`
 
 By setting `output.convertToRem`, the Builder can do the following things:
+
 - Convert px to rem in CSS
 - Insert runtime code into the HTML template to set the fontSize of the root element
 
@@ -44,18 +45,17 @@ When the value of `output.convertToRem` is `object` type, The Builder will perfo
 
 options:
 
-| Name                   | Type                                  | Default                                                       | Description                                                    |
-| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| enableRuntime            | `boolean` | `true`                                                         | Whether to inject runtime code into html templates  |
-| rootFontSize             | `number`                                     | `50`                                                           | The root element font size                                                 |
-| maxRootFontSize          | `number`                                   | `64`                                                           | The root element max font size                                             |
-| widthQueryKey            | `string` | `'' `                                                          | Get clientWidth from the url query based on widthQueryKey（The default is to get it from the Document of the current page） |
-| screenWidth              | `number`                    | `375`                                                          | The screen width（Usually, `fontSize = (clientWidth * rootFontSize) / screenWidth`）                              |
-| excludeEntries           | `string[]`                           | `[]`                                                           | The entries to ignore                                         |
-| supportLandscape         | `boolean`                       | `false`                                                        | Use height to calculate rem in landscape                                  |
-| useRootFontSizeBeyondMax | `boolean` | `false`                                                        | Whether to use rootFontSize when large than maxRootFontSize |
-| pxtorem                  | `object` | <ul><li>rootValue (Default is the same as rootFontSize) </li><li>unitPrecision: 5 </li><li>propList: ['*']</li></ul> | [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem#options) options |
-
+| Name                     | Type       | Default                                                                                                              | Description                                                                                                                 |
+| ------------------------ | ---------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| enableRuntime            | `boolean`  | `true`                                                                                                               | Whether to inject runtime code into html templates                                                                          |
+| rootFontSize             | `number`   | `50`                                                                                                                 | The root element font size                                                                                                  |
+| maxRootFontSize          | `number`   | `64`                                                                                                                 | The root element max font size                                                                                              |
+| widthQueryKey            | `string`   | `'' `                                                                                                                | Get clientWidth from the url query based on widthQueryKey（The default is to get it from the Document of the current page） |
+| screenWidth              | `number`   | `375`                                                                                                                | The screen width（Usually, `fontSize = (clientWidth * rootFontSize) / screenWidth`）                                        |
+| excludeEntries           | `string[]` | `[]`                                                                                                                 | The entries to ignore                                                                                                       |
+| supportLandscape         | `boolean`  | `false`                                                                                                              | Use height to calculate rem in landscape                                                                                    |
+| useRootFontSizeBeyondMax | `boolean`  | `false`                                                                                                              | Whether to use rootFontSize when large than maxRootFontSize                                                                 |
+| pxtorem                  | `object`   | <ul><li>rootValue (Default is the same as rootFontSize) </li><li>unitPrecision: 5 </li><li>propList: ['*']</li></ul> | [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem#options) options                                                  |
 
 #### Example
 

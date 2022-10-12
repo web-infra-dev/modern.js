@@ -5,9 +5,7 @@
 
 > [tools.webpackChain](#tools-webpackchain) is also used to modify the webpack configuration, and the function is more powerful. It is recommended to use `tools.webpackChain` first.
 
-### Type
-
-#### Object
+### Object Type
 
 You can configure it as an object, which will be merged with the original webpack configuration through `webpack-merge`. For example:
 
@@ -25,14 +23,14 @@ export default {
 };
 ```
 
-#### Function
+### Function Type
 
 You can also configure it as a function, which accepts one parameter, the original webpack configuration, you can modify this configuration, and then return a new configuration. For example:
 
 ```js
 export default {
   tools: {
-    webpack: (config) => {
+    webpack: config => {
       config.resolve.alias['@util'] = 'src/util';
       return config;
     },
@@ -42,7 +40,7 @@ export default {
 
 The second parameter of this function is an object that contains some information about the tool collection. Details are as follows:
 
-### 工具集合
+### Utils
 
 #### env
 
@@ -87,7 +85,6 @@ export default {
 - Type: `'web' | 'node' | 'modern-web'`
 
 The `target` parameter can be used to determine the current target. For example:
-
 
 ```js
 export default {

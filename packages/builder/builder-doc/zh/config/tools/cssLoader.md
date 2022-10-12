@@ -21,9 +21,7 @@
 }
 ```
 
-### 类型
-
-#### Object
+### Object 类型
 
 当此值为 Object 类型时，与默认配置通过 Object.assign 合并。比如：
 
@@ -39,14 +37,14 @@ export default {
 };
 ```
 
-#### Function
+### Function 类型
 
 当此值为 Function 类型时，默认配置作为第一个参数传入，你可以直接修改配置对象，也可以返回一个对象作为最终配置。比如：
 
 ```js
 export default {
   tools: {
-    cssLoader: (config) => {
+    cssLoader: config => {
       config.modules.localIdentName = '[path][name]__[local]--[hash:base64:5]';
       return config;
     },

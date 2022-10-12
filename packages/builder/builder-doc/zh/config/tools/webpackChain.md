@@ -92,31 +92,31 @@ builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 
 ##### CHAIN_ID.RULE
 
-| ID             | 描述                         |
-| -------------- | ---------------------------- |
-| `RULE.MJS` | 处理 `mjs` 的规则 |
-| `RULE.JS` | 处理 `js` 的规则 |
-| `RULE.TS` | 处理 `ts` 的规则 |
-| `RULE.CSS` | 处理 `css` 的规则 |
-| `RULE.LESS` | 处理 `less` 的规则 |
-| `RULE.SASS` | 处理 `sass` 的规则 |
-| `RULE.PUG` | 处理 `pug` 的规则 |
-| `RULE.TOML` | 处理 `toml` 的规则 |
-| `RULE.YAML` | 处理 `yaml` 的规则 |
-| `RULE.FONT` | 处理字体的规则 |
-| `RULE.IMAGE` | 处理图片的规则 |
+| ID           | 描述               |
+| ------------ | ------------------ |
+| `RULE.MJS`   | 处理 `mjs` 的规则  |
+| `RULE.JS`    | 处理 `js` 的规则   |
+| `RULE.TS`    | 处理 `ts` 的规则   |
+| `RULE.CSS`   | 处理 `css` 的规则  |
+| `RULE.LESS`  | 处理 `less` 的规则 |
+| `RULE.SASS`  | 处理 `sass` 的规则 |
+| `RULE.PUG`   | 处理 `pug` 的规则  |
+| `RULE.TOML`  | 处理 `toml` 的规则 |
+| `RULE.YAML`  | 处理 `yaml` 的规则 |
+| `RULE.FONT`  | 处理字体的规则     |
+| `RULE.IMAGE` | 处理图片的规则     |
 | `RULE.MEDIA` | 处理媒体资源的规则 |
 
 ### CHAIN_ID.ONE_OF
 
 通过 `ONE_OF.XXX` 可以匹配到规则数组中的某一类规则。
 
-| ID                     | 描述                                                           |
-| ---------------------- | -------------------------------------------------------------- |
-| `ONE_OF.SVG`           | 处理 SVG 的规则，在 data URI 和单独文件之间自动选择            |
-| `ONE_OF.SVG_URL`       | 处理 SVG 的规则，输出为单独文件                                |
-| `ONE_OF.SVG_INLINE`    | 处理 SVG 的规则，作为 data URI 内联到 bundle 中                |
-| `ONE_OF.SVG_ASSETS`        | 处理 SVG 的规则，在 data URI 和单独文件之间自动选择 |
+| ID                  | 描述                                                |
+| ------------------- | --------------------------------------------------- |
+| `ONE_OF.SVG`        | 处理 SVG 的规则，在 data URI 和单独文件之间自动选择 |
+| `ONE_OF.SVG_URL`    | 处理 SVG 的规则，输出为单独文件                     |
+| `ONE_OF.SVG_INLINE` | 处理 SVG 的规则，作为 data URI 内联到 bundle 中     |
+| `ONE_OF.SVG_ASSETS` | 处理 SVG 的规则，在 data URI 和单独文件之间自动选择 |
 
 ### CHAIN_ID.USE
 
@@ -163,11 +163,11 @@ builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `PLUGIN.BOTTOM_TEMPLATE`       | 对应 `BottomTemplatePlugin`                                                        |
 | `PLUGIN.MINI_CSS_EXTRACT`      | 对应 `MiniCssExtractPlugin`                                                        |
 | `PLUGIN.REACT_FAST_REFRESH`    | 对应 `ReactFastRefreshPlugin`                                                      |
-| `PLUGIN.NODE_POLYFILL_PROVIDE` | 对应处理 node polyfill 的 `ProvidePlugin`                                           |
+| `PLUGIN.NODE_POLYFILL_PROVIDE` | 对应处理 node polyfill 的 `ProvidePlugin`                                          |
 | `PLUGIN.INSPECTOR`             | 对应 `@modern-js/inspector-webpack-plugin`                                         |
 | `PLUGIN.SUBRESOURCE_INTEGRITY` | 对应 `webpack-subresource-integrity`                                               |
-| `PLUGIN.ASSETS_RETRY`          | 对应 Builder 中的 Webpack 静态资源重试插件 `WebpackAssetsRetryPlugin`                                           |
-| `AUTO_SET_ROOT_SIZE`           | 对应 Builder 中的自动设置根字体大小插件 `AutoSetRootSizePlugin`                                           |
+| `PLUGIN.ASSETS_RETRY`          | 对应 Builder 中的 Webpack 静态资源重试插件 `WebpackAssetsRetryPlugin`              |
+| `AUTO_SET_ROOT_SIZE`           | 对应 Builder 中的自动设置根字体大小插件 `AutoSetRootSizePlugin`                    |
 
 ### CHAIN_ID.MINIMIZER
 
@@ -204,9 +204,7 @@ export default {
           return options;
         });
       // 删除 loader
-      chain.module
-        .rule(CHAIN_ID.RULE.JS)
-        .uses.delete(CHAIN_ID.USE.BABEL);
+      chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
     },
   },
 };
@@ -219,12 +217,13 @@ export default {
   tools: {
     webpackChain: chain => {
       // 新增插件
-      chain.plugin('define')
-        .use(webpack.DefinePlugin, [{
+      chain.plugin('define').use(webpack.DefinePlugin, [
+        {
           'process.env': {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
           },
-        }]);
+        },
+      ]);
       // 修改插件
       chain.plugin(CHAIN_ID.PLUGIN.HMR).tap(options => {
         options[0].fullBuildTimeout = 200;
