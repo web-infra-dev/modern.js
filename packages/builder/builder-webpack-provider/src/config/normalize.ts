@@ -49,7 +49,6 @@ export const normalizeConfig = createNormalizer({
       watch: true,
       https: false,
     },
-    inspector: false,
   },
   source: {
     preEntry: [],
