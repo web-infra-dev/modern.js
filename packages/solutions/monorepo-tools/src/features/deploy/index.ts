@@ -4,7 +4,14 @@ import {
   IPackageJson,
   JsonFile,
 } from '@rushstack/node-core-library';
-import { fs, yaml, execa, logger, chalk } from '@modern-js/utils';
+import {
+  fs,
+  yaml,
+  execa,
+  logger,
+  chalk,
+  getPnpmVersion,
+} from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
 import { IPnpmWorkSpace } from '../../type';
 import { DagOperator } from '../../dag/operator';
@@ -101,7 +108,12 @@ const checkAndRunDeployCommand = async (
     );
     let runDeployCommands = ['run', 'deploy'];
     if (packageManager === 'pnpm') {
-      runDeployCommands = ['run', 'deploy', '--filter', targetProject.name];
+      const pnpmVersion = await getPnpmVersion();
+      if (pnpmVersion.startsWith('6')) {
+        runDeployCommands = ['run', 'deploy', '--filter', targetProject.name];
+      } else {
+        runDeployCommands = ['run', '--filter', targetProject.name, 'deploy'];
+      }
     } else if (packageManager === 'yarn') {
       runDeployCommands = ['workspace', targetProject.name, 'run', 'deploy'];
     }
