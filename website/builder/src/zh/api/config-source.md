@@ -10,6 +10,10 @@ extractApiHeaders: [2]
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/alias.md)!!!
 
+## source.include
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/include.md)!!!
+
 ## source.compileJsDataURI
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/compileJsDataURI.md)!!!
@@ -33,3 +37,7 @@ extractApiHeaders: [2]
 ## source.resolveExtensionPrefix
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/resolveExtensionPrefix.md)!!!
+
+## source.resolveMainFields
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/resolveMainFields.md)!!!

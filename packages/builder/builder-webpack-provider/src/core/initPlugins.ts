@@ -1,6 +1,10 @@
-import type { Context, PluginStore, BuilderPluginAPI } from '../types';
-import { debug } from '../shared';
-import { createPublicContext } from './createContext';
+import {
+  debug,
+  onExitProcess,
+  createPublicContext,
+  type PluginStore,
+} from '@modern-js/builder-shared';
+import type { Context, BuilderPluginAPI } from '../types';
 
 export async function initPlugins({
   context,
@@ -37,6 +41,10 @@ export async function initPlugins({
   for (const plugin of pluginStore.plugins) {
     await plugin.setup(pluginAPI);
   }
+
+  onExitProcess(() => {
+    hooks.onExitHook.call();
+  });
 
   debug('init plugins done');
 }

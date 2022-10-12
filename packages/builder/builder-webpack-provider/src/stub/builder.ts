@@ -1,3 +1,11 @@
+import {
+  applyDefaultBuilderOptions,
+  createPluginStore,
+  createPublicContext,
+  type BuildOptions,
+  type CreateBuilderOptions,
+  type PluginStore,
+} from '@modern-js/builder-shared';
 import type * as playwright from '@modern-js/e2e/playwright';
 import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
@@ -5,31 +13,23 @@ import assert from 'assert';
 import { PathLike } from 'fs';
 import onChange from 'on-change';
 import { URL } from 'url';
-import type { BuildOptions } from '../core/build';
-import { createPrimaryBuilder } from '../core/createBuilder';
-import { Hooks } from '../core/createHook';
-import { applyDefaultBuilderOptions, matchLoader } from '../shared';
+import { Hooks } from '../core/initHooks';
 import {
   applyBasicPlugins,
   applyDefaultPlugins,
   applyMinimalPlugins,
 } from '../shared/plugin';
-import type {
-  BuilderOptions,
-  BuilderPlugin,
-  Context,
-  PluginStore,
-} from '../types';
+import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
-import { filenameToGlobExpr, globContentJSON } from './utils';
+import { filenameToGlobExpr, globContentJSON, matchLoader } from './utils';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
   additional?: BuilderPlugin[];
 }
 
-export interface StubBuilderOptions extends BuilderOptions {
+export interface StubBuilderOptions extends CreateBuilderOptions {
   context?: Context;
   /**
    * Setup builtin plugins and add custom plugins.
@@ -42,12 +42,13 @@ export interface StubBuilderOptions extends BuilderOptions {
    */
   webpack?: boolean | string;
   buildOptions?: BuildOptions;
+  builderConfig?: BuilderConfig;
   /** Watch and record any changes of builder configs. */
   watchConfig?: boolean;
 }
 
 export type HookApi = {
-  [key in keyof Hooks]: Parameters<Parameters<Hooks[key]['tap']>[0]>;
+  [K in keyof Hooks]: Parameters<Parameters<Hooks[K]['tap']>[0]>;
 };
 
 export interface ServeDestOptions {
@@ -140,11 +141,9 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
       },
     );
   }
-  // init primary builder.
-  const { pluginStore, publicContext } = createPrimaryBuilder(
-    builderOptions,
-    context,
-  );
+  const publicContext = createPublicContext(context);
+  const pluginStore = createPluginStore();
+
   // add builtin and custom plugins by `options.plugins`.
   await applyPluginOptions(pluginStore, options?.plugins);
 
@@ -183,8 +182,8 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
 
   /** Unwrap webpack configs. */
   const unwrapWebpackConfigs = async () => {
-    const [{ webpackConfigs }] = await unwrapHook('onBeforeBuildHook');
-    return webpackConfigs;
+    const [{ bundlerConfigs }] = await unwrapHook('onBeforeBuildHook');
+    return bundlerConfigs;
   };
 
   /** Unwrap webpack config, it will ensure there's only one config object. */
@@ -198,13 +197,6 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   const unwrapWebpackCompiler = async () => {
     const [{ compiler }] = await unwrapHook('onAfterCreateCompilerHooks');
     return compiler;
-  };
-
-  /** Unwrap change records of builder config, require enable `watchConfigs`. */
-  const unwrapConfigChanges = async () => {
-    await build();
-    assert(configChanges);
-    return configChanges;
   };
 
   /** Serialize content of output files into JSON object. */
@@ -223,6 +215,13 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
       .map(String)
       .value();
     return globContentJSON(_paths, { absolute: !isRelative, maxSize });
+  };
+
+  /** Unwrap change records of builder config, require enable `watchConfigs`. */
+  const unwrapConfigChanges = async () => {
+    await build();
+    assert(configChanges);
+    return configChanges;
   };
 
   /** Read output file content. */
@@ -316,9 +315,9 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     unwrapWebpackConfigs,
     unwrapWebpackConfig,
     unwrapWebpackCompiler,
-    unwrapConfigChanges,
     unwrapOutputJSON,
     unwrapOutputFile,
+    unwrapConfigChanges,
     readOutputFile,
     buildAndServe,
     matchWebpackPlugin,

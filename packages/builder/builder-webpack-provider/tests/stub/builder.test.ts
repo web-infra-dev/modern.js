@@ -75,35 +75,7 @@ describe('stub-builder', () => {
       config.dev.hmr = false;
     });
     const changes = await builder.unwrapConfigChanges();
-    for (const change of changes) {
-      change.stack = change.stack?.slice(0, 1);
-    }
-    expect(changes).toMatchInlineSnapshot(`
-      [
-        {
-          "path": "dev",
-          "prevValue": {
-            "assetPrefix": "/",
-            "hmr": true,
-            "progressBar": true,
-          },
-          "stack": [
-            "    at async <ROOT>/packages/builder/webpack-builder/tests/stub/builder.test.ts:74:21",
-          ],
-          "value": {
-            "hmr": false,
-          },
-        },
-        {
-          "path": "dev.hmr",
-          "prevValue": undefined,
-          "stack": [
-            "    at async <ROOT>/packages/builder/webpack-builder/tests/stub/builder.test.ts:74:21",
-          ],
-          "value": false,
-        },
-      ]
-    `);
+    expect(changes).toMatchSnapshot();
   });
 });
 

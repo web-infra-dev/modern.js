@@ -19,7 +19,7 @@ const defaultBuildCacheConfig = {
 
 缓存 Webpack 打包过程中生成的 module 和 chunk, 以此来提升构建速度。
 
-默认情况下，webpack-builder 会将目录 `./node_modules/.cache/webpack` 作为打包的缓存目录。
+默认情况下，Builder 会将目录 `./node_modules/.cache/webpack` 作为打包的缓存目录。
 
 你也可以通过 `buildCache` 配置缓存路径，比如：
 

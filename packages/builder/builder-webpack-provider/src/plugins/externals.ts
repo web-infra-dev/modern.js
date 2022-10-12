@@ -1,8 +1,8 @@
-import { BuilderPlugin } from '../types/plugin';
+import { BuilderPlugin } from '../types';
 
 export function PluginExternals(): BuilderPlugin {
   return {
-    name: 'webpack-builder-plugin-externals',
+    name: 'builder-plugin-externals',
     setup(api) {
       api.modifyWebpackChain(chain => {
         const externalOptions = api.getBuilderConfig().output?.externals;

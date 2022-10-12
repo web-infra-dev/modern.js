@@ -25,7 +25,7 @@ describe('upwardPaths', () => {
 describe('compilePathMatcherSource', () => {
   it('should compile string path matcher', () => {
     const regExp = compilePathMatcherRegExp('/a/b/c');
-    expect(regExp.source).toBe('\\/a\\/b\\/c(?=\\W)|\\/a\\/b\\/c$');
+    expect(regExp.source).toBe('^\\/a\\/b\\/c(?=\\/)|^\\/a\\/b\\/c$');
     expect(regExp.test('/a/b/c')).toBe(true);
     expect(regExp.test('/a/b/c/')).toBe(true);
     expect(regExp.test('/a/b/c/d')).toBe(true);

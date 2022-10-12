@@ -46,7 +46,7 @@ export function upwardPaths(start: string): string[] {
 export function compilePathMatcherRegExp(match: string | RegExp) {
   if (typeof match === 'string') {
     const escaped = _.escapeRegExp(match);
-    return new RegExp(`${escaped}(?=\\W)|${escaped}$`);
+    return new RegExp(`^${escaped}(?=/)|^${escaped}$`);
   }
   return match;
 }

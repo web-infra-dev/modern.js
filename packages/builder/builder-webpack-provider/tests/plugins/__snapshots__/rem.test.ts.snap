@@ -12,7 +12,7 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
             "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -25,7 +25,7 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -84,7 +84,7 @@ exports[`plugins/rem > should not run rem plugin when false 1`] = `
             "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -97,7 +97,7 @@ exports[`plugins/rem > should not run rem plugin when false 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -150,7 +150,7 @@ exports[`plugins/rem > should not run rem plugin without config 1`] = `
             "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -163,7 +163,7 @@ exports[`plugins/rem > should not run rem plugin without config 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -216,7 +216,7 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
             "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -229,7 +229,7 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -310,7 +310,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -323,7 +323,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -373,7 +373,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -386,7 +386,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -427,9 +427,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/less-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/less-loader",
             "options": {
-              "implementation": "<ROOT>/packages/builder/webpack-builder/compiled/less",
+              "implementation": "<ROOT>/packages/builder/builder-webpack-provider/compiled/less",
               "lessOptions": {
                 "javascriptEnabled": true,
               },
@@ -446,7 +446,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -459,7 +459,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -500,9 +500,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/sass-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/sass-loader",
             "options": {
-              "implementation": "<ROOT>/packages/builder/webpack-builder/compiled/sass",
+              "implementation": "<ROOT>/packages/builder/builder-webpack-provider/compiled/sass",
               "sourceMap": false,
             },
           },

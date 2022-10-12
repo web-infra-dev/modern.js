@@ -3,7 +3,7 @@
  * license at https://github.com/dividab/tsconfig-paths-webpack-plugin/blob/master/LICENSE
  */
 import path from 'path';
-import { warn } from '../shared';
+import { logger } from '@modern-js/builder-shared';
 import { readTsConfig, isRelativePath } from '@modern-js/utils';
 import { createMatchPath, MatchPath } from '@modern-js/utils/tsconfig-paths';
 import type { Resolver } from 'webpack';
@@ -64,7 +64,7 @@ export class TsConfigPathsPlugin {
     }
 
     if (!resolver) {
-      warn(
+      logger.warn(
         '[TsConfigPathsPlugin]: Found no resolver, not apply TsConfigPathsPlugin.',
       );
     }

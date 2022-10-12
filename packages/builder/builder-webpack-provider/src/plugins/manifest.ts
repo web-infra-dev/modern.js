@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 
 export const PluginManifest = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-manifest',
+  name: 'builder-plugin-manifest',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {

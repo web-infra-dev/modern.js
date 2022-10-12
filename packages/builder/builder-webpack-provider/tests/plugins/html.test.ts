@@ -1,7 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { PluginHtml } from '../../src/plugins/html';
+import { getTemplatePath, PluginHtml } from '../../src/plugins/html';
 import { PluginEntry } from '../../src/plugins/entry';
 import { createStubBuilder } from '../../src/stub';
+import { BuilderConfig } from '../../src/types';
 
 describe('plugins/html', () => {
   it('should register html plugin correctly', async () => {
@@ -140,5 +141,14 @@ describe('plugins/html', () => {
     });
 
     expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
+  });
+
+  it.each<[string, string, BuilderConfig['html']]>([
+    ['main', 'foo', { template: 'foo' }],
+    ['main', 'foo', { templateByEntries: { main: 'foo' } }],
+    ['other', 'bar', { template: 'bar', templateByEntries: { main: 'foo' } }],
+  ])(`should get template path for %s`, async (entry, expected, html) => {
+    const templ = getTemplatePath(entry, { html });
+    expect(templ).toEqual(expected);
   });
 });

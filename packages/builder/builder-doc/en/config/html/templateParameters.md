@@ -1,4 +1,4 @@
-- Type: `Record<string, Record<string, unknown>>`
+- Type: `Object | Function`
 - Default:
 
 ```ts
@@ -20,7 +20,35 @@ type DefaultParameters = {
 };
 ```
 
-Define the parameters in the HTML template, corresponding to the `templateParameters` config of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
+Define the parameters in the HTML template, corresponding to the `templateParameters` config of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).You can use the config as an object or a function.
+
+If it is an object, it will be merged with the default parameters. For example:
+
+```ts
+export default {
+  html: {
+    templateParameters: {
+      title: 'My App',
+    },
+  },
+};
+```
+
+If it is a function, the default parameters will be passed in, and you can return an object to override the default parameters. For example:
+
+```ts
+export default {
+  html: {
+    templateParameters: (defaultParameters) => {
+      console.log(defaultParameters.compilation);
+      console.log(defaultParameters.title);
+      return {
+        title: 'My App',
+      };
+    },
+  },
+};
+```
 
 #### Example
 
@@ -36,9 +64,23 @@ export default {
 };
 ```
 
-In the HTML template, read the parameter via `<%= foo %>`:
+Or you can use a function to dynamically generate the parameters:
 
 ```js
+export default {
+  html: {
+    templateParameters: (defaultParameters) => {
+      return {
+        foo: 'bar',
+      };
+    },
+  },
+};
+```
+
+Then you can use the `foo` parameter in the HTML template by `<%= foo %>`:
+
+```html
 <script>window.foo = '<%= foo %>'</script>
 ```
 

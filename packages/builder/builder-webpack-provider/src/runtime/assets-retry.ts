@@ -87,10 +87,10 @@ function createElement(
       script.crossOrigin = 'anonymous';
     }
     if (attributes.times) {
-      script.dataset.webpackBuilderRetryTimes = String(attributes.times);
+      script.dataset.builderRetryTimes = String(attributes.times);
     }
     if (attributes.isAsync) {
-      script.dataset.webpackBuilderAsync = '';
+      script.dataset.builderAsync = '';
     }
 
     return {
@@ -98,10 +98,8 @@ function createElement(
       str: `<script src="${attributes.url}" type="text/javascript" ${
         attributes.crossOrigin ? 'crossorigin="anonymous"' : ''
       } ${
-        attributes.times
-          ? `data-webpack-builder-retry-times="${attributes.times}"`
-          : ''
-      } ${attributes.isAsync ? 'data-webpack-builder-async' : ''}></script>`,
+        attributes.times ? `data-builder-retry-times="${attributes.times}"` : ''
+      } ${attributes.isAsync ? 'data-builder-async' : ''}></script>`,
     };
   }
   if (origin instanceof HTMLLinkElement) {
@@ -110,14 +108,12 @@ function createElement(
     link.type = 'text/css';
     link.href = attributes.url;
     if (attributes.times) {
-      link.dataset.webpackBuilderRetryTimes = String(attributes.times);
+      link.dataset.builderRetryTimes = String(attributes.times);
     }
     return {
       element: link,
       str: `<link rel="stylesheet" href="${attributes.url}" type="text/css" ${
-        attributes.times
-          ? `data-webpack-builder-retry-times="${attributes.times}"`
-          : ''
+        attributes.times ? `data-builder-retry-times="${attributes.times}"` : ''
       }></link>`,
     };
   }
@@ -142,7 +138,7 @@ function reloadElementResource(
 
   if (origin instanceof HTMLImageElement) {
     origin.src = options.url;
-    origin.dataset.webpackBuilderRetryTimes = String(options.times);
+    origin.dataset.builderRetryTimes = String(options.times);
   }
 }
 
@@ -176,7 +172,7 @@ export function retry(config: AssetsRetryOptions, e: Event) {
   }
 
   // If the retry times has exceeded the maximum, fail
-  const existRetryTimes = Number(target.dataset.webpackBuilderRetryTimes) || 0;
+  const existRetryTimes = Number(target.dataset.builderRetryTimes) || 0;
   if (existRetryTimes === config.max!) {
     if (typeof config.onFail === 'function') {
       const context: AssetsRetryHookContext = {
@@ -194,7 +190,7 @@ export function retry(config: AssetsRetryOptions, e: Event) {
   const nextDomain = findNextDomain(domain, config.domain!) || '';
 
   const isAsync =
-    Boolean(target.dataset.webpackBuilderAsync) ||
+    Boolean(target.dataset.builderAsync) ||
     (target as HTMLScriptElement).async ||
     (target as HTMLScriptElement).defer;
 
@@ -227,7 +223,7 @@ function load(config: AssetsRetryOptions, e: Event) {
   }
   const { target, tagName, url } = targetInfo;
   const domain = findCurrentDomain(url, config.domain!);
-  const retryTimes = Number(target.dataset.webpackBuilderRetryTimes) || 0;
+  const retryTimes = Number(target.dataset.builderRetryTimes) || 0;
   if (retryTimes === 0) {
     return;
   }

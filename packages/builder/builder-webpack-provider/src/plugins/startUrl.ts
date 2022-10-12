@@ -1,8 +1,8 @@
-import { BuilderPlugin } from '../types/plugin';
+import { BuilderPlugin } from '../types';
 
 export function PluginStartUrl(): BuilderPlugin {
   return {
-    name: 'webpack-builder-plugin-start-url',
+    name: 'builder-plugin-start-url',
     async setup(api) {
       let port: number;
 

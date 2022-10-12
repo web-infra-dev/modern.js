@@ -1,7 +1,6 @@
 {
-  "private": true,
-  "name": "@modern-js/webpack-builder",
-  "description": "Webpack builder of modern.js.",
+  "name": "@modern-js/builder-webpack-provider",
+  "description": "Builder provider for webpack",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
@@ -15,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.1.2",
+  "version": "1.19.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -74,26 +73,30 @@
   },
   "dependencies": {
     "@modern-js/babel-preset-app": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/inspector-webpack-plugin": "1.0.3",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.8",
     "@svgr/webpack": "6.2.1",
     "@types/mini-css-extract-plugin": "2.2.0",
+    "ansi-escapes": "4.3.2",
     "caniuse-lite": "^1.0.30001332",
+    "cli-truncate": "2.1.0",
     "css-minimizer-webpack-plugin": "4.0.0",
     "cssnano": "5.1.13",
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "html-webpack-plugin": "5.5.0",
     "mini-css-extract-plugin": "2.4.5",
+    "patch-console": "1.0.0",
     "postcss": "8.4.16",
     "react-refresh": "0.12.0",
     "serialize-javascript": "^6.0.0",
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "9.3.1",
-    "webpack": "5.73.0"
+    "webpack": "^5.74.0"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",
@@ -105,7 +108,7 @@
     "@types/serialize-javascript": "^5.0.1",
     "@vitest/ui": "^0.21.1",
     "autoprefixer": "^10.4.8",
-    "on-change": "^4.0.1",
+    "on-change": "^3.0.2",
     "typescript": "^4",
     "vitest": "^0.21.1"
   },

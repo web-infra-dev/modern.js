@@ -1,9 +1,9 @@
-import { SASS_REGEX } from '../shared';
+import { SASS_REGEX } from '@modern-js/builder-shared';
 import { BuilderPlugin, SassLoaderOptions } from '../types';
 
 export function PluginSass(): BuilderPlugin {
   return {
-    name: 'webpack-builder-plugin-sass',
+    name: 'builder-plugin-sass',
     setup(api) {
       api.modifyWebpackChain(async (chain, utils) => {
         const config = api.getBuilderConfig();

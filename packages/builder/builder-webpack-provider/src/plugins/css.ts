@@ -1,7 +1,7 @@
-import { CSS_REGEX, getBrowserslistWithDefault } from '../shared';
+import { CSS_REGEX, type BuilderContext } from '@modern-js/builder-shared';
+import { getBrowserslistWithDefault } from '../shared';
 import {
   BuilderConfig,
-  BuilderContext,
   BuilderPlugin,
   CSSLoaderOptions,
   MiniCssExtractLoaderOptions,
@@ -153,7 +153,7 @@ export async function applyBaseCSSRule(
 
 export const PluginCss = (): BuilderPlugin => {
   return {
-    name: 'webpack-builder-plugin-css',
+    name: 'builder-plugin-css',
     setup(api) {
       api.modifyWebpackChain(async (chain, utils) => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);

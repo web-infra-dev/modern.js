@@ -1,9 +1,9 @@
-import { LESS_REGEX } from '../shared';
-import { BuilderPlugin, LessLoaderOptions } from '../types';
+import { LESS_REGEX } from '@modern-js/builder-shared';
+import type { BuilderPlugin, LessLoaderOptions } from '../types';
 
 export function PluginLess(): BuilderPlugin {
   return {
-    name: 'webpack-builder-plugin-less',
+    name: 'builder-plugin-less',
     setup(api) {
       api.modifyWebpackChain(async (chain, utils) => {
         const config = api.getBuilderConfig();

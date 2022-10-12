@@ -1,9 +1,8 @@
-import type { BuilderTarget } from './builder';
+import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
 import type { Stats, MultiStats, Compiler, MultiCompiler } from 'webpack';
-
-export type NodeEnv = 'development' | 'production' | 'test';
+import type { ChainIdentifier } from '@modern-js/utils';
 
 export type ModifyWebpackUtils = {
   env: NodeEnv;
@@ -11,7 +10,7 @@ export type ModifyWebpackUtils = {
   target: BuilderTarget;
   webpack: typeof import('webpack');
   isServer: boolean;
-  CHAIN_ID: typeof import('@modern-js/utils').CHAIN_ID;
+  CHAIN_ID: ChainIdentifier;
   getCompiledPath: (name: string) => string;
 };
 
@@ -30,7 +29,7 @@ export type ModifyBuilderConfigFn = (
 ) => Promise<BuilderConfig | void> | BuilderConfig | void;
 
 export type OnBeforeBuildFn = (params: {
-  webpackConfigs: WebpackConfig[];
+  bundlerConfigs: WebpackConfig[];
 }) => Promise<void> | void;
 
 export type OnAfterBuildFn = (params: {
@@ -42,7 +41,7 @@ export type OnDevCompileDoneFn = (params: {
 }) => Promise<void> | void;
 
 export type OnBeforeCreateCompilerFn = (params: {
-  webpackConfigs: WebpackConfig[];
+  bundlerConfigs: WebpackConfig[];
 }) => Promise<void> | void;
 
 export type OnAfterCreateCompilerFn = (params: {

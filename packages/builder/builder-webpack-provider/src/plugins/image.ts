@@ -1,15 +1,10 @@
 import { join } from 'path';
-import {
-  getDistPath,
-  getFilename,
-  getRegExpForExts,
-  IMAGE_EXTENSIONS,
-  getDataUrlCondition,
-} from '../shared';
+import { getRegExpForExts, IMAGE_EXTENSIONS } from '@modern-js/builder-shared';
+import { getDistPath, getFilename, getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginImage = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-image',
+  name: 'builder-plugin-image',
 
   setup(api) {
     api.modifyWebpackChain((chain, { isProd, CHAIN_ID }) => {

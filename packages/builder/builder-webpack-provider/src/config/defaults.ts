@@ -1,5 +1,3 @@
-import { BuilderConfig } from '../types';
-import { mergeBuilderConfig } from '../shared/utils';
 import {
   ROOT_DIST_DIR,
   HTML_DIST_DIR,
@@ -9,7 +7,9 @@ import {
   FONT_DIST_DIR,
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
-} from '../shared';
+  mergeBuilderConfig,
+} from '@modern-js/builder-shared';
+import type { BuilderConfig } from '../types';
 
 export const createDefaultConfig = (): BuilderConfig => ({
   dev: {
@@ -39,6 +39,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
       image: IMAGE_DIST_DIR,
       media: MEDIA_DIST_DIR,
     },
+    charset: 'ascii',
     polyfill: 'entry',
     dataUriLimit: {},
     legalComments: 'linked',

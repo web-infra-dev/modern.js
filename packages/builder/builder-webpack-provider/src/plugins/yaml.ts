@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 
 export const PluginYaml = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-yaml',
+  name: 'builder-plugin-yaml',
 
   setup(api) {
     api.modifyWebpackChain((chain, { CHAIN_ID, getCompiledPath }) => {

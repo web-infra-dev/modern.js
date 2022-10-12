@@ -4,7 +4,7 @@ import type { BuilderPlugin } from '../types';
  * Provide webpack inspector.
  */
 export const PluginInspector = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-inspector',
+  name: 'builder-plugin-inspector',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {

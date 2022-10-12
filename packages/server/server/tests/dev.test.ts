@@ -13,8 +13,6 @@ describe('test dev tools', () => {
     const socketServer: any = new SocketServer({
       client: {
         port: port.toString(),
-        overlay: false,
-        logging: 'error',
         path: '/',
         host: '127.0.0.1',
       },
@@ -71,8 +69,6 @@ describe('test dev tools', () => {
   const getDevServerPluginOptions = () => ({
     client: {
       port: '8080',
-      overlay: false,
-      logging: 'error',
       path: '/',
       host: '127.0.0.1',
     },

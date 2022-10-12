@@ -1,28 +1,30 @@
-import { debug, isDebug } from '../shared';
+import {
+  debug,
+  isDebug,
+  type PluginStore,
+  type InspectConfigOptions,
+  type CreateBuilderOptions,
+  deepFreezed,
+} from '@modern-js/builder-shared';
 import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
 import { stringifyBuilderConfig } from './inspectBuilderConfig';
-import { stringifyWebpackConfig } from './inspectWebpackConfig';
-import type {
-  Context,
-  PluginStore,
-  BuilderOptions,
-  InspectOptions,
-} from '../types';
+import { stringifyWebpackConfig } from './inspectBundlerConfig';
+import type { Context } from '../types';
 
 async function modifyBuilderConfig(context: Context) {
   debug('modify builder config');
   const [modified] = await context.hooks.modifyBuilderConfigHook.call(
     context.config,
   );
-  context.config = modified;
+  context.config = deepFreezed(modified);
   debug('modify builder config done');
 }
 
 export type InitConfigsOptions = {
   context: Context;
   pluginStore: PluginStore;
-  builderOptions: Required<BuilderOptions>;
+  builderOptions: Required<CreateBuilderOptions>;
 };
 
 export async function initConfigs({
@@ -48,7 +50,7 @@ export async function initConfigs({
   // write builder config and webpack config to disk in debug mode
   if (isDebug()) {
     const inspect = () => {
-      const inspectOptions: InspectOptions = {
+      const inspectOptions: InspectConfigOptions = {
         verbose: true,
         writeToDisk: true,
       };

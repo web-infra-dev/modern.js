@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 
 export const PluginEntry = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-entry',
+  name: 'builder-plugin-entry',
 
   setup(api) {
     api.modifyWebpackChain(async chain => {
@@ -19,7 +19,7 @@ export const PluginEntry = (): BuilderPlugin => ({
         });
 
         ensureArray(entry[entryName]).forEach(item => {
-          chain.entry(entryName).add(item as string);
+          chain.entry(entryName).add(item);
         });
       });
     });

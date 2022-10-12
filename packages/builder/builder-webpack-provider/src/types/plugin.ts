@@ -1,5 +1,9 @@
+import type {
+  BuilderContext,
+  PluginStore,
+  BuilderPlugin as BaseBuilderPlugin,
+} from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
-import type { BuilderContext } from './context';
 import type {
   OnExitFn,
   OnAfterBuildFn,
@@ -13,13 +17,6 @@ import type {
   OnAfterStartDevServerFn,
   OnBeforeStartDevServerFn,
 } from './hooks';
-
-export type PluginStore = {
-  readonly plugins: BuilderPlugin[];
-  addPlugins: (plugins: BuilderPlugin[]) => void;
-  removePlugins: (pluginNames: string[]) => void;
-  isPluginExists: (pluginName: string) => boolean;
-};
 
 export type BuilderPluginAPI = {
   context: Readonly<BuilderContext>;
@@ -42,7 +39,4 @@ export type BuilderPluginAPI = {
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn) => void;
 };
 
-export type BuilderPlugin = {
-  name: string;
-  setup: (api: BuilderPluginAPI) => Promise<void> | void;
-};
+export type BuilderPlugin = BaseBuilderPlugin<BuilderPluginAPI>;

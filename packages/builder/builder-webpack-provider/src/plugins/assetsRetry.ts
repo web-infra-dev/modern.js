@@ -1,8 +1,8 @@
-import { BuilderPlugin } from '../types/plugin';
+import { BuilderPlugin } from '../types';
 
 export function PluginAssetsRetry(): BuilderPlugin {
   return {
-    name: 'webpack-builder-plugin-assets-retry',
+    name: 'builder-plugin-assets-retry',
     setup(api) {
       api.modifyWebpackChain(async (chain, { CHAIN_ID, target }) => {
         const config = api.getBuilderConfig();

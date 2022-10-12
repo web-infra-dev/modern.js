@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 
 export const PluginHMR = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-hmr',
+  name: 'builder-plugin-hmr',
 
   setup(api) {
     api.modifyWebpackChain((chain, { isProd, isServer, CHAIN_ID, webpack }) => {

@@ -1,9 +1,9 @@
-import { JS_REGEX, TS_REGEX } from '../shared';
+import { JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 import type { RuleSetRule } from 'webpack';
 
 export const PluginFallback = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-fallback',
+  name: 'builder-plugin-fallback',
 
   setup(api) {
     api.modifyWebpackConfig(config => {

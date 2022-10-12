@@ -2,21 +2,17 @@ import path from 'path';
 import {
   getBabelConfig,
   createBabelChain,
-  BabelOptions,
+  type BabelOptions,
 } from '@modern-js/babel-preset-app';
 import {
   JS_REGEX,
   TS_REGEX,
   mergeRegex,
-  getBrowserslistWithDefault,
-} from '../shared';
+  type BuilderContext,
+} from '@modern-js/builder-shared';
+import { getBrowserslistWithDefault } from '../shared';
 
-import type {
-  WebpackChain,
-  BuilderConfig,
-  BuilderContext,
-  BuilderPlugin,
-} from '../types';
+import type { WebpackChain, BuilderConfig, BuilderPlugin } from '../types';
 
 export const CORE_JS_ENTRY = path.resolve(
   __dirname,
@@ -54,10 +50,17 @@ export function applyScriptCondition(
   excludes.forEach(condition => {
     rule.exclude.add(condition);
   });
+
+  // add source.include
+  if (config.source?.include) {
+    config.source.include.forEach(condition => {
+      rule.include.add(condition);
+    });
+  }
 }
 
 export const PluginBabel = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-babel',
+  name: 'builder-plugin-babel',
   setup(api) {
     api.modifyWebpackChain(async (chain, { getCompiledPath, isProd }) => {
       const { CHAIN_ID, applyOptionsChain, isUseSSRBundle } = await import(
@@ -124,6 +127,14 @@ export const PluginBabel = (): BuilderPlugin => ({
             overrideBrowserslist: browserslist,
           }),
         };
+
+        if (config.output?.charset === 'utf8') {
+          babelOptions.generatorOpts = {
+            jsescOption: {
+              minimal: true,
+            },
+          };
+        }
 
         return {
           babelOptions,

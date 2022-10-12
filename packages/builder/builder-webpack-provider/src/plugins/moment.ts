@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 
 export const PluginMoment = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-moment',
+  name: 'builder-plugin-moment',
 
   setup(api) {
     api.modifyWebpackChain(async chain => {

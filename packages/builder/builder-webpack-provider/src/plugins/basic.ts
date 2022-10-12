@@ -4,7 +4,7 @@ import type { BuilderPlugin } from '../types';
  * Provide some basic configs of webpack
  */
 export const PluginBasic = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-basic',
+  name: 'builder-plugin-basic',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd }) => {

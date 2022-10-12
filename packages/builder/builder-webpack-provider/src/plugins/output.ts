@@ -1,7 +1,7 @@
-import { getDistPath, getFilename, DEFAULT_PORT } from '../shared';
+import { DEFAULT_PORT, type BuilderContext } from '@modern-js/builder-shared';
+import { getDistPath, getFilename } from '../shared';
 import type {
   BuilderConfig,
-  BuilderContext,
   BuilderPlugin,
   MiniCSSExtractPluginOptions,
 } from '../types';
@@ -26,9 +26,9 @@ function getPublicPath({
   } else if (typeof dev?.assetPrefix === 'string') {
     publicPath = dev.assetPrefix;
   } else if (dev?.assetPrefix === true) {
-    const ip = context.devServer?.ip || 'localhost';
+    const hostname = context.devServer?.hostname || 'localhost';
     const port = context.devServer?.port || DEFAULT_PORT;
-    publicPath = `//${ip}:${port}/`;
+    publicPath = `//${hostname}:${port}/`;
   }
 
   if (!publicPath.endsWith('/')) {
@@ -39,7 +39,7 @@ function getPublicPath({
 }
 
 export const PluginOutput = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-output',
+  name: 'builder-plugin-output',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd, isServer, CHAIN_ID }) => {

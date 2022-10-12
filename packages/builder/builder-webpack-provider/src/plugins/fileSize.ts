@@ -4,7 +4,7 @@
  */
 import path from 'path';
 import chalk from '@modern-js/utils/chalk';
-import { info, log } from '../shared';
+import { logger } from '@modern-js/builder-shared';
 import type { BuilderPlugin, webpack } from '../types';
 
 type PrevFileSize = {
@@ -88,7 +88,7 @@ async function printHeader(
     return `${prev + curLabel}    `;
   }, '  ');
 
-  log(chalk.bold(chalk.blue(headerRow)));
+  logger.log(chalk.bold(chalk.blue(headerRow)));
 }
 
 async function printFileSizes(
@@ -140,7 +140,7 @@ async function printFileSizes(
     ...assets.map(a => stripAnsi(a.folder + path.sep + a.name).length),
   );
 
-  info(`File sizes after production build:\n`);
+  logger.info(`File sizes after production build:\n`);
   printHeader(longestFileLength, longestLabelLength);
 
   assets.forEach(asset => {
@@ -162,14 +162,16 @@ async function printFileSizes(
       fileNameLabel += rightPadding;
     }
 
-    log(`  ${fileNameLabel}    ${sizeLabel}    ${chalk.yellow(gzipSizeLabel)}`);
+    logger.log(
+      `  ${fileNameLabel}    ${sizeLabel}    ${chalk.yellow(gzipSizeLabel)}`,
+    );
   });
 
-  log('');
+  logger.log('');
 }
 
 export const PluginFileSize = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-file-size',
+  name: 'builder-plugin-file-size',
 
   setup(api) {
     let prevFileSizes: PrevFileSize;

@@ -1,9 +1,9 @@
 import { join } from 'path';
-import { isFileExists } from '../shared';
+import { isFileExists } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginCache = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-cache',
+  name: 'builder-plugin-cache',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { target, env }) => {

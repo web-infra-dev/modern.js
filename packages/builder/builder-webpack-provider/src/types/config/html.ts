@@ -1,3 +1,4 @@
+import type { ChainedConfig } from '@modern-js/builder-shared';
 import type { MetaOptions } from '@modern-js/utils';
 import type { HTMLPluginOptions } from '../thirdParty';
 
@@ -16,9 +17,15 @@ export interface HtmlConfig {
   mountId?: string;
   crossorigin?: boolean | CrossOrigin;
   disableHtmlFolder?: boolean;
-  templateParameters?: Record<string, unknown>;
+  template?: string;
+  templateByEntries?: Partial<Record<string, string>>;
+  templateParameters?:
+    | Record<string, unknown>
+    | ChainedConfig<Record<string, unknown>>;
   templateParametersByEntries?: Record<
     string,
-    Record<string, unknown> | undefined
+    | Record<string, unknown>
+    | ChainedConfig<Record<string, unknown>>
+    | HTMLPluginOptions['templateParameters']
   >;
 }

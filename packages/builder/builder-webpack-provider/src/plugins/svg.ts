@@ -1,8 +1,6 @@
 import { join } from 'path';
+import { JS_REGEX, TS_REGEX, SVG_REGEX } from '@modern-js/builder-shared';
 import {
-  JS_REGEX,
-  TS_REGEX,
-  SVG_REGEX,
   getDistPath,
   getFilename,
   getDataUrlLimit,
@@ -12,7 +10,7 @@ import type { BuilderPlugin } from '../types';
 
 export const PluginSvg = (): BuilderPlugin => {
   return {
-    name: 'webpack-builder-plugin-svg',
+    name: 'builder-plugin-svg',
     setup(api) {
       api.modifyWebpackChain(
         async (chain, { isProd, CHAIN_ID, getCompiledPath }) => {

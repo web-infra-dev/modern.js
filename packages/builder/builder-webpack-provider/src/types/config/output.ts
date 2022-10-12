@@ -91,6 +91,7 @@ export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: DistPathConfig;
   filename?: FilenameConfig;
+  charset?: 'ascii' | 'utf8';
   polyfill?: Polyfill;
   assetPrefix?: string;
   dataUriLimit?: number | DataUriLimit;

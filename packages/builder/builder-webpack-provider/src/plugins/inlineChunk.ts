@@ -1,8 +1,8 @@
+import { RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
-import { RUNTIME_CHUNK_NAME } from '../shared';
 
 export const PluginInlineChunk = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-inline-chunk',
+  name: 'builder-plugin-inline-chunk',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {

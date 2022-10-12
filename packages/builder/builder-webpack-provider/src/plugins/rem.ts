@@ -6,7 +6,7 @@ const defaultOptions: RemOptions = {
 };
 
 export const PluginRem = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-rem',
+  name: 'builder-plugin-rem',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {

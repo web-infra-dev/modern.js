@@ -1,7 +1,8 @@
 import { join, isAbsolute } from 'path';
-import { info, stringifyConfig } from '../shared';
+import { stringifyConfig } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import type { Context, InspectOptions } from '../types';
+import { logger, InspectConfigOptions } from '@modern-js/builder-shared';
+import type { Context } from '../types';
 
 async function writeConfigFile({
   config,
@@ -10,7 +11,7 @@ async function writeConfigFile({
 }: {
   config: string;
   context: Context;
-  inspectOptions: InspectOptions;
+  inspectOptions: InspectConfigOptions;
 }) {
   const { default: fs } = await import('@modern-js/utils/fs-extra');
   const { default: chalk } = await import('@modern-js/utils/chalk');
@@ -23,7 +24,7 @@ async function writeConfigFile({
   const filePath = join(outputPath, `builder.config.js`);
   await fs.outputFile(filePath, `module.exports = ${config}`);
 
-  info(
+  logger.info(
     `Inspect builder config succeed, open following files to view the content:\n\n  - ${chalk.yellow(
       filePath,
     )}\n`,
@@ -35,7 +36,7 @@ export async function stringifyBuilderConfig({
   inspectOptions,
 }: {
   context: Context;
-  inspectOptions: InspectOptions;
+  inspectOptions: InspectConfigOptions;
 }) {
   const formattedBuilderConfig = await stringifyConfig(
     context.config,
@@ -58,7 +59,7 @@ export async function inspectBuilderConfig({
   pluginStore,
   builderOptions,
   inspectOptions,
-}: InitConfigsOptions & { inspectOptions: InspectOptions }) {
+}: InitConfigsOptions & { inspectOptions: InspectConfigOptions }) {
   if (inspectOptions.env) {
     process.env.NODE_ENV = inspectOptions.env;
   }

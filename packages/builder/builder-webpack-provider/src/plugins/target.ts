@@ -1,8 +1,8 @@
-import { getBrowserslist } from '../shared';
+import { getBrowserslist } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginTarget = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-target',
+  name: 'builder-plugin-target',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { target }) => {

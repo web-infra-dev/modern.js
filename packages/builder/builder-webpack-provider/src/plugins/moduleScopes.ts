@@ -1,5 +1,6 @@
 import path from 'path';
-import type { BuilderPlugin, ChainedConfig, ModuleScopes } from '../types';
+import type { ChainedConfig } from '@modern-js/builder-shared';
+import type { BuilderPlugin, ModuleScopes } from '../types';
 
 export const isPrimitiveScope = (
   items: unknown[],
@@ -24,7 +25,7 @@ export const applyScopeChain = (
 };
 
 export const PluginModuleScopes = (): BuilderPlugin => ({
-  name: 'webpack-builder-plugin-module-scopes',
+  name: 'builder-plugin-module-scopes',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {

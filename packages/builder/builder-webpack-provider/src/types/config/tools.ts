@@ -1,6 +1,5 @@
 import type { DevServerOptions } from '@modern-js/types';
 import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
-import type { ModifyWebpackUtils } from '../hooks';
 import type {
   PugOptions,
   WebpackChain,
@@ -22,7 +21,8 @@ import type {
   HTMLPluginOptions,
   InspectorPluginOptions,
 } from '../thirdParty';
-import type { ArrayOrNot, ChainedConfig } from '../utils';
+import type { ArrayOrNot, ChainedConfig } from '@modern-js/builder-shared';
+import type { ModifyWebpackUtils } from '../hooks';
 
 export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
 
@@ -60,7 +60,7 @@ export type ToolsPostCSSLoaderConfig = ChainedConfig<
   }
 >;
 
-export type ToolsPugConfig = ChainedConfig<PugOptions>;
+export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
 
 export type ToolsLessConfig = ChainedConfig<
   LessLoaderOptions,

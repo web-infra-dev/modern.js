@@ -1,12 +1,16 @@
-import type { BuilderPlugin } from '../types/plugin';
+import assert from 'assert';
+import {
+  RUNTIME_CHUNK_NAME,
+  getPackageNameFromModulePath,
+} from '@modern-js/builder-shared';
+
+import type { BuilderPlugin } from '../types';
 import type {
   BuilderChunkSplit,
   SplitChunks,
   CacheGroup,
 } from '../types/config/performance';
-import assert from 'assert';
 import type { Module } from 'webpack';
-import { getPackageNameFromModulePath, RUNTIME_CHUNK_NAME } from '../shared';
 
 // We expose the three-layer to specify webpack chunk-split ability:
 // 1. By strategy.There some best pratice integrated in our internal strategy.
@@ -181,7 +185,7 @@ const SPLIT_STRTEGY_DISPATCHER: Record<
 
 export function PluginSplitChunks(): BuilderPlugin {
   return {
-    name: 'webpack-builder-plugin-split-chunks',
+    name: 'builder-plugin-split-chunks',
     setup(api) {
       api.modifyWebpackChain(chain => {
         const config = api.getBuilderConfig();
