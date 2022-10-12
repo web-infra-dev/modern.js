@@ -5,6 +5,7 @@ import {
   StartDevServerResult,
   StartDevServerOptions,
 } from '@modern-js/builder-shared';
+import type { ModernDevServerOptions } from '@modern-js/server';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import type { Compiler, MultiCompiler } from 'webpack';
@@ -23,9 +24,12 @@ async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {
   logger.info(message);
 }
 
+type DevServerOptions = InitConfigsOptions & {
+  serverOptions?: ModernDevServerOptions;
+};
+
 export async function createDevServer(
-  options: InitConfigsOptions,
-  port: number,
+  options: DevServerOptions,
   customCompiler?: Compiler | MultiCompiler,
 ) {
   const { Server } = await import('@modern-js/server');
@@ -62,13 +66,13 @@ export async function createDevServer(
   const server = new Server({
     pwd: options.context.rootPath,
     dev: devServerOptions,
-    port,
     compiler,
     config: {
       source: {},
       tools: {},
       server: {},
     } as any,
+    ...(options.serverOptions || {}),
   });
 
   debug('create dev server done');
@@ -77,7 +81,7 @@ export async function createDevServer(
 }
 
 export async function startDevServer(
-  options: InitConfigsOptions,
+  options: DevServerOptions,
   {
     compiler,
     printURLs = true,
@@ -103,7 +107,7 @@ export async function startDevServer(
     port,
   };
 
-  const server = await createDevServer(options, port, compiler);
+  const server = await createDevServer(options, compiler);
 
   await options.context.hooks.onBeforeStartDevServerHooks.call();
 
