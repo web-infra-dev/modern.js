@@ -2,7 +2,7 @@ import type { BuilderContext } from '@modern-js/builder-shared';
 import type { Hooks } from '../core/initHooks';
 import type { BuilderConfig } from './config';
 
-/** The inner context */
+/** The inner context. */
 export type Context = BuilderContext & {
   /** All hooks. */
   hooks: Readonly<Hooks>;
