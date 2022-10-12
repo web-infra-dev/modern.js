@@ -25,9 +25,9 @@ export default {
       'typeof window': JSON.stringify('object'),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'import.meta': { test: undefined },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 Expressions will be replaced with the corresponding code fragments:

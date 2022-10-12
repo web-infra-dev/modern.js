@@ -9,7 +9,7 @@ export const createBuilder = async () => {
   const builderProvider = builderWebpackProvider({
     builderConfig: {
       tools: {
-        inspector: {},
+        // inspector: {},
       },
     },
   });
@@ -18,6 +18,7 @@ export const createBuilder = async () => {
     entry: {
       main: join(process.cwd(), 'src', 'index.ts'),
     },
+    target: ['web', 'node'],
     configPath: __filename,
   });
 

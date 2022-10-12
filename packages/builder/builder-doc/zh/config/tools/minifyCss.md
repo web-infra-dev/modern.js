@@ -5,7 +5,7 @@
 
 ### Object 类型
 
-当 `tools.minifyCss` 配置为 `Object` 类型时，会与默认配置通过 `Object.assign` 合并。
+当 `tools.minifyCss` 的值为 `Object` 类型时，会与默认配置通过 `Object.assign` 合并。
 
 例如下面修改 [cssnano](https://cssnano.co/) 的 `preset` 配置：
 
