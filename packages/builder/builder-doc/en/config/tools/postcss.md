@@ -17,16 +17,14 @@ const defaultOptions = {
       }),
     ],
     // Depends on production environment, and whether `output.disableSourceMap` is set
-    sourceMap: enableSourceMap
+    sourceMap: enableSourceMap,
   },
 };
 ```
 
 Builder integrates PostCSS by default, you can configure [postcss-loader](https://github.com/webpack-contrib/postcss-loader) through `tools.postcss`.
 
-### Type
-
-#### Object
+### Object Type
 
 When this value is of type Object, it is merged with the default config via Object.assign. For example:
 
@@ -43,7 +41,7 @@ export default {
 };
 ```
 
-#### Function
+### Function Type
 
 When the value is of type Function, the internal default config is passed as the first parameter, and the config object can be modified directly without returning, or an object can be returned as the final result; the second parameter is a set of tool functions for modifying the postcss-loader config.
 
@@ -77,7 +75,6 @@ export default {
 `tools.postcss` can return a config object and completely replace the default config:
 
 ```js
-
 export default {
   tools: {
     postcss: () => {

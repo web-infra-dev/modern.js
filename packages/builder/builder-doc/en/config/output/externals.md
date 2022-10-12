@@ -8,8 +8,7 @@ For more information, please see: [Webpack Externals](https://webpack.js.org/con
 
 #### Example
 
-Exclude the `react-dom` dependency from the build product.
-To get this module at runtime, the value of `react-dom` will globally retrieve the `ReactDOM` variable.
+Exclude the `react-dom` dependency from the build product. To get this module at runtime, the value of `react-dom` will globally retrieve the `ReactDOM` variable.
 
 ```js
 export default {
