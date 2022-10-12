@@ -37,3 +37,7 @@ extractApiHeaders: [2]
 ## source.resolveExtensionPrefix
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/resolveExtensionPrefix.md)!!!
+
+## source.resolveMainFields
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/resolveMainFields.md)!!!
