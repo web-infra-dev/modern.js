@@ -15,9 +15,6 @@ export type DevServerOptions = {
     path?: string;
     port?: string;
     host?: string;
-    logging?: string;
-    overlay?: boolean;
-    progress?: boolean;
   };
   devMiddleware?: {
     writeToDisk: boolean | ((filename: string) => boolean);

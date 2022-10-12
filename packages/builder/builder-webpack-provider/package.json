@@ -78,7 +78,7 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/react-refresh-webpack-plugin": "0.5.8",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.8",
     "@svgr/webpack": "6.2.1",
     "@types/mini-css-extract-plugin": "2.2.0",
     "caniuse-lite": "^1.0.30001332",
@@ -93,7 +93,10 @@
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "9.3.1",
-    "webpack": "5.73.0"
+    "webpack": "^5.74.0",
+    "ansi-escapes": "4.3.2",
+    "cli-truncate": "2.1.0",
+    "patch-console": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",
