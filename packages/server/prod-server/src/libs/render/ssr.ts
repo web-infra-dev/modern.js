@@ -57,7 +57,7 @@ export const render = async (
   runner.extendSSRContext(context);
 
   const serverRender = require(bundleJS)[SERVER_RENDER_FUNCTION_NAME];
-  const result = await cache(serverRender, ctx)(context);
+  const content = await cache(serverRender, ctx)(context);
 
   const { url, status = 302 } = context.redirection;
 
@@ -70,8 +70,16 @@ export const render = async (
     };
   }
 
-  return {
-    content: result,
-    contentType: mime.contentType('html') as string,
-  };
+  if (typeof content === 'string') {
+    return {
+      content,
+      contentType: mime.contentType('html') as string,
+    };
+  } else {
+    return {
+      content: '',
+      contentStream: content,
+      contentType: mime.contentType('html') as string,
+    };
+  }
 };

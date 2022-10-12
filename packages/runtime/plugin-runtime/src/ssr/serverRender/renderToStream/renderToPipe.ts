@@ -3,7 +3,6 @@ import {
   RenderToPipeableStreamOptions,
   renderToPipeableStream,
 } from 'react-dom/server';
-import React from 'react';
 import { InjectTemplate } from './type';
 
 export type Pipe<T extends Writable> = (output: T) => Promise<T>;

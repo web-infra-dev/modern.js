@@ -2,7 +2,6 @@
 import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import util from 'util';
 import path from 'path';
-import { Writable } from 'stream';
 import { fs, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
 import {
   Adapter,
@@ -447,16 +446,20 @@ export class ModernServer implements ModernServerInterface {
       });
     }
 
-    const file = await this.handleWeb(context, route);
+    const renderResult = await this.handleWeb(context, route);
 
-    if (!file) {
+    if (!renderResult) {
       this.render404(context);
       return;
     }
 
     // React Router navigation
-    if (file.redirect) {
-      this.redirect(res, file.content as string, file.statusCode);
+    if (renderResult.redirect) {
+      this.redirect(
+        res,
+        renderResult.content as string,
+        renderResult.statusCode,
+      );
       return;
     }
 
@@ -466,36 +469,11 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
-    let response = file.content;
+    res.setHeader('content-type', renderResult.contentType);
 
-    if (!(response instanceof Writable)) {
-      if (route.entryName) {
-        const afterRenderContext = createAfterRenderContext(
-          context,
-          response.toString(),
-        );
-
-        // only full mode run server hook
-        // FIXME: how to run server hook in streaming
-        if (this.runMode === RUN_MODE.FULL) {
-          await this.runner.afterRender(afterRenderContext, { onLast: noop });
-        }
-        // It will inject _SERVER_DATA twice, when SSG mode.
-        // The first time was in ssg html created, the seoncd time was in prod-server start.
-        // but the second wound causes route error.
-        // To ensure that the second injection fails, the _SERVER_DATA inject at the front of head,
-        afterRenderContext.template.prependHead(
-          `<script>window._SERVER_DATA=${JSON.stringify(
-            context.serverData,
-          )}</script>`,
-        );
-        response = afterRenderContext.template.get();
-      }
-      res.setHeader('content-type', file.contentType);
-      res.end(response);
-    } else {
-      res.setHeader('content-type', file.contentType);
-      response
+    const { contentStream } = renderResult;
+    if (contentStream) {
+      contentStream
         .pipe(
           templateInjectableStream({
             prependHead: route.entryName
@@ -506,7 +484,34 @@ export class ModernServer implements ModernServerInterface {
           }),
         )
         .pipe(res);
+      return;
     }
+
+    let response = renderResult.content;
+
+    if (route.entryName) {
+      const afterRenderContext = createAfterRenderContext(
+        context,
+        response.toString(),
+      );
+
+      // only full mode run server hook
+      // FIXME: how to run server hook in streaming
+      if (this.runMode === RUN_MODE.FULL) {
+        await this.runner.afterRender(afterRenderContext, { onLast: noop });
+      }
+      // It will inject _SERVER_DATA twice, when SSG mode.
+      // The first time was in ssg html created, the seoncd time was in prod-server start.
+      // but the second wound causes route error.
+      // To ensure that the second injection fails, the _SERVER_DATA inject at the front of head,
+      afterRenderContext.template.prependHead(
+        `<script>window._SERVER_DATA=${JSON.stringify(
+          context.serverData,
+        )}</script>`,
+      );
+      response = afterRenderContext.template.get();
+    }
+    res.end(response);
   }
 
   // compose handlers and create the final handler

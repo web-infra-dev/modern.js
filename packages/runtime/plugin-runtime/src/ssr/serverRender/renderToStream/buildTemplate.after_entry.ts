@@ -18,6 +18,7 @@ export function buildAfterEntryTemplate(
   const callbacks: BuildTemplateCb[] = [injectScript, injectSSRDataScript];
   return buildTemplate(afterEntryTemplate, callbacks);
 
+  // inject scripts from loadable
   function injectScript(template: string) {
     return template.replace(
       '<!--<?- chunksMap.js ?>-->',

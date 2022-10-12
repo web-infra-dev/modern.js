@@ -1,9 +1,7 @@
 import { BaseSSRServerContext } from '@modern-js/types';
 import { SSRServerContext } from './serverRender/types';
 
-export const isReact18 = () => {
-  return process.env.IS_REACT18 === 'true';
-};
+export const isReact18 = () => process.env.IS_REACT18 === 'true';
 
 export const formatServer = (
   request: BaseSSRServerContext['request'],

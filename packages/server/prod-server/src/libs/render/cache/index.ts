@@ -1,4 +1,4 @@
-import { Transform, Writable } from 'stream';
+import { Readable, Writable, Transform } from 'stream';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderFunction, SSRServerContext } from '../type';
 import { ERROR_DIGEST } from '../../../constants';
@@ -6,58 +6,45 @@ import { createCache } from './spr';
 import { namespaceHash, withCoalescedInvoke } from './util';
 import { CacheContext } from './type';
 
-function useCacheStream() {
-  let htmlForStream = '';
-  const cacheStream = new Transform({
-    write(chunk, _, callback) {
-      htmlForStream += chunk.toString();
-      this.push(chunk);
-      callback();
-    },
-  });
-  return {
-    htmlForStream,
-    cacheStream,
-  };
-}
-
-export default (
-  renderFn: RenderFunction<Writable>,
-  ctx: ModernServerContext,
-) => {
+export default (renderFn: RenderFunction, ctx: ModernServerContext) => {
   const sprCache = createCache();
 
   const doRender = async (context: SSRServerContext) => {
-    const { htmlForStream, cacheStream } = useCacheStream();
-
     const cacheContext: CacheContext = {
       entry: context.entryName,
       ...context.request,
     };
     const cacheFile = await sprCache.get(cacheContext);
 
-    async function saveInCache(
-      source: string | ((writable: Writable) => Promise<Writable>),
-      onAllReadyRender: (html: string) => Promise<void>,
+    async function afterRender(
+      source: string | ((writable: Writable) => Promise<Readable>),
+      onAfterRender: (html: string) => Promise<void>,
     ) {
       if (typeof source === 'string') {
-        const html = source;
-        await onAllReadyRender(html);
-        return html;
+        await onAfterRender(source);
+        return source;
       } else {
-        const outputStream = await source(cacheStream);
-        cacheStream.on('close', onAllReadyRender);
-        return outputStream;
+        let htmlForStream = '';
+        const cacheStream = new Transform({
+          write(chunk, _, callback) {
+            htmlForStream += chunk.toString();
+            this.push(chunk);
+            callback();
+          },
+        });
+        cacheStream.on('close', () => onAfterRender(htmlForStream));
+
+        return source(cacheStream);
       }
     }
 
     // no cache, render sync
     if (!cacheFile) {
       const renderResult = await renderFn(context);
-      return saveInCache(renderResult, async (html: string) => {
+      return afterRender(renderResult, async (html: string) => {
         const { cacheConfig } = context;
         if (html && cacheConfig) {
-          await sprCache.set(cacheContext, htmlForStream, cacheConfig);
+          await sprCache.set(cacheContext, html, cacheConfig);
         }
       });
     }
@@ -67,10 +54,10 @@ export default (
     // completely expired
     if (cacheFile.isGarbage) {
       const renderResult = await renderFn(context);
-      return saveInCache(renderResult, async (html: string) => {
+      return afterRender(renderResult, async (html: string) => {
         const { cacheConfig } = context;
         if (html && cacheConfig) {
-          await sprCache.set(cacheContext, htmlForStream, cacheConfig);
+          await sprCache.set(cacheContext, html, cacheConfig);
         }
       });
     } else if (cacheFile.isStale) {
@@ -86,7 +73,7 @@ export default (
           if (res.value && res.isOrigin) {
             const { cacheConfig } = context;
             if (cacheConfig) {
-              saveInCache(res.value, (html: string) => {
+              afterRender(res.value, async (html: string) => {
                 sprCache.set(cacheContext, html, cacheConfig);
               });
             } else {

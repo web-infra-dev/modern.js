@@ -1,5 +1,4 @@
 import { resolve } from 'path';
-import React from 'react';
 import { ChunkExtractor } from '@loadable/server';
 import { LOADABLE_STATS_FILE } from '@modern-js/utils';
 import { RuntimeContext } from '../types';

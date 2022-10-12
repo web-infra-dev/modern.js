@@ -1,5 +1,4 @@
 import { ServerStyleSheet } from 'styled-components';
-import React from 'react';
 
 export function getStyledComponentCss({ jsx }: { jsx: React.ReactElement }) {
   const sheet = new ServerStyleSheet();
