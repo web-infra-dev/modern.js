@@ -42,7 +42,7 @@ export async function initConfigs({
   });
 
   await modifyBuilderConfig(context);
-  context.normalizedConfig = normalizeConfig(context.config);
+  context.normalizedConfig = deepFreezed(normalizeConfig(context.config));
 
   const targets = ensureArray(builderOptions.target);
   const webpackConfigs = await Promise.all(
