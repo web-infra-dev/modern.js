@@ -1,5 +1,5 @@
 import type { DevServerHttpsOptions } from '@modern-js/types';
-import type { IProgressOptions } from '../../webpackPlugins/ProgressPlugin';
+import type { ProgressOptions } from '../../webpackPlugins/ProgressPlugin/ProgressPlugin';
 
 export interface DevConfig {
   hmr?: boolean;
@@ -7,5 +7,5 @@ export interface DevConfig {
   https?: DevServerHttpsOptions;
   startUrl?: boolean | string | string[];
   assetPrefix?: string | boolean;
-  progressBar?: boolean | IProgressOptions;
+  progressBar?: boolean | ProgressOptions;
 }
