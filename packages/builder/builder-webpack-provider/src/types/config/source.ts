@@ -14,6 +14,7 @@ export interface SourceConfig {
   moduleScopes?: ChainedConfig<ModuleScopes>;
   compileJsDataURI?: boolean;
   resolveExtensionPrefix?: string;
+  resolveMainFields?: (string[] | string)[];
 }
 
 export interface SourceFinalConfig {
