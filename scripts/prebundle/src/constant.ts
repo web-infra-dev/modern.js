@@ -210,10 +210,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
-        name: 'webpackbar',
-        ignoreDts: true,
-      },
-      {
         name: 'loader-utils1',
         ignoreDts: true,
         externals: {

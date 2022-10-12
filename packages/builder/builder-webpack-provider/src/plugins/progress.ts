@@ -1,46 +1,31 @@
+import { BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { UseWebpackProgressPlugin } from '../webpackPlugins/ProgressPlugin';
 
-/**
- * @deprecated
- * 旧版 进度条插件(已废弃)
- */
-export const PluginProgressOld = (): BuilderPlugin => ({
-  name: 'webpackBuilderPluginProgress',
-  setup(api) {
-    api.modifyWebpackChain(async (chain, { isServer, CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
-      if (!config.dev?.progressBar) {
-        return;
-      }
-      const { default: WebpackBar } = await import('../../compiled/webpackbar');
-      chain.plugin(CHAIN_ID.PLUGIN.PROGRESS).use(WebpackBar, [
-        {
-          name: isServer ? 'server' : 'client',
-        },
-      ]);
-    });
-  },
-});
+const ID_MAP: Record<BuilderTarget, string> = {
+  web: 'Client',
+  node: 'Server',
+  'modern-web': 'Modern',
+};
 
 export const PluginProgress = (): BuilderPlugin => ({
-  name: 'webpackBuilderPluginProgress',
+  name: 'builder-plugin-progress',
   setup(api) {
-    api.modifyWebpackConfig((webpack_config, { webpack }) => {
+    api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
       const config = api.getBuilderConfig();
       const options = config.dev?.progressBar;
-      let plugin;
       if (!options) {
         return;
-      } else if (options === true) {
-        plugin = UseWebpackProgressPlugin({}, webpack);
-      } else {
-        plugin = UseWebpackProgressPlugin(options, webpack);
       }
-      if (plugin) {
-        webpack_config.plugins?.push(plugin);
-      }
+
+      const { ProgressPlugin } = await import(
+        '../webpackPlugins/ProgressPlugin/ProgressPlugin'
+      );
+      chain.plugin(CHAIN_ID.PLUGIN.PROGRESS).use(ProgressPlugin, [
+        {
+          id: ID_MAP[target],
+          ...(options === true ? {} : options),
+        },
+      ]);
     });
   },
 });

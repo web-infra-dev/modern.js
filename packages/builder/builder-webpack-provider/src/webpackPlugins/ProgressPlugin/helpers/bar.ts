@@ -12,7 +12,7 @@ const defaultOption: Props = {
   width: 25,
   buildIcon: '◯',
   finishIcon: '✔',
-  finishInfo: 'finished',
+  finishInfo: 'done',
   message: '',
   done: false,
   spaceWidth: 1,
@@ -56,11 +56,7 @@ export const renderBar = (option: Partial<Props>) => {
     ...option,
   };
   const space = ' '.repeat(spaceWidth);
-  const percent = clamp(
-    total <= 0 ? 0 : Math.floor((current / total) * 100),
-    0,
-    100,
-  );
+  const percent = clamp(Math.floor((current / total) * 100), 0, 100);
   const fc = Reflect.get(chalk, color);
   const bc = Reflect.get(chalk, bgColor);
   const idStr = id ? fc(padding(id, maxIdLen)) : '';
@@ -76,14 +72,7 @@ export const renderBar = (option: Partial<Props>) => {
     chalk,
     messageColor,
   )(cliTruncate(message, messageWidth, { position: 'start' }));
-  const frameStr = fc(frames[current % frames.length]);
-  if (total <= 0) {
-    // 无法获取百分比时用动画表示进度
-    if (columns >= MIDDLE_WIDTH) {
-      return [idStr, frameStr, space, msgStr].join('');
-    }
-    return [idStr, frameStr].join('');
-  }
+
   const left = clamp(Math.floor((percent * width) / 100), 0, width);
   const right = clamp(width - left, 0, width);
   const barStr = `${fc(char.repeat(left))}${bc(char.repeat(right))}`;
@@ -100,11 +89,15 @@ export const renderBar = (option: Partial<Props>) => {
       msgStr,
     ].join('');
   }
+
   if (columns >= MIDDLE_WIDTH) {
     return [idStr, fc(buildIcon), space, barStr, space, percentStr].join('');
   }
+
   if (columns >= SMALL_WIDTH) {
     return [idStr, fc(buildIcon), space, percentStr].join('');
   }
+
+  const frameStr = fc(frames[current % frames.length]);
   return [idStr, fc(buildIcon), space, frameStr].join('');
 };
