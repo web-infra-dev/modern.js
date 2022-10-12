@@ -93,7 +93,10 @@
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "9.3.1",
-    "webpack": "^5.74.0"
+    "webpack": "^5.74.0",
+    "ansi-escapes": "4.3.2",
+    "cli-truncate": "2.1.0",
+    "patch-console": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",
