@@ -130,13 +130,16 @@ importers:
       '@types/node': ^14
       '@types/serialize-javascript': ^5.0.1
       '@vitest/ui': ^0.21.1
+      ansi-escapes: 4.3.2
       autoprefixer: ^10.4.8
       caniuse-lite: ^1.0.30001332
+      cli-truncate: 2.1.0
       css-minimizer-webpack-plugin: 4.0.0
       cssnano: ^5.1.12
       fork-ts-checker-webpack-plugin: 7.2.13
       html-webpack-plugin: 5.5.0
       mini-css-extract-plugin: 2.4.5
+      patch-console: 1.0.0
       postcss: 8.4.16
       react-refresh: 0.12.0
       serialize-javascript: ^6.0.0
@@ -156,12 +159,15 @@ importers:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.8_7ybob5zygvcy2nzwou5uqjfbri
       '@svgr/webpack': 6.2.1
       '@types/mini-css-extract-plugin': 2.2.0
+      ansi-escapes: 4.3.2
       caniuse-lite: 1.0.30001375
+      cli-truncate: 2.1.0
       css-minimizer-webpack-plugin: 4.0.0_webpack@5.74.0
       cssnano: 5.1.12_postcss@8.4.16
       fork-ts-checker-webpack-plugin: 7.2.13_xnp4kzegbjokq62cajex2ovgkm
       html-webpack-plugin: 5.5.0_webpack@5.74.0
       mini-css-extract-plugin: 2.4.5_webpack@5.74.0
+      patch-console: 1.0.0
       postcss: 8.4.16
       react-refresh: 0.12.0
       serialize-javascript: 6.0.0
@@ -3438,6 +3444,31 @@ importers:
       '@modern-js/e2e': link:../../../../packages/toolkit/e2e
       '@types/node': 14.18.21
       '@types/react': 17.0.47
+      '@types/react-dom': 17.0.17
+      typescript: 4.7.4
+
+  tests/e2e/webpack-builder/inline-chunk:
+    specifiers:
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      got: ^11.8.3
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      got: 11.8.5
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@types/node': 14.18.21
+      '@types/react': 17.0.50
       '@types/react-dom': 17.0.17
       typescript: 4.7.4
 
@@ -11801,7 +11832,7 @@ packages:
   /@types/react-dom/17.0.17:
     resolution: {integrity: sha512-VjnqEmqGnasQKV0CWLevqMTXBYG9GbwuE6x3VetERLh0cq2LTptFE73MrQi2S7GkKXCf2GgwItB/melLnxfnsg==}
     dependencies:
-      '@types/react': 17.0.47
+      '@types/react': 17.0.50
 
   /@types/react-helmet/6.1.5:
     resolution: {integrity: sha512-/ICuy7OHZxR0YCAZLNg9r7I9aijWUWvxaPR6uTuyxe8tAj5RL4Sw1+R6NhXUtOsarkGYPmaHdBDvuXh2DIN/uA==}
@@ -11820,7 +11851,7 @@ packages:
     resolution: {integrity: sha512-db1mx37a1EJDf1XeX8jJN7R3PZABmJQXR8r28yUjVMFSjkmnQo6X6pOEEmNl+Tp2gYQOGPdYbFIipBtdElZ3Yg==}
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 17.0.47
+      '@types/react': 17.0.50
       '@types/react-router': 5.1.18
 
   /@types/react-router-dom/5.3.3:
@@ -21493,7 +21524,7 @@ packages:
       deepmerge: 4.2.2
       he: 1.2.0
       htmlparser2: 6.1.0
-      minimist: 1.2.6
+      minimist: 1.2.7
     dev: true
 
   /html-void-elements/1.0.5:
@@ -25048,7 +25079,7 @@ packages:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.7
 
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
@@ -26294,6 +26325,11 @@ packages:
     dependencies:
       ansi-escapes: 3.2.0
       cross-spawn: 6.0.5
+    dev: false
+
+  /patch-console/1.0.0:
+    resolution: {integrity: sha512-nxl9nrnLQmh64iTzMfyylSlRozL7kAXIaxw1fVcLYdyhNkJCRUzirRZTikXGJsg+hc4fqpneTK6iU2H1Q8THSA==}
+    engines: {node: '>=10'}
     dev: false
 
   /path-browserify/0.0.1:
