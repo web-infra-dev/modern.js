@@ -26,6 +26,7 @@ async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {
 
 export async function createDevServer(
   options: InitConfigsOptions,
+  port: number,
   serverOptions: Partial<ModernDevServerOptions>,
   customCompiler?: Compiler | MultiCompiler,
 ) {
@@ -50,7 +51,10 @@ export async function createDevServer(
     {
       hot: builderConfig.dev?.hmr ?? true,
       watch: true,
-      client: {},
+      client: {
+        port: port.toString(),
+      },
+      port,
       liveReload: builderConfig.dev?.hmr ?? true,
       devMiddleware: {
         writeToDisk: (file: string) =>
@@ -105,7 +109,7 @@ export async function startDevServer(
     port,
   };
 
-  const server = await createDevServer(options, serverOptions, compiler);
+  const server = await createDevServer(options, port, serverOptions, compiler);
 
   await options.context.hooks.onBeforeStartDevServerHooks.call();
 
