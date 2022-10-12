@@ -30,7 +30,7 @@ export const createDefaultConfig = () =>
     },
     tools: {
       tsChecker: {},
-      babel: {},
+      // babel: {},  -> should be closable explicitly
       devServer: {
         client: {},
         devMiddleware: {

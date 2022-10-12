@@ -118,6 +118,5 @@ export interface ToolsConfig {
 }
 
 export interface NormalizedToolsConfig extends ToolsConfig {
-  babel: BabelTransformOptions;
   devServer: DevServerOptions;
 }
