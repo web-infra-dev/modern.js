@@ -6,7 +6,7 @@ import { Metrics, Logger } from './utils';
 export interface ModernServerContext {
   req: IncomingMessage;
 
-  res: ServerResponse;
+  res: ServerResponse & { locals?: Record<string, any> };
 
   params: Record<string, string>;
 
@@ -64,6 +64,7 @@ export type BaseSSRServerContext = {
   response: {
     setHeader: (key: string, value: string) => void;
     status: (code: number) => void;
+    locals: Record<string, any>;
   };
   redirection: { url?: string; status?: number };
   distDir: string;
@@ -89,7 +90,6 @@ export type BaseSSRServerContext = {
   loadableManifest?: string;
   cacheConfig?: any;
 };
-
 export interface ISAppContext {
   appDirectory: string;
   distDirectory: string;

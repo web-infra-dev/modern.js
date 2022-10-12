@@ -7,25 +7,42 @@ import type {
 } from '../types';
 
 export const run = async (
-  options: BuildCommandOptions,
-  resolvedBuildConfig: BaseBuildConfig[],
+  options: {
+    cmdOptions: BuildCommandOptions;
+    resolvedBuildConfig: BaseBuildConfig[];
+    context: ModuleContext;
+  },
   api: PluginAPI<ModuleToolsHooks>,
-  context: ModuleContext,
 ) => {
-  if (options.platform) {
-    const { buildPlatform } = await import('./platform');
-    await buildPlatform(options, api, context);
-    return;
-  }
-
+  const { resolvedBuildConfig, context, cmdOptions } = options;
   const runner = api.useHookRunners();
 
   if (resolvedBuildConfig.length !== 0) {
     const { runBuildTask } = await import('./build');
     const { default: pMap } = await import('p-map');
+    const { fs } = await import('@modern-js/utils');
+
+    for (const config of resolvedBuildConfig) {
+      fs.removeSync(config.path);
+    }
+
+    const { getSourceConfig } = await import('../utils/source');
+    const sourceConfig = await getSourceConfig(api, context);
+
     await pMap(resolvedBuildConfig, async config => {
-      await runner.beforeBuildTask({ config, options });
-      await runBuildTask(config, options, api);
+      // implementation of `copy` start
+      // end
+
+      await runner.beforeBuildTask({ config, options: cmdOptions });
+      await runBuildTask(
+        {
+          buildConfig: config,
+          sourceConfig,
+          buildCmdOptions: cmdOptions,
+          context,
+        },
+        api,
+      );
       await runner.afterBuildTask({ status: 'success', config });
     });
   }

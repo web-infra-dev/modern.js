@@ -1,5 +1,5 @@
-- 类型: `Object` | `Function` | `false`
-- 默认值: `Object`
+- Type: `Object | Function | false`
+- Default: `Object`
 
 默认情况下，开启 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 进行类型检查，你可以通过:
 

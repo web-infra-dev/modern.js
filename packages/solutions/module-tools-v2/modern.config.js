@@ -13,9 +13,11 @@ module.exports = {
           ],
         },
         target: 'es6',
+        sourceMap: true,
       },
       {
         enableDts: true,
+        dtsOnly: true,
       },
     ],
   },

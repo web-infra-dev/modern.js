@@ -16,7 +16,7 @@ const SHELL = process.env.SHELL || true;
   const pnpmFilters = directories
     .map(dir => `--filter "{${dir}}..."`)
     .join(' ');
-  const buildCmd = `pnpm run build ${pnpmFilters}`;
+  const buildCmd = `pnpm run ${pnpmFilters} build`;
   // eslint-disable-next-line no-console
   console.log('>', buildCmd);
   await execa(buildCmd, { shell: SHELL, stdio: 'inherit' });

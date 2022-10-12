@@ -103,6 +103,7 @@ export const server = {
     metrics: { type: ['object', 'boolean'] },
     proxy: { type: 'object' },
     enableMicroFrontendDebug: { type: 'boolean' },
+    disableFrameworkExt: { type: 'boolean' },
     watchOptions: { type: 'object' },
     compiler: { type: 'string' },
   },

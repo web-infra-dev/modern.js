@@ -13,7 +13,7 @@ export default (): CliPlugin => ({
     '@modern-js/plugin-state',
     '@modern-js/plugin-design-token',
   ],
-  usePlugins: [PluginState(), PluginRouter(), PluginSSR()],
+  usePlugins: [PluginState(), PluginSSR(), PluginRouter()],
   setup: api => {
     return {
       config() {

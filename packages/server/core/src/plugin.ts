@@ -15,11 +15,12 @@ import {
 import type {
   ModernServerContext,
   BaseSSRServerContext,
-  Metrics,
-  Logger,
-} from '@modern-js/types/server';
+  AfterMatchContext,
+  AfterRenderContext,
+  MiddlewareContext,
+  ISAppContext,
+} from '@modern-js/types';
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type { ISAppContext } from '@modern-js/types';
 import type { Options } from 'http-proxy-middleware';
 
 // collect all middleware register in server plugins
@@ -28,22 +29,12 @@ const gather = createParallelWorkflow<{
   addAPIMiddleware: (_input: any) => void;
 }>();
 
-type ServerInitInput = {
-  loggerOptions: any;
-  metricsOptions: any;
-};
-
-type InitExtension = {
-  logger: Logger;
-  metrics: Metrics;
-};
-
 // config
 const config = createWaterfall<ServerConfig>();
 
 const prepare = createWaterfall();
 
-const create = createAsyncPipeline<ServerInitInput, InitExtension>();
+export type WebAdapter = (ctx: MiddlewareContext) => void | Promise<void>;
 
 export type Adapter = (
   req: IncomingMessage,
@@ -55,7 +46,7 @@ export type WebServerStartInput = {
   config: Record<string, any>;
 };
 
-const prepareWebServer = createAsyncPipeline<WebServerStartInput, Adapter>();
+const prepareWebServer = createAsyncPipeline<WebServerStartInput, WebAdapter>();
 
 export type APIServerStartInput = {
   pwd: string;
@@ -117,10 +108,7 @@ const beforeMatch = createAsyncPipeline<
   any
 >();
 
-const afterMatch = createAsyncPipeline<
-  { context: ModernServerContext; routeAPI: any },
-  any
->();
+const afterMatch = createAsyncPipeline<AfterMatchContext, any>();
 
 // TODO FIXME
 export type SSRServerContext = Record<string, unknown>;
@@ -140,10 +128,7 @@ const beforeRender = createAsyncPipeline<
   any
 >();
 
-const afterRender = createAsyncPipeline<
-  { context: ModernServerContext; templateAPI: any },
-  any
->();
+const afterRender = createAsyncPipeline<AfterRenderContext, any>();
 
 const beforeSend = createAsyncPipeline<ModernServerContext, RequestResult>();
 
@@ -180,7 +165,6 @@ const serverHooks = {
   gather,
   config,
   prepare,
-  create,
   prepareWebServer,
   prepareApiServer,
   onApiChange,

@@ -3,7 +3,7 @@ import path from 'path';
 import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish, { interfaces } from 'garfish';
-import { withRouter } from '@modern-js/runtime/router';
+import { withRouter } from '@modern-js/plugin-router-legacy';
 // import Loadable from 'react-loadable';
 import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';

@@ -1,5 +1,5 @@
-- 类型： `Record<string, string>`
-- 默认值： `undefined`
+- Type: `Record<string, string>`
+- Default:  `undefined`
 
 用于在多页面的场景下，为不同的页面设置不同的 favicon。
 
@@ -11,7 +11,7 @@
 
 ```js
 export default {
-  output: {
+  html: {
     favicon: './src/assets/default.png',
     faviconByEntries: {
       foo: './src/assets/foo.png',

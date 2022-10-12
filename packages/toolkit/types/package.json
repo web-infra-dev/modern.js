@@ -11,13 +11,23 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.19.0",
   "types": "./index.d.ts",
   "exports": {
     ".": "./index.d.ts",
     "./server": {
       "jsnext:source": "./server/index.d.ts",
       "default": "./server/index.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./index.d.ts"
+      ],
+      "hoist-non-react-statics": [
+        "./packages/hoist-non-react-statics.d.ts"
+      ]
     }
   },
   "devDependencies": {

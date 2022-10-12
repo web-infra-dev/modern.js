@@ -1,42 +1,26 @@
-import { RouteMatchManager, RouteMatcher } from '../route';
+export class RouteAPI {
+  public current: string;
 
-class RouteAPI {
-  private readonly router: RouteMatchManager;
+  public status: number;
 
-  private current: RouteMatcher;
+  public url: string;
 
-  private readonly url: string;
+  constructor(entryName: string) {
+    this.current = entryName;
+    this.status = 200;
+    this.url = '';
+  }
 
-  constructor(matched: RouteMatcher, router: RouteMatchManager, url: string) {
-    this.current = matched;
-    this.router = router;
+  public redirect(url: string, status = 302) {
     this.url = url;
+    this.status = status;
   }
 
-  public cur() {
-    return this.current.generate(this.url);
-  }
-
-  public get(entryName: string) {
-    const { router } = this;
-    const matched = router.matchEntry(entryName);
-    return matched ? matched.generate(this.url) : null;
+  public rewrite(entryName: string) {
+    this.current = entryName;
   }
 
   public use(entryName: string) {
-    const { router } = this;
-    const matched = router.matchEntry(entryName);
-    if (matched) {
-      this.current = matched;
-      return true;
-    } else {
-      return false;
-    }
+    this.rewrite(entryName);
   }
 }
-
-export const createRouteAPI = (
-  matched: RouteMatcher,
-  router: RouteMatchManager,
-  url: string,
-) => new RouteAPI(matched, router, url);

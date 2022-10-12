@@ -52,6 +52,21 @@ async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
     },
   };
 
+  switch (config.output?.legalComments) {
+    case 'inline':
+      DEFAULT_OPTIONS.extractComments = false;
+      break;
+    case 'linked':
+      DEFAULT_OPTIONS.extractComments = true;
+      break;
+    case 'none':
+      DEFAULT_OPTIONS.terserOptions!.format!.comments = false;
+      DEFAULT_OPTIONS.extractComments = false;
+      break;
+    default:
+      break;
+  }
+
   const mergedOptions = applyOptionsChain(
     DEFAULT_OPTIONS,
     config.tools?.terser,
@@ -102,10 +117,8 @@ export const PluginMinimize = (): BuilderPlugin => ({
       chain.optimization.minimize(isMinimize);
 
       if (isMinimize) {
-        await Promise.all([
-          applyJSMinimizer(chain, config),
-          applyCSSMinimizer(chain, config),
-        ]);
+        await applyJSMinimizer(chain, config);
+        await applyCSSMinimizer(chain, config);
       }
     });
   },

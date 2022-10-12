@@ -1,0 +1,134 @@
+{
+  "name": "@modern-js/plugin-router-legacy",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "1.19.0",
+  "jsnext:source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "main": "./dist/js/node/index.js",
+  "module": "./dist/js/treeshaking/index.js",
+  "jsnext:modern": "./dist/js/modern/index.js",
+  "exports": {
+    ".": {
+      "node": {
+        "jsnext:source": "./src/runtime/index.ts",
+        "import": "./dist/js/modern/runtime/index.js",
+        "require": "./dist/js/node/runtime/index.js"
+      },
+      "default": "./dist/js/treeshaking/runtime/index.js"
+    },
+    "./types": {
+      "jsnext:source": "./lib/types.d.ts",
+      "default": "./lib/types.d.ts"
+    },
+    "./runtime": {
+      "jsnext:source": "./src/runtime/index.ts",
+      "node": {
+        "import": "./dist/js/modern/runtime/index.js",
+        "require": "./dist/js/node/runtime/index.js"
+      },
+      "default": "./dist/js/treeshaking/runtime/index.js"
+    },
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/runtime/index.d.ts"
+      ],
+      "types": [
+        "./lib/types.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "prepare": "pnpm build",
+    "dev": "modern build --watch",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "new": "modern new",
+    "build": "wireit",
+    "test": "wireit"
+  },
+  "dependencies": {
+    "history": "^4.7.9",
+    "react-router-dom": "^5.1.2",
+    "@modern-js/plugin": "workspace:*",
+    "@modern-js/webpack": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "hoist-non-react-statics": "^3.3.2",
+    "@types/history": "^4.7.9",
+    "@types/react-router-dom": "^5.1.8"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "devDependencies": {
+    "react": "^17",
+    "react-dom": "^17",
+    "ts-jest": "^27.0.4",
+    "typescript": "^4",
+    "jest": "^27",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@babel/core": "^7.18.0",
+    "@babel/runtime": "^7.18.0",
+    "@types/jest": "^27",
+    "@types/node": "^14",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/react-hooks": "^7.0.1",
+    "@types/invariant": "^2.2.30"
+  },
+  "sideEffects": false,
+  "modernConfig": {},
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./type.d.ts"
+  },
+  "wireit": {
+    "build": {
+      "command": "modern build",
+      "files": [
+        "src/**/*",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*"
+      ]
+    },
+    "test": {
+      "command": "jest --passWithNoTests",
+      "files": [
+        "src/**/*",
+        "tsconfig.json",
+        "package.json",
+        "tests/**/*"
+      ],
+      "output": []
+    }
+  }
+}

@@ -18,11 +18,6 @@
       "@modern-js"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{ts,tsx}": [
       "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
@@ -41,8 +36,8 @@
     "@modern-js/plugin-koa": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "koa": "^2.13.4",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
@@ -51,8 +46,8 @@
     "@types/jest": "^27",
     "@types/koa": "^2.13.4",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "axios": "^0.24.0",
     "isomorphic-fetch": "^3.0.0",
     "typescript": "^4",

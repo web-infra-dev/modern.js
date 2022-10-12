@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "plugin-router-legacy",
+      "path": "packages/runtime/plugin-router-legacy"
+    },
+    {
       "name": "@modern-js/app-tools",
       "path": "packages/solutions/app-tools"
     },
@@ -112,7 +116,6 @@
       "name": "@modern-js/plugin-express",
       "path": "packages/server/plugin-express"
     },
-
     {
       "name": "@modern-js/plugin-i18n",
       "path": "packages/cli/plugin-i18n"

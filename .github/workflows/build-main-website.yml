@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-website:
+  build-main-website:
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-        run: npm install -g pnpm@^6
+        run: npm install -g pnpm@7
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -39,3 +39,4 @@ jobs:
           branch: gh-pages
           folder: website/main/dist
           clean: true
+          clean-exclude: builder/**/*

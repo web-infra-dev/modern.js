@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.19.0",
   "types": "./src/server.ts",
   "jsnext:source": "./src/server.ts",
   "main": "./dist/js/node/server.js",
@@ -36,7 +36,7 @@
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
-    "dev": "modern dev",
+    "dev": "modern build --watch",
     "build": "wireit",
     "new": "modern new",
     "test": "wireit"

@@ -1,8 +1,8 @@
+import path from 'path';
 import { InputOptions, OutputOptions, Plugin } from 'rollup';
-import dtsPlugin from 'rollup-plugin-dts'
+import dtsPlugin from 'rollup-plugin-dts';
 import ts from 'typescript';
 import jsonPlugin from '@rollup/plugin-json';
-import path from 'path';
 import { BundleOptions, Entry } from '../../types';
 
 type Config = {
@@ -11,16 +11,15 @@ type Config = {
   externals: BundleOptions['externals'];
   entry: Entry;
   watch: boolean;
-}
+};
 
 export const runRollup = async ({
   distDir,
   tsconfigPath,
   externals,
   entry,
-  watch
+  watch,
 }: Config) => {
-
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
     load(id) {
@@ -36,6 +35,7 @@ export const runRollup = async ({
     ts.sys,
     './',
   );
+
   const inputConfig: InputOptions = {
     input: entry,
     external: externals,
@@ -77,17 +77,14 @@ export const runRollup = async ({
       ...inputConfig,
       plugins: inputConfig.plugins,
       output: outputConfig,
-    }).on('event', event => {
-
-    });
+    }).on('event', () => undefined);
   } else {
     try {
       const { rollup } = await import('rollup');
       const bundle = await rollup(inputConfig);
       await bundle.write(outputConfig);
     } catch (e) {
-
+      console.info(e);
     }
   }
-}
-
+};

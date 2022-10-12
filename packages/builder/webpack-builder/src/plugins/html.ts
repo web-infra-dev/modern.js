@@ -71,41 +71,45 @@ async function getTemplateParameters(
   config: BuilderConfig,
   assetPrefix: string,
 ): Promise<HTMLPluginOptions['templateParameters']> {
+  const { applyOptionsChain } = await import('@modern-js/utils');
   const { mountId, templateParameters, templateParametersByEntries } =
     config.html || {};
 
   const meta = await getMetaTags(entryName, config);
   const title = getTitle(entryName, config);
-
+  const templateParams =
+    templateParametersByEntries?.[entryName] || templateParameters;
   const baseParameters = {
     meta,
     title,
     mountId: mountId || DEFAULT_MOUNT_ID,
     entryName,
     assetPrefix,
-    ...(templateParametersByEntries?.[entryName] || templateParameters),
   };
 
-  // refer to: https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
-  return (compilation, assets, assetTags, pluginOptions) => ({
-    compilation,
-    webpackConfig: compilation.options,
-    htmlWebpackPlugin: {
-      tags: assetTags,
-      files: assets,
-      options: pluginOptions,
-    },
-    ...baseParameters,
-  });
+  return (compilation, assets, assetTags, pluginOptions) => {
+    const defaultOptions = {
+      compilation,
+      webpackConfig: compilation.options,
+      htmlWebpackPlugin: {
+        tags: assetTags,
+        files: assets,
+        options: pluginOptions,
+      },
+      ...baseParameters,
+    };
+    return applyOptionsChain(defaultOptions, templateParams);
+  };
 }
 
-function getTemplatePath() {
+export function getTemplatePath(entryName: string, config: BuilderConfig) {
   const DEFAULT_TEMPLATE = path.resolve(
     __dirname,
     '../../static/template.html',
   );
-
-  return DEFAULT_TEMPLATE;
+  const { template = DEFAULT_TEMPLATE, templateByEntries = {} } =
+    config.html || {};
+  return templateByEntries[entryName] || template;
 }
 
 async function getChunks(
@@ -145,7 +149,6 @@ export const PluginHtml = (): BuilderPlugin => ({
       );
 
       const minify = getMinify(isProd, config);
-      const template = getTemplatePath();
       const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
       const entries = chain.entryPoints.entries();
       const entryNames = Object.keys(chain.entryPoints.entries());
@@ -159,6 +162,7 @@ export const PluginHtml = (): BuilderPlugin => ({
           const inject = getInject(entryName, config);
           const favicon = getFavicon(entryName, config);
           const filename = await getFilename(entryName, config);
+          const template = getTemplatePath(entryName, config);
           const templateParameters = await getTemplateParameters(
             entryName,
             config,

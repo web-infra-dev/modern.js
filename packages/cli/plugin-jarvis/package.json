@@ -10,7 +10,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.19.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -45,7 +45,7 @@
     "@modern-js/utils": "workspace:*",
     "cross-spawn": "^7.0.1",
     "eslint": "^7.32.0",
-    "husky": "4.3.8",
+    "husky": "^8.0.0",
     "lint-staged": "^11.2.3"
   },
   "devDependencies": {

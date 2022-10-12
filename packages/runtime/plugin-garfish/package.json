@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.19.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "typesVersions": {
@@ -67,7 +67,7 @@
     "react-loadable": "^5.5.0"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^1.18.1"
+    "@modern-js/runtime": "workspace:^1.19.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {
@@ -77,21 +77,21 @@
   "devDependencies": {
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-router-legacy": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/react-hooks": "^7.0.1",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/hoist-non-react-statics": "^3.3.1",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.4.3",
     "@types/testing-library__jest-dom": "^5.14.3",
     "@types/jest": "^27",
     "@types/node": "^14",
     "jest": "^27",
     "jest-fetch-mock": "^3.0.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18",
+    "react-dom": "^18",
     "react-router-dom": "^6.2.1",
     "typescript": "^4",
     "webpack-chain": "^6.5.1"

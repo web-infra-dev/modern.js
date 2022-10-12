@@ -34,7 +34,7 @@ Add the following config to inject script into the body tag:
 
 ```js
 export default {
-  output: {
+  html: {
     inject: 'body',
   },
 };

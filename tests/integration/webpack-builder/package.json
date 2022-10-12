@@ -5,21 +5,22 @@
   "scripts": {
     "dev": "pnpm build:libs && node ./scripts/dist/dev.js",
     "build": "pnpm build:libs && node ./scripts/dist/build.js",
+    "watch": "pnpm build:libs && node ./scripts/dist/watch.js",
     "build:libs": "pnpm --filter @modern-js/webpack-builder run build && tsc -p ./tsconfig.scripts.json",
     "inspect": "pnpm build:libs && node ./scripts/dist/inspect.js"
   },
   "dependencies": {
     "@modern-js/webpack-builder": "workspace:*",
     "@modern-js/webpack-builder-plugin-esbuild": "workspace:*",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.18.0",
     "@modern-js/inspector-webpack-plugin": "1.0.0-alpha.5",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "typescript": "^4"
   }
 }

@@ -1,8 +1,7 @@
 import { APIServerStartInput } from '@modern-js/server-core';
 import { ModernRoute, ModernRouteInterface } from '../libs/route';
-import { RUN_MODE } from '../constants';
 import type { ModernServerContext } from '../libs/context';
-import { ModernServerOptions, ModernServerInterface, HookNames } from '../type';
+import { ModernServerOptions, ModernServerInterface } from '../type';
 import { ModernServer } from './modern-server';
 
 class ModernSSRServer extends ModernServer {
@@ -10,20 +9,8 @@ class ModernSSRServer extends ModernServer {
     return null as any;
   }
 
-  protected filterRoutes(routes: ModernRouteInterface[]) {
-    return routes.filter(route => !route.isApi);
-  }
-
-  protected async setupBeforeProdMiddleware() {
-    if (this.runMode === RUN_MODE.FULL) {
-      await super.setupBeforeProdMiddleware();
-    }
-  }
-
-  protected async emitRouteHook(_: HookNames, _input: any) {
-    if (this.runMode === RUN_MODE.FULL) {
-      await super.emitRouteHook(_, _input);
-    }
+  protected async handleAPI(context: ModernServerContext) {
+    return this.render404(context);
   }
 }
 
@@ -35,16 +22,6 @@ class ModernAPIServer extends ModernServer {
   protected filterRoutes(routes: ModernRouteInterface[]) {
     return routes.filter(route => route.isApi);
   }
-
-  protected async setupBeforeProdMiddleware() {
-    if (this.runMode === RUN_MODE.FULL) {
-      await super.setupBeforeProdMiddleware();
-    }
-  }
-
-  protected async emitRouteHook(_: HookNames, _input: any) {
-    // empty
-  }
 }
 
 class ModernWebServer extends ModernServer {
@@ -53,25 +30,12 @@ class ModernWebServer extends ModernServer {
   }
 
   protected async handleAPI(context: ModernServerContext) {
-    const { proxyTarget } = this;
-
-    if (proxyTarget?.api) {
-      return this.proxy();
-    } else {
-      return this.render404(context);
-    }
+    return this.render404(context);
   }
 
   protected async handleWeb(context: ModernServerContext, route: ModernRoute) {
-    const { proxyTarget } = this;
-
-    if (route.isSSR && proxyTarget?.ssr) {
-      return this.proxy();
-    } else {
-      // if no proxyTarget but access web server, degradation to csr
-      route.isSSR = false;
-      return super.handleWeb(context, route);
-    }
+    route.isSSR = false;
+    return super.handleWeb(context, route);
   }
 }
 

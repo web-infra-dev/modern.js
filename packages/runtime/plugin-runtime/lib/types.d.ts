@@ -8,3 +8,9 @@ declare module '@modern-js/core' {
       state?: StateConfig | boolean;
     }
   }
+
+declare module 'http' {
+  interface ServerResponse {
+    locals: Record<string, any>
+  }
+}
