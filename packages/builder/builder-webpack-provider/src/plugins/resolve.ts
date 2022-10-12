@@ -77,7 +77,6 @@ async function applyAlias({
   });
 }
 
-
 // compatible with legacy packages with type="module"
 // https://github.com/webpack/webpack/issues/11467
 function applyFullySpecified({
