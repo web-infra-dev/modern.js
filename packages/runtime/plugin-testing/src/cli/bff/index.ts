@@ -1,6 +1,7 @@
 import path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { isApiOnly } from '@modern-js/utils';
+import { InternalPlugins } from '@modern-js/types';
 import {
   TestConfigOperator,
   getModuleNameMapper,
@@ -18,7 +19,7 @@ export const setJestConfigForBFF = async ({
 }: {
   pwd: string;
   userConfig: any;
-  plugins: any[];
+  plugins: InternalPlugins;
   routes: any[];
   utils: TestConfigOperator;
 }) => {
@@ -126,13 +127,12 @@ export default (): CliPlugin => ({
         }
 
         const userConfig = api.useResolvedConfigContext();
-        const plugins = appContext.plugins.map(p => p.server).filter(Boolean);
 
         await setJestConfigForBFF({
           pwd,
           userConfig,
-          plugins,
           routes: appContext.serverRoutes,
+          plugins: appContext.serverInternalPlugins,
           utils,
         });
 

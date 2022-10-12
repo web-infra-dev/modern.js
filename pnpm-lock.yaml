@@ -4577,6 +4577,39 @@ importers:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
 
+  tests/integration/ssg:
+    specifiers: {}
+
+  tests/integration/ssg/fixtures/simple:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-ssg': workspace:*
+      '@modern-js/runtime': workspace:*
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-ssg': link:../../../../../packages/cli/plugin-ssg
+      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+
+  tests/integration/ssg/fixtures/web-server:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-server': workspace:*
+      '@modern-js/plugin-ssg': workspace:*
+      '@modern-js/runtime': workspace:*
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-server': link:../../../../../packages/server/plugin-server
+      '@modern-js/plugin-ssg': link:../../../../../packages/cli/plugin-ssg
+      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+
   tests/integration/ssr:
     specifiers: {}
 

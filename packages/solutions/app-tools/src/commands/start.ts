@@ -19,10 +19,8 @@ export const start = async (api: PluginAPI<AppHooks>) => {
   const app = await server({
     pwd: appDirectory,
     config: userConfig,
-    plugins: appContext.plugins
-      .filter((p: any) => p.server)
-      .map((p: any) => p.server),
     serverConfigFile,
+    internalPlugins: appContext.serverInternalPlugins,
     apiOnly,
   });
 

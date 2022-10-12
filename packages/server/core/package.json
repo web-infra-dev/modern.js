@@ -31,6 +31,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
+    "dev": "modern build --watch",
     "build": "wireit",
     "test": "wireit"
   },

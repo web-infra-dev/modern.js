@@ -6,5 +6,5 @@
     "baseUrl": "./",
     "paths": {}
   },
-  "include": ["cli", "server", "packages"]
+  "include": ["cli", "server", "packages", "common", "index.d.ts"]
 }

@@ -1,3 +1,5 @@
+import { InternalPlugins } from '@modern-js/types';
+
 /**
  * hmr socket connect path
  */
@@ -67,62 +69,42 @@ export const DEFAULT_SERVER_CONFIG = 'modern.server-runtime.config';
 /**
  * Internal plugins that work as soon as they are installed.
  */
-export const INTERNAL_PLUGINS: {
-  [name: string]: { cli?: string; server?: string };
-} = {
-  '@modern-js/app-tools': { cli: '@modern-js/app-tools/cli' },
-  '@modern-js/monorepo-tools': { cli: '@modern-js/monorepo-tools/cli' },
-  '@modern-js/module-tools': { cli: '@modern-js/module-tools/cli' },
-  '@modern-js/module-tools-v2': { cli: '@modern-js/module-tools-v2' },
-  '@modern-js/runtime': { cli: '@modern-js/runtime/cli' },
-  '@modern-js/plugin-less': { cli: '@modern-js/plugin-less/cli' },
-  '@modern-js/plugin-sass': { cli: '@modern-js/plugin-sass/cli' },
-  '@modern-js/plugin-esbuild': { cli: '@modern-js/plugin-esbuild/cli' },
-  '@modern-js/plugin-proxy': { cli: '@modern-js/plugin-proxy/cli' },
-  '@modern-js/plugin-ssg': { cli: '@modern-js/plugin-ssg/cli' },
-  '@modern-js/plugin-bff': {
-    cli: '@modern-js/plugin-bff/cli',
-    server: '@modern-js/plugin-bff/server',
-  },
-  '@modern-js/plugin-electron': { cli: '@modern-js/plugin-electron/cli' },
-  '@modern-js/plugin-testing': { cli: '@modern-js/plugin-testing/cli' },
-  '@modern-js/plugin-storybook': { cli: '@modern-js/plugin-storybook/cli' },
-  '@modern-js/plugin-express': {
-    cli: '@modern-js/plugin-express/cli',
-    server: '@modern-js/plugin-express',
-  },
-  '@modern-js/plugin-egg': {
-    cli: '@modern-js/plugin-egg/cli',
-    server: '@modern-js/plugin-egg',
-  },
-  '@modern-js/plugin-koa': {
-    cli: '@modern-js/plugin-koa/cli',
-    server: '@modern-js/plugin-koa',
-  },
-  '@modern-js/plugin-nest': {
-    cli: '@modern-js/plugin-nest/cli',
-    server: '@modern-js/plugin-nest/server',
-  },
-  // TODO: remove unbundle configs after we completely deprecate it.
-  '@modern-js/plugin-unbundle': { cli: '@modern-js/plugin-unbundle' },
-  '@modern-js/plugin-server': {
-    cli: '@modern-js/plugin-server/cli',
-    server: '@modern-js/plugin-server/server',
-  },
-  '@modern-js/plugin-garfish': {
-    cli: '@modern-js/plugin-garfish/cli',
-  },
-  '@modern-js/plugin-tailwindcss': { cli: '@modern-js/plugin-tailwindcss/cli' },
-  '@modern-js/plugin-polyfill': {
-    cli: '@modern-js/plugin-polyfill/cli',
-    server: '@modern-js/plugin-polyfill',
-  },
+export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
+  '@modern-js/app-tools': '@modern-js/app-tools/cli',
+  '@modern-js/monorepo-tools': '@modern-js/monorepo-tools/cli',
+  '@modern-js/module-tools': '@modern-js/module-tools/cli',
+  '@modern-js/module-tools-v2': '@modern-js/module-tools-v2',
+  '@modern-js/runtime': '@modern-js/runtime/cli',
+  '@modern-js/plugin-less': '@modern-js/plugin-less/cli',
+  '@modern-js/plugin-sass': '@modern-js/plugin-sass/cli',
+  '@modern-js/plugin-esbuild': '@modern-js/plugin-esbuild/cli',
+  '@modern-js/plugin-proxy': '@modern-js/plugin-proxy/cli',
+  '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
+  '@modern-js/plugin-bff': '@modern-js/plugin-bff/cli',
+  '@modern-js/plugin-testing': '@modern-js/plugin-testing/cli',
+  '@modern-js/plugin-storybook': '@modern-js/plugin-storybook/cli',
+  '@modern-js/plugin-express': '@modern-js/plugin-express/cli',
+  '@modern-js/plugin-egg': '@modern-js/plugin-egg/cli',
+  '@modern-js/plugin-koa': '@modern-js/plugin-koa/cli',
+  '@modern-js/plugin-nest': '@modern-js/plugin-nest/cli',
+  '@modern-js/plugin-server': '@modern-js/plugin-server/cli',
+  '@modern-js/plugin-garfish': '@modern-js/plugin-garfish/cli',
+  '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
+  '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',
   // TODO: Maybe can remove it
-  '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
+  '@modern-js/plugin-nocode': '@modern-js/plugin-nocode/cli',
   // legacy router (inner react-router-dom v5)
-  '@modern-js/plugin-router-legacy': {
-    cli: '@modern-js/plugin-router-legacy/cli',
-  },
+  '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
+};
+
+export const INTERNAL_SERVER_PLUGINS: InternalPlugins = {
+  '@modern-js/plugin-bff': '@modern-js/plugin-bff/server',
+  '@modern-js/plugin-express': '@modern-js/plugin-express',
+  '@modern-js/plugin-egg': '@modern-js/plugin-egg',
+  '@modern-js/plugin-koa': '@modern-js/plugin-koa',
+  '@modern-js/plugin-nest': '@modern-js/plugin-nest/server',
+  '@modern-js/plugin-server': '@modern-js/plugin-server/server',
+  '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill',
 };
 
 /**

@@ -35,3 +35,4 @@ export * from './tryResolve';
 export * from './analyzeProject';
 export * from './chainId';
 export * from './version';
+export * from './plugin';

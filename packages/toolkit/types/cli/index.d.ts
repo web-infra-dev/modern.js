@@ -1,4 +1,5 @@
 import type { Merge } from 'type-fest';
+import { InternalPlugins } from '../common';
 import { ServerRoute } from '../server';
 
 /**
@@ -89,6 +90,7 @@ export interface IAppContext {
   appDirectory: string;
   configFile: string | false;
   serverConfigFile: string;
+  serverInternalPlugins: InternalPlugins;
   ip?: string;
   port?: number;
   distDirectory: string;
@@ -97,11 +99,7 @@ export interface IAppContext {
   sharedDirectory: string;
   nodeModulesDirectory: string;
   internalDirectory: string;
-  plugins: {
-    cli?: any;
-    server?: any;
-    serverPkg?: any;
-  }[];
+  plugins: any[];
   entrypoints: Entrypoint[];
   checkedEntries: string[];
   serverRoutes: ServerRoute[];
