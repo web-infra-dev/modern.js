@@ -17,10 +17,10 @@ const defineDefaultConfig = extendsType<BuilderConfig>();
 export const createDefaultConfig = () =>
   defineDefaultConfig({
     dev: {
-      port: 3000,
+      port: 8080,
       assetPrefix: '/',
       https: false,
-      startUrl: true,
+      startUrl: false,
       hmr: true,
       progressBar: true,
     },
