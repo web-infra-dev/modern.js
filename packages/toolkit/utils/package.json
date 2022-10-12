@@ -23,17 +23,21 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
+    "./ssr": {
+      "jsnext:source": "./src/ssr.ts",
+      "default": "./dist/ssr.js"
+    },
     "./format": {
       "jsnext:source": "./src/format.ts",
       "default": "./dist/format.js"
     },
+    "./logger": {
+      "jsnext:source": "./src/logger.ts",
+      "default": "./dist/logger.js"
+    },
     "./constants": {
       "jsnext:source": "./src/constants.ts",
       "default": "./dist/constants.js"
-    },
-    "./ssr": {
-      "jsnext:source": "./src/ssr.ts",
-      "default": "./dist/ssr.js"
     },
     "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
@@ -61,9 +65,10 @@
     "types": "./dist/index.d.ts",
     "exports": {
       ".": "./dist/index.js",
-      "./format": "./dist/format.js",
-      "./constants": "./dist/constants.js",
       "./ssr": "./dist/ssr.js",
+      "./format": "./dist/format.js",
+      "./logger": "./dist/logger.js",
+      "./constants": "./dist/constants.js",
       "./ajv": "./compiled/ajv/index.js",
       "./glob": "./compiled/glob/index.js",
       "./chalk": "./compiled/chalk/index.js",
@@ -87,14 +92,17 @@
   },
   "typesVersions": {
     "*": {
+      "ssr": [
+        "./dist/ssr.d.ts"
+      ],
       "format": [
         "./dist/format.d.ts"
       ],
+      "logger": [
+        "./dist/logger.d.ts"
+      ],
       "constants": [
         "./dist/constants.d.ts"
-      ],
-      "ssr": [
-        "./dist/ssr.d.ts"
       ],
       "ajv": [
         "./compiled/ajv/types/ajv.d.ts"

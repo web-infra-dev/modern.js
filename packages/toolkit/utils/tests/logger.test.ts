@@ -29,7 +29,6 @@ describe('logger', () => {
     const customLogger = new logger.Logger({
       config: {
         displayLabel: true,
-        underlineLabel: false,
         uppercaseLabel: false,
       },
       types: {

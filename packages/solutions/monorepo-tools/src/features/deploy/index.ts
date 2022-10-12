@@ -10,7 +10,6 @@ import {
   execa,
   logger,
   chalk,
-  signale,
   getPnpmVersion,
 } from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
@@ -217,5 +216,5 @@ export const deploy = async (
   generatorAndCopyRequiredFiles(rootPath, realDeployPath);
   // await installDependency(realDeployPath, packageManager);
 
-  signale.success(`Deploy success. The deploy dir is in '${rootPath}/output'`);
+  logger.success(`Deploy success. The deploy dir is in '${rootPath}/output'`);
 };

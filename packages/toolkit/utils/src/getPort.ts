@@ -65,11 +65,9 @@ export const getPort = async (
       );
     } else {
       logger.info(
-        chalk.red(
-          `Something is already running on port ${original}. ${chalk.yellow(
-            `Use port ${port} instead.`,
-          )}`,
-        ),
+        `Something is already running on port ${original}. ${chalk.yellow(
+          `Use port ${port} instead.`,
+        )}`,
       );
     }
   }
