@@ -63,4 +63,5 @@ export interface PerformanceConfig {
   bundleAnalyze?: BundleAnalyzerPlugin.Options;
   chunkSplit?: BuilderChunkSplit;
   buildCache?: BuildCacheOptions;
+  profile?: boolean;
 }
