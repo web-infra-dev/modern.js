@@ -126,24 +126,12 @@ export default class SocketServer {
       }
     });
 
-    if (this.options.client?.logging) {
-      this.singleWrite(connection, 'logging', this.options.client.logging);
-    }
-
     if (this.options.hot || this.options.hot === 'only') {
       this.singleWrite(connection, 'hot');
     }
 
     if (this.options.liveReload) {
       this.singleWrite(connection, 'liveReload');
-    }
-
-    if (this.options.client?.progress) {
-      this.singleWrite(connection, 'progress', this.options.client.progress);
-    }
-
-    if (this.options.client?.overlay) {
-      this.singleWrite(connection, 'overlay', this.options.client.overlay);
     }
 
     // send first stats to active client sock if stats exist
