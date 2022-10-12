@@ -12,8 +12,7 @@ console.log(process.env.NODE_ENV);
 console.log('development');
 ```
 
-Values of options record should be JSON-safe, so it can be serialized.
-And each key will be connected with the prefix `process.env`.
+Values of options record should be JSON-safe, so it can be serialized. And each key will be connected with the prefix `process.env`.
 
 The environment variable `NODE_ENV` will be added to `globalVars` by default, so you don't need to set it in manually.
 
@@ -24,6 +23,7 @@ const { NODE_ENV } = process.env;
 console.log(NODE_ENV);
 // ❌ Won't get a string.
 ```
+
 You can take `globalVars` as the syntax sugar of `define`, which makes it easier to set the value of global variables.
 
 ```js

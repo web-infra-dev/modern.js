@@ -39,7 +39,7 @@ If it is a function, the default parameters will be passed in, and you can retur
 ```ts
 export default {
   html: {
-    templateParameters: (defaultParameters) => {
+    templateParameters: defaultParameters => {
       console.log(defaultParameters.compilation);
       console.log(defaultParameters.title);
       return {
@@ -69,7 +69,7 @@ Or you can use a function to dynamically generate the parameters:
 ```js
 export default {
   html: {
-    templateParameters: (defaultParameters) => {
+    templateParameters: defaultParameters => {
       return {
         foo: 'bar',
       };
@@ -81,7 +81,9 @@ export default {
 Then you can use the `foo` parameter in the HTML template by `<%= foo %>`:
 
 ```html
-<script>window.foo = '<%= foo %>'</script>
+<script>
+  window.foo = '<%= foo %>';
+</script>
 ```
 
 The compiled HTML is:

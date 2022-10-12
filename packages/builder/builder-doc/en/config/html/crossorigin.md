@@ -7,16 +7,16 @@ When true is passed, it is automatically set to `crossorigin="anonymous"`.
 
 #### Example
 
-````js
+```js
 export default {
-   html: {
-     crossorigin: 'anonymous',
-   },
+  html: {
+    crossorigin: 'anonymous',
+  },
 };
-````
+```
 
 After compilation, the `<script>` tag in HTML becomes:
 
 ```html
 <script defer src="/static/js/main.js" crossorigin="anonymous"></script>
-````
+```

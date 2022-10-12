@@ -19,7 +19,7 @@ export default {
 
 ```ts
 interface CssExports {
-  'title': string;
+  title: string;
 }
 export const cssExports: CssExports;
 export default cssExports;

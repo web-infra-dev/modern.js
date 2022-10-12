@@ -89,22 +89,18 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 
 ##### CHAIN_ID.RULE
 
-| ID             | Description                         |
-| -------------- | ---------------------------- |
-| `RULE.MJS` | Rule for `mjs`
- |
-| `RULE.JS` | Rule for  `js`
- |
-| `RULE.TS` | Rule for `ts`
- |
-| `RULE.CSS` | Rule for `css`
- |
-| `RULE.LESS` | Rule for `less` |
-| `RULE.SASS` | Rule for `sass` |
-| `RULE.PUG` | Rule for `pug` |
-| `RULE.TOML` | Rule for `toml` |
-| `RULE.YAML` | Rule for `yaml` |
-| `RULE.FONT` | Rule for `font` |
+| ID           | Description      |
+| ------------ | ---------------- |
+| `RULE.MJS`   | Rule for `mjs`   |
+| `RULE.JS`    | Rule for `js`    |
+| `RULE.TS`    | Rule for `ts`    |
+| `RULE.CSS`   | Rule for `css`   |
+| `RULE.LESS`  | Rule for `less`  |
+| `RULE.SASS`  | Rule for `sass`  |
+| `RULE.PUG`   | Rule for `pug`   |
+| `RULE.TOML`  | Rule for `toml`  |
+| `RULE.YAML`  | Rule for `yaml`  |
+| `RULE.FONT`  | Rule for `font`  |
 | `RULE.IMAGE` | Rule for `image` |
 | `RULE.MEDIA` | Rule for `media` |
 
@@ -112,20 +108,19 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 
 `ONE_OF.XXX` can match a certain type of rule in the rule array.
 
-| ID                     | 描述                                                           |
-| ---------------------- | -------------------------------------------------------------- |
-| `ONE_OF.SVG`           | Rules for SVG, automatic choice between data URI and separate file |
-| `ONE_OF.SVG_URL`       | Rules for SVG, output as a separate file |
-| `ONE_OF.SVG_INLINE`    | Rules for SVG, inlined into bundles as data URIs |
-| `ONE_OF.SVG_ASSETS`        | Rules for SVG, automatic choice between data URI and separate file
- |
+| ID                  | Description                                                        |
+| ------------------- | ------------------------------------------------------------------ |
+| `ONE_OF.SVG`        | Rules for SVG, automatic choice between data URI and separate file |
+| `ONE_OF.SVG_URL`    | Rules for SVG, output as a separate file                           |
+| `ONE_OF.SVG_INLINE` | Rules for SVG, inlined into bundles as data URIs                   |
+| `ONE_OF.SVG_ASSETS` | Rules for SVG, automatic choice between data URI and separate file |
 
 ### CHAIN_ID.USE
 
 `USE.XXX` can match a certain loader.
 
-| ID                     | Description                                  |
-| ---------------------- | ------------------------------------- |
+| ID                     | Description                                    |
+| ---------------------- | ---------------------------------------------- |
 | `USE.TS`               | correspond to `ts-loader`                      |
 | `USE.CSS`              | correspond to `css-loader`                     |
 | `USE.LESS`             | correspond to `less-loader`                    |
@@ -147,39 +142,39 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 
 `PLUGIN.XXX` can match a certain webpack plugin.
 
-| ID                             | Description                                                                               |
-| ------------------------------ | ---------------------------------------------------------------------------------- |
-| `PLUGIN.HMR`                   | correspond to `HotModuleReplacementPlugin`                                                  |
-| `PLUGIN.COPY`                  | correspond to `CopyWebpackPlugin`                                                           |
+| ID                             | Description                                                                                                    |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `PLUGIN.HMR`                   | correspond to `HotModuleReplacementPlugin`                                                                     |
+| `PLUGIN.COPY`                  | correspond to `CopyWebpackPlugin`                                                                              |
 | `PLUGIN.HTML`                  | correspond to `HtmlWebpackPlugin`, you need to splice the entry name when using: `${PLUGIN.HTML}-${entryName}` |
-| `PLUGIN.DEFINE`                | correspond to `DefinePlugin`                                                                |
-| `PLUGIN.IGNORE`                | correspond to `IgnorePlugin`                                                                |
-| `PLUGIN.BANNER`                | correspond to `BannerPlugin`                                                                |
-| `PLUGIN.PROGRESS`              | correspond to `Webpackbar`                                                                  |
-| `PLUGIN.APP_ICON`              | correspond to `AppIconPlugin`                                                               |
-| `PLUGIN.LOADABLE`              | correspond to `LoadableWebpackPlugin`                                                       |
-| `PLUGIN.MANIFEST`              | correspond to `WebpackManifestPlugin`                                                       |
-| `PLUGIN.TS_CHECKER`            | correspond to `ForkTsCheckerWebpackPlugin`                                                  |
-| `PLUGIN.INLINE_HTML`           | correspond to `InlineChunkHtmlPlugin`                                                       |
-| `PLUGIN.BUNDLE_ANALYZER`       | correspond to `WebpackBundleAnalyzer`                                                       |
-| `PLUGIN.BOTTOM_TEMPLATE`       | correspond to `BottomTemplatePlugin`                                                        |
-| `PLUGIN.MINI_CSS_EXTRACT`      | correspond to `MiniCssExtractPlugin`                                                        |
-| `PLUGIN.REACT_FAST_REFRESH`    | correspond to `ReactFastRefreshPlugin`                                                      |
-| `PLUGIN.NODE_POLYFILL_PROVIDE` | correspond to `ProvidePlugin` for node polyfills                                          |
-| `PLUGIN.INSPECTOR`             | correspond to `@modern-js/inspector-webpack-plugin`                                         |
-| `PLUGIN.SUBRESOURCE_INTEGRITY` | correspond to `webpack-subresource-integrity`                                               |
-| `PLUGIN.ASSETS_RETRY`          | correspond to webpack static asset retry plugin in  Builder                                           |
-| `AUTO_SET_ROOT_SIZE`           | correspond to automatically set root font size plugin in Builder                                           |
+| `PLUGIN.DEFINE`                | correspond to `DefinePlugin`                                                                                   |
+| `PLUGIN.IGNORE`                | correspond to `IgnorePlugin`                                                                                   |
+| `PLUGIN.BANNER`                | correspond to `BannerPlugin`                                                                                   |
+| `PLUGIN.PROGRESS`              | correspond to `Webpackbar`                                                                                     |
+| `PLUGIN.APP_ICON`              | correspond to `AppIconPlugin`                                                                                  |
+| `PLUGIN.LOADABLE`              | correspond to `LoadableWebpackPlugin`                                                                          |
+| `PLUGIN.MANIFEST`              | correspond to `WebpackManifestPlugin`                                                                          |
+| `PLUGIN.TS_CHECKER`            | correspond to `ForkTsCheckerWebpackPlugin`                                                                     |
+| `PLUGIN.INLINE_HTML`           | correspond to `InlineChunkHtmlPlugin`                                                                          |
+| `PLUGIN.BUNDLE_ANALYZER`       | correspond to `WebpackBundleAnalyzer`                                                                          |
+| `PLUGIN.BOTTOM_TEMPLATE`       | correspond to `BottomTemplatePlugin`                                                                           |
+| `PLUGIN.MINI_CSS_EXTRACT`      | correspond to `MiniCssExtractPlugin`                                                                           |
+| `PLUGIN.REACT_FAST_REFRESH`    | correspond to `ReactFastRefreshPlugin`                                                                         |
+| `PLUGIN.NODE_POLYFILL_PROVIDE` | correspond to `ProvidePlugin` for node polyfills                                                               |
+| `PLUGIN.INSPECTOR`             | correspond to `@modern-js/inspector-webpack-plugin`                                                            |
+| `PLUGIN.SUBRESOURCE_INTEGRITY` | correspond to `webpack-subresource-integrity`                                                                  |
+| `PLUGIN.ASSETS_RETRY`          | correspond to webpack static asset retry plugin in Builder                                                     |
+| `AUTO_SET_ROOT_SIZE`           | correspond to automatically set root font size plugin in Builder                                               |
 
 ### CHAIN_ID.MINIMIZER
 
 `MINIMIZER.XXX` can match a certain minimizer.
 
-| ID                  | Description                             |
-| ------------------- | -------------------------------- |
-| `MINIMIZER.JS`      | 对应 `TerserWebpackPlugin`       |
-| `MINIMIZER.CSS`     | 对应 `CssMinimizerWebpackPlugin` |
-| `MINIMIZER.ESBUILD` | 对应 `ESBuildPlugin`             |
+| ID                  | Description                               |
+| ------------------- | ----------------------------------------- |
+| `MINIMIZER.JS`      | correspond to `TerserWebpackPlugin`       |
+| `MINIMIZER.CSS`     | correspond to `CssMinimizerWebpackPlugin` |
+| `MINIMIZER.ESBUILD` | correspond to `ESBuildPlugin`             |
 
 ### Examples
 
@@ -206,9 +201,7 @@ export default {
           return options;
         });
       // Delete loader
-      chain.module
-        .rule(CHAIN_ID.RULE.JS)
-        .uses.delete(CHAIN_ID.USE.BABEL);
+      chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
     },
   },
 };
@@ -221,12 +214,13 @@ export default {
   tools: {
     webpackChain: chain => {
       // Add plugin
-      chain.plugin('define')
-        .use(webpack.DefinePlugin, [{
+      chain.plugin('define').use(webpack.DefinePlugin, [
+        {
           'process.env': {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
           },
-        }]);
+        },
+      ]);
       // Modify plugin
       chain.plugin(CHAIN_ID.PLUGIN.HMR).tap(options => {
         options[0].fullBuildTimeout = 200;
