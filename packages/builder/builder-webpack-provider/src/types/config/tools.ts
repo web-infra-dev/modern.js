@@ -117,6 +117,4 @@ export interface ToolsConfig {
   inspector?: ToolsInspectorPluginOptions;
 }
 
-export interface NormalizedToolsConfig extends ToolsConfig {
-  devServer: DevServerOptions;
-}
+export type NormalizedToolsConfig = ToolsConfig;
