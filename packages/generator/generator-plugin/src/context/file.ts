@@ -55,8 +55,8 @@ export class PluginFileAPI {
       updateTextRawFile: this.updateTextRawFile.bind(this),
       rmFile: this.rmFile.bind(this),
       rmDir: this.rmDir.bind(this),
-      addHelper: this.handlebarAPI.addHelper.bind(this),
-      addPartial: this.handlebarAPI.addPartial.bind(this),
+      addHelper: this.handlebarAPI.addHelper.bind(this.handlebarAPI),
+      addPartial: this.handlebarAPI.addPartial.bind(this.handlebarAPI),
     };
   }
 
