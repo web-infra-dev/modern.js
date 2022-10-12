@@ -20,7 +20,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
         os: [windows-latest] # windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
