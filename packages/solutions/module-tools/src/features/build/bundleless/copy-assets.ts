@@ -41,8 +41,6 @@ const watchAssets = (
     outputDir: string;
   },
 ) => {
-  const appContext = api.useAppContext();
-  const modernConfig = api.useResolvedConfigContext();
   watch(
     `${targetDir}/**/*.*`,
     async ({ changeType, changedFilePath }) => {
@@ -55,7 +53,6 @@ const watchAssets = (
       }
       const file = path.relative(targetDir, changedFilePath);
       fs.copyFileSync(changedFilePath, path.resolve(outputDir, file));
-      await copyUtils.copyTask({ modernConfig, appContext });
     },
     ['**/*.{js,jsx,ts,tsx,d.ts,scss,less,css,sass}'],
   );
