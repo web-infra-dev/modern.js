@@ -18,6 +18,10 @@ This section describes some performance related configurations in Modern.js Buil
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/performance/chunkSplit.md)!!!
 
+## performance.profile
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/performance/profile.md)!!!
+
 ## performance.removeConsole
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/performance/removeConsole.md)!!!
