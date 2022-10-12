@@ -1,12 +1,12 @@
 import { manager } from '@modern-js/core';
-import plugin, { useHistory, useParams } from '../../src/router';
+import plugin, { useLocation, useParams } from '../../src/router';
 import cliPlugin from '../../src/router/cli';
 import RuntimePlugin from '../../src/cli';
 
 describe('plugin-router', () => {
   it('default', () => {
     expect(plugin).toBeDefined();
-    expect(useHistory).toBeDefined();
+    expect(useLocation).toBeDefined();
     expect(useParams).toBeDefined();
   });
 });
