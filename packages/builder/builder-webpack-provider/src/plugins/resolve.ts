@@ -1,3 +1,4 @@
+import type { ChainIdentifier } from '@modern-js/utils';
 import type { BuilderConfig, BuilderPlugin, WebpackChain } from '../types';
 
 function applyExtensions({
@@ -76,6 +77,43 @@ async function applyAlias({
   });
 }
 
+// compatible with legacy packages with type="module"
+// https://github.com/webpack/webpack/issues/11467
+function applyFullySpecified({
+  chain,
+  config,
+  CHAIN_ID,
+}: {
+  chain: WebpackChain;
+  config: BuilderConfig;
+  CHAIN_ID: ChainIdentifier;
+}) {
+  chain.module
+    .rule(CHAIN_ID.RULE.MJS)
+    .test(/\.m?js/)
+    .resolve.set('fullySpecified', false);
+
+  if (config.source?.compileJsDataURI) {
+    chain.module
+      .rule(CHAIN_ID.RULE.JS_DATA_URI)
+      .resolve.set('fullySpecified', false);
+  }
+}
+
+function applyMainFields({
+  chain,
+  config,
+}: {
+  chain: WebpackChain;
+  config: BuilderConfig;
+}) {
+  const resolveMainFields = config.source?.resolveMainFields;
+  if (!resolveMainFields) {
+    return;
+  }
+  chain.resolve.mainFields.merge(resolveMainFields);
+}
+
 export const PluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
 
@@ -85,10 +123,17 @@ export const PluginResolve = (): BuilderPlugin => ({
       const isTsProject = Boolean(api.context.tsconfigPath);
       const extensions = applyExtensions({ chain, config, isTsProject });
 
+      applyFullySpecified({ chain, config, CHAIN_ID });
+
       await applyAlias({
         chain,
         config,
         rootPath: api.context.rootPath,
+      });
+
+      applyMainFields({
+        chain,
+        config,
       });
 
       if (isTsProject) {
