@@ -26,10 +26,6 @@
       },
       "default": "./dist/js/treeshaking/runtime/index.js"
     },
-    "./types": {
-      "jsnext:source": "./lib/types.d.ts",
-      "default": "./lib/types.d.ts"
-    },
     "./runtime": {
       "jsnext:source": "./src/runtime/index.ts",
       "node": {
@@ -47,9 +43,6 @@
     "*": {
       ".": [
         "./dist/types/runtime/index.d.ts"
-      ],
-      "types": [
-        "./lib/types.d.ts"
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"
@@ -106,7 +99,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./type.d.ts"
+    "types": "./dist/types/index.d.ts"
   },
   "wireit": {
     "build": {

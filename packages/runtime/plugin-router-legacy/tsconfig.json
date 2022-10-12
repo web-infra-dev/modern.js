@@ -7,5 +7,5 @@
     "isolatedModules": true,
     "paths": {}
   },
-  "include": ["src", "types", "./type.d.ts"]
+  "include": ["src", "types"]
 }
