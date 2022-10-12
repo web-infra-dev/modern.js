@@ -1,7 +1,12 @@
 import path from 'path';
-import { getPackageManager, isMonorepo, fs } from '@modern-js/utils';
+import {
+  getPackageManager,
+  isMonorepo,
+  fs,
+  getPnpmVersion,
+} from '@modern-js/utils';
 import { tag as gitTag } from '@changesets/git';
-import { CHANGESET_PATH, execaWithStreamLog, getPnpmVersion } from '../utils';
+import { CHANGESET_PATH, execaWithStreamLog } from '../utils';
 
 interface ReleaseOptions {
   tag: string;
