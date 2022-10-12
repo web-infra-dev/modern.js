@@ -8,7 +8,7 @@ exports[`plugins/svg > export default Component 1`] = `
         "oneOf": [
           {
             "generator": {
-              "filename": "static/svg/[name].svg",
+              "filename": "static/svg/[name].[contenthash:8].svg",
             },
             "issuer": {
               "not": [
@@ -35,7 +35,7 @@ exports[`plugins/svg > export default Component 1`] = `
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": Infinity,
-                  "name": "static/svg/[name].svg",
+                  "name": "static/svg/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -54,7 +54,7 @@ exports[`plugins/svg > export default Component 1`] = `
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": false,
-                  "name": "static/svg/[name].svg",
+                  "name": "static/svg/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -86,7 +86,7 @@ exports[`plugins/svg > export default url 1`] = `
         "oneOf": [
           {
             "generator": {
-              "filename": "static/svg/[name].svg",
+              "filename": "static/svg/[name].[contenthash:8].svg",
             },
             "issuer": {
               "not": [
@@ -113,7 +113,7 @@ exports[`plugins/svg > export default url 1`] = `
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": Infinity,
-                  "name": "static/svg/[name].svg",
+                  "name": "static/svg/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -132,7 +132,7 @@ exports[`plugins/svg > export default url 1`] = `
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": false,
-                  "name": "static/svg/[name].svg",
+                  "name": "static/svg/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -150,7 +150,7 @@ exports[`plugins/svg > export default url 1`] = `
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": 10000,
-                  "name": "static/svg/[name].svg",
+                  "name": "static/svg/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -171,7 +171,7 @@ exports[`plugins/svg > should allow to use distPath.svg to modify dist path 1`] 
         "oneOf": [
           {
             "generator": {
-              "filename": "foo/[name].svg",
+              "filename": "foo/[name].[contenthash:8].svg",
             },
             "issuer": {
               "not": [
@@ -198,7 +198,7 @@ exports[`plugins/svg > should allow to use distPath.svg to modify dist path 1`] 
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": Infinity,
-                  "name": "foo/[name].svg",
+                  "name": "foo/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -217,7 +217,7 @@ exports[`plugins/svg > should allow to use distPath.svg to modify dist path 1`] 
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": false,
-                  "name": "foo/[name].svg",
+                  "name": "foo/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -235,7 +235,7 @@ exports[`plugins/svg > should allow to use distPath.svg to modify dist path 1`] 
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": 10000,
-                  "name": "foo/[name].svg",
+                  "name": "foo/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -341,7 +341,7 @@ exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data
         "oneOf": [
           {
             "generator": {
-              "filename": "static/svg/[name].svg",
+              "filename": "static/svg/[name].[contenthash:8].svg",
             },
             "issuer": {
               "not": [
@@ -368,7 +368,7 @@ exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": Infinity,
-                  "name": "static/svg/[name].svg",
+                  "name": "static/svg/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -387,7 +387,7 @@ exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": false,
-                  "name": "static/svg/[name].svg",
+                  "name": "static/svg/[name].[contenthash:8].svg",
                 },
               },
             ],
@@ -405,7 +405,7 @@ exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data
                 "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
                 "options": {
                   "limit": 666,
-                  "name": "static/svg/[name].svg",
+                  "name": "static/svg/[name].[contenthash:8].svg",
                 },
               },
             ],

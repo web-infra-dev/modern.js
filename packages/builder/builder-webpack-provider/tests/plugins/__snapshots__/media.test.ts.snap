@@ -6,7 +6,7 @@ exports[`plugins/media > should add media rules correctly 1`] = `
     "rules": [
       {
         "generator": {
-          "filename": "static/media/[name][ext]",
+          "filename": "static/media/[name].[contenthash:8][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],
@@ -25,7 +25,7 @@ exports[`plugins/media > should allow to use distPath.media to be empty string 1
     "rules": [
       {
         "generator": {
-          "filename": "[name][ext]",
+          "filename": "[name].[contenthash:8][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],
@@ -44,7 +44,7 @@ exports[`plugins/media > should allow to use distPath.media to modify dist path 
     "rules": [
       {
         "generator": {
-          "filename": "foo/[name][ext]",
+          "filename": "foo/[name].[contenthash:8][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],
