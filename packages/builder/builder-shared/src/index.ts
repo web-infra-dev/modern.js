@@ -3,7 +3,7 @@ export * from './constants';
 export * from './createHook';
 export * from './createPluginStore';
 export * from './createPublicContext';
-export * from './deepFreezed';
+export * from './utils';
 export * from './fs';
 export * from './getBrowserslist';
 export * from './logger';
