@@ -2,7 +2,6 @@ import { Server } from 'http';
 import { EventEmitter } from 'events';
 import { Compiler, MultiCompiler } from 'webpack';
 import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
-import type { NormalizedConfig } from '@modern-js/core';
 import {
   DevServerOptions,
   DevMiddlewareAPI,
@@ -14,7 +13,6 @@ import SocketServer from './socket-server';
 type Options = {
   compiler: MultiCompiler | Compiler | null;
   dev: DevServerOptions;
-  config: NormalizedConfig;
   devMiddleware?: CustomDevMiddleware;
 };
 
@@ -31,14 +29,11 @@ export default class DevMiddleware extends EventEmitter {
 
   private socketServer: SocketServer;
 
-  private config: NormalizedConfig;
-
-  constructor({ compiler, dev, config, devMiddleware }: Options) {
+  constructor({ compiler, dev, devMiddleware }: Options) {
     super();
 
     this.compiler = compiler;
     this.devOptions = dev;
-    this.config = config;
 
     // init socket server
     this.socketServer = new SocketServer(dev);
@@ -118,10 +113,10 @@ export default class DevMiddleware extends EventEmitter {
   private setupDevMiddleware(
     devMiddleware: CustomDevMiddleware = webpackDevMiddleware,
   ) {
-    const { config, devOptions } = this;
+    const { devOptions } = this;
 
     const middleware = devMiddleware(this.compiler!, {
-      headers: config.tools?.devServer?.headers,
+      headers: devOptions.headers,
       stats: false,
       ...devOptions.devMiddleware,
     });

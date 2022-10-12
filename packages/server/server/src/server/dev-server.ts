@@ -44,7 +44,6 @@ export class ModernDevServer extends ModernServer {
     this.devMiddleware = new DevMiddleware({
       dev: this.dev,
       compiler: options.compiler,
-      config: this.conf,
       devMiddleware: options.devMiddleware,
     });
 
@@ -128,7 +127,7 @@ export class ModernDevServer extends ModernServer {
   }
 
   private async applyDefaultMiddlewares(app: Server) {
-    const { conf, pwd, dev, devMiddleware } = this;
+    const { pwd, dev, devMiddleware } = this;
 
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
       // allow hmr request cross-domain, because the user may use global proxy
@@ -138,7 +137,7 @@ export class ModernDevServer extends ModernServer {
       }
 
       // 用户在 devServer 上配置的 headers 不会对 html 的请求生效，加入下面代码，使配置的 headers 对所有请求生效
-      const confHeaders = this.conf.tools.devServer?.headers;
+      const confHeaders = dev.headers;
       if (confHeaders) {
         for (const [key, value] of Object.entries(confHeaders)) {
           ctx.res.setHeader(key, value);
@@ -158,7 +157,7 @@ export class ModernDevServer extends ModernServer {
     });
 
     // dev proxy handler, each proxy has own handler
-    const proxyHandlers = createProxyHandler(conf.tools?.devServer?.proxy);
+    const proxyHandlers = createProxyHandler(dev.proxy);
     if (proxyHandlers) {
       proxyHandlers.forEach(handler => {
         this.addHandler(handler);
