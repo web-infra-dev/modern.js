@@ -24,12 +24,9 @@ async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {
   logger.info(message);
 }
 
-type DevServerOptions = InitConfigsOptions & {
-  serverOptions?: ModernDevServerOptions;
-};
-
 export async function createDevServer(
-  options: DevServerOptions,
+  options: InitConfigsOptions,
+  serverOptions: Partial<ModernDevServerOptions>,
   customCompiler?: Compiler | MultiCompiler,
 ) {
   const { Server } = await import('@modern-js/server');
@@ -72,7 +69,7 @@ export async function createDevServer(
       tools: {},
       server: {},
     } as any,
-    ...(options.serverOptions || {}),
+    ...serverOptions,
   });
 
   debug('create dev server done');
@@ -81,11 +78,12 @@ export async function createDevServer(
 }
 
 export async function startDevServer(
-  options: DevServerOptions,
+  options: InitConfigsOptions,
   {
     compiler,
     printURLs = true,
     strictPort = false,
+    serverOptions = {},
   }: StartDevServerOptions = {},
 ) {
   logger.log();
@@ -107,7 +105,7 @@ export async function startDevServer(
     port,
   };
 
-  const server = await createDevServer(options, compiler);
+  const server = await createDevServer(options, serverOptions, compiler);
 
   await options.context.hooks.onBeforeStartDevServerHooks.call();
 
