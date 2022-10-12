@@ -21499,7 +21499,7 @@ packages:
       deepmerge: 4.2.2
       he: 1.2.0
       htmlparser2: 6.1.0
-      minimist: 1.2.6
+      minimist: 1.2.7
     dev: true
 
   /html-void-elements/1.0.5:
@@ -25054,7 +25054,7 @@ packages:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.7
 
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
