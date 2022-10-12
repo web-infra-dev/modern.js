@@ -3,7 +3,7 @@
 你有两种方式开启 `webpack-bundle-analyzer` 来分析打包结果:
 
 - 添加环境变量`BUNDLE_ANALYZE=true`；
-- 配置 `tools.bundleAnalyze`。
+- 配置 `performance.bundleAnalyze`。
 
 默认情况下，不会开启 `webpack-bundle-analyzer`，当开启之后它的配置如下:
 
@@ -16,11 +16,11 @@
 }
 ```
 
-你可以通过 `tools.bundleAnalyze` 来覆盖默认配置，比如：
+你可以通过 `performance.bundleAnalyze` 来覆盖默认配置，比如：
 
 ```js
 export default {
-  tools: {
+  performance: {
     bundleAnalyze: {
       analyzerMode: 'server',
       openAnalyzer: true,

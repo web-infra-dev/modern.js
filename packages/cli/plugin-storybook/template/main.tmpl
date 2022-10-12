@@ -14,7 +14,7 @@ if (fs.existsSync(userMainPath)) {
   userMainConfig = require(userMainPath);
 }
 
-let { stories } = userMainConfig;
+let { stories, managerWebpack } = userMainConfig;
 if (stories && Array.isArray(stories)) {
   stories = stories.map(sto => path.resolve(sbConfigDir, sto));
 } else {
@@ -55,6 +55,11 @@ module.exports = {
   },
   managerWebpack(config, options) {
     const { customManagerWebpack = () => config } = options;
+
+    if (typeof managerWebpack === 'function') {
+      return managerWebpack(config, options);
+    }
+
     return customManagerWebpack(config);
   },
   core: {

@@ -1,4 +1,4 @@
-import { getBrowserslist } from '../shared';
+import { getBrowserslist } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginTarget = (): BuilderPlugin => ({

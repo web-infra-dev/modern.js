@@ -1,7 +1,3 @@
-import type { BuilderConfig } from '../types';
-
-export const DEFAULT_BROWSERSLIST = ['> 0.01%', 'not dead', 'not op_mini all'];
-
 // using cache to avoid multiple calls to loadConfig
 const browsersListCache = new Map<string, string[]>();
 
@@ -21,16 +17,4 @@ export async function getBrowserslist(path: string) {
   }
 
   return null;
-}
-
-export async function getBrowserslistWithDefault(
-  path: string,
-  config: BuilderConfig,
-) {
-  if (config?.output?.overrideBrowserslist) {
-    return config.output.overrideBrowserslist;
-  }
-
-  const result = await getBrowserslist(path);
-  return result || DEFAULT_BROWSERSLIST;
 }

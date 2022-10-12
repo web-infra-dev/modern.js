@@ -160,10 +160,15 @@ type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
 };
 
-function StartDevServer(options?: StartDevServerOptions): Promise<{
+type StartDevServerResult = {
   urls: string[];
   port: number;
-}>;
+  server: Server;
+};
+
+function StartDevServer(
+  options?: StartDevServerOptions
+): Promise<StartDevServerResult>;
 ```
 
 - **Example**
@@ -174,12 +179,19 @@ function StartDevServer(options?: StartDevServerOptions): Promise<{
 await builder.startDevServer();
 ```
 
-`startDevServer` 会返回 `urls` 和 `port`， `urls` 代表访问 Dev Server 的 URLs，`port` 代表实际监听的端口号：
+`startDevServer` 会返回以下参数：
+
+- `urls`：访问 Dev Server 的 URLs
+- `port` 实际监听的端口号
+- `server`：Server 实例对象
 
 ```ts
-const { urls, port } = await builder.startDevServer();
+const { urls, port, server } = await builder.startDevServer();
 console.log(urls); // ['http://localhost:8080', 'http://192.168.0.1:8080']
 console.log(port); // 8080
+
+// 关闭 Dev Server
+await server.close();
 ```
 
 ### 自定义 URL 输出

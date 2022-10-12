@@ -1,5 +1,4 @@
 import { join } from 'path';
-import type { BuilderConfig, DistPathConfig, FilenameConfig } from '../types';
 import {
   CSS_DIST_DIR,
   FONT_DIST_DIR,
@@ -9,15 +8,8 @@ import {
   MEDIA_DIST_DIR,
   ROOT_DIST_DIR,
   SVG_DIST_DIR,
-} from './constants';
-
-export async function isFileExists(file: string) {
-  const { promises, constants } = await import('fs');
-  return promises
-    .access(file, constants.F_OK)
-    .then(() => true)
-    .catch(() => false);
-}
+} from '@modern-js/builder-shared';
+import type { BuilderConfig, DistPathConfig, FilenameConfig } from '../types';
 
 export const getCompiledPath = (packageName: string) =>
   join(__dirname, '../../compiled', packageName);

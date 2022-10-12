@@ -1,8 +1,6 @@
 import { join } from 'path';
+import { JS_REGEX, TS_REGEX, SVG_REGEX } from '@modern-js/builder-shared';
 import {
-  JS_REGEX,
-  TS_REGEX,
-  SVG_REGEX,
   getDistPath,
   getFilename,
   getDataUrlLimit,
