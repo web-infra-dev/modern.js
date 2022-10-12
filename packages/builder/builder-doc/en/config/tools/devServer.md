@@ -204,17 +204,33 @@ export default {
     devServer: {
       setupMiddlewares: [
         (middlewares, server) => {
-          // add custom watch & trigger page reload when change
-          watcher.on('change', changed => {
-            server.sockWrite('content-changed');
-          });
-
           middlewares.unshift((req, res, next) => {
             next();
           });
 
           middlewares.push((req, res, next) => {
             next();
+          });
+        },
+      ],
+    },
+  },
+};
+```
+
+It is possible to use some server api to meet special scenario requirements:
+
+- sockWrite. Allow send some message to hmr client, and then the hmr client will take different actions depending on the message type. If you send a "content changed" message, the page will reload.
+
+```js
+export default {
+  tools: {
+    devServer: {
+      setupMiddlewares: [
+        (middlewares, server) => {
+          // add custom watch & trigger page reload when change
+          watcher.on('change', changed => {
+            server.sockWrite('content-changed');
           });
         },
       ],
