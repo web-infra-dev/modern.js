@@ -1,9 +1,8 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { createBrowserHistory } from 'history';
 import { createApp, createPlugin } from '../../src/core';
 import createRouterPlugin, { useLocation } from '../../src/router/runtime';
-import { useHistory } from '../../src/router';
+import { useNavigate } from '../../src/router';
 import { DefaultNotFound } from '../../src/router/runtime/DefaultNotFound';
 
 describe('@modern-js/plugin-router', () => {
@@ -88,53 +87,9 @@ describe('@modern-js/plugin-router', () => {
     expect(mockCallback).toHaveBeenCalledTimes(1);
   });
 
-  it('custom history', () => {
-    const history = createBrowserHistory();
-    const customHistory = {
-      ...history,
-      push: jest.fn(),
-    };
-
-    const AppWrapper = createApp({
-      plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
-        })),
-        createRouterPlugin({
-          history: customHistory,
-        }),
-      ],
-    })(App);
-
-    interface Props {
-      test: number;
-    }
-    function App({ test }: Props) {
-      const _history = useHistory();
-      return (
-        <div>
-          App:{test}
-          <button
-            type="button"
-            onClick={() => {
-              _history.push('/');
-            }}
-            data-testid="nav"
-          >
-            Go
-          </button>
-        </div>
-      );
-    }
-
-    const { container } = render(<AppWrapper test={1} />);
-    expect(container.firstChild?.textContent).toContain('App:1');
-    fireEvent.click(screen.getByTestId('nav'));
-  });
-
   it('hash router could work', async () => {
     function App({ test }: any) {
-      const _history = useHistory();
+      const navigate = useNavigate();
       const location = useLocation();
       return (
         <div>
@@ -143,7 +98,7 @@ describe('@modern-js/plugin-router', () => {
             type="button"
             data-testid="go"
             onClick={() => {
-              _history.push('/home');
+              navigate('/home');
             }}
           >
             Go

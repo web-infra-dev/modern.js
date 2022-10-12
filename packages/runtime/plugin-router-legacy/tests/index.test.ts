@@ -1,9 +1,9 @@
 import { manager } from '@modern-js/core';
-import plugin, { useHistory, useParams } from '../src/';
+import RuntimePlugin from '@modern-js/runtime/cli';
+import plugin, { useHistory, useParams } from '../src';
 import cliPlugin from '../src/cli';
-import RuntimePlugin from '@modern-js/runtime';
 
-describe('plugin-router', () => {
+describe('plugin-router-legacy', () => {
   it('default', () => {
     expect(plugin).toBeDefined();
     expect(useHistory).toBeDefined();
@@ -11,7 +11,7 @@ describe('plugin-router', () => {
   });
 });
 
-describe('cli-router', () => {
+describe('cli-router-legacy', () => {
   const main = manager.clone().usePlugin(RuntimePlugin, cliPlugin);
   let runner: any;
 
@@ -19,11 +19,11 @@ describe('cli-router', () => {
     runner = await main.init();
   });
 
-  test('should plugin-router defined', async () => {
+  test('should plugin-router-legacy defined', async () => {
     expect(cliPlugin).toBeDefined();
   });
 
-  it('plugin-router cli config is defined', async () => {
+  it('plugin-router-legacy cli config is defined', async () => {
     const config = await runner.config();
     expect(
       config.find(
@@ -32,7 +32,7 @@ describe('cli-router', () => {
     ).toBeTruthy();
   });
 
-  it('plugin-router cli schema is defined', async () => {
+  it('plugin-router-legacy cli schema is defined', async () => {
     const result = await runner.validateSchema();
     expect(
       result.find((item: any) =>

@@ -3,7 +3,9 @@ import { getPort } from '../../../utils/testCase';
 
 module.exports = defineConfig({
   runtime: {
-    router: {},
+    router: {
+      legacy: true,
+    },
     // state: true,
   },
   deploy: {

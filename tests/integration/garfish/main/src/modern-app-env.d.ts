@@ -5,3 +5,7 @@
 /// <reference types='@modern-js/plugin-koa/types' />
 /// <reference types='@modern-js/plugin-egg/types' />
 /// <reference types='@modern-js/plugin-nest/types' />
+
+declare module '@modern-js/runtime/router' {
+  export * from '@modern-js/plugin-router-legacy';
+}
