@@ -76,6 +76,20 @@ async function applyAlias({
   });
 }
 
+function applyMainFields({
+  chain,
+  config,
+}: {
+  chain: WebpackChain;
+  config: BuilderConfig;
+}) {
+  const resolveMainFields = config.source?.resolveMainFields;
+  if (!resolveMainFields) {
+    return;
+  }
+  chain.resolve.mainFields.merge(resolveMainFields);
+}
+
 export const PluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
 
@@ -89,6 +103,11 @@ export const PluginResolve = (): BuilderPlugin => ({
         chain,
         config,
         rootPath: api.context.rootPath,
+      });
+
+      applyMainFields({
+        chain,
+        config,
       });
 
       if (isTsProject) {
