@@ -1,6 +1,7 @@
 ---
 extractApiHeaders: [2]
 ---
+
 # Tools Config
 
 本章节描述了 Builder 中与底层工具有关的配置。

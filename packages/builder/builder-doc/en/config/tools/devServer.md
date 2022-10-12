@@ -168,8 +168,7 @@ export default {
 - Type: `boolean`
 - Default: `true`
 
-By default, the DevServer will reload/refresh the page when file changes are detected（`devServer.hot` option must be disabled in order for liveReload to take effect）.
-Disable `devServer.liveReload` by setting it to `false`.
+By default, the DevServer will reload/refresh the page when file changes are detected（`devServer.hot` option must be disabled in order for liveReload to take effect）. Disable `devServer.liveReload` by setting it to `false`.
 
 #### setupMiddlewares
 

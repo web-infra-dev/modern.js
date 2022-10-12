@@ -5,19 +5,19 @@
 
 When `moment.js` is used in the project, it is recommended to enable this option to automatically exclude all locales:
 
-````js
+```js
 export default {
-   performance: {
-     removeMomentLocale: true,
-   },
+  performance: {
+    removeMomentLocale: true,
+  },
 };
-````
+```
 
 Once enabled, you can load a specific locale via:
 
-````js
+```js
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
 moment.locale('zh-cn');
-````
+```
