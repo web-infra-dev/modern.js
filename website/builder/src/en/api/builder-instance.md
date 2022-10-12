@@ -158,6 +158,8 @@ type StartDevServerOptions = {
   strictPort?: boolean;
   // custom Compiler object
   compiler?: Compiler | MultiCompiler;
+  // passing through the build-independent dev server configuration
+  serverOptions?: Partial<ModernDevServerOptions>;
 };
 
 type StartDevServerResult = {

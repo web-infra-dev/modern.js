@@ -158,6 +158,8 @@ type StartDevServerOptions = {
   strictPort?: boolean;
   // 自定义 Compiler 对象
   compiler?: Compiler | MultiCompiler;
+  // 透传与构建无关的 dev server 配置
+  serverOptions?: Partial<ModernDevServerOptions>;
 };
 
 type StartDevServerResult = {

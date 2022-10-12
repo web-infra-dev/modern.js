@@ -2,7 +2,7 @@ import type { PluginStore } from './plugin';
 import type { BuilderContext } from './context';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderMode, CreateBuilderOptions } from './builder';
-import type { Server } from '@modern-js/server';
+import type { Server, ModernDevServerOptions } from '@modern-js/server';
 
 export type Bundler = 'webpack' | 'rspack';
 
@@ -12,6 +12,7 @@ export type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
   printURLs?: boolean;
   strictPort?: boolean;
+  serverOptions?: Partial<ModernDevServerOptions>;
 };
 
 export type BuildOptions = {
