@@ -10,6 +10,11 @@ export const createBuilder = async () => {
     builderConfig: {
       tools: {
         inspector: {},
+        devServer: {
+          headers: {
+            'X-Custom-Foo': 'bar',
+          },
+        },
       },
     },
   });
