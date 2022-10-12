@@ -1,6 +1,7 @@
 import path from 'path';
 import { Libuilder, CLIConfig } from '@modern-js/libuild';
 import { es5OutputPlugin } from '@modern-js/libuild-plugin-es5';
+import { applyOptionsChain, ensureAbsolutePath } from '@modern-js/utils';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
@@ -83,14 +84,60 @@ export const generatorDts = async (
 
 export const buildLib = async (
   config: BaseBuildConfig,
-  _: PluginAPI,
+  api: PluginAPI,
   sourceConfig: SourceConfig,
   watch: boolean,
 ) => {
   const { target, buildType, sourceMap, format, path: distPath } = config;
+  const { appDirectory, srcDirectory } = api.useAppContext();
+  // TODO: style
+  const style = {};
 
-  // TODO: Implementation of sourceConfig
-  console.info(sourceConfig);
+  // sourceConfig
+  const { envVars, globalVars, alias: userAlias } = sourceConfig;
+  const envVarsDefine = [...(envVars || [])].reduce<Record<string, string>>(
+    (memo, name) => {
+      memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
+      return memo;
+    },
+    {},
+  );
+  const globalVarsDefine = Object.keys(globalVars || {}).reduce<
+    Record<string, string>
+  >((memo, name) => {
+    memo[name] = globalVars ? JSON.stringify(globalVars[name]) : '';
+    return memo;
+  }, {});
+  const define = {
+    ...envVarsDefine,
+    ...globalVarsDefine,
+  };
+  const defaultAlias = {
+    '@': srcDirectory,
+  };
+
+  const mergedAlias = applyOptionsChain(defaultAlias, userAlias);
+
+  const alias = Object.keys(mergedAlias).reduce((o, name) => {
+    return {
+      ...o,
+      [name]: ensureAbsolutePath(appDirectory, mergedAlias[name]),
+    };
+  }, {});
+
+  const commonLiBuildConfig: CLIConfig = {
+    root: appDirectory,
+    watch,
+    target,
+    sourceMap,
+    format,
+    outdir: distPath,
+    define,
+    style,
+    resolve: {
+      alias,
+    },
+  };
 
   if (buildType === 'bundle') {
     const {
@@ -111,27 +158,33 @@ export const buildLib = async (
 
     const plugins = target === 'es5' ? [es5OutputPlugin()] : [];
     const bundleConfig: CLIConfig = {
+      ...commonLiBuildConfig,
       platform,
-      watch,
       input: entry,
-      target,
-      outdir: distPath,
-      format,
       jsx,
       metafile,
       globals,
       entryNames,
       asset: assets,
       splitting,
-      // style,
-      // resolve: { alias },
-      // define,
-      sourceMap,
       minify,
       external: externals,
       plugins,
       getModuleId,
     };
     await Libuilder.run(bundleConfig);
+  } else {
+    const {
+      bundlelessOptions: { sourceDir, assets },
+    } = config;
+    const bundlelessConfig: CLIConfig = {
+      ...commonLiBuildConfig,
+      sourceDir,
+      asset: {
+        outdir: assets.path,
+      },
+      bundle: false,
+    };
+    await Libuilder.run(bundlelessConfig);
   }
 };
