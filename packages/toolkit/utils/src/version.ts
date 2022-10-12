@@ -1,5 +1,11 @@
 import path from 'path';
+import execa from 'execa';
 import { fs, semver } from './compiled';
+
+export async function getPnpmVersion() {
+  const { stdout } = await execa('pnpm', ['--version']);
+  return stdout;
+}
 
 export const isReact18 = (cwd: string) => {
   const pkgPath = path.join(cwd, 'package.json');
