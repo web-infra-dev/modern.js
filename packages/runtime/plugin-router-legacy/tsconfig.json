@@ -3,9 +3,9 @@
   "compilerOptions": {
     "declaration": false,
     "jsx": "preserve",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "isolatedModules": true,
     "paths": {}
   },
-  "include": ["src", "types"]
+  "include": ["src", "types", "tests"]
 }

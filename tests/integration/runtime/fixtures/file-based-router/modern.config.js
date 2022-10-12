@@ -1,5 +1,7 @@
 module.exports = {
   runtime: {
-    router: true,
+    router: {
+      legacy: true,
+    },
   },
 };

@@ -1,11 +1,12 @@
+import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
 import { createApp, createPlugin } from '@modern-js/runtime';
 import createRouterPlugin, { useLocation } from '../src/runtime';
-import { useHistory } from '../src/';
+import { useHistory } from '../src';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
-describe('@modern-js/plugin-router', () => {
+describe('@modern-js/plugin-router-legacy', () => {
   it('base usage', () => {
     const AppWrapper = createApp({
       plugins: [

@@ -1,4 +1,5 @@
 import { Config } from './dist/types/runtime/useModuleApps';
+import '@modern-js/plugin-router-legacy';
 
 declare module '@modern-js/runtime' {
   export const useModuleApp: typeof import('./dist/types/runtime').useModuleApp;
@@ -7,6 +8,6 @@ declare module '@modern-js/runtime' {
 
 declare module '@modern-js/core' {
   interface RuntimeConfig {
-    masterApp?: Config
+    masterApp?: Config;
   }
 }
