@@ -22,9 +22,11 @@ export class InlineChunkHtmlPlugin {
 
   getInlinedScriptTag(
     publicPath: string,
-    assets: Compilation['assets'],
     tag: HtmlTagObject,
+    compilation: Compilation,
   ) {
+    const { assets } = compilation;
+
     if (!(tag?.attributes.src && isString(tag.attributes.src))) {
       return tag;
     }
@@ -44,14 +46,20 @@ export class InlineChunkHtmlPlugin {
       innerHTML: asset.source(),
       closeTag: true,
     };
+
+    // remove script file from assets because it has already been inlined
+    compilation.deleteAsset(scriptName);
+
     return ret;
   }
 
   getInlinedCSSTag(
     publicPath: string,
-    assets: Compilation['assets'],
     tag: HtmlTagObject,
+    compilation: Compilation,
   ) {
+    const { assets } = compilation;
+
     if (!(tag.attributes.href && isString(tag.attributes.href))) {
       return tag;
     }
@@ -64,20 +72,29 @@ export class InlineChunkHtmlPlugin {
       return tag;
     }
     const asset = assets[linkName];
-    return {
+    const ret = {
       tagName: 'style',
       innerHTML: asset.source(),
       closeTag: true,
     };
+
+    // remove css file from assets because it has already been inlined
+    compilation.deleteAsset(linkName);
+
+    return ret;
   }
 
   getInlinedTag(
     publicPath: string,
-    assets: Compilation['assets'],
     tag: HtmlTagObject,
+    compilation: Compilation,
   ) {
     if (tag.tagName === 'script') {
-      return this.getInlinedScriptTag(publicPath, assets, tag) as HtmlTagObject;
+      return this.getInlinedScriptTag(
+        publicPath,
+        tag,
+        compilation,
+      ) as HtmlTagObject;
     }
 
     if (
@@ -85,7 +102,11 @@ export class InlineChunkHtmlPlugin {
       tag.attributes &&
       tag.attributes.rel === 'stylesheet'
     ) {
-      return this.getInlinedCSSTag(publicPath, assets, tag) as HtmlTagObject;
+      return this.getInlinedCSSTag(
+        publicPath,
+        tag,
+        compilation,
+      ) as HtmlTagObject;
     }
 
     return tag;
@@ -101,7 +122,7 @@ export class InlineChunkHtmlPlugin {
       'InlineChunkHtmlPlugin',
       (compilation: Compilation) => {
         const tagFunction = (tag: HtmlTagObject) =>
-          this.getInlinedTag(publicPath as string, compilation.assets, tag);
+          this.getInlinedTag(publicPath as string, tag, compilation);
 
         const hooks = this.htmlWebpackPlugin.getHooks(compilation);
 
