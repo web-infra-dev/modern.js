@@ -13,12 +13,15 @@ describe('dev cli subCmd', () => {
     }));
   });
   it('should be storybook with "dev storybook"', async () => {
+    const mockAfterDev = jest.fn();
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
         distDirectory: '',
       })),
       useResolvedConfigContext: jest.fn(),
-      useHookRunners: (): any => ({}),
+      useHookRunners: (): any => ({
+        afterDev: mockAfterDev,
+      }),
     };
     const cloned = manager.clone(mockAPI);
     cloned.usePlugin({
@@ -34,6 +37,7 @@ describe('dev cli subCmd', () => {
   it('should be undefined with "dev"', async () => {
     const mockBeforeBuild = jest.fn();
     const mockAfterBuild = jest.fn();
+    const mockAfterDev = jest.fn();
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
         distDirectory: '',
@@ -42,6 +46,7 @@ describe('dev cli subCmd', () => {
       useHookRunners: (): any => ({
         afterBuild: mockAfterBuild,
         beforeBuild: mockBeforeBuild,
+        afterDev: mockAfterDev,
       }),
     };
     const cloned = manager.clone(mockAPI);
