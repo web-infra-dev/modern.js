@@ -28,20 +28,7 @@ export const createDefaultConfig = () =>
       crossorigin: false,
       disableHtmlFolder: false,
     },
-    tools: {
-      tsChecker: {},
-      // babel: {},  -> should be closable explicitly
-      devServer: {
-        client: {},
-        devMiddleware: {
-          writeToDisk: true,
-        },
-        hot: true,
-        liveReload: true,
-        watch: true,
-        https: false,
-      },
-    },
+    tools: {},
     source: {
       preEntry: [],
       globalVars: {},
