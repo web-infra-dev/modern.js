@@ -77,6 +77,7 @@ async function applyAlias({
   });
 }
 
+
 // compatible with legacy packages with type="module"
 // https://github.com/webpack/webpack/issues/11467
 function applyFullySpecified({
@@ -100,6 +101,20 @@ function applyFullySpecified({
   }
 }
 
+function applyMainFields({
+  chain,
+  config,
+}: {
+  chain: WebpackChain;
+  config: BuilderConfig;
+}) {
+  const resolveMainFields = config.source?.resolveMainFields;
+  if (!resolveMainFields) {
+    return;
+  }
+  chain.resolve.mainFields.merge(resolveMainFields);
+}
+
 export const PluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
 
@@ -115,6 +130,11 @@ export const PluginResolve = (): BuilderPlugin => ({
         chain,
         config,
         rootPath: api.context.rootPath,
+      });
+
+      applyMainFields({
+        chain,
+        config,
       });
 
       if (isTsProject) {

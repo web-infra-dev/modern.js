@@ -53,7 +53,7 @@ describe('plugins/resolve', () => {
       foo: 'bar',
     });
   });
-
+  
   it('should disable resolve.fullySpecified by default', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginResolve()],
@@ -66,5 +66,21 @@ describe('plugins/resolve', () => {
     const config = await builder.unwrapWebpackConfig();
 
     expect(config).toMatchSnapshot();
+  });
+
+  it('should support custom webpack resolve.mainFields', async () => {
+    const mainFieldsOption = ['main', 'test', 'broswer', ['module', 'exports']];
+
+    const builder = await createStubBuilder({
+      plugins: [PluginResolve()],
+      builderConfig: {
+        source: {
+          resolveMainFields: mainFieldsOption,
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config.resolve?.mainFields).toEqual(mainFieldsOption);
   });
 });

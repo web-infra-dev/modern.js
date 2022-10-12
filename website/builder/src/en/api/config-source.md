@@ -14,7 +14,6 @@ This section describes some source code related configurations in Modern.js Buil
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/include.md)!!!
 
-
 ## source.compileJsDataURI
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/compileJsDataURI.md)!!!
@@ -38,3 +37,7 @@ This section describes some source code related configurations in Modern.js Buil
 ## source.resolveExtensionPrefix
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/resolveExtensionPrefix.md)!!!
+
+## source.resolveMainFields
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/source/resolveMainFields.md)!!!
