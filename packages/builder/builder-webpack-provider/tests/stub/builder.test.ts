@@ -75,7 +75,15 @@ describe('stub-builder', () => {
       config.dev.hmr = false;
     });
     const changes = await builder.unwrapConfigChanges();
-    expect(changes).toMatchSnapshot();
+    const lines = changes.map(change =>
+      change.stack![0].replace(/:\d+:\d+(\)?)$/, ':<POS>$1'),
+    );
+    expect(lines).toMatchInlineSnapshot(`
+      [
+        "    at <ROOT>/packages/builder/builder-webpack-provider/tests/stub/builder.test.ts:<POS>",
+        "    at <ROOT>/packages/builder/builder-webpack-provider/tests/stub/builder.test.ts:<POS>",
+      ]
+    `);
   });
 });
 

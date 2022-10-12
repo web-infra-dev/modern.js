@@ -96,6 +96,8 @@ export interface ConfigChange<T> {
   stack?: string[];
 }
 
+const _configChangeIgnores: (string | RegExp)[][] = [['at Function.freeze']];
+
 /**
  * Create stub builder for testing.
  * Some behaviors will be different to common `createBuilder`.
@@ -124,19 +126,33 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     context.config = onChange(
       context.config,
       (path: string, value: unknown, prevValue: unknown) => {
-        const stacks = new Error().stack?.split('\n').slice(1) || [];
+        let stack = new Error().stack?.split('\n').slice(1) || [];
         let findFirst = false;
-        const effectiveStackStarts = stacks.findIndex(
+        const effectiveStackStarts = stack.findIndex(
           line =>
             !line.includes('/node_modules/') &&
             !line.includes('/webpack-builder/src/') &&
             !(findFirst = !findFirst),
         );
+        stack = stack.slice(effectiveStackStarts);
+        for (const ignores of _configChangeIgnores) {
+          for (let i = 0; i < ignores.length; i++) {
+            const ignore = ignores[i];
+            const received = stack[i];
+            if (received) {
+              if (typeof ignore === 'string' && received.includes(ignore)) {
+                return;
+              } else if (ignore instanceof RegExp && ignore.test(received)) {
+                return;
+              }
+            }
+          }
+        }
         configChanges.push({
           path,
           value,
           prevValue,
-          stack: stacks.slice(effectiveStackStarts),
+          stack,
         });
       },
     );
