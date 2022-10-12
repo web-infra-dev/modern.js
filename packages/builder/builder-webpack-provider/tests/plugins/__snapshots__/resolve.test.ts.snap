@@ -1,0 +1,29 @@
+// Vitest Snapshot v1
+
+exports[`plugins/resolve > should disable resolve.fullySpecified by default 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+      },
+    ],
+  },
+  "resolve": {
+    "extensions": [
+      ".mjs",
+      ".js",
+      ".jsx",
+      ".json",
+    ],
+  },
+}
+`;
