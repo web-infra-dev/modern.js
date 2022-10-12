@@ -79,5 +79,6 @@ export const applyDefaultPlugins = () =>
     import('../plugins/inlineChunk').then(m => m.PluginInlineChunk()),
     import('../plugins/assetsRetry').then(m => m.PluginAssetsRetry()),
     import('../plugins/externals').then(m => m.PluginExternals()),
+    import('../plugins/performance').then(m => m.PluginPerformance()),
     import('../plugins/fallback').then(m => m.PluginFallback()), // fallback should be the last plugin
   ]);
