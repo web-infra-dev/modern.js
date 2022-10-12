@@ -1,24 +1,7 @@
 import chalk from '@modern-js/utils/chalk';
+import { logger } from '@modern-js/utils/logger';
 
 export const isDebug = () => process.env.DEBUG === 'builder';
-
-const log = (message = '') => {
-  // eslint-disable-next-line no-console
-  console.log(message);
-};
-
-const info = (message: string) => {
-  // eslint-disable-next-line no-console
-  console.log(`${chalk.cyan.bold('info')} ${message}`);
-};
-
-const warn = (message: string) => {
-  console.warn(`${chalk.yellow.bold('warn')} ${message}`);
-};
-
-const error = (message: string | Error) => {
-  console.error(`${chalk.red.bold('error')} ${message}`);
-};
 
 export const debug = (message: string | (() => string)) => {
   if (isDebug()) {
@@ -29,10 +12,4 @@ export const debug = (message: string | (() => string)) => {
   }
 };
 
-export const logger = {
-  log,
-  info,
-  warn,
-  error,
-  debug,
-};
+export { logger };
