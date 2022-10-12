@@ -1,0 +1,37 @@
+import { describe, it, expect } from 'vitest';
+import { PluginPerformance } from '../../src/plugins/performance';
+import { createStubBuilder } from '../../src/stub';
+
+describe('plugins/performance', () => {
+  it('should not set profile configuration', async () => {
+    const builder1 = await createStubBuilder();
+    const config1 = await builder1.unwrapWebpackConfig();
+
+    expect(config1.profile).toBeFalsy();
+
+    const builder2 = await createStubBuilder({
+      plugins: [PluginPerformance()],
+      builderConfig: {
+        performance: {
+          profile: false,
+        },
+      },
+    });
+    const config2 = await builder2.unwrapWebpackConfig();
+    expect(config2.profile).toBeFalsy();
+  });
+
+  it('should capture timing information for each module', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginPerformance()],
+      builderConfig: {
+        performance: {
+          profile: true,
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config.profile).toBeTruthy();
+  });
+});

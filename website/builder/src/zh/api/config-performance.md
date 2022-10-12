@@ -18,6 +18,10 @@ extractApiHeaders: [2]
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/performance/chunkSplit.md)!!!
 
+## performance.profile
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/performance/profile.md)!!!
+
 ## performance.removeConsole
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/performance/removeConsole.md)!!!
