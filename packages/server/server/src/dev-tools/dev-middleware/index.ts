@@ -81,6 +81,13 @@ export default class DevMiddleware extends EventEmitter {
     }
   }
 
+  public sockWrite(
+    type: string,
+    data?: Record<string, any> | string | boolean,
+  ) {
+    this.socketServer.sockWrite(type, data);
+  }
+
   private setupHooks() {
     const invalidPlugin = () => {
       this.socketServer.sockWrite('invalid');
