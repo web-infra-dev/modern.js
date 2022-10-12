@@ -169,7 +169,7 @@ type StartDevServerResult = {
 };
 
 function StartDevServer(
-  options?: StartDevServerOptions
+  options?: StartDevServerOptions,
 ): Promise<StartDevServerResult>;
 ```
 
@@ -262,7 +262,7 @@ type AddPluginsOptions = { before?: string } | { after?: string };
 
 function AddPlugins(
   plugins: BuilderPlugins[],
-  options?: AddPluginsOptions
+  options?: AddPluginsOptions,
 ): Promise<void>;
 ```
 

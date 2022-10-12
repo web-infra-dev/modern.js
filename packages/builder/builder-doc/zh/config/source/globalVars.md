@@ -43,8 +43,8 @@ export default {
 export default {
   source: {
     globalVars: {
-      'ENABLE_VCONSOLE': true,
-      'APP_CONTEXT': { answer: 42 },
+      ENABLE_VCONSOLE: true,
+      APP_CONTEXT: { answer: 42 },
     },
   },
 };

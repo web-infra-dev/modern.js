@@ -23,7 +23,7 @@ const defaultHtmlPluginOptions = {
 
 The configs of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) can be modified through `tools.htmlPlugin`.
 
-#### Object Type
+### Object Type
 
 When `tools.htmlPlugin` is `Object` type, the value will be merged with the default config via `Object.assign`.
 
@@ -37,7 +37,7 @@ export default {
 };
 ```
 
-#### Function Type
+### Function Type
 
 When `tools.htmlPlugin` is Function type:
 
@@ -57,7 +57,7 @@ export default {
 };
 ```
 
-#### Boolean Type
+### Boolean Type
 
 The built-in `html-webpack-plugin` plugins can be disabled by set `tools.htmlPlugin` to `false`.
 

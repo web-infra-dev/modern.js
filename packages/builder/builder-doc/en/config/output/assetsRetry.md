@@ -54,7 +54,6 @@ export default {
 };
 ```
 
-
 ### assetsRetry.domain
 
 - Type: `string[]`
@@ -134,7 +133,9 @@ export default {
   output: {
     assetsRetry: {
       onRetry: ({ times, domain, url, tagName }) => {
-        console.log(`Retry ${times} times, domain: ${domain}, url: ${url}, tagName: ${tagName}`);
+        console.log(
+          `Retry ${times} times, domain: ${domain}, url: ${url}, tagName: ${tagName}`,
+        );
       },
     },
   },
@@ -152,7 +153,9 @@ export default {
   output: {
     assetsRetry: {
       onSuccess: ({ times, domain, url, tagName }) => {
-        console.log(`Retry ${times} times, domain: ${domain}, url: ${url}, tagName: ${tagName}`);
+        console.log(
+          `Retry ${times} times, domain: ${domain}, url: ${url}, tagName: ${tagName}`,
+        );
       },
     },
   },
@@ -170,7 +173,9 @@ export default {
   output: {
     assetsRetry: {
       onFail: ({ times, domain, url, tagName }) => {
-        console.log(`Retry ${times} times, domain: ${domain}, url: ${url}, tagName: ${tagName}`);
+        console.log(
+          `Retry ${times} times, domain: ${domain}, url: ${url}, tagName: ${tagName}`,
+        );
       },
     },
   },

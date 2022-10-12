@@ -8,8 +8,7 @@
 
 #### 示例
 
-将 `react-dom` 依赖从构建产物中剔除。
-为了在运行时获取这个模块, `react-dom` 的值将全局检索 `ReactDOM` 变量。
+将 `react-dom` 依赖从构建产物中剔除。为了在运行时获取这个模块, `react-dom` 的值将全局检索 `ReactDOM` 变量。
 
 ```js
 export default {
