@@ -53,7 +53,7 @@ describe('plugins/resolve', () => {
       foo: 'bar',
     });
   });
-  
+
   it('should disable resolve.fullySpecified by default', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginResolve()],
