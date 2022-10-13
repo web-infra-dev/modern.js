@@ -1,4 +1,4 @@
-import cliTruncate from 'cli-truncate';
+import cliTruncate from '../../../../compiled/cli-truncate';
 import type { Props } from './type';
 import { clamp } from './utils';
 import chalk from '@modern-js/utils/chalk';
@@ -20,6 +20,7 @@ const defaultOption: Props = {
   messageColor: 'grey',
   id: '',
   maxIdLen: 16,
+  compileTime: null,
 };
 const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
 
@@ -51,6 +52,7 @@ export const renderBar = (option: Partial<Props>) => {
     messageColor,
     id,
     maxIdLen,
+    compileTime,
   } = {
     ...defaultOption,
     ...option,
@@ -63,10 +65,14 @@ export const renderBar = (option: Partial<Props>) => {
   const { columns = FULL_WIDTH } = process.stdout;
 
   if (done) {
+    const message = chalk.gray(
+      compileTime ? `${finishInfo} in ${compileTime}` : finishInfo,
+    );
+
     if (columns >= MIDDLE_WIDTH) {
-      return [idStr, fc(`${finishIcon}${space}${finishInfo}`)].join('');
+      return [idStr, fc(`${finishIcon}${space}${message}`)].join('');
     }
-    return [idStr, fc(`${finishIcon}`)].join('');
+    return [idStr, fc(`${message}`)].join('');
   }
   const msgStr = Reflect.get(
     chalk,

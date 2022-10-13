@@ -195,6 +195,13 @@ export const TASKS: TaskConfig[] = [
       'open',
       'tapable',
       'webpack-merge',
+      'ansi-escapes',
+      'patch-console',
+      'cli-truncate',
+      {
+        name: 'pretty-time',
+        ignoreDts: true,
+      },
       {
         name: 'postcss-pxtorem',
         ignoreDts: true,

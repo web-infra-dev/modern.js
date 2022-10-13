@@ -17,6 +17,7 @@ export type Props = {
   messageColor: typeof Color;
   id: string;
   maxIdLen: number;
+  compileTime: string | null;
 };
 
 export type BusOption = {
