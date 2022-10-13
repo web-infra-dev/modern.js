@@ -5,6 +5,7 @@ import {
   StartDevServerResult,
   StartDevServerOptions,
 } from '@modern-js/builder-shared';
+import _ from '@modern-js/utils/lodash';
 import type { ModernDevServerOptions } from '@modern-js/server';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
@@ -68,11 +69,35 @@ export async function createDevServer(
     pwd: options.context.rootPath,
     dev: devServerOptions,
     compiler,
-    config: {
-      source: {},
-      tools: {},
-      server: {},
-    } as any,
+    config: applyOptionsChain<
+      ModernDevServerOptions['config'],
+      ModernDevServerOptions['config']
+    >(
+      {
+        output: {
+          path: builderConfig.output?.distPath?.root,
+          assetPrefix: builderConfig.output?.assetPrefix,
+        },
+        source: {
+          // TODO: how compat?
+          alias: builderConfig.source
+            ?.alias as ModernDevServerOptions['config']['source']['alias'],
+          // new globalVars map old envVars
+          envVars: Object.keys(builderConfig.source?.globalVars || []),
+          globalVars: _.mapValues(builderConfig.source?.define, value =>
+            typeof value === 'string' ? value : JSON.stringify(value),
+          ),
+        },
+        tools: {
+          babel: builderConfig.tools?.babel,
+        },
+        server: {},
+        runtime: {},
+        bff: {},
+        plugins: [],
+      },
+      serverOptions.config,
+    ),
     ...serverOptions,
   });
 

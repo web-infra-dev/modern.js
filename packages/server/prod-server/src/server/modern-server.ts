@@ -3,8 +3,11 @@ import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import util from 'util';
 import path from 'path';
 import { fs, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
-import { Adapter, APIServerStartInput } from '@modern-js/server-core';
-import type { NormalizedConfig } from '@modern-js/core';
+import {
+  Adapter,
+  APIServerStartInput,
+  ServerOptions,
+} from '@modern-js/server-core';
 import axios from 'axios';
 import { clone } from '@modern-js/utils/lodash';
 import type { ModernServerContext } from '@modern-js/types';
@@ -70,7 +73,7 @@ export class ModernServer implements ModernServerInterface {
 
   protected router!: RouteMatchManager;
 
-  protected conf: NormalizedConfig;
+  protected conf: ServerOptions;
 
   protected handlers: ModernServerAsyncHandler[] = [];
 

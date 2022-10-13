@@ -1,4 +1,5 @@
 import path from 'path';
+import type { NormalizedConfig } from '@modern-js/core';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 import { ModernServerOptions } from '@modern-js/prod-server';
 import { fs, getAlias, createDebugger } from '@modern-js/utils';
@@ -68,11 +69,15 @@ export const enableRegister = (
     });
   } else {
     debug('use @babel/register');
-    const babelConfig = resolveBabelConfig(projectRoot, config, {
-      tsconfigPath,
-      syntax: 'es6+',
-      type: 'commonjs',
-    });
+    const babelConfig = resolveBabelConfig(
+      projectRoot,
+      config as NormalizedConfig,
+      {
+        tsconfigPath,
+        syntax: 'es6+',
+        type: 'commonjs',
+      },
+    );
 
     return require('@babel/register')({
       ...babelConfig,
