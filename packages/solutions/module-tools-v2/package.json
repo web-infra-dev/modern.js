@@ -70,7 +70,9 @@
     "@types/normalize-path": "^3.0.0",
     "@types/signal-exit": "^3.0.1",
     "jest": "^27",
-    "typescript": "^4"
+    "typescript": "^4",
+    "postcss": "8.4.6",
+    "@types/less": "^3"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

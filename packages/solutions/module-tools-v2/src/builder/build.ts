@@ -1,5 +1,5 @@
 import path from 'path';
-import { Libuilder, CLIConfig } from '@modern-js/libuild';
+import { Libuilder, CLIConfig, Style } from '@modern-js/libuild';
 import { es5OutputPlugin } from '@modern-js/libuild-plugin-es5';
 import { applyOptionsChain, ensureAbsolutePath } from '@modern-js/utils';
 import type {
@@ -20,10 +20,12 @@ export const runBuildTask = async (
     buildCmdOptions: BuildCommandOptions;
     context: ModuleContext;
     sourceConfig: SourceConfig;
+    styleConfig: Style;
   },
   api: PluginAPI<ModuleToolsHooks>,
 ) => {
-  const { buildConfig, buildCmdOptions, context, sourceConfig } = options;
+  const { buildConfig, buildCmdOptions, context, sourceConfig, styleConfig } =
+    options;
   const dts = buildCmdOptions.dts ? buildConfig.dts : false;
   const watch = buildCmdOptions.watch ?? false;
   const { appDirectory } = context;
@@ -41,20 +43,23 @@ export const runBuildTask = async (
     const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
     const { default: pMap } = await import('p-map');
     await pMap(tasks, async task => {
-      await task(buildConfig, api, sourceConfig, watch, dts);
+      await task(buildConfig, api, { sourceConfig, watch, dts, styleConfig });
     });
   } else {
-    await buildLib(buildConfig, api, sourceConfig, watch);
+    await buildLib(buildConfig, api, { sourceConfig, watch, styleConfig });
   }
 };
 
 export const generatorDts = async (
   config: BaseBuildConfig,
   api: PluginAPI,
-  sourceConfig: SourceConfig,
-  watch: boolean,
-  dts: DTSOptions,
+  options: {
+    sourceConfig: SourceConfig;
+    watch: boolean;
+    dts: DTSOptions;
+  },
 ) => {
+  const { sourceConfig, watch, dts } = options;
   const { buildType } = config;
   const { appDirectory } = api.useAppContext();
   const { tsconfigPath, distPath } = dts;
@@ -85,9 +90,13 @@ export const generatorDts = async (
 export const buildLib = async (
   config: BaseBuildConfig,
   api: PluginAPI,
-  sourceConfig: SourceConfig,
-  watch: boolean,
+  options: {
+    sourceConfig: SourceConfig;
+    styleConfig: Style;
+    watch: boolean;
+  },
 ) => {
+  const { sourceConfig, watch, styleConfig } = options;
   const { target, buildType, sourceMap, format, path: distPath } = config;
   const { appDirectory, srcDirectory } = api.useAppContext();
   // TODO: style
@@ -138,6 +147,9 @@ export const buildLib = async (
       alias,
     },
   };
+  // TODO: Implementation of sourceConfig
+  console.info(sourceConfig);
+  console.info('styleConfig', styleConfig);
 
   if (buildType === 'bundle') {
     const {
@@ -167,6 +179,10 @@ export const buildLib = async (
       entryNames,
       asset: assets,
       splitting,
+      style: styleConfig,
+      // resolve: { alias },
+      // define,
+      sourceMap,
       minify,
       external: externals,
       plugins,
