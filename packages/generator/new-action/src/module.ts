@@ -4,10 +4,10 @@ import {
   GeneratorCore,
   MaterialsManager,
 } from '@modern-js/codesmith';
-import { AppAPI, forEach } from '@modern-js/codesmith-api-app';
+import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   i18n,
-  ModuleNewActionSchema,
+  getModuleNewActionSchema,
   ModuleActionFunctions,
   ActionFunction,
   ModuleActionFunctionsDependencies,
@@ -71,24 +71,21 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     mockGeneratorCore,
   );
 
-  let hasOption = false;
+  const hasOption = false;
 
-  const schema = forEach(ModuleNewActionSchema, (schemaItem: any) => {
-    if (ModuleActionFunctions.includes(schemaItem.key as ActionFunction)) {
-      const enable = hasEnabledFunction(
-        schemaItem.key as ActionFunction,
-        ModuleActionFunctionsDependencies,
-        ModuleActionFunctionsDevDependencies,
-        ModuleActionFunctionsPeerDependencies,
-        cwd,
-      );
-      const { when } = schemaItem;
-      schemaItem.when = enable ? () => false : when;
-      if (!enable) {
-        hasOption = true;
-      }
-    }
+  const funcMap: Partial<Record<ActionFunction, boolean>> = {};
+  ModuleActionFunctions.forEach(func => {
+    const enable = hasEnabledFunction(
+      func,
+      ModuleActionFunctionsDependencies,
+      ModuleActionFunctionsDevDependencies,
+      ModuleActionFunctionsPeerDependencies,
+      cwd,
+    );
+    funcMap[func] = enable;
   });
+
+  const schema = getModuleNewActionSchema({ funcMap });
 
   if (!hasOption) {
     smith.logger.warn('no option can be enabled');

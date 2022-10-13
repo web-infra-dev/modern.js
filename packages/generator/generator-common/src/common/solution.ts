@@ -114,7 +114,7 @@ export const getScenesSchema = (extra: Record<string, any> = {}): Schema => {
         })(),
         'x-reactions': [
           {
-            dependencies: ['solution'],
+            dependencies: [],
             fulfill: {
               state: {
                 visible:

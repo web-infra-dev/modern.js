@@ -4,16 +4,17 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   i18n,
-  SolutionSchema,
+  getSolutionSchema,
   SolutionGenerator,
   Solution,
   SolutionDefaultConfig,
   BaseGenerator,
-  MonorepoNewActionSchema,
+  getMonorepoNewActionSchema,
   SubSolution,
   SubSolutionGenerator,
   MonorepoNewActionConfig,
   getSolutionNameFromSubSolution,
+  getScenesSchema,
 } from '@modern-js/generator-common';
 import { GeneratorPlugin } from '@modern-js/generator-plugin';
 
@@ -69,11 +70,24 @@ const handleTemplateFile = async (
   const { isMonorepo } = context.config;
 
   const { solution } = await appApi.getInputBySchema(
-    isMonorepo ? MonorepoNewActionSchema : SolutionSchema,
+    isMonorepo
+      ? getMonorepoNewActionSchema(context.config)
+      : getSolutionSchema(context.config),
     {
       ...context.config,
       customPlugin: generatorPlugin?.customPlugin,
     },
+    {},
+    {},
+    'formily',
+  );
+
+  await appApi.getInputBySchema(
+    getScenesSchema(context.config),
+    context.config,
+    {},
+    {},
+    'formily',
   );
 
   const solutionGenerator =

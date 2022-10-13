@@ -11,7 +11,7 @@ import {
   i18n as commonI18n,
   BaseGenerator,
   Solution,
-  MonorepoSchema,
+  getMonorepoSchema,
   PackageManager,
   ChangesetGenerator,
 } from '@modern-js/generator-common';
@@ -37,7 +37,7 @@ export const handleTemplateFile = async (
 ) => {
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
-  let schema = MonorepoSchema;
+  let schema = getMonorepoSchema(context.config);
   let inputValue = {};
 
   if (hasPlugin) {
@@ -48,11 +48,17 @@ export const handleTemplateFile = async (
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
 
-  const ans = await appApi.getInputBySchema(schema, {
-    ...context.config,
-    ...inputValue,
-    isMonorepo: true,
-  });
+  const ans = await appApi.getInputBySchema(
+    schema,
+    {
+      ...context.config,
+      ...inputValue,
+      isMonorepo: true,
+    },
+    {},
+    {},
+    'formily',
+  );
 
   const modernVersion = await getModernVersion(
     Solution.Monorepo,

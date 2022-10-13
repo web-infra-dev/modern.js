@@ -7,7 +7,7 @@ import {
   BaseGenerator,
   ChangesetGenerator,
   Solution,
-  ModuleSchema,
+  getModuleSchema,
   Language,
 } from '@modern-js/generator-common';
 import {
@@ -58,7 +58,7 @@ export const handleTemplateFile = async (
   }
 
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
-  let schema = ModuleSchema;
+  let schema = getModuleSchema(context.config);
   let inputValue = {};
 
   if (hasPlugin) {
@@ -87,6 +87,7 @@ export const handleTemplateFile = async (
     {
       packageName: isMonorepoSubProject ? undefined : path.basename(outputPath),
     },
+    'formily',
   );
 
   const modernVersion = await getModernVersion(
@@ -128,7 +129,7 @@ export const handleTemplateFile = async (
       name: packageName as string,
       language,
       isTs: language === Language.TS,
-      packageManager: getPackageManagerText(packageManager as any),
+      packageManager: getPackageManagerText(packageManager),
       isMonorepoSubProject,
       isPublic,
       modernVersion,

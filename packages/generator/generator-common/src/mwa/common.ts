@@ -53,7 +53,7 @@ export const getClientRouteSchema = (
         dependencies: ['needModifyMWAConfig'],
         fulfill: {
           state: {
-            visible: '{{$deps[0]=== BooleanConfig.YES}}',
+            visible: `{{$deps[0]=== "${BooleanConfig.YES}"}}`,
           },
         },
       },

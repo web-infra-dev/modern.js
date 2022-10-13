@@ -41,7 +41,8 @@ export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Refactor]: MWAActionReactors,
 };
 
-export const MWANewActionSchema = (_extra: Record<string, any>): Schema => {
+export const getMWANewActionSchema = (extra: Record<string, any>): Schema => {
+  const { funcMap = {} } = extra;
   return {
     type: 'object',
     properties: {
@@ -75,7 +76,7 @@ export const MWANewActionSchema = (_extra: Record<string, any>): Schema => {
       [ActionType.Function]: {
         type: 'string',
         title: ActionTypeText[ActionType.Function](),
-        enum: MWAActionFunctions.map(func => ({
+        enum: MWAActionFunctions.filter(func => !funcMap[func]).map(func => ({
           value: func,
           label:
             func === ActionFunction.Storybook

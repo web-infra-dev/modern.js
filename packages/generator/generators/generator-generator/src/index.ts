@@ -4,7 +4,7 @@ import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   i18n as commonI18n,
-  GeneratorSchema,
+  getGeneratorSchema,
   Solution,
   SolutionGenerator,
 } from '@modern-js/generator-common';
@@ -54,7 +54,7 @@ const handleTemplateFile = async (
 
   const { packageName, packagePath, language, packageManager } =
     await appApi.getInputBySchema(
-      GeneratorSchema,
+      getGeneratorSchema(context.config),
       context.config,
       {
         packageName: input =>

@@ -6,7 +6,7 @@ import {
   i18n as commonI18n,
   BaseGenerator,
   Solution,
-  MWASchema,
+  getMWASchema,
   Language,
   BooleanConfig,
   ClientRoute,
@@ -57,8 +57,12 @@ export const handleTemplateFile = async (
   }
 
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
-
-  let schema = MWASchema;
+  context.config = {
+    ...context.config,
+    isMwa: true,
+    isEmptySrc: true,
+  };
+  let schema = getMWASchema(context.config);
   let inputValue = {};
 
   if (hasPlugin) {
@@ -71,7 +75,7 @@ export const handleTemplateFile = async (
 
   const ans = await appApi.getInputBySchema(
     schema,
-    { ...context.config, ...inputValue, isMwa: true, isEmptySrc: true },
+    { ...context.config, ...inputValue },
     {
       packageName: input =>
         validatePackageName(input as string, packages, {
@@ -84,6 +88,8 @@ export const handleTemplateFile = async (
           { isTest, isMwa: true },
         ),
     },
+    {},
+    'formily',
   );
 
   const modernVersion = await getModernVersion(
@@ -126,7 +132,7 @@ export const handleTemplateFile = async (
         .replace('.handlebars', ''),
     {
       name: packageName || dirname,
-      packageManager: getPackageManagerText(packageManager as any),
+      packageManager: getPackageManagerText(packageManager),
       isMonorepoSubProject,
       modernVersion,
     },

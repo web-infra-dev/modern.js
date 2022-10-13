@@ -1,7 +1,7 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { BaseSchema, PackageManager } from '@modern-js/generator-common';
+import { getBaseSchema, PackageManager } from '@modern-js/generator-common';
 import { fs } from '@modern-js/generator-utils';
 
 const handleTemplateFile = async (
@@ -11,7 +11,7 @@ const handleTemplateFile = async (
 ) => {
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
-  let schema = BaseSchema;
+  let schema = getBaseSchema(context.config);
   let inputValue = {};
 
   if (hasPlugin) {
@@ -20,10 +20,16 @@ const handleTemplateFile = async (
     inputValue = generatorPlugin.getInputValue();
   }
 
-  const { packageManager } = await appApi.getInputBySchema(schema, {
-    ...context.config,
-    ...inputValue,
-  });
+  const { packageManager } = await appApi.getInputBySchema(
+    schema,
+    {
+      ...context.config,
+      ...inputValue,
+    },
+    {},
+    {},
+    'formily',
+  );
 
   await appApi.forgeTemplate(
     'templates/base-templates/**/*',
