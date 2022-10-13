@@ -119,5 +119,15 @@ export interface NormalizedOutputConfig extends OutputConfig {
   distPath: DistPathConfig;
   polyfill: Polyfill;
   cleanDistPath: boolean;
+  disableMinimize: boolean;
+  disableSourceMap: boolean;
+  disableFilenameHash: boolean;
+  disableInlineRuntimeChunk: boolean;
+  enableAssetManifest: boolean;
+  enableAssetFallback: boolean;
+  enableLatestDecorators: boolean;
+  enableCssModuleTSDeclaration: boolean;
+  enableInlineScripts: boolean;
+  enableInlineStyles: boolean;
   svgDefaultExport: 'component' | 'url';
 }
