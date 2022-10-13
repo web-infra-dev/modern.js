@@ -65,3 +65,9 @@ export interface PerformanceConfig {
   buildCache?: BuildCacheOptions;
   profile?: boolean;
 }
+
+export interface NormalizedPerformanceConfig extends PerformanceConfig {
+  removeConsole: boolean | ConsoleType[];
+  removeMomentLocale: boolean;
+  chunkSplit: BuilderChunkSplit;
+}

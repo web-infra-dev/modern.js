@@ -18,10 +18,17 @@ export async function initPlugins({
   const publicContext = createPublicContext(context);
 
   const getBuilderConfig = () => context.config;
+  const getNormalizedConfig = () => {
+    if (!context.normalizedConfig) {
+      throw new Error('Normalized config is not ready.');
+    }
+    return context.normalizedConfig;
+  };
 
   const pluginAPI: BuilderPluginAPI = {
     context: publicContext,
     getBuilderConfig,
+    getNormalizedConfig,
     isPluginExists: pluginStore.isPluginExists,
 
     // Hooks

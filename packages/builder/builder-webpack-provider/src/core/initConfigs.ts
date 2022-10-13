@@ -11,6 +11,7 @@ import { generateWebpackConfig } from './webpackConfig';
 import { stringifyBuilderConfig } from './inspectBuilderConfig';
 import { stringifyWebpackConfig } from './inspectBundlerConfig';
 import type { Context } from '../types';
+import { normalizeConfig } from '../config/normalize';
 
 async function modifyBuilderConfig(context: Context) {
   debug('modify builder config');
@@ -41,6 +42,7 @@ export async function initConfigs({
   });
 
   await modifyBuilderConfig(context);
+  context.normalizedConfig = deepFreezed(normalizeConfig(context.config));
 
   const targets = ensureArray(builderOptions.target);
   const webpackConfigs = await Promise.all(

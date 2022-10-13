@@ -1,6 +1,6 @@
 import type { BuilderContext } from '@modern-js/builder-shared';
 import type { Hooks } from '../core/initHooks';
-import type { BuilderConfig } from './config';
+import type { BuilderConfig, NormalizedConfig } from './config';
 
 /** The inner context. */
 export type Context = BuilderContext & {
@@ -12,4 +12,6 @@ export type Context = BuilderContext & {
   configValidatingTask: Promise<void>;
   /** The original builder config passed from the createBuilder method. */
   originalConfig: Readonly<BuilderConfig>;
+  /** The normalized builder config. */
+  normalizedConfig?: Readonly<NormalizedConfig>;
 };
