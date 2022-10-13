@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/easy-form-core": "1.6.1",
+    "@modern-js/codesmith-formily": "1.6.2-alpha.1",
     "@modern-js/plugin-i18n": "workspace:*"
   },
   "devDependencies": {

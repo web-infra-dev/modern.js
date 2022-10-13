@@ -1,55 +1,54 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 import { BooleanConfig } from '../common';
 import {
-  ClientRouteSchema,
+  getClientRouteSchema,
   ClientRoute,
-  NeedModifyMWAConfigSchema,
+  getNeedModifyMWAConfigSchema,
 } from './common';
 
-const EntryNameSchema: Schema = {
-  key: 'name',
-  type: ['string'],
-  label: () => i18n.t(localeKeys.entry.name),
-  state: {
-    value: 'entry',
-  },
-  validate: (value: string) => {
-    if (!value) {
-      return {
-        success: false,
-        error: i18n.t(localeKeys.entry.no_empty),
-      };
-    }
-    if (value === 'pages') {
-      return {
-        success: false,
-        error: i18n.t(localeKeys.entry.no_pages),
-      };
-    }
-    return {
-      success: true,
-    };
-  },
-  when: (_values: Record<string, any>, extra?: Record<string, unknown>) => {
-    if (extra?.isEmptySrc) {
-      return false;
-    }
-    return true;
-  },
+export const getEntryNameSchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'string',
+    title: i18n.t(localeKeys.entry.name),
+    default: 'entry',
+    'x-validate': (value: string) => {
+      if (!value) {
+        return i18n.t(localeKeys.entry.no_empty);
+      }
+      if (value === 'pages') {
+        return i18n.t(localeKeys.entry.no_pages);
+      }
+      return '';
+    },
+    'x-reactions': [
+      {
+        dependencies: [],
+        fulfill: {
+          state: {
+            visible: !extra?.isEmptySrc,
+          },
+        },
+      },
+    ],
+  };
 };
 
-export const EntrySchemas = [
-  EntryNameSchema,
-  NeedModifyMWAConfigSchema,
-  ClientRouteSchema,
-];
+export const getEntrySchemaProperties = (
+  extra: Record<string, any>,
+): Schema['properties'] => {
+  return {
+    name: getEntryNameSchema(extra),
+    needModifyMWAConfig: getNeedModifyMWAConfigSchema(extra),
+    clientRoute: getClientRouteSchema(extra),
+  };
+};
 
-export const EntrySchema: Schema = {
-  key: 'entry',
-  label: () => i18n.t(localeKeys.action.element.entry),
-  isObject: true,
-  items: EntrySchemas,
+export const getEntrySchema = (extra: Record<string, any>): Schema => {
+  return {
+    type: 'object',
+    properties: getEntrySchemaProperties(extra),
+  };
 };
 
 export const MWADefaultEntryConfig = {

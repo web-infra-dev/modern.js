@@ -1,11 +1,12 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import {
   ActionElement,
+  ActionElementText,
   ActionFunction,
+  ActionFunctionText,
   ActionRefactor,
   ActionType,
   ActionTypeText,
-  ActionTypeTextMap,
 } from '../common';
 import { i18n, localeKeys } from '../../locale';
 
@@ -40,37 +41,60 @@ export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Refactor]: MWAActionReactors,
 };
 
-export const MWASpecialSchemaMap: Record<string, Schema> = {
-  [ActionFunction.Storybook]: {
-    key: ActionFunction.Storybook,
-    label: () => i18n.t(localeKeys.action.function.mwa_storybook),
-  },
-};
-
-export const MWANewActionSchema: Schema = {
-  key: 'mwa_new_action',
-  isObject: true,
-  items: [
-    {
-      key: 'actionType',
-      label: () => i18n.t(localeKeys.action.self),
-      type: ['string'],
-      mutualExclusion: true,
-      items: MWAActionTypes.map(type => ({
-        key: type,
-        label: ActionTypeText[type],
-        type: ['string'],
-        mutualExclusion: true,
-        items: MWAActionTypesMap[type].map(
-          item =>
-            MWASpecialSchemaMap[item] || {
-              key: item,
-              label: ActionTypeTextMap[type][item],
+export const MWANewActionSchema = (_extra: Record<string, any>): Schema => {
+  return {
+    type: 'object',
+    properties: {
+      actionType: {
+        type: 'string',
+        title: i18n.t(localeKeys.action.self),
+        enum: MWAActionTypes.map(type => ({
+          value: type,
+          label: ActionTypeText[type](),
+          type: ['string'],
+        })),
+      },
+      [ActionType.Element]: {
+        type: 'string',
+        title: ActionTypeText[ActionType.Element](),
+        enum: MWAActionElements.map(element => ({
+          value: element,
+          label: ActionElementText[element],
+        })),
+        'x-reactions': [
+          {
+            dependencies: ['actionType'],
+            fulfill: {
+              state: {
+                visible: '{{$deps[0].value === "element"}}',
+              },
             },
-        ),
-      })),
+          },
+        ],
+      },
+      [ActionType.Function]: {
+        type: 'string',
+        title: ActionTypeText[ActionType.Function](),
+        enum: MWAActionFunctions.map(func => ({
+          value: func,
+          label:
+            func === ActionFunction.Storybook
+              ? i18n.t(localeKeys.action.function.mwa_storybook)
+              : ActionFunctionText[func],
+        })),
+        'x-reactions': [
+          {
+            dependencies: ['actionType'],
+            fulfill: {
+              state: {
+                visible: '{{$deps[0].value === "function"}}',
+              },
+            },
+          },
+        ],
+      },
     },
-  ],
+  };
 };
 
 export const MWAActionFunctionsDevDependencies: Partial<

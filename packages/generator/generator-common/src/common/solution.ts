@@ -1,4 +1,4 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 
 export enum Solution {
@@ -33,67 +33,6 @@ export const SolutionToolsMap: Record<Solution, string> = {
   [Solution.Monorepo]: '@modern-js/monorepo-tools',
 };
 
-export const SolutionSchema: Schema = {
-  key: 'solution_schema',
-  isObject: true,
-  items: [
-    {
-      key: 'solution',
-      label: () => i18n.t(localeKeys.solution.self),
-      type: ['string'],
-      mutualExclusion: true,
-      items: (_data: Record<string, any>, extra?: Record<string, any>) => {
-        const items = (extra?.solutions || Object.values(Solution))
-          .filter(
-            (solution: Solution) =>
-              !(extra?.isSubProject && solution === Solution.Monorepo),
-          )
-          .map((solution: Solution) => ({
-            key: solution,
-            label: SolutionText[solution],
-          }));
-        if (extra?.customPlugin?.custom?.length) {
-          return [
-            ...items,
-            {
-              key: 'custom',
-              label: i18n.t(localeKeys.solution.custom),
-            },
-          ];
-        }
-        return items;
-      },
-    },
-    {
-      key: 'scenes',
-      label: () => i18n.t(localeKeys.scenes.self),
-      type: ['string'],
-      mutualExclusion: true,
-      when: (data: Record<string, any>, extra?: Record<string, any>) =>
-        extra?.customPlugin &&
-        extra.customPlugin[data.solution] &&
-        extra.customPlugin[data.solution].length > 0,
-      items: (data: Record<string, any>, extra?: Record<string, any>) => {
-        const items = (
-          extra?.customPlugin ? extra?.customPlugin[data.solution] || [] : []
-        ).map((plugin: any) => ({
-          key: plugin.key,
-          label: plugin.name,
-        }));
-        if (data.solution && data.solution !== 'custom') {
-          items.unshift({
-            key: data.solution,
-            label: `${SolutionText[data.solution as Solution]()}(${i18n.t(
-              localeKeys.solution.default,
-            )})`,
-          });
-        }
-        return items;
-      },
-    },
-  ],
-};
-
 export function getSolutionNameFromSubSolution(solution: SubSolution) {
   if (solution === SubSolution.MWATest) {
     return Solution.MWA;
@@ -104,62 +43,99 @@ export function getSolutionNameFromSubSolution(solution: SubSolution) {
   return solution;
 }
 
-export const SubSolutionSchema: Schema = {
-  key: 'sub_solution_schema',
-  isObject: true,
-  items: [
-    {
-      key: 'solution',
-      label: () => i18n.t(localeKeys.sub_solution.self),
-      type: ['string'],
-      mutualExclusion: true,
-      items: (_data: Record<string, any>, extra?: Record<string, any>) => {
-        const items = Object.values(SubSolution).map(solution => ({
-          key: solution,
-          label: SubSolutionText[solution],
-        }));
-        if (extra?.customPlugin?.custom?.length) {
-          return [
-            ...items,
-            {
-              key: 'custom',
-              label: i18n.t(localeKeys.solution.custom),
+export const getSolutionSchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'object',
+    properties: {
+      solution: {
+        type: 'string',
+        title: extra.isMonorepoSubProject
+          ? i18n.t(localeKeys.sub_solution.self)
+          : i18n.t(localeKeys.solution.self),
+        enum: (() => {
+          const items = (
+            extra?.solutions ||
+            Object.values(extra?.isMonorepoSubProject ? SubSolution : Solution)
+          )
+            .filter(
+              (solution: Solution) =>
+                !(extra?.isSubProject && solution === Solution.Monorepo),
+            )
+            .map((solution: unknown) => ({
+              value: solution,
+              label: extra?.isMonorepoSubProject
+                ? SubSolutionText[solution as SubSolution]()
+                : SolutionText[solution as Solution](),
+            }));
+          if (extra?.customPlugin?.custom?.length) {
+            return [
+              ...items,
+              {
+                value: 'custom',
+                label: i18n.t(localeKeys.solution.custom),
+              },
+            ];
+          }
+          return items;
+        })(),
+      },
+    },
+  };
+};
+
+export const getScenesSchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'object',
+    properties: {
+      scenes: {
+        type: 'string',
+        title: i18n.t(localeKeys.scenes.self),
+        enum: (() => {
+          const solution = extra?.isMonorepoSubProject
+            ? getSolutionNameFromSubSolution(extra?.solution)
+            : extra?.solution;
+          const items = (
+            extra?.customPlugin ? extra?.customPlugin[solution] || [] : []
+          ).map((plugin: any) => ({
+            value: plugin.key,
+            label: plugin.name,
+          }));
+          if (solution && solution !== 'custom') {
+            items.unshift({
+              value: solution,
+              label: `${
+                extra?.isMonorepoSubProject
+                  ? SubSolutionText[solution as SubSolution]()
+                  : SolutionText[solution as Solution]()
+              }(${i18n.t(localeKeys.solution.default)})`,
+            });
+          }
+          return items;
+        })(),
+        'x-reactions': [
+          {
+            dependencies: ['solution'],
+            fulfill: {
+              state: {
+                visible:
+                  extra?.customPlugin &&
+                  extra.customPlugin[
+                    extra?.isMonorepoSubProject
+                      ? getSolutionNameFromSubSolution(extra?.solution)
+                      : extra?.solution
+                  ] &&
+                  extra.customPlugin[
+                    extra?.isMonorepoSubProject
+                      ? getSolutionNameFromSubSolution(extra?.solution)
+                      : extra?.solution
+                  ].length > 0,
+              },
             },
-          ];
-        }
-        return items;
+          },
+        ],
       },
     },
-    {
-      key: 'scenes',
-      label: () => i18n.t(localeKeys.scenes.self),
-      type: ['string'],
-      mutualExclusion: true,
-      when: (data: Record<string, any>, extra?: Record<string, any>) =>
-        extra?.customPlugin &&
-        extra.customPlugin[getSolutionNameFromSubSolution(data.solution)] &&
-        extra.customPlugin[getSolutionNameFromSubSolution(data.solution)]
-          .length > 0,
-      items: (data: Record<string, any>, extra?: Record<string, any>) => {
-        const solution = getSolutionNameFromSubSolution(data.solution);
-        const items = (
-          extra?.customPlugin ? extra?.customPlugin[solution] || [] : []
-        ).map((plugin: any) => ({
-          key: plugin.key,
-          label: plugin.name,
-        }));
-        if (data.solution && data.solution !== 'custom') {
-          items.unshift({
-            key: data.solution,
-            label: `${SubSolutionText[data.solution as SubSolution]()}(${i18n.t(
-              localeKeys.solution.default,
-            )})`,
-          });
-        }
-        return items;
-      },
-    },
-  ],
+  };
 };
 
 export const BaseGenerator = '@modern-js/base-generator';

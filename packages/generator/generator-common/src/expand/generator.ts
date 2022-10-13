@@ -1,24 +1,29 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import {
   Language,
-  LanguageSchema,
+  getLanguageSchema,
   PackageManager,
-  PackageManagerSchema,
-  PackageNameSchema,
-  PackagePathSchema,
+  getPackageManagerSchema,
+  getPackageNameSchema,
+  getPackagePathSchema,
 } from '../common';
 
-const GeneratorSchemas = [
-  PackageNameSchema,
-  PackagePathSchema,
-  PackageManagerSchema,
-  LanguageSchema,
-];
+export const getGeneratorSchemaProperties = (
+  extra: Record<string, any> = {},
+): Schema['properties'] => {
+  return {
+    packageName: getPackageNameSchema(extra),
+    packagePath: getPackagePathSchema(extra),
+    packageManager: getPackageManagerSchema(extra),
+    language: getLanguageSchema(extra),
+  };
+};
 
-export const GeneratorSchema: Schema = {
-  key: 'generator-generator',
-  isObject: true,
-  items: Object.values(GeneratorSchemas),
+export const getGeneratorSchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'object',
+    properties: getGeneratorSchemaProperties(extra),
+  };
 };
 
 export const GeneratorDefaultConfig = {

@@ -1,9 +1,9 @@
-import { Schema } from '@modern-js/easy-form-core';
-import { BaseSchemas } from './base';
+import { Schema } from '@modern-js/codesmith-formily';
+import { getBaseSchema } from './base';
 import { Solution } from './common';
-import { ModuleDefaultConfig, ModuleSchemas } from './module';
-import { MonorepoDefaultConfig, MonorepoSchemas } from './monorepo';
-import { MWADefaultConfig, MWASchemas } from './mwa';
+import { ModuleDefaultConfig, getModuleSchema } from './module';
+import { MonorepoDefaultConfig, getMonorepoSchema } from './monorepo';
+import { MWADefaultConfig, getMWASchema } from './mwa';
 
 export * from './locale';
 export * from './common';
@@ -20,9 +20,12 @@ export const SolutionDefaultConfig: Record<Solution, Record<string, string>> = {
   [Solution.Monorepo]: MonorepoDefaultConfig,
 };
 
-export const SolutionSchemas: Record<Solution | 'custom', Schema[]> = {
-  [Solution.MWA]: MWASchemas,
-  [Solution.Module]: ModuleSchemas,
-  [Solution.Monorepo]: MonorepoSchemas,
-  custom: BaseSchemas,
+export const SolutionSchemas: Record<
+  Solution | 'custom',
+  (extra?: Record<string, string>) => Schema
+> = {
+  [Solution.MWA]: getModuleSchema,
+  [Solution.Module]: getMonorepoSchema,
+  [Solution.Monorepo]: getMWASchema,
+  custom: getBaseSchema,
 };

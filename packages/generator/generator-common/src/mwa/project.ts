@@ -1,35 +1,40 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import {
   BooleanConfig,
+  getPackageNameSchema,
+  getPackagePathSchema,
   Language,
-  LanguageSchema,
+  getLanguageSchema,
   PackageManager,
-  PackageManagerSchema,
-  PackageNameSchema,
-  PackagePathSchema,
+  getPackageManagerSchema,
 } from '../common';
 import {
-  ClientRouteSchema,
+  getClientRouteSchema,
   RunWay,
-  RunWaySchema,
-  NeedModifyMWAConfigSchema,
+  getRunWaySchema,
+  getNeedModifyMWAConfigSchema,
   ClientRoute,
 } from './common';
 
-export const MWASchemas = [
-  PackageNameSchema,
-  PackagePathSchema,
-  LanguageSchema,
-  PackageManagerSchema,
-  RunWaySchema,
-  NeedModifyMWAConfigSchema,
-  ClientRouteSchema,
-];
+export const getMWASchemaProperties = (
+  extra: Record<string, any>,
+): Schema['properties'] => {
+  return {
+    packageName: getPackageNameSchema(extra),
+    packagePath: getPackagePathSchema(extra),
+    language: getLanguageSchema(extra),
+    packageManager: getPackageManagerSchema(extra),
+    runWay: getRunWaySchema(extra),
+    needModifyMWAConfig: getNeedModifyMWAConfigSchema(extra),
+    clientRoute: getClientRouteSchema(extra),
+  };
+};
 
-export const MWASchema: Schema = {
-  key: 'mwa',
-  isObject: true,
-  items: MWASchemas,
+export const getMWASchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'object',
+    properties: getMWASchemaProperties(extra),
+  };
 };
 
 export const MWADefaultConfig = {
