@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 1.20.1
+
+### Patch Changes
+
+- 49515c5: fix(utils): failed to call logger.success method
+
+  fix(utils): 修复调用 logger.success 出现异常的问题
+
 ## 1.20.0
 
 ### Patch Changes
