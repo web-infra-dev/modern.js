@@ -1,5 +1,25 @@
 # @modern-js/core
 
+## 1.20.0
+
+### Patch Changes
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- d5d570b: fix(core): failed to log validate config errors from plugins
+
+  fix(core): 修复校验 plugin 中的 config 异常时，日志格式不正确的问题
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/node-bundle-require@1.20.0
+  - @modern-js/plugin@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes

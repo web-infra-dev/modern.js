@@ -1,5 +1,28 @@
 # @modern-js/plugin-storybook
 
+## 1.20.0
+
+### Patch Changes
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- 3b256c7: feat: allow user config managerWebpack
+  feat: 运行用户配置 managerWebpack
+- a00296d: fix: change preview template
+  fix: 修改 preview 模板文件
+- Updated dependencies [d5d570b]
+- Updated dependencies [b57d5ff]
+- Updated dependencies [4ddc185]
+- Updated dependencies [715df7a]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [077aef8]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/runtime@1.20.0
+  - @modern-js/webpack@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes
