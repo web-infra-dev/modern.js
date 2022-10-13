@@ -1,6 +1,5 @@
 import path from 'path';
-import execa from 'execa';
-import { fs, semver } from './compiled';
+import { fs, execa, semver } from './compiled';
 
 export async function getPnpmVersion() {
   const { stdout } = await execa('pnpm', ['--version']);
