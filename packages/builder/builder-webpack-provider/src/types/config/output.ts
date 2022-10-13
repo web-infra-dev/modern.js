@@ -113,3 +113,11 @@ export interface OutputConfig {
   convertToRem?: boolean | RemOptions;
   externals?: ExternalsOptions;
 }
+
+export interface NormalizedOutputConfig extends OutputConfig {
+  filename: FilenameConfig;
+  distPath: DistPathConfig;
+  polyfill: Polyfill;
+  cleanDistPath: boolean;
+  svgDefaultExport: 'component' | 'url';
+}

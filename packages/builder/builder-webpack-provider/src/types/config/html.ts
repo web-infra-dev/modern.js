@@ -29,3 +29,5 @@ export interface HtmlConfig {
     | HTMLPluginOptions['templateParameters']
   >;
 }
+
+export type NormalizedHtmlConfig = HtmlConfig;
