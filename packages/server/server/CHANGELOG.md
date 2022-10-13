@@ -1,5 +1,36 @@
 # @modern-js/server
 
+## 1.20.0
+
+### Patch Changes
+
+- 35c0959: feat(devServer): support devServer.setupMiddlewares config
+
+  feat(devServer): 支持 devServer.setupMiddlewares 配置项
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- 66e4817: feat: support devServer.historyApiFallback
+
+  feat: 支持 devServer.historyApiFallback 配置项
+
+- face165: chore(devServer): get devServer config from this.dev
+
+  chore(devServer): 从 this.dev 上获取 devServer 配置
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [66e4817]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+- Updated dependencies [baf7337]
+  - @modern-js/utils@1.20.0
+  - @modern-js/types@1.20.0
+  - @modern-js/prod-server@1.20.0
+  - @modern-js/server-utils@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes

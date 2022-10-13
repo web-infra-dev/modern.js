@@ -1,5 +1,33 @@
 # @modern-js/module-tools
 
+## 1.20.0
+
+### Patch Changes
+
+- fffceae: fix: extends path error
+  fix: 修复 extends 字段路径的问题
+- a4f8761: feat: add afterDev hook
+  feat: 添加 afterDev 钩子
+- 3e5ad1e: chore: move copyTask from bundleless task to build task
+  chore: 把 copy 任务从 bundleless 任务中移动到 build 任务中
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+- Updated dependencies [d5d570b]
+  - @modern-js/utils@1.20.0
+  - @modern-js/core@1.20.0
+  - @modern-js/plugin-changeset@1.20.0
+  - @modern-js/babel-preset-module@1.20.0
+  - @modern-js/css-config@1.20.0
+  - @modern-js/plugin-i18n@1.20.0
+  - @modern-js/plugin-jarvis@1.20.0
+  - @modern-js/new-action@1.20.0
+  - @modern-js/babel-compiler@1.20.0
+  - @modern-js/style-compiler@1.20.0
+  - @modern-js/upgrade@1.20.0
+  - @modern-js/plugin@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes

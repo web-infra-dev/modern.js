@@ -92,6 +92,7 @@ export default (config: Config): Plugin => ({
                 GarfishConfig,
                 manifest,
               );
+              GarfishInstance.setOptions(GarfishConfig);
               GarfishInstance.registerApp(appInfoList);
 
               logger('generateApps', { MApp, apps, appInfoList });

@@ -1,5 +1,7 @@
 # @modern-js/mwa-generator
 
+## 2.4.3
+
 ## 2.4.0
 
 ### Minor Changes
