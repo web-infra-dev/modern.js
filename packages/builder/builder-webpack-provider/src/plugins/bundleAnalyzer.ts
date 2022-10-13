@@ -6,13 +6,13 @@ export function PluginBundleAnalyzer(): BuilderPlugin {
     setup(api) {
       api.modifyWebpackChain(
         async (chain, { CHAIN_ID, getCompiledPath, target }) => {
-          const config = api.getBuilderConfig();
+          const config = api.getNormalizedConfig();
           // There are two ways to open the bundle analyzer:
           // 1. Set environment variable `BUNDLE_ANALYZE`
           // 2. Set performance.bundleAnalyze config
           if (
             !process.env.BUNDLE_ANALYZE &&
-            !config.performance?.bundleAnalyze
+            !config.performance.bundleAnalyze
           ) {
             return;
           }
@@ -26,7 +26,7 @@ export function PluginBundleAnalyzer(): BuilderPlugin {
                 analyzerMode: 'static',
                 openAnalyzer: false,
                 reportFilename: `report-${target}.html`,
-                ...(config.performance?.bundleAnalyze || {}),
+                ...(config.performance.bundleAnalyze || {}),
               },
             ]);
         },
