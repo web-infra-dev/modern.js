@@ -8,7 +8,7 @@
 ```js
 export default {
   source: {
-    include: ['foo',  /bar/],
+    include: ['foo', /bar/],
   },
 };
 ```

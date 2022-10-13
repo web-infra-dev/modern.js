@@ -158,6 +158,8 @@ type StartDevServerOptions = {
   strictPort?: boolean;
   // custom Compiler object
   compiler?: Compiler | MultiCompiler;
+  // passing through the build-independent dev server configuration
+  serverOptions?: Partial<ModernDevServerOptions>;
 };
 
 type StartDevServerResult = {
@@ -167,7 +169,7 @@ type StartDevServerResult = {
 };
 
 function StartDevServer(
-  options?: StartDevServerOptions
+  options?: StartDevServerOptions,
 ): Promise<StartDevServerResult>;
 ```
 
@@ -260,7 +262,7 @@ type AddPluginsOptions = { before?: string } | { after?: string };
 
 function AddPlugins(
   plugins: BuilderPlugins[],
-  options?: AddPluginsOptions
+  options?: AddPluginsOptions,
 ): Promise<void>;
 ```
 

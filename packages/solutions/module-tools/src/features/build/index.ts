@@ -21,6 +21,11 @@ const bp: typeof import('./build-platform') = Import.lazy(
   require,
 );
 
+const copyUtils: typeof import('../../utils/copy') = Import.lazy(
+  '../../utils/copy',
+  require,
+);
+
 export const checkPlatformAndRunBuild = async (
   platform: IBuildFeatOption['platform'],
   options: { api: PluginAPI; isTsProject: boolean },
@@ -84,7 +89,8 @@ export const buildInNormalMode = async (
 
 export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
   const { platform, clear = true, isTsProject } = config;
-  const { appDirectory } = api.useAppContext();
+  const appContext = api.useAppContext();
+  const { appDirectory } = appContext;
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { path: outputPath = 'dist' },
@@ -111,6 +117,8 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
     api,
     deps,
   });
+
+  await copyUtils.copyTask({ modernConfig, appContext });
 
   if (config.enableWatchMode) {
     console.info(chalk.blue.underline('start build in watch mode...\n'));

@@ -25,9 +25,9 @@ export default {
       'typeof window': JSON.stringify('object'),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'import.meta': { test: undefined },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 表达式会被替换为对应的代码段：

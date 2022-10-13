@@ -57,13 +57,13 @@ export const getFilename = (
     case 'css':
       return filename.css ?? `[name]${hash}.css`;
     case 'svg':
-      return filename.svg ?? `[name]${hash}.svg`;
+      return filename.svg ?? `[name].[contenthash:8].svg`;
     case 'font':
-      return filename.font ?? `[name]${hash}[ext]`;
+      return filename.font ?? `[name].[contenthash:8][ext]`;
     case 'image':
-      return filename.image ?? `[name]${hash}[ext]`;
+      return filename.image ?? `[name].[contenthash:8][ext]`;
     case 'media':
-      return filename.media ?? `[name]${hash}[ext]`;
+      return filename.media ?? `[name].[contenthash:8][ext]`;
     default:
       throw new Error(`unknown key ${type} in "output.filename"`);
   }

@@ -5,7 +5,11 @@
 
 ```ts
 interface BaseChunkSplit {
-  strategy?: 'split-by-module' | 'split-by-experience' | 'all-in-one' | 'single-vendor';
+  strategy?:
+    | 'split-by-module'
+    | 'split-by-experience'
+    | 'all-in-one'
+    | 'single-vendor';
   override?: SplitChunks;
   forceSplitting?: Array<RegExp>;
 }

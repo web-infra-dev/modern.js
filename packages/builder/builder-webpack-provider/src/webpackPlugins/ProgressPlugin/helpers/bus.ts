@@ -8,21 +8,15 @@ import type { ForegroundColor as Color } from '@modern-js/utils/compiled/chalk';
 
 const colorList: Array<typeof Color> = [
   'green',
-  'blue',
-  'yellow',
   'cyan',
-  'red',
-  'white',
-  'gray',
-  'grey',
-  'blackBright',
-  'redBright',
+  'yellow',
+  'blue',
   'greenBright',
+  'cyanBright',
   'yellowBright',
   'blueBright',
+  'redBright',
   'magentaBright',
-  'cyanBright',
-  'whiteBright',
 ];
 
 class Bus {
