@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 1.20.0
+
+### Patch Changes
+
+- b57d5ff: fix: ssr runtime plugin need default config
+  fix: ssr 运行时插件需要传入默认配置
+- 715df7a: feat: support loadable scripts add crossorigin attribute
+  feat: SSR 支持 loadable 脚本添加 crossorigin 属性
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [077aef8]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/webpack@1.20.0
+  - @modern-js/plugin@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes
