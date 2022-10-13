@@ -116,3 +116,5 @@ export interface ToolsConfig {
   webpackChain?: ToolsWebpackChainConfig;
   inspector?: ToolsInspectorPluginOptions;
 }
+
+export type NormalizedToolsConfig = ToolsConfig;
