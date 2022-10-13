@@ -116,7 +116,7 @@ export default defineConfig4CustomTheme<ThemeConfig>((ctx) => ({
   },
   theme: 'vt',
   themeConfig: {
-    repo: 'https://github.com/modern-js-dev/modern.js',
+    repo: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/builder',
     repoLabel: 'GitHub',
     docsDir: 'docs/docs/src',
     enableDarkMode: true,
