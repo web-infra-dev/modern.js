@@ -28,7 +28,11 @@ export const createDefaultConfig = () =>
       crossorigin: false,
       disableHtmlFolder: false,
     },
-    tools: {},
+    tools: {
+      cssExtract: {
+        loaderOptions: {},
+      },
+    },
     source: {
       preEntry: [],
       globalVars: {},
