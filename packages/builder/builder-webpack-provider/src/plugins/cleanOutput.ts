@@ -5,9 +5,9 @@ export const PluginCleanOutput = (): BuilderPlugin => ({
 
   setup(api) {
     const clean = async () => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
 
-      if (config.output?.cleanDistPath) {
+      if (config.output.cleanDistPath) {
         const { emptyDir } = await import('@modern-js/utils');
         const { distPath } = api.context;
         await emptyDir(distPath);
