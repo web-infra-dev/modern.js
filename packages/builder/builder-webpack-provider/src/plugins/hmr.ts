@@ -8,11 +8,9 @@ export const PluginHMR = (): BuilderPlugin => ({
       if (isProd || isServer) {
         return;
       }
+      const config = api.getNormalizedConfig();
 
-      const config = api.getBuilderConfig();
-      const usingHMR = config.dev?.hmr ?? true;
-
-      if (usingHMR) {
+      if (config.dev.hmr) {
         chain
           .plugin(CHAIN_ID.PLUGIN.HMR)
           .use(webpack.HotModuleReplacementPlugin);
