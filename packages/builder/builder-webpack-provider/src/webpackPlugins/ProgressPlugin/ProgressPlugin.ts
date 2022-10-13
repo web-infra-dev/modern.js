@@ -14,6 +14,8 @@ export interface ProgressOptions
 export class ProgressPlugin extends webpack.ProgressPlugin {
   readonly name: string = 'ProgressPlugin';
 
+  hasErrors: boolean = false;
+
   compileTime: string | null = null;
 
   constructor(options: ProgressOptions) {
@@ -43,6 +45,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
             current: percentage * 100,
             message,
             done,
+            hasErrors: this.hasErrors,
             compileTime: this.compileTime,
           });
           bus.render();
@@ -65,8 +68,9 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
       startTime = process.hrtime();
     });
 
-    compiler.hooks.done.tap(this.name, () => {
+    compiler.hooks.done.tap(this.name, stat => {
       if (startTime) {
+        this.hasErrors = stat.hasErrors();
         this.compileTime = prettyTime(process.hrtime(startTime), 2);
         startTime = null;
       }

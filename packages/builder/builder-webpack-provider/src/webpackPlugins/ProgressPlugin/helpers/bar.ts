@@ -13,6 +13,8 @@ const defaultOption: Props = {
   buildIcon: '◯',
   finishIcon: '✔',
   finishInfo: 'done',
+  errorIcon: '✖',
+  errorInfo: 'fail',
   message: '',
   done: false,
   spaceWidth: 1,
@@ -20,6 +22,7 @@ const defaultOption: Props = {
   messageColor: 'grey',
   id: '',
   maxIdLen: 16,
+  hasErrors: false,
   compileTime: null,
 };
 const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
@@ -38,8 +41,10 @@ export const renderBar = (option: Partial<Props>) => {
   const {
     total,
     done,
-    finishIcon,
     buildIcon,
+    errorIcon,
+    errorInfo,
+    finishIcon,
     finishInfo,
     width,
     current,
@@ -52,6 +57,7 @@ export const renderBar = (option: Partial<Props>) => {
     messageColor,
     id,
     maxIdLen,
+    hasErrors,
     compileTime,
   } = {
     ...defaultOption,
@@ -65,12 +71,13 @@ export const renderBar = (option: Partial<Props>) => {
   const { columns = FULL_WIDTH } = process.stdout;
 
   if (done) {
+    const info = hasErrors ? errorInfo : finishInfo;
+    const icon = hasErrors ? errorIcon : finishIcon;
     const message = chalk.gray(
-      compileTime ? `${finishInfo} in ${compileTime}` : finishInfo,
+      compileTime ? `${info} in ${compileTime}` : info,
     );
-
     if (columns >= MIDDLE_WIDTH) {
-      return [idStr, fc(`${finishIcon}${space}${message}`)].join('');
+      return [idStr, fc(`${icon}${space}${message}`)].join('');
     }
     return [idStr, fc(`${message}`)].join('');
   }
