@@ -114,30 +114,34 @@ export async function applyBaseCSSRule(
 
   // 3. Create webpack rule
   // Order: style-loader/mini-css-extract -> css-loader -> postcss-loader
-  rule
-    .when(
-      enableExtractCSS,
-      // use mini-css-extract-plugin loader
-      c => {
-        c.use(CHAIN_ID.USE.MINI_CSS_EXTRACT)
-          .loader(require('mini-css-extract-plugin').loader)
-          .options(extractLoaderOptions)
-          .end();
-      },
-      // or use style-loader
-      c => {
-        c.use(CHAIN_ID.USE.STYLE)
-          .loader(require.resolve('style-loader'))
-          .options(styleLoaderOptions)
-          .end();
-      },
-    )
+  if (!isServer) {
+    // use mini-css-extract-plugin loader
+    if (enableExtractCSS) {
+      rule
+        .use(CHAIN_ID.USE.MINI_CSS_EXTRACT)
+        .loader(require('mini-css-extract-plugin').loader)
+        .options(extractLoaderOptions)
+        .end();
+    }
+    // use style-loader
+    else {
+      rule
+        .use(CHAIN_ID.USE.STYLE)
+        .loader(require.resolve('style-loader'))
+        .options(styleLoaderOptions)
+        .end();
+    }
+
     // use css-modules-typescript-loader
-    .when(enableCSSModuleTS, c => {
-      c.use(CHAIN_ID.USE.CSS_MODULES_TS)
+    if (enableCSSModuleTS) {
+      rule
+        .use(CHAIN_ID.USE.CSS_MODULES_TS)
         .loader(getCompiledPath('css-modules-typescript-loader'))
         .end();
-    })
+    }
+  }
+
+  rule
     .use(CHAIN_ID.USE.CSS)
     .loader(getCompiledPath('css-loader'))
     .options(cssLoaderOptions)
