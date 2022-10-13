@@ -14,4 +14,4 @@ export default {
 };
 ```
 
-When turned on, Webpack generates a JSON file with some statistics about the module that includes information about timeing information for each module.
+When turned on, webpack generates a JSON file with some statistics about the module that includes information about timing information for each module.

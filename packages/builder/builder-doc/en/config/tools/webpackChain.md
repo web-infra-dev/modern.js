@@ -1,7 +1,7 @@
 - Type: `Function | undefined`
 - Default: `undefined`
 
-You can modify the webpack configuration by configuring `tools.webpackChain` which is type of `Function`.The function receives two parameters, the first is the original webpack chain object, and the second is an object containing some information about the toolset.
+You can modify the webpack configuration by configuring `tools.webpackChain` which is type of `Function`. The function receives two parameters, the first is the original webpack chain object, and the second is an object containing some utils.
 
 Compared with `tools.webpack`, **webpack-chain not only supports chained calls, but also can locate built-in Rule or Plugin based on aliases, so as to achieve precise config modification**. We recommend using `tools.webpackChain` instead of `tools.webpack`.
 
