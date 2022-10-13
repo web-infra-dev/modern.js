@@ -15,9 +15,12 @@ export class InlineChunkHtmlPlugin {
 
   tests: RegExp[];
 
+  inlinedAssets: Set<string>;
+
   constructor(htmlWebpackPlugin: typeof HtmlWebpackPlugin, tests: RegExp[]) {
     this.htmlWebpackPlugin = htmlWebpackPlugin;
     this.tests = tests;
+    this.inlinedAssets = new Set();
   }
 
   getInlinedScriptTag(
@@ -47,8 +50,8 @@ export class InlineChunkHtmlPlugin {
       closeTag: true,
     };
 
-    // remove script file from assets because it has already been inlined
-    compilation.deleteAsset(scriptName);
+    // mark asset has already been inlined
+    this.inlinedAssets.add(scriptName);
 
     return ret;
   }
@@ -78,8 +81,8 @@ export class InlineChunkHtmlPlugin {
       closeTag: true,
     };
 
-    // remove css file from assets because it has already been inlined
-    compilation.deleteAsset(linkName);
+    // mark asset has already been inlined
+    this.inlinedAssets.add(linkName);
 
     return ret;
   }
@@ -145,6 +148,23 @@ export class InlineChunkHtmlPlugin {
           assets.bodyTags = assets.bodyTags.map(tagFunction);
           return assets;
         });
+
+        compilation.hooks.processAssets.tap(
+          {
+            name: 'InlineChunkHtmlPlugin',
+            /**
+             * Remove marked inline assets in summarize stage,
+             * which should be later than the emitting of html-webpack-plugin
+             */
+            stage: Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
+          },
+          () => {
+            this.inlinedAssets.forEach(name => {
+              compilation.deleteAsset(name);
+            });
+            this.inlinedAssets.clear();
+          },
+        );
       },
     );
   }
