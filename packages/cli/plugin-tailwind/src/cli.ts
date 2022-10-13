@@ -143,7 +143,7 @@ export default (
         };
       },
 
-      moduleTailwindConfig() {
+      addTailwindCssConfig() {
         const modernConfig = api.useResolvedConfigContext();
         const tailwindConfig = getTailwindConfig(modernConfig, {
           pureConfig: {

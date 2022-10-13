@@ -29,6 +29,9 @@ export const run = async (
     const { getSourceConfig } = await import('../utils/source');
     const sourceConfig = await getSourceConfig(api, context);
 
+    const { getStyleConfig } = await import('../utils/style');
+    const styleConfig = await getStyleConfig(api);
+
     await pMap(resolvedBuildConfig, async config => {
       // implementation of `copy` start
       // end
@@ -40,6 +43,7 @@ export const run = async (
           sourceConfig,
           buildCmdOptions: cmdOptions,
           context,
+          styleConfig,
         },
         api,
       );

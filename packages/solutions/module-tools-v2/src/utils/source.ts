@@ -49,7 +49,6 @@ export const getSourceConfig = async (
   const alias = await resolveAlias(context, config.source?.alias);
   const envVars = resolveEnvVars(config.source?.envVars);
   const globalVars = resolveGlobalVars(config.source?.globalVars);
-  // TODO
   const designSystem = {};
 
   return { alias, envVars, globalVars, designSystem };

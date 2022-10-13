@@ -7,6 +7,9 @@ import type { UserConfig as LibuildUserConfig } from '@modern-js/libuild';
 import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build';
+import type { LessConfig, SassConfig, PostCSSConfig } from './style';
+
+export * from './style';
 
 export type BuildType = 'bundleless' | 'bundle';
 
@@ -139,10 +142,20 @@ export interface SourceConfig {
   designSystem: Record<string, any>;
 }
 
-export type ToolsConfig = Pick<
-  ToolsConfig_,
-  'babel' | 'jest' | 'less' | 'sass' | 'tailwindcss' | 'postcss'
->;
+export interface ToolsConfig {
+  less?: LessConfig;
+  sass?: SassConfig;
+  postcss?: PostCSSConfig;
+  /**
+   * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `tailwindcss` plugin
+   */
+  tailwindcss?:
+    | Record<string, any>
+    | ((options: Record<string, any>) => Record<string, any> | void);
+  jest?: Pick<Required<ToolsConfig_>, 'jest'>;
+}
 
 export interface StorybookDevConfig {
   name?: string;
