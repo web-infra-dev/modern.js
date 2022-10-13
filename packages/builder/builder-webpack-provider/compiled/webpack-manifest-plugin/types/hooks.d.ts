@@ -1,5 +1,5 @@
 import { Compiler, Module, Compilation, LoaderContext } from 'webpack';
-import { EmitCountMap, InternalOptions } from '.';
+import { EmitCountMap, InternalOptions } from './';
 interface BeforeRunHookArgs {
     emitCountMap: EmitCountMap;
     manifestFileName: string;

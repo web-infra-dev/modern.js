@@ -1,5 +1,5 @@
 import { AssetInfo, Chunk, Asset, Compilation } from 'webpack';
-import { InternalOptions, Manifest } from '.';
+import { InternalOptions, Manifest } from './';
 export interface FileDescriptor {
     chunk?: Chunk;
     isAsset: Boolean;
