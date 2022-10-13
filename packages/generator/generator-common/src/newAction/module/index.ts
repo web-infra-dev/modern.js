@@ -25,7 +25,7 @@ export const ModuleActionTypesMap: Record<string, string[]> = {
 export const ModuleSpecialSchemaMap: Record<string, Schema> = {};
 
 export const getModuleNewActionSchema = (
-  extra: Record<string, any>,
+  extra: Record<string, any> = {},
 ): Schema => {
   const { funcMap = {} } = extra;
   return {

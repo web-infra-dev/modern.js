@@ -71,7 +71,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     mockGeneratorCore,
   );
 
-  const hasOption = false;
+  let hasOption = false;
 
   const funcMap: Partial<Record<ActionFunction, boolean>> = {};
   ModuleActionFunctions.forEach(func => {
@@ -83,9 +83,10 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
       cwd,
     );
     funcMap[func] = enable;
+    if (!enable) {
+      hasOption = true;
+    }
   });
-
-  const schema = getModuleNewActionSchema({ funcMap });
 
   if (!hasOption) {
     smith.logger.warn('no option can be enabled');
@@ -93,7 +94,10 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     process.exit(1);
   }
 
-  const ans = await appAPI.getInputBySchema(schema, UserConfig);
+  const ans = await appAPI.getInputBySchemaFunc(getModuleNewActionSchema, {
+    ...UserConfig,
+    funcMap,
+  });
 
   const actionType = ans.actionType as ActionType;
 

@@ -44,13 +44,16 @@ export const getMWANewActionSchema = (
   extra: Record<string, any> = {},
 ): Schema => {
   const { funcMap = {} } = extra;
+  const funcs = MWAActionFunctions.filter(func => !funcMap[func]);
   return {
     type: 'object',
     properties: {
       actionType: {
         type: 'string',
         title: i18n.t(localeKeys.action.self),
-        enum: MWAActionTypes.map(type => ({
+        enum: MWAActionTypes.filter(type =>
+          type === ActionType.Function ? funcs.length > 0 : true,
+        ).map(type => ({
           value: type,
           label: ActionTypeText[type](),
           type: ['string'],
@@ -77,7 +80,7 @@ export const getMWANewActionSchema = (
       [ActionType.Function]: {
         type: 'string',
         title: ActionTypeText[ActionType.Function](),
-        enum: MWAActionFunctions.filter(func => !funcMap[func]).map(func => ({
+        enum: funcs.map(func => ({
           value: func,
           label:
             func === ActionFunction.Storybook
