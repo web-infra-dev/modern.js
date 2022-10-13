@@ -1,8 +1,8 @@
 import path from 'path';
 import { fs, mime } from '@modern-js/utils';
+import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
-import { ModernServerContext } from '../context';
 import { ERROR_DIGEST } from '../../constants';
 import { handleDirectory } from './static';
 import { readFile } from './reader';
@@ -61,7 +61,10 @@ export const createRenderHandler = ({
         );
         return result;
       } catch (err) {
-        ctx.error(ERROR_DIGEST.ERENDER, (err as Error).stack);
+        ctx.error(
+          ERROR_DIGEST.ERENDER,
+          (err as Error).stack || (err as Error).message,
+        );
         ctx.res.setHeader('x-modern-ssr-fallback', '1');
       }
     }

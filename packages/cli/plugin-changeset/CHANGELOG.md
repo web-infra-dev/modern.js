@@ -1,5 +1,48 @@
 # @modern-js/plugin-changeset
 
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/plugin-i18n@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 8c05089: fix: support monorepo deploy in pnpm 7
+  fix: 修复 monorepo deploy 命令在 pnpm 7 下的问题
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/plugin-i18n@1.20.0
+
+## 1.19.0
+
+### Minor Changes
+
+- d2fbefc: feat: release command support pnpm v7
+
+  feat: release 命令支持 pnpm v7
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@1.19.0
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/plugin-i18n@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes

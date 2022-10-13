@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
 import qs from 'querystring';
 import { Buffer } from 'buffer';
-import type { ModernServerContext as ModernServerContextInterface } from '@modern-js/types/server';
+import type { ModernServerContext as ModernServerContextInterface } from '@modern-js/types';
 import createEtag from 'etag';
 import fresh from 'fresh';
 import { headersWithoutCookie } from '../../utils';

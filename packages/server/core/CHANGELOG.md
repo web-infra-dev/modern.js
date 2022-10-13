@@ -1,5 +1,41 @@
 # @modern-js/server-plugin
 
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/plugin@1.19.0
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes

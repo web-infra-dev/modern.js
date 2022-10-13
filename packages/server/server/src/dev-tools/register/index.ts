@@ -30,6 +30,7 @@ export const enableRegister = (
 
   if (isTsProject && existTsNode && existTsConfigPaths) {
     debug('use ts-node');
+    const distPath = config?.output?.path || 'dist';
     const tsNode: typeof import('ts-node') = require('ts-node');
     const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
     const { alias } = config.source;
@@ -63,6 +64,7 @@ export const enableRegister = (
       // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
       files: true,
       transpileOnly: true,
+      ignore: ['(?:^|/)node_modules/', `(?:^|/)${distPath}/bundles/`],
     });
   } else {
     debug('use @babel/register');

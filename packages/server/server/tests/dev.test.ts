@@ -1,7 +1,7 @@
 import http from 'http';
 import webpack from 'webpack';
-import SocketServer from '../src/dev-tools/socket-server';
-import DevServerPlugin from '../src/dev-tools/dev-server-plugin';
+import SocketServer from '../src/dev-tools/dev-middleware/socket-server';
+import DevServerPlugin from '../src/dev-tools/dev-middleware/dev-server-plugin';
 
 function getRandomPort() {
   return Math.floor(Math.random() * (8000 - 1024)) + 1024;
@@ -13,8 +13,6 @@ describe('test dev tools', () => {
     const socketServer: any = new SocketServer({
       client: {
         port: port.toString(),
-        overlay: false,
-        logging: 'error',
         path: '/',
         host: '127.0.0.1',
       },
@@ -71,8 +69,6 @@ describe('test dev tools', () => {
   const getDevServerPluginOptions = () => ({
     client: {
       port: '8080',
-      overlay: false,
-      logging: 'error',
       path: '/',
       host: '127.0.0.1',
     },

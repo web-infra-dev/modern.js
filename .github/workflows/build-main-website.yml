@@ -1,0 +1,42 @@
+name: Build Main Website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'website/main/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-main-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 25
+
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --ignore-scripts
+
+      - name: Build Website
+        run: cd website/main && npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: website/main/dist
+          clean: true
+          clean-exclude: builder/**/*

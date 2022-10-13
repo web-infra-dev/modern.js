@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { formatURL } from '../src/hmr-client/createSocketUrl';
+import { formatURL } from '../src/dev-tools/dev-middleware/hmr-client/createSocketUrl';
 
 describe('formatURL', () => {
   test('should return correct URL', async () => {

@@ -1,5 +1,4 @@
-import type { IncomingMessage, ServerResponse } from 'http';
-import type { NextFunction, BffProxyOptions } from '@modern-js/types';
+import type { DevServerOptions } from '@modern-js/types';
 import type {
   MetaOptions,
   ChainIdentifier,
@@ -219,22 +218,6 @@ type ConfigFunction =
       utils?: any,
     ) => Record<string, unknown> | void);
 
-export type RequestHandler = (
-  req: IncomingMessage,
-  res: ServerResponse,
-  next: NextFunction,
-) => void;
-
-export type DevServerConfig = {
-  hot?: boolean;
-  liveReload?: boolean;
-  proxy?: BffProxyOptions;
-  headers?: Record<string, string>;
-  before?: RequestHandler[];
-  after?: RequestHandler[];
-  [propsName: string]: any;
-};
-
 export type PostCSSConfigUtils = {
   addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void;
 };
@@ -311,7 +294,7 @@ export interface ToolsConfig {
   postcss?: PostCSSConfig;
   styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
-  devServer?: DevServerConfig;
+  devServer?: DevServerOptions;
   tsLoader?: TsLoaderConfig;
   terser?: TerserConfig;
   minifyCss?: ConfigFunction;

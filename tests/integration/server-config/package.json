@@ -1,5 +1,5 @@
 {
-  "private": "true",
+  "private": true,
   "name": "server-config",
   "version": "0.1.0",
   "scripts": {
@@ -11,11 +11,6 @@
   },
   "engines": {
     "node": ">=14.17.6"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{ts,tsx}": [

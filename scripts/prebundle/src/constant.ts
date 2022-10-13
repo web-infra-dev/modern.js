@@ -188,12 +188,24 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
-    packageDir: 'builder/webpack-builder',
-    packageName: '@modern-js/webpack-builder',
+    packageDir: 'builder/builder-webpack-provider',
+    packageName: '@modern-js/builder-webpack-provider',
     dependencies: [
+      'serialize-javascript',
       'open',
       'tapable',
       'webpack-merge',
+      'ansi-escapes',
+      'patch-console',
+      'cli-truncate',
+      {
+        name: 'pretty-time',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-pxtorem',
+        ignoreDts: true,
+      },
       {
         name: 'webpack-5-chain',
         externals: {
@@ -202,10 +214,6 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'webpack-sources',
-        ignoreDts: true,
-      },
-      {
-        name: 'webpackbar',
         ignoreDts: true,
       },
       {
@@ -371,7 +379,7 @@ export const TASKS: TaskConfig[] = [
         name: 'url-loader',
         ignoreDts: true,
         externals: {
-          'schema-utils': 'schema-utils',
+          'schema-utils': '../schema-utils3',
           'loader-utils': '../loader-utils2',
           'mime-types': '@modern-js/utils/mime-types',
         },
@@ -790,13 +798,13 @@ export const TASKS: TaskConfig[] = [
   },
   {
     packageDir: 'builder/plugin-esbuild',
-    packageName: '@modern-js/webpack-builder-plugin-esbuild',
+    packageName: '@modern-js/builder-plugin-esbuild',
     dependencies: [
       {
         name: 'esbuild-loader',
         ignoreDts: true,
         externals: {
-          '/^webpack(/.*)/': '@modern-js/webpack-builder/webpack$1',
+          '/^webpack(/.*)/': '@modern-js/builder-webpack-provider/webpack$1',
         },
         afterBundle(task) {
           const dtsFiles = glob.sync(join(task.depPath, 'dist', '*.d.ts'), {

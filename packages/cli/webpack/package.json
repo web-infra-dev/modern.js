@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.0",
+  "version": "1.20.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -48,7 +48,7 @@
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/css-config": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.8",
     "@svgr/webpack": "^6.2.1",
     "core-js": "^3.25.0",
     "css-minimizer-webpack-plugin": "^3.0.2",
@@ -64,7 +64,7 @@
     "tapable": "^2.2.1",
     "terser-webpack-plugin": "^5.1.4",
     "ts-loader": "^9.2.5",
-    "webpack": "^5.71.0",
+    "webpack": "^5.74.0",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {

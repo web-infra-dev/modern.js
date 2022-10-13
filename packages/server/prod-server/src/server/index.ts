@@ -99,7 +99,7 @@ export class Server {
     this.app = await this.server.createHTTPServer(this.getRequestHandler());
 
     // runner can only be used after server init
-    await this.server.onInit(this.runner);
+    await this.server.onInit(this.runner, this.app);
 
     return this;
   }
@@ -157,12 +157,7 @@ export class Server {
   }
 
   public async close() {
-    await this.server.onClose();
-    await new Promise<void>(resolve =>
-      this.app.close(() => {
-        resolve();
-      }),
-    );
+    this.app.close();
   }
 
   public listen<T extends number | ListenOptions | undefined>(
@@ -170,11 +165,7 @@ export class Server {
     listener: any,
   ) {
     const callback = () => {
-      if (listener) {
-        listener();
-      }
-
-      this.server.onListening(this.app);
+      listener?.();
     };
 
     if (typeof options === 'object') {

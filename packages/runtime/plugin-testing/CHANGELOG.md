@@ -1,5 +1,69 @@
 # @modern-js/plugin-testing
 
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/babel-preset-app@1.20.1
+  - @modern-js/webpack@1.20.1
+  - @modern-js/runtime@1.20.1
+  - @modern-js/prod-server@1.20.1
+  - @modern-js/babel-compiler@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [b57d5ff]
+- Updated dependencies [4ddc185]
+- Updated dependencies [715df7a]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [077aef8]
+- Updated dependencies [8c05089]
+- Updated dependencies [baf7337]
+  - @modern-js/utils@1.20.0
+  - @modern-js/runtime@1.20.0
+  - @modern-js/webpack@1.20.0
+  - @modern-js/prod-server@1.20.0
+  - @modern-js/babel-preset-app@1.20.0
+  - @modern-js/babel-compiler@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- Updated dependencies [1903f68]
+  - @modern-js/prod-server@1.19.0
+  - @modern-js/webpack@1.19.0
+  - @modern-js/runtime@1.19.0
+  - @modern-js/babel-preset-app@1.19.0
+  - @modern-js/babel-compiler@1.19.0
+  - @modern-js/plugin@1.19.0
+  - @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [3586707]
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [f6a3aa1]
+- Updated dependencies [9f7bfa6]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/prod-server@1.18.1
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/webpack@1.18.1
+  - @modern-js/runtime@1.18.1
+  - @modern-js/babel-preset-app@1.18.1
+  - @modern-js/babel-compiler@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes

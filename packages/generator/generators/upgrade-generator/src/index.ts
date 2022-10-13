@@ -9,6 +9,8 @@ import {
   getPackageManager,
   getPackageObj,
   execa,
+  semver,
+  fs,
 } from '@modern-js/generator-utils';
 import {
   PackageManager,
@@ -62,6 +64,9 @@ export const handleTemplateFile = async (
       .filter(
         dep => dep.startsWith('@modern-js') || dep.startsWith('@modern-js-app'),
       )
+      .filter(dep => !dep.includes('electron'))
+      .filter(dep => !dep.includes('codesmith') && !dep.includes('easy-form'))
+      .filter(dep => !dep.startsWith('@modern-js-reduck'))
       .every(dep => deps[dep] === modernVersion)
   ) {
     generator.logger.info(
@@ -74,6 +79,19 @@ export const handleTemplateFile = async (
 
   const packageManager = await getPackageManager(appDir);
   context.config.packageManager = packageManager;
+
+  if (packageManager === PackageManager.Pnpm) {
+    const npmrcPath = path.join(generator.outputPath, '.npmrc');
+    if (fs.existsSync(npmrcPath)) {
+      const content = fs.readFileSync(npmrcPath, 'utf-8');
+      if (!content.includes('strict-peer-dependencies=false')) {
+        fs.appendFileSync(npmrcPath, '\nstrict-peer-dependencies=false\n');
+      }
+    } else {
+      fs.ensureFileSync(npmrcPath);
+      fs.writeFileSync(npmrcPath, 'strict-peer-dependencies=false');
+    }
+  }
 
   if (
     solutions[0] === Solution.Monorepo &&
@@ -132,6 +150,43 @@ export const handleTemplateFile = async (
   );
 
   spinner.stop();
+
+  // update husky
+  const huskyVersion = deps.husky;
+  if (huskyVersion && semver.lt(huskyVersion, '8.0.0')) {
+    generator.logger.info(`${i18n.t(localeKeys.updateHusky)}`);
+    await jsonAPI.update(
+      context.materials.default.get(path.join(appDir, 'package.json')),
+      {
+        query: {},
+        update: {
+          $set: {
+            'devDependencies.husky': '^8.0.0',
+          },
+        },
+      },
+    );
+
+    const pkgPath = context.materials.default.get(
+      path.join(appDir, 'package.json'),
+    ).filePath;
+    const pkgInfo = fs.readJSONSync(pkgPath, 'utf-8');
+    const { prepare } = pkgInfo.scripts;
+    if (!prepare) {
+      pkgInfo.scripts.prepare = 'husky install';
+    } else if (!prepare.includes('husky install')) {
+      pkgInfo.scripts.prepare = `${prepare} && husky install`;
+    }
+    pkgInfo.husky = undefined;
+
+    fs.writeJSONSync(pkgPath, pkgInfo, { spaces: 2 });
+
+    await appApi.forgeTemplate('templates/**/*');
+    fs.chmodSync(
+      path.join(generator.outputPath, '.husky', 'pre-commit'),
+      '755',
+    );
+  }
 
   await appApi.runInstall();
 

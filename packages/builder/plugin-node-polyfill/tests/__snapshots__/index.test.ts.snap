@@ -1,0 +1,61 @@
+// Vitest Snapshot v1
+
+exports[`plugins/node-polyfill > should add node-polyfill config 1`] = `
+{
+  "plugins": [
+    ProvidePlugin {
+      "definitions": {
+        "Buffer": [
+          "<ROOT>/node_modules/<PNPM_INNER>/buffer/index.js",
+          "Buffer",
+        ],
+        "process": [
+          "<ROOT>/node_modules/<PNPM_INNER>/process/browser.js",
+        ],
+      },
+    },
+  ],
+  "resolve": {
+    "fallback": {
+      "_stream_duplex": "<ROOT>/node_modules/<PNPM_INNER>/readable-stream/duplex.js",
+      "_stream_passthrough": "<ROOT>/node_modules/<PNPM_INNER>/readable-stream/passthrough.js",
+      "_stream_readable": "<ROOT>/node_modules/<PNPM_INNER>/readable-stream/readable.js",
+      "_stream_transform": "<ROOT>/node_modules/<PNPM_INNER>/readable-stream/transform.js",
+      "_stream_writable": "<ROOT>/node_modules/<PNPM_INNER>/readable-stream/writable.js",
+      "assert": "<ROOT>/node_modules/<PNPM_INNER>/assert/assert.js",
+      "buffer": "<ROOT>/node_modules/<PNPM_INNER>/buffer/index.js",
+      "child_process": false,
+      "cluster": false,
+      "console": "<ROOT>/node_modules/<PNPM_INNER>/console-browserify/index.js",
+      "constants": "<ROOT>/node_modules/<PNPM_INNER>/constants-browserify/constants.json",
+      "crypto": "<ROOT>/node_modules/<PNPM_INNER>/crypto-browserify/index.js",
+      "dgram": false,
+      "dns": false,
+      "domain": "<ROOT>/node_modules/<PNPM_INNER>/domain-browser/source/index.js",
+      "events": "<ROOT>/node_modules/<PNPM_INNER>/events/events.js",
+      "fs": false,
+      "http": "<ROOT>/node_modules/<PNPM_INNER>/stream-http/index.js",
+      "https": "<ROOT>/node_modules/<PNPM_INNER>/https-browserify/index.js",
+      "module": false,
+      "net": false,
+      "os": "<ROOT>/node_modules/<PNPM_INNER>/os-browserify/browser.js",
+      "path": "<ROOT>/node_modules/<PNPM_INNER>/path-browserify/index.js",
+      "process": "<ROOT>/node_modules/<PNPM_INNER>/process/browser.js",
+      "punycode": "<ROOT>/node_modules/<PNPM_INNER>/punycode/punycode.js",
+      "querystring": "<ROOT>/node_modules/<PNPM_INNER>/querystring-es3/index.js",
+      "readline": false,
+      "repl": false,
+      "stream": "<ROOT>/node_modules/<PNPM_INNER>/stream-browserify/index.js",
+      "string_decoder": "<ROOT>/node_modules/<PNPM_INNER>/string_decoder/lib/string_decoder.js",
+      "sys": "<ROOT>/node_modules/<PNPM_INNER>/util/util.js",
+      "timers": "<ROOT>/node_modules/<PNPM_INNER>/timers-browserify/main.js",
+      "tls": false,
+      "tty": "<ROOT>/node_modules/<PNPM_INNER>/tty-browserify/index.js",
+      "url": "<ROOT>/node_modules/<PNPM_INNER>/url/url.js",
+      "util": "<ROOT>/node_modules/<PNPM_INNER>/util/util.js",
+      "vm": "<ROOT>/node_modules/<PNPM_INNER>/vm-browserify/index.js",
+      "zlib": "<ROOT>/node_modules/<PNPM_INNER>/browserify-zlib/lib/index.js",
+    },
+  },
+}
+`;

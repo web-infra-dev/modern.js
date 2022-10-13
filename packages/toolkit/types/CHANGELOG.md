@@ -1,5 +1,28 @@
 # @modern-js/types
 
+## 1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 66e4817: feat: support devServer.historyApiFallback
+
+  feat: 支持 devServer.historyApiFallback 配置项
+
+## 1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- 318e149: fix: tools.devServer type missing some properties
+
+  fix: 修复 tools.devServer 类型定义不完整的问题
+
+- 60d95ad: fix: dev server config should be optional
+  fix: devServer 配置项应该是可选配置的
+
 ## 1.18.0
 
 ## 1.17.0

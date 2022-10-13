@@ -1,7 +1,7 @@
 import path from 'path';
 import { mime } from '@modern-js/utils';
+import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult } from '../../type';
-import { ModernServerContext } from '../context';
 import { readFile } from './reader';
 
 export async function handleDirectory(

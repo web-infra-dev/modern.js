@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { compatRequire } from '@modern-js/utils';
 import { match } from 'path-to-regexp';
-import { ModernServerContext, NextFunction } from '@modern-js/types';
+import type { ModernServerContext, NextFunction } from '@modern-js/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const VALID_METHODS = ['get', 'post', 'put', 'delete', 'patch'];

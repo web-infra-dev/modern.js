@@ -1,0 +1,111 @@
+// Vitest Snapshot v1
+
+exports[`test getRootPixelCode > should getRootPixelCode with custom options 1`] = `
+"<script type=\\"text/javascript\\">function setRootPixel() {
+  function getQuery(name) {
+    return (new RegExp('[?&]' + name + '=([^&#/b]+)').exec(location.search || '') || [])[1];
+  }
+
+  function setRootFontSize() {
+    var widthQueryKey = 'widthKey';
+    var rem2px = 5;
+    var clientWidth;
+    var docEl = document.documentElement;
+    if (widthQueryKey && (+getQuery(widthQueryKey))) {
+      clientWidth = +getQuery(widthQueryKey);
+    } else {
+      clientWidth = window.innerWidth && docEl.clientWidth ?
+        Math.min(window.innerWidth, docEl.clientWidth) :
+        (window.innerWidth || docEl.clientWidth || (document.body && document.body.clientWidth) || 750);
+        
+        var isLandscape = ((screen.orientation && screen.orientation.angle) || window.orientation) / 90 % 2;
+        if (isLandscape) {
+          var clientHeight = window.innerHeight && docEl.clientHeight ?
+          Math.min(window.innerHeight, docEl.clientHeight) :
+          (window.innerHeight || docEl.clientHeight || (document.body && document.body.clientHeight) || 750);
+
+          clientWidth = Math.max(clientHeight, 350);
+        }
+    }
+
+    var htmlFontSizePx = (clientWidth * rem2px) / 750;
+    var maxRootFontSize = 64;
+
+    htmlFontSizePx = htmlFontSizePx < maxRootFontSize ? htmlFontSizePx : rem2px ;
+
+    window.ROOT_FONT_SIZE = htmlFontSizePx;
+    docEl.style.fontSize = htmlFontSizePx + 'px';
+  }
+
+  function adjust(immediate) {
+    if (immediate) {
+      setRootFontSize();
+      return;
+    }
+    setTimeout(setRootFontSize, 30);
+  }
+
+  adjust(true);
+
+  window.addEventListener('resize', adjust, false);
+
+  if ('onorientationchange' in window) {
+    window.addEventListener('orientationchange', adjust, false);
+  }
+}
+
+typeof window !== 'undefined' && setRootPixel();</script>"
+`;
+
+exports[`test getRootPixelCode > should getRootPixelCode with custom options 2`] = `"<script type=\\"text/javascript\\">function setRootPixel(){function n(n){return(new RegExp(\\"[?&]\\"+n+\\"=([^&#/b]+)\\").exec(location.search||\\"\\")||[])[1]}function e(){var e,i=\\"widthKey\\",t=document.documentElement;if(+n(i))e=+n(i);else if(e=window.innerWidth&&t.clientWidth?Math.min(window.innerWidth,t.clientWidth):window.innerWidth||t.clientWidth||document.body&&document.body.clientWidth||750,(screen.orientation&&screen.orientation.angle||window.orientation)/90%2){var o=window.innerHeight&&t.clientHeight?Math.min(window.innerHeight,t.clientHeight):window.innerHeight||t.clientHeight||document.body&&document.body.clientHeight||750;e=Math.max(o,350)}var d=5*e/750;d=d<64?d:5,window.ROOT_FONT_SIZE=d,t.style.fontSize=d+\\"px\\"}function i(n){n?e():setTimeout(e,30)}i(!0),window.addEventListener(\\"resize\\",i,!1),\\"onorientationchange\\"in window&&window.addEventListener(\\"orientationchange\\",i,!1)}\\"undefined\\"!=typeof window&&setRootPixel();</script>"`;
+
+exports[`test getRootPixelCode > should getRootPixelCode with default options 1`] = `
+"<script type=\\"text/javascript\\">function setRootPixel() {
+  function getQuery(name) {
+    return (new RegExp('[?&]' + name + '=([^&#/b]+)').exec(location.search || '') || [])[1];
+  }
+
+  function setRootFontSize() {
+    var widthQueryKey = '';
+    var rem2px = 50;
+    var clientWidth;
+    var docEl = document.documentElement;
+    if (widthQueryKey && (+getQuery(widthQueryKey))) {
+      clientWidth = +getQuery(widthQueryKey);
+    } else {
+      clientWidth = window.innerWidth && docEl.clientWidth ?
+        Math.min(window.innerWidth, docEl.clientWidth) :
+        (window.innerWidth || docEl.clientWidth || (document.body && document.body.clientWidth) || 375);
+        
+    }
+
+    var htmlFontSizePx = (clientWidth * rem2px) / 375;
+    var maxRootFontSize = 64;
+
+    htmlFontSizePx = Math.min(htmlFontSizePx, maxRootFontSize);
+
+    window.ROOT_FONT_SIZE = htmlFontSizePx;
+    docEl.style.fontSize = htmlFontSizePx + 'px';
+  }
+
+  function adjust(immediate) {
+    if (immediate) {
+      setRootFontSize();
+      return;
+    }
+    setTimeout(setRootFontSize, 30);
+  }
+
+  adjust(true);
+
+  window.addEventListener('resize', adjust, false);
+
+  if ('onorientationchange' in window) {
+    window.addEventListener('orientationchange', adjust, false);
+  }
+}
+
+typeof window !== 'undefined' && setRootPixel();</script>"
+`;
+
+exports[`test getRootPixelCode > should getRootPixelCode with default options 2`] = `"<script type=\\"text/javascript\\">function setRootPixel(){function n(){var n=document.documentElement,i=50*(window.innerWidth&&n.clientWidth?Math.min(window.innerWidth,n.clientWidth):window.innerWidth||n.clientWidth||document.body&&document.body.clientWidth||375)/375;i=Math.min(i,64),window.ROOT_FONT_SIZE=i,n.style.fontSize=i+\\"px\\"}function i(i){i?n():setTimeout(n,30)}i(!0),window.addEventListener(\\"resize\\",i,!1),\\"onorientationchange\\"in window&&window.addEventListener(\\"orientationchange\\",i,!1)}\\"undefined\\"!=typeof window&&setRootPixel();</script>"`;

@@ -1,4 +1,4 @@
-import { ModernServerContext } from '../../context';
+import type { ModernServerContext } from '@modern-js/types';
 import { RenderFunction, SSRServerContext } from '../type';
 import { ERROR_DIGEST } from '../../../constants';
 import { createCache } from './spr';

@@ -3,8 +3,13 @@ import { IncomingMessage, Server, ServerResponse } from 'http';
 import { serverManager } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
-import type { Metrics, Logger, NextFunction } from '@modern-js/types/server';
-import { ModernRouteInterface } from './libs/route';
+import type {
+  Metrics,
+  Logger,
+  NextFunction,
+  ModernServerContext,
+} from '@modern-js/types';
+import type { ModernRouteInterface } from './libs/route';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -67,13 +72,9 @@ export interface ModernServerInterface {
 
   distDir: string;
 
-  onInit: (runner: ServerHookRunner) => Promise<void>;
-
-  onClose: () => Promise<void>;
+  onInit: (runner: ServerHookRunner, app: Server) => Promise<void>;
 
   onRepack: (options: BuildOptions) => void;
-
-  onListening: (app: Server) => void;
 
   getRequestHandler: () => (
     req: IncomingMessage,
@@ -93,3 +94,8 @@ export interface ModernServerInterface {
 export type ServerConstructor = (
   options: ModernServerOptions,
 ) => ModernServerInterface;
+
+export type ModernServerHandler = (
+  context: ModernServerContext,
+  next: NextFunction,
+) => Promise<void> | void;

@@ -1,6 +1,6 @@
 import Parser from 'ua-parser-js';
 import compareVersions from 'compare-versions';
-import { ModernServerContext } from '../../context';
+import { ModernServerContext } from '@modern-js/types';
 import { NativeModuleNameMap } from './browser-list';
 
 const nativeModules = require('@babel/compat-data/native-modules');

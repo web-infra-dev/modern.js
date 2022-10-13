@@ -1,7 +1,7 @@
 import path from 'path';
 import type { ServerPlugin } from '@modern-js/server-core';
 import { isProd, requireExistModule, SERVER_DIR } from '@modern-js/utils';
-import { ModernServerContext } from '@modern-js/types';
+import type { ModernServerContext } from '@modern-js/types';
 
 const WEB_APP_NAME = 'index';
 

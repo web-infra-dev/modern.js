@@ -1,7 +1,7 @@
 {
   "name": "@scripts/jest-config",
   "private": true,
-  "version": "1.18.0",
+  "version": "1.20.1",
   "main": "jest.config.js",
   "devDependencies": {
     "@swc/core": "^1.2.220",

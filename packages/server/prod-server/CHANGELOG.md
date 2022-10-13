@@ -1,5 +1,52 @@
 # @modern-js/prod-server
 
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/server-core@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- baf7337: fix: console error message if error stack not exist
+  fix: 如果错误堆栈不存在，则输出错误信息
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/server-core@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- 1903f68: fix(server): failed to access static files when output.assetPrefix ends with /
+
+  fix(server): 修复 output.assetPrefix 以 / 结尾时无法正确访问的问题
+
+  - @modern-js/server-core@1.19.0
+  - @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- 3586707: fix: the compaire-version throw error make the supportModern error
+  fix: compaire-version 的抛错导致 supportModern 失败
+- f6a3aa1: feat: support etag in dev server by default
+  feat: 开发环境默认支持 etag 功能
+- 9f7bfa6: fix: fix the problem that the response header cannot be redirected when setting in ssr
+  fix: 修复在 SSR 中设置响应头却无法重定向的问题
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/server-core@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 {
-  "private": "true",
+  "private": true,
   "name": "tmp",
   "version": "0.1.0",
   "scripts": {
@@ -16,11 +16,6 @@
     "extends": [
       "@modern-js"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{ts,tsx}": [

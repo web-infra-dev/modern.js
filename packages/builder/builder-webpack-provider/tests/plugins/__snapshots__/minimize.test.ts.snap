@@ -1,0 +1,42 @@
+// Vitest Snapshot v1
+
+exports[`plugins/minimize > should apply minimizer in production 1`] = `
+{
+  "minimize": true,
+  "minimizer": [
+    TerserPlugin {
+      "options": {
+        "exclude": undefined,
+        "extractComments": true,
+        "include": undefined,
+        "minimizer": {
+          "implementation": [Function],
+          "options": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
+        },
+        "parallel": true,
+        "test": /\\\\\\.\\[cm\\]\\?js\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+      },
+    },
+    CssMinimizerPlugin {
+      "options": {
+        "exclude": undefined,
+        "include": undefined,
+        "minimizer": {
+          "implementation": [Function],
+          "options": {},
+        },
+        "parallel": true,
+        "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+        "warningsFilter": [Function],
+      },
+    },
+  ],
+}
+`;

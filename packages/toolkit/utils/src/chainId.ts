@@ -13,6 +13,8 @@ export const CHAIN_ID = {
     MEDIA: 'media',
     /** Rule for js */
     JS: 'js',
+    /** Rule for data uri encoded javascript */
+    JS_DATA_URI: 'js-data-uri',
     /** Rule for ts */
     TS: 'ts',
     /** Rule for css */
@@ -132,10 +134,12 @@ export const CHAIN_ID = {
     REACT_FAST_REFRESH: 'react-fast-refresh',
     /** ProvidePlugin for node polyfill */
     NODE_POLYFILL_PROVIDE: 'node-polyfill-provide',
-    /** ModuleDependencyErrorPlugin */
-    MODULE_DEPENDENCY_ERROR: 'module-dependency-error',
     /** WebpackSRIPlugin */
     SUBRESOURCE_INTEGRITY: 'subresource-integrity',
+    /** WebpackAssetsRetryPlugin */
+    ASSETS_RETRY: 'ASSETS_RETRY',
+    /** AutoSetRootFontSizePlugin */
+    AUTO_SET_ROOT_SIZE: 'auto-set-root-size',
   },
   /** Predefined minimizers */
   MINIMIZER: {

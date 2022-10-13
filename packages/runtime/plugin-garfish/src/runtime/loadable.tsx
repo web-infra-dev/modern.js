@@ -108,10 +108,7 @@ export function Loadable(WrapComponent: any) {
           if (!mountRef.current) {
             return;
           }
-          setState({
-            ...state,
-            ...newState,
-          });
+          setState(state => ({ ...state, ...newState }));
         },
         [state],
       );

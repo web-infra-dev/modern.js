@@ -1,11 +1,52 @@
 # @modern-js/utils
 
+## 1.20.1
+
+### Patch Changes
+
+- 49515c5: fix(utils): failed to call logger.success method
+
+  fix(utils): 修复调用 logger.success 出现异常的问题
+
+## 1.20.0
+
+### Patch Changes
+
+- d5d570b: feat: optimize the logger of @modern-js/utils, remove builder logger
+
+  feat: 优化 @modern-js/utils 的 logger 格式, 移除 builder 内置的 logger
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- df8ee7e: fix(utils): failed to resolve execa
+
+  fix(utils): 修复找不到 execa 模块的问题
+
+- 8c05089: fix: support monorepo deploy in pnpm 7
+  fix: 修复 monorepo deploy 命令在 pnpm 7 下的问题
+
+## 1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- 9fcfbd4: chore: add assets retry plugin
+
+  chore: 增加资源重试插件
+
+- 6c2c745: chore(utils): add RULE.JS_DATA_URI to CHAIN_ID
+
+  chore(utils): CHAIN_ID 增加 RULE.JS_DATA_URI 值
+
 ## 1.18.0
 
 ### Minor Changes
 
-- 5227370: feat: add webpack-builder plugin subresource-integrity
-  feat: 新增 webpack-builder 插件 subresource-integrity
+- 5227370: feat: add builder plugin subresource-integrity
+  feat: 新增 builder 插件 subresource-integrity
 
 ### Patch Changes
 
@@ -110,7 +151,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for webpack-builder
+- 7b9067f: add babel plugin for builder
 
 ### Patch Changes
 

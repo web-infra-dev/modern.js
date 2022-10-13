@@ -19,10 +19,10 @@
     "test": "npm run test:ut",
     "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=2 && npm run test:vitest",
     "test:e2e": "cd tests && npm run test",
-    "test:vitest": "pnpm --filter @modern-js/webpack-builder... run build && pnpm --filter @modern-js/webpack-builder run test",
+    "test:vitest": "node scripts/vitest-run-all.js",
     "fast-lint": "sh -x ./fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
-    "prepare": "pnpm run prepare --filter ./packages && husky install",
+    "prepare": "pnpm run --filter './packages/**' prepare && husky install",
     "preinstall": "only-allow-pnpm",
     "lint": "npm run fast-lint",
     "change": "modern change",
@@ -40,7 +40,7 @@
   "engines": {
     "node": ">=14.17.6"
   },
-  "packageManager": "pnpm@6.34.0",
+  "packageManager": "pnpm@7.12.2",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -69,8 +69,6 @@
     "coverage/"
   ],
   "devDependencies": {
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
     "@babel/core": "^7.18.0",
     "@babel/plugin-transform-modules-commonjs": "^7.17.7",
     "@commitlint/cli": "^13.2.1",
@@ -83,14 +81,19 @@
     "@scripts/build": "workspace:*",
     "@swc/core": "^1.2.220",
     "@swc/jest": "^0.2.22",
+    "@types/react": "^17",
+    "@types/react-dom": "^17",
     "babel-plugin-module-resolver": "^4.1.0",
     "btsm": "2.2.2",
+    "cypress": "^10.1.0",
     "enhanced-resolve": "^5.9.2",
     "esbuild": "^0.14.38",
     "husky": "^8.0.0",
     "jest": "^27.5.1",
     "wireit": "^0.7.1",
-    "cypress": "^10.1.0",
-    "zx": "4.2.0"
+    "zx": "4.2.0",
+    "vitest": "0.21.1",
+    "execa": "^5.1.1",
+    "globby": "^11.0.4"
   }
 }

@@ -7,6 +7,7 @@ module.exports = {
     '!<rootDir>/packages/**/toolkit/upgrade/src/**/*.ts',
     // exclude builder temporarily
     '!<rootDir>/packages/builder/**/src/**/*.ts',
+    '!<rootDir>/packages/toolkit/e2e/**/*.ts',
   ],
   coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
@@ -32,6 +33,12 @@ module.exports = {
     '<rootDir>/packages/**/src/**/*.test.[jt]s?(x)',
     '<rootDir>/packages/**/tests/**/*.test.[jt]s?(x)',
   ],
-  modulePathIgnorePatterns: ['<rootDir>/packages/builder/'],
-  testPathIgnorePatterns: ['<rootDir>/packages/builder/'],
+  modulePathIgnorePatterns: [
+    '<rootDir>/packages/builder/',
+    '<rootDir>/packages/toolkit/e2e/',
+  ],
+  testPathIgnorePatterns: [
+    '<rootDir>/packages/builder/',
+    '<rootDir>/packages/toolkit/e2e/',
+  ],
 };
