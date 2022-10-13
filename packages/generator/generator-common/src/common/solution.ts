@@ -49,13 +49,13 @@ export const getSolutionSchema = (extra: Record<string, any> = {}): Schema => {
     properties: {
       solution: {
         type: 'string',
-        title: extra.isMonorepoSubProject
+        title: extra.isMonorepo
           ? i18n.t(localeKeys.sub_solution.self)
           : i18n.t(localeKeys.solution.self),
         enum: (() => {
           const items = (
             extra?.solutions ||
-            Object.values(extra?.isMonorepoSubProject ? SubSolution : Solution)
+            Object.values(extra?.isMonorepo ? SubSolution : Solution)
           )
             .filter(
               (solution: Solution) =>
@@ -63,7 +63,7 @@ export const getSolutionSchema = (extra: Record<string, any> = {}): Schema => {
             )
             .map((solution: unknown) => ({
               value: solution,
-              label: extra?.isMonorepoSubProject
+              label: extra?.isMonorepo
                 ? SubSolutionText[solution as SubSolution]()
                 : SolutionText[solution as Solution](),
             }));

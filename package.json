@@ -101,7 +101,7 @@
       "@types/react": "^18",
       "@types/react-dom": "^18",
       "@modern-js/codesmith-api-app": "1.6.2-alpha.2",
-      "@modern-js/codesmith-formily": "1.6.2-alpha.2"
+      "@modern-js/codesmith-formily": "1.6.2-alpha.3"
     }
   }
 }
