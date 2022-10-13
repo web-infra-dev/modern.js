@@ -2298,6 +2298,7 @@ importers:
       '@modern-js/bff-runtime': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/server-core': workspace:*
+      '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2319,6 +2320,7 @@ importers:
       '@babel/runtime': 7.18.6
       '@modern-js/bff-core': link:../bff-core
       '@modern-js/bff-runtime': link:../bff-runtime
+      '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       koa-body: 4.2.0
       koa-router: 10.1.1
