@@ -132,21 +132,16 @@ importers:
       '@types/babel__preset-env': ^7.9.2
       '@types/mini-css-extract-plugin': 2.2.0
       '@types/node': ^14
-      '@types/serialize-javascript': ^5.0.1
       '@vitest/ui': ^0.21.1
-      ansi-escapes: 4.3.2
       autoprefixer: ^10.4.8
       caniuse-lite: ^1.0.30001332
-      cli-truncate: 2.1.0
       css-minimizer-webpack-plugin: 4.0.0
       cssnano: ^5.1.12
       fork-ts-checker-webpack-plugin: 7.2.13
       html-webpack-plugin: 5.5.0
       mini-css-extract-plugin: 2.4.5
-      patch-console: 1.0.0
       postcss: 8.4.16
       react-refresh: 0.12.0
-      serialize-javascript: ^6.0.0
       style-loader: 3.3.1
       terser-webpack-plugin: 5.3.3
       ts-loader: 9.3.1
@@ -163,18 +158,14 @@ importers:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.8_7ybob5zygvcy2nzwou5uqjfbri
       '@svgr/webpack': 6.2.1
       '@types/mini-css-extract-plugin': 2.2.0
-      ansi-escapes: 4.3.2
       caniuse-lite: 1.0.30001375
-      cli-truncate: 2.1.0
       css-minimizer-webpack-plugin: 4.0.0_webpack@5.74.0
       cssnano: 5.1.12_postcss@8.4.16
       fork-ts-checker-webpack-plugin: 7.2.13_xnp4kzegbjokq62cajex2ovgkm
       html-webpack-plugin: 5.5.0_webpack@5.74.0
       mini-css-extract-plugin: 2.4.5_webpack@5.74.0
-      patch-console: 1.0.0
       postcss: 8.4.16
       react-refresh: 0.12.0
-      serialize-javascript: 6.0.0
       style-loader: 3.3.1_webpack@5.74.0
       terser-webpack-plugin: 5.3.3_webpack@5.74.0
       ts-loader: 9.3.1_xnp4kzegbjokq62cajex2ovgkm
@@ -186,7 +177,6 @@ importers:
       '@types/babel__core': 7.1.19
       '@types/babel__preset-env': 7.9.2
       '@types/node': 14.18.21
-      '@types/serialize-javascript': 5.0.2
       '@vitest/ui': 0.21.1
       autoprefixer: 10.4.8_postcss@8.4.16
       typescript: 4.7.4
@@ -3265,6 +3255,7 @@ importers:
       address: 1.1.2
       ajv: 8.11.0
       ajv-keywords: 5.1.0
+      ansi-escapes: 4.3.2
       autoprefixer: 10.4.7
       babel-loader: 8.2.5
       babel-plugin-dynamic-import-node: 2.3.3
@@ -3277,6 +3268,7 @@ importers:
       browserslist: 4.20.2
       chalk: 4.1.2
       chokidar: 3.5.3
+      cli-truncate: 2.1.0
       commander: 8.3.0
       copy-webpack-plugin: 9.1.0
       css-loader: 6.7.1
@@ -3309,6 +3301,7 @@ importers:
       nanoid: 3.3.4
       open: ^8.4.0
       ora: 5.4.1
+      patch-console: 1.0.0
       pkg-up: 3.1.0
       postcss: ^8.4.14
       postcss-custom-properties: 12.1.7
@@ -3321,6 +3314,7 @@ importers:
       postcss-page-break: 3.0.4
       postcss-pxtorem: 6.0.0
       postcss-value-parser: 4.2.0
+      pretty-time: 1.1.0
       pug: 3.0.2
       recursive-readdir: 2.2.2
       sass: 1.54.4
@@ -3401,6 +3395,7 @@ importers:
       address: 1.1.2
       ajv: 8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
+      ansi-escapes: 4.3.2
       autoprefixer: 10.4.7_postcss@8.4.14
       babel-loader: 8.2.5_m3opitmgss2x7fiy6klia7uvaa
       babel-plugin-dynamic-import-node: 2.3.3
@@ -3413,6 +3408,7 @@ importers:
       browserslist: 4.20.2
       chalk: 4.1.2
       chokidar: 3.5.3
+      cli-truncate: 2.1.0
       commander: 8.3.0
       copy-webpack-plugin: 9.1.0_webpack@5.74.0
       css-loader: 6.7.1_webpack@5.74.0
@@ -3444,6 +3440,7 @@ importers:
       nanoid: 3.3.4
       open: 8.4.0
       ora: 5.4.1
+      patch-console: 1.0.0
       pkg-up: 3.1.0
       postcss-custom-properties: 12.1.7_postcss@8.4.14
       postcss-flexbugs-fixes: 5.0.2_postcss@8.4.14
@@ -3455,6 +3452,7 @@ importers:
       postcss-page-break: 3.0.4_postcss@8.4.14
       postcss-pxtorem: 6.0.0_postcss@8.4.14
       postcss-value-parser: 4.2.0
+      pretty-time: 1.1.0
       pug: 3.0.2
       recursive-readdir: 2.2.2
       sass: 1.54.4
@@ -23249,7 +23247,7 @@ packages:
   /patch-console/1.0.0:
     resolution: {integrity: sha512-nxl9nrnLQmh64iTzMfyylSlRozL7kAXIaxw1fVcLYdyhNkJCRUzirRZTikXGJsg+hc4fqpneTK6iU2H1Q8THSA==}
     engines: {node: '>=10'}
-    dev: false
+    dev: true
 
   /path-browserify/0.0.1:
     resolution: {integrity: sha512-BapA40NHICOS+USX9SN4tyhq+A2RrN/Ws5F0Z5aMHDp98Fl86lX8Oti8B7uN93L4Ifv4fHOEA+pQw87gmMO/lQ==}
