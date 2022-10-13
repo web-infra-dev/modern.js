@@ -6,6 +6,7 @@ import * as t from '@babel/types';
 import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import { fs } from '@modern-js/utils';
 import { defaultTransformedFunctions } from '../constants/dts';
+import { dtsAliasExts } from '../constants/file';
 import { matchesPattern, isImportCall } from './dts';
 
 export interface TransformOption {
@@ -13,24 +14,6 @@ export interface TransformOption {
   baseUrl: string;
   paths: Record<string, string[] | string>;
 }
-
-const getPathsMap = (
-  paths: Record<string, string | string[]>,
-  sourceDirName = 'src',
-) => {
-  const pathKeys = Object.keys(paths);
-  const pathsMap: Record<string, string[]> = {};
-  const replaceSrcToTypes = (s: string) => s.replace(sourceDirName, 'types');
-  for (const key of pathKeys) {
-    const p = paths[key];
-    if (typeof p === 'string') {
-      pathsMap[key] = [replaceSrcToTypes(p)];
-    } else {
-      pathsMap[key] = (paths[key] as string[]).map(sp => replaceSrcToTypes(sp));
-    }
-  }
-  return pathsMap;
-};
 
 function mapPathString(
   nodePath: NodePath<t.StringLiteral>,
@@ -42,8 +25,11 @@ function mapPathString(
 
   const sourcePath = nodePath.node.value;
   const currentFile = filename;
-  const pathsMap = getPathsMap(paths);
-  const matchPath = createMatchPath(baseUrl, pathsMap, ['index']);
+  const matchPath = createMatchPath(
+    baseUrl,
+    paths as { [key: string]: Array<string> },
+    ['index'],
+  );
   const result = matchPath(
     sourcePath,
     packageJsonPath => {
@@ -53,7 +39,7 @@ function mapPathString(
       return fs.readJSONSync(packageJsonPath);
     },
     filePath => fs.existsSync(filePath),
-    ['.d.ts'],
+    dtsAliasExts,
   );
   if (result) {
     const relativePath = path.relative(

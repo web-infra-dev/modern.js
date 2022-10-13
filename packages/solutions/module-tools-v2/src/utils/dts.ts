@@ -14,27 +14,40 @@ export const generatorTsConfig = async (
   projectTsconfig: ITsconfig,
   config: BundlelessGeneratorDtsConfig,
 ) => {
-  const { nanoid, fs, lodash } = await import('@modern-js/utils');
+  const { fs, lodash, nanoid } = await import('@modern-js/utils');
+  const { dtsTempDirectory } = await import('../constants/dts');
 
-  const { appDirectory, sourceDir, distAbsPath, tsconfigPath } = config;
-  const tempPath = path.resolve(appDirectory, './node_modules');
-  const resolvePath = path.relative(tempPath, sourceDir);
+  const {
+    appDirectory,
+    sourceDir: absSourceDir,
+    distAbsPath,
+    tsconfigPath,
+  } = config;
+  const tempDistAbsRootPath = path.join(
+    appDirectory,
+    `${dtsTempDirectory}/${nanoid()}`,
+  );
+  const tempDistAbsSrcPath = path.join(
+    tempDistAbsRootPath,
+    path.relative(appDirectory, absSourceDir),
+  );
 
-  const rootDir = resolvePath;
+  const rootDir = path.relative(tempDistAbsRootPath, appDirectory);
   const baseUrl = projectTsconfig.compilerOptions?.baseUrl
     ? path.join(appDirectory, projectTsconfig.compilerOptions?.baseUrl)
     : appDirectory;
   // if include = ['src'], final include should be ['../src']
-  const include = [resolvePath];
+  const include = [path.relative(tempDistAbsRootPath, absSourceDir)];
 
   const resetConfig: ITsconfig = {
     compilerOptions: {
+      ...projectTsconfig?.compilerOptions,
       rootDir,
       baseUrl,
       // Ensure that .d.ts files are created by tsc, but not .js files
       declaration: true,
       emitDeclarationOnly: true,
-      outDir: distAbsPath,
+      outDir: tempDistAbsRootPath,
     },
     include,
     exclude: projectTsconfig.exclude ?? [],
@@ -44,7 +57,7 @@ export const generatorTsConfig = async (
   if (projectTsconfig.extends) {
     resetConfig.extends = projectTsconfig.extends.startsWith('.')
       ? path.join(
-          path.relative(`${tempPath}/tsconfig.json`, tsconfigPath),
+          path.relative(`${distAbsPath}/tsconfig.json`, tsconfigPath),
           projectTsconfig.extends,
         )
       : projectTsconfig.extends;
@@ -57,10 +70,7 @@ export const generatorTsConfig = async (
     },
   };
 
-  const tempTsconfigPath = path.join(
-    tempPath,
-    `tsconfig.${Date.now()}.${nanoid()}.json`,
-  );
+  const tempTsconfigPath = path.join(tempDistAbsRootPath, `tsconfig.json`);
   fs.ensureFileSync(tempTsconfigPath);
 
   const deepMerge = lodash.merge;
@@ -74,7 +84,7 @@ export const generatorTsConfig = async (
     ),
   );
 
-  return tempTsconfigPath;
+  return { tempTsconfigPath, tempDistAbsRootPath, tempDistAbsSrcPath };
 };
 
 export const getTscBinPath = async (appDirectory: string) => {
@@ -92,30 +102,33 @@ export const getTscBinPath = async (appDirectory: string) => {
 
 export const resolveAlias = async (
   config: BundlelessGeneratorDtsConfig,
+  options: {
+    userTsconfig: ITsconfig;
+    tempTsconfigPath: string;
+    tempDistAbsRootPath: string;
+    tempDistAbsSrcPath: string;
+  },
   watchFilenames: string[] = [],
 ) => {
+  const { userTsconfig, tempDistAbsSrcPath, tempDistAbsRootPath } = options;
   const { globby, fs } = await import('@modern-js/utils');
-  const { getFinalAlias } = await import('./babel');
   const { transformDtsAlias } = await import('./tspaths-transform');
-  const { distAbsPath, alias } = config;
-  const defaultPaths = { '@': ['./src'] };
-  const dtsDistPath = `${distAbsPath}/**/*.d.ts`;
+  const { distAbsPath } = config;
+  const dtsDistPath = `${tempDistAbsSrcPath}/**/*.d.ts`;
   const dtsFilenames =
     watchFilenames.length > 0
       ? watchFilenames
       : globby.sync(dtsDistPath, { absolute: true });
-  const finalAlias = await getFinalAlias(alias, config);
-  const mergedPaths = finalAlias.isTsPath
-    ? finalAlias.paths || {}
-    : { ...defaultPaths, ...(finalAlias.paths || {}) };
   const result = transformDtsAlias({
     filenames: dtsFilenames,
-    baseUrl: distAbsPath,
-    paths: mergedPaths,
+    baseUrl: tempDistAbsRootPath,
+    paths: userTsconfig.compilerOptions?.paths ?? {},
   });
   for (const r of result) {
     fs.writeFileSync(r.path, r.content);
   }
+
+  await fs.copy(tempDistAbsSrcPath, distAbsPath);
 };
 
 export const matchesPattern = (calleePath: NodePath, pattern: string) => {

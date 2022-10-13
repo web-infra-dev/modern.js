@@ -147,9 +147,6 @@ export const buildLib = async (
       alias,
     },
   };
-  // TODO: Implementation of sourceConfig
-  console.info(sourceConfig);
-  console.info('styleConfig', styleConfig);
 
   if (buildType === 'bundle') {
     const {

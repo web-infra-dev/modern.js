@@ -16,15 +16,15 @@ export const run = async (
 ) => {
   const { resolvedBuildConfig, context, cmdOptions } = options;
   const runner = api.useHookRunners();
-
+  // eslint-disable-next-line no-console
+  console.time();
   if (resolvedBuildConfig.length !== 0) {
     const { runBuildTask } = await import('./build');
     const { default: pMap } = await import('p-map');
-    const { fs } = await import('@modern-js/utils');
 
-    for (const config of resolvedBuildConfig) {
-      fs.removeSync(config.path);
-    }
+    const { clearBuildConfigPaths, clearDtsTemp } = await import('./clear');
+    await clearBuildConfigPaths(resolvedBuildConfig);
+    await clearDtsTemp();
 
     const { getSourceConfig } = await import('../utils/source');
     const sourceConfig = await getSourceConfig(api, context);
@@ -52,4 +52,6 @@ export const run = async (
   }
 
   await runner.afterBuild({ status: 'success', config: resolvedBuildConfig });
+  // eslint-disable-next-line no-console
+  console.timeEnd();
 };
