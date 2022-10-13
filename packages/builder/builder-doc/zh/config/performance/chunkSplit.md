@@ -108,11 +108,11 @@ export default {
 };
 ```
 
-相比直接配置 Webpack 的 splitChunks，这是一个更加简便的方式。
+相比直接配置 webpack 的 splitChunks，这是一个更加简便的方式。
 
 ### chunkSplit.splitChunks
 
-当 `performance.chunkSplit.strategy` 为 `custom` 时，可以通过 `performance.chunkSplit.splitChunks` 配置项来指定自定义的 Webpack 拆包配置。此配置会和 Webpack 的 splitChunks 配置进行合并（cacheGroups 配置也会合并）。比如:
+当 `performance.chunkSplit.strategy` 为 `custom` 时，可以通过 `performance.chunkSplit.splitChunks` 配置项来指定自定义的 webpack 拆包配置。此配置会和 webpack 的 splitChunks 配置进行合并（cacheGroups 配置也会合并）。比如:
 
 ```js
 export default {
@@ -135,7 +135,7 @@ export default {
 
 ### chunkSplit.override
 
-当 `performance.chunkSplit.strategy` 为 `split-by-experience`、`split-by-module`、`split-by-size` 或 `single-vendor` 时，可以通过 `performance.chunkSplit.override` 配置项来自定义 Webpack 拆包配置，此配置会和 Webpack 的 splitChunks 配置进行合并（cacheGroups 配置也会合并）。比如:
+当 `performance.chunkSplit.strategy` 为 `split-by-experience`、`split-by-module`、`split-by-size` 或 `single-vendor` 时，可以通过 `performance.chunkSplit.override` 配置项来自定义 webpack 拆包配置，此配置会和 webpack 的 splitChunks 配置进行合并（cacheGroups 配置也会合并）。比如:
 
 ```js
 export default {

@@ -43,6 +43,14 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/glossary'),
         ],
       },
+      {
+        collapsable: false,
+        title: getText('常见问题', 'FAQ'),
+        children: [
+          getLink('/guide/faq/features'),
+          getLink('/guide/faq/exceptions'),
+        ],
+      },
     ],
     [getLink('/api/')]: [
       {
@@ -108,7 +116,7 @@ export default defineConfig4CustomTheme<ThemeConfig>((ctx) => ({
   },
   theme: 'vt',
   themeConfig: {
-    repo: 'https://github.com/modern-js-dev/modern.js',
+    repo: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/builder',
     repoLabel: 'GitHub',
     docsDir: 'docs/docs/src',
     enableDarkMode: true,

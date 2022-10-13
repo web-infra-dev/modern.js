@@ -48,6 +48,8 @@ Builder 已发布的 npm 包有：
 | [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared)                             | ![](https://img.shields.io/npm/v/@modern-js/builder-shared?style=flat-square)               | Builder 内部的公共模块 |
 | [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc)                                   | ![](https://img.shields.io/npm/v/@modern-js/builder-doc?style=flat-square)                  | 提供可复用的文档片段   |
 
+你可以在 modern.js 仓库的 [packages/builder](https://github.com/modern-js-dev/modern.js/tree/main/packages/builder/) 目录下查看这些包的源代码。
+
 ## 下一步
 
 你可能想要：

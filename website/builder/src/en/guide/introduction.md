@@ -37,7 +37,7 @@ Builder supports custom plugins, allowing framework developers to implement cust
 
 ## npm packages
 
-Builder's published npm packages are:
+Below is the npm package published by Builder.
 
 | Package                                                                                                          | Version                                                                                     | Description                       |
 | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------- |
@@ -47,6 +47,8 @@ Builder's published npm packages are:
 | [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill?style=flat-square) | Node Polyfill Plugin              |
 | [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared)                             | ![](https://img.shields.io/npm/v/@modern-js/builder-shared?style=flat-square)               | Shared modules of Builder         |
 | [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc)                                   | ![](https://img.shields.io/npm/v/@modern-js/builder-doc?style=flat-square)                  | Documentation snippets of Builder |
+
+You can view the source code of these packages in the [packages/builder](https://github.com/modern-js-dev/modern.js/tree/main/packages/builder/) directory of the modern.js repository.
 
 ## Next Step
 
