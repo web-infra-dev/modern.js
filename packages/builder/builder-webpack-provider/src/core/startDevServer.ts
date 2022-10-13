@@ -69,6 +69,7 @@ export async function createDevServer(
     pwd: options.context.rootPath,
     dev: devServerOptions,
     compiler,
+    ...serverOptions,
     config: applyOptionsChain<
       ModernDevServerOptions['config'],
       ModernDevServerOptions['config']
@@ -98,7 +99,6 @@ export async function createDevServer(
       },
       serverOptions.config,
     ),
-    ...serverOptions,
   });
 
   debug('create dev server done');

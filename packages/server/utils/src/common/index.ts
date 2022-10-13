@@ -11,12 +11,12 @@ export interface Pattern {
 }
 
 export interface IConfig {
-  alias: NormalizedConfig['source']['alias'];
-  envVars: NormalizedConfig['source']['envVars'];
-  globalVars: NormalizedConfig['source']['globalVars'];
-  babelConfig: NormalizedConfig['tools']['babel'];
+  alias?: NormalizedConfig['source']['alias'];
+  envVars?: NormalizedConfig['source']['envVars'];
+  globalVars?: NormalizedConfig['source']['globalVars'];
+  babelConfig?: NormalizedConfig['tools']['babel'];
   server: {
-    compiler: 'babel' | 'typescript';
+    compiler?: 'babel' | 'typescript';
   };
 }
 
