@@ -3,7 +3,7 @@ import type {
   PluginStore,
   BuilderPlugin as BaseBuilderPlugin,
 } from '@modern-js/builder-shared';
-import type { BuilderConfig } from './config';
+import type { BuilderConfig, NormalizedConfig } from './config';
 import type {
   OnExitFn,
   OnAfterBuildFn,
@@ -21,7 +21,8 @@ import type {
 export type BuilderPluginAPI = {
   context: Readonly<BuilderContext>;
   isPluginExists: PluginStore['isPluginExists'];
-  getBuilderConfig: () => BuilderConfig;
+  getBuilderConfig: () => Readonly<BuilderConfig>;
+  getNormalizedConfig: () => Readonly<NormalizedConfig>;
 
   // Hooks
   onExit: (fn: OnExitFn) => void;
