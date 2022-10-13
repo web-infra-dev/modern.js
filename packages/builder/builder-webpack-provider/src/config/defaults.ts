@@ -34,6 +34,7 @@ export const createDefaultConfig = () =>
       },
     },
     source: {
+      define: {},
       preEntry: [],
       globalVars: {},
       alias: {},
