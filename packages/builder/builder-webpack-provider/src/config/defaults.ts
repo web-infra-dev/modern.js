@@ -9,6 +9,7 @@ import {
   MEDIA_DIST_DIR,
   mergeBuilderConfig,
   extendsType,
+  DEFAULT_DATA_URL_SIZE,
 } from '@modern-js/builder-shared';
 import type { BuilderConfig } from '../types';
 
@@ -43,18 +44,23 @@ export const createDefaultConfig = () =>
     output: {
       distPath: {
         root: ROOT_DIST_DIR,
-        html: HTML_DIST_DIR,
         js: JS_DIST_DIR,
         css: CSS_DIST_DIR,
         svg: SVG_DIST_DIR,
         font: FONT_DIST_DIR,
+        html: HTML_DIST_DIR,
         image: IMAGE_DIST_DIR,
         media: MEDIA_DIST_DIR,
       },
       filename: {},
       charset: 'ascii',
       polyfill: 'entry',
-      dataUriLimit: {},
+      dataUriLimit: {
+        svg: DEFAULT_DATA_URL_SIZE,
+        font: DEFAULT_DATA_URL_SIZE,
+        image: DEFAULT_DATA_URL_SIZE,
+        media: DEFAULT_DATA_URL_SIZE,
+      },
       legalComments: 'linked',
       cleanDistPath: true,
       svgDefaultExport: 'url',
