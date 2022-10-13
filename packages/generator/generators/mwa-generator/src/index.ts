@@ -10,9 +10,7 @@ import {
   Language,
   BooleanConfig,
   ClientRoute,
-  RunWay,
   EntryGenerator,
-  ElectronGenerator,
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -100,7 +98,6 @@ export const handleTemplateFile = async (
     packageName,
     packagePath,
     language,
-    runWay,
     packageManager,
     needModifyMWAConfig,
     clientRoute,
@@ -183,18 +180,6 @@ export const handleTemplateFile = async (
     },
   );
 
-  if (runWay === RunWay.Electron) {
-    await appApi.runSubGenerator(
-      getGeneratorPath(ElectronGenerator, context.config.distTag),
-      undefined,
-      {
-        ...context.config,
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
-
   if (isMonorepoSubProject) {
     await appApi.updateWorkspace({
       name: packagePath as string,
@@ -202,7 +187,7 @@ export const handleTemplateFile = async (
     });
   }
 
-  return { projectPath, isElectron: runWay === RunWay.Electron };
+  return { projectPath };
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -224,13 +209,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
   let projectPath = '';
-  let isElectron = false;
   try {
-    ({ projectPath, isElectron } = await handleTemplateFile(
-      context,
-      generator,
-      appApi,
-    ));
+    ({ projectPath } = await handleTemplateFile(context, generator, appApi));
   } catch (e) {
     generator.logger.error(e);
     // eslint-disable-next-line no-process-exit
@@ -258,15 +238,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   if (successInfo) {
     appApi.showSuccessInfo(successInfo);
-  } else if (isElectron) {
-    appApi.showSuccessInfo(
-      `${i18n.t(localeKeys.success, {
-        packageManager: getPackageManagerText(packageManager),
-      })}
-      ${i18n.t(localeKeys.electron.success, {
-        packageManager: getPackageManagerText(packageManager),
-      })}`,
-    );
   } else {
     appApi.showSuccessInfo(
       i18n.t(localeKeys.success, {

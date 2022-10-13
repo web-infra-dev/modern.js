@@ -10,9 +10,6 @@ import { i18n, localeKeys } from './locale';
 
 export default function (context: IPluginContext) {
   context.setInput('packageName', 'name', i18n.t(localeKeys.package_name));
-  context.setInputValue({
-    moduleRunWay: 'no',
-  });
   context.addInputAfter('packageManager', {
     key: 'pluginType',
     name: i18n.t(localeKeys.plugin_type.self),

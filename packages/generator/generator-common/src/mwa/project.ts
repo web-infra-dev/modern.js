@@ -10,8 +10,6 @@ import {
 } from '../common';
 import {
   getClientRouteSchema,
-  RunWay,
-  getRunWaySchema,
   getNeedModifyMWAConfigSchema,
   ClientRoute,
 } from './common';
@@ -24,7 +22,6 @@ export const getMWASchemaProperties = (
     packagePath: getPackagePathSchema(extra),
     language: getLanguageSchema(extra),
     packageManager: getPackageManagerSchema(extra),
-    runWay: getRunWaySchema(extra),
     needModifyMWAConfig: getNeedModifyMWAConfigSchema(extra),
     clientRoute: getClientRouteSchema(extra),
   };
@@ -40,7 +37,6 @@ export const getMWASchema = (extra: Record<string, any> = {}): Schema => {
 export const MWADefaultConfig = {
   language: Language.TS,
   packageManager: PackageManager.Pnpm,
-  runWay: RunWay.No,
   needModifyMWAConfig: BooleanConfig.NO,
   clientRoute: ClientRoute.SelfControlRoute,
 };

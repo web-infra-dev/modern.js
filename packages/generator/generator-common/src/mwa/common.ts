@@ -2,36 +2,6 @@ import { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 import { BooleanConfig, getBooleanSchemas } from '../common/boolean';
 
-export enum RunWay {
-  No = 'no',
-  Electron = 'electron',
-}
-
-export const getRunWaySchema = (extra: Record<string, string> = {}): Schema => {
-  return {
-    type: 'string',
-    title: i18n.t(localeKeys.runWay.self),
-    default: RunWay.No,
-    enum: Object.values(RunWay).map(runWay => ({
-      value: runWay,
-      label: i18n.t(localeKeys.runWay[runWay]),
-    })),
-    'x-reactions': [
-      {
-        dependencies: [],
-        fulfill: {
-          state: {
-            visible:
-              extra?.isEmptySrc === undefined
-                ? true
-                : Boolean(extra?.isEmptySrc),
-          },
-        },
-      },
-    ],
-  };
-};
-
 export enum ClientRoute {
   SelfControlRoute = 'selfControlRoute',
   ConventionalRoute = 'conventionalRoute',

@@ -17,7 +17,6 @@ export enum ActionFunction {
   Sass = 'sass',
   BFF = 'bff',
   MicroFrontend = 'micro_frontend',
-  Electron = 'electron',
   I18n = 'i18n',
   Test = 'test',
   E2ETest = 'e2e_test',
@@ -52,7 +51,6 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
   [ActionFunction.BFF]: () => i18n.t(localeKeys.action.function.bff),
   [ActionFunction.MicroFrontend]: () =>
     i18n.t(localeKeys.action.function.micro_frontend),
-  [ActionFunction.Electron]: () => i18n.t(localeKeys.action.function.electron),
   [ActionFunction.I18n]: () => i18n.t(localeKeys.action.function.i18n),
   [ActionFunction.Test]: () => i18n.t(localeKeys.action.function.test),
   [ActionFunction.E2ETest]: () => i18n.t(localeKeys.action.function.e2e_test),

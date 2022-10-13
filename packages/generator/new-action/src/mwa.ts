@@ -83,9 +83,10 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     funcMap[func] = enable;
   });
 
-  const schema = getMWANewActionSchema({ funcMap });
-
-  const ans = await appAPI.getInputBySchema(schema, UserConfig);
+  const ans = await appAPI.getInputBySchemaFunc(getMWANewActionSchema, {
+    ...UserConfig,
+    funcMap,
+  });
 
   const actionType = ans.actionType as ActionType;
 

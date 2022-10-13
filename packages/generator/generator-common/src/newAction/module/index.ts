@@ -54,7 +54,7 @@ export const getModuleNewActionSchema = (
             dependencies: ['actionType'],
             fulfill: {
               state: {
-                visible: '{{$deps[0].value === "function"}}',
+                visible: '{{$deps[0] === "function"}}',
               },
             },
           },

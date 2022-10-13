@@ -84,57 +84,50 @@ export const getSolutionSchema = (extra: Record<string, any> = {}): Schema => {
 };
 
 export const getScenesSchema = (extra: Record<string, any> = {}): Schema => {
+  const hasPlugin =
+    extra?.customPlugin &&
+    extra.customPlugin[
+      extra?.isMonorepoSubProject
+        ? getSolutionNameFromSubSolution(extra?.solution)
+        : extra?.solution
+    ] &&
+    extra.customPlugin[
+      extra?.isMonorepoSubProject
+        ? getSolutionNameFromSubSolution(extra?.solution)
+        : extra?.solution
+    ].length > 0;
   return {
     type: 'object',
-    properties: {
-      scenes: {
-        type: 'string',
-        title: i18n.t(localeKeys.scenes.self),
-        enum: (() => {
-          const solution = extra?.isMonorepoSubProject
-            ? getSolutionNameFromSubSolution(extra?.solution)
-            : extra?.solution;
-          const items = (
-            extra?.customPlugin ? extra?.customPlugin[solution] || [] : []
-          ).map((plugin: any) => ({
-            value: plugin.key,
-            label: plugin.name,
-          }));
-          if (solution && solution !== 'custom') {
-            items.unshift({
-              value: solution,
-              label: `${
-                extra?.isMonorepoSubProject
-                  ? SubSolutionText[solution as SubSolution]()
-                  : SolutionText[solution as Solution]()
-              }(${i18n.t(localeKeys.solution.default)})`,
-            });
-          }
-          return items;
-        })(),
-        'x-reactions': [
-          {
-            dependencies: [],
-            fulfill: {
-              state: {
-                visible:
-                  extra?.customPlugin &&
-                  extra.customPlugin[
+    properties: hasPlugin
+      ? {
+          scenes: {
+            type: 'string',
+            title: i18n.t(localeKeys.scenes.self),
+            enum: (() => {
+              const solution = extra?.isMonorepoSubProject
+                ? getSolutionNameFromSubSolution(extra?.solution)
+                : extra?.solution;
+              const items = (
+                extra?.customPlugin ? extra?.customPlugin[solution] || [] : []
+              ).map((plugin: any) => ({
+                value: plugin.key,
+                label: plugin.name,
+              }));
+              if (solution && solution !== 'custom') {
+                items.unshift({
+                  value: solution,
+                  label: `${
                     extra?.isMonorepoSubProject
-                      ? getSolutionNameFromSubSolution(extra?.solution)
-                      : extra?.solution
-                  ] &&
-                  extra.customPlugin[
-                    extra?.isMonorepoSubProject
-                      ? getSolutionNameFromSubSolution(extra?.solution)
-                      : extra?.solution
-                  ].length > 0,
-              },
-            },
+                      ? SubSolutionText[solution as SubSolution]()
+                      : SolutionText[solution as Solution]()
+                  }(${i18n.t(localeKeys.solution.default)})`,
+                });
+              }
+              return items;
+            })(),
           },
-        ],
-      },
-    },
+        }
+      : {},
   };
 };
 
@@ -156,5 +149,4 @@ export const SubSolutionGenerator: Record<SubSolution, string> = {
 export const ChangesetGenerator = '@modern-js/changeset-generator';
 export const DependenceGenerator = '@modern-js/dependence-generator';
 export const EntryGenerator = '@modern-js/entry-generator';
-export const ElectronGenerator = '@modern-js/electron-generator';
 export const EslintGenerator = '@modern-js/eslint-generator';

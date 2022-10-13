@@ -23,7 +23,6 @@ export const MWAActionFunctions = [
   ActionFunction.BFF,
   ActionFunction.SSG,
   ActionFunction.MicroFrontend,
-  ActionFunction.Electron,
   // ActionFunction.I18n,
   ActionFunction.Test,
   ActionFunction.Storybook,
@@ -41,7 +40,9 @@ export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Refactor]: MWAActionReactors,
 };
 
-export const getMWANewActionSchema = (extra: Record<string, any>): Schema => {
+export const getMWANewActionSchema = (
+  extra: Record<string, any> = {},
+): Schema => {
   const { funcMap = {} } = extra;
   return {
     type: 'object',
@@ -60,14 +61,14 @@ export const getMWANewActionSchema = (extra: Record<string, any>): Schema => {
         title: ActionTypeText[ActionType.Element](),
         enum: MWAActionElements.map(element => ({
           value: element,
-          label: ActionElementText[element],
+          label: ActionElementText[element](),
         })),
         'x-reactions': [
           {
             dependencies: ['actionType'],
             fulfill: {
               state: {
-                visible: '{{$deps[0].value === "element"}}',
+                visible: '{{$deps[0] === "element"}}',
               },
             },
           },
@@ -81,14 +82,14 @@ export const getMWANewActionSchema = (extra: Record<string, any>): Schema => {
           label:
             func === ActionFunction.Storybook
               ? i18n.t(localeKeys.action.function.mwa_storybook)
-              : ActionFunctionText[func],
+              : ActionFunctionText[func](),
         })),
         'x-reactions': [
           {
             dependencies: ['actionType'],
             fulfill: {
               state: {
-                visible: '{{$deps[0].value === "function"}}',
+                visible: '{{$deps[0] === "function"}}',
               },
             },
           },
@@ -106,7 +107,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.E2ETest]: '@modern-js/plugin-e2e',
-  [ActionFunction.Electron]: '@modern-js/plugin-electron',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
@@ -142,7 +142,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Sass]: '@modern-js/dependence-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
-    [ActionFunction.Electron]: '@modern-js/electron-generator',
     [ActionFunction.I18n]: '@modern-js/dependence-generator',
     [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.E2ETest]: '@modern-js/dependence-generator',

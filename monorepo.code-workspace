@@ -257,14 +257,6 @@
       "path": "packages/generator/generators/dependence-generator"
     },
     {
-      "name": "@modern-js/electron-generator",
-      "path": "packages/generator/generators/electron-generator"
-    },
-    {
-      "name": "@modern-js/electron-independence-generator",
-      "path": "packages/generator/generators/electron-independence-generator"
-    },
-    {
       "name": "@modern-js/entry-generator",
       "path": "packages/generator/generators/entry-generator"
     },

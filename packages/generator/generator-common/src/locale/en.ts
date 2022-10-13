@@ -27,7 +27,6 @@ export const EN_LOCALE = {
       sass: 'Enable Sass',
       bff: 'Enable BFF',
       micro_frontend: 'Enable Micro Frontend',
-      electron: 'Enable Electron',
       i18n: 'Enable Internationalization (i18n)',
       test: 'Enable Unit Test / Integration Test',
       e2e_test: 'Enable E2E Test',
@@ -69,11 +68,6 @@ export const EN_LOCALE = {
     no_empty: 'The package path cannot be empty!',
     format:
       'Only lowercase letters, numbers and delimiters (-), and underscore (_), and directory delimiters (/) can be used in package path.',
-  },
-  runWay: {
-    self: 'Do you need to support the following types of applications',
-    no: 'Not Enabled',
-    electron: 'Electron',
   },
   entry: {
     name: 'Entry name',

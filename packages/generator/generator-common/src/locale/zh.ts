@@ -26,7 +26,6 @@ export const ZH_LOCALE = {
       sass: '启用 Sass 支持',
       bff: '启用「BFF」功能',
       micro_frontend: '启用「微前端」模式',
-      electron: '启用「Electron」模式',
       i18n: '启用「国际化（i18n）」功能',
       test: '启用「单元测试 / 集成测试」功能',
       e2e_test: '启用「E2E 测试」功能',
@@ -57,11 +56,6 @@ export const ZH_LOCALE = {
   },
   packageManager: {
     self: '请选择包管理工具',
-  },
-  runWay: {
-    self: '是否需要支持以下类型应用',
-    no: '不需要',
-    electron: 'Electron',
   },
   entry: {
     name: '请填写入口名称',

@@ -13,7 +13,7 @@ export const getBFFTypeSchema = (_extra: Record<string, any> = {}): Schema => {
     title: i18n.t(localeKeys.bff.bffType.self),
     enum: Object.values(BFFType).map(bffType => ({
       value: bffType,
-      label: () => i18n.t(localeKeys.bff.bffType[bffType]),
+      label: i18n.t(localeKeys.bff.bffType[bffType]),
     })),
   };
 };
