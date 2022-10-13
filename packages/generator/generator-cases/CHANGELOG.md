@@ -1,5 +1,11 @@
 # @modern-js/generator-cases
 
+## 2.4.3
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.3
+
 ## 2.4.0
 
 ### Patch Changes

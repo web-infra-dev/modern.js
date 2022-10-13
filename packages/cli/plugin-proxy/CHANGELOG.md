@@ -1,5 +1,15 @@
 # @modern-js/plugin-proxy
 
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes
