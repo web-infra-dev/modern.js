@@ -20,7 +20,7 @@ export async function initPlugins({
   const getBuilderConfig = () => context.config;
   const getNormalizedConfig = () => {
     if (!context.normalizedConfig) {
-      throw new TypeError('Normalized config is not ready.');
+      throw new Error('Normalized config is not ready.');
     }
     return context.normalizedConfig;
   };
