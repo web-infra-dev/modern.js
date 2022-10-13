@@ -44,7 +44,7 @@ export const getEntrySchemaProperties = (
   };
 };
 
-export const getEntrySchema = (extra: Record<string, any>): Schema => {
+export const getEntrySchema = (extra: Record<string, any> = {}): Schema => {
   return {
     type: 'object',
     properties: getEntrySchemaProperties(extra),

@@ -40,10 +40,7 @@ export const handleTemplateFile = async (
 ) => {
   const jsonAPI = new JsonAPI(generator);
 
-  const ans = await appApi.getInputBySchema(
-    getBFFSchema(context.config),
-    context.config,
-  );
+  const ans = await appApi.getInputBySchemaFunc(getBFFSchema, context.config);
 
   const appDir = context.materials.default.basePath;
   const apiDir = path.join(appDir, 'api');

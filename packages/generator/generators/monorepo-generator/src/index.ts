@@ -37,28 +37,21 @@ export const handleTemplateFile = async (
 ) => {
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
-  let schema = getMonorepoSchema(context.config);
   let inputValue = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Monorepo, extra);
-    schema = generatorPlugin.getInputSchema(Solution.Monorepo);
+    // schema = generatorPlugin.getInputSchema(Solution.Monorepo);
     inputValue = generatorPlugin.getInputValue();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
 
-  const ans = await appApi.getInputBySchema(
-    schema,
-    {
-      ...context.config,
-      ...inputValue,
-      isMonorepo: true,
-    },
-    {},
-    {},
-    'formily',
-  );
+  const ans = await appApi.getInputBySchemaFunc(getMonorepoSchema, {
+    ...context.config,
+    ...inputValue,
+    isMonorepo: true,
+  });
 
   const modernVersion = await getModernVersion(
     Solution.Monorepo,

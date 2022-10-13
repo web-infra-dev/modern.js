@@ -32,13 +32,7 @@ const handleInput = async (
   generator.logger.debug('analysisInfo:', analysisInfo);
 
   const config = { ...context.config, ...analysisInfo };
-  const ans = await appApi.getInputBySchema(
-    getEntrySchema(config),
-    config,
-    {},
-    {},
-    'formily',
-  );
+  const ans = await appApi.getInputBySchemaFunc(getEntrySchema, config);
 
   if (ans.needModifyMWAConfig === 'no') {
     ans.clientRoute = ClientRoute.SelfControlRoute;

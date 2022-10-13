@@ -11,25 +11,18 @@ const handleTemplateFile = async (
 ) => {
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
-  let schema = getBaseSchema(context.config);
   let inputValue = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins('custom', extra);
-    schema = generatorPlugin.getInputSchema('custom');
+    //   schema = generatorPlugin.getInputSchema('custom');
     inputValue = generatorPlugin.getInputValue();
   }
 
-  const { packageManager } = await appApi.getInputBySchema(
-    schema,
-    {
-      ...context.config,
-      ...inputValue,
-    },
-    {},
-    {},
-    'formily',
-  );
+  const { packageManager } = await appApi.getInputBySchemaFunc(getBaseSchema, {
+    ...context.config,
+    ...inputValue,
+  });
 
   await appApi.forgeTemplate(
     'templates/base-templates/**/*',

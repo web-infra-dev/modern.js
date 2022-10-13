@@ -38,8 +38,8 @@ const handleTemplateFile = async (
   appApi: AppAPI,
 ) => {
   const jsonAPI = new JsonAPI(generator);
-  const ans = await appApi.getInputBySchema(
-    getServerSchema(context.config),
+  const ans = await appApi.getInputBySchemaFunc(
+    getServerSchema,
     context.config,
   );
 

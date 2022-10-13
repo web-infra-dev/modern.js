@@ -69,26 +69,15 @@ const handleTemplateFile = async (
 ) => {
   const { isMonorepo } = context.config;
 
-  const { solution } = await appApi.getInputBySchema(
-    isMonorepo
-      ? getMonorepoNewActionSchema(context.config)
-      : getSolutionSchema(context.config),
+  const { solution } = await appApi.getInputBySchemaFunc(
+    isMonorepo ? getMonorepoNewActionSchema : getSolutionSchema,
     {
       ...context.config,
       customPlugin: generatorPlugin?.customPlugin,
     },
-    {},
-    {},
-    'formily',
   );
 
-  await appApi.getInputBySchema(
-    getScenesSchema(context.config),
-    context.config,
-    {},
-    {},
-    'formily',
-  );
+  await appApi.getInputBySchemaFunc(getScenesSchema, context.config);
 
   const solutionGenerator =
     // eslint-disable-next-line no-nested-ternary

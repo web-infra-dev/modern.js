@@ -62,19 +62,18 @@ export const handleTemplateFile = async (
     isMwa: true,
     isEmptySrc: true,
   };
-  let schema = getMWASchema(context.config);
   let inputValue = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.MWA, extra);
-    schema = generatorPlugin.getInputSchema(Solution.MWA);
+    // schema = generatorPlugin.getInputSchema(Solution.MWA);
     inputValue = generatorPlugin.getInputValue();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
 
-  const ans = await appApi.getInputBySchema(
-    schema,
+  const ans = await appApi.getInputBySchemaFunc(
+    getMWASchema,
     { ...context.config, ...inputValue },
     {
       packageName: input =>
@@ -88,8 +87,6 @@ export const handleTemplateFile = async (
           { isTest, isMwa: true },
         ),
     },
-    {},
-    'formily',
   );
 
   const modernVersion = await getModernVersion(

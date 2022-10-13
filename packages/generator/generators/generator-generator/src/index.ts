@@ -53,8 +53,8 @@ const handleTemplateFile = async (
   }
 
   const { packageName, packagePath, language, packageManager } =
-    await appApi.getInputBySchema(
-      getGeneratorSchema(context.config),
+    await appApi.getInputBySchemaFunc(
+      getGeneratorSchema,
       context.config,
       {
         packageName: input =>

@@ -58,19 +58,18 @@ export const handleTemplateFile = async (
   }
 
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
-  let schema = getModuleSchema(context.config);
   let inputValue = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Module, extra);
-    schema = generatorPlugin.getInputSchema(Solution.Module);
+    // schema = generatorPlugin.getInputSchema(Solution.Module);
     inputValue = generatorPlugin.getInputValue();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
 
-  const ans = await appApi.getInputBySchema(
-    schema,
+  const ans = await appApi.getInputBySchemaFunc(
+    getModuleSchema,
     { ...context.config, ...inputValue },
     {
       packageName: input =>
@@ -87,7 +86,6 @@ export const handleTemplateFile = async (
     {
       packageName: isMonorepoSubProject ? undefined : path.basename(outputPath),
     },
-    'formily',
   );
 
   const modernVersion = await getModernVersion(
