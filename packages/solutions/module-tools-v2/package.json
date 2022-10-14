@@ -42,9 +42,9 @@
     "@babel/generator": "^7",
     "@babel/types": "^7",
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "^0.1.3",
-    "@modern-js/libuild-plugin-babel": "^0.1.0",
-    "@modern-js/libuild-plugin-es5": "^0.1.0",
+    "@modern-js/libuild": "0.2.0",
+    "@modern-js/libuild-plugin-babel": "0.1.0",
+    "@modern-js/libuild-plugin-es5": "0.1.0",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
@@ -71,8 +71,7 @@
     "@types/signal-exit": "^3.0.1",
     "jest": "^27",
     "typescript": "^4",
-    "postcss": "8.4.6",
-    "@types/less": "^3"
+    "postcss": "8.4.6"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

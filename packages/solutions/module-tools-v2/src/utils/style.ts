@@ -11,8 +11,13 @@ import type { ModuleToolsHooks } from '../types/hooks';
 
 export const getLessConfig = async (config: UserConfig) => {
   const { applyOptionsChain } = await import('@modern-js/utils');
+  const { getCompiledPath } = await import('./path');
+
   const mergedOptions = applyOptionsChain<LessOptions, never>(
-    { javascriptEnabled: true },
+    {
+      lessOptions: { javascriptEnabled: true },
+      implementation: getCompiledPath('less'),
+    },
     config?.tools?.less || {},
   );
 
@@ -21,8 +26,12 @@ export const getLessConfig = async (config: UserConfig) => {
 
 export const getSassConfig = async (config: UserConfig) => {
   const { applyOptionsChain } = await import('@modern-js/utils');
+  const { getCompiledPath } = await import('./path');
+
   const mergedOptions = applyOptionsChain<SassOptions, never>(
-    {},
+    {
+      implementation: getCompiledPath('sass'),
+    },
     config.tools?.sass || {},
   );
 

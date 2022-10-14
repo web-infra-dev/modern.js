@@ -22,7 +22,7 @@ export const basePresetConfig: PartialBuildConfig = {
   target: 'es6',
   buildType: 'bundleless',
   path: './dist',
-  dts: false,
+  dts: { distPath: './types' },
 };
 
 export const npmLibraryPresetConfig: PartialBuildConfig = [

@@ -168,12 +168,4 @@ export const buildPreset = {
   },
 };
 
-export const dev = {
-  target: 'dev.storybook',
-  schema: {
-    type: 'object',
-    additionalProperties: false,
-  },
-};
-
-export const schema = [source, buildConfig, buildPreset, dev];
+export const schema = [source, buildConfig, buildPreset];
