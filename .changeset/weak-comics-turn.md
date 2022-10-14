@@ -5,3 +5,5 @@
 ---
 
 feat(builder): support distPath.server config
+
+feat(builder): 支持 distPath.server 配置项
