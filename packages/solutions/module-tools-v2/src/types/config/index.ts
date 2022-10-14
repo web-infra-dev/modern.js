@@ -7,6 +7,7 @@ import type { UserConfig as LibuildUserConfig } from '@modern-js/libuild';
 import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build';
+import type { CopyConfig } from '../copy';
 import type { LessConfig, SassConfig, PostCSSConfig } from './style';
 
 export * from './style';
@@ -37,19 +38,19 @@ export type DTSOptions = {
 };
 export type DTS = false | DTSOptions;
 export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
-export type Copy = { from: string; to?: string }[];
+
 export interface BaseCommonBuildConfig {
   target: Target;
   dts: DTS;
   sourceMap: SourceMap;
-  copy: Copy;
+  copy: CopyConfig;
   path: string;
 }
 export interface PartialBaseCommonBuildConfig {
   target?: Target;
   dts?: false | Partial<DTSOptions>;
   sourceMap?: SourceMap;
-  copy?: Copy;
+  copy?: CopyConfig;
   path?: string;
 }
 

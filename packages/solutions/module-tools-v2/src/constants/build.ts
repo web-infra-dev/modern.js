@@ -22,7 +22,7 @@ export const basePresetConfig: PartialBuildConfig = {
   target: 'es6',
   buildType: 'bundleless',
   path: './dist',
-  dts: false,
+  dts: { distPath: './types' },
 };
 
 export const npmLibraryPresetConfig: PartialBuildConfig = [
@@ -191,7 +191,7 @@ export const defaultBundleBuildConfig: BaseBuildConfig = {
   target: 'esnext',
   // TODO: getDefaultEntry
   sourceMap: false,
-  copy: [],
+  copy: {},
   path: './dist',
   dts: {
     only: false,
@@ -219,7 +219,7 @@ export const defaultBundlelessBuildConfig: BaseBuildConfig = {
   format: 'cjs',
   target: 'esnext',
   sourceMap: false,
-  copy: [],
+  copy: {},
   path: './dist',
   dts: {
     distPath: './',
