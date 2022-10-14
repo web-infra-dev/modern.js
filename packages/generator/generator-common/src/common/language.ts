@@ -1,4 +1,4 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 
 export enum Language {
@@ -6,18 +6,18 @@ export enum Language {
   JS = 'js',
 }
 
-export const LanguageName: Record<string, () => string> = {
-  [Language.TS]: () => 'TS',
-  [Language.JS]: () => 'ES6+',
+const LanguageName: Record<string, string> = {
+  [Language.TS]: 'TS',
+  [Language.JS]: 'ES6+',
 };
 
-export const LanguageSchema: Schema = {
-  key: 'language',
-  type: ['string'],
-  label: () => i18n.t(localeKeys.language.self),
-  mutualExclusion: true,
-  items: Object.values(Language).map(language => ({
-    key: language,
-    label: LanguageName[language],
-  })),
+export const getLanguageSchema = (_extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'string',
+    title: i18n.t(localeKeys.language.self),
+    enum: Object.values(Language).map(language => ({
+      value: language,
+      label: LanguageName[language],
+    })),
+  };
 };

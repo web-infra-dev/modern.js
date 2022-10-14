@@ -1,13 +1,13 @@
-import { Schema } from '@modern-js/easy-form-core';
-import { i18n, localeKeys } from '../locale';
-import { FrameworkSchema, Framework } from './common';
+import { Schema } from '@modern-js/codesmith-formily';
+import { getFrameworkSchema, Framework } from './common';
 
-export const ServerSchemas = [FrameworkSchema];
-export const ServerSchema: Schema = {
-  key: 'server',
-  label: () => i18n.t(localeKeys.action.element.server),
-  isObject: true,
-  items: ServerSchemas,
+export const getServerSchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'object',
+    properties: {
+      framework: getFrameworkSchema(extra),
+    },
+  };
 };
 
 export const MWADefaultServerConfig = {

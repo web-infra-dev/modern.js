@@ -1,11 +1,12 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import {
   ActionElement,
+  ActionElementText,
   ActionFunction,
+  ActionFunctionText,
   ActionRefactor,
   ActionType,
   ActionTypeText,
-  ActionTypeTextMap,
 } from '../common';
 import { i18n, localeKeys } from '../../locale';
 
@@ -22,7 +23,6 @@ export const MWAActionFunctions = [
   ActionFunction.BFF,
   ActionFunction.SSG,
   ActionFunction.MicroFrontend,
-  ActionFunction.Electron,
   // ActionFunction.I18n,
   ActionFunction.Test,
   ActionFunction.Storybook,
@@ -40,37 +40,66 @@ export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Refactor]: MWAActionReactors,
 };
 
-export const MWASpecialSchemaMap: Record<string, Schema> = {
-  [ActionFunction.Storybook]: {
-    key: ActionFunction.Storybook,
-    label: () => i18n.t(localeKeys.action.function.mwa_storybook),
-  },
-};
-
-export const MWANewActionSchema: Schema = {
-  key: 'mwa_new_action',
-  isObject: true,
-  items: [
-    {
-      key: 'actionType',
-      label: () => i18n.t(localeKeys.action.self),
-      type: ['string'],
-      mutualExclusion: true,
-      items: MWAActionTypes.map(type => ({
-        key: type,
-        label: ActionTypeText[type],
-        type: ['string'],
-        mutualExclusion: true,
-        items: MWAActionTypesMap[type].map(
-          item =>
-            MWASpecialSchemaMap[item] || {
-              key: item,
-              label: ActionTypeTextMap[type][item],
+export const getMWANewActionSchema = (
+  extra: Record<string, any> = {},
+): Schema => {
+  const { funcMap = {} } = extra;
+  const funcs = MWAActionFunctions.filter(func => !funcMap[func]);
+  return {
+    type: 'object',
+    properties: {
+      actionType: {
+        type: 'string',
+        title: i18n.t(localeKeys.action.self),
+        enum: MWAActionTypes.filter(type =>
+          type === ActionType.Function ? funcs.length > 0 : true,
+        ).map(type => ({
+          value: type,
+          label: ActionTypeText[type](),
+          type: ['string'],
+        })),
+      },
+      [ActionType.Element]: {
+        type: 'string',
+        title: ActionTypeText[ActionType.Element](),
+        enum: MWAActionElements.map(element => ({
+          value: element,
+          label: ActionElementText[element](),
+        })),
+        'x-reactions': [
+          {
+            dependencies: ['actionType'],
+            fulfill: {
+              state: {
+                visible: '{{$deps[0] === "element"}}',
+              },
             },
-        ),
-      })),
+          },
+        ],
+      },
+      [ActionType.Function]: {
+        type: 'string',
+        title: ActionTypeText[ActionType.Function](),
+        enum: funcs.map(func => ({
+          value: func,
+          label:
+            func === ActionFunction.Storybook
+              ? i18n.t(localeKeys.action.function.mwa_storybook)
+              : ActionFunctionText[func](),
+        })),
+        'x-reactions': [
+          {
+            dependencies: ['actionType'],
+            fulfill: {
+              state: {
+                visible: '{{$deps[0] === "function"}}',
+              },
+            },
+          },
+        ],
+      },
     },
-  ],
+  };
 };
 
 export const MWAActionFunctionsDevDependencies: Partial<
@@ -81,7 +110,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.E2ETest]: '@modern-js/plugin-e2e',
-  [ActionFunction.Electron]: '@modern-js/plugin-electron',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
@@ -117,7 +145,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Sass]: '@modern-js/dependence-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
-    [ActionFunction.Electron]: '@modern-js/electron-generator',
     [ActionFunction.I18n]: '@modern-js/dependence-generator',
     [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.E2ETest]: '@modern-js/dependence-generator',

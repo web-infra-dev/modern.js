@@ -1,4 +1,4 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { SchemaEnum } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 
 export enum BooleanConfig {
@@ -11,13 +11,15 @@ export const BooleanConfigName: Record<string, () => string> = {
   [BooleanConfig.YES]: () => i18n.t(localeKeys.boolean.yes),
 };
 
-export const BooleanSchemas: Schema[] = [
-  {
-    key: BooleanConfig.NO,
-    label: BooleanConfigName[BooleanConfig.NO],
-  },
-  {
-    key: BooleanConfig.YES,
-    label: BooleanConfigName[BooleanConfig.YES],
-  },
-];
+export const getBooleanSchemas = (): SchemaEnum<string> => {
+  return [
+    {
+      value: BooleanConfig.NO,
+      label: BooleanConfigName[BooleanConfig.NO](),
+    },
+    {
+      value: BooleanConfig.YES,
+      label: BooleanConfigName[BooleanConfig.YES](),
+    },
+  ];
+};

@@ -1,10 +1,15 @@
-import { Schema } from '@modern-js/easy-form-core';
-import { SubSolutionSchema, SubSolution } from '../../common';
+import { Schema } from '@modern-js/codesmith-formily';
+import { getSolutionSchema, SubSolution } from '../../common';
 
-export const MonorepoNewActionSchema: Schema = {
-  key: 'monorepo_new_action',
-  isObject: true,
-  items: [SubSolutionSchema],
+export const getMonorepoNewActionSchema = (
+  extra: Record<string, any> = {},
+): Schema => {
+  return {
+    type: 'object',
+    properties: {
+      solution: getSolutionSchema(extra),
+    },
+  };
 };
 
 export const MonorepoNewActionConfig: Record<

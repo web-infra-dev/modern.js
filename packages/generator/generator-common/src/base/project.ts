@@ -1,14 +1,14 @@
-import { Schema } from '@modern-js/easy-form-core';
-import { PackageManager, PackageManagerSchema } from '../common';
+import { Schema } from '@modern-js/codesmith-formily';
+import { PackageManager, getPackageManagerSchema } from '../common';
 
-export const BaseSchemas = [PackageManagerSchema];
-
-export const BaseSchema: Schema = {
-  key: 'base',
-  isObject: true,
-  items: BaseSchemas,
+export const getBaseSchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'object',
+    properties: {
+      packageManager: getPackageManagerSchema(extra),
+    },
+  };
 };
-
 export const BaseDefaultConfig = {
   packageManager: PackageManager.Pnpm,
 };

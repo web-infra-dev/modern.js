@@ -1,30 +1,37 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
-import { FrameworkSchema, Framework } from './common';
+import { getFrameworkSchema, Framework } from './common';
 
 export enum BFFType {
   Func = 'func',
   Framework = 'framework',
 }
 
-export const BFFTypeSchema: Schema = {
-  key: 'bffType',
-  type: ['string'],
-  label: () => i18n.t(localeKeys.bff.bffType.self),
-  mutualExclusion: true,
-  items: Object.values(BFFType).map(bffType => ({
-    key: bffType,
-    label: () => i18n.t(localeKeys.bff.bffType[bffType]),
-  })),
+export const getBFFTypeSchema = (_extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'string',
+    title: i18n.t(localeKeys.bff.bffType.self),
+    enum: Object.values(BFFType).map(bffType => ({
+      value: bffType,
+      label: i18n.t(localeKeys.bff.bffType[bffType]),
+    })),
+  };
 };
 
-export const BFFSchemas = [BFFTypeSchema, FrameworkSchema];
+export const getBFFchemaProperties = (
+  extra: Record<string, any>,
+): Schema['properties'] => {
+  return {
+    bffType: getBFFTypeSchema(extra),
+    framework: getFrameworkSchema(extra),
+  };
+};
 
-export const BFFSchema: Schema = {
-  key: 'bff',
-  label: () => i18n.t(localeKeys.action.function.bff),
-  isObject: true,
-  items: BFFSchemas,
+export const getBFFSchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'object',
+    properties: getBFFchemaProperties(extra),
+  };
 };
 
 export const MWADefaultBffConfig = {

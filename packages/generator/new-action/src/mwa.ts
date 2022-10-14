@@ -4,9 +4,9 @@ import {
   GeneratorCore,
   MaterialsManager,
 } from '@modern-js/codesmith';
-import { AppAPI, forEach } from '@modern-js/codesmith-api-app';
+import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
-  MWANewActionSchema,
+  getMWANewActionSchema,
   MWAActionFunctions,
   ActionFunction,
   MWAActionFunctionsDependencies,
@@ -71,21 +71,22 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     mockGeneratorCore,
   );
 
-  const schema = forEach(MWANewActionSchema, (schemaItem: any) => {
-    if (MWAActionFunctions.includes(schemaItem.key as ActionFunction)) {
-      const enable = hasEnabledFunction(
-        schemaItem.key as ActionFunction,
-        MWAActionFunctionsDependencies,
-        MWAActionFunctionsDevDependencies,
-        {},
-        cwd,
-      );
-      const { when } = schemaItem;
-      schemaItem.when = enable ? () => false : when;
-    }
+  const funcMap: Partial<Record<ActionFunction, boolean>> = {};
+  MWAActionFunctions.forEach(func => {
+    const enable = hasEnabledFunction(
+      func,
+      MWAActionFunctionsDependencies,
+      MWAActionFunctionsDevDependencies,
+      {},
+      cwd,
+    );
+    funcMap[func] = enable;
   });
 
-  const ans = await appAPI.getInputBySchema(schema, UserConfig);
+  const ans = await appAPI.getInputBySchemaFunc(getMWANewActionSchema, {
+    ...UserConfig,
+    funcMap,
+  });
 
   const actionType = ans.actionType as ActionType;
 

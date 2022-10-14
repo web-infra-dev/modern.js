@@ -1,4 +1,4 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import {
   ActionFunction,
   ActionFunctionText,
@@ -24,30 +24,44 @@ export const ModuleActionTypesMap: Record<string, string[]> = {
 
 export const ModuleSpecialSchemaMap: Record<string, Schema> = {};
 
-export const ModuleNewActionSchema: Schema = {
-  key: 'Module_new_action',
-  isObject: true,
-  items: [
-    {
-      key: 'actionType',
-      label: () => i18n.t(localeKeys.action.self),
-      type: ['string'],
-      mutualExclusion: true,
-      items: ModuleActionTypes.map(type => ({
-        key: type,
-        label: ActionTypeText[type],
-        type: ['string'],
-        mutualExclusion: true,
-        items: ModuleActionFunctions.map(
-          func =>
-            ModuleSpecialSchemaMap[func] || {
-              key: func,
-              label: ActionFunctionText[func],
-            },
+export const getModuleNewActionSchema = (
+  extra: Record<string, any> = {},
+): Schema => {
+  const { funcMap = {} } = extra;
+  return {
+    type: 'object',
+    properties: {
+      actionType: {
+        type: 'string',
+        title: i18n.t(localeKeys.action.self),
+        enum: ModuleActionTypes.map(type => ({
+          value: type,
+          label: ActionTypeText[type](),
+          type: ['string'],
+        })),
+      },
+      [ActionType.Function]: {
+        type: 'string',
+        title: ActionTypeText[ActionType.Function](),
+        enum: ModuleActionFunctions.filter(func => !funcMap[func]).map(
+          func => ({
+            value: func,
+            label: ActionFunctionText[func](),
+          }),
         ),
-      })),
+        'x-reactions': [
+          {
+            dependencies: ['actionType'],
+            fulfill: {
+              state: {
+                visible: '{{$deps[0] === "function"}}',
+              },
+            },
+          },
+        ],
+      },
     },
-  ],
+  };
 };
 
 export const ModuleActionFunctionsDevDependencies: Partial<

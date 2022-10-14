@@ -4,10 +4,10 @@ import {
   GeneratorCore,
   MaterialsManager,
 } from '@modern-js/codesmith';
-import { AppAPI, forEach } from '@modern-js/codesmith-api-app';
+import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   i18n,
-  ModuleNewActionSchema,
+  getModuleNewActionSchema,
   ModuleActionFunctions,
   ActionFunction,
   ModuleActionFunctionsDependencies,
@@ -73,20 +73,18 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
 
   let hasOption = false;
 
-  const schema = forEach(ModuleNewActionSchema, (schemaItem: any) => {
-    if (ModuleActionFunctions.includes(schemaItem.key as ActionFunction)) {
-      const enable = hasEnabledFunction(
-        schemaItem.key as ActionFunction,
-        ModuleActionFunctionsDependencies,
-        ModuleActionFunctionsDevDependencies,
-        ModuleActionFunctionsPeerDependencies,
-        cwd,
-      );
-      const { when } = schemaItem;
-      schemaItem.when = enable ? () => false : when;
-      if (!enable) {
-        hasOption = true;
-      }
+  const funcMap: Partial<Record<ActionFunction, boolean>> = {};
+  ModuleActionFunctions.forEach(func => {
+    const enable = hasEnabledFunction(
+      func,
+      ModuleActionFunctionsDependencies,
+      ModuleActionFunctionsDevDependencies,
+      ModuleActionFunctionsPeerDependencies,
+      cwd,
+    );
+    funcMap[func] = enable;
+    if (!enable) {
+      hasOption = true;
     }
   });
 
@@ -96,7 +94,10 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     process.exit(1);
   }
 
-  const ans = await appAPI.getInputBySchema(schema, UserConfig);
+  const ans = await appAPI.getInputBySchemaFunc(getModuleNewActionSchema, {
+    ...UserConfig,
+    funcMap,
+  });
 
   const actionType = ans.actionType as ActionType;
 

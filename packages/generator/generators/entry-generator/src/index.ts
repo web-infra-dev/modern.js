@@ -6,7 +6,7 @@ import { AppAPI } from '@modern-js/codesmith-api-app';
 import { renderString } from '@modern-js/codesmith-api-handlebars';
 import {
   i18n as commonI18n,
-  EntrySchema,
+  getEntrySchema,
   ClientRoute,
 } from '@modern-js/generator-common';
 import { isEmptySource, isSingleEntry } from './utils';
@@ -31,10 +31,8 @@ const handleInput = async (
 
   generator.logger.debug('analysisInfo:', analysisInfo);
 
-  const ans = await appApi.getInputBySchema(EntrySchema, {
-    ...context.config,
-    ...analysisInfo,
-  });
+  const config = { ...context.config, ...analysisInfo };
+  const ans = await appApi.getInputBySchemaFunc(getEntrySchema, config);
 
   if (ans.needModifyMWAConfig === 'no') {
     ans.clientRoute = ClientRoute.SelfControlRoute;

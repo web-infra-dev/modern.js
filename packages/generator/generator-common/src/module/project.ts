@@ -1,24 +1,29 @@
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import {
   Language,
-  LanguageSchema,
+  getLanguageSchema,
   PackageManager,
-  PackageManagerSchema,
-  PackageNameSchema,
-  PackagePathSchema,
+  getPackageManagerSchema,
+  getPackageNameSchema,
+  getPackagePathSchema,
 } from '../common';
 
-export const ModuleSchemas = [
-  PackageNameSchema,
-  PackagePathSchema,
-  LanguageSchema,
-  PackageManagerSchema,
-];
+export const getModuleSchemaProperties = (
+  extra: Record<string, any>,
+): Schema['properties'] => {
+  return {
+    packageName: getPackageNameSchema(extra),
+    packagePath: getPackagePathSchema(extra),
+    language: getLanguageSchema(extra),
+    packageManager: getPackageManagerSchema(extra),
+  };
+};
 
-export const ModuleSchema: Schema = {
-  key: 'module',
-  isObject: true,
-  items: ModuleSchemas,
+export const getModuleSchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'object',
+    properties: getModuleSchemaProperties(extra),
+  };
 };
 
 export const ModuleDefaultConfig = {

@@ -10,7 +10,7 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  BFFSchema,
+  getBFFSchema,
   BFFType,
   i18n,
   Framework,
@@ -40,7 +40,7 @@ export const handleTemplateFile = async (
 ) => {
   const jsonAPI = new JsonAPI(generator);
 
-  const ans = await appApi.getInputBySchema(BFFSchema, context.config);
+  const ans = await appApi.getInputBySchemaFunc(getBFFSchema, context.config);
 
   const appDir = context.materials.default.basePath;
   const apiDir = path.join(appDir, 'api');

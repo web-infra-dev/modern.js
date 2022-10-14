@@ -7,8 +7,9 @@ import {
   BaseGenerator,
   ChangesetGenerator,
   Solution,
-  ModuleSchema,
+  getModuleSchema,
   Language,
+  PackageManager,
 } from '@modern-js/generator-common';
 import {
   i18n as utilsI18n,
@@ -58,36 +59,59 @@ export const handleTemplateFile = async (
   }
 
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
-  let schema = ModuleSchema;
-  let inputValue = {};
+  let ans: Record<string, unknown> = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Module, extra);
-    schema = generatorPlugin.getInputSchema(Solution.Module);
-    inputValue = generatorPlugin.getInputValue();
+    const schema = generatorPlugin.getInputSchema();
+    const inputValue = generatorPlugin.getInputValue();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
+    ans = await appApi.getInputBySchema(
+      schema,
+      { ...context.config, ...inputValue },
+      {
+        packageName: input =>
+          validatePackageName(input as string, packages, {
+            isMonorepoSubProject,
+          }),
+        packagePath: input =>
+          validatePackagePath(
+            input as string,
+            path.join(process.cwd(), projectDir),
+            { isPublic },
+          ),
+      },
+      {
+        packageName: isMonorepoSubProject
+          ? undefined
+          : path.basename(outputPath),
+      },
+      'formily',
+    );
+  } else {
+    ans = await appApi.getInputBySchemaFunc(
+      getModuleSchema,
+      context.config,
+      {
+        packageName: input =>
+          validatePackageName(input as string, packages, {
+            isMonorepoSubProject,
+          }),
+        packagePath: input =>
+          validatePackagePath(
+            input as string,
+            path.join(process.cwd(), projectDir),
+            { isPublic },
+          ),
+      },
+      {
+        packageName: isMonorepoSubProject
+          ? undefined
+          : path.basename(outputPath),
+      },
+    );
   }
-
-  const ans = await appApi.getInputBySchema(
-    schema,
-    { ...context.config, ...inputValue },
-    {
-      packageName: input =>
-        validatePackageName(input as string, packages, {
-          isMonorepoSubProject,
-        }),
-      packagePath: input =>
-        validatePackagePath(
-          input as string,
-          path.join(process.cwd(), projectDir),
-          { isPublic },
-        ),
-    },
-    {
-      packageName: isMonorepoSubProject ? undefined : path.basename(outputPath),
-    },
-  );
 
   const modernVersion = await getModernVersion(
     Solution.Module,
@@ -128,7 +152,7 @@ export const handleTemplateFile = async (
       name: packageName as string,
       language,
       isTs: language === Language.TS,
-      packageManager: getPackageManagerText(packageManager as any),
+      packageManager: getPackageManagerText(packageManager as PackageManager),
       isMonorepoSubProject,
       isPublic,
       modernVersion,

@@ -14,7 +14,7 @@ import {
   FrameworkAppendTypeContent,
   i18n,
   Language,
-  ServerSchema,
+  getServerSchema,
   Solution,
 } from '@modern-js/generator-common';
 
@@ -38,7 +38,10 @@ const handleTemplateFile = async (
   appApi: AppAPI,
 ) => {
   const jsonAPI = new JsonAPI(generator);
-  const ans = await appApi.getInputBySchema(ServerSchema, context.config);
+  const ans = await appApi.getInputBySchemaFunc(
+    getServerSchema,
+    context.config,
+  );
 
   const appDir = context.materials.default.basePath;
   const serverDir = path.join(appDir, 'server');

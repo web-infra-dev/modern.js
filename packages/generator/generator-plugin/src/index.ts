@@ -8,7 +8,7 @@ import {
   i18n as commonI18n,
 } from '@modern-js/generator-common';
 import { isFunction, merge } from '@modern-js/utils/lodash';
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema } from '@modern-js/codesmith-formily';
 import {
   LifeCycle,
   PluginAfterForgedFunc,
@@ -85,15 +85,17 @@ export class GeneratorPlugin {
     );
   }
 
-  getInputSchema(solution: Solution | 'custom'): Schema {
-    let items: Schema[] = [];
+  getInputSchema(): Schema {
+    let properties: Schema['properties'] = {};
     for (const info of this.plugins) {
-      items = [...items, ...info.context!.inputContext.getFinalInputs()];
+      properties = {
+        ...properties,
+        ...info.context!.inputContext.getFinalInputs(),
+      };
     }
     return {
-      key: `${solution}_plugin_schema`,
-      isObject: true,
-      items,
+      type: 'object',
+      properties,
     };
   }
 
@@ -137,6 +139,7 @@ export class GeneratorPlugin {
         SolutionSchemas[solution],
         inputData.locale,
       );
+      info.context.inputContext.prepare(inputData);
       info.module(info.context.context);
     }
   }

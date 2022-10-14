@@ -3,7 +3,6 @@ import {
   Solution,
   PackageManager,
   Language,
-  RunWay,
   BooleanConfig,
   ClientRoute,
   MWAActionTypes,
@@ -19,7 +18,6 @@ import {
 
 export const LanguageValues = Object.values(Language);
 export const PackageManagerValues = Object.values(PackageManager);
-export const RunWayValues = Object.values(RunWay);
 export const BooleanConfigValues = Object.values(BooleanConfig);
 export const ClientRouteValues = Object.values(ClientRoute);
 export const FrameworkValues = Object.values(Framework);
@@ -28,7 +26,6 @@ export const BFFTypeValues = Object.values(BFFType);
 export const MWAValueMap: Record<string, string[]> = {
   language: LanguageValues,
   packageManager: PackageManagerValues,
-  runWay: RunWayValues,
   needModifyMWAConfig: BooleanConfigValues,
   clientRoute: ClientRouteValues,
 };
@@ -166,7 +163,6 @@ export const getModuleNewCases = () => {
 export const MWASubProjectValueMap: Record<string, string[]> = {
   language: LanguageValues,
   needModifyMWAConfig: BooleanConfigValues,
-  runWay: RunWayValues,
   clientRoute: ClientRouteValues,
 };
 
