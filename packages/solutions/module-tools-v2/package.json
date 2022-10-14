@@ -51,7 +51,7 @@
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rollup/plugin-json": "~4.1.0",
-    "normalize-path": "^3.0.0",
+    "normalize-path": "3.0.0",
     "p-map": "^4",
     "rollup": "^2.70.2",
     "rollup-plugin-dts": "^4.2.1",

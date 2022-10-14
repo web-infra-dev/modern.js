@@ -48,6 +48,9 @@ export const runBuildTask = async (
   } else {
     await buildLib(buildConfig, api, { sourceConfig, watch, styleConfig });
   }
+
+  const { copyTask } = await import('./copy');
+  await copyTask(buildConfig.copy, { appDirectory });
 };
 
 export const generatorDts = async (

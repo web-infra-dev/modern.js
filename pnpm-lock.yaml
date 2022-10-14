@@ -2761,7 +2761,7 @@ importers:
       '@types/normalize-path': ^3.0.0
       '@types/signal-exit': ^3.0.1
       jest: ^27
-      normalize-path: ^3.0.0
+      normalize-path: 3.0.0
       p-map: ^4
       postcss: 8.4.6
       rollup: ^2.70.2

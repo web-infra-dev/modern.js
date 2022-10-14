@@ -133,7 +133,31 @@ export const buildConfigProperties = {
 
   path: { type: 'string' },
 
-  copy: { type: 'array' },
+  copy: {
+    type: 'object',
+    properties: {
+      patterns: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            from: { type: 'string' },
+            to: { type: 'string' },
+            context: { type: 'string' },
+            globOptions: { type: 'object' },
+          },
+        },
+      },
+      options: {
+        type: 'object',
+        properties: {
+          concurrency: {
+            type: 'number',
+          },
+        },
+      },
+    },
+  },
 };
 export const buildConfig = {
   target: 'buildConfig',
