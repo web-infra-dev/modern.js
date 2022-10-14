@@ -271,7 +271,6 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     hooks: context.hooks,
     context,
     publicContext,
-    inspectConfig,
     unwrapHook,
     unwrapWebpackConfigs,
     unwrapWebpackConfig,
