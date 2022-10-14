@@ -9,6 +9,7 @@ import {
   FONT_DIST_DIR,
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
+  SERVER_DIST_DIR,
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
 import type { BuilderConfig } from '../types';
@@ -48,6 +49,7 @@ export const createDefaultConfig = () =>
         font: FONT_DIST_DIR,
         image: IMAGE_DIST_DIR,
         media: MEDIA_DIST_DIR,
+        server: SERVER_DIST_DIR,
       },
       filename: {},
       charset: 'ascii',
