@@ -68,10 +68,10 @@ export async function inspectConfig({
   context,
   pluginStore,
   builderOptions,
-  inspectOptions,
   bundlerConfigs,
+  inspectOptions = {},
 }: InitConfigsOptions & {
-  inspectOptions: InspectConfigOptions;
+  inspectOptions?: InspectConfigOptions;
   bundlerConfigs?: WebpackConfig[];
 }) {
   if (inspectOptions.env) {

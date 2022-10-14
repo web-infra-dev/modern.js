@@ -8,6 +8,7 @@ import {
   type PluginStore,
   type BuildOptions,
   type CreateBuilderOptions,
+  type InspectConfigOptions,
 } from '@modern-js/builder-shared';
 import assert from 'assert';
 import { PathLike } from 'fs';
@@ -137,6 +138,18 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     );
     return { resolvedHooks: { ...resolvedHooks } };
   });
+
+  const inspectConfig = async (inspectOptions?: InspectConfigOptions) => {
+    const { inspectConfig: inspectConfigImpl } = await import(
+      '../core/inspectConfig'
+    );
+    return inspectConfigImpl({
+      context,
+      pluginStore,
+      builderOptions,
+      inspectOptions,
+    });
+  };
 
   /**
    * Unwrap args of hook.
@@ -271,6 +284,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     hooks: context.hooks,
     context,
     publicContext,
+    inspectConfig,
     unwrapHook,
     unwrapWebpackConfigs,
     unwrapWebpackConfig,
