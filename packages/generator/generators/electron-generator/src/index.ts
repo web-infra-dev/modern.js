@@ -128,7 +128,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   if (!context.config.isSubGenerator) {
     try {
-      await appApi.runInstall();
+      await appApi.runInstall(undefined, { ignoreScripts: true });
     } catch (e) {
       generator.logger.error(e);
       // eslint-disable-next-line no-process-exit
