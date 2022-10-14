@@ -1,13 +1,14 @@
 import { join } from 'path';
 import {
+  JS_DIST_DIR,
   CSS_DIST_DIR,
+  SVG_DIST_DIR,
+  ROOT_DIST_DIR,
   FONT_DIST_DIR,
   HTML_DIST_DIR,
   IMAGE_DIST_DIR,
-  JS_DIST_DIR,
   MEDIA_DIST_DIR,
-  ROOT_DIST_DIR,
-  SVG_DIST_DIR,
+  SERVER_DIST_DIR,
 } from '@modern-js/builder-shared';
 import type { BuilderConfig, DistPathConfig, FilenameConfig } from '../types';
 
@@ -37,6 +38,8 @@ export const getDistPath = (
       return distPath.root ?? ROOT_DIST_DIR;
     case 'image':
       return distPath.image ?? IMAGE_DIST_DIR;
+    case 'server':
+      return distPath.server ?? SERVER_DIST_DIR;
     default:
       throw new Error(`unknown key ${type} in "output.distPath"`);
   }
