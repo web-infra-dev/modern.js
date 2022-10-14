@@ -18,7 +18,9 @@ const resolveLog = async (
   },
 ) => {
   const { watch = false, watchFn = async () => undefined } = options;
-  const { SectionTitleStatus } = await import('../../constants/log');
+  const { SectionTitleStatus, BundlelessDtsLogPrefix } = await import(
+    '../../constants/log'
+  );
   const { watchSectionTitle } = await import('../../utils/log');
   const { watchDoneText } = await import('../../constants/dts');
 
@@ -30,7 +32,7 @@ const resolveLog = async (
   childProgress.stdout?.on('data', async data => {
     if (watch) {
       console.info(
-        await watchSectionTitle('[Bundleless:DTS]', SectionTitleStatus.Log),
+        await watchSectionTitle(BundlelessDtsLogPrefix, SectionTitleStatus.Log),
       );
       console.info(data.toString());
       if (data.toString().includes(watchDoneText)) {

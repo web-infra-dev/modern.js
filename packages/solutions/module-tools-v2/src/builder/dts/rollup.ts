@@ -1,9 +1,6 @@
 import path from 'path';
-import { InputOptions, OutputOptions, Plugin } from 'rollup';
-import dtsPlugin from 'rollup-plugin-dts';
-import ts from 'typescript';
-import jsonPlugin from '@rollup/plugin-json';
-import { BundleOptions, Entry } from '../../types';
+import type { InputOptions, OutputOptions, Plugin } from 'rollup';
+import type { BundleOptions, Entry } from '../../types';
 
 type Config = {
   distDir: string;
@@ -29,6 +26,7 @@ export const runRollup = async ({
       return null;
     },
   };
+  const ts = await import('typescript');
   const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
   const { options } = ts.parseJsonConfigFileContent(
     configFile.config,
@@ -36,6 +34,8 @@ export const runRollup = async ({
     './',
   );
 
+  const { default: jsonPlugin } = await import('@rollup/plugin-json');
+  const { default: dtsPlugin } = await import('rollup-plugin-dts');
   const inputConfig: InputOptions = {
     input: entry,
     external: externals,
@@ -73,18 +73,42 @@ export const runRollup = async ({
   };
   if (watch) {
     const { watch } = await import('rollup');
+    const { watchSectionTitle } = await import('../../utils/log');
+    const { SectionTitleStatus, BundleDtsLogPrefix } = await import(
+      '../../constants/log'
+    );
     watch({
       ...inputConfig,
       plugins: inputConfig.plugins,
       output: outputConfig,
-    }).on('event', () => undefined);
+    }).on('event', async event => {
+      if (event.code === 'START') {
+        console.info(
+          await watchSectionTitle(BundleDtsLogPrefix, SectionTitleStatus.Log),
+        );
+      } else if (event.code === 'BUNDLE_END') {
+        console.info(
+          await watchSectionTitle(
+            BundleDtsLogPrefix,
+            SectionTitleStatus.Success,
+          ),
+        );
+      } else if (event.code === 'ERROR') {
+        // this is dts rollup plugin bug, error not complete message
+      }
+    });
   } else {
     try {
       const { rollup } = await import('rollup');
       const bundle = await rollup(inputConfig);
       await bundle.write(outputConfig);
     } catch (e) {
-      console.info(e);
+      if (e instanceof Error) {
+        const { InternalDTSError } = await import('../../error');
+        throw new InternalDTSError(e, {
+          buildType: 'bundle',
+        });
+      }
     }
   }
 };
