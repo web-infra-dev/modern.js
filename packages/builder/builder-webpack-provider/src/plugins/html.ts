@@ -2,11 +2,10 @@ import path from 'path';
 import { isFileExists, DEFAULT_MOUNT_ID } from '@modern-js/builder-shared';
 import { getDistPath } from '../shared';
 import type {
-  BuilderConfig,
   BuilderPlugin,
   WebpackConfig,
   HTMLPluginOptions,
-  ToolsHtmlPluginConfig,
+  NormalizedConfig,
 } from '../types';
 
 // This is a minimist subset of modern.js server routes
@@ -17,18 +16,18 @@ type RoutesInfo = {
   entryPath: string;
 };
 
-async function getFilename(entryName: string, config: BuilderConfig) {
+async function getFilename(entryName: string, config: NormalizedConfig) {
   const { removeLeadingSlash } = await import('@modern-js/utils');
   const htmlPath = getDistPath(config, 'html');
-  const filename = config.html?.disableHtmlFolder
+  const filename = config.html.disableHtmlFolder
     ? `${entryName}.html`
     : `${entryName}/index.html`;
 
   return removeLeadingSlash(`${htmlPath}/${filename}`);
 }
 
-function getMinify(isProd: boolean, config: BuilderConfig) {
-  if (config.output?.disableMinimize || !isProd) {
+function getMinify(isProd: boolean, config: NormalizedConfig) {
+  if (config.output.disableMinimize || !isProd) {
     return false;
   }
 
@@ -44,30 +43,30 @@ function getMinify(isProd: boolean, config: BuilderConfig) {
   };
 }
 
-function getTitle(entryName: string, config: BuilderConfig) {
-  const { title, titleByEntries } = config.html || {};
+function getTitle(entryName: string, config: NormalizedConfig) {
+  const { title, titleByEntries } = config.html;
   return titleByEntries?.[entryName] || title || '';
 }
 
-function getInject(entryName: string, config: BuilderConfig) {
-  const { inject, injectByEntries } = config.html || {};
+function getInject(entryName: string, config: NormalizedConfig) {
+  const { inject, injectByEntries } = config.html;
   return injectByEntries?.[entryName] || inject || true;
 }
 
-function getFavicon(entryName: string, config: BuilderConfig) {
-  const { favicon, faviconByEntries } = config.html || {};
+function getFavicon(entryName: string, config: NormalizedConfig) {
+  const { favicon, faviconByEntries } = config.html;
   return faviconByEntries?.[entryName] || favicon;
 }
 
-async function getMetaTags(entryName: string, config: BuilderConfig) {
+async function getMetaTags(entryName: string, config: NormalizedConfig) {
   const { generateMetaTags } = await import('@modern-js/utils');
-  const { meta, metaByEntries } = config.html || {};
+  const { meta, metaByEntries } = config.html;
 
   const metaOptions = {
-    ...(metaByEntries?.[entryName] || meta),
+    ...(metaByEntries?.[entryName] || meta || {}),
   };
 
-  if (config.output?.charset === 'utf8') {
+  if (config.output.charset === 'utf8') {
     metaOptions.charset = { charset: 'utf-8' };
   }
 
@@ -76,12 +75,12 @@ async function getMetaTags(entryName: string, config: BuilderConfig) {
 
 async function getTemplateParameters(
   entryName: string,
-  config: BuilderConfig,
+  config: NormalizedConfig,
   assetPrefix: string,
 ): Promise<HTMLPluginOptions['templateParameters']> {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { mountId, templateParameters, templateParametersByEntries } =
-    config.html || {};
+    config.html;
 
   const meta = await getMetaTags(entryName, config);
   const title = getTitle(entryName, config);
@@ -110,13 +109,12 @@ async function getTemplateParameters(
   };
 }
 
-export function getTemplatePath(entryName: string, config: BuilderConfig) {
+export function getTemplatePath(entryName: string, config: NormalizedConfig) {
   const DEFAULT_TEMPLATE = path.resolve(
     __dirname,
     '../../static/template.html',
   );
-  const { template = DEFAULT_TEMPLATE, templateByEntries = {} } =
-    config.html || {};
+  const { template = DEFAULT_TEMPLATE, templateByEntries = {} } = config.html;
   return templateByEntries[entryName] || template;
 }
 
@@ -142,10 +140,10 @@ export const PluginHtml = (): BuilderPlugin => ({
     const routesInfo: RoutesInfo[] = [];
 
     api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
 
       // if html is disabled, return following logics
-      if (config.tools?.htmlPlugin === false) {
+      if (config.tools.htmlPlugin === false) {
         return;
       }
 
@@ -189,7 +187,7 @@ export const PluginHtml = (): BuilderPlugin => ({
 
           const finalOptions = applyOptionsChain(
             pluginOptions,
-            config.tools?.htmlPlugin as ToolsHtmlPluginConfig,
+            config.tools.htmlPlugin,
             {
               entryName,
               entryValue,
