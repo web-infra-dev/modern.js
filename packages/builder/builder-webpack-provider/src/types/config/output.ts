@@ -9,6 +9,7 @@ export type DistPathConfig = {
   html?: string;
   image?: string;
   media?: string;
+  server?: string;
 };
 
 export type FilenameConfig = {
