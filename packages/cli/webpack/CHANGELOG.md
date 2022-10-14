@@ -1,5 +1,34 @@
 # @modern-js/webpack
 
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/babel-preset-app@1.20.1
+  - @modern-js/css-config@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- 077aef8: fix(webpack): react-refresh-webpack-plugin cause rebuild slow
+
+  fix(webpack): 修复 react-refresh-webpack-plugin 导致重新编译慢的问题
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/babel-preset-app@1.20.0
+  - @modern-js/css-config@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes

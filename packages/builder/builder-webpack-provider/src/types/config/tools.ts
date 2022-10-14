@@ -102,7 +102,7 @@ export interface ToolsConfig {
   babel?: ToolsBabelConfig;
   terser?: ToolsTerserConfig;
   tsLoader?: ToolsTSLoaderConfig;
-  tsChecker?: false | ToolsTSCheckerConfig;
+  tsChecker?: boolean | ToolsTSCheckerConfig;
   devServer?: ToolsDevServerConfig;
   minifyCss?: ToolsMinifyCssConfig;
   htmlPlugin?: false | ToolsHtmlPluginConfig;
@@ -116,3 +116,5 @@ export interface ToolsConfig {
   webpackChain?: ToolsWebpackChainConfig;
   inspector?: ToolsInspectorPluginOptions;
 }
+
+export type NormalizedToolsConfig = ToolsConfig;

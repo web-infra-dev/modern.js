@@ -1,5 +1,39 @@
 # @modern-js/monorepo-tools
 
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/core@1.20.1
+  - @modern-js/plugin-changeset@1.20.1
+  - @modern-js/plugin-i18n@1.20.1
+  - @modern-js/plugin-jarvis@1.20.1
+  - @modern-js/new-action@1.20.1
+  - @modern-js/upgrade@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 8c05089: fix: support monorepo deploy in pnpm 7
+  fix: 修复 monorepo deploy 命令在 pnpm 7 下的问题
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+- Updated dependencies [d5d570b]
+  - @modern-js/utils@1.20.0
+  - @modern-js/core@1.20.0
+  - @modern-js/plugin-changeset@1.20.0
+  - @modern-js/plugin-i18n@1.20.0
+  - @modern-js/plugin-jarvis@1.20.0
+  - @modern-js/new-action@1.20.0
+  - @modern-js/upgrade@1.20.0
+  - @modern-js/plugin@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes

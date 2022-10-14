@@ -1,5 +1,26 @@
 # @modern-js/prod-server
 
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/server-core@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- baf7337: fix: console error message if error stack not exist
+  fix: 如果错误堆栈不存在，则输出错误信息
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/server-core@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes

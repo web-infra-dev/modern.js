@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.19.0",
+  "version": "1.20.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -89,14 +89,10 @@
     "mini-css-extract-plugin": "2.4.5",
     "postcss": "8.4.16",
     "react-refresh": "0.12.0",
-    "serialize-javascript": "^6.0.0",
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "9.3.1",
-    "webpack": "^5.74.0",
-    "ansi-escapes": "4.3.2",
-    "cli-truncate": "2.1.0",
-    "patch-console": "1.0.0"
+    "webpack": "^5.74.0"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",
@@ -105,14 +101,13 @@
     "@types/babel__core": "^7.1.19",
     "@types/babel__preset-env": "^7.9.2",
     "@types/node": "^14",
-    "@types/serialize-javascript": "^5.0.1",
     "@vitest/ui": "^0.21.1",
     "autoprefixer": "^10.4.8",
     "typescript": "^4",
     "vitest": "^0.21.1"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^1.19.0"
+    "@modern-js/e2e": "workspace:^1.20.1"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {
