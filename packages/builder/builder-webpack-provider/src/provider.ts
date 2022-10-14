@@ -52,31 +52,13 @@ export function builderWebpackProvider({
       },
 
       async inspectConfig(inspectOptions) {
-        const { inspectBundlerConfig } = await import(
-          './core/inspectBundlerConfig'
-        );
-        const { inspectBuilderConfig } = await import(
-          './core/inspectBuilderConfig'
-        );
-
-        const bundlerConfigs = await inspectBundlerConfig({
+        const { inspectConfig } = await import('./core/inspectConfig');
+        return await inspectConfig({
           context,
           pluginStore,
           builderOptions,
           inspectOptions,
         });
-
-        const builderConfig = await inspectBuilderConfig({
-          context,
-          pluginStore,
-          builderOptions,
-          inspectOptions,
-        });
-
-        return {
-          builderConfig,
-          bundlerConfigs,
-        };
       },
     };
   };

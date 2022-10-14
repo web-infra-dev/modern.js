@@ -9,9 +9,9 @@ describe('plugins/resolve', () => {
     });
     const config = await builder.unwrapWebpackConfig();
     expect(config.resolve?.extensions).toEqual([
-      '.mjs',
       '.js',
       '.jsx',
+      '.mjs',
       '.json',
     ]);
   });
