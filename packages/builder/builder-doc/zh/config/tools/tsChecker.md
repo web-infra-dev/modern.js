@@ -1,10 +1,13 @@
-- Type: `Object | Function | false`
-- Default: `Object`
+- Type: `boolean | Object | Function`
+- Default: `true`
 
-默认情况下，开启 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 进行类型检查，你可以通过:
+默认情况下，Builder 会开启 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 进行类型检查。
 
-- 配置为 `Object` 或者 `Function` 修改默认配置；
+你可以通过:
+
+- 配置为 `true` 以开启 `fork-ts-checker-webpack-plugin` 的类型检查。
 - 配置为 `false` 以关闭 `fork-ts-checker-webpack-plugin` 的类型检查。
+- 配置为 `Object` 或者 `Function` 修改默认配置；
 
 默认配置如下:
 
