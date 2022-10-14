@@ -13,7 +13,9 @@ export const PackageManagerName: Record<string, string> = {
   [PackageManager.Npm]: 'npm',
 };
 
-export const getPackageManagerSchema = (extra: Record<string, any>): Schema => {
+export const getPackageManagerSchema = (
+  extra: Record<string, any> = {},
+): Schema => {
   return {
     type: 'string',
     title: i18n.t(localeKeys.packageManager.self),
