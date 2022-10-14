@@ -38,15 +38,17 @@ export default (renderFn: RenderFunction, ctx: ModernServerContext) => {
       }
     }
 
+    async function saveHtmlIntoCache(html: string) {
+      const { cacheConfig } = context;
+      if (html && cacheConfig) {
+        await sprCache.set(cacheContext, html, cacheConfig);
+      }
+    }
+
     // no cache, render sync
     if (!cacheFile) {
       const renderResult = await renderFn(context);
-      return afterRender(renderResult, async (html: string) => {
-        const { cacheConfig } = context;
-        if (html && cacheConfig) {
-          await sprCache.set(cacheContext, html, cacheConfig);
-        }
-      });
+      return afterRender(renderResult, saveHtmlIntoCache);
     }
 
     const cacheHash = cacheFile?.hash;
@@ -54,12 +56,7 @@ export default (renderFn: RenderFunction, ctx: ModernServerContext) => {
     // completely expired
     if (cacheFile.isGarbage) {
       const renderResult = await renderFn(context);
-      return afterRender(renderResult, async (html: string) => {
-        const { cacheConfig } = context;
-        if (html && cacheConfig) {
-          await sprCache.set(cacheContext, html, cacheConfig);
-        }
-      });
+      return afterRender(renderResult, saveHtmlIntoCache);
     } else if (cacheFile.isStale) {
       // if file is stale, request async
       const render = withCoalescedInvoke(() => renderFn(context)).bind(

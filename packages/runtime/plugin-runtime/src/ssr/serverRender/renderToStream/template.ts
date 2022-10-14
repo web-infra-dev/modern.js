@@ -6,8 +6,8 @@ import { RuntimeContext, ModernSSRReactComponent } from '../types';
 import { getLoadableScripts } from '../utils';
 import { getLoadableChunks } from './loadable';
 import { getStyledComponentCss } from './styledComponent';
-import { buildAfterEntryTemplate } from './buildTemplate.after_entry';
-import { buildBeforeEntryTemplate } from './bulidTemplate.before_entry';
+import { buildShellAfterTemplate } from './buildTemplate.after';
+import { buildShellBeforeTemplate } from './bulidTemplate.before';
 import { InjectTemplate } from './type';
 
 const HTML_SEPARATOR = '<!--<?- html ?>-->';
@@ -47,7 +47,7 @@ export function createTemplates(
     // get template from file
     const filepath = context.ssrContext!.template;
     const fileContent = getFileContent(filepath);
-    const [beforeEntryTemplate = '', afterEntryHtmlTemplate = ''] =
+    const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
       fileContent?.split(HTML_SEPARATOR) || [];
 
     // prepare inject objects.
@@ -57,24 +57,21 @@ export function createTemplates(
     const styledComponentCSS = styleSheet?.getStyleTags() || '';
 
     // templates injected some variables
-    const builedBeforeTemplate = buildBeforeEntryTemplate(beforeEntryTemplate, {
+    const builtBeforeTemplate = buildShellBeforeTemplate(beforeAppTemplate, {
       loadableChunks,
       styledComponentCSS,
     });
-    const buildedAfterTemplate = buildAfterEntryTemplate(
-      afterEntryHtmlTemplate,
-      {
-        loadableScripts,
-        loadableChunks,
-        App,
-        context,
-        prefetchData,
-      },
-    );
+    const builtAfterTemplate = buildShellAfterTemplate(afterAppHtmlTemplate, {
+      loadableScripts,
+      loadableChunks,
+      App,
+      context,
+      prefetchData,
+    });
 
     return {
-      beforeEntry: builedBeforeTemplate,
-      afterEntry: buildedAfterTemplate,
+      shellBefore: builtBeforeTemplate,
+      shellAfter: builtAfterTemplate,
     };
   };
 

@@ -74,14 +74,14 @@ function getHeadTemplate(
 }
 
 // build script
-type BuildBeforeEntryTemplateOptions = GetHeadTemplateOptions;
-export function buildBeforeEntryTemplate(
-  beforeEntryTemplate: string,
-  options: BuildBeforeEntryTemplateOptions,
+type BuildShellBeforeTemplateOptions = GetHeadTemplateOptions;
+export function buildShellBeforeTemplate(
+  beforeAppTemplate: string,
+  options: BuildShellBeforeTemplateOptions,
 ) {
-  const headTemplate = getHeadTemplate(beforeEntryTemplate, {
+  const headTemplate = getHeadTemplate(beforeAppTemplate, {
     loadableChunks: options.loadableChunks,
     styledComponentCSS: options.styledComponentCSS,
   });
-  return beforeEntryTemplate.replace(HEAD_REG_EXP, headTemplate);
+  return beforeAppTemplate.replace(HEAD_REG_EXP, headTemplate);
 }

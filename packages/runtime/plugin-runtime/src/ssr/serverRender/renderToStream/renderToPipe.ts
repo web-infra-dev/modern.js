@@ -7,18 +7,12 @@ import { InjectTemplate } from './type';
 
 export type Pipe<T extends Writable> = (output: T) => Promise<T>;
 
-enum StreamingStatus {
-  Entry,
-  Streaming,
-  Leave,
-}
-
 function renderToPipe(
   rootElement: React.ReactElement,
   getTemplates: () => InjectTemplate,
   options?: RenderToPipeableStreamOptions,
 ) {
-  let streamingStaus = StreamingStatus.Entry;
+  let isShellStream = true;
 
   // TODO: react18 Streaming SSR
 
@@ -26,31 +20,18 @@ function renderToPipe(
     return new Promise(resolve => {
       const { pipe } = renderToPipeableStream(rootElement, {
         ...options,
-        onAllReady() {
-          options?.onAllReady?.();
+        onShellReady() {
+          options?.onShellReady?.();
 
-          const { beforeEntry, afterEntry, beforeEach, afterEach } =
-            getTemplates();
+          const { shellAfter, shellBefore } = getTemplates();
           const injectableTransform = new Transform({
             transform(chunk, _encoding, callback) {
               try {
-                switch (streamingStaus) {
-                  case StreamingStatus.Entry: {
-                    this.push(joinChunk(beforeEntry, chunk, afterEntry));
-                    streamingStaus = StreamingStatus.Streaming;
-                    break;
-                  }
-                  case StreamingStatus.Streaming: {
-                    this.push(chunk.toString());
-                    break;
-                  }
-                  case StreamingStatus.Leave: {
-                    this.push(joinChunk(beforeEach, chunk, afterEach));
-                    break;
-                  }
-                  default: {
-                    this.push(chunk);
-                  }
+                if (isShellStream) {
+                  this.push(joinChunk(shellBefore, chunk, shellAfter));
+                  isShellStream = false;
+                } else {
+                  this.push(chunk);
                 }
                 callback();
               } catch (e) {

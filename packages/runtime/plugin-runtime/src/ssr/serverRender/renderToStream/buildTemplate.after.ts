@@ -4,19 +4,19 @@ import serialize from 'serialize-javascript';
 import { ModernSSRReactComponent } from '../types';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
 
-type BuildAfterEntryTemplate = {
+type BuildShellAfterTemplateOptions = {
   loadableChunks: ChunkAsset[];
   context: RuntimeContext;
   App: ModernSSRReactComponent;
   loadableScripts: string;
   prefetchData: Record<string, any>;
 };
-export function buildAfterEntryTemplate(
-  afterEntryTemplate: string,
-  options: BuildAfterEntryTemplate,
+export function buildShellAfterTemplate(
+  afterAppTemplate: string,
+  options: BuildShellAfterTemplateOptions,
 ) {
   const callbacks: BuildTemplateCb[] = [injectScript, injectSSRDataScript];
-  return buildTemplate(afterEntryTemplate, callbacks);
+  return buildTemplate(afterAppTemplate, callbacks);
 
   // inject scripts from loadable
   function injectScript(template: string) {

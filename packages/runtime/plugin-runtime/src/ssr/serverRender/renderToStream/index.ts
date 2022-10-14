@@ -33,13 +33,14 @@ export const render = (
     );
     const end = time();
     const pipe = renderToPipe(jsx, getTemplates, {
-      onAllReady() {
+      onShellReady() {
         // set cacheConfig
         const cacheConfig = PreRender.config();
         if (cacheConfig) {
           context.ssrContext!.cacheConfig = cacheConfig;
         }
-
+      },
+      onAllReady() {
         // computed render html cost
         const cost = end();
         ssrContext.logger.debug('App Render To HTML cost = %d ms', cost);
