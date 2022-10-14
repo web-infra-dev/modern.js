@@ -1,7 +1,7 @@
 - Type: `Object | Function | undefined`
 - Default: `undefined`
 
-你可以通过 `tools.inspector` 开启或者配置 Webpack 调试工具 [webpack-inspector](https://github.com/modern-js-dev/webpack-inspector)。
+你可以通过 `tools.inspector` 开启或者配置 webpack 调试工具 [webpack-inspector](https://github.com/modern-js-dev/webpack-inspector)。
 
 当配置不为 `undefined` 时，则表示开启了 `webpack-inspector`，此时 `tools.inspector` 的类型可以为 `Object` 或者 `Function`。
 

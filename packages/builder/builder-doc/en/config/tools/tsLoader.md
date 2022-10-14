@@ -34,7 +34,7 @@ export default {
 
 ### Function Type
 
-When this value is of type Function, the default configuration is passed in as the first parameter, the configuration object can be modified directly, or an object can be returned as the final configuration.The second parameter is the util funtions to modify the `ts-loader` configuration. For example:
+When this value is of type Function, the default configuration is passed in as the first parameter, the configuration object can be modified directly, or an object can be returned as the final configuration.The second parameter is the util functions to modify the `ts-loader` configuration. For example:
 
 ```ts
 export default {

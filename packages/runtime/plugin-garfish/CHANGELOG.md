@@ -1,5 +1,15 @@
 # @modern-js/plugin-garfish
 
+## 1.20.1
+
+### Patch Changes
+
+- 3369240: fix(Garfish): invoke setOptions to pass configuration to Garfish instance
+  修复 config 无法传递给 Garfish 实例问题
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/runtime@1.20.1
+
 ## 1.20.0
 
 ### Patch Changes

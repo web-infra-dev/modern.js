@@ -103,7 +103,7 @@ export interface ToolsConfig {
   babel?: ToolsBabelConfig;
   terser?: ToolsTerserConfig;
   tsLoader?: ToolsTSLoaderConfig;
-  tsChecker?: false | ToolsTSCheckerConfig;
+  tsChecker?: boolean | ToolsTSCheckerConfig;
   devServer?: ToolsDevServerConfig;
   minifyCss?: ToolsMinifyCssConfig;
   htmlPlugin?: false | ToolsHtmlPluginConfig;

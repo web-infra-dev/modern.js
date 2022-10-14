@@ -9,7 +9,7 @@ type BuildCacheConfig = {
 };
 ```
 
-- **Deafult**:
+- **Default**:
 
 ```js
 const defaultBuildCacheConfig = {
@@ -17,7 +17,7 @@ const defaultBuildCacheConfig = {
 };
 ```
 
-缓存 Webpack 打包过程中生成的 module 和 chunk, 以此来提升构建速度。
+缓存 webpack 打包过程中生成的 module 和 chunk, 以此来提升构建速度。
 
 默认情况下，Builder 会将目录 `./node_modules/.cache/webpack` 作为打包的缓存目录。
 

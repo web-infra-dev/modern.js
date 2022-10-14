@@ -52,7 +52,6 @@ export const PluginOutput = (): BuilderPlugin => ({
         isProd,
         context: api.context,
       });
-      const enableExtractCSS = !config.tools?.styleLoader;
 
       // js output
       const jsFilename = getFilename(config, 'js', isProd);
@@ -70,6 +69,7 @@ export const PluginOutput = (): BuilderPlugin => ({
         .hashFunction('xxhash64');
 
       // css output
+      const enableExtractCSS = !config.tools?.styleLoader && !isServer;
       if (enableExtractCSS) {
         const { default: MiniCssExtractPlugin } = await import(
           'mini-css-extract-plugin'
@@ -94,12 +94,10 @@ export const PluginOutput = (): BuilderPlugin => ({
           ]);
       }
 
-      // ssr output
+      // server output
       if (isServer) {
-        const { SERVER_BUNDLE_DIRECTORY } = await import(
-          '@modern-js/utils/constants'
-        );
-        const filename = `${SERVER_BUNDLE_DIRECTORY}/[name].js`;
+        const serverPath = getDistPath(config, 'server');
+        const filename = `${serverPath}/[name].js`;
 
         chain.output
           .filename(filename)

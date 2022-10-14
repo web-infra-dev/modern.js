@@ -1,4 +1,6 @@
 import {
+  extendsType,
+  DEFAULT_PORT,
   ROOT_DIST_DIR,
   HTML_DIST_DIR,
   JS_DIST_DIR,
@@ -7,8 +9,8 @@ import {
   FONT_DIST_DIR,
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
+  SERVER_DIST_DIR,
   mergeBuilderConfig,
-  extendsType,
   DEFAULT_DATA_URL_SIZE,
 } from '@modern-js/builder-shared';
 import type { BuilderConfig } from '../types';
@@ -18,11 +20,11 @@ const defineDefaultConfig = extendsType<BuilderConfig>();
 export const createDefaultConfig = () =>
   defineDefaultConfig({
     dev: {
-      port: 8080,
-      assetPrefix: '/',
-      https: false,
-      startUrl: false,
       hmr: true,
+      https: false,
+      port: DEFAULT_PORT,
+      assetPrefix: '/',
+      startUrl: false,
       progressBar: true,
     },
     html: {
@@ -33,12 +35,13 @@ export const createDefaultConfig = () =>
       cssExtract: {
         loaderOptions: {},
       },
+      tsChecker: true,
     },
     source: {
       define: {},
+      alias: {},
       preEntry: [],
       globalVars: {},
-      alias: {},
       compileJsDataURI: false,
     },
     output: {
@@ -51,6 +54,7 @@ export const createDefaultConfig = () =>
         html: HTML_DIST_DIR,
         image: IMAGE_DIST_DIR,
         media: MEDIA_DIST_DIR,
+        server: SERVER_DIST_DIR,
       },
       filename: {},
       charset: 'ascii',
