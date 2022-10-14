@@ -28,9 +28,9 @@
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/base-generator": "workspace:*",
-    "@modern-js/codesmith": "1.6.1",
-    "@modern-js/codesmith-api-app": "1.6.1",
-    "@modern-js/codesmith-api-json": "1.6.1",
+    "@modern-js/codesmith": "1.6.3",
+    "@modern-js/codesmith-api-app": "1.6.3",
+    "@modern-js/codesmith-api-json": "1.6.3",
     "@modern-js/dependence-generator": "workspace:*",
     "@modern-js/electron-generator": "workspace:*",
     "@modern-js/entry-generator": "workspace:*",
