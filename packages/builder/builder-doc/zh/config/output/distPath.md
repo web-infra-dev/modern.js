@@ -10,6 +10,7 @@ type DistPathConfig = {
   html?: string;
   image?: string;
   media?: string;
+  server?: string;
 };
 ```
 
@@ -25,6 +26,7 @@ const defaultDistPath = {
   font: 'static/font',
   image: 'static/image',
   media: 'static/media',
+  server: 'bundles',
 };
 ```
 
@@ -40,6 +42,7 @@ const defaultDistPath = {
 - `font`：表示字体文件的输出目录。
 - `image`：表示非 SVG 图片的输出目录。
 - `media`：表示视频等媒体资源的输出目录。
+- `server`: 表示服务端产物的输出目录，仅在 target 为 `node` 时有效。
 
 #### 示例
 

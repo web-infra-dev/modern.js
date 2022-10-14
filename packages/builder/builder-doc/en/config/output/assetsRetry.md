@@ -37,7 +37,7 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 };
 ```
 
-#### assetsRetry.max
+### assetsRetry.max
 
 - Type: `number`
 - Default: `3`
