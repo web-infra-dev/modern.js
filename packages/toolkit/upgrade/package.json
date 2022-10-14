@@ -42,7 +42,7 @@
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/codesmith": "1.6.1",
+    "@modern-js/codesmith": "1.6.3",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/upgrade-generator": "workspace:*",
     "@scripts/build": "workspace:*",
