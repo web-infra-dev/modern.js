@@ -993,7 +993,7 @@ importers:
       '@modern-js/codesmith-api-git': 1.6.2
       '@modern-js/codesmith-api-json': 1.6.2
       '@modern-js/codesmith-api-npm': 1.6.2
-      '@modern-js/easy-form-core': 1.6.2
+      '@modern-js/codesmith-formily': 1.6.2
       '@modern-js/generator-common': workspace:*
       '@modern-js/generator-utils': workspace:*
       '@modern-js/new-action': workspace:*
@@ -1014,7 +1014,7 @@ importers:
       '@modern-js/codesmith-api-git': 1.6.2
       '@modern-js/codesmith-api-json': 1.6.2
       '@modern-js/codesmith-api-npm': 1.6.2
-      '@modern-js/easy-form-core': 1.6.2
+      '@modern-js/codesmith-formily': 1.6.2_typescript@4.7.4
       '@modern-js/generator-common': link:../generator-common
       '@modern-js/generator-utils': link:../generator-utils
       '@modern-js/new-action': link:../new-action

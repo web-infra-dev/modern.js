@@ -3,63 +3,94 @@ import {
   ForgedAPI,
   FileType,
   PluginType,
-  InputType,
 } from '@modern-js/generator-plugin';
 import { Solution, SolutionText } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
 
 export default function (context: IPluginContext) {
-  context.setInput('packageName', 'name', i18n.t(localeKeys.package_name));
+  context.setInput('packageName', 'title', i18n.t(localeKeys.package_name));
   context.addInputAfter('packageManager', {
-    key: 'pluginType',
-    name: i18n.t(localeKeys.plugin_type.self),
-    type: InputType.Radio,
-    options: Object.values(PluginType).map(type => ({
-      key: type,
-      name: i18n.t(localeKeys.plugin_type[type]),
-    })),
-  });
-  context.addInputAfter('packageManager', {
-    key: 'key',
-    name: i18n.t(localeKeys.key),
-    type: InputType.Input,
-    when: (data: Record<string, unknown>) =>
-      data.pluginType === PluginType.Custom,
-  });
-  context.addInputAfter('packageManager', {
-    key: 'name',
-    name: i18n.t(localeKeys.name),
-    type: InputType.Input,
-    when: (data: Record<string, unknown>) =>
-      data.pluginType === PluginType.Custom,
-  });
-  context.addInputAfter('packageManager', {
-    key: 'extend',
-    name: i18n.t(localeKeys.base),
-    type: InputType.Radio,
-    when: (data: Record<string, unknown>) =>
-      data.pluginType === PluginType.Extend,
-    options: Object.values(Solution).map(solution => ({
-      key: solution,
-      name: SolutionText[solution],
-    })),
-  });
-  context.addInputAfter('packageManager', {
-    key: 'type',
-    name: i18n.t(localeKeys.base),
-    type: InputType.Radio,
-    when: (data: Record<string, unknown>) =>
-      data.pluginType === PluginType.Custom,
-    options: [
-      ...Object.values(Solution).map(solution => ({
-        key: solution,
-        name: SolutionText[solution],
-      })),
-      {
-        key: 'custom',
-        name: i18n.t(localeKeys.solution.custom),
+    type: 'object',
+    properties: {
+      pluginType: {
+        type: 'string',
+        title: i18n.t(localeKeys.plugin_type.self),
+        enum: Object.values(PluginType).map(type => ({
+          value: type,
+          title: i18n.t(localeKeys.plugin_type[type]),
+        })),
       },
-    ],
+      key: {
+        type: 'string',
+        title: i18n.t(localeKeys.key),
+        'x-reactions': [
+          {
+            dependencies: ['pluginType'],
+            fulfill: {
+              state: {
+                visible: `{{$deps[0] === "${PluginType.Custom}"}}`,
+              },
+            },
+          },
+        ],
+      },
+      name: {
+        type: 'string',
+        title: i18n.t(localeKeys.name),
+        'x-reactions': [
+          {
+            dependencies: ['pluginType'],
+            fulfill: {
+              state: {
+                visible: `{{$deps[0] === "${PluginType.Custom}"}}`,
+              },
+            },
+          },
+        ],
+      },
+      extend: {
+        type: 'string',
+        title: i18n.t(localeKeys.base),
+        enum: Object.values(Solution).map(solution => ({
+          value: solution,
+          label: SolutionText[solution](),
+        })),
+        'x-reactions': [
+          {
+            dependencies: ['pluginType'],
+            fulfill: {
+              state: {
+                visible: `{{$deps[0] === "${PluginType.Extend}"}}`,
+              },
+            },
+          },
+        ],
+      },
+      type: {
+        type: 'string',
+        title: i18n.t(localeKeys.base),
+        enum: [
+          ...Object.values(Solution).map(solution => ({
+            value: solution,
+            label: SolutionText[solution](),
+          })),
+          {
+            value: 'custom',
+            label: i18n.t(localeKeys.solution.custom),
+          },
+        ],
+        'x-reactions': [
+          {
+            dependencies: ['pluginType'],
+            fulfill: {
+              state: {
+                visible: `{{$deps[0] === "${PluginType.Custom}"}}`,
+              },
+            },
+          },
+        ],
+      },
+    },
   });
 
   context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {

@@ -24,8 +24,8 @@ export const SolutionSchemas: Record<
   Solution | 'custom',
   (extra?: Record<string, string>) => Schema
 > = {
-  [Solution.MWA]: getModuleSchema,
-  [Solution.Module]: getMonorepoSchema,
-  [Solution.Monorepo]: getMWASchema,
+  [Solution.MWA]: getMWASchema,
+  [Solution.Module]: getModuleSchema,
+  [Solution.Monorepo]: getMonorepoSchema,
   custom: getBaseSchema,
 };

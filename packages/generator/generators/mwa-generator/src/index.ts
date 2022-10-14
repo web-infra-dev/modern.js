@@ -11,6 +11,7 @@ import {
   BooleanConfig,
   ClientRoute,
   EntryGenerator,
+  PackageManager,
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -60,32 +61,50 @@ export const handleTemplateFile = async (
     isMwa: true,
     isEmptySrc: true,
   };
-  let inputValue = {};
+  let ans: Record<string, unknown> = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.MWA, extra);
-    // schema = generatorPlugin.getInputSchema(Solution.MWA);
-    inputValue = generatorPlugin.getInputValue();
+    const schema = generatorPlugin.getInputSchema();
+    const inputValue = generatorPlugin.getInputValue();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
+    ans = await appApi.getInputBySchema(
+      schema,
+      { ...context.config, ...inputValue },
+      {
+        packageName: input =>
+          validatePackageName(input as string, packages, {
+            isMonorepoSubProject,
+          }),
+        packagePath: input =>
+          validatePackagePath(
+            input as string,
+            path.join(process.cwd(), projectDir),
+            { isTest, isMwa: true },
+          ),
+      },
+      {},
+      'formily',
+    );
+  } else {
+    ans = await appApi.getInputBySchemaFunc(
+      getMWASchema,
+      { ...context.config },
+      {
+        packageName: input =>
+          validatePackageName(input as string, packages, {
+            isMonorepoSubProject,
+          }),
+        packagePath: input =>
+          validatePackagePath(
+            input as string,
+            path.join(process.cwd(), projectDir),
+            { isTest, isMwa: true },
+          ),
+      },
+    );
   }
-
-  const ans = await appApi.getInputBySchemaFunc(
-    getMWASchema,
-    { ...context.config, ...inputValue },
-    {
-      packageName: input =>
-        validatePackageName(input as string, packages, {
-          isMonorepoSubProject,
-        }),
-      packagePath: input =>
-        validatePackagePath(
-          input as string,
-          path.join(process.cwd(), projectDir),
-          { isTest, isMwa: true },
-        ),
-    },
-  );
 
   const modernVersion = await getModernVersion(
     Solution.MWA,
@@ -126,7 +145,7 @@ export const handleTemplateFile = async (
         .replace('.handlebars', ''),
     {
       name: packageName || dirname,
-      packageManager: getPackageManagerText(packageManager),
+      packageManager: getPackageManagerText(packageManager as PackageManager),
       isMonorepoSubProject,
       modernVersion,
     },

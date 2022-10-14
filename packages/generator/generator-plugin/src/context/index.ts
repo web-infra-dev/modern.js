@@ -1,5 +1,4 @@
 import { GeneratorCore } from '@modern-js/codesmith';
-import { Schema } from '@modern-js/easy-form-core';
 import {
   ActionElement,
   ActionFunction,
@@ -10,7 +9,7 @@ import {
 import { AddFileParams, AddManyFilesParams } from '../utils/file';
 import { PluginFileAPI } from './file';
 import { PluginGitAPI } from './git';
-import { IInput, IOption, PluginInputContext } from './input';
+import { Schema, PluginInputContext } from './input';
 import { PluginNpmAPI } from './npm';
 import { PluginNewAPI } from './new';
 
@@ -23,11 +22,9 @@ export * from './npm';
 
 export interface IPluginContext {
   locale?: string;
-  addInputBefore: (key: string, input: IInput) => void;
-  addInputAfter: (key: string, input: IInput) => void;
+  addInputBefore: (key: string, input: Schema) => void;
+  addInputAfter: (key: string, input: Schema) => void;
   setInput: (key: string, field: string, value: unknown) => void;
-  addOptionBefore: (key: string, optionKey: string, option: IOption) => void;
-  addOptionAfter: (key: string, optionKey: string, option: IOption) => void;
   setInputValue: (value: Record<string, unknown>) => void;
   setDefaultConfig: (value: Record<string, unknown>) => void;
   isFileExit: (fileName: string) => Promise<boolean>;
@@ -113,8 +110,11 @@ export class PluginContext {
     },
   };
 
-  constructor(inputs: Schema[], locale: string) {
-    this.inputContext = new PluginInputContext(inputs);
+  constructor(
+    solutionSchema: (extra?: Record<string, any>) => Schema,
+    locale: string,
+  ) {
+    this.inputContext = new PluginInputContext(solutionSchema);
     this.gitAPI = new PluginGitAPI();
     this.fileAPI = new PluginFileAPI();
     this.locale = locale;
@@ -143,6 +143,10 @@ export class PluginContext {
       ...this.gitAPI.method,
       ...this.npmAPI!.method,
     };
+  }
+
+  handlePrepareInput(config: Record<string, any>) {
+    this.inputContext.prepare(config);
   }
 
   handlePrepareContext(
