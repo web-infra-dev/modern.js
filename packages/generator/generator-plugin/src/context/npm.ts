@@ -21,11 +21,11 @@ export class PluginNpmAPI {
 
   async install() {
     if (this.packageManager === PackageManager.Pnpm) {
-      await pnpmInstall(this.projectPath);
+      await pnpmInstall({ cwd: this.projectPath });
     } else if (this.packageManager === PackageManager.Yarn) {
-      await yarnInstall(this.projectPath);
+      await yarnInstall({ cwd: this.projectPath });
     } else {
-      await npmInstall(this.projectPath);
+      await npmInstall({ cwd: this.projectPath });
     }
   }
 }
