@@ -3472,7 +3472,7 @@ importers:
 
   tests/e2e/webpack-builder/inspect-config:
     specifiers:
-      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/e2e': workspace:*
       '@types/node': ^14
@@ -3487,7 +3487,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
+      '@modern-js/builder': link:../../../../packages/builder/builder
       '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../../packages/toolkit/e2e
       '@types/node': 14.18.21

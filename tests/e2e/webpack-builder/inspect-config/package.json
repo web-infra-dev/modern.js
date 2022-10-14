@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/builder": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@types/node": "^14",
     "@types/react": "^17",

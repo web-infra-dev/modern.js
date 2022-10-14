@@ -1,7 +1,8 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
+import { createBuilder } from '@modern-js/builder';
+import { builderWebpackProvider } from '@modern-js/builder-webpack-provider';
 
 const builderConfig = path.resolve(__dirname, './dist/builder.config.js');
 const webpackConfig = path.resolve(__dirname, './dist/webpack.config.web.js');
@@ -11,12 +12,16 @@ const webpackNodeConfig = path.resolve(
 );
 
 test('should generate config files when writeToDisk is true', async () => {
-  const builder = await createStubBuilder({
-    webpack: true,
-    entry: {
-      index: path.resolve('./src/index.js'),
+  const builder = await createBuilder(
+    builderWebpackProvider({
+      builderConfig: {},
+    }),
+    {
+      entry: {
+        index: path.resolve('./src/index.js'),
+      },
     },
-  });
+  );
   await builder.inspectConfig({
     writeToDisk: true,
   });
@@ -29,13 +34,17 @@ test('should generate config files when writeToDisk is true', async () => {
 });
 
 test('should generate webpack config for node when target contains node', async () => {
-  const builder = await createStubBuilder({
-    webpack: true,
-    target: ['web', 'node'],
-    entry: {
-      index: path.resolve('./src/index.js'),
+  const builder = await createBuilder(
+    builderWebpackProvider({
+      builderConfig: {},
+    }),
+    {
+      target: ['web', 'node'],
+      entry: {
+        index: path.resolve('./src/index.js'),
+      },
     },
-  });
+  );
   await builder.inspectConfig({
     writeToDisk: true,
   });
@@ -50,12 +59,16 @@ test('should generate webpack config for node when target contains node', async 
 });
 
 test('should not generate config files when writeToDisk is false', async () => {
-  const builder = await createStubBuilder({
-    webpack: true,
-    entry: {
-      index: path.resolve('./src/index.js'),
+  const builder = await createBuilder(
+    builderWebpackProvider({
+      builderConfig: {},
+    }),
+    {
+      entry: {
+        index: path.resolve('./src/index.js'),
+      },
     },
-  });
+  );
   await builder.inspectConfig({
     writeToDisk: false,
   });
