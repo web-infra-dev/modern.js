@@ -1,10 +1,10 @@
 import * as path from 'path';
-import * as parser from '@babel/parser';
-import traverse, { NodePath } from '@babel/traverse';
-import generator from '@babel/generator';
-import * as t from '@babel/types';
 import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import { fs } from '@modern-js/utils';
+import * as parser from '../../compiled/@babel/parser';
+import generator from '../../compiled/@babel/generator';
+import * as t from '../../compiled/@babel/types';
+import traverse, { NodePath } from '../../compiled/@babel/traverse';
 import { defaultTransformedFunctions } from '../constants/dts';
 import { dtsAliasExts } from '../constants/file';
 import { matchesPattern, isImportCall } from './dts';
@@ -104,7 +104,7 @@ const transformSingleFileAlias = ({
       paths,
     }) as any,
   });
-  return generator(ast as any).code;
+  return generator(ast).code;
 };
 
 interface TransformDtsAliasOption {

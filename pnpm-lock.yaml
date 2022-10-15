@@ -2735,10 +2735,6 @@ importers:
 
   packages/solutions/module-tools-v2:
     specifiers:
-      '@babel/generator': ^7
-      '@babel/parser': ^7
-      '@babel/traverse': ^7
-      '@babel/types': ^7
       '@modern-js/core': workspace:*
       '@modern-js/libuild': 0.2.0
       '@modern-js/libuild-plugin-babel': 0.1.0
@@ -2750,29 +2746,14 @@ importers:
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
-      '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/babel__core': ^7.1.15
-      '@types/babel__generator': ^7.6.3
-      '@types/babel__traverse': ^7.14.2
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/normalize-path': ^3.0.0
-      '@types/signal-exit': ^3.0.1
       jest: ^27
-      normalize-path: 3.0.0
-      p-map: ^4
       postcss: 8.4.6
-      rollup: ^2.70.2
-      rollup-plugin-dts: ^4.2.1
-      signal-exit: ^3.0.7
       typescript: ^4
     dependencies:
-      '@babel/generator': 7.18.6
-      '@babel/parser': 7.18.6
-      '@babel/traverse': 7.18.6
-      '@babel/types': 7.18.6
       '@modern-js/core': link:../../cli/core
       '@modern-js/libuild': 0.2.0
       '@modern-js/libuild-plugin-babel': 0.1.0
@@ -2782,24 +2763,13 @@ importers:
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
-      '@rollup/plugin-json': 4.1.0_rollup@2.78.1
-      normalize-path: 3.0.0
-      p-map: 4.0.0
-      rollup: 2.78.1
-      rollup-plugin-dts: 4.2.2_accrhai6qopda76wnqb3pkewpq
-      signal-exit: 3.0.7
     devDependencies:
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
       '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/babel__core': 7.1.19
-      '@types/babel__generator': 7.6.4
-      '@types/babel__traverse': 7.17.1
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/normalize-path': 3.0.0
-      '@types/signal-exit': 3.0.1
       jest: 27.5.1
       postcss: 8.4.6
       typescript: 4.7.4
@@ -3185,7 +3155,10 @@ importers:
       '@babel/types': 7.18.4
       '@loadable/webpack-plugin': 5.15.2
       '@modern-js/tsconfig': workspace:*
+      '@rollup/plugin-json': 4.1.0
       '@scripts/build': workspace:*
+      '@types/babel__generator': 7.6.4
+      '@types/babel__traverse': 7.18.2
       '@types/debug': 4.1.7
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
@@ -3196,11 +3169,13 @@ importers:
       '@types/mime-types': 2.1.1
       '@types/minimist': 1.2.2
       '@types/node': ^14
+      '@types/normalize-path': 3.0.0
       '@types/pug': 2.0.6
       '@types/recursive-readdir': 2.2.0
       '@types/sass-loader': 8.0.3
       '@types/semver': 7.3.9
       '@types/serialize-javascript': ^5.0.1
+      '@types/signal-exit': 3.0.1
       '@types/signale': 1.4.4
       '@types/url-join': 4.0.1
       '@types/webpack-bundle-analyzer': 4.4.1
@@ -3250,8 +3225,10 @@ importers:
       mime-types: 2.1.35
       minimist: 1.2.6
       nanoid: 3.3.4
+      normalize-path: 3.0.0
       open: ^8.4.0
       ora: 5.4.1
+      p-map: 4.0.0
       pkg-up: 3.1.0
       postcss: ^8.4.14
       postcss-custom-properties: 12.1.7
@@ -3266,11 +3243,14 @@ importers:
       postcss-value-parser: 4.2.0
       pug: 3.0.2
       recursive-readdir: 2.2.2
+      rollup: 2.79.0
+      rollup-plugin-dts: 4.2.3
       sass: 1.54.4
       sass-loader: 13.0.2
       schema-utils3: npm:schema-utils@3.1.1
       semver: 7.3.7
       serialize-javascript: ^6.0.0
+      signal-exit: 3.0.7
       signale: 1.4.0
       slash: 3.0.0
       strip-ansi: 6.0.1
@@ -3324,6 +3304,9 @@ importers:
       '@babel/traverse': 7.18.2
       '@babel/types': 7.18.4
       '@loadable/webpack-plugin': 5.15.2_webpack@5.73.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.0
+      '@types/babel__generator': 7.6.4
+      '@types/babel__traverse': 7.18.2
       '@types/debug': 4.1.7
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
@@ -3333,11 +3316,13 @@ importers:
       '@types/lodash': 4.14.181
       '@types/mime-types': 2.1.1
       '@types/minimist': 1.2.2
+      '@types/normalize-path': 3.0.0
       '@types/pug': 2.0.6
       '@types/recursive-readdir': 2.2.0
       '@types/sass-loader': 8.0.3
       '@types/semver': 7.3.9
       '@types/serialize-javascript': 5.0.2
+      '@types/signal-exit': 3.0.1
       '@types/signale': 1.4.4
       '@types/url-join': 4.0.1
       '@types/webpack-bundle-analyzer': 4.4.1
@@ -3385,8 +3370,10 @@ importers:
       mime-types: 2.1.35
       minimist: 1.2.6
       nanoid: 3.3.4
+      normalize-path: 3.0.0
       open: 8.4.0
       ora: 5.4.1
+      p-map: 4.0.0
       pkg-up: 3.1.0
       postcss-custom-properties: 12.1.7_postcss@8.4.14
       postcss-flexbugs-fixes: 5.0.2_postcss@8.4.14
@@ -3400,11 +3387,14 @@ importers:
       postcss-value-parser: 4.2.0
       pug: 3.0.2
       recursive-readdir: 2.2.2
+      rollup: 2.79.0
+      rollup-plugin-dts: 4.2.3_xdb5ss5ub2cemhlks3szmapm6q
       sass: 1.54.4
       sass-loader: 13.0.2_sass@1.54.4+webpack@5.73.0
       schema-utils3: /schema-utils/3.1.1
       semver: 7.3.7
       serialize-javascript: 6.0.0
+      signal-exit: 3.0.7
       signale: 1.4.0
       slash: 3.0.0
       strip-ansi: 6.0.1
@@ -8908,14 +8898,14 @@ packages:
       rollup: 2.75.7
     dev: false
 
-  /@rollup/plugin-json/4.1.0_rollup@2.78.1:
+  /@rollup/plugin-json/4.1.0_rollup@2.79.0:
     resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.78.1
-      rollup: 2.78.1
-    dev: false
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.0
+      rollup: 2.79.0
+    dev: true
 
   /@rollup/pluginutils/3.1.0_rollup@2.75.7:
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
@@ -8929,7 +8919,7 @@ packages:
       rollup: 2.75.7
     dev: false
 
-  /@rollup/pluginutils/3.1.0_rollup@2.78.1:
+  /@rollup/pluginutils/3.1.0_rollup@2.79.0:
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
@@ -8938,8 +8928,8 @@ packages:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
       picomatch: 2.3.1
-      rollup: 2.78.1
-    dev: false
+      rollup: 2.79.0
+    dev: true
 
   /@rushstack/node-core-library/3.48.0:
     resolution: {integrity: sha512-vgkG5gfYGiomnv3Lx4fxFhw0ytTBiAgMAT/6gkiYYracyv6g/Id7BYN+NtTFsHwSA8hSHvK42MOqQXqx04jYoA==}
@@ -11322,7 +11312,7 @@ packages:
       '@babel/types': 7.18.6
       '@types/babel__generator': 7.6.4
       '@types/babel__template': 7.4.1
-      '@types/babel__traverse': 7.17.1
+      '@types/babel__traverse': 7.18.2
 
   /@types/babel__generator/7.6.4:
     resolution: {integrity: sha512-tFkciB9j2K755yrTALxD44McOrk+gfpIpvC3sxHjRawj6PfnQxrse4Clq5y/Rq+G3mrBurMax/lG8Qn2t9mSsg==}
@@ -11341,6 +11331,12 @@ packages:
 
   /@types/babel__traverse/7.17.1:
     resolution: {integrity: sha512-kVzjari1s2YVi77D3w1yuvohV2idweYXMCDzqBiVNN63TcDWrIlTVOYpqVrvbbyOE/IyzBoTKF0fdnLPEORFxA==}
+    dependencies:
+      '@babel/types': 7.18.6
+    dev: true
+
+  /@types/babel__traverse/7.18.2:
+    resolution: {integrity: sha512-FcFaxOr2V5KZCviw1TnutEMVUVsGt4D2hP1TAfXZAMKuHYW3xQhe3jTxNPWutgCJ3/X1c5yX8ZoGVEItxKbwBg==}
     dependencies:
       '@babel/types': 7.18.6
 
@@ -11469,7 +11465,6 @@ packages:
 
   /@types/estree/0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
-    dev: false
 
   /@types/estree/0.0.50:
     resolution: {integrity: sha512-C6N5s2ZFtuZRj54k2/zyRhNDjJwwcViAM3Nbm8zjBpbqAdZ00mr0CFxvSKeO8Y/e03WVFLpQMdHYVfUd6SB+Hw==}
@@ -13397,7 +13392,7 @@ packages:
       '@babel/template': 7.18.6
       '@babel/types': 7.18.6
       '@types/babel__core': 7.1.19
-      '@types/babel__traverse': 7.17.1
+      '@types/babel__traverse': 7.18.2
 
   /babel-plugin-lodash/3.3.4:
     resolution: {integrity: sha512-yDZLjK7TCkWl1gpBeBGmuaDIFhZKmkoL+Cu2MUUjv5VxUZx/z7tBGBCBcQs5RI1Bkz5LLmNdjx7paOyQtMovyg==}
@@ -18106,7 +18101,6 @@ packages:
 
   /estree-walker/1.0.1:
     resolution: {integrity: sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==}
-    dev: false
 
   /esutils/2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
@@ -21542,7 +21536,7 @@ packages:
       '@babel/types': 7.18.6
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      '@types/babel__traverse': 7.17.1
+      '@types/babel__traverse': 7.18.2
       '@types/prettier': 2.6.3
       babel-preset-current-node-syntax: 1.0.1_@babel+core@7.18.6
       chalk: 4.1.2
@@ -22581,6 +22575,13 @@ packages:
     dependencies:
       sourcemap-codec: 1.4.8
     dev: false
+
+  /magic-string/0.26.7:
+    resolution: {integrity: sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow==}
+    engines: {node: '>=12'}
+    dependencies:
+      sourcemap-codec: 1.4.8
+    dev: true
 
   /make-dir/2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
@@ -27400,20 +27401,6 @@ packages:
     resolution: {integrity: sha512-fJhQQI5tLrQvYIYFpOnFinzv9dwmR7hRnUz1XqP3OJ1jIweTNOd6aTO4jwQSgcBSFUB+/KHJxuGneime+FdzOw==}
     dev: true
 
-  /rollup-plugin-dts/4.2.2_accrhai6qopda76wnqb3pkewpq:
-    resolution: {integrity: sha512-A3g6Rogyko/PXeKoUlkjxkP++8UDVpgA7C+Tdl77Xj4fgEaIjPSnxRmR53EzvoYy97VMVwLAOcWJudaVAuxneQ==}
-    engines: {node: '>=v12.22.11'}
-    peerDependencies:
-      rollup: ^2.55
-      typescript: ^4.1
-    dependencies:
-      magic-string: 0.26.2
-      rollup: 2.78.1
-      typescript: 4.7.4
-    optionalDependencies:
-      '@babel/code-frame': 7.18.6
-    dev: false
-
   /rollup-plugin-dts/4.2.2_okefoyb4o5sittgqayreuhurei:
     resolution: {integrity: sha512-A3g6Rogyko/PXeKoUlkjxkP++8UDVpgA7C+Tdl77Xj4fgEaIjPSnxRmR53EzvoYy97VMVwLAOcWJudaVAuxneQ==}
     engines: {node: '>=v12.22.11'}
@@ -27427,6 +27414,20 @@ packages:
     optionalDependencies:
       '@babel/code-frame': 7.18.6
     dev: false
+
+  /rollup-plugin-dts/4.2.3_xdb5ss5ub2cemhlks3szmapm6q:
+    resolution: {integrity: sha512-jlcpItqM2efqfIiKzDB/IKOS9E9fDvbkJSGw5GtK/PqPGS9eC3R3JKyw2VvpTktZA+TNgJRMu1NTv244aTUzzQ==}
+    engines: {node: '>=v12.22.12'}
+    peerDependencies:
+      rollup: ^2.55
+      typescript: ^4.1
+    dependencies:
+      magic-string: 0.26.7
+      rollup: 2.79.0
+      typescript: 4.7.4
+    optionalDependencies:
+      '@babel/code-frame': 7.18.6
+    dev: true
 
   /rollup-plugin-hashbang/3.0.0_rollup@2.75.7:
     resolution: {integrity: sha512-nNC2NeNcvkklPhPCUF8Yb+2a19xI0dSBBJJ2x814+Al2BqIEWOyaGIgEjPVSjjgxhoabkJC5vbO4AeI3cxx3wg==}
@@ -27460,6 +27461,15 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
+
+  /rollup/2.79.0:
+    resolution: {integrity: sha512-x4KsrCgwQ7ZJPcFA/SUu6QVcYlO7uRLfLAy0DSA4NS2eG8japdbpM50ToH7z4iObodRYOJ0soneF0iaQRJ6zhA==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
 
   /rsvp/4.8.5:
     resolution: {integrity: sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==}
@@ -28127,7 +28137,6 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
-    dev: false
 
   /space-separated-tokens/1.1.5:
     resolution: {integrity: sha512-q/JSVd1Lptzhf5bkYm4ob4iWPjx0KiRe3sRFBNrVqbJkFaBm5vbbowy1mymoPNLRa52+oadOhJ+K49wsSeSjTA==}

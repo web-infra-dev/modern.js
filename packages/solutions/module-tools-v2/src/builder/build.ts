@@ -37,7 +37,7 @@ export const runBuildTask = async (
 
   if (dts) {
     const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
-    const { default: pMap } = await import('p-map');
+    const { default: pMap } = await import('../../compiled/p-map');
     await pMap(tasks, async task => {
       await task(buildConfig, api, { sourceConfig, watch, dts, styleConfig });
     });

@@ -117,7 +117,7 @@ export const npmComponentWithUmdPresetConfig: PartialBuildConfig = [
 ];
 
 export const libraryPreset = { 'npm-library': npmLibraryPresetConfig };
-console.info(targets);
+
 export const libraryPresetWithTarget = targets.reduce((ret, target) => {
   ret[`npm-library-${target}`] = libraryPreset['npm-library'].map(config => {
     return { ...config, target };

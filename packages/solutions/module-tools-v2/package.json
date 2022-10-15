@@ -7,10 +7,10 @@
   "license": "MIT",
   "private": true,
   "keywords": [
-    "react",
-    "framework",
     "modern",
-    "modern.js"
+    "modern.js",
+    "module-tools",
+    "lib-tools"
   ],
   "version": "1.17.0",
   "bin": {
@@ -31,16 +31,12 @@
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
     "build": "modern build",
+    "dev": "modern build --watch",
     "test": "jest",
-    "dev": "modern build --watch"
+    "new": "modern new"
   },
   "dependencies": {
-    "@babel/generator": "^7",
-    "@babel/parser": "^7",
-    "@babel/traverse": "^7",
-    "@babel/types": "^7",
     "@modern-js/core": "workspace:*",
     "@modern-js/libuild": "0.2.0",
     "@modern-js/libuild-plugin-babel": "0.1.0",
@@ -49,26 +45,15 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "@rollup/plugin-json": "~4.1.0",
-    "normalize-path": "3.0.0",
-    "p-map": "^4",
-    "rollup": "^2.70.2",
-    "rollup-plugin-dts": "^4.2.1",
-    "signal-exit": "^3.0.7"
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/babel__core": "^7.1.15",
-    "@types/babel__generator": "^7.6.3",
-    "@types/babel__traverse": "^7.14.2",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/normalize-path": "^3.0.0",
-    "@types/signal-exit": "^3.0.1",
     "jest": "^27",
     "postcss": "8.4.6",
     "typescript": "^4"
@@ -77,5 +62,13 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/index.d.ts"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "peerDependencies": {
+    "typescript": "^4"
   }
 }

@@ -1,5 +1,9 @@
 import path from 'path';
-import type { InputOptions, OutputOptions, Plugin } from 'rollup';
+import type {
+  InputOptions,
+  OutputOptions,
+  Plugin,
+} from '../../../compiled/rollup';
 import type { BundleOptions, Entry } from '../../types';
 
 type Config = {
@@ -34,8 +38,12 @@ export const runRollup = async ({
     './',
   );
 
-  const { default: jsonPlugin } = await import('@rollup/plugin-json');
-  const { default: dtsPlugin } = await import('rollup-plugin-dts');
+  const { default: jsonPlugin } = await import(
+    '../../../compiled/@rollup/plugin-json'
+  );
+  const { default: dtsPlugin } = await import(
+    '../../../compiled/rollup-plugin-dts'
+  );
   const inputConfig: InputOptions = {
     input: entry,
     external: externals,
@@ -72,7 +80,7 @@ export const runRollup = async ({
     exports: 'named',
   };
   if (watch) {
-    const { watch } = await import('rollup');
+    const { watch } = await import('../../../compiled/rollup');
     const { watchSectionTitle } = await import('../../utils/log');
     const { SectionTitleStatus, BundleDtsLogPrefix } = await import(
       '../../constants/log'
@@ -99,7 +107,7 @@ export const runRollup = async ({
     });
   } else {
     try {
-      const { rollup } = await import('rollup');
+      const { rollup } = await import('../../../compiled/rollup');
       const bundle = await rollup(inputConfig);
       await bundle.write(outputConfig);
     } catch (e) {

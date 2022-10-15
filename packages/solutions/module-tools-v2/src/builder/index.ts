@@ -24,7 +24,7 @@ export const run = async (
     !cmdOptions.watch && console.time(buildSuccessText);
 
     const { runBuildTask } = await import('./build');
-    const { default: pMap } = await import('p-map');
+    const { default: pMap } = await import('../../compiled/p-map');
 
     const { clearBuildConfigPaths, clearDtsTemp } = await import('./clear');
     await clearBuildConfigPaths(resolvedBuildConfig);

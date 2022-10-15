@@ -12,8 +12,10 @@ export const copyTask = async (
   }
 
   const { fastGlob, globby, slash, fs } = await import('@modern-js/utils');
-  const { default: normalizePath } = await import('normalize-path');
-  const { default: pMap } = await import('p-map');
+  const { default: normalizePath } = await import(
+    '../../compiled/normalize-path'
+  );
+  const { default: pMap } = await import('../../compiled/p-map');
   const { appDirectory } = options;
   const concurrency = copyConfig?.options?.concurrency || 100;
 
