@@ -37,9 +37,9 @@
     "dev": "modern build --watch"
   },
   "dependencies": {
+    "@babel/generator": "^7",
     "@babel/parser": "^7",
     "@babel/traverse": "^7",
-    "@babel/generator": "^7",
     "@babel/types": "^7",
     "@modern-js/core": "workspace:*",
     "@modern-js/libuild": "0.2.0",
@@ -62,16 +62,16 @@
     "@modern-js/plugin-jarvis": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/jest": "^27",
     "@types/babel__core": "^7.1.15",
     "@types/babel__generator": "^7.6.3",
     "@types/babel__traverse": "^7.14.2",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "@types/normalize-path": "^3.0.0",
     "@types/signal-exit": "^3.0.1",
     "jest": "^27",
-    "typescript": "^4",
-    "postcss": "8.4.6"
+    "postcss": "8.4.6",
+    "typescript": "^4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
