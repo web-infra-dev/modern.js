@@ -6,7 +6,7 @@ import type {
 import type { UserConfig as LibuildUserConfig } from '@modern-js/libuild';
 import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
-import { BuildInPreset, presetList } from '../../constants/build';
+import { BuildInPreset, presetList } from '../../constants/build-presets';
 import type { CopyConfig } from '../copy';
 import type { LessConfig, SassConfig, PostCSSConfig } from './style';
 

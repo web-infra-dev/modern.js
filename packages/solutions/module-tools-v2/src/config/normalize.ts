@@ -17,7 +17,9 @@ export const transformBuildPresetToBaseConfigs = async (
   },
   preset?: BuildPreset,
 ): Promise<BaseBuildConfig[]> => {
-  const { BuildInPreset, presetList } = await import('../constants/build');
+  const { BuildInPreset, presetList } = await import(
+    '../constants/build-presets'
+  );
   const { addEntryToPreset } = await import('../utils/entry');
 
   if (typeof preset === 'function') {

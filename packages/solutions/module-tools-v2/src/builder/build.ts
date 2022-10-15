@@ -135,6 +135,12 @@ export const buildLib = async (
     };
   }, {});
 
+  const { es5OutputPlugin } = await import('@modern-js/libuild-plugin-es5');
+  const plugins = target === 'es5' ? [es5OutputPlugin()] : [];
+
+  const { watchPlugin } = await import('../utils/libuild-plugins');
+  plugins.push(watchPlugin(config));
+
   const commonLiBuildConfig: CLIConfig = {
     root: appDirectory,
     watch,
@@ -147,6 +153,7 @@ export const buildLib = async (
     resolve: {
       alias,
     },
+    plugins,
   };
 
   if (buildType === 'bundle') {
@@ -166,12 +173,6 @@ export const buildLib = async (
       },
     } = config;
 
-    const { es5OutputPlugin } = await import('@modern-js/libuild-plugin-es5');
-    const plugins = target === 'es5' ? [es5OutputPlugin()] : [];
-
-    const { watchPlugin } = await import('../utils/libuild-plugins');
-    plugins.push(watchPlugin(config));
-
     const bundleConfig: CLIConfig = {
       ...commonLiBuildConfig,
       platform,
@@ -185,7 +186,6 @@ export const buildLib = async (
       sourceMap,
       minify,
       external: externals,
-      plugins,
       getModuleId,
     };
     try {
