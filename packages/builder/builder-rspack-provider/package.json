@@ -1,0 +1,48 @@
+{
+  "name": "@modern-js/builder-rspack-provider",
+  "version": "0.1.0",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/js/node/index.js",
+  "module": "./dist/js/treeshaking/index.js",
+  "jsnext:modern": "./dist/js/modern/index.js",
+  "scripts": {
+    "prepare": "pnpm build",
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern new",
+    "build": "wireit",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest dev --no-coverage",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@rspack/core": "^0.0.6"
+  },
+  "devDependencies": {
+    "@modern-js/module-tools": "1.20.1",
+    "@modern-js/plugin-testing": "1.20.1",
+    "@modern-js/tsconfig": "1.20.1",
+    "rimraf": "^3.0.2",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.6.2",
+    "husky": "^8",
+    "typescript": "^4",
+    "@types/jest": "^26.0.9",
+    "@types/node": "^14",
+    "@types/react": "^17"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.less",
+    "*.sass",
+    "*.scss"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
