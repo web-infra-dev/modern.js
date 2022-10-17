@@ -1,4 +1,5 @@
 import { TS_REGEX } from '@modern-js/builder-shared';
+import _ from '@modern-js/utils/lodash';
 import { BuilderPlugin } from '../types';
 import { applyScriptCondition, getUseBuiltIns } from './babel';
 
@@ -15,51 +16,41 @@ export const PluginTsLoader = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-ts-loader',
     setup(api) {
-      const config = api.getBuilderConfig();
-      if (!config.tools?.tsLoader) {
-        return;
-      }
+      api.modifyWebpackChain(async (chain, { getCompiledPath, CHAIN_ID }) => {
+        const config = api.getNormalizedConfig();
+        if (!config.tools.tsLoader) {
+          return;
+        }
 
-      const { framework, rootPath } = api.context;
-      const babelLoaderOptions = {
-        presets: [
-          [
-            require.resolve('@modern-js/babel-preset-app'),
-            {
-              metaName: framework,
-              appDirectory: rootPath,
-              target: 'client',
-              useTsLoader: true,
-              useBuiltIns: getUseBuiltIns(config),
-              userBabelConfig: config.tools.babel,
-            },
+        const { framework, rootPath } = api.context;
+        const babelLoaderOptions = {
+          presets: [
+            [
+              require.resolve('@modern-js/babel-preset-app'),
+              {
+                metaName: framework,
+                appDirectory: rootPath,
+                target: 'client',
+                useTsLoader: true,
+                useBuiltIns: getUseBuiltIns(config),
+                userBabelConfig: config.tools.babel,
+              },
+            ],
           ],
-        ],
-      };
+        };
 
-      const includes: Array<string | RegExp> = [];
-      const excludes: Array<string | RegExp> = [];
+        const includes: Array<string | RegExp> = [];
+        const excludes: Array<string | RegExp> = [];
 
-      const tsLoaderUtils = {
-        addIncludes(items: string | RegExp | (string | RegExp)[]) {
-          if (Array.isArray(items)) {
-            includes.push(...items);
-          } else {
-            includes.push(items);
-          }
-        },
-        addExcludes(items: string | RegExp | (string | RegExp)[]) {
-          if (Array.isArray(items)) {
-            excludes.push(...items);
-          } else {
-            excludes.push(items);
-          }
-        },
-      };
-      api.modifyWebpackChain(async (chain, { getCompiledPath }) => {
-        const { CHAIN_ID, applyOptionsChain } = await import(
-          '@modern-js/utils'
-        );
+        const tsLoaderUtils = {
+          addIncludes(items: string | RegExp | (string | RegExp)[]) {
+            includes.push(..._.castArray(items));
+          },
+          addExcludes(items: string | RegExp | (string | RegExp)[]) {
+            excludes.push(..._.castArray(items));
+          },
+        };
+        const { applyOptionsChain } = await import('@modern-js/utils');
         const tsLoaderOptions = applyOptionsChain(
           {
             compilerOptions: {
@@ -69,7 +60,7 @@ export const PluginTsLoader = (): BuilderPlugin => {
             transpileOnly: true,
             allowTsInNodeModules: true,
           },
-          config.tools?.tsLoader || {},
+          config.tools.tsLoader,
           tsLoaderUtils,
         );
         const rule = chain.module.rule(CHAIN_ID.RULE.TS);

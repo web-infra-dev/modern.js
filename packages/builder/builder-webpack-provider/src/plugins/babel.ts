@@ -12,20 +12,15 @@ import {
 } from '@modern-js/builder-shared';
 import { getBrowserslistWithDefault } from '../shared';
 
-import type {
-  WebpackChain,
-  BuilderConfig,
-  BuilderPlugin,
-  NormalizedConfig,
-} from '../types';
+import type { WebpackChain, BuilderPlugin, NormalizedConfig } from '../types';
 
 export const CORE_JS_ENTRY = path.resolve(
   __dirname,
   '../runtime/core-js-entry.js',
 );
 
-export const getUseBuiltIns = (config: BuilderConfig) => {
-  const { polyfill } = config.output || {};
+export const getUseBuiltIns = (config: NormalizedConfig) => {
+  const { polyfill } = config.output;
   if (polyfill === 'ua' || polyfill === 'off') {
     return false;
   }
