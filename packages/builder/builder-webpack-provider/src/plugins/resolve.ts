@@ -11,11 +11,12 @@ function applyExtensions({
   isTsProject: boolean;
 }) {
   let extensions = [
-    '.mjs',
-    '.js',
     // only resolve .ts(x) files if it's a ts project
-    ...(isTsProject ? ['.tsx', '.ts'] : []),
+    // most projects are using TypeScript, resolve .ts(x) files first to reduce resolve time.
+    ...(isTsProject ? ['.ts', '.tsx'] : []),
+    '.js',
     '.jsx',
+    '.mjs',
     '.json',
   ];
 
