@@ -1,5 +1,5 @@
 import type { LibuildPlugin } from '@modern-js/libuild';
-import type { BaseBuildConfig } from '../types';
+import type { BaseBuildConfig, BaseBundleBuildConfig } from '../types';
 
 export const watchPlugin = (config: BaseBuildConfig): LibuildPlugin => {
   return {
@@ -14,6 +14,22 @@ export const watchPlugin = (config: BaseBuildConfig): LibuildPlugin => {
         console.info(
           await watchSectionTitle(titleText, SectionTitleStatus.Log),
         );
+      });
+    },
+  };
+};
+
+export const externalPlugin = (
+  config: BaseBundleBuildConfig,
+  options: { appDirectory: string },
+): LibuildPlugin => {
+  return {
+    name: 'external-plugin',
+    apply(compiler) {
+      compiler.hooks.initialize.tapPromise('external-plugin', async () => {
+        const { getFinalExternals } = await import('./builder');
+        const finalExternals = await getFinalExternals(config, options);
+        compiler.config.external = finalExternals;
       });
     },
   };
