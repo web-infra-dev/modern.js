@@ -59,7 +59,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   await handleTemplateFile(context, generator, appApi);
 
-  await appApi.runInstall();
+  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   appApi.showSuccessInfo();
 

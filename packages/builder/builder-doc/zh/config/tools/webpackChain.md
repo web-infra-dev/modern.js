@@ -166,7 +166,7 @@ builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `PLUGIN.NODE_POLYFILL_PROVIDE` | 对应处理 node polyfill 的 `ProvidePlugin`                                          |
 | `PLUGIN.INSPECTOR`             | 对应 `@modern-js/inspector-webpack-plugin`                                         |
 | `PLUGIN.SUBRESOURCE_INTEGRITY` | 对应 `webpack-subresource-integrity`                                               |
-| `PLUGIN.ASSETS_RETRY`          | 对应 Builder 中的 Webpack 静态资源重试插件 `WebpackAssetsRetryPlugin`              |
+| `PLUGIN.ASSETS_RETRY`          | 对应 Builder 中的 webpack 静态资源重试插件 `WebpackAssetsRetryPlugin`              |
 | `AUTO_SET_ROOT_SIZE`           | 对应 Builder 中的自动设置根字体大小插件 `AutoSetRootSizePlugin`                    |
 
 ### CHAIN_ID.MINIMIZER

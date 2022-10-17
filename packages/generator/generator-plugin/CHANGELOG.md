@@ -1,5 +1,38 @@
 # @modern-js/generator-plugin
 
+## 2.4.4
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/plugin-i18n@1.20.1
+  - @modern-js/generator-common@2.4.4
+  - @modern-js/generator-utils@2.4.4
+  - @modern-js/new-action@1.20.1
+
+## 2.4.3
+
+### Patch Changes
+
+- 4822d53: feat: generator plugin support set default config
+
+  feat: 生成器插件支持设置增加问题的默认值
+
+- d23b532: fix: generator plugin addHelper api
+
+  fix: 修复生成器插件 addHelper this 指向问题
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/plugin-i18n@1.20.0
+  - @modern-js/generator-common@2.4.3
+  - @modern-js/generator-utils@2.4.3
+  - @modern-js/new-action@1.20.0
+
 ## 2.4.0
 
 ### Patch Changes

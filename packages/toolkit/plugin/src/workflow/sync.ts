@@ -6,7 +6,7 @@ export type Worker<I, O> = (I: I) => O;
 export type Workers<I, O> = Worker<I, O>[];
 
 export type Workflow<I, O> = {
-  run: (input: I) => void;
+  run: (input: I) => O[];
   use: (...I: Workers<I, O>) => Workflow<I, O>;
   [WORKFLOW_SYMBOL]: true;
 };

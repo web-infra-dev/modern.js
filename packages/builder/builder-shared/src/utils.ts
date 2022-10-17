@@ -11,3 +11,8 @@ export function deepFreezed<T>(obj: T): T {
   }
   return Object.freeze(obj);
 }
+
+export const extendsType =
+  <T>() =>
+  <P extends T>(source: P): P =>
+    source;

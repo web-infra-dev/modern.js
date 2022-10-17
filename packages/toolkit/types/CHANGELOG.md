@@ -1,5 +1,15 @@
 # @modern-js/types
 
+## 1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 66e4817: feat: support devServer.historyApiFallback
+
+  feat: 支持 devServer.historyApiFallback 配置项
+
 ## 1.19.0
 
 ## 1.18.1

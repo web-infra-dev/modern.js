@@ -1,5 +1,5 @@
-import patchConsole from 'patch-console';
-import cliTruncate from 'cli-truncate';
+import patchConsole from '../../../../compiled/patch-console';
+import cliTruncate from '../../../../compiled/cli-truncate';
 import type { Props } from './type';
 import { FULL_WIDTH, renderBar } from './bar';
 import { create } from './log';
@@ -34,9 +34,7 @@ class Bus {
     this.prevOutput = '';
     this.log = create(process.stdout);
     this.restore = patchConsole((type, data) => {
-      if (type === 'stdout') {
-        this.writeToStdout(data);
-      }
+      this.writeToStd(type, data);
     });
   }
 
@@ -49,9 +47,17 @@ class Bus {
     this.states[index] = state;
   }
 
-  writeToStdout(data?: string) {
+  writeToStd(type: 'stdout' | 'stderr' = 'stdout', data?: string) {
     this.log.clear();
-    data && process.stdout.write(data);
+
+    if (data) {
+      if (type === 'stdout') {
+        process.stdout.write(data);
+      } else if (type === 'stderr') {
+        process.stderr.write(data);
+      }
+    }
+
     this.log(this.prevOutput);
   }
 
@@ -73,7 +79,7 @@ class Bus {
         ),
       )
       .join('\n');
-    this.writeToStdout();
+    this.writeToStd();
   }
 
   destroy() {

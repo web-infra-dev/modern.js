@@ -1,5 +1,19 @@
 // Vitest Snapshot v1
 
+exports[`plugins/output > should allow to custom server directory with distPath.server 1`] = `
+{
+  "output": {
+    "chunkFilename": "server/[name].js",
+    "filename": "server/[name].js",
+    "hashFunction": "xxhash64",
+    "libraryTarget": "commonjs2",
+    "path": "<ROOT>/packages/builder/builder-webpack-provider/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+}
+`;
+
 exports[`plugins/output > should allow to use filename.js to modify filename 1`] = `
 {
   "output": {

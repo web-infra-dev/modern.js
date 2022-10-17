@@ -9,6 +9,7 @@ export type DistPathConfig = {
   html?: string;
   image?: string;
   media?: string;
+  server?: string;
 };
 
 export type FilenameConfig = {
@@ -87,15 +88,19 @@ export type RemOptions = Partial<{
 
 export type ExternalsOptions = WebpackConfig['externals'];
 
+export type Charset = 'ascii' | 'utf8';
+export type SvgDefaultExport = 'component' | 'url';
+export type LegalComments = 'none' | 'inline' | 'linked';
+
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: DistPathConfig;
   filename?: FilenameConfig;
-  charset?: 'ascii' | 'utf8';
+  charset?: Charset;
   polyfill?: Polyfill;
   assetPrefix?: string;
   dataUriLimit?: number | DataUriLimit;
-  legalComments?: 'none' | 'inline' | 'linked';
+  legalComments?: LegalComments;
   cleanDistPath?: boolean;
   disableMinimize?: boolean;
   disableSourceMap?: boolean;
@@ -108,8 +113,16 @@ export interface OutputConfig {
   enableInlineScripts?: boolean;
   enableInlineStyles?: boolean;
   overrideBrowserslist?: string[];
-  svgDefaultExport?: 'component' | 'url';
+  svgDefaultExport?: SvgDefaultExport;
   assetsRetry?: AssetsRetryOptions;
   convertToRem?: boolean | RemOptions;
   externals?: ExternalsOptions;
+}
+
+export interface NormalizedOutputConfig extends OutputConfig {
+  filename: FilenameConfig;
+  distPath: DistPathConfig;
+  polyfill: Polyfill;
+  cleanDistPath: boolean;
+  svgDefaultExport: SvgDefaultExport;
 }

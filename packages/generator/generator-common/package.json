@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.4.0",
+  "version": "2.4.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -36,12 +36,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/easy-form-core": "1.6.1",
+    "@modern-js/easy-form-core": "1.6.3",
     "@modern-js/plugin-i18n": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "1.6.1",
-    "@modern-js/codesmith-api-app": "1.6.1",
+    "@modern-js/codesmith": "1.6.3",
+    "@modern-js/codesmith-api-app": "1.6.3",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

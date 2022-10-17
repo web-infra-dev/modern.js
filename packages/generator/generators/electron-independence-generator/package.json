@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.4.0",
+  "version": "2.4.4",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -27,9 +27,9 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/codesmith": "1.6.1",
-    "@modern-js/codesmith-api-app": "1.6.1",
-    "@modern-js/codesmith-api-json": "1.6.1",
+    "@modern-js/codesmith": "1.6.3",
+    "@modern-js/codesmith-api-app": "1.6.3",
+    "@modern-js/codesmith-api-json": "1.6.3",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@scripts/build": "workspace:*",

@@ -1,5 +1,54 @@
 # @modern-js/app-tools
 
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/core@1.20.1
+  - @modern-js/plugin-i18n@1.20.1
+  - @modern-js/plugin-jarvis@1.20.1
+  - @modern-js/webpack@1.20.1
+  - @modern-js/new-action@1.20.1
+  - @modern-js/prod-server@1.20.1
+  - @modern-js/server@1.20.1
+  - @modern-js/node-bundle-require@1.20.1
+  - @modern-js/upgrade@1.20.1
+  - @modern-js/plugin@1.20.1
+  - @modern-js/types@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 0f9e16b: fix(app-tools): remove useless logging option
+
+  fix(app-tools): 移除无效的 logging 选项
+
+- Updated dependencies [35c0959]
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [66e4817]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [077aef8]
+- Updated dependencies [8c05089]
+- Updated dependencies [face165]
+- Updated dependencies [baf7337]
+- Updated dependencies [d5d570b]
+  - @modern-js/server@1.20.0
+  - @modern-js/utils@1.20.0
+  - @modern-js/core@1.20.0
+  - @modern-js/webpack@1.20.0
+  - @modern-js/types@1.20.0
+  - @modern-js/prod-server@1.20.0
+  - @modern-js/plugin-i18n@1.20.0
+  - @modern-js/plugin-jarvis@1.20.0
+  - @modern-js/new-action@1.20.0
+  - @modern-js/node-bundle-require@1.20.0
+  - @modern-js/upgrade@1.20.0
+  - @modern-js/plugin@1.20.0
+
 ## 1.19.0
 
 ### Patch Changes
