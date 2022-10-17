@@ -5,9 +5,14 @@ import ReactDomServer from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import ReactHelmet, { HelmetData } from 'react-helmet';
 import helmetReplace from '../helmet';
-import { RenderLevel, RuntimeContext, ModernSSRReactComponent } from '../types';
+import {
+  RenderLevel,
+  RuntimeContext,
+  ModernSSRReactComponent,
+  SSRPluginConfig,
+} from '../types';
 import { time } from '../utils';
-import { SSRServerContext, RenderResult, SSRPluginConfig } from './type';
+import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
 
 import { reduce } from './reduce';
@@ -87,7 +92,7 @@ export default class Entry {
   }
 
   public async renderToHtml(context: RuntimeContext): Promise<string> {
-    const { ssrContext } = context;
+    const ssrContext = context.ssrContext!;
 
     if (ssrContext.redirection.url) {
       return '';
@@ -160,7 +165,10 @@ export default class Entry {
 
       // Todo render Hook
       const renderContext = {
-        loadableManifest: path.resolve(ssrContext.distDir, LOADABLE_STATS_FILE),
+        loadableManifest: path.resolve(
+          ssrContext!.distDir,
+          LOADABLE_STATS_FILE,
+        ),
         host: this.host,
         result: this.result,
         entryName: this.entryName,

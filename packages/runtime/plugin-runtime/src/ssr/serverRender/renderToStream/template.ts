@@ -2,7 +2,11 @@ import fs from 'fs';
 import type { ServerStyleSheet } from 'styled-components';
 import type { ChunkExtractor } from '@loadable/server';
 import React from 'react';
-import { RuntimeContext, ModernSSRReactComponent } from '../types';
+import {
+  RuntimeContext,
+  ModernSSRReactComponent,
+  SSRPluginConfig,
+} from '../types';
 import { getLoadableScripts } from '../utils';
 import { getLoadableChunks } from './loadable';
 import { getStyledComponentCss } from './styledComponent';
@@ -18,6 +22,7 @@ export function createTemplates(
   rootElement: React.ReactElement,
   prefetchData: Record<string, any>,
   App: ModernSSRReactComponent,
+  config: SSRPluginConfig,
 ) {
   const {
     jsx,
@@ -67,6 +72,7 @@ export function createTemplates(
       App,
       context,
       prefetchData,
+      ssrConfig: config,
     });
 
     return {

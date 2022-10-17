@@ -3,13 +3,11 @@ import { run } from '@modern-js/utils/ssr';
 import { PreRender } from 'src/ssr/react/prerender';
 import type { RuntimeContext, ModernSSRReactComponent } from '../types';
 import { time } from '../utils';
+import { ServerRenderOptions } from '../types';
 import { createTemplates } from './template';
 import renderToPipe from './renderToPipe';
 
-export const render = (
-  context: RuntimeContext,
-  App: ModernSSRReactComponent,
-) => {
+export const render = ({ App, context, config }: ServerRenderOptions) => {
   const { ssrContext } = context;
 
   if (!ssrContext) {
@@ -30,6 +28,7 @@ export const render = (
       rootElement,
       prefetchData,
       App,
+      config,
     );
     const end = time();
     const pipe = renderToPipe(jsx, getTemplates, {

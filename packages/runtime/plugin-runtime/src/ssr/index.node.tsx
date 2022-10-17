@@ -1,11 +1,13 @@
-import type { ServerConfig } from '@modern-js/core';
 import { registerPrefetch } from '../core';
 import type { Plugin } from '../core';
-import { SSRServerContext } from './serverRender/types';
+import {
+  SSRServerContext,
+  SSRPluginConfig,
+  ModernSSRReactComponent,
+} from './serverRender/types';
 import prefetch from './prefetch';
 import { formatServer } from './utils';
 import render from './serverRender';
-import { SSRPluginConfig } from './serverRender/renderToString/type';
 
 const registeredApps = new WeakSet();
 
@@ -19,12 +21,11 @@ const plugin = (config: SSRPluginConfig = {}): Plugin => ({
           registeredApps.add(App);
         }
 
-        const html = await render(
-          context!,
+        const html = await render({
+          context: context!,
+          App: App as ModernSSRReactComponent,
           config,
-          App as ModernSSRReactComponent,
-        );
-
+        });
         return html;
       },
       init({ context }, next) {

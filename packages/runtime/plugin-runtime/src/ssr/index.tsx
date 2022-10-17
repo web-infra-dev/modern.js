@@ -1,7 +1,11 @@
 import { loadableReady } from '@loadable/component';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import type { Plugin } from '../core';
-import { RenderLevel, SSRServerContext } from './serverRender/types';
+import {
+  RenderLevel,
+  SSRServerContext,
+  SSRPluginConfig,
+} from './serverRender/types';
 import { WithCallback } from './react/withCallback';
 import { formatClient, mockResponse, isReact18 } from './utils';
 
@@ -12,7 +16,7 @@ declare module '../core' {
   }
 }
 
-const ssr = (_: SSRPluginConfig): Plugin => ({
+const ssr = (_config: SSRPluginConfig): Plugin => ({
   name: '@modern-js/plugin-ssr',
   setup: () => {
     const mockResp = mockResponse();

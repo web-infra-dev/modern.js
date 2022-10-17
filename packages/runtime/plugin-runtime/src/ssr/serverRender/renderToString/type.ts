@@ -1,4 +1,5 @@
 import type { BaseSSRServerContext } from '@modern-js/types';
+import type { SSRPluginConfig } from '../types';
 
 export enum RenderLevel {
   CLIENT_RENDER,
@@ -34,8 +35,4 @@ export type RenderResult = {
     js: string;
     css: string;
   };
-};
-
-export type SSRPluginConfig = {
-  crossorigin?: boolean | 'anonymous' | 'use-credentials';
 };
