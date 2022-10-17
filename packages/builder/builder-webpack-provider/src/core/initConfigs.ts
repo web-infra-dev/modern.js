@@ -1,17 +1,16 @@
 import {
   debug,
   isDebug,
+  deepFreezed,
   type PluginStore,
   type InspectConfigOptions,
   type CreateBuilderOptions,
-  deepFreezed,
 } from '@modern-js/builder-shared';
 import { initPlugins } from './initPlugins';
+import { inspectConfig } from './inspectConfig';
 import { generateWebpackConfig } from './webpackConfig';
-import { stringifyBuilderConfig } from './inspectBuilderConfig';
-import { stringifyWebpackConfig } from './inspectBundlerConfig';
-import type { Context } from '../types';
 import { normalizeConfig } from '../config/normalize';
+import type { Context } from '../types';
 
 async function modifyBuilderConfig(context: Context) {
   debug('modify builder config');
@@ -56,15 +55,12 @@ export async function initConfigs({
         verbose: true,
         writeToDisk: true,
       };
-      stringifyBuilderConfig({
+      inspectConfig({
         context,
-        inspectOptions,
-      });
-      stringifyWebpackConfig({
-        context,
+        pluginStore,
         inspectOptions,
         builderOptions,
-        webpackConfigs,
+        bundlerConfigs: webpackConfigs,
       });
     };
 
