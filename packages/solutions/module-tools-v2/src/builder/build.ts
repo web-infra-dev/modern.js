@@ -65,12 +65,16 @@ export const generatorDts = async (
   const { tsconfigPath, distPath } = dts;
   if (buildType === 'bundle') {
     const {
-      bundleOptions: { entry, externals },
+      bundleOptions: { entry },
     } = config;
+
+    const { getFinalExternals } = await import('../utils/builder');
+    const finalExternals = await getFinalExternals(config, { appDirectory });
+
     await runRollup({
       distDir: distPath,
       watch,
-      externals,
+      externals: finalExternals,
       entry,
       tsconfigPath,
     });
@@ -138,7 +142,9 @@ export const buildLib = async (
   const { es5OutputPlugin } = await import('@modern-js/libuild-plugin-es5');
   const plugins = target === 'es5' ? [es5OutputPlugin()] : [];
 
-  const { watchPlugin } = await import('../utils/libuild-plugins');
+  const { watchPlugin, externalPlugin } = await import(
+    '../utils/libuild-plugins'
+  );
   plugins.push(watchPlugin(config));
 
   const commonLiBuildConfig: CLIConfig = {
@@ -163,7 +169,6 @@ export const buildLib = async (
         platform,
         splitting,
         minify,
-        externals,
         assets,
         entryNames,
         globals,
@@ -172,6 +177,8 @@ export const buildLib = async (
         getModuleId,
       },
     } = config;
+
+    plugins.push(externalPlugin(config, { appDirectory }));
 
     const bundleConfig: CLIConfig = {
       ...commonLiBuildConfig,
@@ -185,7 +192,6 @@ export const buildLib = async (
       splitting,
       sourceMap,
       minify,
-      external: externals,
       getModuleId,
     };
     try {

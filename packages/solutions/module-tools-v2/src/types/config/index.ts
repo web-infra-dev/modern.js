@@ -38,6 +38,13 @@ export type DTSOptions = {
 };
 export type DTS = false | DTSOptions;
 export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
+export type SkipDeps =
+  | boolean
+  | {
+      dependencies?: boolean;
+      devDependencies?: boolean;
+      peerDependencies?: boolean;
+    };
 
 export interface BaseCommonBuildConfig {
   target: Target;
@@ -60,12 +67,7 @@ export type BundleOptions = {
   splitting: LibuildUserConfig['splitting'];
   minify: LibuildUserConfig['minify'];
   externals: LibuildUserConfig['external'];
-  skipDeps:
-    | boolean
-    | {
-        dependencies?: boolean;
-        peerDependencies?: boolean;
-      };
+  skipDeps: SkipDeps;
   assets: LibuildUserConfig['asset'];
   entryNames: LibuildUserConfig['entryNames'];
   globals: LibuildUserConfig['globals'];
