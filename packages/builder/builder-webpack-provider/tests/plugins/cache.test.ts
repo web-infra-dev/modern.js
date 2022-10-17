@@ -56,4 +56,18 @@ describe('plugins/cache', () => {
       customCacheDirectory,
     );
   });
+
+  it('should disable cache', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginCache()],
+      builderConfig: {
+        performance: {
+          buildCache: false,
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config.cache).toBeFalsy();
+  });
 });
