@@ -145,10 +145,6 @@ export class PluginContext {
     };
   }
 
-  handlePrepareInput(config: Record<string, any>) {
-    this.inputContext.prepare(config);
-  }
-
   handlePrepareContext(
     generator: GeneratorCore,
     solution: Solution | 'custom',
