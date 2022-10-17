@@ -26,6 +26,5 @@ export interface NormalizedSourceConfig extends SourceConfig {
   preEntry: string[];
   globalVars: Record<string, JSONValue>;
   define: Record<string, CodeValue>;
-  alias: WebpackAlias;
   compileJsDataURI: boolean;
 }

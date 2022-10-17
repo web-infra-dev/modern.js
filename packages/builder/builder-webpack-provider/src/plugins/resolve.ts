@@ -1,10 +1,6 @@
 import type { ChainIdentifier } from '@modern-js/utils';
-import type {
-  BuilderConfig,
-  BuilderPlugin,
-  NormalizedConfig,
-  WebpackChain,
-} from '../types';
+import _ from '@modern-js/utils/lodash';
+import type { BuilderPlugin, NormalizedConfig, WebpackChain } from '../types';
 
 function applyExtensions({
   chain,
@@ -46,16 +42,16 @@ async function applyAlias({
   rootPath,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: NormalizedConfig;
   rootPath: string;
 }) {
-  const { alias } = config.source || {};
+  const { alias } = config.source;
 
   if (!alias) {
     return;
   }
 
-  const { ensureArray, applyOptionsChain, ensureAbsolutePath } = await import(
+  const { applyOptionsChain, ensureAbsolutePath } = await import(
     '@modern-js/utils'
   );
 
@@ -67,7 +63,7 @@ async function applyAlias({
    * - Absolute paths or a package name are not processed.
    */
   Object.keys(mergedAlias).forEach(name => {
-    const values = ensureArray(mergedAlias[name]);
+    const values = _.castArray(mergedAlias[name]);
     const formattedValues = values.map(value => {
       if (typeof value === 'string' && value.startsWith('.')) {
         return ensureAbsolutePath(rootPath, value);
