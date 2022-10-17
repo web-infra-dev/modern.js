@@ -1,16 +1,15 @@
 import type { ChainedConfig, JSONValue } from '@modern-js/builder-shared';
-import type { WebpackAlias } from '../thirdParty';
-import type * as webpack from 'webpack';
+// import type * as webpack from 'webpack';
 
 export type ModuleScopes = Array<string | RegExp>;
-export type CodeValue = webpack.DefinePlugin['definitions'][string];
+// export type CodeValue = webpack.DefinePlugin['definitions'][string];
 
 export interface SourceConfig {
   include?: (string | RegExp)[];
-  alias?: ChainedConfig<WebpackAlias>;
+  alias?: Record<string, string>;
   preEntry?: string | string[];
   globalVars?: Record<string, JSONValue>;
-  define?: Record<string, CodeValue>;
+  define?: Record<string, string>;
   moduleScopes?: ChainedConfig<ModuleScopes>;
   compileJsDataURI?: boolean;
   resolveExtensionPrefix?: string;

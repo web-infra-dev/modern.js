@@ -12,6 +12,7 @@
     "new": "modern new",
     "build": "wireit",
     "dev": "tsc --watch",
+    "example": "node __fixture__/execute",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
@@ -20,20 +21,20 @@
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/core": "^0.0.6"
+    "@rspack/core": "^0.0.4"
   },
   "devDependencies": {
     "@modern-js/module-tools": "1.20.1",
     "@modern-js/plugin-testing": "1.20.1",
     "@modern-js/tsconfig": "1.20.1",
-    "rimraf": "^3.0.2",
-    "lint-staged": "^11.2.6",
-    "prettier": "^2.6.2",
-    "husky": "^8",
-    "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
-    "@types/react": "^17"
+    "@types/react": "^17",
+    "husky": "^8",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.6.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^4"
   },
   "sideEffects": [
     "*.css",
@@ -44,5 +45,20 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "wireit": {
+    "build": {
+      "command": "tsc",
+      "files": [
+        "src/**/*",
+        "tsconfig.json",
+        "package.json",
+        "scripts/post-compile.js"
+      ],
+      "output": [
+        "dist/**/*",
+        "compiled/config-validate/**/*"
+      ]
+    }
   }
 }

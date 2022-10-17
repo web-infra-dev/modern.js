@@ -6,13 +6,12 @@ import type {
 import type { BuilderConfig, NormalizedConfig } from './config';
 import type {
   OnExitFn,
-  OnAfterBuildFn,
+  // OnAfterBuildFn,
   OnBeforeBuildFn,
   OnDevCompileDoneFn,
-  ModifyWebpackChainFn,
-  ModifyWebpackConfigFn,
+  ModifyRspackConfigFn,
   ModifyBuilderConfigFn,
-  OnAfterCreateCompilerFn,
+  // OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
   OnAfterStartDevServerFn,
   OnBeforeStartDevServerFn,
@@ -26,17 +25,16 @@ export type BuilderPluginAPI = {
 
   // Hooks
   onExit: (fn: OnExitFn) => void;
-  onAfterBuild: (fn: OnAfterBuildFn) => void;
+  // onAfterBuild: (fn: OnAfterBuildFn) => void;
   onBeforeBuild: (fn: OnBeforeBuildFn) => void;
   onDevCompileDone: (fn: OnDevCompileDoneFn) => void;
-  onAfterCreateCompiler: (fn: OnAfterCreateCompilerFn) => void;
+  // onAfterCreateCompiler: (fn: OnAfterCreateCompilerFn) => void;
   onBeforeCreateCompiler: (fn: OnBeforeCreateCompilerFn) => void;
   onAfterStartDevServer: (fn: OnAfterStartDevServerFn) => void;
   onBeforeStartDevServer: (fn: OnBeforeStartDevServerFn) => void;
 
   // Modifiers
-  modifyWebpackChain: (fn: ModifyWebpackChainFn) => void;
-  modifyWebpackConfig: (fn: ModifyWebpackConfigFn) => void;
+  modifyRspackConfig: (fn: ModifyRspackConfigFn) => void;
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn) => void;
 };
 

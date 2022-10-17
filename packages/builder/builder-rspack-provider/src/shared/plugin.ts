@@ -16,4 +16,12 @@ export const awaitablePlugins = (
   return { then, promises };
 };
 
-export const applyDefaultPlugins = () => awaitablePlugins([]);
+export const applyMinimalPlugins = () =>
+  awaitablePlugins([
+    import('../plugins/entry').then(m => m.PluginEntry()),
+    import('../plugins/output').then(m => m.PluginOutput()),
+  ]);
+
+export const applyDefaultPlugins = () => awaitablePlugins([
+  ...applyMinimalPlugins().promises,
+]);

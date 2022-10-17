@@ -1,5 +1,3 @@
-import type { CopyPluginOptions, WebpackConfig } from '../thirdParty';
-
 export type DistPathConfig = {
   root?: string;
   js?: string;
@@ -85,10 +83,10 @@ export type RemOptions = Partial<{
   pxtorem: PxToRemOptions;
 }>;
 
-export type ExternalsOptions = WebpackConfig['externals'];
+export type ExternalsOptions = Record<string, string>;
 
 export interface OutputConfig {
-  copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
+  // copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: DistPathConfig;
   filename?: FilenameConfig;
   charset?: 'ascii' | 'utf8';

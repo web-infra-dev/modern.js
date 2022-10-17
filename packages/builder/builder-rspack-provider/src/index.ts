@@ -8,7 +8,7 @@ export type {
   OutputConfig,
   SourceConfig,
   BuilderConfig,
-  SecurityConfig,
+  // SecurityConfig,
   // PerformanceConfig,
   ExperimentsConfig,
 

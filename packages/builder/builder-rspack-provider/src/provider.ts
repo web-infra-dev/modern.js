@@ -12,7 +12,7 @@ export function builderRspackProvider({
 }: {
   builderConfig: BuilderConfig;
 }): any {
-  return async ({ pluginStore, builderOptions }) => {
+  return async ({ pluginStore, builderOptions }: any) => {
     const context = await createContext(builderOptions, builderConfig);
 
     return {
@@ -24,21 +24,22 @@ export function builderRspackProvider({
         pluginStore.addPlugins(await applyDefaultPlugins());
       },
 
-      async createCompiler({ watch } = {}) {
+      async createCompiler({ watch }: any = {}) {
         const { createCompiler } = await import('./core/createCompiler');
         const { rspackConfigs } = await initConfigs({
           context,
           pluginStore,
           builderOptions,
         });
+
         return createCompiler({ watch, context, rspackConfigs });
       },
 
-      async startDevServer(options) {},
+      // async startDevServer(options) {},
 
-      async build(options) {},
+      // async build(options) {},
 
-      async inspectConfig(inspectOptions) {},
+      // async inspectConfig(inspectOptions) {},
     };
   };
 }

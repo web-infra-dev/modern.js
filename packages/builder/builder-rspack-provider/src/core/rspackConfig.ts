@@ -3,7 +3,7 @@ import {
   type NodeEnv,
   type BuilderTarget,
 } from '@modern-js/builder-shared';
-import { getCompiledPath } from 'src/shared';
+import { getCompiledPath } from '../shared';
 import type { Context, ModifyRspackUtils, RspackConfig } from '../types';
 
 function generateDefaultRspackConfig(): RspackConfig {

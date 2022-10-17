@@ -9,17 +9,15 @@ import type { NormalizedOutputConfig, OutputConfig } from './output';
 //   NormalizedPerformanceConfig,
 //   PerformanceConfig,
 // } from './performance';
-import type { NormalizedSecurityConfig, SecurityConfig } from './security';
 import type { NormalizedSourceConfig, SourceConfig } from './source';
-import type { NormalizedToolsConfig, ToolsConfig } from './tools';
 
 export interface BuilderConfig {
   dev?: DevConfig;
   html?: HtmlConfig;
-  tools?: ToolsConfig;
+  tools?: any;
   source?: SourceConfig;
   output?: OutputConfig;
-  security?: SecurityConfig;
+  // security?: SecurityConfig;
   // performance?: PerformanceConfig;
   experiments?: ExperimentsConfig;
 }
@@ -27,10 +25,10 @@ export interface BuilderConfig {
 export interface NormalizedConfig extends Required<BuilderConfig> {
   dev: NormalizedDevConfig;
   html: NormalizedHtmlConfig;
-  tools: NormalizedToolsConfig;
+  tools: any;
   source: NormalizedSourceConfig;
   output: NormalizedOutputConfig;
-  security: NormalizedSecurityConfig;
+  // security: NormalizedSecurityConfig;
   // performance: NormalizedPerformanceConfig;
   experiments: NormalizedExperimentsConfig;
 }
@@ -41,7 +39,6 @@ export * from './experiments';
 export * from './html';
 export * from './output';
 // export * from './performance';
-export * from './security';
+// export * from './security';
 export * from './source';
-export * from './tools';
 /* eslint-enable @typescript-eslint/no-restricted-imports */
