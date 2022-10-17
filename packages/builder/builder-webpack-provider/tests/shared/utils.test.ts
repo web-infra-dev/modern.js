@@ -14,6 +14,24 @@ describe('stringifyConfig', () => {
     expect(await stringifyConfig(webpackConfig)).toMatchSnapshot();
   });
 
+  it('should stringify webpack config with verbose option correctly', async () => {
+    const { DefinePlugin } = webpack;
+    const webpackConfig: WebpackConfig = {
+      mode: 'development',
+      plugins: [
+        new DefinePlugin({
+          foo: 'bar',
+          baz() {
+            const a = 1;
+            return a;
+          },
+        }),
+      ],
+    };
+
+    expect(await stringifyConfig(webpackConfig, true)).toMatchSnapshot();
+  });
+
   it('should stringify builder config correctly', async () => {
     const builderConfig: BuilderConfig = {
       tools: {

@@ -111,7 +111,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   const { packageManager } = await handleTemplateFile(context, appApi);
 
-  await appApi.runInstall();
+  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   appApi.showSuccessInfo(
     i18n.t(localeKeys.success, {

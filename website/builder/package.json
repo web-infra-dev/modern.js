@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@modern-js/builder-web-site",
+  "name": "@modern-js/builder-website",
   "version": "1.20.1",
   "main": "index.js",
   "scripts": {
