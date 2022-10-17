@@ -85,7 +85,14 @@ export async function getModernPluginVersion(
     const version = await getPackageVersion(packageName, registry);
     return version;
   };
-  if (!packageName.startsWith('@modern-js')) {
+
+  if (
+    !packageName.startsWith('@modern-js') ||
+    packageName.includes('electron') ||
+    packageName.includes('codesmith') ||
+    packageName.includes('easy-form') ||
+    packageName.startsWith('@modern-js-reduck')
+  ) {
     return getLatetPluginVersion();
   }
   // get project solution version
