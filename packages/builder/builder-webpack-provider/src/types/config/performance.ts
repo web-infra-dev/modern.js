@@ -62,7 +62,7 @@ export interface PerformanceConfig {
   removeMomentLocale?: boolean;
   bundleAnalyze?: BundleAnalyzerPlugin.Options;
   chunkSplit?: BuilderChunkSplit;
-  buildCache?: BuildCacheOptions;
+  buildCache?: BuildCacheOptions | boolean;
   profile?: boolean;
 }
 
