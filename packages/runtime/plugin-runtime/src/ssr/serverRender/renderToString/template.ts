@@ -81,6 +81,7 @@ export function toFragments(filename: string): Fragment[] {
   }
 
   // 未开启现代构建的项目无 -es6.html
+  // filename => filepath
   const template = readFile(filename);
   if (!template) {
     throw new Error(`Could not find template file: ${filename}`);

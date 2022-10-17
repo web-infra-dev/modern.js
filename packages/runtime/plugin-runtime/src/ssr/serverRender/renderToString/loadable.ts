@@ -1,27 +1,8 @@
 import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
-import { isCrossOrigin } from '../utils';
+import { isCrossOrigin } from '../../utils';
+import { getLoadableScripts } from '../utils';
 import { RenderHandler } from './type';
-
-function getLoadableScripts(extractor: ChunkExtractor) {
-  const check = (scripts: string) =>
-    (scripts || '').includes('__LOADABLE_REQUIRED_CHUNKS___ext');
-
-  const scripts = extractor.getScriptTags();
-
-  if (!check(scripts)) {
-    return '';
-  }
-
-  return (
-    scripts
-      .split('</script>')
-      // 前两个 script为 loadable 必须的 script
-      .slice(0, 2)
-      .map(i => `${i}</script>`)
-      .join('')
-  );
-}
 
 export const toHtml: RenderHandler = (jsx, renderer, next) => {
   const {
@@ -46,7 +27,7 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
   chunksMap.js = (chunksMap.js || '') + getLoadableScripts(extractor);
 
   for (const v of chunks) {
-    const fileType = path.extname(v.url).slice(1);
+    const fileType = path.extname(v.url || '').slice(1);
 
     if (fileType === 'js') {
       const props = [];

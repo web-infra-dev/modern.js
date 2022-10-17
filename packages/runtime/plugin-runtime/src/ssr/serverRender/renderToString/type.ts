@@ -1,6 +1,5 @@
-// import { IncomingHttpHeaders } from 'http';
 import type { BaseSSRServerContext } from '@modern-js/types';
-import type { RuntimeContext } from '../../core';
+import type { SSRPluginConfig } from '../types';
 
 export enum RenderLevel {
   CLIENT_RENDER,
@@ -13,11 +12,6 @@ export type SSRServerContext = BaseSSRServerContext & {
     userAgent: string;
     cookie: string;
   };
-};
-
-export type ModernSSRReactComponent = React.ComponentType<any> & {
-  init: (context: RuntimeContext) => Promise<void>;
-  prefetch: (context: RuntimeContext) => Promise<Record<string, any>>;
 };
 
 export interface RenderEntry {
@@ -41,8 +35,4 @@ export type RenderResult = {
     js: string;
     css: string;
   };
-};
-
-export type SSRPluginConfig = {
-  crossorigin?: boolean | 'anonymous' | 'use-credentials';
 };

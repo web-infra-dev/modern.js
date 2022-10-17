@@ -41,6 +41,7 @@ import {
 import * as reader from '../libs/render/reader';
 import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
 import { createContext } from '../libs/context';
+import { templateInjectableStream } from '../libs/hook-api/template';
 import {
   AGGRED_DIR,
   ERROR_DIGEST,
@@ -445,15 +446,20 @@ export class ModernServer implements ModernServerInterface {
       });
     }
 
-    const file = await this.handleWeb(context, route);
-    if (!file) {
+    const renderResult = await this.handleWeb(context, route);
+
+    if (!renderResult) {
       this.render404(context);
       return;
     }
 
     // React Router navigation
-    if (file.redirect) {
-      this.redirect(res, file.content as string, file.statusCode);
+    if (renderResult.redirect) {
+      this.redirect(
+        res,
+        renderResult.content as string,
+        renderResult.statusCode,
+      );
       return;
     }
 
@@ -463,7 +469,26 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
-    let response = file.content;
+    res.setHeader('content-type', renderResult.contentType);
+
+    const { contentStream } = renderResult;
+    if (contentStream) {
+      contentStream
+        .pipe(
+          templateInjectableStream({
+            prependHead: route.entryName
+              ? `<script>window._SERVER_DATA=${JSON.stringify(
+                  context.serverData,
+                )}</script>`
+              : undefined,
+          }),
+        )
+        .pipe(res);
+      return;
+    }
+
+    let response = renderResult.content;
+
     if (route.entryName) {
       const afterRenderContext = createAfterRenderContext(
         context,
@@ -471,6 +496,7 @@ export class ModernServer implements ModernServerInterface {
       );
 
       // only full mode run server hook
+      // FIXME: how to run server hook in streaming
       if (this.runMode === RUN_MODE.FULL) {
         await this.runner.afterRender(afterRenderContext, { onLast: noop });
       }
@@ -485,8 +511,6 @@ export class ModernServer implements ModernServerInterface {
       );
       response = afterRenderContext.template.get();
     }
-
-    res.setHeader('content-type', file.contentType);
     res.end(response);
   }
 

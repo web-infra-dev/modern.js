@@ -1,5 +1,6 @@
 import { Buffer } from 'buffer';
 import { IncomingMessage, Server, ServerResponse } from 'http';
+import { Readable } from 'stream';
 import { serverManager } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
@@ -41,6 +42,7 @@ export type ModernServerOptions = {
 export type RenderResult = {
   content: string | Buffer;
   contentType: string;
+  contentStream?: Readable;
   statusCode?: number;
   redirect?: boolean;
 };

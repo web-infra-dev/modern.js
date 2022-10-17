@@ -2,7 +2,7 @@ import { Store } from '@modern-js-reduck/store';
 import { createContext } from 'react';
 import { createLoaderManager } from './core/loader/loaderManager';
 import { runtime } from './core/plugin';
-import { SSRServerContext } from './ssr/serverRender/type';
+import { SSRServerContext } from './ssr/serverRender/types';
 
 export interface BaseRuntimeContext {
   loaderManager: ReturnType<typeof createLoaderManager>;

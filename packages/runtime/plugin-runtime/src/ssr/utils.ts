@@ -1,5 +1,7 @@
 import { BaseSSRServerContext } from '@modern-js/types';
-import { SSRServerContext } from './serverRender/type';
+import { SSRServerContext } from './serverRender/types';
+
+export const isReact18 = () => process.env.IS_REACT18 === 'true';
 
 export const formatServer = (
   request: BaseSSRServerContext['request'],
@@ -63,7 +65,7 @@ export const mockResponse = () => {
   };
 };
 
-export const isCrossOrigin = (url: string, base: string) => {
+export const isCrossOrigin = (url = '', base: string) => {
   if (url.startsWith('/') || url.startsWith('./')) {
     return false;
   } else if (!url.includes(base)) {

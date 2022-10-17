@@ -94,7 +94,7 @@ export default (): CliPlugin => ({
         if (ssrConfigMap.get(entrypoint.entryName)) {
           plugins.push({
             name: PLUGIN_IDENTIFIER,
-            options: ssrConfigMap.get(entrypoint.entryName),
+            options: JSON.stringify(ssrConfigMap.get(entrypoint.entryName)),
           });
         }
         return {

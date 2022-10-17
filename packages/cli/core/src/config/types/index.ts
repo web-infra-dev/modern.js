@@ -167,8 +167,20 @@ export interface ServerConfig {
       }
   >;
   publicRoutes?: { [filepath: string]: string };
-  ssr?: boolean | Record<string, unknown>;
-  ssrByEntries?: Record<string, boolean | Record<string, unknown>>;
+  ssr?:
+    | boolean
+    | {
+        mode?: 'string' | 'stream';
+        [property: string]: unknown;
+      };
+  ssrByEntries?: Record<
+    string,
+    | boolean
+    | {
+        mode?: 'string' | 'stream';
+        [property: string]: unknown;
+      }
+  >;
   baseUrl?: string | Array<string>;
   port?: number;
   logger?: boolean | Record<string, any>;
