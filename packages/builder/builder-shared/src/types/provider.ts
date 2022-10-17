@@ -12,7 +12,9 @@ export type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
   printURLs?: boolean;
   strictPort?: boolean;
-  serverOptions?: Partial<ModernDevServerOptions>;
+  serverOptions?: Partial<Omit<ModernDevServerOptions, 'config'>> & {
+    config?: Partial<ModernDevServerOptions['config']>;
+  };
 };
 
 export type BuildOptions = {

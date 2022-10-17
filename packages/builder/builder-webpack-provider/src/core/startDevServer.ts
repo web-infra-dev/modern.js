@@ -5,7 +5,7 @@ import {
   StartDevServerResult,
   StartDevServerOptions,
 } from '@modern-js/builder-shared';
-import _ from '@modern-js/utils/lodash';
+import { merge } from '@modern-js/utils/lodash';
 import type { ModernDevServerOptions } from '@modern-js/server';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
@@ -28,7 +28,7 @@ async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {
 export async function createDevServer(
   options: InitConfigsOptions,
   port: number,
-  serverOptions: Partial<ModernDevServerOptions>,
+  serverOptions: Exclude<StartDevServerOptions['serverOptions'], undefined>,
   customCompiler?: Compiler | MultiCompiler,
 ) {
   const { Server } = await import('@modern-js/server');
@@ -65,40 +65,31 @@ export async function createDevServer(
     builderConfig.tools?.devServer,
   );
 
+  const defaultConfig: ModernDevServerOptions['config'] = {
+    output: {
+      path: builderConfig.output?.distPath?.root,
+      assetPrefix: builderConfig.output?.assetPrefix,
+    },
+    source: {
+      alias: {},
+    },
+    tools: {
+      babel: {},
+    },
+    server: {},
+    runtime: {},
+    bff: {},
+    plugins: [],
+  };
+
   const server = new Server({
     pwd: options.context.rootPath,
     dev: devServerOptions,
     compiler,
     ...serverOptions,
-    config: applyOptionsChain<
-      ModernDevServerOptions['config'],
-      ModernDevServerOptions['config']
-    >(
-      {
-        output: {
-          path: builderConfig.output?.distPath?.root,
-          assetPrefix: builderConfig.output?.assetPrefix,
-        },
-        source: {
-          // TODO: how compat?
-          alias: builderConfig.source
-            ?.alias as ModernDevServerOptions['config']['source']['alias'],
-          // new globalVars map old envVars
-          envVars: Object.keys(builderConfig.source?.globalVars || []),
-          globalVars: _.mapValues(builderConfig.source?.define, value =>
-            typeof value === 'string' ? value : JSON.stringify(value),
-          ),
-        },
-        tools: {
-          babel: builderConfig.tools?.babel,
-        },
-        server: {},
-        runtime: {},
-        bff: {},
-        plugins: [],
-      },
-      serverOptions.config,
-    ),
+    config: serverOptions.config
+      ? merge({}, defaultConfig, serverOptions.config)
+      : defaultConfig,
   });
 
   debug('create dev server done');
