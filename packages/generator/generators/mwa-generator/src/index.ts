@@ -55,12 +55,14 @@ export const handleTemplateFile = async (
     }
   }
 
-  const { hasPlugin, generatorPlugin, ...extra } = context.config;
   context.config = {
     ...context.config,
     isMwa: true,
     isEmptySrc: true,
   };
+
+  const { hasPlugin, generatorPlugin, ...extra } = context.config;
+
   let ans: Record<string, unknown> = {};
 
   if (hasPlugin) {

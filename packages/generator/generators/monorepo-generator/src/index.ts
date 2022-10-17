@@ -41,7 +41,6 @@ export const handleTemplateFile = async (
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Monorepo, extra);
-    generatorPlugin.handlePrepareInput(context.config);
     const schema = generatorPlugin.getInputSchema();
     const inputValue = generatorPlugin.getInputValue();
     context.config.gitCommitMessage =
