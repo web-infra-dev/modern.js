@@ -31,6 +31,18 @@ describe('workflow', () => {
       expect(count).toBe(3);
     });
 
+    it('should run and return the values', () => {
+      const workflow = createWorkflow<void, number>();
+
+      let count = 0;
+      workflow.use(() => ++count);
+      workflow.use(() => ++count);
+
+      const result = workflow.run();
+
+      expect(result).toEqual([1, 2]);
+    });
+
     it('isWorkflow', () => {
       const workflow = createWorkflow();
 
