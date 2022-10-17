@@ -85,6 +85,7 @@ export const createDefaultConfig = () =>
     performance: {
       removeConsole: false,
       removeMomentLocale: false,
+      profile: false,
       chunkSplit: {
         strategy: 'split-by-experience',
       },
