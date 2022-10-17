@@ -22,3 +22,20 @@ exports[`stringifyConfig > should stringify webpack config correctly 1`] = `
   ]
 }"
 `;
+
+exports[`stringifyConfig > should stringify webpack config with verbose option correctly 1`] = `
+"{
+  mode: 'development',
+  plugins: [
+    {
+      definitions: {
+        foo: 'bar',
+        baz() {
+          const a = 1;
+          return a;
+        }
+      }
+    }
+  ]
+}"
+`;

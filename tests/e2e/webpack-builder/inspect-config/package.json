@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "name": "@e2e/webpack-builder-inline-chunk",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "node ./scripts/dev.js",
+    "build": "node ./scripts/build.js",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "got": "^11.8.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@modern-js/e2e": "workspace:*",
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@types/node": "^14",
+    "@types/react": "^17",
+    "@types/react-dom": "^17",
+    "typescript": "^4"
+  }
+}
