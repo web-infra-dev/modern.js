@@ -1,3 +1,4 @@
+import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin, RemOptions, PxToRemOptions } from '../types';
 
 const defaultOptions: RemOptions = {
@@ -10,7 +11,9 @@ export const PluginRem = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      const { output: { convertToRem } = {} } = api.getBuilderConfig();
+      const {
+        output: { convertToRem },
+      } = api.getNormalizedConfig();
 
       if (!convertToRem) {
         return;
@@ -28,29 +31,35 @@ export const PluginRem = (): BuilderPlugin => ({
         default: (_opts: PxToRemOptions) => any;
       };
 
-      [CHAIN_ID.RULE.CSS, CHAIN_ID.RULE.LESS, CHAIN_ID.RULE.SASS].forEach(
-        name => {
-          chain.module.rules.has(name) &&
-            chain.module
-              .rule(name)
-              .use(CHAIN_ID.USE.POSTCSS)
-              .tap((options = {}) => ({
-                ...options,
-                postcssOptions: {
-                  ...(options.postcssOptions || {}),
-                  plugins: [
-                    ...(options.postcssOptions?.plugins || []),
-                    PxToRemPlugin({
-                      rootValue: userOptions.rootFontSize,
-                      unitPrecision: 5,
-                      propList: ['*'],
-                      ...(userOptions.pxtorem || {}),
-                    }),
-                  ],
-                },
-              }));
-        },
-      );
+      const applyRules = [
+        CHAIN_ID.RULE.CSS,
+        CHAIN_ID.RULE.LESS,
+        CHAIN_ID.RULE.SASS,
+      ];
+      const getPxToRemPlugin = () =>
+        PxToRemPlugin({
+          rootValue: userOptions.rootFontSize,
+          unitPrecision: 5,
+          propList: ['*'],
+          ..._.cloneDeep(userOptions.pxtorem || {}),
+        });
+      // Deep copy options to prevent unexpected behavior.
+      applyRules.forEach(name => {
+        chain.module.rules.has(name) &&
+          chain.module
+            .rule(name)
+            .use(CHAIN_ID.USE.POSTCSS)
+            .tap((options = {}) => ({
+              ...options,
+              postcssOptions: {
+                ...(options.postcssOptions || {}),
+                plugins: [
+                  ...(options.postcssOptions?.plugins || []),
+                  getPxToRemPlugin(),
+                ],
+              },
+            }));
+      });
 
       // handle runtime (html)
       if (!userOptions.enableRuntime) {
