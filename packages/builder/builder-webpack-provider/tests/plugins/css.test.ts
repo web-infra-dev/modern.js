@@ -121,4 +121,22 @@ describe('plugins/css', () => {
 
     expect(includeStyleLoader).toBe(false);
   });
+
+  it('should allow to disable extract css plugin', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginCss()],
+      builderConfig: {
+        tools: {
+          cssExtract: false,
+        },
+      },
+    });
+
+    const includeMiniCssExtractLoader = await builder.matchWebpackLoader(
+      'mini-css-extract-plugin',
+      'index.css',
+    );
+
+    expect(includeMiniCssExtractLoader).toBe(false);
+  });
 });
