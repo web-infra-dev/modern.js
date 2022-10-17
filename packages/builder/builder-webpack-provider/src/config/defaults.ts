@@ -34,6 +34,7 @@ export const createDefaultConfig = () =>
     tools: {
       cssExtract: {
         loaderOptions: {},
+        pluginOptions: {},
       },
       tsChecker: true,
     },
@@ -91,4 +92,4 @@ export const createDefaultConfig = () =>
   });
 
 export const withDefaultConfig = (config: BuilderConfig) =>
-  mergeBuilderConfig(createDefaultConfig() as BuilderConfig, config);
+  mergeBuilderConfig<BuilderConfig>(createDefaultConfig(), config);
