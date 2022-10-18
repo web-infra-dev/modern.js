@@ -83,6 +83,8 @@ export const CHAIN_ID = {
     BABEL: 'babel',
     /** esbuild-loader */
     ESBUILD: 'esbuild',
+    /** swc-loader */
+    SWC: 'swc',
     /** style-loader */
     STYLE: 'style-loader',
     /** postcss-loader */
@@ -149,6 +151,8 @@ export const CHAIN_ID = {
     CSS: 'css',
     /** ESBuildPlugin */
     ESBUILD: 'js-css',
+    /** SWCPlugin */
+    SWC: 'swc',
   },
   /** Predefined resolve plugins */
   RESOLVE_PLUGIN: {
