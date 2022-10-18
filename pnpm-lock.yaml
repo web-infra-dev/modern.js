@@ -2657,6 +2657,8 @@ importers:
       '@babel/runtime': ^7.18.0
       '@babel/traverse': ^7.18.0
       '@babel/types': ^7.18.0
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/new-action': workspace:*
       '@modern-js/node-bundle-require': workspace:*
@@ -2682,6 +2684,8 @@ importers:
       '@babel/runtime': 7.18.6
       '@babel/traverse': 7.18.6
       '@babel/types': 7.18.6
+      '@modern-js/builder': link:../../builder/builder
+      '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
       '@modern-js/core': link:../../cli/core
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/node-bundle-require': link:../../toolkit/node-bundle-require

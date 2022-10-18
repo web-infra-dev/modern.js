@@ -1,4 +1,4 @@
-import { webpack, Configuration } from '@modern-js/webpack';
+import { BuilderTarget } from '@modern-js/builder';
 import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 import {
   chalk,
@@ -6,25 +6,36 @@ import {
   formatWebpackMessages,
   clearConsole,
 } from '@modern-js/utils';
+import {} from '@modern-js/builder-webpack-provider';
 import type { AppHooks } from '../hooks';
 import { printInstructions } from './printInstructions';
+import createBuilder from './createBuilder';
 
-export const createCompiler = async ({
+export type CreateCompilerOptions = {
+  target?: BuilderTarget | BuilderTarget[];
+  appContext: IAppContext;
+  userConfig: NormalizedConfig;
+};
+
+export const createDevCompiler = async ({
   api,
-  webpackConfigs,
-  // TODO: params
+  target,
   userConfig,
   appContext,
 }: {
   api: PluginAPI<AppHooks>;
-  webpackConfigs: Configuration[];
-  userConfig: NormalizedConfig;
-  appContext: IAppContext;
-}) => {
+} & CreateCompilerOptions) => {
   try {
     const hookRunners = api.useHookRunners();
-    await hookRunners.beforeCreateCompiler({ webpackConfigs });
-    const compiler = webpack(webpackConfigs);
+
+    await hookRunners.beforeCreateCompiler();
+
+    const builder = await createBuilder({
+      target,
+      normalizedConfig: userConfig,
+      appContext,
+    });
+    const compiler = await builder.createCompiler({ watch: undefined });
 
     await hookRunners.afterCreateCompiler({ compiler });
 
@@ -67,4 +78,17 @@ export const createCompiler = async ({
     // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
+};
+
+export const createBuildCompiler = async ({
+  target,
+  appContext,
+  userConfig,
+}: CreateCompilerOptions) => {
+  const builder = await createBuilder({
+    target,
+    normalizedConfig: userConfig,
+    appContext,
+  });
+  return builder.createCompiler({ watch: undefined });
 };
