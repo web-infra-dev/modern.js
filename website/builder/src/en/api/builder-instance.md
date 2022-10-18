@@ -235,6 +235,8 @@ await builder.startDevServer({
 
 Create a Compiler object.
 
+When the `target` option of `createBuilder` contains only one value, the return value is `Compiler`; when `target` contains multiple values, the return value is `MultiCompiler`.
+
 - **Type**
 
 ```ts

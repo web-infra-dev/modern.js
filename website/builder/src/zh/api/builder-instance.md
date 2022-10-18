@@ -235,6 +235,8 @@ await builder.startDevServer({
 
 创建一个 compiler 对象。
 
+当 `createBuilder` 的 `target` 选项包含一个值时，返回值为 `Compiler`；当 `target` 包含多个值时，返回值为 `MultiCompiler`。
+
 - **Type**
 
 ```ts

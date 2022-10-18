@@ -47,3 +47,19 @@ The type of build target.
 ```ts
 import { BuilderTarget } from '@modern-js/builder';
 ```
+
+## BuilderEntry
+
+The type of the `entry` option to the `createBuilder` method.
+
+```ts
+import { BuilderEntry } from '@modern-js/builder';
+```
+
+## CreateBuilderOptions
+
+The param type of `createBuilder` method.
+
+```ts
+import { CreateBuilderOptions } from '@modern-js/builder';
+```

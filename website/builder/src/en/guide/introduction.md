@@ -4,6 +4,19 @@ Modern.js Builder is **a Universal Build Engine for Modern Web Development**.
 
 Based on the best practices of thousands web applications in ByteDance, we created Modern.js Builder to provide useful features for web development.
 
+## Motivation
+
+Modern.js Builder is a build engine serving the upper-level front-end frameworks. Builder focuses on the building area, and the goal is to provide out-of-the-box building abilities for the front-end frameworks.
+
+If you are developing a front-end framework, or a scaffolding for a front-end application, Builder can provide most of the build logics for you, which allowing you to focus on implementing other features of the framework.
+
+If you are a business developer, in most cases, you do not need to manually install Builder in your projects. We recommend using the Builder-based upper-level frameworks.
+
+Currently, the following front-end frameworks are already using Builder:
+
+- [Modern.js 2.0](https://github.com/modern-js-dev/modern.js) Framework (Open source).
+- EdenX Framework and PIA Framework inside ByteDance.
+
 ## Features
 
 ### Multiple Build Engines
