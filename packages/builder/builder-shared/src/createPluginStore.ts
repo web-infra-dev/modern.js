@@ -4,12 +4,22 @@ import type { PluginStore, BuilderPlugin } from './types';
 export function createPluginStore(): PluginStore {
   let plugins: BuilderPlugin[] = [];
 
-  const addPlugins = (newPlugins: BuilderPlugin[]) => {
+  const addPlugins = (
+    newPlugins: BuilderPlugin[],
+    options?: { before?: string },
+  ) => {
+    const { before } = options || {};
     newPlugins.forEach(newPlugin => {
       if (plugins.find(item => item.name === newPlugin.name)) {
         logger.warn(`Plugin "${newPlugin.name}" already exists.`);
-      } else {
-        plugins.push(newPlugin);
+      } else if (before) {
+        const index = plugins.findIndex(item => item.name === before);
+        if (index === -1) {
+          logger.warn(`Plugin "${before}" does not exist.`);
+          plugins.push(newPlugin);
+        } else {
+          plugins.splice(index, 0, newPlugin);
+        }
       }
     });
   };
