@@ -23,6 +23,19 @@ import type {
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
 import type { Options } from 'http-proxy-middleware';
 
+/** The subset of NormalizedConfig, which really need in server */
+export type ServerOptions = {
+  output: Pick<NormalizedConfig['output'], 'path' | 'assetPrefix'>;
+  source: Pick<NormalizedConfig['source'], 'alias' | 'envVars' | 'globalVars'>;
+  tools: {
+    babel: NormalizedConfig['tools']['babel'];
+  };
+  server: NormalizedConfig['server'];
+  runtime: NormalizedConfig['runtime'];
+  bff: NormalizedConfig['bff'];
+  plugins: NormalizedConfig['plugins'];
+};
+
 // collect all middleware register in server plugins
 const gather = createParallelWorkflow<{
   addWebMiddleware: (_input: any) => void;
@@ -65,11 +78,11 @@ const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 
 const onApiChange = createWaterfall<Change[]>();
 
-const beforeDevServer = createParallelWorkflow<NormalizedConfig, any>();
+const beforeDevServer = createParallelWorkflow<ServerOptions, any>();
 
 const setupCompiler = createParallelWorkflow<Record<string, unknown>, any[]>();
 
-const afterDevServer = createParallelWorkflow<NormalizedConfig, any>();
+const afterDevServer = createParallelWorkflow<ServerOptions, any>();
 
 // TODO FIXME
 export type Route = Record<string, unknown>;
@@ -77,9 +90,9 @@ const beforeRouteSet = createAsyncPipeline<Route[], Route[]>();
 
 const afterRouteSet = createAsyncPipeline();
 
-const beforeProdServer = createParallelWorkflow<NormalizedConfig, any>();
+const beforeProdServer = createParallelWorkflow<ServerOptions, any>();
 
-const afterProdServer = createParallelWorkflow<NormalizedConfig, any>();
+const afterProdServer = createParallelWorkflow<ServerOptions, any>();
 
 const listen = createParallelWorkflow<
   {

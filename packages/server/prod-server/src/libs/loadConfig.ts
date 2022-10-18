@@ -1,7 +1,6 @@
 import * as path from 'path';
 import { compatRequire, fs, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
-import type { ServerConfig } from '@modern-js/server-core';
+import type { ServerConfig, ServerOptions } from '@modern-js/server-core';
 import mergeDeep from 'merge-deep';
 
 export const getServerConfigPath = (
@@ -21,7 +20,7 @@ export const requireConfig = (serverConfigPath: string) => {
 };
 
 /**
- * 对配置进行合并，开发环境下,cliConfig 与 serverConfig 进行深合并
+ * 对配置进行合并，开发环境下，cliConfig 与 serverConfig 进行深合并
  * 生产环境下，resolvedConfig 与 serverConfig 进行深合并
  * resolvedConfigPath: 构建序列化后的 modern.config.js 文件路径
  */
@@ -30,7 +29,7 @@ export const loadConfig = ({
   serverConfig,
   resolvedConfigPath,
 }: {
-  cliConfig: NormalizedConfig;
+  cliConfig: ServerOptions;
   serverConfig: ServerConfig;
   resolvedConfigPath: string;
 }) => {
