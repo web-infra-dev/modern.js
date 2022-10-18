@@ -397,7 +397,7 @@ export const TASKS: TaskConfig[] = [
         name: 'file-loader',
         ignoreDts: true,
         externals: {
-          'schema-utils': 'schema-utils',
+          'schema-utils': '../schema-utils3',
           'loader-utils': '../loader-utils2',
         },
       },
