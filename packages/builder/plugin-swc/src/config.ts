@@ -1,4 +1,4 @@
-import { merge } from '@modern-js/builder-webpack-provider/compiled/webpack-merge';
+import { merge } from '@modern-js/utils/lodash';
 import { TransformConfig, TransformConfigNapi } from '@modern-js/swc-plugins';
 
 export type { TransformConfig } from '@modern-js/swc-plugins';

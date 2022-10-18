@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/builder-webpack-plugin-swc",
+  "name": "@modern-js/builder-plugin-swc",
   "version": "0.0.1",
   "description": "SWC plugin for builder in Modern.js",
   "main": "./dist/index.js",

@@ -3,7 +3,7 @@ import { CHAIN_ID, isProd, logger } from '@modern-js/utils';
 import { Compiler, Compilation } from 'webpack';
 import type { JsMinifyOptions } from '@swc/core';
 import { mergeRegex, JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
-import { merge } from '@modern-js/builder-webpack-provider/compiled/webpack-merge';
+import { merge } from '@modern-js/utils/lodash';
 import { TransformConfig } from './config';
 import { minify } from './binding';
 
