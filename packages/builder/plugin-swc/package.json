@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/builder-webpack-plugin-swc",
   "version": "0.0.1",
-  "description": "",
+  "description": "SWC plugin for builder in Modern.js",
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
   "scripts": {
