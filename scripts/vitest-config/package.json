@@ -11,23 +11,15 @@
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
   },
-  "devDependencies": {
+  "dependencies": {
     "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@types/node": "^14",
-    "typescript": "^4.7.4",
-    "vitest": "^0.21.1",
-    "@modern-js/utils": "workspace:*"
-  },
-  "peerDependencies": {
-    "vitest": "^0.21.1",
-    "@modern-js/utils": "workspace:^1.20.1"
+    "typescript": "^4.7.4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  },
-  "dependencies": {
-    "@modern-js/utils": "workspace:*"
   },
   "wireit": {
     "build": {
