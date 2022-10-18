@@ -55,6 +55,8 @@ export interface CssExtractOptions {
   loaderOptions?: MiniCssExtractLoaderOptions;
 }
 
+export type NormalizedCssExtractOptions = false | Required<CssExtractOptions>;
+
 export type PostCSSOptions = {
   to?: string;
   from?: string;

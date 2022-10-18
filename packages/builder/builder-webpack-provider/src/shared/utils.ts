@@ -1,13 +1,11 @@
-import { URLSearchParams } from 'url';
 import {
-  getBrowserslist,
   DEFAULT_BROWSERSLIST,
-  DEFAULT_DATA_URL_SIZE,
+  getBrowserslist,
 } from '@modern-js/builder-shared';
-
-import type Buffer from 'buffer';
+import type { Buffer } from 'buffer';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
-import type { BuilderConfig, DataUriLimit } from '../types';
+import { URLSearchParams } from 'url';
+import type { BuilderConfig, DataUriLimit, NormalizedConfig } from '../types';
 
 export async function getBrowserslistWithDefault(
   path: string,
@@ -25,31 +23,19 @@ export async function getBrowserslistWithDefault(
 export const defineSchema = <T extends SomeJSONSchema>(schema: T): T => schema;
 
 export const getDataUrlLimit = (
-  config: BuilderConfig,
+  config: NormalizedConfig,
   type: keyof DataUriLimit,
 ) => {
-  const { dataUriLimit = {} } = config.output || {};
-
-  if (typeof dataUriLimit === 'number') {
-    return dataUriLimit;
+  const { dataUriLimit } = config.output;
+  const ret = dataUriLimit[type];
+  if (typeof ret !== 'number') {
+    throw new Error(`unknown key ${type} in "output.dataUriLimit"`);
   }
-
-  switch (type) {
-    case 'svg':
-      return dataUriLimit.svg ?? DEFAULT_DATA_URL_SIZE;
-    case 'font':
-      return dataUriLimit.font ?? DEFAULT_DATA_URL_SIZE;
-    case 'media':
-      return dataUriLimit.media ?? DEFAULT_DATA_URL_SIZE;
-    case 'image':
-      return dataUriLimit.image ?? DEFAULT_DATA_URL_SIZE;
-    default:
-      throw new Error(`unknown key ${type} in "output.dataUriLimit"`);
-  }
+  return ret;
 };
 
 export function getDataUrlCondition(
-  config: BuilderConfig,
+  config: NormalizedConfig,
   type: keyof DataUriLimit,
 ) {
   return (source: Buffer, { filename }: { filename: string }): boolean => {

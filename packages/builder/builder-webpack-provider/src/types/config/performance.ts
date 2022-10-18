@@ -70,4 +70,5 @@ export interface NormalizedPerformanceConfig extends PerformanceConfig {
   removeConsole: boolean | ConsoleType[];
   removeMomentLocale: boolean;
   chunkSplit: BuilderChunkSplit;
+  profile: boolean;
 }

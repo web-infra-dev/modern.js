@@ -5,9 +5,9 @@ export const PluginDevtool = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain((chain, { isProd }) => {
-      const builderConfig = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
 
-      if (builderConfig.output?.disableSourceMap) {
+      if (config.output.disableSourceMap) {
         chain.devtool(false);
       } else {
         const devtool = isProd ? 'source-map' : 'cheap-module-source-map';

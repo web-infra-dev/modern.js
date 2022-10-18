@@ -8,7 +8,7 @@ export const PluginImage = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain((chain, { isProd, CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
       const regExp = getRegExpForExts(IMAGE_EXTENSIONS);
       const distDir = getDistPath(config, 'image');
       const filename = getFilename(config, 'image', isProd);

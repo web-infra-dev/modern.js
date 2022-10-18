@@ -1,21 +1,21 @@
 import { CSS_REGEX, type BuilderContext } from '@modern-js/builder-shared';
 import { getBrowserslistWithDefault } from '../shared';
 import {
-  BuilderConfig,
   BuilderPlugin,
+  CssExtractOptions,
   CSSLoaderOptions,
-  MiniCssExtractLoaderOptions,
   ModifyWebpackUtils,
+  NormalizedConfig,
   StyleLoaderOptions,
   WebpackChain,
-  CssExtractOptions,
 } from '../types';
 
+import assert from 'assert';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 
 export async function applyBaseCSSRule(
   rule: WebpackChain.Rule,
-  config: BuilderConfig,
+  config: NormalizedConfig,
   context: BuilderContext,
   utils: ModifyWebpackUtils,
 ) {
@@ -58,7 +58,7 @@ export async function applyBaseCSSRule(
                   flexbox: 'no-2009',
                   overrideBrowserslist: browserslist,
                 },
-                config.tools?.autoprefixer,
+                config.tools.autoprefixer,
               ),
             ),
             enableCssMinify ? require('cssnano')({ preset: 'default' }) : false,
@@ -66,11 +66,13 @@ export async function applyBaseCSSRule(
         },
         sourceMap: enableSourceMap,
       },
-      config.tools?.postcss || {},
+      config.tools.postcss || {},
       utils,
     );
     if (extraPlugins.length) {
-      mergedConfig.postcssOptions!.plugins!.push(...extraPlugins);
+      assert('postcssOptions' in mergedConfig);
+      assert('plugins' in mergedConfig.postcssOptions!);
+      mergedConfig.postcssOptions.plugins!.push(...extraPlugins);
     }
 
     return mergedConfig as ProcessOptions & {
@@ -82,20 +84,21 @@ export async function applyBaseCSSRule(
 
   // 1. Check user config
   const enableExtractCSS =
-    config.tools?.cssExtract !== false && !config.tools?.styleLoader;
-  const enableCSSModuleTS = Boolean(
-    config.output?.enableCssModuleTSDeclaration,
-  );
+    config.tools.cssExtract !== false && !config.tools.styleLoader;
+  const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   const enableSourceMap =
-    isProd && enableExtractCSS && !config.output?.disableSourceMap;
+    isProd && enableExtractCSS && !config.output.disableSourceMap;
   // 2. Prepare loader options
-  const extractLoaderOptions = applyOptionsChain<
-    MiniCssExtractLoaderOptions,
-    null
-  >({}, (config.tools?.cssExtract as CssExtractOptions)?.loaderOptions || {});
+  const extraCSSOptions: Required<CssExtractOptions> =
+    typeof config.tools.cssExtract === 'object'
+      ? config.tools.cssExtract
+      : {
+          loaderOptions: {},
+          pluginOptions: {},
+        };
   const styleLoaderOptions = applyOptionsChain<StyleLoaderOptions, null>(
     {},
-    config.tools?.styleLoader || {},
+    config.tools.styleLoader,
   );
   const cssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
     {
@@ -110,7 +113,7 @@ export async function applyBaseCSSRule(
       },
       sourceMap: enableSourceMap,
     },
-    config.tools?.cssLoader,
+    config.tools.cssLoader,
   );
   const postcssLoaderOptions = getPostcssConfig();
 
@@ -122,7 +125,7 @@ export async function applyBaseCSSRule(
       rule
         .use(CHAIN_ID.USE.MINI_CSS_EXTRACT)
         .loader(require('mini-css-extract-plugin').loader)
-        .options(extractLoaderOptions)
+        .options(extraCSSOptions.loaderOptions)
         .end();
     }
     // use style-loader
@@ -163,7 +166,7 @@ export const PluginCss = (): BuilderPlugin => {
     setup(api) {
       api.modifyWebpackChain(async (chain, utils) => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
-        const config = api.getBuilderConfig();
+        const config = api.getNormalizedConfig();
         rule.test(CSS_REGEX);
         await applyBaseCSSRule(rule, config, api.context, utils);
       });
