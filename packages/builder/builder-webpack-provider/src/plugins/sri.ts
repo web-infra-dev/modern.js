@@ -6,7 +6,8 @@ export const PluginSRI = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain((chain, { CHAIN_ID }) => {
-      const subresourceIntegrityOptions = api.getBuilderConfig().security?.sri;
+      const subresourceIntegrityOptions =
+        api.getNormalizedConfig().security.sri;
       if (!subresourceIntegrityOptions) {
         return;
       }

@@ -1,13 +1,13 @@
-import type { BuilderConfig, BuilderPlugin, WebpackChain } from '../types';
+import type { BuilderPlugin, NormalizedConfig, WebpackChain } from '../types';
 
 function applyProfile({
   chain,
   config,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: NormalizedConfig;
 }) {
-  const profile = config.performance?.profile;
+  const { profile } = config.performance;
   if (!profile) {
     return;
   }
@@ -22,7 +22,7 @@ export const PluginPerformance = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(chain => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
 
       applyProfile({ chain, config });
     });

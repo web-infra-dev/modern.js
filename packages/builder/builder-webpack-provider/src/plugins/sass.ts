@@ -6,7 +6,7 @@ export function PluginSass(): BuilderPlugin {
     name: 'builder-plugin-sass',
     setup(api) {
       api.modifyWebpackChain(async (chain, utils) => {
-        const config = api.getBuilderConfig();
+        const config = api.getNormalizedConfig();
         const { applyOptionsChain } = await import('@modern-js/utils');
         const { applyBaseCSSRule } = await import('./css');
 
@@ -29,7 +29,7 @@ export function PluginSass(): BuilderPlugin {
               sourceMap: false,
               implementation: utils.getCompiledPath('sass'),
             },
-            config.tools?.sass || {},
+            config.tools.sass,
             { addExcludes },
           );
 

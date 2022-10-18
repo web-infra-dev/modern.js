@@ -1,18 +1,17 @@
-import { CssExtractOptions } from '../types/thirdParty/css';
+import {
+  CssExtractOptions,
+  MiniCSSExtractPluginOptions,
+} from '../types/thirdParty/css';
 import { DEFAULT_PORT, type BuilderContext } from '@modern-js/builder-shared';
 import { getDistPath, getFilename } from '../shared';
-import type {
-  BuilderConfig,
-  BuilderPlugin,
-  MiniCSSExtractPluginOptions,
-} from '../types';
+import type { BuilderPlugin, NormalizedConfig } from '../types';
 
 function getPublicPath({
   config,
   isProd,
   context,
 }: {
-  config: BuilderConfig;
+  config: NormalizedConfig;
   isProd: boolean;
   context: BuilderContext;
 }) {
@@ -21,12 +20,12 @@ function getPublicPath({
   let publicPath = '/';
 
   if (isProd) {
-    if (output?.assetPrefix) {
+    if (output.assetPrefix) {
       publicPath = output.assetPrefix;
     }
-  } else if (typeof dev?.assetPrefix === 'string') {
+  } else if (typeof dev.assetPrefix === 'string') {
     publicPath = dev.assetPrefix;
-  } else if (dev?.assetPrefix === true) {
+  } else if (dev.assetPrefix === true) {
     const hostname = context.devServer?.hostname || 'localhost';
     const port = context.devServer?.port || DEFAULT_PORT;
     publicPath = `//${hostname}:${port}/`;
@@ -44,7 +43,7 @@ export const PluginOutput = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd, isServer, CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
       const jsPath = getDistPath(config, 'js');
       const cssPath = getDistPath(config, 'css');
 
@@ -71,8 +70,8 @@ export const PluginOutput = (): BuilderPlugin => ({
 
       // css output
       const enableExtractCSS =
-        config.tools?.cssExtract !== false &&
-        !config.tools?.styleLoader &&
+        config.tools.cssExtract !== false &&
+        !config.tools.styleLoader &&
         !isServer;
       if (enableExtractCSS) {
         const { default: MiniCssExtractPlugin } = await import(
@@ -84,7 +83,7 @@ export const PluginOutput = (): BuilderPlugin => ({
           null
         >(
           {},
-          (config.tools?.cssExtract as CssExtractOptions)?.pluginOptions || {},
+          (config.tools.cssExtract as CssExtractOptions)?.pluginOptions || {},
         );
 
         const cssFilename = getFilename(config, 'css', isProd);

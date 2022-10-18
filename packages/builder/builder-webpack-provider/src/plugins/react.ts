@@ -5,16 +5,16 @@ export const PluginReact = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd }) => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
 
-      if (isProd || config.dev?.hmr === false) {
+      if (isProd || config.dev.hmr === false) {
         return;
       }
 
       const { default: ReactFastRefreshPlugin } = await import(
         '@pmmmwh/react-refresh-webpack-plugin'
       );
-      const useTsLoader = Boolean(config.tools?.tsLoader);
+      const useTsLoader = Boolean(config.tools.tsLoader);
       const rule = useTsLoader
         ? chain.module.rule(CHAIN_ID.RULE.TS)
         : chain.module.rule(CHAIN_ID.RULE.JS);
