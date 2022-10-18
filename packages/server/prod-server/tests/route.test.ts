@@ -26,7 +26,12 @@ describe('test route', () => {
       expect(matcher.matchEntry('home')).toBeFalsy();
       expect(matcher.matchLength('/entry')).toBe(6);
       expect(matcher.matchUrlPath('/entry')).toBeTruthy();
+      expect(matcher.matchUrlPath('/entry.html')).toBeTruthy();
+      expect(matcher.matchUrlPath('/entry_html')).toBeFalsy();
+      expect(matcher.matchUrlPath('/entry_2')).toBeFalsy();
+      expect(matcher.matchUrlPath('/entry_2.html')).toBeFalsy();
       expect(matcher.matchUrlPath('/home')).toBeFalsy();
+      expect(matcher.matchUrlPath('/home.html')).toBeFalsy();
     });
   });
 

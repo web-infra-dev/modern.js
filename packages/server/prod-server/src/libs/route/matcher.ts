@@ -59,10 +59,14 @@ export class RouteMatcher {
 
   // if match url path
   public matchUrlPath(requestUrl: string): boolean {
-    const urlWithoutSlash =
+    let urlWithoutSlash =
       requestUrl.endsWith('/') && requestUrl !== '/'
         ? requestUrl.slice(0, -1)
         : requestUrl;
+
+    if (urlWithoutSlash.endsWith('.html')) {
+      urlWithoutSlash = urlWithoutSlash.slice(0, -5);
+    }
 
     if (this.urlMatcher) {
       return Boolean(this.urlMatcher(urlWithoutSlash));
