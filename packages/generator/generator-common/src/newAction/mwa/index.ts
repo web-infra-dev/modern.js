@@ -129,6 +129,7 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/types' />`,
+  [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/types' />`,
 };
 
 export const MWANewActionGenerators: Record<

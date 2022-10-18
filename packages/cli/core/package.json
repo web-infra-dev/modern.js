@@ -33,7 +33,7 @@
   "typesVersions": {
     "*": {
       "config": [
-        "./dist/config/index.d.ts"
+        "./dist/config/types/index.d.ts"
       ]
     }
   },
