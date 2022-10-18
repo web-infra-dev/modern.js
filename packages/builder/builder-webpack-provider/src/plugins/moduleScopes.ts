@@ -29,8 +29,8 @@ export const PluginModuleScopes = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
-      const scopeOptions = config.source?.moduleScopes;
+      const config = api.getNormalizedConfig();
+      const scopeOptions = config.source.moduleScopes;
 
       if (!scopeOptions) {
         return;

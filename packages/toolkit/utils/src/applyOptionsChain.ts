@@ -1,3 +1,4 @@
+import type { Falsy } from './types';
 // eslint-disable-next-line import/no-useless-path-segments
 import { isFunction, logger, isPlainObject } from './index';
 
@@ -6,7 +7,8 @@ export function applyOptionsChain<T, U>(
   options?:
     | T
     | ((config: T, utils?: U) => T | void)
-    | Array<T | ((config: T, utils?: U) => T | void)>,
+    | Array<T | ((config: T, utils?: U) => T | void)>
+    | Falsy,
   utils?: U,
   mergeFn?: typeof Object.assign,
 ): T;
@@ -15,7 +17,8 @@ export function applyOptionsChain<T, U>(
   options:
     | T
     | ((config: T, utils: U) => T | void)
-    | Array<T | ((config: T, utils: U) => T | void)>,
+    | Array<T | ((config: T, utils: U) => T | void)>
+    | Falsy,
   utils: U,
   mergeFn?: typeof Object.assign,
 ): T;

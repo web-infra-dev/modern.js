@@ -7,7 +7,7 @@ export const PluginCache = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { target, env }) => {
-      const buildCacheOption = api.getBuilderConfig().performance?.buildCache;
+      const buildCacheOption = api.getNormalizedConfig().performance.buildCache;
       if (buildCacheOption === false) {
         chain.cache(false);
         return;

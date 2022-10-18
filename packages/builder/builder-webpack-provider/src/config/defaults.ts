@@ -11,6 +11,7 @@ import {
   MEDIA_DIST_DIR,
   SERVER_DIST_DIR,
   mergeBuilderConfig,
+  DEFAULT_DATA_URL_SIZE,
 } from '@modern-js/builder-shared';
 import type { BuilderConfig } from '../types';
 
@@ -31,9 +32,14 @@ export const createDefaultConfig = () =>
       disableHtmlFolder: false,
     },
     tools: {
+      cssExtract: {
+        loaderOptions: {},
+        pluginOptions: {},
+      },
       tsChecker: true,
     },
     source: {
+      define: {},
       alias: {},
       preEntry: [],
       globalVars: {},
@@ -42,11 +48,11 @@ export const createDefaultConfig = () =>
     output: {
       distPath: {
         root: ROOT_DIST_DIR,
-        html: HTML_DIST_DIR,
         js: JS_DIST_DIR,
         css: CSS_DIST_DIR,
         svg: SVG_DIST_DIR,
         font: FONT_DIST_DIR,
+        html: HTML_DIST_DIR,
         image: IMAGE_DIST_DIR,
         media: MEDIA_DIST_DIR,
         server: SERVER_DIST_DIR,
@@ -54,23 +60,32 @@ export const createDefaultConfig = () =>
       filename: {},
       charset: 'ascii',
       polyfill: 'entry',
-      dataUriLimit: {},
+      dataUriLimit: {
+        svg: DEFAULT_DATA_URL_SIZE,
+        font: DEFAULT_DATA_URL_SIZE,
+        image: DEFAULT_DATA_URL_SIZE,
+        media: DEFAULT_DATA_URL_SIZE,
+      },
       legalComments: 'linked',
       cleanDistPath: true,
       svgDefaultExport: 'url',
       disableMinimize: false,
       disableSourceMap: false,
       disableFilenameHash: false,
+      disableInlineRuntimeChunk: false,
       enableAssetFallback: false,
       enableAssetManifest: false,
       enableLatestDecorators: false,
       enableCssModuleTSDeclaration: false,
+      enableInlineScripts: false,
+      enableInlineStyles: false,
     },
     security: { sri: false },
     experiments: {},
     performance: {
       removeConsole: false,
       removeMomentLocale: false,
+      profile: false,
       chunkSplit: {
         strategy: 'split-by-experience',
       },
@@ -78,4 +93,4 @@ export const createDefaultConfig = () =>
   });
 
 export const withDefaultConfig = (config: BuilderConfig) =>
-  mergeBuilderConfig(createDefaultConfig() as BuilderConfig, config);
+  mergeBuilderConfig<BuilderConfig>(createDefaultConfig(), config);
