@@ -60,8 +60,18 @@ importers:
       globby: 11.1.0
       husky: 8.0.1
       jest: 27.5.1
+<<<<<<< HEAD
       vitest: 0.21.1_@vitest+ui@0.21.1
       wireit: 0.7.1
+=======
+<<<<<<< HEAD
+      vitest: 0.21.1
+      wireit: 0.7.2
+=======
+      vitest: 0.21.1_@vitest+ui@0.21.1
+      wireit: 0.7.1
+>>>>>>> 888ebd703 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
+>>>>>>> 42a43b494 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
       zx: 4.2.0
 
   packages/builder/builder:
@@ -80,8 +90,20 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.19
       '@types/babel__preset-env': 7.9.2
+<<<<<<< HEAD
       '@types/node': 14.18.21
       typescript: 4.7.4
+=======
+<<<<<<< HEAD
+      '@types/node': 14.18.32
+      '@vitest/ui': 0.21.1
+      typescript: 4.8.4
+      vitest: 0.21.1_@vitest+ui@0.21.1
+=======
+      '@types/node': 14.18.21
+      typescript: 4.7.4
+>>>>>>> 888ebd703 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
+>>>>>>> 42a43b494 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
 
   packages/builder/builder-doc:
     specifiers: {}
@@ -107,8 +129,20 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.19
       '@types/babel__preset-env': 7.9.2
+<<<<<<< HEAD
       '@types/node': 14.18.21
       typescript: 4.7.4
+=======
+<<<<<<< HEAD
+      '@types/node': 14.18.32
+      '@vitest/ui': 0.21.1
+      typescript: 4.8.4
+      vitest: 0.21.1_@vitest+ui@0.21.1
+=======
+      '@types/node': 14.18.21
+      typescript: 4.7.4
+>>>>>>> 888ebd703 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
+>>>>>>> 42a43b494 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
       webpack: 5.74.0
 
   packages/builder/builder-webpack-provider:
@@ -170,9 +204,23 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.19
       '@types/babel__preset-env': 7.9.2
+<<<<<<< HEAD
       '@types/node': 14.18.21
       autoprefixer: 10.4.8_postcss@8.4.16
       typescript: 4.7.4
+=======
+<<<<<<< HEAD
+      '@types/node': 14.18.32
+      '@vitest/ui': 0.21.1
+      autoprefixer: 10.4.12_postcss@8.4.16
+      typescript: 4.8.4
+      vitest: 0.21.1_@vitest+ui@0.21.1
+=======
+      '@types/node': 14.18.21
+      autoprefixer: 10.4.8_postcss@8.4.16
+      typescript: 4.7.4
+>>>>>>> 888ebd703 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
+>>>>>>> 42a43b494 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
 
   packages/builder/plugin-esbuild:
     specifiers:
@@ -193,7 +241,16 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 4.7.4
+<<<<<<< HEAD
       wireit: 0.7.1
+=======
+<<<<<<< HEAD
+      vitest: 0.21.1
+      wireit: 0.7.2
+=======
+      wireit: 0.7.1
+>>>>>>> 888ebd703 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
+>>>>>>> 42a43b494 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
 
   packages/builder/plugin-node-polyfill:
     specifiers:
@@ -3482,9 +3539,21 @@ importers:
       typescript: ^4.7.4
     dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
+<<<<<<< HEAD
       '@modern-js/utils': link:../../packages/toolkit/utils
       '@types/node': 14.18.21
       typescript: 4.7.4
+=======
+<<<<<<< HEAD
+      '@types/node': 14.18.32
+      typescript: 4.8.4
+      vitest: 0.21.1
+=======
+      '@modern-js/utils': link:../../packages/toolkit/utils
+      '@types/node': 14.18.21
+      typescript: 4.7.4
+>>>>>>> 888ebd703 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
+>>>>>>> 42a43b494 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
 
   tests:
     specifiers:
@@ -3599,8 +3668,8 @@ importers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/e2e': workspace:*
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
+      '@types/react': ^18
+      '@types/react-dom': ^18
       got: ^11.8.3
       react: ^17.0.1
       react-dom: ^17.0.1
@@ -3614,8 +3683,8 @@ importers:
       '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../../packages/toolkit/e2e
       '@types/node': 14.18.21
-      '@types/react': 17.0.50
-      '@types/react-dom': 17.0.17
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
       typescript: 4.7.4
 
   tests/integration/alias-set:
@@ -31077,6 +31146,54 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  /vitest/0.21.1:
+    resolution: {integrity: sha512-WBIxuFmIDPuK47GO6Lu9eNeRMqHj/FWL3dk73OHH3eyPPWPiu+UB3QHLkLK2PEggCqJW4FaWoWg8R68S7p9+9Q==}
+    engines: {node: '>=v14.16.0'}
+    hasBin: true
+    peerDependencies:
+      '@edge-runtime/vm': '*'
+      '@vitest/browser': '*'
+      '@vitest/ui': '*'
+      c8: '*'
+      happy-dom: '*'
+      jsdom: '*'
+    peerDependenciesMeta:
+      '@edge-runtime/vm':
+        optional: true
+      '@vitest/browser':
+        optional: true
+      '@vitest/ui':
+        optional: true
+      c8:
+        optional: true
+      happy-dom:
+        optional: true
+      jsdom:
+        optional: true
+    dependencies:
+      '@types/chai': 4.3.3
+      '@types/chai-subset': 1.3.3
+      '@types/node': 14.18.32
+      chai: 4.3.6
+      debug: 4.3.4
+      local-pkg: 0.4.2
+      tinypool: 0.2.4
+      tinyspy: 1.0.2
+      vite: 3.1.8
+    transitivePeerDependencies:
+      - less
+      - sass
+      - stylus
+      - supports-color
+      - terser
+    dev: true
+
+=======
+>>>>>>> 888ebd703 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
+>>>>>>> 42a43b494 (build: remove `vitest` & `@vitest/ui` from sub-packages and only installed in workspace root (#1908))
   /vitest/0.21.1_@vitest+ui@0.21.1:
     resolution: {integrity: sha512-WBIxuFmIDPuK47GO6Lu9eNeRMqHj/FWL3dk73OHH3eyPPWPiu+UB3QHLkLK2PEggCqJW4FaWoWg8R68S7p9+9Q==}
     engines: {node: '>=v14.16.0'}
