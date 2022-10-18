@@ -2,15 +2,17 @@ import { CSS_REGEX, type BuilderContext } from '@modern-js/builder-shared';
 import { getBrowserslistWithDefault } from '../shared';
 import {
   BuilderPlugin,
+  CssExtractOptions,
   CSSLoaderOptions,
+  MiniCssExtractLoaderOptions,
   ModifyWebpackUtils,
   NormalizedConfig,
   StyleLoaderOptions,
   WebpackChain,
 } from '../types';
 
-import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 import assert from 'assert';
+import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 
 export async function applyBaseCSSRule(
   rule: WebpackChain.Rule,
@@ -82,15 +84,21 @@ export async function applyBaseCSSRule(
   };
 
   // 1. Check user config
-  const enableExtractCSS = !config.tools.styleLoader;
-  const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
+  const enableExtractCSS =
+    config.tools.cssExtract !== false && !config.tools.styleLoader;
+  const enableCSSModuleTS = Boolean(
+    config.output?.enableCssModuleTSDeclaration,
+  );
   const enableSourceMap =
     isProd && enableExtractCSS && !config.output.disableSourceMap;
   // 2. Prepare loader options
-  const extractLoaderOptions = config.tools.cssExtract.loaderOptions;
+  const extractLoaderOptions = applyOptionsChain<
+    MiniCssExtractLoaderOptions,
+    null
+  >({}, (config.tools.cssExtract as CssExtractOptions).loaderOptions);
   const styleLoaderOptions = applyOptionsChain<StyleLoaderOptions, null>(
     {},
-    config.tools.styleLoader || {},
+    config.tools.styleLoader,
   );
   const cssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
     {

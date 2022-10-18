@@ -110,7 +110,7 @@ export interface ToolsConfig {
   styledComponents?: ToolsStyledComponentConfig;
   cssLoader?: ToolsCSSLoaderConfig;
   styleLoader?: ToolsStyleLoaderConfig;
-  cssExtract?: CssExtractOptions;
+  cssExtract?: false | CssExtractOptions;
   postcss?: ToolsPostCSSLoaderConfig;
   autoprefixer?: ToolsAutoprefixerConfig;
   webpack?: ToolsWebpackConfig;

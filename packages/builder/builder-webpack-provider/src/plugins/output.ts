@@ -1,3 +1,7 @@
+import {
+  CssExtractOptions,
+  MiniCSSExtractPluginOptions,
+} from '../types/thirdParty/css';
 import { DEFAULT_PORT, type BuilderContext } from '@modern-js/builder-shared';
 import { getDistPath, getFilename } from '../shared';
 import type { BuilderPlugin, NormalizedConfig } from '../types';
@@ -65,12 +69,22 @@ export const PluginOutput = (): BuilderPlugin => ({
         .hashFunction('xxhash64');
 
       // css output
-      const enableExtractCSS = !config.tools.styleLoader && !isServer;
+      const enableExtractCSS =
+        config.tools.cssExtract !== false &&
+        !config.tools.styleLoader &&
+        !isServer;
       if (enableExtractCSS) {
         const { default: MiniCssExtractPlugin } = await import(
           'mini-css-extract-plugin'
         );
-        const extractPluginOptions = config.tools.cssExtract.pluginOptions;
+        const { applyOptionsChain } = await import('@modern-js/utils');
+        const extractPluginOptions = applyOptionsChain<
+          MiniCSSExtractPluginOptions,
+          null
+        >(
+          {},
+          (config.tools.cssExtract as CssExtractOptions)?.pluginOptions || {},
+        );
 
         const cssFilename = getFilename(config, 'css', isProd);
 

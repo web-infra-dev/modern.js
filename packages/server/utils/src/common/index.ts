@@ -10,6 +10,16 @@ export interface Pattern {
   tsconfigPath?: string;
 }
 
+export interface IConfig {
+  alias?: NormalizedConfig['source']['alias'];
+  envVars?: NormalizedConfig['source']['envVars'];
+  globalVars?: NormalizedConfig['source']['globalVars'];
+  babelConfig?: NormalizedConfig['tools']['babel'];
+  server: {
+    compiler?: 'babel' | 'typescript';
+  };
+}
+
 export interface CompileOptions {
   sourceDirs: string[];
   distDir: string;
@@ -18,7 +28,7 @@ export interface CompileOptions {
 
 export type CompileFunc = (
   appDirectory: string,
-  modernConfig: NormalizedConfig,
+  modernConfig: IConfig,
   compileOptions: CompileOptions,
 ) => Promise<void>;
 
