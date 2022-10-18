@@ -25,10 +25,6 @@
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./types": {
-      "jsnext:source": "./lib/types.d.ts",
-      "default": "./lib/types.d.ts"
-    },
     "./loadable": {
       "jsnext:source": "./src/exports/loadable.ts",
       "node": "./dist/js/node/exports/loadable.js",
@@ -82,10 +78,10 @@
   "typesVersions": {
     "*": {
       ".": [
-        "./type.d.ts"
+        "./dist/types/index.d.ts"
       ],
       "types": [
-        "./lib/types.d.ts"
+        "./types/index.d.ts"
       ],
       "loadable": [
         "./dist/types/exports/loadable.d.ts"
@@ -182,7 +178,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./type.d.ts"
+    "types": "./dist/types/index"
   },
   "wireit": {
     "build": {

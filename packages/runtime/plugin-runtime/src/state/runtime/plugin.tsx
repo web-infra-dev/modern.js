@@ -6,9 +6,16 @@ import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { isBrowser } from '../../common';
 
-export type StateConfig = Parameters<typeof createStore>[0];
+export type StateConfig = {
+  immer?: boolean;
+  effects?: boolean;
+  autoActions?: boolean;
+  devtools?: boolean;
+};
 
-const state = (config: StateConfig): Plugin => ({
+export type StateRuntimeConfig = Parameters<typeof createStore>[0];
+
+const state = (config: StateRuntimeConfig): Plugin => ({
   name: '@modern-js/plugin-state',
   setup: () => {
     return {
