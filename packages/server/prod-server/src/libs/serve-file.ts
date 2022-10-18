@@ -2,7 +2,7 @@
 import { IncomingMessage } from 'http';
 import serve from 'serve-static';
 import { isString, isRegExp } from '@modern-js/utils';
-import { NormalizedConfig } from '@modern-js/core';
+import { ServerOptions } from '@modern-js/server-core';
 import type { ModernServerContext } from '@modern-js/types';
 import { useLocalPrefix } from '../utils';
 import { NextFunction } from '../type';
@@ -26,7 +26,7 @@ const removedPrefix = (req: IncomingMessage, prefix: string) => {
 };
 
 export const createStaticFileHandler =
-  (rules: Rule[], output: NormalizedConfig['output'] = {}) =>
+  (rules: Rule[], output: ServerOptions['output'] = {}) =>
   // eslint-disable-next-line consistent-return
   async (context: ModernServerContext, next: NextFunction) => {
     const { url: requestUrl, req, res } = context;
