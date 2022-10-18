@@ -148,8 +148,9 @@ export function tsconfigPathsBeforeHookFactory(
               node as any
             ).moduleSpecifier.parent;
 
+            let newNode;
             if (tsBinary.isImportDeclaration(node)) {
-              return tsBinary.factory.updateImportDeclaration(
+              newNode = tsBinary.factory.updateImportDeclaration(
                 node,
                 node.decorators,
                 node.modifiers,
@@ -158,7 +159,7 @@ export function tsconfigPathsBeforeHookFactory(
                 node.assertClause,
               );
             } else {
-              return tsBinary.factory.updateExportDeclaration(
+              newNode = tsBinary.factory.updateExportDeclaration(
                 node,
                 node.decorators,
                 node.modifiers,
@@ -168,6 +169,8 @@ export function tsconfigPathsBeforeHookFactory(
                 node.assertClause,
               );
             }
+            (newNode as any).flags = node.flags;
+            return newNode;
           } catch {
             return node;
           }
