@@ -6,8 +6,8 @@ export const PluginPug = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
-      const { pug } = config.tools || {};
+      const config = api.getNormalizedConfig();
+      const { pug } = config.tools;
       if (!pug) {
         return;
       }

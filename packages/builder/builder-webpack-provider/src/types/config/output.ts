@@ -28,6 +28,8 @@ export type DataUriLimit = {
   media?: number;
 };
 
+export type NormalizedDataUriLimit = Required<DataUriLimit>;
+
 export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 
 export type AssetsRetryHookContext = {
@@ -123,6 +125,17 @@ export interface NormalizedOutputConfig extends OutputConfig {
   filename: FilenameConfig;
   distPath: DistPathConfig;
   polyfill: Polyfill;
+  dataUriLimit: NormalizedDataUriLimit;
   cleanDistPath: boolean;
+  disableMinimize: boolean;
+  disableSourceMap: boolean;
+  disableFilenameHash: boolean;
+  disableInlineRuntimeChunk: boolean;
+  enableAssetManifest: boolean;
+  enableAssetFallback: boolean;
+  enableLatestDecorators: boolean;
+  enableCssModuleTSDeclaration: boolean;
+  enableInlineScripts: boolean;
+  enableInlineStyles: boolean;
   svgDefaultExport: SvgDefaultExport;
 }

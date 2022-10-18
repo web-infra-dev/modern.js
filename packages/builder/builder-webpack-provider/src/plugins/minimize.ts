@@ -1,25 +1,25 @@
 import { CHAIN_ID } from '@modern-js/utils/chain-id';
 import type {
   WebpackChain,
-  BuilderConfig,
   BuilderPlugin,
   TerserPluginOptions,
   CssMinimizerPluginOptions,
+  NormalizedConfig,
 } from '../types';
 
 function applyRemoveConsole(
   options: TerserPluginOptions,
-  config: BuilderConfig,
+  config: NormalizedConfig,
 ) {
   if (!options.terserOptions) {
     options.terserOptions = {};
   }
 
-  const { removeConsole } = config.performance || {};
+  const { removeConsole } = config.performance;
   const compressOptions =
     typeof options.terserOptions.compress === 'boolean'
-      ? options.terserOptions.compress
-      : {};
+      ? {}
+      : options.terserOptions.compress || {};
 
   if (removeConsole === true) {
     options.terserOptions.compress = {
@@ -37,7 +37,7 @@ function applyRemoveConsole(
   return options;
 }
 
-async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
+async function applyJSMinimizer(chain: WebpackChain, config: NormalizedConfig) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
@@ -47,12 +47,12 @@ async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
         safari10: true,
       },
       format: {
-        ascii_only: config.output?.charset === 'ascii',
+        ascii_only: config.output.charset === 'ascii',
       },
     },
   };
 
-  switch (config.output?.legalComments) {
+  switch (config.output.legalComments) {
     case 'inline':
       DEFAULT_OPTIONS.extractComments = false;
       break;
@@ -67,10 +67,7 @@ async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
       break;
   }
 
-  const mergedOptions = applyOptionsChain(
-    DEFAULT_OPTIONS,
-    config.tools?.terser,
-  );
+  const mergedOptions = applyOptionsChain(DEFAULT_OPTIONS, config.tools.terser);
 
   const finalOptions = applyRemoveConsole(mergedOptions, config);
 
@@ -84,7 +81,10 @@ async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
     .end();
 }
 
-async function applyCSSMinimizer(chain: WebpackChain, config: BuilderConfig) {
+async function applyCSSMinimizer(
+  chain: WebpackChain,
+  config: NormalizedConfig,
+) {
   const { CHAIN_ID, applyOptionsChain } = await import('@modern-js/utils');
   const { default: CssMinimizerPlugin } = await import(
     'css-minimizer-webpack-plugin'
@@ -92,7 +92,7 @@ async function applyCSSMinimizer(chain: WebpackChain, config: BuilderConfig) {
 
   const mergedOptions: CssMinimizerPluginOptions = applyOptionsChain(
     {},
-    config.tools?.minifyCss,
+    config.tools.minifyCss,
   );
 
   chain.optimization
@@ -110,8 +110,8 @@ export const PluginMinimize = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd }) => {
-      const config = api.getBuilderConfig();
-      const isMinimize = isProd && !config.output?.disableMinimize;
+      const config = api.getNormalizedConfig();
+      const isMinimize = isProd && !config.output.disableMinimize;
 
       // set minimize to allow users to disable minimize
       chain.optimization.minimize(isMinimize);

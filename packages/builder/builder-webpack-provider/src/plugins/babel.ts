@@ -12,15 +12,15 @@ import {
 } from '@modern-js/builder-shared';
 import { getBrowserslistWithDefault } from '../shared';
 
-import type { WebpackChain, BuilderConfig, BuilderPlugin } from '../types';
+import type { WebpackChain, BuilderPlugin, NormalizedConfig } from '../types';
 
 export const CORE_JS_ENTRY = path.resolve(
   __dirname,
   '../runtime/core-js-entry.js',
 );
 
-export const getUseBuiltIns = (config: BuilderConfig) => {
-  const { polyfill } = config.output || {};
+export const getUseBuiltIns = (config: NormalizedConfig) => {
+  const { polyfill } = config.output;
   if (polyfill === 'ua' || polyfill === 'off') {
     return false;
   }
@@ -29,7 +29,7 @@ export const getUseBuiltIns = (config: BuilderConfig) => {
 
 export function applyScriptCondition(
   rule: WebpackChain.Rule,
-  config: BuilderConfig,
+  config: NormalizedConfig,
   context: BuilderContext,
   includes: (string | RegExp)[],
   excludes: (string | RegExp)[],
@@ -40,7 +40,7 @@ export function applyScriptCondition(
   });
 
   // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
-  if (config.output?.polyfill === 'entry') {
+  if (config.output.polyfill === 'entry') {
     rule.include.add(CORE_JS_ENTRY);
   }
 
@@ -52,7 +52,7 @@ export function applyScriptCondition(
   });
 
   // add source.include
-  if (config.source?.include) {
+  if (config.source.include) {
     config.source.include.forEach(condition => {
       rule.include.add(condition);
     });
@@ -62,12 +62,13 @@ export function applyScriptCondition(
 export const PluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
   setup(api) {
-    api.modifyWebpackChain(async (chain, { getCompiledPath, isProd }) => {
-      const { CHAIN_ID, applyOptionsChain, isUseSSRBundle } = await import(
+    api.modifyWebpackChain(async (chain, utils) => {
+      const { CHAIN_ID, getCompiledPath, isProd } = utils;
+      const { applyOptionsChain, isUseSSRBundle } = await import(
         '@modern-js/utils'
       );
 
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
       const browserslist = await getBrowserslistWithDefault(
         api.context.rootPath,
         config,
@@ -76,7 +77,7 @@ export const PluginBabel = (): BuilderPlugin => ({
       const getBabelOptions = (
         framework: string,
         appDirectory: string,
-        config: BuilderConfig,
+        config: NormalizedConfig,
       ) => {
         // 1. Get styled-components options
         const styledComponentsOptions = applyOptionsChain(
@@ -86,7 +87,7 @@ export const PluginBabel = (): BuilderPlugin => ({
             ssr: isUseSSRBundle(config),
             transpileTemplateLiterals: true,
           },
-          config.tools?.styledComponents,
+          config.tools.styledComponents,
         );
 
         // 2. Create babel util function about include/exclude
@@ -118,21 +119,19 @@ export const PluginBabel = (): BuilderPlugin => ({
           ...getBabelConfig({
             metaName: framework,
             appDirectory,
-            useLegacyDecorators: !config.output?.enableLatestDecorators,
+            useLegacyDecorators: !config.output.enableLatestDecorators,
             useBuiltIns: getUseBuiltIns(config),
             chain: createBabelChain(),
             styledComponents: styledComponentsOptions,
-            userBabelConfig: config.tools?.babel,
+            userBabelConfig: config.tools.babel,
             userBabelConfigUtils: babelUtils,
             overrideBrowserslist: browserslist,
           }),
         };
 
-        if (config.output?.charset === 'utf8') {
+        if (config.output.charset === 'utf8') {
           babelOptions.generatorOpts = {
-            jsescOption: {
-              minimal: true,
-            },
+            jsescOption: { minimal: true },
           };
         }
 
@@ -147,9 +146,9 @@ export const PluginBabel = (): BuilderPlugin => ({
       const { babelOptions, includes, excludes } = getBabelOptions(
         framework,
         rootPath,
-        config || {},
+        config,
       );
-      const useTsLoader = Boolean(config.tools?.tsLoader);
+      const useTsLoader = Boolean(config.tools.tsLoader);
       const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
       applyScriptCondition(rule, config, api.context, includes, excludes);
@@ -166,7 +165,7 @@ export const PluginBabel = (): BuilderPlugin => ({
        * https://webpack.js.org/api/module-methods/#import
        * @example: import x from 'data:text/javascript,export default 1;';
        */
-      if (config.source?.compileJsDataURI) {
+      if (config.source.compileJsDataURI) {
         chain.module
           .rule(CHAIN_ID.RULE.JS_DATA_URI)
           .mimetype({
@@ -182,15 +181,15 @@ export const PluginBabel = (): BuilderPlugin => ({
   },
 });
 
-// add core-js-entry to every entries
+/** Add core-js-entry to every entries. */
 export function addCoreJsEntry({
   chain,
   config,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: NormalizedConfig;
 }) {
-  if (config.output?.polyfill === 'entry') {
+  if (config.output.polyfill === 'entry') {
     const entryPoints = Object.keys(chain.entryPoints.entries() || {});
 
     for (const name of entryPoints) {

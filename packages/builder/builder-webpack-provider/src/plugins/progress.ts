@@ -11,8 +11,8 @@ export const PluginProgress = (): BuilderPlugin => ({
   name: 'builder-plugin-progress',
   setup(api) {
     api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
-      const options = config.dev?.progressBar;
+      const config = api.getNormalizedConfig();
+      const options = config.dev.progressBar;
       if (!options) {
         return;
       }

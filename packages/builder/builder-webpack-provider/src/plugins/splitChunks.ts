@@ -171,7 +171,7 @@ function singleVendor(ctx: SplitChunksContext): SplitChunks {
   };
 }
 
-const SPLIT_STRTEGY_DISPATCHER: Record<
+const SPLIT_STRATEGY_DISPATCHER: Record<
   string,
   (ctx: SplitChunksContext) => SplitChunks
 > = {
@@ -188,7 +188,7 @@ export function PluginSplitChunks(): BuilderPlugin {
     name: 'builder-plugin-split-chunks',
     setup(api) {
       api.modifyWebpackChain(chain => {
-        const config = api.getBuilderConfig();
+        const config = api.getNormalizedConfig();
         const defaultConfig: SplitChunks = {
           // Optimize both `initial` and `async` chunks
           chunks: 'all',
@@ -196,9 +196,7 @@ export function PluginSplitChunks(): BuilderPlugin {
           enforceSizeThreshold: 50000,
           cacheGroups: {},
         };
-        const chunkSplit = config.performance?.chunkSplit || {
-          strategy: 'single-vendor',
-        };
+        const { chunkSplit } = config.performance;
         let userDefinedCacheGroups = {};
         if (chunkSplit.forceSplitting) {
           userDefinedCacheGroups = getUserDefinedCacheGroups(
@@ -211,7 +209,7 @@ export function PluginSplitChunks(): BuilderPlugin {
             ? chunkSplit.splitChunks
             : chunkSplit.override;
         // Apply different strategy
-        const splitChunksOptions = SPLIT_STRTEGY_DISPATCHER[
+        const splitChunksOptions = SPLIT_STRATEGY_DISPATCHER[
           chunkSplit.strategy
         ]({
           defaultConfig,

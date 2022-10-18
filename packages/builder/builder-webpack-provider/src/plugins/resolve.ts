@@ -1,5 +1,6 @@
 import type { ChainIdentifier } from '@modern-js/utils';
-import type { BuilderConfig, BuilderPlugin, WebpackChain } from '../types';
+import _ from '@modern-js/utils/lodash';
+import type { BuilderPlugin, NormalizedConfig, WebpackChain } from '../types';
 
 function applyExtensions({
   chain,
@@ -7,7 +8,7 @@ function applyExtensions({
   isTsProject,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: NormalizedConfig;
   isTsProject: boolean;
 }) {
   let extensions = [
@@ -41,16 +42,16 @@ async function applyAlias({
   rootPath,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: NormalizedConfig;
   rootPath: string;
 }) {
-  const { alias } = config.source || {};
+  const { alias } = config.source;
 
   if (!alias) {
     return;
   }
 
-  const { ensureArray, applyOptionsChain, ensureAbsolutePath } = await import(
+  const { applyOptionsChain, ensureAbsolutePath } = await import(
     '@modern-js/utils'
   );
 
@@ -62,7 +63,7 @@ async function applyAlias({
    * - Absolute paths or a package name are not processed.
    */
   Object.keys(mergedAlias).forEach(name => {
-    const values = ensureArray(mergedAlias[name]);
+    const values = _.castArray(mergedAlias[name]);
     const formattedValues = values.map(value => {
       if (typeof value === 'string' && value.startsWith('.')) {
         return ensureAbsolutePath(rootPath, value);
@@ -86,7 +87,7 @@ function applyFullySpecified({
   CHAIN_ID,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: NormalizedConfig;
   CHAIN_ID: ChainIdentifier;
 }) {
   chain.module
@@ -94,7 +95,7 @@ function applyFullySpecified({
     .test(/\.m?js/)
     .resolve.set('fullySpecified', false);
 
-  if (config.source?.compileJsDataURI) {
+  if (config.source.compileJsDataURI) {
     chain.module
       .rule(CHAIN_ID.RULE.JS_DATA_URI)
       .resolve.set('fullySpecified', false);
@@ -106,9 +107,9 @@ function applyMainFields({
   config,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: NormalizedConfig;
 }) {
-  const resolveMainFields = config.source?.resolveMainFields;
+  const { resolveMainFields } = config.source;
   if (!resolveMainFields) {
     return;
   }
@@ -120,7 +121,7 @@ export const PluginResolve = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
       const isTsProject = Boolean(api.context.tsconfigPath);
       const extensions = applyExtensions({ chain, config, isTsProject });
 
@@ -137,20 +138,22 @@ export const PluginResolve = (): BuilderPlugin => ({
         config,
       });
 
-      if (isTsProject) {
-        const { TsConfigPathsPlugin } = await import(
-          '../webpackPlugins/TsConfigPathsPlugin'
-        );
-
-        chain.resolve
-          .plugin(CHAIN_ID.RESOLVE_PLUGIN.TS_CONFIG_PATHS)
-          .use(TsConfigPathsPlugin, [
-            {
-              cwd: api.context.rootPath,
-              extensions,
-            },
-          ]);
+      if (!isTsProject) {
+        return;
       }
+
+      const { TsConfigPathsPlugin } = await import(
+        '../webpackPlugins/TsConfigPathsPlugin'
+      );
+
+      chain.resolve
+        .plugin(CHAIN_ID.RESOLVE_PLUGIN.TS_CONFIG_PATHS)
+        .use(TsConfigPathsPlugin, [
+          {
+            cwd: api.context.rootPath,
+            extensions,
+          },
+        ]);
     });
   },
 });

@@ -1,28 +1,29 @@
-import type { DevServerOptions } from '@modern-js/types';
 import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
+import type { ArrayOrNot, ChainedConfig } from '@modern-js/builder-shared';
+import type { DevServerOptions } from '@modern-js/types';
+import type { ModifyWebpackUtils } from '../hooks';
 import type {
-  PugOptions,
-  WebpackChain,
-  WebpackConfig,
-  TSLoaderOptions,
-  BabelConfigUtils,
-  TerserPluginOptions,
-  ForkTSCheckerOptions,
-  BabelTransformOptions,
-  CssMinimizerPluginOptions,
-  CSSLoaderOptions,
-  StyleLoaderOptions,
-  CssExtractOptions,
   AutoprefixerOptions,
-  PostCSSLoaderOptions,
-  PostCSSPlugin,
-  LessLoaderOptions,
-  SassLoaderOptions,
+  BabelConfigUtils,
+  BabelTransformOptions,
+  CssExtractOptions,
+  CSSLoaderOptions,
+  CssMinimizerPluginOptions,
+  ForkTSCheckerOptions,
   HTMLPluginOptions,
   InspectorPluginOptions,
+  LessLoaderOptions,
+  PostCSSLoaderOptions,
+  PostCSSPlugin,
+  PugOptions,
+  SassLoaderOptions,
+  StyleLoaderOptions,
+  TerserPluginOptions,
+  TSLoaderOptions,
+  WebpackChain,
+  WebpackConfig,
 } from '../thirdParty';
-import type { ArrayOrNot, ChainedConfig } from '@modern-js/builder-shared';
-import type { ModifyWebpackUtils } from '../hooks';
+import type { NormalizedCssExtractOptions } from '../thirdParty/css';
 
 export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
 
@@ -117,4 +118,6 @@ export interface ToolsConfig {
   inspector?: ToolsInspectorPluginOptions;
 }
 
-export type NormalizedToolsConfig = ToolsConfig;
+export interface NormalizedToolsConfig extends ToolsConfig {
+  cssExtract: NormalizedCssExtractOptions;
+}
