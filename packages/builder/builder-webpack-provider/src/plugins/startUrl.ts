@@ -16,11 +16,11 @@ export function PluginStartUrl(): BuilderPlugin {
           return;
         }
         const config = api.getNormalizedConfig();
-        const { default: open } = await import('../../compiled/open');
         const { startUrl } = config.dev;
         if (!startUrl) {
           return;
         }
+        const { default: open } = await import('../../compiled/open');
         const urls: string[] = [];
         if (startUrl === true) {
           const protocol = config.dev.https ? 'https' : 'http';
