@@ -18,6 +18,7 @@ export const awaitablePlugins = (
 
 export const applyMinimalPlugins = () =>
   awaitablePlugins([
+    import('../plugins/css').then(m => m.PluginCss()),
     import('../plugins/entry').then(m => m.PluginEntry()),
     import('../plugins/output').then(m => m.PluginOutput()),
   ]);

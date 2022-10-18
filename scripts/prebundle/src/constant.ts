@@ -445,6 +445,73 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
+    packageDir: 'builder/builder-rspack-provider',
+    packageName: '@modern-js/builder-rspack-provider',
+    dependencies: [
+      'serialize-javascript',
+      'open',
+      'tapable',
+      'ansi-escapes',
+      'patch-console',
+      'cli-truncate',
+      {
+        name: 'pretty-time',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-pxtorem',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-value-parser',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-custom-properties',
+        ignoreDts: true,
+        externals: {
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'postcss-flexbugs-fixes',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-font-variant',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-initial',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-media-minmax',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-modules',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-nesting',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-page-break',
+        ignoreDts: true,
+      },
+      {
+        name: 'autoprefixer',
+        ignoreDts: true,
+        externals: {
+          browserslist: '@modern-js/utils/browserslist',
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+    ],
+  },
+  {
     packageDir: 'cli/webpack',
     packageName: '@modern-js/webpack',
     dependencies: [

@@ -57,9 +57,9 @@ export const PluginOutput = (): BuilderPlugin => ({
 
       const defaultOutput: RspackConfig['output'] = {
         path: api.context.distPath,
-        filename: `${jsPath}/${jsFilename}`,
-        // chunkFilename: `${jsPath}/async/${jsFilename}`,
-        publicPath: 'https://sd'
+        // filename: `${jsPath}/${jsFilename}`,
+        chunkFilename: `${jsPath}/async/${jsFilename}`,
+        publicPath
       };
 
       rspackConfig.output = defaultOutput;

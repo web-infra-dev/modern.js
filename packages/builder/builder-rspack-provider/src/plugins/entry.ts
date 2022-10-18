@@ -9,11 +9,6 @@ export const PluginEntry = (): BuilderPlugin => {
       const { ensureArray } = await import('@modern-js/utils');
 
       const { entry } = api.context;
-      const config = api.getBuilderConfig();
-
-      const { preEntry } = config.source || {};
-      const preEntries = preEntry ? ensureArray(preEntry) : [];
-
       const finalEntry = rspackConfig.entry || {};
 
       Object.keys(entry).forEach(entryName => {

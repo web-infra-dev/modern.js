@@ -21,7 +21,10 @@
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/core": "^0.0.4"
+    "@rspack/core": "^0.0.4",
+    "caniuse-lite": "^1.0.30001332",
+    "cssnano": "5.1.13",
+    "postcss": "8.4.16"
   },
   "devDependencies": {
     "@modern-js/module-tools": "1.20.1",
@@ -34,6 +37,7 @@
     "lint-staged": "^11.2.6",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
+    "terser-webpack-plugin": "5.3.3",
     "typescript": "^4"
   },
   "sideEffects": [
@@ -48,7 +52,7 @@
   },
   "wireit": {
     "build": {
-      "command": "tsc",
+      "command": "tsc && node scripts/post-compile.js",
       "files": [
         "src/**/*",
         "tsconfig.json",
