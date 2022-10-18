@@ -4,7 +4,6 @@ import {
   BuilderPlugin,
   CssExtractOptions,
   CSSLoaderOptions,
-  MiniCssExtractLoaderOptions,
   ModifyWebpackUtils,
   NormalizedConfig,
   StyleLoaderOptions,
@@ -86,16 +85,17 @@ export async function applyBaseCSSRule(
   // 1. Check user config
   const enableExtractCSS =
     config.tools.cssExtract !== false && !config.tools.styleLoader;
-  const enableCSSModuleTS = Boolean(
-    config.output?.enableCssModuleTSDeclaration,
-  );
+  const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   const enableSourceMap =
     isProd && enableExtractCSS && !config.output.disableSourceMap;
   // 2. Prepare loader options
-  const extractLoaderOptions = applyOptionsChain<
-    MiniCssExtractLoaderOptions,
-    null
-  >({}, (config.tools.cssExtract as CssExtractOptions).loaderOptions);
+  const extraCSSOptions: Required<CssExtractOptions> =
+    typeof config.tools.cssExtract === 'object'
+      ? config.tools.cssExtract
+      : {
+          loaderOptions: {},
+          pluginOptions: {},
+        };
   const styleLoaderOptions = applyOptionsChain<StyleLoaderOptions, null>(
     {},
     config.tools.styleLoader,
@@ -125,7 +125,7 @@ export async function applyBaseCSSRule(
       rule
         .use(CHAIN_ID.USE.MINI_CSS_EXTRACT)
         .loader(require('mini-css-extract-plugin').loader)
-        .options(extractLoaderOptions)
+        .options(extraCSSOptions.loaderOptions)
         .end();
     }
     // use style-loader
