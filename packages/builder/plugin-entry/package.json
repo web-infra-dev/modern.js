@@ -1,0 +1,72 @@
+{
+  "name": "@modern-js/builder-plugin-entry",
+  "description": "Entry plugin for builder in Modern.js",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "version": "1.19.0",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "jsnext:modern": "./dist/index.js",
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "prepare": "pnpm build",
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern new",
+    "build": "wireit",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest dev --no-coverage"
+  },
+  "dependencies": {
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "fs-extra": "10.1.0"
+  },
+  "devDependencies": {
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@scripts/vitest-config": "workspace:*",
+    "@types/fs-extra": "^9.0.13",
+    "typescript": "4.7.4",
+    "vitest": "^0.21.1",
+    "webpack": "^5.74.0",
+    "wireit": "^0.7.1"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/index.d.ts"
+  },
+  "wireit": {
+    "build": {
+      "command": "tsc",
+      "files": [
+        "src/**/*",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*"
+      ]
+    }
+  }
+}
