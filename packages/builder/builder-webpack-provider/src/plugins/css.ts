@@ -8,6 +8,7 @@ import {
   ModifyWebpackUtils,
   StyleLoaderOptions,
   WebpackChain,
+  CssExtractOptions,
 } from '../types';
 
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
@@ -80,7 +81,8 @@ export async function applyBaseCSSRule(
   };
 
   // 1. Check user config
-  const enableExtractCSS = !config.tools?.styleLoader;
+  const enableExtractCSS =
+    config.tools?.cssExtract !== false && !config.tools?.styleLoader;
   const enableCSSModuleTS = Boolean(
     config.output?.enableCssModuleTSDeclaration,
   );
@@ -90,7 +92,7 @@ export async function applyBaseCSSRule(
   const extractLoaderOptions = applyOptionsChain<
     MiniCssExtractLoaderOptions,
     null
-  >({}, config.tools?.cssExtract?.loaderOptions || {});
+  >({}, (config.tools?.cssExtract as CssExtractOptions)?.loaderOptions || {});
   const styleLoaderOptions = applyOptionsChain<StyleLoaderOptions, null>(
     {},
     config.tools?.styleLoader || {},
