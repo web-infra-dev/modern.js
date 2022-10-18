@@ -68,11 +68,21 @@ export const enableRegister = (
     });
   } else {
     debug('use @babel/register');
-    const babelConfig = resolveBabelConfig(projectRoot, config, {
-      tsconfigPath,
-      syntax: 'es6+',
-      type: 'commonjs',
-    });
+    const babelConfig = resolveBabelConfig(
+      projectRoot,
+      {
+        ...config.source,
+        babelConfig: config.tools.babel,
+        server: {
+          compiler: config.server.compiler,
+        },
+      },
+      {
+        tsconfigPath,
+        syntax: 'es6+',
+        type: 'commonjs',
+      },
+    );
 
     return require('@babel/register')({
       ...babelConfig,

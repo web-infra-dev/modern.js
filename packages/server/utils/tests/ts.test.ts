@@ -15,14 +15,12 @@ describe('typescript', () => {
       await compile(
         example,
         {
-          source: {
-            alias: {
-              '@modern-js/runtime/server': path.join(
-                sharedDir,
-                './runtime/server',
-              ),
-              '@modern-js/runtime': '@modern-js/core',
-            },
+          alias: {
+            '@modern-js/runtime/server': path.join(
+              sharedDir,
+              './runtime/server',
+            ),
+            '@modern-js/runtime': '@modern-js/core',
           },
         } as any,
         {
