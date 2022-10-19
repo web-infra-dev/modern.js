@@ -185,7 +185,7 @@ The following are some common configuration examples, see the full webpack-chain
 ```js
 export default {
   tools: {
-    webpackChain: chain => {
+    webpackChain: (chain, { CHAIN_ID }) => {
       // Add loader
       chain.module
         .rule('md')
@@ -212,7 +212,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpackChain: chain => {
+    webpackChain: (chain, { webpack, CHAIN_ID }) => {
       // Add plugin
       chain.plugin('define').use(webpack.DefinePlugin, [
         {
