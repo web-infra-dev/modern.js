@@ -181,6 +181,16 @@ Start Dev Server:
 await builder.startDevServer();
 ```
 
+After successfully starting Dev Server, you can see the following logs:
+
+```bash
+info    Starting dev server...
+info    Dev server running at:
+
+  > Local:    http://localhost:8080
+  > Network:  http://192.168.0.1:8080
+```
+
 `startDevServer` returns the following parameters:
 
 - `urls`: URLs to access Dev Server.
@@ -234,6 +244,8 @@ await builder.startDevServer({
 ## builder.createCompiler
 
 Create a Compiler object.
+
+When the `target` option of `createBuilder` contains only one value, the return value is `Compiler`; when `target` contains multiple values, the return value is `MultiCompiler`.
 
 - **Type**
 
@@ -317,4 +329,46 @@ function IsPluginExists(pluginName: string): boolean;
 builder.addPlugins([PluginFoo()]);
 
 builder.isPluginExists(PluginFoo().name); // true
+```
+
+## builder.inspectConfig
+
+Inspect the final generated builder config and bundler config.
+
+- **Type**
+
+```ts
+type InspectConfigOptions = {
+  // View the config in the specified environment, the default is "development", can be set to "production"
+  env?: BuilderMode;
+  // Whether to enable verbose mode, display the complete content of the function in the config, the default is `false`
+  verbose?: boolean;
+  // Specify the output path, defaults to the value configured by `output.distPath.root`
+  outputPath?: string;
+  // Whether to write the result to disk, the default is `false`
+  writeToDisk?: boolean;
+};
+
+async function InspectConfig(options?: InspectConfigOptions): Promise<{
+  builderConfig: string;
+  bundlerConfigs: string[];
+}>;
+```
+
+- **Example**
+
+Get the config content in string format:
+
+```ts
+const { builderConfig, bundlerConfigs } = await builder.inspectConfig();
+
+console.log(builderConfig, bundlerConfigs);
+```
+
+Write the config content to disk:
+
+```ts
+await builder.inspectConfig({
+  writeToDisk: true,
+});
 ```

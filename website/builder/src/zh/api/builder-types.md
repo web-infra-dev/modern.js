@@ -47,3 +47,19 @@ Builder 构建产物的类型。
 ```ts
 import { BuilderTarget } from '@modern-js/builder';
 ```
+
+## BuilderEntry
+
+对应 `createBuilder` 方法的 `entry` 选项的类型。
+
+```ts
+import { BuilderEntry } from '@modern-js/builder';
+```
+
+## CreateBuilderOptions
+
+对应 `createBuilder` 方法的入参类型。
+
+```ts
+import { CreateBuilderOptions } from '@modern-js/builder';
+```

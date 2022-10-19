@@ -181,6 +181,16 @@ function StartDevServer(
 await builder.startDevServer();
 ```
 
+成功启动 Dev Server 后，可以看到以下日志信息：
+
+```bash
+info    Starting dev server...
+info    Dev server running at:
+
+  > Local:    http://localhost:8080
+  > Network:  http://192.168.0.1:8080
+```
+
 `startDevServer` 会返回以下参数：
 
 - `urls`：访问 Dev Server 的 URLs
@@ -234,6 +244,8 @@ await builder.startDevServer({
 ## builder.createCompiler
 
 创建一个 compiler 对象。
+
+当 `createBuilder` 的 `target` 选项包含一个值时，返回值为 `Compiler`；当 `target` 包含多个值时，返回值为 `MultiCompiler`。
 
 - **Type**
 
@@ -317,4 +329,46 @@ function IsPluginExists(pluginName: string): boolean;
 builder.addPlugins([PluginFoo()]);
 
 builder.isPluginExists(PluginFoo().name); // true
+```
+
+## builder.inspectConfig
+
+查看 Builder 内部最终生成的 builder 配置和 bundler 配置。
+
+- **Type**
+
+```ts
+type InspectConfigOptions = {
+  // 查看指定环境下的配置，默认为 "development"，可以设置为 "production"
+  env?: BuilderMode;
+  // 是否开启冗余模式，展示配置中函数的完整内容，默认为 `false`
+  verbose?: boolean;
+  // 指定输出路径，默认为 `output.distPath.root` 配置的值
+  outputPath?: string;
+  // 是否将结果写入到磁盘中，默认为 `false`
+  writeToDisk?: boolean;
+};
+
+async function InspectConfig(options?: InspectConfigOptions): Promise<{
+  builderConfig: string;
+  bundlerConfigs: string[];
+}>;
+```
+
+- **Example**
+
+拿到字符串格式的 Config 内容：
+
+```ts
+const { builderConfig, bundlerConfigs } = await builder.inspectConfig();
+
+console.log(builderConfig, bundlerConfigs);
+```
+
+直接将配置内容写入到磁盘上：
+
+```ts
+await builder.inspectConfig({
+  writeToDisk: true,
+});
 ```
