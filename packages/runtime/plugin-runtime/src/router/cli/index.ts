@@ -101,7 +101,7 @@ export default (): CliPlugin => ({
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as router } from '@modern-js/runtime/runtime-router'`,
+          `export { default as router } from '@modern-js/runtime/router'`,
         );
       },
     };
