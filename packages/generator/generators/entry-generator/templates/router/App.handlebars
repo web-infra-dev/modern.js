@@ -1,16 +1,18 @@
-import { Switch, Route } from '@modern-js/runtime/router';
+import { Routes, Route } from '@modern-js/runtime/router';
 
 import './App.css';
 
-const App = () => (
-  <Switch>
-    <Route exact={true} path="/">
+const Home = () => (
 {{{main}}}
-    </Route>
-    <Route path="*">
-      <div>404</div>
-    </Route>
-  </Switch>
+);
+
+const NotFound = () => <div>404</div>;
+
+const App = () => (
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="*" element={<NotFound />} />
+  </Routes>
 );
 
 export default App;
