@@ -400,7 +400,7 @@ export class ModernServer implements ModernServerInterface {
     const routeAPI = createRouteAPI(matched, this.router, context.url);
     await this.emitRouteHook('afterMatch', { context, routeAPI });
 
-    if (res.headersSent) {
+    if (this.isSend(res)) {
       return;
     }
 
@@ -423,7 +423,7 @@ export class ModernServer implements ModernServerInterface {
     }
 
     // frameWebHandler has process request
-    if (res.headersSent) {
+    if (this.isSend(res)) {
       return;
     }
 
@@ -453,8 +453,7 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
-    if (res.getHeader('Location') && isRedirect(res.statusCode)) {
-      res.end();
+    if (this.isSend(res)) {
       return;
     }
 
@@ -462,6 +461,10 @@ export class ModernServer implements ModernServerInterface {
     if (route.entryName) {
       const templateAPI = createTemplateAPI(file.content.toString());
       await this.emitRouteHook('afterRender', { context, templateAPI });
+      if (this.isSend(res)) {
+        return;
+      }
+
       await this.injectMicroFE(context, templateAPI);
       // It will inject _SERVER_DATA twice, when SSG mode.
       // The first time was in ssg html created, the seoncd time was in prod-server start.
@@ -477,6 +480,19 @@ export class ModernServer implements ModernServerInterface {
 
     res.setHeader('content-type', file.contentType);
     res.end(response);
+  }
+
+  private isSend(res: ServerResponse) {
+    if (res.headersSent) {
+      return true;
+    }
+
+    if (res.getHeader('Location') && isRedirect(res.statusCode)) {
+      res.end();
+      return true;
+    }
+
+    return false;
   }
 
   private async injectMicroFE(
