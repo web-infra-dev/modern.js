@@ -1,16 +1,16 @@
 # 快速上手
 
-## Modern.js 项目
+## 使用 Modern.js 应用
 
-**Modern.js 2.0 项目默认使用 Modern.js Builder 作为构建引擎**。
+**Modern.js 应用从 2.0 版本开始，默认使用 Modern.js Builder 作为构建引擎**。
 
-如果你是一名业务开发同学，你不需要手动接入 Builder，只需要创建一个 Modern.js 2.0 项目，直接就可以使用 Builder 提供的所有能力。
+因此，如果你是一名业务开发者，那么不需要手动接入 Builder，只需要创建一个 Modern.js 2.0 项目，直接就可以使用 Builder 提供的所有能力。
 
 > Tips: Modern.js 2.0 仍在开发中，尚未正式发布。
 
 ## 在前端框架中接入
 
-如果你正在开发一个前端框架，请通过下面的步骤来接入 Builder:
+如果你正在开发一个前端框架，可以通过下面的步骤来接入 Builder:
 
 ### 1. 安装 Builder
 
@@ -53,3 +53,43 @@ const builder = await createBuilder(provider, {
 ```
 
 除了上述示例中的 `entry` 选项，`createBuilder` 方法也提供了一些其他的选项，你可以在 [API - createBuilder](/zh/api/builder-core.html#createbuilder) 中进一步了解。
+
+### 3. 调用 Builder 实例方法
+
+Builder 实例提供了与构建相关的各个方法，你可以根据实际场景来进行使用。
+
+在本地开发场景，建议使用 [builder.startDevServer](/zh/api/builder-instance.html#builder-startdevserver) 方法，调用后会启动本地 Dev Server。
+
+```ts
+await builder.startDevServer();
+```
+
+成功启动 Dev Server 后，可以看到以下日志信息：
+
+```bash
+info    Starting dev server...
+info    Dev server running at:
+
+  > Local:    http://localhost:8081
+  > Network:  http://192.168.0.1:8081
+```
+
+在生产环境部署场景，建议使用 [builder.build](/zh/api/builder-instance.html#builder-build) 方法，调用后会构建出生产环境产物。
+
+```ts
+await builder.build();
+```
+
+> 关于 Builder 实例方法的更多介绍，请阅读 [Builder Instance](/zh/api/builder-instance.html) 章节。
+
+通过以上三个步骤，你已经了解了 Builder 基本的使用方法。接下来你可以通过 Builder 插件和 Builder 配置来对构建流程进行定制。
+
+## 下一步
+
+你可能想要：
+
+<NextSteps>
+  <Step href="/guide/glossary.html" title="名词解释" description="了解 Builder 相关的概念"/>
+  <Step href="/guide/features.html" title="功能导航" description="了解 Builder 提供的所有功能"/>
+  <Step href="/api" title="查阅 API" description="查看详细的 API 文档"/>
+</NextSteps>
