@@ -53,9 +53,9 @@ export const getFilename = (
 
   switch (type) {
     case 'js':
-      return filename.js ?? `[name]${hash}.js`;
+      return filename.js ?? `[name]${hash}[ext]`;
     case 'css':
-      return filename.css ?? `[name]${hash}.css`;
+      return filename.css ?? `[name]${hash}[ext]`;
     case 'svg':
       return filename.svg ?? `[name].[contenthash:8].svg`;
     case 'font':

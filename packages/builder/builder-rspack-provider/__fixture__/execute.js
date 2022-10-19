@@ -9,6 +9,12 @@ const createBuilder = async () => {
       output: {
         distPath: {
           root: join(process.cwd(), '__fixture__', 'dist')
+        },
+        convertToRem: true
+      },
+      source: {
+        define: {
+          NAME: "Jack"
         }
       },
       tools: {

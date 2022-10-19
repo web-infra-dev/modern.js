@@ -32,8 +32,6 @@ export function builderRspackProvider({
           builderOptions,
         });
 
-        console.log(rspackConfigs)
-
         return createCompiler({ watch, context, rspackConfigs });
       },
 

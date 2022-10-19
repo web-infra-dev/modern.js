@@ -13,7 +13,7 @@ export interface SourceConfig {
   moduleScopes?: ChainedConfig<ModuleScopes>;
   compileJsDataURI?: boolean;
   resolveExtensionPrefix?: string;
-  resolveMainFields?: (string[] | string)[];
+  resolveMainFields?: string[];
 }
 
 export interface SourceFinalConfig {

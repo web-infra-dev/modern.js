@@ -4,7 +4,6 @@ import {
   BuilderConfig,
   BuilderPlugin,
   ModifyRspackUtils,
-  RspackConfig,
 } from '../types';
 
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
@@ -12,8 +11,7 @@ import postcssLoader from '../loader/postcss';
 
 export const CSS_REGEX_STR = '\\.css$';
 
-export async function applyBaseCSSRule(
-  rspackConfig: RspackConfig,
+export async function getCssLoaderUses(
   config: BuilderConfig,
   context: BuilderContext,
   utils: ModifyRspackUtils,
@@ -47,7 +45,7 @@ export async function applyBaseCSSRule(
         ].filter(Boolean),
       },
       modules: {
-        auto: true
+        auto: true,
       },
       sourceMap: enableSourceMap,
     };
@@ -65,16 +63,13 @@ export async function applyBaseCSSRule(
 
   const postcssLoaderOptions = getPostcssConfig();
 
-  rspackConfig.module!.rules!.push({
-    test: CSS_REGEX_STR,
-    uses: [
-      {
-        loader: postcssLoader,
-        options: postcssLoaderOptions,
-      },
-    ],
-    type: 'css',
-  });
+  return [
+    {
+      name: CHAIN_ID.USE.POSTCSS,
+      loader: postcssLoader,
+      options: postcssLoaderOptions,
+    },
+  ];
 }
 
 export const PluginCss = (): BuilderPlugin => {
@@ -82,8 +77,20 @@ export const PluginCss = (): BuilderPlugin => {
     name: 'builder-plugin-css',
     setup(api) {
       api.modifyRspackConfig(async (rspackConfig, utils) => {
+        const { CHAIN_ID } = utils;
         const config = api.getBuilderConfig();
-        await applyBaseCSSRule(rspackConfig, config, api.context, utils);
+        const cssLoaderUses = await getCssLoaderUses(
+          config,
+          api.context,
+          utils,
+        );
+
+        rspackConfig.module!.rules!.push({
+          name: CHAIN_ID.USE.CSS,
+          test: CSS_REGEX_STR,
+          uses: cssLoaderUses,
+          type: 'css',
+        });
       });
     },
   };
