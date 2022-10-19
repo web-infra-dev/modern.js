@@ -139,6 +139,20 @@ export default defineConfig({
 });
 ```
 
+### HtmlWebpackPlugin
+
+通过 `HtmlWebpackPlugin` 参数可以获取 Modern.js 内部使用的 HtmlWebpackPlugin 对象。
+
+```js title="modern.config.js"
+export default defineConfig({
+  tools: {
+    webpackChain: (chain, { HtmlWebpackPlugin }) => {
+      console.log(HtmlWebpackPlugin);
+    },
+  },
+});
+```
+
 ## 预设 ID 用法
 
 Modern.js 中预先定义了大量的 plugins 和 loaders，通过常量 `CHAIN_ID` 可以读取到这些预设内容的 ID，便于进行修改。

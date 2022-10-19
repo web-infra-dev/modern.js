@@ -368,6 +368,7 @@ importers:
       autoprefixer: ^10.3.1
       btsm: 2.2.2
       electron-builder: 22.7.0
+      html-webpack-plugin: 5.5.0
       jest: ^27
       postcss: ^8.4.14
       sass: ^1.45.0
@@ -392,6 +393,7 @@ importers:
       autoprefixer: 10.4.7_postcss@8.4.14
       btsm: 2.2.2
       electron-builder: 22.7.0
+      html-webpack-plugin: 5.5.0_webpack@5.74.0
       jest: 27.5.1
       postcss: 8.4.14
       sass: 1.53.0
@@ -11592,7 +11594,6 @@ packages:
 
   /@types/html-minifier-terser/6.1.0:
     resolution: {integrity: sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==}
-    dev: false
 
   /@types/http-assert/1.5.3:
     resolution: {integrity: sha512-FyAOrDuQmBi8/or3ns4rwPno7/9tJTijVW6aQQjK02+kOQ8zmoNg2XJtAuQhvQcy1ASJq38wirX5//9J1EqoUA==}
@@ -15302,7 +15303,6 @@ packages:
     engines: {node: '>= 10.0'}
     dependencies:
       source-map: 0.6.1
-    dev: false
 
   /clean-set/1.1.2:
     resolution: {integrity: sha512-cA8uCj0qSoG9e0kevyOWXwPaELRPVg5Pxp6WskLMwerx257Zfnh8Nl0JBH59d7wQzij2CK7qEfJQK3RjuKKIug==}
@@ -21551,7 +21551,6 @@ packages:
       param-case: 3.0.4
       relateurl: 0.2.7
       terser: 5.14.1
-    dev: false
 
   /html-minifier/3.5.21:
     resolution: {integrity: sha512-LKUKwuJDhxNa3uf/LPR/KVjm/l3rBqtYeCOAekvG8F1vItxMUpueGd94i/asDDr8/1u7InxzFA5EeGjhhG5mMA==}
@@ -21621,7 +21620,6 @@ packages:
       pretty-error: 4.0.0
       tapable: 2.2.1
       webpack: 5.74.0
-    dev: false
 
   /html5shiv/3.7.3:
     resolution: {integrity: sha512-SZwGvLGNtgp8GbgFX7oXEp8OR1aBt5LliX6dG0kdD1kl3KhMonN0QcSa/A3TsTgFewaGCbIryQunjayWDXzxmw==}
@@ -27718,7 +27716,6 @@ packages:
     dependencies:
       lodash: 4.17.21
       renderkid: 3.0.0
-    dev: false
 
   /pretty-format/26.6.2:
     resolution: {integrity: sha512-7AeGuCYNGmycyQbCqd/3PWH4eOoX/OiCa0uphp57NVTeAGdJGaAliecxwBDHYQCIvrW7aDBZCYeNTP/WX69mkg==}
@@ -29575,7 +29572,6 @@ packages:
       htmlparser2: 6.1.0
       lodash: 4.17.21
       strip-ansi: 6.0.1
-    dev: false
 
   /repeat-element/1.1.4:
     resolution: {integrity: sha512-LFiNfRcSu7KK3evMyYOuCzv3L10TW7yC1G2/+StMjK8Y6Vqd2MG7r/Qjw4ghtuCOjFvlnms/iMmLqpvW/ES/WQ==}
