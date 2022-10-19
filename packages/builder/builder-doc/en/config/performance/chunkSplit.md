@@ -155,3 +155,5 @@ export default {
   },
 };
 ```
+
+> When the Builder target is "node", since Node Bundles do not need to be splitted to optimize loading performance, the chunkSplit rule will not take effect.

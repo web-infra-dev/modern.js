@@ -1,5 +1,13 @@
 // Vitest Snapshot v1
 
+exports[`plugins/splitChunks > should not split chunks when target is not 1`] = `
+{
+  "optimization": {
+    "splitChunks": false,
+  },
+}
+`;
+
 exports[`plugins/splitChunks > should set all-in-one config 1`] = `
 {
   "optimization": {

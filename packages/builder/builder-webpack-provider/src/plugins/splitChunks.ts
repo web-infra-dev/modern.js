@@ -187,7 +187,12 @@ export function PluginSplitChunks(): BuilderPlugin {
   return {
     name: 'builder-plugin-split-chunks',
     setup(api) {
-      api.modifyWebpackChain(chain => {
+      api.modifyWebpackChain((chain, { isServer }) => {
+        if (isServer) {
+          chain.optimization.splitChunks(false);
+          return;
+        }
+
         const config = api.getNormalizedConfig();
         const defaultConfig: SplitChunks = {
           // Optimize both `initial` and `async` chunks

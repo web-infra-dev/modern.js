@@ -1,6 +1,7 @@
 import {
-  DEFAULT_BROWSERSLIST,
   getBrowserslist,
+  DEFAULT_BROWSERSLIST,
+  type BuilderTarget,
 } from '@modern-js/builder-shared';
 import type { Buffer } from 'buffer';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
@@ -10,13 +11,14 @@ import type { BuilderConfig, DataUriLimit, NormalizedConfig } from '../types';
 export async function getBrowserslistWithDefault(
   path: string,
   config: BuilderConfig,
+  target: BuilderTarget,
 ) {
   if (config?.output?.overrideBrowserslist) {
     return config.output.overrideBrowserslist;
   }
 
   const result = await getBrowserslist(path);
-  return result || DEFAULT_BROWSERSLIST;
+  return result || DEFAULT_BROWSERSLIST[target];
 }
 
 /** Preserving the details of schema by generic types. */

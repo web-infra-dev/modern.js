@@ -139,4 +139,15 @@ describe('plugins/css', () => {
 
     expect(includeMiniCssExtractLoader).toBe(false);
   });
+
+  it('should not apply postcss-loader when target is node', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginCss()],
+      target: 'node',
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });

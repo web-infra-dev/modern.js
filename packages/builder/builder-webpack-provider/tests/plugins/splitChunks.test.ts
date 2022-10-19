@@ -99,4 +99,13 @@ describe('plugins/splitChunks', () => {
     const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
   });
+
+  it('should not split chunks when target is not', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginSplitChunks()],
+      target: 'node',
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
 });
