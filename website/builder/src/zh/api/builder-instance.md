@@ -20,6 +20,20 @@ extractApiHeaders: [2]
 type BuilderEntry = Record<string, string | string[]>;
 ```
 
+### builder.context.target
+
+构建产物类型，对应调用 `createBuilder` 时传入的 `target` 选项。
+
+- **Type**
+
+```ts
+type BuilderTarget = 'web' | 'node' | 'modern-web';
+
+type Context = {
+  target: BuilderTarget | BuilderTarget[];
+};
+```
+
 ### builder.context.rootPath
 
 当前执行构建的根路径，对应调用 `createBuilder` 时传入的 `cwd` 选项。

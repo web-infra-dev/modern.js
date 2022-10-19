@@ -7,6 +7,7 @@ export function createPublicContext(
 ): Readonly<BuilderContext> {
   const ctx = pick(context, [
     'entry',
+    'target',
     'srcPath',
     'rootPath',
     'distPath',
