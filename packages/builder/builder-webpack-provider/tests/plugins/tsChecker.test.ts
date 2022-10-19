@@ -85,4 +85,15 @@ describe('plugins/tsChecker', () => {
     const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
   });
+
+  it('should only apply one tsChecker plugin when there is multiple targets', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginTsChecker()],
+      context,
+      target: ['web', 'node'],
+    });
+
+    const configs = await builder.unwrapWebpackConfigs();
+    expect(configs).toMatchSnapshot();
+  });
 });

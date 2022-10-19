@@ -4,12 +4,22 @@ export const PluginTsChecker = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-ts-checker',
     setup(api) {
-      api.modifyWebpackChain(async chain => {
+      api.modifyWebpackChain(async (chain, { target }) => {
         const config = api.getNormalizedConfig();
+
         // Use tsChecker if tsChecker is not `false`, So there are two situations for user:
         // 1. tsLoader + transpileOnly + tsChecker
         // 2. @babel/preset-typescript + tsChecker
         if (config.tools.tsChecker === false || !api.context.tsconfigPath) {
+          return;
+        }
+
+        // If there is multiple target, only apply tsChecker to the first target
+        // to avoid multiple tsChecker running at the same time
+        if (
+          Array.isArray(api.context.target) &&
+          target !== api.context.target[0]
+        ) {
           return;
         }
 

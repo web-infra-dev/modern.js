@@ -1,9 +1,11 @@
-import type { BuilderEntry } from './builder';
+import type { BuilderEntry, BuilderTarget } from './builder';
 
 /** The public context */
 export type BuilderContext = {
   /** The entry points object. */
   entry: BuilderEntry;
+  /** The build target type. */
+  target: BuilderTarget | BuilderTarget[];
   /** The root path of current project. */
   rootPath: string;
   /** Absolute path of source files. */
