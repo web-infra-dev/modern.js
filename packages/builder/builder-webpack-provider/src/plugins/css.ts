@@ -17,13 +17,13 @@ export async function applyBaseCSSRule(
   rule: WebpackChain.Rule,
   config: NormalizedConfig,
   context: BuilderContext,
-  utils: ModifyWebpackUtils,
+  { isServer, isProd, target, CHAIN_ID, getCompiledPath }: ModifyWebpackUtils,
 ) {
-  const { isServer, isProd, CHAIN_ID, getCompiledPath } = utils;
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
     context.rootPath,
     config,
+    target,
   );
 
   const getPostcssConfig = () => {
@@ -150,11 +150,15 @@ export async function applyBaseCSSRule(
     .use(CHAIN_ID.USE.CSS)
     .loader(getCompiledPath('css-loader'))
     .options(cssLoaderOptions)
-    .end()
-    .use(CHAIN_ID.USE.POSTCSS)
-    .loader(getCompiledPath('postcss-loader'))
-    .options(postcssLoaderOptions)
     .end();
+
+  if (!isServer) {
+    rule
+      .use(CHAIN_ID.USE.POSTCSS)
+      .loader(getCompiledPath('postcss-loader'))
+      .options(postcssLoaderOptions)
+      .end();
+  }
 
   // CSS imports should always be treated as sideEffects
   rule.merge({ sideEffects: true });

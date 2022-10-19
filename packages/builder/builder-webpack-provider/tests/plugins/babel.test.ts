@@ -114,4 +114,14 @@ describe('plugins/babel', () => {
       '"generatorOpts":{"jsescOption":{"minimal":true}}',
     );
   });
+
+  it('should adjust browserslist when target is node', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginBabel()],
+      target: 'node',
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });

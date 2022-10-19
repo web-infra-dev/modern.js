@@ -67,4 +67,18 @@ describe('plugins/inlineChunk', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should not apply InlineChunkHtmlPlugin when target is node', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      entry: {
+        main: './src/main.ts',
+      },
+      target: 'node',
+    });
+
+    expect(
+      await builder.matchWebpackPlugin('InlineChunkHtmlPlugin'),
+    ).toBeFalsy();
+  });
 });

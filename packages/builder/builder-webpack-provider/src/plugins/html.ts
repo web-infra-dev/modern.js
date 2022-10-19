@@ -139,11 +139,11 @@ export const PluginHtml = (): BuilderPlugin => ({
   setup(api) {
     const routesInfo: RoutesInfo[] = [];
 
-    api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { isProd, isServer, CHAIN_ID }) => {
       const config = api.getNormalizedConfig();
 
-      // if html is disabled, return following logics
-      if (config.tools.htmlPlugin === false) {
+      // if html is disabled or target is server, skip html plugin
+      if (config.tools.htmlPlugin === false || isServer) {
         return;
       }
 
@@ -249,7 +249,7 @@ export const PluginHtml = (): BuilderPlugin => ({
 
       // generate a basic route.json for modern.js dev server
       // if the framework has already generate a route.json, do nothing
-      if (!(await isFileExists(routeFilePath))) {
+      if (!(await isFileExists(routeFilePath)) && routesInfo.length) {
         await fs.outputFile(
           routeFilePath,
           JSON.stringify({ routes: routesInfo }, null, 2),

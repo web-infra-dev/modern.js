@@ -5,7 +5,11 @@ export const PluginInlineChunk = (): BuilderPlugin => ({
   name: 'builder-plugin-inline-chunk',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID, isServer }) => {
+      if (isServer) {
+        return;
+      }
+
       const { default: HtmlWebpackPlugin } = await import(
         'html-webpack-plugin'
       );

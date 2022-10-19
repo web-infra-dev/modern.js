@@ -4,10 +4,10 @@ export const PluginReact = (): BuilderPlugin => ({
   name: 'builder-plugin-react',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd }) => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd, isServer }) => {
       const config = api.getNormalizedConfig();
 
-      if (isProd || config.dev.hmr === false) {
+      if (isProd || isServer || config.dev.hmr === false) {
         return;
       }
 
