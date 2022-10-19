@@ -20,6 +20,20 @@ The entry object, corresponding to the `entry` option of `createBuilder` method.
 type BuilderEntry = Record<string, string | string[]>;
 ```
 
+### builder.context.target
+
+Build target type, corresponding to the `target` option of `createBuilder` method.
+
+- **Type**
+
+```ts
+type BuilderTarget = 'web' | 'node' | 'modern-web';
+
+type Context = {
+  target: BuilderTarget | BuilderTarget[];
+};
+```
+
 ### builder.context.rootPath
 
 The root path of current build, corresponding to the `cwd` option of `createBuilder` method.

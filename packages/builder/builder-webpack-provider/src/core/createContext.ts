@@ -26,7 +26,7 @@ export function createPrimaryContext(
   options: Required<CreateBuilderOptions>,
   userBuilderConfig: BuilderConfig,
 ): Context {
-  const { cwd, configPath, framework } = options;
+  const { cwd, target, configPath, framework } = options;
   const builderConfig = withDefaultConfig(userBuilderConfig);
   const hooks = initHooks();
   const rootPath = cwd;
@@ -40,6 +40,7 @@ export function createPrimaryContext(
   const context: Context = {
     hooks,
     entry: options.entry,
+    target,
     srcPath,
     rootPath,
     distPath,
