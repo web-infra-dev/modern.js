@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "rules": {
+    // http://eslint.org/docs/rules/
+    "no-unused-expressions": "warn",
+    "no-unused-labels": "warn",
+    "no-unused-vars": ["warn", { "vars": "local", "args": "none" }]
+  }
+}
