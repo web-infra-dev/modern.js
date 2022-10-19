@@ -31,12 +31,26 @@ export default (): CliPlugin => ({
         sourceDirs.push(sharedDir);
       }
 
+      const { server } = modernConfig;
+      const { alias, envVars, globalVars } = modernConfig.source;
+      const { babel } = modernConfig.tools;
+
       if (sourceDirs.length > 0) {
-        await compile(appDirectory, modernConfig, {
-          sourceDirs,
-          distDir,
-          tsconfigPath,
-        });
+        await compile(
+          appDirectory,
+          {
+            server,
+            alias,
+            envVars,
+            globalVars,
+            babelConfig: babel,
+          },
+          {
+            sourceDirs,
+            distDir,
+            tsconfigPath,
+          },
+        );
       }
     },
   }),
