@@ -55,9 +55,7 @@ export default (): CliPlugin => ({
             'devtools',
           ];
 
-          return internalPlugins.filter(
-            name => (stateConfig as any)[name] !== false,
-          );
+          return internalPlugins.filter(name => stateConfig[name] !== false);
         };
 
         if (stateConfig) {
@@ -125,7 +123,7 @@ export default (): CliPlugin => ({
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as state } from '@modern-js/runtime/runtime-state'`,
+          `export { default as state } from '@modern-js/runtime/model'`,
         );
       },
     };
