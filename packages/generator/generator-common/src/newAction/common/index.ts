@@ -29,7 +29,7 @@ export enum ActionFunction {
 }
 
 export enum ActionRefactor {
-  BFFToApp = 'bff_to_app',
+  ReactRouter5 = 'react_router_5',
 }
 
 export const ActionTypeText: Record<ActionType, () => string> = {
@@ -65,8 +65,8 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
 };
 
 export const ActionRefactorText: Record<ActionRefactor, () => string> = {
-  [ActionRefactor.BFFToApp]: () =>
-    i18n.t(localeKeys.action.refactor.bff_to_app),
+  [ActionRefactor.ReactRouter5]: () =>
+    i18n.t(localeKeys.action.refactor.react_router_5),
 };
 
 export const ActionTypeTextMap: Record<

@@ -98,7 +98,7 @@ const getTplInfo = (clientRoute: ClientRoute, isTs: boolean) => {
   } else if (clientRoute === ClientRoute.SelfControlRoute) {
     return {
       name: 'router',
-      space: '      ',
+      space: '  ',
       fileExtra,
       entry: `App.${fileExtra}`,
       css: 'App.css',
