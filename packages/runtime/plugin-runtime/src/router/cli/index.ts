@@ -115,7 +115,7 @@ export default (): CliPlugin => ({
         const userConfig = api.useResolvedConfigContext();
         const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
         pluginsExportsUtils.addExport(
-          `export { default as router } from '@modern-js/runtime/runtime-router'`,
+          `export { default as router } from '@modern-js/runtime/router'`,
         );
         if (!isLegacy) {
           routerExportsUtils.addExport(

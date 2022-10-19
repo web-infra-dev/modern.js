@@ -16,7 +16,7 @@ declare module '../core' {
   }
 }
 
-const ssr = (_config: SSRPluginConfig): Plugin => ({
+export const ssr = (_: SSRPluginConfig): Plugin => ({
   name: '@modern-js/plugin-ssr',
   setup: () => {
     const mockResp = mockResponse();
