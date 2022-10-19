@@ -1,11 +1,11 @@
-const moduleNotFound = require('../../../src/transformers/moduleNotFound');
 const expect = require('expect');
+const moduleNotFound = require('../../../src/transformers/moduleNotFound');
 
 const error = {
   name: 'ModuleNotFoundError',
   message: 'Module not found : redux',
   webpackError: {
-    dependencies: [{ request: 'redux' } ],
+    dependencies: [{ request: 'redux' }],
   },
 };
 
@@ -23,11 +23,13 @@ it('Sets the appropiate message', () => {
 });
 
 it('Sets the appropiate type', () => {
-  expect(moduleNotFound({
-    name: 'ModuleNotFoundError',
-    message: 'Module not found',
-    webpackError: error.webpackError,
-  }).type).toEqual('module-not-found');
+  expect(
+    moduleNotFound({
+      name: 'ModuleNotFoundError',
+      message: 'Module not found',
+      webpackError: error.webpackError,
+    }).type,
+  ).toEqual('module-not-found');
 });
 
 it('Ignores other errors', () => {

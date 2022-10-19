@@ -1,8 +1,8 @@
-const defaultError = require('../../../src/formatters/defaultError');
 const expect = require('expect');
 const stripAnsi = require('strip-ansi');
+const defaultError = require('../../../src/formatters/defaultError');
 
-const noColor = (arr) => arr.map(stripAnsi);
+const noColor = arr => arr.map(stripAnsi);
 const error = { message: 'Error message', file: './src/index.js' };
 
 it('Formats errors with no type', () => {
