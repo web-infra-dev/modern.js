@@ -60,7 +60,7 @@ export default (): CliPlugin => ({
         const { packageName, entrypoints } = api.useAppContext();
 
         pluginsExportsUtils.addExport(
-          `export { default as ssr } from '@modern-js/runtime/runtime-ssr'`,
+          `export { default as ssr } from '@modern-js/runtime/ssr'`,
         );
 
         // if use ssg then set ssr config to true

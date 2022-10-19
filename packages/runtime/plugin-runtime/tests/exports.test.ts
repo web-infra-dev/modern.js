@@ -4,10 +4,10 @@
 import * as PluginRuntime from '../src';
 import head from '../src/exports/head';
 import loadable from '../src/exports/loadable';
-import * as model from '../src/exports/model';
-import * as router from '../src/exports/router';
+import * as model from '../src/state';
+import * as router from '../src/router';
 import * as bff from '../src/exports/server';
-import * as ssr from '../src/exports/ssr';
+import * as ssr from '../src/ssr';
 import * as styled from '../src/exports/styled';
 
 describe('imported packages in plugin runtime', () => {
