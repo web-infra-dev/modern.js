@@ -20,6 +20,8 @@ export function createPluginStore(): PluginStore {
         } else {
           plugins.splice(index, 0, newPlugin);
         }
+      } else {
+        plugins.push(newPlugin);
       }
     });
   };

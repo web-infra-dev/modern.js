@@ -6,8 +6,6 @@
 '@modern-js/bff-generator': patch
 '@modern-js/changeset-generator': patch
 '@modern-js/dependence-generator': patch
-'@modern-js/electron-generator': patch
-'@modern-js/electron-independence-generator': patch
 '@modern-js/entry-generator': patch
 '@modern-js/eslint-generator': patch
 '@modern-js/generator-generator': patch
