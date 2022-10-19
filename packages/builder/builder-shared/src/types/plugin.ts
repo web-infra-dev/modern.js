@@ -1,6 +1,6 @@
 export type PluginStore = {
   readonly plugins: BuilderPlugin[];
-  addPlugins: (plugins: BuilderPlugin[]) => void;
+  addPlugins: (plugins: BuilderPlugin[], options?: { before?: string }) => void;
   removePlugins: (pluginNames: string[]) => void;
   isPluginExists: (pluginName: string) => boolean;
 };

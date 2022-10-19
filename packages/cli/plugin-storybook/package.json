@@ -67,6 +67,7 @@
     "@modern-js/module-tools-v2": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-router-legacy": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@storybook/addons": "^6.3.7",
@@ -84,7 +85,13 @@
   },
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^1.20.1",
+    "@modern-js/plugin-router-legacy": "workspace:^1.20.1",
     "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/plugin-router-legacy": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "modernConfig": {},
