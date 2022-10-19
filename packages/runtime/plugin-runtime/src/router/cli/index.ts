@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   getEntryOptions,
   createRuntimeExportsUtils,
@@ -114,13 +115,12 @@ export default (): CliPlugin => ({
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();
         const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
+        const routerPath = path.resolve(__dirname, '../');
         pluginsExportsUtils.addExport(
-          `export { default as router } from '@modern-js/runtime/router'`,
+          `export { default as router } from '${routerPath}'`,
         );
         if (!isLegacy) {
-          routerExportsUtils.addExport(
-            `export * from '@modern-js/runtime/runtime-router'`,
-          );
+          routerExportsUtils.addExport(`export * from '${routerPath}'`);
         }
       },
     };
