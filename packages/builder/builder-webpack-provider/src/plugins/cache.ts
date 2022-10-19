@@ -7,10 +7,17 @@ export const PluginCache = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { target, env }) => {
+      const buildCacheOption = api.getNormalizedConfig().performance.buildCache;
+      if (buildCacheOption === false) {
+        chain.cache(false);
+        return;
+      }
+      const buildCacheConfig =
+        typeof buildCacheOption === 'boolean' ? {} : buildCacheOption;
       const { context } = api;
-      const buildCacheOptions = api.getBuilderConfig().performance?.buildCache;
+
       const cacheDirectory =
-        buildCacheOptions?.cacheDirectory || join(context.cachePath, 'webpack');
+        buildCacheConfig?.cacheDirectory || join(context.cachePath, 'webpack');
       const rootPackageJson = join(context.rootPath, 'package.json');
       const browserslistConfig = join(context.rootPath, '.browserslistrc');
 

@@ -3,4 +3,4 @@
 /// <reference types="@modern-js-reduck/plugin-effects" />
 /// <reference types="@modern-js-reduck/plugin-immutable" />
 
-export * from '../dist/types/exports/model';
+export * from '../dist/types/state';

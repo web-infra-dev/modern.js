@@ -83,18 +83,19 @@
     "@swc/jest": "^0.2.22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitest/ui": "^0.21.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "btsm": "2.2.2",
     "cypress": "^10.1.0",
     "enhanced-resolve": "^5.9.2",
     "esbuild": "^0.14.38",
+    "execa": "^5.1.1",
+    "globby": "^11.0.4",
     "husky": "^8.0.0",
     "jest": "^27.5.1",
-    "wireit": "^0.7.1",
-    "zx": "4.2.0",
     "vitest": "0.21.1",
-    "execa": "^5.1.1",
-    "globby": "^11.0.4"
+    "wireit": "^0.7.1",
+    "zx": "4.2.0"
   },
   "pnpm": {
     "overrides": {

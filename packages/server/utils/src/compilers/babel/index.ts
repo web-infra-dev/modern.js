@@ -6,8 +6,7 @@ import {
   applyUserBabelConfig,
 } from '@modern-js/babel-preset-lib';
 import { TransformOptions } from '@babel/core';
-import { fs, json5, getAlias, applyOptionsChain } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import { fs, json5, getAlias } from '@modern-js/utils';
 import { compiler } from '@modern-js/babel-compiler';
 import { CompileFunc, FILE_EXTENSIONS } from '../../common';
 
@@ -67,33 +66,18 @@ export interface IPackageModeValue {
 
 export const resolveBabelConfig = (
   appDirectory: string,
-  modernConfig: NormalizedConfig,
+  config: Parameters<CompileFunc>[1],
   option: IPackageModeValue,
   // FIXME: babel type can't pass type checking
 ): any => {
-  const {
-    source: {
-      envVars,
-      globalVars,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      jsxTransformRuntime = 'automatic',
-    },
-    tools: { lodash: userLodashOption },
-  } = modernConfig;
+  const { envVars, globalVars, alias, babelConfig } = config;
 
   // alias config
-  const aliasConfig = getAlias(modernConfig.source.alias, {
+  const aliasConfig = getAlias(alias, {
     appDirectory,
     ...option,
   });
 
-  // lodash config
-  const lodashOptions = applyOptionsChain(
-    { id: ['lodash', 'ramda'] },
-    // TODO: 需要处理类型问题
-    userLodashOption as any,
-  );
   // babel config
   const babelChain = getBabelChain(
     {
@@ -103,8 +87,6 @@ export const resolveBabelConfig = (
       alias: aliasConfig,
       envVars,
       globalVars,
-      lodashOptions,
-      jsxTransformRuntime,
     },
     {
       type: option.type,
@@ -145,20 +127,18 @@ export const resolveBabelConfig = (
 
   const internalBabelConfig = { ...babelChain.toJSON() };
 
-  const userBabelConfig = modernConfig.tools.babel;
-
-  return applyUserBabelConfig(internalBabelConfig, userBabelConfig);
+  return applyUserBabelConfig(internalBabelConfig, babelConfig);
 };
 
 export const compileByBabel: CompileFunc = async (
   appDirectory,
-  modernConfig,
+  config,
   compileOptions,
 ) => {
   const { sourceDirs, distDir, tsconfigPath } = compileOptions;
   const results = await Promise.all(
     sourceDirs.map(async sourceDir => {
-      const babelConfig = resolveBabelConfig(appDirectory, modernConfig, {
+      const babelConfig = resolveBabelConfig(appDirectory, config, {
         tsconfigPath: tsconfigPath ? tsconfigPath : '',
         syntax: 'es6+',
         type: 'commonjs',

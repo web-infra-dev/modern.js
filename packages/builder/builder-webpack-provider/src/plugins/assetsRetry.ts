@@ -5,8 +5,8 @@ export function PluginAssetsRetry(): BuilderPlugin {
     name: 'builder-plugin-assets-retry',
     setup(api) {
       api.modifyWebpackChain(async (chain, { CHAIN_ID, target }) => {
-        const config = api.getBuilderConfig();
-        if (!config.output?.assetsRetry || target === 'node') {
+        const config = api.getNormalizedConfig();
+        if (!config.output.assetsRetry || target === 'node') {
           return;
         }
         const { AssetsRetryPlugin } = await import(

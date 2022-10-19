@@ -18,12 +18,7 @@ Object {
     ],
     Array [
       "/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-      Object {
-        "id": Array [
-          "lodash",
-          "ramda",
-        ],
-      },
+      Object {},
     ],
     Array [
       "/@babel/plugin-proposal-decorators/lib/index.js",
@@ -66,12 +61,6 @@ Object {
       "/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
       Object {},
       "styled-components",
-    ],
-    Array [
-      "/babel-plugin-transform-inline-environment-variables/lib/index.js",
-      Object {
-        "include": Array [],
-      },
     ],
     Array [
       "/babel-plugin-module-resolver/lib/index.js",

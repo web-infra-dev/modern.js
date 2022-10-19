@@ -1,5 +1,32 @@
 // Vitest Snapshot v1
 
-exports[`plugins/tsChecker > should set tsChecker plugin 1`] = `{}`;
-
-exports[`plugins/tsChecker > should't set ts-checker 1`] = `{}`;
+exports[`plugins/tsChecker > should allow to modify the config of tsChecker plugin 1`] = `
+{
+  "plugins": [
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "async": false,
+        "issue": {
+          "exclude": [
+            {
+              "file": "**/*.(spec|test).ts",
+            },
+            {
+              "file": "**/node_modules/**/*",
+            },
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "configFile": "/path/tsconfig.json",
+          "memoryLimit": 8192,
+          "typescriptPath": "<ROOT>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
+  ],
+}
+`;

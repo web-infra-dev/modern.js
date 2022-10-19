@@ -13,12 +13,12 @@ export const PluginInlineChunk = (): BuilderPlugin => ({
         '../webpackPlugins/InlineChunkHtmlPlugin'
       );
 
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
       const {
         disableInlineRuntimeChunk,
         enableInlineStyles,
         enableInlineScripts,
-      } = config.output || {};
+      } = config.output;
 
       chain.plugin(CHAIN_ID.PLUGIN.INLINE_HTML).use(InlineChunkHtmlPlugin, [
         HtmlWebpackPlugin,

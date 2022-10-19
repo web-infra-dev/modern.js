@@ -1,17 +1,17 @@
+import {
+  CssExtractOptions,
+  MiniCSSExtractPluginOptions,
+} from '../types/thirdParty/css';
 import { DEFAULT_PORT, type BuilderContext } from '@modern-js/builder-shared';
 import { getDistPath, getFilename } from '../shared';
-import type {
-  BuilderConfig,
-  BuilderPlugin,
-  MiniCSSExtractPluginOptions,
-} from '../types';
+import type { BuilderPlugin, NormalizedConfig } from '../types';
 
 function getPublicPath({
   config,
   isProd,
   context,
 }: {
-  config: BuilderConfig;
+  config: NormalizedConfig;
   isProd: boolean;
   context: BuilderContext;
 }) {
@@ -20,12 +20,12 @@ function getPublicPath({
   let publicPath = '/';
 
   if (isProd) {
-    if (output?.assetPrefix) {
+    if (output.assetPrefix) {
       publicPath = output.assetPrefix;
     }
-  } else if (typeof dev?.assetPrefix === 'string') {
+  } else if (typeof dev.assetPrefix === 'string') {
     publicPath = dev.assetPrefix;
-  } else if (dev?.assetPrefix === true) {
+  } else if (dev.assetPrefix === true) {
     const hostname = context.devServer?.hostname || 'localhost';
     const port = context.devServer?.port || DEFAULT_PORT;
     publicPath = `//${hostname}:${port}/`;
@@ -43,7 +43,7 @@ export const PluginOutput = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd, isServer, CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
       const jsPath = getDistPath(config, 'js');
       const cssPath = getDistPath(config, 'css');
 
@@ -52,7 +52,6 @@ export const PluginOutput = (): BuilderPlugin => ({
         isProd,
         context: api.context,
       });
-      const enableExtractCSS = !config.tools?.styleLoader;
 
       // js output
       const jsFilename = getFilename(config, 'js', isProd);
@@ -70,6 +69,10 @@ export const PluginOutput = (): BuilderPlugin => ({
         .hashFunction('xxhash64');
 
       // css output
+      const enableExtractCSS =
+        config.tools.cssExtract !== false &&
+        !config.tools.styleLoader &&
+        !isServer;
       if (enableExtractCSS) {
         const { default: MiniCssExtractPlugin } = await import(
           'mini-css-extract-plugin'
@@ -78,7 +81,10 @@ export const PluginOutput = (): BuilderPlugin => ({
         const extractPluginOptions = applyOptionsChain<
           MiniCSSExtractPluginOptions,
           null
-        >({}, config.tools?.cssExtract?.pluginOptions || {});
+        >(
+          {},
+          (config.tools.cssExtract as CssExtractOptions)?.pluginOptions || {},
+        );
 
         const cssFilename = getFilename(config, 'css', isProd);
 
@@ -94,12 +100,10 @@ export const PluginOutput = (): BuilderPlugin => ({
           ]);
       }
 
-      // ssr output
+      // server output
       if (isServer) {
-        const { SERVER_BUNDLE_DIRECTORY } = await import(
-          '@modern-js/utils/constants'
-        );
-        const filename = `${SERVER_BUNDLE_DIRECTORY}/[name].js`;
+        const serverPath = getDistPath(config, 'server');
+        const filename = `${serverPath}/[name].js`;
 
         chain.output
           .filename(filename)
