@@ -44,6 +44,9 @@
       ".": [
         "./dist/types/runtime/index.d.ts"
       ],
+      "types": [
+        "./types/index.d.ts"
+      ],
       "cli": [
         "./dist/types/cli/index.d.ts"
       ],
