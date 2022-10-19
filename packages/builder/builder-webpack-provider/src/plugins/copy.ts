@@ -5,8 +5,8 @@ export const PluginCopy = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
-      const { copy } = config.output || {};
+      const config = api.getNormalizedConfig();
+      const { copy } = config.output;
 
       if (!copy) {
         return;

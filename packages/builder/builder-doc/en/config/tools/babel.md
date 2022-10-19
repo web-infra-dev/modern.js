@@ -55,7 +55,7 @@ When `tools.babel` is of type Function, the tool functions available for the sec
 
 #### addPlugins
 
-Add Babel plugin. For exapmle:
+Add Babel plugin. For example:
 
 ```js
 export default {

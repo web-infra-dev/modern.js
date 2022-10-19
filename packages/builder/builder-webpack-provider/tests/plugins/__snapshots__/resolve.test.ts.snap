@@ -19,9 +19,9 @@ exports[`plugins/resolve > should disable resolve.fullySpecified by default 1`] 
   },
   "resolve": {
     "extensions": [
-      ".mjs",
       ".js",
       ".jsx",
+      ".mjs",
       ".json",
     ],
   },

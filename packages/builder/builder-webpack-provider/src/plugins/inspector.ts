@@ -8,8 +8,8 @@ export const PluginInspector = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
-      if (!config.tools?.inspector) {
+      const config = api.getNormalizedConfig();
+      if (!config.tools.inspector) {
         return;
       }
       const { applyOptionsChain } = await import('@modern-js/utils');
@@ -18,7 +18,7 @@ export const PluginInspector = (): BuilderPlugin => ({
           port: 3333,
           ignorePattern: /node_modules/,
         },
-        config.tools?.inspector,
+        config.tools.inspector,
       );
       // `@modern-js/inspector-webpack-plugin` has been prebundled.
       const { InspectorWebpackPlugin } = await import(

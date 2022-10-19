@@ -7,6 +7,7 @@ export const DEFAULT_BROWSERSLIST = ['> 0.01%', 'not dead', 'not op_mini all'];
 // Paths
 export const ROOT_DIST_DIR = 'dist';
 export const HTML_DIST_DIR = 'html';
+export const SERVER_DIST_DIR = 'bundles';
 export const JS_DIST_DIR = 'static/js';
 export const CSS_DIST_DIR = 'static/css';
 export const SVG_DIST_DIR = 'static/svg';

@@ -262,7 +262,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  await appApi.runInstall();
+  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   generator.logger.debug(`forge @modern-js/bff-generator succeed `);
 };

@@ -87,4 +87,56 @@ describe('plugins/css', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should not apply mini-css-extract-plugin when target is node', async () => {
+    const builder = await createStubBuilder({
+      target: ['node'],
+      plugins: [PluginCss()],
+      builderConfig: {},
+    });
+
+    const includeMiniCssExtractLoader = await builder.matchWebpackLoader(
+      'mini-css-extract-plugin',
+      'index.css',
+    );
+
+    expect(includeMiniCssExtractLoader).toBe(false);
+  });
+
+  it('should not apply style-loader when target is node', async () => {
+    const builder = await createStubBuilder({
+      target: ['node'],
+      plugins: [PluginCss()],
+      builderConfig: {
+        tools: {
+          styleLoader: {},
+        },
+      },
+    });
+
+    const includeStyleLoader = await builder.matchWebpackLoader(
+      'style-loader',
+      'index.css',
+    );
+
+    expect(includeStyleLoader).toBe(false);
+  });
+
+  it('should allow to disable extract css plugin', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginCss()],
+      builderConfig: {
+        tools: {
+          cssExtract: false,
+        },
+      },
+    });
+
+    const includeMiniCssExtractLoader = await builder.matchWebpackLoader(
+      'mini-css-extract-plugin',
+      'index.css',
+    );
+
+    expect(includeMiniCssExtractLoader).toBe(false);
+  });
 });

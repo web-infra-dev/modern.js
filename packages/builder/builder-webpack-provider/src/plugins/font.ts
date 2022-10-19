@@ -8,7 +8,7 @@ export const PluginFont = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain((chain, { isProd, CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
       const regExp = getRegExpForExts(FONT_EXTENSIONS);
       const distDir = getDistPath(config, 'font');
       const filename = getFilename(config, 'font', isProd);

@@ -10,6 +10,7 @@ type DistPathConfig = {
   html?: string;
   image?: string;
   media?: string;
+  server?: string;
 };
 ```
 
@@ -25,6 +26,7 @@ const defaultDistPath = {
   font: 'static/font',
   image: 'static/image',
   media: 'static/media',
+  server: 'bundles',
 };
 ```
 
@@ -40,6 +42,7 @@ Detail:
 - `font`: The output directory of font files.
 - `image`: The output directory of non-SVG images.
 - `media`: The output directory of media resources, such as videos.
+- `server`: The output directory of server bundles when target is `node`.
 
 #### Example
 

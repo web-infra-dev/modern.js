@@ -1,21 +1,25 @@
 import { JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 import type { RuleSetRule } from 'webpack';
+import assert from 'assert';
 
 export const PluginFallback = (): BuilderPlugin => ({
   name: 'builder-plugin-fallback',
 
   setup(api) {
-    api.modifyWebpackConfig(config => {
-      const builderConfig = api.getBuilderConfig();
-      if (builderConfig.output?.enableAssetFallback !== true) {
+    api.modifyWebpackConfig(({ module }) => {
+      assert(typeof module === 'object', 'module is not an object');
+      const { rules } = module;
+      assert(Array.isArray(rules), 'module.rules is required');
+      const builderConfig = api.getNormalizedConfig();
+      if (builderConfig.output.enableAssetFallback !== true) {
         return;
       }
 
       const innerRules: Array<RuleSetRule> = [];
       const outerRules: Array<RuleSetRule | '...'> = [];
 
-      for (const rule of config.module!.rules!) {
+      for (const rule of rules) {
         // "..." refers to the webpack defaults
         if (rule === '...' || rule.resolve) {
           outerRules.push(rule);
@@ -40,12 +44,7 @@ export const PluginFallback = (): BuilderPlugin => ({
         type: 'asset/resource',
       };
 
-      config.module!.rules = [
-        ...outerRules,
-        {
-          oneOf: [...innerRules, fileLoader],
-        },
-      ];
+      module.rules = [...outerRules, { oneOf: [...innerRules, fileLoader] }];
     });
   },
 });

@@ -7,8 +7,8 @@ import {
   Adapter,
   WebAdapter,
   APIServerStartInput,
+  ServerOptions,
 } from '@modern-js/server-core';
-import type { NormalizedConfig } from '@modern-js/core';
 import type { ModernServerContext } from '@modern-js/types';
 import type { ContextOptions } from '../libs/context';
 import {
@@ -74,7 +74,7 @@ export class ModernServer implements ModernServerInterface {
 
   protected router!: RouteMatchManager;
 
-  protected conf: NormalizedConfig;
+  protected conf: ServerOptions;
 
   protected handlers: ModernServerAsyncHandler[] = [];
 

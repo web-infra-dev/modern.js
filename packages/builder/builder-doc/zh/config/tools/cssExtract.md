@@ -1,4 +1,4 @@
-- Type: `Object | Function`
+- Type: `false | Object | Function`
 - Default
 
 ```js
@@ -49,3 +49,15 @@ export default {
 ```
 
 更多配置细节可参考 [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)。
+
+### Boolean 类型
+
+将 `tools.cssExtract` 配置为 `false`，可以禁用默认的 `mini-css-extract-plugin` 插件。
+
+```js
+export default {
+  tools: {
+    cssExtract: false,
+  },
+}
+```

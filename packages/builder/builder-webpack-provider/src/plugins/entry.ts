@@ -1,26 +1,18 @@
 import type { BuilderPlugin } from '../types';
+import _ from '@modern-js/utils/lodash';
 
 export const PluginEntry = (): BuilderPlugin => ({
   name: 'builder-plugin-entry',
 
   setup(api) {
     api.modifyWebpackChain(async chain => {
-      const { ensureArray } = await import('@modern-js/utils');
-
       const { entry } = api.context;
-      const config = api.getBuilderConfig();
-
-      const { preEntry } = config.source || {};
-      const preEntries = preEntry ? ensureArray(preEntry) : [];
+      const { preEntry } = api.getNormalizedConfig().source;
 
       Object.keys(entry).forEach(entryName => {
-        preEntries.forEach(entry => {
-          chain.entry(entryName).add(entry);
-        });
-
-        ensureArray(entry[entryName]).forEach(item => {
-          chain.entry(entryName).add(item);
-        });
+        const appendEntry = (file: string) => chain.entry(entryName).add(file);
+        preEntry.forEach(appendEntry);
+        _.castArray(entry[entryName]).forEach(appendEntry);
       });
     });
   },

@@ -12,6 +12,23 @@ describe('plugins/output', () => {
     expect(config).toMatchSnapshot();
   });
 
+  it('should allow to custom server directory with distPath.server', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginOutput()],
+      target: ['node'],
+      builderConfig: {
+        output: {
+          distPath: {
+            server: 'server',
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
+
   it('should allow to use filename.js to modify filename', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginOutput()],

@@ -1,9 +1,8 @@
 import { Buffer } from 'buffer';
 import { IncomingMessage, Server, ServerResponse } from 'http';
 import { Readable } from 'stream';
-import { serverManager } from '@modern-js/server-core';
+import { serverManager, ServerOptions } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/server-core';
-import type { NormalizedConfig } from '@modern-js/core';
 import type {
   Metrics,
   Logger,
@@ -22,7 +21,7 @@ declare module 'http' {
 type Plugin = string | [string, any] | ServerPlugin;
 export type ModernServerOptions = {
   pwd: string;
-  config: NormalizedConfig;
+  config: ServerOptions;
   plugins?: Plugin[];
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;
@@ -50,8 +49,8 @@ export type RenderResult = {
 export type ConfWithBFF = {
   bff?: {
     prefix: string;
-  };
-} & NormalizedConfig;
+  } & ServerOptions['bff'];
+};
 
 export type Then<T> = T extends PromiseLike<infer U> ? U : T;
 

@@ -112,7 +112,7 @@ This is an easier way than configuring Webpack's splitChunks directly.
 
 ### chunkSplit.splitChunks
 
-When `performance.chunkSplit.strategy` is `custom`, you can specify the custom Webpack chunk splitting config via `performance.chunkSplit.splitChunks`. This config will be merged with the Webpack splitChunks config (the `cacheGroups` config will also be merged). For example:
+When `performance.chunkSplit.strategy` is `custom`, you can specify the custom webpack chunk splitting config via `performance.chunkSplit.splitChunks`. This config will be merged with the webpack splitChunks config (the `cacheGroups` config will also be merged). For example:
 
 ```js
 export default {
@@ -135,7 +135,7 @@ export default {
 
 ### chunkSplit.override
 
-When `performance.chunkSplit.strategy` is `split-by-experience`, `split-by-module`, `split-by-size` or `single-vendor`, you can specify the custom Webpack chunk splitting config via `performance.chunkSplit.override`. This config will be merged with the Webpack splitChunks config (the `cacheGroups` config will also be merged). For example:
+When `performance.chunkSplit.strategy` is `split-by-experience`, `split-by-module`, `split-by-size` or `single-vendor`, you can specify the custom webpack chunk splitting config via `performance.chunkSplit.override`. This config will be merged with the webpack splitChunks config (the `cacheGroups` config will also be merged). For example:
 
 ```js
 export default {

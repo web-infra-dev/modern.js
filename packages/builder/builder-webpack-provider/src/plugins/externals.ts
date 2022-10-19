@@ -5,7 +5,7 @@ export function PluginExternals(): BuilderPlugin {
     name: 'builder-plugin-externals',
     setup(api) {
       api.modifyWebpackChain(chain => {
-        const externalOptions = api.getBuilderConfig().output?.externals;
+        const externalOptions = api.getNormalizedConfig().output.externals;
         externalOptions && chain.externals(externalOptions);
       });
     },

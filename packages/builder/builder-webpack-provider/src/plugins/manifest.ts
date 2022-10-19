@@ -5,9 +5,9 @@ export const PluginManifest = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      const config = api.getBuilderConfig();
+      const config = api.getNormalizedConfig();
 
-      if (!config.output?.enableAssetManifest) {
+      if (!config.output.enableAssetManifest) {
         return;
       }
 

@@ -12,7 +12,9 @@ export type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
   printURLs?: boolean;
   strictPort?: boolean;
-  serverOptions?: Partial<ModernDevServerOptions>;
+  serverOptions?: Partial<Omit<ModernDevServerOptions, 'config'>> & {
+    config?: Partial<ModernDevServerOptions['config']>;
+  };
 };
 
 export type BuildOptions = {
@@ -56,6 +58,6 @@ export type ProviderInstance = {
   build: (options?: BuildOptions) => Promise<void>;
 
   inspectConfig: (
-    options: InspectConfigOptions,
+    options?: InspectConfigOptions,
   ) => Promise<{ builderConfig: string; bundlerConfigs: string[] }>;
 };
