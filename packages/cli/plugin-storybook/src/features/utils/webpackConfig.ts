@@ -215,7 +215,7 @@ export const getCustomWebpackConfigHandle: any = ({
     chain.merge({
       resolve: sbWebpackConfig.resolve,
     });
-    const config = chain.toConfig();
+    const config = webpackConfig.applyToolsWebpack(chain);
     resolveStorybookWebPackConfig(sbWebpackConfig, config, { appDirectory });
     return sbWebpackConfig;
   };
