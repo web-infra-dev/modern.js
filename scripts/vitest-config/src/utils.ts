@@ -85,6 +85,7 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
     ...options.replace,
     pnpmInnerPathMatcher,
     { match: os.homedir(), mark: 'home' },
+    { match: fs.realpathSync(os.tmpdir()), mark: 'temp' },
     { match: os.tmpdir(), mark: 'temp' },
   ];
   try {
