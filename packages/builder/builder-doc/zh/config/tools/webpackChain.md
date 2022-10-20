@@ -188,7 +188,7 @@ builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 ```js
 export default {
   tools: {
-    webpackChain: chain => {
+    webpackChain: (chain, { CHAIN_ID }) => {
       // 新增 loader
       chain.module
         .rule('md')
@@ -215,7 +215,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpackChain: chain => {
+    webpackChain: (chain, { webpack, CHAIN_ID }) => {
       // 新增插件
       chain.plugin('define').use(webpack.DefinePlugin, [
         {
