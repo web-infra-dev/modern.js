@@ -14,6 +14,7 @@ import {
   removeLeadingSlash,
 } from '@modern-js/utils';
 import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import type { Options as BabelPrestAppOptions } from '@modern-js/babel-preset-app';
@@ -355,6 +356,7 @@ class BaseWebpackConfig {
           env: process.env.NODE_ENV!,
           name: chain.get('name'),
           webpack,
+          HtmlWebpackPlugin,
           ...getWebpackUtils(chainConfig),
         },
         webpackMerge,
@@ -411,6 +413,7 @@ class BaseWebpackConfig {
           name: this.chain.get('name'),
           webpack,
           CHAIN_ID,
+          HtmlWebpackPlugin,
         });
       });
     }
