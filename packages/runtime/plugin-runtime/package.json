@@ -58,6 +58,11 @@
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
+    },
+    "./runtime-router": {
+      "jsnext:source": "./src/router/index.ts",
+      "node": "./dist/js/node/router/index",
+      "default": "./dist/js/treeshaking/router/index.js"
     }
   },
   "typesVersions": {
@@ -85,6 +90,9 @@
       ],
       "model": [
         "./types/model.d.ts"
+      ],
+      "runtime-router": [
+        "./dist/types/router/index.d.ts"
       ]
     }
   },
