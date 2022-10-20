@@ -128,7 +128,7 @@ export async function applyBaseCSSRule(
         localIdentName: isProd
           ? '[hash:base64]'
           : '[path][name]__[local]--[hash:base64:5]',
-        exportOnlyLocals: isServer,
+        exportOnlyLocals: isServer || isWebWorker,
       },
       sourceMap: enableSourceMap,
     },
