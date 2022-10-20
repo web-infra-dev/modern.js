@@ -131,5 +131,12 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "workbench.colorCustomizations": {
+    "editor.lineHighlightBackground": "#1073cf2d",
+    "editor.lineHighlightBorder": "#9fced11f",
+    "activityBar.background": "#5D0A26",
+    "titleBar.activeBackground": "#820F36",
+    "titleBar.activeForeground": "#FFFCFD"
   }
 }
