@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, normalizeToPosixPath } from '@modern-js/utils';
 import type { NestedRoute } from '@modern-js/types';
 import { JS_EXTENSIONS } from './constants';
 import { replaceWithAlias } from './utils';
@@ -17,7 +17,9 @@ const getPathWithoutExt = (filename: string) => {
 };
 
 const getRouteId = (componentPath: string, routesDir: string) => {
-  const relativePath = path.relative(routesDir, componentPath);
+  const relativePath = normalizeToPosixPath(
+    path.relative(routesDir, componentPath),
+  );
   const id = getPathWithoutExt(relativePath);
   return id;
 };
@@ -142,7 +144,7 @@ export const walk = async (
   );
 
   /**
-   * when url is /, the __auth/layout.tsx component should not be rendered
+   * when the url is /, the __auth/layout.tsx component should not be rendered
    * - routes
    *  - __auth
    *    - layout.tsx
