@@ -44,9 +44,6 @@
     "./webpack/lib/ModuleFilenameHelpers.js": {
       "default": "./dist/exports/ModuleFileNameHelpers.js"
     },
-    "./compiled/*": {
-      "default": "./compiled/*"
-    },
     "./package.json": {
       "default": "./package.json"
     }
@@ -64,9 +61,6 @@
       ],
       "plugins/*": [
         "./dist/plugins/*.d.ts"
-      ],
-      "compiled/*": [
-        "./compiled/*"
       ]
     }
   },
