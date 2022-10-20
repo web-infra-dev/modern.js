@@ -96,12 +96,13 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     options,
   ) as Required<StubBuilderOptions>;
   // apply webpack option.
-  if (options?.webpack) {
+  const config = builderOptions.builderConfig;
+  if (options?.webpack && !_.get(config, 'output.distPath.root')) {
     const distPath =
       typeof options.webpack === 'string'
         ? options.webpack
         : getTemplatePath('modern-js/stub-builder/dist');
-    _.set(builderOptions.builderConfig, 'output.distPath', distPath);
+    _.set(config, 'output.distPath.root', distPath);
   }
   // init context.
   const context = createStubContext(builderOptions);
