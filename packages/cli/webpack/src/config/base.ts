@@ -334,6 +334,10 @@ class BaseWebpackConfig {
 
   config() {
     const chain = this.getChain();
+    return this.applyToolsWebpack(chain);
+  }
+
+  applyToolsWebpack(chain: WebpackChain) {
     const chainConfig = chain.toConfig();
 
     let finalConfig = chainConfig;
