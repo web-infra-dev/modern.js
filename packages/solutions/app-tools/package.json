@@ -78,6 +78,8 @@
     "@modern-js/webpack": "workspace:*",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-plugin-node-polyfill": "workspace:*",
+    "@modern-js/builder-plugin-esbuild": "workspace:*",
     "@babel/parser": "^7.18.0",
     "@babel/traverse": "^7.18.0",
     "@babel/types": "^7.18.0"
