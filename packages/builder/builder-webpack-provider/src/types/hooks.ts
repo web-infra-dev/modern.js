@@ -10,6 +10,7 @@ export type ModifyWebpackUtils = {
   target: BuilderTarget;
   webpack: typeof import('webpack');
   isServer: boolean;
+  isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
   getCompiledPath: (name: string) => string;
 };

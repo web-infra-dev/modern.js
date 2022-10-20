@@ -1,5 +1,5 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import type { CrossOrigin } from '../types';
+import type { CrossOrigin } from '@modern-js/builder-shared';
 import type { Compiler, WebpackPluginInstance } from 'webpack';
 
 type CrossOriginOptions = {

@@ -1,8 +1,8 @@
-import { AssetsRetryOptions } from '../types';
-import type { WebpackPluginInstance, Compiler } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import fs from 'fs/promises';
 import { getCompiledPath } from '../shared/fs';
+import type { WebpackPluginInstance, Compiler } from 'webpack';
+import type { AssetsRetryOptions } from '@modern-js/builder-shared';
 
 export class AssetsRetryPlugin implements WebpackPluginInstance {
   readonly name: string;
