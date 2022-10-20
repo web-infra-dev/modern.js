@@ -15,7 +15,7 @@ import type {
   TransformOptions,
   WebpackConfigUtils,
 } from '@modern-js/core';
-import { applyOptionsChain } from '@modern-js/utils';
+import { applyOptionsChain, ensureArray } from '@modern-js/utils';
 
 export function createToolsConfig(
   normalizedConfig: NormalizedConfig,
@@ -64,7 +64,13 @@ export function createToolsConfig(
   const builderTsLoader = createBuilderTsLoader(tsLoader, enableTsLoader);
 
   return {
-    tsChecker: disableTsChecker ? false : undefined,
+    tsChecker: disableTsChecker
+      ? false
+      : {
+          issue: {
+            include: [{ file: '**/src/**/*' }],
+          },
+        },
     styleLoader: disableCssExtract ? {} : undefined,
     autoprefixer,
     babel: builderBabel,
@@ -86,8 +92,6 @@ function createBuilderWebpack(webpack: NormalizedConfig['tools']['webpack']) {
   // FIXME: fix any types
   return webpack
     ? (config: WebpackConfig, utils: ModifyWebpackUtils) => {
-        const ensureArray = <T>(params: T | T[]): T[] =>
-          Array.isArray(params) ? params : [params];
         const addRules = (
           rules: webpack.RuleSetRule | webpack.RuleSetRule[],
         ) => {

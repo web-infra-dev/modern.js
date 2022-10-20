@@ -1,10 +1,14 @@
-import { BuilderTarget, createBuilder } from '@modern-js/builder';
+import {
+  BuilderTarget,
+  createBuilder,
+  CreateBuilderOptions,
+} from '@modern-js/builder';
 import {
   BuilderConfig,
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { applyOptionsChain } from '@modern-js/utils';
+import { applyOptionsChain, ensureArray } from '@modern-js/utils';
 import { createHtmlConfig } from './createHtmlConfig';
 import { createOutputConfig } from './createOutputConfig';
 import { createSourceConfig } from './createSourceConfig';
@@ -34,10 +38,11 @@ export default async ({
   );
   const provider = builderWebpackProvider({ builderConfig });
 
-  const builderOptions = {
-    targets,
-    configPath: '',
-  };
+  const builderOptions = createBuilderOptions(
+    target,
+    normalizedConfig,
+    appContext,
+  );
   const builder = await createBuilder(provider, builderOptions);
 
   if (!normalizedConfig.output.disableNodePolyfill) {
@@ -76,5 +81,43 @@ function createBuilderProviderConfig(
     html,
     output,
     tools,
+  };
+}
+
+function createBuilderOptions(
+  target: BuilderTarget | BuilderTarget[],
+  normalizedConfig: NormalizedConfig,
+  appContext: IAppContext,
+): CreateBuilderOptions {
+  const builderEntry: {
+    [entryName: string]: string[];
+  } = {};
+  const { entrypoints = [], checkedEntries } = appContext;
+  const { preEntry } = normalizedConfig.source;
+  const preEntries = preEntry ? ensureArray(preEntry) : [];
+  for (const { entryName, entry } of entrypoints) {
+    if (checkedEntries && !checkedEntries.includes(entryName)) {
+      continue;
+    }
+
+    preEntries.forEach(entry => {
+      if (entryName in builderEntry) {
+        builderEntry[entryName].push(entry);
+      } else {
+        builderEntry[entryName] = [entry];
+      }
+    });
+
+    if (entryName in builderEntry) {
+      builderEntry[entryName].push(entry);
+    } else {
+      builderEntry[entryName] = [entry];
+    }
+  }
+
+  return {
+    target,
+    configPath: '',
+    entry: builderEntry,
   };
 }

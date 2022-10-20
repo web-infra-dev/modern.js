@@ -1,4 +1,5 @@
 import { BuilderTarget } from '@modern-js/builder';
+import type webpack from '@modern-js/builder-webpack-provider/webpack';
 import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 import {
   chalk,
@@ -6,7 +7,6 @@ import {
   formatWebpackMessages,
   clearConsole,
 } from '@modern-js/utils';
-import {} from '@modern-js/builder-webpack-provider';
 import type { AppHooks } from '../hooks';
 import { printInstructions } from './printInstructions';
 import createBuilder from './createBuilder';
@@ -24,7 +24,9 @@ export const createDevCompiler = async ({
   appContext,
 }: {
   api: PluginAPI<AppHooks>;
-} & CreateCompilerOptions) => {
+} & CreateCompilerOptions): Promise<
+  webpack.Compiler | webpack.MultiCompiler
+> => {
   try {
     const hookRunners = api.useHookRunners();
 
@@ -84,7 +86,9 @@ export const createBuildCompiler = async ({
   target,
   appContext,
   userConfig,
-}: CreateCompilerOptions) => {
+}: CreateCompilerOptions): Promise<
+  webpack.Compiler | webpack.MultiCompiler
+> => {
   const builder = await createBuilder({
     target,
     normalizedConfig: userConfig,

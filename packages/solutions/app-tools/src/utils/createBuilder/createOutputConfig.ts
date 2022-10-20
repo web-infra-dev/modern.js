@@ -38,7 +38,12 @@ export function createOutputConfig(
       font: mediaPath,
       media: mediaPath,
     },
-    dataUriLimit,
+    dataUriLimit: {
+      svg: dataUriLimit,
+      image: dataUriLimit,
+      font: dataUriLimit,
+      media: dataUriLimit,
+    },
     disableInlineRuntimeChunk,
     disableMinimize,
     disableSourceMap,
