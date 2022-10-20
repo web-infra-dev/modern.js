@@ -1,7 +1,7 @@
 import path from 'path';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { getBundleEntry } from '../../src/analyze/getBundleEntry';
-import { getClientRoutes } from '../../src/analyze/getClientRoutes';
+import { getClientRoutes } from '../../src/analyze/getClientRoutesLegacy';
 
 const prepareEnv = (fixturePath: string) => {
   const appContext = {

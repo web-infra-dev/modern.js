@@ -1,5 +1,11 @@
 import type { RuntimePlugin } from '@modern-js/core';
-import type { Entrypoint, Route } from '@modern-js/types';
+import type {
+  Entrypoint,
+  NestedRoute,
+  PageRoute,
+  Route,
+  RouteLegacy,
+} from '@modern-js/types';
 
 export const index = ({
   mountId,
@@ -97,19 +103,52 @@ export const html = (partials: {
 </html>
 `;
 
-export const fileSystemRoutes = ({ routes }: { routes: Route[] }) => `
-import loadable from '@modern-js/runtime/loadable';
+const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
+  let children: Route['children'];
+  if ('children' in route && route.children) {
+    children = route?.children?.map(traverseRouteTree);
+  }
+  const finalRoute = {
+    ...route,
+    children,
+  };
+  if (route._component) {
+    const component = `loadable(() => import('${route._component}'))`;
+    finalRoute.component = component;
+  }
+  return finalRoute;
+};
 
-${routes
-  .map(
-    ({ component, _component }) =>
-      `const ${component} = loadable(() => import('${_component}'));`,
-  )
-  .join('\n\n')}
+export const fileSystemRoutes = ({
+  routes,
+}: {
+  routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
+}) => {
+  const importLoadableCode = `import loadable from '@modern-js/runtime/loadable'`;
 
+  let routeComponentsCode = `
+    export const routes = [
+  `;
+  for (const route of routes) {
+    if ('type' in route) {
+      const newRoute = traverseRouteTree(route);
+      routeComponentsCode += `${JSON.stringify(newRoute, null, 2)
+        .replace(/"(loadable[^"]*)"/g, '$1')
+        .replace(/"(_loaders[^"]*)"/g, '$1')},`;
+    } else {
+      const finalRoute = {
+        ...route,
+        component: `loadable(() => import('${route._component}'))`,
+      };
 
-export const routes = ${JSON.stringify(routes, null, 2).replace(
-  /"component"\s*:\s*"(\S+)"/g,
-  '"component": $1',
-)}
-`;
+      routeComponentsCode += `${JSON.stringify(finalRoute, null, 2)
+        .replace(/"(loadable[^"]*)"/g, '$1')
+        .replace(/"(_loaders[^"]*)"/g, '$1')},`;
+    }
+  }
+  routeComponentsCode += `\n];`;
+  return `
+    ${importLoadableCode}
+    ${routeComponentsCode}
+  `;
+};

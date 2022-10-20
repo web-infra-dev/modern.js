@@ -7,10 +7,12 @@ import type {
   ImportStatement,
 } from '@modern-js/core';
 import type {
-  Route,
+  RouteLegacy,
   Entrypoint,
   ServerRoute,
   HtmlPartials,
+  NestedRoute,
+  PageRoute,
 } from '@modern-js/types';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { isRouteComponentFile } from './utils';
@@ -42,7 +44,7 @@ export const modifyAsyncEntry = createAsyncWaterfall<{
 
 export const modifyFileSystemRoutes = createAsyncWaterfall<{
   entrypoint: Entrypoint;
-  routes: Route[];
+  routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
 }>();
 
 export const modifyServerRoutes = createAsyncWaterfall<{
@@ -148,7 +150,15 @@ export default (): CliPlugin => ({
           serverRoutes: routes,
         });
 
-        pagesDir = entrypoints.map(point => point.entry);
+        const nestedRouteEntrys = entrypoints
+          .map(point => point.nestedRoutesEntry)
+          .filter(Boolean) as string[];
+
+        pagesDir = entrypoints
+          .map(point => point.entry)
+          .filter(Boolean)
+          .concat(nestedRouteEntrys);
+
         originEntrypoints = cloneDeep(entrypoints);
 
         await generateCode(appContext, resolvedConfig, entrypoints, api);
@@ -182,7 +192,6 @@ export default (): CliPlugin => ({
         const appContext = api.useAppContext();
         const { appDirectory } = appContext;
         const { filename, eventType } = e;
-
         const isPageFile = (name: string) =>
           pagesDir.some(pageDir => name.includes(pageDir));
 

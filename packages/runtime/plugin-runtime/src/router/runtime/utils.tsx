@@ -1,62 +1,83 @@
 import React from 'react';
-import { Routes, Route, matchPath } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import type { NestedRoute, PageRoute } from '@modern-js/types';
 import { RouterConfig } from './plugin';
 import { DefaultNotFound } from './DefaultNotFound';
 
-export function renderRoutes(
-  routesConfig: RouterConfig['routesConfig'],
-  pathname: string,
-  extraProps: any = {},
-) {
-  const findMatchedRoute = (pathname: string) =>
-    routesConfig?.routes?.find(route => {
-      const info = matchPath(
-        {
-          path: route.path as string,
-          caseSensitive: route.caseSensitive,
-        },
-        pathname,
-      );
-
-      return Boolean(info);
-    });
-
-  const matchedRoute = findMatchedRoute(pathname);
-
-  if (!matchedRoute) {
-    return <DefaultNotFound />;
+const renderNestedRoute = (nestedRoute: NestedRoute) => {
+  const { children, index, id, component: Component } = nestedRoute;
+  const childComponents = children?.map(childRoute => {
+    return renderNestedRoute(childRoute);
+  });
+  const routeProps: Record<string, unknown> = {
+    caseSensitive: nestedRoute.caseSensitive,
+    path: nestedRoute.path,
+    id: nestedRoute.id,
+    loader: nestedRoute.loader,
+    action: nestedRoute.action,
+    hasErrorBoundary: nestedRoute.hasErrorBoundary,
+    shouldRevalidate: nestedRoute.shouldRevalidate,
+    handle: nestedRoute.handle,
+    index: nestedRoute.index,
+    errorElement: nestedRoute.errorElement,
+  };
+  if (Component) {
+    routeProps.element = <Component />;
   }
-
-  // legacy '/apple' -> 'apple'
-  const path = matchedRoute.path?.startsWith('/')
-    ? matchedRoute.path.substring(1)
-    : matchedRoute.path;
-
-  const GlobalLayout = routesConfig?.globalApp;
-  const Component = matchedRoute.component ?? React.Fragment;
-
-  const MatchedRouter = (
-    <Route
-      path={path}
-      caseSensitive={matchedRoute.caseSensitive}
-      element={<Component {...extraProps} />}
-    />
+  const routeComponent = index ? (
+    <Route key={id} {...routeProps} index={true} />
+  ) : (
+    <Route key={id} {...routeProps} index={false}>
+      {childComponents}
+    </Route>
   );
+  return routeComponent;
+};
 
-  if (GlobalLayout) {
-    return (
-      <Routes>
+export function getRouteComponents(
+  routes: (NestedRoute | PageRoute)[],
+  globalApp?: React.ComponentType<any>,
+) {
+  const Layout = ({ Component, ...props }: any) => {
+    const GlobalLayout = globalApp;
+    if (!GlobalLayout) {
+      return <Component {...props} />;
+    }
+
+    return <GlobalLayout Component={Component} {...props} />;
+  };
+  const routeComponents: React.ReactElement[] = [];
+  for (const route of routes) {
+    if (route.type === 'nested') {
+      const routeComponent = renderNestedRoute(route);
+      routeComponents.push(routeComponent);
+    } else {
+      const routeComponent = (
         <Route
-          path="/*"
-          element={<GlobalLayout Component={Component} {...extraProps} />}
-        >
-          {MatchedRouter}
-        </Route>
-      </Routes>
-    );
+          key={route.path}
+          path={route.path}
+          element={<Layout Component={route.component} />}
+        />
+      );
+      routeComponents.push(routeComponent);
+    }
   }
+  routeComponents.push(
+    <Route key="*" path="*" element={<DefaultNotFound />} />,
+  );
+  return routeComponents;
+}
 
-  return <Routes>{MatchedRouter}</Routes>;
+export function renderRoutes(routesConfig: RouterConfig['routesConfig']) {
+  if (!routesConfig) {
+    return null;
+  }
+  const { routes, globalApp } = routesConfig;
+  if (!routes) {
+    return null;
+  }
+  const routeComponents = getRouteComponents(routes, globalApp);
+  return <Routes>{routeComponents}</Routes>;
 }
 
 export function getLocation(serverContext: any): string {
