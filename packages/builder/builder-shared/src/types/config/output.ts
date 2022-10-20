@@ -26,6 +26,24 @@ export type DataUriLimit = {
   media?: number;
 };
 
+export type AssetsRetryHookContext = {
+  url: string;
+  times: number;
+  domain: string;
+  tagName: string;
+};
+
+export type AssetsRetryOptions = {
+  max?: number;
+  type?: string[];
+  test?: string | ((url: string) => boolean);
+  domain?: string[];
+  crossOrigin?: boolean;
+  onFail?: (options: AssetsRetryHookContext) => void;
+  onRetry?: (options: AssetsRetryHookContext) => void;
+  onSuccess?: (options: AssetsRetryHookContext) => void;
+};
+
 export type Charset = 'ascii' | 'utf8';
 
 export type SvgDefaultExport = 'component' | 'url';
@@ -63,6 +81,7 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   filename: FilenameConfig;
   distPath: DistPathConfig;
   polyfill: Polyfill;
+  assetsRetry?: AssetsRetryOptions;
   dataUriLimit: NormalizedDataUriLimit;
   cleanDistPath: boolean;
   disableMinimize: boolean;

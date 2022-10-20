@@ -4,24 +4,6 @@ import type {
 } from '@modern-js/builder-shared';
 import type { CopyPluginOptions, WebpackConfig } from '../thirdParty';
 
-export type AssetsRetryHookContext = {
-  url: string;
-  times: number;
-  domain: string;
-  tagName: string;
-};
-
-export type AssetsRetryOptions = {
-  max?: number;
-  type?: string[];
-  test?: string | ((url: string) => boolean);
-  domain?: string[];
-  crossOrigin?: boolean;
-  onFail?: (options: AssetsRetryHookContext) => void;
-  onRetry?: (options: AssetsRetryHookContext) => void;
-  onSuccess?: (options: AssetsRetryHookContext) => void;
-};
-
 /**
  * postcss-pxtorem options
  * https://github.com/cuth/postcss-pxtorem#options
@@ -60,7 +42,6 @@ export type ExternalsOptions = WebpackConfig['externals'];
 
 export type OutputConfig = SharedOutputConfig & {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
-  assetsRetry?: AssetsRetryOptions;
   convertToRem?: boolean | RemOptions;
   externals?: ExternalsOptions;
 };
