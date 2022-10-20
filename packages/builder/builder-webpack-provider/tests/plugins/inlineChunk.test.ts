@@ -81,4 +81,18 @@ describe('plugins/inlineChunk', () => {
       await builder.matchWebpackPlugin('InlineChunkHtmlPlugin'),
     ).toBeFalsy();
   });
+
+  it('should not apply InlineChunkHtmlPlugin when target is web-worker', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      entry: {
+        main: './src/main.ts',
+      },
+      target: 'web-worker',
+    });
+
+    expect(
+      await builder.matchWebpackPlugin('InlineChunkHtmlPlugin'),
+    ).toBeFalsy();
+  });
 });

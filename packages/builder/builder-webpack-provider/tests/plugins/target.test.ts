@@ -25,6 +25,11 @@ describe('plugins/target', () => {
       browserslist: null,
       expected: { target: ['web', 'es5'] },
     },
+    {
+      target: 'web-worker',
+      browserslist: null,
+      expected: { target: ['webworker', 'es5'] },
+    },
   ];
 
   it.each(cases)('%j', async item => {

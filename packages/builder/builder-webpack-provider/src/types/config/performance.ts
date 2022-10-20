@@ -1,7 +1,6 @@
+import type { SharedPerformanceConfig } from '@modern-js/builder-shared';
 import type { BundleAnalyzerPlugin } from '../../../compiled/webpack-bundle-analyzer';
 import type webpack from 'webpack';
-
-export type ConsoleType = 'log' | 'info' | 'warn' | 'error' | 'table' | 'group';
 
 export type SplitChunks = webpack.Configuration extends {
   optimization?: {
@@ -49,26 +48,12 @@ export interface SplitCustom {
 
 export type BuilderChunkSplit = BaseChunkSplit | SplitBySize | SplitCustom;
 
-// may extends cache options in the futures
-export type BuildCacheOptions = {
-  /**
-   * the webpack file cache direactory (defaults to .node_modules/.cache/webpack).
-   */
-  cacheDirectory?: string;
-};
-
-export interface PerformanceConfig {
-  removeConsole?: boolean | ConsoleType[];
-  removeMomentLocale?: boolean;
+export interface PerformanceConfig extends SharedPerformanceConfig {
   bundleAnalyze?: BundleAnalyzerPlugin.Options;
   chunkSplit?: BuilderChunkSplit;
-  buildCache?: BuildCacheOptions | boolean;
-  profile?: boolean;
 }
 
-export interface NormalizedPerformanceConfig extends PerformanceConfig {
-  removeConsole: boolean | ConsoleType[];
-  removeMomentLocale: boolean;
-  chunkSplit: BuilderChunkSplit;
-  profile: boolean;
-}
+export type NormalizedPerformanceConfig = PerformanceConfig &
+  Required<SharedPerformanceConfig> & {
+    chunkSplit: BuilderChunkSplit;
+  };

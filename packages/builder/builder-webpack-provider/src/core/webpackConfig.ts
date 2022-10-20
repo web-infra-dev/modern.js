@@ -75,6 +75,7 @@ export async function generateWebpackConfig({
     webpack,
     isProd: nodeEnv === 'production',
     isServer: target === 'node',
+    isWebWorker: target === 'web-worker',
     CHAIN_ID,
     getCompiledPath,
   };

@@ -17,7 +17,7 @@ export const PluginCache = (): BuilderPlugin => ({
       const { context } = api;
 
       const cacheDirectory =
-        buildCacheConfig?.cacheDirectory || join(context.cachePath, 'webpack');
+        buildCacheConfig.cacheDirectory || join(context.cachePath, 'webpack');
       const rootPackageJson = join(context.rootPath, 'package.json');
       const browserslistConfig = join(context.rootPath, '.browserslistrc');
 

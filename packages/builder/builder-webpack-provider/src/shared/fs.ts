@@ -1,9 +1,6 @@
 import { join } from 'path';
-import type {
-  DistPathConfig,
-  FilenameConfig,
-  NormalizedConfig,
-} from '../types';
+import type { DistPathConfig, FilenameConfig } from '@modern-js/builder-shared';
+import type { NormalizedConfig } from '../types';
 
 export const getCompiledPath = (packageName: string) =>
   join(__dirname, '../../compiled', packageName);

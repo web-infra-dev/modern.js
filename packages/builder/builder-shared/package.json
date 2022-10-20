@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@modern-js/server": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
