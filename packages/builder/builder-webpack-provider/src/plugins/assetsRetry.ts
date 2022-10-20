@@ -1,4 +1,5 @@
 import { BuilderPlugin } from '../types';
+import { isHtmlDisabled } from './html';
 
 export function PluginAssetsRetry(): BuilderPlugin {
   return {
@@ -6,9 +7,11 @@ export function PluginAssetsRetry(): BuilderPlugin {
     setup(api) {
       api.modifyWebpackChain(async (chain, { CHAIN_ID, target }) => {
         const config = api.getNormalizedConfig();
-        if (!config.output.assetsRetry || target === 'node') {
+
+        if (!config.output.assetsRetry || isHtmlDisabled(config, target)) {
           return;
         }
+
         const { AssetsRetryPlugin } = await import(
           '../webpackPlugins/AssetsRetryPlugin'
         );

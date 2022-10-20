@@ -54,4 +54,13 @@ describe('plugins/react', () => {
 
     expect(await builder.matchWebpackPlugin('ReactRefreshPlugin')).toBeFalsy();
   });
+
+  it('should not apply react refresh when target is web-worker', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginReact()],
+      target: 'web-worker',
+    });
+
+    expect(await builder.matchWebpackPlugin('ReactRefreshPlugin')).toBeFalsy();
+  });
 });

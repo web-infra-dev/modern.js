@@ -1,20 +1,27 @@
-import type { BuilderPlugin } from '../types';
+import type {
+  BuilderPlugin,
+  NormalizedConfig,
+  ModifyWebpackUtils,
+} from '../types';
+
+export const isUsingHMR = (
+  config: NormalizedConfig,
+  { isProd, target }: ModifyWebpackUtils,
+) => !isProd && target !== 'node' && target !== 'web-worker' && config.dev.hmr;
 
 export const PluginHMR = (): BuilderPlugin => ({
   name: 'builder-plugin-hmr',
 
   setup(api) {
-    api.modifyWebpackChain((chain, { isProd, isServer, CHAIN_ID, webpack }) => {
-      if (isProd || isServer) {
-        return;
-      }
+    api.modifyWebpackChain((chain, utils) => {
       const config = api.getNormalizedConfig();
 
-      if (config.dev.hmr) {
-        chain
-          .plugin(CHAIN_ID.PLUGIN.HMR)
-          .use(webpack.HotModuleReplacementPlugin);
+      if (!isUsingHMR(config, utils)) {
+        return;
       }
+
+      const { webpack, CHAIN_ID } = utils;
+      chain.plugin(CHAIN_ID.PLUGIN.HMR).use(webpack.HotModuleReplacementPlugin);
     });
   },
 });
