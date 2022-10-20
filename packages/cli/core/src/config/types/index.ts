@@ -229,6 +229,7 @@ export type WebpackConfigUtils = {
   env: string;
   name: string;
   webpack: typeof webpack;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
   addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
   prependPlugins: (
     plugins: WebpackPluginInstance | WebpackPluginInstance[],
@@ -255,6 +256,7 @@ export type WebpackChainConfigUtils = {
   name: string;
   webpack: typeof webpack;
   CHAIN_ID: ChainIdentifier;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
 };
 
 export type WebpackChainConfig = (
