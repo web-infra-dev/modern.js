@@ -1,4 +1,4 @@
-import { Routes, Route } from '@modern-js/runtime/router';
+import { Routes, Route } from '@modern-js/runtime/runtime-router';
 
 import './App.css';
 

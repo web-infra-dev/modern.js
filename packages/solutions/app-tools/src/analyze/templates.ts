@@ -103,28 +103,46 @@ export const html = (partials: {
 </html>
 `;
 
-const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
-  let children: Route['children'];
-  if ('children' in route && route.children) {
-    children = route?.children?.map(traverseRouteTree);
-  }
-  const finalRoute = {
-    ...route,
-    children,
-  };
-  if (route._component) {
-    const component = `loadable(() => import('${route._component}'))`;
-    finalRoute.component = component;
-  }
-  return finalRoute;
-};
-
 export const fileSystemRoutes = ({
   routes,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
 }) => {
   const importLoadableCode = `import loadable from '@modern-js/runtime/loadable'`;
+  const loadings: string[] = [];
+  const errors: string[] = [];
+
+  const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
+    let children: Route['children'];
+    if ('children' in route && route.children) {
+      children = route?.children?.map(traverseRouteTree);
+    }
+    let loading: string | undefined;
+    let error: string | undefined;
+
+    if (route.type === 'nested') {
+      if (route.loading) {
+        loadings.push(route.loading);
+        loading = `loading_${loadings.length - 1}`;
+      }
+      if (route.error) {
+        errors.push(route.error);
+        error = `error_${errors.length - 1}`;
+      }
+    }
+
+    const finalRoute = {
+      ...route,
+      loading,
+      error,
+      children,
+    };
+    if (route._component) {
+      const component = `loadable(() => import('${route._component}'))`;
+      finalRoute.component = component;
+    }
+    return finalRoute;
+  };
 
   let routeComponentsCode = `
     export const routes = [
@@ -134,21 +152,38 @@ export const fileSystemRoutes = ({
       const newRoute = traverseRouteTree(route);
       routeComponentsCode += `${JSON.stringify(newRoute, null, 2)
         .replace(/"(loadable[^"]*)"/g, '$1')
-        .replace(/"(_loaders[^"]*)"/g, '$1')},`;
+        .replace(/"(loading_[^"])"/g, '$1')
+        .replace(/"(error_[^"])"/g, '$1')},`;
     } else {
       const finalRoute = {
         ...route,
         component: `loadable(() => import('${route._component}'))`,
       };
 
-      routeComponentsCode += `${JSON.stringify(finalRoute, null, 2)
-        .replace(/"(loadable[^"]*)"/g, '$1')
-        .replace(/"(_loaders[^"]*)"/g, '$1')},`;
+      routeComponentsCode += `${JSON.stringify(finalRoute, null, 2).replace(
+        /"(loadable[^"]*)"/g,
+        '$1',
+      )},`;
     }
   }
   routeComponentsCode += `\n];`;
+
+  const importLoadingCode = loadings
+    .map((loading, index) => {
+      return `import loading_${index} from '${loading}';\n`;
+    })
+    .join('');
+
+  const importErrorComponentsCode = errors
+    .map((error, index) => {
+      return `import error_${index} from '${error}';\n`;
+    })
+    .join('');
+
   return `
     ${importLoadableCode}
+    ${importLoadingCode}
+    ${importErrorComponentsCode}
     ${routeComponentsCode}
   `;
 };

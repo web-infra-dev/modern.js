@@ -8,8 +8,24 @@ Object {
       "_component": "@_modern_js_src/__auth/layout.tsx",
       "children": Array [
         Object {
-          "children": Array [],
-          "id": "__auth/__yy/layout",
+          "_component": "@_modern_js_src/__auth/__shop/layout.tsx",
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "_component": "@_modern_js_src/__auth/__shop/item/page.tsx",
+                  "children": undefined,
+                  "id": "__auth/__shop/item/page",
+                  "index": true,
+                  "type": "nested",
+                },
+              ],
+              "id": "__auth/__shop/item/layout",
+              "path": "item",
+              "type": "nested",
+            },
+          ],
+          "id": "__auth/__shop/layout",
           "type": "nested",
         },
         Object {

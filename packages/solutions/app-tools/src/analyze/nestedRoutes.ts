@@ -125,6 +125,14 @@ export const walk = async (
       );
       route.children?.push(childRoute);
     }
+
+    if (itemWithoutExt === LOADING_FILE) {
+      route.loading = replaceWithAlias(alias.basename, itemPath, alias.name);
+    }
+
+    if (itemWithoutExt === ERROR_FILE) {
+      route.error = replaceWithAlias(alias.basename, itemPath, alias.name);
+    }
   }
 
   const finalRoute = createRoute(

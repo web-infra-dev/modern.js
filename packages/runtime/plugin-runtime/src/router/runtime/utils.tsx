@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import { RouterConfig } from './plugin';
 import { DefaultNotFound } from './DefaultNotFound';
 
-const renderNestedRoute = (nestedRoute: NestedRoute) => {
+const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   const { children, index, id, component: Component } = nestedRoute;
   const childComponents = children?.map(childRoute => {
-    return renderNestedRoute(childRoute);
+    return renderNestedRoute(childRoute, nestedRoute);
   });
+
   const routeProps: Record<string, unknown> = {
     caseSensitive: nestedRoute.caseSensitive,
     path: nestedRoute.path,
@@ -21,9 +22,27 @@ const renderNestedRoute = (nestedRoute: NestedRoute) => {
     index: nestedRoute.index,
     errorElement: nestedRoute.errorElement,
   };
-  if (Component) {
-    routeProps.element = <Component />;
+
+  // TODO: 将代码改造为 createRouter，与 loader 一起实现
+  if (nestedRoute.error) {
+    const errorElement = <nestedRoute.error />;
+    routeProps.errorElement = errorElement;
   }
+
+  if (Component) {
+    if (parent?.loading) {
+      const Loading = parent.loading;
+      // TODO: 支持 streaming ssr 时，修改生成的 loadable 为 react.lazy
+      routeProps.element = (
+        <Suspense fallback={<Loading />}>
+          <Component />
+        </Suspense>
+      );
+    } else {
+      routeProps.element = <Component />;
+    }
+  }
+
   const routeComponent = index ? (
     <Route key={id} {...routeProps} index={true} />
   ) : (
@@ -31,6 +50,7 @@ const renderNestedRoute = (nestedRoute: NestedRoute) => {
       {childComponents}
     </Route>
   );
+
   return routeComponent;
 };
 

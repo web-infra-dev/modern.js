@@ -55,6 +55,8 @@ export type NestedRoute = Merge<
     filename?: string;
     _component?: string;
     component?: string;
+    loading?: string;
+    error?: string;
   }
 >;
 

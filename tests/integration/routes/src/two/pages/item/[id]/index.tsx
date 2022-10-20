@@ -1,4 +1,4 @@
-import { useParams } from '@modern-js/runtime/router';
+import { useParams } from '@modern-js/runtime/runtime-router';
 
 const Item = () => {
   const params = useParams();
