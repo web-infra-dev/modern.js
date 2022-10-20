@@ -1,4 +1,4 @@
-import type { DevServerOptions } from '@modern-js/types';
+import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
 import type {
   MetaOptions,
   ChainIdentifier,
@@ -184,7 +184,7 @@ export type DevProxyOptions = string | Record<string, string>;
 
 export interface DevConfig {
   assetPrefix?: string | boolean;
-  https?: boolean;
+  https?: DevServerHttpsOptions;
 
   /**
    * The configuration of `dev.proxy` is provided by `proxy` plugin.
