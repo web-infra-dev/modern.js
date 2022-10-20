@@ -2956,7 +2956,6 @@ importers:
 
   packages/toolkit/e2e:
     specifiers:
-      '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/utils': workspace:*
       '@playwright/test': ^1.25.1
       '@scripts/vitest-config': workspace:*
@@ -2978,7 +2977,6 @@ importers:
       playwright: 1.25.1
       serve-static: 1.15.0
     devDependencies:
-      '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/connect': 3.4.35
       '@types/got': 9.6.12
