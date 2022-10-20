@@ -1,6 +1,6 @@
 import path from 'path';
-import type { ChainedConfig } from '@modern-js/builder-shared';
-import type { BuilderPlugin, ModuleScopes } from '../types';
+import type { ChainedConfig, ModuleScopes } from '@modern-js/builder-shared';
+import type { BuilderPlugin } from '../types';
 
 export const isPrimitiveScope = (
   items: unknown[],

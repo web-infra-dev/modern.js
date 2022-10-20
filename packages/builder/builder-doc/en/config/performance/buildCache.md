@@ -15,7 +15,7 @@ type BuildCacheConfig =
 
 ```js
 const defaultBuildCacheConfig = {
-  cacheDirectory: './node_modules/.cache/webapck',
+  cacheDirectory: './node_modules/.cache/webpack',
 };
 ```
 

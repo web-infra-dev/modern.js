@@ -13,6 +13,7 @@ import type { NormalizedSecurityConfig, SecurityConfig } from './security';
 import type { NormalizedSourceConfig, SourceConfig } from './source';
 import type { NormalizedToolsConfig, ToolsConfig } from './tools';
 
+/** The Builder Config when using webpack provider */
 export interface BuilderConfig {
   dev?: DevConfig;
   html?: HtmlConfig;
@@ -24,7 +25,7 @@ export interface BuilderConfig {
   experiments?: ExperimentsConfig;
 }
 
-export interface NormalizedConfig extends Required<BuilderConfig> {
+export interface NormalizedConfig {
   dev: NormalizedDevConfig;
   html: NormalizedHtmlConfig;
   tools: NormalizedToolsConfig;
