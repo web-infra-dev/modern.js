@@ -3,10 +3,10 @@ import { expect, it } from 'vitest';
 import { useFixture } from '../src';
 
 it('fixture', async () => {
-  const options = await useFixture('./fixtures/basic'); // also can be `@modern-js/e2e/fixtures/basic`
+  const options = await useFixture('./fixtures/basic'); // also can be `@modern-js/e2e/fixtures/basic`.
   const builder = await createStubBuilder({
     ...options,
-    plugins: 'minimal',
+    plugins: 'minimal', // no need to set in e2e environment.
   });
   const files = await builder.unwrapOutputJSON();
   expect(Object.keys(files)).toMatchInlineSnapshot(`
