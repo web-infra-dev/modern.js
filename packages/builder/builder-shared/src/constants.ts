@@ -2,9 +2,11 @@
 export const DEFAULT_PORT = 8080;
 export const DEFAULT_DATA_URL_SIZE = 10000;
 export const DEFAULT_MOUNT_ID = 'root';
+
 export const DEFAULT_BROWSERSLIST = {
   web: ['> 0.01%', 'not dead', 'not op_mini all'],
   node: ['node >= 12'],
+  'web-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
   'modern-web': [
     'chrome > 61',
     'edge > 16',

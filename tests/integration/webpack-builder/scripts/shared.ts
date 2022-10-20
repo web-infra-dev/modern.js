@@ -18,7 +18,7 @@ export const createBuilder = async () => {
     entry: {
       main: join(process.cwd(), 'src', 'index.ts'),
     },
-    target: ['node'],
+    target: ['web'],
     configPath: __filename,
   });
 

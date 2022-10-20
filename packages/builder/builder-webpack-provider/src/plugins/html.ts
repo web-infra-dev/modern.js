@@ -1,5 +1,9 @@
 import path from 'path';
-import { isFileExists, DEFAULT_MOUNT_ID } from '@modern-js/builder-shared';
+import {
+  isFileExists,
+  DEFAULT_MOUNT_ID,
+  type BuilderTarget,
+} from '@modern-js/builder-shared';
 import { getDistPath } from '../shared';
 import type {
   BuilderPlugin,
@@ -133,17 +137,25 @@ async function getChunks(
   return [...dependOn, entryName];
 }
 
+export const isHtmlDisabled = (
+  config: NormalizedConfig,
+  target: BuilderTarget,
+) =>
+  config.tools.htmlPlugin === false ||
+  target === 'node' ||
+  target === 'web-worker';
+
 export const PluginHtml = (): BuilderPlugin => ({
   name: 'builder-plugin-html',
 
   setup(api) {
     const routesInfo: RoutesInfo[] = [];
 
-    api.modifyWebpackChain(async (chain, { isProd, isServer, CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID, target }) => {
       const config = api.getNormalizedConfig();
 
       // if html is disabled or target is server, skip html plugin
-      if (config.tools.htmlPlugin === false || isServer) {
+      if (isHtmlDisabled(config, target)) {
         return;
       }
 
