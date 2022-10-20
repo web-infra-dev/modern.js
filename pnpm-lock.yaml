@@ -90,6 +90,7 @@ importers:
     specifiers:
       '@babel/core': 7.18.0
       '@modern-js/server': workspace:*
+      '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.1.19
@@ -99,6 +100,7 @@ importers:
       webpack: ^5.74.0
     dependencies:
       '@modern-js/server': link:../../server/server
+      '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@babel/core': 7.18.0
@@ -12293,8 +12295,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -28422,7 +28426,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
