@@ -1,59 +1,17 @@
 import path from 'path';
-import {
-  fs,
-  createDebugger,
-  findExists,
-  normalizeToPosixPath,
-} from '@modern-js/utils';
-import type { Entrypoint, Route } from '@modern-js/types';
-import { makeLegalIdentifier } from './makeLegalIdentifier';
+import { fs } from '@modern-js/utils';
+import type { Entrypoint, RouteLegacy } from '@modern-js/types';
+import { makeLegalIdentifier } from '../makeLegalIdentifier';
 import {
   FILE_SYSTEM_ROUTES_COMPONENTS_DIR,
   FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP,
-  FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
-  FILE_SYSTEM_ROUTES_IGNORED_REGEX,
   FILE_SYSTEM_ROUTES_INDEX,
   FILE_SYSTEM_ROUTES_LAYOUT,
-  JS_EXTENSIONS,
-} from './constants';
+} from '../constants';
+import { replaceWithAlias } from '../utils';
+import { debug, findLayout, shouldSkip, getRouteWeight } from './utils';
 
-export type { Route };
-
-const debug = createDebugger('get-client-routes');
-
-export interface Identifier {
-  name: string;
-  path: string;
-}
-
-const findLayout = (dir: string) =>
-  findExists(
-    JS_EXTENSIONS.map(ext =>
-      path.resolve(dir, `${FILE_SYSTEM_ROUTES_LAYOUT}${ext}`),
-    ),
-  );
-
-const shouldSkip = (file: string): boolean => {
-  // should not skip directory.
-  if (fs.statSync(file).isDirectory()) {
-    return false;
-  }
-
-  const ext = path.extname(file);
-
-  if (
-    FILE_SYSTEM_ROUTES_IGNORED_REGEX.test(file) ||
-    !JS_EXTENSIONS.includes(ext) ||
-    FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT === path.basename(file, ext)
-  ) {
-    return true;
-  }
-
-  return false;
-};
-
-const replaceWithAlias = (base: string, filePath: string, alias: string) =>
-  normalizeToPosixPath(path.join(alias, path.relative(base, filePath)));
+export type { RouteLegacy as Route };
 
 const compName = (srcDirectory: string, filePath: string) => {
   const legalCompName = makeLegalIdentifier(
@@ -68,10 +26,10 @@ const layoutNameAbbr = (filePath: string) => {
   return `${prefix}${makeLegalIdentifier(dirName)}`;
 };
 
-const parents: Route[] = [];
+const parents: RouteLegacy[] = [];
 
 /* eslint-disable no-param-reassign */
-const recursiveReadDir = ({
+const recursiveReadDirLegacy = ({
   dir,
   routes,
   basePath = '/',
@@ -79,7 +37,7 @@ const recursiveReadDir = ({
   srcAlias,
 }: {
   dir: string;
-  routes: Route[];
+  routes: RouteLegacy[];
   basePath: string;
   srcDirectory: string;
   srcAlias: string;
@@ -96,7 +54,7 @@ const recursiveReadDir = ({
     } else {
       const alias = replaceWithAlias(srcDirectory, layout, srcAlias);
       const componentName = compName(srcDirectory, layout);
-      const route: Route = {
+      const route: RouteLegacy = {
         path: `${basePath.substring(0, basePath.length - 1)}`,
         exact: false,
         routes: [],
@@ -108,7 +66,7 @@ const recursiveReadDir = ({
       resetParent = true;
       routes.push(route);
       parents.push(route);
-      routes = route.routes as Route[];
+      routes = route.routes as RouteLegacy[];
     }
   }
 
@@ -132,7 +90,7 @@ const recursiveReadDir = ({
         }
       }
 
-      const route: Route = {
+      const route: RouteLegacy = {
         path: `${basePath}${
           dynamicRouteMatched
             ? `:${dynamicRouteMatched[1]}${dynamicRouteMatched[2]}`
@@ -145,7 +103,7 @@ const recursiveReadDir = ({
       };
 
       if (fs.statSync(filePath).isDirectory()) {
-        recursiveReadDir({
+        recursiveReadDirLegacy({
           dir: filePath,
           routes,
           basePath: `${route.path}/`,
@@ -182,19 +140,19 @@ const recursiveReadDir = ({
 /* eslint-enable  no-param-reassign */
 
 const normalizeNestedRoutes = (
-  nested: Route[],
+  nested: RouteLegacy[],
   internalComponentsDir: string,
   internalDirectory: string,
   internalDirAlias: string,
 ) => {
-  const flat = (routes: Route[]): Route[] =>
-    routes.reduce<Route[]>(
+  const flat = (routes: RouteLegacy[]): RouteLegacy[] =>
+    routes.reduce<RouteLegacy[]>(
       (memo, route) =>
         memo.concat(Array.isArray(route.routes) ? flat(route.routes) : [route]),
       [],
     );
 
-  const generate = (route: Route) => {
+  const generate = (route: RouteLegacy) => {
     const codes = [];
 
     let lastComponent = route.component;
@@ -242,9 +200,6 @@ const normalizeNestedRoutes = (
   return normalized;
 };
 
-const getRouteWeight = (route: string) =>
-  route === '*' ? 999 : route.split(':').length - 1;
-
 export const getClientRoutes = ({
   entrypoint,
   srcDirectory,
@@ -272,9 +227,9 @@ export const getClientRoutes = ({
     );
   }
 
-  let routes: Route[] = [];
+  let routes: RouteLegacy[] = [];
 
-  recursiveReadDir({
+  recursiveReadDirLegacy({
     dir: entry,
     routes,
     basePath: '/',
