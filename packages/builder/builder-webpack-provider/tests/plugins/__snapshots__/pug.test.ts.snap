@@ -8,7 +8,7 @@ exports[`plugins/pug > should add pug rules correctly when tools.pug is used 1`]
         "test": /\\\\\\.pug\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/webpackLoaders/pugLoader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/src/webpackLoaders/pugLoader",
             "options": {
               "pretty": true,
             },
