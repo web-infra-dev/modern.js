@@ -1,6 +1,7 @@
 import fs, { PathLike } from 'fs';
 import type { GlobbyOptions } from '@modern-js/utils';
 import type webpack from 'webpack';
+import path from 'path';
 
 export interface GlobContentJSONOptions extends GlobbyOptions {
   maxSize?: number;
@@ -27,7 +28,7 @@ export const globContentJSON = async (
 };
 
 export const filenameToGlobExpr = (file: PathLike) =>
-  fs.statSync(file).isDirectory() ? `${file}/**/*` : file;
+  fs.statSync(file).isDirectory() ? `${file}${path.sep}**${path.sep}*` : file;
 
 /**
  * Check if a file handled by specific loader.
