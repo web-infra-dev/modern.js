@@ -1,9 +1,9 @@
-import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
 import { expect, it } from 'vitest';
-import { useFixture } from '../src';
+import { useFixture } from '@modern-js/e2e';
+import { createStubBuilder } from '../../src/stub';
 
 it('fixture', async () => {
-  const options = await useFixture('./fixtures/basic'); // also can be `@modern-js/e2e/fixtures/basic`.
+  const options = await useFixture('@modern-js/e2e/fixtures/basic'); // also can be relative path
   const builder = await createStubBuilder({
     ...options,
     plugins: 'minimal', // no need to set in e2e environment.

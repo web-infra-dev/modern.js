@@ -23,6 +23,9 @@
     },
     "./playwright": {
       "default": "./dist/exports/playwright.js"
+    },
+    "./fixtures/*": {
+      "default": "./fixtures/*"
     }
   },
   "typesVersions": {
