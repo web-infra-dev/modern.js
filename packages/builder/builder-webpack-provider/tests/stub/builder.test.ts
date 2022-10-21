@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import _ from '@modern-js/utils/lodash';
-import { createStubBuilder } from '../../src/stub';
-import { normalizeStubPluginOptions } from '../../src/stub/builder';
+import { createStubBuilder } from '@/stub';
+import { normalizeStubPluginOptions } from '@/stub/builder';
 
 describe('stub-builder', () => {
   it('should memoize building result', async () => {

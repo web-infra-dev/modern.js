@@ -1,7 +1,7 @@
 import { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
 import _ from '@modern-js/utils/lodash';
 import { describe, expect, it } from 'vitest';
-import { configSchema, ConfigValidator } from '../../src/config/validate';
+import { configSchema, ConfigValidator } from '@/config/validate';
 
 const simpleObjectSchema = {
   properties: {

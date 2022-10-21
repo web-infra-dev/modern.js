@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createStubBuilder } from '../../src/stub';
-import { BuilderConfig } from '../../src/types';
+import { createStubBuilder } from '@/stub';
+import { BuilderConfig } from '@/types';
 
 describe('modifyBuilderConfig', () => {
   it('should not allow to modify builder config', async () => {
