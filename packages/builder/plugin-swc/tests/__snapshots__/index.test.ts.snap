@@ -1,0 +1,21 @@
+// Vitest Snapshot v1
+
+exports[`error reporter > transform parse error 1`] = `
+[Error: 
+  x Expected a semicolon
+   ,-[anonymous:1:1]
+ 1 | if ((1) const a = 1
+   :         ^^^^^
+   \`----
+]
+`;
+
+exports[`fixtures > error reporter > transform parse error 1`] = `
+[Error: 
+  x Expected a semicolon
+   ,-[anonymous:1:1]
+ 1 | if ((1) const a = 1
+   :         ^^^^^
+   \`----
+]
+`;

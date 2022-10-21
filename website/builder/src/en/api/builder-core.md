@@ -59,7 +59,7 @@ The second parameter of `createBuilder` is a options object, you can pass in the
 ```ts
 type BuilderEntry = Record<string, string | string[]>;
 
-type BuilderTarget = 'web' | 'node' | 'modern-web';
+type BuilderTarget = 'web' | 'node' | 'modern-web' | 'web-worker';
 
 type CreateBuilderOptions = {
   cwd?: string;
@@ -85,6 +85,7 @@ Description:
 - `web`: Build for browsers.
 - `modern-web`: Build for modern browsers.
 - `node`: Build for SSR scenarios.
+- `web-worker`：Build for Web Worker.
 
 When target is an array containing multiple values, Builder will perform multiple builds at the same time.
 

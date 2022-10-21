@@ -3,10 +3,12 @@ import {
   DEFAULT_BROWSERSLIST,
   type BuilderTarget,
 } from '@modern-js/builder-shared';
+import { URLSearchParams } from 'url';
+
 import type { Buffer } from 'buffer';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
-import { URLSearchParams } from 'url';
-import type { BuilderConfig, DataUriLimit, NormalizedConfig } from '../types';
+import type { DataUriLimit } from '@modern-js/builder-shared';
+import type { BuilderConfig, NormalizedConfig } from '../types';
 
 export async function getBrowserslistWithDefault(
   path: string,

@@ -1,23 +1,43 @@
-import { CSS_REGEX, type BuilderContext } from '@modern-js/builder-shared';
-import { getBrowserslistWithDefault } from '../shared';
 import {
+  CSS_REGEX,
+  type BuilderTarget,
+  type BuilderContext,
+} from '@modern-js/builder-shared';
+import { getBrowserslistWithDefault } from '../shared';
+import type {
+  WebpackChain,
   BuilderPlugin,
   CssExtractOptions,
   CSSLoaderOptions,
   ModifyWebpackUtils,
   NormalizedConfig,
   StyleLoaderOptions,
-  WebpackChain,
 } from '../types';
 
 import assert from 'assert';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 
+export const isUseCssExtract = (
+  config: NormalizedConfig,
+  target: BuilderTarget,
+) =>
+  config.tools.cssExtract !== false &&
+  !config.tools.styleLoader &&
+  target !== 'node' &&
+  target !== 'web-worker';
+
 export async function applyBaseCSSRule(
   rule: WebpackChain.Rule,
   config: NormalizedConfig,
   context: BuilderContext,
-  { isServer, isProd, target, CHAIN_ID, getCompiledPath }: ModifyWebpackUtils,
+  {
+    target,
+    isProd,
+    isServer,
+    CHAIN_ID,
+    isWebWorker,
+    getCompiledPath,
+  }: ModifyWebpackUtils,
 ) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
@@ -83,8 +103,7 @@ export async function applyBaseCSSRule(
   };
 
   // 1. Check user config
-  const enableExtractCSS =
-    config.tools.cssExtract !== false && !config.tools.styleLoader;
+  const enableExtractCSS = isUseCssExtract(config, target);
   const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   const enableSourceMap =
     isProd && enableExtractCSS && !config.output.disableSourceMap;
@@ -109,7 +128,7 @@ export async function applyBaseCSSRule(
         localIdentName: isProd
           ? '[hash:base64]'
           : '[path][name]__[local]--[hash:base64:5]',
-        exportOnlyLocals: isServer,
+        exportOnlyLocals: isServer || isWebWorker,
       },
       sourceMap: enableSourceMap,
     },
@@ -119,7 +138,7 @@ export async function applyBaseCSSRule(
 
   // 3. Create webpack rule
   // Order: style-loader/mini-css-extract -> css-loader -> postcss-loader
-  if (!isServer) {
+  if (!isServer && !isWebWorker) {
     // use mini-css-extract-plugin loader
     if (enableExtractCSS) {
       rule
@@ -152,7 +171,7 @@ export async function applyBaseCSSRule(
     .options(cssLoaderOptions)
     .end();
 
-  if (!isServer) {
+  if (!isServer && !isWebWorker) {
     rule
       .use(CHAIN_ID.USE.POSTCSS)
       .loader(getCompiledPath('postcss-loader'))

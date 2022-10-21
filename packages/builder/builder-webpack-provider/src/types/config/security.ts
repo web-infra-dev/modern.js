@@ -1,7 +1,5 @@
-import type { SubresourceIntegrityOptions } from '../thirdParty';
+import type { SharedSecurityConfig } from '@modern-js/builder-shared';
 
-export interface SecurityConfig {
-  sri?: SubresourceIntegrityOptions | boolean;
-}
+export type SecurityConfig = SharedSecurityConfig;
 
-export type NormalizedSecurityConfig = SecurityConfig;
+export type NormalizedSecurityConfig = Required<SecurityConfig>;
