@@ -9,5 +9,5 @@
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": ["src", "shared", "config", "tests", "four", "three", "four"]
+  "include": ["src", "shared", "config", "tests"]
 }
