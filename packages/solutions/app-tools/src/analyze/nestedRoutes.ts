@@ -25,7 +25,7 @@ const getRouteId = (componentPath: string, routesDir: string) => {
 };
 
 const replaceDynamicPath = (routePath: string) => {
-  return routePath.replace(/\[(.*?)\]/, ':$1');
+  return routePath.replace(/\[(.*?)\]/g, ':$1');
 };
 
 const createIndexRoute = (
