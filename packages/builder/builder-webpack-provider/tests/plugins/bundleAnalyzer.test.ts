@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginBundleAnalyzer } from '../../src/plugins/bundleAnalyzer';
-import { createStubBuilder } from '../../src/stub';
+import { PluginBundleAnalyzer } from '@/plugins/bundleAnalyzer';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/bundleAnalyze', () => {
   it('should add bundle analyze plugin', async () => {

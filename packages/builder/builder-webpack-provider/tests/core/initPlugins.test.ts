@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest';
-import { createStubBuilder } from '../../src/stub';
+import { createStubBuilder } from '@/stub';
 
 describe('getNormalizedConfig', () => {
   it.skip('should return normalized config', async () => {

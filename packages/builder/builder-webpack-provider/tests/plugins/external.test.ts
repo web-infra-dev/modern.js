@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { PluginExternals } from '../../src/plugins/externals';
-import { createStubBuilder } from '../../src/stub';
+import { PluginExternals } from '@/plugins/externals';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/external', () => {
   it('should add external config', async () => {

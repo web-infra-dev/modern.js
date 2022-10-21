@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { PluginCss } from '../../src/plugins/css';
-import { PluginLess } from '../../src/plugins/less';
-import { PluginSass } from '../../src/plugins/sass';
-import { PluginRem } from '../../src/plugins/rem';
-import { createStubBuilder } from '../../src/stub';
+import { PluginCss } from '@/plugins/css';
+import { PluginLess } from '@/plugins/less';
+import { PluginSass } from '@/plugins/sass';
+import { PluginRem } from '@/plugins/rem';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/rem', () => {
   it('should not run rem plugin without config', async () => {

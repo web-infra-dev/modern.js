@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginAssetsRetry } from '../../src/plugins/assetsRetry';
-import { createStubBuilder } from '../../src/stub/builder';
+import { PluginAssetsRetry } from '@/plugins/assetsRetry';
+import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/assetsRetry', () => {
   it('should add assets retry plugin', async () => {

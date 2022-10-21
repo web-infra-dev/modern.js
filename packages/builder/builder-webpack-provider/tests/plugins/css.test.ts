@@ -1,8 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { PluginCss } from '../../src/plugins/css';
-import { PluginSass } from '../../src/plugins/sass';
-import { PluginLess } from '../../src/plugins/less';
-import { createStubBuilder } from '../../src/stub';
+import { PluginCss } from '@/plugins/css';
+import { PluginSass } from '@/plugins/sass';
+import { PluginLess } from '@/plugins/less';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/css', () => {
   // skipped because this case time out in CI env
