@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { ChunkExtractor } from '@loadable/server';
-import { LOADABLE_STATS_FILE } from '@modern-js/utils';
+import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
 import { RuntimeContext } from '../types';
 
 export function getLoadableChunks({
