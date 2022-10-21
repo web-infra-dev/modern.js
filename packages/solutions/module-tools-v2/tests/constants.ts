@@ -5,3 +5,5 @@ export const aliasBundlelessFunctionDistPath = 'dist/bundleless/function';
 
 export const envVarsBundleDistPath = 'dist/bundle';
 export const envVarsBundlelessDistPath = 'dist/bundleless';
+export const globalVarsBundleDistPath = 'dist/bundle';
+export const globalVarsBundlelessDistPath = 'dist/bundleless';
