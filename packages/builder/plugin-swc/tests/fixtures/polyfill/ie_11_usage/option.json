@@ -1,0 +1,8 @@
+{
+  "swc": {
+    "env": {
+      "mode": "usage",
+      "targets": "ie 11"
+    }
+  }
+}
