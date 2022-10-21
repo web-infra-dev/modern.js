@@ -88,6 +88,7 @@
     "fast-glob": "3.2.11",
     "file-loader": "6.2.0",
     "filesize": "8.0.7",
+    "find-up": "5.0.0",
     "fs-extra": "10.0.1",
     "glob": "7.2.0",
     "globby": "11.1.0",

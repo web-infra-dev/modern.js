@@ -39,6 +39,7 @@ export const TASKS: TaskConfig[] = [
       'signal-exit',
       'p-map',
       'rollup',
+      'find-up',
       {
         name: 'rollup-plugin-dts',
         externals: {

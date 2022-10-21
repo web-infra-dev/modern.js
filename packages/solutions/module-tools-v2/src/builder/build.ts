@@ -1,4 +1,3 @@
-import path from 'path';
 import type { CLIConfig, Style } from '@modern-js/libuild';
 import type {
   BuildCommandOptions,
@@ -24,18 +23,18 @@ export const runBuildTask = async (
     options;
   const dts = buildCmdOptions.dts ? buildConfig.dts : false;
   const watch = buildCmdOptions.watch ?? false;
-  const { appDirectory } = context;
+  const { appDirectory, isTsProject } = context;
 
-  const { verifyTsConfigPaths } = await import('../utils/dts');
-  const { defaultTsConfigPath } = await import('../constants/dts');
-  await verifyTsConfigPaths(
-    buildConfig.dts
-      ? buildConfig.dts.tsconfigPath
-      : path.join(appDirectory, defaultTsConfigPath),
-    sourceConfig.alias,
-  );
+  if (isTsProject && dts) {
+    // const { verifyTsConfigPaths } = await import('../utils/dts');
+    // const { defaultTsConfigPath } = await import('../constants/dts');
+    // await verifyTsConfigPaths(
+    //   buildConfig.dts
+    //     ? buildConfig.dts.tsconfigPath
+    //     : path.join(appDirectory, defaultTsConfigPath),
+    //   sourceConfig.alias,
+    // );
 
-  if (dts) {
     const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
     const { default: pMap } = await import('../../compiled/p-map');
     await pMap(tasks, async task => {

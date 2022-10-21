@@ -1,8 +1,6 @@
 import type { PostcssOptions, Style } from '@modern-js/libuild';
 import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
 
-export { default as Less } from 'less';
-
 export type LessOptions = Required<Style>['less'];
 export type SassOptions = Required<Style>['sass'];
 

@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`alias in js project function usage 1`] = `
+"var o=\\"hello world\\";console.info(o);
+"
+`;
+
+exports[`alias in js project function usage 2`] = `
+"import { b } from \\"./b\\";
+console.info(b);
+"
+`;
+
+exports[`alias in js project object usage 1`] = `
+"var o=\\"hello world\\";console.info(o);
+"
+`;
+
+exports[`alias in js project object usage 2`] = `
+"import { b } from \\"./b\\";
+console.info(b);
+"
+`;
+
+exports[`alias in ts project function usage 1`] = `
+"var o=\\"hello world\\";console.info(o);
+"
+`;
+
+exports[`alias in ts project function usage 2`] = `
+"import { b } from \\"./b\\";
+console.info(b);
+"
+`;
+
+exports[`alias in ts project object usage 1`] = `
+"var o=\\"hello world\\";console.info(o);
+"
+`;
+
+exports[`alias in ts project object usage 2`] = `
+"import { b } from \\"./b\\";
+console.info(b);
+"
+`;

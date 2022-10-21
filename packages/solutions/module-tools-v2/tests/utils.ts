@@ -2,28 +2,29 @@ import path from 'path';
 import { cli } from '@modern-js/core';
 import { version } from '../package.json';
 
+export { defineConfig } from '../src/config/defineConfig';
+
 export const runCli = async (options: {
   argv: string[];
   configFile: string;
+  appDirectory?: string;
 }) => {
-  // because of `program.parse(process.argv)` in '/packages/cli/core/src' file
-  // mock process.argv, 'bin/modern.js' instead of 'bin/jest.js'
-  process.argv = [
-    process.argv[0],
-    path.join(__dirname, '../bin/modern.js'),
-    ...options.argv,
-  ];
-
-  await cli.run(options.argv, {
-    version,
-    configFile: options.configFile,
-    plugins: {
-      '@modern-js/module-tools-v2': {
-        cli: path.join(__dirname, '../src'),
-        forced: true,
-      } as any,
+  await cli.test(
+    ['node', path.join(__dirname, '../bin/modern.js'), ...options.argv],
+    {
+      coreOptions: {
+        cwd: options.appDirectory,
+        version,
+        configFile: options.configFile,
+        plugins: {
+          '@modern-js/module-tools-v2': {
+            cli: path.join(__dirname, '../src'),
+            forced: true,
+          } as any,
+        },
+      },
     },
-  });
+  );
 };
 
 export const initBeforeTest = () => {

@@ -44,6 +44,9 @@ export const runRollup = async ({
   const { default: dtsPlugin } = await import(
     '../../../compiled/rollup-plugin-dts'
   );
+  const baseUrl = path.isAbsolute(options.baseUrl || '.')
+    ? options.baseUrl
+    : path.join(path.dirname(tsconfigPath), options.baseUrl || '.');
   const inputConfig: InputOptions = {
     input: entry,
     external: externals,
@@ -55,7 +58,7 @@ export const runRollup = async ({
         respectExternal: true,
         compilerOptions: {
           ...options,
-          baseUrl: path.resolve(options.baseUrl || '.'),
+          baseUrl,
           // Ensure ".d.ts" modules are generated
           declaration: true,
           // Skip ".js" generation

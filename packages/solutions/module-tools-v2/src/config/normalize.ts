@@ -97,7 +97,9 @@ export const transformToAbsPath = async (
   const { transformEntryToAbsPath } = await import('../utils/entry');
   const { context } = options;
 
-  newConfig.path = path.join(context.appDirectory, newConfig.path);
+  newConfig.path = path.isAbsolute(newConfig.path)
+    ? newConfig.path
+    : path.join(context.appDirectory, newConfig.path);
 
   // `bundlelessOptions.sourceDir` or `bundleOptions.entry`
   if (newConfig.buildType === 'bundleless') {

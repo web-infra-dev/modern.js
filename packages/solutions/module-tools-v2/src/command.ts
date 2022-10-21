@@ -3,14 +3,12 @@ import { createDebugger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { ModuleToolsHooks } from './types/hooks';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
-import type { ModuleContext } from './types/context';
 
 const debug = createDebugger('module-tools');
 
 export const buildCommand = async (
   program: Command,
   api: PluginAPI<ModuleToolsHooks>,
-  context: ModuleContext,
 ) => {
   const local = await import('./locale');
   const { defaultTsConfigPath } = await import('./constants/dts');
@@ -36,6 +34,8 @@ export const buildCommand = async (
       local.i18n.t(local.localeKeys.command.build.config),
     )
     .action(async (options: BuildCommandOptions) => {
+      const { initModuleContext } = await import('./utils/context');
+      const context = await initModuleContext(api);
       if (options.platform) {
         const { buildPlatform } = await import('./builder/platform');
         await buildPlatform(options, api, context);
@@ -65,7 +65,6 @@ export const buildCommand = async (
 export const devCommand = async (
   program: Command,
   api: PluginAPI<ModuleToolsHooks>,
-  context: ModuleContext,
 ) => {
   const local = await import('./locale');
   const runner = api.useHookRunners();
@@ -78,6 +77,8 @@ export const devCommand = async (
     .usage('[options]')
     .description(local.i18n.t(local.localeKeys.command.dev.describe))
     .action(async (options: DevCommandOptions = {}) => {
+      const { initModuleContext } = await import('./utils/context');
+      const context = await initModuleContext(api);
       const { dev } = await import('./dev');
       await dev(options, devToolMetas, api, context);
     });
@@ -91,6 +92,8 @@ export const devCommand = async (
       devProgram
         .command(subCmd)
         .action(async (options: DevCommandOptions = {}) => {
+          const { initModuleContext } = await import('./utils/context');
+          const context = await initModuleContext(api);
           await runner.beforeDevTask(meta);
           await meta.action(options, { isTsProject: context.isTsProject });
         });

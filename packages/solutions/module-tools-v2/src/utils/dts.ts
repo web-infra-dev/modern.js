@@ -89,9 +89,20 @@ export const generatorTsConfig = async (
 
 export const getTscBinPath = async (appDirectory: string) => {
   const { fs } = await import('@modern-js/utils');
-  const tscBinFile = path.join(appDirectory, './node_modules/.bin/tsc');
+  const { default: findUp, exists: pathExists } = await import('find-up');
+  const tscBinFile = await findUp(
+    async directory => {
+      const targetFilePath = path.join(directory, './node_modules/.bin/tsc');
+      const hasTscBinFile = await pathExists(targetFilePath);
+      if (hasTscBinFile) {
+        return targetFilePath;
+      }
+      return undefined;
+    },
+    { cwd: appDirectory },
+  );
 
-  if (!fs.existsSync(tscBinFile)) {
+  if (!tscBinFile || !fs.existsSync(tscBinFile)) {
     throw new Error(
       'Failed to excute the `tsc` command, please check if `typescript` is installed correctly in the current directory.',
     );
