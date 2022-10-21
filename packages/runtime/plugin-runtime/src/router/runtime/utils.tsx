@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, RouteProps } from 'react-router-dom';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import { RouterConfig } from './plugin';
 import { DefaultNotFound } from './DefaultNotFound';
@@ -10,7 +10,7 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
     return renderNestedRoute(childRoute, nestedRoute);
   });
 
-  const routeProps: Record<string, unknown> = {
+  const routeProps: Omit<RouteProps, 'children'> = {
     caseSensitive: nestedRoute.caseSensitive,
     path: nestedRoute.path,
     id: nestedRoute.id,
@@ -39,6 +39,12 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
         </Suspense>
       );
     } else {
+      // const Loading = () => <div>loading...</div>;
+      // routeProps.element = (
+      //   <Suspense fallback={<Loading />}>
+      //     <Component />
+      //   </Suspense>
+      // );
       routeProps.element = <Component />;
     }
   }

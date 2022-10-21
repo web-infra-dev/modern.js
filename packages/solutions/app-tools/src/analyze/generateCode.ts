@@ -1,11 +1,12 @@
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
-import type {
+import {
   IAppContext,
   NormalizedConfig,
   PluginAPI,
   ImportSpecifier,
   ImportStatement,
+  useResolvedConfigContext,
 } from '@modern-js/core';
 import type {
   Entrypoint,
@@ -145,9 +146,13 @@ export const generateCode = async (
           routes: initialRoutes,
         });
 
+        const config = useResolvedConfigContext();
+        const ssr = config?.server.ssr;
+        const mode = typeof ssr === 'object' ? ssr.mode : 'string';
+
         const { code } = await hookRunners.beforeGenerateRoutes({
           entrypoint,
-          code: templates.fileSystemRoutes({ routes }),
+          code: templates.fileSystemRoutes({ routes, ssrMode: mode }),
         });
 
         fs.outputFileSync(

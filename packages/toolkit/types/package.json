@@ -37,7 +37,7 @@
     "@types/node": "^14",
     "http-proxy-middleware": "^2.0.4",
     "jest": "^27",
-    "type-fest": "^2.13.0"
+    "type-fest": "2.14.0"
   },
   "sideEffects": false,
   "publishConfig": {

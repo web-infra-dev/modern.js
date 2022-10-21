@@ -5,7 +5,9 @@ export default defineConfig({
     router: true,
     state: true,
   },
-  server: {
-    ssr: true,
-  },
+  // server: {
+  //   ssr: {
+  //     mode: 'stream',
+  //   },
+  // },
 });

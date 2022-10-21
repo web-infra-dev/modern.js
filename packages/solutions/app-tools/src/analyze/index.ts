@@ -150,14 +150,14 @@ export default (): CliPlugin => ({
           serverRoutes: routes,
         });
 
-        const nestedRouteEntrys = entrypoints
+        const nestedRouteEntries = entrypoints
           .map(point => point.nestedRoutesEntry)
           .filter(Boolean) as string[];
 
         pagesDir = entrypoints
           .map(point => point.entry)
           .filter(Boolean)
-          .concat(nestedRouteEntrys);
+          .concat(nestedRouteEntries);
 
         originEntrypoints = cloneDeep(entrypoints);
 

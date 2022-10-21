@@ -105,10 +105,16 @@ export const html = (partials: {
 
 export const fileSystemRoutes = ({
   routes,
+  ssrMode,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
+  ssrMode: 'string' | 'stream' | undefined;
 }) => {
-  const importLoadableCode = `import loadable from '@modern-js/runtime/loadable'`;
+  const importLazyCode =
+    ssrMode === 'stream'
+      ? 'import { lazy } from "react";'
+      : `import loadable from '@modern-js/runtime/loadable'`;
+
   const loadings: string[] = [];
   const errors: string[] = [];
 
@@ -138,7 +144,10 @@ export const fileSystemRoutes = ({
       children,
     };
     if (route._component) {
-      const component = `loadable(() => import('${route._component}'))`;
+      const component =
+        ssrMode === 'stream'
+          ? `lazy(() => import('${route._component}'))`
+          : `loadable(() => import('${route._component}'))`;
       finalRoute.component = component;
     }
     return finalRoute;
@@ -152,18 +161,22 @@ export const fileSystemRoutes = ({
       const newRoute = traverseRouteTree(route);
       routeComponentsCode += `${JSON.stringify(newRoute, null, 2)
         .replace(/"(loadable[^"]*)"/g, '$1')
+        .replace(/"(lazy[^"]*)"/g, '$1')
         .replace(/"(loading_[^"])"/g, '$1')
         .replace(/"(error_[^"])"/g, '$1')},`;
     } else {
+      const component =
+        ssrMode === 'stream'
+          ? `lazy(() => import('${route._component}'))`
+          : `loadable(() => import('${route._component}'))`;
       const finalRoute = {
         ...route,
-        component: `loadable(() => import('${route._component}'))`,
+        component,
       };
 
-      routeComponentsCode += `${JSON.stringify(finalRoute, null, 2).replace(
-        /"(loadable[^"]*)"/g,
-        '$1',
-      )},`;
+      routeComponentsCode += `${JSON.stringify(finalRoute, null, 2)
+        .replace(/"(loadable[^"]*)"/g, '$1')
+        .replace(/"(lazy[^"]*)"/g, '$1')},`;
     }
   }
   routeComponentsCode += `\n];`;
@@ -181,7 +194,7 @@ export const fileSystemRoutes = ({
     .join('');
 
   return `
-    ${importLoadableCode}
+    ${importLazyCode}
     ${importLoadingCode}
     ${importErrorComponentsCode}
     ${routeComponentsCode}
