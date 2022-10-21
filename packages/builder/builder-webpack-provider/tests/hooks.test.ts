@@ -1,6 +1,6 @@
 import { vi, describe, expect, test } from 'vitest';
-import { initHooks } from '../src/core/initHooks';
-import { createStubBuilder } from '../src/stub';
+import { initHooks } from '@/core/initHooks';
+import { createStubBuilder } from '@/stub';
 
 describe('initHooks', () => {
   test('should init hooks correctly', async () => {

@@ -1,12 +1,12 @@
 import { expect, describe, it } from 'vitest';
-import { PluginCompatModern } from '../../src/plugins/compatModern';
-import { PluginFallback } from '../../src/plugins/fallback';
-import { PluginManifest } from '../../src/plugins/manifest';
-import { PluginModuleScopes } from '../../src/plugins/moduleScopes';
-import { PluginMoment } from '../../src/plugins/moment';
-import { PluginOutput } from '../../src/plugins/output';
-import { PluginResolve } from '../../src/plugins/resolve';
-import { createStubBuilder } from '../../src/stub';
+import { PluginCompatModern } from '@/plugins/compatModern';
+import { PluginFallback } from '@/plugins/fallback';
+import { PluginManifest } from '@/plugins/manifest';
+import { PluginModuleScopes } from '@/plugins/moduleScopes';
+import { PluginMoment } from '@/plugins/moment';
+import { PluginOutput } from '@/plugins/output';
+import { PluginResolve } from '@/plugins/resolve';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/compatModern', () => {
   // skipped because this case time out in CI env

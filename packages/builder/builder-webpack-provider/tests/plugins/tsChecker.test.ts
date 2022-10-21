@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
-import { PluginTsChecker } from '../../src/plugins/tsChecker';
-import { createStubBuilder } from '../../src/stub';
-import type { Context } from '../../src/types';
+import { PluginTsChecker } from '@/plugins/tsChecker';
+import { createStubBuilder } from '@/stub';
+import type { Context } from '@/types';
 
 describe('plugins/tsChecker', () => {
   const context = {

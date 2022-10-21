@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { createStubBuilder } from '../../src/stub';
-import { PluginProgress } from '../../src/plugins/progress';
+import { createStubBuilder } from '@/stub';
+import { PluginProgress } from '@/plugins/progress';
 
 describe('plugins/progress', () => {
   it('should register webpackbar by default', async () => {

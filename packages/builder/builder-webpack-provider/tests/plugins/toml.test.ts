@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginToml } from '../../src/plugins/toml';
-import { createStubBuilder } from '../../src/stub/builder';
+import { PluginToml } from '@/plugins/toml';
+import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/toml', () => {
   it('should add toml rule properly', async () => {

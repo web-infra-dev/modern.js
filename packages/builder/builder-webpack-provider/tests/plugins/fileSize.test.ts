@@ -4,7 +4,7 @@ import {
   filterAsset,
   getDiffLabel,
   removeFileNameHash,
-} from '../../src/plugins/fileSize';
+} from '@/plugins/fileSize';
 
 describe('plugins/fileSize', () => {
   it('#filterAsset - should filter asset correctly', () => {
