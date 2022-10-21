@@ -1,0 +1,49 @@
+{
+  "name": "app-docuent",
+  "version": "0.1.0",
+  "scripts": {
+    "bb": "cd ../.. && pnpm --filter @modern-js/webpack build && cd ./local-test-project/app-document && pnpm run dev",
+    "tt": "esbuild ./src/document.tsx --bundle --target=esnext --platform=node --outfile=d.js",
+    "reset": "npx rimraf ./**/node_modules",
+    "dev": "modern dev",
+    "build": "modern build",
+    "start": "modern start",
+    "new": "modern new",
+    "lint": "modern lint",
+    "prepare": "modern build && husky install",
+    "upgrade": "modern upgrade"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
+    ],
+    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/plugin-router-legacy": "workspace:*",
+    "rimraf": "^3.0.2",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.6.2",
+    "husky": "^8.0.0",
+    "typescript": "^4",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/node": "^14"
+  }
+}
