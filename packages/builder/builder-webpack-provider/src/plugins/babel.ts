@@ -8,9 +8,9 @@ import {
   JS_REGEX,
   TS_REGEX,
   mergeRegex,
+  getBrowserslistWithDefault,
   type BuilderContext,
 } from '@modern-js/builder-shared';
-import { getBrowserslistWithDefault } from '../shared';
 
 import type { WebpackChain, BuilderPlugin, NormalizedConfig } from '../types';
 

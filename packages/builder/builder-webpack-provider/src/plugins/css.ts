@@ -1,9 +1,9 @@
 import {
   CSS_REGEX,
+  getBrowserslistWithDefault,
   type BuilderTarget,
   type BuilderContext,
 } from '@modern-js/builder-shared';
-import { getBrowserslistWithDefault } from '../shared';
 import type {
   WebpackChain,
   BuilderPlugin,
