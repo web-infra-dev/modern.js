@@ -25,7 +25,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
       quietOnDev = false,
       clearOnDone = false,
     } = options;
-    const isQuite =
+    const isQuiet =
       quiet || (quietOnDev && process.env.NODE_ENV === 'development');
 
     super({
@@ -38,7 +38,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
       dependenciesCount: 10000,
       percentBy: null,
       handler: (percentage, message) => {
-        if (!isQuite && process.stdout.isTTY) {
+        if (!isQuiet && process.stdout.isTTY) {
           const done = percentage === 1;
           bus.update({
             id,
