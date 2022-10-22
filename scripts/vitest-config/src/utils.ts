@@ -77,12 +77,12 @@ export const createDefaultPathMatchers = (root: string) => {
       match: /(?<=\/)(\.pnpm\/.+?\/node_modules)(?=\/)/,
       mark: 'pnpmInner',
     },
-    { match: os.homedir(), mark: 'home' },
   ];
   try {
     ret.push({ match: fs.realpathSync(os.tmpdir()), mark: 'temp' });
   } catch {}
   ret.push({ match: os.tmpdir(), mark: 'temp' });
+  ret.push({ match: os.homedir(), mark: 'home' });
   ret.push(...matchUpwardPathsAsUnknown(root));
   return ret;
 };

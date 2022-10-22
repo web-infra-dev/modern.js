@@ -11,7 +11,6 @@ import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
-import path from 'path';
 import { URL } from 'url';
 import { Hooks } from '../core/initHooks';
 import {
@@ -22,7 +21,7 @@ import {
 import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
-import { filenameToGlobExpr, globContentJSON, matchLoader } from './utils';
+import { globContentJSON, matchLoader } from './utils';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
@@ -178,13 +177,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
       throw new Error('`isRelative` is not supported for multiple paths.');
     }
     await build();
-    const _paths = _(paths)
-      .castArray()
-      .map(filenameToGlobExpr)
-      .map(_.unary(path.resolve))
-      .map(String)
-      .value();
-    return globContentJSON(_paths, { absolute: !isRelative, maxSize });
+    return globContentJSON(paths, { absolute: !isRelative, maxSize });
   };
 
   /** Read output file content. */
