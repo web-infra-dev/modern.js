@@ -91,6 +91,8 @@ export const CHAIN_ID = {
     POSTCSS: 'postcss',
     /** markdown-loader */
     MARKDOWN: 'markdown',
+    /** ignore-css-loader */
+    IGNORE_CSS: 'ignore-css',
     /** css-modules-typescript-loader */
     CSS_MODULES_TS: 'css-modules-typescript',
     /** mini-css-extract-plugin.loader */
