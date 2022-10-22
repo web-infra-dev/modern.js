@@ -1,8 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { PluginEntry } from '../../src/plugins/entry';
-import { PluginHtml } from '../../src/plugins/html';
-import { PluginInlineChunk } from '../../src/plugins/inlineChunk';
-import { createStubBuilder } from '../../src/stub';
+import { PluginEntry } from '@/plugins/entry';
+import { PluginHtml } from '@/plugins/html';
+import { PluginInlineChunk } from '@/plugins/inlineChunk';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/inlineChunk', () => {
   it('should add InlineChunkHtmlPlugin properly by default', async () => {

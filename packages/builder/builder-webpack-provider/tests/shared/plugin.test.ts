@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { PluginBasic } from '../../src/plugins/basic';
-import { PluginDefine } from '../../src/plugins/define';
-import { awaitablePlugins } from '../../src/shared/plugin';
+import { PluginBasic } from '@/plugins/basic';
+import { PluginDefine } from '@/plugins/define';
+import { awaitablePlugins } from '@/shared/plugin';
 
 describe('awaitablePlugins', () => {
   it('should work', async () => {

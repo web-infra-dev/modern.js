@@ -1,7 +1,7 @@
 import { vi, expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
-import { PluginTarget } from '../../src/plugins/target';
-import { createStubBuilder } from '../../src/stub';
+import { PluginTarget } from '@/plugins/target';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/target', () => {
   const cases = [

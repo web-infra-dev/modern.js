@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginCache } from '../../src/plugins/cache';
-import { createStubBuilder } from '../../src/stub/builder';
+import { PluginCache } from '@/plugins/cache';
+import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/cache', () => {
   it('should add cache config correctly', async () => {
