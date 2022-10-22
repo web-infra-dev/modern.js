@@ -9,6 +9,9 @@ exports[`plugins/css > should not apply postcss-loader when target is node 1`] =
         "test": /\\\\\\.css\\$/,
         "use": [
           {
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/src/webpackLoaders/ignoreCssLoader",
+          },
+          {
             "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
               "importLoaders": 1,
@@ -46,7 +49,6 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "exportOnlyLocals": false,
                 "localIdentName": "[path][name]__[local]--[hash:base64:5]",
               },
               "sourceMap": false,

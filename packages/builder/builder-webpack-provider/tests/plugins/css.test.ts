@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { PluginCss } from '../../src/plugins/css';
+import { PluginCss, normalizeCssLoaderOptions } from '../../src/plugins/css';
 import { PluginSass } from '../../src/plugins/sass';
 import { PluginLess } from '../../src/plugins/less';
 import { createStubBuilder } from '../../src/stub';
@@ -183,5 +183,39 @@ describe('plugins/css', () => {
     const config = await builder.unwrapWebpackConfig();
 
     expect(config).toMatchSnapshot();
+  });
+});
+
+describe('normalizeCssLoaderOptions', () => {
+  it('should enable exportOnlyLocals correctly', () => {
+    expect(normalizeCssLoaderOptions({ modules: false }, true)).toEqual({
+      modules: false,
+    });
+
+    expect(normalizeCssLoaderOptions({ modules: true }, true)).toEqual({
+      modules: {
+        exportOnlyLocals: true,
+      },
+    });
+
+    expect(normalizeCssLoaderOptions({ modules: true }, false)).toEqual({
+      modules: true,
+    });
+
+    expect(normalizeCssLoaderOptions({ modules: 'local' }, true)).toEqual({
+      modules: {
+        mode: 'local',
+        exportOnlyLocals: true,
+      },
+    });
+
+    expect(
+      normalizeCssLoaderOptions({ modules: { auto: true } }, true),
+    ).toEqual({
+      modules: {
+        auto: true,
+        exportOnlyLocals: true,
+      },
+    });
   });
 });
