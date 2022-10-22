@@ -3543,6 +3543,31 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.7.4
 
+  tests/e2e/webpack-builder/ignore-css:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      got: ^11.8.3
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      got: 11.8.5
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/builder': link:../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@types/node': 14.18.21
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.7.4
+
   tests/e2e/webpack-builder/inline-chunk:
     specifiers:
       '@modern-js/builder-shared': workspace:*
@@ -7926,6 +7951,17 @@ packages:
     dev: false
     optional: true
 
+  /@modern-js/swc-plugins-freebsd-x64/0.0.2:
+    resolution: {integrity: sha512-AUxGz17f3/bJ3PaO/RdJF5YFkcriudqlkN2biYjD0vmnsOOaT+dCfc9Ms8yEkXrHYzkndhCyNMSjORmYsvaYbg==}
+    engines: {node: '>=14.17.6'}
+    requiresBuild: true
+    peerDependencies:
+      react: ^17
+    dependencies:
+      '@babel/runtime': 7.18.6
+    dev: false
+    optional: true
+
   /@modern-js/swc-plugins-linux-arm-gnueabihf/0.0.2:
     resolution: {integrity: sha512-oHBungTNKvHBYOyDPKZrWNOoNszb3+3pvmgcZxBH1PSni192tM1VLkJgusH1yE1W3SITFd/832SubzEzGYWuZA==}
     engines: {node: '>= 14.18'}
@@ -8004,6 +8040,7 @@ packages:
     optionalDependencies:
       '@modern-js/swc-plugins-darwin-arm64': 0.0.2
       '@modern-js/swc-plugins-darwin-x64': 0.0.2
+      '@modern-js/swc-plugins-freebsd-x64': 0.0.2
       '@modern-js/swc-plugins-linux-arm-gnueabihf': 0.0.2
       '@modern-js/swc-plugins-linux-arm64-gnu': 0.0.2
       '@modern-js/swc-plugins-linux-arm64-musl': 0.0.2
@@ -8012,6 +8049,8 @@ packages:
       '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.2
       '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.2
       '@modern-js/swc-plugins-win32-x64-msvc': 0.0.2
+    transitivePeerDependencies:
+      - react
     dev: false
 
   /@modern-js/utils/1.20.1:
@@ -12623,8 +12662,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -28751,7 +28792,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
