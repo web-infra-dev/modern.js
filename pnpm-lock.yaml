@@ -2061,7 +2061,7 @@ importers:
       jest: ^27
       koa-compose: ^4.1.0
       reflect-metadata: ^0.1.13
-      type-fest: 2.14.0
+      type-fest: 2.15.0
       typescript: ^4
       zod: ^3.17.3
     dependencies:
@@ -2079,7 +2079,7 @@ importers:
       '@types/koa-compose': 3.2.5
       '@types/node': 14.18.21
       jest: 27.5.1
-      type-fest: 2.14.0
+      type-fest: 2.15.0
       typescript: 4.7.4
       zod: 3.17.3
 
@@ -3068,7 +3068,7 @@ importers:
       '@types/node': ^14
       http-proxy-middleware: ^2.0.4
       jest: ^27
-      type-fest: 2.14.0
+      type-fest: 2.15.0
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3076,7 +3076,7 @@ importers:
       '@types/node': 14.18.21
       http-proxy-middleware: 2.0.6
       jest: 27.5.1
-      type-fest: 2.14.0
+      type-fest: 2.15.0
 
   packages/toolkit/upgrade:
     specifiers:
@@ -31780,8 +31780,8 @@ packages:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
 
-  /type-fest/2.14.0:
-    resolution: {integrity: sha512-hQnTQkFjL5ik6HF2fTAM8ycbr94UbQXK364wF930VHb0dfBJ5JBP8qwrR8TaK9zwUEk7meruo2JAUDMwvuxd/w==}
+  /type-fest/2.15.0:
+    resolution: {integrity: sha512-hpsXfQZrAiusX8KMY5HXSEV7xqGAGxFQoNDT+iW0yJE/bdYG0uMlRaUG0kNAUbF5p6Cq5Kuf69lm4M569QtRGw==}
     engines: {node: '>=12.20'}
     dev: true
 

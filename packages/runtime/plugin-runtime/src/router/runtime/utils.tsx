@@ -23,7 +23,6 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
     errorElement: nestedRoute.errorElement,
   };
 
-  // TODO: 将代码改造为 createRouter，与 loader 一起实现
   if (nestedRoute.error) {
     const errorElement = <nestedRoute.error />;
     routeProps.errorElement = errorElement;
@@ -32,19 +31,12 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   if (Component) {
     if (parent?.loading) {
       const Loading = parent.loading;
-      // TODO: 支持 streaming ssr 时，修改生成的 loadable 为 react.lazy
       routeProps.element = (
         <Suspense fallback={<Loading />}>
           <Component />
         </Suspense>
       );
     } else {
-      // const Loading = () => <div>loading...</div>;
-      // routeProps.element = (
-      //   <Suspense fallback={<Loading />}>
-      //     <Component />
-      //   </Suspense>
-      // );
       routeProps.element = <Component />;
     }
   }
