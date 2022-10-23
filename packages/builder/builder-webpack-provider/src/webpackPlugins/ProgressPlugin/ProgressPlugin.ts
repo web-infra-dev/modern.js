@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import { bus } from './helpers/bus';
+import { bus, createFriendlyPercentage } from './helpers';
 import prettyTime from '../../../compiled/pretty-time';
 import type { Props } from './helpers/type';
 
@@ -27,6 +27,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
     } = options;
     const isQuite =
       quiet || (quietOnDev && process.env.NODE_ENV === 'development');
+    const friendlyPercentage = createFriendlyPercentage();
 
     super({
       activeModules: false,
@@ -39,7 +40,10 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
       percentBy: null,
       handler: (percentage, message) => {
         if (!isQuite && process.stdout.isTTY) {
+          // eslint-disable-next-line no-param-reassign
+          percentage = friendlyPercentage(percentage);
           const done = percentage === 1;
+
           bus.update({
             id,
             current: percentage * 100,
