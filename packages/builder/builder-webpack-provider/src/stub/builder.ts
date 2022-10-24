@@ -97,7 +97,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   ) as Required<StubBuilderOptions>;
   // apply webpack option.
   const config = builderOptions.builderConfig;
-  if (options?.webpack && config.output?.distPath?.root) {
+  if (options?.webpack && !config.output?.distPath?.root) {
     const distPath =
       typeof options.webpack === 'string'
         ? options.webpack

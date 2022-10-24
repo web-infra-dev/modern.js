@@ -11,8 +11,8 @@ it('fixture', async () => {
   const files = await builder.unwrapOutputJSON();
   expect(Object.keys(files)).toMatchInlineSnapshot(`
     [
-      "<TEMP>/modern-js/stub-builder/dist/<FRAGMENT>/static/js/main.js",
-      "<TEMP>/modern-js/stub-builder/dist/<FRAGMENT>/static/js/main.js.map",
+      "<TEMP>/<FRAGMENT>/static/js/main.js",
+      "<TEMP>/<FRAGMENT>/static/js/main.js.map",
     ]
   `);
 });
