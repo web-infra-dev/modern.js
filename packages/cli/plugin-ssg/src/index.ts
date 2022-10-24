@@ -19,6 +19,8 @@ import { makeRoute } from './libs/make';
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-ssg',
 
+  pre: ['@modern-js/plugin-server', '@modern-js/plugin-bff'],
+
   setup: api => {
     const agreedRouteMap: AgreedRouteMap = {};
 

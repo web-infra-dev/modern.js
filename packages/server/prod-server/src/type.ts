@@ -8,6 +8,7 @@ import type {
   Logger,
   NextFunction,
   ModernServerContext,
+  InternalPlugins,
 } from '@modern-js/types';
 import type { ModernRouteInterface } from './libs/route';
 
@@ -18,11 +19,11 @@ declare module 'http' {
   }
 }
 
-type Plugin = string | [string, any] | ServerPlugin;
 export type ModernServerOptions = {
   pwd: string;
   config: ServerOptions;
-  plugins?: Plugin[];
+  plugins?: ServerPlugin[];
+  internalPlugins?: InternalPlugins;
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;
   logger?: Logger;
@@ -30,10 +31,6 @@ export type ModernServerOptions = {
   apiOnly?: boolean;
   ssrOnly?: boolean;
   webOnly?: boolean;
-  proxyTarget?: {
-    ssr?: string;
-    api?: string;
-  };
   runMode?: string;
   [propName: string]: any;
 };

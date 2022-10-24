@@ -1,5 +1,8 @@
 import path from 'path';
-import { DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
+import {
+  DEFAULT_SERVER_CONFIG,
+  INTERNAL_SERVER_PLUGINS,
+} from '@modern-js/utils';
 import { initAppContext } from '../src/context';
 
 describe('context', () => {
@@ -10,15 +13,17 @@ describe('context', () => {
     );
     const appContext = initAppContext({
       appDirectory,
-      plugins: [],
       configFile: false,
+      plugins: [],
       serverConfigFile: DEFAULT_SERVER_CONFIG,
+      serverInternalPlugins: INTERNAL_SERVER_PLUGINS,
     });
 
     expect(appContext).toEqual({
       appDirectory,
       configFile: false,
       serverConfigFile: DEFAULT_SERVER_CONFIG,
+      serverInternalPlugins: INTERNAL_SERVER_PLUGINS,
       ip: expect.any(String),
       port: 0,
       packageName: expect.any(String),
@@ -58,11 +63,13 @@ describe('context', () => {
       configFile: false,
       options: customOptions,
       serverConfigFile: DEFAULT_SERVER_CONFIG,
+      serverInternalPlugins: INTERNAL_SERVER_PLUGINS,
     });
     expect(appContext).toEqual({
       appDirectory,
       configFile: false,
       serverConfigFile: DEFAULT_SERVER_CONFIG,
+      serverInternalPlugins: INTERNAL_SERVER_PLUGINS,
       ip: expect.any(String),
       port: 0,
       packageName: 'user-plugins',

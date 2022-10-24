@@ -9,6 +9,7 @@ import {
   LoggerInterface,
   dotenv,
   dotenvExpand,
+  INTERNAL_SERVER_PLUGINS,
 } from '@modern-js/utils';
 import {
   serverManager,
@@ -188,12 +189,12 @@ export class Server {
 
     const { options } = this;
     // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
-    const { plugins = [], pwd, config } = options;
+    const { internalPlugins = INTERNAL_SERVER_PLUGINS, pwd, config } = options;
 
     const serverPlugins = this.serverConfig.plugins || [];
 
     // server app context for serve plugin
-    const loadedPlugins = loadPlugins(plugins.concat(serverPlugins), pwd);
+    const loadedPlugins = loadPlugins(pwd, serverPlugins, { internalPlugins });
 
     debug('plugins', config.plugins, loadedPlugins);
     loadedPlugins.forEach(p => {
