@@ -11,6 +11,7 @@ import {
   PAGES_DIR_NAME,
   FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
   NESTED_ROUTES_DIR,
+  CONFIG_ROUTER_FILE_NAME,
 } from './constants';
 
 export type { Entrypoint };
@@ -29,6 +30,13 @@ const hasPages = (dir: string) => fs.existsSync(path.join(dir, PAGES_DIR_NAME));
 
 const hasNestedRoutes = (dir: string) =>
   fs.existsSync(path.join(dir, NESTED_ROUTES_DIR));
+
+const hasConfigRoutes = (dir: string) =>
+  findExists(
+    ['.js', '.ts'].map(ext =>
+      path.resolve(dir, `${CONFIG_ROUTER_FILE_NAME}${ext}`),
+    ),
+  );
 
 const isBundleEntry = (dir: string) =>
   hasApp(dir) || hasPages(dir) || hasIndex(dir) || hasNestedRoutes(dir);
@@ -59,6 +67,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
         entry: path.join(dir, APP_FILE_NAME),
         isAutoMount: true,
         customBootstrap,
+        configRoutes: hasConfigRoutes(dir),
       };
     }
 

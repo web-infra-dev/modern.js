@@ -8,6 +8,8 @@ import { RuntimeReactContext, ServerRouterContext } from '../../core';
 import type { Plugin } from '../../core';
 import { isBrowser } from '../../common';
 import { renderRoutes, getLocation, urlJoin } from './utils';
+import ConfigRoutes, { ConfigRoutesLazy } from './ConfigRoutes';
+import type { DefinedRoutes } from '.';
 
 declare global {
   interface Window {
@@ -44,12 +46,18 @@ export type RouterConfig = {
   };
   serverBase?: string[];
   supportHtml5History?: boolean;
+  configRoutes?: {
+    routes: DefinedRoutes;
+    LoadingComponent?: React.ComponentType<any>;
+    lazy?: ConfigRoutesLazy;
+  };
 };
 
 export const routerPlugin = ({
   serverBase = [],
   supportHtml5History = true,
   routesConfig,
+  configRoutes,
 }: RouterConfig): Plugin => {
   const isBrow = isBrowser();
 
@@ -61,6 +69,25 @@ export const routerPlugin = ({
       return {
         hoc: ({ App }, next) => {
           const getRouteApp = () => {
+            const nestedRoutes = routesConfig
+              ? renderRoutes(routesConfig)
+              : null;
+            const Element = (props: any) =>
+              configRoutes ? (
+                <App
+                  Component={(extraProps: any) => (
+                    <ConfigRoutes
+                      routes={configRoutes.routes}
+                      loading={configRoutes.LoadingComponent}
+                      lazy={configRoutes.lazy}
+                      {...extraProps}
+                    />
+                  )}
+                  {...props}
+                />
+              ) : (
+                <App {...props}>{nestedRoutes}</App>
+              );
             if (isBrow) {
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
@@ -68,17 +95,9 @@ export const routerPlugin = ({
 
               const Router = supportHtml5History ? BrowserRouter : HashRouter;
 
-              const RouterContent = (props: any) => {
-                return (
-                  <App {...props}>
-                    {routesConfig ? renderRoutes(routesConfig) : null}
-                  </App>
-                );
-              };
-
               return (props: any) => (
                 <Router basename={baseUrl}>
-                  <RouterContent {...props} />
+                  <Element props={props} />
                 </Router>
               );
             }
@@ -97,9 +116,7 @@ export const routerPlugin = ({
                     basename={basename === '/' ? '' : basename}
                     location={location}
                   >
-                    <App {...props}>
-                      {routesConfig ? renderRoutes(routesConfig) : null}
-                    </App>
+                    <Element props={props} />
                   </StaticRouter>
                 </ServerRouterContext.Provider>
               );

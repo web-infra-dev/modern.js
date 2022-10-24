@@ -30,3 +30,5 @@ export const HTML_PARTIALS_FOLDER = 'html';
 export const HTML_PARTIALS_EXTENSIONS = ['.htm', '.html', '.ejs'];
 
 export const FILE_SYSTEM_ROUTES_COMPONENTS_DIR = 'internal_components';
+
+export const CONFIG_ROUTER_FILE_NAME = 'routes';
