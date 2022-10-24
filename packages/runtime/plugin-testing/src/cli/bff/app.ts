@@ -1,5 +1,6 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import { Server } from '@modern-js/prod-server';
+import { InternalPlugins } from '@modern-js/types';
 
 const store = new AsyncLocalStorage();
 
@@ -9,7 +10,7 @@ let server: Server | null = null;
 const createApp = async (
   pwd: string,
   config: any,
-  plugins: any[],
+  plugins: InternalPlugins,
   routes: any[],
 ) => {
   if (!server) {
@@ -18,7 +19,7 @@ const createApp = async (
       apiOnly: true,
       pwd,
       config,
-      plugins,
+      internalPlugins: plugins,
       routes,
     });
 

@@ -19,7 +19,7 @@ export const runCli = async (options: {
     configFile: options.configFile,
     plugins: {
       '@modern-js/module-tools-v2': {
-        cli: path.join(__dirname, '../src'),
+        path: path.join(__dirname, '../src'),
         forced: true,
       } as any,
     },
