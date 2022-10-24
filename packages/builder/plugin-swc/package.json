@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "SWC plugin for builder in Modern.js",
   "main": "./dist/index.js",
-  "types": "./types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "prepare": "npm run build",
     "build": "swc ./src -d dist && tsc --emitDeclarationOnly",
