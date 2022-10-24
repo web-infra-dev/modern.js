@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "0.2.0",
+    "@modern-js/libuild": "0.2.1-alpha.0",
     "@modern-js/libuild-plugin-babel": "0.1.0",
     "@modern-js/libuild-plugin-es5": "0.1.0",
     "@modern-js/new-action": "workspace:*",
@@ -56,6 +56,7 @@
     "@types/node": "^14",
     "jest": "^27",
     "postcss": "8.4.6",
+    "react": "17",
     "typescript": "^4"
   },
   "publishConfig": {

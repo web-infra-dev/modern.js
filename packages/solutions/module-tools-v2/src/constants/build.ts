@@ -18,18 +18,17 @@ export const defaultBundleBuildConfig: BaseBuildConfig = {
     distPath: './',
     tsconfigPath: './tsconfig.json',
   },
+  jsx: 'automatic',
   bundleOptions: {
     entry: [], // entry will overrides by getDefaultEntry function
     platform: 'node',
     splitting: false,
     externals: undefined,
-    minify: 'esbuild',
+    minify: false,
     skipDeps: true,
-    assets: undefined,
     entryNames: '[name]',
     globals: {},
     metafile: false,
-    jsx: 'automatic',
     getModuleId: () => undefined,
   },
 };
@@ -49,9 +48,8 @@ export const defaultBundlelessBuildConfig: BaseBuildConfig = {
   bundlelessOptions: {
     sourceDir: './src',
     style: {
-      path: './',
       compileMode: 'all',
     },
-    assets: { path: './' },
   },
+  jsx: 'automatic',
 };

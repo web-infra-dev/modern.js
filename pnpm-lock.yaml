@@ -2736,7 +2736,7 @@ importers:
   packages/solutions/module-tools-v2:
     specifiers:
       '@modern-js/core': workspace:*
-      '@modern-js/libuild': 0.2.0
+      '@modern-js/libuild': 0.2.1-alpha.0
       '@modern-js/libuild-plugin-babel': 0.1.0
       '@modern-js/libuild-plugin-es5': 0.1.0
       '@modern-js/new-action': workspace:*
@@ -2752,10 +2752,11 @@ importers:
       '@types/node': ^14
       jest: ^27
       postcss: 8.4.6
+      react: '17'
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.2.0
+      '@modern-js/libuild': 0.2.1-alpha.0
       '@modern-js/libuild-plugin-babel': 0.1.0
       '@modern-js/libuild-plugin-es5': 0.1.0
       '@modern-js/new-action': link:../../generator/new-action
@@ -2772,6 +2773,7 @@ importers:
       '@types/node': 14.18.21
       jest: 27.5.1
       postcss: 8.4.6
+      react: 17.0.2
       typescript: 4.7.4
 
   packages/solutions/monorepo-tools:
@@ -8540,8 +8542,8 @@ packages:
       regenerator-runtime: 0.13.9
     dev: false
 
-  /@modern-js/libuild/0.2.0:
-    resolution: {integrity: sha512-azM6u5g13mXB4g3Pc0ZzJiE2J1PhKaDydjn3sRNFF/Ay9MRvzzNHe0/i+93EPmAoiYsi2Iaxl+uDNKhGBrt/MQ==}
+  /@modern-js/libuild/0.2.1-alpha.0:
+    resolution: {integrity: sha512-lFow+OfGhI7K4kBRIbGXTuiBJU3qSzKeRC+umtgp6ryJUWkBcmCJqnX8qxPTEK/28B6t9HzaEmSPumvmH0dH8w==}
     hasBin: true
     dependencies:
       '@speedy-js/source-map': 0.1.3
@@ -8549,6 +8551,7 @@ packages:
       postcss: 8.4.6
       source-map: 0.7.3
       source-map-support: 0.5.20
+      style-inject: 0.3.0
       terser: 5.15.0
     dev: false
 
@@ -28578,6 +28581,10 @@ packages:
   /strip-json-comments/3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
+
+  /style-inject/0.3.0:
+    resolution: {integrity: sha512-IezA2qp+vcdlhJaVm5SOdPPTUu0FCEqfNSli2vRuSIBbu5Nq5UvygTk/VzeCqfLz2Atj3dVII5QBKGZRZ0edzw==}
+    dev: false
 
   /style-loader/1.3.0_webpack@4.46.0:
     resolution: {integrity: sha512-V7TCORko8rs9rIqkSrlMfkqA63DfoGBBJmK1kKGCcSi+BWb4cqz0SRsnp4l6rU5iwOEd0/2ePv68SV22VXon4Q==}

@@ -100,7 +100,14 @@ export const buildLib = async (
   },
 ) => {
   const { sourceConfig, watch, styleConfig } = options;
-  const { target, buildType, sourceMap, format, path: distPath } = config;
+  const {
+    target,
+    buildType,
+    sourceMap,
+    format,
+    path: distPath,
+    asset,
+  } = config;
   const { appDirectory, srcDirectory } = api.useAppContext();
 
   // sourceConfig
@@ -145,7 +152,7 @@ export const buildLib = async (
     '../utils/libuild-plugins'
   );
   plugins.push(watchPlugin(config));
-
+  const { path: outdir, ...resetAsset } = asset ?? {};
   const commonLiBuildConfig: CLIConfig = {
     root: appDirectory,
     watch,
@@ -158,21 +165,24 @@ export const buildLib = async (
     resolve: {
       alias,
     },
+    asset: {
+      ...resetAsset,
+      outdir,
+    },
     plugins,
   };
 
   if (buildType === 'bundle') {
     const {
+      jsx,
       bundleOptions: {
         entry,
         platform,
         splitting,
         minify,
-        assets,
         entryNames,
         globals,
         metafile,
-        jsx,
         getModuleId,
       },
     } = config;
@@ -187,7 +197,6 @@ export const buildLib = async (
       metafile,
       globals,
       entryNames,
-      asset: assets,
       splitting,
       sourceMap,
       minify,
@@ -215,16 +224,14 @@ export const buildLib = async (
     }
   } else {
     const {
-      bundlelessOptions: { sourceDir, assets },
+      bundlelessOptions: { sourceDir },
     } = config;
     const bundlelessConfig: CLIConfig = {
       ...commonLiBuildConfig,
-      sourceDir,
-      asset: {
-        outdir: assets.path,
-      },
+      input: [sourceDir],
       bundle: false,
     };
+    console.info(bundlelessConfig);
     try {
       const { Libuilder } = await import('@modern-js/libuild');
       await Libuilder.run(bundlelessConfig);

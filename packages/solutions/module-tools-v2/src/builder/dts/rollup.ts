@@ -14,6 +14,16 @@ type Config = {
   watch: boolean;
 };
 
+export const getInput = async (entry: Entry) => {
+  if (typeof entry === 'string') {
+    const { globby } = await import('@modern-js/utils');
+    const files = await globby(`${entry}/**/*.{ts,tsx}`);
+    return files;
+  }
+
+  return entry;
+};
+
 export const runRollup = async ({
   distDir,
   tsconfigPath,

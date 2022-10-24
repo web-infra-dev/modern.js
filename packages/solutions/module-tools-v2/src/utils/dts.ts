@@ -89,9 +89,11 @@ export const generatorTsConfig = async (
 
 export const getTscBinPath = async (appDirectory: string) => {
   const { fs } = await import('@modern-js/utils');
-  const { default: findUp, exists: pathExists } = await import('find-up');
+  const { default: findUp, exists: pathExists } = await import(
+    '../../compiled/find-up'
+  );
   const tscBinFile = await findUp(
-    async directory => {
+    async (directory: string) => {
       const targetFilePath = path.join(directory, './node_modules/.bin/tsc');
       const hasTscBinFile = await pathExists(targetFilePath);
       if (hasTscBinFile) {

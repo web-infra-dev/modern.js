@@ -29,6 +29,11 @@ export const transformBuildPresetToBaseConfigs = async (
       throw new Error('buildPreset函数不允许返回值为空');
     }
 
+    if (partialBuildConfig) {
+      const { validPartialBuildConfig } = await import('../utils/config');
+      validPartialBuildConfig(partialBuildConfig);
+    }
+
     return transformBuildConfigToBaseConfigs(partialBuildConfig, options);
   }
 

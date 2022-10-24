@@ -12,6 +12,10 @@ interface EntryOptions {
 
 export const getAbsEntry = (entry: Entry, options: EntryOptions) => {
   const { appDirectory } = options;
+  // if (typeof entry === 'string') {
+  //   return path.join(options.appDirectory, entry);
+  // }
+
   if (Array.isArray(entry)) {
     return entry.map(p =>
       path.isAbsolute(p) ? p : path.join(appDirectory, p),

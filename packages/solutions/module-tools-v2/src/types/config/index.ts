@@ -3,7 +3,10 @@ import type {
   ToolsConfig as ToolsConfig_,
   NewPluginConfig,
 } from '@modern-js/core';
-import type { UserConfig as LibuildUserConfig } from '@modern-js/libuild';
+import type {
+  UserConfig as LibuildUserConfig,
+  Asset as LibuildAsset,
+} from '@modern-js/libuild';
 import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build-presets';
@@ -37,6 +40,13 @@ export type DTSOptions = {
   only: boolean;
 };
 export type DTS = false | DTSOptions;
+export interface Asset {
+  path: LibuildAsset['outdir'];
+  rebase: LibuildAsset['rebase'];
+  name: LibuildAsset['name'];
+  limit: LibuildAsset['limit'];
+  publicPath: LibuildAsset['publicPath'];
+}
 export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
 export type SkipDeps =
   | boolean
@@ -45,12 +55,15 @@ export type SkipDeps =
       devDependencies?: boolean;
       peerDependencies?: boolean;
     };
+export type JSX = Exclude<Required<LibuildUserConfig>['jsx'], 'preserve'>;
 
 export interface BaseCommonBuildConfig {
   target: Target;
   dts: DTS;
   sourceMap: SourceMap;
   copy: CopyConfig;
+  asset?: Asset;
+  jsx: JSX;
   path: string;
 }
 export interface PartialBaseCommonBuildConfig {
@@ -58,6 +71,8 @@ export interface PartialBaseCommonBuildConfig {
   dts?: false | Partial<DTSOptions>;
   sourceMap?: SourceMap;
   copy?: CopyConfig;
+  asset?: Partial<Asset>;
+  jsx?: JSX;
   path?: string;
 }
 
@@ -68,11 +83,9 @@ export type BundleOptions = {
   minify: LibuildUserConfig['minify'];
   externals: LibuildUserConfig['external'];
   skipDeps: SkipDeps;
-  assets: LibuildUserConfig['asset'];
   entryNames: LibuildUserConfig['entryNames'];
   globals: LibuildUserConfig['globals'];
   metafile: LibuildUserConfig['metafile'];
-  jsx: LibuildUserConfig['jsx'];
   getModuleId: LibuildUserConfig['getModuleId'];
 };
 export interface BaseBundleBuildConfig extends BaseCommonBuildConfig {
@@ -93,14 +106,11 @@ export type Style = {
     | 'only-compiled-code'
     | /* may be will be deprecated */ 'only-source-code'
     | false;
-  // TODO: 确认是否需要
-  path: string;
 };
 export type Assets = { path: string };
 export type BundlelessOptions = {
   sourceDir: string;
   style: Style;
-  assets: Assets;
 };
 export interface BaseBundlelessBuildConfig extends BaseCommonBuildConfig {
   buildType: 'bundleless';

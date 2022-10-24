@@ -53,8 +53,13 @@ export const getPostcssConfig = async (config: UserConfig) => {
     },
   };
 
-  const mergedConfig = applyOptionsChain<PostcssOptions, PostCSSConfigUtils>(
+  const mergedConfig = applyOptionsChain<
+    PostcssOptions & { $$tools?: string },
+    PostCSSConfigUtils
+  >(
     {
+      // TODO: when schema support redefine
+      // $$tools: 'module-tools',
       plugins: [
         require(getCompiledPath('postcss-flexbugs-fixes')),
         require(getCompiledPath('postcss-custom-properties')),
@@ -80,14 +85,6 @@ export const getStyleConfig = async (api: PluginAPI<ModuleToolsHooks>) => {
   const postcssConfig = await getPostcssConfig(config);
   const lessConfig = await getLessConfig(config);
   const sassConfig = await getSassConfig(config);
-
-  const runner = api.useHookRunners();
-  const tailwindPlugin = await runner.addTailwindCssConfig(undefined, {
-    onLast: async (_: any) => undefined,
-  });
-  if (tailwindPlugin) {
-    postcssConfig.plugins?.push(tailwindPlugin);
-  }
 
   return {
     less: lessConfig,
