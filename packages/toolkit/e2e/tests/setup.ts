@@ -5,7 +5,7 @@ import { createSnapshotSerializer } from '@scripts/vitest-config';
 expect.addSnapshotSerializer(
   createSnapshotSerializer({
     replace: [
-      { mark: 'root', match: path.resolve(__dirname, '../../../..') },
+      { mark: 'root', match: path.resolve(__dirname, '../../..') },
       { mark: 'workspace', match: path.resolve(__dirname, '..') },
     ],
   }),
