@@ -1,5 +1,12 @@
 import { AsyncWaterfall, AsyncWorkflow } from '@modern-js/plugin';
-import { Entrypoint, HtmlPartials, Route, ServerRoute } from '@modern-js/types';
+import {
+  Entrypoint,
+  HtmlPartials,
+  NestedRoute,
+  PageRoute,
+  RouteLegacy,
+  ServerRoute,
+} from '@modern-js/types';
 
 export interface ImportSpecifier {
   local?: string;
@@ -45,7 +52,7 @@ export interface Hooks {
   }>;
   modifyFileSystemRoutes: AsyncWaterfall<{
     entrypoint: Entrypoint;
-    routes: Route[];
+    routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
   }>;
   modifyServerRoutes: AsyncWaterfall<{
     routes: ServerRoute[];

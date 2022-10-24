@@ -14,10 +14,11 @@ export type {
 };
 
 export type AgreedRoute = {
-  path: string;
-  component: string;
-  _component: string;
-  exact: boolean;
+  path?: string;
+  component?: string;
+  _component?: string;
+  children?: AgreedRoute[];
+  exact?: boolean; // compatible with react-routerv5
 };
 
 export type EntryPoint = {
