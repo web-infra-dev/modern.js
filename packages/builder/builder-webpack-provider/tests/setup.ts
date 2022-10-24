@@ -13,7 +13,7 @@ expect.addSnapshotSerializer(
       { mark: 'workspace', match: path.resolve(__dirname, '..') },
       {
         mark: 'fragment',
-        match: /(?<=\/modern-js\/stub-builder\/[^/]+\/)[^/]+/,
+        match: /\/modern-js\/stub-builder\/[^/]+\/[^/]+/,
       },
     ],
   }),

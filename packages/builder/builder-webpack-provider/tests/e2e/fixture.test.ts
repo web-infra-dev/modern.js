@@ -3,7 +3,7 @@ import { useFixture } from '@modern-js/e2e';
 import { createStubBuilder } from '../../src/stub';
 
 it('fixture', async () => {
-  const options = await useFixture('@modern-js/e2e/fixtures/basic'); // also can be relative path
+  const options = await useFixture('@modern-js/e2e/fixtures/builder/basic'); // also can be relative path
   const builder = await createStubBuilder({
     ...options,
     plugins: 'minimal', // no need to set in e2e environment.
