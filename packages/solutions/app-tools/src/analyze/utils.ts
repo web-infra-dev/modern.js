@@ -94,3 +94,9 @@ export const isRouteComponentFile = (filePath: string) => {
 
   return false;
 };
+
+export const replaceWithAlias = (
+  base: string,
+  filePath: string,
+  alias: string,
+) => normalizeToPosixPath(path.join(alias, path.relative(base, filePath)));

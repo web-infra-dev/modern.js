@@ -1,5 +1,11 @@
 import type { RuntimePlugin } from '@modern-js/core';
-import type { Entrypoint, Route } from '@modern-js/types';
+import type {
+  Entrypoint,
+  NestedRoute,
+  PageRoute,
+  Route,
+  RouteLegacy,
+} from '@modern-js/types';
 
 export const index = ({
   mountId,
@@ -97,19 +103,100 @@ export const html = (partials: {
 </html>
 `;
 
-export const fileSystemRoutes = ({ routes }: { routes: Route[] }) => `
-import loadable from '@modern-js/runtime/loadable';
+export const fileSystemRoutes = ({
+  routes,
+  ssrMode,
+}: {
+  routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
+  ssrMode: 'string' | 'stream' | undefined;
+}) => {
+  const importLazyCode =
+    ssrMode === 'stream'
+      ? 'import { lazy } from "react";'
+      : `import loadable from '@modern-js/runtime/loadable'`;
 
-${routes
-  .map(
-    ({ component, _component }) =>
-      `const ${component} = loadable(() => import('${_component}'));`,
-  )
-  .join('\n\n')}
+  const loadings: string[] = [];
+  const errors: string[] = [];
 
+  const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
+    let children: Route['children'];
+    if ('children' in route && route.children) {
+      children = route?.children?.map(traverseRouteTree);
+    }
+    let loading: string | undefined;
+    let error: string | undefined;
 
-export const routes = ${JSON.stringify(routes, null, 2).replace(
-  /"component"\s*:\s*"(\S+)"/g,
-  '"component": $1',
-)}
-`;
+    if (route.type === 'nested') {
+      if (route.loading) {
+        loadings.push(route.loading);
+        loading = `loading_${loadings.length - 1}`;
+      }
+      if (route.error) {
+        errors.push(route.error);
+        error = `error_${errors.length - 1}`;
+      }
+    }
+
+    const finalRoute = {
+      ...route,
+      loading,
+      error,
+      children,
+    };
+    if (route._component) {
+      const component =
+        ssrMode === 'stream'
+          ? `lazy(() => import('${route._component}'))`
+          : `loadable(() => import('${route._component}'))`;
+      finalRoute.component = component;
+    }
+    return finalRoute;
+  };
+
+  let routeComponentsCode = `
+    export const routes = [
+  `;
+  for (const route of routes) {
+    if ('type' in route) {
+      const newRoute = traverseRouteTree(route);
+      routeComponentsCode += `${JSON.stringify(newRoute, null, 2)
+        .replace(/"(loadable[^"]*)"/g, '$1')
+        .replace(/"(lazy[^"]*)"/g, '$1')
+        .replace(/"(loading_[^"])"/g, '$1')
+        .replace(/"(error_[^"])"/g, '$1')},`;
+    } else {
+      const component =
+        ssrMode === 'stream'
+          ? `lazy(() => import('${route._component}'))`
+          : `loadable(() => import('${route._component}'))`;
+      const finalRoute = {
+        ...route,
+        component,
+      };
+
+      routeComponentsCode += `${JSON.stringify(finalRoute, null, 2)
+        .replace(/"(loadable[^"]*)"/g, '$1')
+        .replace(/"(lazy[^"]*)"/g, '$1')},`;
+    }
+  }
+  routeComponentsCode += `\n];`;
+
+  const importLoadingCode = loadings
+    .map((loading, index) => {
+      return `import loading_${index} from '${loading}';\n`;
+    })
+    .join('');
+
+  const importErrorComponentsCode = errors
+    .map((error, index) => {
+      return `import error_${index} from '${error}';\n`;
+    })
+    .join('');
+
+  return `
+    ${importLazyCode}
+    ${importLoadingCode}
+    ${importErrorComponentsCode}
+    ${routeComponentsCode}
+  `;
+};

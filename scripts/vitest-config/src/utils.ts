@@ -71,9 +71,20 @@ export function applyMatcherReplacement(matchers: PathMatcher[], str: string) {
   }, str);
 }
 
-export const pnpmInnerPathMatcher: PathMatcher = {
-  match: /(?<=\/)(\.pnpm\/.+?\/node_modules)(?=\/)/,
-  mark: 'pnpmInner',
+export const createDefaultPathMatchers = (root: string) => {
+  const ret: PathMatcher[] = [
+    {
+      match: /(?<=\/)(\.pnpm\/.+?\/node_modules)(?=\/)/,
+      mark: 'pnpmInner',
+    },
+  ];
+  try {
+    ret.push({ match: fs.realpathSync(os.tmpdir()), mark: 'temp' });
+  } catch {}
+  ret.push({ match: os.tmpdir(), mark: 'temp' });
+  ret.push({ match: os.homedir(), mark: 'home' });
+  ret.push(...matchUpwardPathsAsUnknown(root));
+  return ret;
 };
 
 export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
@@ -83,15 +94,8 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
   assert(rootMatcher, 'root matcher is required');
   const pathMatchers: PathMatcher[] = [
     ...options.replace,
-    pnpmInnerPathMatcher,
-    { match: os.homedir(), mark: 'home' },
-    { match: os.tmpdir(), mark: 'temp' },
+    ...createDefaultPathMatchers(rootMatcher.match),
   ];
-  try {
-    const match = fs.realpathSync(os.tmpdir());
-    pathMatchers.push({ match, mark: 'readTmp' });
-  } catch {}
-  pathMatchers.push(...matchUpwardPathsAsUnknown(rootMatcher.match));
 
   pathMatchers
     .filter(matcher => typeof matcher.match === 'string')
