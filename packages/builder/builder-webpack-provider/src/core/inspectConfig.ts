@@ -29,6 +29,7 @@ async function writeConfigFiles({
     outputPath = join(context.rootPath, outputPath);
   }
 
+  const { target } = builderOptions;
   const files = [
     {
       path: join(outputPath, 'builder.config.js'),
@@ -36,11 +37,11 @@ async function writeConfigFiles({
       content: builderConfig,
     },
     ...bundlerConfigs.map((content, index) => {
-      const target = builderOptions.target[index];
-      const outputFile = `webpack.config.${target}.js`;
+      const suffix = Array.isArray(target) ? target[index] : `target-${index}`;
+      const outputFile = `webpack.config.${suffix}.js`;
       return {
         path: join(outputPath, outputFile),
-        label: `Webpack Config (${target})`,
+        label: `Webpack Config (${suffix})`,
         content,
       };
     }),

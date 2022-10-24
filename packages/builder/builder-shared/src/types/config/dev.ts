@@ -2,8 +2,8 @@ import type { DevServerHttpsOptions } from '@modern-js/types';
 
 export type ProgressBarConfig = {
   id?: string;
-  quite?: boolean;
-  quiteOnDev?: boolean;
+  quiet?: boolean;
+  quietOnDev?: boolean;
 };
 
 export interface SharedDevConfig {
@@ -14,3 +14,5 @@ export interface SharedDevConfig {
   assetPrefix?: string | boolean;
   progressBar?: boolean | ProgressBarConfig;
 }
+
+export type NormalizedSharedDevConfig = Required<SharedDevConfig>;
