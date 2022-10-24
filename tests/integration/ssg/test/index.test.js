@@ -5,7 +5,7 @@ const { modernBuild } = require('../../../utils/modernTestUtils');
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
-jest.setTimeout(1000 * 20);
+jest.setTimeout(1000 * 60);
 
 describe('ssg', () => {
   it('should simple ssg work correctly', async () => {
@@ -17,7 +17,7 @@ describe('ssg', () => {
     expect(content).toMatch('Hello, Modern.js');
   });
 
-  it('should simple ssg work correctly', async () => {
+  it('should web-server ssg work correctly', async () => {
     const appDir = join(fixtureDir, 'web-server');
     await modernBuild(appDir);
 
