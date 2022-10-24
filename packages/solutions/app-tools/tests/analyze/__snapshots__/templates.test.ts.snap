@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fileSystemRoutes generate code 1`] = `
+"
+    import loadable from '@modern-js/runtime/loadable'
+    import loading_0 from '@_modern_js_src/routes/loading.tsx';
+
+    import error_0 from '@_modern_js_src/routes/error.tsx';
+
+    
+    export const routes = [
+  {
+  \\"path\\": \\"/\\",
+  \\"_component\\": \\"@_modern_js_src/routes/layout.tsx\\",
+  \\"id\\": \\"layout\\",
+  \\"type\\": \\"nested\\",
+  \\"children\\": [
+    {
+      \\"path\\": \\"user\\",
+      \\"error\\": error_0,
+      \\"_component\\": \\"@_modern_js_src/routes/user.tsx\\",
+      \\"loading\\": loading_0,
+      \\"id\\": \\"user/layout\\",
+      \\"type\\": \\"nested\\",
+      \\"children\\": [
+        {
+          \\"path\\": \\":id\\",
+          \\"id\\": \\"user/[id]/layout\\",
+          \\"type\\": \\"nested\\",
+          \\"children\\": [
+            {
+              \\"_component\\": \\"@_modern_js_src/routes/user/[id]/page.tsx\\",
+              \\"index\\": true,
+              \\"id\\": \\"user/[id]/page\\",
+              \\"type\\": \\"nested\\",
+              \\"component\\": loadable(() => import('@_modern_js_src/routes/user/[id]/page.tsx'))
+            }
+          ]
+        }
+      ],
+      \\"component\\": loadable(() => import('@_modern_js_src/routes/user.tsx'))
+    }
+  ],
+  \\"component\\": loadable(() => import('@_modern_js_src/routes/layout.tsx'))
+},
+];
+  "
+`;
+
+exports[`fileSystemRoutes generate code for legacy router 1`] = `
+"
+    import loadable from '@modern-js/runtime/loadable'
+    
+    
+    
+    export const routes = [
+  {
+  \\"path\\": \\"/user\\",
+  \\"exact\\": true,
+  \\"component\\": loadable(() => import('@/pages/user')),
+  \\"_component\\": \\"@/pages/user\\"
+},
+];
+  "
+`;
