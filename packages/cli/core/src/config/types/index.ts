@@ -23,7 +23,6 @@ import type { PluginConfig, NewPluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
 import type { LessConfig, LessLoaderOptions } from './less';
-import type { UnbundleConfig } from './unbundle';
 import type {
   SSGConfig,
   SSGRouteOptions,
@@ -44,7 +43,6 @@ export type {
   TestConfig,
   JestConfig,
   BabelConfig,
-  UnbundleConfig,
   SassConfig,
   SassLoaderOptions,
   LessConfig,
@@ -138,15 +136,6 @@ export interface OutputConfig {
   disableNodePolyfill?: boolean;
   enableTsLoader?: boolean;
 
-  // TODO: remove unbundle configs after we completely deprecate it.
-  /**
-   * Disables lazy import support for styles, currently supports antd and arco-design.
-   * The configuration of `output.disableAutoImportStyle` is provided by `unbundle` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `unbundle` plugin
-   */
-  disableAutoImportStyle?: boolean;
-
   /**
    * The configuration of `output.ssg` is provided by `ssg` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
@@ -203,14 +192,6 @@ export interface DevConfig {
    * @requires `proxy` plugin
    */
   proxy?: DevProxyOptions;
-
-  // TODO: remove unbundle configs after we completely deprecate it.
-  /**
-   * The configuration of `dev.unbundle` is provided by `unbundle` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `unbundle` plugin
-   */
-  unbundle?: UnbundleConfig;
 }
 
 export interface MicroFrontend {

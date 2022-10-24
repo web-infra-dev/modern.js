@@ -103,8 +103,6 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-nest/cli',
     server: '@modern-js/plugin-nest/server',
   },
-  // TODO: remove unbundle configs after we completely deprecate it.
-  '@modern-js/plugin-unbundle': { cli: '@modern-js/plugin-unbundle' },
   '@modern-js/plugin-server': {
     cli: '@modern-js/plugin-server/cli',
     server: '@modern-js/plugin-server/server',
@@ -191,28 +189,6 @@ export const PLUGIN_SCHEMAS = {
     {
       target: 'dev.proxy',
       schema: { typeof: ['string', 'object'] },
-    },
-  ],
-  // TODO: remove unbundle configs after we completely deprecate it.
-  '@modern-js/plugin-unbundle': [
-    {
-      target: 'output.disableAutoImportStyle',
-      schema: { type: 'boolean' },
-    },
-    {
-      target: 'dev.unbundle',
-      schema: {
-        type: 'object',
-        properties: {
-          ignore: {
-            type: ['string', 'array'],
-            items: { type: 'string' },
-          },
-          ignoreModuleCache: { type: 'boolean' },
-          clearPdnCache: { type: 'boolean' },
-          pdnHost: { type: 'string' },
-        },
-      },
     },
   ],
   '@modern-js/plugin-ssg': [
