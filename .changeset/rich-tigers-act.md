@@ -1,6 +1,6 @@
 ---
-'@modern-js/core': major
-'@modern-js/utils': major
+'@modern-js/core': minor
+'@modern-js/utils': minor
 ---
 
 refactor: remove unbundle configs and types
