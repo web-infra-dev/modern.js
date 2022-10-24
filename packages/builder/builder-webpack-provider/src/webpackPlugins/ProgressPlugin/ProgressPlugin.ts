@@ -25,7 +25,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
       quietOnDev = false,
       clearOnDone = false,
     } = options;
-    const isQuite =
+    const isQuiet =
       quiet || (quietOnDev && process.env.NODE_ENV === 'development');
     const friendlyPercentage = createFriendlyPercentage();
 
@@ -39,7 +39,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
       dependenciesCount: 10000,
       percentBy: null,
       handler: (percentage, message) => {
-        if (!isQuite && process.stdout.isTTY) {
+        if (!isQuiet && process.stdout.isTTY) {
           // eslint-disable-next-line no-param-reassign
           percentage = friendlyPercentage(percentage);
           const done = percentage === 1;

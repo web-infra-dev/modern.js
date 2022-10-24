@@ -1,11 +1,6 @@
 import { join } from 'path';
 import { JS_REGEX, TS_REGEX, SVG_REGEX } from '@modern-js/builder-shared';
-import {
-  getDistPath,
-  getFilename,
-  getDataUrlLimit,
-  getDataUrlCondition,
-} from '../shared';
+import { getDistPath, getFilename, getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginSvg = (): BuilderPlugin => {
@@ -80,7 +75,7 @@ export const PluginSvg = (): BuilderPlugin => {
                 .use(CHAIN_ID.USE.URL)
                 .loader(getCompiledPath('url-loader'))
                 .options({
-                  limit: getDataUrlLimit(config, 'svg'),
+                  limit: config.output.dataUriLimit.svg,
                   name: outputName,
                 }),
             );
