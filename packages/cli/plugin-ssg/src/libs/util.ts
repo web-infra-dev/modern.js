@@ -12,6 +12,7 @@ import {
   SSGConfig,
   EntryPoint,
   SSGMultiEntryOptions,
+  AgreedRoute,
 } from '../types';
 
 export function formatOutput(filename: string) {
@@ -161,3 +162,35 @@ export const openRouteSSR = (routes: ModernRoute[], entries: string[] = []) =>
     isSSR: entries.includes(ssgRoute.entryName!),
     bundle: `${SERVER_BUNDLE_DIRECTORY}/${ssgRoute.entryName as string}.js`,
   }));
+
+// TODO: 过滤带有 server loader 的路由
+export const flattenRoutes = (routes: AgreedRoute[]): AgreedRoute[] => {
+  const parents: AgreedRoute[] = [];
+  const newRoutes: AgreedRoute[] = [];
+
+  const traverseRoute = (route: AgreedRoute) => {
+    const parent = parents[parents.length - 1];
+    let path = parent
+      ? `${parent.path}/${route.path || ''}`.replace(/\/+/g, '/')
+      : route.path || ''; // If the route is an index route, the route has no path property
+    path = path.replace(/\/$/, '');
+
+    // If the route path is / and is not the root route, it should not be used as an ssg route
+    if (route._component && (path !== '/' || (path === '/' && !parent))) {
+      newRoutes.push({
+        ...route,
+        path,
+      });
+    }
+    if (route.children) {
+      parents.push({
+        ...route,
+        path,
+      });
+      route.children.forEach(traverseRoute);
+      parents.pop();
+    }
+  };
+  routes.forEach(traverseRoute);
+  return newRoutes;
+};

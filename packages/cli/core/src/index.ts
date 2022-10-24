@@ -4,10 +4,11 @@ import {
   program,
   ensureAbsolutePath,
   logger,
-  INTERNAL_PLUGINS,
   DEFAULT_SERVER_CONFIG,
+  INTERNAL_SERVER_PLUGINS,
 } from '@modern-js/utils';
 import type { ErrorObject } from '@modern-js/utils/ajv';
+import { InternalPlugins } from '@modern-js/types';
 import { initCommandsMap } from './utils/commander';
 import { resolveConfig, loadUserConfig, addServerConfigToDeps } from './config';
 import { loadPlugins, TransformPlugin } from './loadPlugins';
@@ -33,13 +34,7 @@ export type {
 export * from '@modern-js/plugin';
 
 // TODO: remove export after refactor all plugins
-export {
-  manager,
-  mountHook,
-  usePlugins,
-  createPlugin,
-  registerHook,
-} from './manager';
+export { manager, mountHook, createPlugin, registerHook } from './manager';
 export type { CliHooks, CliPlugin, CliHookCallbacks } from './manager';
 
 // TODO: remove export after refactor all plugins
@@ -74,7 +69,10 @@ export interface CoreOptions {
   configFile?: string;
   serverConfigFile?: string;
   packageJsonConfig?: string;
-  plugins?: typeof INTERNAL_PLUGINS;
+  internalPlugins?: {
+    cli?: InternalPlugins;
+    server?: InternalPlugins;
+  };
   transformPlugin?: TransformPlugin;
   onSchemaError?: (error: ErrorObject) => void;
   options?: {
@@ -128,11 +126,11 @@ const createCli = () => {
     );
 
     const plugins = loadPlugins(appDirectory, loaded.config, {
-      internalPlugins: mergedOptions?.plugins,
+      internalPlugins: mergedOptions?.internalPlugins?.cli,
       transformPlugin: mergedOptions?.transformPlugin,
     });
 
-    plugins.forEach(plugin => plugin.cli && manager.usePlugin(plugin.cli));
+    plugins.forEach(plugin => plugin && manager.usePlugin(plugin));
 
     const appContext = initAppContext({
       appDirectory,
@@ -140,6 +138,8 @@ const createCli = () => {
       configFile: loaded.filePath,
       options: mergedOptions?.options,
       serverConfigFile: mergedOptions?.serverConfigFile,
+      serverInternalPlugins:
+        mergedOptions?.internalPlugins?.server || INTERNAL_SERVER_PLUGINS,
     });
 
     // 将 server.config 加入到 loaded.dependencies，以便对文件监听做热更新

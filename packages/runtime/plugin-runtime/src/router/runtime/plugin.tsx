@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { HashRouter, BrowserRouter, useLocation } from 'react-router-dom';
+import { HashRouter, BrowserRouter } from 'react-router-dom';
 import type { RouteProps } from 'react-router-dom';
 import { StaticRouter } from 'react-router-dom/server';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { PageRoute, NestedRoute } from '@modern-js/types';
 import { RuntimeReactContext, ServerRouterContext } from '../../core';
 import type { Plugin } from '../../core';
 import { isBrowser } from '../../common';
@@ -39,7 +40,7 @@ export type RouterConfig = {
   legacy?: boolean;
   routesConfig?: {
     globalApp?: React.ComponentType<any>;
-    routes?: SingleRouteConfig[];
+    routes?: (NestedRoute | PageRoute)[];
   };
   serverBase?: string[];
   supportHtml5History?: boolean;
@@ -60,7 +61,6 @@ export const routerPlugin = ({
       return {
         hoc: ({ App }, next) => {
           const getRouteApp = () => {
-            // client router
             if (isBrow) {
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
@@ -69,12 +69,9 @@ export const routerPlugin = ({
               const Router = supportHtml5History ? BrowserRouter : HashRouter;
 
               const RouterContent = (props: any) => {
-                const location = useLocation();
                 return (
                   <App {...props}>
-                    {routesConfig
-                      ? renderRoutes(routesConfig, location.pathname, props)
-                      : null}
+                    {routesConfig ? renderRoutes(routesConfig) : null}
                   </App>
                 );
               };
@@ -101,9 +98,7 @@ export const routerPlugin = ({
                     location={location}
                   >
                     <App {...props}>
-                      {routesConfig
-                        ? renderRoutes(routesConfig, location, props)
-                        : null}
+                      {routesConfig ? renderRoutes(routesConfig) : null}
                     </App>
                   </StaticRouter>
                 </ServerRouterContext.Provider>

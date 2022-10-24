@@ -1,27 +1,27 @@
+import {
+  applyDefaultBuilderOptions,
+  createPluginStore,
+  createPublicContext,
+  type BuildOptions,
+  type CreateBuilderOptions,
+  type PluginStore,
+} from '@modern-js/builder-shared';
 import type * as playwright from '@modern-js/e2e/playwright';
 import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
-import {
-  createPluginStore,
-  createPublicContext,
-  applyDefaultBuilderOptions,
-  type PluginStore,
-  type BuildOptions,
-  type CreateBuilderOptions,
-} from '@modern-js/builder-shared';
 import assert from 'assert';
 import { PathLike } from 'fs';
+import { URL } from 'url';
+import { Hooks } from '../core/initHooks';
 import {
   applyBasicPlugins,
   applyDefaultPlugins,
   applyMinimalPlugins,
 } from '../shared/plugin';
-import { URL } from 'url';
-import { Hooks } from '../core/initHooks';
 import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
-import { matchLoader, globContentJSON, filenameToGlobExpr } from './utils';
+import { globContentJSON, matchLoader } from './utils';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
@@ -96,12 +96,13 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     options,
   ) as Required<StubBuilderOptions>;
   // apply webpack option.
-  if (options?.webpack) {
+  const config = builderOptions.builderConfig;
+  if (options?.webpack && !config.output?.distPath?.root) {
     const distPath =
       typeof options.webpack === 'string'
         ? options.webpack
         : getTemplatePath('modern-js/stub-builder/dist');
-    _.set(builderOptions.builderConfig, 'output.distPath', distPath);
+    _.set(config, 'output.distPath.root', distPath);
   }
   // init context.
   const context = createStubContext(builderOptions);
@@ -176,12 +177,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
       throw new Error('`isRelative` is not supported for multiple paths.');
     }
     await build();
-    const _paths = _(paths)
-      .castArray()
-      .map(filenameToGlobExpr)
-      .map(String)
-      .value();
-    return globContentJSON(_paths, { absolute: !isRelative, maxSize });
+    return globContentJSON(paths, { absolute: !isRelative, maxSize });
   };
 
   /** Read output file content. */
