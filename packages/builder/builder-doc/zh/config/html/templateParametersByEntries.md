@@ -11,7 +11,7 @@
 
 ```js
 export default {
-  output: {
+  html: {
     templateParametersByEntries: {
       foo: {
         type: 'a',

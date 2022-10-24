@@ -61,6 +61,7 @@ export async function createDevServer(
         writeToDisk: (file: string) =>
           !file.includes('.hot-update.') && !file.endsWith('.map'),
       },
+      https: builderConfig.dev?.https,
     },
     builderConfig.tools?.devServer,
   );
