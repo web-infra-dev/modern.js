@@ -1,8 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { getTemplatePath, PluginHtml } from '../../src/plugins/html';
-import { PluginEntry } from '../../src/plugins/entry';
-import { createStubBuilder } from '../../src/stub';
-import type { BuilderConfig, NormalizedConfig } from '../../src/types';
+import { getTemplatePath, PluginHtml } from '@/plugins/html';
+import { PluginEntry } from '@/plugins/entry';
+import { createStubBuilder } from '@/stub';
+import type { BuilderConfig, NormalizedConfig } from '@/types';
 
 describe('plugins/html', () => {
   it('should register html plugin correctly', async () => {

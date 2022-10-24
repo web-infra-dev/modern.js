@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { PluginPerformance } from '../../src/plugins/performance';
-import { createStubBuilder } from '../../src/stub';
+import { PluginPerformance } from '@/plugins/performance';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/performance', () => {
   it('should not set profile configuration', async () => {

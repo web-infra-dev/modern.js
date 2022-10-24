@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginManifest } from '../../src/plugins/manifest';
-import { createStubBuilder } from '../../src/stub';
+import { PluginManifest } from '@/plugins/manifest';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/manifest', () => {
   it('should not register manifest plugin by default', async () => {

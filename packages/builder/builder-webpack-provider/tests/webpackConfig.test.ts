@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginBasic } from '../src/plugins/basic';
-import { createStubBuilder } from '../src/stub';
+import { PluginBasic } from '@/plugins/basic';
+import { createStubBuilder } from '@/stub';
 
 describe('webpackConfig', () => {
   it('should allow tools.webpack to return config', async () => {

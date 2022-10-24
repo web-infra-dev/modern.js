@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginYaml } from '../../src/plugins/yaml';
-import { createStubBuilder } from '../../src/stub/builder';
+import { PluginYaml } from '@/plugins/yaml';
+import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/yaml', () => {
   it('should add yaml rule properly', async () => {

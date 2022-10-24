@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeConfig } from '../../src/config/normalize';
+import { normalizeConfig } from '@/config/normalize';
 
 describe('normalizeConfig', () => {
   it('should normalize config correctly', () => {

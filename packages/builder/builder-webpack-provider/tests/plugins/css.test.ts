@@ -1,8 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { PluginCss } from '../../src/plugins/css';
-import { PluginSass } from '../../src/plugins/sass';
-import { PluginLess } from '../../src/plugins/less';
-import { createStubBuilder } from '../../src/stub';
+import { PluginCss, normalizeCssLoaderOptions } from '@/plugins/css';
+import { PluginSass } from '@/plugins/sass';
+import { PluginLess } from '@/plugins/less';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/css', () => {
   // skipped because this case time out in CI env
@@ -183,5 +183,39 @@ describe('plugins/css', () => {
     const config = await builder.unwrapWebpackConfig();
 
     expect(config).toMatchSnapshot();
+  });
+});
+
+describe('normalizeCssLoaderOptions', () => {
+  it('should enable exportOnlyLocals correctly', () => {
+    expect(normalizeCssLoaderOptions({ modules: false }, true)).toEqual({
+      modules: false,
+    });
+
+    expect(normalizeCssLoaderOptions({ modules: true }, true)).toEqual({
+      modules: {
+        exportOnlyLocals: true,
+      },
+    });
+
+    expect(normalizeCssLoaderOptions({ modules: true }, false)).toEqual({
+      modules: true,
+    });
+
+    expect(normalizeCssLoaderOptions({ modules: 'local' }, true)).toEqual({
+      modules: {
+        mode: 'local',
+        exportOnlyLocals: true,
+      },
+    });
+
+    expect(
+      normalizeCssLoaderOptions({ modules: { auto: true } }, true),
+    ).toEqual({
+      modules: {
+        auto: true,
+        exportOnlyLocals: true,
+      },
+    });
   });
 });

@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginSplitChunks } from '../../src/plugins/splitChunks';
-import { createStubBuilder } from '../../src/stub/builder';
+import { PluginSplitChunks } from '@/plugins/splitChunks';
+import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/splitChunks', () => {
   it('should set split-by-experience config', async () => {

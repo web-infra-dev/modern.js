@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { PluginSRI } from '../../src/plugins/sri';
-import { createStubBuilder } from '../../src/stub/builder';
+import { PluginSRI } from '@/plugins/sri';
+import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/sri', () => {
   it('should apply default sri plugin', async () => {
