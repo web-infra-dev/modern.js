@@ -7,6 +7,7 @@ export function Document(): React.ReactElement {
       <head>{/* <Links /> */}</head>
       <body>
         <Head />
+        <h1 style={{ color: 'red' }}>good</h1>
         {/* <Root /> */}
         {/* <Scripts /> */}
       </body>

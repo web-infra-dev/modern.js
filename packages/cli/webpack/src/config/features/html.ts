@@ -8,8 +8,8 @@ import {
   generateMetaTags,
 } from '@modern-js/utils';
 import webpack from 'webpack';
-// import React from 'react';
-// import ReactDomServer from 'react-dom/server';
+import React from 'react';
+import ReactDomServer from 'react-dom/server';
 import { build } from 'esbuild';
 import type { Entrypoint, IAppContext } from '@modern-js/types';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
@@ -70,7 +70,6 @@ export function applyHTMLPlugin({
           template: appContext.htmlTemplates[entryName],
           minify: false,
           templateContent: async () => {
-            // console.log('===> \n template: ', htmlWebpackPlugin);
             // 1. 获取 rootDir
             // 2. 获取 docuemnt 文件 & 判断要渲染哪些 document 文件
             // 3. 拼接成 html 文件，返回
@@ -95,29 +94,26 @@ export function applyHTMLPlugin({
             }, [] as string[]);
 
             // 编译 Document 文件
-            // console.log('\n\n===> esbuild params:\n', appdir, docFiles);
-            const res = await build({
-              entryNames: docFiles[0],
-              // outdir: path.join(appdir, '.tmp', 'document.js'),
-              outfile: `${appdir}/document.js`,
+            await build({
+              entryPoints: docFiles,
+              outfile: 'document2.js',
               platform: 'node',
+              target: 'es6',
+              loader: {
+                '.ts': 'ts',
+                '.tsx': 'tsx',
+              },
+              jsx: 'transform',
               bundle: true,
             });
-            // eslint-disable-next-line no-console
-            console.log('\n\n\n===>  res: \n', res);
-            // const { Document } = await import(`${appdir}/d.js`);
-            // // console.log('===> Document: \n', Document);
-            // const html = ReactDomServer.renderToString(
-            //   React.createElement(Document, null),
-            // );
 
-            // console.log('\n\n\n===> html string: \n:', html);
+            const { Document } = await require(`${appdir}/document2.js`);
 
-            return `<html>
-              <head></head>
-              'hello'
-            </html>`;
-            // return d.replace('sorry', 'chli');
+            const html = ReactDomServer.renderToString(
+              React.createElement(Document, null),
+            );
+
+            return `${html}`;
           },
           favicon:
             getEntryOptions<string | undefined>(
