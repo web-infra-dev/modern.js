@@ -11,6 +11,7 @@ import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
+import { initConfigs } from '../core/initConfigs';
 import { URL } from 'url';
 import { Hooks } from '../core/initHooks';
 import {
@@ -150,8 +151,12 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
 
   /** Unwrap webpack configs. */
   const unwrapWebpackConfigs = async () => {
-    const [{ bundlerConfigs }] = await unwrapHook('onBeforeBuildHook');
-    return bundlerConfigs;
+    const { webpackConfigs } = await initConfigs({
+      context,
+      pluginStore,
+      builderOptions,
+    });
+    return webpackConfigs;
   };
 
   /** Unwrap webpack config, it will ensure there's only one config object. */
@@ -163,7 +168,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
 
   /** Unwrap webpack compiler instance. */
   const unwrapWebpackCompiler = async () => {
-    const [{ compiler }] = await unwrapHook('onAfterCreateCompilerHooks');
+    const [{ compiler }] = await unwrapHook('onAfterCreateCompilerHook');
     return compiler;
   };
 
