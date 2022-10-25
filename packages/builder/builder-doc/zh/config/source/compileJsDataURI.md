@@ -1,5 +1,5 @@
 - Type: `boolean`
-- Default: `false`
+- Default: `true`
 
 对于使用 Data URI 引入的 JavaScript 代码，是否采用 babel 进行编译。
 
@@ -13,12 +13,12 @@ import 'data:text/javascript;charset=utf-8;base64,Y29uc29sZS5sb2coJ2lubGluZSAxJy
 
 #### 示例
 
-添加以下配置来开启：
+添加以下配置来关闭：
 
 ```js
 export default {
   source: {
-    compileJsDataURI: true,
+    compileJsDataURI: false,
   },
 };
 ```

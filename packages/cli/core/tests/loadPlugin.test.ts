@@ -1,20 +1,12 @@
 import path from 'path';
 import { CliPlugin } from '../src';
-import { loadPlugins, getAppPlugins } from '../src/loadPlugins';
+import { isOldPluginConfig, loadPlugins } from '../src/loadPlugins';
 
 describe('load plugins', () => {
-  test('getAppPlugins', () => {
-    const appDirectory = path.resolve(
-      __dirname,
-      './fixtures/load-plugin/user-plugins',
-    );
-    const plugins = getAppPlugins(appDirectory, ['foo' as any], {
-      x: {
-        cli: 'x',
-        forced: true,
-      } as any,
-    });
-    expect(plugins).toEqual([{ cli: 'x', forced: true }, 'foo']);
+  test('should get old plugin result correctly', () => {
+    expect(isOldPluginConfig(['plugin-a'])).toBeTruthy();
+    expect(isOldPluginConfig([['plugin-a', {}]])).toBeTruthy();
+    expect(isOldPluginConfig({} as any)).toBeFalsy();
   });
 
   test('should load user plugin successfully', () => {
@@ -24,23 +16,9 @@ describe('load plugins', () => {
     );
 
     const plugins = loadPlugins(fixture, {
-      plugins: [
-        { cli: path.join(fixture, './test-plugin-a.js') },
-        { server: './test-plugin-b' },
-      ],
+      plugins: [path.join(fixture, './test-plugin-a.js')],
     });
-
-    expect(plugins).toEqual([
-      {
-        cli: {
-          name: 'a',
-        },
-      },
-      {
-        server: './test-plugin-b',
-        serverPkg: './test-plugin-b',
-      },
-    ]);
+    expect(plugins[0].name).toBe('a');
   });
 
   test('should pass options to Plugin', () => {
@@ -50,30 +28,14 @@ describe('load plugins', () => {
     );
 
     const plugins = loadPlugins(fixture, {
-      plugins: [{ cli: ['./test-plugin-c', 'c'] }, ['./test-plugin-c', 'c2']],
+      plugins: [
+        ['./test-plugin-c', 'c'],
+        ['./test-plugin-c', 'c2'],
+      ],
     });
 
-    expect(plugins[0].cli!.name).toEqual('c');
-    expect(plugins[1].cli!.name).toEqual('c2');
-  });
-
-  test('should load user string plugin successfully', () => {
-    const fixture = path.resolve(
-      __dirname,
-      './fixtures/load-plugin/user-plugins',
-    );
-
-    const plugins = loadPlugins(fixture, {
-      plugins: [path.join(fixture, './test-plugin-a.js') as any],
-    });
-
-    expect(plugins).toEqual([
-      {
-        cli: {
-          name: 'a',
-        },
-      },
-    ]);
+    expect(plugins[0].name).toEqual('c');
+    expect(plugins[1].name).toEqual('c2');
   });
 
   test(`should throw error when plugin not found `, () => {
@@ -81,7 +43,7 @@ describe('load plugins', () => {
 
     expect(() => {
       loadPlugins(fixture, {
-        plugins: [{ cli: './test-plugin-a' }, { cli: './plugin-b' }],
+        plugins: ['./test-plugin-a', './plugin-b'],
       });
     }).toThrowError(/^Can not find module /);
   });
@@ -97,7 +59,7 @@ describe('load plugins', () => {
     const userConfig = { plugins: [plugin()] };
     const loadedPlugins = loadPlugins(appDirectory, userConfig);
 
-    expect(loadedPlugins[0].cli?.name).toEqual('foo');
+    expect(loadedPlugins[0]?.name).toEqual('foo');
   });
 
   test(`should load new plugin object correctly`, () => {
@@ -108,10 +70,10 @@ describe('load plugins', () => {
     const plugin = (): CliPlugin => ({
       name: 'foo',
     });
-    const userConfig = { plugins: { cli: [plugin()] } };
+    const userConfig = { plugins: [plugin()] };
     const loadedPlugins = loadPlugins(appDirectory, userConfig);
 
-    expect(loadedPlugins[0].cli?.name).toEqual('foo');
+    expect(loadedPlugins[0]?.name).toEqual('foo');
   });
 
   test('should call transformPlugin', () => {
@@ -127,7 +89,7 @@ describe('load plugins', () => {
 
     loadPlugins(
       fixture,
-      { plugins: [{ cli: path.join(fixture, './test-plugin-a.js') }] },
+      { plugins: [path.join(fixture, './test-plugin-a.js')] },
       options,
     );
 

@@ -1,10 +1,10 @@
 import path from 'path';
 import { address } from '@modern-js/utils';
 import { createContext } from '@modern-js/plugin';
-import type { IAppContext } from '@modern-js/types';
+import type { IAppContext, InternalPlugins } from '@modern-js/types';
 import { UserConfig } from './config';
 import { NormalizedConfig } from './config/mergeConfig';
-import type { LoadedPlugin } from './loadPlugins';
+import { CliPlugin } from './manager';
 
 export type { IAppContext };
 
@@ -43,9 +43,10 @@ export const initAppContext = ({
   configFile,
   options,
   serverConfigFile,
+  serverInternalPlugins,
 }: {
   appDirectory: string;
-  plugins: LoadedPlugin[];
+  plugins: CliPlugin[];
   configFile: string | false;
   options?: {
     metaName?: string;
@@ -54,6 +55,7 @@ export const initAppContext = ({
     sharedDir?: string;
   };
   serverConfigFile: string;
+  serverInternalPlugins: InternalPlugins;
 }): IAppContext => {
   const {
     metaName = 'modern-js',
@@ -67,6 +69,7 @@ export const initAppContext = ({
     appDirectory,
     configFile,
     serverConfigFile,
+    serverInternalPlugins,
     ip: address.ip(),
     port: 0,
     packageName: require(path.resolve(appDirectory, './package.json')).name,

@@ -11,7 +11,6 @@ import {
   createAsyncWaterfall,
   createParallelWorkflow,
 } from '@modern-js/plugin';
-import { compatRequire } from '@modern-js/utils';
 import type { Hooks } from './types';
 import type { Command } from './utils/commander';
 import type { NormalizedConfig } from './config/mergeConfig';
@@ -88,9 +87,3 @@ export type CliPlugin<ExtendHooks = {}> = PluginOptions<
 >;
 
 export const { createPlugin, registerHook, useRunner: mountHook } = manager;
-
-export const usePlugins = (plugins: string[]) =>
-  plugins.forEach(pluginPath => {
-    const module = compatRequire(require.resolve(pluginPath));
-    manager.usePlugin(module);
-  });

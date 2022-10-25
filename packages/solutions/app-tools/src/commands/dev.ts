@@ -26,6 +26,7 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     apiOnly,
     entrypoints,
     serverConfigFile,
+    serverInternalPlugins,
   } = appContext;
 
   const checkedEntries = await getSpecifiedEntries(
@@ -95,9 +96,7 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     pwd: appDirectory,
     config: userConfig,
     serverConfigFile,
-    plugins: appContext.plugins
-      .filter((p: any) => p.server)
-      .map((p: any) => p.server),
+    internalPlugins: serverInternalPlugins,
   });
 
   app.listen(port, async (err: Error) => {
