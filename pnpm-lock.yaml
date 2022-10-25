@@ -248,7 +248,6 @@ importers:
   packages/cli/babel-preset-app:
     specifiers:
       '@babel/core': ^7.18.0
-      '@babel/plugin-transform-destructuring': ^7.18.0
       '@babel/runtime': ^7.18.0
       '@babel/types': ^7.18.0
       '@modern-js/babel-preset-base': workspace:*
@@ -262,7 +261,6 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/core': 7.18.6
-      '@babel/plugin-transform-destructuring': 7.18.6_@babel+core@7.18.6
       '@babel/runtime': 7.18.6
       '@babel/types': 7.18.6
       '@modern-js/babel-preset-base': link:../babel-preset-base
@@ -13427,10 +13425,8 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -29557,7 +29553,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:

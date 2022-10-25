@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
-    "@babel/plugin-transform-destructuring": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@babel/types": "^7.18.0",
     "@modern-js/babel-preset-base": "workspace:*",
