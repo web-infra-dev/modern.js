@@ -1,5 +1,3 @@
-import path from 'path';
-import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import serialize from 'serialize-javascript';
@@ -69,10 +67,11 @@ export default class Entry {
     const { ctx, config } = options;
     const {
       entryName,
-      template: templateHTML,
+      template,
       request: { host },
     } = ctx;
-    this.fragments = toFragments(templateHTML);
+
+    this.fragments = toFragments(template, entryName);
     this.entryName = entryName;
     this.host = host;
     this.App = options.App;
@@ -163,12 +162,8 @@ export default class Entry {
         context: Object.assign(context, { ssr: true }),
       });
 
-      // Todo render Hook
       const renderContext = {
-        loadableManifest: path.resolve(
-          ssrContext!.distDir,
-          LOADABLE_STATS_FILE,
-        ),
+        stats: ssrContext!.loadableStats,
         host: this.host,
         result: this.result,
         entryName: this.entryName,
