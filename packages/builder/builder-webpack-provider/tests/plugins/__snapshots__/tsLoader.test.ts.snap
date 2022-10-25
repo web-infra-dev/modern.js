@@ -17,7 +17,6 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
               },
             ],
           },
-          "<ROOT>/packages/builder/builder-webpack-provider/src/runtime/core-js-entry.js",
           "src/**/*.ts",
         ],
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
@@ -72,7 +71,6 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
               },
             ],
           },
-          "<ROOT>/packages/builder/builder-webpack-provider/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
