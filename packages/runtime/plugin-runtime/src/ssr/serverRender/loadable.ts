@@ -25,18 +25,18 @@ function getLoadableScripts(extractor: ChunkExtractor) {
 
 export const toHtml: RenderHandler = (jsx, renderer, next) => {
   const {
-    loadableManifest,
+    stats,
     result: { chunksMap },
     host,
     config = {},
   } = renderer;
 
-  if (!loadableManifest || chunksMap.js) {
+  if (!stats || chunksMap.js) {
     return next(jsx);
   }
 
   const extractor = new ChunkExtractor({
-    statsFile: loadableManifest,
+    stats,
     entrypoints: [renderer.entryName],
   });
 

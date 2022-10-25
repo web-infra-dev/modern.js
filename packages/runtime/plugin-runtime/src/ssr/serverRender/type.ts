@@ -24,7 +24,7 @@ export interface RenderEntry {
   entryName: string;
   host: string;
   result: RenderResult;
-  loadableManifest: string | undefined;
+  stats: Record<string, any>;
   config: SSRPluginConfig;
 }
 
