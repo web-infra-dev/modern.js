@@ -13,9 +13,9 @@
   A Universal Build Engine for Modern Web Development
 </p>
 
-# @modern-js/builder-plugin-esbuild
+# @modern-js/builder-doc
 
-This package is the esbuild plugin of Modern.js Builder.
+This package provides the documentation snippets of Modern.js Builder.
 
 ## Getting Started
 

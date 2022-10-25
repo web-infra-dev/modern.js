@@ -13,9 +13,9 @@
   A Universal Build Engine for Modern Web Development
 </p>
 
-# @modern-js/builder-plugin-esbuild
+# @modern-js/builder-plugin-swc
 
-This package is the esbuild plugin of Modern.js Builder.
+This package is the swc plugin of Modern.js Builder.
 
 ## Getting Started
 
