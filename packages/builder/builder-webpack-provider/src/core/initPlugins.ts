@@ -39,10 +39,10 @@ export async function initPlugins({
     modifyWebpackChain: hooks.modifyWebpackChainHook.tap,
     modifyWebpackConfig: hooks.modifyWebpackConfigHook.tap,
     modifyBuilderConfig: hooks.modifyBuilderConfigHook.tap,
-    onAfterCreateCompiler: hooks.onAfterCreateCompilerHooks.tap,
-    onBeforeCreateCompiler: hooks.onBeforeCreateCompilerHooks.tap,
-    onAfterStartDevServer: hooks.onAfterStartDevServerHooks.tap,
-    onBeforeStartDevServer: hooks.onBeforeStartDevServerHooks.tap,
+    onAfterCreateCompiler: hooks.onAfterCreateCompilerHook.tap,
+    onBeforeCreateCompiler: hooks.onBeforeCreateCompilerHook.tap,
+    onAfterStartDevServer: hooks.onAfterStartDevServerHook.tap,
+    onBeforeStartDevServer: hooks.onBeforeStartDevServerHook.tap,
   };
 
   for (const plugin of pluginStore.plugins) {

@@ -9,9 +9,9 @@ exports[`initHooks > should init hooks correctly 1`] = `
   "modifyWebpackChainHook",
   "modifyWebpackConfigHook",
   "modifyBuilderConfigHook",
-  "onAfterCreateCompilerHooks",
-  "onBeforeCreateCompilerHooks",
-  "onAfterStartDevServerHooks",
-  "onBeforeStartDevServerHooks",
+  "onAfterCreateCompilerHook",
+  "onBeforeCreateCompilerHook",
+  "onAfterStartDevServerHook",
+  "onBeforeStartDevServerHook",
 ]
 `;

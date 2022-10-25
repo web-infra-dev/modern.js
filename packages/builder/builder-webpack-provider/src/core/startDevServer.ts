@@ -127,7 +127,7 @@ export async function startDevServer(
 
   const server = await createDevServer(options, port, serverOptions, compiler);
 
-  await options.context.hooks.onBeforeStartDevServerHooks.call();
+  await options.context.hooks.onBeforeStartDevServerHook.call();
 
   debug('listen dev server');
   await server.init();
@@ -148,7 +148,7 @@ export async function startDevServer(
         await printDevServerURLs(urls);
       }
 
-      await options.context.hooks.onAfterStartDevServerHooks.call({ port });
+      await options.context.hooks.onAfterStartDevServerHook.call({ port });
       resolve({
         port,
         urls: urls.map(item => item.url),
