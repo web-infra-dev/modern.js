@@ -1,4 +1,15 @@
-- Type: `boolean`
+- Type:
+
+```ts
+type ProgressBar =
+  | boolean
+  | {
+      id?: string;
+      quiet?: boolean;
+      quietOnDev?: boolean;
+    };
+```
+
 - Default: `true`
 
 Whether to progress bar during compilation.
@@ -7,6 +18,18 @@ Whether to progress bar during compilation.
 export default {
   dev: {
     progressBar: false,
+  },
+};
+```
+
+If you need to modify the text displayed on the left side of the progress bar, you can set the `id` option:
+
+```ts
+export default {
+  dev: {
+    progressBar: {
+      id: 'Some Text',
+    },
   },
 };
 ```
