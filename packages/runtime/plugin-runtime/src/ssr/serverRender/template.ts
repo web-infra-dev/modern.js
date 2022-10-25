@@ -1,13 +1,3 @@
-import fs from 'fs';
-
-const readFile = (filepath: string) => {
-  if (fs.existsSync(filepath)) {
-    return fs.readFileSync(filepath, 'utf-8');
-  } else {
-    return null;
-  }
-};
-
 type Filter = (str: string) => string;
 
 const VARIABLE_REG_EXP = /<!--<\?([-=+])\s*(.*?)\s*\?>-->/;
