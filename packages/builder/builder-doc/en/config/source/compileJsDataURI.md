@@ -1,5 +1,5 @@
 - Type: `boolean`
-- Default: `false`
+- Default: `true`
 
 Whether to compile JavaScript code imported via Data URI.
 
@@ -13,12 +13,12 @@ import 'data:text/javascript;charset=utf-8;base64,Y29uc29sZS5sb2coJ2lubGluZSAxJy
 
 #### Example
 
-Add the following config to enable:
+Add the following config to disable:
 
 ```js
 export default {
   source: {
-    compileJsDataURI: true,
+    compileJsDataURI: false,
   },
 };
 ```

@@ -14,7 +14,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               },
             ],
           },
-          "<ROOT>/packages/builder/builder-webpack-provider/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
@@ -145,6 +144,153 @@ exports[`plugins/react > should work with babel-loader 1`] = `
           },
         ],
       },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "use": [
+          {
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+              "plugins": [
+                [
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-destructuring/lib/index.js",
+                  {
+                    "loose": false,
+                    "selectiveLoose": [
+                      "useState",
+                      "useEffect",
+                      "useContext",
+                      "useReducer",
+                      "useCallback",
+                      "useMemo",
+                      "useRef",
+                      "useImperativeHandle",
+                      "useLayoutEffect",
+                      "useDebugValue",
+                    ],
+                  },
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  {
+                    "metaName": "modern-js",
+                  },
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "import-antd",
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  {
+                    "legacy": true,
+                  },
+                ],
+                [
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "helpers": false,
+                    "regenerator": true,
+                    "useESModules": true,
+                    "version": "7.18.6",
+                  },
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                ],
+                [
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  {
+                    "displayName": true,
+                    "pure": true,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                  "styled-components",
+                ],
+              ],
+              "presets": [
+                [
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  {
+                    "bugfixes": false,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.25",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": false,
+                    "shippedProposals": false,
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "useBuiltIns": "entry",
+                  },
+                ],
+                [
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "classic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
+                  },
+                ],
+                [
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
     ],
   },
   "plugins": [
@@ -175,7 +321,6 @@ exports[`plugins/react > should work with ts-loader 1`] = `
               },
             ],
           },
-          "<ROOT>/packages/builder/builder-webpack-provider/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
