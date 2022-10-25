@@ -29,7 +29,7 @@ export const createServer = (
     });
 
     const appContext = api.useAppContext();
-    const plugins = appContext.plugins.filter(p => p.server).map(p => p.server);
+    const plugins = appContext.serverInternalPlugins;
 
     cp.send(
       JSON.stringify({

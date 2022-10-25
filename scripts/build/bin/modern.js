@@ -18,11 +18,13 @@ process.env.CORE_INIT_OPTION_FILE = path.resolve(
 const { cli } = require(`${kProjectRoot}/packages/cli/core/src/index.ts`);
 
 cli.run(process.argv.slice(2), {
-  plugins: {
-    '@modern-js/module-tools': {
-      cli: kModuleToolsCliPath,
-      // 强制加载这个组件，跳过 loadPlugins 里面 filter 的检测逻辑
-      forced: true,
+  internalPlugins: {
+    cli: {
+      '@modern-js/module-tools': {
+        path: kModuleToolsCliPath,
+        // 强制加载这个组件，跳过 loadPlugins 里面 filter 的检测逻辑
+        forced: true,
+      },
     },
   },
 });

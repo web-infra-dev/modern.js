@@ -43,6 +43,9 @@
     },
     "./webpack/lib/ModuleFilenameHelpers.js": {
       "default": "./dist/exports/ModuleFileNameHelpers.js"
+    },
+    "./package.json": {
+      "default": "./package.json"
     }
   },
   "typesVersions": {

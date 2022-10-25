@@ -8,16 +8,18 @@ export const PluginTarget = (): BuilderPlugin => ({
     api.modifyWebpackChain(async (chain, { target }) => {
       if (target === 'node') {
         chain.target('node');
-      } else {
-        const browserslist = await getBrowserslist(api.context.rootPath);
+        return;
+      }
 
-        if (browserslist) {
-          chain.merge({ target: ['web', 'browserslist'] });
-        } else if (target === 'modern-web') {
-          chain.merge({ target: ['web', 'es6'] });
-        } else {
-          chain.merge({ target: ['web', 'es5'] });
-        }
+      const browserslist = await getBrowserslist(api.context.rootPath);
+      const basicTarget = target === 'web-worker' ? 'webworker' : 'web';
+
+      if (browserslist) {
+        chain.merge({ target: [basicTarget, 'browserslist'] });
+      } else if (target === 'modern-web') {
+        chain.merge({ target: [basicTarget, 'es6'] });
+      } else {
+        chain.merge({ target: [basicTarget, 'es5'] });
       }
     });
   },

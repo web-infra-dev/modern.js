@@ -7,7 +7,7 @@
     "@modern-js/core": "workspace:*",
     "typescript": "^4",
     "react": "^18",
-    "react-dom": "^17",
+    "react-dom": "^18",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "lodash": "4.17.21",

@@ -1,13 +1,5 @@
-import type { DevServerHttpsOptions } from '@modern-js/types';
-import type { ProgressOptions } from '../../webpackPlugins/ProgressPlugin/ProgressPlugin';
+import type { SharedDevConfig } from '@modern-js/builder-shared';
 
-export interface DevConfig {
-  hmr?: boolean;
-  port?: number;
-  https?: DevServerHttpsOptions;
-  startUrl?: boolean | string | string[];
-  assetPrefix?: string | boolean;
-  progressBar?: boolean | ProgressOptions;
-}
+export type DevConfig = SharedDevConfig;
 
 export type NormalizedDevConfig = Required<DevConfig>;

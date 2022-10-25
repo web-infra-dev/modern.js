@@ -1,23 +1,65 @@
-import { CSS_REGEX, type BuilderContext } from '@modern-js/builder-shared';
-import { getBrowserslistWithDefault } from '../shared';
+import path from 'path';
+import assert from 'assert';
 import {
+  CSS_REGEX,
+  getBrowserslistWithDefault,
+  type BuilderTarget,
+  type BuilderContext,
+} from '@modern-js/builder-shared';
+import type {
+  WebpackChain,
   BuilderPlugin,
   CssExtractOptions,
   CSSLoaderOptions,
   ModifyWebpackUtils,
   NormalizedConfig,
   StyleLoaderOptions,
-  WebpackChain,
 } from '../types';
-
-import assert from 'assert';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
+
+export const isUseCssExtract = (
+  config: NormalizedConfig,
+  target: BuilderTarget,
+) =>
+  config.tools.cssExtract !== false &&
+  !config.tools.styleLoader &&
+  target !== 'node' &&
+  target !== 'web-worker';
+
+// If the target is 'node' or 'web-worker' and the modules option of css-loader is enabled,
+// we must enable exportOnlyLocals to only exports the modules identifier mappings.
+// Otherwise, the compiled CSS code may contain invalid code, such as `new URL`.
+// https://github.com/webpack-contrib/css-loader#exportonlylocals
+export const normalizeCssLoaderOptions = (
+  options: CSSLoaderOptions,
+  exportOnlyLocals: boolean,
+) => {
+  if (options.modules && exportOnlyLocals) {
+    let { modules } = options;
+    if (modules === true) {
+      modules = { exportOnlyLocals: true };
+    } else if (typeof modules === 'string') {
+      modules = { mode: modules, exportOnlyLocals: true };
+    } else {
+      modules.exportOnlyLocals = true;
+    }
+    options.modules = modules;
+  }
+  return options;
+};
 
 export async function applyBaseCSSRule(
   rule: WebpackChain.Rule,
   config: NormalizedConfig,
   context: BuilderContext,
-  { isServer, isProd, target, CHAIN_ID, getCompiledPath }: ModifyWebpackUtils,
+  {
+    target,
+    isProd,
+    isServer,
+    CHAIN_ID,
+    isWebWorker,
+    getCompiledPath,
+  }: ModifyWebpackUtils,
 ) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
@@ -83,8 +125,7 @@ export async function applyBaseCSSRule(
   };
 
   // 1. Check user config
-  const enableExtractCSS =
-    config.tools.cssExtract !== false && !config.tools.styleLoader;
+  const enableExtractCSS = isUseCssExtract(config, target);
   const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   const enableSourceMap =
     isProd && enableExtractCSS && !config.output.disableSourceMap;
@@ -100,26 +141,10 @@ export async function applyBaseCSSRule(
     {},
     config.tools.styleLoader,
   );
-  const cssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
-    {
-      importLoaders: 1,
-      modules: {
-        auto: true,
-        exportLocalsConvention: 'camelCase',
-        localIdentName: isProd
-          ? '[hash:base64]'
-          : '[path][name]__[local]--[hash:base64:5]',
-        exportOnlyLocals: isServer,
-      },
-      sourceMap: enableSourceMap,
-    },
-    config.tools.cssLoader,
-  );
-  const postcssLoaderOptions = getPostcssConfig();
 
   // 3. Create webpack rule
   // Order: style-loader/mini-css-extract -> css-loader -> postcss-loader
-  if (!isServer) {
+  if (!isServer && !isWebWorker) {
     // use mini-css-extract-plugin loader
     if (enableExtractCSS) {
       rule
@@ -144,7 +169,31 @@ export async function applyBaseCSSRule(
         .loader(getCompiledPath('css-modules-typescript-loader'))
         .end();
     }
+  } else {
+    rule
+      .use(CHAIN_ID.USE.IGNORE_CSS)
+      .loader(path.resolve(__dirname, '../webpackLoaders/ignoreCssLoader'))
+      .end();
   }
+
+  const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
+    {
+      importLoaders: 1,
+      modules: {
+        auto: true,
+        exportLocalsConvention: 'camelCase',
+        localIdentName: isProd
+          ? '[hash:base64]'
+          : '[path][name]__[local]--[hash:base64:5]',
+      },
+      sourceMap: enableSourceMap,
+    },
+    config.tools.cssLoader,
+  );
+  const cssLoaderOptions = normalizeCssLoaderOptions(
+    mergedCssLoaderOptions,
+    isServer || isWebWorker,
+  );
 
   rule
     .use(CHAIN_ID.USE.CSS)
@@ -152,7 +201,8 @@ export async function applyBaseCSSRule(
     .options(cssLoaderOptions)
     .end();
 
-  if (!isServer) {
+  if (!isServer && !isWebWorker) {
+    const postcssLoaderOptions = getPostcssConfig();
     rule
       .use(CHAIN_ID.USE.POSTCSS)
       .loader(getCompiledPath('postcss-loader'))

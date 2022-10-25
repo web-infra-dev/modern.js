@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginMedia } from '../../src/plugins/media';
-import { createStubBuilder } from '../../src/stub';
+import { PluginMedia } from '@/plugins/media';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/media', () => {
   it('should add media rules correctly', async () => {

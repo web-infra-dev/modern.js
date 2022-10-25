@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import { expect, describe, it } from 'vitest';
-import { stringifyConfig } from '../../src/shared';
-import type { BuilderConfig, WebpackConfig } from '../../src/types';
+import { stringifyConfig } from '@/shared';
+import type { BuilderConfig, WebpackConfig } from '@/types';
 
 describe('stringifyConfig', () => {
   it('should stringify webpack config correctly', async () => {

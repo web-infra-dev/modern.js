@@ -187,9 +187,19 @@ export function PluginSplitChunks(): BuilderPlugin {
   return {
     name: 'builder-plugin-split-chunks',
     setup(api) {
-      api.modifyWebpackChain((chain, { isServer }) => {
-        if (isServer) {
+      api.modifyWebpackChain((chain, { isServer, isWebWorker }) => {
+        if (isServer || isWebWorker) {
           chain.optimization.splitChunks(false);
+
+          // web worker does not support dynamic imports, dynamicImportMode need set to eager
+          if (isWebWorker) {
+            chain.module.parser.merge({
+              javascript: {
+                dynamicImportMode: 'eager',
+              },
+            });
+          }
+
           return;
         }
 

@@ -1,9 +1,9 @@
+import { InternalPlugins } from '@modern-js/types';
 import {
   tryResolve,
-  isDepExists,
   createDebugger,
   compatRequire,
-  INTERNAL_PLUGINS,
+  getInternalPlugins,
 } from '@modern-js/utils';
 import type { UserConfig } from './config';
 import { CliPlugin, createPlugin } from './manager';
@@ -11,12 +11,6 @@ import { CliPlugin, createPlugin } from './manager';
 const debug = createDebugger('load-plugins');
 
 type PluginItem = string | [string, any];
-
-export type LoadedPlugin = {
-  cli?: CliPlugin;
-  server?: string;
-  serverPkg?: string;
-};
 
 export type TransformPlugin = (
   plugin: PluginConfig,
@@ -28,45 +22,11 @@ export type TransformPlugin = (
  * @deprecated
  * Using NewPluginConfig instead.
  */
-type OldPluginConfig = Array<
-  | PluginItem
-  | {
-      cli?: PluginItem;
-      server?: PluginItem;
-    }
->;
+type OldPluginConfig = Array<PluginItem>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type NewPluginConfig<T = {}> =
-  | CliPlugin<T>[]
-  | {
-      cli?: CliPlugin[];
-      /** Custom server plugin is not supported yet. */
-      server?: never;
-    };
-
+export type NewPluginConfig<T = {}> = CliPlugin<T>[];
 export type PluginConfig = OldPluginConfig | NewPluginConfig;
-
-export function getAppPlugins(
-  appDirectory: string,
-  oldPluginConfig: OldPluginConfig,
-  internalPlugins?: typeof INTERNAL_PLUGINS,
-) {
-  const allPlugins = internalPlugins || INTERNAL_PLUGINS;
-  const appPlugins = [
-    ...Object.keys(allPlugins)
-      .filter(name => {
-        const config: any = allPlugins[name];
-        if (config.forced === true) {
-          return true;
-        }
-        return isDepExists(appDirectory, name);
-      })
-      .map(name => allPlugins[name]),
-    ...oldPluginConfig,
-  ];
-  return appPlugins;
-}
 
 const resolveCliPlugin = (
   p: PluginItem,
@@ -91,13 +51,12 @@ const resolveCliPlugin = (
   return module;
 };
 
-const isOldPluginConfig = (config?: PluginConfig): config is OldPluginConfig =>
+export const isOldPluginConfig = (
+  config?: PluginConfig,
+): config is OldPluginConfig =>
   Array.isArray(config) &&
   config.some(item => {
-    if (typeof item === 'string' || Array.isArray(item)) {
-      return true;
-    }
-    return 'cli' in item || 'server' in item;
+    return typeof item === 'string' || Array.isArray(item);
   });
 
 /**
@@ -112,59 +71,34 @@ export const loadPlugins = (
   appDirectory: string,
   userConfig: UserConfig,
   options: {
-    internalPlugins?: typeof INTERNAL_PLUGINS;
+    internalPlugins?: InternalPlugins;
     transformPlugin?: TransformPlugin;
   } = {},
 ) => {
   const pluginConfig = userConfig.plugins;
-  const plugins = getAppPlugins(
-    appDirectory,
-    isOldPluginConfig(pluginConfig) ? pluginConfig : [],
-    options.internalPlugins,
-  );
+  const plugins = [
+    ...getInternalPlugins(appDirectory, options.internalPlugins),
+    ...(isOldPluginConfig(pluginConfig) ? pluginConfig : []),
+  ];
 
   const loadedPlugins = plugins.map(plugin => {
-    const _plugin =
-      typeof plugin === 'string' || Array.isArray(plugin)
-        ? { cli: plugin }
-        : plugin;
-
-    const { cli, server } = _plugin;
-    const loadedPlugin: LoadedPlugin = {};
-
-    if (cli) {
-      loadedPlugin.cli = resolveCliPlugin(
-        cli,
-        userConfig,
-        appDirectory,
-        options.transformPlugin,
-      );
-    }
+    const loadedPlugin = resolveCliPlugin(
+      plugin,
+      userConfig,
+      appDirectory,
+      options.transformPlugin,
+    );
 
     // server plugins don't support to accept params
-    if (server && typeof server === 'string') {
-      loadedPlugin.server = server;
-      loadedPlugin.serverPkg = server;
-    }
-
-    debug(`resolve plugin %s: %s`, plugin, {
-      cli: loadedPlugin.cli,
-      server: loadedPlugin.server,
-    });
+    debug(`resolve plugin %s: %s`, plugin, loadedPlugin);
 
     return loadedPlugin;
   });
 
   if (!isOldPluginConfig(pluginConfig)) {
-    const cliPlugins = Array.isArray(pluginConfig)
-      ? pluginConfig
-      : pluginConfig?.cli;
-
-    if (cliPlugins?.length) {
+    if (pluginConfig?.length) {
       loadedPlugins.push(
-        ...cliPlugins.map(item => ({
-          cli: createPlugin(item.setup, item),
-        })),
+        ...pluginConfig.map(item => createPlugin(item.setup, item)),
       );
     }
   }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createStubBuilder } from '../../src/stub';
-import { PluginDefine } from '../../src/plugins/define';
+import { createStubBuilder } from '@/stub';
+import { PluginDefine } from '@/plugins/define';
 
 describe('plugins/define', () => {
   it('should match snapshot', async () => {
