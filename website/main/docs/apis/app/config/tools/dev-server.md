@@ -117,3 +117,18 @@ devServer: {
   ],
 },
 ```
+
+### client
+
+- 类型： `Object`
+- 默认值： `{}`
+
+通过将 host 和 path 设置为空来自动推导 dev server 的 URL：
+```js
+devServer: {
+  client: {
+    host: '',
+    port: '',
+  },
+},
+```
