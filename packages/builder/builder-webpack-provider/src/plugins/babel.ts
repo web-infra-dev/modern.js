@@ -7,6 +7,7 @@ import {
   JS_REGEX,
   TS_REGEX,
   mergeRegex,
+  createVirtualModule,
   getBrowserslistWithDefault,
   type BuilderContext,
 } from '@modern-js/builder-shared';
@@ -203,9 +204,10 @@ export function addCoreJsEntry({
 }) {
   if (enableCoreJsEntry(config, isServer)) {
     const entryPoints = Object.keys(chain.entryPoints.entries() || {});
+    const coreJsEntry = createVirtualModule('import "core-js";');
 
     for (const name of entryPoints) {
-      chain.entry(name).prepend('data:text/javascript,import "core-js";');
+      chain.entry(name).prepend(coreJsEntry);
     }
   }
 }
