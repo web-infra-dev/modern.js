@@ -430,24 +430,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-destructuring/lib/index.js",
-                  {
-                    "loose": false,
-                    "selectiveLoose": [
-                      "useState",
-                      "useEffect",
-                      "useContext",
-                      "useReducer",
-                      "useCallback",
-                      "useMemo",
-                      "useRef",
-                      "useImperativeHandle",
-                      "useLayoutEffect",
-                      "useDebugValue",
-                    ],
-                  },
-                ],
-                [
                   "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                   {
                     "metaName": "modern-js",
@@ -721,24 +703,6 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
               "configFile": false,
               "plugins": [
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-destructuring/lib/index.js",
-                  {
-                    "loose": false,
-                    "selectiveLoose": [
-                      "useState",
-                      "useEffect",
-                      "useContext",
-                      "useReducer",
-                      "useCallback",
-                      "useMemo",
-                      "useRef",
-                      "useImperativeHandle",
-                      "useLayoutEffect",
-                      "useDebugValue",
-                    ],
-                  },
-                ],
-                [
                   "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                   {
                     "metaName": "modern-js",
@@ -1008,24 +972,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               "compact": false,
               "configFile": false,
               "plugins": [
-                [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-destructuring/lib/index.js",
-                  {
-                    "loose": false,
-                    "selectiveLoose": [
-                      "useState",
-                      "useEffect",
-                      "useContext",
-                      "useReducer",
-                      "useCallback",
-                      "useMemo",
-                      "useRef",
-                      "useImperativeHandle",
-                      "useLayoutEffect",
-                      "useDebugValue",
-                    ],
-                  },
-                ],
                 [
                   "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                   {
@@ -1302,24 +1248,6 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               "compact": false,
               "configFile": false,
               "plugins": [
-                [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-destructuring/lib/index.js",
-                  {
-                    "loose": false,
-                    "selectiveLoose": [
-                      "useState",
-                      "useEffect",
-                      "useContext",
-                      "useReducer",
-                      "useCallback",
-                      "useMemo",
-                      "useRef",
-                      "useImperativeHandle",
-                      "useLayoutEffect",
-                      "useDebugValue",
-                    ],
-                  },
-                ],
                 [
                   "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                   {
