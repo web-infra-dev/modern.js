@@ -175,28 +175,6 @@ export const PLUGIN_SCHEMAS = {
       schema: { typeof: ['string', 'object'] },
     },
   ],
-  // TODO: remove unbundle configs after we completely deprecate it.
-  '@modern-js/plugin-unbundle': [
-    {
-      target: 'output.disableAutoImportStyle',
-      schema: { type: 'boolean' },
-    },
-    {
-      target: 'dev.unbundle',
-      schema: {
-        type: 'object',
-        properties: {
-          ignore: {
-            type: ['string', 'array'],
-            items: { type: 'string' },
-          },
-          ignoreModuleCache: { type: 'boolean' },
-          clearPdnCache: { type: 'boolean' },
-          pdnHost: { type: 'string' },
-        },
-      },
-    },
-  ],
   '@modern-js/plugin-ssg': [
     {
       target: 'output.ssg',
