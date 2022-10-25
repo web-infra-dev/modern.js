@@ -1,4 +1,3 @@
-import path from 'path';
 import {
   getBabelConfig,
   createBabelChain,
@@ -13,11 +12,6 @@ import {
 } from '@modern-js/builder-shared';
 
 import type { WebpackChain, BuilderPlugin, NormalizedConfig } from '../types';
-
-export const CORE_JS_ENTRY = path.resolve(
-  __dirname,
-  '../runtime/core-js-entry.js',
-);
 
 const enableCoreJsEntry = (config: NormalizedConfig, isServer: boolean) =>
   config.output.polyfill === 'entry' && !isServer;
@@ -36,24 +30,17 @@ export function applyScriptCondition({
   context,
   includes,
   excludes,
-  isServer,
 }: {
   rule: WebpackChain.Rule;
   config: NormalizedConfig;
   context: BuilderContext;
   includes: (string | RegExp)[];
   excludes: (string | RegExp)[];
-  isServer: boolean;
 }) {
   // compile all folders in app directory, exclude node_modules
   rule.include.add({
     and: [context.rootPath, { not: /node_modules/ }],
   });
-
-  // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
-  if (enableCoreJsEntry(config, isServer)) {
-    rule.include.add(CORE_JS_ENTRY);
-  }
 
   includes.forEach(condition => {
     rule.include.add(condition);
@@ -173,7 +160,6 @@ export const PluginBabel = (): BuilderPlugin => ({
           context: api.context,
           includes,
           excludes,
-          isServer,
         });
 
         rule
@@ -219,7 +205,7 @@ export function addCoreJsEntry({
     const entryPoints = Object.keys(chain.entryPoints.entries() || {});
 
     for (const name of entryPoints) {
-      chain.entry(name).prepend(CORE_JS_ENTRY);
+      chain.entry(name).prepend('data:text/javascript,import "core-js";');
     }
   }
 }

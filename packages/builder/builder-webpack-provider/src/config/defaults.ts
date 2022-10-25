@@ -43,7 +43,7 @@ export const createDefaultConfig = () =>
       alias: {},
       preEntry: [],
       globalVars: {},
-      compileJsDataURI: false,
+      compileJsDataURI: true,
     },
     output: {
       distPath: {
