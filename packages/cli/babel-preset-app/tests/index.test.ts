@@ -30,12 +30,7 @@ describe('babel-preset-app', () => {
 
   it('with tools.babel config', () => {
     const toolsBabelConfig = (config: any) => {
-      config.plugins = config.plugins.filter((item: any) => {
-        const name = typeof item === 'string' ? item : item[0];
-        return !name.includes(
-          `@babel${path.sep}plugin-transform-destructuring`,
-        );
-      });
+      config.plugins = config.plugins.filter(() => false);
     };
 
     const cache = jest.fn();
@@ -44,10 +39,6 @@ describe('babel-preset-app', () => {
       { appDirectory: process.cwd(), userBabelConfig: toolsBabelConfig },
     );
 
-    expect(babelOptions.plugins).toEqual(
-      expect.not.arrayContaining([
-        [require.resolve('@babel/plugin-transform-destructuring')],
-      ]),
-    );
+    expect(babelOptions.plugins?.length).toEqual(0);
   });
 });
