@@ -1,5 +1,6 @@
 import path from 'path';
 import {
+  fs,
   LOADABLE_STATS_FILE,
   mime,
   SERVER_RENDER_FUNCTION_NAME,
@@ -26,7 +27,8 @@ export const render = async (
   const { urlPath, bundle, distDir, template, entryName, staticGenerate } =
     renderOptions;
   const bundleJS = path.join(distDir, bundle);
-  const loadableStats = require(path.join(distDir, LOADABLE_STATS_FILE));
+  const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
+  const loadableStats = fs.existsSync(loadableUri) ? require(loadableUri) : '';
 
   const context: SSRServerContext = {
     request: {
