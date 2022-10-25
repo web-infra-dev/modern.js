@@ -1,5 +1,10 @@
 import path from 'path';
-import { mime, SERVER_RENDER_FUNCTION_NAME } from '@modern-js/utils';
+import {
+  fs,
+  LOADABLE_STATS_FILE,
+  mime,
+  SERVER_RENDER_FUNCTION_NAME,
+} from '@modern-js/utils';
 import cookie from 'cookie';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
@@ -22,6 +27,8 @@ export const render = async (
   const { urlPath, bundle, distDir, template, entryName, staticGenerate } =
     renderOptions;
   const bundleJS = path.join(distDir, bundle);
+  const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
+  const loadableStats = fs.existsSync(loadableUri) ? require(loadableUri) : '';
 
   const context: SSRServerContext = {
     request: {
@@ -44,8 +51,8 @@ export const render = async (
     },
     redirection: {},
     template,
+    loadableStats,
     entryName,
-    distDir,
     staticGenerate,
     logger: undefined!,
     metrics: undefined!,
