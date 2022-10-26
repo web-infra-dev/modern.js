@@ -1,4 +1,5 @@
 import { TransformConfig } from '@modern-js/swc-plugins';
+import { getBrowserslist } from '@modern-js/utils';
 import type { Options } from '@swc/core';
 import type { LoaderContext } from 'webpack';
 import { Compiler } from './binding';
@@ -24,6 +25,10 @@ export function createLoader() {
 
       if (enableSourceMap) {
         swc.sourceMaps = true;
+      }
+
+      if (swc.env && !swc.env.targets) {
+        swc.env.targets = getBrowserslist(swc.cwd || process.cwd());
       }
 
       if (

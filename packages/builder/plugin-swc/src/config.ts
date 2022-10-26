@@ -29,7 +29,7 @@ function getDefaultSwcConfig(): Required<TransformConfig> {
       },
       minify: false, // for loader, we don't need to minify, we do minification using plugin
       module: {
-        type: 'commonjs',
+        type: 'es6',
         ignoreDynamic: true, // let bundler handle dyn import
       },
       sourceMaps: true,

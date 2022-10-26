@@ -16,6 +16,7 @@
     "@modern-js/builder-plugin-esbuild": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@swc/helpers": "0.4.12",
+    "core-js": "^3.25.0",
     "react": "^18",
     "react-dom": "^18"
   },
