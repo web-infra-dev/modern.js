@@ -14,9 +14,6 @@ export type BuildExecuter = (
 
 export const webpackBuild: BuildExecuter = async compiler => {
   return new Promise<{ stats: Stats | MultiStats }>((resolve, reject) => {
-    logger.log();
-    logger.info(`building for production...\n`);
-
     compiler.run((err, stats) => {
       // When using run or watch, call close and wait for it to finish before calling run or watch again.
       // Concurrent compilations will corrupt the output files.
