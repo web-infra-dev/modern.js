@@ -20,6 +20,6 @@ declare module '@loadable/server' {
 
     getChunkAssets: (chunks: any) => ChunkAsset[];
 
-    constructor({ statsFile, entrypoints });
+    constructor({ stats, entrypoints });
   }
 }
