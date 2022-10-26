@@ -17,6 +17,33 @@ import { BottomTemplatePlugin } from '../../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../../utils/constants';
 import type { ChainUtils } from '../shared';
 
+// todo: 移入常量文件中
+const DOCUMENT_FILE_NAME = 'document';
+const DOCUMENT_OUTPUT_NAME = 'document';
+
+function isExistedDocument(appDir: string): boolean {
+  const docExt = ['jsx', 'tsx'];
+
+  const docFileExt = docExt.find(ext => {
+    const validateFile = path.join(
+      `${appDir}/src/${DOCUMENT_FILE_NAME}.${ext}`,
+    );
+    if (findExists([validateFile])) {
+      return true;
+    }
+    return false;
+  });
+
+  return docFileExt !== undefined;
+}
+
+function getDirByEntryName(appDir: string, entryName: string) {
+  if (entryName === 'main') {
+    return path.join(appDir, 'src');
+  }
+  return path.join(appDir, 'src', entryName);
+}
+
 export function applyHTMLPlugin({
   chain,
   config,
@@ -30,8 +57,10 @@ export function applyHTMLPlugin({
   };
 
   const HtmlWebpackPlugin: typeof import('html-webpack-plugin') = require('html-webpack-plugin');
+  const appdir = path.resolve(appContext.appDirectory);
 
   // output html files
+  const isUseDocument = isExistedDocument(appdir);
   const entrypoints = Object.keys(chain.entryPoints.entries() || {});
   for (const entryName of entrypoints) {
     const baseTemplateParams = {
@@ -70,50 +99,64 @@ export function applyHTMLPlugin({
           template: appContext.htmlTemplates[entryName],
           minify: false,
           templateContent: async () => {
-            // 1. 获取 rootDir
-            // 2. 获取 docuemnt 文件 & 判断要渲染哪些 document 文件
+            // 2. 由 appContext.entrypoints 获取文件所在位置
             // 3. 拼接成 html 文件，返回
-            const appdir = path.resolve(appContext.appDirectory);
             // todo: entryName 加入
-            const docFileIn = ['src/document'];
-            const docExt = ['.jsx', '.tsx'];
 
-            // 查找逻辑 | 全部 html 文件
-            const docFiles = docFileIn.reduce((sum, file) => {
-              for (const ext of docExt) {
-                const validateFile = path.join(
-                  appdir,
-                  `${[file, ext].join('')}`,
-                );
-                if (findExists([validateFile])) {
-                  sum.push(validateFile);
-                  break;
-                }
+            const docExt = ['jsx', 'tsx'];
+            // 查找该 entry 下 document 文件
+            const documentDir = getDirByEntryName(appdir, entryName);
+
+            let docFileExt = docExt.find(item => {
+              const validateFile = path.join(
+                `${documentDir}/${DOCUMENT_FILE_NAME}.${item}`,
+              );
+              if (findExists([validateFile])) {
+                return true;
               }
-              return sum;
-            }, [] as string[]);
-
-            // 编译 Document 文件
-            await build({
-              entryPoints: docFiles,
-              outfile: 'document2.js',
-              platform: 'node',
-              target: 'es6',
-              loader: {
-                '.ts': 'ts',
-                '.tsx': 'tsx',
-              },
-              jsx: 'transform',
-              bundle: true,
+              return false;
             });
 
-            const { Document } = await require(`${appdir}/document2.js`);
+            // todo: 无 docFileExt 时使用
+            if (isUseDocument) {
+              //  todo: entry 下无 document.tsx 文件，则用 main 的兜底
+              if (!docFileExt) {
+                docFileExt = 'main';
+              }
+              const documentFilePath = path.join(
+                documentDir,
+                `${DOCUMENT_FILE_NAME}.${docFileExt}`,
+              );
+              // 编译 Document 文件
+              const tmpDir = path.join(
+                appdir,
+                'node_modules/.modern-js/document',
+              );
+              const outputTmpPath = `${tmpDir}/${entryName}_${DOCUMENT_OUTPUT_NAME}.js`;
+              await build({
+                entryPoints: [documentFilePath],
+                outfile: outputTmpPath,
+                platform: 'node',
+                target: 'es6',
+                loader: {
+                  '.ts': 'ts',
+                  '.tsx': 'tsx',
+                },
+                jsx: 'transform',
+                bundle: true,
+              });
 
-            const html = ReactDomServer.renderToString(
-              React.createElement(Document, null),
-            );
+              const { Document } = await require(`${outputTmpPath}`);
+              // 5.2 给 Document 注入参数
+              // 5.3 render html 文件
+              const html = ReactDomServer.renderToString(
+                React.createElement(Document, null),
+              );
 
-            return `${html}`;
+              return `${html}`;
+            }
+            // todo: 返回 jupiter 原始 html
+            return `<html><body>没有匹配到</body></html.`;
           },
           favicon:
             getEntryOptions<string | undefined>(
