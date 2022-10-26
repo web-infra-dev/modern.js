@@ -14,10 +14,10 @@ exports[`babel resolveBabelConfig 1`] = `
 Object {
   "plugins": Array [
     Array [
-      "-next/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
     ],
     Array [
-      "-next/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
       Object {},
     ],
     Array [
@@ -37,25 +37,25 @@ Object {
       },
     ],
     Array [
-      "-next/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
       Object {
         "removeImport": true,
       },
     ],
     Array [
-      "-next/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
     ],
     Array [
-      "-next/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
       Object {
         "proposal": "minimal",
       },
     ],
     Array [
-      "-next/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
     ],
     Array [
-      "-next/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
       Object {},
       "styled-components",
     ],
@@ -77,7 +77,7 @@ Object {
           ".mjs",
         ],
         "resolvePath": [Function],
-        "root": "-next/packages/server/utils/tests/fixtures/",
+        "root": "/packages/server/utils/tests/fixtures/",
       },
     ],
     Array [
