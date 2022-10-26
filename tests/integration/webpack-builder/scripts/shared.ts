@@ -22,5 +22,15 @@ export const createBuilder = async () => {
     configPath: __filename,
   });
 
+  if (process.env.ESBUILD) {
+    const { PluginEsbuild } = await import('@modern-js/builder-plugin-esbuild');
+    builder.addPlugins([PluginEsbuild()]);
+  }
+
+  if (process.env.SWC) {
+    const { PluginSwc } = await import('@modern-js/builder-plugin-swc');
+    builder.addPlugins([PluginSwc()]);
+  }
+
   return builder;
 };
