@@ -5,7 +5,6 @@ export const createBuilder = async () => {
   const { builderWebpackProvider } = await import(
     '@modern-js/builder-webpack-provider'
   );
-  const { PluginSwc } = await import('@modern-js/builder-plugin-swc');
 
   const builderProvider = builderWebpackProvider({
     builderConfig: {
@@ -23,7 +22,15 @@ export const createBuilder = async () => {
     configPath: __filename,
   });
 
-  builder.addPlugins([PluginSwc()]);
+  if (process.env.ESBUILD) {
+    const { PluginEsbuild } = await import('@modern-js/builder-plugin-esbuild');
+    builder.addPlugins([PluginEsbuild()]);
+  }
+
+  if (process.env.SWC) {
+    const { PluginSwc } = await import('@modern-js/builder-plugin-swc');
+    builder.addPlugins([PluginSwc()]);
+  }
 
   return builder;
 };
