@@ -768,13 +768,6 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
-        name: '@babel/plugin-proposal-function-bind',
-        ignoreDts: true,
-        externals: {
-          '@babel/helper-plugin-utils': '../helper-plugin-utils',
-        },
-      },
-      {
         name: '@babel/helper-create-class-features-plugin',
         ignoreDts: true,
         externals: {

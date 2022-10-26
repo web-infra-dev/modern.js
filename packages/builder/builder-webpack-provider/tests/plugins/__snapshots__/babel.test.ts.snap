@@ -77,9 +77,6 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
-                ],
-                [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -204,9 +201,6 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "useESModules": true,
                     "version": "7.18.6",
                   },
-                ],
-                [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
                 ],
                 [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
@@ -349,9 +343,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
-                ],
-                [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -471,9 +462,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "useESModules": true,
                     "version": "7.18.6",
                   },
-                ],
-                [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
                 ],
                 [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
@@ -619,9 +607,6 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
-                ],
-                [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -744,9 +729,6 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "useESModules": true,
                     "version": "7.18.6",
                   },
-                ],
-                [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
                 ],
                 [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
@@ -887,9 +869,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
-                ],
-                [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -1014,9 +993,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "useESModules": true,
                     "version": "7.18.6",
                   },
-                ],
-                [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
                 ],
                 [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
@@ -1163,9 +1139,6 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
-                ],
-                [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -1290,9 +1263,6 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "useESModules": true,
                     "version": "7.18.6",
                   },
-                ],
-                [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
                 ],
                 [
                   "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
