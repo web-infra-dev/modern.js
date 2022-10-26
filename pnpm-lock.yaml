@@ -224,26 +224,26 @@ importers:
       '@modern-js/utils': workspace:*
       '@swc/cli': ^0.1.57
       '@swc/core': 1.2.248
-      '@types/webpack': ^5.28.0
       magic-string: ^0.26.2
       source-map: ^0.7.4
       typescript: ^4
       vite: ^3.0.9
       vitest: ^0.22.0
+      webpack: ^5.74.0
     dependencies:
+      '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/swc-plugins': 0.0.2
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
-      '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
       '@swc/cli': 0.1.57_@swc+core@1.2.248
       '@swc/core': 1.2.248
-      '@types/webpack': 5.28.0_@swc+core@1.2.248
       magic-string: 0.26.2
       source-map: 0.7.4
       typescript: 4.7.4
       vite: 3.1.1
       vitest: 0.22.1
+      webpack: 5.74.0_@swc+core@1.2.248
 
   packages/cli/babel-preset-app:
     specifiers:
@@ -4656,7 +4656,9 @@ importers:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-plugin-esbuild': workspace:*
+      '@modern-js/builder-plugin-swc': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
+      '@swc/helpers': 0.4.12
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
@@ -4666,7 +4668,9 @@ importers:
     dependencies:
       '@modern-js/builder': link:../../../packages/builder/builder
       '@modern-js/builder-plugin-esbuild': link:../../../packages/builder/plugin-esbuild
+      '@modern-js/builder-plugin-swc': link:../../../packages/builder/plugin-swc
       '@modern-js/builder-webpack-provider': link:../../../packages/builder/builder-webpack-provider
+      '@swc/helpers': 0.4.12
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -11367,6 +11371,12 @@ packages:
       '@swc/core-win32-x64-msvc': 1.2.248
     dev: true
 
+  /@swc/helpers/0.4.12:
+    resolution: {integrity: sha512-R6RmwS9Dld5lNvwKlPn62+piU+WDG1sMfsnfJioXCciyko/gZ0DQ4Mqglhq1iGU1nQ/RcGkAwfMH+elMSkJH3Q==}
+    dependencies:
+      tslib: 2.4.0
+    dev: false
+
   /@swc/jest/0.2.22_@swc+core@1.2.220:
     resolution: {integrity: sha512-PIUIk9IdB1oAVfF9zNIfYoMBoEhahrrSvyryFANas7swC1cF0L5HR0f9X4qfet46oyCHCBtNcSpN0XJEOFIKlw==}
     engines: {npm: '>= 7.0.0'}
@@ -12323,19 +12333,6 @@ packages:
       '@types/webpack-sources': 3.2.0
       anymatch: 3.1.2
       source-map: 0.6.1
-
-  /@types/webpack/5.28.0_@swc+core@1.2.248:
-    resolution: {integrity: sha512-8cP0CzcxUiFuA9xGJkfeVpqmWTk9nx6CWwamRGCj95ph1SmlRRk9KlCZ6avhCbZd4L68LvYT6l1kpdEnQXrF8w==}
-    dependencies:
-      '@types/node': 18.0.1
-      tapable: 2.2.1
-      webpack: 5.74.0_@swc+core@1.2.248
-    transitivePeerDependencies:
-      - '@swc/core'
-      - esbuild
-      - uglify-js
-      - webpack-cli
-    dev: true
 
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}

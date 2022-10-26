@@ -1,0 +1,80 @@
+// Vitest Snapshot v1
+
+exports[`plugins/swc > should set swc minimizer in production 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "/Users/chenjiahan/Project/modern.js-next/packages/builder/plugin-swc/src/loader",
+            "options": {
+              "swc": {
+                "cwd": "/Users/chenjiahan/Project/modern.js-next/packages/builder/plugin-swc",
+                "env": {
+                  "mode": "entry",
+                  "targets": [
+                    "> 0.01%",
+                    "not dead",
+                    "not op_mini all",
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "optimization": {
+    "minimizer": [
+      SwcWebpackPlugin {
+        "options": {
+          "swc": {
+            "cwd": "/Users/chenjiahan/Project/modern.js-next/packages/builder/plugin-swc",
+            "env": {
+              "mode": "entry",
+              "targets": [
+                "> 0.01%",
+                "not dead",
+                "not op_mini all",
+              ],
+            },
+          },
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/swc > should set swc-loader 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "/Users/chenjiahan/Project/modern.js-next/packages/builder/plugin-swc/src/loader",
+            "options": {
+              "swc": {
+                "cwd": "/Users/chenjiahan/Project/modern.js-next/packages/builder/plugin-swc",
+                "env": {
+                  "mode": "entry",
+                  "targets": [
+                    "> 0.01%",
+                    "not dead",
+                    "not op_mini all",
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

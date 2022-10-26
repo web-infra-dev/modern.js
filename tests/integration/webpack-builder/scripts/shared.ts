@@ -5,6 +5,7 @@ export const createBuilder = async () => {
   const { builderWebpackProvider } = await import(
     '@modern-js/builder-webpack-provider'
   );
+  const { PluginSwc } = await import('@modern-js/builder-plugin-swc');
 
   const builderProvider = builderWebpackProvider({
     builderConfig: {
@@ -21,6 +22,8 @@ export const createBuilder = async () => {
     target: ['web'],
     configPath: __filename,
   });
+
+  builder.addPlugins([PluginSwc()]);
 
   return builder;
 };
