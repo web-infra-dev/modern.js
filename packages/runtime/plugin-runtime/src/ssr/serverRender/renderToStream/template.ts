@@ -1,4 +1,3 @@
-import fs from 'fs';
 import type { ServerStyleSheet } from 'styled-components';
 import type { ChunkExtractor } from '@loadable/server';
 import React from 'react';
@@ -15,7 +14,6 @@ import { buildShellBeforeTemplate } from './bulidTemplate.before';
 import { InjectTemplate } from './type';
 
 const HTML_SEPARATOR = '<!--<?- html ?>-->';
-const filesCache = new Map<string, string>();
 
 export function createTemplates(
   context: RuntimeContext,
@@ -49,11 +47,9 @@ export function createTemplates(
     },
   );
   const getTemplates: () => InjectTemplate = () => {
-    // get template from file
-    const filepath = context.ssrContext!.template;
-    const fileContent = getFileContent(filepath);
+    const { template } = context.ssrContext!;
     const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
-      fileContent?.split(HTML_SEPARATOR) || [];
+      template.split(HTML_SEPARATOR) || [];
 
     // prepare inject objects.
     const loadableChunks =
@@ -85,22 +81,4 @@ export function createTemplates(
     jsx,
     getTemplates,
   };
-
-  /**
-   * get file's content from cache
-   * @param filepath
-   * @returns
-   */
-  function getFileContent(filepath = '') {
-    if (filesCache.has(filepath)) {
-      return filesCache.get(filepath);
-    }
-    const fileContent = fs.existsSync(filepath)
-      ? fs.readFileSync(filepath, 'utf-8')
-      : '';
-    if (fileContent) {
-      filesCache.set(filepath, fileContent);
-    }
-    return fileContent;
-  }
 }
