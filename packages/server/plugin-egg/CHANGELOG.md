@@ -1,5 +1,13 @@
 # @modern-js/plugin-egg
 
+## 1.21.0
+
+### Patch Changes
+
+- @modern-js/utils@1.21.0
+- @modern-js/bff-core@1.21.0
+- @modern-js/bff-runtime@1.21.0
+
 ## 1.20.1
 
 ### Patch Changes
