@@ -62,7 +62,7 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     compiler = await createDevCompiler({
       target,
       api,
-      userConfig,
+      normalizedConfig: userConfig,
       appContext,
     });
   }

@@ -7,22 +7,31 @@ import {
   BuilderConfig,
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { applyOptionsChain, ensureArray } from '@modern-js/utils';
+import type {
+  IAppContext,
+  NormalizedConfig,
+  SSGMultiEntryOptions,
+} from '@modern-js/core';
+import { applyOptionsChain, isProd } from '@modern-js/utils';
+import { PluginCompatModernOptions } from './builder-plugin.compatModern';
 import { createHtmlConfig } from './createHtmlConfig';
 import { createOutputConfig } from './createOutputConfig';
 import { createSourceConfig } from './createSourceConfig';
 import { createToolsConfig } from './createToolsConfig';
 
+export type BuilderOptions = {
+  target?: BuilderTarget | BuilderTarget[];
+  normalizedConfig: NormalizedConfig;
+  appContext: IAppContext;
+  compatPluginConfig?: PluginCompatModernOptions;
+};
+
 export default async ({
   target = 'web',
   normalizedConfig,
   appContext,
-}: {
-  target?: BuilderTarget | BuilderTarget[];
-  normalizedConfig: NormalizedConfig;
-  appContext: IAppContext;
-}) => {
+  compatPluginConfig,
+}: BuilderOptions) => {
   const targets = Array.isArray(target) ? target : [target];
   if (
     normalizedConfig.output.enableModernMode &&
@@ -32,7 +41,6 @@ export default async ({
   }
 
   const builderConfig = createBuilderProviderConfig(
-    targets,
     normalizedConfig,
     appContext,
   );
@@ -51,7 +59,6 @@ export default async ({
     );
     builder.addPlugins([PluginNodePolyfill()]);
   }
-
   if (normalizedConfig.tools.esbuild) {
     const { esbuild: esbuildOptions } = normalizedConfig.tools;
     const { PluginEsbuild } = await import('@modern-js/builder-plugin-esbuild');
@@ -63,16 +70,20 @@ export default async ({
     ]);
   }
 
+  const { PluginCompatModern } = await import('./builder-plugin.compatModern');
+  builder.addPlugins([
+    PluginCompatModern(appContext, normalizedConfig, compatPluginConfig),
+  ]);
+
   return builder;
 };
 
 function createBuilderProviderConfig(
-  _target: BuilderTarget | BuilderTarget[],
   normalizedConfig: NormalizedConfig,
   appContext: IAppContext,
 ): BuilderConfig {
   const source = createSourceConfig(normalizedConfig, appContext);
-  const html = createHtmlConfig(normalizedConfig);
+  const html = createHtmlConfig(normalizedConfig, appContext);
   const output = createOutputConfig(normalizedConfig);
   const tools = createToolsConfig(normalizedConfig);
 
@@ -81,6 +92,10 @@ function createBuilderProviderConfig(
     html,
     output,
     tools,
+    performance: {
+      // `@modern-js/webpack` used to remove moment locale by default
+      removeMomentLocale: true,
+    },
   };
 }
 
@@ -89,35 +104,68 @@ function createBuilderOptions(
   normalizedConfig: NormalizedConfig,
   appContext: IAppContext,
 ): CreateBuilderOptions {
-  const builderEntry: {
-    [entryName: string]: string[];
-  } = {};
+  // create entries
+  type Entries = Record<string, string[]>;
+  const entries: Entries = {};
   const { entrypoints = [], checkedEntries } = appContext;
-  const { preEntry } = normalizedConfig.source;
-  const preEntries = preEntry ? ensureArray(preEntry) : [];
   for (const { entryName, entry } of entrypoints) {
     if (checkedEntries && !checkedEntries.includes(entryName)) {
       continue;
     }
 
-    preEntries.forEach(entry => {
-      if (entryName in builderEntry) {
-        builderEntry[entryName].push(entry);
-      } else {
-        builderEntry[entryName] = [entry];
-      }
-    });
-
-    if (entryName in builderEntry) {
-      builderEntry[entryName].push(entry);
+    if (entryName in entries) {
+      entries[entryName].push(entry);
     } else {
-      builderEntry[entryName] = [entry];
+      entries[entryName] = [entry];
     }
   }
-
+  if (target === 'node' || target.includes('node')) {
+    filterEntriesBySSRConfig(
+      entries,
+      normalizedConfig.server,
+      normalizedConfig.output,
+    );
+  }
   return {
     target,
-    configPath: '',
-    entry: builderEntry,
+    configPath: appContext.configFile || undefined,
+    entry: entries,
   };
+
+  function filterEntriesBySSRConfig(
+    entries: Entries,
+    serverConfig: NormalizedConfig['server'],
+    outputConfig: NormalizedConfig['output'],
+  ) {
+    if (
+      isProd() &&
+      (outputConfig?.ssg === true ||
+        typeof (outputConfig?.ssg as Array<unknown>)?.[0] === 'function')
+    ) {
+      return;
+    }
+    const entryNames = Object.keys(entries);
+    if (isProd() && entryNames.length === 1 && outputConfig?.ssg) {
+      return;
+    }
+    const ssgEntries: string[] = [];
+    if (isProd() && outputConfig?.ssg) {
+      const { ssg } = outputConfig;
+      entryNames.forEach(name => {
+        if ((ssg as SSGMultiEntryOptions)[name]) {
+          ssgEntries.push(name);
+        }
+      });
+    }
+    const { ssr, ssrByEntries } = serverConfig || {};
+    entryNames.forEach(name => {
+      if (
+        !ssgEntries.includes(name) &&
+        ((ssr && ssrByEntries?.[name] === false) ||
+          (!ssr && !ssrByEntries?.[name]))
+      ) {
+        delete entries[name];
+      }
+    });
+  }
 }

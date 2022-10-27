@@ -2660,6 +2660,7 @@ importers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-plugin-esbuild': workspace:*
       '@modern-js/builder-plugin-node-polyfill': workspace:*
+      '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/new-action': workspace:*
@@ -2689,6 +2690,7 @@ importers:
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-plugin-esbuild': link:../../builder/plugin-esbuild
       '@modern-js/builder-plugin-node-polyfill': link:../../builder/plugin-node-polyfill
+      '@modern-js/builder-shared': link:../../builder/builder-shared
       '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
       '@modern-js/core': link:../../cli/core
       '@modern-js/new-action': link:../../generator/new-action

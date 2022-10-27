@@ -1,8 +1,11 @@
-import { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import { NormalizedConfig } from '@modern-js/core';
+import path from 'path';
+import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { findExists } from '@modern-js/utils';
 
 export function createHtmlConfig(
   normalizedConfig: NormalizedConfig,
+  appContext: IAppContext,
 ): BuilderConfig['html'] {
   const {
     disableHtmlFolder,
@@ -19,24 +22,17 @@ export function createHtmlConfig(
     templateParameters,
     templateParametersByEntries,
   } = normalizedConfig.output;
+  const { configDir } = normalizedConfig.source;
 
   // transform Modernjs `output.scriptExt` to Builder `html.crossorigin`  configuration
-  const scriptExtCustomConfig = scriptExt?.custom as
-    | {
-        test?: RegExp;
-        attribute?: string;
-        value?: 'anonymous' | 'use-credentials';
-      }
-    | undefined;
-  const crossorigin =
-    scriptExtCustomConfig?.test?.test('.js') &&
-    scriptExtCustomConfig?.attribute === 'crossorigin'
-      ? scriptExtCustomConfig.value
-      : undefined;
+  const builderCrossorigin = createBuilderCrossorigin(scriptExt);
+  const builderAppIcon = createBuilderAppIcon(configDir, appContext);
+  const builderFavicon = createBuilderFavicon(favicon, configDir, appContext);
 
   return {
+    appIcon: builderAppIcon,
     disableHtmlFolder,
-    favicon,
+    favicon: builderFavicon,
     faviconByEntries,
     inject,
     injectByEntries,
@@ -45,8 +41,52 @@ export function createHtmlConfig(
     mountId,
     title,
     titleByEntries,
-    crossorigin,
+    crossorigin: builderCrossorigin,
+    templateByEntries: appContext.htmlTemplates,
     templateParameters,
-    templateParametersByEntries,
+    templateParametersByEntries: templateParametersByEntries as any,
   };
+}
+
+const ICON_EXTENSIONS = ['png', 'jpg', 'jpeg', 'svg', 'ico'];
+
+function createBuilderAppIcon(
+  configDir: NormalizedConfig['source']['configDir'],
+  appContext: IAppContext,
+) {
+  const appIcon = findExists(
+    ICON_EXTENSIONS.map(ext =>
+      path.resolve(appContext.appDirectory, configDir!, `icon.${ext}`),
+    ),
+  );
+  return typeof appIcon === 'string' ? appIcon : undefined;
+}
+
+function createBuilderCrossorigin(
+  scriptExt: NormalizedConfig['output']['scriptExt'],
+) {
+  const scriptExtCustomConfig = scriptExt?.custom as
+    | {
+        test?: RegExp;
+        attribute?: string;
+        value?: 'anonymous' | 'use-credentials';
+      }
+    | undefined;
+  return scriptExtCustomConfig?.test?.test('.js') &&
+    scriptExtCustomConfig?.attribute === 'crossorigin'
+    ? scriptExtCustomConfig.value
+    : undefined;
+}
+
+function createBuilderFavicon(
+  favicon: NormalizedConfig['output']['favicon'],
+  configDir: NormalizedConfig['source']['configDir'],
+  appContext: IAppContext,
+) {
+  const defaultFavicon = findExists(
+    ICON_EXTENSIONS.map(ext =>
+      path.resolve(appContext.appDirectory, configDir!, `favicon.${ext}`),
+    ),
+  );
+  return favicon || defaultFavicon || undefined;
 }

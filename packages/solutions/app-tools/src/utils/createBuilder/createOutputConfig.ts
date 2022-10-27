@@ -1,14 +1,14 @@
-import { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import { NormalizedConfig } from '@modern-js/core';
+import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import type { NormalizedConfig } from '@modern-js/core';
 
 export function createOutputConfig(
   normalizedConfig: NormalizedConfig,
 ): BuilderConfig['output'] {
-  // TODO: Builder output.cssModuleLocalIdentName
+  // TODO: add `externals` options.
   const {
     assetPrefix,
     copy,
-    // cssModuleLocalIdentName,
+    cssModuleLocalIdentName,
     cssPath,
     jsPath,
     htmlPath,
@@ -23,20 +23,22 @@ export function createOutputConfig(
     polyfill,
     dataUriLimit,
     disableAssetsCache,
+    enableLatestDecorators,
   } = normalizedConfig.output;
 
   return {
     assetPrefix,
-    copy,
+    copy: copy || [],
     distPath: {
       root: path,
       css: cssPath,
       js: jsPath,
       html: htmlPath,
-      svg: mediaPath,
-      image: mediaPath,
-      font: mediaPath,
-      media: mediaPath,
+      // `@modern-js/webpack` output all media files to `dist/media` by default
+      svg: mediaPath || 'midia',
+      image: mediaPath || 'midia',
+      font: mediaPath || 'midia',
+      media: mediaPath || 'midia',
     },
     dataUriLimit: {
       svg: dataUriLimit,
@@ -52,5 +54,13 @@ export function createOutputConfig(
     enableInlineStyles,
     polyfill,
     disableFilenameHash: disableAssetsCache,
+    enableLatestDecorators,
+    filename: {
+      css: cssModuleLocalIdentName,
+    },
+    // `@modern-js/webpack` used to generate asset manifest by default
+    enableAssetManifest: true,
+    // compatible the modern-js with fallback behavior
+    enableAssetFallback: true,
   };
 }
