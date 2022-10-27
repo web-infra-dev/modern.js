@@ -15,7 +15,7 @@ export default {
 };
 ```
 
-如果希望开启开发环境的 Source Map，并在禁用生产环境禁用，可以设置为：
+如果希望开启开发环境的 Source Map，并在生产环境禁用，可以设置为：
 
 ```js
 export default {
