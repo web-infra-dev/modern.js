@@ -4,6 +4,7 @@ import {
   createPublicContext,
   type PluginStore,
 } from '@modern-js/builder-shared';
+import { getHTMLPathByEntry } from '../shared';
 import type { Context, BuilderPluginAPI } from '../types';
 
 export async function initPlugins({
@@ -18,6 +19,7 @@ export async function initPlugins({
   const publicContext = createPublicContext(context);
 
   const getBuilderConfig = () => context.config;
+
   const getNormalizedConfig = () => {
     if (!context.normalizedConfig) {
       throw new Error('Normalized config is not ready.');
@@ -25,8 +27,19 @@ export async function initPlugins({
     return context.normalizedConfig;
   };
 
+  const getHTMLPaths = () => {
+    return Object.keys(context.entry).reduce<Record<string, string>>(
+      (prev, key) => {
+        prev[key] = getHTMLPathByEntry(key, getNormalizedConfig());
+        return prev;
+      },
+      {},
+    );
+  };
+
   const pluginAPI: BuilderPluginAPI = {
     context: publicContext,
+    getHTMLPaths,
     getBuilderConfig,
     getNormalizedConfig,
     isPluginExists: pluginStore.isPluginExists,

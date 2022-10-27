@@ -41,10 +41,19 @@ export const normalizeCssLoaderOptions = (
     } else if (typeof modules === 'string') {
       modules = { mode: modules, exportOnlyLocals: true };
     } else {
-      modules.exportOnlyLocals = true;
+      // create a new object to avoid modifying the original options
+      modules = {
+        ...modules,
+        exportOnlyLocals: true,
+      };
     }
-    options.modules = modules;
+
+    return {
+      ...options,
+      modules,
+    };
   }
+
   return options;
 };
 
@@ -182,8 +191,9 @@ export async function applyBaseCSSRule(
       modules: {
         auto: true,
         exportLocalsConvention: 'camelCase',
+        // Using shorter classname in production to reduce bundle size
         localIdentName: isProd
-          ? '[hash:base64]'
+          ? '[hash:base64:5]'
           : '[path][name]__[local]--[hash:base64:5]',
       },
       sourceMap: enableSourceMap,
