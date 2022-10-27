@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   getEntryOptions,
   createRuntimeExportsUtils,

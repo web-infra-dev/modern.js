@@ -156,7 +156,7 @@
     "react-dom": "^18",
     "ts-jest": "^27.0.4",
     "typescript": "^4",
-    "@babel/types": "^7.19.4"
+    "@babel/types": "^7.18.0"
   },
   "sideEffects": false,
   "modernConfig": {},
