@@ -49,7 +49,13 @@ export interface SplitCustom {
 export type BuilderChunkSplit = BaseChunkSplit | SplitBySize | SplitCustom;
 
 export interface PerformanceConfig extends SharedPerformanceConfig {
+  /**
+   * Analyze the size of output files.
+   */
   bundleAnalyze?: BundleAnalyzerPlugin.Options;
+  /**
+   * Configure the chunk splitting strategy.
+   */
   chunkSplit?: BuilderChunkSplit;
 }
 

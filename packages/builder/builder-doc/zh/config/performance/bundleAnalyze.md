@@ -1,8 +1,8 @@
 - Type: `Object | undefined`
 
-你有两种方式开启 `webpack-bundle-analyzer` 来分析打包结果:
+你有两种方式开启 `webpack-bundle-analyzer` 来分析够快产物的体积:
 
-- 添加环境变量`BUNDLE_ANALYZE=true`；
+- 添加环境变量 `BUNDLE_ANALYZE=true`；
 - 配置 `performance.bundleAnalyze`。
 
 默认情况下，不会开启 `webpack-bundle-analyzer`，当开启之后它的配置如下:
