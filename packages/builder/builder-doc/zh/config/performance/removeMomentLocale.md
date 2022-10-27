@@ -1,7 +1,9 @@
 - Type: `boolean`
 - Default: `false`
 
-[moment.js](https://momentjs.com/) 默认包含了大量的语言包文件，会导致打包后的包体积增大。
+是否移除 [moment.js](https://momentjs.com/) 的语言包文件。
+
+`moment.js` 默认包含了大量的语言包文件，会导致打包后的包体积增大。
 
 当项目中使用了 `moment.js` 时，推荐开启此选项，自动排除所有的语言包文件：
 

@@ -35,9 +35,13 @@ export type FilenameConfig = {
 };
 
 export type DataUriLimit = {
+  /** The data URI limit of the SVG image. */
   svg?: number;
+  /** The data URI limit of the font file. */
   font?: number;
+  /** The data URI limit of non-SVG images. */
   image?: number;
+  /** The data URI limit of media resources such as videos. */
   media?: number;
 };
 
@@ -85,6 +89,9 @@ export interface SharedOutputConfig {
    * you can set `output.charset` to `utf8`.
    */
   charset?: Charset;
+  /**
+   * Configure how the polyfill is injected.
+   */
   polyfill?: Polyfill;
   /**
    * When using CDN in the production environment,
@@ -92,20 +99,74 @@ export interface SharedOutputConfig {
    * similar to the output.publicPath config of webpack.
    */
   assetPrefix?: string;
+  /**
+   * Set the size threshold to inline static resources such as images and fonts.
+   * By default, static resources will be Base64 encoded and inline into the page if the size is less than 10KB.
+   */
   dataUriLimit?: number | DataUriLimit;
+  /**
+   * Configure how to handle the legal comment.
+   * A "legal comment" is considered to be any statement-level comment in JS or rule-level
+   * comment in CSS that contains @license or @preserve or that starts with //! or /\*!.
+   * These comments are preserved in output files by default since that follows the intent
+   * of the original authors of the code.
+   */
   legalComments?: LegalComments;
+  /**
+   * Whether to clean all files in the dist path before starting compilation.
+   */
   cleanDistPath?: boolean;
+  /**
+   * Whether to disable code minification in production build.
+   */
   disableMinimize?: boolean;
+  /**
+   * Whether to disable source map.
+   */
   disableSourceMap?: boolean;
+  /**
+   * Remove the hash from the name of static files after production build.
+   */
   disableFilenameHash?: boolean;
+  /**
+   * Controls whether to the inline the runtime chunk to HTML.
+   */
   disableInlineRuntimeChunk?: boolean;
+  /**
+   * Whether to generate a manifest file that contains information of all assets.
+   */
   enableAssetManifest?: boolean;
+  /**
+   * If this option is enabled, all unrecognized files will be emitted to the dist directory.
+   * Otherwise, an exception will be thrown.
+   */
   enableAssetFallback?: boolean;
+  /**
+   * Whether to use the new decorator proposal.
+   */
   enableLatestDecorators?: boolean;
+  /**
+   * Whether to generate a TypeScript declaration file for CSS modules.
+   */
   enableCssModuleTSDeclaration?: boolean;
+  /**
+   * Whether to inline output scripts files (.js files) into HTML with `<script>` tags.
+   */
   enableInlineScripts?: boolean;
+  /**
+   * Whether to inline output style files (.css files) into html with `<style>` tags.
+   */
   enableInlineStyles?: boolean;
+  /**
+   * Specifies the range of target browsers that the project is compatible with.
+   * This value will be used by [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) and
+   * [autoprefixer](https://github.com/postcss/autoprefixer) to identify the JavaScript syntax that
+   * need to be transformed and the CSS browser prefixes that need to be added.
+   */
   overrideBrowserslist?: string[];
+  /**
+   * Configure the default export type of SVG files.
+   */
   svgDefaultExport?: SvgDefaultExport;
 }
 

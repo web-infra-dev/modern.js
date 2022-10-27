@@ -12,7 +12,7 @@ type ProgressBar =
 
 - Default: `true`
 
-Whether to progress bar during compilation.
+Whether to display progress bar during compilation.
 
 ```js
 export default {

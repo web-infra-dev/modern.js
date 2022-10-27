@@ -1,9 +1,11 @@
 - Type: `boolean`
 - Default: `false`
 
-By default the [runtimeChunk](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) file will be inlined into html rather than written into dist directory.
+Controls whether to the inline the [runtime chunk](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) to HTML.
 
-This option is used to disable that default behaviour.
+By default the runtime chunk file will be inlined into HTML rather than written into dist directory, this can reduce the HTTP request number.
+
+This option is used to disable that default behavior.
 
 ```js
 export default {
