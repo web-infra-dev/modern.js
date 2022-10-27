@@ -7,7 +7,7 @@
     ["!(@modern-js/*-generator|@modern-js/generator-*)"]
   ],
   "access": "restricted",
-  "baseBranch": "main",
+  "baseBranch": "next",
   "updateInternalDependencies": "patch",
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "onlyUpdatePeerDependentsWhenOutOfRange": true
