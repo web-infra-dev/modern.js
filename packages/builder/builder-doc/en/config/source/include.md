@@ -1,7 +1,7 @@
 - Type: `Array<string | RegExp>`
 - Default: `[]`
 
-For the sake of build performance, Builder will not compile files under node_modules through `babel-loader` or `ts-loader` by default, as will as the files outside the current project directory.
+In order to maintain faster compilation speed, Builder will not compile files under node_modules through `babel-loader` or `ts-loader` by default, as will as the files outside the current project directory.
 
 Through the `source.include` config, you can specify directories or modules that need additional compilation. For example:
 

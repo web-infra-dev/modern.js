@@ -1,6 +1,6 @@
 - Type: `Object | undefined`
 
-You have two ways to enable `webpack-bundle-analyzer` to analyze webpack output:
+You have two ways to enable `webpack-bundle-analyzer` to analyze the size of output files:
 
 - Add environment variable `BUNDLE_ANALYZE=true`.
 - Add `performance.bundleAnalyze` config.

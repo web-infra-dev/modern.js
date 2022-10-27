@@ -1,8 +1,14 @@
-import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
+import path from 'path';
 import { CHAIN_ID, isProd, logger } from '@modern-js/utils';
-import { Compiler, Compilation } from 'webpack';
+import type { Compiler, Compilation } from 'webpack';
 import type { JsMinifyOptions } from '@swc/core';
-import { mergeRegex, JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
+import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
+import {
+  mergeRegex,
+  JS_REGEX,
+  TS_REGEX,
+  getBrowserslistWithDefault,
+} from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
 import { TransformConfig } from './config';
 import { minify } from './binding';
@@ -14,30 +20,40 @@ const PLUGIN_NAME = 'builder-plugin-swc';
  * - Remove Babel loader if exists
  * - Add our own swc loader
  */
-export default (userSwcConfig: Partial<TransformConfig> = {}) => ({
+export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
   name: PLUGIN_NAME,
 
   setup(api: BuilderPluginAPI) {
     // Find if babel & ts loader exists
-    api.modifyWebpackChain(async chain => {
+    api.modifyWebpackChain(async (chain, { target }) => {
       logger.info(
         'You are using experimental SWC ability, babel-loader and ts-loader will be ignored.',
       );
-      chain.module.rule(CHAIN_ID.RULE.JS).delete(CHAIN_ID.USE.BABEL);
+
+      chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
       chain.module.delete(CHAIN_ID.RULE.TS);
 
-      const buildConfig = api.getNormalizedConfig();
-      const polyfill = buildConfig.output?.polyfill || 'entry';
+      const builderConfig = api.getNormalizedConfig();
 
       // eslint-disable-next-line no-multi-assign
       const swc = (userSwcConfig.swc = userSwcConfig.swc || {});
       swc.cwd = api.context.rootPath;
 
+      if (!swc.env) {
+        swc.env = {};
+      }
+
+      const { polyfill } = builderConfig.output;
       if (polyfill !== 'ua' && polyfill !== 'off') {
-        if (!swc.env) {
-          swc.env = {};
-        }
         swc.env.mode = polyfill;
+      }
+
+      if (!swc.env.targets) {
+        swc.env.targets = await getBrowserslistWithDefault(
+          api.context.rootPath,
+          builderConfig,
+          target,
+        );
       }
 
       // Insert swc loader and plugin
@@ -45,10 +61,20 @@ export default (userSwcConfig: Partial<TransformConfig> = {}) => ({
         .rule(CHAIN_ID.RULE.JS)
         .test(mergeRegex(JS_REGEX, TS_REGEX))
         .use(CHAIN_ID.USE.SWC)
-        .loader(require.resolve('./loader'))
+        .loader(path.resolve(__dirname, './loader'))
         .options(userSwcConfig);
 
-      if (isProd() && !buildConfig.output?.disableMinimize) {
+      if (chain.module.rules.get(CHAIN_ID.RULE.JS_DATA_URI)) {
+        chain.module
+          .rule(CHAIN_ID.RULE.JS_DATA_URI)
+          .uses.delete(CHAIN_ID.USE.BABEL)
+          .end()
+          .use(CHAIN_ID.USE.SWC)
+          .loader(path.resolve(__dirname, './loader'))
+          .options(userSwcConfig);
+      }
+
+      if (isProd() && !builderConfig.output.disableMinimize) {
         // Insert swc minify plugin
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error webpack-chain missing minimizers type

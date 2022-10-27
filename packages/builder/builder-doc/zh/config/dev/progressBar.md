@@ -12,7 +12,7 @@ type ProgressBar =
 
 - Default: `true`
 
-是否启用编译过程中的进度条。
+是否在编译过程中展示进度条。
 
 ```js
 export default {

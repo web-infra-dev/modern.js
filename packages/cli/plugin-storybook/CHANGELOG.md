@@ -1,5 +1,25 @@
 # @modern-js/plugin-storybook
 
+## 1.21.0
+
+### Patch Changes
+
+- 4c1f3a4: fix: runtime export field
+
+  fix: 修复 runtime 包导出字段
+
+- 17d1672: fix: `tools.webpack` of Storybook API not work
+  fix: 修复 Storybook API tools.webpack 不生效
+- Updated dependencies [f51c59a]
+- Updated dependencies [4c1f3a4]
+- Updated dependencies [17d1672]
+- Updated dependencies [4c1f3a4]
+- Updated dependencies [c40fc4b]
+- Updated dependencies [b0597e3]
+  - @modern-js/runtime@1.21.0
+  - @modern-js/webpack@1.21.0
+  - @modern-js/utils@1.21.0
+
 ## 1.20.1
 
 ### Patch Changes
