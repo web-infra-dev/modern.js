@@ -41,10 +41,19 @@ export const normalizeCssLoaderOptions = (
     } else if (typeof modules === 'string') {
       modules = { mode: modules, exportOnlyLocals: true };
     } else {
-      modules.exportOnlyLocals = true;
+      // create a new object to avoid modifying the original options
+      modules = {
+        ...modules,
+        exportOnlyLocals: true,
+      };
     }
-    options.modules = modules;
+
+    return {
+      ...options,
+      modules,
+    };
   }
+
   return options;
 };
 
