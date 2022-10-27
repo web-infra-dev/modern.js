@@ -1,7 +1,15 @@
 - Type: `Record<string, JSONValue>`
-- Default: `{}`
+- Default:
 
-Define global variables. It will replace all expr like `process.env.FOO` in your code at compile time. Such as:
+```ts
+const defaultGlobalVars = {
+  // The environment variable `process.env.NODE_ENV` will be added by default,
+  // so you don't need to set it in manually.
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+};
+```
+
+Define global variables. It can replace expressions like `process.env.FOO` in your code after compile. Such as:
 
 ```js
 console.log(process.env.NODE_ENV);
@@ -9,10 +17,6 @@ console.log(process.env.NODE_ENV);
 // ⬇️ Turn into being...
 console.log('development');
 ```
-
-Values of options record should be JSON-safe, so it can be serialized. And each key will be connected with the prefix `process.env`.
-
-The environment variable `process.env.NODE_ENV` will be added to `globalVars` by default, so you don't need to set it in manually.
 
 Doesn't works with destructuring assignment, because builder does not know if `NODE_ENV` and `process.env.NODE_ENV` are associated:
 
@@ -22,7 +26,7 @@ console.log(NODE_ENV);
 // ❌ Won't get a string.
 ```
 
-You can take `globalVars` as the syntax sugar of `define`, which makes it easier to set the value of global variables.
+You can take `source.globalVars` as the syntax sugar of `source.define`, the only difference is that `source.globalVars` will automatically stringify the value, which makes it easier to set the value of global variables. The values of `globalVars` should be JSON-safe to ensure it can be serialized.
 
 ```js
 export default {

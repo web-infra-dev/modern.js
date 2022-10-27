@@ -1,7 +1,7 @@
 - Type: `Object | Function | undefined`
 - Default: `undefined`
 
-You can enable or configure the [Webpack Inspector](https://github.com/modern-js-dev/webpack-inspector) through `tools.inspector`.
+You can enable or configure the [webpack inspector](https://github.com/modern-js-dev/webpack-inspector) through `tools.inspector`.
 
 When the configuration is not `undefined`, it means that `webpack-inspector` is enabled, and the type of `tools.inspector` can be `Object` or `Function`.
 

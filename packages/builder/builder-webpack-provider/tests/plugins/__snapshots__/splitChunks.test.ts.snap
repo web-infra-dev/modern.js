@@ -24,10 +24,10 @@ exports[`plugins/splitChunks > should set custom config 1`] = `
     },
     "splitChunks": {
       "cacheGroups": {
-        "User_Force_Split_Group_0": {
+        "force-split-0": {
           "chunks": "all",
           "enforce": true,
-          "name": "User_Force_Split_Group_0",
+          "name": "force-split-0",
           "test": /react/,
         },
       },
@@ -78,59 +78,53 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
     },
     "splitChunks": {
       "cacheGroups": {
-        "pre-defined-chunk-0": {
-          "name": "pre-defined-chunk-0",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
-        },
-        "pre-defined-chunk-1": {
-          "name": "pre-defined-chunk-1",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
-        },
-        "pre-defined-chunk-2": {
-          "name": "pre-defined-chunk-2",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]@ies\\\\/semi\\[\\\\\\\\/\\]/,
-        },
-        "pre-defined-chunk-3": {
-          "name": "pre-defined-chunk-3",
+        "lib-antd": {
+          "name": "lib-antd",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
         },
-        "pre-defined-chunk-4": {
-          "name": "pre-defined-chunk-4",
+        "lib-arco": {
+          "name": "lib-arco",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]@arco-design\\[\\\\\\\\/\\]/,
         },
-        "pre-defined-chunk-5": {
-          "name": "pre-defined-chunk-5",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]@douyinfe\\\\/semi\\[\\\\\\\\/\\]/,
-        },
-        "pre-defined-chunk-6": {
-          "name": "pre-defined-chunk-6",
+        "lib-babel": {
+          "name": "lib-babel",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]@babel\\\\/runtime\\|@babel\\\\/runtime-corejs2\\|@babel\\\\/runtime-corejs3\\[\\\\\\\\/\\]/,
         },
-        "pre-defined-chunk-7": {
-          "name": "pre-defined-chunk-7",
+        "lib-corejs": {
+          "name": "lib-corejs",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]core-js\\[\\\\\\\\/\\]/,
+        },
+        "lib-lodash": {
+          "name": "lib-lodash",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
         },
-        "pre-defined-chunk-8": {
-          "name": "pre-defined-chunk-8",
+        "lib-react": {
+          "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]core-js\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+        },
+        "lib-router": {
+          "name": "lib-router",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+        },
+        "lib-semi": {
+          "name": "lib-semi",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]@ies\\\\/semi\\|@douyinfe\\\\/semi\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",

@@ -97,24 +97,82 @@ export type ToolsWebpackChainConfig = ArrayOrNot<
 export type ToolsDevServerConfig = ChainedConfig<DevServerOptions>;
 
 export interface ToolsConfig {
+  /**
+   * Configure the [Pug](https://pugjs.org/) template engine.
+   */
   pug?: ToolsPugConfig;
+  /**
+   * Modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader).
+   */
   sass?: ToolsSassConfig;
+  /**
+   * Modify the config of [less-loader](https://github.com/webpack-contrib/less-loader).
+   */
   less?: ToolsLessConfig;
+  /**
+   * Modify the options of [babel-loader](https://github.com/babel/babel-loader)
+   */
   babel?: ToolsBabelConfig;
+  /**
+   * Modify the options of [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin).
+   */
   terser?: ToolsTerserConfig;
+  /**
+   * Modify the options of [ts-loader](https://github.com/TypeStrong/ts-loader).
+   * When `tools.tsLoader` is not undefined, builder will use ts-loader instead of babel-loader to compile TypeScript code.
+   */
   tsLoader?: ToolsTSLoaderConfig;
+  /**
+   * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
+   */
   tsChecker?: boolean | ToolsTSCheckerConfig;
+  /**
+   * Modify the options of DevServer.
+   */
   devServer?: ToolsDevServerConfig;
+  /**
+   * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
+   */
   minifyCss?: ToolsMinifyCssConfig;
+  /**
+   * Modify the options of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
+   */
   htmlPlugin?: false | ToolsHtmlPluginConfig;
+  /**
+   * Modify the options of [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components).
+   */
   styledComponents?: ToolsStyledComponentConfig;
+  /**
+   * Modify the options of [css-loader](https://github.com/webpack-contrib/css-loader).
+   */
   cssLoader?: ToolsCSSLoaderConfig;
+  /**
+   * Modify the options of [style-loader](https://github.com/webpack-contrib/style-loader).
+   */
   styleLoader?: ToolsStyleLoaderConfig;
+  /**
+   * Modify the options of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
+   */
   cssExtract?: false | CssExtractOptions;
+  /**
+   * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).
+   */
   postcss?: ToolsPostCSSLoaderConfig;
+  /**
+   * Modify the config of [autoprefixer](https://github.com/postcss/autoprefixer)
+   */
   autoprefixer?: ToolsAutoprefixerConfig;
+  /**
+   * Configure [webpack](https://webpack.js.org/).
+   */
   webpack?: ToolsWebpackConfig;
+  /**
+   * Configure webpack by [webpack-chain](https://github.com/neutrinojs/webpack-chain).
+   */
   webpackChain?: ToolsWebpackChainConfig;
+  /**
+   * Configure the [webpack inspector](https://github.com/modern-js-dev/webpack-inspector).
+   */
   inspector?: ToolsInspectorPluginOptions;
 }
 

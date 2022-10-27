@@ -7,71 +7,18 @@ import chalk from '@modern-js/utils/chalk';
 import { logger } from '@modern-js/builder-shared';
 import type { BuilderPlugin, webpack } from '../types';
 
-type PrevFileSize = {
-  root: string;
-  sizes: Record<string, number[]>;
+/** Filter source map files */
+export const filterAsset = (asset: string) => !/\.map$/.test(asset);
+
+const getAssetColor = (size: number) => {
+  if (size > 300 * 1000) {
+    return chalk.bold.red;
+  }
+  if (size > 100 * 1000) {
+    return chalk.yellow;
+  }
+  return chalk.green;
 };
-
-export const filterAsset = (asset: string) => /\.(js|css)$/.test(asset);
-
-export const removeFileNameHash = (distPath: string, fileName: string) =>
-  fileName
-    .replace(distPath, '')
-    .replace(/\\/g, '/')
-    .replace(
-      /\/?(.*)(\.[0-9a-f]+)(\.chunk)?(\.js|\.css)/,
-      (match, p1: string, p2, p3, p4: string) => p1 + p4,
-    );
-
-async function getPrevFileSizes(distPath: string): Promise<PrevFileSize> {
-  const { fs, gzipSize, recursiveReaddir } = await import('@modern-js/utils');
-
-  return new Promise(resolve => {
-    recursiveReaddir(distPath, (err, fileNames) => {
-      let sizes: Record<string, number[]> = {};
-
-      if (!err && fileNames) {
-        sizes = fileNames
-          .filter(filterAsset)
-          .reduce<Record<string, [number, number]>>((memo, fileName) => {
-            const contents = fs.readFileSync(fileName);
-            const key = removeFileNameHash(distPath, fileName);
-            // save both the original size and gzip size
-            memo[key] = [contents.length, gzipSize.sync(contents)];
-            return memo;
-          }, {});
-      }
-
-      resolve({
-        root: distPath,
-        sizes,
-      });
-    });
-  });
-}
-
-// Input: 1024, 2048
-// Output: "(+1 KB)"
-export function getDiffLabel(
-  currentSize: number,
-  prevSize: number,
-  getFilesize: (bytes: number) => string,
-) {
-  const FIFTY_KILOBYTES = 1024 * 50;
-  const difference = currentSize - prevSize;
-  const fileSize = !Number.isNaN(difference) ? getFilesize(difference) : 0;
-
-  if (difference >= FIFTY_KILOBYTES) {
-    return chalk.red(`+${fileSize}`);
-  }
-  if (difference < FIFTY_KILOBYTES && difference > 0) {
-    return chalk.yellow(`+${fileSize}`);
-  }
-  if (difference < 0) {
-    return chalk.green(fileSize);
-  }
-  return '';
-}
 
 async function printHeader(
   longestFileLength: number,
@@ -93,7 +40,6 @@ async function printHeader(
 
 async function printFileSizes(
   stats: webpack.Stats | webpack.MultiStats,
-  { root, sizes }: PrevFileSize,
   distPath: string,
 ) {
   const { fs, filesize, gzipSize, stripAnsi } = await import(
@@ -101,35 +47,43 @@ async function printFileSizes(
   );
 
   const formatAsset = (asset: webpack.StatsAsset) => {
-    const contents = fs.readFileSync(path.join(root, asset.name));
+    const contents = fs.readFileSync(path.join(distPath, asset.name));
     const size = contents.length;
     const gzippedSize = gzipSize.sync(contents);
-    const [prevSize, prevGzipSize] =
-      sizes[removeFileNameHash(root, asset.name)] || [];
-    const sizeDiff = getDiffLabel(size, prevSize, filesize);
-    const gzipSizeDiff = getDiffLabel(gzippedSize, prevGzipSize, filesize);
 
     return {
       size,
       folder: path.join(path.basename(distPath), path.dirname(asset.name)),
       name: path.basename(asset.name),
       gzippedSize,
-      sizeLabel: filesize(size) + (sizeDiff ? ` (${sizeDiff})` : ''),
-      gzipSizeLabel:
-        filesize(gzippedSize) + (gzipSizeDiff ? ` (${gzipSizeDiff})` : ''),
+      sizeLabel: filesize(size),
+      gzipSizeLabel: getAssetColor(gzippedSize)(filesize(gzippedSize)),
     };
   };
 
   const multiStats = 'stats' in stats ? stats.stats : [stats];
   const assets = multiStats
     .map(stats => {
-      const filteredAssets = stats
-        .toJson({ all: false, assets: true })
-        .assets!.filter(asset => filterAsset(asset.name));
+      const origin = stats.toJson({
+        all: true,
+        assets: true,
+        groupAssetsByInfo: false,
+        groupAssetsByPath: false,
+        groupAssetsByChunk: false,
+        groupAssetsByExtension: false,
+        groupAssetsByEmitStatus: false,
+      });
+      const filteredAssets = origin.assets!.filter(asset =>
+        filterAsset(asset.name),
+      );
 
       return filteredAssets.map(formatAsset);
     })
     .reduce((single, all) => all.concat(single), []);
+
+  if (assets.length === 0) {
+    return;
+  }
 
   assets.sort((a, b) => b.size - a.size);
 
@@ -140,7 +94,9 @@ async function printFileSizes(
     ...assets.map(a => stripAnsi(a.folder + path.sep + a.name).length),
   );
 
+  logger.log();
   logger.info(`File sizes after production build:\n`);
+
   printHeader(longestFileLength, longestLabelLength);
 
   assets.forEach(asset => {
@@ -162,9 +118,7 @@ async function printFileSizes(
       fileNameLabel += rightPadding;
     }
 
-    logger.log(
-      `  ${fileNameLabel}    ${sizeLabel}    ${chalk.yellow(gzipSizeLabel)}`,
-    );
+    logger.log(`  ${fileNameLabel}    ${sizeLabel}    ${gzipSizeLabel}`);
   });
 
   logger.log('');
@@ -174,15 +128,9 @@ export const PluginFileSize = (): BuilderPlugin => ({
   name: 'builder-plugin-file-size',
 
   setup(api) {
-    let prevFileSizes: PrevFileSize;
-
-    api.onBeforeBuild(async () => {
-      prevFileSizes = await getPrevFileSizes(api.context.distPath);
-    });
-
     api.onAfterBuild(async ({ stats }) => {
       if (stats) {
-        await printFileSizes(stats, prevFileSizes, api.context.distPath);
+        await printFileSizes(stats, api.context.distPath);
       }
     });
   },

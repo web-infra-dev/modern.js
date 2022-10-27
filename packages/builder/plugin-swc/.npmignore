@@ -40,6 +40,7 @@ jest.config.js
 .eslintrc.js
 .eslintrc
 tsconfig.json
+.swcrc
 
 .wireit/
 scripts/

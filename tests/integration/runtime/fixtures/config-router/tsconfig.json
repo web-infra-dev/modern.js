@@ -1,7 +1,6 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "module": "es2020",
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",

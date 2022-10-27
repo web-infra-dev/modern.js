@@ -1,5 +1,13 @@
 # @modern-js/generator-cases
 
+## 2.4.5
+
+### Patch Changes
+
+- Updated dependencies [cf1a2b1]
+- Updated dependencies [cfd8557]
+  - @modern-js/generator-common@2.4.5
+
 ## 2.4.4
 
 ### Patch Changes

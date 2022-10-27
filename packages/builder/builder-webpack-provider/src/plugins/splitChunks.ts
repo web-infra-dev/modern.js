@@ -40,7 +40,7 @@ interface SplitChunksContext {
 function getUserDefinedCacheGroups(forceSplitting: Array<RegExp>): CacheGroup {
   const cacheGroups: CacheGroup = {};
   forceSplitting.forEach((reg, index) => {
-    const key = `User_Force_Split_Group_${index}`;
+    const key = `force-split-${index}`;
 
     cacheGroups[key] = {
       test: reg,
@@ -56,20 +56,20 @@ function getUserDefinedCacheGroups(forceSplitting: Array<RegExp>): CacheGroup {
 function splitByExperience(ctx: SplitChunksContext): SplitChunks {
   const { override, userDefinedCacheGroups, defaultConfig } = ctx;
   const experienceCacheGroup: CacheGroup = {};
-  const SPLIT_EXPERIENCE_LIST = [
-    /[\\/]react|react-dom[\\/]/,
-    /[\\/]react-router|react-router-dom|history[\\/]/,
-    /[\\/]@ies\/semi[\\/]/,
-    /[\\/]antd[\\/]/,
-    /[\\/]@arco-design[\\/]/,
-    /[\\/]@douyinfe\/semi[\\/]/,
-    /[\\/]@babel\/runtime|@babel\/runtime-corejs2|@babel\/runtime-corejs3[\\/]/,
-    /[\\/]lodash|lodash-es[\\/]/,
-    /[\\/]core-js[\\/]/,
-  ];
+  const SPLIT_EXPERIENCE_LIST = {
+    react: /[\\/]react|react-dom[\\/]/,
+    router: /[\\/]react-router|react-router-dom|history[\\/]/,
+    antd: /[\\/]antd[\\/]/,
+    semi: /[\\/]@ies\/semi|@douyinfe\/semi[\\/]/,
+    arco: /[\\/]@arco-design[\\/]/,
+    babel:
+      /[\\/]@babel\/runtime|@babel\/runtime-corejs2|@babel\/runtime-corejs3[\\/]/,
+    lodash: /[\\/]lodash|lodash-es[\\/]/,
+    corejs: /[\\/]core-js[\\/]/,
+  };
 
-  SPLIT_EXPERIENCE_LIST.forEach((test: RegExp, index: number) => {
-    const key = `pre-defined-chunk-${index}`;
+  Object.entries(SPLIT_EXPERIENCE_LIST).forEach(([name, test]) => {
+    const key = `lib-${name}`;
 
     experienceCacheGroup[key] = {
       test,

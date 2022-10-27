@@ -37,7 +37,7 @@ export default (): CliPlugin => ({
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-              '@modern-js/runtime/router': routerExportsUtils.getPath(),
+              '@modern-js/runtime/legacy-router': routerExportsUtils.getPath(),
             },
           },
         };
