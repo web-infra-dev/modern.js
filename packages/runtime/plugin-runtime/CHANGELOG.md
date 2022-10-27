@@ -1,5 +1,28 @@
 # @modern-js/runtime
 
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+- 4c1f3a4: fix: runtime export field
+
+  fix: 修复 runtime 包导出字段
+
+- 4c1f3a4: fix: state runtime plugin params
+
+  fix: state 插件参数格式
+
+- c40fc4b: fix: add missing ssr exports from runtime ssr plugin
+  fix: 补充 runtime ssr 插件中丢失的 ssr 导出
+- Updated dependencies [17d1672]
+- Updated dependencies [28f0a4f]
+- Updated dependencies [b0597e3]
+  - @modern-js/webpack@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+
 ## 1.20.1
 
 ### Patch Changes
