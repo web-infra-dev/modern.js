@@ -7,7 +7,7 @@ declare module '@modern-js/core/config' {
   }
 }
 
-declare module '@modern-js/runtime/router' {
+declare module '@modern-js/runtime/legacy-router' {
   export * from '../dist/types/runtime';
 }
 
