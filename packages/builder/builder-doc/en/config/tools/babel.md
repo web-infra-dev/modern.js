@@ -1,7 +1,7 @@
 - Type: `Object | Function`
 - Default: `undefined`
 
-By `tools.babel` you can modify [babel-loader](https://github.com/babel/babel-loader)'s' options.
+By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
 ### Object Type
 

@@ -9,7 +9,7 @@ export const createBuilder = async () => {
   const builderProvider = builderWebpackProvider({
     builderConfig: {
       tools: {
-        // inspector: {},
+        inspector: {},
       },
     },
   });

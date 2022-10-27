@@ -3,8 +3,8 @@
 
 By setting `output.convertToRem`, the Builder can do the following things:
 
-- Convert px to rem in CSS
-- Insert runtime code into the HTML template to set the fontSize of the root element
+- Convert px to rem in CSS.
+- Insert runtime code into the HTML template to set the fontSize of the root element.
 
 #### Boolean Type
 
