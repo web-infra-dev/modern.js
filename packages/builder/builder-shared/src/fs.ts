@@ -1,9 +1,4 @@
-import {
-  CSS_MODULE_REGEX,
-  CSS_REGEX,
-  MODULE_PATH_REGEX,
-  NODE_MODULES_REGEX,
-} from './constants';
+import { MODULE_PATH_REGEX } from './constants';
 
 export async function isFileExists(file: string) {
   const { promises, constants } = await import('fs');
@@ -12,11 +7,6 @@ export async function isFileExists(file: string) {
     .then(() => true)
     .catch(() => false);
 }
-
-export const isNodeModulesCss = (path: string) =>
-  NODE_MODULES_REGEX.test(path) &&
-  CSS_REGEX.test(path) &&
-  !CSS_MODULE_REGEX.test(path);
 
 export function getPackageNameFromModulePath(modulePath: string) {
   const handleModuleContext = modulePath?.match(MODULE_PATH_REGEX);
