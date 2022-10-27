@@ -1,16 +1,18 @@
 import type { BuilderPlugin } from '../types';
+import { isUsingHMR } from './hmr';
 
 export const PluginReact = (): BuilderPlugin => ({
   name: 'builder-plugin-react',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd }) => {
+    api.modifyWebpackChain(async (chain, utils) => {
       const config = api.getNormalizedConfig();
 
-      if (isProd || config.dev.hmr === false) {
+      if (!isUsingHMR(config, utils)) {
         return;
       }
 
+      const { CHAIN_ID } = utils;
       const { default: ReactFastRefreshPlugin } = await import(
         '@pmmmwh/react-refresh-webpack-plugin'
       );

@@ -10,6 +10,7 @@ export type ModifyWebpackUtils = {
   target: BuilderTarget;
   webpack: typeof import('webpack');
   isServer: boolean;
+  isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
   getCompiledPath: (name: string) => string;
 };
@@ -28,9 +29,7 @@ export type ModifyBuilderConfigFn = (
   config: BuilderConfig,
 ) => Promise<BuilderConfig | void> | BuilderConfig | void;
 
-export type OnBeforeBuildFn = (params: {
-  bundlerConfigs: WebpackConfig[];
-}) => Promise<void> | void;
+export type OnBeforeBuildFn = () => Promise<void> | void;
 
 export type OnAfterBuildFn = (params: {
   stats?: Stats | MultiStats;

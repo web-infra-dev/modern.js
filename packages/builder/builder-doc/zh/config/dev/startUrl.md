@@ -1,12 +1,14 @@
 - Type: `boolean | string | string[] | undefined`
 - Default: `undefined`
 
-`dev.startUrl` 用来设置启动时打开的页面，默认情况下不开启。你可以设置为如下的值：
+`dev.startUrl` 用来设置 Dev Server 启动时自动打开的页面 URL，默认情况下不会打开任何页面。
+
+你可以设置为如下的值：
 
 ```js
 export default {
   dev: {
-    // 默认打开项目预览页面
+    // 打开项目的默认页面
     startUrl: true,
     // 打开指定的页面
     startUrl: 'http://localhost:8080',

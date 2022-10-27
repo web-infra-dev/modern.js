@@ -3,8 +3,8 @@ import {
   PluginModuleScopes,
   isPrimitiveScope,
   applyScopeChain,
-} from '../../src/plugins/moduleScopes';
-import { createStubBuilder } from '../../src/stub';
+} from '@/plugins/moduleScopes';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/moduleScopes', () => {
   it('should set entry correctly', async () => {

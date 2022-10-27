@@ -1,21 +1,29 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import type {
+import { fs, logger } from '@modern-js/utils';
+import {
   IAppContext,
   NormalizedConfig,
   PluginAPI,
   ImportSpecifier,
   ImportStatement,
+  useResolvedConfigContext,
 } from '@modern-js/core';
-import type { Entrypoint } from '@modern-js/types';
+import type {
+  Entrypoint,
+  Route,
+  NestedRoute,
+  RouteLegacy,
+  PageRoute,
+} from '@modern-js/types';
 import * as templates from './templates';
-import { getClientRoutes } from './getClientRoutes';
+import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
 import {
   FILE_SYSTEM_ROUTES_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
   ENTRY_BOOTSTRAP_FILE_NAME,
 } from './constants';
 import { getDefaultImports } from './utils';
+import { walk } from './nestedRoutes';
 
 const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
   let defaults = '';
@@ -92,10 +100,9 @@ export const generateCode = async (
   } = appContext;
 
   const hookRunners = api.useHookRunners();
-
-  const {
-    output: { mountId },
-  } = config;
+  const islegacy = Boolean(config?.runtime?.router?.legacy);
+  const { mountId } = config.output;
+  const getRoutes = islegacy ? getClientRoutesLegacy : getClientRoutes;
 
   for (const entrypoint of entrypoints) {
     const { entryName, isAutoMount, customBootstrap, fileSystemRoutes } =
@@ -103,22 +110,49 @@ export const generateCode = async (
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
       if (fileSystemRoutes) {
-        const initialRoutes = getClientRoutes({
-          entrypoint,
-          srcDirectory,
-          srcAlias: internalSrcAlias,
-          internalDirectory,
-          internalDirAlias,
-        });
+        let initialRoutes: (NestedRoute | PageRoute)[] | RouteLegacy[] = [];
+        let nestedRoute: NestedRoute | null = null;
+        if (entrypoint.entry) {
+          initialRoutes = getRoutes({
+            entrypoint,
+            srcDirectory,
+            srcAlias: internalSrcAlias,
+            internalDirectory,
+            internalDirAlias,
+          });
+        }
+        if (entrypoint.nestedRoutesEntry) {
+          if (!islegacy) {
+            nestedRoute = await walk(
+              entrypoint.nestedRoutesEntry,
+              entrypoint.nestedRoutesEntry,
+              {
+                name: internalSrcAlias,
+                basename: srcDirectory,
+              },
+            );
+            if (nestedRoute) {
+              (initialRoutes as Route[]).unshift(nestedRoute);
+            }
+          } else {
+            logger.error('Nested routes is not supported in legacy mode.');
+            // eslint-disable-next-line no-process-exit
+            process.exit(1);
+          }
+        }
 
         const { routes } = await hookRunners.modifyFileSystemRoutes({
           entrypoint,
           routes: initialRoutes,
         });
 
+        const config = useResolvedConfigContext();
+        const ssr = config?.server.ssr;
+        const mode = typeof ssr === 'object' ? ssr.mode : 'string';
+
         const { code } = await hookRunners.beforeGenerateRoutes({
           entrypoint,
-          code: templates.fileSystemRoutes({ routes }),
+          code: templates.fileSystemRoutes({ routes, ssrMode: mode }),
         });
 
         fs.outputFileSync(

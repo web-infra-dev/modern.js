@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginInspector } from '../../src/plugins/inspector';
-import { createStubBuilder } from '../../src/stub/builder';
+import { PluginInspector } from '@/plugins/inspector';
+import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/inspector', () => {
   it('should add inspector plugin when tools.inspector is set', async () => {

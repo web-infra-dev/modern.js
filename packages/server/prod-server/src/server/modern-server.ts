@@ -396,7 +396,8 @@ export class ModernServer implements ModernServerInterface {
     if (this.runMode === RUN_MODE.FULL) {
       await this.runner.afterMatch(afterMatchContext, { onLast: noop });
     }
-    if (res.headersSent) {
+
+    if (this.isSend(res)) {
       return;
     }
 
@@ -430,11 +431,11 @@ export class ModernServer implements ModernServerInterface {
         ...res.locals,
         ...middlewareContext.response.locals,
       };
+    }
 
-      // frameWebHandler has process request
-      if (res.headersSent) {
-        return;
-      }
+    // frameWebHandler has process request
+    if (this.isSend(res)) {
+      return;
     }
 
     if (route.responseHeaders) {
@@ -463,9 +464,7 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
-    // user set redirect when react render
-    if (res.getHeader('Location') && isRedirect(res.statusCode)) {
-      res.end();
+    if (this.isSend(res)) {
       return;
     }
 
@@ -500,6 +499,11 @@ export class ModernServer implements ModernServerInterface {
       if (this.runMode === RUN_MODE.FULL) {
         await this.runner.afterRender(afterRenderContext, { onLast: noop });
       }
+
+      if (this.isSend(res)) {
+        return;
+      }
+
       // It will inject _SERVER_DATA twice, when SSG mode.
       // The first time was in ssg html created, the seoncd time was in prod-server start.
       // but the second wound causes route error.
@@ -512,6 +516,19 @@ export class ModernServer implements ModernServerInterface {
       response = afterRenderContext.template.get();
     }
     res.end(response);
+  }
+
+  private isSend(res: ServerResponse) {
+    if (res.headersSent) {
+      return true;
+    }
+
+    if (res.getHeader('Location') && isRedirect(res.statusCode)) {
+      res.end();
+      return true;
+    }
+
+    return false;
   }
 
   // compose handlers and create the final handler

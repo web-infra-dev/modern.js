@@ -1,8 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { PluginReact } from '../../src/plugins/react';
-import { PluginBabel } from '../../src/plugins/babel';
-import { PluginTsLoader } from '../../src/plugins/tsLoader';
-import { createStubBuilder } from '../../src/stub/builder';
+import { PluginReact } from '@/plugins/react';
+import { PluginBabel } from '@/plugins/babel';
+import { PluginTsLoader } from '@/plugins/tsLoader';
+import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/react', () => {
   it('should work with babel-loader', async () => {
@@ -41,6 +41,24 @@ describe('plugins/react', () => {
           hmr: false,
         },
       },
+    });
+
+    expect(await builder.matchWebpackPlugin('ReactRefreshPlugin')).toBeFalsy();
+  });
+
+  it('should not apply react refresh when target is node', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginReact()],
+      target: 'node',
+    });
+
+    expect(await builder.matchWebpackPlugin('ReactRefreshPlugin')).toBeFalsy();
+  });
+
+  it('should not apply react refresh when target is web-worker', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginReact()],
+      target: 'web-worker',
     });
 
     expect(await builder.matchWebpackPlugin('ReactRefreshPlugin')).toBeFalsy();

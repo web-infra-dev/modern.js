@@ -18,7 +18,7 @@ export const PluginPug = (): BuilderPlugin => ({
         .rule(CHAIN_ID.RULE.PUG)
         .test(/\.pug$/)
         .use(CHAIN_ID.USE.PUG)
-        .loader(path.resolve('../webpackLoaders/pugLoader'))
+        .loader(path.resolve(__dirname, '../webpackLoaders/pugLoader'))
         .options(applyOptionsChain({}, pug === true ? {} : pug));
     });
   },

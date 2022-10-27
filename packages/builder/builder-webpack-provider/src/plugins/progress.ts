@@ -5,6 +5,7 @@ const ID_MAP: Record<BuilderTarget, string> = {
   web: 'Client',
   node: 'Server',
   'modern-web': 'Modern',
+  'web-worker': 'Web Worker',
 };
 
 export const PluginProgress = (): BuilderPlugin => ({

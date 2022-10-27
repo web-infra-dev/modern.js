@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import { expect, describe, it } from 'vitest';
-import { stringifyConfig } from '../../src/shared';
-import type { BuilderConfig, WebpackConfig } from '../../src/types';
+import { stringifyConfig, getHTMLPathByEntry } from '@/shared';
+import type { BuilderConfig, NormalizedConfig, WebpackConfig } from '@/types';
 
 describe('stringifyConfig', () => {
   it('should stringify webpack config correctly', async () => {
@@ -42,5 +42,37 @@ describe('stringifyConfig', () => {
     };
 
     expect(await stringifyConfig(builderConfig)).toMatchSnapshot();
+  });
+});
+
+describe('getHTMLPathByEntry', () => {
+  it('should use distPath.html as the folder', async () => {
+    const htmlPath = getHTMLPathByEntry('main', {
+      output: {
+        distPath: {
+          html: 'my-html',
+        },
+      },
+      html: {
+        disableHtmlFolder: false,
+      },
+    } as NormalizedConfig);
+
+    expect(htmlPath).toEqual('my-html/main/index.html');
+  });
+
+  it('should allow to disable html folder', async () => {
+    const htmlPath = getHTMLPathByEntry('main', {
+      output: {
+        distPath: {
+          html: 'html',
+        },
+      },
+      html: {
+        disableHtmlFolder: true,
+      },
+    } as NormalizedConfig);
+
+    expect(htmlPath).toEqual('html/main.html');
   });
 });

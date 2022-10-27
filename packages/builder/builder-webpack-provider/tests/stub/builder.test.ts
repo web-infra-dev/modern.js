@@ -1,14 +1,14 @@
 import { describe, expect, it, vi } from 'vitest';
 import _ from '@modern-js/utils/lodash';
-import { createStubBuilder } from '../../src/stub';
-import { normalizeStubPluginOptions } from '../../src/stub/builder';
+import { createStubBuilder } from '@/stub';
+import { normalizeStubPluginOptions } from '@/stub/builder';
 
 describe('stub-builder', () => {
   it('should memoize building result', async () => {
     const builder = await createStubBuilder();
     const oldConfig = await builder.unwrapWebpackConfig();
     const newConfig = await builder.unwrapWebpackConfig();
-    expect(oldConfig).toBe(newConfig);
+    expect(oldConfig).toStrictEqual(newConfig);
   });
 
   it('lodash memoize should be reset', async () => {
@@ -45,6 +45,8 @@ describe('stub-builder', () => {
         "modifyBuilderConfigHook",
         "modifyWebpackChainHook",
         "modifyWebpackConfigHook",
+        "onBeforeCreateCompilerHook",
+        "onAfterCreateCompilerHook",
         "onBeforeBuildHook",
         "onAfterBuildHook",
       ]

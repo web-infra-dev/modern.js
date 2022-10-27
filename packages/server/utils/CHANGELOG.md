@@ -1,5 +1,17 @@
 # @modern-js/server-utils
 
+## 1.21.0
+
+### Patch Changes
+
+- 8f3674a: fix: reduce compile parameters for dev-server
+  fix: 减少 dev-server 编译所需参数
+- Updated dependencies [28f0a4f]
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+  - @modern-js/babel-preset-lib@1.21.0
+  - @modern-js/babel-compiler@1.21.0
+
 ## 1.20.1
 
 ### Patch Changes

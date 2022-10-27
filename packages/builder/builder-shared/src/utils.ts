@@ -16,3 +16,8 @@ export const extendsType =
   <T>() =>
   <P extends T>(source: P): P =>
     source;
+
+export const createVirtualModule = (content: string) =>
+  `data:text/javascript,${content}`;
+
+export const removeLeadingSlash = (s: string): string => s.replace(/^\/+/, '');

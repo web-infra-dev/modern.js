@@ -43,7 +43,7 @@ export const createDefaultConfig = () =>
       alias: {},
       preEntry: [],
       globalVars: {},
-      compileJsDataURI: false,
+      compileJsDataURI: true,
     },
     output: {
       distPath: {
@@ -86,6 +86,7 @@ export const createDefaultConfig = () =>
       removeConsole: false,
       removeMomentLocale: false,
       profile: false,
+      buildCache: true,
       chunkSplit: {
         strategy: 'split-by-experience',
       },

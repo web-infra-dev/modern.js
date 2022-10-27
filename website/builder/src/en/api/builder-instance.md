@@ -20,6 +20,20 @@ The entry object, corresponding to the `entry` option of `createBuilder` method.
 type BuilderEntry = Record<string, string | string[]>;
 ```
 
+### builder.context.target
+
+Build target type, corresponding to the `target` option of `createBuilder` method.
+
+- **Type**
+
+```ts
+type BuilderTarget = 'web' | 'node' | 'modern-web';
+
+type Context = {
+  target: BuilderTarget | BuilderTarget[];
+};
+```
+
 ### builder.context.rootPath
 
 The root path of current build, corresponding to the `cwd` option of `createBuilder` method.
@@ -113,6 +127,8 @@ Perform a production build.
 type BuildOptions = {
   mode?: 'development' | 'production';
   watch?: boolean;
+  // custom Compiler object
+  compiler?: Compiler | MultiCompiler;
 };
 
 function Build(options?: BuildOptions): Promise<void>;
@@ -141,6 +157,19 @@ If you need to watch file changes and re-build, you can set the `watch` option t
 ```ts
 await builder.build({
   watch: true,
+});
+```
+
+### Custom Compiler
+
+In some cases, you may want to use a custom compiler:
+
+```ts
+const compiler = webpack({
+  // ...
+});
+await builder.build({
+  compiler,
 });
 ```
 

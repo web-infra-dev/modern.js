@@ -21,6 +21,11 @@ import type {
 export type BuilderPluginAPI = {
   context: Readonly<BuilderContext>;
   isPluginExists: PluginStore['isPluginExists'];
+  /**
+   * Get the relative paths of generated HTML files.
+   * The key is entry name and the value is path.
+   */
+  getHTMLPaths: () => Record<string, string>;
   getBuilderConfig: () => Readonly<BuilderConfig>;
   getNormalizedConfig: () => Readonly<NormalizedConfig>;
 

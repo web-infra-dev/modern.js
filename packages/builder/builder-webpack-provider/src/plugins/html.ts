@@ -1,6 +1,9 @@
 import path from 'path';
-import { isFileExists, DEFAULT_MOUNT_ID } from '@modern-js/builder-shared';
-import { getDistPath } from '../shared';
+import {
+  isFileExists,
+  DEFAULT_MOUNT_ID,
+  type BuilderTarget,
+} from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
   WebpackConfig,
@@ -15,16 +18,6 @@ type RoutesInfo = {
   entryName: string;
   entryPath: string;
 };
-
-async function getFilename(entryName: string, config: NormalizedConfig) {
-  const { removeLeadingSlash } = await import('@modern-js/utils');
-  const htmlPath = getDistPath(config, 'html');
-  const filename = config.html.disableHtmlFolder
-    ? `${entryName}.html`
-    : `${entryName}/index.html`;
-
-  return removeLeadingSlash(`${htmlPath}/${filename}`);
-}
 
 function getMinify(isProd: boolean, config: NormalizedConfig) {
   if (config.output.disableMinimize || !isProd) {
@@ -133,17 +126,25 @@ async function getChunks(
   return [...dependOn, entryName];
 }
 
+export const isHtmlDisabled = (
+  config: NormalizedConfig,
+  target: BuilderTarget,
+) =>
+  config.tools.htmlPlugin === false ||
+  target === 'node' ||
+  target === 'web-worker';
+
 export const PluginHtml = (): BuilderPlugin => ({
   name: 'builder-plugin-html',
 
   setup(api) {
     const routesInfo: RoutesInfo[] = [];
 
-    api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID, target }) => {
       const config = api.getNormalizedConfig();
 
-      // if html is disabled, return following logics
-      if (config.tools.htmlPlugin === false) {
+      // if html is disabled or target is server, skip html plugin
+      if (isHtmlDisabled(config, target)) {
         return;
       }
 
@@ -158,6 +159,7 @@ export const PluginHtml = (): BuilderPlugin => ({
       const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
       const entries = chain.entryPoints.entries();
       const entryNames = Object.keys(chain.entryPoints.entries());
+      const htmlPaths = api.getHTMLPaths();
 
       await Promise.all(
         entryNames.map(async (entryName, index) => {
@@ -167,7 +169,7 @@ export const PluginHtml = (): BuilderPlugin => ({
           const chunks = await getChunks(entryName, entryValue);
           const inject = getInject(entryName, config);
           const favicon = getFavicon(entryName, config);
-          const filename = await getFilename(entryName, config);
+          const filename = htmlPaths[entryName];
           const template = getTemplatePath(entryName, config);
           const templateParameters = await getTemplateParameters(
             entryName,
@@ -249,7 +251,7 @@ export const PluginHtml = (): BuilderPlugin => ({
 
       // generate a basic route.json for modern.js dev server
       // if the framework has already generate a route.json, do nothing
-      if (!(await isFileExists(routeFilePath))) {
+      if (!(await isFileExists(routeFilePath)) && routesInfo.length) {
         await fs.outputFile(
           routeFilePath,
           JSON.stringify({ routes: routesInfo }, null, 2),

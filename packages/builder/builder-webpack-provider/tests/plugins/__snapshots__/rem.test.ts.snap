@@ -18,7 +18,6 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "exportOnlyLocals": false,
                 "localIdentName": "[path][name]__[local]--[hash:base64:5]",
               },
               "sourceMap": false,
@@ -90,7 +89,6 @@ exports[`plugins/rem > should not run rem plugin when false 1`] = `
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "exportOnlyLocals": false,
                 "localIdentName": "[path][name]__[local]--[hash:base64:5]",
               },
               "sourceMap": false,
@@ -156,7 +154,6 @@ exports[`plugins/rem > should not run rem plugin without config 1`] = `
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "exportOnlyLocals": false,
                 "localIdentName": "[path][name]__[local]--[hash:base64:5]",
               },
               "sourceMap": false,
@@ -222,7 +219,6 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "exportOnlyLocals": false,
                 "localIdentName": "[path][name]__[local]--[hash:base64:5]",
               },
               "sourceMap": false,
@@ -316,7 +312,6 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "exportOnlyLocals": false,
                 "localIdentName": "[path][name]__[local]--[hash:base64:5]",
               },
               "sourceMap": false,
@@ -379,7 +374,6 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "exportOnlyLocals": false,
                 "localIdentName": "[path][name]__[local]--[hash:base64:5]",
               },
               "sourceMap": false,
@@ -452,7 +446,6 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "exportOnlyLocals": false,
                 "localIdentName": "[path][name]__[local]--[hash:base64:5]",
               },
               "sourceMap": false,

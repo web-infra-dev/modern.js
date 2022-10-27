@@ -1,141 +1,60 @@
+import type {
+  SharedOutputConfig,
+  NormalizedSharedOutputConfig,
+} from '@modern-js/builder-shared';
 import type { CopyPluginOptions, WebpackConfig } from '../thirdParty';
-
-export type DistPathConfig = {
-  root?: string;
-  js?: string;
-  css?: string;
-  svg?: string;
-  font?: string;
-  html?: string;
-  image?: string;
-  media?: string;
-  server?: string;
-};
-
-export type FilenameConfig = {
-  js?: string;
-  css?: string;
-  svg?: string;
-  font?: string;
-  image?: string;
-  media?: string;
-};
-
-export type DataUriLimit = {
-  svg?: number;
-  font?: number;
-  image?: number;
-  media?: number;
-};
-
-export type NormalizedDataUriLimit = Required<DataUriLimit>;
-
-export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
-
-export type AssetsRetryHookContext = {
-  times: number;
-  domain: string;
-  url: string;
-  tagName: string;
-};
-
-export type AssetsRetryOptions = {
-  type?: string[];
-  domain?: string[];
-  max?: number;
-  test?: string | ((url: string) => boolean);
-  crossOrigin?: boolean;
-  onRetry?: (options: AssetsRetryHookContext) => void;
-  onSuccess?: (options: AssetsRetryHookContext) => void;
-  onFail?: (options: AssetsRetryHookContext) => void;
-};
 
 /**
  * postcss-pxtorem options
- *
  * https://github.com/cuth/postcss-pxtorem#options
  */
-export type PxToRemOptions = Partial<{
-  rootValue: number;
-  unitPrecision: number;
-  propList: Array<string>;
-  selectorBlackList: Array<string>;
-  replace: boolean;
-  mediaQuery: boolean;
-  minPixelValue: number;
-  exclude: string | RegExp | ((filePath: string) => boolean);
-}>;
+export type PxToRemOptions = {
+  rootValue?: number;
+  unitPrecision?: number;
+  propList?: Array<string>;
+  selectorBlackList?: Array<string>;
+  replace?: boolean;
+  mediaQuery?: boolean;
+  minPixelValue?: number;
+  exclude?: string | RegExp | ((filePath: string) => boolean);
+};
 
-export type RemOptions = Partial<{
-  /** Runtime options */
+export type RemOptions = {
   /** Whether to inject runtime code into html templates。Default: true */
-  enableRuntime: boolean;
+  enableRuntime?: boolean;
   /** Usually, `fontSize = (clientWidth * rootFontSize) / screenWidth` */
-  screenWidth: number;
-  rootFontSize: number;
-  maxRootFontSize: number;
+  screenWidth?: number;
+  rootFontSize?: number;
+  maxRootFontSize?: number;
   /** Get clientWidth from the url query based on widthQueryKey */
-  widthQueryKey: string;
+  widthQueryKey?: string;
   /** The entries to ignore */
-  excludeEntries: Array<string>;
+  excludeEntries?: string[];
   /** Use height to calculate rem in landscape。Default: false */
-  supportLandscape: boolean;
-  /**
-   * Whether to use rootFontSize when large than maxRootFontSize （scene：pc）
-   */
-  useRootFontSizeBeyondMax: boolean;
+  supportLandscape?: boolean;
+  /** Whether to use rootFontSize when large than maxRootFontSize（scene：pc） */
+  useRootFontSizeBeyondMax?: boolean;
   /** CSS (postcss-pxtorem) option */
-  pxtorem: PxToRemOptions;
-}>;
+  pxtorem?: PxToRemOptions;
+};
 
 export type ExternalsOptions = WebpackConfig['externals'];
 
-export type Charset = 'ascii' | 'utf8';
-export type SvgDefaultExport = 'component' | 'url';
-export type LegalComments = 'none' | 'inline' | 'linked';
-
-export interface OutputConfig {
+export type OutputConfig = SharedOutputConfig & {
+  /**
+   * Copies the specified file or directory to the dist directory.
+   */
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
-  distPath?: DistPathConfig;
-  filename?: FilenameConfig;
-  charset?: Charset;
-  polyfill?: Polyfill;
-  assetPrefix?: string;
-  dataUriLimit?: number | DataUriLimit;
-  legalComments?: LegalComments;
-  cleanDistPath?: boolean;
-  disableMinimize?: boolean;
-  disableSourceMap?: boolean;
-  disableFilenameHash?: boolean;
-  disableInlineRuntimeChunk?: boolean;
-  enableAssetManifest?: boolean;
-  enableAssetFallback?: boolean;
-  enableLatestDecorators?: boolean;
-  enableCssModuleTSDeclaration?: boolean;
-  enableInlineScripts?: boolean;
-  enableInlineStyles?: boolean;
-  overrideBrowserslist?: string[];
-  svgDefaultExport?: SvgDefaultExport;
-  assetsRetry?: AssetsRetryOptions;
+  /**
+   * Convert px to rem in CSS.
+   */
   convertToRem?: boolean | RemOptions;
+  /**
+   * At build time, prevent some `import` dependencies from being packed into bundles in your code, and instead fetch them externally at runtime.
+   * For more information, please see: [webpack Externals](https://webpack.js.org/configuration/externals/)
+   */
   externals?: ExternalsOptions;
-}
+};
 
-export interface NormalizedOutputConfig extends OutputConfig {
-  filename: FilenameConfig;
-  distPath: DistPathConfig;
-  polyfill: Polyfill;
-  dataUriLimit: NormalizedDataUriLimit;
-  cleanDistPath: boolean;
-  disableMinimize: boolean;
-  disableSourceMap: boolean;
-  disableFilenameHash: boolean;
-  disableInlineRuntimeChunk: boolean;
-  enableAssetManifest: boolean;
-  enableAssetFallback: boolean;
-  enableLatestDecorators: boolean;
-  enableCssModuleTSDeclaration: boolean;
-  enableInlineScripts: boolean;
-  enableInlineStyles: boolean;
-  svgDefaultExport: SvgDefaultExport;
-}
+export type NormalizedOutputConfig = OutputConfig &
+  NormalizedSharedOutputConfig;

@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
-import { PluginBabel } from '../../src/plugins/babel';
-import { PluginEntry } from '../../src/plugins/entry';
-import { createStubBuilder } from '../../src/stub';
+import { PluginBabel } from '@/plugins/babel';
+import { PluginEntry } from '@/plugins/entry';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/babel', () => {
   it('should set babel-loader', async () => {
@@ -113,5 +113,15 @@ describe('plugins/babel', () => {
     expect(JSON.stringify(config)).toContain(
       '"generatorOpts":{"jsescOption":{"minimal":true}}',
     );
+  });
+
+  it('should adjust browserslist when target is node', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginBabel()],
+      target: 'node',
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
   });
 });

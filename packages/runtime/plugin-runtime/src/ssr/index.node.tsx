@@ -11,7 +11,7 @@ import render from './serverRender';
 
 const registeredApps = new WeakSet();
 
-const plugin = (config: SSRPluginConfig = {}): Plugin => ({
+export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
   name: '@modern-js/plugin-ssr',
   setup: () => {
     return {
@@ -54,5 +54,5 @@ const plugin = (config: SSRPluginConfig = {}): Plugin => ({
   },
 });
 
-export default plugin;
+export default ssr;
 export * from './react';

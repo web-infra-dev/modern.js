@@ -5,6 +5,7 @@ import {
   ActionFunction,
   ActionFunctionText,
   ActionRefactor,
+  ActionRefactorText,
   ActionType,
   ActionTypeText,
 } from '../common';
@@ -13,7 +14,7 @@ import { i18n, localeKeys } from '../../locale';
 export const MWAActionTypes = [
   ActionType.Element,
   ActionType.Function,
-  // ActionType.Refactor,
+  ActionType.Refactor,
 ];
 
 export const MWAActionFunctions = [
@@ -31,8 +32,9 @@ export const MWAActionFunctions = [
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
 ];
+
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
-export const MWAActionReactors = [ActionRefactor.BFFToApp];
+export const MWAActionReactors = [ActionRefactor.ReactRouter5];
 
 export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Element]: MWAActionElements,
@@ -43,8 +45,9 @@ export const MWAActionTypesMap: Record<ActionType, string[]> = {
 export const getMWANewActionSchema = (
   extra: Record<string, any> = {},
 ): Schema => {
-  const { funcMap = {} } = extra;
+  const { funcMap = {}, refactorMap = {} } = extra;
   const funcs = MWAActionFunctions.filter(func => !funcMap[func]);
+  const refactors = MWAActionReactors.filter(reactor => !refactorMap[reactor]);
   return {
     type: 'object',
     properties: {
@@ -53,11 +56,15 @@ export const getMWANewActionSchema = (
         title: i18n.t(localeKeys.action.self),
         enum: MWAActionTypes.filter(type =>
           type === ActionType.Function ? funcs.length > 0 : true,
-        ).map(type => ({
-          value: type,
-          label: ActionTypeText[type](),
-          type: ['string'],
-        })),
+        )
+          .filter(type =>
+            type === ActionType.Refactor ? refactors.length > 0 : true,
+          )
+          .map(type => ({
+            value: type,
+            label: ActionTypeText[type](),
+            type: ['string'],
+          })),
       },
       [ActionType.Element]: {
         type: 'string',
@@ -98,6 +105,24 @@ export const getMWANewActionSchema = (
           },
         ],
       },
+      [ActionType.Refactor]: {
+        type: 'string',
+        title: ActionTypeText[ActionType.Refactor](),
+        enum: refactors.map(refactor => ({
+          value: refactor,
+          label: ActionRefactorText[refactor](),
+        })),
+        'x-reactions': [
+          {
+            dependencies: ['actionType'],
+            fulfill: {
+              state: {
+                visible: '{{$deps[0] === "refactor"}}',
+              },
+            },
+          },
+        ],
+      },
     },
   };
 };
@@ -132,6 +157,18 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
   [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/types' />`,
 };
 
+export const MWAActionRefactorDependencies: Partial<
+  Record<ActionRefactor, string>
+> = {
+  [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-legacy',
+};
+
+export const MWAActionReactorAppendTypeContent: Partial<
+  Record<ActionRefactor, string>
+> = {
+  [ActionRefactor.ReactRouter5]: `/// <reference types='@modern-js/plugin-router-legacy/types' />`,
+};
+
 export const MWANewActionGenerators: Record<
   ActionType,
   Record<string, string>
@@ -156,6 +193,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {
-    [ActionRefactor.BFFToApp]: '@modern-js/bff-refactor-generator',
+    [ActionRefactor.ReactRouter5]: '@modern-js/router-legacy-generator',
   },
 };

@@ -1,8 +1,8 @@
 import { describe, expect, test, vi } from 'vitest';
 import { applyDefaultBuilderOptions } from '@modern-js/builder-shared';
-import { createCompiler } from '../src/core/createCompiler';
-import { createStubBuilder, createStubContext } from '../src/stub';
-import { StubBuilderOptions } from '../src/stub/builder';
+import { createStubBuilder, createStubContext } from '@/stub';
+import { createCompiler } from '@/core/createCompiler';
+import { StubBuilderOptions } from '@/stub/builder';
 
 describe('build hooks', () => {
   test('should call onBeforeBuild hook before build', async () => {

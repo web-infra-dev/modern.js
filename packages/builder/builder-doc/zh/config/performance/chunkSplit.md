@@ -1,7 +1,7 @@
 - Type: `Object`
 - Default: `{ strategy: 'split-by-experience' }`
 
-`performance.chunkSplit` 用于配置 Builder 的拆包策略。配置项的类型`ChunkSplit`如下:
+`performance.chunkSplit` 用于配置 Builder 的拆包策略。配置项的类型 `ChunkSplit` 如下:
 
 ```ts
 interface BaseChunkSplit {
@@ -155,3 +155,5 @@ export default {
   },
 };
 ```
+
+> 当 Builder 构建 "node" 类型的产物时，由于 Node Bundles 不需要通过拆包来优化加载性能，因此 chunkSplit 规则不会生效。

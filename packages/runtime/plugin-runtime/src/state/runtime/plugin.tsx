@@ -9,7 +9,7 @@ import { isBrowser } from '../../common';
 
 export type StatePluginType = 'immer' | 'effects' | 'autoActions' | 'devtools';
 
-export type StateConfig = Record<Partial<StatePluginType>, boolean>;
+export type StateConfig = Partial<Record<StatePluginType, boolean>>;
 
 const StatePluginHandleMap: Record<StatePluginType, any> = {
   immer,

@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
-import { PluginTsChecker } from '../../src/plugins/tsChecker';
-import { createStubBuilder } from '../../src/stub';
-import type { Context } from '../../src/types';
+import { PluginTsChecker } from '@/plugins/tsChecker';
+import { createStubBuilder } from '@/stub';
+import type { Context } from '@/types';
 
 describe('plugins/tsChecker', () => {
   const context = {
@@ -84,5 +84,16 @@ describe('plugins/tsChecker', () => {
     });
     const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
+  });
+
+  it('should only apply one tsChecker plugin when there is multiple targets', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginTsChecker()],
+      context,
+      target: ['web', 'node'],
+    });
+
+    const configs = await builder.unwrapWebpackConfigs();
+    expect(configs).toMatchSnapshot();
   });
 });

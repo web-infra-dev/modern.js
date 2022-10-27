@@ -45,7 +45,7 @@ export const EN_LOCALE = {
     },
     refactor: {
       self: 'Automatic refactor',
-      bff_to_app: 'Transform BFF to frame mode',
+      react_router_5: 'Use React Router v5',
     },
   },
   boolean: {

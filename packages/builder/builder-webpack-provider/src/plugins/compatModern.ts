@@ -1,5 +1,6 @@
 import { isPrimitiveScope } from './moduleScopes';
-import type { BuilderPlugin, ModuleScopes } from '../types';
+import type { ModuleScopes } from '@modern-js/builder-shared';
+import type { BuilderPlugin } from '../types';
 
 /**
  * Provides default configuration consistent with `@modern-js/webpack`

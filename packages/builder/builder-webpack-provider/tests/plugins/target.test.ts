@@ -1,7 +1,7 @@
 import { vi, expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
-import { PluginTarget } from '../../src/plugins/target';
-import { createStubBuilder } from '../../src/stub';
+import { PluginTarget } from '@/plugins/target';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/target', () => {
   const cases = [
@@ -24,6 +24,11 @@ describe('plugins/target', () => {
       target: 'web',
       browserslist: null,
       expected: { target: ['web', 'es5'] },
+    },
+    {
+      target: 'web-worker',
+      browserslist: null,
+      expected: { target: ['webworker', 'es5'] },
     },
   ];
 

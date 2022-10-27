@@ -1,0 +1,41 @@
+{
+  "name": "@modern-js/builder-plugin-swc",
+  "version": "0.0.1",
+  "description": "SWC plugin for builder in Modern.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "dev": "swc ./src -d dist --watch",
+    "build": "swc ./src -d dist && tsc --emitDeclarationOnly",
+    "test": "vitest run --segfault-retry=3",
+    "test:watch": "vitest dev --no-coverage",
+    "test:update": "SNAPSHOT_UPDATE=1 vitest watch"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./loader": "./dist/loader.js",
+    "./plugin": "./dist/plugin.js",
+    "./binding": "./dist/binding.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "1.2.248",
+    "magic-string": "^0.26.2",
+    "source-map": "^0.7.4",
+    "webpack": "^5.74.0",
+    "vite": "^3.0.9",
+    "vitest": "^0.22.0",
+    "typescript": "^4"
+  },
+  "dependencies": {
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/swc-plugins": "0.0.2",
+    "@modern-js/utils": "workspace:*"
+  }
+}

@@ -44,7 +44,7 @@ export const ZH_LOCALE = {
     },
     refactor: {
       self: '自动重构',
-      bff_to_app: 'BFF 切换框架模式',
+      react_router_5: '使用 React Router v5',
     },
   },
   boolean: {

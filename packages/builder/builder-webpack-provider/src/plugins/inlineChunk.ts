@@ -1,11 +1,18 @@
 import { RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
+import { isHtmlDisabled } from './html';
 import type { BuilderPlugin } from '../types';
 
 export const PluginInlineChunk = (): BuilderPlugin => ({
   name: 'builder-plugin-inline-chunk',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
+      const config = api.getNormalizedConfig();
+
+      if (isHtmlDisabled(config, target)) {
+        return;
+      }
+
       const { default: HtmlWebpackPlugin } = await import(
         'html-webpack-plugin'
       );
@@ -13,7 +20,6 @@ export const PluginInlineChunk = (): BuilderPlugin => ({
         '../webpackPlugins/InlineChunkHtmlPlugin'
       );
 
-      const config = api.getNormalizedConfig();
       const {
         disableInlineRuntimeChunk,
         enableInlineStyles,

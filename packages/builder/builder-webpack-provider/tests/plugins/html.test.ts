@@ -1,8 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { getTemplatePath, PluginHtml } from '../../src/plugins/html';
-import { PluginEntry } from '../../src/plugins/entry';
-import { createStubBuilder } from '../../src/stub';
-import { BuilderConfig } from '../../src/types';
+import { getTemplatePath, PluginHtml } from '@/plugins/html';
+import { PluginEntry } from '@/plugins/entry';
+import { createStubBuilder } from '@/stub';
+import type { BuilderConfig, NormalizedConfig } from '@/types';
 
 describe('plugins/html', () => {
   it('should register html plugin correctly', async () => {
@@ -16,6 +16,28 @@ describe('plugins/html', () => {
 
     expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeTruthy();
     expect(config).toMatchSnapshot();
+  });
+
+  it('should not register html plugin when target is node', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      target: 'node',
+      entry: {
+        main: './src/main.ts',
+      },
+    });
+    expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
+  });
+
+  it('should not register html plugin when target is web-worker', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      target: 'web-worker',
+      entry: {
+        main: './src/main.ts',
+      },
+    });
+    expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
   });
 
   it('should register crossorigin plugin when using html.crossorigin', async () => {
@@ -148,7 +170,7 @@ describe('plugins/html', () => {
     ['main', 'foo', { templateByEntries: { main: 'foo' } }],
     ['other', 'bar', { template: 'bar', templateByEntries: { main: 'foo' } }],
   ])(`should get template path for %s`, async (entry, expected, html) => {
-    const templ = getTemplatePath(entry, { html });
-    expect(templ).toEqual(expected);
+    const templatePath = getTemplatePath(entry, { html } as NormalizedConfig);
+    expect(templatePath).toEqual(expected);
   });
 });

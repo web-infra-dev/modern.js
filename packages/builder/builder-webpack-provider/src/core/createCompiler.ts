@@ -13,7 +13,7 @@ export async function createCompiler({
   webpackConfigs: WebpackConfig[];
 }) {
   debug('create compiler');
-  await context.hooks.onBeforeCreateCompilerHooks.call({
+  await context.hooks.onBeforeCreateCompilerHook.call({
     bundlerConfigs: webpackConfigs,
   });
 
@@ -44,7 +44,7 @@ export async function createCompiler({
     }
   });
 
-  await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
+  await context.hooks.onAfterCreateCompilerHook.call({ compiler });
   debug('create compiler done');
 
   return compiler;

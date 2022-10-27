@@ -1,38 +1,12 @@
-import {
-  DEFAULT_BROWSERSLIST,
-  getBrowserslist,
-} from '@modern-js/builder-shared';
+import { URLSearchParams } from 'url';
+
 import type { Buffer } from 'buffer';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
-import { URLSearchParams } from 'url';
-import type { BuilderConfig, DataUriLimit, NormalizedConfig } from '../types';
-
-export async function getBrowserslistWithDefault(
-  path: string,
-  config: BuilderConfig,
-) {
-  if (config?.output?.overrideBrowserslist) {
-    return config.output.overrideBrowserslist;
-  }
-
-  const result = await getBrowserslist(path);
-  return result || DEFAULT_BROWSERSLIST;
-}
+import type { DataUriLimit } from '@modern-js/builder-shared';
+import type { NormalizedConfig } from '../types';
 
 /** Preserving the details of schema by generic types. */
 export const defineSchema = <T extends SomeJSONSchema>(schema: T): T => schema;
-
-export const getDataUrlLimit = (
-  config: NormalizedConfig,
-  type: keyof DataUriLimit,
-) => {
-  const { dataUriLimit } = config.output;
-  const ret = dataUriLimit[type];
-  if (typeof ret !== 'number') {
-    throw new Error(`unknown key ${type} in "output.dataUriLimit"`);
-  }
-  return ret;
-};
 
 export function getDataUrlCondition(
   config: NormalizedConfig,
@@ -60,7 +34,7 @@ export function getDataUrlCondition(
       }
     }
 
-    return source.length <= getDataUrlLimit(config, type);
+    return source.length <= config.output.dataUriLimit[type];
   };
 }
 

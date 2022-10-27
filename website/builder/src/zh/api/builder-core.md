@@ -59,7 +59,7 @@ const builder = await createBuilder(provider, {
 ```ts
 type BuilderEntry = Record<string, string | string[]>;
 
-type BuilderTarget = 'web' | 'node' | 'modern-web';
+type BuilderTarget = 'web' | 'node' | 'modern-web' | 'web-worker';
 
 type CreateBuilderOptions = {
   cwd?: string;
@@ -85,6 +85,7 @@ target 表示构建产物类型，可以设置为以下值：
 - `web`: 用于浏览器的产物
 - `modern-web`：用于现代浏览器的产物
 - `node`: 用于 SSR 场景的产物
+- `web-worker`：用于 Web Worker 环境的产物
 
 当 target 为包含多个值的数组时，会并行构建并生成多份不同的产物。比如同时构建浏览器产物和 SSR 产物：
 

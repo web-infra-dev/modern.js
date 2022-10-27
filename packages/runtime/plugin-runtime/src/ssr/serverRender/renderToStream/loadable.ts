@@ -1,6 +1,4 @@
-import { resolve } from 'path';
 import { ChunkExtractor } from '@loadable/server';
-import { LOADABLE_STATS_FILE } from '@modern-js/utils';
 import { RuntimeContext } from '../types';
 
 export function getLoadableChunks({
@@ -10,16 +8,15 @@ export function getLoadableChunks({
   context: RuntimeContext;
   jsx: React.ReactElement;
 }) {
-  const ssrContext = context.ssrContext!;
-  const loadableManifest = resolve(ssrContext.distDir, LOADABLE_STATS_FILE);
-  if (!loadableManifest) {
+  const { loadableStats, entryName } = context.ssrContext!;
+  if (!loadableStats) {
     return {
       jsx,
     };
   }
   const extractor = new ChunkExtractor({
-    statsFile: loadableManifest,
-    entrypoints: [ssrContext.entryName],
+    stats: loadableStats,
+    entrypoints: [entryName],
   });
   const collectedJsx = extractor.collectChunks(jsx);
   return {

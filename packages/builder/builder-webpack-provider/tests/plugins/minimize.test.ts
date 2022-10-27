@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { PluginMinimize } from '../../src/plugins/minimize';
-import { createStubBuilder } from '../../src/stub';
+import { PluginMinimize } from '@/plugins/minimize';
+import { createStubBuilder } from '@/stub';
 
 describe('plugins/minimize', () => {
   it('should not apply minimizer in development', async () => {

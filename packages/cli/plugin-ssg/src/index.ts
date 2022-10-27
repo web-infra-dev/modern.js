@@ -2,14 +2,9 @@ import path from 'path';
 import { logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { generatePath } from 'react-router-dom';
+import { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
 import {
-  AgreedRoute,
-  AgreedRouteMap,
-  EntryPoint,
-  SSGConfig,
-  SsgRoute,
-} from './types';
-import {
+  flattenRoutes,
   formatOutput,
   isDynamicUrl,
   readJSONSpec,
@@ -24,6 +19,8 @@ import { makeRoute } from './libs/make';
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-ssg',
 
+  pre: ['@modern-js/plugin-server', '@modern-js/plugin-bff'],
+
   setup: api => {
     const agreedRouteMap: AgreedRouteMap = {};
 
@@ -31,15 +28,10 @@ export default (): CliPlugin => ({
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-ssg'];
       },
-      modifyFileSystemRoutes({
-        entrypoint,
-        routes,
-      }: {
-        entrypoint: EntryPoint;
-        routes: AgreedRoute[];
-      }) {
+      modifyFileSystemRoutes({ entrypoint, routes }) {
         const { entryName } = entrypoint;
-        agreedRouteMap[entryName] = routes;
+        const flattedRoutes = flattenRoutes(routes);
+        agreedRouteMap[entryName] = flattedRoutes;
 
         return { entrypoint, routes };
       },
@@ -144,10 +136,10 @@ export default (): CliPlugin => ({
             } else {
               // otherwith add all except dynamic routes
               agreedRoutes
-                .filter(route => !preventDefault.includes(route.path))
+                .filter(route => !preventDefault.includes(route.path!))
                 .forEach(route => {
-                  if (!isDynamicUrl(route.path)) {
-                    ssgRoutes.push(makeRoute(pageRoute, route.path, headers));
+                  if (!isDynamicUrl(route.path!)) {
+                    ssgRoutes.push(makeRoute(pageRoute, route.path!, headers));
                   }
                 });
             }

@@ -1,35 +1,42 @@
-import { compatRequire, tryResolve } from '@modern-js/utils';
+import { InternalPlugins } from '@modern-js/types';
+import {
+  compatRequire,
+  getInternalPlugins,
+  tryResolve,
+} from '@modern-js/utils';
 import { createPlugin, ServerPlugin } from './plugin';
 
-type Plugin = string | [string, any] | ServerPlugin;
-export const loadPlugins = (plugins: Plugin[], appDirectory: string) => {
-  const resolvePlugin = (p: Plugin) => {
-    const isPluginInstance = typeof p !== 'string' && !Array.isArray(p);
-    if (isPluginInstance) {
-      return {
-        module: createPlugin(p.setup, p),
-      };
-    }
-
-    const [pkg, options] = typeof p === 'string' ? [p, undefined] : p;
-    const pluginPath = tryResolve(pkg, appDirectory);
-    let module = compatRequire(pluginPath);
-
-    const useNewSyntax = typeof module === 'function';
-    if (useNewSyntax) {
-      const plugin = module(options);
-      module = createPlugin(plugin.setup, plugin);
-    }
-
+const resolvePlugin = (p: string | ServerPlugin, appDirectory: string) => {
+  const isPluginInstance = typeof p !== 'string';
+  if (isPluginInstance) {
     return {
-      pkg,
-      path: pluginPath,
-      module,
+      module: createPlugin(p.setup, p),
     };
-  };
+  }
 
-  return plugins.map(plugin => {
-    const { pkg, path, module } = resolvePlugin(plugin);
-    return { ...module, pluginPath: path, pkg };
+  const pluginPath = tryResolve(p, appDirectory);
+  const module = compatRequire(pluginPath);
+  const pluginInstance: ServerPlugin = module();
+  return {
+    module: createPlugin(pluginInstance.setup, pluginInstance),
+  };
+};
+
+export const loadPlugins = (
+  appDirectory: string,
+  // server plugin in config must be new syntax
+  configPlugins: ServerPlugin[],
+  options: {
+    internalPlugins?: InternalPlugins;
+  },
+) => {
+  const loadedPlugins = getInternalPlugins(
+    appDirectory,
+    options.internalPlugins,
+  );
+
+  return [...loadedPlugins, ...configPlugins].map(plugin => {
+    const { module } = resolvePlugin(plugin, appDirectory);
+    return module;
   });
 };

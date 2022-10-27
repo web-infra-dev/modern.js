@@ -65,7 +65,13 @@ export const PluginTsLoader = (): BuilderPlugin => {
         );
         const rule = chain.module.rule(CHAIN_ID.RULE.TS);
 
-        applyScriptCondition(rule, config, api.context, includes, excludes);
+        applyScriptCondition({
+          rule,
+          config,
+          context: api.context,
+          includes,
+          excludes,
+        });
 
         rule
           .test(TS_REGEX)

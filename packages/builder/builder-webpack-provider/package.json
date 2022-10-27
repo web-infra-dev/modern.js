@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.20.1",
+  "version": "1.21.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -43,6 +43,9 @@
     },
     "./webpack/lib/ModuleFilenameHelpers.js": {
       "default": "./dist/exports/ModuleFileNameHelpers.js"
+    },
+    "./package.json": {
+      "default": "./package.json"
     }
   },
   "typesVersions": {
@@ -105,7 +108,7 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^1.20.1"
+    "@modern-js/e2e": "workspace:^1.21.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

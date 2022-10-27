@@ -8,14 +8,18 @@ import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   getMWANewActionSchema,
   MWAActionFunctions,
+  MWAActionReactors,
   ActionFunction,
   MWAActionFunctionsDependencies,
   MWAActionFunctionsAppendTypeContent,
+  MWAActionReactorAppendTypeContent,
   MWAActionFunctionsDevDependencies,
   MWANewActionGenerators,
   ActionType,
   i18n,
   Solution,
+  ActionRefactor,
+  MWAActionRefactorDependencies,
 } from '@modern-js/generator-common';
 import {
   getModernPluginVersion,
@@ -83,9 +87,23 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     funcMap[func] = enable;
   });
 
+  const refactorMap: Partial<Record<ActionRefactor, boolean>> = {};
+
+  MWAActionReactors.forEach(refactor => {
+    const enable = hasEnabledFunction(
+      refactor,
+      MWAActionRefactorDependencies,
+      {},
+      {},
+      cwd,
+    );
+    refactorMap[refactor] = enable;
+  });
+
   const ans = await appAPI.getInputBySchemaFunc(getMWANewActionSchema, {
     ...UserConfig,
     funcMap,
+    refactorMap,
   });
 
   const actionType = ans.actionType as ActionType;
@@ -109,7 +127,9 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
 
   const devDependency =
     MWAActionFunctionsDevDependencies[action as ActionFunction];
-  const dependency = MWAActionFunctionsDependencies[action as ActionFunction];
+  const dependency =
+    MWAActionFunctionsDependencies[action as ActionFunction] ||
+    MWAActionRefactorDependencies[action as ActionRefactor];
 
   const finalConfig = merge(
     UserConfig,
@@ -129,7 +149,8 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
           }
         : {},
       appendTypeContent:
-        MWAActionFunctionsAppendTypeContent[action as ActionFunction],
+        MWAActionFunctionsAppendTypeContent[action as ActionFunction] ||
+        MWAActionReactorAppendTypeContent[action as ActionRefactor],
     },
   );
 

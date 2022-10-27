@@ -4,7 +4,7 @@
 type BuildCacheConfig =
   | {
       /**
-       * webpack base directory for the filesystem cache.
+       * Base directory for the filesystem cache.
        */
       cacheDirectory?: string;
     }
@@ -15,13 +15,13 @@ type BuildCacheConfig =
 
 ```js
 const defaultBuildCacheConfig = {
-  cacheDirectory: './node_modules/.cache/webapck',
+  cacheDirectory: './node_modules/.cache/webpack',
 };
 ```
 
-Cache the modules and chunks generated during webpack packaging to improve build speed.
+Controls the Builder's caching behavior during the build process.
 
-By default, Builder turns on caching, using the directory `. /node_modules/.cache/webpack` as the cache directory for packaging.
+Builder will enable build cache by default to improve the compile speed, the generated cache files are write to the `./node_modules/.cache/webpack` directory by default.
 
 You can configure the cache path with `buildCache`, e.g.
 
@@ -35,7 +35,7 @@ export default {
 };
 ```
 
-You can also disable `buildCache` by setting it to `false` if you don't want it to be cached:
+You can also disable the build cache by setting it to `false`:
 
 ```js
 export default {
