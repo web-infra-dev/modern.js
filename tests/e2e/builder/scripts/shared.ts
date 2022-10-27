@@ -25,7 +25,7 @@ async function getWebpackBuilderProvider(builderConfig: BuilderConfig) {
   return builderProvider;
 }
 
-// todo: support switch to builder-rspack-provider
+// todo: access builder-rspack-provider
 async function getRspackBuilderProvider(builderConfig: BuilderConfig) {
   const { builderWebpackProvider } = await import(
     '@modern-js/builder-webpack-provider'
@@ -90,6 +90,7 @@ export async function stubBuild(
 ) {
   const tsConfigPath = join(builderOptions.cwd!, 'tsconfig.json');
 
+  // todo: not yet support switch to rspack-builder
   const builder = await createStubBuilder({
     cwd: builderOptions.cwd,
     webpack: true,

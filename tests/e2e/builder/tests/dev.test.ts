@@ -1,18 +1,7 @@
 import { join, resolve } from 'path';
 import { fs } from '@modern-js/utils';
 import { expect, test } from '@modern-js/e2e/playwright';
-import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { CreateBuilderOptions } from '@modern-js/builder';
-import { createBuilder, getHrefByEntryName } from '../scripts/shared';
-
-async function dev(
-  buildOpts: CreateBuilderOptions,
-  config: BuilderConfig = {},
-) {
-  const builder = await createBuilder(buildOpts, config);
-
-  return builder.startDevServer();
-}
+import { dev, getHrefByEntryName } from '../scripts/shared';
 
 const fixtures = resolve(__dirname, '../fixtures/dev');
 
