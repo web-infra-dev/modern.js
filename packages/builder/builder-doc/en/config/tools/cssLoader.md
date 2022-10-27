@@ -10,11 +10,13 @@ The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be
     auto: true,
     exportLocalsConvention: 'camelCase',
     // isProd indicates that the production build
+    // In production，we use shorter classname to reduce bundle size
     localIdentName: isProd
-      ? '[hash:base64]'
+      ? '[hash:base64:5]'
       : '[path][name]__[local]--[hash:base64:5]',
-    // isServer indicates SSR build
-    exportOnlyLocals: isServer,
+    // isServer indicates node (SSR) build
+    // isWebWorker indicates web worker build
+    exportOnlyLocals: isServer || isWebWorker,
   },
   // The default value of enableSourceMap in production build is true
   sourceMap: enableSourceMap,
