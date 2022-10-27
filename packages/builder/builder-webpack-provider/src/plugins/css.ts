@@ -182,8 +182,9 @@ export async function applyBaseCSSRule(
       modules: {
         auto: true,
         exportLocalsConvention: 'camelCase',
+        // Reduce classname length in production to reduce bundle size
         localIdentName: isProd
-          ? '[hash:base64]'
+          ? '[hash:base64:5]'
           : '[path][name]__[local]--[hash:base64:5]',
       },
       sourceMap: enableSourceMap,
