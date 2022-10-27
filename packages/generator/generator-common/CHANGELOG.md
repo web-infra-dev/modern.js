@@ -1,5 +1,19 @@
 # @modern-js/generator-common
 
+## 2.4.5
+
+### Patch Changes
+
+- cf1a2b1: fix: new testing reference type
+
+  fix: 修复开启测试功能 reference 类型
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+  - @modern-js/plugin-i18n@1.21.0
+
 ## 2.4.4
 
 ### Patch Changes

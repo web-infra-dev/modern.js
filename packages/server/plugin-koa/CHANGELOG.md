@@ -1,5 +1,15 @@
 # @modern-js/plugin-koa
 
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+  - @modern-js/utils@1.21.0
+  - @modern-js/bff-core@1.21.0
+  - @modern-js/bff-runtime@1.21.0
+
 ## 1.20.1
 
 ### Patch Changes
