@@ -30,8 +30,8 @@ release/
 examples/
 
 # git ignore for local test projects
-local-test-project/*/
-local-test-project/*
+local-test-project/app-document/node_modules/
+local-test-project/!(app-document)/*
 !local-test-project/pnpm-workspace.yaml
 
 .vscode/**/*

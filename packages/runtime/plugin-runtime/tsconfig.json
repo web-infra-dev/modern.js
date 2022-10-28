@@ -5,6 +5,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
+    "preserveSymlinks": true,
     "paths": {}
   },
   "include": ["src", "types"]

@@ -45,6 +45,11 @@
       "node": "./dist/js/node/exports/server.js",
       "default": "./dist/js/treeshaking/exports/server.js"
     },
+    "./document": {
+      "jsnext:source": "./src/exports/document.ts",
+      "node": "./dist/js/node/exports/document.js",
+      "default": "./dist/js/treeshaking/exports/document.js"
+    },
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
       "node": "./dist/js/node/ssr/index",
@@ -88,6 +93,10 @@
       "ssr": [
         "./dist/types/ssr/index.d.ts"
       ],
+      "document": [
+        "./dist/types/document/components/DocumentContext.d.ts",
+        "./dist/types/document/components/Document.d.ts"
+      ],
       "model": [
         "./types/model.d.ts"
       ],
@@ -110,6 +119,7 @@
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/component": "^5.15.0",
     "@loadable/server": "^5.15.1",
+    "html-webpack-plugin": "^5.3.2",
     "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
     "@modern-js-reduck/plugin-devtools": "^1.0.3",
     "@modern-js-reduck/plugin-effects": "^1.0.2",
@@ -136,7 +146,7 @@
   },
   "peerDependencies": {
     "react": ">=18",
-    "react-dom": ">=17"
+    "react-dom": ">=18"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

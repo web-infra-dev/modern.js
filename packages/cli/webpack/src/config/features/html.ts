@@ -13,6 +13,8 @@ import ReactDomServer from 'react-dom/server';
 import { build } from 'esbuild';
 import type { Entrypoint, IAppContext } from '@modern-js/types';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
+import type { HtmlTagObject } from 'html-webpack-plugin';
+// import { DocumentContext } from '@modern-js/runtime/document';
 import { BottomTemplatePlugin } from '../../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../../utils/constants';
 import type { ChainUtils } from '../shared';
@@ -20,10 +22,10 @@ import type { ChainUtils } from '../shared';
 // todo: 移入常量文件中
 const DOCUMENT_FILE_NAME = 'document';
 const DOCUMENT_OUTPUT_NAME = 'document';
+const DOCUMENT_SCRIPTS_PLACEHOLDER = '&lt;!-- chunk scripts --/&gt;';
+const docExt = ['jsx', 'tsx'];
 
 function isExistedDocument(appDir: string): boolean {
-  const docExt = ['jsx', 'tsx'];
-
   const docFileExt = docExt.find(ext => {
     const validateFile = path.join(
       `${appDir}/src/${DOCUMENT_FILE_NAME}.${ext}`,
@@ -37,14 +39,36 @@ function isExistedDocument(appDir: string): boolean {
   return docFileExt !== undefined;
 }
 
-function getDirByEntryName(appDir: string, entryName: string) {
-  if (entryName === 'main') {
-    return path.join(appDir, 'src');
+function getDocumenByEntryName(
+  appDir: string,
+  entryName: string,
+): string | undefined {
+  // tofix: 自定义 Entry 场景下，存在 entryName 与 路径对不上的可能
+  const docRelativePath = entryName === 'main' ? '' : entryName;
+
+  const docFileExt = docExt.find(item => {
+    const documentFilePath = `${appDir}/src/${docRelativePath}/${DOCUMENT_FILE_NAME}.${item}`;
+    return findExists([documentFilePath]);
+  });
+
+  if (!docFileExt) {
+    return undefined;
   }
-  return path.join(appDir, 'src', entryName);
+  return `${appDir}/src/${docRelativePath}/${DOCUMENT_FILE_NAME}.${docFileExt}`;
 }
 
-export function applyHTMLPlugin({
+function getDocParams(
+  appContext: IAppContext,
+  baseTemplateParams: Record<string, any>,
+) {
+  return {
+    // todo: 补充更多参数
+    // a: appContext.ip, // 举例
+    ...baseTemplateParams,
+  };
+}
+
+export async function applyHTMLPlugin({
   chain,
   config,
   appContext,
@@ -63,6 +87,8 @@ export function applyHTMLPlugin({
   const isUseDocument = isExistedDocument(appdir);
   const entrypoints = Object.keys(chain.entryPoints.entries() || {});
   for (const entryName of entrypoints) {
+    let hasCustomerScripts = true;
+    let html = '';
     const baseTemplateParams = {
       entryName,
       title: getEntryOptions<string | undefined>(
@@ -89,6 +115,15 @@ export function applyHTMLPlugin({
       ),
     };
 
+    // 查找该 entry 下 document 文件
+    let documentFilePath = getDocumenByEntryName(appdir, entryName);
+
+    if (isUseDocument) {
+      // entry 下无 document.tsx 文件，则用 main 的兜底
+      if (!documentFilePath) {
+        documentFilePath = getDocumenByEntryName(appdir, 'main');
+      }
+    }
     chain
       .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
       .use(HtmlWebpackPlugin, [
@@ -96,68 +131,56 @@ export function applyHTMLPlugin({
           __internal__: true, // flag for internal html-webpack-plugin usage
           filename: htmlFilename(entryName),
           chunks: [entryName],
+          // 应该替换这里的模板
           template: appContext.htmlTemplates[entryName],
           minify: false,
-          templateContent: async () => {
-            // 2. 由 appContext.entrypoints 获取文件所在位置
-            // 3. 拼接成 html 文件，返回
-            // todo: entryName 加入
-
-            const docExt = ['jsx', 'tsx'];
-            // 查找该 entry 下 document 文件
-            const documentDir = getDirByEntryName(appdir, entryName);
-
-            let docFileExt = docExt.find(item => {
-              const validateFile = path.join(
-                `${documentDir}/${DOCUMENT_FILE_NAME}.${item}`,
-              );
-              if (findExists([validateFile])) {
-                return true;
-              }
-              return false;
+          templateContent: async ({ htmlWebpackPlugin }) => {
+            const tmpDir = path.join(
+              appdir,
+              'node_modules/.modern-js/document',
+            );
+            const outputTmpPath = `${tmpDir}/${entryName}_${DOCUMENT_OUTPUT_NAME}.js`;
+            // 编译 Document 文件
+            await build({
+              entryPoints: [documentFilePath!],
+              outfile: outputTmpPath,
+              platform: 'node',
+              target: 'es6',
+              loader: {
+                '.ts': 'ts',
+                '.tsx': 'tsx',
+              },
+              jsx: 'transform',
+              bundle: true,
             });
 
-            // todo: 无 docFileExt 时使用
-            if (isUseDocument) {
-              //  todo: entry 下无 document.tsx 文件，则用 main 的兜底
-              if (!docFileExt) {
-                docFileExt = 'main';
-              }
-              const documentFilePath = path.join(
-                documentDir,
-                `${DOCUMENT_FILE_NAME}.${docFileExt}`,
-              );
-              // 编译 Document 文件
-              const tmpDir = path.join(
-                appdir,
-                'node_modules/.modern-js/document',
-              );
-              const outputTmpPath = `${tmpDir}/${entryName}_${DOCUMENT_OUTPUT_NAME}.js`;
-              await build({
-                entryPoints: [documentFilePath],
-                outfile: outputTmpPath,
-                platform: 'node',
-                target: 'es6',
-                loader: {
-                  '.ts': 'ts',
-                  '.tsx': 'tsx',
-                },
-                jsx: 'transform',
-                bundle: true,
-              });
+            const { Document } = await require(`${outputTmpPath}`);
+            const documentParams = getDocParams(appContext, baseTemplateParams);
+            // 5.2 给 Document 注入参数
+            // 5.3 render html 文件
+            // const DocumentContext = React.createContext<{ [x: string]: any }>({});
+            html = ReactDomServer.renderToString(
+              // React.createElement(
+              //   DocumentContext.Provider,
+              //   { value: { ...documentParams } },
+              React.createElement(Document, documentParams),
+              // ),
+            );
+            hasCustomerScripts = new RegExp(DOCUMENT_SCRIPTS_PLACEHOLDER).test(
+              html,
+            );
+            // todo: scripts 的替换等
+            const scripts =
+              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+              htmlWebpackPlugin.tags.headTags
+                .filter((item: HtmlTagObject) => item.tagName === 'script')
+                .join('') + htmlWebpackPlugin.tags.bodyTags.toString();
 
-              const { Document } = await require(`${outputTmpPath}`);
-              // 5.2 给 Document 注入参数
-              // 5.3 render html 文件
-              const html = ReactDomServer.renderToString(
-                React.createElement(Document, null),
-              );
-
-              return `${html}`;
-            }
+            return html.replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts);
             // todo: 返回 jupiter 原始 html
-            return `<html><body>没有匹配到</body></html.`;
+            // return `<html><body>没有匹配到</body></html>`;
           },
+          baseTemplateParams,
           favicon:
             getEntryOptions<string | undefined>(
               entryName,
@@ -174,12 +197,14 @@ export function applyHTMLPlugin({
                 ),
               ),
             ),
-          inject: getEntryOptions(
-            entryName,
-            config.output.inject,
-            config.output.injectByEntries,
-            packageName,
-          ),
+          inject: hasCustomerScripts
+            ? false
+            : getEntryOptions(
+                entryName,
+                config.output.inject,
+                config.output.injectByEntries,
+                packageName,
+              ),
           templateParameters: (
             compilation: webpack.Compilation,
             assets,
