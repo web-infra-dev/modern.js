@@ -7,12 +7,9 @@ import {
   BuilderConfig,
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
-import type {
-  IAppContext,
-  NormalizedConfig,
-  SSGMultiEntryOptions,
-} from '@modern-js/core';
-import { applyOptionsChain, isProd } from '@modern-js/utils';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { applyOptionsChain } from '@modern-js/utils';
+
 import { PluginCompatModernOptions } from './builder-plugin.compatModern';
 import { createHtmlConfig } from './createHtmlConfig';
 import { createOutputConfig } from './createOutputConfig';
@@ -46,11 +43,7 @@ export default async ({
   );
   const provider = builderWebpackProvider({ builderConfig });
 
-  const builderOptions = createBuilderOptions(
-    target,
-    normalizedConfig,
-    appContext,
-  );
+  const builderOptions = createBuilderOptions(target, appContext);
   const builder = await createBuilder(provider, builderOptions);
 
   if (!normalizedConfig.output.disableNodePolyfill) {
@@ -84,7 +77,7 @@ function createBuilderProviderConfig(
 ): BuilderConfig {
   const source = createSourceConfig(normalizedConfig, appContext);
   const html = createHtmlConfig(normalizedConfig, appContext);
-  const output = createOutputConfig(normalizedConfig);
+  const output = createOutputConfig(normalizedConfig, appContext);
   const tools = createToolsConfig(normalizedConfig);
 
   return {
@@ -101,7 +94,6 @@ function createBuilderProviderConfig(
 
 function createBuilderOptions(
   target: BuilderTarget | BuilderTarget[],
-  normalizedConfig: NormalizedConfig,
   appContext: IAppContext,
 ): CreateBuilderOptions {
   // create entries
@@ -119,53 +111,10 @@ function createBuilderOptions(
       entries[entryName] = [entry];
     }
   }
-  if (target === 'node' || target.includes('node')) {
-    filterEntriesBySSRConfig(
-      entries,
-      normalizedConfig.server,
-      normalizedConfig.output,
-    );
-  }
+
   return {
     target,
     configPath: appContext.configFile || undefined,
     entry: entries,
   };
-
-  function filterEntriesBySSRConfig(
-    entries: Entries,
-    serverConfig: NormalizedConfig['server'],
-    outputConfig: NormalizedConfig['output'],
-  ) {
-    if (
-      isProd() &&
-      (outputConfig?.ssg === true ||
-        typeof (outputConfig?.ssg as Array<unknown>)?.[0] === 'function')
-    ) {
-      return;
-    }
-    const entryNames = Object.keys(entries);
-    if (isProd() && entryNames.length === 1 && outputConfig?.ssg) {
-      return;
-    }
-    const ssgEntries: string[] = [];
-    if (isProd() && outputConfig?.ssg) {
-      const { ssg } = outputConfig;
-      entryNames.forEach(name => {
-        if ((ssg as SSGMultiEntryOptions)[name]) {
-          ssgEntries.push(name);
-        }
-      });
-    }
-    const { ssr, ssrByEntries } = serverConfig || {};
-    entryNames.forEach(name => {
-      if (
-        !ssgEntries.includes(name) &&
-        ((ssr && ssrByEntries?.[name] === false) ||
-          (!ssr && !ssrByEntries?.[name]))
-      ) {
-        delete entries[name];
-      }
-    });
-  }
 }

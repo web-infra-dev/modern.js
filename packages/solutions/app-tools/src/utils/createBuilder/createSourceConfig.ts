@@ -94,7 +94,11 @@ function createBuilderModuleScope(
 ) {
   let builderModuleScope: any[] = [];
   if (moduleScopes) {
-    const DEFAULT_SCOPES: Array<string | RegExp> = ['./src', './shared'];
+    const DEFAULT_SCOPES: Array<string | RegExp> = [
+      './src',
+      './shared',
+      /node_modules/,
+    ];
     if (Array.isArray(moduleScopes)) {
       if (isPrimitiveScope(moduleScopes)) {
         builderModuleScope = DEFAULT_SCOPES.concat(moduleScopes);

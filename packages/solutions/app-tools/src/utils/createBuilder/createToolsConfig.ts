@@ -10,8 +10,7 @@ import { applyOptionsChain, ensureArray } from '@modern-js/utils';
 export function createToolsConfig(
   normalizedConfig: NormalizedConfig,
 ): BuilderConfig['tools'] {
-  const { disableCssExtract, disableCssModuleExtension, enableTsLoader } =
-    normalizedConfig.output;
+  const { disableCssExtract, enableTsLoader } = normalizedConfig.output;
   const {
     autoprefixer,
     babel,
@@ -26,16 +25,6 @@ export function createToolsConfig(
     less,
     lodash,
   } = normalizedConfig.tools;
-
-  // TODO: need realize in builder
-  // transform `output.disableCssModuleExtension` => `cssLoader` configuration
-  const cssLoader = {
-    modules: disableCssModuleExtension
-      ? {
-          auto: undefined,
-        }
-      : undefined,
-  };
 
   const builderBabel = createBuilderBabel(babel, lodash);
   // transform modernjs `tools.webpack` => builder `tools.webpack`
@@ -53,16 +42,13 @@ export function createToolsConfig(
     babel: builderBabel,
     minifyCss,
     terser,
-    cssLoader,
     webpack: builderWebpack,
     webpackChain: builderWebpackChain,
     tsLoader: builderTsLoader,
     styledComponents:
       styledComponents as Required<BuilderConfig>['tools']['styledComponents'],
-    // TODO: infect by disableCssModuleExtension
     sass: sass as Required<BuilderConfig>['tools']['sass'],
     postcss: postcss as Required<BuilderConfig>['tools']['postcss'],
-    // TODO: infect by disableCssModuleExtension
     less: less as Required<BuilderConfig>['tools']['less'],
     // can't remove comment in html minify.
     // some html template insert by using those comments.

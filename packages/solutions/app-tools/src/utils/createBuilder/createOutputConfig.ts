@@ -1,10 +1,13 @@
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { createCopyPattern } from './share';
 
 export function createOutputConfig(
   normalizedConfig: NormalizedConfig,
+  appContext: IAppContext,
 ): BuilderConfig['output'] {
-  // TODO: add `externals` options.
+  // TODO: add `externals` options in Modern.
+
   const {
     assetPrefix,
     copy,
@@ -24,11 +27,21 @@ export function createOutputConfig(
     dataUriLimit,
     disableAssetsCache,
     enableLatestDecorators,
+    disableCssExtract,
   } = normalizedConfig.output;
+
+  const defaultCopyPattern = createCopyPattern(
+    appContext,
+    normalizedConfig,
+    'upload',
+  );
+  const builderCopy = copy
+    ? [...copy, defaultCopyPattern]
+    : [defaultCopyPattern];
 
   return {
     assetPrefix,
-    copy: copy || [],
+    copy: builderCopy,
     distPath: {
       root: path,
       css: cssPath,
@@ -46,6 +59,7 @@ export function createOutputConfig(
       font: dataUriLimit,
       media: dataUriLimit,
     },
+    disableCssModuleExtension: disableCssExtract,
     disableInlineRuntimeChunk,
     disableMinimize,
     disableSourceMap,

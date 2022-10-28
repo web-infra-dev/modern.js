@@ -5,7 +5,6 @@
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/plugin-less": "workspace:*",
     "typescript": "^4",
     "react": "^18",
     "react-dom": "^18",
