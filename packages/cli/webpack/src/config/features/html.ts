@@ -87,7 +87,7 @@ export async function applyHTMLPlugin({
   const isUseDocument = isExistedDocument(appdir);
   const entrypoints = Object.keys(chain.entryPoints.entries() || {});
   for (const entryName of entrypoints) {
-    let hasCustomerScripts = true;
+    let hasCustomerScripts = false;
     let html = '';
     const baseTemplateParams = {
       entryName,
@@ -124,17 +124,14 @@ export async function applyHTMLPlugin({
         documentFilePath = getDocumenByEntryName(appdir, 'main');
       }
     }
-    chain
-      .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
-      .use(HtmlWebpackPlugin, [
-        {
-          __internal__: true, // flag for internal html-webpack-plugin usage
-          filename: htmlFilename(entryName),
-          chunks: [entryName],
-          // 应该替换这里的模板
-          template: appContext.htmlTemplates[entryName],
-          minify: false,
-          templateContent: async ({ htmlWebpackPlugin }) => {
+
+    const htmlTemplate = isUseDocument
+      ? {
+          templateContent: async ({
+            htmlWebpackPlugin,
+          }: {
+            [option: string]: any;
+          }) => {
             const tmpDir = path.join(
               appdir,
               'node_modules/.modern-js/document',
@@ -180,6 +177,19 @@ export async function applyHTMLPlugin({
             // todo: 返回 jupiter 原始 html
             // return `<html><body>没有匹配到</body></html>`;
           },
+        }
+      : null;
+    chain
+      .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
+      .use(HtmlWebpackPlugin, [
+        {
+          __internal__: true, // flag for internal html-webpack-plugin usage
+          filename: htmlFilename(entryName),
+          chunks: [entryName],
+          // 应该替换这里的模板
+          template: appContext.htmlTemplates[entryName],
+          ...htmlTemplate,
+          minify: false,
           baseTemplateParams,
           favicon:
             getEntryOptions<string | undefined>(
