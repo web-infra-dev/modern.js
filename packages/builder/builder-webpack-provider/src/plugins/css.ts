@@ -136,9 +136,8 @@ export async function applyBaseCSSRule(
 
   // 1. Check user config
   const enableExtractCSS = isUseCssExtract(config, target);
+  const enableSourceMap = !config.output.disableSourceMap;
   const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
-  const enableSourceMap =
-    isProd && enableExtractCSS && !config.output.disableSourceMap;
   // 2. Prepare loader options
   const extraCSSOptions: Required<CssExtractOptions> =
     typeof config.tools.cssExtract === 'object'
