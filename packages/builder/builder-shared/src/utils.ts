@@ -27,6 +27,9 @@ export const createVirtualModule = (content: string) =>
 
 export const removeLeadingSlash = (s: string): string => s.replace(/^\/+/, '');
 
+export const addTrailingSlash = (s: string): string =>
+  s.endsWith('/') ? s : `${s}/`;
+
 /** Determine if a file path is a CSS module when disableCssModuleExtension is enabled. */
 export const isLooseCssModules = (path: string) => {
   if (NODE_MODULES_REGEX.test(path)) {
