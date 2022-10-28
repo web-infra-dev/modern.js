@@ -184,6 +184,21 @@ describe('plugins/css', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should disable source map when output.disableSourceMap is true', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginCss()],
+      builderConfig: {
+        output: {
+          disableSourceMap: true,
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(JSON.stringify(config)).toContain('"sourceMap":false');
+  });
 });
 
 describe('normalizeCssLoaderOptions', () => {
