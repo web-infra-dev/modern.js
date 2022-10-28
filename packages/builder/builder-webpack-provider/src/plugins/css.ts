@@ -2,6 +2,7 @@ import path from 'path';
 import assert from 'assert';
 import {
   CSS_REGEX,
+  isLooseCssModules,
   getBrowserslistWithDefault,
   type BuilderTarget,
   type BuilderContext,
@@ -189,7 +190,9 @@ export async function applyBaseCSSRule(
     {
       importLoaders: 1,
       modules: {
-        auto: true,
+        auto: config.output.disableCssModuleExtension
+          ? isLooseCssModules
+          : true,
         exportLocalsConvention: 'camelCase',
         // Using shorter classname in production to reduce bundle size
         localIdentName: isProd
