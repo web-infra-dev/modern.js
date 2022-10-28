@@ -82,4 +82,36 @@ describe('plugins/rem', () => {
     const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
   });
+
+  it('should not run rem plugin when target is node', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginCss(), PluginRem()],
+      builderConfig: {
+        output: {
+          convertToRem: true,
+        },
+      },
+      target: ['node'],
+    });
+
+    expect(
+      await builder.matchWebpackPlugin('AutoSetRootFontSizePlugin'),
+    ).toBeFalsy();
+  });
+
+  it('should not run rem plugin when target is web-worker', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginCss(), PluginRem()],
+      builderConfig: {
+        output: {
+          convertToRem: true,
+        },
+      },
+      target: ['web-worker'],
+    });
+
+    expect(
+      await builder.matchWebpackPlugin('AutoSetRootFontSizePlugin'),
+    ).toBeFalsy();
+  });
 });
