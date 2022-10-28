@@ -28,7 +28,10 @@ import {
   ModernRoute,
 } from '../libs/route';
 import { createRenderHandler } from '../libs/render';
-import { createStaticFileHandler, faviconFallbackHandler } from '../libs/serve-file';
+import {
+  createStaticFileHandler,
+  faviconFallbackHandler,
+} from '../libs/serve-file';
 import {
   createErrorDocument,
   createMiddlewareCollecter,
