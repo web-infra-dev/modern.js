@@ -97,7 +97,7 @@ export const routerPlugin = ({
 
               return (props: any) => (
                 <Router basename={baseUrl}>
-                  <Element props={props} />
+                  <Element {...props} />
                 </Router>
               );
             }
@@ -116,7 +116,7 @@ export const routerPlugin = ({
                     basename={basename === '/' ? '' : basename}
                     location={location}
                   >
-                    <Element props={props} />
+                    <Element {...props} />
                   </StaticRouter>
                 </ServerRouterContext.Provider>
               );
