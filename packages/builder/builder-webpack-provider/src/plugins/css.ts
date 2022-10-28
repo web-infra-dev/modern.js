@@ -2,6 +2,7 @@ import path from 'path';
 import assert from 'assert';
 import {
   CSS_REGEX,
+  isLooseCssModules,
   getBrowserslistWithDefault,
   type BuilderTarget,
   type BuilderContext,
@@ -135,9 +136,8 @@ export async function applyBaseCSSRule(
 
   // 1. Check user config
   const enableExtractCSS = isUseCssExtract(config, target);
+  const enableSourceMap = !config.output.disableSourceMap;
   const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
-  const enableSourceMap =
-    isProd && enableExtractCSS && !config.output.disableSourceMap;
   // 2. Prepare loader options
   const extraCSSOptions: Required<CssExtractOptions> =
     typeof config.tools.cssExtract === 'object'
@@ -189,7 +189,9 @@ export async function applyBaseCSSRule(
     {
       importLoaders: 1,
       modules: {
-        auto: true,
+        auto: config.output.disableCssModuleExtension
+          ? isLooseCssModules
+          : true,
         exportLocalsConvention: 'camelCase',
         // Using shorter classname in production to reduce bundle size
         localIdentName: isProd

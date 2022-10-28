@@ -133,6 +133,10 @@ export interface SharedOutputConfig {
    */
   disableInlineRuntimeChunk?: boolean;
   /**
+   * Whether to treat all .css files in the source directory as CSS Modules.
+   */
+  disableCssModuleExtension?: boolean;
+  /**
    * Whether to generate a manifest file that contains information of all assets.
    */
   enableAssetManifest?: boolean;

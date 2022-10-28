@@ -59,8 +59,8 @@ export const SVG_REGEX = /\.svg$/;
 export const CSS_REGEX = /\.css$/;
 export const LESS_REGEX = /\.less$/;
 export const SASS_REGEX = /\.s(a|c)ss$/;
-export const CSS_MODULE_REGEX = /\.module\.css$/;
-export const GLOBAL_CSS_REGEX = /\.global\.css$/;
+export const CSS_MODULES_REGEX = /\.module\.\w+$/i;
+export const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 export const NODE_MODULES_REGEX = /node_modules/;
 export const MODULE_PATH_REGEX =
   /[\\/]node_modules[\\/](\.pnpm[\\/])?(?:(@[^[\\/]+)(?:[\\/]))?([^\\/]+)/;

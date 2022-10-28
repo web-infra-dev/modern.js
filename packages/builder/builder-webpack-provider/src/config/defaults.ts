@@ -72,6 +72,7 @@ export const createDefaultConfig = () =>
       disableMinimize: false,
       disableSourceMap: false,
       disableFilenameHash: false,
+      disableCssModuleExtension: false,
       disableInlineRuntimeChunk: false,
       enableAssetFallback: false,
       enableAssetManifest: false,
