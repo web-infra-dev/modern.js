@@ -17,7 +17,9 @@ export const render = ({ App, context, config }: ServerRenderOptions) => {
   }
   return run(ssrContext.request.headers, async () => {
     const end_all = time();
-    const prefetchData = await prefetch(App, context);
+    // TODO: still need ?
+    // const prefetchData = await prefetch(App, context);
+    const prefetchData = {};
     const rootElement = createElement(App, {
       context: Object.assign(context || {}, {
         ssr: true,
@@ -54,6 +56,7 @@ export const render = ({ App, context, config }: ServerRenderOptions) => {
     return pipe;
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function prefetch(
     App: ModernSSRReactComponent,
     context: RuntimeContext,
