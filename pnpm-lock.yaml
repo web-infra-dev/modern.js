@@ -3572,6 +3572,31 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.7.4
 
+  tests/e2e/webpack-builder/externals:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      got: ^11.8.3
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      got: 11.8.5
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/builder': link:../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@types/node': 14.18.21
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.7.4
+
   tests/e2e/webpack-builder/ignore-css:
     specifiers:
       '@modern-js/builder': workspace:*
@@ -13508,10 +13533,8 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -29633,7 +29656,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
