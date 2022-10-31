@@ -57,6 +57,8 @@ export const render = async (
     staticGenerate,
     logger: undefined!,
     metrics: undefined!,
+    req: ctx.req,
+    res: ctx.res,
   };
   context.logger = createLogger(context, ctx.logger);
   context.metrics = createMetrics(context, ctx.metrics);
