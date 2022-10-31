@@ -1,9 +1,13 @@
 import { DefinedRoutes } from '@modern-js/runtime/router';
 
+import { Banana } from './comps';
+
+const Layout = '@/Layout';
+
 const routes: DefinedRoutes = [
   {
     path: '/',
-    component: '@/Layout',
+    component: Layout,
     title: 'home',
     children: [
       {
@@ -13,7 +17,7 @@ const routes: DefinedRoutes = [
       },
       {
         path: 'banana/:id',
-        component: '@/pages/Banana',
+        component: Banana,
         title: 'banana',
       },
     ],

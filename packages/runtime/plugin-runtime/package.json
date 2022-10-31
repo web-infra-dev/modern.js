@@ -140,6 +140,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
+    "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

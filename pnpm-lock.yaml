@@ -1885,6 +1885,7 @@ importers:
       '@modern-js-reduck/react': ^1.0.1
       '@modern-js-reduck/store': ^1.0.3
       '@modern-js/core': workspace:*
+      '@modern-js/node-bundle-require': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -1949,6 +1950,7 @@ importers:
     devDependencies:
       '@babel/types': 7.19.4
       '@modern-js/core': link:../../cli/core
+      '@modern-js/node-bundle-require': link:../../toolkit/node-bundle-require
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y

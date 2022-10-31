@@ -1,6 +1,6 @@
 import { routerPlugin } from './plugin';
 import type { SingleRouteConfig, RouterConfig } from './plugin';
-import type { Route } from './ConfigRoutes';
+import type { Route, ConfigRoutesLazy } from './ConfigRoutes';
 
 export type DefinedRoute = Omit<Route, 'component'> & {
   component: string;
@@ -8,7 +8,7 @@ export type DefinedRoute = Omit<Route, 'component'> & {
 
 export type DefinedRoutes = DefinedRoute[];
 
-export type { SingleRouteConfig, RouterConfig };
+export type { SingleRouteConfig, RouterConfig, ConfigRoutesLazy };
 
 export default routerPlugin;
 

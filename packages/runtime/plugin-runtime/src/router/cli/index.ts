@@ -6,6 +6,7 @@ import {
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
 import type { CliPlugin, NormalizedConfig } from '@modern-js/core';
+import prepareConfigRoutes from './prepareConfigRoutes';
 
 const PLUGIN_IDENTIFIER = 'router';
 
@@ -55,6 +56,9 @@ export default (): CliPlugin => ({
             webpackChain: (chain, { CHAIN_ID }) => {
               const userConfig = api.useResolvedConfigContext();
               const { lazy, loading } = getLazyConfig(userConfig);
+              const interalDirReg = new RegExp(
+                `node_modules/.${appContext.metaName}/*`,
+              );
 
               const babel = chain.module
                 .rule(CHAIN_ID.RULE.LOADERS)
@@ -68,7 +72,7 @@ export default (): CliPlugin => ({
                 .rule('config-routes')
                 .oneOf(CHAIN_ID.ONE_OF.JS)
                 .test(/routes.(t|j)s/)
-                .include.add(/src\/*/)
+                .include.add(interalDirReg)
                 .end()
                 .use(CHAIN_ID.USE.BABEL)
                 .loader(babelLoader)
@@ -77,14 +81,14 @@ export default (): CliPlugin => ({
                   plugins: [
                     ...options.plugins,
                     [
-                      path.resolve(__dirname, 'babel-plugin-routes.js'),
+                      path.resolve(__dirname, 'babel-plugin-config-routes.js'),
                       { lazy },
                     ],
                   ],
                 })
                 .end()
                 .use('config-routes-loader')
-                .loader(path.resolve(__dirname, 'routes-loader.js'))
+                .loader(path.resolve(__dirname, 'config-routes-loader.js'))
                 .options({
                   lazy,
                   loading,
@@ -99,11 +103,15 @@ export default (): CliPlugin => ({
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-router'];
       },
-      modifyEntryImports({ entrypoint, imports }: any) {
+      async modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName, fileSystemRoutes, configRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
-        const { packageName, internalSrcAlias } = api.useAppContext();
+        const { packageName, internalDirectory } = api.useAppContext();
+
+        if (configRoutes) {
+          await prepareConfigRoutes(configRoutes, internalDirectory, entryName);
+        }
 
         const runtimeConfig = getEntryOptions(
           entryName,
@@ -122,7 +130,7 @@ export default (): CliPlugin => ({
             });
             if (configRoutes) {
               imports.push({
-                value: `${internalSrcAlias}/routes`,
+                value: `./routes`,
                 specifiers: [
                   { local: ROUTES_IDENTIFIER },
                   { imported: 'LoadingComponent' },

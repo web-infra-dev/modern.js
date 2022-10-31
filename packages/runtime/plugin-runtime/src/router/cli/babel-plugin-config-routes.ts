@@ -1,4 +1,5 @@
 import * as t from '@babel/types';
+import type { ConfigRoutesLazy } from '..';
 
 /**
  * @description find { component: value } or { "component": value }
@@ -8,7 +9,7 @@ const isTargetProp = (node: any, prop: string): boolean =>
 
 function RoutesBabel(
   _: unknown,
-  { lazy }: { lazy: boolean | { mode: 'loadable' } },
+  { lazy }: { lazy: ConfigRoutesLazy },
 ): Record<string, any> {
   return {
     visitor: {
