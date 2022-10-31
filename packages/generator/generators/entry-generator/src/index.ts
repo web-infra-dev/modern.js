@@ -3,11 +3,9 @@ import { merge } from '@modern-js/utils/lodash';
 import { fs, getPackageObj, isTsProject } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { renderString } from '@modern-js/codesmith-api-handlebars';
 import {
   i18n as commonI18n,
   getEntrySchema,
-  ClientRoute,
 } from '@modern-js/generator-common';
 import { isEmptySource, isSingleEntry } from './utils';
 import { i18n, localeKeys } from './locale';
@@ -34,9 +32,6 @@ const handleInput = async (
   const config = { ...context.config, ...analysisInfo };
   const ans = await appApi.getInputBySchemaFunc(getEntrySchema, config);
 
-  if (ans.needModifyMWAConfig === 'no') {
-    ans.clientRoute = ClientRoute.SelfControlRoute;
-  }
   return ans;
 };
 
@@ -85,46 +80,6 @@ const refactorSingleEntry = async (
   });
 };
 
-const getTplInfo = (clientRoute: ClientRoute, isTs: boolean) => {
-  const fileExtra = isTs ? 'tsx' : 'jsx';
-  if (clientRoute === ClientRoute.ConventionalRoute) {
-    return {
-      name: 'pages-router',
-      space: '  ',
-      fileExtra,
-      entry: `Index.${fileExtra}`,
-      css: 'index.css',
-    };
-  } else if (clientRoute === ClientRoute.SelfControlRoute) {
-    return {
-      name: 'router',
-      space: '  ',
-      fileExtra,
-      entry: `App.${fileExtra}`,
-      css: 'App.css',
-    };
-  }
-  return {
-    name: 'base',
-    space: '  ',
-    fileExtra,
-    entry: `App.${fileExtra}`,
-    css: 'App.css',
-  };
-};
-
-const getTargetFolder = (
-  clientRoute: ClientRoute,
-  entriesDir: string,
-  entryName: string,
-) => {
-  let targetPath = path.join(entriesDir, entryName);
-  if (clientRoute === ClientRoute.ConventionalRoute) {
-    targetPath = path.join(targetPath, 'pages');
-  }
-  return targetPath;
-};
-
 export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
@@ -140,47 +95,13 @@ export const handleTemplateFile = async (
   }
 
   const entryName = (ans.name as string) || '';
-  const { name, space, fileExtra, entry, css } = getTplInfo(
-    ans.clientRoute as ClientRoute,
-    ans.isTsProject as boolean,
-  );
-  const targetFolder = getTargetFolder(
-    ans.clientRoute as ClientRoute,
-    context.config.entriesDir,
-    entryName,
-  );
-  const sourceFolder = `templates/${name}`;
+  const fileExtra = ans.isTsProject ? 'tsx' : 'jsx';
+  const targetPath = path.join(context.config.entriesDir, entryName);
 
-  const mainTpl = await context.current?.material
-    .get('templates/main.handlebars')
-    .value();
-  const main = renderString((mainTpl?.content as string | undefined) || '', {
-    space,
-    entry,
-  });
-
-  await appApi.forgeTemplate(
-    `${sourceFolder}/*`,
-    undefined,
-    resourceKey =>
-      resourceKey
-        .replace(sourceFolder, targetFolder)
-        .replace('.handlebars', `.${fileExtra}`),
-    {
-      main,
-    },
-  );
-
-  await appApi.forgeTemplate(
-    `templates/main.css`,
-    undefined,
-    resourceKey =>
-      resourceKey
-        .replace('templates/main.css', `${targetFolder}/${css}`)
-        .replace('.handlebars', ''),
-    {
-      main,
-    },
+  await appApi.forgeTemplate(`templates/**/*`, undefined, resourceKey =>
+    resourceKey
+      .replace('templates', targetPath)
+      .replace('.handlebars', `.${fileExtra}`),
   );
 };
 
