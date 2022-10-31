@@ -12,7 +12,7 @@ const routes: DefinedRoutes = [
     children: [
       {
         path: 'apple',
-        component: '@/pages/Apple',
+        component: '@/component/Apple',
         title: 'apple',
       },
       {
@@ -25,7 +25,7 @@ const routes: DefinedRoutes = [
   {
     path: 'toapple',
     redirect: '/apple',
-    component: '@/pages/Cat',
+    component: '@/component/Cat',
   },
   {
     path: '*',

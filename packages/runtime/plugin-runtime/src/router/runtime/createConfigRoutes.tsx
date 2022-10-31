@@ -1,16 +1,9 @@
 // config routes
 
-import {
-  useLocation,
-  useRoutes,
-  Navigate,
-  useNavigate,
-} from 'react-router-dom';
+import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 import type { RouteObject } from 'react-router-dom';
 import React from 'react';
 import { Helmet } from '../../exports/head';
-
-export type ConfigRoutesLazy = boolean | { mode: 'loadable' };
 
 // config routes can't used for data fetch feature (nested)
 // so don't define by Omit<RouteObject, 'element' | 'children'>
@@ -30,13 +23,13 @@ interface IConfigRouteProps {
   redirect?: string;
   component?: any;
   loading?: React.ComponentType<any>;
-  lazy?: ConfigRoutesLazy;
+  lazy?: boolean;
   title?: string;
 }
 
 interface IConfigRoutesProps {
   routes: Routes;
-  lazy?: ConfigRoutesLazy;
+  lazy?: boolean;
   loading?: React.ComponentType<any>;
 }
 
@@ -75,15 +68,6 @@ export const ConfigRoute = ({
     </>
   );
 
-  // FIXME: with stream ssr ?
-  if (lazy === true) {
-    return (
-      <React.Suspense fallback={Loading ? <Loading /> : <DefaultLoading />}>
-        {Element}
-      </React.Suspense>
-    );
-  }
-
   return Element;
 };
 
@@ -95,7 +79,7 @@ const transformRoutes = ({
 }: {
   routes: Routes;
   loading?: React.ComponentType<any>;
-  lazy?: ConfigRoutesLazy;
+  lazy?: boolean;
   extraProps?: any;
 }): Routes => {
   const final = [];
@@ -110,7 +94,7 @@ const transformRoutes = ({
             component={route.component}
             title={route.title}
             loading={loading}
-            lazy={lazy as any}
+            lazy={lazy}
             {...extraProps}
           />
         ),
@@ -128,24 +112,7 @@ const transformRoutes = ({
   return final;
 };
 
-const ConfigRoutes = ({
-  routes,
-  lazy,
-  loading,
-  ...extraProps
-}: IConfigRoutesProps): JSX.Element => {
-  const element = useRoutes(
-    transformRoutes({ routes, lazy, loading, extraProps }) as RouteObject[],
-  );
-
-  if (lazy === true) {
-    const Loading = loading ?? DefaultLoading;
-    return <React.Suspense fallback={<Loading />}>{element}</React.Suspense>;
-  }
-  return <>{element}</>;
-};
-
-export const createConfigRoutes = ({
+const createConfigRoutes = ({
   routes,
   lazy,
   loading,
@@ -159,4 +126,4 @@ export const createConfigRoutes = ({
   }) as RouteObject[];
 };
 
-export default ConfigRoutes;
+export default createConfigRoutes;

@@ -5,28 +5,12 @@ import {
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
-import type { CliPlugin, NormalizedConfig } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import prepareConfigRoutes from './prepareConfigRoutes';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
-
-const getLazyConfig = (userConfig: NormalizedConfig) => {
-  const { lazy: lazyConfig, loading } = userConfig?.runtime?.router;
-  const ssrConfig = userConfig?.server?.ssr;
-  // default true
-  let lazy = lazyConfig === undefined ? true : lazyConfig;
-  const isStreamSSR =
-    typeof ssrConfig === 'object' && ssrConfig.mode === 'stream';
-
-  // React.lazy only used for stream ssr
-  if (!isStreamSSR) {
-    lazy = lazy === true ? { mode: 'loadable' } : lazy;
-  }
-
-  return { lazy, loading };
-};
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-router',
@@ -55,7 +39,7 @@ export default (): CliPlugin => ({
           tools: {
             webpackChain: (chain, { CHAIN_ID }) => {
               const userConfig = api.useResolvedConfigContext();
-              const { lazy, loading } = getLazyConfig(userConfig);
+              const { lazy, loading } = userConfig?.runtime?.router;
               const interalDirReg = new RegExp(
                 `node_modules/.${appContext.metaName}/*`,
               );

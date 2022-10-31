@@ -12,23 +12,13 @@ async function RoutesLoader(this: any, source: any, sourcemap: any) {
     ${nextSource}
   `;
 
-  if (options.lazy === true) {
-    nextSource = `
-    import React from 'react';
-    export const lazy = true;
-    ${nextSource}
-    `;
-  }
-
-  if (options.lazy?.mode === 'loadable') {
+  if (options.lazy) {
     nextSource = `
     import loadable from '@modern-js/runtime/loadable';
     export const lazy = {mode: 'loadable'};
     ${nextSource}
     `;
-  }
-
-  if (!options.lazy) {
+  } else {
     nextSource = `
     export const lazy = false;
     ${nextSource}

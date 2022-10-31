@@ -9,7 +9,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import type { Plugin } from '../../core';
 import { renderRoutes } from './utils';
 import type { RouterConfig } from './types';
-import { createConfigRoutes } from './ConfigRoutes';
+import createConfigRoutes from './createConfigRoutes';
 
 export const routerPlugin = ({
   serverBase = [],
@@ -28,7 +28,7 @@ export const routerPlugin = ({
             return (props => {
               const routeElements = renderRoutes(routesConfig);
               const routes = configRoutes
-                ? createConfigRoutes({ ...configRoutes, ...props })
+                ? createConfigRoutes(configRoutes)
                 : createRoutesFromElements(routeElements);
 
               const baseUrl =

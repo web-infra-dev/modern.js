@@ -1,8 +1,8 @@
-const App = ({ Component }: any) => {
-  const params = {
-    say: 'I like',
-  };
-  return <Component {...params} />;
+const App = ({ children }: any) => {
+  //   const params = {
+  //     say: 'I like',
+  //   };
+  return children;
 };
 
 // const App = () => <div>123</div>;

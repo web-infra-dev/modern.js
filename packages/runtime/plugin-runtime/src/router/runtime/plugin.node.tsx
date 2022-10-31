@@ -12,7 +12,7 @@ import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
 import type { RouterConfig } from './types';
 import { renderRoutes } from './utils';
-import { createConfigRoutes } from './ConfigRoutes';
+import createConfigRoutes from './createConfigRoutes';
 
 // Polyfill Web Fetch API
 installGlobals();

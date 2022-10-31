@@ -1,5 +1,4 @@
 import * as t from '@babel/types';
-import type { ConfigRoutesLazy } from '..';
 
 /**
  * @description find { component: value } or { "component": value }
@@ -9,7 +8,7 @@ const isTargetProp = (node: any, prop: string): boolean =>
 
 function RoutesBabel(
   _: unknown,
-  { lazy }: { lazy: ConfigRoutesLazy },
+  { lazy }: { lazy: boolean },
 ): Record<string, any> {
   return {
     visitor: {
@@ -36,26 +35,34 @@ function RoutesBabel(
         }
         if (isTargetProp(path.node, 'component')) {
           // item.component = require(path).default
-          if (!lazy) {
+          if (lazy) {
+            // item.component = loadable(() => import(path))
+            path.node.value = t.callExpression(t.identifier('loadable'), [
+              t.arrowFunctionExpression(
+                [],
+                t.callExpression(t.import(), [path.node.value]),
+              ),
+            ]);
+          } else {
             path.node.value = t.memberExpression(
               t.callExpression(t.identifier('require'), [path.node.value]),
               t.identifier('default'),
             );
             return;
           }
-          if (lazy === true) {
-            // item.component = React.lazy(() => import(path))
-            path.node.value = t.callExpression(
-              t.memberExpression(t.identifier('React'), t.identifier('lazy')),
-              [
-                t.arrowFunctionExpression(
-                  [],
-                  t.callExpression(t.import(), [path.node.value]),
-                ),
-              ],
-            );
-          }
-          if (typeof lazy === 'object' && lazy.mode === 'loadable') {
+          //   if (lazy === true) {
+          //     // item.component = React.lazy(() => import(path))
+          //     path.node.value = t.callExpression(
+          //       t.memberExpression(t.identifier('React'), t.identifier('lazy')),
+          //       [
+          //         t.arrowFunctionExpression(
+          //           [],
+          //           t.callExpression(t.import(), [path.node.value]),
+          //         ),
+          //       ],
+          //     );
+          //   }
+          if (lazy) {
             // item.component = loadable(() => import(path))
             path.node.value = t.callExpression(t.identifier('loadable'), [
               t.arrowFunctionExpression(

@@ -1,1 +1,1 @@
-export const Banana = '@/pages/Banana';
+export const Banana = '@/component/Banana';
