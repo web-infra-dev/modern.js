@@ -106,7 +106,7 @@ export const routerPlugin = ({ routesConfig }: RouterConfig): Plugin => {
 
           const RouteApp = getRouteApp();
 
-          if (routesConfig.globalApp) {
+          if (routesConfig?.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
             });
