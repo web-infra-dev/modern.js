@@ -9,6 +9,7 @@ import type { Context, ModifyRspackUtils, RspackConfig } from '../types';
 function generateDefaultRspackConfig(): RspackConfig {
   return {
     //todo default config
+    builtins: {},
     define: {},
     module: {
       rules: []

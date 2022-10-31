@@ -26,6 +26,7 @@ export const applyMinimalPlugins = () =>
     import('../plugins/sass').then(m => m.PluginSass()),
 
     // these plugins must depend on minimal plugins
+    import('../plugins/html').then(m => m.PluginHtml()),
     import('../plugins/rem').then(m => m.PluginRem()),
   ]);
 

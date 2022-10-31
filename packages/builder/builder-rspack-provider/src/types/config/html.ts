@@ -4,13 +4,15 @@ import type { MetaOptions } from '@modern-js/utils';
 
 export type CrossOrigin = 'anonymous' | 'use-credentials';
 
+export type Inject = 'head' | 'body'
+
 export interface HtmlConfig {
   meta?: MetaOptions;
   metaByEntries?: Record<string, MetaOptions>;
   title?: string;
   titleByEntries?: Record<string, string>;
-  // inject?: HTMLPluginOptions['inject'];
-  // injectByEntries?: Record<string, HTMLPluginOptions['inject']>;
+  inject?: Inject;
+  injectByEntries?: Record<string, Inject>;
   favicon?: string;
   faviconByEntries?: Record<string, string | undefined>;
   appIcon?: string;
