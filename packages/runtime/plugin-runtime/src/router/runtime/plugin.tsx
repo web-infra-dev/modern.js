@@ -28,8 +28,8 @@ export const routerPlugin = ({
             return (props => {
               const routeElements = renderRoutes(routesConfig);
               const routes = configRoutes
-                ? createRoutesFromElements(routeElements)
-                : createConfigRoutes({ ...configRoutes, ...props });
+                ? createConfigRoutes({ ...configRoutes, ...props })
+                : createRoutesFromElements(routeElements);
 
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
@@ -49,7 +49,7 @@ export const routerPlugin = ({
 
           const RouteApp = getRouteApp();
 
-          if (routesConfig.globalApp) {
+          if (routesConfig?.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
             });

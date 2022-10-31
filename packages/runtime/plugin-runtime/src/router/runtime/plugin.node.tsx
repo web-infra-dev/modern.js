@@ -77,8 +77,8 @@ export const routerPlugin = ({
 
           const routeElements = renderRoutes(routesConfig);
           const routes = configRoutes
-            ? createRoutesFromElements(routeElements)
-            : createConfigRoutes(configRoutes);
+            ? createConfigRoutes(configRoutes)
+            : createRoutesFromElements(routeElements);
 
           const { query } = createStaticHandler(routes);
           const remixRequest = createFetchRequest(request);
@@ -112,7 +112,7 @@ export const routerPlugin = ({
 
           const RouteApp = getRouteApp();
 
-          if (routesConfig.globalApp) {
+          if (routesConfig?.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
             });
