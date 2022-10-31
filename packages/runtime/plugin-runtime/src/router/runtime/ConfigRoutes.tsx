@@ -145,4 +145,18 @@ const ConfigRoutes = ({
   return <>{element}</>;
 };
 
+export const createConfigRoutes = ({
+  routes,
+  lazy,
+  loading,
+  ...extraProps
+}: IConfigRoutesProps): RouteObject[] => {
+  return transformRoutes({
+    routes,
+    lazy,
+    loading,
+    extraProps,
+  }) as RouteObject[];
+};
+
 export default ConfigRoutes;

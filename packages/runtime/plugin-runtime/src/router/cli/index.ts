@@ -104,7 +104,7 @@ export default (): CliPlugin => ({
         return PLUGIN_SCHEMAS['@modern-js/plugin-router'];
       },
       async modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName, fileSystemRoutes, configRoutes } = entrypoint;
+        const { entryName, configRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
         const { packageName, internalDirectory } = api.useAppContext();
@@ -139,7 +139,7 @@ export default (): CliPlugin => ({
               });
             }
           }
-        } else if (fileSystemRoutes) {
+        } else {
           throw new Error(
             `should enable runtime.router for entry ${entryName}`,
           );
