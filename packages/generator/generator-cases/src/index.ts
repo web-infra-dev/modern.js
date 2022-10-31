@@ -4,7 +4,6 @@ import {
   PackageManager,
   Language,
   BooleanConfig,
-  ClientRoute,
   MWAActionTypes,
   MWAActionTypesMap,
   Framework,
@@ -19,15 +18,12 @@ import {
 export const LanguageValues = Object.values(Language);
 export const PackageManagerValues = Object.values(PackageManager);
 export const BooleanConfigValues = Object.values(BooleanConfig);
-export const ClientRouteValues = Object.values(ClientRoute);
 export const FrameworkValues = Object.values(Framework);
 export const BFFTypeValues = Object.values(BFFType);
 
 export const MWAValueMap: Record<string, string[]> = {
   language: LanguageValues,
   packageManager: PackageManagerValues,
-  needModifyMWAConfig: BooleanConfigValues,
-  clientRoute: ClientRouteValues,
 };
 
 export const ModuleValueMap: Record<string, string[]> = {
@@ -44,15 +40,6 @@ export const MonorepoValueMap: Record<string, string[]> = {
 export const getMWACases = (length?: number) => {
   const cases = make(MWAValueMap, {
     length: length || Object.keys(MWAValueMap).length,
-    postFilter: (row: Record<string, any>) => {
-      if (
-        row.needModifyMWAConfig === BooleanConfig.NO &&
-        row.clientRoute !== ClientRoute.SelfControlRoute
-      ) {
-        return false;
-      }
-      return true;
-    },
   });
   return cases.map(item => ({
     ...item,
@@ -80,19 +67,12 @@ export const getMonorepoCases = () => {
   }));
 };
 
-export const MWAEntryValueMap: Record<string, string[]> = {
-  needModifyMWAConfig: BooleanConfigValues,
-  clientRoute: ClientRouteValues,
-};
-
-const getMWAEntryCases = (length?: number) => {
-  const cases = make(MWAEntryValueMap, {
-    length: length || Object.keys(MWAEntryValueMap).length,
-  });
-  return cases.map(item => ({
-    ...item,
-    name: Object.values(item).join('-'),
-  }));
+const getMWAEntryCases = (_length?: number) => {
+  return [
+    {
+      name: 'test',
+    },
+  ];
 };
 
 export const MWAServerValueMap: Record<string, string[]> = {
@@ -162,8 +142,6 @@ export const getModuleNewCases = () => {
 
 export const MWASubProjectValueMap: Record<string, string[]> = {
   language: LanguageValues,
-  needModifyMWAConfig: BooleanConfigValues,
-  clientRoute: ClientRouteValues,
 };
 
 export const ModuleSubProjectValueMap: Record<string, string[]> = {
@@ -173,15 +151,6 @@ export const ModuleSubProjectValueMap: Record<string, string[]> = {
 const getMWASubProjectCases = (isTest: boolean, length?: number) => {
   const cases = make(MWASubProjectValueMap, {
     length: length || Object.keys(MWASubProjectValueMap).length,
-    postFilter: (row: Record<string, any>) => {
-      if (
-        row.needModifyMWAConfig === BooleanConfig.NO &&
-        row.clientRoute !== ClientRoute.SelfControlRoute
-      ) {
-        return false;
-      }
-      return true;
-    },
   });
   return cases.map(item => ({
     ...item,

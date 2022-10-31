@@ -1,46 +1,5 @@
 import { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
-import { BooleanConfig, getBooleanSchemas } from '../common/boolean';
-
-export enum ClientRoute {
-  SelfControlRoute = 'selfControlRoute',
-  ConventionalRoute = 'conventionalRoute',
-}
-
-export const getClientRouteSchema = (
-  _extra: Record<string, any> = {},
-): Schema => {
-  return {
-    type: 'string',
-    title: i18n.t(localeKeys.entry.clientRoute.self),
-    default: ClientRoute.SelfControlRoute,
-    enum: Object.values(ClientRoute).map(clientRoute => ({
-      value: clientRoute,
-      label: i18n.t(localeKeys.entry.clientRoute[clientRoute]),
-    })),
-    'x-reactions': [
-      {
-        dependencies: ['needModifyMWAConfig'],
-        fulfill: {
-          state: {
-            visible: `{{$deps[0]=== "${BooleanConfig.YES}"}}`,
-          },
-        },
-      },
-    ],
-  };
-};
-
-export const getNeedModifyMWAConfigSchema = (
-  _extra: Record<string, string> = {},
-): Schema => {
-  return {
-    type: 'string',
-    title: i18n.t(localeKeys.entry.needModifyConfig),
-    default: BooleanConfig.NO,
-    enum: getBooleanSchemas(),
-  };
-};
 
 export enum Framework {
   Express = 'express',

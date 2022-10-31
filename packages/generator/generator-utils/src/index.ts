@@ -71,7 +71,8 @@ export async function getPackageVersion(
 
 export async function getModernVersion(solution: Solution, registry?: string) {
   const dep = SolutionToolsMap[solution];
-  const modernVersion = await getPackageVersion(dep, registry);
+  // TODO FIXME
+  const modernVersion = await getPackageVersion(`${dep}@next`, registry);
   return modernVersion;
 }
 

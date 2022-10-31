@@ -8,11 +8,6 @@ import {
   PackageManager,
   getPackageManagerSchema,
 } from '../common';
-import {
-  getClientRouteSchema,
-  getNeedModifyMWAConfigSchema,
-  ClientRoute,
-} from './common';
 
 export const getMWASchemaProperties = (
   extra: Record<string, any>,
@@ -22,8 +17,6 @@ export const getMWASchemaProperties = (
     packagePath: getPackagePathSchema(extra),
     language: getLanguageSchema(extra),
     packageManager: getPackageManagerSchema(extra),
-    needModifyMWAConfig: getNeedModifyMWAConfigSchema(extra),
-    clientRoute: getClientRouteSchema(extra),
   };
 };
 
@@ -38,5 +31,4 @@ export const MWADefaultConfig = {
   language: Language.TS,
   packageManager: PackageManager.Pnpm,
   needModifyMWAConfig: BooleanConfig.NO,
-  clientRoute: ClientRoute.SelfControlRoute,
 };

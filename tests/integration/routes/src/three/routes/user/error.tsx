@@ -1,4 +1,4 @@
-import { useRouteError } from '@modern-js/runtime/runtime-router';
+import { useRouteError } from '@modern-js/runtime/router';
 
 export default function ErrorBoundary() {
   const error = useRouteError();

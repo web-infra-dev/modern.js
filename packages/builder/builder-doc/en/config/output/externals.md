@@ -19,3 +19,7 @@ export default {
   },
 };
 ```
+
+:::tip
+When the build target is Web Worker, externals will not take effect. This is because the Worker environment can not access global variables.
+:::
