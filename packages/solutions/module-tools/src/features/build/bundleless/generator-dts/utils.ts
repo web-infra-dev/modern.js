@@ -124,14 +124,14 @@ export const resolveAlias = (
 };
 
 export const getTscBinPath = (appDirectory: string) => {
-  const { root } = path.parse(appDirectory)
-  let currentDirectory = appDirectory
+  const { root } = path.parse(appDirectory);
+  let currentDirectory = appDirectory;
   while (currentDirectory !== root) {
     const tscBinFile = path.join(currentDirectory, './node_modules/.bin/tsc');
     if (fs.existsSync(tscBinFile)) {
-      return tscBinFile
+      return tscBinFile;
     }
-    currentDirectory = path.dirname(currentDirectory)
+    currentDirectory = path.dirname(currentDirectory);
   }
 
   throw new Error(
