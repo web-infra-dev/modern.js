@@ -188,6 +188,7 @@ export class ModernServer implements ModernServerInterface {
 
     this.addHandler(this.staticFileHandler);
 
+    // execute after staticFileHandler, can rename to staticFallbackHandler if needed.
     this.addHandler(faviconFallbackHandler);
 
     this.addHandler(this.routeHandler.bind(this));
