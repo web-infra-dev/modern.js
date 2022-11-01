@@ -1,58 +1,20 @@
-import React, { useContext } from 'react';
-import { HashRouter, BrowserRouter } from 'react-router-dom';
-import type { RouteProps } from 'react-router-dom';
-import { StaticRouter } from 'react-router-dom/server';
+import React from 'react';
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouterProvider,
+  createRoutesFromElements,
+} from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { PageRoute, NestedRoute } from '@modern-js/types';
-import { RuntimeReactContext, ServerRouterContext } from '../../core';
 import type { Plugin } from '../../core';
-import { isBrowser } from '../../common';
-import { renderRoutes, getLocation, urlJoin } from './utils';
-
-declare global {
-  interface Window {
-    _SERVER_DATA?: {
-      router: {
-        baseUrl: string;
-        params: Record<string, string>;
-      };
-    };
-  }
-}
-
-export type SingleRouteConfig = RouteProps & {
-  redirect?: string;
-  routes?: SingleRouteConfig[];
-  key?: string;
-
-  /**
-   * layout component
-   */
-  layout?: React.ComponentType;
-
-  /**
-   * component would be rendered when route macthed.
-   */
-  component?: React.ComponentType;
-};
-
-export type RouterConfig = {
-  legacy?: boolean;
-  routesConfig?: {
-    globalApp?: React.ComponentType<any>;
-    routes?: (NestedRoute | PageRoute)[];
-  };
-  serverBase?: string[];
-  supportHtml5History?: boolean;
-};
+import { renderRoutes } from './utils';
+import type { RouterConfig } from './types';
 
 export const routerPlugin = ({
   serverBase = [],
   supportHtml5History = true,
   routesConfig,
 }: RouterConfig): Plugin => {
-  const isBrow = isBrowser();
-
   const select = (pathname: string) =>
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
   return {
@@ -61,57 +23,29 @@ export const routerPlugin = ({
       return {
         hoc: ({ App }, next) => {
           const getRouteApp = () => {
-            if (isBrow) {
+            return (props => {
+              const routeElements = renderRoutes(routesConfig);
+              const routes = createRoutesFromElements(routeElements);
+
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
 
-              const Router = supportHtml5History ? BrowserRouter : HashRouter;
+              const router = supportHtml5History
+                ? createBrowserRouter(routes, { basename: baseUrl })
+                : createHashRouter(routes, { basename: baseUrl });
 
-              const RouterContent = (props: any) => {
-                return (
-                  <App {...props}>
-                    {routesConfig ? renderRoutes(routesConfig) : null}
-                  </App>
-                );
-              };
-
-              return (props: any) => (
-                <Router basename={baseUrl}>
-                  <RouterContent {...props} />
-                </Router>
-              );
-            }
-            return (props: any) => {
-              const runtimeContext = useContext(RuntimeReactContext);
-              const { ssrContext } = runtimeContext;
-              const location = getLocation(ssrContext);
-              const routerContext = ssrContext?.redirection || {};
-              const request = ssrContext?.request;
-              const baseUrl = request?.baseUrl as string;
-              const basename = baseUrl === '/' ? urlJoin(baseUrl) : baseUrl;
-              // TODO ssr router needs update https://reactrouter.com/en/main/guides/ssr
               return (
-                <ServerRouterContext.Provider value={routerContext}>
-                  <StaticRouter
-                    basename={basename === '/' ? '' : basename}
-                    location={location}
-                  >
-                    <App {...props}>
-                      {routesConfig ? renderRoutes(routesConfig) : null}
-                    </App>
-                  </StaticRouter>
-                </ServerRouterContext.Provider>
+                <App {...props}>
+                  <RouterProvider router={router} />
+                </App>
               );
-            };
+            }) as React.FC<any>;
           };
-          let RouteApp = getRouteApp();
 
-          if (App) {
-            RouteApp = hoistNonReactStatics(RouteApp, App);
-          }
+          const RouteApp = getRouteApp();
 
-          if (routesConfig?.globalApp) {
+          if (routesConfig.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
             });

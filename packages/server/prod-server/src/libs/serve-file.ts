@@ -5,7 +5,7 @@ import { isString, isRegExp } from '@modern-js/utils';
 import { ServerOptions } from '@modern-js/server-core';
 import type { ModernServerContext } from '@modern-js/types';
 import { useLocalPrefix } from '../utils';
-import { NextFunction } from '../type';
+import { NextFunction, ModernServerHandler } from '../type';
 
 type Rule = {
   path: string | RegExp;
@@ -22,6 +22,15 @@ const removedPrefix = (req: IncomingMessage, prefix: string) => {
     return () => {
       // emptyy
     };
+  }
+};
+
+export const faviconFallbackHandler: ModernServerHandler = (context, next) => {
+  if (context.url === '/favicon.ico') {
+    context.res.statusCode = 204;
+    context.res.end();
+  } else {
+    next();
   }
 };
 

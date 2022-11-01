@@ -54,7 +54,7 @@ export default (): CliPlugin => ({
           },
         };
       },
-      modifyEntryImports({ entrypoint, imports }: any) {
+      modifyEntryImports({ entrypoint, imports }) {
         const { entryName } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName, entrypoints } = api.useAppContext();
@@ -70,6 +70,28 @@ export default (): CliPlugin => ({
           userConfig.server.ssrByEntries,
           packageName,
         );
+
+        if (typeof ssrConfig === 'object' && ssrConfig.mode === 'stream') {
+          const runtimeConfig = getEntryOptions(
+            entryName,
+            userConfig.runtime,
+            userConfig.runtimeByEntries,
+            packageName,
+          );
+          if (runtimeConfig?.router?.legacy) {
+            throw new Error(
+              `Legacy router plugin doesn't support streaming SSR, check your config 'runtime.router'`,
+            );
+          }
+          if (entrypoint.entry) {
+            throw new Error(`'pages' directory doesn't support streaming SSR.`);
+          }
+          if (!entrypoint.nestedRoutesEntry) {
+            throw new Error(
+              `You should switch to file-system based router to support streaming SSR.`,
+            );
+          }
+        }
 
         const ssgConfig = userConfig.output.ssg;
         const useSSG = isSingleEntry(entrypoints)

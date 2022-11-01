@@ -61,12 +61,6 @@ export const ZH_LOCALE = {
     name: '请填写入口名称',
     no_empty: '入口名称不能为空！',
     no_pages: '入口名称不支持 "pages"！',
-    needModifyConfig: '是否需要调整默认配置?',
-    clientRoute: {
-      self: '请选择客户端路由方式',
-      selfControlRoute: '自控路由',
-      conventionalRoute: '约定式路由',
-    },
   },
   packageName: {
     self: '请填写项目名称',

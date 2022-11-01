@@ -88,6 +88,10 @@ export type BaseSSRServerContext = {
     ) => void;
   };
   cacheConfig?: any;
+
+  req: ModernServerContext['req'];
+
+  res: ModernServerContext['res'];
 };
 export interface ISAppContext {
   appDirectory: string;
