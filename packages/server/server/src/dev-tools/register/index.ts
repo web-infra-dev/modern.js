@@ -72,9 +72,9 @@ export const enableRegister = (
       projectRoot,
       {
         ...config.source,
-        babelConfig: config.tools.babel,
+        babelConfig: config.tools?.babel,
         server: {
-          compiler: config.server.compiler,
+          compiler: config.server?.compiler,
         },
       },
       {

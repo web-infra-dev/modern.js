@@ -26,14 +26,14 @@ import type { Options } from 'http-proxy-middleware';
 /** The subset of NormalizedConfig, which really need in server */
 export type ServerOptions = {
   output: Pick<NormalizedConfig['output'], 'path' | 'assetPrefix'>;
-  source: Pick<NormalizedConfig['source'], 'alias' | 'envVars' | 'globalVars'>;
-  tools: {
+  source?: Pick<NormalizedConfig['source'], 'alias' | 'envVars' | 'globalVars'>;
+  tools?: {
     babel: NormalizedConfig['tools']['babel'];
   };
-  server: NormalizedConfig['server'];
-  runtime: NormalizedConfig['runtime'];
-  bff: NormalizedConfig['bff'];
-  plugins: NormalizedConfig['plugins'];
+  server?: NormalizedConfig['server'];
+  runtime?: NormalizedConfig['runtime'];
+  bff?: NormalizedConfig['bff'];
+  plugins?: NormalizedConfig['plugins'];
 };
 
 // collect all middleware register in server plugins

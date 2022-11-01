@@ -235,6 +235,47 @@ describe('test server', () => {
       });
       expect(html).toMatch('This page could not be found.');
     });
+
+    test('should render() api work correctly', async () => {
+      const server = await createServer({
+        config: {
+          ...(defaultsConfig as any),
+          output: {
+            path: 'dist',
+          },
+        },
+        pwd: path.join(__dirname, './fixtures/completely-custom'),
+      });
+
+      const req = httpMocks.createRequest({
+        url: '/home',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      const html = await server.render(req, res, '/home');
+      expect(html).toMatch('Modern.js Custom Server');
+
+      const htmlMatchPath = await server.render(req, res);
+      expect(htmlMatchPath).toMatch('Modern.js Custom Server');
+
+      const notFound = await server.render(req, res, '/not-found');
+      expect(notFound).toBeNull();
+
+      const reqNotFound = httpMocks.createRequest({
+        url: '/not-found',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const notFound1 = await server.render(reqNotFound, res);
+      expect(notFound1).toBeNull();
+    });
   });
 
   describe('should split server work correctly', () => {
