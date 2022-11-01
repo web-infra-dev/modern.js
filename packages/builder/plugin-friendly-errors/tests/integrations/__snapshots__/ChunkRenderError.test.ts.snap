@@ -1,0 +1,39 @@
+// Vitest Snapshot v1
+
+exports[`ChunkRenderError 1`] = `
+"/chunkrendererror foo
+    at /Users/bytedance/repositories/modern.js/packages/builder/plugin-friendly-errors/tests/integrations/ChunkRenderError.test.ts:28:17
+    at async runTest (/Users/bytedance/repositories/modern.js/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:488:5)
+    at async runSuite (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:576:13)
+    at async runFiles (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:620:5)
+    at async startTestsNode (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:638:3)
+    at async /Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/entry.mjs:76:9
+    at async Module.withEnv (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:259:5)
+    at async run (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/entry.mjs:71:5)
+    at async file:/Users/bytedance/repositories/modern.js/node_modules/.pnpm/tinypool@0.2.4/node_modules/tinypool/dist/esm/worker.js:99:20
+Error: foo
+    at /Users/bytedance/repositories/modern.js/packages/builder/plugin-friendly-errors/tests/integrations/ChunkRenderError.test.ts:31:5
+    at async runTest (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:488:5)
+    at async runSuite (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:576:13)
+    at async runFiles (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:620:5)
+    at async startTestsNode (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:638:3)
+    at async /Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/entry.mjs:76:9
+    at async Module.withEnv (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:259:5)
+    at async run (/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/entry.mjs:71:5)
+    at async file:/Users/bytedance/repositories/modern.js/node_modules/.pnpm/tinypool@0.2.4/node_modules/tinypool/dist/esm/worker.js:99:20"
+`;
+
+exports[`ChunkRenderError 2`] = `
+"[31mChunkRenderError: foo[39m
+
+  at [90m/Users/bytedance/repositories/modern.js/packages/builder/plugin-friendly-errors/tests/integrations/ChunkRenderError.test.ts[39m:31:5
+  at [90m/Users/bytedance/repositories/modern.js/packages/builder/plugin-friendly-errors/tests/integrations/ChunkRenderError.test.ts[39m:28:17
+  at [90m/Users/bytedance/repositories/modern.js/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs[39m:488:5
+  at [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs[39m:576:13
+  at [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs[39m:620:5
+  at [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs[39m:638:3
+  at [90masync /Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/entry.mjs[39m:76:9
+  at [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/chunk-runtime-error.87a2b5a2.mjs[39m:259:5
+  at [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/vitest@0.21.1_@vitest+ui@0.21.1/node_modules/vitest/dist/entry.mjs[39m:71:5
+  at [90masync file:/Users/bytedance/repositories/modern.js/node_modules/.pnpm/tinypool@0.2.4/node_modules/tinypool/dist/esm/worker.js[39m:99:20"
+`;

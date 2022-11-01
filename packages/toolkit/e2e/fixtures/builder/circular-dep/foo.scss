@@ -1,0 +1,6 @@
+@use "./bar";
+
+.button {
+  @include bar.rounded;
+  padding: 5px + bar.$radius;
+}

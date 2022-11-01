@@ -1,14 +1,12 @@
 import assert from 'assert';
+import ModuleParseError from 'webpack/lib/ModuleParseError';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
 import { useFixture } from '@modern-js/e2e';
-import { expect, test } from 'vitest';
-import { Chunk } from 'webpack';
-import ChunkRenderError from 'webpack/lib/ChunkRenderError';
-import { baseFormatter, prettyFormatter } from '@/formatter';
-import { transformConnectAttachedHead } from '@/transformer';
+import { test, expect } from 'vitest';
+import { baseFormatter } from '@/formatter';
 import { parseError } from '@/shared/utils';
 
-test('ChunkRenderError', async () => {
+test('MissingLoader', async () => {
   const options = await useFixture('@modern-js/e2e/fixtures/builder/basic');
   const builder = await createStubBuilder({
     ...options,
@@ -16,14 +14,17 @@ test('ChunkRenderError', async () => {
   });
   const [{ stats }] = await builder.unwrapHook('onAfterBuildHook');
   assert(stats && 'compilation' in stats);
-  const chunk = new Chunk('foo');
-  const error = new ChunkRenderError(
-    chunk,
-    stats.compilation,
-    new Error('foo'),
+  const source = [
+    'import { FC } from "react";',
+    'export const Foo: FC = () => <div>foo</div>;',
+  ].join('\n');
+  const rawError = new Error('foo');
+  const error = new ModuleParseError(
+    source,
+    rawError,
+    ['bar-loader'],
+    'javascript/esm',
   );
   const parsed = parseError(error);
   expect(baseFormatter(parsed)).toMatchSnapshot();
-  transformConnectAttachedHead(parsed);
-  expect(prettyFormatter(parsed)).toMatchSnapshot();
 });

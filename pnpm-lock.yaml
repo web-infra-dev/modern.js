@@ -201,6 +201,7 @@ importers:
       '@babel/plugin-transform-async-to-generator': ^7.5.0
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/e2e': workspace:*
+      '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       '@types/jest': ^29.2.0
       '@types/node': ^14
@@ -221,6 +222,7 @@ importers:
       postcss-loader: ^3.0.0
       sass: ^1.20.1
       sass-loader: ^7.1.0
+      stacktracey: ^2.1.8
       string-width: ^2.0.0
       strip-ansi: ^5
       style-loader: ^0.23.1
@@ -229,6 +231,7 @@ importers:
     dependencies:
       chalk: 2.4.2
       error-stack-parser: 2.1.4
+      stacktracey: 2.1.8
       string-width: 2.1.1
       strip-ansi: 5.2.0
     devDependencies:
@@ -236,6 +239,7 @@ importers:
       '@babel/plugin-transform-async-to-generator': 7.18.6_@babel+core@7.18.6
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
       '@modern-js/e2e': link:../../toolkit/e2e
+      '@modern-js/utils': link:../../toolkit/utils
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/jest': 29.2.0
       '@types/node': 14.18.21
@@ -14213,6 +14217,12 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /as-table/1.0.55:
+    resolution: {integrity: sha512-xvsWESUJn0JN421Xb9MQw6AsMHRCUknCe0Wjlxvjud80mU4E6hQf1A6NzQKcYNmYw62MfzEtXc+badstZP3JpQ==}
+    dependencies:
+      printable-characters: 1.0.42
+    dev: false
+
   /asap/2.0.6:
     resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
 
@@ -17453,6 +17463,10 @@ packages:
     dependencies:
       assert-plus: 1.0.0
     dev: true
+
+  /data-uri-to-buffer/2.0.2:
+    resolution: {integrity: sha512-ND9qDTLc6diwj+Xe5cdAgVTbLVdXbtxTJRXRhli8Mowuaan+0EJOtdqJ0QCHNSSPyoXGx9HX2/VMnKeC34AChA==}
+    dev: false
 
   /data-uri-to-buffer/3.0.1:
     resolution: {integrity: sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==}
@@ -21296,6 +21310,13 @@ packages:
     dependencies:
       is-type-of: 1.2.1
     dev: true
+
+  /get-source/2.0.12:
+    resolution: {integrity: sha512-X5+4+iD+HoSeEED+uwrQ07BOQr0kEDFMVqqpBuI+RaZBpBpHCuXxo70bjar6f0b0u/DQJsJ7ssurpP0V60Az+w==}
+    dependencies:
+      data-uri-to-buffer: 2.0.2
+      source-map: 0.6.1
+    dev: false
 
   /get-stdin/4.0.1:
     resolution: {integrity: sha512-F5aQMywwJ2n85s4hJPTT9RPxGmubonuB10MNYo17/xph174n2MIR33HRguhzVag10O/npM7SPk73LMZNP+FaWw==}
@@ -28704,6 +28725,10 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /printable-characters/1.0.42:
+    resolution: {integrity: sha512-dKp+C4iXWK4vVYZmYSd0KBH5F/h1HoZRsbJ82AVKRO3PEo8L4lBS/vLwhVtpwwuYcoIsVY+1JYKR268yn480uQ==}
+    dev: false
+
   /prism-themes/1.9.0:
     resolution: {integrity: sha512-tX2AYsehKDw1EORwBps+WhBFKc2kxfoFpQAjxBndbZKr4fRmMkv47XN0BghC/K1qwodB1otbe4oF23vUTFDokw==}
     dev: true
@@ -31713,6 +31738,13 @@ packages:
 
   /stackframe/1.3.4:
     resolution: {integrity: sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw==}
+    dev: false
+
+  /stacktracey/2.1.8:
+    resolution: {integrity: sha512-Kpij9riA+UNg7TnphqjH7/CzctQ/owJGNbFkfEeve4Z4uxT5+JapVLFXcsurIfN34gnTWZNJ/f7NMG0E8JDzTw==}
+    dependencies:
+      as-table: 1.0.55
+      get-source: 2.0.12
     dev: false
 
   /starting/8.0.1:

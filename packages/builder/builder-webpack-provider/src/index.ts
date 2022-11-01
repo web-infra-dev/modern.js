@@ -1,4 +1,9 @@
 export { builderWebpackProvider } from './provider';
+export {
+  applyBasicPlugins,
+  applyDefaultPlugins,
+  applyMinimalPlugins,
+} from './shared/plugin';
 export type {
   BuilderPluginAPI,
 

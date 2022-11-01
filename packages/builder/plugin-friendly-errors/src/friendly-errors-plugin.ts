@@ -1,10 +1,5 @@
 import type * as webpack from 'webpack';
 
-export interface Formatter {
-  test: (error: webpack.WebpackError) => boolean;
-  format: (error: webpack.WebpackError) => string;
-}
-
 // const builtinFormatters: Formatter = [];
 
 export class FriendlyErrorsWebpackPlugin {

@@ -5,8 +5,10 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "types": ["jest"],
     "isolatedModules": true,
-    "paths": {}
+    "paths": {
+      "@/*": ["../src/*"],
+      "~/*": ["../*"]
+    }
   },
 }
