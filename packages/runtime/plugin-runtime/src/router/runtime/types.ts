@@ -1,4 +1,4 @@
-import type { RouteProps } from 'react-router-dom';
+import type { RouteProps, RouteObject } from 'react-router-dom';
 import { PageRoute, NestedRoute } from '@modern-js/types';
 
 declare global {
@@ -36,4 +36,5 @@ export type RouterConfig = {
   };
   serverBase?: string[];
   supportHtml5History?: boolean;
+  createRoutes?: () => RouteObject[];
 };
