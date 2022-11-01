@@ -3524,6 +3524,65 @@ importers:
       rimraf: 3.0.2
       tree-kill: 1.2.2
 
+  tests/e2e/builder:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      got: ^11.8.3
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      got: 11.8.5
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/builder': link:../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../packages/toolkit/e2e
+      '@types/node': 14.18.21
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.7.4
+
+  tests/e2e/builder/fixtures/dev/basic:
+    specifiers:
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@types/node': 14.18.21
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.7.4
+
+  tests/e2e/builder/fixtures/dev/hmr:
+    specifiers:
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@types/node': 14.18.21
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.7.4
+
   tests/e2e/webpack-builder/basic:
     specifiers:
       '@modern-js/builder-webpack-provider': workspace:*
@@ -13533,8 +13592,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -28481,6 +28542,17 @@ packages:
       - supports-color
     dev: false
 
+  /react-dom/17.0.2_react@17.0.2:
+    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
+    peerDependencies:
+      react: 17.0.2
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react: 17.0.2
+      scheduler: 0.20.2
+    dev: false
+
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -28697,6 +28769,14 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /react/17.0.2:
+    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
     dev: false
 
   /react/18.2.0:
@@ -29581,6 +29661,13 @@ packages:
     dependencies:
       xmlchars: 2.2.0
 
+  /scheduler/0.20.2:
+    resolution: {integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+    dev: false
+
   /scheduler/0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
@@ -29625,7 +29712,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
