@@ -152,8 +152,8 @@ export const handleTemplateFile = async (
         update: {
           $set: {
             'devDependencies.typescript': '^4',
-            'devDependencies.@types/react': '^17',
-            'devDependencies.@types/react-dom': '^17',
+            'devDependencies.@types/react': '^18',
+            'devDependencies.@types/react-dom': '^18',
             'devDependencies.@types/node': '^14',
           },
         },
