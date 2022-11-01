@@ -132,7 +132,7 @@
     "react-helmet": "^6.1.0",
     "@remix-run/node": "^1.7.0",
     "@remix-run/router": "^1.0.1",
-    "react-is": "^17",
+    "react-is": "^18",
     "react-router-dom": "^6.4.0",
     "react-side-effect": "^2.1.1",
     "redux-logger": "^3.0.6",
