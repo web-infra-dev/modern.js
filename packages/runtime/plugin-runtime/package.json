@@ -12,6 +12,9 @@
     "modern.js"
   ],
   "version": "1.21.0",
+  "engines": {
+    "node": ">=14.17.6"
+  },
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -127,7 +130,9 @@
     "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "react-helmet": "^6.1.0",
-    "react-is": "^17",
+    "@remix-run/node": "^1.7.0",
+    "@remix-run/router": "^1.0.1",
+    "react-is": "^18",
     "react-router-dom": "^6.4.0",
     "react-side-effect": "^2.1.1",
     "redux-logger": "^3.0.6",
@@ -145,6 +150,7 @@
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
     "@testing-library/react-hooks": "^8.0.1",
+    "@remix-run/web-fetch": "^4.1.3",
     "@types/invariant": "^2.2.30",
     "@types/jest": "^27",
     "@types/loadable__webpack-plugin": "^5.7.3",

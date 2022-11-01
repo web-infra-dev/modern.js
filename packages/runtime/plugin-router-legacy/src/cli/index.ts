@@ -6,7 +6,7 @@ import {
 import { ServerRoute } from '@modern-js/types';
 import type { CliPlugin } from '@modern-js/core';
 
-const PLUGIN_IDENTIFIER = 'legacyRouter';
+const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
@@ -46,7 +46,7 @@ export default (): CliPlugin => ({
         return PLUGIN_SCHEMAS['@modern-js/plugin-router'];
       },
       modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName, fileSystemRoutes } = entrypoint;
+        const { entryName } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
         const { packageName } = api.useAppContext();
@@ -66,9 +66,9 @@ export default (): CliPlugin => ({
             value: '@modern-js/runtime/plugins',
             specifiers: [{ imported: PLUGIN_IDENTIFIER }],
           });
-        } else if (fileSystemRoutes) {
+        } else {
           throw new Error(
-            `should enable runtime.router for entry ${entryName}`,
+            `should enable runtime.router.legacy for entry ${entryName}`,
           );
         }
 
@@ -115,10 +115,10 @@ export default (): CliPlugin => ({
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();
         const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
-        pluginsExportsUtils.addExport(
-          `export { default as legacyRouter } from '@modern-js/plugin-router-legacy'`,
-        );
         if (isLegacy) {
+          pluginsExportsUtils.addExport(
+            `export { default as router } from '@modern-js/plugin-router-legacy'`,
+          );
           routerExportsUtils?.addExport(
             `export * from '@modern-js/plugin-router-legacy'`,
           );

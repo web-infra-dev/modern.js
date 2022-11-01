@@ -164,7 +164,7 @@ export const handleTemplateFile = async (
       'devDependencies.typescript': '^4',
       'devDependencies.@types/jest': '^26.0.9',
       'devDependencies.@types/node': '^14',
-      'devDependencies.@types/react': '^17',
+      'devDependencies.@types/react': '^18',
     };
 
     await jsonAPI.update(

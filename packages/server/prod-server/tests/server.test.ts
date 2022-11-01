@@ -95,6 +95,37 @@ describe('test server', () => {
       expect(modernServer.handlers[nextLen - 1]).toBe(asyncHandler);
     });
 
+    test('should hit favicon fallback', async () => {
+      const server = await createServer({
+        config: defaultsConfig as any,
+        pwd: appDirectory,
+      });
+
+      const modernServer: any = (server as any).server;
+      const handler = modernServer.getRequestHandler();
+
+      const req = httpMocks.createRequest({
+        url: '/favicon.ico',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      handler(req, res);
+
+      const content = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+      });
+
+      expect(content).toBe('');
+      expect(res.statusCode).toBe(204);
+    });
+
     test('should get request handler correctly', async () => {
       const server = await createServer({
         config: {

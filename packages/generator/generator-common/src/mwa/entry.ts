@@ -1,11 +1,6 @@
 import { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 import { BooleanConfig } from '../common';
-import {
-  getClientRouteSchema,
-  ClientRoute,
-  getNeedModifyMWAConfigSchema,
-} from './common';
 
 export const getEntryNameSchema = (extra: Record<string, any> = {}): Schema => {
   return {
@@ -39,8 +34,6 @@ export const getEntrySchemaProperties = (
 ): Schema['properties'] => {
   return {
     name: getEntryNameSchema(extra),
-    needModifyMWAConfig: getNeedModifyMWAConfigSchema(extra),
-    clientRoute: getClientRouteSchema(extra),
   };
 };
 
@@ -53,5 +46,4 @@ export const getEntrySchema = (extra: Record<string, any> = {}): Schema => {
 
 export const MWADefaultEntryConfig = {
   needModifyMWAConfig: BooleanConfig.NO,
-  clientRoute: ClientRoute.SelfControlRoute,
 };

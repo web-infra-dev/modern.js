@@ -1,5 +1,5 @@
 import { routerPlugin } from './plugin';
-import type { SingleRouteConfig, RouterConfig } from './plugin';
+import type { SingleRouteConfig, RouterConfig } from './types';
 
 export type { SingleRouteConfig, RouterConfig };
 

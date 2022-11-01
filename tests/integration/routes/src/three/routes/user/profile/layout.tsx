@@ -1,4 +1,4 @@
-import { Outlet, defer } from '@modern-js/runtime/runtime-router';
+import { Outlet, defer } from '@modern-js/runtime/router';
 
 const wait = (time: number) =>
   new Promise(resolve => setTimeout(resolve, time));

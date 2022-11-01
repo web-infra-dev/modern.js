@@ -2,7 +2,11 @@ import {
   CssExtractOptions,
   MiniCSSExtractPluginOptions,
 } from '../types/thirdParty/css';
-import { DEFAULT_PORT, type BuilderContext } from '@modern-js/builder-shared';
+import {
+  DEFAULT_PORT,
+  addTrailingSlash,
+  type BuilderContext,
+} from '@modern-js/builder-shared';
 import { getDistPath, getFilename } from '../shared';
 import { isUseCssExtract } from './css';
 import type { BuilderPlugin, NormalizedConfig } from '../types';
@@ -32,11 +36,7 @@ function getPublicPath({
     publicPath = `//${hostname}:${port}/`;
   }
 
-  if (!publicPath.endsWith('/')) {
-    publicPath += '/';
-  }
-
-  return publicPath;
+  return addTrailingSlash(publicPath);
 }
 
 export const PluginOutput = (): BuilderPlugin => ({

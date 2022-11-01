@@ -28,7 +28,10 @@ import {
   ModernRoute,
 } from '../libs/route';
 import { createRenderHandler } from '../libs/render';
-import { createStaticFileHandler } from '../libs/serve-file';
+import {
+  createStaticFileHandler,
+  faviconFallbackHandler,
+} from '../libs/serve-file';
 import {
   createErrorDocument,
   createMiddlewareCollecter,
@@ -184,6 +187,10 @@ export class ModernServer implements ModernServerInterface {
     await this.setupBeforeProdMiddleware();
 
     this.addHandler(this.staticFileHandler);
+
+    // execute after staticFileHandler, can rename to staticFallbackHandler if needed.
+    this.addHandler(faviconFallbackHandler);
+
     this.addHandler(this.routeHandler.bind(this));
 
     // compose middlewares to http handler
