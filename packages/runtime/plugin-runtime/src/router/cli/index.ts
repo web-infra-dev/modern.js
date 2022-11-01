@@ -6,7 +6,9 @@ import {
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
 import type { CliPlugin } from '@modern-js/core';
-import prepareConfigRoutes from './prepareConfigRoutes';
+import prepareConfigRoutes, {
+  INNER_CONFIG_ROUTES_FILENAME,
+} from './prepareConfigRoutes';
 
 const PLUGIN_IDENTIFIER = 'router';
 
@@ -40,9 +42,6 @@ export default (): CliPlugin => ({
             webpackChain: (chain, { CHAIN_ID }) => {
               const userConfig = api.useResolvedConfigContext();
               const { lazy, loading } = userConfig?.runtime?.router;
-              const interalDirReg = new RegExp(
-                `node_modules/.${appContext.metaName}/*`,
-              );
 
               const babel = chain.module
                 .rule(CHAIN_ID.RULE.LOADERS)
@@ -55,8 +54,10 @@ export default (): CliPlugin => ({
               chain.module
                 .rule('config-routes')
                 .oneOf(CHAIN_ID.ONE_OF.JS)
-                .test(/routes.(t|j)s/)
-                .include.add(interalDirReg)
+                .test(new RegExp(`${INNER_CONFIG_ROUTES_FILENAME}`))
+                .include.add(
+                  new RegExp(`node_modules/.${appContext.metaName}/*`),
+                )
                 .end()
                 .use(CHAIN_ID.USE.BABEL)
                 .loader(babelLoader)
@@ -114,7 +115,7 @@ export default (): CliPlugin => ({
             });
             if (configRoutes) {
               imports.push({
-                value: `./routes`,
+                value: `./${INNER_CONFIG_ROUTES_FILENAME}`,
                 specifiers: [
                   { local: ROUTES_IDENTIFIER },
                   { imported: 'LoadingComponent' },

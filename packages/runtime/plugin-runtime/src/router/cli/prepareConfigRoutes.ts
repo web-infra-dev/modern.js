@@ -1,5 +1,7 @@
-import fs from 'fs';
+import { fs } from '@modern-js/utils';
 import { bundleRequire } from '@modern-js/node-bundle-require';
+
+export const INNER_CONFIG_ROUTES_FILENAME = 'inner-config-routes.js';
 
 const prepareConfigRoutes = async (
   path: string,
@@ -13,11 +15,8 @@ const prepareConfigRoutes = async (
   const routes = mod.default || mod;
 
   // create innerDir/routes.js
-  if (!fs.existsSync(entryPath)) {
-    fs.mkdirSync(entryPath);
-  }
-  fs.writeFileSync(
-    `${entryPath}/routes.js`,
+  fs.outputFileSync(
+    `${entryPath}/${INNER_CONFIG_ROUTES_FILENAME}`,
     `export default ${JSON.stringify(routes, null, 2)}`,
   );
 };
