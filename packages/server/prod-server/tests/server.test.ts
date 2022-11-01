@@ -241,7 +241,7 @@ describe('test server', () => {
         config: {
           ...(defaultsConfig as any),
           output: {
-            path: 'dist',
+            path: 'test-dist',
           },
         },
         pwd: path.join(__dirname, './fixtures/completely-custom'),
