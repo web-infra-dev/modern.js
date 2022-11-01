@@ -7,6 +7,7 @@ import {
   type BuilderTarget,
   type BuilderContext,
 } from '@modern-js/builder-shared';
+import _ from '@modern-js/utils/lodash';
 import type {
   WebpackChain,
   BuilderPlugin,
@@ -127,7 +128,8 @@ export async function applyBaseCSSRule(
       mergedConfig.postcssOptions.plugins!.push(...extraPlugins);
     }
 
-    return mergedConfig as ProcessOptions & {
+    // postcss-loader will modify config
+    return _.cloneDeep(mergedConfig) as ProcessOptions & {
       postcssOptions: {
         plugins?: AcceptedPlugin[];
       };
