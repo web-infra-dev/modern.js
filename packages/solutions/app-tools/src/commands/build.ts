@@ -5,7 +5,7 @@ import { generateRoutes } from '../utils/routes';
 import { buildServerConfig, emitResolvedConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
 import type { AppHooks } from '../hooks';
-import createBuilder from '../utils/createBuilder';
+import createBuilder from '../builder';
 
 export const build = async (
   api: PluginAPI<AppHooks>,

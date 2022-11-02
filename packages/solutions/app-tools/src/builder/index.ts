@@ -1,4 +1,5 @@
 import {
+  BuilderInstance,
   BuilderTarget,
   createBuilder,
   CreateBuilderOptions,
@@ -10,7 +11,10 @@ import {
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { applyOptionsChain } from '@modern-js/utils';
 
-import { PluginCompatModernOptions } from './builder-plugin.compatModern';
+import {
+  PluginCompatModernOptions,
+  PluginCompatModern,
+} from './builderPlugins/compatModern';
 import { createHtmlConfig } from './createHtmlConfig';
 import { createOutputConfig } from './createOutputConfig';
 import { createSourceConfig } from './createSourceConfig';
@@ -41,32 +45,18 @@ export default async ({
     normalizedConfig,
     appContext,
   );
-  const provider = builderWebpackProvider({ builderConfig });
+  // create webpack provider
+  const webpackProvider = builderWebpackProvider({ builderConfig });
 
   const builderOptions = createBuilderOptions(target, appContext);
-  const builder = await createBuilder(provider, builderOptions);
+  const builder = await createBuilder(webpackProvider, builderOptions);
 
-  if (!normalizedConfig.output.disableNodePolyfill) {
-    const { PluginNodePolyfill } = await import(
-      '@modern-js/builder-plugin-node-polyfill'
-    );
-    builder.addPlugins([PluginNodePolyfill()]);
-  }
-  if (normalizedConfig.tools.esbuild) {
-    const { esbuild: esbuildOptions } = normalizedConfig.tools;
-    const { PluginEsbuild } = await import('@modern-js/builder-plugin-esbuild');
-    builder.addPlugins([
-      PluginEsbuild({
-        loader: false,
-        minimize: applyOptionsChain({}, esbuildOptions),
-      }),
-    ]);
-  }
-
-  const { PluginCompatModern } = await import('./builder-plugin.compatModern');
-  builder.addPlugins([
-    PluginCompatModern(appContext, normalizedConfig, compatPluginConfig),
-  ]);
+  await applyBuilderPlugins(
+    builder,
+    normalizedConfig,
+    appContext,
+    compatPluginConfig,
+  );
 
   return builder;
 };
@@ -92,7 +82,7 @@ function createBuilderProviderConfig(
   };
 }
 
-function createBuilderOptions(
+export function createBuilderOptions(
   target: BuilderTarget | BuilderTarget[],
   appContext: IAppContext,
 ): CreateBuilderOptions {
@@ -117,4 +107,36 @@ function createBuilderOptions(
     configPath: appContext.configFile || undefined,
     entry: entries,
   };
+}
+
+/**
+ * register builder Plugin by condition
+ */
+async function applyBuilderPlugins(
+  builder: BuilderInstance,
+  normalizedConfig: NormalizedConfig,
+  appContext: IAppContext,
+  compatPluginConfig?: PluginCompatModernOptions,
+) {
+  if (!normalizedConfig.output.disableNodePolyfill) {
+    const { PluginNodePolyfill } = await import(
+      '@modern-js/builder-plugin-node-polyfill'
+    );
+    builder.addPlugins([PluginNodePolyfill()]);
+  }
+
+  if (normalizedConfig.tools.esbuild) {
+    const { esbuild: esbuildOptions } = normalizedConfig.tools;
+    const { PluginEsbuild } = await import('@modern-js/builder-plugin-esbuild');
+    builder.addPlugins([
+      PluginEsbuild({
+        loader: false,
+        minimize: applyOptionsChain({}, esbuildOptions),
+      }),
+    ]);
+  }
+
+  builder.addPlugins([
+    PluginCompatModern(appContext, normalizedConfig, compatPluginConfig),
+  ]);
 }

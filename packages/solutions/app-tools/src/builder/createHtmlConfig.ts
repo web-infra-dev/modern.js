@@ -50,7 +50,7 @@ export function createHtmlConfig(
 
 const ICON_EXTENSIONS = ['png', 'jpg', 'jpeg', 'svg', 'ico'];
 
-function createBuilderAppIcon(
+export function createBuilderAppIcon(
   configDir: NormalizedConfig['source']['configDir'],
   appContext: IAppContext,
 ) {
@@ -62,7 +62,7 @@ function createBuilderAppIcon(
   return typeof appIcon === 'string' ? appIcon : undefined;
 }
 
-function createBuilderCrossorigin(
+export function createBuilderCrossorigin(
   scriptExt: NormalizedConfig['output']['scriptExt'],
 ) {
   const scriptExtCustomConfig = scriptExt?.custom as
@@ -78,7 +78,7 @@ function createBuilderCrossorigin(
     : undefined;
 }
 
-function createBuilderFavicon(
+export function createBuilderFavicon(
   favicon: NormalizedConfig['output']['favicon'],
   configDir: NormalizedConfig['source']['configDir'],
   appContext: IAppContext,

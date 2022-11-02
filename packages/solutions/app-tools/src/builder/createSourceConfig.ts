@@ -38,7 +38,7 @@ export function createSourceConfig(
   };
 }
 
-function createBuilderAlias(
+export function createBuilderAlias(
   alias: NormalizedConfig['source']['alias'],
   appContext: IAppContext,
 ) {
@@ -54,10 +54,11 @@ function createBuilderAlias(
   return applyOptionsChain<Alias, unknown>(defaultAlias, alias as Alias);
 }
 
-function createBuilderInclude(
+export function createBuilderInclude(
   include: NormalizedConfig['source']['include'],
   appContext: IAppContext,
 ) {
+  const defaultInclude = [appContext.internalDirectory];
   const transformInclude = (include || [])
     .map(include => {
       if (typeof include === 'string') {
@@ -68,7 +69,7 @@ function createBuilderInclude(
       }
       return include;
     })
-    .concat([appContext.internalDirectory]); // internalDirectory should by compiled by default
+    .concat(defaultInclude); // concat default Include
 
   const root = findMonorepoRoot(appContext.appDirectory);
   if (!root) {
@@ -89,11 +90,11 @@ function createBuilderInclude(
   return transformInclude;
 }
 
-function createBuilderModuleScope(
+export function createBuilderModuleScope(
   moduleScopes: NormalizedConfig['source']['moduleScopes'],
 ) {
-  let builderModuleScope: any[] = [];
   if (moduleScopes) {
+    let builderModuleScope: any[] = [];
     const DEFAULT_SCOPES: Array<string | RegExp> = [
       './src',
       './shared',
@@ -108,8 +109,10 @@ function createBuilderModuleScope(
     } else {
       builderModuleScope = [DEFAULT_SCOPES, moduleScopes];
     }
+    return builderModuleScope;
+  } else {
+    return undefined;
   }
-  return builderModuleScope;
 
   function isPrimitiveScope(items: unknown[]): items is Array<string | RegExp> {
     return items.every(

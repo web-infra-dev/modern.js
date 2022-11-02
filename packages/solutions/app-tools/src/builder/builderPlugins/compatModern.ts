@@ -12,8 +12,8 @@ import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 import { getEntryOptions, ChainIdentifier } from '@modern-js/utils';
 import { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import { BottomTemplatePlugin } from './webpack-plugin.bottomTemplate';
-import { createCopyPattern } from './share';
+import { BottomTemplatePlugin } from '../webpackPlugins/htmlBottomTemplate';
+import { createCopyPattern } from '../share';
 
 type Parameter<T extends (arg: any) => void> = Parameters<T>[0];
 type FnParameter<
@@ -108,8 +108,6 @@ export const PluginCompatModern = (
 
 /**
  * register builder hooks callback
- * @param api
- * @param options
  */
 function applyCallbacks(
   api: BuilderPluginAPI,
@@ -131,9 +129,6 @@ function applyCallbacks(
 
 /**
  * compat some config, if target is `node`
- * @param chain
- * @param modernConfig
- * @param isProd
  */
 function applyNodeCompat(
   chain: WebpackChain,
@@ -202,7 +197,6 @@ function applyNodeCompat(
 
 /**
  * inject bottom template
- * @param param0
  */
 function applyBottomHtmlWebpackPlugin({
   api,
@@ -219,7 +213,7 @@ function applyBottomHtmlWebpackPlugin({
 }) {
   // inject bottomTemplate into html-webpack-plugin
   for (const entryName of Object.keys(api.context.entry)) {
-    // FIXME:
+    // FIXME: the only need necessary
     const baseTemplateParams = {
       entryName,
       title: getEntryOptions<string | undefined>(

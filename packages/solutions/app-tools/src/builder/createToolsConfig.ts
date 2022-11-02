@@ -147,27 +147,25 @@ function createBuilderTsLoader(
     applyOptionsChain<any, TsLoaderUtils>(defaultTsLoader, tsLoader, utils);
 }
 
-function createBuilderBabel(
+export function createBuilderBabel(
   babel: NormalizedConfig['tools']['babel'],
   lodash: NormalizedConfig['tools']['lodash'],
 ): BuilderToolConfig['babel'] {
-  return babel || lodash
-    ? (config, utils) => {
-        const lodashConfig = applyOptionsChain(
-          { id: ['async', 'lodash-bound'] },
-          lodash as any,
-        );
-        utils.addPlugins([['lodash', lodashConfig]]);
-        return applyOptionsChain(config, babel || {}, utils);
-      }
-    : undefined;
+  return (config, utils) => {
+    const lodashConfig = applyOptionsChain(
+      { id: ['async', 'lodash-bound'] },
+      lodash as any,
+    );
+    utils.addPlugins([['lodash', lodashConfig]]);
+    return applyOptionsChain(config, babel || {}, utils);
+  };
 }
 
-function createBuilderTsChecker(output: NormalizedConfig['output']) {
+export function createBuilderTsChecker(output: NormalizedConfig['output']) {
   if (output.enableTsLoader || output.disableTsChecker) {
     return false;
   }
-  const defaultTsLoader = {
+  const defaultTsChecker = {
     issue: {
       include: [{ file: '**/src/**/*' }],
       exclude: [
@@ -176,5 +174,5 @@ function createBuilderTsChecker(output: NormalizedConfig['output']) {
       ],
     },
   };
-  return defaultTsLoader;
+  return defaultTsChecker;
 }

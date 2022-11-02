@@ -1,120 +1,31 @@
-import path from 'path';
-import {
-  Configuration,
-  getWebpackConfig,
-  WebpackConfigTarget,
-} from '@modern-js/webpack';
-import { fs, logger, isUseSSRBundle, chalk } from '@modern-js/utils';
-import WebpackChain from '@modern-js/utils/webpack-chain';
-import type { PluginAPI, NormalizedConfig, IAppContext } from '@modern-js/core';
+import { isUseSSRBundle } from '@modern-js/utils';
+import type { BuilderTarget } from '@modern-js/builder-shared';
+import type { PluginAPI } from '@modern-js/core';
 import type { InspectOptions } from '../utils/types';
+import createBuilder from '../builder';
 
-export const formatWebpackConfig = (
-  config: Configuration,
-  verbose?: boolean,
-) => {
-  const stringify = WebpackChain.toString as (
-    config: Configuration,
-    options: { verbose?: boolean },
-  ) => string;
-
-  return `module.exports = ${stringify(config, { verbose })};`;
-};
-
-export const inspect = (api: PluginAPI, options: InspectOptions) => {
-  process.env.NODE_ENV = options.env;
-
+export const inspect = async (api: PluginAPI, options: InspectOptions) => {
   const resolvedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
 
-  const outputFiles: string[] = [];
-
-  outputFiles.push(
-    printInspectResult(
-      WebpackConfigTarget.CLIENT,
-      appContext,
-      resolvedConfig,
-      options,
-    ),
-  );
-
+  const targets: BuilderTarget[] = ['web'];
   if (resolvedConfig.output.enableModernMode) {
-    outputFiles.push(
-      printInspectResult(
-        WebpackConfigTarget.MODERN,
-        appContext,
-        resolvedConfig,
-        options,
-      ),
-    );
+    targets.push('modern-web');
   }
-
   if (isUseSSRBundle(resolvedConfig)) {
-    outputFiles.push(
-      printInspectResult(
-        WebpackConfigTarget.NODE,
-        appContext,
-        resolvedConfig,
-        options,
-      ),
-    );
+    targets.push('node');
   }
-
-  logger.success(
-    'Inspect succeed, you can open following files to view the full webpack config: \n',
-  );
-  outputFiles.forEach(file => {
-    logger.log(
-      `  - ${chalk.yellow(path.relative(appContext.appDirectory, file))}`,
-    );
-  });
-  logger.log();
-};
-
-export const getTagByWebpackTarget = (webpackTarget: WebpackConfigTarget) => {
-  switch (webpackTarget) {
-    case WebpackConfigTarget.CLIENT:
-      return 'client';
-    case WebpackConfigTarget.MODERN:
-      return 'modern';
-    case WebpackConfigTarget.NODE:
-      return 'ssr';
-    default:
-      throw Error(`Unsupported webpack target: ${webpackTarget as number}`);
-  }
-};
-
-export const printInspectResult = (
-  webpackTarget: WebpackConfigTarget,
-  appContext: IAppContext,
-  resolvedConfig: NormalizedConfig,
-  options: InspectOptions,
-) => {
-  const webpackConfig = getWebpackConfig(
-    webpackTarget,
+  const builder = await createBuilder({
+    target: targets,
     appContext,
-    resolvedConfig,
-  )!;
-  const { output, verbose, console = true } = options;
-  const outputPath = output
-    ? path.posix.join(appContext.distDirectory, output)
-    : appContext.distDirectory;
+    normalizedConfig: resolvedConfig,
+  });
 
-  const tag = getTagByWebpackTarget(webpackTarget);
-  const outputFile = `webpack.${tag}.inspect.js`;
-  const outputFilePath = path.posix.join(outputPath, outputFile);
-  const rawWebpackConfig = formatWebpackConfig(webpackConfig, verbose);
-
-  fs.outputFileSync(outputFilePath, rawWebpackConfig);
-
-  if (console) {
-    logger.log(
-      `
-webpack config for ${tag} build:
-${rawWebpackConfig}
-    `,
-    );
-  }
-
-  return outputFilePath;
+  const env: any = options.env || process.env.NODE_ENV;
+  return builder.inspectConfig({
+    env,
+    verbose: options.verbose,
+    outputPath: options.output,
+    writeToDisk: true,
+  });
 };
