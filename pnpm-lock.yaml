@@ -14848,7 +14848,7 @@ packages:
       vue: 2.7.13
       vue-loader: 15.10.0_56p4xh3enyhvhwm2ls7r5cknri
       vue-router: 3.6.5_vue@2.7.13
-      vue-server-renderer: 2.7.13
+      vue-server-renderer: 2.7.13_webpack@4.46.0
       vue-template-compiler: 2.7.13
       vuepress-html-webpack-plugin: 3.2.0_webpack@4.46.0
       vuepress-plugin-container: 2.1.5
@@ -35655,8 +35655,10 @@ packages:
       vue: 2.7.13
     dev: true
 
-  /vue-server-renderer/2.7.13:
+  /vue-server-renderer/2.7.13_webpack@4.46.0:
     resolution: {integrity: sha512-GvNnUSHE04+B7EhOrk4QWbLKFMdmj2wLEEJEvtVQ/s04nKIHtxSvG4l9/i+p8q7iN3osEhfh0b/cAmXHifgSaA==}
+    peerDependencies:
+      webpack: ^4
     dependencies:
       chalk: 4.1.2
       hash-sum: 2.0.0
@@ -35666,6 +35668,7 @@ packages:
       resolve: 1.22.1
       serialize-javascript: 6.0.0
       source-map: 0.5.6
+      webpack: 4.46.0
     dev: true
 
   /vue-style-loader/4.1.3:

@@ -16,6 +16,14 @@ function readPackage(pkg, _context) {
     pkg.dependencies['esbuild'] = '0.15.7';
   }
 
+  // vuepress v1 still depend on webpack v4
+  if (pkg.name === 'vue-server-renderer') {
+    pkg.peerDependencies = {
+      ...pkg.peerDependencies,
+      webpack: '^4',
+    };
+  }
+
   return pkg;
 }
 
