@@ -1,0 +1,132 @@
+
+.card{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 55px;
+}
+
+.left .descWrap{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: 1;
+  margin-right: 54px;
+  margin-right: 3vw;
+}
+
+.left .descWrap .title{
+  width: 100%;
+  text-align: right;
+}
+
+
+.right{
+  flex-direction: row-reverse;
+}
+
+.right .descWrap{
+  margin-left: 54px;
+  margin-left: 3vw;
+  flex: 1;
+}
+
+.descWrap{
+  max-width: 35%;
+}
+
+.title{
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.16;
+  color: #fff;
+}
+
+.desc{
+  font-size: 14px;
+  line-height: 20px;
+  color: #C9CDD4;
+  margin-top: 16px;
+}
+
+.seeDetails{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 130px;
+  height: 42px;
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 40px;
+  margin-top: 50px;
+  transition: all .3s ease;
+}
+
+.seeDetails:hover{
+  border: 1px solid rgba(132, 218, 255, 1);
+  color: rgba(132, 218, 255, 1);
+  text-decoration: none;
+  transition: all .3s ease;
+}
+
+.seeDetails:hover .rightArrow{
+  stroke: rgba(132, 218, 255, 1);
+}
+
+.rightArrow{
+  display: inline-block;
+  margin-left: 10px;
+  stroke: var(--ifm-color-primary);
+}
+
+.videoWrap{
+  width: 789px;
+  /* height: 443.8px; */
+  min-width: 526px;
+  min-height: 295.8px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  object-fit: contain;
+  border: 1px solid #6F6F6F;
+  border-radius: 8px;
+}
+
+@media screen and (max-width: 1240px) {
+  .videoWrap{
+    width: 62.5vw;
+    /* height: 35.7vw; */
+    /* margin-top: 10px; */
+  }
+}
+
+
+
+@media screen and (max-width: 860px) {
+  .card{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  .right .descWrap{
+    margin-left: 0;
+  }
+  .descWrap{
+    width: 100%;
+    max-width: 100%;
+  }
+  .videoWrap{
+    width: 100%;
+    min-width: auto;
+    max-width: 100%;
+    min-height: auto;
+    /* height: calc(100% * 16 / 9); */
+    /* margin-top: 10px; */
+  }
+  .seeDetails{
+    display: none;
+  }
+  .title{
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+}
