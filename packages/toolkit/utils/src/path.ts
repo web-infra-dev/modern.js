@@ -24,32 +24,16 @@ export const getTemplatePath = (prefix?: string) => {
   return path.resolve(...parts);
 };
 
-export interface CompilePathMatcherRegExpOptions {
-  withBoundary?: boolean;
-  flags?: string;
-}
-
 /**
  * Compile path string to RegExp.
+ * @note Only support posix path.
  */
-export function compilePathMatcherRegExp(
-  match: string | RegExp,
-  options: CompilePathMatcherRegExpOptions = {},
-) {
-  const opts = {
-    withBoundary: false,
-    flags: 'g',
-    ...options,
-  };
+export function compilePathMatcherRegExp(match: string | RegExp) {
   if (typeof match !== 'string') {
     return match;
   }
   const escaped = _.escapeRegExp(match);
-  if (opts.withBoundary) {
-    return new RegExp(`^${escaped}(?=/)|^${escaped}$`, opts.flags);
-  } else {
-    return new RegExp(escaped, opts.flags);
-  }
+  return new RegExp(`(?<=\\W|^)${escaped}(?=\\W|$)`);
 }
 
 /** @internal @see {@link upwardPaths} */
