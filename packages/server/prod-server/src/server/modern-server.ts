@@ -219,6 +219,25 @@ export class ModernServer implements ModernServerInterface {
     return this.requestHandler.bind(this);
   }
 
+  public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
+    req.logger = this.logger;
+    req.metrics = this.metrics;
+    const context = createContext(req, res);
+    const matched = this.router.match(url || context.path);
+    if (!matched) {
+      return null;
+    }
+
+    const route = matched.generate(context.url);
+    const result = await this.handleWeb(context, route);
+
+    if (!result) {
+      return null;
+    }
+
+    return result.content.toString();
+  }
+
   public async createHTTPServer(
     handler: (
       req: IncomingMessage,
