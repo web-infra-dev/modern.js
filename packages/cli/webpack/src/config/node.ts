@@ -83,7 +83,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   output() {
     super.output();
-    // TODO: handle node output
     this.chain.output
       .libraryTarget('commonjs2')
       .filename(`${SERVER_BUNDLE_DIRECTORY}/[name].js`);
