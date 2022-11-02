@@ -52,7 +52,7 @@ local-test-project/*
 
 # website
 .docusaurus
-website/main
+website/main/build
 website/**/.temp
 
 .wireit/
