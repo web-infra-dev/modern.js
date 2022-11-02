@@ -183,6 +183,10 @@ export class Server {
     };
   }
 
+  public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
+    return this.server.render(req, res, url);
+  }
+
   private async createHookRunner() {
     // clear server manager every create time
     serverManager.clear();
