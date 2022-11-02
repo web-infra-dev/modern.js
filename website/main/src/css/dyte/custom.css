@@ -1,0 +1,55 @@
+@import url('./root.css');
+@import url('./nav.css');
+@import url('./menu.css');
+@import url('./code.css');
+@import url('./md.css');
+@import url('./icon.css');
+@import url('./footer.css');
+
+/* @font-face {
+  font-family: Fira Code VF;
+  font-weight: 300 700;
+  font-style: normal;
+  src: url(/static/fonts/FiraCode-VF.woff2) format('woff2-variations'),
+    url(/static/fonts/FiraCode-VF.woff) format('woff-variations');
+} */
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+
+.new-badge::after {
+  align-items: baseline;
+  margin-left: 6px;
+  content: 'NEW';
+  padding: 2px 4px;
+  font-size: 11px;
+  color: var(--docs-color-primary-100);
+  border: 1px solid var(--docs-color-primary-100);
+  border-radius: 6px;
+}
+
+.navbar-sidebar__item {
+  padding-right: 0;
+}
+
+.navbar-sidebar__back {
+  background: none;
+  font-size: 14px;
+}
+
+.ping::after {
+  display: inline-block;
+  content: '';
+  background: var(--docs-color-primary);
+  width: 4px;
+  height: 4px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+.react-toggle {
+  display: none;
+}
+
+video {
+  margin-bottom: 20px;
+}

@@ -1,6 +1,7 @@
 {
   "name": "dev-hmr",
   "private": true,
+  "name": "@e2e/builder-dev-hmr",
   "version": "0.1.0",
   "scripts": {},
   "dependencies": {
