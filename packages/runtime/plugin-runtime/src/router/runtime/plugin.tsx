@@ -14,6 +14,7 @@ export const routerPlugin = ({
   serverBase = [],
   supportHtml5History = true,
   routesConfig,
+  createRoutes,
 }: RouterConfig): Plugin => {
   const select = (pathname: string) =>
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
@@ -25,7 +26,9 @@ export const routerPlugin = ({
           const getRouteApp = () => {
             return (props => {
               const routeElements = renderRoutes(routesConfig);
-              const routes = createRoutesFromElements(routeElements);
+              const routes = createRoutes
+                ? createRoutes()
+                : createRoutesFromElements(routeElements);
 
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
