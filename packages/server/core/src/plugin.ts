@@ -19,6 +19,7 @@ import type {
   AfterRenderContext,
   MiddlewareContext,
   ISAppContext,
+  ServerRoute,
 } from '@modern-js/types';
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
 import type { Options } from 'http-proxy-middleware';
@@ -58,6 +59,18 @@ export type WebServerStartInput = {
   pwd: string;
   config: Record<string, any>;
 };
+
+export type BeforeRouteHandler = (
+  context: ModernServerContext,
+) => Promise<void>;
+
+const preparebeforeRouteHandler = createAsyncPipeline<
+  {
+    serverRoutes: ServerRoute[];
+    distDir: string;
+  },
+  BeforeRouteHandler
+>();
 
 const prepareWebServer = createAsyncPipeline<WebServerStartInput, WebAdapter>();
 
@@ -178,6 +191,7 @@ const serverHooks = {
   gather,
   config,
   prepare,
+  preparebeforeRouteHandler,
   prepareWebServer,
   prepareApiServer,
   onApiChange,

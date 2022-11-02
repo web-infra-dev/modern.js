@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`data loader basic usage 1`] = `
+"
+    
+    import { createRequest } from '/packages/cli/plugin-data-loader/src/cli/create-request';
+  
+    
+    const loader = createRequest('layout');
+    export default loader;
+    export { loader };
+  
+  "
+`;

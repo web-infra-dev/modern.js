@@ -88,7 +88,6 @@ export default (): CliPlugin => ({
         const appContext = api.useAppContext();
         const resolvedConfig = api.useResolvedConfigContext();
         const hookRunners = api.useHookRunners();
-
         try {
           fs.emptydirSync(appContext.internalDirectory);
         } catch {

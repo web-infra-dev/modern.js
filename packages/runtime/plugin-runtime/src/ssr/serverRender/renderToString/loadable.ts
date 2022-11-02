@@ -33,7 +33,7 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
   chunksMap.js = (chunksMap.js || '') + getLoadableScripts(extractor);
 
   for (const v of chunks) {
-    const fileType = extname(v.url!).slice(1);
+    const fileType = extname(v.url!);
 
     if (fileType === 'js') {
       const props = [];

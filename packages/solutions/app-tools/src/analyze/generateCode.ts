@@ -15,6 +15,7 @@ import type {
   RouteLegacy,
   PageRoute,
 } from '@modern-js/types';
+import esbuild from 'esbuild';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
 import {
@@ -86,6 +87,44 @@ export const createImportStatements = (
     .join('\n');
 };
 
+const buildLoader = async (entry: string, outfile: string) => {
+  const loader: { [ext: string]: esbuild.Loader } = {
+    '.js': 'jsx',
+    '.ts': 'tsx',
+  };
+  const EXTERNAL_REGEXP = /^[^./]|^\.[^./]|^\.\.[^/]/;
+  await esbuild.build({
+    format: 'cjs',
+    platform: 'node',
+    target: 'esnext',
+    loader,
+    watch: process.env.NODE_ENV === 'development' && {},
+    bundle: true,
+    logLevel: 'error',
+    entryPoints: [entry],
+    outfile,
+    plugins: [
+      {
+        name: 'make-all-packages-external',
+        setup(build) {
+          // https://github.com/evanw/esbuild/issues/619#issuecomment-751995294
+          build.onResolve({ filter: EXTERNAL_REGEXP }, args => {
+            let external = true;
+            // FIXME: windows external entrypoint
+            if (args.kind === 'entry-point') {
+              external = false;
+            }
+            return {
+              path: args.path,
+              external,
+            };
+          });
+        },
+      },
+    ],
+  });
+};
+
 export const generateCode = async (
   appContext: IAppContext,
   config: NormalizedConfig,
@@ -94,6 +133,7 @@ export const generateCode = async (
 ) => {
   const {
     internalDirectory,
+    distDirectory,
     srcDirectory,
     internalDirAlias,
     internalSrcAlias,
@@ -148,12 +188,49 @@ export const generateCode = async (
 
         const config = useResolvedConfigContext();
         const ssr = config?.server.ssr;
-        const mode = typeof ssr === 'object' ? ssr.mode : 'string';
+
+        let mode: false | 'stream' | 'string';
+        if (ssr) {
+          mode = typeof ssr === 'object' ? ssr.mode || 'string' : 'string';
+        } else {
+          mode = false;
+        }
 
         const { code } = await hookRunners.beforeGenerateRoutes({
           entrypoint,
-          code: templates.fileSystemRoutes({ routes, ssrMode: mode }),
+          code: templates.fileSystemRoutes({
+            routes,
+            ssrMode: mode,
+            nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+          }),
         });
+
+        // extract nested router loaders
+        if (entrypoint.nestedRoutesEntry) {
+          const routesServerFile = path.join(
+            internalDirectory,
+            entryName,
+            'routes.server.js',
+          );
+          const outputRoutesServerFile = path.join(
+            distDirectory,
+            'routes-server',
+            entryName,
+            'index.js',
+          );
+
+          const code = templates.routesForServer({
+            routes: routes as (NestedRoute | PageRoute)[],
+            alias: {
+              name: internalSrcAlias,
+              basename: srcDirectory,
+            },
+          });
+          await fs.ensureFile(routesServerFile);
+          await fs.writeFile(routesServerFile, code);
+
+          await buildLoader(routesServerFile, outputRoutesServerFile);
+        }
 
         fs.outputFileSync(
           path.resolve(

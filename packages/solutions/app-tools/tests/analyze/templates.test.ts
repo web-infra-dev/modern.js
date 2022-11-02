@@ -1,8 +1,9 @@
+import { RouteLegacy } from '@modern-js/types/cli';
 import { fileSystemRoutes } from '../../src/analyze/templates';
 
 describe('fileSystemRoutes', () => {
   test('generate code for legacy router', async () => {
-    const routes = [
+    const routes: RouteLegacy[] = [
       {
         path: '/user',
         exact: true,
@@ -11,7 +12,7 @@ describe('fileSystemRoutes', () => {
       },
     ];
 
-    const code = fileSystemRoutes({ routes });
+    const code = fileSystemRoutes({ routes, ssrMode: false });
     expect(code).toMatchSnapshot();
   });
 
@@ -49,7 +50,7 @@ describe('fileSystemRoutes', () => {
         ],
       },
     ];
-    const code = fileSystemRoutes({ routes });
+    const code = fileSystemRoutes({ routes, ssrMode: false });
     expect(code).toMatchSnapshot();
   });
 });

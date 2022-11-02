@@ -1,8 +1,8 @@
-import { fs, logger, isSSR } from '@modern-js/utils';
+import { logger, isSSR } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { BuilderTarget } from '@modern-js/builder';
 import { createDevCompiler } from '../utils/createCompiler';
-import { createServer } from '../utils/createServer';
+import { createServer, injectDataLoaderPlugin } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { printInstructions } from '../utils/printInstructions';
 import { DevOptions } from '../utils/types';
@@ -27,7 +27,6 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     serverConfigFile,
     serverInternalPlugins,
   } = appContext;
-
   const checkedEntries = await getSpecifiedEntries(
     options.entry || false,
     entrypoints,
@@ -38,8 +37,6 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     checkedEntries,
   });
   appContext.checkedEntries = checkedEntries;
-
-  fs.emptyDirSync(distDirectory);
 
   await buildServerConfig({
     appDirectory,
@@ -89,7 +86,7 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     pwd: appDirectory,
     config: userConfig,
     serverConfigFile,
-    internalPlugins: serverInternalPlugins,
+    internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
   });
 
   app.listen(port, async (err: Error) => {

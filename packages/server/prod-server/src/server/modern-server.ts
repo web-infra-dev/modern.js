@@ -8,8 +8,9 @@ import {
   WebAdapter,
   APIServerStartInput,
   ServerOptions,
+  BeforeRouteHandler,
 } from '@modern-js/server-core';
-import type { ModernServerContext } from '@modern-js/types';
+import type { ModernServerContext, ServerRoute } from '@modern-js/types';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
@@ -99,6 +100,8 @@ export class ModernServer implements ModernServerInterface {
 
   private routeRenderHandler!: ReturnType<typeof createRenderHandler>;
 
+  private beforeRouteHandler: BeforeRouteHandler | null = null;
+
   private frameWebHandler: WebAdapter | null = null;
 
   private frameAPIHandler: Adapter | null = null;
@@ -165,6 +168,7 @@ export class ModernServer implements ModernServerInterface {
     this.warmupSSRBundle();
 
     await this.prepareFrameHandler();
+    await this.prepareBeforeRouteHandler(usageRoutes, distDir);
 
     // Only work when without setting `assetPrefix`.
     // Setting `assetPrefix` means these resources should be uploaded to CDN.
@@ -191,6 +195,8 @@ export class ModernServer implements ModernServerInterface {
     // execute after staticFileHandler, can rename to staticFallbackHandler if needed.
     this.addHandler(faviconFallbackHandler);
 
+    this.addRouteHandler();
+
     this.addHandler(this.routeHandler.bind(this));
 
     // compose middlewares to http handler
@@ -200,6 +206,19 @@ export class ModernServer implements ModernServerInterface {
   // server ready
   public onRepack(_: BuildOptions) {
     // empty
+  }
+
+  public addRouteHandler() {
+    this.addHandler(async (context, next) => {
+      if (this.beforeRouteHandler) {
+        await this.beforeRouteHandler(context);
+        if (this.isSend(context.res)) {
+          return;
+        }
+      }
+      // eslint-disable-next-line consistent-return
+      return next();
+    });
   }
 
   protected onServerChange({ filepath }: { filepath: string }) {
@@ -280,6 +299,25 @@ export class ModernServer implements ModernServerInterface {
   protected render404(context: ModernServerContext) {
     context.error(ERROR_DIGEST.ENOTF, '404 Not Found');
     this.renderErrorPage(context, 404);
+  }
+
+  protected async prepareBeforeRouteHandler(
+    specs: ServerRoute[],
+    distDir: string,
+  ) {
+    const { runner } = this;
+
+    const handler = await runner.preparebeforeRouteHandler(
+      {
+        serverRoutes: specs,
+        distDir,
+      },
+      {
+        onLast: () => null as any,
+      },
+    );
+
+    this.beforeRouteHandler = handler;
   }
 
   // gather frame extension and get framework handler

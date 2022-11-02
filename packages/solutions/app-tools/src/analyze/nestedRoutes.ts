@@ -8,8 +8,15 @@ const LAYOUT_FILE = 'layout';
 const PAGE_FILE = 'page';
 const LOADING_FILE = 'loading';
 const ERROR_FILE = 'error';
+const LOADER_FILE = 'loader';
 
-const conventionNames = [LAYOUT_FILE, PAGE_FILE, LOADING_FILE, ERROR_FILE];
+const conventionNames = [
+  LAYOUT_FILE,
+  PAGE_FILE,
+  LOADING_FILE,
+  ERROR_FILE,
+  LOADER_FILE,
+];
 
 const getPathWithoutExt = (filename: string) => {
   const extname = path.extname(filename);
@@ -126,6 +133,10 @@ export const walk = async (
         itemPath,
       );
       route.children?.push(childRoute);
+    }
+
+    if (itemWithoutExt === LOADER_FILE) {
+      route.loader = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
 
     if (itemWithoutExt === LOADING_FILE) {
