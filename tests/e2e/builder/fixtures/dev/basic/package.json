@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "@e2e/builder-dev-basic",
   "version": "0.1.0",
   "scripts": {},
   "dependencies": {

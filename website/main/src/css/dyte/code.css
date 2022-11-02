@@ -1,0 +1,17 @@
+pre.prism-code {
+  border: 1px solid var(--code-border-color);
+}
+
+pre,
+code {
+  font-variant-ligatures: none;
+}
+
+code {
+  color: #476582;
+  border: 1px solid #ddd;
+}
+
+html[data-theme='dark'] code {
+  color: #aac8e4;
+}
