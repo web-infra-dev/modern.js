@@ -1,0 +1,116 @@
+:root {
+  --ifm-color-primary: #0095ff;
+  --ifm-color-primary-dark: rgb(33, 175, 144);
+  --ifm-color-primary-darker: rgb(31, 165, 136);
+  --ifm-color-primary-darkest: rgb(26, 136, 112);
+  --ifm-color-primary-light: rgb(70, 203, 174);
+  --ifm-color-primary-lighter: rgb(102, 212, 189);
+  --ifm-color-primary-lightest: rgb(146, 224, 208);
+
+  /* navbar 字体和背景颜色、高度 */
+  /* --ifm-navbar-link-color: #fff; */
+  /* --ifm-navbar-background-color: #000; */
+  /* --home-border-color: rgba(78, 202, 255, 0.3); */
+  --ifm-navbar-height: 3.375rem;
+  --ifm-navbar-search-input-background-color: rgba(255, 255, 255, 0.24);
+  --ifm-navbar-search-input-color: #969faf;
+  --ifm-navbar-shadow: none;
+  /* --search-local-hit-color: #444950; */
+  /* --search-local-modal-background: #000; */
+
+  /* link 颜色 */
+  /* --ifm-link-color: #2972b7; */
+
+  /* 代码条配置 */
+  --ifm-code-border-radius: 8px;
+  --ifm-code-background: #f1f1f1;
+  --ifm-code-padding-horizontal: 0.4rem;
+  --ifm-code-padding-vertical: 0.15rem;
+  --ifm-code-font-size: 90%;
+
+  /* 行高 */
+  --ifm-line-height-base: 1.8;
+
+  /* 不知道干嘛的 */
+  --ifm-hr-border-color: #000;
+
+  /* 页面横向间距 */
+  --ifm-spacing-horizontal: 1.5rem;
+
+  /* 分割线颜色 */
+  --ifm-toc-border-color: #dedede;
+  --ifm-toc-border-color-100: #dedede5c;
+
+  /* 字体 */
+  --ifm-font-family-base: 'Inter var', system-ui, -apple-system, Segoe UI,
+    Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont,
+    'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
+  --ifm-font-family-monospace: 'Fira Code VF', SFMono-Regular, Menlo, Monaco,
+    Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  /* 高亮代码块背景颜色 */
+  --docusaurus-highlighted-code-line-bg: rgba(147, 178, 244, 0.38);
+}
+
+html[data-theme='dark'] {
+  --ifm-code-background: #2f2f2f;
+
+  --ifm-link-color: #1a90ff;
+  --ifm-tabs-color-active-border: #1a90ff;
+  --ifm-tabs-color-active: #1a90ff;
+
+  --ifm-color-primary: #1a90ff;
+
+  --ifm-footer-background-color: #1c1c1c;
+  --ifm-background-surface-color: #161616;
+  --ifm-background-color: #161616;
+  --ifm-toc-border-color: #2e2e2e;
+
+  --ifm-color-content: #e7e7e7;
+
+  --docusaurus-highlighted-code-line-bg: rgba(105, 105, 105, 0.3);
+}
+
+/* Dyte Docs Tokens */
+:root {
+  --docs-color-primary-dark: #2059ea;
+  --docs-color-primary: #2160fd;
+  --docs-color-primary-100: #1a90ff;
+  --docs-color-primary-tint: rgba(127, 163, 255, 0.16);
+  --docs-color-primary-tint-light: rgba(33 96 253/0.24);
+
+  --docs-color-border: #dadde1;
+  --docs-color-text: #000000;
+  --docs-color-text-100: #646464;
+
+  --docs-color-background: #ffffff;
+  --docs-color-background-100: #f8f8f8;
+  --docs-color-background-200: #efefef;
+  --docs-color-background-300: #dcdcdc;
+
+  /* Color from prism themes */
+  --docs-color-code-background: #f6f8fa;
+
+  --docs-color-android: #44db85;
+  --docs-color-apple: var(--docs-color-text) !important;
+
+  --ifm-table-border-color: var(--docs-color-border);
+  /* --code-border-color: var(--docs-color-border); */
+
+  --doc-sidebar-width: 250px !important;
+}
+
+html[data-theme='dark'] {
+  --docs-color-border: #2e2e2e;
+
+  --docs-color-text: #ffffff;
+  --docs-color-text-100: #b4b4b4;
+
+  --docs-color-background: #161616;
+  --docs-color-background-100: #1c1c1c;
+  --docs-color-background-200: #2a2a2a;
+  --docs-color-background-300: #2e2e2e;
+
+  --docs-color-code-background: #1e1e1e;
+}

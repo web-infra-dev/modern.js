@@ -62,7 +62,10 @@ export function createFetchHeaders(
   return headers;
 }
 
-export const routerPlugin = ({ routesConfig }: RouterConfig): Plugin => {
+export const routerPlugin = ({
+  routesConfig,
+  createRoutes,
+}: RouterConfig): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     setup: () => {
@@ -72,7 +75,9 @@ export const routerPlugin = ({ routesConfig }: RouterConfig): Plugin => {
             context.ssrContext!;
 
           const routeElements = renderRoutes(routesConfig);
-          const routes = createRoutesFromElements(routeElements);
+          const routes = createRoutes
+            ? createRoutes()
+            : createRoutesFromElements(routeElements);
 
           const { query } = createStaticHandler(routes);
           const remixRequest = createFetchRequest(request);

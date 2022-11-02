@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "@e2e/builder-dev-basic",
+  "version": "0.1.0",
+  "scripts": {},
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14",
+    "@types/react": "^17",
+    "@types/react-dom": "^17",
+    "typescript": "^4"
+  }
+}
