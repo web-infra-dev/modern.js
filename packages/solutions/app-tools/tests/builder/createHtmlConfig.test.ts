@@ -1,3 +1,4 @@
+import { join } from 'path';
 import {
   createBuilderAppIcon,
   createBuilderFavicon,
@@ -11,7 +12,8 @@ describe('test create Builder AppIcon Config', () => {
     };
     const configDir = 'icons';
     const appIcon = createBuilderAppIcon(configDir, appContext as any);
-    expect(appIcon).toBe(`${__dirname}/fixtures/icons/icon.png`);
+
+    expect(appIcon).toBe(join(__dirname, 'fixtures/icons/icon.png'));
   });
 
   it('should return `undefined`', () => {
@@ -36,7 +38,7 @@ describe('test create Builder Favicon Config', () => {
       appContext as any,
     );
 
-    expect(favicon).toBe(`${__dirname}/fixtures/icons/favicon.svg`);
+    expect(favicon).toBe(join(__dirname, 'fixtures/icons/favicon.svg'));
   });
 
   it('should return pass favicon path', () => {
