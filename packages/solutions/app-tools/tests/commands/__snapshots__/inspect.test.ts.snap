@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`inspect command should format webpack config correctly 1`] = `
+exports[`inspect command should get builder config correctly 1`] = `
 "{
   dev: {
     hmr: true,

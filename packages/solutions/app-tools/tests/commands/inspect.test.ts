@@ -41,7 +41,7 @@ describe('inspect command', () => {
     output: `${__dirname}/dist`,
   };
 
-  test('should format webpack config correctly', async () => {
+  test('should get builder config correctly', async () => {
     const { builderConfig } = await inspect(api as any, options);
     expect(builderConfig).toMatchSnapshot();
   });
