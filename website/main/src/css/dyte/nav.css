@@ -1,0 +1,26 @@
+nav.navbar {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.navbar__logo {
+  height: 26px;
+}
+
+.navbar__item {
+  font-size: 14px;
+}
+
+.navbar__logo {
+  height: 1.8rem;
+}
+
+.navbar {
+  border-bottom: 1px solid var(--home-border-color);
+  border-image-slice: 10%;
+}
+
+.navbar__search-input {
+  /* border-radius: 4px; */
+  /* outline: none; */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}

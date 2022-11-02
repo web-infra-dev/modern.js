@@ -1,0 +1,18 @@
+{
+  "item.label.教程": {
+    "message": "教程",
+    "description": "Navbar item with label 教程"
+  },
+  "item.label.指南": {
+    "message": "指南",
+    "description": "Navbar item with label 指南"
+  },
+  "item.label.API": {
+    "message": "API",
+    "description": "Navbar item with label API"
+  },
+  "item.label.社区": {
+    "message": "社区",
+    "description": "Navbar item with label 社区"
+  }
+}
