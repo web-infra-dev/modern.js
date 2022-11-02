@@ -1,8 +1,7 @@
 import { fs, logger, chalk, isSSR } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import type { Configuration } from '@modern-js/webpack';
-
-import { createCompiler } from '../utils/createCompiler';
+import { BuilderTarget } from '@modern-js/builder';
+import { createDevCompiler } from '../utils/createCompiler';
 import { createServer } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { printInstructions } from '../utils/printInstructions';
@@ -57,19 +56,13 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
 
   let compiler = null;
   if (!apiOnly) {
-    const { getWebpackConfig, WebpackConfigTarget } = await import(
-      '@modern-js/webpack'
-    );
-    const webpackConfigs = [
-      isSSR(userConfig) &&
-        getWebpackConfig(WebpackConfigTarget.NODE, appContext, userConfig),
-      getWebpackConfig(WebpackConfigTarget.CLIENT, appContext, userConfig),
-    ].filter(Boolean) as Configuration[];
-
-    compiler = await createCompiler({
+    const target: BuilderTarget[] = isSSR(userConfig)
+      ? ['web', 'node']
+      : ['web'];
+    compiler = await createDevCompiler({
+      target,
       api,
-      webpackConfigs,
-      userConfig,
+      normalizedConfig: userConfig,
       appContext,
     });
   }
