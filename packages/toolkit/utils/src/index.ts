@@ -21,6 +21,7 @@ export * from './getPackageManager';
 export * from './runtimeExports';
 export * from './readTsConfig';
 export * from './path';
+export * from './pathSerializer';
 export * from './generateMetaTags';
 export * from './prettyInstructions';
 export * from './alias';

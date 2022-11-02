@@ -1,54 +1,6 @@
 import path from 'path';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  compilePathMatcherRegExp,
-  createSnapshotSerializer,
-  joinPathParts,
-  matchUpwardPathsAsUnknown,
-  upwardPaths,
-} from '../src/utils';
-
-describe('joinPathParts', () => {
-  it('should join path parts', () => {
-    expect(joinPathParts('whatever', 0, ['a', 'b', 'c'])).toBe('/a');
-    expect(joinPathParts('whatever', 1, ['a', 'b', 'c'])).toBe('/a/b');
-    expect(joinPathParts('whatever', 2, ['a', 'b', 'c'])).toBe('/a/b/c');
-  });
-});
-
-describe('upwardPaths', () => {
-  it('should get upward paths', () => {
-    expect(upwardPaths('/a/b/c')).toEqual(['/a/b/c', '/a/b', '/a', '/']);
-  });
-});
-
-describe('compilePathMatcherSource', () => {
-  it('should compile string path matcher', () => {
-    const regExp = compilePathMatcherRegExp('/a/b/c');
-    expect(regExp.source).toBe('^\\/a\\/b\\/c(?=\\/)|^\\/a\\/b\\/c$');
-    expect(regExp.test('/a/b/c')).toBe(true);
-    expect(regExp.test('/a/b/c/')).toBe(true);
-    expect(regExp.test('/a/b/c/d')).toBe(true);
-    expect(regExp.test('/a/b/cd')).toBe(false);
-    expect(regExp.test('/a/c/c/')).toBe(false);
-  });
-});
-
-describe('matchUpwardPathsAsUnknown', () => {
-  it('should match upward paths', () => {
-    expect(matchUpwardPathsAsUnknown('/a/b/c')).toEqual([
-      { mark: 'unknown', match: '/a/b' },
-      { mark: 'unknown', match: '/a' },
-    ]);
-  });
-  it('should match upward paths with win32', () => {
-    expect(matchUpwardPathsAsUnknown('C:\\Windows\\User\\workspace')).toEqual([
-      { mark: 'unknown', match: '/c/Windows/User' },
-      { mark: 'unknown', match: '/c/Windows' },
-      { mark: 'unknown', match: '/c' },
-    ]);
-  });
-});
+import { createSnapshotSerializer } from '../src/utils';
 
 describe('createSnapshotSerializer', () => {
   it.each([
