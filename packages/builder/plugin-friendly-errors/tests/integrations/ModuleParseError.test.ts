@@ -3,8 +3,9 @@ import ModuleParseError from 'webpack/lib/ModuleParseError';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
 import { useFixture } from '@modern-js/e2e';
 import { test } from 'vitest';
-import { baseFormatter } from '@/formatter';
+import { baseFormatter, prettyFormatter } from '@/formatter';
 import { parseError } from '@/shared/utils';
+import { transformModuleParseError } from '@/transformer';
 
 test('MissingLoader', async () => {
   const options = await useFixture('@modern-js/e2e/fixtures/builder/basic');
@@ -22,9 +23,11 @@ test('MissingLoader', async () => {
   const error = new ModuleParseError(
     source,
     rawError,
-    ['bar-loader'],
+    ['bar-loader', 'foo-loader'],
     'javascript/esm',
   );
   const parsed = parseError(error);
   console.log(baseFormatter(parsed));
+  transformModuleParseError(parsed);
+  console.log(prettyFormatter(parsed));
 });

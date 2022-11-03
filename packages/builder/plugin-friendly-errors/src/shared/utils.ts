@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { WebpackError } from 'webpack';
 import StackTracey from 'stacktracey';
+import _ from '@modern-js/utils/lodash';
 import { baseFormatter } from '../formatter/base';
 import { ErrorFormatter, ErrorTransformer, ParsedError } from './types';
 
@@ -11,7 +12,7 @@ export const parseError = (error: WebpackError) => {
     return _traceSerializeCache.get(error)!;
   }
 
-  const parsed = cloneObject(error) as ParsedError;
+  const parsed = cloneErrorObject(error) as ParsedError;
   parsed.trace = new StackTracey(error).items;
   parsed.raw = error;
 
@@ -22,7 +23,14 @@ export const parseError = (error: WebpackError) => {
 
 export const cloneObject = <T>(error: T): T => {
   const cloned = Object.create(Object.getPrototypeOf(error));
-  Object.assign(cloned, error);
+  return _.merge(cloned, error);
+};
+
+export const cloneErrorObject = <T extends Error>(error: T): T => {
+  const cloned = cloneObject(error);
+  for (const k of Object.getOwnPropertyNames(error) as (keyof T)[]) {
+    cloned[k] || (cloned[k] = error[k]);
+  }
   return cloned;
 };
 
