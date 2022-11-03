@@ -21,6 +21,17 @@ exports[`plugins/fallback > should convert fallback rule correctly 1`] = `
             ],
           },
           {
+            "mimetype": "text/javascript",
+            "resolve": {
+              "fullySpecified": false,
+            },
+            "use": [
+              {
+                "loader": "data-uri",
+              },
+            ],
+          },
+          {
             "test": /bar/,
             "use": [
               {
@@ -63,6 +74,17 @@ exports[`plugins/fallback > should not convert fallback rule when output.enableA
                 "loader": "foo",
               },
             ],
+          },
+        ],
+      },
+      {
+        "mimetype": "text/javascript",
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "use": [
+          {
+            "loader": "data-uri",
           },
         ],
       },
