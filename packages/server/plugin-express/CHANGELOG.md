@@ -1,5 +1,14 @@
 # @modern-js/plugin-express
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/bff-core@1.21.1
+- @modern-js/bff-runtime@1.21.1
+- @modern-js/types@1.21.1
+- @modern-js/utils@1.21.1
+
 ## 1.21.0
 
 ### Patch Changes
