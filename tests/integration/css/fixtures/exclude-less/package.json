@@ -9,7 +9,6 @@
     "react": "^18",
     "react-dom": "^18",
     "@modern-js/runtime": "workspace:*",
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-less": "workspace:*"
+    "@modern-js/app-tools": "workspace:*"
   }
 }
