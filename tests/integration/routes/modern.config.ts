@@ -5,6 +5,11 @@ export default defineConfig({
     router: true,
     state: true,
   },
+  runtimeByEntries: {
+    one: {
+      router: false,
+    },
+  },
   // server: {
   //   ssr: {
   //     mode: 'stream',
