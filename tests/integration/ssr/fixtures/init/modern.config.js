@@ -1,7 +1,5 @@
 module.exports = {
-  runtime: {
-    router: true,
-  },
+  runtime: {},
   server: {
     ssr: true,
   },
