@@ -8,7 +8,7 @@ exports[`plugins/yaml > should add yaml rule properly 1`] = `
         "test": /\\\\\\.ya\\?ml\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/yaml-loader",
+            "loader": "<ROOT>/compiled/yaml-loader",
           },
         ],
       },

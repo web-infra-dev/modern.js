@@ -11,7 +11,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/builder-webpack-provider",
+              "<ROOT>",
               {
                 "not": /node_modules/,
               },
@@ -22,13 +22,13 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/babel-loader",
+            "loader": "<ROOT>/compiled/babel-loader",
             "options": {
               "presets": [
                 [
-                  "<ROOT>/packages/cli/babel-preset-app/dist/js/node/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
-                    "appDirectory": "<ROOT>/packages/builder/builder-webpack-provider",
+                    "appDirectory": "<ROOT>",
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",
@@ -40,7 +40,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/node_modules/<PNPM_INNER>/ts-loader/index.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/ts-loader/index.js",
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {
@@ -65,7 +65,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/builder-webpack-provider",
+              "<ROOT>",
               {
                 "not": /node_modules/,
               },
@@ -75,13 +75,13 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/babel-loader",
+            "loader": "<ROOT>/compiled/babel-loader",
             "options": {
               "presets": [
                 [
-                  "<ROOT>/packages/cli/babel-preset-app/dist/js/node/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
-                    "appDirectory": "<ROOT>/packages/builder/builder-webpack-provider",
+                    "appDirectory": "<ROOT>",
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",
@@ -93,7 +93,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/node_modules/<PNPM_INNER>/ts-loader/index.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/ts-loader/index.js",
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {

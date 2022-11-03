@@ -8,7 +8,7 @@ exports[`plugins/toml > should add toml rule properly 1`] = `
         "test": /\\\\\\.toml\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/toml-loader",
+            "loader": "<ROOT>/compiled/toml-loader",
           },
         ],
       },

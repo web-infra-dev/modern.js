@@ -8,7 +8,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/builder-webpack-provider",
+              "<ROOT>",
               {
                 "not": /node_modules/,
               },
@@ -18,29 +18,29 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/babel-loader",
+            "loader": "<ROOT>/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
               "configFile": false,
               "plugins": [
                 [
-                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                   {
                     "metaName": "modern-js",
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
@@ -49,17 +49,17 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   "import-antd",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
                   {},
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
                   {
                     "legacy": true,
                   },
                 ],
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "helpers": false,
                     "regenerator": true,
@@ -68,19 +68,19 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
                   {
                     "displayName": true,
                     "pure": true,
@@ -90,7 +90,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   "styled-components",
                 ],
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
                   {
                     "skipEnvCheck": true,
                   },
@@ -98,7 +98,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               ],
               "presets": [
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
                     "bugfixes": false,
                     "corejs": {
@@ -119,7 +119,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
                     "runtime": "classic",
@@ -128,7 +128,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
                     "allowDeclareFields": true,
@@ -150,29 +150,29 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         },
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/babel-loader",
+            "loader": "<ROOT>/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
               "configFile": false,
               "plugins": [
                 [
-                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                   {
                     "metaName": "modern-js",
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
@@ -181,17 +181,17 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   "import-antd",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
                   {},
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
                   {
                     "legacy": true,
                   },
                 ],
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "helpers": false,
                     "regenerator": true,
@@ -200,19 +200,19 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
                 ],
                 [
-                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
                   {
                     "displayName": true,
                     "pure": true,
@@ -224,7 +224,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               ],
               "presets": [
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
                     "bugfixes": false,
                     "corejs": {
@@ -245,7 +245,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
                     "runtime": "classic",
@@ -254,7 +254,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
                     "allowDeclareFields": true,
@@ -291,7 +291,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/builder-webpack-provider",
+              "<ROOT>",
               {
                 "not": /node_modules/,
               },
@@ -301,11 +301,11 @@ exports[`plugins/react > should work with ts-loader 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/babel-loader",
+            "loader": "<ROOT>/compiled/babel-loader",
             "options": {
               "plugins": [
                 [
-                  "<ROOT>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
                   {
                     "skipEnvCheck": true,
                   },
@@ -313,9 +313,9 @@ exports[`plugins/react > should work with ts-loader 1`] = `
               ],
               "presets": [
                 [
-                  "<ROOT>/packages/cli/babel-preset-app/dist/js/node/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
-                    "appDirectory": "<ROOT>/packages/builder/builder-webpack-provider",
+                    "appDirectory": "<ROOT>",
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",
@@ -327,7 +327,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/node_modules/<PNPM_INNER>/ts-loader/index.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/ts-loader/index.js",
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {
