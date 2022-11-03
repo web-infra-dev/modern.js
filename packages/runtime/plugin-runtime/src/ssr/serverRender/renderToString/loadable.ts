@@ -3,8 +3,11 @@ import { isCrossOrigin } from '../../utils';
 import { getLoadableScripts } from '../utils';
 import { RenderHandler } from './type';
 
-const extname = (uri: string) => {
-  return uri.match(/\.[^.]+$/) || '';
+const extname = (uri: string): string => {
+  if (typeof uri !== 'string' || !uri.includes('.')) {
+    return '';
+  }
+  return `.${uri?.split('.').pop()}` || '';
 };
 
 export const toHtml: RenderHandler = (jsx, renderer, next) => {
