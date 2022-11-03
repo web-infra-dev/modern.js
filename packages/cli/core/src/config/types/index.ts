@@ -78,7 +78,7 @@ export interface SourceConfig {
   globalVars?: Record<string, string>;
   alias?:
     | Record<string, string>
-    | ((aliases: Record<string, string>) => Record<string, unknown>);
+    | ((aliases: Record<string, string>) => Record<string, string>);
   moduleScopes?:
     | Array<string | RegExp>
     | ((scopes: Array<string | RegExp>) => void)
