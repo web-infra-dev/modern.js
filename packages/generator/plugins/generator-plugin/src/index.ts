@@ -133,6 +133,15 @@ export default function (context: IPluginContext) {
           },
         },
       },
+      tools: {
+        speedy: {
+          resolve: {
+            alias: {
+              chalk: '@modern-js/utils/chalk',
+            },
+          },
+        },
+      },
     });
     api.rmDir('tests');
     api.rmFile('.npmignore');

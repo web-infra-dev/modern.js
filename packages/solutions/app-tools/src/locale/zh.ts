@@ -24,7 +24,6 @@ export const ZH_LOCALE = {
     inspect: {
       env: '查看指定环境下的配置',
       output: '指定在 dist 目录下输出的路径',
-      noConsole: '不在终端中输出完整结果',
       verbose: '在结果中展示函数的完整内容',
     },
   },

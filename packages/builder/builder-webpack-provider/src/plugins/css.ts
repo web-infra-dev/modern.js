@@ -7,6 +7,7 @@ import {
   type BuilderTarget,
   type BuilderContext,
 } from '@modern-js/builder-shared';
+import _, { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
   WebpackChain,
   BuilderPlugin,
@@ -118,7 +119,8 @@ export async function applyBaseCSSRule(
         },
         sourceMap: enableSourceMap,
       },
-      config.tools.postcss || {},
+      // postcss-loader will modify config
+      _.cloneDeep(config.tools.postcss || {}),
       utils,
     );
     if (extraPlugins.length) {
@@ -201,6 +203,8 @@ export async function applyBaseCSSRule(
       sourceMap: enableSourceMap,
     },
     config.tools.cssLoader,
+    undefined,
+    deepMerge,
   );
   const cssLoaderOptions = normalizeCssLoaderOptions(
     mergedCssLoaderOptions,

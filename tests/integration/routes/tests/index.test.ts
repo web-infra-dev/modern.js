@@ -22,16 +22,6 @@ const renderSelfRoute = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const custom404SelfRoute = async (errors: string[], appPort: number) => {
-  await page.goto(`http://localhost:${appPort}/one/some-page`, {
-    waitUntil: ['networkidle0'],
-  });
-  const element = await page.$('.four');
-  const targetText = await page.evaluate(el => el.textContent, element);
-  expect(targetText.trim()).toEqual('404');
-  expect(errors.length).toEqual(0);
-};
-
 const renderPageRoute = async (errors: string[], appPort: number) => {
   await page.goto(`http://localhost:${appPort}/two/user`, {
     waitUntil: ['networkidle0'],
@@ -216,8 +206,6 @@ describe('dev', () => {
   describe('self control route', () => {
     test('should render correctly', async () =>
       renderSelfRoute(errors, appPort));
-    test('should render custom 404 correctly', async () =>
-      custom404SelfRoute(errors, appPort));
   });
 
   describe('pages routes', () => {
@@ -278,8 +266,6 @@ describe('build', () => {
   describe('self control route', () => {
     test('should render correctly', async () =>
       renderSelfRoute(errors, appPort));
-    test('should render custom 404 correctly', async () =>
-      custom404SelfRoute(errors, appPort));
   });
 
   describe('pages routes', () => {

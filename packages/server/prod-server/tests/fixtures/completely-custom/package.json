@@ -1,0 +1,20 @@
+{
+  "name": "prod-server-pure",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "start": "modern start",
+    "new": "modern new",
+    "lint": "modern lint",
+    "deploy": "modern deploy"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "modernConfig": {
+    "runtime": {
+      "router": true,
+      "state": true
+    }
+  }
+}

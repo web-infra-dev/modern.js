@@ -9,4 +9,13 @@ module.exports = {
       },
     },
   },
+  tools: {
+    speedy: {
+      resolve: {
+        alias: {
+          chalk: '@modern-js/utils/chalk',
+        },
+      },
+    },
+  },
 };

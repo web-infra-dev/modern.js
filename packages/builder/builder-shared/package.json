@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.21.0",
+  "version": "1.21.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",

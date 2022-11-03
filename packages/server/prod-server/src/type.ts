@@ -21,6 +21,7 @@ declare module 'http' {
 
 export type ModernServerOptions = {
   pwd: string;
+  // Todo 整理下这里用的 config，尽量少用
   config: ServerOptions;
   plugins?: ServerPlugin[];
   internalPlugins?: InternalPlugins;
@@ -81,6 +82,12 @@ export interface ModernServerInterface {
       next?: () => void,
     ) => void,
   ) => Promise<Server>;
+
+  render: (
+    req: IncomingMessage,
+    res: ServerResponse,
+    url?: string,
+  ) => Promise<string | null>;
 }
 
 export type ServerConstructor = (

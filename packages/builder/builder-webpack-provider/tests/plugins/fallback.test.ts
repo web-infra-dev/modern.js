@@ -20,6 +20,14 @@ describe('plugins/fallback', () => {
           .use('foo')
           .loader('foo');
 
+        chain.module
+          .rule('data-uri')
+          .resolve.set('fullySpecified', false)
+          .end()
+          .mimetype('text/javascript')
+          .use('data-uri')
+          .loader('data-uri');
+
         chain.module.rule('bar').test(/bar/).use('bar').loader('bar');
       });
     },

@@ -9,10 +9,10 @@ exports[`plugins/css > should not apply postcss-loader when target is node 1`] =
         "test": /\\\\\\.css\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/src/webpackLoaders/ignoreCssLoader",
+            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
           },
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
+            "loader": "<ROOT>/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -40,10 +40,10 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
         "test": /\\\\\\.css\\$/,
         "use": [
           {
-            "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
+            "loader": "<ROOT>/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -55,7 +55,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
+            "loader": "<ROOT>/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [

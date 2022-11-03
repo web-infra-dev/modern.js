@@ -1,5 +1,14 @@
 # @modern-js/plugin-garfish
 
+## 1.21.1
+
+### Patch Changes
+
+- 2baa20b: fix: remove useless mount check ref
+  移除过时的确认挂载的 ref
+  - @modern-js/runtime@1.21.1
+  - @modern-js/utils@1.21.1
+
 ## 1.21.0
 
 ### Patch Changes
