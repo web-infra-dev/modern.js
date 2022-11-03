@@ -1,5 +1,6 @@
+import { join } from 'path';
 import { isUseSSRBundle } from '@modern-js/utils';
-import type { BuilderTarget } from '@modern-js/builder-shared';
+import type { BuilderMode, BuilderTarget } from '@modern-js/builder-shared';
 import type { PluginAPI } from '@modern-js/core';
 import type { InspectOptions } from '../utils/types';
 import createBuilder from '../builder';
@@ -21,11 +22,10 @@ export const inspect = async (api: PluginAPI, options: InspectOptions) => {
     normalizedConfig: resolvedConfig,
   });
 
-  const env: any = options.env || process.env.NODE_ENV;
   return builder.inspectConfig({
-    env,
+    env: options.env as BuilderMode,
     verbose: options.verbose,
-    outputPath: options.output,
+    outputPath: join(builder.context.distPath, options.output),
     writeToDisk: true,
   });
 };
