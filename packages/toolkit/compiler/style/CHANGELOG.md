@@ -1,5 +1,11 @@
 # @modern-js/style-compiler
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/utils@1.21.1
+
 ## 1.21.0
 
 ### Patch Changes
