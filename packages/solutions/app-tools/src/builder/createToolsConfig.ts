@@ -135,11 +135,13 @@ function createBuilderWebpackChain(
 ): BuilderToolConfig['webpackChain'] {
   return webpackChain
     ? (chain: WebpackChain, utils) =>
-        applyOptionsChain<any, any>(chain, webpackChain, {
+        applyOptionsChain<any, unknown>(chain, webpackChain, {
           env: utils.env,
           name: builderTargetToModernBundleName(utils.target),
           webpack: utils.webpack,
           CHAIN_ID: utils.CHAIN_ID,
+          // TODO: builder will add HtmlWebpackPlugin Instance in utils(modifyWebpackUtils)
+          // HtmlWebpackPlugin: utils.HtmlWebpackPlugin,
         })
     : undefined;
 }
