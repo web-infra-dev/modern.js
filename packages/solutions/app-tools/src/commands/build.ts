@@ -1,5 +1,10 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { printBuildError, isUseSSRBundle, emptyDir } from '@modern-js/utils';
+import {
+  logger,
+  emptyDir,
+  isUseSSRBundle,
+  printBuildError,
+} from '@modern-js/utils';
 import { BuilderTarget } from '@modern-js/builder';
 import { generateRoutes } from '../utils/routes';
 import { buildServerConfig, emitResolvedConfig } from '../utils/config';
@@ -70,6 +75,9 @@ export const build = async (
         },
       },
     });
+
+    logger.info('Create a production build...\n');
+
     await builder.build();
   } catch (error) {
     printBuildError(error as Error);

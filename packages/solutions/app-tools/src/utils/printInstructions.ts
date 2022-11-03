@@ -14,5 +14,5 @@ export const printInstructions = async (
     instructions: message,
   });
 
-  logger.log(instructions);
+  logger.info(instructions);
 };
