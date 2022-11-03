@@ -1,5 +1,12 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/runtime@1.21.1
+- @modern-js/utils@1.21.1
+
 ## 1.21.0
 
 ### Patch Changes

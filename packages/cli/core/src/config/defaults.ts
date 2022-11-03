@@ -57,7 +57,7 @@ const outputDefaults: OutputConfig = {
   dataUriLimit: 10000,
   templateParameters: {},
   templateParametersByEntries: undefined,
-  cssModuleLocalIdentName: '[name]__[local]--[hash:base64:5]',
+  cssModuleLocalIdentName: undefined,
   enableModernMode: false,
   federation: undefined,
   disableNodePolyfill: false,

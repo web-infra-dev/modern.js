@@ -1,64 +1,49 @@
-import { webpack, Configuration } from '@modern-js/webpack';
-import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
-import {
-  chalk,
-  logger,
-  formatWebpackMessages,
-  clearConsole,
-} from '@modern-js/utils';
+import type webpack from '@modern-js/builder-webpack-provider/webpack';
+import type { PluginAPI } from '@modern-js/core';
+import { chalk, logger, clearConsole } from '@modern-js/utils';
 import type { AppHooks } from '../hooks';
+import createBuilder, { BuilderOptions } from '../builder';
 import { printInstructions } from './printInstructions';
 
-export const createCompiler = async ({
+export const createDevCompiler = async ({
   api,
-  webpackConfigs,
-  // TODO: params
-  userConfig,
+  target,
+  normalizedConfig,
   appContext,
 }: {
   api: PluginAPI<AppHooks>;
-  webpackConfigs: Configuration[];
-  userConfig: NormalizedConfig;
-  appContext: IAppContext;
-}) => {
+} & BuilderOptions): Promise<webpack.Compiler | webpack.MultiCompiler> => {
   try {
     const hookRunners = api.useHookRunners();
-    await hookRunners.beforeCreateCompiler({ webpackConfigs });
-    const compiler = webpack(webpackConfigs);
 
-    await hookRunners.afterCreateCompiler({ compiler });
+    const builder = await createBuilder({
+      target,
+      normalizedConfig,
+      appContext,
+      compatPluginConfig: {
+        async onDevCompileDone({ isFirstCompile }) {
+          if (process.stdout.isTTY || isFirstCompile) {
+            hookRunners.afterDev();
 
-    let isFirstCompile = true;
-
-    compiler.hooks.invalid.tap('invalid', () => {
-      clearConsole();
-      logger.log('Compiling...');
+            await printInstructions(hookRunners, appContext, normalizedConfig);
+          }
+        },
+        async onBeforeCreateCompiler() {
+          // run modernjs framework `beforeCreateCompiler` hook
+          await hookRunners.beforeCreateCompiler();
+        },
+        async onAfterCreateCompiler({ compiler }) {
+          compiler.hooks.invalid.tap('invalid', () => {
+            clearConsole();
+            logger.log('Compiling...');
+          });
+          // run modernjs framework afterCreateCompiler hooks
+          await hookRunners.afterCreateCompiler({ compiler });
+        },
+      },
     });
 
-    compiler.hooks.done.tap('done', async (stats: any) => {
-      const statsData = stats.toJson({
-        preset: 'errors-warnings',
-      });
-
-      const { errors, warnings } = formatWebpackMessages(statsData);
-
-      if (errors.length) {
-        logger.log(chalk.red(`Failed to compile.\n`));
-        logger.log(errors.join('\n\n'));
-        logger.log();
-      } else if (process.stdout.isTTY || isFirstCompile) {
-        await hookRunners.afterDev();
-        if (warnings.length) {
-          logger.log(chalk.yellow(`Compiled with warnings.\n`));
-          logger.log(warnings.join('\n\n'));
-          logger.log();
-        }
-        await printInstructions(hookRunners, appContext, userConfig);
-      }
-      isFirstCompile = false;
-    });
-
-    return compiler;
+    return builder.createCompiler();
   } catch (err) {
     logger.log(chalk.red(`Failed to compile.`));
     logger.log();
