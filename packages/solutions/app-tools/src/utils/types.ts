@@ -19,8 +19,7 @@ export type StartOptions = {
 };
 
 export type InspectOptions = {
-  env?: string;
-  output?: string;
-  console?: boolean;
+  env: string;
+  output: string;
   verbose?: boolean;
 };

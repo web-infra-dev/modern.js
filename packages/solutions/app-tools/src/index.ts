@@ -6,7 +6,12 @@ import AnalyzePlugin from './analyze';
 import { hooks, AppHooks } from './hooks';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
-import type { DevOptions, BuildOptions, DeployOptions } from './utils/types';
+import type {
+  DevOptions,
+  BuildOptions,
+  DeployOptions,
+  InspectOptions,
+} from './utils/types';
 
 export { defineConfig, hooks };
 export type { AppHooks, CliPlugin };
@@ -131,13 +136,12 @@ export default (): CliPlugin<AppHooks> => ({
             i18n.t(localeKeys.command.inspect.output),
             '/',
           )
-          .option('--no-console', i18n.t(localeKeys.command.inspect.noConsole))
           .option('--verbose', i18n.t(localeKeys.command.inspect.verbose))
           .option(
             '-c --config <config>',
             i18n.t(localeKeys.command.shared.config),
           )
-          .action(async options => {
+          .action(async (options: InspectOptions) => {
             const { inspect } = await import('./commands/inspect');
             inspect(api, options);
           });
