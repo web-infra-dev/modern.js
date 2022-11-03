@@ -6,10 +6,17 @@ export const transformModuleParseError: ErrorTransformer = e => {
   if (e.name === 'ModuleParseError') {
     const rawError: Error = (e.raw as any).error;
     const rawStack = rawError?.stack;
-    let sliceEnding = -1;
-    rawStack && (sliceEnding += e.message.indexOf(rawStack));
+
+    // re-generate stack so that remove the useless record.
     e.trace = new StackTracey(e.message).items;
+
+    // remove last line wrapping.
+    let sliceEnding = -1;
+    // remove stack text.
+    rawStack && (sliceEnding += e.message.indexOf(rawStack));
     e.message = e.message.slice(0, sliceEnding);
+
+    // add more description about builder.
     e.message += ' You can try to fix it by:\n';
     const tips = [
       'Check if the file is valid.',
