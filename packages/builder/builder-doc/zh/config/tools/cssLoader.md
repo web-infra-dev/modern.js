@@ -25,7 +25,7 @@
 
 ### Object 类型
 
-当此值为 Object 类型时，与默认配置通过 Object.assign 合并。比如：
+当此值为 Object 类型时，与默认配置进行深层合并(deep merge)。比如：
 
 ```js
 export default {
