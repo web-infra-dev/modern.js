@@ -25,7 +25,7 @@ The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be
 
 ### Object Type
 
-When this value is of type Object, it is merged with the default config via deepMerge. For example:
+When this value is of type Object, it is merged with the default config via deep merge. For example:
 
 ```js
 export default {
