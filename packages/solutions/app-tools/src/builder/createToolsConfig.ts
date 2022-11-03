@@ -1,3 +1,4 @@
+import type { BuilderTarget } from '@modern-js/builder-shared';
 import type {
   BuilderConfig,
   WebpackConfig,
@@ -65,6 +66,22 @@ export function createToolsConfig(
   };
 }
 
+export function builderTargetToModernBundleName(target: BuilderTarget) {
+  const targetToNameMap: {
+    [target in BuilderTarget]?: 'client' | 'server' | 'modern';
+  } = {
+    'modern-web': 'modern',
+    node: 'server',
+    web: 'client',
+  };
+  if (!targetToNameMap[target]) {
+    throw new Error(
+      `The build target '${target}' that are not supported by the framework`,
+    );
+  }
+  return targetToNameMap[target];
+}
+
 type BuilderToolConfig = Required<BuilderConfig>['tools'];
 
 function createBuilderWebpack(
@@ -103,7 +120,7 @@ function createBuilderWebpack(
         return applyOptionsChain<WebpackConfig, any>(config, webpack, {
           env: utils.env,
           webpack: utils.webpack,
-          name: utils.target,
+          name: builderTargetToModernBundleName(utils.target),
           addRules,
           prependPlugins,
           appendPlugins,
@@ -118,7 +135,12 @@ function createBuilderWebpackChain(
 ): BuilderToolConfig['webpackChain'] {
   return webpackChain
     ? (chain: WebpackChain, utils) =>
-        applyOptionsChain<any, any>(chain, webpackChain, utils)
+        applyOptionsChain<any, any>(chain, webpackChain, {
+          env: utils.env,
+          name: builderTargetToModernBundleName(utils.target),
+          webpack: utils.webpack,
+          CHAIN_ID: utils.CHAIN_ID,
+        })
     : undefined;
 }
 
