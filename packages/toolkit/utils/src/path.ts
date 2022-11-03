@@ -58,7 +58,7 @@ export function upwardPaths(start: string): string[] {
     .value();
 }
 
-export function realTemplateDirectory() {
+export function getRealTemporaryDirectory() {
   let ret: string | null = null;
   try {
     ret = os.tmpdir();

@@ -3,7 +3,7 @@ import _ from '../compiled/lodash';
 import {
   compilePathMatcherRegExp,
   normalizeToPosixPath,
-  realTemplateDirectory,
+  getRealTemporaryDirectory,
   splitPathString,
   upwardPaths,
 } from './path';
@@ -65,7 +65,7 @@ export const createDefaultPathMatchers = (root: string) => {
       mark: 'pnpmInner',
     },
   ];
-  const tmpdir = realTemplateDirectory();
+  const tmpdir = getRealTemporaryDirectory();
   tmpdir && ret.push({ match: tmpdir, mark: 'temp' });
   ret.push({ match: os.tmpdir(), mark: 'temp' });
   ret.push({ match: os.homedir(), mark: 'home' });
