@@ -2,7 +2,7 @@
 
 exports[`webpackConfig > should allow  tools.webpackChain to be an array 1`] = `
 {
-  "context": "<ROOT>/packages/builder/builder-webpack-provider",
+  "context": "<ROOT>",
   "devtool": "source-map",
   "infrastructureLogging": {
     "level": "error",
@@ -24,7 +24,7 @@ exports[`webpackConfig > should allow  tools.webpackChain to be an array 1`] = `
 
 exports[`webpackConfig > should allow to use tools.webpackChain to modify config 1`] = `
 {
-  "context": "<ROOT>/packages/builder/builder-webpack-provider",
+  "context": "<ROOT>",
   "devtool": "eval",
   "infrastructureLogging": {
     "level": "error",
@@ -46,7 +46,7 @@ exports[`webpackConfig > should allow to use tools.webpackChain to modify config
 
 exports[`webpackConfig > should allow tools.webpack to be an array 1`] = `
 {
-  "context": "<ROOT>/packages/builder/builder-webpack-provider",
+  "context": "<ROOT>",
   "devtool": "source-map",
   "infrastructureLogging": {
     "level": "error",
@@ -68,7 +68,7 @@ exports[`webpackConfig > should allow tools.webpack to be an array 1`] = `
 
 exports[`webpackConfig > should allow tools.webpack to be an object 1`] = `
 {
-  "context": "<ROOT>/packages/builder/builder-webpack-provider",
+  "context": "<ROOT>",
   "devtool": "eval",
   "infrastructureLogging": {
     "level": "error",
@@ -90,7 +90,7 @@ exports[`webpackConfig > should allow tools.webpack to be an object 1`] = `
 
 exports[`webpackConfig > should allow tools.webpack to modify config object 1`] = `
 {
-  "context": "<ROOT>/packages/builder/builder-webpack-provider",
+  "context": "<ROOT>",
   "devtool": "eval",
   "infrastructureLogging": {
     "level": "error",
@@ -112,7 +112,7 @@ exports[`webpackConfig > should allow tools.webpack to modify config object 1`] 
 
 exports[`webpackConfig > should allow tools.webpack to return config 1`] = `
 {
-  "context": "<ROOT>/packages/builder/builder-webpack-provider",
+  "context": "<ROOT>",
   "devtool": "eval",
   "infrastructureLogging": {
     "level": "error",

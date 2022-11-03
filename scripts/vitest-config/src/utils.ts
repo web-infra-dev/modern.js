@@ -4,13 +4,9 @@ import {
   createDefaultPathMatchers,
   isPathString,
   normalizeToPosixPath,
+  PathMatcher,
+  findMonorepoRoot,
 } from '@modern-js/utils';
-import _ from '@modern-js/utils/lodash';
-
-export interface PathMatcher<T extends string | RegExp = string | RegExp> {
-  match: T;
-  mark: string | ((substring: string, ...args: any[]) => string);
-}
 
 export const debug: typeof console.log = (...args) => {
   // eslint-disable-next-line no-console
@@ -18,17 +14,24 @@ export const debug: typeof console.log = (...args) => {
 };
 
 export interface SnapshotSerializerOptions {
-  replace: PathMatcher[];
+  cwd?: string;
+  workspace?: string;
+  replace?: PathMatcher[];
 }
 
-export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
-  const rootMatcher = _.find(options.replace, {
-    mark: 'root',
-  }) as PathMatcher<string>;
-  assert(rootMatcher, 'root matcher is required');
+export function createSnapshotSerializer(options?: SnapshotSerializerOptions) {
+  const {
+    cwd = process.cwd(),
+    workspace = findMonorepoRoot(cwd),
+    replace: customMatchers = [],
+  } = options || {};
+  assert(cwd, 'cwd is required');
+  assert(workspace, 'workspace is required');
   const pathMatchers: PathMatcher[] = [
-    ...options.replace,
-    ...createDefaultPathMatchers(rootMatcher.match),
+    { mark: 'root', match: cwd },
+    { mark: 'workspace', match: workspace },
+    ...customMatchers,
+    ...createDefaultPathMatchers(workspace),
   ];
 
   pathMatchers

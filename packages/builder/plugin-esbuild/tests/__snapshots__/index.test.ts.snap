@@ -8,7 +8,7 @@ exports[`plugins/esbuild > should set esbuild minimizer in production 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/plugin-esbuild/compiled/esbuild-loader/index.js",
+            "loader": "<ROOT>/compiled/esbuild-loader/index.js",
             "options": {
               "charset": "ascii",
               "loader": "jsx",
@@ -21,7 +21,7 @@ exports[`plugins/esbuild > should set esbuild minimizer in production 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/plugin-esbuild/compiled/esbuild-loader/index.js",
+            "loader": "<ROOT>/compiled/esbuild-loader/index.js",
             "options": {
               "charset": "ascii",
               "loader": "tsx",
@@ -54,7 +54,7 @@ exports[`plugins/esbuild > should set esbuild-loader 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/plugin-esbuild/compiled/esbuild-loader/index.js",
+            "loader": "<ROOT>/compiled/esbuild-loader/index.js",
             "options": {
               "charset": "ascii",
               "loader": "jsx",
@@ -67,7 +67,7 @@ exports[`plugins/esbuild > should set esbuild-loader 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/plugin-esbuild/compiled/esbuild-loader/index.js",
+            "loader": "<ROOT>/compiled/esbuild-loader/index.js",
             "options": {
               "charset": "ascii",
               "loader": "tsx",

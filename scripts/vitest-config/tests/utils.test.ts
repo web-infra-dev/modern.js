@@ -13,11 +13,9 @@ describe('createSnapshotSerializer', () => {
     ],
   ])('should handle with posix path %s', (value, expected) => {
     const serializer = createSnapshotSerializer({
-      replace: [
-        { match: '/a/b/c', mark: 'root' },
-        { match: '/a/b/c/d', mark: 'workspace' },
-        { match: '/a/b/c/d/e', mark: 'workspace2' },
-      ],
+      cwd: '/a/b/c',
+      workspace: '/a/b/c/d',
+      replace: [{ match: '/a/b/c/d/e', mark: 'workspace2' }],
     });
     expect(serializer.test(value)).toBe(true);
     expect(serializer.print(value)).toBe(expected);
@@ -34,11 +32,9 @@ describe('createSnapshotSerializer', () => {
       vi.spyOn(path, 'normalize').mockImplementation(path.win32.normalize);
     }
     const serializer = createSnapshotSerializer({
-      replace: [
-        { match: 'A:\\b\\c', mark: 'root' },
-        { match: 'A:\\b\\c\\d', mark: 'workspace' },
-        { match: 'A:\\b\\c\\d\\e', mark: 'workspace2' },
-      ],
+      cwd: 'A:\\b\\c',
+      workspace: 'A:\\b\\c\\d',
+      replace: [{ match: 'A:\\b\\c\\d\\e', mark: 'workspace2' }],
     });
     expect(serializer.test(value)).toBe(true);
     expect(serializer.print(value)).toBe(expected);

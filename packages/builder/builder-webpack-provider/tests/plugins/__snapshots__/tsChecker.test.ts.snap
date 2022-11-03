@@ -23,7 +23,7 @@ exports[`plugins/tsChecker > should allow to modify the config of tsChecker plug
         "typescript": {
           "configFile": "/path/tsconfig.json",
           "memoryLimit": 8192,
-          "typescriptPath": "<ROOT>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
     },
@@ -54,7 +54,7 @@ exports[`plugins/tsChecker > should only apply one tsChecker plugin when there i
           "typescript": {
             "configFile": "/path/tsconfig.json",
             "memoryLimit": 8192,
-            "typescriptPath": "<ROOT>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+            "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
           },
         },
       },
