@@ -7,7 +7,7 @@ import {
   type BuilderTarget,
   type BuilderContext,
 } from '@modern-js/builder-shared';
-import _ from '@modern-js/utils/lodash';
+import _, { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
   WebpackChain,
   BuilderPlugin,
@@ -203,6 +203,8 @@ export async function applyBaseCSSRule(
       sourceMap: enableSourceMap,
     },
     config.tools.cssLoader,
+    undefined,
+    deepMerge,
   );
   const cssLoaderOptions = normalizeCssLoaderOptions(
     mergedCssLoaderOptions,
