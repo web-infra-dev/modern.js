@@ -97,7 +97,9 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
       throw err;
     }
 
-    logger.info(`Starting dev server...`);
+    if (!apiOnly) {
+      logger.info(`Starting dev server...`);
+    }
 
     return printInstructions(hookRunners, appContext, userConfig);
   });
