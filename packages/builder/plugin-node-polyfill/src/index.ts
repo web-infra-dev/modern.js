@@ -13,11 +13,16 @@ export function PluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
     name: 'builder-plugin-node-polyfill',
 
     async setup(api) {
-      const { default: webpack } = await import('webpack');
+      api.modifyWebpackChain(async (chain, { CHAIN_ID, isServer }) => {
+        // it had not need `node polyfill`, if the target is 'node'(server runtime).
+        if (isServer) {
+          return;
+        }
 
-      const { default: nodeLibsBrowser } = await import('node-libs-browser');
+        const { default: webpack } = await import('webpack');
 
-      api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+        const { default: nodeLibsBrowser } = await import('node-libs-browser');
+
         chain
           .plugin(CHAIN_ID.PLUGIN.NODE_POLYFILL_PROVIDE)
           .use(webpack.ProvidePlugin, [

@@ -55,7 +55,7 @@ export default (): CliPlugin => ({
         };
       },
       modifyEntryImports({ entrypoint, imports }) {
-        const { entryName } = entrypoint;
+        const { entryName, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName, entrypoints } = api.useAppContext();
 
@@ -83,13 +83,8 @@ export default (): CliPlugin => ({
               `Legacy router plugin doesn't support streaming SSR, check your config 'runtime.router'`,
             );
           }
-          if (entrypoint.entry) {
+          if (entrypoint.entry && fileSystemRoutes) {
             throw new Error(`'pages' directory doesn't support streaming SSR.`);
-          }
-          if (!entrypoint.nestedRoutesEntry) {
-            throw new Error(
-              `You should switch to file-system based router to support streaming SSR.`,
-            );
           }
         }
 

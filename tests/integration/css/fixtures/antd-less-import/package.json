@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-less": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "antd": "^4.16.13",
     "react": "^18",

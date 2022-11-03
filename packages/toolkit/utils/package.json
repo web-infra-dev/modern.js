@@ -57,7 +57,10 @@
     "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
     "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
     "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
-    "./chain-id": "./dist/chainId.js"
+    "./chain-id": {
+      "jsnext:source": "./src/chainId.ts",
+      "default": "./dist/chainId.js"
+    }
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
