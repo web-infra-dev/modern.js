@@ -1,7 +1,7 @@
 import path from 'path';
 import { defineConfig, cli, CliPlugin } from '@modern-js/core';
 import LintPlugin from '@modern-js/plugin-jarvis';
-import { cleanRequireCache, fs, Import } from '@modern-js/utils';
+import { cleanRequireCache, emptyDir, Import } from '@modern-js/utils';
 import AnalyzePlugin from './analyze';
 import { hooks, AppHooks } from './hooks';
 import { i18n, localeKeys } from './locale';
@@ -150,11 +150,11 @@ export default (): CliPlugin<AppHooks> => ({
       },
 
       async prepare() {
-        const appContext = api.useAppContext();
-        try {
-          fs.emptydirSync(appContext.distDirectory);
-        } catch (error) {
-          // FIXME:
+        const args = process.argv.slice(2);
+        const command = args[0];
+        if (command === 'dev' || command === 'build') {
+          const appContext = api.useAppContext();
+          await emptyDir(appContext.distDirectory);
         }
       },
 

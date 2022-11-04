@@ -3,6 +3,7 @@ import type { PluginAPI } from '@modern-js/core';
 import server from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 import type { AppHooks } from '../hooks';
+import { injectDataLoaderPlugin } from '../utils/createServer';
 
 export const start = async (api: PluginAPI<AppHooks>) => {
   const appContext = api.useAppContext();
@@ -20,7 +21,7 @@ export const start = async (api: PluginAPI<AppHooks>) => {
     pwd: appDirectory,
     config: userConfig,
     serverConfigFile,
-    internalPlugins: appContext.serverInternalPlugins,
+    internalPlugins: injectDataLoaderPlugin(appContext.serverInternalPlugins),
     apiOnly,
   });
 
