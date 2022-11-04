@@ -10,8 +10,6 @@ import { i18n, localeKeys } from '../../locale';
 export const ModuleActionTypes = [ActionType.Function];
 export const ModuleActionFunctions = [
   ActionFunction.TailwindCSS,
-  ActionFunction.Less,
-  ActionFunction.Sass,
   // ActionFunction.I18n,
   // ActionFunction.Doc,
   ActionFunction.Storybook,
@@ -67,8 +65,6 @@ export const getModuleNewActionSchema = (
 export const ModuleActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
-  [ActionFunction.Less]: '@modern-js/plugin-less',
-  [ActionFunction.Sass]: '@modern-js/plugin-sass',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
@@ -93,8 +89,6 @@ export const ModuleNewActionGenerators: Partial<
 > = {
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
-    [ActionFunction.Less]: '@modern-js/dependence-generator',
-    [ActionFunction.Sass]: '@modern-js/dependence-generator',
     [ActionFunction.I18n]: '@modern-js/dependence-generator',
     [ActionFunction.Test]: '@modern-js/dependence-generator',
     [ActionFunction.Doc]: '@modern-js/dependence-generator',

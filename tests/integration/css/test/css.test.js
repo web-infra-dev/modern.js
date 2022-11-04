@@ -284,18 +284,6 @@ describe('test css support', () => {
 });
 
 describe('less-support', () => {
-  describe('need-less-plugin', () => {
-    it(`should have tips to install less plugin`, async () => {
-      const appDir = resolve(fixtures, 'tips-to-install-less-plugin');
-
-      const { stdout } = await modernBuild(appDir);
-
-      expect(stdout).toMatch(
-        /The configuration of .*tools.less.* is provided by plugin .*@modern-js\/plugin-less.*/,
-      );
-    });
-  });
-
   describe('base less support', () => {
     it(`should emitted single css file`, async () => {
       const appDir = resolve(fixtures, 'single-less');
