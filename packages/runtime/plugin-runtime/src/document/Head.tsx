@@ -1,8 +1,7 @@
 import { useContext } from 'react';
 import { DocumentStructrueContext } from './DocumentStructrueContext';
 import { Scripts } from './Scripts';
-
-const DOCUMENT_META_PLACEHOLDER = encodeURIComponent('<%= meta %>');
+import { DOCUMENT_META_PLACEHOLDER } from './constants';
 
 export function Head(props: { children?: any }) {
   const { hasSetScripts } = useContext(DocumentStructrueContext);
