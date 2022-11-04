@@ -24,7 +24,8 @@
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/js/node/index.js"
     }
   },
   "scripts": {
