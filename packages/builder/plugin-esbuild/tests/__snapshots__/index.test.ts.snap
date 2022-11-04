@@ -36,7 +36,8 @@ exports[`plugins/esbuild > should set esbuild minimizer in production 1`] = `
     "minimizer": [
       ESBuildMinifyPlugin {
         "options": {
-          "legalComments": "linked",
+          "css": true,
+          "legalComments": "inline",
           "minify": true,
         },
         "transform": [Function],

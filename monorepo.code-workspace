@@ -109,10 +109,6 @@
       "path": "packages/server/plugin-egg"
     },
     {
-      "name": "@modern-js/plugin-esbuild",
-      "path": "packages/cli/plugin-esbuild"
-    },
-    {
       "name": "@modern-js/plugin-express",
       "path": "packages/server/plugin-express"
     },
