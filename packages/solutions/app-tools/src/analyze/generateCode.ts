@@ -200,6 +200,19 @@ export const generateCode = async (
           mode = false;
         }
 
+        if (mode === 'stream') {
+          const hasPageRoute = routes.some(
+            route => 'type' in route && route.type === 'page',
+          );
+          if (hasPageRoute) {
+            logger.error(
+              'streaming ssr is not supported when pages dir exists',
+            );
+            // eslint-disable-next-line no-process-exit
+            process.exit(1);
+          }
+        }
+
         const { code } = await hookRunners.beforeGenerateRoutes({
           entrypoint,
           code: templates.fileSystemRoutes({
