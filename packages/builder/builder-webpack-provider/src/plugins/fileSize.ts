@@ -94,7 +94,6 @@ async function printFileSizes(
     ...assets.map(a => stripAnsi(a.folder + path.sep + a.name).length),
   );
 
-  logger.log();
   logger.info(`File sizes after production build:\n`);
 
   printHeader(longestFileLength, longestLabelLength);

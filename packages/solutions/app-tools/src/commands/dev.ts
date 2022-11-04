@@ -1,4 +1,4 @@
-import { fs, logger, chalk, isSSR } from '@modern-js/utils';
+import { fs, logger, isSSR } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { BuilderTarget } from '@modern-js/builder';
 import { createDevCompiler } from '../utils/createCompiler';
@@ -97,10 +97,10 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
       throw err;
     }
 
-    if (apiOnly) {
-      return printInstructions(hookRunners, appContext, userConfig);
+    if (!apiOnly) {
+      logger.info(`Starting dev server...`);
     }
 
-    return logger.log(chalk.cyan(`Starting the development server...`));
+    return printInstructions(hookRunners, appContext, userConfig);
   });
 };
