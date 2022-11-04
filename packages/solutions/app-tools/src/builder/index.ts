@@ -103,6 +103,7 @@ export function createBuilderOptions(
   }
 
   return {
+    cwd: appContext.appDirectory,
     target,
     configPath: appContext.configFile || undefined,
     entry: entries,
