@@ -1,3 +1,4 @@
+import { join } from 'path';
 import type { BuilderPlugin, BuilderTarget } from '@modern-js/builder-shared';
 import type {
   BuilderPluginAPI,
@@ -61,6 +62,10 @@ export const PluginCompatModern = (
       } else {
         chain.name('client');
       }
+
+      chain.resolve.modules
+        .add('node_modules')
+        .add(join(api.context.rootPath, 'node_modules'));
 
       // apply node compat
       if (target === 'node') {

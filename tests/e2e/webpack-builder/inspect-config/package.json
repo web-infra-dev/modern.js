@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@e2e/webpack-builder-inline-chunk",
+  "name": "@e2e/webpack-builder-inspect-config",
   "version": "0.1.0",
   "scripts": {
     "dev": "node ./scripts/dev.js",
