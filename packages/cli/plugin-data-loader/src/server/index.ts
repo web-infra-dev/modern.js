@@ -207,7 +207,7 @@ export const handleRequest = async ({
   }
 
   const { routes } = await import(
-    `${distDir}/routes-server/${entry.entryName}`
+    `${distDir}/loader-routes/${entry.entryName}`
   );
 
   if (!routes) {

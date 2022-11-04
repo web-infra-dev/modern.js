@@ -18,10 +18,6 @@
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
-    "./cli": {
-      "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
-    },
     "./loader": {
       "jsnext:source": "./src/cli/loader.ts",
       "default": "./dist/js/node/cli/loader.js"
@@ -33,9 +29,6 @@
   },
   "typesVersions": {
     "*": {
-      "cli": [
-        "./dist/types/cli/index.d.ts"
-      ],
       "loader": [
         "./dist/types/cli/loader.d.ts"
       ],

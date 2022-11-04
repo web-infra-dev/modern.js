@@ -195,7 +195,7 @@ export class ModernServer implements ModernServerInterface {
     // execute after staticFileHandler, can rename to staticFallbackHandler if needed.
     this.addHandler(faviconFallbackHandler);
 
-    this.addRouteHandler();
+    this.addBeforeRouteHandler();
 
     this.addHandler(this.routeHandler.bind(this));
 
@@ -208,7 +208,7 @@ export class ModernServer implements ModernServerInterface {
     // empty
   }
 
-  public addRouteHandler() {
+  public addBeforeRouteHandler() {
     this.addHandler(async (context, next) => {
       if (this.beforeRouteHandler) {
         await this.beforeRouteHandler(context);

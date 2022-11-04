@@ -4,6 +4,7 @@
 '@modern-js/server-core': minor
 '@modern-js/prod-server': minor
 '@modern-js/app-tools': minor
+'@modern-js/utils': minor
 ---
 
 feat: compile server loader and support handle loader request

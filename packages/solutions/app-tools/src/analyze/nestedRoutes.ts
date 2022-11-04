@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { fs, normalizeToPosixPath } from '@modern-js/utils';
+import { fs, getRouteId } from '@modern-js/utils';
 import type { NestedRoute } from '@modern-js/types';
 import { JS_EXTENSIONS } from './constants';
 import { replaceWithAlias } from './utils';
@@ -17,19 +17,6 @@ const conventionNames = [
   ERROR_FILE,
   LOADER_FILE,
 ];
-
-const getPathWithoutExt = (filename: string) => {
-  const extname = path.extname(filename);
-  return filename.slice(0, -extname.length);
-};
-
-const getRouteId = (componentPath: string, routesDir: string) => {
-  const relativePath = normalizeToPosixPath(
-    path.relative(routesDir, componentPath),
-  );
-  const id = getPathWithoutExt(relativePath);
-  return id;
-};
 
 const replaceDynamicPath = (routePath: string) => {
   return routePath.replace(/\[(.*?)\]/g, ':$1');

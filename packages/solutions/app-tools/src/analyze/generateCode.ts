@@ -214,7 +214,7 @@ export const generateCode = async (
           );
           const outputRoutesServerFile = path.join(
             distDirectory,
-            'routes-server',
+            'loader-routes',
             entryName,
             'index.js',
           );

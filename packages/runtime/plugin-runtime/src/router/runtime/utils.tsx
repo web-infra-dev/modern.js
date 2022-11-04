@@ -37,7 +37,11 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
         </Suspense>
       );
     } else {
-      routeProps.element = <Component />;
+      routeProps.element = (
+        <Suspense>
+          <Component />
+        </Suspense>
+      );
     }
   }
 

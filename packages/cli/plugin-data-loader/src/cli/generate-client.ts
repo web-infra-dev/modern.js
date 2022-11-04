@@ -1,18 +1,5 @@
 import path from 'path';
-import { normalizeToPosixPath } from '@modern-js/utils';
-
-const getPathWithoutExt = (filename: string) => {
-  const extname = path.extname(filename);
-  return filename.slice(0, -extname.length);
-};
-
-const getRouteId = (componentPath: string, routesDir: string) => {
-  const relativePath = normalizeToPosixPath(
-    path.relative(routesDir, componentPath),
-  );
-  const id = getPathWithoutExt(relativePath);
-  return id;
-};
+import { getRouteId } from '@modern-js/utils';
 
 export const generateClient = ({
   basedir,
