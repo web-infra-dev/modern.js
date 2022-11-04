@@ -8,6 +8,7 @@ exports[`fileSystemRoutes generate code 1`] = `
     import error_0 from '@_modern_js_src/routes/error.tsx';
 
     
+    
     export const routes = [
   {
   \\"path\\": \\"/\\",
@@ -50,6 +51,7 @@ exports[`fileSystemRoutes generate code 1`] = `
 exports[`fileSystemRoutes generate code for legacy router 1`] = `
 "
     import loadable from '@modern-js/runtime/loadable'
+    
     
     
     

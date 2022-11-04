@@ -64,8 +64,13 @@
     },
     "./router": {
       "jsnext:source": "./src/router/index.ts",
-      "node": "./dist/js/node/router/index",
+      "node": "./dist/js/node/router/index.js",
       "default": "./dist/js/treeshaking/router/index.js"
+    },
+    "./router-server": {
+      "jsnext:source": "./src/router/server/index.ts",
+      "node": "./dist/js/node/router/server/index.js",
+      "default": "./dist/js/treeshaking/router/server/index.js"
     }
   },
   "typesVersions": {
@@ -96,6 +101,9 @@
       ],
       "router": [
         "./dist/types/router/index.d.ts"
+      ],
+      "router-server": [
+        "./dist/types/router/server/index.d.ts"
       ]
     }
   },
@@ -145,6 +153,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
