@@ -549,6 +549,61 @@ importers:
       jest: 27.5.1
       typescript: 4.7.4
 
+  packages/cli/plugin-data-loader:
+    specifiers:
+      '@babel/core': ^7.18.0
+      '@babel/runtime': ^7.18.0
+      '@modern-js/babel-compiler': workspace:*
+      '@modern-js/core': workspace:*
+      '@modern-js/runtime': workspace:*
+      '@modern-js/server-core': workspace:*
+      '@modern-js/types': workspace:*
+      '@modern-js/utils': workspace:*
+      '@remix-run/node': ^1.7.0
+      '@scripts/build': workspace:*
+      '@scripts/jest-config': workspace:*
+      '@types/babel__core': ^7.1.15
+      '@types/jest': ^27
+      '@types/node': ^14
+      '@types/supertest': ^2.0.11
+      isomorphic-fetch: ^3.0.0
+      jest: ^27
+      memfs: ^3.3.0
+      path-to-regexp: ^6.2.0
+      react-router-dom: ^6.4.2
+      supertest: ^6.1.6
+      ts-jest: ^27.0.5
+      typescript: ^4
+      webpack: ^5.74.0
+      webpack-chain: ^6.5.1
+    dependencies:
+      '@babel/core': 7.18.6
+      '@babel/runtime': 7.18.6
+      '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
+      '@modern-js/utils': link:../../toolkit/utils
+      '@remix-run/node': 1.7.3
+      path-to-regexp: 6.2.1
+      react-router-dom: 6.4.2
+    devDependencies:
+      '@modern-js/core': link:../core
+      '@modern-js/runtime': link:../../runtime/plugin-runtime
+      '@modern-js/server-core': link:../../server/core
+      '@modern-js/types': link:../../toolkit/types
+      '@scripts/build': link:../../../scripts/build
+      '@scripts/jest-config': link:../../../scripts/jest-config
+      '@types/babel__core': 7.1.19
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+      '@types/supertest': 2.0.12
+      isomorphic-fetch: 3.0.0
+      jest: 27.5.1
+      memfs: 3.4.7
+      supertest: 6.2.3
+      ts-jest: 27.1.5_lcmtnxtw7r6chtpcnqap6sfblq
+      typescript: 4.7.4
+      webpack: 5.74.0
+      webpack-chain: 6.5.1
+
   packages/cli/plugin-i18n:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -1788,6 +1843,7 @@ importers:
       '@modern-js-reduck/store': ^1.0.3
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:*
+      '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@modern-js/webpack': workspace:*
@@ -1855,6 +1911,7 @@ importers:
       styled-components: 5.3.5_7i5myeigehqah43i5u7wbekgba
     devDependencies:
       '@modern-js/core': link:../../cli/core
+      '@modern-js/server-core': link:../../server/core
       '@remix-run/web-fetch': 4.3.1
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -2569,6 +2626,7 @@ importers:
       '@modern-js/new-action': workspace:*
       '@modern-js/node-bundle-require': workspace:*
       '@modern-js/plugin': workspace:*
+      '@modern-js/plugin-data-loader': workspace:*
       '@modern-js/plugin-i18n': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/prod-server': workspace:*
@@ -2598,6 +2656,7 @@ importers:
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/node-bundle-require': link:../../toolkit/node-bundle-require
       '@modern-js/plugin': link:../../toolkit/plugin
+      '@modern-js/plugin-data-loader': link:../../cli/plugin-data-loader
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
       '@modern-js/prod-server': link:../../server/prod-server
@@ -8052,6 +8111,7 @@ packages:
       react: '*'
     dependencies:
       '@types/react': 18.0.21
+      esbuild: 0.13.15
       prop-types: 15.8.1
       react: 18.2.0
 
@@ -10171,6 +10231,24 @@ packages:
       redux: 4.2.0
     dev: false
 
+  /@remix-run/node/1.7.3:
+    resolution: {integrity: sha512-wToLGyfSglRgdxn5P6KZU3euC0oQJ7L2Y39I3NEfcQ+xEjs8xbW4VauPC0EzGP+srIBdkHZ/bw3lFcbF3lvsJg==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@remix-run/server-runtime': 1.7.3
+      '@remix-run/web-fetch': 4.3.1
+      '@remix-run/web-file': 3.0.2
+      '@remix-run/web-stream': 1.0.3
+      '@web3-storage/multipart-parser': 1.0.0
+      abort-controller: 3.0.0
+      cookie-signature: 1.2.0
+      source-map-support: 0.5.21
+      stream-slice: 0.1.2
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
   /@remix-run/node/1.7.3_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-wToLGyfSglRgdxn5P6KZU3euC0oQJ7L2Y39I3NEfcQ+xEjs8xbW4VauPC0EzGP+srIBdkHZ/bw3lFcbF3lvsJg==}
     engines: {node: '>=14'}
@@ -10192,6 +10270,21 @@ packages:
   /@remix-run/router/1.0.2:
     resolution: {integrity: sha512-GRSOFhJzjGN+d4sKHTMSvNeUPoZiDHWmRnXfzaxrqe7dE/Nzlc8BiMSJdLDESZlndM7jIUrZ/F4yWqVYlI0rwQ==}
     engines: {node: '>=14'}
+    dev: false
+
+  /@remix-run/server-runtime/1.7.3:
+    resolution: {integrity: sha512-U5TR2quAlc5dY5VIYYhuXJOVsJelukgFZARwZWfDCs7HQd1hhHvpe1BNwla/lH3LPYFOVeWfYRmuHurXX1nbNw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@types/cookie': 0.4.1
+      '@web3-storage/multipart-parser': 1.0.0
+      cookie: 0.4.2
+      react-router-dom: 6.3.0
+      set-cookie-parser: 2.5.0
+      source-map: 0.7.4
     dev: false
 
   /@remix-run/server-runtime/1.7.3_biqbaboplfbrettd7655fr4n2y:
@@ -15366,8 +15459,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -19150,6 +19245,7 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -22427,7 +22523,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4_supports-color@6.1.0
+      debug: 4.3.4
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -31151,6 +31247,16 @@ packages:
       tiny-warning: 1.0.3
     dev: false
 
+  /react-router-dom/6.3.0:
+    resolution: {integrity: sha512-uaJj7LKytRxZNQV8+RbzJWnJ8K2nPsOOEuX7aQstlMZKQT0164C+X2w6bnkqU3sjtLvpd5ojrezAyfZ1+0sStw==}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      history: 5.3.0
+      react-router: 6.3.0
+    dev: false
+
   /react-router-dom/6.3.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-uaJj7LKytRxZNQV8+RbzJWnJ8K2nPsOOEuX7aQstlMZKQT0164C+X2w6bnkqU3sjtLvpd5ojrezAyfZ1+0sStw==}
     peerDependencies:
@@ -31161,6 +31267,17 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-router: 6.3.0_react@18.2.0
+
+  /react-router-dom/6.4.2:
+    resolution: {integrity: sha512-yM1kjoTkpfjgczPrcyWrp+OuQMyB1WleICiiGfstnQYo/S8hPEEnVjr/RdmlH6yKK4Tnj1UGXFSa7uwAtmDoLQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.0.2
+      react-router: 6.4.2
+    dev: false
 
   /react-router-dom/6.4.2_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-yM1kjoTkpfjgczPrcyWrp+OuQMyB1WleICiiGfstnQYo/S8hPEEnVjr/RdmlH6yKK4Tnj1UGXFSa7uwAtmDoLQ==}
@@ -31193,6 +31310,14 @@ packages:
       tiny-warning: 1.0.3
     dev: false
 
+  /react-router/6.3.0:
+    resolution: {integrity: sha512-7Wh1DzVQ+tlFjkeo+ujvjSqSJmkt1+8JO+T5xklPlgrh70y7ogx75ODRW0ThWhY7S+6yEDks8TYrtQe/aoboBQ==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      history: 5.3.0
+    dev: false
+
   /react-router/6.3.0_react@18.2.0:
     resolution: {integrity: sha512-7Wh1DzVQ+tlFjkeo+ujvjSqSJmkt1+8JO+T5xklPlgrh70y7ogx75ODRW0ThWhY7S+6yEDks8TYrtQe/aoboBQ==}
     peerDependencies:
@@ -31200,6 +31325,15 @@ packages:
     dependencies:
       history: 5.3.0
       react: 18.2.0
+
+  /react-router/6.4.2:
+    resolution: {integrity: sha512-Rb0BAX9KHhVzT1OKhMvCDMw776aTYM0DtkxqUBP8dNBom3mPXlfNs76JNGK8wKJ1IZEY1+WGj+cvZxHVk/GiKw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.0.2
+    dev: false
 
   /react-router/6.4.2_react@18.2.0:
     resolution: {integrity: sha512-Rb0BAX9KHhVzT1OKhMvCDMw776aTYM0DtkxqUBP8dNBom3mPXlfNs76JNGK8wKJ1IZEY1+WGj+cvZxHVk/GiKw==}
@@ -32210,7 +32344,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
@@ -33569,6 +33703,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
+    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}

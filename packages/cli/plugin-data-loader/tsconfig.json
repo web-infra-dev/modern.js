@@ -1,0 +1,15 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": true,
+    "jsx": "preserve",
+    "lib": ["DOM", "ESNext", "dom.iterable"],
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "paths": {},
+    "types": ["node"]
+  },
+  "include": ["src"]
+}

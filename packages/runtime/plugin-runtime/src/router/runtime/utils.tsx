@@ -30,7 +30,6 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
 
   if (Component) {
     if (parent?.loading) {
-      // TODO: why parent?
       const Loading = parent.loading;
       routeProps.element = (
         <Suspense fallback={<Loading />}>
