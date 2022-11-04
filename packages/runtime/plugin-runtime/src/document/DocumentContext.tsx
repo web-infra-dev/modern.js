@@ -2,9 +2,9 @@ import React from 'react';
 
 type DocumentProps = {
   [x: string]: any;
-  config: Record<string, unknown>;
+  config: any;
   templateParams: Record<string, unknown>;
-  processEnv: Record<string, string>;
+  processEnv: Record<string, string | undefined>;
   children?: JSX.Element;
 };
 

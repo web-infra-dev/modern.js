@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { DOCUMENT_NO_SCRIPTE_PLACEHOLDER } from '../constants';
+import { DOCUMENT_NO_SCRIPTE_PLACEHOLDER } from './constants';
 import { DocumentStructrueContext } from './DocumentStructrueContext';
 
 export function Body(props: { children?: any; rootId?: string }) {

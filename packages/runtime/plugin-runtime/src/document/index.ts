@@ -5,3 +5,4 @@ export * from './Head';
 export * from './Body';
 export * from './Root';
 export * from './Scripts';
+export * from './constants';

@@ -6,6 +6,7 @@ import {
   getEntryOptions,
   removeTailSlash,
   generateMetaTags,
+  createDebugger,
 } from '@modern-js/utils';
 import webpack from 'webpack';
 import React from 'react';
@@ -13,22 +14,19 @@ import ReactDomServer from 'react-dom/server';
 import type { Entrypoint, IAppContext } from '@modern-js/types';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import type { HtmlTagObject } from 'html-webpack-plugin';
-import { DocumentContext } from '@modern-js/runtime/document';
+import {
+  DocumentContext,
+  DOCUMENT_SCRIPTS_PLACEHOLDER,
+  DOCUMENT_FILE_NAME,
+  DOCUMENT_META_PLACEHOLDER,
+  DOCUMENT_NO_SCRIPTE_PLACEHOLDER,
+  PLACEHOLDER_REPLACER_MAP,
+} from '@modern-js/runtime/document';
 import { BottomTemplatePlugin } from '../../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../../utils/constants';
 import type { ChainUtils } from '../shared';
 
-// todo: 移入常量文件中
-const DOCUMENT_FILE_NAME = 'document';
-const DOCUMENT_SCRIPTS_PLACEHOLDER = encodeURIComponent(
-  '<!-- chunk scripts placeholder -->',
-);
-const DOCUMENT_META_PLACEHOLDER = encodeURIComponent('<%= meta %>');
-const DOCUMENT_NO_SCRIPTE_PLACEHOLDER =
-  encodeURIComponent('<!-- no-script -->');
-const PLACEHOLDER_MAP = {
-  [DOCUMENT_NO_SCRIPTE_PLACEHOLDER]: `We're sorry but react app doesn't work properly without JavaScript enabled. Please enable it to continue.`,
-};
+const debug = createDebugger('html_genarate');
 
 const docExt = ['jsx', 'tsx'];
 
@@ -151,7 +149,7 @@ export async function applyHTMLPlugin({
             );
             // 转成 string
             const html = ReactDomServer.renderToString(HTMLElement);
-
+            debug('Document jsx: ', html);
             const scripts =
               // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               htmlWebpackPlugin.tags.headTags
@@ -165,7 +163,7 @@ export async function applyHTMLPlugin({
               .replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts)
               .replace(
                 DOCUMENT_NO_SCRIPTE_PLACEHOLDER,
-                PLACEHOLDER_MAP[DOCUMENT_NO_SCRIPTE_PLACEHOLDER],
+                PLACEHOLDER_REPLACER_MAP[DOCUMENT_NO_SCRIPTE_PLACEHOLDER],
               );
           },
         }
