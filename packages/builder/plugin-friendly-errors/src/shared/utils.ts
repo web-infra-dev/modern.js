@@ -13,7 +13,7 @@ export const parseError = (error: WebpackError) => {
   }
 
   const parsed = cloneErrorObject(error) as ParsedError;
-  parsed.trace = new StackTracey(error).items;
+  parsed.trace = flattenErrorTrace(error);
   parsed.raw = error;
 
   _traceSerializeCache.set(error, parsed);
@@ -57,4 +57,35 @@ export const formatError = (
   }
   assert(typeof formatted === 'string', 'No error formatter found');
   return formatted;
+};
+
+export interface ErrorWithCause extends Error {
+  cause?: unknown;
+  error?: unknown;
+}
+
+export const getErrorCauses = (error: ErrorWithCause) => {
+  const causes = [];
+  let e: unknown = error;
+  while (e instanceof Error) {
+    causes.push(e);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error `cause` is not part of the Error interface
+    e = e.cause || e.error;
+  }
+  return causes;
+};
+
+export const compressCauses = (
+  causes: ErrorWithCause[],
+): StackTracey.Entry[] => {
+  const parsedTraces = causes.map(e => new StackTracey(e).items);
+  const compressed = _(parsedTraces).flatten().uniqBy('beforeParse').value();
+  return compressed;
+};
+
+export const flattenErrorTrace = (error: ErrorWithCause) => {
+  const causes = getErrorCauses(error);
+  const compressed = compressCauses(causes);
+  return compressed;
 };

@@ -1,14 +1,10 @@
 import chalk from '@modern-js/utils/chalk';
-import StackTracey from 'stacktracey';
 import { ErrorTransformer } from '../shared/types';
 
 export const transformModuleParseError: ErrorTransformer = e => {
   if (e.name === 'ModuleParseError') {
     const rawError: Error = (e.raw as any).error;
     const rawStack = rawError?.stack;
-
-    // re-generate stack so that remove the useless record.
-    e.trace = new StackTracey(e.message).items;
 
     // remove last line wrapping.
     let sliceEnding = -1;
