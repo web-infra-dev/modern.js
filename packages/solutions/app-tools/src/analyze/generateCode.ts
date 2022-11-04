@@ -205,7 +205,9 @@ export const generateCode = async (
             route => 'type' in route && route.type === 'page',
           );
           if (hasPageRoute) {
-            logger.error('streaming ssr is not supported when pages dir exist');
+            logger.error(
+              'streaming ssr is not supported when pages dir exists',
+            );
             // eslint-disable-next-line no-process-exit
             process.exit(1);
           }
