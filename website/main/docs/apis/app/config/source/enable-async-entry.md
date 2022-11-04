@@ -1,9 +1,8 @@
 ---
+title: source.enableAsyncEntry
 sidebar_label: enableAsyncEntry
 sidebar_position: 7
 ---
-
-# source.enableAsyncEntry
 
 - 类型： `boolean`
 - 默认值： `false`

@@ -1,5 +1,30 @@
 # @modern-js/electron-generator
 
+## 2.4.6
+
+## 2.4.5
+
+### Patch Changes
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+## 2.4.4
+
+## 2.4.3
+
+## 2.4.0
+
+## 2.3.4
+
+### Patch Changes
+
+- a459945: chore: electron ts template use electron.config.js
+  chore: electron ts 模版使用`electron.config.js`配置
+- 98bb83e: update electron template dep: `@modern-js/plugin-electron`
+  升级 electron 模版中的 `@modern-js/plugin-electron` 依赖版本
+
 ## 2.3.3
 
 ## 2.3.1

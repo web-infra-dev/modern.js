@@ -1,0 +1,156 @@
+// Vitest Snapshot v1
+
+exports[`plugins/splitChunks > should set all-in-one config 1`] = `
+{
+  "optimization": {
+    "splitChunks": false,
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set custom config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "User_Force_Split_Group_0": {
+          "chunks": "all",
+          "enforce": true,
+          "name": "User_Force_Split_Group_0",
+          "test": /react/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set single-size config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {},
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+      "maxSize": 5000,
+      "minSize": 1000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set single-vendor config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {},
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "pre-defined-chunk-0": {
+          "name": "pre-defined-chunk-0",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+        },
+        "pre-defined-chunk-1": {
+          "name": "pre-defined-chunk-1",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+        },
+        "pre-defined-chunk-2": {
+          "name": "pre-defined-chunk-2",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]@ies\\\\/semi\\[\\\\\\\\/\\]/,
+        },
+        "pre-defined-chunk-3": {
+          "name": "pre-defined-chunk-3",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+        },
+        "pre-defined-chunk-4": {
+          "name": "pre-defined-chunk-4",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]@arco-design\\[\\\\\\\\/\\]/,
+        },
+        "pre-defined-chunk-5": {
+          "name": "pre-defined-chunk-5",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]@douyinfe\\\\/semi\\[\\\\\\\\/\\]/,
+        },
+        "pre-defined-chunk-6": {
+          "name": "pre-defined-chunk-6",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]@babel\\\\/runtime\\|@babel\\\\/runtime-corejs2\\|@babel\\\\/runtime-corejs3\\[\\\\\\\\/\\]/,
+        },
+        "pre-defined-chunk-7": {
+          "name": "pre-defined-chunk-7",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+        },
+        "pre-defined-chunk-8": {
+          "name": "pre-defined-chunk-8",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]core-js\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set split-by-module config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "vendors": {
+          "name": [Function],
+          "priority": -10,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+      "maxInitialRequests": Infinity,
+      "minSize": 0,
+    },
+  },
+}
+`;

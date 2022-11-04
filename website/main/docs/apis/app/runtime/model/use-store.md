@@ -3,8 +3,6 @@ sidebar_position: 9
 title: useStore
 ---
 
-# useStore
-
 import ReduckTip from '@site/docs/components/reduck-tip.md'
 
 <ReduckTip />

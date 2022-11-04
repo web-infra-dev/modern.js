@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [14.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -30,7 +30,7 @@ jobs:
       name: Install pnpm
       id: pnpm-install
       with:
-        version: 6.32.17
+        version: 7.12.2
         run_install: false
 
     - name: Install Dependencies
@@ -41,7 +41,7 @@ jobs:
 
     - name: Prepare
       if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-      run: pnpm run prepare --filter ./packages
+      run: pnpm run --filter "./packages/**" prepare
 
     - name: Run cypress test
       uses: cypress-io/github-action@v4

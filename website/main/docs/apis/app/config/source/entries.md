@@ -1,9 +1,8 @@
 ---
+title: source.entries
 sidebar_label: entries
 sidebar_position: 6
 ---
-
-# source.entries
 
 
 

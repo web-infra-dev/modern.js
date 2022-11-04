@@ -1,9 +1,8 @@
 ---
+title: tools.sass
+
 sidebar_label: sass
 ---
-
-# tools.sass
-
 
 
 - 类型： `Object | Function`

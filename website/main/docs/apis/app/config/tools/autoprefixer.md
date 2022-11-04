@@ -1,8 +1,7 @@
 ---
+title: tools.autoprefixer
 sidebar_label: autoprefixer
 ---
-
-# tools.autoprefixer
 
 
 

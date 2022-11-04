@@ -1,0 +1,133 @@
+// Vitest Snapshot v1
+
+exports[`plugins/inlineChunk > should add InlineChunkHtmlPlugin properly by default 1`] = `
+{
+  "entry": {
+    "main": [
+      "src/main.ts",
+    ],
+  },
+  "plugins": [
+    HtmlWebpackPlugin {
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": true,
+        "minify": false,
+        "template": "<ROOT>/packages/builder/builder-webpack-provider/static/template.html",
+        "templateParameters": [Function],
+      },
+      "version": 5,
+    },
+    InlineChunkHtmlPlugin {
+      "htmlWebpackPlugin": [Function],
+      "inlinedAssets": Set {},
+      "tests": [
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+    },
+  ],
+}
+`;
+
+exports[`plugins/inlineChunk > should use proper plugin options when disableInlineRuntimeChunk is true 1`] = `
+{
+  "entry": {
+    "main": [
+      "src/main.ts",
+    ],
+  },
+  "plugins": [
+    HtmlWebpackPlugin {
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": true,
+        "minify": false,
+        "template": "<ROOT>/packages/builder/builder-webpack-provider/static/template.html",
+        "templateParameters": [Function],
+      },
+      "version": 5,
+    },
+    InlineChunkHtmlPlugin {
+      "htmlWebpackPlugin": [Function],
+      "inlinedAssets": Set {},
+      "tests": [],
+    },
+  ],
+}
+`;
+
+exports[`plugins/inlineChunk > should use proper plugin options when enableInlineScripts is true 1`] = `
+{
+  "entry": {
+    "main": [
+      "src/main.ts",
+    ],
+  },
+  "plugins": [
+    HtmlWebpackPlugin {
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": true,
+        "minify": false,
+        "template": "<ROOT>/packages/builder/builder-webpack-provider/static/template.html",
+        "templateParameters": [Function],
+      },
+      "version": 5,
+    },
+    InlineChunkHtmlPlugin {
+      "htmlWebpackPlugin": [Function],
+      "inlinedAssets": Set {},
+      "tests": [
+        /\\\\\\.js\\$/,
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+    },
+  ],
+}
+`;
+
+exports[`plugins/inlineChunk > should use proper plugin options when enableInlineStyles is true 1`] = `
+{
+  "entry": {
+    "main": [
+      "src/main.ts",
+    ],
+  },
+  "plugins": [
+    HtmlWebpackPlugin {
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": true,
+        "minify": false,
+        "template": "<ROOT>/packages/builder/builder-webpack-provider/static/template.html",
+        "templateParameters": [Function],
+      },
+      "version": 5,
+    },
+    InlineChunkHtmlPlugin {
+      "htmlWebpackPlugin": [Function],
+      "inlinedAssets": Set {},
+      "tests": [
+        /\\\\\\.css\\$/,
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+    },
+  ],
+}
+`;

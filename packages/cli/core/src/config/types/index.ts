@@ -1,5 +1,4 @@
-import type { IncomingMessage, ServerResponse } from 'http';
-import type { NextFunction, BffProxyOptions } from '@modern-js/types';
+import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
 import type {
   MetaOptions,
   ChainIdentifier,
@@ -181,7 +180,7 @@ export type DevProxyOptions = string | Record<string, string>;
 
 export interface DevConfig {
   assetPrefix?: string | boolean;
-  https?: boolean;
+  https?: DevServerHttpsOptions;
 
   /**
    * The configuration of `dev.proxy` is provided by `proxy` plugin.
@@ -219,22 +218,6 @@ type ConfigFunction =
       utils?: any,
     ) => Record<string, unknown> | void);
 
-export type RequestHandler = (
-  req: IncomingMessage,
-  res: ServerResponse,
-  next: NextFunction,
-) => void;
-
-export type DevServerConfig = {
-  hot?: boolean;
-  liveReload?: boolean;
-  proxy?: BffProxyOptions;
-  headers?: Record<string, string>;
-  before?: RequestHandler[];
-  after?: RequestHandler[];
-  [propsName: string]: any;
-};
-
 export type PostCSSConfigUtils = {
   addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void;
 };
@@ -250,6 +233,7 @@ export type WebpackConfigUtils = {
   env: string;
   name: string;
   webpack: typeof webpack;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
   addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
   prependPlugins: (
     plugins: WebpackPluginInstance | WebpackPluginInstance[],
@@ -276,6 +260,7 @@ export type WebpackChainConfigUtils = {
   name: string;
   webpack: typeof webpack;
   CHAIN_ID: ChainIdentifier;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
 };
 
 export type WebpackChainConfig = (
@@ -311,7 +296,7 @@ export interface ToolsConfig {
   postcss?: PostCSSConfig;
   styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
-  devServer?: DevServerConfig;
+  devServer?: DevServerOptions;
   tsLoader?: TsLoaderConfig;
   terser?: TerserConfig;
   minifyCss?: ConfigFunction;

@@ -1,9 +1,8 @@
 ---
+title: tools.tailwindcss
+
 sidebar_label: tailwindcss
 ---
-
-# tools.tailwindcss
-
 
 
 * 类型： `Object | Function`

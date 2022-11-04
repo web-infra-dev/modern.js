@@ -2,5 +2,9 @@ import { createBuilder } from './shared';
 
 (async function main() {
   const builder = await createBuilder();
-  await builder.startDevServer();
+  try {
+    await builder.startDevServer();
+  } catch (err) {
+    console.error(err);
+  }
 })();

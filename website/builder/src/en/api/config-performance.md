@@ -1,6 +1,14 @@
+---
+extractApiHeaders: [2]
+---
+
 # Performance Config
 
 This section describes some performance related configurations in Modern.js Builder.
+
+## performance.buildCache
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/performance/buildCache.md)!!!
 
 ## performance.bundleAnalyze
 
@@ -9,6 +17,10 @@ This section describes some performance related configurations in Modern.js Buil
 ## performance.chunkSplit
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/performance/chunkSplit.md)!!!
+
+## performance.profile
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/performance/profile.md)!!!
 
 ## performance.removeConsole
 

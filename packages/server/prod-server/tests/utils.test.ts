@@ -76,6 +76,20 @@ describe('test server utils', () => {
       expect(reg.test('/static-css')).toBeTruthy();
     });
 
+    test('should test custom static path correctly', () => {
+      const { NODE_ENV } = process.env;
+      process.env.NODE_ENV = 'production';
+
+      const reg = getStaticReg({
+        assetPrefix: '/foo/',
+      });
+      expect(reg.test('/foo/static/a.js')).toBeTruthy();
+      expect(reg.test('/foo/static/a.css')).toBeTruthy();
+      expect(reg.test('/bar/static/a.css')).toBeFalsy();
+
+      process.env.NODE_ENV = NODE_ENV;
+    });
+
     test('should test favicon path correctly', () => {
       const reg = getStaticReg({
         favicon: 'index.icon',

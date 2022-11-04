@@ -1,0 +1,136 @@
+{
+  "name": "@modern-js/builder-webpack-provider",
+  "description": "Builder provider for webpack",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "version": "1.21.1",
+  "jsnext:source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "jsnext:modern": "./dist/index.js",
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./html-webpack-plugin": {
+      "jsnext:source": "./src/exports/HtmlWebpackPlugin.ts",
+      "default": "./dist/exports/HtmlWebpackPlugin.js"
+    },
+    "./webpack": {
+      "jsnext:source": "./src/exports/webpack.ts",
+      "default": "./dist/exports/webpack.js"
+    },
+    "./stub": {
+      "jsnext:source": "./src/stub/index.ts",
+      "default": "./dist/stub/index.js"
+    },
+    "./plugins/*": {
+      "jsnext:source": "./src/plugins/*.ts",
+      "default": "./dist/plugins/*.js"
+    },
+    "./webpack/lib/ModuleFilenameHelpers.js": {
+      "default": "./dist/exports/ModuleFileNameHelpers.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "webpack": [
+        "./dist/exports/webpack.d.ts"
+      ],
+      "html-webpack-plugin": [
+        "./dist/exports/HtmlWebpackPlugin.d.ts"
+      ],
+      "stub": [
+        "./dist/stub/index.d.ts"
+      ],
+      "plugins/*": [
+        "./dist/plugins/*.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "prepare": "pnpm build",
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern new",
+    "build": "wireit",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest dev --no-coverage",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "@modern-js/babel-preset-app": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/inspector-webpack-plugin": "1.0.3",
+    "@modern-js/server": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.8",
+    "@svgr/webpack": "6.2.1",
+    "@types/mini-css-extract-plugin": "2.2.0",
+    "caniuse-lite": "^1.0.30001332",
+    "css-minimizer-webpack-plugin": "4.0.0",
+    "cssnano": "5.1.13",
+    "fork-ts-checker-webpack-plugin": "7.2.13",
+    "html-webpack-plugin": "5.5.0",
+    "mini-css-extract-plugin": "2.4.5",
+    "postcss": "8.4.16",
+    "react-refresh": "0.12.0",
+    "style-loader": "3.3.1",
+    "terser-webpack-plugin": "5.3.3",
+    "ts-loader": "9.3.1",
+    "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.18.0",
+    "@modern-js/e2e": "workspace:*",
+    "@scripts/vitest-config": "workspace:*",
+    "@types/babel__core": "^7.1.19",
+    "@types/babel__preset-env": "^7.9.2",
+    "@types/node": "^14",
+    "autoprefixer": "^10.4.8",
+    "typescript": "^4"
+  },
+  "peerDependencies": {
+    "@modern-js/e2e": "workspace:^1.21.1"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/e2e": {
+      "optional": true
+    }
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/index.d.ts"
+  },
+  "wireit": {
+    "build": {
+      "command": "tsc && node scripts/post-compile.js",
+      "files": [
+        "src/**/*",
+        "tsconfig.json",
+        "package.json",
+        "scripts/post-compile.js"
+      ],
+      "output": [
+        "dist/**/*",
+        "compiled/config-validate/**/*"
+      ]
+    }
+  }
+}

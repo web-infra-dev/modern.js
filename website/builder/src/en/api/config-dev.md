@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Dev Config
 
 This section describes some dev configurations in Modern.js Builder.
@@ -17,6 +21,10 @@ This section describes some dev configurations in Modern.js Builder.
 ## dev.port
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/dev/port.md)!!!
+
+## dev.progressBar
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/dev/progressBar.md)!!!
 
 ## dev.startUrl
 

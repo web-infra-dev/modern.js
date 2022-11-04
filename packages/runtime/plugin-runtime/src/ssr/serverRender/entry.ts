@@ -1,5 +1,3 @@
-import path from 'path';
-import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import serialize from 'serialize-javascript';
@@ -11,6 +9,7 @@ import {
   RenderLevel,
   SSRServerContext,
   RenderResult,
+  SSRPluginConfig,
 } from './type';
 
 import helmetReplace from './helmet';
@@ -22,6 +21,7 @@ import { time } from './measure';
 type EntryOptions = {
   ctx: SSRServerContext;
   App: ModernSSRReactComponent;
+  config: SSRPluginConfig;
 };
 
 const buildTemplateData = (
@@ -60,12 +60,23 @@ export default class Entry {
 
   private readonly fragments: Fragment[];
 
+  private readonly pluginConfig: SSRPluginConfig;
+
+  private readonly host: string;
+
   constructor(options: EntryOptions) {
-    const { ctx } = options;
-    const { entryName, template: templateHTML } = ctx;
-    this.fragments = toFragments(templateHTML);
+    const { ctx, config } = options;
+    const {
+      entryName,
+      template,
+      request: { host },
+    } = ctx;
+
+    this.fragments = toFragments(template, entryName);
     this.entryName = entryName;
+    this.host = host;
     this.App = options.App;
+    this.pluginConfig = config;
 
     this.metrics = ctx.metrics;
     this.logger = ctx.logger;
@@ -152,14 +163,12 @@ export default class Entry {
         context: Object.assign(context, { ssr: true }),
       });
 
-      // Todo render Hook
       const renderContext = {
-        loadableManifest: path.resolve(
-          ssrContext!.distDir,
-          LOADABLE_STATS_FILE,
-        ),
+        stats: ssrContext!.loadableStats,
+        host: this.host,
         result: this.result,
         entryName: this.entryName,
+        config: this.pluginConfig,
       };
       html = reduce(App, renderContext, [
         styledComponentRenderer.toHtml,

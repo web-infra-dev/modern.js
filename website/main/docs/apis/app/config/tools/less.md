@@ -1,8 +1,8 @@
 ---
+title: tools.less
+
 sidebar_label: less
 ---
-
-# tools.less
 
 
 

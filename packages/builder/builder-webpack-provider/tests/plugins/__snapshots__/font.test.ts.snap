@@ -1,0 +1,77 @@
+// Vitest Snapshot v1
+
+exports[`plugins/font > should add font rules correctly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/font > should allow to use distPath.font to be empty string 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/font > should allow to use distPath.font to modify dist path 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "foo/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/font > should allow to use filename.font to modify filename 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "static/font/foo[ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;

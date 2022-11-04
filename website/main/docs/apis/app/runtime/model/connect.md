@@ -3,8 +3,6 @@ sidebar_position: 5
 title: connect
 ---
 
-# connect
-
 import ReduckTip from '@site/docs/components/reduck-tip.md'
 
 <ReduckTip />

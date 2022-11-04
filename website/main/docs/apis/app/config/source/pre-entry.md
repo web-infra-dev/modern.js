@@ -1,9 +1,8 @@
 ---
+title: source.preEntry
+
 sidebar_label: preEntry
 ---
-
-# source.preEntry
-
 
 
 - 类型： `string | string[]`

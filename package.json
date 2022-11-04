@@ -22,7 +22,7 @@
     "test:vitest": "node scripts/vitest-run-all.js",
     "fast-lint": "sh -x ./fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
-    "prepare": "pnpm run prepare --filter ./packages && husky install",
+    "prepare": "pnpm run --filter './packages/**' prepare && husky install",
     "preinstall": "only-allow-pnpm",
     "lint": "npm run fast-lint",
     "change": "modern change",
@@ -40,7 +40,7 @@
   "engines": {
     "node": ">=14.17.6"
   },
-  "packageManager": "pnpm@6.34.0",
+  "packageManager": "pnpm@7.12.2",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -83,17 +83,18 @@
     "@swc/jest": "^0.2.22",
     "@types/react": "^17",
     "@types/react-dom": "^17",
+    "@vitest/ui": "^0.21.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "btsm": "2.2.2",
     "cypress": "^10.1.0",
     "enhanced-resolve": "^5.9.2",
     "esbuild": "^0.14.38",
+    "execa": "^5.1.1",
+    "globby": "^11.0.4",
     "husky": "^8.0.0",
     "jest": "^27.5.1",
-    "wireit": "^0.7.1",
-    "zx": "4.2.0",
     "vitest": "0.21.1",
-    "execa": "^5.1.1",
-    "globby": "^11.0.4"
+    "wireit": "^0.7.1",
+    "zx": "4.2.0"
   }
 }

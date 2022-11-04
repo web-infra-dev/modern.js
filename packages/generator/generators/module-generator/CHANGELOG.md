@@ -1,5 +1,29 @@
 # @modern-js/module-generator
 
+## 2.4.6
+
+## 2.4.5
+
+### Patch Changes
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+## 2.4.4
+
+## 2.4.3
+
+## 2.4.0
+
+### Minor Changes
+
+- d2fbefc: feat: upgrade husky version
+
+  feat: 升级生成器模板 husky 版本
+
+## 2.3.4
+
 ## 2.3.3
 
 ### Patch Changes

@@ -1,10 +1,8 @@
 ---
+title: tools.webpack
+
 sidebar_label: webpack
 ---
-
-# tools.webpack
-
-
 
 - 类型： `Object | (config, utils) => void`
 - 默认值： `undefined`
@@ -118,6 +116,20 @@ export default defineConfig({
 建议优先使用该参数来访问 webpack 对象，而不是通过 import 来引入 `webpack`。
 
 如果需要通过 import 引入，则项目里需要单独安装 webpack 依赖，这样可能会导致 webpack 被重复安装，因此不推荐该做法。
+
+### HtmlWebpackPlugin
+
+通过 `HtmlWebpackPlugin` 参数可以获取 Modern.js 内部使用的 HtmlWebpackPlugin 对象。
+
+```js title="modern.config.js"
+export default defineConfig({
+  tools: {
+    webpack: (config, { HtmlWebpackPlugin }) => {
+      console.log(HtmlWebpackPlugin);
+    },
+  },
+});
+```
 
 ### addRules
 

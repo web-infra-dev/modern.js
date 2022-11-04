@@ -18,10 +18,10 @@ type FilenameConfig = {
 const devDefaultFilename = {
   js: '[name].js',
   css: '[name].css',
-  svg: '[name].svg',
-  font: '[name][ext]',
-  image: '[name][ext]',
-  media: '[name][ext]',
+  svg: '[name].[contenthash:8].svg',
+  font: '[name].[contenthash:8][ext]',
+  image: '[name].[contenthash:8][ext]',
+  media: '[name].[contenthash:8][ext]',
 };
 
 // Production

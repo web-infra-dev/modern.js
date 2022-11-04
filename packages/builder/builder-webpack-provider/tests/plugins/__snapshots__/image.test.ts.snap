@@ -1,0 +1,77 @@
+// Vitest Snapshot v1
+
+exports[`plugins/image > should add image rules correctly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "static/image/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/image > should allow to use distPath.image to be empty string 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/image > should allow to use distPath.image to modify dist path 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "foo/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/image > should allow to use filename.image to modify filename 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "static/image/foo[ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;

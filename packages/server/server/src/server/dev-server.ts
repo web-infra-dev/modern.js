@@ -10,7 +10,12 @@ import {
   AGGRED_DIR,
   BuildOptions,
 } from '@modern-js/prod-server';
-import type { ModernServerContext } from '@modern-js/types';
+import type {
+  ModernServerContext,
+  RequestHandler,
+  ExposeServerApis,
+} from '@modern-js/types';
+import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
@@ -40,7 +45,7 @@ export class ModernDevServer extends ModernServer {
     this.devMiddleware = new DevMiddleware({
       dev: this.dev,
       compiler: options.compiler,
-      config: this.conf,
+      devMiddleware: options.devMiddleware,
     });
 
     enableRegister(this.pwd, this.conf);
@@ -60,19 +65,70 @@ export class ModernDevServer extends ModernServer {
     };
   }
 
-  // Complete the preparation of services
-  public async onInit(runner: ServerHookRunner, app: Server) {
-    this.runner = runner;
-
-    const { conf, pwd, dev, devMiddleware } = this;
-    // before dev handler
-    const beforeHandlers = await this.setupBeforeDevMiddleware();
-    beforeHandlers.forEach(handler => {
+  private addMiddlewareHandler(handlers: RequestHandler[]) {
+    handlers.forEach(handler => {
       this.addHandler((ctx, next) => {
         const { req, res } = ctx;
         return handler(req, res, next);
       });
     });
+  }
+
+  private applySetupMiddlewares() {
+    const setupMiddlewares = this.dev.setupMiddlewares || [];
+
+    const serverOptions: ExposeServerApis = {
+      sockWrite: (type, data) => this.devMiddleware.sockWrite(type, data),
+    };
+
+    const befores: RequestHandler[] = [];
+    const afters: RequestHandler[] = [];
+
+    setupMiddlewares.forEach(handler => {
+      handler(
+        {
+          unshift: (...handlers) => befores.unshift(...handlers),
+          push: (...handlers) => afters.push(...handlers),
+        },
+        serverOptions,
+      );
+    });
+
+    return { befores, afters };
+  }
+
+  // Complete the preparation of services
+  public async onInit(runner: ServerHookRunner, app: Server) {
+    this.runner = runner;
+
+    const { dev } = this;
+
+    // Order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after
+    const { befores, afters } = this.applySetupMiddlewares();
+
+    // before dev handler
+    const beforeHandlers = await this.setupBeforeDevMiddleware();
+    this.addMiddlewareHandler([...beforeHandlers, ...befores]);
+
+    await this.applyDefaultMiddlewares(app);
+
+    // after dev handler
+    const afterHandlers = await this.setupAfterDevMiddleware();
+    this.addMiddlewareHandler([...afters, ...afterHandlers]);
+
+    await super.onInit(runner, app);
+
+    // watch mock/ server/ api/ dir file change
+    if (dev.watch) {
+      this.startWatcher();
+      app.on('close', async () => {
+        await this.watcher?.close();
+      });
+    }
+  }
+
+  private async applyDefaultMiddlewares(app: Server) {
+    const { pwd, dev, devMiddleware } = this;
 
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
       // allow hmr request cross-domain, because the user may use global proxy
@@ -82,7 +138,7 @@ export class ModernDevServer extends ModernServer {
       }
 
       // 用户在 devServer 上配置的 headers 不会对 html 的请求生效，加入下面代码，使配置的 headers 对所有请求生效
-      const confHeaders = this.conf.tools.devServer?.headers;
+      const confHeaders = dev.headers;
       if (confHeaders) {
         for (const [key, value] of Object.entries(confHeaders)) {
           ctx.res.setHeader(key, value);
@@ -102,7 +158,7 @@ export class ModernDevServer extends ModernServer {
     });
 
     // dev proxy handler, each proxy has own handler
-    const proxyHandlers = createProxyHandler(conf.tools?.devServer?.proxy);
+    const proxyHandlers = createProxyHandler(dev.proxy);
     if (proxyHandlers) {
       proxyHandlers.forEach(handler => {
         this.addHandler(handler);
@@ -119,26 +175,26 @@ export class ModernDevServer extends ModernServer {
     });
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
       const { req, res } = ctx;
-      devMiddleware.middleware(req, res, next);
+      if (devMiddleware.middleware) {
+        devMiddleware.middleware(req, res, next);
+      } else {
+        next();
+      }
     });
 
-    // after dev handler
-    const afterHandlers = await this.setupAfterDevMiddleware();
-    afterHandlers.forEach(handler => {
-      this.addHandler((ctx, next) => {
-        const { req, res } = ctx;
-        return handler(req, res, next);
-      });
-    });
+    if (dev.historyApiFallback) {
+      const { default: connectHistoryApiFallback } = await import(
+        'connect-history-api-fallback'
+      );
 
-    await super.onInit(runner, app);
-
-    // watch mock/ server/ api/ dir file change
-    if (dev.watch) {
-      this.startWatcher();
-      app.on('close', async () => {
-        await this.watcher?.close();
-      });
+      const historyApiFallbackMiddleware = connectHistoryApiFallback(
+        typeof dev.historyApiFallback === 'boolean'
+          ? {}
+          : dev.historyApiFallback,
+      ) as RequestHandler;
+      this.addHandler((ctx, next) =>
+        historyApiFallbackMiddleware(ctx.req, ctx.res, next),
+      );
     }
   }
 
@@ -218,18 +274,18 @@ export class ModernDevServer extends ModernServer {
   }
 
   private async setupBeforeDevMiddleware() {
-    const { runner, conf } = this;
+    const { runner, conf, dev } = this;
 
-    const setupMids = conf.tools.devServer?.before || [];
+    const setupMids = dev.before || [];
     const pluginMids = await runner.beforeDevServer(conf);
 
     return [...setupMids, ...pluginMids].flat();
   }
 
   private async setupAfterDevMiddleware() {
-    const { runner, conf } = this;
+    const { runner, conf, dev } = this;
 
-    const setupMids = conf.tools.devServer?.after || [];
+    const setupMids = dev.after || [];
     const pluginMids = await runner.afterDevServer(conf);
 
     return [...pluginMids, ...setupMids].flat();
@@ -245,6 +301,11 @@ export class ModernDevServer extends ModernServer {
         delete require.cache[filepath];
       }
     });
+
+    const loadable = path.join(distDir, LOADABLE_STATS_FILE);
+    if (require.cache[loadable]) {
+      delete require.cache[loadable];
+    }
   }
 
   private startWatcher() {

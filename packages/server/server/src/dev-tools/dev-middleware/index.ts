@@ -1,18 +1,19 @@
-import { Server, IncomingMessage, ServerResponse } from 'http';
+import { Server } from 'http';
 import { EventEmitter } from 'events';
 import { Compiler, MultiCompiler } from 'webpack';
-import webpackDevMiddleware, {
-  Headers,
-} from '@modern-js/utils/webpack-dev-middleware';
-import type { NormalizedConfig } from '@modern-js/core';
-import { DevServerOptions } from '../../types';
+import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
+import {
+  DevServerOptions,
+  DevMiddlewareAPI,
+  CustomDevMiddleware,
+} from '../../types';
 import DevServerPlugin from './dev-server-plugin';
 import SocketServer from './socket-server';
 
 type Options = {
-  compiler: MultiCompiler | Compiler;
+  compiler: MultiCompiler | Compiler | null;
   dev: DevServerOptions;
-  config: NormalizedConfig;
+  devMiddleware?: CustomDevMiddleware;
 };
 
 const noop = () => {
@@ -20,22 +21,19 @@ const noop = () => {
 };
 
 export default class DevMiddleware extends EventEmitter {
-  public middleware: webpackDevMiddleware.API<IncomingMessage, ServerResponse>;
+  public middleware?: DevMiddlewareAPI;
 
-  private compiler: MultiCompiler | Compiler;
+  private compiler: MultiCompiler | Compiler | null;
 
   private devOptions: DevServerOptions;
 
   private socketServer: SocketServer;
 
-  private config: NormalizedConfig;
-
-  constructor({ compiler, dev, config }: Options) {
+  constructor({ compiler, dev, devMiddleware }: Options) {
     super();
 
     this.compiler = compiler;
     this.devOptions = dev;
-    this.config = config;
 
     // init socket server
     this.socketServer = new SocketServer(dev);
@@ -48,9 +46,7 @@ export default class DevMiddleware extends EventEmitter {
       // register hooks for each compilation, update socket stats if recompiled
       this.setupHooks();
       // start dev middleware
-      this.middleware = this.setupDevMiddleware();
-    } else {
-      this.middleware = noop as any;
+      this.middleware = this.setupDevMiddleware(devMiddleware);
     }
   }
 
@@ -60,7 +56,7 @@ export default class DevMiddleware extends EventEmitter {
     });
 
     app.on('close', async () => {
-      this.middleware.close?.(noop);
+      this.middleware?.close(noop);
       this.socketServer.close();
     });
   }
@@ -78,6 +74,13 @@ export default class DevMiddleware extends EventEmitter {
     } else {
       new DevServerPlugin(devOptions).apply(this.compiler as Compiler);
     }
+  }
+
+  public sockWrite(
+    type: string,
+    data?: Record<string, any> | string | boolean,
+  ) {
+    this.socketServer.sockWrite(type, data);
   }
 
   private setupHooks() {
@@ -107,14 +110,13 @@ export default class DevMiddleware extends EventEmitter {
     }
   }
 
-  private setupDevMiddleware() {
-    const { config, devOptions } = this;
-    const middleware = webpackDevMiddleware(this.compiler, {
-      headers: config.tools?.devServer?.headers as Headers<
-        IncomingMessage,
-        ServerResponse
-      >,
-      publicPath: '/',
+  private setupDevMiddleware(
+    devMiddleware: CustomDevMiddleware = webpackDevMiddleware,
+  ) {
+    const { devOptions } = this;
+
+    const middleware = devMiddleware(this.compiler!, {
+      headers: devOptions.headers,
       stats: false,
       ...devOptions.devMiddleware,
     });

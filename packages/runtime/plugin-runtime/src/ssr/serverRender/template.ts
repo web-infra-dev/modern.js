@@ -1,13 +1,3 @@
-import fs from 'fs';
-
-const readFile = (filepath: string) => {
-  if (fs.existsSync(filepath)) {
-    return fs.readFileSync(filepath, 'utf-8');
-  } else {
-    return null;
-  }
-};
-
 type Filter = (str: string) => string;
 
 const VARIABLE_REG_EXP = /<!--<\?([-=+])\s*(.*?)\s*\?>-->/;
@@ -75,15 +65,9 @@ export class Fragment {
 
 const fragmentListMap: { [key: string]: Fragment[] } = {};
 
-export function toFragments(filename: string): Fragment[] {
-  if (fragmentListMap[filename]) {
-    return fragmentListMap[filename];
-  }
-
-  // 未开启现代构建的项目无 -es6.html
-  const template = readFile(filename);
-  if (!template) {
-    throw new Error(`Could not find template file: ${filename}`);
+export function toFragments(template: string, entryName: string): Fragment[] {
+  if (fragmentListMap[entryName]) {
+    return fragmentListMap[entryName];
   }
 
   const fragmentList = template
@@ -91,7 +75,7 @@ export function toFragments(filename: string): Fragment[] {
     .filter(v => Boolean(v))
     .map(v => new Fragment(v));
 
-  fragmentListMap[filename] = fragmentList;
+  fragmentListMap[entryName] = fragmentList;
 
   return fragmentList;
 }

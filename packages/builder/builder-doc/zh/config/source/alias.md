@@ -3,7 +3,7 @@
 
 设置文件引用的别名，对应 webpack 的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) 配置。
 
-:::tip 提示
+:::tip
 对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) 即可，Builder 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
 :::
 

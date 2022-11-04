@@ -1,5 +1,23 @@
 # @modern-js/create
 
+## 1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+## 1.20.1
+
+## 1.20.0
+
+## 1.19.0
+
+## 1.18.1
+
 ## 1.18.0
 
 ## 1.17.0

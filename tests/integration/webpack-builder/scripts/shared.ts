@@ -1,18 +1,25 @@
 import { join } from 'path';
 
 export const createBuilder = async () => {
-  const { createBuilder } = await import('@modern-js/webpack-builder');
+  const { createBuilder } = await import('@modern-js/builder');
+  const { builderWebpackProvider } = await import(
+    '@modern-js/builder-webpack-provider'
+  );
 
-  const builder = await createBuilder({
+  const builderProvider = builderWebpackProvider({
+    builderConfig: {
+      tools: {
+        // inspector: {},
+      },
+    },
+  });
+
+  const builder = await createBuilder(builderProvider, {
     entry: {
       main: join(process.cwd(), 'src', 'index.ts'),
     },
+    target: ['web'],
     configPath: __filename,
-    builderConfig: {
-      tools: {
-        inspector: {},
-      },
-    },
   });
 
   return builder;

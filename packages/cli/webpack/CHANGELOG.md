@@ -1,5 +1,74 @@
 # @modern-js/webpack
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@1.21.1
+- @modern-js/css-config@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- 17d1672: fix: `tools.webpack` of Storybook API not work
+  fix: 修复 Storybook API tools.webpack 不生效
+- b0597e3: feat(webpack): expose HtmlWebpackPlugin instance in tools.webpack
+
+  feat(webpack): 支持在 tools.webpack 中获取到 HtmlWebpackPlugin 实例
+
+  - @modern-js/utils@1.21.0
+  - @modern-js/css-config@1.21.0
+  - @modern-js/babel-preset-app@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/babel-preset-app@1.20.1
+  - @modern-js/css-config@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- 077aef8: fix(webpack): react-refresh-webpack-plugin cause rebuild slow
+
+  fix(webpack): 修复 react-refresh-webpack-plugin 导致重新编译慢的问题
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/babel-preset-app@1.20.0
+  - @modern-js/css-config@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/css-config@1.19.0
+- @modern-js/babel-preset-app@1.19.0
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/css-config@1.18.1
+  - @modern-js/babel-preset-app@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes

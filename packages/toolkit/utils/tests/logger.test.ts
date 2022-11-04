@@ -18,8 +18,10 @@ describe('logger', () => {
 
     logger.error(new Error('this is an error message'));
 
+    logger.success('this is a success message');
+
     // eslint-disable-next-line no-console
-    expect(console.log as jest.Mock).toHaveBeenCalledTimes(4);
+    expect(console.log as jest.Mock).toHaveBeenCalledTimes(5);
   });
 
   test('should create new logger', () => {
@@ -29,7 +31,6 @@ describe('logger', () => {
     const customLogger = new logger.Logger({
       config: {
         displayLabel: true,
-        underlineLabel: false,
         uppercaseLabel: false,
       },
       types: {

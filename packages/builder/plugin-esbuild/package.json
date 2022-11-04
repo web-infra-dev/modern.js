@@ -1,7 +1,6 @@
 {
-  "private": true,
-  "name": "@modern-js/webpack-builder-plugin-esbuild",
-  "description": "Esbuild plugin for webpack-builder in Modern.js",
+  "name": "@modern-js/builder-plugin-esbuild",
+  "description": "Esbuild plugin for builder in Modern.js",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
@@ -15,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.0.0-alpha.0",
+  "version": "1.21.1",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -36,16 +35,17 @@
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
   },
+  "dependencies": {
+    "esbuild": "0.15.7",
+    "@modern-js/builder-shared": "workspace:*"
+  },
   "devDependencies": {
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/webpack-builder": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "4.7.4",
-    "vitest": "^0.21.1",
     "wireit": "^0.7.1"
-  },
-  "peerDependencies": {
-    "@modern-js/webpack-builder": "workspace:^1.1.0"
   },
   "sideEffects": false,
   "publishConfig": {

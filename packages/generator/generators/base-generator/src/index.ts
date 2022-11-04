@@ -1,6 +1,8 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { BaseSchema } from '@modern-js/generator-common';
+import { BaseSchema, PackageManager } from '@modern-js/generator-common';
+import { fs } from '@modern-js/generator-utils';
 
 const handleTemplateFile = async (
   context: GeneratorContext,
@@ -18,7 +20,11 @@ const handleTemplateFile = async (
     inputValue = generatorPlugin.getInputValue();
   }
 
-  await appApi.getInputBySchema(schema, { ...context.config, ...inputValue });
+  const { packageManager } = await appApi.getInputBySchema(schema, {
+    ...context.config,
+    ...inputValue,
+  });
+
   await appApi.forgeTemplate(
     'templates/base-templates/**/*',
     undefined,
@@ -30,6 +36,19 @@ const handleTemplateFile = async (
   await appApi.forgeTemplate('templates/idea/**/*', undefined, resourceKey =>
     resourceKey.replace('templates/idea/', '.idea/'),
   );
+
+  if (packageManager === PackageManager.Pnpm) {
+    await appApi.forgeTemplate(
+      'templates/pnpm-templates/**/*',
+      undefined,
+      resourceKey =>
+        resourceKey
+          .replace('templates/pnpm-templates/npmrc', '.npmrc')
+          .replace('.handlebars', ''),
+    );
+  }
+
+  fs.chmodSync(path.join(generator.outputPath, '.husky', 'pre-commit'), '755');
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

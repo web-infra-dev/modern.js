@@ -1,5 +1,52 @@
 # @modern-js/node-bundle-require
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- 7b3a482: fix(bundle-require): should bundle ts or esm files inside node_modules
+
+  fix(bundle-require): 修复无法打包 node_modules 下的 ts 和 esm 文件的问题
+
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes

@@ -118,12 +118,13 @@ export default (): ServerPlugin => ({
         initMiddlewares(middleware, app);
       }
 
+      app.on('error', err => {
+        if (err) {
+          throw err;
+        }
+      });
+
       return (req, res) => {
-        app.on('error', err => {
-          if (err) {
-            throw err;
-          }
-        });
         return Promise.resolve(app.callback()(req, res));
       };
     },

@@ -1,5 +1,85 @@
 # @modern-js/core
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@1.21.1
+- @modern-js/plugin@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- dca34c4: fix(core): dev.https missing object type
+
+  fix(core): 修复 dev.https 配置项缺少对象类型的问题
+
+- b0597e3: feat(webpack): expose HtmlWebpackPlugin instance in tools.webpack
+
+  feat(webpack): 支持在 tools.webpack 中获取到 HtmlWebpackPlugin 实例
+
+- Updated dependencies [7b3a482]
+- Updated dependencies [28f0a4f]
+  - @modern-js/node-bundle-require@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/node-bundle-require@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- d5d570b: fix(core): failed to log validate config errors from plugins
+
+  fix(core): 修复校验 plugin 中的 config 异常时，日志格式不正确的问题
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/node-bundle-require@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- d2cfa69: feat: add production env for release command
+  feat: 为 release 命令增加 production 环境变量
+  - @modern-js/node-bundle-require@1.19.0
+  - @modern-js/plugin@1.19.0
+  - @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- 318e149: fix: tools.devServer type missing some properties
+
+  fix: 修复 tools.devServer 类型定义不完整的问题
+
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/node-bundle-require@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes
@@ -74,7 +154,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for webpack-builder
+- 7b9067f: add babel plugin for builder
 
 ### Patch Changes
 
