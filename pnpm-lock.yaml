@@ -549,33 +549,6 @@ importers:
       jest: 27.5.1
       typescript: 4.7.4
 
-  packages/cli/plugin-esbuild:
-    specifiers:
-      '@babel/runtime': ^7.18.0
-      '@modern-js/core': workspace:*
-      '@modern-js/utils': workspace:*
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@types/jest': ^27
-      '@types/node': ^14
-      esbuild: 0.15.7
-      jest: ^27
-      typescript: ^4
-      webpack: ^5.74.0
-    dependencies:
-      '@babel/runtime': 7.18.6
-      '@modern-js/utils': link:../../toolkit/utils
-      esbuild: 0.15.7
-    devDependencies:
-      '@modern-js/core': link:../core
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 27.5.2
-      '@types/node': 14.18.21
-      jest: 27.5.1
-      typescript: 4.7.4
-      webpack: 5.74.0_esbuild@0.15.7
-
   packages/cli/plugin-i18n:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -4312,7 +4285,6 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
-      '@modern-js/plugin-esbuild': workspace:*
       '@modern-js/runtime': workspace:*
       react: ^18
       react-dom: ^18
@@ -4323,7 +4295,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-esbuild': link:../../../../../packages/cli/plugin-esbuild
 
   tests/integration/garfish/dashboard:
     specifiers:

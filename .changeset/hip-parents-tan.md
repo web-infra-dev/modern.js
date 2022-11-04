@@ -1,5 +1,4 @@
 ---
-'@modern-js/plugin-esbuild': patch
 '@modern-js/plugin-storybook': patch
 '@modern-js/runtime': patch
 '@modern-js/bff-core': patch

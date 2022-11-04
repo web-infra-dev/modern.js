@@ -9,7 +9,6 @@
     "@modern-js/runtime": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-esbuild": "workspace:*"
+    "@modern-js/app-tools": "workspace:*"
   }
 }
