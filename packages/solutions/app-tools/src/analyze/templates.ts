@@ -222,10 +222,7 @@ export const fileSystemRoutes = ({
       children,
     };
     if (route._component) {
-      const component =
-        ssrMode === 'stream'
-          ? `lazy(() => import('${route._component}'))`
-          : `loadable(() => import('${route._component}'))`;
+      const component = `lazy(() => import('${route._component}'))`;
       finalRoute.component = component;
     }
     return finalRoute;
@@ -244,10 +241,7 @@ export const fileSystemRoutes = ({
         .replace(/"(loader_[^"])"/g, '$1')
         .replace(/"(error_[^"])"/g, '$1')},`;
     } else {
-      const component =
-        ssrMode === 'stream'
-          ? `lazy(() => import('${route._component}'))`
-          : `loadable(() => import('${route._component}'))`;
+      const component = `lazy(() => import('${route._component}'))`;
       const finalRoute = {
         ...route,
         component,

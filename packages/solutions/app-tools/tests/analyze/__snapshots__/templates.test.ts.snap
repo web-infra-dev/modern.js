@@ -2,7 +2,7 @@
 
 exports[`fileSystemRoutes generate code 1`] = `
 "
-    import loadable from '@modern-js/runtime/loadable'
+    import { lazy } from '@modern-js/runtime/loadable'
     import loading_0 from '@_modern_js_src/routes/loading.tsx';
 
     import error_0 from '@_modern_js_src/routes/error.tsx';
@@ -34,15 +34,15 @@ exports[`fileSystemRoutes generate code 1`] = `
               \\"index\\": true,
               \\"id\\": \\"user/[id]/page\\",
               \\"type\\": \\"nested\\",
-              \\"component\\": loadable(() => import('@_modern_js_src/routes/user/[id]/page.tsx'))
+              \\"component\\": lazy(() => import('@_modern_js_src/routes/user/[id]/page.tsx'))
             }
           ]
         }
       ],
-      \\"component\\": loadable(() => import('@_modern_js_src/routes/user.tsx'))
+      \\"component\\": lazy(() => import('@_modern_js_src/routes/user.tsx'))
     }
   ],
-  \\"component\\": loadable(() => import('@_modern_js_src/routes/layout.tsx'))
+  \\"component\\": lazy(() => import('@_modern_js_src/routes/layout.tsx'))
 },
 ];
   "
@@ -50,7 +50,7 @@ exports[`fileSystemRoutes generate code 1`] = `
 
 exports[`fileSystemRoutes generate code for legacy router 1`] = `
 "
-    import loadable from '@modern-js/runtime/loadable'
+    import { lazy } from '@modern-js/runtime/loadable'
     
     
     
@@ -59,7 +59,7 @@ exports[`fileSystemRoutes generate code for legacy router 1`] = `
   {
   \\"path\\": \\"/user\\",
   \\"exact\\": true,
-  \\"component\\": loadable(() => import('@/pages/user')),
+  \\"component\\": lazy(() => import('@/pages/user')),
   \\"_component\\": \\"@/pages/user\\"
 },
 ];
