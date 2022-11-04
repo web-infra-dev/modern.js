@@ -67,7 +67,6 @@
     "history": "^4.7.9",
     "react-router-dom": "^5.1.2",
     "@modern-js/plugin": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "hoist-non-react-statics": "^3.3.2",

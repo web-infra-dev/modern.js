@@ -37,7 +37,7 @@ export default (): CliPlugin => ({
               const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig) && name !== 'server') {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-                const LoadableWebpackPlugin = require('@modern-js/webpack/@loadable/webpack-plugin');
+                const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
                 chain
                   .plugin(CHAIN_ID.PLUGIN.LOADABLE)
                   .use(LoadableWebpackPlugin, [

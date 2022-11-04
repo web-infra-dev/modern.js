@@ -792,7 +792,7 @@ importers:
       '@babel/core': ^7.18.0
       '@modern-js/babel-preset-app': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/css-config': workspace:*
+      '@modern-js/css-config': 1.21.1
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.8
@@ -824,7 +824,7 @@ importers:
     dependencies:
       '@babel/core': 7.18.6
       '@modern-js/babel-preset-app': link:../babel-preset-app
-      '@modern-js/css-config': link:../css-config
+      '@modern-js/css-config': 1.21.1
       '@modern-js/utils': link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.8_7ybob5zygvcy2nzwou5uqjfbri
       '@svgr/webpack': 6.2.1
@@ -1727,7 +1727,6 @@ importers:
       '@modern-js/runtime': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
-      '@modern-js/webpack': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/react': ^13.4.0
@@ -1749,7 +1748,6 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
-      '@modern-js/webpack': link:../../cli/webpack
       '@types/history': 4.7.11
       '@types/react-router-dom': 5.3.3
       history: 4.10.1
@@ -1780,6 +1778,7 @@ importers:
       '@loadable/babel-plugin': ^5.13.2
       '@loadable/component': ^5.15.0
       '@loadable/server': ^5.15.1
+      '@loadable/webpack-plugin': 5.15.2
       '@modern-js-reduck/plugin-auto-actions': ^1.0.2
       '@modern-js-reduck/plugin-devtools': ^1.0.3
       '@modern-js-reduck/plugin-effects': ^1.0.2
@@ -1790,7 +1789,6 @@ importers:
       '@modern-js/plugin': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
-      '@modern-js/webpack': workspace:*
       '@remix-run/node': ^1.7.0
       '@remix-run/router': ^1.0.1
       '@remix-run/web-fetch': ^4.1.3
@@ -1828,6 +1826,7 @@ importers:
       '@loadable/babel-plugin': 5.13.2_@babel+core@7.18.6
       '@loadable/component': 5.15.2_react@18.2.0
       '@loadable/server': 5.15.2_ik7avrk5bhag2nqkdfypunpmvu
+      '@loadable/webpack-plugin': 5.15.2
       '@modern-js-reduck/plugin-auto-actions': 1.0.2_ispnipafpzzhhphzi7uvk3q7n4
       '@modern-js-reduck/plugin-devtools': 1.0.3_ispnipafpzzhhphzi7uvk3q7n4
       '@modern-js-reduck/plugin-effects': 1.0.2_ispnipafpzzhhphzi7uvk3q7n4
@@ -1837,7 +1836,6 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
-      '@modern-js/webpack': link:../../cli/webpack
       '@remix-run/node': 1.7.3_biqbaboplfbrettd7655fr4n2y
       '@remix-run/router': 1.0.2
       '@types/loadable__component': 5.13.4
@@ -2625,7 +2623,7 @@ importers:
       '@modern-js/babel-compiler': workspace:*
       '@modern-js/babel-preset-module': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/css-config': workspace:*
+      '@modern-js/css-config': 1.21.1
       '@modern-js/new-action': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
@@ -2668,7 +2666,7 @@ importers:
       '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
       '@modern-js/babel-preset-module': link:../../cli/babel-preset-module
       '@modern-js/core': link:../../cli/core
-      '@modern-js/css-config': link:../../cli/css-config
+      '@modern-js/css-config': 1.21.1
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
@@ -9346,6 +9344,15 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@loadable/webpack-plugin/5.15.2:
+    resolution: {integrity: sha512-+o87jPHn3E8sqW0aBA+qwKuG8JyIfMGdz3zECv0t/JF0KHhxXtzIlTiqzlIYc5ZpFs/vKSQfjzGIR5tPJjoXDw==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      webpack: '>=4.6.0'
+    dependencies:
+      make-dir: 3.1.0
+    dev: false
+
   /@loadable/webpack-plugin/5.15.2_webpack@5.74.0:
     resolution: {integrity: sha512-+o87jPHn3E8sqW0aBA+qwKuG8JyIfMGdz3zECv0t/JF0KHhxXtzIlTiqzlIYc5ZpFs/vKSQfjzGIR5tPJjoXDw==}
     engines: {node: '>=8'}
@@ -9562,6 +9569,15 @@ packages:
       tar: 6.1.11
     transitivePeerDependencies:
       - debug
+
+  /@modern-js/css-config/1.21.1:
+    resolution: {integrity: sha512-JgGMguKVKlv6XedN/Qz8okBluEIHA3MvZjLCNN83Il7PEPSCT2UQE2DsXI7gktrIUrqsMM+kKnH9/f1DE9zefg==}
+    dependencies:
+      '@modern-js/utils': 1.21.1
+      caniuse-lite: 1.0.30001375
+      cssnano: 5.1.12_postcss@8.4.16
+      postcss: 8.4.16
+    dev: false
 
   /@modern-js/easy-form-cli/1.6.3:
     resolution: {integrity: sha512-F5zaW0Ejqr7c1eTlF1hfzKyS2r+yUu5CmxyiLlmJ/TseHcFJOh3YHHau9ZW85JHx6m+RCI7jFIzkw7NLHb/GUQ==}
@@ -9803,6 +9819,13 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001375
       lodash: 4.17.21
+
+  /@modern-js/utils/1.21.1:
+    resolution: {integrity: sha512-9QWWvhl+KPQ3ZZfBKziBlDilzmORb3GiInXuxRqXz7ywbVNr1vTEWq1omJuOeaLCmF2HAKyI2Dr4pomxTRS63w==}
+    dependencies:
+      caniuse-lite: 1.0.30001375
+      lodash: 4.17.21
+    dev: false
 
   /@mrmlnc/readdir-enhanced/2.2.1:
     resolution: {integrity: sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g==}

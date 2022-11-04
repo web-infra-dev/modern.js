@@ -85,10 +85,6 @@
       "path": "packages/server/create-request"
     },
     {
-      "name": "@modern-js/css-config",
-      "path": "packages/cli/css-config"
-    },
-    {
       "name": "@modern-js/node-bundle-require",
       "path": "packages/toolkit/node-bundle-require"
     },
