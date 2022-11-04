@@ -23,8 +23,6 @@ export const EN_LOCALE = {
     function: {
       self: 'Enable features',
       tailwindcss: 'Enable Tailwind CSS',
-      less: 'Enable Less',
-      sass: 'Enable Sass',
       bff: 'Enable BFF',
       micro_frontend: 'Enable Micro Frontend',
       i18n: 'Enable Internationalization (i18n)',

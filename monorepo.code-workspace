@@ -121,10 +121,6 @@
       "path": "packages/server/plugin-koa"
     },
     {
-      "name": "@modern-js/plugin-less",
-      "path": "packages/cli/plugin-less"
-    },
-    {
       "name": "@modern-js/plugin-garfish",
       "path": "packages/cli/plugin-garfish"
     },
@@ -139,10 +135,6 @@
     {
       "name": "@modern-js/plugin-proxy",
       "path": "packages/cli/plugin-proxy"
-    },
-    {
-      "name": "@modern-js/plugin-sass",
-      "path": "packages/cli/plugin-sass"
     },
     {
       "name": "@modern-js/plugin-server",

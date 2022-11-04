@@ -75,7 +75,6 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",

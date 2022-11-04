@@ -314,18 +314,8 @@ export interface ToolsConfig {
    */
   jest?: TestConfig['jest'];
 
-  /**
-   * The configuration of `tools.sass` is provided by `sass` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `sass` plugin
-   */
   sass?: SassConfig;
 
-  /**
-   * The configuration of `tools.less` is provided by `less` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `less` plugin
-   */
   less?: LessConfig;
 }
 

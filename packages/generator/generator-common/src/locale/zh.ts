@@ -22,8 +22,6 @@ export const ZH_LOCALE = {
     function: {
       self: '启用可选功能',
       tailwindcss: '启用 Tailwind CSS 支持',
-      less: '启用 Less 支持',
-      sass: '启用 Sass 支持',
       bff: '启用「BFF」功能',
       micro_frontend: '启用「微前端」模式',
       i18n: '启用「国际化（i18n）」功能',
