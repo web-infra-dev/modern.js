@@ -4,4 +4,7 @@ export default defineConfig({
   runtime: {
     state: true,
   },
+  server: {
+    ssr: true,
+  },
 });

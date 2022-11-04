@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/app-tools",
+  "name": "@modern-js/plugin-data-loader",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -11,89 +11,68 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.21.1",
+  "version": "1.21.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
+  "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
-    ".": {
-      "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
-      },
-      "default": "./dist/js/node/index.js"
-    },
-    "./cli": {
-      "jsnext:source": "./src/index.ts",
-      "default": "./dist/js/node/index.js"
-    },
-    "./types": {
-      "jsnext:source": "./lib/types.d.ts",
-      "default": "./lib/types.d.ts"
+    "./loader": {
+      "jsnext:source": "./src/cli/loader.ts",
+      "default": "./dist/js/node/cli/loader.js"
     },
     "./server": {
-      "jsnext:source": "./src/exports/server.ts",
-      "default": "./dist/js/node/exports/server.js"
+      "jsnext:source": "./src/server/index.ts",
+      "default": "./dist/js/node/server/index.js"
     }
   },
   "typesVersions": {
     "*": {
-      ".": [
-        "./dist/types/index.d.ts"
-      ],
-      "types": [
-        "./lib/types.d.ts"
+      "loader": [
+        "./dist/types/cli/loader.d.ts"
       ],
       "server": [
-        "./dist/types/exports/server.d.ts"
+        "./dist/types/server/index.d.ts"
       ]
     }
-  },
-  "bin": {
-    "modern": "./bin/modern.js"
   },
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
-    "dev": "modern build --watch",
     "build": "wireit",
+    "dev": "modern build --watch",
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/parser": "^7.18.0",
+    "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
-    "@babel/traverse": "^7.18.0",
-    "@babel/types": "^7.18.0",
-    "@modern-js/core": "workspace:*",
-    "@modern-js/new-action": "workspace:*",
-    "@modern-js/node-bundle-require": "workspace:*",
-    "@modern-js/plugin": "workspace:*",
-    "@modern-js/plugin-data-loader": "workspace:*",
-    "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
-    "@modern-js/prod-server": "workspace:*",
-    "@modern-js/server": "workspace:*",
-    "@modern-js/types": "workspace:*",
-    "@modern-js/upgrade": "workspace:*",
+    "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/builder": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/builder-webpack-provider": "workspace:*",
-    "@modern-js/builder-plugin-node-polyfill": "workspace:*",
-    "@modern-js/builder-plugin-esbuild": "workspace:*"
+    "@remix-run/node": "^1.7.0",
+    "path-to-regexp": "^6.2.0",
+    "react-router-dom": "^6.4.2"
   },
   "devDependencies": {
+    "@modern-js/core": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "@modern-js/server-core": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/babel__traverse": "^7.14.2",
+    "@types/babel__core": "^7.1.15",
     "@types/jest": "^27",
     "@types/node": "^14",
+    "@types/supertest": "^2.0.11",
+    "isomorphic-fetch": "^3.0.0",
     "jest": "^27",
-    "typescript": "^4"
+    "memfs": "^3.3.0",
+    "supertest": "^6.1.6",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4",
+    "webpack": "^5.74.0",
+    "webpack-chain": "^6.5.1"
   },
   "sideEffects": false,
   "publishConfig": {
