@@ -10,22 +10,14 @@ import {
   ThrowableType,
 } from './types';
 
-const _traceSerializeCache = new WeakMap<WebpackError, ParsedError>();
-
 export const parseError = (
   error: WebpackError,
   type: ThrowableType = 'error',
 ) => {
-  if (_traceSerializeCache.has(error)) {
-    return _traceSerializeCache.get(error)!;
-  }
-
   const parsed = cloneErrorObject(error) as ParsedError;
   parsed.trace = flattenErrorTrace(error);
   parsed.raw = error;
   parsed.type = type;
-
-  _traceSerializeCache.set(error, parsed);
 
   return parsed;
 };
