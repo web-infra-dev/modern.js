@@ -1,4 +1,4 @@
-import { Outlet, defer } from '@modern-js/runtime/router';
+import { Outlet, defer, useLoaderData } from '@modern-js/runtime/router';
 
 const wait = (time: number) =>
   new Promise(resolve => setTimeout(resolve, time));
@@ -15,9 +15,10 @@ export async function loader() {
 }
 
 export default function Layout() {
+  const data = useLoaderData() as string;
   return (
     <div>
-      profile layout
+      {data}
       <Outlet />
     </div>
   );

@@ -5,4 +5,7 @@ export default defineConfig({
     router: true,
     state: true,
   },
+  server: {
+    ssr: true,
+  },
 });
