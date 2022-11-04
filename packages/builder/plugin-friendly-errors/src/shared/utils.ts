@@ -3,11 +3,19 @@ import { WebpackError } from 'webpack';
 import StackTracey from 'stacktracey';
 import _ from '@modern-js/utils/lodash';
 import { baseFormatter } from '../formatter/base';
-import { ErrorFormatter, ErrorTransformer, ParsedError } from './types';
+import {
+  ErrorFormatter,
+  ErrorTransformer,
+  ParsedError,
+  ThrowableType,
+} from './types';
 
 const _traceSerializeCache = new WeakMap<WebpackError, ParsedError>();
 
-export const parseError = (error: WebpackError) => {
+export const parseError = (
+  error: WebpackError,
+  type: ThrowableType = 'error',
+) => {
   if (_traceSerializeCache.has(error)) {
     return _traceSerializeCache.get(error)!;
   }
@@ -15,6 +23,7 @@ export const parseError = (error: WebpackError) => {
   const parsed = cloneErrorObject(error) as ParsedError;
   parsed.trace = flattenErrorTrace(error);
   parsed.raw = error;
+  parsed.type = type;
 
   _traceSerializeCache.set(error, parsed);
 
@@ -37,7 +46,7 @@ export const cloneErrorObject = <T extends Error>(error: T): T => {
 export const transformError = (
   transformers: ErrorTransformer[],
   error: ParsedError,
-): WebpackError => {
+): ParsedError => {
   return transformers.reduce(
     (error, transformer) => transformer(error) || error,
     error,
