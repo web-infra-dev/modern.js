@@ -175,14 +175,18 @@ export function createBuilderBabel(
   babel: NormalizedConfig['tools']['babel'],
   lodash: NormalizedConfig['tools']['lodash'],
 ): BuilderToolConfig['babel'] {
-  return (config, utils) => {
-    const lodashConfig = applyOptionsChain(
-      { id: ['async', 'lodash-bound'] },
-      lodash as any,
-    );
-    utils.addPlugins([['lodash', lodashConfig]]);
-    return applyOptionsChain(config, babel || {}, utils);
-  };
+  return babel
+    ? (config, utils) => {
+        // TODO: apply babel-plugin-lodash config
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const _lodashConfig = applyOptionsChain(
+          { id: ['lodash', 'ramda'] },
+          lodash as any,
+        );
+
+        return applyOptionsChain(config, babel, utils);
+      }
+    : undefined;
 }
 
 export function createBuilderTsChecker(output: NormalizedConfig['output']) {
