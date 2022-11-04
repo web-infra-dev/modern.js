@@ -6,7 +6,7 @@ import ReactDomServer from 'react-dom/server';
 import { findExists } from '@modern-js/utils';
 import type { HtmlTagObject } from 'html-webpack-plugin';
 // import type { IAppContext } from '@modern-js/types';
-import { DocumentContext } from './components/DocumentContext';
+import { DocumentContext } from './DocumentContext';
 // import webpack from 'webpack';
 
 // type HtmlWebpackPlugin = typeof import('html-webpack-plugin');

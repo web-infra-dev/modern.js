@@ -69,6 +69,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
       const entrypoint: Entrypoint = {
         entryName,
         entry: '',
+        absoluteEntryDir: path.resolve(dir),
         fileSystemRoutes: {
           globalApp: findExists(
             JS_EXTENSIONS.map(ext =>
@@ -95,6 +96,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
       entryName,
       entry: indexFile as string,
       isAutoMount: false,
+      absoluteEntryDir: path.resolve(dir),
     };
   });
 

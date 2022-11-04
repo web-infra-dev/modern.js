@@ -46,9 +46,9 @@
       "default": "./dist/js/treeshaking/exports/server.js"
     },
     "./document": {
-      "jsnext:source": "./src/exports/document.ts",
-      "node": "./dist/js/node/exports/document.js",
-      "default": "./dist/js/treeshaking/exports/document.js"
+      "jsnext:source": "./src/document/index.ts",
+      "node": "./dist/js/node/document/index.js",
+      "default": "./dist/js/treeshaking/document/index.js"
     },
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
@@ -94,8 +94,7 @@
         "./dist/types/ssr/index.d.ts"
       ],
       "document": [
-        "./dist/types/document/components/DocumentContext.d.ts",
-        "./dist/types/document/components/Document.d.ts"
+        "./dist/types/document/index.d.ts"
       ],
       "model": [
         "./types/model.d.ts"

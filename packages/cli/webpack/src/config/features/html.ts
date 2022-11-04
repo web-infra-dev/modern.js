@@ -1,6 +1,6 @@
 import path from 'path';
 import {
-  // isProd,
+  isProd,
   CHAIN_ID,
   findExists,
   getEntryOptions,
@@ -10,61 +10,54 @@ import {
 import webpack from 'webpack';
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
-import { build } from 'esbuild';
 import type { Entrypoint, IAppContext } from '@modern-js/types';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import type { HtmlTagObject } from 'html-webpack-plugin';
-// import { DocumentContext } from '@modern-js/runtime/document';
+import { DocumentContext } from '@modern-js/runtime/document';
 import { BottomTemplatePlugin } from '../../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../../utils/constants';
 import type { ChainUtils } from '../shared';
 
 // todo: 移入常量文件中
 const DOCUMENT_FILE_NAME = 'document';
-const DOCUMENT_OUTPUT_NAME = 'document';
-const DOCUMENT_SCRIPTS_PLACEHOLDER = '&lt;!-- chunk scripts --/&gt;';
+const DOCUMENT_SCRIPTS_PLACEHOLDER = encodeURIComponent(
+  '<!-- chunk scripts placeholder -->',
+);
+const DOCUMENT_META_PLACEHOLDER = encodeURIComponent('<%= meta %>');
+const DOCUMENT_NO_SCRIPTE_PLACEHOLDER =
+  encodeURIComponent('<!-- no-script -->');
+const PLACEHOLDER_MAP = {
+  [DOCUMENT_NO_SCRIPTE_PLACEHOLDER]: `We're sorry but react app doesn't work properly without JavaScript enabled. Please enable it to continue.`,
+};
+
 const docExt = ['jsx', 'tsx'];
 
-function isExistedDocument(appDir: string): boolean {
-  const docFileExt = docExt.find(ext => {
-    const validateFile = path.join(
-      `${appDir}/src/${DOCUMENT_FILE_NAME}.${ext}`,
-    );
-    if (findExists([validateFile])) {
-      return true;
-    }
-    return false;
-  });
-
-  return docFileExt !== undefined;
-}
-
 function getDocumenByEntryName(
-  appDir: string,
+  entrypoints: Entrypoint[],
   entryName: string,
 ): string | undefined {
-  // tofix: 自定义 Entry 场景下，存在 entryName 与 路径对不上的可能
-  const docRelativePath = entryName === 'main' ? '' : entryName;
+  const entryDir = entrypoints.find(
+    item => item.entryName === entryName,
+  )?.absoluteEntryDir;
 
-  const docFileExt = docExt.find(item => {
-    const documentFilePath = `${appDir}/src/${docRelativePath}/${DOCUMENT_FILE_NAME}.${item}`;
-    return findExists([documentFilePath]);
-  });
+  const docFile = findExists(
+    docExt.map(item => `${entryDir}/${DOCUMENT_FILE_NAME}.${item}`),
+  );
 
-  if (!docFileExt) {
-    return undefined;
-  }
-  return `${appDir}/src/${docRelativePath}/${DOCUMENT_FILE_NAME}.${docFileExt}`;
+  return docFile || undefined;
 }
 
 function getDocParams(
   appContext: IAppContext,
+  config: any,
   baseTemplateParams: Record<string, any>,
 ) {
+  // 返回给 _document 组件调用的参数
+  // 保持兼容和足够的信息，分为：process, config, templateParams
   return {
-    // todo: 补充更多参数
-    // a: appContext.ip, // 举例
-    ...baseTemplateParams,
+    processEnv: process.env,
+    config: config.output,
+    templateParams: baseTemplateParams,
   };
 }
 
@@ -81,14 +74,10 @@ export async function applyHTMLPlugin({
   };
 
   const HtmlWebpackPlugin: typeof import('html-webpack-plugin') = require('html-webpack-plugin');
-  const appdir = path.resolve(appContext.appDirectory);
 
-  // output html files
-  const isUseDocument = isExistedDocument(appdir);
   const entrypoints = Object.keys(chain.entryPoints.entries() || {});
+
   for (const entryName of entrypoints) {
-    let hasCustomerScripts = false;
-    let html = '';
     const baseTemplateParams = {
       entryName,
       title: getEntryOptions<string | undefined>(
@@ -107,6 +96,12 @@ export async function applyHTMLPlugin({
           packageName,
         ),
       ),
+      metaOrigin: getEntryOptions(
+        entryName,
+        config.output.meta,
+        config.output.metaByEntries,
+        packageName,
+      ),
       ...getEntryOptions<Record<string, unknown> | undefined>(
         entryName,
         config.output.templateParameters,
@@ -116,69 +111,66 @@ export async function applyHTMLPlugin({
     };
 
     // 查找该 entry 下 document 文件
-    let documentFilePath = getDocumenByEntryName(appdir, entryName);
+    let documentFilePath = getDocumenByEntryName(
+      appContext.entrypoints,
+      entryName,
+    );
 
-    if (isUseDocument) {
-      // entry 下无 document.tsx 文件，则用 main 的兜底
-      if (!documentFilePath) {
-        documentFilePath = getDocumenByEntryName(appdir, 'main');
-      }
+    // entry 下无 document.tsx 文件，则用 main 的兜底
+    if (!documentFilePath) {
+      documentFilePath = getDocumenByEntryName(appContext.entrypoints, 'main');
     }
 
-    const htmlTemplate = isUseDocument
+    const htmlTemplateWithDoc = documentFilePath
       ? {
+          inject: documentFilePath
+            ? false
+            : getEntryOptions(
+                entryName,
+                config.output.inject,
+                config.output.injectByEntries,
+                packageName,
+              ),
           templateContent: async ({
             htmlWebpackPlugin,
           }: {
             [option: string]: any;
           }) => {
-            const tmpDir = path.join(
-              appdir,
-              'node_modules/.modern-js/document',
+            const Document = (await import(`${documentFilePath}`)).default;
+            // 获取注入参数
+            const documentParams = getDocParams(
+              appContext,
+              config,
+              baseTemplateParams,
             );
-            const outputTmpPath = `${tmpDir}/${entryName}_${DOCUMENT_OUTPUT_NAME}.js`;
-            // 编译 Document 文件
-            await build({
-              entryPoints: [documentFilePath!],
-              outfile: outputTmpPath,
-              platform: 'node',
-              target: 'es6',
-              loader: {
-                '.ts': 'ts',
-                '.tsx': 'tsx',
-              },
-              jsx: 'transform',
-              bundle: true,
-            });
+            // 拼装 html 组件
+            const HTMLElement = React.createElement(
+              DocumentContext.Provider,
+              { value: documentParams },
+              React.createElement(Document, null),
+            );
+            // 转成 string
+            const html = ReactDomServer.renderToString(HTMLElement);
 
-            const { Document } = await require(`${outputTmpPath}`);
-            const documentParams = getDocParams(appContext, baseTemplateParams);
-            // 5.2 给 Document 注入参数
-            // 5.3 render html 文件
-            // const DocumentContext = React.createContext<{ [x: string]: any }>({});
-            html = ReactDomServer.renderToString(
-              // React.createElement(
-              //   DocumentContext.Provider,
-              //   { value: { ...documentParams } },
-              React.createElement(Document, documentParams),
-              // ),
-            );
-            hasCustomerScripts = new RegExp(DOCUMENT_SCRIPTS_PLACEHOLDER).test(
-              html,
-            );
-            // todo: scripts 的替换等
             const scripts =
               // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               htmlWebpackPlugin.tags.headTags
                 .filter((item: HtmlTagObject) => item.tagName === 'script')
                 .join('') + htmlWebpackPlugin.tags.bodyTags.toString();
 
-            return html.replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts);
-            // todo: 返回 jupiter 原始 html
-            // return `<html><body>没有匹配到</body></html>`;
+            // 替换 html 占位符（因为 string 转成 jsx 比较麻烦。所以，使用占位符 + 替换的方式）
+            // - 替换元素：meta、scripts
+            return `<!DOCTYPE html>${html}`
+              .replace(DOCUMENT_META_PLACEHOLDER, baseTemplateParams.meta)
+              .replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts)
+              .replace(
+                DOCUMENT_NO_SCRIPTE_PLACEHOLDER,
+                PLACEHOLDER_MAP[DOCUMENT_NO_SCRIPTE_PLACEHOLDER],
+              );
           },
         }
       : null;
+
     chain
       .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
       .use(HtmlWebpackPlugin, [
@@ -186,10 +178,18 @@ export async function applyHTMLPlugin({
           __internal__: true, // flag for internal html-webpack-plugin usage
           filename: htmlFilename(entryName),
           chunks: [entryName],
-          // 应该替换这里的模板
           template: appContext.htmlTemplates[entryName],
-          ...htmlTemplate,
-          minify: false,
+          ...htmlTemplateWithDoc,
+          minify: !isProd()
+            ? false
+            : {
+                collapseWhitespace: true,
+                removeComments: false,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                useShortDoctype: true,
+              },
           baseTemplateParams,
           favicon:
             getEntryOptions<string | undefined>(
@@ -207,14 +207,6 @@ export async function applyHTMLPlugin({
                 ),
               ),
             ),
-          inject: hasCustomerScripts
-            ? false
-            : getEntryOptions(
-                entryName,
-                config.output.inject,
-                config.output.injectByEntries,
-                packageName,
-              ),
           templateParameters: (
             compilation: webpack.Compilation,
             assets,

@@ -39,6 +39,10 @@ const findPartials = (
 };
 
 // generate html template for
+// todo: document 之后也需要修改一下
+// 1. 识别 document 文件
+// 2. 处理生成 template 文件
+// 3. 对应的参数
 export const getHtmlTemplate = async (
   entrypoints: Entrypoint[],
   api: PluginAPI,
