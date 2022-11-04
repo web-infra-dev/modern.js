@@ -24,10 +24,11 @@ export function createToolsConfig(
     sass,
     postcss,
     less,
+    // TODO: remove modernjs tools.lodash config
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     lodash,
   } = normalizedConfig.tools;
 
-  const builderBabel = createBuilderBabel(babel, lodash);
   // transform modernjs `tools.webpack` => builder `tools.webpack`
   const builderWebpack = createBuilderWebpack(webpack);
   // add defaults value into tools.terser
@@ -40,7 +41,7 @@ export function createToolsConfig(
     styleLoader: disableCssExtract ? {} : undefined,
     cssExtract: disableCssExtract ? false : undefined,
     autoprefixer,
-    babel: builderBabel,
+    babel,
     minifyCss,
     terser,
     webpack: builderWebpack,
@@ -169,24 +170,6 @@ function createBuilderTsLoader(
   };
   return (_: unknown, utils: TsLoaderUtils) =>
     applyOptionsChain<any, TsLoaderUtils>(defaultTsLoader, tsLoader, utils);
-}
-
-export function createBuilderBabel(
-  babel: NormalizedConfig['tools']['babel'],
-  lodash: NormalizedConfig['tools']['lodash'],
-): BuilderToolConfig['babel'] {
-  return babel
-    ? (config, utils) => {
-        // TODO: apply babel-plugin-lodash config
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const _lodashConfig = applyOptionsChain(
-          { id: ['lodash', 'ramda'] },
-          lodash as any,
-        );
-
-        return applyOptionsChain(config, babel, utils);
-      }
-    : undefined;
 }
 
 export function createBuilderTsChecker(output: NormalizedConfig['output']) {
