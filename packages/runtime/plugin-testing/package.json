@@ -109,7 +109,6 @@
     "@modern-js-reduck/store": "^1.0.3",
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
