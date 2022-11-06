@@ -22,6 +22,7 @@ export function createHtmlConfig(
     templateParameters,
     templateParametersByEntries,
   } = normalizedConfig.output;
+
   const { configDir } = normalizedConfig.source;
 
   // transform Modernjs `output.scriptExt` to Builder `html.crossorigin`  configuration
