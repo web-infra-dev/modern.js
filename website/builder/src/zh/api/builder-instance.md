@@ -127,6 +127,8 @@ type DevServer = {
 type BuildOptions = {
   mode?: 'development' | 'production';
   watch?: boolean;
+  // 自定义 Compiler 对象
+  compiler?: Compiler | MultiCompiler;
 };
 
 function Build(options?: BuildOptions): Promise<void>;
@@ -155,6 +157,19 @@ await builder.build({
 ```ts
 await builder.build({
   watch: true,
+});
+```
+
+### 自定义 Compiler
+
+个别情况下，你可能希望使用自定义的 compiler：
+
+```ts
+const compiler = webpack({
+  // ...
+});
+await builder.build({
+  compiler,
 });
 ```
 

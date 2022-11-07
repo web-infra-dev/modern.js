@@ -35,3 +35,13 @@ tests/
 .idea/
 
 **/*/api/typings/auto-generated
+src/
+
+modern.config.js
+modern.config.ts
+jest.config.js
+.eslintrc.js
+.eslintrc
+tsconfig.json
+
+.wireit/

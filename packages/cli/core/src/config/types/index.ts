@@ -1,4 +1,4 @@
-import type { DevServerOptions } from '@modern-js/types';
+import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
 import type {
   MetaOptions,
   ChainIdentifier,
@@ -78,7 +78,7 @@ export interface SourceConfig {
   globalVars?: Record<string, string>;
   alias?:
     | Record<string, string>
-    | ((aliases: Record<string, string>) => Record<string, unknown>);
+    | ((aliases: Record<string, string>) => Record<string, string>);
   moduleScopes?:
     | Array<string | RegExp>
     | ((scopes: Array<string | RegExp>) => void)
@@ -184,7 +184,7 @@ export type DevProxyOptions = string | Record<string, string>;
 
 export interface DevConfig {
   assetPrefix?: string | boolean;
-  https?: boolean;
+  https?: DevServerHttpsOptions;
 
   /**
    * The configuration of `dev.proxy` is provided by `proxy` plugin.
@@ -229,6 +229,7 @@ export type WebpackConfigUtils = {
   env: string;
   name: string;
   webpack: typeof webpack;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
   addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
   prependPlugins: (
     plugins: WebpackPluginInstance | WebpackPluginInstance[],
@@ -255,6 +256,7 @@ export type WebpackChainConfigUtils = {
   name: string;
   webpack: typeof webpack;
   CHAIN_ID: ChainIdentifier;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
 };
 
 export type WebpackChainConfig = (
@@ -312,18 +314,8 @@ export interface ToolsConfig {
    */
   jest?: TestConfig['jest'];
 
-  /**
-   * The configuration of `tools.sass` is provided by `sass` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `sass` plugin
-   */
   sass?: SassConfig;
 
-  /**
-   * The configuration of `tools.less` is provided by `less` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `less` plugin
-   */
   less?: LessConfig;
 }
 

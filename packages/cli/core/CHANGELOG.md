@@ -1,5 +1,31 @@
 # @modern-js/core
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@1.21.1
+- @modern-js/plugin@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- dca34c4: fix(core): dev.https missing object type
+
+  fix(core): 修复 dev.https 配置项缺少对象类型的问题
+
+- b0597e3: feat(webpack): expose HtmlWebpackPlugin instance in tools.webpack
+
+  feat(webpack): 支持在 tools.webpack 中获取到 HtmlWebpackPlugin 实例
+
+- Updated dependencies [7b3a482]
+- Updated dependencies [28f0a4f]
+  - @modern-js/node-bundle-require@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+
 ## 1.20.1
 
 ### Patch Changes

@@ -24,7 +24,6 @@ export const EN_LOCALE = {
     inspect: {
       env: 'specify env mode',
       output: 'specify inspect content output path',
-      noConsole: 'do not log the result in terminal',
       verbose: 'show full function definitions in output',
     },
   },

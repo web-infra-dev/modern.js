@@ -1,7 +1,7 @@
 {
   "name": "@scripts/jest-config",
   "private": true,
-  "version": "1.20.1",
+  "version": "1.21.1",
   "main": "jest.config.js",
   "devDependencies": {
     "@swc/core": "^1.2.220",
@@ -9,7 +9,7 @@
     "@types/jest": "^27",
     "@types/node": "^14",
     "enhanced-resolve": "^5.8.3",
-    "esbuild": "^0.14.38",
+    "esbuild": "0.15.7",
     "jest": "^27"
   },
   "publishConfig": {

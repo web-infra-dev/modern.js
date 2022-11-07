@@ -42,7 +42,16 @@ export const createRenderHandler = ({
     const useModern =
       // route.enableModernMode &&
       supportModern(ctx) && fs.existsSync(modernEntry);
-    const templateHTML = useModern ? modernEntry : entry;
+    const templatePath = useModern ? modernEntry : entry;
+
+    if (!fs.existsSync(templatePath)) {
+      throw new Error(`Could not find template file: ${templatePath}`);
+    }
+
+    const content = await readFile(templatePath);
+    if (!content) {
+      return null;
+    }
 
     // handles ssr first
     if (route.isSSR) {
@@ -54,7 +63,7 @@ export const createRenderHandler = ({
             entryName: route.entryName,
             urlPath: route.urlPath,
             bundle: route.bundle,
-            template: templateHTML,
+            template: content.toString(),
             staticGenerate,
           },
           runner,
@@ -69,14 +78,8 @@ export const createRenderHandler = ({
       }
     }
 
-    const content = await readFile(templateHTML);
-
-    if (!content) {
-      return null;
-    }
-
     return {
       content,
-      contentType: mime.contentType(path.extname(templateHTML)) as string,
+      contentType: mime.contentType(path.extname(templatePath)) as string,
     };
   };

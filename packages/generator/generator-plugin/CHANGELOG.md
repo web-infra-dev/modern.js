@@ -1,5 +1,32 @@
 # @modern-js/generator-plugin
 
+## 2.4.6
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.6
+- @modern-js/generator-utils@2.4.6
+- @modern-js/plugin-i18n@1.21.1
+- @modern-js/new-action@1.21.1
+- @modern-js/utils@1.21.1
+
+## 2.4.5
+
+### Patch Changes
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+- Updated dependencies [4ac9a0e]
+- Updated dependencies [cf1a2b1]
+- Updated dependencies [cfd8557]
+  - @modern-js/generator-utils@2.4.5
+  - @modern-js/generator-common@2.4.5
+  - @modern-js/new-action@1.21.0
+  - @modern-js/utils@1.21.0
+  - @modern-js/plugin-i18n@1.21.0
+
 ## 2.4.4
 
 ### Patch Changes

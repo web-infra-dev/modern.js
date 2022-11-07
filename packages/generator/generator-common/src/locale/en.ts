@@ -23,8 +23,6 @@ export const EN_LOCALE = {
     function: {
       self: 'Enable features',
       tailwindcss: 'Enable Tailwind CSS',
-      less: 'Enable Less',
-      sass: 'Enable Sass',
       bff: 'Enable BFF',
       micro_frontend: 'Enable Micro Frontend',
       i18n: 'Enable Internationalization (i18n)',
@@ -73,12 +71,6 @@ export const EN_LOCALE = {
     name: 'Entry name',
     no_empty: 'The entry name cannot be empty!',
     no_pages: 'The entry name cannot be "pages"!',
-    needModifyConfig: 'Modify the Default Configuration?',
-    clientRoute: {
-      self: 'Client Routing',
-      selfControlRoute: 'Self Control Route',
-      conventionalRoute: 'Conventional Route',
-    },
   },
   framework: {
     self: 'Please select the framework you want to use',

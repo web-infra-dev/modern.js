@@ -1,4 +1,4 @@
-import { Link, Outlet } from '@modern-js/runtime/runtime-router';
+import { Link, Outlet } from '@modern-js/runtime/router';
 
 export default function Layout() {
   return (

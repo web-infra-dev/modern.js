@@ -37,7 +37,7 @@ export default (): CliPlugin => ({
               const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig) && name !== 'server') {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-                const LoadableWebpackPlugin = require('@modern-js/webpack/@loadable/webpack-plugin');
+                const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
                 chain
                   .plugin(CHAIN_ID.PLUGIN.LOADABLE)
                   .use(LoadableWebpackPlugin, [
@@ -54,8 +54,8 @@ export default (): CliPlugin => ({
           },
         };
       },
-      modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName } = entrypoint;
+      modifyEntryImports({ entrypoint, imports }) {
+        const { entryName, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName, entrypoints } = api.useAppContext();
 
@@ -70,6 +70,23 @@ export default (): CliPlugin => ({
           userConfig.server.ssrByEntries,
           packageName,
         );
+
+        if (typeof ssrConfig === 'object' && ssrConfig.mode === 'stream') {
+          const runtimeConfig = getEntryOptions(
+            entryName,
+            userConfig.runtime,
+            userConfig.runtimeByEntries,
+            packageName,
+          );
+          if (runtimeConfig?.router?.legacy) {
+            throw new Error(
+              `Legacy router plugin doesn't support streaming SSR, check your config 'runtime.router'`,
+            );
+          }
+          if (entrypoint.entry && fileSystemRoutes) {
+            throw new Error(`'pages' directory doesn't support streaming SSR.`);
+          }
+        }
 
         const ssgConfig = userConfig.output.ssg;
         const useSSG = isSingleEntry(entrypoints)

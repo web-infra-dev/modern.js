@@ -11,7 +11,7 @@ The usage is same as `templateParameters`, and you can use the "entry name" as t
 
 ```js
 export default {
-  output: {
+  html: {
     templateParametersByEntries: {
       foo: {
         type: 'a',

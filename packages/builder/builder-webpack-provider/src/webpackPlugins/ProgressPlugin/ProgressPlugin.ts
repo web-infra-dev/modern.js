@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import { bus, createFriendlyPercentage } from './helpers';
 import prettyTime from '../../../compiled/pretty-time';
+import { createNonTTYLogger } from './helpers/non-tty';
 import type { Props } from './helpers/type';
 
 export interface ProgressOptions
@@ -27,6 +28,8 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
     } = options;
     const isQuiet =
       quiet || (quietOnDev && process.env.NODE_ENV === 'development');
+
+    const nonTTYLogger = createNonTTYLogger();
     const friendlyPercentage = createFriendlyPercentage();
 
     super({
@@ -39,11 +42,15 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
       dependenciesCount: 10000,
       percentBy: null,
       handler: (percentage, message) => {
-        if (!isQuiet && process.stdout.isTTY) {
-          // eslint-disable-next-line no-param-reassign
-          percentage = friendlyPercentage(percentage);
-          const done = percentage === 1;
+        if (isQuiet) {
+          return;
+        }
 
+        // eslint-disable-next-line no-param-reassign
+        percentage = friendlyPercentage(percentage);
+        const done = percentage === 1;
+
+        if (process.stdout.isTTY) {
           bus.update({
             id,
             current: percentage * 100,
@@ -57,6 +64,14 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
           if (percentage === 1 && clearOnDone) {
             bus.clear();
           }
+        } else {
+          nonTTYLogger.log({
+            id,
+            done,
+            current: percentage * 100,
+            hasErrors: this.hasErrors,
+            compileTime: this.compileTime,
+          });
         }
       },
     });

@@ -1,5 +1,5 @@
 import { SASS_REGEX } from '@modern-js/builder-shared';
-import { BuilderPlugin, SassLoaderOptions } from '../types';
+import type { BuilderPlugin, SassLoaderOptions } from '../types';
 
 export function PluginSass(): BuilderPlugin {
   return {
@@ -26,7 +26,7 @@ export function PluginSass(): BuilderPlugin {
             { addExcludes: (excludes: RegExp | RegExp[]) => void }
           >(
             {
-              sourceMap: false,
+              sourceMap: !config.output.disableSourceMap,
               implementation: utils.getCompiledPath('sass'),
             },
             config.tools.sass,

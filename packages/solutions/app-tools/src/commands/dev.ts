@@ -1,9 +1,8 @@
-import { fs, logger, chalk, isSSR } from '@modern-js/utils';
+import { logger, isSSR } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import type { Configuration } from '@modern-js/webpack';
-
-import { createCompiler } from '../utils/createCompiler';
-import { createServer } from '../utils/createServer';
+import { BuilderTarget } from '@modern-js/builder';
+import { createDevCompiler } from '../utils/createCompiler';
+import { createServer, injectDataLoaderPlugin } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { printInstructions } from '../utils/printInstructions';
 import { DevOptions } from '../utils/types';
@@ -28,7 +27,6 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     serverConfigFile,
     serverInternalPlugins,
   } = appContext;
-
   const checkedEntries = await getSpecifiedEntries(
     options.entry || false,
     entrypoints,
@@ -39,8 +37,6 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     checkedEntries,
   });
   appContext.checkedEntries = checkedEntries;
-
-  fs.emptyDirSync(distDirectory);
 
   await buildServerConfig({
     appDirectory,
@@ -57,19 +53,13 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
 
   let compiler = null;
   if (!apiOnly) {
-    const { getWebpackConfig, WebpackConfigTarget } = await import(
-      '@modern-js/webpack'
-    );
-    const webpackConfigs = [
-      isSSR(userConfig) &&
-        getWebpackConfig(WebpackConfigTarget.NODE, appContext, userConfig),
-      getWebpackConfig(WebpackConfigTarget.CLIENT, appContext, userConfig),
-    ].filter(Boolean) as Configuration[];
-
-    compiler = await createCompiler({
+    const target: BuilderTarget[] = isSSR(userConfig)
+      ? ['web', 'node']
+      : ['web'];
+    compiler = await createDevCompiler({
+      target,
       api,
-      webpackConfigs,
-      userConfig,
+      normalizedConfig: userConfig,
       appContext,
     });
   }
@@ -96,7 +86,7 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     pwd: appDirectory,
     config: userConfig,
     serverConfigFile,
-    internalPlugins: serverInternalPlugins,
+    internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
   });
 
   app.listen(port, async (err: Error) => {
@@ -104,10 +94,10 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
       throw err;
     }
 
-    if (apiOnly) {
-      return printInstructions(hookRunners, appContext, userConfig);
+    if (!apiOnly) {
+      logger.info(`Starting dev server...`);
     }
 
-    return logger.log(chalk.cyan(`Starting the development server...`));
+    return printInstructions(hookRunners, appContext, userConfig);
   });
 };

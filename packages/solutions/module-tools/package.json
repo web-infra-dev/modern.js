@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.20.1",
+  "version": "1.21.1",
   "bin": {
     "modern": "./bin/modern.js"
   },
@@ -65,7 +65,7 @@
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/babel-preset-module": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/css-config": "workspace:*",
+    "@modern-js/css-config": "1.21.1",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/plugin": "workspace:*",

@@ -4,7 +4,6 @@ import {
   DEFAULT_MOUNT_ID,
   type BuilderTarget,
 } from '@modern-js/builder-shared';
-import { getDistPath } from '../shared';
 import type {
   BuilderPlugin,
   WebpackConfig,
@@ -19,16 +18,6 @@ type RoutesInfo = {
   entryName: string;
   entryPath: string;
 };
-
-async function getFilename(entryName: string, config: NormalizedConfig) {
-  const { removeLeadingSlash } = await import('@modern-js/utils');
-  const htmlPath = getDistPath(config, 'html');
-  const filename = config.html.disableHtmlFolder
-    ? `${entryName}.html`
-    : `${entryName}/index.html`;
-
-  return removeLeadingSlash(`${htmlPath}/${filename}`);
-}
 
 function getMinify(isProd: boolean, config: NormalizedConfig) {
   if (config.output.disableMinimize || !isProd) {
@@ -170,6 +159,7 @@ export const PluginHtml = (): BuilderPlugin => ({
       const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
       const entries = chain.entryPoints.entries();
       const entryNames = Object.keys(chain.entryPoints.entries());
+      const htmlPaths = api.getHTMLPaths();
 
       await Promise.all(
         entryNames.map(async (entryName, index) => {
@@ -179,7 +169,7 @@ export const PluginHtml = (): BuilderPlugin => ({
           const chunks = await getChunks(entryName, entryValue);
           const inject = getInject(entryName, config);
           const favicon = getFavicon(entryName, config);
-          const filename = await getFilename(entryName, config);
+          const filename = htmlPaths[entryName];
           const template = getTemplatePath(entryName, config);
           const templateParameters = await getTemplateParameters(
             entryName,

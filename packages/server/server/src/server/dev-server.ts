@@ -15,6 +15,7 @@ import type {
   RequestHandler,
   ExposeServerApis,
 } from '@modern-js/types';
+import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
@@ -300,6 +301,11 @@ export class ModernDevServer extends ModernServer {
         delete require.cache[filepath];
       }
     });
+
+    const loadable = path.join(distDir, LOADABLE_STATS_FILE);
+    if (require.cache[loadable]) {
+      delete require.cache[loadable];
+    }
   }
 
   private startWatcher() {
@@ -312,7 +318,7 @@ export class ModernDevServer extends ModernServer {
       `${SHARED_DIR}/**/*`,
     ];
 
-    const watchOptions = mergeWatchOptions(this.conf.server.watchOptions);
+    const watchOptions = mergeWatchOptions(this.conf.server?.watchOptions);
 
     const defaultWatchedPaths = defaultWatched.map(p =>
       path.normalize(path.join(pwd, p)),

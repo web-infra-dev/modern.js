@@ -1,0 +1,46 @@
+.col {
+  padding: 40px 50px 80px;
+}
+
+.col--3 {
+  padding: 20px;
+}
+
+.markdown {
+  --ifm-h2-vertical-rhythm-top: 2.6;
+  --ifm-h3-vertical-rhythm-top: 1.8;
+}
+
+.markdown h1:first-child {
+  /* --ifm-h1-font-size: 2.5rem; */
+  font-size: 38px;
+  margin-bottom: 3rem;
+}
+
+.markdown > h2 {
+  /* --ifm-h2-font-size: 1.8rem; */
+  font-size: 24px;
+  margin: 4rem 0 1.8rem;
+  border-top: 1px solid var(--ifm-toc-border-color-100);
+  padding-top: 1.8rem;
+  letter-spacing: -0.02em;
+}
+
+.markdown > h3 {
+  --ifm-h2-font-size: 19px;
+}
+
+/* md 内部右侧导航 */
+.table-of-contents__left-border {
+  border-left: 0px;
+}
+
+.table-of-contents__link {
+  font-weight: bolder;
+  color: var(--ifm-menu-color);
+  opacity: 0.8;
+}
+
+.table-of-contents__link--active {
+  color: var(--ifm-color-primary);
+}

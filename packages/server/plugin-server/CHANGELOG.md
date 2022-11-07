@@ -1,5 +1,24 @@
 # @modern-js/plugin-server
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/server-utils@1.21.1
+- @modern-js/babel-compiler@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- cc3cab0: fix: modify the parameters passed to the compile function of server-utils
+  fix: 修改传入 server-utils 的 compile 函数的参数
+- Updated dependencies [8f3674a]
+  - @modern-js/server-utils@1.21.0
+  - @modern-js/utils@1.21.0
+  - @modern-js/babel-compiler@1.21.0
+
 ## 1.20.1
 
 ### Patch Changes

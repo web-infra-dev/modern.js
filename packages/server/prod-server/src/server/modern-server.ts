@@ -8,8 +8,9 @@ import {
   WebAdapter,
   APIServerStartInput,
   ServerOptions,
+  BeforeRouteHandler,
 } from '@modern-js/server-core';
-import type { ModernServerContext } from '@modern-js/types';
+import type { ModernServerContext, ServerRoute } from '@modern-js/types';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
@@ -28,7 +29,10 @@ import {
   ModernRoute,
 } from '../libs/route';
 import { createRenderHandler } from '../libs/render';
-import { createStaticFileHandler } from '../libs/serve-file';
+import {
+  createStaticFileHandler,
+  faviconFallbackHandler,
+} from '../libs/serve-file';
 import {
   createErrorDocument,
   createMiddlewareCollecter,
@@ -96,6 +100,8 @@ export class ModernServer implements ModernServerInterface {
 
   private routeRenderHandler!: ReturnType<typeof createRenderHandler>;
 
+  private beforeRouteHandler: BeforeRouteHandler | null = null;
+
   private frameWebHandler: WebAdapter | null = null;
 
   private frameAPIHandler: Adapter | null = null;
@@ -162,6 +168,7 @@ export class ModernServer implements ModernServerInterface {
     this.warmupSSRBundle();
 
     await this.prepareFrameHandler();
+    await this.prepareBeforeRouteHandler(usageRoutes, distDir);
 
     // Only work when without setting `assetPrefix`.
     // Setting `assetPrefix` means these resources should be uploaded to CDN.
@@ -184,6 +191,12 @@ export class ModernServer implements ModernServerInterface {
     await this.setupBeforeProdMiddleware();
 
     this.addHandler(this.staticFileHandler);
+
+    // execute after staticFileHandler, can rename to staticFallbackHandler if needed.
+    this.addHandler(faviconFallbackHandler);
+
+    this.addBeforeRouteHandler();
+
     this.addHandler(this.routeHandler.bind(this));
 
     // compose middlewares to http handler
@@ -193,6 +206,19 @@ export class ModernServer implements ModernServerInterface {
   // server ready
   public onRepack(_: BuildOptions) {
     // empty
+  }
+
+  public addBeforeRouteHandler() {
+    this.addHandler(async (context, next) => {
+      if (this.beforeRouteHandler) {
+        await this.beforeRouteHandler(context);
+        if (this.isSend(context.res)) {
+          return;
+        }
+      }
+      // eslint-disable-next-line consistent-return
+      return next();
+    });
   }
 
   protected onServerChange({ filepath }: { filepath: string }) {
@@ -210,6 +236,25 @@ export class ModernServer implements ModernServerInterface {
   // exposed requestHandler
   public getRequestHandler() {
     return this.requestHandler.bind(this);
+  }
+
+  public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
+    req.logger = this.logger;
+    req.metrics = this.metrics;
+    const context = createContext(req, res);
+    const matched = this.router.match(url || context.path);
+    if (!matched) {
+      return null;
+    }
+
+    const route = matched.generate(context.url);
+    const result = await this.handleWeb(context, route);
+
+    if (!result) {
+      return null;
+    }
+
+    return result.content.toString();
   }
 
   public async createHTTPServer(
@@ -254,6 +299,25 @@ export class ModernServer implements ModernServerInterface {
   protected render404(context: ModernServerContext) {
     context.error(ERROR_DIGEST.ENOTF, '404 Not Found');
     this.renderErrorPage(context, 404);
+  }
+
+  protected async prepareBeforeRouteHandler(
+    specs: ServerRoute[],
+    distDir: string,
+  ) {
+    const { runner } = this;
+
+    const handler = await runner.preparebeforeRouteHandler(
+      {
+        serverRoutes: specs,
+        distDir,
+      },
+      {
+        onLast: () => null as any,
+      },
+    );
+
+    this.beforeRouteHandler = handler;
   }
 
   // gather frame extension and get framework handler
@@ -396,7 +460,8 @@ export class ModernServer implements ModernServerInterface {
     if (this.runMode === RUN_MODE.FULL) {
       await this.runner.afterMatch(afterMatchContext, { onLast: noop });
     }
-    if (res.headersSent) {
+
+    if (this.isSend(res)) {
       return;
     }
 
@@ -430,11 +495,11 @@ export class ModernServer implements ModernServerInterface {
         ...res.locals,
         ...middlewareContext.response.locals,
       };
+    }
 
-      // frameWebHandler has process request
-      if (res.headersSent) {
-        return;
-      }
+    // frameWebHandler has process request
+    if (this.isSend(res)) {
+      return;
     }
 
     if (route.responseHeaders) {
@@ -463,9 +528,7 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
-    // user set redirect when react render
-    if (res.getHeader('Location') && isRedirect(res.statusCode)) {
-      res.end();
+    if (this.isSend(res)) {
       return;
     }
 
@@ -500,6 +563,11 @@ export class ModernServer implements ModernServerInterface {
       if (this.runMode === RUN_MODE.FULL) {
         await this.runner.afterRender(afterRenderContext, { onLast: noop });
       }
+
+      if (this.isSend(res)) {
+        return;
+      }
+
       // It will inject _SERVER_DATA twice, when SSG mode.
       // The first time was in ssg html created, the seoncd time was in prod-server start.
       // but the second wound causes route error.
@@ -512,6 +580,19 @@ export class ModernServer implements ModernServerInterface {
       response = afterRenderContext.template.get();
     }
     res.end(response);
+  }
+
+  private isSend(res: ServerResponse) {
+    if (res.headersSent) {
+      return true;
+    }
+
+    if (res.getHeader('Location') && isRedirect(res.statusCode)) {
+      res.end();
+      return true;
+    }
+
+    return false;
   }
 
   // compose handlers and create the final handler

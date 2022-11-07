@@ -22,10 +22,10 @@ export function initHooks() {
     modifyWebpackChainHook: createAsyncHook<ModifyWebpackChainFn>(),
     modifyWebpackConfigHook: createAsyncHook<ModifyWebpackConfigFn>(),
     modifyBuilderConfigHook: createAsyncHook<ModifyBuilderConfigFn>(),
-    onAfterCreateCompilerHooks: createAsyncHook<OnAfterCreateCompilerFn>(),
-    onBeforeCreateCompilerHooks: createAsyncHook<OnBeforeCreateCompilerFn>(),
-    onAfterStartDevServerHooks: createAsyncHook<OnAfterStartDevServerFn>(),
-    onBeforeStartDevServerHooks: createAsyncHook<OnBeforeStartDevServerFn>(),
+    onAfterCreateCompilerHook: createAsyncHook<OnAfterCreateCompilerFn>(),
+    onBeforeCreateCompilerHook: createAsyncHook<OnBeforeCreateCompilerFn>(),
+    onAfterStartDevServerHook: createAsyncHook<OnAfterStartDevServerFn>(),
+    onBeforeStartDevServerHook: createAsyncHook<OnBeforeStartDevServerFn>(),
   };
 }
 

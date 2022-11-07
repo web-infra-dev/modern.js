@@ -8,7 +8,7 @@ describe('stub-builder', () => {
     const builder = await createStubBuilder();
     const oldConfig = await builder.unwrapWebpackConfig();
     const newConfig = await builder.unwrapWebpackConfig();
-    expect(oldConfig).toBe(newConfig);
+    expect(oldConfig).toStrictEqual(newConfig);
   });
 
   it('lodash memoize should be reset', async () => {
@@ -45,6 +45,8 @@ describe('stub-builder', () => {
         "modifyBuilderConfigHook",
         "modifyWebpackChainHook",
         "modifyWebpackConfigHook",
+        "onBeforeCreateCompilerHook",
+        "onAfterCreateCompilerHook",
         "onBeforeBuildHook",
         "onAfterBuildHook",
       ]

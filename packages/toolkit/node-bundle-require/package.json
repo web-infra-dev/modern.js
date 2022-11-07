@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/node-bundle-require",
-  "version": "1.20.1",
+  "version": "1.21.1",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -47,7 +47,7 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
-    "esbuild": "^0.14.38"
+    "esbuild": "0.15.7"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

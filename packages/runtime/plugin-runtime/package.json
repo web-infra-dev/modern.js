@@ -11,7 +11,10 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.20.1",
+  "version": "1.21.1",
+  "engines": {
+    "node": ">=14.17.6"
+  },
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -59,10 +62,15 @@
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
     },
-    "./runtime-router": {
+    "./router": {
       "jsnext:source": "./src/router/index.ts",
-      "node": "./dist/js/node/router/index",
+      "node": "./dist/js/node/router/index.js",
       "default": "./dist/js/treeshaking/router/index.js"
+    },
+    "./router-server": {
+      "jsnext:source": "./src/router/server/index.ts",
+      "node": "./dist/js/node/router/server/index.js",
+      "default": "./dist/js/treeshaking/router/server/index.js"
     }
   },
   "typesVersions": {
@@ -91,8 +99,11 @@
       "model": [
         "./types/model.d.ts"
       ],
-      "runtime-router": [
+      "router": [
         "./dist/types/router/index.d.ts"
+      ],
+      "router-server": [
+        "./dist/types/router/server/index.d.ts"
       ]
     }
   },
@@ -108,6 +119,7 @@
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@loadable/babel-plugin": "^5.13.2",
+    "@loadable/webpack-plugin": "5.15.2",
     "@loadable/component": "^5.15.0",
     "@loadable/server": "^5.15.1",
     "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
@@ -119,7 +131,6 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "@types/redux-logger": "^3.0.9",
@@ -127,7 +138,9 @@
     "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "react-helmet": "^6.1.0",
-    "react-is": "^17",
+    "@remix-run/node": "^1.7.0",
+    "@remix-run/router": "^1.0.1",
+    "react-is": "^18",
     "react-router-dom": "^6.4.0",
     "react-side-effect": "^2.1.1",
     "redux-logger": "^3.0.6",
@@ -140,11 +153,13 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
     "@testing-library/react-hooks": "^8.0.1",
+    "@remix-run/web-fetch": "^4.1.3",
     "@types/invariant": "^2.2.30",
     "@types/jest": "^27",
     "@types/loadable__webpack-plugin": "^5.7.3",

@@ -20,12 +20,22 @@ export const PluginFallback = (): BuilderPlugin => ({
       const outerRules: Array<RuleSetRule | '...'> = [];
 
       for (const rule of rules) {
-        // "..." refers to the webpack defaults
-        if (rule === '...' || rule.resolve) {
+        if (
+          // "..." refers to the webpack defaults
+          rule === '...' ||
+          // this is a special case, put the mjs fullySpecified rule in the outside
+          (rule.resolve && !rule.mimetype)
+        ) {
           outerRules.push(rule);
         } else if (
           rule.oneOf &&
-          !(rule.test || rule.exclude || rule.resource || rule.issuer)
+          !(
+            rule.test ||
+            rule.exclude ||
+            rule.resource ||
+            rule.issuer ||
+            rule.mimetype
+          )
         ) {
           rule.oneOf.forEach(r => innerRules.push(r));
         } else {

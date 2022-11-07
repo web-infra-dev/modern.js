@@ -1,12 +1,12 @@
 import React, { Suspense } from 'react';
-import { Route, Routes, RouteProps } from 'react-router-dom';
+import { Route, RouteProps } from 'react-router-dom';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
-import { RouterConfig } from './plugin';
+import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 
 const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   const { children, index, id, component: Component } = nestedRoute;
-  const childComponents = children?.map(childRoute => {
+  const childElements = children?.map(childRoute => {
     return renderNestedRoute(childRoute, nestedRoute);
   });
 
@@ -37,19 +37,23 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
         </Suspense>
       );
     } else {
-      routeProps.element = <Component />;
+      routeProps.element = (
+        <Suspense>
+          <Component />
+        </Suspense>
+      );
     }
   }
 
-  const routeComponent = index ? (
+  const routeElement = index ? (
     <Route key={id} {...routeProps} index={true} />
   ) : (
     <Route key={id} {...routeProps} index={false}>
-      {childComponents}
+      {childElements}
     </Route>
   );
 
-  return routeComponent;
+  return routeElement;
 };
 
 export function getRouteComponents(
@@ -64,26 +68,24 @@ export function getRouteComponents(
 
     return <GlobalLayout Component={Component} {...props} />;
   };
-  const routeComponents: React.ReactElement[] = [];
+  const routeElements: React.ReactElement[] = [];
   for (const route of routes) {
     if (route.type === 'nested') {
-      const routeComponent = renderNestedRoute(route);
-      routeComponents.push(routeComponent);
+      const routeElement = renderNestedRoute(route);
+      routeElements.push(routeElement);
     } else {
-      const routeComponent = (
+      const routeElement = (
         <Route
           key={route.path}
           path={route.path}
           element={<Layout Component={route.component} />}
         />
       );
-      routeComponents.push(routeComponent);
+      routeElements.push(routeElement);
     }
   }
-  routeComponents.push(
-    <Route key="*" path="*" element={<DefaultNotFound />} />,
-  );
-  return routeComponents;
+  routeElements.push(<Route key="*" path="*" element={<DefaultNotFound />} />);
+  return routeElements;
 }
 
 export function renderRoutes(routesConfig: RouterConfig['routesConfig']) {
@@ -94,8 +96,8 @@ export function renderRoutes(routesConfig: RouterConfig['routesConfig']) {
   if (!routes) {
     return null;
   }
-  const routeComponents = getRouteComponents(routes, globalApp);
-  return <Routes>{routeComponents}</Routes>;
+  const routeElements = getRouteComponents(routes, globalApp);
+  return routeElements;
 }
 
 export function getLocation(serverContext: any): string {

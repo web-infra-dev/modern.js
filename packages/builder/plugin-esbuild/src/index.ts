@@ -65,16 +65,25 @@ export function PluginEsbuild(
           const { ESBuildMinifyPlugin } = await import(
             '../compiled/esbuild-loader'
           );
-          chain.optimization
+
+          // @ts-expect-error webpack-chain missing minimizers type
+          chain.optimization.minimizers
             .delete(CHAIN_ID.MINIMIZER.JS)
             .delete(CHAIN_ID.MINIMIZER.CSS);
+
           chain.optimization
             .minimizer(CHAIN_ID.MINIMIZER.ESBUILD)
             .use(ESBuildMinifyPlugin)
             .init(
               () =>
                 new ESBuildMinifyPlugin({
-                  legalComments: builderConfig.output?.legalComments,
+                  // other legalComments such as linked is not supported yet
+                  // https://github.com/privatenumber/esbuild-loader/issues/263
+                  legalComments:
+                    builderConfig.output?.legalComments === 'none'
+                      ? 'none'
+                      : 'inline',
+                  css: true,
                   ...options?.minimize,
                 }),
             );

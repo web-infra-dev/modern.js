@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "1.20.1",
+  "version": "1.21.1",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -31,7 +31,6 @@
     "@babel/parser": "7.18.4",
     "@babel/plugin-proposal-decorators": "7.18.2",
     "@babel/plugin-proposal-export-default-from": "7.17.12",
-    "@babel/plugin-proposal-function-bind": "7.16.7",
     "@babel/plugin-proposal-partial-application": "7.17.12",
     "@babel/plugin-proposal-pipeline-operator": "7.18.2",
     "@babel/template": "7.16.7",

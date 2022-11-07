@@ -26,7 +26,7 @@ export function PluginLess(): BuilderPlugin {
 
           const defaultLessLoaderOptions = {
             lessOptions: { javascriptEnabled: true },
-            sourceMap: false,
+            sourceMap: !config.output.disableSourceMap,
             implementation: utils.getCompiledPath('less'),
           };
           const mergedOptions = applyOptionsChain<

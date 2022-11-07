@@ -7,10 +7,6 @@ declare module '@modern-js/core/config' {
   }
 }
 
-declare module '@modern-js/runtime/router' {
-  export * from '../dist/types/router';
-}
-
 declare module '@modern-js/runtime' {
   interface AppConfig {
     router?: RouterConfig | boolean;

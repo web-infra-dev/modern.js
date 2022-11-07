@@ -52,7 +52,7 @@
     },
     "output": {
       "faviconByEntries": {
-        "server-prod": "./src/assets/favicon1.ico"
+        "main": "./src/assets/favicon1.ico"
       }
     }
   }

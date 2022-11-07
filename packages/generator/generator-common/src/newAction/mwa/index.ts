@@ -19,8 +19,6 @@ export const MWAActionTypes = [
 
 export const MWAActionFunctions = [
   ActionFunction.TailwindCSS,
-  ActionFunction.Less,
-  ActionFunction.Sass,
   ActionFunction.BFF,
   ActionFunction.SSG,
   ActionFunction.MicroFrontend,
@@ -130,8 +128,6 @@ export const getMWANewActionSchema = (
 export const MWAActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
-  [ActionFunction.Less]: '@modern-js/plugin-less',
-  [ActionFunction.Sass]: '@modern-js/plugin-sass',
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.E2ETest]: '@modern-js/plugin-e2e',
@@ -179,8 +175,6 @@ export const MWANewActionGenerators: Record<
   },
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
-    [ActionFunction.Less]: '@modern-js/dependence-generator',
-    [ActionFunction.Sass]: '@modern-js/dependence-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
     [ActionFunction.I18n]: '@modern-js/dependence-generator',

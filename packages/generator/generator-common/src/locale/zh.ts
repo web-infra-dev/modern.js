@@ -22,8 +22,6 @@ export const ZH_LOCALE = {
     function: {
       self: '启用可选功能',
       tailwindcss: '启用 Tailwind CSS 支持',
-      less: '启用 Less 支持',
-      sass: '启用 Sass 支持',
       bff: '启用「BFF」功能',
       micro_frontend: '启用「微前端」模式',
       i18n: '启用「国际化（i18n）」功能',
@@ -61,12 +59,6 @@ export const ZH_LOCALE = {
     name: '请填写入口名称',
     no_empty: '入口名称不能为空！',
     no_pages: '入口名称不支持 "pages"！',
-    needModifyConfig: '是否需要调整默认配置?',
-    clientRoute: {
-      self: '请选择客户端路由方式',
-      selfControlRoute: '自控路由',
-      conventionalRoute: '约定式路由',
-    },
   },
   packageName: {
     self: '请填写项目名称',

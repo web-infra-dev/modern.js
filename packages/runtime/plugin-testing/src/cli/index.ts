@@ -5,7 +5,6 @@ import {
   isApiOnly,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';
 import {
   testingHooks,
   TestConfigOperator,
@@ -87,14 +86,18 @@ export default (): CliPlugin => {
             return next(utils);
           }
 
-          const webpackConfig = getWebpackConfig(
-            WebpackConfigTarget.CLIENT,
-            appContext,
-            userConfig,
-          );
-          const {
-            resolve: { alias = {} },
-          } = webpackConfig;
+          // TODO get alias from builder
+          // const webpackConfig = getWebpackConfig(
+          //   WebpackConfigTarget.CLIENT,
+          //   appContext,
+          //   userConfig,
+          // );
+          // const {
+          //   resolve: { alias = {} },
+          // } = webpackConfig;
+          const alias = {
+            '@': [path.join(appContext.appDirectory, 'src')],
+          };
 
           utils.mergeJestConfig({
             globals: {

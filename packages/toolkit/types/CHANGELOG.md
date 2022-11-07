@@ -1,5 +1,14 @@
 # @modern-js/types
 
+## 1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+
 ## 1.20.1
 
 ## 1.20.0

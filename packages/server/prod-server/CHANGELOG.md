@@ -1,5 +1,31 @@
 # @modern-js/prod-server
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/server-core@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+- 8f3674a: chore: reduce parameters for dev-server & update default config value in builder startDevServer
+
+  chore: 缩简 devServer 配置定义 & 更新 builder startDevServer 方法 config 默认值
+
+- 519965e: fix: should not do render if set location header and 302 status in middleware
+  fix: 如果在 middleware 中设置了 location 头和 302 状态码，则不应该走渲染逻辑
+- 67d80b7: fix(prod-server): failed to match URL which ends with ".html"
+
+  fix(prod-server): 修复无法匹配到以 ".html" 结尾的 URL 的问题
+
+  - @modern-js/server-core@1.21.0
+  - @modern-js/utils@1.21.0
+
 ## 1.20.1
 
 ### Patch Changes

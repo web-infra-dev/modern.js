@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "name": "@e2e/webpack-builder-css-modules",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "node ./scripts/dev.js",
+    "build": "node ./scripts/build.js",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "got": "^11.8.3",
+    "react": "^18.0.2",
+    "react-dom": "^18.0.2"
+  },
+  "devDependencies": {
+    "@modern-js/e2e": "workspace:*",
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@types/node": "^14",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^4"
+  }
+}

@@ -127,6 +127,8 @@ Perform a production build.
 type BuildOptions = {
   mode?: 'development' | 'production';
   watch?: boolean;
+  // custom Compiler object
+  compiler?: Compiler | MultiCompiler;
 };
 
 function Build(options?: BuildOptions): Promise<void>;
@@ -155,6 +157,19 @@ If you need to watch file changes and re-build, you can set the `watch` option t
 ```ts
 await builder.build({
   watch: true,
+});
+```
+
+### Custom Compiler
+
+In some cases, you may want to use a custom compiler:
+
+```ts
+const compiler = webpack({
+  // ...
+});
+await builder.build({
+  compiler,
 });
 ```
 

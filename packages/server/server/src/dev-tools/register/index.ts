@@ -64,7 +64,7 @@ export const enableRegister = (
       // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
       files: true,
       transpileOnly: true,
-      ignore: ['(?:^|/)node_modules/', `(?:^|/)${distPath}/bundles/`],
+      ignore: ['(?:^|/)node_modules/', `(?:^|/)${distPath}/`],
     });
   } else {
     debug('use @babel/register');
@@ -72,9 +72,9 @@ export const enableRegister = (
       projectRoot,
       {
         ...config.source,
-        babelConfig: config.tools.babel,
+        babelConfig: config.tools?.babel,
         server: {
-          compiler: config.server.compiler,
+          compiler: config.server?.compiler,
         },
       },
       {

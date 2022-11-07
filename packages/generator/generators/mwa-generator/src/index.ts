@@ -8,8 +8,6 @@ import {
   Solution,
   getMWASchema,
   Language,
-  BooleanConfig,
-  ClientRoute,
   EntryGenerator,
   PackageManager,
 } from '@modern-js/generator-common';
@@ -115,14 +113,7 @@ export const handleTemplateFile = async (
 
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
-  const {
-    packageName,
-    packagePath,
-    language,
-    packageManager,
-    needModifyMWAConfig,
-    clientRoute,
-  } = ans;
+  const { packageName, packagePath, language, packageManager } = ans;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
@@ -161,8 +152,8 @@ export const handleTemplateFile = async (
         update: {
           $set: {
             'devDependencies.typescript': '^4',
-            'devDependencies.@types/react': '^17',
-            'devDependencies.@types/react-dom': '^17',
+            'devDependencies.@types/react': '^18',
+            'devDependencies.@types/react-dom': '^18',
             'devDependencies.@types/node': '^14',
           },
         },
@@ -193,10 +184,6 @@ export const handleTemplateFile = async (
     `./${projectPath}`,
     {
       ...context.config,
-      clientRoute:
-        needModifyMWAConfig === BooleanConfig.NO
-          ? ClientRoute.SelfControlRoute
-          : clientRoute,
       isSubGenerator: true,
     },
   );

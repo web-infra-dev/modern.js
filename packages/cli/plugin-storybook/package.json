@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.20.1",
+  "version": "1.21.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -56,7 +56,7 @@
     "@storybook/core": "^6.3.8",
     "@storybook/manager-webpack5": "^6.3.8",
     "@storybook/react": "^6.3.8",
-    "esbuild": "^0.14.38",
+    "esbuild": "0.15.7",
     "findup-sync": "^4.0.0",
     "fs-extra": "^10.0.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
@@ -78,14 +78,14 @@
     "@types/node": "^14",
     "jest": "^27",
     "react": "^18",
-    "react-dom": "^17",
+    "react-dom": "^18.0.2",
     "typescript": "^4",
     "webpack": "^5.74.0",
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^1.20.1",
-    "@modern-js/plugin-router-legacy": "workspace:^1.20.1",
+    "@modern-js/runtime": "workspace:^1.21.1",
+    "@modern-js/plugin-router-legacy": "workspace:^1.21.1",
     "react": ">=18"
   },
   "peerDependenciesMeta": {

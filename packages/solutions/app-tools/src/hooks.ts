@@ -1,29 +1,21 @@
 import { createAsyncWaterfall, createAsyncWorkflow } from '@modern-js/plugin';
-import type {
-  Compiler,
-  Configuration,
-  MultiCompiler,
-} from '@modern-js/webpack';
+import type { webpack } from '@modern-js/builder-webpack-provider/types';
 
 export const beforeDev = createAsyncWorkflow();
 
 export const afterDev = createAsyncWorkflow();
 
-export const beforeCreateCompiler = createAsyncWorkflow<{
-  webpackConfigs: Configuration[];
-}>();
+export const beforeCreateCompiler = createAsyncWorkflow();
 
 export const afterCreateCompiler = createAsyncWorkflow<{
-  compiler: Compiler | MultiCompiler | undefined;
+  compiler: webpack.Compiler | webpack.MultiCompiler | undefined;
 }>();
 
 export const beforePrintInstructions = createAsyncWaterfall<{
   instructions: string;
 }>();
 
-export const beforeBuild = createAsyncWorkflow<{
-  webpackConfigs: Configuration[];
-}>();
+export const beforeBuild = createAsyncWorkflow();
 
 export const afterBuild = createAsyncWorkflow();
 

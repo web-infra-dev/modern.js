@@ -20,6 +20,7 @@ export type StartDevServerOptions = {
 export type BuildOptions = {
   mode?: BuilderMode;
   watch?: boolean;
+  compiler?: Compiler | MultiCompiler;
 };
 
 export type InspectConfigOptions = {

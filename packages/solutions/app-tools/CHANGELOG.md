@@ -1,5 +1,49 @@
 # @modern-js/app-tools
 
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/core@1.21.1
+- @modern-js/plugin-i18n@1.21.1
+- @modern-js/plugin-jarvis@1.21.1
+- @modern-js/webpack@1.21.1
+- @modern-js/new-action@1.21.1
+- @modern-js/prod-server@1.21.1
+- @modern-js/server@1.21.1
+- @modern-js/node-bundle-require@1.21.1
+- @modern-js/plugin@1.21.1
+- @modern-js/types@1.21.1
+- @modern-js/upgrade@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- Updated dependencies [f51c59a]
+- Updated dependencies [7b3a482]
+- Updated dependencies [cfd8557]
+- Updated dependencies [17d1672]
+- Updated dependencies [8f3674a]
+- Updated dependencies [dca34c4]
+- Updated dependencies [28f0a4f]
+- Updated dependencies [b0597e3]
+- Updated dependencies [519965e]
+- Updated dependencies [67d80b7]
+  - @modern-js/prod-server@1.21.0
+  - @modern-js/server@1.21.0
+  - @modern-js/types@1.21.0
+  - @modern-js/node-bundle-require@1.21.0
+  - @modern-js/new-action@1.21.0
+  - @modern-js/upgrade@1.21.0
+  - @modern-js/webpack@1.21.0
+  - @modern-js/core@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+  - @modern-js/plugin-jarvis@1.21.0
+  - @modern-js/plugin-i18n@1.21.0
+
 ## 1.20.1
 
 ### Patch Changes

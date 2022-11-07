@@ -85,10 +85,6 @@
       "path": "packages/server/create-request"
     },
     {
-      "name": "@modern-js/css-config",
-      "path": "packages/cli/css-config"
-    },
-    {
       "name": "@modern-js/node-bundle-require",
       "path": "packages/toolkit/node-bundle-require"
     },
@@ -109,10 +105,6 @@
       "path": "packages/server/plugin-egg"
     },
     {
-      "name": "@modern-js/plugin-esbuild",
-      "path": "packages/cli/plugin-esbuild"
-    },
-    {
       "name": "@modern-js/plugin-express",
       "path": "packages/server/plugin-express"
     },
@@ -123,10 +115,6 @@
     {
       "name": "@modern-js/plugin-koa",
       "path": "packages/server/plugin-koa"
-    },
-    {
-      "name": "@modern-js/plugin-less",
-      "path": "packages/cli/plugin-less"
     },
     {
       "name": "@modern-js/plugin-garfish",
@@ -143,10 +131,6 @@
     {
       "name": "@modern-js/plugin-proxy",
       "path": "packages/cli/plugin-proxy"
-    },
-    {
-      "name": "@modern-js/plugin-sass",
-      "path": "packages/cli/plugin-sass"
     },
     {
       "name": "@modern-js/plugin-server",

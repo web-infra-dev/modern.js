@@ -95,6 +95,37 @@ describe('test server', () => {
       expect(modernServer.handlers[nextLen - 1]).toBe(asyncHandler);
     });
 
+    test('should hit favicon fallback', async () => {
+      const server = await createServer({
+        config: defaultsConfig as any,
+        pwd: appDirectory,
+      });
+
+      const modernServer: any = (server as any).server;
+      const handler = modernServer.getRequestHandler();
+
+      const req = httpMocks.createRequest({
+        url: '/favicon.ico',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      handler(req, res);
+
+      const content = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+      });
+
+      expect(content).toBe('');
+      expect(res.statusCode).toBe(204);
+    });
+
     test('should get request handler correctly', async () => {
       const server = await createServer({
         config: {
@@ -203,6 +234,47 @@ describe('test server', () => {
         });
       });
       expect(html).toMatch('This page could not be found.');
+    });
+
+    test('should render() api work correctly', async () => {
+      const server = await createServer({
+        config: {
+          ...(defaultsConfig as any),
+          output: {
+            path: 'test-dist',
+          },
+        },
+        pwd: path.join(__dirname, './fixtures/completely-custom'),
+      });
+
+      const req = httpMocks.createRequest({
+        url: '/home',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      const html = await server.render(req, res, '/home');
+      expect(html).toMatch('Modern.js Custom Server');
+
+      const htmlMatchPath = await server.render(req, res);
+      expect(htmlMatchPath).toMatch('Modern.js Custom Server');
+
+      const notFound = await server.render(req, res, '/not-found');
+      expect(notFound).toBeNull();
+
+      const reqNotFound = httpMocks.createRequest({
+        url: '/not-found',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const notFound1 = await server.render(reqNotFound, res);
+      expect(notFound1).toBeNull();
     });
   });
 

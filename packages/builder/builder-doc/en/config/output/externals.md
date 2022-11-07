@@ -4,7 +4,7 @@
 
 At build time, prevent some `import` dependencies from being packed into bundles in your code, and instead fetch them externally at runtime.
 
-For more information, please see: [Webpack Externals](https://webpack.js.org/configuration/externals/)
+For more information, please see: [webpack Externals](https://webpack.js.org/configuration/externals/)
 
 #### Example
 
@@ -19,3 +19,7 @@ export default {
   },
 };
 ```
+
+:::tip
+When the build target is Web Worker, externals will not take effect. This is because the Worker environment can not access global variables.
+:::

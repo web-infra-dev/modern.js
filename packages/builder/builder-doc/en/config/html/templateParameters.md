@@ -20,7 +20,7 @@ type DefaultParameters = {
 };
 ```
 
-Define the parameters in the HTML template, corresponding to the `templateParameters` config of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).You can use the config as an object or a function.
+Define the parameters in the HTML template, corresponding to the `templateParameters` config of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin). You can use the config as an object or a function.
 
 If it is an object, it will be merged with the default parameters. For example:
 

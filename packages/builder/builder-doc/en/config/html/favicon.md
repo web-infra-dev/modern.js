@@ -1,7 +1,7 @@
 - Type: `string`
 - Default: `undefined`
 
-Set the favicon icon for the page.
+Set the favicon icon for all pages.
 
 After config this option, the favicon will be automatically copied to the dist directory during the compilation, and the corresponding `link` tag will be added to the HTML.
 
