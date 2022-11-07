@@ -30,7 +30,14 @@ exports[`plugins/minimize > should apply minimizer in production 1`] = `
         "include": undefined,
         "minimizer": {
           "implementation": [Function],
-          "options": {},
+          "options": {
+            "preset": [
+              "default",
+              {
+                "mergeLonghand": false,
+              },
+            ],
+          },
         },
         "parallel": true,
         "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
