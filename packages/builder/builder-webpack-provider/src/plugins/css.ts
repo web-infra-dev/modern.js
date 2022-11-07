@@ -18,6 +18,7 @@ import type {
   StyleLoaderOptions,
 } from '../types';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
+import { getCssnanoDefaultOptions } from './minimize';
 
 export const isUseCssExtract = (
   config: NormalizedConfig,
@@ -114,7 +115,9 @@ export async function applyBaseCSSRule(
                 config.tools.autoprefixer,
               ),
             ),
-            enableCssMinify ? require('cssnano')({ preset: 'default' }) : false,
+            enableCssMinify
+              ? require('cssnano')(getCssnanoDefaultOptions())
+              : false,
           ].filter(Boolean),
         },
         sourceMap: enableSourceMap,
