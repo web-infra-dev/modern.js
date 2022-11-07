@@ -14,6 +14,7 @@ export default function () {
     .description(i18n.t(localeKeys.command.description))
     .argument('[projectDir]')
     .option('-c, --config <config>', i18n.t(localeKeys.command.config), '{}')
+    .option('--packages <packages>', i18n.t(localeKeys.command.packages), '{}')
     .option('--mwa', i18n.t(localeKeys.command.mwa), false)
     .option('--module', i18n.t(localeKeys.command.module), false)
     .option('--monorepo', i18n.t(localeKeys.command.monorepo), false)
