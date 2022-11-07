@@ -16,7 +16,7 @@ export default defineConfig({
   //   },
   // },
   server: {
-    ssr: true,
+    ssr: false,
     // ssr: {
     //   mode: 'stream',
     // },
