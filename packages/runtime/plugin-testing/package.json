@@ -126,7 +126,7 @@
     "yargs": "^17.0.1"
   },
   "peerDependencies": {
-    "react": ">=18",
+    "react": ">=17",
     "react-dom": ">=17",
     "@modern-js/runtime": "workspace:^1.21.1"
   },
