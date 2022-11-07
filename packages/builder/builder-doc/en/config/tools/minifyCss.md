@@ -1,5 +1,16 @@
 - Type: `Object | Function | undefined`
-- Default: `{}`
+- Default:
+
+```js
+const defaultOptions = {
+  preset: [
+    'default',
+    {
+      mergeLonghand: false,
+    },
+  ],
+};
+```
 
 When building for production, Builder will minimize the CSS code through [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin). The config of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) can be modified via `tools.minifyCss`.
 
