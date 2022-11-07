@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "pnpm test --filter api-service-koa & jest -w 1",
-    "cypress:test": "pnpm run dev --parallel --filter '@cypress-test/*' & cypress open",
+    "cypress:test": "pnpm --parallel --filter '@cypress-test/*' run dev & cypress open",
     "prepare": "node node_modules/puppeteer/install.js",
     "test:mwa": "ts-node -T generator/mwa.ts",
     "test:module": "ts-node -T generator/module.ts",
