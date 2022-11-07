@@ -107,6 +107,7 @@ export function createBuilderOptions(
     target,
     configPath: appContext.configFile || undefined,
     entry: entries,
+    framework: appContext.metaName,
   };
 }
 
