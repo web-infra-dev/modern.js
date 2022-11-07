@@ -1,5 +1,5 @@
 import { useModuleApps } from '@modern-js/plugin-garfish';
-import { Switch, Route, Link } from '@modern-js/runtime/router';
+import { Switch, Route, Link } from '@modern-js/runtime/legacy-router';
 import { getAppInfo } from '../../../../utils/testCase';
 import { name } from '../package.json';
 import './App.css';
