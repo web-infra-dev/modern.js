@@ -19,6 +19,7 @@ import type {
 } from 'terser-webpack-plugin';
 import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
 import { TransformOptions } from '@babel/core';
+import type { ToolsConfig as BuilderToolsConfig } from '@modern-js/builder-webpack-provider';
 import type { PluginConfig, NewPluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
@@ -297,6 +298,7 @@ export interface ToolsConfig {
   terser?: TerserConfig;
   minifyCss?: ConfigFunction;
   esbuild?: Record<string, unknown>;
+  htmlPlugin?: BuilderToolsConfig['htmlPlugin'];
 
   /**
    * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.

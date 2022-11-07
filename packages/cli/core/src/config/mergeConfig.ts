@@ -46,6 +46,9 @@ export interface NormalizedToolsConfig
     | ToolsConfig['minifyCss']
     | Array<NonNullable<ToolsConfig['minifyCss']>>;
   esbuild: ToolsConfig['esbuild'] | Array<NonNullable<ToolsConfig['esbuild']>>;
+  htmlPlugin:
+    | ToolsConfig['htmlPlugin']
+    | Array<NonNullable<ToolsConfig['htmlPlugin']>>;
 }
 
 export interface NormalizedConfig

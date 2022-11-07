@@ -387,6 +387,7 @@ importers:
     specifiers:
       '@jest/types': ^27.0.6
       '@modern-js/babel-preset-app': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/node-bundle-require': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/types': workspace:*
@@ -415,6 +416,7 @@ importers:
     devDependencies:
       '@jest/types': 27.5.1
       '@modern-js/babel-preset-app': link:../babel-preset-app
+      '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
