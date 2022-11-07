@@ -25,7 +25,11 @@ describe('useLoader with SSR', () => {
     const appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
-    browser = await puppeteer.launch({ headless: true, dumpio: true });
+    browser = await puppeteer.launch({
+      headless: true,
+      dumpio: true,
+      args: ['--no-sandbox'],
+    });
     page = await browser.newPage();
 
     page.on('console', msg => logs.push(msg.text));
