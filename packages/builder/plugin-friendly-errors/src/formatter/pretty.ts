@@ -3,9 +3,8 @@ import type StackTracey from 'stacktracey';
 import { ErrorFormatter } from '../shared/types';
 
 const formatTraceEntry = (entry: StackTracey.Entry) => {
-  const { file, line, column } = entry;
+  const { file: filename, line, column } = entry;
   const prompt = chalk.gray('at');
-  const filename = file;
   const pos = chalk.gray(`:${line}:${column}`);
   return `    ${prompt} ${filename}${pos}`;
 };

@@ -99,7 +99,7 @@ export const PluginFriendlyErrors = (
     api.modifyWebpackChain(chain => {
       chain
         .plugin(CHAIN_ID.PLUGIN.FRIENDLY_ERROR)
-        .use(FriendlyErrorsWebpackPlugin, options);
+        .use(FriendlyErrorsWebpackPlugin, [options]);
     });
   },
 });
