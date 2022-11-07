@@ -50,9 +50,10 @@ export default (): CliPlugin => ({
               const apiRegexp = new RegExp(
                 normalizeOutputPath(`${rootDir}${path.sep}.*(.[tj]s)$`),
               );
+
+              chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(apiRegexp);
               chain.module
                 .rule(CHAIN_ID.RULE.JS_BFF_API)
-                .before(CHAIN_ID.ONE_OF.JS)
                 .test(apiRegexp)
                 .use('custom-loader')
                 .loader(require.resolve('./loader').replace(/\\/g, '/'))
