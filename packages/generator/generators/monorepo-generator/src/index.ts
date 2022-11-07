@@ -14,6 +14,7 @@ import {
   MonorepoSchema,
   PackageManager,
   ChangesetGenerator,
+  PackagesGenerator,
 } from '@modern-js/generator-common';
 import {
   getPackageManagerText,
@@ -119,6 +120,15 @@ export const handleTemplateFile = async (
   await appApi.runSubGenerator(
     getGeneratorPath(ChangesetGenerator, context.config.distTag),
   );
+
+  const { packagesInfo } = context.config;
+  if (packagesInfo && Object.keys(packagesInfo).length > 0) {
+    await appApi.runSubGenerator(
+      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      undefined,
+      context.config,
+    );
+  }
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
