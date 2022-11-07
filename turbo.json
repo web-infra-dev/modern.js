@@ -3,7 +3,11 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"],
+      "outputs": [
+        "dist/**/*",
+        "compiled/config-validate/**/*",
+        "!dist/node/main.js"
+      ],
       "inputs": [
         "src/**/*",
         "tsconfig.json",
