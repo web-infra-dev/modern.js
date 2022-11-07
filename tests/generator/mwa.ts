@@ -33,7 +33,7 @@ async function createAllMWAProject(
   }
 }
 
-async function newMWAProject(
+async function runNewMWAProject(
   repoDir: string,
   tmpDir: string,
   isLocal: boolean,
@@ -161,7 +161,7 @@ async function main() {
     await createAllMWAProject(repoDir, tmpDir, isLocal, isSimple);
     await runInstallAndBuildProject('mwa', tmpDir);
     await runLintProject('mwa', tmpDir);
-    await newMWAProject(repoDir, tmpDir, isLocal, isSimple);
+    await runNewMWAProject(repoDir, tmpDir, isLocal, isSimple);
   } catch (e) {
     // eslint-disable-next-line no-process-exit
     process.exit(1);

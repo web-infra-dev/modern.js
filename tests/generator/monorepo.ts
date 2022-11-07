@@ -33,7 +33,7 @@ async function createAllMonorepoProject(
   }
 }
 
-async function newMonorepoProject(
+async function runNewInMonorepoProject(
   repoDir: string,
   tmpDir: string,
   isLocal: boolean,
@@ -135,7 +135,7 @@ async function main() {
     const { isSimple, isLocal, repoDir, tmpDir } = await prepare('monorepo');
     await createAllMonorepoProject(repoDir, tmpDir, isLocal);
     await runInstallAndBuildProject('monorepo', tmpDir);
-    await newMonorepoProject(repoDir, tmpDir, isLocal, isSimple);
+    await runNewInMonorepoProject(repoDir, tmpDir, isLocal, isSimple);
   } catch (e) {
     // eslint-disable-next-line no-process-exit
     process.exit(1);

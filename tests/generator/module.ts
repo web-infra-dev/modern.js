@@ -36,7 +36,7 @@ async function createAllModuleProject(
   }
 }
 
-async function newModuleProject(
+async function runNewInModuleProject(
   repoDir: string,
   tmpDir: string,
   isLocal: boolean,
@@ -60,50 +60,7 @@ async function newModuleProject(
   );
   const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
   const cases = getModuleNewCases();
-  let hasMicroFrontend = false;
-  let hasSSG = false;
   for (const config of cases) {
-    if (project.includes('js') && config.framework === 'nest') {
-      continue;
-    }
-    // 微前端和 ssg 不支持同时开启
-    if (
-      config.actionType === 'function' &&
-      config.function === 'micro_frontend'
-    ) {
-      if (hasSSG) {
-        continue;
-      }
-      hasMicroFrontend = true;
-    }
-    if (config.actionType === 'function' && config.function === 'ssg') {
-      if (hasMicroFrontend) {
-        continue;
-      }
-      hasSSG = true;
-    }
-    if (
-      config.actionType === 'element' &&
-      config.element === 'server' &&
-      !config.framework
-    ) {
-      console.error('config error', config);
-      continue;
-    }
-    if (
-      config.actionType === 'function' &&
-      config.function === 'bff' &&
-      !config.framework
-    ) {
-      console.error('config error', config);
-      continue;
-    }
-    if (config.actionType === 'refactor') {
-      continue;
-    }
-    if (config.actionType === 'function' && config.function === 'electron') {
-      continue;
-    }
     await runModuleNewCommand(isLocal, packageManager, {
       cwd: path.join(tmpDir, project),
       config: JSON.stringify({
@@ -165,7 +122,7 @@ async function main() {
     await runInstallAndBuildProject('module', tmpDir);
     await runLintProject('module', tmpDir);
     await runTestProject(tmpDir);
-    await newModuleProject(repoDir, tmpDir, isLocal, isSimple);
+    await runNewInModuleProject(repoDir, tmpDir, isLocal, isSimple);
   } catch (e) {
     // eslint-disable-next-line no-process-exit
     process.exit(1);
