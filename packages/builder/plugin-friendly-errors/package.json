@@ -46,6 +46,7 @@
   "devDependencies": {
     "@babel/core": "^7.5.4",
     "@babel/plugin-transform-async-to-generator": "^7.5.0",
+    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/e2e": "workspace:*",
     "@modern-js/utils": "workspace:*",

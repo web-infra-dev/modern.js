@@ -5,7 +5,6 @@ import { test } from 'vitest';
 import { Chunk } from 'webpack';
 import ChunkRenderError from 'webpack/lib/ChunkRenderError';
 import { baseFormatter, prettyFormatter } from '@/formatter';
-import { transformConnectAttachedHead } from '@/transformer';
 import { parseError } from '@/shared/utils';
 
 test('ChunkRenderError', async () => {
@@ -24,6 +23,5 @@ test('ChunkRenderError', async () => {
   );
   const parsed = parseError(error);
   console.log(baseFormatter(parsed));
-  transformConnectAttachedHead(parsed);
   console.log(prettyFormatter(parsed));
 });

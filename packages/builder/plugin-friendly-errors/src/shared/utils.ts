@@ -8,14 +8,16 @@ import {
   ErrorTransformer,
   ParsedError,
   ThrowableType,
+  WithSourcesMixin,
 } from './types';
 
 export const parseError = (
   error: WebpackError,
   type: ThrowableType = 'error',
+  options?: WithSourcesMixin,
 ) => {
   const parsed = cloneErrorObject(error) as ParsedError;
-  parsed.trace = flattenErrorTrace(error);
+  parsed.trace = flattenErrorTrace(error, options);
   parsed.raw = error;
   parsed.type = type;
 
@@ -79,14 +81,21 @@ export const getErrorCauses = (error: ErrorWithCause) => {
 
 export const compressCauses = (
   causes: ErrorWithCause[],
+  options?: WithSourcesMixin,
 ): StackTracey.Entry[] => {
-  const parsedTraces = causes.map(e => new StackTracey(e).items);
+  const parseTrace = options?.withSources
+    ? (e: ErrorWithCause) => new StackTracey(e).withSources().items
+    : (e: ErrorWithCause) => new StackTracey(e).items;
+  const parsedTraces = causes.map(parseTrace);
   const compressed = _(parsedTraces).flatten().uniqBy('beforeParse').value();
   return compressed;
 };
 
-export const flattenErrorTrace = (error: ErrorWithCause) => {
+export const flattenErrorTrace = (
+  error: ErrorWithCause,
+  options?: WithSourcesMixin,
+) => {
   const causes = getErrorCauses(error);
-  const compressed = compressCauses(causes);
+  const compressed = compressCauses(causes, options);
   return compressed;
 };

@@ -9,6 +9,10 @@ export interface ParsedError extends webpack.WebpackError {
   trace: TracingFrame[];
 }
 
+export interface WithSourcesMixin {
+  withSources?: boolean;
+}
+
 export type ErrorTransformer = (error: ParsedError) => ParsedError | void;
 
 export type ErrorFormatter = (error: ParsedError) => string | void;
