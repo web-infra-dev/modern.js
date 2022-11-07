@@ -16,6 +16,7 @@ export async function runCreteCommand(
   const { projectName, config, cwd, platform, plugin } = options;
   const debug =
     process.env.DEBUG === 'true' || process.env.CUSTOM_DEBUG === 'true';
+  const packages = process.env.PACKAGES;
   if (isLocal) {
     return execaWithStreamLog(
       'node',
@@ -31,6 +32,8 @@ export async function runCreteCommand(
         platform ? '--platform' : '',
         plugin ? '--plugin' : '',
         plugin || '',
+        packages ? '--packages' : '',
+        packages || '',
       ],
       {
         cwd,
@@ -55,6 +58,8 @@ export async function runCreteCommand(
       platform ? '--platform' : '',
       plugin ? '--plugin' : '',
       plugin || '',
+      packages ? '--packages' : '',
+      packages || '',
     ],
     {
       cwd,
