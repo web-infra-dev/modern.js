@@ -95,7 +95,9 @@ export default (): CliPlugin => {
           // const {
           //   resolve: { alias = {} },
           // } = webpackConfig;
-          const alias = {};
+          const alias = {
+            '@': [path.join(appContext.appDirectory, 'src')],
+          };
 
           utils.mergeJestConfig({
             globals: {
