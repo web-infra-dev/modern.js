@@ -31,6 +31,8 @@ export const CHAIN_ID = {
     TOML: 'toml',
     /** Rule for yaml */
     YAML: 'yaml',
+    /** Rule for bff */
+    JS_BFF_API: 'js-bff-api',
   },
   /** Predefined rule groups */
   ONE_OF: {
