@@ -22,7 +22,7 @@
     "test:vitest": "node scripts/vitest-run-all.js",
     "fast-lint": "sh -x ./fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
-    "prepare": "pnpm run --filter './packages/**' prepare && husky install",
+    "prepare": "turbo run build --filter './packages/**' && husky install",
     "preinstall": "only-allow-pnpm",
     "lint": "npm run fast-lint",
     "change": "modern change",
@@ -93,6 +93,7 @@
     "globby": "^11.0.4",
     "husky": "^8.0.0",
     "jest": "^27.5.1",
+    "turbo": "^1.6.3",
     "vitest": "0.21.1",
     "wireit": "^0.7.1",
     "zx": "4.2.0"
