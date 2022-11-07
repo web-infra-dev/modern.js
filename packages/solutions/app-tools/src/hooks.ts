@@ -1,5 +1,5 @@
 import { createAsyncWaterfall, createAsyncWorkflow } from '@modern-js/plugin';
-import type { webpack } from '@modern-js/builder-webpack-provider';
+import type { webpack } from '@modern-js/builder-webpack-provider/types';
 
 export const beforeDev = createAsyncWorkflow();
 
