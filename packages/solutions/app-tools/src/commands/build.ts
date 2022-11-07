@@ -1,5 +1,5 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { printBuildError, isUseSSRBundle, emptyDir } from '@modern-js/utils';
+import { logger, isUseSSRBundle, printBuildError } from '@modern-js/utils';
 import { BuilderTarget } from '@modern-js/builder';
 import { generateRoutes } from '../utils/routes';
 import { buildServerConfig, emitResolvedConfig } from '../utils/config';
@@ -18,7 +18,6 @@ export const build = async (
 
   if (apiOnly) {
     const { appDirectory, distDirectory, serverConfigFile } = appContext;
-    await emptyDir(distDirectory);
     await hookRunners.beforeBuild();
 
     await buildServerConfig({
@@ -38,7 +37,6 @@ export const build = async (
   ResolvedConfigContext.set(resolvedConfig);
 
   const { distDirectory, appDirectory, serverConfigFile } = appContext;
-  await emptyDir(distDirectory);
 
   await buildServerConfig({
     appDirectory,
@@ -70,6 +68,9 @@ export const build = async (
         },
       },
     });
+
+    logger.info('Create a production build...\n');
+
     await builder.build();
   } catch (error) {
     printBuildError(error as Error);

@@ -1,9 +1,8 @@
 import type webpack from '@modern-js/builder-webpack-provider/webpack';
 import type { PluginAPI } from '@modern-js/core';
-import { chalk, logger, clearConsole } from '@modern-js/utils';
+import { chalk, logger } from '@modern-js/utils';
 import type { AppHooks } from '../hooks';
 import createBuilder, { BuilderOptions } from '../builder';
-import { printInstructions } from './printInstructions';
 
 export const createDevCompiler = async ({
   api,
@@ -24,8 +23,6 @@ export const createDevCompiler = async ({
         async onDevCompileDone({ isFirstCompile }) {
           if (process.stdout.isTTY || isFirstCompile) {
             hookRunners.afterDev();
-
-            await printInstructions(hookRunners, appContext, normalizedConfig);
           }
         },
         async onBeforeCreateCompiler() {
@@ -33,10 +30,6 @@ export const createDevCompiler = async ({
           await hookRunners.beforeCreateCompiler();
         },
         async onAfterCreateCompiler({ compiler }) {
-          compiler.hooks.invalid.tap('invalid', () => {
-            clearConsole();
-            logger.log('Compiling...');
-          });
           // run modernjs framework afterCreateCompiler hooks
           await hookRunners.afterCreateCompiler({ compiler });
         },

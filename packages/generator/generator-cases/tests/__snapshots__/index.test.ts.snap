@@ -78,14 +78,6 @@ Array [
   },
   Object {
     "actionType": "function",
-    "function": "less",
-  },
-  Object {
-    "actionType": "function",
-    "function": "sass",
-  },
-  Object {
-    "actionType": "function",
     "function": "storybook",
   },
   Object {

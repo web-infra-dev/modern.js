@@ -9,7 +9,7 @@
     "@types/jest": "^27",
     "@types/node": "^14",
     "enhanced-resolve": "^5.8.3",
-    "esbuild": "^0.14.38",
+    "esbuild": "0.15.7",
     "jest": "^27"
   },
   "publishConfig": {

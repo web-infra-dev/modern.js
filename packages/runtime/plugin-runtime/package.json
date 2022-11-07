@@ -64,8 +64,13 @@
     },
     "./router": {
       "jsnext:source": "./src/router/index.ts",
-      "node": "./dist/js/node/router/index",
+      "node": "./dist/js/node/router/index.js",
       "default": "./dist/js/treeshaking/router/index.js"
+    },
+    "./router-server": {
+      "jsnext:source": "./src/router/server/index.ts",
+      "node": "./dist/js/node/router/server/index.js",
+      "default": "./dist/js/treeshaking/router/server/index.js"
     }
   },
   "typesVersions": {
@@ -96,6 +101,9 @@
       ],
       "router": [
         "./dist/types/router/index.d.ts"
+      ],
+      "router-server": [
+        "./dist/types/router/server/index.d.ts"
       ]
     }
   },
@@ -111,6 +119,7 @@
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@loadable/babel-plugin": "^5.13.2",
+    "@loadable/webpack-plugin": "5.15.2",
     "@loadable/component": "^5.15.0",
     "@loadable/server": "^5.15.1",
     "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
@@ -122,7 +131,6 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "@types/redux-logger": "^3.0.9",
@@ -145,6 +153,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

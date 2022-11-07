@@ -75,9 +75,6 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/module-tools': '@modern-js/module-tools/cli',
   '@modern-js/module-tools-v2': '@modern-js/module-tools-v2',
   '@modern-js/runtime': '@modern-js/runtime/cli',
-  '@modern-js/plugin-less': '@modern-js/plugin-less/cli',
-  '@modern-js/plugin-sass': '@modern-js/plugin-sass/cli',
-  '@modern-js/plugin-esbuild': '@modern-js/plugin-esbuild/cli',
   '@modern-js/plugin-proxy': '@modern-js/plugin-proxy/cli',
   '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
   '@modern-js/plugin-bff': '@modern-js/plugin-bff/cli',
@@ -143,24 +140,6 @@ export const PLUGIN_SCHEMAS = {
           requestCreator: { type: 'string' },
         },
       },
-    },
-  ],
-  '@modern-js/plugin-esbuild': [
-    {
-      target: 'tools.esbuild',
-      schema: { typeof: ['object'] },
-    },
-  ],
-  '@modern-js/plugin-less': [
-    {
-      target: 'tools.less',
-      schema: { typeof: ['object', 'function'] },
-    },
-  ],
-  '@modern-js/plugin-sass': [
-    {
-      target: 'tools.sass',
-      schema: { typeof: ['object', 'function'] },
     },
   ],
   '@modern-js/plugin-tailwindcss': [

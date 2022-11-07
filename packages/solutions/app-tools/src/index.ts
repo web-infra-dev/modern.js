@@ -1,7 +1,7 @@
 import path from 'path';
 import { defineConfig, cli, CliPlugin } from '@modern-js/core';
 import LintPlugin from '@modern-js/plugin-jarvis';
-import { cleanRequireCache, Import } from '@modern-js/utils';
+import { cleanRequireCache, emptyDir, Import } from '@modern-js/utils';
 import AnalyzePlugin from './analyze';
 import { hooks, AppHooks } from './hooks';
 import { i18n, localeKeys } from './locale';
@@ -147,6 +147,15 @@ export default (): CliPlugin<AppHooks> => ({
           });
 
         upgradeModel.defineCommand(program.command('upgrade'));
+      },
+
+      async prepare() {
+        const args = process.argv.slice(2);
+        const command = args[0];
+        if (command === 'dev' || command === 'build') {
+          const appContext = api.useAppContext();
+          await emptyDir(appContext.distDirectory);
+        }
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart

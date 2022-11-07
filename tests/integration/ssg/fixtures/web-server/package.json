@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "simple",
+  "name": "ssg-fixtures-web-server",
   "version": "1.0.1",
   "scripts": {
     "build": "modern build"

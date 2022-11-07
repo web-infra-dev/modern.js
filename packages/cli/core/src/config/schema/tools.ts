@@ -13,5 +13,8 @@ export const tools = {
     terser: { typeof: ['object', 'function'] },
     minifyCss: { typeof: ['object', 'function'] },
     styledComponents: { typeof: ['object', 'function'] },
+    esbuild: { type: 'object' },
+    sass: { typeof: ['object', 'function'] },
+    less: { typeof: ['object', 'function'] },
   },
 };
