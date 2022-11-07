@@ -1,5 +1,4 @@
 import assert from 'assert';
-import { WebpackError } from 'webpack';
 import StackTracey from 'stacktracey';
 import _ from '@modern-js/utils/lodash';
 import { baseFormatter } from '../formatter/base';
@@ -12,7 +11,7 @@ import {
 } from './types';
 
 export const parseError = (
-  error: WebpackError,
+  error: Error,
   type: ThrowableType = 'error',
   options?: WithSourcesMixin,
 ) => {
@@ -62,39 +61,29 @@ export const formatError = (
   return formatted;
 };
 
-export interface ErrorWithCause extends Error {
-  cause?: unknown;
-  error?: unknown;
-}
-
-export const getErrorCauses = (error: ErrorWithCause) => {
+export const getErrorCauses = (error: Error) => {
   const causes = [];
   let e: unknown = error;
   while (e instanceof Error) {
     causes.push(e);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error `cause` is not part of the Error interface
     e = e.cause || e.error;
   }
   return causes;
 };
 
 export const compressCauses = (
-  causes: ErrorWithCause[],
+  causes: Error[],
   options?: WithSourcesMixin,
 ): StackTracey.Entry[] => {
   const parseTrace = options?.withSources
-    ? (e: ErrorWithCause) => new StackTracey(e).withSources().items
-    : (e: ErrorWithCause) => new StackTracey(e).items;
+    ? (e: Error) => new StackTracey(e).withSources().items
+    : (e: Error) => new StackTracey(e).items;
   const parsedTraces = causes.map(parseTrace);
   const compressed = _(parsedTraces).flatten().uniqBy('beforeParse').value();
   return compressed;
 };
 
-export const flattenErrorTrace = (
-  error: ErrorWithCause,
-  options?: WithSourcesMixin,
-) => {
+export const flattenErrorTrace = (error: Error, options?: WithSourcesMixin) => {
   const causes = getErrorCauses(error);
   const compressed = compressCauses(causes, options);
   return compressed;

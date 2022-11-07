@@ -1,11 +1,10 @@
 import StackTracey from 'stacktracey';
-import type * as webpack from 'webpack';
 
 export type TracingFrame = StackTracey.Entry;
 
-export interface ParsedError extends webpack.WebpackError {
+export interface ParsedError<R extends Error = Error> extends Error {
   type: ThrowableType;
-  raw: webpack.WebpackError;
+  raw: R;
   trace: TracingFrame[];
 }
 

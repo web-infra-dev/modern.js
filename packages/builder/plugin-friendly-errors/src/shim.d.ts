@@ -1,3 +1,8 @@
+interface Error {
+  cause?: unknown;
+  error?: unknown;
+}
+
 declare module 'webpack/lib/ChunkRenderError' {
   import { Chunk, Compilation, WebpackError } from 'webpack';
 
