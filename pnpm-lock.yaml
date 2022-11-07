@@ -34,7 +34,6 @@ importers:
       jest: ^27.5.1
       turbo: ^1.6.3
       vitest: 0.21.1
-      wireit: ^0.7.1
       zx: 4.2.0
     devDependencies:
       '@babel/core': 7.18.6
@@ -63,7 +62,6 @@ importers:
       jest: 27.5.1
       turbo: 1.6.3
       vitest: 0.21.1_@vitest+ui@0.21.1
-      wireit: 0.7.1
       zx: 4.2.0
 
   packages/builder/builder:
@@ -15557,8 +15555,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -32563,7 +32563,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
