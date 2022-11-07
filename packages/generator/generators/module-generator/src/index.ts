@@ -9,6 +9,7 @@ import {
   Solution,
   ModuleSchema,
   Language,
+  PackagesGenerator,
 } from '@modern-js/generator-common';
 import {
   i18n as utilsI18n,
@@ -128,7 +129,7 @@ export const handleTemplateFile = async (
       name: packageName as string,
       language,
       isTs: language === Language.TS,
-      packageManager: getPackageManagerText(packageManager as any),
+      packageManager: getPackageManagerText(packageManager),
       isMonorepoSubProject,
       isPublic,
       modernVersion,
@@ -181,6 +182,15 @@ export const handleTemplateFile = async (
       name: packagePath as string,
       path: projectPath,
     });
+  }
+
+  const { packagesInfo } = context.config;
+  if (packagesInfo && Object.keys(packagesInfo).length > 0) {
+    await appApi.runSubGenerator(
+      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      undefined,
+      context.config,
+    );
   }
 
   return { projectPath };
