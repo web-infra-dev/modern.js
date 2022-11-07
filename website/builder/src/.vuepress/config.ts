@@ -23,8 +23,8 @@ function getNavBar(lang: 'cn' | 'en'): NavItem[] {
       link: getLink('/guide/introduction'),
     },
     {
-      text: getText('Plugin', '插件'),
-      link: getLink('/plugin/'),
+      text: getText('插件', 'Plugin'),
+      link: getLink('/plugin/introduction'),
     },
     {
       text: 'API',
@@ -61,20 +61,14 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         title: getText('插件', 'Plugin'),
         collapsable: false,
         children: [
-          getLink('/plugin/overview'),
+          getLink('/plugin/introduction'),
           getLink('/plugin/example'),
           getLink('/plugin/core'),
           getLink('/plugin/api'),
           getLink('/plugin/testing'),
-        ],
-      },
-      {
-        title: getText('可用插件', 'Plugin List'),
-        collapsable: false,
-        children: [
           getLink('/plugin/list'),
         ],
-      }
+      },
     ],
     [getLink('/api/')]: [
       {
