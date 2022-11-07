@@ -51,9 +51,8 @@ export default (): CliPlugin => ({
                 normalizeOutputPath(`${rootDir}${path.sep}.*(.[tj]s)$`),
               );
               chain.module
-                .rule(CHAIN_ID.RULE.LOADERS)
-                .oneOf(CHAIN_ID.ONE_OF.BFF_CLIENT)
-                .before(CHAIN_ID.ONE_OF.FALLBACK)
+                .rule(CHAIN_ID.RULE.JS_BFF_API)
+                .before(CHAIN_ID.ONE_OF.JS)
                 .test(apiRegexp)
                 .use('custom-loader')
                 .loader(require.resolve('./loader').replace(/\\/g, '/'))
