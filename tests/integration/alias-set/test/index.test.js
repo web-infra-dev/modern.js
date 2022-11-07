@@ -36,7 +36,11 @@ describe('test build', () => {
     );
     const errors = [];
 
-    const browser = await puppeteer.launch({ headless: true, dumpio: true });
+    const browser = await puppeteer.launch({
+      headless: true,
+      dumpio: true,
+      args: ['--no-sandbox'],
+    });
     const page = await browser.newPage();
     page.on('pageerror', error => errors.push(error.text));
     await page.goto(`http://localhost:${appPort}`, {
