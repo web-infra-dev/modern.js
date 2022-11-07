@@ -113,7 +113,7 @@ async function runMonorepoNewCommand(
   } else {
     await execaWithStreamLog(
       'yarn',
-      ['new', '--config', config, debug ? '--debug' : ''],
+      ['new', '--dist-tag', 'next', '--config', config, debug ? '--debug' : ''],
       {
         cwd,
         env: {
