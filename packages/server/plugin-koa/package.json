@@ -19,7 +19,7 @@
   "jsnext:modern": "./dist/js/modern/index.js",
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build",
     "new": "modern new",
     "dev": "modern build --watch",
     "build": "wireit",

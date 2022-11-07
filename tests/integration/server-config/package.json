@@ -46,7 +46,7 @@
   },
   "modernConfig": {
     "runtime": {
-      "router": true,
+      "router": false,
       "state": true
     }
   }

@@ -63,7 +63,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build",
     "new": "modern new",
     "build": "wireit",
     "test": "wireit"
