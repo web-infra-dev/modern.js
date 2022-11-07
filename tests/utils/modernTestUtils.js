@@ -162,13 +162,13 @@ function launchApp(dir, port, opts = {}, env = {}) {
 
 function modernStart(dir, port, opts = {}) {
   return runModernCommandDev(['start'], undefined, {
-    ...opts,
     cwd: dir,
     env: {
       PORT: port,
       NODE_ENV: 'production',
     },
     modernStart: true,
+    ...opts,
   });
 }
 
