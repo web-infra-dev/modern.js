@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**/*",
+        "compiled/config-validate/**/*",
+        "!dist/node/main.js"
+      ],
+      "inputs": [
+        "src/**/*",
+        "tsconfig.json",
+        "package.json",
+        "modern.config.js",
+        "scripts/**/*.ts",
+        "tests/**/*"
+      ]
+    }
+  }
+}

@@ -36,12 +36,11 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "wireit",
+    "build": "tsc",
     "dev": "tsc --watch",
-    "test": "wireit"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
@@ -89,28 +88,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "tsc",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

@@ -18,7 +18,10 @@ export const build = async (
 
   if (apiOnly) {
     const { appDirectory, distDirectory, serverConfigFile } = appContext;
-    await hookRunners.beforeBuild();
+    await hookRunners.beforeBuild({
+      // "null" bundlerConfigs
+      bundlerConfigs: undefined,
+    });
 
     await buildServerConfig({
       appDirectory,
@@ -28,7 +31,10 @@ export const build = async (
 
     await generateRoutes(appContext);
 
-    await hookRunners.afterBuild();
+    await hookRunners.afterBuild({
+      // "null" stats
+      stats: undefined,
+    });
 
     return;
   }
@@ -58,12 +64,12 @@ export const build = async (
       appContext,
       normalizedConfig: resolvedConfig,
       compatPluginConfig: {
-        async onBeforeBuild() {
+        async onBeforeBuild({ bundlerConfigs }) {
           await generateRoutes(appContext);
-          await hookRunners.beforeBuild();
+          await hookRunners.beforeBuild({ bundlerConfigs });
         },
-        async onAfterBuild() {
-          await hookRunners.afterBuild();
+        async onAfterBuild({ stats }) {
+          await hookRunners.afterBuild({ stats });
           await emitResolvedConfig(appDirectory, resolvedConfig);
         },
       },
