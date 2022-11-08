@@ -24,6 +24,7 @@ export function createToolsConfig(
     sass,
     postcss,
     less,
+    htmlPlugin,
     // TODO: remove modernjs tools.lodash config
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     lodash,
@@ -54,16 +55,24 @@ export function createToolsConfig(
     less: less as Required<BuilderConfig>['tools']['less'],
     // can't remove comment in html minify.
     // some html template insert by using those comments.
-    htmlPlugin: config => ({
-      ...config,
-      minify:
-        typeof config.minify === 'object'
-          ? {
-              ...config.minify,
-              removeComments: false,
-            }
-          : config.minify,
-    }),
+    htmlPlugin: [
+      config => ({
+        ...config,
+        minify:
+          typeof config.minify === 'object'
+            ? {
+                ...config.minify,
+                removeComments: false,
+              }
+            : config.minify,
+      }),
+      // eslint-disable-next-line no-nested-ternary
+      ...(Array.isArray(htmlPlugin)
+        ? htmlPlugin
+        : htmlPlugin
+        ? [htmlPlugin]
+        : []),
+    ],
   };
 }
 
