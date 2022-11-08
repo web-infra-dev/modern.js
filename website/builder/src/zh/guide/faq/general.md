@@ -11,7 +11,7 @@ Modern.js 2.0 的构建能力是基于 Modern.js Builder 实现的。
 
 Builder 专注于解决 Web 应用构建场景，我们不推荐你使用 Builder 来构建工具库或组件库。
 
-如果需要构建工具库或组件库，推荐使用 [Modern.js 模块工程方案](http://modernjs.dev/)。
+如果需要构建工具库或组件库，推荐使用 [Modern.js 模块工程方案](https://modernjs.dev/docs/start/library)。
 
 ## Builder 是否会支持 turbopack？
 

@@ -10,10 +10,10 @@ When developing Modern.js 2.0, we designed Builder as an independent module, and
 
 Builder focuses on solving web application building scenarios. We do not recommend that you use Builder to build libraries or UI components.
 
-If you need to build a library or UI components, it is recommended to use the [Modern.js module tools](http://modernjs.dev/).
+If you need to build a library or UI components, it is recommended to use the [Modern.js module tools](https://modernjs.dev/docs/start/library).
 
 ## Will Builder support turbopack?
 
 [turbopack](https://turbo.build/pack) is the rust-powered successor to webpack, we will continue to pay attention to it.
 
-At present, turbopack only supports use in next.js. When turbopack can be used independently, and the completion and community ecology reach a certain level, we will also consider to support it.
+At present, turbopack only supports use in next.js. When turbopack can be used independently, and the completion and community ecology reach a certain level, we will consider supporting it for sure.
