@@ -31,7 +31,10 @@ export const build = async (
 
     await generateRoutes(appContext);
 
-    await hookRunners.afterBuild();
+    await hookRunners.afterBuild({
+      // "null" stats
+      stats: undefined,
+    });
 
     return;
   }
@@ -65,8 +68,8 @@ export const build = async (
           await generateRoutes(appContext);
           await hookRunners.beforeBuild({ bundlerConfigs });
         },
-        async onAfterBuild() {
-          await hookRunners.afterBuild();
+        async onAfterBuild({ stats }) {
+          await hookRunners.afterBuild({ stats });
           await emitResolvedConfig(appDirectory, resolvedConfig);
         },
       },
