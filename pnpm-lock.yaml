@@ -4539,7 +4539,7 @@ importers:
       postcss: 8.4.16
       vuepress: 1.9.5
       vuepress-plugin-redirect: 1.2.5
-      vuepress-theme-vt: 0.5.3
+      vuepress-theme-vt: 0.6.3
       webpack: ^4.46.0
     devDependencies:
       '@modern-js/builder-doc': link:../../packages/builder/builder-doc
@@ -4554,7 +4554,7 @@ importers:
       postcss: 8.4.16
       vuepress: 1.9.5_postcss@8.4.16
       vuepress-plugin-redirect: 1.2.5
-      vuepress-theme-vt: 0.5.3_markdown-it@8.4.2
+      vuepress-theme-vt: 0.6.3_markdown-it@8.4.2
       webpack: 4.46.0
 
   website/main:
@@ -7423,7 +7423,7 @@ packages:
     peerDependencies:
       react: '*'
     dependencies:
-      '@types/react': 18.0.25
+      '@types/react': 17.0.50
       esbuild: 0.13.15
       prop-types: 15.8.1
       react: 17.0.2
@@ -12059,14 +12059,6 @@ packages:
       '@types/scheduler': 0.16.2
       csstype: 3.1.0
 
-  /@types/react/18.0.25:
-    resolution: {integrity: sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.2
-      csstype: 3.1.0
-    dev: false
-
   /@types/recursive-readdir/2.2.0:
     resolution: {integrity: sha512-HGk753KRu2N4mWduovY4BLjYq4jTOL29gV2OfGdGxHcPSWGFkC5RRIdk+VTs5XmYd7MVAD+JwKrcb5+5Y7FOCg==}
     dependencies:
@@ -13362,8 +13354,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -30319,7 +30313,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
@@ -33622,8 +33616,8 @@ packages:
       smoothscroll-polyfill: 0.4.4
     dev: true
 
-  /vuepress-theme-vt/0.5.3_markdown-it@8.4.2:
-    resolution: {integrity: sha512-MPnsm9PX5x5S0OLmz23uIxAxemDtc5UyE79Yuz/c5f+04bfwAr4ad3+hIho27C0fTRnqYNVq9RTJVakzXFUzTA==}
+  /vuepress-theme-vt/0.6.3_markdown-it@8.4.2:
+    resolution: {integrity: sha512-2eaUTU3Rn3qLyv25DArG3gc5fleayXvZc5+Pi7AggLd0nb23jB6dUNkbAZRuONEK4tozGDHP6uButBejPHy1ng==}
     dependencies:
       '@vuepress/plugin-active-header-links': 1.9.7
       '@vuepress/plugin-nprogress': 1.9.7
