@@ -1,16 +1,18 @@
 # 介绍
 
-Modern.js Builder 是**一个面向现代 Web 开发场景的通用构建引擎**。
+Modern.js Builder 是**一个面向现代 Web 开发场景的构建引擎**。
 
-我们基于字节跳动数千个应用的实践经验，抽象出前端构建的最佳实践，提供 Web 开发所需的全方位能力。
+随着前端生态的发展，社区中出现了多样化的编译工具和插件。对于大部分开发者来说，构建一个 Web 应用所需的配置和依赖已变得十分复杂。在追求最佳实践的过程中，开发者需要付出的成本也在不断上升。
+
+为了减少构建的复杂性，降低上手门槛，我们基于字节跳动在 Web 应用构建方面的实践经验，抽象其中可复用的构建能力，打造出 Modern.js Builder 这个开源工具。
 
 ## 定位
 
-Modern.js Builder 的定位是**服务于上层前端框架的构建引擎**，Builder 专注于前端构建领域，目标是为前端框架提供开箱即用的构建能力。
+Modern.js Builder (简称 Builder) 的定位是**服务于上层前端框架的构建引擎**，它专注于解决 Web 应用构建面临的各类问题，期望能为前端框架提供开箱即用的构建能力。
 
-如果你正在开发一个前端框架，或是一个前端应用的脚手架，那么 Builder 可以为你完成前端框架中绝大部分与构建有关的逻辑，让你能够聚焦于实现框架的其他功能。
+如果你正在开发一个前端框架，或是开发一个前端应用的脚手架，那么 Builder 可以为你完成前端框架中大部分与构建有关的逻辑，让你能够聚焦于实现框架的其他功能。
 
-如果你是一名业务开发者，大部分情况下，你不需要在业务项目中手动接入 Builder，我们推荐直接使用一些基于 Builder 的上层框架。
+如果你是一名业务开发者，大部分情况下，你不需要在业务项目中手动接入 Builder，我们推荐你直接使用一些基于 Builder 的上层框架。
 
 目前已经接入 Builder 的前端框架有：
 
@@ -19,34 +21,36 @@ Modern.js Builder 的定位是**服务于上层前端框架的构建引擎**，B
 
 ## 特性
 
-### 开箱即用的双构建引擎
+### 支持多种打包工具
 
-在设计上，**Builder 支持双构建引擎：webpack & rspack**。
+在架构上，**Builder 支持多种打包工具**，使用者可以根据自身需求来使用不同的打包工具。
 
-默认情况下，Builder 使用 webpack 作为打包工具，集成了社区中成熟的 [babel](https://github.com/babel/babel)、[postcss](https://github.com/postcss/postcss)、[terser](https://github.com/terser/terser) 等工具进行代码转义和压缩，也支持通过新兴的 [swc](https://github.com/swc-project/swc)、[esbuild](https://github.com/evanw/esbuild) 等工具来提升编译效率。
+默认情况下，Builder 使用 webpack 作为打包工具，尽管 webpack 的编译速度不是很理想，但它依然是社区中功能最完整、生态最丰富的打包工具。Builder 在 webpack 的基础上，集成了 [babel](https://github.com/babel/babel)、[postcss](https://github.com/postcss/postcss)、[terser](https://github.com/terser/terser) 等工具进行代码转义和压缩。Builder 也支持替换部分编译能力为原生工具来提升编译速度，比如将 babel/terser 替换为 [swc](https://github.com/swc-project/swc) 或 [esbuild](https://github.com/evanw/esbuild)。
 
-同时，Builder 也正在对接**字节跳动自研的 Rust Bundler —— rspack**，以提供更极致的编译速度。
+除了 webpack 打包，Builder 也正在对接**字节跳动 Web Infra 团队自研的 Rust Bundler —— rspack**，以提供更快的编译速度。
 
-目前 webpack 构建引擎已经成熟可用，rspack 构建引擎仍在开发过程中，敬请期待。
+目前，Builder 基于 webpack 的构建已经成熟可用，基于 rspack 的构建仍在开发过程中，敬请期待。
+
+:::tip 关于 turbopack
+对于 webpack 的继任者 —— [turbopack](https://turbo.build/pack)，我们会持续关注它后续的发展情况。目前 turbopack 仅支持在 next.js 中使用，当 turbopack 支持独立使用，并且完成度和社区生态达到一定水平时，我们也会考虑进行接入。
+:::
 
 ### 深度优化构建产物
 
-现阶段，webpack 仍然是产物优化最全面的打包工具。
-
-Builder **充分利用 webpack 生态内的各种优化手段**，保证生产环境的产物性能最优，并在稳定性上有充分的保障。
+Builder **充分利用 webpack 生态内的各种优化手段**，保证生产环境的产物性能得到深度优化，并在稳定性上提供保障。
 
 以拆包场景为例，webpack 原生的 splitChunks 配置较为复杂，Builder 将其封装为开箱即用的 [performance.chunkSplit](/zh/api/config-performance.html#performance-chunksplit) 配置项，默认将常见的三方库拆分为体积适中的 chunk，使页面加载速度达到最优状态。
 
 ### 易于扩展的插件系统
 
-Builder 提供丰富的配置项和灵活的插件系统，支持对各项能力进行深度定制。
+Builder 提供丰富的配置项和可插拔的插件系统，支持对各项能力进行扩展和定制。
 
-Builder 所有的构建能力都通过插件来实现：
+对于 Builder 来说，所有的构建能力都是通过插件来实现的：
 
-- 大部分插件较为轻量，被内置在 Builder 内部，通过配置项来控制启用。
-- 少部分插件较为复杂，被外置为独立 npm 包，可以按需进行安装和注册。
+- 大部分插件较为轻量，被内置在 Builder 内部，开发者可以通过配置项来控制启用。
+- 少部分插件较为复杂，被外置为独立 npm 包，开发者可以按需进行安装和使用。
 
-Builder 支持自定义插件，使框架开发者可以实现定制化的构建需求。
+Builder 也支持自定义插件，因此框架开发者可以开发自定义的插件，实现定制化的构建需求。
 
 ## npm 包
 
@@ -55,7 +59,8 @@ Builder 已发布的 npm 包有：
 | 包名                                                                                                             | 版本                                                                                        | 描述                   |
 | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------- |
 | [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                           | ![](https://img.shields.io/npm/v/@modern-js/builder?style=flat-square)                      | Builder 核心包         |
-| [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)         | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider?style=flat-square)     | 提供 Webpack 构建能力  |
+| [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)         | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider?style=flat-square)     | 提供 webpack 构建能力  |
+| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)         | ![](https://img.shields.io/npm/v/@modern-js/builder-rspack-provider?style=flat-square)     | 提供 rspack 构建能力  |
 | [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                     | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc?style=flat-square)           | SWC 插件               |
 | [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)             | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild?style=flat-square)       | ESBuild 插件           |
 | [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill?style=flat-square) | Node Polyfill 插件     |
