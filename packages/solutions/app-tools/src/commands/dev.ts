@@ -1,10 +1,10 @@
 import { logger, isSSR } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { BuilderTarget } from '@modern-js/builder';
+import { printInstructions } from '../utils/printInstructions';
 import { createDevCompiler } from '../utils/createCompiler';
 import { createServer, injectDataLoaderPlugin } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
-import { printInstructions } from '../utils/printInstructions';
 import { DevOptions } from '../utils/types';
 import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 import { buildServerConfig } from '../utils/config';
@@ -96,8 +96,8 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
 
     if (!apiOnly) {
       logger.info(`Starting dev server...`);
+    } else {
+      printInstructions(hookRunners, appContext, userConfig);
     }
-
-    return printInstructions(hookRunners, appContext, userConfig);
   });
 };

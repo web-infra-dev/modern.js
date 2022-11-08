@@ -5,7 +5,7 @@ const { modernBuild } = require('../../../utils/modernTestUtils');
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
-jest.setTimeout(1000 * 60);
+jest.setTimeout(1000 * 60 * 2);
 
 describe('ssg', () => {
   it('should simple ssg work correctly', async () => {
