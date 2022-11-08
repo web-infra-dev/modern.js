@@ -238,6 +238,7 @@ function applyBottomHtmlWebpackPlugin({
     chain.plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`).tap(args => [
       {
         ...(args[0] || {}),
+        __internal__: true,
         bottomTemplate:
           appContext.htmlTemplates[`__${entryName}-bottom__`] &&
           lodashTemplate(appContext.htmlTemplates[`__${entryName}-bottom__`])(
