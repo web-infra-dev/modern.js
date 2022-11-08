@@ -4809,7 +4809,7 @@ importers:
       postcss: 8.4.16
       vuepress: 1.9.5
       vuepress-plugin-redirect: 1.2.5
-      vuepress-theme-vt: 0.5.3
+      vuepress-theme-vt: 0.6.3
       webpack: ^4.46.0
     devDependencies:
       '@modern-js/builder-doc': link:../../packages/builder/builder-doc
@@ -4824,7 +4824,7 @@ importers:
       postcss: 8.4.16
       vuepress: 1.9.5_postcss@8.4.16
       vuepress-plugin-redirect: 1.2.5
-      vuepress-theme-vt: 0.5.3_markdown-it@8.4.2
+      vuepress-theme-vt: 0.6.3_markdown-it@8.4.2
       webpack: 4.46.0
 
   website/main:
@@ -36861,8 +36861,8 @@ packages:
       smoothscroll-polyfill: 0.4.4
     dev: true
 
-  /vuepress-theme-vt/0.5.3_markdown-it@8.4.2:
-    resolution: {integrity: sha512-MPnsm9PX5x5S0OLmz23uIxAxemDtc5UyE79Yuz/c5f+04bfwAr4ad3+hIho27C0fTRnqYNVq9RTJVakzXFUzTA==}
+  /vuepress-theme-vt/0.6.3_markdown-it@8.4.2:
+    resolution: {integrity: sha512-2eaUTU3Rn3qLyv25DArG3gc5fleayXvZc5+Pi7AggLd0nb23jB6dUNkbAZRuONEK4tozGDHP6uButBejPHy1ng==}
     dependencies:
       '@vuepress/plugin-active-header-links': 1.9.7
       '@vuepress/plugin-nprogress': 1.9.7
