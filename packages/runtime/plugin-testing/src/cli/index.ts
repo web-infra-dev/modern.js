@@ -95,8 +95,11 @@ export default (): CliPlugin => {
           // const {
           //   resolve: { alias = {} },
           // } = webpackConfig;
+
+          // TODO: remove
           const alias = {
             '@': [path.join(appContext.appDirectory, 'src')],
+            '@modern-js/runtime/testing': [testingExportsUtils.getPath()],
           };
 
           utils.mergeJestConfig({
