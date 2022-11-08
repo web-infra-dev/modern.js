@@ -25,7 +25,7 @@ Modern.js Builder (简称 Builder) 的定位是**服务于上层前端框架的�
 
 在架构上，**Builder 支持多种打包工具**，使用者可以根据自身需求来使用不同的打包工具。
 
-默认情况下，Builder 使用 webpack 作为打包工具，尽管 webpack 的编译速度不是很理想，但它依然是社区中功能最完整、生态最丰富的打包工具。Builder 在 webpack 的基础上，集成了 [babel](https://github.com/babel/babel)、[postcss](https://github.com/postcss/postcss)、[terser](https://github.com/terser/terser) 等工具进行代码转义和压缩。Builder 也支持替换部分编译能力为原生工具来提升编译速度，比如将 babel/terser 替换为 [swc](https://github.com/swc-project/swc) 或 [esbuild](https://github.com/evanw/esbuild)。
+默认情况下，Builder 使用 webpack 5 作为打包工具，尽管 webpack 的编译速度不是很理想，但它依然是社区中功能最完整、生态最丰富的打包工具。Builder 在 webpack 的基础上，集成了 [babel](https://github.com/babel/babel)、[postcss](https://github.com/postcss/postcss)、[terser](https://github.com/terser/terser) 等工具进行代码转义和压缩。Builder 也支持替换部分编译能力为原生工具来提升编译速度，比如将 babel/terser 替换为 [swc](https://github.com/swc-project/swc) 或 [esbuild](https://github.com/evanw/esbuild)。
 
 除了 webpack 打包，Builder 也正在对接**字节跳动 Web Infra 团队自研的 Rust Bundler —— rspack**，以提供更快的编译速度。
 

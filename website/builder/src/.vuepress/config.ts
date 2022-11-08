@@ -47,6 +47,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         collapsable: false,
         title: getText('常见问题', 'FAQ'),
         children: [
+          getLink('/guide/faq/general'),
           getLink('/guide/faq/features'),
           getLink('/guide/faq/exceptions'),
         ],

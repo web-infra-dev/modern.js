@@ -25,14 +25,14 @@ Currently, the following front-end frameworks are already using Builder:
 
 **Builder supports using multiple bundlers**, users can use different bundlers according the your needs.
 
-By default, Builder uses webpack as the bundler. Although the compilation speed of webpack is not ideal, it is still the most mature and ecological bundler in the community. Based on webpack, Builder integrates [babel](https://github.com/babel/babel), [postcss](https://github.com/postcss/postcss), [terser](https://github.com/terser/terser) and other tools to transform or minify codes. Builder also supports replacing some compile tools with native tools to improve compilation speed, such as replacing babel/terser with [swc](https://github.com/swc-project/swc) or [esbuild](https://github.com/evanw/esbuild).
+By default, Builder uses webpack 5 as the bundler. Although the compilation speed of webpack is not ideal, it is still the most mature and ecological bundler in the community. Based on webpack, Builder integrates [babel](https://github.com/babel/babel), [postcss](https://github.com/postcss/postcss), [terser](https://github.com/terser/terser) and other tools to transform or minify codes. Builder also supports replacing some compile tools with native tools to improve compilation speed, such as replacing babel/terser with [swc](https://github.com/swc-project/swc) or [esbuild](https://github.com/evanw/esbuild).
 
 At the same time, We are integrating rspack to improve compilation speed, rspack is a Rust Bundler developed by ByteDance.
 
 At present, the webpack provider is stable for production, and the rspack provider is still under development.
 
 :::tip About turbopack
-[turbopack](https://turbo.build/pack) is the rust-powered successor to webpack. At present, turbopack only supports use in next.js. When turbopack can be used independently, and the completion and community ecology reach a certain level, we will also consider to support it.
+[turbopack](https://turbo.build/pack) is the rust-powered successor to webpack, we will continue to pay attention to it. At present, turbopack only supports use in next.js. When turbopack can be used independently, and the completion and community ecology reach a certain level, we will also consider to support it.
 :::
 
 ### Deep optimization
