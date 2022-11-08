@@ -25,9 +25,11 @@ export const createDevCompiler = async ({
             hookRunners.afterDev();
           }
         },
-        async onBeforeCreateCompiler() {
+        async onBeforeCreateCompiler({ bundlerConfigs }) {
           // run modernjs framework `beforeCreateCompiler` hook
-          await hookRunners.beforeCreateCompiler();
+          await hookRunners.beforeCreateCompiler({
+            bundlerConfigs,
+          });
         },
         async onAfterCreateCompiler({ compiler }) {
           // run modernjs framework afterCreateCompiler hooks

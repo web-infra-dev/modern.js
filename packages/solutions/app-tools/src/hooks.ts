@@ -5,7 +5,9 @@ export const beforeDev = createAsyncWorkflow();
 
 export const afterDev = createAsyncWorkflow();
 
-export const beforeCreateCompiler = createAsyncWorkflow();
+export const beforeCreateCompiler = createAsyncWorkflow<{
+  bundlerConfigs: webpack.Configuration[];
+}>();
 
 export const afterCreateCompiler = createAsyncWorkflow<{
   compiler: webpack.Compiler | webpack.MultiCompiler | undefined;
@@ -15,7 +17,9 @@ export const beforePrintInstructions = createAsyncWaterfall<{
   instructions: string;
 }>();
 
-export const beforeBuild = createAsyncWorkflow();
+export const beforeBuild = createAsyncWorkflow<{
+  bundlerConfigs?: webpack.Configuration[];
+}>();
 
 export const afterBuild = createAsyncWorkflow();
 
