@@ -35,8 +35,12 @@ export function transform(
   code: string,
   map?: string,
 ): Promise<Output> {
-  const compiler = new Compiler(config);
-
+  let compiler;
+  try {
+    compiler = new Compiler(config);
+  } catch (e) {
+    throw new Error(`[builder-plugin-swc] Failed to initialize config: \n${e}`);
+  }
   return compiler.transform(filename, code, map);
 }
 

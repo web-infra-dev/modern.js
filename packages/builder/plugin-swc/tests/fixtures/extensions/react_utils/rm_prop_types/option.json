@@ -1,0 +1,9 @@
+{
+  "extensions": {
+    "reactUtils": {
+      "rmPropTypes": {
+        "mode": "remove"
+      }
+    }
+  }
+}
