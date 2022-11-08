@@ -10,6 +10,7 @@ import {
   Language,
   EntryGenerator,
   PackageManager,
+  PackagesGenerator,
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -193,6 +194,15 @@ export const handleTemplateFile = async (
       name: packagePath as string,
       path: projectPath,
     });
+  }
+
+  const { packagesInfo } = context.config;
+  if (packagesInfo && Object.keys(packagesInfo).length > 0) {
+    await appApi.runSubGenerator(
+      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      undefined,
+      context.config,
+    );
   }
 
   return { projectPath };

@@ -128,7 +128,9 @@ export const PluginFileSize = (): BuilderPlugin => ({
 
   setup(api) {
     api.onAfterBuild(async ({ stats }) => {
-      if (stats) {
+      const config = api.getNormalizedConfig();
+
+      if (config.performance.printFileSize && stats) {
         await printFileSizes(stats, api.context.distPath);
       }
     });

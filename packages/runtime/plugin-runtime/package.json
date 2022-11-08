@@ -108,12 +108,11 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "dev": "modern build --watch",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
-    "build": "wireit",
-    "test": "wireit"
+    "build": "modern build",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
@@ -148,7 +147,7 @@
     "styled-components": "^5.3.1"
   },
   "peerDependencies": {
-    "react": ">=18",
+    "react": ">=17",
     "react-dom": ">=17"
   },
   "devDependencies": {
@@ -178,28 +177,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

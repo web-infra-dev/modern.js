@@ -6,9 +6,9 @@ subActionText: Quick Start
 subActionLink: /en/guide/quick-start.html
 features:
   - title: Out of the box
-    details: Based on the best practices of ByteDance, provide useful features for web development by default.
+    details: Based on the practical experience of ByteDance, provide useful features for web development by default.
   - title: Deep optimization
-    details: Built-in split chunk strategy, automatically optimize static resources, ensure performance of production app.
+    details: Built-in multiple split chunk strategies, automatically optimize static resources, ensure performance of production app.
   - title: Extensible
     details: Provides rich configuration items and a flexible plugin system to support in-depth customization of all features.
 ---
@@ -20,7 +20,7 @@ Web Build Engine
 :::
 
 ::: slot tagline
-A Universal Build Engine for Modern Web Development
+A Build Engine for Modern Web Development
 :::
 
 ::: slot footer
