@@ -52,6 +52,9 @@
 
 | 功能               | 描述                                           | 相关链接                                                                                              |
 | ------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| 引用图片资源       | 支持在代码中引用图片资源                       | -                                                                                                     |
+| 引用字体资源       | 支持在代码中引用字体资源                       | -                                                                                                     |
+| 引用视频资源       | 支持在代码中引用视频资源                       | -                                                                                                     |
 | 内联静态资源       | 默认将体积较小的图片等资源内联到 JS 中         | <ul><li>[output.dataUriLimit](/zh/api/config-output.html#output-dataurilimit)</li></ul>               |
 | 清理静态资源       | 每次开始构建前，自动清理 dist 目录下的静态资源 | <ul><li>[output.cleanDistPath](/zh/api/config-output.html#output-cleandistpath)</li></ul>             |
 | 拷贝静态资源       | 可选功能，将静态资源拷贝到 dist 目录下         | <ul><li>[output.copy](/zh/api/config-output.html#output-copy)</li></ul>                               |

@@ -48,14 +48,17 @@ Here are all the main features supported by Modern.js Builder.
 | React Refresh          | Support React Refresh by default              | <ul><li>[dev.hmr](/en/api/config-dev.html#dev-hmr)</li></ul>                                         |
 | SVG to React component | Support to import SVG as component by default | <ul><li>[output.svgDefaultExport](/en/api/config-output.html#output-svgdefaultexport)</li></li></ul> |
 
-## Static Resources
+## Static Assets
 
-| Features                  | Description                                                                     | Links                                                                                                 |
-| ------------------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Inline static resources   | Small resources are inlined into JS by default                                  | <ul><li>[output.dataUriLimit](/en/api/config-output.html#output-dataurilimit)</li></ul>               |
-| Clean up static resources | Automatically clean up static resources in the dist directory before each build | <ul><li>[output.cleanDistPath](/en/api/config-output.html#output-cleandistpath)</li ></ul>            |
-| Copy static resources     | Optional feature, copy static resources to the dist directory                   | <ul><li>[output.copy](/en/api/config-output.html#output-copy)</li></ul>                               |
-| Generate manifest file    | Optional feature, generate manifest file containing static asset information    | <ul><li>[output.enableAssetManifest](/en/api/config-output.html#output-enableassetmanifest)</li></ul> |
+| Features               | Description                                                                  | Links                                                                                                 |
+| ---------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Import image files     | Support for import image files in code                                       | -                                                                                                     |
+| Import font files      | Support for import font files in code                                        | -                                                                                                     |
+| Import video files     | Support for import video files in code                                       | -                                                                                                     |
+| Inline static assets   | Small assets are inlined into JS by default                                  | <ul><li>[output.dataUriLimit](/en/api/config-output.html#output-dataurilimit)</li></ul>               |
+| Clean up static assets | Automatically clean up static assets in the dist directory before each build | <ul><li>[output.cleanDistPath](/en/api/config-output.html#output-cleandistpath)</li ></ul>            |
+| Copy static assets     | Optional feature, copy static assets to the dist directory                   | <ul><li>[output.copy](/en/api/config-output.html#output-copy)</li></ul>                               |
+| Generate manifest file | Optional feature, generate manifest file containing static asset information | <ul><li>[output.enableAssetManifest](/en/api/config-output.html#output-enableassetmanifest)</li></ul> |
 
 ## Performance
 
