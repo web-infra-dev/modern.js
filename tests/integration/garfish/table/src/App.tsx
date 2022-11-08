@@ -1,4 +1,4 @@
-import { Switch, Route } from '@modern-js/runtime/router';
+import { Switch, Route } from '@modern-js/runtime/legacy-router';
 import { List, Image } from '@arco-design/web-react';
 import '@arco-design/web-react/dist/css/arco.css';
 

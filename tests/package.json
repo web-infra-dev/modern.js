@@ -6,8 +6,11 @@
   "main": "index.js",
   "scripts": {
     "test": "pnpm test --filter api-service-koa & jest -w 1",
-    "cypress:test": "pnpm run dev --parallel --filter '@cypress-test/*' & cypress open",
-    "prepare": "node node_modules/puppeteer/install.js"
+    "cypress:test": "pnpm --parallel --filter '@cypress-test/*' run dev & cypress open",
+    "prepare": "node node_modules/puppeteer/install.js",
+    "test:mwa": "ts-node -T generator/mwa.ts",
+    "test:module": "ts-node -T generator/module.ts",
+    "test:monorepo": "ts-node -T generator/monorepo.ts"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +23,11 @@
     "@modern-js/plugin-polyfill": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/generator-cases": "workspace:*",
+    "@modern-js/new-action": "workspace:*",
+    "@types/node": "^14",
+    "@types/uuid": "^8.3.0",
+    "uuid": "^8.3.2",
     "axios": "^0.24.0",
     "cross-spawn": "^7.0.3",
     "fs-extra": "^10.0.0",
@@ -29,7 +37,9 @@
     "portfinder": "^1.0.28",
     "puppeteer": "^10.4.0",
     "rimraf": "^3.0.2",
-    "tree-kill": "^1.2.2"
+    "tree-kill": "^1.2.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
   "modernConfig": {
     "tools": {

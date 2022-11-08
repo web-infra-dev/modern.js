@@ -1,5 +1,5 @@
 {
-  "name": "prod-server-pure",
+  "name": "prod-server-completely-custom",
   "version": "0.1.0",
   "scripts": {
     "dev": "modern dev",
