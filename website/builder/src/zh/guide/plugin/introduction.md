@@ -1,14 +1,15 @@
 # 插件系统
 
-Builder 提供了一套轻量强大的插件系统，用以实现自身的大多数功能并允许用户进行拓展。
-开发者编写的插件能够修改 Builder 的默认行为并添加各类额外功能，包括但不限于：
+builder 提供了一套轻量强大的插件系统，用以实现自身的大多数功能，并允许用户进行扩展。
+开发者编写的插件能够修改 builder 的默认行为并添加各类额外功能，包括但不限于：
 
+- 修改 bundler 配置
 - 处理新的文件类型
-- 修改或编译文件模块
+- 修改或编译文件
 - 部署产物
 
-底层支持接入 webpack 和 rspack 等 bundler 来满足不同项目需求，
-向上提供统一 API 来抹平插件开发的差异并应用在不同的上层框架中、降低用户对底层 bundler 切换的感知。
+builder 底层支持 webpack 和 rspack 等 bundler，并提供统一的 Node.js API 来抹平插件开发的差异，
+进而接入不同的上层框架、降低用户对底层 bundler 切换的感知。
 
 **用户可能无法在上层框架中直接使用 Builder 插件**。因为这些框架（如 modern.js）只复用了 Builder 提供的构建能力，
 针对其应用场景还会添加许多额外设计。
@@ -35,7 +36,9 @@ export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
   }
 });
 
-builder.addPlugins([PluginFoo('some other message.')]);
+builder.addPlugins([
+  PluginFoo({ message: 'some other message.' })
+]);
 ```
 
 函数形式的插件可以 **接受选项对象** 并 **返回插件实例**，并通过闭包机制管理内部状态。
@@ -46,11 +49,11 @@ builder.addPlugins([PluginFoo('some other message.')]);
 - `setup` 作为插件逻辑的主入口
 - `api` 对象包含了各类钩子和工具函数
 
-为了便于识别，插件名称需要包含约定的 `modernjs-plugin` 前缀，例如 `modernjs-plugin-foo` `@scope/modernjs-plugin-bar` 等。
+为了便于识别，插件名称需要包含约定的 `builder-plugin` 前缀，例如 `builder-plugin-foo` `@scope/builder-plugin-bar` 等。
 
 ## 生命周期钩子
 
-Builder 在内部按照约定的生命周期进行任务调度，插件可以通过注册钩子来介入工作流程的任意阶段并实现自己的功能。
+Builder 在内部按照约定的生命周期进行任务调度，插件可以通过注册钩子来介入工作流程的任意阶段，并实现自己的功能。
 
 - **通用钩子**
   - `modifyBuilderConfig`：修改传递给 Builder 的配置项
@@ -74,8 +77,7 @@ Builder 不会接管底层 Bundler 的生命周期，相关生命周期钩子的
 
 自行编写的插件通常使用初始化时传入函数的参数作为配置项即可，开发者可以随意定义和使用函数的入参。
 
-但某些情况下插件可能需要读取 / 修改 Builder 公用的配置项，例如将 Babel 替换为 ESBuild / SWC 来提升构建速度等等。
-这时就需要了解 Builder 内部对配置项的生产和消费流程：
+但某些情况下插件可能需要读取 / 修改 Builder 公用的配置项，这时就需要了解 Builder 内部对配置项的生产和消费流程：
 
 - 读取、解析配置并合并默认值
 - 插件通过 `api.modifyBuilderConfig(...)` 回调修改配置项
