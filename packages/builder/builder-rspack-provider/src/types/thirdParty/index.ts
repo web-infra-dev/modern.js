@@ -1,4 +1,4 @@
-import { RspackOptions } from '@rspack/core/lib/config';
+import { RspackOptions } from '@rspack/core/dist/config';
 
 type RspackConfig = RspackOptions
 
