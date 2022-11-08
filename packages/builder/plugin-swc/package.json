@@ -24,18 +24,21 @@
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@scripts/vitest-config": "workspace:*",
     "@swc/cli": "^0.1.57",
     "@swc/core": "1.2.248",
     "magic-string": "^0.26.2",
     "source-map": "^0.7.4",
-    "webpack": "^5.74.0",
+    "typescript": "^4",
     "vite": "^3.0.9",
     "vitest": "^0.22.0",
-    "typescript": "^4"
+    "webpack": "^5.74.0"
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.0.2",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/swc-plugins": "0.0.5",
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.4.12",
+    "core-js": "^3.25.0"
   }
 }

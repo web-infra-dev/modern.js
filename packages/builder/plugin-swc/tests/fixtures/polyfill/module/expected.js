@@ -1,12 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default;
-var _path = /*#__PURE__*/ _interopRequireDefault(require("path"));
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import p from "path";
 if (Math.random() === 1.2) {
-    console.log(_objectSpread({}, require("foo")), _path.default);
+    console.log(_object_spread({}, require("foo")), p);
 } else {
     require("bar");
 }
