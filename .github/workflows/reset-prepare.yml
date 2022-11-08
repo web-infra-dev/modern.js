@@ -20,6 +20,15 @@ jobs:
         with:
           fetch-depth: 25
 
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+              turbo-${{ github.job }}-${{ github.ref_name }}-
+
       - name: Install Pnpm
         run: npm install -g pnpm@7
 
@@ -35,7 +44,7 @@ jobs:
         run: pnpm install --ignore-scripts
 
       - name: Prepare
-        run: pnpm turbo run build --filter './packages/**' --api=${{ secrets.REMOTE_CACHE_API }} --team=${{ secrets.TURBO_TEAM }} --token=${{ secrets.TURBO_TOKEN }} && husky install
+        run: pnpm run prepare
 
       - name: Install Puppeteer
         run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..

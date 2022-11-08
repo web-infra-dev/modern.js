@@ -25,6 +25,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Turbo Cache
+      id: turbo-cache
+      uses: actions/cache@v2
+      with:
+        path: .turbo
+        key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+        restore-keys: |
+            turbo-${{ github.job }}-${{ github.ref_name }}-
+
     - name: Install Dependencies
       run: pnpm install --ignore-scripts --frozen-lockfile
 
@@ -33,7 +42,7 @@ jobs:
 
     - name: Prepare
       if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-      run: pnpm turbo run build --filter './packages/**' --api=${{ secrets.REMOTE_CACHE_API }} --team=${{ secrets.TURBO_TEAM }} --token=${{ secrets.TURBO_TOKEN }} && husky install
+      run:  pnpm run prepare
 
     - name: Run cypress test
       uses: cypress-io/github-action@v4
