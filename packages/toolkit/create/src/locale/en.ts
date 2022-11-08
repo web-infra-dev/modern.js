@@ -5,6 +5,7 @@ export const EN_LOCALE = {
     module: 'create module application using default config',
     monorepo: 'create monorepo application using default config',
     config: 'set default project config(json string)',
+    packages: 'set project specific dependency version information',
     distTag: `use specified tag version for it's generator`,
     registry: 'set npm registry url to run npm command',
     debug: 'using debug mode to log something',
