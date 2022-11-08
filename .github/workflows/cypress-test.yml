@@ -24,14 +24,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - name: wireit cache
-      uses: google/wireit@setup-github-actions-caching/v1
-    - uses: pnpm/action-setup@v2.0.1
-      name: Install pnpm
-      id: pnpm-install
-      with:
-        version: 7.12.2
-        run_install: false
 
     - name: Install Dependencies
       run: pnpm install --ignore-scripts --frozen-lockfile
@@ -41,7 +33,7 @@ jobs:
 
     - name: Prepare
       if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-      run: pnpm run --filter "./packages/**" prepare
+      run: pnpm turbo run build --filter './packages/**' --api=${{ secrets.REMOTE_CACHE_API }} --team=${{ secrets.TURBO_TEAM }} --token=${{ secrets.TURBO_TOKEN }} && husky install
 
     - name: Run cypress test
       uses: cypress-io/github-action@v4

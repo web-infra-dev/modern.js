@@ -51,16 +51,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: wireit cache
-        uses: google/wireit@setup-github-actions-caching/v1
-
       - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm install --ignore-scripts --frozen-lockfile
 
       - name: Prepare
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run --filter "./packages/**" prepare
+        run: pnpm turbo run build --filter './packages/**' --api=${{ secrets.REMOTE_CACHE_API }} --team=${{ secrets.TURBO_TEAM }} --token=${{ secrets.TURBO_TOKEN }} && husky install
 
       - name: Install Puppeteer
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
