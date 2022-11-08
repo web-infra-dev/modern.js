@@ -11,7 +11,7 @@ import type {
   MultiStats,
   Compiler,
   MultiCompiler,
-  Configuration as WebpackChainConfig,
+  Configuration as WebpackConfig,
 } from 'webpack';
 
 export type BuildExecuter = (
@@ -55,7 +55,7 @@ export const build = async (
   const { context } = initOptions;
 
   let compiler: Compiler | MultiCompiler;
-  let bundlerConfigs: WebpackChainConfig[] | undefined;
+  let bundlerConfigs: WebpackConfig[] | undefined;
 
   if (customCompiler) {
     compiler = customCompiler;
