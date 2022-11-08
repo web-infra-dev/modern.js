@@ -46,8 +46,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: wireit cache
-        uses: google/wireit@setup-github-actions-caching/v1
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+              turbo-${{ github.job }}-${{ github.ref_name }}-
 
       - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
@@ -55,7 +61,7 @@ jobs:
 
       - name: Prepare
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run --filter "./packages/**" prepare
+        run: pnpm run prepare
 
       - name: Install Puppeteer
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}

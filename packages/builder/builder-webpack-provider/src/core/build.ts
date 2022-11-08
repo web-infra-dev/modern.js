@@ -6,7 +6,13 @@ import {
   type BuildOptions,
   type PromiseOrNot,
 } from '@modern-js/builder-shared';
-import type { Stats, MultiStats, Compiler, MultiCompiler } from 'webpack';
+import type {
+  Stats,
+  MultiStats,
+  Compiler,
+  MultiCompiler,
+  Configuration as WebpackConfig,
+} from 'webpack';
 
 export type BuildExecuter = (
   compiler: Compiler | MultiCompiler,
@@ -49,6 +55,7 @@ export const build = async (
   const { context } = initOptions;
 
   let compiler: Compiler | MultiCompiler;
+  let bundlerConfigs: WebpackConfig[] | undefined;
 
   if (customCompiler) {
     compiler = customCompiler;
@@ -59,9 +66,14 @@ export const build = async (
       context,
       webpackConfigs,
     });
+
+    // assgin webpackConfigs
+    bundlerConfigs = webpackConfigs;
   }
 
-  await context.hooks.onBeforeBuildHook.call();
+  await context.hooks.onBeforeBuildHook.call({
+    bundlerConfigs,
+  });
 
   if (watch) {
     compiler.watch({}, err => {

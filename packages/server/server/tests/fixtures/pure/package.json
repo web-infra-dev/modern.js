@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "modern dev",
-    "build": "wireit",
+    "build": "modern build",
     "start": "modern start",
     "new": "modern new",
     "lint": "modern lint",
@@ -15,19 +15,6 @@
     "runtime": {
       "router": true,
       "state": true
-    }
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
     }
   }
 }

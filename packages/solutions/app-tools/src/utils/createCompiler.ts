@@ -3,6 +3,7 @@ import type { PluginAPI } from '@modern-js/core';
 import { chalk, logger } from '@modern-js/utils';
 import type { AppHooks } from '../hooks';
 import createBuilder, { BuilderOptions } from '../builder';
+import { printInstructions } from './printInstructions';
 
 export const createDevCompiler = async ({
   api,
@@ -23,11 +24,17 @@ export const createDevCompiler = async ({
         async onDevCompileDone({ isFirstCompile }) {
           if (process.stdout.isTTY || isFirstCompile) {
             hookRunners.afterDev();
+
+            if (isFirstCompile) {
+              printInstructions(hookRunners, appContext, normalizedConfig);
+            }
           }
         },
-        async onBeforeCreateCompiler() {
+        async onBeforeCreateCompiler({ bundlerConfigs }) {
           // run modernjs framework `beforeCreateCompiler` hook
-          await hookRunners.beforeCreateCompiler();
+          await hookRunners.beforeCreateCompiler({
+            bundlerConfigs,
+          });
         },
         async onAfterCreateCompiler({ compiler }) {
           // run modernjs framework afterCreateCompiler hooks
