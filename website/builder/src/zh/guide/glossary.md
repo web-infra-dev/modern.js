@@ -4,7 +4,7 @@
 
 指 `webpack` 和 `rspack` 等模块打包工具。
 
-当 Bundler 处理 JavaScript 应用时，它会构建一个依赖关系图，其中包含应用需要的各个模块，然后将所有模块打包成一个或多个 bundle。
+当 Bundler 处理 Web 应用时，它会构建一个依赖关系图，其中包含应用需要的各个模块，然后将所有模块打包成一个或多个 bundle。
 
 ## Rspack
 
