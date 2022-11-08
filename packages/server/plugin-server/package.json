@@ -34,12 +34,11 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern build --watch",
-    "build": "wireit",
+    "build": "modern build",
     "new": "modern new",
-    "test": "wireit"
+    "test": "jest --passWithNoTests"
   },
   "typesVersions": {
     "*": {
@@ -81,28 +80,5 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/types/server.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

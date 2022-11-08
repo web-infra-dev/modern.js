@@ -7,12 +7,11 @@
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern dev",
-    "build": "wireit",
+    "build": "modern build",
     "new": "modern new",
-    "test": "wireit"
+    "test": "jest"
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
@@ -48,28 +47,5 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/types/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

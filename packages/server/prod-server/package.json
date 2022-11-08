@@ -28,12 +28,11 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
-    "build": "wireit",
+    "build": "modern build",
     "dev": "modern build --watch",
-    "test": "wireit"
+    "test": "jest"
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
@@ -81,28 +80,5 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/types/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }
