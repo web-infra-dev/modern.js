@@ -23,10 +23,6 @@ function getNavBar(lang: 'cn' | 'en'): NavItem[] {
       link: getLink('/guide/introduction'),
     },
     {
-      text: getText('插件', 'Plugin'),
-      link: getLink('/plugin/introduction'),
-    },
-    {
       text: 'API',
       link: getLink('/api/'),
     },
@@ -49,24 +45,20 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       },
       {
         collapsable: false,
+        title: getText('插件', 'Plugin'),
+        children: [
+          getLink('/guide/plugin/introduction'),
+          getLink('/guide/plugin/integration'),
+          getLink('/guide/plugin/testing'),
+          getLink('/guide/plugin/list'),
+        ],
+      },
+      {
+        collapsable: false,
         title: getText('常见问题', 'FAQ'),
         children: [
           getLink('/guide/faq/features'),
           getLink('/guide/faq/exceptions'),
-        ],
-      },
-    ],
-    [getLink('/plugin/')]: [
-      {
-        title: getText('插件', 'Plugin'),
-        collapsable: false,
-        children: [
-          getLink('/plugin/introduction'),
-          getLink('/plugin/example'),
-          getLink('/plugin/core'),
-          getLink('/plugin/api'),
-          getLink('/plugin/testing'),
-          getLink('/plugin/list'),
         ],
       },
     ],
