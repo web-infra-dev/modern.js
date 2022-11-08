@@ -35,7 +35,7 @@ jobs:
         run: pnpm install --ignore-scripts
 
       - name: Prepare
-        run: pnpm turbo run build --filter './packages/**' --api=${{ secrets.REMOTE_CACHE_API }} --team=${{ secrets.TURBO_TEAM }} --token=${{ secrets.TURBO_TOKEN }} && husky install
+        run: pnpm turbo run build --filter './packages/**' --api=${{ secrets.REMOTE_CACHE_API }} --team=${{ secrets.TURBO_TEAM }} --token=${{ secrets.TURBO_TOKEN }} && pnpm husky install
 
       - name: Install Puppeteer
         run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..
