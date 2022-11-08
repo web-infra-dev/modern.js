@@ -24,4 +24,8 @@ export interface SharedPerformanceConfig {
    * same as the [profile](https://webpack.js.org/configuration/other-options/#profile) config of webpack.
    */
   profile?: boolean;
+  /**
+   * Whether to print the file sizes after production build.
+   */
+  printFileSize?: boolean;
 }

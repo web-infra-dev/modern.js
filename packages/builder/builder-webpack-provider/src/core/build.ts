@@ -67,7 +67,7 @@ export const build = async (
       webpackConfigs,
     });
 
-    // assgin webpackConfigs
+    // assign webpackConfigs
     bundlerConfigs = webpackConfigs;
   }
 
