@@ -4,6 +4,7 @@ import {
   DEFAULT_MOUNT_ID,
   type BuilderTarget,
 } from '@modern-js/builder-shared';
+import { getDistPath } from '../shared';
 import type {
   BuilderPlugin,
   WebpackConfig,
@@ -234,13 +235,14 @@ export const PluginHtml = (): BuilderPlugin => ({
             '../webpackPlugins/HtmlAppIconPlugin'
           );
 
+          const distDir = getDistPath(config, 'image');
           const iconPath = path.isAbsolute(appIcon)
             ? appIcon
             : path.join(api.context.rootPath, appIcon);
 
           chain
             .plugin(CHAIN_ID.PLUGIN.APP_ICON)
-            .use(HtmlAppIconPlugin, [{ iconPath }]);
+            .use(HtmlAppIconPlugin, [{ iconPath, distDir }]);
         }
       }
     });
