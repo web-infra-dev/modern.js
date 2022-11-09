@@ -29,7 +29,7 @@ describe('test basic usage', () => {
   it(`should have favicon and app icon in dist and html`, async () => {
     const favicon = path.resolve(appPath, './dist/favicon.ico');
     const favicon1 = path.resolve(appPath, './dist/favicon1.ico');
-    const appIcon = path.resolve(appPath, './dist/icon.png');
+    const appIcon = path.resolve(appPath, './dist/static/media/icon.png');
     expect(fs.existsSync(favicon)).toBe(true);
     expect(fs.existsSync(favicon1)).toBe(true);
     expect(fs.existsSync(appIcon)).toBe(true);
@@ -43,13 +43,13 @@ describe('test basic usage', () => {
       '<link rel="icon" href="/favicon1.ico">',
     );
     expect(fs.readFileSync(mainEntry, 'utf-8')).toMatch(
-      '<link rel="apple-touch-icon" sizes="180*180" href="/icon.png">',
+      '<link rel="apple-touch-icon" sizes="180*180" href="/static/media/icon.png">',
     );
     expect(fs.readFileSync(activityEntry, 'utf-8')).toMatch(
       '<link rel="icon" href="/favicon.ico">',
     );
     expect(fs.readFileSync(activityEntry, 'utf-8')).toMatch(
-      '<link rel="apple-touch-icon" sizes="180*180" href="/icon.png">',
+      '<link rel="apple-touch-icon" sizes="180*180" href="/static/media/icon.png">',
     );
   });
 
@@ -82,7 +82,7 @@ describe('test basic usage', () => {
 
   it(`should serve app icon`, async () => {
     const { status, headers } = await axios.get(
-      `http://localhost:${appPort}/icon.png`,
+      `http://localhost:${appPort}/static/media/icon.png`,
     );
     expect(status).toBe(successStatus);
     expect(headers['content-type']).toBe('image/png');
