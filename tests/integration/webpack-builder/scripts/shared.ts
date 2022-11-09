@@ -11,6 +11,9 @@ export const createBuilder = async () => {
       tools: {
         // inspector: {},
       },
+      html: {
+        appIcon: './src/icon.png',
+      },
     },
   });
 
