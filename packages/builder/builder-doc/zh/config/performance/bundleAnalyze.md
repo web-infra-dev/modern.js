@@ -1,6 +1,6 @@
 - Type: `Object | undefined`
 
-你有两种方式开启 `webpack-bundle-analyzer` 来分析够快产物的体积:
+你有两种方式开启 `webpack-bundle-analyzer` 来分析构建产物的体积:
 
 - 添加环境变量 `BUNDLE_ANALYZE=true`；
 - 配置 `performance.bundleAnalyze`。
