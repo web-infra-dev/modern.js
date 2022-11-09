@@ -52,8 +52,8 @@ export const PluginCompatModern = (
   name: 'builder-plugin-compat-modern',
 
   setup(api) {
-    const builderConfig = api.getBuilderConfig();
     api.modifyWebpackChain((chain, { target, CHAIN_ID, isProd }) => {
+      const builderNormalizedConfig = api.getNormalizedConfig();
       // set webpack config name
       if (target === 'node') {
         chain.name('server');
@@ -72,7 +72,7 @@ export const PluginCompatModern = (
         applyNodeCompat(chain, modernConfig, isProd);
       }
 
-      if (isHtmlEnabled(builderConfig, target)) {
+      if (isHtmlEnabled(builderNormalizedConfig, target)) {
         applyBottomHtmlWebpackPlugin({
           api,
           chain,
