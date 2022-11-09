@@ -1,4 +1,4 @@
-import { merge } from '@modern-js/utils/lodash';
+import _ from '@modern-js/utils/lodash';
 import { TransformConfig, TransformConfigNapi } from '@modern-js/swc-plugins';
 
 export type { TransformConfig } from '@modern-js/swc-plugins';
@@ -28,10 +28,6 @@ function getDefaultSwcConfig(): Required<TransformConfig> {
         },
       },
       minify: false, // for loader, we don't need to minify, we do minification using plugin
-      module: {
-        type: 'es6',
-        ignoreDynamic: true, // let bundler handle dyn import
-      },
       sourceMaps: true,
       env: {
         targets: '',
@@ -49,7 +45,7 @@ export function normalizeConfig(
   opt: TransformConfig,
 ): Required<TransformConfig> {
   // complete default config
-  const config: Required<TransformConfig> = merge(
+  const config: Required<TransformConfig> = _.merge(
     getDefaultSwcConfig(),
     opt,
   ) as unknown as Required<TransformConfig>;
