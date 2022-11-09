@@ -52,6 +52,13 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       },
       {
         collapsable: false,
+        title: getText('进阶', 'Advanced'),
+        children: [
+          getLink('/guide/advanced/build-performance'),
+        ],
+      },
+      {
+        collapsable: false,
         title: getText('常见问题', 'FAQ'),
         children: [
           getLink('/guide/faq/general'),
