@@ -5,7 +5,7 @@ export const PluginDefine = (): BuilderPlugin => ({
   name: 'builder-plugin-define',
 
   async setup(api) {
-    api.modifyRspackConfig(async (rspackConfig, { CHAIN_ID }) => {
+    api.modifyRspackConfig(async rspackConfig => {
       const config = api.getBuilderConfig();
 
       const builtinVars: NonNullable<SourceConfig['globalVars']> = {
@@ -20,11 +20,11 @@ export const PluginDefine = (): BuilderPlugin => ({
       // Macro defines.
       const defineExprs = config.source?.define ?? {};
 
-      rspackConfig.define = {
-        ...rspackConfig.define,
+      _.set(rspackConfig, 'builtins.define', {
+        ...(rspackConfig.builtins?.define || {}),
         ...serializedVars,
         ...defineExprs,
-      };
+      });
     });
   },
 });
