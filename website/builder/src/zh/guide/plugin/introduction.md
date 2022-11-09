@@ -1,14 +1,14 @@
 # 插件系统
 
-builder 提供了一套轻量强大的插件系统，用以实现自身的大多数功能，并允许用户进行扩展。
-开发者编写的插件能够修改 builder 的默认行为并添加各类额外功能，包括但不限于：
+Builder 提供了一套轻量强大的插件系统，用以实现自身的大多数功能，并允许用户进行扩展。
+开发者编写的插件能够修改 Builder 的默认行为并添加各类额外功能，包括但不限于：
 
 - 修改 bundler 配置
 - 处理新的文件类型
 - 修改或编译文件
 - 部署产物
 
-builder 底层支持 webpack 和 rspack 等 bundler，并提供统一的 Node.js API 来抹平插件开发的差异，
+Builder 底层支持 webpack 和 rspack 等 bundler，并提供统一的 Node.js API 来抹平插件开发的差异，
 进而接入不同的上层框架、降低用户对底层 bundler 切换的感知。
 
 **用户可能无法在上层框架中直接使用 Builder 插件**。因为这些框架（如 modern.js）只复用了 Builder 提供的构建能力，
@@ -55,21 +55,7 @@ builder.addPlugins([
 
 Builder 在内部按照约定的生命周期进行任务调度，插件可以通过注册钩子来介入工作流程的任意阶段，并实现自己的功能。
 
-- **通用钩子**
-  - `modifyBuilderConfig`：修改传递给 Builder 的配置项
-  - `modifyWebpackChain`：修改 Webpack Chain 配置
-  - `modifyWebpackConfig`：修改最终的 Webpack 配置
-  - `onBeforeCreateCompiler`：创建编译器前触发
-  - `onAfterCreateCompiler`：创建编译器后触发、在构建前操作编译器实例
-- **构建钩子**：仅运行构建输出产物时触发
-  - `onBeforeBuild`：构建前触发
-  - `onAfterBuild`：构建后触发、获取构建结果信息
-- **开发服务钩子**：仅运行开发服务器时触发
-  - `onBeforeStartDevServer`：启动开发服务器前触发
-  - `onAfterStartDevServer`：启动开发服务器后触发
-  - `onDevCompileDone`：每次增量构建结束后触发
-- **进程钩子**
-  - `onExit`：运行构建的进程即将退出时触发
+Builder 生命周期钩子的完整列表参考 [API 文档](/zh/api/plugin-hooks)。
 
 Builder 不会接管底层 Bundler 的生命周期，相关生命周期钩子的使用方式见对应文档：[webpack hooks](https://webpack.js.org/api/compiler-hooks/)
 

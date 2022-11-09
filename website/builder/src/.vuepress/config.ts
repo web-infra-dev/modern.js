@@ -88,6 +88,8 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/builder-core'),
           getLink('/api/builder-instance'),
           getLink('/api/builder-types'),
+          getLink('/api/plugin-core'),
+          getLink('/api/plugin-hooks')
         ],
       },
     ],
