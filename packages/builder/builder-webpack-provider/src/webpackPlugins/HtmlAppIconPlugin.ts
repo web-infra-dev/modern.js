@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path, { join } from 'path';
+import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { Compiler, Compilation, sources } from 'webpack';
 
@@ -28,7 +28,10 @@ export class HtmlAppIconPlugin {
       );
     }
 
-    const iconRelativePath = join(this.distDir, path.basename(this.iconPath));
+    const iconRelativePath = path.join(
+      this.distDir,
+      path.basename(this.iconPath),
+    );
 
     // add html asset tags
     compiler.hooks.compilation.tap(this.name, (compilation: Compilation) => {
