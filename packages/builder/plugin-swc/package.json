@@ -5,12 +5,12 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "prepare": "npm run build",
     "dev": "swc ./src -d dist --watch",
     "build": "swc ./src -d dist && tsc --emitDeclarationOnly",
     "test": "vitest run --segfault-retry=3",
     "test:watch": "vitest dev --no-coverage",
-    "test:update": "SNAPSHOT_UPDATE=1 vitest watch"
+    "test:update": "SNAPSHOT_UPDATE=1 vitest watch",
+    "prepublishOnly": "only-allow-pnpm"
   },
   "exports": {
     ".": "./dist/index.js",

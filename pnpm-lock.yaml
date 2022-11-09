@@ -4761,6 +4761,8 @@ importers:
       '@modern-js/builder-plugin-esbuild': workspace:*
       '@modern-js/builder-plugin-swc': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
+      '@swc/cli': ^0.1.57
+      '@swc/core': 1.2.248
       '@swc/helpers': 0.4.12
       '@types/node': ^14
       '@types/react': ^18
@@ -4774,6 +4776,8 @@ importers:
       '@modern-js/builder-plugin-esbuild': link:../../../packages/builder/plugin-esbuild
       '@modern-js/builder-plugin-swc': link:../../../packages/builder/plugin-swc
       '@modern-js/builder-webpack-provider': link:../../../packages/builder/builder-webpack-provider
+      '@swc/cli': 0.1.57_@swc+core@1.2.248
+      '@swc/core': 1.2.248
       '@swc/helpers': 0.4.12
       core-js: 3.26.0
       react: 18.2.0
@@ -14040,7 +14044,6 @@ packages:
       fast-glob: 3.2.11
       slash: 3.0.0
       source-map: 0.7.4
-    dev: true
 
   /@swc/core-android-arm-eabi/1.2.220:
     resolution: {integrity: sha512-WjjQi9nEZNYeRcLbPBRSnP8PH+UlAxbEJ1SPOGSeBXhjxVYVoBfW98RdqeTBr5BRQ+6FSSD4PPvLPIp5jDn7WQ==}
@@ -14059,7 +14062,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.122
-    dev: true
     optional: true
 
   /@swc/core-android-arm64/1.2.220:
@@ -14079,7 +14081,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-darwin-arm64/1.2.220:
@@ -14097,7 +14098,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-darwin-x64/1.2.220:
@@ -14115,7 +14115,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-freebsd-x64/1.2.220:
@@ -14135,7 +14134,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-linux-arm-gnueabihf/1.2.220:
@@ -14155,7 +14153,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-linux-arm64-gnu/1.2.220:
@@ -14173,7 +14170,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-arm64-musl/1.2.220:
@@ -14191,7 +14187,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-x64-gnu/1.2.220:
@@ -14209,7 +14204,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-x64-musl/1.2.220:
@@ -14227,7 +14221,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-win32-arm64-msvc/1.2.220:
@@ -14247,7 +14240,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-win32-ia32-msvc/1.2.220:
@@ -14267,7 +14259,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-win32-x64-msvc/1.2.220:
@@ -14285,7 +14276,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core/1.2.220:
@@ -14328,7 +14318,6 @@ packages:
       '@swc/core-win32-arm64-msvc': 1.2.248
       '@swc/core-win32-ia32-msvc': 1.2.248
       '@swc/core-win32-x64-msvc': 1.2.248
-    dev: true
 
   /@swc/helpers/0.4.12:
     resolution: {integrity: sha512-R6RmwS9Dld5lNvwKlPn62+piU+WDG1sMfsnfJioXCciyko/gZ0DQ4Mqglhq1iGU1nQ/RcGkAwfMH+elMSkJH3Q==}
@@ -14349,13 +14338,11 @@ packages:
   /@swc/wasm/1.2.122:
     resolution: {integrity: sha512-sM1VCWQxmNhFtdxME+8UXNyPNhxNu7zdb6ikWpz0YKAQQFRGT5ThZgJrubEpah335SUToNg8pkdDF7ibVCjxbQ==}
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/wasm/1.2.130:
     resolution: {integrity: sha512-rNcJsBxS70+pv8YUWwf5fRlWX6JoY/HJc25HD/F8m6Kv7XhJdqPPMhyX6TKkUBPAG7TWlZYoxa+rHAjPy4Cj3Q==}
     requiresBuild: true
-    dev: true
     optional: true
 
   /@szmarczak/http-timer/1.1.2:
@@ -16417,10 +16404,8 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -33460,7 +33445,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:

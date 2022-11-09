@@ -19,7 +19,6 @@
     "/dist/index.js"
   ],
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "build": "modern build",
