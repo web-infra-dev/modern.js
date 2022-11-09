@@ -1,11 +1,15 @@
 import { chalk } from '@modern-js/utils';
-import type { BaseBuildConfig } from '../types';
+import type {
+  BaseBundleBuildConfig,
+  BaseBundlelessBuildConfig,
+  BundlelessOptions,
+} from '../types';
 
 export const buildingText = chalk.blue('Building...');
 export const buildSuccessText = chalk.green('Build succeed');
 export const buildFailText = chalk.red('Build Failed:');
 
-export const defaultBundleBuildConfig: BaseBuildConfig = {
+export const defaultBundleBuildConfig = Object.freeze<BaseBundleBuildConfig>({
   buildType: 'bundle',
   format: 'cjs',
   target: 'esnext',
@@ -13,11 +17,11 @@ export const defaultBundleBuildConfig: BaseBuildConfig = {
   sourceMap: false,
   copy: {},
   path: './dist',
-  dts: {
+  dts: Object.freeze({
     only: false,
     distPath: './',
     tsconfigPath: './tsconfig.json',
-  },
+  }),
   jsx: 'automatic',
   bundleOptions: {
     entry: [], // entry will overrides by getDefaultEntry function
@@ -29,27 +33,26 @@ export const defaultBundleBuildConfig: BaseBuildConfig = {
     entryNames: '[name]',
     globals: {},
     metafile: false,
-    getModuleId: () => undefined,
+    umdModuleName: undefined,
   },
-};
+});
 
-export const defaultBundlelessBuildConfig: BaseBuildConfig = {
-  buildType: 'bundleless',
-  format: 'cjs',
-  target: 'esnext',
-  sourceMap: false,
-  copy: {},
-  path: './dist',
-  dts: {
-    distPath: './',
-    tsconfigPath: './tsconfig.json',
-    only: false,
-  },
-  bundlelessOptions: {
-    sourceDir: './src',
-    style: {
-      compileMode: 'all',
-    },
-  },
-  jsx: 'automatic',
-};
+export const defaultBundlelessBuildConfig =
+  Object.freeze<BaseBundlelessBuildConfig>({
+    buildType: 'bundleless',
+    format: 'cjs',
+    target: 'esnext',
+    sourceMap: false,
+    copy: {},
+    path: './dist',
+    dts: Object.freeze({
+      distPath: './',
+      tsconfigPath: './tsconfig.json',
+      only: false,
+    }),
+    bundlelessOptions: Object.freeze<BundlelessOptions>({
+      sourceDir: './src',
+      styleCompileMode: 'only-compiled-code',
+    }),
+    jsx: 'automatic',
+  });

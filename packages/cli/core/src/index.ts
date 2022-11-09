@@ -2,6 +2,7 @@ import path from 'path';
 import {
   pkgUp,
   program,
+  Command,
   ensureAbsolutePath,
   logger,
   INTERNAL_PLUGINS,
@@ -225,25 +226,28 @@ const createCli = () => {
     argv: string[],
     options?: {
       coreOptions?: CoreOptions;
+      disableWatcher?: boolean;
     },
   ) {
+    const newProgram = new Command();
     const { coreOptions } = options ?? {};
     const { loadedConfig, appContext, resolved } = await init(
       argv,
       coreOptions,
     );
 
-    await hooksRunner.commands({ program });
+    await hooksRunner.commands({ program: newProgram });
+    if (!options?.disableWatcher) {
+      initWatcher(
+        loadedConfig,
+        appContext.appDirectory,
+        resolved.source.configDir,
+        hooksRunner,
+        argv,
+      );
+    }
 
-    initWatcher(
-      loadedConfig,
-      appContext.appDirectory,
-      resolved.source.configDir,
-      hooksRunner,
-      argv,
-    );
-
-    await program.parseAsync(argv);
+    await newProgram.parseAsync(argv);
   }
 
   async function restart() {

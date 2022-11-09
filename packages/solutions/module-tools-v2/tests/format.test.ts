@@ -127,24 +127,19 @@ describe('format is umd', () => {
     });
     const distFilePath = path.join(fixtureDir, bundleDistPath, './index.js');
     const content = await fs.readFile(distFilePath, 'utf-8');
-    expect(content.includes('(function (global, factory) {')).toBe(true);
+    expect(content.includes('(function(global, factory) {')).toBe(true);
     expect(content).toMatchSnapshot();
   });
 
   it('buildType is bundleless', async () => {
     const configFile = path.join(configDir, './umd-bundleless.config.ts');
-    let happenError = false;
-    try {
-      await runCli({
-        argv: ['build'],
-        configFile,
-        appDirectory: fixtureDir,
-      });
-    } catch (e) {
-      happenError = true;
-    }
+    const { success } = await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
 
-    expect(happenError).toBeTruthy();
+    expect(success).toBeFalsy();
   });
 });
 
@@ -165,17 +160,12 @@ describe('format is iife', () => {
 
   it('buildType is bundleless', async () => {
     const configFile = path.join(configDir, './iife-bundleless.config.ts');
-    let happenError = false;
-    try {
-      await runCli({
-        argv: ['build'],
-        configFile,
-        appDirectory: fixtureDir,
-      });
-    } catch (e) {
-      happenError = true;
-    }
+    const { success } = await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
 
-    expect(happenError).toBeTruthy();
+    expect(success).toBeFalsy();
   });
 });

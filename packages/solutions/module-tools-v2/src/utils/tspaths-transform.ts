@@ -5,9 +5,9 @@ import * as parser from '../../compiled/@babel/parser';
 import generator from '../../compiled/@babel/generator';
 import * as t from '../../compiled/@babel/types';
 import traverse, { NodePath } from '../../compiled/@babel/traverse';
-import { defaultTransformedFunctions } from '../constants/dts';
 import { dtsAliasExts } from '../constants/file';
-import { matchesPattern, isImportCall } from './dts';
+// import { defaultTransformedFunctions } from '../constants/dts';
+// import { matchesPattern, isImportCall } from './dts';
 
 export interface TransformOption {
   filename: string;
@@ -56,19 +56,19 @@ function mapPathString(
   }
 }
 
-const transformCall =
-  (option: TransformOption) => (nodePath: NodePath<t.CallExpression>) => {
-    const calleePath = nodePath.get('callee') as NodePath;
-    const isNormalCall = defaultTransformedFunctions.some(pattern =>
-      matchesPattern(calleePath, pattern),
-    );
-    if (isNormalCall || isImportCall(nodePath)) {
-      mapPathString(
-        nodePath.get('arguments.0') as NodePath<t.StringLiteral>,
-        option,
-      );
-    }
-  };
+// const transformCall =
+//   (option: TransformOption) => (nodePath: NodePath<t.CallExpression>) => {
+//     const calleePath = nodePath.get('callee') as NodePath;
+//     const isNormalCall = defaultTransformedFunctions.some(pattern =>
+//       matchesPattern(calleePath, pattern),
+//     );
+//     if (isNormalCall || isImportCall(nodePath)) {
+//       mapPathString(
+//         nodePath.get('arguments.0') as NodePath<t.StringLiteral>,
+//         option,
+//       );
+//     }
+//   };
 
 const transformImport =
   (option: TransformOption) => (nodePath: NodePath<t.ImportDeclaration>) => {
@@ -92,7 +92,8 @@ const transformSingleFileAlias = ({
     plugins: ['typescript'],
   });
   traverse(ast, {
-    CallExpression: transformCall({ filename, baseUrl, paths }) as any,
+    // d.ts file content not have callExpression which can be parsed;
+    // CallExpression: transformCall({ filename, baseUrl, paths }) as any,
     ImportDeclaration: transformImport({
       filename,
       baseUrl,

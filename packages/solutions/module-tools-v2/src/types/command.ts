@@ -6,7 +6,7 @@ export interface BuildCommandOptions {
   config: string;
   clear?: boolean;
   dts?: boolean;
-  platform?: boolean | string | string[];
+  platform?: boolean | string[];
   tsconfig: string;
   watch?: boolean;
 }

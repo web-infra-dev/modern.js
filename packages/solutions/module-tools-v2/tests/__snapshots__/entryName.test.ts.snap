@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`entryName usage entryName is [dir]/[name]-[hash] 1`] = `"/Users/bytedance/github/targeral/modern-dev/packages/solutions/module-tools-v2/tests/fixtures/entryName/dist/index-YLED6PVA.js"`;

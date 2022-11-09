@@ -5,10 +5,6 @@ import { bundleDistPath, bundlelessDistPath } from './constants';
 
 initBeforeTest();
 
-process.on('unhandledRejection', e => {
-  console.info('fuck', e);
-});
-
 beforeAll(() => {
   jest.mock('../src/utils/onExit.ts', () => {
     return {

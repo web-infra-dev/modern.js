@@ -86,7 +86,7 @@ export type BundleOptions = {
   entryNames: LibuildUserConfig['entryNames'];
   globals: LibuildUserConfig['globals'];
   metafile: LibuildUserConfig['metafile'];
-  getModuleId: LibuildUserConfig['getModuleId'];
+  umdModuleName: ((chunkName: string) => string) | string | undefined;
 };
 export interface BaseBundleBuildConfig extends BaseCommonBuildConfig {
   buildType: 'bundle';
@@ -100,17 +100,11 @@ export interface PartialBaseBundleBuildConfig
   bundleOptions?: DeepPartial<BundleOptions>;
 }
 
-export type Style = {
-  compileMode:
-    | 'all'
-    | 'only-compiled-code'
-    | /* may be will be deprecated */ 'only-source-code'
-    | false;
-};
 export type Assets = { path: string };
+export type StyleCompileMode = 'with-source-code' | 'only-compiled-code';
 export type BundlelessOptions = {
   sourceDir: string;
-  style: Style;
+  styleCompileMode: StyleCompileMode;
 };
 export interface BaseBundlelessBuildConfig extends BaseCommonBuildConfig {
   buildType: 'bundleless';

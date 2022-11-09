@@ -38,9 +38,9 @@
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "0.2.1-alpha.0",
-    "@modern-js/libuild-plugin-babel": "0.1.0",
-    "@modern-js/libuild-plugin-es5": "0.1.0",
+    "@modern-js/libuild": "0.3.1-alpha.0",
+    "@modern-js/libuild-plugin-umd": "0.3.1-alpha.0",
+    "@modern-js/libuild-plugin-es5": "0.3.1-alpha.0",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
@@ -57,7 +57,9 @@
     "jest": "^27",
     "postcss": "8.4.6",
     "react": "17",
-    "typescript": "^4"
+    "typescript": "^4",
+    "path-browserify": "1.0.1",
+    "postcss-alias": "2.0.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

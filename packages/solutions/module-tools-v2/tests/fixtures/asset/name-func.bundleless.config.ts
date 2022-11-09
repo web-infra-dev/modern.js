@@ -1,3 +1,4 @@
+import path from 'path';
 import { defineConfig } from '../../utils';
 
 export default defineConfig({
@@ -5,7 +6,12 @@ export default defineConfig({
     buildType: 'bundleless',
     asset: {
       path: './asset',
-      name: str => `test-${str}`,
+      name: str => {
+        if (str.includes('a.png')) {
+          return 'b.png';
+        }
+        return path.basename(str);
+      },
     },
     path: './dist/func/bundleless',
   },

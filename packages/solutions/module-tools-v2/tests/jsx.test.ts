@@ -1,20 +1,28 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-// import { fs, globby } from '@modern-js/utils';
 import { runCli, initBeforeTest } from './utils';
-// import { bundleDistPath } from './constants';
 
 initBeforeTest();
+
+beforeAll(() => {
+  jest.mock('../src/utils/onExit.ts', () => {
+    return {
+      __esModule: true,
+      addExitListener: jest.fn(() => 'mocked'),
+    };
+  });
+});
 
 describe('jsx is automatic', () => {
   const fixtureDir = path.join(__dirname, './fixtures/jsx');
   it('buildType is bundle', async () => {
     const configFile = path.join(fixtureDir, './automatic-bundle.config.ts');
-    await runCli({
+    const ret = await runCli({
       argv: ['build'],
       configFile,
       appDirectory: fixtureDir,
     });
+    expect(ret.success).toBeTruthy();
     const distFilePath = path.join(
       fixtureDir,
       './dist/automatic/bundle/index.js',

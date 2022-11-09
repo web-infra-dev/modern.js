@@ -3,8 +3,11 @@ import type {
   InputOptions,
   OutputOptions,
   Plugin,
+  RollupWatcher,
 } from '../../../compiled/rollup';
 import type { BundleOptions, Entry } from '../../types';
+
+export type { RollupWatcher };
 
 type Config = {
   distDir: string;
@@ -12,16 +15,6 @@ type Config = {
   externals: BundleOptions['externals'];
   entry: Entry;
   watch: boolean;
-};
-
-export const getInput = async (entry: Entry) => {
-  if (typeof entry === 'string') {
-    const { globby } = await import('@modern-js/utils');
-    const files = await globby(`${entry}/**/*.{ts,tsx}`);
-    return files;
-  }
-
-  return entry;
 };
 
 export const runRollup = async ({
@@ -98,7 +91,7 @@ export const runRollup = async ({
     const { SectionTitleStatus, BundleDtsLogPrefix } = await import(
       '../../constants/log'
     );
-    watch({
+    const watcher = watch({
       ...inputConfig,
       plugins: inputConfig.plugins,
       output: outputConfig,
@@ -118,11 +111,13 @@ export const runRollup = async ({
         // this is dts rollup plugin bug, error not complete message
       }
     });
+    return watcher;
   } else {
     try {
       const { rollup } = await import('../../../compiled/rollup');
       const bundle = await rollup(inputConfig);
       await bundle.write(outputConfig);
+      return bundle;
     } catch (e) {
       if (e instanceof Error) {
         const { InternalDTSError } = await import('../../error');
@@ -130,6 +125,7 @@ export const runRollup = async ({
           buildType: 'bundle',
         });
       }
+      throw e;
     }
   }
 };

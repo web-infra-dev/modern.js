@@ -3,6 +3,7 @@ import { cli } from '@modern-js/core';
 import { version } from '../package.json';
 
 export { defineConfig } from '../src/config/defineConfig';
+export type { CliPlugin, ModuleToolsHooks } from '../src';
 
 export const runCli = async (options: {
   argv: string[];
@@ -22,17 +23,24 @@ export const runCli = async (options: {
       forced: true,
     };
   }
-  await cli.test(
-    ['node', path.join(__dirname, '../bin/modern.js'), ...options.argv],
-    {
-      coreOptions: {
-        cwd: options.appDirectory,
-        version,
-        configFile: options.configFile,
-        plugins,
+
+  try {
+    await cli.test(
+      ['node', path.join(__dirname, '../bin/modern.js'), ...options.argv],
+      {
+        coreOptions: {
+          cwd: options.appDirectory,
+          version,
+          configFile: options.configFile,
+          plugins,
+        },
+        disableWatcher: true,
       },
-    },
-  );
+    );
+    return { code: 0, success: true, error: null };
+  } catch (e) {
+    return { code: 1, success: false, error: e as Error };
+  }
 };
 
 export const initBeforeTest = () => {
@@ -42,4 +50,6 @@ export const initBeforeTest = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   global.clearImmediate = clearTimeout;
+
+  jest.setTimeout(50000);
 };

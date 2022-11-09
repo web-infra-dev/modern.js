@@ -20,10 +20,11 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
 var stdin_exports = {};
 __export(stdin_exports, {
-  default: () => e
+  default: () => src_default
 });
 module.exports = __toCommonJS(stdin_exports);
-var d = (a, r) => \`\${a}\${r}\`, e = (a) => d(\\"DEBUG:\\", a);
+var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+var src_default = (str) => addPrefix(\\"DEBUG:\\", str);
 "
 `;
 
@@ -83,7 +84,40 @@ const addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
 `;
 
 exports[`format is esm buildType is bundle 1`] = `
-"var d=(a,r)=>()=>(a&&(r=a(a=0)),r),e=(a,r)=>()=>(r||a((r={exports:{}}).exports,r),r.exports),o=d(()=>{}),p=e((a,r)=>{o();var t=(x,v)=>\`\${x}\${v}\`;r.exports={addPrefix:t}}),s=e((a,r)=>{o();var{addPrefix:t}=p();r.exports=x=>t(\\"DEBUG:\\",x)});export default s();
+"var __getOwnPropNames = Object.getOwnPropertyNames;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+
+// <define:import.meta.env>
+var init_define_import_meta_env = __esm({
+  \\"<define:import.meta.env>\\"() {
+  }
+});
+
+// src/utils.js
+var require_utils = __commonJS({
+  \\"src/utils.js\\"(exports, module) {
+    init_define_import_meta_env();
+    var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+    module.exports = {
+      addPrefix
+    };
+  }
+});
+
+// src/index.js
+var require_src = __commonJS({
+  \\"src/index.js\\"(exports, module) {
+    init_define_import_meta_env();
+    var { addPrefix } = require_utils();
+    module.exports = (str) => addPrefix(\\"DEBUG:\\", str);
+  }
+});
+export default require_src();
 "
 `;
 
@@ -137,71 +171,86 @@ export default require_utils();
 
 exports[`format is iife buildType is bundle 1`] = `
 "(() => {
-  var d = (a, r) => () => (a && (r = a(a = 0)), r);
-  var e = (a, r) => () => (r || a((r = { exports: {} }).exports, r), r.exports);
-  var o = d(() => {
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __esm = (fn, res) => function __init() {
+    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  };
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var init_define_import_meta_env = __esm({
+    \\"<define:import.meta.env>\\"() {
+    }
   });
-  var p = e((a, r) => {
-    o();
-    var t = (x, v) => \`\${x}\${v}\`;
-    r.exports = { addPrefix: t };
+  var require_utils = __commonJS({
+    \\"src/utils.js\\"(exports, module) {
+      init_define_import_meta_env();
+      var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+      module.exports = {
+        addPrefix
+      };
+    }
   });
-  var s = e((a, r) => {
-    o();
-    var { addPrefix: t } = p();
-    r.exports = (x) => t(\\"DEBUG:\\", x);
+  var require_src = __commonJS({
+    \\"src/index.js\\"(exports, module) {
+      init_define_import_meta_env();
+      var { addPrefix } = require_utils();
+      module.exports = (str) => addPrefix(\\"DEBUG:\\", str);
+    }
   });
-  var stdin_default = s();
+  var stdin_default = require_src();
 })();
 "
 `;
 
 exports[`format is umd buildType is bundle 1`] = `
-"(function (global, factory) {
-  if (typeof define === \\"function\\" && define.amd) {
-    define(\\"/Users/bytedance/github/targeral/modern-dev/packages/solutions/module-tools-v2/tests/fixtures/format/umd/dist/bundle/index\\", [\\"exports\\"], factory);
-  } else if (typeof exports !== \\"undefined\\") {
-    factory(exports);
-  } else {
-    var mod = {
-      exports: {}
-    };
-    factory(mod.exports);
-    global.UsersBytedanceGithubTargeralModernDevPackagesSolutionsModuleToolsV2TestsFixturesFormatUmdDistBundleIndex = mod.exports;
-  }
-})(typeof globalThis !== \\"undefined\\" ? globalThis : typeof self !== \\"undefined\\" ? self : this, function (_exports) {
-  \\"use strict\\";
-
-  Object.defineProperty(_exports, \\"__esModule\\", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var d = (a, r) => () => (a && (r = a(a = 0)), r),
-      e = (a, r) => () => (r || a((r = {
-    exports: {}
-  }).exports, r), r.exports),
-      o = d(() => {}),
-      p = e((a, r) => {
-    o();
-
-    var t = (x, v) => \`\${x}\${v}\`;
-
-    r.exports = {
-      addPrefix: t
-    };
-  }),
-      s = e((a, r) => {
-    o();
-    var {
-      addPrefix: t
-    } = p();
-
-    r.exports = x => t(\\"DEBUG:\\", x);
-  });
-
-  var _default = s();
-
-  _exports.default = _default;
-});"
+"(function(global, factory) {
+    if (typeof module === \\"object\\" && typeof module.exports === \\"object\\") factory(exports);
+    else if (typeof define === \\"function\\" && define.amd) define([
+        \\"exports\\"
+    ], factory);
+    else if (global = typeof globalThis !== \\"undefined\\" ? globalThis : global || self) factory(global.index = {});
+})(this, function(exports) {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    Object.defineProperty(exports, \\"default\\", {
+        enumerable: true,
+        get: ()=>_default
+    });
+    var __getOwnPropNames = Object.getOwnPropertyNames;
+    var __esm = (fn, res)=>function __init() {
+            return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+        };
+    var __commonJS = (cb, mod)=>function __require() {
+            return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = {
+                exports: {}
+            }).exports, mod), mod.exports;
+        };
+    // <define:import.meta.env>
+    var init_define_import_meta_env = __esm({
+        \\"<define:import.meta.env>\\" () {}
+    });
+    // src/utils.js
+    var require_utils = __commonJS({
+        \\"src/utils.js\\" (exports, module1) {
+            init_define_import_meta_env();
+            var addPrefix = (prefix, str)=>\`\${prefix}\${str}\`;
+            module1.exports = {
+                addPrefix
+            };
+        }
+    });
+    // src/index.js
+    var require_src = __commonJS({
+        \\"src/index.js\\" (exports, module1) {
+            init_define_import_meta_env();
+            var { addPrefix  } = require_utils();
+            module1.exports = (str)=>addPrefix(\\"DEBUG:\\", str);
+        }
+    });
+    const _default = require_src();
+});
+"
 `;

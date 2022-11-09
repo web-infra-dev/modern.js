@@ -5,10 +5,6 @@ import { bundleDistPath, bundlelessDistPath } from './constants';
 
 initBeforeTest();
 
-process.on('unhandledRejection', e => {
-  console.info('fuck', e);
-});
-
 beforeAll(() => {
   jest.mock('../src/utils/onExit.ts', () => {
     return {
@@ -18,17 +14,26 @@ beforeAll(() => {
   });
 });
 
+// afterAll(() => {
+//   jest.clearAllTimers();
+// });
+
 describe('`designSystem` case', () => {
   const fixtureDir = path.join(__dirname, './fixtures/designSystem');
   it('buildType is bundle', async () => {
     const configFile = path.join(fixtureDir, './bundle.config.ts');
-    await runCli({
+
+    const ret = await runCli({
       argv: ['build'],
       configFile,
       appDirectory: fixtureDir,
       enableTailwindCss: true,
     });
+    console.info(ret);
+    expect(ret.success).toBeTruthy();
+
     const distFilePath = path.join(fixtureDir, bundleDistPath, './index.css');
+    console.info(distFilePath);
     expect(fs.existsSync(distFilePath)).toBe(true);
     const content = fs.readFileSync(distFilePath, 'utf-8');
     expect(content.includes('0, 0, 0')).toBe(true);

@@ -11,6 +11,7 @@ export interface CopyOptions {
   patterns?: CopyPattern[];
   options?: {
     concurrency?: number;
+    enableCopySync?: boolean;
   };
 }
 

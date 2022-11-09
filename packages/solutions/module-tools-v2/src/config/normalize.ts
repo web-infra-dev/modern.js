@@ -26,7 +26,9 @@ export const transformBuildPresetToBaseConfigs = async (
     const partialBuildConfig = await preset({ preset: BuildInPreset });
 
     if (!partialBuildConfig) {
-      throw new Error('buildPreset函数不允许返回值为空');
+      throw new Error(
+        'The `buildPreset` function does not allow no return value',
+      );
     }
 
     if (partialBuildConfig) {
@@ -80,18 +82,12 @@ export const requiredBuildConfig = async (
   partialBuildConfig: PartialBaseBuildConfig,
   context: ModuleContext,
 ): Promise<BaseBuildConfig> => {
-  const { lodash } = await import('@modern-js/utils');
-  const { defaultBundleBuildConfig, defaultBundlelessBuildConfig } =
-    await import('../constants/build');
-  const { getDefaultIndexEntry } = await import('../utils/entry');
-  return partialBuildConfig.buildType === 'bundle'
-    ? lodash.merge(
-        {},
-        defaultBundleBuildConfig,
-        { bundleOptions: { entry: await getDefaultIndexEntry(context) } },
-        partialBuildConfig,
-      )
-    : lodash.merge({}, defaultBundlelessBuildConfig, partialBuildConfig);
+  const { mergeDefaultBaseConfig } = await import('../utils/config');
+  const mergedConfig = await mergeDefaultBaseConfig(
+    partialBuildConfig,
+    context,
+  );
+  return mergedConfig;
 };
 
 export const transformToAbsPath = async (

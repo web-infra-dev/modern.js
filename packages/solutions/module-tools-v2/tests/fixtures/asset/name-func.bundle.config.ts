@@ -6,6 +6,12 @@ export default defineConfig({
     buildType: 'bundle',
     asset: {
       path: './asset',
+      name: str => {
+        if (str.includes('a.png')) {
+          return 'b.png';
+        }
+        return path.basename(str);
+      },
     },
     path: './dist/func/bundle',
   },

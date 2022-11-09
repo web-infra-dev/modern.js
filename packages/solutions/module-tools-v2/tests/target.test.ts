@@ -18,17 +18,12 @@ describe('target usage', () => {
   const fixtureDir = configDir;
   it('target is es2021', async () => {
     const configFile = path.join(configDir, './config.ts');
-    let happenError = false;
-    try {
-      await runCli({
-        argv: ['build'],
-        configFile,
-        appDirectory: fixtureDir,
-      });
-    } catch (e) {
-      happenError = true;
-    }
+    const { success } = await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
 
-    expect(happenError).toBeTruthy();
+    expect(success).toBeFalsy();
   });
 });

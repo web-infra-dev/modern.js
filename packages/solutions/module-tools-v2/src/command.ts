@@ -24,7 +24,7 @@ export const buildCommand = async (
       defaultTsConfigPath,
     )
     .option(
-      '-p, --platform [platform]',
+      '-p, --platform [platform...]',
       local.i18n.t(local.localeKeys.command.build.platform),
     )
     .option('--no-dts', local.i18n.t(local.localeKeys.command.build.dts))

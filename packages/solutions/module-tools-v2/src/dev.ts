@@ -51,7 +51,7 @@ export const dev = async (
   const { chalk } = await import('@modern-js/utils');
   const { purple } = await import('./constants/colors');
   if (metas.length === 0) {
-    console.info('没有发现可用的调试工具');
+    console.info('No dev tools found available');
     // eslint-disable-next-line no-process-exit
     process.exit(0);
   }
@@ -60,7 +60,7 @@ export const dev = async (
   if (metas.length === 1) {
     console.info(
       chalk.rgb(...purple)(
-        `当前检测到仅有一个调试工具可用，直接运行 [${
+        `Only one dev tooling is currently detected as available, run it directly [${
           metas[0].menuItem?.name ?? metas[0].name
         }]`,
       ),

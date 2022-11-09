@@ -6,18 +6,65 @@ import { runCli, initBeforeTest } from './utils';
 
 initBeforeTest();
 
+beforeAll(() => {
+  jest.mock('../src/utils/onExit.ts', () => {
+    return {
+      __esModule: true,
+      addExitListener: jest.fn(() => 'mocked'),
+    };
+  });
+});
+
 describe('copy usage', () => {
   const fixtureDir = path.join(__dirname, './fixtures/copy');
-  it('buildType is bundle', async () => {
-    const configFile = path.join(fixtureDir, './config-1.ts');
-    await runCli({
+  const configFile = path.join(fixtureDir, './config-1.ts');
+
+  it('build success', async () => {
+    const { success } = await runCli({
       argv: ['build'],
       configFile,
       appDirectory: fixtureDir,
     });
-    expect(0).toBe(0);
-    // const distFilePath = path.join(fixtureDir, './dist/copy1/index.js');
-    // const content = await fs.readFile(distFilePath, 'utf8');
-    // expect(content.includes('import_jsx_runtime')).toBeTruthy();
+    expect(success).toBeTruthy();
+  });
+
+  it('copy file to file', async () => {
+    const distFilePath = path.join(fixtureDir, './dist/temp-1/b.png');
+    const copyFileExist = await fs.pathExists(distFilePath);
+    console.info(distFilePath, copyFileExist, fs.existsSync(distFilePath));
+    expect(copyFileExist).toBeTruthy();
+  });
+
+  it('copy file to dir', async () => {
+    const distFilePath = path.join(fixtureDir, './dist/temp-2/a.png');
+    const copyFileExist = await fs.pathExists(distFilePath);
+    expect(copyFileExist).toBeTruthy();
+  });
+
+  it('copy dir to dir', async () => {
+    let distFilePath = path.join(fixtureDir, './dist/temp-3/a.png');
+    let copyFileExist = await fs.pathExists(distFilePath);
+    expect(copyFileExist).toBeTruthy();
+    distFilePath = path.join(fixtureDir, './dist/temp-3/b.txt');
+    copyFileExist = await fs.pathExists(distFilePath);
+    expect(copyFileExist).toBeTruthy();
+  });
+
+  it('copy dir to file', async () => {
+    const distFilePath = path.join(fixtureDir, './dist/temp-4/_index.html');
+    const copyFileExist = await fs.pathExists(distFilePath);
+    expect(copyFileExist).toBeTruthy();
+  });
+
+  it('copy glob to dir', async () => {
+    const distFilePath = path.join(fixtureDir, './dist/temp-5/index.html');
+    const copyFileExist = await fs.pathExists(distFilePath);
+    expect(copyFileExist).toBeTruthy();
+  });
+
+  it('copy glob to file', async () => {
+    const distFilePath = path.join(fixtureDir, './dist/temp-6/index.html');
+    const copyFileExist = await fs.pathExists(distFilePath);
+    expect(copyFileExist).toBeTruthy();
   });
 });

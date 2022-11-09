@@ -201,7 +201,6 @@ export const buildConfig = {
             },
             additionalProperties: false,
           },
-          additionalProperties: false,
         },
       ],
     },

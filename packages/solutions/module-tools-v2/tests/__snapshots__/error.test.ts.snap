@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`error.ts InternalBuildError 1`] = `
+"╭───────────────────────╮
+│ [31m[4mbundle failed:[24m[39m        │
+│  - format is \\"esm\\"    │
+│  - target is \\"es6\\"    │
+╰───────────────────────╯
+[34m[1m[4m[24m[22m[39m
+[34m[1m[4mDetailed Information: [24m[22m[39m
+Error: hello world
+Error: hello world
+    at Object.<anonymous> (/Users/bytedance/github/targeral/modern-dev/packages/solutions/module-tools-v2/tests/error.test.ts:19:19)
+    at Promise.then.completed (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:218:40)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at _runTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:60:9)
+    at run (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:475:34)
+    at Object.worker (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/testWorker.js:133:12)"
+`;
+
+exports[`error.ts InternalDTSError 1`] = `
+"[31m[1mbundleless DTS failed:[22m[39m
+Error: hello world
+    at Object.<anonymous> (/Users/bytedance/github/targeral/modern-dev/packages/solutions/module-tools-v2/tests/error.test.ts:34:19)
+    at Promise.then.completed (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:218:40)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at _runTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:60:9)
+    at run (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:475:34)
+    at Object.worker (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/testWorker.js:133:12)"
+`;
+
+exports[`error.ts ModuleBuildError 1`] = `
+"ModuleBuildError: 
+
+[31m[1mbundle DTS failed:[22m[39m
+Error: helle world
+    at Object.<anonymous> (/Users/bytedance/github/targeral/modern-dev/packages/solutions/module-tools-v2/tests/error.test.ts:87:28)
+    at Promise.then.completed (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:218:40)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at _runTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:60:9)
+    at run (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:475:34)
+    at Object.worker (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/testWorker.js:133:12)"
+`;
+
+exports[`error.ts execaError 1`] = `
+"[31m[1mbundleless DTS failed:[22m[39m
+Error: hello world
+    at Object.<anonymous> (/Users/bytedance/github/targeral/modern-dev/packages/solutions/module-tools-v2/tests/error.test.ts:48:19)
+    at Promise.then.completed (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:218:40)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at _runTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:60:9)
+    at run (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:475:34)
+    at Object.worker (/Users/bytedance/github/targeral/modern-dev/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/testWorker.js:133:12)"
+`;

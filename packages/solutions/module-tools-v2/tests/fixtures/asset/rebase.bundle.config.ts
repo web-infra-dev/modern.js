@@ -5,7 +5,7 @@ export default defineConfig({
     buildType: 'bundle',
     asset: {
       path: './asset',
-      rebase: true,
+      rebase: false,
       publicPath: 'xxx://yyy',
     },
     path: './dist/bundle',
