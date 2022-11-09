@@ -18,6 +18,7 @@ export const awaitablePlugins = (
 
 export const applyMinimalPlugins = () =>
   awaitablePlugins([
+    import('../plugins/fileSize').then(m => m.PluginFileSize()),
     import('../plugins/css').then(m => m.PluginCss()),
     import('../plugins/define').then(m => m.PluginDefine()),
     import('../plugins/entry').then(m => m.PluginEntry()),

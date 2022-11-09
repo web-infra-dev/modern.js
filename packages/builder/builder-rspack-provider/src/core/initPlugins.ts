@@ -33,7 +33,7 @@ export async function initPlugins({
 
     // Hooks
     onExit: hooks.onExitHook.tap,
-    // onAfterBuild: hooks.onAfterBuildHook.tap,
+    onAfterBuild: hooks.onAfterBuildHook.tap,
     onBeforeBuild: hooks.onBeforeBuildHook.tap,
     onDevCompileDone: hooks.onDevCompileDoneHook.tap,
     modifyRspackConfig: hooks.modifyRspackConfigHook.tap,

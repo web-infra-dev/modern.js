@@ -2,6 +2,7 @@ import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
 import type { RspackConfig } from './thirdParty';
 import type { ChainIdentifier } from '@modern-js/utils';
+import { Stats } from '@rspack/core/dist/stats';
 
 export type ModifyRspackUtils = {
   env: NodeEnv;
@@ -25,9 +26,10 @@ export type OnBeforeBuildFn = (params: {
   bundlerConfigs: RspackConfig[];
 }) => Promise<void> | void;
 
-// export type OnAfterBuildFn = (params: {
-//   stats?: Stats | MultiStats;
-// }) => Promise<void> | void;
+export type OnAfterBuildFn = (params: {
+  // todo: MultiStats
+  stats?: Stats;
+}) => Promise<void> | void;
 
 export type OnDevCompileDoneFn = (params: {
   isFirstCompile: boolean;

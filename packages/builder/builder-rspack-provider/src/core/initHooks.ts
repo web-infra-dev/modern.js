@@ -2,6 +2,7 @@ import { createAsyncHook } from '@modern-js/builder-shared';
 import type {
   OnExitFn,
   OnBeforeBuildFn,
+  OnAfterBuildFn,
   OnDevCompileDoneFn,
   ModifyBuilderConfigFn,
   ModifyRspackConfigFn,
@@ -13,6 +14,7 @@ import type {
 export function initHooks() {
   return {
     onExitHook: createAsyncHook<OnExitFn>(),
+    onAfterBuildHook: createAsyncHook<OnAfterBuildFn>(),
     onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn>(),
     onDevCompileDoneHook: createAsyncHook<OnDevCompileDoneFn>(),
     modifyRspackConfigHook: createAsyncHook<ModifyRspackConfigFn>(),

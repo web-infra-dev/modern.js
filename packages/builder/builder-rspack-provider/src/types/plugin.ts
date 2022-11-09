@@ -6,7 +6,7 @@ import type {
 import type { BuilderConfig, NormalizedConfig } from './config';
 import type {
   OnExitFn,
-  // OnAfterBuildFn,
+  OnAfterBuildFn,
   OnBeforeBuildFn,
   OnDevCompileDoneFn,
   ModifyRspackConfigFn,
@@ -25,7 +25,7 @@ export type BuilderPluginAPI = {
 
   // Hooks
   onExit: (fn: OnExitFn) => void;
-  // onAfterBuild: (fn: OnAfterBuildFn) => void;
+  onAfterBuild: (fn: OnAfterBuildFn) => void;
   onBeforeBuild: (fn: OnBeforeBuildFn) => void;
   onDevCompileDone: (fn: OnDevCompileDoneFn) => void;
   // onAfterCreateCompiler: (fn: OnAfterCreateCompilerFn) => void;
