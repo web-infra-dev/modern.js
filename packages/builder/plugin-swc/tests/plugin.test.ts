@@ -1,6 +1,16 @@
+import * as path from 'path';
 import { expect, describe, it } from 'vitest';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
 import { PluginSwc } from '../src';
+import { createSnapshotSerializer } from '@scripts/vitest-config';
+
+expect.addSnapshotSerializer(
+  createSnapshotSerializer({
+    replace: [
+      { mark: 'root', match: path.resolve(__dirname, '..') },
+    ],
+  }),
+);
 
 describe('plugins/swc', () => {
   it('should set swc-loader', async () => {
