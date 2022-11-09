@@ -84,10 +84,11 @@ export const createDefaultConfig = () =>
     security: { sri: false },
     experiments: {},
     performance: {
-      removeConsole: false,
-      removeMomentLocale: false,
       profile: false,
       buildCache: true,
+      printFileSize: true,
+      removeConsole: false,
+      removeMomentLocale: false,
       chunkSplit: {
         strategy: 'split-by-experience',
       },

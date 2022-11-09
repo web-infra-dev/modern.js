@@ -4,7 +4,7 @@
 
 Refers to module bundlers such as `webpack` and `rspack`.
 
-When Bundler processes the JavaScript application, it builds a dependency graph and then combines every module into one or more bundles.
+When Bundler processes the Web application, it builds a dependency graph and then combines every module into one or more bundles.
 
 ## Rspack
 

@@ -170,12 +170,11 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
     "dev": "tsc --watch",
-    "build": "wireit",
-    "test": "wireit"
+    "build": "tsc",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001332",
@@ -191,28 +190,5 @@
     "jest": "^27",
     "webpack": "^5.74.0"
   },
-  "sideEffects": false,
-  "wireit": {
-    "build": {
-      "command": "tsc",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
-  }
+  "sideEffects": false
 }

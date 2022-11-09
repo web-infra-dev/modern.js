@@ -18,11 +18,20 @@ export async function initPlugins({
   const { hooks } = context;
   const publicContext = createPublicContext(context);
 
-  const getBuilderConfig = () => context.config;
+  const getBuilderConfig = () => {
+    if (!context.normalizedConfig) {
+      throw new Error(
+        'Cannot access builder config until modifyBuilderConfig is called.',
+      );
+    }
+    return context.config;
+  };
 
   const getNormalizedConfig = () => {
     if (!context.normalizedConfig) {
-      throw new Error('Normalized config is not ready.');
+      throw new Error(
+        'Cannot access normalized config until modifyBuilderConfig is called.',
+      );
     }
     return context.normalizedConfig;
   };
