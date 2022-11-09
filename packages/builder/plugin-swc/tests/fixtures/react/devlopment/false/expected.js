@@ -1,25 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-Object.defineProperty(exports, "App", {
-    enumerable: true,
-    get: function() {
-        return App;
-    }
-});
-var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _slicedToArray = require("@swc/helpers/lib/_sliced_to_array.js").default;
-var _jsxRuntime = require("react/jsx-runtime");
-var _react = /*#__PURE__*/ _interopRequireWildcard(require("react"));
-var App = function() {
-    var ref = _slicedToArray((0, _react.useState)(0), 2), count = ref[0], setCount = ref[1];
-    return /*#__PURE__*/ (0, _jsxRuntime.jsxs)("div", {
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import React, { useState } from "react";
+export var App = function() {
+    var ref = _sliced_to_array(useState(0), 2), count = ref[0], setCount = ref[1];
+    return /*#__PURE__*/ _jsxs("div", {
         children: [
             "Hello World. ",
             count,
             " ",
-            /*#__PURE__*/ (0, _jsxRuntime.jsx)("button", {
+            /*#__PURE__*/ _jsx("button", {
                 onClick: function() {
                     return setCount(function(c) {
                         return c + 1;

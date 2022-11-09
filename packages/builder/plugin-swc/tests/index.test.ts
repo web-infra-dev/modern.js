@@ -129,6 +129,10 @@ describe('fixtures', () => {
   it('lock_corejs_version', async () => {
     await normalFsSnapshot('fixtures/corejs-version');
   });
+
+  it('compat', async () => {
+    await normalFsSnapshot('fixtures/compat');
+  });
 });
 
 async function normalFsSnapshot(name: string) {

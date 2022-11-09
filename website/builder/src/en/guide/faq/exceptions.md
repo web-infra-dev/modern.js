@@ -187,10 +187,10 @@ The built-in Less version of Builder is v4, and the writing method of the lower 
 
 The writing of division in Less can also be modified through configuration items, see [Less - Math](https://lesscss.org/usage/#less-options-math).
 
-## Compile error ‘TypeError: Cannot delete property 'xxx' of #<Object>’
+## Compile error ‘TypeError: Cannot delete property 'xxx' of #\<Object\>’
 
 This error indicates that a read-only configuration item was deleted during the compilation process. Normally, we do not want any operation to directly modify the incoming configuration when compiling, but it is difficult to restrict the behavior of underlying plugins (such as postcss-loader, etc). If this error occurs, please contact the builder developer and we will need to do something special with that configuration.
 
 The same type of error is also reported:
 - 'TypeError: Cannot add property xxx, object is not extensible'
-- 'TypeError: Cannot assign to read only property 'xxx' of object '#<Object>'
+- 'TypeError: Cannot assign to read only property 'xxx' of object '#\<Object\>'
