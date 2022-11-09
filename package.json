@@ -23,7 +23,6 @@
     "fast-lint": "sh -x ./fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
     "prepare": "turbo run build --filter './packages/**' --cache-dir=.turbo && husky install",
-    "preinstall": "only-allow-pnpm",
     "lint": "npm run fast-lint",
     "change": "modern change",
     "clear": "modern clear",

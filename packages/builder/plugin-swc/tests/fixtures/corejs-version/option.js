@@ -1,7 +1,8 @@
 module.exports =  {
   extensions: {
     lockCorejsVersion: {
-      corejsPath: 'demo/core-js'
+      corejs: 'demo/core-js',
+      swcHelpers: '@swc/helpers'
     }
   }
 }

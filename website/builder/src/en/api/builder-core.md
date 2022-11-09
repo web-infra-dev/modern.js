@@ -74,28 +74,9 @@ Description:
 
 - `cwd`: The root path of the current build, the default value is `process.cwd()`.
 - `entry`: Build entry object.
-- `target`: Build target type, the default value is `['web']`.
+- `target`: Build target type, the default value is `['web']`, see chapter [Build Target](/guide/basic/build-target.html) for details.
 - `framework`: The name of the framework, a unique identifier, the default value is `'modern.js'`.
 - `configPath`: The path to the framework config file (absolute path), this parameter affects the build cache update.
-
-#### Target Type
-
-`target` can be set to the following values:
-
-- `web`: Build for browsers.
-- `modern-web`: Build for modern browsers.
-- `node`: Build for SSR scenarios.
-- `web-worker`：Build for Web Worker.
-
-When target is an array containing multiple values, Builder will perform multiple builds at the same time.
-
-For example, we can build a browser target and an node target at the same time:
-
-```ts
-const builder = await createBuilder(provider, {
-  target: ['web', 'node'],
-});
-```
 
 ## mergeBuilderConfig
 

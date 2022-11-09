@@ -18,5 +18,5 @@ export default {
 After recompiling, the following tags are automatically generated in the HTML:
 
 ```html
-<link rel="app-touch-icon" sizes="180*180" href="/icon.png" />
+<link rel="app-touch-icon" sizes="180*180" href="/static/image/icon.png" />
 ```

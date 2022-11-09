@@ -45,6 +45,20 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       },
       {
         collapsable: false,
+        title: getText('基础', 'Basic'),
+        children: [
+          getLink('/guide/basic/build-target'),
+        ],
+      },
+      {
+        collapsable: false,
+        title: getText('进阶', 'Advanced'),
+        children: [
+          getLink('/guide/advanced/build-performance'),
+        ],
+      },
+      {
+        collapsable: false,
         title: getText('插件', 'Plugin'),
         children: [
           getLink('/guide/plugin/introduction'),

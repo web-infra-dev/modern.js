@@ -56,6 +56,15 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
         );
       }
 
+      // eslint-disable-next-line no-multi-assign
+      const extensions = (userSwcConfig.extensions =
+        userSwcConfig.extensions || {});
+
+      extensions.lockCorejsVersion = {
+        corejs: path.dirname(require.resolve('core-js/package.json')),
+        swcHelpers: path.dirname(require.resolve('@swc/helpers/package.json')),
+      };
+
       // Insert swc loader and plugin
       chain.module
         .rule(CHAIN_ID.RULE.JS)
@@ -80,7 +89,6 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
         // @ts-expect-error webpack-chain missing minimizers type
         chain.optimization.minimizers
           .delete(CHAIN_ID.MINIMIZER.JS)
-          .delete(CHAIN_ID.MINIMIZER.CSS)
           .end()
           .minimizer(CHAIN_ID.MINIMIZER.SWC)
           .use(SwcWebpackPlugin, [userSwcConfig]);

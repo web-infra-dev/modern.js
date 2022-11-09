@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "@e2e/webpack-builder-app-icon",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "node ./scripts/dev.js",
+    "build": "node ./scripts/build.js",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@modern-js/e2e": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@types/node": "^14",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^4"
+  }
+}

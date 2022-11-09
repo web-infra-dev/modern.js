@@ -222,10 +222,13 @@ importers:
     specifiers:
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/swc-plugins': 0.0.2
+      '@modern-js/swc-plugins': 0.0.5
       '@modern-js/utils': workspace:*
+      '@scripts/vitest-config': workspace:*
       '@swc/cli': ^0.1.57
       '@swc/core': 1.2.248
+      '@swc/helpers': 0.4.12
+      core-js: ^3.25.0
       magic-string: ^0.26.2
       source-map: ^0.7.4
       typescript: ^4
@@ -234,10 +237,13 @@ importers:
       webpack: ^5.74.0
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
-      '@modern-js/swc-plugins': 0.0.2
+      '@modern-js/swc-plugins': 0.0.5
       '@modern-js/utils': link:../../toolkit/utils
+      '@swc/helpers': 0.4.12
+      core-js: 3.26.0
     devDependencies:
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
+      '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@swc/cli': 0.1.57_@swc+core@1.2.248
       '@swc/core': 1.2.248
       magic-string: 0.26.2
@@ -3519,12 +3525,10 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      got: ^11.8.3
       react: ^17.0.1
       react-dom: ^17.0.1
       typescript: ^4
     dependencies:
-      got: 11.8.5
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     devDependencies:
@@ -3570,6 +3574,29 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.7.4
 
+  tests/e2e/webpack-builder/app-icon:
+    specifiers:
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@types/node': 14.18.21
+      '@types/react': 18.0.25
+      '@types/react-dom': 18.0.6
+      typescript: 4.7.4
+
   tests/e2e/webpack-builder/basic:
     specifiers:
       '@modern-js/builder-webpack-provider': workspace:*
@@ -3577,12 +3604,10 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      got: ^11.8.3
       react: ^18
       react-dom: ^18
       typescript: ^4
     dependencies:
-      got: 11.8.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -3601,12 +3626,10 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      got: ^11.8.3
       react: ^18.0.2
       react-dom: ^18.0.2
       typescript: ^4
     dependencies:
-      got: 11.8.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -3626,12 +3649,10 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      got: ^11.8.3
       react: ^18.0.2
       react-dom: ^18.0.2
       typescript: ^4
     dependencies:
-      got: 11.8.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -3651,12 +3672,10 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      got: ^11.8.3
       react: ^18.0.2
       react-dom: ^18.0.2
       typescript: ^4
     dependencies:
-      got: 11.8.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -3676,12 +3695,10 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      got: ^11.8.3
       react: ^18
       react-dom: ^18
       typescript: ^4
     dependencies:
-      got: 11.8.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -3701,12 +3718,10 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      got: ^11.8.3
       react: ^18.0.2
       react-dom: ^18.0.2
       typescript: ^4
     dependencies:
-      got: 11.8.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -3727,12 +3742,10 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      got: ^11.8.3
       react: ^18
       react-dom: ^18
       typescript: ^4
     dependencies:
-      got: 11.8.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -4755,6 +4768,8 @@ importers:
       '@modern-js/builder-plugin-esbuild': workspace:*
       '@modern-js/builder-plugin-swc': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
+      '@swc/cli': ^0.1.57
+      '@swc/core': 1.2.248
       '@swc/helpers': 0.4.12
       '@types/node': ^14
       '@types/react': ^18
@@ -4768,6 +4783,8 @@ importers:
       '@modern-js/builder-plugin-esbuild': link:../../../packages/builder/plugin-esbuild
       '@modern-js/builder-plugin-swc': link:../../../packages/builder/plugin-swc
       '@modern-js/builder-webpack-provider': link:../../../packages/builder/builder-webpack-provider
+      '@swc/cli': 0.1.57_@swc+core@1.2.248
+      '@swc/core': 1.2.248
       '@swc/helpers': 0.4.12
       core-js: 3.26.0
       react: 18.2.0
@@ -8598,7 +8615,7 @@ packages:
       '@docusaurus/react-loadable': 5.5.2_react@18.2.0
       '@docusaurus/types': 2.1.0_biqbaboplfbrettd7655fr4n2y
       '@types/history': 4.7.11
-      '@types/react': 18.0.21
+      '@types/react': 18.0.25
       '@types/react-router-config': 5.0.6
       '@types/react-router-dom': 5.3.3
       react: 18.2.0
@@ -8620,7 +8637,7 @@ packages:
       '@docusaurus/react-loadable': 5.5.2_react@18.2.0
       '@docusaurus/types': 2.2.0_biqbaboplfbrettd7655fr4n2y
       '@types/history': 4.7.11
-      '@types/react': 18.0.21
+      '@types/react': 18.0.25
       '@types/react-router-config': 5.0.6
       '@types/react-router-dom': 5.3.3
       react: 18.2.0
@@ -9064,7 +9081,7 @@ packages:
       '@docusaurus/plugin-content-pages': 2.2.0_xrxvbtylmve4l2tr3vmmqgfp7q
       '@docusaurus/utils': 2.2.0_@docusaurus+types@2.2.0
       '@types/history': 4.7.11
-      '@types/react': 18.0.21
+      '@types/react': 18.0.25
       '@types/react-router-config': 5.0.6
       clsx: 1.2.1
       parse-numeric-range: 1.3.0
@@ -9104,7 +9121,7 @@ packages:
       '@docusaurus/plugin-content-pages': 2.2.0_xrxvbtylmve4l2tr3vmmqgfp7q
       '@docusaurus/utils': 2.2.0
       '@types/history': 4.7.11
-      '@types/react': 18.0.21
+      '@types/react': 18.0.25
       '@types/react-router-config': 5.0.6
       clsx: 1.2.1
       parse-numeric-range: 1.3.0
@@ -9241,7 +9258,7 @@ packages:
       react-dom: ^16.8.4 || ^17.0.0
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.0.21
+      '@types/react': 18.0.25
       commander: 5.1.0
       joi: 17.6.0
       react: 18.2.0
@@ -9263,7 +9280,7 @@ packages:
       react-dom: ^16.8.4 || ^17.0.0
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.0.21
+      '@types/react': 18.0.25
       commander: 5.1.0
       joi: 17.6.0
       react: 18.2.0
@@ -10686,8 +10703,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/swc-plugins-darwin-arm64/0.0.2:
-    resolution: {integrity: sha512-WRKMOG78qp8GtM4qObtHHtNbvZm2rjnBp0pKNTJLjoG3b15vUn3w/pBx9K001cOAn5GGBFfEVZnUFXbyiWFx/A==}
+  /@modern-js/swc-plugins-darwin-arm64/0.0.5:
+    resolution: {integrity: sha512-/+Y6OxfSEGyymja8MSBm5zC3DFsh8hpHe8N4KYHbOKV7YDEWHHUpCZc2Uzs/DB0h5K0WD0cqP3eGMJng5uCNnw==}
     engines: {node: '>= 14'}
     cpu: [arm64]
     os: [darwin]
@@ -10695,8 +10712,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-darwin-x64/0.0.2:
-    resolution: {integrity: sha512-mHK6fS529W4F8R4vxiX8i/5KZUdmAVwwTlhVThD2Fb6sJu62GAFLvsQzJ2/qKQoZbArQuSMKUdQKMXsP5chkMw==}
+  /@modern-js/swc-plugins-darwin-x64/0.0.5:
+    resolution: {integrity: sha512-Jp16VryQ39PNAHfkDk6mIxrWZiuPmgysUfG/PaDEDAmK9Pl9d0IJG19yiuxw6GXYX0ZCiB01w76VcfRt69WABg==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [darwin]
@@ -10704,19 +10721,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-freebsd-x64/0.0.2:
-    resolution: {integrity: sha512-AUxGz17f3/bJ3PaO/RdJF5YFkcriudqlkN2biYjD0vmnsOOaT+dCfc9Ms8yEkXrHYzkndhCyNMSjORmYsvaYbg==}
-    engines: {node: '>=14.17.6'}
-    requiresBuild: true
-    peerDependencies:
-      react: ^17
-    dependencies:
-      '@babel/runtime': 7.18.6
-    dev: false
-    optional: true
-
-  /@modern-js/swc-plugins-linux-arm-gnueabihf/0.0.2:
-    resolution: {integrity: sha512-oHBungTNKvHBYOyDPKZrWNOoNszb3+3pvmgcZxBH1PSni192tM1VLkJgusH1yE1W3SITFd/832SubzEzGYWuZA==}
+  /@modern-js/swc-plugins-linux-arm-gnueabihf/0.0.5:
+    resolution: {integrity: sha512-E4yTSwlJL2v2neFefkGXATmzKJ02OTY+YA6J8w8m2pFwBZtq9rBDbzQ/HA1Yxa5htlAv4Nm7C4obi+uRTr2Njw==}
     engines: {node: '>= 14.18'}
     cpu: [arm]
     os: [linux]
@@ -10724,8 +10730,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-gnu/0.0.2:
-    resolution: {integrity: sha512-ntOBnBRw6JAZTUf5wdhgIu0e1NieZmBpUFuQZNs7ldwkF+zx8bCY+7gBXU/H/VKrv61+uoaR9X6eol8IfXupfg==}
+  /@modern-js/swc-plugins-linux-arm64-gnu/0.0.5:
+    resolution: {integrity: sha512-zuFUk6y/D0f0zkogpdrMpX9wv67MEN9BCehTT2rtrVkiR2UM9yHAjyc14crEOAWst4URN+r8+Qb8ez7YfjyKZg==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [linux]
@@ -10733,8 +10739,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-musl/0.0.2:
-    resolution: {integrity: sha512-Nk4JWX+b1ulH8YnHcEV/ozDrxyTd/KrOdRIevhZP+QXrs35/gRM5YhTTID7IAb/8vyP2haGSvlyKoDOITaWbdA==}
+  /@modern-js/swc-plugins-linux-arm64-musl/0.0.5:
+    resolution: {integrity: sha512-qLy5PtnBSaHVv37I3iLCkgrVSQfVoWYMtviUo1yNWdt6gTPkB9WMTAiwAEJQfsXMnkJwvdS2EctOy97WxapfVA==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [linux]
@@ -10742,8 +10748,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-gnu/0.0.2:
-    resolution: {integrity: sha512-LgsaRqP82yCyEeBzRVJJIQF3A1TuP1uXLSFTqRNl23QgJVXxTC/uykqIVGdrVC4TY7W63JsJwN3cDVnHBdetHQ==}
+  /@modern-js/swc-plugins-linux-x64-gnu/0.0.5:
+    resolution: {integrity: sha512-Xoqb2rMLwkz0j1rH/d8EEvdEHY0uo+cevjyQIn9sm0/5Nj5MFZT20ZTDP+0rfZaeM0D/WVnBp9hcLAj8pKg9Cw==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [linux]
@@ -10751,8 +10757,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-musl/0.0.2:
-    resolution: {integrity: sha512-PPrFvrUcX/k+rpYgnyhEbGthcDqUfjuQ2vaz1a5XnXulEKOfDA4KxsqIAXJdaFTTxqpvi0EwL5m6SfXj+NizMw==}
+  /@modern-js/swc-plugins-linux-x64-musl/0.0.5:
+    resolution: {integrity: sha512-XPU5R7vQNARghl73JK1f6wgatVYRCJkRcRFnneG0JtW+1gPPEHBz8kurVe9ZaZRgBp6j+jjSW3uXU0Wh+B7QRQ==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [linux]
@@ -10760,8 +10766,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-arm64-msvc/0.0.2:
-    resolution: {integrity: sha512-ARv92adp9Lt+dhPhcb46cga8e2zzC5CHebChZa6Owb4xOUNmwFfLApVqEg2DDG5qoHoxSeaZcVQHqGYFnkTadg==}
+  /@modern-js/swc-plugins-win32-arm64-msvc/0.0.5:
+    resolution: {integrity: sha512-2Wac+NfuiM1r+2kP+fBt4m5ATV4VLRkjhLZIzGg0f85Q/m+AdPOc4dgmqXEYVAnZ7agYGCt3jg2SurFeU2+hMw==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [win32]
@@ -10769,8 +10775,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-ia32-msvc/0.0.2:
-    resolution: {integrity: sha512-4aMbdzPmBmBkB6uCx8fi8Crj+zp/IFAiYPlQD5whuxvbqvGn18m2JYHVF0y97QJYb7h+hAjBcm5WyfLhrxEJgA==}
+  /@modern-js/swc-plugins-win32-ia32-msvc/0.0.5:
+    resolution: {integrity: sha512-FASaEvGaKX0gLjGuv2VPXEGirhrQGDbflVjczuqKbwZI2xyPnMOahNRQCIEcdWlLFJL7s9leBL3CXtDKv3JS0Q==}
     engines: {node: '>= 14.18'}
     cpu: [ia32]
     os: [win32]
@@ -10778,8 +10784,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-x64-msvc/0.0.2:
-    resolution: {integrity: sha512-cH+fUY9XkKUiLf7HZKCXC7aJ0DI9pnGVMoViXUTOA7kOy7vDXvfop+27NFGzUMgzyme9DmHpQjwJQZT/6h2wdA==}
+  /@modern-js/swc-plugins-win32-x64-msvc/0.0.5:
+    resolution: {integrity: sha512-J8nhiVswmXEoLMl0WcAs0LcslEZGKfm/5vN/Xq+r7s/Br0+BKlRWG9Di3BcX2WSpojhwcX4zuB8FsuYKK/vo0g==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [win32]
@@ -10787,23 +10793,20 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins/0.0.2:
-    resolution: {integrity: sha512-iab8Gyf64polbu3x2b+Y7rTEXZsB6HP1AExM0moP7MMYjFdfWoSuhIolPANdiSRLzrVLUVaSmI0bUXQJTTF/Kw==}
+  /@modern-js/swc-plugins/0.0.5:
+    resolution: {integrity: sha512-zuL6d1uaEJd9YUiGefyGwFOTH3IIRBY3EkqwyX4PJytDBCZ401eyS6tgdlwu4hrYgmxal9jdPsI1qL1QmMbC6A==}
     engines: {node: '>=14.18.0'}
     optionalDependencies:
-      '@modern-js/swc-plugins-darwin-arm64': 0.0.2
-      '@modern-js/swc-plugins-darwin-x64': 0.0.2
-      '@modern-js/swc-plugins-freebsd-x64': 0.0.2
-      '@modern-js/swc-plugins-linux-arm-gnueabihf': 0.0.2
-      '@modern-js/swc-plugins-linux-arm64-gnu': 0.0.2
-      '@modern-js/swc-plugins-linux-arm64-musl': 0.0.2
-      '@modern-js/swc-plugins-linux-x64-gnu': 0.0.2
-      '@modern-js/swc-plugins-linux-x64-musl': 0.0.2
-      '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.2
-      '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.2
-      '@modern-js/swc-plugins-win32-x64-msvc': 0.0.2
-    transitivePeerDependencies:
-      - react
+      '@modern-js/swc-plugins-darwin-arm64': 0.0.5
+      '@modern-js/swc-plugins-darwin-x64': 0.0.5
+      '@modern-js/swc-plugins-linux-arm-gnueabihf': 0.0.5
+      '@modern-js/swc-plugins-linux-arm64-gnu': 0.0.5
+      '@modern-js/swc-plugins-linux-arm64-musl': 0.0.5
+      '@modern-js/swc-plugins-linux-x64-gnu': 0.0.5
+      '@modern-js/swc-plugins-linux-x64-musl': 0.0.5
+      '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.5
+      '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.5
+      '@modern-js/swc-plugins-win32-x64-msvc': 0.0.5
     dev: false
 
   /@modern-js/utils/1.20.1:
@@ -14048,7 +14051,6 @@ packages:
       fast-glob: 3.2.11
       slash: 3.0.0
       source-map: 0.7.4
-    dev: true
 
   /@swc/core-android-arm-eabi/1.2.220:
     resolution: {integrity: sha512-WjjQi9nEZNYeRcLbPBRSnP8PH+UlAxbEJ1SPOGSeBXhjxVYVoBfW98RdqeTBr5BRQ+6FSSD4PPvLPIp5jDn7WQ==}
@@ -14067,7 +14069,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.122
-    dev: true
     optional: true
 
   /@swc/core-android-arm64/1.2.220:
@@ -14087,7 +14088,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-darwin-arm64/1.2.220:
@@ -14105,7 +14105,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-darwin-x64/1.2.220:
@@ -14123,7 +14122,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-freebsd-x64/1.2.220:
@@ -14143,7 +14141,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-linux-arm-gnueabihf/1.2.220:
@@ -14163,7 +14160,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-linux-arm64-gnu/1.2.220:
@@ -14181,7 +14177,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-arm64-musl/1.2.220:
@@ -14199,7 +14194,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-x64-gnu/1.2.220:
@@ -14217,7 +14211,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-x64-musl/1.2.220:
@@ -14235,7 +14228,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-win32-arm64-msvc/1.2.220:
@@ -14255,7 +14247,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-win32-ia32-msvc/1.2.220:
@@ -14275,7 +14266,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@swc/wasm': 1.2.130
-    dev: true
     optional: true
 
   /@swc/core-win32-x64-msvc/1.2.220:
@@ -14293,7 +14283,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core/1.2.220:
@@ -14336,7 +14325,6 @@ packages:
       '@swc/core-win32-arm64-msvc': 1.2.248
       '@swc/core-win32-ia32-msvc': 1.2.248
       '@swc/core-win32-x64-msvc': 1.2.248
-    dev: true
 
   /@swc/helpers/0.4.12:
     resolution: {integrity: sha512-R6RmwS9Dld5lNvwKlPn62+piU+WDG1sMfsnfJioXCciyko/gZ0DQ4Mqglhq1iGU1nQ/RcGkAwfMH+elMSkJH3Q==}
@@ -14357,13 +14345,11 @@ packages:
   /@swc/wasm/1.2.122:
     resolution: {integrity: sha512-sM1VCWQxmNhFtdxME+8UXNyPNhxNu7zdb6ikWpz0YKAQQFRGT5ThZgJrubEpah335SUToNg8pkdDF7ibVCjxbQ==}
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/wasm/1.2.130:
     resolution: {integrity: sha512-rNcJsBxS70+pv8YUWwf5fRlWX6JoY/HJc25HD/F8m6Kv7XhJdqPPMhyX6TKkUBPAG7TWlZYoxa+rHAjPy4Cj3Q==}
     requiresBuild: true
-    dev: true
     optional: true
 
   /@szmarczak/http-timer/1.1.2:
@@ -15062,7 +15048,7 @@ packages:
   /@types/react-dom/18.0.6:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
-      '@types/react': 18.0.21
+      '@types/react': 18.0.25
 
   /@types/react-helmet/6.1.5:
     resolution: {integrity: sha512-/ICuy7OHZxR0YCAZLNg9r7I9aijWUWvxaPR6uTuyxe8tAj5RL4Sw1+R6NhXUtOsarkGYPmaHdBDvuXh2DIN/uA==}
@@ -15081,7 +15067,7 @@ packages:
     resolution: {integrity: sha512-db1mx37a1EJDf1XeX8jJN7R3PZABmJQXR8r28yUjVMFSjkmnQo6X6pOEEmNl+Tp2gYQOGPdYbFIipBtdElZ3Yg==}
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.0.21
+      '@types/react': 18.0.25
       '@types/react-router': 5.1.18
 
   /@types/react-router-dom/5.3.3:
@@ -16425,10 +16411,8 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -20251,7 +20235,6 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
-    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -23529,7 +23512,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.4_supports-color@6.1.0
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -33469,7 +33452,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
@@ -34829,7 +34812,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
-    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
