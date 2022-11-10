@@ -2,8 +2,8 @@ import { dirname, isAbsolute, posix, sep } from 'path';
 import { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
-  applyOptionsChain,
   globby,
+  mergeAlias,
   findMonorepoRoot,
   isModernjsMonorepo,
 } from '@modern-js/utils';
@@ -24,11 +24,10 @@ export function createSourceConfig(
 
   const builderModuleScope = createBuilderModuleScope(moduleScopes);
 
-  const builderAlias = createBuilderAlias(alias, appContext);
   const builderInclude = createBuilderInclude(include, appContext);
 
   return {
-    alias: builderAlias,
+    alias: mergeAlias(alias),
     moduleScopes: builderModuleScope,
     globalVars: builderGlobalVars,
     include: builderInclude,
@@ -36,22 +35,6 @@ export function createSourceConfig(
     // ensure resolve.extensions same as before
     resolveExtensionPrefix: '.web',
   };
-}
-
-export function createBuilderAlias(
-  alias: NormalizedConfig['source']['alias'],
-  appContext: IAppContext,
-) {
-  // the `Type` only use here.
-  type Alias = Record<string, string> | (() => Record<string, string>);
-  const defaultAlias: Alias = {
-    [appContext.internalDirAlias]: appContext.internalDirectory,
-    [appContext.internalSrcAlias]: appContext.srcDirectory,
-    '@': appContext.srcDirectory,
-    '@shared': appContext.sharedDirectory,
-  };
-
-  return applyOptionsChain<Alias, unknown>(defaultAlias, alias as Alias);
 }
 
 export function createBuilderInclude(
