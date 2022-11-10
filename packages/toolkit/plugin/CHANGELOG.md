@@ -1,5 +1,7 @@
 # @modern-js/plugin
 
+## 1.21.3
+
 ## 1.21.2
 
 ### Patch Changes
