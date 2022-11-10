@@ -73,7 +73,6 @@ async function applyAlias({
 
     chain.resolve.alias.set(
       name,
-      // @ts-expect-error webpack chain alias type is outdated
       formattedValues.length === 1 ? formattedValues[0] : formattedValues,
     );
   });

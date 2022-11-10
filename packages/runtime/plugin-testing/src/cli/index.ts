@@ -1,8 +1,9 @@
 import path from 'path';
 import {
+  isApiOnly,
+  mergeAlias,
   PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
-  isApiOnly,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import {
@@ -86,21 +87,13 @@ export default (): CliPlugin => {
             return next(utils);
           }
 
-          // TODO get alias from builder
-          // const webpackConfig = getWebpackConfig(
-          //   WebpackConfigTarget.CLIENT,
-          //   appContext,
-          //   userConfig,
-          // );
-          // const {
-          //   resolve: { alias = {} },
-          // } = webpackConfig;
+          const alias = mergeAlias(userConfig.source.alias);
 
-          // TODO: remove
-          const alias = {
-            '@': [path.join(appContext.appDirectory, 'src')],
-            '@modern-js/runtime/testing': [testingExportsUtils.getPath()],
-          };
+          if (testingExportsUtils) {
+            alias['@modern-js/runtime/testing'] = [
+              testingExportsUtils.getPath(),
+            ];
+          }
 
           utils.mergeJestConfig({
             globals: {

@@ -26,7 +26,7 @@ test('should emit app icon to dist path', async () => {
   );
 });
 
-test('should apploy asset prefix to app icon URL', async () => {
+test('should apply asset prefix to app icon URL', async () => {
   const builder = await createStubBuilder({
     webpack: true,
     entry: { index: path.resolve('./src/index.js') },

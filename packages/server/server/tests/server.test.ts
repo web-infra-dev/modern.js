@@ -1,6 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
-import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
+import { getDefaultConfig, NormalizedConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
 import { AGGRED_DIR } from '@modern-js/prod-server';
 import createServer, { Server } from '../src';
@@ -24,7 +24,7 @@ describe('test dev server', () => {
   test('shoule get modern server instance', async () => {
     const server = await createServer({
       config: {
-        ...defaultsConfig,
+        ...getDefaultConfig(),
         tools: {
           devServer: {
             proxy: {
@@ -44,7 +44,7 @@ describe('test dev server', () => {
   describe('shoule get dev modern server instance', () => {
     test('should init server correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler: null as any,
@@ -64,7 +64,7 @@ describe('test dev server', () => {
       expect(pwd).toBe(appDirectory);
       expect(distDir).toBe(path.join(appDirectory, 'dist'));
       expect(workDir).toBe(appDirectory);
-      expect(conf).toStrictEqual(defaultsConfig);
+      expect(conf).toStrictEqual(getDefaultConfig());
       expect(handlers).toBeDefined();
       expect(isDev).toBeFalsy();
       expect(staticGenerate).toBeFalsy();
@@ -74,7 +74,7 @@ describe('test dev server', () => {
 
     test('should add handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler: null as any,
@@ -110,7 +110,7 @@ describe('test dev server', () => {
 
     test('should get request handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler: null as any,
@@ -124,7 +124,7 @@ describe('test dev server', () => {
 
     test('should get request handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler: null as any,
@@ -138,7 +138,7 @@ describe('test dev server', () => {
 
     test('should invoke onrepack correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler: null as any,
@@ -153,7 +153,7 @@ describe('test dev server', () => {
 
     test('should invoke onserver change correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler: null as any,
@@ -175,7 +175,7 @@ describe('test dev server', () => {
     test('should compiler work correctly', async () => {
       const compiler = webpack({});
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler,
@@ -188,7 +188,7 @@ describe('test dev server', () => {
     test('should multi compiler work correctly', async () => {
       const compiler = webpack([{}, { name: 'client' }]);
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler,
@@ -200,7 +200,7 @@ describe('test dev server', () => {
 
     test('should watcher work well', async () => {
       const devServer = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler: null as any,
