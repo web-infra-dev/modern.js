@@ -146,9 +146,9 @@ export const generateCode = async (
   const { mountId } = config.output;
   const getRoutes = islegacy ? getClientRoutesLegacy : getClientRoutes;
 
-  await Promise.all(entrypoints.map(generateRouteCode));
+  await Promise.all(entrypoints.map(generateEntryCode));
 
-  async function generateRouteCode(entrypoint: Entrypoint) {
+  async function generateEntryCode(entrypoint: Entrypoint) {
     const { entryName, isAutoMount, customBootstrap, fileSystemRoutes } =
       entrypoint;
     if (isAutoMount) {
