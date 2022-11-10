@@ -35,7 +35,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
     [getLink('/guide/')]: [
       {
         collapsable: false,
-        title: getText('开始', 'Start'),
+        title: getText('开始', 'Getting Started'),
         children: [
           getLink('/guide/introduction'),
           getLink('/guide/quick-start'),
@@ -55,6 +55,16 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         title: getText('进阶', 'Advanced'),
         children: [
           getLink('/guide/advanced/build-performance'),
+        ],
+      },
+      {
+        collapsable: false,
+        title: getText('插件', 'Plugin'),
+        children: [
+          getLink('/guide/plugin/introduction'),
+          getLink('/guide/plugin/integration'),
+          getLink('/guide/plugin/testing'),
+          getLink('/guide/plugin/list'),
         ],
       },
       {
@@ -92,6 +102,8 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/builder-core'),
           getLink('/api/builder-instance'),
           getLink('/api/builder-types'),
+          getLink('/api/plugin-core'),
+          getLink('/api/plugin-hooks')
         ],
       },
     ],
