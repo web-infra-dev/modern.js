@@ -97,10 +97,14 @@ export default (): CliPlugin => {
           // } = webpackConfig;
 
           // TODO: remove
-          const alias = {
+          const alias: Record<string, [string]> = {
             '@': [path.join(appContext.appDirectory, 'src')],
-            '@modern-js/runtime/testing': [testingExportsUtils.getPath()],
           };
+          if (testingExportsUtils) {
+            alias['@modern-js/runtime/testing'] = [
+              testingExportsUtils.getPath(),
+            ];
+          }
 
           utils.mergeJestConfig({
             globals: {

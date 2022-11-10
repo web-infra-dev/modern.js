@@ -8,7 +8,7 @@ pnpm v7：
 例如使用 pnpm `--filter` 参数执行 prepare 命令：
 
 ```bash
-pnpm run --filter ./packages/** prepare
+pnpm run --filter "./packages/**" prepare
 ```
 
 如果需要传递参数至命令，需要将参数放到命令后。

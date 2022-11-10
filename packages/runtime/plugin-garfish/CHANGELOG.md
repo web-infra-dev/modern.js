@@ -1,5 +1,14 @@
 # @modern-js/plugin-garfish
 
+## 1.21.2
+
+### Patch Changes
+
+- 92501d9: fix(garfish): fix reRender issue when use apps and Garfish.run with activeWhen parameter
+  修复在同时调用 apps 和 Garfish.run 方法并提供 activeWhen 参数时重复渲染的问题
+  - @modern-js/runtime@1.21.2
+  - @modern-js/utils@1.21.2
+
 ## 1.21.1
 
 ### Patch Changes

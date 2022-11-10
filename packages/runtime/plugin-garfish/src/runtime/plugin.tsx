@@ -85,16 +85,22 @@ export default (config: Config): Plugin => ({
           constructor(props: any) {
             super(props);
             const load = async () => {
+              GarfishInstance.setOptions({
+                ...options,
+                insulationVariable: [
+                  ...(options.insulationVariable || []),
+                  '_SERVER_DATA',
+                ],
+                apps: [],
+              });
               const GarfishConfig = await promise;
-              logger('initOptions result', { manifest, GarfishConfig });
-              const MApp = generateMApp(GarfishConfig, manifest);
               const { appInfoList, apps } = generateApps(
                 GarfishConfig,
                 manifest,
               );
-              GarfishInstance.setOptions(GarfishConfig);
               GarfishInstance.registerApp(appInfoList);
-
+              const MApp = generateMApp(GarfishConfig, manifest);
+              logger('initOptions result', { manifest, GarfishConfig });
               logger('generateApps', { MApp, apps, appInfoList });
               this.setState({
                 MApp,
