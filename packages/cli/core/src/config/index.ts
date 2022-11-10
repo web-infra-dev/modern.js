@@ -11,17 +11,18 @@ import {
 } from '@modern-js/utils';
 import { mergeWith } from '@modern-js/utils/lodash';
 import type { ErrorObject } from '@modern-js/utils/ajv';
+import { AppContext } from '../context';
 import { loadConfig } from '../load-configs';
 
 import { repeatKeyWarning } from '../utils/repeatKeyWarning';
-import { defaults } from './defaults';
+import { getDefaultConfig } from './defaults';
 import { mergeConfig, NormalizedConfig } from './mergeConfig';
 import { patchSchema, PluginValidateSchema } from './schema';
 import type { UserConfig, ConfigParam, LoadedConfig } from './types';
 
 const debug = createDebugger('resolve-config');
 
-export { defaults as defaultsConfig };
+export { getDefaultConfig };
 export * from './mergeConfig';
 export * from './types';
 export * from './schema';
@@ -174,7 +175,12 @@ export const resolveConfig = async (
       throw new Error(`Validate configuration error.`);
     }
   }
-  const resolved = mergeConfig([defaults, ...configs, userConfig]);
+
+  const resolved = mergeConfig([
+    getDefaultConfig(AppContext.use().value),
+    ...configs,
+    userConfig,
+  ]);
 
   resolved._raw = loaded.config;
 

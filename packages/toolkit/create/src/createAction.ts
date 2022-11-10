@@ -9,6 +9,7 @@ interface Options {
   monorepo?: boolean;
   debug?: boolean;
   config?: string;
+  packages?: string;
   registry?: string;
   distTag?: string;
   plugin?: string[];
@@ -27,7 +28,8 @@ function getDefaultConfig(
   options: Options,
   logger: Logger,
 ) {
-  const { mwa, module, monorepo, config, registry, distTag, plugin } = options;
+  const { mwa, module, monorepo, config, packages, registry, distTag, plugin } =
+    options;
 
   let initialConfig: Record<string, unknown> = {};
 
@@ -73,6 +75,18 @@ function getDefaultConfig(
 
   if (plugin) {
     initialConfig.plugins = plugin;
+  }
+
+  try {
+    if (packages) {
+      const packagesInfo = JSON.parse(packages);
+      initialConfig.packagesInfo = packagesInfo;
+    }
+  } catch (e) {
+    logger.error('packages parameter format is incorrect');
+    logger.debug('parse packages error: ', e);
+    // eslint-disable-next-line no-process-exit
+    process.exit(1);
   }
 
   // let generatorPlugin = GENERATOR_PLUGIN;

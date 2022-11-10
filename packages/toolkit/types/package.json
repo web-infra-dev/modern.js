@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.21.1",
+  "version": "1.21.2",
   "types": "./index.d.ts",
   "exports": {
     ".": "./index.d.ts",
@@ -47,19 +47,7 @@
     "types": "./index.d.ts"
   },
   "scripts": {
-    "test": "wireit",
+    "test": "jest --passWithNoTests",
     "prepublishOnly": "only-allow-pnpm"
-  },
-  "wireit": {
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

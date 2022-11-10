@@ -10,6 +10,7 @@ export type {
   // Config Types
   DevConfig,
   HtmlConfig,
+  ToolsConfig,
   OutputConfig,
   SourceConfig,
   BuilderConfig,

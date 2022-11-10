@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.21.1",
+  "version": "1.21.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -71,10 +71,9 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "wireit",
+    "build": "tsc && node scripts/post-compile.js",
     "dev": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
@@ -105,6 +104,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.18.0",
+    "@babel/preset-env": "7.18.0",
     "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.1.19",
@@ -114,7 +114,7 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^1.21.1"
+    "@modern-js/e2e": "workspace:^1.21.2"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {
@@ -126,20 +126,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "tsc && node scripts/post-compile.js",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "scripts/post-compile.js"
-      ],
-      "output": [
-        "dist/**/*",
-        "compiled/config-validate/**/*"
-      ]
-    }
   }
 }

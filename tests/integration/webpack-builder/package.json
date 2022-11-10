@@ -6,8 +6,8 @@
     "dev": "pnpm build:libs && node ./scripts/dist/dev.js",
     "build": "pnpm build:libs && node ./scripts/dist/build.js",
     "watch": "pnpm build:libs && node ./scripts/dist/watch.js",
-    "build:libs": "pnpm --filter @modern-js/builder... run build && pnpm --filter @modern-js/builder-webpack-provider run build && pnpm build:script",
-    "build:script": "wireit",
+    "build:libs": "cd ../../.. && pnpm prepare && cd tests/integration/webpack-builder && pnpm build:script",
+    "build:script": "swc ./scripts -d scripts/dist",
     "inspect": "pnpm build:libs && node ./scripts/dist/inspect.js"
   },
   "dependencies": {
@@ -15,6 +15,8 @@
     "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-plugin-esbuild": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "1.2.248",
     "@swc/helpers": "0.4.12",
     "core-js": "^3.25.0",
     "react": "^18",
@@ -25,18 +27,5 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "typescript": "^4"
-  },
-  "wireit": {
-    "build:script": {
-      "command": "tsc -p ./tsconfig.scripts.json",
-      "files": [
-        "scripts/**/*.ts",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "scripts/dist/**/*"
-      ]
-    }
   }
 }

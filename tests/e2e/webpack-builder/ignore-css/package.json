@@ -3,12 +3,9 @@
   "name": "@e2e/webpack-builder-ignore-css",
   "version": "0.1.0",
   "scripts": {
-    "dev": "node ./scripts/dev.js",
-    "build": "node ./scripts/build.js",
     "test": "playwright test"
   },
   "dependencies": {
-    "got": "^11.8.3",
     "react": "^18.0.2",
     "react-dom": "^18.0.2"
   },

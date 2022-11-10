@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.21.1",
+  "version": "1.21.2",
   "bin": {
     "modern": "./bin/modern.js"
   },
@@ -49,11 +49,10 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
-    "build": "wireit",
-    "test": "wireit",
+    "build": "modern build",
+    "test": "jest --passWithNoTests",
     "dev": "modern build --watch"
   },
   "dependencies": {
@@ -112,29 +111,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "./modern.config.js"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

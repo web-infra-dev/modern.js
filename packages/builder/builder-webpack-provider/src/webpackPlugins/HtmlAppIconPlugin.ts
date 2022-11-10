@@ -4,27 +4,34 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { Compiler, Compilation, sources } from 'webpack';
 
 type AppIconOptions = {
+  distDir: string;
   iconPath: string;
 };
 
 export class HtmlAppIconPlugin {
   readonly name: string;
 
+  readonly distDir: string;
+
   readonly iconPath: string;
 
   constructor(options: AppIconOptions) {
     this.name = 'HtmlAppIconPlugin';
+    this.distDir = options.distDir;
     this.iconPath = options.iconPath;
   }
 
   apply(compiler: Compiler) {
-    const iconName = path.basename(this.iconPath);
-
     if (!fs.existsSync(this.iconPath)) {
       throw new Error(
         `[${this.name}] Can not find the app icon, please check if the '${this.iconPath}' file exists'.`,
       );
     }
+
+    const iconRelativePath = path.join(
+      this.distDir,
+      path.basename(this.iconPath),
+    );
 
     // add html asset tags
     compiler.hooks.compilation.tap(this.name, (compilation: Compilation) => {
@@ -39,7 +46,7 @@ export class HtmlAppIconPlugin {
             attributes: {
               rel: 'apple-touch-icon',
               sizes: '180*180',
-              href: `${publicPath as string}${iconName}`,
+              href: `${publicPath as string}${iconRelativePath}`,
             },
             meta: {},
           });
@@ -60,7 +67,7 @@ export class HtmlAppIconPlugin {
           },
           assets => {
             const source = fs.readFileSync(this.iconPath);
-            assets[iconName] = new sources.RawSource(source, false);
+            assets[iconRelativePath] = new sources.RawSource(source, false);
           },
         );
       },

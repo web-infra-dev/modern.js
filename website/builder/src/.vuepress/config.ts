@@ -35,7 +35,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
     [getLink('/guide/')]: [
       {
         collapsable: false,
-        title: getText('开始', 'Start'),
+        title: getText('开始', 'Getting Started'),
         children: [
           getLink('/guide/introduction'),
           getLink('/guide/quick-start'),
@@ -45,8 +45,33 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       },
       {
         collapsable: false,
+        title: getText('基础', 'Basic'),
+        children: [
+          getLink('/guide/basic/build-target'),
+        ],
+      },
+      {
+        collapsable: false,
+        title: getText('进阶', 'Advanced'),
+        children: [
+          getLink('/guide/advanced/build-performance'),
+        ],
+      },
+      {
+        collapsable: false,
+        title: getText('插件', 'Plugin'),
+        children: [
+          getLink('/guide/plugin/introduction'),
+          getLink('/guide/plugin/integration'),
+          getLink('/guide/plugin/testing'),
+          getLink('/guide/plugin/list'),
+        ],
+      },
+      {
+        collapsable: false,
         title: getText('常见问题', 'FAQ'),
         children: [
+          getLink('/guide/faq/general'),
           getLink('/guide/faq/features'),
           getLink('/guide/faq/exceptions'),
         ],
@@ -77,6 +102,8 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/builder-core'),
           getLink('/api/builder-instance'),
           getLink('/api/builder-types'),
+          getLink('/api/plugin-core'),
+          getLink('/api/plugin-hooks')
         ],
       },
     ],
@@ -106,12 +133,12 @@ export default defineConfig4CustomTheme<ThemeConfig>((ctx) => ({
     '/zh/': {
       lang: 'zh-CN',
       title: 'Modern.js Builder',
-      description: '面向现代 Web 开发场景的通用构建引擎',
+      description: '一个面向现代 Web 开发场景的构建引擎',
     },
     '/en/': {
       lang: 'en-US',
       title: 'Modern.js Builder',
-      description: 'A Universal Build Engine for Modern Web Development',
+      description: 'A Build Engine for Modern Web Development',
     },
   },
   theme: 'vt',

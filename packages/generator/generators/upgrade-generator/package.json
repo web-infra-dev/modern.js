@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.4.6",
+  "version": "2.4.7",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -19,11 +19,10 @@
     "/dist/index.js"
   ],
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
-    "build": "wireit",
-    "test": "wireit"
+    "build": "modern build",
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
@@ -46,30 +45,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "types": "./src/index.ts",
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "modern.config.js"
-      ],
-      "output": [
-        "dist/**/*",
-        "!dist/node/main.js"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
-  }
+  "types": "./src/index.ts"
 }

@@ -1,13 +1,12 @@
 {
   "name": "@scripts/vitest-config",
   "private": true,
-  "version": "1.21.1",
+  "version": "1.21.2",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "dev": "tsc --watch",
-    "build": "wireit",
-    "prepare": "pnpm build",
+    "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
   },
@@ -20,18 +19,5 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  },
-  "wireit": {
-    "build": {
-      "command": "tsc",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    }
   }
 }

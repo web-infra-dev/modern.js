@@ -3,7 +3,11 @@ import {
   getBabelConfig,
   applyUserBabelConfig,
 } from '@modern-js/babel-preset-module';
-import { applyOptionsChain, getAlias, isUseSSRBundle } from '@modern-js/utils';
+import {
+  getAliasConfig,
+  isUseSSRBundle,
+  applyOptionsChain,
+} from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { IPackageModeValue } from '../types';
 import type { BundlelessOptions, SourceMap } from '../schema/types';
@@ -12,7 +16,7 @@ export const getFinalAlias: any = (
   modernConfig: NormalizedConfig,
   option: { appDirectory: string; tsconfigPath: string; sourceAbsDir: string },
 ) => {
-  const aliasConfig = getAlias(modernConfig.source.alias, option);
+  const aliasConfig = getAliasConfig(modernConfig.source.alias, option);
   // 排除内部别名，因为不需要处理
   const finalPaths: Record<string, string | string[]> = {};
   const internalAliasPrefix = '@modern-js/runtime';

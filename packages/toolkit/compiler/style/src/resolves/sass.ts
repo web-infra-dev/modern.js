@@ -19,7 +19,7 @@ const sassToCss = (
     indentedSyntax: enableIndentedSyntax,
     outFile,
   };
-  const sassConfig = merge(config, options.sass);
+  const sassConfig = merge(config, options.sass, { file });
 
   try {
     const sassResult = sass.renderSync(sassConfig);

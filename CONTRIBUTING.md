@@ -23,8 +23,7 @@ npm install -g pnpm@7
 ### Set up local Modern.js repository
 
 ```zsh
-pnpm install --ignore-scripts
-pnpm prepare
+pnpm install
 ```
 
 <details>
@@ -141,10 +140,8 @@ cd my-test-project
 let pnpm create the necessary symlinks:
 
 ```zsh
-pnpm install --ignore-scripts
+pnpm install
 ```
-
-the `-ignore-scripts` option is used to prevent building everything again
 
 ### Test Your Code
 

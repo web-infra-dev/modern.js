@@ -6,7 +6,7 @@ import {
   applyUserBabelConfig,
 } from '@modern-js/babel-preset-lib';
 import { TransformOptions } from '@babel/core';
-import { fs, json5, getAlias } from '@modern-js/utils';
+import { fs, json5, getAliasConfig } from '@modern-js/utils';
 import { compiler } from '@modern-js/babel-compiler';
 import { CompileFunc, FILE_EXTENSIONS } from '../../common';
 
@@ -73,7 +73,7 @@ export const resolveBabelConfig = (
   const { envVars, globalVars, alias, babelConfig } = config;
 
   // alias config
-  const aliasConfig = getAlias(alias, {
+  const aliasConfig = getAliasConfig(alias, {
     appDirectory,
     ...option,
   });

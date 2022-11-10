@@ -21,6 +21,8 @@ export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
 export type CssMinimizerPluginOptions = CssMinimizerPlugin.BasePluginOptions &
   CssMinimizerPlugin.DefinedDefaultMinimizerAndOptions<CssMinimizerPlugin.CssNanoOptionsExtended>;
 
+export type { CssNanoOptions } from 'css-minimizer-webpack-plugin';
+
 export type { BabelConfigUtils } from '@modern-js/babel-preset-app';
 
 export type { TransformOptions as BabelTransformOptions } from '@babel/core';

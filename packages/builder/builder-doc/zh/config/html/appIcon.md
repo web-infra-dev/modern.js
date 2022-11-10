@@ -18,5 +18,5 @@ export default {
 重新编译后，HTML 中自动生成了以下标签：
 
 ```html
-<link rel="app-touch-icon" sizes="180*180" href="/icon.png" />
+<link rel="app-touch-icon" sizes="180*180" href="/static/image/icon.png" />
 ```

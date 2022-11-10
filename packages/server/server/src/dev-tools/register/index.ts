@@ -1,7 +1,7 @@
 import path from 'path';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 import { ModernServerOptions } from '@modern-js/prod-server';
-import { fs, getAlias, createDebugger } from '@modern-js/utils';
+import { fs, getAliasConfig, createDebugger } from '@modern-js/utils';
 
 const debug = createDebugger('server');
 
@@ -34,12 +34,12 @@ export const enableRegister = (
     const tsNode: typeof import('ts-node') = require('ts-node');
     const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
     const { alias } = config.source;
-    const aliasOption = getAlias(alias || {}, {
+    const aliasConfig = getAliasConfig(alias, {
       appDirectory: projectRoot,
       tsconfigPath,
     });
 
-    const { paths = {}, absoluteBaseUrl = './' } = aliasOption;
+    const { paths = {}, absoluteBaseUrl = './' } = aliasConfig;
 
     const tsPaths = Object.keys(paths).reduce((o, key) => {
       let tsPath = paths[key];

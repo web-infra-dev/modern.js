@@ -1,5 +1,6 @@
 import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
 import type {
+  AliasOption,
   MetaOptions,
   ChainIdentifier,
   WatchOptions,
@@ -19,6 +20,7 @@ import type {
 } from 'terser-webpack-plugin';
 import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
 import { TransformOptions } from '@babel/core';
+import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
 import type { PluginConfig, NewPluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
@@ -76,9 +78,7 @@ export interface SourceConfig {
   apiDir?: string;
   envVars?: Array<string>;
   globalVars?: Record<string, string>;
-  alias?:
-    | Record<string, string>
-    | ((aliases: Record<string, string>) => Record<string, string>);
+  alias?: AliasOption;
   moduleScopes?:
     | Array<string | RegExp>
     | ((scopes: Array<string | RegExp>) => void)
@@ -284,6 +284,16 @@ export type TerserConfig =
   | TerserOptions
   | ((config: TerserOptions) => TerserOptions | void);
 
+export type HtmlPluginConfig =
+  | HTMLPluginOptions
+  | ((
+      options: HTMLPluginOptions,
+      entryInfo: {
+        entryName: string;
+        entryValue: webpack.Configuration['entry'];
+      },
+    ) => HTMLPluginOptions | void);
+
 export interface ToolsConfig {
   webpack?: WebpackConfig;
   webpackChain?: WebpackChainConfig;
@@ -297,6 +307,7 @@ export interface ToolsConfig {
   terser?: TerserConfig;
   minifyCss?: ConfigFunction;
   esbuild?: Record<string, unknown>;
+  htmlPlugin?: HtmlPluginConfig;
 
   /**
    * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
