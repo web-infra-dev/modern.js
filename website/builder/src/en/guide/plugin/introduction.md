@@ -1,7 +1,7 @@
 # Introduce to Plugin
 
 Builder provides developers with a lightweight but powerful plugin system to build itself and any other plugins.
-Developing plugins to change the builder's behavior and introduce extra features. such as:
+Developing plugins to change the Builder's behavior and introduce extra features. such as:
 
 - Modify config of bundlers.
 - Resolve and handle new file types.
@@ -11,9 +11,9 @@ Developing plugins to change the builder's behavior and introduce extra features
 Builder can use webpack or rspack as bundler, expose unified Node.js API,
 and integrate into different frameworks. Users can painlessly switch between bundlers.
 
-**But users can't use builder plugins directly in frameworks.**
+**But users can't use Builder plugins directly in frameworks.**
 Because these frameworks (e.g. modern.js) not only reuse the compiling features
-provided by the builder, but can also be built with lots of other parts.
+provided by the Builder, but can also be built with lots of other parts.
 
 ## Write a plugin
 
@@ -53,16 +53,16 @@ The package name of the plugin needs to contain the conventional `builder-plugin
 
 Builder uses lifetime planning work internally, and plugins can also register hooks to take part in any stage of the workflow and implement their own features.
 
-The full list of builder lifetime hooks can be found in the [API References](/zh/api/plugin-hooks).
+The full list of Builder's lifetime hooks can be found in the [API References](/zh/api/plugin-hooks).
 
-The builder does not take over the hooks of the underlying bundlers, whose documents can be found here: [webpack hooks](https://webpack.js.org/api/compiler-hooks/)
+The Builder does not take over the hooks of the underlying bundlers, whose documents can be found here: [webpack hooks](https://webpack.js.org/api/compiler-hooks/)
 
 ## Use Builder Config
 
 Custom plugins can usually get config from function parameters,
 just define and use it at your pleasure.
 
-But sometimes you may need to read and change the public config of the builder. To begin with, you should understand how the builder generates and uses its config:
+But sometimes you may need to read and change the public config of the Builder. To begin with, you should understand how the Builder generates and uses its config:
 
 - Read, parse config and merge with default values.
 - Plugins modify the config by `api.modifyBuilderConfig(...)`.
@@ -98,10 +98,10 @@ export const PluginUploadDist = (): BuilderPlugin => ({
 });
 ```
 
-There are 3 ways to use builder config:
+There are 3 ways to use Builder config:
 
 - register callback with `api.modifyBuilderConfig(config => {})`  to modify config.
-- use `api.getBuilderConfig()` to get builder config.
+- use `api.getBuilderConfig()` to get Builder config.
 - use `api.getNormalizedConfig()` to get finally normalized config.
 
 When normalized, it will again merge the config object with the default values
