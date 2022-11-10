@@ -3,6 +3,7 @@ import {
   PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
   isApiOnly,
+  applyOptionsChain,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import {
@@ -86,20 +87,8 @@ export default (): CliPlugin => {
             return next(utils);
           }
 
-          // TODO get alias from builder
-          // const webpackConfig = getWebpackConfig(
-          //   WebpackConfigTarget.CLIENT,
-          //   appContext,
-          //   userConfig,
-          // );
-          // const {
-          //   resolve: { alias = {} },
-          // } = webpackConfig;
+          const alias = applyOptionsChain({}, userConfig.source.alias);
 
-          // TODO: remove
-          const alias: Record<string, [string]> = {
-            '@': [path.join(appContext.appDirectory, 'src')],
-          };
           if (testingExportsUtils) {
             alias['@modern-js/runtime/testing'] = [
               testingExportsUtils.getPath(),

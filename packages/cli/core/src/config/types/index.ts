@@ -1,5 +1,6 @@
 import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
 import type {
+  AliasOption,
   MetaOptions,
   ChainIdentifier,
   WatchOptions,
@@ -77,9 +78,7 @@ export interface SourceConfig {
   apiDir?: string;
   envVars?: Array<string>;
   globalVars?: Record<string, string>;
-  alias?:
-    | Record<string, string>
-    | ((aliases: Record<string, string>) => Record<string, string>);
+  alias?: AliasOption;
   moduleScopes?:
     | Array<string | RegExp>
     | ((scopes: Array<string | RegExp>) => void)

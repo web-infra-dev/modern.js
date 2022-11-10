@@ -1,51 +1,7 @@
 import {
-  createBuilderAlias,
   createBuilderInclude,
   createBuilderModuleScope,
 } from '../../src/builder/createSourceConfig';
-
-describe('test create Builder Alias Config', () => {
-  const internalDirAlias = '@internalDirAlias';
-  const internalSrcAlias = '@internalSrcAlias';
-  const srcDirectory = 'test/default/src_alias';
-  const sharedDirectory = 'test/shared/dir_alias';
-  const internalDirectory = 'test/internal/dir_alias';
-
-  const appContext = {
-    internalDirectory,
-    internalDirAlias,
-    internalSrcAlias,
-    srcDirectory,
-    sharedDirectory,
-  };
-
-  const defaultAliasConfig = {
-    [internalDirAlias]: internalDirectory,
-    [internalSrcAlias]: srcDirectory,
-    '@': srcDirectory,
-    '@shared': sharedDirectory,
-  };
-
-  it('should create default alias config', () => {
-    const alias = createBuilderAlias(undefined, appContext as any);
-    expect(alias).toEqual(defaultAliasConfig);
-  });
-
-  it('should create user custom alias config', () => {
-    const api = 'test/xxx/api_alias';
-    const common = './src/common';
-    const userAlias = (opts: { [x: string]: string }) => {
-      opts['@api'] = api;
-      opts['@common'] = common;
-    };
-    const alias = createBuilderAlias(userAlias as any, appContext as any);
-    expect(alias).toEqual({
-      ...defaultAliasConfig,
-      '@api': api,
-      '@common': common,
-    });
-  });
-});
 
 describe('test create Builder Include Config', () => {
   const internalDirectory = 'test/internal/dir_alias';

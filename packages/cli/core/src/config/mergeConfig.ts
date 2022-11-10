@@ -4,7 +4,7 @@ import { UserConfig, SourceConfig, ToolsConfig } from '.';
 
 export interface NormalizedSourceConfig
   extends Omit<SourceConfig, 'alias' | 'moduleScopes'> {
-  alias: SourceConfig['alias'] | Array<SourceConfig['alias']>;
+  alias: SourceConfig['alias'] | Array<NonNullable<SourceConfig['alias']>>;
   moduleScopes:
     | SourceConfig['moduleScopes']
     | Array<SourceConfig['moduleScopes']>;

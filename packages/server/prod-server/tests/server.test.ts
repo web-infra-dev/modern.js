@@ -1,6 +1,6 @@
 import path from 'path';
 import { EventEmitter, Readable } from 'stream';
-import { defaultsConfig } from '@modern-js/core';
+import { getDefaultConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
 import httpMocks from 'node-mocks-http';
 import portfinder from 'portfinder';
@@ -23,7 +23,7 @@ describe('test server', () => {
 
   test('shoule get modern server instance', async () => {
     const server = await createServer({
-      config: defaultsConfig as any,
+      config: getDefaultConfig() as any,
       pwd: appDirectory,
     });
     const port = await portfinder.getPortPromise();
@@ -37,7 +37,7 @@ describe('test server', () => {
   describe('shoule get production modern server instance', () => {
     test('should init server correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as any,
+        config: getDefaultConfig() as any,
         pwd: appDirectory,
       });
       const modernServer = (server as any).server;
@@ -55,7 +55,7 @@ describe('test server', () => {
       expect(pwd).toBe(appDirectory);
       expect(distDir).toBe(path.join(appDirectory, 'dist'));
       expect(workDir).toBe(distDir);
-      expect(conf).toEqual(defaultsConfig);
+      expect(conf).toEqual(getDefaultConfig());
       expect(handlers).toBeDefined();
       expect(isDev).toBeFalsy();
       expect(staticGenerate).toBeFalsy();
@@ -64,7 +64,7 @@ describe('test server', () => {
 
     test('should add handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as any,
+        config: getDefaultConfig() as any,
         pwd: appDirectory,
       });
       const modernServer = (server as any).server;
@@ -97,7 +97,7 @@ describe('test server', () => {
 
     test('should hit favicon fallback', async () => {
       const server = await createServer({
-        config: defaultsConfig as any,
+        config: getDefaultConfig() as any,
         pwd: appDirectory,
       });
 
@@ -129,7 +129,7 @@ describe('test server', () => {
     test('should get request handler correctly', async () => {
       const server = await createServer({
         config: {
-          ...(defaultsConfig as any),
+          ...(getDefaultConfig() as any),
           output: {
             path: 'test-dist',
           },
@@ -165,7 +165,7 @@ describe('test server', () => {
     test('should error handler correctly with custom entry', async () => {
       const server = await createServer({
         config: {
-          ...(defaultsConfig as any),
+          ...(getDefaultConfig() as any),
           output: {
             path: 'test-dist',
           },
@@ -202,7 +202,7 @@ describe('test server', () => {
     test('should error handler correctly with fallback doc', async () => {
       const server = await createServer({
         config: {
-          ...(defaultsConfig as any),
+          ...(getDefaultConfig() as any),
           output: {
             path: 'test-dist',
           },
@@ -239,7 +239,7 @@ describe('test server', () => {
     test('should render() api work correctly', async () => {
       const server = await createServer({
         config: {
-          ...(defaultsConfig as any),
+          ...(getDefaultConfig() as any),
           output: {
             path: 'test-dist',
           },
@@ -281,7 +281,7 @@ describe('test server', () => {
   describe('should split server work correctly', () => {
     test('should init api server correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as any,
+        config: getDefaultConfig() as any,
         pwd: appDirectory,
         apiOnly: true,
       });
@@ -292,7 +292,7 @@ describe('test server', () => {
 
     test('should init ssr server correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as any,
+        config: getDefaultConfig() as any,
         pwd: appDirectory,
         ssrOnly: true,
       });
@@ -303,7 +303,7 @@ describe('test server', () => {
 
     test('should init web server correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as any,
+        config: getDefaultConfig() as any,
         pwd: appDirectory,
         webOnly: true,
       });
