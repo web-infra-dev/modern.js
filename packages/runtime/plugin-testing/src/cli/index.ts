@@ -1,9 +1,9 @@
 import path from 'path';
 import {
+  isApiOnly,
+  mergeAlias,
   PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
-  isApiOnly,
-  applyOptionsChain,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import {
@@ -87,7 +87,7 @@ export default (): CliPlugin => {
             return next(utils);
           }
 
-          const alias = applyOptionsChain({}, userConfig.source.alias);
+          const alias = mergeAlias(userConfig.source.alias);
 
           if (testingExportsUtils) {
             alias['@modern-js/runtime/testing'] = [
