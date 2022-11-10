@@ -10,5 +10,5 @@
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": ["src", "scripts", "*.test.ts"]
+  "include": ["src", "*.test.ts"]
 }
