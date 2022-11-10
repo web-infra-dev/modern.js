@@ -27,7 +27,7 @@ export function createOutputConfig(
     dataUriLimit,
     disableAssetsCache,
     enableLatestDecorators,
-    disableCssExtract,
+    disableCssModuleExtension,
   } = normalizedConfig.output;
 
   const defaultCopyPattern = createCopyPattern(
@@ -59,7 +59,7 @@ export function createOutputConfig(
       font: dataUriLimit,
       media: dataUriLimit,
     },
-    disableCssModuleExtension: disableCssExtract,
+    disableCssModuleExtension,
     disableInlineRuntimeChunk,
     disableMinimize,
     disableSourceMap,
