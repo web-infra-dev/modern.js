@@ -679,14 +679,12 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react-router': ^5.1.16
-      '@types/react-router-dom': ^5.1.8
       jest: ^27
       node-mocks-http: ^1.10.1
       normalize-path: ^3.0.0
       portfinder: ^1.0.28
       react: ^18
-      react-router-dom: ^5.2.1
+      react-router-dom: ^6.4.2
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.18.6
@@ -694,7 +692,6 @@ importers:
       node-mocks-http: 1.11.0
       normalize-path: 3.0.0
       portfinder: 1.0.28
-      react-router-dom: 5.3.3_react@18.2.0
     devDependencies:
       '@modern-js/core': link:../core
       '@modern-js/prod-server': link:../../server/prod-server
@@ -703,10 +700,9 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react-router': 5.1.18
-      '@types/react-router-dom': 5.3.3
       jest: 27.5.1
       react: 18.2.0
+      react-router-dom: 6.4.2_react@18.2.0
       typescript: 4.7.4
 
   packages/cli/plugin-storybook:
@@ -11252,7 +11248,6 @@ packages:
   /@remix-run/router/1.0.2:
     resolution: {integrity: sha512-GRSOFhJzjGN+d4sKHTMSvNeUPoZiDHWmRnXfzaxrqe7dE/Nzlc8BiMSJdLDESZlndM7jIUrZ/F4yWqVYlI0rwQ==}
     engines: {node: '>=14'}
-    dev: false
 
   /@remix-run/server-runtime/1.7.3:
     resolution: {integrity: sha512-U5TR2quAlc5dY5VIYYhuXJOVsJelukgFZARwZWfDCs7HQd1hhHvpe1BNwla/lH3LPYFOVeWfYRmuHurXX1nbNw==}
@@ -32414,6 +32409,18 @@ packages:
       react-router: 6.4.2_react@18.2.0
     dev: false
 
+  /react-router-dom/6.4.2_react@18.2.0:
+    resolution: {integrity: sha512-yM1kjoTkpfjgczPrcyWrp+OuQMyB1WleICiiGfstnQYo/S8hPEEnVjr/RdmlH6yKK4Tnj1UGXFSa7uwAtmDoLQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.0.2
+      react: 18.2.0
+      react-router: 6.4.2_react@18.2.0
+    dev: true
+
   /react-router/5.3.3_react@18.2.0:
     resolution: {integrity: sha512-mzQGUvS3bM84TnbtMYR8ZjKnuPJ71IjSzR+DE6UkUqvN4czWIqEs17yLL8xkAycv4ev0AiN+IGrWu88vJs/p2w==}
     peerDependencies:
@@ -32465,7 +32472,6 @@ packages:
     dependencies:
       '@remix-run/router': 1.0.2
       react: 18.2.0
-    dev: false
 
   /react-side-effect/2.1.2_react@18.2.0:
     resolution: {integrity: sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==}
