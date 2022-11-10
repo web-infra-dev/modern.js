@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 1.21.2
+
+### Patch Changes
+
+- 9d4c0ba: chore: add types for exports field
+  chore: 为 exports 补充 types 字段
+- Updated dependencies [9d4c0ba]
+  - @modern-js/plugin@1.21.2
+  - @modern-js/utils@1.21.2
+
 ## 1.21.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/style-compiler
 
+## 1.21.2
+
+### Patch Changes
+
+- c85bcfc: fix: add missing 'file' fields
+  fix: 添加缺失的 file 字段
+  - @modern-js/utils@1.21.2
+
 ## 1.21.1
 
 ### Patch Changes
