@@ -6,13 +6,8 @@ import "core-js/modules/esnext.composite-symbol.js";
 import "core-js/modules/esnext.map.delete-all.js";
 import "core-js/modules/esnext.map.every.js";
 import "core-js/modules/esnext.map.filter.js";
-<<<<<<< HEAD
-import "core-js/modules/esnext.map.find-key.js";
-import "core-js/modules/esnext.map.find.js";
-=======
 import "core-js/modules/esnext.map.find.js";
 import "core-js/modules/esnext.map.find-key.js";
->>>>>>> e9b458eb6 (chore: upgrade swc-plugins, update tests)
 import "core-js/modules/esnext.map.from.js";
 import "core-js/modules/esnext.map.group-by.js";
 import "core-js/modules/esnext.map.includes.js";
@@ -43,17 +38,10 @@ import "core-js/modules/esnext.observable.js";
 import "core-js/modules/esnext.promise.try.js";
 import "core-js/modules/esnext.reflect.define-metadata.js";
 import "core-js/modules/esnext.reflect.delete-metadata.js";
-<<<<<<< HEAD
-import "core-js/modules/esnext.reflect.get-metadata-keys.js";
-import "core-js/modules/esnext.reflect.get-metadata.js";
-import "core-js/modules/esnext.reflect.get-own-metadata-keys.js";
-import "core-js/modules/esnext.reflect.get-own-metadata.js";
-=======
 import "core-js/modules/esnext.reflect.get-metadata.js";
 import "core-js/modules/esnext.reflect.get-metadata-keys.js";
 import "core-js/modules/esnext.reflect.get-own-metadata.js";
 import "core-js/modules/esnext.reflect.get-own-metadata-keys.js";
->>>>>>> e9b458eb6 (chore: upgrade swc-plugins, update tests)
 import "core-js/modules/esnext.reflect.has-metadata.js";
 import "core-js/modules/esnext.reflect.has-own-metadata.js";
 import "core-js/modules/esnext.reflect.metadata.js";
