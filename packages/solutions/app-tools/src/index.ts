@@ -12,6 +12,7 @@ import type {
   DeployOptions,
   InspectOptions,
 } from './utils/types';
+import { getCommand } from './utils/commands';
 
 export { defineConfig, hooks };
 export type { AppHooks, CliPlugin };
@@ -150,8 +151,7 @@ export default (): CliPlugin<AppHooks> => ({
       },
 
       async prepare() {
-        const args = process.argv.slice(2);
-        const command = args[0];
+        const command = getCommand();
         if (command === 'dev' || command === 'build') {
           const appContext = api.useAppContext();
           await emptyDir(appContext.distDirectory);
