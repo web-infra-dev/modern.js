@@ -4,7 +4,7 @@ import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
 import { useFixture } from '@modern-js/e2e';
 import { test } from 'vitest';
 
-test('Circular', async () => {
+test.skip('Circular', async () => {
   const options = await useFixture(
     '@modern-js/e2e/fixtures/builder/circular-dep',
   );
