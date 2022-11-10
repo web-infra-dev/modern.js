@@ -52,6 +52,9 @@ exports[`plugins/fallback > should convert fallback rule correctly 1`] = `
       },
     ],
   },
+  "output": {
+    "assetModuleFilename": "static/media/[name].[contenthash:8][ext]",
+  },
 }
 `;
 
