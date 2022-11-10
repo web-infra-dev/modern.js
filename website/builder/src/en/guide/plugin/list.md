@@ -1,13 +1,13 @@
 # Plugin List
 
-## 官方插件
+## Official Plugins
 
-* `@modern-js/builder-plugin-node-polyfill`：启用 Node.js Polyfill，详见 [webpack5's changelog](https://github.com/webpack/changelog-v5#automatic-nodejs-polyfills-removed)
-* `@modern-js/builder-plugin-esbuild`：使用 ESBuild 进行代码编译和压缩以提升构建性能
-* `@modern-js/builder-plugin-swc`：使用 SWC 进行代码编译和压缩以提升构建性能
+* `@modern-js/builder-plugin-node-polyfill`: Enable to use Node.js Polyfill, refer to [webpack5's changelog](https://github.com/webpack/changelog-v5#automatic-nodejs-polyfills-removed).
+* `@modern-js/builder-plugin-esbuild`：Use ESBuild as the transformer and minimizer to improve performance.
+* `@modern-js/builder-plugin-swc`: Use SWC as the transformer and minimizer to improve performance.
 
-这些插件的代码位于 [modern.js/packages/builder](https://github.com/modern-js-dev/modern.js/tree/main/packages/builder) 目录下。
+You can find their source code in [modern.js/packages/builder](https://github.com/modern-js-dev/modern.js/tree/main/packages/builder).
 
-## 第三方插件
+## Community Plugins
 
 TODO

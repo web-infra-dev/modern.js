@@ -3,20 +3,21 @@
 Builder provides developers with a lightweight but powerful plugin system to build itself and any other plugins.
 Developing plugins to change the builder's behavior and introduce extra features. such as:
 
+- Modify config of bundlers.
 - Resolve and handle new file types.
 - Modify and compile file modules.
 - Deploy your application.
 
 Builder can use webpack or rspack as bundler, expose unified Node.js API,
-and integrate into different frameworks. More importantly, making switching between bundlers painless.
+and integrate into different frameworks. Users can painlessly switch between bundlers.
 
 **But users can't use builder plugins directly in frameworks.**
 Because these frameworks (e.g. modern.js) not only reuse the compiling features
 provided by the builder, but can also be built with lots of other parts.
 
-## 开发插件
+## Write a plugin
 
-插件提供类似 `(options?: PluginOptions) => BuilderPlugin` 的函数作为入口。
+Plugin module should export an entry function just like `(options?: PluginOptions) => BuilderPlugin`:
 
 ```typescript
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
@@ -38,85 +39,74 @@ export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
 builder.addPlugins([PluginFoo('some other message.')]);
 ```
 
-函数形式的插件可以 **接受选项对象** 并 **返回插件实例**，并通过闭包机制管理内部状态。
+The function usually **takes an options object** and **returns the plugin instance**, which manages state through closures.
 
-其中各部分的作用分别为：
+Let's look at each part:
 
-- `name` 属性用于标注插件名称
-- `setup` 作为插件逻辑的主入口
-- `api` 对象包含了各类钩子和工具函数
+- `name` is used to label the plugin
+- `setup` as the main entry point of plugins
+- `api` provides context object, lifetime hooks and utils.
 
-为了便于识别，插件名称需要包含约定的 `modernjs-plugin` 前缀，例如 `modernjs-plugin-foo` `@scope/modernjs-plugin-bar` 等。
+The package name of the plugin needs to contain the conventional `builder-plugin` prefix for identification, just like `builder-plugin-foo`, `@scope/builder-plugin-bar`, etc.
 
-## 生命周期钩子
+## Lifetime Hooks
 
-Builder 在内部按照约定的生命周期进行任务调度，插件可以通过注册钩子来介入工作流程的任意阶段并实现自己的功能。
+Builder uses lifetime planning work internally, and plugins can also register hooks to take part in any stage of the workflow and implement their own features.
 
-- **通用钩子**
-  - `modifyBuilderConfig`：修改传递给 Builder 的配置项
-  - `modifyWebpackChain`：修改 Webpack Chain 配置
-  - `modifyWebpackConfig`：修改最终的 Webpack 配置
-  - `onBeforeCreateCompiler`：创建编译器前触发
-  - `onAfterCreateCompiler`：创建编译器后触发、在构建前操作编译器实例
-- **构建钩子**：仅运行构建输出产物时触发
-  - `onBeforeBuild`：构建前触发
-  - `onAfterBuild`：构建后触发、获取构建结果信息
-- **开发服务钩子**：仅运行开发服务器时触发
-  - `onBeforeStartDevServer`：启动开发服务器前触发
-  - `onAfterStartDevServer`：启动开发服务器后触发
-  - `onDevCompileDone`：每次增量构建结束后触发
-- **进程钩子**
-  - `onExit`：运行构建的进程即将退出时触发
+The full list of builder lifetime hooks can be found in the [API References](/zh/api/plugin-hooks).
 
-Builder 不会接管底层 Bundler 的生命周期，相关生命周期钩子的使用方式见对应文档：[webpack hooks](https://webpack.js.org/api/compiler-hooks/)
+The builder does not take over the hooks of the underlying bundlers, whose documents can be found here: [webpack hooks](https://webpack.js.org/api/compiler-hooks/)
 
-## 使用配置项
+## Use Builder Config
 
-自行编写的插件通常使用初始化时传入函数的参数作为配置项即可，开发者可以随意定义和使用函数的入参。
+Custom plugins can usually get config from function parameters,
+just define and use it at your pleasure.
 
-但某些情况下插件可能需要读取 / 修改 Builder 公用的配置项，例如将 Babel 替换为 ESBuild / SWC 来提升构建速度等等。
-这时就需要了解 Builder 内部对配置项的生产和消费流程：
+But sometimes you may need to read and change the public config of the builder. To begin with, you should understand how the builder generates and uses its config:
 
-- 读取、解析配置并合并默认值
-- 插件通过 `api.modifyBuilderConfig(...)` 回调修改配置项
-- 归一化配置项并提供给插件后续消费，此后无法再修改配置项
+- Read, parse config and merge with default values.
+- Plugins modify the config by `api.modifyBuilderConfig(...)`.
+- Normalize the config and provide it to consume, then the config can no longer be modified.
 
-整套流程可以通过这个简单的插件体现：
+Refer to this tiny example:
 
 ```typescript
 export const PluginUploadDist = (): BuilderPlugin => ({
   name: 'plugin-upload-dist',
   setup(api) {
     api.modifyBuilderConfig(config => {
-      // 尝试关闭代码压缩，需要自己填充默认值
+      // try to disable minimize.
+      // should deal with optional value by self.
       config.output ||= {};
       config.output.disableMinimize = true;
-      // 轮到其它插件修改配置...
+      // but also can be enable by other plugins...
     });
     api.onBeforeBuild(() => {
-      // 读取最终的配置
+      // use the normalized config.
       const config = api.getNormalizedConfig();
       if (!config.output.disableMinimize) {
-        // 其它插件又启用了压缩则报错
+        // let it crash when enable minimize.
         throw new Error('You must disable minimize to upload readable dist files.');
       }
     });
     api.onAfterBuild(() => {
       const config = api.getNormalizedConfig();
       const distRoot = config.output.distPath.root;
-      // TODO: 上传 `distRoot` 目录下所有产物文件
+      // TODO: upload all files in `distRoot`.
     });
   }
 });
 ```
 
-插件中有三种方式使用配置项对象：
+There are 3 ways to use builder config:
 
-- `api.modifyBuilderConfig(config => {})` 在回调中修改配置
-- `api.getBuilderConfig()` 获取配置项
-- `api.getNormalizedConfig()` 获取归一化后的配置项
+- register callback with `api.modifyBuilderConfig(config => {})`  to modify config.
+- use `api.getBuilderConfig()` to get builder config.
+- use `api.getNormalizedConfig()` to get finally normalized config.
 
-归一化的配置项会再次合并默认值并移除大部分可选类型，对于 `PluginUploadDist` 的例子其部分类型定义为：
+When normalized, it will again merge the config object with the default values
+and make sure the optional properties exist.
+So for PluginUploadDist, part of its type looks like:
 
 ```typescript
 api.modifyBuilderConfig((config: BuilderConfig) => {});
@@ -136,80 +126,70 @@ type NormalizedConfig = {
   };
 };
 ```
+The return value type of `getNormalizedConfig()` is slightly different from that of `BuilderConfig` and is narrowed compared to the types described elsewhere in the documentation.
+You don't need to fill in the defaults when you use it.
 
-`getNormalizedConfig()` 的返回值类型与 `BuilderConfig` 的略有不同、相比文档其它地方描述的类型进行了收窄，
-在使用时无需自行判空、填充默认值。
+Therefore, the best way to use configuration items is to
 
-因此使用配置项的最佳方式应该是：
+- **Modify the config** with `api.modifyBuilderConfig(config => {})`
+- Read `api.getNormalizedConfig()` as the **actual config used by the plugin** in the further lifetime.
 
-- 通过 `api.modifyBuilderConfig(config => {})` 来**修改配置**
-- 在其后的生命周期中读取 `api.getNormalizedConfig()` 作为插件**实际使用的配置**
+## Modify webpack Config
 
-## 修改 webpack 配置
+Plugins can handle webpack's config by:
 
-插件可以通过多种方式修改 webpack 的配置项。
+- use `api.modifyWebpackChain(chain => {})` to modify webpack-chain.
+- use `api.modifyWebpackConfig(config => {})` to modify raw webpack config.
+- use `api.onAfterCreateCompiler(compiler => {})` to handle webpack instance directly.
 
-- `api.modifyWebpackChain(chain => {})` 修改 webpack-chain
-- `api.modifyWebpackConfig(config => {})` 修改最终的 webpack 配置
-- `api.onAfterCreateCompiler(compiler => {})` 直接操作 webpack 实例
+We recommend that you use [neutrinojs/webpack-chain](https://github.com/neutrinojs/webpack-chain)'s
+chained api to handle the config of webpack whenever possible.
 
-通常推荐使用 [neutrinojs/webpack-chain](https://github.com/neutrinojs/webpack-chain) 提供的链式 API 来修改 webpack 配置的工作。
+Builder integrated a webpack5-compatible version,
+which can be found in [sorrycc/webpack-chain](https://github.com/sorrycc/webpack-chain).
 
-Builder 使用的是兼容 webpack5 的修改版本：[sorrycc/webpack-chain](https://github.com/sorrycc/webpack-chain)。
+## Examples
 
-## 参考范例
+### Modify Loaders
 
-### 修改 Loader
-
-Loader 可以读取和处理不同类型的文件模块，具体参考 [concepts](https://webpack.js.org/concepts/loaders) 和 [loaders](https://webpack.js.org/loaders/)。
+The webpack loaders can be used to load and transform various file types. For more information, see [concepts](https://webpack.js.org/concepts/loaders) and [loaders](https://webpack.js.org/loaders/).
 
 ```typescript
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
-import type { Options } from '@modern-js/inspector-webpack-plugin'; 
 
-export const PluginInspector = (options?: Options): BuilderPlugin => ({
-  name: 'builder-plugin-inspector',
+export const PluginTypeScriptExt = (): BuilderPlugin => ({
+  name: 'builder-typescript-ext',
   setup(api) {
     api.modifyWebpackChain(async chain => {
-      // 仅在需要的时候动态加载模块，避免不必要的性能消耗
-      const { InspectorWebpackPlugin } = await import(
-        '@modern-js/inspector-webpack-plugin'
-      );
-      // 修改 Webpack Chain 接入插件
-      chain
-        .plugin('inspector-webpack-plugin')
-        .use(InspectorWebpackPlugin, [inspectorOptions]);
+      // set ts-loader to recognize more files as typescript modules.
+      chain.module
+        .rule(CHAIN_ID.RULE.TS)
+        .test(/\.(ts|mts|cts|tsx|tss|tsm)$/);
     });
   },
 });
 ```
 
-### 添加模块入口
+### Add Entry Points
 
 ```typescript
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
-import type { Options } from '@modern-js/inspector-webpack-plugin'; 
 
-export const PluginInspector = (options?: Options): BuilderPlugin => ({
-  name: 'builder-plugin-inspector',
+export const PluginAdminPanel = (): BuilderPlugin => ({
+  name: 'builder-admin-panel',
   setup(api) {
     api.modifyWebpackChain(async chain => {
-      // 仅在需要的时候动态加载模块，避免不必要的性能消耗
-      const { InspectorWebpackPlugin } = await import(
-        '@modern-js/inspector-webpack-plugin'
-      );
-      // 修改 Webpack Chain 接入插件
-      chain
-        .plugin('inspector-webpack-plugin')
-        .use(InspectorWebpackPlugin, [inspectorOptions]);
+      config
+        .entry('admin-panel')
+        .add('src/admin/panel.js');
     });
   },
 });
 ```
 
-### 接入 webpack 插件
+### Integrate webpack Plugins
 
-开发者可以在 Builder 插件中接入已有的 webpack 插件来平缓迁移项目：
+Integrate existing webpack plugins to migrate your applications:
 
 ```typescript
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
@@ -219,11 +199,12 @@ export const PluginInspector = (options?: Options): BuilderPlugin => ({
   name: 'builder-plugin-inspector',
   setup(api) {
     api.modifyWebpackChain(async chain => {
-      // 仅在需要的时候动态加载模块，避免不必要的性能消耗
+      // load modules dynamically only when needed
+      // to avoid unnecessary performance cost.
       const { InspectorWebpackPlugin } = await import(
         '@modern-js/inspector-webpack-plugin'
       );
-      // 修改 Webpack Chain 接入插件
+      // modify webpack-chain to setup webpack plugin.
       chain
         .plugin('inspector-webpack-plugin')
         .use(InspectorWebpackPlugin, [inspectorOptions]);

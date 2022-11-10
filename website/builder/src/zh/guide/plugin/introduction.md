@@ -153,20 +153,15 @@ Loader 可以读取和处理不同类型的文件模块，具体参考 [concepts
 
 ```typescript
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
-import type { Options } from '@modern-js/inspector-webpack-plugin'; 
 
-export const PluginInspector = (options?: Options): BuilderPlugin => ({
-  name: 'builder-plugin-inspector',
+export const PluginTypeScriptExt = (): BuilderPlugin => ({
+  name: 'builder-typescript-ext',
   setup(api) {
     api.modifyWebpackChain(async chain => {
-      // 仅在需要的时候动态加载模块，避免不必要的性能消耗
-      const { InspectorWebpackPlugin } = await import(
-        '@modern-js/inspector-webpack-plugin'
-      );
-      // 修改 Webpack Chain 接入插件
-      chain
-        .plugin('inspector-webpack-plugin')
-        .use(InspectorWebpackPlugin, [inspectorOptions]);
+      // 设置 ts-loader 将更多的文件识别为 typescript 模块
+      chain.module
+        .rule(CHAIN_ID.RULE.TS)
+        .test(/\.(ts|mts|cts|tsx|tss|tsm)$/);
     });
   },
 });
@@ -176,20 +171,14 @@ export const PluginInspector = (options?: Options): BuilderPlugin => ({
 
 ```typescript
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
-import type { Options } from '@modern-js/inspector-webpack-plugin'; 
 
-export const PluginInspector = (options?: Options): BuilderPlugin => ({
-  name: 'builder-plugin-inspector',
+export const PluginAdminPanel = (): BuilderPlugin => ({
+  name: 'builder-admin-panel',
   setup(api) {
     api.modifyWebpackChain(async chain => {
-      // 仅在需要的时候动态加载模块，避免不必要的性能消耗
-      const { InspectorWebpackPlugin } = await import(
-        '@modern-js/inspector-webpack-plugin'
-      );
-      // 修改 Webpack Chain 接入插件
-      chain
-        .plugin('inspector-webpack-plugin')
-        .use(InspectorWebpackPlugin, [inspectorOptions]);
+      config
+        .entry('admin-panel')
+        .add('src/admin/panel.js');
     });
   },
 });
