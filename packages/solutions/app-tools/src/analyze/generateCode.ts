@@ -16,6 +16,7 @@ import type {
   PageRoute,
 } from '@modern-js/types';
 import esbuild from 'esbuild';
+import { getCommand } from '../utils/commands';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
 import {
@@ -93,12 +94,13 @@ const buildLoader = async (entry: string, outfile: string) => {
     '.ts': 'tsx',
   };
   const EXTERNAL_REGEXP = /^[^./]|^\.[^./]|^\.\.[^/]/;
+  const command = getCommand();
   await esbuild.build({
     format: 'cjs',
     platform: 'node',
     target: 'esnext',
     loader,
-    watch: process.env.NODE_ENV === 'development' && {},
+    watch: command === 'dev' && {},
     bundle: true,
     logLevel: 'error',
     entryPoints: [entry],
@@ -144,7 +146,9 @@ export const generateCode = async (
   const { mountId } = config.output;
   const getRoutes = islegacy ? getClientRoutesLegacy : getClientRoutes;
 
-  for (const entrypoint of entrypoints) {
+  await Promise.all(entrypoints.map(generateEntryCode));
+
+  async function generateEntryCode(entrypoint: Entrypoint) {
     const { entryName, isAutoMount, customBootstrap, fileSystemRoutes } =
       entrypoint;
     if (isAutoMount) {
