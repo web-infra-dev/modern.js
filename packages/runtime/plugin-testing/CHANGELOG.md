@@ -1,5 +1,18 @@
 # @modern-js/plugin-testing
 
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/plugin@1.21.2
+  - @modern-js/prod-server@1.21.2
+  - @modern-js/runtime@1.21.2
+  - @modern-js/webpack@1.21.2
+  - @modern-js/babel-preset-app@1.21.2
+  - @modern-js/babel-compiler@1.21.2
+  - @modern-js/utils@1.21.2
+
 ## 1.21.1
 
 ### Patch Changes
