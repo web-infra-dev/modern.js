@@ -1,5 +1,13 @@
 # @modern-js/module-generator
 
+## 2.4.7
+
+### Patch Changes
+
+- 7c89bd6: feat: @modern-js/create support --packages params to set special packages version
+
+  feat: @modern-js/create 支持 --packages 参数用于指定特殊的包版本
+
 ## 2.4.6
 
 ## 2.4.5
