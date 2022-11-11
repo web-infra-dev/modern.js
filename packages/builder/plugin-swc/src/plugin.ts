@@ -107,100 +107,71 @@ const defaultMinifyOptions: JsMinifyOptions = {
   mangle: true,
 };
 
+const JS_RE = /\.js$/;
 export class SwcWebpackPlugin {
-  private readonly options: Partial<TransformConfig>;
+  private readonly minifyOptions: Partial<JsMinifyOptions>;
 
   constructor(options: Partial<TransformConfig> = {}) {
-    this.options = options;
-  }
-
-  async transformCode({
-    source,
-    file,
-    devtool,
-  }: {
-    source: string;
-    file: string;
-    devtool: string | boolean | undefined;
-  }): Promise<Output | undefined> {
-    if (!/\.(m?js|css)(\?.*)?$/i.test(file)) {
-      return;
-    }
-
-    if (/\.css(\?.*)?$/i.test(file)) {
-      // TODO
-      return;
-    }
-
-    const minifyOptions = merge(
+    this.minifyOptions = merge(
       defaultMinifyOptions,
-      this.options.swc?.jsc?.minify || {},
+      options.swc?.jsc?.minify || {},
     );
-
-    minifyOptions.sourceMap = devtool !== false;
-    minifyOptions.inlineSourcesContent =
-      typeof devtool === 'string' && devtool.includes('inline');
-
-    try {
-      // eslint-disable-next-line consistent-return
-      return await minify(minifyOptions, file, source);
-    } catch (e) {
-      console.error(e);
-    }
   }
 
   apply(compiler: Compiler): void {
-    const { devtool } = compiler.options;
-
-    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: Compilation) => {
+    compiler.hooks.compilation.tap(PLUGIN_NAME, async compilation => {
       const { Compilation } = compiler.webpack;
+      const { devtool } = compilation.options;
+
+      this.minifyOptions.sourceMap =
+        typeof devtool === 'string'
+          ? devtool.includes('source-map')
+          : Boolean(devtool);
+      this.minifyOptions.inlineSourcesContent =
+        typeof devtool === 'string' && devtool.includes('inline');
 
       compilation.hooks.processAssets.tapPromise(
         {
           name: PLUGIN_NAME,
           stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
         },
-        async (assets: any) => {
-          await this.updateAssets(compilation, Object.keys(assets), devtool);
+        async () => {
+          await this.updateAssets(compilation);
         },
       );
     });
   }
 
-  async updateAssets(
-    compilation: Compilation,
-    files: Array<string>,
-    devtool: string | boolean | undefined,
-  ): Promise<void> {
-    for (const file of files) {
-      if (!/\.(m?js|css)(\?.*)?$/i.test(file)) {
-        // TODO swc css minification is not ready for production yet
-        continue;
-      }
+  async updateAssets(compilation: Compilation): Promise<void[]> {
+    const { SourceMapSource, RawSource } = compilation.compiler.webpack.sources;
+    const assets = compilation
+      .getAssets()
+      // TODO handle css minify
+      .filter(asset => !asset.info.minimized && JS_RE.test(asset.name));
 
-      const assetSource = compilation.assets[file];
-      const { source, map } = assetSource.sourceAndMap();
-      const result = await this.transformCode({
-        source: source.toString(),
-        file,
-        devtool,
-      });
-      compilation.updateAsset(file, () => {
-        const { SourceMapSource, RawSource } =
-          compilation.compiler.webpack.sources;
-        if (devtool) {
-          return new SourceMapSource(
-            result?.code || '',
-            file,
-            result?.map as any,
-            source.toString(),
-            map as any,
-            true,
-          ) as any;
-        } else {
-          return new RawSource(result?.code || '') as any;
-        }
-      });
-    }
+    return Promise.all(
+      assets.map(async asset => {
+        const { source, map } = asset.source.sourceAndMap();
+        const result = await minify(
+          this.minifyOptions,
+          asset.name,
+          source.toString(),
+        );
+
+        compilation.updateAsset(
+          asset.name,
+          this.minifyOptions.sourceMap && result.map
+            ? new SourceMapSource(
+                result.code,
+                asset.name,
+                result.map,
+                source.toString(),
+                map,
+                true,
+              )
+            : new RawSource(result?.code || ''),
+        );
+      }),
+    );
   }
 }
