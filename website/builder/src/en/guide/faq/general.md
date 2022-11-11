@@ -18,6 +18,6 @@ If you need to build a library or UI components, it is recommended to use the [M
 
 At present, Turbopack only supports use in next.js. When Turbopack can be used independently, and the completion and community ecology reach a certain level, we will consider supporting it for sure.
 
-## Will Builder support vite?
+## Will Builder support Vite?
 
-[vite](https://vitejs.dev/) is a great tool, but the goal of Builder is to replace webpack with Rust Bundler and keep the bundle behavior of development environment and production environment consistent, so Builder will not support vite.
+[Vite](https://vitejs.dev/) is a great tool, but the goal of Builder is to replace webpack with Rust Bundler and keep the bundle behavior of development environment and production environment consistent, so Builder will not support Vite.
