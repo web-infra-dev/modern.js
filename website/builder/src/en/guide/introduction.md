@@ -8,7 +8,7 @@ In order to reduce the complexity and make it easier to build a project, we abst
 
 ## Rust
 
-In recent years, the trend in front-end toolchains has been to re-implement them in programming languages like Rust - for better performance. Some high-performance tools have created, such as [SWC](https://swc.rs/), [esbuild](https://github.com/evanw/esbuild), [turbopack](https://turbo.build/pack), etc., and their use is gradually expanding. However, there are many differences between these Rust tools and JavaScript tools, including functional differences, configuration inconsistencies, which make it difficult for users to migrate.
+In recent years, the trend in front-end toolchains has been to re-implement them in programming languages like Rust - for better performance. Some high-performance tools have created, such as [SWC](https://swc.rs/), [esbuild](https://github.com/evanw/esbuild), [Turbopack](https://turbo.build/pack), etc., and their use is gradually expanding. However, there are many differences between these Rust tools and JavaScript tools, including functional differences, configuration inconsistencies, which make it difficult for users to migrate.
 
 The Rust process of the front-end toolchain will continue for a long time, **Modern.js Builder is expected to help developers better transition to Rust tools**. Whether it's JavaScript tools, Rust tools, or even low-level bundlers like webpack, they're all replaceable components in Modern.js Builder. You can incrementally replace these components by turning on configuration or enabling plugins, and Modern.js Builder will smooth out the major differences and help users migrate.
 
@@ -37,8 +37,8 @@ At the same time, We are integrating rspack to improve compilation speed, rspack
 
 At present, the webpack provider is stable for production, and the rspack provider is still under development.
 
-:::tip About turbopack
-[turbopack](https://turbo.build/pack) is the rust-powered successor to webpack, we will continue to pay attention to it. At present, turbopack only supports use in next.js. When turbopack can be used independently, and the completion and community ecology reach a certain level, we will consider supporting it for sure.
+:::tip About Turbopack
+[Turbopack](https://turbo.build/pack) is the rust-powered successor to webpack, we will continue to pay attention to it. At present, Turbopack only supports use in next.js. When Turbopack can be used independently, and the completion and community ecology reach a certain level, we will consider supporting it for sure.
 :::
 
 ### Deep optimization

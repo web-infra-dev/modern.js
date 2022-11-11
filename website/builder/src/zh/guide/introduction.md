@@ -8,7 +8,7 @@ Modern.js Builder 是**一个面向现代 Web 开发场景的构建引擎**。
 
 ## Rust 化
 
-近年来，前端工具链的发展趋势是使用 Rust 等编程语言重新实现 —— 以获得更好的性能表现。社区中出现 [SWC](https://swc.rs/)、[esbuild](https://github.com/evanw/esbuild)、[turbopack](https://turbo.build/pack) 等高性能工具，并且应用领域在逐步扩宽。但这些 Rust 工具与 JavaScript 工具之间存在较多差异，包括功能不完整、配置不一致等，导致使用者需要承担一定的迁移成本。
+近年来，前端工具链的发展趋势是使用 Rust 等编程语言重新实现 —— 以获得更好的性能表现。社区中出现 [SWC](https://swc.rs/)、[esbuild](https://github.com/evanw/esbuild)、[Turbopack](https://turbo.build/pack) 等高性能工具，并且应用领域在逐步扩宽。但这些 Rust 工具与 JavaScript 工具之间存在较多差异，包括功能不完整、配置不一致等，导致使用者需要承担一定的迁移成本。
 
 前端工具链 Rust 化的进程还会持续较长一段时间，**Modern.js Builder 期望能帮助开发者更好地过渡到 Rust 工具**。不管是 JavaScript 工具，还是 Rust 工具，甚至是 webpack 等底层 bundler，在 Modern.js Builder 中都是可替换的零部件。你可以通过开启配置或启用插件的方式，对这些零部件进行渐进式替换，Modern.js Builder 会抹平其中的主要差异，帮助使用者进行低成本迁移。
 
@@ -37,10 +37,10 @@ Modern.js Builder (简称 Builder) 的定位是**服务于上层框架的构建�
 
 目前，Builder 基于 webpack 的构建已经成熟可用，基于 rspack 的构建仍在开发过程中，敬请期待。
 
-:::tip 关于 turbopack
-尽管 Builder 已经在对接 rspack，对于 webpack 的继任者 —— [turbopack](https://turbo.build/pack)，我们也会持续关注它后续的发展情况。
+:::tip 关于 Turbopack
+尽管 Builder 已经在对接 rspack，对于 webpack 的继任者 —— [Turbopack](https://turbo.build/pack)，我们也会持续关注它后续的发展情况。
 
-目前 turbopack 仅支持在 next.js 中使用，当 turbopack 支持独立使用，并且完成度和社区生态达到一定水平时，我们会考虑进行接入。
+目前 Turbopack 仅支持在 next.js 中使用，当 Turbopack 支持独立使用，并且完成度和社区生态达到一定水平时，我们会考虑进行接入。
 :::
 
 ### 深度优化构建产物
