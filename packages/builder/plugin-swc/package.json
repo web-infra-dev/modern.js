@@ -14,9 +14,25 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./loader": "./dist/loader.js",
-    "./plugin": "./dist/plugin.js",
-    "./binding": "./dist/binding.js"
+    "./loader": {
+      "types": "./dist/loader.d.ts",
+      "default": "./dist/loader.js"
+    },
+    "./plugin": {
+      "types": "./dist/plugin.d.ts",
+      "default": "./dist/plugin.js"
+    },
+    "./binding": {
+      "types": "./dist/binding.d.ts",
+      "default": "./dist/binding.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "loader": ["./dist/loader.d.ts"],
+      "plugin": ["./dist/plugin.d.ts"],
+      "binding": ["./dist/binding.d.ts"]
+    }
   },
   "keywords": [],
   "author": "",
