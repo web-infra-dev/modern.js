@@ -22,7 +22,7 @@ pnpm install @modern-js/builder-plugin-esbuild -D
 你可以在 Builder 中注册插件，以便 Builder 接入 ESBuild 的功能:
 
 ```js
-import { Builder } from '@modern-js/builder-plugin-esbuild';
+import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
 
 // 往 builder 实例上添加插件
 builder.addPlugins([PluginEsbuild()]);

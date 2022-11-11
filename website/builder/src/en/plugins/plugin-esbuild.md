@@ -22,7 +22,7 @@ pnpm install @modern-js/builder-plugin-esbuild -D
 You can register the plugin  in Builder:
 
 ```js
-import { Builder } from '@modern-js/builder-plugin-esbuild';
+import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
 
 // Add plugins to the builder instance
 builder.addPlugins([PluginEsbuild()]);
