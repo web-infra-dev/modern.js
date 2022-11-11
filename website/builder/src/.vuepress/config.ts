@@ -59,11 +59,6 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       },
       {
         collapsable: false,
-        title: getText('插件', 'Plugin'),
-        children: [getLink('/guide/plugin/esbuild')],
-      },
-      {
-        collapsable: false,
         title: getText('常见问题', 'FAQ'),
         children: [
           getLink('/guide/faq/general'),
