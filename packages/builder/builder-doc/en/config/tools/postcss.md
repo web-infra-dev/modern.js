@@ -106,3 +106,7 @@ export default {
   },
 };
 ```
+
+:::tip
+Builder uses the PostCSS v8 version. When you use third-party PostCSS plugins, please pay attention to whether the PostCSS version is compatible. Some legacy plugins may not work in PostCSS v8.
+:::
