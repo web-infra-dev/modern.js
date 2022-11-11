@@ -15,6 +15,7 @@ export interface Entrypoint {
     globalApp?: string | false;
     routes?: any[];
   };
+  absoluteEntryDir?: string;
 }
 
 /**
@@ -104,6 +105,7 @@ export interface IAppContext {
   checkedEntries: string[];
   serverRoutes: ServerRoute[];
   htmlTemplates: HtmlTemplates;
+  absoluteEntryDir?: string;
   apiOnly: boolean;
   internalDirAlias: string;
   internalSrcAlias: string;

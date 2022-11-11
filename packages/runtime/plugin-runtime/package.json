@@ -48,6 +48,11 @@
       "node": "./dist/js/node/exports/server.js",
       "default": "./dist/js/treeshaking/exports/server.js"
     },
+    "./document": {
+      "jsnext:source": "./src/document/index.ts",
+      "node": "./dist/js/node/document/index.js",
+      "default": "./dist/js/treeshaking/document/index.js"
+    },
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
       "node": "./dist/js/node/ssr/index",
@@ -92,6 +97,9 @@
       ],
       "server": [
         "./dist/types/exports/server.d.ts"
+      ],
+      "document": [
+        "./dist/types/document/index.d.ts"
       ],
       "ssr": [
         "./dist/types/ssr/index.d.ts"

@@ -47,6 +47,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
       return {
         entryName,
         entry: indexFile,
+        absoluteEntryDir: path.resolve(dir),
         isAutoMount: false,
       };
     }
@@ -58,6 +59,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
         entryName,
         entry: path.join(dir, APP_FILE_NAME),
         isAutoMount: true,
+        absoluteEntryDir: path.resolve(dir),
         customBootstrap,
       };
     }
@@ -80,6 +82,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
           ),
         },
         isAutoMount: true,
+        absoluteEntryDir: path.resolve(dir),
         customBootstrap,
       };
       if (isHasPages) {
@@ -94,6 +97,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
     return {
       entryName,
       entry: indexFile as string,
+      absoluteEntryDir: path.resolve(dir),
       isAutoMount: false,
     };
   });
