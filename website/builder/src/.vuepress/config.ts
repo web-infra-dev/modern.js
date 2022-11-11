@@ -26,6 +26,10 @@ function getNavBar(lang: 'cn' | 'en'): NavItem[] {
       text: 'API',
       link: getLink('/api/'),
     },
+    {
+      text: getText('插件', 'Plugins'),
+      link: getLink('/plugins/introduction'),
+    },
   ];
 }
 
@@ -46,26 +50,12 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       {
         collapsable: false,
         title: getText('基础', 'Basic'),
-        children: [
-          getLink('/guide/basic/build-target'),
-        ],
+        children: [getLink('/guide/basic/build-target')],
       },
       {
         collapsable: false,
         title: getText('进阶', 'Advanced'),
-        children: [
-          getLink('/guide/advanced/build-performance'),
-        ],
-      },
-      {
-        collapsable: false,
-        title: getText('插件', 'Plugin'),
-        children: [
-          getLink('/guide/plugin/introduction'),
-          getLink('/guide/plugin/integration'),
-          getLink('/guide/plugin/testing'),
-          getLink('/guide/plugin/list'),
-        ],
+        children: [getLink('/guide/advanced/build-performance')],
       },
       {
         collapsable: false,
@@ -103,14 +93,35 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/builder-instance'),
           getLink('/api/builder-types'),
           getLink('/api/plugin-core'),
-          getLink('/api/plugin-hooks')
+          getLink('/api/plugin-hooks'),
+        ],
+      },
+    ],
+    [getLink('/plugins')]: [
+      {
+        collapsable: false,
+        title: getText('指南', 'Guide'),
+        children: [
+          getLink('/plugins/introduction'),
+          getLink('/plugins/integration'),
+          getLink('/plugins/testing'),
+        ],
+      },
+      {
+        collapsable: false,
+        title: getText('列表', 'List'),
+        children: [
+          getLink('/plugins/list'),
+          getLink('/plugins/plugin-swc'),
+          getLink('/plugins/plugin-esbuild'),
+          getLink('/plugins/plugin-node-polyfill'),
         ],
       },
     ],
   };
 }
 
-export default defineConfig4CustomTheme<ThemeConfig>((ctx) => ({
+export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   base: '/builder/',
   head: [
     ['link', { rel: 'icon', href: `https://modernjs.dev/img/favicon.ico` }],
@@ -187,10 +198,10 @@ export default defineConfig4CustomTheme<ThemeConfig>((ctx) => ({
     // OptimizeCssAssetsWebpackPlugin will cause the build to fail,
     // removed will not affect the build result
     config.plugins = config.plugins.filter(
-      (plugin) => plugin.constructor.name !== 'OptimizeCssAssetsWebpackPlugin'
+      plugin => plugin.constructor.name !== 'OptimizeCssAssetsWebpackPlugin',
     );
   },
-  extendMarkdown: (md) => {
+  extendMarkdown: md => {
     md.use(markdownItInclude);
   },
 }));
