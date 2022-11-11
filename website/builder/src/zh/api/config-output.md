@@ -30,6 +30,10 @@ extractApiHeaders: [2]
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/copy.md)!!!
 
+## output.cssModuleLocalIdentName
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/output/cssModuleLocalIdentName.md)!!!
+
 ## output.dataUriLimit
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/dataUriLimit.md)!!!

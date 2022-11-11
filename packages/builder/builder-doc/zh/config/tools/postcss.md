@@ -106,3 +106,7 @@ export default {
   },
 };
 ```
+
+:::tip
+Builder 中使用的 PostCSS 版本为 v8，当你引入社区中的 PostCSS 插件时，请注意版本是否适配，部分旧版本插件可能无法在 PostCSS v8 下运行。
+:::
