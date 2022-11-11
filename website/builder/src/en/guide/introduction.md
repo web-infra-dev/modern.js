@@ -38,7 +38,7 @@ At the same time, We are integrating rspack to improve compilation speed, rspack
 At present, the webpack provider is stable for production, and the rspack provider is still under development.
 
 :::tip About Turbopack
-[Turbopack](https://turbo.build/pack) is the rust-powered successor to webpack, we will continue to pay attention to it. At present, Turbopack only supports use in next.js. When Turbopack can be used independently, and the completion and community ecology reach a certain level, we will consider supporting it for sure.
+[Turbopack](https://turbo.build/pack) is the rust-powered successor to webpack, we will continue to pay attention to it. At present, Turbopack only supports use in Next.js. When Turbopack can be used independently, and the completion and community ecology reach a certain level, we will consider supporting it for sure.
 :::
 
 ### Deep optimization

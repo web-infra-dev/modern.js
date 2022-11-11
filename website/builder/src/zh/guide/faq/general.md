@@ -17,7 +17,7 @@ Builder 专注于解决 Web 应用构建场景，我们不推荐你使用 Builde
 
 尽管 Builder 已经在对接 rspack，对于 webpack 的继任者 —— [Turbopack](https://turbo.build/pack)，我们也会持续关注它后续的发展情况。
 
-目前 Turbopack 仅支持在 next.js 中使用，当 Turbopack 支持独立使用，并且完成度和社区生态达到一定水平时，我们会考虑进行接入。
+目前 Turbopack 仅支持在 Next.js 中使用，当 Turbopack 支持独立使用，并且完成度和社区生态达到一定水平时，我们会考虑进行接入。
 
 ## Builder 是否会接入 Vite？
 

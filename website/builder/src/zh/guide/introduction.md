@@ -40,7 +40,7 @@ Modern.js Builder (简称 Builder) 的定位是**服务于上层框架的构建�
 :::tip 关于 Turbopack
 尽管 Builder 已经在对接 rspack，对于 webpack 的继任者 —— [Turbopack](https://turbo.build/pack)，我们也会持续关注它后续的发展情况。
 
-目前 Turbopack 仅支持在 next.js 中使用，当 Turbopack 支持独立使用，并且完成度和社区生态达到一定水平时，我们会考虑进行接入。
+目前 Turbopack 仅支持在 Next.js 中使用，当 Turbopack 支持独立使用，并且完成度和社区生态达到一定水平时，我们会考虑进行接入。
 :::
 
 ### 深度优化构建产物
