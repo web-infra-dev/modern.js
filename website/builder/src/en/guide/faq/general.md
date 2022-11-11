@@ -17,3 +17,7 @@ If you need to build a library or UI components, it is recommended to use the [M
 [turbopack](https://turbo.build/pack) is the rust-powered successor to webpack, we will continue to pay attention to it.
 
 At present, turbopack only supports use in next.js. When turbopack can be used independently, and the completion and community ecology reach a certain level, we will consider supporting it for sure.
+
+## Will Builder support vite?
+
+[vite](https://vitejs.dev/) is a great tool, but the goal of Builder is to replace webpack with Rust Bundler and keep the bundle behavior of development environment and production environment consistent, so Builder will not support vite.
