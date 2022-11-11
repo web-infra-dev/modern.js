@@ -71,6 +71,12 @@ export const routerPlugin = ({
     setup: () => {
       return {
         async init({ context }, next) {
+          // can not get routes config, skip wrapping React Router.
+          // e.g. App.tsx as the entrypoint
+          if (!routesConfig) {
+            return next({ context });
+          }
+
           const { request }: { request: SSRServerContext['request'] } =
             context.ssrContext!;
 
@@ -94,6 +100,12 @@ export const routerPlugin = ({
           return next({ context });
         },
         hoc: ({ App }, next) => {
+          // can not get routes config, skip wrapping React Router.
+          // e.g. App.tsx as the entrypoint
+          if (!routesConfig) {
+            return next({ App });
+          }
+
           const getRouteApp = () => {
             return (props => {
               const { router, routerContext } = useContext(RuntimeReactContext);
