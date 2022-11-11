@@ -30,7 +30,7 @@ export default {
 
 ### Function Type
 
-When `tools.less` is Function type, the default config is passed as the first parameter, which can be directly modified or returned as the final result. The second parameter provides some utility functions that can be called directly. For example:
+When `tools.less` is a Function, the default config is passed as the first parameter, which can be directly modified or returned as the final result. The second parameter provides some utility functions that can be called directly. For example:
 
 ```js
 export default {

@@ -51,7 +51,7 @@ export default {
 
 ### Util Functions
 
-When `tools.babel` is of type Function, the tool functions available for the second parameter are as follows:
+When `tools.babel` is a Function, the tool functions available for the second parameter are as follows:
 
 #### addPlugins
 

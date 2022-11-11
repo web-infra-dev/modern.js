@@ -190,6 +190,11 @@ export async function applyBaseCSSRule(
       .end();
   }
 
+  const localIdentName =
+    config.output.cssModuleLocalIdentName ||
+    // Using shorter classname in production to reduce bundle size
+    (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
+
   const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
     {
       importLoaders: 1,
@@ -198,10 +203,7 @@ export async function applyBaseCSSRule(
           ? isLooseCssModules
           : true,
         exportLocalsConvention: 'camelCase',
-        // Using shorter classname in production to reduce bundle size
-        localIdentName: isProd
-          ? '[hash:base64:5]'
-          : '[path][name]__[local]--[hash:base64:5]',
+        localIdentName,
       },
       sourceMap: enableSourceMap,
     },

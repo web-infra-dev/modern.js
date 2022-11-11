@@ -30,6 +30,10 @@ This section describes some output related configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/copy.md)!!!
 
+## output.cssModuleLocalIdentName
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/cssModuleLocalIdentName.md)!!!
+
 ## output.dataUriLimit
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/dataUriLimit.md)!!!
