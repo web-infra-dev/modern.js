@@ -82,7 +82,7 @@ export default {
 
 #### target
 
-- Type: `'web' | 'node' | 'modern-web'`
+- Type: `'web' | 'node' | 'modern-web' | 'web-worker'`
 
 通过 target 参数可以判断当前构建的目标运行时环境。比如：
 
@@ -91,6 +91,44 @@ export default {
   tools: {
     webpack: (config, { target }) => {
       if (target === 'node') {
+        // ...
+      }
+      return config;
+    },
+  },
+};
+```
+
+#### isServer
+
+- Type: `boolean`
+
+判断当前构建的目标运行时环境是否为 `node`，等价于 `target === 'node'`。
+
+```js
+export default {
+  tools: {
+    webpack: (config, { isServer }) => {
+      if (isServer) {
+        // ...
+      }
+      return config;
+    },
+  },
+};
+```
+
+#### isWebWorker
+
+- Type: `boolean`
+
+判断当前构建的目标运行时环境是否为 `web-worker`，等价于 `target === 'web-worker'`。
+
+```js
+export default {
+  tools: {
+    webpack: (config, { isWebWorker }) => {
+      if (isWebWorker) {
         // ...
       }
       return config;
