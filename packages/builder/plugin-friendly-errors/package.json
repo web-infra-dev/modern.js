@@ -29,7 +29,7 @@
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
-    "build": "wireit",
+    "build": "tsc",
     "dev": "tsc --watch",
     "jest": "jest",
     "test": "vitest run",
@@ -83,18 +83,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "tsc",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    }
   }
 }
