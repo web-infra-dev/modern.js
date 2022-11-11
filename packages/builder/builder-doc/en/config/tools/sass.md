@@ -25,7 +25,7 @@ export default {
 
 ### Function Type
 
-When `tools.sass` is Function type, the default config is passed as the first parameter, which can be directly modified or returned as the final result. The second parameter provides some utility functions that can be called directly. For Example:
+When `tools.sass` is a Function, the default config is passed as the first parameter, which can be directly modified or returned as the final result. The second parameter provides some utility functions that can be called directly. For Example:
 
 ```js
 export default {

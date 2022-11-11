@@ -26,7 +26,7 @@ Builder integrates PostCSS by default, you can configure [postcss-loader](https:
 
 ### Object Type
 
-When this value is of type Object, it is merged with the default config via Object.assign. For example:
+When this value is an Object, it is merged with the default config via Object.assign. For example:
 
 ```js
 export default {
@@ -43,7 +43,7 @@ export default {
 
 ### Function Type
 
-When the value is of type Function, the internal default config is passed as the first parameter, and the config object can be modified directly without returning, or an object can be returned as the final result; the second parameter is a set of tool functions for modifying the postcss-loader config.
+When the value is a Function, the internal default config is passed as the first parameter, and the config object can be modified directly without returning, or an object can be returned as the final result; the second parameter is a set of tool functions for modifying the postcss-loader config.
 
 For example, you need to add a PostCSS plugin on the basis of the original plugin, and push a new plugin to the postcssOptions.plugins array:
 

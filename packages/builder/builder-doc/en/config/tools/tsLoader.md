@@ -5,7 +5,7 @@
 
 ### Object Type
 
-When this value is of type Object, it is merged with the default configuration via Object.assign.
+When this value is an Object, it is merged with the default configuration via Object.assign.
 
 The default configuration is as follows:
 
@@ -34,7 +34,7 @@ export default {
 
 ### Function Type
 
-When this value is of type Function, the default configuration is passed in as the first parameter, the configuration object can be modified directly, or an object can be returned as the final configuration.The second parameter is the util functions to modify the `ts-loader` configuration. For example:
+When this value is a Function, the default configuration is passed in as the first parameter, the configuration object can be modified directly, or an object can be returned as the final configuration.The second parameter is the util functions to modify the `ts-loader` configuration. For example:
 
 ```ts
 export default {
@@ -48,7 +48,7 @@ export default {
 
 ### Util Functions
 
-When the value of `tools.tsLoader` is of type Function, the utils functions available for the second parameter are as follows:
+When the value of `tools.tsLoader` is a Function, the utils functions available for the second parameter are as follows:
 
 #### addIncludes
 
