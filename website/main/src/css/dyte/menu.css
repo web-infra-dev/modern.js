@@ -14,7 +14,6 @@ ul.menu__list > li > a.menu__link--active {
 }
 
 nav.menu {
-  padding-right: 0;
   scrollbar-gutter: auto;
   scrollbar-width: none;
 }
