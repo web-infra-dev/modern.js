@@ -98,7 +98,10 @@ html[data-theme='dark'] {
   --ifm-table-border-color: var(--docs-color-border);
   /* --code-border-color: var(--docs-color-border); */
 
-  --doc-sidebar-width: 250px !important;
+  --doc-sidebar-width: 300px !important;
+
+  --ifm-heading-color: #213547;
+  --ifm-font-color-base: #213547;
 }
 
 html[data-theme='dark'] {
@@ -113,4 +116,7 @@ html[data-theme='dark'] {
   --docs-color-background-300: #2e2e2e;
 
   --docs-color-code-background: #1e1e1e;
+
+  --ifm-heading-color: rgb(231, 231, 231);
+  --ifm-font-color-base: rgb(231, 231, 231);
 }
