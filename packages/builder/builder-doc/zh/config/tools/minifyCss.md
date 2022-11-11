@@ -3,12 +3,14 @@
 
 ```js
 const defaultOptions = {
-  preset: [
-    'default',
-    {
-      mergeLonghand: false,
-    },
-  ],
+  minimizerOptions: {
+    preset: [
+      'default',
+      {
+        mergeLonghand: false,
+      },
+    ],
+  },
 };
 ```
 

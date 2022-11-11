@@ -49,7 +49,7 @@ export default {
 
 #### target
 
-- Type: `'web' | 'node' | 'modern-web'`
+- Type: `'web' | 'node' | 'modern-web' | 'web-worker'`
 
 The `target` parameter can be used to determine the current environment. For example:
 
@@ -58,6 +58,44 @@ export default {
   tools: {
     webpack: (config, { target }) => {
       if (target === 'node') {
+        // ...
+      }
+      return config;
+    },
+  },
+};
+```
+
+#### isServer
+
+- Type: `boolean`
+
+Determines whether the target environment is `node`, equivalent to `target === 'node'`.
+
+```js
+export default {
+  tools: {
+    webpack: (config, { isServer }) => {
+      if (isServer) {
+        // ...
+      }
+      return config;
+    },
+  },
+};
+```
+
+#### isWebWorker
+
+- Type: `boolean`
+
+Determines whether the target environment is `web-worker`, equivalent to `target === 'web-worker'`.
+
+```js
+export default {
+  tools: {
+    webpack: (config, { isWebWorker }) => {
+      if (isWebWorker) {
         // ...
       }
       return config;

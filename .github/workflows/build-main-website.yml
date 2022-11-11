@@ -2,7 +2,7 @@ name: Build Main Website
 
 on:
   push:
-    branches: [main]
+    branches: [next]
     paths:
       - 'website/main/**'
 
@@ -38,5 +38,5 @@ jobs:
         with:
           branch: gh-pages
           folder: website/main/dist
+          target-folder: v2
           clean: true
-          clean-exclude: builder/**/*

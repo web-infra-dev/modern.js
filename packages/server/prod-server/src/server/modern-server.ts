@@ -136,7 +136,7 @@ export class ModernServer implements ModernServerInterface {
     this.proxyTarget = proxyTarget;
     this.staticGenerate = staticGenerate || false;
     this.runMode = runMode || RUN_MODE.FULL;
-    process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
+    // process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
   }
 
   // server prepare

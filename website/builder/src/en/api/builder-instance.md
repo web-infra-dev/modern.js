@@ -27,7 +27,7 @@ Build target type, corresponding to the `target` option of `createBuilder` metho
 - **Type**
 
 ```ts
-type BuilderTarget = 'web' | 'node' | 'modern-web';
+type BuilderTarget = 'web' | 'node' | 'modern-web' | 'web-worker';
 
 type Context = {
   target: BuilderTarget | BuilderTarget[];
