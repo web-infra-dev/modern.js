@@ -65,7 +65,7 @@ const DEFAULT_MINIFY_OPTIONS = {
 
 ## 限制条件
 
-虽然 ESBuild/SWC 能给现有的 Webpack 项目带来明显的构建性能提升，但这两个工具在接入 Eden 时还存在一定的局限性，需要大家在接入的时候格外注意。
+虽然 ESBuild 能给现有的 webpack 项目带来明显的构建性能提升，但这两个工具在接入 Builder 时还存在一定的局限性，需要大家在接入的时候格外注意。
 
 ### ESBuild 限制
 
@@ -74,17 +74,11 @@ const DEFAULT_MINIFY_OPTIONS = {
 作为代码压缩工具(即 `minimize` 能力)，ESBuild 可以在生产环境中进行压缩和混淆，但也仅能支持 ES2015 即以上的语法(因为压缩过程需要识别代码 AST 并进行语法转换)。你可以通过如下的配置指定目标语法版本:
 
 ```ts
-import { createEdenConfig } from '@ies/eden-web-build';
-
-export default createEdenConfig({
-  abilities: {
-    esbuild: {
-      minimize: {
-        target: 'es2015'
-      }
-    }
+builder.addPlugins([PluginEsbuild({
+  minimize: {
+    target: 'es2015',
   },
-});
+})]);
 ```
 
 :::danger 注意
