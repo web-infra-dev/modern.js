@@ -6,7 +6,7 @@ module.exports = {
   title: 'Modern.js - 现代 Web 工程体系',
   tagline: 'Modernjs are cool',
   url: 'https://modernjs.dev/',
-  baseUrl: '/',
+  baseUrl: '/v2/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -148,7 +148,7 @@ module.exports = {
               publicPath:
                 process.env.NODE_ENV !== 'development'
                   ? `//lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/`
-                  : '/',
+                  : '/v2/',
             },
             resolveLoader: {
               alias: {
