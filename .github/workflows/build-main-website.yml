@@ -39,4 +39,6 @@ jobs:
           branch: gh-pages
           folder: website/main/dist
           clean: true
-          clean-exclude: builder/**/*
+          clean-exclude: |
+            builder/**/*
+            v2/**/*
