@@ -28,7 +28,7 @@ export default {
 
 ### Function Type
 
-When `tools.autoprefixer` is of Function type, the default config is passed as the first parameter and can be directly modified or returned as the final result. For example:
+When `tools.autoprefixer` is a Function, the default config is passed as the first parameter and can be directly modified or returned as the final result. For example:
 
 ```js
 export default {

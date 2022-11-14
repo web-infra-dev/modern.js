@@ -14,8 +14,6 @@ function renderToPipe(
 ) {
   let isShellStream = true;
 
-  // TODO: react18 Streaming SSR
-
   const forUserPipe: Pipe<Writable> = stream => {
     return new Promise(resolve => {
       const { pipe } = renderToPipeableStream(rootElement, {

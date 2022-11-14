@@ -65,7 +65,6 @@ export default (): CliPlugin => ({
             `should enable runtime.router for entry ${entryName}`,
           );
         }
-
         return {
           entrypoint,
           imports,

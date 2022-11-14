@@ -117,6 +117,10 @@ export interface SharedOutputConfig {
    */
   cleanDistPath?: boolean;
   /**
+   * Set the local ident name of CSS modules.
+   */
+  cssModuleLocalIdentName?: string;
+  /**
    * Whether to disable code minification in production build.
    */
   disableMinimize?: boolean;

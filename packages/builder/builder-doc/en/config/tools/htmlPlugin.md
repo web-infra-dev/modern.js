@@ -39,7 +39,7 @@ export default {
 
 ### Function Type
 
-When `tools.htmlPlugin` is Function type:
+When `tools.htmlPlugin` is a Function:
 
 - The first parameter is the default config, which can be modified directly.
 - The second parameter is also an object, containing the entry name and the entry value.
