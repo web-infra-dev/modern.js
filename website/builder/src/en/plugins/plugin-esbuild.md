@@ -34,22 +34,7 @@ builder.addPlugins([PluginEsbuild()]);
 
 ## Configuration
 
-The default config of the plugin is as follows:
-
-```ts
-const defaultOptions = {
-  loader: {
-    target: 'es2015',
-    charset: builderConfig.output.charset,
-  },
-  minimize: {
-    css: true,
-    target: 'es2015',
-  },
-};
-```
-
-The functions of JS(X)/TS(X) transformation and code minification are automatically enabled. Of course, you can also customize the behavior of the plugin through following config.
+The plugin will enable code transformation and minification by default. You can also customize the behavior of the plugin through configuration.
 
 ### loader
 

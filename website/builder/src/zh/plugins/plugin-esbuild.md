@@ -34,22 +34,7 @@ builder.addPlugins([PluginEsbuild()]);
 
 ## 配置插件
 
-插件的默认配置如下:
-
-```ts
-const defaultOptions = {
-  loader: {
-    target: 'es2015',
-    charset: builderConfig.output.charset,
-  },
-  minimize: {
-    css: true,
-    target: 'es2015',
-  },
-};
-```
-
-即自动开启 JS(X)/TS(X) 和代码压缩的功能。当然，你也可以通过配置来自定义插件的行为。
+插件默认会开启代码转译和代码压缩的功能，你也可以通过配置来自定义插件的行为。
 
 ### loader
 
