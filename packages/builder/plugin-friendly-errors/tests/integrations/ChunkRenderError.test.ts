@@ -6,6 +6,7 @@ import { Chunk } from 'webpack';
 import ChunkRenderError from 'webpack/lib/ChunkRenderError';
 import { baseFormatter, prettyFormatter } from '@/formatter';
 import { parseError } from '@/shared/utils';
+import { flattenErrorCauses } from '@/transformer';
 
 test('ChunkRenderError', async () => {
   const options = await useFixture('@modern-js/e2e/fixtures/builder/basic');
@@ -23,5 +24,5 @@ test('ChunkRenderError', async () => {
   );
   const parsed = parseError(error);
   console.log(baseFormatter(parsed));
-  console.log(prettyFormatter(parsed));
+  console.log(prettyFormatter(flattenErrorCauses(parsed)!));
 });

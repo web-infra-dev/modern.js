@@ -16,7 +16,13 @@ export const parseError = (
   options?: WithSourcesMixin,
 ) => {
   const parsed = cloneErrorObject(error) as ParsedError;
-  parsed.trace = flattenErrorTrace(error, options);
+  const cause = getErrorCause(error);
+  parsed.trace = parseTrace(error, options);
+  parsed.causes = [];
+  if (cause) {
+    const parsedCause = parseError(cause, type, options);
+    parsed.causes.push(parsedCause, ...parsedCause.causes);
+  }
   parsed.raw = error;
   parsed.type = type;
 
@@ -61,30 +67,28 @@ export const formatError = (
   return formatted;
 };
 
+export const getErrorCause = (error: Error) => {
+  const ret = error.cause || error.error;
+  return ret instanceof Error ? ret : null;
+};
+
 export const getErrorCauses = (error: Error) => {
   const causes = [];
-  let e: unknown = error;
-  while (e instanceof Error) {
-    causes.push(e);
-    e = e.cause || e.error;
+  while (true) {
+    const e = getErrorCause(causes[causes.length - 1] || error);
+    if (e) {
+      causes.push(e);
+    } else {
+      break;
+    }
   }
   return causes;
 };
 
-export const compressCauses = (
-  causes: Error[],
-  options?: WithSourcesMixin,
-): StackTracey.Entry[] => {
-  const parseTrace = options?.withSources
-    ? (e: Error) => new StackTracey(e).withSources().items
-    : (e: Error) => new StackTracey(e).items;
-  const parsedTraces = causes.map(parseTrace);
-  const compressed = _(parsedTraces).flatten().uniqBy('beforeParse').value();
-  return compressed;
-};
-
-export const flattenErrorTrace = (error: Error, options?: WithSourcesMixin) => {
-  const causes = getErrorCauses(error);
-  const compressed = compressCauses(causes, options);
-  return compressed;
+export const parseTrace = (error: Error, options?: WithSourcesMixin) => {
+  if (options?.withSources) {
+    return new StackTracey(error).withSources().items;
+  } else {
+    return new StackTracey(error).items;
+  }
 };

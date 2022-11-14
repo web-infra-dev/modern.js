@@ -25,5 +25,9 @@ export const prettyFormatter: ErrorFormatter = e => {
   const title = `${errorSign} ${errorName}${connector} ${message}`;
   const formattedStack = e.trace.map(formatTraceEntry).join('\n');
 
-  return `${title}\n${formattedStack}`;
+  let ret = `${title}\n${formattedStack}`;
+  if (e.causes.length) {
+    ret += `\n${prettyFormatter(e.causes[0])}`;
+  }
+  return ret;
 };

@@ -5,6 +5,7 @@ export type TracingFrame = StackTracey.Entry;
 export interface ParsedError<R extends Error = Error> extends Error {
   type: ThrowableType;
   raw: R;
+  causes: ParsedError[];
   trace: TracingFrame[];
 }
 
