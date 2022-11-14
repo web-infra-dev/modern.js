@@ -23,6 +23,12 @@ export const routerPlugin = ({
     setup: () => {
       return {
         hoc: ({ App }, next) => {
+          // can not get routes config, skip wrapping React Router.
+          // e.g. App.tsx as the entrypoint
+          if (!routesConfig) {
+            return next({ App });
+          }
+
           const getRouteApp = () => {
             return (props => {
               const routeElements = renderRoutes(routesConfig);

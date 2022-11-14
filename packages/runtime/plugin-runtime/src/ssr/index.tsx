@@ -75,16 +75,14 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
         }
 
         function streamSSRHydrate() {
-          loadableReady(() => {
-            // callback: https://github.com/reactwg/react-18/discussions/5
-            let SSRApp: React.FC = () => (
-              <WithCallback callback={callback}>
-                <App context={hydrateContext} />
-              </WithCallback>
-            );
-            SSRApp = hoistNonReactStatics(SSRApp, App);
-            ModernHydrate(<SSRApp />);
-          });
+          // callback: https://github.com/reactwg/react-18/discussions/5
+          let SSRApp: React.FC = () => (
+            <WithCallback callback={callback}>
+              <App context={hydrateContext} />
+            </WithCallback>
+          );
+          SSRApp = hoistNonReactStatics(SSRApp, App);
+          ModernHydrate(<SSRApp />);
         }
       },
       init({ context }, next) {
