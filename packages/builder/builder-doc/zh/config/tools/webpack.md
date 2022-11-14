@@ -139,7 +139,7 @@ export default {
 
 #### webpack
 
-- Type: `Object`
+- Type: `typeof import('webpack')`
 
 通过这个参数你可以拿到 webpack 实例。比如：
 
@@ -149,6 +149,122 @@ export default {
     webpack: (config, { webpack }) => {
       config.plugins.push(new webpack.ProgressPlugin());
       return config;
+    },
+  },
+};
+```
+
+### HtmlWebpackPlugin
+
+- Type: `typeof import('html-webpack-plugin')`
+
+通过这个参数你可以拿到 HtmlWebpackPlugin 实例。
+
+```js
+export default {
+  tools: {
+    webpackChain: (chain, { HtmlWebpackPlugin }) => {
+      console.log(HtmlWebpackPlugin);
+    },
+  },
+};
+```
+
+### addRules
+
+- Type: `(rules: RuleSetRule | RuleSetRule[]) => void`
+
+添加额外的 webpack rules。
+
+示例：
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { addRules }) => {
+      // 添加单条规则
+      addRules({
+        test: /\.foo/,
+        loader: require.resolve('foo-loader'),
+      });
+
+      // 以数组形式添加多条规则
+      addRules([
+        {
+          test: /\.foo/,
+          loader: require.resolve('foo-loader'),
+        },
+        {
+          test: /\.bar/,
+          loader: require.resolve('bar-loader'),
+        },
+      ]);
+    },
+  },
+};
+```
+
+### prependPlugins
+
+- Type: `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+
+在内部 webpack 插件数组头部添加额外的插件，数组头部的插件会优先执行。
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { prependPlugins, webpack }) => {
+      // 添加单个插件
+      prependPlugins(
+        new webpack.BannerPlugin({
+          banner: 'hello world!',
+        }),
+      );
+
+      // 以数组形式添加多个插件
+      prependPlugins([new PluginA(), new PluginB()]);
+    },
+  },
+};
+```
+
+### appendPlugins
+
+- Type: `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+
+在内部 webpack 插件数组尾部添加额外的插件，数组尾部的插件会在最后执行。
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { appendPlugins, webpack }) => {
+      // 添加单个插件
+      appendPlugins([
+        new webpack.BannerPlugin({
+          banner: 'hello world!',
+        }),
+      ]);
+
+      // 以数组形式添加多个插件
+      appendPlugins([new PluginA(), new PluginB()]);
+    },
+  },
+};
+```
+
+### removePlugin
+
+- Type: `(name: string) => void`
+
+删除内部的 webpack 插件，参数为该插件的 `constructor.name`。
+
+例如，删除内部的 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin)：
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { removePlugin }) => {
+      removePlugin('ForkTsCheckerWebpackPlugin');
     },
   },
 };

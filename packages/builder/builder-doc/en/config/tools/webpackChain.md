@@ -106,9 +106,9 @@ export default {
 
 #### webpack
 
-- Type: `Object`
+- Type: `typeof import('webpack')`
 
-The `webpack` parameter is the original webpack configuration object. For example:
+The webpack instance. For example:
 
 ```js
 export default {
@@ -119,6 +119,22 @@ export default {
     },
   },
 };
+```
+
+### HtmlWebpackPlugin
+
+- Type: `typeof import('html-webpack-plugin')`
+
+The HtmlWebpackPlugin instance:
+
+```js
+export default defineConfig({
+  tools: {
+    webpackChain: (chain, { HtmlWebpackPlugin }) => {
+      console.log(HtmlWebpackPlugin);
+    },
+  },
+});
 ```
 
 #### CHAIN_ID

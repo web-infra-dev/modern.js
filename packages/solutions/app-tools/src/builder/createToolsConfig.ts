@@ -4,9 +4,8 @@ import type {
   WebpackConfig,
   WebpackChain,
 } from '@modern-js/builder-webpack-provider';
-import type webpack from '@modern-js/builder-webpack-provider/webpack';
 import type { NormalizedConfig, WebpackConfigUtils } from '@modern-js/core';
-import { applyOptionsChain, ensureArray } from '@modern-js/utils';
+import { applyOptionsChain } from '@modern-js/utils';
 
 export function createToolsConfig(
   normalizedConfig: NormalizedConfig,
@@ -99,43 +98,10 @@ function createBuilderWebpack(
 ): BuilderToolConfig['webpack'] {
   return webpack
     ? (config, utils) => {
-        const addRules = (
-          rules: webpack.RuleSetRule | webpack.RuleSetRule[],
-        ) => {
-          const ruleArr = ensureArray(rules);
-          config.module?.rules?.unshift(...ruleArr);
-        };
-        const prependPlugins = (
-          plugins:
-            | webpack.WebpackPluginInstance
-            | webpack.WebpackPluginInstance[],
-        ) => {
-          const pluginArr = ensureArray(plugins);
-          config.plugins?.unshift(...pluginArr);
-        };
-        const appendPlugins = (
-          plugins:
-            | webpack.WebpackPluginInstance
-            | webpack.WebpackPluginInstance[],
-        ) => {
-          const pluginArr = ensureArray(plugins);
-          config.plugins?.push(...pluginArr);
-        };
-        const removePlugin = (pluginName: string) => {
-          config.plugins = config.plugins?.filter(
-            p => p.constructor.name !== pluginName,
-          );
-        };
-
         return applyOptionsChain<WebpackConfig, any>(config, webpack, {
-          env: utils.env,
-          webpack: utils.webpack,
+          ...utils,
           name: builderTargetToModernBundleName(utils.target),
-          addRules,
-          prependPlugins,
-          appendPlugins,
-          removePlugin,
-        } as WebpackConfigUtils);
+        } as unknown as WebpackConfigUtils);
       }
     : undefined;
 }
@@ -146,12 +112,8 @@ function createBuilderWebpackChain(
   return webpackChain
     ? (chain: WebpackChain, utils) =>
         applyOptionsChain<any, unknown>(chain, webpackChain, {
-          env: utils.env,
+          ...utils,
           name: builderTargetToModernBundleName(utils.target),
-          webpack: utils.webpack,
-          CHAIN_ID: utils.CHAIN_ID,
-          // TODO: builder will add HtmlWebpackPlugin Instance in utils(modifyWebpackUtils)
-          // HtmlWebpackPlugin: utils.HtmlWebpackPlugin,
         })
     : undefined;
 }

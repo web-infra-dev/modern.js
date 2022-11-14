@@ -139,9 +139,9 @@ export default {
 
 #### webpack
 
-- Type: `Object`
+- Type: `typeof import('webpack')`
 
-The `webpack` parameter is the original webpack configuration. For example:
+The webpack instance. For example:
 
 ```js
 export default {
@@ -149,6 +149,122 @@ export default {
     webpack: (config, { webpack }) => {
       config.plugins.push(new webpack.ProgressPlugin());
       return config;
+    },
+  },
+};
+```
+
+### HtmlWebpackPlugin
+
+- Type: `typeof import('html-webpack-plugin')`
+
+The HtmlWebpackPlugin instance:
+
+```js
+export default defineConfig({
+  tools: {
+    webpackChain: (chain, { HtmlWebpackPlugin }) => {
+      console.log(HtmlWebpackPlugin);
+    },
+  },
+});
+```
+
+### addRules
+
+- Type: `(rules: RuleSetRule | RuleSetRule[]) => void`
+
+Add additional webpack rules.
+
+For example:
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { addRules }) => {
+      // add a single rule
+      addRules({
+        test: /\.foo/,
+        loader: require.resolve('foo-loader'),
+      });
+
+      // Add multiple rules as an array
+      addRules([
+        {
+          test: /\.foo/,
+          loader: require.resolve('foo-loader'),
+        },
+        {
+          test: /\.bar/,
+          loader: require.resolve('bar-loader'),
+        },
+      ]);
+    },
+  },
+};
+```
+
+### prependPlugins
+
+- Type: `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+
+Add additional plugins to the head of the internal webpack plugins array, and the plugin will be executed first.
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { prependPlugins, webpack }) => {
+      // add a single plugin
+      prependPlugins(
+        new webpack.BannerPlugin({
+          banner: 'hello world!',
+        }),
+      );
+
+      // Add multiple plugins
+      prependPlugins([new PluginA(), new PluginB()]);
+    },
+  },
+};
+```
+
+### appendPlugins
+
+- Type: `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+
+Add additional plugins at the end of the internal webpack plugins array, the plugin will be executed last.
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { appendPlugins, webpack }) => {
+      // add a single plugin
+      appendPlugins([
+        new webpack.BannerPlugin({
+          banner: 'hello world!',
+        }),
+      ]);
+
+      // Add multiple plugins
+      appendPlugins([new PluginA(), new PluginB()]);
+    },
+  },
+};
+```
+
+### removePlugin
+
+- Type: `(name: string) => void`
+
+Remove the internal webpack plugin, the parameter is the `constructor.name` of the plugin.
+
+For example, remove the internal [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin):
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { removePlugin }) => {
+      removePlugin('ForkTsCheckerWebpackPlugin');
     },
   },
 };

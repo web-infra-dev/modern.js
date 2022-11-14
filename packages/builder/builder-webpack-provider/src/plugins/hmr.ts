@@ -1,12 +1,12 @@
 import type {
   BuilderPlugin,
   NormalizedConfig,
-  ModifyWebpackUtils,
+  ModifyWebpackChainUtils,
 } from '../types';
 
 export const isUsingHMR = (
   config: NormalizedConfig,
-  { isProd, target }: ModifyWebpackUtils,
+  { isProd, target }: ModifyWebpackChainUtils,
 ) => !isProd && target !== 'node' && target !== 'web-worker' && config.dev.hmr;
 
 export const PluginHMR = (): BuilderPlugin => ({
