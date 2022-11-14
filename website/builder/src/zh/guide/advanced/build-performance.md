@@ -32,25 +32,29 @@ nvm default 16
 node -v
 ```
 
+### 使用 esbuild 编译
+
+[esbuild](https://esbuild.github.io/) 是一款基于 Golang 开发的前端构建工具，具有打包、编译和压缩 JavaScript 代码的功能，相比传统的打包编译工具，esbuild 在性能上有显著提升。
+
+Builder 提供了 esbuild 插件，让你能使用 esbuild 代替 babel-loader、ts-loader 和 terser 等库进行代码编译和压缩。详见 [esbuild 插件](/plugins/plugin-esbuild.html)。
+
 ### 减少重复依赖
 
 在业务项目中，会存在某些第三方依赖被安装了多个版本的现象。重复依赖会导致包体积变大、构建速度变慢。
 
-我们可以通过社区中的一些工具来自动消除重复依赖，比如 [yarn-deduplicate](https://github.com/scinos/yarn-deduplicate)。
+我们可以通过社区中的一些工具来检测或消除重复依赖。
+
+如果你在使用 `pnpm`，可以使用 [pnpm-deduplicate](https://github.com/ocavue/pnpm-deduplicate) 来分析出所有的重复依赖，并通过升级依赖或声明 [pnpm overrides](https://pnpm.io/package_json#pnpmoverrides) 进行版本合并。
+
+```bash
+npx pnpm-deduplicate --list
+```
+
+如果你在使用 `yarn`，可以使用 [yarn-deduplicate](https://github.com/scinos/yarn-deduplicate) 来自动合并重复依赖：
 
 ```bash
 npx yarn-deduplicate && yarn
 ```
-
-如果你在使用 `pnpm`，可以考虑通过**重新生成 lock 文件**来减少重复依赖，
-
-```bash
-rm -rf ./node_modules pnpm-lock.yaml && pnpm install
-```
-
-:::tip
-删除 lock 文件会使项目中的依赖版本自动升级到 semver 范围下的最新版，请进行充分的测试。
-:::
 
 ### 使用更轻量的库
 
