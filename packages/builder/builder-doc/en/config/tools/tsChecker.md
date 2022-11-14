@@ -43,8 +43,8 @@ The default config is as follows:
 
 ### Object Type
 
-When this value is of type Object, it is merged with the default config via Object.assign.
+When this value is an Object, it is merged with the default config via Object.assign.
 
 ### Function Type
 
-When the value is of type Function, the default config is passed in as the first parameter. You can modify the config object directly, or return an object as the final config.
+When the value is a Function, the default config is passed in as the first parameter. You can modify the config object directly, or return an object as the final config.

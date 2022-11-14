@@ -44,3 +44,22 @@
 .table-of-contents__link--active {
   color: var(--ifm-color-primary);
 }
+
+.alert {
+  font-size: 14px;
+  border: 1px solid var(--ifm-alert-border-color);
+  border-left-width: var(--ifm-alert-border-left-width);
+  box-shadow: none;
+}
+
+.alert--secondary {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.alert p {
+  font-weight: 500;
+}
+
+html[data-theme='dark'] .alert--secondary {
+  color: rgba(235, 235, 235, 0.6);
+}

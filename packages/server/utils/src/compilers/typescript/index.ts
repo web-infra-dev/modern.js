@@ -1,5 +1,5 @@
 import path from 'path';
-import { logger, getAlias, fs } from '@modern-js/utils';
+import { logger, getAliasConfig, fs } from '@modern-js/utils';
 import type { Program } from 'typescript';
 import ts from 'typescript';
 import type { CompileFunc } from '../../common';
@@ -46,7 +46,7 @@ export const compileByTs: CompileFunc = async (
   const formatHost = getFormatHost(ts);
 
   const { alias } = config;
-  const aliasOption = getAlias(alias || {}, {
+  const aliasOption = getAliasConfig(alias, {
     appDirectory,
     tsconfigPath,
   });

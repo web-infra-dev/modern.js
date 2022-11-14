@@ -1,7 +1,7 @@
 import path from 'path';
 import { EventEmitter, Readable } from 'stream';
 import webpack from 'webpack';
-import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
+import { getDefaultConfig, NormalizedConfig } from '@modern-js/core';
 import httpMocks from 'node-mocks-http';
 import createServer from '../src';
 import { DevMiddlewareAPI } from '../src/types';
@@ -22,7 +22,7 @@ describe('test dev server middleware', () => {
 
     const server = await createServer({
       config: {
-        ...defaultsConfig,
+        ...getDefaultConfig(),
         output: {
           path: 'test-dist',
         },
@@ -75,7 +75,7 @@ describe('test dev server middleware', () => {
 
     const server = await createServer({
       config: {
-        ...defaultsConfig,
+        ...getDefaultConfig(),
         output: {
           path: 'test-dist',
         },
@@ -115,7 +115,7 @@ describe('test dev server middleware', () => {
   test('should historyApiFallback work correctly', async () => {
     const server = await createServer({
       config: {
-        ...defaultsConfig,
+        ...getDefaultConfig(),
         output: {
           path: 'test-dist',
         },
@@ -160,7 +160,7 @@ describe('test dev server middleware', () => {
 
     const server = await createServer({
       config: {
-        ...defaultsConfig,
+        ...getDefaultConfig(),
         output: {
           path: 'test-dist',
         },

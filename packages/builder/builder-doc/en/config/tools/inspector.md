@@ -22,7 +22,7 @@ export default {
 
 ### Function Type
 
-When `tools.inspector` is of Function type, the default configuration is passed as the first parameter and can be directly modified or returned as the final result. For example:
+When `tools.inspector` is a Function, the default configuration is passed as the first parameter and can be directly modified or returned as the final result. For example:
 
 ```js
 export default {

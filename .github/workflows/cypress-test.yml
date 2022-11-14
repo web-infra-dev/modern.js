@@ -19,42 +19,49 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 25
 
-    - name: Turbo Cache
-      id: turbo-cache
-      uses: actions/cache@v2
-      with:
-        path: .turbo
-        key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
-        restore-keys: |
-            turbo-${{ github.job }}-${{ github.ref_name }}-
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install Dependencies
-      run: pnpm install --ignore-scripts --frozen-lockfile
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
 
-    - name: Install cypress
-      run: npx cypress install
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+              turbo-${{ github.job }}-${{ github.ref_name }}-
 
-    - name: Prepare
-      if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-      run:  pnpm run prepare
+      - name: Install Dependencies
+        run: pnpm install --ignore-scripts --frozen-lockfile
 
-    - name: Run cypress test
-      uses: cypress-io/github-action@v4
-      with:
-        install: false
-        start: node scripts/dev-project.js
-        wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003/index.js'
-        wait-on-timeout: 600
-        working-directory: tests
-        spec: cypress/e2e/**/*.cy.js
-      env:
-        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        # Recommended: pass the GitHub token lets this action correctly
-        # determine the unique run id necessary to re-run the checks
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install cypress
+        run: npx cypress install
+
+      - name: Prepare
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run:  pnpm run prepare
+
+      - name: Run cypress test
+        uses: cypress-io/github-action@v4
+        with:
+          install: false
+          start: node scripts/dev-project.js
+          wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003/index.js'
+          wait-on-timeout: 600
+          working-directory: tests
+          spec: cypress/e2e/**/*.cy.js
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

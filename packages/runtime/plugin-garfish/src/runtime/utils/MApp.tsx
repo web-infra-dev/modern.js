@@ -35,7 +35,6 @@ export function generateMApp(
         errorLoadApp,
         errorMountApp,
         errorUnmountApp,
-        ...otherOptions
       } = options;
 
       // start auto render able
@@ -89,11 +88,6 @@ export function generateMApp(
           }
           return errorUnmountApp?.(error, appInfo, ...args);
         },
-        ...otherOptions,
-        insulationVariable: [
-          ...(otherOptions.insulationVariable || []),
-          '_SERVER_DATA',
-        ],
         customLoader: (provider: Provider) => {
           const {
             render,

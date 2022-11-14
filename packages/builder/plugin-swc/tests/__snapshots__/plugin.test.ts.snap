@@ -36,24 +36,9 @@ exports[`plugins/swc > should set swc minimizer in production 1`] = `
   "optimization": {
     "minimizer": [
       SwcWebpackPlugin {
-        "options": {
-          "extensions": {
-            "lockCorejsVersion": {
-              "corejs": "<HOME>/libs/modern.js/node_modules/<PNPM_INNER>/core-js",
-              "swcHelpers": "<HOME>/libs/modern.js/node_modules/<PNPM_INNER>/@swc/helpers",
-            },
-          },
-          "swc": {
-            "cwd": "<ROOT>",
-            "env": {
-              "mode": "entry",
-              "targets": [
-                "> 0.01%",
-                "not dead",
-                "not op_mini all",
-              ],
-            },
-          },
+        "minifyOptions": {
+          "compress": {},
+          "mangle": true,
         },
       },
     ],

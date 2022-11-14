@@ -10,5 +10,5 @@
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": ["src", "scripts", "*.test.ts", "cssModules.test.tss"]
+  "include": ["src", "*.test.ts", "cssModules.test.tss"]
 }

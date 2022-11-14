@@ -4,11 +4,9 @@ import { chalk } from './compiled';
 import { readTsConfigByFile } from './readTsConfig';
 import { applyOptionsChain } from './applyOptionsChain';
 
-type AliasOption =
-  | Record<string, string>
-  | ((aliases: Record<string, string>) => Record<string, unknown>)
-  | Record<string, string>
-  | undefined;
+export type Alias = Record<string, string | string[]>;
+
+export type AliasOption = Alias | ((aliases: Alias) => Alias | void);
 
 interface NormalizedConfig {
   source: {
@@ -49,35 +47,39 @@ export const validAlias = <T extends NormalizedConfig>(
   return null;
 };
 
-export const getAlias = (
-  aliasOption: AliasOption | Array<AliasOption>,
+export const mergeAlias = (alias: NormalizedConfig['source']['alias']): Alias =>
+  applyOptionsChain({}, alias);
+
+export const getAliasConfig = (
+  aliasOption: NormalizedConfig['source']['alias'],
   option: { appDirectory: string; tsconfigPath: string },
-) => {
+): IAliasConfig => {
   const isTsProject = fs.existsSync(option.tsconfigPath);
-  let aliasConfig: IAliasConfig;
+  const alias = mergeAlias(aliasOption);
+
   if (!isTsProject) {
-    aliasConfig = {
+    return {
       absoluteBaseUrl: option.appDirectory,
-      paths: applyOptionsChain({ '@': ['./src'] }, aliasOption as any),
+      paths: alias,
       isTsPath: false,
       isTsProject,
     };
-  } else {
-    const tsconfig = readTsConfigByFile(option.tsconfigPath);
-    const baseUrl = tsconfig?.compilerOptions?.baseUrl;
-    aliasConfig = {
-      absoluteBaseUrl: baseUrl
-        ? path.join(option.appDirectory, baseUrl)
-        : option.appDirectory,
-      paths: {
-        ...(aliasOption || {}),
-        ...tsconfig?.compilerOptions?.paths,
-      },
-      isTsPath: true,
-      isTsProject,
-    };
   }
-  return aliasConfig;
+
+  const tsconfig = readTsConfigByFile(option.tsconfigPath);
+  const baseUrl = tsconfig?.compilerOptions?.baseUrl;
+
+  return {
+    absoluteBaseUrl: baseUrl
+      ? path.join(option.appDirectory, baseUrl)
+      : option.appDirectory,
+    paths: {
+      ...alias,
+      ...tsconfig?.compilerOptions?.paths,
+    },
+    isTsPath: true,
+    isTsProject,
+  };
 };
 
 // filter invalid ts paths that are not array

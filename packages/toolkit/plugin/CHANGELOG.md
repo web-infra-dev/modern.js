@@ -1,5 +1,12 @@
 # @modern-js/plugin
 
+## 1.21.2
+
+### Patch Changes
+
+- 9d4c0ba: chore: add types for exports field
+  chore: 为 exports 补充 types 字段
+
 ## 1.21.1
 
 ## 1.21.0

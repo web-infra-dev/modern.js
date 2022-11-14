@@ -199,6 +199,23 @@ describe('plugins/css', () => {
 
     expect(JSON.stringify(config)).toContain('"sourceMap":false');
   });
+
+  it('should allow to custom cssModuleLocalIdentName', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginCss()],
+      builderConfig: {
+        output: {
+          cssModuleLocalIdentName: '[hash:base64]',
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(JSON.stringify(config)).toContain(
+      '"localIdentName":"[hash:base64]"',
+    );
+  });
 });
 
 describe('normalizeCssLoaderOptions', () => {

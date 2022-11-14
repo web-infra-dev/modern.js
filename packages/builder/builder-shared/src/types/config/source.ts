@@ -1,8 +1,5 @@
+import type { Alias } from '@modern-js/utils';
 import type { ChainedConfig, JSONValue } from '../utils';
-
-export type Alias = {
-  [index: string]: string | false | string[];
-};
 
 export type ModuleScopes = Array<string | RegExp>;
 

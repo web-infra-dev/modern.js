@@ -1,4 +1,4 @@
-- Type: `Record<string, string> | Function`
+- Type: `Record<string, string | string[]> | Function`
 - Default: `undefined`
 
 Create aliases to import or require certain modules, same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack.
@@ -9,7 +9,7 @@ For TypeScript projects, you only need to configure [compilerOptions.paths](http
 
 #### Object Type
 
-The `alias` can be a Object, and the relative path will be automatically converted to absolute path.
+The `alias` can be an Object, and the relative path will be automatically converted to absolute path.
 
 ```js
 export default {
