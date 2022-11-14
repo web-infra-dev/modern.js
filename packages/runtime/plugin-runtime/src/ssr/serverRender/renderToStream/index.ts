@@ -7,7 +7,7 @@ import { ServerRenderOptions } from '../types';
 import { createTemplates } from './template';
 import renderToPipe from './renderToPipe';
 
-export const render = ({ App, context, config }: ServerRenderOptions) => {
+export const render = ({ App, context }: ServerRenderOptions) => {
   const { ssrContext } = context;
 
   if (!ssrContext) {
@@ -17,23 +17,16 @@ export const render = ({ App, context, config }: ServerRenderOptions) => {
   }
   return run(ssrContext.request.headers, async () => {
     const end_all = time();
-    // TODO: still need ?
-    // const prefetchData = await prefetch(App, context);
-    const prefetchData = {};
     const rootElement = createElement(App, {
       context: Object.assign(context || {}, {
         ssr: true,
       }),
     });
-    const { jsx, getTemplates } = createTemplates(
-      context,
-      rootElement,
-      prefetchData,
-      App,
-      config,
-    );
+
+    const getTemplates = createTemplates(context);
+
     const end = time();
-    const pipe = renderToPipe(jsx, getTemplates, {
+    const pipe = renderToPipe(rootElement, getTemplates, {
       onShellReady() {
         // set cacheConfig
         const cacheConfig = PreRender.config();

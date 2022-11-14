@@ -6,9 +6,35 @@ import {
   createRuntimeExportsUtils,
   isSingleEntry,
 } from '@modern-js/utils';
-import type { CliPlugin, SSGMultiEntryOptions } from '@modern-js/core';
+import type {
+  CliPlugin,
+  SSGMultiEntryOptions,
+  ServerConfig,
+  NormalizedConfig,
+} from '@modern-js/core';
 
 const PLUGIN_IDENTIFIER = 'ssr';
+
+const hasStringSSREntry = (userConfig: NormalizedConfig): boolean => {
+  const isStreaming = (ssr: ServerConfig['ssr']) =>
+    ssr && typeof ssr === 'object' && ssr.mode === 'stream';
+
+  const { server } = userConfig;
+
+  if (server?.ssr && !isStreaming(server.ssr)) {
+    return true;
+  }
+
+  if (server?.ssrByEntries && typeof server.ssrByEntries === 'object') {
+    for (const name of Object.keys(server.ssrByEntries)) {
+      if (!isStreaming(server.ssrByEntries[name])) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-ssr',
@@ -35,7 +61,12 @@ export default (): CliPlugin => ({
           tools: {
             webpackChain: (chain, { name, CHAIN_ID }) => {
               const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig) && name !== 'server') {
+
+              if (
+                isUseSSRBundle(userConfig) &&
+                name !== 'server' &&
+                hasStringSSREntry(userConfig)
+              ) {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
                 const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
                 chain
@@ -47,7 +78,7 @@ export default (): CliPlugin => ({
             },
             babel: (config: any) => {
               const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig)) {
+              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
                 config.plugins.push(require.resolve('@loadable/babel-plugin'));
               }
             },
@@ -83,8 +114,10 @@ export default (): CliPlugin => ({
               `Legacy router plugin doesn't support streaming SSR, check your config 'runtime.router'`,
             );
           }
-          if (entrypoint.entry && fileSystemRoutes) {
-            throw new Error(`'pages' directory doesn't support streaming SSR.`);
+          if (fileSystemRoutes && !entrypoint.nestedRoutesEntry) {
+            throw new Error(
+              `You should switch to file-system based router to support streaming SSR.`,
+            );
           }
         }
 
