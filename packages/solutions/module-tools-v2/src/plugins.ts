@@ -4,9 +4,7 @@ import LintPlugin from '@modern-js/plugin-jarvis';
 
 export const getPlugins = (runningCmd: string) => {
   let plugins: CliPlugin[] = [];
-  if (runningCmd === 'build') {
-    return [];
-  }
+
   switch (runningCmd) {
     case 'build':
       plugins = [];

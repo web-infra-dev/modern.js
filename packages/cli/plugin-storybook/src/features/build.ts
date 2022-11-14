@@ -43,20 +43,14 @@ export const runBuild = async ({
   // TODO: 加一些debug
   const { appDirectory } = appContext;
   const {
-    output: { path: outputPath = 'dist', disableTsChecker = false },
-  } = modernConfig as NormalizedConfig & {
-    // TODO 替换完整的类型
-    output: {
-      disableTsChecker: boolean;
-    };
-  };
+    output: { path: outputPath = 'dist' },
+  } = modernConfig;
 
   if (!valid({ stories, isTs: isTsProject, isModuleTools: true })) {
     return;
   }
 
   const configDir = await gen.generateConfig(appDirectory, {
-    disableTsChecker,
     stories,
     modernConfig,
   });

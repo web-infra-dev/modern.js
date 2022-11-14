@@ -7,16 +7,16 @@
   "license": "MIT",
   "private": true,
   "keywords": [
-    "react",
-    "framework",
     "modern",
-    "modern.js"
+    "modern.js",
+    "module-tools",
+    "lib-tools"
   ],
   "version": "1.17.0",
   "bin": {
     "modern": "./bin/modern.js"
   },
-  "types": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "typesVersions": {
     "*": {
@@ -30,27 +30,21 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
     "build": "modern build",
+    "dev": "modern build --watch",
     "test": "jest",
-    "dev": "modern build --watch"
+    "new": "modern new"
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "^0.1.2",
-    "@modern-js/libuild-plugin-babel": "^0.1.2",
-    "@modern-js/libuild-plugin-es5": "^0.1.2",
+    "@modern-js/libuild": "0.3.1-alpha.0",
+    "@modern-js/libuild-plugin-umd": "0.3.1-alpha.0",
+    "@modern-js/libuild-plugin-es5": "0.3.1-alpha.0",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "@rollup/plugin-json": "~4.1.0",
-    "normalize-path": "^3.0.0",
-    "p-map": "^4",
-    "rollup": "^2.70.2",
-    "rollup-plugin-dts": "^4.2.1",
-    "signal-exit": "^3.0.7"
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/plugin-changeset": "workspace:*",
@@ -59,14 +53,26 @@
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/normalize-path": "^3.0.0",
-    "@types/signal-exit": "^3.0.1",
     "jest": "^27",
-    "typescript": "^4"
+    "postcss": "8.4.6",
+    "react": "17",
+    "typescript": "^4",
+    "path-browserify": "1.0.1",
+    "postcss-alias": "2.0.0",
+    "lodash": "4.17.21",
+    "caniuse-lite": "^1.0.30001332"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/index.d.ts"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "peerDependencies": {
+    "typescript": "^4"
   }
 }
