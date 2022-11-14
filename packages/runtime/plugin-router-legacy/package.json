@@ -21,8 +21,7 @@
     ".": {
       "node": {
         "jsnext:source": "./src/runtime/index.ts",
-        "import": "./dist/js/modern/runtime/index.js",
-        "require": "./dist/js/node/runtime/index.js"
+        "default": "./dist/js/node/runtime/index.js"
       },
       "default": "./dist/js/treeshaking/runtime/index.js"
     },
