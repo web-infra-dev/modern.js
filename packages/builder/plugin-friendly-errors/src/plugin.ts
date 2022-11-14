@@ -1,6 +1,4 @@
 import type * as webpack from 'webpack';
-import type { BuilderPlugin } from '@modern-js/builder-shared';
-import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import { prettyFormatter } from './formatter';
 import {
   ErrorFormatter,
@@ -86,20 +84,3 @@ export class FriendlyErrorsWebpackPlugin {
     });
   }
 }
-
-export const CHAIN_ID = {
-  PLUGIN: { FRIENDLY_ERROR: 'friendly-error' },
-} as const;
-
-export const PluginFriendlyErrors = (
-  options?: Options,
-): BuilderPlugin<BuilderPluginAPI> => ({
-  name: 'friendly-errors',
-  setup(api) {
-    api.modifyWebpackChain(chain => {
-      chain
-        .plugin(CHAIN_ID.PLUGIN.FRIENDLY_ERROR)
-        .use(FriendlyErrorsWebpackPlugin, [options]);
-    });
-  },
-});
