@@ -75,8 +75,17 @@ async function getChainUtils(
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
   const { CHAIN_ID } = await import('@modern-js/utils');
   const nodeEnv = process.env.NODE_ENV as NodeEnv;
+
+  const nameMap = {
+    web: 'client',
+    node: 'server',
+    'modern-web': 'modern',
+    'web-worker': 'web-worker',
+  };
+
   return {
     env: nodeEnv,
+    name: nameMap[target] || '',
     target,
     webpack,
     isProd: nodeEnv === 'production',

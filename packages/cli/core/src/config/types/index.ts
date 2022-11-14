@@ -227,7 +227,9 @@ export type PostCSSConfig =
 
 export type WebpackConfigUtils = {
   env: string;
+  /** @deprecated Use target instead */
   name: string;
+  target: string;
   webpack: typeof webpack;
   HtmlWebpackPlugin: typeof import('html-webpack-plugin');
   addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
@@ -238,10 +240,6 @@ export type WebpackConfigUtils = {
     plugins: WebpackPluginInstance | WebpackPluginInstance[],
   ) => void;
   removePlugin: (pluginName: string) => void;
-  /**
-   * @deprecated please use `tools.webpackChain` instead.
-   */
-  chain: WebpackChain;
 };
 
 export type WebpackConfig =
@@ -253,7 +251,9 @@ export type WebpackConfig =
 
 export type WebpackChainConfigUtils = {
   env: string;
+  /** @deprecated Use target instead */
   name: string;
+  target: string;
   webpack: typeof webpack;
   CHAIN_ID: ChainIdentifier;
   HtmlWebpackPlugin: typeof import('html-webpack-plugin');

@@ -13,6 +13,8 @@ import type { ChainIdentifier } from '@modern-js/utils';
 
 export type ModifyWebpackChainUtils = {
   env: NodeEnv;
+  /** @deprecated Use target instead. */
+  name: string;
   isProd: boolean;
   target: BuilderTarget;
   webpack: typeof import('webpack');

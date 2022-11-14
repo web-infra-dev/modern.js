@@ -1,10 +1,5 @@
-import type { BuilderTarget } from '@modern-js/builder-shared';
-import type {
-  BuilderConfig,
-  WebpackConfig,
-  WebpackChain,
-} from '@modern-js/builder-webpack-provider';
-import type { NormalizedConfig, WebpackConfigUtils } from '@modern-js/core';
+import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import type { NormalizedConfig } from '@modern-js/core';
 import { applyOptionsChain } from '@modern-js/utils';
 
 export function createToolsConfig(
@@ -29,10 +24,6 @@ export function createToolsConfig(
     lodash,
   } = normalizedConfig.tools;
 
-  // transform modernjs `tools.webpack` => builder `tools.webpack`
-  const builderWebpack = createBuilderWebpack(webpack);
-  // add defaults value into tools.terser
-  const builderWebpackChain = createBuilderWebpackChain(webpackChain);
   const builderTsLoader = createBuilderTsLoader(tsLoader, enableTsLoader);
   const builderTsChecker = createBuilderTsChecker(normalizedConfig.output);
 
@@ -44,8 +35,8 @@ export function createToolsConfig(
     babel,
     minifyCss,
     terser,
-    webpack: builderWebpack,
-    webpackChain: builderWebpackChain,
+    webpack,
+    webpackChain: webpackChain as any,
     tsLoader: builderTsLoader,
     styledComponents:
       styledComponents as Required<BuilderConfig>['tools']['styledComponents'],
@@ -73,49 +64,6 @@ export function createToolsConfig(
         : []),
     ],
   };
-}
-
-export function builderTargetToModernBundleName(target: BuilderTarget) {
-  const targetToNameMap: {
-    [target in BuilderTarget]?: 'client' | 'server' | 'modern';
-  } = {
-    'modern-web': 'modern',
-    node: 'server',
-    web: 'client',
-  };
-  if (!targetToNameMap[target]) {
-    throw new Error(
-      `The build target '${target}' that are not supported by the framework`,
-    );
-  }
-  return targetToNameMap[target];
-}
-
-type BuilderToolConfig = Required<BuilderConfig>['tools'];
-
-function createBuilderWebpack(
-  webpack: NormalizedConfig['tools']['webpack'],
-): BuilderToolConfig['webpack'] {
-  return webpack
-    ? (config, utils) => {
-        return applyOptionsChain<WebpackConfig, any>(config, webpack, {
-          ...utils,
-          name: builderTargetToModernBundleName(utils.target),
-        } as unknown as WebpackConfigUtils);
-      }
-    : undefined;
-}
-
-function createBuilderWebpackChain(
-  webpackChain: NormalizedConfig['tools']['webpackChain'],
-): BuilderToolConfig['webpackChain'] {
-  return webpackChain
-    ? (chain: WebpackChain, utils) =>
-        applyOptionsChain<any, unknown>(chain, webpackChain, {
-          ...utils,
-          name: builderTargetToModernBundleName(utils.target),
-        })
-    : undefined;
 }
 
 function createBuilderTsLoader(
