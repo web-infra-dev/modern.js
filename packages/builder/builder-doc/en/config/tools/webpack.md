@@ -174,7 +174,7 @@ export default defineConfig({
 
 - Type: `(rules: RuleSetRule | RuleSetRule[]) => void`
 
-Add additional webpack rules.
+Add additional [webpack rules](https://webpack.js.org/configuration/module/#modulerules).
 
 For example:
 

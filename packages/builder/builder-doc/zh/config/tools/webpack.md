@@ -174,7 +174,7 @@ export default {
 
 - Type: `(rules: RuleSetRule | RuleSetRule[]) => void`
 
-添加额外的 webpack rules。
+添加额外的 [webpack rules](https://webpack.js.org/configuration/module/#modulerules)。
 
 示例：
 
