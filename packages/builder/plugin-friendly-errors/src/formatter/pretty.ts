@@ -9,16 +9,22 @@ const formatTraceEntry = (entry: StackTracey.Entry) => {
   return `    ${prompt} ${filename}${pos}`;
 };
 
-const ERROR_SIGN = {
-  error: chalk.bgRed.bold(' ERROR '),
-  warning: chalk.bgYellow.bold(' WARN '),
+const SIGN_TEXT = {
+  error: ' ERROR ',
+  warning: ' WARN ',
+  cause: ' CAUSE ',
+} as const;
+
+const SIGN_COLOR = {
+  error: chalk.bgRed.bold,
+  warning: chalk.bgYellow.bold,
 } as const;
 
 export const prettyFormatter: ErrorFormatter = e => {
   const message = e.message || e;
   const name = e.name || 'Error';
 
-  const errorSign = ERROR_SIGN[e.type];
+  const errorSign = SIGN_COLOR[e.type](SIGN_TEXT[e.isCause ? 'cause' : e.type]);
   const errorName =
     e.type === 'error' ? chalk.red.bold(name) : chalk.yellow.bold(name);
   const connector = chalk.gray(':');

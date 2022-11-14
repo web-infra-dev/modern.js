@@ -7,10 +7,15 @@ export interface ParsedError<R extends Error = Error> extends Error {
   raw: R;
   causes: ParsedError[];
   trace: TracingFrame[];
+  isCause: boolean;
 }
 
 export interface WithSourcesMixin {
   withSources?: boolean;
+}
+
+export interface IsCauseMixin {
+  isCause?: boolean;
 }
 
 export type ErrorTransformer = (error: ParsedError) => ParsedError | void;

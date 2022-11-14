@@ -5,6 +5,7 @@ import { baseFormatter } from '../formatter/base';
 import {
   ErrorFormatter,
   ErrorTransformer,
+  IsCauseMixin,
   ParsedError,
   ThrowableType,
   WithSourcesMixin,
@@ -13,16 +14,17 @@ import {
 export const parseError = (
   error: Error,
   type: ThrowableType = 'error',
-  options?: WithSourcesMixin,
+  options: WithSourcesMixin & IsCauseMixin = {},
 ) => {
   const parsed = cloneErrorObject(error) as ParsedError;
   const cause = getErrorCause(error);
   parsed.trace = parseTrace(error, options);
   parsed.causes = [];
   if (cause) {
-    const parsedCause = parseError(cause, type, options);
+    const parsedCause = parseError(cause, type, { ...options, isCause: true });
     parsed.causes.push(parsedCause, ...parsedCause.causes);
   }
+  parsed.isCause = options.isCause ?? false;
   parsed.raw = error;
   parsed.type = type;
 

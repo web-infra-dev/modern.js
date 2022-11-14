@@ -2,16 +2,16 @@ import _ from '@modern-js/utils/lodash';
 import StackTracey from 'stacktracey';
 import { ErrorTransformer } from '../shared/types';
 
-export const compareStack = (
-  stack1: readonly StackTracey.Entry[],
-  stack2: readonly StackTracey.Entry[],
+export const compareTraces = (
+  trace1: readonly StackTracey.Entry[],
+  trace2: readonly StackTracey.Entry[],
 ) => {
-  if (stack1.length !== stack2.length) {
+  if (trace1.length !== trace2.length) {
     return false;
   }
-  for (let i = 0; i < stack1.length; i++) {
-    const s1 = stack1[i];
-    const s2 = stack2[i];
+  for (let i = 0; i < trace1.length; i++) {
+    const s1 = trace1[i];
+    const s2 = trace2[i];
     if (s1.file !== s2.file || s1.line !== s2.line || s1.column !== s2.column) {
       return false;
     }
@@ -19,14 +19,14 @@ export const compareStack = (
   return true;
 };
 
-export const compareStackFragments = (
-  stack1: readonly StackTracey.Entry[],
-  stack2: readonly StackTracey.Entry[],
+export const compareTraceFragments = (
+  trace1: readonly StackTracey.Entry[],
+  trace2: readonly StackTracey.Entry[],
 ) => {
-  const len = Math.min(stack1.length, stack2.length);
-  return compareStack(
-    stack1.length === len ? stack1 : stack1.slice(0, len),
-    stack2.length === len ? stack2 : stack2.slice(0, len),
+  const len = Math.min(trace1.length, trace2.length);
+  return compareTraces(
+    trace1.length === len ? trace1 : trace1.slice(0, len),
+    trace2.length === len ? trace2 : trace2.slice(0, len),
   );
 };
 
@@ -37,7 +37,7 @@ export const mergeTraceHeads = (traces: StackTracey.Entry[][]) => {
     if (!heads.length) {
       heads.push(head);
       tails.push(...rest);
-    } else if (compareStackFragments(tails, rest)) {
+    } else if (compareTraceFragments(tails, rest)) {
       heads.push(head);
     } else {
       return null;
