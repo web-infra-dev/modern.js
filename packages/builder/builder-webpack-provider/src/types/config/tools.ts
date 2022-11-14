@@ -1,7 +1,10 @@
 import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
 import type { ArrayOrNot, ChainedConfig } from '@modern-js/builder-shared';
 import type { DevServerOptions } from '@modern-js/types';
-import type { ModifyWebpackUtils } from '../hooks';
+import type {
+  ModifyWebpackChainUtils,
+  ModifyWebpackConfigUtils,
+} from '../hooks';
 import type {
   AutoprefixerOptions,
   BabelConfigUtils,
@@ -87,11 +90,11 @@ export type ToolsInspectorPluginOptions = ChainedConfig<InspectorPluginOptions>;
 
 export type ToolsWebpackConfig = ChainedConfig<
   WebpackConfig,
-  ModifyWebpackUtils
+  ModifyWebpackConfigUtils
 >;
 
 export type ToolsWebpackChainConfig = ArrayOrNot<
-  (chain: WebpackChain, utils: ModifyWebpackUtils) => void
+  (chain: WebpackChain, utils: ModifyWebpackChainUtils) => void
 >;
 
 export type ToolsDevServerConfig = ChainedConfig<DevServerOptions>;

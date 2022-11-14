@@ -13,9 +13,9 @@ import type {
   BuilderPlugin,
   CssExtractOptions,
   CSSLoaderOptions,
-  ModifyWebpackUtils,
   NormalizedConfig,
   StyleLoaderOptions,
+  ModifyWebpackChainUtils,
 } from '../types';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { getCssnanoDefaultOptions } from './minimize';
@@ -71,7 +71,7 @@ export async function applyBaseCSSRule(
     CHAIN_ID,
     isWebWorker,
     getCompiledPath,
-  }: ModifyWebpackUtils,
+  }: ModifyWebpackChainUtils,
 ) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
