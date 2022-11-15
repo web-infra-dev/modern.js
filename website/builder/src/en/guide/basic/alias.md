@@ -2,7 +2,7 @@
 
 In Builder, you can set aliases in two ways:
 
-- `source.alias`
+- [source.alias](/api/config-source.html#source-alias)
 - `paths` in `tsconfig.json`
 
 ## By `source.alias`
@@ -38,7 +38,10 @@ export default {
 
 ## By `paths` in `tsconfig.json`
 
-In addition to `source.alias`, you can also configure it by `paths` in `tsconfig.json`, for example:
+In addition to `source.alias`, you can also configure it by `paths` in `tsconfig.json`.We recommend to use this way in TS projects, because it can solve type problem of alias path.
+
+
+For example:
 
 ```json
 {

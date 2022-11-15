@@ -2,7 +2,7 @@
 
 在 Builder 中，你有两种方式可以设置路径别名:
 
-- 通过 `source.alias` 配置
+- 通过 [source.alias](/api/config-source.html#source-alias) 配置
 - 通过 `tsconfig.json` 中的 `paths` 配置
 
 ## 通过 `source.alias`
@@ -38,7 +38,9 @@ export default {
 
 ## 通过 `tsconfig.json` 中的 `paths` 配置
 
-除了 `source.alias`，你还可以通过 `tsconfig.json` 中的 `paths` 进行配置，比如：
+除了 `source.alias`，你还可以通过 `tsconfig.json` 中的 `paths` 进行配置，这是我们在 TS 项目中推荐使用的方式，因为可以解决路径别名的类型问题。
+
+比如：
 
 ```json
 {
