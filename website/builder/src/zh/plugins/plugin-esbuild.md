@@ -147,9 +147,9 @@ builder.addPlugins([
 
 ### 兼容性
 
-作为代码转译工具（即 `loader` 能力），esbuild 仅能支持到 ES2015（即 ES6）语法，如果生产环境需要降级到 ES5 及以下的语法，**请在生产环境关闭 esbuild**。
+使用 esbuild 进行代码转译时（即 `loader` 能力），esbuild 仅能支持到 ES2015（即 ES6）语法，如果生产环境需要降级到 ES5 及以下的语法，**请在生产环境关闭 esbuild**。
 
-作为代码压缩工具（即 `minimize` 能力），esbuild 可以在生产环境中进行压缩和混淆，但也仅能支持 ES2015 及以上的语法(因为压缩过程需要识别代码 AST 并进行语法转换)。你可以通过如下的配置指定目标语法版本:
+使用 esbuild 进行代码压缩时（即 `minimize` 能力），esbuild 可以在生产环境中进行压缩和混淆，但也仅能支持 ES2015 及以上的语法(因为压缩过程需要识别代码 AST 并进行语法转换)。你可以通过如下的配置指定目标语法版本:
 
 ```ts
 builder.addPlugins([
@@ -167,7 +167,7 @@ builder.addPlugins([
 
 ### 不支持 Babel 插件
 
-作为代码转译工具时，由于 Builder 底层使用的是 esbuild 的 `Transform API`，并不支持 esbuild 插件来进行自定义编译过程，因此，诸如 `babel-plugin-import` 等原有 Babel 插件的语法编译功能在开启 esbuild 后无法使用。
+使用 esbuild 进行代码转译时，诸如 `babel-plugin-import` 等原有 Babel 插件的语法编译功能在开启 esbuild 后无法使用。并且由于 Builder 底层使用的是 esbuild 的 `Transform API`，因此不支持使用额外 esbuild 插件来进行自定义编译过程。
 
 ### 产物体积
 

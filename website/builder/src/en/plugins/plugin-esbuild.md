@@ -167,7 +167,7 @@ Projects that need to be compatible with ES5 and below syntax in the production 
 
 ### Not support Babel plugins
 
-As a compiler, since the bottom layer of the plugin uses esbuild's `Transform API`, it does not support esbuild plugins to customize the compilation process. Therefore, the syntax transformation function of the original Babel plugins such as `babel-plugin-import` is not available after esbuild is turned on.
+As a compiler, the syntax transformation function of the original Babel plugins such as `babel-plugin-import` is not available after esbuild is turned on. And since the bottom layer of the plugin uses esbuild's `Transform API`, it does not support esbuild plugins to customize the compilation process.
 
 ### Bundle Size
 
