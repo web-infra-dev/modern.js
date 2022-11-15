@@ -11,8 +11,8 @@ export function builderRspackProvider({
   builderConfig,
 }: {
   builderConfig: BuilderConfig;
-}): any {
-  return async ({ pluginStore, builderOptions }: any) => {
+}): BuilderProvider {
+  return async ({ pluginStore, builderOptions }) => {
     const context = await createContext(builderOptions, builderConfig);
 
     return {
@@ -32,14 +32,40 @@ export function builderRspackProvider({
           builderOptions,
         });
 
-        return createCompiler({ watch, context, rspackConfigs });
+        // todo: 类型定义
+        return createCompiler({
+          watch,
+          context,
+          rspackConfigs,
+        }) as any;
       },
 
-      // async startDevServer(options) {},
+      async startDevServer(options) {
+        const { startDevServer } = await import('./core/startDevServer');
+        return startDevServer(
+          { context, pluginStore, builderOptions },
+          options,
+        );
+      },
 
-      // async build(options) {},
+      async build(options) {
+        const { build: buildImpl, rspackBuild } = await import('./core/build');
+        return buildImpl(
+          { context, pluginStore, builderOptions },
+          options,
+          rspackBuild,
+        );
+      },
 
-      // async inspectConfig(inspectOptions) {},
+      async inspectConfig(inspectOptions) {
+        const { inspectConfig } = await import('./core/inspectConfig');
+        return inspectConfig({
+          context,
+          pluginStore,
+          builderOptions,
+          inspectOptions,
+        });
+      },
     };
   };
 }

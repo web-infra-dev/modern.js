@@ -5,8 +5,7 @@
 import path from 'path';
 import chalk from '@modern-js/utils/chalk';
 import { logger } from '@modern-js/builder-shared';
-import { Stats, StatsAsset } from '@rspack/core/dist/stats';
-import type { BuilderPlugin } from '../types';
+import type { BuilderPlugin, Stats, StatsAsset } from '../types';
 
 /** Filter source map files */
 export const filterAsset = (asset: string) => !/\.map$/.test(asset);
@@ -63,18 +62,9 @@ async function printFileSizes(stats: Stats, distPath: string) {
   const multiStats = [stats];
   const assets = multiStats
     .map(stats => {
-      const origin = stats.toJson({
-        // all: true,
-        // assets: true,
-        // groupAssetsByInfo: false,
-        // groupAssetsByPath: false,
-        // groupAssetsByChunk: false,
-        // groupAssetsByExtension: false,
-        // groupAssetsByEmitStatus: false,
-      });
-      const filteredAssets = origin.assets.filter(asset =>
-        filterAsset(asset.name),
-      );
+      const origin = stats.toJson();
+      const filteredAssets =
+        origin.assets?.filter(asset => filterAsset(asset.name)) || [];
 
       return filteredAssets.map(formatAsset);
     })

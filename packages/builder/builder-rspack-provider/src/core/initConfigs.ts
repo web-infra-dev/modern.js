@@ -1,8 +1,8 @@
 import {
   debug,
-  isDebug,
+  // isDebug,
   type PluginStore,
-  type InspectConfigOptions,
+  // type InspectConfigOptions,
   type CreateBuilderOptions,
   deepFreezed,
 } from '@modern-js/builder-shared';
@@ -49,6 +49,6 @@ export async function initConfigs({
   );
 
   return {
-    rspackConfigs: rspackConfigs,
+    rspackConfigs,
   };
 }

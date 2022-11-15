@@ -4,7 +4,7 @@ import type { MetaOptions } from '@modern-js/utils';
 
 export type CrossOrigin = 'anonymous' | 'use-credentials';
 
-export type Inject = 'head' | 'body'
+export type Inject = 'head' | 'body';
 
 export interface HtmlConfig {
   meta?: MetaOptions;
@@ -26,8 +26,7 @@ export interface HtmlConfig {
     | ChainedConfig<Record<string, unknown>>;
   templateParametersByEntries?: Record<
     string,
-    | Record<string, unknown>
-    | ChainedConfig<Record<string, unknown>>
+    Record<string, unknown> | ChainedConfig<Record<string, unknown>>
     // | HTMLPluginOptions['templateParameters']
   >;
 }

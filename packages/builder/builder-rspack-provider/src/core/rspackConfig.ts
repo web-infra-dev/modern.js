@@ -8,14 +8,14 @@ import type { Context, ModifyRspackUtils, RspackConfig } from '../types';
 
 function generateDefaultRspackConfig(): RspackConfig {
   return {
-    //todo default config
+    // todo default config
     builtins: {},
     define: {},
     module: {
-      rules: []
+      rules: [],
     },
     resolve: {},
-  } as unknown as RspackConfig
+  } as unknown as RspackConfig;
 }
 
 async function modifyRspackConfig(
@@ -24,7 +24,7 @@ async function modifyRspackConfig(
   utils: ModifyRspackUtils,
 ) {
   debug('modify rspack config');
-  let [modifiedConfig] = await context.hooks.modifyRspackConfigHook.call(
+  const [modifiedConfig] = await context.hooks.modifyRspackConfigHook.call(
     rspackConfig,
     utils,
   );
