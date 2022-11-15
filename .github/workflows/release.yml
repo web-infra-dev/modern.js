@@ -5,14 +5,13 @@ on:
     inputs:
       version:
         type: choice
-        description: 'Release Version(canary, alpha, pre, latest, next)'
+        description: 'Release Version(next, beta, alpha, latest)'
         required: true
-        default: 'canary'
+        default: 'next'
         options:
-        - canary
         - next
+        - beta
         - alpha
-        - pre
         - latest
       branch:
         description: 'Release Branch(confirm release branch)'
