@@ -50,7 +50,10 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       {
         collapsable: false,
         title: getText('基础', 'Basic'),
-        children: [getLink('/guide/basic/build-target')],
+        children: [
+          getLink('/guide/basic/build-target'),
+          getLink('/guide/basic/html-template'),
+        ],
       },
       {
         collapsable: false,
