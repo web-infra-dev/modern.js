@@ -57,6 +57,43 @@ const defaultOptions = {
 
 如果你需要修改转译参数，可以查看 [esbuild-loader 文档](https://github.com/privatenumber/esbuild-loader#loader)。
 
+#### 修改目标环境
+
+通过 `target` 选项来修改代码转译的目标环境。`target` 可以直接设置为 JavaScript 语言版本，比如 `es6`，`es2020`；也可以设置为若干个目标环境，每个目标环境都是一个环境名称后跟一个版本号，比如 `['chrome58', 'edge16' ,'firefox57']`。
+
+支持设置以下环境：
+
+- chrome
+- edge
+- firefox
+- ie
+- ios
+- node
+- opera
+- safari
+
+```ts
+builder.addPlugins([
+  PluginEsbuild({
+    loader: {
+      target: 'chrome61',
+    },
+  }),
+]);
+```
+
+#### 关闭代码转译
+
+将 `loader` 设置为 `false` 来关闭 esbuild 代码转译，此时 Builder 会继续使用 Babel 来进行代码转译。
+
+```ts
+builder.addPlugins([
+  PluginEsbuild({
+    loader: false,
+  }),
+]);
+```
+
 ### minimize
 
 - **Type**:
@@ -77,6 +114,32 @@ const defaultOptions = {
 这个选项用于启用 JavaScript 和 CSS 的代码压缩。
 
 如果你需要修改压缩参数，可以查看 [esbuild-loader 文档](https://github.com/privatenumber/esbuild-loader#minifyplugin)。
+
+#### 修改目标环境
+
+通过 `target` 选项来修改代码压缩的目标环境。
+
+```ts
+builder.addPlugins([
+  PluginEsbuild({
+    minimize: {
+      target: 'chrome61',
+    },
+  }),
+]);
+```
+
+#### 关闭代码压缩
+
+将 `minimize` 设置为 `false` 来关闭 esbuild 代码压缩，此时 Builder 会继续使用 Terser 进行代码压缩。
+
+```ts
+builder.addPlugins([
+  PluginEsbuild({
+    minimize: false,
+  }),
+]);
+```
 
 ## esbuild 局限性
 

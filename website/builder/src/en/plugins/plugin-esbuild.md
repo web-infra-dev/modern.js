@@ -57,6 +57,43 @@ This config is used to enable JavaScript/TypeScript transformation, which will r
 
 If you want to modify the options, you can check the [esbuild-loader documentation](https://github.com/privatenumber/esbuild-loader#loader).
 
+#### Set the target environment
+
+Use the `target` option to set the target environment for transformation. `target` can be set directly to the JavaScript language version, such as `es6`, `es2020`; it can also be set to several target environments, each target environment is an environment name followed by a version number, such as `['chrome58', 'edge16' ,'firefox57']`.
+
+The following environments are supported:
+
+- chrome
+- edge
+- firefox
+- ie
+- ios
+- node
+- opera
+- safari
+
+```ts
+builder.addPlugins([
+  PluginEsbuild({
+    loader: {
+      target: 'chrome61',
+    },
+  }),
+]);
+```
+
+#### Disable transformation
+
+Set `loader` to `false` to disable esbuild transformation, and Builder will continue to use Babel to transform the code.
+
+```ts
+builder.addPlugins([
+  PluginEsbuild({
+    loader: false,
+  }),
+]);
+```
+
 ### minimize
 
 - **Type**:
@@ -74,9 +111,35 @@ const defaultOptions = {
 };
 ```
 
-This option is used to enable code minification for JavaScript and CSS.
+This option is used to enable minification for JavaScript and CSS.
 
 If you want to modify the options, you can check the [esbuild-loader documentation](https://github.com/privatenumber/esbuild-loader#minifyplugin).
+
+#### Set the target environment
+
+Use the `target` option to set the target environment for minification.
+
+```ts
+builder.addPlugins([
+  PluginEsbuild({
+    minimize: {
+      target: 'chrome61',
+    },
+  }),
+]);
+```
+
+#### Disable minification
+
+Set `minimize` to `false` to disable esbuild minification, and Builder will continue to use Terser to minify the code.
+
+```ts
+builder.addPlugins([
+  PluginEsbuild({
+    minimize: false,
+  }),
+]);
+```
 
 ## Limitations
 
