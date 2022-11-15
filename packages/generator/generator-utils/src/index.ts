@@ -69,20 +69,29 @@ export async function getPackageVersion(
   throw new Error('not found npm, please install npm before');
 }
 
-export async function getModernVersion(solution: Solution, registry?: string) {
+export async function getModernVersion(
+  solution: Solution,
+  registry?: string,
+  distTag = 'latest',
+) {
   const dep = SolutionToolsMap[solution];
-  const modernVersion = await getPackageVersion(dep, registry);
+  const modernVersion = await getPackageVersion(`${dep}@${distTag}`, registry);
   return modernVersion;
 }
 
 export async function getModernPluginVersion(
   solution: Solution,
   packageName: string,
-  options: { cwd?: string; registry?: string } = {},
+  options: { cwd?: string; registry?: string; distTag?: string } = {
+    distTag: 'latest',
+  },
 ) {
-  const { cwd = process.cwd(), registry } = options;
+  const { cwd = process.cwd(), registry, distTag } = options;
   const getLatetPluginVersion = async () => {
-    const version = await getPackageVersion(packageName, registry);
+    const version = await getPackageVersion(
+      `${packageName}@${distTag}`,
+      registry,
+    );
     return version;
   };
 

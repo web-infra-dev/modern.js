@@ -97,6 +97,7 @@ const handleTemplateFile = async (
   const getServerPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry: context.config.registry,
+      distTag: context.config.distTag,
     });
   };
 

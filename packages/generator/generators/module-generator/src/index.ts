@@ -93,6 +93,7 @@ export const handleTemplateFile = async (
   const modernVersion = await getModernVersion(
     Solution.Module,
     context.config.registry,
+    context.config.distTag,
   );
 
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);

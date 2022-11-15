@@ -56,6 +56,7 @@ const handleTemplateFile = async (
     context.config.runtimeDependeceVersion ||
     `${await getModernPluginVersion(Solution.Module, runtimeDependence, {
       registry: context.config.registry,
+      distTag: context.config.distTag,
     })}`;
 
   // adjust react-dom dependence
