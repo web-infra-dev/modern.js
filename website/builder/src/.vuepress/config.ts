@@ -53,6 +53,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/basic/build-target'),
           getLink('/guide/basic/html-template'),
+          getLink('/guide/basic/alias'),
         ],
       },
       {
