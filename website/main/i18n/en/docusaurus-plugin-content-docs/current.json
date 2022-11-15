@@ -1,0 +1,258 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialsSidebar.category.基础": {
+    "message": "基础",
+    "description": "The label for category 基础 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.创建第一个应用": {
+    "message": "创建第一个应用",
+    "description": "The label for category 创建第一个应用 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.1: 手动创建应用工程": {
+    "message": "1: 手动创建应用工程",
+    "description": "The label for category 1: 手动创建应用工程 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.2: 自动创建应用工程": {
+    "message": "2: 自动创建应用工程",
+    "description": "The label for category 2: 自动创建应用工程 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.3: 确认编程环境": {
+    "message": "3: 确认编程环境",
+    "description": "The label for category 3: 确认编程环境 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.4: 写 JS 代码": {
+    "message": "4: 写 JS 代码",
+    "description": "The label for category 4: 写 JS 代码 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.5: 使用 UI 组件": {
+    "message": "5: 使用 UI 组件",
+    "description": "The label for category 5: 使用 UI 组件 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.6: 添加 UI 组件": {
+    "message": "6: 添加 UI 组件",
+    "description": "The label for category 6: 添加 UI 组件 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.7: 添加应用入口": {
+    "message": "7: 添加应用入口",
+    "description": "The label for category 7: 添加应用入口 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.8: 添加客户端路由": {
+    "message": "8: 添加客户端路由",
+    "description": "The label for category 8: 添加客户端路由 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.9: 添加 BFF": {
+    "message": "9: 添加 BFF",
+    "description": "The label for category 9: 添加 BFF in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.10: 添加业务模型": {
+    "message": "10: 添加业务模型",
+    "description": "The label for category 10: 添加业务模型 in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.11: 添加容器组件": {
+    "message": "11: 添加容器组件",
+    "description": "The label for category 11: 添加容器组件 in sidebar tutorialsSidebar"
+  },
+  "sidebar.guidesSidebar.category.开始": {
+    "message": "开始",
+    "description": "The label for category 开始 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.核心概念": {
+    "message": "核心概念",
+    "description": "The label for category 核心概念 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.基础功能": {
+    "message": "基础功能",
+    "description": "The label for category 基础功能 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.CSS 开发方案": {
+    "message": "CSS 开发方案",
+    "description": "The label for category CSS 开发方案 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.进阶功能": {
+    "message": "进阶功能",
+    "description": "The label for category 进阶功能 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.BFF": {
+    "message": "BFF",
+    "description": "The label for category BFF in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.专题详解": {
+    "message": "专题详解",
+    "description": "The label for category 专题详解 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.Reduck 状态管理": {
+    "message": "Reduck 状态管理",
+    "description": "The label for category Reduck 状态管理 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.微前端": {
+    "message": "微前端",
+    "description": "The label for category 微前端 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.Monorepo": {
+    "message": "Monorepo",
+    "description": "The label for category Monorepo in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.包版本管理": {
+    "message": "包版本管理",
+    "description": "The label for category 包版本管理 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.自定义插件": {
+    "message": "自定义插件",
+    "description": "The label for category 自定义插件 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.自定义生成器插件": {
+    "message": "自定义生成器插件",
+    "description": "The label for category 自定义生成器插件 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.常见问题": {
+    "message": "常见问题",
+    "description": "The label for category 常见问题 in sidebar guidesSidebar"
+  },
+  "sidebar.apisAppSidebar.category.文件约定": {
+    "message": "文件约定",
+    "description": "The label for category 文件约定 in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.src/": {
+    "message": "src/",
+    "description": "The label for category src/ in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.api/": {
+    "message": "api/",
+    "description": "The label for category api/ in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.函数写法": {
+    "message": "函数写法",
+    "description": "The label for category 函数写法 in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.框架写法": {
+    "message": "框架写法",
+    "description": "The label for category 框架写法 in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.server/": {
+    "message": "server/",
+    "description": "The label for category server/ in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.config/": {
+    "message": "config/",
+    "description": "The label for category config/ in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.命令": {
+    "message": "命令",
+    "description": "The label for category 命令 in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.运行时": {
+    "message": "运行时",
+    "description": "The label for category 运行时 in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.App API": {
+    "message": "App API",
+    "description": "The label for category App API in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.BFF Server API": {
+    "message": "BFF Server API",
+    "description": "The label for category BFF Server API in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.Model API": {
+    "message": "Model API",
+    "description": "The label for category Model API in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.Container API": {
+    "message": "Container API",
+    "description": "The label for category Container API in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.Testing API": {
+    "message": "Testing API",
+    "description": "The label for category Testing API in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.Web Server API": {
+    "message": "Web Server API",
+    "description": "The label for category Web Server API in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.Utility API": {
+    "message": "Utility API",
+    "description": "The label for category Utility API in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.loadable": {
+    "message": "loadable",
+    "description": "The label for category loadable in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.插件 API": {
+    "message": "插件 API",
+    "description": "The label for category 插件 API in sidebar apisAppSidebar"
+  },
+  "sidebar.apisMonorepoSidebar.category.文件约定": {
+    "message": "文件约定",
+    "description": "The label for category 文件约定 in sidebar apisMonorepoSidebar"
+  },
+  "sidebar.apisMonorepoSidebar.category.命令": {
+    "message": "命令",
+    "description": "The label for category 命令 in sidebar apisMonorepoSidebar"
+  },
+  "sidebar.apisGeneratorSidebar.category.生成器插件 API": {
+    "message": "生成器插件 API",
+    "description": "The label for category 生成器插件 API in sidebar apisGeneratorSidebar"
+  },
+  "sidebar.apisGeneratorSidebar.category.自定义输入 API": {
+    "message": "自定义输入 API",
+    "description": "The label for category 自定义输入 API in sidebar apisGeneratorSidebar"
+  },
+  "sidebar.apisGeneratorSidebar.category.获取信息 API": {
+    "message": "获取信息 API",
+    "description": "The label for category 获取信息 API in sidebar apisGeneratorSidebar"
+  },
+  "sidebar.apisGeneratorSidebar.category.Hook 函数 API": {
+    "message": "Hook 函数 API",
+    "description": "The label for category Hook 函数 API in sidebar apisGeneratorSidebar"
+  },
+  "sidebar.apisGeneratorSidebar.category.文件操作 API": {
+    "message": "文件操作 API",
+    "description": "The label for category 文件操作 API in sidebar apisGeneratorSidebar"
+  },
+  "sidebar.apisGeneratorSidebar.category.启用功能 API": {
+    "message": "启用功能 API",
+    "description": "The label for category 启用功能 API in sidebar apisGeneratorSidebar"
+  },
+  "sidebar.apisGeneratorSidebar.category.NPM API": {
+    "message": "NPM API",
+    "description": "The label for category NPM API in sidebar apisGeneratorSidebar"
+  },
+  "sidebar.apisGeneratorSidebar.category.GIT API": {
+    "message": "GIT API",
+    "description": "The label for category GIT API in sidebar apisGeneratorSidebar"
+  },
+  "sidebar.configsAppSidebar.category.source (源文件)": {
+    "message": "source (源文件)",
+    "description": "The label for category source (源文件) in sidebar configsAppSidebar"
+  },
+  "sidebar.configsAppSidebar.category.output (构建产物)": {
+    "message": "output (构建产物)",
+    "description": "The label for category output (构建产物) in sidebar configsAppSidebar"
+  },
+  "sidebar.configsAppSidebar.category.runtime (运行时)": {
+    "message": "runtime (运行时)",
+    "description": "The label for category runtime (运行时) in sidebar configsAppSidebar"
+  },
+  "sidebar.configsAppSidebar.category.server (服务器)": {
+    "message": "server (服务器)",
+    "description": "The label for category server (服务器) in sidebar configsAppSidebar"
+  },
+  "sidebar.configsAppSidebar.category.bff (BFF API)": {
+    "message": "bff (BFF API)",
+    "description": "The label for category bff (BFF API) in sidebar configsAppSidebar"
+  },
+  "sidebar.configsAppSidebar.category.dev (开发调试)": {
+    "message": "dev (开发调试)",
+    "description": "The label for category dev (开发调试) in sidebar configsAppSidebar"
+  },
+  "sidebar.configsAppSidebar.category.testing (测试)": {
+    "message": "testing (测试)",
+    "description": "The label for category testing (测试) in sidebar configsAppSidebar"
+  },
+  "sidebar.configsAppSidebar.category.tools (底层配置)": {
+    "message": "tools (底层配置)",
+    "description": "The label for category tools (底层配置) in sidebar configsAppSidebar"
+  }
+}

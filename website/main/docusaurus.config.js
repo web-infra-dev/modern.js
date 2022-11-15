@@ -1,4 +1,19 @@
+const path = require('path');
 const navbar = require('./navbar');
+
+const baseUrl = '/v2/';
+const isProd = process.env.NODE_ENV !== 'development';
+const isUploadCDN = process.env.BUILD_TYPE;
+// eslint-disable-next-line no-nested-ternary
+const publicPath = isUploadCDN
+  ? `https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/`
+  : isProd
+  ? baseUrl
+  : '/';
+
+const templatePublicPath = isUploadCDN
+  ? `${publicPath}<%= it.baseUrl.replace('${baseUrl}', '') %>`
+  : '<%= it.baseUrl %>';
 
 // @ts-check
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
@@ -6,8 +21,8 @@ module.exports = {
   title: 'Modern.js - 现代 Web 工程体系',
   tagline: 'Modernjs are cool',
   url: 'https://modernjs.dev/',
-  baseUrl: '/v2/',
-  onBrokenLinks: 'throw',
+  baseUrl: isProd ? baseUrl : '/',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'Modern Js', // Usually your GitHub org/user name.
@@ -94,10 +109,6 @@ module.exports = {
           ],
         },
       ],
-      logo: {
-        alt: 'ByteDance Open Source Logo',
-        src: 'https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/assets/images/images/modernjs-logo.svg',
-      },
     },
   },
   presets: [
@@ -108,6 +119,13 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           breadcrumbs: false,
+          async sidebarItemsGenerator({
+            defaultSidebarItemsGenerator,
+            ...args
+          }) {
+            const sidebarItems = await defaultSidebarItemsGenerator(args);
+            return sidebarItems;
+          },
           // Please change this to your repo.
           // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
         },
@@ -124,7 +142,6 @@ module.exports = {
     ],
   ],
   themes: [
-    // path.resolve(__dirname, './node_modules/@docusaurus/theme-search-algolia'),
     [
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
@@ -142,13 +159,16 @@ module.exports = {
       // ...
       return {
         name: 'Modernjs-plugin',
-        configureWebpack() {
+        configureWebpack(config) {
+          let { entry } = config;
+          if (config.name === 'client' && isProd) {
+            entry = [path.join(__dirname, './scripts/pre-entry.js'), entry];
+          }
+
           return {
+            entry,
             output: {
-              publicPath:
-                process.env.NODE_ENV !== 'development'
-                  ? `//lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/`
-                  : '/v2/',
+              publicPath,
             },
             resolveLoader: {
               alias: {
@@ -181,12 +201,14 @@ module.exports = {
     },
   ],
   i18n: {
-    defaultLocale: 'zh-cn',
-    locales: ['zh-cn'],
+    defaultLocale: 'zh-Hans',
+    locales: ['zh-Hans', 'en'],
     localeConfigs: {
-      'zh-cn': {
+      'zh-Hans': {
         label: '简体中文（中国）',
-        direction: 'ltr',
+      },
+      en: {
+        label: 'English',
       },
     },
   },
@@ -196,24 +218,27 @@ module.exports = {
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
       <meta name="generator" content="Docusaurus v<%= it.version %>">
-      <%~ it.headTags %>
       <% it.metaAttributes.forEach((metaAttribute) => { %>
         <%~ metaAttribute %>
       <% }); %>
+      <script>
+        window.__assetsPrefix__ = "<%= it.baseUrl %>";
+      </script>
+      <%~ it.headTags %>
       <% it.stylesheets.forEach((stylesheet) => { %>
-        <link rel="stylesheet" href="//lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/<%= stylesheet %>" />
+        <link rel="stylesheet" href="${templatePublicPath}<%= stylesheet %>" />
       <% }); %>
       <% it.scripts.forEach((script) => { %>
-        <link rel="preload" href="//lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/<%= script %>" as="script">
+        <link rel="preload" href="${templatePublicPath}<%= script %>" as="script">
       <% }); %>
     </head>
-    <body <%~ it.bodyAttributes %> itemscope="" itemtype="http://schema.org/Organization">
+    <body <%~ it.bodyAttributes %>>
       <%~ it.preBodyTags %>
       <div id="__docusaurus">
         <%~ it.appHtml %>
       </div>
       <% it.scripts.forEach((script) => { %>
-        <script src="//lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/<%= script %>"></script>
+        <script src="${templatePublicPath}<%= script %>"></script>
       <% }); %>
       <%~ it.postBodyTags %>
     </body>

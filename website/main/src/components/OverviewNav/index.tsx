@@ -38,9 +38,11 @@ const OverviewNavCard: React.FC<IOverviewNavCard> = ({
             href = item?.items[0].href;
           }
         }
+
+        // 这里需要把 baseUrl 移除掉，否则多区域会报错
         return (
           <li key={item.label}>
-            <Link to={href}>{item.label}</Link>
+            <Link to={href.replace(/^.+\/doc/, '/doc')}>{item.label}</Link>
           </li>
         );
       })}

@@ -1,0 +1,422 @@
+[
+  {
+    "text": "设置开发环境下的静态资源 URL 前缀，对应 webpack 的 [output.publicPath](https://webpack.js.org/guides/public-path/) 配置。",
+    "name": "assetPrefix",
+    "dirname": "dev"
+  },
+  {
+    "text": "是否开启 Hot Module Replacement 热更新能力。",
+    "name": "hmr",
+    "dirname": "dev"
+  },
+  {
+    "text": "配置该选项后，可以开启 Dev Server 对 HTTPS 的支持，同时会禁用 HTTP 服务器。",
+    "name": "https",
+    "dirname": "dev"
+  },
+  {
+    "text": "设置 Dev Server 监听的端口号。",
+    "name": "port",
+    "dirname": "dev"
+  },
+  {
+    "text": "是否在编译过程中展示进度条。",
+    "name": "progressBar",
+    "dirname": "dev"
+  },
+  {
+    "text": "`dev.startUrl` 用来设置 Dev Server 启动时自动打开的页面 URL，默认情况下不会打开任何页面。",
+    "name": "startUrl",
+    "dirname": "dev"
+  },
+  {
+    "text": "设置 app icon 的文件路径，可以为相对路径或绝对路径。",
+    "name": "appIcon",
+    "dirname": "html"
+  },
+  {
+    "text": "用于设置 `<script>` 标签的 [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin) 属性。",
+    "name": "crossorigin",
+    "dirname": "html"
+  },
+  {
+    "text": "移除 HTML 产物对应的文件夹。开启该选项后，生成的 HTML 文件目录会从 `[name]/index.html` 变为 `[name].html`。",
+    "name": "disableHtmlFolder",
+    "dirname": "html"
+  },
+  {
+    "text": "设置页面的 favicon 图标。",
+    "name": "favicon",
+    "dirname": "html"
+  },
+  {
+    "text": "用于在多页面的场景下，为不同的页面设置不同的 favicon。",
+    "name": "faviconByEntries",
+    "dirname": "html"
+  },
+  {
+    "text": "修改构建产物中 `<script>` 标签在 HTML 中的插入位置。",
+    "name": "inject",
+    "dirname": "html"
+  },
+  {
+    "text": "用于在多页面的场景下，为不同的页面设置不同的 script 标签插入位置。",
+    "name": "injectByEntries",
+    "dirname": "html"
+  },
+  {
+    "text": "配置 HTML 页面的 `<meta>` 标签。",
+    "name": "meta",
+    "dirname": "html"
+  },
+  {
+    "text": "用于在多页面的场景下，为不同的页面设置不同的 meta 标签。",
+    "name": "metaByEntries",
+    "dirname": "html"
+  },
+  {
+    "text": "默认情况下，HTML 模板中包含了 `root` 节点用于组件挂载，通过 `mountId` 可以修改该节点的 id。",
+    "name": "mountId",
+    "dirname": "html"
+  },
+  {
+    "text": "定义 HTML 模板的文件路径，对应 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的 `template` 配置项。",
+    "name": "template",
+    "dirname": "html"
+  },
+  {
+    "text": "用于在多页面的场景下，为不同的页面设置不同的 HTML 模板。",
+    "name": "templateByEntries",
+    "dirname": "html"
+  },
+  {
+    "text": "定义 HTML 模板中的参数，对应 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的 `templateParameters` 配置项。你可以使用配置为对象或者函数。",
+    "name": "templateParameters",
+    "dirname": "html"
+  },
+  {
+    "text": "用于在多页面的场景下，为不同的页面设置不同的模板参数。",
+    "name": "templateParametersByEntries",
+    "dirname": "html"
+  },
+  {
+    "text": "配置 HTML 页面的 title 标签，例如：",
+    "name": "title",
+    "dirname": "html"
+  },
+  {
+    "text": "用于在多页面的场景下，为不同的页面设置不同的 `title`。",
+    "name": "titleByEntries",
+    "dirname": "html"
+  },
+  {
+    "text": "在生产环境使用 CDN 部署时，可使用该选项设置静态资源的 URL 前缀，对应 webpack 的 [output.publicPath](https://webpack.js.org/guides/public-path/) 配置。",
+    "name": "assetPrefix",
+    "dirname": "output"
+  },
+  {
+    "text": "`output.assetsRetry` 用于配置资源加载失败时的重试逻辑。配置类型如下:",
+    "name": "assetsRetry",
+    "dirname": "output"
+  },
+  {
+    "text": "默认情况下，Builder 的产物内容是纯 ASCII 的，并且会转义所有非 ASCII 字符。",
+    "name": "charset",
+    "dirname": "output"
+  },
+  {
+    "text": "是否在构建开始前清理 dist 目录下的所有文件。",
+    "name": "cleanDistPath",
+    "dirname": "output"
+  },
+  {
+    "text": "通过设置 `output.convertToRem`，Builder 可进行如下处理：",
+    "name": "convertToRem",
+    "dirname": "output"
+  },
+  {
+    "text": "将指定的文件或目录拷贝到构建输出目录中。",
+    "name": "copy",
+    "dirname": "output"
+  },
+  {
+    "text": "设置 CSS Modules 编译后生成的 className 格式。",
+    "name": "cssModuleLocalIdentName",
+    "dirname": "output"
+  },
+  {
+    "text": "设置图片、字体等静态资源被自动内联为 base64 的体积阈值。",
+    "name": "dataUriLimit",
+    "dirname": "output"
+  },
+  {
+    "text": "是否将源码目录下的所有 `.css` 文件当做 CSS Modules 模块进行处理。",
+    "name": "disableCssModuleExtension",
+    "dirname": "output"
+  },
+  {
+    "text": "移除生产环境的构建产物名称中的 hash 值。",
+    "name": "disableFilenameHash",
+    "dirname": "output"
+  },
+  {
+    "text": "用于控制是否内联 [runtimeChunk](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) 到 HTML 中。",
+    "name": "disableInlineRuntimeChunk",
+    "dirname": "output"
+  },
+  {
+    "text": "是否禁用生产环境下的代码压缩。",
+    "name": "disableMinimize",
+    "dirname": "output"
+  },
+  {
+    "text": "是否禁用 Source Map。",
+    "name": "disableSourceMap",
+    "dirname": "output"
+  },
+  {
+    "text": "设置构建产物的输出目录，Builder 会根据产物的类型输出到对应的子目录下。",
+    "name": "distPath",
+    "dirname": "output"
+  },
+  {
+    "text": "开启该选项后，当编译过程中遇到无法识别的文件类型时，会直接将该文件直接输出到产物目录；否则会抛出一个异常。",
+    "name": "enableAssetFallback",
+    "dirname": "output"
+  },
+  {
+    "text": "是否生成 manifest 文件，该文件包含所有构建产物的信息。",
+    "name": "enableAssetManifest",
+    "dirname": "output"
+  },
+  {
+    "text": "是否生成 CSS Modules 的 TypeScript 声明文件。",
+    "name": "enableCssModuleTSDeclaration",
+    "dirname": "output"
+  },
+  {
+    "text": "用来控制是否用 `<script>` 标签将产物中的 script 文件（.js 文件）inline 到 html 中。",
+    "name": "enableInlineScripts",
+    "dirname": "output"
+  },
+  {
+    "text": "用来控制是否用 `<style>` 标签将产物中的 style 文件（.css 文件）inline 到 html 中。",
+    "name": "enableInlineStyles",
+    "dirname": "output"
+  },
+  {
+    "text": "是否要使用[新版 decorator 提案](https://github.com/tc39/proposal-decorators/tree/7fa580b40f2c19c561511ea2c978e307ae689a1b) 进行编译。",
+    "name": "enableLatestDecorators",
+    "dirname": "output"
+  },
+  {
+    "text": "在构建时，防止将代码中某些 `import` 的依赖包打包到 bundle 中，而是在运行时再去从外部获取这些依赖。",
+    "name": "externals",
+    "dirname": "output"
+  },
+  {
+    "text": "设置构建产物的名称。",
+    "name": "filename",
+    "dirname": "output"
+  },
+  {
+    "text": "配置 legal comment 的处理方式。",
+    "name": "legalComments",
+    "dirname": "output"
+  },
+  {
+    "text": "指定项目兼容的目标浏览器范围。该值会被 [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) 和 [autoprefixer](https://github.com/postcss/autoprefixer) 用来确定需要转换的 JavaScript 语法特性和需要添加的 CSS 浏览器前缀。",
+    "name": "overrideBrowserslist",
+    "dirname": "output"
+  },
+  {
+    "text": "通过 `output.polyfill` 你可以配置 Polyfill 的注入方式。",
+    "name": "polyfill",
+    "dirname": "output"
+  },
+  {
+    "text": "`output.svgDefaultExport` 可以用来配置 Svg 文件的默认导出。",
+    "name": "svgDefaultExport",
+    "dirname": "output"
+  },
+  {
+    "text": "控制 Builder 在构建过程中的缓存行为。",
+    "name": "buildCache",
+    "dirname": "performance"
+  },
+  {
+    "text": "你有两种方式开启 `webpack-bundle-analyzer` 来分析构建产物的体积:",
+    "name": "bundleAnalyze",
+    "dirname": "performance"
+  },
+  {
+    "text": "`performance.chunkSplit` 用于配置 Builder 的拆包策略。配置项的类型 `ChunkSplit` 如下:",
+    "name": "chunkSplit",
+    "dirname": "performance"
+  },
+  {
+    "text": "是否在生产环境构建后输出所有静态资源文件的体积。",
+    "name": "printFileSize",
+    "dirname": "performance"
+  },
+  {
+    "text": "是否捕获每个模块的耗时信息，对应 webpack 的 [profile](https://webpack.js.org/configuration/other-options/#profile) 配置。",
+    "name": "profile",
+    "dirname": "performance"
+  },
+  {
+    "text": "在生产环境构建时，是否自动移除代码中的 `console.xx`。",
+    "name": "removeConsole",
+    "dirname": "performance"
+  },
+  {
+    "text": "是否移除 [moment.js](https://momentjs.com/) 的语言包文件。",
+    "name": "removeMomentLocale",
+    "dirname": "performance"
+  },
+  {
+    "text": "为 HTML 所引入的子资源添加完整性属性 —— `integrity`，使浏览器能够验证引入资源的完整性，以此防止下载的资源被篡改。",
+    "name": "sri",
+    "dirname": "security"
+  },
+  {
+    "text": "设置文件引用的别名，对应 webpack 的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) 配置。",
+    "name": "alias",
+    "dirname": "source"
+  },
+  {
+    "text": "对于使用 Data URI 引入的 JavaScript 代码，是否采用 babel 进行编译。",
+    "name": "compileJsDataURI",
+    "dirname": "source"
+  },
+  {
+    "text": "构建时将代码中的变量替换成其它值或者表达式，可以用于在代码逻辑中区分开发环境与生产环境等场景。",
+    "name": "define",
+    "dirname": "source"
+  },
+  {
+    "text": "构建时将类似 `process.env.FOO` 的全局变量表达式替换为指定的值，比如：",
+    "name": "globalVars",
+    "dirname": "source"
+  },
+  {
+    "text": "出于编译性能的考虑，默认情况下，Builder 不会通过 `babel-loader` 或 `ts-loader` 来编译 node_modules 下的文件，也不会编译当前工程目录外部的文件。",
+    "name": "include",
+    "dirname": "source"
+  },
+  {
+    "text": "限制源代码的引用路径。配置该选项后，所有源文件只能从约定的目录下引用代码，从其他目录引用代码会产生对应的报错提示。",
+    "name": "moduleScopes",
+    "dirname": "source"
+  },
+  {
+    "text": "在每个页面的入口文件前添加一段脚本，这段脚本会早于页面的代码执行，在这个脚本中可以进行执行一些全局的代码配置，比如注入 polyfill 等。",
+    "name": "preEntry",
+    "dirname": "source"
+  },
+  {
+    "text": "用于为 [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolveextensions) 添加统一的前缀。",
+    "name": "resolveExtensionPrefix",
+    "dirname": "source"
+  },
+  {
+    "text": "该配置项将决定你使用 `package.json` 哪个字段导入 `npm` 模块。对应 webpack 的 [resolve.mainFields](https://webpack.js.org/configuration/resolve/#resolvemainfields) 配置。",
+    "name": "resolveMainFields",
+    "dirname": "source"
+  },
+  {
+    "text": "通过 `tools.autoprefixer` 可以修改 [autoprefixer](https://github.com/postcss/autoprefixer) 的配置。",
+    "name": "autoprefixer",
+    "dirname": "tools"
+  },
+  {
+    "text": "通过 `tools.babel` 可以修改 [babel-loader](https://github.com/babel/babel-loader) 的配置项。",
+    "name": "babel",
+    "dirname": "tools"
+  },
+  {
+    "text": "通过 `tools.cssExtract` 可以更改 [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) 的配置。",
+    "name": "cssExtract",
+    "dirname": "tools"
+  },
+  {
+    "text": "通过 `tools.cssLoader` 可以修改 [css-loader](https://github.com/webpack-contrib/css-loader) 的配置项。默认配置如下:",
+    "name": "cssLoader",
+    "dirname": "tools"
+  },
+  {
+    "text": "通过 `tools.devServer` 可以修改开发环境服务器的配置。",
+    "name": "devServer",
+    "dirname": "tools"
+  },
+  {
+    "text": "通过 `tools.htmlPlugin` 可以修改 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的配置项。",
+    "name": "htmlPlugin",
+    "dirname": "tools"
+  },
+  {
+    "text": "你可以通过 `tools.inspector` 开启或者配置 webpack 调试工具 [webpack inspector](https://github.com/modern-js-dev/webpack-inspector)。",
+    "name": "inspector",
+    "dirname": "tools"
+  },
+  {
+    "text": "你可以通过 `tools.less` 修改 [less-loader](https://github.com/webpack-contrib/less-loader) 的配置。",
+    "name": "less",
+    "dirname": "tools"
+  },
+  {
+    "text": "在生产环境构建时，Builder 会通过 [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) 对 CSS 代码进行压缩优化。可以通过 `tools.minifyCss` 修改 [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) 的配置。",
+    "name": "minifyCss",
+    "dirname": "tools"
+  },
+  {
+    "text": "Builder 默认集成 PostCSS，你可以通过 `tools.postcss` 对 [postcss-loader](https://github.com/webpack-contrib/postcss-loader) 进行配置。",
+    "name": "postcss",
+    "dirname": "tools"
+  },
+  {
+    "text": "配置 [Pug](https://pugjs.org/) 模板引擎。",
+    "name": "pug",
+    "dirname": "tools"
+  },
+  {
+    "text": "你可以通过 `tools.sass` 修改 [sass-loader](https://github.com/webpack-contrib/sass-loader) 的配置。",
+    "name": "sass",
+    "dirname": "tools"
+  },
+  {
+    "text": "通过 `tools.styleLoader` 可以设置 [style-loader](https://github.com/webpack-contrib/style-loader) 的配置项，默认的配置为一个空对象。",
+    "name": "styleLoader",
+    "dirname": "tools"
+  },
+  {
+    "text": "对应 [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) 的配置。 值为 `Object` 类型时，利用 Object.assign 函数与默认配置合并。比如:",
+    "name": "styledComponents",
+    "dirname": "tools"
+  },
+  {
+    "text": "在生产环境构建时，Builder 会通过 [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) 对 JavaScript 代码进行压缩优化。可以通过 `tools.terser` 修改 [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) 的配置。",
+    "name": "terser",
+    "dirname": "tools"
+  },
+  {
+    "text": "默认情况下，Builder 会开启 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 进行类型检查。",
+    "name": "tsChecker",
+    "dirname": "tools"
+  },
+  {
+    "text": "项目中默认不开启 ts-loader，当 `tools.tsLoader` 不为 undefined 则表示开启 ts-loader，同时禁用 babel-loader 对 TypeScript 的编译。",
+    "name": "tsLoader",
+    "dirname": "tools"
+  },
+  {
+    "text": "`tools.webpack` 选项用于配置原生的 [webpack](https://webpack.js.org/)。",
+    "name": "webpack",
+    "dirname": "tools"
+  },
+  {
+    "text": "你可以通过 `tools.webpackChain` 来修改默认的 webpack 配置，值为 `Function` 类型，接收两个参数：",
+    "name": "webpackChain",
+    "dirname": "tools"
+  }
+]
