@@ -67,6 +67,7 @@ export const handleTemplateFile = async (
   const modernVersion = await getModernVersion(
     Solution.Monorepo,
     context.config.registry,
+    context.config.distTag,
   );
 
   generator.logger.debug(`ans=`, ans);

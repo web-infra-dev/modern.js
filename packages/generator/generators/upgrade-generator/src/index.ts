@@ -52,6 +52,7 @@ export const handleTemplateFile = async (
   const modernVersion = await getModernVersion(
     solutions[0] as Solution,
     context.config.registry,
+    context.config.distTag,
   );
 
   generator.logger.info(

@@ -114,6 +114,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
   const getModulePluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.Module, packageName, {
       registry,
+      distTag,
     });
   };
 
