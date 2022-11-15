@@ -1,10 +1,6 @@
 import { type BuilderContext } from '@modern-js/builder-shared';
 import { getBrowserslistWithDefault } from '../shared';
-import {
-  BuilderConfig,
-  BuilderPlugin,
-  ModifyRspackUtils,
-} from '../types';
+import { BuilderConfig, BuilderPlugin, ModifyRspackUtils } from '../types';
 
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 import postcssLoader from '../loader/postcss';
@@ -51,7 +47,7 @@ export async function getCssLoaderUses(
     };
 
     if (extraPlugins.length) {
-      mergedConfig.postcssOptions!.plugins!.push(...extraPlugins);
+      mergedConfig.postcssOptions.plugins.push(...extraPlugins);
     }
 
     return mergedConfig as ProcessOptions & {

@@ -1,8 +1,7 @@
 import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
-import type { RspackConfig } from './thirdParty';
+import type { RspackConfig, Stats } from './thirdParty';
 import type { ChainIdentifier } from '@modern-js/utils';
-import { Stats } from '@rspack/core/dist/stats';
 
 export type ModifyRspackUtils = {
   env: NodeEnv;
@@ -23,7 +22,7 @@ export type ModifyBuilderConfigFn = (
 ) => Promise<BuilderConfig | void> | BuilderConfig | void;
 
 export type OnBeforeBuildFn = (params: {
-  bundlerConfigs: RspackConfig[];
+  bundlerConfigs?: RspackConfig[];
 }) => Promise<void> | void;
 
 export type OnAfterBuildFn = (params: {

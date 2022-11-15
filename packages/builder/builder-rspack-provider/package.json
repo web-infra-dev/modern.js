@@ -19,9 +19,11 @@
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/core": "^0.0.4",
+    "@rspack/core": "^0.0.9",
+    "@rspack/dev-middleware": "^0.0.9",
     "caniuse-lite": "^1.0.30001332",
     "cssnano": "5.1.13",
     "postcss": "8.4.16"

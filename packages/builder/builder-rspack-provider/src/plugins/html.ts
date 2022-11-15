@@ -1,11 +1,7 @@
 import path from 'path';
 import { isFileExists } from '@modern-js/builder-shared';
 import { getDistPath } from '../shared';
-import type {
-  BuilderConfig,
-  BuilderPlugin,
-  RspackConfig,
-} from '../types';
+import type { BuilderConfig, BuilderPlugin, RspackConfig } from '../types';
 
 // This is a minimist subset of modern.js server routes
 type RoutesInfo = {
@@ -29,7 +25,7 @@ function getInject(entryName: string, config: BuilderConfig) {
   const { inject, injectByEntries } = config.html || {};
   // because rspack only support ['head', 'body'] to inject
   const normalInject = injectByEntries?.[entryName] || inject || true;
-  return typeof normalInject === 'string' ? normalInject : 'body'
+  return typeof normalInject === 'string' ? normalInject : 'body';
 }
 
 export function getTemplatePath(entryName: string, config: BuilderConfig) {
@@ -42,10 +38,7 @@ export function getTemplatePath(entryName: string, config: BuilderConfig) {
   return templateByEntries[entryName] || template;
 }
 
-async function getChunks(
-  entryName: string,
-  entryValue: RspackConfig['entry'],
-) {
+async function getChunks(entryName: string, entryValue: RspackConfig['entry']) {
   const { isPlainObject } = await import('@modern-js/utils');
   const dependOn = [];
 
@@ -107,10 +100,7 @@ export const PluginHtml = (): BuilderPlugin => ({
           });
 
           const htmlBuilts = rspackConfig.builtins?.html || [];
-          rspackConfig.builtins!.html = [
-            ...htmlBuilts,
-            pluginOptions
-          ]
+          rspackConfig.builtins!.html = [...htmlBuilts, pluginOptions];
         }),
       );
     });

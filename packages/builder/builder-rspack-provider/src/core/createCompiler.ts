@@ -12,7 +12,7 @@ export async function createCompiler({
   rspackConfigs: RspackConfig[];
 }) {
   debug('create compiler');
-  await context.hooks.onBeforeCreateCompilerHooks.call({
+  await context.hooks.onBeforeCreateCompilerHook.call({
     bundlerConfigs: rspackConfigs,
   });
 

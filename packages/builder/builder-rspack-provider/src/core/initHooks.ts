@@ -19,9 +19,9 @@ export function initHooks() {
     onDevCompileDoneHook: createAsyncHook<OnDevCompileDoneFn>(),
     modifyRspackConfigHook: createAsyncHook<ModifyRspackConfigFn>(),
     modifyBuilderConfigHook: createAsyncHook<ModifyBuilderConfigFn>(),
-    onBeforeCreateCompilerHooks: createAsyncHook<OnBeforeCreateCompilerFn>(),
-    onAfterStartDevServerHooks: createAsyncHook<OnAfterStartDevServerFn>(),
-    onBeforeStartDevServerHooks: createAsyncHook<OnBeforeStartDevServerFn>(),
+    onBeforeCreateCompilerHook: createAsyncHook<OnBeforeCreateCompilerFn>(),
+    onAfterStartDevServerHook: createAsyncHook<OnAfterStartDevServerFn>(),
+    onBeforeStartDevServerHook: createAsyncHook<OnBeforeStartDevServerFn>(),
   };
 }
 
