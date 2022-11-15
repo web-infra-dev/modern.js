@@ -65,6 +65,7 @@ export const handleTemplateFile = async (
   const getBffPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry: context.config.registry,
+      distTag: context.config.distTag,
     });
   };
 
