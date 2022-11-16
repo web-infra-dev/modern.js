@@ -10,14 +10,12 @@ export function PluginLess(): BuilderPlugin {
       api.modifyRspackConfig(async (rspackConfig, utils) => {
         const { CHAIN_ID } = utils;
         const config = api.getBuilderConfig();
-        const { applyOptionsChain } = await import('@modern-js/utils');
         const { getCssLoaderUses } = await import('./css');
         const getLessLoaderOptions = () => {
           const options = config.tools?.less?.lessOptions || {};
           return options;
         };
 
-        const { lessOptions } = getLessLoaderOptions();
         const cssLoaderUses = await getCssLoaderUses(
           config,
           api.context,

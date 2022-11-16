@@ -1,4 +1,5 @@
 import { Processor } from 'postcss';
+import { Buffer } from 'buffer';
 import { getCompiledPath } from '../../shared';
 
 const MODULE_REGEXP = /.*\.module\.(s(c|a)|c|le)ss$/;
@@ -18,31 +19,29 @@ const judgeCssModules = (modules: any, resourcePath: string): boolean => {
 };
 
 export default async function postcssLoader(loaderContext: any) {
-  let options = loaderContext.getOptions() ?? {};
+  const options = loaderContext.getOptions() ?? {};
 
-  try {
-    let meta = '';
-    let plugins = options.postcssOptions.plugins || [];
+  let meta = '';
+  const plugins = [...(options.postcssOptions.plugins || [])];
 
-    if (judgeCssModules(options.modules, loaderContext.resourcePath)) {
-      plugins.push(require(getCompiledPath('postcss-modules'))({
-        getJSON: function (_: string, json: string) {
+  if (judgeCssModules(options.modules, loaderContext.resourcePath)) {
+    plugins.push(
+      require(getCompiledPath('postcss-modules'))({
+        getJSON(_: string, json: string) {
           if (json) {
             meta = json;
           }
-        }
-      }));
-    }
-
-    let root = new Processor(plugins);
-    let res = await root.process(loaderContext.source.getCode(), {
-      from: undefined,
-    });
-    return {
-      content: res.css,
-      meta: meta ? Buffer.from(JSON.stringify(meta)) : '',
-    };
-  } catch (err) {
-    throw err;
+        },
+      }),
+    );
   }
+
+  const root = new Processor(plugins);
+  const res = await root.process(loaderContext.source.getCode(), {
+    from: undefined,
+  });
+  return {
+    content: res.css,
+    meta: meta ? Buffer.from(JSON.stringify(meta)) : '',
+  };
 }

@@ -1,5 +1,4 @@
 import { join, isAbsolute } from 'path';
-// import { stringifyConfig } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import {
   logger,
@@ -8,12 +7,22 @@ import {
 } from '@modern-js/builder-shared';
 import type { Context, RspackConfig } from '../types';
 
-async function stringifyConfig(
-  config: any,
-  _verbose?: boolean,
-): Promise<string> {
-  // todo
-  return JSON.stringify(config, null, 2);
+function stringifyConfig(config: any): string {
+  return JSON.stringify(
+    config,
+    (_key, value: Record<string, any> | any) => {
+      // shorten long functions
+      if (typeof value === 'function') {
+        if (value.toString().length > 100) {
+          return `function ${value.name}() { /* omitted long function */ }`;
+        }
+        return value.toString();
+      }
+
+      return value;
+    },
+    2,
+  );
 }
 
 async function writeConfigFiles({
@@ -99,14 +108,9 @@ export async function inspectConfig({
       })
     ).rspackConfigs;
 
-  const rawBuilderConfig = await stringifyConfig(
-    context.config,
-    inspectOptions.verbose,
-  );
+  const rawBuilderConfig = stringifyConfig(context.config);
   const rawBundlerConfigs = await Promise.all(
-    rspackConfigs.map(config =>
-      stringifyConfig(config, inspectOptions.verbose),
-    ),
+    rspackConfigs.map(config => stringifyConfig(config)),
   );
 
   if (inspectOptions.writeToDisk) {

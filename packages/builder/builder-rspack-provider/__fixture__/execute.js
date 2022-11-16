@@ -46,8 +46,6 @@ const createBuilder = async () => {
 (async function main() {
   const builder = await createBuilder();
 
-  // await builder.inspectConfig({ writeToDisk: true });
-
   try {
     if (runBuild) {
       await builder.build();
