@@ -22,7 +22,7 @@ module.exports = {
   tagline: 'Modernjs are cool',
   url: 'https://modernjs.dev/',
   baseUrl: isProd ? baseUrl : '/',
-  onBrokenLinks: 'warn',
+  onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'Modern Js', // Usually your GitHub org/user name.

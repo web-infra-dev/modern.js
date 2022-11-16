@@ -4,7 +4,7 @@ extractApiHeaders: [2]
 
 # Output Config
 
-本章节描述了 Builder 中与编译产物有关的配置。
+本章节描述了 Builder 中与构建产物有关的配置。
 
 ## output.assetPrefix
 

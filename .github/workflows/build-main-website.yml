@@ -5,6 +5,8 @@ on:
     branches: [next]
     paths:
       - 'website/main/**'
+      - 'packages/builder/builder-doc/**'
+      - 'packages/toolkit/main-doc/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
