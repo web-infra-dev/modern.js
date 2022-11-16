@@ -108,7 +108,7 @@ export const nodeJsPreset: PartialBuildConfig = [
     outdir: './dist/js/node',
     copy: legacyWithSourceCodeToCopyConfig,
   },
-  { format: 'esm', target: 'es6', dts: false, outdir: './js/modern' },
+  { format: 'esm', target: 'es6', dts: false, outdir: './dist/js/modern' },
   {
     buildType: 'bundleless',
     dts: { only: true },

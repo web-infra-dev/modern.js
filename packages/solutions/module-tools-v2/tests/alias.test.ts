@@ -28,6 +28,7 @@ describe('alias in js project', () => {
       configFile: bundleConfigFile,
       appDirectory: fixtureDir,
     });
+    console.info(ret.error);
     expect(ret.success).toBe(true);
 
     const distFilePath = path.join(

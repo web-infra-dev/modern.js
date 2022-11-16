@@ -49,6 +49,7 @@
     "@babel/core": "7.20.2",
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-lint": "workspace:*",
+    "@modern-js/self": "workspace:./",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
