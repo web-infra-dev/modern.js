@@ -207,7 +207,7 @@ export class InlineChunkHtmlPlugin {
             const { attributes } = headTag;
             if (attributes && attributes.defer === true) {
               deferScriptTags.push(headTag);
-              assets.headTags.splice(assets.headTags.indexOf(headTag), 1);
+              assets.headTags.splice(i, 1);
               i--;
             }
           }
