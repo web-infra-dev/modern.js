@@ -35,9 +35,9 @@ Now you can use `swc` transformation and minification seeminglessly.
 
 ## Config
 
-### `swc`
+### `tools.swc`
 
-- type: [swc configuration](https://swc.rs/docs/configuration/compilation)
+- type: [swc option](https://swc.rs/docs/configuration/compilation)
 
 You can override default option that plugin provides.
 The default option is:
@@ -73,18 +73,18 @@ The default option is:
 }
 ```
 
-`swc.env.targets` option is no need to specify manually, as plugin will read appropraite `browserslist` in your project.
+`env.targets` option is no need to specify manually, as plugin will read appropraite `browserslist` in your project.
 
-We recommended to not set `swc.module` yourself, because if you leave this option undefined, we actually can automatic detect correct module type for each file, howevery if you set it yourself, we will use your option for sure, but here comes trouble, if you set it to `esm`, every `cjs` module will be transformed to `esm`, and that may cause some errors. And if you set it to `cjs`, then all code is `cjs`, so you will miss `treeshake` optimization that `Bundler` can provide for you.
+We recommended to not set `module` yourself, because if you leave this option undefined, we actually can automatic detect correct module type for each file, howevery if you set it yourself, we will use your option for sure, but here comes trouble, if you set it to `esm`, every `cjs` module will be transformed to `esm`, and that may cause some errors. And if you set it to `cjs`, then all code is `cjs`, so you will miss `treeshake` optimization that `Bundler` can provide for you.
 
-`SWC` minification options is the same with `terser`, you can set minify options in `swc.jsc.minify`
+`SWC` minification options is the same with `terser`, you can set manually set minify options in `jsc.minify`. Note that you don't need to set `minify: true` to enable minification, we do minification in chunk optimize phase, and will just pass `jsc.minify` as minify option to invoke minify API exposed by `Rust` binding, so `minify: false or true` is ignored and unnecessary.
 
-#### `minify.compress`
+#### `jsc.minify.compress`
 
 - type: [terser compress option](https://terser.org/docs/api-reference.html#compress-options)
 - default: {}
 
-#### `minify.mangle`
+#### `jsc.minify.mangle`
 
 - type: [terser mangle option](https://terser.org/docs/api-reference.html#mangle-options)
 - default: true
@@ -116,7 +116,7 @@ Array<{
 }>
 ```
 
-Ported from `@babel/plugin-import`。
+Ported from `@babel/plugin-import`.
 
 `fromSource`
 
@@ -170,30 +170,30 @@ We recommend `replaceTpl` instead, because call `js` function through `node-api`
 - type: `boolean`
 - default: `true`
 
-是否转换成默认导入。
+Whether transform specifier to default specifier.
 
 #### `extensions.reactUtils`
 
-- 类型: `Object`
+- type: `Object`
 
-一些用于 `React` 的工具，包括以下配置项
+Some little help utils for `React`.
 
 `reactUtils.autoImportReact`
 
-- 类型: `boolean`
+- type: `boolean`
 
-自动引入 `React`, `import React from 'react'`
-用于 `jsx` 转换使用 `React.createElement`
+Automatically import `React` as global variable, eg: `import React from 'react'`.
+Mostly used for generated `React.createElement`.
 
 `reactUtils.rmEffect`
 
-- 类型: `boolean`
+- type: `boolean`
 
-移除 `useEffect` 调用
+Remove `useEffect` call.
 
 `reactUtils.rmPropTypes`
 
-- 类型:
+- type:
 
 ```typescript
 {
@@ -205,18 +205,17 @@ We recommend `replaceTpl` instead, because call `js` function through `node-api`
 }
 ```
 
-移除 `React` 组件在运行时的类型判断。移植自 [@babel/plugin-react-transform-remove-prop-types](https://github.com/oliviertassinari/babel-plugin-transform-react-remove-prop-types)。
-相应配置和 `@babel/plugin-react-transform-remove-prop-types` 插件保持一致
+Remove `React` runtime type checking. This is ported from [@babel/plugin-react-transform-remove-prop-types](https://github.com/oliviertassinari/babel-plugin-transform-react-remove-prop-types), All the configurations remain the same.
 
 #### `extensions.lodash`
 
-- 类型: `{  cwd?: string, ids?: string,}`
-- 默认值: `{ cwd: process.cwd(), ids: [] }`
+- type: `{  cwd?: string, ids?: string,}`
+- default: `{ cwd: process.cwd(), ids: [] }`
 
-移植自 [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash)。
+Ported from [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash).
 
-## 限制
+## Limitation
 
-不支持 `@babel/plugin-transform-runtime`。
+Do not support `@babel/plugin-transform-runtime`.
 
-对于 `TS` 文件，和 `esbuild` 一样只进行类型擦除，无类型检查。
+For `.ts` file, no type checking like `esbuild`.

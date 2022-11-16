@@ -29,9 +29,15 @@
   },
   "typesVersions": {
     "*": {
-      "loader": ["./dist/loader.d.ts"],
-      "plugin": ["./dist/plugin.d.ts"],
-      "binding": ["./dist/binding.d.ts"]
+      "loader": [
+        "./dist/loader.d.ts"
+      ],
+      "plugin": [
+        "./dist/plugin.d.ts"
+      ],
+      "binding": [
+        "./dist/binding.d.ts"
+      ]
     }
   },
   "keywords": [],
@@ -52,7 +58,7 @@
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.0.5",
+    "@modern-js/swc-plugins": "0.0.7",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.4.12",
     "core-js": "^3.25.0"

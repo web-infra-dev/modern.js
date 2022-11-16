@@ -20,7 +20,7 @@ const PLUGIN_NAME = 'builder-plugin-swc';
  * - Remove Babel loader if exists
  * - Add our own swc loader
  */
-export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
+export const PluginSwc = (swc: TransformConfig = {}) => ({
   name: PLUGIN_NAME,
 
   setup(api: BuilderPluginAPI) {
@@ -35,8 +35,6 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
 
       const builderConfig = api.getNormalizedConfig();
 
-      // eslint-disable-next-line no-multi-assign
-      const swc = (userSwcConfig.swc = userSwcConfig.swc || {});
       swc.cwd = api.context.rootPath;
 
       if (!swc.env) {
@@ -57,8 +55,7 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
       }
 
       // eslint-disable-next-line no-multi-assign
-      const extensions = (userSwcConfig.extensions =
-        userSwcConfig.extensions || {});
+      const extensions = (swc.extensions = swc.extensions || {});
 
       extensions.lockCorejsVersion = {
         corejs: path.dirname(require.resolve('core-js/package.json')),
@@ -71,7 +68,7 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
         .test(mergeRegex(JS_REGEX, TS_REGEX))
         .use(CHAIN_ID.USE.SWC)
         .loader(path.resolve(__dirname, './loader'))
-        .options(userSwcConfig);
+        .options(swc);
 
       if (chain.module.rules.get(CHAIN_ID.RULE.JS_DATA_URI)) {
         chain.module
@@ -80,7 +77,7 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
           .end()
           .use(CHAIN_ID.USE.SWC)
           .loader(path.resolve(__dirname, './loader'))
-          .options(userSwcConfig);
+          .options(swc);
       }
 
       if (isProd() && !builderConfig.output.disableMinimize) {
@@ -91,7 +88,7 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
           .delete(CHAIN_ID.MINIMIZER.JS)
           .end()
           .minimizer(CHAIN_ID.MINIMIZER.SWC)
-          .use(SwcWebpackPlugin, [userSwcConfig]);
+          .use(SwcWebpackPlugin, [swc]);
       }
     });
   },
@@ -112,10 +109,7 @@ export class SwcWebpackPlugin {
   private readonly minifyOptions: Partial<JsMinifyOptions>;
 
   constructor(options: Partial<TransformConfig> = {}) {
-    this.minifyOptions = merge(
-      defaultMinifyOptions,
-      options.swc?.jsc?.minify || {},
-    );
+    this.minifyOptions = merge(defaultMinifyOptions, options.jsc?.minify || {});
   }
 
   apply(compiler: Compiler): void {
@@ -153,9 +147,9 @@ export class SwcWebpackPlugin {
       assets.map(async asset => {
         const { source, map } = asset.source.sourceAndMap();
         const result = await minify(
-          this.minifyOptions,
           asset.name,
           source.toString(),
+          this.minifyOptions,
         );
 
         compilation.updateAsset(

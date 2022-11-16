@@ -35,9 +35,9 @@ That's it !
 
 ## 配置
 
-### `swc`
+### `tools.swc`
 
-- 类型: [swc 配置](https://swc.rs/docs/configuration/compilation)
+- 类型: 继承自 [swc 配置](https://swc.rs/docs/configuration/compilation)，额外增加了 `extensions` 字段用于开启 native 插件能力。
 
 可以覆盖自定义 `swc` 的配置。
 默认的配置为
@@ -73,19 +73,19 @@ That's it !
 }
 ```
 
-`swc.env.targets` 会由插件自动读取你项目中的 `browserslist` 配置，不需要手动指定。
+`env.targets` 会由插件自动读取你项目中的 `browserslist` 配置，不需要手动指定。
 
-`swc.module` 建议不要手动配置，我们目前会自动判断传入模块的类型是 `esm` 还是 `cjs` 格式。如果你手动指定了 `swc.module` 则不会自动推断。
+`module` 建议不要手动配置，我们目前会自动判断传入模块的类型是 `esm` 还是 `cjs` 格式。如果你手动指定了 `module` 则不会自动推断。
 如果你设置了 `esm` 那么 `swc` 会自动将所有模块都转换成 `esm` 格式，一些 `cjs` 格式三方包转换后的结果可能会出错。反之如果你设置 `cjs`，那么你项目中的 `esm` 源码也会被转换成 `cjs`，这样的后果是会失去 `Bundler` 的 `treeshake` 优化。
 
-`SWC` 的压缩配置和 `terser` 保持一致，你可以在 `swc.jsc.minify` 中配置压缩配置
+`SWC` 的压缩配置和 `terser` 保持一致，你可以在 `jsc.minify` 中配置压缩配置。你不需要手动指定 `minify: true` 来启用压缩，实际上我们会将 `jsc.minify` 直接传递给 `Rust binding` 层进行压缩的调用，所以不需要在配置中手动打开启用压缩。
 
-#### `minify.compress`
+#### `jsc.minify.compress`
 
 - 类型: [terser 中的 compress 配置](https://terser.org/docs/api-reference.html#compress-options)
 - 默认值: {}
 
-#### `minify.mangle`
+#### `jsc.minify.mangle`
 
 - 类型: [terser 中的 mangle 配置](https://terser.org/docs/api-reference.html#mangle-options)
 - 默认值: true

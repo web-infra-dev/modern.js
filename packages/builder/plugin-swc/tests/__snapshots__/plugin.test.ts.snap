@@ -10,21 +10,19 @@ exports[`plugins/swc > should set swc minimizer in production 1`] = `
           {
             "loader": "<ROOT>/src/loader",
             "options": {
+              "cwd": "<ROOT>",
+              "env": {
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
               "extensions": {
                 "lockCorejsVersion": {
-                  "corejs": "<HOME>/libs/modern.js/node_modules/<PNPM_INNER>/core-js",
-                  "swcHelpers": "<HOME>/libs/modern.js/node_modules/<PNPM_INNER>/@swc/helpers",
-                },
-              },
-              "swc": {
-                "cwd": "<ROOT>",
-                "env": {
-                  "mode": "entry",
-                  "targets": [
-                    "> 0.01%",
-                    "not dead",
-                    "not op_mini all",
-                  ],
+                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
                 },
               },
             },
@@ -56,21 +54,19 @@ exports[`plugins/swc > should set swc-loader 1`] = `
           {
             "loader": "<ROOT>/src/loader",
             "options": {
+              "cwd": "<ROOT>",
+              "env": {
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
               "extensions": {
                 "lockCorejsVersion": {
-                  "corejs": "<HOME>/libs/modern.js/node_modules/<PNPM_INNER>/core-js",
-                  "swcHelpers": "<HOME>/libs/modern.js/node_modules/<PNPM_INNER>/@swc/helpers",
-                },
-              },
-              "swc": {
-                "cwd": "<ROOT>",
-                "env": {
-                  "mode": "entry",
-                  "targets": [
-                    "> 0.01%",
-                    "not dead",
-                    "not op_mini all",
-                  ],
+                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
                 },
               },
             },
