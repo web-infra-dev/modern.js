@@ -3,7 +3,7 @@ const navbar = require('./navbar');
 
 const baseUrl = '/v2/';
 const isProd = process.env.NODE_ENV !== 'development';
-const isUploadCDN = process.env.BUILD_TYPE;
+const isUploadCDN = !process.env.LOCAL;
 // eslint-disable-next-line no-nested-ternary
 const publicPath = isUploadCDN
   ? `https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/`
@@ -222,7 +222,7 @@ module.exports = {
         <%~ metaAttribute %>
       <% }); %>
       <script>
-        window.__assetsPrefix__ = "<%= it.baseUrl %>";
+        window.__assetsPrefix__ = "${templatePublicPath}";
       </script>
       <%~ it.headTags %>
       <% it.stylesheets.forEach((stylesheet) => { %>
