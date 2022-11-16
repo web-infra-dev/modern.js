@@ -48,6 +48,7 @@ export const handleTemplateFile = async (
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
     ans = await appApi.getInputBySchema(
       schema,
+      'formily',
       {
         ...context.config,
         ...inputValue,
@@ -55,7 +56,6 @@ export const handleTemplateFile = async (
       },
       {},
       {},
-      'formily',
     );
   } else {
     ans = await appApi.getInputBySchemaFunc(getMonorepoSchema, {
