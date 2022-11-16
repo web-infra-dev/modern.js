@@ -222,7 +222,7 @@ module.exports = {
         <%~ metaAttribute %>
       <% }); %>
       <script>
-        window.__assetsPrefix__ = "<%= it.baseUrl %>";
+        window.__assetsPrefix__ = "${templatePublicPath}";
       </script>
       <%~ it.headTags %>
       <% it.stylesheets.forEach((stylesheet) => { %>
