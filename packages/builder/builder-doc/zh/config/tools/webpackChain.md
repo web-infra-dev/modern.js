@@ -109,7 +109,7 @@ export default {
 
 #### webpack
 
-- Type: `Object`
+- Type: `typeof import('webpack')`
 
 通过这个参数你可以拿到 webpack 实例。比如：
 
@@ -122,6 +122,22 @@ export default {
     },
   },
 };
+```
+
+### HtmlWebpackPlugin
+
+- Type: `typeof import('html-webpack-plugin')`
+
+通过这个参数你可以拿到 HtmlWebpackPlugin 实例。
+
+```js
+export default defineConfig({
+  tools: {
+    webpackChain: (chain, { HtmlWebpackPlugin }) => {
+      console.log(HtmlWebpackPlugin);
+    },
+  },
+});
 ```
 
 #### CHAIN_ID

@@ -5,7 +5,6 @@ import type {
   AcceptedPlugin,
   SourceMapOptions,
 } from 'postcss';
-import type { PluginOptions } from 'mini-css-extract-plugin';
 
 export interface CSSModulesOptions {
   compileType?: string;
@@ -44,18 +43,70 @@ export interface StyleLoaderOptions {
   insert?: string | ((element: HTMLElement) => void);
 }
 
-export interface MiniCssExtractLoaderOptions {
+export interface MiniCSSExtractLoaderOptions {
+  /**
+   * Overrides [`output.publicPath`](https://webpack.js.org/configuration/output/#outputpublicpath).
+   * @default output.publicPath
+   */
   publicPath?: string | ((resourcePath: string, context: string) => string);
+  /**
+   * If false, the plugin will extract the CSS but **will not** emit the file
+   * @default true
+   */
+  emit?: boolean | undefined;
+  /**
+   * By default, `mini-css-extract-plugin` generates JS modules that use the ES modules syntax.
+   * There are some cases in which using ES modules is beneficial,
+   * like in the case of module concatenation and tree shaking.
+   * @default true
+   */
   esModule?: boolean;
-  modules?: Record<string, unknown>;
 }
 
-export interface CssExtractOptions {
-  pluginOptions?: PluginOptions;
-  loaderOptions?: MiniCssExtractLoaderOptions;
+export interface MiniCSSExtractPluginOptions {
+  /**
+   * This option determines the name of each output CSS file.
+   * @link https://github.com/webpack-contrib/mini-css-extract-plugin#filename
+   * @default '[name].css'
+   */
+  filename?: string | undefined;
+  /**
+   * This option determines the name of non-entry chunk files.
+   * @link https://github.com/webpack-contrib/mini-css-extract-plugin#chunkfilename
+   */
+  chunkFilename?: string | undefined;
+  /**
+   * Remove Order Warnings.
+   * @link https://github.com/webpack-contrib/mini-css-extract-plugin#ignoreorder
+   * @default false
+   */
+  ignoreOrder?: boolean | undefined;
+  /**
+   * Inserts `<link>` at the given position.
+   * @link https://github.com/webpack-contrib/mini-css-extract-plugin#insert
+   * @default document.head.appendChild(linkTag)
+   */
+  insert?: string | ((linkTag: any) => void) | undefined;
+  /**
+   * Adds custom attributes to tag.
+   * @link https://github.com/webpack-contrib/mini-css-extract-plugin#attributes
+   * @default {}
+   */
+  attributes?: Record<string, string> | undefined;
+  /**
+   * This option allows loading asynchronous chunks with a custom link type
+   * @link https://github.com/webpack-contrib/mini-css-extract-plugin#linktype
+   * @default 'text/css'
+   */
+  linkType?: string | false | 'text/css' | undefined;
 }
 
-export type NormalizedCssExtractOptions = false | Required<CssExtractOptions>;
+export interface CSSExtractOptions {
+  pluginOptions?: MiniCSSExtractPluginOptions;
+  loaderOptions?: MiniCSSExtractLoaderOptions;
+}
+
+export type NormalizedCSSExtractOptions = false | Required<CSSExtractOptions>;
 
 export type PostCSSOptions = {
   to?: string;
@@ -85,7 +136,5 @@ export type PostCSSLoaderOptions = {
    */
   postcssOptions?: PostCSSOptions;
 };
-
-export type { PluginOptions as MiniCSSExtractPluginOptions };
 
 export type { AcceptedPlugin as PostCSSPlugin } from 'postcss';

@@ -63,12 +63,12 @@ Modern.js 提供了**「自定义 HTML 片段」**和**「完全自定义 HTML �
 ```
 
 :::info 自定义 HTML 片段不支持修改 title 标签
-自定义 HTML 片段的实现方式是将片段与框架内置的模板进行合并，由于框架的默认模板中已经存在 title 标签，因此自定义 HTML 模板中的 title 标签无法生效，请通过 [output.title](/docs/configure/app/output/title) 来修改页面标题。
+自定义 HTML 片段的实现方式是将片段与框架内置的模板进行合并，由于框架的默认模板中已经存在 title 标签，因此自定义 HTML 模板中的 title 标签无法生效，请通过 [html.title](/docs/configure/app/html/title) 来修改页面标题。
 :::
 
 ### 模板参数
 
-模板中使用的参数可以通过 [output.templateParameters](/docs/configure/app/output/template-parameters) 配置项来定义。
+模板中使用的参数可以通过 [html.templateParameters](/docs/configure/app/html/template-parameters) 配置项来定义。
 
 
 ### 按入口设置

@@ -1,12 +1,15 @@
 import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
 import type { ArrayOrNot, ChainedConfig } from '@modern-js/builder-shared';
 import type { DevServerOptions } from '@modern-js/types';
-import type { ModifyWebpackUtils } from '../hooks';
+import type {
+  ModifyWebpackChainUtils,
+  ModifyWebpackConfigUtils,
+} from '../hooks';
 import type {
   AutoprefixerOptions,
   BabelConfigUtils,
   BabelTransformOptions,
-  CssExtractOptions,
+  CSSExtractOptions,
   CSSLoaderOptions,
   CssMinimizerPluginOptions,
   ForkTSCheckerOptions,
@@ -23,7 +26,7 @@ import type {
   WebpackChain,
   WebpackConfig,
 } from '../thirdParty';
-import type { NormalizedCssExtractOptions } from '../thirdParty/css';
+import type { NormalizedCSSExtractOptions } from '../thirdParty/css';
 
 export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
 
@@ -49,8 +52,8 @@ export type ToolsCSSLoaderConfig = ChainedConfig<CSSLoaderOptions>;
 export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
 
 export type ToolsCssExtractConfig =
-  | CssExtractOptions
-  | ((options: CssExtractOptions) => CssExtractOptions | void);
+  | CSSExtractOptions
+  | ((options: CSSExtractOptions) => CSSExtractOptions | void);
 
 export type ToolsAutoprefixerConfig = ChainedConfig<AutoprefixerOptions>;
 
@@ -87,11 +90,11 @@ export type ToolsInspectorPluginOptions = ChainedConfig<InspectorPluginOptions>;
 
 export type ToolsWebpackConfig = ChainedConfig<
   WebpackConfig,
-  ModifyWebpackUtils
+  ModifyWebpackConfigUtils
 >;
 
 export type ToolsWebpackChainConfig = ArrayOrNot<
-  (chain: WebpackChain, utils: ModifyWebpackUtils) => void
+  (chain: WebpackChain, utils: ModifyWebpackChainUtils) => void
 >;
 
 export type ToolsDevServerConfig = ChainedConfig<DevServerOptions>;
@@ -153,7 +156,7 @@ export interface ToolsConfig {
   /**
    * Modify the options of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
    */
-  cssExtract?: false | CssExtractOptions;
+  cssExtract?: false | CSSExtractOptions;
   /**
    * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).
    */
@@ -177,5 +180,5 @@ export interface ToolsConfig {
 }
 
 export interface NormalizedToolsConfig extends ToolsConfig {
-  cssExtract: NormalizedCssExtractOptions;
+  cssExtract: NormalizedCSSExtractOptions;
 }

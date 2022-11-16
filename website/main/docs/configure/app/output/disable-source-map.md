@@ -1,25 +1,13 @@
 ---
+title: output.disableSourceMap
 sidebar_label: disableSourceMap
+sidebar_position: 1
 ---
-# output.disableSourceMap
 
+:::info BUILDER
+该配置为 Modern.js Builder 配置，可能存在无法跳转的链接。详细信息可参考 [output.disableSourceMap](https://modernjs.dev/builder/zh/api/config-output.html#output-disablesourcemap)。
+:::
 
+import Main from '@modern-js/builder-doc/zh/config/output/disableSourceMap.md'
 
-* 类型： `boolean`
-* 默认值： `false`
-
-
-
-默认情况下，Modern.js 在生产环境下会生成 JS 和 CSS 资源的 SourceMap，用于调试和排查线上问题。
-
-如果项目在生产环境下不需要 SourceMap，可以关闭该功能，从而提升 build 构建的速度。
-
-```js title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
-export default defineConfig({
-  output: {
-    disableSourceMap: true,
-  },
-});
-```
+<Main />

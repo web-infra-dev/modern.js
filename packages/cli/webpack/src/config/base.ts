@@ -362,7 +362,7 @@ class BaseWebpackConfig {
           webpack,
           HtmlWebpackPlugin,
           ...getWebpackUtils(chainConfig),
-        },
+        } as any,
         webpackMerge,
       );
 
@@ -418,7 +418,7 @@ class BaseWebpackConfig {
           webpack,
           CHAIN_ID,
           HtmlWebpackPlugin,
-        });
+        } as any);
       });
     }
   }

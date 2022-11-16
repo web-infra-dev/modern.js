@@ -7,6 +7,7 @@ import type {
 import type {
   IAppContext,
   NormalizedConfig,
+  ServerConfig,
   SSGMultiEntryOptions,
 } from '@modern-js/core';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
@@ -14,6 +15,7 @@ import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-
 import { getEntryOptions, ChainIdentifier } from '@modern-js/utils';
 import { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import { BottomTemplatePlugin } from '../webpackPlugins/htmlBottomTemplate';
+import { HtmlAsyncChunkPlugin } from '../webpackPlugins/htmlAsyncChunkPlugin';
 import { createCopyPattern } from '../share';
 
 type Parameter<T extends (arg: any) => void> = Parameters<T>[0];
@@ -78,6 +80,11 @@ export const PluginCompatModern = (
           chain,
           CHAIN_ID,
           appContext,
+          modernConfig,
+        });
+        applyAsyncChunkHtmlPlugin({
+          chain,
+          CHAIN_ID,
           modernConfig,
         });
       }
@@ -250,4 +257,43 @@ function applyBottomHtmlWebpackPlugin({
   chain
     .plugin(CHAIN_ID.PLUGIN.BOTTOM_TEMPLATE)
     .use(BottomTemplatePlugin, [HtmlWebpackPlugin]);
+}
+
+function applyAsyncChunkHtmlPlugin({
+  chain,
+  modernConfig,
+  CHAIN_ID,
+}: {
+  chain: WebpackChain;
+  modernConfig: NormalizedConfig;
+  CHAIN_ID: ChainIdentifier;
+}) {
+  const isStreamingSSR = (userConfig: NormalizedConfig): boolean => {
+    const isStreaming = (ssr: ServerConfig['ssr']) =>
+      ssr && typeof ssr === 'object' && ssr.mode === 'stream';
+
+    const { server } = userConfig;
+
+    if (isStreaming(server.ssr)) {
+      return true;
+    }
+
+    // Since we cannot apply different plugins for different entries,
+    // we regard the whole app as streaming ssr only if one entry meets the requirement.
+    if (server?.ssrByEntries && typeof server.ssrByEntries === 'object') {
+      for (const name of Object.keys(server.ssrByEntries)) {
+        if (isStreaming(server.ssrByEntries[name])) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
+  if (isStreamingSSR(modernConfig)) {
+    chain
+      .plugin(CHAIN_ID.PLUGIN.HTML_ASYNC_CHUNK)
+      .use(HtmlAsyncChunkPlugin, [HtmlWebpackPlugin]);
+  }
 }

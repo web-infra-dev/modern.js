@@ -1,8 +1,4 @@
-import type { BuilderTarget } from '@modern-js/builder-shared';
-import {
-  createBuilderTsChecker,
-  builderTargetToModernBundleName,
-} from '../../src/builder/createToolsConfig';
+import { createBuilderTsChecker } from '../../src/builder/createToolsConfig';
 
 describe('test create Builder TsChecker Config', () => {
   it('should disableTsChecker', () => {
@@ -31,25 +27,5 @@ describe('test create Builder TsChecker Config', () => {
         ],
       },
     });
-  });
-});
-
-// TODO: other test
-
-describe('test builderTargetToModernBundleName', () => {
-  it('should transform success', () => {
-    const targets: BuilderTarget[] = ['web', 'node', 'modern-web'];
-    const expect_names = ['client', 'server', 'modern'];
-    const names = targets.map(target =>
-      builderTargetToModernBundleName(target),
-    );
-    expect(names).toEqual(expect_names);
-  });
-
-  it('should throw a error', () => {
-    const target: BuilderTarget = 'web-worker';
-    expect(() => {
-      builderTargetToModernBundleName(target);
-    }).toThrow(new RegExp(target));
   });
 });

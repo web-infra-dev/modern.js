@@ -1,10 +1,6 @@
 import { merge } from '@modern-js/utils/lodash';
-import {
-  CodeSmith,
-  GeneratorCore,
-  MaterialsManager,
-} from '@modern-js/codesmith';
-import { AppAPI } from '@modern-js/codesmith-api-app';
+import { CodeSmith } from '@modern-js/codesmith';
+import { FormilyAPI } from '@modern-js/codesmith-formily';
 import {
   getMWANewActionSchema,
   MWAActionFunctions,
@@ -65,15 +61,12 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     smith.logger.warn('not valid modern.js repo');
   }
 
-  const mockGeneratorCore = new GeneratorCore({
-    logger: smith.logger,
-    materialsManager: new MaterialsManager(),
-    outputPath: '',
+  const formilyAPI = new FormilyAPI({
+    materials: {},
+    config: {},
+    data: {},
+    current: null,
   });
-  const appAPI = new AppAPI(
-    { materials: {}, config: {}, data: {}, current: null },
-    mockGeneratorCore,
-  );
 
   const funcMap: Partial<Record<ActionFunction, boolean>> = {};
   MWAActionFunctions.forEach(func => {
@@ -100,7 +93,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     refactorMap[refactor] = enable;
   });
 
-  const ans = await appAPI.getInputBySchemaFunc(getMWANewActionSchema, {
+  const ans = await formilyAPI.getInputBySchemaFunc(getMWANewActionSchema, {
     ...UserConfig,
     funcMap,
     refactorMap,
@@ -122,6 +115,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
   const getMwaPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry,
+      distTag,
     });
   };
 

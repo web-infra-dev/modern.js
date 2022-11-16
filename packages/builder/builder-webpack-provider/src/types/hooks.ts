@@ -1,11 +1,20 @@
 import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
-import type { Stats, MultiStats, Compiler, MultiCompiler } from 'webpack';
+import type {
+  Stats,
+  Compiler,
+  MultiStats,
+  RuleSetRule,
+  MultiCompiler,
+  WebpackPluginInstance,
+} from 'webpack';
 import type { ChainIdentifier } from '@modern-js/utils';
 
-export type ModifyWebpackUtils = {
+export type ModifyWebpackChainUtils = {
   env: NodeEnv;
+  /** @deprecated Use target instead. */
+  name: string;
   isProd: boolean;
   target: BuilderTarget;
   webpack: typeof import('webpack');
@@ -13,16 +22,28 @@ export type ModifyWebpackUtils = {
   isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
   getCompiledPath: (name: string) => string;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
+};
+
+export type ModifyWebpackConfigUtils = ModifyWebpackChainUtils & {
+  addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
+  prependPlugins: (
+    plugins: WebpackPluginInstance | WebpackPluginInstance[],
+  ) => void;
+  appendPlugins: (
+    plugins: WebpackPluginInstance | WebpackPluginInstance[],
+  ) => void;
+  removePlugin: (pluginName: string) => void;
 };
 
 export type ModifyWebpackChainFn = (
   chain: WebpackChain,
-  utils: ModifyWebpackUtils,
+  utils: ModifyWebpackChainUtils,
 ) => Promise<void> | void;
 
 export type ModifyWebpackConfigFn = (
   config: WebpackConfig,
-  utils: ModifyWebpackUtils,
+  utils: ModifyWebpackConfigUtils,
 ) => Promise<WebpackConfig | void> | WebpackConfig | void;
 
 export type ModifyBuilderConfigFn = (

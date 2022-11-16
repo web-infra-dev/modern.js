@@ -1,10 +1,6 @@
 import { merge } from '@modern-js/utils/lodash';
-import {
-  CodeSmith,
-  GeneratorCore,
-  MaterialsManager,
-} from '@modern-js/codesmith';
-import { AppAPI } from '@modern-js/codesmith-api-app';
+import { CodeSmith } from '@modern-js/codesmith';
+import { FormilyAPI } from '@modern-js/codesmith-formily';
 import {
   i18n,
   getModuleNewActionSchema,
@@ -61,15 +57,12 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     smith.logger.warn('not valid modern.js repo');
   }
 
-  const mockGeneratorCore = new GeneratorCore({
-    logger: smith.logger,
-    materialsManager: new MaterialsManager(),
-    outputPath: '',
+  const formilyAPI = new FormilyAPI({
+    materials: {},
+    config: {},
+    data: {},
+    current: null,
   });
-  const appAPI = new AppAPI(
-    { materials: {}, config: {}, data: {}, current: null },
-    mockGeneratorCore,
-  );
 
   let hasOption = false;
 
@@ -94,7 +87,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     process.exit(1);
   }
 
-  const ans = await appAPI.getInputBySchemaFunc(getModuleNewActionSchema, {
+  const ans = await formilyAPI.getInputBySchemaFunc(getModuleNewActionSchema, {
     ...UserConfig,
     funcMap,
   });
@@ -121,6 +114,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
   const getModulePluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.Module, packageName, {
       registry,
+      distTag,
     });
   };
 

@@ -12,21 +12,29 @@ export interface EsbuildOptions {
 }
 
 export function PluginEsbuild(
-  options: EsbuildOptions = {
-    loader: {},
-    minimize: {},
-  },
+  userOptions: EsbuildOptions = {},
 ): BuilderPlugin<BuilderPluginAPI> {
   return {
     name: 'builder-plugin-esbuild',
 
     setup(api) {
       api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd }) => {
-        const builderConfig = api.getBuilderConfig();
+        const builderConfig = api.getNormalizedConfig();
         const compiledEsbuildLoaderPath = require.resolve(
           '../compiled/esbuild-loader',
         );
-        const { charset } = builderConfig.output || {};
+
+        const options = {
+          loader: {
+            target: 'es2015',
+            charset: builderConfig.output.charset,
+          },
+          minimize: {
+            css: true,
+            target: 'es2015',
+          },
+          ...userOptions,
+        };
 
         if (options.loader !== false) {
           // remove babel-loader and ts-loader
@@ -44,8 +52,6 @@ export function PluginEsbuild(
             .loader(compiledEsbuildLoaderPath)
             .options({
               loader: 'jsx',
-              target: 'es2015',
-              charset,
               ...options?.loader,
             });
           chain.module
@@ -55,8 +61,6 @@ export function PluginEsbuild(
             .loader(compiledEsbuildLoaderPath)
             .options({
               loader: 'tsx',
-              target: 'es2015',
-              charset,
               ...options?.loader,
             });
         }
@@ -83,7 +87,6 @@ export function PluginEsbuild(
                     builderConfig.output?.legalComments === 'none'
                       ? 'none'
                       : 'inline',
-                  css: true,
                   ...options?.minimize,
                 }),
             );

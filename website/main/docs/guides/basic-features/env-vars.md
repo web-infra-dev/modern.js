@@ -27,7 +27,7 @@ if (true) {
 <meta name="test" content="<process.env.NODE_ENV>">
 ```
 
-如果想在代码中使用除 `NODE_ENV` 以外的环境变量，可以在 [`source.envVars`](/docs/configure/app/source/env-vars) 配置指定, 如下:
+如果想在代码中使用除 `NODE_ENV` 以外的环境变量，可以在 [`source.define`](/docs/configure/app/source/define) 配置指定, 如下:
 
 ```js title="modern.config.js"
 export default defineConfig({

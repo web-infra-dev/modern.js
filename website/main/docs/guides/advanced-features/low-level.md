@@ -40,6 +40,5 @@ export default defineConfig({
 | webpack | [tools.webpack](/docs/configure/app/tools/webpack)|
 | Minify CSS | [tools.minifyCss](/docs/configure/app/tools/minify-css)|
 | terser | [tools.terser](/docs/configure/app/tools/terser)|
-| Lodash | [tools.lodash](/docs/configure/app/tools/lodash)|
 | Tailwind CSS | [tools.tailwind](/docs/configure/app/tools/tailwindcss) |
 | Autoprefixer | [tools.autoprefixer](/docs/configure/app/tools/autoprefixer) |

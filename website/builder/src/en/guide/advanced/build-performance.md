@@ -32,25 +32,29 @@ nvm default 16
 node -v
 ```
 
+### Using esbuild
+
+[esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.
+
+Builder provides esbuild plugin that allow you to use esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. See [esbuild plugin](/plugins/plugin-esbuild.html) for details.
+
 ### Reduce duplicate dependencies
 
 In real projects, there will be some third-party dependencies installed with multiple versions. Duplicate dependencies can lead to larger bundles and slower builds.
 
-We can automatically eliminate duplicate dependencies through some tools in the community, such as [yarn-deduplicate](https://github.com/scinos/yarn-deduplicate).
+We can detect or eliminate duplicate dependencies with some community tools.
+
+If you are using `pnpm`, you can use [pnpm-deduplicate](https://github.com/ocavue/pnpm-deduplicate) to analyze all duplicate dependencies, then update dependencies or declare [pnpm overrides](https://pnpm.io/package_json#pnpmoverrides) to merge duplicated dependencies.
+
+```bash
+npx pnpm-deduplicate --list
+```
+
+If you are using `yarn`, you can use [yarn-deduplicate](https://github.com/scinos/yarn-deduplicate) to automatically merge duplicated dependencies:
 
 ```bash
 npx yarn-deduplicate && yarn
 ```
-
-If you are using `pnpm`, consider reducing duplicate dependencies by **regenerating the lock file**,
-
-```bash
-rm -rf ./node_modules pnpm-lock.yaml && pnpm install
-```
-
-:::tip
-Deleting the lock file will automatically upgrade the dependency version in the project to the latest version under the semver scope, please test it thoroughly.
-:::
 
 ### Use lightweight libraries
 

@@ -11,11 +11,11 @@ import _, { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
   WebpackChain,
   BuilderPlugin,
-  CssExtractOptions,
+  CSSExtractOptions,
   CSSLoaderOptions,
-  ModifyWebpackUtils,
   NormalizedConfig,
   StyleLoaderOptions,
+  ModifyWebpackChainUtils,
 } from '../types';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { getCssnanoDefaultOptions } from './minimize';
@@ -71,7 +71,7 @@ export async function applyBaseCSSRule(
     CHAIN_ID,
     isWebWorker,
     getCompiledPath,
-  }: ModifyWebpackUtils,
+  }: ModifyWebpackChainUtils,
 ) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
@@ -144,7 +144,7 @@ export async function applyBaseCSSRule(
   const enableSourceMap = !config.output.disableSourceMap;
   const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   // 2. Prepare loader options
-  const extraCSSOptions: Required<CssExtractOptions> =
+  const extraCSSOptions: Required<CSSExtractOptions> =
     typeof config.tools.cssExtract === 'object'
       ? config.tools.cssExtract
       : {

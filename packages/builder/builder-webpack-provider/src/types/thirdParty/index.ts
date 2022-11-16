@@ -38,11 +38,11 @@ export type { webpack, WebpackChain, WebpackConfig };
 export type {
   CSSLoaderOptions,
   StyleLoaderOptions,
-  CssExtractOptions,
+  CSSExtractOptions,
   PostCSSLoaderOptions,
   PostCSSPlugin,
   MiniCSSExtractPluginOptions,
-  MiniCssExtractLoaderOptions,
+  MiniCSSExtractLoaderOptions,
 } from './css';
 
 export type { Options as AutoprefixerOptions } from 'autoprefixer';

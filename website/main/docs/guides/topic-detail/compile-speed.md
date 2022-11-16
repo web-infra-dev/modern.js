@@ -60,7 +60,7 @@ export default defineConfig({
 });
 ```
 
-详见 [output.enableTsLoader 文档](/docs/configure/app/output/enable-ts-loader)。
+详见 [tools.tsLoader 文档](/docs/configure/app/tools/ts-loader)。
 
 ### 提升 Browserslist 范围
 

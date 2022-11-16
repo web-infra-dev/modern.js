@@ -1,22 +1,13 @@
 ---
+title: output.disableMinimize
 sidebar_label: disableMinimize
+sidebar_position: 1
 ---
 
-# output.disableMinimize
+:::info BUILDER
+该配置为 Modern.js Builder 配置，可能存在无法跳转的链接。详细信息可参考 [output.disableMinimize](https://modernjs.dev/builder/zh/api/config-output.html#output-disableminimize)。
+:::
 
+import Main from '@modern-js/builder-doc/zh/config/output/disableMinimize.md'
 
-
-* 类型： `boolean`
-* 默认值： `false`
-
-禁用生产环境下 JS 和 CSS 压缩, 配置如下即可：
-
-```js title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
-export default defineConfig({
-  output: {
-    disableMinimize: true,
-  },
-});
-```
+<Main />
