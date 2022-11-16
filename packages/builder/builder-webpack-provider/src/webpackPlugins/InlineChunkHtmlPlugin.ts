@@ -199,22 +199,6 @@ export class InlineChunkHtmlPlugin {
       const hooks = this.htmlWebpackPlugin.getHooks(compilation);
 
       hooks.alterAssetTagGroups.tap(this.name, assets => {
-        const deferScriptTags = [];
-
-        for (let i = 0; i < assets.headTags.length; i++) {
-          const headTag = assets.headTags[i];
-          if (headTag.tagName === 'script') {
-            const { attributes } = headTag;
-            if (attributes && attributes.defer === true) {
-              deferScriptTags.push(headTag);
-              assets.headTags.splice(i, 1);
-              i--;
-            }
-          }
-        }
-
-        assets.bodyTags = assets.bodyTags.concat(deferScriptTags);
-
         assets.headTags = assets.headTags.map(tagFunction);
         assets.bodyTags = assets.bodyTags.map(tagFunction);
         return assets;
