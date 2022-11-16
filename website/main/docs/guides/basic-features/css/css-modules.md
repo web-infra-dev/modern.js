@@ -82,5 +82,5 @@ export default function Button() {
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/more-css-modules.png)
 
 :::tip 提示
-使用 [babel-plugin-react-css-modules](https://github.com/gajus/babel-plugin-react-css-modules) 时需要注意，该插件的配置选项 `generateScopedName` 需要和 [`output.cssModuleLocalIdentName`](/docs/configure/app/output/css-module-localIdent-name) 保持一致。
+使用 [babel-plugin-react-css-modules](https://github.com/gajus/babel-plugin-react-css-modules) 时需要注意，该插件的配置选项 `generateScopedName` 需要和 [`output.cssModuleLocalIdentName`](/docs/configure/app/output/css-module-local-ident-name) 保持一致。
 :::

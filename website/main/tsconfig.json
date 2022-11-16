@@ -3,5 +3,5 @@
   "compilerOptions": {
     "jsx": "preserve"
   },
-  "include": ["./src", "./navbar.js", "./sidebar.js"]
+  "include": ["./src", "./navbar.js", "./sidebar.js", "./scripts"]
 }

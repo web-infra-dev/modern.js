@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "prepare": "npx ts-node ./scripts/summary.ts && npx ts-node ./scripts/gen-config.ts",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
@@ -14,6 +15,7 @@
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
+    "@modern-js/builder-doc": "workspace:*",
     "@algolia/client-search": "^4.13.1",
     "@docusaurus/core": "2.2.0",
     "@docusaurus/preset-classic": "2.2.0",
@@ -33,7 +35,13 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.1.0",
     "@tsconfig/docusaurus": "^1.0.4",
-    "typescript": "^4"
+    "typescript": "^4",
+    "ts-node": "^10",
+    "fs-extra": "^10",
+    "marked": "^4",
+    "@types/node": "^16",
+    "@types/fs-extra": "^9",
+    "@types/marked": "^4"
   },
   "browserslist": {
     "production": [
