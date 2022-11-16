@@ -146,6 +146,8 @@ export const CHAIN_ID = {
     ASSETS_RETRY: 'ASSETS_RETRY',
     /** AutoSetRootFontSizePlugin */
     AUTO_SET_ROOT_SIZE: 'auto-set-root-size',
+    /** HtmlAsyncChunkPlugin */
+    HTML_ASYNC_CHUNK: 'html-async-chunk',
   },
   /** Predefined minimizers */
   MINIMIZER: {
