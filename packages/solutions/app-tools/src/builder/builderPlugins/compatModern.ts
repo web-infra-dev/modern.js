@@ -1,5 +1,9 @@
 import { join } from 'path';
-import type { BuilderPlugin, BuilderTarget } from '@modern-js/builder-shared';
+import {
+  BuilderPlugin,
+  BuilderTarget,
+  mergeBuilderConfig,
+} from '@modern-js/builder-shared';
 import type {
   BuilderPluginAPI,
   WebpackChain,
@@ -54,6 +58,17 @@ export const PluginCompatModern = (
   name: 'builder-plugin-compat-modern',
 
   setup(api) {
+    api.modifyBuilderConfig(config => {
+      if (isStreamingSSR(modernConfig)) {
+        return mergeBuilderConfig(config, {
+          html: {
+            inject: 'body',
+          },
+        });
+      }
+      return config;
+    });
+
     api.modifyWebpackChain((chain, { target, CHAIN_ID, isProd }) => {
       const builderNormalizedConfig = api.getNormalizedConfig();
       // set webpack config name
@@ -259,6 +274,29 @@ function applyBottomHtmlWebpackPlugin({
     .use(BottomTemplatePlugin, [HtmlWebpackPlugin]);
 }
 
+const isStreamingSSR = (userConfig: NormalizedConfig): boolean => {
+  const isStreaming = (ssr: ServerConfig['ssr']) =>
+    ssr && typeof ssr === 'object' && ssr.mode === 'stream';
+
+  const { server } = userConfig;
+
+  if (isStreaming(server.ssr)) {
+    return true;
+  }
+
+  // Since we cannot apply different plugins for different entries,
+  // we regard the whole app as streaming ssr only if one entry meets the requirement.
+  if (server?.ssrByEntries && typeof server.ssrByEntries === 'object') {
+    for (const name of Object.keys(server.ssrByEntries)) {
+      if (isStreaming(server.ssrByEntries[name])) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
 function applyAsyncChunkHtmlPlugin({
   chain,
   modernConfig,
@@ -268,29 +306,6 @@ function applyAsyncChunkHtmlPlugin({
   modernConfig: NormalizedConfig;
   CHAIN_ID: ChainIdentifier;
 }) {
-  const isStreamingSSR = (userConfig: NormalizedConfig): boolean => {
-    const isStreaming = (ssr: ServerConfig['ssr']) =>
-      ssr && typeof ssr === 'object' && ssr.mode === 'stream';
-
-    const { server } = userConfig;
-
-    if (isStreaming(server.ssr)) {
-      return true;
-    }
-
-    // Since we cannot apply different plugins for different entries,
-    // we regard the whole app as streaming ssr only if one entry meets the requirement.
-    if (server?.ssrByEntries && typeof server.ssrByEntries === 'object') {
-      for (const name of Object.keys(server.ssrByEntries)) {
-        if (isStreaming(server.ssrByEntries[name])) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  };
-
   if (isStreamingSSR(modernConfig)) {
     chain
       .plugin(CHAIN_ID.PLUGIN.HTML_ASYNC_CHUNK)
