@@ -201,12 +201,14 @@ export class InlineChunkHtmlPlugin {
       hooks.alterAssetTagGroups.tap(this.name, assets => {
         const deferScriptTags = [];
 
-        for (const headTag of assets.headTags) {
+        for (let i = 0; i < assets.headTags.length; i++) {
+          const headTag = assets.headTags[i];
           if (headTag.tagName === 'script') {
             const { attributes } = headTag;
             if (attributes && attributes.defer === true) {
               deferScriptTags.push(headTag);
               assets.headTags.splice(assets.headTags.indexOf(headTag), 1);
+              i--;
             }
           }
         }
