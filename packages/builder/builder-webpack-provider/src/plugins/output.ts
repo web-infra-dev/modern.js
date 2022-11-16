@@ -1,7 +1,4 @@
-import {
-  CssExtractOptions,
-  MiniCSSExtractPluginOptions,
-} from '../types/thirdParty/css';
+import { CSSExtractOptions } from '../types/thirdParty/css';
 import {
   DEFAULT_PORT,
   addTrailingSlash,
@@ -76,12 +73,9 @@ export const PluginOutput = (): BuilderPlugin => ({
             'mini-css-extract-plugin'
           );
           const { applyOptionsChain } = await import('@modern-js/utils');
-          const extractPluginOptions = applyOptionsChain<
-            MiniCSSExtractPluginOptions,
-            null
-          >(
+          const extractPluginOptions = applyOptionsChain(
             {},
-            (config.tools.cssExtract as CssExtractOptions)?.pluginOptions || {},
+            (config.tools.cssExtract as CSSExtractOptions)?.pluginOptions || {},
           );
 
           const cssFilename = getFilename(config, 'css', isProd);

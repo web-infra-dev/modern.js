@@ -18,7 +18,7 @@ export type {
   WebpackChain,
   WebpackConfig,
   CSSLoaderOptions,
-  CssExtractOptions,
+  CSSExtractOptions,
   LessLoaderOptions,
   SassLoaderOptions,
   HTMLPluginOptions,
