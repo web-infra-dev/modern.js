@@ -1,7 +1,7 @@
 import path from 'path';
-import { isFileExists } from '@modern-js/builder-shared';
+import { isFileExists, BuilderTarget } from '@modern-js/builder-shared';
 import { getDistPath } from '../shared';
-import type { BuilderConfig, BuilderPlugin, RspackConfig } from '../types';
+import type { BuilderConfig, BuilderPlugin } from '../types';
 
 // This is a minimist subset of modern.js server routes
 type RoutesInfo = {
@@ -10,6 +10,12 @@ type RoutesInfo = {
   entryName: string;
   entryPath: string;
 };
+
+export const isHtmlDisabled = (config: BuilderConfig, target: BuilderTarget) =>
+  config.tools?.htmlPlugin === false ||
+  target === 'node' ||
+  // @ts-expect-error
+  target === 'web-worker';
 
 async function getFilename(entryName: string, config: BuilderConfig) {
   const { removeLeadingSlash } = await import('@modern-js/utils');
@@ -38,16 +44,16 @@ export function getTemplatePath(entryName: string, config: BuilderConfig) {
   return templateByEntries[entryName] || template;
 }
 
-async function getChunks(entryName: string, entryValue: RspackConfig['entry']) {
-  const { isPlainObject } = await import('@modern-js/utils');
-  const dependOn = [];
+// async function getChunks(entryName: string, entryValue: RspackConfig['entry']) {
+//   const { isPlainObject } = await import('@modern-js/utils');
+//   const dependOn = [];
 
-  if (isPlainObject(entryValue)) {
-    dependOn.push(...entryValue.dependOn);
-  }
+//   if (isPlainObject(entryValue)) {
+//     dependOn.push(...entryValue.dependOn);
+//   }
 
-  return [...dependOn, entryName];
-}
+//   return [...dependOn, entryName];
+// }
 
 export const PluginHtml = (): BuilderPlugin => ({
   name: 'builder-plugin-html',
@@ -55,16 +61,16 @@ export const PluginHtml = (): BuilderPlugin => ({
   setup(api) {
     const routesInfo: RoutesInfo[] = [];
 
-    api.modifyRspackConfig(async (rspackConfig, { isProd, CHAIN_ID }) => {
+    api.modifyRspackConfig(async (rspackConfig, { target }) => {
       const config = api.getBuilderConfig();
 
       // if html is disabled, return following logics
-      if (config.tools?.htmlPlugin === false) {
+      if (isHtmlDisabled(config, target)) {
         return;
       }
-      const { removeTailSlash, applyOptionsChain } = await import(
-        '@modern-js/utils'
-      );
+      // const { removeTailSlash, applyOptionsChain } = await import(
+      //   '@modern-js/utils'
+      // );
 
       // const minify = getMinify(isProd, config);
       // const assetPrefix = removeTailSlash(
@@ -74,7 +80,7 @@ export const PluginHtml = (): BuilderPlugin => ({
 
       await Promise.all(
         entryNames.map(async (entryName, index) => {
-          const entryValue = rspackConfig.entry![entryName];
+          // const entryValue = rspackConfig.entry![entryName];
           // const chunks = [entryName];
           const inject = getInject(entryName, config);
           // const favicon = getFavicon(entryName, config);
@@ -99,8 +105,8 @@ export const PluginHtml = (): BuilderPlugin => ({
             isSPA: true,
           });
 
-          const htmlBuilts = rspackConfig.builtins?.html || [];
-          rspackConfig.builtins!.html = [...htmlBuilts, pluginOptions];
+          const htmlBuiltins = rspackConfig.builtins?.html || [];
+          rspackConfig.builtins!.html = [...htmlBuiltins, pluginOptions];
         }),
       );
     });

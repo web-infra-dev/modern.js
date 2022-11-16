@@ -1,4 +1,3 @@
-import type { ChainIdentifier } from '@modern-js/utils';
 import type { BuilderConfig, BuilderPlugin, RspackConfig } from '../types';
 
 function applyExtensions({
@@ -84,24 +83,24 @@ function applyMainFields({
   config: BuilderConfig;
 }) {
   const resolveMainFields = config.source?.resolveMainFields;
-  let finalMainFields = rspackConfig.resolve!.mainFields || [];
   if (!resolveMainFields) {
     return;
   }
 
-  finalMainFields = [...finalMainFields, ...resolveMainFields];
-
-  rspackConfig.resolve!.mainFields = finalMainFields;
+  rspackConfig.resolve!.mainFields = [
+    ...(rspackConfig.resolve!.mainFields || []),
+    ...resolveMainFields,
+  ];
 }
 
 export const PluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
 
   setup(api) {
-    api.modifyRspackConfig(async (rspackConfig, { CHAIN_ID }) => {
+    api.modifyRspackConfig(async rspackConfig => {
       const config = api.getBuilderConfig();
       const isTsProject = Boolean(api.context.tsconfigPath);
-      const extensions = applyExtensions({ rspackConfig, config, isTsProject });
+      applyExtensions({ rspackConfig, config, isTsProject });
 
       await applyAlias({
         rspackConfig,
@@ -114,6 +113,11 @@ export const PluginResolve = (): BuilderPlugin => ({
         config,
       });
 
+      if (!isTsProject) {
+        return;
+      }
+
+      rspackConfig.resolve!.tsConfigPath = api.context.tsconfigPath;
     });
   },
 });

@@ -38,29 +38,27 @@ export const PluginOutput = (): BuilderPlugin => ({
   name: 'builder-plugin-output',
 
   setup(api) {
-    api.modifyRspackConfig(
-      async (rspackConfig, { isProd, isServer, CHAIN_ID }) => {
-        const config = api.getBuilderConfig();
-        const jsPath = getDistPath(config, 'js');
+    api.modifyRspackConfig(async (rspackConfig, { isProd }) => {
+      const config = api.getBuilderConfig();
+      const jsPath = getDistPath(config, 'js');
 
-        const publicPath = getPublicPath({
-          config,
-          isProd,
-          context: api.context,
-        });
+      const publicPath = getPublicPath({
+        config,
+        isProd,
+        context: api.context,
+      });
 
-        // js output
-        const jsFilename = getFilename(config, 'js', isProd);
+      // js output
+      const jsFilename = getFilename(config, 'js', isProd);
 
-        const defaultOutput: RspackConfig['output'] = {
-          path: api.context.distPath,
-          filename: `${jsPath}/${jsFilename}`,
-          chunkFilename: `${jsPath}/async/${jsFilename}`,
-          publicPath,
-        };
+      const defaultOutput: RspackConfig['output'] = {
+        path: api.context.distPath,
+        filename: `${jsPath}/${jsFilename}`,
+        chunkFilename: `${jsPath}/async/${jsFilename}`,
+        publicPath,
+      };
 
-        rspackConfig.output = defaultOutput;
-      },
-    );
+      rspackConfig.output = defaultOutput;
+    });
   },
 });

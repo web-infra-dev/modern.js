@@ -1,15 +1,30 @@
 import { join } from 'path';
 
+const runRspack = process.argv[2] === 'rspack';
+
 export const createBuilder = async () => {
   const { createBuilder } = await import('@modern-js/builder');
   const { builderWebpackProvider } = await import(
     '@modern-js/builder-webpack-provider'
   );
 
-  const builderProvider = builderWebpackProvider({
+  const { builderRspackProvider } = await import(
+    '@modern-js/builder-rspack-provider'
+  );
+
+  const builderProvider = (
+    runRspack ? builderRspackProvider : builderWebpackProvider
+  )({
     builderConfig: {
       tools: {
-        // inspector: {},
+        devServer: {
+          hot: false,
+          liveReload: false,
+        },
+      },
+      output: {
+        disableSourceMap: true,
+        // cleanDistPath: false,
       },
     },
   });

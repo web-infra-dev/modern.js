@@ -30,19 +30,19 @@ export default class DevServerPlugin {
     }
 
     // Todo remove, client must inject.
-    const compilerOptions = compiler.options;
-    const { HotModuleReplacementPlugin } = compiler.webpack;
-    compilerOptions.plugins = compilerOptions.plugins || [];
+    // const compilerOptions = compiler.options;
+    // const { HotModuleReplacementPlugin } = compiler.webpack;
+    // compilerOptions.plugins = compilerOptions.plugins || [];
 
-    if (
-      !compilerOptions.plugins.find(
-        p => p.constructor === HotModuleReplacementPlugin,
-      )
-    ) {
-      // apply the HMR plugin, if it didn't exist before.
-      const plugin = new HotModuleReplacementPlugin();
+    // if (
+    //   !compilerOptions.plugins.find(
+    //     p => p.constructor === HotModuleReplacementPlugin,
+    //   )
+    // ) {
+    //   // apply the HMR plugin, if it didn't exist before.
+    //   const plugin = new HotModuleReplacementPlugin();
 
-      plugin.apply(compiler);
-    }
+    //   plugin.apply(compiler);
+    // }
   }
 }

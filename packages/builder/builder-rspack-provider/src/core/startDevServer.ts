@@ -89,7 +89,9 @@ export async function createDevServer(
   const server = new Server({
     pwd: options.context.rootPath,
     dev: devServerOptions,
+    // @ts-expect-error
     compiler,
+    // @ts-expect-error
     devMiddleware: rdm,
     ...serverOptions,
     config: serverOptions.config

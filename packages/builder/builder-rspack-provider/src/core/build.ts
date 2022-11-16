@@ -38,7 +38,13 @@ export const rspackBuild: BuildExecuter = async compiler => {
 
 export const build = async (
   initOptions: InitConfigsOptions,
-  { mode = 'production', watch, compiler: customCompiler }: BuildOptions = {},
+  {
+    mode = 'production',
+    watch,
+    compiler: customCompiler,
+  }: BuildOptions & {
+    compiler?: Compiler;
+  } = {},
   executer?: BuildExecuter,
 ) => {
   if (!process.env.NODE_ENV) {

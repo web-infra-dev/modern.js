@@ -4,9 +4,11 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "pnpm build:libs && node ./scripts/dist/dev.js",
+    "dev:pure": "node ./scripts/dist/dev.js",
+    "build:pure": "node ./scripts/dist/build.js",
     "build": "pnpm build:libs && node ./scripts/dist/build.js",
     "watch": "pnpm build:libs && node ./scripts/dist/watch.js",
-    "build:libs": "pnpm --filter @modern-js/builder... run build && pnpm --filter @modern-js/builder-webpack-provider run build && pnpm build:script",
+    "build:libs": "pnpm --filter @modern-js/builder && pnpm --filter @modern-js/builder-webpack-provider... run build && pnpm --filter @modern-js/builder-rspack-provider run build && pnpm build:script",
     "build:script": "wireit",
     "inspect": "pnpm build:libs && node ./scripts/dist/inspect.js"
   },
@@ -14,6 +16,7 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-plugin-esbuild": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },

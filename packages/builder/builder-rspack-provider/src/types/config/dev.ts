@@ -6,7 +6,8 @@ export interface DevConfig {
   https?: DevServerHttpsOptions;
   startUrl?: boolean | string | string[];
   assetPrefix?: string | boolean;
-  // progressBar?: boolean | ProgressOptions;
+  // todo options
+  progressBar?: boolean;
 }
 
 export type NormalizedDevConfig = Required<DevConfig>;

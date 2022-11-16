@@ -1,14 +1,15 @@
 import {
   debug,
-  // isDebug,
+  isDebug,
   type PluginStore,
-  // type InspectConfigOptions,
+  type InspectConfigOptions,
   type CreateBuilderOptions,
   deepFreezed,
 } from '@modern-js/builder-shared';
 import { normalizeConfig } from '../config/normalize';
 import type { Context } from '../types';
 import { initPlugins } from './initPlugins';
+import { inspectConfig } from './inspectConfig';
 import { generateRspackConfig } from './rspackConfig';
 
 async function modifyBuilderConfig(context: Context) {
@@ -47,6 +48,27 @@ export async function initConfigs({
   const rspackConfigs = await Promise.all(
     targets.map(target => generateRspackConfig({ target, context })),
   );
+
+  // write builder config and webpack config to disk in debug mode
+  if (isDebug()) {
+    const inspect = () => {
+      const inspectOptions: InspectConfigOptions = {
+        verbose: true,
+        writeToDisk: true,
+      };
+      inspectConfig({
+        context,
+        pluginStore,
+        inspectOptions,
+        builderOptions,
+        bundlerConfigs: rspackConfigs,
+      });
+    };
+
+    // run inspect later to avoid cleaned by cleanOutput plugin
+    context.hooks.onBeforeBuildHook.tap(inspect);
+    context.hooks.onBeforeStartDevServerHook.tap(inspect);
+  }
 
   return {
     rspackConfigs,

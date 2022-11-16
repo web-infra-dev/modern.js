@@ -1,6 +1,7 @@
 import { type BuilderContext } from '@modern-js/builder-shared';
 import { getBrowserslistWithDefault } from '../shared';
 import { BuilderConfig, BuilderPlugin, ModifyRspackUtils } from '../types';
+import _ from '@modern-js/utils/lodash';
 
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 import postcssLoader from '../loader/postcss';
@@ -12,7 +13,7 @@ export async function getCssLoaderUses(
   context: BuilderContext,
   utils: ModifyRspackUtils,
 ) {
-  const { isServer, isProd, CHAIN_ID, getCompiledPath } = utils;
+  const { isProd, CHAIN_ID, getCompiledPath } = utils;
   const browserslist = await getBrowserslistWithDefault(
     context.rootPath,
     config,
@@ -81,12 +82,15 @@ export const PluginCss = (): BuilderPlugin => {
           utils,
         );
 
-        rspackConfig.module!.rules!.push({
-          name: CHAIN_ID.USE.CSS,
-          test: CSS_REGEX_STR,
-          uses: cssLoaderUses,
-          type: 'css',
-        });
+        _.set(rspackConfig, 'module.rules', [
+          ...(rspackConfig.module?.rules || []),
+          {
+            name: CHAIN_ID.USE.CSS,
+            test: CSS_REGEX_STR,
+            uses: cssLoaderUses,
+            type: 'css',
+          },
+        ]);
       });
     },
   };
