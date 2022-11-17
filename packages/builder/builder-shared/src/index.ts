@@ -12,3 +12,4 @@ export * from './onExitProcess';
 export * from './pick';
 export * from './regexp';
 export * from './types';
+export * from './config';
