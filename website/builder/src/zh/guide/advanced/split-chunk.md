@@ -6,6 +6,8 @@
 
 ## 拆包策略
 
+> Builder 的拆包配置集中在 [`performance.chunkSplit`](/api/config-performance.html#performance-chunksplit) 中。
+
 Builder 中包括如下的拆包策略：
 
 - `split-by-experience`: 根据经验内置拆分策略（由 Builder 根据经验制定的拆分策略）。
@@ -13,6 +15,7 @@ Builder 中包括如下的拆包策略：
 - `all-in-one`: 业务代码和第三方代码都在一个 chunk 中。
 - `single-vendor:` 第三方代码在一个 vendor chunk 中。
 - `split-by-size`: 根据模块大小进行拆分。
+
 
 ### split-by-experience
 
