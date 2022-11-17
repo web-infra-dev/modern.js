@@ -1,85 +1,28 @@
 import type * as webpack from 'webpack';
-import { prettyFormatter } from './formatter';
-import {
-  ErrorFormatter,
-  ErrorTransformer,
-  ThrowableType,
-  WithSourcesMixin,
-} from './shared/types';
-import { formatError, parseError, transformError } from './shared/utils';
-import { transformModuleParseError } from './transformer';
-
-export interface Options extends WithSourcesMixin {
-  output?: (msg: string, type: ThrowableType) => any;
-  formatters?: boolean | ErrorFormatter[];
-  transformers?: boolean | ErrorTransformer[];
-  cwd?: boolean | string;
-}
-
-export interface Context extends Required<Options> {
-  formatters: ErrorFormatter[];
-  transformers: ErrorTransformer[];
-}
-
-const outputFormattedError: Options['output'] = (msg, type) => {
-  if (type === 'error') {
-    console.error(msg);
-  } else if (type === 'warning') {
-    console.warn(msg);
-  }
-};
-
-const createContext = (options: Options = {}): Context => {
-  const cwd = options.cwd || process.cwd();
-  const output = options.output || outputFormattedError;
-  const formatters: ErrorFormatter[] = [];
-  if (Array.isArray(options.formatters)) {
-    formatters.push(...options.formatters);
-  }
-  if (options.formatters !== false) {
-    formatters.push(prettyFormatter);
-  }
-  const transformers: ErrorTransformer[] = [];
-  if (Array.isArray(options.transformers)) {
-    transformers.push(...options.transformers);
-  }
-  if (options.transformers !== false) {
-    transformers.push(transformModuleParseError);
-  }
-  return {
-    cwd,
-    output,
-    formatters,
-    transformers,
-    withSources: options.withSources ?? true,
-  };
-};
+import { outputPrettyError, OutputPrettyErrorOptions } from './shared/utils';
 
 export class FriendlyErrorsWebpackPlugin {
   // eslint-disable-next-line @typescript-eslint/typedef
   name = 'FriendlyErrorsWebpackPlugin' as const;
 
-  ctx: Context;
+  options: OutputPrettyErrorOptions;
 
-  constructor(options?: Options) {
-    this.ctx = createContext(options);
+  constructor(options?: OutputPrettyErrorOptions) {
+    this.options = options ?? {};
   }
 
   apply(compiler: webpack.Compiler): void {
     compiler.hooks.done.tapPromise(this.name, async stats => {
+      const opts = { ...this.options };
       const warnings = stats.compilation.getWarnings();
+      opts.type = 'warning';
       for (const warning of warnings) {
-        const parsed = parseError(warning, 'warning', this.ctx);
-        const transformed = transformError(this.ctx.transformers, parsed);
-        const formatted = formatError(this.ctx.formatters, transformed);
-        this.ctx.output(formatted, 'warning');
+        outputPrettyError(warning, opts);
       }
       const errors = stats.compilation.getErrors();
+      opts.type = 'error';
       for (const error of errors) {
-        const parsed = parseError(error, 'error', this.ctx);
-        const transformed = transformError(this.ctx.transformers, parsed);
-        const formatted = formatError(this.ctx.formatters, transformed);
-        this.ctx.output(formatted, 'error');
+        outputPrettyError(error, opts);
       }
     });
   }

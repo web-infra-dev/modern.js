@@ -1,7 +1,8 @@
 import assert from 'assert';
 import StackTracey from 'stacktracey';
 import _ from '@modern-js/utils/lodash';
-import { baseFormatter } from '../formatter/base';
+import { prettyFormatter, baseFormatter } from '../formatter';
+import { transformModuleParseError } from '../transformer';
 import {
   ErrorFormatter,
   ErrorTransformer,
@@ -93,4 +94,71 @@ export const parseTrace = (error: Error, options?: WithSourcesMixin) => {
   } else {
     return new StackTracey(error).items;
   }
+};
+
+export interface OutputPrettyErrorOptions {
+  withSources?: boolean;
+  output?: (msg: string, type: ThrowableType) => any;
+  formatters?: boolean | ErrorFormatter[];
+  transformers?: boolean | ErrorTransformer[];
+  cwd?: boolean | string;
+  type?: ThrowableType;
+}
+
+export interface OutputPrettyErrorContext
+  extends Required<OutputPrettyErrorOptions> {
+  formatters: ErrorFormatter[];
+  transformers: ErrorTransformer[];
+}
+
+const outputFormattedError: OutputPrettyErrorOptions['output'] = (
+  msg,
+  type,
+) => {
+  if (type === 'error') {
+    console.error(msg);
+  } else if (type === 'warning') {
+    console.warn(msg);
+  }
+};
+
+const createOutputPrettyErrorContext = (
+  options: OutputPrettyErrorOptions = {},
+): OutputPrettyErrorContext => {
+  const cwd = options.cwd || process.cwd();
+  const output = options.output || outputFormattedError;
+  const formatters: ErrorFormatter[] = [];
+  if (Array.isArray(options.formatters)) {
+    formatters.push(...options.formatters);
+  }
+  if (options.formatters !== false) {
+    formatters.push(prettyFormatter);
+  }
+  const transformers: ErrorTransformer[] = [];
+  if (Array.isArray(options.transformers)) {
+    transformers.push(...options.transformers);
+  }
+  if (options.transformers !== false) {
+    transformers.push(transformModuleParseError);
+  }
+  const type: ThrowableType = options.type || 'error';
+  return {
+    cwd,
+    output,
+    formatters,
+    transformers,
+    withSources: options.withSources ?? true,
+    type,
+  };
+};
+
+export const outputPrettyError = (
+  error: Error,
+  options: OutputPrettyErrorOptions = {},
+) => {
+  const ctx = createOutputPrettyErrorContext(options);
+  const parsed = parseError(error, ctx.type, ctx);
+  const transformed = transformError(ctx.transformers, parsed);
+  const formatted = formatError(ctx.formatters, transformed);
+  ctx.output(formatted, ctx.type);
 };
