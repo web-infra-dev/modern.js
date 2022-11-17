@@ -28,3 +28,57 @@ test('postcss plugins overwrite', async ({ page }) => {
     page.evaluate(`document.getElementById('title').innerHTML`),
   ).resolves.toBe('title');
 });
+
+test('webpackChain plugin', async ({ page }) => {
+  const buildOpts = {
+    cwd: join(fixtures, 'source/global-vars'),
+    entry: {
+      main: join(fixtures, 'source/global-vars/src/index.ts'),
+    },
+  };
+
+  const builder = await build(buildOpts, {
+    tools: {
+      webpackChain: (chain, { webpack }) => {
+        chain.plugin('define').use(webpack.DefinePlugin, [
+          {
+            ENABLE_TEST: JSON.stringify(true),
+          },
+        ]);
+      },
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+  await expect(
+    page.evaluate(`document.getElementById('test-el').innerHTML`),
+  ).resolves.toBe('aaaaa');
+});
+
+test('pug', async ({ page }) => {
+  const buildOpts = {
+    cwd: join(fixtures, 'tools/pug'),
+    entry: {
+      main: join(fixtures, 'tools/pug/src/index.ts'),
+    },
+  };
+
+  const builder = await build(buildOpts, {
+    html: {
+      template: './static/index.pug',
+    },
+    tools: {
+      pug: true,
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  await expect(
+    page.evaluate(`document.getElementById('test-pug').innerHTML`),
+  ).resolves.toBe('Pug source code!');
+
+  await expect(
+    page.evaluate(`document.getElementById('test').innerHTML`),
+  ).resolves.toBe('Hello Builder!');
+});
