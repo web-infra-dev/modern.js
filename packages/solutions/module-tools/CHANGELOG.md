@@ -1,5 +1,24 @@
 # @modern-js/module-tools
 
+## 1.21.4
+
+### Patch Changes
+
+- 89dba24: update speedy-core to fix sass resolve error
+  更新 speedy-core 版本以修复 sass resolve 错误
+  - @modern-js/babel-preset-module@1.21.4
+  - @modern-js/core@1.21.4
+  - @modern-js/css-config@1.21.4
+  - @modern-js/plugin-changeset@1.21.4
+  - @modern-js/plugin-i18n@1.21.4
+  - @modern-js/plugin-jarvis@1.21.4
+  - @modern-js/new-action@1.21.4
+  - @modern-js/babel-compiler@1.21.4
+  - @modern-js/style-compiler@1.21.4
+  - @modern-js/plugin@1.21.4
+  - @modern-js/upgrade@1.21.4
+  - @modern-js/utils@1.21.4
+
 ## 1.21.3
 
 ### Patch Changes

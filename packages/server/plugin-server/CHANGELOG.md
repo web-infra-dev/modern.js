@@ -1,5 +1,13 @@
 # @modern-js/plugin-server
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/server-utils@1.21.4
+- @modern-js/babel-compiler@1.21.4
+- @modern-js/utils@1.21.4
+
 ## 1.21.3
 
 ### Patch Changes

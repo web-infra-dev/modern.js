@@ -1,5 +1,11 @@
 # @modern-js/plugin-i18n
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/utils@1.21.4
+
 ## 1.21.3
 
 ### Patch Changes
