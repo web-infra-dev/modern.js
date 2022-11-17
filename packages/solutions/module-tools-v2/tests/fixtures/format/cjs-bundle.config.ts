@@ -4,6 +4,6 @@ export default defineConfig({
   buildConfig: {
     buildType: 'bundle',
     format: 'cjs',
-    path: './dist/bundle',
+    outdir: './dist/bundle',
   },
 });

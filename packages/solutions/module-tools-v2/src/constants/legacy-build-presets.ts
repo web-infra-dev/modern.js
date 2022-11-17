@@ -1,34 +1,42 @@
+import path from 'path';
 import type { PartialBuildConfig } from '../types';
+
+const legacyWithSourceCodeToCopyConfig = {
+  patterns: [
+    {
+      from: path.join('src', '**/*.{less,sass,scss}'),
+      context: 'src',
+    },
+  ],
+};
 
 export const universalJsPreset: PartialBuildConfig = [
   {
     buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
-    path: './dist/js/treeshaking',
-    bundlelessOptions: {
-      styleCompileMode: 'with-source-code',
-    },
+    outdir: './dist/js/treeshaking',
+    copy: legacyWithSourceCodeToCopyConfig,
     dts: false,
   },
   {
     buildType: 'bundleless',
     format: 'cjs',
     target: 'es6',
-    path: './dist/js/node',
+    outdir: './dist/js/node',
     dts: false,
   },
   {
     buildType: 'bundleless',
     format: 'esm',
     target: 'es6',
-    path: './dist/js/modern',
+    outdir: './dist/js/modern',
     dts: false,
   },
   {
     buildType: 'bundleless',
     dts: { only: true },
-    path: './dist/types',
+    outdir: './dist/types',
   },
 ];
 
@@ -36,32 +44,32 @@ export const universalJsLitePreset: PartialBuildConfig = [
   {
     format: 'esm',
     target: 'es5',
-    path: './dist/js/treeshaking',
-    bundlelessOptions: { styleCompileMode: 'with-source-code' },
+    outdir: './dist/js/treeshaking',
+    copy: legacyWithSourceCodeToCopyConfig,
     dts: false,
   },
-  { format: 'cjs', target: 'es6', path: './dist/js/node', dts: false },
-  { format: 'esm', target: 'es5', path: './dist/js/modern', dts: false },
+  { format: 'cjs', target: 'es6', outdir: './dist/js/node', dts: false },
+  { format: 'esm', target: 'es5', outdir: './dist/js/modern', dts: false },
   {
     buildType: 'bundleless',
     dts: { only: true },
-    path: './dist/types',
+    outdir: './dist/types',
   },
 ];
 export const browserJsPreset: PartialBuildConfig = [
   {
     format: 'esm',
     target: 'es5',
-    path: './dist/js/treeshaking',
-    bundlelessOptions: { styleCompileMode: 'with-source-code' },
+    outdir: './dist/js/treeshaking',
+    copy: legacyWithSourceCodeToCopyConfig,
     dts: false,
   },
-  { format: 'esm', target: 'es6', path: './dist/js/node', dts: false },
-  { format: 'esm', target: 'es6', path: './dist/js/modern', dts: false },
+  { format: 'esm', target: 'es6', outdir: './dist/js/node', dts: false },
+  { format: 'esm', target: 'es6', outdir: './dist/js/modern', dts: false },
   {
     buildType: 'bundleless',
     dts: { only: true },
-    path: './dist/types',
+    outdir: './dist/types',
   },
 ];
 
@@ -69,26 +77,26 @@ export const browserJsLitePreset: PartialBuildConfig = [
   {
     format: 'esm',
     target: 'es5',
-    bundlelessOptions: { styleCompileMode: 'with-source-code' },
     dts: false,
-    path: './dist/js/treeshaking',
+    outdir: './dist/js/treeshaking',
+    copy: legacyWithSourceCodeToCopyConfig,
   },
   {
     format: 'esm',
     target: 'es5',
-    path: './dist/js/node',
+    outdir: './dist/js/node',
     dts: false,
   },
   {
     format: 'esm',
     target: 'es5',
-    path: './dist/js/modern',
+    outdir: './dist/js/modern',
     dts: false,
   },
   {
     buildType: 'bundleless',
     dts: { only: true },
-    path: './dist/types',
+    outdir: './dist/types',
   },
 ];
 
@@ -97,14 +105,14 @@ export const nodeJsPreset: PartialBuildConfig = [
     format: 'cjs',
     target: 'es6',
     dts: false,
-    bundlelessOptions: { styleCompileMode: 'with-source-code' },
-    path: './dist/js/node',
+    outdir: './dist/js/node',
+    copy: legacyWithSourceCodeToCopyConfig,
   },
-  { format: 'esm', target: 'es6', dts: false, path: './js/modern' },
+  { format: 'esm', target: 'es6', dts: false, outdir: './js/modern' },
   {
     buildType: 'bundleless',
     dts: { only: true },
-    path: './dist/types',
+    outdir: './dist/types',
   },
 ];
 

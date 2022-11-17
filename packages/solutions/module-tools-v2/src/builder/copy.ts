@@ -137,25 +137,6 @@ export const copyTask = async (
   },
 ) => {
   const copyConfig = buildConfig.copy;
-  const { appDirectory } = options;
-
-  if (
-    buildConfig.buildType === 'bundleless' &&
-    buildConfig.bundlelessOptions &&
-    buildConfig.bundlelessOptions.styleCompileMode === 'with-source-code'
-  ) {
-    const { path: distPath } = buildConfig;
-    const { sourceDir } = buildConfig.bundlelessOptions;
-    const from = path.join(sourceDir, '**/*.{less,sass,scss}');
-    await runPatterns(
-      {
-        from,
-        to: path.relative(appDirectory, distPath),
-        context: sourceDir,
-      },
-      { appDirectory, enableCopySync: copyConfig.options?.enableCopySync },
-    );
-  }
 
   if (!copyConfig.patterns || copyConfig.patterns.length === 0) {
     return;

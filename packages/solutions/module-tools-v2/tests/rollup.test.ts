@@ -18,11 +18,11 @@ describe('rollup', () => {
     const fixtureDir = path.join(__dirname, './fixtures/rollup/base');
     const distDir = path.join(fixtureDir, 'dist');
     const tsconfigPath = path.join(fixtureDir, 'tsconfig.json');
-    const entry = [path.join(fixtureDir, 'src/index.ts')];
+    const input = [path.join(fixtureDir, 'src/index.ts')];
     const watcher = (await runRollup({
       distDir,
       tsconfigPath,
-      entry,
+      input,
       watch: true,
       externals: [],
     })) as RollupWatcher;
@@ -44,7 +44,7 @@ describe('rollup', () => {
     const fixtureDir = path.join(__dirname, './fixtures/rollup/error');
     const distDir = path.join(fixtureDir, 'dist');
     const tsconfigPath = path.join(fixtureDir, 'tsconfig.json');
-    const entry = [path.join(fixtureDir, 'src/index.ts')];
+    const input = [path.join(fixtureDir, 'src/index.ts')];
     let heppenError = false;
     jest.mock('../compiled/rollup', () => {
       return {
@@ -58,7 +58,7 @@ describe('rollup', () => {
       await runRollup({
         distDir,
         tsconfigPath,
-        entry,
+        input,
         watch: false,
         externals: [],
       });

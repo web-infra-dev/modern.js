@@ -5,15 +5,15 @@ import type {
   Plugin,
   RollupWatcher,
 } from '../../../compiled/rollup';
-import type { BundleOptions, Entry } from '../../types';
+import type { BaseBuildConfig, Input } from '../../types';
 
 export type { RollupWatcher };
 
 type Config = {
   distDir: string;
   tsconfigPath: string;
-  externals: BundleOptions['externals'];
-  entry: Entry;
+  externals: BaseBuildConfig['externals'];
+  input: Input;
   watch: boolean;
 };
 
@@ -21,7 +21,7 @@ export const runRollup = async ({
   distDir,
   tsconfigPath,
   externals,
-  entry,
+  input,
   watch,
 }: Config) => {
   const ignoreFiles: Plugin = {
@@ -51,7 +51,7 @@ export const runRollup = async ({
     ? options.baseUrl
     : path.join(path.dirname(tsconfigPath), options.baseUrl || '.');
   const inputConfig: InputOptions = {
-    input: entry,
+    input,
     external: externals,
     plugins: [
       jsonPlugin(),

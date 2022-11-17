@@ -14,7 +14,7 @@ beforeAll(() => {
 });
 
 describe('globals usage', () => {
-  const fixtureDir = path.join(__dirname, './fixtures/globals');
+  const fixtureDir = path.join(__dirname, './fixtures/umdGlobals');
   it(`build success`, async () => {
     const configFile = path.join(fixtureDir, './config.ts');
     const { success } = await runCli({

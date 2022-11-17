@@ -16,8 +16,8 @@ beforeAll(() => {
   jest.setTimeout(30000);
 });
 
-describe('skipDeps usage', () => {
-  const fixtureDir = path.join(__dirname, './fixtures/skipDeps');
+describe('autoExternal usage', () => {
+  const fixtureDir = path.join(__dirname, './fixtures/autoExternal');
   it('build success', async () => {
     const configFile = path.join(fixtureDir, './config.ts');
     const { success } = await runCli({
@@ -28,7 +28,7 @@ describe('skipDeps usage', () => {
     expect(success).toBeTruthy();
   });
 
-  it('skipDeps is false', async () => {
+  it('autoExternal is false', async () => {
     const distFilePath = path.join(fixtureDir, './dist/1/index.js');
     const content = await fs.readFile(distFilePath, 'utf-8');
     expect(await fs.pathExists(distFilePath)).toBeTruthy();
@@ -37,7 +37,7 @@ describe('skipDeps usage', () => {
     expect(content.includes(`require("path-browserify")`)).toBeFalsy();
   });
 
-  it('skipDeps is false with externals', async () => {
+  it('autoExternal is false with externals', async () => {
     const distFilePath = path.join(fixtureDir, './dist/2/index.js');
     const content = await fs.readFile(distFilePath, 'utf-8');
     expect(await fs.pathExists(distFilePath)).toBeTruthy();
@@ -45,7 +45,7 @@ describe('skipDeps usage', () => {
     expect(content.includes(`require("path-browserify")`)).toBeFalsy();
   });
 
-  it('skipDeps: { dependencies: true }', async () => {
+  it('autoExternal: { dependencies: true }', async () => {
     const distFilePath = path.join(fixtureDir, './dist/3/index.js');
     const content = await fs.readFile(distFilePath, 'utf-8');
     expect(await fs.pathExists(distFilePath)).toBeTruthy();
@@ -54,16 +54,7 @@ describe('skipDeps usage', () => {
     expect(content.includes(`require("path-browserify")`)).toBeTruthy();
   });
 
-  it('skipDeps: { devDependencies: true }', async () => {
-    const distFilePath = path.join(fixtureDir, './dist/4/index.js');
-    const content = await fs.readFile(distFilePath, 'utf-8');
-    expect(await fs.pathExists(distFilePath)).toBeTruthy();
-    expect(content.includes(`require("react")`)).toBeTruthy();
-    expect(content.includes(`require("postcss")`)).toBeFalsy();
-    expect(content.includes(`require("path-browserify")`)).toBeFalsy();
-  });
-
-  it('skipDeps: { peerDependencies: true }', async () => {
+  it('autoExternal: { peerDependencies: true }', async () => {
     const distFilePath = path.join(fixtureDir, './dist/5/index.js');
     const content = await fs.readFile(distFilePath, 'utf-8');
     expect(await fs.pathExists(distFilePath)).toBeTruthy();

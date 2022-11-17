@@ -20,7 +20,7 @@ export const transformBuildPresetToBaseConfigs = async (
   const { BuildInPreset, presetList } = await import(
     '../constants/build-presets'
   );
-  const { addEntryToPreset } = await import('../utils/entry');
+  const { addInputToPreset } = await import('../utils/input');
 
   if (typeof preset === 'function') {
     const partialBuildConfig = await preset({ preset: BuildInPreset });
@@ -31,11 +31,6 @@ export const transformBuildPresetToBaseConfigs = async (
       );
     }
 
-    if (partialBuildConfig) {
-      const { validPartialBuildConfig } = await import('../utils/config');
-      validPartialBuildConfig(partialBuildConfig);
-    }
-
     return transformBuildConfigToBaseConfigs(partialBuildConfig, options);
   }
 
@@ -44,14 +39,14 @@ export const transformBuildPresetToBaseConfigs = async (
 
   if (preset && inPresetList(preset)) {
     return transformBuildConfigToBaseConfigs(
-      await addEntryToPreset(presetList[preset], options.context),
+      await addInputToPreset(presetList[preset], options.context),
       options,
     );
   }
 
   // buildConfig and buildPreset is undefined
   return transformBuildConfigToBaseConfigs(
-    await addEntryToPreset(presetList['base-config'], options.context),
+    await addInputToPreset(presetList['base-config'], options.context),
     options,
   );
 };
@@ -63,6 +58,8 @@ export const transformBuildConfigToBaseConfigs = async (
     context: ModuleContext;
   },
 ): Promise<BaseBuildConfig[]> => {
+  const { validPartialBuildConfig } = await import('../utils/config');
+  validPartialBuildConfig(config);
   const { buildCmdOptions } = options;
   const { ensureArray } = await import('@modern-js/utils');
   const { assignTsConfigPath } = await import('../utils/dts');
@@ -94,29 +91,28 @@ export const transformToAbsPath = async (
   baseConfig: BaseBuildConfig,
   options: { context: ModuleContext; buildCmdOptions: BuildCommandOptions },
 ) => {
-  let newConfig = baseConfig;
-  const { transformEntryToAbsPath } = await import('../utils/entry');
+  const newConfig = baseConfig;
+  const { normalizeInput } = await import('../utils/input');
   const { context } = options;
 
-  newConfig.path = path.isAbsolute(newConfig.path)
-    ? newConfig.path
-    : path.join(context.appDirectory, newConfig.path);
+  newConfig.outdir = path.isAbsolute(newConfig.outdir)
+    ? newConfig.outdir
+    : path.join(context.appDirectory, newConfig.outdir);
 
-  // `bundlelessOptions.sourceDir` or `bundleOptions.entry`
-  if (newConfig.buildType === 'bundleless') {
-    newConfig.bundlelessOptions.sourceDir = path.join(
-      context.appDirectory,
-      newConfig.bundlelessOptions.sourceDir,
-    );
-  } else {
-    newConfig = await transformEntryToAbsPath(newConfig, {
-      appDirectory: context.appDirectory,
-    });
-  }
+  newConfig.sourceDir = path.resolve(
+    context.appDirectory,
+    baseConfig.sourceDir,
+  );
+  newConfig.input = await normalizeInput(newConfig, {
+    appDirectory: context.appDirectory,
+  });
 
   // dts path
   if (newConfig.dts) {
-    newConfig.dts.distPath = path.join(newConfig.path, newConfig.dts.distPath);
+    newConfig.dts.distPath = path.join(
+      newConfig.outdir,
+      newConfig.dts.distPath,
+    );
     newConfig.dts.tsconfigPath = path.join(
       context.appDirectory,
       newConfig.dts.tsconfigPath,

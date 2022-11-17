@@ -4,7 +4,7 @@ module.exports = () => {
     postcssPlugin: 'custom-plugin',
     // Plugin listeners
     Declaration(node, { Rule }) {
-      const newRule = new Rule({ selector: 'a', source: node.source });
+      const newRule = new Rule({ selector: 'a', buildConfig: node.source });
       node.root().append(newRule);
       newRule.append(node);
     },

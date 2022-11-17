@@ -1,5 +1,5 @@
 import type { LibuildPlugin } from '@modern-js/libuild';
-import type { BaseBuildConfig, BaseBundleBuildConfig } from '../types';
+import type { BaseBuildConfig } from '../types';
 
 export const watchPlugin = (config: BaseBuildConfig): LibuildPlugin => {
   return {
@@ -20,7 +20,7 @@ export const watchPlugin = (config: BaseBuildConfig): LibuildPlugin => {
 };
 
 export const externalPlugin = (
-  config: BaseBundleBuildConfig,
+  config: BaseBuildConfig,
   options: { appDirectory: string },
 ): LibuildPlugin => {
   return {

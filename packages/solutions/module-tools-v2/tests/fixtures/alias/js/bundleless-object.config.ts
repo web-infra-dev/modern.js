@@ -2,15 +2,13 @@
 import { defineConfig } from '../../../utils';
 
 export default defineConfig({
-  source: {
-    alias: {
-      '@src': './src',
-    },
-  },
   buildPreset({ preset }) {
     return {
+      alias: {
+        '@src': './src',
+      },
       ...preset.BASE_CONFIG,
-      path: './dist/bundleless/object',
+      outdir: './dist/bundleless/object',
     };
   },
 });

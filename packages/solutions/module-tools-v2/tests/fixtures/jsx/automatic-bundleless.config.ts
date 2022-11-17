@@ -4,6 +4,6 @@ export default defineConfig({
   buildConfig: {
     buildType: 'bundleless',
     jsx: 'automatic',
-    path: './dist/automatic/bundleless',
+    outdir: './dist/automatic/bundleless',
   },
 });

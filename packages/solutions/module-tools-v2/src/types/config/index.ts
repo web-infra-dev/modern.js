@@ -1,6 +1,5 @@
 import type {
   UserConfig as UserConfig_,
-  ToolsConfig as ToolsConfig_,
   NewPluginConfig,
 } from '@modern-js/core';
 import type {
@@ -17,9 +16,7 @@ export * from './style';
 
 export type BuildType = 'bundleless' | 'bundle';
 
-export type BundlelessFormat = 'esm' | 'cjs';
-export type BundleFormat = 'esm' | 'cjs' | 'umd' | 'iife';
-export type Format = BundlelessFormat | BundleFormat;
+export type Format = 'esm' | 'cjs' | 'umd' | 'iife';
 
 export type Target =
   | 'es5'
@@ -30,98 +27,71 @@ export type Target =
   | 'es2018'
   | 'es2019'
   | 'es2020'
+  | 'es2021'
+  | 'es2022'
   // The default target is esnext which means that by default, assume all of the latest JavaScript and CSS features are supported.
   | 'esnext';
 
-export type Entry = Required<LibuildUserConfig>['input'];
+export type Input = Required<LibuildUserConfig>['input'];
+
 export type DTSOptions = {
   distPath: string;
   tsconfigPath: string;
   only: boolean;
 };
-export type DTS = false | DTSOptions;
+export type DTS = false | Partial<DTSOptions>;
+
+export type SvgrOptions = {
+  include: string | RegExp | (string | RegExp)[];
+  exclude: string | RegExp | (string | RegExp)[];
+};
+
 export interface Asset {
-  path: LibuildAsset['outdir'];
-  rebase: LibuildAsset['rebase'];
-  name: LibuildAsset['name'];
-  limit: LibuildAsset['limit'];
-  publicPath: LibuildAsset['publicPath'];
+  path?: LibuildAsset['outdir'];
+  limit?: LibuildAsset['limit'];
+  publicPath?: LibuildAsset['publicPath'];
+  svgr?: boolean | SvgrOptions;
 }
 export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
-export type SkipDeps =
+export type AutoExternal =
   | boolean
   | {
       dependencies?: boolean;
-      devDependencies?: boolean;
       peerDependencies?: boolean;
     };
-export type JSX = Exclude<Required<LibuildUserConfig>['jsx'], 'preserve'>;
+export type JSX = 'automatic' | 'transform';
 
-export interface BaseCommonBuildConfig {
-  target: Target;
-  dts: DTS;
-  sourceMap: SourceMap;
-  copy: CopyConfig;
-  asset?: Asset;
-  jsx: JSX;
-  path: string;
-}
-export interface PartialBaseCommonBuildConfig {
+export type AliasOption =
+  | Record<string, string>
+  | ((aliases: Record<string, string>) => Record<string, string> | void);
+
+export type BaseBuildConfig = Omit<Required<PartialBaseBuildConfig>, 'dts'> & {
+  dts: false | DTSOptions;
+};
+
+export type PartialBaseBuildConfig = {
+  buildType?: 'bundleless' | 'bundle';
+  format?: Format;
   target?: Target;
-  dts?: false | Partial<DTSOptions>;
+  dts?: DTS;
   sourceMap?: SourceMap;
+  sourceDir?: string;
   copy?: CopyConfig;
-  asset?: Partial<Asset>;
+  asset?: Asset;
   jsx?: JSX;
-  path?: string;
-}
-
-export type BundleOptions = {
-  entry: Entry;
-  platform: LibuildUserConfig['platform'];
-  splitting: LibuildUserConfig['splitting'];
-  minify: LibuildUserConfig['minify'];
-  externals: LibuildUserConfig['external'];
-  skipDeps: SkipDeps;
-  entryNames: LibuildUserConfig['entryNames'];
-  globals: LibuildUserConfig['globals'];
-  metafile: LibuildUserConfig['metafile'];
-  umdModuleName: ((chunkName: string) => string) | string | undefined;
+  outdir?: string;
+  alias?: AliasOption;
+  input?: Input;
+  platform?: LibuildUserConfig['platform'];
+  splitting?: LibuildUserConfig['splitting'];
+  minify?: LibuildUserConfig['minify'];
+  externals?: LibuildUserConfig['external'];
+  autoExternal?: AutoExternal;
+  entryNames?: LibuildUserConfig['entryNames'];
+  umdGlobals?: LibuildUserConfig['globals'];
+  umdModuleName?: ((chunkName: string) => string) | string | undefined;
+  define?: LibuildUserConfig['define'];
 };
-export interface BaseBundleBuildConfig extends BaseCommonBuildConfig {
-  buildType: 'bundle';
-  format: BundleFormat;
-  bundleOptions: BundleOptions;
-}
-export interface PartialBaseBundleBuildConfig
-  extends PartialBaseCommonBuildConfig {
-  buildType?: 'bundle';
-  format?: BundleFormat;
-  bundleOptions?: DeepPartial<BundleOptions>;
-}
-
-export type Assets = { path: string };
-export type StyleCompileMode = 'with-source-code' | 'only-compiled-code';
-export type BundlelessOptions = {
-  sourceDir: string;
-  styleCompileMode: StyleCompileMode;
-};
-export interface BaseBundlelessBuildConfig extends BaseCommonBuildConfig {
-  buildType: 'bundleless';
-  format: BundlelessFormat;
-  bundlelessOptions: BundlelessOptions;
-}
-export interface PartialBaseBundlelessBuildConfig
-  extends PartialBaseCommonBuildConfig {
-  buildType?: 'bundleless';
-  format?: BundlelessFormat;
-  bundlelessOptions?: DeepPartial<BundlelessOptions>;
-}
-
-export type BaseBuildConfig = BaseBundleBuildConfig | BaseBundlelessBuildConfig;
-export type PartialBaseBuildConfig =
-  | PartialBaseBundleBuildConfig
-  | PartialBaseBundlelessBuildConfig;
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];
 export type PartialBuildConfig =
@@ -133,21 +103,6 @@ export type BuildPreset =
   | ((options: {
       preset: typeof BuildInPreset;
     }) => PartialBuildConfig | Promise<PartialBuildConfig>);
-
-export type AliasOption =
-  | Record<string, string>
-  | ((aliases: Record<string, string>) => Record<string, string> | void);
-export interface SourceConfig {
-  envVars: string[];
-  globalVars: Record<string, string>;
-  alias: AliasOption;
-  /**
-   * The configuration of `source.designSystem` is provided by `tailwindcss` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `tailwindcss` plugin
-   */
-  designSystem: Record<string, any>;
-}
 
 export interface ToolsConfig {
   less?: LessConfig;
@@ -161,7 +116,6 @@ export interface ToolsConfig {
   tailwindcss?:
     | Record<string, any>
     | ((options: Record<string, any>) => Record<string, any> | void);
-  jest?: Pick<Required<ToolsConfig_>, 'jest'>;
 }
 
 export interface StorybookDevConfig {
@@ -171,24 +125,8 @@ export interface Dev {
   storybook: StorybookDevConfig;
 }
 
-export interface ResolvedConfig {
-  source: SourceConfig;
-
-  buildConfig?: BuildConfig;
-
-  buildPreset?: BuildPreset;
-
-  dev: Dev;
-
-  tools?: ToolsConfig;
-
-  plugins: NewPluginConfig<ModuleToolsHooks>;
-
-  testing?: Pick<UserConfig_, 'testing'>;
-}
-
 export interface UserConfig {
-  source?: Partial<SourceConfig>;
+  designSystem?: Record<string, any>;
 
   buildConfig?: PartialBuildConfig;
 
@@ -196,7 +134,7 @@ export interface UserConfig {
 
   dev?: DeepPartial<Dev>;
 
-  tools?: DeepPartial<ToolsConfig>;
+  tools?: Partial<ToolsConfig>;
 
   plugins?: NewPluginConfig<ModuleToolsHooks>;
 

@@ -23,9 +23,9 @@ __export(stdin_exports, {
   debug: () => debug
 });
 module.exports = __toCommonJS(stdin_exports);
-var import_utils = require(\\"./utils\\");
-const debug = (str) => (0, import_utils.addPrefix)(\\"DEBUG:\\", str);
+var addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
+var debug = (str) => addPrefix(\\"DEBUG:\\", str);
 "
 `;
 
-exports[`sourcemap usage sourcemap is true 1`] = `"{\\"version\\":3,\\"mappings\\":\\";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,mBAA0B;AAEnB,MAAM,QAAQ,aAAO,wBAAU,UAAU,GAAG;\\",\\"names\\":[],\\"sources\\":[\\"../../src/index.js\\"],\\"sourcesContent\\":[\\"import { addPrefix } from './utils';\\\\n\\\\nexport const debug = str => addPrefix('DEBUG:', str);\\\\n\\"]}"`;
+exports[`sourcemap usage sourcemap is true 1`] = `"{\\"version\\":3,\\"mappings\\":\\";;;;;;;;;;;;;;;;;;;;;;AAAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,UAAU;ACEhD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG;\\",\\"names\\":[],\\"sources\\":[\\"../../src/utils.js\\",\\"../../src/index.js\\"],\\"sourcesContent\\":[\\"export const addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;\\\\n\\",\\"import { addPrefix } from './utils';\\\\n\\\\nexport const debug = str => addPrefix('DEBUG:', str);\\\\n\\"]}"`;

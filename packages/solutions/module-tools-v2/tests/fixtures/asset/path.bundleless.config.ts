@@ -6,6 +6,6 @@ export default defineConfig({
     asset: {
       path: './asset',
     },
-    path: './dist/bundleless',
+    outdir: './dist/bundleless',
   },
 });

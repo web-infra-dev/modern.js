@@ -4,27 +4,24 @@ export default defineConfig({
   buildConfig: [
     {
       buildType: 'bundle',
-      bundleOptions: {
-        entry: ['./src/index.ts'],
-        minify: false,
-      },
-      path: './dist/false',
+      input: ['./src/index.ts'],
+      minify: false,
+
+      outdir: './dist/false',
     },
     {
       buildType: 'bundle',
-      bundleOptions: {
-        entry: ['./src/index.ts'],
-        minify: 'esbuild',
-      },
-      path: './dist/esbuild',
+      input: ['./src/index.ts'],
+      minify: 'esbuild',
+
+      outdir: './dist/esbuild',
     },
     {
       buildType: 'bundle',
-      bundleOptions: {
-        entry: ['./src/index.ts'],
-        minify: 'terser',
-      },
-      path: './dist/terser',
+      input: ['./src/index.ts'],
+      minify: 'terser',
+
+      outdir: './dist/terser',
     },
   ],
 });

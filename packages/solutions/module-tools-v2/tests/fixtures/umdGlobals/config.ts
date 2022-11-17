@@ -5,22 +5,20 @@ export default defineConfig({
     {
       buildType: 'bundle',
       format: 'umd',
-      bundleOptions: {
-        globals: {
-          react: 'React',
-        },
+      umdGlobals: {
+        react: 'React',
       },
-      path: './dist/umd',
+
+      outdir: './dist/umd',
     },
     {
       buildType: 'bundle',
       format: 'iife',
-      bundleOptions: {
-        globals: {
-          react: 'React',
-        },
+      umdGlobals: {
+        react: 'React',
       },
-      path: './dist/iife',
+
+      outdir: './dist/iife',
     },
   ],
 });

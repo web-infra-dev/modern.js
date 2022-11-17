@@ -5,10 +5,8 @@ export default defineConfig({
     {
       buildType: 'bundle',
       format: 'umd',
-      bundleOptions: {
-        umdModuleName: () => 'Demo',
-      },
-      path: './dist',
+      umdModuleName: () => 'Demo',
+      outdir: './dist',
     },
   ],
 });

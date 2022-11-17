@@ -1,7 +1,7 @@
 import path from 'path';
 import { ModuleContext } from '../types';
 import type {
-  Entry,
+  Input,
   BaseBuildConfig,
   PartialBuildConfig,
 } from '../types/config';
@@ -10,7 +10,7 @@ interface EntryOptions {
   appDirectory: string;
 }
 
-export const getAbsEntry = (entry: Entry, options: EntryOptions) => {
+export const getAbsInput = (entry: Input, options: EntryOptions) => {
   const { appDirectory } = options;
   // if (typeof entry === 'string') {
   //   return path.join(options.appDirectory, entry);
@@ -31,34 +31,22 @@ export const getAbsEntry = (entry: Entry, options: EntryOptions) => {
   return newEntry;
 };
 
-export const addEntryToPreset = async (
+export const addInputToPreset = async (
   config: PartialBuildConfig,
   context: ModuleContext,
 ) => {
   if (Array.isArray(config)) {
     for (const c of config) {
       if (c.buildType === 'bundle') {
-        c.bundleOptions = {
-          ...(c.bundleOptions ?? {}),
-          entry: await getDefaultIndexEntry(context),
-        };
+        c.input = await getDefaultIndexEntry(context);
       } else if (c.buildType === 'bundleless') {
-        c.bundlelessOptions = {
-          ...(c.bundlelessOptions ?? {}),
-          sourceDir: './src',
-        };
+        c.sourceDir = './src';
       }
     }
   } else if (config.buildType === 'bundle') {
-    config.bundleOptions = {
-      ...(config.bundleOptions ?? {}),
-      entry: await getDefaultIndexEntry(context),
-    };
+    config.input = await getDefaultIndexEntry(context);
   } else if (config.buildType === 'bundleless') {
-    config.bundlelessOptions = {
-      ...(config.bundlelessOptions ?? {}),
-      sourceDir: './src',
-    };
+    config.sourceDir = './src';
   }
 
   return config;
@@ -89,16 +77,12 @@ export const getDefaultIndexEntry = async ({
   return [];
 };
 
-export const transformEntryToAbsPath = async (
+export const normalizeInput = async (
   baseConfig: BaseBuildConfig,
   options: EntryOptions,
 ) => {
-  if (baseConfig.buildType === 'bundle' && baseConfig.bundleOptions.entry) {
-    baseConfig.bundleOptions.entry = getAbsEntry(
-      baseConfig.bundleOptions.entry,
-      options,
-    );
+  if (baseConfig.buildType === 'bundleless' && !baseConfig.input) {
+    return [baseConfig.sourceDir];
   }
-
-  return baseConfig;
+  return getAbsInput(baseConfig.input, options);
 };

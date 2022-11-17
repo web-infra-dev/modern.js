@@ -4,6 +4,6 @@ export default defineConfig({
   buildConfig: {
     buildType: 'bundle',
     jsx: 'transform',
-    path: './dist/transform/bundle',
+    outdir: './dist/transform/bundle',
   },
 });

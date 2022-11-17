@@ -1,5 +1,5 @@
 {
-  "name": "skip-deps-test",
+  "name": "auto-external-test",
   "dependencies": {
     "path-browserify": "^1"
   },

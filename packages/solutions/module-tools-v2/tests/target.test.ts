@@ -24,6 +24,6 @@ describe('target usage', () => {
       appDirectory: fixtureDir,
     });
 
-    expect(success).toBeFalsy();
+    expect(success).toBeTruthy();
   });
 });

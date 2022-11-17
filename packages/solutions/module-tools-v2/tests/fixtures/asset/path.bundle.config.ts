@@ -5,7 +5,8 @@ export default defineConfig({
     buildType: 'bundle',
     asset: {
       path: './asset',
+      limit: 0,
     },
-    path: './dist/bundle',
+    outdir: './dist/bundle',
   },
 });

@@ -1,17 +1,15 @@
 import path from 'path';
-import type { BaseBundleBuildConfig } from '../types/config';
+import type { BaseBuildConfig } from '../types/config';
 
 export const getFinalExternals = async (
-  config: BaseBundleBuildConfig,
+  config: BaseBuildConfig,
   options: { appDirectory: string },
 ) => {
-  const {
-    bundleOptions: { skipDeps, externals },
-  } = config;
+  const { autoExternal, externals } = config;
   const { appDirectory } = options;
 
-  if (typeof skipDeps === 'boolean') {
-    if (!skipDeps) {
+  if (typeof autoExternal === 'boolean') {
+    if (!autoExternal) {
       return externals || [];
     }
 
@@ -26,7 +24,7 @@ export const getFinalExternals = async (
     ];
   }
 
-  const deps = await getAllDeps(appDirectory, skipDeps);
+  const deps = await getAllDeps(appDirectory, autoExternal);
   return [
     ...deps.map(dep => new RegExp(`^${dep}($|\\/|\\\\)`)),
     ...(externals || []),

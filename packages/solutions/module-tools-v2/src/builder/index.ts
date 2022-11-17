@@ -30,9 +30,6 @@ export const run = async (
     await clearBuildConfigPaths(resolvedBuildConfig);
     await clearDtsTemp();
 
-    const { getSourceConfig } = await import('../utils/source');
-    const sourceConfig = await getSourceConfig(api, context);
-
     const { getStyleConfig } = await import('../utils/style');
     const styleConfig = await getStyleConfig(api);
 
@@ -46,7 +43,6 @@ export const run = async (
         await runBuildTask(
           {
             buildConfig: config,
-            sourceConfig,
             buildCmdOptions: cmdOptions,
             context,
             styleConfig,

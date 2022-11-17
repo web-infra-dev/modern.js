@@ -7,6 +7,6 @@ export default defineConfig({
     dts: {
       distPath: './types',
     },
-    path: './dist/bundle-dist-path',
+    outdir: './dist/bundle-dist-path',
   },
 });

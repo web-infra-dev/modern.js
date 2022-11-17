@@ -1,4 +1,8 @@
-import type { PartialBuildConfig, Target } from '../types';
+import type {
+  PartialBuildConfig,
+  PartialBaseBuildConfig,
+  Target,
+} from '../types';
 
 export const targets: Target[] = [
   'es5',
@@ -9,6 +13,8 @@ export const targets: Target[] = [
   'es2018',
   'es2019',
   'es2020',
+  'es2021',
+  'es2022',
   'esnext',
 ];
 
@@ -16,23 +22,23 @@ export const basePresetConfig: PartialBuildConfig = {
   format: 'esm',
   target: 'es6',
   buildType: 'bundleless',
-  path: './dist',
+  outdir: './dist',
   dts: { distPath: './types' },
 };
 
-export const npmLibraryPresetConfig: PartialBuildConfig = [
+export const npmLibraryPresetConfig: PartialBaseBuildConfig[] = [
   {
     format: 'cjs',
     target: 'es6',
     buildType: 'bundle',
-    path: './dist/lib',
+    outdir: './dist/lib',
     dts: false,
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundle',
-    path: './dist/es',
+    outdir: './dist/es',
     dts: false,
   },
   {
@@ -40,26 +46,26 @@ export const npmLibraryPresetConfig: PartialBuildConfig = [
     dts: { only: true, distPath: './types' },
   },
 ];
-export const npmLibraryWithUmdPresetConfig: PartialBuildConfig = [
+export const npmLibraryWithUmdPresetConfig: PartialBaseBuildConfig[] = [
   {
     format: 'cjs',
     target: 'es6',
     buildType: 'bundle',
-    path: './dist/lib',
+    outdir: './dist/lib',
     dts: false,
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundle',
-    path: './dist/es',
+    outdir: './dist/es',
     dts: false,
   },
   {
     format: 'umd',
     target: 'es6',
     buildType: 'bundle',
-    path: './dist/umd',
+    outdir: './dist/umd',
     dts: false,
   },
   {
@@ -67,47 +73,47 @@ export const npmLibraryWithUmdPresetConfig: PartialBuildConfig = [
     dts: { only: true, distPath: './types' },
   },
 ];
-export const npmComponentPresetConfig: PartialBuildConfig = [
+export const npmComponentPresetConfig: PartialBaseBuildConfig[] = [
   {
     format: 'cjs',
     target: 'es6',
     buildType: 'bundleless',
-    path: './dist/lib',
+    outdir: './dist/lib',
     dts: false,
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundleless',
-    path: './dist/es',
+    outdir: './dist/es',
     dts: false,
   },
   {
     buildType: 'bundleless',
-    path: './dist/types',
+    outdir: './dist/types',
     dts: { only: true },
   },
 ];
-export const npmComponentWithUmdPresetConfig: PartialBuildConfig = [
+export const npmComponentWithUmdPresetConfig: PartialBaseBuildConfig[] = [
   {
     format: 'cjs',
     target: 'es6',
     buildType: 'bundleless',
-    path: './dist/lib',
+    outdir: './dist/lib',
     dts: false,
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundleless',
-    path: './dist/es',
+    outdir: './dist/es',
     dts: false,
   },
   {
     format: 'umd',
     target: 'es6',
     buildType: 'bundle',
-    path: './dist/umd',
+    outdir: './dist/umd',
     dts: false,
   },
   {
