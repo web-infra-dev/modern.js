@@ -1,11 +1,13 @@
+import { existsSync } from 'fs';
+import { isAbsolute, join } from 'path';
+import { pick } from './pick';
 import {
-  CreateBuilderOptions,
   BuilderContext,
+  CreateBuilderOptions,
   DistPathConfig,
   NormalizedSharedOutputConfig,
 } from './types';
-import { existsSync } from 'fs';
-import { isAbsolute, join } from 'path';
+import { deepFreezed } from './utils';
 
 function getAbsoluteDistPath(
   cwd: string,
@@ -28,9 +30,9 @@ export const getDistPath = (
 };
 
 /**
- * Create context.
+ * Create context by config.
  */
-export function createCommonContext(
+export function createContextByConfig(
   options: Required<CreateBuilderOptions>,
   outputConfig: NormalizedSharedOutputConfig,
 ): BuilderContext {
@@ -61,4 +63,22 @@ export function createCommonContext(
   }
 
   return context;
+}
+
+export function createPublicContext(
+  context: BuilderContext,
+): Readonly<BuilderContext> {
+  const ctx = pick(context, [
+    'entry',
+    'target',
+    'srcPath',
+    'rootPath',
+    'distPath',
+    'devServer',
+    'framework',
+    'cachePath',
+    'configPath',
+    'tsconfigPath',
+  ]);
+  return deepFreezed(ctx);
 }

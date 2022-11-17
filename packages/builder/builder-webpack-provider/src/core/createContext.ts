@@ -1,8 +1,10 @@
+import { join } from 'path';
 import {
   debug,
   deepFreezed,
+  isFileExists,
   type CreateBuilderOptions,
-  createCommonContext,
+  createContextByConfig,
   NormalizedSharedOutputConfig,
 } from '@modern-js/builder-shared';
 import { initHooks } from './initHooks';
@@ -20,7 +22,7 @@ export function createPrimaryContext(
   userBuilderConfig: BuilderConfig,
 ): Context {
   const builderConfig = withDefaultConfig(userBuilderConfig);
-  const context = createCommonContext(
+  const context = createContextByConfig(
     options,
     builderConfig.output as NormalizedSharedOutputConfig,
   );
@@ -51,6 +53,11 @@ export async function createContext(
     // interrupt build if config is invalid.
     validator.validate(builderConfig, false);
   });
+
+  const tsconfigPath = join(ctx.rootPath, 'tsconfig.json');
+  if (await isFileExists(tsconfigPath)) {
+    ctx.tsconfigPath = tsconfigPath;
+  }
 
   return ctx;
 }

@@ -1,6 +1,8 @@
+import { join } from 'path';
 import {
   deepFreezed,
-  createCommonContext,
+  isFileExists,
+  createContextByConfig,
   type CreateBuilderOptions,
   NormalizedSharedOutputConfig,
 } from '@modern-js/builder-shared';
@@ -13,12 +15,12 @@ import type { Context, BuilderConfig } from '../types';
  * Generate the actual context used in the build,
  * which can have a lot of overhead and take some side effects.
  */
-export function createContext(
+export async function createContext(
   options: Required<CreateBuilderOptions>,
   userBuilderConfig: BuilderConfig,
-): Context {
+): Promise<Context> {
   const builderConfig = withDefaultConfig(userBuilderConfig);
-  const context = createCommonContext(
+  const context = createContextByConfig(
     options,
     builderConfig.output as NormalizedSharedOutputConfig,
   );
@@ -29,11 +31,14 @@ export function createContext(
   //   validator.validate(builderConfig, false);
   // });
 
+  const tsconfigPath = join(context.rootPath, 'tsconfig.json');
+
   return {
     ...context,
     hooks: initHooks(),
     configValidatingTask,
     config: { ...builderConfig },
     originalConfig: deepFreezed(userBuilderConfig),
+    tsconfigPath: (await isFileExists(tsconfigPath)) ? tsconfigPath : undefined,
   };
 }
