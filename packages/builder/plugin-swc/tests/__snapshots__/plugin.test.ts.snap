@@ -5,6 +5,16 @@ exports[`plugins/swc > should disable swc minify 1`] = `
   "module": {
     "rules": [
       {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
@@ -42,6 +52,16 @@ exports[`plugins/swc > should set swc minimizer in production 1`] = `
   "module": {
     "rules": [
       {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
@@ -89,6 +109,16 @@ exports[`plugins/swc > should set swc-loader 1`] = `
   "module": {
     "rules": [
       {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
