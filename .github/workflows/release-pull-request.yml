@@ -5,13 +5,13 @@ on:
     inputs:
       version:
         type: choice
-        description: 'Release Type(canary, latest, v1)'
+        description: 'Release Type(canary, latest, modern-1)'
         required: true
         default: 'latest'
         options:
         - canary
         - latest
-        - v1
+        - modern-1
 
 jobs:
   release:
