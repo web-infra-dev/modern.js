@@ -14,7 +14,7 @@
   "scripts": {
     "prepare": "npx ts-node ./scripts/sync.ts"
   },
-  "version": "1.21.2",
+  "version": "2.0.0-beta.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

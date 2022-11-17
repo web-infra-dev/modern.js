@@ -1,5 +1,29 @@
 # @modern-js/generator-plugin
 
+## 3.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/plugin-i18n@2.0.0-beta.0
+  - @modern-js/generator-common@3.0.0-beta.0
+  - @modern-js/generator-utils@3.0.0-beta.0
+  - @modern-js/new-action@2.0.0-beta.0
+
 ## 2.4.7
 
 ### Patch Changes

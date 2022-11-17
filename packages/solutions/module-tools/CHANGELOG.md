@@ -1,5 +1,44 @@
 # @modern-js/module-tools
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- b8bbe036c: feat: export Hooks type
+  feat: 导出 Hooks 类型
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [c9e800d39]
+- Updated dependencies [85edee8]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/core@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/plugin@2.0.0-beta.0
+  - @modern-js/babel-preset-module@2.0.0-beta.0
+  - @modern-js/plugin-changeset@2.0.0-beta.0
+  - @modern-js/plugin-i18n@2.0.0-beta.0
+  - @modern-js/plugin-jarvis@2.0.0-beta.0
+  - @modern-js/new-action@2.0.0-beta.0
+  - @modern-js/babel-compiler@2.0.0-beta.0
+  - @modern-js/style-compiler@2.0.0-beta.0
+  - @modern-js/upgrade@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

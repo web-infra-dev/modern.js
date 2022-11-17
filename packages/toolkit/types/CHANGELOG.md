@@ -1,5 +1,28 @@
 # @modern-js/types
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- cc971eabf: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 6bda14ed7: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- 102d32e4b: feat(server): add `req` and `res` to SSR context
+
+  feat(server): 添加 `req` 和 `res` 到 SSR context 中
+
+- 8b8e1bb57: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+
 ## 1.21.2
 
 ## 1.21.1
