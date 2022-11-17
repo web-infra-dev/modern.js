@@ -13,7 +13,6 @@ const withAllowTypeImports = key => pkg => ({
  */
 const restrictedImportInSource = {
   paths: [
-    'webpack',
     'lodash',
     'ts-loader',
     'typescript',
@@ -22,11 +21,7 @@ const restrictedImportInSource = {
   ].map(withAllowTypeImports('name')),
   patterns: [
     'src/**/*',
-    '**/stub',
-    '**/stub/*',
     '**/plugins/*',
-    '**/webpackPlugins/*',
-    '*-webpack-plugin',
     [
       '@modern-js/utils/*',
       '!@modern-js/utils/chalk',
@@ -65,12 +60,7 @@ module.exports = {
     },
     {
       files: ['./src/**/*.{ts,js}'],
-      excludedFiles: [
-        './src/webpackPlugins/**/*',
-        '**/*.test.*',
-        './src/types/**/*',
-        './src/stub/**/*',
-      ],
+      excludedFiles: ['**/*.test.*', './src/types/**/*'],
       rules: {
         '@typescript-eslint/no-restricted-imports': [
           'error',
