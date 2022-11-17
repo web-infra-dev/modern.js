@@ -71,7 +71,6 @@ export default (): CliPlugin => ({
         documentFilePath = getDocumenByEntryName(entrypoints, 'main');
       }
       // if no document file, do nothing as default
-      // todo: 删掉
       if (!documentFilePath) {
         return null;
       }
