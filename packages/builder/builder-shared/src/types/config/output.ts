@@ -94,6 +94,10 @@ export interface SharedOutputConfig {
    */
   polyfill?: Polyfill;
   /**
+   * Configure the retry of assets.
+   */
+  assetsRetry?: AssetsRetryOptions;
+  /**
    * When using CDN in the production environment,
    * you can use this option to set the URL prefix of static resources,
    * similar to the output.publicPath config of webpack.
