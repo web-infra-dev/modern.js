@@ -3,17 +3,18 @@ const navbar = require('./navbar');
 
 const baseUrl = '/v2/';
 const isProd = process.env.NODE_ENV !== 'development';
-const isUploadCDN = !process.env.LOCAL;
+const isLocal = process.env.LOCAL;
 // eslint-disable-next-line no-nested-ternary
-const publicPath = isUploadCDN
-  ? `https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/`
-  : isProd
+const publicPath = !isProd
+  ? '/'
+  : isLocal
   ? baseUrl
-  : '/';
+  : `https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/`;
 
-const templatePublicPath = isUploadCDN
-  ? `${publicPath}<%= it.baseUrl.replace('${baseUrl}', '') %>`
-  : '<%= it.baseUrl %>';
+const templatePublicPath =
+  isProd && !isLocal
+    ? `${publicPath}<%= it.baseUrl.replace('${baseUrl}', '') %>`
+    : '<%= it.baseUrl %>';
 
 // @ts-check
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
@@ -117,6 +118,7 @@ module.exports = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       {
         docs: {
+          path: path.join(__dirname, '../../packages/toolkit/main-doc/zh'),
           sidebarPath: require.resolve('./sidebars.js'),
           breadcrumbs: false,
           async sidebarItemsGenerator({
@@ -170,9 +172,17 @@ module.exports = {
             output: {
               publicPath,
             },
+            resolve: {
+              alias: {
+                '@site-docs': path.join(
+                  __dirname,
+                  '../../packages/toolkit/main-doc/zh',
+                ),
+              },
+            },
             resolveLoader: {
               alias: {
-                '@site': require('path').resolve(__dirname),
+                '@site': path.resolve(__dirname),
               },
             },
           };
@@ -201,6 +211,7 @@ module.exports = {
     },
   ],
   i18n: {
+    path: path.join(__dirname, '../../packages/toolkit/main-doc'),
     defaultLocale: 'zh-Hans',
     locales: ['zh-Hans', 'en'],
     localeConfigs: {
