@@ -1,5 +1,31 @@
 # @modern-js/babel-preset-app
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- decfcd989: fix(babel-preset-app): remove useless plugin-transform-destructuring
+
+  fix(babel-preset-app): 移除多余的 plugin-transform-destructuring 插件
+
+- Updated dependencies [27c0151e8]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/babel-preset-base@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

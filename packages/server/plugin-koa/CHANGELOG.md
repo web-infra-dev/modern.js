@@ -1,5 +1,36 @@
 # @modern-js/plugin-koa
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 8d24bed25: fix: compat Hook API in /server namespace
+  fix: 在 @modern-js/runtime/server 命名空间下兼容 Hook API
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- Updated dependencies [a2509bf]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed7]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4b]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/bff-core@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/types@2.0.0-beta.0
+  - @modern-js/bff-runtime@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

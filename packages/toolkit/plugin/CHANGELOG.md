@@ -1,5 +1,16 @@
 # @modern-js/plugin
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- b8bbe036c: feat: change type logic
+  feat: 修改类型相关的逻辑
+
 ## 1.21.2
 
 ### Patch Changes

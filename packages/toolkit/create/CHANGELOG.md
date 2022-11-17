@@ -1,5 +1,19 @@
 # @modern-js/create
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- cc971eabf: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 6b6f180: fix: generator bundle
+
+  fix: 生成器打包
+
 ## 1.21.2
 
 ### Patch Changes
