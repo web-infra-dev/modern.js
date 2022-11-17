@@ -7,8 +7,6 @@ import type { Props } from './helpers/type';
 export interface ProgressOptions
   extends Omit<Partial<Props>, 'message' | 'total' | 'current' | 'done'> {
   id?: string;
-  quiet?: boolean;
-  quietOnDev?: boolean;
   clearOnDone?: boolean;
 }
 
@@ -20,14 +18,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
   compileTime: string | null = null;
 
   constructor(options: ProgressOptions) {
-    const {
-      id = 'Modern',
-      quiet = false,
-      quietOnDev = false,
-      clearOnDone = false,
-    } = options;
-    const isQuiet =
-      quiet || (quietOnDev && process.env.NODE_ENV === 'development');
+    const { id = 'Modern', clearOnDone = false } = options;
 
     const nonTTYLogger = createNonTTYLogger();
     const friendlyPercentage = createFriendlyPercentage();
@@ -42,10 +33,6 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
       dependenciesCount: 10000,
       percentBy: null,
       handler: (percentage, message) => {
-        if (isQuiet) {
-          return;
-        }
-
         // eslint-disable-next-line no-param-reassign
         percentage = friendlyPercentage(percentage);
         const done = percentage === 1;

@@ -5,8 +5,6 @@ type ProgressBar =
   | boolean
   | {
       id?: string;
-      quiet?: boolean;
-      quietOnDev?: boolean;
     };
 ```
 
