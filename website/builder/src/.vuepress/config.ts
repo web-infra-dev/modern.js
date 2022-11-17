@@ -60,7 +60,10 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       {
         collapsable: false,
         title: getText('进阶', 'Advanced'),
-        children: [getLink('/guide/advanced/build-performance')],
+        children: [
+          getLink('/guide/advanced/build-performance'),
+          getLink('/guide/advanced/inline-assets'),
+        ],
       },
       {
         collapsable: false,

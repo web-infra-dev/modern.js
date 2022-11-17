@@ -8,7 +8,7 @@ features:
   - title: Out of the box
     details: Based on the practical experience of ByteDance, provide useful features for web development by default.
   - title: Deep optimization
-    details: Built-in multiple split chunk strategies, automatically optimize static resources, ensure performance of production app.
+    details: Built-in multiple split chunk strategies, automatically optimize static assets, ensure performance of production app.
   - title: Extensible
     details: Provides rich configuration items and a flexible plugin system to support in-depth customization of all features.
 ---
