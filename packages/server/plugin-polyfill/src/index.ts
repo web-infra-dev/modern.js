@@ -3,7 +3,7 @@ import { NextFunction, ModernServerContext } from '@modern-js/types';
 import { getPolyfillString } from '@modern-js/polyfill-lib';
 import { mime } from '@modern-js/utils';
 import Parser from 'ua-parser-js';
-import { defaultFeatures, defaultPolyfill } from './const';
+import { getDefaultFeatures, defaultPolyfill } from './const';
 import PolyfillCache, { generateCacheKey } from './libs/cache';
 
 export default (): ServerPlugin => ({
@@ -13,7 +13,7 @@ export default (): ServerPlugin => ({
     beforeProdServer() {
       const cache = new PolyfillCache();
       const route = defaultPolyfill;
-      const features = defaultFeatures;
+      const features = getDefaultFeatures();
       const minify = process.env.NODE_ENV === 'production';
 
       const featureDig = Object.keys(features)
