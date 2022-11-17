@@ -6,9 +6,7 @@ import { createSnapshotSerializer } from '@scripts/vitest-config';
 
 expect.addSnapshotSerializer(
   createSnapshotSerializer({
-    replace: [
-      { mark: 'root', match: path.resolve(__dirname, '..') },
-    ],
+    replace: [{ mark: 'root', match: path.resolve(__dirname, '..') }],
   }),
 );
 
@@ -32,6 +30,18 @@ describe('plugins/swc', () => {
     const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
 
+    process.env.NODE_ENV = 'test';
+  });
+
+  it('should disable swc minify', async () => {
+    process.env.NODE_ENV = 'production';
+    const builder = await createStubBuilder({
+      plugins: [PluginSwc({
+        minify: false
+      })]
+    })
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
     process.env.NODE_ENV = 'test';
   });
 });

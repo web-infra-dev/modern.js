@@ -1,5 +1,11 @@
 import _ from '@modern-js/utils/lodash';
-import { TransformConfig } from '@modern-js/swc-plugins';
+import {
+  EnvConfig,
+  Extensions,
+  JsMinifyOptions,
+  ReactConfig,
+  TransformConfig,
+} from '@modern-js/swc-plugins';
 
 export type { TransformConfig } from '@modern-js/swc-plugins';
 
@@ -8,6 +14,18 @@ export type PartialRecursive<O> = O extends Record<any, any>
     ? O
     : { [k in keyof O]?: PartialRecursive<O[k]> }
   : O;
+
+export interface PluginConfig {
+  presetReact?: ReactConfig;
+  presetEnv?: EnvConfig;
+
+  minify?: boolean | JsMinifyOptions;
+
+  extensions?: Extensions;
+
+  includes?: (RegExp | string)[];
+  excludes?: (RegExp | string)[];
+}
 
 /// default swc configuration
 function getDefaultSwcConfig(): TransformConfig {
@@ -19,6 +37,7 @@ function getDefaultSwcConfig(): TransformConfig {
       parser: {
         tsx: true,
         syntax: 'typescript',
+        decorators: true,
       },
       transform: {
         react: {
@@ -32,7 +51,6 @@ function getDefaultSwcConfig(): TransformConfig {
       targets: '',
       mode: 'usage',
     },
-    test: '',
     exclude: [],
     inlineSourcesContent: true,
     extensions: {},

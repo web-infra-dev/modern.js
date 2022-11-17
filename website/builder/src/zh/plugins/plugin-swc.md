@@ -1,6 +1,6 @@
 # SWC 插件
 
-[SWC](https://swc.rs/) (Speedy Web Compiler) 是基于 `Rust` 语言编写的高性能 `Javascript` 和 `Typescript` 转译和压缩工具。在 `polyfill` 和语法降级方面可以和 `Babel` 提供一致的能力，并且比 `Babel` 性能高出 10 倍不止。
+[SWC](https://swc.rs/) (Speedy Web Compiler) 是基于 `Rust` 语言编写的高性能 `JavaScript` 和 `TypeScript` 转译和压缩工具。在 `polyfill` 和语法降级方面可以和 `Babel` 提供一致的能力，并且比 `Babel` 性能高出 10 倍不止。
 
 `Modern.js builder` 提供了开箱即用的 `SWC` 插件，可以为你的 Web 应用提供语法降级，polyfill 以及压缩，并且移植了一些额外常见的 `Babel` 插件。
 
@@ -8,7 +8,7 @@
 
 ### 安装
 
-在项目中安装该插件
+在项目中安装该插件:
 
 ```bash
 # npm
@@ -21,7 +21,7 @@ pnpm install @modern-js/builder-plugin-swc -D
 
 ### 注册插件
 
-在 builder 中注册插件
+在 builder 中注册插件:
 
 ```js
 import { PluginSwc } from '@modern-js/builder-plugin-swc';
@@ -31,70 +31,74 @@ builder.addPlugins([PluginSwc()]);
 
 That's it !
 
-现在你可以在项目中无缝使用 swc 的转译和压缩能力了。
+现在你可以在项目中无缝使用 `SWC` 的转译和压缩能力了。
 
 ## 配置
 
 ### `tools.swc`
 
-- 类型: 继承自 [swc 配置](https://swc.rs/docs/configuration/compilation)，额外增加了 `extensions` 字段用于开启 native 插件能力。
-
-可以覆盖自定义 `swc` 的配置。
-默认的配置为
+- 类型: `PluginConfig`
 
 ```typescript
-{
-  cwd: process.cwd(),
-  jsc: {
-    target: 'es5', // 插件会自动设置 env.targets，这里的 es5 实际上会被忽略掉
-    externalHelpers: true,
-    parser: {
-      tsx: true,
-      syntax: 'typescript',
-    },
-    transform: {
-      react: {
-        runtime: 'automatic',
-      },
-    },
-    minify: {
-      compress: {},
-      mangle: true
-    }
-  },
-  sourceMaps: true, // 由 Plugin 自行根据项目配置决定，不需要手动更改
-  env: {
-    targets: '',
-    mode: 'usage',
-  },
-  test: '',
-  exclude: [],
-  inlineSourcesContent: true,
+export interface PluginConfig {
+  presetReact?: ReactConfig;
+  presetEnv?: EnvConfig;
+
+  minify?: boolean | JsMinifyOptions;
+
+  extensions?: Extensions;
+
+  includes?: (RegExp | string)[];
+  excludes?: (RegExp | string)[];
 }
 ```
 
-`env.targets` 会由插件自动读取你项目中的 `browserslist` 配置，不需要手动指定。
+### `presetReact`
 
-`module` 建议不要手动配置，我们目前会自动判断传入模块的类型是 `esm` 还是 `cjs` 格式。如果你手动指定了 `module` 则不会自动推断。
-如果你设置了 `esm` 那么 `swc` 会自动将所有模块都转换成 `esm` 格式，一些 `cjs` 格式三方包转换后的结果可能会出错。反之如果你设置 `cjs`，那么你项目中的 `esm` 源码也会被转换成 `cjs`，这样的后果是会失去 `Bundler` 的 `treeshake` 优化。
+- 类型: `SWC` 中的 [`presetReact`](https://swc.rs/docs/configuration/compilation#jsctransformreact)。
 
-`SWC` 的压缩配置和 `terser` 保持一致，你可以在 `jsc.minify` 中配置压缩配置。你不需要手动指定 `minify: true` 来启用压缩，实际上我们会将 `jsc.minify` 直接传递给 `Rust binding` 层进行压缩的调用，所以不需要在配置中手动打开启用压缩。
+对标 `@babel/preset-react`。传入的值会与默认配置进行合并。
+默认配置为:
 
-#### `jsc.minify.compress`
+```typescript
+{
+  runtime: 'automatic',
+}
+```
 
-- 类型: [terser 中的 compress 配置](https://terser.org/docs/api-reference.html#compress-options)
-- 默认值: {}
+### `presetEnv`
 
-#### `jsc.minify.mangle`
+- 类型: `SWC` 中的 [`presetEnv`](https://swc.rs/docs/configuration/supported-browsers#options)。
 
-- 类型: [terser 中的 mangle 配置](https://terser.org/docs/api-reference.html#mangle-options)
-- 默认值: true
+对标 `@babel/preset-env`。传入的值会与默认配置进行合并。
+默认配置为:
+
+```typescript
+{
+  targets: '', // 自动从项目中获取 browserslist
+  mode: 'usage',
+}
+```
+
+### `includes` 以及 `excludes`
+
+- 类型: `Array<string | RegExp>`
+
+可以指定需要或不需要 `SWC` 转译的文件。
+
+### `minify`
+
+- 类型: `boolean` 或者 [terser 中的 compress 配置](https://terser.org/docs/api-reference.html#compress-options)。
+
+默认配置为: `{ compress: {}, mangle: true }`。
+
+如果配置 `false` 将不会使用 `SWC` 的压缩能力，配置 `true` 会启用默认压缩配置，如果配置是对象，则会与默认配置进行合并。
 
 ### `extensions`
 
 - 类型: `Object`
 
-从 `Babel` 移植过来的一些插件能力
+从 `Babel` 移植过来的一些插件能力。
 
 #### `extensions.pluginImport`
 
@@ -106,15 +110,15 @@ Array<{
   replaceJs?: {
     ignoreEsComponent?: string[];
     replaceTpl?: string;
-    replaceExpr?: (member: string) => (string | false);
+    replaceExpr?: (member: string) => string | false;
     transformToDefaultImport?: boolean;
   };
   replaceCss?: {
     ignoreStyleComponent?: string[];
     replaceTpl?: string;
-    replaceExpr?: (member: string) => (string | false);
+    replaceExpr?: (member: string) => string | false;
   };
-}>
+}>;
 ```
 
 移植自 `@babel/plugin-import`。
@@ -123,36 +127,36 @@ Array<{
 
 - 类型: `string`
 
-需要转换的包名，`import {a} from 'foo'` 中的 `foo`
+需要转换的包名，`import {a} from 'foo'` 中的 `foo`。
 
 `replaceJs.ignoreEsComponent`
 
 - 类型: `string[]`
 - 默认值: `[]`
 
-需要忽略掉的引入
+需要忽略掉的引入。
 
 `replaceJs.replaceTpl`
 
 - 类型: `string`
 - 默认值: `undefineed`
 
-用于替换的规则模版，例如对于
+用于替换的规则模版，例如对于:
 
 ```javascript
-import { MyButton as Btn } from 'foo'
+import { MyButton as Btn } from 'foo';
 ```
 
-配置 `replaceJs.replaceTpl = "foo/es/{{member}}"` 会将上面的导入语句替换成
+配置 `replaceJs.replaceTpl = "foo/es/{{member}}"` 会将上面的导入语句替换成:
 
 ```javascript
-import Btn from 'foo/es/MyButton'
+import Btn from 'foo/es/MyButton';
 ```
 
-模版语句中还内置了一些辅助工具，还是以上面的导入语句为例，配置成 `"foo/es/{{ kebabCase member }}"`，会转换成下面的结果
+模版语句中还内置了一些辅助工具，还是以上面的导入语句为例，配置成 `"foo/es/{{ kebabCase member }}"`，会转换成下面的结果:
 
 ```javascript
-import Btn from 'foo/es/my-button'
+import Btn from 'foo/es/my-button';
 ```
 
 除了 `kebabCase` 以外还有 `camelCase`，`snakeCase`，`upperCase`，`lowerCase` 可以使用。
@@ -177,20 +181,19 @@ import Btn from 'foo/es/my-button'
 
 - 类型: `Object`
 
-一些用于 `React` 的工具，包括以下配置项
+一些用于 `React` 的工具，包括以下配置项:
 
 `reactUtils.autoImportReact`
 
 - 类型: `boolean`
 
-自动引入 `React`, `import React from 'react'`
-用于 `jsx` 转换使用 `React.createElement`
+自动引入 `React`, `import React from 'react'`，用于 `jsx` 转换使用 `React.createElement`。
 
 `reactUtils.rmEffect`
 
 - 类型: `boolean`
 
-移除 `useEffect` 调用
+移除 `useEffect` 调用。
 
 `reactUtils.rmPropTypes`
 
@@ -207,17 +210,15 @@ import Btn from 'foo/es/my-button'
 ```
 
 移除 `React` 组件在运行时的类型判断。移植自 [@babel/plugin-react-transform-remove-prop-types](https://github.com/oliviertassinari/babel-plugin-transform-react-remove-prop-types)。
-相应配置和 `@babel/plugin-react-transform-remove-prop-types` 插件保持一致
+相应配置和 `@babel/plugin-react-transform-remove-prop-types` 插件保持一致。
 
 #### `extensions.lodash`
 
-- 类型: `{  cwd?: string, ids?: string,}`
+- 类型: `{ cwd?: string, ids?: string,}`
 - 默认值: `{ cwd: process.cwd(), ids: [] }`
 
 移植自 [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash)。
 
 ## 限制
 
-不支持 `@babel/plugin-transform-runtime`。
-
-对于 `TS` 文件，和 `esbuild` 一样只进行类型擦除，无类型检查。
+不支持 `@babel/plugin-transform-runtime` 以及其他自定义的 `Babel` 插件。

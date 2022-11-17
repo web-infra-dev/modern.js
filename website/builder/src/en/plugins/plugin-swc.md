@@ -1,6 +1,6 @@
 # SWC plugin
 
-[SWC](https://swc.rs/) (Speedy Web Compiler) is a transformer and minizer for `Javascript` and `Typescript` based on `Rust`. `SWC` can provide the same abilities with `Babel`, and it's more than 10x faster than `Babel`.
+[SWC](https://SWC.rs/) (Speedy Web Compiler) is a transformer and minizer for `JavaScript` and `TypeScript` based on `Rust`. `SWC` can provide the same abilities with `Babel`, and it's more than 10x faster than `Babel`.
 
 `Modern.js builder` has a out-of-box plugin for `SWC`, power your Web application with polyfill and minification, we also port some common used `Babel` plugins to `SWC`.
 
@@ -31,69 +31,74 @@ builder.addPlugins([PluginSwc()]);
 
 That's it !
 
-Now you can use `swc` transformation and minification seeminglessly.
+Now you can use `SWC` transformation and minification seeminglessly.
 
 ## Config
 
 ### `tools.swc`
 
-- type: [swc option](https://swc.rs/docs/configuration/compilation)
-
-You can override default option that plugin provides.
-The default option is:
+- Type: `PluginConfig`
 
 ```typescript
-{
-  cwd: process.cwd(),
-  jsc: {
-    target: 'es5', // The plugin will set env.targets, so swc will actually ignore this.
-    externalHelpers: true,
-    parser: {
-      tsx: true,
-      syntax: 'typescript',
-    },
-    transform: {
-      react: {
-        runtime: 'automatic',
-      },
-    },
-    minify: {
-      compress: {},
-      mangle: true
-    }
-  },
-  sourceMaps: true, // You don't need to specify this manually as plugin will set this by builder's config.
-  env: {
-    targets: '',
-    mode: 'usage',
-  },
-  test: '',
-  exclude: [],
-  inlineSourcesContent: true,
+export interface PluginConfig {
+  presetReact?: ReactConfig;
+  presetEnv?: EnvConfig;
+
+  minify?: boolean | JsMinifyOptions;
+
+  extensions?: Extensions;
+
+  includes?: (RegExp | string)[];
+  excludes?: (RegExp | string)[];
 }
 ```
 
-`env.targets` option is no need to specify manually, as plugin will read appropraite `browserslist` in your project.
+### `presetReact`
 
-We recommended to not set `module` yourself, because if you leave this option undefined, we actually can automatic detect correct module type for each file, howevery if you set it yourself, we will use your option for sure, but here comes trouble, if you set it to `esm`, every `cjs` module will be transformed to `esm`, and that may cause some errors. And if you set it to `cjs`, then all code is `cjs`, so you will miss `treeshake` optimization that `Bundler` can provide for you.
+- Type: [`presetReact` in `SWC`](https://swc.rs/docs/configuration/compilation#jsctransformreact).
 
-`SWC` minification options is the same with `terser`, you can set manually set minify options in `jsc.minify`. Note that you don't need to set `minify: true` to enable minification, we do minification in chunk optimize phase, and will just pass `jsc.minify` as minify option to invoke minify API exposed by `Rust` binding, so `minify: false or true` is ignored and unnecessary.
+Ported from `@babel/preset-react`. The value you passed will be merged with default option.
+Default option is:
 
-#### `jsc.minify.compress`
+```typescript
+{
+  runtime: 'automatic',
+}
+```
 
-- type: [terser compress option](https://terser.org/docs/api-reference.html#compress-options)
-- default: {}
+### `presetEnv`
 
-#### `jsc.minify.mangle`
+- Type: [`presetEnv` in `SWC`](https://swc.rs/docs/configuration/supported-browsers#options).
 
-- type: [terser mangle option](https://terser.org/docs/api-reference.html#mangle-options)
-- default: true
+Ported from `@babel/preset-env`. The value you passed will be merged with default option.
+Default option is:
+
+```typescript
+{
+  targets: '', // automatic get browserslist from your project, so you don't have to set this field
+  mode: 'usage',
+}
+```
+
+### `includes` and `excludes`
+
+- Type: `Array<string | RegExp>`
+
+You can specify which file needs to be transpiled, and which doesn't
+
+### `minify`
+
+- Type: `boolean` or [compress configuration](https://terser.org/docs/api-reference.html#compress-options).
+
+Default option is: `{ compress: {}, mangle: true }`.
+
+If set it to `false`, then `SWC` minification will be disabled, if set it to `true` then will it applies default option. If you pass an object, then this object will be merged with default option.
 
 ### `extensions`
 
-- type: `Object`
+- Type: `Object`
 
-Some plugins ported from `Babel`
+Some plugins ported from `Babel`.
 
 #### `extensions.pluginImport`
 
@@ -105,60 +110,60 @@ Array<{
   replaceJs?: {
     ignoreEsComponent?: string[];
     replaceTpl?: string;
-    replaceExpr?: (member: string) => (string | false);
+    replaceExpr?: (member: string) => string | false;
     transformToDefaultImport?: boolean;
   };
   replaceCss?: {
     ignoreStyleComponent?: string[];
     replaceTpl?: string;
-    replaceExpr?: (member: string) => (string | false);
+    replaceExpr?: (member: string) => string | false;
   };
-}>
+}>;
 ```
 
 Ported from `@babel/plugin-import`.
 
 `fromSource`
 
-- type: `string`
+- Type: `string`
 
-The package that need to be transformed，eg. in `import {a} from 'foo'`: `foo`
+The package that need to be transformed，eg. in `import {a} from 'foo'`, `fromSource` should be `foo`.
 
 `replaceJs.ignoreEsComponent`
 
-- type: `string[]`
+- Type: `string[]`
 - default: `[]`
 
 The import specifiers which don't need to be transformed.
 
 `replaceJs.replaceTpl`
 
-- type: `string`
+- Type: `string`
 - default: `undefineed`
 
 Template that represents repacement, for example:
 
 ```javascript
-import { MyButton as Btn } from 'foo'
+import { MyButton as Btn } from 'foo';
 ```
 
-If we set `replaceJs.replaceTpl = "foo/es/{{member}}"`, then the code above will be replaced to code below
+If we set `replaceJs.replaceTpl = "foo/es/{{member}}"`, then the code above will be replaced to code below:
 
 ```javascript
-import Btn from 'foo/es/MyButton'
+import Btn from 'foo/es/MyButton';
 ```
 
-We also put some naming conversion functions, take the above example again, if we set it to `"foo/es/{{ kebabCase member }}"`, it will be transformed to code below.
+We also put some naming conversion functions, take the above example again, if we set it to `"foo/es/{{ kebabCase member }}"`, it will be transformed to code below:
 
 ```javascript
-import Btn from 'foo/es/my-button'
+import Btn from 'foo/es/my-button';
 ```
 
 Besides `kebabCase`, there are also `camelCase`, `snakeCase`, `upperCase`, `lowerCase`
 
 `replaceJs.replaceExpr`
 
-- type: `(member: string) => string`
+- Type: `(member: string) => string`
 - default: `undefineed`
 
 This is also used to replace import specifiers. The argument is the specifier that imported. eg. `a` in `import { a as b } from 'foo'`.
@@ -167,33 +172,33 @@ We recommend `replaceTpl` instead, because call `js` function through `node-api`
 
 `transformToDefaultImport`
 
-- type: `boolean`
+- Type: `boolean`
 - default: `true`
 
 Whether transform specifier to default specifier.
 
 #### `extensions.reactUtils`
 
-- type: `Object`
+- Type: `Object`
 
 Some little help utils for `React`.
 
 `reactUtils.autoImportReact`
 
-- type: `boolean`
+- Type: `boolean`
 
 Automatically import `React` as global variable, eg: `import React from 'react'`.
 Mostly used for generated `React.createElement`.
 
 `reactUtils.rmEffect`
 
-- type: `boolean`
+- Type: `boolean`
 
 Remove `useEffect` call.
 
 `reactUtils.rmPropTypes`
 
-- type:
+- Type:
 
 ```typescript
 {
@@ -209,13 +214,11 @@ Remove `React` runtime type checking. This is ported from [@babel/plugin-react-t
 
 #### `extensions.lodash`
 
-- type: `{  cwd?: string, ids?: string,}`
+- Type: `{ cwd?: string, ids?: string,}`
 - default: `{ cwd: process.cwd(), ids: [] }`
 
 Ported from [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash).
 
 ## Limitation
 
-Do not support `@babel/plugin-transform-runtime`.
-
-For `.ts` file, no type checking like `esbuild`.
+Do not support `@babel/plugin-transform-runtime` and other custom `Babel` plugins.
