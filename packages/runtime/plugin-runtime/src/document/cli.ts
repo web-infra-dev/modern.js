@@ -129,7 +129,7 @@ export default (): CliPlugin => ({
           { value: documentParams },
           React.createElement(Document, null),
         );
-        const html = ReactDomServer.renderToString(HTMLElement);
+        const html = ReactDomServer.renderToStaticMarkup(HTMLElement);
 
         debug("entry %s's document jsx rendered html: %o", entryName, html);
 
