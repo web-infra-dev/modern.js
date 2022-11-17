@@ -112,7 +112,7 @@ export const generatorDts = async (
 
 export const buildLib = async (
   config: BaseBuildConfig,
-  api: PluginAPI,
+  api: PluginAPI<ModuleToolsHooks>,
   options: {
     styleConfig: Style;
     watch: boolean;
@@ -203,7 +203,11 @@ export const buildLib = async (
 
   try {
     const { Libuilder } = await import('@modern-js/libuild');
-    const builder = await Libuilder.create(buildConfig);
+
+    const runner = api.useHookRunners();
+    const modifiedBuildConfig = await runner.modifyLibuild(buildConfig);
+
+    const builder = await Libuilder.create(modifiedBuildConfig);
     await builder.build();
 
     if (watch) {
