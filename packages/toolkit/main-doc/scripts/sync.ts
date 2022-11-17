@@ -30,6 +30,8 @@ const summary = (lng: string) => {
   });
 };
 
+// Todo 删除 builder 过时的文档（已经被 builder 删除的）
+
 gen({
   zh: summary('zh'),
   en: summary('en'),

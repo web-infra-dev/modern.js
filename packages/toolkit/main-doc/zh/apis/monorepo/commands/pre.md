@@ -11,7 +11,7 @@ Options:
   -h, --help  display help for command
 ```
 
-import CommandTip from '@site/docs/components/command-tip.md'
+import CommandTip from '@site-docs/components/command-tip.md'
 
 <CommandTip />
 

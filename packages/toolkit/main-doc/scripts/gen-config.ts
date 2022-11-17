@@ -45,7 +45,15 @@ export const gen = (
 ) => {
   Object.keys(jsonMap).forEach(key => {
     const cwd = process.cwd();
-    const baseDir = path.join(cwd, key, configPath);
+    const baseDir =
+      key === 'zh'
+        ? path.join(cwd, key, configPath)
+        : path.join(
+            cwd,
+            key,
+            'docusaurus-plugin-content-docs/current',
+            configPath,
+          );
 
     const json = jsonMap[key as 'zh' | 'en'];
     json.forEach(summary => {
