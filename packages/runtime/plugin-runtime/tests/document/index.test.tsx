@@ -26,7 +26,7 @@ describe('plugin-document', () => {
     );
     const docHtml = ReactDomServer.renderToString(document);
     expect(docHtml).toEqual(
-      `<html><head>%3C%25%3D%20meta%20%25%3E<!-- -->%3C!--%20chunk%20scripts%20placeholder%20--%3E</head><body><noscript>%3C!--%20no-script%20--%3E</noscript><div id="root"></div></body></html>`,
+      `<html><head>%3C%25%3D%20meta%20%25%3E<!-- -->%3C!--%20chunk%20scripts%20placeholder%20--%3E</head><body><noscript>%3C!--%20no-script%20--%3E</noscript>%3C!--%3C%3F-%20chunksMap.js%20%3F%3E--%3E<!-- -->%3C!--%3C%3F-%20SSRDataScript%20%3F%3E--%3E</body></html>`,
     );
   });
 
@@ -38,7 +38,9 @@ describe('plugin-document', () => {
       </Html>
     );
     const docHtml = ReactDomServer.renderToString(document);
-    expect(docHtml.includes('Miss the Body Element')).toBeTruthy();
+    expect(docHtml.includes('Miss the ')).toBeTruthy();
+    expect(docHtml.includes('Body')).toBeTruthy();
+    expect(docHtml.includes(' Element')).toBeTruthy();
   });
 
   it('should give the correct child', () => {
@@ -66,8 +68,7 @@ describe('plugin-document', () => {
       </DocumentContext.Provider>
     );
     const docHtml = ReactDomServer.renderToString(document);
-    expect(
-      docHtml.includes(`<h1>title: </h1><div id="abc"></div>`),
-    ).toBeTruthy();
+
+    expect(docHtml.includes(`<h1>title: </h1><div id="abc">`)).toBeTruthy();
   });
 });
