@@ -17,24 +17,51 @@ function existsSync(filePath) {
 }
 
 describe('test dev', () => {
-  it(`should render page correctly`, async () => {
-    const appPort = await getPort();
-    const app = await launchApp(appDir, appPort, {}, {});
-    const errors = [];
+  let app, appPort, errors;
+  beforeAll(async () => {
+    appPort = await getPort();
+    app = await launchApp(appDir, appPort, {}, {});
+    errors = [];
 
     page.on('pageerror', error => {
       errors.push(error.message);
     });
-    await page.goto(`http://localhost:${appPort}`, {
+  });
+  afterAll(async () => {
+    await killApp(app);
+  });
+
+  it(`should render page test correctly`, async () => {
+    await page.goto(`http://localhost:${appPort}/test`, {
       waitUntil: ['networkidle0'],
     });
 
-    const root = await page.$('.description');
+    const root = await page.$('#root');
     const targetText = await page.evaluate(el => el.textContent, root);
-    expect(targetText.trim()).toEqual('Get started by editing src/App.tsx');
+    expect(targetText.trim()).toEqual('A');
     expect(errors.length).toEqual(0);
+  });
 
-    await killApp(app);
+  it(`should render page sub correctly`, async () => {
+    await page.goto(`http://localhost:${appPort}/sub`, {
+      waitUntil: ['networkidle0'],
+    });
+
+    const root = await page.$('#root');
+    const targetText = await page.evaluate(el => el.textContent, root);
+    expect(targetText.trim()).toEqual('去 A去 B');
+    expect(errors.length).toEqual(0);
+  });
+
+  it(`should render page sub route a correctly`, async () => {
+    await page.goto(`http://localhost:${appPort}/sub/a`, {
+      waitUntil: ['networkidle0'],
+    });
+
+    const root = await page.$('#root');
+    const targetText = await page.evaluate(el => el.textContent, root);
+    expect(targetText.trim()).toEqual('去 A去 B');
+    expect(errors.length).toEqual(0);
   });
 });
 
@@ -59,16 +86,21 @@ describe('test build', () => {
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('asset-manifest.json')).toBe(true);
     expect(existsSync('route.json')).toBe(true);
-    expect(existsSync('html/main/index.html')).toBe(true);
+    expect(existsSync('html/test/index.html')).toBe(true);
+    expect(existsSync('html/sub/index.html')).toBe(true);
   });
-
-  it('should support enableInlineScripts', async () => {
-    const host = `http://localhost`;
-    expect(buildRes.code === 0).toBe(true);
-    await page.goto(`${host}:${port}`);
-
-    const description = await page.$('.description');
-    const targetText = await page.evaluate(el => el.textContent, description);
-    expect(targetText.trim()).toEqual('Get started by editing src/App.tsx');
+  it('should have the test html and the correct content', async () => {
+    const htmlNoDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/test/index.html'),
+      'utf-8',
+    );
+    expect(htmlNoDoc.includes('<div id="root"><!--<?- html ?>--></div>'));
+  });
+  it('should have the sub html and the correct content', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+    expect(htmlWithDoc.includes('<div id="root"><!--<?- html ?>--><h1'));
   });
 });

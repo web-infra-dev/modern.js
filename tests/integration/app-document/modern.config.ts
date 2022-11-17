@@ -11,7 +11,7 @@ export default defineConfig({
   },
   source: {
     entries: {
-      sub: './src/sub/App2.tsx',
+      sub: './src/sub/App.tsx',
       test: './src/test/App.tsx',
     },
   },
