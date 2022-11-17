@@ -47,9 +47,9 @@ export default {
 
 > For more detailed usage, please refer to the [eslint-webpack-plugin](https://github.com/webpack-contrib/eslint-webpack-plugin) documentation.
 
-## How to configure CDN path for static resources?
+## How to configure CDN path for static assets?
 
-If you need to upload static resources such as JS and CSS to CDN for use, you can set the URL prefix of static resources through the [output.assetPrefix](docs/apis/app/config/output/asset-prefix) configuration.
+If you need to upload static assets such as JS and CSS to CDN for use, you can set the URL prefix of static assets through the [output.assetPrefix](docs/apis/app/config/output/asset-prefix) configuration.
 
 ```js
 export default {

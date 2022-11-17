@@ -1,6 +1,6 @@
 import { Import, fs } from '@modern-js/utils';
 import ChangesetPlugin from '@modern-js/plugin-changeset';
-import LintPlugin from '@modern-js/plugin-jarvis';
+import LintPlugin from '@modern-js/plugin-lint';
 import type { CliPlugin } from '@modern-js/core';
 import { hooks, ModuleHooks } from './hooks';
 

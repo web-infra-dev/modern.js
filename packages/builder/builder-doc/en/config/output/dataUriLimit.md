@@ -35,7 +35,7 @@ Detail:
 
 #### Example
 
-Set the threshold of images to `5000`, and set video resources not to be inlined:
+Set the threshold of images to 5000 Bytes, and set media resources not to be inlined:
 
 ```js
 export default {

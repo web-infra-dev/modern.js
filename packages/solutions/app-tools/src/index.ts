@@ -1,6 +1,6 @@
 import path from 'path';
 import { defineConfig, cli, CliPlugin } from '@modern-js/core';
-import LintPlugin from '@modern-js/plugin-jarvis';
+import LintPlugin from '@modern-js/plugin-lint';
 import { cleanRequireCache, emptyDir, Import } from '@modern-js/utils';
 import AnalyzePlugin from './analyze';
 import { hooks, AppHooks } from './hooks';

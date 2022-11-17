@@ -8,9 +8,17 @@ When Bundler processes the Web application, it builds a dependency graph and the
 
 ## Rspack
 
-A Rust Bundler, developed by the ByteDance Web Infra team.
+A Rust Bundler developed by the ByteDance Web Infra team. The core architecture of rspack is aligned with the implementation of webpack, and provides out-of-the-box support for commonly used build features. In the long run, rspack will align the main APIs of webpack and be compatible with the mainstream webpack loaders and plugins to ensure that developers can smoothly migrate from webpack to rspack.
 
-Rspack is still in development and will be open sourced in the future.
+Rspack optimizes compilation performance by:
+
+- Highly LTO optimized Native code.
+- Take full advantage of multi-core, and the entire compilation process is fully optimized for multi-threading.
+- On-demand compilation based on request (Lazy Compilation), reducing the number of modules per compilation to improve the speed of cold start.
+
+:::tip
+Rspack is still in development and has not been open sourced yet.
+:::
 
 ## Builder
 
@@ -35,8 +43,12 @@ Currently there are two Providers:
 
 ## Modern.js
 
-A modern web engineering system.
+Modern web engineering system.
 
 Modern.js is open sourced by the ByteDance Web Infra team, provides a series of best practices for modern web development, such as integrated development of frontend and backend, conventional routing, building solutions, style solutions, etc.
 
 [Modern.js Website](https://modernjs.dev/).
+
+## EdenX
+
+ByteDance's internal web engineering system, implemented based on Modern.js.

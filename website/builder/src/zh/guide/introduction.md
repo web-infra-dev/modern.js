@@ -16,6 +16,8 @@ Modern.js Builder 是**一个面向现代 Web 开发场景的构建引擎**。
 
 Modern.js Builder (简称 Builder) 的定位是**服务于上层框架的构建引擎**，它专注于解决 Web 应用构建面临的各类问题，期望能为前端框架提供开箱即用的构建能力。
 
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-1116.png" style="max-width: 80%; margin-left: 10%" />
+
 如果你正在开发一个前端框架，或是开发一个前端应用的脚手架，那么 Builder 可以为你完成前端框架中大部分与构建有关的逻辑，让你能够聚焦于实现框架的其他功能。
 
 如果你是一名业务开发者，大部分情况下，你不需要在业务项目中手动接入 Builder，我们推荐你直接使用一些基于 Builder 的上层框架。
@@ -64,16 +66,16 @@ Builder 也支持自定义插件，因此框架开发者可以开发自定义的
 
 Builder 已发布的 npm 包有：
 
-| 包名                                                                                                             | 版本                                                                                        | 描述                   |
-| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------- |
-| [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                           | ![](https://img.shields.io/npm/v/@modern-js/builder/next?style=flat-square)                      | Builder 核心包         |
-| [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)         | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider/next?style=flat-square)     | 提供 webpack 构建能力  |
-| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)           | TODO      | 提供 rspack 构建能力   |
-| [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                     | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc/next?style=flat-square)           | SWC 插件               |
-| [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)             | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild/next?style=flat-square)       | ESBuild 插件           |
-| [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill/next?style=flat-square) | Node Polyfill 插件     |
-| [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared)                             | ![](https://img.shields.io/npm/v/@modern-js/builder-shared/next?style=flat-square)               | Builder 内部的公共模块 |
-| [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc)                                   | ![](https://img.shields.io/npm/v/@modern-js/builder-doc/next?style=flat-square)                  | 提供可复用的文档片段   |
+| 包名                                                                                                             | 版本                                                                                             | 描述                   |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------------------- |
+| [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                           | ![](https://img.shields.io/npm/v/@modern-js/builder/beta?style=flat-square)                      | Builder 核心包         |
+| [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)         | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider/beta?style=flat-square)     | 提供 webpack 构建能力  |
+| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)           | Work In Progress                                                                                 | 提供 rspack 构建能力   |
+| [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                     | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc/beta?style=flat-square)           | SWC 插件               |
+| [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)             | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild/beta?style=flat-square)       | ESBuild 插件           |
+| [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill/beta?style=flat-square) | Node Polyfill 插件     |
+| [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared)                             | ![](https://img.shields.io/npm/v/@modern-js/builder-shared/beta?style=flat-square)               | Builder 内部的公共模块 |
+| [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc)                                   | ![](https://img.shields.io/npm/v/@modern-js/builder-doc/beta?style=flat-square)                  | 提供可复用的文档片段   |
 
 你可以在 modern.js 仓库的 [packages/builder](https://github.com/modern-js-dev/modern.js/tree/main/packages/builder/) 目录下查看这些包的源代码。
 
