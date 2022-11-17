@@ -1,5 +1,32 @@
 # @modern-js/webpack
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- edd1cfb1a: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+
+### Patch Changes
+
+- Updated dependencies [decfcd989]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/babel-preset-app@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

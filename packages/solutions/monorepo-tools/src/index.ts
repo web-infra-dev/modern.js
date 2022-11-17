@@ -1,6 +1,6 @@
 import type { CliPlugin } from '@modern-js/core';
 import ChangesetPlugin from '@modern-js/plugin-changeset';
-import LintPlugin from '@modern-js/plugin-jarvis';
+import LintPlugin from '@modern-js/plugin-lint';
 import { Import } from '@modern-js/utils';
 import { i18n } from './locale';
 import { newCli, deployCli, clearCli } from './cli';

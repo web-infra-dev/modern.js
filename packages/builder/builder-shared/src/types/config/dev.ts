@@ -2,8 +2,6 @@ import type { DevServerHttpsOptions } from '@modern-js/types';
 
 export type ProgressBarConfig = {
   id?: string;
-  quiet?: boolean;
-  quietOnDev?: boolean;
 };
 
 export interface SharedDevConfig {

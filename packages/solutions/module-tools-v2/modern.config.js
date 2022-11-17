@@ -8,7 +8,7 @@ module.exports = {
           skipDeps: false,
           externals: [
             /node_modules/,
-            '@modern-js/plugin-jarvis',
+            '@modern-js/plugin-lint',
             '@modern-js/plugin-changeset',
           ],
         },

@@ -17,7 +17,7 @@
 '@modern-js/plugin-changeset': major
 '@modern-js/plugin-data-loader': major
 '@modern-js/plugin-i18n': major
-'@modern-js/plugin-jarvis': major
+'@modern-js/plugin-lint': major
 '@modern-js/plugin-proxy': major
 '@modern-js/plugin-ssg': major
 '@modern-js/plugin-storybook': major

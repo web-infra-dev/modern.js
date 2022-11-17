@@ -12,7 +12,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.17.0",
+  "version": "2.0.0-beta.0",
   "bin": {
     "modern": "./bin/modern.js"
   },
@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@modern-js/plugin-changeset": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",

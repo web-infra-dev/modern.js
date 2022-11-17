@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.21.2",
+  "version": "2.0.0-beta.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -72,7 +72,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-data-loader": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",

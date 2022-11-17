@@ -1,5 +1,31 @@
 # @modern-js/plugin-server
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- Updated dependencies [9b915e0c1]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [a8642da]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/server-utils@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/babel-compiler@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

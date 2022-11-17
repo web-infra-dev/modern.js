@@ -42,8 +42,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*"
+    "@modern-js/app-tools": "workspace:*"
   },
   "modernConfig": {
     "runtime": {
