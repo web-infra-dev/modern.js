@@ -6,34 +6,31 @@ import {
   defaultHtmlConfig,
   defaultSourceConfig,
 } from '@modern-js/builder-shared';
-import type { BuilderConfig } from '../types';
+import type { BuilderConfig, SourceConfig } from '../types';
 
 const defineDefaultConfig = extendsType<BuilderConfig>();
 
+// TODO: update
 export const createDefaultConfig = () =>
   defineDefaultConfig({
     dev: defaultDevConfig,
     html: defaultHtmlConfig,
-    tools: {
-      cssExtract: {
-        loaderOptions: {},
-        pluginOptions: {},
-      },
-      tsChecker: true,
-    },
-    source: defaultSourceConfig,
+    /** alias type in shared is not match */
+    source: defaultSourceConfig as SourceConfig,
     output: defaultOutputConfig,
-    security: { sri: false },
-    experiments: {},
+    tools: {},
+    security: {
+      // sri: false
+    },
     performance: {
-      profile: false,
-      buildCache: true,
+      // profile: false,
+      // buildCache: true,
       printFileSize: true,
-      removeConsole: false,
-      removeMomentLocale: false,
-      chunkSplit: {
-        strategy: 'split-by-experience',
-      },
+      // removeConsole: false,
+      // removeMomentLocale: false,
+      // chunkSplit: {
+      //   strategy: 'split-by-experience',
+      // },
     },
   });
 
