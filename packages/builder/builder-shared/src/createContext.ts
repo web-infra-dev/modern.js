@@ -42,7 +42,6 @@ export function createContextByConfig(
 
   const distPath = getAbsoluteDistPath(cwd, outputConfig);
   const cachePath = join(rootPath, 'node_modules', '.cache');
-  const tsconfigPath = join(rootPath, 'tsconfig.json');
 
   const context: BuilderContext = {
     entry: options.entry,
@@ -56,10 +55,6 @@ export function createContextByConfig(
 
   if (configPath && existsSync(configPath)) {
     context.configPath = configPath;
-  }
-
-  if (existsSync(tsconfigPath)) {
-    context.tsconfigPath = tsconfigPath;
   }
 
   return context;
