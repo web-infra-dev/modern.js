@@ -1,6 +1,8 @@
 import type { Alias } from '@modern-js/utils';
 import type { ChainedConfig, JSONValue } from '../utils';
 
+export type ModuleScopes = Array<string | RegExp>;
+
 export interface SharedSourceConfig {
   /**
    * Create aliases to import or require certain modules,

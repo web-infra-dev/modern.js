@@ -2,9 +2,8 @@ import type {
   SharedSourceConfig,
   NormalizedSharedSourceConfig,
   ChainedConfig,
+  ModuleScopes,
 } from '@modern-js/builder-shared';
-
-export type ModuleScopes = Array<string | RegExp>;
 
 export interface SourceConfig extends SharedSourceConfig {
   /**
