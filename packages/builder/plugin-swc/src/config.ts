@@ -19,7 +19,7 @@ export interface PluginConfig {
   presetReact?: ReactConfig;
   presetEnv?: EnvConfig;
 
-  minify?: boolean | JsMinifyOptions;
+  jsMinify?: boolean | JsMinifyOptions;
 
   extensions?: Extensions;
 

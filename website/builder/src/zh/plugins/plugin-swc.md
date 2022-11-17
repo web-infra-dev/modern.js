@@ -35,7 +35,7 @@ That's it !
 
 ## 配置
 
-### `tools.swc`
+### `pluginSwc`
 
 - 类型: `PluginConfig`
 
@@ -44,7 +44,7 @@ export interface PluginConfig {
   presetReact?: ReactConfig;
   presetEnv?: EnvConfig;
 
-  minify?: boolean | JsMinifyOptions;
+  jsMinify?: boolean | JsMinifyOptions;
 
   extensions?: Extensions;
 
@@ -86,7 +86,7 @@ export interface PluginConfig {
 
 可以指定需要或不需要 `SWC` 转译的文件。
 
-### `minify`
+### `jsMinify`
 
 - 类型: `boolean` 或者 [terser 中的 compress 配置](https://terser.org/docs/api-reference.html#compress-options)。
 
@@ -181,6 +181,20 @@ import Btn from 'foo/es/my-button';
 
 - 类型: `Object`
 
+```typescript
+{
+  autoImportReact?: boolean,
+  removeEffect?: boolean,
+  removePropTypes?: {
+    mode?: "remove" | "unwrap" | "unsafe-wrap",
+    removeImport?: bool,
+    ignoreFilenames?: String[],
+    additionalLibraries?: String[],
+    classNameMatchers?: String[],
+  }
+}
+```
+
 一些用于 `React` 的工具，包括以下配置项:
 
 `reactUtils.autoImportReact`
@@ -189,13 +203,13 @@ import Btn from 'foo/es/my-button';
 
 自动引入 `React`, `import React from 'react'`，用于 `jsx` 转换使用 `React.createElement`。
 
-`reactUtils.rmEffect`
+`reactUtils.removeEffect`
 
 - 类型: `boolean`
 
 移除 `useEffect` 调用。
 
-`reactUtils.rmPropTypes`
+`reactUtils.removePropTypes`
 
 - 类型:
 

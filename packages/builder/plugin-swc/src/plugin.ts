@@ -109,7 +109,7 @@ export const PluginSwc = (pluginConfig: PluginConfig = {}) => ({
       if (
         isProd() &&
         !builderConfig.output.disableMinimize &&
-        pluginConfig.minify !== false
+        pluginConfig.jsMinify !== false
       ) {
         // Insert swc minify plugin
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -119,7 +119,7 @@ export const PluginSwc = (pluginConfig: PluginConfig = {}) => ({
           .end()
           .minimizer(CHAIN_ID.MINIMIZER.SWC)
           .use(SwcWebpackPlugin, [
-            pluginConfig.minify === true ? {} : pluginConfig.minify,
+            pluginConfig.jsMinify === true ? {} : pluginConfig.jsMinify,
           ]);
       }
     });

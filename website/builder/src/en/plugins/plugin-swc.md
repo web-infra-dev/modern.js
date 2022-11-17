@@ -35,7 +35,7 @@ Now you can use `SWC` transformation and minification seeminglessly.
 
 ## Config
 
-### `tools.swc`
+### `pluginSwc`
 
 - Type: `PluginConfig`
 
@@ -44,7 +44,7 @@ export interface PluginConfig {
   presetReact?: ReactConfig;
   presetEnv?: EnvConfig;
 
-  minify?: boolean | JsMinifyOptions;
+  jsMinify?: boolean | JsMinifyOptions;
 
   extensions?: Extensions;
 
@@ -86,7 +86,7 @@ Default option is:
 
 You can specify which file needs to be transpiled, and which doesn't
 
-### `minify`
+### `jsMinify`
 
 - Type: `boolean` or [compress configuration](https://terser.org/docs/api-reference.html#compress-options).
 
@@ -181,6 +181,20 @@ Whether transform specifier to default specifier.
 
 - Type: `Object`
 
+```typescript
+{
+  autoImportReact?: boolean,
+  removeEffect?: boolean,
+  removePropTypes?: {
+    mode?: "remove" | "unwrap" | "unsafe-wrap",
+    removeImport?: bool,
+    ignoreFilenames?: String[],
+    additionalLibraries?: String[],
+    classNameMatchers?: String[],
+  }
+}
+```
+
 Some little help utils for `React`.
 
 `reactUtils.autoImportReact`
@@ -190,13 +204,13 @@ Some little help utils for `React`.
 Automatically import `React` as global variable, eg: `import React from 'react'`.
 Mostly used for generated `React.createElement`.
 
-`reactUtils.rmEffect`
+`reactUtils.removeEffect`
 
 - Type: `boolean`
 
 Remove `useEffect` call.
 
-`reactUtils.rmPropTypes`
+`reactUtils.removePropTypes`
 
 - Type:
 
