@@ -16,6 +16,8 @@ The Rust process of the front-end toolchain will continue for a long time, **Mod
 
 Modern.js Builder is a build engine serving the upper-level front-end frameworks. It focuses on solving problems in web application building, and expects to provide out-of-box building abilities for front-end frameworks.
 
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-1116.png" style="max-width: 80%; margin-left: 10%" />
+
 If you are developing a front-end framework, or developing a scaffolding for a front-end application, Builder can provide most of the build logics for you, which allowing you to focus on implementing other features of the framework.
 
 If you are a business developer, in most cases, you do not need to manually install Builder in your projects. We recommend that you use the upper-level frameworks based on Builder.
@@ -64,14 +66,14 @@ Below is the npm package published by Builder.
 
 | Package                                                                                                          | Version                                                                                          | Description                       |
 | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------- |
-| [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                           | ![](https://img.shields.io/npm/v/@modern-js/builder/next?style=flat-square)                      | Core package of Builder           |
-| [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)         | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider/next?style=flat-square)     | Provides webpack build ability    |
-| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)           | TODO                                                                                             | Provides rspack build ability     |
-| [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                     | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc/next?style=flat-square)           | SWC Plugin                        |
-| [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)             | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild/next?style=flat-square)       | ESBuild Plugin                    |
-| [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill/next?style=flat-square) | Node Polyfill Plugin              |
-| [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared)                             | ![](https://img.shields.io/npm/v/@modern-js/builder-shared/next?style=flat-square)               | Shared modules of Builder         |
-| [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc)                                   | ![](https://img.shields.io/npm/v/@modern-js/builder-doc/next?style=flat-square)                  | Documentation snippets of Builder |
+| [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                           | ![](https://img.shields.io/npm/v/@modern-js/builder/beta?style=flat-square)                      | Core package of Builder           |
+| [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)         | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider/beta?style=flat-square)     | Provides webpack build ability    |
+| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)           | Work In Progress                                                                                 | Provides rspack build ability     |
+| [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                     | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc/beta?style=flat-square)           | SWC Plugin                        |
+| [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)             | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild/beta?style=flat-square)       | ESBuild Plugin                    |
+| [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill/beta?style=flat-square) | Node Polyfill Plugin              |
+| [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared)                             | ![](https://img.shields.io/npm/v/@modern-js/builder-shared/beta?style=flat-square)               | Shared modules of Builder         |
+| [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc)                                   | ![](https://img.shields.io/npm/v/@modern-js/builder-doc/beta?style=flat-square)                  | Documentation snippets of Builder |
 
 You can view the source code of these packages in the [packages/builder](https://github.com/modern-js-dev/modern.js/tree/main/packages/builder/) directory of the modern.js repository.
 

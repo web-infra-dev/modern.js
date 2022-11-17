@@ -20,7 +20,7 @@ You need to install two packages:
 - `@modern-js/builder-webpack-provider` is a provider for Builder, providing webpack-based building abilities.
 
 ```bash
-pnpm add @modern-js/builder @modern-js/builder-webpack-provider -D
+pnpm add @modern-js/builder@beta @modern-js/builder-webpack-provider@beta -D
 ```
 
 > When upgrading the version, please make sure that Builder and Provider you installed have the same version.

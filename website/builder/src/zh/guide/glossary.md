@@ -8,7 +8,17 @@
 
 ## Rspack
 
-字节跳动 Web Infra 团队自研的 Rust Bundler，目前仍在研发过程中，尚未开源。
+字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现，并对社区常用的构建能力做了开箱即用的支持。从长期来看，rspack 会对齐 webpack 的主要 API，兼容主流的 webpack loader 与 plugin 生态，以保证开发者可以平滑地从 webpack 迁移到 rspack。
+
+Rspack 通过以下方式来提升编译性能：
+
+- 高度 LTO 优化的 Native code。
+- 充分利用多核优势，整个编译过程充分进行多线程优化。
+- 基于请求的按需编译（Lazy Compilation），减小每次编译的模块数目，以提升冷启动的速度。
+
+:::tip
+Rspack 目前仍在研发过程中，尚未开源。
+:::
 
 ## Builder
 
@@ -33,8 +43,12 @@ Builder Provider 是 Builder 的组成部分之一，Provider 基于特定 bundl
 
 ## Modern.js
 
-一套现代 Web 工程方案。
+现代 Web 工程方案。
 
 Modern.js 由字节跳动 Web Infra 团队开源，提供了一系列现代 Web 开发的最佳工程实践，如前后端一体化、约定式路由、构建方案、样式方案等。
 
 [Modern.js 官网地址](https://modernjs.dev/)。
+
+## EdenX
+
+字节跳动内部的 Web 工程方案，基于 Modern.js 实现。
