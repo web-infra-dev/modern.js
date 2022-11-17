@@ -1,5 +1,5 @@
 import { Link } from '@modern-js/plugin-router-legacy';
-import './a.css';
+import './a.less';
 
 export default function A() {
   return (

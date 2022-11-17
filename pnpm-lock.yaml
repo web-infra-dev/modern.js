@@ -3851,37 +3851,12 @@ importers:
       '@types/react': ^18
       '@types/react-dom': ^18
       react: ^18
-      react-dom: 17.0.2
+      react-dom: ^18
       typescript: ^4
     dependencies:
       '@modern-js/runtime': link:../../../packages/runtime/plugin-runtime
       react: 18.2.0
-      react-dom: 17.0.2_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-router-legacy': link:../../../packages/runtime/plugin-router-legacy
-      '@modern-js/tsconfig': link:../../../packages/review/tsconfig
-      '@types/node': 14.18.21
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.7.4
-
-  tests/integration/app-ssr-document:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/plugin-router-legacy': workspace:*
-      '@modern-js/runtime': workspace:*
-      '@modern-js/tsconfig': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^18
-      react-dom: 17.0.2
-      typescript: ^4
-    dependencies:
-      '@modern-js/runtime': link:../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 17.0.2_react@18.2.0
+      react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@modern-js/plugin-router-legacy': link:../../../packages/runtime/plugin-router-legacy
@@ -32206,17 +32181,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react: 17.0.2
-      scheduler: 0.20.2
-    dev: false
-
-  /react-dom/17.0.2_react@18.2.0:
-    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
-    peerDependencies:
-      react: 17.0.2
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      react: 18.2.0
       scheduler: 0.20.2
     dev: false
 

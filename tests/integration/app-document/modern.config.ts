@@ -9,6 +9,17 @@ export default defineConfig({
     },
     state: true,
   },
+  source: {
+    entries: {
+      sub: './src/sub/App2.tsx',
+      test: './src/test/App.tsx',
+    },
+  },
+  server: {
+    ssrByEntries: {
+      test: true,
+    },
+  },
   output: {
     favicon: './static/a.icon',
   },
