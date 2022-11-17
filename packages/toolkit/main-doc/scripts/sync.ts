@@ -1,6 +1,6 @@
-import fs from 'fs';
 import path, { basename, dirname, extname } from 'path';
-import { gen } from './gen-config';
+import fs from 'fs-extra';
+import { diff, gen, Language } from './config';
 
 const walk = (dir: string) => {
   const fl: string[] = [];
@@ -22,17 +22,36 @@ const summary = (lng: string) => {
       `./node_modules/@modern-js/builder-doc/${lng}/config`,
     ),
   );
-  return fl.map(fpath => {
+  const json = fl.map(fpath => {
     return {
       name: basename(fpath).replace(extname(fpath), ''),
       dirname: basename(dirname(fpath)),
     };
   });
+
+  return json;
 };
 
-// Todo 删除 builder 过时的文档（已经被 builder 删除的）
+const zh = summary('zh');
+const en = summary('en');
+
+// 寻找已经过时的配置，并删除
+const outdated = diff({
+  zh,
+  en,
+});
+
+outdated.forEach(uri => {
+  if (fs.existsSync(uri)) {
+    fs.unlinkSync(uri);
+  }
+});
+
+// 生成新的配置
+fs.writeJSONSync(path.join(__dirname, 'summary.en.json'), en);
+fs.writeJSONSync(path.join(__dirname, 'summary.zh.json'), zh);
 
 gen({
-  zh: summary('zh'),
-  en: summary('en'),
+  zh,
+  en,
 });
