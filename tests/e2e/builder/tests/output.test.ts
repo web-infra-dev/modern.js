@@ -143,3 +143,33 @@ test('cleanDistPath disable', async () => {
 
   expect(fs.existsSync(distFilePath)).toBeTruthy();
 });
+
+test('externals', async ({ page }) => {
+  const buildOpts = {
+    cwd: join(fixtures, 'externals'),
+    entry: {
+      main: join(fixtures, 'externals/src/index.js'),
+    },
+  };
+
+  const builder = await build(buildOpts, {
+    output: {
+      externals: {
+        aaa: 'aa',
+      },
+    },
+    source: {
+      preEntry: './src/ex.js',
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  await expect(
+    page.evaluate(`document.getElementById('test').innerHTML`),
+  ).resolves.toBe('Hello Builder!');
+
+  await expect(
+    page.evaluate(`document.getElementById('test-external').innerHTML`),
+  ).resolves.toBe('1');
+});
