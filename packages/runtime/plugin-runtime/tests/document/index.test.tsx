@@ -11,7 +11,7 @@ import {
 } from '../../src/document';
 import cliPlugin from '../../src/document/cli';
 
-describe.only('plugin-document', () => {
+describe('plugin-document', () => {
   it('default', () => {
     expect(Html).toBeDefined();
     expect(cliPlugin).toBeDefined();

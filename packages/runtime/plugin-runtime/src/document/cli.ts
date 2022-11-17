@@ -13,6 +13,10 @@ import {
   DOCUMENT_NO_SCRIPTE_PLACEHOLDER,
   PLACEHOLDER_REPLACER_MAP,
   DOC_EXT,
+  DOCUMENT_SSR_PLACEHOLDER,
+  DOCUMENT_CHUNKSMAP_PLACEHOLDER,
+  DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
+  HTML_SEPARATOR,
 } from './constants';
 import { DocumentContext } from './DocumentContext';
 
@@ -67,6 +71,7 @@ export default (): CliPlugin => ({
         documentFilePath = getDocumenByEntryName(entrypoints, 'main');
       }
       // if no document file, do nothing as default
+      // todo: 删掉
       if (!documentFilePath) {
         return null;
       }
@@ -146,10 +151,19 @@ export default (): CliPlugin => ({
         // 替换 html 占位符（因为 string 转成 jsx 比较麻烦。所以，使用占位符 + 替换的方式）
         return `<!DOCTYPE html>${html}`
           .replace(DOCUMENT_META_PLACEHOLDER, metas)
+          .replace(DOCUMENT_SSR_PLACEHOLDER, HTML_SEPARATOR)
           .replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts)
           .replace(
             DOCUMENT_NO_SCRIPTE_PLACEHOLDER,
             PLACEHOLDER_REPLACER_MAP[DOCUMENT_NO_SCRIPTE_PLACEHOLDER],
+          )
+          .replace(
+            DOCUMENT_CHUNKSMAP_PLACEHOLDER,
+            PLACEHOLDER_REPLACER_MAP[DOCUMENT_CHUNKSMAP_PLACEHOLDER],
+          )
+          .replace(
+            DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
+            PLACEHOLDER_REPLACER_MAP[DOCUMENT_SSRDATASCRIPT_PLACEHOLDER],
           );
       };
     };
@@ -164,24 +178,28 @@ export default (): CliPlugin => ({
                 typeof options?.templateParameters === 'function'
                   ? options?.templateParameters(
                       {} as any,
-                      {
-                        publicPath: '',
-                        js: [],
-                        css: [],
-                      },
+                      {} as any,
                       {} as any,
                       {} as any,
                     )
                   : { ...options?.templateParameters };
 
+              const templateContent = documentEntry(
+                entry.entryName,
+                // options,
+                hackParameters,
+              );
+
+              const documentHtmlOptions = templateContent
+                ? {
+                    templateContent,
+                    inject: false,
+                  }
+                : {};
+
               return {
                 ...options,
-                templateContent: documentEntry(
-                  entry.entryName,
-                  // options,
-                  hackParameters,
-                ),
-                inject: false,
+                ...documentHtmlOptions,
               };
             },
           },
