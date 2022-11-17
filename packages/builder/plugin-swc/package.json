@@ -47,8 +47,6 @@
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
-    "@swc/cli": "^0.1.57",
-    "@swc/core": "^1.3.18",
     "magic-string": "^0.26.2",
     "source-map": "^0.7.4",
     "typescript": "^4",
