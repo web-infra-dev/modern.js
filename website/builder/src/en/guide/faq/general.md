@@ -20,4 +20,6 @@ At present, Turbopack only supports use in Next.js. When Turbopack can be used i
 
 ## Will Builder support Vite?
 
-[Vite](https://vitejs.dev/) is a great tool, but the goal of Builder is to replace webpack with Rust Bundler and keep the bundle behavior of development environment and production environment consistent, so Builder will not support Vite.
+[Vite](https://vitejs.dev/) is a great tool, but the goal of Builder is to replace webpack with Rust Bundler, Rust Builder can provide fast compilation speed, while maintaining the consistent behavior between development and production.
+
+Builder will focus on the evolution from webpack to Rust Builder, so it will not be support Vite.
