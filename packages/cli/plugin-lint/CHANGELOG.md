@@ -77,9 +77,9 @@
 
 ### Minor Changes
 
-- d2fbefc: feat: upgrade `@modern-js/plugin-lint` husky version to 8
+- d2fbefc: feat: upgrade `@modern-js/plugin-jarvis` husky version to 8
 
-  feat: 升级 `@modern-js/plugin-lint` husky 版本为 8
+  feat: 升级 `@modern-js/plugin-jarvis` husky 版本为 8
 
 ### Patch Changes
 
@@ -161,7 +161,7 @@
 
 ### Patch Changes
 
-- 1a57595: chore(plugin-lint): fix lint-staged type breaks other packages
+- 1a57595: chore(plugin-jarvis): fix lint-staged type breaks other packages
 - Updated dependencies [a90bc96]
   - @modern-js/utils@1.7.9
 
@@ -266,7 +266,7 @@
 ### Patch Changes
 
 - 10f47286: fix: typescript eslint rule due to @typescript-eslint/eslint-plugin's breaking change
-- 6bda867c: feat(plugin-lint): convert to new plugin
+- 6bda867c: feat(plugin-jarvis): convert to new plugin
 - 681a1ff9: feat: remove unnecessary peerDependencies
 - Updated dependencies [c2046f37]
 - Updated dependencies [10f47286]

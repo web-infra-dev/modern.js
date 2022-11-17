@@ -108,7 +108,7 @@
 
 ### Patch Changes
 
-- eeedc80: feat: add plugin-lint to dependencies of solutions
+- eeedc80: feat: add plugin-jarvis to dependencies of solutions
 - 341bb42: feat: bump codesmith package version
 
 ## 2.0.3
