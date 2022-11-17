@@ -29,7 +29,7 @@
     "vm2": "^3.9.2"
   },
   "devDependencies": {
-    "@modern-js/plugin-jarvis": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",

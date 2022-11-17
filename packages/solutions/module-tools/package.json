@@ -70,7 +70,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/style-compiler": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rollup/plugin-json": "~4.1.0",

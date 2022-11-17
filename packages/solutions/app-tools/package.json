@@ -72,7 +72,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-data-loader": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",

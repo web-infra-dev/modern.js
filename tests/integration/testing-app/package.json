@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
     "typescript": "^4",
     "@types/react": "^18",
     "@types/react-dom": "^18",

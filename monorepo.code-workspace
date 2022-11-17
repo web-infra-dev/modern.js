@@ -41,8 +41,8 @@
       "path": "packages/review/tsconfig"
     },
     {
-      "name": "@modern-js/plugin-jarvis",
-      "path": "packages/cli/plugin-jarvis"
+      "name": "@modern-js/plugin-lint",
+      "path": "packages/cli/plugin-lint"
     },
     {
       "name": "server/core",

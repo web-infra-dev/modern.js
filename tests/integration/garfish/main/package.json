@@ -39,7 +39,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
     "@modern-js/plugin-router-legacy": "workspace:*",
     "typescript": "^4",
     "@types/react": "^18",

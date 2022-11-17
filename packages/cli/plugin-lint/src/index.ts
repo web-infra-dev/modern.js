@@ -3,7 +3,7 @@ import lint from './lint';
 import preCommit from './pre-commit';
 
 export default (): CliPlugin => ({
-  name: '@modern-js/plugin-jarvis',
+  name: '@modern-js/plugin-lint',
   setup: () => {
     return {
       commands({ program }) {

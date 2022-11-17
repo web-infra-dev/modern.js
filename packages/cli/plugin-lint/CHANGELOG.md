@@ -1,4 +1,4 @@
-# @modern-js/plugin-jarvis
+# @modern-js/plugin-lint
 
 ## 2.0.0-beta.0
 
