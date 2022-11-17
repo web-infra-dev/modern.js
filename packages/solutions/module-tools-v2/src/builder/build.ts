@@ -205,7 +205,9 @@ export const buildLib = async (
     const { Libuilder } = await import('@modern-js/libuild');
 
     const runner = api.useHookRunners();
-    const modifiedBuildConfig = await runner.modifyLibuild(buildConfig);
+    const modifiedBuildConfig = await runner.modifyLibuild(buildConfig, {
+      onLast: c => c,
+    });
 
     const builder = await Libuilder.create(modifiedBuildConfig);
     await builder.build();

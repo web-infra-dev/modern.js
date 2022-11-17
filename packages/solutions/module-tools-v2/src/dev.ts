@@ -3,6 +3,20 @@ import type { DevCommandOptions } from './types/command';
 import type { ModuleContext } from './types/context';
 import type { DevToolData, ModuleToolsHooks } from './types/hooks';
 
+export const runBuildBeforeDevTools = async (options: {
+  disableRunBuild: boolean;
+  appDirectory: string;
+}) => {
+  if (!options.disableRunBuild) {
+    const { execa } = await import('@modern-js/utils');
+    // because it is watch mode, so not use 'await'
+    execa('modern', ['build', '--watch'], {
+      stdio: ['inherit', 'inherit', 'inherit'],
+      cwd: options.appDirectory,
+    });
+  }
+};
+
 export const showMenu = async (
   metas: DevToolData[],
   devCmdOptions: DevCommandOptions,
@@ -35,6 +49,11 @@ export const showMenu = async (
     meta => meta.menuItem?.value === result.choiceDevTool,
   );
   if (currentDevTool) {
+    await runBuildBeforeDevTools({
+      disableRunBuild: currentDevTool.disableRunBuild ?? false,
+      appDirectory: context.appDirectory,
+    });
+
     await runner.beforeDevTask(currentDevTool);
     await currentDevTool.action(devCmdOptions, {
       isTsProject: context.isTsProject,
@@ -66,6 +85,12 @@ export const dev = async (
       ),
     );
     const meta = metas[0];
+
+    await runBuildBeforeDevTools({
+      disableRunBuild: meta.disableRunBuild ?? false,
+      appDirectory: context.appDirectory,
+    });
+
     await runner.beforeDevTask(meta);
     await meta.action(options, { isTsProject: context.isTsProject });
   } else if (metas.length > 1) {

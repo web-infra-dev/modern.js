@@ -30,7 +30,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "build": "mdn build",
-    "dev": "modern build --watch",
+    "dev": "mdn build --watch",
     "test": "jest",
     "new": "modern new"
   },

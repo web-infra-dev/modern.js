@@ -59,7 +59,8 @@
     "findup-sync": "^4.0.0",
     "fs-extra": "^10.0.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
-    "process.argv": "^0.6.0"
+    "process.argv": "^0.6.0",
+    "tsconfig-paths-webpack-plugin": "4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
