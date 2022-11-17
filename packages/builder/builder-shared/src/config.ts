@@ -12,13 +12,13 @@ import {
   DEFAULT_DATA_URL_SIZE,
 } from './constants';
 import type {
-  SharedDevConfig,
-  SharedOutputConfig,
+  NormalizedSharedDevConfig,
+  NormalizedSharedOutputConfig,
   SharedHtmlConfig,
-  SharedSourceConfig,
+  NormalizedSharedSourceConfig,
 } from './types';
 
-export const defaultDevConfig: SharedDevConfig = {
+export const defaultDevConfig: NormalizedSharedDevConfig = {
   hmr: true,
   https: false,
   port: DEFAULT_PORT,
@@ -27,7 +27,7 @@ export const defaultDevConfig: SharedDevConfig = {
   progressBar: true,
 };
 
-export const defaultSourceConfig: SharedSourceConfig = {
+export const defaultSourceConfig: NormalizedSharedSourceConfig = {
   define: {},
   alias: {},
   preEntry: [],
@@ -40,7 +40,7 @@ export const defaultHtmlConfig: SharedHtmlConfig = {
   disableHtmlFolder: false,
 };
 
-export const defaultOutputConfig: SharedOutputConfig = {
+export const defaultOutputConfig: NormalizedSharedOutputConfig = {
   distPath: {
     root: ROOT_DIST_DIR,
     js: JS_DIST_DIR,
