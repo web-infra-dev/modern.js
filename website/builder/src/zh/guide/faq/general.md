@@ -21,4 +21,6 @@ Builder 专注于解决 Web 应用构建场景，我们不推荐你使用 Builde
 
 ## Builder 是否会接入 Vite？
 
-[Vite](https://vitejs.dev/) 是一个非常优秀的工具，但 Builder 的目标是使用 Rust Bundler 替换 webpack，并保持开发环境和生产环境的打包行为一致，因此 Builder 不会接入 Vite
+[Vite](https://vitejs.dev/) 是一个非常优秀的工具，但 Builder 的目标是使用 Rust Bundler 替换 webpack，Rust Builder 能提供极致的编译速度，同时能保持开发环境和生产环境的打包行为一致。
+
+Builder 会聚焦于从 webpack 演进至 Rust Builder 的过程，因此不会接入 Vite。
