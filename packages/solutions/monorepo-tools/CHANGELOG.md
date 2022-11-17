@@ -26,7 +26,7 @@
   - @modern-js/plugin@2.0.0-beta.0
   - @modern-js/plugin-changeset@2.0.0-beta.0
   - @modern-js/plugin-i18n@2.0.0-beta.0
-  - @modern-js/plugin-jarvis@2.0.0-beta.0
+  - @modern-js/plugin-lint@2.0.0-beta.0
   - @modern-js/new-action@2.0.0-beta.0
   - @modern-js/upgrade@2.0.0-beta.0
 
@@ -39,7 +39,7 @@
   - @modern-js/new-action@1.21.2
   - @modern-js/core@1.21.2
   - @modern-js/plugin-changeset@1.21.2
-  - @modern-js/plugin-jarvis@1.21.2
+  - @modern-js/plugin-lint@1.21.2
   - @modern-js/plugin-i18n@1.21.2
   - @modern-js/upgrade@1.21.2
   - @modern-js/utils@1.21.2
@@ -51,7 +51,7 @@
 - @modern-js/core@1.21.1
 - @modern-js/plugin-changeset@1.21.1
 - @modern-js/plugin-i18n@1.21.1
-- @modern-js/plugin-jarvis@1.21.1
+- @modern-js/plugin-lint@1.21.1
 - @modern-js/new-action@1.21.1
 - @modern-js/plugin@1.21.1
 - @modern-js/upgrade@1.21.1
@@ -71,7 +71,7 @@
   - @modern-js/plugin@1.21.0
   - @modern-js/utils@1.21.0
   - @modern-js/plugin-changeset@1.21.0
-  - @modern-js/plugin-jarvis@1.21.0
+  - @modern-js/plugin-lint@1.21.0
   - @modern-js/plugin-i18n@1.21.0
 
 ## 1.20.1
@@ -83,7 +83,7 @@
   - @modern-js/core@1.20.1
   - @modern-js/plugin-changeset@1.20.1
   - @modern-js/plugin-i18n@1.20.1
-  - @modern-js/plugin-jarvis@1.20.1
+  - @modern-js/plugin-lint@1.20.1
   - @modern-js/new-action@1.20.1
   - @modern-js/upgrade@1.20.1
   - @modern-js/plugin@1.20.1
@@ -103,7 +103,7 @@
   - @modern-js/core@1.20.0
   - @modern-js/plugin-changeset@1.20.0
   - @modern-js/plugin-i18n@1.20.0
-  - @modern-js/plugin-jarvis@1.20.0
+  - @modern-js/plugin-lint@1.20.0
   - @modern-js/new-action@1.20.0
   - @modern-js/upgrade@1.20.0
   - @modern-js/plugin@1.20.0
@@ -116,7 +116,7 @@
 - Updated dependencies [d2fbefc]
 - Updated dependencies [d2fbefc]
   - @modern-js/core@1.19.0
-  - @modern-js/plugin-jarvis@1.19.0
+  - @modern-js/plugin-lint@1.19.0
   - @modern-js/plugin-changeset@1.19.0
   - @modern-js/new-action@1.19.0
   - @modern-js/upgrade@1.19.0
@@ -136,7 +136,7 @@
   - @modern-js/plugin@1.18.1
   - @modern-js/utils@1.18.1
   - @modern-js/plugin-changeset@1.18.1
-  - @modern-js/plugin-jarvis@1.18.1
+  - @modern-js/plugin-lint@1.18.1
   - @modern-js/plugin-i18n@1.18.1
   - @modern-js/new-action@1.18.1
   - @modern-js/upgrade@1.18.1
@@ -156,7 +156,7 @@
   - @modern-js/core@1.18.0
   - @modern-js/plugin-changeset@1.18.0
   - @modern-js/plugin-i18n@1.18.0
-  - @modern-js/plugin-jarvis@1.18.0
+  - @modern-js/plugin-lint@1.18.0
   - @modern-js/new-action@1.18.0
   - @modern-js/plugin@1.18.0
 
@@ -187,7 +187,7 @@
   - @modern-js/core@1.17.0
   - @modern-js/plugin-changeset@1.17.0
   - @modern-js/plugin-i18n@1.17.0
-  - @modern-js/plugin-jarvis@1.17.0
+  - @modern-js/plugin-lint@1.17.0
   - @modern-js/plugin@1.17.0
 
 ## 1.16.0
@@ -212,7 +212,7 @@
   - @modern-js/core@1.16.0
   - @modern-js/plugin-changeset@1.16.0
   - @modern-js/plugin-i18n@1.16.0
-  - @modern-js/plugin-jarvis@1.16.0
+  - @modern-js/plugin-lint@1.16.0
   - @modern-js/plugin@1.16.0
 
 ## 1.15.0
@@ -229,7 +229,7 @@
   - @modern-js/core@1.15.0
   - @modern-js/plugin-changeset@1.15.0
   - @modern-js/plugin-i18n@1.15.0
-  - @modern-js/plugin-jarvis@1.15.0
+  - @modern-js/plugin-lint@1.15.0
   - @modern-js/plugin@1.15.0
 
 ## 1.5.1
@@ -245,7 +245,7 @@
   - @modern-js/utils@1.9.0
   - @modern-js/core@1.14.0
   - @modern-js/plugin-changeset@1.4.1
-  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-lint@1.2.14
 
 ## 1.5.0
 
@@ -270,14 +270,14 @@
   - @modern-js/plugin-changeset@1.4.0
   - @modern-js/plugin-i18n@1.3.0
   - @modern-js/new-action@1.3.12
-  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-lint@1.2.14
   - @modern-js/utils@1.7.12
 
 ## 1.4.8
 
 ### Patch Changes
 
-- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- eeedc80: feat: add plugin-lint to dependencies of solutions
 - Updated dependencies [f29e9ba]
 - Updated dependencies [d9564f2]
 - Updated dependencies [1a57595]
@@ -286,7 +286,7 @@
 - Updated dependencies [f29e9ba]
 - Updated dependencies [a90bc96]
   - @modern-js/core@1.12.2
-  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-lint@1.2.14
   - @modern-js/plugin-changeset@1.3.1
   - @modern-js/new-action@1.3.11
   - @modern-js/plugin@1.4.0

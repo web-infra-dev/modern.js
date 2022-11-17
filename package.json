@@ -75,7 +75,7 @@
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/monorepo-tools": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
     "@swc/core": "1.3.18",

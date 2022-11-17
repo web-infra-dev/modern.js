@@ -15,7 +15,7 @@ importers:
       '@modern-js-app/eslint-config': workspace:*
       '@modern-js/eslint-config': workspace:*
       '@modern-js/monorepo-tools': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/plugin-lint': workspace:*
       '@modern-js/tsconfig': workspace:*
       '@scripts/build': workspace:*
       '@swc/core': 1.3.18
@@ -43,7 +43,7 @@ importers:
       '@modern-js-app/eslint-config': link:packages/review/eslint-config-app
       '@modern-js/eslint-config': link:packages/review/eslint-config
       '@modern-js/monorepo-tools': link:packages/solutions/monorepo-tools
-      '@modern-js/plugin-jarvis': link:packages/cli/plugin-jarvis
+      '@modern-js/plugin-lint': link:packages/cli/plugin-lint
       '@modern-js/tsconfig': link:packages/review/tsconfig
       '@scripts/build': link:scripts/build
       '@swc/core': 1.3.18
@@ -633,7 +633,7 @@ importers:
       jest: 27.5.1
       typescript: 4.7.4
 
-  packages/cli/plugin-jarvis:
+  packages/cli/plugin-lint:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js-app/eslint-config': workspace:*
@@ -979,7 +979,7 @@ importers:
       '@modern-js/generator-utils': workspace:*
       '@modern-js/new-action': workspace:*
       '@modern-js/plugin-i18n': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/plugin-lint': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -1004,7 +1004,7 @@ importers:
       handlebars: 4.7.7
       vm2: 3.9.9
     devDependencies:
-      '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
+      '@modern-js/plugin-lint': link:../../cli/plugin-lint
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
@@ -2664,7 +2664,7 @@ importers:
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-data-loader': workspace:*
       '@modern-js/plugin-i18n': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/plugin-lint': workspace:*
       '@modern-js/prod-server': workspace:*
       '@modern-js/server': workspace:*
       '@modern-js/server-core': workspace:*
@@ -2694,7 +2694,7 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-data-loader': link:../../cli/plugin-data-loader
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
-      '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
+      '@modern-js/plugin-lint': link:../../cli/plugin-lint
       '@modern-js/prod-server': link:../../server/prod-server
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
@@ -2725,7 +2725,7 @@ importers:
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
       '@modern-js/plugin-i18n': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/plugin-lint': workspace:*
       '@modern-js/style-compiler': workspace:*
       '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
@@ -2768,7 +2768,7 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
-      '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
+      '@modern-js/plugin-lint': link:../../cli/plugin-lint
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
@@ -2809,7 +2809,7 @@ importers:
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
       '@modern-js/plugin-i18n': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/plugin-lint': workspace:*
       '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
       '@rollup/plugin-json': ~4.1.0
@@ -2844,7 +2844,7 @@ importers:
       signal-exit: 3.0.7
     devDependencies:
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
-      '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
+      '@modern-js/plugin-lint': link:../../cli/plugin-lint
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
@@ -2862,7 +2862,7 @@ importers:
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
       '@modern-js/plugin-i18n': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/plugin-lint': workspace:*
       '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
       '@rushstack/node-core-library': ^3.39.1
@@ -2884,7 +2884,7 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
-      '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
+      '@modern-js/plugin-lint': link:../../cli/plugin-lint
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@rushstack/node-core-library': 3.48.0
@@ -3844,7 +3844,6 @@ importers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-bff': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/plugin-koa': workspace:*
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/runtime': workspace:*
@@ -3871,7 +3870,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
       '@modern-js/plugin-testing': link:../../../packages/runtime/plugin-testing
       '@types/jest': 27.5.2
       '@types/koa': 2.13.4
@@ -3913,7 +3911,6 @@ importers:
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-bff': workspace:*
       '@modern-js/plugin-express': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/runtime': workspace:*
       '@types/express': ^4.17.13
       '@types/jest': ^27
@@ -3941,7 +3938,6 @@ importers:
       zod: 3.17.3
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
       '@types/express': 4.17.13
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
@@ -4381,7 +4377,6 @@ importers:
     specifiers:
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-garfish': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/plugin-router-legacy': workspace:*
       '@modern-js/runtime': workspace:*
       '@types/node': ^14
@@ -4397,7 +4392,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-jarvis': link:../../../../packages/cli/plugin-jarvis
       '@modern-js/plugin-router-legacy': link:../../../../packages/runtime/plugin-router-legacy
       '@types/node': 14.18.21
       '@types/react': 18.0.21
@@ -4408,7 +4402,6 @@ importers:
     specifiers:
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-garfish': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/plugin-router-legacy': workspace:*
       '@modern-js/runtime': workspace:*
       '@types/node': ^14
@@ -4424,7 +4417,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-jarvis': link:../../../../packages/cli/plugin-jarvis
       '@modern-js/plugin-router-legacy': link:../../../../packages/runtime/plugin-router-legacy
       '@types/node': 14.18.21
       '@types/react': 18.0.21
@@ -4436,7 +4428,6 @@ importers:
       '@arco-design/web-react': ^2.35.0
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-garfish': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/plugin-router-legacy': workspace:*
       '@modern-js/runtime': workspace:*
       '@types/node': ^14
@@ -4453,7 +4444,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-jarvis': link:../../../../packages/cli/plugin-jarvis
       '@modern-js/plugin-router-legacy': link:../../../../packages/runtime/plugin-router-legacy
       '@types/node': 14.18.21
       '@types/react': 18.0.21
@@ -4699,7 +4689,6 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/runtime': workspace:*
       '@modern-js/server-core': workspace:*
       '@modern-js/utils': workspace:*
@@ -4718,7 +4707,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
       '@modern-js/server-core': link:../../../packages/server/core
       '@modern-js/utils': link:../../../packages/toolkit/utils
       '@types/express': 4.17.13
@@ -4732,7 +4720,6 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/runtime': workspace:*
       axios: ^0.24.0
       express: ^4.17.1
@@ -4747,7 +4734,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
 
   tests/integration/ssg:
     specifiers: {}
@@ -4801,7 +4787,6 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/runtime': workspace:*
       '@types/jest': ^26.0.9
@@ -4818,7 +4803,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
       '@modern-js/plugin-testing': link:../../../packages/runtime/plugin-testing
       '@types/jest': 26.0.24
       '@types/node': 14.18.21

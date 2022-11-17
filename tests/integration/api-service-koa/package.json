@@ -41,7 +41,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
     "@types/jest": "^27",
     "@types/koa": "^2.13.4",

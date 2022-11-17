@@ -78,7 +78,7 @@
   - @modern-js/css-config@1.17.0
   - @modern-js/plugin-changeset@1.17.0
   - @modern-js/plugin-i18n@1.17.0
-  - @modern-js/plugin-jarvis@1.17.0
+  - @modern-js/plugin-lint@1.17.0
   - @modern-js/babel-compiler@1.17.0
   - @modern-js/style-compiler@1.17.0
   - @modern-js/plugin@1.17.0
@@ -108,7 +108,7 @@
   - @modern-js/core@1.16.0
   - @modern-js/plugin-changeset@1.16.0
   - @modern-js/plugin-i18n@1.16.0
-  - @modern-js/plugin-jarvis@1.16.0
+  - @modern-js/plugin-lint@1.16.0
   - @modern-js/babel-compiler@1.16.0
   - @modern-js/plugin@1.16.0
 
@@ -128,7 +128,7 @@
   - @modern-js/css-config@1.15.0
   - @modern-js/plugin-changeset@1.15.0
   - @modern-js/plugin-i18n@1.15.0
-  - @modern-js/plugin-jarvis@1.15.0
+  - @modern-js/plugin-lint@1.15.0
   - @modern-js/babel-compiler@1.15.0
   - @modern-js/style-compiler@1.15.0
   - @modern-js/plugin@1.15.0
@@ -168,7 +168,7 @@
   - @modern-js/new-action@1.3.12
   - @modern-js/babel-preset-module@1.4.0
   - @modern-js/css-config@1.2.8
-  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-lint@1.2.14
   - @modern-js/utils@1.7.12
 
 ## 1.6.3
@@ -212,7 +212,7 @@
   - @modern-js/css-config@1.2.7
   - @modern-js/plugin-analyze@1.4.7
   - @modern-js/plugin-changeset@1.3.1
-  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-lint@1.2.14
 
 ## 1.6.0
 
@@ -238,13 +238,13 @@
   - @modern-js/css-config@1.2.7
   - @modern-js/plugin-analyze@1.4.7
   - @modern-js/plugin-changeset@1.3.1
-  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-lint@1.2.14
 
 ## 1.5.8
 
 ### Patch Changes
 
-- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- eeedc80: feat: add plugin-lint to dependencies of solutions
 - f29e9ba: feat: simplify context usage, no longer depend on containers
 - Updated dependencies [f29e9ba]
 - Updated dependencies [d9564f2]
@@ -255,7 +255,7 @@
 - Updated dependencies [a90bc96]
   - @modern-js/core@1.12.2
   - @modern-js/plugin-analyze@1.4.7
-  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-lint@1.2.14
   - @modern-js/plugin-changeset@1.3.1
   - @modern-js/new-action@1.3.11
   - @modern-js/plugin@1.4.0

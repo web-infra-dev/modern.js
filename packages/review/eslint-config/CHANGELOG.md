@@ -86,7 +86,7 @@
 - Updated dependencies [a0475f1a]
 - Updated dependencies [86c243ca]
 - Updated dependencies [3908299a]
-  - @modern-js/plugin-jarvis@1.2.8
+  - @modern-js/plugin-lint@1.2.8
   - @modern-js-app/eslint-config@1.2.9
 
 ## 1.2.4

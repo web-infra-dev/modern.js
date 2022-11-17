@@ -126,7 +126,7 @@ cd my-test-project
       },
       "devDependencies": {
          "@modern-js/app-tools": "workspace:*",
-         "@modern-js/plugin-jarvis": "workspace:*",
+         "@modern-js/plugin-lint": "workspace:*",
          "@modern-js/some_package": "workspace:*",
          ...
       }

@@ -1,6 +1,6 @@
 import plugin from '../src';
 
-describe('plugin-jarvis', () => {
+describe('plugin-lint', () => {
   it('default', () => {
     expect(plugin).toBeDefined();
   });
