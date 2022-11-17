@@ -1,7 +1,7 @@
 {
   "name": "@scripts/vitest-config",
   "private": true,
-  "version": "1.21.3",
+  "version": "1.21.4",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {

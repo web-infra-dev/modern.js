@@ -1,5 +1,23 @@
 # @modern-js/app-tools
 
+## 1.21.4
+
+### Patch Changes
+
+- Updated dependencies [0889ab2]
+  - @modern-js/server@1.21.4
+  - @modern-js/core@1.21.4
+  - @modern-js/plugin-i18n@1.21.4
+  - @modern-js/plugin-jarvis@1.21.4
+  - @modern-js/webpack@1.21.4
+  - @modern-js/new-action@1.21.4
+  - @modern-js/prod-server@1.21.4
+  - @modern-js/node-bundle-require@1.21.4
+  - @modern-js/plugin@1.21.4
+  - @modern-js/types@1.21.4
+  - @modern-js/upgrade@1.21.4
+  - @modern-js/utils@1.21.4
+
 ## 1.21.3
 
 ### Patch Changes

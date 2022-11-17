@@ -1,5 +1,16 @@
 # @modern-js/server
 
+## 1.21.4
+
+### Patch Changes
+
+- 0889ab2: chore: dev server default cross origin
+  chore: 开发环境 Server 默认跨域
+  - @modern-js/prod-server@1.21.4
+  - @modern-js/server-utils@1.21.4
+  - @modern-js/types@1.21.4
+  - @modern-js/utils@1.21.4
+
 ## 1.21.3
 
 ### Patch Changes
