@@ -1,11 +1,6 @@
-import assert from 'assert';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import {
-  logger,
-  type BuildOptions,
-  type PromiseOrNot,
-} from '@modern-js/builder-shared';
+import { logger, type BuildOptions } from '@modern-js/builder-shared';
 import type {
   Stats,
   MultiStats,
@@ -16,8 +11,15 @@ import type {
 
 export type BuildExecuter = (
   compiler: Compiler | MultiCompiler,
-) => PromiseOrNot<{ stats: Stats | MultiStats } | void>;
+) => Promise<{ stats: Stats | MultiStats }>;
 
+export interface WebpackBuildError extends Error {
+  stats?: Stats | MultiStats;
+}
+
+/**
+ * @throws {WebpackBuildError}
+ */
 export const webpackBuild: BuildExecuter = async compiler => {
   return new Promise<{ stats: Stats | MultiStats }>((resolve, reject) => {
     compiler.run((err, stats) => {
@@ -27,14 +29,11 @@ export const webpackBuild: BuildExecuter = async compiler => {
         if (closeErr) {
           logger.error(closeErr);
         }
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        assert(stats);
-        if (stats.hasErrors()) {
-          reject(new Error('Webpack build failed!'));
+        if (err || !stats || stats.hasErrors()) {
+          const buildError: WebpackBuildError =
+            err || new Error('Webpack build failed!');
+          buildError.stats = stats;
+          reject(buildError);
         } else {
           resolve({ stats });
         }
