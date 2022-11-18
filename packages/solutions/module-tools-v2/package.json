@@ -31,7 +31,7 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "build": "mdn build",
     "dev": "mdn build --watch",
-    "test": "jest",
+    "test": "mdn build && jest",
     "test:update": "jest --updateSnapshot",
     "new": "modern new"
   },
@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.20.2",
-    "@modern-js/self": "workspace:./",
+    "@modern-js/self": "workspace:@modern-js/module-tools-v2@*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
