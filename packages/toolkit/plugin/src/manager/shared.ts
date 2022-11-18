@@ -1,3 +1,4 @@
+import { dagSort } from '@modern-js/utils';
 import type { AsyncPlugin } from './async';
 import type { Plugin } from './sync';
 
@@ -32,39 +33,9 @@ export function sortPlugins<Hooks, API>(
 export function sortPlugins(
   input: Array<Plugin<unknown, unknown> | AsyncPlugin<unknown, unknown>>,
 ) {
-  let plugins = input.slice();
+  const plugins = input.slice();
 
-  for (let i = 0; i < plugins.length; i++) {
-    const plugin = plugins[i];
-
-    for (const pre of plugin.pre) {
-      for (let j = i + 1; j < plugins.length; j++) {
-        if (plugins[j].name === pre) {
-          plugins = [
-            ...plugins.slice(0, i),
-            plugins[j],
-            ...plugins.slice(i, j),
-            ...plugins.slice(j + 1, plugins.length),
-          ];
-        }
-      }
-    }
-
-    for (const post of plugin.post) {
-      for (let j = 0; j < i; j++) {
-        if (plugins[j].name === post) {
-          plugins = [
-            ...plugins.slice(0, j),
-            ...plugins.slice(j + 1, i + 1),
-            plugins[j],
-            ...plugins.slice(i + 1, plugins.length),
-          ];
-        }
-      }
-    }
-  }
-
-  return plugins;
+  return dagSort(plugins);
 }
 
 export const includePlugin = <

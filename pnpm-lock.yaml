@@ -3068,6 +3068,7 @@ importers:
   packages/toolkit/plugin:
     specifiers:
       '@babel/runtime': ^7.18.0
+      '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -3077,6 +3078,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.18.6
     devDependencies:
+      '@modern-js/utils': link:../utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
@@ -16409,8 +16411,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -20246,6 +20250,7 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -23526,7 +23531,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4_supports-color@6.1.0
+      debug: 4.3.4
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -33552,7 +33557,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
@@ -34916,6 +34921,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
+    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
