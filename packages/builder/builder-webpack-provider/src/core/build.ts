@@ -15,7 +15,9 @@ export interface BuildExecuter {
   (compiler: Compiler | MultiCompiler): Promise<{ stats: Stats | MultiStats }>;
 }
 
-export interface WebpackBuildError<S extends Stats | MultiStats> extends Error {
+export interface WebpackBuildError<
+  S extends Stats | MultiStats = Stats | MultiStats,
+> extends Error {
   stats?: S;
 }
 
