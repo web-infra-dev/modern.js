@@ -1,6 +1,10 @@
 import { join } from 'path';
-import { getRegExpForExts, FONT_EXTENSIONS } from '@modern-js/builder-shared';
-import { getDistPath, getFilename, getDataUrlCondition } from '../shared';
+import {
+  getRegExpForExts,
+  FONT_EXTENSIONS,
+  getDistPath,
+} from '@modern-js/builder-shared';
+import { getFilename, getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginFont = (): BuilderPlugin => ({
@@ -10,7 +14,7 @@ export const PluginFont = (): BuilderPlugin => ({
     api.modifyWebpackChain((chain, { isProd, CHAIN_ID }) => {
       const config = api.getNormalizedConfig();
       const regExp = getRegExpForExts(FONT_EXTENSIONS);
-      const distDir = getDistPath(config, 'font');
+      const distDir = getDistPath(config.output, 'font');
       const filename = getFilename(config, 'font', isProd);
 
       chain.module

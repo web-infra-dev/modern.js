@@ -1,33 +1,13 @@
 import { existsSync } from 'fs';
-import { isAbsolute, join } from 'path';
+import { join } from 'path';
 import { pick } from './pick';
 import {
   BuilderContext,
   CreateBuilderOptions,
-  DistPathConfig,
   NormalizedSharedOutputConfig,
 } from './types';
 import { deepFreezed } from './utils';
-
-function getAbsoluteDistPath(
-  cwd: string,
-  outputConfig: NormalizedSharedOutputConfig,
-) {
-  const root = getDistPath(outputConfig, 'root');
-  return isAbsolute(root) ? root : join(cwd, root);
-}
-
-export const getDistPath = (
-  outputConfig: NormalizedSharedOutputConfig,
-  type: keyof DistPathConfig,
-): string => {
-  const { distPath } = outputConfig;
-  const ret = distPath[type];
-  if (typeof ret !== 'string') {
-    throw new Error(`unknown key ${type} in "output.distPath"`);
-  }
-  return ret;
-};
+import { getAbsoluteDistPath } from './fs';
 
 /**
  * Create context by config.
