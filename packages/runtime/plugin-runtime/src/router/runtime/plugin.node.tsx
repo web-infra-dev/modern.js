@@ -92,7 +92,6 @@ export const routerPlugin = ({
           if (routerContext instanceof Response) {
             // React Router would return a Response when redirects occur in loader.
             // Throw the Response to bail out and let the server handle it with an HTTP redirect
-            // throw routerContext;
             return routerContext;
           }
 
