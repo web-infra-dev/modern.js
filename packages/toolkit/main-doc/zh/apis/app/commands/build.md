@@ -39,6 +39,6 @@ File sizes after production build:
 
 ## 命令行参数
 
-import CommandTip from '@site/docs/components/command-tip.md'
+import CommandTip from '@site-docs/components/command-tip.md'
 
 <CommandTip />

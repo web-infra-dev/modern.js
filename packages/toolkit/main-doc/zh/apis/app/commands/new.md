@@ -19,7 +19,7 @@ Options:
 
 比如添加应用入口、启用启用一些可选功能如 Tailwind CSS、微前端开发模式等。
 
-import CommandTip from '@site/docs/components/command-tip.md'
+import CommandTip from '@site-docs/components/command-tip.md'
 
 <CommandTip />
 

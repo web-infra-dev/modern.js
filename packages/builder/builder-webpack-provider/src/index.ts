@@ -4,6 +4,8 @@ export {
   applyDefaultPlugins,
   applyMinimalPlugins,
 } from './shared/plugin';
+export { webpackBuild } from './core/build';
+export type { WebpackBuildError } from './core/build';
 export type {
   BuilderPluginAPI,
 

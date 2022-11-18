@@ -132,8 +132,8 @@ export class ModernDevServer extends ModernServer {
 
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
       // allow hmr request cross-domain, because the user may use global proxy
+      ctx.res.setHeader('Access-Control-Allow-Origin', '*');
       if (ctx.path.includes('hot-update')) {
-        ctx.res.setHeader('Access-Control-Allow-Origin', '*');
         ctx.res.setHeader('Access-Control-Allow-Credentials', 'false');
       }
 

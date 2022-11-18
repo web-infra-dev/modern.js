@@ -26,6 +26,6 @@ App running at:
   > Network:  http://192.168.0.1:8080/
 ```
 
-import CommandTip from '@site/docs/components/command-tip.md'
+import CommandTip from '@site-docs/components/command-tip.md'
 
 <CommandTip />

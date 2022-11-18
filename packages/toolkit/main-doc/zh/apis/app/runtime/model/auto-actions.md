@@ -4,7 +4,7 @@ title: Auto actions
 ---
 
 
-import ReduckTip from '@site/docs/components/reduck-tip.md'
+import ReduckTip from '@site-docs/components/reduck-tip.md'
 
 <ReduckTip />
 

@@ -62,15 +62,15 @@
 
 ## 静态资源相关
 
-| 功能               | 描述                                           | 相关链接                                                                                              |
-| ------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| 引用图片资源       | 支持在代码中引用图片资源                       | -                                                                                                     |
-| 引用字体资源       | 支持在代码中引用字体资源                       | -                                                                                                     |
-| 引用视频资源       | 支持在代码中引用视频资源                       | -                                                                                                     |
-| 内联静态资源       | 默认将体积较小的图片等资源内联到 JS 中         | <ul><li>[output.dataUriLimit](/zh/api/config-output.html#output-dataurilimit)</li></ul>               |
-| 清理静态资源       | 每次开始构建前，自动清理 dist 目录下的静态资源 | <ul><li>[output.cleanDistPath](/zh/api/config-output.html#output-cleandistpath)</li></ul>             |
-| 拷贝静态资源       | 可选功能，将静态资源拷贝到 dist 目录下         | <ul><li>[output.copy](/zh/api/config-output.html#output-copy)</li></ul>                               |
-| 生成 manifest 文件 | 可选功能，生成包含静态资源信息的 manifest 文件 | <ul><li>[output.enableAssetManifest](/zh/api/config-output.html#output-enableassetmanifest)</li></ul> |
+| 功能               | 描述                                           | 相关链接                                                                                                                                           |
+| ------------------ | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 引用图片资源       | 支持在代码中引用图片资源                       | -                                                                                                                                                  |
+| 引用字体资源       | 支持在代码中引用字体资源                       | -                                                                                                                                                  |
+| 引用视频资源       | 支持在代码中引用视频资源                       | -                                                                                                                                                  |
+| 静态资源内联       | 默认将体积较小的图片等资源内联到 JS 中         | <ul><li>[静态资源内联](/guide/advanced/inline-assets.html)</li><li>[output.dataUriLimit](/zh/api/config-output.html#output-dataurilimit)</li></ul> |
+| 清理静态资源       | 每次开始构建前，自动清理 dist 目录下的静态资源 | <ul><li>[output.cleanDistPath](/zh/api/config-output.html#output-cleandistpath)</li></ul>                                                          |
+| 拷贝静态资源       | 可选功能，将静态资源拷贝到 dist 目录下         | <ul><li>[output.copy](/zh/api/config-output.html#output-copy)</li></ul>                                                                            |
+| 生成 manifest 文件 | 可选功能，生成包含静态资源信息的 manifest 文件 | <ul><li>[output.enableAssetManifest](/zh/api/config-output.html#output-enableassetmanifest)</li></ul>                                              |
 
 ## 性能相关
 
