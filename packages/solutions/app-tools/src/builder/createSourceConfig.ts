@@ -1,15 +1,16 @@
 import { dirname, isAbsolute, posix, sep } from 'path';
 import { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { IAppContext, CliNormalizedConfig } from '@modern-js/core';
 import {
   globby,
   mergeAlias,
   findMonorepoRoot,
   isModernjsMonorepo,
 } from '@modern-js/utils';
+import { LegacyAppTools } from '../types';
 
 export function createSourceConfig(
-  normalizedConfig: NormalizedConfig,
+  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
   appContext: IAppContext,
 ): BuilderConfig['source'] {
   const { alias, envVars, globalVars, include, moduleScopes, preEntry } =
@@ -38,7 +39,7 @@ export function createSourceConfig(
 }
 
 export function createBuilderInclude(
-  include: NormalizedConfig['source']['include'],
+  include: CliNormalizedConfig<LegacyAppTools>['source']['include'],
   appContext: IAppContext,
 ) {
   const defaultInclude = [appContext.internalDirectory];
@@ -74,7 +75,7 @@ export function createBuilderInclude(
 }
 
 export function createBuilderModuleScope(
-  moduleScopes: NormalizedConfig['source']['moduleScopes'],
+  moduleScopes: CliNormalizedConfig<LegacyAppTools>['source']['moduleScopes'],
 ) {
   if (moduleScopes) {
     let builderModuleScope: any[] = [];

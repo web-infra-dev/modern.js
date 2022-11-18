@@ -1,5 +1,8 @@
 import * as path from 'path';
-import type { NormalizedConfig } from '@modern-js/core';
+import type {
+  SourceNormalizedConfig,
+  ToolsNormalizedConfig,
+} from '@modern-js/server-core';
 import { fs } from '@modern-js/utils';
 import { compileByTs } from '../compilers/typescript';
 import { compileByBabel } from '../compilers/babel';
@@ -11,10 +14,12 @@ export interface Pattern {
 }
 
 export interface IConfig {
-  alias?: NormalizedConfig['source']['alias'];
-  envVars?: NormalizedConfig['source']['envVars'];
-  globalVars?: NormalizedConfig['source']['globalVars'];
-  babelConfig?: NormalizedConfig['tools']['babel'];
+  alias?: SourceNormalizedConfig['alias'];
+  define?: SourceNormalizedConfig['define'];
+  // FIXME: remove the envVars;
+  // envVars?: CliNormalizedConfig['source']['envVars'];
+  globalVars?: SourceNormalizedConfig['globalVars'];
+  babelConfig?: ToolsNormalizedConfig['babel'];
   server: {
     compiler?: 'babel' | 'typescript';
   };

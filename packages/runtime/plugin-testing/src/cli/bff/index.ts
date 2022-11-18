@@ -7,6 +7,7 @@ import {
   getModuleNameMapper,
   DEFAULT_RESOLVER_PATH,
 } from '../../base';
+import type { Hooks } from '../../base/hook';
 import { bff_info_key } from './constant';
 import { isBFFProject } from './utils';
 
@@ -113,7 +114,7 @@ export const setJestConfigForBFF = async ({
   utils.setJestConfig(commonConfig);
 };
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<{ hooks: Hooks }> => ({
   name: '@modern-js/testing-plugin-bff',
 
   setup(api) {

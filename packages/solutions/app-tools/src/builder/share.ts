@@ -1,12 +1,13 @@
 import path from 'path';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { WebpackChain } from '@modern-js/builder-webpack-provider';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { IAppContext, CliNormalizedConfig } from '@modern-js/core';
 import { removeTailSlash } from '@modern-js/utils';
+import { LegacyAppTools } from '../types';
 
 export function createCopyPattern(
   appContext: IAppContext,
-  config: NormalizedConfig,
+  config: CliNormalizedConfig<LegacyAppTools>,
   patternsType: 'upload' | 'public',
   chain?: WebpackChain,
 ) {

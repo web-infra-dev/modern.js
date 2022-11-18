@@ -8,7 +8,10 @@ import type { LegacyUserConfig } from '../../types';
 
 export default (
   { pluginName } = { pluginName: '@modern-js/plugin-tailwindcss' },
-): CliPlugin => ({
+): CliPlugin<{
+  userConfig: LegacyUserConfig;
+  normalizedConfig: LegacyUserConfig;
+}> => ({
   name: '@modern-js/plugin-design-token',
 
   setup(api) {

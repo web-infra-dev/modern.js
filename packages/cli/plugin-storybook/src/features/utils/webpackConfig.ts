@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
 import { fs, Import, CHAIN_ID } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/module-tools-v2';
+import type {
+  IAppContext,
+  CliNormalizedConfig,
+} from '@modern-js/module-tools-v2';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type {
   Configuration,
@@ -17,6 +20,7 @@ import {
   mergeRegex,
 } from '@modern-js/webpack';
 import { CURRENT_PKG_PATH } from '../constants';
+import { ModuleTools } from '../../../../../solutions/module-tools-v2/src/types';
 
 const NodePolyfillPlugin: typeof import('node-polyfill-webpack-plugin') =
   Import.lazy('node-polyfill-webpack-plugin', require);
@@ -172,7 +176,7 @@ export const getCustomWebpackConfigHandle: any = ({
   isTsProject = false,
 }: {
   appContext: IAppContext;
-  modernConfig: NormalizedConfig;
+  modernConfig: CliNormalizedConfig<ModuleTools>;
   configDir: string;
   isTsProject: boolean;
   env: 'dev' | 'prod';

@@ -1,5 +1,8 @@
 import path from 'path';
-import type { NormalizedConfig } from '@modern-js/module-tools-v2';
+import type {
+  CliNormalizedConfig,
+  ModuleTools,
+} from '@modern-js/module-tools-v2';
 import { Import, fs, glob, logger } from '@modern-js/utils';
 import { transformSync } from 'esbuild';
 
@@ -10,7 +13,7 @@ const constants: typeof import('../constants') = Import.lazy(
 const gen: typeof import('./generate') = Import.lazy('./generate', require);
 
 export type GenerateOptions = {
-  modernConfig: NormalizedConfig;
+  modernConfig: CliNormalizedConfig;
   stories: string[];
   isTsProject: boolean;
 };
@@ -59,7 +62,7 @@ export const generateConfig = async (
 
   await genPreviewFile(
     appDirectory,
-    modernConfig as NormalizedConfig,
+    modernConfig as CliNormalizedConfig<ModuleTools>,
     configDir,
   );
 
@@ -71,7 +74,7 @@ const getUserPreviewFiles = (filename: string) =>
 
 const genPreviewFile = async (
   appDirectory: string,
-  modernConfig: NormalizedConfig,
+  modernConfig: CliNormalizedConfig<ModuleTools>,
   configDir: string,
 ) => {
   const previewPath = path.join(appDirectory, '/config/storybook/preview');

@@ -1,4 +1,4 @@
-import type { NormalizedConfig } from '@modern-js/core';
+import type { CliNormalizedConfig } from '@modern-js/app-tools';
 import { applyOptionsChain, logger } from '@modern-js/utils';
 import { merge, cloneDeep } from '@modern-js/utils/lodash';
 import type { LegacyUserConfig } from './types';
@@ -27,7 +27,7 @@ const getPureDesignSystemConfig = (
 };
 
 const getTailwindConfig = (
-  config: NormalizedConfig,
+  config: CliNormalizedConfig,
   option: { pureConfig?: Record<string, any> } = {},
 ) => {
   const purgeConfig = merge(
@@ -45,7 +45,7 @@ const getTailwindConfig = (
   };
   const tailwindConfig = applyOptionsChain(
     defaultTailwindConfig,
-    config.tools.tailwindcss || {},
+    config.tools?.tailwindcss || {},
   );
 
   const designSystem = getPureDesignSystemConfig(

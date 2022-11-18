@@ -58,7 +58,7 @@ export const getDefine = (api: PluginAPI) => {
 };
 
 const getStyleOptionFromModern = async (api: PluginAPI) => {
-  const runner = api.useHookRunners();
+  const runner: any = api.useHookRunners();
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
   const lessOption = await runner.moduleLessConfig(

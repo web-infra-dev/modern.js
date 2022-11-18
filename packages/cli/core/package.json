@@ -28,12 +28,18 @@
     "./bin": {
       "jsnext:source": "./src/bin.ts",
       "default": "./dist/bin.js"
+    },
+    "./types": {
+      "default": "./dist/types/index.js"
     }
   },
   "typesVersions": {
     "*": {
       "config": [
         "./dist/config/types/index.d.ts"
+      ],
+      "types": [
+        "./dist/types/index.d.ts"
       ]
     }
   },
@@ -53,6 +59,8 @@
     "@jest/types": "^27.0.6",
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__code-frame": "^7.0.3",

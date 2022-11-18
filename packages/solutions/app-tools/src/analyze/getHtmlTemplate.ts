@@ -1,7 +1,12 @@
 import path from 'path';
 import { fs, findExists, MAIN_ENTRY_NAME } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type {
+  IAppContext,
+  CliNormalizedConfig,
+  PluginAPI,
+} from '@modern-js/core';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
+import { AppTools } from '../types';
 import { HTML_PARTIALS_EXTENSIONS, HTML_PARTIALS_FOLDER } from './constants';
 import * as templates from './templates';
 
@@ -41,13 +46,13 @@ const findPartials = (
 // generate html template for
 export const getHtmlTemplate = async (
   entrypoints: Entrypoint[],
-  api: PluginAPI,
+  api: PluginAPI<AppTools>,
   {
     appContext,
     config,
   }: {
     appContext: IAppContext;
-    config: NormalizedConfig;
+    config: CliNormalizedConfig<AppTools>;
   },
 ) => {
   const { appDirectory, internalDirectory } = appContext;
@@ -55,7 +60,11 @@ export const getHtmlTemplate = async (
     source: { configDir },
   } = config;
 
-  const htmlDir = path.resolve(appDirectory, configDir!, HTML_PARTIALS_FOLDER);
+  const htmlDir = path.resolve(
+    appDirectory,
+    configDir || '',
+    HTML_PARTIALS_FOLDER,
+  );
 
   const htmlTemplates: HtmlTemplates = {};
 

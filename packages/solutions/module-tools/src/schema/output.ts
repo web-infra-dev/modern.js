@@ -39,5 +39,12 @@ export const outputSchema = [
       default: 'styles',
     },
   },
+  {
+    target: 'output.jsPath',
+    schema: {
+      typeof: 'string',
+      default: '',
+    },
+  },
   ...buildSchema,
 ];

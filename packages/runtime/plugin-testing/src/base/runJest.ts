@@ -13,6 +13,7 @@ import { chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { getJestUtils, patchConfig } from './config';
 import { TestConfig } from './types';
+import type { Hooks } from './hook';
 import { debug } from './utils';
 
 type Argv = Omit<Config.Argv, '_' | '$0'>;
@@ -108,7 +109,7 @@ export async function runJest(
  * Node API: run test
  */
 export async function runTest(
-  api: PluginAPI,
+  api: PluginAPI<{ hooks: Hooks }>,
   config: TestConfig,
   pwd: string = process.cwd(),
 ) {

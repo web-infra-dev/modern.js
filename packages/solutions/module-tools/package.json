@@ -63,7 +63,7 @@
     "@babel/types": "^7.18.0",
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/babel-preset-module": "workspace:*",
-    "@modern-js/core": "workspace:*",
+    "@modern-js/core": "1.21.1",
     "@modern-js/css-config": "1.21.1",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/upgrade": "workspace:*",

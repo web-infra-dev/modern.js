@@ -1,6 +1,10 @@
 import path from 'path';
 import { Import } from '@modern-js/utils';
-import type { NormalizedConfig, IAppContext } from '@modern-js/module-tools-v2';
+import type {
+  CliNormalizedConfig,
+  IAppContext,
+  ModuleTools,
+} from '@modern-js/module-tools-v2';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(
@@ -22,7 +26,7 @@ const webpackConfig: typeof import('./utils/webpackConfig') = Import.lazy(
 
 export interface IRunBuildOption {
   appContext: IAppContext;
-  modernConfig: NormalizedConfig;
+  modernConfig: CliNormalizedConfig<ModuleTools>;
   stories: string[];
   isTsProject?: boolean;
 }

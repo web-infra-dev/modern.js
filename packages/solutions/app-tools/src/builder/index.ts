@@ -8,9 +8,9 @@ import {
   BuilderConfig,
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, CliNormalizedConfig } from '@modern-js/core';
 import { applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
-
+import type { LegacyAppTools } from '../types';
 import {
   PluginCompatModernOptions,
   PluginCompatModern,
@@ -22,12 +22,14 @@ import { createToolsConfig } from './createToolsConfig';
 
 export type BuilderOptions = {
   target?: BuilderTarget | BuilderTarget[];
-  normalizedConfig: NormalizedConfig;
+  normalizedConfig: CliNormalizedConfig<LegacyAppTools>;
   appContext: IAppContext;
   compatPluginConfig?: PluginCompatModernOptions;
 };
 
-function getBuilderTargets(normalizedConfig: NormalizedConfig) {
+function getBuilderTargets(
+  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
+) {
   const targets: BuilderTarget[] = ['web'];
   if (
     normalizedConfig.output.enableModernMode &&
@@ -70,7 +72,7 @@ export async function createBuilderForEdenX({
 }
 
 function createBuilderProviderConfig(
-  normalizedConfig: NormalizedConfig,
+  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
   appContext: IAppContext,
 ): BuilderConfig {
   const source = createSourceConfig(normalizedConfig, appContext);
@@ -128,7 +130,7 @@ export function createBuilderOptions(
  */
 async function applyBuilderPlugins(
   builder: BuilderInstance,
-  normalizedConfig: NormalizedConfig,
+  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
   appContext: IAppContext,
   compatPluginConfig?: PluginCompatModernOptions,
 ) {
@@ -145,7 +147,7 @@ async function applyBuilderPlugins(
     builder.addPlugins([
       PluginEsbuild({
         loader: false,
-        minimize: applyOptionsChain({}, esbuildOptions),
+        minimize: applyOptionsChain<any, any>({}, esbuildOptions),
       }),
     ]);
   }

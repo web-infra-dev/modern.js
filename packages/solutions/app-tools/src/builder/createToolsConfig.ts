@@ -1,9 +1,10 @@
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { CliNormalizedConfig } from '@modern-js/core';
 import { applyOptionsChain } from '@modern-js/utils';
+import type { LegacyAppTools } from '../types';
 
 export function createToolsConfig(
-  normalizedConfig: NormalizedConfig,
+  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
 ): BuilderConfig['tools'] {
   const { enableTsLoader } = normalizedConfig.output;
   const {
@@ -20,8 +21,7 @@ export function createToolsConfig(
     less,
     htmlPlugin,
     // TODO: remove modernjs tools.lodash config
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    lodash,
+    // lodash,
   } = normalizedConfig.tools;
 
   const builderTsLoader = createBuilderTsLoader(tsLoader, enableTsLoader);
@@ -36,11 +36,10 @@ export function createToolsConfig(
     webpack,
     webpackChain: webpackChain as any,
     tsLoader: builderTsLoader,
-    styledComponents:
-      styledComponents as Required<BuilderConfig>['tools']['styledComponents'],
-    sass: sass as Required<BuilderConfig>['tools']['sass'],
-    postcss: postcss as Required<BuilderConfig>['tools']['postcss'],
-    less: less as Required<BuilderConfig>['tools']['less'],
+    styledComponents,
+    sass,
+    postcss,
+    less,
     // can't remove comment in html minify.
     // some html template insert by using those comments.
     htmlPlugin: [
@@ -65,8 +64,8 @@ export function createToolsConfig(
 }
 
 function createBuilderTsLoader(
-  tsLoader: NormalizedConfig['tools']['tsLoader'],
-  enableTsLoader: NormalizedConfig['output']['enableTsLoader'],
+  tsLoader: CliNormalizedConfig<LegacyAppTools>['tools']['tsLoader'],
+  enableTsLoader: CliNormalizedConfig<LegacyAppTools>['output']['enableTsLoader'],
 ) {
   const useTsLoader = Boolean(enableTsLoader);
   if (!useTsLoader) {

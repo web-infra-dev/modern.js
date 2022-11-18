@@ -1,89 +1,19 @@
 import * as path from 'path';
-import { createAsyncWaterfall } from '@modern-js/plugin';
 import { createDebugger, fs, isApiOnly } from '@modern-js/utils';
-import type {
-  CliPlugin,
-  RuntimePlugin,
-  ImportStatement,
-} from '@modern-js/core';
-import type {
-  RouteLegacy,
-  Entrypoint,
-  ServerRoute,
-  HtmlPartials,
-  NestedRoute,
-  PageRoute,
-} from '@modern-js/types';
+import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { createBuilderForEdenX } from '../builder';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
 import { getCommand } from '../utils/commands';
-import type { AppHooks } from '../hooks';
+import { AppTools } from '../types';
 import { isRouteComponentFile } from './utils';
 
 const debug = createDebugger('plugin-analyze');
 
-export const modifyEntryImports = createAsyncWaterfall<{
-  imports: ImportStatement[];
-  entrypoint: Entrypoint;
-}>();
-export const modifyEntryExport = createAsyncWaterfall<{
-  entrypoint: Entrypoint;
-  exportStatement: string;
-}>();
-export const addRuntimeExports = createAsyncWaterfall();
-export const modifyEntryRuntimePlugins = createAsyncWaterfall<{
-  entrypoint: Entrypoint;
-  plugins: RuntimePlugin[];
-}>();
-export const modifyEntryRenderFunction = createAsyncWaterfall<{
-  entrypoint: Entrypoint;
-  code: string;
-}>();
-
-export const modifyAsyncEntry = createAsyncWaterfall<{
-  entrypoint: Entrypoint;
-  code: string;
-}>();
-
-export const modifyFileSystemRoutes = createAsyncWaterfall<{
-  entrypoint: Entrypoint;
-  routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
-}>();
-
-export const modifyServerRoutes = createAsyncWaterfall<{
-  routes: ServerRoute[];
-}>();
-
-export const htmlPartials = createAsyncWaterfall<{
-  entrypoint: Entrypoint;
-  partials: HtmlPartials;
-}>();
-
-export const beforeGenerateRoutes = createAsyncWaterfall<{
-  entrypoint: Entrypoint;
-  code: string;
-}>();
-export const addDefineTypes = createAsyncWaterfall();
-
-export default (): CliPlugin<AppHooks> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-analyze',
-
-  registerHook: {
-    modifyAsyncEntry,
-    modifyEntryImports,
-    modifyEntryExport,
-    modifyEntryRuntimePlugins,
-    modifyEntryRenderFunction,
-    modifyFileSystemRoutes,
-    modifyServerRoutes,
-    htmlPartials,
-    addRuntimeExports,
-    beforeGenerateRoutes,
-    addDefineTypes,
-  },
 
   setup: api => {
     let pagesDir: string[] = [];
@@ -198,7 +128,7 @@ export default (): CliPlugin<AppHooks> => ({
           const normalizedConfig = api.useResolvedConfigContext();
 
           const builder = await createBuilderForEdenX({
-            normalizedConfig,
+            normalizedConfig: normalizedConfig as any,
             appContext,
             compatPluginConfig: {
               async onBeforeBuild({ bundlerConfigs }) {

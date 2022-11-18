@@ -209,7 +209,7 @@ export const buildStyle = async (
   if ((await haveNotAnyStyles(sourceDir)) || style.compileMode === false) {
     return;
   }
-  const runner = api.useHookRunners();
+  const runner: any = api.useHookRunners();
 
   const lessOption = await runner.moduleLessConfig(
     { modernConfig },

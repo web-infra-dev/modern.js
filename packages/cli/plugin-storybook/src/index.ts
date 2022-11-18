@@ -1,8 +1,8 @@
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import type { CliPlugin, ModuleToolsHooks } from '@modern-js/module-tools-v2';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
 import { defaultStories } from './constants/stores';
 
-export default (): CliPlugin<ModuleToolsHooks> => ({
+export default (): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-storybook',
   setup: api => ({
     async validateSchema() {

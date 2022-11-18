@@ -13,9 +13,7 @@ export const testingHooks = {
   afterTest: createParallelWorkflow(),
 };
 
-declare module '@modern-js/core' {
-  export interface Hooks {
-    jestConfig: typeof jestConfigHook;
-    afterTest: typeof afterTestHook;
-  }
-}
+export type Hooks = {
+  jestConfig: typeof jestConfigHook;
+  afterTest: typeof afterTestHook;
+};

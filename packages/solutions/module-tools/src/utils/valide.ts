@@ -27,7 +27,7 @@ export const modernConfigValid = (
   const valids = [validAlias];
 
   for (const validFn of valids) {
-    const result = validFn(modernConfig, option);
+    const result = validFn(modernConfig as any, option);
     if (result) {
       return result;
     }

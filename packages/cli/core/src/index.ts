@@ -2,43 +2,37 @@ import path from 'path';
 import {
   pkgUp,
   program,
-  Command,
-  ensureAbsolutePath,
   logger,
   DEFAULT_SERVER_CONFIG,
   INTERNAL_SERVER_PLUGINS,
+  Command,
 } from '@modern-js/utils';
 import type { ErrorObject } from '@modern-js/utils/ajv';
 import { InternalPlugins } from '@modern-js/types';
 import { initCommandsMap } from './utils/commander';
-import { resolveConfig, loadUserConfig, addServerConfigToDeps } from './config';
 import { loadPlugins, TransformPlugin } from './loadPlugins';
 import {
   AppContext,
   ConfigContext,
-  useAppContext,
-  IAppContext,
   initAppContext,
   ResolvedConfigContext,
 } from './context';
-import { initWatcher } from './initWatcher';
 import { loadEnv } from './loadEnv';
-import { manager, HooksRunner } from './manager';
+import { manager } from './manager';
+import type { CliHooksRunner } from './types/hooks';
+import {
+  createResolveConfig,
+  createLoadedConfig,
+  addServerConfigToDeps,
+} from './config';
 
-export * from './config';
-export type {
-  Hooks,
-  ImportSpecifier,
-  ImportStatement,
-  RuntimePlugin,
-} from './types';
+export * from './types';
+
 export * from '@modern-js/plugin';
 
 // TODO: remove export after refactor all plugins
 export { manager, mountHook, createPlugin, registerHook } from './manager';
-export type { CliHooks, CliPlugin, CliHookCallbacks } from './manager';
 
-// TODO: remove export after refactor all plugins
 export {
   AppContext,
   ConfigContext,
@@ -46,10 +40,7 @@ export {
   useAppContext,
   useConfigContext,
   useResolvedConfigContext,
-} from './pluginAPI';
-export type { PluginAPI } from './pluginAPI';
-
-export type { IAppContext };
+} from './context';
 
 const initAppDir = async (cwd?: string): Promise<string> => {
   if (!cwd) {
@@ -101,17 +92,15 @@ const setProgramVersion = (version = 'unknown') => {
 };
 
 const createCli = () => {
-  let hooksRunner: HooksRunner;
-  let isRestart = false;
-  let restartWithExistingPort = 0;
-  let restartOptions: CoreOptions | undefined;
+  let hooksRunner: CliHooksRunner;
+  let initOptions: CoreOptions | undefined;
 
-  const init = async (argv: string[] = [], options?: CoreOptions) => {
+  const init = async (options?: CoreOptions) => {
     manager.clear();
 
     const mergedOptions = mergeOptions(options);
 
-    restartOptions = mergedOptions;
+    initOptions = mergedOptions;
 
     const appDirectory = await initAppDir(options?.cwd);
 
@@ -121,7 +110,7 @@ const createCli = () => {
     const metaName = mergedOptions?.options?.metaName ?? 'MODERN';
     loadEnv(appDirectory, process.env[`${metaName.toUpperCase()}_ENV`]);
 
-    const loaded = await loadUserConfig(
+    const loaded = await createLoadedConfig(
       appDirectory,
       mergedOptions?.configFile,
       mergedOptions?.packageJsonConfig,
@@ -144,7 +133,6 @@ const createCli = () => {
         mergedOptions?.internalPlugins?.server || INTERNAL_SERVER_PLUGINS,
     });
 
-    // 将 server.config 加入到 loaded.dependencies，以便对文件监听做热更新
     addServerConfigToDeps(
       loaded.dependencies,
       appDirectory,
@@ -175,78 +163,37 @@ const createCli = () => {
 
     const extraSchemas = await hooksRunner.validateSchema();
 
-    const config = await resolveConfig(
+    const normalizedConfig = await createResolveConfig(
       loaded,
       extraConfigs,
       extraSchemas,
-      restartWithExistingPort,
-      argv,
       options?.onSchemaError,
     );
 
     const { resolved } = await hooksRunner.resolvedConfig({
-      resolved: config,
+      resolved: normalizedConfig,
     });
 
+    // FIXME: Why need to configContext again?
     // update context value
     ConfigContext.set(loaded.config);
     ResolvedConfigContext.set(resolved);
-    AppContext.set({
-      ...appContext,
-      port: resolved.server.port!,
-      distDirectory: ensureAbsolutePath(appDirectory, resolved.output.path!),
-    });
+
+    // TODO: confirm the `addRuntimeExports` run order
+    await hooksRunner.addRuntimeExports();
 
     await hooksRunner.prepare();
-
-    return {
-      loadedConfig: loaded,
-      // appContext may be updated in `prepare` hook, should return latest value
-      appContext: useAppContext(),
-      resolved,
-    };
   };
 
-  async function run(argv: string[], options?: CoreOptions) {
-    const { loadedConfig, appContext, resolved } = await init(argv, options);
+  async function run(options?: CoreOptions) {
+    await init(options);
 
     await hooksRunner.commands({ program });
-
-    initWatcher(
-      loadedConfig,
-      appContext.appDirectory,
-      resolved.source.configDir,
-      hooksRunner,
-      argv,
-    );
     program.parse(process.argv);
   }
 
-  async function restart() {
-    isRestart = true;
-    restartWithExistingPort = isRestart ? AppContext.use().value?.port ?? 0 : 0;
-
-    logger.info('Restart...\n');
-
-    let hasGetError = false;
-
-    const runner = manager.useRunner();
-    await runner.beforeRestart();
-
-    try {
-      await init(process.argv.slice(2), restartOptions);
-    } catch (err) {
-      console.error(err);
-      hasGetError = true;
-    } finally {
-      if (!hasGetError) {
-        program.parse(process.argv);
-      }
-    }
-  }
-
   async function test(
-    argv: string[],
+    _argv: string[],
     options?: {
       coreOptions?: CoreOptions;
       disableWatcher?: boolean;
@@ -254,29 +201,16 @@ const createCli = () => {
   ) {
     const newProgram = new Command();
     const { coreOptions } = options ?? {};
-    const { loadedConfig, appContext, resolved } = await init(
-      argv,
-      coreOptions,
-    );
+    await init(coreOptions);
 
     await hooksRunner.commands({ program: newProgram });
-    if (!options?.disableWatcher) {
-      initWatcher(
-        loadedConfig,
-        appContext.appDirectory,
-        resolved.source.configDir,
-        hooksRunner,
-        argv,
-      );
-    }
 
-    await newProgram.parseAsync(argv);
+    await newProgram.parseAsync(process.argv);
   }
 
   return {
     init,
     run,
-    restart,
     test,
   };
 };

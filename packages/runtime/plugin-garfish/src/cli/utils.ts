@@ -1,4 +1,5 @@
-import type { NormalizedConfig } from '@modern-js/core';
+import { AppTools } from '@modern-js/app-tools';
+import type { CliNormalizedConfig } from '@modern-js/core';
 
 export const makeProvider = () => `
 export const provider = function ({basename, dom}) {
@@ -102,7 +103,9 @@ export const makeRenderFunction = (code: string) => {
 };
 
 // support legacy config
-export function getRuntimeConfig(config: Partial<NormalizedConfig>) {
+export function getRuntimeConfig(
+  config: Partial<CliNormalizedConfig<AppTools>>,
+) {
   if (config?.runtime?.features) {
     return config?.runtime?.features;
   }
@@ -111,7 +114,7 @@ export function getRuntimeConfig(config: Partial<NormalizedConfig>) {
 
 // support legacy config
 export function setRuntimeConfig(
-  config: Partial<NormalizedConfig>,
+  config: Partial<CliNormalizedConfig<AppTools>>,
   key: string,
   value: any,
 ): undefined {

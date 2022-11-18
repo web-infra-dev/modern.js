@@ -1,11 +1,21 @@
 import path from 'path';
-import { defineConfig, cli, CliPlugin } from '@modern-js/core';
 import LintPlugin from '@modern-js/plugin-lint';
-import { cleanRequireCache, emptyDir, Import } from '@modern-js/utils';
+import {
+  cleanRequireCache,
+  emptyDir,
+  Import,
+  ensureAbsolutePath,
+  getPort,
+  isDev,
+} from '@modern-js/utils';
+import { CliPlugin } from '@modern-js/core';
+import schema from './schema';
 import AnalyzePlugin from './analyze';
-import { hooks, AppHooks } from './hooks';
+import { AppTools } from './types';
+import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
+import { createDefaultConfig } from './config';
 import type {
   DevOptions,
   BuildOptions,
@@ -13,16 +23,17 @@ import type {
   InspectOptions,
 } from './utils/types';
 import { getCommand } from './utils/commands';
+import { restart } from './utils/restart';
 
-export { defineConfig, hooks };
-export type { AppHooks, CliPlugin };
+export * from './defineConfig';
+export * from './types';
 
 const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',
   require,
 );
 
-export default (): CliPlugin<AppHooks> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
 
   post: [
@@ -151,6 +162,10 @@ export default (): CliPlugin<AppHooks> => ({
         upgradeModel.defineCommand(program.command('upgrade'));
       },
 
+      config() {
+        return createDefaultConfig();
+      },
+
       async prepare() {
         const command = getCommand();
         if (command === 'dev' || command === 'build') {
@@ -159,24 +174,70 @@ export default (): CliPlugin<AppHooks> => ({
         }
       },
 
+      async resolvedConfig({ resolved }) {
+        const command = getCommand();
+        const appContext = api.useAppContext();
+        let port: number | undefined;
+        if (isDev() && command === 'dev') {
+          port = appContext.port ?? (await getPort(resolved.server.port!));
+        }
+        const userConfig = api.useConfigContext();
+
+        api.setAppContext({
+          ...appContext,
+          port,
+          distDirectory: ensureAbsolutePath(
+            appContext.distDirectory,
+            userConfig.output?.distPath?.root || '',
+          ),
+        });
+
+        return {
+          resolved: {
+            _raw: userConfig,
+            source: userConfig.source || {},
+            server: {
+              ...(userConfig.server || {}),
+              port: port || userConfig.server?.port,
+            },
+            bff: userConfig.bff || {},
+            dev: userConfig.dev || {},
+            html: userConfig.html || {},
+            output: userConfig.output || {},
+            security: userConfig.security || {},
+            tools: userConfig.tools || {},
+            testing: userConfig.testing || {},
+            plugins: userConfig.plugins || [],
+            runtime: userConfig.runtime || {},
+            runtimeByEntries: userConfig.runtimeByEntries || {},
+            deploy: userConfig.deploy || {},
+          },
+        };
+      },
+
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart
       async fileChange(e: { filename: string; eventType: string }) {
         const { filename, eventType } = e;
         const appContext = api.useAppContext();
         const { appDirectory, srcDirectory } = appContext;
         const absolutePath = path.resolve(appDirectory, filename);
+
         if (
           !absolutePath.includes(srcDirectory) &&
           (eventType === 'change' || eventType === 'unlink')
         ) {
           const { closeServer } = await import('./utils/createServer');
           await closeServer();
-          await cli.restart();
+          await restart(api.useHookRunners());
         }
       },
 
       async beforeRestart() {
         cleanRequireCache([require.resolve('./analyze')]);
+      },
+
+      validateSchema() {
+        return schema.generate();
       },
     };
   },

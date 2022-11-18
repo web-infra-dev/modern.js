@@ -67,12 +67,15 @@ export async function createDevServer(
 
   const defaultConfig: ModernDevServerOptions['config'] = {
     output: {
-      path: builderConfig.output?.distPath?.root,
+      distPath: builderConfig.output?.distPath,
       assetPrefix: builderConfig.output?.assetPrefix,
     },
     source: {
       alias: {},
+      define: {},
+      globalVars: {},
     },
+    html: {},
     tools: {
       babel: {},
     },

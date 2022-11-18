@@ -69,12 +69,12 @@
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^27",

@@ -20,7 +20,7 @@ export const buildPlatform = async (
   const lm = new lg.LoggerManager();
   // 获取platforms的参数
   const runners = api.useHookRunners();
-  const buildTasks = await runners.platformBuild({
+  const buildTasks = await (runners as any).platformBuild({
     isTsProject,
   });
 

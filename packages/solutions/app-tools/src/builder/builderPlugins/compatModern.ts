@@ -8,16 +8,16 @@ import type {
   BuilderPluginAPI,
   WebpackChain,
 } from '@modern-js/builder-webpack-provider';
-import type {
-  IAppContext,
-  NormalizedConfig,
-  ServerConfig,
-  SSGMultiEntryOptions,
-} from '@modern-js/core';
+import type { IAppContext, CliNormalizedConfig } from '@modern-js/core';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 import { getEntryOptions, ChainIdentifier } from '@modern-js/utils';
 import { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import {
+  SSGMultiEntryOptions,
+  LegacyAppTools,
+  ServerUserConfig,
+} from '../../types';
 import { BottomTemplatePlugin } from '../webpackPlugins/htmlBottomTemplate';
 import { HtmlAsyncChunkPlugin } from '../webpackPlugins/htmlAsyncChunkPlugin';
 import { createCopyPattern } from '../share';
@@ -53,7 +53,7 @@ export type PluginCompatModernOptions = FnParameter<
  */
 export const PluginCompatModern = (
   appContext: IAppContext,
-  modernConfig: NormalizedConfig,
+  modernConfig: CliNormalizedConfig<LegacyAppTools>,
   options?: PluginCompatModernOptions,
 ): BuilderPlugin<BuilderPluginAPI> => ({
   name: 'builder-plugin-compat-modern',
@@ -170,7 +170,7 @@ function applyCallbacks(
  */
 function applyNodeCompat(
   chain: WebpackChain,
-  modernConfig: NormalizedConfig,
+  modernConfig: CliNormalizedConfig<LegacyAppTools>,
   isProd: boolean,
 ) {
   // apply node resolve extensions
@@ -189,8 +189,8 @@ function applyNodeCompat(
   function filterEntriesBySSRConfig(
     isProd: boolean,
     chain: WebpackChain,
-    serverConfig?: NormalizedConfig['server'],
-    outputConfig?: NormalizedConfig['output'],
+    serverConfig?: CliNormalizedConfig<LegacyAppTools>['server'],
+    outputConfig?: CliNormalizedConfig<LegacyAppTools>['output'],
   ) {
     const entries = chain.entryPoints.entries();
     // if prod and ssg config is true or function
@@ -245,7 +245,7 @@ function applyBottomHtmlWebpackPlugin({
 }: {
   api: BuilderPluginAPI;
   chain: WebpackChain;
-  modernConfig: NormalizedConfig;
+  modernConfig: CliNormalizedConfig<LegacyAppTools>;
   appContext: IAppContext;
   CHAIN_ID: ChainIdentifier;
 }) {
@@ -285,8 +285,10 @@ function applyBottomHtmlWebpackPlugin({
     .use(BottomTemplatePlugin, [HtmlWebpackPlugin]);
 }
 
-const isStreamingSSR = (userConfig: NormalizedConfig): boolean => {
-  const isStreaming = (ssr: ServerConfig['ssr']) =>
+const isStreamingSSR = (
+  userConfig: CliNormalizedConfig<LegacyAppTools>,
+): boolean => {
+  const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
   const { server } = userConfig;
@@ -314,7 +316,7 @@ function applyAsyncChunkHtmlPlugin({
   CHAIN_ID,
 }: {
   chain: WebpackChain;
-  modernConfig: NormalizedConfig;
+  modernConfig: CliNormalizedConfig<LegacyAppTools>;
   CHAIN_ID: ChainIdentifier;
 }) {
   if (isStreamingSSR(modernConfig)) {

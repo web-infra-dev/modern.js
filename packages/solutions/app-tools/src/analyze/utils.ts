@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { isReact18, normalizeToPosixPath } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
-import type { ImportStatement } from '@modern-js/core';
+import type { ImportStatement } from '../types';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from './constants';
 
 export const walkDirectory = (dir: string): string[] =>

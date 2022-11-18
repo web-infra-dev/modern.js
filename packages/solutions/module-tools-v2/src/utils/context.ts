@@ -1,9 +1,7 @@
 import type { PluginAPI } from '@modern-js/core';
-import type { ModuleToolsHooks, ModuleContext } from '../types';
+import type { ModuleTools } from '../types';
 
-export const initModuleContext = async (
-  api: PluginAPI<ModuleToolsHooks>,
-): Promise<ModuleContext> => {
+export const initModuleContext = async (api: PluginAPI<ModuleTools>) => {
   const { isTypescript } = await import('@modern-js/utils');
   const { appDirectory } = api.useAppContext();
   const isTsProject = isTypescript(appDirectory);

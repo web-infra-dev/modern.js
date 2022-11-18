@@ -4,11 +4,11 @@ import {
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import {} from '../types';
+import type { AppTools } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'state';
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-state',
   required: ['@modern-js/runtime'],
   setup: api => {

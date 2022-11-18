@@ -16,7 +16,7 @@ export const getFinalAlias: any = (
   modernConfig: NormalizedConfig,
   option: { appDirectory: string; tsconfigPath: string; sourceAbsDir: string },
 ) => {
-  const aliasConfig = getAliasConfig(modernConfig.source.alias, option);
+  const aliasConfig = getAliasConfig(modernConfig.source.alias as any, option);
   // 排除内部别名，因为不需要处理
   const finalPaths: Record<string, string | string[]> = {};
   const internalAliasPrefix = '@modern-js/runtime';
@@ -46,7 +46,10 @@ export const resolveBabelConfig = (
   const {
     source: { envVars, globalVars, jsxTransformRuntime = 'automatic' },
     output: { importStyle },
-    tools: { lodash: userLodashOption, styledComponents },
+    tools: { lodash: userLodashOption, styledComponents } = {
+      lodash: {},
+      styledComponents: {},
+    },
   } = modernConfig;
 
   // alias config
@@ -59,7 +62,7 @@ export const resolveBabelConfig = (
   const lodashOptions = applyOptionsChain(
     { id: ['lodash', 'ramda'] },
     // TODO: 需要处理类型问题
-    userLodashOption as any,
+    userLodashOption || ({} as any),
   );
   // babel config
   const internalBabelConfig = getBabelConfig(
@@ -96,6 +99,6 @@ export const resolveBabelConfig = (
   internalBabelConfig.compact = false;
   internalBabelConfig.sourceMaps = sourceMap === 'external' ? true : sourceMap;
 
-  const userBabelConfig = modernConfig.tools.babel;
+  const userBabelConfig = modernConfig.tools?.babel;
   return applyUserBabelConfig(internalBabelConfig, userBabelConfig);
 };

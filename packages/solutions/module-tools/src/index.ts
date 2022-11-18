@@ -28,9 +28,9 @@ export default (): CliPlugin => ({
 
   post: ['@modern-js/plugin-changeset'],
 
-  registerHook: hooks,
+  registerHook: hooks as any,
 
-  usePlugins: isBuildMode ? [] : [ChangesetPlugin(), LintPlugin()],
+  usePlugins: isBuildMode ? [] : ([ChangesetPlugin(), LintPlugin()] as any),
 
   setup: api => {
     const locale = lang.getLocaleLanguage();

@@ -7,7 +7,7 @@ import {
   nanoid,
   slash,
 } from '@modern-js/utils';
-import type { CliPlugin } from '@modern-js/core';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import DesignTokenPlugin from './design-token/cli';
 import { getTailwindConfig } from './tailwind';
 import { template, checkTwinMacroNotExist } from './utils';
@@ -27,7 +27,7 @@ export default (
   { pluginName } = {
     pluginName: '@modern-js/plugin-tailwindcss',
   },
-): CliPlugin => ({
+): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-tailwindcss',
 
   // support designSystem.supportStyledComponents

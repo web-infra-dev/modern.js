@@ -1,9 +1,10 @@
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { CliNormalizedConfig, IAppContext } from '@modern-js/core';
+import { LegacyAppTools } from '../types';
 import { createCopyPattern } from './share';
 
 export function createOutputConfig(
-  normalizedConfig: NormalizedConfig,
+  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
   appContext: IAppContext,
 ): BuilderConfig['output'] {
   // TODO: add `externals` options in Modern.

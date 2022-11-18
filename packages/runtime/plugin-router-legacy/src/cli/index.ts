@@ -4,13 +4,13 @@ import {
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
-import type { CliPlugin } from '@modern-js/core';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router-legacy',
   required: ['@modern-js/runtime'],
   setup: api => {
@@ -45,7 +45,7 @@ export default (): CliPlugin => ({
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-router'];
       },
-      modifyEntryImports({ entrypoint, imports }: any) {
+      modifyEntryImports({ entrypoint, imports }) {
         const { entryName } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
@@ -77,7 +77,7 @@ export default (): CliPlugin => ({
           imports,
         };
       },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
+      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
         const { entryName, fileSystemRoutes } = entrypoint;
         const { serverRoutes } = api.useAppContext();
         const runtimeConfig = runtimeConfigMap.get(entryName);

@@ -1,10 +1,11 @@
 import path from 'path';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { CliNormalizedConfig, IAppContext } from '@modern-js/core';
 import { findExists } from '@modern-js/utils';
+import { LegacyAppTools } from '../types';
 
 export function createHtmlConfig(
-  normalizedConfig: NormalizedConfig,
+  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
   appContext: IAppContext,
 ): BuilderConfig['html'] {
   const {
@@ -52,7 +53,7 @@ export function createHtmlConfig(
 const ICON_EXTENSIONS = ['png', 'jpg', 'jpeg', 'svg', 'ico'];
 
 export function createBuilderAppIcon(
-  configDir: NormalizedConfig['source']['configDir'],
+  configDir: CliNormalizedConfig<LegacyAppTools>['source']['configDir'],
   appContext: IAppContext,
 ) {
   const appIcon = findExists(
@@ -64,7 +65,7 @@ export function createBuilderAppIcon(
 }
 
 export function createBuilderCrossorigin(
-  scriptExt: NormalizedConfig['output']['scriptExt'],
+  scriptExt: CliNormalizedConfig<LegacyAppTools>['output']['scriptExt'],
 ) {
   const scriptExtCustomConfig = scriptExt?.custom as
     | {
@@ -80,8 +81,8 @@ export function createBuilderCrossorigin(
 }
 
 export function createBuilderFavicon(
-  favicon: NormalizedConfig['output']['favicon'],
-  configDir: NormalizedConfig['source']['configDir'],
+  favicon: CliNormalizedConfig<LegacyAppTools>['output']['favicon'],
+  configDir: CliNormalizedConfig<LegacyAppTools>['source']['configDir'],
   appContext: IAppContext,
 ) {
   const defaultFavicon = findExists(

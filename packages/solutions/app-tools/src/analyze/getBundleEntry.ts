@@ -5,8 +5,9 @@ import {
   findExists,
   MAIN_ENTRY_NAME,
 } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, CliNormalizedConfig } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
+import type { AppTools } from '../types';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { JS_EXTENSIONS } from './constants';
 
@@ -44,7 +45,7 @@ const ifAlreadyExists = (
 
 export const getBundleEntry = (
   appContext: IAppContext,
-  config: NormalizedConfig,
+  config: CliNormalizedConfig<AppTools>,
 ) => {
   const { appDirectory, packageName } = appContext;
   const {
@@ -86,7 +87,7 @@ export const getBundleEntry = (
 
   if (!disableDefaultEntries) {
     // find main entry point which server route is '/'.
-    const entriesDirAbs = ensureAbsolutePath(appDirectory, entriesDir!);
+    const entriesDirAbs = ensureAbsolutePath(appDirectory, entriesDir || '');
     const found = defaults.find(
       ({ entryName, entry, nestedRoutesEntry = '' }) =>
         entryName === packageName ||

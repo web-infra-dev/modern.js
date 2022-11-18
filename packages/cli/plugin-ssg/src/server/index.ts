@@ -1,18 +1,18 @@
 import childProcess from 'child_process';
 import path from 'path';
 import { logger } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type { CliNormalizedConfig, PluginAPI } from '@modern-js/app-tools';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
 import { openRouteSSR } from '../libs/util';
 import { SsgRoute } from '../types';
 import { CLOSE_SIGN } from './consts';
 
 export const createServer = (
-  api: PluginAPI,
+  api: PluginAPI<any>,
   ssgRoutes: SsgRoute[],
   pageRoutes: ModernRoute[],
   apiRoutes: ModernRoute[],
-  options: NormalizedConfig,
+  options: CliNormalizedConfig<any>,
   appDirectory: string,
 ): Promise<string[]> =>
   new Promise((resolve, reject) => {

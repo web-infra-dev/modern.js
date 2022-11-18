@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse, Server as httpServer } from 'http';
+
 import type { ListenOptions } from 'net';
 import path from 'path';
 import fs from 'fs';
@@ -17,8 +18,9 @@ import {
   ConfigContext,
   loadPlugins,
   ServerConfig,
+  ServerOptions,
 } from '@modern-js/server-core';
-import type { UserConfig } from '@modern-js/core';
+import type { CliUserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
 import {
   ModernServerOptions,
@@ -121,7 +123,10 @@ export class Server {
 
   private initServerConfig(options: ModernServerOptions) {
     const { pwd, serverConfigFile } = options;
-    const distDirectory = path.join(pwd, options.config.output?.path || 'dist');
+    const distDirectory = path.join(
+      pwd,
+      options.config.output.distPath?.root || 'dist',
+    );
     const serverConfigPath = getServerConfigPath(
       distDirectory,
       serverConfigFile,
@@ -146,7 +151,7 @@ export class Server {
 
     const resolvedConfigPath = path.join(
       pwd,
-      config?.output?.path || 'dist',
+      config.output.distPath?.root || 'dist',
       OUTPUT_CONFIG_FILE,
     );
 
@@ -218,10 +223,12 @@ export class Server {
     const appContext = this.initAppContext();
     const { config, pwd } = options;
 
-    ConfigContext.set(config as UserConfig);
+    ConfigContext.set(
+      config as CliUserConfig<{ normalizedConfig: ServerOptions }>,
+    );
     AppContext.set({
       ...appContext,
-      distDirectory: path.join(pwd, config.output?.path || 'dist'),
+      distDirectory: path.join(pwd, config.output.distPath?.root || 'dist'),
     });
   }
 
@@ -234,7 +241,10 @@ export class Server {
 
     return {
       appDirectory,
-      distDirectory: path.join(appDirectory, config.output?.path || 'dist'),
+      distDirectory: path.join(
+        appDirectory,
+        config.output.distPath?.root || 'dist',
+      ),
       sharedDirectory: path.resolve(appDirectory, SHARED_DIR),
       plugins: serverPlugins,
     };

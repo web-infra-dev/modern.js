@@ -13,6 +13,7 @@ import {
   DEFAULT_RESOLVER_PATH,
 } from '../base';
 import { MODERNJS_CONFIG_KEY } from '../constant';
+import type { Hooks } from '../base/hook';
 import TestingBffPlugin from './bff';
 import test from './test';
 
@@ -25,7 +26,7 @@ export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
   }
 };
 
-export default (): CliPlugin => {
+export default (): CliPlugin<{ hooks: Hooks }> => {
   const BffPlugin = TestingBffPlugin();
 
   return {

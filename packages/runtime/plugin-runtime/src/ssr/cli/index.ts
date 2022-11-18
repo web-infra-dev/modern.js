@@ -6,17 +6,19 @@ import {
   createRuntimeExportsUtils,
   isSingleEntry,
 } from '@modern-js/utils';
+import type { CliPlugin, CliNormalizedConfig } from '@modern-js/core';
 import type {
-  CliPlugin,
+  AppTools,
+  ServerUserConfig,
   SSGMultiEntryOptions,
-  ServerConfig,
-  NormalizedConfig,
-} from '@modern-js/core';
+} from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
-const hasStringSSREntry = (userConfig: NormalizedConfig): boolean => {
-  const isStreaming = (ssr: ServerConfig['ssr']) =>
+const hasStringSSREntry = (
+  userConfig: CliNormalizedConfig<AppTools>,
+): boolean => {
+  const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
   const { server } = userConfig;
@@ -36,7 +38,7 @@ const hasStringSSREntry = (userConfig: NormalizedConfig): boolean => {
   return false;
 };
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssr',
   required: ['@modern-js/runtime'],
   setup: api => {

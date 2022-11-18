@@ -163,6 +163,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
     "@testing-library/react-hooks": "^8.0.1",

@@ -318,7 +318,10 @@ export class ModernDevServer extends ModernServer {
       `${SHARED_DIR}/**/*`,
     ];
 
-    const watchOptions = mergeWatchOptions(this.conf.server?.watchOptions);
+    // FIXME: the server config.watchOptions;
+    const watchOptions = mergeWatchOptions(
+      (this.conf.server as any)?.watchOptions,
+    );
 
     const defaultWatchedPaths = defaultWatched.map(p =>
       path.normalize(path.join(pwd, p)),

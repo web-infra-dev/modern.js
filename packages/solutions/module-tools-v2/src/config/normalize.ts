@@ -8,6 +8,7 @@ import type {
   PartialBaseBuildConfig,
   ModuleContext,
   BuildCommandOptions,
+  ModuleTools,
 } from '../types';
 
 export const transformBuildPresetToBaseConfigs = async (
@@ -135,7 +136,7 @@ export const checkConfig = async (config: UserConfig) => {
 };
 
 export const normalizeBuildConfig = async (
-  api: PluginAPI,
+  api: PluginAPI<ModuleTools>,
   context: ModuleContext,
   buildCmdOptions: BuildCommandOptions,
 ): Promise<BaseBuildConfig[]> => {

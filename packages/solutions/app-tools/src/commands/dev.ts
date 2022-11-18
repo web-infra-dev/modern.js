@@ -1,25 +1,25 @@
 import { logger } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import { createFileWatcher } from '../utils/createFileWatcher';
 import { printInstructions } from '../utils/printInstructions';
 import { createServer, injectDataLoaderPlugin } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
 import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 import { buildServerConfig } from '../utils/config';
-import type { AppHooks } from '../hooks';
+import type { AppTools } from '../types';
 
-export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
+export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
   if (options.analyze) {
     // Builder will read this env var to enable bundle analyzer
     process.env.BUNDLE_ANALYZE = 'true';
   }
-
-  let userConfig = api.useResolvedConfigContext();
+  let normalizedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
 
-  userConfig = { ...userConfig, cliOptions: options };
-  ResolvedConfigContext.set(userConfig);
+  normalizedConfig = { ...normalizedConfig, cliOptions: options };
+  ResolvedConfigContext.set(normalizedConfig);
 
   const {
     appDirectory,
@@ -74,13 +74,13 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
         hot: true,
         liveReload: true,
         port,
-        https: userConfig.dev.https,
+        https: normalizedConfig.dev.https,
       },
-      ...userConfig.tools.devServer,
+      ...normalizedConfig.tools?.devServer,
     },
     compiler,
     pwd: appDirectory,
-    config: userConfig,
+    config: normalizedConfig,
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
   });
@@ -93,7 +93,13 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     if (!apiOnly) {
       logger.info(`Starting dev server...\n`);
     } else {
-      printInstructions(hookRunners, appContext, userConfig);
+      printInstructions(hookRunners, appContext, normalizedConfig);
     }
   });
+
+  await createFileWatcher(
+    appContext,
+    normalizedConfig.source.configDir,
+    hookRunners,
+  );
 };
