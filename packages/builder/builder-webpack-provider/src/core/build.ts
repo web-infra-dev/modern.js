@@ -15,10 +15,8 @@ export interface BuildExecuter {
   (compiler: Compiler | MultiCompiler): Promise<{ stats: Stats | MultiStats }>;
 }
 
-export interface WebpackBuildError<
-  S extends Stats | MultiStats = Stats | MultiStats,
-> extends Error {
-  stats?: S;
+export interface WebpackBuildError extends Error {
+  stats?: Stats | MultiStats;
 }
 
 /**
@@ -32,7 +30,7 @@ export const webpackBuild: BuildExecuter = async compiler => {
       compiler.close(closeErr => {
         closeErr && logger.error(closeErr);
         if (err || !stats || stats.hasErrors()) {
-          const buildError: WebpackBuildError<any> =
+          const buildError: WebpackBuildError =
             err || new Error('Webpack build failed!');
           buildError.stats = stats;
           reject(buildError);
