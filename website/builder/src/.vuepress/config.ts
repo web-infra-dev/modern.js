@@ -53,6 +53,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/basic/builder-config'),
           getLink('/guide/basic/build-target'),
+          getLink('/guide/basic/static-assets'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/alias'),
         ],
@@ -63,6 +64,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/advanced/build-performance'),
           getLink('/guide/advanced/inline-assets'),
+          getLink('/guide/advanced/split-chunk'),
         ],
       },
       {

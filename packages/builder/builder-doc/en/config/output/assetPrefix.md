@@ -1,7 +1,7 @@
 - Type: `boolean | string`
 - Default: `'/'`
 
-When using CDN in the production environment, you can use this option to set the URL prefix of static resources, similar to the [output.publicPath](https://webpack.js.org/guides/public-path/) config of webpack.
+When using CDN in the production environment, you can use this option to set the URL prefix of static assets, similar to the [output.publicPath](https://webpack.js.org/guides/public-path/) config of webpack.
 
 This config is only used in the production environment. In the development environment, please use the `dev.assetPrefix` to set the URL prefix.
 

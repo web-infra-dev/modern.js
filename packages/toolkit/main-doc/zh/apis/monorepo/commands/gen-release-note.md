@@ -30,6 +30,6 @@ Options:
 
 ```
 
-import CommandTip from '@site/docs/components/command-tip.md'
+import CommandTip from '@site-docs/components/command-tip.md'
 
 <CommandTip />

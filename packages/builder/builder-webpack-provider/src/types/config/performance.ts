@@ -43,6 +43,7 @@ export interface SplitBySize {
 export interface SplitCustom {
   strategy: 'custom';
   splitChunks?: SplitChunks;
+  override?: SplitChunks;
   forceSplitting?: Array<RegExp>;
 }
 

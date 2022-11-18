@@ -10,13 +10,15 @@ Modern.js Builder 是**一个面向现代 Web 开发场景的构建引擎**。
 
 近年来，前端工具链的发展趋势是使用 Rust 等编程语言重新实现 —— 以获得更好的性能表现。社区中出现 [SWC](https://swc.rs/)、[esbuild](https://github.com/evanw/esbuild)、[Turbopack](https://turbo.build/pack) 等高性能工具，并且应用领域在逐步扩宽。但这些 Rust 工具与 JavaScript 工具之间存在较多差异，包括功能不完整、配置不一致等，导致使用者需要承担一定的迁移成本。
 
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/rust-tools-11175.png" />
+
 前端工具链 Rust 化的进程还会持续较长一段时间，**Modern.js Builder 期望能帮助开发者更好地过渡到 Rust 工具**。不管是 JavaScript 工具，还是 Rust 工具，甚至是 webpack 等底层 bundler，在 Modern.js Builder 中都是可替换的零部件。你可以通过开启配置或启用插件的方式，对这些零部件进行渐进式替换，Modern.js Builder 会抹平其中的主要差异，帮助使用者进行低成本迁移。
 
 ## 定位
 
 Modern.js Builder (简称 Builder) 的定位是**服务于上层框架的构建引擎**，它专注于解决 Web 应用构建面临的各类问题，期望能为前端框架提供开箱即用的构建能力。
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-1116.png" style="max-width: 80%; margin-left: 10%" />
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-1117.png" style="max-width: 80%; margin-left: 10%" />
 
 如果你正在开发一个前端框架，或是开发一个前端应用的脚手架，那么 Builder 可以为你完成前端框架中大部分与构建有关的逻辑，让你能够聚焦于实现框架的其他功能。
 
