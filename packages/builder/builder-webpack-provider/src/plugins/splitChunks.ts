@@ -221,7 +221,8 @@ export function PluginSplitChunks(): BuilderPlugin {
         // Patch the override config difference between the `custom` strategy and other strategy.
         const override =
           chunkSplit.strategy === 'custom'
-            ? chunkSplit.splitChunks
+            ? // `chunkSplit.splitChunks` compat for Eden
+              chunkSplit.splitChunks ?? chunkSplit.override
             : chunkSplit.override;
         // Apply different strategy
         const splitChunksOptions = SPLIT_STRATEGY_DISPATCHER[
