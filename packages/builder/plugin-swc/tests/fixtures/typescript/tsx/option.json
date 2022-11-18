@@ -1,12 +1,10 @@
 {
-  "swc": {
-    "jsc": {
-      "transform": {
-        "react": {
-          "runtime": "automatic",
-          "development": true,
-          "refresh": false
-        }
+  "jsc": {
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "development": true,
+        "refresh": false
       }
     }
   }

@@ -1,7 +1,5 @@
 {
-  "swc": {
-    "module": {
-      "type": "commonjs"
-    }
+  "module": {
+    "type": "commonjs"
   }
 }

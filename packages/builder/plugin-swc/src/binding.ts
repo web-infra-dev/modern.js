@@ -1,25 +1,20 @@
-import {
-  Compiler as RawCompiler,
-  Output,
-  minify as minifyBinding,
-  minifySync as minifySyncBinding,
-} from '@modern-js/swc-plugins';
-import type { JsMinifyOptions } from '@swc/core';
-import { normalizeConfig, toBindingConfig, TransformConfig } from './config';
+import { Compiler as RawCompiler, Output } from '@modern-js/swc-plugins';
+import { normalizeConfig, TransformConfig } from './config';
+
+export { minify, minifySync } from '@modern-js/swc-plugins';
 
 export class Compiler extends RawCompiler {
   config: TransformConfig;
 
-  constructor(config: Partial<TransformConfig>) {
+  constructor(config: TransformConfig) {
     const normalized = normalizeConfig(config);
-    const c = toBindingConfig(normalized);
-    super(c);
+    super(normalized);
     this.config = normalized;
   }
 }
 
 export function transformSync(
-  config: Partial<TransformConfig>,
+  config: TransformConfig,
   filename: string,
   code: string,
   map?: string,
@@ -30,7 +25,7 @@ export function transformSync(
 }
 
 export function transform(
-  config: Partial<TransformConfig>,
+  config: TransformConfig,
   filename: string,
   code: string,
   map?: string,
@@ -42,22 +37,4 @@ export function transform(
     throw new Error(`[builder-plugin-swc] Failed to initialize config: \n${e}`);
   }
   return compiler.transform(filename, code, map);
-}
-
-export async function minify(
-  config: Partial<JsMinifyOptions>,
-  filename: string,
-  code: string,
-  map?: string,
-): Promise<Output> {
-  return await minifyBinding(JSON.stringify(config), filename, code, map);
-}
-
-export async function minifySync(
-  config: Partial<JsMinifyOptions>,
-  filename: string,
-  code: string,
-  map?: string,
-): Promise<Output> {
-  return minifySyncBinding(JSON.stringify(config), filename, code, map);
 }

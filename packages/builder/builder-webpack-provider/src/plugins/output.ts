@@ -2,9 +2,10 @@ import { CSSExtractOptions } from '../types/thirdParty/css';
 import {
   DEFAULT_PORT,
   addTrailingSlash,
+  getDistPath,
   type BuilderContext,
 } from '@modern-js/builder-shared';
-import { getDistPath, getFilename } from '../shared';
+import { getFilename } from '../shared';
 import { isUseCssExtract } from './css';
 import type { BuilderPlugin, NormalizedConfig } from '../types';
 
@@ -43,8 +44,8 @@ export const PluginOutput = (): BuilderPlugin => ({
     api.modifyWebpackChain(
       async (chain, { isProd, isServer, target, CHAIN_ID }) => {
         const config = api.getNormalizedConfig();
-        const jsPath = getDistPath(config, 'js');
-        const cssPath = getDistPath(config, 'css');
+        const jsPath = getDistPath(config.output, 'js');
+        const cssPath = getDistPath(config.output, 'css');
 
         const publicPath = getPublicPath({
           config,
@@ -94,7 +95,7 @@ export const PluginOutput = (): BuilderPlugin => ({
 
         // server output
         if (isServer) {
-          const serverPath = getDistPath(config, 'server');
+          const serverPath = getDistPath(config.output, 'server');
           const filename = `${serverPath}/[name].js`;
 
           chain.output

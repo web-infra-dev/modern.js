@@ -2,9 +2,9 @@ import path from 'path';
 import {
   isFileExists,
   DEFAULT_MOUNT_ID,
+  getDistPath,
   type BuilderTarget,
 } from '@modern-js/builder-shared';
-import { getDistPath } from '../shared';
 import type {
   BuilderPlugin,
   WebpackConfig,
@@ -235,7 +235,7 @@ export const PluginHtml = (): BuilderPlugin => ({
             '../webpackPlugins/HtmlAppIconPlugin'
           );
 
-          const distDir = getDistPath(config, 'image');
+          const distDir = getDistPath(config.output, 'image');
           const iconPath = path.isAbsolute(appIcon)
             ? appIcon
             : path.join(api.context.rootPath, appIcon);

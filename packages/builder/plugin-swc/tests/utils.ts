@@ -106,7 +106,7 @@ export async function fsSnapshot(
     });
     option = module.exports as TransformConfig;
   } else {
-    option = await import(optionsPath);
+    option = require(optionsPath);
   }
 
   const { code } = await compileFn(
