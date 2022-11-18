@@ -16,7 +16,7 @@ Here are all the main features supported by Modern.js Builder.
 | Restrict importing paths | Optional feature, restrict source code import paths                                                                             | <ul><li>[source.moduleScopes](/en/api/config-source.html#source-modulescopes)</li></ul>                                                   |
 | esbuild compilation      | Optional feature, transform and minify JavaScript and TypeScript code with esbuild                                              | <ul><li>[Esbuild plugin](/plugins/plugin-esbuild.html)</li></ul>                                                                          |
 | SWC Compilation          | Optional feature, transform and minify JavaScript and TypeScript code with SWC                                                  | <ul><li>[SWC plugin](/plugins/plugin-swc.html)</li></ul>                                                                                  |
-| Node artifacts           | Optional feature, support building bundles that run in Node.js environment                                                      | <ul><li>[Node Target](/en/guide/basic/build-target.html#node-target)< /li></ul>                                                           |
+| Node artifacts           | Optional feature, support building bundles that run in Node.js environment                                                      | <ul><li>[Node Target](/en/guide/basic/build-target.html#node-target)</li></ul>                                                           |
 | Web Worker artifacts     | Optional feature, support building bundles that run in a Web Worker environment                                                 | <ul><li>[Web Worker Target](/en/guide/basic/build-target.html#web-worker-target)</li></ul>                                                |
 
 ## CSS
@@ -51,7 +51,7 @@ Here are all the main features supported by Modern.js Builder.
 | Features                | Description                                                                       | Links                                                                   |
 | ----------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 | Automatically open page | Optional feature, automatically open page URL in browser when starting Dev Server | <ul><li>[dev.startUrl](/en/api/config-dev.html#dev-starturl) </li></ul> |
-| HTTPS Dev Server        | Optional feature, enable HTTPS Dev Server                                         | <ul><li>[dev.https](/en/api/config-dev.html#dev-https)</li></ ul>       |
+| HTTPS Dev Server        | Optional feature, enable HTTPS Dev Server                                         | <ul><li>[dev.https](/en/api/config-dev.html#dev-https)</li></ul>       |
 
 ## React
 
@@ -67,7 +67,7 @@ Here are all the main features supported by Modern.js Builder.
 | Import image files     | Support for import image files in code                                       | -                                                                                                     |
 | Import font files      | Support for import font files in code                                        | -                                                                                                     |
 | Import video files     | Support for import video files in code                                       | -                                                                                                     |
-| Inline static assets   | Small assets are inlined into JS by default                                  | <ul><li>[output.dataUriLimit](/en/api/config-output.html#output-dataurilimit)</li></ul>               |
+| Inline static assets   | Small assets are inlined into JS by default                                  | <ul><li>[Inline Static Assets](/guide/advanced/inline-assets.html)</li><li>[output.dataUriLimit](/en/api/config-output.html#output-dataurilimit)</li></ul>               |
 | Clean up static assets | Automatically clean up static assets in the dist directory before each build | <ul><li>[output.cleanDistPath](/en/api/config-output.html#output-cleandistpath)</li ></ul>            |
 | Copy static assets     | Optional feature, copy static assets to the dist directory                   | <ul><li>[output.copy](/en/api/config-output.html#output-copy)</li></ul>                               |
 | Generate manifest file | Optional feature, generate manifest file containing static asset information | <ul><li>[output.enableAssetManifest](/en/api/config-output.html#output-enableassetmanifest)</li></ul> |

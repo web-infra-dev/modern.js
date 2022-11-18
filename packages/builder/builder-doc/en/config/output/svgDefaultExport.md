@@ -8,7 +8,7 @@ When `output.svgDefaultExport` is set to `url` , the default export of SVG files
 ```js
 import logo from './logo.svg';
 
-console.log(logo); // => resource url
+console.log(logo); // => asset url
 ```
 
 When `output.svgDefaultExport` is set to `component` , the default export of SVG files is the React component of the file. For example:
@@ -24,5 +24,5 @@ At this time, you can also specify the `?url` query to import the URL, for examp
 ```js
 import logo from './logo.svg?url';
 
-console.log(logo); // => resource url
+console.log(logo); // => asset url
 ```

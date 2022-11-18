@@ -6,9 +6,11 @@ With the growing of the front-end ecosystem, more and more build tools and plugi
 
 In order to reduce the complexity and make it easier to build a project, we abstracted the build abilities based on the practical experience of Modern.js, and created the open source tool Modern.js Builder.
 
-## Rust
+## Rust Tools
 
-In recent years, the trend in front-end toolchains has been to re-implement them in programming languages like Rust - for better performance. Some high-performance tools have created, such as [SWC](https://swc.rs/), [esbuild](https://github.com/evanw/esbuild), [Turbopack](https://turbo.build/pack), etc., and their use is gradually expanding. However, there are many differences between these Rust tools and JavaScript tools, including functional differences, configuration inconsistencies, which make it difficult for users to migrate.
+In recent years, the trend in front-end toolchains has been to re-implement them with native programming languages like Rust for better performance. Some high-performance tools have created, such as [SWC](https://swc.rs/), [esbuild](https://github.com/evanw/esbuild), [Turbopack](https://turbo.build/pack), etc., and their use is gradually expanding. However, there are many differences between these Rust tools and JavaScript tools, including functional differences, configuration inconsistencies, which make it difficult for users to migrate.
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/rust-tools-11175.png" />
 
 The Rust process of the front-end toolchain will continue for a long time, **Modern.js Builder is expected to help developers better transition to Rust tools**. Whether it's JavaScript tools, Rust tools, or even low-level bundlers like webpack, they're all replaceable components in Modern.js Builder. You can incrementally replace these components by turning on configuration or enabling plugins, and Modern.js Builder will smooth out the major differences and help users migrate.
 
@@ -16,7 +18,7 @@ The Rust process of the front-end toolchain will continue for a long time, **Mod
 
 Modern.js Builder is a build engine serving the upper-level front-end frameworks. It focuses on solving problems in web application building, and expects to provide out-of-box building abilities for front-end frameworks.
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-1116.png" style="max-width: 80%; margin-left: 10%" />
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-1117.png" style="max-width: 80%; margin-left: 10%" />
 
 If you are developing a front-end framework, or developing a scaffolding for a front-end application, Builder can provide most of the build logics for you, which allowing you to focus on implementing other features of the framework.
 
