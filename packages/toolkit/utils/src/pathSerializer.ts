@@ -31,7 +31,7 @@ export function applyPathMatcher(
   str: string,
   options: ApplyPathMatcherOptions = {},
 ) {
-  const regex = compilePathMatcherRegExp(matcher.match);
+  const regex = compilePathMatcherRegExp(matcher.match, 'g');
   const replacer = (substring: string, ...args: any[]): string => {
     if (
       options.minPartials &&
@@ -61,7 +61,7 @@ export function applyMatcherReplacement(
 export const createDefaultPathMatchers = (root: string) => {
   const ret: PathMatcher[] = [
     {
-      match: /(?<=\/)(\.pnpm\/.+?\/node_modules)(?=\/)/,
+      match: /(?<=\/)(\.pnpm\/.+?\/node_modules)(?=\/)/g,
       mark: 'pnpmInner',
     },
   ];

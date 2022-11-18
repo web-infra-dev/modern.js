@@ -28,12 +28,15 @@ export const getTemplatePath = (prefix?: string) => {
  * Compile path string to RegExp.
  * @note Only support posix path.
  */
-export function compilePathMatcherRegExp(match: string | RegExp) {
+export function compilePathMatcherRegExp(
+  match: string | RegExp,
+  flags?: string,
+) {
   if (typeof match !== 'string') {
     return match;
   }
   const escaped = _.escapeRegExp(match);
-  return new RegExp(`(?<=\\W|^)${escaped}(?=\\W|$)`);
+  return new RegExp(`(?<=\\W|^)${escaped}(?=\\W|$)`, flags);
 }
 
 /** @internal @see {@link upwardPaths} */
