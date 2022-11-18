@@ -2,15 +2,15 @@ import { watchSectionTitle } from '../src/utils/log';
 import { SectionTitleStatus } from '../src/constants/log';
 
 describe('utils/log.ts', () => {
-  it('watchSectionTitle', () => {
+  it('watchSectionTitle', async () => {
     expect(
-      watchSectionTitle('watching', SectionTitleStatus.Log),
-    ).toMatchSnapshot();
+      await watchSectionTitle('watching', SectionTitleStatus.Log),
+    ).toBeDefined();
     expect(
-      watchSectionTitle('watching', SectionTitleStatus.Fail),
-    ).toMatchSnapshot();
+      await watchSectionTitle('watching', SectionTitleStatus.Fail),
+    ).toBeDefined();
     expect(
-      watchSectionTitle('watching', SectionTitleStatus.Success),
-    ).toMatchSnapshot();
+      await watchSectionTitle('watching', SectionTitleStatus.Success),
+    ).toBeDefined();
   });
 });

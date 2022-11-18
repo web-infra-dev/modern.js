@@ -15,8 +15,12 @@
   "bin": {
     "modern": "./bin/modern.js"
   },
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index.js",
+  "types": "./src/index.ts",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./defineConfig": "./src/config/defineConfig.ts"
+  },
   "typesVersions": {
     "*": {
       "types": [
@@ -24,6 +28,9 @@
       ],
       "type": [
         "./lib/types.d.ts"
+      ],
+      "defineConfig": [
+        "./src/config/defineConfig.ts"
       ]
     }
   },
@@ -31,7 +38,7 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "build": "mdn build",
     "dev": "mdn build --watch",
-    "test": "mdn build && jest",
+    "test": "jest",
     "test:update": "jest --updateSnapshot",
     "new": "modern new"
   },
@@ -67,7 +74,25 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/index.d.ts"
+    "types": "./dist/index.d.ts",
+    "main": "./dist/index.js",
+    "exports": {
+      ".": "./dist/index.js",
+      "./defineConfig": "./dist/config/defineConfig.js"
+    },
+    "typesVersions": {
+      "*": {
+        "types": [
+          "./lib/types.d.ts"
+        ],
+        "type": [
+          "./lib/types.d.ts"
+        ],
+        "defineConfig": [
+          "./dist/config/defineConfig.d.ts"
+        ]
+      }
+    }
   },
   "peerDependenciesMeta": {
     "typescript": {

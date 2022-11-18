@@ -76,11 +76,14 @@ describe('envVars in ts project', () => {
 
   it('buildType is bundleless', async () => {
     const configFile = path.join(fixtureDir, './bundleless.config.ts');
-    await runCli({
+    const ret = await runCli({
       argv: ['build'],
       configFile,
       appDirectory: fixtureDir,
     });
+    console.info(ret.error);
+    expect(ret.success).toBe(true);
+
     const distFilePath = path.join(
       fixtureDir,
       globalVarsBundlelessDistPath,
