@@ -171,7 +171,3 @@ export default {
 ```
 
 The config in `override` will be merged with the webpack config. For specific config details, please refer to [webpack official documentation](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks).
-
-::: warning warning
-For historical reasons, when the strategy is `custom`, you need to use `splitChunks` to customize the webpack `splitChunks` config instead of `override`.
-:::

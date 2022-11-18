@@ -172,7 +172,3 @@ export default {
 ```
 
 其中 `override` 中的配置会和 webpack 的配置进行合并，具体配置项请参考 [webpack 官方文档](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks)。
-
-::: warning 注意
-由于历史原因，当 strategy 为 `custom` 时，需要使用 `splitChunks` 来自定义 webpack 拆包配置，而不是 `override`。
-:::
