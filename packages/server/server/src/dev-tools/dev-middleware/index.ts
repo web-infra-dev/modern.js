@@ -19,6 +19,7 @@ type Options = {
 const noop = () => {
   // noop
 };
+// socket-server | hmr | hooks
 
 export default class DevMiddleware extends EventEmitter {
   public middleware?: DevMiddlewareAPI;
