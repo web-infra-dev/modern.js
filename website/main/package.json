@@ -3,7 +3,6 @@
   "version": "2.0.0-beta.0",
   "private": true,
   "scripts": {
-    "prepare": "sh scripts/sync.sh",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",

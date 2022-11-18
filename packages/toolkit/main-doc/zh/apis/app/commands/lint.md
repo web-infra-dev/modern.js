@@ -17,6 +17,6 @@ Options:
 
 * `--no-fix` 参数设置后可以关闭自动修复 lint 错误代码的能力。
 
-import CommandTip from '@site/docs/components/command-tip.md'
+import CommandTip from '@site-docs/components/command-tip.md'
 
 <CommandTip />

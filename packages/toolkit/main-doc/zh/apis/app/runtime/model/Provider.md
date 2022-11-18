@@ -3,7 +3,7 @@ sidebar_position: 8
 title: Provider
 ---
 
-import ReduckTip from '@site/docs/components/reduck-tip.md'
+import ReduckTip from '@site-docs/components/reduck-tip.md'
 
 <ReduckTip />
 
