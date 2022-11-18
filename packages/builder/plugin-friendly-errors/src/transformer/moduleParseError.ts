@@ -12,6 +12,9 @@ export const transformModuleParseError: ErrorTransformer = e => {
     rawStack && (sliceEnding += e.message.indexOf(rawStack));
     e.message = e.message.slice(0, sliceEnding);
 
+    // remove traces of cause error.
+    e.trace = e.trace.slice(e.trace.length - e.causes[0]!.trace.length);
+
     // add more description about builder.
     e.message += ' You can try to fix it by:\n';
     const tips = [
