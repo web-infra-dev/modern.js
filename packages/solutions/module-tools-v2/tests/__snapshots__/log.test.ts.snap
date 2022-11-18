@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils/log.ts watchSectionTitle 1`] = `Promise {}`;
+
+exports[`utils/log.ts watchSectionTitle 2`] = `Promise {}`;
+
+exports[`utils/log.ts watchSectionTitle 3`] = `Promise {}`;

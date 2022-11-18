@@ -1,0 +1,6 @@
+{
+  "name": "asset-rebase-test",
+  "dependencies": {
+    "react": "^17"
+  }
+}
