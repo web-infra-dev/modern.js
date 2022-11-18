@@ -4,8 +4,6 @@ import { i18n, localeKeys } from '../locale';
 export enum Framework {
   Express = 'express',
   Koa = 'koa',
-  Egg = 'egg',
-  Nest = 'nest',
 }
 
 export const getFrameworkSchema = (
@@ -24,6 +22,4 @@ export const getFrameworkSchema = (
 export const FrameworkAppendTypeContent: Record<Framework, string> = {
   [Framework.Express]: `/// <reference types='@modern-js/plugin-express/types' />`,
   [Framework.Koa]: `/// <reference types='@modern-js/plugin-koa/types' />`,
-  [Framework.Egg]: `/// <reference types='@modern-js/plugin-egg/types' />`,
-  [Framework.Nest]: `/// <reference types='@modern-js/plugin-nest/types' />`,
 };

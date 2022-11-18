@@ -1,9 +1,0 @@
-import { EggAppConfig, PowerPartial } from 'egg';
-
-export default (appInfo: EggAppConfig) => {
-  const config = {} as PowerPartial<EggAppConfig>;
-  config.keys = `${appInfo.name}123456`;
-  config.middleware = ['trace'];
-
-  return config;
-};

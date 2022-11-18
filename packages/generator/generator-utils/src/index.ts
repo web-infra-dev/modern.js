@@ -87,9 +87,9 @@ export async function getModernPluginVersion(
   },
 ) {
   const { cwd = process.cwd(), registry, distTag } = options;
-  const getLatetPluginVersion = async () => {
+  const getLatetPluginVersion = async (tag?: string) => {
     const version = await getPackageVersion(
-      `${packageName}@${distTag}`,
+      `${packageName}@${tag || distTag}`,
       registry,
     );
     return version;
@@ -102,7 +102,7 @@ export async function getModernPluginVersion(
     packageName.includes('easy-form') ||
     packageName.startsWith('@modern-js-reduck')
   ) {
-    return getLatetPluginVersion();
+    return getLatetPluginVersion('latest');
   }
   // get project solution version
   const pkgPath = path.join(

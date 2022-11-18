@@ -57,11 +57,6 @@ export const handleTemplateFile = async (
 
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
 
-  if (language === Language.JS && framework === Framework.Nest) {
-    generator.logger.warn('nest not support js project');
-    throw Error('nest not support js project');
-  }
-
   const getBffPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry: context.config.registry,
@@ -79,31 +74,12 @@ export const handleTemplateFile = async (
     };
   }
 
-  if (framework === Framework.Nest) {
-    updateInfo = {
-      'dependencies.@nestjs/core': `^${await getPackageVersion(
-        '@nestjs/core',
-      )}`,
-      'dependencies.@nestjs/common': `^${await getPackageVersion(
-        '@nestjs/common',
-      )}`,
-    };
-    if (bffType === BFFType.Func) {
-      updateInfo['dependencies.express'] = `^${await getPackageVersion(
-        'express',
-      )}`;
-      updateInfo[
-        'devDependencies.@types/express'
-      ] = `^${await getPackageVersion('@types/express')}`;
-    }
-  } else {
-    updateInfo = {
-      ...updateInfo,
-      [`dependencies.${framework as string}`]: `^${await getPackageVersion(
-        framework as string,
-      )}`,
-    };
-  }
+  updateInfo = {
+    ...updateInfo,
+    [`dependencies.${framework as string}`]: `^${await getPackageVersion(
+      framework as string,
+    )}`,
+  };
 
   await jsonAPI.update(
     context.materials.default.get(path.join(appDir, 'package.json')),
@@ -211,9 +187,7 @@ export const handleTemplateFile = async (
     await appApi.forgeTemplate(
       `templates/framework/app/${framework as string}/**/*`,
       resourceKey =>
-        framework === Framework.Egg || framework === Framework.Koa
-          ? resourceKey.includes(language)
-          : true,
+        framework === Framework.Koa ? resourceKey.includes(language) : true,
       resourceKey =>
         resourceKey
           .replace(`templates/framework/app/${framework as string}/`, 'api/')
