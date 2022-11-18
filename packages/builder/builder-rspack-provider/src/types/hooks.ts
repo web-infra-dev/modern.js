@@ -1,6 +1,11 @@
-import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
+import type {
+  NodeEnv,
+  BuilderTarget,
+  Stats,
+  MultiStats,
+} from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
-import type { RspackConfig, Stats, Compiler } from './rspack';
+import type { RspackConfig, Compiler } from './rspack';
 
 export type ModifyRspackConfigUtils = {
   env: NodeEnv;
@@ -24,9 +29,8 @@ export type OnBeforeBuildFn = (params: {
   bundlerConfigs?: RspackConfig[];
 }) => Promise<void> | void;
 
-// TODO: support MultiStats
 export type OnAfterBuildFn = (params: {
-  stats?: Stats;
+  stats?: Stats | MultiStats;
 }) => Promise<void> | void;
 
 export type OnDevCompileDoneFn = (params: {
