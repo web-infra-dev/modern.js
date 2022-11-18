@@ -140,7 +140,6 @@ export const normalizeBuildConfig = async (
   buildCmdOptions: BuildCommandOptions,
 ): Promise<BaseBuildConfig[]> => {
   const config = api.useResolvedConfigContext() as unknown as UserConfig;
-  // const { appDirectory } = context;
   const { buildConfig, buildPreset } = config;
 
   await checkConfig(config);

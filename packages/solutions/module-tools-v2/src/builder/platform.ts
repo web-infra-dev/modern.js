@@ -18,13 +18,15 @@ export const buildPlatform = async (
       Array.isArray(options.platform) &&
       options.platform.length === 1
     ) {
-      console.info(`没有发现 platform 为 "${options.platform[0]}" 的构建任务`);
+      console.info(
+        `No build tasks with platform "${options.platform[0]}" found`,
+      );
     } else if (Array.isArray(options.platform) && options.platform.length > 1) {
       console.info(
-        `没有发现 platform 为 ${options.platform.join(',')} 的构建任务`,
+        `No build tasks with platform ${options.platform.join(',')} found`,
       );
     } else {
-      console.info('未知的 platform 数据类型');
+      console.info('Unknown platform', JSON.stringify(options.platform));
     }
 
     return;
@@ -61,7 +63,7 @@ export const buildPlatform = async (
     });
 
     if (!selectPlatformBuilder) {
-      console.info(`指定的 "${targetPlatform}" 构建不存在`);
+      console.info(`The specified "${targetPlatform}" build does not exist`);
       return;
     }
 
@@ -86,7 +88,7 @@ export const buildPlatform = async (
       });
 
       if (!foundBuilder) {
-        console.info(`跳过 ${platform} 构建, 因为它不存在`);
+        console.info(`skip ${platform} build, because it does not exist`);
         continue;
       }
 

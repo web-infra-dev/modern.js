@@ -19,7 +19,7 @@ export const runBuildTask = async (
 ) => {
   const { buildConfig, context } = options;
   const { appDirectory, isTsProject } = context;
-  console.info(buildConfig);
+
   if (isTsProject) {
     await buildInTsProject(options, api);
   } else {
