@@ -6,19 +6,22 @@ export type Options = typeof babelPresetPlugin extends (
   arg2: infer P2,
 ) => void
   ? {
-      presets?: P1;
+      internalPresetOptions?: P1;
       babelTransformOptions?: P2;
     }
   : never;
 
-export const PluginBabel = (
+export const ModulePluginBabel = (
   options?: Options,
 ): CliPlugin<ModuleToolsHooks> => ({
   name: 'babel-plugin',
   setup: () => ({
     modifyLibuild(config) {
       config.plugins?.unshift(
-        babelPresetPlugin(options?.presets, options?.babelTransformOptions),
+        babelPresetPlugin(
+          options?.internalPresetOptions,
+          options?.babelTransformOptions,
+        ),
       );
       return config;
     },
