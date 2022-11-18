@@ -90,8 +90,10 @@ export const routerPlugin = ({
           const routerContext = await query(remixRequest);
 
           if (routerContext instanceof Response) {
-            // TODO: resolve repsonse ?
-            return next({ context });
+            // React Router would return a Response when redirects occur in loader.
+            // Throw the Response to bail out and let the server handle it with an HTTP redirect
+            // throw routerContext;
+            return routerContext;
           }
 
           const router = createStaticRouter(routes, routerContext);
