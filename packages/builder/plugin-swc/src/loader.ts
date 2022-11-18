@@ -18,29 +18,27 @@ export function createLoader() {
     if (!compiler) {
       // Only first transform will run following code
       const options = this.getOptions();
-      // eslint-disable-next-line no-multi-assign
-      const swc = (options.swc = options.swc || {});
 
       const enableSourceMap = this.sourceMap;
 
       if (enableSourceMap) {
-        swc.sourceMaps = true;
+        options.sourceMaps = true;
       }
 
-      if (swc.env && !swc.env.targets) {
-        swc.env.targets = getBrowserslist(swc.cwd || process.cwd());
+      if (options.env && !options.env.targets) {
+        options.env.targets = getBrowserslist(options.cwd || process.cwd());
       }
 
       if (
-        !swc.jsc?.transform?.react ||
-        swc.jsc.transform.react.development === undefined
+        !options.jsc?.transform?.react ||
+        options.jsc.transform.react.development === undefined
       ) {
-        setReactDevMode(swc, this.mode);
+        setReactDevMode(options, this.mode);
       }
 
       // disable unneccessary config searching
       // all config should be explitly set
-      swc.swcrc = false;
+      options.swcrc = false;
 
       compiler = new Compiler(options);
     }

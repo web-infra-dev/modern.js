@@ -10,7 +10,7 @@ import {
   getBrowserslistWithDefault,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import { TransformConfig } from './config';
+import { PluginConfig, TransformConfig } from './config';
 import { minify } from './binding';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
@@ -20,7 +20,7 @@ const PLUGIN_NAME = 'builder-plugin-swc';
  * - Remove Babel loader if exists
  * - Add our own swc loader
  */
-export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
+export const PluginSwc = (pluginConfig: PluginConfig = {}) => ({
   name: PLUGIN_NAME,
 
   setup(api: BuilderPluginAPI) {
@@ -35,43 +35,62 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
 
       const builderConfig = api.getNormalizedConfig();
 
-      // eslint-disable-next-line no-multi-assign
-      const swc = (userSwcConfig.swc = userSwcConfig.swc || {});
-      swc.cwd = api.context.rootPath;
+      const swc: TransformConfig = {
+        jsc: { transform: {} },
+        env: {},
+        extensions: {},
+        cwd: api.context.rootPath,
+      };
 
-      if (!swc.env) {
-        swc.env = {};
+      if (pluginConfig.presetEnv) {
+        swc.env = pluginConfig.presetEnv;
+      }
+
+      if (pluginConfig.presetReact) {
+        swc.jsc!.transform!.react = pluginConfig.presetReact;
       }
 
       const { polyfill } = builderConfig.output;
       if (polyfill !== 'ua' && polyfill !== 'off') {
-        swc.env.mode = polyfill;
+        swc.env!.mode = polyfill;
       }
 
-      if (!swc.env.targets) {
-        swc.env.targets = await getBrowserslistWithDefault(
+      // If `targets` is not specified manually, we get `browserslist` from project.
+      if (!swc.env!.targets) {
+        swc.env!.targets = await getBrowserslistWithDefault(
           api.context.rootPath,
           builderConfig,
           target,
         );
       }
 
-      // eslint-disable-next-line no-multi-assign
-      const extensions = (userSwcConfig.extensions =
-        userSwcConfig.extensions || {});
+      const { extensions } = swc;
 
-      extensions.lockCorejsVersion = {
+      extensions!.lockCorejsVersion = {
         corejs: path.dirname(require.resolve('core-js/package.json')),
         swcHelpers: path.dirname(require.resolve('@swc/helpers/package.json')),
       };
 
+      const rule = chain.module.rule(CHAIN_ID.RULE.JS);
       // Insert swc loader and plugin
-      chain.module
-        .rule(CHAIN_ID.RULE.JS)
+      rule
         .test(mergeRegex(JS_REGEX, TS_REGEX))
         .use(CHAIN_ID.USE.SWC)
         .loader(path.resolve(__dirname, './loader'))
-        .options(userSwcConfig);
+        .options(swc);
+
+      // compile all folders in app directory, exclude node_modules
+      rule.include.add({
+        and: [api.context.rootPath, { not: /node_modules/ }],
+      });
+
+      if (builderConfig.source.include) {
+        builderConfig.source.include.forEach(condition => {
+          rule.include.add(condition);
+        });
+      }
+
+      // TODO: Expected `source.exclude` config
 
       if (chain.module.rules.get(CHAIN_ID.RULE.JS_DATA_URI)) {
         chain.module
@@ -80,10 +99,14 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
           .end()
           .use(CHAIN_ID.USE.SWC)
           .loader(path.resolve(__dirname, './loader'))
-          .options(userSwcConfig);
+          .options(swc);
       }
 
-      if (isProd() && !builderConfig.output.disableMinimize) {
+      if (
+        isProd() &&
+        !builderConfig.output.disableMinimize &&
+        pluginConfig.jsMinify !== false
+      ) {
         // Insert swc minify plugin
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error webpack-chain missing minimizers type
@@ -91,7 +114,9 @@ export const PluginSwc = (userSwcConfig: Partial<TransformConfig> = {}) => ({
           .delete(CHAIN_ID.MINIMIZER.JS)
           .end()
           .minimizer(CHAIN_ID.MINIMIZER.SWC)
-          .use(SwcWebpackPlugin, [userSwcConfig]);
+          .use(SwcWebpackPlugin, [
+            pluginConfig.jsMinify === true ? {} : pluginConfig.jsMinify,
+          ]);
       }
     });
   },
@@ -109,13 +134,10 @@ const defaultMinifyOptions: JsMinifyOptions = {
 
 const JS_RE = /\.js$/;
 export class SwcWebpackPlugin {
-  private readonly minifyOptions: Partial<JsMinifyOptions>;
+  private readonly minifyOptions: JsMinifyOptions;
 
-  constructor(options: Partial<TransformConfig> = {}) {
-    this.minifyOptions = merge(
-      defaultMinifyOptions,
-      options.swc?.jsc?.minify || {},
-    );
+  constructor(options: JsMinifyOptions = {}) {
+    this.minifyOptions = merge(defaultMinifyOptions, options);
   }
 
   apply(compiler: Compiler): void {
@@ -153,9 +175,9 @@ export class SwcWebpackPlugin {
       assets.map(async asset => {
         const { source, map } = asset.source.sourceAndMap();
         const result = await minify(
-          this.minifyOptions,
           asset.name,
           source.toString(),
+          this.minifyOptions,
         );
 
         compilation.updateAsset(
