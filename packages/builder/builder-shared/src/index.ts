@@ -2,7 +2,7 @@ export * from './applyDefaultBuilderOptions';
 export * from './constants';
 export * from './createHook';
 export * from './createPluginStore';
-export * from './createPublicContext';
+export * from './createContext';
 export * from './utils';
 export * from './fs';
 export * from './getBrowserslist';
