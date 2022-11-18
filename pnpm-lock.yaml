@@ -2732,7 +2732,7 @@ importers:
       '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@speedy-js/speedy-core': 0.13.2-modern.1
+      '@speedy-js/speedy-core': 0.13.2-modern.3
       '@speedy-js/speedy-plugin-es5': 0.13.2-modern.1
       '@speedy-js/speedy-types': 0.13.2-modern.1
       '@types/babel__core': ^7.1.15
@@ -2773,7 +2773,7 @@ importers:
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
-      '@speedy-js/speedy-core': 0.13.2-modern.1
+      '@speedy-js/speedy-core': 0.13.2-modern.3
       '@speedy-js/speedy-plugin-es5': 0.13.2-modern.1
       '@speedy-js/speedy-types': 0.13.2-modern.1
       normalize-path: 3.0.0
@@ -11877,21 +11877,21 @@ packages:
       '@speedy-js/source-map-win32-x64-msvc': 0.1.3
     dev: false
 
-  /@speedy-js/speedy-config-loader/0.13.2-modern.1:
-    resolution: {integrity: sha512-NGAwChdpujKccu0r6K35xbzCIuTH8V1l1y9e+egYvXHWwLSHPSxRq6VwxhRDBrMP+naevW4WKsWlxjygHnhhew==}
+  /@speedy-js/speedy-config-loader/0.13.2-modern.3:
+    resolution: {integrity: sha512-Y9AU7vqZchNwd9EKtxYMg7VBI9XSJj9X6h7pBrvX/FwDMQsSXGye4bIm8QPao3XE69hVniyiiJ6Qlap8AWR0QQ==}
     dependencies:
       source-map: 0.7.3
     dev: false
 
-  /@speedy-js/speedy-core/0.13.2-modern.1:
-    resolution: {integrity: sha512-43uQMKeHFI8+Ys2t6dSc+uls7sgGymCKoObPvrLrFojDE7cYX2k+wdSQtgSTFmerT6Vh+cDrk0yXk6MVktPf3w==}
+  /@speedy-js/speedy-core/0.13.2-modern.3:
+    resolution: {integrity: sha512-K7glgVnC+3shzj37oQNvsTl7JTUUYMXtu1xk6N3T7N9zztJGWELTyVe0j603qTZ6tjS4AvNUykS6RqULFhvSmQ==}
     hasBin: true
     dependencies:
       '@prebundle/detect-port': 1.3.1
       '@speedy-js/esbuild': 0.14.28-speedy-6
       '@speedy-js/source-map': 0.1.3
-      '@speedy-js/speedy-config-loader': 0.13.2-modern.1
-      '@speedy-js/speedy-utils': 0.13.2-modern.1
+      '@speedy-js/speedy-config-loader': 0.13.2-modern.3
+      '@speedy-js/speedy-utils': 0.13.2-modern.3
       nodejs-resolver: 0.0.15
       rollup: 2.75.6
       terser: 5.9.0
@@ -11915,8 +11915,8 @@ packages:
     resolution: {integrity: sha512-o1TYsoDb5SyJQMZOx/gnp4DOe4pZJOH6K/SgaOf7x5ux0+Y5DpriIkm5RQBpeZBA77oXI4M2KewEGRs4Q1FRaw==}
     dev: false
 
-  /@speedy-js/speedy-utils/0.13.2-modern.1:
-    resolution: {integrity: sha512-lub/rJBCtl7EcsexpTEVYxDD4JgXP7dLJT7NWH3afM9v2GNmCRonX1kiYGwjc+bGR3XG0WPwVB8g75nH2EQlxA==}
+  /@speedy-js/speedy-utils/0.13.2-modern.3:
+    resolution: {integrity: sha512-mkk/cIvJ7JO+YeXmw42TLQnSoiIAa71hm3+5vWIWmv+HyixEBogddfbXr1WIVy56KtnTqT8cIOrowMMkwN5DcA==}
     dev: false
 
   /@storybook/addon-actions/6.5.9_biqbaboplfbrettd7655fr4n2y:
