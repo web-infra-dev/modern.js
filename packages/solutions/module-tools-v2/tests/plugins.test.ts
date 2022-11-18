@@ -2,7 +2,7 @@ import { getPlugins } from '../src/plugins';
 
 describe('plugin.ts', () => {
   it('getPlugins', () => {
-    expect(getPlugins('lint')[0].name).toBe('@modern-js/plugin-jarvis');
+    expect(getPlugins('lint')[0].name).toBe('@modern-js/plugin-lint');
     expect(getPlugins('change')[0].name).toBe('@modern-js/plugin-changeset');
     expect(getPlugins('release')[0].name).toBe('@modern-js/plugin-changeset');
     expect(getPlugins('bump')[0].name).toBe('@modern-js/plugin-changeset');

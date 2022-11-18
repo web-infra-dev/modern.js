@@ -1,4 +1,4 @@
-import { defineConfig } from '../../utils';
+import { defineConfig } from '@modern-js/self';
 
 const buildPreset = () => {
   return {

@@ -14,7 +14,7 @@ beforeAll(() => {
 });
 
 describe('build platform case', () => {
-  const fixtureDir = path.join(__dirname, './fixtures/build-platform');
+  const fixtureDir = path.join(__dirname, './fixtures/buildPlatform');
   it('no platform plugin', async () => {
     const configFile = path.join(fixtureDir, './config.ts');
     const ret = await runCli({
@@ -42,6 +42,7 @@ describe('build platform case', () => {
       configFile,
       appDirectory: fixtureDir,
     });
+    console.info(ret.error);
     expect(ret.success).toBeTruthy();
     const distPath = path.join(fixtureDir, './dist/plugin-1.json');
     expect(await fs.pathExists(distPath));

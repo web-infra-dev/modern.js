@@ -1,17 +1,17 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import type { CliPlugin, ModuleToolsHooks } from '../../utils';
+import fs from 'fs-extra';
+import type { CliPlugin, ModuleToolsHooks } from '@modern-js/self';
 
 export default (): CliPlugin<ModuleToolsHooks> => {
   return {
-    name: 'plugin-1',
+    name: 'plugin-6',
     setup: () => {
       return {
         registerBuildPlatform() {
           return {
-            platform: 'plugin-1',
+            platform: 'plugin-6',
             build: async (currentPlatform, context) => {
-              const distPath = path.join(__dirname, './dist/plugin-1.json');
+              const distPath = path.join(__dirname, './dist/plugin-6.json');
               const content = JSON.stringify({ currentPlatform, ...context });
               try {
                 await fs.ensureFile(distPath);

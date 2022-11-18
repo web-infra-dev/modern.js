@@ -34,21 +34,20 @@ describe('minify usage', () => {
     const distFilePath = path.join(fixtureDir, './dist/false/index.js');
     expect(await fs.pathExists(distFilePath)).toBeTruthy();
 
-    // const contentByEsbuildMinify = await fs.readFile(
-    //   distEsbuildFilePath,
-    //   'utf-8',
-    // );
+    const contentByEsbuildMinify = await fs.readFile(
+      distEsbuildFilePath,
+      'utf-8',
+    );
     const esbuildMinifyStat = fs.stat(distEsbuildFilePath);
 
-    // const contentByTerserMinify = await fs.readFile(
-    //   distTerserFilePath,
-    //   'utf-8',
-    // );
+    const contentByTerserMinify = await fs.readFile(
+      distTerserFilePath,
+      'utf-8',
+    );
     const terserMinifyStat = fs.stat(distTerserFilePath);
     const stat = fs.stat(distFilePath);
 
-    // TODO: FIX
-    // expect(contentByEsbuildMinify === contentByTerserMinify).not.toBeTruthy();
+    expect(contentByEsbuildMinify === contentByTerserMinify).not.toBeTruthy();
     expect((await esbuildMinifyStat).size).toBeLessThan((await stat).size);
     expect((await terserMinifyStat).size).toBeLessThan((await stat).size);
   });

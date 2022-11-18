@@ -32,6 +32,7 @@
     "build": "mdn build",
     "dev": "mdn build --watch",
     "test": "jest",
+    "test:update": "jest --updateSnapshot",
     "new": "modern new"
   },
   "dependencies": {
@@ -43,20 +44,20 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@modern-js/plugin-changeset": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "7.20.2",
-    "@modern-js/plugin-changeset": "workspace:*",
-    "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/self": "workspace:./",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "caniuse-lite": "^1.0.30001332",
+    "@types/fs-extra": "9.0.13",
+    "fs-extra": "10.1.0",
     "jest": "^27",
-    "lodash": "4.17.21",
     "path-browserify": "1.0.1",
     "postcss": "8.4.6",
     "postcss-alias": "2.0.0",
