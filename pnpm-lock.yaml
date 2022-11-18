@@ -251,11 +251,9 @@ importers:
     specifiers:
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/swc-plugins': 0.0.5
+      '@modern-js/swc-plugins': 0.0.9
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
-      '@swc/cli': ^0.1.57
-      '@swc/core': 1.3.18
       '@swc/helpers': 0.4.12
       core-js: ^3.25.0
       magic-string: ^0.26.2
@@ -266,21 +264,19 @@ importers:
       webpack: ^5.74.0
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
-      '@modern-js/swc-plugins': 0.0.5
+      '@modern-js/swc-plugins': 0.0.9
       '@modern-js/utils': link:../../toolkit/utils
       '@swc/helpers': 0.4.12
       core-js: 3.26.0
     devDependencies:
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
       '@scripts/vitest-config': link:../../../scripts/vitest-config
-      '@swc/cli': 0.1.57_@swc+core@1.3.18
-      '@swc/core': 1.3.18
       magic-string: 0.26.2
       source-map: 0.7.4
       typescript: 4.7.4
       vite: 3.1.1
       vitest: 0.22.1
-      webpack: 5.74.0_@swc+core@1.3.18
+      webpack: 5.74.0
 
   packages/cli/babel-preset-app:
     specifiers:
@@ -10736,8 +10732,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/swc-plugins-darwin-arm64/0.0.5:
-    resolution: {integrity: sha512-/+Y6OxfSEGyymja8MSBm5zC3DFsh8hpHe8N4KYHbOKV7YDEWHHUpCZc2Uzs/DB0h5K0WD0cqP3eGMJng5uCNnw==}
+  /@modern-js/swc-plugins-darwin-arm64/0.0.9:
+    resolution: {integrity: sha512-NCkV4GLeqHWCn3kL5fY6k4ioIR0swpm8i49hmUSw0YR6N9WkVhWG9c1CkmX82ipmpv4oZ7uE+S3MlJ7Xalp61Q==}
     engines: {node: '>= 14'}
     cpu: [arm64]
     os: [darwin]
@@ -10745,8 +10741,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-darwin-x64/0.0.5:
-    resolution: {integrity: sha512-Jp16VryQ39PNAHfkDk6mIxrWZiuPmgysUfG/PaDEDAmK9Pl9d0IJG19yiuxw6GXYX0ZCiB01w76VcfRt69WABg==}
+  /@modern-js/swc-plugins-darwin-x64/0.0.9:
+    resolution: {integrity: sha512-FllFqHAgw3eBAhR3kZ7QIne0SJTHPyVDrPXo3BMtVQvRsDlo7Ekl1I5XlNbMhKlre1eOHazrYjF3pM0QeXP1+g==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [darwin]
@@ -10754,8 +10750,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm-gnueabihf/0.0.5:
-    resolution: {integrity: sha512-E4yTSwlJL2v2neFefkGXATmzKJ02OTY+YA6J8w8m2pFwBZtq9rBDbzQ/HA1Yxa5htlAv4Nm7C4obi+uRTr2Njw==}
+  /@modern-js/swc-plugins-linux-arm-gnueabihf/0.0.9:
+    resolution: {integrity: sha512-gaHFvEx4IJaAcKRgaGYWn/2XoaRciz8E2i/OmNMrZ0UcBQjtQW+0hD+55/VuwXDNIx9GJ9csZnBLOnRhpvYgFA==}
     engines: {node: '>= 14.18'}
     cpu: [arm]
     os: [linux]
@@ -10763,8 +10759,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-gnu/0.0.5:
-    resolution: {integrity: sha512-zuFUk6y/D0f0zkogpdrMpX9wv67MEN9BCehTT2rtrVkiR2UM9yHAjyc14crEOAWst4URN+r8+Qb8ez7YfjyKZg==}
+  /@modern-js/swc-plugins-linux-arm64-gnu/0.0.9:
+    resolution: {integrity: sha512-xOaBQVBKxwjv29pBudWVjWtBysgbGGJ74rDL1u4EyOFpKszusXrN6cJ1KHND6wZrsGlkqTuoOOjsKAA0AqxvQQ==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [linux]
@@ -10772,8 +10768,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-musl/0.0.5:
-    resolution: {integrity: sha512-qLy5PtnBSaHVv37I3iLCkgrVSQfVoWYMtviUo1yNWdt6gTPkB9WMTAiwAEJQfsXMnkJwvdS2EctOy97WxapfVA==}
+  /@modern-js/swc-plugins-linux-arm64-musl/0.0.9:
+    resolution: {integrity: sha512-PT0t6pqBOkmeGnwJLQX4vq5649+YSgmUA1awQkO6GBEwkwzteL3JTsAeq7H+WMfIQvLRud8/IVt3jBW/gKdhtw==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [linux]
@@ -10781,8 +10777,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-gnu/0.0.5:
-    resolution: {integrity: sha512-Xoqb2rMLwkz0j1rH/d8EEvdEHY0uo+cevjyQIn9sm0/5Nj5MFZT20ZTDP+0rfZaeM0D/WVnBp9hcLAj8pKg9Cw==}
+  /@modern-js/swc-plugins-linux-x64-gnu/0.0.9:
+    resolution: {integrity: sha512-52kOAQeN2iK4oNQS6PO9dv13BNoyWaoa3JT3DV5gdGmyrXq98Jhlb7/unFKlKXoyNOxsQh55ypu6rwWGeXH0bQ==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [linux]
@@ -10790,8 +10786,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-musl/0.0.5:
-    resolution: {integrity: sha512-XPU5R7vQNARghl73JK1f6wgatVYRCJkRcRFnneG0JtW+1gPPEHBz8kurVe9ZaZRgBp6j+jjSW3uXU0Wh+B7QRQ==}
+  /@modern-js/swc-plugins-linux-x64-musl/0.0.9:
+    resolution: {integrity: sha512-WpChZNeC0xUHSkt2lLglujUCs42oKnBZOUh/cqBCM9VtV0pPmVdRryfA43NCiiDu2vVKOcFhHNeyV38/zjiLFg==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [linux]
@@ -10799,8 +10795,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-arm64-msvc/0.0.5:
-    resolution: {integrity: sha512-2Wac+NfuiM1r+2kP+fBt4m5ATV4VLRkjhLZIzGg0f85Q/m+AdPOc4dgmqXEYVAnZ7agYGCt3jg2SurFeU2+hMw==}
+  /@modern-js/swc-plugins-win32-arm64-msvc/0.0.9:
+    resolution: {integrity: sha512-Yf0fhMGnP9jKjUhqdvB+hrEM/UMZBesRmo0ssA/iMq5yixN00BKoW6evyUWzicH6HlR88prwpdp8tLLoYeb3IA==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [win32]
@@ -10808,8 +10804,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-ia32-msvc/0.0.5:
-    resolution: {integrity: sha512-FASaEvGaKX0gLjGuv2VPXEGirhrQGDbflVjczuqKbwZI2xyPnMOahNRQCIEcdWlLFJL7s9leBL3CXtDKv3JS0Q==}
+  /@modern-js/swc-plugins-win32-ia32-msvc/0.0.9:
+    resolution: {integrity: sha512-XlGqhXdrak2N7Gv0glQp4wwVC8mzaqsVM+4aHRm8Fvd4PeNIJdBPB8VLuKrkDl6s60tMV82Dbq8UPBkKUtSxdw==}
     engines: {node: '>= 14.18'}
     cpu: [ia32]
     os: [win32]
@@ -10817,8 +10813,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-x64-msvc/0.0.5:
-    resolution: {integrity: sha512-J8nhiVswmXEoLMl0WcAs0LcslEZGKfm/5vN/Xq+r7s/Br0+BKlRWG9Di3BcX2WSpojhwcX4zuB8FsuYKK/vo0g==}
+  /@modern-js/swc-plugins-win32-x64-msvc/0.0.9:
+    resolution: {integrity: sha512-LMGp5jV8Xbh2Zy8OzvDuuAP0Jxhz+fyZEZzcQSa2fdcFz+3SrVsN4djVlMFw5del9rIawNIm3HcB8xXzaValNA==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [win32]
@@ -10826,20 +10822,20 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins/0.0.5:
-    resolution: {integrity: sha512-zuL6d1uaEJd9YUiGefyGwFOTH3IIRBY3EkqwyX4PJytDBCZ401eyS6tgdlwu4hrYgmxal9jdPsI1qL1QmMbC6A==}
+  /@modern-js/swc-plugins/0.0.9:
+    resolution: {integrity: sha512-XpDh4VdCoSL7KTQyFGDHMDqveaNwiQoUvVrUHjDm6mXbqandViX8atglxRFmb3rpGBSASkewu1NfCCfnpy6ezQ==}
     engines: {node: '>=14.18.0'}
     optionalDependencies:
-      '@modern-js/swc-plugins-darwin-arm64': 0.0.5
-      '@modern-js/swc-plugins-darwin-x64': 0.0.5
-      '@modern-js/swc-plugins-linux-arm-gnueabihf': 0.0.5
-      '@modern-js/swc-plugins-linux-arm64-gnu': 0.0.5
-      '@modern-js/swc-plugins-linux-arm64-musl': 0.0.5
-      '@modern-js/swc-plugins-linux-x64-gnu': 0.0.5
-      '@modern-js/swc-plugins-linux-x64-musl': 0.0.5
-      '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.5
-      '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.5
-      '@modern-js/swc-plugins-win32-x64-msvc': 0.0.5
+      '@modern-js/swc-plugins-darwin-arm64': 0.0.9
+      '@modern-js/swc-plugins-darwin-x64': 0.0.9
+      '@modern-js/swc-plugins-linux-arm-gnueabihf': 0.0.9
+      '@modern-js/swc-plugins-linux-arm64-gnu': 0.0.9
+      '@modern-js/swc-plugins-linux-arm64-musl': 0.0.9
+      '@modern-js/swc-plugins-linux-x64-gnu': 0.0.9
+      '@modern-js/swc-plugins-linux-x64-musl': 0.0.9
+      '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.9
+      '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.9
+      '@modern-js/swc-plugins-win32-x64-msvc': 0.0.9
     dev: false
 
   /@modern-js/utils/1.20.1:
@@ -14179,6 +14175,7 @@ packages:
       fast-glob: 3.2.11
       slash: 3.0.0
       source-map: 0.7.4
+    dev: false
 
   /@swc/core-darwin-arm64/1.3.18:
     resolution: {integrity: sha512-4UEQ+LyzDFTszEy4LCU50h4cjVNJcNwD87aVBT/8i6YXj5dyMki/TrkIQ6Bhv7g5beg2GRncB2ndjN66r8I8+w==}
@@ -35226,31 +35223,6 @@ packages:
       terser: 5.15.0
       webpack: 5.74.0_esbuild@0.15.7
 
-  /terser-webpack-plugin/5.3.3_shw3cv54523u3rna4vn263uk5y:
-    resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==}
-    engines: {node: '>= 10.13.0'}
-    peerDependencies:
-      '@swc/core': '*'
-      esbuild: '*'
-      uglify-js: '*'
-      webpack: ^5.1.0
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      esbuild:
-        optional: true
-      uglify-js:
-        optional: true
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.14
-      '@swc/core': 1.3.18
-      jest-worker: 27.5.1
-      schema-utils: 3.1.1
-      serialize-javascript: 6.0.0
-      terser: 5.15.0
-      webpack: 5.74.0_@swc+core@1.3.18
-    dev: true
-
   /terser-webpack-plugin/5.3.3_webpack@5.64.0:
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==}
     engines: {node: '>= 10.13.0'}
@@ -37659,46 +37631,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-
-  /webpack/5.74.0_@swc+core@1.3.18:
-    resolution: {integrity: sha512-A2InDwnhhGN4LYctJj6M1JEaGL7Luj6LOmyBHjcI8529cm5p6VXiTIW2sn6ffvEAKmveLzvu4jrihwXtPojlAA==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-    peerDependencies:
-      webpack-cli: '*'
-    peerDependenciesMeta:
-      webpack-cli:
-        optional: true
-    dependencies:
-      '@types/eslint-scope': 3.7.3
-      '@types/estree': 0.0.51
-      '@webassemblyjs/ast': 1.11.1
-      '@webassemblyjs/wasm-edit': 1.11.1
-      '@webassemblyjs/wasm-parser': 1.11.1
-      acorn: 8.7.1
-      acorn-import-assertions: 1.8.0_acorn@8.7.1
-      browserslist: 4.21.3
-      chrome-trace-event: 1.0.3
-      enhanced-resolve: 5.10.0
-      es-module-lexer: 0.9.3
-      eslint-scope: 5.1.1
-      events: 3.3.0
-      glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.10
-      json-parse-even-better-errors: 2.3.1
-      loader-runner: 4.3.0
-      mime-types: 2.1.35
-      neo-async: 2.6.2
-      schema-utils: 3.1.1
-      tapable: 2.2.1
-      terser-webpack-plugin: 5.3.3_shw3cv54523u3rna4vn263uk5y
-      watchpack: 2.4.0
-      webpack-sources: 3.2.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - esbuild
-      - uglify-js
-    dev: true
 
   /webpack/5.74.0_esbuild@0.15.7:
     resolution: {integrity: sha512-A2InDwnhhGN4LYctJj6M1JEaGL7Luj6LOmyBHjcI8529cm5p6VXiTIW2sn6ffvEAKmveLzvu4jrihwXtPojlAA==}

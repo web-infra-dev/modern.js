@@ -1,13 +1,11 @@
 {
-  "swc": {
-    "jsc": {
-      "transform": {
-        "react": {
-          "development": true,
-          "refresh": true
-        }
+  "jsc": {
+    "transform": {
+      "react": {
+        "development": true,
+        "refresh": true
       }
-    },
-    "filename": "demo"
-  }
+    }
+  },
+  "filename": "demo"
 }

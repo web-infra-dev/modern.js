@@ -1,11 +1,9 @@
 {
-  "swc": {
-    "jsc": {
-      "transform": {
-        "react": {
-          "development": false,
-          "refresh": true
-        }
+  "jsc": {
+    "transform": {
+      "react": {
+        "development": false,
+        "refresh": true
       }
     }
   }
