@@ -42,7 +42,7 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 - Type: `number`
 - Default: `3`
 
-The maximum number of retries for a single resource. For example:
+The maximum number of retries for a single asset. For example:
 
 ```js
 export default {
@@ -59,7 +59,7 @@ export default {
 - Type: `string[]`
 - Default: `[]`
 
-The domain of the resource to be retried. For example:
+The domain of the asset to be retried. For example:
 
 ```js
 export default {
@@ -76,7 +76,7 @@ export default {
 - Type: `string[]`
 - Default: `['script', 'link', 'img']`
 
-The type of the resource to be retried. For example:
+The type of the asset to be retried. For example:
 
 ```js
 export default {
@@ -93,7 +93,7 @@ export default {
 - Type: `string | ((url: string) => boolean) | undefined`
 - Default: `undefined`
 
-The test function of the resource to be retried. For example:
+The test function of the asset to be retried. For example:
 
 ```js
 export default {
@@ -110,7 +110,7 @@ export default {
 - Type: `undefined | boolean`
 - Default: false
 
-Whether to add the `crossOrigin` attribute to the resource to be retried. For example:
+Whether to add the `crossOrigin` attribute to the asset to be retried. For example:
 
 ```js
 export default {
@@ -126,7 +126,7 @@ export default {
 
 - Type: `undefined | (options: AssetsRetryHookContext) => void`
 
-The callback function when the resource is being retried. For example:
+The callback function when the asset is being retried. For example:
 
 ```js
 export default {
@@ -146,7 +146,7 @@ export default {
 
 - Type: `undefined | (options: AssetsRetryHookContext) => void`
 
-The callback function when the resource is successfully retried. For example:
+The callback function when the asset is successfully retried. For example:
 
 ```js
 export default {
@@ -166,7 +166,7 @@ export default {
 
 - Type: `undefined | (options: AssetsRetryHookContext) => void`
 
-The callback function when the resource is failed to be retried. For example:
+The callback function when the asset is failed to be retried. For example:
 
 ```js
 export default {
