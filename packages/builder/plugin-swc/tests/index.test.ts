@@ -59,15 +59,13 @@ describe('fixtures', () => {
 
     const { map } = await transform(
       {
-        swc: {
-          env: {
-            targets: 'ie 11',
-          },
-          module: {
-            type: 'commonjs',
-          },
-          sourceMaps: true,
+        env: {
+          targets: 'ie 11',
         },
+        module: {
+          type: 'commonjs',
+        },
+        sourceMaps: true,
       },
       '',
       code.toString(),
