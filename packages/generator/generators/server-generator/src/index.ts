@@ -59,12 +59,6 @@ const handleTemplateFile = async (
 
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
 
-  if (language === Language.JS && framework === Framework.Nest) {
-    generator.logger.warn('nest not support js project');
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
-  }
-
   let updateInfo = {};
 
   if (framework === Framework.Express || framework === Framework.Koa) {
@@ -75,27 +69,12 @@ const handleTemplateFile = async (
     };
   }
 
-  if (framework === Framework.Nest) {
-    updateInfo = {
-      'dependencies.@nestjs/core': `^${await getPackageVersion(
-        '@nestjs/core',
-      )}`,
-      'dependencies.@nestjs/common': `^${await getPackageVersion(
-        '@nestjs/common',
-      )}`,
-      'dependencies.express': `^${await getPackageVersion('express')}`,
-      'devDependencies.@types/express': `^${await getPackageVersion(
-        '@types/express',
-      )}`,
-    };
-  } else {
-    updateInfo = {
-      ...updateInfo,
-      [`dependencies.${framework as string}`]: `^${await getPackageVersion(
-        framework as string,
-      )}`,
-    };
-  }
+  updateInfo = {
+    ...updateInfo,
+    [`dependencies.${framework as string}`]: `^${await getPackageVersion(
+      framework as string,
+    )}`,
+  };
 
   const getServerPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {

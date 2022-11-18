@@ -1,9 +1,0 @@
-import { hook } from '@modern-js/runtime/server';
-import { Context } from 'egg';
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware(() => async (ctx: Context, next: any) => {
-    console.info(`access url: ${ctx.url}`);
-    await next();
-  });
-});
