@@ -125,3 +125,14 @@ export function setRuntimeConfig(
   }
   return undefined;
 }
+
+export const generateAsyncEntry = () =>
+  `
+    export const provider = async (...args) => {
+      const exports = await import('./bootstrap');
+      return exports.provider.apply(null, args);
+    };
+    if (!window.__GARFISH__) {
+      import('./bootstrap');
+    }
+  `;
