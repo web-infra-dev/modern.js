@@ -3,10 +3,14 @@ import type StackTracey from 'stacktracey';
 import { ErrorFormatter } from '../shared/types';
 
 const formatTraceEntry = (entry: StackTracey.Entry) => {
-  const { file: filename, line, column } = entry;
+  const { callee, file, line, column } = entry;
   const prompt = chalk.gray('at');
-  const pos = chalk.gray(`:${line}:${column}`);
-  return `    ${prompt} ${filename}${pos}`;
+  const location =
+    (line && column && `${file}:${line}:${column}`) || '<anonymous>';
+  const sign = callee
+    ? chalk`${callee} {gray (${location})}`
+    : chalk.gray(location);
+  return `    ${prompt} ${sign}`;
 };
 
 const SIGN_TEXT = {
