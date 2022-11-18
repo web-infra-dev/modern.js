@@ -1,6 +1,5 @@
 {
-  "name": "@modern-js/doc-tools",
-  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development",
+  "name": "doc-core",
   "version": "0.1.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
