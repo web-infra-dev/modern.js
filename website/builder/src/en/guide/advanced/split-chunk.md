@@ -6,7 +6,7 @@ A variety of chunk splitting strategies are built into Builder, which can meet t
 
 ## Splitting Strategies
 
-> The chunk splitting config of Builder is in [`performance.chunkSplit`](/api/config-performance.html#performance-chunksplit).
+> The chunk splitting config of Builder is in [performance.chunkSplit](/en/api/config-performance.html#performance-chunksplit).
 
 The Builder includes the following chunk splitting strategies:
 

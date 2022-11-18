@@ -46,7 +46,7 @@ Detail:
 - `svg`: The name of the SVG image.
 - `font`: The name of the font file.
 - `image`: The name of a non-SVG image.
-- `media`: The name of a media resource, such as a video.
+- `media`: The name of a media asset, such as a video.
 
 #### Example
 
