@@ -75,7 +75,10 @@ function createBuilderProviderConfig(
     html,
     output,
     tools,
-    dev: normalizedConfig.dev,
+    dev: {
+      https: normalizedConfig.dev.https,
+      assetPrefix: normalizedConfig.dev.assetPrefix,
+    },
     performance: {
       // `@modern-js/webpack` used to remove moment locale by default
       removeMomentLocale: true,
