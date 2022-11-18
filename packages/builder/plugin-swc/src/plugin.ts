@@ -84,17 +84,13 @@ export const PluginSwc = (pluginConfig: PluginConfig = {}) => ({
         and: [api.context.rootPath, { not: /node_modules/ }],
       });
 
-      if (pluginConfig.includes) {
-        pluginConfig.includes.forEach(condition => {
+      if (builderConfig.source.include) {
+        builderConfig.source.include.forEach(condition => {
           rule.include.add(condition);
         });
       }
 
-      if (pluginConfig.excludes) {
-        pluginConfig.excludes.forEach(condition => {
-          rule.exclude.add(condition);
-        });
-      }
+      // TODO: Expected `source.exclude` config
 
       if (chain.module.rules.get(CHAIN_ID.RULE.JS_DATA_URI)) {
         chain.module

@@ -47,9 +47,6 @@ export interface PluginConfig {
   jsMinify?: boolean | JsMinifyOptions;
 
   extensions?: Extensions;
-
-  includes?: (RegExp | string)[];
-  excludes?: (RegExp | string)[];
 }
 ```
 
@@ -79,12 +76,6 @@ Default option is:
   mode: 'usage',
 }
 ```
-
-### `includes` and `excludes`
-
-- Type: `Array<string | RegExp>`
-
-You can specify which file needs to be transpiled, and which doesn't
 
 ### `jsMinify`
 

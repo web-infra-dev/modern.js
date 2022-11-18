@@ -22,9 +22,6 @@ export interface PluginConfig {
   jsMinify?: boolean | JsMinifyOptions;
 
   extensions?: Extensions;
-
-  includes?: (RegExp | string)[];
-  excludes?: (RegExp | string)[];
 }
 
 /// default swc configuration

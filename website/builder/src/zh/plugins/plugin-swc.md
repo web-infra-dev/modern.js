@@ -47,9 +47,6 @@ export interface PluginConfig {
   jsMinify?: boolean | JsMinifyOptions;
 
   extensions?: Extensions;
-
-  includes?: (RegExp | string)[];
-  excludes?: (RegExp | string)[];
 }
 ```
 
@@ -79,12 +76,6 @@ export interface PluginConfig {
   mode: 'usage',
 }
 ```
-
-### `includes` 以及 `excludes`
-
-- 类型: `Array<string | RegExp>`
-
-可以指定需要或不需要 `SWC` 转译的文件。
 
 ### `jsMinify`
 
