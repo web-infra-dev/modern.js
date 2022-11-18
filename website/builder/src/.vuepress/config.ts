@@ -63,6 +63,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/advanced/build-performance'),
           getLink('/guide/advanced/inline-assets'),
+          getLink('/guide/advanced/split-chunk'),
         ],
       },
       {

@@ -3,7 +3,7 @@ sidebar_position: 7
 title: handleEffect
 ---
 
-import ReduckTip from '@site/docs/components/reduck-tip.md'
+import ReduckTip from '@site-docs/components/reduck-tip.md'
 
 <ReduckTip />
 
