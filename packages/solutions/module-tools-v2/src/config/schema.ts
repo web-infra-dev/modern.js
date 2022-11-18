@@ -38,25 +38,28 @@ export const presets = [
     return [...ret, ...targets.map(t => `${crt}-${t}`)];
   }, []),
 ];
-export const buildConfigProperties = {
-  entry: {
-    enum: ['string', 'array', 'object'],
-  },
+const commonBuildConfigProperties = {
+  // entry: {
+  //   type: ['string', 'array', 'object'],
+  // },
   target: {
     enum: targets,
-  },
-  format: {
-    enum: ['cjs', 'esm', 'umd', 'iife'],
   },
   sourceMap: {
     enum: [true, false, 'inline', 'external'],
   },
-  buildType: {
-    enum: ['bundle', 'bundleless'],
+  asset: {
+    type: 'object',
+  },
+  jsx: {
+    enum: ['automatic', 'transform'],
   },
   bundleOptions: {
     type: 'object',
     properties: {
+      entry: {
+        type: ['array', 'object'],
+      },
       splitting: {
         type: 'boolean',
       },
@@ -91,9 +94,6 @@ export const buildConfigProperties = {
         },
         else: { type: 'boolean' },
       },
-      assets: {
-        type: 'object',
-      },
       terserOptions: {
         type: 'object',
       },
@@ -102,9 +102,6 @@ export const buildConfigProperties = {
   bundlelessOptions: {
     type: 'object',
     properties: {
-      sourceDir: {
-        type: 'string',
-      },
       style: {
         type: 'object',
         properties: {
@@ -136,7 +133,48 @@ export const buildConfigProperties = {
 
   path: { type: 'string' },
 
-  copy: { type: 'array' },
+  copy: {
+    type: 'object',
+    properties: {
+      patterns: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            from: { type: 'string' },
+            to: { type: 'string' },
+            context: { type: 'string' },
+            globOptions: { type: 'object' },
+          },
+        },
+      },
+      options: {
+        type: 'object',
+        properties: {
+          concurrency: {
+            type: 'number',
+          },
+        },
+      },
+    },
+  },
+};
+
+export const bundleBuildConfigProperties = {
+  buildType: {
+    enum: ['bundle'],
+  },
+  format: {
+    enum: ['cjs', 'esm', 'umd', 'iife'],
+  },
+};
+export const bundlelessBuildConfigProperties = {
+  buildType: {
+    enum: ['bundleless'],
+  },
+  format: {
+    enum: ['cjs', 'esm'],
+  },
 };
 export const buildConfig = {
   target: 'buildConfig',
@@ -148,15 +186,41 @@ export const buildConfig = {
       items: [
         {
           type: 'object',
-          properties: buildConfigProperties,
-          additionalProperties: false,
+          if: { properties: bundleBuildConfigProperties },
+          then: {
+            properties: {
+              ...bundleBuildConfigProperties,
+              ...commonBuildConfigProperties,
+            },
+            additionalProperties: false,
+          },
+          else: {
+            properties: {
+              ...bundlelessBuildConfigProperties,
+              ...commonBuildConfigProperties,
+            },
+            additionalProperties: false,
+          },
         },
       ],
     },
     else: {
       type: 'object',
-      properties: buildConfigProperties,
-      additionalProperties: false,
+      if: { properties: bundleBuildConfigProperties },
+      then: {
+        properties: {
+          ...bundleBuildConfigProperties,
+          ...commonBuildConfigProperties,
+        },
+        additionalProperties: false,
+      },
+      else: {
+        properties: {
+          ...bundlelessBuildConfigProperties,
+          ...commonBuildConfigProperties,
+        },
+        additionalProperties: false,
+      },
     },
   },
 };
@@ -171,12 +235,4 @@ export const buildPreset = {
   },
 };
 
-export const dev = {
-  target: 'dev.storybook',
-  schema: {
-    type: 'object',
-    additionalProperties: false,
-  },
-};
-
-export const schema = [source, buildConfig, buildPreset, dev];
+export const schema = [source, buildConfig, buildPreset];

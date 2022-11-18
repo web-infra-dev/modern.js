@@ -5,6 +5,10 @@ import { defaultStories } from './constants/stores';
 export default (): CliPlugin<ModuleToolsHooks> => ({
   name: '@modern-js/plugin-storybook',
   setup: api => ({
+    async validateSchema() {
+      const { schema } = await import('./config/schema');
+      return schema;
+    },
     config() {
       const appContext = api.useAppContext();
 

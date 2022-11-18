@@ -4,4 +4,11 @@ const sharedConfig = require('@scripts/jest-config');
 module.exports = {
   ...sharedConfig,
   rootDir: __dirname,
+  testMatch: ['<rootDir>/tests/**/*.test.[jt]s?(x)'],
+  testPathIgnorePatterns: [
+    'designSystem.test.ts',
+    'build-watch.test.ts',
+    'new-command.test.ts',
+  ],
+  coveragePathIgnorePatterns: ['onExit.ts', './src/constants/*'],
 };
