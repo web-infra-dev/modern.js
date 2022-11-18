@@ -1,11 +1,29 @@
 import { join, isAbsolute } from 'path';
-import { stringifyConfig } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import {
   InspectConfigOptions,
   outputInspectConfigFiles,
 } from '@modern-js/builder-shared';
-import type { WebpackConfig } from '../types';
+import type { RspackConfig } from '../types';
+
+function stringifyConfig(config: Record<string, any>): string {
+  return JSON.stringify(
+    config,
+    (_key, value: Record<string, any> | any) => {
+      // shorten long functions
+      if (typeof value === 'function') {
+        const content = value.toString();
+        if (content.length > 100) {
+          return `function ${value.name}() { /* omitted long function */ }`;
+        }
+        return content;
+      }
+
+      return value;
+    },
+    2,
+  );
+}
 
 export async function inspectConfig({
   context,
@@ -15,7 +33,7 @@ export async function inspectConfig({
   inspectOptions = {},
 }: InitConfigsOptions & {
   inspectOptions?: InspectConfigOptions;
-  bundlerConfigs?: WebpackConfig[];
+  bundlerConfigs?: RspackConfig[];
 }) {
   if (inspectOptions.env) {
     process.env.NODE_ENV = inspectOptions.env;
@@ -23,7 +41,7 @@ export async function inspectConfig({
     process.env.NODE_ENV = 'development';
   }
 
-  const webpackConfigs =
+  const rspackConfigs =
     bundlerConfigs ||
     (
       await initConfigs({
@@ -31,16 +49,11 @@ export async function inspectConfig({
         pluginStore,
         builderOptions,
       })
-    ).webpackConfigs;
+    ).rspackConfigs;
 
-  const rawBuilderConfig = await stringifyConfig(
-    context.config,
-    inspectOptions.verbose,
-  );
+  const rawBuilderConfig = stringifyConfig(context.config);
   const rawBundlerConfigs = await Promise.all(
-    webpackConfigs.map(config =>
-      stringifyConfig(config, inspectOptions.verbose),
-    ),
+    rspackConfigs.map(config => stringifyConfig(config)),
   );
 
   let outputPath = inspectOptions.outputPath || context.distPath;
@@ -57,7 +70,7 @@ export async function inspectConfig({
         outputPath,
       },
       builderOptions,
-      configType: 'webpack',
+      configType: 'rspack',
     });
   }
 
