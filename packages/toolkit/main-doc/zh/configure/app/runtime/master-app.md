@@ -1,30 +1,18 @@
 ---
 sidebar_label: masterApp
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # runtime.masterApp
 
-
-
 * 类型： `Object`
 
-:::tip 提示
-```ts
-export declare type Config = Partial<GarfishOptions> & {
-  manifest: {
-    modules: Array<{
-        name: string;
-        entry: string;
-        activeWhen?: string;
-      }> | string;
-  };
-  LoadingComponent?: React.ComponentType | React.ElementType;
-};
-```
+:::info
+使用该配置首先需要使用 [new 命令](/docs/apis/app/commands/new)启用「微前端」功能。
 :::
-
 ## `manifest`
+
+主应用添加子应用信息。
 
 - 类型：`modules: Array<{
         name: string;
