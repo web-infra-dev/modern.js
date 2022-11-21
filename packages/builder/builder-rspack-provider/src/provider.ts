@@ -24,22 +24,33 @@ export function builderRspackProvider({
         // pluginStore.addPlugins(await applyDefaultPlugins());
       },
 
-      async createCompiler() {
-        await initConfigs({
+      async createCompiler(options) {
+        const { createCompiler } = await import('./core/createCompiler');
+        const { rspackConfigs } = await initConfigs({
           context,
           pluginStore,
           builderOptions,
         });
 
-        return {} as any;
+        // todo: compiler 类型定义
+        return createCompiler({
+          watch: options?.watch,
+          context,
+          rspackConfigs,
+        }) as any;
       },
 
       async startDevServer() {
         return {} as any;
       },
 
-      async build() {
-        return {} as any;
+      async build(options) {
+        const { build: buildImpl, rspackBuild } = await import('./core/build');
+        return buildImpl(
+          { context, pluginStore, builderOptions },
+          options,
+          rspackBuild,
+        );
       },
 
       async inspectConfig(inspectOptions) {
