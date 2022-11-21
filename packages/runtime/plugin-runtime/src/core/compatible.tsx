@@ -204,13 +204,13 @@ export const bootstrap: BootStrap = async (
             ReactDOM.createRoot(rootElement).render(App);
           } else {
             throw Error(
-              'The bootstrap ReactDOM parameter needs to provide the createRoot method',
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `createRoot` method',
             );
           }
         } else {
           if (!ReactDOM.render) {
             throw Error(
-              'The bootstrap ReactDOM parameter needs to provide the render method',
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `render` method',
             );
           }
           ReactDOM.render(App, rootElement);
@@ -221,14 +221,14 @@ export const bootstrap: BootStrap = async (
         if (IS_REACT18) {
           if (!ReactDOM.hydrateRoot) {
             throw Error(
-              'The bootstrap ReactDOM parameter needs to provide the hydrateRoot method',
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrateRoot` method',
             );
           }
           ReactDOM.hydrateRoot(rootElement, App);
         } else {
           if (!ReactDOM.hydrate) {
             throw Error(
-              'The bootstrap ReactDOM parameter needs to provide the hydrate method',
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrate` method',
             );
           }
           ReactDOM.hydrate(App, rootElement, callback);
