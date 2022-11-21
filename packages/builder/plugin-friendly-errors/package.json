@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/plugin-friendly-errors",
+  "name": "@modern-js/friendly-errors-webpack-plugin",
   "description": "Recognizes certain classes of webpack errors and cleans, aggregates and prioritizes them to provide a better Developer Experience",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -24,6 +24,31 @@
     ".": {
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
+    },
+    "./formatter": {
+      "jsnext:source": "./src/formatter/index.ts",
+      "default": "./dist/formatter/index.ts"
+    },
+    "./transformer": {
+      "jsnext:source": "./src/transformer/index.ts",
+      "default": "./dist/transformer/index.ts"
+    },
+    "./shared/*": {
+      "jsnext:source": "./src/shared/*.ts",
+      "default": "./dist/shared/*.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "formatter": [
+        "./dist/formatter/index.d.ts"
+      ],
+      "transformer": [
+        "./dist/transformer/index.d.ts"
+      ],
+      "shared/*": [
+        "./dist/shared/*.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -40,7 +65,6 @@
     "stacktracey": "^2.1.8"
   },
   "devDependencies": {
-    "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/e2e": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",

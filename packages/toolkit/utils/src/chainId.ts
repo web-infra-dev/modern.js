@@ -148,6 +148,8 @@ export const CHAIN_ID = {
     AUTO_SET_ROOT_SIZE: 'auto-set-root-size',
     /** HtmlAsyncChunkPlugin */
     HTML_ASYNC_CHUNK: 'html-async-chunk',
+    /** @modern-js/friendly-errors-webpack-plugin */
+    FRIENDLY_ERROR: 'friendly-error',
   },
   /** Predefined minimizers */
   MINIMIZER: {

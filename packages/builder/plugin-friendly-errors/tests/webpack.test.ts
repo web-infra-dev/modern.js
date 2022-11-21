@@ -1,11 +1,28 @@
 import { describe, expect, test } from 'vitest';
-import { WebpackError } from 'webpack';
-import webpack, {
-  webpackBuild,
-} from '@modern-js/builder-webpack-provider/webpack';
+import webpack, { WebpackError } from 'webpack';
 import { useFixture, useOutput } from '@modern-js/e2e';
 import { FriendlyErrorsWebpackPlugin } from '@/plugin';
 import { outputPrettyError } from '@/shared/utils';
+
+export const webpackBuild = async (compiler: webpack.Compiler) => {
+  return new Promise((resolve, reject) => {
+    compiler.run((err, stats) => {
+      // When using run or watch, call close and wait for it to finish before calling run or watch again.
+      // Concurrent compilations will corrupt the output files.
+      compiler.close(closeErr => {
+        console.error(closeErr);
+        if (err || !stats || stats.hasErrors()) {
+          const buildError: Error & { stats?: webpack.Stats } =
+            err || new Error('Webpack build failed!');
+          buildError.stats = stats;
+          reject(buildError);
+        } else {
+          resolve({ stats });
+        }
+      });
+    });
+  });
+};
 
 describe('webpack', () => {
   test('compilation.errors', async () => {
@@ -30,7 +47,7 @@ describe('webpack', () => {
     await expect(webpackBuild(compiler)).rejects.toThrow();
     expect(output.toString()).toMatchInlineSnapshot(`
       "[41m[1m ERROR [22m[49m [31m[1mError[22m[39m[90m:[39m foo
-          [90mat[39m [90m<ROOT>/tests/e2e/webpack.test.ts:<POS>[39m
+          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
           [90mat[39m _next32 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
           [90mat[39m _next10 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
           [90mat[39m Hook.eval [as call] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
@@ -50,10 +67,10 @@ describe('webpack', () => {
           [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
           [90mat[39m run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
           [90mat[39m Compiler.run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/packages/builder/builder-webpack-provider/src/core/build.ts:<POS>[39m
+          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
           [90mat[39m new Promise [90m(<anonymous>)[39m
-          [90mat[39m Module.webpackBuild [90m(<WORKSPACE>/packages/builder/builder-webpack-provider/src/core/build.ts:<POS>)[39m
-          [90mat[39m [90m<ROOT>/tests/e2e/webpack.test.ts:<POS>[39m
+          [90mat[39m webpackBuild [90m(<ROOT>/tests/webpack.test.ts:<POS>)[39m
+          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
           [90mat[39m async runTest [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
           [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
           [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
@@ -91,7 +108,7 @@ describe('webpack', () => {
     );
     expect(output.toString()).toMatchInlineSnapshot(`
       "[41m[1m ERROR [22m[49m [31m[1mError[22m[39m[90m:[39m bar
-          [90mat[39m [90m<ROOT>/tests/e2e/webpack.test.ts:<POS>[39m
+          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
           [90mat[39m _next32 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
           [90mat[39m _next10 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
           [90mat[39m Hook.eval [as call] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
@@ -111,10 +128,10 @@ describe('webpack', () => {
           [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
           [90mat[39m run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
           [90mat[39m Compiler.run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/packages/builder/builder-webpack-provider/src/core/build.ts:<POS>[39m
+          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
           [90mat[39m new Promise [90m(<anonymous>)[39m
-          [90mat[39m Module.webpackBuild [90m(<WORKSPACE>/packages/builder/builder-webpack-provider/src/core/build.ts:<POS>)[39m
-          [90mat[39m [90m<ROOT>/tests/e2e/webpack.test.ts:<POS>[39m
+          [90mat[39m webpackBuild [90m(<ROOT>/tests/webpack.test.ts:<POS>)[39m
+          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
           [90mat[39m async runTest [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
           [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
           [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m

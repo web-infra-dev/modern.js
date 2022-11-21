@@ -99,7 +99,8 @@
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "9.3.1",
-    "webpack": "^5.74.0"
+    "webpack": "^5.74.0",
+    "@modern-js/friendly-errors-webpack-plugin": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",

@@ -12,6 +12,7 @@ expect.addSnapshotSerializer(
         mark: 'fragment',
         match: /(?<=\/)modern-js\/stub-builder\/[^/]+\/[^/]+/,
       },
+      { match: /(?<=at.+?:)\d+:\d+(?=\W)/g, mark: 'pos' },
     ],
   }),
 );

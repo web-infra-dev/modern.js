@@ -1,8 +1,8 @@
 import assert from 'assert';
-import { PluginSass } from '@modern-js/builder-webpack-provider/plugins/sass';
-import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
-import { useFixture } from '@modern-js/e2e';
 import { test } from 'vitest';
+import { useFixture } from '@modern-js/e2e';
+import { PluginSass } from '@/plugins/sass';
+import { createStubBuilder } from '@/stub';
 
 test.skip('Circular', async () => {
   const options = await useFixture(
