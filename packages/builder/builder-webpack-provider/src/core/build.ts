@@ -36,7 +36,7 @@ export const webpackBuild: BuildExecuter = async compiler => {
           reject(buildError);
         } else {
           // Assert type of stats must align to compiler.
-          resolve({ stats: stats as any });
+          resolve({ stats: stats as Stats & MultiStats });
         }
       });
     });

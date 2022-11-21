@@ -75,5 +75,20 @@ export async function initPlugins({
     hooks.onExitHook.call();
   });
 
+  // Pretty log uncaught exception.
+  const { outputPrettyError } = await import(
+    '@modern-js/friendly-errors-webpack-plugin'
+  );
+  const handleUncaughtException = (err: Error) => {
+    try {
+      outputPrettyError(err);
+    } catch (e) {
+      console.error(e);
+      console.error(err);
+    }
+  };
+  process.on('uncaughtException', handleUncaughtException);
+  process.on('unhandledRejection', handleUncaughtException);
+
   debug('init plugins done');
 }
