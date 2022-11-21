@@ -38,4 +38,3 @@ export * from './chainId';
 export * from './version';
 export * from './plugin';
 export * from './routes';
-export * from './dagSort';

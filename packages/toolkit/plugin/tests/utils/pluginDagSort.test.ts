@@ -1,4 +1,4 @@
-import { dagSort } from '../src/dagSort';
+import { dagSort } from '../../src/utils/pluginDagSort';
 
 describe('sort plugins', () => {
   it('should verfified each plugin', () => {
