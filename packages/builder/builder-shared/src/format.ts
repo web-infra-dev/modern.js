@@ -1,8 +1,8 @@
-import type { webpack } from '../types';
 import chalk from '@modern-js/utils/chalk';
+import { Stats, MultiStats } from './types';
 
-export async function formatWebpackStats(
-  stats: webpack.Stats | webpack.MultiStats,
+export async function formatStats(
+  stats: Stats | MultiStats,
   showWarnings = true,
 ) {
   const statsData = stats.toJson({
