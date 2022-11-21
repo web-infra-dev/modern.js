@@ -1,6 +1,5 @@
 ---
 sidebar_label: ssrByEntries
-sidebar_position: 2
 ---
 
 # server.ssrByEntries

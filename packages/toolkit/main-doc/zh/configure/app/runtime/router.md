@@ -1,6 +1,5 @@
 ---
 sidebar_label: router
-sidebar_position: 2
 ---
 
 # runtime.router

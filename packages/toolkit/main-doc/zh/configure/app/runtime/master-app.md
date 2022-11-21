@@ -1,6 +1,5 @@
 ---
 sidebar_label: masterApp
-sidebar_position: 4
 ---
 
 # runtime.masterApp
