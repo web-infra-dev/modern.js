@@ -1,7 +1,6 @@
 ---
 title: output.externals
 sidebar_label: externals
-sidebar_position: 1
 ---
 
 :::info BUILDER

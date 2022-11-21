@@ -643,7 +643,7 @@ sidebar_label: designSystem
 </details>
 
 
-`designSystem` 用于定义项目的调色板、排版比例（Typographic Scales 或者 Type Scale）、字体列表、断点、边框圆角值等等。因为 Modern.js 借用了 Tailwind Theme 的设计方式，并且内部也集成了 Tailwind CSS，所以 `designSystem` 使用方式与 Tailwind CSS Theme 相同
+`designSystem` 用于定义项目的调色板、排版比例（Typographic Scales 或者 Type Scale）、字体列表、断点、边框圆角值等等。因为 Modern.js 借用了 Tailwind Theme 的设计方式，并且内部也集成了 Tailwind CSS，所以 `designSystem` 使用方式与 Tailwind CSS Theme 相同。
 
 ### 结构
 
@@ -1082,7 +1082,7 @@ const designSyttem = {
 
 最终结果是相同的，但是由于许多核心插件未公开任何配置，因此无论如何只能使用 corePlugins 禁用它们，最好保持一致。
 
-#### 添加自己的key
+#### 添加自己的 key
 
 在很多情况下，将自己的属性添加到配置对象可能会很有用。
 
@@ -1143,14 +1143,6 @@ export default defineConfig({
 
 #### source.designSystem.supportStyledComponents
 
-##### 类型
+该配置类型为 `boolean`，默认为 `false`。
 
-`boolean`
-
-##### 默认值
-
-`false`
-
-##### 说明
-
-值 `true` 时，运行时在应用外层提供 `styled-components` `ThemeProvider` 组件，并且将通过 `designSystem` 生成的 `Theme Token` 对象注入。
+当该配置值为 `true` 时，运行时在应用外层提供 `styled-components` `ThemeProvider` 组件，并且将通过 `designSystem` 生成的 `Theme Token` 对象注入。

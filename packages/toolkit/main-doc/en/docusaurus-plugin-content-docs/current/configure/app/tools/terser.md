@@ -1,7 +1,6 @@
 ---
 title: tools.terser
 sidebar_label: terser
-sidebar_position: 1
 ---
 
 :::info BUILDER

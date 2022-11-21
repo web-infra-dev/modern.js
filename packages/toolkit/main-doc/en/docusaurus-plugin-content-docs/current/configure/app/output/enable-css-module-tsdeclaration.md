@@ -1,7 +1,6 @@
 ---
 title: output.enableCssModuleTSDeclaration
 sidebar_label: enableCssModuleTSDeclaration
-sidebar_position: 1
 ---
 
 :::info BUILDER

@@ -1,6 +1,5 @@
 ---
 sidebar_label: proxy
-sidebar_position: 1
 ---
 
 # dev.proxy

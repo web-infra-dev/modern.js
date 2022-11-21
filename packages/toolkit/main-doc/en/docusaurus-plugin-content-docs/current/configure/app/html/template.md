@@ -1,7 +1,6 @@
 ---
 title: html.template
 sidebar_label: template
-sidebar_position: 1
 ---
 
 :::info BUILDER

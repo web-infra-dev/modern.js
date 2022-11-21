@@ -1,7 +1,6 @@
 ---
 title: source.alias
 sidebar_label: alias
-sidebar_position: 1
 ---
 
 :::info BUILDER

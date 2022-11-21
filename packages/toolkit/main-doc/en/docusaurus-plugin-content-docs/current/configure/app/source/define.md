@@ -1,7 +1,6 @@
 ---
 title: source.define
 sidebar_label: define
-sidebar_position: 1
 ---
 
 :::info BUILDER

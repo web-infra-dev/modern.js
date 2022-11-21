@@ -1,7 +1,6 @@
 ---
 title: html.metaByEntries
 sidebar_label: metaByEntries
-sidebar_position: 1
 ---
 
 :::info BUILDER

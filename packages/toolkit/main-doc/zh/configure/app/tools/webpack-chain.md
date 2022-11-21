@@ -1,7 +1,6 @@
 ---
 title: tools.webpackChain
 sidebar_label: webpackChain
-sidebar_position: 1
 ---
 
 :::info BUILDER

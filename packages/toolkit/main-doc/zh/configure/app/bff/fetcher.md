@@ -1,6 +1,5 @@
 ---
 sidebar_label: fetcher
-sidebar_position: 2
 ---
 
 # bff.fetcher
@@ -13,7 +12,7 @@ sidebar_position: 2
   * Node.js 端：[node-fetch](https://github.com/node-fetch/node-fetch)
 
 :::caution 注意
-应用工程需要请确保使用【[new](/docs/apis/app/commands/new)】 启用了 BFF 功能。
+请先在当前应用项目根目录使用【[new](/docs/apis/app/commands/new)】 启用 BFF 功能。
 :::
 
 

@@ -1,7 +1,6 @@
 ---
 title: tools.cssLoader
 sidebar_label: cssLoader
-sidebar_position: 1
 ---
 
 :::info BUILDER

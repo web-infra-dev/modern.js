@@ -1,7 +1,6 @@
 ---
 title: tools.tsLoader
 sidebar_label: tsLoader
-sidebar_position: 1
 ---
 
 :::info BUILDER

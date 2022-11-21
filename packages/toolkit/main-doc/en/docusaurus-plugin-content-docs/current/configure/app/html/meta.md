@@ -1,7 +1,6 @@
 ---
 title: html.meta
 sidebar_label: meta
-sidebar_position: 1
 ---
 
 :::info BUILDER

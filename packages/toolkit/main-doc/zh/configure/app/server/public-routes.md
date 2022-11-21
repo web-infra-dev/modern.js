@@ -1,6 +1,5 @@
 ---
 sidebar_label: publicRoutes
-sidebar_position: 4
 ---
 
 # server.publicRoutes

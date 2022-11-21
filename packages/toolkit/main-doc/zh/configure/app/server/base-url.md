@@ -1,6 +1,5 @@
 ---
 sidebar_label: baseUrl
-sidebar_position: 3
 ---
 
 # server.baseUrl

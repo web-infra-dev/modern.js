@@ -1,7 +1,6 @@
 ---
 title: tools.devServer
 sidebar_label: devServer
-sidebar_position: 1
 ---
 
 :::info BUILDER

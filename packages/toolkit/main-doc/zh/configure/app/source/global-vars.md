@@ -1,7 +1,6 @@
 ---
 title: source.globalVars
 sidebar_label: globalVars
-sidebar_position: 1
 ---
 
 :::info BUILDER

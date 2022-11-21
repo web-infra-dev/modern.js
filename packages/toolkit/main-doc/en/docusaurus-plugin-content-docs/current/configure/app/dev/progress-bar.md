@@ -1,7 +1,6 @@
 ---
 title: dev.progressBar
 sidebar_label: progressBar
-sidebar_position: 1
 ---
 
 :::info BUILDER

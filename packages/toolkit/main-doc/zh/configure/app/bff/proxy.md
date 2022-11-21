@@ -1,21 +1,18 @@
 ---
 sidebar_label: proxy
-sidebar_position: 1
 ---
 
 # bff.proxy
-
-
 
 * 类型：`Record<string, string>`
 * 默认值：`{}`
 
 :::info 补充信息
-应用工程需要请确保使用【[new](/docs/apis/app/commands/new)】 启用了 BFF 功能。
+请先在当前应用项目根目录使用【[new](/docs/apis/app/commands/new)】 启用 BFF 功能。
 :::
 
 通过简单配置，无需编写代码，Modern.js 会自动转发请求。发送给 Modern.js BFF server 的请求，会代理到指定的服务上。
-BFF Proxy 使用了强大的 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)，如果需要更多高级的用法；可以查看它的[文档](https://github.com/chimurai/http-proxy-middleware#options)。
+BFF Proxy 使用了强大的 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)，如果需要更多高级的用法， 可以查看它的[文档](https://github.com/chimurai/http-proxy-middleware#options)。
 
 在 `modern.server-runtime.config.js` 中加入以下配置；即可开启代理：
 
@@ -48,9 +45,7 @@ export default defineConfig({
 });
 ```
 
-与 [dev.proxy](/docs/configure/app/dev/proxy) 不同，本节所介绍的代理只作用于进入 BFF/API 服务的请求。
-
-同时，这一配置不但可以在开发环境中使用，在生产环境也会生成真实代码并且与项目一同部署。
+与 [dev.proxy](/docs/configure/app/dev/proxy) 不同，本节所介绍的代理只作用于进入 BFF/API 服务的请求；同时，这一配置不但可以在开发环境中使用，在生产环境中也会代理相应的请求。
 
 ## 常见用法
 

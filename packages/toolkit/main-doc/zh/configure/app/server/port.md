@@ -1,6 +1,5 @@
 ---
 sidebar_label: port
-sidebar_position: 5
 ---
 
 # server.port

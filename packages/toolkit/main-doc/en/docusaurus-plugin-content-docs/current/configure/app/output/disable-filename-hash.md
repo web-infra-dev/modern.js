@@ -1,7 +1,6 @@
 ---
 title: output.disableFilenameHash
 sidebar_label: disableFilenameHash
-sidebar_position: 1
 ---
 
 :::info BUILDER

@@ -1,7 +1,6 @@
 ---
 title: output.enableInlineStyles
 sidebar_label: enableInlineStyles
-sidebar_position: 1
 ---
 
 :::info BUILDER

@@ -1,7 +1,6 @@
 ---
 title: html.templateParametersByEntries
 sidebar_label: templateParametersByEntries
-sidebar_position: 1
 ---
 
 :::info BUILDER
