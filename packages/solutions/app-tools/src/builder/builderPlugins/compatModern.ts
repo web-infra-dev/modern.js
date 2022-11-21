@@ -119,11 +119,13 @@ export const PluginCompatModern = (
         },
       ]);
 
-      const { appDirectory } = appContext;
-
+      const { entrypoints } = appContext;
+      const existNestedRoutes = entrypoints.some(
+        entrypoint => entrypoint.nestedRoutesEntry,
+      );
       chain.plugin('route-plugin').use(RouterPlugin, [
         {
-          appDirectory,
+          existNestedRoutes,
         },
       ]);
 

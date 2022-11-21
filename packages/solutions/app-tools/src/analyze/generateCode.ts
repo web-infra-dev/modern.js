@@ -220,6 +220,7 @@ export const generateCode = async (
             routes,
             ssrMode: mode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+            entryName: entrypoint.entryName,
           }),
         });
 

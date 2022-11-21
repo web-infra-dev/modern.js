@@ -6,7 +6,6 @@ import {
   ROUTE_MINIFEST_FILE,
 } from '@modern-js/utils';
 import type { Compiler } from 'webpack';
-import { NESTED_ROUTES_DIR } from '../../analyze/constants';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
 
@@ -18,29 +17,25 @@ interface RouteAssets {
 }
 
 interface Options {
-  appDirectory: string;
+  existNestedRoutes: boolean;
 }
 
 export default class RouterPlugin {
-  private appDirectory: string;
+  private existNestedRoutes: boolean;
 
   constructor(options: Options) {
-    this.appDirectory = options.appDirectory;
+    this.existNestedRoutes = options.existNestedRoutes;
   }
 
   apply(compiler: Compiler) {
-    const { target, context } = compiler.options;
+    const { existNestedRoutes } = this;
+    const { target } = compiler.options;
     if (
       target === 'node' ||
       (Array.isArray(target) && target.includes('node'))
     ) {
       return;
     }
-
-    const appDirectory = this.appDirectory || context;
-    const routeDir = path.join(appDirectory!, NESTED_ROUTES_DIR);
-    const existNestedRoutes = fs.existsSync(routeDir);
-
     if (!existNestedRoutes) {
       return;
     }

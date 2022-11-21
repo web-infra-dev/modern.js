@@ -1,4 +1,5 @@
 import path from 'path';
+import { fs, ROUTE_MANIFEST, ROUTE_MINIFEST_FILE } from '@modern-js/utils';
 import type { Page } from 'puppeteer';
 import {
   launchApp,
@@ -191,6 +192,15 @@ const supportNestedRouteAndPage = async (errors: string[], appPort: number) => {
   expect(text1.includes('1234')).toBeTruthy();
 };
 
+const supportLoadChunksParallelly = async () => {
+  const distDir = path.join(appDir, './dist');
+  const manifestFile = path.join(distDir, ROUTE_MINIFEST_FILE);
+  expect(await fs.pathExists(manifestFile)).toBeTruthy();
+  const threeBundleFile = path.join(distDir, 'static/js/three.js');
+  const thressBUndleContent = await fs.readFile(threeBundleFile);
+  expect(thressBUndleContent.includes(ROUTE_MANIFEST)).toBeTruthy();
+};
+
 describe('dev', () => {
   let app: unknown;
   let appPort: number;
@@ -232,6 +242,8 @@ describe('dev', () => {
 
     test('path without layout', async () =>
       supportPathWithoutLayout(errors, appPort));
+
+    test('support load chunks Parallelly', supportLoadChunksParallelly);
   });
 
   describe('suppot both page route and nested route', () => {

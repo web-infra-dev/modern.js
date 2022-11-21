@@ -20,7 +20,7 @@ describe('webpack-router-plugin', () => {
       },
       plugins: [
         new RouterPlugin({
-          appDirectory: app,
+          existNestedRoutes: true,
         }),
       ],
     });

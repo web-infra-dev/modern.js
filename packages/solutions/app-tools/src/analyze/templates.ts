@@ -169,10 +169,12 @@ export const fileSystemRoutes = ({
   routes,
   ssrMode,
   nestedRoutesEntry,
+  entryName,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
   ssrMode: 'string' | 'stream' | false;
   nestedRoutesEntry?: string;
+  entryName: string;
 }) => {
   // The legacy mode and pages dir routes should use loadable
   // nested routes + renderTostring should use loadable.lazy
@@ -185,7 +187,7 @@ export const fileSystemRoutes = ({
   if (ssrMode) {
     dataLoaderPath = require.resolve(`@modern-js/plugin-data-loader/loader`);
     if (nestedRoutesEntry) {
-      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}!`;
+      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}&entryName=${entryName}!`;
     }
   }
 

@@ -6,7 +6,7 @@ exports[`data loader basic usage 1`] = `
     import { createRequest } from '/packages/cli/plugin-data-loader/src/cli/create-request';
   
     
-    const loader = createRequest('layout');
+    const loader = createRequest('main_layout');
     export default loader;
     export { loader };
   
