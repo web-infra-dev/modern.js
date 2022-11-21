@@ -13,7 +13,7 @@ The following are the formats supported by Builder by default:
 If you need to import static resources in other formats, please provide feedback through [GitHub Issues](https://github.com/modern-js-dev/modern.js/issues).
 
 :::tip SVG images
-SVG image is a special case. Builder support convert SVG to React components, so SVG is processed separately. For details, see "Import SVG Assets".
+SVG image is a special case. Builder support convert SVG to React components, so SVG is processed separately. For details, see [Import SVG Assets](/guide/basic/svg-assets.html).
 :::
 
 ## Import Assets in JS file

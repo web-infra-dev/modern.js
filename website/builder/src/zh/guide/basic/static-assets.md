@@ -13,7 +13,7 @@ Builder 支持在代码中引用图片、字体、媒体类型的静态资源。
 如果你需要引用其他格式的静态资源，请通过 [GitHub Issues](https://github.com/modern-js-dev/modern.js/issues) 进行反馈。
 
 :::tip SVG 图片
-SVG 图片是一种特殊情况，Builder 提供了 SVG 转 React 组件的能力，对 SVG 进行单独处理，详见「引用 SVG 资源」。
+SVG 图片是一种特殊情况，Builder 提供了 SVG 转 React 组件的能力，对 SVG 进行单独处理，详见 [引用 SVG 资源](/guide/basic/svg-assets.html)。
 :::
 
 ## 在 JS 文件中引用
