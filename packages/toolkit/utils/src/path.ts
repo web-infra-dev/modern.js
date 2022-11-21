@@ -35,8 +35,9 @@ export function compilePathMatcherRegExp(
   if (typeof match !== 'string') {
     return match;
   }
-  const escaped = _.escapeRegExp(match);
-  return new RegExp(`(?<=\\W|^)${escaped}(?=\\W|$)`, flags);
+  const normalized = normalizeToPosixPath(match);
+  const escaped = _.escapeRegExp(normalized);
+  return new RegExp(`${escaped}(?=\\W|$)`, flags);
 }
 
 /** @internal @see {@link upwardPaths} */
