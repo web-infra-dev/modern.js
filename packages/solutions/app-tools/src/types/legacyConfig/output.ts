@@ -40,7 +40,7 @@ export type LegacyOutputUserConfig = {
   >;
   cssModuleLocalIdentName?: string;
   enableModernMode?: boolean;
-  // TODO: 确认
+  // TODO: need confirm the config item should be saved
   federation?: boolean;
   disableNodePolyfill?: boolean;
   enableTsLoader?: boolean;

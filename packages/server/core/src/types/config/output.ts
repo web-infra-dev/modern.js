@@ -11,6 +11,7 @@ export interface OutputUserConfig {
     server?: string;
   };
   assetPrefix?: string;
+  polyfill?: 'entry' | 'usage' | 'ua' | 'off';
 }
 
 export type OutputNormalizedConfig = OutputUserConfig;

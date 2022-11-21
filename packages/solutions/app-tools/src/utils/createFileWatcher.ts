@@ -16,7 +16,7 @@ import { AppToolsHooks } from '../types/hooks';
  * @param appDirectory - App root directory.
  * @returns modernConfig or undefined
  */
-// FIXME: read twice package.json;
+// FIXME: read package.json again;
 const getPackageConfig = <T>(
   appDirectory: string,
   packageJsonConfig?: string,

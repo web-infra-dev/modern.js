@@ -70,6 +70,7 @@
     "@modern-js/core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/css-minimizer-webpack-plugin": "^3.0.2",
     "@types/jest": "^27",

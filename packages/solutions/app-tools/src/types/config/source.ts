@@ -1,6 +1,6 @@
-import type { SharedBuilderConfig } from '@modern-js/builder-shared';
+import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 
-export type BuilderSourceConfig = Required<SharedBuilderConfig>['source'];
+export type BuilderSourceConfig = Required<BuilderConfig>['source'];
 
 export type Entry =
   | string

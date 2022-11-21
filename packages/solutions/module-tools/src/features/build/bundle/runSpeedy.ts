@@ -94,8 +94,9 @@ export const runSpeedy = async (
   const { appDirectory } = api.useAppContext();
   const {
     output: { path: distPath = 'dist' },
-    tools: { speedy: userSpeedyConfig },
+    tools: { speedy: userSpeedyConfig } = {},
   } = api.useResolvedConfigContext();
+
   const { target, watch, bundleOptions, outputPath, format, sourceMap } =
     config;
   const { entry, platform, splitting, minify, externals, getModuleId } =

@@ -1,7 +1,6 @@
 import path from 'path';
 import { PLUGIN_SCHEMAS, cleanRequireCache, isReact18 } from '@modern-js/utils';
-import type { CliPlugin } from '@modern-js/core';
-import type { AppTools } from '@modern-js/app-tools';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import PluginState from '../state/cli';
 import PluginSSR from '../ssr/cli';
 import PluginRouter from '../router/cli';

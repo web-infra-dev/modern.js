@@ -27,11 +27,11 @@ export default (): CliPlugin<AppTools> => ({
       config() {
         return {
           tools: {
-            webpackChain: (chain, { target, CHAIN_ID }) => {
+            webpackChain: (chain, { name, CHAIN_ID }) => {
               const { appDirectory, port } = api.useAppContext();
               const modernConfig = api.useResolvedConfigContext();
               const { bff } = modernConfig || {};
-              const { fetcher } = bff || {};
+              // const { fetcher } = bff || {};
               const prefix = bff?.prefix || DEFAULT_API_PREFIX;
 
               const rootDir = path.resolve(appDirectory, API_DIR);
@@ -62,9 +62,9 @@ export default (): CliPlugin<AppTools> => ({
                   lambdaDir,
                   existLambda,
                   port,
-                  fetcher,
-                  target,
-                  requestCreator: bff?.requestCreator,
+                  // fetcher,
+                  target: name,
+                  // requestCreator: bff?.requestCreator,
                 });
             },
           },

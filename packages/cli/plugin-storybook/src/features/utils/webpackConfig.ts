@@ -20,7 +20,6 @@ import {
   mergeRegex,
 } from '@modern-js/webpack';
 import { CURRENT_PKG_PATH } from '../constants';
-import { ModuleTools } from '../../../../../solutions/module-tools-v2/src/types';
 
 const NodePolyfillPlugin: typeof import('node-polyfill-webpack-plugin') =
   Import.lazy('node-polyfill-webpack-plugin', require);
@@ -176,7 +175,7 @@ export const getCustomWebpackConfigHandle: any = ({
   isTsProject = false,
 }: {
   appContext: IAppContext;
-  modernConfig: CliNormalizedConfig<ModuleTools>;
+  modernConfig: NormalizedConfig;
   configDir: string;
   isTsProject: boolean;
   env: 'dev' | 'prod';
@@ -185,11 +184,11 @@ export const getCustomWebpackConfigHandle: any = ({
   const { appDirectory } = appContext;
 
   // Manual configuration `output.path = 'storybook-static'`;
-  modernConfig.output.path = './dist/storybook-static';
+  (modernConfig as any).output.path = './dist/storybook-static';
 
   const webpackConfig = new ClientNoEntryWebpackConfig(
     appContext,
-    modernConfig,
+    modernConfig as any,
   );
   const chain: Chain = webpackConfig.getChain();
   chain.plugin('polyfill').use(NodePolyfillPlugin);

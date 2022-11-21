@@ -1,6 +1,6 @@
 import { dirname, isAbsolute, sep, posix } from 'path';
 import { globby, findMonorepoRoot, isModernjsMonorepo } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { LegacyNormalizedConfig } from '@modern-js/app-tools';
 
 // webpack include only allow absolute path or RegExp
 const formatInclude = (include: string | RegExp) => {
@@ -15,7 +15,7 @@ const formatInclude = (include: string | RegExp) => {
 
 export const getSourceIncludes = (
   appDirectory: string,
-  config: NormalizedConfig,
+  config: LegacyNormalizedConfig,
 ) => {
   const { source } = config;
   const include = (source?.include || []).map(formatInclude);

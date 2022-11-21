@@ -11,7 +11,6 @@ export type BaseSourceUserConfig<ExtendSourceUserConfig> = Merge<
      * @requires `tailwindcss` plugin
      */
     designSystem?: Record<string, any>;
-    closePlugin?: boolean;
   },
   ExtendSourceUserConfig
 >;

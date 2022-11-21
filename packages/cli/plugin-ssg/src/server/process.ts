@@ -1,7 +1,7 @@
 import server from '@modern-js/prod-server';
 import { InternalPlugins, ServerRoute as ModernRoute } from '@modern-js/types';
 import portfinder from 'portfinder';
-import type { AppTools, CliNormalizedConfig } from '@modern-js/app-tools';
+import type { NormalizedConfig } from '@modern-js/app-tools';
 import { makeRender } from '../libs/make';
 import { SsgRoute } from '../types';
 import { compile as createRender } from './prerender';
@@ -27,7 +27,7 @@ process.on('message', async (chunk: string) => {
   }: {
     routes: ModernRoute[];
     renderRoutes: ModernRoute[];
-    options: CliNormalizedConfig<AppTools>;
+    options: NormalizedConfig;
     appDirectory: string;
     plugins: InternalPlugins;
   } = context;

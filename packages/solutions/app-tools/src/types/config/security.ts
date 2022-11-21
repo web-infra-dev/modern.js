@@ -1,6 +1,6 @@
-import type { SharedBuilderConfig } from '@modern-js/builder-shared';
+import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 
-export type BuilderSecurityConfig = Required<SharedBuilderConfig>['security'];
+export type BuilderSecurityConfig = Required<BuilderConfig>['security'];
 
 export type SecurityUserConfig = BuilderSecurityConfig;
 

@@ -95,7 +95,7 @@ export const createResolveConfig = async (
       },
     );
 
-  // FIXME: 暂时绕过
+  // FIXME: pass temporarily
   // if (!valid && validate.errors?.length) {
   //   await onSchemaError(validate?.errors[0]);
   //   const errors = formatValidateError(userConfig);

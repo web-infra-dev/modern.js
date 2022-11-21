@@ -1,6 +1,6 @@
-import type { SharedBuilderConfig } from '@modern-js/builder-shared';
+import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 
-export type BuilderHtmlConfig = Required<SharedBuilderConfig>['html'];
+export type BuilderHtmlConfig = Required<BuilderConfig>['html'];
 
 export type HtmlUserConfig = BuilderHtmlConfig;
 

@@ -1,8 +1,5 @@
 import path from 'path';
-import type {
-  CliNormalizedConfig,
-  ModuleTools,
-} from '@modern-js/module-tools-v2';
+import type { CliNormalizedConfig } from '@modern-js/module-tools-v2';
 import { Import, fs, glob, logger } from '@modern-js/utils';
 import { transformSync } from 'esbuild';
 
@@ -62,7 +59,7 @@ export const generateConfig = async (
 
   await genPreviewFile(
     appDirectory,
-    modernConfig as CliNormalizedConfig<ModuleTools>,
+    modernConfig as CliNormalizedConfig,
     configDir,
   );
 
@@ -74,7 +71,7 @@ const getUserPreviewFiles = (filename: string) =>
 
 const genPreviewFile = async (
   appDirectory: string,
-  modernConfig: CliNormalizedConfig<ModuleTools>,
+  modernConfig: CliNormalizedConfig,
   configDir: string,
 ) => {
   const previewPath = path.join(appDirectory, '/config/storybook/preview');
@@ -83,7 +80,7 @@ const genPreviewFile = async (
   let previewContent = gen.generatePreview({
     runtime: process.env.STORY_RUNTIME_PARAM
       ? JSON.parse(process.env.STORY_RUNTIME_PARAM)
-      : modernConfig.runtime,
+      : (modernConfig as any).runtime,
     designToken: {},
     userPreviewPath: existUserPreviewFile ? previewPath : undefined,
   });

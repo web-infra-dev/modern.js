@@ -1,19 +1,19 @@
 import type {
   IAppContext,
-  OutputConfig,
-  ServerConfig,
-  NormalizedConfig,
+  ServerUserConfig,
+  OutputUserConfig,
   SSGMultiEntryOptions,
-} from '@modern-js/core';
+} from '@modern-js/app-tools';
 import { CHAIN_ID, isProd, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
+import { LegacyNormalizedConfig } from '../../../../solutions/app-tools/src/types';
 import { BaseWebpackConfig } from './base';
 import { applyBundleAnalyzerPlugin } from './features/bundle-analyzer';
 
 export function filterEntriesBySSRConfig(
   chain: WebpackChain,
-  serverConfig?: ServerConfig,
-  outputConfig?: OutputConfig,
+  serverConfig?: ServerUserConfig,
+  outputConfig?: OutputUserConfig,
 ) {
   const entries = chain.entryPoints.entries();
   // if prod and ssg config is true or function
@@ -56,7 +56,7 @@ export function filterEntriesBySSRConfig(
 }
 
 class NodeWebpackConfig extends BaseWebpackConfig {
-  constructor(appContext: IAppContext, options: NormalizedConfig) {
+  constructor(appContext: IAppContext, options: LegacyNormalizedConfig) {
     super(appContext, options);
     this.babelPresetAppOptions = {
       target: 'server',

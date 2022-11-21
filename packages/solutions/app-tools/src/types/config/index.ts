@@ -2,24 +2,18 @@ import type { CliUserConfig } from '@modern-js/core';
 import type {
   ServerUserConfig,
   ServerNormalizedConfig,
+  BffUserConfig,
+  BffNormalizedConfig,
 } from '@modern-js/server-core';
 import type { AppToolsHooks } from '../hooks';
 import type { OutputNormalizedConfig, OutputUserConfig } from './output';
 import type { SourceNormalizedConfig, SourceUserConfig } from './source';
 import type { DevNormalizedConfig, DevUserConfig } from './dev';
 import type { ToolsNormalizedConfig, ToolsUserConfig } from './tools';
-import type { BffNormalizedConfig, BffUserConfig } from './bff';
 import type { HtmlNormalizedConfig, HtmlUserConfig } from './html';
 import type { SecurityNormalizedConfig, SecurityUserConfig } from './security';
 import type { DeployNormalizedConfig, DeployUserConfig } from './deploy';
 
-export type {
-  ServerUserConfig,
-  ServerNormalizedConfig,
-  // TODO: confirm what types need to export
-  SSR,
-  SSRByEntries,
-} from '@modern-js/server-core';
 export * from './output';
 
 export interface RuntimeUserConfig {

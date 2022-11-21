@@ -82,7 +82,6 @@ export async function createDevServer(
     server: {},
     runtime: {},
     bff: {},
-    plugins: [],
   };
 
   const server = new Server({

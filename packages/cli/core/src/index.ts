@@ -20,11 +20,7 @@ import {
 import { loadEnv } from './loadEnv';
 import { manager } from './manager';
 import type { CliHooksRunner } from './types/hooks';
-import {
-  createResolveConfig,
-  createLoadedConfig,
-  addServerConfigToDeps,
-} from './config';
+import { createResolveConfig, createLoadedConfig } from './config';
 
 export * from './types';
 
@@ -132,12 +128,6 @@ const createCli = () => {
       serverInternalPlugins:
         mergedOptions?.internalPlugins?.server || INTERNAL_SERVER_PLUGINS,
     });
-
-    addServerConfigToDeps(
-      loaded.dependencies,
-      appDirectory,
-      mergedOptions.serverConfigFile,
-    );
 
     ConfigContext.set(loaded.config);
     AppContext.set(appContext);

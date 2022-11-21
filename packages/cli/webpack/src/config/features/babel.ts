@@ -1,7 +1,7 @@
 import path from 'path';
 import { API_DIR, CHAIN_ID, fs } from '@modern-js/utils';
 import type { WebpackChain } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, LegacyNormalizedConfig } from '@modern-js/app-tools';
 import {
   Options as BabelPresetAppOptions,
   createBabelChain,
@@ -42,7 +42,7 @@ export function applyScriptCondition({
   appContext,
 }: {
   rule: WebpackChain.Rule<WebpackChain.Rule<WebpackChain.Module>>;
-  config: NormalizedConfig;
+  config: LegacyNormalizedConfig;
   includes: (string | RegExp)[];
   excludes: (string | RegExp)[];
   appContext: IAppContext;

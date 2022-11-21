@@ -1,10 +1,18 @@
-import { LegacyDevUserConfig } from './dev';
-import { LegacyOutputUserConfig } from './output';
-import { LegacyServerUserConfig } from './server';
-import { LegacySourceUserConfig } from './source';
-import { LegacyDeployUserConfig } from './deploy';
-import { LegacyToolsUserConfig } from './tools';
-import { LegacyBffConfig } from './bff';
+import type {
+  ServerUserConfig as LegacyServerUserConfig,
+  BffUserConfig as LegacyBffUserConfig,
+} from '@modern-js/server-core';
+import type { LegacyDevUserConfig } from './dev';
+import type { LegacyOutputUserConfig } from './output';
+import type { LegacySourceUserConfig } from './source';
+import type { LegacyDeployUserConfig } from './deploy';
+import type { LegacyToolsUserConfig } from './tools';
+
+export type { LegacyDevUserConfig } from './dev';
+export type { LegacyOutputUserConfig } from './output';
+export type { LegacyDeployUserConfig } from './deploy';
+export type { LegacySourceUserConfig } from './source';
+export type { LegacyToolsUserConfig } from './tools';
 
 export interface LegacyRuntimeConfig {
   [name: string]: any;
@@ -23,7 +31,7 @@ export type LegacyAppToolsUserConfig = {
   tools?: LegacyToolsUserConfig;
   runtime?: LegacyRuntimeConfig;
   runtimeByEntries?: LegacyRuntimeByEntriesConfig;
-  bff?: LegacyBffConfig;
+  bff?: LegacyBffUserConfig;
 };
 
 export interface LegacyAppToolsNormalizedConfig

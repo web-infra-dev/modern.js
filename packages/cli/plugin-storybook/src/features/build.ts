@@ -44,7 +44,7 @@ export const runBuild = async ({
   stories,
   isTsProject = false,
 }: IRunBuildOption) => {
-  // TODO: 加一些debug
+  // TODO: add some debug code
   const { appDirectory } = appContext;
   const {
     output: { path: outputPath = 'dist' },

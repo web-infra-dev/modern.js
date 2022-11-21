@@ -15,7 +15,7 @@ import {
 } from '@modern-js/utils';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, LegacyNormalizedConfig } from '@modern-js/app-tools';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import type { Options as BabelPrestAppOptions } from '@modern-js/babel-preset-app';
 import { merge as webpackMerge } from '../../compiled/webpack-merge';
@@ -47,7 +47,7 @@ class BaseWebpackConfig {
 
   appContext: IAppContext;
 
-  options: NormalizedConfig;
+  options: LegacyNormalizedConfig;
 
   appDirectory: string;
 
@@ -67,12 +67,11 @@ class BaseWebpackConfig {
 
   babelPresetAppOptions?: Partial<BabelPrestAppOptions>;
 
-  constructor(appContext: IAppContext, options: NormalizedConfig) {
+  constructor(appContext: IAppContext, options: LegacyNormalizedConfig) {
     this.options = options;
     this.appContext = appContext;
     this.appDirectory = this.appContext.appDirectory;
     this.chain = new WebpackChain();
-
     const { output = {} } = this.options;
     const { disableAssetsCache } = output;
     const jsPath = (output.jsPath || '').trim();
@@ -412,13 +411,16 @@ class BaseWebpackConfig {
         Array.isArray(item) ? item : [item];
 
       toArray(webpackChain).forEach(item => {
-        item(this.chain, {
-          env: process.env.NODE_ENV!,
-          name: this.chain.get('name'),
-          webpack,
-          CHAIN_ID,
-          HtmlWebpackPlugin,
-        } as any);
+        item(
+          this.chain as any,
+          {
+            env: process.env.NODE_ENV!,
+            name: this.chain.get('name'),
+            webpack,
+            CHAIN_ID,
+            HtmlWebpackPlugin,
+          } as any,
+        );
       });
     }
   }

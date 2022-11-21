@@ -18,8 +18,13 @@ export type LegacySourceUserConfig = {
   globalVars?: Record<string, string>;
   moduleScopes?:
     | Array<string | RegExp>
-    | ((scopes: Array<string | RegExp>) => void)
-    | ((scopes: Array<string | RegExp>) => Array<string | RegExp>);
+    | (
+        | ((scopes: Array<string | RegExp>) => void)
+        | ((scopes: Array<string | RegExp>) => Array<string | RegExp>)
+      )[]
+    | ((scopes: Array<string | RegExp>) => Array<string | RegExp>)
+    | ((scopes: Array<string | RegExp>) => void);
+
   include?: Array<string | RegExp>;
 
   /**

@@ -18,9 +18,7 @@ import {
   ConfigContext,
   loadPlugins,
   ServerConfig,
-  ServerOptions,
 } from '@modern-js/server-core';
-import type { CliUserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
 import {
   ModernServerOptions,
@@ -198,14 +196,14 @@ export class Server {
 
     const { options } = this;
     // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
-    const { internalPlugins = INTERNAL_SERVER_PLUGINS, pwd, config } = options;
+    const { internalPlugins = INTERNAL_SERVER_PLUGINS, pwd } = options;
 
     const serverPlugins = this.serverConfig.plugins || [];
 
     // server app context for serve plugin
     const loadedPlugins = loadPlugins(pwd, serverPlugins, { internalPlugins });
 
-    debug('plugins', config.plugins, loadedPlugins);
+    debug('plugins', loadedPlugins);
     loadedPlugins.forEach(p => {
       serverManager.usePlugin(p);
     });
@@ -223,9 +221,7 @@ export class Server {
     const appContext = this.initAppContext();
     const { config, pwd } = options;
 
-    ConfigContext.set(
-      config as CliUserConfig<{ normalizedConfig: ServerOptions }>,
-    );
+    ConfigContext.set(config);
     AppContext.set({
       ...appContext,
       distDirectory: path.join(pwd, config.output.distPath?.root || 'dist'),

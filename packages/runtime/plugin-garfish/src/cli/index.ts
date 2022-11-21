@@ -1,11 +1,7 @@
 import path from 'path';
 import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import type {
-  CliHookCallbacks,
-  CliPlugin,
-  useConfigContext,
-} from '@modern-js/core';
-import type { AppTools } from '@modern-js/app-tools';
+import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { logger } from '../util';
 import {
   getRuntimeConfig,

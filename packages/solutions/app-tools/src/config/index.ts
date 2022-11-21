@@ -8,7 +8,6 @@ export function createDefaultConfig(): CliUserConfig<AppTools> {
     disableDefaultEntries: false,
     entriesDir: './src',
     configDir: './config',
-    // envVars: [],
     globalVars: undefined,
     moduleScopes: undefined,
     include: [],
