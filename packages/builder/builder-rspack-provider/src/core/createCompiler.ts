@@ -1,37 +1,31 @@
 import { logger, debug, formatStats } from '@modern-js/builder-shared';
-import type { Context, WebpackConfig } from '../types';
-import type { Stats } from 'webpack';
+import type { Context, RspackConfig } from '../types';
 
 export async function createCompiler({
   watch = true,
   context,
-  webpackConfigs,
+  rspackConfigs,
 }: {
   watch?: boolean;
   context: Context;
-  webpackConfigs: WebpackConfig[];
+  rspackConfigs: RspackConfig[];
 }) {
   debug('create compiler');
   await context.hooks.onBeforeCreateCompilerHook.call({
-    bundlerConfigs: webpackConfigs,
+    bundlerConfigs: rspackConfigs,
   });
 
-  const { default: webpack } = await import('webpack');
+  const { rspack } = await import('@rspack/core');
 
-  const compiler =
-    webpackConfigs.length === 1
-      ? webpack(webpackConfigs[0])
-      : webpack(webpackConfigs);
+  // todo: support multiple compiler
+  const compiler = rspack(rspackConfigs[0]);
 
   let isFirstCompile = true;
 
-  compiler.hooks.done.tap('done', async (stats: unknown) => {
-    const { message, level } = await formatStats(stats as Stats);
+  compiler.hooks.done.tap('done', async stats => {
+    const { message, level } = await formatStats(stats);
 
-    if (level === 'error') {
-      logger.log(message);
-    }
-    if (level === 'warning') {
+    if (level === 'error' || level === 'warning') {
       logger.log(message);
     }
 
