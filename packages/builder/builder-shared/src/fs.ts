@@ -1,6 +1,11 @@
 import { isAbsolute, join } from 'path';
 import { MODULE_PATH_REGEX } from './constants';
-import { DistPathConfig, NormalizedSharedOutputConfig } from './types';
+import { removeLeadingSlash } from './utils';
+import {
+  DistPathConfig,
+  NormalizedSharedOutputConfig,
+  SharedHtmlConfig,
+} from './types';
 
 export function getAbsoluteDistPath(
   cwd: string,
@@ -43,4 +48,19 @@ export function getPackageNameFromModulePath(modulePath: string) {
     .join('.');
 
   return packageName;
+}
+
+export function getHTMLPathByEntry(
+  entryName: string,
+  config: {
+    output: NormalizedSharedOutputConfig;
+    html: SharedHtmlConfig;
+  },
+) {
+  const htmlPath = getDistPath(config.output, 'html');
+  const filename = config.html.disableHtmlFolder
+    ? `${entryName}.html`
+    : `${entryName}/index.html`;
+
+  return removeLeadingSlash(`${htmlPath}/${filename}`);
 }
