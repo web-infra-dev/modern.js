@@ -26,7 +26,7 @@ describe('plugin-document', () => {
     );
     const docHtml = ReactDomServer.renderToString(document);
     expect(docHtml).toEqual(
-      `<html><head>%3C%25%3D%20meta%20%25%3E<!-- -->%3C!--%20chunk%20scripts%20placeholder%20--%3E</head><body><noscript>%3C!--%20no-script%20--%3E</noscript>%3C!--%3C%3F-%20chunksMap.js%20%3F%3E--%3E<!-- -->%3C!--%3C%3F-%20SSRDataScript%20%3F%3E--%3E</body></html>`,
+      `<html><head>%3C%25%3D%20meta%20%25%3E<!-- -->%3C!--%20chunk%20scripts%20placeholder%20--%3E</head><body>%3C!--%3C%3F-%20chunksMap.js%20%3F%3E--%3E<!-- -->%3C!--%3C%3F-%20SSRDataScript%20%3F%3E--%3E</body></html>`,
     );
   });
 

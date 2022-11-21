@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useContext } from 'react';
 import {
-  DOCUMENT_NO_SCRIPTE_PLACEHOLDER,
   DOCUMENT_CHUNKSMAP_PLACEHOLDER,
   DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
 } from './constants';
@@ -13,7 +12,6 @@ export function Body(props: { children?: any }) {
   const { children } = props;
   return (
     <body>
-      <noscript>{DOCUMENT_NO_SCRIPTE_PLACEHOLDER}</noscript>
       {hasSetRoot ? null : DefaultRoot}
       {children}
       {`${DOCUMENT_CHUNKSMAP_PLACEHOLDER}`}
