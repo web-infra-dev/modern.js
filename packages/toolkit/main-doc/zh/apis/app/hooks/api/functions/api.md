@@ -1,5 +1,5 @@
 ---
-title: api/**/*.[tj]s
+title: "**/*.[tj]s"
 sidebar_position: 1
 ---
 

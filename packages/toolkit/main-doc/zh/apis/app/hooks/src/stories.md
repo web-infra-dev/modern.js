@@ -1,5 +1,5 @@
 ---
-title: "src/**/*.stories.[tj]sx"
+title: "**/*.stories.[tj]sx"
 sidebar_position: 7
 ---
 

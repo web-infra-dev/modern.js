@@ -1,35 +1,33 @@
 ---
 title: loadable
-sidebar_position: 1
 ---
 
-:::info 补充信息
-用于创建 `loadable 的组件`。
-:::
+用于创建 Loadable 的组件。
+
+## 使用姿势
 
 ```ts
 import loadable from '@modern-js/runtime/loadable';
 ```
 
-## API
+## 函数签名
 
 ```ts
-<Props>(
-  loadFn: Function,
-  options?: {
-    resolveComponent?: (
-      module: Module,
-      props: Props,
-    ) => React.ComponentType<Props>,
-    fallback?: JSX.Element;
-    ssr?: boolean;
-  }
-) => LoadableComponent
+type Options = {
+  resolveComponent?: (
+    module: Module,
+    props: Props,
+  ) => React.ComponentType<Props>,
+  fallback?: JSX.Element;
+  ssr?: boolean;
+}
+
+function loadable(loadFn: Function, options?: Options) => LoadableComponent
 ```
 
-### loadFn
+### 参数
 
-类型：`function`
+#### loadFn
 
 用于加载组件。
 
@@ -39,7 +37,7 @@ import loadable from '@modern-js/runtime/loadable';
 const OtherComponent = loadable(() => import('./OtherComponent'))
 ```
 
-### options.resolveComponent
+#### options.resolveComponent
 
 类型：`(module: Module, props: Props) => React.ComponentType<Props>`
 
@@ -62,49 +60,24 @@ const LoadableFruit = loadable(() => import('./components'), {
 })
 ```
 
-### options.fallback
-
-类型：`JSX.Element`
+#### options.fallback
 
 在 loading 阶段显示 fallback 内容。
 
-### options.ssr
+#### options.ssr
 
-类型：`boolean`
+是否支持 SSR，默认值是 `true`。
 
-默认值：`true`
+### 返回值
 
-如果是 `false`，则该组件不会再服务端渲染阶段处理，即不支持 ssr，默认值是 `true`。
-
-### LoadableComponent（返回值类型）
-
-[loadableComponent](./loadable-component.md)。
-
-## loadable.lib
-
-创建一个 `loadable 的库`。
+#### LoadableComponent
 
 ```ts
-import loadable from '@modern-js/runtime/loadable';
-const Moment = loadable.lib(() => import('moment'))
-```
-
-```ts
-<Props>(
-  loadFn: Function,
-  options?: {
-    resolveComponent?: any,
-    fallback?: any;
-    ssr?: boolean;
+type LoadableComponent<Props> =
+  React.ComponentType<
+    Props & { fallback?: JSX.Element; }>
+  & {
+    preload(props?: Props): void;
+    load(props?: Props): Promise<React.ComponentType<Props>>;
   }
-) => LoadableLibrary
 ```
-
-### options
-
-同 [options](#optionsresolvecomponent)。
-
-### LoadableLibrary （返回值类型）
-
-移架 [LoadableLibrary](./loadable-library.md)。
-

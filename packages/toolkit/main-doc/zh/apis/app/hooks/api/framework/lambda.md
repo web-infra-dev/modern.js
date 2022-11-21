@@ -1,5 +1,5 @@
 ---
-title: api/lambda/*.[tj]s
+title: lambda/*.[tj]s
 sidebar_position: 1
 ---
 

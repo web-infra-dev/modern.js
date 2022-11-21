@@ -1,5 +1,5 @@
 ---
-title: config/storybook/
+title: storybook/
 sidebar_position: 7
 ---
 

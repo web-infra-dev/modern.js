@@ -1,5 +1,5 @@
 ---
-title: config/html/
+title: html/
 sidebar_position: 1
 ---
 

@@ -41,44 +41,6 @@ export default hook(({ addMiddleware }) => {
 });
 ```
 
-### [Nest](https://nestjs.com/)
-
-Nest 支持添加两种类型的内容：Express 的函数中间件和 Nest 中的 [Module](https:/docs.nestjs.com/modules)。
-
-Nest 的函数中间件的添加与 Express 段中的示例相同，Module 写法如下：
-
-```ts title=api/_app.ts
-import { hook } from "@modern-js/runtime/server";
-import { Module, Injectable, Controller, Get } from "@nestjs/common";
-
-@Controller("cats")
-export class CatsController {
-  constructor(private readonly catsService: CatsService) {}
-
-  @Get()
-  getHello() {
-    return this.catsService.getHello();
-  }
-}
-
-@Injectable()
-class CatsService {
-  getHello(): string {
-    return "Hello world!";
-  }
-}
-
-@Module({
-  controllers: [CatsController],
-  providers: [CatsService],
-})
-class CatsModule {}
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware(CatsModule);
-});
-```
-
 ### [Koa](https://koajs.com/)
 
 Koa 函数写法下，可以通过在 `_app.[tj]s` 下添加 koa 的中间件：
@@ -91,36 +53,6 @@ export default hook(({ addMiddleware }) => {
     console.info(`access url: ${ctx.url}`);
     next();
   });
-});
-```
-
-### [Egg](https://eggjs.org/)
-
-Egg 函数写法下，可以通过在 `_app.[tj]s` 下添加 egg 的中间件：
-
-```ts
-import { hook } from "@modern-js/runtime/server";
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware((options) => async (ctx, next) => {
-    console.info(`access url: ${ctx.url}`);
-    next();
-  });
-});
-```
-
-也可以添加 egg 第三方的中间件，且给第三方中间件注入参数：
-
-```ts
-import { hook } from "@modern-js/runtime/server";
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware([
-    "eggMiddleware", // 此处为包名
-    {
-      name: "modernjs",
-    },
-  ]);
 });
 ```
 
@@ -163,75 +95,6 @@ app.use(async (req, res, next) => {
 export default app;
 ```
 
-如果需要在 BFF 函数注册路由后添加中间件，错误处理等，可以使用 [`afterLambdaRegisted`](/docs/apis/app/runtime/bff-server/after-lambda-registed) hook，该 hook 中的代码会在 BFF 函数注册路由后执行：
-```ts title="api/app.ts"
-const app = express();
-// 其他代码...
-export default app;
-
-export const afterLambdaRegisted = (app: Express) => {
-  const errorHandler = (
-    err: Error,
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    if (res.headersSent) {
-      return next(err);
-    }
-    res.status(500).send('some error message');
-  }
-  app.use(errHandler);
-}
-```
-
-### Nest
-
-Nest 虽然有定制的启动器，但本质与 Express、Koa 相同，所以 Modern.js 沿用了 Nest 定制启动器的默认入口：`api/main.ts`。
-
-按照 Nest 官方生成器生成的项目结构，在 Modern.js 中使用 Nest 框架写法时，`api/` 目录结构为：
-
-```markdown
-.
-├── app.controller.ts
-├── app.module.ts
-├── app.service.ts
-├── lambda
-│ └── hello.ts
-└── main.ts
-```
-
-其中 `api/main.ts` 中的内容与 Nest 官方生成器生成模版有所不同，应用工程中支持了两种模式：
-
-不包含内置 Module：
-
-```ts title=api/main.ts
-import { defineCustom } from "@modern-js/plugin-nest";
-import { NestFactory } from "@nestjs/core";
-import { Module } from "@nestjs/common";
-import { AppModule } from "./app.module";
-
-export default NestFactory.create(AppModule);
-```
-
-包含内置 Module：
-
-```ts title=api/main.ts
-import { defineCustom } from "@modern-js/plugin-nest";
-import { NestFactory } from "@nestjs/core";
-import { Module } from "@nestjs/common";
-import { AppModule } from "./app.module";
-
-export default defineCustom(async (modules) => {
-  @Module({
-    imports: [AppModule, ...modules],
-  })
-  class MainModule {}
-
-  return NestFactory.create(MainModule);
-});
-```
-
 ### Koa
 
 Koa 框架写法与 Express 类似，支持在 `app.[tj]s` 定义 API Server 的启动逻辑，执行应用的初始化工作，添加全局中间件，声明路由，扩展原有框架等。
@@ -262,87 +125,3 @@ app.use(async (ctx, next) => {
 
 export default app;
 ```
-
-### Egg
-
-#### 目录结构
-
-Modern.js 在 egg 框架写法中添加的初始样板文件较为简单，但 Modern.js 允许开发者使用 egg 框架约定的几乎所有文件（如中间件，定时器，控制器等）。
-
-```bash title="egg 框架写法的初始结构"
-.
-├── api/
-│   ├── app/
-│   │   └── middleware/
-│   │       └── trace.ts
-│   ├── config/
-│   │   └──  config.default.ts
-│   └── lambda/
-│       └── hello.ts
-├── src/
-├── modern.config.js
-├── package.json
-├── pnpm-lock.yaml
-├── tsconfig.json
-```
-
-#### Modern.js 的 一体化 BFF 函数 和 egg 中的 controller 有什么不同？
-
-- `lambda/` 下的 BFF 函数文件拥有定义路由和处理 API 逻辑两种功能，当你写一体化 BFF 函数的时候；就无需再写 controller 和 router。
-- `lambda/` 目录通过文件的目录结构定义路由，Egg 通过在 `router.ts` 文件编写代码定义路由。
-- `lambda/` 下可以写 BFF 函数，去处理 BFF 的逻辑；Egg 需要定义 class 声明 `controller`，BFF 函数的样板代码更少。
-- `lambda/` 下的文件可以使用 Modern.js 提供的 BFF API，如 `useContext`。
-- `lambda/` 下的 BFF 函数可以和 `egg` 的 `router`，`controller` 等混合使用，但通常不建议这么做。
-
-#### 调用 service
-
-在 egg 的框架写法下，同 egg 框架的使用方式一致，开发者也可以通过 `ctx` 调用定义的 service。
-
-假设有以下目录结构和文件：
-
-```js {4-5}
-.
-├── api/
-│   ├── app/
-│   │   └── service/
-│   │       └── user.ts
-│   ├── config/
-│   │   ├── config.default.ts
-│   └── lambda/
-│       └── hello.ts
-```
-
-```ts title=/app/service/user.ts
-import { Service } from "egg";
-
-class UserService extends Service {
-  async find(uid) {
-    const user = await this.ctx.db.query(
-      "select * from user where uid = ?",
-      uid
-    );
-    return user;
-  }
-}
-
-export default UserService;
-```
-
-在 `lambda` 目录下定义的 BFF 函数中，可以使用 `useContext` API 获取 egg 请求上下文
-
-```ts title=/api/lambda/hello.ts
-import { useContext } from "@modern-js/runtime/server";
-
-export const get = async () => {
-  const ctx = useContext();
-  const userId = ctx.params.id;
-  const user = await ctx.service.user.find(userId);
-  return user;
-};
-```
-
-#### 自定义启动逻辑
-
-在 egg 的框架写法中，同样支持启动自定义，`api/app[tj]s` 和 `agent.[tj]s` 遵循 egg 的规范。
-
-具体可见[启动自定义](https://eggjs.org/zh-cn/basics/app-start.html)。
