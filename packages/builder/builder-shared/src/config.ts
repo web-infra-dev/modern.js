@@ -16,7 +16,13 @@ import type {
   NormalizedSharedOutputConfig,
   SharedHtmlConfig,
   NormalizedSharedSourceConfig,
+  InspectConfigOptions,
+  CreateBuilderOptions,
 } from './types';
+import { logger } from './logger';
+import { join } from 'path';
+
+import _ from '@modern-js/utils/lodash';
 
 export const defaultDevConfig: NormalizedSharedDevConfig = {
   hmr: true,
@@ -76,3 +82,58 @@ export const defaultOutputConfig: NormalizedSharedOutputConfig = {
   enableInlineScripts: false,
   enableInlineStyles: false,
 };
+
+export async function outputInspectConfigFiles({
+  builderConfig,
+  bundlerConfigs,
+  inspectOptions,
+  builderOptions,
+  configType,
+}: {
+  configType: string;
+  builderConfig: string;
+  bundlerConfigs: string[];
+  inspectOptions: InspectConfigOptions & {
+    outputPath: string;
+  };
+  builderOptions: Required<CreateBuilderOptions>;
+}) {
+  const { default: fs } = await import('@modern-js/utils/fs-extra');
+  const { default: chalk } = await import('@modern-js/utils/chalk');
+  const { outputPath } = inspectOptions;
+
+  const { target } = builderOptions;
+  const files = [
+    {
+      path: join(outputPath, 'builder.config.js'),
+      label: 'Builder Config',
+      content: builderConfig,
+    },
+    ...bundlerConfigs.map((content, index) => {
+      const suffix = Array.isArray(target) ? target[index] : `target-${index}`;
+      const outputFile = `${configType}.config.${suffix}.js`;
+      return {
+        path: join(outputPath, outputFile),
+        label: `${_.upperFirst(configType)} Config (${suffix})`,
+        content,
+      };
+    }),
+  ];
+
+  await Promise.all(
+    files.map(item =>
+      fs.outputFile(item.path, `module.exports = ${item.content}`),
+    ),
+  );
+
+  const fileInfos = files
+    .map(
+      item =>
+        `  - ${chalk.bold.yellow(item.label)}: ${chalk.underline(item.path)}`,
+    )
+    .join('\n');
+
+  logger.success(
+    `Inspect config succeed, open following files to view the content: \n\n${fileInfos}\n`,
+  );
+}
