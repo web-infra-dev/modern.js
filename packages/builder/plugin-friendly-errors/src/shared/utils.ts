@@ -71,8 +71,10 @@ export const formatError = (
 };
 
 export const getErrorCause = (error: Error) => {
-  const ret = error.cause || error.error;
-  return ret instanceof Error ? ret : null;
+  assert(typeof error === 'object', 'Error must be an object');
+  const err = error as any;
+  const causes = [err.cause, err.error, err.originalError];
+  return causes.find(cause => cause instanceof Error);
 };
 
 export const getErrorCauses = (error: Error) => {

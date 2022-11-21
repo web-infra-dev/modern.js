@@ -1,6 +1,7 @@
 interface Error {
   cause?: unknown;
   error?: unknown;
+  originalError?: unknown;
 }
 
 declare module 'webpack/lib/ChunkRenderError' {
