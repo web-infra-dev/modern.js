@@ -1,4 +1,4 @@
-import { dagSort } from '@modern-js/utils';
+import { dagSort } from '../../../utils';
 import type { AsyncPlugin } from './async';
 import type { Plugin } from './sync';
 

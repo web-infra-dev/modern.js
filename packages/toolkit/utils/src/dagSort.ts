@@ -37,11 +37,9 @@ export const dagSort = <P extends Record<string, any>>(
   );
 
   const sortedPoint: P[] = [];
-  // 有环的处理
   while (zeroEndPoints.length) {
     const zep = zeroEndPoints.shift();
     sortedPoint.push(getPluginByAny(zep!));
-    //   zeroEndPoints.shift();
     allLines = allLines.filter(l => l[0] !== getPluginByAny(zep!)[key]);
 
     const restPoints = plugins.filter(
