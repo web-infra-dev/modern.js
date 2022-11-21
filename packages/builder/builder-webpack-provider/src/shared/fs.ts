@@ -1,9 +1,5 @@
 import { join } from 'path';
-import {
-  FilenameConfig,
-  removeLeadingSlash,
-  getDistPath,
-} from '@modern-js/builder-shared';
+import { FilenameConfig } from '@modern-js/builder-shared';
 import type { NormalizedConfig } from '../types';
 
 export const getCompiledPath = (packageName: string) =>
@@ -35,15 +31,3 @@ export const getFilename = (
       throw new Error(`unknown key ${type} in "output.filename"`);
   }
 };
-
-export function getHTMLPathByEntry(
-  entryName: string,
-  config: NormalizedConfig,
-) {
-  const htmlPath = getDistPath(config.output, 'html');
-  const filename = config.html.disableHtmlFolder
-    ? `${entryName}.html`
-    : `${entryName}/index.html`;
-
-  return removeLeadingSlash(`${htmlPath}/${filename}`);
-}
