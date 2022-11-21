@@ -20,6 +20,10 @@ export interface SharedSourceConfig {
    */
   include?: (string | RegExp)[];
   /**
+   * Specifies that certain files that will be excluded from compilation.
+   */
+  exclude?: (string | RegExp)[];
+  /**
    * Add a script before the entry file of each page.
    * This script will be executed before the page code.
    * It can be used to execute global logics, such as polyfill injection.

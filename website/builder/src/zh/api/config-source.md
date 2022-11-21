@@ -14,6 +14,10 @@ extractApiHeaders: [2]
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/include.md)!!!
 
+## source.exclude
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/exclude.md)!!!
+
 ## source.compileJsDataURI
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/compileJsDataURI.md)!!!

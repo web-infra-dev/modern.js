@@ -79,19 +79,6 @@ export const PluginSwc = (pluginConfig: PluginConfig = {}) => ({
         .loader(path.resolve(__dirname, './loader'))
         .options(swc);
 
-      // compile all folders in app directory, exclude node_modules
-      rule.include.add({
-        and: [api.context.rootPath, { not: /node_modules/ }],
-      });
-
-      if (builderConfig.source.include) {
-        builderConfig.source.include.forEach(condition => {
-          rule.include.add(condition);
-        });
-      }
-
-      // TODO: Expected `source.exclude` config
-
       if (chain.module.rules.get(CHAIN_ID.RULE.JS_DATA_URI)) {
         chain.module
           .rule(CHAIN_ID.RULE.JS_DATA_URI)
