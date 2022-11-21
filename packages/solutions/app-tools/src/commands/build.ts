@@ -1,11 +1,9 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { logger, isUseSSRBundle, printBuildError } from '@modern-js/utils';
-import { BuilderTarget } from '@modern-js/builder';
+import { logger, printBuildError } from '@modern-js/utils';
 import { generateRoutes } from '../utils/routes';
-import { buildServerConfig, emitResolvedConfig } from '../utils/config';
+import { buildServerConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
 import type { AppHooks } from '../hooks';
-import createBuilder from '../builder';
 
 export const build = async (
   api: PluginAPI<AppHooks>,
@@ -50,34 +48,10 @@ export const build = async (
     configFile: serverConfigFile,
   });
 
-  const targets: BuilderTarget[] = ['web'];
-  if (resolvedConfig.output.enableModernMode) {
-    targets.push('modern-web');
-  }
-  if (isUseSSRBundle(resolvedConfig)) {
-    targets.push('node');
-  }
-
   try {
-    const builder = await createBuilder({
-      target: targets,
-      appContext,
-      normalizedConfig: resolvedConfig,
-      compatPluginConfig: {
-        async onBeforeBuild({ bundlerConfigs }) {
-          await generateRoutes(appContext);
-          await hookRunners.beforeBuild({ bundlerConfigs });
-        },
-        async onAfterBuild({ stats }) {
-          await hookRunners.afterBuild({ stats });
-          await emitResolvedConfig(appDirectory, resolvedConfig);
-        },
-      },
-    });
-
     logger.info('Create a production build...\n');
 
-    await builder.build();
+    await appContext.builder?.build();
   } catch (error) {
     printBuildError(error as Error);
     // eslint-disable-next-line no-process-exit

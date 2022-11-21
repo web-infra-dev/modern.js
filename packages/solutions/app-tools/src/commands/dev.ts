@@ -1,8 +1,6 @@
-import { logger, isSSR } from '@modern-js/utils';
+import { logger } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { BuilderTarget } from '@modern-js/builder';
 import { printInstructions } from '../utils/printInstructions';
-import { createDevCompiler } from '../utils/createCompiler';
 import { createServer, injectDataLoaderPlugin } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
@@ -52,16 +50,9 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
   await hookRunners.beforeDev();
 
   let compiler = null;
+
   if (!apiOnly) {
-    const target: BuilderTarget[] = isSSR(userConfig)
-      ? ['web', 'node']
-      : ['web'];
-    compiler = await createDevCompiler({
-      target,
-      api,
-      normalizedConfig: userConfig,
-      appContext,
-    });
+    compiler = await appContext.builder?.createCompiler();
   }
 
   await generateRoutes(appContext);
@@ -95,7 +86,7 @@ export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
     }
 
     if (!apiOnly) {
-      logger.info(`Starting dev server...`);
+      logger.info(`Starting dev server...\n`);
     } else {
       printInstructions(hookRunners, appContext, userConfig);
     }
