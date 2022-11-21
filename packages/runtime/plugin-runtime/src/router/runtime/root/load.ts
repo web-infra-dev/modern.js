@@ -51,7 +51,7 @@ class Logger {
   }
 }
 
-export function hanldeLoad(
+export function handleLoad(
   routes: NestedRoute[],
   location: Location,
   routeManifest: RouteManifest,

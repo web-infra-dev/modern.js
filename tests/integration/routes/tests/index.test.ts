@@ -197,8 +197,8 @@ const supportLoadChunksParallelly = async () => {
   const manifestFile = path.join(distDir, ROUTE_MINIFEST_FILE);
   expect(await fs.pathExists(manifestFile)).toBeTruthy();
   const threeBundleFile = path.join(distDir, 'static/js/three.js');
-  const thressBUndleContent = await fs.readFile(threeBundleFile);
-  expect(thressBUndleContent.includes(ROUTE_MANIFEST)).toBeTruthy();
+  const thressBundleContent = await fs.readFile(threeBundleFile);
+  expect(thressBundleContent.includes(ROUTE_MANIFEST)).toBeTruthy();
 };
 
 describe('dev', () => {
