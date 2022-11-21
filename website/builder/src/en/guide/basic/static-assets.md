@@ -13,7 +13,7 @@ The following are the formats supported by Builder by default:
 If you need to import static resources in other formats, please provide feedback through [GitHub Issues](https://github.com/modern-js-dev/modern.js/issues).
 
 :::tip SVG images
-SVG image is a special case. Builder support convert SVG to React components, so SVG is processed separately. For details, see "Import SVG Assets".
+SVG image is a special case. Builder support convert SVG to React components, so SVG is processed separately. For details, see [Import SVG Assets](/guide/basic/svg-assets.html).
 :::
 
 ## Import Assets in JS file
@@ -91,3 +91,14 @@ import logo from './static/logo.png';
 
 console.log(logo); // "https://modern.com/static/logo.6c12aba3.png"
 ```
+
+## Image Format
+
+When using image assets, you can choose a appropriate image format according to the pros and cons in the table below.
+
+| Format | Pros                                                                                                      | Cons                                                                                | Scenarios                                                                                                                                              |
+| ------ | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| PNG    | Lossless compression, no loss of picture details, no distortion, support for translucency                 | Not suitable for pictures with complex color tables                                 | Suitable for pictures with few colors and well-defined borders, suitable for logos, icons, transparent images and other scenes                         |
+| JPG    | Rich colors                                                                                               | Lossy compression, which will cause image distortion, does not support transparency | Suitable for pictures with a large number of colors, gradients, and overly complex pictures, suitable for portrait photos, landscapes and other scenes |
+| WebP   | Supports both lossy and lossless compression, supports transparency, and is much smaller than PNG and JPG | iOS compatibility is not good                                                       | Pixel images of almost any scene, and the hosting environment that supports WebP, should prefer WebP image format                                      |
+| SVG    | Lossless format, no distortion, supports transparency                                                     | Not suitable for complex graphics                                                   | Suitable for vector graphics, suitable for icons                                                                                                       |
