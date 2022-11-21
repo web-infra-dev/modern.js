@@ -1,3 +1,4 @@
+import os from 'os';
 import assert from 'assert';
 import ModuleParseError from 'webpack/lib/ModuleParseError';
 import { useFixture } from '@modern-js/e2e';
@@ -10,7 +11,7 @@ import { parseError } from '@modern-js/friendly-errors-webpack-plugin/shared/uti
 import { transformModuleParseError } from '@modern-js/friendly-errors-webpack-plugin/transformer';
 import { createStubBuilder } from '@/stub';
 
-test('MissingLoader', async () => {
+test.skipIf(os.platform() === 'win32')('MissingLoader', async () => {
   const options = await useFixture('@modern-js/e2e/fixtures/builder/basic');
   const builder = await createStubBuilder({
     ...options,

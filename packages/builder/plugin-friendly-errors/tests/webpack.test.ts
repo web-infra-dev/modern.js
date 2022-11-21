@@ -1,3 +1,4 @@
+import os from 'os';
 import { describe, expect, test } from 'vitest';
 import webpack, { WebpackError } from 'webpack';
 import { useFixture, useOutput } from '@modern-js/e2e';
@@ -24,7 +25,7 @@ export const webpackBuild = async (compiler: webpack.Compiler) => {
   });
 };
 
-describe('webpack', () => {
+describe.skipIf(os.platform() === 'win32')('webpack', () => {
   test('compilation.errors', async () => {
     const options = await useFixture('@modern-js/e2e/fixtures/builder/basic', {
       copy: true,

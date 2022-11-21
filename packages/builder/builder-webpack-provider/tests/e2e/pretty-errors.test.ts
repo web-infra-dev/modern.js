@@ -1,4 +1,5 @@
 import assert from 'assert';
+import os from 'os';
 import { describe, expect, test, vi } from 'vitest';
 import { WebpackError } from 'webpack';
 import { useFixture } from '@modern-js/e2e';
@@ -6,7 +7,7 @@ import { PluginFriendlyErrors } from '@/plugins/error';
 import { createStubBuilder } from '@/stub';
 
 describe('Pretty output errors', () => {
-  test('compilation.errors', async () => {
+  test.skipIf(os.platform() === 'win32')('compilation.errors', async () => {
     const options = await useFixture('@modern-js/e2e/fixtures/builder/basic', {
       copy: true,
     });

@@ -1,3 +1,4 @@
+import os from 'os';
 import assert from 'assert';
 import { useFixture } from '@modern-js/e2e';
 import { expect, test } from 'vitest';
@@ -11,7 +12,7 @@ import { parseError } from '@modern-js/friendly-errors-webpack-plugin/shared/uti
 import { flattenErrorCauses } from '@modern-js/friendly-errors-webpack-plugin/transformer';
 import { createStubBuilder } from '@/stub';
 
-test('ChunkRenderError', async () => {
+test.skipIf(os.platform() === 'win32')('ChunkRenderError', async () => {
   const options = await useFixture('@modern-js/e2e/fixtures/builder/basic');
   const builder = await createStubBuilder({
     ...options,
