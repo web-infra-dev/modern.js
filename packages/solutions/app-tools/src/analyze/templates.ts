@@ -223,7 +223,7 @@ export const fileSystemRoutes = ({
         if (ssrMode === 'stream') {
           component = `lazy(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
         } else {
-          component = `loadableLazy(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
+          component = `loadable(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
         }
       }
     } else if (route._component) {
