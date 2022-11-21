@@ -227,7 +227,7 @@ export const fileSystemRoutes = ({
         }
       }
     } else if (route._component) {
-      component = `loadableLazy(() => import('${route._component}'))`;
+      component = `loadable(() => import('${route._component}'))`;
     }
 
     const finalRoute = {
