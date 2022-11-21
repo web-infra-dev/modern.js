@@ -1,6 +1,7 @@
 import type { NormalizedConfig } from '@modern-js/core';
 import { applyOptionsChain, logger } from '@modern-js/utils';
 import { merge, cloneDeep } from '@modern-js/utils/lodash';
+import type { LegacyUserConfig } from './types';
 
 const checkIfExistNotAllowKeys = (
   tailwindConfig: Record<string, any>,
@@ -48,7 +49,9 @@ const getTailwindConfig = (
   );
 
   const designSystem = getPureDesignSystemConfig(
-    (config.source as any).designSystem || {},
+    (config as LegacyUserConfig).designSystem ??
+      (config.source as LegacyUserConfig).designSystem ??
+      {},
   );
 
   const [exist, key] = checkIfExistNotAllowKeys(tailwindConfig);

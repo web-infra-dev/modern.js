@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`alias in js project function usage, buildType is bundle 1`] = `
+"// src/b.js
+var b = \\"hello world\\";
+
+// src/index.js
+console.info(b);
+"
+`;
+
+exports[`alias in js project function usage, buildType is bundleless 1`] = `
+"import { b } from \\"./b\\";
+console.info(b);
+"
+`;
+
+exports[`alias in js project object usage, buildType is bundle 1`] = `
+"// src/b.js
+var b = \\"hello world\\";
+
+// src/index.js
+console.info(b);
+"
+`;
+
+exports[`alias in js project object usage, buildType is bundleless 1`] = `
+"import { b } from \\"./b\\";
+console.info(b);
+"
+`;
+
+exports[`alias in ts project function usage 1`] = `
+"// src/b.ts
+var b = \\"hello world\\";
+
+// src/index.ts
+console.info(b);
+"
+`;
+
+exports[`alias in ts project function usage 2`] = `
+"import { b } from \\"./b\\";
+console.info(b);
+"
+`;
+
+exports[`alias in ts project object usage, buildType is bundle 1`] = `
+"// src/b.ts
+var b = \\"hello world\\";
+
+// src/index.ts
+console.info(b);
+"
+`;
+
+exports[`alias in ts project object usage, buildType is bundleless 1`] = `
+"import { b } from \\"./b\\";
+console.info(b);
+"
+`;

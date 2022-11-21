@@ -12,6 +12,12 @@ import type { PackageJSON } from '..';
  *     "foo": "workspace:*"
  *   }
  * }
+ * @example correct
+ * {
+ *   "devDependencies": {
+ *     "bar": "workspace:foo@*"
+ *   }
+ * }
  *
  * @example incorrect
  * {
@@ -24,14 +30,18 @@ export function lintWorkspaceProtocol(packageJSONs: PackageJSON[]) {
   let failed = false;
 
   packageJSONs.forEach(({ path, content }) => {
-    const { devDependencies } = content;
+    const { devDependencies, name } = content;
     if (devDependencies) {
       const incorrectKeys: string[] = [];
 
       for (const key in devDependencies) {
         const value = devDependencies[key];
 
-        if (value.startsWith('workspace') && value !== 'workspace:*') {
+        if (
+          value.startsWith('workspace') &&
+          value !== 'workspace:*' &&
+          !value.includes(name)
+        ) {
           incorrectKeys.push(key);
         }
       }

@@ -1,16 +1,3 @@
-export const source = {
-  target: 'source',
-  schema: {
-    type: 'object',
-    additionalProperties: false,
-    properties: {
-      alias: { typeof: ['object', 'function'] },
-      envVars: { type: 'array' },
-      globalVars: { type: 'object' },
-    },
-  },
-};
-
 export const targets = [
   'es5',
   'es6',
@@ -20,6 +7,7 @@ export const targets = [
   'es2018',
   'es2019',
   'es2020',
+  'es2021',
   // The default target is esnext which means that by default, assume all of the latest JavaScript and CSS features are supported.
   'esnext',
 ];
@@ -38,91 +26,56 @@ export const presets = [
     return [...ret, ...targets.map(t => `${crt}-${t}`)];
   }, []),
 ];
-export const buildConfigProperties = {
-  entry: {
-    enum: ['string', 'array', 'object'],
+const buildConfigProperties = {
+  alias: {
+    typeof: ['object', 'function'],
   },
-  target: {
-    enum: targets,
+  asset: {
+    type: 'object',
   },
-  format: {
-    enum: ['cjs', 'esm', 'umd', 'iife'],
-  },
-  sourceMap: {
-    enum: [true, false, 'inline', 'external'],
+  autoExternal: {
+    if: {
+      type: 'object',
+    },
+    then: {
+      properties: {
+        dependencies: { type: 'boolean' },
+        peerDependencies: { type: 'boolean' },
+      },
+    },
+    else: { type: 'boolean' },
   },
   buildType: {
     enum: ['bundle', 'bundleless'],
   },
-  bundleOptions: {
+  copy: {
     type: 'object',
     properties: {
-      splitting: {
-        type: 'boolean',
-      },
-      externals: {
+      patterns: {
         type: 'array',
         items: {
-          anyOf: [
-            {
-              instanceof: 'RegExp',
-            },
-            {
-              typeof: 'string',
-            },
-          ],
-        },
-      },
-      platform: {
-        enum: ['node', 'browser'],
-      },
-      minify: {
-        enum: ['esbuild', 'terser', false],
-      },
-      skipDeps: {
-        if: {
           type: 'object',
-        },
-        then: {
           properties: {
-            dependencies: { type: 'boolean' },
-            peerDependencies: { type: 'boolean' },
+            from: { type: 'string' },
+            to: { type: 'string' },
+            context: { type: 'string' },
+            globOptions: { type: 'object' },
           },
         },
-        else: { type: 'boolean' },
       },
-      assets: {
-        type: 'object',
-      },
-      terserOptions: {
-        type: 'object',
-      },
-    },
-  },
-  bundlelessOptions: {
-    type: 'object',
-    properties: {
-      sourceDir: {
-        type: 'string',
-      },
-      style: {
+      options: {
         type: 'object',
         properties: {
-          compileMode: {
-            enum: ['all', 'only-compiled-code', 'only-source-code', false],
+          concurrency: {
+            type: 'number',
           },
-          path: { type: 'string' },
-        },
-      },
-      assets: {
-        type: 'object',
-        properties: {
-          path: { type: 'string' },
         },
       },
     },
   },
-
+  define: {
+    typeof: 'object',
+  },
   dts: {
     if: { type: 'object' },
     then: {
@@ -133,10 +86,66 @@ export const buildConfigProperties = {
     },
     else: { type: 'boolean' },
   },
-
-  path: { type: 'string' },
-
-  copy: { type: 'array' },
+  entryNames: {
+    type: 'string',
+  },
+  externals: {
+    type: 'array',
+    items: {
+      anyOf: [
+        {
+          instanceof: 'RegExp',
+        },
+        {
+          typeof: 'string',
+        },
+      ],
+    },
+  },
+  format: {
+    enum: ['cjs', 'esm', 'iife', 'umd'],
+  },
+  input: {
+    type: ['array', 'object'],
+  },
+  jsx: {
+    enum: ['automatic', 'transform'],
+  },
+  minify: {
+    if: {
+      type: 'object',
+    },
+    else: { enum: ['esbuild', 'terser', false] },
+  },
+  outdir: { type: 'string' },
+  platform: {
+    enum: ['node', 'browser'],
+  },
+  sourceDir: {
+    typeof: 'string',
+  },
+  sourceMap: {
+    enum: [true, false, 'inline', 'external'],
+  },
+  splitting: {
+    type: 'boolean',
+  },
+  target: {
+    enum: targets,
+  },
+  umdGlobals: {
+    type: 'object',
+  },
+  umdModuleName: {
+    anyOf: [
+      {
+        instanceof: 'Function',
+      },
+      {
+        typeof: 'string',
+      },
+    ],
+  },
 };
 export const buildConfig = {
   target: 'buildConfig',
@@ -149,14 +158,12 @@ export const buildConfig = {
         {
           type: 'object',
           properties: buildConfigProperties,
-          additionalProperties: false,
         },
       ],
     },
     else: {
       type: 'object',
       properties: buildConfigProperties,
-      additionalProperties: false,
     },
   },
 };
@@ -171,12 +178,4 @@ export const buildPreset = {
   },
 };
 
-export const dev = {
-  target: 'dev.storybook',
-  schema: {
-    type: 'object',
-    additionalProperties: false,
-  },
-};
-
-export const schema = [source, buildConfig, buildPreset, dev];
+export const schema = [buildConfig, buildPreset];
