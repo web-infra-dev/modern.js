@@ -3,7 +3,7 @@
 
 通过 `tools.styleLoader` 可以设置 [style-loader](https://github.com/webpack-contrib/style-loader) 的配置项，默认的配置为一个空对象。
 
-值得注意的是，builder 默认不会开启 `style-loader`，如果配置为 Obejct/Function 类型，则会在**开发环境**开启 `style-loader`。在生产环境，我们仍然会使用 [mini-css-extract-plugin](#tools-cssextract) 来提取 CSS。
+值得注意的是，Builder 默认不会开启 `style-loader`，如果配置为 Object 或 Function 类型，则会开启 `style-loader`，同时禁用 CSS 提取逻辑。
 
 ### Object 类型
 

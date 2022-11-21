@@ -3,16 +3,15 @@ import { createDebugger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { ModuleToolsHooks } from './types/hooks';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
-import type { ModuleContext } from './types/context';
 
 const debug = createDebugger('module-tools');
 
 export const buildCommand = async (
   program: Command,
   api: PluginAPI<ModuleToolsHooks>,
-  context: ModuleContext,
 ) => {
   const local = await import('./locale');
+  const { defaultTsConfigPath } = await import('./constants/dts');
 
   program
     .command('build')
@@ -22,14 +21,10 @@ export const buildCommand = async (
     .option(
       '--tsconfig [tsconfig]',
       local.i18n.t(local.localeKeys.command.build.tsconfig),
-      './tsconfig.json',
+      defaultTsConfigPath,
     )
     .option(
-      '--style-only',
-      local.i18n.t(local.localeKeys.command.build.style_only),
-    )
-    .option(
-      '-p, --platform [platform]',
+      '-p, --platform [platform...]',
       local.i18n.t(local.localeKeys.command.build.platform),
     )
     .option('--no-dts', local.i18n.t(local.localeKeys.command.build.dts))
@@ -39,25 +34,37 @@ export const buildCommand = async (
       local.i18n.t(local.localeKeys.command.build.config),
     )
     .action(async (options: BuildCommandOptions) => {
+      const { initModuleContext } = await import('./utils/context');
+      const context = await initModuleContext(api);
+      if (options.platform) {
+        const { buildPlatform } = await import('./builder/platform');
+        await buildPlatform(options, api, context);
+        return;
+      }
+
       const runner = api.useHookRunners();
 
-      const { valideBeforeTask } = await import('./utils/valide');
-      valideBeforeTask(api, options);
-
       const { normalizeBuildConfig } = await import('./config/normalize');
-      const resolvedBuildConfig = await normalizeBuildConfig(api);
-      debug('resolvedBuildConfig', resolvedBuildConfig);
-      await runner.beforeBuild({ config: resolvedBuildConfig, options });
+      const resolvedBuildConfig = await normalizeBuildConfig(
+        api,
+        context,
+        options,
+      );
 
+      debug('resolvedBuildConfig', resolvedBuildConfig);
+
+      await runner.beforeBuild({ config: resolvedBuildConfig, options });
       const builder = await import('./builder');
-      await builder.run(options, resolvedBuildConfig, api, context);
+      await builder.run(
+        { cmdOptions: options, resolvedBuildConfig, context },
+        api,
+      );
     });
 };
 
 export const devCommand = async (
   program: Command,
   api: PluginAPI<ModuleToolsHooks>,
-  context: ModuleContext,
 ) => {
   const local = await import('./locale');
   const runner = api.useHookRunners();
@@ -70,6 +77,8 @@ export const devCommand = async (
     .usage('[options]')
     .description(local.i18n.t(local.localeKeys.command.dev.describe))
     .action(async (options: DevCommandOptions = {}) => {
+      const { initModuleContext } = await import('./utils/context');
+      const context = await initModuleContext(api);
       const { dev } = await import('./dev');
       await dev(options, devToolMetas, api, context);
     });
@@ -83,6 +92,8 @@ export const devCommand = async (
       devProgram
         .command(subCmd)
         .action(async (options: DevCommandOptions = {}) => {
+          const { initModuleContext } = await import('./utils/context');
+          const context = await initModuleContext(api);
           await runner.beforeDevTask(meta);
           await meta.action(options, { isTsProject: context.isTsProject });
         });

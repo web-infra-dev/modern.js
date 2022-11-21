@@ -96,7 +96,9 @@ function formatMessage(stats: webpack.StatsError | string) {
   return message.trim();
 }
 
-function formatWebpackMessages(json?: StatsCompilation): {
+function formatWebpackMessages(
+  json?: Pick<StatsCompilation, 'errors' | 'warnings'>,
+): {
   errors: string[];
   warnings: string[];
 } {
