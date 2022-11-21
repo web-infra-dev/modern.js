@@ -28,7 +28,7 @@ export default (): CliPlugin<AppHooks> => ({
   post: [
     '@modern-js/plugin-analyze',
     '@modern-js/plugin-ssr',
-    '@modern-js/document',
+    '@modern-js/plugin-document',
     '@modern-js/plugin-state',
     '@modern-js/plugin-router',
     '@modern-js/plugin-router-legacy',

@@ -7,12 +7,12 @@ import { DOCUMENT_META_PLACEHOLDER } from './constants';
 export function Head(props: { children?: any }) {
   const { hasSetScripts } = useContext(DocumentStructrueContext);
   const { children } = props;
-  // todo: 校验 children 的合法性
+  // todo: verify the children
   return (
     <head>
-      {/* 由 config.output.meta 配置的信息 */}
+      {/* configuration by config.output.meta */}
       {`${DOCUMENT_META_PLACEHOLDER}`}
-      {/* scripts 为默认必须有的。如果没有指定，则默认在 head 中 */}
+      {/* Scripts must have as default. If not, place in Head */}
       {!hasSetScripts && <Scripts />}
       {children}
     </head>

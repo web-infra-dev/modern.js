@@ -6,6 +6,7 @@ import type { CliPlugin, UserConfig } from '@modern-js/core';
 import { createDebugger, findExists } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types/cli';
 
+import { DocumentContext } from '../DocumentContext';
 import {
   DOCUMENT_SCRIPTS_PLACEHOLDER,
   DOCUMENT_FILE_NAME,
@@ -17,8 +18,7 @@ import {
   DOCUMENT_CHUNKSMAP_PLACEHOLDER,
   DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
   HTML_SEPARATOR,
-} from './constants';
-import { DocumentContext } from './DocumentContext';
+} from '../constants';
 
 const debug = createDebugger('html_genarate');
 
@@ -38,17 +38,17 @@ const getDocumenByEntryName = function (
 };
 
 export default (): CliPlugin => ({
-  name: '@modern-js/document',
+  name: '@modern-js/plugin-document',
   pre: ['@modern-js/plugin-analyze'],
   setup: async api => {
-    // 获取给 document 组件调用的参数
+    // get params for document.tsx
     function getDocParams(params: {
       config: UserConfig;
       entryName: string;
       templateParameters: Record<string, unknown>;
     }) {
       const { config, templateParameters, entryName } = params;
-      // 保持兼容和足够的信息，分为：process, config, templateParams
+      // for enough params, devide as：process, config, templateParams
       return {
         processEnv: process.env,
         config: {
@@ -64,8 +64,8 @@ export default (): CliPlugin => ({
       templateParameters: Record<string, unknown>,
     ) => {
       const { entrypoints, internalDirectory } = api.useAppContext();
-      // 查找 entry 下 document 文件
-      //  若 entry 下无 document.tsx 文件，则用 main 的兜底
+      // search the document.[tsx|jsx|js|ts] under entry
+      // if not, use main as default
       let documentFilePath = getDocumenByEntryName(entrypoints, entryName);
       if (!documentFilePath) {
         documentFilePath = getDocumenByEntryName(entrypoints, 'main');
@@ -76,7 +76,6 @@ export default (): CliPlugin => ({
       }
 
       return async ({ htmlWebpackPlugin }: { [option: string]: any }) => {
-        // 获取注入参数
         const documentParams = getDocParams({
           config: api.useConfigContext(),
           entryName,
@@ -86,7 +85,7 @@ export default (): CliPlugin => ({
           internalDirectory,
           `./document/_${entryName}.html.js`,
         );
-        // 将 document 文件转成 html string
+        // transform document file to html string
         await build({
           entryPoints: [documentFilePath!],
           // write: false,
@@ -147,7 +146,7 @@ export default (): CliPlugin => ({
             .join(''),
         ].join('');
 
-        // 替换 html 占位符（因为 string 转成 jsx 比较麻烦。所以，使用占位符 + 替换的方式）
+        // replace the html placeholder while transfer string to jsx component is not a easy way
         return `<!DOCTYPE html>${html}`
           .replace(DOCUMENT_META_PLACEHOLDER, metas)
           .replace(DOCUMENT_SSR_PLACEHOLDER, HTML_SEPARATOR)

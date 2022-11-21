@@ -70,7 +70,7 @@ describe.only('plugin runtime cli', () => {
       },
     });
     expect(html.includes('<!DOCTYPE html>')).toBeTruthy();
-    // 文件存在
+    // the html file should existed
     expect(
       existsSync(path.join(__dirname, './feature/document/_main.html.js')),
     ).toBeTruthy();

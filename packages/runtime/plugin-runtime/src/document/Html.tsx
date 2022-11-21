@@ -5,14 +5,14 @@ import { DocumentStructrueContext } from './DocumentStructrueContext';
 import { Head } from './Head';
 
 /**
- * 获取直接子元素下指定元素
+ * get the directly son element
  */
 function findTargetChild(tag: string, children: ReactElement[]) {
   return children.find(item => getEleType(item) === tag);
 }
 
 /**
- * 获取 reactElement 的类型
+ * get the type of react element
  */
 function getEleType(ele: ReactElement) {
   // fixme: 非 react 的类型，有点儿问题。
@@ -20,10 +20,10 @@ function getEleType(ele: ReactElement) {
 }
 
 /**
- * 查找子元素（含孙子）下指定的类型的元素
- * @param tag 要查找的类型
- * @param children 子元素
- * @returns 目标元素
+ * get the children(grandChild included) with target type
+ * @param tag the element type
+ * @param children son element
+ * @returns target element
  */
 function findTargetElement(
   tag: string,
@@ -47,7 +47,7 @@ function findTargetElement(
 export function Html(props: { children: any[] }) {
   const { children } = props;
 
-  // 处理默认组件与原有组件的兼容
+  // deal with the component with default
   const hasSetHead = Boolean(findTargetChild('Head', children));
   const hasSetScripts = Boolean(findTargetElement('Scripts', children));
   const hasSetBody = Boolean(findTargetChild('Body', children));
@@ -59,7 +59,7 @@ export function Html(props: { children: any[] }) {
     // hasSetRoot,
   ].every(item => item);
 
-  // todo: 或者直接抛错。在考虑兼容性
+  // todo: or throw an error
   if (!notMissMustChild) {
     return (
       <html>
