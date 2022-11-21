@@ -1,5 +1,5 @@
 import path from 'path';
-import { globby } from '@modern-js/utils';
+import { globby, slash } from '@modern-js/utils';
 import { runCli, initBeforeTest } from './utils';
 import { bundleDistPath, bundlelessDistPath } from './constants';
 
@@ -23,7 +23,9 @@ describe('`buildType` case', () => {
       configFile,
       appDirectory: fixtureDir,
     });
-    const distFiles = await globby(path.join(fixtureDir, bundleDistPath));
+    const distFiles = await globby(
+      slash(path.join(fixtureDir, bundleDistPath)),
+    );
     expect(distFiles.length).toBe(1);
   });
 
@@ -34,7 +36,9 @@ describe('`buildType` case', () => {
       configFile,
       appDirectory: fixtureDir,
     });
-    const distFiles = await globby(path.join(fixtureDir, bundlelessDistPath));
+    const distFiles = await globby(
+      slash(path.join(fixtureDir, bundlelessDistPath)),
+    );
     expect(distFiles.length).toBe(2);
   });
 });

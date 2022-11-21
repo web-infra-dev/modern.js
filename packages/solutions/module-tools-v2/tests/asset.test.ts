@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, globby } from '@modern-js/utils';
+import { fs, globby, slash } from '@modern-js/utils';
 import { runCli, initBeforeTest } from './utils';
 import { bundleDistPath, bundlelessDistPath } from './constants';
 
@@ -25,7 +25,7 @@ describe('asset.path', () => {
       configFile,
       appDirectory: fixtureDir,
     });
-    console.info(ret);
+
     expect(ret.success).toBeTruthy();
 
     const distDir = path.join(fixtureDir, bundlelessDistPath);
@@ -47,7 +47,7 @@ describe('asset.path', () => {
     expect(content.includes('./asset/')).toBeTruthy();
 
     const pngFileDirName = path.join(distDir, './asset');
-    const files = await globby(`${pngFileDirName}/*.png`);
+    const files = await globby(slash(`${pngFileDirName}/*.png`));
     expect(files.length).toBe(1);
   });
 });

@@ -28,7 +28,7 @@ describe('sourcemap usage', () => {
     );
     expect(await fs.pathExists(distSourceMapFilePath)).toBe(true);
     const content = fs.readFileSync(distSourceMapFilePath, 'utf-8');
-    expect(content).toMatchSnapshot();
+    expect(JSON.parse(content)).toMatchSnapshot();
   });
 
   it('sourcemap is false', async () => {
@@ -71,13 +71,12 @@ describe('sourcemap usage', () => {
       configFile,
       appDirectory: fixtureDir,
     });
-    const distFilePath = path.join(fixtureDir, './dist/external/index.js');
     const distSourceMapFilePath = path.join(
       fixtureDir,
       './dist/external/index.js.map',
     );
     expect(await fs.pathExists(distSourceMapFilePath)).toBe(true);
-    const content = fs.readFileSync(distFilePath, 'utf-8');
-    expect(content).toMatchSnapshot();
+    const content = fs.readFileSync(distSourceMapFilePath, 'utf-8');
+    expect(JSON.parse(content)).toMatchSnapshot();
   });
 });

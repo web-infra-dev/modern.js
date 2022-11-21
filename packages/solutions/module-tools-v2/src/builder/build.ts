@@ -144,7 +144,7 @@ export const buildLib = async (
     '@': srcDirectory,
   };
 
-  const { applyOptionsChain, ensureAbsolutePath } = await import(
+  const { applyOptionsChain, ensureAbsolutePath, slash } = await import(
     '@modern-js/utils'
   );
   const mergedAlias = applyOptionsChain(defaultAlias, userAlias);
@@ -152,7 +152,7 @@ export const buildLib = async (
   const alias = Object.keys(mergedAlias).reduce((o, name) => {
     return {
       ...o,
-      [name]: ensureAbsolutePath(appDirectory, mergedAlias[name]),
+      [name]: slash(ensureAbsolutePath(appDirectory, mergedAlias[name])),
     };
   }, {});
 
@@ -169,13 +169,18 @@ export const buildLib = async (
     '../utils/libuild-plugins'
   );
   plugins.push(watchPlugin(config));
+
+  const root = slash(appDirectory);
+  const outdir = slash(distPath);
+  const assetOutDir = asset.path ? slash(asset.path) : asset.path;
+
   const buildConfig: CLIConfig = {
-    root: appDirectory,
+    root,
     watch,
     target,
     sourceMap,
     format,
-    outdir: distPath,
+    outdir,
     define,
     style: styleConfig,
     resolve: {
@@ -183,7 +188,7 @@ export const buildLib = async (
     },
     asset: {
       ...asset,
-      outdir: asset.path,
+      outdir: assetOutDir,
     },
     plugins,
     jsx,

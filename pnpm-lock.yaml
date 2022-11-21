@@ -2860,7 +2860,7 @@ importers:
     specifiers:
       '@babel/core': 7.20.2
       '@modern-js/core': workspace:*
-      '@modern-js/libuild': 0.4.0
+      '@modern-js/libuild': 0.4.1-alpha.0
       '@modern-js/libuild-plugin-es5': 0.4.0
       '@modern-js/libuild-plugin-umd': 0.4.0
       '@modern-js/new-action': workspace:*
@@ -2885,7 +2885,7 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.4.0
+      '@modern-js/libuild': 0.4.1-alpha.0
       '@modern-js/libuild-plugin-es5': 0.4.0
       '@modern-js/libuild-plugin-umd': 0.4.0
       '@modern-js/new-action': link:../../generator/new-action
@@ -12051,8 +12051,8 @@ packages:
       '@swc/core': 1.3.14
     dev: false
 
-  /@modern-js/libuild/0.4.0:
-    resolution: {integrity: sha512-0Zp0Mc3svNZN5SN58JHhB8BqOTaQUpOH2AY/KTzv3Y6HNzoXer14ZWammMnbtXZaxM16vu+sQKuMF5snRLtGkA==}
+  /@modern-js/libuild/0.4.1-alpha.0:
+    resolution: {integrity: sha512-jsPqx8/MV+tNORAQv3MAr7C28wdtZ0ZLlfLtMAKgQUeH4Pe+dNU67h/6jF5bUCOXaLi0SqssaYNM/Rby8hyK6w==}
     hasBin: true
     dependencies:
       esbuild: 0.15.7
@@ -21257,6 +21257,7 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -24536,7 +24537,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4_supports-color@6.1.0
+      debug: 4.3.4
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -35958,6 +35959,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
+    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}

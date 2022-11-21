@@ -1,31 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`sourcemap usage sourcemap is external 1`] = `
-"var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
-var stdin_exports = {};
-__export(stdin_exports, {
-  debug: () => debug
-});
-module.exports = __toCommonJS(stdin_exports);
-var addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
-var debug = (str) => addPrefix(\\"DEBUG:\\", str);
-"
+Object {
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;AAAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,UAAU;ACEhD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG;",
+  "names": Array [],
+  "sources": Array [
+    "../../src/utils.js",
+    "../../src/index.js",
+  ],
+  "sourcesContent": Array [
+    "export const addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
+",
+    "import { addPrefix } from './utils';
+
+export const debug = str => addPrefix('DEBUG:', str);
+",
+  ],
+  "version": 3,
+}
 `;
 
-exports[`sourcemap usage sourcemap is true 1`] = `"{\\"version\\":3,\\"mappings\\":\\";;;;;;;;;;;;;;;;;;;;;;AAAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,UAAU;ACEhD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG;\\",\\"names\\":[],\\"sources\\":[\\"../../src/utils.js\\",\\"../../src/index.js\\"],\\"sourcesContent\\":[\\"export const addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;\\\\n\\",\\"import { addPrefix } from './utils';\\\\n\\\\nexport const debug = str => addPrefix('DEBUG:', str);\\\\n\\"]}"`;
+exports[`sourcemap usage sourcemap is true 1`] = `
+Object {
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;AAAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,UAAU;ACEhD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG;",
+  "names": Array [],
+  "sources": Array [
+    "../../src/utils.js",
+    "../../src/index.js",
+  ],
+  "sourcesContent": Array [
+    "export const addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
+",
+    "import { addPrefix } from './utils';
+
+export const debug = str => addPrefix('DEBUG:', str);
+",
+  ],
+  "version": 3,
+}
+`;

@@ -10,23 +10,21 @@ interface EntryOptions {
   appDirectory: string;
 }
 
-export const getAbsInput = (entry: Input, options: EntryOptions) => {
+export const getAbsInput = async (entry: Input, options: EntryOptions) => {
+  const { slash } = await import('@modern-js/utils');
   const { appDirectory } = options;
-  // if (typeof entry === 'string') {
-  //   return path.join(options.appDirectory, entry);
-  // }
 
   if (Array.isArray(entry)) {
     return entry.map(p =>
-      path.isAbsolute(p) ? p : path.join(appDirectory, p),
+      path.isAbsolute(p) ? slash(p) : slash(path.join(appDirectory, p)),
     );
   }
 
   const newEntry: Record<string, string> = {};
   for (const key of Object.keys(entry)) {
     newEntry[key] = path.isAbsolute(entry[key])
-      ? entry[key]
-      : path.join(appDirectory, entry[key]);
+      ? slash(entry[key])
+      : slash(path.join(appDirectory, entry[key]));
   }
   return newEntry;
 };
@@ -82,7 +80,8 @@ export const normalizeInput = async (
   options: EntryOptions,
 ) => {
   if (baseConfig.buildType === 'bundleless' && !baseConfig.input) {
-    return [baseConfig.sourceDir];
+    const { slash } = await import('@modern-js/utils');
+    return [slash(baseConfig.sourceDir)];
   }
   return getAbsInput(baseConfig.input, options);
 };

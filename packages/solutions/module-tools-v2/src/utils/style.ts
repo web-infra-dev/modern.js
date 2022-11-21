@@ -16,7 +16,7 @@ export const getLessConfig = async (config: UserConfig) => {
   const mergedOptions = applyOptionsChain<LessOptions, never>(
     {
       lessOptions: { javascriptEnabled: true },
-      implementation: getCompiledPath('less'),
+      implementation: await getCompiledPath('less'),
     },
     config?.tools?.less || {},
   );
@@ -30,7 +30,7 @@ export const getSassConfig = async (config: UserConfig) => {
 
   const mergedOptions = applyOptionsChain<SassOptions, never>(
     {
-      implementation: getCompiledPath('sass'),
+      implementation: await getCompiledPath('sass'),
     },
     config.tools?.sass || {},
   );
@@ -61,13 +61,13 @@ export const getPostcssConfig = async (config: UserConfig) => {
       // TODO: when schema support redefine
       // $$tools: 'module-tools',
       plugins: [
-        require(getCompiledPath('postcss-flexbugs-fixes')),
-        require(getCompiledPath('postcss-custom-properties')),
-        require(getCompiledPath('postcss-initial')),
-        require(getCompiledPath('postcss-page-break')),
-        require(getCompiledPath('postcss-font-variant')),
-        require(getCompiledPath('postcss-media-minmax')),
-        require(getCompiledPath('postcss-nesting')),
+        require(await getCompiledPath('postcss-flexbugs-fixes')),
+        require(await getCompiledPath('postcss-custom-properties')),
+        require(await getCompiledPath('postcss-initial')),
+        require(await getCompiledPath('postcss-page-break')),
+        require(await getCompiledPath('postcss-font-variant')),
+        require(await getCompiledPath('postcss-media-minmax')),
+        require(await getCompiledPath('postcss-nesting')),
       ].filter(Boolean),
     },
     (config?.tools?.postcss as any) || {},

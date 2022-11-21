@@ -1,5 +1,5 @@
 import path from 'path';
-import { globby } from '@modern-js/utils';
+import { globby, slash } from '@modern-js/utils';
 import { runCli, initBeforeTest } from './utils';
 
 initBeforeTest();
@@ -26,7 +26,7 @@ describe('entryName usage', () => {
     console.info(ret.error);
     expect(ret.success).toBeTruthy();
 
-    const files = await globby(`${fixtureDir}/**/*.js`);
+    const files = await globby(slash(`${fixtureDir}/**/*.js`));
     expect(files.length).toBe(1);
     expect(files[0]).not.toBe('index.js');
   });

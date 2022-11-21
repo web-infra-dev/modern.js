@@ -91,6 +91,7 @@ export const transformToAbsPath = async (
   baseConfig: BaseBuildConfig,
   options: { context: ModuleContext; buildCmdOptions: BuildCommandOptions },
 ) => {
+  const { slash } = await import('@modern-js/utils');
   const newConfig = baseConfig;
   const { normalizeInput } = await import('../utils/input');
   const { context } = options;
@@ -99,9 +100,8 @@ export const transformToAbsPath = async (
     ? newConfig.outdir
     : path.join(context.appDirectory, newConfig.outdir);
 
-  newConfig.sourceDir = path.resolve(
-    context.appDirectory,
-    baseConfig.sourceDir,
+  newConfig.sourceDir = slash(
+    path.resolve(context.appDirectory, baseConfig.sourceDir),
   );
   newConfig.input = await normalizeInput(newConfig, {
     appDirectory: context.appDirectory,
