@@ -37,15 +37,15 @@ exports[`fileSystemRoutes generate code 1`] = `
               \\"index\\": true,
               \\"id\\": \\"user/[id]/page\\",
               \\"type\\": \\"nested\\",
-              \\"component\\": loadableLazy(() => import(/* webpackChunkName: \\"user/[id]/page\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/user/[id]/page.tsx'))
+              \\"component\\": loadable(() => import(/* webpackChunkName: \\"user/[id]/page\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/user/[id]/page.tsx'))
             }
           ]
         }
       ],
-      \\"component\\": loadableLazy(() => import(/* webpackChunkName: \\"user/layout\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/user.tsx'))
+      \\"component\\": loadable(() => import(/* webpackChunkName: \\"user/layout\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/user.tsx'))
     }
   ],
-  \\"component\\": loadableLazy(() => import(/* webpackChunkName: \\"layout\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/layout.tsx'))
+  \\"component\\": loadable(() => import(/* webpackChunkName: \\"layout\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/layout.tsx'))
 },
 ];
   "
