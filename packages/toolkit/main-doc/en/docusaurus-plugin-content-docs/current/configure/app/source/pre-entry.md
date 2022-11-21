@@ -1,7 +1,6 @@
 ---
 title: source.preEntry
 sidebar_label: preEntry
-sidebar_position: 1
 ---
 
 :::info BUILDER

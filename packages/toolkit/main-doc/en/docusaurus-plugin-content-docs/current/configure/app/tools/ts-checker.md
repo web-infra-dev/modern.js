@@ -1,7 +1,6 @@
 ---
 title: tools.tsChecker
 sidebar_label: tsChecker
-sidebar_position: 1
 ---
 
 :::info BUILDER

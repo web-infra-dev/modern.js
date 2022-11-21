@@ -1,7 +1,6 @@
 ---
 title: output.polyfill
 sidebar_label: polyfill
-sidebar_position: 1
 ---
 
 :::info BUILDER

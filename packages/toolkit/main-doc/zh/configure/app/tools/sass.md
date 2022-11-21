@@ -1,7 +1,6 @@
 ---
 title: tools.sass
 sidebar_label: sass
-sidebar_position: 1
 ---
 
 :::info BUILDER

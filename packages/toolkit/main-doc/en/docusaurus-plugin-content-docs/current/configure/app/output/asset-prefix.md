@@ -1,7 +1,6 @@
 ---
 title: output.assetPrefix
 sidebar_label: assetPrefix
-sidebar_position: 1
 ---
 
 :::info BUILDER

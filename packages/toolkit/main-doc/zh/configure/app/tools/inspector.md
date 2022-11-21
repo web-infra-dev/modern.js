@@ -1,7 +1,6 @@
 ---
 title: tools.inspector
 sidebar_label: inspector
-sidebar_position: 1
 ---
 
 :::info BUILDER

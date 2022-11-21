@@ -1,7 +1,6 @@
 ---
 title: output.disableInlineRuntimeChunk
 sidebar_label: disableInlineRuntimeChunk
-sidebar_position: 1
 ---
 
 :::info BUILDER

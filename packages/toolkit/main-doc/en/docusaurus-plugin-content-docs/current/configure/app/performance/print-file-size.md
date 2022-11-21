@@ -1,7 +1,6 @@
 ---
 title: performance.printFileSize
 sidebar_label: printFileSize
-sidebar_position: 1
 ---
 
 :::info BUILDER
