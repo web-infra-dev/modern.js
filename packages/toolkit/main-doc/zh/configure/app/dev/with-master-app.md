@@ -1,6 +1,5 @@
 ---
 sidebar_label: withMasterApp
-sidebar_position: 2
 ---
 
 # dev.withMasterApp
