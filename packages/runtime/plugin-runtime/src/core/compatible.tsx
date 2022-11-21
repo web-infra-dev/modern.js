@@ -110,7 +110,7 @@ interface HydrateFunc {
 
 type BootStrap<T = unknown> = (
   App: React.ComponentType,
-  id: string | Record<string, any> | HTMLElement,
+  id: string | HTMLElement | RuntimeContext,
   root: any,
   ReactDOM: {
     render: (children: React.ReactNode, rootElement?: HTMLElement) => void;
@@ -132,6 +132,7 @@ export const bootstrap: BootStrap = async (
    */
   root,
   ReactDOM = defaultReactDOM as any,
+  // eslint-disable-next-line consistent-return
 ) => {
   let App = BootApp;
   let runner = runnerMap.get(App);
@@ -142,7 +143,7 @@ export const bootstrap: BootStrap = async (
     runner = runnerMap.get(App)!;
   }
 
-  const context: any = getInitialContext(runner);
+  const context: RuntimeContext = getInitialContext(runner);
 
   const runInit = (_context: RuntimeContext) =>
     runner!.init(
@@ -150,7 +151,7 @@ export const bootstrap: BootStrap = async (
       {
         onLast: ({ context: context1 }) => (App as any)?.init?.(context1),
       },
-    );
+    ) as any;
 
   // don't mount the App, let user in charge of it.
   if (!id) {
@@ -246,13 +247,35 @@ export const bootstrap: BootStrap = async (
       ),
     });
 
-    const initialData = await runInit(context);
-    context.initialData = initialData;
+    // Handle redirects from React Router with an HTTP redirect
+    const isRedirectResponse = (result: any) => {
+      if (
+        result instanceof Response &&
+        result.status >= 300 &&
+        result.status <= 399
+      ) {
+        const { status } = result;
+        const redirectUrl = result.headers.get('Location') || '/';
+        const { ssrContext } = context;
+        if (ssrContext) {
+          ssrContext.res.statusCode = status;
+          ssrContext.res.setHeader('Location', redirectUrl);
+          ssrContext.redirection.status = status;
+          ssrContext.redirection.url = redirectUrl;
+        }
+        return true;
+      }
+      return false;
+    };
 
-    return runner.server({
-      App,
-      context,
-    });
+    const initialData = await runInit(context);
+    if (!isRedirectResponse(initialData)) {
+      context.initialData = initialData;
+      return runner.server({
+        App,
+        context,
+      });
+    }
   }
 };
 
