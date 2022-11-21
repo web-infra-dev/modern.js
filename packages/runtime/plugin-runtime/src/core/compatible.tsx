@@ -111,12 +111,12 @@ interface HydrateFunc {
 type BootStrap<T = unknown> = (
   App: React.ComponentType,
   id: string | Record<string, any> | HTMLElement,
-  root: any,
-  ReactDOM: {
-    render: (children: React.ReactNode, rootElement?: HTMLElement) => void;
-    hydrate: HydrateFunc;
+  root?: any,
+  ReactDOM?: {
+    render?: (children: React.ReactNode, rootElement?: HTMLElement) => void;
+    hydrate?: HydrateFunc;
     createRoot?: (rootElement: HTMLElement) => any;
-    hydrateRoot: HydrateFunc;
+    hydrateRoot?: HydrateFunc;
   },
 ) => Promise<T>;
 
@@ -198,16 +198,39 @@ export const bootstrap: BootStrap = async (
       // https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
       const ModernRender = (App: React.ReactNode) => {
         if (IS_REACT18) {
-          (root || ReactDOM.createRoot!(rootElement)).render(App);
+          if (root) {
+            root.render(App);
+          } else if (ReactDOM.createRoot) {
+            ReactDOM.createRoot(rootElement).render(App);
+          } else {
+            throw Error(
+              'The bootstrap ReactDOM parameter needs to provide the createRoot method',
+            );
+          }
         } else {
+          if (!ReactDOM.render) {
+            throw Error(
+              'The bootstrap ReactDOM parameter needs to provide the render method',
+            );
+          }
           ReactDOM.render(App, rootElement);
         }
       };
 
       const ModernHydrate = (App: React.ReactNode, callback?: () => void) => {
         if (IS_REACT18) {
+          if (!ReactDOM.hydrateRoot) {
+            throw Error(
+              'The bootstrap ReactDOM parameter needs to provide the hydrateRoot method',
+            );
+          }
           ReactDOM.hydrateRoot(rootElement, App);
         } else {
+          if (!ReactDOM.hydrate) {
+            throw Error(
+              'The bootstrap ReactDOM parameter needs to provide the hydrate method',
+            );
+          }
           ReactDOM.hydrate(App, rootElement, callback);
         }
       };
