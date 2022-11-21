@@ -32,6 +32,7 @@ export interface DevToolData {
     name: string;
     value: string;
   };
+  disableRunBuild?: boolean;
   action: (
     options: DevCommandOptions,
     context: { isTsProject?: boolean },

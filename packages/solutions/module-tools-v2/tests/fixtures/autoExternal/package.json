@@ -1,0 +1,12 @@
+{
+  "name": "auto-external-test",
+  "dependencies": {
+    "path-browserify": "^1"
+  },
+  "devDependencies": {
+    "react": "^17"
+  },
+  "peerDependencies": {
+    "postcss": "^8"
+  }
+}

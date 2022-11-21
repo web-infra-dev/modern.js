@@ -13,21 +13,26 @@ export const buildPlatform = async (
   const platformBuilders = await runner.registerBuildPlatform();
   if (platformBuilders.length === 0) {
     if (options.platform === true) {
-      console.info('没有可执行的构建任务');
-    } else if (typeof options.platform === 'string') {
-      console.info(`没有发现 platform 为 "${options.platform}" 的构建任务`);
-    } else if (Array.isArray(options.platform)) {
+      console.info('No executable platform build tasks');
+    } else if (
+      Array.isArray(options.platform) &&
+      options.platform.length === 1
+    ) {
       console.info(
-        `没有发现 platform 为 ${options.platform.join(',')} 的构建任务`,
+        `No build tasks with platform "${options.platform[0]}" found`,
+      );
+    } else if (Array.isArray(options.platform) && options.platform.length > 1) {
+      console.info(
+        `No build tasks with platform ${options.platform.join(',')} found`,
       );
     } else {
-      console.info('未知的 platform 数据类型');
+      console.info('Unknown platform', JSON.stringify(options.platform));
     }
+
     return;
   }
 
   await runner.beforeBuildPlatform(platformBuilders);
-
   if (options.platform === true) {
     for (const platformBuilder of platformBuilders) {
       const currentPlatform = Array.isArray(platformBuilder.platform)
@@ -47,31 +52,32 @@ export const buildPlatform = async (
 
       console.info(chalk.rgb(...gray)(`Done for [${currentPlatform}] task`));
     }
-  } else if (typeof options.platform === 'string') {
+  } else if (Array.isArray(options.platform) && options.platform.length === 1) {
+    const targetPlatform = options.platform[0];
     const selectPlatformBuilder = platformBuilders.find(builder => {
       if (Array.isArray(builder.platform)) {
-        return builder.platform.includes(options.platform as string);
+        return builder.platform.includes(targetPlatform);
       }
 
-      return builder.platform === (options.platform as string);
+      return builder.platform === targetPlatform;
     });
 
     if (!selectPlatformBuilder) {
-      console.info(`指定的 "${options.platform}" 构建不存在`);
+      console.info(`The specified "${targetPlatform}" build does not exist`);
       return;
     }
 
     console.info(
-      chalk.underline.rgb(...blue)(`Running [${options.platform}] build task:`),
+      chalk.underline.rgb(...blue)(`Running [${targetPlatform}] build task:`),
     );
 
-    await runner.buildPlatform({ platform: options.platform });
-    await selectPlatformBuilder.build(options.platform, {
+    await runner.buildPlatform({ platform: targetPlatform });
+    await selectPlatformBuilder.build(targetPlatform, {
       isTsProject: context.isTsProject,
     });
 
-    console.info(chalk.rgb(...gray)(`Done for [${options.platform}] task`));
-  } else if (Array.isArray(options.platform)) {
+    console.info(chalk.rgb(...gray)(`Done for [${targetPlatform}] task`));
+  } else if (Array.isArray(options.platform) && options.platform.length > 1) {
     for (const platform of options.platform) {
       const foundBuilder = platformBuilders.find(builder => {
         if (Array.isArray(builder.platform)) {
@@ -82,7 +88,7 @@ export const buildPlatform = async (
       });
 
       if (!foundBuilder) {
-        console.info(`跳过 ${foundBuilder} 构建, 因为它不存在`);
+        console.info(`skip ${platform} build, because it does not exist`);
         continue;
       }
 

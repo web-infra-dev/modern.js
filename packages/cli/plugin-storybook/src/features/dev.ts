@@ -1,5 +1,5 @@
 import { Import } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/module-tools-v2';
+import type { PluginAPI } from '@modern-js/module-tools-v2';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(
@@ -32,20 +32,12 @@ export const runDev = async (
   const appContext = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
   const { appDirectory, port = constants.STORYBOOK_PORT } = appContext;
-  const {
-    output: { disableTsChecker = false },
-  } = modernConfig as NormalizedConfig & {
-    output: {
-      disableTsChecker?: boolean;
-    }; // TODO: 使用 module-tools 提供的完整类型
-  };
 
   if (!valid({ stories, isModuleTools, isTs: isTsProject })) {
     return;
   }
 
   const configDir = await gen.generateConfig(appDirectory, {
-    disableTsChecker,
     isTsProject,
     stories,
     // TODO: 运行runtime相关功能的时候再处理
