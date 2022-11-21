@@ -1,8 +1,8 @@
 # SWC plugin
 
-[SWC](https://SWC.rs/) (Speedy Web Compiler) is a transformer and minizer for `JavaScript` and `TypeScript` based on `Rust`. `SWC` can provide the same abilities with `Babel`, and it's more than 10x faster than `Babel`.
+[SWC](https://SWC.rs/) (Speedy Web Compiler) is a transformer and minimizer for JavaScript and TypeScript based on `Rust`. SWC can provide the same abilities with Babel, and it's more than 10x faster than Babel.
 
-`Modern.js builder` has a out-of-box plugin for `SWC`, power your Web application with polyfill and minification, we also port some common used `Babel` plugins to `SWC`.
+Modern.js Builder has a out-of-box plugin for SWC, power your Web application with Polyfill and minification, we also port some common used Babel plugins to SWC.
 
 ## Quick start
 
@@ -13,15 +13,17 @@ Install the plugin by using:
 ```bash
 # npm
 npm install @modern-js/builder-plugin-swc -D
+
 # yarn
 yarn add @modern-js/builder-plugin-swc -D
+
 # pnpm
 pnpm install @modern-js/builder-plugin-swc -D
 ```
 
 ### Register plugin
 
-Register this plugin with `builder`
+Register this plugin with Builder:
 
 ```js
 import { PluginSwc } from '@modern-js/builder-plugin-swc';
@@ -31,72 +33,70 @@ builder.addPlugins([PluginSwc()]);
 
 That's it !
 
-Now you can use `SWC` transformation and minification seeminglessly.
+Now you can use SWC transformation and minification in your project.
 
 ## Config
 
-### `pluginSwc`
-
 - Type: `PluginConfig`
 
-```typescript
-export interface PluginConfig {
+```ts
+type PluginConfig = {
   presetReact?: ReactConfig;
   presetEnv?: EnvConfig;
-
   jsMinify?: boolean | JsMinifyOptions;
-
   extensions?: Extensions;
-}
+};
 ```
 
-### `presetReact`
+### presetReact
 
-- Type: [`presetReact` in `SWC`](https://swc.rs/docs/configuration/compilation#jsctransformreact).
+- Type: [presetReact](https://swc.rs/docs/configuration/compilation#jsctransformreact) in SWC.
 
 Ported from `@babel/preset-react`. The value you passed will be merged with default option.
+
 Default option is:
 
-```typescript
+```ts
 {
   runtime: 'automatic',
 }
 ```
 
-### `presetEnv`
+### presetEnv
 
-- Type: [`presetEnv` in `SWC`](https://swc.rs/docs/configuration/supported-browsers#options).
+- Type: [presetEnv](https://swc.rs/docs/configuration/supported-browsers#options) in SWC.
 
 Ported from `@babel/preset-env`. The value you passed will be merged with default option.
+
 Default option is:
 
-```typescript
+```ts
 {
   targets: '', // automatic get browserslist from your project, so you don't have to set this field
   mode: 'usage',
 }
 ```
 
-### `jsMinify`
+### jsMinify
 
 - Type: `boolean` or [compress configuration](https://terser.org/docs/api-reference.html#compress-options).
 
 Default option is: `{ compress: {}, mangle: true }`.
 
-If set it to `false`, then `SWC` minification will be disabled, if set it to `true` then will it applies default option. If you pass an object, then this object will be merged with default option.
+If set it to `false`, then SWC minification will be disabled, if set it to `true` then will it applies default option. If you pass an object, then this object will be merged with default option.
 
-### `extensions`
+### extensions
 
 - Type: `Object`
 
-Some plugins ported from `Babel`.
+Some plugins ported from Babel.
 
-#### `extensions.pluginImport`
+#### extensions.pluginImport
 
 - type
 
-```typescript
-Array<{
+```ts
+type PluginImportOptions = Array<{
   fromSource: string;
   replaceJs?: {
     ignoreEsComponent?: string[];
@@ -112,118 +112,150 @@ Array<{
 }>;
 ```
 
-Ported from `@babel/plugin-import`.
+Ported from [babel-plugin-import](https://github.com/umijs/babel-plugin-import).
 
-`fromSource`
+**fromSource**
 
 - Type: `string`
 
-The package that need to be transformed，eg. in `import {a} from 'foo'`, `fromSource` should be `foo`.
+The package that need to be transformed，eg. in `import { a } from 'foo'`, `fromSource` should be `foo`.
 
-`replaceJs.ignoreEsComponent`
+**replaceJs.ignoreEsComponent**
 
 - Type: `string[]`
-- default: `[]`
+- Default: `[]`
 
 The import specifiers which don't need to be transformed.
 
-`replaceJs.replaceTpl`
+**replaceJs.replaceTpl**
 
 - Type: `string`
-- default: `undefineed`
+- Default: `undefined`
 
-Template that represents repacement, for example:
+Template that represents replacement, for example:
 
-```javascript
+```ts
 import { MyButton as Btn } from 'foo';
 ```
 
-If we set `replaceJs.replaceTpl = "foo/es/{{member}}"`, then the code above will be replaced to code below:
+If we set:
 
-```javascript
+```ts
+PluginSWC({
+  extensions: {
+    pluginImport: [
+      {
+        replaceJs: {
+          replaceTpl: 'foo/es/{{member}}',
+        },
+      },
+    ],
+  },
+});
+```
+
+Then the code above will be replaced to code below:
+
+```ts
 import Btn from 'foo/es/MyButton';
 ```
 
-We also put some naming conversion functions, take the above example again, if we set it to `"foo/es/{{ kebabCase member }}"`, it will be transformed to code below:
+We also put some naming conversion functions, take the above example again, if we set it to:
 
-```javascript
+```ts
+PluginSWC({
+  extensions: {
+    pluginImport: [
+      {
+        replaceJs: {
+          replaceTpl: 'foo/es/{{ kebabCase member }}',
+        },
+      },
+    ],
+  },
+});
+```
+
+It will be transformed to code below:
+
+```ts
 import Btn from 'foo/es/my-button';
 ```
 
-Besides `kebabCase`, there are also `camelCase`, `snakeCase`, `upperCase`, `lowerCase`
+Besides `kebabCase`, there are also `camelCase`, `snakeCase`, `upperCase`, `lowerCase`.
 
-`replaceJs.replaceExpr`
+**replaceJs.replaceExpr**
 
 - Type: `(member: string) => string`
-- default: `undefineed`
+- Default: `undefined`
 
 This is also used to replace import specifiers. The argument is the specifier that imported. eg. `a` in `import { a as b } from 'foo'`.
-This funtion is called by `Rust`，and it needs to be synchronous.
+This function is called by `Rust`，and it needs to be synchronous.
 We recommend `replaceTpl` instead, because call `js` function through `node-api` will cause performance issue. `node-api` invokes `js` function actually put this `js` call inside a queue, and wait for this call to be executed, so if current `js` thread is busy, then this call will block `Rust` thread for a while.
 
-`transformToDefaultImport`
+**transformToDefaultImport**
 
 - Type: `boolean`
-- default: `true`
+- Default: `true`
 
 Whether transform specifier to default specifier.
 
-#### `extensions.reactUtils`
+#### extensions.reactUtils
 
 - Type: `Object`
 
-```typescript
-{
-  autoImportReact?: boolean,
-  removeEffect?: boolean,
+```ts
+type ReactUtilsOptions = {
+  autoImportReact?: boolean;
+  removeEffect?: boolean;
   removePropTypes?: {
-    mode?: "remove" | "unwrap" | "unsafe-wrap",
-    removeImport?: bool,
-    ignoreFilenames?: String[],
-    additionalLibraries?: String[],
-    classNameMatchers?: String[],
-  }
-}
+    mode?: 'remove' | 'unwrap' | 'unsafe-wrap';
+    removeImport?: boolean;
+    ignoreFilenames?: string[];
+    additionalLibraries?: string[];
+    classNameMatchers?: string[];
+  };
+};
 ```
 
 Some little help utils for `React`.
 
-`reactUtils.autoImportReact`
+**reactUtils.autoImportReact**
 
 - Type: `boolean`
 
 Automatically import `React` as global variable, eg: `import React from 'react'`.
 Mostly used for generated `React.createElement`.
 
-`reactUtils.removeEffect`
+**reactUtils.removeEffect**
 
 - Type: `boolean`
 
 Remove `useEffect` call.
 
-`reactUtils.removePropTypes`
+**reactUtils.removePropTypes**
 
 - Type:
 
-```typescript
-{
-  mode?: "remove" | "unwrap" | "unsafe-wrap",
-  removeImport?: bool,
-  ignoreFilenames?: String[],
-  additionalLibraries?: String[],
-  classNameMatchers?: String[],
-}
+```ts
+type RemovePropTypesOptions = {
+  mode?: 'remove' | 'unwrap' | 'unsafe-wrap';
+  removeImport?: boolean;
+  ignoreFilenames?: string[];
+  additionalLibraries?: string[];
+  classNameMatchers?: string[];
+};
 ```
 
 Remove `React` runtime type checking. This is ported from [@babel/plugin-react-transform-remove-prop-types](https://github.com/oliviertassinari/babel-plugin-transform-react-remove-prop-types), All the configurations remain the same.
 
-#### `extensions.lodash`
+#### extensions.lodash
 
-- Type: `{ cwd?: string, ids?: string,}`
-- default: `{ cwd: process.cwd(), ids: [] }`
+- Type: `{ cwd?: string; ids?: string;}`
+- Default: `{ cwd: process.cwd(), ids: [] }`
 
 Ported from [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash).
 
 ## Limitation
 
-Do not support `@babel/plugin-transform-runtime` and other custom `Babel` plugins.
+Do not support `@babel/plugin-transform-runtime` and other custom Babel plugins.
