@@ -174,6 +174,7 @@ export const generateCode = async (
                 name: internalSrcAlias,
                 basename: srcDirectory,
               },
+              entrypoint.entryName,
             );
             if (nestedRoute) {
               (initialRoutes as Route[]).unshift(nestedRoute);

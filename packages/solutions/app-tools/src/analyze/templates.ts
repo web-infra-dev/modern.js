@@ -219,9 +219,9 @@ export const fileSystemRoutes = ({
 
       if (route._component) {
         if (ssrMode === 'stream') {
-          component = `lazy(() => import('${route._component}'))`;
+          component = `lazy(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
         } else {
-          component = `loadableLazy(() => import('${route._component}'))`;
+          component = `loadableLazy(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
         }
       }
     } else if (route._component) {
@@ -248,11 +248,13 @@ export const fileSystemRoutes = ({
     if ('type' in route) {
       const newRoute = traverseRouteTree(route);
       routeComponentsCode += `${JSON.stringify(newRoute, null, 2)
-        .replace(/"(loadable[^"]*)"/g, '$1')
-        .replace(/"(lazy[^"]*)"/g, '$1')
+        .replace(/"(loadable.*\))"/g, '$1')
+        .replace(/"(loadableLazy.*\))"/g, '$1')
+        .replace(/"(lazy.*\))"/g, '$1')
         .replace(/"(loading_[^"])"/g, '$1')
         .replace(/"(loader_[^"])"/g, '$1')
-        .replace(/"(error_[^"])"/g, '$1')},`;
+        .replace(/"(error_[^"])"/g, '$1')
+        .replace(/\\"/g, '"')},`;
     } else {
       const component = `loadable(() => import('${route._component}'))`;
       const finalRoute = {

@@ -67,6 +67,16 @@ export const OUTPUT_CONFIG_FILE = 'modern.config.json';
 export const DEFAULT_SERVER_CONFIG = 'modern.server-runtime.config';
 
 /**
+ * Routes manifest filename
+ */
+export const ROUTE_MINIFEST_FILE = 'routes-manifest.json';
+
+/**
+ * Property mounted on window that describes route manifest
+ */
+export const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
+
+/**
  * Internal plugins that work as soon as they are installed.
  */
 export const INTERNAL_CLI_PLUGINS: InternalPlugins = {

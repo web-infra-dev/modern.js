@@ -21,6 +21,7 @@ import { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import { BottomTemplatePlugin } from '../webpackPlugins/htmlBottomTemplate';
 import { HtmlAsyncChunkPlugin } from '../webpackPlugins/htmlAsyncChunkPlugin';
 import { createCopyPattern } from '../share';
+import RouterPlugin from '../webpackPlugins/routerPlugin';
 
 type Parameter<T extends (arg: any) => void> = Parameters<T>[0];
 type FnParameter<
@@ -115,6 +116,14 @@ export const PluginCompatModern = (
       chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(args => [
         {
           patterns: [...(args[0]?.patterns || []), defaultCopyPattern],
+        },
+      ]);
+
+      const { appDirectory } = appContext;
+
+      chain.plugin('route-plugin').use(RouterPlugin, [
+        {
+          appDirectory,
         },
       ]);
 
