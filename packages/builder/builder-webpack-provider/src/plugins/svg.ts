@@ -1,6 +1,11 @@
 import { join } from 'path';
-import { JS_REGEX, TS_REGEX, SVG_REGEX } from '@modern-js/builder-shared';
-import { getDistPath, getFilename, getDataUrlCondition } from '../shared';
+import {
+  JS_REGEX,
+  TS_REGEX,
+  SVG_REGEX,
+  getDistPath,
+} from '@modern-js/builder-shared';
+import { getFilename, getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginSvg = (): BuilderPlugin => {
@@ -12,7 +17,7 @@ export const PluginSvg = (): BuilderPlugin => {
           const config = api.getNormalizedConfig();
           const defaultExport = config.output.svgDefaultExport;
 
-          const distDir = getDistPath(config, 'svg');
+          const distDir = getDistPath(config.output, 'svg');
           const filename = getFilename(config, 'svg', isProd);
           const outputName = join(distDir, filename);
 

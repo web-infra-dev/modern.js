@@ -30,10 +30,8 @@ describe('concurrent compile', async () => {
       .join('\n');
 
     const compiler = new Compiler({
-      swc: {
-        module: {
-          type: 'es6',
-        },
+      module: {
+        type: 'es6',
       },
       extensions: {
         pluginImport: [

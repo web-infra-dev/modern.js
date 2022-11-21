@@ -1,1 +1,1 @@
-export type A = string;
+export { builderRspackProvider } from './provider';

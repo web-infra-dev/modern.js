@@ -1,6 +1,6 @@
 import { join } from 'path';
-import { JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
-import { getDistPath, getFilename } from '../shared';
+import { JS_REGEX, TS_REGEX, getDistPath } from '@modern-js/builder-shared';
+import { getFilename } from '../shared';
 import type { BuilderPlugin } from '../types';
 import type { RuleSetRule } from 'webpack';
 
@@ -12,7 +12,7 @@ export const PluginFallback = (): BuilderPlugin => ({
       const builderConfig = api.getNormalizedConfig();
 
       if (builderConfig.output.enableAssetFallback) {
-        const distDir = getDistPath(builderConfig, 'media');
+        const distDir = getDistPath(builderConfig.output, 'media');
         const filename = getFilename(builderConfig, 'media', isProd);
 
         chain.output.merge({

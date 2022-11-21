@@ -1,5 +1,10 @@
 import { expect, describe, it } from 'vitest';
-import { getPackageNameFromModulePath, MODULE_PATH_REGEX } from '../src';
+import {
+  getPackageNameFromModulePath,
+  MODULE_PATH_REGEX,
+  getHTMLPathByEntry,
+  NormalizedSharedOutputConfig,
+} from '../src';
 
 describe('getPackageNameFromModulePath', () => {
   it('should parse correct path fragment in npm/yarn', async () => {
@@ -44,5 +49,37 @@ describe('getPackageNameFromModulePath', () => {
 
     modulePath = '/path/to/node_modules/.pnpm/package-name/index.js';
     expect(getPackageNameFromModulePath(modulePath)).toBe('npm.package-name');
+  });
+});
+
+describe('getHTMLPathByEntry', () => {
+  it('should use distPath.html as the folder', async () => {
+    const htmlPath = getHTMLPathByEntry('main', {
+      output: {
+        distPath: {
+          html: 'my-html',
+        },
+      } as NormalizedSharedOutputConfig,
+      html: {
+        disableHtmlFolder: false,
+      },
+    });
+
+    expect(htmlPath).toEqual('my-html/main/index.html');
+  });
+
+  it('should allow to disable html folder', async () => {
+    const htmlPath = getHTMLPathByEntry('main', {
+      output: {
+        distPath: {
+          html: 'html',
+        },
+      } as NormalizedSharedOutputConfig,
+      html: {
+        disableHtmlFolder: true,
+      },
+    });
+
+    expect(htmlPath).toEqual('html/main.html');
   });
 });

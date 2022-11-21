@@ -1,6 +1,0 @@
-export default function () {
-  return async (ctx, next) => {
-    await next();
-    console.info(`access url: ${ctx.url}`);
-  };
-}

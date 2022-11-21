@@ -9,7 +9,7 @@ import {
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { applyOptionsChain } from '@modern-js/utils';
+import { applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
 
 import {
   PluginCompatModernOptions,
@@ -27,13 +27,8 @@ export type BuilderOptions = {
   compatPluginConfig?: PluginCompatModernOptions;
 };
 
-export default async ({
-  target = 'web',
-  normalizedConfig,
-  appContext,
-  compatPluginConfig,
-}: BuilderOptions) => {
-  const targets = Array.isArray(target) ? target : [target];
+function getBuilderTargets(normalizedConfig: NormalizedConfig) {
+  const targets: BuilderTarget[] = ['web'];
   if (
     normalizedConfig.output.enableModernMode &&
     !targets.includes('modern-web')
@@ -41,6 +36,18 @@ export default async ({
     targets.push('modern-web');
   }
 
+  if (isUseSSRBundle(normalizedConfig)) {
+    targets.push('node');
+  }
+
+  return targets;
+}
+
+export async function createBuilderForEdenX({
+  normalizedConfig,
+  appContext,
+  compatPluginConfig,
+}: BuilderOptions) {
   const builderConfig = createBuilderProviderConfig(
     normalizedConfig,
     appContext,
@@ -48,6 +55,7 @@ export default async ({
   // create webpack provider
   const webpackProvider = builderWebpackProvider({ builderConfig });
 
+  const target = getBuilderTargets(normalizedConfig);
   const builderOptions = createBuilderOptions(target, appContext);
   const builder = await createBuilder(webpackProvider, builderOptions);
 
@@ -59,7 +67,7 @@ export default async ({
   );
 
   return builder;
-};
+}
 
 function createBuilderProviderConfig(
   normalizedConfig: NormalizedConfig,
@@ -75,6 +83,10 @@ function createBuilderProviderConfig(
     html,
     output,
     tools,
+    dev: {
+      https: normalizedConfig.dev.https,
+      assetPrefix: normalizedConfig.dev.assetPrefix,
+    },
     performance: {
       // `@modern-js/webpack` used to remove moment locale by default
       removeMomentLocale: true,

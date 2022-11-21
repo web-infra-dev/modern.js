@@ -5,6 +5,7 @@ import { runtime } from './core/plugin';
 import { SSRServerContext } from './ssr/serverRender/types';
 
 export interface BaseRuntimeContext {
+  initialData?: Record<string, unknown>;
   loaderManager: ReturnType<typeof createLoaderManager>;
   runner: ReturnType<typeof runtime.init>;
   // ssr type

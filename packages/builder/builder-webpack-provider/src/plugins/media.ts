@@ -1,6 +1,10 @@
 import { join } from 'path';
-import { getRegExpForExts, MEDIA_EXTENSIONS } from '@modern-js/builder-shared';
-import { getDistPath, getFilename, getDataUrlCondition } from '../shared';
+import {
+  getRegExpForExts,
+  MEDIA_EXTENSIONS,
+  getDistPath,
+} from '@modern-js/builder-shared';
+import { getFilename, getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginMedia = (): BuilderPlugin => ({
@@ -11,7 +15,7 @@ export const PluginMedia = (): BuilderPlugin => ({
       const config = api.getNormalizedConfig();
       const regExp = getRegExpForExts(MEDIA_EXTENSIONS);
 
-      const distDir = getDistPath(config, 'media');
+      const distDir = getDistPath(config.output, 'media');
       const filename = getFilename(config, 'media', isProd);
 
       chain.module

@@ -2,9 +2,9 @@ import {
   debug,
   onExitProcess,
   createPublicContext,
+  getHTMLPathByEntry,
   type PluginStore,
 } from '@modern-js/builder-shared';
-import { getHTMLPathByEntry } from '../shared';
 import type { Context, BuilderPluginAPI } from '../types';
 
 export async function initPlugins({
