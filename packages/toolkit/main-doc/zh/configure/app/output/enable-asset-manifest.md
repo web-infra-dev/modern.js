@@ -1,7 +1,6 @@
 ---
 title: output.enableAssetManifest
 sidebar_label: enableAssetManifest
-sidebar_position: 1
 ---
 
 :::info BUILDER

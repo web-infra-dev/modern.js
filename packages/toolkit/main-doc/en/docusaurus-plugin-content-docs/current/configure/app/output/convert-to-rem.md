@@ -1,7 +1,6 @@
 ---
 title: output.convertToRem
 sidebar_label: convertToRem
-sidebar_position: 1
 ---
 
 :::info BUILDER

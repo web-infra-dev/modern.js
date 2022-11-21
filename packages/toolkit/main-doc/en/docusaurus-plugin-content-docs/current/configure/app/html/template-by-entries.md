@@ -1,7 +1,6 @@
 ---
 title: html.templateByEntries
 sidebar_label: templateByEntries
-sidebar_position: 1
 ---
 
 :::info BUILDER

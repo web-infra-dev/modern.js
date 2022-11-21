@@ -1,7 +1,6 @@
 ---
 title: tools.webpack
 sidebar_label: webpack
-sidebar_position: 1
 ---
 
 :::info BUILDER

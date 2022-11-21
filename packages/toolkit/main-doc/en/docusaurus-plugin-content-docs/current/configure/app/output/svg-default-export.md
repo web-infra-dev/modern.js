@@ -1,7 +1,6 @@
 ---
 title: output.svgDefaultExport
 sidebar_label: svgDefaultExport
-sidebar_position: 1
 ---
 
 :::info BUILDER

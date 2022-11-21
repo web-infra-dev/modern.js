@@ -1,7 +1,6 @@
 ---
 title: output.distPath
 sidebar_label: distPath
-sidebar_position: 1
 ---
 
 :::info BUILDER

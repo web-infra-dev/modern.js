@@ -1,7 +1,6 @@
 ---
 title: source.resolveMainFields
 sidebar_label: resolveMainFields
-sidebar_position: 1
 ---
 
 :::info BUILDER

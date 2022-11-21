@@ -1,7 +1,6 @@
 ---
 title: source.moduleScopes
 sidebar_label: moduleScopes
-sidebar_position: 1
 ---
 
 :::info BUILDER

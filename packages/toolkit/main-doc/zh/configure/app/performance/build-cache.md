@@ -1,7 +1,6 @@
 ---
 title: performance.buildCache
 sidebar_label: buildCache
-sidebar_position: 1
 ---
 
 :::info BUILDER

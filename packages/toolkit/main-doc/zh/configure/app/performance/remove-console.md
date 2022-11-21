@@ -1,7 +1,6 @@
 ---
 title: performance.removeConsole
 sidebar_label: removeConsole
-sidebar_position: 1
 ---
 
 :::info BUILDER

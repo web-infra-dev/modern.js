@@ -4,9 +4,20 @@ sidebar_position: 0
 
 # 配置使用
 
-Modern.js 支持在 `modern.config.js` 配置文件或 `package.json` 文件中自定义配置选项。
+Modern.js 中有两种配置，一个是编译时配置，一个是服务端运行时配置。
 
-## 配置文件
+编译时配置可以在两个位置进行配置：
+
+- `package.json` 文件
+- 根路径下的 `modern.config.t(j)s` 文件
+
+:::warning 注意
+同一个配置不支持同时在 `package.json` 中和 `modern.config.t(j)s` 中配置。推荐在 `modern.config.t(j)s` 中进行配置。
+:::
+
+服务端运行时配置可以在根路径下的 `modern.server-runtime.config.t(j)s` 自定义配置选项。
+
+## 在配置文件中配置
 
 Modern.js 的配置文件定义在项目的根目录下，同时支持 `.js` 和 `.ts` 两种格式：
 

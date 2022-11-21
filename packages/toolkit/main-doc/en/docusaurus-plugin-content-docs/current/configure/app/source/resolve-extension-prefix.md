@@ -1,7 +1,6 @@
 ---
 title: source.resolveExtensionPrefix
 sidebar_label: resolveExtensionPrefix
-sidebar_position: 1
 ---
 
 :::info BUILDER

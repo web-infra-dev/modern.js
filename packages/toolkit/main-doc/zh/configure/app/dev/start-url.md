@@ -1,7 +1,6 @@
 ---
 title: dev.startUrl
 sidebar_label: startUrl
-sidebar_position: 1
 ---
 
 :::info BUILDER

@@ -1,7 +1,6 @@
 ---
 title: source.include
 sidebar_label: include
-sidebar_position: 1
 ---
 
 :::info BUILDER

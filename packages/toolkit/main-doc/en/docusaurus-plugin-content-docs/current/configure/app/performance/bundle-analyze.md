@@ -1,7 +1,6 @@
 ---
 title: performance.bundleAnalyze
 sidebar_label: bundleAnalyze
-sidebar_position: 1
 ---
 
 :::info BUILDER

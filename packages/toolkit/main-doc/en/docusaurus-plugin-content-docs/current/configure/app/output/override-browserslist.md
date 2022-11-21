@@ -1,7 +1,6 @@
 ---
 title: output.overrideBrowserslist
 sidebar_label: overrideBrowserslist
-sidebar_position: 1
 ---
 
 :::info BUILDER
