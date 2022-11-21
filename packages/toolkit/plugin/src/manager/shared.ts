@@ -1,4 +1,4 @@
-import { dagSort } from '../../../utils';
+import { dagSort } from '../../../utils/src/dagSort';
 import type { AsyncPlugin } from './async';
 import type { Plugin } from './sync';
 
