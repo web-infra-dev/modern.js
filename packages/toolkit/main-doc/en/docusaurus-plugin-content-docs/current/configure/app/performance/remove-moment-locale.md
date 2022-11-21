@@ -1,7 +1,6 @@
 ---
 title: performance.removeMomentLocale
 sidebar_label: removeMomentLocale
-sidebar_position: 1
 ---
 
 :::info BUILDER

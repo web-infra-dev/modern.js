@@ -1,7 +1,6 @@
 ---
 title: source.compileJsDataURI
 sidebar_label: compileJsDataURI
-sidebar_position: 1
 ---
 
 :::info BUILDER

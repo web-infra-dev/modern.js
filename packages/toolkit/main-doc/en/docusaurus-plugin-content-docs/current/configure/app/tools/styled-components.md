@@ -1,7 +1,6 @@
 ---
 title: tools.styledComponents
 sidebar_label: styledComponents
-sidebar_position: 1
 ---
 
 :::info BUILDER

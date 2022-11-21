@@ -1,7 +1,6 @@
 ---
 title: tools.minifyCss
 sidebar_label: minifyCss
-sidebar_position: 1
 ---
 
 :::info BUILDER

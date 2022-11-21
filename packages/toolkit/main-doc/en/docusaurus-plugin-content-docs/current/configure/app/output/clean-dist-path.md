@@ -1,7 +1,6 @@
 ---
 title: output.cleanDistPath
 sidebar_label: cleanDistPath
-sidebar_position: 1
 ---
 
 :::info BUILDER

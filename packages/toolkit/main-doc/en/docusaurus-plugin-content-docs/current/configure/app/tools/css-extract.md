@@ -1,7 +1,6 @@
 ---
 title: tools.cssExtract
 sidebar_label: cssExtract
-sidebar_position: 1
 ---
 
 :::info BUILDER

@@ -1,7 +1,6 @@
 ---
 title: output.disableCssModuleExtension
 sidebar_label: disableCssModuleExtension
-sidebar_position: 1
 ---
 
 :::info BUILDER

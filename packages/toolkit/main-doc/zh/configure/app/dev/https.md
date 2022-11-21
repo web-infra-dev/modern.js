@@ -1,7 +1,6 @@
 ---
 title: dev.https
 sidebar_label: https
-sidebar_position: 1
 ---
 
 :::info BUILDER

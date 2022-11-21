@@ -1,7 +1,6 @@
 ---
 title: output.assetsRetry
 sidebar_label: assetsRetry
-sidebar_position: 1
 ---
 
 :::info BUILDER

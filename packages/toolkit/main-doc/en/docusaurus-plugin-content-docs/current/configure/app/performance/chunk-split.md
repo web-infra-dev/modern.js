@@ -1,7 +1,6 @@
 ---
 title: performance.chunkSplit
 sidebar_label: chunkSplit
-sidebar_position: 1
 ---
 
 :::info BUILDER

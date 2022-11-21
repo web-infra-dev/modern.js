@@ -1,7 +1,6 @@
 ---
 title: output.cssModuleLocalIdentName
 sidebar_label: cssModuleLocalIdentName
-sidebar_position: 1
 ---
 
 :::info BUILDER

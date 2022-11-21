@@ -1,7 +1,6 @@
 ---
 title: html.appIcon
 sidebar_label: appIcon
-sidebar_position: 1
 ---
 
 :::info BUILDER

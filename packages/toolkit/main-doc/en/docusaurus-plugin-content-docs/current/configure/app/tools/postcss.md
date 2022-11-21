@@ -1,7 +1,6 @@
 ---
 title: tools.postcss
 sidebar_label: postcss
-sidebar_position: 1
 ---
 
 :::info BUILDER

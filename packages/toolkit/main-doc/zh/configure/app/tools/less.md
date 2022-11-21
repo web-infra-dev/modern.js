@@ -1,7 +1,6 @@
 ---
 title: tools.less
 sidebar_label: less
-sidebar_position: 1
 ---
 
 :::info BUILDER

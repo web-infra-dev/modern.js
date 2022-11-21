@@ -1,7 +1,6 @@
 ---
 title: html.titleByEntries
 sidebar_label: titleByEntries
-sidebar_position: 1
 ---
 
 :::info BUILDER
