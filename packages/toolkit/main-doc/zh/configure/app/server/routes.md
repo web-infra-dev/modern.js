@@ -87,5 +87,5 @@ export default defineConfig({
 ```
 
 :::note
-这一配置在生产环境与开发环境都生效，可以根据 NODE_ENV 区分环境设置不同的响应头。但如果你只需要在开发环境设置响应头，推荐使用 tools.devServer.headers。
+这一配置在生产环境与开发环境都生效，可以根据 NODE_ENV 区分环境设置不同的响应头。但如果你只需要在开发环境设置响应头，推荐使用 `tools.devServer.headers`。
 :::

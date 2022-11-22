@@ -20,7 +20,7 @@ export default defineConfig({
   server: {
     ssr: true,
     ssrByEntries: {
-      // entry1 不启用 ssr
+      // page-a 不启用 ssr
       'page-a': false,
     }
   }
