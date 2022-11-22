@@ -1,5 +1,5 @@
 ---
-title: config/public/
+title: public/
 sidebar_position: 3
 ---
 

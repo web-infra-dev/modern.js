@@ -1,10 +1,12 @@
 ---
-title: api/_app.[tj]s
+title: _app.[tj]s
 sidebar_position: 3
 ---
 
-在 Modern.js 函数写法下，该文件可以给应用工程的服务端添加前置中间件；该中间件的执行会在[ BFF 函数](/docs/apis/app/hooks/api/functions/api)之前执行。
+在函数写法下，该文件可以为 [BFF 函数](/docs/apis/app/hooks/api/functions/api)添加前置中间件。
 
-目前 Modern.js 支持四种不同的框架，express，koa，nest，egg 等，不同的框架需要添加相应框架的中间件。具体示例请参考 [hook](/docs/apis/app/runtime/bff-server/hook)
+:::note
+具体示例请参考 [hook](/docs/apis/app/runtime/bff/hook)
+:::
 
 

@@ -1,14 +1,18 @@
 - Type: `Array<string | RegExp>`
 - Default: `[]`
 
-出于编译性能的考虑，默认情况下，Builder 不会通过 `babel-loader` 或 `ts-loader` 来编译 node_modules 下的文件，也不会编译当前工程目录外部的文件。
+出于编译性能的考虑，默认情况下，Builder 不会编译 node_modules 下的 JavaScript/TypeScript 文件，也不会编译当前工程目录外部的 JavaScript/TypeScript 文件。
 
-通过 `source.include` 配置项，可以指定需要额外进行编译的目录或模块。比如:
+通过 `source.include` 配置项，可以指定需要额外进行编译的目录或模块。用法与 webpack 中的 [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude) 一致，支持传入字符串或正则表达式来匹配模块的路径。
+
+比如:
 
 ```js
+import path from 'path';
+
 export default {
   source: {
-    include: ['foo', /bar/],
+    include: [path.resolve(__dirname, '../other-dir')],
   },
 };
 ```
@@ -18,6 +22,8 @@ export default {
 比较典型的使用场景是编译 node_modules 下的文件，因为某些第三方依赖存在 ES6+ 的语法，这可能导致在低版本浏览器上无法运行，你可以通过该选项指定需要编译的依赖，从而解决此类问题。以 `query-string` 为例，你可以做如下的配置：
 
 ```js
+import path from 'path';
+
 export default {
   source: {
     include: [
@@ -41,9 +47,10 @@ export default {
 使用 Monorepo 时，如果需要引用 Monorepo 中其他库的源代码，也可以直接在 `source.include` 进行配置:
 
 ```ts
+import path from 'path';
+
 export default {
   source: {
-    source: {
     include: [
       // 方法一:
       // 编译 Monorepo 的 package 目录下的所有文件

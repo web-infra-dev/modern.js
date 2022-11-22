@@ -14,6 +14,10 @@ This section describes some source code related configurations in Modern.js Buil
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/include.md)!!!
 
+## source.exclude
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/source/exclude.md)!!!
+
 ## source.compileJsDataURI
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/compileJsDataURI.md)!!!

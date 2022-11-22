@@ -178,7 +178,7 @@ export const PluginHtml = (): BuilderPlugin => ({
             assetPrefix,
           );
 
-          const pluginOptions = {
+          const pluginOptions: HTMLPluginOptions = {
             chunks,
             inject,
             minify,

@@ -27,7 +27,7 @@
 }
 
 .markdown > h3 {
-  --ifm-h2-font-size: 19px;
+  --ifm-h3-font-size: 20px;
 }
 
 /* md 内部右侧导航 */
