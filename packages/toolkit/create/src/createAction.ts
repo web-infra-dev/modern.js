@@ -1,5 +1,6 @@
 import path from 'path';
 import { CodeSmith, Logger } from '@modern-js/codesmith';
+import { version as pkgVersion } from '../package.json';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage, createDir } from './utils';
 
@@ -13,6 +14,10 @@ interface Options {
   registry?: string;
   distTag?: string;
   plugin?: string[];
+  generator?: string;
+  needInstall?: boolean;
+  version?: boolean;
+  lang?: string;
 }
 
 type RunnerTask = Array<{
@@ -21,15 +26,24 @@ type RunnerTask = Array<{
 }>;
 
 const REPO_GENERATOR = '@modern-js/repo-generator';
-// const GENERATOR_PLUGIN = '@modern-js/generator-plugin-plugin';
 
 function getDefaultConfig(
   projectDir: string = path.basename(process.cwd()),
   options: Options,
   logger: Logger,
 ) {
-  const { mwa, module, monorepo, config, packages, registry, distTag, plugin } =
-    options;
+  const {
+    mwa,
+    module,
+    monorepo,
+    config,
+    packages,
+    registry,
+    distTag,
+    plugin,
+    needInstall,
+    lang,
+  } = options;
 
   let initialConfig: Record<string, unknown> = {};
 
@@ -45,7 +59,7 @@ function getDefaultConfig(
   }
 
   if (!initialConfig.locale) {
-    initialConfig.locale = getLocaleLanguage();
+    initialConfig.locale = lang || getLocaleLanguage();
   }
 
   if (mwa) {
@@ -77,6 +91,10 @@ function getDefaultConfig(
     initialConfig.plugins = plugin;
   }
 
+  if (!needInstall) {
+    initialConfig.noNeedInstall = true;
+  }
+
   try {
     if (packages) {
       const packagesInfo = JSON.parse(packages);
@@ -103,15 +121,34 @@ function getDefaultConfig(
   //   generatorPlugin,
   // ];
 
+  if (process.env.EDENX_NO_INSTALL) {
+    initialConfig.noNeedInstall = true;
+  }
+
   return initialConfig;
 }
 
 export async function createAction(projectDir: string, options: Options) {
-  const { debug, registry, distTag } = options;
+  const {
+    lang,
+    version,
+    debug,
+    registry,
+    distTag,
+    generator: customGenerator,
+  } = options;
   const smith = new CodeSmith({
     debug,
     registryUrl: registry,
   });
+
+  if (lang) {
+    i18n.changeLanguage({ locale: lang });
+  }
+  if (version) {
+    smith.logger.info('@modern-js/create', `v${pkgVersion}`);
+    return;
+  }
 
   smith.logger.debug('@modern-js/create', projectDir || '', options);
 
@@ -128,12 +165,15 @@ export async function createAction(projectDir: string, options: Options) {
 
   const config = getDefaultConfig(projectDir, options, smith.logger);
 
-  let generator = REPO_GENERATOR;
+  let generator = customGenerator || REPO_GENERATOR;
 
-  if (process.env.CODESMITH_ENV === 'development') {
+  if (
+    process.env.CODESMITH_ENV === 'development' &&
+    generator === REPO_GENERATOR
+  ) {
     generator = require.resolve(REPO_GENERATOR);
-  } else if (distTag) {
-    generator = `${REPO_GENERATOR}@${distTag}`;
+  } else if (!path.isAbsolute(generator) && distTag) {
+    generator = `${generator}@${distTag}`;
   }
 
   const task: RunnerTask = [
