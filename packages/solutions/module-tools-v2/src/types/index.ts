@@ -1,5 +1,5 @@
 import { CliNormalizedConfig, CliUserConfig } from '@modern-js/core';
-import { UserConfig as ModuleToolsUserConfig, ResolvedConfig } from './config';
+import { UserConfig as ModuleToolsUserConfig } from './config';
 import { ModuleToolsHooks } from './hooks';
 
 export * from './hooks';
@@ -18,7 +18,7 @@ export type {
 export type ModuleTools = {
   hooks: ModuleToolsHooks;
   userConfig: ModuleToolsUserConfig;
-  normalizedConfig: ResolvedConfig;
+  normalizedConfig: Required<ModuleToolsUserConfig>;
 };
 
 export type NormalizedConfig = CliNormalizedConfig<ModuleTools>;

@@ -130,10 +130,6 @@ export interface UserConfig {
   dev?: DeepPartial<Dev>;
 
   tools?: Partial<ToolsConfig>;
-
-  // plugins?: NewPluginConfig<ModuleToolsHooks>;
-
-  // testing?: Pick<UserConfig_, 'testing'>;
 }
 
 export type Config =

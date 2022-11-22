@@ -8,15 +8,15 @@ import {
   isUseSSRBundle,
   applyOptionsChain,
 } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { CliNormalizedConfig } from '@modern-js/core';
 import type { IPackageModeValue } from '../types';
 import type { BundlelessOptions, SourceMap } from '../schema/types';
 
 export const getFinalAlias: any = (
-  modernConfig: NormalizedConfig,
+  modernConfig: CliNormalizedConfig<any>,
   option: { appDirectory: string; tsconfigPath: string; sourceAbsDir: string },
 ) => {
-  const aliasConfig = getAliasConfig(modernConfig.source.alias as any, option);
+  const aliasConfig = getAliasConfig(modernConfig.source.alias, option);
   // 排除内部别名，因为不需要处理
   const finalPaths: Record<string, string | string[]> = {};
   const internalAliasPrefix = '@modern-js/runtime';
@@ -35,14 +35,14 @@ export const getFinalAlias: any = (
 
 export const resolveBabelConfig = (
   appDirectory: string,
-  modernConfig: NormalizedConfig,
+  modernConfig: CliNormalizedConfig<any>,
   sourceMap: SourceMap,
   bundlelessOptions: Required<BundlelessOptions>,
   option: Pick<IPackageModeValue, 'syntax' | 'type'> & {
     sourceAbsDir: string;
     tsconfigPath: string;
   },
-) => {
+): any => {
   const {
     source: { envVars, globalVars, jsxTransformRuntime = 'automatic' },
     output: { importStyle },

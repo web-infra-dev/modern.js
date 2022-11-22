@@ -1,5 +1,5 @@
 import { createParallelWorkflow, createAsyncPipeline } from '@modern-js/plugin';
-import { registerHook, NormalizedConfig } from '@modern-js/core';
+import { registerHook, CliNormalizedConfig } from '@modern-js/core';
 import { LessOption, SassOptions } from '@modern-js/style-compiler';
 
 export interface PlatformBuildOption {
@@ -17,17 +17,17 @@ export const platformBuild = createParallelWorkflow<
 >();
 
 export const moduleLessConfig = createAsyncPipeline<
-  { modernConfig: NormalizedConfig },
+  { modernConfig: CliNormalizedConfig<any> },
   LessOption | undefined
 >();
 
 export const moduleSassConfig = createAsyncPipeline<
-  { modernConfig: NormalizedConfig },
+  { modernConfig: CliNormalizedConfig<any> },
   SassOptions<'sync'> | undefined
 >();
 
 export const moduleTailwindConfig = createAsyncPipeline<
-  { modernConfig: NormalizedConfig },
+  { modernConfig: CliNormalizedConfig<any> },
   any
 >();
 
@@ -44,7 +44,7 @@ export const lifecycle = () => {
     moduleSassConfig,
     moduleTailwindConfig,
     platformBuild,
-  });
+  } as any);
 };
 
 declare module '@modern-js/core' {

@@ -18,9 +18,12 @@ export interface SourceUserConfig extends BuilderSourceConfig {
   disableDefaultEntries?: boolean;
   entriesDir?: string;
   configDir?: string;
+  /**
+   * The configuration of `source.designSystem` is provided by `tailwindcss` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `tailwindcss` plugin
+   */
+  designSystem?: Record<string, any>;
 }
 
-export type SourceNormalizedConfig = Omit<
-  SourceUserConfig,
-  'alias' | 'moduleScopes'
->;
+export type SourceNormalizedConfig = SourceUserConfig;

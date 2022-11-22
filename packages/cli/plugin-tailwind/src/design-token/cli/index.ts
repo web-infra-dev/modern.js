@@ -3,15 +3,12 @@ import {
   PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, LegacyAppTools } from '@modern-js/app-tools';
 import type { LegacyUserConfig } from '../../types';
 
 export default (
   { pluginName } = { pluginName: '@modern-js/plugin-tailwindcss' },
-): CliPlugin<{
-  userConfig: LegacyUserConfig;
-  normalizedConfig: LegacyUserConfig;
-}> => ({
+): CliPlugin<LegacyAppTools> => ({
   name: '@modern-js/plugin-design-token',
 
   setup(api) {

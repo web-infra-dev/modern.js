@@ -1,7 +1,17 @@
-import { CliUserConfig } from '@modern-js/core';
+import type { CliUserConfig, IAppContext } from '@modern-js/core';
 import { AppTools } from '../types';
 
-export function createDefaultConfig(): CliUserConfig<AppTools> {
+export function createDefaultConfig(
+  appContext: IAppContext,
+): CliUserConfig<AppTools> {
+  const defaultAlias: Record<string, string> = appContext
+    ? {
+        [appContext.internalDirAlias]: appContext.internalDirectory,
+        [appContext.internalSrcAlias]: appContext.srcDirectory,
+        '@': appContext.srcDirectory,
+        '@shared': appContext.sharedDirectory,
+      }
+    : {};
   const source: CliUserConfig<AppTools>['source'] = {
     entries: undefined,
     enableAsyncEntry: false,
@@ -11,6 +21,7 @@ export function createDefaultConfig(): CliUserConfig<AppTools> {
     globalVars: undefined,
     moduleScopes: undefined,
     include: [],
+    alias: defaultAlias,
   };
   const output: CliUserConfig<AppTools>['output'] = {
     assetPrefix: '/',

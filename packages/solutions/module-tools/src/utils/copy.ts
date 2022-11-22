@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { fs, Import, globby, fastGlob, slash } from '@modern-js/utils';
-import type { NormalizedConfig, IAppContext } from '@modern-js/core';
+import type { CliNormalizedConfig, IAppContext } from '@modern-js/core';
 
 const normalizePath: typeof import('normalize-path') = Import.lazy(
   'normalize-path',
@@ -8,10 +8,10 @@ const normalizePath: typeof import('normalize-path') = Import.lazy(
 );
 
 export const copyTask = async (option: {
-  modernConfig: NormalizedConfig;
+  modernConfig: CliNormalizedConfig;
   appContext: IAppContext;
 }) => {
-  const { modernConfig, appContext } = option;
+  const { modernConfig, appContext } = option as any;
   const { appDirectory } = appContext;
   const {
     output: { copy, path: outputPath = 'dist', jsPath = 'js' },
@@ -23,7 +23,7 @@ export const copyTask = async (option: {
   }
   try {
     // 类型暂时这样处理，待之后优化copy的逻辑
-    for (const copyOption of copy as any) {
+    for (const copyOption of copy) {
       // 在原来的基础上，引入了类似于 copy-webpack-plugin 的 context 属性，可以设置项目根路径
       const {
         context = appDirectory,

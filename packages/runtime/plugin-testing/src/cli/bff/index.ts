@@ -2,6 +2,7 @@ import path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { isApiOnly } from '@modern-js/utils';
 import { InternalPlugins } from '@modern-js/types';
+import { UserConfig } from '../../base/config';
 import {
   TestConfigOperator,
   getModuleNameMapper,
@@ -114,7 +115,11 @@ export const setJestConfigForBFF = async ({
   utils.setJestConfig(commonConfig);
 };
 
-export default (): CliPlugin<{ hooks: Hooks }> => ({
+export default (): CliPlugin<{
+  hooks: Hooks;
+  userConfig: UserConfig;
+  normalizedConfig: Required<UserConfig>;
+}> => ({
   name: '@modern-js/testing-plugin-bff',
 
   setup(api) {

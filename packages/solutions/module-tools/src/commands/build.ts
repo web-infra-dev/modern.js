@@ -79,7 +79,7 @@ export const build = async (
   init(api);
 
   const { appDirectory } = api.useAppContext();
-  const modernConfig = api.useResolvedConfigContext();
+  const modernConfig = api.useResolvedConfigContext() as any;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   const outputPath = modernConfig?.output?.path ?? 'dist';
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);

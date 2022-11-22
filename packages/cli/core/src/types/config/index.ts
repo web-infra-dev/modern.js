@@ -1,13 +1,8 @@
 import { PluginConfig } from '../plugin';
 import type {
-  BaseSourceNormalizedConfig,
-  BaseSourceUserConfig,
-} from './source';
-import type {
   BaseTestingNormalizedConfig,
   BaseTestingUserConfig,
 } from './testing';
-import type { BaseToolsNormalizedConfig, BaseToolsUserConfig } from './tools';
 
 export type {
   Jest as JestConfig,
@@ -35,18 +30,11 @@ export type CliUserConfig<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = {
-  source?: BaseSourceUserConfig<DropUndefined<Extends['userConfig']>['source']>;
   testing?: BaseTestingUserConfig<
     DropUndefined<Extends['userConfig']>['testing']
   >;
-  /**
-   * The configuration of `testing` is provided by `testing` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `testing` plugin
-   */
-  tools?: BaseToolsUserConfig<DropUndefined<Extends['userConfig']>['tools']>;
   plugins?: PluginConfig<Extends>;
-} & Omit<Extends['userConfig'], 'source' | 'tools' | 'testing'>;
+} & Omit<Extends['userConfig'], 'plugins' | 'testing'>;
 
 export type CliNormalizedConfig<
   Extends extends {
@@ -67,20 +55,11 @@ export type CliNormalizedConfig<
     // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
 > = {
-  source: BaseSourceNormalizedConfig<
-    DropUndefined<Extends['normalizedConfig']>['source']
-  >;
-  tools: BaseToolsNormalizedConfig<
-    DropUndefined<Extends['normalizedConfig']>['tools']
-  >;
   plugins: PluginConfig<Extends>;
   testing: BaseTestingNormalizedConfig<
     DropUndefined<Extends['normalizedConfig']>['testing']
   >;
-} & Omit<
-  Extends['normalizedConfig'],
-  'plugins' | 'source' | 'tools' | 'testing'
->;
+} & Omit<Extends['normalizedConfig'], 'plugins' | 'testing'>;
 
 export type LoadedConfig<
   Extends extends {

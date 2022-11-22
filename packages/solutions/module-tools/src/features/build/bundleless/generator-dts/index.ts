@@ -1,7 +1,7 @@
 import path from 'path';
 import type { ChildProcess } from 'child_process';
 import { Import, execa, fs, json5 } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type { CliNormalizedConfig, PluginAPI } from '@modern-js/core';
 import type { NormalizedBundlelessBuildConfig } from '../../types';
 import type { ITsconfig } from '../../../../types';
 import { InternalDTSError } from '../../error';
@@ -41,7 +41,10 @@ const resolveLog = (childProgress: ChildProcess, { watch = false } = {}) => {
   });
 };
 
-const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
+const generatorDts = async (
+  _: CliNormalizedConfig,
+  config: IGeneratorConfig,
+) => {
   const {
     tsconfigPath,
     distDir,
@@ -103,7 +106,7 @@ export const genDts = async (
     return;
   }
   const { appDirectory } = api.useAppContext();
-  const modernConfig = api.useResolvedConfigContext();
+  const modernConfig = api.useResolvedConfigContext() as any;
   const {
     output: { path: distPath = 'dist' },
   } = modernConfig;

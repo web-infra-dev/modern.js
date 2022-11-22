@@ -36,7 +36,15 @@ export const modernConfigValid = (
   const valids = [validAlias];
 
   for (const validFn of valids) {
-    const result = validFn(modernConfig, option);
+    // FIXME: the module-tools userConfig has not source item.
+    const result = validFn(
+      modernConfig as unknown as {
+        source: {
+          alias?: any;
+        };
+      },
+      option,
+    );
     if (result) {
       return result;
     }

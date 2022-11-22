@@ -46,5 +46,11 @@ export const outputSchema = [
       default: '',
     },
   },
+  {
+    target: 'output.disableSourceMap',
+    schema: {
+      typeof: 'boolean',
+    },
+  },
   ...buildSchema,
 ];

@@ -1,7 +1,6 @@
 import type { JestConfigTypes, Merge } from '@modern-js/types';
 
 export type Jest = JestConfigTypes.InitialOptions;
-export type BaseJestUserConfig = Jest | ((jestConfig: Jest) => Jest);
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type BaseTestingUserConfig<ExtendTestingUserConfig = {}> = Merge<
@@ -16,7 +15,7 @@ export type BaseTestingUserConfig<ExtendTestingUserConfig = {}> = Merge<
      * Original jest config
      * Doc: https://jestjs.io/docs/configuration
      */
-    jest?: BaseJestUserConfig;
+    jest?: Jest | ((jestConfig: Jest) => Jest);
   },
   ExtendTestingUserConfig
 >;

@@ -19,7 +19,7 @@ const lang: typeof import('./utils/language') = Import.lazy(
   require,
 );
 
-export { defineConfig } from '@modern-js/core';
+// export { defineConfig } from '@modern-js/core';
 
 const isBuildMode = process.argv.slice(2)[0] === 'build';
 
@@ -54,10 +54,12 @@ export default (): CliPlugin => ({
       },
       config() {
         return {
+          source: {},
           output: {
             enableSourceMap: false,
             jsPath: 'js',
           },
+          tools: {},
         };
       },
       commands({ program }) {

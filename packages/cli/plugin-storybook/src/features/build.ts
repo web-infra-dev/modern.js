@@ -1,10 +1,6 @@
 import path from 'path';
 import { Import } from '@modern-js/utils';
-import type {
-  CliNormalizedConfig,
-  IAppContext,
-  ModuleTools,
-} from '@modern-js/module-tools-v2';
+import type { NormalizedConfig, IAppContext } from '@modern-js/module-tools-v2';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(
@@ -26,7 +22,7 @@ const webpackConfig: typeof import('./utils/webpackConfig') = Import.lazy(
 
 export interface IRunBuildOption {
   appContext: IAppContext;
-  modernConfig: CliNormalizedConfig<ModuleTools>;
+  modernConfig: NormalizedConfig;
   stories: string[];
   isTsProject?: boolean;
 }
@@ -46,9 +42,10 @@ export const runBuild = async ({
 }: IRunBuildOption) => {
   // TODO: add some debug code
   const { appDirectory } = appContext;
+  // FIXME: remove the `any` type;
   const {
     output: { path: outputPath = 'dist' },
-  } = modernConfig;
+  } = modernConfig as any;
 
   if (!valid({ stories, isTs: isTsProject, isModuleTools: true })) {
     return;

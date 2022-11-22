@@ -1,4 +1,7 @@
+import type { AliasOption } from '@modern-js/utils';
+
 export type LegacySourceUserConfig = {
+  alias?: AliasOption;
   entries?: Record<
     string,
     | string

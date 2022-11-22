@@ -38,7 +38,7 @@ const getRollupConfig = async (
   const { appDirectory } = api.useAppContext();
   const {
     output: { path: distPath = 'dist' },
-  } = api.useResolvedConfigContext();
+  } = api.useResolvedConfigContext() as any;
 
   const { outputPath, bundleOptions, tsconfig } = options;
   const distDir = path.join(appDirectory, distPath, outputPath);

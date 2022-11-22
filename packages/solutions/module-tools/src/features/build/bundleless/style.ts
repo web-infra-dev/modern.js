@@ -197,7 +197,7 @@ export const buildStyle = async (
   api: PluginAPI,
   config: NormalizedBundlelessBuildConfig,
 ) => {
-  const modernConfig = api.useResolvedConfigContext();
+  const modernConfig = api.useResolvedConfigContext() as any;
   const { appDirectory } = api.useAppContext();
   const { watch = false, outputPath, bundlelessOptions } = config;
   const { style, sourceDir } = bundlelessOptions;

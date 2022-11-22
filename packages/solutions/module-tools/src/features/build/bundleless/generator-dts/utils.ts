@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { Import, glob, fs, nanoid } from '@modern-js/utils';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { CliNormalizedConfig } from '@modern-js/core';
 import type { ITsconfig } from '../../../../types';
 
 const babel: typeof import('../../../../utils/babel') = Import.lazy(
@@ -93,11 +93,11 @@ export const generatorTsConfig = (
 };
 
 export const resolveAlias = (
-  modernConfig: NormalizedConfig,
+  modernConfig: CliNormalizedConfig,
   config: IGeneratorConfig,
   watchFilenames: string[] = [],
 ) => {
-  const { output } = modernConfig;
+  const { output } = modernConfig as any;
   const defaultPaths = { '@': ['./src'] };
   const dtsDistPath = `${config.distDir}/**/*.d.ts`;
   const dtsFilenames =

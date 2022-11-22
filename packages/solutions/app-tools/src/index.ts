@@ -163,7 +163,8 @@ export default (): CliPlugin<AppTools> => ({
       },
 
       config() {
-        return createDefaultConfig();
+        const appContext = api.useAppContext();
+        return createDefaultConfig(appContext);
       },
 
       async prepare() {

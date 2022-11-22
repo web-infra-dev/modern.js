@@ -11,7 +11,7 @@ import yargs from 'yargs/yargs';
 import { runCLI } from 'jest';
 import { chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import { getJestUtils, patchConfig } from './config';
+import { getJestUtils, patchConfig, UserConfig } from './config';
 import { TestConfig } from './types';
 import type { Hooks } from './hook';
 import { debug } from './utils';
@@ -109,7 +109,11 @@ export async function runJest(
  * Node API: run test
  */
 export async function runTest(
-  api: PluginAPI<{ hooks: Hooks }>,
+  api: PluginAPI<{
+    hooks: Hooks;
+    userConfig: UserConfig;
+    normalizedConfig: Required<UserConfig>;
+  }>,
   config: TestConfig,
   pwd: string = process.cwd(),
 ) {

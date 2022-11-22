@@ -18,7 +18,13 @@ export default (): CliPlugin<ModuleTools> => ({
       );
 
       return {
-        source: {
+        // FIXME: need comfirm
+        // source: {
+        //   alias: {
+        //     '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
+        //   },
+        // },
+        buildConfig: {
           alias: {
             '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
           },

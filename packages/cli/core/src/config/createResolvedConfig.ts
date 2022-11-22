@@ -7,7 +7,6 @@ import {
 import type { ErrorObject } from '@modern-js/utils/ajv';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils/constants';
 import { patchSchema } from '../schema/patchSchema';
-import { AppContext } from '../context';
 import type {
   CliUserConfig,
   CliNormalizedConfig,
@@ -16,7 +15,6 @@ import type {
 } from '../types';
 import { repeatKeyWarning } from '../utils/repeatKeyWarning';
 import { mergeConfig } from '../utils/mergeConfig';
-import { createDefaultConfig } from './createDefaultConfig';
 
 const debug = createDebugger('resolve-config');
 
@@ -112,11 +110,7 @@ export const createResolveConfig = async (
     }
   }
 
-  const resolved = mergeConfig([
-    createDefaultConfig(AppContext.use().value),
-    ...configs,
-    userConfig,
-  ]);
+  const resolved = mergeConfig([...configs, userConfig]);
 
   debug('resolved %o', resolved);
 

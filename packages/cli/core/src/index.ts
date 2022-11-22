@@ -202,6 +202,7 @@ const createCli = () => {
     init,
     run,
     test,
+    initOptions,
   };
 };
 
