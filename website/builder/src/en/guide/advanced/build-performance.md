@@ -123,6 +123,23 @@ export default {
 
 The following are strategies for improve build performance in development environment.
 
+### Enable Lazy Compilation
+
+You can enable the lazy compilation (i.e. on-demand compilation) to improve the compilation startup speed.
+
+```ts
+export default {
+  experiments: {
+    lazyCompilation: {
+      imports: true,
+      entries: false,
+    },
+  },
+};
+```
+
+This is an experimental feature and may not work correctly in some scenarios, see [experiments.lazyCompilation](/en/api/config-experiments.html#experiments-lazycompilation) for details.
+
 ### Adjust Source Map format
 
 In order to provide a good debugging experience, Builder uses the `cheap-module-source-map` format Source Map by default in the development environment, which is a high-quality Source Map format and will bring certain performance overhead.
