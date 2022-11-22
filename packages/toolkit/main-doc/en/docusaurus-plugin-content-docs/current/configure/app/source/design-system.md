@@ -942,7 +942,7 @@ Out of the box, your project will automatically inherit values from the default 
 
 To override the options in the default configuration, add the properties to override in `designSystem`:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   // Replaces all of the default `opacity` values
   opacity: {
@@ -972,7 +972,7 @@ If you want to keep the default value for the theme option, but want to add a ne
 
 For example, if you want to add an additional breakpoint but keep the existing one, you can extend the `screens`  property:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   extend: {
     // Adds a new breakpoint in addition to the default breakpoints
@@ -991,7 +991,7 @@ export default defineConfig({
 
 You can of course override some parts of the default theme and extend other parts of the default theme in the same configuration:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   opacity: {
     0: '0',
@@ -1022,7 +1022,7 @@ If you need to reference another value in the configuration, you can do so by pr
 
 For example, you can generate a `fill` utility for each color in the palette by referencing `theme('colors')` on a `fill` configuration.
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   colors: {
     // ...
@@ -1043,7 +1043,7 @@ The `theme()` function tries to find the value you're looking for from a fully m
 
 If you want to reference a value in the default configuration for any reason, you can import it from `tailwindcss/defaultTheme`. A useful example is if you want to add one of the fonts provided by the default configuration:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const designSystem = {
@@ -1108,7 +1108,7 @@ const designSystem = {
 
 Another example is adding new attributes to a custom plugin for reference. For example, if you wrote a gradual change plugin for a project, you can add a gradual change attribute to the subject object referenced by the plugin:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   gradients: theme => ({
     'blue-green': [theme('colors.blue.500'), theme('colors.green.500')],

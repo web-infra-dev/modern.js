@@ -15,7 +15,7 @@ sidebar_label: routes
 
 当值类型为 `string` 时，当前值即表示访问该入口的路由名称。
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {
@@ -30,7 +30,7 @@ export default defineConfig({
 
 也可以通过 `Array<string>` 为入口设置多个访问路由:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {
@@ -71,7 +71,7 @@ export default defineConfig({
 
 可以通过配置入口的 resHeaders 设置响应头：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {

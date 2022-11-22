@@ -13,7 +13,7 @@ sidebar_label: publicRoutes
 
 对象的 `key` 为当前应用的相对文件路径（不使用 `./`）, 值可以是 `string`。
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   server: {
     publicRoutes: {

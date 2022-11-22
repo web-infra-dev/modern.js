@@ -21,7 +21,7 @@ sidebar_label: enableAsyncEntry
 
 首先，在配置文件中开启此选项：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     enableAsyncEntry: true,

@@ -19,7 +19,7 @@ Organizing your code according to the catalog specification provided by the Mode
 
 Set the following to turn off the default behavior:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     disableDefaultEntries: true,

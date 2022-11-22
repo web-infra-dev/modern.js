@@ -19,7 +19,7 @@ sidebar_label: disableDefaultEntries
 
 设置如下，即可关闭默认的行为：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     disableDefaultEntries: true,

@@ -18,7 +18,7 @@ If you don't know webpack module federation, please read the official Module Fed
 
 First, turn this option on in the configuration file:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     enableAsyncEntry: true,

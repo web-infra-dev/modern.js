@@ -10,7 +10,7 @@ By default, the application entry will be identified according to the `src` dire
 
 For example, when the configuration and directory structure are as follows:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     entriesDir: './src/pages'
