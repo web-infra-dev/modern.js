@@ -111,7 +111,9 @@ export async function fsSnapshot(
 
   const { code } = await compileFn(
     option,
-    actualFile.replace(path.join(__dirname, './fixtures'), ''),
+    actualFile
+      .replace(path.join(__dirname, './fixtures'), '')
+      .replaceAll(path.sep, path.posix.sep),
     actual.toString(),
   );
 
@@ -121,6 +123,10 @@ export async function fsSnapshot(
     fs.writeFileSync(expectedPath, code);
   } else {
     const expected = fs.readFileSync(expectedPath).toString();
-    expect(code, `Test base: ${base}`).toEqual(expected);
+
+    // For windows, read file contains CRLF, replace all
+    expect(code, `Test base: ${base}`).toEqual(
+      expected.replaceAll('\r\n', '\n'),
+    );
   }
 }
