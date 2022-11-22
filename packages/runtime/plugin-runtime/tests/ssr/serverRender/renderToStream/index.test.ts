@@ -7,7 +7,7 @@ import path from 'path';
 import { Transform } from 'stream';
 import App from '../../fixtures/streaming-ssr/App';
 import ShellError from '../../fixtures/streaming-ssr/ShellError';
-import { render } from '@/src/ssr/serverRender/renderToStream';
+import { render } from '../../../../src/ssr/serverRender/renderToStream';
 
 const emitCounter = jest.fn();
 const errorLogger = jest.fn();

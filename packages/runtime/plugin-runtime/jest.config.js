@@ -4,7 +4,4 @@ const sharedConfig = require('@scripts/jest-config');
 module.exports = {
   ...sharedConfig,
   rootDir: __dirname,
-  moduleNameMapper: {
-    '@/src/(.*)': '<rootDir>/src/$1',
-  },
 };

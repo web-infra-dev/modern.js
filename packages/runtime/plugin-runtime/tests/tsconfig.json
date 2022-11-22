@@ -8,8 +8,6 @@
     "isolatedModules": true,
     "sourceMap": true,
     "types": ["node", "jest"],
-    "paths": {
-      "@/src/*": ["../src/*"]
-    }
+    "paths": {}
   }
 }
