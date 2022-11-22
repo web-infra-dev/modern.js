@@ -1,10 +1,4 @@
-export {
-  createPlugin,
-  createRuntime,
-  runtime,
-  registerInit,
-  registerPrefetch,
-} from './plugin';
+export { createPlugin, createRuntime, runtime, registerInit } from './plugin';
 
 export type { Plugin } from './plugin';
 

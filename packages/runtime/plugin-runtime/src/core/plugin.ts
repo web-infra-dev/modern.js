@@ -100,29 +100,8 @@ const registerInit = (
   };
 };
 
-/**
- * register prefetch hook. It would be revoked both ssr and csr.
- * But if ssr success, It wont exec in csr again.
- * If ssr prefetch failed, It will fallback to exec in csr.
- */
-const registerPrefetch = (
-  App: React.ComponentType,
-  prefetch: (context: RuntimeContext) => Promise<any>,
-) => {
-  const originalPrefetch = (App as any).prefetch;
-  (App as any).prefetch = async (context: RuntimeContext) => {
-    const originResult = await originalPrefetch?.(context);
-    const result = await prefetch?.(context);
-
-    return {
-      ...originResult,
-      ...result,
-    };
-  };
-};
-
 export const runtime = createRuntime();
 
 export const { createPlugin } = runtime;
 
-export { registerInit, registerPrefetch };
+export { registerInit };
