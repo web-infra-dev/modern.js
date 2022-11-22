@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.21.2",
+  "version": "2.0.0-beta.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -47,26 +47,26 @@
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
     "@modern-js/webpack": "workspace:*",
-    "@storybook/addon-actions": "^6.3.8",
-    "@storybook/addon-essentials": "^6.3.8",
-    "@storybook/addon-links": "^6.3.8",
-    "@storybook/addon-storysource": "^6.3.8",
-    "@storybook/builder-webpack5": "^6.3.8",
-    "@storybook/core": "^6.3.8",
-    "@storybook/manager-webpack5": "^6.3.8",
-    "@storybook/react": "^6.3.8",
+    "@storybook/addon-actions": "6.5.12",
+    "@storybook/addon-essentials": "6.5.12",
+    "@storybook/addon-links": "6.5.12",
+    "@storybook/addon-storysource": "6.5.12",
+    "@storybook/builder-webpack5": "6.5.12",
+    "@storybook/core": "6.5.12",
+    "@storybook/manager-webpack5": "6.5.12",
+    "@storybook/react": "6.5.12",
     "esbuild": "0.15.7",
     "findup-sync": "^4.0.0",
     "fs-extra": "^10.0.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
-    "process.argv": "^0.6.0"
+    "process.argv": "^0.6.0",
+    "tsconfig-paths-webpack-plugin": "4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
     "@modern-js/module-tools-v2": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@modern-js/plugin-router-legacy": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@storybook/addons": "^6.3.7",
@@ -83,14 +83,9 @@
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^1.21.1",
-    "@modern-js/plugin-router-legacy": "workspace:^1.21.1",
+    "@modern-js/runtime": "workspace:^2.0.0-beta.0",
+    "@modern-js/plugin-router-legacy": "workspace:^2.0.0-beta.0",
     "react": ">=18"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/plugin-router-legacy": {
-      "optional": true
-    }
   },
   "sideEffects": false,
   "modernConfig": {},

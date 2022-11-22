@@ -1,11 +1,6 @@
-import assert from 'assert';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import {
-  logger,
-  type BuildOptions,
-  type PromiseOrNot,
-} from '@modern-js/builder-shared';
+import { logger, type BuildOptions } from '@modern-js/builder-shared';
 import type {
   Stats,
   MultiStats,
@@ -14,29 +9,34 @@ import type {
   Configuration as WebpackConfig,
 } from 'webpack';
 
-export type BuildExecuter = (
-  compiler: Compiler | MultiCompiler,
-) => PromiseOrNot<{ stats: Stats | MultiStats } | void>;
+export interface BuildExecuter {
+  (compiler: Compiler): Promise<{ stats: Stats }>;
+  (compiler: MultiCompiler): Promise<{ stats: MultiStats }>;
+  (compiler: Compiler | MultiCompiler): Promise<{ stats: Stats | MultiStats }>;
+}
 
+export interface WebpackBuildError extends Error {
+  stats?: Stats | MultiStats;
+}
+
+/**
+ * @throws {WebpackBuildError}
+ */
 export const webpackBuild: BuildExecuter = async compiler => {
-  return new Promise<{ stats: Stats | MultiStats }>((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       // When using run or watch, call close and wait for it to finish before calling run or watch again.
       // Concurrent compilations will corrupt the output files.
       compiler.close(closeErr => {
-        if (closeErr) {
-          logger.error(closeErr);
-        }
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        assert(stats);
-        if (stats.hasErrors()) {
-          reject(new Error('Webpack build failed!'));
+        closeErr && logger.error(closeErr);
+        if (err || !stats || stats.hasErrors()) {
+          const buildError: WebpackBuildError =
+            err || new Error('Webpack build failed!');
+          buildError.stats = stats;
+          reject(buildError);
         } else {
-          resolve({ stats });
+          // Assert type of stats must align to compiler.
+          resolve({ stats: stats as any });
         }
       });
     });

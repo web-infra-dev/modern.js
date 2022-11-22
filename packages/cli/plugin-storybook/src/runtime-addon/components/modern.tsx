@@ -1,9 +1,7 @@
 import React from 'react';
 import { createApp } from '@modern-js/runtime';
-import type { Plugin } from '@modern-js/runtime';
-import { state } from '@modern-js/runtime/plugins';
-import { router, RouterConfig } from '@modern-js/runtime/router';
-import legacyRouter from '@modern-js/plugin-router-legacy';
+import type { Plugin, RouterConfig } from '@modern-js/runtime';
+import { state, router } from '@modern-js/runtime/plugins';
 import type { StoryFn as StoryFunction } from '@storybook/addons';
 import type { IConfig } from '../type';
 import { getStateOption } from './state';
@@ -44,12 +42,7 @@ export const resolvePlugins = (runtime: IConfig['modernConfigRuntime']) => {
           plugins.push(state(getStateOption(runtime.state)));
         }
       } else if (api === allowedRuntimeAPI.router) {
-        const isLegacy = Boolean(runtime?.router?.legacy);
-        plugins.push(
-          isLegacy
-            ? legacyRouter(runtime.router)
-            : router(runtime.router as RouterConfig),
-        );
+        plugins.push(router(runtime.router as RouterConfig));
       }
     }
   });

@@ -11,7 +11,7 @@ import _, { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
   WebpackChain,
   BuilderPlugin,
-  CssExtractOptions,
+  CSSExtractOptions,
   CSSLoaderOptions,
   NormalizedConfig,
   StyleLoaderOptions,
@@ -144,7 +144,7 @@ export async function applyBaseCSSRule(
   const enableSourceMap = !config.output.disableSourceMap;
   const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   // 2. Prepare loader options
-  const extraCSSOptions: Required<CssExtractOptions> =
+  const extraCSSOptions: Required<CSSExtractOptions> =
     typeof config.tools.cssExtract === 'object'
       ? config.tools.cssExtract
       : {

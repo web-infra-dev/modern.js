@@ -13,7 +13,7 @@ export async function lookForBrowserslist() {
 
     const { code } = transformSync(
       {
-        swc: { env: { targets: browserslist, mode: 'entry' } },
+        env: { targets: browserslist, mode: 'entry' },
       },
       '',
       fs.readFileSync(path.resolve(dir, 'actual.js')).toString(),

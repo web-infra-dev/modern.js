@@ -1,7 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
 
-const disableTsChecker = <%= disableTsChecker %>;
 const isTsProject = <%= isTsProject %>;
 
 const appDirectory = '<%= appDirectory %>';
@@ -14,22 +13,15 @@ if (fs.existsSync(userMainPath)) {
   userMainConfig = require(userMainPath);
 }
 
-let { stories, managerWebpack } = userMainConfig;
+let { stories } = userMainConfig;
 if (stories && Array.isArray(stories)) {
-  stories = stories.map(sto => path.resolve(sbConfigDir, sto));
+  stories = stories.map(sto => path.resolve(appDirectory, sto));
 } else {
   stories = [];
 }
 module.exports = {
   ...userMainConfig,
-  typescript: isTsProject ? {
-    ...(userMainConfig.typescript || {}),
-    check: !disableTsChecker,
-  } : false,
-  stories: [
-    ...internalStories.map(storyPath => path.posix.join(path.relative(__dirname, appDirectory).split(path.sep).join(path.posix.sep), storyPath)),
-    ...stories,
-  ],
+  stories: stories.length > 0 ? stories : internalStories.map(storyPath => path.posix.join(path.relative(__dirname, appDirectory).split(path.sep).join(path.posix.sep), storyPath)),
   addons: [
     process.env.MODERN_CUSTOM_STORYBOOK_ADDON || require.resolve('@modern-js/plugin-storybook/addons/runtime-preset'),
     '@storybook/addon-links',
@@ -51,18 +43,20 @@ module.exports = {
   webpackFinal: async (config, options) => {
     // change webpack config
     const { customFinalWebpack = () => config } = options;
+    if (userMainConfig.managerWebpack) {
+      return userMainConfig.managerWebpack(customFinalWebpack(config), options);
+    }
     return customFinalWebpack(config);
   },
   managerWebpack(config, options) {
     const { customManagerWebpack = () => config } = options;
-
-    if (typeof managerWebpack === 'function') {
-      return managerWebpack(config, options);
+    if (userMainConfig.managerWebpack) {
+      return userMainConfig.managerWebpack(config);
     }
-
     return customManagerWebpack(config);
   },
   core: {
-    builder: 'webpack5'
+    builder: 'webpack5',
+    ...(userMainConfig.core || {}),
   }
 };

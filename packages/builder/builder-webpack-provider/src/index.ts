@@ -1,4 +1,6 @@
 export { builderWebpackProvider } from './provider';
+export { webpackBuild } from './core/build';
+export type { WebpackBuildError } from './core/build';
 export type {
   BuilderPluginAPI,
 
@@ -18,7 +20,7 @@ export type {
   WebpackChain,
   WebpackConfig,
   CSSLoaderOptions,
-  CssExtractOptions,
+  CSSExtractOptions,
   LessLoaderOptions,
   SassLoaderOptions,
   HTMLPluginOptions,

@@ -53,7 +53,7 @@ The package name of the plugin needs to contain the conventional `builder-plugin
 
 Builder uses lifetime planning work internally, and plugins can also register hooks to take part in any stage of the workflow and implement their own features.
 
-The full list of Builder's lifetime hooks can be found in the [API References](/zh/api/plugin-hooks).
+The full list of Builder's lifetime hooks can be found in the [API References](/api/plugin-hooks.html).
 
 The Builder does not take over the hooks of the underlying bundlers, whose documents can be found here: [webpack hooks](https://webpack.js.org/api/compiler-hooks/)
 
@@ -193,7 +193,7 @@ Integrate existing webpack plugins to migrate your applications:
 
 ```typescript
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
-import type { Options } from '@modern-js/inspector-webpack-plugin'; 
+import type { Options } from '@modern-js/inspector-webpack-plugin';
 
 export const PluginInspector = (options?: Options): BuilderPlugin => ({
   name: 'builder-plugin-inspector',

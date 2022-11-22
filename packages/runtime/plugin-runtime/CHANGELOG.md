@@ -1,5 +1,57 @@
 # @modern-js/runtime
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- c9e800d39: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- 543be95: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- b18fa8f: feat: remove @loadable/component in streaming ssr
+  feat: 移除 streaming ssr 中的 @loadable/component 逻辑
+- a2509bf: feat: bump esbuild from 0.14.38 to 0.15.7
+
+  feat: 将 esbuild 从 0.14.38 版本升级至 0.15.7 版本
+
+- 4369648ae: fix: fix html template of streaming ssr
+  fix: 修复流式渲染的 html 模版
+- 6bda14ed7: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- 60d5378: fix: function extname should not return array
+  fix: 函数 extname 不应该返回一个数组
+- 8b8e1bb57: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- fcace5b5b: fix: remove overmuch `@modernjs/utils` dependency import in ssr runtime & SSR hydrate error
+  fix: 去除 ssr 运行时过多的 `@modernjs/utils` 依赖引入 & SSR hydrate 错误
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed7]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4b]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/types@2.0.0-beta.0
+  - @modern-js/plugin@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

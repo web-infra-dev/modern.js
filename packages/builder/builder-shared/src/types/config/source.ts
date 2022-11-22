@@ -30,11 +30,6 @@ export interface SharedSourceConfig {
    */
   globalVars?: Record<string, JSONValue>;
   /**
-   * Restrict importing paths. After configuring this option, all source files can only import code from
-   * the specific paths, and import code from other paths is not allowed.
-   */
-  moduleScopes?: ChainedConfig<ModuleScopes>;
-  /**
    * Whether to compile JavaScript code imported via Data URI.
    */
   compileJsDataURI?: boolean;

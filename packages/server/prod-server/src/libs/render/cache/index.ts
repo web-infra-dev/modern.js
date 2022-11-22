@@ -17,9 +17,13 @@ export default (renderFn: RenderFunction, ctx: ModernServerContext) => {
     const cacheFile = await sprCache.get(cacheContext);
 
     async function afterRender(
-      source: string | ((writable: Writable) => Promise<Readable>),
+      source: string | ((writable: Writable) => Promise<Readable>) | undefined,
       onAfterRender: (html: string) => Promise<void>,
     ) {
+      // e.g. source is undefined when redirects occur during render
+      if (!source) {
+        return '';
+      }
       if (typeof source === 'string') {
         await onAfterRender(source);
         return source;

@@ -55,7 +55,7 @@ builder.addPlugins([
 
 Builder 在内部按照约定的生命周期进行任务调度，插件可以通过注册钩子来介入工作流程的任意阶段，并实现自己的功能。
 
-Builder 生命周期钩子的完整列表参考 [API 文档](/zh/api/plugin-hooks)。
+Builder 生命周期钩子的完整列表参考 [API 文档](/api/plugin-hooks.html)。
 
 Builder 不会接管底层 Bundler 的生命周期，相关生命周期钩子的使用方式见对应文档：[webpack hooks](https://webpack.js.org/api/compiler-hooks/)
 
@@ -190,7 +190,7 @@ export const PluginAdminPanel = (): BuilderPlugin => ({
 
 ```typescript
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
-import type { Options } from '@modern-js/inspector-webpack-plugin'; 
+import type { Options } from '@modern-js/inspector-webpack-plugin';
 
 export const PluginInspector = (options?: Options): BuilderPlugin => ({
   name: 'builder-plugin-inspector',

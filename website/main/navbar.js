@@ -25,18 +25,6 @@ module.exports = {
       position: 'left',
       label: '配置',
       category: 'configure',
-      secondnav: [
-        {
-          label: '应用工程',
-          url: '/docs/configure/app/usage',
-          key: 'app',
-        },
-        {
-          label: '项目生成器',
-          url: '/docs/configure/generator/introduce',
-          key: 'generator',
-        },
-      ],
     },
     {
       type: 'doc',
@@ -45,23 +33,6 @@ module.exports = {
       position: 'left',
       label: 'API',
       category: 'apis',
-      secondnav: [
-        {
-          label: '应用工程',
-          url: '/docs/apis/app/overview',
-          key: 'app',
-        },
-        {
-          label: 'Monorepo工程',
-          url: '/docs/apis/monorepo/overview',
-          key: 'monorepo',
-        },
-        {
-          label: '项目生成器',
-          url: '/docs/apis/generator/overview',
-          key: 'generator',
-        },
-      ],
     },
     { to: '/blog', label: '博客', position: 'left', category: 'blog' },
     {
@@ -69,6 +40,10 @@ module.exports = {
       position: 'right',
       className: 'header-github-link',
       'aria-label': 'GitHub repository',
+    },
+    {
+      type: 'localeDropdown',
+      position: 'right',
     },
   ],
 };

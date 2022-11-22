@@ -1,7 +1,9 @@
 - Type: `boolean | string | string[] | undefined`
 - Default: `undefined`
 
-`dev.startUrl` 用来设置 Dev Server 启动时自动打开的页面 URL，默认情况下不会打开任何页面。
+`dev.startUrl` 用于设置 Dev Server 启动时自动在浏览器中打开的页面 URL。
+
+默认情况下，Dev Server 启动时不会打开任何页面。
 
 你可以设置为如下的值：
 

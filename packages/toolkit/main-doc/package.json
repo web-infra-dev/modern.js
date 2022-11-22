@@ -1,0 +1,32 @@
+{
+  "name": "@modern-js/main-doc",
+  "description": "Shared documentation of modern.js framework",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "scripts": {
+    "build": "npx ts-node ./scripts/sync.ts"
+  },
+  "version": "2.0.0-beta.0",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@modern-js/builder-doc": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/builder-doc": "workspace:*",
+    "ts-node": "^10",
+    "fs-extra": "^10",
+    "@types/node": "^16",
+    "@types/fs-extra": "^9"
+  }
+}

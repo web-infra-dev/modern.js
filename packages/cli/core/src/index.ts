@@ -2,6 +2,7 @@ import path from 'path';
 import {
   pkgUp,
   program,
+  Command,
   ensureAbsolutePath,
   logger,
   DEFAULT_SERVER_CONFIG,
@@ -65,6 +66,7 @@ const initAppDir = async (cwd?: string): Promise<string> => {
 };
 
 export interface CoreOptions {
+  cwd?: string;
   version?: string;
   configFile?: string;
   serverConfigFile?: string;
@@ -111,7 +113,7 @@ const createCli = () => {
 
     restartOptions = mergedOptions;
 
-    const appDirectory = await initAppDir();
+    const appDirectory = await initAppDir(options?.cwd);
 
     initCommandsMap();
     setProgramVersion(options?.version);
@@ -243,10 +245,39 @@ const createCli = () => {
     }
   }
 
+  async function test(
+    argv: string[],
+    options?: {
+      coreOptions?: CoreOptions;
+      disableWatcher?: boolean;
+    },
+  ) {
+    const newProgram = new Command();
+    const { coreOptions } = options ?? {};
+    const { loadedConfig, appContext, resolved } = await init(
+      argv,
+      coreOptions,
+    );
+
+    await hooksRunner.commands({ program: newProgram });
+    if (!options?.disableWatcher) {
+      initWatcher(
+        loadedConfig,
+        appContext.appDirectory,
+        resolved.source.configDir,
+        hooksRunner,
+        argv,
+      );
+    }
+
+    await newProgram.parseAsync(argv);
+  }
+
   return {
     init,
     run,
     restart,
+    test,
   };
 };
 

@@ -1,0 +1,6 @@
+{
+  "name": "asset-path-test",
+  "dependencies": {
+    "react": "^17"
+  }
+}

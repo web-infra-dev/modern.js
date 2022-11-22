@@ -28,7 +28,7 @@ console.log(styles.header);
 
 You can use the following template strings in `cssModuleLocalIdentName`:
 
-- `[name]` - the basename of the resource.
+- `[name]` - the basename of the asset.
 - `[local]` - original class.
 - `[hash]` - the hash of the string.
 - `[folder]` - the folder relative path.

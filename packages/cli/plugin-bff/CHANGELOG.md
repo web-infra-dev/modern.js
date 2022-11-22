@@ -1,5 +1,34 @@
 # @modern-js/plugin-bff
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 8ff2cf4: fix: bff api loader should run before babel loader
+  fix: bff 一体化调用的 loader 应该在 babel loader 前执行
+- Updated dependencies [9b915e0c1]
+- Updated dependencies [a2509bf]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [a8642da]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/server-utils@2.0.0-beta.0
+  - @modern-js/bff-core@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/create-request@2.0.0-beta.0
+  - @modern-js/babel-compiler@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

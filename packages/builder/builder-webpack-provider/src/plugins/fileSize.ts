@@ -4,8 +4,13 @@
  */
 import path from 'path';
 import chalk from '@modern-js/utils/chalk';
-import { logger } from '@modern-js/builder-shared';
-import type { BuilderPlugin, webpack } from '../types';
+import {
+  logger,
+  Stats,
+  MultiStats,
+  StatsAsset,
+} from '@modern-js/builder-shared';
+import type { BuilderPlugin } from '../types';
 
 /** Filter source map files */
 export const filterAsset = (asset: string) => !/\.map$/.test(asset);
@@ -38,15 +43,12 @@ async function printHeader(
   logger.log(chalk.bold(chalk.blue(headerRow)));
 }
 
-async function printFileSizes(
-  stats: webpack.Stats | webpack.MultiStats,
-  distPath: string,
-) {
+async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
   const { fs, filesize, gzipSize, stripAnsi } = await import(
     '@modern-js/utils'
   );
 
-  const formatAsset = (asset: webpack.StatsAsset) => {
+  const formatAsset = (asset: StatsAsset) => {
     const contents = fs.readFileSync(path.join(distPath, asset.name));
     const size = contents.length;
     const gzippedSize = gzipSize.sync(contents);

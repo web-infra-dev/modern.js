@@ -109,6 +109,8 @@ export interface IAppContext {
   apiOnly: boolean;
   internalDirAlias: string;
   internalSrcAlias: string;
+  // FIXME real builder type
+  builder?: Record<string, any>;
 }
 
 export type { Merge } from 'type-fest';

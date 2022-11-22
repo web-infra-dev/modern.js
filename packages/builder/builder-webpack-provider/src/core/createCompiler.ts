@@ -1,5 +1,4 @@
-import { logger, debug } from '@modern-js/builder-shared';
-import { formatWebpackStats } from '../shared';
+import { logger, debug, formatStats } from '@modern-js/builder-shared';
 import type { Context, WebpackConfig } from '../types';
 import type { Stats } from 'webpack';
 
@@ -27,7 +26,7 @@ export async function createCompiler({
   let isFirstCompile = true;
 
   compiler.hooks.done.tap('done', async (stats: unknown) => {
-    const { message, level } = await formatWebpackStats(stats as Stats);
+    const { message, level } = await formatStats(stats as Stats);
 
     if (level === 'error') {
       logger.log(message);

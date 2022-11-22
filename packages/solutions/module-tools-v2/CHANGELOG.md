@@ -1,5 +1,52 @@
 # @modern-js/module-tools
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- 4fd53b48f: feat: add normalize config logic
+  feat: 添加处理配置的逻辑
+- f0ee9120d: feat: change dev menu log
+  feat: 修改 dev 菜单展示的内容
+- 0bb776858: feat: add ModuleContext
+  feat: 添加 ModuleContext
+- e6bfca6d3: feat: add type define and schema for config
+  feat: 为配置增加类型定义和 schema
+- 54abc88a2: feat: add new and upgrade command
+  feat: 添加 new 和 upgrade 命令
+
+### Patch Changes
+
+- cc971eabf: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 540de1fd5: fix: filename typo, color.ts --> colors.ts
+  fix: 文件名错误，color.ts 修改为 colors.ts
+- 1be4ba1cc: feat: add platform build log
+  feat: 添加 platform 构建的 log 内容
+- Updated dependencies [c9e800d39]
+- Updated dependencies [85edee8]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/core@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/plugin@2.0.0-beta.0
+  - @modern-js/plugin-i18n@2.0.0-beta.0
+  - @modern-js/new-action@2.0.0-beta.0
+  - @modern-js/upgrade@2.0.0-beta.0
+
 ## 1.17.0
 
 ### Patch Changes

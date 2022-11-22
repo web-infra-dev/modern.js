@@ -18,13 +18,13 @@ const handleTemplateFile = async (
     const inputValue = generatorPlugin.getInputValue();
     ans = await appApi.getInputBySchema(
       schema,
+      'formily',
       {
         ...context.config,
         ...inputValue,
       },
       {},
       {},
-      'formily',
     );
   } else {
     ans = await appApi.getInputBySchemaFunc(getBaseSchema, context.config);

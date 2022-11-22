@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/jest": "^27",

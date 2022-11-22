@@ -16,6 +16,5 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*"
   },
-  "browserslist": {},
-  "type": "module"
+  "browserslist": {}
 }

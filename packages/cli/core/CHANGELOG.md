@@ -1,5 +1,52 @@
 # @modern-js/core
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- c9e800d39: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- edd1cfb1a: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- d5a31df78: refactor: remove unbundle configs and types
+
+  refactor: 移除 unbundle 相关的配置项和类型定义
+
+### Patch Changes
+
+- 85edee8: feat(app-tools): support tools.htmlPlugin config
+
+  feat(app-tools): 支持 tools.htmlPlugin 配置项
+
+- b8bbe036c: feat: change type logic
+  feat: 修改类型相关的逻辑
+- 8b8e1bb57: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [a2509bf]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/node-bundle-require@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/plugin@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes
