@@ -4,10 +4,8 @@ sidebar_label: transformer
 sidebar_position: 1
 ---
 
-
-
-- 类型：`'babel-jest' | 'ts-jest'`
-- 默认值：`babel-jest`
+* 类型：`'babel-jest' | 'ts-jest'`
+* 默认值：`babel-jest`
 
 配置执行测试的时候对于源码的编译工具： [babel-jest](https://www.npmjs.com/package/babel-jest) 或 [ts-jest](https://github.com/kulshekhar/ts-jest)。默认使用 `babel-jest`。
 

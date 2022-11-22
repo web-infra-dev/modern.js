@@ -3,14 +3,12 @@ title: source.designSystem
 sidebar_label: designSystem
 ---
 
+* 类型： `Object`
+* 默认值：见下方配置详情。
 
 :::caution 注意
 需要先通过 `pnpm run new` 启用 Tailwind CSS 功能。
 :::
-
-
-* 类型： `Object`
-* 默认值：见下方配置详情。
 
 <details>
   <summary>designSystem 配置详情</summary>
@@ -651,7 +649,7 @@ sidebar_label: designSystem
 
 #### Screens
 
-使用`screens` 可以自定义项目中的响应断点：
+使用 `screens` 可以自定义项目中的响应断点：
 
 ```js
 const designSystem = {
@@ -921,7 +919,7 @@ const designSystem = {
 };
 ```
 
-**属性名确定所生成类的后缀，值确定实际CSS声明的值。**上面的示例`borderRadius`配置将生成以下CSS类：
+**属性名确定所生成类的后缀，值确定实际CSS声明的值。**上面的示例 `borderRadius` 配置将生成以下CSS类：
 
 ```css
 .rounded-none { border-radius: 0 }
@@ -943,7 +941,7 @@ const designSystem = {
 
 要覆盖默认配置中的选项，请在 `designSystem` 中添加要覆盖的属性：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   // Replaces all of the default `opacity` values
   opacity: {
@@ -973,7 +971,7 @@ export default defineConfig({
 
 例如，如果您想添加一个额外的断点但保留现有的断点，则可以扩展 `screens` 属性：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   extend: {
     // Adds a new breakpoint in addition to the default breakpoints
@@ -992,7 +990,7 @@ export default defineConfig({
 
 您当然可以覆盖默认主题的某些部分，并在同一配置中扩展默认主题的其他部分：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   opacity: {
     0: '0',
@@ -1022,7 +1020,7 @@ export default defineConfig({
 
 例如，您可以在 `fill` 配置上通过引用 `theme('colors')` 为调色板中的每种颜色生成 `fill` utilities。
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   colors: {
     // ...
@@ -1043,7 +1041,7 @@ export default defineConfig({
 
 如果出于任何原因想要引用默认配置中的值，则可以从 `tailwindcss/defaultTheme` 导入它。一个有用的示例是，如果要将添加默认配置提供的字体中某一个字体：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const designSystem = {
@@ -1108,7 +1106,7 @@ const designSystem = {
 
 另一个示例是在自定义插件中添加新的属性以进行引用。例如，如果您为项目编写了渐变插件，则可以向该插件引用的主题对象添加渐变属性：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 const designSystem = {
   gradients: theme => ({
     'blue-green': [theme('colors.blue.500'), theme('colors.green.500')],
