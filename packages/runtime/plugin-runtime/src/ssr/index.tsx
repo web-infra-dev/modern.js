@@ -30,6 +30,11 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
           // won't cause component re-render because context's reference identity doesn't change
           delete hydrateContext._hydration;
         };
+
+        // if render level not exist, use client render
+        const renderLevel =
+          window?._SSR_DATA?.renderLevel || RenderLevel.CLIENT_RENDER;
+
         // react streamSSR hydrate
         if (isReact18() && config.mode === 'stream') {
           return streamSSRHydrate();
@@ -38,10 +43,6 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
         return stringSSRHydrate();
 
         function stringSSRHydrate() {
-          // if render level not exist, use client render
-          const renderLevel =
-            window?._SSR_DATA?.renderLevel || RenderLevel.CLIENT_RENDER;
-
           // client render and server prefetch use same logic
           if (
             renderLevel === RenderLevel.CLIENT_RENDER ||
@@ -75,14 +76,18 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
         }
 
         function streamSSRHydrate() {
-          // callback: https://github.com/reactwg/react-18/discussions/5
-          let SSRApp: React.FC = () => (
-            <WithCallback callback={callback}>
-              <App context={hydrateContext} />
-            </WithCallback>
-          );
-          SSRApp = hoistNonReactStatics(SSRApp, App);
-          ModernHydrate(<SSRApp />);
+          if (renderLevel === RenderLevel.SERVER_RENDER) {
+            // callback: https://github.com/reactwg/react-18/discussions/5
+            let SSRApp: React.FC = () => (
+              <WithCallback callback={callback}>
+                <App context={hydrateContext} />
+              </WithCallback>
+            );
+            SSRApp = hoistNonReactStatics(SSRApp, App);
+            ModernHydrate(<SSRApp />);
+          } else {
+            ModernRender(<App context={context} />);
+          }
         }
       },
       init({ context }, next) {

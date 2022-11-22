@@ -7,7 +7,9 @@
     "noEmit": true,
     "isolatedModules": true,
     "sourceMap": true,
-    "types": ["node", "jest"]
-  },
-  "paths": {}
+    "types": ["node", "jest"],
+    "paths": {
+      "@/src/*": ["../src/*"]
+    }
+  }
 }
