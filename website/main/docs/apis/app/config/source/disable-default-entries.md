@@ -1,9 +1,8 @@
 ---
+title: source.disableDefaultEntries
 sidebar_label: disableDefaultEntries
 sidebar_position: 7
 ---
-
-# source.disableDefaultEntries
 
 - 类型： `boolean`
 - 默认值： `false`

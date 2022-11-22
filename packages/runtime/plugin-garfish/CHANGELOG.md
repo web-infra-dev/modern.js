@@ -1,5 +1,80 @@
 # @modern-js/plugin-garfish
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/runtime@1.21.4
+- @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/runtime@1.21.3
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- 92501d9: fix(garfish): fix reRender issue when use apps and Garfish.run with activeWhen parameter
+  修复在同时调用 apps 和 Garfish.run 方法并提供 activeWhen 参数时重复渲染的问题
+  - @modern-js/runtime@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- 2baa20b: fix: remove useless mount check ref
+  移除过时的确认挂载的 ref
+  - @modern-js/runtime@1.21.1
+  - @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- Updated dependencies [f51c59a]
+- Updated dependencies [4c1f3a4]
+- Updated dependencies [4c1f3a4]
+- Updated dependencies [c40fc4b]
+  - @modern-js/runtime@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- 3369240: fix(Garfish): invoke setOptions to pass configuration to Garfish instance
+  修复 config 无法传递给 Garfish 实例问题
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/runtime@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [b57d5ff]
+- Updated dependencies [4ddc185]
+- Updated dependencies [715df7a]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/runtime@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- f3bdbde: fix: register microApps before loadApp
+  修复：修复手动控制子应用加载情况下未注册子应用问题
+  - @modern-js/runtime@1.19.0
+  - @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

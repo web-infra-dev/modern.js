@@ -1,10 +1,9 @@
 ---
+title: source.globalVars
+
 sidebar_label: globalVars
 sidebar_position: 3
 ---
-
-# source.globalVars
-
 
 - 类型： `Object`
 - 默认值： `undefined`

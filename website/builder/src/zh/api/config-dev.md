@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Dev Config
 
 本章节描述了 Builder 中与本地开发有关的配置。
@@ -17,6 +21,10 @@
 ## dev.port
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/dev/port.md)!!!
+
+## dev.progressBar
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/dev/progressBar.md)!!!
 
 ## dev.startUrl
 

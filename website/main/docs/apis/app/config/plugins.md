@@ -3,8 +3,6 @@ title: plugins (插件)
 sidebar_position: 9
 ---
 
-# plugins (插件)
-
 - 类型： `CliPlugin[] | { cli: CliPlugin[] }`
 - 默认值：`[]`
 

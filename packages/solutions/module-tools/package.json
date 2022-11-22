@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.21.4",
   "bin": {
     "modern": "./bin/modern.js"
   },
@@ -76,7 +76,7 @@
     "@modern-js/utils": "workspace:*",
     "@rollup/plugin-json": "~4.1.0",
     "@speedy-js/speedy-types": "0.13.2-modern.1",
-    "@speedy-js/speedy-core": "0.13.2-modern.1",
+    "@speedy-js/speedy-core": "0.13.2-modern.3",
     "@speedy-js/speedy-plugin-es5": "0.13.2-modern.1",
     "normalize-path": "^3.0.0",
     "p-map": "^4",

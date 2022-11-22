@@ -1,9 +1,8 @@
 ---
+title: source.configDir
 sidebar_label: configDir
 sidebar_position: 8
 ---
-
-# source.configDir
 
 
 

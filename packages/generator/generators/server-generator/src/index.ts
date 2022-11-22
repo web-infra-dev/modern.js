@@ -97,6 +97,7 @@ const handleTemplateFile = async (
   const getServerPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry: context.config.registry,
+      distTag: context.config.distTag,
     });
   };
 
@@ -190,7 +191,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   await handleTemplateFile(context, generator, appApi);
 
-  await appApi.runInstall();
+  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   appApi.showSuccessInfo();
 

@@ -1,5 +1,110 @@
 # @modern-js/server
 
+## 1.21.4
+
+### Patch Changes
+
+- 0889ab2: chore: dev server default cross origin
+  chore: 开发环境 Server 默认跨域
+  - @modern-js/prod-server@1.21.4
+  - @modern-js/server-utils@1.21.4
+  - @modern-js/types@1.21.4
+  - @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/prod-server@1.21.3
+- @modern-js/server-utils@1.21.3
+- @modern-js/types@1.21.3
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- @modern-js/prod-server@1.21.2
+- @modern-js/server-utils@1.21.2
+- @modern-js/types@1.21.2
+- @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/prod-server@1.21.1
+- @modern-js/server-utils@1.21.1
+- @modern-js/types@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+- Updated dependencies [f51c59a]
+- Updated dependencies [8f3674a]
+- Updated dependencies [8f3674a]
+- Updated dependencies [519965e]
+- Updated dependencies [67d80b7]
+  - @modern-js/prod-server@1.21.0
+  - @modern-js/types@1.21.0
+  - @modern-js/server-utils@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/prod-server@1.20.1
+  - @modern-js/server-utils@1.20.1
+  - @modern-js/types@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 35c0959: feat(devServer): support devServer.setupMiddlewares config
+
+  feat(devServer): 支持 devServer.setupMiddlewares 配置项
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- 66e4817: feat: support devServer.historyApiFallback
+
+  feat: 支持 devServer.historyApiFallback 配置项
+
+- face165: chore(devServer): get devServer config from this.dev
+
+  chore(devServer): 从 this.dev 上获取 devServer 配置
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [66e4817]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+- Updated dependencies [baf7337]
+  - @modern-js/utils@1.20.0
+  - @modern-js/types@1.20.0
+  - @modern-js/prod-server@1.20.0
+  - @modern-js/server-utils@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- Updated dependencies [1903f68]
+  - @modern-js/prod-server@1.19.0
+  - @modern-js/server-utils@1.19.0
+  - @modern-js/types@1.19.0
+  - @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

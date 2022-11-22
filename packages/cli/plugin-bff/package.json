@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.21.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -84,7 +84,7 @@
     "memfs": "^3.3.0",
     "ts-jest": "^27.0.5",
     "typescript": "^4",
-    "webpack": "^5.71.0",
+    "webpack": "^5.74.0",
     "webpack-chain": "^6.5.1"
   },
   "sideEffects": false,

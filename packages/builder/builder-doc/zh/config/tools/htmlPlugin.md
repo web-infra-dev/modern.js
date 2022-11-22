@@ -23,9 +23,9 @@ const defaultHtmlPluginOptions = {
 
 通过 `tools.htmlPlugin` 可以修改 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的配置项。
 
-#### Object 类型
+### Object 类型
 
-当 `tools.htmlPlugin` 配置为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
+当 `tools.htmlPlugin` 的值为 `Object` 类型时，会与默认配置通过 `Object.assign` 合并。
 
 ```js
 export default {
@@ -37,7 +37,7 @@ export default {
 };
 ```
 
-#### Function 类型
+### Function 类型
 
 当 `tools.htmlPlugin` 为 Function 类型时：
 
@@ -57,7 +57,7 @@ export default {
 };
 ```
 
-#### Boolean 类型
+### Boolean 类型
 
 将 `tools.htmlPlugin` 配置为 `false`，可以禁用默认的 `html-webpack-plugin` 插件。
 

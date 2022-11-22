@@ -1,11 +1,9 @@
-- Type： `Object` | `Function` | `undefined`
+- Type： `Object | Function | undefined`
 - Default:`undefined`
 
 `ts-loader` is not enabled by default in the project. When `tools.tsLoader` is not undefined, builder will use ts-loader instead of babel-loader to compile TypeScript code.
 
-### Type
-
-#### Object
+### Object Type
 
 When this value is of type Object, it is merged with the default configuration via Object.assign.
 
@@ -34,18 +32,18 @@ export default {
 };
 ```
 
-#### Function
+### Function Type
 
-When this value is of type Function, the default configuration is passed in as the first parameter, the configuration object can be modified directly, or an object can be returned as the final configuration.The second parameter is the util funtions to modify the `ts-loader` configuration. For example:
+When this value is of type Function, the default configuration is passed in as the first parameter, the configuration object can be modified directly, or an object can be returned as the final configuration.The second parameter is the util functions to modify the `ts-loader` configuration. For example:
 
 ```ts
-export default defineConfig({
+export default {
   tools: {
     tsLoader: opts => {
       opts.allowTsInNodeModules = false;
     },
   },
-});
+};
 ```
 
 ### Util Functions
@@ -56,7 +54,7 @@ When the value of `tools.tsLoader` is of type Function, the utils functions avai
 
 Type: `(includes: string | RegExp | Array<string | RegExp>) => void`
 
-By default, only the application code in the src directory will be compiled. Use `addIncludes` to  specify ts-loader to compile some files under `node_modules`. For example:
+By default, only the application code in the src directory will be compiled. Use `addIncludes` to specify ts-loader to compile some files under `node_modules`. For example:
 
 ```ts
 export default {

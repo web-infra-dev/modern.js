@@ -1,5 +1,45 @@
 # @modern-js/mwa-generator
 
+## 2.4.9
+
+## 2.4.8
+
+### Patch Changes
+
+- 1209d20: fix: mwa generator remove build in prepare command
+
+  fix: mwa 生成器在 prepare 命令中移除 build 步骤
+
+## 2.4.7
+
+### Patch Changes
+
+- 7c89bd6: feat: @modern-js/create support --packages params to set special packages version
+
+  feat: @modern-js/create 支持 --packages 参数用于指定特殊的包版本
+
+## 2.4.6
+
+## 2.4.5
+
+### Patch Changes
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+## 2.4.4
+
+## 2.4.3
+
+## 2.4.0
+
+### Minor Changes
+
+- d2fbefc: feat: upgrade husky version
+
+  feat: 升级生成器模板 husky 版本
+
 ## 2.3.4
 
 ## 2.3.3

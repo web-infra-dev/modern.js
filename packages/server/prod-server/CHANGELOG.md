@@ -1,5 +1,85 @@
 # @modern-js/prod-server
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/server-core@1.21.4
+- @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/server-core@1.21.3
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/server-core@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/server-core@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+- 8f3674a: chore: reduce parameters for dev-server & update default config value in builder startDevServer
+
+  chore: 缩简 devServer 配置定义 & 更新 builder startDevServer 方法 config 默认值
+
+- 519965e: fix: should not do render if set location header and 302 status in middleware
+  fix: 如果在 middleware 中设置了 location 头和 302 状态码，则不应该走渲染逻辑
+- 67d80b7: fix(prod-server): failed to match URL which ends with ".html"
+
+  fix(prod-server): 修复无法匹配到以 ".html" 结尾的 URL 的问题
+
+  - @modern-js/server-core@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/server-core@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- baf7337: fix: console error message if error stack not exist
+  fix: 如果错误堆栈不存在，则输出错误信息
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/server-core@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- 1903f68: fix(server): failed to access static files when output.assetPrefix ends with /
+
+  fix(server): 修复 output.assetPrefix 以 / 结尾时无法正确访问的问题
+
+  - @modern-js/server-core@1.19.0
+  - @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

@@ -18,7 +18,7 @@ sidebar_label: disableSourceMap
 如果项目在生产环境下不需要 SourceMap，可以关闭该功能，从而提升 build 构建的速度。
 
 ```js title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
+import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   output: {

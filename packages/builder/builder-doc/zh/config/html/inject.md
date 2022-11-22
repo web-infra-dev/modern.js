@@ -34,7 +34,7 @@ script 标签默认在 head 标签内：
 
 ```js
 export default {
-  output: {
+  html: {
     inject: 'body',
   },
 };

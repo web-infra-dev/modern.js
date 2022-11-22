@@ -14,11 +14,11 @@
         └── index.html
 ```
 
-开启 `output.disableHtmlFolder` 配置:
+开启 `html.disableHtmlFolder` 配置:
 
 ```js
 export default {
-  output: {
+  html: {
     disableHtmlFolder: true,
   },
 };

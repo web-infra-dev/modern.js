@@ -1,5 +1,88 @@
 # @modern-js/plugin-jarvis
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/eslint-config@1.21.4
+- @modern-js-app/eslint-config@1.21.4
+- @modern-js/tsconfig@1.21.4
+- @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/eslint-config@1.21.3
+- @modern-js-app/eslint-config@1.21.3
+- @modern-js/tsconfig@1.21.3
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- @modern-js/eslint-config@1.21.2
+- @modern-js-app/eslint-config@1.21.2
+- @modern-js/tsconfig@1.21.2
+- @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/eslint-config@1.21.1
+- @modern-js-app/eslint-config@1.21.1
+- @modern-js/tsconfig@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- @modern-js/utils@1.21.0
+- @modern-js/eslint-config@1.21.0
+- @modern-js-app/eslint-config@1.21.0
+- @modern-js/tsconfig@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js-app/eslint-config@1.20.1
+  - @modern-js/eslint-config@1.20.1
+  - @modern-js/tsconfig@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js-app/eslint-config@1.20.0
+  - @modern-js/eslint-config@1.20.0
+  - @modern-js/tsconfig@1.20.0
+
+## 1.19.0
+
+### Minor Changes
+
+- d2fbefc: feat: upgrade `@modern-js/plugin-jarvis` husky version to 8
+
+  feat: 升级 `@modern-js/plugin-jarvis` husky 版本为 8
+
+### Patch Changes
+
+- @modern-js/eslint-config@1.19.0
+- @modern-js-app/eslint-config@1.19.0
+- @modern-js/tsconfig@1.19.0
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

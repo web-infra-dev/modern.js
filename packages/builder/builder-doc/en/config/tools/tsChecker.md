@@ -1,10 +1,13 @@
-- Type: `Object` | `Function` | `false`
-- Default: `Object`
+- Type: `boolean | Object | Function`
+- Default: `true`
 
-By default, the [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) is enabled for type checking. You can:
+By default, the [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) is enabled for type checking.
 
+You can:
+
+- Configure to `true` to enable type checking by `fork-ts-checker-webpack-plugin`.
+- Configure to `false` to disable type checking by `fork-ts-checker-webpack-plugin`.
 - Configure as `Object` or `Function` to modify the default config.
-- Configure to `false` to turn off type checking for `fork-ts-checker-webpack-plugin`.
 
 The default config is as follows:
 
@@ -38,12 +41,10 @@ The default config is as follows:
 },
 ```
 
-### Type
-
-#### Object
+### Object Type
 
 When this value is of type Object, it is merged with the default config via Object.assign.
 
-#### Function
+### Function Type
 
 When the value is of type Function, the default config is passed in as the first parameter. You can modify the config object directly, or return an object as the final config.

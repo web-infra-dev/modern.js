@@ -1,4 +1,4 @@
-- Type: `Object` | `Function`
+- Type: `false | Object | Function`
 - Default
 
 ```js
@@ -18,9 +18,7 @@
 
 The config of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) can be modified through `tools.cssExtract`.
 
-### Type
-
-#### Object
+### Object Type
 
 When this value is of type Object, it is merged with the default config via Object.assign. For example:
 
@@ -36,14 +34,14 @@ export default {
 };
 ```
 
-#### Function
+### Function Type
 
 When the value is of type Function, the default config is passed in as the first parameter. You can modify the config object directly, or return an object as the final config. For example:
 
 ```js
 export default {
   tools: {
-    cssExtract: (config) => {
+    cssExtract: config => {
       config.pluginOptions.filename = 'static/css/[name].[contenthash:8].css';
       return config;
     },
@@ -52,3 +50,15 @@ export default {
 ```
 
 For more config details, please refer to [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
+
+### Boolean Type
+
+The built-in `mini-css-extract-plugin` plugins can be disabled by set `tools.cssExtract` to `false`.
+
+```js
+export default {
+  tools: {
+    cssExtract: false,
+  },
+};
+```

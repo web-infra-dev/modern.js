@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@modern-js/builder-doc",
   "description": "Shared documentation of modern.js builder",
   "homepage": "https://modernjs.dev",
@@ -12,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.21.4",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

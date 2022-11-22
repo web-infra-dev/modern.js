@@ -9,7 +9,7 @@
 
 ```js
 export default {
-  output: {
+  html: {
     favicon: './src/assets/icon.png',
   },
 };

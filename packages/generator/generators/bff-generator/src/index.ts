@@ -65,6 +65,7 @@ export const handleTemplateFile = async (
   const getBffPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry: context.config.registry,
+      distTag: context.config.distTag,
     });
   };
 
@@ -262,7 +263,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  await appApi.runInstall();
+  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   generator.logger.debug(`forge @modern-js/bff-generator succeed `);
 };

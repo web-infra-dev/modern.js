@@ -1,11 +1,9 @@
-- Type: `Object` | `Function`
+- Type: `Object | Function`
 - Default: `undefined`
 
 By `tools.babel` you can modify [babel-loader](https://github.com/babel/babel-loader)'s' options.
 
-### Type
-
-#### Object
+### Object Type
 
 When `tools.babel`'s type is `Object`, the config will be merged with default config by Object.assign.
 
@@ -28,7 +26,7 @@ export default {
 };
 ```
 
-#### Function
+### Function Type
 
 When `tools.babel`'s type is Function，the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result. The second parameter provides some util functions that can be called directly:
 
@@ -57,19 +55,21 @@ When `tools.babel` is of type Function, the tool functions available for the sec
 
 #### addPlugins
 
-Add Babel plugin. For exapmle:
+Add Babel plugin. For example:
 
 ```js
 export default {
   tools: {
     babel(config, { addPlugins }) {
       addPlugins([
-        'babel-plugin-import',
-        {
-          libraryName: 'xxx-components',
-          libraryDirectory: 'es',
-          style: true,
-        },
+        [
+          'babel-plugin-import',
+          {
+            libraryName: 'xxx-components',
+            libraryDirectory: 'es',
+            style: true,
+          },
+        ],
       ]);
     },
   },

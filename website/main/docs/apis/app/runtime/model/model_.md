@@ -3,8 +3,6 @@ sidebar_position: 1
 title: model
 ---
 
-# model
-
 import ReduckTip from '@site/docs/components/reduck-tip.md'
 
 <ReduckTip />

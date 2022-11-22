@@ -1,5 +1,5 @@
-- 类型： `Object` | `Function`
-- 默认值：
+- Type: `Object | Function`
+- Default:
 
 ```js
 const defaultOptions = {
@@ -17,16 +17,14 @@ const defaultOptions = {
       }),
     ],
     // 取决于生产环境，以及是否设置 `output.disableSourceMap`
-    sourceMap: enableSourceMap
+    sourceMap: enableSourceMap,
   },
 };
 ```
 
 Builder 默认集成 PostCSS，你可以通过 `tools.postcss` 对 [postcss-loader](https://github.com/webpack-contrib/postcss-loader) 进行配置。
 
-### 类型
-
-#### Object
+### Object 类型
 
 当此值为 Object 类型时，与默认配置通过 Object.assign 合并。比如:
 
@@ -43,7 +41,7 @@ export default {
 };
 ```
 
-#### Function
+### Function 类型
 
 值为 Function 类型时，内部默认配置作为第一参数传入，可以直接修改配置对象不做返回，也可以返回一个对象作为最终结果；第二个参数为修改 postcss-loader 配置的工具函数集合。
 
@@ -77,7 +75,6 @@ export default {
 `tools.postcss` 可以返回一个配置对象，并完全替换默认配置：
 
 ```js
-
 export default {
   tools: {
     postcss: () => {

@@ -1,5 +1,5 @@
 import {
-  signale as logger,
+  logger,
   createDebugger,
   getPort,
   isDev,
@@ -146,12 +146,10 @@ export const resolveConfig = async (
   // validate user config.
   const valid = validate(userConfig);
 
-  if (!valid && validate.errors?.length) {
-    await onSchemaError(validate?.errors[0]);
-
-    const errors = betterAjvErrors(
+  const formatValidateError = (config: UserConfig) =>
+    betterAjvErrors(
       validateSchema,
-      userConfig,
+      config,
       validate.errors?.map(e => ({
         ...e,
         dataPath: e.instancePath,
@@ -161,6 +159,9 @@ export const resolveConfig = async (
       },
     );
 
+  if (!valid && validate.errors?.length) {
+    await onSchemaError(validate?.errors[0]);
+    const errors = formatValidateError(userConfig);
     logger.log(errors);
     throw new Error(`Validate configuration error`);
   }
@@ -168,7 +169,8 @@ export const resolveConfig = async (
   // validate config from plugins.
   for (const config of configs) {
     if (!validate(config)) {
-      logger.error(validate.errors);
+      const errors = formatValidateError(config);
+      logger.error(errors);
       throw new Error(`Validate configuration error.`);
     }
   }

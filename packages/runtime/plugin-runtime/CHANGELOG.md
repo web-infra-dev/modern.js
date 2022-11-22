@@ -1,5 +1,95 @@
 # @modern-js/runtime
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/webpack@1.21.4
+- @modern-js/plugin@1.21.4
+- @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/webpack@1.21.3
+- @modern-js/plugin@1.21.3
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/plugin@1.21.2
+  - @modern-js/webpack@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/webpack@1.21.1
+- @modern-js/plugin@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+- 4c1f3a4: fix: runtime export field
+
+  fix: 修复 runtime 包导出字段
+
+- 4c1f3a4: fix: state runtime plugin params
+
+  fix: state 插件参数格式
+
+- c40fc4b: fix: add missing ssr exports from runtime ssr plugin
+  fix: 补充 runtime ssr 插件中丢失的 ssr 导出
+- Updated dependencies [17d1672]
+- Updated dependencies [28f0a4f]
+- Updated dependencies [b0597e3]
+  - @modern-js/webpack@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/webpack@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- b57d5ff: fix: ssr runtime plugin need default config
+  fix: ssr 运行时插件需要传入默认配置
+- 715df7a: feat: support loadable scripts add crossorigin attribute
+  feat: SSR 支持 loadable 脚本添加 crossorigin 属性
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [077aef8]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/webpack@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/webpack@1.19.0
+- @modern-js/plugin@1.19.0
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

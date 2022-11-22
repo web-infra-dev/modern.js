@@ -3,8 +3,6 @@ sidebar_position: 4
 title: useLocalModel
 ---
 
-# useLocalModel
-
 import ReduckTip from '@site/docs/components/reduck-tip.md'
 
 <ReduckTip />

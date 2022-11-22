@@ -34,3 +34,28 @@ All the building abilities of Builder are implemented through plugins:
 - Some plugins are more complex and developed as independent npm packages, which can be optionally installed and registered.
 
 Builder supports custom plugins, allowing framework developers to implement customized build abilities.
+
+## npm packages
+
+Below is the npm package published by Builder.
+
+| Package                                                                                                          | Version                                                                                     | Description                       |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------- |
+| [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                           | ![](https://img.shields.io/npm/v/@modern-js/builder?style=flat-square)                      | Core package of Builder           |
+| [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)         | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider?style=flat-square)     | Provides webpack build ability    |
+| [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)             | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild?style=flat-square)       | ESBuild Plugin                    |
+| [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill?style=flat-square) | Node Polyfill Plugin              |
+| [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared)                             | ![](https://img.shields.io/npm/v/@modern-js/builder-shared?style=flat-square)               | Shared modules of Builder         |
+| [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc)                                   | ![](https://img.shields.io/npm/v/@modern-js/builder-doc?style=flat-square)                  | Documentation snippets of Builder |
+
+You can view the source code of these packages in the [packages/builder](https://github.com/modern-js-dev/modern.js/tree/main/packages/builder/) directory of the modern.js repository.
+
+## Next Step
+
+You may want:
+
+<NextSteps>
+  <Step href="/guide/quick-start.html" title="Quick Start" description="Learn how to use Builder"/>
+  <Step href="/guide/features.html" title="All Features" description="Learn all features of Builder"/>
+  <Step href="/api" title="API Reference" description="View detailed API documentation"/>
+</NextSteps>

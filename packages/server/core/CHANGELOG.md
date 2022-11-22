@@ -1,5 +1,70 @@
 # @modern-js/server-plugin
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/plugin@1.21.4
+- @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/plugin@1.21.3
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- 9d4c0ba: chore: add types for exports field
+  chore: 为 exports 补充 types 字段
+- Updated dependencies [9d4c0ba]
+  - @modern-js/plugin@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/plugin@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- Updated dependencies [28f0a4f]
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/plugin@1.19.0
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

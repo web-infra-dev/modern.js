@@ -1,5 +1,32 @@
 # @modern-js/plugin
 
+## 1.21.4
+
+## 1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- 9d4c0ba: chore: add types for exports field
+  chore: 为 exports 补充 types 字段
+
+## 1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- 28f0a4f: fix(plugin): fix return type of Workflow
+
+  fix(plugin): 修复 Workflow 的返回值类型错误
+
+## 1.20.1
+
+## 1.20.0
+
+## 1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

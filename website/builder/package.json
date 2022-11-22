@@ -1,11 +1,11 @@
 {
   "private": true,
-  "name": "@modern-js/builder-web-site",
-  "version": "1.18.1",
+  "name": "@modern-js/builder-website",
+  "version": "1.21.4",
   "main": "index.js",
   "scripts": {
     "dev": "vuepress dev src --temp .temp",
-    "build": "vuepress build src --temp .temp"
+    "build": "vuepress build src --temp .temp && cp ./src/.vuepress/index.html ./src/.vuepress/dist"
   },
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",
@@ -20,6 +20,7 @@
     "postcss": "8.4.16",
     "vuepress": "1.9.5",
     "vuepress-plugin-redirect": "1.2.5",
-    "vuepress-theme-vt": "0.5.3"
+    "vuepress-theme-vt": "0.6.3",
+    "webpack": "^4.46.0"
   }
 }

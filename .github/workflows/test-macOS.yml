@@ -23,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [14.x]
         os: [macos-latest] # macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-        run: npm install -g pnpm@^6
+        run: npm install -g pnpm@7
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3

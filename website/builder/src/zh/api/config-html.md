@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Html Config
 
 本章节描述了 Builder 中与 HTML 有关的配置。
@@ -41,6 +45,14 @@
 ## html.mountId
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/html/mountId.md)!!!
+
+## html.template
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/template.md)!!!
+
+## html.templateByEntries
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/templateByEntries.md)!!!
 
 ## html.templateParameters
 

@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Output Config
 
 本章节描述了 Builder 中与编译产物有关的配置。
@@ -10,9 +14,17 @@
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/assetsRetry.md)!!!
 
+## output.charset
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/output/charset.md)!!!
+
 ## output.cleanDistPath
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/cleanDistPath.md)!!!
+
+## output.convertToRem
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/output/convertToRem.md)!!!
 
 ## output.copy
 
@@ -66,9 +78,17 @@
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/enableInlineStyles.md)!!!
 
+## output.externals
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/output/externals.md)!!!
+
 ## output.filename
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/filename.md)!!!
+
+## output.legalComments
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/output/legalComments.md)!!!
 
 ## output.overrideBrowserslist
 

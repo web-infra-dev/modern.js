@@ -1,9 +1,7 @@
 ---
+title: tools.babel
 sidebar_label: babel
 ---
-
-# tools.babel
-
 
 
 - 类型： `Object | Function`

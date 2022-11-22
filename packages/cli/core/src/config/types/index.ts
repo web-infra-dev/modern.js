@@ -1,4 +1,4 @@
-import type { DevServerOptions } from '@modern-js/types';
+import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
 import type {
   MetaOptions,
   ChainIdentifier,
@@ -180,7 +180,7 @@ export type DevProxyOptions = string | Record<string, string>;
 
 export interface DevConfig {
   assetPrefix?: string | boolean;
-  https?: boolean;
+  https?: DevServerHttpsOptions;
 
   /**
    * The configuration of `dev.proxy` is provided by `proxy` plugin.
@@ -233,6 +233,7 @@ export type WebpackConfigUtils = {
   env: string;
   name: string;
   webpack: typeof webpack;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
   addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
   prependPlugins: (
     plugins: WebpackPluginInstance | WebpackPluginInstance[],
@@ -259,6 +260,7 @@ export type WebpackChainConfigUtils = {
   name: string;
   webpack: typeof webpack;
   CHAIN_ID: ChainIdentifier;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
 };
 
 export type WebpackChainConfig = (

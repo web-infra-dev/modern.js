@@ -1,16 +1,12 @@
 ---
+title: source.designSystem
 sidebar_label: designSystem
 sidebar_position: 4
 ---
 
-# source.designSystem
-
-
 
 :::caution 注意
-- 应用工程需要请确保使用【[new](/docs/apis/app/commands/new)】 启用 Tailwind CSS 功能。
-
-- 模块工程需要请确保使用【[new](/docs/apis/app/commands/new)】 启用 Tailwind CSS 功能。
+需要先通过 `pnpm run new` 启用 Tailwind CSS 功能。
 :::
 
 

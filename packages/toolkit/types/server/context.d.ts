@@ -66,7 +66,7 @@ export type BaseSSRServerContext = {
     status: (code: number) => void;
   };
   redirection: { url?: string; status?: number };
-  distDir: string;
+  loadableStats: Record<string, any>;
   template: string;
   entryName: string;
   logger: {
@@ -86,7 +86,6 @@ export type BaseSSRServerContext = {
       tags: Record<string, unknown> = {},
     ) => void;
   };
-  loadableManifest?: string;
   cacheConfig?: any;
 };
 

@@ -4,6 +4,8 @@ on:
   # Triggers the workflow on pull request events but only for the main branch
   pull_request:
     branches: [main]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   release:
@@ -16,7 +18,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-        run: npm install -g pnpm@^6
+        run: npm install -g pnpm@7
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3

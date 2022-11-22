@@ -14,11 +14,11 @@ By default, the `root` element is included in the HTML template for component mo
 Set the `id` to `app`:
 
 ```js
-export default defineConfig({
+export default {
   html: {
     mountId: 'app',
   },
-});
+};
 ```
 
 After compilation:

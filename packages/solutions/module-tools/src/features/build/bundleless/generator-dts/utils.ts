@@ -61,6 +61,12 @@ export const generatorTsConfig = (
     exclude,
   };
 
+  if (projectTsconfig.extends) {
+    resetConfig.extends = projectTsconfig.extends.startsWith('.')
+      ? path.join(resolvePath, projectTsconfig.extends)
+      : projectTsconfig.extends;
+  }
+
   const recommendOption = {
     // Ensure that Babel can safely transpile files in the TypeScript project
     compilerOptions: {
@@ -118,13 +124,17 @@ export const resolveAlias = (
 };
 
 export const getTscBinPath = (appDirectory: string) => {
-  const tscBinFile = path.join(appDirectory, './node_modules/.bin/tsc');
-
-  if (!fs.existsSync(tscBinFile)) {
-    throw new Error(
-      'Failed to excute the `tsc` command, please check if `typescript` is installed correctly in the current directory.',
-    );
+  const { root } = path.parse(appDirectory);
+  let currentDirectory = appDirectory;
+  while (currentDirectory !== root) {
+    const tscBinFile = path.join(currentDirectory, './node_modules/.bin/tsc');
+    if (fs.existsSync(tscBinFile)) {
+      return tscBinFile;
+    }
+    currentDirectory = path.dirname(currentDirectory);
   }
 
-  return tscBinFile;
+  throw new Error(
+    'Failed to excute the `tsc` command, please check if `typescript` is installed correctly in the current directory.',
+  );
 };

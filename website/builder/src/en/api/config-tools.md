@@ -1,6 +1,7 @@
 ---
 extractApiHeaders: [2]
 ---
+
 # Tools Config
 
 This section describes some low-level tools configurations in Modern.js Builder.

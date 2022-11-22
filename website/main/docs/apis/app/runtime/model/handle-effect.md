@@ -3,8 +3,6 @@ sidebar_position: 7
 title: handleEffect
 ---
 
-# handleEffect
-
 import ReduckTip from '@site/docs/components/reduck-tip.md'
 
 <ReduckTip />

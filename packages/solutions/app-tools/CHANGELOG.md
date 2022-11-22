@@ -1,5 +1,171 @@
 # @modern-js/app-tools
 
+## 1.21.4
+
+### Patch Changes
+
+- Updated dependencies [0889ab2]
+  - @modern-js/server@1.21.4
+  - @modern-js/core@1.21.4
+  - @modern-js/plugin-i18n@1.21.4
+  - @modern-js/plugin-jarvis@1.21.4
+  - @modern-js/webpack@1.21.4
+  - @modern-js/new-action@1.21.4
+  - @modern-js/prod-server@1.21.4
+  - @modern-js/node-bundle-require@1.21.4
+  - @modern-js/plugin@1.21.4
+  - @modern-js/types@1.21.4
+  - @modern-js/upgrade@1.21.4
+  - @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/upgrade@1.21.3
+- @modern-js/new-action@1.21.3
+- @modern-js/core@1.21.3
+- @modern-js/plugin-i18n@1.21.3
+- @modern-js/plugin-jarvis@1.21.3
+- @modern-js/webpack@1.21.3
+- @modern-js/prod-server@1.21.3
+- @modern-js/server@1.21.3
+- @modern-js/node-bundle-require@1.21.3
+- @modern-js/plugin@1.21.3
+- @modern-js/types@1.21.3
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/plugin@1.21.2
+  - @modern-js/new-action@1.21.2
+  - @modern-js/prod-server@1.21.2
+  - @modern-js/server@1.21.2
+  - @modern-js/core@1.21.2
+  - @modern-js/plugin-jarvis@1.21.2
+  - @modern-js/webpack@1.21.2
+  - @modern-js/plugin-i18n@1.21.2
+  - @modern-js/node-bundle-require@1.21.2
+  - @modern-js/types@1.21.2
+  - @modern-js/upgrade@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/core@1.21.1
+- @modern-js/plugin-i18n@1.21.1
+- @modern-js/plugin-jarvis@1.21.1
+- @modern-js/webpack@1.21.1
+- @modern-js/new-action@1.21.1
+- @modern-js/prod-server@1.21.1
+- @modern-js/server@1.21.1
+- @modern-js/node-bundle-require@1.21.1
+- @modern-js/plugin@1.21.1
+- @modern-js/types@1.21.1
+- @modern-js/upgrade@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- Updated dependencies [f51c59a]
+- Updated dependencies [7b3a482]
+- Updated dependencies [cfd8557]
+- Updated dependencies [17d1672]
+- Updated dependencies [8f3674a]
+- Updated dependencies [dca34c4]
+- Updated dependencies [28f0a4f]
+- Updated dependencies [b0597e3]
+- Updated dependencies [519965e]
+- Updated dependencies [67d80b7]
+  - @modern-js/prod-server@1.21.0
+  - @modern-js/server@1.21.0
+  - @modern-js/types@1.21.0
+  - @modern-js/node-bundle-require@1.21.0
+  - @modern-js/new-action@1.21.0
+  - @modern-js/upgrade@1.21.0
+  - @modern-js/webpack@1.21.0
+  - @modern-js/core@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+  - @modern-js/plugin-jarvis@1.21.0
+  - @modern-js/plugin-i18n@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/core@1.20.1
+  - @modern-js/plugin-i18n@1.20.1
+  - @modern-js/plugin-jarvis@1.20.1
+  - @modern-js/webpack@1.20.1
+  - @modern-js/new-action@1.20.1
+  - @modern-js/prod-server@1.20.1
+  - @modern-js/server@1.20.1
+  - @modern-js/node-bundle-require@1.20.1
+  - @modern-js/upgrade@1.20.1
+  - @modern-js/plugin@1.20.1
+  - @modern-js/types@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 0f9e16b: fix(app-tools): remove useless logging option
+
+  fix(app-tools): 移除无效的 logging 选项
+
+- Updated dependencies [35c0959]
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [66e4817]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [077aef8]
+- Updated dependencies [8c05089]
+- Updated dependencies [face165]
+- Updated dependencies [baf7337]
+- Updated dependencies [d5d570b]
+  - @modern-js/server@1.20.0
+  - @modern-js/utils@1.20.0
+  - @modern-js/core@1.20.0
+  - @modern-js/webpack@1.20.0
+  - @modern-js/types@1.20.0
+  - @modern-js/prod-server@1.20.0
+  - @modern-js/plugin-i18n@1.20.0
+  - @modern-js/plugin-jarvis@1.20.0
+  - @modern-js/new-action@1.20.0
+  - @modern-js/node-bundle-require@1.20.0
+  - @modern-js/upgrade@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- Updated dependencies [d2cfa69]
+- Updated dependencies [d2fbefc]
+- Updated dependencies [1903f68]
+  - @modern-js/core@1.19.0
+  - @modern-js/plugin-jarvis@1.19.0
+  - @modern-js/prod-server@1.19.0
+  - @modern-js/webpack@1.19.0
+  - @modern-js/server@1.19.0
+  - @modern-js/new-action@1.19.0
+  - @modern-js/upgrade@1.19.0
+  - @modern-js/plugin-i18n@1.19.0
+  - @modern-js/node-bundle-require@1.19.0
+  - @modern-js/plugin@1.19.0
+  - @modern-js/types@1.19.0
+  - @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

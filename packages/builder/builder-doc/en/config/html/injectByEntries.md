@@ -11,7 +11,7 @@ The usage is same as `inject`, and you can use the "entry name" as the key to se
 
 ```js
 export default {
-  output: {
+  html: {
     inject: 'head',
     injectByEntries: {
       foo: 'body',

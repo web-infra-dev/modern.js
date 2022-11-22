@@ -1,5 +1,98 @@
 # @modern-js/plugin-bff
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/bff-core@1.21.4
+- @modern-js/create-request@1.21.4
+- @modern-js/server-utils@1.21.4
+- @modern-js/babel-compiler@1.21.4
+- @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/bff-core@1.21.3
+- @modern-js/create-request@1.21.3
+- @modern-js/server-utils@1.21.3
+- @modern-js/babel-compiler@1.21.3
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/bff-core@1.21.2
+  - @modern-js/server-utils@1.21.2
+  - @modern-js/create-request@1.21.2
+  - @modern-js/babel-compiler@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/bff-core@1.21.1
+- @modern-js/create-request@1.21.1
+- @modern-js/server-utils@1.21.1
+- @modern-js/babel-compiler@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- cc3cab0: fix: modify the parameters passed to the compile function of server-utils
+  fix: 修改传入 server-utils 的 compile 函数的参数
+- Updated dependencies [8f3674a]
+  - @modern-js/server-utils@1.21.0
+  - @modern-js/utils@1.21.0
+  - @modern-js/bff-core@1.21.0
+  - @modern-js/create-request@1.21.0
+  - @modern-js/babel-compiler@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/bff-core@1.20.1
+  - @modern-js/create-request@1.20.1
+  - @modern-js/server-utils@1.20.1
+  - @modern-js/babel-compiler@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/bff-core@1.20.0
+  - @modern-js/create-request@1.20.0
+  - @modern-js/server-utils@1.20.0
+  - @modern-js/babel-compiler@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/server-utils@1.19.0
+- @modern-js/bff-core@1.19.0
+- @modern-js/create-request@1.19.0
+- @modern-js/babel-compiler@1.19.0
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

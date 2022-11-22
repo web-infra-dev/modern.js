@@ -1,5 +1,58 @@
 # @modern-js/babel-preset-base
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes
@@ -62,7 +115,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for webpack-builder
+- 7b9067f: add babel plugin for builder
 
 ### Patch Changes
 

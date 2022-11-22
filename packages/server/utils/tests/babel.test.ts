@@ -49,12 +49,10 @@ describe('babel', () => {
     await compile(
       example,
       {
-        source: {
-          alias: {
-            '@shared': join(example, './shared'),
-            '@modern-js/runtime/server': join(sharedDir, './runtime/server'),
-            '@modern-js/runtime': '@modern-js/core',
-          },
+        alias: {
+          '@shared': join(example, './shared'),
+          '@modern-js/runtime/server': join(sharedDir, './runtime/server'),
+          '@modern-js/runtime': '@modern-js/core',
         },
         tools: {
           lodash: null,

@@ -16,8 +16,8 @@ local.
 # enable pnpm with corepack, only available on node >= `v14.19.0`
 corepack enable
 
-# or install pnpm v6 directly
-npm install -g pnpm@6
+# or install pnpm directly
+npm install -g pnpm@7
 ```
 
 ### Set up local Modern.js repository
@@ -87,7 +87,7 @@ pnpm run build
 or at repo root:
 
 ```zsh
-pnpm run build --filter @modern-js/some_package
+pnpm run --filter @modern-js/some_package build
 ```
 
 ## Testing Your Changes
@@ -212,7 +212,7 @@ pnpm run test
 1. If you want to run the e2e command, you must first execute the e2e prepare command
 
 ```sh
-pnpm run prepare --filter "tests"
+pnpm run --filter "tests" prepare
 ```
 
 2. start test

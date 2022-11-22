@@ -29,7 +29,7 @@ const copyFiles = async (from: string, to: string, tsconfigPath: string) => {
 
 export const compileByTs: CompileFunc = async (
   appDirectory,
-  modernConfig,
+  config,
   compileOptions,
 ) => {
   logger.info(`Running ts compile...`);
@@ -45,7 +45,7 @@ export const compileByTs: CompileFunc = async (
   const createProgram = ts.createIncrementalProgram || ts.createProgram;
   const formatHost = getFormatHost(ts);
 
-  const { alias } = modernConfig.source;
+  const { alias } = config;
   const aliasOption = getAlias(alias || {}, {
     appDirectory,
     tsconfigPath,
@@ -101,6 +101,8 @@ export const compileByTs: CompileFunc = async (
   for (const source of sourceDirs) {
     await copyFiles(source, distDir, tsconfigPath);
   }
+
+  logger.info(`Ts compile succeed`);
 };
 
 const getFormatHost = (ts: typeof import('typescript')) => {

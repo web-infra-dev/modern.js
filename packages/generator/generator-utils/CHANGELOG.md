@@ -1,5 +1,86 @@
 # @modern-js/generator-utils
 
+## 2.4.9
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@1.21.4
+- @modern-js/utils@1.21.4
+- @modern-js/generator-common@2.4.9
+
+## 2.4.8
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.8
+- @modern-js/plugin-i18n@1.21.3
+- @modern-js/utils@1.21.3
+
+## 2.4.7
+
+### Patch Changes
+
+- Updated dependencies [7c89bd6]
+  - @modern-js/generator-common@2.4.7
+  - @modern-js/plugin-i18n@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 2.4.6
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.6
+- @modern-js/plugin-i18n@1.21.1
+- @modern-js/utils@1.21.1
+
+## 2.4.5
+
+### Patch Changes
+
+- 4ac9a0e: fix: new action version when new electron
+
+  fix: 修复启用 Electron 时版本报错
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+- Updated dependencies [cf1a2b1]
+- Updated dependencies [cfd8557]
+  - @modern-js/generator-common@2.4.5
+  - @modern-js/utils@1.21.0
+  - @modern-js/plugin-i18n@1.21.0
+
+## 2.4.4
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/plugin-i18n@1.20.1
+  - @modern-js/generator-common@2.4.4
+
+## 2.4.3
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/plugin-i18n@1.20.0
+  - @modern-js/generator-common@2.4.3
+
+## 2.4.0
+
+### Patch Changes
+
+- Updated dependencies [cf1edd1]
+  - @modern-js/generator-common@2.4.0
+  - @modern-js/plugin-i18n@1.19.0
+  - @modern-js/utils@1.19.0
+
 ## 2.3.4
 
 ### Patch Changes

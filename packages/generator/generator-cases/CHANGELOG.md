@@ -1,5 +1,57 @@
 # @modern-js/generator-cases
 
+## 2.4.9
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.9
+
+## 2.4.8
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.8
+
+## 2.4.7
+
+### Patch Changes
+
+- Updated dependencies [7c89bd6]
+  - @modern-js/generator-common@2.4.7
+
+## 2.4.6
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.6
+
+## 2.4.5
+
+### Patch Changes
+
+- Updated dependencies [cf1a2b1]
+- Updated dependencies [cfd8557]
+  - @modern-js/generator-common@2.4.5
+
+## 2.4.4
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.4
+
+## 2.4.3
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.3
+
+## 2.4.0
+
+### Patch Changes
+
+- Updated dependencies [cf1edd1]
+  - @modern-js/generator-common@2.4.0
+
 ## 2.3.4
 
 ### Patch Changes

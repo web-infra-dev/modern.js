@@ -1,0 +1,52 @@
+// Vitest Snapshot v1
+
+exports[`plugins/cache > should add cache config correctly 1`] = `
+{
+  "cache": {
+    "buildDependencies": {
+      "packageJson": [
+        "<ROOT>/packages/builder/builder-webpack-provider/package.json",
+      ],
+    },
+    "cacheDirectory": "<ROOT>/packages/builder/builder-webpack-provider/node_modules/.cache/webpack",
+    "name": "web-test",
+    "type": "filesystem",
+  },
+}
+`;
+
+exports[`plugins/cache > should watch framework config change 1`] = `
+{
+  "cache": {
+    "buildDependencies": {
+      "config": [
+        "/path/to/config.js",
+      ],
+      "packageJson": [
+        "<ROOT>/packages/builder/builder-webpack-provider/package.json",
+      ],
+    },
+    "cacheDirectory": "<ROOT>/packages/builder/builder-webpack-provider/node_modules/.cache/webpack",
+    "name": "web-test",
+    "type": "filesystem",
+  },
+}
+`;
+
+exports[`plugins/cache > should watch tsconfig change 1`] = `
+{
+  "cache": {
+    "buildDependencies": {
+      "packageJson": [
+        "<ROOT>/packages/builder/builder-webpack-provider/package.json",
+      ],
+      "tsconfig": [
+        "/path/to/tsconfig.json",
+      ],
+    },
+    "cacheDirectory": "<ROOT>/packages/builder/builder-webpack-provider/node_modules/.cache/webpack",
+    "name": "web-test",
+    "type": "filesystem",
+  },
+}
+`;

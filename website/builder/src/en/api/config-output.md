@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Output Config
 
 This section describes some output related configurations in Modern.js Builder.
@@ -10,9 +14,17 @@ This section describes some output related configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/assetsRetry.md)!!!
 
+## output.charset
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/charset.md)!!!
+
 ## output.cleanDistPath
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/cleanDistPath.md)!!!
+
+## output.convertToRem
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/convertToRem.md)!!!
 
 ## output.copy
 
@@ -66,9 +78,17 @@ This section describes some output related configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/enableInlineStyles.md)!!!
 
+## output.externals
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/externals.md)!!!
+
 ## output.filename
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/filename.md)!!!
+
+## output.legalComments
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/legalComments.md)!!!
 
 ## output.overrideBrowserslist
 

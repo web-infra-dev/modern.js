@@ -18,7 +18,7 @@ sidebar_position: 10
 - 如何在 UI 组件项目中进行测试。
 - 如何为 UI 组件项目开启 Storybook 功能并使用它进行调试。
 - 如何开发 UI 组件样式。
-- 如何在 UI 组件项目中使用[运行时 API](/docs/apis/app/runtime)。
+- 如何在 UI 组件项目中使用[运行时 API](/docs/apis/module/runtime)。
 - 如何发布 UI 组件项目。
 - 在 Monorepo 中，UI 组件项目与应用项目如何联调。
 

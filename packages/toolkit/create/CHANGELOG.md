@@ -1,5 +1,33 @@
 # @modern-js/create
 
+## 1.21.4
+
+## 1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- 7c89bd6: feat: @modern-js/create support --packages params to set special packages version
+
+  feat: @modern-js/create 支持 --packages 参数用于指定特殊的包版本
+
+## 1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+## 1.20.1
+
+## 1.20.0
+
+## 1.19.0
+
 ## 1.18.1
 
 ## 1.18.0

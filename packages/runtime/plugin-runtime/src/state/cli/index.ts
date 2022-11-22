@@ -47,19 +47,6 @@ export default (): CliPlugin => ({
 
         stateConfigMap.set(entryName, stateConfig);
 
-        const getEnabledPlugins = () => {
-          const internalPlugins = [
-            'immer',
-            'effects',
-            'autoActions',
-            'devtools',
-          ];
-
-          return internalPlugins.filter(
-            name => (stateConfig as any)[name] !== false,
-          );
-        };
-
         if (stateConfig) {
           imports.push({
             value: '@modern-js/runtime/plugins',
@@ -68,25 +55,6 @@ export default (): CliPlugin => ({
                 imported: PLUGIN_IDENTIFIER,
               },
             ],
-          });
-          imports.push({
-            value: '@modern-js/runtime/model',
-            specifiers: getEnabledPlugins().map(imported => ({ imported })),
-            initialize: `
-                const createStatePlugins = (config) => {
-                  const plugins = [];
-
-                  ${getEnabledPlugins()
-                    .map(
-                      name => `
-                      plugins.push(${name}(config['${name}']));
-                      `,
-                    )
-                    .join('\n')}
-
-                  return plugins;
-                }
-              `,
           });
         }
 
@@ -100,19 +68,11 @@ export default (): CliPlugin => ({
         const stateOptions = stateConfigMap.get(entrypoint.entryName);
 
         if (stateOptions) {
-          const isBoolean = typeof stateOptions === 'boolean';
-
-          let options = isBoolean ? '{}' : JSON.stringify(stateOptions);
-
-          options = `${options.substr(0, options.length - 1)}${
-            isBoolean ? '' : ','
-          }plugins: createStatePlugins(${JSON.stringify(
-            stateConfigMap.get(entrypoint.entryName),
-          )})}`;
-
           plugins.push({
             name: PLUGIN_IDENTIFIER,
-            options,
+            options: `${JSON.stringify(
+              stateConfigMap.get(entrypoint.entryName),
+            )}`,
           });
         }
         return {
@@ -125,7 +85,7 @@ export default (): CliPlugin => ({
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as state } from '@modern-js/runtime/runtime-state'`,
+          `export { default as state } from '@modern-js/runtime/model'`,
         );
       },
     };

@@ -1,5 +1,97 @@
 # @modern-js/plugin-storybook
 
+## 1.21.4
+
+### Patch Changes
+
+- @modern-js/webpack@1.21.4
+- @modern-js/runtime@1.21.4
+- @modern-js/utils@1.21.4
+
+## 1.21.3
+
+### Patch Changes
+
+- @modern-js/webpack@1.21.3
+- @modern-js/runtime@1.21.3
+- @modern-js/utils@1.21.3
+
+## 1.21.2
+
+### Patch Changes
+
+- @modern-js/runtime@1.21.2
+- @modern-js/webpack@1.21.2
+- @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/webpack@1.21.1
+- @modern-js/runtime@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- 4c1f3a4: fix: runtime export field
+
+  fix: 修复 runtime 包导出字段
+
+- 17d1672: fix: `tools.webpack` of Storybook API not work
+  fix: 修复 Storybook API tools.webpack 不生效
+- Updated dependencies [f51c59a]
+- Updated dependencies [4c1f3a4]
+- Updated dependencies [17d1672]
+- Updated dependencies [4c1f3a4]
+- Updated dependencies [c40fc4b]
+- Updated dependencies [b0597e3]
+  - @modern-js/runtime@1.21.0
+  - @modern-js/webpack@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/webpack@1.20.1
+  - @modern-js/runtime@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- 3b256c7: feat: allow user config managerWebpack
+  feat: 运行用户配置 managerWebpack
+- a00296d: fix: change preview template
+  fix: 修改 preview 模板文件
+- Updated dependencies [d5d570b]
+- Updated dependencies [b57d5ff]
+- Updated dependencies [4ddc185]
+- Updated dependencies [715df7a]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [077aef8]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/runtime@1.20.0
+  - @modern-js/webpack@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/webpack@1.19.0
+- @modern-js/runtime@1.19.0
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

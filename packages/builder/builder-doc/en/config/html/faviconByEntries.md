@@ -11,7 +11,7 @@ The usage is same as `favicon`, and you can use the "entry name" as the key to s
 
 ```js
 export default {
-  output: {
+  html: {
     favicon: './src/assets/default.png',
     faviconByEntries: {
       foo: './src/assets/foo.png',

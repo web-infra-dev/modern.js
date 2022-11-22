@@ -56,6 +56,7 @@ const handleTemplateFile = async (
     context.config.runtimeDependenceVersion ||
     `${await getModernPluginVersion(Solution.Module, runtimeDependence, {
       registry: context.config.registry,
+      distTag: context.config.distTag,
     })}`;
 
   // adjust react-dom dependence
@@ -111,7 +112,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   const { packageManager } = await handleTemplateFile(context, appApi);
 
-  await appApi.runInstall();
+  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   appApi.showSuccessInfo(
     i18n.t(localeKeys.success, {
