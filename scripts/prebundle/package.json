@@ -20,6 +20,7 @@
     "webpack": "^5.74.0"
   },
   "devDependencies": {
+    "stacktracey": "2.1.8",
     "@babel/code-frame": "7.16.7",
     "@babel/generator": "7.18.2",
     "@babel/helper-annotate-as-pure": "7.16.7",

@@ -213,12 +213,10 @@ importers:
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       '@types/node': ^14
-      stacktracey: ^2.1.8
       typescript: ^4
       webpack: ^5.74.0
     dependencies:
       '@modern-js/utils': link:../../toolkit/utils
-      stacktracey: 2.1.8
     devDependencies:
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
@@ -3421,6 +3419,7 @@ importers:
       signal-exit: 3.0.7
       signale: 1.4.0
       slash: 3.0.0
+      stacktracey: 2.1.8
       strip-ansi: 6.0.1
       style-loader: 3.3.1
       tapable: 2.2.1
@@ -3569,6 +3568,7 @@ importers:
       signal-exit: 3.0.7
       signale: 1.4.0
       slash: 3.0.0
+      stacktracey: 2.1.8
       strip-ansi: 6.0.1
       style-loader: 3.3.1_webpack@5.74.0
       tapable: 2.2.1
@@ -17808,7 +17808,7 @@ packages:
     resolution: {integrity: sha512-xvsWESUJn0JN421Xb9MQw6AsMHRCUknCe0Wjlxvjud80mU4E6hQf1A6NzQKcYNmYw62MfzEtXc+badstZP3JpQ==}
     dependencies:
       printable-characters: 1.0.42
-    dev: false
+    dev: true
 
   /asap/2.0.6:
     resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
@@ -21127,7 +21127,7 @@ packages:
 
   /data-uri-to-buffer/2.0.2:
     resolution: {integrity: sha512-ND9qDTLc6diwj+Xe5cdAgVTbLVdXbtxTJRXRhli8Mowuaan+0EJOtdqJ0QCHNSSPyoXGx9HX2/VMnKeC34AChA==}
-    dev: false
+    dev: true
 
   /data-uri-to-buffer/3.0.1:
     resolution: {integrity: sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==}
@@ -25028,7 +25028,7 @@ packages:
     dependencies:
       data-uri-to-buffer: 2.0.2
       source-map: 0.6.1
-    dev: false
+    dev: true
 
   /get-stdin/4.0.1:
     resolution: {integrity: sha512-F5aQMywwJ2n85s4hJPTT9RPxGmubonuB10MNYo17/xph174n2MIR33HRguhzVag10O/npM7SPk73LMZNP+FaWw==}
@@ -32190,7 +32190,7 @@ packages:
 
   /printable-characters/1.0.42:
     resolution: {integrity: sha512-dKp+C4iXWK4vVYZmYSd0KBH5F/h1HoZRsbJ82AVKRO3PEo8L4lBS/vLwhVtpwwuYcoIsVY+1JYKR268yn480uQ==}
-    dev: false
+    dev: true
 
   /prism-react-renderer/1.3.5_react@18.2.0:
     resolution: {integrity: sha512-IJ+MSwBWKG+SM3b2SUfdrhC+gu01QkV2KmRQgREThBfSQRoufqRfxfHUxpG1WcaFjP+kojcFyO9Qqtpgt3qLCg==}
@@ -35450,7 +35450,7 @@ packages:
     dependencies:
       as-table: 1.0.55
       get-source: 2.0.12
-    dev: false
+    dev: true
 
   /starting/8.0.1:
     resolution: {integrity: sha512-lw4aX8PLHgIX1zu+JvZCHCNTK0urWveE3nbMzFhul5fDRvLg8ESKK3kDmnPyu6QX3ivXPpj+0ySxdOf+IGT0Mg==}

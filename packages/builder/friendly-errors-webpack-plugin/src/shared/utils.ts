@@ -1,6 +1,6 @@
 import assert from 'assert';
-import StackTracey from 'stacktracey';
 import _ from '@modern-js/utils/lodash';
+import StackTracey from '../../compiled/stacktracey';
 import { prettyFormatter, baseFormatter } from '../formatter';
 import { transformModuleParseError } from '../transformer';
 import {

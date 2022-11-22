@@ -892,4 +892,9 @@ export const TASKS: TaskConfig[] = [
       },
     ],
   },
+  {
+    packageDir: 'builder/friendly-errors-webpack-plugin',
+    packageName: '@modern-js/friendly-errors-webpack-plugin',
+    dependencies: ['stacktracey'],
+  },
 ];

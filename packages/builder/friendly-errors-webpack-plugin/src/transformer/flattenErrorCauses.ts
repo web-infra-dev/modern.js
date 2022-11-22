@@ -1,5 +1,5 @@
 import _ from '@modern-js/utils/lodash';
-import StackTracey from 'stacktracey';
+import StackTracey from '../../compiled/stacktracey';
 import { ErrorTransformer } from '../shared/types';
 
 export const compareTraces = (

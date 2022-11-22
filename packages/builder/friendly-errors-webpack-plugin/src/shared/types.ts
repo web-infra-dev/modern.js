@@ -1,4 +1,4 @@
-import StackTracey from 'stacktracey';
+import StackTracey from '../../compiled/stacktracey';
 
 export type TracingFrame = StackTracey.Entry;
 

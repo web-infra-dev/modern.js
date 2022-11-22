@@ -1,5 +1,5 @@
 import chalk from '@modern-js/utils/chalk';
-import type StackTracey from 'stacktracey';
+import type StackTracey from '../../compiled/stacktracey';
 import { ErrorFormatter } from '../shared/types';
 
 const formatTraceEntry = (entry: StackTracey.Entry) => {

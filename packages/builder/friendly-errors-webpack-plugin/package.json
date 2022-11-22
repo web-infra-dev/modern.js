@@ -61,7 +61,6 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "stacktracey": "^2.1.8",
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
