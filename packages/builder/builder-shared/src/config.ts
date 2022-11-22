@@ -137,3 +137,24 @@ export async function outputInspectConfigFiles({
     `Inspect config succeed, open following files to view the content: \n\n${fileInfos}\n`,
   );
 }
+
+/**
+ * lodash set type declare.
+ * eg. a.b.c; a[0].b[1]
+ */
+export type GetTypeByPath<
+  T extends string,
+  C extends Record<string, any>,
+> = T extends `${infer K}[${infer P}]${infer S}`
+  ? GetTypeByPath<`${K}.${P}${S}`, C>
+  : T extends `${infer K}.${infer P}`
+  ? GetTypeByPath<P, K extends '' ? C : NonNullable<C[K]>>
+  : C[T];
+
+export const setConfig = <T extends Record<string, any>, P extends string>(
+  config: T,
+  path: P,
+  value: GetTypeByPath<P, T>,
+) => {
+  _.set(config, path, value);
+};
