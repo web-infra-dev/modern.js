@@ -43,19 +43,13 @@ export function applyScriptCondition({
     and: [context.rootPath, { not: /node_modules/ }],
   });
 
-  includes.forEach(condition => {
+  [...includes, ...(config.source.include || [])].forEach(condition => {
     rule.include.add(condition);
   });
-  excludes.forEach(condition => {
+
+  [...excludes, ...(config.source.exclude || [])].forEach(condition => {
     rule.exclude.add(condition);
   });
-
-  // add source.include
-  if (config.source.include) {
-    config.source.include.forEach(condition => {
-      rule.include.add(condition);
-    });
-  }
 }
 
 export const PluginBabel = (): BuilderPlugin => ({
