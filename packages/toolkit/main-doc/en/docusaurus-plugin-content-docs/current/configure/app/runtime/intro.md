@@ -1,23 +1,23 @@
 ---
-sidebar_label: 总览
+sidebar_label: Overview
 sidebar_position: 1
 ---
 
-# 总览
+# Overview
 
-此节将介绍 Runtime 插件的配置。
+This section describes the configuration of the Runtime plugin.
 
-## 配置方式
+## Configuration
 
 ### runtime
 
-* 类型：`Object`
+* Type: `Object`
 
-runtime 配置方式如下：
+The runtime is configured as follows:
 
-#### 基本用法
+#### Base
 
-在 `modern.config.ts` 中配置
+Configure in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -30,12 +30,12 @@ export default defineConfig({
 });
 ```
 
-#### 运行时配置
+#### DefineConfig
 
-通过 [`defineConfig`](/docs/apis/app/runtime/app/define-config) API 配置：
+Configure use [`defineConfig`](/docs/apis/app/runtime/app/define-config) API:
 
 :::info
-当 runtime 配置中存在函数时，只能使用该方式进行配置。
+When there is a function in the runtime configuration, it can only be configured in this way.
 :::
 
 ```ts title="src/App.tsx"
@@ -55,9 +55,9 @@ export default App;
 ```
 
 :::info
-使用运行时配置，可以解决 Runtime 插件配置需要在运行时才能获取到具体内容问题。
+Using runtime configuration, you can solve the problem that runtime plugin configuration needs to be at runtime to get specific content.
 
-Runtime 插件运行时配置和直接在 `modern.config.ts` 中的配置默认会进行合并，且运行时配置优先级更高。
+Runtime plugin runtime configuration and configuration directly in `modern.config.ts` are merged by default, and runtime configuration takes precedence.
 :::
 
 :::warning
@@ -66,12 +66,11 @@ defineConfig 中只能定义 Runtime 插件的具体配置内容，确认是否�
 
 ### runtimeByEntries
 
-* 类型： `Object`
-* 默认值：无
+* Type: `Object`
 
-#### 说明
+#### Introduce
 
-按入口添加 runtime 配置，选项属性同 runtime 一致，指定值会和 runtime 属性内容做替换合并操作。
+Add the runtime configuration according to the entry. The option attribute is consistent with the runtime. The specified value will be replaced and merged with the content of the runtime attribute.
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
