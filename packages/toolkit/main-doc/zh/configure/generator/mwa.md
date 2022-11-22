@@ -116,7 +116,7 @@ BFF 类型(bffType)，支持两个选项：
 
 ##### Framework
 
-自定义 Server 运行时框架(framework)，支持四个选项：
+扩展 Web Server 运行时框架(framework)，支持四个选项：
 
 - Egg(egg)
 

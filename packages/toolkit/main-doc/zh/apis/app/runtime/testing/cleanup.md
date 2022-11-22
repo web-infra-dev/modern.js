@@ -3,16 +3,17 @@ title: cleanup
 sidebar_position: 3
 ---
 
-:::info 补充信息
 用于卸载掉当前已渲染的所有组件。
+
+## 使用姿势
+
 ```ts
-import { cleanup } from '@modern-js/runtime/testing';
+import { cleanup } from '@modenr-js/runtime/testing';
 ```
-:::
 
-## API
+## 函数签名
 
-`cleanup() => void`
+`function cleanup(): void`
 
 ## 示例
 
@@ -24,14 +25,14 @@ import { cleanup } from '@modern-js/runtime/testing';
 
 ```tsx
 import { cleanup, render } from '@modern-js/runtime/testing';
-import test from 'ava'
+import test from 'ava';
 
-test.afterEach(cleanup)
+test.afterEach(cleanup);
 
 test('renders into document', () => {
-  render(<div />)
+  render(<div />);
   // ...
-})
+});
 
 // ... more tests ...
 ```

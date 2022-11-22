@@ -1,21 +1,17 @@
 ---
 title: Head
-sidebar_position: 1
 ---
 
-# Head
+用于给 `head` 元素内添加 html 元素（如 title、meta、script 等），支持 `SSR`。
 
-:::info 补充信息
-用于给 `head` 元素内添加 html 元素（如 title、meta、script 等），并且支持 `SSR`。
+## 使用姿势
+
 ```tsx
 import { Helmet } from '@modern-js/runtime/head';
-```
-:::
 
-## API
-
-```tsx
-<Helmet></Helmet>
+export default () => (
+  <Helmet>...</Helmet>
+)
 ```
 
 ## 示例

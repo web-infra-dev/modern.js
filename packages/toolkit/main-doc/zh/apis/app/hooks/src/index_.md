@@ -1,5 +1,5 @@
 ---
-title: src/index.[tj]s, src/[entry]/index.[tj]s
+title: index.[tj]s
 sidebar_position: 3
 ---
 

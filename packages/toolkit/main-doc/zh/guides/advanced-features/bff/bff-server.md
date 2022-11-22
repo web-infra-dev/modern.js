@@ -48,7 +48,7 @@ export const post = async () => {
 ```
 
 :::info 补充信息
-`useContext` API 用于获取请求上下文，具体用法可以看 [API 文档](/docs/apis/app/runtime/bff-server/use-context)。
+`useContext` API 用于获取请求上下文，具体用法可以看 [API 文档](/docs/apis/app/runtime/bff/use-context)。
 :::
 
 接下来修改 `api/_app.ts`，手写一个中间件用于权限校验：

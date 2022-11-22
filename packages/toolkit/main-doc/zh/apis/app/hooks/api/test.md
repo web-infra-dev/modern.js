@@ -1,5 +1,5 @@
 ---
-title: api/test.[tj]s
+title: test.[tj]s
 sidebar_position: 2
 ---
 

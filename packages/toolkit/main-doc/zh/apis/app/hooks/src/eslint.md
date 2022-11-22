@@ -1,5 +1,5 @@
 ---
-title: src/.eslintrc.json
+title: .eslintrc.json
 sidebar_position: 5
 ---
 

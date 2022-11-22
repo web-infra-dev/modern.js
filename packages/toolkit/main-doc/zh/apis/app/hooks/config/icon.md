@@ -1,5 +1,5 @@
 ---
-title: config/icon.png
+title: icon.png
 sidebar_position: 2
 ---
 

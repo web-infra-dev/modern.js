@@ -1,5 +1,5 @@
 ---
-title: config/upload/
+title: upload/
 sidebar_position: 4
 ---
 
