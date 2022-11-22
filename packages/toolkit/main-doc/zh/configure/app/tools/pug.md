@@ -1,7 +1,6 @@
 ---
 title: tools.pug
 sidebar_label: pug
-sidebar_position: 1
 ---
 
 :::info BUILDER

@@ -1,7 +1,6 @@
 ---
 title: output.charset
 sidebar_label: charset
-sidebar_position: 1
 ---
 
 :::info BUILDER

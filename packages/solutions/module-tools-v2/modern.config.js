@@ -2,7 +2,6 @@ module.exports = {
   output: {
     buildConfig: [
       {
-        // buildType: 'bundle',
         format: 'cjs',
         bundleOptions: {
           skipDeps: false,
@@ -13,9 +12,11 @@ module.exports = {
           ],
         },
         target: 'es6',
+        sourceMap: true,
       },
       {
         enableDts: true,
+        dtsOnly: true,
       },
     ],
   },

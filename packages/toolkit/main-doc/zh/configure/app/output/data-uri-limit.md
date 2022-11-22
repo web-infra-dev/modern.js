@@ -1,7 +1,6 @@
 ---
 title: output.dataUriLimit
 sidebar_label: dataUriLimit
-sidebar_position: 1
 ---
 
 :::info BUILDER

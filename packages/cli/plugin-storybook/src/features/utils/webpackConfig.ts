@@ -2,6 +2,7 @@
 import path from 'path';
 import { fs, Import, CHAIN_ID } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/module-tools-v2';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type {
   Configuration,
   RuleSetRule,
@@ -142,6 +143,20 @@ const resolveStorybookWebPackConfig = (
     (sbWebpackConfig as any).resolve.modules.push(pnpmNodeModulesPath);
   } // compat pnpm and yarn end
 
+  if (Array.isArray(sbWebpackConfig.resolve!.plugins)) {
+    sbWebpackConfig.resolve!.plugins.push(
+      new TsconfigPathsPlugin({
+        configFile: path.join(appDirectory, 'stories/tsconfig.json'),
+      }),
+    );
+  } else {
+    sbWebpackConfig.resolve!.plugins = [
+      new TsconfigPathsPlugin({
+        configFile: path.join(appDirectory, 'stories/tsconfig.json'),
+      }),
+    ];
+  }
+
   sbWebpackConfig.plugins = [
     ...(sbWebpackConfig as any).plugins,
     ...(clientWebpackConfig as any).plugins,
@@ -215,7 +230,7 @@ export const getCustomWebpackConfigHandle: any = ({
     chain.merge({
       resolve: sbWebpackConfig.resolve,
     });
-    const config = webpackConfig.applyToolsWebpack(chain);
+    const config = chain.toConfig();
     resolveStorybookWebPackConfig(sbWebpackConfig, config, { appDirectory });
     return sbWebpackConfig;
   };

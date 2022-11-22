@@ -1,7 +1,6 @@
 ---
 title: output.disableSourceMap
 sidebar_label: disableSourceMap
-sidebar_position: 1
 ---
 
 :::info BUILDER

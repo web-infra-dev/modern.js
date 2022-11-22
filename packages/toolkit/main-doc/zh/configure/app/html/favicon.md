@@ -1,7 +1,6 @@
 ---
 title: html.favicon
 sidebar_label: favicon
-sidebar_position: 1
 ---
 
 :::info BUILDER

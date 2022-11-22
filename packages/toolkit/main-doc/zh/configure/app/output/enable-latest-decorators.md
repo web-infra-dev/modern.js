@@ -1,7 +1,6 @@
 ---
 title: output.enableLatestDecorators
 sidebar_label: enableLatestDecorators
-sidebar_position: 1
 ---
 
 :::info BUILDER

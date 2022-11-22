@@ -1,6 +1,5 @@
 ---
 sidebar_label: prefix
-sidebar_position: 1
 ---
 
 # bff.prefix
@@ -11,7 +10,7 @@ sidebar_position: 1
 * 默认值：`/api`
 
 :::caution 注意
-应用工程需要请确保使用【[new](/docs/apis/app/commands/new)】 启用了 BFF 功能。
+请先在当前应用项目根目录使用【[new](/docs/apis/app/commands/new)】 启用 BFF 功能。
 :::
 
 默认情况下，BFF API 目录下的路由访问前缀是 `/api`, 如下目录结构：

@@ -1,7 +1,6 @@
 ---
 title: html.injectByEntries
 sidebar_label: injectByEntries
-sidebar_position: 1
 ---
 
 :::info BUILDER

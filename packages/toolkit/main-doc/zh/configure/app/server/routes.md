@@ -1,6 +1,5 @@
 ---
 sidebar_label: routes
-sidebar_position: 4
 ---
 
 # server.routes

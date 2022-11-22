@@ -1,7 +1,6 @@
 ---
 title: performance.profile
 sidebar_label: profile
-sidebar_position: 1
 ---
 
 :::info BUILDER

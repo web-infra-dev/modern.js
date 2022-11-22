@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc --emitDeclarationOnly",
+    "build": "tsc",
     "test": "vitest run --segfault-retry=3",
     "test:watch": "vitest dev --no-coverage",
     "test:update": "SNAPSHOT_UPDATE=1 vitest watch",

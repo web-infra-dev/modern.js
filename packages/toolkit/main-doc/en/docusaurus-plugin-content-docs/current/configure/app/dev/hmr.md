@@ -1,7 +1,6 @@
 ---
 title: dev.hmr
 sidebar_label: hmr
-sidebar_position: 1
 ---
 
 :::info BUILDER

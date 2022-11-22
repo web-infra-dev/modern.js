@@ -1,7 +1,6 @@
 ---
 title: tools.styleLoader
 sidebar_label: styleLoader
-sidebar_position: 1
 ---
 
 :::info BUILDER

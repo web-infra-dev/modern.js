@@ -19,7 +19,6 @@ const createMarkdown = (summary: Summary, lng: Language) => {
   return `---
 title: ${dirname}.${name}
 sidebar_label: ${name}
-sidebar_position: 1
 ---
 
 :::info BUILDER

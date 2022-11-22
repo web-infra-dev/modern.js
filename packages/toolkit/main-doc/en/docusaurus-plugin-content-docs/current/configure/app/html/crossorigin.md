@@ -1,7 +1,6 @@
 ---
 title: html.crossorigin
 sidebar_label: crossorigin
-sidebar_position: 1
 ---
 
 :::info BUILDER

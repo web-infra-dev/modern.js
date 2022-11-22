@@ -1,6 +1,5 @@
 ---
 sidebar_label: state
-sidebar_position: 2
 ---
 
 # runtime.state

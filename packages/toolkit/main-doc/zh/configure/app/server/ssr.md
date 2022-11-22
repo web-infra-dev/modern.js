@@ -1,6 +1,5 @@
 ---
 sidebar_label: ssr
-sidebar_position: 1
 ---
 
 # server.ssr

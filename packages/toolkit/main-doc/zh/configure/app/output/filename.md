@@ -1,7 +1,6 @@
 ---
 title: output.filename
 sidebar_label: filename
-sidebar_position: 1
 ---
 
 :::info BUILDER

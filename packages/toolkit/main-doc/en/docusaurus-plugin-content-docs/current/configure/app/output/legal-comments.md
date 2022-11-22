@@ -1,7 +1,6 @@
 ---
 title: output.legalComments
 sidebar_label: legalComments
-sidebar_position: 1
 ---
 
 :::info BUILDER
