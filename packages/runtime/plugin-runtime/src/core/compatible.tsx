@@ -253,6 +253,7 @@ export const bootstrap: BootStrap = async (
     // Handle redirects from React Router with an HTTP redirect
     const isRedirectResponse = (result: any) => {
       if (
+        typeof Response !== 'undefined' && // fix: ssg workflow doesn't inject Web Response
         result instanceof Response &&
         result.status >= 300 &&
         result.status <= 399
