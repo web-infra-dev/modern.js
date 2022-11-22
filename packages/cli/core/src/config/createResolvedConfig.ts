@@ -80,7 +80,8 @@ export const createResolveConfig = async (
   // validate user config.
   // const valid = validate(userConfig);
 
-  const formatValidateError = (config: CliUserConfig) =>
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _formatValidateError = (config: CliUserConfig) =>
     betterAjvErrors(
       validateSchema,
       config,
@@ -102,13 +103,13 @@ export const createResolveConfig = async (
   // }
 
   // validate config from plugins.
-  for (const config of configs) {
-    if (!validate(config)) {
-      const errors = formatValidateError(config);
-      logger.error(errors);
-      throw new Error(`Validate configuration error.`);
-    }
-  }
+  // for (const config of configs) {
+  //   if (!validate(config)) {
+  //     const errors = formatValidateError(config);
+  //     logger.error(errors);
+  //     throw new Error(`Validate configuration error.`);
+  //   }
+  // }
 
   const resolved = mergeConfig([...configs, userConfig]);
 

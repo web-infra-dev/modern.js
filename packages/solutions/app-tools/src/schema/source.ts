@@ -23,4 +23,5 @@ export const source = {
   disableDefaultEntries: { type: 'boolean' },
   entriesDir: { type: 'string' },
   configDir: { type: 'string' },
+  designSystem: { type: 'object' },
 };

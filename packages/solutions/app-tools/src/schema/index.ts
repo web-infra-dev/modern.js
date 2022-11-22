@@ -6,9 +6,12 @@ import { source } from './source';
 
 const output = {
   ssg: { typeof: ['boolean', 'object', 'function'] },
+  enableModernMode: { type: 'boolean' },
 };
 const tools = {
   devServer: { type: 'object' },
+  tailwindcss: { type: 'object' },
+  jest: { typeof: ['object', 'function'] },
 };
 
 const schema = new Schema();

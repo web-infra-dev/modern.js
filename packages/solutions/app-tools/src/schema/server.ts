@@ -23,4 +23,8 @@ export const server = {
   },
   logger: { type: ['boolean', 'object'] },
   metrics: { type: ['boolean', 'object'] },
+  enableMicroFrontendDebug: { type: 'boolean' },
+  watchOptions: { type: 'object' },
+  compiler: { type: 'string' },
+  disableFrameworkExt: { type: 'boolean' },
 };

@@ -1,5 +1,5 @@
 import type { CliUserConfig, IAppContext } from '@modern-js/core';
-import { AppTools } from '../types';
+import type { AppTools } from '../types';
 
 export function createDefaultConfig(
   appContext: IAppContext,
