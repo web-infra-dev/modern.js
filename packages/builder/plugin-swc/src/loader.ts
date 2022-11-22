@@ -44,19 +44,6 @@ export function createLoader() {
     }
     const result = await compiler.transform(filename, code, map);
     resolve(null, result.code, result.map?.toString());
-
-    // try {
-    //   if (deoptimize) {
-    //     // Using of plugin-import results in napi call JsFunction, result in bad perf
-    //     const result = compiler.transformSync(filename, code, map);
-    //     resolve(null, result.code, result.map?.toString());
-    //   } else {
-    //     const result = await compiler.transform(filename, code, map);
-    //     resolve(null, result.code, result.map?.toString());
-    //   }
-    // } catch (e) {
-    //   resolve(e as Error);
-    // }
   };
 }
 

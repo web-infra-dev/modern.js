@@ -121,6 +121,6 @@ export async function fsSnapshot(
     fs.writeFileSync(expectedPath, code);
   } else {
     const expected = fs.readFileSync(expectedPath).toString();
-    expect(code, `Test base: ${base}`).toEqual(expected);
+    expect(code.replace('\r\n', '\n'), `Test base: ${base}`).toEqual(expected.replace('\r\n', '\n'));
   }
 }

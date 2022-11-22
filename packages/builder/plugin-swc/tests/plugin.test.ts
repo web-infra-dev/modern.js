@@ -5,12 +5,6 @@ import { PluginSwc } from '../src';
 import { PluginBabel } from '@modern-js/builder-webpack-provider/plugins/babel';
 import { createSnapshotSerializer } from '@scripts/vitest-config';
 
-expect.addSnapshotSerializer(
-  createSnapshotSerializer({
-    replace: [{ mark: 'root', match: path.resolve(__dirname, '..') }],
-  }),
-);
-
 describe('plugins/swc', () => {
   it('should set swc-loader', async () => {
     const builder = await createStubBuilder({
