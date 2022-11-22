@@ -88,5 +88,5 @@ export default defineConfig({
 
 ## 注意事项
 
-- 不建议同时使用 `package.json` 和 `modern.config.js` 进行配置。如果同时使用了两者并出现配置冲突，modern.js 会在命令行进行提示。
+- 不建议同时使用 `package.json` 和 `modern.config.js` 进行配置。如果同时使用了两者并出现配置冲突，Modern.js 会在命令行进行提示。
 - `@modern-js/runtime` 导出了同名的 [defineConfig](/docs/apis/app/runtime/app/define-config) API，请注意区分。
