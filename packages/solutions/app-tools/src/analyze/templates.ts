@@ -169,20 +169,25 @@ export const fileSystemRoutes = ({
   routes,
   ssrMode,
   nestedRoutesEntry,
+  entryName,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
   ssrMode: 'string' | 'stream' | false;
   nestedRoutesEntry?: string;
+  entryName: string;
 }) => {
-  const importLazyCode =
-    ssrMode === 'stream'
-      ? 'import { lazy } from "react";'
-      : `import loadable from '@modern-js/runtime/loadable'`;
+  // The legacy mode and pages dir routes should use loadable
+  // nested routes + renderTostring should use loadable.lazy
+  // nested routes + renderToStream should use react.lazy
+  const importLazyCode = `
+    import { lazy } from "react";
+    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
+  `;
   let dataLoaderPath = '';
   if (ssrMode) {
     dataLoaderPath = require.resolve(`@modern-js/plugin-data-loader/loader`);
     if (nestedRoutesEntry) {
-      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}!`;
+      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}&entryName=${entryName}!`;
     }
   }
 
@@ -198,6 +203,7 @@ export const fileSystemRoutes = ({
     let loading: string | undefined;
     let error: string | undefined;
     let loader: string | undefined;
+    let component = '';
 
     if (route.type === 'nested') {
       if (route.loading) {
@@ -212,6 +218,16 @@ export const fileSystemRoutes = ({
         loaders.push(route.loader);
         loader = `loader_${loaders.length - 1}`;
       }
+
+      if (route._component) {
+        if (ssrMode === 'stream') {
+          component = `lazy(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
+        } else {
+          component = `loadable(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
+        }
+      }
+    } else if (route._component) {
+      component = `loadable(() => import('${route._component}'))`;
     }
 
     const finalRoute = {
@@ -222,10 +238,6 @@ export const fileSystemRoutes = ({
       children,
     };
     if (route._component) {
-      const component =
-        ssrMode === 'stream'
-          ? `lazy(() => import('${route._component}'))`
-          : `loadable(() => import('${route._component}'))`;
       finalRoute.component = component;
     }
     return finalRoute;
@@ -238,16 +250,15 @@ export const fileSystemRoutes = ({
     if ('type' in route) {
       const newRoute = traverseRouteTree(route);
       routeComponentsCode += `${JSON.stringify(newRoute, null, 2)
-        .replace(/"(loadable[^"]*)"/g, '$1')
-        .replace(/"(lazy[^"]*)"/g, '$1')
+        .replace(/"(loadable.*\))"/g, '$1')
+        .replace(/"(loadableLazy.*\))"/g, '$1')
+        .replace(/"(lazy.*\))"/g, '$1')
         .replace(/"(loading_[^"])"/g, '$1')
         .replace(/"(loader_[^"])"/g, '$1')
-        .replace(/"(error_[^"])"/g, '$1')},`;
+        .replace(/"(error_[^"])"/g, '$1')
+        .replace(/\\"/g, '"')},`;
     } else {
-      const component =
-        ssrMode === 'stream'
-          ? `lazy(() => import('${route._component}'))`
-          : `loadable(() => import('${route._component}'))`;
+      const component = `loadable(() => import('${route._component}'))`;
       const finalRoute = {
         ...route,
         component,

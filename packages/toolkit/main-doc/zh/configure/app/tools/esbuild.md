@@ -3,8 +3,8 @@ title: tools.esbuild
 sidebar_label: esbuild
 ---
 
-- 类型： `Object`
-- 默认值： `undefined`
+* 类型： `Object`
+* 默认值： `undefined`
 
 ## 介绍
 
@@ -24,8 +24,8 @@ Modern.js 基于 esbuild 提供了代码编译和压缩的能力，在大型工�
 
 ### target
 
-- 类型： `string | string[]`
-- 默认值： `'esnext'`
+* 类型： `string | string[]`
+* 默认值： `'esnext'`
 
 为生成的 JavaScript 和 CSS 代码设置目标环境。
 
@@ -44,7 +44,7 @@ Modern.js 基于 esbuild 提供了代码编译和压缩的能力，在大型工�
 
 默认情况下，esbuild 压缩过程中会引入 ES6 代码，比如模板字符串。如果需要兼容 ES5，可以将 `target` 设置为 `es5`。
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   tools: {
     esbuild: {

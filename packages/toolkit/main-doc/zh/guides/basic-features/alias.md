@@ -54,7 +54,7 @@ Modern.js 也提供了自定义别名的方式，以添加 `@common` 别名为�
 
 JavaScript 项目可以在 `modern.config.js` 中配置 [`source.alias`](/docs/configure/app/source/alias):
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     alias: {
