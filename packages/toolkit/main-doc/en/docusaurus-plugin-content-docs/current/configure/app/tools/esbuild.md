@@ -29,7 +29,7 @@ In addition to code compression, esbuild can also replace babel for code compila
 
 Set the target environment for the generated JavaScript and CSS code.
 
-Can be set directly to the JavaScript language version, such as `es5`, `es6`, `es2020`. It can also be set to several target environments, each target environment is an environment name followed by a version number. For example: [`chrome58`, `edge16`, `firefox57`].
+Can be set directly to the JavaScript language version, such as `es5`, `es6`, `es2020`. It can also be set to several target environments, each target environment is an environment name followed by a version number. For example: `['chrome58', 'edge16', 'firefox57']`.
 
 The following environments are supported:
 

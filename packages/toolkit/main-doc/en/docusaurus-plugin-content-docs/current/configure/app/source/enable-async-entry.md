@@ -12,7 +12,7 @@ When this option is turned on, the Modern.js wraps the automatically generated a
 
 ## Background knowledge
 
-If you don't know webpack module federation, please read the official Module Federation documentation(https://webpack.js.org/concepts/module-federation) first.
+If you don't know webpack module federation, please read the official [Module Federation documentation](https://webpack.js.org/concepts/module-federation) first.
 
 ## Example
 

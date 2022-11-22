@@ -4,8 +4,6 @@ sidebar_label: disableNodePolyfill
 
 # output.disableNodePolyfill
 
-
-
 * Type: `boolean`
 * Default: `false`
 

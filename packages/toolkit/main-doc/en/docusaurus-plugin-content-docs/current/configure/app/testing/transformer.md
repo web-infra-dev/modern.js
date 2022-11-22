@@ -7,6 +7,10 @@ sidebar_position: 1
 - Type: `'babel-jest' | 'ts-jest'`
 - Default: `babel-jest`
 
+:::caution Caution
+First you need to enable the "Unit Test" function using [new](/docs/apis/app/commands/new) command.
+:::
+
 Configure the compiler for source code when executing tests: [babel-jest](https://www.npmjs.com/package/babel-jest) or [ts-jest](https://github.com/kulshekhar/ts-jest). `babel-jest` is used by default.
 
 :::info Additional information

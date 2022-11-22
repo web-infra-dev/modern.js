@@ -42,6 +42,6 @@ When the value is of type `Object`, rhe configuration corresponding to [Tailwind
 
 When the value is of type `Function`, the object returned by the function is merged with the default configuration by `Object.assign`.
 
-The `theme` attribute is not allowed, otherwise the build will fail. Modern.js use [`source.designSystem`(/docs/configure/app/source/design-system)] as the Tailwind CSS Theme configuration.
+The `theme` attribute is not allowed, otherwise the build will fail. Modern.js use [`source.designSystem`](/docs/configure/app/source/design-system) as the Tailwind CSS Theme configuration.
 
 Other uses are consistent with [Tailwind CSS](https://tailwindcss.com/docs/configuration)。

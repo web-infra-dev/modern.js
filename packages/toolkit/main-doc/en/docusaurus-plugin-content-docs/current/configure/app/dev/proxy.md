@@ -72,7 +72,7 @@ Execute `dev`, when the prompt is as follows, the proxy server starts successful
 
 Access the `localhost:8899` to view the Network and configure proxy rules on the UI interface:
 
-![proxy ui 界面](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/dev-proxy.png)
+![proxy UI](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/dev-proxy.png)
 
 :::caution Caution
 The https agent automatically installs the certificate to obtain root privileges. Please enter the password as prompted. ** The password is only used when the certificate is trusted and will not be leaked or used for other links **.
