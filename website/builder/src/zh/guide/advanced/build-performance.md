@@ -121,6 +121,23 @@ export default {
 
 以下是针对开发环境进行提速的策略。
 
+### 开启延迟编译
+
+你可以开启延迟编译（即按需编译）功能，来提升编译启动速度。
+
+```ts
+export default {
+  experiments: {
+    lazyCompilation: {
+      imports: true,
+      entries: false,
+    },
+  },
+};
+```
+
+这是一项实验性功能，在某些场景下可能无法正确工作，请查看 [experiments.lazyCompilation](/zh/api/config-experiments.html#experiments-lazycompilation) 来了解具体用法。
+
 ### 调整 Source Map 格式
 
 为了提供良好的调试体验，Builder 在开发环境下默认使用 `cheap-module-source-map` 格式 Source Map，这是一种高质量的 Source Map 格式，会带来一定的性能开销。
