@@ -1,11 +1,7 @@
-import type { OutputPrettyErrorOptions } from '@modern-js/friendly-errors-webpack-plugin';
-import { BuilderPlugin } from '@modern-js/builder-shared';
-import { BuilderPluginAPI } from '../types';
+import type { BuilderPlugin } from '../types';
 
-export const PluginFriendlyErrors = (
-  options?: OutputPrettyErrorOptions,
-): BuilderPlugin<BuilderPluginAPI> => ({
-  name: 'friendly-errors',
+export const PluginFriendlyErrors = (): BuilderPlugin => ({
+  name: 'builder-plugin-friendly-errors',
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       const { FriendlyErrorsWebpackPlugin } = await import(
@@ -13,7 +9,7 @@ export const PluginFriendlyErrors = (
       );
       chain
         .plugin(CHAIN_ID.PLUGIN.FRIENDLY_ERROR)
-        .use(FriendlyErrorsWebpackPlugin, [options]);
+        .use(FriendlyErrorsWebpackPlugin);
     });
   },
 });

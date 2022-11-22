@@ -176,7 +176,7 @@ importers:
     dependencies:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/builder-shared': link:../builder-shared
-      '@modern-js/friendly-errors-webpack-plugin': link:../plugin-friendly-errors
+      '@modern-js/friendly-errors-webpack-plugin': link:../friendly-errors-webpack-plugin
       '@modern-js/inspector-webpack-plugin': 1.0.3
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
@@ -207,6 +207,25 @@ importers:
       autoprefixer: 10.4.8_postcss@8.4.16
       typescript: 4.7.4
 
+  packages/builder/friendly-errors-webpack-plugin:
+    specifiers:
+      '@modern-js/e2e': workspace:*
+      '@modern-js/utils': workspace:*
+      '@scripts/vitest-config': workspace:*
+      '@types/node': ^14
+      stacktracey: ^2.1.8
+      typescript: ^4
+      webpack: ^5.74.0
+    dependencies:
+      '@modern-js/utils': link:../../toolkit/utils
+      stacktracey: 2.1.8
+    devDependencies:
+      '@modern-js/e2e': link:../../toolkit/e2e
+      '@scripts/vitest-config': link:../../../scripts/vitest-config
+      '@types/node': 14.18.21
+      typescript: 4.7.4
+      webpack: 5.74.0
+
   packages/builder/plugin-esbuild:
     specifiers:
       '@modern-js/builder': workspace:*
@@ -227,27 +246,6 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 4.7.4
       wireit: 0.7.1
-
-  packages/builder/plugin-friendly-errors:
-    specifiers:
-      '@modern-js/e2e': workspace:*
-      '@modern-js/utils': workspace:*
-      '@scripts/vitest-config': workspace:*
-      '@types/node': ^14
-      chalk: ^2.4.2
-      stacktracey: ^2.1.8
-      typescript: ^4
-      webpack: ^5.74.0
-    dependencies:
-      chalk: 2.4.2
-      stacktracey: 2.1.8
-    devDependencies:
-      '@modern-js/e2e': link:../../toolkit/e2e
-      '@modern-js/utils': link:../../toolkit/utils
-      '@scripts/vitest-config': link:../../../scripts/vitest-config
-      '@types/node': 14.18.21
-      typescript: 4.7.4
-      webpack: 5.74.0
 
   packages/builder/plugin-node-polyfill:
     specifiers:

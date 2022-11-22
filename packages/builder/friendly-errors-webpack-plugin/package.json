@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.0.0",
+  "version": "2.0.0-beta.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -61,12 +61,11 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
-    "stacktracey": "^2.1.8"
+    "stacktracey": "^2.1.8",
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "typescript": "^4",
