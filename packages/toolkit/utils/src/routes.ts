@@ -6,10 +6,15 @@ export const getPathWithoutExt = (filename: string) => {
   return filename.slice(0, -extname.length);
 };
 
-export const getRouteId = (componentPath: string, routesDir: string) => {
+export const getRouteId = (
+  componentPath: string,
+  routesDir: string,
+  entryName: string,
+) => {
   const relativePath = normalizeToPosixPath(
     path.relative(routesDir, componentPath),
   );
-  const id = getPathWithoutExt(relativePath);
+  const pathWithoutExt = getPathWithoutExt(relativePath);
+  const id = `${entryName}_${pathWithoutExt}`;
   return id;
 };

@@ -1,5 +1,5 @@
 import { fs } from '@modern-js/utils';
-import { generateRoutes } from '../src/utils/routes';
+import { generateRoutes } from '../../src/utils/routes';
 
 jest.mock('@modern-js/utils', () => {
   const originalModule = jest.requireActual('@modern-js/utils');

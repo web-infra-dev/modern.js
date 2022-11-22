@@ -4,13 +4,15 @@ import { getRouteId } from '@modern-js/utils';
 export const generateClient = ({
   basedir,
   filename,
+  entryName,
 }: {
   basedir: string;
   filename: string;
+  entryName: string;
 }) => {
   // TODO: loader 的约定变更
   const componentPath = path.join(path.dirname(filename), 'layout.ts');
-  const routeId = getRouteId(componentPath, basedir);
+  const routeId = getRouteId(componentPath, basedir, entryName);
   const requestCreatorPath = path
     .join(__dirname, './create-request')
     .replace('node', 'treeshaking')

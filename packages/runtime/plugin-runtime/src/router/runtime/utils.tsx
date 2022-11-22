@@ -3,6 +3,7 @@ import { Route, RouteProps } from 'react-router-dom';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
+import { RootLayout } from './root';
 
 const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   const { children, index, id, component: Component } = nestedRoute;
@@ -28,22 +29,34 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
     routeProps.errorElement = errorElement;
   }
 
+  let element;
+
   if (Component) {
     if (parent?.loading) {
       const Loading = parent.loading;
-      routeProps.element = (
+      element = (
         <Suspense fallback={<Loading />}>
           <Component />
         </Suspense>
       );
     } else {
-      routeProps.element = (
+      element = (
         <Suspense>
           <Component />
         </Suspense>
       );
     }
   }
+
+  if (!parent) {
+    element = (
+      <RootLayout routes={[nestedRoute]}>
+        <Suspense>{element}</Suspense>
+      </RootLayout>
+    );
+  }
+
+  routeProps.element = element;
 
   const routeElement = index ? (
     <Route key={id} {...routeProps} index={true} />

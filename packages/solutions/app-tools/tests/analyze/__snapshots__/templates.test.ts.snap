@@ -2,7 +2,10 @@
 
 exports[`fileSystemRoutes generate code 1`] = `
 "
-    import loadable from '@modern-js/runtime/loadable'
+    
+    import { lazy } from \\"react\\";
+    import loadable, { lazy as loadableLazy } from \\"@modern-js/runtime/loadable\\"
+  
     import loading_0 from '@_modern_js_src/routes/loading.tsx';
 
     import error_0 from '@_modern_js_src/routes/error.tsx';
@@ -34,15 +37,15 @@ exports[`fileSystemRoutes generate code 1`] = `
               \\"index\\": true,
               \\"id\\": \\"user/[id]/page\\",
               \\"type\\": \\"nested\\",
-              \\"component\\": loadable(() => import('@_modern_js_src/routes/user/[id]/page.tsx'))
+              \\"component\\": loadable(() => import(/* webpackChunkName: \\"user/[id]/page\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/user/[id]/page.tsx'))
             }
           ]
         }
       ],
-      \\"component\\": loadable(() => import('@_modern_js_src/routes/user.tsx'))
+      \\"component\\": loadable(() => import(/* webpackChunkName: \\"user/layout\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/user.tsx'))
     }
   ],
-  \\"component\\": loadable(() => import('@_modern_js_src/routes/layout.tsx'))
+  \\"component\\": loadable(() => import(/* webpackChunkName: \\"layout\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/layout.tsx'))
 },
 ];
   "
@@ -50,7 +53,10 @@ exports[`fileSystemRoutes generate code 1`] = `
 
 exports[`fileSystemRoutes generate code for legacy router 1`] = `
 "
-    import loadable from '@modern-js/runtime/loadable'
+    
+    import { lazy } from \\"react\\";
+    import loadable, { lazy as loadableLazy } from \\"@modern-js/runtime/loadable\\"
+  
     
     
     
