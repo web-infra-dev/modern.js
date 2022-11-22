@@ -48,10 +48,10 @@ export function createOutputConfig(
       js: jsPath,
       html: htmlPath,
       // `@modern-js/webpack` output all media files to `dist/media` by default
-      svg: mediaPath || 'midia',
-      image: mediaPath || 'midia',
-      font: mediaPath || 'midia',
-      media: mediaPath || 'midia',
+      svg: mediaPath || 'media',
+      image: mediaPath || 'media',
+      font: mediaPath || 'media',
+      media: mediaPath || 'media',
     },
     dataUriLimit: {
       svg: dataUriLimit,
