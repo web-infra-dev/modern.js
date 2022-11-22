@@ -2,8 +2,11 @@ import { ChunkExtractor } from '@loadable/server';
 import { isCrossOrigin } from '../utils';
 import { RenderHandler } from './type';
 
-const extname = (uri: string) => {
-  return uri.match(/\.[^.]+$/) || '';
+const extname = (uri: string): string => {
+  if (typeof uri !== 'string' || !uri.includes('.')) {
+    return '';
+  }
+  return `.${uri?.split('.').pop()}` || '';
 };
 
 function getLoadableScripts(extractor: ChunkExtractor) {
