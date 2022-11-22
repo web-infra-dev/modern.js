@@ -54,7 +54,7 @@ export default {
 
 我们推荐使用 .ts 格式的配置文件，它提供了友好的 TypeScript 类型提示，从而帮助你避免配置中的错误。
 
-从`@modern-js/app-tools`中导入 `defineConfig` 工具函数, 它会帮助你进行配置的类型推导和类型补全：
+从 `@modern-js/app-tools` 中导入 `defineConfig` 工具函数, 它会帮助你进行配置的类型推导和类型补全：
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';

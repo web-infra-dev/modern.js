@@ -86,7 +86,7 @@ In addition to configuration files, configuration options can also be set the `m
 
 Due to the limitation of the JSON file format, only simple types such as numbers, strings, boolean values, arrays, etc. can be defined in `package.json`. When we need to set the value of the function type, it is recommended to set it in the Modern.js configuration file.
 
-## Precautions
+## Note
 
-- It is not recommended to use both `package.json` and `modern.config.t[j]s` for configuration. If both are used and a configuration conflict occurs, Modern.js will prompt you on the command line.
+- It is not recommended to use both `package.json` and `modern.config.t[j]s` for configuration. If both are used and a configuration conflict occurs, Modern.js will prompt error on the command line.
 - `@modern-js/runtime` exports the [defineConfig](/docs/apis/app/runtime/app/define-config) API of the same name, please pay attention to the distinction.
