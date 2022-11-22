@@ -531,6 +531,275 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
 }
 `;
 
+exports[`plugins/babel > should apply exclude condition when using source.exclude 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "exclude": [
+          "src/foo/**/*.js",
+        ],
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+              "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  {
+                    "metaName": "modern-js",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "import-antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  {
+                    "legacy": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "helpers": false,
+                    "regenerator": true,
+                    "useESModules": true,
+                    "version": "7.18.6",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  {
+                    "displayName": true,
+                    "pure": true,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                  "styled-components",
+                ],
+              ],
+              "presets": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  {
+                    "bugfixes": false,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.25",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": false,
+                    "shippedProposals": false,
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "useBuiltIns": "entry",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "classic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+              "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  {
+                    "metaName": "modern-js",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "import-antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  {
+                    "legacy": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "helpers": false,
+                    "regenerator": true,
+                    "useESModules": true,
+                    "version": "7.18.6",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  {
+                    "displayName": true,
+                    "pure": true,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                  "styled-components",
+                ],
+              ],
+              "presets": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  {
+                    "bugfixes": false,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.25",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": false,
+                    "shippedProposals": false,
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "useBuiltIns": "entry",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "classic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
 exports[`plugins/babel > should not add core-js-entry when output.polyfill is usage 1`] = `
 {
   "main": [

@@ -39,6 +39,20 @@ describe('plugins/babel', () => {
     expect(config).toMatchSnapshot();
   });
 
+  it('should apply exclude condition when using source.exclude', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginBabel()],
+      builderConfig: {
+        source: {
+          exclude: ['src/foo/**/*.js'],
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
+
   it('should add core-js-entry when output.polyfill is entry', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginBabel()],
