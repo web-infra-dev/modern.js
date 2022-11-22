@@ -1,7 +1,6 @@
 ---
 title: tools.autoprefixer
 sidebar_label: autoprefixer
-sidebar_position: 1
 ---
 
 :::info BUILDER

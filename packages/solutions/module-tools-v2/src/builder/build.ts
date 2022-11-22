@@ -1,123 +1,239 @@
-import path from 'path';
-import { Libuilder, CLIConfig } from '@modern-js/libuild';
-import { es5OutputPlugin } from '@modern-js/libuild-plugin-es5';
+import type { CLIConfig, Style } from '@modern-js/libuild';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
   ModuleToolsHooks,
   PluginAPI,
   DTSOptions,
+  ModuleContext,
 } from '../types';
-import { runRollup } from './dts';
 
 export const runBuildTask = async (
-  config: BaseBuildConfig,
-  options: BuildCommandOptions,
+  options: {
+    buildConfig: BaseBuildConfig;
+    buildCmdOptions: BuildCommandOptions;
+    context: ModuleContext;
+    styleConfig: Style;
+  },
   api: PluginAPI<ModuleToolsHooks>,
 ) => {
-  const dts = options.dts ? config.dts : false;
-  const watch = options.watch ?? false;
-  const { appDirectory } = api.useAppContext();
-  if (dts) {
-    const dtsOptions = {
-      only: dts.only ?? false,
-      distPath: path.resolve(appDirectory, dts.distPath ?? 'dist/types'),
-      tsconfigPath: path.resolve(
-        appDirectory,
-        options.tsconfig ?? dts.tsconfigPath ?? 'tsconfig.json',
-      ),
-    };
-    const tasks = dtsOptions.only ? [generatorDts] : [buildLib, generatorDts];
-    const { default: pMap } = await import('p-map');
-    await pMap(tasks, async task => {
-      await task(config, api, watch, dts);
-    });
+  const { buildConfig, context } = options;
+  const { appDirectory, isTsProject } = context;
+
+  if (isTsProject) {
+    await buildInTsProject(options, api);
   } else {
-    await buildLib(config, api, watch);
+    await buildInJsProject(options, api);
   }
+
+  const { copyTask } = await import('./copy');
+  await copyTask(buildConfig, { appDirectory });
+};
+
+export const buildInTsProject = async (
+  options: {
+    buildConfig: BaseBuildConfig;
+    buildCmdOptions: BuildCommandOptions;
+    context: ModuleContext;
+    styleConfig: Style;
+  },
+  api: PluginAPI<ModuleToolsHooks>,
+) => {
+  const { buildConfig, buildCmdOptions, styleConfig } = options;
+  const dts = buildCmdOptions.dts ? buildConfig.dts : false;
+  const watch = buildCmdOptions.watch ?? false;
+
+  if (dts === false) {
+    await buildLib(buildConfig, api, { watch, styleConfig });
+  } else {
+    const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
+    const { default: pMap } = await import('../../compiled/p-map');
+    await pMap(tasks, async task => {
+      await task(buildConfig, api, { watch, dts, styleConfig });
+    });
+  }
+};
+
+export const buildInJsProject = async (
+  options: {
+    buildConfig: BaseBuildConfig;
+    buildCmdOptions: BuildCommandOptions;
+    context: ModuleContext;
+    styleConfig: Style;
+  },
+  api: PluginAPI<ModuleToolsHooks>,
+) => {
+  const { buildConfig, buildCmdOptions, styleConfig } = options;
+  const dts = buildCmdOptions.dts ? buildConfig.dts : false;
+  const watch = buildCmdOptions.watch ?? false;
+
+  if (dts !== false && dts.only) {
+    return;
+  }
+
+  await buildLib(buildConfig, api, { watch, styleConfig });
 };
 
 export const generatorDts = async (
   config: BaseBuildConfig,
   api: PluginAPI,
-  watch: boolean,
-  dts: DTSOptions,
+  options: {
+    watch: boolean;
+    dts: DTSOptions;
+  },
 ) => {
-  const { buildType, entry } = config;
+  const { runRollup, runTsc } = await import('./dts');
+  const { watch, dts } = options;
+  const { buildType, input, sourceDir, alias } = config;
   const { appDirectory } = api.useAppContext();
   const { tsconfigPath, distPath } = dts;
-  const distDir = path.join(appDirectory, distPath);
   if (buildType === 'bundle') {
-    const {
-      bundleOptions: { externals },
-    } = config;
+    const { getFinalExternals } = await import('../utils/builder');
+    const finalExternals = await getFinalExternals(config, { appDirectory });
+
     await runRollup({
-      distDir,
+      distDir: distPath,
       watch,
-      externals,
-      entry,
+      externals: finalExternals,
+      input,
       tsconfigPath,
     });
   } else {
-    // TODO: bundleless
+    await runTsc({
+      appDirectory,
+      alias,
+      distAbsPath: distPath,
+      watch,
+      tsconfigPath,
+      sourceDir,
+    });
   }
 };
 
 export const buildLib = async (
   config: BaseBuildConfig,
-  api: PluginAPI,
-  watch: boolean,
+  api: PluginAPI<ModuleToolsHooks>,
+  options: {
+    styleConfig: Style;
+    watch: boolean;
+  },
 ) => {
+  const { watch, styleConfig } = options;
   const {
     target,
     buildType,
     sourceMap,
-    entry,
     format,
-    path: distPath,
+    outdir: distPath,
+    asset,
+    jsx,
+    input,
+    platform,
+    splitting,
+    minify,
+    sourceDir,
+    entryNames,
+    umdGlobals,
+    umdModuleName,
+    define,
+    alias: userAlias,
   } = config;
-  const { appDirectory } = api.useAppContext();
-  if (buildType === 'bundle') {
-    const {
-      bundleOptions: {
-        platform,
-        splitting,
-        minify,
-        externals,
-        assets,
-        entryNames,
-        globals,
-        metafile,
-        jsx,
-        getModuleId,
-      },
-    } = config;
+  const { appDirectory, srcDirectory } = api.useAppContext();
 
-    const outdir = path.join(appDirectory, distPath);
+  const defaultAlias = {
+    '@': srcDirectory,
+  };
 
-    const plugins = target === 'es5' ? [es5OutputPlugin()] : [];
-    const bundleConfig: CLIConfig = {
-      platform,
-      watch,
-      input: entry,
-      target,
-      outdir,
-      format,
-      jsx,
-      metafile,
-      globals,
-      entryNames,
-      asset: assets,
-      splitting,
-      // style,
-      // resolve: { alias },
-      // define,
-      sourceMap,
-      minify,
-      external: externals,
-      plugins,
-      getModuleId,
+  const { applyOptionsChain, ensureAbsolutePath, slash } = await import(
+    '@modern-js/utils'
+  );
+  const mergedAlias = applyOptionsChain(defaultAlias, userAlias);
+
+  const alias = Object.keys(mergedAlias).reduce((o, name) => {
+    return {
+      ...o,
+      [name]: slash(ensureAbsolutePath(appDirectory, mergedAlias[name])),
     };
-    await Libuilder.run(bundleConfig);
+  }, {});
+
+  const { getFinalExternals } = await import('../utils/builder');
+  const finalExternals = await getFinalExternals(config, { appDirectory });
+
+  const { es5Plugin } = await import('@modern-js/libuild-plugin-es5');
+  const { umdPlugin } = await import('@modern-js/libuild-plugin-umd');
+  const plugins = target === 'es5' ? [es5Plugin()] : [];
+  if (format === 'umd') {
+    plugins.push(umdPlugin({ moduleName: umdModuleName }));
+  }
+  const { watchPlugin, externalPlugin } = await import(
+    '../utils/libuild-plugins'
+  );
+  plugins.push(watchPlugin(config));
+
+  const root = slash(appDirectory);
+  const outdir = slash(distPath);
+  const assetOutDir = asset.path ? slash(asset.path) : asset.path;
+
+  const buildConfig: CLIConfig = {
+    root,
+    watch,
+    target,
+    sourceMap,
+    format,
+    outdir,
+    define,
+    style: styleConfig,
+    resolve: {
+      alias,
+    },
+    asset: {
+      ...asset,
+      outdir: assetOutDir,
+    },
+    plugins,
+    jsx,
+    input,
+    platform,
+    splitting,
+    minify,
+    sourceDir,
+    entryNames,
+    globals: umdGlobals,
+    external: finalExternals,
+    bundle: buildType === 'bundle',
+    // outbase for [dir]/[name]
+    outbase: sourceDir,
+  };
+  plugins.push(externalPlugin(config, { appDirectory }));
+
+  try {
+    const { Libuilder } = await import('@modern-js/libuild');
+
+    const runner = api.useHookRunners();
+    const modifiedBuildConfig = await runner.modifyLibuild(buildConfig, {
+      onLast: c => c,
+    });
+
+    const builder = await Libuilder.create(modifiedBuildConfig);
+    await builder.build();
+
+    if (watch) {
+      const { watchSectionTitle } = await import('../utils/log');
+      const { SectionTitleStatus } = await import('../constants/log');
+      const titleText = `[${
+        buildType === 'bundle' ? 'Bundle' : 'Bundleless'
+      }: ${format}_${target}]`;
+
+      console.info(
+        await watchSectionTitle(titleText, SectionTitleStatus.Success),
+      );
+    }
+  } catch (e: any) {
+    const { InternalBuildError } = await import('../error');
+    throw new InternalBuildError(e, {
+      target,
+      format,
+      buildType: 'bundle',
+    });
   }
 };

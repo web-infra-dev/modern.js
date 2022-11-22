@@ -1,7 +1,6 @@
 ---
 title: output.enableAssetFallback
 sidebar_label: enableAssetFallback
-sidebar_position: 1
 ---
 
 :::info BUILDER

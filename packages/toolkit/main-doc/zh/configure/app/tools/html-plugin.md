@@ -1,7 +1,6 @@
 ---
 title: tools.htmlPlugin
 sidebar_label: htmlPlugin
-sidebar_position: 1
 ---
 
 :::info BUILDER

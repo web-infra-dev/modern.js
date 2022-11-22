@@ -8,7 +8,6 @@ const INTERPOLATE_REGEXP = /<%=([\s\S]+?)%>/g;
 
 export type MainOptions = {
   appDirectory: string;
-  disableTsChecker: boolean;
   stories: string[];
   isTsProject: boolean;
 };
@@ -25,7 +24,6 @@ export const generateMain = (options: MainOptions) => {
     userMainPath: normalizeOutputPath(
       path.resolve(options.appDirectory, 'config/storybook/main.js'),
     ),
-    disableTsChecker: String(options.disableTsChecker),
     stories: JSON.stringify(options.stories),
     isTsProject: String(options.isTsProject),
   };

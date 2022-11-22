@@ -1,7 +1,6 @@
 ---
 title: html.mountId
 sidebar_label: mountId
-sidebar_position: 1
 ---
 
 :::info BUILDER

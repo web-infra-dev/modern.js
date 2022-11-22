@@ -1,7 +1,6 @@
 ---
 title: html.faviconByEntries
 sidebar_label: faviconByEntries
-sidebar_position: 1
 ---
 
 :::info BUILDER

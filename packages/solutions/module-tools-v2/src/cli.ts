@@ -12,19 +12,19 @@ export const cli = (): CliPlugin<ModuleToolsHooks> => ({
 
 const setup: CliPlugin<ModuleToolsHooks>['setup'] = async api => {
   const prepare = async () => {
-    await (await import('./utils/language')).initLocalLanguage();
-    const { fs, dotenv } = await import('@modern-js/utils');
-
-    dotenv.config();
+    const { initLocalLanguage } = await import('./utils/language');
+    await initLocalLanguage();
 
     const appContext = api.useAppContext();
+    const { fs, dotenv } = await import('@modern-js/utils');
+    dotenv.config();
+    // remove '/node_modules/.modern-js'
     await fs.emptydir(appContext.internalDirectory);
 
     const hookRunners = api.useHookRunners();
     await hookRunners.addRuntimeExports();
 
     const { addExitListener } = await import('./utils/onExit');
-
     await addExitListener(async () => {
       await hookRunners.afterDev();
     });
@@ -41,10 +41,8 @@ const setup: CliPlugin<ModuleToolsHooks>['setup'] = async api => {
     async commands({ program }) {
       const { buildCommand, devCommand, newCommand, upgradCommand } =
         await import('./command');
-      const { initModuleContext } = await import('./utils/context');
-      const context = await initModuleContext(api);
-      await buildCommand(program, api, context);
-      await devCommand(program, api, context);
+      await buildCommand(program, api);
+      await devCommand(program, api);
       await newCommand(program);
       await upgradCommand(program);
     },

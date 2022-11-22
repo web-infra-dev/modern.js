@@ -1,7 +1,6 @@
 ---
 title: tools.babel
 sidebar_label: babel
-sidebar_position: 1
 ---
 
 :::info BUILDER

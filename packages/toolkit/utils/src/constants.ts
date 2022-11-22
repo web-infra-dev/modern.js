@@ -192,6 +192,10 @@ export const PLUGIN_SCHEMAS = {
       target: 'source.designSystem.supportStyledComponents',
       schema: { type: ['boolean'] },
     },
+    {
+      target: 'designSystem',
+      schema: { typeof: ['object'] },
+    },
   ],
   '@modern-js/plugin-router': [
     {

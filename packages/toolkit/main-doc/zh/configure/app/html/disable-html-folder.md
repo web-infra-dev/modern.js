@@ -1,7 +1,6 @@
 ---
 title: html.disableHtmlFolder
 sidebar_label: disableHtmlFolder
-sidebar_position: 1
 ---
 
 :::info BUILDER

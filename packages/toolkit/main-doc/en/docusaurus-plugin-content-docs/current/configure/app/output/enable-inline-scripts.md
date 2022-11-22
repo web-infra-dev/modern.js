@@ -1,7 +1,6 @@
 ---
 title: output.enableInlineScripts
 sidebar_label: enableInlineScripts
-sidebar_position: 1
 ---
 
 :::info BUILDER

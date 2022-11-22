@@ -1,6 +1,6 @@
 import path, { basename, dirname, extname } from 'path';
 import fs from 'fs-extra';
-import { diff, gen, Language } from './config';
+import { diff, gen } from './config';
 
 const walk = (dir: string) => {
   const fl: string[] = [];

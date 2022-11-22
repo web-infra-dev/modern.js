@@ -1,7 +1,6 @@
 ---
 title: html.inject
 sidebar_label: inject
-sidebar_position: 1
 ---
 
 :::info BUILDER

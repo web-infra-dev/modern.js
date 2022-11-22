@@ -761,4 +761,135 @@ export const TASKS: TaskConfig[] = [
       },
     ],
   },
+  {
+    // Todo: rename
+    packageDir: 'solutions/module-tools-v2',
+    packageName: '@modern-js/module-tools-v2',
+    dependencies: [
+      '@rollup/plugin-json',
+      'normalize-path',
+      '@babel/parser',
+      'signal-exit',
+      'p-map',
+      'rollup',
+      'find-up',
+      {
+        name: 'rollup-plugin-dts',
+        externals: {
+          typescript: 'typescript',
+        },
+      },
+      {
+        name: '@babel/types',
+        externals: {
+          '@babel/helper-validator-identifier':
+            '../helper-validator-identifier',
+        },
+      },
+      {
+        name: '@babel/helper-validator-identifier',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/traverse',
+        // ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+          '@babel/parser': '../parser',
+          '@babel/generator': '../generator',
+          '@babel/template': '../template',
+          '@babel/code-frame': '../code-frame',
+        },
+      },
+      {
+        name: '@babel/generator',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+        },
+      },
+      {
+        name: '@babel/template',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+          '@babel/parser': '../parser',
+          '@babel/code-frame': '../code-frame',
+        },
+      },
+      {
+        name: '@babel/code-frame',
+        ignoreDts: true,
+        externals: {
+          '@babel/highlight': '../highlight',
+        },
+      },
+      {
+        name: '@babel/highlight',
+        ignoreDts: true,
+        externals: {
+          chalk: '@modern-js/utils/chalk',
+        },
+      },
+      {
+        name: 'less',
+        externals: {
+          // needle is an optional dependency and no need to bundle it.
+          needle: 'needle',
+        },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
+            content.replace(
+              `declare module "less" {\n    export = less;\n}`,
+              `export = Less;`,
+            ),
+          );
+        },
+      },
+      {
+        name: 'sass',
+        externals: {
+          chokidar: '@modern-js/utils/chokidar',
+        },
+        afterBundle(task) {
+          copySync(join(task.depPath, 'types'), join(task.distPath, 'types'));
+        },
+      },
+      {
+        name: 'postcss-value-parser',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-custom-properties',
+        ignoreDts: true,
+        externals: {
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'postcss-flexbugs-fixes',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-font-variant',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-initial',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-media-minmax',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-nesting',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-page-break',
+        ignoreDts: true,
+      },
+    ],
+  },
 ];

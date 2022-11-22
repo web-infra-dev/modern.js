@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sourcemap usage sourcemap is external 1`] = `
+Object {
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;AAAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,UAAU;ACEhD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG;",
+  "names": Array [],
+  "sources": Array [
+    "../../src/utils.js",
+    "../../src/index.js",
+  ],
+  "sourcesContent": Array [
+    "export const addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
+",
+    "import { addPrefix } from './utils';
+
+export const debug = str => addPrefix('DEBUG:', str);
+",
+  ],
+  "version": 3,
+}
+`;
+
+exports[`sourcemap usage sourcemap is true 1`] = `
+Object {
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;AAAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,UAAU;ACEhD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG;",
+  "names": Array [],
+  "sources": Array [
+    "../../src/utils.js",
+    "../../src/index.js",
+  ],
+  "sourcesContent": Array [
+    "export const addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
+",
+    "import { addPrefix } from './utils';
+
+export const debug = str => addPrefix('DEBUG:', str);
+",
+  ],
+  "version": 3,
+}
+`;

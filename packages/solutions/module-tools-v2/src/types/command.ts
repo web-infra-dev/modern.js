@@ -3,9 +3,10 @@ export interface DevCommandOptions {
 }
 
 export interface BuildCommandOptions {
-  watch?: boolean;
-  tsconfig?: string;
-  platform?: boolean | string | string[];
+  config: string;
+  clear?: boolean;
   dts?: boolean;
-  config?: string;
+  platform?: boolean | string[];
+  tsconfig: string;
+  watch?: boolean;
 }
