@@ -28,8 +28,7 @@ if (true) {
 ```
 
 如果想在代码中使用除 `NODE_ENV` 以外的环境变量，可以在 [`source.define`](/docs/configure/app/source/define) 配置指定, 如下:
-
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     envVars: ['VERSION']
@@ -63,7 +62,7 @@ VERSION=1.0.0
 
 Modern.js 支持在编译时设置代码中使用到的全局变量:
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     globalVars: {

@@ -99,7 +99,7 @@ rm -rf ./node_modules/.cache
 
 如果需要将 JS、CSS 等静态资源上传到 CDN 使用，那么可以通过 [output.assetPrefix](/docs/configure/app/output/asset-prefix) 配置来设置静态资源的 URL 前缀。
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
@@ -117,7 +117,7 @@ export default defineConfig({
 
 注册该插件的示例代码如下，更详细的用法请参考 [eslint-webpack-plugin](https://github.com/webpack-contrib/eslint-webpack-plugin) 文档。
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
@@ -142,7 +142,7 @@ export default defineConfig({
 
 配置 [webpack-subresource-integrity](https://github.com/waysact/webpack-subresource-integrity) 的示例如下：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
 import { SubresourceIntegrityPlugin } from 'webpack-subresource-integrity';
 

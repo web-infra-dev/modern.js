@@ -25,7 +25,7 @@ export default defineConfig({
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/output-enable-modern-build.jpeg)
 
-执行 start 命令后，使用最新版本 Chrome 浏览器访问，观察 Network 中请求的 JS 资源为 es6 产物。
+执行 `start` 命令后，使用最新版本 Chrome 浏览器访问，观察 Network 中请求的 JS 资源为 es6 产物。
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/output-enable-modern-network.jpeg)
 

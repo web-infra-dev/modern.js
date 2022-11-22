@@ -13,12 +13,12 @@ sidebar_label: masterApp
 
 主应用添加子应用信息。
 
-- 类型：`modules: Array<{
+* 类型：`modules: Array<{
         name: string;
         entry: string;
         activeWhen?: string;
       }> | string;`
-- 默认值：`null`
+* 默认值：`null`
 
 ### `modules`
 
@@ -32,8 +32,8 @@ sidebar_label: masterApp
 
 ## `LoadingComponent`
 
-- 类型: `React.ComponentType | React.ElementType`
-- 默认值 `null`
+* 类型: `React.ComponentType | React.ElementType`
+* 默认值 `null`
 
 当加载或切换子应用的时候，加载的过渡动画。
 
