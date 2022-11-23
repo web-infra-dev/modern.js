@@ -15,7 +15,7 @@ Options:
 
 `modern build` 命令默认会在 `/dist` 目录下构建出可用于生产环境的产物。
 
-可以通过修改配置 [`output.distPath`](/docs/configure/app/output/dist-path) 指定产物的输出目录。
+可以通过修改配置 [`output.distPath`](/docs/configure/app/output/output-files) 指定产物的输出目录。
 
 ## 分析构建产物体积
 
