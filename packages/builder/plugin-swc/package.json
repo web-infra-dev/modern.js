@@ -56,6 +56,6 @@
     "@modern-js/swc-plugins": "0.0.9",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.4.12",
-    "core-js": "^3.25.0"
+    "core-js": "^3.26.0"
   }
 }
