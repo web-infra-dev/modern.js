@@ -18,8 +18,8 @@ export const createBuilder = async () => {
     builderConfig: {
       tools: {
         devServer: {
-          hot: false,
-          liveReload: false,
+          hot: true,
+          liveReload: true,
         },
       },
       output: {

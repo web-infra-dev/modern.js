@@ -5,7 +5,7 @@ import {
   StartDevServerResult,
   StartDevServerOptions,
 } from '@modern-js/builder-shared';
-import { rdm } from '@rspack/dev-middleware';
+import { rdm } from './rdm';
 import { merge } from '@modern-js/utils/lodash';
 import type { ModernDevServerOptions } from '@modern-js/server';
 import { createCompiler } from './createCompiler';

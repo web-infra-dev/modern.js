@@ -2,7 +2,6 @@ import assert from 'assert';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import {
-  logger,
   type BuildOptions,
   type PromiseOrNot,
 } from '@modern-js/builder-shared';
@@ -72,11 +71,7 @@ export const build = async (
   await context.hooks.onBeforeBuildHook.call({ bundlerConfigs });
 
   if (watch) {
-    compiler.watch({}, (err: any) => {
-      if (err) {
-        logger.error(err);
-      }
-    });
+    compiler.watch({});
   } else {
     const executeResult = await executer?.(compiler);
 

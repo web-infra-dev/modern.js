@@ -25,7 +25,8 @@
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
-    }
+    },
+    "./client": "./dist/js/modern/dev-tools/dev-middleware/hmr-client/index.js"
   },
   "scripts": {
     "prepare": "pnpm build",
