@@ -29,7 +29,7 @@ import 'tailwindcss/utilities.css';
 
 当需要自定义 Tailwind CSS 的 [theme](https://tailwindcss.com/docs/theme) 配置的时候，可以在配置 [`source.designSystem`](/docs/configure/app/source/design-system) 中修改，例如，颜色主题中增加一个 `primary`：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     designSystem: {
@@ -45,7 +45,7 @@ export default defineConfig({
 
 当需要对 Tailwind CSS 做 [theme](https://tailwindcss.com/docs/theme) 以外的其他特殊配置时，可以在 [`tools.tailwindcss`](/docs/configure/app/tools/tailwindcss) 中配置，例如设置 `variants`：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   tools: {
     tailwindcss: {
