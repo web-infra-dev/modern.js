@@ -259,8 +259,6 @@ importers:
       magic-string: ^0.26.2
       source-map: ^0.7.4
       typescript: ^4
-      vite: ^3.0.9
-      vitest: ^0.22.0
       webpack: ^5.74.0
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
@@ -274,8 +272,6 @@ importers:
       magic-string: 0.26.2
       source-map: 0.7.4
       typescript: 4.7.4
-      vite: 3.1.1
-      vitest: 0.22.1
       webpack: 5.74.0
 
   packages/cli/babel-preset-app:
@@ -2731,6 +2727,7 @@ importers:
       '@types/node': ^14
       jest: ^27
       typescript: ^4
+      webpack: ^5.75.0
     dependencies:
       '@babel/parser': 7.18.6
       '@babel/runtime': 7.18.6
@@ -2762,6 +2759,7 @@ importers:
       '@types/node': 14.18.21
       jest: 27.5.1
       typescript: 4.7.4
+      webpack: 5.75.0
 
   packages/solutions/module-tools:
     specifiers:
@@ -3955,6 +3953,31 @@ importers:
       isomorphic-fetch: 3.0.0
       ts-node: 10.8.1_ah2igguqgj6e7ik4ubgohitm4e
       tsconfig-paths: 3.14.1
+      typescript: 4.7.4
+
+  tests/integration/app-document:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-router-legacy': workspace:*
+      '@modern-js/runtime': workspace:*
+      '@modern-js/tsconfig': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      '@modern-js/runtime': link:../../../packages/runtime/plugin-runtime
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-router-legacy': link:../../../packages/runtime/plugin-router-legacy
+      '@modern-js/tsconfig': link:../../../packages/review/tsconfig
+      '@types/node': 14.18.21
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
       typescript: 4.7.4
 
   tests/integration/async-entry:
@@ -36316,6 +36339,30 @@ packages:
       terser: 5.15.0
       webpack: 5.74.0
 
+  /terser-webpack-plugin/5.3.3_webpack@5.75.0:
+    resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      '@swc/core': '*'
+      esbuild: '*'
+      uglify-js: '*'
+      webpack: ^5.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      esbuild:
+        optional: true
+      uglify-js:
+        optional: true
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.14
+      jest-worker: 27.5.1
+      schema-utils: 3.1.1
+      serialize-javascript: 6.0.0
+      terser: 5.15.0
+      webpack: 5.75.0
+    dev: true
+
   /terser/4.8.0:
     resolution: {integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==}
     engines: {node: '>=6.0.0'}
@@ -36431,11 +36478,6 @@ packages:
 
   /tinyspy/1.0.0:
     resolution: {integrity: sha512-FI5B2QdODQYDRjfuLF+OrJ8bjWRMCXokQPcwKm0W3IzcbUmBNv536cQc7eXGoAuXphZwgx1DFbqImwzz08Fnhw==}
-    engines: {node: '>=14.0.0'}
-    dev: true
-
-  /tinyspy/1.0.2:
-    resolution: {integrity: sha512-bSGlgwLBYf7PnUsQ6WOc6SJ3pGOcd+d8AA6EUnLDDM0kWEstC1JIlSZA3UNliDXhd9ABoS7hiRBDCu+XP/sf1Q==}
     engines: {node: '>=14.0.0'}
     dev: true
 
@@ -37806,45 +37848,6 @@ packages:
       - terser
     dev: true
 
-  /vitest/0.22.1:
-    resolution: {integrity: sha512-+x28YTnSLth4KbXg7MCzoDAzPJlJex7YgiZbUh6YLp0/4PqVZ7q7/zyfdL0OaPtKTpNiQFPpMC8Y2MSzk8F7dw==}
-    engines: {node: '>=v14.16.0'}
-    hasBin: true
-    peerDependencies:
-      '@edge-runtime/vm': '*'
-      '@vitest/browser': '*'
-      '@vitest/ui': '*'
-      happy-dom: '*'
-      jsdom: '*'
-    peerDependenciesMeta:
-      '@edge-runtime/vm':
-        optional: true
-      '@vitest/browser':
-        optional: true
-      '@vitest/ui':
-        optional: true
-      happy-dom:
-        optional: true
-      jsdom:
-        optional: true
-    dependencies:
-      '@types/chai': 4.3.3
-      '@types/chai-subset': 1.3.3
-      '@types/node': 18.0.1
-      chai: 4.3.6
-      debug: 4.3.4
-      local-pkg: 0.4.2
-      tinypool: 0.2.4
-      tinyspy: 1.0.2
-      vite: 3.1.1
-    transitivePeerDependencies:
-      - less
-      - sass
-      - stylus
-      - supports-color
-      - terser
-    dev: true
-
   /vm-browserify/1.1.2:
     resolution: {integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==}
 
@@ -38734,6 +38737,46 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+
+  /webpack/5.75.0:
+    resolution: {integrity: sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/eslint-scope': 3.7.3
+      '@types/estree': 0.0.51
+      '@webassemblyjs/ast': 1.11.1
+      '@webassemblyjs/wasm-edit': 1.11.1
+      '@webassemblyjs/wasm-parser': 1.11.1
+      acorn: 8.7.1
+      acorn-import-assertions: 1.8.0_acorn@8.7.1
+      browserslist: 4.21.3
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.10.0
+      es-module-lexer: 0.9.3
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.10
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.1.1
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.3_webpack@5.75.0
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+    dev: true
 
   /webpackbar/3.2.0_webpack@4.46.0:
     resolution: {integrity: sha512-PC4o+1c8gWWileUfwabe0gqptlXUDJd5E0zbpr2xHP1VSOVlZVPBZ8j6NCR8zM5zbKdxPhctHXahgpNK1qFDPw==}

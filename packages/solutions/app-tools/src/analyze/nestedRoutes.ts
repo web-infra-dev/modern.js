@@ -26,6 +26,7 @@ const createIndexRoute = (
   routeInfo: Omit<NestedRoute, 'type'>,
   rootDir: string,
   filename: string,
+  entryName: string,
 ): NestedRoute => {
   return createRoute(
     {
@@ -35,6 +36,7 @@ const createIndexRoute = (
     },
     rootDir,
     filename,
+    entryName,
   );
 };
 
@@ -42,8 +44,9 @@ const createRoute = (
   routeInfo: Omit<NestedRoute, 'type'>,
   rootDir: string,
   filename: string,
+  entryName: string,
 ): NestedRoute => {
-  const id = getRouteId(filename, rootDir);
+  const id = getRouteId(filename, rootDir, entryName);
   return {
     ...routeInfo,
     id,
@@ -58,6 +61,7 @@ export const walk = async (
     name: string;
     basename: string;
   },
+  entryName: string,
 ): Promise<NestedRoute | null> => {
   if (!(await fs.pathExists(dirname))) {
     return null;
@@ -93,7 +97,7 @@ export const walk = async (
     const isDirectory = (await fs.stat(itemPath)).isDirectory();
 
     if (isDirectory) {
-      const childRoute = await walk(itemPath, rootDir, alias);
+      const childRoute = await walk(itemPath, rootDir, alias, entryName);
       if (childRoute) {
         route.children?.push(childRoute);
       }
@@ -118,6 +122,7 @@ export const walk = async (
         } as NestedRoute,
         rootDir,
         itemPath,
+        entryName,
       );
       route.children?.push(childRoute);
     }
@@ -139,6 +144,7 @@ export const walk = async (
     route,
     rootDir,
     path.join(dirname, `${LAYOUT_FILE}.ts`),
+    entryName,
   );
 
   /**

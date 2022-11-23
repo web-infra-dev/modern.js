@@ -1,5 +1,5 @@
 ---
-title: src/pages/, src/[entry]/pages/
+title: pages/
 sidebar_position: 2
 ---
 

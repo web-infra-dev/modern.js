@@ -1,10 +1,13 @@
 // Vitest Snapshot v1
 
-exports[`plugins/swc > should disable swc minify 1`] = `
+exports[`plugins/swc > should apply source.include and source.exclude correctly 1`] = `
 {
   "module": {
     "rules": [
       {
+        "exclude": [
+          /bar/,
+        ],
         "include": [
           {
             "and": [
@@ -14,8 +17,42 @@ exports[`plugins/swc > should disable swc minify 1`] = `
               },
             ],
           },
+          /foo/,
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/src/loader",
+            "options": {
+              "cwd": "<ROOT>",
+              "env": {
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
+              "extensions": {
+                "lockCorejsVersion": {
+                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+                },
+              },
+              "jsc": {
+                "transform": {},
+              },
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
         "use": [
           {
             "loader": "<ROOT>/src/loader",
@@ -49,6 +86,19 @@ exports[`plugins/swc > should disable swc minify 1`] = `
 
 exports[`plugins/swc > should set swc minimizer in production 1`] = `
 {
+  "minimizer": [
+    SwcWebpackPlugin {
+      "minifyOptions": {
+        "compress": {},
+        "mangle": true,
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugins/swc > should set swc-loader 1`] = `
+{
   "module": {
     "rules": [
       {
@@ -89,37 +139,13 @@ exports[`plugins/swc > should set swc minimizer in production 1`] = `
           },
         ],
       },
-    ],
-  },
-  "optimization": {
-    "minimizer": [
-      SwcWebpackPlugin {
-        "minifyOptions": {
-          "compress": {},
-          "mangle": true,
-        },
-      },
-    ],
-  },
-}
-`;
-
-exports[`plugins/swc > should set swc-loader 1`] = `
-{
-  "module": {
-    "rules": [
       {
-        "include": [
-          {
-            "and": [
-              "<ROOT>",
-              {
-                "not": /node_modules/,
-              },
-            ],
-          },
-        ],
-        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
         "use": [
           {
             "loader": "<ROOT>/src/loader",

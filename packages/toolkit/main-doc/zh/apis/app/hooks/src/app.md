@@ -1,5 +1,5 @@
 ---
-title: src/App.[tj]sx, src/[entry]/App.[tj]sx
+title: App.[tj]sx
 sidebar_position: 1
 ---
 

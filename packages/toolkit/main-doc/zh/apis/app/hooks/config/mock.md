@@ -1,5 +1,5 @@
 ---
-title: config/mock/
+title: mock/
 sidebar_position: 5
 ---
 

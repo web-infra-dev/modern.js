@@ -65,5 +65,6 @@ export const applyDefaultPlugins = () =>
     import('../plugins/assetsRetry').then(m => m.PluginAssetsRetry()),
     import('../plugins/externals').then(m => m.PluginExternals()),
     import('../plugins/performance').then(m => m.PluginPerformance()),
+    import('../plugins/lazyCompilation').then(m => m.PluginLazyCompilation()),
     import('../plugins/fallback').then(m => m.PluginFallback()), // fallback should be the last plugin
   ]);

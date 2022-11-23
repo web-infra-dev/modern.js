@@ -18,7 +18,6 @@ export {
   useLoader,
   bootstrap,
   RuntimeReactContext,
-  registerPrefetch,
   defineConfig,
   registerInit,
   useRuntimeContext,

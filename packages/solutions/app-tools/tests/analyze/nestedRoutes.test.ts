@@ -6,10 +6,15 @@ const fixtures = path.join(__dirname, 'fixtures');
 describe('nested routes', () => {
   test('walk', async () => {
     const routesDir = path.join(fixtures, './nested-routes');
-    const route = await walk(routesDir, routesDir, {
-      name: '@_modern_js_src',
-      basename: routesDir,
-    });
+    const route = await walk(
+      routesDir,
+      routesDir,
+      {
+        name: '@_modern_js_src',
+        basename: routesDir,
+      },
+      'main',
+    );
     expect(route).toMatchSnapshot();
   });
 });

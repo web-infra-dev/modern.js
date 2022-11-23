@@ -7,9 +7,9 @@ sidebar_position: 11
 
 Modern.js 内部默认集成了 [Babel](https://babeljs.io/)、[TypeScript](https://www.typescriptlang.org/)、[Webpack](https://webpack.js.org/)、[PostCSS](https://postcss.org/)、[Tailwind CSS](https://tailwindcss.com/) 等工具。通常情况下，默认配置能够满足大多业务开发需求。当有特殊需求时，可以通过底层配置来实现。
 
-以配置 Webpack 为例，只需要在 `modern.config.js` 中添加 [`tools.webpack`](/docs/configure/app/tools/webpack) 即可：
+以配置 Webpack 为例，只需要在 `modern.config.ts` 中添加 [`tools.webpack`](/docs/configure/app/tools/webpack) 即可：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   tools: {
     webpack: config => {

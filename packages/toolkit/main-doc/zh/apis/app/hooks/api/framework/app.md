@@ -1,5 +1,5 @@
 ---
-title: api/app.[tj]s
+title: app.[tj]s
 sidebar_position: 2
 ---
 
