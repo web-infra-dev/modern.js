@@ -24,6 +24,22 @@ describe('plugins/tsChecker', () => {
     ).toBeFalsy();
   });
 
+  it('should disable ts-checker when output.disableTsChecker is true', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginTsChecker()],
+      context,
+      builderConfig: {
+        output: {
+          disableTsChecker: true,
+        },
+      },
+    });
+
+    expect(
+      await builder.matchWebpackPlugin('ForkTsCheckerWebpackPlugin'),
+    ).toBeFalsy();
+  });
+
   it('should enable tsChecker plugin by default', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginTsChecker()],
