@@ -41,7 +41,7 @@ sidebar_position: 4
 <script src="<%=assetPrefix %>/upload/index.js"></script>
 ```
 
-:::info 注
+:::info
 Modern.js 没有支持在 `config/public/*.css`（例如 background-image）中通过 URL 使用 `config/upload/` 下的文件。
 
 因为 Modern.js 不推荐在 `public/` 中放 JS、CSS 这类资源文件，可以将它们直接放置在 `upload/` 目录下。

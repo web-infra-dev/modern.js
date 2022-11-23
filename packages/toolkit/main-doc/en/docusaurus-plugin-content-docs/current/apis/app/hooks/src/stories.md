@@ -9,6 +9,6 @@ sidebar_position: 7
 
 在项目下执行 dev story 命令，支持使用这些文件在 Storybook 中对相关内容进行调试。
 
-:::info 注
+:::info
 使用 Storybook 需要提前在项目下执行 new 命令启用「Visual Testing (Storybook)」模式。
 :::

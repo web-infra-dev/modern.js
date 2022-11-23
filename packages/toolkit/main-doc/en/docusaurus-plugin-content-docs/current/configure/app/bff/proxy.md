@@ -58,7 +58,7 @@ In the process of project development, because web pages and interface services 
 There are many ways to solve cross-domain problems, and here we use `bff.proxy` to easily solve cross-domain problems.
 
 
-:::info 注
+:::info
 In BFF proxy mode, if you do not need to write the BFF interface, the API directory can be deleted; at this time, BFF proxy will still be enabled.
 :::
 

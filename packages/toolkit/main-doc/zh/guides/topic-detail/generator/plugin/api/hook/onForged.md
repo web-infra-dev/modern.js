@@ -28,7 +28,7 @@ onForged 参数是一个回调函数，函数参数为 api 和 inputData。
 
 ### api
 
-在 onForged 生命周期中支持的函数列表，具体可查看[文件操作 API](/docs/apis/generator/plugin/file/introduce) 和[启用功能 API](/docs/apis/generator/plugin/new/introduce)。
+在 onForged 生命周期中支持的函数列表，具体可查看[文件操作 API](/docs/guides/topic-detail/generator/plugin/api/file/introduce) 和[启用功能 API](/docs/guides/topic-detail/generator/plugin/api/new/introduce)。
 
 ### inputData
 

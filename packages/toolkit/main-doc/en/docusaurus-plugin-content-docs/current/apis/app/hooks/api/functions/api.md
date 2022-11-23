@@ -5,7 +5,7 @@ sidebar_position: 1
 
 声明 API 路由的文件，在 Modern.js 函数写法下；除了[某些约定文件](/docs/apis/app/hooks/api/functions/api)外，`api` 目录下的文件会被注册为接口的路由。
 
-:::info 注
+:::info
 使用 `api` 目录需要开启 BFF 功能，需要在项目下执行 new 命令启用「BFF」功能。
 
 该文件支持使用 `js` 或 `ts` 语言，但必须使用 `esm` 语法导出函数。
