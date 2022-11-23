@@ -54,7 +54,7 @@ $ npx @modern-js/create --version
 npx @modern-js/create --config '{"packageManager": "pnpm"}'
 ```
 
-具体配置信息可查看[工程方案配置](/docs/guides/topic-detail/generator/config/introduce)。
+具体配置信息可查看[工程方案配置](/docs/guides/topic-detail/generator/config/common)。
 
 ###  --no-need-install
 
@@ -98,7 +98,7 @@ npx @modern-js/create --config '{"packageManager": "pnpm"}'
 
 Modern.js 支持使用生成器插件定制 Modern.js 默认的工程方案类型或者添加工程方案类型场景，该参数用户指定定制的生成器插件。
 
-关于定制生成器插件可以参考[开发生成器插件](/docs/guides/topic-detail/generator/plugin/introduce)。
+关于定制生成器插件可以参考[开发生成器插件](/docs/guides/topic-detail/generator/plugin/abstract)。
 
 ### --generator <generator\>
 
