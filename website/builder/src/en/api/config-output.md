@@ -54,6 +54,10 @@ This section describes some output related configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/disableSourceMap.md)!!!
 
+## output.disableTsChecker
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/disableTsChecker.md)!!!
+
 ## output.disableFilenameHash
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/disableFilenameHash.md)!!!

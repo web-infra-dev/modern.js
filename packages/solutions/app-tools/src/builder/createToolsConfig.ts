@@ -92,7 +92,7 @@ function createBuilderTsLoader(
 }
 
 export function createBuilderTsChecker(output: NormalizedConfig['output']) {
-  if (output.enableTsLoader || output.disableTsChecker) {
+  if (output.enableTsLoader) {
     return false;
   }
   const defaultTsChecker = {
