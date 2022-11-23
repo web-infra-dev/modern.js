@@ -9,7 +9,11 @@ export async function createRouteVirtualModulePlugin(
   const routeService = new RouteService(scanDir);
 
   await routeService.init();
+<<<<<<< HEAD
   const entryPath = join(packageRoot, 'node_modules', 'virtual-routes');
+=======
+  const entryPath = join(packageRoot, 'node_modules', 'virtual-routes.js');
+>>>>>>> 48910dbf71 (feat: init doc tools and doc core)
   const plugin = new VirtualModulesPlugin({
     [entryPath]: routeService.generateRoutesCode(),
   });

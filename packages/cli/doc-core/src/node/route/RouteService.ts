@@ -1,4 +1,8 @@
 import path from 'path';
+<<<<<<< HEAD
+=======
+import globby from 'globby';
+>>>>>>> 48910dbf71 (feat: init doc tools and doc core)
 import { normalizePath } from '../utils';
 
 export const DEFAULT_PAGE_EXTENSIONS = ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'];
@@ -45,7 +49,10 @@ export class RouteService {
   }
 
   async init() {
+<<<<<<< HEAD
     const globby = await import('@modern-js/utils/globby');
+=======
+>>>>>>> 48910dbf71 (feat: init doc tools and doc core)
     const files = globby
       .sync([`**/*.{${this.#extensions.join(',')}}`, ...this.#include], {
         cwd: this.#scanDir,
