@@ -42,7 +42,7 @@ export default () => {
 
 SSG 和 SSR 一样，也是在 Node.js 环境中完成页面渲染，因此我们可以在开发阶段开启 SSR，提前在开发阶段验证 SSG 渲染效果：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   server: {
     ssr: process.env.NODE_ENV === 'development',
@@ -85,7 +85,7 @@ export default () => (
 
 例如上述入口中，包含两条客户端路由，分别是 `/` 和 `/foo`，设置 `output.ssg` 为 `true` 时，默认只会渲染入口路由即 `/`。如果我们希望同时开启 `/foo` 的 SSG 功能，可以这样配置：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   output: {
     ssg: {

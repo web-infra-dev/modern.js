@@ -16,7 +16,7 @@ title: 子应用调试
 
 #### 配置
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   runtime: {
     router: true,
@@ -61,7 +61,7 @@ function App() {
 
 #### 配置
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   deploy: {
     microFrontend: true,
@@ -99,7 +99,7 @@ function App() {
 
 #### 配置
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   server: {
     enableMicroFrontendDebug: true,
@@ -128,7 +128,7 @@ export default defineConfig({
 
 #### 配置
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   deploy: {
     microFrontend: true,

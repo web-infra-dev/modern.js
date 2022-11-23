@@ -1,7 +1,6 @@
 import { createElement } from 'react';
 import { run } from '@modern-js/utils/ssr';
 import { PreRender } from 'src/ssr/react/prerender';
-import type { RuntimeContext, ModernSSRReactComponent } from '../types';
 import { time } from '../utils';
 import { ServerRenderOptions } from '../types';
 import { createTemplates } from './template';
@@ -48,27 +47,4 @@ export const render = ({ App, context }: ServerRenderOptions) => {
     });
     return pipe;
   });
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async function prefetch(
-    App: ModernSSRReactComponent,
-    context: RuntimeContext,
-  ) {
-    const { prefetch } = App;
-    const ssrContext = context.ssrContext!;
-    let prefetchData;
-    const end = time();
-
-    try {
-      prefetchData = prefetch ? await prefetch(context) : null;
-      const prefetchCost = end();
-      ssrContext.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);
-      ssrContext.metrics.emitTimer('app.prefetch.cost', prefetchCost);
-    } catch (e) {
-      ssrContext.logger.error('App Prefetch Render', e as Error);
-      ssrContext.metrics.emitCounter('app.prefetch.render.error', 1);
-    }
-
-    return prefetchData || {};
-  }
 };

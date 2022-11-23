@@ -11,6 +11,8 @@ sidebar_position: 1
 
 ### runtime
 
+* 类型：`Object`
+
 runtime 配置方式如下：
 
 #### 基本用法

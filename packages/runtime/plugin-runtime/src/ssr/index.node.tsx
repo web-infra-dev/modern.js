@@ -1,26 +1,17 @@
-import { registerPrefetch } from '../core';
 import type { Plugin } from '../core';
 import {
   SSRServerContext,
   SSRPluginConfig,
   ModernSSRReactComponent,
 } from './serverRender/types';
-import prefetch from './prefetch';
 import { formatServer } from './utils';
 import render from './serverRender';
-
-const registeredApps = new WeakSet();
 
 export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
   name: '@modern-js/plugin-ssr',
   setup: () => {
     return {
       server: async ({ App, context }) => {
-        if (!registeredApps.has(App)) {
-          registerPrefetch(App, _context => prefetch(App, _context));
-          registeredApps.add(App);
-        }
-
         const html = await render({
           context: context!,
           App: App as ModernSSRReactComponent,

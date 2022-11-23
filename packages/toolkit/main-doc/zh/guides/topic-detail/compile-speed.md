@@ -51,7 +51,7 @@ npx modern build --analyze
 
 由于 `ts-loader` 需要进行额外的语法解析和类型检查，因此会导致项目编译速度变慢，请避免使用。
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   output: {
     // 移除这项配置
@@ -84,7 +84,7 @@ export default defineConfig({
 
 明确第三方依赖不需要 Polyfill 的情况下，可以将 `output.polyfill` 设置为 `usage`，根据代码中使用到的语法，按需注入所需的 Polyfill 代码，从而减少 Polyfill 的代码量。
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   output: {
     polyfill: 'usage',
@@ -106,7 +106,7 @@ export default defineConfig({
 
 比如禁用 SourceMap：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   tools: {
     webpackChain(chain, { env }) {
@@ -120,7 +120,7 @@ export default defineConfig({
 
 或是把开发环境的 SourceMap 格式设置为开销最小的 `eval` 格式：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   tools: {
     webpackChain(chain, { env }) {
@@ -163,7 +163,7 @@ export default defineConfig({
 
 如果项目在生产环境下不需要 SourceMap，可以通过 `disableSourceMap` 配置项关闭，从而提升 build 构建的速度。
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   output: {
     disableSourceMap: true,

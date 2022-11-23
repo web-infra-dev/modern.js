@@ -10,6 +10,7 @@ import { Plugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
+const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
 
 export type CreateAppOptions = {
   plugins: Plugin[];
@@ -32,6 +33,8 @@ const getInitialContext = (runner: PluginRunner) => ({
   loaderManager: createLoaderManager({}),
   runner,
   isBrowser: true,
+  routeManifest:
+    typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
 });
 
 export const createApp = ({ plugins }: CreateAppOptions) => {

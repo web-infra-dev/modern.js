@@ -133,6 +133,10 @@ export interface SharedOutputConfig {
    */
   disableSourceMap?: boolean;
   /**
+   * Whether to disable TypeScript Type Checker.
+   */
+  disableTsChecker?: boolean;
+  /**
    * Remove the hash from the name of static files after production build.
    */
   disableFilenameHash?: boolean;
@@ -191,6 +195,7 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   cleanDistPath: boolean;
   disableMinimize: boolean;
   disableSourceMap: boolean;
+  disableTsChecker: boolean;
   disableFilenameHash: boolean;
   disableInlineRuntimeChunk: boolean;
   enableAssetManifest: boolean;

@@ -14,7 +14,7 @@ title: 加载子应用
 
 假设我们的子应用列表配置如下：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   runtime: {
     masterApp: {
@@ -63,7 +63,7 @@ function App() {
 
 **集中式路由** 是将子应用的激活路由集中配置的方式。我们给子应用列表信息添加 `activeWhen` 字段来启用 **集中式路由**。
 
-```js title="modern.config.js"Å {8,13}
+```typescript title="modern.config.ts"Å {8,13}
 export default defineConfig({
   runtime: {
     masterApp: {

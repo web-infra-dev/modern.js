@@ -94,6 +94,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/config-security'),
           getLink('/api/config-tools'),
           getLink('/api/config-performance'),
+          getLink('/api/config-experiments'),
         ],
       },
       {

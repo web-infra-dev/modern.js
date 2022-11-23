@@ -228,35 +228,35 @@
     "description": "The label for category GIT API in sidebar apisGeneratorSidebar"
   },
   "sidebar.configsAppSidebar.category.source (源文件)": {
-    "message": "source (源文件)",
-    "description": "The label for category source (源文件) in sidebar configsAppSidebar"
+    "message": "source",
+    "description": "The label for category source in sidebar configsAppSidebar"
   },
   "sidebar.configsAppSidebar.category.output (构建产物)": {
-    "message": "output (构建产物)",
-    "description": "The label for category output (构建产物) in sidebar configsAppSidebar"
+    "message": "output",
+    "description": "The label for category output in sidebar configsAppSidebar"
   },
   "sidebar.configsAppSidebar.category.runtime (运行时)": {
-    "message": "runtime (运行时)",
-    "description": "The label for category runtime (运行时) in sidebar configsAppSidebar"
+    "message": "runtime",
+    "description": "The label for category runtime in sidebar configsAppSidebar"
   },
   "sidebar.configsAppSidebar.category.server (服务器)": {
-    "message": "server (服务器)",
-    "description": "The label for category server (服务器) in sidebar configsAppSidebar"
+    "message": "server",
+    "description": "The label for category server in sidebar configsAppSidebar"
   },
   "sidebar.configsAppSidebar.category.bff (BFF API)": {
-    "message": "bff (BFF API)",
-    "description": "The label for category bff (BFF API) in sidebar configsAppSidebar"
+    "message": "bff",
+    "description": "The label for category bff in sidebar configsAppSidebar"
   },
   "sidebar.configsAppSidebar.category.dev (开发调试)": {
-    "message": "dev (开发调试)",
-    "description": "The label for category dev (开发调试) in sidebar configsAppSidebar"
+    "message": "dev ",
+    "description": "The label for category dev in sidebar configsAppSidebar"
   },
   "sidebar.configsAppSidebar.category.testing (测试)": {
-    "message": "testing (测试)",
-    "description": "The label for category testing (测试) in sidebar configsAppSidebar"
+    "message": "testing",
+    "description": "The label for category testing in sidebar configsAppSidebar"
   },
   "sidebar.configsAppSidebar.category.tools (底层配置)": {
-    "message": "tools (底层配置)",
-    "description": "The label for category tools (底层配置) in sidebar configsAppSidebar"
+    "message": "tools",
+    "description": "The label for category tools  in sidebar configsAppSidebar"
   }
 }
