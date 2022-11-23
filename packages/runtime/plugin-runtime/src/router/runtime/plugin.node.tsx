@@ -98,6 +98,9 @@ export const routerPlugin = ({
           const router = createStaticRouter(routes, routerContext);
           context.router = router;
           context.routerContext = routerContext;
+          context.routes = routes;
+          // set routeManifest in context to be consistent with csr context
+          context.routeManifest = context.ssrContext!.routeManifest;
           return next({ context });
         },
         hoc: ({ App }, next) => {

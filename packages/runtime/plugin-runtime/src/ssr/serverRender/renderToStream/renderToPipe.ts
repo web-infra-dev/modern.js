@@ -3,25 +3,25 @@ import {
   RenderToPipeableStreamOptions,
   renderToPipeableStream,
 } from 'react-dom/server';
-import { SSRServerContext, RenderLevel } from '../types';
+import { RenderLevel, RuntimeContext } from '../types';
 import { getTemplates } from './template';
 
 export type Pipe<T extends Writable> = (output: T) => Promise<T | string>;
 
 function renderToPipe(
   rootElement: React.ReactElement,
-  ssrContext: SSRServerContext,
+  context: RuntimeContext,
   options?: RenderToPipeableStreamOptions,
 ) {
   let isShellStream = true;
-
+  const { ssrContext } = context;
   const forUserPipe: Pipe<Writable> = stream => {
     return new Promise(resolve => {
       const { pipe } = renderToPipeableStream(rootElement, {
         ...options,
         onShellReady() {
           const { shellAfter, shellBefore } = getTemplates(
-            ssrContext,
+            context,
             RenderLevel.SERVER_RENDER,
           );
           options?.onShellReady?.();
@@ -49,9 +49,12 @@ function renderToPipe(
         },
         onShellError(error) {
           // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
-          ssrContext.metrics.emitCounter('app.render.streaming.shell.error', 1);
+          ssrContext!.metrics.emitCounter(
+            'app.render.streaming.shell.error',
+            1,
+          );
           const { shellAfter, shellBefore } = getTemplates(
-            ssrContext,
+            context,
             RenderLevel.CLIENT_RENDER,
           );
           const fallbackHtml = `${shellBefore}${shellAfter}`;
@@ -59,11 +62,11 @@ function renderToPipe(
           options?.onShellError?.(error);
         },
         onError(error) {
-          ssrContext.logger.error(
+          ssrContext!.logger.error(
             'An error occurs during streaming SSR',
             error as Error,
           );
-          ssrContext.metrics.emitCounter('app.render.streaming.error', 1);
+          ssrContext!.metrics.emitCounter('app.render.streaming.error', 1);
           options?.onError?.(error);
         },
       });
