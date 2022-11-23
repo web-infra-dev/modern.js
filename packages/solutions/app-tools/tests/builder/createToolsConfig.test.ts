@@ -7,12 +7,6 @@ describe('test create Builder TsChecker Config', () => {
     };
     const tsCheckerConfig1 = createBuilderTsChecker(output1);
     expect(tsCheckerConfig1).toBeFalsy();
-
-    const output2 = {
-      disableTsChecker: true,
-    };
-    const tsCheckerConfig2 = createBuilderTsChecker(output2);
-    expect(tsCheckerConfig2).toBeFalsy();
   });
 
   it('should return default TsChecker Config', () => {

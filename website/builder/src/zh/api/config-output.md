@@ -54,6 +54,10 @@ extractApiHeaders: [2]
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/disableSourceMap.md)!!!
 
+## output.disableTsChecker
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/output/disableTsChecker.md)!!!
+
 ## output.disableFilenameHash
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/disableFilenameHash.md)!!!
