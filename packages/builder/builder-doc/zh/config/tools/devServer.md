@@ -90,7 +90,7 @@ export default {
 
 ```js
 {
-  writeToDisk: (file: string) => !file.includes('.hot-update.') && !file.endsWith('.map'),
+  writeToDisk: (file: string) => !file.includes('.hot-update.'),
 }
 ```
 

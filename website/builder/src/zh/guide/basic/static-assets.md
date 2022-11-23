@@ -77,6 +77,8 @@ console.log(smallImage); // "data:image/png;base64,iVBORw0KGgo..."
 - 通过 [output.filename](/zh/api/config-output.html#output-filename) 来修改产物的文件名。
 - 通过 [output.distPath](/zh/api/config-output.html#output-distpath) 来修改产物的输出路径。
 
+请阅读 [构建产物目录](/guide/basic/output-files.html) 来了解更多细节。
+
 ## URL 前缀
 
 引用静态资源后返回的 URL 中会自动包含路径前缀：
