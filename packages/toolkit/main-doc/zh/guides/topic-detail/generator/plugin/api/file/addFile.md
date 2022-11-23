@@ -29,7 +29,7 @@ export type ForgedAPI = {
 
 ## type
 
-文件类型，具体可查看[文件类型](/docs/apis/generator/plugin/file/introduce#%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B)。
+文件类型，具体可查看[文件类型](/docs/guides/topic-detail/generator/plugin/api/file/introduce#文件类型)。
 
 ## file
 
