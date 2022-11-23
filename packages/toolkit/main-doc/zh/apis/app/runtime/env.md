@@ -19,17 +19,13 @@ Modern.js 内置了对环境变量的支持，包含内置的环境变量和自�
 
 用于设置当前的执行环境，除了上述 NODE_ENV 对应的值之外，这里支持自定义环境名称，比如 `staging`、`boe` 等，Modern.js 会根据该环境变量对应的加载 env.{process.env.MODERN_ENV} 文件中设置的环境变量值。
 
-当需要通过环境名称使用不同的配置时，可以把环境变量定义到对应的环境名称的 env 文件中，在 `modern.config.js` 中通过判断环境变量使配置生效。
+当需要通过环境名称使用不同的配置时，可以把环境变量定义到对应的环境名称的 env 文件中。
 
 MODERN_ENV 的优先级高于 NODE_ENV。
 
 ## 自定义环境变量
 
 Modern.js 支持自定义的环境变量，以 `MODERN_` 开头的环境变量可以在代码中直接使用。
-
-:::info 补充信息
-v4 版本支持以 `REACT_APP_` 开头的环境变量仍然可以直接使用，但不推荐使用。
-:::
 
 如果需要自动以任意名称的环境变量，需要在 [`source.define`](/docs/configure/app/source/define) 配置中声明后使用。
 
