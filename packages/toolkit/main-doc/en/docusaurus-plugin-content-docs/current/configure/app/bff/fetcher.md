@@ -23,6 +23,6 @@ export default defineConfig({
 });
 ```
 
-:::info 注
+:::info
 You need to judge the running environment when you implement the isomorphic fetch function.
 :::

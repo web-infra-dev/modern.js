@@ -9,6 +9,6 @@ sidebar_position: 7
 
 Storybook 配置请查看：[Storybook 配置](https://storybook.js.org/docs/react/configure/overview)
 
-:::info 注
+:::info
 使用 Storybook 进行调试需要提前在项目下执行 new 命令启用「Visual Testing (Storybook)」模式功能。
 :::

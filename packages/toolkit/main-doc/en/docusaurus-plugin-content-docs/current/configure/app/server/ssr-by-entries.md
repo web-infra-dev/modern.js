@@ -9,7 +9,7 @@ sidebar_label: ssrByEntries
 
 Set the ssr option according to the entry. The attributes in the option are the same as [ssr](./ssr.md). The specified value will be replaced and merged with the content of the ssr attribute. For example:
 
-:::info 注
+:::info
 The "entry name" defaults to the directory name. In a few cases, when the entry is customized by `source.entries`, the entry name `source.entries` the `key` of the object.
 :::
 

@@ -398,7 +398,7 @@ function App() {
 }
 ```
 
-:::info 注
+:::info
 component 的优先级高于 render。
 :::
 

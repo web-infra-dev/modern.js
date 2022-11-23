@@ -29,7 +29,7 @@ sidebar_label: tailwindcss
       defaultLineHeights: false,
       standardFontWeights: false,
     },
-    theme: source.designSystem // 使用source.designSystem配置作为Tailwind CSS Theme配置
+    theme: source.designSystem // Use source.design System configuration as Tailwind CSS Theme configuration
   }
 ```
 

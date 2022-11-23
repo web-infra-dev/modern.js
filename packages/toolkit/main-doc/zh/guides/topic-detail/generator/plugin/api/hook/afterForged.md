@@ -28,7 +28,7 @@ afterForged 参数是一个回调函数，函数参数为 api 和 inputData。
 
 ### api
 
-在 afterForged 生命周期中支持的函数列表，具体可查看[Git API](/docs/apis/generator/plugin/git/isInGitRepo) 和[NPM API](/docs/apis/generator/plugin/npm/install)。
+在 afterForged 生命周期中支持的函数列表，具体可查看 [Git API](/docs/guides/topic-detail/generator/plugin/api/git/isInGitRepo) 和 [NPM API](/docs/guides/topic-detail/generator/plugin/api/npm/install)。
 
 ### inputData
 

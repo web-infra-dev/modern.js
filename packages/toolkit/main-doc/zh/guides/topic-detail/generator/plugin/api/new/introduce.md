@@ -8,8 +8,8 @@ Modern.js 提供的三个工程方案支持在项目中执行 new 命令创建�
 
 不同的工程方案支持的 new 操作
 
-- [应用](/docs/configure/generator/mwa#new-%E5%91%BD%E4%BB%A4)
+- [应用](/docs/guides/topic-detail/generator/config/mwa#new-命令)
 
-- [模块](/docs/configure/generator/module#new-命令)
+- [模块](/docs/guides/topic-detail/generator/config/module#new-命令)
 
-- [Monorepo](/docs/configure/generator/monorepo#创建子项目)
+- [Monorepo](/docs/guides/topic-detail/generator/config/monorepo#创建子项目)
