@@ -17,6 +17,9 @@ Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的�
 ## 类型
 
 ```ts
+type SelectStateToProps = (...modelStates: State[], ownProps? :any) => PlainObject;
+type SelectActionsToProps = (...modelActions: Actions[], ownProps? :any) => PlainObject;
+
 function connect(models: Model, options?: ConnectOptions);
 function connect(
   models: [...Model[], SelectStateToProps?, SelectActionsToProps?],
@@ -26,11 +29,11 @@ function connect(
 
 
 ## 参数
-- models：传入的 1 个或 多个 Model，当 `models` 为数组类型参数时，最后两项元素可以是用于筛选 State 的函数（ `SelectStateToProps` 类型）和用于筛选 Actions 的函数（ `SelectActionsToProps` 类型）。
-  - `SelectStateToProps` 类型为 `(...modelStates: State[], ownProps? :any) => PlainObject`， `modelStates` 是传入的 Model 对象的 State 组成的数组，`ownProps` 是当前组件接收外部传递的 `props`，`SelectStateToProps` 返回的数据会传递到组件的 `props` 上。当 `models` 中没有传入 `SelectStateToProps` 参数时，所有 Model 的 State 进行合并后传递到组件的 `props` 上。
-  - `SelectActionsToProps` 类型为 `(...modelActions: Actions[], ownProps? :any) => PlainObject`， `modelActions` 是传入的 Model 对象的 Actions 组成的数组，`ownProps` 是当前组件接收外部传递的 `props`，`SelectActionsToProps` 返回的数据也会传递到组件的 `props` 上。当 `models` 中没有传入 `SelectActionsToProps` 参数时，所有 Model 的 Actions 进行合并后传递到组件的 `props` 上。
+- `models`：传入的 1 个或多个 Model，当 `models` 为数组类型参数时，最后两项元素可以是用于筛选 State 的函数（ `SelectStateToProps` 类型）和用于筛选 Actions 的函数（ `SelectActionsToProps` 类型）。
+  - `SelectStateToProps`： `modelStates` 是传入的 Model 对象的 State 组成的数组，`ownProps` 是当前组件接收外部传递的 `props`，`SelectStateToProps` 返回的数据会传递到组件的 `props` 上。当 `models` 中没有传入 `SelectStateToProps` 参数时，所有 Model 的 State 进行合并后传递到组件的 `props` 上。
+  - `SelectActionsToProps`： `modelActions` 是传入的 Model 对象的 Actions 组成的数组，`ownProps` 是当前组件接收外部传递的 `props`，`SelectActionsToProps` 返回的数据也会传递到组件的 `props` 上。当 `models` 中没有传入 `SelectActionsToProps` 参数时，所有 Model 的 Actions 进行合并后传递到组件的 `props` 上。
 
-- options：可选参数，用于辅助配置。目前支持设置 `forwardRef`，用于控制是否转发组件的 `ref`，默认值为 `false`，表示不转发 `ref`。设置为 `{forwardRef: true}`，表示转发 `ref`。
+- `options`：可选参数，用于辅助配置。目前支持设置 `forwardRef`，用于控制是否转发组件的 `ref`，默认值为 `false`，表示不转发 `ref`。设置为 `{forwardRef: true}`，表示转发 `ref`。
 
 
 ## 返回值

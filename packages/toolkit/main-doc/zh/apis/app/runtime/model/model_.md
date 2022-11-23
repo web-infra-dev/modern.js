@@ -31,7 +31,7 @@ model('foo');
 
 `function define(modelDesc: ModelDesc): Model;`
 
-- modelDesc: `ModelDesc`，是对 Model 结构的定义，包含 `state`、`computed`、`actions`、`effects` 等属性。
+- modelDesc: `ModelDesc`，对 Model 结构的定义，包含 `state`、`computed`、`actions`、`effects` 等属性。
 
 ```tsx title="示例"
 const fooModel = model('foo').define({
@@ -105,7 +105,7 @@ const barModel = model('bar').define((_, { use }) => {
 
 #### ModelDesc.state
 
-定义 Model 的状态。技术上，支持任意类型的 **state**，但是实践中建议使用可进行 JSON 序列化的类型。
+定义 Model 的状态。技术上，支持任意类型的 **State**，但是实践中建议使用可进行 JSON 序列化的类型。
 
 ```ts
 interface ModelDesc {

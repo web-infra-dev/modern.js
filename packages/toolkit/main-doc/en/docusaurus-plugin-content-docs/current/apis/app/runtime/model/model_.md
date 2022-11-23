@@ -1,0 +1,197 @@
+---
+sidebar_position: 1
+title: model
+---
+
+import ReduckTip from '@site-docs/components/reduck-tip.md'
+
+<ReduckTip />
+
+:::tip
+The original type of Reduck is complex. The following type definition shows the simplified type information. For the original type, see [**model**](https://github.com/modern-js-dev/reduck/blob/main/packages/store/src/model/model.ts)。
+:::
+
+## model
+
+Create a Model for managing application state.
+
+`function model(name: string): { define: function }`
+
+- name: `string`, the unique id of the Model created.
+
+```ts title="example"
+model('foo');
+```
+
+## define
+
+Used to define the detailed structure of the Model, supporting passing in an object type or function type parameter.
+
+### Object Type
+
+`function define(modelDesc: ModelDesc): Model;`
+
+- modelDesc: `ModelDesc`，definition of Model structure，includes `state`、`computed`、`actions`、`effects` etc. props.
+
+```tsx title="example"
+const fooModel = model('foo').define({
+  state: 'foo',
+  computed: {
+    cFoo: state => `c${state}`,
+  },
+  actions: {
+    setState: (state, value) => {
+      return value;
+    },
+  },
+  effects: {
+    loadState: async () => {
+      // get state from remote
+    },
+  },
+});
+```
+
+### Function Type
+
+`function define((context: Context, utils: Utils) => ModelDesc): Model;`
+
+- context: Context，Reduck 上下文对象，可以获取底层的 `store` 对象。`store` 除支持 Redux Store 的所有 [API](https://redux.js.org/api/store) 以外，还挂载了用于消费 Model 的 `use` 的方法，和用于卸载 Model 的 `unmount` 方法。
+- utils: Utils，定义 Model 时，常用的工具函数: `use`、`onMount`。`use` 作用同 `store` 对象上的 `use`，`onMount` 是 Model 挂载后的钩子函数。
+
+<!-- TODO: @anchao 调整类型 -->
+```ts
+interface Utils {
+  use: UseModel;
+  onMount: OnMountHook;
+}
+
+interface Context {
+  store: ReduxStore & {
+    use: UseModel;
+    unmount: (model: Model) => void;
+  };
+}
+```
+
+For example, through `use`, you can get the `state` and `actions` of the Model itself and other Models.
+
+```tsx title="example"
+const fooModel = model('foo').define(() => {
+  return {
+    state: 'foo',
+    actions: {
+      setState: (state, value) => {
+        return value;
+      },
+    },
+  };
+});
+
+const barModel = model('bar').define((_, { use }) => {
+  return {
+    state: 'bar',
+    effects: {
+      syncFoo() {
+        const [state, actions] = use(fooModel);
+        actions.setState(state);
+      },
+    },
+  };
+});
+```
+
+### Input
+
+#### ModelDesc.state
+
+Define the state of the Model. Technically, any type of **State** is supported, but in practice it is recommended to use a JSON serializable type.
+
+```ts
+interface ModelDesc {
+  state: any;
+}
+```
+
+#### ModelDesc.actions
+
+Define the Actions of the Model. The function type of Actions is:
+
+```ts
+interface ModelDesc {
+  actions: {
+    [actionKey: string]: (state: State, payload: any) => State | void;
+  };
+}
+```
+
+Reduck internally integrates [immer](https://github.com/immerjs/immer), which can directly return the original `state`. When the Action has no explicit return value, Reduck internally returns a modified new State object.
+
+#### ModelDesc.computed
+
+Defines the derived state of the Model. The definition of derived state supports two types:
+
+1. Depends only on the state of the Model itself
+
+```ts
+interface ModelDesc {
+  computed: {
+    [computedKey: string]: (state: State) => any;
+  };
+}
+```
+
+
+2. Depends on the state of other Models
+
+```ts
+interface ModelDesc {
+  computed: {
+    [computedKey: string]: [
+      ...models: Model[],
+      (state: State, ...args: ModelState[]) => any,
+    ];
+  };
+}
+```
+
+```ts title="example"
+const fooModel = model('foo').define({
+  state: 'foo',
+});
+
+const barModel = model('bar').define({
+  state: 'bar',
+  computed: {
+    combineFoo: [fooModel, (state, fooState) => state + fooState],
+  },
+});
+```
+
+#### ModelDesc.effects
+
+Defines the Effects of the Model. The function types defined in Effects are:
+
+```ts
+interface ModelDesc {
+  effects: {
+    [effectKey: string]: (...args: any[]) => any;
+  };
+}
+```
+
+```ts title="example"
+const fooModel = model('foo').define((context, { use }) => ({
+  state: 'foo',
+  effects: {
+    persist() {
+      const [state] = use(fooModel);
+      localStorage.setItem('state', state);
+    },
+  },
+}));
+```
+
+:::info More
+[Define Model](/docs/guides/topic-detail/model/define-model).
+:::

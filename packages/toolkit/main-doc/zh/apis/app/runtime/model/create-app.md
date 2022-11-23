@@ -7,14 +7,13 @@ import ReduckTip from '@site-docs/components/reduck-tip.md'
 
 <ReduckTip />
 
-一个 Reduck 应用对应共享一个 Store 的应用。Reduck 内部默认会使用 `createApp` 创建一个全局应用，如果整个应用只需要共享一个 Store，那么是不需要使用 `createApp` 的。只有当需要在应用局部创建共享 Store 时，才需要使用 `createApp` 。
-
+Reduck 内部默认会使用 `createApp` 创建一个全局应用，如果整个应用只需要共享一个 Store，那么是不需要使用 `createApp` 的。只有当需要在应用局部创建共享 Store 时，才需要使用 `createApp`。
 
 :::caution 注意
 - 注意 `@modern-js/runtime/model` 中导出的 `createApp` 用于管理状态，而 `@modern-js/runtime` 导出的 `createApp` 用于管理整个应用的运行时环境，两者功能不同。
 :::
 
-## 类型
+## 函数签名
 
 ```ts
 interface AppConfig extends StoreConfig {

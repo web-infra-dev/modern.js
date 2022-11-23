@@ -59,8 +59,6 @@ function useLoader(loaderFn: LoaderFn, options: Options): ReturnData;
 
 ## 示例
 
-### 普通使用
-
 ```ts
 function Container() {
   const { data, error, loading } = useLoader(

@@ -1,0 +1,49 @@
+---
+sidebar_position: 3
+title: useStaticModel
+---
+
+import ReduckTip from '@site-docs/components/reduck-tip.md'
+
+<ReduckTip />
+
+If want to consume a Model in the form of React Hook in the component，and can get the current latest state at any time，but you don't want the Model state to be updated, which will cause the component to be re-rendered, we can use `useStaticModel`。
+
+`useStaticModel` API is same as `useModel`。For detail, see [`useModel`](./use-model.md)。
+
+To ensure that the latest state is always available, be careful not to deconstruct the returned `state`.
+
+```tsx
+function App() {
+  // ❌ Do not deconstruct state，but can deconstruct actions。
+  const [{ username }, { logout }] = useStaticModel(userModel);
+
+  // ✅ True Usage。
+  const [state, { logout }] = useStaticModel(userModel);
+
+  useEffect(() => {
+    state.username;
+  }, []);
+}
+```
+
+## Example
+
+The following `App` component consumes the `userModel` state, but does not use it directly in JSX. It can be found that changes in the `userModel` state do not necessarily cause the component to re-render. This situation can be optimized using `useStaticModel`.
+
+```tsx
+function App() {
+  const [state] = useStaticModel(userModel);
+
+  useEffect(() => {
+    // 统计 UV 数据
+    send('pageview', { user: state.user });
+  }, [state]);
+
+  return <div>Hello</div>;
+}
+```
+
+:::info More
+[Use Model](/docs/guides/topic-detail/model/use-model).
+:::

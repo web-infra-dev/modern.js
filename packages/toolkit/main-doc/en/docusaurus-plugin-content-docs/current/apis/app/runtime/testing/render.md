@@ -1,0 +1,72 @@
+---
+title: render
+---
+
+Used to render the component in the test case.
+
+## Usage
+
+```ts
+import { render } from '@modern-js/runtime/testing';
+```
+
+## Function Signature
+
+```ts
+type Options = {
+  container: DOMElement;
+  baseElement: DOMElement;
+  hydrate: boolean;
+  warpper: React.ComponentType<{children: ReactNode}>;
+  queries: any;
+};
+
+type RenderResult = {
+  {...queries}: any;
+  container: DOMElement;
+  baseElement: DOMElement;
+  debug: function;
+  rerender: function;
+  unmount: function;
+  asFragment: function;
+}
+
+function render(ui: React.ReactElement<any>, options: Options): RenderResult;
+```
+
+### Input
+
+- `ui`: the React component that needs to be rendered.
+- `options`: render options.
+  - `container`: the dom which component mounted. by default create a `div` element，and auto append to `document.body`. the default value is `document.body.append(document.createElement('div'))`.
+  - `baseElement`: Used to specify the `basename` used in `queries`. If `container` is specified, the default value is the value of `container`, otherwise it is `document.body`.
+  - `hydrate`: If set to `true`, the [ReactDOM.hydrate](https://reactjs.org/docs/react-dom.html#hydrate) rendering component is used. The default value is `false`.
+  - `wrapper`: a react component that can be used to customize rendering logic.
+  - `queries`: customize some own `queries`.
+
+
+### Return Value
+
+- `{...queries}`: all available [queries](https://testing-library.com/docs/queries/about/)。
+- `container`: the DOM element that React component mounted.
+- `baseElement`
+- `debug`
+- `rerender`: if you want to test some scene when a rendered component is updated, you can use rerender for reality.
+- `unmount`: unmount rendered components. This API is helpful if you want to test what happens after the component is unmounted.
+- `asFragment`: return the [DocumentFragment](https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment) of rendered component. used to test the response of the DOM structure after the react event is triggered.
+
+
+## Example
+
+```ts
+import { render } from '@modern-js/runtime/testing';
+import App from './App';
+
+test('renders a message', () => {
+  const { container, getByText } = render(<App />);
+  expect(getByText('Hello, world!')).toBeInTheDocument();
+  expect(container.firstChild).toMatchInlineSnapshot(`
+    <h1>Hello, World!</h1>
+  `);
+});
+```
