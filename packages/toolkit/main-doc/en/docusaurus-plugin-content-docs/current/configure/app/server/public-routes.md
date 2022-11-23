@@ -15,10 +15,10 @@ The `key` of the object is the relative file path of the current application (no
 export default defineConfig({
   server: {
     publicRoutes: {
-      // 设置一个长路由
+      // Set up a long route
       'index.json': '/user-config/card-info/extra/help.json',
 
-      // 设置一个不带后缀的路由
+      // Set up a route without a suffix
       'robot.txt': '/app/authentication'
     }
   }

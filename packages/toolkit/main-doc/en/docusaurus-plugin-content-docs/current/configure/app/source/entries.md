@@ -20,7 +20,7 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   source: {
     entries: {
-      // 指定一个名称为 entry_customize 的新入口
+      // Specify a new entry named entry_customize
       entry_customize: './src/home/test/index.js',
     },
   },
