@@ -1,3 +1,2 @@
 #!/usr/bin/env node
-
-require('@modern-js/core/bin');
+import('@modern-js/core/bin');

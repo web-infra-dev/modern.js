@@ -40,24 +40,28 @@
     "dist/"
   ],
   "dependencies": {
-    "@babel/runtime": "^7.18.0"
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/doc-core": "workspace:*",
+    "@modern-js/plugin-changeset": "^1.21.4",
+    "@modern-js/utils": "1.21.4"
   },
   "peerDependencies": {
     "react": "^17"
   },
   "devDependencies": {
-    "react": "^17",
+    "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "1.21.4",
     "@modern-js/plugin-testing": "1.21.4",
     "@modern-js/tsconfig": "1.21.4",
-    "rimraf": "^3.0.2",
-    "lint-staged": "^11.2.6",
-    "prettier": "^2.6.2",
-    "husky": "^8",
-    "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
-    "@types/react": "^17"
+    "@types/react": "^17",
+    "husky": "^8",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.6.2",
+    "react": "^17",
+    "rimraf": "^3.0.2",
+    "typescript": "^4"
   },
   "sideEffects": [
     "*.css",
