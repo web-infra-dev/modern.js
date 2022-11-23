@@ -1,0 +1,19 @@
+{
+  "name": "@modern-js/module-tools-docs",
+  "version": "1.0.0",
+  "description": "docs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "island dev docs",
+    "build": "island build docs",
+    "preview": "island start docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "islandjs": "0.7.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
