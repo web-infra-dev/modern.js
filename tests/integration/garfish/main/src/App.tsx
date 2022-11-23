@@ -1,5 +1,6 @@
 import { useModuleApps } from '@modern-js/plugin-garfish';
 import { Switch, Route, Link } from '@modern-js/runtime/router';
+import DashboardApp from 'dashboardApp';
 import { getAppInfo } from '../../../../utils/testCase';
 import { name } from '../package.json';
 import './App.css';
@@ -16,6 +17,7 @@ const App: React.FC = () => {
   const { MApp, Dashboard } = useModuleApps();
   return (
     <div>
+      <DashboardApp />
       <div style={{ textAlign: 'center' }}>
         <Link data-test="link-home" to="/">
           Home |{' '}

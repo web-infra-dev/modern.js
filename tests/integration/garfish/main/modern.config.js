@@ -32,4 +32,19 @@ module.exports = defineConfig({
   server: {
     port,
   },
+  tools: {
+    webpack: (config, { appendPlugins, webpack }) => {
+      const { ModuleFederationPlugin } = webpack.container;
+      appendPlugins([
+        new ModuleFederationPlugin({
+          name: 'dashboard',
+          remotes: {
+            dashboardApp: 'dashboard@http://localhost:3002/remoteEntry.js',
+          },
+        }),
+      ]);
+      delete config.optimization?.runtimeChunk;
+      delete config.optimization?.splitChunks;
+    },
+  },
 });
