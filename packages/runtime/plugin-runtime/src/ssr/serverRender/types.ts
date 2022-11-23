@@ -3,9 +3,7 @@ import type { RuntimeContext } from '../../core';
 import { RenderLevel } from './renderToString/type';
 
 export type { SSRServerContext } from './renderToString/type';
-export type ModernSSRReactComponent = React.ComponentType<any> & {
-  init?: (context: RuntimeContext) => Promise<void>;
-};
+export type ModernSSRReactComponent = React.ComponentType<any>;
 export { RuntimeContext, RenderLevel };
 
 export type SSRPluginConfig = {
