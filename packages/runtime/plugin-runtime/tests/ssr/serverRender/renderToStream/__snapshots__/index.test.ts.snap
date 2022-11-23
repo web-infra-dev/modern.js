@@ -12,7 +12,6 @@ exports[`renderToStream basic usage 1`] = `
     
     
     
-    <title data-react-helmet=\\"true\\"></title>
     </head>
   
 
@@ -44,7 +43,6 @@ exports[`renderToStream fallback when error throws during shell rendering 1`] = 
     
     
     
-    <title data-react-helmet=\\"true\\"></title>
     </head>
   
 
