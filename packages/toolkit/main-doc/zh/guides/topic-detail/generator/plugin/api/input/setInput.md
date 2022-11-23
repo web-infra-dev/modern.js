@@ -23,7 +23,7 @@ export interface IPluginContext {
 
 ## filed
 
-需设置的问题字段，可修改除了当前 Input 除 key 以外的其他字段，Input 具体类型定义可查看[自定义输入相关类型定义](/docs/apis/generator/plugin/input/type)。
+需设置的问题字段，可修改除了当前 Input 除 key 以外的其他字段，Input 具体类型定义可查看[自定义输入相关类型定义](/docs/guides/topic-detail/generator/plugin/api/input/type)。
 
 ## value
 
@@ -38,5 +38,5 @@ export interface IPluginContext {
 修改 packageName 的展示名称
 
 ```ts
-context.setInput('packageName', 'name', "展示名称");
+context.setInput('packageName', 'title', "展示名称");
 ```

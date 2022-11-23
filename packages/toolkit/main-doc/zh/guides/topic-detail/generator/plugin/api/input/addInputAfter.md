@@ -12,18 +12,18 @@ sidebar_position: 3
 
 ```ts
 export interface IPluginContext {
-  addInputAfter: (key: string, input: IInput) => void;
+  addInputAfter: (key: string, input: Schema) => void;
   ...
 }
 ```
 
 ## key
 
-Modern.js 工程方案的配置的问题关键字，具体配置可查看[生成器配置](/docs/configure/generator/introduce)。
+Modern.js 工程方案的配置的问题关键字，具体配置可查看[生成器配置](/docs/guides/topic-detail/generator/config/common)。
 
 ## input
 
-需要添加的问题，具体类型定义可查看[自定义输入相关类型定义](/docs/apis/generator/plugin/input/type)。
+需要添加的问题，具体类型定义可查看[自定义输入相关类型定义](/docs/guides/topic-detail/generator/plugin/api/input/type)。
 
 ## 示例
 
@@ -31,9 +31,17 @@ Modern.js 工程方案的配置的问题关键字，具体配置可查看[生成
 
 ```ts
 context.addInputAfter('packageManager', {
-    key: 'test',
-    name: '测试输入',
-    type: 'input'
+  type: 'object',
+  properties: {
+    language: {
+      type: 'string',
+      title: i18n.t(localeKeys.plugin_type.self),
+      enum: [
+        { label: 'TS', value: 'ts' },
+        { label: 'ES6+', value: 'js' },
+      ],
+    },
+  },
 })
 ```
 

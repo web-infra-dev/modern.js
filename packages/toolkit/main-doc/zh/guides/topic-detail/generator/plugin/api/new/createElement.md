@@ -30,4 +30,4 @@ export type ForgedAPI = {
 
 ## params
 
-创建元素的其他参数，详细参考[应用 New 命令](/docs/configure/generator/mwa#new-%E5%91%BD%E4%BB%A4)。
+创建元素的其他参数，详细参考[应用 New 命令](/docs/guides/topic-detail/generator/config/mwa#new-命令)。

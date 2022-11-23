@@ -32,4 +32,4 @@ export type ForgedAPI = {
 
 ## params
 
-创建子项目的其他参数，详细参考[Monorepo 创建子项目](/docs/configure/generator/monorepo#%E5%88%9B%E5%BB%BA%E5%AD%90%E9%A1%B9%E7%9B%AE)。
+创建子项目的其他参数，详细参考[Monorepo 创建子项目](/docs/guides/topic-detail/generator/config/monorepo#创建子项目)。

@@ -14,8 +14,6 @@ sidebar_position: 3
 export enum ActionFunction {
   UnBundle = 'unbundle',
   TailwindCSS = 'tailwindcss',
-  Less = 'less',
-  Sass = 'sass',
   BFF = 'bff',
   MicroFrontend = 'micro_frontend',
   I18n = 'i18n',
@@ -43,4 +41,4 @@ export type ForgedAPI = {
 
 ## params
 
-启用功能时其他参数，详细参考[应用 New 命令](/docs/configure/generator/mwa#new-%E5%91%BD%E4%BB%A4)和[模块 New 命令](/docs/configure/generator/module#new-命令)。
+启用功能时其他参数，详细参考[应用 New 命令](/docs/guides/topic-detail/generator/config/mwa#new-命令)和[模块 New 命令](/docs/guides/topic-detail/generator/config/module#new-命令)。
