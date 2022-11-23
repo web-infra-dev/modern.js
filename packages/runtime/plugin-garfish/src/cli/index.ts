@@ -269,7 +269,7 @@ export default ({
         const config = useResolvedConfigContext();
         let finalCode = code;
         if (config?.deploy?.microFrontend && config?.source?.enableAsyncEntry) {
-          finalCode = generateAsyncEntry();
+          finalCode = generateAsyncEntry(code);
           return {
             entrypoint,
             code: `${finalCode}`,
