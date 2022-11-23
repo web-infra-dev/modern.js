@@ -1,6 +1,7 @@
 {
   "name": "app-docmuent",
   "version": "0.1.0",
+  "private": true,
   "scripts": {
     "bb": "cd ../../.. && pnpm --filter @modern-js/runtime build && pnpm --filter @modern-js/webpack build && pnpm --filter @modern-js/app-tools build && cd ./tests/integration/app-document && pnpm run dev",
     "reset": "npx rimraf ./**/node_modules",

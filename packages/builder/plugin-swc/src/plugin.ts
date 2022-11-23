@@ -8,6 +8,7 @@ import {
   JS_REGEX,
   TS_REGEX,
   getBrowserslistWithDefault,
+  BuilderPlugin,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
 import { PluginConfig, TransformConfig } from './config';
@@ -20,7 +21,7 @@ const PLUGIN_NAME = 'builder-plugin-swc';
  * - Remove Babel loader if exists
  * - Add our own swc loader
  */
-export const PluginSwc = (pluginConfig: PluginConfig = {}) => ({
+export const PluginSwc = (pluginConfig: PluginConfig = {}): BuilderPlugin => ({
   name: PLUGIN_NAME,
 
   setup(api: BuilderPluginAPI) {

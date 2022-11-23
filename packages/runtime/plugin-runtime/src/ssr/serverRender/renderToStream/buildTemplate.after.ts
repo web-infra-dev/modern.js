@@ -1,9 +1,10 @@
-import { RuntimeContext } from 'src/runtime-context';
 import serialize from 'serialize-javascript';
+import { RenderLevel, SSRServerContext } from '../types';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
 
 type BuildShellAfterTemplateOptions = {
-  context: RuntimeContext;
+  ssrContext: SSRServerContext;
+  renderLevel: RenderLevel;
 };
 export function buildShellAfterTemplate(
   afterAppTemplate: string,
@@ -17,8 +18,8 @@ export function buildShellAfterTemplate(
     return template.replace('<!--<?- SSRDataScript ?>-->', ssrDataScript);
 
     function buildSSRDataScript() {
-      const { ssrContext } = options.context;
-      const { request } = ssrContext!;
+      const { ssrContext, renderLevel } = options;
+      const { request } = ssrContext;
       const SSRData = {
         context: {
           request: {
@@ -31,6 +32,7 @@ export function buildShellAfterTemplate(
             cookieMap: request.cookieMap,
           },
         },
+        renderLevel,
       };
       return `
       <script>window._SSR_DATA = ${serialize(SSRData, {

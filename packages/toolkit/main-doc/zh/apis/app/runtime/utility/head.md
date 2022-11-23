@@ -2,7 +2,7 @@
 title: Head
 ---
 
-用于给 `head` 元素内添加 html 元素（如 title、meta、script 等），支持 `SSR`。
+用于给 `<head>` 元素内添加 html 元素（如 title、meta、script 等），支持 `SSR`。
 
 ## 使用姿势
 
