@@ -111,7 +111,12 @@ export async function fsSnapshot(
 
   const { code } = await compileFn(
     option,
-    actualFile.replace(path.join(__dirname, './fixtures'), ''),
+    actualFile
+      .replace(path.join(__dirname, './fixtures'), '')
+      .replace(
+        new RegExp(path.sep === '/' ? path.sep : '\\\\', 'g'),
+        path.posix.sep,
+      ),
     actual.toString(),
   );
 
@@ -121,6 +126,8 @@ export async function fsSnapshot(
     fs.writeFileSync(expectedPath, code);
   } else {
     const expected = fs.readFileSync(expectedPath).toString();
-    expect(code, `Test base: ${base}`).toEqual(expected);
+    expect(code, `Test base: ${base}`).toEqual(
+      expected.replace(new RegExp('\r\n', 'g'), '\n'),
+    );
   }
 }
