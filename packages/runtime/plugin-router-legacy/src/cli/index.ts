@@ -5,12 +5,24 @@ import {
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import { RouterConfig } from '../runtime/plugin';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
-export default (): CliPlugin<AppTools> => ({
+interface UserConfig {
+  runtime?: {
+    router?: RouterConfig;
+  };
+}
+
+export default (): CliPlugin<
+  AppTools & {
+    userConfig: UserConfig;
+    normalizedConfig: Required<UserConfig>;
+  }
+> => ({
   name: '@modern-js/plugin-router-legacy',
   required: ['@modern-js/runtime'],
   setup: api => {
@@ -60,7 +72,6 @@ export default (): CliPlugin<AppTools> => ({
 
         runtimeConfigMap.set(entryName, runtimeConfig);
 
-        // router.legacy: true;
         if (isLegacy) {
           imports.push({
             value: '@modern-js/runtime/plugins',

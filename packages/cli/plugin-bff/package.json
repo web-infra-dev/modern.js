@@ -69,6 +69,7 @@
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
+    "@modern-js/core": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-core": "workspace:*",

@@ -97,7 +97,7 @@ export default ({
           'index',
         );
 
-        // let disableCssExtract = false;
+        let disableCssExtract = useConfig.output?.disableCssExtract || false;
 
         // When the micro-frontend application js entry, there is no need to extract css, close cssExtract
         if (useConfig.deploy?.microFrontend) {
@@ -106,14 +106,14 @@ export default ({
           );
           if (!enableHtmlEntry) {
             // FIXME: the handle the `disableCssExtract` config
-            // disableCssExtract = true;
+            disableCssExtract = true;
           }
         }
 
         return {
-          // output: {
-          //   disableCssExtract,
-          // },
+          output: {
+            disableCssExtract,
+          },
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),

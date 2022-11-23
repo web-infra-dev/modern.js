@@ -183,7 +183,7 @@ const createCli = () => {
   }
 
   async function test(
-    _argv: string[],
+    argv: string[],
     options?: {
       coreOptions?: CoreOptions;
       disableWatcher?: boolean;
@@ -194,8 +194,7 @@ const createCli = () => {
     await init(coreOptions);
 
     await hooksRunner.commands({ program: newProgram });
-
-    await newProgram.parseAsync(process.argv);
+    await newProgram.parseAsync(argv);
   }
 
   return {

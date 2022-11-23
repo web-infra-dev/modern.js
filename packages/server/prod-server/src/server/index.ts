@@ -121,10 +121,7 @@ export class Server {
 
   private initServerConfig(options: ModernServerOptions) {
     const { pwd, serverConfigFile } = options;
-    const distDirectory = path.join(
-      pwd,
-      options.config.output.distPath?.root || 'dist',
-    );
+    const distDirectory = path.join(pwd, options.config.output.path || 'dist');
     const serverConfigPath = getServerConfigPath(
       distDirectory,
       serverConfigFile,
@@ -149,7 +146,7 @@ export class Server {
 
     const resolvedConfigPath = path.join(
       pwd,
-      config.output.distPath?.root || 'dist',
+      config.output.path || 'dist',
       OUTPUT_CONFIG_FILE,
     );
 
@@ -224,7 +221,7 @@ export class Server {
     ConfigContext.set(config);
     AppContext.set({
       ...appContext,
-      distDirectory: path.join(pwd, config.output.distPath?.root || 'dist'),
+      distDirectory: path.join(pwd, config.output.path || 'dist'),
     });
   }
 
@@ -237,10 +234,7 @@ export class Server {
 
     return {
       appDirectory,
-      distDirectory: path.join(
-        appDirectory,
-        config.output.distPath?.root || 'dist',
-      ),
+      distDirectory: path.join(appDirectory, config.output.path || 'dist'),
       sharedDirectory: path.resolve(appDirectory, SHARED_DIR),
       plugins: serverPlugins,
     };

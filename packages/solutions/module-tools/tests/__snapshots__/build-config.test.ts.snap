@@ -7,6 +7,8 @@ Array [
       "enableSourceMap": false,
       "jsPath": "js",
     },
+    "source": Object {},
+    "tools": Object {},
   },
 ]
 `;
@@ -62,6 +64,19 @@ Array [
         "typeof": "string",
       },
       "target": "output.assetsPath",
+    },
+    Object {
+      "schema": Object {
+        "default": "",
+        "typeof": "string",
+      },
+      "target": "output.jsPath",
+    },
+    Object {
+      "schema": Object {
+        "typeof": "boolean",
+      },
+      "target": "output.disableSourceMap",
     },
     Object {
       "schema": Object {

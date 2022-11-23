@@ -10,6 +10,7 @@ export interface OutputUserConfig {
     media?: string;
     server?: string;
   };
+  path?: string;
   assetPrefix?: string;
   polyfill?: 'entry' | 'usage' | 'ua' | 'off';
 }

@@ -125,7 +125,7 @@ export class ModernServer implements ModernServerInterface {
     require('ignore-styles');
 
     this.pwd = pwd;
-    this.distDir = path.join(pwd, config.output.distPath?.root || 'dist');
+    this.distDir = path.join(pwd, config.output.path || 'dist');
     this.workDir = this.distDir;
     this.conf = config;
     debug('server conf', this.conf);
