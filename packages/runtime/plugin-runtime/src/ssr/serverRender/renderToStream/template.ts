@@ -1,27 +1,27 @@
-import { RuntimeContext } from '../types';
+import { RenderLevel, SSRServerContext } from '../types';
 import { buildShellAfterTemplate } from './buildTemplate.after';
 import { buildShellBeforeTemplate } from './bulidTemplate.before';
 import { InjectTemplate } from './type';
 
 const HTML_SEPARATOR = '<!--<?- html ?>-->';
 
-export function createTemplates(context: RuntimeContext) {
-  const getTemplates: () => InjectTemplate = () => {
-    const { template } = context.ssrContext!;
-    const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
-      template.split(HTML_SEPARATOR) || [];
+export const getTemplates: (
+  ssrContext: SSRServerContext,
+  renderLevel: RenderLevel,
+) => InjectTemplate = (ssrContext, renderLevel) => {
+  const { template } = ssrContext;
+  const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
+    template.split(HTML_SEPARATOR) || [];
 
-    // templates injected some variables
-    const builtBeforeTemplate = buildShellBeforeTemplate(beforeAppTemplate);
-    const builtAfterTemplate = buildShellAfterTemplate(afterAppHtmlTemplate, {
-      context,
-    });
+  // templates injected some variables
+  const builtBeforeTemplate = buildShellBeforeTemplate(beforeAppTemplate);
+  const builtAfterTemplate = buildShellAfterTemplate(afterAppHtmlTemplate, {
+    ssrContext,
+    renderLevel,
+  });
 
-    return {
-      shellBefore: builtBeforeTemplate,
-      shellAfter: builtAfterTemplate,
-    };
+  return {
+    shellBefore: builtBeforeTemplate,
+    shellAfter: builtAfterTemplate,
   };
-
-  return getTemplates;
-}
+};
