@@ -7,17 +7,17 @@ sidebar_position: 1
 ```bash
 Usage: modern dev [options]
 
-本地开发命令
+Development commands
 
 Options:
-  -e --entry <entry>    指定入口，编译特定的页面
-  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
-  -h, --help            显示命令帮助
-  --analyze             分析构建产物体积，查看各个模块打包后的大小
-  --api-only            仅启动 API 接口服务
+  -e --entry <entry>    compiler by entry
+  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -h, --help            show command help
+  --analyze             analyze the bundle and view size of each module
+  --api-only            only start API service
 ```
 
-`modern dev` 命令启动一个开发服务器，同时监听源文件变化，默认支持 React Fast Refresh：
+`modern dev` start a development server，watch file change，default support React Fast Refresh:
 
 ```bash
 App running at:

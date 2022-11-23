@@ -3,13 +3,14 @@ title: index.[tj]s
 sidebar_position: 3
 ---
 
-应用项目自定义路由入口标识。
+Entry identifier if App want use custom entry. In most case, [`App.[tj]sx`](/docs/apis/app/hooks/src/app) hook file can already meet our needs.
 
-通常情况下 [`src/App.[tj]sx, src/[entry]/App.[tj]sx`](/docs/apis/app/hooks/src/app) 钩子文件已经能满足我们的需求，当我们需要在 `bootstrap` 之前添加自定义行为或者完全接管 webpack 打包入口时，可以在 `src` 或者入口目录下放置 `index.[tj]s`。 下面有分两种情况进行讨论:
+When we need to add custom behavior before `bootstrap` or completely take over the webpack entry, we can place `index.[tj]s` in `src/` or entry directory. The following are discussed in two cases:
 
-1. bootstrap 之前添加自定义行为：
 
-只需要 `src/index.[tj]s` 默认导出函数:
+1. add custom behavior before bootstrap
+
+Just add default export under `src/index.[tj]s`:
 
 ```js title=src/index.js
 import { bootstrap } from '@modern-js/runtime';
@@ -20,11 +21,9 @@ export default App => {
 };
 ```
 
+2. Fully take over the webpack entry
 
-2. 完全接管 webpack 入口:
-
-当 `src/index.[tj]sx?` 下没有默认导出函数时，该文件即为真正的 webpack 打包入口文件, 可以直接像使用 create-react-app 等脚手架一样组织代码:
-
+When there is no default export function under `src/index.[tj]sx?`, this file is the real webpack entry file, and the code can be organized such as create-react-app:
 
 ```js title=src/index.jsx
 import React from 'react';

@@ -112,8 +112,8 @@
     "description": "The label for category 常见问题 in sidebar guidesSidebar"
   },
   "sidebar.apisAppSidebar.category.文件约定": {
-    "message": "文件约定",
-    "description": "The label for category 文件约定 in sidebar apisAppSidebar"
+    "message": "Convention",
+    "description": "The label for category convention in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.src/": {
     "message": "src/",
@@ -124,12 +124,12 @@
     "description": "The label for category api/ in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.函数写法": {
-    "message": "函数写法",
-    "description": "The label for category 函数写法 in sidebar apisAppSidebar"
+    "message": "Function",
+    "description": "The label for category Function in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.框架写法": {
-    "message": "框架写法",
-    "description": "The label for category 框架写法 in sidebar apisAppSidebar"
+    "message": "Framework",
+    "description": "The label for category Framework in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.server/": {
     "message": "server/",
@@ -141,11 +141,11 @@
   },
   "sidebar.apisAppSidebar.category.命令": {
     "message": "Commands",
-    "description": "The label for category 命令 in sidebar apisAppSidebar"
+    "description": "The label for category command in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.运行时": {
     "message": "Runtime",
-    "description": "The label for category 运行时 in sidebar apisAppSidebar"
+    "description": "The label for category runtime in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.核心 API": {
     "message": "Core API",
@@ -188,8 +188,8 @@
     "description": "The label for category 插件 API in sidebar apisAppSidebar"
   },
   "sidebar.apisMonorepoSidebar.category.文件约定": {
-    "message": "文件约定",
-    "description": "The label for category 文件约定 in sidebar apisMonorepoSidebar"
+    "message": "Convention",
+    "description": "The label for category convention in sidebar apisMonorepoSidebar"
   },
   "sidebar.apisMonorepoSidebar.category.命令": {
     "message": "命令",

@@ -5,27 +5,27 @@ sidebar_position: 2
 ```bash
 Usage: modern new [options]
 
-应用工程中执行生成器
+Execution Generator in App
 
 Options:
-  -d, --debug            开启 Debug 模式，打印调试日志信息 (default: false)
-  -c, --config <config>  生成器运行默认配置(JSON 字符串)
-  --dist-tag <tag>       生成器使用特殊的 npm Tag 版本
-  --registry             生成器运行过程中定制 npm Registry
-  -h, --help             显示命令帮助
+  -d, --debug            using debug mode to log something (default: false)
+  -c, --config <config>  set default generator config(json string)
+  --dist-tag <tag>       use specified tag version for its generator
+  --registry             set npm registry url to run npm command
+  -h, --help             show command help
 ```
 
-`modern new` 命令用于在已有项目中添加项目元素。
+The `modern new` command is used to enable features to an existing project.
 
-比如添加应用入口、启用启用一些可选功能如 Tailwind CSS、微前端开发模式等。
+For example, add application entry, enable some optional features such as Tailwind CSS, micro frontend, etc.
 
 import CommandTip from '@site-docs/components/command-tip.md'
 
 <CommandTip />
 
-### 添加入口
+### Add Entry
 
-在应用工程中，执行 `new` 命令添加入口如下：
+In the project, execute the `new` command to add entries as follows:
 
 ```bash
 $ npx modern new
@@ -35,9 +35,9 @@ $ npx modern new
 ? 是否需要调整默认配置? 否
 ```
 
-### 启用启用可选功能
+### Enable Features
 
-在应用工程中，执行 `new` 命令启用可选能力如下：
+In the project, execute the `new` command to enable features as follows:
 
 ```bash
 $ npx modern new
@@ -52,8 +52,8 @@ $ npx modern new
   启用「Visual Testing (Storybook)」模式
 ```
 
-:::caution 注意
-`--config` 参数对应参数值需要使用 JSON 字符串。
+:::caution
+The `--config` parameter needs to use a JSON string.
 
-pnpm 暂不支持使用 JSON 字符串作为参数值，可使用 `npm new` 开启相关功能。【[相关 Issue](https://github.com/pnpm/pnpm/issues/3876)】
+pnpm does not support the use of JSON strings as parameter values currently. Use `npm new` to turn on.【[Relate Issue](https://github.com/pnpm/pnpm/issues/3876)】
 :::

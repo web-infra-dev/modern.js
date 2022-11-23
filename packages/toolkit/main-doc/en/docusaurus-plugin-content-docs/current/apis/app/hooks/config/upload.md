@@ -3,46 +3,40 @@ title: upload/
 sidebar_position: 4
 ---
 
-应用工程方案静态资源文件。
+Static resource files in any format can be placed in the `upload/`.
 
-`upload/` 目录中可以放置任意格式的静态资源文件。
+## Description
 
-## 说明
+In the development environment, the static resource files in this directory will be hosted in the '/upload' path. After building the application product, the files in this directory will be copied to the dist path.
 
-在开发环境下，该目录下的静态资源文件会被托管在 `/upload` 路径下。构建应用产物后，该目录下的文件会被复制到产物目录中。
+This file convention is mainly used for developers to use plugins to upload static resource files to the CDN.
 
-该文件约定主要用于开发者使用插件，主动上传静态资源文件到 CDN。
+## Scene
 
-## 场景
+For example, the SDK used by the project such as `google-analysis.js` (usually requires http caching).
 
-例如 `google-analysis.js` 等项目自用的 SDK（通常需要 http 缓存）。
+Images, font files, generic CSS, etc.
 
-图片、字体文件、通用 CSS 等。
+## Compression
 
-如果并非必要，Modern.js 推荐将 JS / CSS 这类文件通过 `upload/` 上传到 CDN，而不使用 `public/`。
+If the file is a `.js` file, it will be automatically compressed when the production environment is built.
 
-## 代码压缩
+If the file ends with `.min.js`, it will not compression.
 
-如果目录下的文件是一个 `.js` 文件，在生产环境构建时，会自动对其进行代码压缩。
+## More Usage
 
-如果该文件以 `.min.js` 结尾，则不会经过代码压缩处理。
-
-## 更多用法
-
-不论是在[自定义 HTML](/docs/guides/basic-features/html) 中，或是在 [`config/public/`](/docs/apis/app/hooks/config/public) 下的任意 HTML 文件中，都可以直接使用 HTML 标签引用 `config/upload/` 目录下的资源：
+Whether in [custom HTML](/docs/guides/basic-features/html), or in any HTML file under ['config/public/'](/docs/apis/app/hooks/config/public), you can directly use the HTML tag to refer to the resources in the `config/upload/`:
 
 ```html
 <script src="/upload/index.js"></script>
 ```
 
-如果设置了 [`output.assetPrefix`](/docs/configure/app/output/asset-prefix) 前缀，也可以直接使用模板语法添加该前缀：
+if [`output.assetPrefix`](/docs/configure/app/output/asset-prefix) is configured，add this prefix directly using template syntax:
 
 ```html
 <script src="<%=assetPrefix %>/upload/index.js"></script>
 ```
 
 :::info
-Modern.js 没有支持在 `config/public/*.css`（例如 background-image）中通过 URL 使用 `config/upload/` 下的文件。
-
-因为 Modern.js 不推荐在 `public/` 中放 JS、CSS 这类资源文件，可以将它们直接放置在 `upload/` 目录下。
+Modern.js does not support the use files under `upload/` in `config/public/*.css` via URL.
 :::
