@@ -1,8 +1,8 @@
-- Type: `false | Object | Function`
-- Default
+- Type: `Object | Function`
+- Default:
 
 ```js
-{
+const defaultOptions = {
   // The loader options
   loaderOptions: {},
   // The plugin options
@@ -12,8 +12,8 @@
     filename: `${cssPath}/${cssFilename}`,
     chunkFilename: `${cssPath}/async/${cssFilename}`,
     ignoreOrder: true,
-  }
-}
+  },
+};
 ```
 
 The config of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) can be modified through `tools.cssExtract`.
@@ -50,15 +50,3 @@ export default {
 ```
 
 For more config details, please refer to [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
-
-### Boolean Type
-
-The built-in `mini-css-extract-plugin` plugins can be disabled by set `tools.cssExtract` to `false`.
-
-```js
-export default {
-  tools: {
-    cssExtract: false,
-  },
-};
-```

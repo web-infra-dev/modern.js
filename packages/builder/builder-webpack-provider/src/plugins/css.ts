@@ -25,8 +25,7 @@ export const isUseCssExtract = (
   config: NormalizedConfig,
   target: BuilderTarget,
 ) =>
-  config.tools.cssExtract !== false &&
-  !config.tools.styleLoader &&
+  !config.output.disableCssExtract &&
   target !== 'node' &&
   target !== 'web-worker';
 

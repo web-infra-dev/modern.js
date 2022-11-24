@@ -1,20 +1,8 @@
-- Type: `boolean | Object | Function`
-- Default: `true`
-
-By default, the [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) is enabled for type checking.
-
-You can:
-
-- Configure to `true` to enable type checking by `fork-ts-checker-webpack-plugin`.
-- Configure to `false` to disable type checking by `fork-ts-checker-webpack-plugin`.
-- Configure as `Object` or `Function` to modify the default config.
-
-The default config is as follows:
-
-> In most cases you don't need to modify the default `tools.tsChecker` config.
+- Type: `Object | Function`
+- Default:
 
 ```js
-{
+const defaultOptions = {
   typescript: {
     // avoid OOM issue
     memoryLimit: 8192,
@@ -40,6 +28,8 @@ The default config is as follows:
   },
 },
 ```
+
+By default, the [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) is enabled for type checking. You can use `output.disableTsChecker` config to disable it.
 
 ### Object Type
 
