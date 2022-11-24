@@ -36,12 +36,18 @@ export type StartDevServerResult = {
   server: Server;
 };
 
-export type BuilderProvider = (options: {
+export type BuilderProvider<
+  BuilderConfig extends Record<string, any> = Record<string, any>,
+  BundlerConfigs extends Record<string, any> = Record<string, any>,
+> = (options: {
   pluginStore: PluginStore;
   builderOptions: Required<CreateBuilderOptions>;
-}) => Promise<ProviderInstance>;
+}) => Promise<ProviderInstance<BuilderConfig, BundlerConfigs>>;
 
-export type ProviderInstance = {
+export type ProviderInstance<
+  BuilderConfig extends Record<string, any> = Record<string, any>,
+  BundlerConfigs extends Record<string, any> = Record<string, any>,
+> = {
   readonly bundler: Bundler;
 
   readonly publicContext: Readonly<BuilderContext>;
@@ -58,7 +64,12 @@ export type ProviderInstance = {
 
   build: (options?: BuildOptions) => Promise<void>;
 
-  inspectConfig: (
-    options?: InspectConfigOptions,
-  ) => Promise<{ builderConfig: string; bundlerConfigs: string[] }>;
+  inspectConfig: (options?: InspectConfigOptions) => Promise<{
+    builderConfig: string;
+    bundlerConfigs: string[];
+    origin: {
+      builderConfig: BuilderConfig;
+      bundlerConfigs: BundlerConfigs[];
+    };
+  }>;
 };
