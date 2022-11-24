@@ -4,32 +4,23 @@ import {
   createBuilder,
   CreateBuilderOptions,
 } from '@modern-js/builder';
-import {
-  BuilderConfig,
-  builderWebpackProvider,
-} from '@modern-js/builder-webpack-provider';
+import { builderWebpackProvider } from '@modern-js/builder-webpack-provider';
 import type { IAppContext, CliNormalizedConfig } from '@modern-js/core';
 import { applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
-import type { LegacyAppTools } from '../types';
+import type { AppTools } from '../types';
 import {
   PluginCompatModernOptions,
   PluginCompatModern,
 } from './builderPlugins/compatModern';
-import { createHtmlConfig } from './createHtmlConfig';
-import { createOutputConfig } from './createOutputConfig';
-import { createSourceConfig } from './createSourceConfig';
-import { createToolsConfig } from './createToolsConfig';
 
 export type BuilderOptions = {
   target?: BuilderTarget | BuilderTarget[];
-  normalizedConfig: CliNormalizedConfig<LegacyAppTools>;
+  normalizedConfig: CliNormalizedConfig<AppTools>;
   appContext: IAppContext;
   compatPluginConfig?: PluginCompatModernOptions;
 };
 
-function getBuilderTargets(
-  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
-) {
+function getBuilderTargets(normalizedConfig: CliNormalizedConfig<AppTools>) {
   const targets: BuilderTarget[] = ['web'];
   if (
     normalizedConfig.output.enableModernMode &&
@@ -50,12 +41,10 @@ export async function createBuilderForEdenX({
   appContext,
   compatPluginConfig,
 }: BuilderOptions) {
-  const builderConfig = createBuilderProviderConfig(
-    normalizedConfig,
-    appContext,
-  );
   // create webpack provider
-  const webpackProvider = builderWebpackProvider({ builderConfig });
+  const webpackProvider = builderWebpackProvider({
+    builderConfig: normalizedConfig,
+  });
 
   const target = getBuilderTargets(normalizedConfig);
   const builderOptions = createBuilderOptions(target, appContext);
@@ -71,30 +60,30 @@ export async function createBuilderForEdenX({
   return builder;
 }
 
-function createBuilderProviderConfig(
-  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
-  appContext: IAppContext,
-): BuilderConfig {
-  const source = createSourceConfig(normalizedConfig, appContext);
-  const html = createHtmlConfig(normalizedConfig, appContext);
-  const output = createOutputConfig(normalizedConfig, appContext);
-  const tools = createToolsConfig(normalizedConfig);
+// function createBuilderProviderConfig(
+//   normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
+//   appContext: IAppContext,
+// ): BuilderConfig {
+//   const source = createSourceConfig(normalizedConfig, appContext);
+//   const html = createHtmlConfig(normalizedConfig, appContext);
+//   const output = createOutputConfig(normalizedConfig, appContext);
+//   const tools = createToolsConfig(normalizedConfig);
 
-  return {
-    source,
-    html,
-    output,
-    tools,
-    dev: {
-      https: normalizedConfig.dev.https,
-      assetPrefix: normalizedConfig.dev.assetPrefix,
-    },
-    performance: {
-      // `@modern-js/webpack` used to remove moment locale by default
-      removeMomentLocale: true,
-    },
-  };
-}
+//   return {
+//     source,
+//     html,
+//     output,
+//     tools,
+//     dev: {
+//       https: normalizedConfig.dev.https,
+//       assetPrefix: normalizedConfig.dev.assetPrefix,
+//     },
+//     performance: {
+//       // `@modern-js/webpack` used to remove moment locale by default
+//       removeMomentLocale: true,
+//     },
+//   };
+// }
 
 export function createBuilderOptions(
   target: BuilderTarget | BuilderTarget[],
@@ -130,7 +119,7 @@ export function createBuilderOptions(
  */
 async function applyBuilderPlugins(
   builder: BuilderInstance,
-  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
+  normalizedConfig: CliNormalizedConfig<AppTools>,
   appContext: IAppContext,
   compatPluginConfig?: PluginCompatModernOptions,
 ) {

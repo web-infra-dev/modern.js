@@ -36,7 +36,7 @@ export function createOutputConfig(
 
   const defaultCopyPattern = createCopyPattern(
     appContext,
-    normalizedConfig,
+    normalizedConfig as any,
     'upload',
   );
   const builderCopy = copy

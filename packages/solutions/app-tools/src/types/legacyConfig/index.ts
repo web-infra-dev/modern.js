@@ -32,6 +32,7 @@ export type LegacyAppToolsUserConfig = {
   runtime?: LegacyRuntimeConfig;
   runtimeByEntries?: LegacyRuntimeByEntriesConfig;
   bff?: LegacyBffUserConfig;
+  legacy?: boolean;
 };
 
 export interface LegacyAppToolsNormalizedConfig

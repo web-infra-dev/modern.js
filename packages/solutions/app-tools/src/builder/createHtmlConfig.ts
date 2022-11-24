@@ -58,7 +58,7 @@ export function createBuilderAppIcon(
 ) {
   const appIcon = findExists(
     ICON_EXTENSIONS.map(ext =>
-      path.resolve(appContext.appDirectory, configDir!, `icon.${ext}`),
+      path.resolve(appContext.appDirectory, configDir || '', `icon.${ext}`),
     ),
   );
   return typeof appIcon === 'string' ? appIcon : undefined;
@@ -87,7 +87,7 @@ export function createBuilderFavicon(
 ) {
   const defaultFavicon = findExists(
     ICON_EXTENSIONS.map(ext =>
-      path.resolve(appContext.appDirectory, configDir!, `favicon.${ext}`),
+      path.resolve(appContext.appDirectory, configDir || '', `favicon.${ext}`),
     ),
   );
   return favicon || defaultFavicon || undefined;

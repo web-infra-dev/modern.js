@@ -39,6 +39,7 @@ export type LegacyAppTools = {
 
 export type NormalizedConfig = CliNormalizedConfig<AppTools>;
 export type LegacyNormalizedConfig = CliNormalizedConfig<LegacyAppTools>;
+
 export type UserConfig = CliUserConfig<AppTools>;
 export type LegacyUserConfig = CliUserConfig<LegacyAppTools>;
 export type LegacyPluginAPI = PluginAPI<LegacyAppTools>;

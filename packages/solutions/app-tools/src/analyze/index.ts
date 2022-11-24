@@ -1,5 +1,12 @@
 import * as path from 'path';
-import { createDebugger, fs, isApiOnly } from '@modern-js/utils';
+import {
+  createDebugger,
+  ensureAbsolutePath,
+  fs,
+  getPort,
+  isApiOnly,
+  isDev,
+} from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { createBuilderForEdenX } from '../builder';
@@ -8,6 +15,12 @@ import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
 import { getCommand } from '../utils/commands';
 import { AppTools } from '../types';
+import {
+  checkIsLegacyConfig,
+  createLegacyDefaultConfig,
+  createDefaultConfig,
+} from '../config';
+import { transformNormalizedConfig } from '../config/transform';
 import { isRouteComponentFile } from './utils';
 
 const debug = createDebugger('plugin-analyze');
@@ -126,7 +139,6 @@ export default (): CliPlugin<AppTools> => ({
 
         if (buildCommands.includes(command)) {
           const normalizedConfig = api.useResolvedConfigContext();
-
           const builder = await createBuilderForEdenX({
             normalizedConfig: normalizedConfig as any,
             appContext,
@@ -184,7 +196,67 @@ export default (): CliPlugin<AppTools> => ({
           api.setAppContext(appContext);
         }
       },
+      config() {
+        const appContext = api.useAppContext();
+        const userConfig = api.useConfigContext();
 
+        return checkIsLegacyConfig(userConfig)
+          ? (createLegacyDefaultConfig(appContext) as any)
+          : createDefaultConfig(appContext);
+      },
+
+      async resolvedConfig({ resolved }) {
+        const command = getCommand();
+        const appContext = api.useAppContext();
+        let port: number | undefined;
+        if (isDev() && command === 'dev') {
+          console.info('appContext.port', appContext.port);
+
+          port =
+            (appContext.port ?? 0) > 0
+              ? appContext.port
+              : await getPort(resolved.server.port!);
+          console.info('port', port);
+        }
+        const userConfig = api.useConfigContext();
+
+        // TODO: transform
+        if ((resolved as unknown as { legacy: boolean }).legacy) {
+          // eslint-disable-next-line no-param-reassign
+          resolved = transformNormalizedConfig(resolved as any, appContext);
+        }
+
+        api.setAppContext({
+          ...appContext,
+          port,
+          distDirectory: ensureAbsolutePath(
+            appContext.distDirectory,
+            resolved.output.distPath?.root || 'dist',
+          ),
+        });
+
+        return {
+          resolved: {
+            _raw: userConfig,
+            source: resolved.source || {},
+            server: {
+              ...(resolved.server || {}),
+              port: port || resolved.server?.port,
+            },
+            bff: resolved.bff || {},
+            dev: resolved.dev || {},
+            html: resolved.html || {},
+            output: resolved.output || {},
+            security: resolved.security || {},
+            tools: resolved.tools || {},
+            testing: resolved.testing || {},
+            plugins: resolved.plugins || [],
+            runtime: resolved.runtime || {},
+            runtimeByEntries: resolved.runtimeByEntries || {},
+            deploy: resolved.deploy || {},
+          },
+        };
+      },
       watchFiles() {
         return pagesDir;
       },

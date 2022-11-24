@@ -1,13 +1,6 @@
 import path from 'path';
 import LintPlugin from '@modern-js/plugin-lint';
-import {
-  cleanRequireCache,
-  emptyDir,
-  Import,
-  ensureAbsolutePath,
-  getPort,
-  isDev,
-} from '@modern-js/utils';
+import { cleanRequireCache, emptyDir, Import } from '@modern-js/utils';
 import { CliPlugin } from '@modern-js/core';
 import schema from './schema';
 import AnalyzePlugin from './analyze';
@@ -15,7 +8,6 @@ import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
-import { createDefaultConfig } from './config';
 import type {
   DevOptions,
   BuildOptions,
@@ -162,58 +154,12 @@ export default (): CliPlugin<AppTools> => ({
         upgradeModel.defineCommand(program.command('upgrade'));
       },
 
-      config() {
-        const appContext = api.useAppContext();
-        return createDefaultConfig(appContext);
-      },
-
       async prepare() {
         const command = getCommand();
         if (command === 'dev' || command === 'build') {
           const appContext = api.useAppContext();
           await emptyDir(appContext.distDirectory);
         }
-      },
-
-      async resolvedConfig({ resolved }) {
-        const command = getCommand();
-        const appContext = api.useAppContext();
-        let port: number | undefined;
-        if (isDev() && command === 'dev') {
-          port = appContext.port ?? (await getPort(resolved.server.port!));
-        }
-        const userConfig = api.useConfigContext();
-
-        api.setAppContext({
-          ...appContext,
-          port,
-          distDirectory: ensureAbsolutePath(
-            appContext.distDirectory,
-            userConfig.output?.distPath?.root || '',
-          ),
-        });
-
-        return {
-          resolved: {
-            _raw: userConfig,
-            source: userConfig.source || {},
-            server: {
-              ...(userConfig.server || {}),
-              port: port || userConfig.server?.port,
-            },
-            bff: userConfig.bff || {},
-            dev: userConfig.dev || {},
-            html: userConfig.html || {},
-            output: userConfig.output || {},
-            security: userConfig.security || {},
-            tools: userConfig.tools || {},
-            testing: userConfig.testing || {},
-            plugins: userConfig.plugins || [],
-            runtime: userConfig.runtime || {},
-            runtimeByEntries: userConfig.runtimeByEntries || {},
-            deploy: userConfig.deploy || {},
-          },
-        };
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart

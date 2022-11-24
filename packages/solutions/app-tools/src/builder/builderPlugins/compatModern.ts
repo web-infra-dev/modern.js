@@ -15,8 +15,9 @@ import { getEntryOptions, ChainIdentifier } from '@modern-js/utils';
 import { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import {
   SSGMultiEntryOptions,
-  LegacyAppTools,
+  // LegacyAppTools,
   ServerUserConfig,
+  AppTools,
 } from '../../types';
 import { BottomTemplatePlugin } from '../webpackPlugins/htmlBottomTemplate';
 import { HtmlAsyncChunkPlugin } from '../webpackPlugins/htmlAsyncChunkPlugin';
@@ -53,7 +54,7 @@ export type PluginCompatModernOptions = FnParameter<
  */
 export const PluginCompatModern = (
   appContext: IAppContext,
-  modernConfig: CliNormalizedConfig<LegacyAppTools>,
+  modernConfig: CliNormalizedConfig<AppTools>,
   options?: PluginCompatModernOptions,
 ): BuilderPlugin<BuilderPluginAPI> => ({
   name: 'builder-plugin-compat-modern',
@@ -106,18 +107,19 @@ export const PluginCompatModern = (
       }
 
       // apply copy plugin
-      // const copyPatterns = createCopyPatterns(chain, appContext, modernConfig);
-      const defaultCopyPattern = createCopyPattern(
-        appContext,
-        modernConfig,
-        'public',
-        chain,
-      );
-      chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(args => [
-        {
-          patterns: [...(args[0]?.patterns || []), defaultCopyPattern],
-        },
-      ]);
+      if (chain.plugins.has(CHAIN_ID.PLUGIN.COPY)) {
+        const defaultCopyPattern = createCopyPattern(
+          appContext,
+          modernConfig,
+          'public',
+          chain,
+        );
+        chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(args => [
+          {
+            patterns: [...(args[0]?.patterns || []), defaultCopyPattern],
+          },
+        ]);
+      }
 
       const { entrypoints } = appContext;
       const existNestedRoutes = entrypoints.some(
@@ -170,7 +172,7 @@ function applyCallbacks(
  */
 function applyNodeCompat(
   chain: WebpackChain,
-  modernConfig: CliNormalizedConfig<LegacyAppTools>,
+  modernConfig: CliNormalizedConfig<AppTools>,
   isProd: boolean,
 ) {
   // apply node resolve extensions
@@ -189,8 +191,8 @@ function applyNodeCompat(
   function filterEntriesBySSRConfig(
     isProd: boolean,
     chain: WebpackChain,
-    serverConfig?: CliNormalizedConfig<LegacyAppTools>['server'],
-    outputConfig?: CliNormalizedConfig<LegacyAppTools>['output'],
+    serverConfig?: CliNormalizedConfig<AppTools>['server'],
+    outputConfig?: CliNormalizedConfig<AppTools>['output'],
   ) {
     const entries = chain.entryPoints.entries();
     // if prod and ssg config is true or function
@@ -245,7 +247,7 @@ function applyBottomHtmlWebpackPlugin({
 }: {
   api: BuilderPluginAPI;
   chain: WebpackChain;
-  modernConfig: CliNormalizedConfig<LegacyAppTools>;
+  modernConfig: CliNormalizedConfig<AppTools>;
   appContext: IAppContext;
   CHAIN_ID: ChainIdentifier;
 }) {
@@ -256,15 +258,15 @@ function applyBottomHtmlWebpackPlugin({
       entryName,
       title: getEntryOptions<string | undefined>(
         entryName,
-        modernConfig.output.title,
-        modernConfig.output.titleByEntries,
+        modernConfig.html.title,
+        modernConfig.html.titleByEntries,
         appContext.packageName,
       ),
-      mountId: modernConfig.output.mountId!,
-      ...getEntryOptions<Record<string, unknown> | undefined>(
+      mountId: modernConfig.html.mountId,
+      ...getEntryOptions<any>(
         entryName,
-        modernConfig.output.templateParameters,
-        modernConfig.output.templateParametersByEntries,
+        modernConfig.html.templateParameters,
+        modernConfig.html.templateParametersByEntries,
         appContext.packageName,
       ),
     };
@@ -285,9 +287,7 @@ function applyBottomHtmlWebpackPlugin({
     .use(BottomTemplatePlugin, [HtmlWebpackPlugin]);
 }
 
-const isStreamingSSR = (
-  userConfig: CliNormalizedConfig<LegacyAppTools>,
-): boolean => {
+const isStreamingSSR = (userConfig: CliNormalizedConfig<AppTools>): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
@@ -316,7 +316,7 @@ function applyAsyncChunkHtmlPlugin({
   CHAIN_ID,
 }: {
   chain: WebpackChain;
-  modernConfig: CliNormalizedConfig<LegacyAppTools>;
+  modernConfig: CliNormalizedConfig<AppTools>;
   CHAIN_ID: ChainIdentifier;
 }) {
   if (isStreamingSSR(modernConfig)) {

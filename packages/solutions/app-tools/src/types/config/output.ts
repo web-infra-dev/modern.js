@@ -7,6 +7,7 @@ export interface OutputUserConfig extends BuilderOutputConfig {
   enableModernMode?: boolean;
   // TODO: move into builder
   disableCssExtract?: boolean;
+  disableNodePolyfill?: boolean;
 }
 
 export type OutputNormalizedConfig = OutputUserConfig;

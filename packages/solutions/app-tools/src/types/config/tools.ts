@@ -17,6 +17,7 @@ export interface ToolsUserConfig extends BuilderToolsConfig {
   devServer?: DevServerOptions;
   tailwindcss?: Tailwindcss;
   jest?: JestConfig | ((jestConfig: JestConfig) => JestConfig);
+  esbuild?: Record<string, unknown>;
 }
 
 export type ToolsNormalizedConfig = ToolsUserConfig;
