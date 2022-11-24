@@ -3,6 +3,7 @@ import {
   fs,
   LOADABLE_STATS_FILE,
   mime,
+  ROUTE_MINIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import cookie from 'cookie';
@@ -29,6 +30,10 @@ export const render = async (
   const bundleJS = path.join(distDir, bundle);
   const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
   const loadableStats = fs.existsSync(loadableUri) ? require(loadableUri) : '';
+  const routesManifestUri = path.join(distDir, ROUTE_MINIFEST_FILE);
+  const routeManifest = fs.existsSync(routesManifestUri)
+    ? require(routesManifestUri)
+    : undefined;
 
   const context: SSRServerContext = {
     request: {
@@ -53,6 +58,7 @@ export const render = async (
     redirection: {},
     template,
     loadableStats,
+    routeManifest, // for streaming ssr
     entryName,
     staticGenerate,
     logger: undefined!,

@@ -47,6 +47,15 @@ export default class RouterPlugin {
 
     const outputPath = compiler.options.output.path!;
     const newAssetsMap = new Map<string, string>();
+
+    const normalizePath = (path: string): string => {
+      if (!path.endsWith('/')) {
+        return `${path}/`;
+      }
+
+      return path;
+    };
+
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.processAssets.tapPromise(
         {
@@ -58,6 +67,7 @@ export default class RouterPlugin {
             chunkGroups: true,
             chunks: true,
           });
+          const { publicPath } = stats;
           const routeAssets: RouteAssets = {};
           const { namedChunkGroups, assetsByChunkName } = stats;
 
@@ -71,7 +81,9 @@ export default class RouterPlugin {
           for (const [name, chunkGroup] of Object.entries(namedChunkGroups)) {
             routeAssets[name] = {
               chunkIds: chunkGroup.chunks,
-              assets: assetsByChunkName[name],
+              assets: assetsByChunkName[name].map(item =>
+                publicPath ? normalizePath(publicPath) + item : item,
+              ),
             };
           }
 
