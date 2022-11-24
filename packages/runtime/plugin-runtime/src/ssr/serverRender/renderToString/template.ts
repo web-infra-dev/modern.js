@@ -70,7 +70,16 @@ export function toFragments(template: string, entryName: string): Fragment[] {
     return fragmentListMap[entryName];
   }
 
-  const fragmentList = template
+  const HTML_START_SEPARATOR = '<!--<?- html-start ?>-->';
+  const HTML_END_SEPARATOR = '<!--<?- html-end ?>-->';
+  const HTML_SEPARATOR = '<!--<?- html ?>-->';
+  const [before = '', after = ''] = [
+    template.split(HTML_START_SEPARATOR).shift(),
+    template.split(HTML_END_SEPARATOR).pop(),
+  ];
+  const html = before + HTML_SEPARATOR + after;
+
+  const fragmentList = html
     .split(VARIABLE_SPLITTER)
     .filter(v => Boolean(v))
     .map(v => new Fragment(v));
