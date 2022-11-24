@@ -1,3 +1,4 @@
+import { isUseJsSourceMap } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginDevtool = (): BuilderPlugin => ({
@@ -7,7 +8,7 @@ export const PluginDevtool = (): BuilderPlugin => ({
     api.modifyWebpackChain((chain, { isProd }) => {
       const config = api.getNormalizedConfig();
 
-      if (config.output.disableSourceMap) {
+      if (!isUseJsSourceMap(config)) {
         chain.devtool(false);
       } else {
         const devtool = isProd ? 'source-map' : 'cheap-module-source-map';

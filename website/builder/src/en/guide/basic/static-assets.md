@@ -77,6 +77,8 @@ When static assets are imported, they will be output to the dist directory. You 
 - Modify the output filename through [output.filename](/en/api/config-output.html#output-filename).
 - Modify the output path through [output.distPath](/en/api/config-output.html#output-distpath).
 
+Please read [Output Files](/guide/basic/output-files.html) for details.
+
 ## URL Prefix
 
 The URL returned after importing a asset will automatically include the path prefix:

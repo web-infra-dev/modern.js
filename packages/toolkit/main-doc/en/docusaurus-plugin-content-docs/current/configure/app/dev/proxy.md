@@ -54,7 +54,7 @@ module.exports = {
 };
 ```
 
-:::info 注
+:::info
 Modern.js global proxy implementation is based on [whistle](https://wproxy.org/whistle/), for more matching patterns, please refer to: [Matching Patterns](https://wproxy.org/whistle/pattern.html)
 :::
 

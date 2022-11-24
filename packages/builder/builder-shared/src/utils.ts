@@ -4,6 +4,7 @@ import {
   GLOBAL_CSS_REGEX,
   NODE_MODULES_REGEX,
 } from './constants';
+import type { SharedBuilderConfig } from './types';
 
 export function deepFreezed<T>(obj: T): T {
   if (!_.isObject(obj) || _.isNull(obj)) {
@@ -51,4 +52,30 @@ export const awaitableGetter = <T>(
   const then: PromiseLike<T[]>['then'] = (...args) =>
     Promise.all(promises).then(...args);
   return { then, promises };
+};
+
+export const isUseJsSourceMap = (config: SharedBuilderConfig) => {
+  const { disableSourceMap } = config.output || {};
+
+  if (typeof disableSourceMap === 'boolean') {
+    return !disableSourceMap;
+  }
+
+  return !disableSourceMap?.js;
+};
+
+export const isUseCssSourceMap = (config: SharedBuilderConfig) => {
+  const { disableSourceMap } = config.output || {};
+
+  if (typeof disableSourceMap === 'boolean') {
+    return !disableSourceMap;
+  }
+
+  // If the disableSourceMap.css option is not specified, we will enable it in development mode.
+  // We do not need CSS Source Map in production mode.
+  if (disableSourceMap?.css === undefined) {
+    return process.env.NODE_ENV !== 'production';
+  }
+
+  return !disableSourceMap?.css;
 };

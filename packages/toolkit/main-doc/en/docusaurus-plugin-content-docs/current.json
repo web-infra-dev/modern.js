@@ -140,12 +140,16 @@
     "description": "The label for category config/ in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.命令": {
-    "message": "命令",
+    "message": "Commands",
     "description": "The label for category 命令 in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.运行时": {
-    "message": "运行时",
+    "message": "Runtime",
     "description": "The label for category 运行时 in sidebar apisAppSidebar"
+  },
+  "sidebar.apisAppSidebar.category.核心 API": {
+    "message": "Core API",
+    "description": "The label for category Core API in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.App API": {
     "message": "App API",

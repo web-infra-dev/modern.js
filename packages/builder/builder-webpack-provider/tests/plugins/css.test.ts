@@ -200,6 +200,38 @@ describe('plugins/css', () => {
     expect(JSON.stringify(config)).toContain('"sourceMap":false');
   });
 
+  it('should disable source map when output.disableSourceMap is css: true', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginCss()],
+      builderConfig: {
+        output: {
+          disableSourceMap: {
+            css: true,
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(JSON.stringify(config)).toContain('"sourceMap":false');
+  });
+
+  it('should disable source map in production by default', async () => {
+    const { NODE_ENV } = process.env;
+    process.env.NODE_ENV = 'production';
+
+    const builder = await createStubBuilder({
+      plugins: [PluginCss()],
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(JSON.stringify(config)).toContain('"sourceMap":false');
+
+    process.env.NODE_ENV = NODE_ENV;
+  });
+
   it('should allow to custom cssModuleLocalIdentName', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginCss()],

@@ -1,4 +1,4 @@
-import { LESS_REGEX } from '@modern-js/builder-shared';
+import { isUseCssSourceMap, LESS_REGEX } from '@modern-js/builder-shared';
 import type { BuilderPlugin, LessLoaderOptions } from '../types';
 
 export type LessLoaderUtils = {
@@ -26,7 +26,7 @@ export function PluginLess(): BuilderPlugin {
 
           const defaultLessLoaderOptions = {
             lessOptions: { javascriptEnabled: true },
-            sourceMap: !config.output.disableSourceMap,
+            sourceMap: isUseCssSourceMap(config),
             implementation: utils.getCompiledPath('less'),
           };
           const mergedOptions = applyOptionsChain<
