@@ -192,7 +192,7 @@ export default (): CliPlugin<AppHooks> => ({
         api.setAppContext(appContext);
 
         const command = getCommand();
-        const buildCommands = ['dev', 'build', 'inspect'];
+        const buildCommands = ['dev', 'build', 'inspect', 'deploy'];
 
         if (buildCommands.includes(command)) {
           const normalizedConfig = api.useResolvedConfigContext();
