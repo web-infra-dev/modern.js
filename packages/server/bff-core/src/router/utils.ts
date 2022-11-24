@@ -73,8 +73,12 @@ const enableRegister = (requireFn: (modulePath: string) => HandlerModule) => {
       firstCall = false;
     }
     if (!existTsLoader) {
-      const { register } = require('esbuild-register/dist/node');
-      const { unregister } = register({});
+      const {
+        register,
+      }: typeof import('esbuild-register/dist/node') = require('esbuild-register/dist/node');
+      const { unregister } = register({
+        extensions: ['.ts'],
+      });
       const requiredModule = requireFn(modulePath);
       unregister();
       return requiredModule;
