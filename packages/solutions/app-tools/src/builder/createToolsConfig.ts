@@ -5,7 +5,7 @@ import { applyOptionsChain } from '@modern-js/utils';
 export function createToolsConfig(
   normalizedConfig: NormalizedConfig,
 ): BuilderConfig['tools'] {
-  const { disableCssExtract, enableTsLoader } = normalizedConfig.output;
+  const { enableTsLoader } = normalizedConfig.output;
   const {
     autoprefixer,
     babel,
@@ -25,12 +25,10 @@ export function createToolsConfig(
   } = normalizedConfig.tools;
 
   const builderTsLoader = createBuilderTsLoader(tsLoader, enableTsLoader);
-  const builderTsChecker = createBuilderTsChecker(normalizedConfig.output);
+  const builderTsChecker = createBuilderTsChecker();
 
   return {
     tsChecker: builderTsChecker,
-    styleLoader: disableCssExtract ? {} : undefined,
-    cssExtract: disableCssExtract ? false : undefined,
     autoprefixer,
     babel,
     minifyCss,
@@ -91,10 +89,7 @@ function createBuilderTsLoader(
     applyOptionsChain<any, TsLoaderUtils>(defaultTsLoader, tsLoader, utils);
 }
 
-export function createBuilderTsChecker(output: NormalizedConfig['output']) {
-  if (output.enableTsLoader) {
-    return false;
-  }
+export function createBuilderTsChecker() {
   const defaultTsChecker = {
     issue: {
       include: [{ file: '**/src/**/*' }],
