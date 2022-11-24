@@ -2781,9 +2781,9 @@ importers:
       '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@speedy-js/speedy-core': 0.13.2-modern.3
-      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.1
-      '@speedy-js/speedy-types': 0.13.2-modern.1
+      '@speedy-js/speedy-core': 0.13.2-modern.4
+      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.4
+      '@speedy-js/speedy-types': 0.13.2-modern.4
       '@types/babel__core': ^7.1.15
       '@types/babel__generator': ^7.6.3
       '@types/babel__traverse': ^7.14.2
@@ -2822,9 +2822,9 @@ importers:
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
-      '@speedy-js/speedy-core': 0.13.2-modern.3
-      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.1
-      '@speedy-js/speedy-types': 0.13.2-modern.1
+      '@speedy-js/speedy-core': 0.13.2-modern.4
+      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.4
+      '@speedy-js/speedy-types': 0.13.2-modern.4
       normalize-path: 3.0.0
       p-map: 4.0.0
       process.argv: 0.6.0
@@ -11948,21 +11948,22 @@ packages:
       '@speedy-js/source-map-win32-x64-msvc': 0.1.3
     dev: false
 
-  /@speedy-js/speedy-config-loader/0.13.2-modern.3:
-    resolution: {integrity: sha512-Y9AU7vqZchNwd9EKtxYMg7VBI9XSJj9X6h7pBrvX/FwDMQsSXGye4bIm8QPao3XE69hVniyiiJ6Qlap8AWR0QQ==}
+  /@speedy-js/speedy-config-loader/0.13.2-modern.4:
+    resolution: {integrity: sha512-5MMl1GbiiHYSbLLeN0xeGU7iRwD95Ul2r999EkM7jRT73O9TCSpFJzdASlVopVIZJA5Su3pVX+jILDTqo5nvQQ==}
     dependencies:
+      '@speedy-js/esbuild': 0.14.28-speedy-6
       source-map: 0.7.3
     dev: false
 
-  /@speedy-js/speedy-core/0.13.2-modern.3:
-    resolution: {integrity: sha512-K7glgVnC+3shzj37oQNvsTl7JTUUYMXtu1xk6N3T7N9zztJGWELTyVe0j603qTZ6tjS4AvNUykS6RqULFhvSmQ==}
+  /@speedy-js/speedy-core/0.13.2-modern.4:
+    resolution: {integrity: sha512-axn03d+XFHZ1MZPhiywmMG6lQrdO5V9H1yxhgmsKboIqRHNtKGYG8x3OIxKpoxHBg9Rcquc9ayT0ysRqU6buMA==}
     hasBin: true
     dependencies:
       '@prebundle/detect-port': 1.3.1
       '@speedy-js/esbuild': 0.14.28-speedy-6
       '@speedy-js/source-map': 0.1.3
-      '@speedy-js/speedy-config-loader': 0.13.2-modern.3
-      '@speedy-js/speedy-utils': 0.13.2-modern.3
+      '@speedy-js/speedy-config-loader': 0.13.2-modern.4
+      '@speedy-js/speedy-utils': 0.13.2-modern.4
       nodejs-resolver: 0.0.15
       rollup: 2.75.6
       terser: 5.9.0
@@ -11974,20 +11975,20 @@ packages:
       - webpack-cli
     dev: false
 
-  /@speedy-js/speedy-plugin-es5/0.13.2-modern.1:
-    resolution: {integrity: sha512-R1Neseg9wT05LBRrUBaH8ysfEAMC3p3G5aq6xmCUkkPQROE7LQyzb1UoLuY7E3qByadXTgUmga9potPuk4TJIQ==}
+  /@speedy-js/speedy-plugin-es5/0.13.2-modern.4:
+    resolution: {integrity: sha512-CVrhqp+w9aEsIFTWvuG42b1TvdKgnXhInHwH/V/okLtbGlSc0TXz7Q6sBAcAi7Mb2HevOaTvnsTMXwx1PaxKMg==}
     dependencies:
       '@babel/runtime': 7.17.2
       core-js: 3.21.1
       regenerator-runtime: 0.13.9
     dev: false
 
-  /@speedy-js/speedy-types/0.13.2-modern.1:
-    resolution: {integrity: sha512-o1TYsoDb5SyJQMZOx/gnp4DOe4pZJOH6K/SgaOf7x5ux0+Y5DpriIkm5RQBpeZBA77oXI4M2KewEGRs4Q1FRaw==}
+  /@speedy-js/speedy-types/0.13.2-modern.4:
+    resolution: {integrity: sha512-FGGVh72Zv5cUwEoqaxpkGhr+PGWJU2lQu5RSCBxX4g5XpHV5ibKzGQR1B36t4YwkW6acvPleZU8dHlQcZiTWHg==}
     dev: false
 
-  /@speedy-js/speedy-utils/0.13.2-modern.3:
-    resolution: {integrity: sha512-mkk/cIvJ7JO+YeXmw42TLQnSoiIAa71hm3+5vWIWmv+HyixEBogddfbXr1WIVy56KtnTqT8cIOrowMMkwN5DcA==}
+  /@speedy-js/speedy-utils/0.13.2-modern.4:
+    resolution: {integrity: sha512-//Agp+mFJDdi8u6dVzMZiEFCLPmPVU2JWA/3S9oCWKlM2CKkkMWaUN2u+DrYzrFKgvW/K+2N9WIW3S7sqlxCVg==}
     dev: false
 
   /@storybook/addon-actions/6.5.12_biqbaboplfbrettd7655fr4n2y:
@@ -15881,10 +15882,8 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -33006,7 +33005,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
