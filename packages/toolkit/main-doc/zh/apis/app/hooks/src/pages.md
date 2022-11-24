@@ -3,10 +3,9 @@ title: pages/
 sidebar_position: 2
 ---
 
-应用项目基于文件系统路由的入口标识。
+应用使用基于文件系统路由时的入口标识。
 
 当项目结构为 `Pages 入口` 类型时， 会分析 `src/pages` 目录下的文件得到客户端路由配置。
-
 
 举例说明，例如以下目录结构：
 
@@ -94,7 +93,7 @@ export default const App = ({Component, ...pageProps}:{ Component: React.Compone
 }
 ```
 
-上述 `App` 为访问具体路由匹配到的组件。
+上述 `Component` 为访问具体路由匹配到的组件。
 
 例如以下目录结构:
 

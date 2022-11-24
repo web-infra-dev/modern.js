@@ -12,7 +12,7 @@ import { act } from '@modern-js/runtime/testing';
 
 ## Function Signature
 
-`act` is the same as [react-dom/test-utils act 函数](https://reactjs.org/docs/testing-recipes.html#act).
+`act` is the same as [react-dom/test-utils act function](https://reactjs.org/docs/testing-recipes.html#act).
 
 ## Example
 

@@ -6,14 +6,14 @@ sidebar_position: 3
 Usage: modern test [options]
 
 Options:
-  -h, --help  显示命令帮助
+  -h, --help  show command help
 ```
 
-:::caution 注意
-`modern test` 命令需要先通过 [`new`](/docs/apis/app/commands/new) 命令启用「单元测试 / 集成测试」功能
+:::caution
+`modern test` command need to execute the `new` command in advance to enable the `unit test/integration test`.
 :::
 
-`modern test` 命令会自动运行项目下的测试用例，效果如下：
+`modern test` command will automatically run the test cases, the effect is as follows:
 
 ```bash
 $ npx modern test
@@ -28,7 +28,7 @@ Time:        0.994 s, estimated 1 s
 ```
 
 :::info
-`src` 和 `api` 目录下面 `*.test.(js|ts)` 都会默认识别为测试用例。
+files match `*.test.(js|ts)` in `api/` or `src/` will be recognized as test cases by default。
 :::
 
 import CommandTip from '@site-docs/components/command-tip.md'

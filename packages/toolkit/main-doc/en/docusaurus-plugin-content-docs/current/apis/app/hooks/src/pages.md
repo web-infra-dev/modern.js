@@ -3,12 +3,11 @@ title: pages/
 sidebar_position: 2
 ---
 
-应用项目基于文件系统路由的入口标识。
+Entry identifier if the application want uses file system-based routing.
 
-当项目结构为 `Pages 入口` 类型时， 会分析 `src/pages` 目录下的文件得到客户端路由配置。
+When the entry is the **Pages entry** type, the files in the `pages/` directory will be analyzed to client side routing.
 
-
-举例说明，例如以下目录结构：
+For example, the following directory:
 
 ```bash
 .
@@ -20,7 +19,7 @@ sidebar_position: 2
         └── info.jsx
 ```
 
-对应生成的路由配置为:
+The generated route is configured as:
 
 ```bash
 [
@@ -30,23 +29,21 @@ sidebar_position: 2
 ]
 ```
 
-pages 目录下的文件满足以下条件的不会被当做路由文件
+Files match the following conditions will not be treated as routing files:
 
-- 后缀不是 `.(j|t)sx?` 的文件。
-- `.d.ts` 类型定义文件。
-- 以 `.(test|spec|e2e).(j|t)sx?` 结尾的测试文件。
+- suffix is not `.(j|t)sx?`.
+- `.d.ts` type definition file.
+- test file suffix like `.(test|spec|e2e).(j|t)sx?`.
 
-:::tip 提示
-
-推荐 pages 目录下只写入口代码，把业务逻辑写到 pages 外面独立的 features 目录里。这样 pages 目录下大部分文件都会是路由文件，也就不需要额外的过滤规则。
-
+:::tip
+it is recommended to write only the routing files in the `pages/`, and write the business logic to the independent features directory outside the `pages/`. In this way, most of the files in the pages directory will be routing files, and there is no need for additional filtering rules.
 :::
 
-### 动态路由
+### Dynamic Routing
 
-使用 `[ ]` 包裹的目录或文件会被视为动态路由
+Directories or files wrapped with `[]` are considered dynamic routing.
 
-例如以下目录结构:
+For example the following directory structure:
 
 ```bash
 .
@@ -61,7 +58,7 @@ pages 目录下的文件满足以下条件的不会被当做路由文件
         └── info.jsx
 ```
 
-对应生成的路由配置为:
+The generated route is configured as:
 
 ```js
 [
@@ -73,13 +70,13 @@ pages 目录下的文件满足以下条件的不会被当做路由文件
 ]
 ```
 
-动态路由的基础上，支持添加特殊的路由后缀 `(*、?、+)`。
+Basis dynamic routing, it supports adding special routing suffixes `(*、?、+)`.
 
-例如：`src/pages/users/[id]*.tsx` 最终路由为 `/users/:id*`
+For example: `src/pages/users/[id]*.tsx` generate route `/users/:id*`
 
-### 全局 layout
+### Global Layout
 
-整个应用需要全局的 `layout` 时， 可以通过 `pages/_app.tsx` 实现，具体写法如下:
+When the entire App needs a global `layout`, it can be achieved through `pages/_app.tsx`, which as follows:
 
 ```js
 import React from 'react';
@@ -94,9 +91,9 @@ export default const App = ({Component, ...pageProps}:{ Component: React.Compone
 }
 ```
 
-上述 `App` 为访问具体路由匹配到的组件。
+The above `Component` is the component to which the route is accessed.
 
-例如以下目录结构:
+For example the following directory structure:
 
 ```bash
 .
@@ -108,26 +105,26 @@ export default const App = ({Component, ...pageProps}:{ Component: React.Compone
     └── index.js
 ```
 
-- 访问 `/` 时，对应的 `Component` 组件为 `pages/index.js`。
-- 访问 `/a` 时，对应的 `Component` 组件为 `pages/a/index.js`。
-- 访问 `/a/b` 时，对应的 `Component` 组件为 `pages/a/b/index.js`。
+- access `/`, the `Component` is `pages/index.js`。
+- access `/a`, the `Component` is `pages/a/index.js`。
+- access `/a/b`, the `Component` is `pages/a/b/index.js`。
 
-:::tip 全局 layout 有以下优点
+:::tip Advantages
 
-- 页面变化时，保留全局布局的状态
-- 添加全局样式
-- ComponentDidCatch 错误处理
-- 使用 `defineConfig`(/docs/apis/app/runtime/app/define-config) 动态配置运行时配置。
+- preserve the state of the global layout when the page changes.
+- add global css.
+- handle ComponentDidCatch error
+- use `defineConfig`(/docs/apis/app/runtime/app/define-config) dynamic configuration runtime.
 
 :::
 
-### 部分 layout
+### Partial Layout
 
-开发应用时，存在同一路由下的子路由共用 layout 的场景。
+When developing an App, where sub routes under the same route may share the layout.
 
-针对这一场景，Modern.js 约定，当目录下存在 `_layout.js` ，就会有类似全局 layout 的效果。
+For this scene, Modern.js convention, when there is a `_layout.js` in the directory, the routes can shared this layout.
 
-例如以下目录结构:
+For example the following directory structure:
 
 ```bash
 └── pages
@@ -148,18 +145,18 @@ const ALayout = ({ Component, ...pageProps }) => {
 export default ALayout;
 ```
 
-Component 参数为访问具体路由对应的组件，例如
+The Component props is the specific route, for example
 
-- 访问 `/a` 时，对应的 `Component` 组件为 `pages/a/index.js`。
-- 访问 `/a/b` 时，对应的 `Component` 组件为 `pages/a/b/index.js`。
+- access `/a`, the `Component` is `pages/a/index.js`。
+- 访问 `/a/b`, the `Component` is `pages/a/b/index.js`。
 
-这样就可以用 `pages/a/_layout.js` 满足 `a` 目录下路由共用 layout 的需求。
+In this way, you can use `pages/a/_layout.js` to display the routing common layout in the `a` directory.
 
 ### 404 路由
 
-约定 `pages/404.[tj]sx` 为默认的 404 路由。
+The convention `pages/404.[tj]sx` is the default 404 route.
 
-例如以下目录结构:
+For example the following directory structure:
 
 ```bash
 .
@@ -170,7 +167,7 @@ Component 参数为访问具体路由对应的组件，例如
         ├── 404.js
 ```
 
-生成路由配置如下:
+the generated route is configured is as:
 
 ```bash
 [
@@ -180,4 +177,4 @@ Component 参数为访问具体路由对应的组件，例如
 ]
 ```
 
-所有未匹配的路由，都将匹配到 `pages/404.[tj]s`。
+All unmatched routes will match to `pages/404.[tj]s`。
