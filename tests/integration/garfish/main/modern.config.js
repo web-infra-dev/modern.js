@@ -29,6 +29,9 @@ module.exports = defineConfig({
       },
     },
   },
+  source: {
+    enableAsyncEntry: true,
+  },
   server: {
     port,
   },
@@ -37,14 +40,14 @@ module.exports = defineConfig({
       const { ModuleFederationPlugin } = webpack.container;
       appendPlugins([
         new ModuleFederationPlugin({
-          name: 'dashboard',
+          name: 'main',
           remotes: {
             dashboardApp: 'dashboard@http://localhost:3002/remoteEntry.js',
           },
         }),
       ]);
-      delete config.optimization?.runtimeChunk;
-      delete config.optimization?.splitChunks;
+      // delete config.optimization?.runtimeChunk;
+      // delete config.optimization?.splitChunks;
     },
   },
 });
