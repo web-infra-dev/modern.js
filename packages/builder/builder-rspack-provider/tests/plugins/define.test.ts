@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createBuilder } from '../createBuilder';
+import { createBuilder } from '../helper';
 import { PluginDefine } from '@/plugins/define';
 
 describe('plugins/define', () => {

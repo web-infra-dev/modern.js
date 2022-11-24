@@ -1,6 +1,6 @@
 import { vi, expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
-import { createBuilder } from '../createBuilder';
+import { createBuilder } from '../helper';
 import { PluginTarget } from '@/plugins/target';
 
 describe('plugins/target', () => {
