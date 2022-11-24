@@ -1,5 +1,21 @@
 # @modern-js/eslint-config
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- d4a4566: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- Updated dependencies [d4a4566]
+- Updated dependencies [dda38c9]
+  - @modern-js-app/eslint-config@2.0.0-beta.1
+
 ## 2.0.0-beta.0
 
 ### Major Changes
