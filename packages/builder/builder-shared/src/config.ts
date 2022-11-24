@@ -71,7 +71,10 @@ export const defaultOutputConfig: NormalizedSharedOutputConfig = {
   cleanDistPath: true,
   svgDefaultExport: 'url',
   disableMinimize: false,
-  disableSourceMap: false,
+  disableSourceMap: {
+    js: false,
+    css: undefined,
+  },
   disableTsChecker: false,
   disableFilenameHash: false,
   disableCssModuleExtension: false,
