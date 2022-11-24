@@ -50,8 +50,8 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
-    "new": "modern new",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
     "build:watch": "rm -rf ./dist && modern build --watch",
     "test": "jest --passWithNoTests"
   },

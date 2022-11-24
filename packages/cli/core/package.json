@@ -45,7 +45,7 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern new",
+    "new": "modern-lib new",
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "jest"

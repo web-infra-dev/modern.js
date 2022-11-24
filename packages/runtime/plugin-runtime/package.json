@@ -116,10 +116,10 @@
     }
   },
   "scripts": {
-    "dev": "modern build --watch",
+    "dev": "modern-lib build --watch",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

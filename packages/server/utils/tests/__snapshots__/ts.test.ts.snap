@@ -8,7 +8,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, \\"__esModule\\", { value: true });
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-const runtime_1 = __importDefault(require(\\"../../../../@modern-js/core\\"));
+const runtime_1 = __importDefault(require(\\"@modern-js/core\\"));
 (0, runtime_1.default)();
 "
 `;

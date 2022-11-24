@@ -38,10 +38,10 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
-    "new": "modern new",
+    "new": "modern-lib new",
     "build": "mdn build",
     "test": "jest --passWithNoTests",
-    "dev": "modern build --watch"
+    "dev": "modern-lib build --watch"
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",

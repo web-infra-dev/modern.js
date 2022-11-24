@@ -55,10 +55,10 @@
     }
   },
   "scripts": {
-    "dev": "modern build --watch",
+    "dev": "modern-lib build --watch",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -81,8 +81,8 @@
     "ts-jest": "^27.0.4",
     "typescript": "^4",
     "jest": "^27",
-    "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
