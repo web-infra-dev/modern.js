@@ -73,6 +73,13 @@ export type NormalizedDataUriLimit = Required<DataUriLimit>;
 
 export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 
+export type DisableSourceMapOption =
+  | boolean
+  | {
+      js?: boolean;
+      css?: boolean;
+    };
+
 export interface SharedOutputConfig {
   /**
    * Set the directory of the dist files.
@@ -131,7 +138,7 @@ export interface SharedOutputConfig {
   /**
    * Whether to disable source map.
    */
-  disableSourceMap?: boolean;
+  disableSourceMap?: DisableSourceMapOption;
   /**
    * Whether to disable TypeScript Type Checker.
    */
@@ -194,7 +201,7 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   dataUriLimit: NormalizedDataUriLimit;
   cleanDistPath: boolean;
   disableMinimize: boolean;
-  disableSourceMap: boolean;
+  disableSourceMap: DisableSourceMapOption;
   disableTsChecker: boolean;
   disableFilenameHash: boolean;
   disableInlineRuntimeChunk: boolean;

@@ -1,5 +1,4 @@
 import path from 'path';
-import { CHAIN_ID, isProd, logger } from '@modern-js/utils';
 import type { Compiler, Compilation } from 'webpack';
 import type { JsMinifyOptions } from '@swc/core';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
@@ -26,7 +25,9 @@ export const PluginSwc = (pluginConfig: PluginConfig = {}): BuilderPlugin => ({
 
   setup(api: BuilderPluginAPI) {
     // Find if babel & ts loader exists
-    api.modifyWebpackChain(async (chain, { target }) => {
+    api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
+      const { isProd, logger } = await import('@modern-js/utils');
+
       logger.info(
         'You are using experimental SWC ability, babel-loader and ts-loader will be ignored.',
       );
