@@ -42,15 +42,15 @@
   --ifm-toc-border-color-100: #dedede5c;
 
   /* 字体 */
-  --ifm-font-family-base: 'Inter var', system-ui, -apple-system, Segoe UI,
-    Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont,
-    'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
+  --ifm-font-family-base: BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   --ifm-font-family-monospace: 'Fira Code VF', SFMono-Regular, Menlo, Monaco,
     Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   /* 高亮代码块背景颜色 */
   --docusaurus-highlighted-code-line-bg: rgba(147, 178, 244, 0.38);
+
+  --ifm-font-size-base: 15px;
 }
 
 html[data-theme='dark'] {
