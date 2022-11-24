@@ -25,6 +25,24 @@
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
+    },
+    "./worker": {
+      "node": {
+        "jsnext:source": "./src/worker-server.ts",
+        "import": "./dist/js/modern/worker-server.js",
+        "require": "./dist/js/node/worker-server.js"
+      },
+      "default": "./dist/js/treeshaking/worker-server.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "worker": [
+        "./dist/types/worker-server.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -72,9 +90,7 @@
   },
   "sideEffects": false,
   "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
+    "output": {}
   },
   "publishConfig": {
     "access": "public",
