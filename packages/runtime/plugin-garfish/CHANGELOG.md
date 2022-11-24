@@ -1,5 +1,16 @@
 # @modern-js/plugin-garfish
 
+## 1.21.5
+
+### Patch Changes
+
+- 6d8475f: fix: loadApp when dom is mount
+  修复 dom 未渲染时挂载子应用行为
+- Updated dependencies [a150632]
+- Updated dependencies [29576fc]
+  - @modern-js/runtime@1.21.5
+  - @modern-js/utils@1.21.5
+
 ## 1.21.4
 
 ### Patch Changes

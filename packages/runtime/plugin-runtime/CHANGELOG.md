@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 1.21.5
+
+### Patch Changes
+
+- a150632: fix: bootstrap function params type define
+
+  fix: 修复 bootstrap 函数参数类型定义
+
+- 29576fc: fix: extname function logic bug fix
+  fix: 修复 extname 函数的逻辑问题
+  - @modern-js/webpack@1.21.5
+  - @modern-js/plugin@1.21.5
+  - @modern-js/utils@1.21.5
+
 ## 1.21.4
 
 ### Patch Changes
