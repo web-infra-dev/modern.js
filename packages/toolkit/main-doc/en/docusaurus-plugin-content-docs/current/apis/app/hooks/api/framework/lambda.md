@@ -6,12 +6,8 @@ sidebar_position: 1
 Declaring API routing in BFF framework mode. Except [some files](/docs/apis/app/hooks/api/framework/lambda#allow-list)，files in `api/` are registered as routes.
 
 :::info
-<<<<<<< HEAD
-使用 `api` 目录需要开启 BFF 功能，需要在项目下执行 new 命令启用「BFF」功能。
-=======
 use `api/` need execute new command to enable the 「BFF」 feature.
 :::
->>>>>>> 572d6a6dd8 (feat: add en runtime api doc)
 
 :::tip
 this file supports the use `js` or `ts`, but the functions must be exported using the ESM syntax.
