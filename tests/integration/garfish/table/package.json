@@ -32,7 +32,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@arco-design/web-react": "^2.35.0",
+    "@arco-design/web-react": "^2.41.3",
     "@modern-js/plugin-garfish": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "react": "^18",

@@ -4521,7 +4521,7 @@ importers:
 
   tests/integration/garfish/table:
     specifiers:
-      '@arco-design/web-react': ^2.35.0
+      '@arco-design/web-react': ^2.41.3
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-garfish': workspace:*
       '@modern-js/plugin-router-legacy': workspace:*
@@ -4533,7 +4533,7 @@ importers:
       react-dom: ^18
       typescript: ^4
     dependencies:
-      '@arco-design/web-react': 2.36.0_rj7ozvcq3uehdlnj3cbwzbi5ce
+      '@arco-design/web-react': 2.41.3_rj7ozvcq3uehdlnj3cbwzbi5ce
       '@modern-js/plugin-garfish': link:../../../../packages/runtime/plugin-garfish
       '@modern-js/runtime': link:../../../../packages/runtime/plugin-runtime
       react: 18.2.0
@@ -5206,8 +5206,8 @@ packages:
       color: 3.2.1
     dev: false
 
-  /@arco-design/web-react/2.36.0_rj7ozvcq3uehdlnj3cbwzbi5ce:
-    resolution: {integrity: sha512-UYoKC6bgD6LrDSO99FtYWNCdipI15Yjb81NC/YTiv0hKlrKRccqpS4j0ncacDmGERf3wSJKUuy1A2qUlKeoZlA==}
+  /@arco-design/web-react/2.41.3_rj7ozvcq3uehdlnj3cbwzbi5ce:
+    resolution: {integrity: sha512-KwJwNIkcvNEdcgwknyAVpXSrbV1PmONWJw+t/mIul3y6BSfJ33u6e34Dd0TgYhMKGSNlUhTmfp83QNdkdecwyw==}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
@@ -5215,7 +5215,7 @@ packages:
       '@arco-design/color': 0.4.0
       '@babel/runtime': 7.18.6
       b-tween: 0.3.3
-      b-validate: 1.4.1
+      b-validate: 1.4.3
       compute-scroll-into-view: 1.0.17
       dayjs: 1.11.3
       lodash: 4.17.21
@@ -16614,8 +16614,8 @@ packages:
     resolution: {integrity: sha512-oEHegcRpA7fAuc9KC4nktucuZn2aS8htymCPcP3qkEGPqiBH+GfqtqoG2l7LxHngg6O0HFM7hOeOYExl1Oz4ZA==}
     dev: false
 
-  /b-validate/1.4.1:
-    resolution: {integrity: sha512-X6ImDku5YY8NfWTh/hX8CAaronWnNXpb159cqs6lDWLtI4OWiehZ4B0NshfatTuKt1HIeNq9PObE/Xl5YoJYUg==}
+  /b-validate/1.4.3:
+    resolution: {integrity: sha512-du2f0NOvfG7DwNLMmsRT+F/7VOeZfClOkxQN60JZFcLq0FwRC/+96HqpFUnFu6dBqNeyZnw2cl/0ydtCLnPNEg==}
     dev: false
 
   /babel-jest/27.5.1_@babel+core@7.20.2:
