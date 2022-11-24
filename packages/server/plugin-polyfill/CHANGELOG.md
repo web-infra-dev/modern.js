@@ -1,5 +1,15 @@
 # @modern-js/plugin-polyfill
 
+## 1.21.5
+
+### Patch Changes
+
+- 2971dd6: fix(plugin-polyfill): failed to join flags when restart CLI
+
+  fix(plugin-polyfill): 修复重启 CLI 时报错 join flags 失败的问题
+
+  - @modern-js/utils@1.21.5
+
 ## 1.21.4
 
 ### Patch Changes

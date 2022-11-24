@@ -1,5 +1,14 @@
 # @modern-js/bff-core
 
+## 1.21.5
+
+### Patch Changes
+
+- 4876aa7: fix: esbuild should not handle js files
+  fix: esbuild 不应该处理非 js 文件
+  - @modern-js/bff-runtime@1.21.5
+  - @modern-js/utils@1.21.5
+
 ## 1.21.4
 
 ### Patch Changes

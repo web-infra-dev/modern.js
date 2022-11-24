@@ -37,8 +37,7 @@ function getAppInstance(
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     unregisterHistoryListener?: () => void = () => {};
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    async UNSAFE_componentWillMount() {
+    async componentDidMount() {
       const { match, history, setLoadingState, ...userProps } = this.props;
       const { domId } = this.state;
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
@@ -105,6 +104,7 @@ function getAppInstance(
           );
         }
 
+        // eslint-disable-next-line react/no-did-mount-set-state
         this.setState({
           appInstance,
         });

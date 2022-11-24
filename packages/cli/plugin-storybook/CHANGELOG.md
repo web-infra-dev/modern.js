@@ -1,5 +1,15 @@
 # @modern-js/plugin-storybook
 
+## 1.21.5
+
+### Patch Changes
+
+- Updated dependencies [a150632]
+- Updated dependencies [29576fc]
+  - @modern-js/runtime@1.21.5
+  - @modern-js/webpack@1.21.5
+  - @modern-js/utils@1.21.5
+
 ## 1.21.4
 
 ### Patch Changes

@@ -2579,7 +2579,7 @@ importers:
       '@babel/preset-env': ^7.18.0
       '@babel/preset-typescript': ^7.17.12
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-compiler': workspace:^1.21.4
+      '@modern-js/babel-compiler': workspace:^1.21.5
       '@modern-js/babel-preset-lib': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:*
@@ -2696,9 +2696,9 @@ importers:
       '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@speedy-js/speedy-core': 0.13.2-modern.3
-      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.1
-      '@speedy-js/speedy-types': 0.13.2-modern.1
+      '@speedy-js/speedy-core': 0.13.2-modern.4
+      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.4
+      '@speedy-js/speedy-types': 0.13.2-modern.4
       '@types/babel__core': ^7.1.15
       '@types/babel__generator': ^7.6.3
       '@types/babel__traverse': ^7.14.2
@@ -2737,9 +2737,9 @@ importers:
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
-      '@speedy-js/speedy-core': 0.13.2-modern.3
-      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.1
-      '@speedy-js/speedy-types': 0.13.2-modern.1
+      '@speedy-js/speedy-core': 0.13.2-modern.4
+      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.4
+      '@speedy-js/speedy-types': 0.13.2-modern.4
       normalize-path: 3.0.0
       p-map: 4.0.0
       process.argv: 0.6.0
@@ -9569,21 +9569,22 @@ packages:
       '@speedy-js/source-map-win32-x64-msvc': 0.1.3
     dev: false
 
-  /@speedy-js/speedy-config-loader/0.13.2-modern.3:
-    resolution: {integrity: sha512-Y9AU7vqZchNwd9EKtxYMg7VBI9XSJj9X6h7pBrvX/FwDMQsSXGye4bIm8QPao3XE69hVniyiiJ6Qlap8AWR0QQ==}
+  /@speedy-js/speedy-config-loader/0.13.2-modern.4:
+    resolution: {integrity: sha512-5MMl1GbiiHYSbLLeN0xeGU7iRwD95Ul2r999EkM7jRT73O9TCSpFJzdASlVopVIZJA5Su3pVX+jILDTqo5nvQQ==}
     dependencies:
+      '@speedy-js/esbuild': 0.14.28-speedy-6
       source-map: 0.7.3
     dev: false
 
-  /@speedy-js/speedy-core/0.13.2-modern.3:
-    resolution: {integrity: sha512-K7glgVnC+3shzj37oQNvsTl7JTUUYMXtu1xk6N3T7N9zztJGWELTyVe0j603qTZ6tjS4AvNUykS6RqULFhvSmQ==}
+  /@speedy-js/speedy-core/0.13.2-modern.4:
+    resolution: {integrity: sha512-axn03d+XFHZ1MZPhiywmMG6lQrdO5V9H1yxhgmsKboIqRHNtKGYG8x3OIxKpoxHBg9Rcquc9ayT0ysRqU6buMA==}
     hasBin: true
     dependencies:
       '@prebundle/detect-port': 1.3.1
       '@speedy-js/esbuild': 0.14.28-speedy-6
       '@speedy-js/source-map': 0.1.3
-      '@speedy-js/speedy-config-loader': 0.13.2-modern.3
-      '@speedy-js/speedy-utils': 0.13.2-modern.3
+      '@speedy-js/speedy-config-loader': 0.13.2-modern.4
+      '@speedy-js/speedy-utils': 0.13.2-modern.4
       nodejs-resolver: 0.0.15
       rollup: 2.75.6
       terser: 5.9.0
@@ -9595,20 +9596,20 @@ packages:
       - webpack-cli
     dev: false
 
-  /@speedy-js/speedy-plugin-es5/0.13.2-modern.1:
-    resolution: {integrity: sha512-R1Neseg9wT05LBRrUBaH8ysfEAMC3p3G5aq6xmCUkkPQROE7LQyzb1UoLuY7E3qByadXTgUmga9potPuk4TJIQ==}
+  /@speedy-js/speedy-plugin-es5/0.13.2-modern.4:
+    resolution: {integrity: sha512-CVrhqp+w9aEsIFTWvuG42b1TvdKgnXhInHwH/V/okLtbGlSc0TXz7Q6sBAcAi7Mb2HevOaTvnsTMXwx1PaxKMg==}
     dependencies:
       '@babel/runtime': 7.17.2
       core-js: 3.21.1
       regenerator-runtime: 0.13.9
     dev: false
 
-  /@speedy-js/speedy-types/0.13.2-modern.1:
-    resolution: {integrity: sha512-o1TYsoDb5SyJQMZOx/gnp4DOe4pZJOH6K/SgaOf7x5ux0+Y5DpriIkm5RQBpeZBA77oXI4M2KewEGRs4Q1FRaw==}
+  /@speedy-js/speedy-types/0.13.2-modern.4:
+    resolution: {integrity: sha512-FGGVh72Zv5cUwEoqaxpkGhr+PGWJU2lQu5RSCBxX4g5XpHV5ibKzGQR1B36t4YwkW6acvPleZU8dHlQcZiTWHg==}
     dev: false
 
-  /@speedy-js/speedy-utils/0.13.2-modern.3:
-    resolution: {integrity: sha512-mkk/cIvJ7JO+YeXmw42TLQnSoiIAa71hm3+5vWIWmv+HyixEBogddfbXr1WIVy56KtnTqT8cIOrowMMkwN5DcA==}
+  /@speedy-js/speedy-utils/0.13.2-modern.4:
+    resolution: {integrity: sha512-//Agp+mFJDdi8u6dVzMZiEFCLPmPVU2JWA/3S9oCWKlM2CKkkMWaUN2u+DrYzrFKgvW/K+2N9WIW3S7sqlxCVg==}
     dev: false
 
   /@storybook/addon-actions/6.5.9_sfoxds7t5ydpegc3knd667wn6m:
@@ -9663,7 +9664,7 @@ packages:
       '@storybook/core-events': 6.5.9
       '@storybook/csf': 0.0.2--canary.4566f4d.1
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
       memoizerific: 1.11.3
       react: 17.0.2
@@ -9693,7 +9694,7 @@ packages:
       '@storybook/node-logger': 6.5.9
       '@storybook/store': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
-      core-js: 3.23.3
+      core-js: 3.25.0
       lodash: 4.17.21
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -9740,7 +9741,7 @@ packages:
       '@storybook/store': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       babel-loader: 8.2.5_m3opitmgss2x7fiy6klia7uvaa
-      core-js: 3.23.3
+      core-js: 3.25.0
       fast-deep-equal: 3.1.3
       global: 4.4.0
       lodash: 4.17.21
@@ -9893,7 +9894,7 @@ packages:
       '@storybook/components': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/core-events': 6.5.9
       '@storybook/csf': 0.0.2--canary.4566f4d.1
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -9916,7 +9917,7 @@ packages:
       '@storybook/components': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/core-events': 6.5.9
       '@storybook/csf': 0.0.2--canary.4566f4d.1
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -9968,7 +9969,7 @@ packages:
       '@storybook/client-logger': 6.5.9
       '@storybook/components': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
-      core-js: 3.23.3
+      core-js: 3.25.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       regenerator-runtime: 0.13.9
@@ -9991,7 +9992,7 @@ packages:
       '@storybook/components': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/core-events': 6.5.9
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
       memoizerific: 1.11.3
       prop-types: 15.8.1
@@ -10033,7 +10034,7 @@ packages:
       '@storybook/router': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/semver': 7.3.2
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
-      core-js: 3.23.3
+      core-js: 3.25.0
       fast-deep-equal: 3.1.3
       global: 4.4.0
       lodash: 4.17.21
@@ -10078,7 +10079,7 @@ packages:
       autoprefixer: 9.8.8
       babel-loader: 8.2.5_xcbjw3zjektbxpb7yraegegdpi
       case-sensitive-paths-webpack-plugin: 2.4.0
-      core-js: 3.23.3
+      core-js: 3.25.0
       css-loader: 3.6.0_webpack@4.46.0
       file-loader: 6.2.0_webpack@4.46.0
       find-up: 5.0.0
@@ -10183,7 +10184,7 @@ packages:
       '@storybook/channels': 6.5.9
       '@storybook/client-logger': 6.5.9
       '@storybook/core-events': 6.5.9
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
       qs: 6.11.0
       telejson: 6.0.8
@@ -10194,7 +10195,7 @@ packages:
     dependencies:
       '@storybook/channels': 6.5.9
       '@storybook/client-logger': 6.5.9
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
       telejson: 6.0.8
     dev: false
@@ -10202,7 +10203,7 @@ packages:
   /@storybook/channels/6.5.9:
     resolution: {integrity: sha512-FvGA35nV38UPXWOl9ERapFTJaxwSTamQ339s2Ev7E9riyRG+GRkgTWzf5kECJgS1PAYKd/7m/RqKJT9BVv6A5g==}
     dependencies:
-      core-js: 3.23.3
+      core-js: 3.25.0
       ts-dedent: 2.2.0
       util-deprecate: 1.0.2
 
@@ -10221,7 +10222,7 @@ packages:
       '@storybook/store': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@types/qs': 6.9.7
       '@types/webpack-env': 1.17.0
-      core-js: 3.23.3
+      core-js: 3.25.0
       fast-deep-equal: 3.1.3
       global: 4.4.0
       lodash: 4.17.21
@@ -10239,7 +10240,7 @@ packages:
   /@storybook/client-logger/6.5.9:
     resolution: {integrity: sha512-DOHL6p0uiDd3gV/Sb2FR+Vh6OiPrrf8BrA06uvXWsMRIIvEEvnparxv9EvPg7FlmUX0T3nq7d3juwjx4F8Wbcg==}
     dependencies:
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
 
   /@storybook/components/6.5.9_sfoxds7t5ydpegc3knd667wn6m:
@@ -10252,7 +10253,7 @@ packages:
       '@storybook/csf': 0.0.2--canary.4566f4d.1
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@types/react-syntax-highlighter': 11.0.5
-      core-js: 3.23.3
+      core-js: 3.25.0
       memoizerific: 1.11.3
       qs: 6.11.0
       react: 17.0.2
@@ -10285,7 +10286,7 @@ packages:
       '@storybook/ui': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       airbnb-js-shims: 2.2.1
       ansi-to-html: 0.6.15
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
       lodash: 4.17.21
       qs: 6.11.0
@@ -10322,7 +10323,7 @@ packages:
       '@storybook/ui': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       airbnb-js-shims: 2.2.1
       ansi-to-html: 0.6.15
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
       lodash: 4.17.21
       qs: 6.11.0
@@ -10376,7 +10377,7 @@ packages:
       babel-plugin-macros: 3.1.0
       babel-plugin-polyfill-corejs3: 0.1.7_@babel+core@7.18.6
       chalk: 4.1.2
-      core-js: 3.23.3
+      core-js: 3.25.0
       express: 4.18.1
       file-system-cache: 1.1.0
       find-up: 5.0.0
@@ -10410,7 +10411,7 @@ packages:
   /@storybook/core-events/6.5.9:
     resolution: {integrity: sha512-tXt7a3ZvJOCeEKpNa/B5rQM5VI7UJLlOh3IHOImWn4HqoBRrZvbourmac+PRZAtXpos0h3c6554Hjapj/Sny5Q==}
     dependencies:
-      core-js: 3.23.3
+      core-js: 3.25.0
 
   /@storybook/core-server/6.5.9_noo553bjvvxni2yjvmjkhg4gqu:
     resolution: {integrity: sha512-YeePGUrd5fQPvGzMhowh124KrcZURFpFXg1VB0Op3ESqCIsInoMZeObci4Gc+binMXC7vcv7aw3EwSLU37qJzQ==}
@@ -10452,7 +10453,7 @@ packages:
       cli-table3: 0.6.2
       commander: 6.2.1
       compression: 1.7.4
-      core-js: 3.23.3
+      core-js: 3.25.0
       cpy: 8.1.2
       detect-port: 1.3.0
       express: 4.18.1
@@ -10546,7 +10547,7 @@ packages:
       '@babel/types': 7.18.6
       '@storybook/csf': 0.0.2--canary.4566f4d.1
       '@storybook/mdx1-csf': 0.0.1_@babel+core@7.18.6
-      core-js: 3.23.3
+      core-js: 3.25.0
       fs-extra: 9.1.0
       global: 4.4.0
       regenerator-runtime: 0.13.9
@@ -10566,7 +10567,7 @@ packages:
       '@babel/core': 7.18.6
       '@storybook/csf': 0.0.2--canary.4566f4d.1
       '@storybook/store': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
-      core-js: 3.23.3
+      core-js: 3.25.0
       doctrine: 3.0.0
       lodash: 4.17.21
       regenerator-runtime: 0.13.9
@@ -10600,7 +10601,7 @@ packages:
       babel-loader: 8.2.5_xcbjw3zjektbxpb7yraegegdpi
       case-sensitive-paths-webpack-plugin: 2.4.0
       chalk: 4.1.2
-      core-js: 3.23.3
+      core-js: 3.25.0
       css-loader: 3.6.0_webpack@4.46.0
       express: 4.18.1
       file-loader: 6.2.0_webpack@4.46.0
@@ -10715,7 +10716,7 @@ packages:
     dependencies:
       '@types/npmlog': 4.1.4
       chalk: 4.1.2
-      core-js: 3.23.3
+      core-js: 3.25.0
       npmlog: 5.0.1
       pretty-hrtime: 1.0.3
     dev: false
@@ -10723,7 +10724,7 @@ packages:
   /@storybook/postinstall/6.5.9:
     resolution: {integrity: sha512-KQBupK+FMRrtSt8IL0MzCZ/w9qbd25Yxxp/+ajfWgZTRgsWgVFOqcDyMhS16eNbBp5qKIBCBDXfEF+/mK8HwQQ==}
     dependencies:
-      core-js: 3.23.3
+      core-js: 3.25.0
     dev: false
 
   /@storybook/preview-web/6.5.9_sfoxds7t5ydpegc3knd667wn6m:
@@ -10739,7 +10740,7 @@ packages:
       '@storybook/csf': 0.0.2--canary.4566f4d.1
       '@storybook/store': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       ansi-to-html: 0.6.15
-      core-js: 3.23.3
+      core-js: 3.25.0
       global: 4.4.0
       lodash: 4.17.21
       qs: 6.11.0
@@ -10869,7 +10870,7 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@storybook/client-logger': 6.5.9
-      core-js: 3.23.3
+      core-js: 3.25.0
       memoizerific: 1.11.3
       qs: 6.11.0
       react: 17.0.2
@@ -10881,7 +10882,7 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
-      core-js: 3.23.3
+      core-js: 3.25.0
       find-up: 4.1.0
 
   /@storybook/source-loader/6.5.9_sfoxds7t5ydpegc3knd667wn6m:
@@ -10893,7 +10894,7 @@ packages:
       '@storybook/addons': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/client-logger': 6.5.9
       '@storybook/csf': 0.0.2--canary.4566f4d.1
-      core-js: 3.23.3
+      core-js: 3.25.0
       estraverse: 5.3.0
       global: 4.4.0
       loader-utils: 2.0.2
@@ -10914,7 +10915,7 @@ packages:
       '@storybook/client-logger': 6.5.9
       '@storybook/core-events': 6.5.9
       '@storybook/csf': 0.0.2--canary.4566f4d.1
-      core-js: 3.23.3
+      core-js: 3.25.0
       fast-deep-equal: 3.1.3
       global: 4.4.0
       lodash: 4.17.21
@@ -10935,7 +10936,7 @@ packages:
       '@storybook/client-logger': 6.5.9
       '@storybook/core-common': 6.5.9_3tgeifm2vmwrlpqlopppsnjtcu
       chalk: 4.1.2
-      core-js: 3.23.3
+      core-js: 3.25.0
       detect-package-manager: 2.0.1
       fetch-retry: 5.0.2
       fs-extra: 9.1.0
@@ -10963,7 +10964,7 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@storybook/client-logger': 6.5.9
-      core-js: 3.23.3
+      core-js: 3.25.0
       memoizerific: 1.11.3
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -10984,7 +10985,7 @@ packages:
       '@storybook/router': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/semver': 7.3.2
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
-      core-js: 3.23.3
+      core-js: 3.25.0
       memoizerific: 1.11.3
       qs: 6.11.0
       react: 17.0.2
@@ -16230,7 +16231,7 @@ packages:
 
   /core-js/2.6.12:
     resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
-    deprecated: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
+    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: true
 
@@ -24181,7 +24182,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.6
       app-root-dir: 1.0.2
-      core-js: 3.23.3
+      core-js: 3.25.0
       dotenv: 8.6.0
       dotenv-expand: 5.1.0
     dev: false

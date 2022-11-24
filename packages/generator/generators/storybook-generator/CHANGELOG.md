@@ -1,5 +1,13 @@
 # @modern-js/storybook-generator
 
+## 2.4.10
+
+### Patch Changes
+
+- 651a731: fix: storybook generator runtimeDependenceVersion keyword
+
+  fix: storybook 生成器 runtimeDependenceVersion 关键字
+
 ## 2.4.9
 
 ## 2.4.8
