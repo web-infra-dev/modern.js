@@ -2,11 +2,6 @@
 type: ref
 ---
 
-# 文件约定
+# Convention
 
-本节涵盖了使用应用工程的所有文件约定。
-
-
-
-
-
+This section covers all documentation conventions.

@@ -8,18 +8,18 @@ Usage: modern build [options]
 build application
 
 Options:
-  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
-  -h, --help  显示命令帮助
-  --analyze   分析构建产物体积，查看各个模块打包后的大小
+  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -h, --help            show command help
+  --analyze             analyze the bundle and view size of each module
 ```
 
-`modern build` 命令默认会在 `/dist` 目录下构建出可用于生产环境的产物。
+`modern build` command will by default build production in `dist/`.
 
-可以通过修改配置 [`output.distPath`](/docs/configure/app/output/dist-path) 指定产物的输出目录。
+you can configure the [`output.distPath`](/docs/configure/app/output/dist-path) specifies the output directory for the product.
 
-## 分析构建产物体积
+## Analyze Bundle
 
-执行 `npx modern build --analyze` 命令，可以在打包生产环境代码的同时，产出一个分析构建产物体积的 HTML 文件：
+execute `npx modern build --analyze` command，can produce an HTML file that analyzes the volume of the bundle while packaging the production code:
 
 ```
 Bundle Analyzer saved report to /example/dist/report.html
@@ -31,13 +31,13 @@ File sizes after production build:
   645 B      dist/static/css/main.0dd3ecc1.css
 ```
 
-手动在浏览器中打开上述 HTML 文件，可以看到打包产物的瓦片图，并进行包体积分析和优化：
+Open the above HTML file in the browser, you can see the tile diagram of the packaged product, and perform package volume analysis and optimization:
 
 <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
 
-> 该功能基于 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) 实现。
+> this features based on [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer).
 
-## 命令行参数
+## Command Arguments
 
 import CommandTip from '@site-docs/components/command-tip.md'
 

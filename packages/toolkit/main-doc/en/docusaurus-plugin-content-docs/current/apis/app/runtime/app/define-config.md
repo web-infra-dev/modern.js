@@ -52,9 +52,9 @@ defineConfig(App, {
 
 ```json
 {
-  // 来自 `modern.config.js` 配置
+  // 来自 `modern.config.js`
   ...runtime.router
-  // 来自 `defineConfig` 配置
+  // 来自 `defineConfig`
   ...config.router
 }
 ```

@@ -3,28 +3,26 @@ title: public/
 sidebar_position: 3
 ---
 
-应用工程方案静态资源文件。
+Static resource files in any format can be placed in the `public/`, and the files will be Served under the web application domain name.
 
-`public/` 目录中可以放置任意格式的静态资源文件，文件会被 Serve 在 Web 应用域名下。
+## Description
 
-## 说明
+The routing of files to be served is based on the convention of the file system. `public/` is the root directory, which corresponds to the root path of the Web application.
 
-被 Serve 的文件路由基于目录结构的约定，其中，`public/` 为根目录，对应 Web 应用根域名。
+For example, the `config/public/sdk/index.js` file will be Served under `${domain}/sdk/index.js` after deployment.
 
-例如 `config/public/sdk/index.js` 文件，在部署后将会被 Serve 在 `${domain}/sdk/index.js` 下。
+## Scene
 
-## 场景
+For example, `robots.txt`, `auth.xml` and other authentication file.
 
-例如 `robots.txt`，`auth.xml` 等第三方系统需要的认证文件。
-
-或者是给其他业务方（要求路由不变）的 SDK，也可以是无需入口的 HTML 文件等。
+SDK (requiring the same routing) for other business, or an HTML file for static host.
 
 :::info
-对于需要在源码中通过 import 引用的静态资源（比如 SVG 图片），建议放到 `src/assets` 目录下进行管理。
+For static resources (such as SVG pictures) that need to be referenced by import in the source code, it is recommended to put them in the `src/assets/` for management.
 :::
 
-## 代码压缩
+## Compression
 
-如果目录下的文件是一个 `.js` 文件，在生产环境构建时，会自动对其进行代码压缩。
+If the file is a `.js` file, it will be automatically compressed when the production environment is built.
 
-如果该文件以 `.min.js` 结尾，则不会经过代码压缩处理。
+If the file ends with `.min.js`, it will not compression.

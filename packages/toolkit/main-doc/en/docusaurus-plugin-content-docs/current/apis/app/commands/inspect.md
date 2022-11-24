@@ -8,32 +8,32 @@ Usage: modern inspect [options]
 inspect internal webpack config
 
 Options:
-  --env <env>           查看指定环境下的配置 (default: "development")
-  --output <output>     指定在 dist 目录下输出的路径 (default: "/")
-  --no-console          不在终端中输出完整结果
-  --verbose             在结果中展示函数的完整内容
-  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
-  -h, --help            显示命令帮助
+  --env <env>           view the configuration in the target environment (default: "development")
+  --output <output>     Specify the path to output in the dist (default: "/")
+  --no-console          Do not output the full result in shell
+  --verbose             Show the full function in the result
+  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -h, --help            show command help
 ```
 
-`modern inspect` 命令，用于查看项目的 webpack 完整配置。
+`modern inspect` command used to view the full webpack configuration of the project.
 
-在项目根目录下执行命令 `npx modern inspect`，会将 webpack 配置输出在终端界面，同时也会在项目的 `dist` 目录生成一份 `webpack.client.inspect.js` 文件，开发者可手动打开查看。
+Executing the command `npx modern inspect` in the project will output the webpack configuration on the shell, and will also generate a `webpack.client.inspect.js` file in the project's `dist` directory, which developers can open and view manually.
 
-## 指定环境
+## Configuration Env
 
-默认情况下，会输出开发环境的 webpack 配置，可以使用 `env` 选项来输出生产环境的配置：
+By default, the webpack configuration of the development environment is output. And the `env` option can be used to output the configuration of the production environment:
 
 ```bash
 modern inspect --env production
 ```
 
-## 配置类型
+## Configuration Type
 
-### SSR 配置
+### SSR Configuration
 
-如果项目开启了 SSR 能力，则在 `dist` 目录会另外生成一份 `webpack.ssr.inspect.js` 文件，对应 SSR 构建时的 webpack 配置。
+If the project has SSR enable, an additional `webpack.ssr.inspect.js` file will be generated in the `dist/`, corresponding to the webpack configuration at SSR build time.
 
-### Modern 配置
+### Modern Configuration
 
-如果项目开启了 [enableModernMode](/docs/configure/app/output/enable-modern-mode) 选项，则在 `dist` 目录会另外生成一份 `webpack.modern.inspect.js` 文件，对应现代浏览器的 webpack 配置。
+if project enable [enableModernMode](/docs/configure/app/output/enable-modern-mode), an additional `webpack.modern.inspect.js` file will be generated in the `dist/`corresponding to the webpack configuration at modern web build.

@@ -3,10 +3,10 @@ title: "**/*.test.[tj]sx?"
 sidebar_position: 6
 ---
 
-应用项目测试文件。
+App test file.
 
-应用项目支持在项目源码目录(src)下创建后缀为 `.test.[tj]sx?` 文件进行编写测试用例。
+The App supports the file suffixed with `.test.[tj]sx` under the `src/` to write test cases.
 
 :::info
-使用单元测试、集成测试需要提前在项目下执行 new 命令启用「单元测试 / 集成测试」功能。
+To use unit test and integration test, you need to execute the `new` command in advance to enable the `unit test/integration test`.
 :::

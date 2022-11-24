@@ -8,14 +8,14 @@ Usage: modern start [options]
 start server
 
 Options:
-  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
-  -h, --help            显示命令帮助
-  --api-only            仅启动 API 接口服务
+  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -h, --help            show command help
+  --api-only            only start API service
 ```
 
-通常使用 `modern start` 命令在生产环境下启用应用工程, 需要提前执行 [`build`](/docs/apis/app/commands/build) 命令构建出对应产物。
+Usually use the `modern start` command to enable project start in the production environment, and you need to execute the [`build'](/docs/apis/app/commands/build) command in advance to build the product.
 
-默认情况下，应用将会在 `localhost:8080` 启动，可以通过 `server.port` 修改 Server 端口号：
+By default, the project will start in `localhost:8080`, you can modify the Server port number with `server.port`:
 
 ```js
 export default defineConfig({

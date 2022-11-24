@@ -56,8 +56,8 @@ const fooModel = model('foo').define({
 
 `function define((context: Context, utils: Utils) => ModelDesc): Model;`
 
-- context: Context，Reduck 上下文对象，可以获取底层的 `store` 对象。`store` 除支持 Redux Store 的所有 [API](https://redux.js.org/api/store) 以外，还挂载了用于消费 Model 的 `use` 的方法，和用于卸载 Model 的 `unmount` 方法。
-- utils: Utils，定义 Model 时，常用的工具函数: `use`、`onMount`。`use` 作用同 `store` 对象上的 `use`，`onMount` 是 Model 挂载后的钩子函数。
+- `context`: Reduck Context, can get underlying `store` object. `store` support all Redux Store [API](https://redux.js.org/api/store), also mounts the `use` method for consuming the Model, and the `unmount` method for unmounting the Model.
+- utils: commonly used tool like `use`、`onMount`. `use` is the same as `store.use`，`onMount` is the hook function after the Model is mounted.
 
 <!-- TODO: @anchao 调整类型 -->
 ```ts
