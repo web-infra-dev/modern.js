@@ -2,9 +2,9 @@
 type: ref
 ---
 
-# 命令
+# Commands
 
-本节涵盖了使用应用工程的所有命令。
+This section covers all commands.
 
 
 

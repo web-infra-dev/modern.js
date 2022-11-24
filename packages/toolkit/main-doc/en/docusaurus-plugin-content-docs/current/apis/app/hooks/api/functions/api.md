@@ -3,48 +3,76 @@ title: "**/*.[tj]s"
 sidebar_position: 1
 ---
 
-声明 API 路由的文件，在 Modern.js 函数写法下；除了[某些约定文件](/docs/apis/app/hooks/api/functions/api)外，`api` 目录下的文件会被注册为接口的路由。
+Declaring API routing in BFF function mode. Except [some files](/docs/apis/app/hooks/api/functions/api#allow-list)，files in `api/` are registered as routes.
 
 :::info
-使用 `api` 目录需要开启 BFF 功能，需要在项目下执行 new 命令启用「BFF」功能。
-
-该文件支持使用 `js` 或 `ts` 语言，但必须使用 `esm` 语法导出函数。
+use `api/` need execute new command to enable the 「BFF」 feature.
 :::
 
-## 该文件约定路由如下：
+:::tip
+this file supports the use `js` or `ts`, but the functions must be exported using the ESM syntax.
+:::
 
-### 默认路由
+## Routing Rule
 
-路由系统会将以 `index` 命名的文件会被映射到上一层目录。
+### Default Route
+
+The files named `index` will be upper level routing:
 
 * `api/index.ts` -> `$BASENAME/`
 * `api/user/index.ts` -> `$BASENAME/user`
 
-### 嵌套路由
+### Multi Level Route
 
-路由系统也支持解析嵌套的文件，如果创建嵌套文件夹结构，文件仍会以相同方式自动解析路由。
+The routing system also supports parsing multiple levels of files. and if you create a folder, the files will still be automatically parsed in the same way.
 
 * `api/hello.ts` -> `$BASENAME/hello`
 * `api/user/list.ts` -> `$BASENAME/user/list`
 
-### 动态路由
+### Dynamic Route
 
-同样的，你可以通过创建带有 `[xxx]` 的文件夹或者文件来支持动态的命名路由参数。
+Dynamic named routing parameters can be supported by creating folders or files with `[xxx]`.
 
 * `api/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
 * `api/user/[username]/delete.ts` -> `$BASENAME/user/:username/delete`
 * `api/article/[id]/info.ts` -> `$BASENAME/article/:id/info`
 
-其中的 `$BASENAME` 可以在 `modern.config.js` 中进行配置，默认值为 `/api`。
+the `$BASENAME` can be configured in `modern.config.js`，the default value is `/api`。
 
-### 白名单
+### Allow List
 
-默认 `api` 目录下所有文件都会当作 BFF 函数文件去解析，但同样我们也设置了白名单，这些文件不被被解析：
+By default, all files in the `api/` will be parsed as BFF function. but we also set a allow list, and these files will not be parsed:
 
-* 命名以 `_` 开头的文件。例如：`_utils.ts`。
-* 命名以 `_` 开头的文件夹下所有文件。例如：`_utils/index.ts`、`_utils/cp.ts`。
-* 测试文件。例如：`foo.test.ts`。
-* TypeScript 类型文件。例如：`hello.d.ts`。
-* `node_module` 下的文件。
+* file name start with `_`, for example: `_utils.ts`.
+* files in directory that name start with `_`, for example：`_utils/index.ts`、`_utils/cp.ts`.
+* test files, for example：`foo.test.ts`.
+* TypeScript define files, for example：`hello.d.ts`.
+* files in `node_module`.
 
+## Define Function
 
+In addition to the above routing rules, the function definition and export in the code also have conventions.
+
+function need named exports，and the name of the exported function is the HTTP Method:
+
+```ts
+export const get = async () => {
+  return {
+    name: 'Modern.js',
+    desc: 'Modern web Solutions',
+  };
+};
+```
+
+Export the function like above will generate a `POST` interface.
+
+App support 9 Method definitions: `GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`. so App can use these name as function export nane.
+
+The name is insensitive, whaterver `get`、`Get`、`GEt`、`GET`, can be accurately identified. And default export, `export default xxx` will be `Get` method.
+
+because `delete` is a keyword in JavaScript, use `del` or `DELETE` instead.
+
+Multiple functions of different Methods can be defined in one file, but if multiple functions of the same Method are defined, only the first can work.
+
+:::info
+It should be noted that the defined functions should be asynchronous, which is related to the type when the function is called.

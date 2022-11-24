@@ -21,6 +21,5 @@ The following example shows how to reference a function by default alias.
 import { hello } from '@/common/utils';
 
 hello();
-
 ```
 A reference to `@/common/utils` is equal to a reference to `src/common/utils`.
