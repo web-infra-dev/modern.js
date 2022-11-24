@@ -25,7 +25,6 @@ export function createDefaultConfig(
     configDir: './config',
     globalVars: undefined,
     moduleScopes: undefined,
-    apiDir: './api',
     include: [],
     alias: defaultAlias,
   };
