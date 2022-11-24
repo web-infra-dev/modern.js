@@ -4879,6 +4879,27 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
+  tests/integration/ssr/fixtures/streaming:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/runtime': workspace:*
+      '@modern-js/tsconfig': workspace:*
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18.0.1
+      react-dom: ^18.0.1
+      typescript: ^4
+    dependencies:
+      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/tsconfig': link:../../../../../packages/review/tsconfig
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.7.4
+
   tests/integration/testing-app:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -15860,8 +15881,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -32983,7 +33006,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:

@@ -21,12 +21,12 @@ export const render = ({ App, context }: ServerRenderOptions) => {
       }),
     });
 
-    const pipe = renderToPipe(rootElement, ssrContext, {
+    const pipe = renderToPipe(rootElement, context, {
       onShellReady() {
         // set cacheConfig
         const cacheConfig = PreRender.config();
         if (cacheConfig) {
-          context.ssrContext!.cacheConfig = cacheConfig;
+          ssrContext.cacheConfig = cacheConfig;
         }
       },
       onAllReady() {

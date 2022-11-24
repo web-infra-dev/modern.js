@@ -1,4 +1,4 @@
-import { RenderLevel, SSRServerContext } from '../types';
+import { RenderLevel, RuntimeContext } from '../types';
 import { buildShellAfterTemplate } from './buildTemplate.after';
 import { buildShellBeforeTemplate } from './bulidTemplate.before';
 import { InjectTemplate } from './type';
@@ -6,17 +6,19 @@ import { InjectTemplate } from './type';
 const HTML_SEPARATOR = '<!--<?- html ?>-->';
 
 export const getTemplates: (
-  ssrContext: SSRServerContext,
+  context: RuntimeContext,
   renderLevel: RenderLevel,
-) => InjectTemplate = (ssrContext, renderLevel) => {
-  const { template } = ssrContext;
+) => InjectTemplate = (context, renderLevel) => {
+  const { ssrContext } = context;
   const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
-    template.split(HTML_SEPARATOR) || [];
+    ssrContext!.template.split(HTML_SEPARATOR) || [];
 
-  // templates injected some variables
-  const builtBeforeTemplate = buildShellBeforeTemplate(beforeAppTemplate);
+  const builtBeforeTemplate = buildShellBeforeTemplate(
+    beforeAppTemplate,
+    context,
+  );
   const builtAfterTemplate = buildShellAfterTemplate(afterAppHtmlTemplate, {
-    ssrContext,
+    ssrContext: ssrContext!,
     renderLevel,
   });
 
