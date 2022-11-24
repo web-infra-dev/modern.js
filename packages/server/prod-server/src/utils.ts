@@ -1,6 +1,5 @@
 import { IncomingMessage } from 'http';
 import type { NormalizedConfig } from '@modern-js/core';
-import { compile } from 'path-to-regexp';
 import { createDebugger, isProd } from '@modern-js/utils';
 
 export const debug = createDebugger('prod-server') as any;
@@ -74,11 +73,6 @@ export const createMiddlewareCollecter = () => {
     addWebMiddleware,
     addAPIMiddleware,
   };
-};
-
-export const toPath = (reg: string, params: Record<string, any>) => {
-  const fn = compile(reg, { encode: encodeURIComponent });
-  return fn(params);
 };
 
 export const useLocalPrefix = (url: string) => {

@@ -1,12 +1,19 @@
-import { removeTailSlash } from '@modern-js/utils';
 import {
   MatchFunction,
   MatchResult,
   match,
   pathToRegexp,
+  compile,
 } from 'path-to-regexp';
-import { toPath } from '../../utils';
 import { ModernRoute, ModernRouteInterface } from './route';
+
+// avoid import @modern-js/utils
+const removeTailSlash = (s: string): string => s.replace(/\/+$/, '');
+
+const toPath = (reg: string, params: Record<string, any>) => {
+  const fn = compile(reg, { encode: encodeURIComponent });
+  return fn(params);
+};
 
 // eslint-disable-next-line no-useless-escape
 const regCharsDetector = /[^a-zA-Z\-_0-9\/\.]/;
