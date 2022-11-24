@@ -53,7 +53,7 @@ const handleTemplateFile = async (
   const runtimeDependence =
     context.config.runtimeDependence || '@modern-js/runtime';
   const runtimeDependenceVersion =
-    context.config.runtimeDependeceVersion ||
+    context.config.runtimeDependenceVersion ||
     `${await getModernPluginVersion(Solution.Module, runtimeDependence, {
       registry: context.config.registry,
       distTag: context.config.distTag,

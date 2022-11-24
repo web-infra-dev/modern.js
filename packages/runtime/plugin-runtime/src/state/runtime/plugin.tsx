@@ -67,7 +67,7 @@ const state = (config: StateConfig): Plugin => ({
 
         context.store = createStore(storeConfig);
 
-        next({ context });
+        return next({ context });
       },
       pickContext({ context, pickedContext }, next) {
         return next({
