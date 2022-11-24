@@ -1,3 +1,5 @@
+import type { BuilderTarget } from './types';
+
 // Defaults
 export const DEFAULT_PORT = 8080;
 export const DEFAULT_DATA_URL_SIZE = 10000;
@@ -66,3 +68,10 @@ export const MODULE_PATH_REGEX =
   /[\\/]node_modules[\\/](\.pnpm[\\/])?(?:(@[^[\\/]+)(?:[\\/]))?([^\\/]+)/;
 
 export const RUNTIME_CHUNK_NAME = 'builder-runtime';
+
+export const TARGET_ID_MAP: Record<BuilderTarget, string> = {
+  web: 'Client',
+  node: 'Server',
+  'modern-web': 'Modern',
+  'web-worker': 'Web Worker',
+};
