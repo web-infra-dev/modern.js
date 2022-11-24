@@ -1,12 +1,5 @@
-import { BuilderTarget } from '@modern-js/builder-shared';
+import { TARGET_ID_MAP } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
-
-const ID_MAP: Record<BuilderTarget, string> = {
-  web: 'Client',
-  node: 'Server',
-  'modern-web': 'Modern',
-  'web-worker': 'Web Worker',
-};
 
 export const PluginProgress = (): BuilderPlugin => ({
   name: 'builder-plugin-progress',
@@ -23,7 +16,7 @@ export const PluginProgress = (): BuilderPlugin => ({
       );
       chain.plugin(CHAIN_ID.PLUGIN.PROGRESS).use(ProgressPlugin, [
         {
-          id: ID_MAP[target],
+          id: TARGET_ID_MAP[target],
           ...(options === true ? {} : options),
         },
       ]);

@@ -3,6 +3,4 @@ title: shared/
 sidebar_position: 5
 ---
 
-应用工程方案共享源码目录。
-
-在项目中同时用到了 BFF 和扩展 Web Server 功能，并且它们之间存在一些公共服务端代码时，可将这些公共代码放到 shared 目录下。
+Shared directory. When the project has common code under `api/`, `server/`, `src/`, put the code under this directory rather then import directly.

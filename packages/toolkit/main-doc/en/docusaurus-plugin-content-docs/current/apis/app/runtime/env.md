@@ -45,7 +45,7 @@ REACT_APP_FOO=123 BAR=456 pnpm run dev
 
 ### Specify Via File
 
-Create a `.env` file in the App root directory with custom environment variables:
+Create a `.env` file in the project with custom environment variables:
 
 ```env
 REACT_APP_FOO=123

@@ -39,6 +39,21 @@ export const isLooseCssModules = (path: string) => {
   return !GLOBAL_CSS_REGEX.test(path);
 };
 
+export interface AwaitableGetter<T> extends PromiseLike<T[]> {
+  promises: Promise<T>[];
+}
+
+/**
+ * Make Awaitable.
+ */
+export const awaitableGetter = <T>(
+  promises: Promise<T>[],
+): AwaitableGetter<T> => {
+  const then: PromiseLike<T[]>['then'] = (...args) =>
+    Promise.all(promises).then(...args);
+  return { then, promises };
+};
+
 export const isUseJsSourceMap = (config: SharedBuilderConfig) => {
   const { disableSourceMap } = config.output || {};
 

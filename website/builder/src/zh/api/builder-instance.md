@@ -381,6 +381,10 @@ type InspectConfigOptions = {
 async function InspectConfig(options?: InspectConfigOptions): Promise<{
   builderConfig: string;
   bundlerConfigs: string[];
+  origin: {
+    builderConfig: BuilderConfig;
+    bundlerConfigs: BundlerConfigs[];
+  };
 }>;
 ```
 
