@@ -2579,7 +2579,7 @@ importers:
       '@babel/preset-env': ^7.18.0
       '@babel/preset-typescript': ^7.17.12
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-compiler': workspace:^1.21.4
+      '@modern-js/babel-compiler': workspace:^1.21.5
       '@modern-js/babel-preset-lib': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:*
