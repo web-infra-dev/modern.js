@@ -93,7 +93,7 @@ export const html = (partials: {
   <noscript>
     We're sorry but react app doesn't work properly without JavaScript enabled. Please enable it to continue.
   </noscript>
-  <div id="<%= mountId %>"><!--<?- html ?>--></div>
+  <div id="<%= mountId %>"><!--<?- html-start ?>--><!--<?- html-end ?>--></div>
   ${partials.body.join('\n')}
   <!--<?- chunksMap.js ?>-->
   <!--<?- SSRDataScript ?>-->
