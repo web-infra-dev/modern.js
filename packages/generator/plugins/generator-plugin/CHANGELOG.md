@@ -1,5 +1,11 @@
 # @modern-js/generator-plugin-plugin
 
+## 3.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
 ## 3.0.0-beta.0
 
 ### Major Changes

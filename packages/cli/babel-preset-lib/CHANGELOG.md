@@ -1,5 +1,29 @@
 # @modern-js/babel-preset-lib
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [27c0151e8c]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/babel-preset-base@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+
 ## 2.0.0-beta.0
 
 ### Major Changes
