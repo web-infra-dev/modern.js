@@ -1,7 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useContext } from 'react';
 import { DocumentContext } from './DocumentContext';
-import { DOCUMENT_SSR_PLACEHOLDER } from './constants';
+import {
+  DOCUMENT_SSR_START_PLACEHOLDER,
+  DOCUMENT_SSR_END_PLACEHOLDER,
+} from './constants';
 
 export function Root(props: { children?: any; rootId?: string }) {
   const { rootId, children } = props;
@@ -11,8 +14,9 @@ export function Root(props: { children?: any; rootId?: string }) {
 
   return (
     <div id={`${rootId || mountId}`}>
-      {`${DOCUMENT_SSR_PLACEHOLDER}`}
+      {`${DOCUMENT_SSR_START_PLACEHOLDER}`}
       {children}
+      {`${DOCUMENT_SSR_END_PLACEHOLDER}`}
     </div>
   );
 }
@@ -23,8 +27,9 @@ export function DefaultRoot(props: { children?: any }) {
   } = useContext(DocumentContext);
   return (
     <div id={`${mountId}`}>
-      {`${DOCUMENT_SSR_PLACEHOLDER}`}
+      {`${DOCUMENT_SSR_START_PLACEHOLDER}`}
       {props.children}
+      {`${DOCUMENT_SSR_END_PLACEHOLDER}`}
     </div>
   );
 }

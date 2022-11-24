@@ -13,10 +13,12 @@ import {
   DOCUMENT_META_PLACEHOLDER,
   PLACEHOLDER_REPLACER_MAP,
   DOC_EXT,
-  DOCUMENT_SSR_PLACEHOLDER,
+  DOCUMENT_SSR_START_PLACEHOLDER,
+  DOCUMENT_SSR_END_PLACEHOLDER,
   DOCUMENT_CHUNKSMAP_PLACEHOLDER,
   DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
-  HTML_SEPARATOR,
+  HTML_SEPARATOR_START,
+  HTML_SEPARATOR_END,
 } from '../constants';
 
 const debug = createDebugger('html_genarate');
@@ -148,7 +150,8 @@ export default (): CliPlugin => ({
         // replace the html placeholder while transfer string to jsx component is not a easy way
         return `<!DOCTYPE html>${html}`
           .replace(DOCUMENT_META_PLACEHOLDER, metas)
-          .replace(DOCUMENT_SSR_PLACEHOLDER, HTML_SEPARATOR)
+          .replace(DOCUMENT_SSR_START_PLACEHOLDER, HTML_SEPARATOR_START)
+          .replace(DOCUMENT_SSR_END_PLACEHOLDER, HTML_SEPARATOR_END)
           .replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts)
           .replace(
             DOCUMENT_CHUNKSMAP_PLACEHOLDER,
