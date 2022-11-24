@@ -17,8 +17,6 @@
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@swc/cli": "^0.1.57",
     "@swc/core": "1.3.18",
-    "@swc/helpers": "0.4.12",
-    "core-js": "^3.25.0",
     "react": "^18",
     "react-dom": "^18"
   },
