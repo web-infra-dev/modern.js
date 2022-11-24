@@ -22,7 +22,8 @@ export function applyOptionsChain<T, U>(
   utils: U,
   mergeFn?: typeof Object.assign,
 ): T;
-export function applyOptionsChain<T>(
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function applyOptionsChain<T extends {}>(
   defaults: T,
   options?: unknown,
   utils?: unknown,
