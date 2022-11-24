@@ -26,7 +26,7 @@ module.exports = defineConfig({
           filename: 'remoteEntry.js',
           name: 'dashboard',
           exposes: {
-            '.': './src/App.tsx',
+            './share-button': './src/ShareButton.tsx',
           },
         }),
       ]);
