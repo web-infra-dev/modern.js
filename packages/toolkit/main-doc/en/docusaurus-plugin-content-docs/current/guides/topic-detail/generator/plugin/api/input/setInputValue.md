@@ -17,7 +17,7 @@ export interface IPluginContext {
 }
 ```
 
-## 示例
+## Example
 
 ```ts
 context.setInputValue({

@@ -46,7 +46,7 @@ schema field linkage. Formily's linkage method is supported here, for details, p
 
 When schema type is `object`, define its subforms.
 
-## 示例
+## Example
 
 ```typescript
 const schema = {

@@ -41,7 +41,7 @@ api.updateJSONFile(file, {
 })
 ```
 
-需更新嵌套字段：
+Nested fields need to be updated:
 
 ```ts
 api.updateJSONFile(file, {

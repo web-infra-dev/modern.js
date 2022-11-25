@@ -18,7 +18,7 @@ npx @modern-js/create [projectDir]
 Use npx to get the latest version of `@modern-js/create` every time.
 :::
 
-## 参数
+## Params
 
 ### [projectDir]
 
