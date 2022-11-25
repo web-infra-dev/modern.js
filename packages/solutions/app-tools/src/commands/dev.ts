@@ -9,6 +9,10 @@ import { buildServerConfig } from '../utils/config';
 import type { AppHooks } from '../hooks';
 
 export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
+  if (options.analyze) {
+    process.env.BUNDLE_ANALYZE = 'true';
+  }
+
   let userConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();

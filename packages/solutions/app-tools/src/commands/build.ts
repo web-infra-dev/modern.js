@@ -9,6 +9,10 @@ export const build = async (
   api: PluginAPI<AppHooks>,
   options?: BuildOptions,
 ) => {
+  if (options?.analyze) {
+    process.env.BUNDLE_ANALYZE = 'true';
+  }
+
   let resolvedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
