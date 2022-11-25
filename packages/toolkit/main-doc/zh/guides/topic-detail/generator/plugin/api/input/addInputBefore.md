@@ -35,7 +35,7 @@ context.addInputBefore('packageManager', {
   properties: {
     language: {
       type: 'string',
-      title: i18n.t(localeKeys.plugin_type.self),
+      title: '开发语言',
       enum: [
         { label: 'TS', value: 'ts' },
         { label: 'ES6+', value: 'js' },
