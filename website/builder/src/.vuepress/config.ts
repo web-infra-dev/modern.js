@@ -67,6 +67,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/advanced/build-performance'),
           getLink('/guide/advanced/inline-assets'),
           getLink('/guide/advanced/split-chunk'),
+          getLink('/guide/advanced/custom-webpack-config'),
         ],
       },
       {
