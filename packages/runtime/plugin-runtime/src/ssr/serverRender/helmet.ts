@@ -31,8 +31,9 @@ export default function helmet(content: string, helmetData: HelmetData) {
   const title = helmetData.title.toString();
 
   // 如果模板中存在 title，且 helmetData title 有内容则做替换
+  const existTitleTag = RE_TITLE.test(content);
   const shouldReplaceTitle =
-    RE_TITLE.test(content) && TEST_TITLE_CONTENT.test(title.trim());
+    existTitleTag && TEST_TITLE_CONTENT.test(title.trim());
   if (shouldReplaceTitle) {
     result = result.replace(RE_TITLE, title);
   }
@@ -44,7 +45,7 @@ export default function helmet(content: string, helmetData: HelmetData) {
     noscript,
     script,
     style,
-    shouldReplaceTitle ? '' : title,
+    !existTitleTag ? title : '',
   ].reduce((pre, cur) => {
     return pre + (cur.length > 0 ? `  ${cur}${EOL}` : '');
   }, '');

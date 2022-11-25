@@ -99,7 +99,7 @@ const handleTemplateFile = async (
     : moduleProjectPath;
 
   await appApi.forgeTemplate(
-    `templates/${language as string}-template/*`,
+    `templates/${language as string}-template/**/*`,
     undefined,
     (resourceKey: string) =>
       resourceKey
@@ -116,9 +116,8 @@ const handleTemplateFile = async (
     'jsnext:modern': undefined,
     exports: undefined,
     'scripts.prepare': `${packageManager as string} build`,
-    'devDependencies.@modern-js/codesmith-api-app': '^1.0.0',
-    'devDependencies.@modern-js/codesmith': '^1.0.0',
-    'devDependencies.@modern-js/generator-common': '^1.0.0',
+    'devDependencies.@modern-js/codesmith-api-app': '^2.0.0',
+    'devDependencies.@modern-js/codesmith': '^2.0.0',
     'devDependencies.@babel/runtime': '^7.18.0',
     'dependencies.@babel/runtime': undefined,
     'peerDependencies.react': undefined,

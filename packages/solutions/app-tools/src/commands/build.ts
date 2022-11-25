@@ -9,6 +9,11 @@ export const build = async (
   api: PluginAPI<AppHooks>,
   options?: BuildOptions,
 ) => {
+  if (options?.analyze) {
+    // Builder will read this env var to enable bundle analyzer
+    process.env.BUNDLE_ANALYZE = 'true';
+  }
+
   let resolvedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
