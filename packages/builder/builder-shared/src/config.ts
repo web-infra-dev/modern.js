@@ -163,3 +163,31 @@ export const setConfig = <T extends Record<string, any>, P extends string>(
 ) => {
   _.set(config, path, value);
 };
+
+export function getExtensions({
+  resolveExtensionPrefix,
+  isTsProject,
+}: {
+  resolveExtensionPrefix?: NormalizedSharedSourceConfig['resolveExtensionPrefix'];
+  isTsProject?: boolean;
+} = {}) {
+  let extensions = [
+    // only resolve .ts(x) files if it's a ts project
+    // most projects are using TypeScript, resolve .ts(x) files first to reduce resolve time.
+    ...(isTsProject ? ['.ts', '.tsx'] : []),
+    '.js',
+    '.jsx',
+    '.mjs',
+    '.json',
+  ];
+
+  // add an extra prefix to all extensions
+  if (resolveExtensionPrefix) {
+    extensions = extensions.reduce<string[]>(
+      (ret, ext) => [...ret, resolveExtensionPrefix + ext, ext],
+      [],
+    );
+  }
+
+  return extensions;
+}

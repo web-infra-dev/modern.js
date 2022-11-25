@@ -1,6 +1,7 @@
 import type { ChainIdentifier } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin, NormalizedConfig, WebpackChain } from '../types';
+import { getExtensions } from '@modern-js/builder-shared';
 
 function applyExtensions({
   chain,
@@ -11,25 +12,10 @@ function applyExtensions({
   config: NormalizedConfig;
   isTsProject: boolean;
 }) {
-  let extensions = [
-    // only resolve .ts(x) files if it's a ts project
-    // most projects are using TypeScript, resolve .ts(x) files first to reduce resolve time.
-    ...(isTsProject ? ['.ts', '.tsx'] : []),
-    '.js',
-    '.jsx',
-    '.mjs',
-    '.json',
-  ];
-
-  const { resolveExtensionPrefix } = config.source || {};
-
-  // add an extra prefix to all extensions
-  if (resolveExtensionPrefix) {
-    extensions = extensions.reduce<string[]>(
-      (ret, ext) => [...ret, resolveExtensionPrefix + ext, ext],
-      [],
-    );
-  }
+  const extensions = getExtensions({
+    isTsProject,
+    resolveExtensionPrefix: config.source.resolveExtensionPrefix,
+  });
 
   chain.resolve.extensions.merge(extensions);
 
