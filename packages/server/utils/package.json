@@ -47,8 +47,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "babel-plugin-module-resolver": "^4.1.0",
-    "babel-plugin-transform-typescript-metadata": "^0.3.2",
-    "tsconfig-paths": "3.14.1"
+    "babel-plugin-transform-typescript-metadata": "^0.3.2"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
