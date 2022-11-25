@@ -61,11 +61,15 @@ npx @modern-js/create plugin --plugin @modern-js/generator-plugin-plugin
 在默认的输入前添加输入，比如在`选择包管理工具`问题前添加问题，具体 Modern.js 每个问题的配置可查看[工程方案配置](/docs/guides/topic-detail/generator/config/common)。
 
 ```ts
-context.addInputBefore('packageManager', {
-    key: 'test',
-    name: '测试输入',
-    type: 'input'
-})
+context.addInputBefore('input2', {
+  type: 'object',
+  properties: {
+    'input1.2': {
+      type: 'string',
+      title: 'input1.2',
+    },
+  },
+});
 ```
 
 - setInput
@@ -73,8 +77,8 @@ context.addInputBefore('packageManager', {
 设置已经存在问题的属性
 
 ```ts
-context.setInput('test', 'type', 'radio')
-context.setInput('test', 'options', [{ key: 'option1', name: '选项一' }])
+context.setInput('test', 'type', 'number')
+context.setInput('test', 'enum', [{ value: 'option1', label: '选项一' }])
 ```
 
 ### onForged
