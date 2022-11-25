@@ -1,6 +1,7 @@
 {
   "name": "ssr-streaming-test",
   "version": "0.1.0",
+  "private": true,
   "scripts": {
     "dev": "modern dev"
   },

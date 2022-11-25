@@ -1,5 +1,59 @@
 # @modern-js/plugin-testing
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [2344eb2]
+- Updated dependencies [a11fcf8]
+- Updated dependencies [b18fa8f]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [d032d49]
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [3e57f2b]
+- Updated dependencies [fbf5eed]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [decfcd989d]
+- Updated dependencies [4369648ae2]
+- Updated dependencies [92f0ead]
+- Updated dependencies [92c0994]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed587]
+- Updated dependencies [60d5378632]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [73cd29dd9f]
+- Updated dependencies [18aaf42]
+- Updated dependencies [f179749]
+- Updated dependencies [fcace5b5b9]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/runtime@2.0.0-beta.1
+  - @modern-js/prod-server@2.0.0-beta.1
+  - @modern-js/babel-preset-app@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/plugin@2.0.0-beta.1
+  - @modern-js/babel-compiler@2.0.0-beta.1
+
 ## 2.0.0-beta.0
 
 ### Major Changes

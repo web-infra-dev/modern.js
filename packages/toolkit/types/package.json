@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "types": "./index.d.ts",
   "exports": {
     ".": "./index.d.ts",
