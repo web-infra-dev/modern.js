@@ -3,9 +3,7 @@ import {
   Solution,
   PackageManager,
   Language,
-  RunWay,
   BooleanConfig,
-  ClientRoute,
   MWAActionTypes,
   MWAActionTypesMap,
   Framework,
@@ -19,29 +17,18 @@ import {
 
 export const LanguageValues = Object.values(Language);
 export const PackageManagerValues = Object.values(PackageManager);
-export const RunWayValues = Object.values(RunWay);
 export const BooleanConfigValues = Object.values(BooleanConfig);
-export const ClientRouteValues = Object.values(ClientRoute);
 export const FrameworkValues = Object.values(Framework);
 export const BFFTypeValues = Object.values(BFFType);
 
 export const MWAValueMap: Record<string, string[]> = {
   language: LanguageValues,
   packageManager: PackageManagerValues,
-  runWay: RunWayValues,
-  needModifyMWAConfig: BooleanConfigValues,
-  clientRoute: ClientRouteValues,
-  disableStateManagement: BooleanConfigValues,
-  enableLess: BooleanConfigValues,
-  enableSass: BooleanConfigValues,
 };
 
 export const ModuleValueMap: Record<string, string[]> = {
   language: LanguageValues,
   packageManager: PackageManagerValues,
-  needModifyModuleConfig: BooleanConfigValues,
-  enableLess: BooleanConfigValues,
-  enableSass: BooleanConfigValues,
 };
 
 export const MonorepoValueMap: Record<string, string[]> = {
@@ -53,18 +40,6 @@ export const MonorepoValueMap: Record<string, string[]> = {
 export const getMWACases = (length?: number) => {
   const cases = make(MWAValueMap, {
     length: length || Object.keys(MWAValueMap).length,
-    postFilter: (row: Record<string, any>) => {
-      if (
-        row.needModifyMWAConfig === BooleanConfig.NO &&
-        (row.disableStateManagement !== BooleanConfig.NO ||
-          row.clientRoute !== ClientRoute.SelfControlRoute ||
-          row.enableLess !== BooleanConfig.NO ||
-          row.enableSass !== BooleanConfig.NO)
-      ) {
-        return false;
-      }
-      return true;
-    },
   });
   return cases.map(item => ({
     ...item,
@@ -75,16 +50,6 @@ export const getMWACases = (length?: number) => {
 export const getModuleCases = (length?: number) => {
   const cases = make(ModuleValueMap, {
     length: length || Object.keys(ModuleValueMap).length,
-    postFilter: (row: Record<string, any>) => {
-      if (
-        row.needModifyModuleConfig === BooleanConfig.NO &&
-        (row.enableLess !== BooleanConfig.NO ||
-          row.enableSass !== BooleanConfig.NO)
-      ) {
-        return false;
-      }
-      return true;
-    },
   });
   return cases.map(item => ({
     ...item,
@@ -102,20 +67,12 @@ export const getMonorepoCases = () => {
   }));
 };
 
-export const MWAEntryValueMap: Record<string, string[]> = {
-  needModifyMWAConfig: BooleanConfigValues,
-  clientRoute: ClientRouteValues,
-  disableStateManagement: BooleanConfigValues,
-};
-
-const getMWAEntryCases = (length?: number) => {
-  const cases = make(MWAEntryValueMap, {
-    length: length || Object.keys(MWAEntryValueMap).length,
-  });
-  return cases.map(item => ({
-    ...item,
-    name: Object.values(item).join('-'),
-  }));
+const getMWAEntryCases = (_length?: number) => {
+  return [
+    {
+      name: 'test',
+    },
+  ];
 };
 
 export const MWAServerValueMap: Record<string, string[]> = {
@@ -185,36 +142,15 @@ export const getModuleNewCases = () => {
 
 export const MWASubProjectValueMap: Record<string, string[]> = {
   language: LanguageValues,
-  needModifyMWAConfig: BooleanConfigValues,
-  runWay: RunWayValues,
-  clientRoute: ClientRouteValues,
-  disableStateManagement: BooleanConfigValues,
-  enableLess: BooleanConfigValues,
-  enableSass: BooleanConfigValues,
 };
 
 export const ModuleSubProjectValueMap: Record<string, string[]> = {
   language: LanguageValues,
-  needModifyModuleConfig: BooleanConfigValues,
-  enableLess: BooleanConfigValues,
-  enableSass: BooleanConfigValues,
 };
 
 const getMWASubProjectCases = (isTest: boolean, length?: number) => {
   const cases = make(MWASubProjectValueMap, {
     length: length || Object.keys(MWASubProjectValueMap).length,
-    postFilter: (row: Record<string, any>) => {
-      if (
-        row.needModifyMWAConfig === BooleanConfig.NO &&
-        (row.disableStateManagement !== BooleanConfig.NO ||
-          row.clientRoute !== ClientRoute.SelfControlRoute ||
-          row.enableLess !== BooleanConfig.NO ||
-          row.enableSass !== BooleanConfig.NO)
-      ) {
-        return false;
-      }
-      return true;
-    },
   });
   return cases.map(item => ({
     ...item,
@@ -227,16 +163,6 @@ const getMWASubProjectCases = (isTest: boolean, length?: number) => {
 const getModuleSubProjectCases = (isInner: boolean, length?: number) => {
   const cases = make(ModuleSubProjectValueMap, {
     length: length || Object.keys(ModuleSubProjectValueMap).length,
-    postFilter: (row: Record<string, any>) => {
-      if (
-        row.needModifyModuleConfig === BooleanConfig.NO &&
-        (row.enableLess !== BooleanConfig.NO ||
-          row.enableSass !== BooleanConfig.NO)
-      ) {
-        return false;
-      }
-      return true;
-    },
   });
   return cases.map(item => ({
     ...item,

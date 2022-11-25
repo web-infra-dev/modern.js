@@ -1,7 +1,7 @@
 import plugin from '../../src/ssr';
 import cliPlugin from '../../src/ssr/cli';
-import { time } from '../../src/ssr/serverRender/measure';
-import { formatClient, formatServer } from '../../src/ssr/utils';
+import { formatClient, isCrossOrigin, formatServer } from '../../src/ssr/utils';
+import { time } from '../../src/ssr/serverRender/utils';
 
 describe('plugin-ssr', () => {
   it('default', () => {
@@ -46,5 +46,22 @@ describe('plugin-ssr', () => {
       cookie: 'header-cookie',
       userAgent: '',
     });
+  });
+
+  it('should detect cross origin correctly', () => {
+    const result_0 = isCrossOrigin('/static/js/index.js', 'modernjs.com');
+    const result_1 = isCrossOrigin('./static/js/index.js', 'modernjs.com');
+    const result_2 = isCrossOrigin(
+      'http://modernjs.com/static/js/index.js',
+      'modernjs.com',
+    );
+    const result_3 = isCrossOrigin(
+      'http://modernjs1.com/static/js/index.js',
+      'modernjs.com',
+    );
+    expect(result_0).toBeFalsy();
+    expect(result_1).toBeFalsy();
+    expect(result_2).toBeFalsy();
+    expect(result_3).toBeTruthy();
   });
 });

@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "plugin-router-legacy",
+      "path": "packages/runtime/plugin-router-legacy"
+    },
+    {
       "name": "@modern-js/app-tools",
       "path": "packages/solutions/app-tools"
     },
@@ -37,8 +41,8 @@
       "path": "packages/review/tsconfig"
     },
     {
-      "name": "@modern-js/plugin-jarvis",
-      "path": "packages/cli/plugin-jarvis"
+      "name": "@modern-js/plugin-lint",
+      "path": "packages/cli/plugin-lint"
     },
     {
       "name": "server/core",
@@ -81,10 +85,6 @@
       "path": "packages/server/create-request"
     },
     {
-      "name": "@modern-js/css-config",
-      "path": "packages/cli/css-config"
-    },
-    {
       "name": "@modern-js/node-bundle-require",
       "path": "packages/toolkit/node-bundle-require"
     },
@@ -105,14 +105,9 @@
       "path": "packages/server/plugin-egg"
     },
     {
-      "name": "@modern-js/plugin-esbuild",
-      "path": "packages/cli/plugin-esbuild"
-    },
-    {
       "name": "@modern-js/plugin-express",
       "path": "packages/server/plugin-express"
     },
-
     {
       "name": "@modern-js/plugin-i18n",
       "path": "packages/cli/plugin-i18n"
@@ -120,10 +115,6 @@
     {
       "name": "@modern-js/plugin-koa",
       "path": "packages/server/plugin-koa"
-    },
-    {
-      "name": "@modern-js/plugin-less",
-      "path": "packages/cli/plugin-less"
     },
     {
       "name": "@modern-js/plugin-garfish",
@@ -140,10 +131,6 @@
     {
       "name": "@modern-js/plugin-proxy",
       "path": "packages/cli/plugin-proxy"
-    },
-    {
-      "name": "@modern-js/plugin-sass",
-      "path": "packages/cli/plugin-sass"
     },
     {
       "name": "@modern-js/plugin-server",
@@ -198,6 +185,10 @@
       "path": "packages/toolkit/create"
     },
     {
+      "name": "@modern-js/upgrade",
+      "path": "packages/toolkit/upgrade"
+    },
+    {
       "name": "@modern-js/new-action",
       "path": "packages/generator/new-action"
     },
@@ -250,14 +241,6 @@
       "path": "packages/generator/generators/dependence-generator"
     },
     {
-      "name": "@modern-js/electron-generator",
-      "path": "packages/generator/generators/electron-generator"
-    },
-    {
-      "name": "@modern-js/electron-independence-generator",
-      "path": "packages/generator/generators/electron-independence-generator"
-    },
-    {
       "name": "@modern-js/entry-generator",
       "path": "packages/generator/generators/entry-generator"
     },
@@ -288,6 +271,10 @@
     {
       "name": "@modern-js/test-generator",
       "path": "packages/generator/generators/test-generator"
+    },
+    {
+      "name": "@modern-js/upgrade-generator",
+      "path": "packages/generator/generators/upgrade-generators"
     },
     {
       "name": "@modern-js/generator-plugin-plugin",

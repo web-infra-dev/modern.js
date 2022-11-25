@@ -1,5 +1,7 @@
 import { BaseSSRServerContext } from '@modern-js/types';
-import { SSRServerContext } from './serverRender/type';
+import { SSRServerContext } from './serverRender/types';
+
+export const isReact18 = () => process.env.IS_REACT18 === 'true';
 
 export const formatServer = (
   request: BaseSSRServerContext['request'],
@@ -51,10 +53,24 @@ export const formatClient = (
 export const mockResponse = () => {
   return {
     setHeader() {
-      console.info('setHeader can only be used in the server side');
+      console.warn('response.setHeader() can only be used in the server side');
     },
     status() {
-      console.info('status can only be used in the server side');
+      console.warn('response.status() can only be used in the server side');
+    },
+    get locals() {
+      console.warn('response.locals can only be used in the server side');
+      return {};
     },
   };
+};
+
+export const isCrossOrigin = (url = '', base: string) => {
+  if (url.startsWith('/') || url.startsWith('./')) {
+    return false;
+  } else if (!url.includes(base)) {
+    return true;
+  } else {
+    return false;
+  }
 };

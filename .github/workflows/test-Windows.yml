@@ -8,7 +8,7 @@ concurrency:
 on:
   # Triggers the workflow on pull request events but only for the main branch
   pull_request:
-    branches: [main]
+    branches: [main, next]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
         os: [windows-latest] # windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -36,7 +36,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-        run: npm install -g pnpm@^6
+        run: npm install -g pnpm@7
 
       - name: Check docs only change
         run: echo "::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')"

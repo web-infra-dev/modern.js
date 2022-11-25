@@ -24,7 +24,11 @@ describe('init with SSR', () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
-    browser = await puppeteer.launch({ headless: true, dumpio: true });
+    browser = await puppeteer.launch({
+      headless: true,
+      dumpio: true,
+      args: ['--no-sandbox'],
+    });
     page = await browser.newPage();
   });
 

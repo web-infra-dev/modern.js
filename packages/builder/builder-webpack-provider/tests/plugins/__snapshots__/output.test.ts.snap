@@ -1,0 +1,75 @@
+// Vitest Snapshot v1
+
+exports[`plugins/output > should allow to custom server directory with distPath.server 1`] = `
+{
+  "output": {
+    "chunkFilename": "server/[name].js",
+    "filename": "server/[name].js",
+    "hashFunction": "xxhash64",
+    "libraryTarget": "commonjs2",
+    "path": "<ROOT>/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+}
+`;
+
+exports[`plugins/output > should allow to use filename.js to modify filename 1`] = `
+{
+  "output": {
+    "chunkFilename": "static/js/async/foo.js",
+    "filename": "static/js/foo.js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "plugins": [
+    MiniCssExtractPlugin {
+      "_sortedModulesCache": WeakMap {},
+      "options": {
+        "chunkFilename": "static/css/async/[name].css",
+        "experimentalUseImportModule": undefined,
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+        "runtime": true,
+      },
+      "runtimeOptions": {
+        "attributes": undefined,
+        "insert": undefined,
+        "linkType": "text/css",
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugins/output > should set output correctly 1`] = `
+{
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "plugins": [
+    MiniCssExtractPlugin {
+      "_sortedModulesCache": WeakMap {},
+      "options": {
+        "chunkFilename": "static/css/async/[name].css",
+        "experimentalUseImportModule": undefined,
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+        "runtime": true,
+      },
+      "runtimeOptions": {
+        "attributes": undefined,
+        "insert": undefined,
+        "linkType": "text/css",
+      },
+    },
+  ],
+}
+`;

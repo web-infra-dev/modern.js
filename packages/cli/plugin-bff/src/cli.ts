@@ -1,5 +1,4 @@
 import path from 'path';
-import { compiler } from '@modern-js/babel-compiler';
 import {
   fs,
   API_DIR,
@@ -8,67 +7,15 @@ import {
   SHARED_DIR,
   isProd,
 } from '@modern-js/utils';
-import { resolveBabelConfig } from '@modern-js/server-utils';
+import { compile } from '@modern-js/server-utils';
 
 import type { ServerRoute } from '@modern-js/types';
-import type { CliPlugin, NormalizedConfig, UserConfig } from '@modern-js/core';
+import type { CliPlugin, UserConfig } from '@modern-js/core';
 import { ApiRouter } from '@modern-js/bff-core';
 import { registerModernRuntimePath } from './helper';
 
-interface Pattern {
-  from: string;
-  to: string;
-  tsconfigPath?: string;
-}
-
-interface CompileOptions {
-  patterns: Pattern[];
-}
-
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
-const FILE_EXTENSIONS = ['.js', '.ts', '.mjs', '.ejs'];
-
-// TODO: 封装服务端编译函数
-const compile = async (
-  appDirectory: string,
-  modernConfig: NormalizedConfig,
-  compileOptions: CompileOptions,
-) => {
-  const { patterns } = compileOptions;
-  const results = await Promise.all(
-    patterns.map(async pattern => {
-      const { from, to, tsconfigPath } = pattern;
-      const babelConfig = resolveBabelConfig(appDirectory, modernConfig, {
-        tsconfigPath: tsconfigPath ? tsconfigPath : '',
-        syntax: 'es6+',
-        type: 'commonjs',
-      });
-      if (await fs.pathExists(from)) {
-        const basename = path.basename(from);
-        const targetDir = path.join(to, basename);
-        await fs.copy(from, targetDir, {
-          filter: src =>
-            !['.ts', '.js'].includes(path.extname(src)) && src !== tsconfigPath,
-        });
-      }
-      return compiler(
-        {
-          rootDir: appDirectory,
-          distDir: to,
-          sourceDir: from,
-          extensions: FILE_EXTENSIONS,
-        },
-        babelConfig,
-      );
-    }),
-  );
-  results.forEach(result => {
-    if (result.code === 1) {
-      throw new Error(result.message);
-    }
-  });
-};
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-bff',
@@ -103,10 +50,10 @@ export default (): CliPlugin => ({
               const apiRegexp = new RegExp(
                 normalizeOutputPath(`${rootDir}${path.sep}.*(.[tj]s)$`),
               );
+
+              chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(apiRegexp);
               chain.module
-                .rule(CHAIN_ID.RULE.LOADERS)
-                .oneOf(CHAIN_ID.ONE_OF.BFF_CLIENT)
-                .before(CHAIN_ID.ONE_OF.FALLBACK)
+                .rule(CHAIN_ID.RULE.JS_BFF_API)
                 .test(apiRegexp)
                 .use('custom-loader')
                 .loader(require.resolve('./loader').replace(/\\/g, '/'))
@@ -173,25 +120,35 @@ export default (): CliPlugin => ({
         const sharedDir = path.resolve(appDirectory, SHARED_DIR);
         const tsconfigPath = path.resolve(appDirectory, TS_CONFIG_FILENAME);
 
-        const patterns = [];
+        const sourceDirs = [];
         if (fs.existsSync(apiDir)) {
-          patterns.push({
-            from: apiDir,
-            to: distDir,
-            tsconfigPath,
-          });
+          sourceDirs.push(apiDir);
         }
 
         if (fs.existsSync(sharedDir)) {
-          patterns.push({
-            from: sharedDir,
-            to: distDir,
-            tsconfigPath,
-          });
+          sourceDirs.push(sharedDir);
         }
 
-        if (patterns.length > 0) {
-          await compile(appDirectory, modernConfig, { patterns });
+        const { server } = modernConfig;
+        const { alias, envVars, globalVars } = modernConfig.source;
+        const { babel } = modernConfig.tools;
+
+        if (sourceDirs.length > 0) {
+          await compile(
+            appDirectory,
+            {
+              server,
+              alias,
+              envVars,
+              globalVars,
+              babelConfig: babel,
+            },
+            {
+              sourceDirs,
+              distDir,
+              tsconfigPath,
+            },
+          );
         }
       },
     };

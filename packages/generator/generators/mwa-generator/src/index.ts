@@ -3,19 +3,14 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  ActionFunction,
   i18n as commonI18n,
   BaseGenerator,
   Solution,
-  MWASchema,
+  getMWASchema,
   Language,
-  BooleanConfig,
-  ClientRoute,
-  RunWay,
   EntryGenerator,
-  ElectronGenerator,
-  DependenceGenerator,
-  MWAActionFunctionsDependencies,
+  PackageManager,
+  PackagesGenerator,
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -23,7 +18,6 @@ import {
   i18n as utilsI18n,
   validatePackageName,
   validatePackagePath,
-  getPackageVersion,
   getPackageManagerText,
   getModernVersion,
 } from '@modern-js/generator-utils';
@@ -60,52 +54,71 @@ export const handleTemplateFile = async (
     }
   }
 
+  context.config = {
+    ...context.config,
+    isMwa: true,
+    isEmptySrc: true,
+  };
+
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
-  let schema = MWASchema;
-  let inputValue = {};
+  let ans: Record<string, unknown> = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.MWA, extra);
-    schema = generatorPlugin.getInputSchema(Solution.MWA);
-    inputValue = generatorPlugin.getInputValue();
+    const schema = generatorPlugin.getInputSchema();
+    const inputValue = generatorPlugin.getInputValue();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
+    ans = await appApi.getInputBySchema(
+      schema,
+      'formily',
+      { ...context.config, ...inputValue },
+      {
+        packageName: input =>
+          validatePackageName(input as string, packages, {
+            isMonorepoSubProject,
+          }),
+        packagePath: input =>
+          validatePackagePath(
+            input as string,
+            path.join(process.cwd(), projectDir),
+            {
+              isTest,
+              isMwa: true,
+            },
+          ),
+      },
+      {},
+    );
+  } else {
+    ans = await appApi.getInputBySchemaFunc(
+      getMWASchema,
+      { ...context.config },
+      {
+        packageName: input =>
+          validatePackageName(input as string, packages, {
+            isMonorepoSubProject,
+          }),
+        packagePath: input =>
+          validatePackagePath(
+            input as string,
+            path.join(process.cwd(), projectDir),
+            { isTest, isMwa: true },
+          ),
+      },
+    );
   }
 
-  const ans = await appApi.getInputBySchema(
-    schema,
-    { ...context.config, ...inputValue, isMwa: true, isEmptySrc: true },
-    {
-      packageName: input =>
-        validatePackageName(input as string, packages, {
-          isMonorepoSubProject,
-        }),
-      packagePath: input =>
-        validatePackagePath(
-          input as string,
-          path.join(process.cwd(), projectDir),
-          { isTest, isMwa: true },
-        ),
-    },
+  const modernVersion = await getModernVersion(
+    Solution.MWA,
+    context.config.registry,
+    context.config.distTag,
   );
-
-  const modernVersion = await getModernVersion(Solution.MWA);
 
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
-  const {
-    packageName,
-    packagePath,
-    language,
-    runWay,
-    packageManager,
-    needModifyMWAConfig,
-    disableStateManagement,
-    clientRoute,
-    enableLess,
-    enableSass,
-  } = ans;
+  const { packageName, packagePath, language, packageManager } = ans;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
@@ -130,7 +143,7 @@ export const handleTemplateFile = async (
         .replace('.handlebars', ''),
     {
       name: packageName || dirname,
-      packageManager: getPackageManagerText(packageManager as any),
+      packageManager: getPackageManagerText(packageManager as PackageManager),
       isMonorepoSubProject,
       modernVersion,
     },
@@ -144,8 +157,8 @@ export const handleTemplateFile = async (
         update: {
           $set: {
             'devDependencies.typescript': '^4',
-            'devDependencies.@types/react': '^17',
-            'devDependencies.@types/react-dom': '^17',
+            'devDependencies.@types/react': '^18',
+            'devDependencies.@types/react-dom': '^18',
             'devDependencies.@types/node': '^14',
           },
         },
@@ -176,60 +189,9 @@ export const handleTemplateFile = async (
     `./${projectPath}`,
     {
       ...context.config,
-      disableStateManagement:
-        needModifyMWAConfig === BooleanConfig.NO
-          ? BooleanConfig.NO
-          : disableStateManagement,
-      clientRoute:
-        needModifyMWAConfig === BooleanConfig.NO
-          ? ClientRoute.SelfControlRoute
-          : clientRoute,
       isSubGenerator: true,
     },
   );
-
-  if (runWay === RunWay.Electron) {
-    await appApi.runSubGenerator(
-      getGeneratorPath(ElectronGenerator, context.config.distTag),
-      undefined,
-      {
-        ...context.config,
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
-
-  if (enableLess === BooleanConfig.YES) {
-    const lessDependence = MWAActionFunctionsDependencies[ActionFunction.Less]!;
-    await appApi.runSubGenerator(
-      getGeneratorPath(DependenceGenerator, context.config.distTag),
-      undefined,
-      {
-        dependencies: {
-          [lessDependence]: `^${await getPackageVersion(lessDependence)}`,
-        },
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
-
-  if (enableSass === BooleanConfig.YES) {
-    const sassDependence = MWAActionFunctionsDependencies[ActionFunction.Sass]!;
-    [ActionFunction.Sass]!;
-    await appApi.runSubGenerator(
-      getGeneratorPath(DependenceGenerator, context.config.distTag),
-      undefined,
-      {
-        dependencies: {
-          [sassDependence]: `${await getPackageVersion(sassDependence)}`,
-        },
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
 
   if (isMonorepoSubProject) {
     await appApi.updateWorkspace({
@@ -238,7 +200,16 @@ export const handleTemplateFile = async (
     });
   }
 
-  return { projectPath, isElectron: runWay === RunWay.Electron };
+  const { packagesInfo } = context.config;
+  if (packagesInfo && Object.keys(packagesInfo).length > 0) {
+    await appApi.runSubGenerator(
+      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      undefined,
+      context.config,
+    );
+  }
+
+  return { projectPath };
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -260,13 +231,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
   let projectPath = '';
-  let isElectron = false;
   try {
-    ({ projectPath, isElectron } = await handleTemplateFile(
-      context,
-      generator,
-      appApi,
-    ));
+    ({ projectPath } = await handleTemplateFile(context, generator, appApi));
   } catch (e) {
     generator.logger.error(e);
     // eslint-disable-next-line no-process-exit
@@ -294,15 +260,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   if (successInfo) {
     appApi.showSuccessInfo(successInfo);
-  } else if (isElectron) {
-    appApi.showSuccessInfo(
-      `${i18n.t(localeKeys.success, {
-        packageManager: getPackageManagerText(packageManager),
-      })}
-      ${i18n.t(localeKeys.electron.success, {
-        packageManager: getPackageManagerText(packageManager),
-      })}`,
-    );
   } else {
     appApi.showSuccessInfo(
       i18n.t(localeKeys.success, {

@@ -3,6 +3,7 @@ import type { RouterConfig } from './router';
 
 export type { Plugin } from './core';
 export type { AppConfig } from './common';
+export { isBrowser } from './common';
 
 export type {
   BaseRuntimeContext,
@@ -17,7 +18,6 @@ export {
   useLoader,
   bootstrap,
   RuntimeReactContext,
-  registerPrefetch,
   defineConfig,
   registerInit,
   useRuntimeContext,

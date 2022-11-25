@@ -1,26 +1,27 @@
 import { merge } from '@modern-js/utils/lodash';
+import { CodeSmith } from '@modern-js/codesmith';
+import { FormilyAPI } from '@modern-js/codesmith-formily';
 import {
-  CodeSmith,
-  GeneratorCore,
-  MaterialsManager,
-} from '@modern-js/codesmith';
-import { AppAPI, forEach } from '@modern-js/codesmith-api-app';
-import {
-  MWANewActionSchema,
+  getMWANewActionSchema,
   MWAActionFunctions,
+  MWAActionReactors,
   ActionFunction,
   MWAActionFunctionsDependencies,
   MWAActionFunctionsAppendTypeContent,
+  MWAActionReactorAppendTypeContent,
   MWAActionFunctionsDevDependencies,
   MWANewActionGenerators,
   ActionType,
   i18n,
+  Solution,
+  ActionRefactor,
+  MWAActionRefactorDependencies,
 } from '@modern-js/generator-common';
 import {
+  getModernPluginVersion,
   getPackageManager,
-  getPackageVersion,
 } from '@modern-js/generator-utils';
-import { alreadyRepo, hasEnabledFunction } from './utils';
+import { alreadyRepo, getGeneratorPath, hasEnabledFunction } from './utils';
 
 interface IMWANewActionOption {
   locale?: string;
@@ -60,49 +61,69 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     smith.logger.warn('not valid modern.js repo');
   }
 
-  const mockGeneratorCore = new GeneratorCore({
-    logger: smith.logger,
-    materialsManager: new MaterialsManager(),
-    outputPath: '',
-  });
-  const appAPI = new AppAPI(
-    { materials: {}, config: {}, data: {}, current: null },
-    mockGeneratorCore,
-  );
-
-  const schema = forEach(MWANewActionSchema, (schemaItem: any) => {
-    if (MWAActionFunctions.includes(schemaItem.key as ActionFunction)) {
-      const enable = hasEnabledFunction(
-        schemaItem.key as ActionFunction,
-        MWAActionFunctionsDependencies,
-        MWAActionFunctionsDevDependencies,
-        {},
-        cwd,
-      );
-      const { when } = schemaItem;
-      schemaItem.when = enable ? () => false : when;
-    }
+  const formilyAPI = new FormilyAPI({
+    materials: {},
+    config: {},
+    data: {},
+    current: null,
   });
 
-  const ans = await appAPI.getInputBySchema(schema, UserConfig);
+  const funcMap: Partial<Record<ActionFunction, boolean>> = {};
+  MWAActionFunctions.forEach(func => {
+    const enable = hasEnabledFunction(
+      func,
+      MWAActionFunctionsDependencies,
+      MWAActionFunctionsDevDependencies,
+      {},
+      cwd,
+    );
+    funcMap[func] = enable;
+  });
+
+  const refactorMap: Partial<Record<ActionRefactor, boolean>> = {};
+
+  MWAActionReactors.forEach(refactor => {
+    const enable = hasEnabledFunction(
+      refactor,
+      MWAActionRefactorDependencies,
+      {},
+      {},
+      cwd,
+    );
+    refactorMap[refactor] = enable;
+  });
+
+  const ans = await formilyAPI.getInputBySchemaFunc(getMWANewActionSchema, {
+    ...UserConfig,
+    funcMap,
+    refactorMap,
+  });
 
   const actionType = ans.actionType as ActionType;
 
   const action = ans[actionType] as string;
 
-  let generator = MWANewActionGenerators[actionType][action];
+  const generator = getGeneratorPath(
+    MWANewActionGenerators[actionType][action],
+    distTag,
+  );
 
   if (!generator) {
     throw new Error(`no valid option`);
   }
 
-  if (distTag) {
-    generator = `${generator}@${distTag}`;
-  }
+  const getMwaPluginVersion = (packageName: string) => {
+    return getModernPluginVersion(Solution.MWA, packageName, {
+      registry,
+      distTag,
+    });
+  };
 
   const devDependency =
     MWAActionFunctionsDevDependencies[action as ActionFunction];
-  const dependency = MWAActionFunctionsDependencies[action as ActionFunction];
+  const dependency =
+    MWAActionFunctionsDependencies[action as ActionFunction] ||
+    MWAActionRefactorDependencies[action as ActionRefactor];
 
   const finalConfig = merge(
     UserConfig,
@@ -111,16 +132,20 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
       locale: (UserConfig.locale as string) || locale,
       packageManager:
         UserConfig.packageManager || (await getPackageManager(cwd)),
+      distTag,
     },
     {
       devDependencies: devDependency
-        ? { [devDependency]: `^${await getPackageVersion(devDependency)}` }
+        ? { [devDependency]: `${await getMwaPluginVersion(devDependency)}` }
         : {},
       dependencies: dependency
-        ? { [dependency]: `^${await getPackageVersion(dependency)}` }
+        ? {
+            [dependency]: `${await getMwaPluginVersion(dependency)}`,
+          }
         : {},
       appendTypeContent:
-        MWAActionFunctionsAppendTypeContent[action as ActionFunction],
+        MWAActionFunctionsAppendTypeContent[action as ActionFunction] ||
+        MWAActionReactorAppendTypeContent[action as ActionRefactor],
     },
   );
 

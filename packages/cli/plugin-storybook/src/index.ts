@@ -1,18 +1,14 @@
-import {
-  Import,
-  isTypescript,
-  createRuntimeExportsUtils,
-} from '@modern-js/utils';
-import type { CliPlugin } from '@modern-js/core';
+import { createRuntimeExportsUtils } from '@modern-js/utils';
+import type { CliPlugin, ModuleToolsHooks } from '@modern-js/module-tools-v2';
+import { defaultStories } from './constants/stores';
 
-const features: typeof import('./features') = Import.lazy(
-  './features',
-  require,
-);
-
-export default (): CliPlugin => ({
+export default (): CliPlugin<ModuleToolsHooks> => ({
   name: '@modern-js/plugin-storybook',
   setup: api => ({
+    async validateSchema() {
+      const { schema } = await import('./config/schema');
+      return schema;
+    },
     config() {
       const appContext = api.useAppContext();
 
@@ -29,59 +25,45 @@ export default (): CliPlugin => ({
         },
       };
     },
-    // app-tools and module-tools `dev storybook`
-    commands({ program }: any) {
-      const { appDirectory } = api.useAppContext();
-      const devCommand = program.commandsMap.get('dev');
-      const stories =
-        program.$$libraryName === 'module-tools'
-          ? [
-              `./stories/**/*.stories.mdx`,
-              `./stories/**/*.stories.@(js|jsx|ts|tsx)`,
-            ]
-          : [`./src/**/*.stories.@(js|jsx|ts|tsx|mdx)`];
-      if (devCommand) {
-        devCommand.command('story').action(async () => {
-          await features.runDev(api, {
-            isTsProject: isTypescript(appDirectory),
-            stories,
-            isModuleTools: program.$$libraryName === 'module-tools',
-          });
-        });
-        // Both story and storybook subcommands are supported
-        devCommand.command('storybook').action(async () => {
-          await features.runDev(api, {
-            isTsProject: isTypescript(appDirectory),
-            stories,
-            isModuleTools: program.$$libraryName === 'module-tools',
-          });
-        });
-      }
-    },
-    // module-tools build platform
-    platformBuild({ isTsProject }: any) {
+
+    registerDev() {
       return {
         name: 'storybook',
-        title: 'Run Storybook log',
-        taskPath: require.resolve('./build-task'),
-        params: [...(isTsProject ? ['--isTsProject'] : [])],
+        menuItem: {
+          name: 'Storybook',
+          value: 'storybook',
+        },
+        subCommands: ['storybook', 'story'],
+        async action(_, context) {
+          const { runDev } = await import('./features');
+          await runDev(api, {
+            isTsProject: context.isTsProject,
+            stories: defaultStories,
+            isModuleTools: true,
+          });
+        },
       };
     },
-    // module-tools menu mode
-    moduleToolsMenu() {
+
+    registerBuildPlatform() {
       return {
-        name: 'Storybook 调试',
-        value: 'storybook',
-        aliasValues: ['story'],
-        runTask: ({ isTsProject = false }: { isTsProject: boolean }) =>
-          features.runDev(api, {
-            isTsProject,
-            stories: [
-              `./stories/**/*.stories.mdx`,
-              `./stories/**/*.stories.@(js|jsx|ts|tsx)`,
-            ],
-          }),
+        platform: 'storybook',
+        async build(_, context) {
+          const { runBuild } = await import('./features/build');
+          const appContext = api.useAppContext();
+          const modernConfig = api.useResolvedConfigContext();
+          await runBuild({
+            stories: defaultStories,
+            appContext,
+            modernConfig,
+            isTsProject: context.isTsProject,
+          });
+        },
       };
     },
+
+    // TODO: register hook for app-tools
+    // [`./src/**/*.stories.@(js|jsx|ts|tsx|mdx)`]
+    // isModuleTools: false
   }),
 });

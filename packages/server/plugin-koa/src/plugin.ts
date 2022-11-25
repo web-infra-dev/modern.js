@@ -44,13 +44,15 @@ const initMiddlewares = (
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-koa',
   pre: ['@modern-js/plugin-bff'],
+  post: ['@modern-js/plugin-server'],
   setup: api => ({
-    async prepareApiServer({ pwd, mode, config }) {
+    async prepareApiServer({ pwd, config }) {
       let app: Application;
       const router = new Router();
       const apiDir = path.join(pwd, './api');
       const appContext = api.useAppContext();
       const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
+      const mode = appContext.apiMode;
 
       if (mode === 'framework') {
         app = await findAppModule(apiDir);
@@ -94,7 +96,11 @@ export default (): ServerPlugin => ({
         return Promise.resolve(app.callback()(req, res));
       };
     },
-    prepareWebServer({ config }) {
+    prepareWebServer({ config }, next) {
+      const userConfig = api.useConfigContext();
+      if (userConfig?.server?.disableFrameworkExt) {
+        return next();
+      }
       const app: Application = new Koa();
 
       app.use(async (ctx, next) => {
@@ -117,7 +123,10 @@ export default (): ServerPlugin => ({
         initMiddlewares(middleware, app);
       }
 
-      return (req, res) => {
+      return ctx => {
+        const {
+          source: { req, res },
+        } = ctx;
         app.on('error', err => {
           if (err) {
             throw err;

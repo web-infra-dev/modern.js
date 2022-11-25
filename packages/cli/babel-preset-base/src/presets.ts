@@ -22,6 +22,7 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
     runEnvironments = 'browsers',
     jsxTransformRuntime = 'automatic',
     useTsLoader = false,
+    overrideBrowserslist,
   } = option;
   const chain = createBabelChain();
   // set envOptions = false
@@ -34,13 +35,15 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
       syntax === 'es5' ? getBrowserslist(appDirectory) : es6BrowserList;
     const targets =
       runEnvironments === 'node' ? { node: '12' } : browsersTargets;
+
     const presetEnvOptions = {
-      targets,
+      targets: overrideBrowserslist || targets,
       modules: type === 'commonjs' ? 'commonjs' : false,
       bugfixes: runEnvironments !== 'node',
       shippedProposals: type === 'module' && syntax === 'es6+',
       ...getPresetOptions(envOptions),
     };
+
     chain
       .preset('@babel/preset-env')
       .use(require.resolve('@babel/preset-env'), [presetEnvOptions]);

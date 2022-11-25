@@ -10,7 +10,7 @@ import { cli, CoreOptions } from '.';
 const command = process.argv[2];
 
 if (!process.env.NODE_ENV) {
-  if (['build', 'start', 'deploy'].includes(command)) {
+  if (['build', 'start', 'deploy', 'release'].includes(command)) {
     process.env.NODE_ENV = 'production';
   } else if (command === 'test') {
     process.env.NODE_ENV = 'test';
@@ -21,7 +21,11 @@ if (!process.env.NODE_ENV) {
 
 const { version } = require('../package.json');
 
-const cliParams = minimist(process.argv.slice(2));
+const cliParams = minimist<{
+  c?: string;
+  config?: string;
+}>(process.argv.slice(2));
+
 const runOptions: CoreOptions = {
   version,
 };
@@ -37,8 +41,11 @@ const SUPPORT_CONFIG_PARAM_COMMANDS = [
   'start',
   'inspect',
 ];
-if (SUPPORT_CONFIG_PARAM_COMMANDS.includes(command) && cliParams.config) {
-  runOptions.configFile = cliParams.config;
+
+const customConfigFile = cliParams.config || cliParams.c;
+
+if (SUPPORT_CONFIG_PARAM_COMMANDS.includes(command) && customConfigFile) {
+  runOptions.configFile = customConfigFile;
 }
 
 cli.run(process.argv.slice(2), runOptions);

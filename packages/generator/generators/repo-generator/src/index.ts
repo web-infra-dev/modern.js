@@ -4,16 +4,17 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   i18n,
-  SolutionSchema,
+  getSolutionSchema,
   SolutionGenerator,
   Solution,
   SolutionDefaultConfig,
   BaseGenerator,
-  MonorepoNewActionSchema,
+  getMonorepoNewActionSchema,
   SubSolution,
   SubSolutionGenerator,
   MonorepoNewActionConfig,
   getSolutionNameFromSubSolution,
+  getScenesSchema,
 } from '@modern-js/generator-common';
 import { GeneratorPlugin } from '@modern-js/generator-plugin';
 
@@ -68,13 +69,15 @@ const handleTemplateFile = async (
 ) => {
   const { isMonorepo } = context.config;
 
-  const { solution } = await appApi.getInputBySchema(
-    isMonorepo ? MonorepoNewActionSchema : SolutionSchema,
+  const { solution } = await appApi.getInputBySchemaFunc(
+    isMonorepo ? getMonorepoNewActionSchema : getSolutionSchema,
     {
       ...context.config,
       customPlugin: generatorPlugin?.customPlugin,
     },
   );
+
+  await appApi.getInputBySchemaFunc(getScenesSchema, context.config);
 
   const solutionGenerator =
     // eslint-disable-next-line no-nested-ternary
@@ -117,6 +120,8 @@ const handlePlugin = async (
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
+  process.setMaxListeners(20);
+
   const appApi = new AppAPI(context, generator);
 
   const { locale } = context.config;

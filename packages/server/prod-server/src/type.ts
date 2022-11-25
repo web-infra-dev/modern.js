@@ -1,10 +1,16 @@
 import { Buffer } from 'buffer';
 import { IncomingMessage, Server, ServerResponse } from 'http';
-import { serverManager } from '@modern-js/server-core';
+import { Readable } from 'stream';
+import { serverManager, ServerOptions } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/server-core';
-import type { NormalizedConfig } from '@modern-js/core';
-import type { Metrics, Logger, NextFunction } from '@modern-js/types/server';
-import { ModernRouteInterface } from './libs/route';
+import type {
+  Metrics,
+  Logger,
+  NextFunction,
+  ModernServerContext,
+  InternalPlugins,
+} from '@modern-js/types';
+import type { ModernRouteInterface } from './libs/route';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -13,24 +19,19 @@ declare module 'http' {
   }
 }
 
-type Plugin = string | [string, any] | ServerPlugin;
 export type ModernServerOptions = {
   pwd: string;
-  config: NormalizedConfig;
-  plugins?: Plugin[];
+  // Todo 整理下这里用的 config，尽量少用
+  config: ServerOptions;
+  plugins?: ServerPlugin[];
+  internalPlugins?: InternalPlugins;
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;
-  loggerOptions?: Record<string, string>;
-  metricsOptions?: Record<string, string>;
   logger?: Logger;
   metrics?: Metrics;
   apiOnly?: boolean;
   ssrOnly?: boolean;
   webOnly?: boolean;
-  proxyTarget?: {
-    ssr?: string;
-    api?: string;
-  };
   runMode?: string;
   [propName: string]: any;
 };
@@ -38,6 +39,7 @@ export type ModernServerOptions = {
 export type RenderResult = {
   content: string | Buffer;
   contentType: string;
+  contentStream?: Readable;
   statusCode?: number;
   redirect?: boolean;
 };
@@ -45,8 +47,8 @@ export type RenderResult = {
 export type ConfWithBFF = {
   bff?: {
     prefix: string;
-  };
-} & NormalizedConfig;
+  } & ServerOptions['bff'];
+};
 
 export type Then<T> = T extends PromiseLike<infer U> ? U : T;
 
@@ -56,24 +58,16 @@ export type BuildOptions = { routes?: ModernRouteInterface[] };
 
 export type { Metrics, Logger, NextFunction };
 
-export type HookNames =
-  | 'beforeMatch'
-  | 'afterMatch'
-  | 'beforeRender'
-  | 'afterRender';
+export type HookNames = 'afterMatch' | 'afterRender';
 
 export interface ModernServerInterface {
   pwd: string;
 
   distDir: string;
 
-  onInit: (runner: ServerHookRunner) => Promise<void>;
-
-  onClose: () => Promise<void>;
+  onInit: (runner: ServerHookRunner, app: Server) => Promise<void>;
 
   onRepack: (options: BuildOptions) => void;
-
-  onListening: (app: Server) => void;
 
   getRequestHandler: () => (
     req: IncomingMessage,
@@ -88,8 +82,19 @@ export interface ModernServerInterface {
       next?: () => void,
     ) => void,
   ) => Promise<Server>;
+
+  render: (
+    req: IncomingMessage,
+    res: ServerResponse,
+    url?: string,
+  ) => Promise<string | null>;
 }
 
 export type ServerConstructor = (
   options: ModernServerOptions,
 ) => ModernServerInterface;
+
+export type ModernServerHandler = (
+  context: ModernServerContext,
+  next: NextFunction,
+) => Promise<void> | void;

@@ -24,6 +24,7 @@ export const source = {
     },
     preEntry: { type: ['string', 'array'] },
     alias: { typeof: ['object', 'function'] },
+    enableAsyncEntry: { type: 'boolean' },
     disableDefaultEntries: { type: 'boolean' },
     envVars: { type: 'array' },
     globalVars: { type: 'object' },

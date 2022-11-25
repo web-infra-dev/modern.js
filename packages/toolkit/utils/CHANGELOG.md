@@ -1,5 +1,193 @@
 # @modern-js/utils
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- 92f0ead: feat:
+
+  1. core: 增加 test 函数
+  2. module plugins: 增加 `babel`, `mainField`, `target` 插件
+  3. storybook: 修改部分逻辑并且增加 tspath webpack 插件
+  4. 增加 designSystem 配置
+
+  feat:
+
+  1. core: add test method
+  2. module plugins: add `babel`, `mainField`, `target` plugin
+  3. storybook: change some logic and add tspath webpack plugin
+  4. add `designSystem` config
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- d5a31df781: refactor: remove unbundle configs and types
+
+  refactor: 移除 unbundle 相关的配置项和类型定义
+
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 5b9049f: feat: inject async js chunk when streaming ssr
+  feat: streaming ssr 时, 注入 async 类型的 js chunk
+- 92004d1: feat: support load chunks parallelly
+  feat: 支持并行加载 chunks
+- b8bbe036c7: feat: change type logic
+  feat: 修改类型相关的逻辑
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- abf3421: fix(dev-server): isDepsExists add non pkgPath judege
+
+  修复: isDepsExists 方法添加 package.json 不存在的兜底
+
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- edd1cfb1a: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- d5a31df78: refactor: remove unbundle configs and types
+
+  refactor: 移除 unbundle 相关的配置项和类型定义
+
+- 543be95: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- cc971eabf: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 5b9049f: feat: inject async js chunk when streaming ssr
+  feat: streaming ssr 时, 注入 async 类型的 js chunk
+- b8bbe036c: feat: change type logic
+  feat: 修改类型相关的逻辑
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- abf3421: fix(dev-server): isDepsExists add non pkgPath judege
+
+  修复: isDepsExists 方法添加 package.json 不存在的兜底
+
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+## 1.21.2
+
+## 1.21.1
+
+## 1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- 49515c5: fix(utils): failed to call logger.success method
+
+  fix(utils): 修复调用 logger.success 出现异常的问题
+
+## 1.20.0
+
+### Patch Changes
+
+- d5d570b: feat: optimize the logger of @modern-js/utils, remove builder logger
+
+  feat: 优化 @modern-js/utils 的 logger 格式, 移除 builder 内置的 logger
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- df8ee7e: fix(utils): failed to resolve execa
+
+  fix(utils): 修复找不到 execa 模块的问题
+
+- 8c05089: fix: support monorepo deploy in pnpm 7
+  fix: 修复 monorepo deploy 命令在 pnpm 7 下的问题
+
+## 1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- 9fcfbd4: chore: add assets retry plugin
+
+  chore: 增加资源重试插件
+
+- 6c2c745: chore(utils): add RULE.JS_DATA_URI to CHAIN_ID
+
+  chore(utils): CHAIN_ID 增加 RULE.JS_DATA_URI 值
+
+## 1.18.0
+
+### Minor Changes
+
+- 5227370: feat: add builder plugin subresource-integrity
+  feat: 新增 builder 插件 subresource-integrity
+
+### Patch Changes
+
+- 8280920: feat: change hmr sock path to /webpack-hmr
+
+  feat: 热更新 socket 请求的 path 修改为 /webpack-hmr
+
+- 7928bae: chore: add inspector plugin
+
+  chore: 增加 Inspector 插件
+
+## 1.17.0
+
+### Minor Changes
+
+- 1b9176f: feat(utils): add TOML to CHAIN_ID.RULE
+
+  feat(utils): 向 CHAIN_ID.RULE 中增加新常量 TOML
+
+### Patch Changes
+
+- 77d3a38: feat: runtime export utils not write d.ts file
+
+  feat: runtime 生成 export 函数不再支持生成 d.ts 文件
+
+- 151329d: chore(dev-server): no longer depend on @modern-js/webpack
+
+  chore(dev-server): 不再依赖 @modern-js/webpack
+
+- 5af9472: feat(utils): add PUG to CHAIN_ID
+
+  feat(utils): CHAIN_ID 常量新增 PUG 值
+
+- 6b6a534: chore: export getAddressUrls method
+
+  chore: 导出 getAddressUrls 方法
+
+- 6b43a2b: feat(utils): add SVG_ASSET to CHAIN_ID
+
+  feat(utils): CHAIN_ID 常量新增 SVG_ASSET 值
+
+- a7be124: feat(utils): add MODULE_DEPENDENCY_ERROR to CHAIN_ID
+
+  feat(utils): CHAIN_ID 常量新增 MODULE_DEPENDENCY_ERROR 值
+
+- 31547b4: feat(utils): add YAML to CHAIN_ID.RULE
+
+  feat(utils): 向 CHAIN_ID.RULE 中增加新常量 YAML
+
 ## 1.16.0
 
 ### Minor Changes
@@ -55,7 +243,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for webpack-builder
+- 7b9067f: add babel plugin for builder
 
 ### Patch Changes
 

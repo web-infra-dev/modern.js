@@ -27,7 +27,6 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     plugin = [],
     cwd = process.cwd(),
   } = options;
-
   let UserConfig: Record<string, unknown> = {};
 
   try {

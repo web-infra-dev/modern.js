@@ -11,12 +11,10 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.16.0",
+  "version": "2.0.0-beta.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/node.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./dist/index.js",
   "bin": {
     "create": "./bin/run.js"
   },
@@ -28,22 +26,21 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "import": "./dist/index.js",
+        "require": "./dist/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "wireit",
-    "test": "wireit"
+    "build": "modern build",
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/codesmith": "^1.5.0",
+    "@modern-js/codesmith": "2.0.0",
     "@modern-js/generator-plugin-plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/repo-generator": "workspace:*",
@@ -56,42 +53,11 @@
     "ts-node": "^10.1.0",
     "typescript": "^4"
   },
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js",
-      "disableSourceMap": true
-    }
-  },
   "sideEffects": false,
   "publishConfig": {
     "main": "./dist/index.js",
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "modern.config.js"
-      ],
-      "output": [
-        "dist/**/*",
-        "!dist/node/main.js"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

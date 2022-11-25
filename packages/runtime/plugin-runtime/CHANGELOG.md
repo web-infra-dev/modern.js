@@ -1,5 +1,256 @@
 # @modern-js/runtime
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- c9e800d39a: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- 2344eb2: fix: bootstrap function params type define
+
+  fix: 修复 bootstrap 函数参数类型定义
+
+- a11fcf8: feat: fallback logic of streaming ssr
+  feat: streaming ssr 降级逻辑
+- b18fa8f: feat: remove @loadable/component in streaming ssr
+  feat: 移除 streaming ssr 中的 @loadable/component 逻辑
+- 3e57f2b: feat: add document feature with plugin
+
+  feat: 增加 document 功能插件
+
+- fbf5eed: fix: fix ssg failure due to lack of Web Response API
+  fix: 修复因为缺少 Web Response API 而导致 ssg 失败
+- a2509bfbdb: feat: bump esbuild from 0.14.38 to 0.15.7
+
+  feat: 将 esbuild 从 0.14.38 版本升级至 0.15.7 版本
+
+- 4369648ae2: fix: fix html template of streaming ssr
+  fix: 修复流式渲染的 html 模版
+- 92c0994: chore: remove `registerPrefetch`
+  chore: 移除 `registerPrefetch`
+- 6bda14ed71: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- 92004d1: feat: support load chunks parallelly
+  feat: 支持并行加载 chunks
+- 40ed587: feat: inject css chunk into html for streaming ssr
+  feat: streaming ssr 返回的 html 注入 css chunk
+- 60d5378632: fix: function extname should not return array
+  fix: 函数 extname 不应该返回一个数组
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- 18aaf42: fix: fix server loader redirects
+  fix: 修复 server loader 重定向错误
+- fcace5b5b9: fix: remove overmuch `@modernjs/utils` dependency import in ssr runtime & SSR hydrate error
+  fix: 去除 ssr 运行时过多的 `@modernjs/utils` 依赖引入 & SSR hydrate 错误
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed587]
+- Updated dependencies [87c1ff8]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/types@2.0.0-beta.1
+  - @modern-js/plugin@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- c9e800d39: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- 543be95: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- b18fa8f: feat: remove @loadable/component in streaming ssr
+  feat: 移除 streaming ssr 中的 @loadable/component 逻辑
+- a2509bf: feat: bump esbuild from 0.14.38 to 0.15.7
+
+  feat: 将 esbuild 从 0.14.38 版本升级至 0.15.7 版本
+
+- 4369648ae: fix: fix html template of streaming ssr
+  fix: 修复流式渲染的 html 模版
+- 6bda14ed7: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- 60d5378: fix: function extname should not return array
+  fix: 函数 extname 不应该返回一个数组
+- 8b8e1bb57: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- fcace5b5b: fix: remove overmuch `@modernjs/utils` dependency import in ssr runtime & SSR hydrate error
+  fix: 去除 ssr 运行时过多的 `@modernjs/utils` 依赖引入 & SSR hydrate 错误
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed7]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4b]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/types@2.0.0-beta.0
+  - @modern-js/plugin@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/plugin@1.21.2
+  - @modern-js/webpack@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/webpack@1.21.1
+- @modern-js/plugin@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+- 4c1f3a4: fix: runtime export field
+
+  fix: 修复 runtime 包导出字段
+
+- 4c1f3a4: fix: state runtime plugin params
+
+  fix: state 插件参数格式
+
+- c40fc4b: fix: add missing ssr exports from runtime ssr plugin
+  fix: 补充 runtime ssr 插件中丢失的 ssr 导出
+- Updated dependencies [17d1672]
+- Updated dependencies [28f0a4f]
+- Updated dependencies [b0597e3]
+  - @modern-js/webpack@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/webpack@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- b57d5ff: fix: ssr runtime plugin need default config
+  fix: ssr 运行时插件需要传入默认配置
+- 715df7a: feat: support loadable scripts add crossorigin attribute
+  feat: SSR 支持 loadable 脚本添加 crossorigin 属性
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [077aef8]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/webpack@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/webpack@1.19.0
+- @modern-js/plugin@1.19.0
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/webpack@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/webpack@1.18.0
+  - @modern-js/plugin@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- 77d3a38: feat: remove `.runtime-exports/index.js` export
+
+  feat: 移除 `.runtime-exports/index.js` 导出
+
+- 492437f: fix: runtime type
+
+  fix: 修复 runtime 类型定义
+
+- c3d4a6a: feat: support react 18 ssr
+  feat: 支持 React 18 下使用 SSR
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/webpack@1.17.0
+  - @modern-js/plugin@1.17.0
+
 ## 1.16.1
 
 ### Patch Changes

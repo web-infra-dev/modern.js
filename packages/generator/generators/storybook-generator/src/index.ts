@@ -2,18 +2,19 @@ import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
-  getPackageVersion,
   isTsProject,
   getPackageManager,
   getPackageManagerText,
   fs,
   isReact18,
+  getModernPluginVersion,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   EslintGenerator,
   i18n as commonI18n,
   Language,
+  Solution,
 } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
 
@@ -52,8 +53,11 @@ const handleTemplateFile = async (
   const runtimeDependence =
     context.config.runtimeDependence || '@modern-js/runtime';
   const runtimeDependenceVersion =
-    context.config.runtimeDependeceVersion ||
-    `^${await getPackageVersion(runtimeDependence)}`;
+    context.config.runtimeDependenceVersion ||
+    `${await getModernPluginVersion(Solution.Module, runtimeDependence, {
+      registry: context.config.registry,
+      distTag: context.config.distTag,
+    })}`;
 
   // adjust react-dom dependence
   const pkg = await fs.readJSON(
@@ -108,7 +112,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   const { packageManager } = await handleTemplateFile(context, appApi);
 
-  await appApi.runInstall();
+  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   appApi.showSuccessInfo(
     i18n.t(localeKeys.success, {

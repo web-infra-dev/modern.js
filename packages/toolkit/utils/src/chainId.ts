@@ -13,6 +13,8 @@ export const CHAIN_ID = {
     MEDIA: 'media',
     /** Rule for js */
     JS: 'js',
+    /** Rule for data uri encoded javascript */
+    JS_DATA_URI: 'js-data-uri',
     /** Rule for ts */
     TS: 'ts',
     /** Rule for css */
@@ -23,14 +25,14 @@ export const CHAIN_ID = {
     SASS: 'sass',
     /** Rule for svg */
     SVG: 'svg',
-    SVG_INLINE: 'svg-inline',
-    SVG_URL: 'svg-url',
     /** Rule for pug */
     PUG: 'pug',
     /** Rule for toml */
     TOML: 'toml',
     /** Rule for yaml */
     YAML: 'yaml',
+    /** Rule for bff */
+    JS_BFF_API: 'js-bff-api',
   },
   /** Predefined rule groups */
   ONE_OF: {
@@ -49,6 +51,7 @@ export const CHAIN_ID = {
     SASS_MODULES: 'sass-modules',
     SVG: 'svg',
     SVG_URL: 'svg-url',
+    SVG_ASSET: 'svg-asset',
     SVG_INLINE: 'svg-inline',
     ASSETS: 'assets',
     ASSETS_URL: 'assets-url',
@@ -80,12 +83,18 @@ export const CHAIN_ID = {
     HTML: 'html',
     /** babel-loader */
     BABEL: 'babel',
+    /** esbuild-loader */
+    ESBUILD: 'esbuild',
+    /** swc-loader */
+    SWC: 'swc',
     /** style-loader */
     STYLE: 'style-loader',
     /** postcss-loader */
     POSTCSS: 'postcss',
     /** markdown-loader */
     MARKDOWN: 'markdown',
+    /** ignore-css-loader */
+    IGNORE_CSS: 'ignore-css',
     /** css-modules-typescript-loader */
     CSS_MODULES_TS: 'css-modules-typescript',
     /** mini-css-extract-plugin.loader */
@@ -107,6 +116,8 @@ export const CHAIN_ID = {
     BANNER: 'banner',
     /** Webpackbar */
     PROGRESS: 'progress',
+    /** Inspector */
+    INSPECTOR: 'inspector',
     /** AppIconPlugin */
     APP_ICON: 'app-icon',
     /** LoadableWebpackPlugin */
@@ -129,8 +140,14 @@ export const CHAIN_ID = {
     REACT_FAST_REFRESH: 'react-fast-refresh',
     /** ProvidePlugin for node polyfill */
     NODE_POLYFILL_PROVIDE: 'node-polyfill-provide',
-    /** ModuleDependencyErrorPlugin */
-    MODULE_DEPENDENCY_ERROR: 'module-dependency-error',
+    /** WebpackSRIPlugin */
+    SUBRESOURCE_INTEGRITY: 'subresource-integrity',
+    /** WebpackAssetsRetryPlugin */
+    ASSETS_RETRY: 'ASSETS_RETRY',
+    /** AutoSetRootFontSizePlugin */
+    AUTO_SET_ROOT_SIZE: 'auto-set-root-size',
+    /** HtmlAsyncChunkPlugin */
+    HTML_ASYNC_CHUNK: 'html-async-chunk',
   },
   /** Predefined minimizers */
   MINIMIZER: {
@@ -140,6 +157,8 @@ export const CHAIN_ID = {
     CSS: 'css',
     /** ESBuildPlugin */
     ESBUILD: 'js-css',
+    /** SWCPlugin */
+    SWC: 'swc',
   },
   /** Predefined resolve plugins */
   RESOLVE_PLUGIN: {

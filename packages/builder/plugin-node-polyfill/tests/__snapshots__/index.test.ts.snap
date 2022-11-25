@@ -1,0 +1,61 @@
+// Vitest Snapshot v1
+
+exports[`plugins/node-polyfill > should add node-polyfill config 1`] = `
+{
+  "plugins": [
+    ProvidePlugin {
+      "definitions": {
+        "Buffer": [
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/buffer/index.js",
+          "Buffer",
+        ],
+        "process": [
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/process/browser.js",
+        ],
+      },
+    },
+  ],
+  "resolve": {
+    "fallback": {
+      "_stream_duplex": "<WORKSPACE>/node_modules/<PNPM_INNER>/readable-stream/duplex.js",
+      "_stream_passthrough": "<WORKSPACE>/node_modules/<PNPM_INNER>/readable-stream/passthrough.js",
+      "_stream_readable": "<WORKSPACE>/node_modules/<PNPM_INNER>/readable-stream/readable.js",
+      "_stream_transform": "<WORKSPACE>/node_modules/<PNPM_INNER>/readable-stream/transform.js",
+      "_stream_writable": "<WORKSPACE>/node_modules/<PNPM_INNER>/readable-stream/writable.js",
+      "assert": "<WORKSPACE>/node_modules/<PNPM_INNER>/assert/assert.js",
+      "buffer": "<WORKSPACE>/node_modules/<PNPM_INNER>/buffer/index.js",
+      "child_process": false,
+      "cluster": false,
+      "console": "<WORKSPACE>/node_modules/<PNPM_INNER>/console-browserify/index.js",
+      "constants": "<WORKSPACE>/node_modules/<PNPM_INNER>/constants-browserify/constants.json",
+      "crypto": "<WORKSPACE>/node_modules/<PNPM_INNER>/crypto-browserify/index.js",
+      "dgram": false,
+      "dns": false,
+      "domain": "<WORKSPACE>/node_modules/<PNPM_INNER>/domain-browser/source/index.js",
+      "events": "<WORKSPACE>/node_modules/<PNPM_INNER>/events/events.js",
+      "fs": false,
+      "http": "<WORKSPACE>/node_modules/<PNPM_INNER>/stream-http/index.js",
+      "https": "<WORKSPACE>/node_modules/<PNPM_INNER>/https-browserify/index.js",
+      "module": false,
+      "net": false,
+      "os": "<WORKSPACE>/node_modules/<PNPM_INNER>/os-browserify/browser.js",
+      "path": "<WORKSPACE>/node_modules/<PNPM_INNER>/path-browserify/index.js",
+      "process": "<WORKSPACE>/node_modules/<PNPM_INNER>/process/browser.js",
+      "punycode": "<WORKSPACE>/node_modules/<PNPM_INNER>/punycode/punycode.js",
+      "querystring": "<WORKSPACE>/node_modules/<PNPM_INNER>/querystring-es3/index.js",
+      "readline": false,
+      "repl": false,
+      "stream": "<WORKSPACE>/node_modules/<PNPM_INNER>/stream-browserify/index.js",
+      "string_decoder": "<WORKSPACE>/node_modules/<PNPM_INNER>/string_decoder/lib/string_decoder.js",
+      "sys": "<WORKSPACE>/node_modules/<PNPM_INNER>/util/util.js",
+      "timers": "<WORKSPACE>/node_modules/<PNPM_INNER>/timers-browserify/main.js",
+      "tls": false,
+      "tty": "<WORKSPACE>/node_modules/<PNPM_INNER>/tty-browserify/index.js",
+      "url": "<WORKSPACE>/node_modules/<PNPM_INNER>/url/url.js",
+      "util": "<WORKSPACE>/node_modules/<PNPM_INNER>/util/util.js",
+      "vm": "<WORKSPACE>/node_modules/<PNPM_INNER>/vm-browserify/index.js",
+      "zlib": "<WORKSPACE>/node_modules/<PNPM_INNER>/browserify-zlib/lib/index.js",
+    },
+  },
+}
+`;

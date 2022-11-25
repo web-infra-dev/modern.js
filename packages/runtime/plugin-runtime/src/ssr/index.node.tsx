@@ -1,37 +1,23 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-require-imports */
-import path from 'path';
-import { registerPrefetch } from '../core';
 import type { Plugin } from '../core';
-
-import { isBrowser } from '../common';
-import { SSRServerContext } from './serverRender/type';
-import prefetch from './prefetch';
+import {
+  SSRServerContext,
+  SSRPluginConfig,
+  ModernSSRReactComponent,
+} from './serverRender/types';
 import { formatServer } from './utils';
+import render from './serverRender';
 
-const registeredApps = new WeakSet();
-
-const plugin = (): Plugin => ({
+export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
   name: '@modern-js/plugin-ssr',
   setup: () => {
     return {
       server: async ({ App, context }) => {
-        if (!registeredApps.has(App)) {
-          registerPrefetch(App, _context => prefetch(App, _context));
-          registeredApps.add(App);
-        }
-
-        if (!isBrowser()) {
-          const html = await require('./serverRender').render(
-            context,
-            context?.ssrContext?.distDir || path.join(process.cwd(), 'dist'),
-            App,
-          );
-
-          return html;
-        }
-
-        return null;
+        const html = await render({
+          context: context!,
+          App: App as ModernSSRReactComponent,
+          config,
+        });
+        return html;
       },
       init({ context }, next) {
         const { request }: { request: SSRServerContext['request'] } =
@@ -59,7 +45,5 @@ const plugin = (): Plugin => ({
   },
 });
 
-export default plugin;
+export default ssr;
 export * from './react';
-/* eslint-enable @typescript-eslint/no-require-imports */
-/* eslint-enable @typescript-eslint/no-var-requires */

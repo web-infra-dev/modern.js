@@ -7,12 +7,10 @@ import {
   BaseGenerator,
   ChangesetGenerator,
   Solution,
-  ModuleSchema,
+  getModuleSchema,
   Language,
-  DependenceGenerator,
-  ModuleActionFunctionsDependencies,
-  ActionFunction,
-  BooleanConfig,
+  PackageManager,
+  PackagesGenerator,
 } from '@modern-js/generator-common';
 import {
   i18n as utilsI18n,
@@ -20,7 +18,6 @@ import {
   validatePackagePath,
   validatePackageName,
   getModuleProjectPath,
-  getPackageVersion,
   getPackageManagerText,
   getModernVersion,
 } from '@modern-js/generator-utils';
@@ -47,8 +44,6 @@ export const handleTemplateFile = async (
     isPublic = true,
     isLocalPackages,
     projectDir = '',
-    enableLess,
-    enableSass,
   } = context.config;
 
   const { outputPath } = generator;
@@ -65,38 +60,65 @@ export const handleTemplateFile = async (
   }
 
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
-  let schema = ModuleSchema;
-  let inputValue = {};
+  let ans: Record<string, unknown> = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Module, extra);
-    schema = generatorPlugin.getInputSchema(Solution.Module);
-    inputValue = generatorPlugin.getInputValue();
+    const schema = generatorPlugin.getInputSchema();
+    const inputValue = generatorPlugin.getInputValue();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
+    ans = await appApi.getInputBySchema(
+      schema,
+      'formily',
+      { ...context.config, ...inputValue },
+      {
+        packageName: input =>
+          validatePackageName(input as string, packages, {
+            isMonorepoSubProject,
+          }),
+        packagePath: input =>
+          validatePackagePath(
+            input as string,
+            path.join(process.cwd(), projectDir),
+            { isPublic },
+          ),
+      },
+      {
+        packageName: isMonorepoSubProject
+          ? undefined
+          : path.basename(outputPath),
+      },
+    );
+  } else {
+    ans = await appApi.getInputBySchemaFunc(
+      getModuleSchema,
+      context.config,
+      {
+        packageName: input =>
+          validatePackageName(input as string, packages, {
+            isMonorepoSubProject,
+          }),
+        packagePath: input =>
+          validatePackagePath(
+            input as string,
+            path.join(process.cwd(), projectDir),
+            { isPublic },
+          ),
+      },
+      {
+        packageName: isMonorepoSubProject
+          ? undefined
+          : path.basename(outputPath),
+      },
+    );
   }
 
-  const ans = await appApi.getInputBySchema(
-    schema,
-    { ...context.config, ...inputValue },
-    {
-      packageName: input =>
-        validatePackageName(input as string, packages, {
-          isMonorepoSubProject,
-        }),
-      packagePath: input =>
-        validatePackagePath(
-          input as string,
-          path.join(process.cwd(), projectDir),
-          { isPublic },
-        ),
-    },
-    {
-      packageName: isMonorepoSubProject ? undefined : path.basename(outputPath),
-    },
+  const modernVersion = await getModernVersion(
+    Solution.Module,
+    context.config.registry,
+    context.config.distTag,
   );
-
-  const modernVersion = await getModernVersion(Solution.Module);
 
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
@@ -132,7 +154,7 @@ export const handleTemplateFile = async (
       name: packageName as string,
       language,
       isTs: language === Language.TS,
-      packageManager: getPackageManagerText(packageManager as any),
+      packageManager: getPackageManagerText(packageManager as PackageManager),
       isMonorepoSubProject,
       isPublic,
       modernVersion,
@@ -144,7 +166,7 @@ export const handleTemplateFile = async (
       'devDependencies.typescript': '^4',
       'devDependencies.@types/jest': '^26.0.9',
       'devDependencies.@types/node': '^14',
-      'devDependencies.@types/react': '^17',
+      'devDependencies.@types/react': '^18',
     };
 
     await jsonAPI.update(
@@ -174,38 +196,6 @@ export const handleTemplateFile = async (
     );
   }
 
-  if (enableLess === BooleanConfig.YES) {
-    const lessDependence =
-      ModuleActionFunctionsDependencies[ActionFunction.Less]!;
-    await appApi.runSubGenerator(
-      getGeneratorPath(DependenceGenerator, context.config.distTag),
-      undefined,
-      {
-        dependencies: {
-          [lessDependence]: `^${await getPackageVersion(lessDependence)}`,
-        },
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
-
-  if (enableSass === BooleanConfig.YES) {
-    const sassDependence =
-      ModuleActionFunctionsDependencies[ActionFunction.Sass]!;
-    await appApi.runSubGenerator(
-      getGeneratorPath(DependenceGenerator, context.config.distTag),
-      undefined,
-      {
-        dependencies: {
-          [sassDependence]: `^${await getPackageVersion(sassDependence)}`,
-        },
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
-
   if (!isMonorepoSubProject) {
     await appApi.runSubGenerator(
       getGeneratorPath(ChangesetGenerator, context.config.distTag),
@@ -217,6 +207,15 @@ export const handleTemplateFile = async (
       name: packagePath as string,
       path: projectPath,
     });
+  }
+
+  const { packagesInfo } = context.config;
+  if (packagesInfo && Object.keys(packagesInfo).length > 0) {
+    await appApi.runSubGenerator(
+      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      undefined,
+      context.config,
+    );
   }
 
   return { projectPath };

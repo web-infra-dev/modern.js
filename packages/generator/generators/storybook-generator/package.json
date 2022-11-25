@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.3.0",
+  "version": "3.0.0-beta.1",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -19,17 +19,16 @@
     "/dist/index.js"
   ],
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
-    "build": "wireit",
-    "test": "wireit"
+    "build": "modern build",
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/codesmith": "^1.5.0",
-    "@modern-js/codesmith-api-app": "^1.5.0",
-    "@modern-js/codesmith-api-json": "^1.5.0",
+    "@modern-js/codesmith": "2.0.0",
+    "@modern-js/codesmith-api-app": "2.0.0",
+    "@modern-js/codesmith-api-json": "2.0.0",
     "@modern-js/dependence-generator": "workspace:*",
     "@modern-js/eslint-generator": "workspace:*",
     "@modern-js/generator-common": "workspace:*",
@@ -54,30 +53,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "types": "./src/index.ts",
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "modern.config.js"
-      ],
-      "output": [
-        "dist/**/*",
-        "!dist/node/main.js"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
-  }
+  "types": "./src/index.ts"
 }

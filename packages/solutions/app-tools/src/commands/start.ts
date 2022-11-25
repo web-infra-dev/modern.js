@@ -2,8 +2,10 @@ import { logger, chalk, isApiOnly } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import server from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
+import type { AppHooks } from '../hooks';
+import { injectDataLoaderPlugin } from '../utils/createServer';
 
-export const start = async (api: PluginAPI) => {
+export const start = async (api: PluginAPI<AppHooks>) => {
   const appContext = api.useAppContext();
   const userConfig = api.useResolvedConfigContext();
   const hookRunners = api.useHookRunners();
@@ -18,10 +20,8 @@ export const start = async (api: PluginAPI) => {
   const app = await server({
     pwd: appDirectory,
     config: userConfig,
-    plugins: appContext.plugins
-      .filter((p: any) => p.server)
-      .map((p: any) => p.server),
     serverConfigFile,
+    internalPlugins: injectDataLoaderPlugin(appContext.serverInternalPlugins),
     apiOnly,
   });
 

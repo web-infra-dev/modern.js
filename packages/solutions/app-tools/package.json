@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.16.0",
+  "version": "2.0.0-beta.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -55,67 +55,50 @@
     "modern": "./bin/modern.js"
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "dev": "modern build --watch",
-    "build": "wireit",
-    "test": "wireit"
+    "build": "modern build",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@babel/parser": "^7.18.0",
     "@babel/runtime": "^7.18.0",
+    "@babel/traverse": "^7.18.0",
+    "@babel/types": "^7.18.0",
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-plugin-esbuild": "workspace:*",
+    "@modern-js/builder-plugin-node-polyfill": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/plugin": "workspace:*",
+    "@modern-js/plugin-data-loader": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
-    "@babel/parser": "^7.18.0",
-    "@babel/traverse": "^7.18.0",
-    "@babel/types": "^7.18.0"
+    "@modern-js/upgrade": "workspace:*",
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
-    "@types/babel__traverse": "^7.14.2",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@types/babel__traverse": "^7.14.2",
     "@types/jest": "^27",
     "@types/node": "^14",
     "jest": "^27",
-    "typescript": "^4"
+    "typescript": "^4",
+    "webpack": "^5.75.0"
   },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

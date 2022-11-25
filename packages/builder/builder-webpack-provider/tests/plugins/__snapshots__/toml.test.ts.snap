@@ -1,0 +1,18 @@
+// Vitest Snapshot v1
+
+exports[`plugins/toml > should add toml rule properly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.toml\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/toml-loader",
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

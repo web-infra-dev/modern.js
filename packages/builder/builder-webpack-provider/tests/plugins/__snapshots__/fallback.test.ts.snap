@@ -1,0 +1,105 @@
+// Vitest Snapshot v1
+
+exports[`plugins/fallback > should convert fallback rule correctly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
+        "oneOf": [
+          {
+            "test": /foo/,
+            "use": [
+              {
+                "loader": "foo",
+              },
+            ],
+          },
+          {
+            "mimetype": "text/javascript",
+            "resolve": {
+              "fullySpecified": false,
+            },
+            "use": [
+              {
+                "loader": "data-uri",
+              },
+            ],
+          },
+          {
+            "test": /bar/,
+            "use": [
+              {
+                "loader": "bar",
+              },
+            ],
+          },
+          {
+            "exclude": [
+              /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+              /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              /\\\\\\.html\\$/,
+              /\\\\\\.json\\$/,
+            ],
+            "type": "asset/resource",
+          },
+        ],
+      },
+    ],
+  },
+  "output": {
+    "assetModuleFilename": "static/media/[name].[contenthash:8][ext]",
+  },
+}
+`;
+
+exports[`plugins/fallback > should not convert fallback rule when output.enableAssetFallback is not enabled 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
+        "oneOf": [
+          {
+            "test": /foo/,
+            "use": [
+              {
+                "loader": "foo",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        "mimetype": "text/javascript",
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "use": [
+          {
+            "loader": "data-uri",
+          },
+        ],
+      },
+      {
+        "test": /bar/,
+        "use": [
+          {
+            "loader": "bar",
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

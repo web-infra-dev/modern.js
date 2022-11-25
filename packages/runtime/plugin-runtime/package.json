@@ -11,7 +11,10 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.16.1",
+  "version": "2.0.0-beta.1",
+  "engines": {
+    "node": ">=14.17.6"
+  },
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -24,10 +27,6 @@
         "default": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
-    },
-    "./types": {
-      "jsnext:source": "./lib/types.d.ts",
-      "default": "./lib/types.d.ts"
     },
     "./loadable": {
       "jsnext:source": "./src/exports/loadable.ts",
@@ -49,48 +48,43 @@
       "node": "./dist/js/node/exports/server.js",
       "default": "./dist/js/treeshaking/exports/server.js"
     },
-    "./router": {
-      "jsnext:source": "./src/exports/router.ts",
-      "node": "./dist/js/node/exports/router.js",
-      "default": "./dist/js/treeshaking/exports/router.js"
+    "./document": {
+      "jsnext:source": "./src/document/index.ts",
+      "node": "./dist/js/node/document/index.js",
+      "default": "./dist/js/treeshaking/document/index.js"
     },
     "./ssr": {
-      "jsnext:source": "./src/exports/ssr.ts",
-      "node": "./dist/js/node/exports/ssr.js",
-      "default": "./dist/js/treeshaking/exports/ssr.js"
+      "jsnext:source": "./src/ssr/index.ts",
+      "node": "./dist/js/node/ssr/index",
+      "default": "./dist/js/treeshaking/ssr/index.js"
     },
     "./model": {
-      "jsnext:source": "./src/exports/model.ts",
-      "node": "./dist/js/node/exports/model.js",
-      "default": "./dist/js/treeshaking/exports/model.js"
+      "jsnext:source": "./src/state/index.ts",
+      "node": "./dist/js/node/state/index",
+      "default": "./dist/js/treeshaking/state/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
     },
-    "./runtime-router": {
+    "./router": {
       "jsnext:source": "./src/router/index.ts",
-      "node": "./dist/js/node/router/index",
+      "node": "./dist/js/node/router/index.js",
       "default": "./dist/js/treeshaking/router/index.js"
     },
-    "./runtime-state": {
-      "jsnext:source": "./src/state/index.ts",
-      "node": "./dist/js/node/state/index",
-      "default": "./dist/js/treeshaking/state/index.js"
-    },
-    "./runtime-ssr": {
-      "jsnext:source": "./src/ssr/index.ts",
-      "node": "./dist/js/node/ssr/index",
-      "default": "./dist/js/treeshaking/ssr/index.js"
+    "./router-server": {
+      "jsnext:source": "./src/router/server/index.ts",
+      "node": "./dist/js/node/router/server/index.js",
+      "default": "./dist/js/treeshaking/router/server/index.js"
     }
   },
   "typesVersions": {
     "*": {
       ".": [
-        "./type.d.ts"
+        "./dist/types/index.d.ts"
       ],
       "types": [
-        "./lib/types.d.ts"
+        "./types/index.d.ts"
       ],
       "loadable": [
         "./dist/types/exports/loadable.d.ts"
@@ -104,118 +98,92 @@
       "server": [
         "./dist/types/exports/server.d.ts"
       ],
-      "ssr": [
-        "./dist/types/exports/ssr.d.ts"
+      "document": [
+        "./dist/types/document/index.d.ts"
       ],
-      "router": [
-        "./dist/types/exports/router.d.ts"
+      "ssr": [
+        "./dist/types/ssr/index.d.ts"
       ],
       "model": [
         "./types/model.d.ts"
       ],
-      "runtime-router": [
+      "router": [
         "./dist/types/router/index.d.ts"
       ],
-      "runtime-state": [
-        "./dist/types/state/index.d.ts"
-      ],
-      "runtime-ssr": [
-        "./dist/types/ssr/index.d.ts"
+      "router-server": [
+        "./dist/types/router/server/index.d.ts"
       ]
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
+    "dev": "modern build --watch",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
-    "build": "wireit",
-    "test": "wireit"
+    "build": "modern build",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "react-helmet": "^6.1.0",
-    "react-side-effect": "^2.1.1",
-    "react-is": "^17",
-    "serialize-javascript": "^6.0.0",
-    "history": "^4.7.9",
-    "react-router-dom": "^5.1.2",
-    "hoist-non-react-statics": "^3.3.2",
-    "invariant": "^2.2.4",
-    "redux-logger": "^3.0.6",
-    "styled-components": "^5.3.1",
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@loadable/babel-plugin": "^5.13.2",
-    "@loadable/server": "^5.15.1",
+    "@loadable/webpack-plugin": "5.15.2",
     "@loadable/component": "^5.15.0",
-    "@modern-js/plugin": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@loadable/server": "^5.15.1",
     "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
     "@modern-js-reduck/plugin-devtools": "^1.0.3",
     "@modern-js-reduck/plugin-effects": "^1.0.2",
     "@modern-js-reduck/plugin-immutable": "^1.0.1",
     "@modern-js-reduck/react": "^1.0.1",
     "@modern-js-reduck/store": "^1.0.3",
-    "@types/history": "^4.7.9",
-    "@types/react-router-dom": "^5.1.8",
+    "@modern-js/plugin": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "@types/redux-logger": "^3.0.9",
-    "@types/loadable__component": "^5.13.4",
-    "@types/styled-components": "^5.1.14"
+    "@types/styled-components": "^5.1.14",
+    "hoist-non-react-statics": "^3.3.2",
+    "invariant": "^2.2.4",
+    "react-helmet": "^6.1.0",
+    "@remix-run/node": "^1.7.0",
+    "@remix-run/router": "^1.0.1",
+    "react-is": "^18",
+    "react-router-dom": "^6.4.0",
+    "react-side-effect": "^2.1.1",
+    "redux-logger": "^3.0.6",
+    "serialize-javascript": "^6.0.0",
+    "styled-components": "^5.3.1"
   },
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "react": "^17",
-    "react-dom": "^17",
-    "ts-jest": "^27.0.4",
-    "typescript": "^4",
-    "jest": "^27",
     "@modern-js/core": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@types/jest": "^27",
-    "@types/node": "^14",
-    "@types/react-side-effect": "^1.1.1",
-    "@types/loadable__webpack-plugin": "^5.7.3",
-    "@types/serialize-javascript": "^5.0.1",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/react-hooks": "^7.0.1",
-    "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/invariant": "^2.2.30"
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@remix-run/web-fetch": "^4.1.3",
+    "@types/invariant": "^2.2.30",
+    "@types/jest": "^27",
+    "@types/loadable__webpack-plugin": "^5.7.3",
+    "@types/node": "^14",
+    "@types/react-side-effect": "^1.1.1",
+    "@types/serialize-javascript": "^5.0.1",
+    "jest": "^27",
+    "react": "^18",
+    "react-dom": "^18",
+    "ts-jest": "^27.0.4",
+    "typescript": "^4"
   },
   "sideEffects": false,
   "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./type.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
+    "types": "./dist/types/index"
   }
 }

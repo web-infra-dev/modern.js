@@ -1,0 +1,6 @@
+{
+  "env": {
+    "mode": "entry",
+    "targets": "ie 11"
+  }
+}

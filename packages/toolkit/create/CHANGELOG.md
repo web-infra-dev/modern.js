@@ -1,5 +1,63 @@
 # @modern-js/create
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 6b6f180279: fix: generator bundle
+
+  fix: 生成器打包
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- cc971eabf: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 6b6f180: fix: generator bundle
+
+  fix: 生成器打包
+
+## 1.21.2
+
+### Patch Changes
+
+- 7c89bd6: feat: @modern-js/create support --packages params to set special packages version
+
+  feat: @modern-js/create 支持 --packages 参数用于指定特殊的包版本
+
+## 1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+## 1.20.1
+
+## 1.20.0
+
+## 1.19.0
+
+## 1.18.1
+
+## 1.18.0
+
+## 1.17.0
+
 ## 1.16.0
 
 ### Minor Changes

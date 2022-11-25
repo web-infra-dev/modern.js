@@ -8,10 +8,10 @@ concurrency:
 on:
   # Triggers unit test on push events for the main branch to collect unit test coverage
   push:
-    branches: [main]
+    branches: [main, next]
   # Triggers the workflow on pull request events but only for the main branch
   pull_request:
-    branches: [main]
+    branches: [main, next]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
         os: [macos-latest] # macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-        run: npm install -g pnpm@^6
+        run: npm install -g pnpm@7
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -53,3 +53,4 @@ jobs:
         with:
           directory: ./coverage
           fail_ci_if_error: true
+          override_branch: next

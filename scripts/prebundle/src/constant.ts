@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { basename, join } from 'path';
 import glob from 'fast-glob';
 import { copyFileSync, copySync } from 'fs-extra';
 import { replaceFileContent } from './helper';
@@ -71,6 +71,10 @@ export const TASKS: TaskConfig[] = [
         externals: {
           minimist: '../minimist',
         },
+      },
+      {
+        name: 'schema-utils3',
+        ignoreDts: true,
       },
       // some dependencies
       'glob',
@@ -162,6 +166,15 @@ export const TASKS: TaskConfig[] = [
           ajv: '../ajv',
         },
       },
+      {
+        name: 'webpack-dev-middleware',
+        externals: {
+          'schema-utils': '../schema-utils3',
+          'schema-utils/declarations/validate':
+            'schema-utils/declarations/validate',
+          'mime-types': '../mime-types',
+        },
+      },
     ],
   },
   {
@@ -175,17 +188,32 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
-    packageDir: 'builder/webpack-builder',
-    packageName: '@modern-js/webpack-builder',
+    packageDir: 'builder/builder-webpack-provider',
+    packageName: '@modern-js/builder-webpack-provider',
     dependencies: [
+      'serialize-javascript',
+      'open',
       'tapable',
       'webpack-merge',
+      'ansi-escapes',
+      'patch-console',
+      'cli-truncate',
       {
-        name: 'webpack-sources',
+        name: 'pretty-time',
         ignoreDts: true,
       },
       {
-        name: 'webpackbar',
+        name: 'postcss-pxtorem',
+        ignoreDts: true,
+      },
+      {
+        name: 'webpack-5-chain',
+        externals: {
+          tapable: '../tapable',
+        },
+      },
+      {
+        name: 'webpack-sources',
         ignoreDts: true,
       },
       {
@@ -351,7 +379,7 @@ export const TASKS: TaskConfig[] = [
         name: 'url-loader',
         ignoreDts: true,
         externals: {
-          'schema-utils': 'schema-utils',
+          'schema-utils': '../schema-utils3',
           'loader-utils': '../loader-utils2',
           'mime-types': '@modern-js/utils/mime-types',
         },
@@ -406,6 +434,12 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           'loader-utils': '../loader-utils2',
+        },
+      },
+      {
+        name: 'webpack-subresource-integrity',
+        externals: {
+          'html-webpack-plugin': 'html-webpack-plugin',
         },
       },
     ],
@@ -541,64 +575,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           semver: '@modern-js/utils/semver',
-        },
-      },
-      {
-        name: 'webpack-dev-middleware',
-        externals: {
-          'schema-utils': 'schema-utils',
-          'schema-utils/declarations/validate':
-            'schema-utils/declarations/validate',
-          'mime-types': '@modern-js/utils/mime-types',
-        },
-      },
-    ],
-  },
-  {
-    packageDir: 'cli/css-config',
-    packageName: '@modern-js/css-config',
-    dependencies: [
-      {
-        name: 'postcss-value-parser',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-custom-properties',
-        ignoreDts: true,
-        externals: {
-          'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
-      {
-        name: 'postcss-flexbugs-fixes',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-font-variant',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-initial',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-media-minmax',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-nesting',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-page-break',
-        ignoreDts: true,
-      },
-      {
-        name: 'autoprefixer',
-        ignoreDts: true,
-        externals: {
-          browserslist: '@modern-js/utils/browserslist',
-          'postcss-value-parser': '../postcss-value-parser',
         },
       },
     ],
@@ -743,13 +719,6 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
-        name: '@babel/plugin-proposal-function-bind',
-        ignoreDts: true,
-        externals: {
-          '@babel/helper-plugin-utils': '../helper-plugin-utils',
-        },
-      },
-      {
         name: '@babel/helper-create-class-features-plugin',
         ignoreDts: true,
         externals: {
@@ -768,6 +737,158 @@ export const TASKS: TaskConfig[] = [
           '@babel/helper-create-class-features-plugin':
             '../helper-create-class-features-plugin',
         },
+      },
+    ],
+  },
+  {
+    packageDir: 'builder/plugin-esbuild',
+    packageName: '@modern-js/builder-plugin-esbuild',
+    dependencies: [
+      {
+        name: 'esbuild-loader',
+        ignoreDts: true,
+        externals: {
+          '/^webpack(/.*)/': '@modern-js/builder-webpack-provider/webpack$1',
+        },
+        afterBundle(task) {
+          const dtsFiles = glob.sync(join(task.depPath, 'dist', '*.d.ts'), {
+            ignore: ['**/__tests__/**'],
+          });
+          dtsFiles.forEach(file => {
+            copyFileSync(file, join(task.distPath, basename(file)));
+          });
+        },
+      },
+    ],
+  },
+  {
+    // Todo: rename
+    packageDir: 'solutions/module-tools-v2',
+    packageName: '@modern-js/module-tools-v2',
+    dependencies: [
+      '@rollup/plugin-json',
+      'normalize-path',
+      '@babel/parser',
+      'signal-exit',
+      'p-map',
+      'rollup',
+      'find-up',
+      {
+        name: 'rollup-plugin-dts',
+        externals: {
+          typescript: 'typescript',
+        },
+      },
+      {
+        name: '@babel/types',
+        externals: {
+          '@babel/helper-validator-identifier':
+            '../helper-validator-identifier',
+        },
+      },
+      {
+        name: '@babel/helper-validator-identifier',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/traverse',
+        // ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+          '@babel/parser': '../parser',
+          '@babel/generator': '../generator',
+          '@babel/template': '../template',
+          '@babel/code-frame': '../code-frame',
+        },
+      },
+      {
+        name: '@babel/generator',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+        },
+      },
+      {
+        name: '@babel/template',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+          '@babel/parser': '../parser',
+          '@babel/code-frame': '../code-frame',
+        },
+      },
+      {
+        name: '@babel/code-frame',
+        ignoreDts: true,
+        externals: {
+          '@babel/highlight': '../highlight',
+        },
+      },
+      {
+        name: '@babel/highlight',
+        ignoreDts: true,
+        externals: {
+          chalk: '@modern-js/utils/chalk',
+        },
+      },
+      {
+        name: 'less',
+        externals: {
+          // needle is an optional dependency and no need to bundle it.
+          needle: 'needle',
+        },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
+            content.replace(
+              `declare module "less" {\n    export = less;\n}`,
+              `export = Less;`,
+            ),
+          );
+        },
+      },
+      {
+        name: 'sass',
+        externals: {
+          chokidar: '@modern-js/utils/chokidar',
+        },
+        afterBundle(task) {
+          copySync(join(task.depPath, 'types'), join(task.distPath, 'types'));
+        },
+      },
+      {
+        name: 'postcss-value-parser',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-custom-properties',
+        ignoreDts: true,
+        externals: {
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'postcss-flexbugs-fixes',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-font-variant',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-initial',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-media-minmax',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-nesting',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-page-break',
+        ignoreDts: true,
       },
     ],
   },

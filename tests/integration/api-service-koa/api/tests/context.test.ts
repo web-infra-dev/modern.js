@@ -9,7 +9,7 @@ describe('context', () => {
   });
 
   it('should support mock useContext', async () => {
-    jest.doMock('@modern-js/runtime/server', () => {
+    jest.doMock('@modern-js/runtime/koa', () => {
       return {
         __esModule: true,
         useContext() {

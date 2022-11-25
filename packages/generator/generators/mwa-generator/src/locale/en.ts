@@ -8,10 +8,4 @@ You can run the following command in the directory of the new project：
 {packageManager} start        # Run the project according to the requirements of the product environment
 {packageManager} lint         # Check and fix all codes
 {packageManager} new          # Create more project elements, such as application portals`,
-  electron: {
-    success: `
-{packageManager} dev:electron # Run and debug the Electron project according to the requirements of the development environment
-{packageManager} build:electron # Build the Electron project according to the requirements of the product environment
-  `,
-  },
 };

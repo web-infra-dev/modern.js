@@ -1,5 +1,5 @@
 export const get = async () => {
-  const { useContext } = await import('@modern-js/runtime/server');
+  const { useContext } = await import('@modern-js/runtime/koa');
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const ctx = useContext();
   const { res } = ctx;
@@ -10,7 +10,7 @@ export const get = async () => {
 };
 
 export const post = async () => {
-  const { useContext } = await import('@modern-js/runtime/server');
+  const { useContext } = await import('@modern-js/runtime/koa');
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const ctx = useContext();
   return {

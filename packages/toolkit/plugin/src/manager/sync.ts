@@ -113,7 +113,7 @@ export const DEFAULT_OPTIONS = {
 };
 
 export const createManager = <
-  Hooks,
+  Hooks extends Record<string, any>,
   API extends Record<string, any> = Record<string, never>,
 >(
   hooks?: Partial<Hooks>,

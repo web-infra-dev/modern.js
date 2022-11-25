@@ -2,6 +2,7 @@ import path from 'path';
 import {
   fs,
   getPackageVersion,
+  getModernPluginVersion,
   isTsProject,
   readTsConfigByFile,
 } from '@modern-js/generator-utils';
@@ -9,12 +10,13 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  BFFSchema,
+  getBFFSchema,
   BFFType,
   i18n,
   Framework,
   Language,
   FrameworkAppendTypeContent,
+  Solution,
 } from '@modern-js/generator-common';
 
 function isEmptyApiDir(apiDir: string) {
@@ -38,7 +40,7 @@ export const handleTemplateFile = async (
 ) => {
   const jsonAPI = new JsonAPI(generator);
 
-  const ans = await appApi.getInputBySchema(BFFSchema, context.config);
+  const ans = await appApi.getInputBySchemaFunc(getBFFSchema, context.config);
 
   const appDir = context.materials.default.basePath;
   const apiDir = path.join(appDir, 'api');
@@ -55,10 +57,12 @@ export const handleTemplateFile = async (
 
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
 
-  if (language === Language.JS && framework === Framework.Nest) {
-    generator.logger.warn('nest not support js project');
-    throw Error('nest not support js project');
-  }
+  const getBffPluginVersion = (packageName: string) => {
+    return getModernPluginVersion(Solution.MWA, packageName, {
+      registry: context.config.registry,
+      distTag: context.config.distTag,
+    });
+  };
 
   let updateInfo: Record<string, string> = {};
 
@@ -70,31 +74,12 @@ export const handleTemplateFile = async (
     };
   }
 
-  if (framework === Framework.Nest) {
-    updateInfo = {
-      'dependencies.@nestjs/core': `^${await getPackageVersion(
-        '@nestjs/core',
-      )}`,
-      'dependencies.@nestjs/common': `^${await getPackageVersion(
-        '@nestjs/common',
-      )}`,
-    };
-    if (bffType === BFFType.Func) {
-      updateInfo['dependencies.express'] = `^${await getPackageVersion(
-        'express',
-      )}`;
-      updateInfo[
-        'devDependencies.@types/express'
-      ] = `^${await getPackageVersion('@types/express')}`;
-    }
-  } else {
-    updateInfo = {
-      ...updateInfo,
-      [`dependencies.${framework as string}`]: `^${await getPackageVersion(
-        framework as string,
-      )}`,
-    };
-  }
+  updateInfo = {
+    ...updateInfo,
+    [`dependencies.${framework as string}`]: `^${await getPackageVersion(
+      framework as string,
+    )}`,
+  };
 
   await jsonAPI.update(
     context.materials.default.get(path.join(appDir, 'package.json')),
@@ -102,12 +87,12 @@ export const handleTemplateFile = async (
       query: {},
       update: {
         $set: {
-          'dependencies.@modern-js/plugin-bff': `^${await getPackageVersion(
+          'dependencies.@modern-js/plugin-bff': `${await getBffPluginVersion(
             '@modern-js/plugin-bff',
           )}`,
           [`dependencies.@modern-js/plugin-${
             framework as string
-          }`]: `^${await getPackageVersion(
+          }`]: `${await getBffPluginVersion(
             `@modern-js/plugin-${framework as string}`,
           )}`,
           ...updateInfo,
@@ -202,9 +187,7 @@ export const handleTemplateFile = async (
     await appApi.forgeTemplate(
       `templates/framework/app/${framework as string}/**/*`,
       resourceKey =>
-        framework === Framework.Egg || framework === Framework.Koa
-          ? resourceKey.includes(language)
-          : true,
+        framework === Framework.Koa ? resourceKey.includes(language) : true,
       resourceKey =>
         resourceKey
           .replace(`templates/framework/app/${framework as string}/`, 'api/')
@@ -254,7 +237,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  await appApi.runInstall();
+  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   generator.logger.debug(`forge @modern-js/bff-generator succeed `);
 };

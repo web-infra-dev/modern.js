@@ -13,14 +13,17 @@ local.
 ### Install pnpm
 
 ```zsh
-npm install -g pnpm@6
+# enable pnpm with corepack, only available on node >= `v14.19.0`
+corepack enable
+
+# or install pnpm directly
+npm install -g pnpm@7
 ```
 
 ### Set up local Modern.js repository
 
 ```zsh
-pnpm install --ignore-scripts
-pnpm prepare
+pnpm install
 ```
 
 <details>
@@ -83,7 +86,7 @@ pnpm run build
 or at repo root:
 
 ```zsh
-pnpm run build --filter @modern-js/some_package
+pnpm run --filter @modern-js/some_package build
 ```
 
 ## Testing Your Changes
@@ -123,7 +126,7 @@ cd my-test-project
       },
       "devDependencies": {
          "@modern-js/app-tools": "workspace:*",
-         "@modern-js/plugin-jarvis": "workspace:*",
+         "@modern-js/plugin-lint": "workspace:*",
          "@modern-js/some_package": "workspace:*",
          ...
       }
@@ -137,10 +140,8 @@ cd my-test-project
 let pnpm create the necessary symlinks:
 
 ```zsh
-pnpm install --ignore-scripts
+pnpm install
 ```
-
-the `-ignore-scripts` option is used to prevent building everything again
 
 ### Test Your Code
 
@@ -208,7 +209,7 @@ pnpm run test
 1. If you want to run the e2e command, you must first execute the e2e prepare command
 
 ```sh
-pnpm run prepare --filter "tests"
+pnpm run --filter "tests" prepare
 ```
 
 2. start test

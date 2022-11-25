@@ -1,23 +1,37 @@
 import path from 'path';
 import { defineConfig, cli, CliPlugin } from '@modern-js/core';
-import LintPlugin from '@modern-js/plugin-jarvis';
-import { cleanRequireCache } from '@modern-js/utils';
+import LintPlugin from '@modern-js/plugin-lint';
+import { cleanRequireCache, emptyDir, Import } from '@modern-js/utils';
 import AnalyzePlugin from './analyze';
-import { hooks } from './hooks';
+import { hooks, AppHooks } from './hooks';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
-import type { DevOptions, BuildOptions, DeployOptions } from './utils/types';
+import type {
+  DevOptions,
+  BuildOptions,
+  DeployOptions,
+  InspectOptions,
+} from './utils/types';
+import { getCommand } from './utils/commands';
 
-export { defineConfig };
+export { defineConfig, hooks };
+export type { AppHooks, CliPlugin };
 
-export default (): CliPlugin => ({
+const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
+  '@modern-js/upgrade',
+  require,
+);
+
+export default (): CliPlugin<AppHooks> => ({
   name: '@modern-js/app-tools',
 
   post: [
     '@modern-js/plugin-analyze',
     '@modern-js/plugin-ssr',
+    '@modern-js/plugin-document',
     '@modern-js/plugin-state',
     '@modern-js/plugin-router',
+    '@modern-js/plugin-router-legacy',
     '@modern-js/plugin-polyfill',
   ],
 
@@ -124,16 +138,25 @@ export default (): CliPlugin => ({
             i18n.t(localeKeys.command.inspect.output),
             '/',
           )
-          .option('--no-console', i18n.t(localeKeys.command.inspect.noConsole))
           .option('--verbose', i18n.t(localeKeys.command.inspect.verbose))
           .option(
             '-c --config <config>',
             i18n.t(localeKeys.command.shared.config),
           )
-          .action(async options => {
+          .action(async (options: InspectOptions) => {
             const { inspect } = await import('./commands/inspect');
             inspect(api, options);
           });
+
+        upgradeModel.defineCommand(program.command('upgrade'));
+      },
+
+      async prepare() {
+        const command = getCommand();
+        if (command === 'dev' || command === 'build') {
+          const appContext = api.useAppContext();
+          await emptyDir(appContext.distDirectory);
+        }
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart

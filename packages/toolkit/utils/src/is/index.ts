@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import { createDebugger } from '../debug';
 import { isDev } from './node-env';
 
+const debug = createDebugger('judge-depExists');
 /**
  * Check if the package name is in dependencies or devDependencies.
  *
@@ -10,7 +12,12 @@ import { isDev } from './node-env';
  * @returns True if the name is in dependencies or devDependencies, false otherwise.
  */
 export const isDepExists = (appDirectory: string, name: string): boolean => {
-  const json = require(path.resolve(appDirectory, './package.json'));
+  const pkgPath = path.resolve(appDirectory, './package.json');
+  if (!fs.existsSync(pkgPath)) {
+    debug(`can't find package.json under: %s`, appDirectory);
+    return false;
+  }
+  const json = require(pkgPath);
 
   const { dependencies = {}, devDependencies = {} } = json;
 

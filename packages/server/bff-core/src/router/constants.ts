@@ -6,15 +6,17 @@ export enum APIMode {
   /**
    * 框架模式
    */
-  FARMEWORK = 'FARMEWORK',
+  FARMEWORK = 'framework',
 
   /**
    * 函数模式
    */
-  FUNCTION = 'FUNCTION',
+  FUNCTION = 'function',
 }
 
 export const FRAMEWORK_MODE_LAMBDA_DIR = 'lambda';
+
+export const FRAMEWORK_MODE_APP_DIR = 'app';
 
 export const INDEX_SUFFIX = 'index';
 

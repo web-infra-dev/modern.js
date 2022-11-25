@@ -1,17 +1,17 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
 import qs from 'querystring';
-import type {
-  ModernServerContext as ModernServerContextInterface,
-  Metrics,
-  Logger,
-} from '@modern-js/types/server';
+import { Buffer } from 'buffer';
+import type { ModernServerContext as ModernServerContextInterface } from '@modern-js/types';
+import createEtag from 'etag';
+import fresh from 'fresh';
 import { headersWithoutCookie } from '../../utils';
 
 export type ContextOptions = {
-  logger?: Logger;
-  metrics?: Metrics;
+  etag?: boolean;
 };
+
+type ResponseBody = string | Buffer;
 
 export class ModernServerContext implements ModernServerContextInterface {
   /**
@@ -39,9 +39,16 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public serverData: Record<string, any>;
 
-  constructor(req: IncomingMessage, res: ServerResponse) {
+  private options: Record<string, any> = {};
+
+  constructor(
+    req: IncomingMessage,
+    res: ServerResponse,
+    options?: ContextOptions,
+  ) {
     this.req = req;
     this.res = res;
+    this.options = options || {};
     this.serverData = {};
 
     this.bind();
@@ -51,6 +58,32 @@ export class ModernServerContext implements ModernServerContextInterface {
     const { req, res } = this as any;
     req.get = (key: string) => this.getReqHeader(key);
     res.set = (key: string, value: any) => this.res.setHeader(key, value);
+    res.send = (body: ResponseBody) => {
+      this.send(body);
+    };
+  }
+
+  // compat express res.send, only support etag now
+  public send(body: ResponseBody) {
+    try {
+      const generateETag = !this.res.getHeader('ETag') && this.options.etag;
+      if (body !== undefined && generateETag) {
+        const encoding = typeof body === 'string' ? 'utf-8' : undefined;
+        const buf = !Buffer.isBuffer(body) ? Buffer.from(body, encoding) : body;
+
+        const etag = createEtag(buf, { weak: true });
+        if (etag) {
+          this.res.setHeader('ETag', etag);
+        }
+      }
+      if (this.fresh) {
+        this.status = 304;
+      }
+    } catch (e) {
+      this.logger.error((e as Error).message);
+    }
+
+    this.res.end(body);
   }
 
   public setParams(params: Record<string, string>) {
@@ -71,6 +104,24 @@ export class ModernServerContext implements ModernServerContextInterface {
       default:
         return req.headers[field] || '';
     }
+  }
+
+  public get fresh() {
+    const { status, res, method } = this;
+
+    // GET or HEAD for weak freshness validation only
+    if ('GET' !== method && 'HEAD' !== method) {
+      return false;
+    }
+
+    if ((status >= 200 && status < 300) || 304 === status) {
+      return fresh(this.headers, {
+        etag: res.getHeader('ETag'),
+        'last-modified': res.getHeader('Last-Modified'),
+      });
+    }
+
+    return false;
   }
 
   /* request property */

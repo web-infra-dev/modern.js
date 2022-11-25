@@ -1,11 +1,16 @@
 import { Import, fs } from '@modern-js/utils';
 import ChangesetPlugin from '@modern-js/plugin-changeset';
-import LintPlugin from '@modern-js/plugin-jarvis';
+import LintPlugin from '@modern-js/plugin-lint';
 import type { CliPlugin } from '@modern-js/core';
-import { hooks } from './hooks';
+import { hooks, ModuleHooks } from './hooks';
 
 export * from './types';
+export type { ModuleHooks, CliPlugin };
 
+const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
+  '@modern-js/upgrade',
+  require,
+);
 const cli: typeof import('./cli') = Import.lazy('./cli', require);
 const local: typeof import('./locale') = Import.lazy('./locale', require);
 const schema: typeof import('./schema') = Import.lazy('./schema', require);
@@ -59,6 +64,8 @@ export default (): CliPlugin => ({
         cli.devCli(program, api);
         cli.buildCli(program, api);
         cli.newCli(program, locale);
+
+        upgradeModel.defineCommand(program.command('upgrade'));
 
         // 便于其他插件辨别
         program.$$libraryName = 'module-tools';

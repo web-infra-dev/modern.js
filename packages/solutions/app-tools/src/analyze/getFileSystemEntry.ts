@@ -10,6 +10,7 @@ import {
   APP_FILE_NAME,
   PAGES_DIR_NAME,
   FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
+  NESTED_ROUTES_DIR,
 } from './constants';
 
 export type { Entrypoint };
@@ -26,8 +27,11 @@ const hasApp = (dir: string) =>
 
 const hasPages = (dir: string) => fs.existsSync(path.join(dir, PAGES_DIR_NAME));
 
+const hasNestedRoutes = (dir: string) =>
+  fs.existsSync(path.join(dir, NESTED_ROUTES_DIR));
+
 const isBundleEntry = (dir: string) =>
-  hasApp(dir) || hasPages(dir) || hasIndex(dir);
+  hasApp(dir) || hasPages(dir) || hasIndex(dir) || hasNestedRoutes(dir);
 
 const scanDir = (dirs: string[]): Entrypoint[] =>
   dirs.map((dir: string) => {
@@ -43,21 +47,30 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
       return {
         entryName,
         entry: indexFile,
+        absoluteEntryDir: path.resolve(dir),
         isAutoMount: false,
       };
     }
 
-    if (hasApp(dir)) {
+    const isHasApp = hasApp(dir);
+
+    if (isHasApp) {
       return {
         entryName,
         entry: path.join(dir, APP_FILE_NAME),
         isAutoMount: true,
+        absoluteEntryDir: path.resolve(dir),
         customBootstrap,
       };
-    } else if (hasPages(dir)) {
-      return {
+    }
+
+    const isHasNestedRoutes = hasNestedRoutes(dir);
+    const isHasPages = hasPages(dir);
+
+    if (isHasNestedRoutes || isHasPages) {
+      const entrypoint: Entrypoint = {
         entryName,
-        entry: path.join(dir, PAGES_DIR_NAME),
+        entry: '',
         fileSystemRoutes: {
           globalApp: findExists(
             JS_EXTENSIONS.map(ext =>
@@ -69,15 +82,24 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
           ),
         },
         isAutoMount: true,
+        absoluteEntryDir: path.resolve(dir),
         customBootstrap,
       };
-    } else {
-      return {
-        entryName,
-        entry: indexFile as string,
-        isAutoMount: false,
-      };
+      if (isHasPages) {
+        entrypoint.entry = path.join(dir, PAGES_DIR_NAME);
+      }
+      if (isHasNestedRoutes) {
+        entrypoint.nestedRoutesEntry = path.join(dir, NESTED_ROUTES_DIR);
+      }
+
+      return entrypoint;
     }
+    return {
+      entryName,
+      entry: indexFile as string,
+      absoluteEntryDir: path.resolve(dir),
+      isAutoMount: false,
+    };
   });
 
 export const getFileSystemEntry = (

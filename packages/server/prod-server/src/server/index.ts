@@ -9,6 +9,7 @@ import {
   LoggerInterface,
   dotenv,
   dotenvExpand,
+  INTERNAL_SERVER_PLUGINS,
 } from '@modern-js/utils';
 import {
   serverManager,
@@ -99,7 +100,7 @@ export class Server {
     this.app = await this.server.createHTTPServer(this.getRequestHandler());
 
     // runner can only be used after server init
-    await this.server.onInit(this.runner);
+    await this.server.onInit(this.runner, this.app);
 
     return this;
   }
@@ -157,12 +158,7 @@ export class Server {
   }
 
   public async close() {
-    await this.server.onClose();
-    await new Promise<void>(resolve =>
-      this.app.close(() => {
-        resolve();
-      }),
-    );
+    this.app.close();
   }
 
   public listen<T extends number | ListenOptions | undefined>(
@@ -170,11 +166,7 @@ export class Server {
     listener: any,
   ) {
     const callback = () => {
-      if (listener) {
-        listener();
-      }
-
-      this.server.onListening(this.app);
+      listener?.();
     };
 
     if (typeof options === 'object') {
@@ -191,18 +183,22 @@ export class Server {
     };
   }
 
+  public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
+    return this.server.render(req, res, url);
+  }
+
   private async createHookRunner() {
     // clear server manager every create time
     serverManager.clear();
 
     const { options } = this;
     // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
-    const { plugins = [], pwd, config } = options;
+    const { internalPlugins = INTERNAL_SERVER_PLUGINS, pwd, config } = options;
 
     const serverPlugins = this.serverConfig.plugins || [];
 
     // server app context for serve plugin
-    const loadedPlugins = loadPlugins(plugins.concat(serverPlugins), pwd);
+    const loadedPlugins = loadPlugins(pwd, serverPlugins, { internalPlugins });
 
     debug('plugins', config.plugins, loadedPlugins);
     loadedPlugins.forEach(p => {

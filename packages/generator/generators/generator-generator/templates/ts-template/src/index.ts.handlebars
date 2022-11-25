@@ -1,6 +1,5 @@
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { i18n } from '@modern-js/generator-common';
 
 const handleTemplateFile = async (appApi: AppAPI) => {
   await appApi.forgeTemplate('templates/**/*');
@@ -10,7 +9,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
   const { locale } = context.config;
-  i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {

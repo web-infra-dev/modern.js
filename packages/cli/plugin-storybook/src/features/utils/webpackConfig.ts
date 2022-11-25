@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
 import { fs, Import, CHAIN_ID } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/module-tools-v2';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type {
   Configuration,
   RuleSetRule,
@@ -141,6 +142,20 @@ const resolveStorybookWebPackConfig = (
   if (fs.pathExistsSync(pnpmNodeModulesPath)) {
     (sbWebpackConfig as any).resolve.modules.push(pnpmNodeModulesPath);
   } // compat pnpm and yarn end
+
+  if (Array.isArray(sbWebpackConfig.resolve!.plugins)) {
+    sbWebpackConfig.resolve!.plugins.push(
+      new TsconfigPathsPlugin({
+        configFile: path.join(appDirectory, 'stories/tsconfig.json'),
+      }),
+    );
+  } else {
+    sbWebpackConfig.resolve!.plugins = [
+      new TsconfigPathsPlugin({
+        configFile: path.join(appDirectory, 'stories/tsconfig.json'),
+      }),
+    ];
+  }
 
   sbWebpackConfig.plugins = [
     ...(sbWebpackConfig as any).plugins,

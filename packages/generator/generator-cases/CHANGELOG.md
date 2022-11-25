@@ -1,5 +1,87 @@
 # @modern-js/generator-cases
 
+## 3.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [dda38c9]
+  - @modern-js/generator-common@3.0.0-beta.1
+
+## 3.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [dda38c9]
+  - @modern-js/generator-common@3.0.0-beta.0
+
+## 2.4.7
+
+### Patch Changes
+
+- Updated dependencies [7c89bd6]
+  - @modern-js/generator-common@2.4.7
+
+## 2.4.6
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.6
+
+## 2.4.5
+
+### Patch Changes
+
+- Updated dependencies [cf1a2b1]
+- Updated dependencies [cfd8557]
+  - @modern-js/generator-common@2.4.5
+
+## 2.4.4
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.4
+
+## 2.4.3
+
+### Patch Changes
+
+- @modern-js/generator-common@2.4.3
+
+## 2.4.0
+
+### Patch Changes
+
+- Updated dependencies [cf1edd1]
+  - @modern-js/generator-common@2.4.0
+
+## 2.3.4
+
+### Patch Changes
+
+- @modern-js/generator-common@2.3.4
+
+## 2.3.3
+
+### Patch Changes
+
+- Updated dependencies [4f77eb4]
+  - @modern-js/generator-common@2.3.3
+
+## 2.3.1
+
+### Patch Changes
+
+- Updated dependencies [fb30bca]
+  - @modern-js/generator-common@2.3.1
+
 ## 2.3.0
 
 ### Patch Changes

@@ -1,7 +1,11 @@
 import path from 'path';
 // import os from 'os';
 import { isDev, getPort, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
-import { resolveConfig, addServerConfigToDeps } from '../src/config';
+import {
+  resolveConfig,
+  getDefaultConfig,
+  addServerConfigToDeps,
+} from '../src/config';
 import {
   cli,
   loadUserConfig,
@@ -11,7 +15,6 @@ import {
   createPlugin,
   registerHook,
 } from '../src';
-import { defaults } from '../src/config/defaults';
 
 jest.mock('@modern-js/utils', () => ({
   __esModule: true,
@@ -60,11 +63,14 @@ describe('config', () => {
     argv = ['dev'];
     configs = [];
   };
+
+  const defaultConfig = getDefaultConfig();
+
   const resetMock = () => {
     jest.resetAllMocks();
     (isDev as jest.Mock).mockReturnValue(true);
     (getPort as jest.Mock).mockReturnValue(
-      Promise.resolve(defaults.server.port),
+      Promise.resolve(defaultConfig.server.port),
     );
   };
   beforeEach(() => {
@@ -98,8 +104,8 @@ describe('config', () => {
 
   test('should use default port if not restarting in dev mode', async () => {
     let resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(defaults.server.port);
-    expect(getPort).toHaveBeenCalledWith(defaults.server.port);
+    expect(resolved.server.port).toEqual(defaultConfig.server.port);
+    expect(getPort).toHaveBeenCalledWith(defaultConfig.server.port);
 
     // getResolvedConfig should use the value given by getPort
     restartWithExistingPort = -1;
@@ -107,21 +113,21 @@ describe('config', () => {
     (getPort as jest.Mock).mockReturnValue(1111);
     resolved = await getResolvedConfig();
     expect(resolved.server.port).toEqual(1111);
-    expect(getPort).toHaveBeenCalledWith(defaults.server.port);
+    expect(getPort).toHaveBeenCalledWith(defaultConfig.server.port);
 
     argv = ['start'];
     (isDev as jest.Mock).mockReturnValue(false);
     restartWithExistingPort = 0;
     resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(defaults.server.port);
+    expect(resolved.server.port).toEqual(defaultConfig.server.port);
 
     restartWithExistingPort = 1234;
     resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(defaults.server.port);
+    expect(resolved.server.port).toEqual(defaultConfig.server.port);
 
     restartWithExistingPort = -1;
     resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(defaults.server.port);
+    expect(resolved.server.port).toEqual(defaultConfig.server.port);
   });
 
   test('should reuse existing port if restarting in dev mode', async () => {

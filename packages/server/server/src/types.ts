@@ -1,33 +1,37 @@
-import { ModernServerOptions } from '@modern-js/prod-server';
-import type { webpack } from '@modern-js/webpack';
+import type { IncomingMessage, ServerResponse } from 'http';
+import type webpack from 'webpack';
+import type {
+  DevServerOptions,
+  DevServerHttpsOptions,
+  NextFunction,
+} from '@modern-js/types';
+import type { ModernServerOptions } from '@modern-js/prod-server';
 
-export type DevServerOptions = {
-  // hmr client 配置
-  client: {
-    path?: string;
-    port?: string;
-    host?: string;
-    logging?: string;
-    overlay?: boolean;
-    progress?: boolean;
-  };
-  devMiddleware: {
-    writeToDisk: boolean | ((filename: string) => boolean);
-  };
-  // 是否监听文件变化
-  watch: boolean;
-  // 是否开启 hot reload
-  hot: boolean | string;
-  // 是否开启 page reload
-  liveReload: boolean;
-  // 是否开启 https
-  https?: boolean | { key: string; cert: string };
-  [propName: string]: any;
+export type { DevServerOptions, DevServerHttpsOptions };
+
+type Middleware = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  next: NextFunction,
+) => Promise<void>;
+
+export type DevMiddlewareAPI = Middleware & {
+  close: (callback: (err: Error | null | undefined) => void) => any;
 };
 
+export type CustomDevMiddleware = (
+  compiler: webpack.MultiCompiler | webpack.Compiler,
+  options: {
+    headers?: Record<string, string>;
+    writeToDisk?: boolean | ((filename: string) => boolean);
+    stats?: boolean;
+  },
+) => DevMiddlewareAPI;
+
 export type ExtraOptions = {
-  dev?: boolean | Partial<DevServerOptions>;
-  compiler?: webpack.MultiCompiler | webpack.Compiler | null;
+  dev: boolean | Partial<DevServerOptions>;
+  compiler: webpack.MultiCompiler | webpack.Compiler | null;
+  devMiddleware?: CustomDevMiddleware;
 };
 
 export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;

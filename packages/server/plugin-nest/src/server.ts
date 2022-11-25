@@ -24,15 +24,15 @@ export default (): ServerPlugin => ({
   name: '@modern-js/plugin-nest',
   pre: ['@modern-js/plugin-bff'],
   setup: api => ({
-    prepareApiServer: async ({ config, pwd, mode, prefix }) => {
+    prepareApiServer: async ({ config, pwd, prefix }) => {
       let app: INestApplication;
       const middlewareInputs = initMiddlewares(config?.middleware || []);
       const modules = middlewareInputs.filter(isModule);
       const middlewares = middlewareInputs.filter(
         middleware => !isModule(middleware),
       );
-
       const appContext = api.useAppContext();
+      const mode = appContext.apiMode;
       const handlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
 
       if (mode === 'framework') {
@@ -123,8 +123,11 @@ export default (): ServerPlugin => ({
 
       await app.init();
 
-      return (req, res) =>
+      return ctx =>
         new Promise((resolve, reject) => {
+          const {
+            source: { req, res },
+          } = ctx;
           const handler = () => {
             if (res.headersSent && res.statusCode !== 200) {
               finalhandler(req, res, {

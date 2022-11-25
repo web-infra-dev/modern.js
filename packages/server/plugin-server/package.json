@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.16.0",
+  "version": "2.0.0-beta.1",
   "types": "./src/server.ts",
   "jsnext:source": "./src/server.ts",
   "main": "./dist/js/node/server.js",
@@ -34,12 +34,11 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
-    "dev": "modern dev",
-    "build": "wireit",
+    "dev": "modern build --watch",
+    "build": "modern build",
     "new": "modern new",
-    "test": "wireit"
+    "test": "jest --passWithNoTests"
   },
   "typesVersions": {
     "*": {
@@ -81,28 +80,5 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/types/server.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

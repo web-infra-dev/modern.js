@@ -7,6 +7,7 @@ import {
   APIMode,
   FRAMEWORK_MODE_LAMBDA_DIR,
   API_FILE_RULES,
+  FRAMEWORK_MODE_APP_DIR,
 } from './constants';
 import {
   getFiles,
@@ -20,15 +21,18 @@ export * from './types';
 export * from './constants';
 
 export class ApiRouter {
+  private apiMode: APIMode;
+
   private apiDir: string;
+
+  // lambdaDir is the dir which equal to the apiDir in function mode, and equal to the api/lambda dir in framework mode
+  private existLambdaDir: boolean;
 
   private lambdaDir: string;
 
-  private existLambda: boolean;
-
   private prefix: string;
 
-  private apiFiles: string[];
+  private apiFiles: string[] = [];
 
   constructor({
     apiDir,
@@ -39,24 +43,22 @@ export class ApiRouter {
     lambdaDir?: string;
     prefix?: string;
   }) {
-    this.apiFiles = [];
-
-    if (apiDir) {
-      this.validateAbsolute(apiDir, 'apiDir');
-    }
-
-    if (lambdaDir) {
-      this.validateAbsolute(lambdaDir, 'lambdaDir');
-    }
+    this.validateAbsolute(apiDir, 'apiDir');
+    this.validateAbsolute(lambdaDir, 'lambdaDir');
 
     this.prefix = this.initPrefix(prefix);
     this.apiDir = apiDir;
+    this.apiMode = this.getExactApiMode(apiDir);
     this.lambdaDir = lambdaDir || this.getExactLambdaDir(this.apiDir);
-    this.existLambda = this.checkExistLambda(this.apiDir, this.lambdaDir);
+    this.existLambdaDir = fs.existsSync(this.lambdaDir);
   }
 
   public isExistLambda() {
-    return this.existLambda;
+    return this.existLambdaDir;
+  }
+
+  public getApiMode() {
+    return this.apiMode;
   }
 
   public getLambdaDir() {
@@ -64,7 +66,7 @@ export class ApiRouter {
   }
 
   public isApiFile(filename: string) {
-    if (this.existLambda) {
+    if (this.existLambdaDir) {
       return false;
     }
     if (!this.apiFiles.includes(filename)) {
@@ -167,7 +169,7 @@ export class ApiRouter {
   }
 
   public loadApiFiles() {
-    if (!this.existLambda) {
+    if (!this.existLambdaDir) {
       return [];
     }
     // eslint-disable-next-line no-multi-assign
@@ -176,7 +178,7 @@ export class ApiRouter {
   }
 
   public getApiFiles() {
-    if (!this.existLambda) {
+    if (!this.existLambdaDir) {
       return [];
     }
     if (this.apiFiles.length > 0) {
@@ -204,41 +206,19 @@ export class ApiRouter {
     return prefix || '/api';
   }
 
-  private checkExistLambda(apiDir: string, lambdaDir: string) {
-    const isSame = apiDir === lambdaDir;
-    if (!isSame) {
-      return true;
-    }
-    const exts = ['.ts', '.js'];
-    const existAppDir = (apiDir: string) => {
-      return fs.existsSync(path.join(apiDir, 'app'));
-    };
-    const existAppFile = (apiDir: string) => {
-      const exists = exts.some(ext => {
-        return fs.existsSync(path.join(apiDir, `app${ext}`));
-      });
-      return exists;
-    };
-
-    if (isSame && existAppDir(apiDir)) {
-      return false;
-    }
-    if (isSame && existAppFile(apiDir)) {
-      return false;
-    }
-    return true;
-  }
-
-  private validateAbsolute(filename: string, paramsName: string) {
-    if (!path.isAbsolute(filename)) {
+  private validateAbsolute(filename?: string, paramsName?: string) {
+    if (typeof filename === 'string' && !path.isAbsolute(filename)) {
       throw new Error(`The ${paramsName} ${filename} is not a abolute path`);
     }
   }
 
-  private getAPIMode = (apiDir: string): APIMode => {
+  private getExactApiMode = (apiDir: string): APIMode => {
     const exist = this.createExistChecker(apiDir);
+    const existLambdaDir = exist(FRAMEWORK_MODE_LAMBDA_DIR);
+    const existAppDir = exist(FRAMEWORK_MODE_APP_DIR);
+    const existAppFile = exist('app.ts') || exist('app.js');
 
-    if (exist(FRAMEWORK_MODE_LAMBDA_DIR)) {
+    if (existLambdaDir || existAppDir || existAppFile) {
       return APIMode.FARMEWORK;
     }
 
@@ -252,10 +232,9 @@ export class ApiRouter {
     if (this.lambdaDir) {
       return this.lambdaDir;
     }
-    const mode = this.getAPIMode(apiDir);
 
     const lambdaDir =
-      mode === APIMode.FARMEWORK
+      this.apiMode === APIMode.FARMEWORK
         ? path.join(apiDir, FRAMEWORK_MODE_LAMBDA_DIR)
         : apiDir;
 

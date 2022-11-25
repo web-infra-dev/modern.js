@@ -5,7 +5,9 @@ const port = getPort('@cypress-test/garfish-table');
 
 module.exports = defineConfig({
   runtime: {
-    router: true,
+    router: {
+      legacy: true,
+    },
     state: true,
   },
   deploy: {

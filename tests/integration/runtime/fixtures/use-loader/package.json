@@ -3,8 +3,8 @@
   "name": "use-loader",
   "version": "1.0.1",
   "dependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^18",
+    "react-dom": "^18",
     "@babel/runtime": "^7.18.0",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/app-tools": "workspace:*"

@@ -1,0 +1,54 @@
+{
+  "private": true,
+  "name": "@modern-js/e2e",
+  "version": "2.0.0-beta.1",
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest dev --no-coverage",
+    "test:ui": "vitest --ui"
+  },
+  "bin": {
+    "playwright": "./bin/playwright.js"
+  },
+  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js"
+    },
+    "./playwright": {
+      "default": "./dist/exports/playwright.js"
+    },
+    "./fixtures/*": {
+      "default": "./fixtures/*"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "playwright": [
+        "./dist/exports/playwright.d.ts"
+      ]
+    }
+  },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*",
+    "@playwright/test": "^1.25.1",
+    "connect": "^3.7.0",
+    "get-port": "^5.1.1",
+    "playwright": "^1.25.1",
+    "serve-static": "^1.14.1"
+  },
+  "devDependencies": {
+    "@scripts/vitest-config": "workspace:*",
+    "@types/connect": "^3.4.35",
+    "@types/got": "^9.6.12",
+    "@types/node": "^14",
+    "@types/serve-static": "^1.13.10",
+    "got": "^11.8.3",
+    "typescript": "^4"
+  }
+}

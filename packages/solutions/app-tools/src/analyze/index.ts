@@ -7,12 +7,20 @@ import type {
   ImportStatement,
 } from '@modern-js/core';
 import type {
-  Route,
+  RouteLegacy,
   Entrypoint,
   ServerRoute,
   HtmlPartials,
+  NestedRoute,
+  PageRoute,
 } from '@modern-js/types';
 import { cloneDeep } from '@modern-js/utils/lodash';
+import { createBuilderForEdenX } from '../builder';
+import { printInstructions } from '../utils/printInstructions';
+import { generateRoutes } from '../utils/routes';
+import { emitResolvedConfig } from '../utils/config';
+import { getCommand } from '../utils/commands';
+import type { AppHooks } from '../hooks';
 import { isRouteComponentFile } from './utils';
 
 const debug = createDebugger('plugin-analyze');
@@ -35,9 +43,14 @@ export const modifyEntryRenderFunction = createAsyncWaterfall<{
   code: string;
 }>();
 
+export const modifyAsyncEntry = createAsyncWaterfall<{
+  entrypoint: Entrypoint;
+  code: string;
+}>();
+
 export const modifyFileSystemRoutes = createAsyncWaterfall<{
   entrypoint: Entrypoint;
-  routes: Route[];
+  routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
 }>();
 
 export const modifyServerRoutes = createAsyncWaterfall<{
@@ -55,10 +68,11 @@ export const beforeGenerateRoutes = createAsyncWaterfall<{
 }>();
 export const addDefineTypes = createAsyncWaterfall();
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppHooks> => ({
   name: '@modern-js/plugin-analyze',
 
   registerHook: {
+    modifyAsyncEntry,
     modifyEntryImports,
     modifyEntryExport,
     modifyEntryRuntimePlugins,
@@ -77,10 +91,9 @@ export default (): CliPlugin => ({
 
     return {
       async prepare() {
-        const appContext = api.useAppContext();
+        let appContext = api.useAppContext();
         const resolvedConfig = api.useResolvedConfigContext();
         const hookRunners = api.useHookRunners();
-
         try {
           fs.emptydirSync(appContext.internalDirectory);
         } catch {
@@ -100,11 +113,12 @@ export default (): CliPlugin => ({
 
           debug(`server routes: %o`, routes);
 
-          api.setAppContext({
+          appContext = {
             ...appContext,
             apiOnly,
             serverRoutes: routes,
-          });
+          };
+          api.setAppContext(appContext);
           return;
         }
 
@@ -136,13 +150,22 @@ export default (): CliPlugin => ({
 
         debug(`server routes: %o`, routes);
 
-        api.setAppContext({
+        appContext = {
           ...appContext,
           entrypoints,
           serverRoutes: routes,
-        });
+        };
+        api.setAppContext(appContext);
 
-        pagesDir = entrypoints.map(point => point.entry);
+        const nestedRouteEntries = entrypoints
+          .map(point => point.nestedRoutesEntry)
+          .filter(Boolean) as string[];
+
+        pagesDir = entrypoints
+          .map(point => point.entry)
+          .filter(Boolean)
+          .concat(nestedRouteEntries);
+
         originEntrypoints = cloneDeep(entrypoints);
 
         await generateCode(appContext, resolvedConfig, entrypoints, api);
@@ -158,14 +181,78 @@ export default (): CliPlugin => ({
 
         debug(`add Define Types`);
 
-        api.setAppContext({
+        appContext = {
           ...appContext,
           entrypoints,
           checkedEntries: defaultChecked,
           apiOnly,
           serverRoutes: routes,
           htmlTemplates,
-        });
+        };
+        api.setAppContext(appContext);
+
+        const command = getCommand();
+        const buildCommands = ['dev', 'build', 'inspect', 'deploy'];
+
+        if (buildCommands.includes(command)) {
+          const normalizedConfig = api.useResolvedConfigContext();
+
+          const builder = await createBuilderForEdenX({
+            normalizedConfig,
+            appContext,
+            compatPluginConfig: {
+              async onBeforeBuild({ bundlerConfigs }) {
+                const hookRunners = api.useHookRunners();
+                await generateRoutes(appContext);
+                await hookRunners.beforeBuild({ bundlerConfigs });
+              },
+
+              async onAfterBuild({ stats }) {
+                const hookRunners = api.useHookRunners();
+                await hookRunners.afterBuild({ stats });
+                await emitResolvedConfig(
+                  appContext.appDirectory,
+                  normalizedConfig,
+                );
+              },
+
+              async onDevCompileDone({ isFirstCompile }) {
+                const hookRunners = api.useHookRunners();
+                if (process.stdout.isTTY || isFirstCompile) {
+                  hookRunners.afterDev();
+
+                  if (isFirstCompile) {
+                    printInstructions(
+                      hookRunners,
+                      appContext,
+                      normalizedConfig,
+                    );
+                  }
+                }
+              },
+
+              async onBeforeCreateCompiler({ bundlerConfigs }) {
+                const hookRunners = api.useHookRunners();
+                // run modernjs framework `beforeCreateCompiler` hook
+                await hookRunners.beforeCreateCompiler({
+                  bundlerConfigs,
+                });
+              },
+
+              async onAfterCreateCompiler({ compiler }) {
+                const hookRunners = api.useHookRunners();
+                // run modernjs framework afterCreateCompiler hooks
+                await hookRunners.afterCreateCompiler({ compiler });
+              },
+            },
+          });
+
+          appContext = {
+            ...appContext,
+            builder,
+          };
+          api.setAppContext(appContext);
+        }
       },
 
       watchFiles() {
@@ -176,7 +263,6 @@ export default (): CliPlugin => ({
         const appContext = api.useAppContext();
         const { appDirectory } = appContext;
         const { filename, eventType } = e;
-
         const isPageFile = (name: string) =>
           pagesDir.some(pageDir => name.includes(pageDir));
 

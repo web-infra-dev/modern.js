@@ -1,5 +1,5 @@
 import _ from '@modern-js/utils/lodash';
-import { BuilderPlugin } from '@modern-js/webpack-builder';
+import type { BuilderPlugin } from '@modern-js/builder-webpack-provider/types';
 import path from 'path';
 import { withDefaultOptions } from './shared/utils';
 import { Codecs, Options } from './types';

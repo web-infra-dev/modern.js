@@ -1,0 +1,11 @@
+{
+  "jsc": {
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "development": true,
+        "refresh": false
+      }
+    }
+  }
+}

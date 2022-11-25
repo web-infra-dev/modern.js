@@ -1,4 +1,5 @@
 // 用于 react-helmet 正则替换
+import { EOL } from 'os';
 import { HelmetData } from 'react-helmet';
 
 const RE_HTML_ATTR = /<html[^>]*>/;
@@ -30,22 +31,24 @@ export default function helmet(content: string, helmetData: HelmetData) {
   const title = helmetData.title.toString();
 
   // 如果模板中存在 title，且 helmetData title 有内容则做替换
-  const existTitle = RE_TITLE.test(content);
-  if (TEST_TITLE_CONTENT.test(title.trim()) && existTitle) {
+  const existTitleTag = RE_TITLE.test(content);
+  const shouldReplaceTitle =
+    existTitleTag && TEST_TITLE_CONTENT.test(title.trim());
+  if (shouldReplaceTitle) {
     result = result.replace(RE_TITLE, title);
   }
 
-  return result.replace(
-    RE_LAST_IN_HEAD,
-    `
-    ${base}
-    ${link}
-    ${meta}
-    ${noscript}
-    ${script}
-    ${style}
-    ${existTitle ? '' : title}
-    </head>
-  `,
-  );
+  const helmetStr = [
+    base,
+    link,
+    meta,
+    noscript,
+    script,
+    style,
+    !existTitleTag ? title : '',
+  ].reduce((pre, cur) => {
+    return pre + (cur.length > 0 ? `  ${cur}${EOL}` : '');
+  }, '');
+
+  return result.replace(RE_LAST_IN_HEAD, `${helmetStr}</head>`);
 }

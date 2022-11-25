@@ -42,6 +42,7 @@ export const genCommon = (options: Options): BabelChain => {
     modules,
     styledComponents,
     useTsLoader,
+    overrideBrowserslist,
   } = options;
 
   const useSSR = target === 'server';
@@ -97,6 +98,7 @@ export const genCommon = (options: Options): BabelChain => {
     },
     syntax: 'es5',
     useLegacyDecorators,
+    overrideBrowserslist,
   });
 
   chain

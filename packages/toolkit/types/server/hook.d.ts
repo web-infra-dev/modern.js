@@ -1,35 +1,66 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { ServerRoute as Route } from './route';
-import { NextFunction } from './utils';
-import { ModernServerContext } from './context';
 
-type Middleware = (
-  req: IncomingMessage,
-  res: ServerResponse,
-  next: NextFunction,
-) => Promise<void>;
-
-export type TemplateAPI = {
-  get: () => Promise<string>;
-  set: (html: string) => void;
-  prependBody: (frag: string) => TemplateAPI;
-  prependHead: (frag: string) => TemplateAPI;
-  appendBody: (frag: string) => TemplateAPI;
-  appendHead: (frag: string) => TemplateAPI;
-  replace: (tag: string, frag: string) => TemplateAPI;
+export type CookieAPI = {
+  get: (key: string) => string;
+  set: (key: string, value: string) => void;
+  delete: (key: string) => void;
+  clear: () => void;
+  apply: () => void;
 };
 
-export type RouteAPI = {
-  cur: () => Route;
-  get: (entryName: string) => Route | undefined;
-  use: (entryName: string) => boolean;
+export interface ModernResponse {
+  get: (key: string) => string | number | string[] | undefined;
+  set: (key: string, value: string) => void;
+  status: (code: number) => void;
+  cookies: CookieAPI;
+  raw: (
+    body: string,
+    { status, headers }: { status: number; headers: Record<string, any> },
+  ) => void;
+}
+
+export interface ModernRequest {
+  host: string;
+  pathname: string;
+  query: Record<string, any>;
+  cookie: string;
+  cookies: Pick<CookieAPI, 'get'>;
+  headers: IncomingHttpHeaders;
+}
+
+export type HookContext = {
+  response: ModernResponse;
+  request: ModernRequest;
+  logger: Logger;
+  metrics?: Metrics;
 };
 
-type HookHandler<Context> = (ctx: Context, next: NextFunction) => Promise<void>;
-type Hook<Context> = (fn: HookHandler<Context>) => void;
-export type ModernServerHook = {
-  beforeMatch: Hook<ModernServerContext>;
-  afterMatch: Hook<ModernServerContext & { router: RouteAPI }>;
-  beforeRender: Hook<ModernServerContext>;
-  afterRender: Hook<ModernServerContext & { template: TemplateAPI }>;
+export type AfterMatchContext = HookContext & {
+  router: {
+    readonly current: string;
+    readonly url: string;
+    readonly status: number;
+    redirect: (url: string, status: number) => void;
+    rewrite: (entry: string) => void;
+    use: (entry: string) => void;
+  };
+};
+
+export type AfterRenderContext = HookContext & {
+  template: {
+    set: (content: string) => void;
+    get: () => string;
+    prependHead: (fragment: string) => void;
+    appendHead: (fragment: string) => void;
+    prependBody: (fragment: string) => void;
+    appendBody: (fragment: string) => void;
+  };
+};
+
+export type MiddlewareContext = HookContext & {
+  response: ModernResponse & { locals: Record<string, any> };
+  source: {
+    req: IncomingMessage;
+    res: ServerResponse;
+  };
 };

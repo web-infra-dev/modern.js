@@ -1,0 +1,111 @@
+// Vitest Snapshot v1
+
+exports[`plugins/tsLoader > should set include/exclude 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "exclude": [
+          "src/**/*.js",
+        ],
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+          "src/**/*.ts",
+        ],
+        "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/babel-loader",
+            "options": {
+              "presets": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
+                  {
+                    "appDirectory": "<ROOT>",
+                    "metaName": "modern-js",
+                    "target": "client",
+                    "useBuiltIns": "entry",
+                    "useTsLoader": true,
+                    "userBabelConfig": undefined,
+                  },
+                ],
+              ],
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/ts-loader/index.js",
+            "options": {
+              "allowTsInNodeModules": true,
+              "compilerOptions": {
+                "module": 99,
+                "target": 99,
+              },
+              "transpileOnly": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/tsLoader > should set ts-loader 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/babel-loader",
+            "options": {
+              "presets": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
+                  {
+                    "appDirectory": "<ROOT>",
+                    "metaName": "modern-js",
+                    "target": "client",
+                    "useBuiltIns": "entry",
+                    "useTsLoader": true,
+                    "userBabelConfig": undefined,
+                  },
+                ],
+              ],
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/ts-loader/index.js",
+            "options": {
+              "allowTsInNodeModules": true,
+              "compilerOptions": {
+                "module": 99,
+                "target": 99,
+              },
+              "transpileOnly": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

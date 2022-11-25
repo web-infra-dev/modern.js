@@ -6,8 +6,6 @@ export const getDefaultDevOptions = (): DevServerOptions => {
   return {
     client: {
       port: '8080',
-      overlay: false,
-      logging: 'none',
       path: HMR_SOCK_PATH,
       host: network?.address || 'localhost',
     },

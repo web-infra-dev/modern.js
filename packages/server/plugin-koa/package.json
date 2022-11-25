@@ -11,18 +11,18 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.16.0",
+  "version": "2.0.0-beta.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
-    "build": "wireit",
-    "test": "wireit"
+    "dev": "modern build --watch",
+    "build": "modern build",
+    "test": "jest --passWithNoTests"
   },
   "exports": {
     "./types": "./types.d.ts",
@@ -44,6 +44,7 @@
     "@modern-js/bff-core": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "koa-body": "^4.2.0",
     "koa-router": "^10.0.0",
     "type-is": "^1.6.18"
@@ -77,28 +78,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

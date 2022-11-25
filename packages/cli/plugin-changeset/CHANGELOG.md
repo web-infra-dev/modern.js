@@ -1,5 +1,138 @@
 # @modern-js/plugin-changeset
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/plugin-i18n@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/plugin-i18n@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@1.21.2
+- @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- @modern-js/utils@1.21.0
+- @modern-js/plugin-i18n@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/plugin-i18n@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 8c05089: fix: support monorepo deploy in pnpm 7
+  fix: 修复 monorepo deploy 命令在 pnpm 7 下的问题
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/plugin-i18n@1.20.0
+
+## 1.19.0
+
+### Minor Changes
+
+- d2fbefc: feat: release command support pnpm v7
+
+  feat: release 命令支持 pnpm v7
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@1.19.0
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/plugin-i18n@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/plugin-i18n@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/plugin-i18n@1.17.0
+
 ## 1.16.1
 
 ### Patch Changes

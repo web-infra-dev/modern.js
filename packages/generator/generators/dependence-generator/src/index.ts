@@ -67,6 +67,9 @@ export const handleTemplateFile = async (
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
+  // when use new command, listeners will create more than 10
+  process.setMaxListeners(20);
+
   const { locale } = context.config;
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
@@ -83,7 +86,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   await handleTemplateFile(context, generator);
 
   if (!context.config.isSubGenerator) {
-    await appApi.runInstall();
+    await appApi.runInstall(undefined, { ignoreScripts: true });
 
     appApi.showSuccessInfo();
   }

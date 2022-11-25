@@ -1,0 +1,61 @@
+{
+  "name": "@modern-js/builder-plugin-swc",
+  "version": "2.0.0-beta.1",
+  "description": "SWC plugin for builder in Modern.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest dev --no-coverage",
+    "test:update": "SNAPSHOT_UPDATE=1 vitest watch",
+    "prepublishOnly": "only-allow-pnpm"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./loader": {
+      "types": "./dist/loader.d.ts",
+      "default": "./dist/loader.js"
+    },
+    "./plugin": {
+      "types": "./dist/plugin.d.ts",
+      "default": "./dist/plugin.js"
+    },
+    "./binding": {
+      "types": "./dist/binding.d.ts",
+      "default": "./dist/binding.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "loader": [
+        "./dist/loader.d.ts"
+      ],
+      "plugin": [
+        "./dist/plugin.d.ts"
+      ],
+      "binding": [
+        "./dist/binding.d.ts"
+      ]
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@scripts/vitest-config": "workspace:*",
+    "magic-string": "^0.26.2",
+    "source-map": "^0.7.4",
+    "typescript": "^4",
+    "webpack": "^5.74.0"
+  },
+  "dependencies": {
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/swc-plugins": "0.0.9",
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.4.12",
+    "core-js": "^3.26.0"
+  }
+}

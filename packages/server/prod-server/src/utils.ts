@@ -1,6 +1,5 @@
 import { IncomingMessage } from 'http';
 import type { NormalizedConfig } from '@modern-js/core';
-import { compile } from 'path-to-regexp';
 import { createDebugger, isProd } from '@modern-js/utils';
 
 export const debug = createDebugger('prod-server') as any;
@@ -76,11 +75,6 @@ export const createMiddlewareCollecter = () => {
   };
 };
 
-export const toPath = (reg: string, params: Record<string, any>) => {
-  const fn = compile(reg, { encode: encodeURIComponent });
-  return fn(params);
-};
-
 export const useLocalPrefix = (url: string) => {
   return isProd() && !url.includes('.');
 };
@@ -100,9 +94,10 @@ export const getStaticReg = (output: NormalizedConfig['output'] = {}) => {
 
   const staticReg = ['static/', 'upload/', ...staticFiles];
   const iconReg = ['favicon.ico', 'icon.png', ...favicons];
-  const regPrefix = prefix === '/' ? '' : prefix;
+
+  const regPrefix = prefix.endsWith('/') ? prefix : `${prefix}/`;
   const staticPathRegExp = new RegExp(
-    `^${regPrefix}/(${[...staticReg, ...iconReg].join('|')})`,
+    `^${regPrefix}(${[...staticReg, ...iconReg].join('|')})`,
   );
 
   return staticPathRegExp;
@@ -136,4 +131,8 @@ export const headersWithoutCookie = (headers: IncomingMessage['headers']) => {
     return safeHeaders;
   }
   return headers;
+};
+
+export const isRedirect = (code: number) => {
+  return [301, 302, 307, 308].includes(code);
 };

@@ -1,5 +1,216 @@
 # @modern-js/prod-server
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- c9e800d39a: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- d032d49: export createHandle
+  导出 createHandle 函数
+- 15bf09d9c8: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 40ed587: feat: inject css chunk into html for streaming ssr
+  feat: streaming ssr 返回的 html 注入 css chunk
+- 102d32e4ba: feat(server): add `req` and `res` to SSR context
+
+  feat(server): 添加 `req` 和 `res` 到 SSR context 中
+
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- 73cd29dd9f: fix(server): add favicon fallback handler
+
+  fix(server): 添加 favicon 兜底处理逻辑
+
+- 18aaf42: fix: fix server loader redirects
+  fix: 修复 server loader 重定向错误
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/server-core@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- c9e800d39: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- 543be95: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- 15bf09d9c: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- cc971eabf: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 102d32e4b: feat(server): add `req` and `res` to SSR context
+
+  feat(server): 添加 `req` 和 `res` 到 SSR context 中
+
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- 73cd29dd9: fix(server): add favicon fallback handler
+
+  fix(server): 添加 favicon 兜底处理逻辑
+
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [15bf09d9c]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/server-core@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/server-core@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/server-core@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+- 8f3674a: chore: reduce parameters for dev-server & update default config value in builder startDevServer
+
+  chore: 缩简 devServer 配置定义 & 更新 builder startDevServer 方法 config 默认值
+
+- 519965e: fix: should not do render if set location header and 302 status in middleware
+  fix: 如果在 middleware 中设置了 location 头和 302 状态码，则不应该走渲染逻辑
+- 67d80b7: fix(prod-server): failed to match URL which ends with ".html"
+
+  fix(prod-server): 修复无法匹配到以 ".html" 结尾的 URL 的问题
+
+  - @modern-js/server-core@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/server-core@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- baf7337: fix: console error message if error stack not exist
+  fix: 如果错误堆栈不存在，则输出错误信息
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/server-core@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- 1903f68: fix(server): failed to access static files when output.assetPrefix ends with /
+
+  fix(server): 修复 output.assetPrefix 以 / 结尾时无法正确访问的问题
+
+  - @modern-js/server-core@1.19.0
+  - @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- 3586707: fix: the compaire-version throw error make the supportModern error
+  fix: compaire-version 的抛错导致 supportModern 失败
+- f6a3aa1: feat: support etag in dev server by default
+  feat: 开发环境默认支持 etag 功能
+- 9f7bfa6: fix: fix the problem that the response header cannot be redirected when setting in ssr
+  fix: 修复在 SSR 中设置响应头却无法重定向的问题
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/server-core@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- 3d5e3a5: chore: get api mode from bff core
+  chore: 从 bff core 中获取 api mode
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/server-core@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/server-core@1.17.0
+
 ## 1.16.0
 
 ### Patch Changes

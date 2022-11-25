@@ -57,11 +57,13 @@ export default (): ServerPlugin => ({
           apiDir,
           prefix,
         });
+        const apiMode = apiRouter.getApiMode();
         const apiHandlerInfos = apiRouter.getApiHandlers();
         api.setAppContext({
           ...appContext,
           apiRouter,
           apiHandlerInfos,
+          apiMode,
         });
         return next(props);
       },

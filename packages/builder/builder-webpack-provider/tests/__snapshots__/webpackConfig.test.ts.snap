@@ -1,0 +1,148 @@
+// Vitest Snapshot v1
+
+exports[`webpackConfig > should allow to append and prepend plugins 1`] = `
+[
+  DefinePlugin {
+    "definitions": {
+      "foo": "2",
+    },
+  },
+  DefinePlugin {
+    "definitions": {
+      "foo": "1",
+    },
+  },
+]
+`;
+
+exports[`webpackConfig > should allow to use tools.webpackChain to modify config 1`] = `
+{
+  "context": "<ROOT>",
+  "devtool": "eval",
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+  },
+  "performance": {
+    "maxAssetSize": 1048576,
+    "maxEntrypointSize": 1048576,
+  },
+}
+`;
+
+exports[`webpackConfig > should allow tools.webpack to be an array 1`] = `
+{
+  "context": "<ROOT>",
+  "devtool": "source-map",
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+  },
+  "performance": {
+    "maxAssetSize": 1048576,
+    "maxEntrypointSize": 1048576,
+  },
+}
+`;
+
+exports[`webpackConfig > should allow tools.webpack to be an object 1`] = `
+{
+  "context": "<ROOT>",
+  "devtool": "eval",
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+  },
+  "performance": {
+    "maxAssetSize": 1048576,
+    "maxEntrypointSize": 1048576,
+  },
+}
+`;
+
+exports[`webpackConfig > should allow tools.webpack to modify config object 1`] = `
+{
+  "context": "<ROOT>",
+  "devtool": "eval",
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+  },
+  "performance": {
+    "maxAssetSize": 1048576,
+    "maxEntrypointSize": 1048576,
+  },
+}
+`;
+
+exports[`webpackConfig > should allow tools.webpack to return config 1`] = `
+{
+  "context": "<ROOT>",
+  "devtool": "eval",
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+  },
+  "performance": {
+    "maxAssetSize": 1048576,
+    "maxEntrypointSize": 1048576,
+  },
+}
+`;
+
+exports[`webpackConfig > should allow tools.webpackChain to be an array 1`] = `
+{
+  "context": "<ROOT>",
+  "devtool": "source-map",
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+  },
+  "performance": {
+    "maxAssetSize": 1048576,
+    "maxEntrypointSize": 1048576,
+  },
+}
+`;

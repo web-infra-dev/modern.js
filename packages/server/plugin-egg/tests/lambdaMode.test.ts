@@ -17,7 +17,6 @@ describe('lambda-mode', () => {
     const runner = await serverManager.init();
     apiHandler = await runner.prepareApiServer({
       pwd,
-      mode: 'framework',
       prefix: '/',
     });
   });

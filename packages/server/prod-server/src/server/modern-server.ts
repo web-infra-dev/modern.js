@@ -3,10 +3,15 @@ import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import util from 'util';
 import path from 'path';
 import { fs, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
-import { Adapter, APIServerStartInput } from '@modern-js/server-core';
-import type { NormalizedConfig } from '@modern-js/core';
-import axios from 'axios';
-import { clone } from '@modern-js/utils/lodash';
+import {
+  Adapter,
+  WebAdapter,
+  APIServerStartInput,
+  ServerOptions,
+  BeforeRouteHandler,
+} from '@modern-js/server-core';
+import type { ModernServerContext, ServerRoute } from '@modern-js/types';
+import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
   NextFunction,
@@ -15,17 +20,19 @@ import {
   Logger,
   ConfWithBFF,
   ModernServerInterface,
-  HookNames,
   BuildOptions,
+  ModernServerHandler,
 } from '../type';
 import {
   RouteMatchManager,
   ModernRouteInterface,
   ModernRoute,
-  RouteMatcher,
 } from '../libs/route';
 import { createRenderHandler } from '../libs/render';
-import { createStaticFileHandler } from '../libs/serve-file';
+import {
+  createStaticFileHandler,
+  faviconFallbackHandler,
+} from '../libs/serve-file';
 import {
   createErrorDocument,
   createMiddlewareCollecter,
@@ -33,24 +40,23 @@ import {
   mergeExtension,
   noop,
   debug,
+  isRedirect,
 } from '../utils';
 import * as reader from '../libs/render/reader';
 import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
-import { createContext, ModernServerContext } from '../libs/context';
+import { createContext } from '../libs/context';
+import { templateInjectableStream } from '../libs/hook-api/template';
 import {
   AGGRED_DIR,
-  ApiServerMode,
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
   RUN_MODE,
 } from '../constants';
-import { createTemplateAPI } from '../libs/hook-api/template';
-import { createRouteAPI } from '../libs/hook-api/route';
-
-type ModernServerHandler = (
-  context: ModernServerContext,
-  next: NextFunction,
-) => Promise<void> | void;
+import {
+  createAfterMatchContext,
+  createAfterRenderContext,
+  createMiddlewareContext,
+} from '../libs/hook-api';
 
 type ModernServerAsyncHandler = (
   context: ModernServerContext,
@@ -72,7 +78,7 @@ export class ModernServer implements ModernServerInterface {
 
   protected router!: RouteMatchManager;
 
-  protected conf: NormalizedConfig;
+  protected conf: ServerOptions;
 
   protected handlers: ModernServerAsyncHandler[] = [];
 
@@ -94,7 +100,9 @@ export class ModernServer implements ModernServerInterface {
 
   private routeRenderHandler!: ReturnType<typeof createRenderHandler>;
 
-  private frameWebHandler: Adapter | null = null;
+  private beforeRouteHandler: BeforeRouteHandler | null = null;
+
+  private frameWebHandler: WebAdapter | null = null;
 
   private frameAPIHandler: Adapter | null = null;
 
@@ -127,12 +135,12 @@ export class ModernServer implements ModernServerInterface {
     this.presetRoutes = routes;
     this.proxyTarget = proxyTarget;
     this.staticGenerate = staticGenerate || false;
-    this.runMode = runMode || RUN_MODE.TYPE;
-    process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
+    this.runMode = runMode || RUN_MODE.FULL;
+    // process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
   }
 
   // server prepare
-  public async onInit(runner: ServerHookRunner) {
+  public async onInit(runner: ServerHookRunner, app: Server) {
     this.runner = runner;
 
     const { distDir, staticGenerate, conf } = this;
@@ -148,6 +156,9 @@ export class ModernServer implements ModernServerInterface {
 
     // start file reader
     this.reader.init();
+    app.on('close', () => {
+      this.reader.close();
+    });
 
     // use preset routes priority
     const usageRoutes = this.filterRoutes(this.getRoutes());
@@ -157,6 +168,7 @@ export class ModernServer implements ModernServerInterface {
     this.warmupSSRBundle();
 
     await this.prepareFrameHandler();
+    await this.prepareBeforeRouteHandler(usageRoutes, distDir);
 
     // Only work when without setting `assetPrefix`.
     // Setting `assetPrefix` means these resources should be uploaded to CDN.
@@ -179,15 +191,16 @@ export class ModernServer implements ModernServerInterface {
     await this.setupBeforeProdMiddleware();
 
     this.addHandler(this.staticFileHandler);
+
+    // execute after staticFileHandler, can rename to staticFallbackHandler if needed.
+    this.addHandler(faviconFallbackHandler);
+
+    this.addBeforeRouteHandler();
+
     this.addHandler(this.routeHandler.bind(this));
 
     // compose middlewares to http handler
     this.compose();
-  }
-
-  // close any thing run in server
-  public async onClose() {
-    this.reader.close();
   }
 
   // server ready
@@ -195,9 +208,17 @@ export class ModernServer implements ModernServerInterface {
     // empty
   }
 
-  // invoke when http server listen
-  public onListening(_: Server) {
-    // empty
+  public addBeforeRouteHandler() {
+    this.addHandler(async (context, next) => {
+      if (this.beforeRouteHandler) {
+        await this.beforeRouteHandler(context);
+        if (this.isSend(context.res)) {
+          return;
+        }
+      }
+      // eslint-disable-next-line consistent-return
+      return next();
+    });
   }
 
   protected onServerChange({ filepath }: { filepath: string }) {
@@ -215,6 +236,25 @@ export class ModernServer implements ModernServerInterface {
   // exposed requestHandler
   public getRequestHandler() {
     return this.requestHandler.bind(this);
+  }
+
+  public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
+    req.logger = this.logger;
+    req.metrics = this.metrics;
+    const context = createContext(req, res);
+    const matched = this.router.match(url || context.path);
+    if (!matched) {
+      return null;
+    }
+
+    const route = matched.generate(context.url);
+    const result = await this.handleWeb(context, route);
+
+    if (!result) {
+      return null;
+    }
+
+    return result.content.toString();
   }
 
   public async createHTTPServer(
@@ -261,6 +301,25 @@ export class ModernServer implements ModernServerInterface {
     this.renderErrorPage(context, 404);
   }
 
+  protected async prepareBeforeRouteHandler(
+    specs: ServerRoute[],
+    distDir: string,
+  ) {
+    const { runner } = this;
+
+    const handler = await runner.preparebeforeRouteHandler(
+      {
+        serverRoutes: specs,
+        distDir,
+      },
+      {
+        onLast: () => null as any,
+      },
+    );
+
+    this.beforeRouteHandler = handler;
+  }
+
   // gather frame extension and get framework handler
   protected async prepareFrameHandler(options?: {
     onlyApi: boolean;
@@ -285,14 +344,8 @@ export class ModernServer implements ModernServerInterface {
     }
 
     if (fs.existsSync(apiDir) && !onlyWeb) {
-      const mode = fs.existsSync(path.join(apiDir, AGGRED_DIR.lambda))
-        ? ApiServerMode.frame
-        : ApiServerMode.func;
-
-      debug('exists api dir', mode);
-      // if use lambda/, mean framework style of writing, then discard user extension
       const apiExtension = mergeExtension(pluginAPIExt);
-      this.frameAPIHandler = await this.prepareAPIHandler(mode, apiExtension);
+      this.frameAPIHandler = await this.prepareAPIHandler(apiExtension);
     }
   }
 
@@ -301,26 +354,24 @@ export class ModernServer implements ModernServerInterface {
   ) {
     const { workDir, runner } = this;
 
-    return runner.prepareWebServer(
+    const handler = await runner.prepareWebServer(
       {
         pwd: workDir,
         config: extension,
       },
       { onLast: () => null as any },
     );
+
+    return handler;
   }
 
-  protected async prepareAPIHandler(
-    mode: ApiServerMode,
-    extension: APIServerStartInput['config'],
-  ) {
+  protected async prepareAPIHandler(extension: APIServerStartInput['config']) {
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
     const prefix = bff?.prefix || '/api';
     return runner.prepareApiServer(
       {
         pwd: workDir,
-        mode,
         config: extension,
         prefix: Array.isArray(prefix) ? prefix[0] : prefix,
       },
@@ -330,17 +381,6 @@ export class ModernServer implements ModernServerInterface {
 
   protected filterRoutes(routes: ModernRouteInterface[]) {
     return routes;
-  }
-
-  protected async emitRouteHook(
-    eventName: HookNames,
-    input: {
-      context: ModernServerContext;
-      [propsName: string]: any;
-    },
-  ) {
-    input.context = clone(input.context);
-    return this.runner[eventName](input as any, { onLast: noop as any });
   }
 
   protected async setupBeforeProdMiddleware() {
@@ -387,12 +427,18 @@ export class ModernServer implements ModernServerInterface {
     });
   }
 
+  protected createContext(
+    req: IncomingMessage,
+    res: ServerResponse,
+    options: ContextOptions = {},
+  ) {
+    return createContext(req, res, options);
+  }
+
   /* —————————————————————— private function —————————————————————— */
   // handler route.json, include api / csr / ssr
   private async routeHandler(context: ModernServerContext) {
-    const { req, res } = context;
-
-    await this.emitRouteHook('beforeMatch', { context });
+    const { res } = context;
 
     // match routes in the route spec
     const matched = this.router.match(context.path);
@@ -401,37 +447,58 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
-    if (res.headersSent) {
+    // route is api service
+    let route = matched.generate(context.url);
+    if (route.isApi) {
+      await this.handleAPI(context);
       return;
     }
 
-    const routeAPI = createRouteAPI(matched, this.router, context.url);
-    await this.emitRouteHook('afterMatch', { context, routeAPI });
+    const afterMatchContext = createAfterMatchContext(context, route.entryName);
 
-    if (res.headersSent) {
+    // only full mode run server hook
+    if (this.runMode === RUN_MODE.FULL) {
+      await this.runner.afterMatch(afterMatchContext, { onLast: noop });
+    }
+
+    if (this.isSend(res)) {
       return;
     }
 
-    const { current }: { current: RouteMatcher } = routeAPI as any;
-    const route: ModernRoute = current.generate(context.url);
+    const { current, url, status } = afterMatchContext.router;
+    // redirect to another url
+    if (url) {
+      this.redirect(res, url, status);
+      return;
+    }
+
+    // rewrite to another entry
+    if (route.entryName !== current) {
+      const matched = this.router.matchEntry(current);
+      if (!matched) {
+        this.render404(context);
+        return;
+      }
+      route = matched.generate(context.url);
+    }
     context.setParams(route.params);
     context.setServerData('router', {
       baseUrl: route.urlPath,
       params: route.params,
     });
 
-    // route is api service
-    if (route.isApi) {
-      await this.handleAPI(context);
-      return;
-    }
-
     if (this.frameWebHandler) {
-      await this.frameWebHandler(req, res);
+      res.locals = res.locals || {};
+      const middlewareContext = createMiddlewareContext(context);
+      await this.frameWebHandler(middlewareContext);
+      res.locals = {
+        ...res.locals,
+        ...middlewareContext.response.locals,
+      };
     }
 
     // frameWebHandler has process request
-    if (res.headersSent) {
+    if (this.isSend(res)) {
       return;
     }
 
@@ -444,107 +511,88 @@ export class ModernServer implements ModernServerInterface {
       });
     }
 
-    if (route.entryName) {
-      await this.emitRouteHook('beforeRender', { context });
-    }
+    const renderResult = await this.handleWeb(context, route);
 
-    const file = await this.handleWeb(context, route);
-    if (!file) {
+    if (!renderResult) {
       this.render404(context);
       return;
     }
 
-    if (file.redirect) {
-      res.statusCode = file.statusCode!;
-      res.setHeader('Location', file.content as string);
-      res.end();
+    // React Router navigation
+    if (renderResult.redirect) {
+      this.redirect(
+        res,
+        renderResult.content as string,
+        renderResult.statusCode,
+      );
       return;
     }
 
-    let response = file.content;
+    if (this.isSend(res)) {
+      return;
+    }
+
+    res.setHeader('content-type', renderResult.contentType);
+
+    const { contentStream } = renderResult;
+    if (contentStream) {
+      contentStream
+        .pipe(
+          templateInjectableStream({
+            prependHead: route.entryName
+              ? `<script>window._SERVER_DATA=${JSON.stringify(
+                  context.serverData,
+                )}</script>`
+              : undefined,
+          }),
+        )
+        .pipe(res);
+      return;
+    }
+
+    let response = renderResult.content;
+
     if (route.entryName) {
-      const templateAPI = createTemplateAPI(file.content.toString());
-      await this.emitRouteHook('afterRender', { context, templateAPI });
-      await this.injectMicroFE(context, templateAPI);
+      const afterRenderContext = createAfterRenderContext(
+        context,
+        response.toString(),
+      );
+
+      // only full mode run server hook
+      // FIXME: how to run server hook in streaming
+      if (this.runMode === RUN_MODE.FULL) {
+        await this.runner.afterRender(afterRenderContext, { onLast: noop });
+      }
+
+      if (this.isSend(res)) {
+        return;
+      }
+
       // It will inject _SERVER_DATA twice, when SSG mode.
       // The first time was in ssg html created, the seoncd time was in prod-server start.
       // but the second wound causes route error.
       // To ensure that the second injection fails, the _SERVER_DATA inject at the front of head,
-      templateAPI.prependHead(
+      afterRenderContext.template.prependHead(
         `<script>window._SERVER_DATA=${JSON.stringify(
           context.serverData,
         )}</script>`,
       );
-      response = templateAPI.get();
+      response = afterRenderContext.template.get();
     }
-
-    res.setHeader('content-type', file.contentType);
     res.end(response);
   }
 
-  private async injectMicroFE(
-    context: ModernServerContext,
-    templateAPI: ReturnType<typeof createTemplateAPI>,
-  ) {
-    const { conf } = this;
-    const masterApp = conf.runtime?.masterApp;
-    // no inject if not master App
-    if (!masterApp) {
-      return;
+  private isSend(res: ServerResponse) {
+    if (res.headersSent) {
+      return true;
     }
 
-    const manifest = masterApp.manifest || {};
-    let modules = [];
-    const { modules: configModules = [] } = manifest;
-
-    // while config modules is an string, fetch data from remote
-    if (typeof configModules === 'string') {
-      const moduleRequestUrl = configModules;
-      try {
-        const { data: remoteModules } = await axios.get(moduleRequestUrl);
-        if (Array.isArray(remoteModules)) {
-          modules.push(...remoteModules);
-        }
-      } catch (e) {
-        context.error(ERROR_DIGEST.EMICROINJ, e as Error);
-      }
-    } else if (Array.isArray(configModules)) {
-      modules.push(...configModules);
+    if (res.getHeader('Location') && isRedirect(res.statusCode)) {
+      res.end();
+      return true;
     }
 
-    const { headers } = context.req;
-
-    const debugName =
-      headers['x-micro-frontend-module-name'] ||
-      context.query['__debug__micro-frontend-module-name'];
-
-    const debugEntry =
-      headers['x-micro-frontend-module-entry'] ||
-      context.query['__debug__micro-frontend-module-entry'];
-
-    // add debug micro App to first
-    if (debugName && debugEntry && conf.server?.enableMicroFrontendDebug) {
-      modules = modules.map(m => {
-        if (m.name === debugName) {
-          return {
-            name: debugName,
-            entry: debugEntry,
-          };
-        }
-
-        return m;
-      });
-    }
-
-    try {
-      // Todo Safety xss
-      const injection = JSON.stringify({ ...manifest, modules });
-      templateAPI.appendHead(
-        `<script>window.modern_manifest=${injection}</script>`,
-      );
-    } catch (e) {
-      context.error(ERROR_DIGEST.EMICROINJ, e as Error);
-    }
+    return false;
   }
 
   // compose handlers and create the final handler
@@ -594,7 +642,7 @@ export class ModernServer implements ModernServerInterface {
     req.metrics = this.metrics;
     let context: ModernServerContext;
     try {
-      context = createContext(req, res);
+      context = this.createContext(req, res);
     } catch (e) {
       this.logger.error(e as Error);
       res.statusCode = 500;
@@ -607,6 +655,12 @@ export class ModernServer implements ModernServerInterface {
     } catch (err) {
       return this.onError(context, err as Error);
     }
+  }
+
+  private redirect(res: ServerResponse, url: string, status = 302) {
+    res.setHeader('Location', url);
+    res.statusCode = status;
+    res.end();
   }
 
   private onError(context: ModernServerContext, err: Error) {

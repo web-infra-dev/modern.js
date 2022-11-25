@@ -1,5 +1,172 @@
 # @modern-js/webpack
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+
+### Patch Changes
+
+- Updated dependencies [decfcd989d]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/babel-preset-app@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- edd1cfb1a: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+
+### Patch Changes
+
+- Updated dependencies [decfcd989]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/babel-preset-app@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- @modern-js/css-config@1.21.2
+- @modern-js/babel-preset-app@1.21.2
+- @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@1.21.1
+- @modern-js/css-config@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- 17d1672: fix: `tools.webpack` of Storybook API not work
+  fix: 修复 Storybook API tools.webpack 不生效
+- b0597e3: feat(webpack): expose HtmlWebpackPlugin instance in tools.webpack
+
+  feat(webpack): 支持在 tools.webpack 中获取到 HtmlWebpackPlugin 实例
+
+  - @modern-js/utils@1.21.0
+  - @modern-js/css-config@1.21.0
+  - @modern-js/babel-preset-app@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/babel-preset-app@1.20.1
+  - @modern-js/css-config@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- 077aef8: fix(webpack): react-refresh-webpack-plugin cause rebuild slow
+
+  fix(webpack): 修复 react-refresh-webpack-plugin 导致重新编译慢的问题
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/babel-preset-app@1.20.0
+  - @modern-js/css-config@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/css-config@1.19.0
+- @modern-js/babel-preset-app@1.19.0
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/css-config@1.18.1
+  - @modern-js/babel-preset-app@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [968be1b]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/babel-preset-app@1.18.0
+  - @modern-js/css-config@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- 151329d: chore(dev-server): no longer depend on @modern-js/webpack
+
+  chore(dev-server): 不再依赖 @modern-js/webpack
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [f1a09c5]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [7b8ecf5]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/babel-preset-app@1.17.0
+  - @modern-js/css-config@1.17.0
+
 ## 1.16.0
 
 ### Minor Changes

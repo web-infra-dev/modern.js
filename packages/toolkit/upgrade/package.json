@@ -1,0 +1,62 @@
+{
+  "name": "@modern-js/upgrade",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.0.0-beta.1",
+  "jsnext:source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "bin": {
+    "create": "./bin/run.js"
+  },
+  "files": [
+    "/bin",
+    "/dist/index.js"
+  ],
+  "exports": {
+    ".": {
+      "node": {
+        "jsnext:source": "./src/index.ts",
+        "import": "./dist/index.js",
+        "require": "./dist/index.js"
+      },
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern new",
+    "build": "modern build",
+    "test": "jest --passWithNoTests"
+  },
+  "devDependencies": {
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/utils": "workspace:*",
+    "@modern-js/codesmith": "2.0.0",
+    "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/upgrade-generator": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
+    "@types/jest": "^27",
+    "@types/node": "^14",
+    "jest": "^27",
+    "ts-node": "^10.1.0",
+    "typescript": "^4"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "main": "./dist/index.js",
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/index.d.ts"
+  }
+}

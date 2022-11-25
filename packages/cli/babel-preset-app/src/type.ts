@@ -24,4 +24,5 @@ export type Options = {
   metaName?: string;
   userBabelConfig?: BabelConfig | BabelConfig[];
   userBabelConfigUtils?: Partial<BabelConfigUtils>;
+  overrideBrowserslist?: string[];
 };

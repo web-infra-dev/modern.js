@@ -1,5 +1,5 @@
 import path from 'path';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/module-tools-v2';
 import { fs, normalizeOutputPath } from '@modern-js/utils';
 import { template } from '@modern-js/utils/lodash';
 import { STORYBOOK_TEMPLATE_DIR } from '../constants';
@@ -8,7 +8,6 @@ const INTERPOLATE_REGEXP = /<%=([\s\S]+?)%>/g;
 
 export type MainOptions = {
   appDirectory: string;
-  disableTsChecker: boolean;
   stories: string[];
   isTsProject: boolean;
 };
@@ -25,7 +24,6 @@ export const generateMain = (options: MainOptions) => {
     userMainPath: normalizeOutputPath(
       path.resolve(options.appDirectory, 'config/storybook/main.js'),
     ),
-    disableTsChecker: String(options.disableTsChecker),
     stories: JSON.stringify(options.stories),
     isTsProject: String(options.isTsProject),
   };

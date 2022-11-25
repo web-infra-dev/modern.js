@@ -1,16 +1,19 @@
-import { fs, logger, chalk, isSSR } from '@modern-js/utils';
+import { logger } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import type { Configuration } from '@modern-js/webpack';
-
-import { createCompiler } from '../utils/createCompiler';
-import { createServer } from '../utils/createServer';
-import { generateRoutes } from '../utils/routes';
 import { printInstructions } from '../utils/printInstructions';
+import { createServer, injectDataLoaderPlugin } from '../utils/createServer';
+import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
 import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 import { buildServerConfig } from '../utils/config';
+import type { AppHooks } from '../hooks';
 
-export const dev = async (api: PluginAPI, options: DevOptions) => {
+export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
+  if (options.analyze) {
+    // Builder will read this env var to enable bundle analyzer
+    process.env.BUNDLE_ANALYZE = 'true';
+  }
+
   let userConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
@@ -25,8 +28,8 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
     apiOnly,
     entrypoints,
     serverConfigFile,
+    serverInternalPlugins,
   } = appContext;
-
   const checkedEntries = await getSpecifiedEntries(
     options.entry || false,
     entrypoints,
@@ -37,8 +40,6 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
     checkedEntries,
   });
   appContext.checkedEntries = checkedEntries;
-
-  fs.emptyDirSync(distDirectory);
 
   await buildServerConfig({
     appDirectory,
@@ -54,22 +55,9 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
   await hookRunners.beforeDev();
 
   let compiler = null;
-  if (!apiOnly) {
-    const { getWebpackConfig, WebpackConfigTarget } = await import(
-      '@modern-js/webpack'
-    );
-    const webpackConfigs = [
-      isSSR(userConfig) &&
-        getWebpackConfig(WebpackConfigTarget.NODE, appContext, userConfig),
-      getWebpackConfig(WebpackConfigTarget.CLIENT, appContext, userConfig),
-    ].filter(Boolean) as Configuration[];
 
-    compiler = await createCompiler({
-      api,
-      webpackConfigs,
-      userConfig,
-      appContext,
-    });
+  if (!apiOnly) {
+    compiler = await appContext.builder?.createCompiler();
   }
 
   await generateRoutes(appContext);
@@ -79,7 +67,6 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       ...{
         client: {
           port: port!.toString(),
-          logging: 'none',
         },
         devMiddleware: {
           writeToDisk: (file: string) => !file.includes('.hot-update.'),
@@ -95,9 +82,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
     pwd: appDirectory,
     config: userConfig,
     serverConfigFile,
-    plugins: appContext.plugins
-      .filter((p: any) => p.server)
-      .map((p: any) => p.server),
+    internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
   });
 
   app.listen(port, async (err: Error) => {
@@ -105,10 +90,10 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       throw err;
     }
 
-    if (apiOnly) {
-      return printInstructions(hookRunners, appContext, userConfig);
+    if (!apiOnly) {
+      logger.info(`Starting dev server...\n`);
+    } else {
+      printInstructions(hookRunners, appContext, userConfig);
     }
-
-    return logger.log(chalk.cyan(`Starting the development server...`));
   });
 };

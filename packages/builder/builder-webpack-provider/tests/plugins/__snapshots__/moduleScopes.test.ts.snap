@@ -1,0 +1,29 @@
+// Vitest Snapshot v1
+
+exports[`plugins/moduleScopes > should set entry correctly 1`] = `
+{
+  "resolve": {
+    "plugins": [
+      ModuleScopePlugin {
+        "allowedDirs": [
+          "<ROOT>/src/foo.ts",
+          "<ROOT>/src/bar.ts",
+        ],
+        "allowedFiles": Set {
+          "<ROOT>/package.json",
+        },
+        "allowedPatterns": [],
+        "cache": Map {},
+        "relativeAllowedDirs": [
+          "foo.ts/",
+          "bar.ts/",
+        ],
+        "scopes": [
+          "<ROOT>/src/foo.ts",
+          "<ROOT>/src/bar.ts",
+        ],
+      },
+    ],
+  },
+}
+`;

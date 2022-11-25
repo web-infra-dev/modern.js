@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.16.0",
+  "version": "2.0.0-beta.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -23,17 +23,21 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
+    "./ssr": {
+      "jsnext:source": "./src/ssr.ts",
+      "default": "./dist/ssr.js"
+    },
     "./format": {
       "jsnext:source": "./src/format.ts",
       "default": "./dist/format.js"
     },
+    "./logger": {
+      "jsnext:source": "./src/logger.ts",
+      "default": "./dist/logger.js"
+    },
     "./constants": {
       "jsnext:source": "./src/constants.ts",
       "default": "./dist/constants.js"
-    },
-    "./ssr": {
-      "jsnext:source": "./src/ssr.ts",
-      "default": "./dist/ssr.js"
     },
     "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
@@ -52,7 +56,11 @@
     "./webpack-chain": "./compiled/webpack-chain/index.js",
     "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
     "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
-    "./chain-id": "./dist/chainId.js"
+    "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
+    "./chain-id": {
+      "jsnext:source": "./src/chainId.ts",
+      "default": "./dist/chainId.js"
+    }
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -60,9 +68,10 @@
     "types": "./dist/index.d.ts",
     "exports": {
       ".": "./dist/index.js",
-      "./format": "./dist/format.js",
-      "./constants": "./dist/constants.js",
       "./ssr": "./dist/ssr.js",
+      "./format": "./dist/format.js",
+      "./logger": "./dist/logger.js",
+      "./constants": "./dist/constants.js",
       "./ajv": "./compiled/ajv/index.js",
       "./glob": "./compiled/glob/index.js",
       "./chalk": "./compiled/chalk/index.js",
@@ -80,19 +89,23 @@
       "./webpack-chain": "./compiled/webpack-chain/index.js",
       "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
       "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
+      "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
       "./chain-id": "./dist/chainId.js"
     }
   },
   "typesVersions": {
     "*": {
+      "ssr": [
+        "./dist/ssr.d.ts"
+      ],
       "format": [
         "./dist/format.d.ts"
       ],
+      "logger": [
+        "./dist/logger.d.ts"
+      ],
       "constants": [
         "./dist/constants.d.ts"
-      ],
-      "ssr": [
-        "./dist/ssr.d.ts"
       ],
       "ajv": [
         "./compiled/ajv/types/ajv.d.ts"
@@ -148,18 +161,20 @@
       "better-ajv-errors": [
         "./compiled/better-ajv-errors/index.d.ts"
       ],
+      "webpack-dev-middleware": [
+        "./compiled/webpack-dev-middleware/types/index.d.ts"
+      ],
       "chain-id": [
         "./dist/chainId.d.ts"
       ]
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
     "dev": "tsc --watch",
-    "build": "wireit",
-    "test": "wireit"
+    "build": "tsc",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001332",
@@ -173,30 +188,7 @@
     "@types/node": "^14",
     "typescript": "^4",
     "jest": "^27",
-    "webpack": "^5.71.0"
+    "webpack": "^5.74.0"
   },
-  "sideEffects": false,
-  "wireit": {
-    "build": {
-      "command": "tsc",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
-  }
+  "sideEffects": false
 }

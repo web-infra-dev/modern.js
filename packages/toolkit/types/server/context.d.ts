@@ -6,13 +6,13 @@ import { Metrics, Logger } from './utils';
 export interface ModernServerContext {
   req: IncomingMessage;
 
-  res: ServerResponse;
+  res: ServerResponse & { locals?: Record<string, any> };
 
   params: Record<string, string>;
 
   logger: Logger;
 
-  metrics?: Metrics;
+  metrics: Metrics;
 
   setParams: (params: Record<string, string>) => void;
 
@@ -42,7 +42,13 @@ export interface ModernServerContext {
 
   status: number;
 
+  serverData: Record<string, any>;
+
   resHasHandled: () => boolean;
+
+  error: (dig: string, e: Error | string = '') => void;
+
+  setServerData: (key: string, value: any) => void;
 }
 
 export type BaseSSRServerContext = {
@@ -58,9 +64,11 @@ export type BaseSSRServerContext = {
   response: {
     setHeader: (key: string, value: string) => void;
     status: (code: number) => void;
+    locals: Record<string, any>;
   };
   redirection: { url?: string; status?: number };
-  distDir: string;
+  loadableStats: Record<string, any>;
+  routeManifest?: Record<string, any>;
   template: string;
   entryName: string;
   logger: {
@@ -80,10 +88,12 @@ export type BaseSSRServerContext = {
       tags: Record<string, unknown> = {},
     ) => void;
   };
-  loadableManifest?: string;
   cacheConfig?: any;
-};
 
+  req: ModernServerContext['req'];
+
+  res: ModernServerContext['res'];
+};
 export interface ISAppContext {
   appDirectory: string;
   distDirectory: string;

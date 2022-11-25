@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "api-service-koa",
   "version": "0.1.0",
   "scripts": {
@@ -16,11 +17,6 @@
     "extends": [
       "@modern-js"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -40,21 +36,22 @@
     "@modern-js/plugin-koa": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "koa": "^2.13.4",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
-    "@types/koa": "^2.13.4",
+    "@modern-js/plugin-testing": "workspace:*",
     "@types/jest": "^27",
+    "@types/koa": "^2.13.4",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
-    "isomorphic-fetch": "^3.0.0",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "axios": "^0.24.0",
+    "isomorphic-fetch": "^3.0.0",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "workspace:*"
+    "ts-node": "^10.1.0",
+    "tsconfig-paths": "3.14.1"
   },
   "modernConfig": {
     "runtime": {

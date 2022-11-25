@@ -1,6 +1,8 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { BaseSchema } from '@modern-js/generator-common';
+import { getBaseSchema, PackageManager } from '@modern-js/generator-common';
+import { fs } from '@modern-js/generator-utils';
 
 const handleTemplateFile = async (
   context: GeneratorContext,
@@ -9,16 +11,27 @@ const handleTemplateFile = async (
 ) => {
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
-  let schema = BaseSchema;
-  let inputValue = {};
-
+  let ans: Record<string, unknown> = {};
   if (hasPlugin) {
     await generatorPlugin.installPlugins('custom', extra);
-    schema = generatorPlugin.getInputSchema('custom');
-    inputValue = generatorPlugin.getInputValue();
+    const schema = generatorPlugin.getInputSchema();
+    const inputValue = generatorPlugin.getInputValue();
+    ans = await appApi.getInputBySchema(
+      schema,
+      'formily',
+      {
+        ...context.config,
+        ...inputValue,
+      },
+      {},
+      {},
+    );
+  } else {
+    ans = await appApi.getInputBySchemaFunc(getBaseSchema, context.config);
   }
 
-  await appApi.getInputBySchema(schema, { ...context.config, ...inputValue });
+  const { packageManager } = ans;
+
   await appApi.forgeTemplate(
     'templates/base-templates/**/*',
     undefined,
@@ -30,6 +43,19 @@ const handleTemplateFile = async (
   await appApi.forgeTemplate('templates/idea/**/*', undefined, resourceKey =>
     resourceKey.replace('templates/idea/', '.idea/'),
   );
+
+  if (packageManager === PackageManager.Pnpm) {
+    await appApi.forgeTemplate(
+      'templates/pnpm-templates/**/*',
+      undefined,
+      resourceKey =>
+        resourceKey
+          .replace('templates/pnpm-templates/npmrc', '.npmrc')
+          .replace('.handlebars', ''),
+    );
+  }
+
+  fs.chmodSync(path.join(generator.outputPath, '.husky', 'pre-commit'), '755');
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

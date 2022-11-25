@@ -1,5 +1,153 @@
 # @modern-js/babel-preset-app
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- decfcd989d: fix(babel-preset-app): remove useless plugin-transform-destructuring
+
+  fix(babel-preset-app): 移除多余的 plugin-transform-destructuring 插件
+
+- Updated dependencies [27c0151e8c]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/babel-preset-base@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- decfcd989: fix(babel-preset-app): remove useless plugin-transform-destructuring
+
+  fix(babel-preset-app): 移除多余的 plugin-transform-destructuring 插件
+
+- Updated dependencies [27c0151e8]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/babel-preset-base@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- @modern-js/babel-preset-base@1.21.2
+- @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/babel-preset-base@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- @modern-js/utils@1.21.0
+- @modern-js/babel-preset-base@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/babel-preset-base@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/babel-preset-base@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/babel-preset-base@1.19.0
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/babel-preset-base@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- 968be1b: feat: add overrideBrowserslist option
+
+  feat: 新增 overrideBrowserslist 选项
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [968be1b]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/babel-preset-base@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- f1a09c5: feat(babel-preset-app): bump core-js version to support more polyfills
+
+  feat(babel-preset-app): 升级默认的 core-js 版本，支持更多 polyfill
+
+- 7b8ecf5: fix: `useLoader` auto-generated id
+
+  fix: 修复 `useLoader` 自动生成的 id
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/babel-preset-base@1.17.0
+
 ## 1.16.0
 
 ### Patch Changes
@@ -33,7 +181,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for webpack-builder
+- 7b9067f: add babel plugin for builder
 
 ### Patch Changes
 

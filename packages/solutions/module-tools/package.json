@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.16.0",
+  "version": "2.0.0-beta.1",
   "bin": {
     "modern": "./bin/modern.js"
   },
@@ -49,11 +49,10 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
-    "build": "wireit",
-    "test": "wireit",
+    "build": "modern build",
+    "test": "jest --passWithNoTests",
     "dev": "modern build --watch"
   },
   "dependencies": {
@@ -65,18 +64,19 @@
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/babel-preset-module": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/css-config": "workspace:*",
+    "@modern-js/css-config": "1.21.1",
     "@modern-js/new-action": "workspace:*",
+    "@modern-js/upgrade": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/style-compiler": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rollup/plugin-json": "~4.1.0",
-    "@speedy-js/speedy-types": "0.13.2-alpha.3",
-    "@speedy-js/speedy-core": "0.13.2-alpha.3",
-    "@speedy-js/speedy-plugin-es5": "0.13.2-alpha.3",
+    "@speedy-js/speedy-types": "0.13.2-modern.4",
+    "@speedy-js/speedy-core": "0.13.2-modern.4",
+    "@speedy-js/speedy-plugin-es5": "0.13.2-modern.4",
     "normalize-path": "^3.0.0",
     "p-map": "^4",
     "process.argv": "^0.6.0",
@@ -88,7 +88,6 @@
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@speedy-js/speedy-types": "0.13.2-alpha.3",
     "@types/babel__core": "^7.1.15",
     "@types/babel__generator": "^7.6.3",
     "@types/babel__traverse": "^7.14.2",
@@ -112,29 +111,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "./modern.config.js"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest --passWithNoTests",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

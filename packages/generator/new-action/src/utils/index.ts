@@ -1,6 +1,6 @@
 import path from 'path';
 import { json5 } from '@modern-js/utils';
-import { ActionFunction } from '@modern-js/generator-common';
+import { ActionFunction, ActionRefactor } from '@modern-js/generator-common';
 import { fs } from '@modern-js/generator-utils';
 
 export function alreadyRepo(cwd = process.cwd()) {
@@ -24,7 +24,7 @@ export const readJson = (jsonPath: string) => {
 };
 
 export function hasEnabledFunction(
-  action: ActionFunction,
+  action: ActionFunction | ActionRefactor,
   dependencies: Record<string, string>,
   devDependencies: Record<string, string>,
   peerDependencies: Record<string, string>,
@@ -45,4 +45,13 @@ export function hasEnabledFunction(
     return packageJson.devDependencies?.[devDependencies[action]];
   }
   return false;
+}
+
+export function getGeneratorPath(generator: string, distTag: string) {
+  if (process.env.CODESMITH_ENV === 'development') {
+    return path.dirname(require.resolve(generator));
+  } else if (distTag) {
+    return `${generator}@${distTag}`;
+  }
+  return generator;
 }

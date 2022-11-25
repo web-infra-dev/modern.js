@@ -35,7 +35,8 @@ function getUseLoaderPath(path: any, calleeName: string | null) {
     t.isFunctionExpression(arg1) ||
     t.isArrowFunctionExpression(arg1) ||
     t.isIdentifier(arg1) ||
-    t.isCallExpression(arg1)
+    t.isCallExpression(arg1) ||
+    t.isMemberExpression(arg1)
   ) {
     const loaderPath = path.get('arguments.0');
     if (isDuplicateInnerLoader(loaderPath)) {

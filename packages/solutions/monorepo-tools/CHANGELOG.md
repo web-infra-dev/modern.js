@@ -1,5 +1,233 @@
 # @modern-js/monorepo-tools
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- d4a4566: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [85edee888c]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [d4a4566]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/core@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/plugin-lint@2.0.0-beta.1
+  - @modern-js/plugin@2.0.0-beta.1
+  - @modern-js/plugin-changeset@2.0.0-beta.1
+  - @modern-js/plugin-i18n@2.0.0-beta.1
+  - @modern-js/new-action@2.0.0-beta.1
+  - @modern-js/upgrade@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [c9e800d39]
+- Updated dependencies [85edee8]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/core@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/plugin@2.0.0-beta.0
+  - @modern-js/plugin-changeset@2.0.0-beta.0
+  - @modern-js/plugin-i18n@2.0.0-beta.0
+  - @modern-js/plugin-jarvis@2.0.0-beta.0
+  - @modern-js/new-action@2.0.0-beta.0
+  - @modern-js/upgrade@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/plugin@1.21.2
+  - @modern-js/new-action@1.21.2
+  - @modern-js/core@1.21.2
+  - @modern-js/plugin-changeset@1.21.2
+  - @modern-js/plugin-jarvis@1.21.2
+  - @modern-js/plugin-i18n@1.21.2
+  - @modern-js/upgrade@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/core@1.21.1
+- @modern-js/plugin-changeset@1.21.1
+- @modern-js/plugin-i18n@1.21.1
+- @modern-js/plugin-jarvis@1.21.1
+- @modern-js/new-action@1.21.1
+- @modern-js/plugin@1.21.1
+- @modern-js/upgrade@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- Updated dependencies [cfd8557]
+- Updated dependencies [dca34c4]
+- Updated dependencies [28f0a4f]
+- Updated dependencies [b0597e3]
+  - @modern-js/new-action@1.21.0
+  - @modern-js/upgrade@1.21.0
+  - @modern-js/core@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+  - @modern-js/plugin-changeset@1.21.0
+  - @modern-js/plugin-jarvis@1.21.0
+  - @modern-js/plugin-i18n@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/core@1.20.1
+  - @modern-js/plugin-changeset@1.20.1
+  - @modern-js/plugin-i18n@1.20.1
+  - @modern-js/plugin-jarvis@1.20.1
+  - @modern-js/new-action@1.20.1
+  - @modern-js/upgrade@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 8c05089: fix: support monorepo deploy in pnpm 7
+  fix: 修复 monorepo deploy 命令在 pnpm 7 下的问题
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+- Updated dependencies [d5d570b]
+  - @modern-js/utils@1.20.0
+  - @modern-js/core@1.20.0
+  - @modern-js/plugin-changeset@1.20.0
+  - @modern-js/plugin-i18n@1.20.0
+  - @modern-js/plugin-jarvis@1.20.0
+  - @modern-js/new-action@1.20.0
+  - @modern-js/upgrade@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- Updated dependencies [d2cfa69]
+- Updated dependencies [d2fbefc]
+- Updated dependencies [d2fbefc]
+  - @modern-js/core@1.19.0
+  - @modern-js/plugin-jarvis@1.19.0
+  - @modern-js/plugin-changeset@1.19.0
+  - @modern-js/new-action@1.19.0
+  - @modern-js/upgrade@1.19.0
+  - @modern-js/plugin-i18n@1.19.0
+  - @modern-js/plugin@1.19.0
+  - @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [318e149]
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/core@1.18.1
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/plugin-changeset@1.18.1
+  - @modern-js/plugin-jarvis@1.18.1
+  - @modern-js/plugin-i18n@1.18.1
+  - @modern-js/new-action@1.18.1
+  - @modern-js/upgrade@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [9f13d8c]
+- Updated dependencies [60a2e3a]
+- Updated dependencies [5227370]
+- Updated dependencies [66ad36f]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/upgrade@1.18.0
+  - @modern-js/core@1.18.0
+  - @modern-js/plugin-changeset@1.18.0
+  - @modern-js/plugin-i18n@1.18.0
+  - @modern-js/plugin-jarvis@1.18.0
+  - @modern-js/new-action@1.18.0
+  - @modern-js/plugin@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- fb30bca: feat: add upgrade tools and command
+
+  feat: 增加升级工具和升级命令
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [fb30bca]
+- Updated dependencies [f3fab28]
+- Updated dependencies [151329d]
+- Updated dependencies [367405a]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [9f4e5ce]
+- Updated dependencies [58c53a7]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/upgrade@1.17.0
+  - @modern-js/new-action@1.17.0
+  - @modern-js/core@1.17.0
+  - @modern-js/plugin-changeset@1.17.0
+  - @modern-js/plugin-i18n@1.17.0
+  - @modern-js/plugin-jarvis@1.17.0
+  - @modern-js/plugin@1.17.0
+
 ## 1.16.0
 
 ### Minor Changes

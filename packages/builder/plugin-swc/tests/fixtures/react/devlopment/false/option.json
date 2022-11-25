@@ -1,0 +1,10 @@
+{
+  "jsc": {
+    "transform": {
+      "react": {
+        "development": false,
+        "refresh": true
+      }
+    }
+  }
+}

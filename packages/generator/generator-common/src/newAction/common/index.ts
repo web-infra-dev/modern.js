@@ -13,11 +13,8 @@ export enum ActionElement {
 
 export enum ActionFunction {
   TailwindCSS = 'tailwindcss',
-  Less = 'less',
-  Sass = 'sass',
   BFF = 'bff',
   MicroFrontend = 'micro_frontend',
-  Electron = 'electron',
   I18n = 'i18n',
   Test = 'test',
   E2ETest = 'e2e_test',
@@ -30,7 +27,7 @@ export enum ActionFunction {
 }
 
 export enum ActionRefactor {
-  BFFToApp = 'bff_to_app',
+  ReactRouter5 = 'react_router_5',
 }
 
 export const ActionTypeText: Record<ActionType, () => string> = {
@@ -47,12 +44,9 @@ export const ActionElementText: Record<ActionElement, () => string> = {
 export const ActionFunctionText: Record<ActionFunction, () => string> = {
   [ActionFunction.TailwindCSS]: () =>
     i18n.t(localeKeys.action.function.tailwindcss),
-  [ActionFunction.Less]: () => i18n.t(localeKeys.action.function.less),
-  [ActionFunction.Sass]: () => i18n.t(localeKeys.action.function.sass),
   [ActionFunction.BFF]: () => i18n.t(localeKeys.action.function.bff),
   [ActionFunction.MicroFrontend]: () =>
     i18n.t(localeKeys.action.function.micro_frontend),
-  [ActionFunction.Electron]: () => i18n.t(localeKeys.action.function.electron),
   [ActionFunction.I18n]: () => i18n.t(localeKeys.action.function.i18n),
   [ActionFunction.Test]: () => i18n.t(localeKeys.action.function.test),
   [ActionFunction.E2ETest]: () => i18n.t(localeKeys.action.function.e2e_test),
@@ -67,8 +61,8 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
 };
 
 export const ActionRefactorText: Record<ActionRefactor, () => string> = {
-  [ActionRefactor.BFFToApp]: () =>
-    i18n.t(localeKeys.action.refactor.bff_to_app),
+  [ActionRefactor.ReactRouter5]: () =>
+    i18n.t(localeKeys.action.refactor.react_router_5),
 };
 
 export const ActionTypeTextMap: Record<

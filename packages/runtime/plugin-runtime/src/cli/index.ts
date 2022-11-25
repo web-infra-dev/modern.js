@@ -4,16 +4,18 @@ import type { CliPlugin } from '@modern-js/core';
 import PluginState from '../state/cli';
 import PluginSSR from '../ssr/cli';
 import PluginRouter from '../router/cli';
+import Document from '../document/cli';
 
 export default (): CliPlugin => ({
   name: '@modern-js/runtime',
   post: [
     '@modern-js/plugin-router',
     '@modern-js/plugin-ssr',
+    '@modern-js/plugin-document',
     '@modern-js/plugin-state',
     '@modern-js/plugin-design-token',
   ],
-  usePlugins: [PluginState(), PluginRouter(), PluginSSR()],
+  usePlugins: [PluginState(), PluginSSR(), PluginRouter(), Document()],
   setup: api => {
     return {
       config() {

@@ -19,7 +19,6 @@ describe('framework', () => {
         .init();
       apiHandler = await runner.prepareApiServer({
         pwd,
-        mode: 'framework',
         prefix: '/',
       });
     });

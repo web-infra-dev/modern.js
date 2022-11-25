@@ -11,9 +11,10 @@ import {
   i18n as commonI18n,
   BaseGenerator,
   Solution,
-  MonorepoSchema,
+  getMonorepoSchema,
   PackageManager,
   ChangesetGenerator,
+  PackagesGenerator,
 } from '@modern-js/generator-common';
 import {
   getPackageManagerText,
@@ -37,24 +38,37 @@ export const handleTemplateFile = async (
 ) => {
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
-  let schema = MonorepoSchema;
-  let inputValue = {};
+  let ans: Record<string, unknown> = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Monorepo, extra);
-    schema = generatorPlugin.getInputSchema(Solution.Monorepo);
-    inputValue = generatorPlugin.getInputValue();
+    const schema = generatorPlugin.getInputSchema();
+    const inputValue = generatorPlugin.getInputValue();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
+    ans = await appApi.getInputBySchema(
+      schema,
+      'formily',
+      {
+        ...context.config,
+        ...inputValue,
+        isMonorepo: true,
+      },
+      {},
+      {},
+    );
+  } else {
+    ans = await appApi.getInputBySchemaFunc(getMonorepoSchema, {
+      ...context.config,
+      isMonorepo: true,
+    });
   }
 
-  const ans = await appApi.getInputBySchema(schema, {
-    ...context.config,
-    ...inputValue,
-    isMonorepo: true,
-  });
-
-  const modernVersion = await getModernVersion(Solution.Monorepo);
+  const modernVersion = await getModernVersion(
+    Solution.Monorepo,
+    context.config.registry,
+    context.config.distTag,
+  );
 
   generator.logger.debug(`ans=`, ans);
 
@@ -116,6 +130,15 @@ export const handleTemplateFile = async (
   await appApi.runSubGenerator(
     getGeneratorPath(ChangesetGenerator, context.config.distTag),
   );
+
+  const { packagesInfo } = context.config;
+  if (packagesInfo && Object.keys(packagesInfo).length > 0) {
+    await appApi.runSubGenerator(
+      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      undefined,
+      context.config,
+    );
+  }
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

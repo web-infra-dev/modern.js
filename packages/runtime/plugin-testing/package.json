@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.16.0",
+  "version": "2.0.0-beta.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -92,12 +92,11 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "dev": "modern build --watch",
-    "build": "wireit",
-    "test": "wireit"
+    "build": "modern build",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
@@ -109,12 +108,11 @@
     "@modern-js-reduck/store": "^1.0.3",
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/plugin": "workspace:*",
-    "@modern-js/server": "workspace:*",
+    "@modern-js/prod-server": "workspace:*",
     "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
+    "@testing-library/react": "^13.4.0",
     "@types/testing-library__jest-dom": "^5.14.3",
     "jest-environment-node": "^27.2.2",
     "path-to-regexp": "^6.2.0",
@@ -129,7 +127,7 @@
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17",
-    "@modern-js/runtime": "workspace:^1.16.1"
+    "@modern-js/runtime": "workspace:^2.0.0-beta.1"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {
@@ -137,9 +135,10 @@
     }
   },
   "devDependencies": {
-    "react": "^17",
-    "react-dom": "^17",
+    "react": "^18",
+    "react-dom": "^18",
     "@modern-js/core": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/bff-core": "workspace:*",
     "@scripts/build": "workspace:*",
@@ -158,28 +157,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"
-  },
-  "wireit": {
-    "build": {
-      "command": "modern build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "command": "jest",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json",
-        "tests/**/*"
-      ],
-      "output": []
-    }
   }
 }

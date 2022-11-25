@@ -1,20 +1,16 @@
 import { createAsyncWaterfall, createAsyncWorkflow } from '@modern-js/plugin';
-import type {
-  Compiler,
-  Configuration,
-  MultiCompiler,
-} from '@modern-js/webpack';
+import type { webpack } from '@modern-js/builder-webpack-provider/types';
 
 export const beforeDev = createAsyncWorkflow();
 
 export const afterDev = createAsyncWorkflow();
 
 export const beforeCreateCompiler = createAsyncWorkflow<{
-  webpackConfigs: Configuration[];
+  bundlerConfigs: webpack.Configuration[];
 }>();
 
 export const afterCreateCompiler = createAsyncWorkflow<{
-  compiler: Compiler | MultiCompiler | undefined;
+  compiler: webpack.Compiler | webpack.MultiCompiler | undefined;
 }>();
 
 export const beforePrintInstructions = createAsyncWaterfall<{
@@ -22,10 +18,12 @@ export const beforePrintInstructions = createAsyncWaterfall<{
 }>();
 
 export const beforeBuild = createAsyncWorkflow<{
-  webpackConfigs: Configuration[];
+  bundlerConfigs?: webpack.Configuration[];
 }>();
 
-export const afterBuild = createAsyncWorkflow();
+export const afterBuild = createAsyncWorkflow<{
+  stats?: webpack.Stats | webpack.MultiStats;
+}>();
 
 export const beforeDeploy = createAsyncWorkflow<Record<string, any>>();
 
@@ -42,3 +40,5 @@ export const hooks = {
   beforeDeploy,
   afterDeploy,
 };
+
+export type AppHooks = typeof hooks;

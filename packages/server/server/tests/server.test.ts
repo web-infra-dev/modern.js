@@ -1,13 +1,12 @@
 import path from 'path';
-import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
+import webpack from 'webpack';
+import { getDefaultConfig, NormalizedConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
-import { webpack } from '@modern-js/webpack';
-import { AGGRED_DIR, RUN_MODE } from '@modern-js/prod-server';
+import { AGGRED_DIR } from '@modern-js/prod-server';
 import createServer, { Server } from '../src';
 import Watcher from '../src/dev-tools/watcher';
 import { ModernDevServer } from '../src/server/dev-server';
 
-jest.useFakeTimers();
 (global as any).setImmediate = () => false;
 const appDirectory = path.join(__dirname, './fixtures/pure');
 describe('test dev server', () => {
@@ -25,7 +24,7 @@ describe('test dev server', () => {
   test('shoule get modern server instance', async () => {
     const server = await createServer({
       config: {
-        ...defaultsConfig,
+        ...getDefaultConfig(),
         tools: {
           devServer: {
             proxy: {
@@ -33,9 +32,10 @@ describe('test dev server', () => {
             },
           },
         },
-      },
+      } as any,
       pwd: appDirectory,
       dev: true,
+      compiler: null as any,
     });
     expect(server instanceof Server).toBe(true);
     await server.close();
@@ -44,9 +44,10 @@ describe('test dev server', () => {
   describe('shoule get dev modern server instance', () => {
     test('should init server correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
       const modernServer = (server as any).server;
 
@@ -63,7 +64,7 @@ describe('test dev server', () => {
       expect(pwd).toBe(appDirectory);
       expect(distDir).toBe(path.join(appDirectory, 'dist'));
       expect(workDir).toBe(appDirectory);
-      expect(conf).toStrictEqual(defaultsConfig);
+      expect(conf).toStrictEqual(getDefaultConfig());
       expect(handlers).toBeDefined();
       expect(isDev).toBeFalsy();
       expect(staticGenerate).toBeFalsy();
@@ -73,9 +74,10 @@ describe('test dev server', () => {
 
     test('should add handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
       const modernServer = (server as any).server;
 
@@ -108,9 +110,10 @@ describe('test dev server', () => {
 
     test('should get request handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       const modernServer: any = (server as any).server;
@@ -121,9 +124,10 @@ describe('test dev server', () => {
 
     test('should get request handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       const modernServer: any = (server as any).server;
@@ -134,9 +138,10 @@ describe('test dev server', () => {
 
     test('should invoke onrepack correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       const modernServer: ModernDevServer = (server as any).server;
@@ -148,9 +153,10 @@ describe('test dev server', () => {
 
     test('should invoke onserver change correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       const modernServer = (server as any).server;
@@ -169,7 +175,7 @@ describe('test dev server', () => {
     test('should compiler work correctly', async () => {
       const compiler = webpack({});
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler,
@@ -182,7 +188,7 @@ describe('test dev server', () => {
     test('should multi compiler work correctly', async () => {
       const compiler = webpack([{}, { name: 'client' }]);
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
         compiler,
@@ -194,45 +200,16 @@ describe('test dev server', () => {
 
     test('should watcher work well', async () => {
       const devServer = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: getDefaultConfig() as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       expect(devServer.server.watcher).toBeInstanceOf(Watcher);
       await devServer.close();
-    });
-  });
-
-  describe('should split server work correctly', () => {
-    test('should init api server correctly', async () => {
-      const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
-        pwd: appDirectory,
-        dev: true,
-        apiOnly: true,
-        runMode: RUN_MODE.FULL,
-      });
-      const modernServer = (server as any).server;
-      modernServer.emitRouteHook('reset', {});
-      expect(modernServer.prepareWebHandler()).toBe(null);
-      await server.close();
-    });
-
-    test('should init ssr server correctly', async () => {
-      const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
-        pwd: appDirectory,
-        dev: true,
-        ssrOnly: true,
-        runMode: RUN_MODE.FULL,
-      });
-      const modernServer = (server as any).server;
-      modernServer.emitRouteHook('reset', {});
-      expect(modernServer.prepareAPIHandler()).toBe(null);
-      await server.close();
     });
   });
 });

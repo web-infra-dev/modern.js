@@ -23,11 +23,8 @@ export const EN_LOCALE = {
     function: {
       self: 'Enable features',
       tailwindcss: 'Enable Tailwind CSS',
-      less: 'Enable Less',
-      sass: 'Enable Sass',
       bff: 'Enable BFF',
       micro_frontend: 'Enable Micro Frontend',
-      electron: 'Enable Electron',
       i18n: 'Enable Internationalization (i18n)',
       test: 'Enable Unit Test / Integration Test',
       e2e_test: 'Enable E2E Test',
@@ -46,7 +43,7 @@ export const EN_LOCALE = {
     },
     refactor: {
       self: 'Automatic refactor',
-      bff_to_app: 'Transform BFF to frame mode',
+      react_router_5: 'Use React Router v5',
     },
   },
   boolean: {
@@ -70,27 +67,10 @@ export const EN_LOCALE = {
     format:
       'Only lowercase letters, numbers and delimiters (-), and underscore (_), and directory delimiters (/) can be used in package path.',
   },
-  runWay: {
-    self: 'Do you need to support the following types of applications',
-    no: 'Not Enabled',
-    electron: 'Electron',
-  },
-  needModifyConfig: {
-    self: 'Modify the Default Configuration?',
-    enableLess: 'Enable Less?',
-    enableSass: 'Enable Sass?',
-  },
   entry: {
     name: 'Entry name',
     no_empty: 'The entry name cannot be empty!',
     no_pages: 'The entry name cannot be "pages"!',
-    disableStateManagement: 'Disable App State Management?',
-    clientRoute: {
-      self: 'Client Routing',
-      selfControlRoute: 'Enable Self Control Route',
-      conventionalRoute: 'Enable Conventional Route',
-      no: 'Not Enabled',
-    },
   },
   framework: {
     self: 'Please select the framework you want to use',

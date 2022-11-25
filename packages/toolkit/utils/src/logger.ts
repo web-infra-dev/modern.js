@@ -2,7 +2,7 @@ import chalk, { Color } from '../compiled/chalk';
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
-type LogMsg = number | string | Error;
+type LogMsg = number | string | Error | null;
 
 interface LoggerConfiguration {
   color?: typeof Color;
@@ -12,7 +12,6 @@ interface LoggerConfiguration {
 
 interface InstanceConfiguration {
   displayLabel?: boolean;
-  underlineLabel?: boolean;
   uppercaseLabel?: boolean;
 }
 
@@ -22,12 +21,7 @@ interface ConstructorOptions {
   types?: Record<string, LoggerConfiguration>;
 }
 
-type LoggerFunction = (
-  message?: number | string | Error,
-  ...args: any[]
-) => void;
-
-const { grey, underline } = chalk;
+type LoggerFunction = (message?: LogMsg, ...args: any[]) => void;
 
 const LOG_LEVEL: Record<string, number> = {
   error: 0,
@@ -44,13 +38,18 @@ const LOG_TYPES = {
     level: 'error',
   },
   info: {
-    color: 'blue',
+    color: 'cyan',
     label: 'info',
+    level: 'info',
+  },
+  success: {
+    color: 'green',
+    label: 'Success',
     level: 'info',
   },
   warn: {
     color: 'yellow',
-    label: 'warning',
+    label: 'warn',
     level: 'warn',
   },
   debug: {
@@ -63,16 +62,11 @@ const LOG_TYPES = {
 
 const DEFAULT_CONFIG = {
   displayLabel: true,
-  underlineLabel: true,
   uppercaseLabel: false,
 };
 
 class Logger {
-  private readonly logCount: number = 200;
-
   private readonly level: string;
-
-  private history: Partial<Record<string, Array<string>>> = {};
 
   private readonly config: InstanceConfiguration;
 
@@ -96,18 +90,8 @@ class Logger {
     });
   }
 
-  private retainLog(type: string, message: string) {
-    if (!this.history[type]) {
-      this.history[type] = [];
-    }
-    this.history[type]!.push(message);
-    while (this.history[type]!.length > this.logCount) {
-      this.history[type]!.shift();
-    }
-  }
-
   private _log(type: string, message?: LogMsg, ...args: string[]) {
-    if (message === undefined) {
+    if (message === undefined || message === null) {
       // eslint-disable-next-line no-console
       console.log();
       return;
@@ -125,20 +109,14 @@ class Logger {
       label = this.config.uppercaseLabel
         ? logType.label.toUpperCase()
         : logType.label;
-
-      if (this.config.underlineLabel) {
-        label = underline(label).padEnd(this.longestUnderlinedLabel.length + 1);
-      } else {
-        label = label.padEnd(this.longestLabel.length + 1);
-      }
-
-      label = logType.color ? chalk[logType.color](label) : label;
+      label = label.padEnd(this.longestLabel.length);
+      label = chalk.bold(logType.color ? chalk[logType.color](label) : label);
     }
 
     if (message instanceof Error) {
       if (message.stack) {
         const [name, ...rest] = message.stack.split('\n');
-        text = `${name}\n${grey(rest.join('\n'))}`;
+        text = `${name}\n${chalk.grey(rest.join('\n'))}`;
       } else {
         text = message.message;
       }
@@ -146,13 +124,7 @@ class Logger {
       text = `${message}`;
     }
 
-    // only retain logs of warn/error level
-    if (logType.level === 'warn' || logType.level === 'error') {
-      // retain log text without label
-      this.retainLog(type, text);
-    }
-
-    const log = label.length > 0 ? `${label}  ${text}` : text;
+    const log = label.length > 0 ? `${label} ${text}` : text;
     // eslint-disable-next-line no-console
     console.log(log, ...args);
   }
@@ -166,24 +138,6 @@ class Logger {
       }
     });
     return longestLabel;
-  }
-
-  private get longestUnderlinedLabel() {
-    return underline(this.longestLabel);
-  }
-
-  getRetainedLogs(type: string) {
-    return this.history[type] || [];
-  }
-
-  clearRetainedLogs(type: string) {
-    if (type) {
-      if (this.history[type]) {
-        this.history[type] = [];
-      }
-    } else {
-      this.history = {};
-    }
   }
 }
 

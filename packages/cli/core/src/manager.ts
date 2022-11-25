@@ -11,7 +11,6 @@ import {
   createAsyncWaterfall,
   createParallelWorkflow,
 } from '@modern-js/plugin';
-import { compatRequire } from '@modern-js/utils';
 import type { Hooks } from './types';
 import type { Command } from './utils/commander';
 import type { NormalizedConfig } from './config/mergeConfig';
@@ -80,15 +79,11 @@ export const manager = createAsyncManager<CliHooks, typeof pluginAPI>(
 );
 
 /** Plugin options of a cli plugin. */
-export type CliPlugin = PluginOptions<
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type CliPlugin<ExtendHooks = {}> = PluginOptions<
   CliHooks,
-  AsyncSetup<CliHooks, typeof pluginAPI>
+  AsyncSetup<CliHooks & ExtendHooks, typeof pluginAPI>,
+  ExtendHooks
 >;
 
 export const { createPlugin, registerHook, useRunner: mountHook } = manager;
-
-export const usePlugins = (plugins: string[]) =>
-  plugins.forEach(pluginPath => {
-    const module = compatRequire(require.resolve(pluginPath));
-    manager.usePlugin(module);
-  });

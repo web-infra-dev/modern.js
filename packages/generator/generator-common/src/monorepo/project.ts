@@ -1,18 +1,13 @@
-import { Schema } from '@modern-js/easy-form-core';
-import { PackageManager, PackageManagerSchema } from '../common';
+import { Schema } from '@modern-js/codesmith-formily';
+import { PackageManager, getPackageManagerSchema } from '../common';
 
-const MonorepoPackageManagerSchema = {
-  ...PackageManagerSchema,
-  items: (PackageManagerSchema.items as Schema[]).filter(
-    item => item.key !== PackageManager.Npm,
-  ),
-};
-export const MonorepoSchemas = [MonorepoPackageManagerSchema];
-
-export const MonorepoSchema: Schema = {
-  key: 'monorepo',
-  isObject: true,
-  items: MonorepoSchemas,
+export const getMonorepoSchema = (extra: Record<string, any> = {}): Schema => {
+  return {
+    type: 'object',
+    properties: {
+      packageManager: getPackageManagerSchema(extra),
+    },
+  };
 };
 
 export const MonorepoDefaultConfig = {

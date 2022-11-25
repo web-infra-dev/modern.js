@@ -1,0 +1,158 @@
+// Vitest Snapshot v1
+
+exports[`plugins/splitChunks > should not split chunks when target is not 1`] = `
+{
+  "optimization": {
+    "splitChunks": false,
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set all-in-one config 1`] = `
+{
+  "optimization": {
+    "splitChunks": false,
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set custom config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "force-split-0": {
+          "chunks": "all",
+          "enforce": true,
+          "name": "force-split-0",
+          "test": /react/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set single-size config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {},
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+      "maxSize": 5000,
+      "minSize": 1000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set single-vendor config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {},
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-antd": {
+          "name": "lib-antd",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+        },
+        "lib-arco": {
+          "name": "lib-arco",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]@arco-design\\[\\\\\\\\/\\]/,
+        },
+        "lib-babel": {
+          "name": "lib-babel",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]@babel\\\\/runtime\\|@babel\\\\/runtime-corejs2\\|@babel\\\\/runtime-corejs3\\[\\\\\\\\/\\]/,
+        },
+        "lib-corejs": {
+          "name": "lib-corejs",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]core-js\\[\\\\\\\\/\\]/,
+        },
+        "lib-lodash": {
+          "name": "lib-lodash",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+        },
+        "lib-react": {
+          "name": "lib-react",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+        },
+        "lib-router": {
+          "name": "lib-router",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+        },
+        "lib-semi": {
+          "name": "lib-semi",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]@ies\\\\/semi\\|@douyinfe\\\\/semi\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set split-by-module config 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "vendors": {
+          "name": [Function],
+          "priority": -10,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+      "maxInitialRequests": Infinity,
+      "minSize": 0,
+    },
+  },
+}
+`;

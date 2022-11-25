@@ -15,7 +15,7 @@ export const ZH_LOCALE = {
     start: { describe: '应用启动命令' },
     deploy: { describe: '部署应用命令' },
     new: {
-      describe: 'MWA 项目中中执行生成器',
+      describe: 'MWA 项目中执行生成器',
       debug: '开启 Debug 模式，打印调试日志信息',
       config: '生成器运行默认配置(JSON 字符串)',
       distTag: '生成器使用特殊的 npm Tag 版本',
@@ -24,7 +24,6 @@ export const ZH_LOCALE = {
     inspect: {
       env: '查看指定环境下的配置',
       output: '指定在 dist 目录下输出的路径',
-      noConsole: '不在终端中输出完整结果',
       verbose: '在结果中展示函数的完整内容',
     },
   },

@@ -11,12 +11,17 @@ function readPackage(pkg, _context) {
     pkg.dependencies['cssnano'] = '^5.1.12';
   }
 
-  // fix react 18 type conflicts
-  if ((pkg.dependencies['@types/react'] === '*')) {
-    pkg.dependencies['@types/react'] = '^17';
+  // esbuild >= 0.15.8 generates the logical or assignment operator and breaks in Node 14
+  if (pkg.dependencies['esbuild']?.startsWith('0.15')) {
+    pkg.dependencies['esbuild'] = '0.15.7';
   }
-  if ((pkg.dependencies['@types/react-dom'] === '*')) {
-    pkg.dependencies['@types/react-dom'] = '^17';
+
+  // vuepress v1 still depend on webpack v4
+  if (pkg.name === 'vue-server-renderer') {
+    pkg.peerDependencies = {
+      ...pkg.peerDependencies,
+      webpack: '^4',
+    };
   }
 
   return pkg;

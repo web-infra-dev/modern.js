@@ -1,7 +1,7 @@
 {
   "name": "@integration/module-tools-build",
   "version": "1.0.0",
-  "pravite": "true",
+  "private": true,
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/core": "workspace:*",

@@ -1,5 +1,65 @@
 # @modern-js/plugin
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- b8bbe036c7: feat: change type logic
+  feat: 修改类型相关的逻辑
+- f179749: fix: the sortPlugins api not work
+
+  fix: sortPlugins 没有真实生效
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- b8bbe036c: feat: change type logic
+  feat: 修改类型相关的逻辑
+
+## 1.21.2
+
+### Patch Changes
+
+- 9d4c0ba: chore: add types for exports field
+  chore: 为 exports 补充 types 字段
+
+## 1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- 28f0a4f: fix(plugin): fix return type of Workflow
+
+  fix(plugin): 修复 Workflow 的返回值类型错误
+
+## 1.20.1
+
+## 1.20.0
+
+## 1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- c1a4d9b: fix(plugin): incorrect createManager type in TS 4.8
+
+  fix(plugin): 修复 createManager 在 TS 4.8 下的类型问题
+
+## 1.18.0
+
+## 1.17.0
+
 ## 1.16.0
 
 ## 1.15.0

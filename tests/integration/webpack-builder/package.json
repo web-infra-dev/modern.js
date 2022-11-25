@@ -1,21 +1,29 @@
 {
+  "private": true,
   "name": "webpack-builder-test",
   "version": "0.1.0",
   "scripts": {
-    "dev": "tsx ./scripts/dev.ts",
-    "build": "tsx ./scripts/build.ts",
-    "inspect": "tsx ./scripts/inspect.ts"
+    "dev": "pnpm build:libs && node ./scripts/dist/dev.js",
+    "build": "pnpm build:libs && node ./scripts/dist/build.js",
+    "watch": "pnpm build:libs && node ./scripts/dist/watch.js",
+    "build:libs": "cd ../../.. && pnpm prepare && cd tests/integration/webpack-builder && pnpm build:script",
+    "build:script": "swc ./scripts -d scripts/dist",
+    "inspect": "pnpm build:libs && node ./scripts/dist/inspect.js"
   },
   "dependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-plugin-swc": "workspace:*",
+    "@modern-js/builder-plugin-esbuild": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "1.3.18",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "@modern-js/inspector-webpack-plugin": "^1.0.0-alpha.0",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
-    "tsx": "^3.7.1",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "typescript": "^4"
   }
 }

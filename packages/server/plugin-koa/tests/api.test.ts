@@ -18,7 +18,6 @@ describe('support Api function', () => {
 
     apiHandler = await runner.prepareApiServer({
       pwd,
-      mode: 'function',
       prefix,
     });
   });

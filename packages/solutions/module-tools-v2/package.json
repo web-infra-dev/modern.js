@@ -1,0 +1,105 @@
+{
+  "name": "@modern-js/module-tools-v2",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "modern",
+    "modern.js",
+    "module-tools",
+    "lib-tools"
+  ],
+  "version": "2.0.0-beta.1",
+  "bin": {
+    "modern": "./bin/modern.js"
+  },
+  "types": "./src/index.ts",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./defineConfig": "./src/config/defineConfig.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "types": [
+        "./lib/types.d.ts"
+      ],
+      "type": [
+        "./lib/types.d.ts"
+      ],
+      "defineConfig": [
+        "./src/config/defineConfig.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "build": "mdn build",
+    "dev": "mdn build --watch",
+    "test": "jest",
+    "test:update": "jest --updateSnapshot",
+    "new": "modern new"
+  },
+  "dependencies": {
+    "@modern-js/core": "workspace:*",
+    "@modern-js/libuild": "0.4.1-alpha.0",
+    "@modern-js/libuild-plugin-umd": "0.4.0",
+    "@modern-js/libuild-plugin-es5": "0.4.0",
+    "@modern-js/new-action": "workspace:*",
+    "@modern-js/plugin": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/upgrade": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@modern-js/plugin-changeset": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "7.20.2",
+    "@modern-js/self": "workspace:@modern-js/module-tools-v2@*",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
+    "@types/jest": "^27",
+    "@types/node": "^14",
+    "@types/fs-extra": "9.0.13",
+    "fs-extra": "10.1.0",
+    "jest": "^27",
+    "path-browserify": "1.0.1",
+    "postcss": "8.4.6",
+    "postcss-alias": "2.0.0",
+    "react": "17",
+    "typescript": "^4"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/index.d.ts",
+    "main": "./dist/index.js",
+    "exports": {
+      ".": "./dist/index.js",
+      "./defineConfig": "./dist/config/defineConfig.js"
+    },
+    "typesVersions": {
+      "*": {
+        "types": [
+          "./lib/types.d.ts"
+        ],
+        "type": [
+          "./lib/types.d.ts"
+        ],
+        "defineConfig": [
+          "./dist/config/defineConfig.d.ts"
+        ]
+      }
+    }
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "peerDependencies": {
+    "typescript": "^4"
+  }
+}

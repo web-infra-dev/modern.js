@@ -1,5 +1,75 @@
 # @modern-js/monorepo-generator
 
+## 3.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- d4a4566: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- 6b6f180279: fix: generator bundle
+
+  fix: 生成器打包
+
+## 3.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 6b6f180: fix: generator bundle
+
+  fix: 生成器打包
+
+## 2.4.7
+
+### Patch Changes
+
+- 7c89bd6: feat: @modern-js/create support --packages params to set special packages version
+
+  feat: @modern-js/create 支持 --packages 参数用于指定特殊的包版本
+
+## 2.4.6
+
+## 2.4.5
+
+### Patch Changes
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+## 2.4.4
+
+## 2.4.3
+
+## 2.4.0
+
+### Minor Changes
+
+- d2fbefc: feat: upgrade husky version
+
+  feat: 升级生成器模板 husky 版本
+
+## 2.3.4
+
+## 2.3.3
+
+## 2.3.1
+
+### Patch Changes
+
+- f3fab28: feat: new command use solution version
+
+  feat: new 命令使用当前工程方案对应版本的插件
+
 ## 2.3.0
 
 ### Minor Changes

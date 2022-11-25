@@ -1,6 +1,6 @@
 import path from 'path';
 import os from 'os';
-import { fs } from '@modern-js/generator-utils';
+import { fs } from '@modern-js/utils';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   CodeSmith,
@@ -8,7 +8,7 @@ import {
   GeneratorCore,
   MaterialsManager,
 } from '@modern-js/codesmith';
-import { PackageManagerSchema } from '../src/common/package-manager';
+import { getPackageManagerSchema } from '../src/common/package-manager';
 
 describe('test package manager schema', () => {
   it('get input', async () => {
@@ -25,10 +25,21 @@ describe('test package manager schema', () => {
       material: new FsMaterial(path.join(__dirname, '..')),
     };
     const appApi = new AppAPI(mockGeneratorCore._context, mockGeneratorCore);
-    const ans = await appApi.getInputBySchema(PackageManagerSchema, {
-      packageManager: 'pnpm',
-      isMonorepo: true,
-    });
+    const ans = await appApi.getInputBySchemaFunc(
+      () => ({
+        type: 'object',
+        properties: {
+          packageManager: getPackageManagerSchema({
+            packageManager: 'pnpm',
+            isMonorepo: true,
+          }),
+        },
+      }),
+      {
+        packageManager: 'pnpm',
+        isMonorepo: true,
+      },
+    );
     expect(ans).toEqual({ packageManager: 'pnpm', isMonorepo: true });
   });
 });

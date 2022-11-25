@@ -1,5 +1,11 @@
 import type { RuntimePlugin } from '@modern-js/core';
-import type { Entrypoint, Route } from '@modern-js/types';
+import type {
+  Entrypoint,
+  NestedRoute,
+  PageRoute,
+  Route,
+  RouteLegacy,
+} from '@modern-js/types';
 
 export const index = ({
   mountId,
@@ -55,12 +61,7 @@ export const renderFunction = ({
     ${
       customBootstrap
         ? `customBootstrap(AppWrapper);`
-        : `if (IS_REACT18) {
-  root = ReactDOM.createRoot(document.getElementById(MOUNT_ID || 'root'))
-  bootstrap(AppWrapper, MOUNT_ID, root, root.render, ReactDOM.hydrateRoot);
-} else {
-  bootstrap(AppWrapper, MOUNT_ID, undefined, ReactDOM.render, ReactDOM.hydrate);
-}`
+        : `bootstrap(AppWrapper, MOUNT_ID, root, ReactDOM);`
     }
   }
 
@@ -102,19 +103,197 @@ export const html = (partials: {
 </html>
 `;
 
-export const fileSystemRoutes = ({ routes }: { routes: Route[] }) => `
-import loadable from '@modern-js/runtime/loadable';
+export const routesForServer = ({
+  routes,
+  alias,
+}: {
+  routes: (NestedRoute | PageRoute)[];
+  alias: {
+    name: string;
+    basename: string;
+  };
+}) => {
+  const { name, basename } = alias;
+  const loaders: string[] = [];
+  const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
+    let children: Route['children'];
+    if ('children' in route && route.children) {
+      children = route?.children?.map(traverseRouteTree);
+    }
+    let loader: string | undefined;
 
-${routes
-  .map(
-    ({ component, _component }) =>
-      `const ${component} = loadable(() => import('${_component}'));`,
-  )
-  .join('\n\n')}
+    if (route.type === 'nested') {
+      if (route.loader) {
+        loaders.push(route.loader);
+        loader = `loader_${loaders.length - 1}`;
+      }
+    }
 
+    const finalRoute = {
+      ...route,
+      loader,
+      children,
+    };
+    return finalRoute;
+  };
 
-export const routes = ${JSON.stringify(routes, null, 2).replace(
-  /"component"\s*:\s*"(\S+)"/g,
-  '"component": $1',
-)}
-`;
+  let routesCode = `
+  export const routes = [
+  `;
+  for (const route of routes) {
+    if ('type' in route) {
+      const newRoute = traverseRouteTree(route);
+      routesCode += `${JSON.stringify(newRoute, null, 2).replace(
+        /"(loader_[^"])"/g,
+        '$1',
+      )},`;
+    } else {
+      routesCode += `${JSON.stringify(route, null, 2)}`;
+    }
+  }
+  routesCode += `\n];`;
+  const importLoadersCode = loaders
+    .map((loader, index) => {
+      const realLoaderPath = loader.replace(name, basename);
+      return `import loader_${index} from '${realLoaderPath}';\n`;
+    })
+    .join('');
+
+  return `
+    ${importLoadersCode}
+    ${routesCode}
+  `;
+};
+
+export const fileSystemRoutes = ({
+  routes,
+  ssrMode,
+  nestedRoutesEntry,
+  entryName,
+}: {
+  routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
+  ssrMode: 'string' | 'stream' | false;
+  nestedRoutesEntry?: string;
+  entryName: string;
+}) => {
+  // The legacy mode and pages dir routes should use loadable
+  // nested routes + renderTostring should use loadable.lazy
+  // nested routes + renderToStream should use react.lazy
+  const importLazyCode = `
+    import { lazy } from "react";
+    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
+  `;
+  let dataLoaderPath = '';
+  if (ssrMode) {
+    dataLoaderPath = require.resolve(`@modern-js/plugin-data-loader/loader`);
+    if (nestedRoutesEntry) {
+      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}&entryName=${entryName}!`;
+    }
+  }
+
+  const loadings: string[] = [];
+  const errors: string[] = [];
+  const loaders: string[] = [];
+
+  const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
+    let children: Route['children'];
+    if ('children' in route && route.children) {
+      children = route?.children?.map(traverseRouteTree);
+    }
+    let loading: string | undefined;
+    let error: string | undefined;
+    let loader: string | undefined;
+    let component = '';
+
+    if (route.type === 'nested') {
+      if (route.loading) {
+        loadings.push(route.loading);
+        loading = `loading_${loadings.length - 1}`;
+      }
+      if (route.error) {
+        errors.push(route.error);
+        error = `error_${errors.length - 1}`;
+      }
+      if (route.loader) {
+        loaders.push(route.loader);
+        loader = `loader_${loaders.length - 1}`;
+      }
+
+      if (route._component) {
+        if (ssrMode === 'stream') {
+          component = `lazy(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
+        } else {
+          component = `loadable(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
+        }
+      }
+    } else if (route._component) {
+      component = `loadable(() => import('${route._component}'))`;
+    }
+
+    const finalRoute = {
+      ...route,
+      loading,
+      loader,
+      error,
+      children,
+    };
+    if (route._component) {
+      finalRoute.component = component;
+    }
+    return finalRoute;
+  };
+
+  let routeComponentsCode = `
+    export const routes = [
+  `;
+  for (const route of routes) {
+    if ('type' in route) {
+      const newRoute = traverseRouteTree(route);
+      routeComponentsCode += `${JSON.stringify(newRoute, null, 2)
+        .replace(/"(loadable.*\))"/g, '$1')
+        .replace(/"(loadableLazy.*\))"/g, '$1')
+        .replace(/"(lazy.*\))"/g, '$1')
+        .replace(/"(loading_[^"])"/g, '$1')
+        .replace(/"(loader_[^"])"/g, '$1')
+        .replace(/"(error_[^"])"/g, '$1')
+        .replace(/\\"/g, '"')},`;
+    } else {
+      const component = `loadable(() => import('${route._component}'))`;
+      const finalRoute = {
+        ...route,
+        component,
+      };
+
+      routeComponentsCode += `${JSON.stringify(finalRoute, null, 2)
+        .replace(/"(loadable[^"]*)"/g, '$1')
+        .replace(/"(lazy[^"]*)"/g, '$1')},`;
+    }
+  }
+  routeComponentsCode += `\n];`;
+
+  const importLoadingCode = loadings
+    .map((loading, index) => {
+      return `import loading_${index} from '${loading}';\n`;
+    })
+    .join('');
+
+  const importErrorComponentsCode = errors
+    .map((error, index) => {
+      return `import error_${index} from '${error}';\n`;
+    })
+    .join('');
+
+  const importLoaderComponentsCode = loaders
+    .map((loader, index) => {
+      return `import loader_${index} from '${dataLoaderPath}${loader}';\n`;
+    })
+    .join('');
+
+  return `
+    ${importLazyCode}
+    ${importLoadingCode}
+    ${importErrorComponentsCode}
+    ${importLoaderComponentsCode}
+    ${routeComponentsCode}
+  `;
+};

@@ -22,11 +22,8 @@ export const ZH_LOCALE = {
     function: {
       self: '启用可选功能',
       tailwindcss: '启用 Tailwind CSS 支持',
-      less: '启用 Less 支持',
-      sass: '启用 Sass 支持',
       bff: '启用「BFF」功能',
       micro_frontend: '启用「微前端」模式',
-      electron: '启用「Electron」模式',
       i18n: '启用「国际化（i18n）」功能',
       test: '启用「单元测试 / 集成测试」功能',
       e2e_test: '启用「E2E 测试」功能',
@@ -45,7 +42,7 @@ export const ZH_LOCALE = {
     },
     refactor: {
       self: '自动重构',
-      bff_to_app: 'BFF 切换框架模式',
+      react_router_5: '使用 React Router v5',
     },
   },
   boolean: {
@@ -58,28 +55,10 @@ export const ZH_LOCALE = {
   packageManager: {
     self: '请选择包管理工具',
   },
-  runWay: {
-    self: '是否需要支持以下类型应用',
-    no: '不需要',
-    electron: 'Electron',
-  },
-  needModifyConfig: {
-    self: '是否需要调整默认配置?',
-    enableLess: '是否启用 Less 支持?',
-    enableSass: '是否启用 Sass 支持?',
-  },
   entry: {
     name: '请填写入口名称',
     no_empty: '入口名称不能为空！',
     no_pages: '入口名称不支持 "pages"！',
-    needModifyConfig: '是否需要调整默认配置?',
-    disableStateManagement: '是否关闭「应用状态管理」功能?',
-    clientRoute: {
-      self: '请选择客户端路由方式',
-      selfControlRoute: '启用自控路由',
-      conventionalRoute: '启用约定式路由',
-      no: '不启用',
-    },
   },
   packageName: {
     self: '请填写项目名称',

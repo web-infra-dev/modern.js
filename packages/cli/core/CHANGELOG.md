@@ -1,5 +1,248 @@
 # @modern-js/core
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- c9e800d39a: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- 92f0ead: feat:
+
+  1. core: 增加 test 函数
+  2. module plugins: 增加 `babel`, `mainField`, `target` 插件
+  3. storybook: 修改部分逻辑并且增加 tspath webpack 插件
+  4. 增加 designSystem 配置
+
+  feat:
+
+  1. core: add test method
+  2. module plugins: add `babel`, `mainField`, `target` plugin
+  3. storybook: change some logic and add tspath webpack plugin
+  4. add `designSystem` config
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- d5a31df781: refactor: remove unbundle configs and types
+
+  refactor: 移除 unbundle 相关的配置项和类型定义
+
+### Patch Changes
+
+- 85edee888c: feat(app-tools): support tools.htmlPlugin config
+
+  feat(app-tools): 支持 tools.htmlPlugin 配置项
+
+- b8bbe036c7: feat: change type logic
+  feat: 修改类型相关的逻辑
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/node-bundle-require@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/plugin@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- c9e800d39: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- edd1cfb1a: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- d5a31df78: refactor: remove unbundle configs and types
+
+  refactor: 移除 unbundle 相关的配置项和类型定义
+
+### Patch Changes
+
+- 85edee8: feat(app-tools): support tools.htmlPlugin config
+
+  feat(app-tools): 支持 tools.htmlPlugin 配置项
+
+- b8bbe036c: feat: change type logic
+  feat: 修改类型相关的逻辑
+- 8b8e1bb57: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [a2509bf]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/node-bundle-require@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/plugin@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/plugin@1.21.2
+  - @modern-js/node-bundle-require@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@1.21.1
+- @modern-js/plugin@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- dca34c4: fix(core): dev.https missing object type
+
+  fix(core): 修复 dev.https 配置项缺少对象类型的问题
+
+- b0597e3: feat(webpack): expose HtmlWebpackPlugin instance in tools.webpack
+
+  feat(webpack): 支持在 tools.webpack 中获取到 HtmlWebpackPlugin 实例
+
+- Updated dependencies [7b3a482]
+- Updated dependencies [28f0a4f]
+  - @modern-js/node-bundle-require@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/node-bundle-require@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- d5d570b: fix(core): failed to log validate config errors from plugins
+
+  fix(core): 修复校验 plugin 中的 config 异常时，日志格式不正确的问题
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/node-bundle-require@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- d2cfa69: feat: add production env for release command
+  feat: 为 release 命令增加 production 环境变量
+  - @modern-js/node-bundle-require@1.19.0
+  - @modern-js/plugin@1.19.0
+  - @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- 318e149: fix: tools.devServer type missing some properties
+
+  fix: 修复 tools.devServer 类型定义不完整的问题
+
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/node-bundle-require@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- 60a2e3a: feat: add compiler option for server
+  feat: 为 server 添加编译选项
+- 66ad36f: feat: add source.enableAsyncEntry config
+
+  feat: 新增 source.enableAsyncEntry 配置项
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/node-bundle-require@1.18.0
+  - @modern-js/plugin@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- 367405a: fix(core): missing BabelConfig type
+
+  fix(core): 修复未导出 BabelConfig 类型的问题
+
+- 9f4e5ce: fix(core): cli -c option not work
+
+  fix(core): 修复命令行中 -c 选项不生效的问题
+
+- 58c53a7: fix: add merge check
+  fix: 添加合并属性的检查
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/node-bundle-require@1.17.0
+  - @modern-js/plugin@1.17.0
+
 ## 1.16.0
 
 ### Patch Changes
@@ -31,7 +274,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for webpack-builder
+- 7b9067f: add babel plugin for builder
 
 ### Patch Changes
 

@@ -3,10 +3,9 @@
   "name": "less-npm-import",
   "version": "1.0.0",
   "dependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^18",
+    "react-dom": "^18",
     "@modern-js/runtime": "workspace:*",
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-less": "workspace:*"
+    "@modern-js/app-tools": "workspace:*"
   }
 }

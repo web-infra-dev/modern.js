@@ -1,5 +1,5 @@
 import { DevServer as Server } from './server';
-import { ModernDevServerOptions } from './types';
+import type { ModernDevServerOptions } from './types';
 
 export { Server };
 export type { ModernDevServerOptions };

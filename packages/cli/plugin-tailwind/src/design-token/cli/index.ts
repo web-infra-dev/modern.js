@@ -3,7 +3,8 @@ import {
   PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
-import type { CliPlugin, NormalizedConfig } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
+import type { LegacyUserConfig } from '../../types';
 
 export default (
   { pluginName } = { pluginName: '@modern-js/plugin-tailwindcss' },
@@ -16,14 +17,8 @@ export default (
 
     const PLUGIN_IDENTIFIER = 'designToken';
 
-    const getDesignTokens = (userConfig: NormalizedConfig) => {
-      const {
-        source: { designSystem },
-      } = userConfig as NormalizedConfig & {
-        source: {
-          designSystem: Record<string, any>;
-        };
-      }; // TODO: Type to be filled
+    const getDesignTokens = (userConfig: LegacyUserConfig) => {
+      const designSystem = userConfig.source?.designSystem;
 
       const tailwindcssConfig: Record<string, any> = {};
 
@@ -66,17 +61,9 @@ export default (
       },
 
       modifyEntryImports({ entrypoint, imports }: any) {
-        const userConfig =
-          api.useResolvedConfigContext() as NormalizedConfig & {
-            source: {
-              designSystem?: {
-                supportStyledComponents?: boolean;
-              };
-            };
-          };
-        const {
-          source: { designSystem },
-        } = userConfig;
+        const userConfig = api.useResolvedConfigContext() as LegacyUserConfig;
+        const designSystem = userConfig.source?.designSystem ?? {};
+
         if (
           typeof designSystem === 'object' &&
           designSystem.supportStyledComponents
@@ -102,15 +89,8 @@ export default (
       },
 
       modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
-        const {
-          source: { designSystem },
-        } = api.useResolvedConfigContext() as NormalizedConfig & {
-          source: {
-            designSystem?: {
-              supportStyledComponents?: boolean;
-            };
-          };
-        };
+        const userConfig = api.useResolvedConfigContext() as LegacyUserConfig;
+        const designSystem = userConfig.source?.designSystem ?? {};
         let useSCThemeProvider = true;
         if (designSystem) {
           // when designSystem exist, designToken.styledComponents`s default value is false.

@@ -36,7 +36,7 @@ export const getIpv4Interfaces = () => {
   return ipv4Interfaces;
 };
 
-const getAddressUrls = (protocol = 'http', port: number) => {
+export const getAddressUrls = (protocol = 'http', port: number) => {
   const ipv4Interfaces = getIpv4Interfaces();
   return ipv4Interfaces.reduce(
     (memo: { type: string; url: string }[], detail) => {

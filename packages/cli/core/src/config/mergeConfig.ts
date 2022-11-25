@@ -4,7 +4,7 @@ import { UserConfig, SourceConfig, ToolsConfig } from '.';
 
 export interface NormalizedSourceConfig
   extends Omit<SourceConfig, 'alias' | 'moduleScopes'> {
-  alias: SourceConfig['alias'] | Array<SourceConfig['alias']>;
+  alias: SourceConfig['alias'] | Array<NonNullable<SourceConfig['alias']>>;
   moduleScopes:
     | SourceConfig['moduleScopes']
     | Array<SourceConfig['moduleScopes']>;
@@ -46,6 +46,9 @@ export interface NormalizedToolsConfig
     | ToolsConfig['minifyCss']
     | Array<NonNullable<ToolsConfig['minifyCss']>>;
   esbuild: ToolsConfig['esbuild'] | Array<NonNullable<ToolsConfig['esbuild']>>;
+  htmlPlugin:
+    | ToolsConfig['htmlPlugin']
+    | Array<NonNullable<ToolsConfig['htmlPlugin']>>;
 }
 
 export interface NormalizedConfig

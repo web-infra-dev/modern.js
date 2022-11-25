@@ -15,12 +15,27 @@ import {
 import type {
   ModernServerContext,
   BaseSSRServerContext,
-  Metrics,
-  Logger,
-} from '@modern-js/types/server';
+  AfterMatchContext,
+  AfterRenderContext,
+  MiddlewareContext,
+  ISAppContext,
+  ServerRoute,
+} from '@modern-js/types';
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type { ISAppContext } from '@modern-js/types';
 import type { Options } from 'http-proxy-middleware';
+
+/** The subset of NormalizedConfig, which really need in server */
+export type ServerOptions = {
+  output: Pick<NormalizedConfig['output'], 'path' | 'assetPrefix'>;
+  source: Pick<NormalizedConfig['source'], 'alias' | 'envVars' | 'globalVars'>;
+  tools: {
+    babel: NormalizedConfig['tools']['babel'];
+  };
+  server: NormalizedConfig['server'];
+  runtime: NormalizedConfig['runtime'];
+  bff: NormalizedConfig['bff'];
+  plugins: NormalizedConfig['plugins'];
+};
 
 // collect all middleware register in server plugins
 const gather = createParallelWorkflow<{
@@ -28,22 +43,12 @@ const gather = createParallelWorkflow<{
   addAPIMiddleware: (_input: any) => void;
 }>();
 
-type ServerInitInput = {
-  loggerOptions: any;
-  metricsOptions: any;
-};
-
-type InitExtension = {
-  logger: Logger;
-  metrics: Metrics;
-};
-
 // config
 const config = createWaterfall<ServerConfig>();
 
 const prepare = createWaterfall();
 
-const create = createAsyncPipeline<ServerInitInput, InitExtension>();
+export type WebAdapter = (ctx: MiddlewareContext) => void | Promise<void>;
 
 export type Adapter = (
   req: IncomingMessage,
@@ -55,11 +60,22 @@ export type WebServerStartInput = {
   config: Record<string, any>;
 };
 
-const prepareWebServer = createAsyncPipeline<WebServerStartInput, Adapter>();
+export type BeforeRouteHandler = (
+  context: ModernServerContext,
+) => Promise<void>;
+
+const preparebeforeRouteHandler = createAsyncPipeline<
+  {
+    serverRoutes: ServerRoute[];
+    distDir: string;
+  },
+  BeforeRouteHandler
+>();
+
+const prepareWebServer = createAsyncPipeline<WebServerStartInput, WebAdapter>();
 
 export type APIServerStartInput = {
   pwd: string;
-  mode: 'function' | 'framework';
   prefix?: string;
   config?: {
     middleware?: Array<any>;
@@ -75,11 +91,11 @@ const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 
 const onApiChange = createWaterfall<Change[]>();
 
-const beforeDevServer = createParallelWorkflow<NormalizedConfig, any>();
+const beforeDevServer = createParallelWorkflow<ServerOptions, any>();
 
 const setupCompiler = createParallelWorkflow<Record<string, unknown>, any[]>();
 
-const afterDevServer = createParallelWorkflow<NormalizedConfig, any>();
+const afterDevServer = createParallelWorkflow<ServerOptions, any>();
 
 // TODO FIXME
 export type Route = Record<string, unknown>;
@@ -87,9 +103,9 @@ const beforeRouteSet = createAsyncPipeline<Route[], Route[]>();
 
 const afterRouteSet = createAsyncPipeline();
 
-const beforeProdServer = createParallelWorkflow<NormalizedConfig, any>();
+const beforeProdServer = createParallelWorkflow<ServerOptions, any>();
 
-const afterProdServer = createParallelWorkflow<NormalizedConfig, any>();
+const afterProdServer = createParallelWorkflow<ServerOptions, any>();
 
 const listen = createParallelWorkflow<
   {
@@ -118,10 +134,7 @@ const beforeMatch = createAsyncPipeline<
   any
 >();
 
-const afterMatch = createAsyncPipeline<
-  { context: ModernServerContext; routeAPI: any },
-  any
->();
+const afterMatch = createAsyncPipeline<AfterMatchContext, any>();
 
 // TODO FIXME
 export type SSRServerContext = Record<string, unknown>;
@@ -141,10 +154,7 @@ const beforeRender = createAsyncPipeline<
   any
 >();
 
-const afterRender = createAsyncPipeline<
-  { context: ModernServerContext; templateAPI: any },
-  any
->();
+const afterRender = createAsyncPipeline<AfterRenderContext, any>();
 
 const beforeSend = createAsyncPipeline<ModernServerContext, RequestResult>();
 
@@ -181,7 +191,7 @@ const serverHooks = {
   gather,
   config,
   prepare,
-  create,
+  preparebeforeRouteHandler,
   prepareWebServer,
   prepareApiServer,
   onApiChange,

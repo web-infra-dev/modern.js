@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "server-config",
   "version": "0.1.0",
   "scripts": {
@@ -10,11 +11,6 @@
   },
   "engines": {
     "node": ">=14.17.6"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -33,18 +29,17 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/runtime": "workspace:*",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "typescript": "^4",
     "@types/express": "^4.17.13"
   },

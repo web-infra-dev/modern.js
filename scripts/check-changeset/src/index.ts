@@ -13,6 +13,9 @@ async function run() {
   );
   for (const changeset of changesets) {
     const { id, releases, summary } = changeset;
+    if (id === 'rotten-carrots-joke') {
+      continue;
+    }
     releases.forEach(release => {
       if (release.type === 'major') {
         throw Error(`packages ${release.name} not allow bump major version`);
@@ -27,5 +30,7 @@ async function run() {
 }
 
 run().catch(e => {
-  throw e;
+  console.error(e);
+  // eslint-disable-next-line no-process-exit
+  process.exit(1);
 });

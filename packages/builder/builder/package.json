@@ -1,0 +1,54 @@
+{
+  "name": "@modern-js/builder",
+  "description": "Builder of modern.js.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "version": "2.0.0-beta.1",
+  "jsnext:source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "jsnext:modern": "./dist/index.js",
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern new",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest dev --no-coverage",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "@modern-js/builder-shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "7.18.0",
+    "@scripts/vitest-config": "workspace:*",
+    "@types/babel__core": "^7.1.19",
+    "@types/babel__preset-env": "^7.9.2",
+    "@types/node": "^14",
+    "typescript": "^4"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/index.d.ts"
+  }
+}

@@ -96,12 +96,14 @@ function formatMessage(stats: webpack.StatsError | string) {
   return message.trim();
 }
 
-function formatWebpackMessages(json: StatsCompilation): {
+function formatWebpackMessages(
+  json?: Pick<StatsCompilation, 'errors' | 'warnings'>,
+): {
   errors: string[];
   warnings: string[];
 } {
-  const formattedErrors = json.errors?.map(formatMessage);
-  const formattedWarnings = json.warnings?.map(formatMessage);
+  const formattedErrors = json?.errors?.map(formatMessage);
+  const formattedWarnings = json?.warnings?.map(formatMessage);
 
   const result = {
     errors: formattedErrors || [],

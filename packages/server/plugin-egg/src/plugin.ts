@@ -153,10 +153,11 @@ export default (): ServerPlugin => ({
   name: '@modern-js/plugin-egg',
   pre: ['@modern-js/plugin-bff'],
   setup: api => ({
-    async prepareApiServer({ pwd, mode, config, prefix }) {
+    async prepareApiServer({ pwd, config, prefix }) {
       const apiDir = path.join(pwd, API_DIR);
       const appContext = api.useAppContext();
       const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
+      const mode = appContext.apiMode;
 
       const isGenerateType = process.env.NODE_ENV === 'development';
       enableTs(pwd, isGenerateType);
@@ -225,7 +226,10 @@ export default (): ServerPlugin => ({
 
       initEggConfig(app);
 
-      return (req, res) => {
+      return ctx => {
+        const {
+          source: { res, req },
+        } = ctx;
         app.on('error', err => {
           if (err) {
             throw err;

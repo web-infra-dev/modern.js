@@ -1,5 +1,181 @@
 # @modern-js/plugin-express
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 8d24bed25b: fix: compat Hook API in /server namespace
+  fix: 在 @modern-js/runtime/server 命名空间下兼容 Hook API
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- Updated dependencies [2344eb2]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed587]
+- Updated dependencies [87c1ff8]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/bff-core@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/types@2.0.0-beta.1
+  - @modern-js/bff-runtime@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 8d24bed25: fix: compat Hook API in /server namespace
+  fix: 在 @modern-js/runtime/server 命名空间下兼容 Hook API
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- Updated dependencies [a2509bf]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed7]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4b]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/bff-core@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/types@2.0.0-beta.0
+  - @modern-js/bff-runtime@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/bff-core@1.21.2
+  - @modern-js/bff-runtime@1.21.2
+  - @modern-js/types@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/bff-core@1.21.1
+- @modern-js/bff-runtime@1.21.1
+- @modern-js/types@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- Updated dependencies [f51c59a]
+  - @modern-js/types@1.21.0
+  - @modern-js/utils@1.21.0
+  - @modern-js/bff-core@1.21.0
+  - @modern-js/bff-runtime@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/bff-core@1.20.1
+  - @modern-js/bff-runtime@1.20.1
+  - @modern-js/types@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [66e4817]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+  - @modern-js/utils@1.20.0
+  - @modern-js/types@1.20.0
+  - @modern-js/bff-core@1.20.0
+  - @modern-js/bff-runtime@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/bff-core@1.19.0
+- @modern-js/bff-runtime@1.19.0
+- @modern-js/types@1.19.0
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [318e149]
+- Updated dependencies [60d95ad]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/types@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/bff-core@1.18.1
+  - @modern-js/bff-runtime@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- 3d5e3a5: chore: get api mode from bff core
+  chore: 从 bff core 中获取 api mode
+- 2b7406d: feat: use typescript instead of babel as typescript compiler in server
+  feat: 服务端，增加 typescript 作为 typescipt 编译器
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/bff-core@1.18.0
+  - @modern-js/bff-runtime@1.18.0
+  - @modern-js/types@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/bff-core@1.17.0
+  - @modern-js/bff-runtime@1.17.0
+  - @modern-js/types@1.17.0
+
 ## 1.16.0
 
 ### Minor Changes

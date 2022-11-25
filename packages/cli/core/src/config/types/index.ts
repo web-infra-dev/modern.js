@@ -1,6 +1,6 @@
-import type { IncomingMessage, ServerResponse } from 'http';
-import type { NextFunction, BffProxyOptions } from '@modern-js/types';
+import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
 import type {
+  AliasOption,
   MetaOptions,
   ChainIdentifier,
   WatchOptions,
@@ -20,11 +20,11 @@ import type {
 } from 'terser-webpack-plugin';
 import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
 import { TransformOptions } from '@babel/core';
-import type { PluginConfig } from '../../loadPlugins';
+import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
+import type { PluginConfig, NewPluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
 import type { LessConfig, LessLoaderOptions } from './less';
-import type { UnbundleConfig } from './unbundle';
 import type {
   SSGConfig,
   SSGRouteOptions,
@@ -44,7 +44,7 @@ type TerserOptions = BasePluginOptions & {
 export type {
   TestConfig,
   JestConfig,
-  UnbundleConfig,
+  BabelConfig,
   SassConfig,
   SassLoaderOptions,
   LessConfig,
@@ -56,6 +56,8 @@ export type {
   TransformOptions,
   AutoprefixerOptions,
   TerserOptions,
+  PluginConfig,
+  NewPluginConfig,
 };
 
 export interface SourceConfig {
@@ -69,15 +71,14 @@ export interface SourceConfig {
       }
   >;
   preEntry?: string | string[];
+  enableAsyncEntry?: boolean;
   disableDefaultEntries?: boolean;
   entriesDir?: string;
   configDir?: string;
   apiDir?: string;
   envVars?: Array<string>;
   globalVars?: Record<string, string>;
-  alias?:
-    | Record<string, string>
-    | ((aliases: Record<string, string>) => Record<string, unknown>);
+  alias?: AliasOption;
   moduleScopes?:
     | Array<string | RegExp>
     | ((scopes: Array<string | RegExp>) => void)
@@ -135,15 +136,6 @@ export interface OutputConfig {
   disableNodePolyfill?: boolean;
   enableTsLoader?: boolean;
 
-  // TODO: remove unbundle configs after we completely deprecate it.
-  /**
-   * Disables lazy import support for styles, currently supports antd and arco-design.
-   * The configuration of `output.disableAutoImportStyle` is provided by `unbundle` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `unbundle` plugin
-   */
-  disableAutoImportStyle?: boolean;
-
   /**
    * The configuration of `output.ssg` is provided by `ssg` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
@@ -164,21 +156,35 @@ export interface ServerConfig {
       }
   >;
   publicRoutes?: { [filepath: string]: string };
-  ssr?: boolean | Record<string, unknown>;
-  ssrByEntries?: Record<string, boolean | Record<string, unknown>>;
+  ssr?:
+    | boolean
+    | {
+        mode?: 'string' | 'stream';
+        [property: string]: unknown;
+      };
+  ssrByEntries?: Record<
+    string,
+    | boolean
+    | {
+        mode?: 'string' | 'stream';
+        [property: string]: unknown;
+      }
+  >;
   baseUrl?: string | Array<string>;
   port?: number;
   logger?: boolean | Record<string, any>;
   metrics?: boolean | Record<string, any>;
   enableMicroFrontendDebug?: boolean;
   watchOptions?: WatchOptions;
+  compiler?: 'babel' | 'typescript';
+  disableFrameworkExt?: boolean;
 }
 
 export type DevProxyOptions = string | Record<string, string>;
 
 export interface DevConfig {
   assetPrefix?: string | boolean;
-  https?: boolean;
+  https?: DevServerHttpsOptions;
 
   /**
    * The configuration of `dev.proxy` is provided by `proxy` plugin.
@@ -186,14 +192,6 @@ export interface DevConfig {
    * @requires `proxy` plugin
    */
   proxy?: DevProxyOptions;
-
-  // TODO: remove unbundle configs after we completely deprecate it.
-  /**
-   * The configuration of `dev.unbundle` is provided by `unbundle` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `unbundle` plugin
-   */
-  unbundle?: UnbundleConfig;
 }
 
 export interface MicroFrontend {
@@ -216,22 +214,6 @@ type ConfigFunction =
       utils?: any,
     ) => Record<string, unknown> | void);
 
-export type RequestHandler = (
-  req: IncomingMessage,
-  res: ServerResponse,
-  next: NextFunction,
-) => void;
-
-export type DevServerConfig = {
-  hot?: boolean;
-  liveReload?: boolean;
-  proxy?: BffProxyOptions;
-  headers?: Record<string, string>;
-  before?: RequestHandler[];
-  after?: RequestHandler[];
-  [propsName: string]: any;
-};
-
 export type PostCSSConfigUtils = {
   addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void;
 };
@@ -245,8 +227,11 @@ export type PostCSSConfig =
 
 export type WebpackConfigUtils = {
   env: string;
+  /** @deprecated Use target instead */
   name: string;
+  target: string;
   webpack: typeof webpack;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
   addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
   prependPlugins: (
     plugins: WebpackPluginInstance | WebpackPluginInstance[],
@@ -255,10 +240,6 @@ export type WebpackConfigUtils = {
     plugins: WebpackPluginInstance | WebpackPluginInstance[],
   ) => void;
   removePlugin: (pluginName: string) => void;
-  /**
-   * @deprecated please use `tools.webpackChain` instead.
-   */
-  chain: WebpackChain;
 };
 
 export type WebpackConfig =
@@ -270,9 +251,12 @@ export type WebpackConfig =
 
 export type WebpackChainConfigUtils = {
   env: string;
+  /** @deprecated Use target instead */
   name: string;
+  target: string;
   webpack: typeof webpack;
   CHAIN_ID: ChainIdentifier;
+  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
 };
 
 export type WebpackChainConfig = (
@@ -300,6 +284,16 @@ export type TerserConfig =
   | TerserOptions
   | ((config: TerserOptions) => TerserOptions | void);
 
+export type HtmlPluginConfig =
+  | HTMLPluginOptions
+  | ((
+      options: HTMLPluginOptions,
+      entryInfo: {
+        entryName: string;
+        entryValue: webpack.Configuration['entry'];
+      },
+    ) => HTMLPluginOptions | void);
+
 export interface ToolsConfig {
   webpack?: WebpackConfig;
   webpackChain?: WebpackChainConfig;
@@ -308,11 +302,12 @@ export interface ToolsConfig {
   postcss?: PostCSSConfig;
   styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
-  devServer?: DevServerConfig;
+  devServer?: DevServerOptions;
   tsLoader?: TsLoaderConfig;
   terser?: TerserConfig;
   minifyCss?: ConfigFunction;
   esbuild?: Record<string, unknown>;
+  htmlPlugin?: HtmlPluginConfig;
 
   /**
    * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
@@ -330,18 +325,8 @@ export interface ToolsConfig {
    */
   jest?: TestConfig['jest'];
 
-  /**
-   * The configuration of `tools.sass` is provided by `sass` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `sass` plugin
-   */
   sass?: SassConfig;
 
-  /**
-   * The configuration of `tools.less` is provided by `less` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `less` plugin
-   */
   less?: LessConfig;
 }
 

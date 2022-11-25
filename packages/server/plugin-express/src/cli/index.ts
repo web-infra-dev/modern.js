@@ -30,6 +30,7 @@ export default (): CliPlugin => ({
             source: {
               alias: {
                 '@modern-js/runtime/server': relativeRuntimePath,
+                '@modern-js/runtime/express': relativeRuntimePath,
               },
             },
           };
@@ -38,6 +39,7 @@ export default (): CliPlugin => ({
             source: {
               alias: {
                 '@modern-js/runtime/server': serverRuntimePath,
+                '@modern-js/runtime/express': serverRuntimePath,
               },
             },
           };

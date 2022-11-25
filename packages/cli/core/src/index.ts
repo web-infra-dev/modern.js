@@ -2,12 +2,14 @@ import path from 'path';
 import {
   pkgUp,
   program,
+  Command,
   ensureAbsolutePath,
   logger,
-  INTERNAL_PLUGINS,
   DEFAULT_SERVER_CONFIG,
+  INTERNAL_SERVER_PLUGINS,
 } from '@modern-js/utils';
 import type { ErrorObject } from '@modern-js/utils/ajv';
+import { InternalPlugins } from '@modern-js/types';
 import { initCommandsMap } from './utils/commander';
 import { resolveConfig, loadUserConfig, addServerConfigToDeps } from './config';
 import { loadPlugins, TransformPlugin } from './loadPlugins';
@@ -33,13 +35,7 @@ export type {
 export * from '@modern-js/plugin';
 
 // TODO: remove export after refactor all plugins
-export {
-  manager,
-  mountHook,
-  usePlugins,
-  createPlugin,
-  registerHook,
-} from './manager';
+export { manager, mountHook, createPlugin, registerHook } from './manager';
 export type { CliHooks, CliPlugin, CliHookCallbacks } from './manager';
 
 // TODO: remove export after refactor all plugins
@@ -70,11 +66,15 @@ const initAppDir = async (cwd?: string): Promise<string> => {
 };
 
 export interface CoreOptions {
+  cwd?: string;
   version?: string;
   configFile?: string;
   serverConfigFile?: string;
   packageJsonConfig?: string;
-  plugins?: typeof INTERNAL_PLUGINS;
+  internalPlugins?: {
+    cli?: InternalPlugins;
+    server?: InternalPlugins;
+  };
   transformPlugin?: TransformPlugin;
   onSchemaError?: (error: ErrorObject) => void;
   options?: {
@@ -113,7 +113,7 @@ const createCli = () => {
 
     restartOptions = mergedOptions;
 
-    const appDirectory = await initAppDir();
+    const appDirectory = await initAppDir(options?.cwd);
 
     initCommandsMap();
     setProgramVersion(options?.version);
@@ -128,11 +128,11 @@ const createCli = () => {
     );
 
     const plugins = loadPlugins(appDirectory, loaded.config, {
-      internalPlugins: mergedOptions?.plugins,
+      internalPlugins: mergedOptions?.internalPlugins?.cli,
       transformPlugin: mergedOptions?.transformPlugin,
     });
 
-    plugins.forEach(plugin => plugin.cli && manager.usePlugin(plugin.cli));
+    plugins.forEach(plugin => plugin && manager.usePlugin(plugin));
 
     const appContext = initAppContext({
       appDirectory,
@@ -140,6 +140,8 @@ const createCli = () => {
       configFile: loaded.filePath,
       options: mergedOptions?.options,
       serverConfigFile: mergedOptions?.serverConfigFile,
+      serverInternalPlugins:
+        mergedOptions?.internalPlugins?.server || INTERNAL_SERVER_PLUGINS,
     });
 
     // 将 server.config 加入到 loaded.dependencies，以便对文件监听做热更新
@@ -243,10 +245,39 @@ const createCli = () => {
     }
   }
 
+  async function test(
+    argv: string[],
+    options?: {
+      coreOptions?: CoreOptions;
+      disableWatcher?: boolean;
+    },
+  ) {
+    const newProgram = new Command();
+    const { coreOptions } = options ?? {};
+    const { loadedConfig, appContext, resolved } = await init(
+      argv,
+      coreOptions,
+    );
+
+    await hooksRunner.commands({ program: newProgram });
+    if (!options?.disableWatcher) {
+      initWatcher(
+        loadedConfig,
+        appContext.appDirectory,
+        resolved.source.configDir,
+        hooksRunner,
+        argv,
+      );
+    }
+
+    await newProgram.parseAsync(argv);
+  }
+
   return {
     init,
     run,
     restart,
+    test,
   };
 };
 

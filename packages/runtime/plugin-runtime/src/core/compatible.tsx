@@ -10,6 +10,7 @@ import { Plugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
+const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
 
 export type CreateAppOptions = {
   plugins: Plugin[];
@@ -32,6 +33,8 @@ const getInitialContext = (runner: PluginRunner) => ({
   loaderManager: createLoaderManager({}),
   runner,
   isBrowser: true,
+  routeManifest:
+    typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
 });
 
 export const createApp = ({ plugins }: CreateAppOptions) => {
@@ -110,10 +113,14 @@ interface HydrateFunc {
 
 type BootStrap<T = unknown> = (
   App: React.ComponentType,
-  id?: string | Record<string, any> | HTMLElement,
+  id: string | HTMLElement | RuntimeContext,
   root?: any,
-  render?: (children: React.ReactNode, rootElement?: HTMLElement) => void,
-  hydrate?: HydrateFunc,
+  ReactDOM?: {
+    render?: (children: React.ReactNode, rootElement?: HTMLElement) => void;
+    hydrate?: HydrateFunc;
+    createRoot?: (rootElement: HTMLElement) => any;
+    hydrateRoot?: HydrateFunc;
+  },
 ) => Promise<T>;
 
 export const bootstrap: BootStrap = async (
@@ -127,8 +134,8 @@ export const bootstrap: BootStrap = async (
    * root.render need use root to run function
    */
   root,
-  render = defaultReactDOM.render as any,
-  hydrate = defaultReactDOM.hydrate as any,
+  ReactDOM = defaultReactDOM as any,
+  // eslint-disable-next-line consistent-return
 ) => {
   let App = BootApp;
   let runner = runnerMap.get(App);
@@ -139,7 +146,7 @@ export const bootstrap: BootStrap = async (
     runner = runnerMap.get(App)!;
   }
 
-  const context: any = getInitialContext(runner);
+  const context: RuntimeContext = getInitialContext(runner);
 
   const runInit = (_context: RuntimeContext) =>
     runner!.init(
@@ -147,7 +154,7 @@ export const bootstrap: BootStrap = async (
       {
         onLast: ({ context: context1 }) => (App as any)?.init?.(context1),
       },
-    );
+    ) as any;
 
   // don't mount the App, let user in charge of it.
   if (!id) {
@@ -195,17 +202,40 @@ export const bootstrap: BootStrap = async (
       // https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
       const ModernRender = (App: React.ReactNode) => {
         if (IS_REACT18) {
-          root.render(App);
+          if (root) {
+            root.render(App);
+          } else if (ReactDOM.createRoot) {
+            ReactDOM.createRoot(rootElement).render(App);
+          } else {
+            throw Error(
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `createRoot` method',
+            );
+          }
         } else {
-          render(App, rootElement);
+          if (!ReactDOM.render) {
+            throw Error(
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `render` method',
+            );
+          }
+          ReactDOM.render(App, rootElement);
         }
       };
 
       const ModernHydrate = (App: React.ReactNode, callback?: () => void) => {
         if (IS_REACT18) {
-          hydrate(rootElement, App);
+          if (!ReactDOM.hydrateRoot) {
+            throw Error(
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrateRoot` method',
+            );
+          }
+          ReactDOM.hydrateRoot(rootElement, App);
         } else {
-          hydrate(App, rootElement, callback);
+          if (!ReactDOM.hydrate) {
+            throw Error(
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrate` method',
+            );
+          }
+          ReactDOM.hydrate(App, rootElement, callback);
         }
       };
 
@@ -243,13 +273,36 @@ export const bootstrap: BootStrap = async (
       ),
     });
 
-    const initialData = await runInit(context);
-    context.initialData = initialData;
+    // Handle redirects from React Router with an HTTP redirect
+    const isRedirectResponse = (result: any) => {
+      if (
+        typeof Response !== 'undefined' && // fix: ssg workflow doesn't inject Web Response
+        result instanceof Response &&
+        result.status >= 300 &&
+        result.status <= 399
+      ) {
+        const { status } = result;
+        const redirectUrl = result.headers.get('Location') || '/';
+        const { ssrContext } = context;
+        if (ssrContext) {
+          ssrContext.res.statusCode = status;
+          ssrContext.res.setHeader('Location', redirectUrl);
+          ssrContext.redirection.status = status;
+          ssrContext.redirection.url = redirectUrl;
+        }
+        return true;
+      }
+      return false;
+    };
 
-    return runner.server({
-      App,
-      context,
-    });
+    const initialData = await runInit(context);
+    if (!isRedirectResponse(initialData)) {
+      context.initialData = initialData;
+      return runner.server({
+        App,
+        context,
+      });
+    }
   }
 };
 

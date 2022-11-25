@@ -18,7 +18,6 @@ describe('function-mode', () => {
     const runner = await serverManager.init();
     apiHandler = await runner.prepareApiServer({
       pwd,
-      mode: 'function',
       prefix: '/api',
     });
   });

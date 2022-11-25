@@ -2,10 +2,10 @@ name: Type Check
 
 on:
   push:
-    branches: [main]
+    branches: [main, next]
 
   pull_request:
-    branches: [main]
+    branches: [main, next]
 
   workflow_dispatch:
 
@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        os: [macos-latest]
+        os: [ubuntu-latest]
 
     steps:
       - name: Checkout
@@ -23,8 +23,17 @@ jobs:
         with:
           fetch-depth: 25
 
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+              turbo-${{ github.job }}-${{ github.ref_name }}-
+
       - name: Install Pnpm
-        run: npm install -g pnpm@^6
+        run: npm install -g pnpm@7
 
       - name: Check docs only change
         run: echo ::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')
@@ -39,13 +48,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: wireit cache
-        uses: google/wireit@setup-github-actions-caching/v1
-
       - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm install --ignore-scripts --frozen-lockfile
 
       - name: Type Check
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run prepare --filter ./packages
+        run: pnpm run prepare

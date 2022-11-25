@@ -1,6 +1,6 @@
 // logical reference to https://github.com/jamiebuilds/react-loadable/blob/6201c5837b212d6244c57f3748f2b1375096beeb/src/index.js
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { RouteComponentProps } from '@modern-js/runtime/router';
+import { useState, useEffect, useCallback } from 'react';
+import { RouteComponentProps } from '@modern-js/plugin-router-legacy';
 import { logger } from '../util';
 import { LoadableConfig, MicroComponentProps } from './useModuleApps';
 
@@ -33,7 +33,6 @@ export function Loadable(WrapComponent: any) {
       const { loadable = defaultLoadable ?? DEFAULT_LOADABLE, ...otherProps } =
         props;
 
-      const mountRef = useRef(false);
       let delayTimer: NodeJS.Timer | null = null;
       let timeoutTimer: NodeJS.Timer | null = null;
 
@@ -68,8 +67,6 @@ export function Loadable(WrapComponent: any) {
       const LoadingComponent = props.loadable?.loading;
 
       useEffect(() => {
-        mountRef.current = true;
-
         logger('Loadable render state', {
           state,
           props: otherProps,
@@ -78,7 +75,6 @@ export function Loadable(WrapComponent: any) {
         });
 
         return () => {
-          mountRef.current = false;
           setStateWithMountCheck({
             isLoading: false,
             error: null,
@@ -105,13 +101,7 @@ export function Loadable(WrapComponent: any) {
 
       const setStateWithMountCheck = useCallback(
         (newState: Partial<LoadableState>) => {
-          if (!mountRef.current) {
-            return;
-          }
-          setState({
-            ...state,
-            ...newState,
-          });
+          setState(state => ({ ...state, ...newState }));
         },
         [state],
       );

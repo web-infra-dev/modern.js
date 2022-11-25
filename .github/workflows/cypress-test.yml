@@ -8,7 +8,7 @@ concurrency:
 on:
   # Triggers unit test on push events for the main branch to collect unit test coverage
   push:
-    branches: [main]
+    branches: [main, next]
 
   workflow_dispatch:
 
@@ -17,43 +17,51 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: wireit cache
-      uses: google/wireit@setup-github-actions-caching/v1
-    - uses: pnpm/action-setup@v2.0.1
-      name: Install pnpm
-      id: pnpm-install
-      with:
-        version: 6.32.17
-        run_install: false
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 25
 
-    - name: Install Dependencies
-      run: pnpm install --ignore-scripts --frozen-lockfile
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install cypress
-      run: npx cypress install
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
 
-    - name: Prepare
-      if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-      run: pnpm run prepare --filter ./packages
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+              turbo-${{ github.job }}-${{ github.ref_name }}-
 
-    - name: Run cypress test
-      uses: cypress-io/github-action@v4
-      with:
-        install: false
-        start: node scripts/dev-project.js
-        wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003/index.js'
-        wait-on-timeout: 600
-        working-directory: tests
-        spec: cypress/e2e/**/*.cy.js
-      env:
-        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        # Recommended: pass the GitHub token lets this action correctly
-        # determine the unique run id necessary to re-run the checks
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Dependencies
+        run: pnpm install --ignore-scripts --frozen-lockfile
+
+      - name: Install cypress
+        run: npx cypress install
+
+      - name: Prepare
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run:  pnpm run prepare
+
+      - name: Run cypress test
+        uses: cypress-io/github-action@v4
+        with:
+          install: false
+          start: node scripts/dev-project.js
+          wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003/index.js'
+          wait-on-timeout: 600
+          working-directory: tests
+          spec: cypress/e2e/**/*.cy.js
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

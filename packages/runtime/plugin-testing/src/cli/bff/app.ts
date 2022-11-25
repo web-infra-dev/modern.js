@@ -1,5 +1,6 @@
 import { AsyncLocalStorage } from 'async_hooks';
-import { Server } from '@modern-js/server';
+import { Server } from '@modern-js/prod-server';
+import { InternalPlugins } from '@modern-js/types';
 
 const store = new AsyncLocalStorage();
 
@@ -9,19 +10,16 @@ let server: Server | null = null;
 const createApp = async (
   pwd: string,
   config: any,
-  plugins: any[],
+  plugins: InternalPlugins,
   routes: any[],
 ) => {
   if (!server) {
     config.output.path = './';
     server = new Server({
       apiOnly: true,
-      dev: {
-        watch: false,
-      },
       pwd,
       config,
-      plugins,
+      internalPlugins: plugins,
       routes,
     });
 

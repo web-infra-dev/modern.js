@@ -3,7 +3,7 @@ import path from 'path';
 import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish, { interfaces } from 'garfish';
-import { withRouter } from '@modern-js/runtime/router';
+import { withRouter } from '@modern-js/plugin-router-legacy';
 // import Loadable from 'react-loadable';
 import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
@@ -37,8 +37,7 @@ function getAppInstance(
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     unregisterHistoryListener?: () => void = () => {};
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    async UNSAFE_componentWillMount() {
+    async componentDidMount() {
       const { match, history, setLoadingState, ...userProps } = this.props;
       const { domId } = this.state;
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
@@ -105,6 +104,7 @@ function getAppInstance(
           );
         }
 
+        // eslint-disable-next-line react/no-did-mount-set-state
         this.setState({
           appInstance,
         });

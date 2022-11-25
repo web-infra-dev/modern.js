@@ -1,4 +1,4 @@
-const userPreview = require('<%= userPreviewPath %>');
+import * as userPreview from '<%= userPreviewPath %>';
 
 const decorators = [...(userPreview.decorators || [])];
 
@@ -12,7 +12,7 @@ const globalTypes = {
     ...(userPreview.globalTypes || {}),
 };
 
-module.exports = {
+export {
     decorators,
     parameters,
     globalTypes,

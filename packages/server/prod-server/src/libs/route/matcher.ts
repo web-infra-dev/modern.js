@@ -1,12 +1,19 @@
-import { removeTailSlash } from '@modern-js/utils';
 import {
   MatchFunction,
   MatchResult,
   match,
   pathToRegexp,
+  compile,
 } from 'path-to-regexp';
-import { toPath } from '../../utils';
 import { ModernRoute, ModernRouteInterface } from './route';
+
+// avoid import @modern-js/utils
+const removeTailSlash = (s: string): string => s.replace(/\/+$/, '');
+
+const toPath = (reg: string, params: Record<string, any>) => {
+  const fn = compile(reg, { encode: encodeURIComponent });
+  return fn(params);
+};
 
 // eslint-disable-next-line no-useless-escape
 const regCharsDetector = /[^a-zA-Z\-_0-9\/\.]/;
@@ -59,10 +66,14 @@ export class RouteMatcher {
 
   // if match url path
   public matchUrlPath(requestUrl: string): boolean {
-    const urlWithoutSlash =
+    let urlWithoutSlash =
       requestUrl.endsWith('/') && requestUrl !== '/'
         ? requestUrl.slice(0, -1)
         : requestUrl;
+
+    if (urlWithoutSlash.endsWith('.html')) {
+      urlWithoutSlash = urlWithoutSlash.slice(0, -5);
+    }
 
     if (this.urlMatcher) {
       return Boolean(this.urlMatcher(urlWithoutSlash));

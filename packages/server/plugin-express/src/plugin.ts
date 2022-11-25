@@ -64,12 +64,15 @@ const initApp = (app: express.Express) => {
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-express',
   pre: ['@modern-js/plugin-bff'],
+  post: ['@modern-js/plugin-server'],
   setup: api => ({
-    async prepareApiServer({ pwd, mode, config }) {
+    async prepareApiServer({ pwd, config }) {
       let app: Express;
       const apiDir = path.join(pwd, './api');
       const appContext = api.useAppContext();
       const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
+      const mode = appContext.apiMode;
+
       if (mode === 'framework') {
         const appModule = await findAppModule(apiDir);
         app = appModule[0];
@@ -88,10 +91,11 @@ export default (): ServerPlugin => ({
         useRun(app);
 
         registerRoutes(app, apiHandlerInfos);
-
-        const { afterLambdaRegisted } = hooks;
-        if (afterLambdaRegisted) {
-          afterLambdaRegisted(app);
+        if (hooks) {
+          const { afterLambdaRegisted } = hooks;
+          if (afterLambdaRegisted) {
+            afterLambdaRegisted(app);
+          }
         }
       } else if (mode === 'function') {
         app = express();
@@ -130,7 +134,12 @@ export default (): ServerPlugin => ({
         });
     },
 
-    prepareWebServer({ config }) {
+    prepareWebServer({ config }, next) {
+      const userConfig = api.useConfigContext();
+      if (userConfig?.server?.disableFrameworkExt) {
+        return next();
+      }
+
       const app = express();
       initApp(app);
       if (config) {
@@ -139,8 +148,11 @@ export default (): ServerPlugin => ({
         initMiddlewares(middleware, app);
       }
 
-      return (req, res) =>
+      return ctx =>
         new Promise((resolve, reject) => {
+          const {
+            source: { req, res },
+          } = ctx;
           const handler = (err: string) => {
             if (err) {
               return reject(err);

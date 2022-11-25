@@ -1,61 +1,116 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React from 'react';
-import { Route, matchPath } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Route, RouteProps } from 'react-router-dom';
+import type { NestedRoute, PageRoute } from '@modern-js/types';
+import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
-import { RouterConfig } from './plugin';
+import { RootLayout } from './root';
 
-export function renderRoutes(
-  routesConfig: RouterConfig['routesConfig'],
-  extraProps: any = {},
+const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
+  const { children, index, id, component: Component } = nestedRoute;
+  const childElements = children?.map(childRoute => {
+    return renderNestedRoute(childRoute, nestedRoute);
+  });
+
+  const routeProps: Omit<RouteProps, 'children'> = {
+    caseSensitive: nestedRoute.caseSensitive,
+    path: nestedRoute.path,
+    id: nestedRoute.id,
+    loader: nestedRoute.loader,
+    action: nestedRoute.action,
+    hasErrorBoundary: nestedRoute.hasErrorBoundary,
+    shouldRevalidate: nestedRoute.shouldRevalidate,
+    handle: nestedRoute.handle,
+    index: nestedRoute.index,
+    errorElement: nestedRoute.errorElement,
+  };
+
+  if (nestedRoute.error) {
+    const errorElement = <nestedRoute.error />;
+    routeProps.errorElement = errorElement;
+  }
+
+  let element;
+
+  if (Component) {
+    if (parent?.loading) {
+      const Loading = parent.loading;
+      element = (
+        <Suspense fallback={<Loading />}>
+          <Component />
+        </Suspense>
+      );
+    } else {
+      element = (
+        <Suspense>
+          <Component />
+        </Suspense>
+      );
+    }
+  }
+
+  if (!parent) {
+    element = (
+      <RootLayout routes={[nestedRoute]}>
+        <Suspense>{element}</Suspense>
+      </RootLayout>
+    );
+  }
+
+  routeProps.element = element;
+
+  const routeElement = index ? (
+    <Route key={id} {...routeProps} index={true} />
+  ) : (
+    <Route key={id} {...routeProps} index={false}>
+      {childElements}
+    </Route>
+  );
+
+  return routeElement;
+};
+
+export function getRouteComponents(
+  routes: (NestedRoute | PageRoute)[],
+  globalApp?: React.ComponentType<any>,
 ) {
   const Layout = ({ Component, ...props }: any) => {
-    const GlobalLayout = routesConfig?.globalApp;
-
+    const GlobalLayout = globalApp;
     if (!GlobalLayout) {
       return <Component {...props} />;
     }
 
     return <GlobalLayout Component={Component} {...props} />;
   };
+  const routeElements: React.ReactElement[] = [];
+  for (const route of routes) {
+    if (route.type === 'nested') {
+      const routeElement = renderNestedRoute(route);
+      routeElements.push(routeElement);
+    } else {
+      const routeElement = (
+        <Route
+          key={route.path}
+          path={route.path}
+          element={<Layout Component={route.component} />}
+        />
+      );
+      routeElements.push(routeElement);
+    }
+  }
+  routeElements.push(<Route key="*" path="*" element={<DefaultNotFound />} />);
+  return routeElements;
+}
 
-  const findMatchedRoute = (pathname: string) =>
-    routesConfig?.routes?.find(route => {
-      const info = matchPath(pathname, {
-        path: route.path,
-        exact: route.exact,
-        sensitive: route.sensitive,
-      });
-
-      return Boolean(info);
-    });
-
-  return (
-    <Route
-      path="/"
-      render={props => {
-        const matchedRoute = findMatchedRoute(props.location.pathname);
-
-        if (!matchedRoute) {
-          return <DefaultNotFound />;
-        }
-
-        return (
-          <Route
-            path={matchedRoute.path}
-            exact={matchedRoute.exact}
-            sensitive={matchedRoute.sensitive}
-            render={routeProps => (
-              <Layout
-                Component={matchedRoute.component}
-                {...routeProps}
-                {...extraProps}
-              />
-            )}
-          />
-        );
-      }}
-    />
-  );
+export function renderRoutes(routesConfig: RouterConfig['routesConfig']) {
+  if (!routesConfig) {
+    return null;
+  }
+  const { routes, globalApp } = routesConfig;
+  if (!routes) {
+    return null;
+  }
+  const routeElements = getRouteComponents(routes, globalApp);
+  return routeElements;
 }
 
 export function getLocation(serverContext: any): string {

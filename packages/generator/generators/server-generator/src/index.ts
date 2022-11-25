@@ -1,6 +1,7 @@
 import path from 'path';
 import {
   fs,
+  getModernPluginVersion,
   getPackageVersion,
   isTsProject,
   readTsConfigByFile,
@@ -13,7 +14,8 @@ import {
   FrameworkAppendTypeContent,
   i18n,
   Language,
-  ServerSchema,
+  getServerSchema,
+  Solution,
 } from '@modern-js/generator-common';
 
 function isEmptyServerDir(serverDir: string) {
@@ -36,7 +38,10 @@ const handleTemplateFile = async (
   appApi: AppAPI,
 ) => {
   const jsonAPI = new JsonAPI(generator);
-  const ans = await appApi.getInputBySchema(ServerSchema, context.config);
+  const ans = await appApi.getInputBySchemaFunc(
+    getServerSchema,
+    context.config,
+  );
 
   const appDir = context.materials.default.basePath;
   const serverDir = path.join(appDir, 'server');
@@ -54,12 +59,6 @@ const handleTemplateFile = async (
 
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
 
-  if (language === Language.JS && framework === Framework.Nest) {
-    generator.logger.warn('nest not support js project');
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
-  }
-
   let updateInfo = {};
 
   if (framework === Framework.Express || framework === Framework.Koa) {
@@ -70,27 +69,19 @@ const handleTemplateFile = async (
     };
   }
 
-  if (framework === Framework.Nest) {
-    updateInfo = {
-      'dependencies.@nestjs/core': `^${await getPackageVersion(
-        '@nestjs/core',
-      )}`,
-      'dependencies.@nestjs/common': `^${await getPackageVersion(
-        '@nestjs/common',
-      )}`,
-      'dependencies.express': `^${await getPackageVersion('express')}`,
-      'devDependencies.@types/express': `^${await getPackageVersion(
-        '@types/express',
-      )}`,
-    };
-  } else {
-    updateInfo = {
-      ...updateInfo,
-      [`dependencies.${framework as string}`]: `^${await getPackageVersion(
-        framework as string,
-      )}`,
-    };
-  }
+  updateInfo = {
+    ...updateInfo,
+    [`dependencies.${framework as string}`]: `^${await getPackageVersion(
+      framework as string,
+    )}`,
+  };
+
+  const getServerPluginVersion = (packageName: string) => {
+    return getModernPluginVersion(Solution.MWA, packageName, {
+      registry: context.config.registry,
+      distTag: context.config.distTag,
+    });
+  };
 
   await jsonAPI.update(
     context.materials.default.get(path.join(appDir, 'package.json')),
@@ -98,12 +89,12 @@ const handleTemplateFile = async (
       query: {},
       update: {
         $set: {
-          'dependencies.@modern-js/plugin-server': `^${await getPackageVersion(
+          'dependencies.@modern-js/plugin-server': `${await getServerPluginVersion(
             '@modern-js/plugin-server',
           )}`,
           [`dependencies.@modern-js/plugin-${
             framework as string
-          }`]: `^${await getPackageVersion(
+          }`]: `${await getServerPluginVersion(
             `@modern-js/plugin-${framework as string}`,
           )}`,
           ...updateInfo,
@@ -182,7 +173,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   await handleTemplateFile(context, generator, appApi);
 
-  await appApi.runInstall();
+  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   appApi.showSuccessInfo();
 

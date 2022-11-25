@@ -1,0 +1,42 @@
+// Vitest Snapshot v1
+
+exports[`plugins/entry > should set entry correctly 1`] = `
+{
+  "entry": {
+    "main": [
+      "src/main.ts",
+    ],
+  },
+}
+`;
+
+exports[`plugins/entry > should set multiple entry correctly 1`] = `
+{
+  "entry": {
+    "bar": [
+      "src/polyfill.ts",
+      "src/bar.ts",
+    ],
+    "foo": [
+      "src/polyfill.ts",
+      "src/foo.ts",
+    ],
+  },
+}
+`;
+
+exports[`plugins/entry > should set pre-entry correctly 1`] = `
+{
+  "entry": {
+    "bar": [
+      "src/pre-entry.ts",
+      "src/bar.ts",
+    ],
+    "foo": [
+      "src/pre-entry.ts",
+      "src/polyfill.ts",
+      "src/foo.ts",
+    ],
+  },
+}
+`;

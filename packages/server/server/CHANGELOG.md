@@ -1,5 +1,260 @@
 # @modern-js/server
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 15bf09d9c8: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- 61f21d1e77: fix: ignore the entire distPath for pia ssr bundle
+  fix: dist 目录的产物不应该被 ts-node 编译
+- ebbeed1: chore: dev server default cross origin
+  chore: 开发环境 Server 默认跨域
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [9b915e0c10]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [d032d49]
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [a8642da]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed587]
+- Updated dependencies [87c1ff8]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [73cd29dd9f]
+- Updated dependencies [18aaf42]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/server-utils@2.0.0-beta.1
+  - @modern-js/prod-server@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/types@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 15bf09d9c: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- 61f21d1e7: fix: ignore the entire distPath for pia ssr bundle
+  fix: dist 目录的产物不应该被 ts-node 编译
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [9b915e0c1]
+- Updated dependencies [c9e800d39]
+- Updated dependencies [15bf09d9c]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed7]
+- Updated dependencies [a8642da]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4b]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [73cd29dd9]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/server-utils@2.0.0-beta.0
+  - @modern-js/prod-server@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/types@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- @modern-js/prod-server@1.21.2
+- @modern-js/server-utils@1.21.2
+- @modern-js/types@1.21.2
+- @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/prod-server@1.21.1
+- @modern-js/server-utils@1.21.1
+- @modern-js/types@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- f51c59a: feat: remove node internal package like fs or path which import by ssr runtime
+  feat: 删除在 ssr runtime 中引用的 node 内部包
+- Updated dependencies [f51c59a]
+- Updated dependencies [8f3674a]
+- Updated dependencies [8f3674a]
+- Updated dependencies [519965e]
+- Updated dependencies [67d80b7]
+  - @modern-js/prod-server@1.21.0
+  - @modern-js/types@1.21.0
+  - @modern-js/server-utils@1.21.0
+  - @modern-js/utils@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/prod-server@1.20.1
+  - @modern-js/server-utils@1.20.1
+  - @modern-js/types@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- 35c0959: feat(devServer): support devServer.setupMiddlewares config
+
+  feat(devServer): 支持 devServer.setupMiddlewares 配置项
+
+- 4ddc185: chore(builder): bump webpack to 5.74.0
+
+  chore(builder): 升级 webpack 到 5.74.0 版本
+
+- 66e4817: feat: support devServer.historyApiFallback
+
+  feat: 支持 devServer.historyApiFallback 配置项
+
+- face165: chore(devServer): get devServer config from this.dev
+
+  chore(devServer): 从 this.dev 上获取 devServer 配置
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [4ddc185]
+- Updated dependencies [66e4817]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [8c05089]
+- Updated dependencies [baf7337]
+  - @modern-js/utils@1.20.0
+  - @modern-js/types@1.20.0
+  - @modern-js/prod-server@1.20.0
+  - @modern-js/server-utils@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- Updated dependencies [1903f68]
+  - @modern-js/prod-server@1.19.0
+  - @modern-js/server-utils@1.19.0
+  - @modern-js/types@1.19.0
+  - @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- 318e149: fix: tools.devServer type missing some properties
+
+  fix: 修复 tools.devServer 类型定义不完整的问题
+
+- 60d95ad: fix: dev server config should be optional
+  fix: devServer 配置项应该是可选配置的
+- 8016a8a: fix: invoke next() in dev-middleware directly if only api
+  fix: 在 api 服务的情况下，直接调用 next()，不执行 dev-middleware
+- f6a3aa1: feat: support etag in dev server by default
+  feat: 开发环境默认支持 etag 功能
+- 23fa468: fix: ssr bundle should not be compiled by ts-node
+
+  fix: ts-node 不应该编译 ssr bundle
+
+- 55988fa: fix: fix dev server type error
+  fix: 修复 dev server 中的类型错误
+- bc3bbd8: fix: use output.publicPath(default) as webpack-dev-middleware publicPath
+
+  fix: 使用 output.publicPath 作为 webpack-dev-middleware publicPath
+
+- Updated dependencies [3586707]
+- Updated dependencies [318e149]
+- Updated dependencies [60d95ad]
+- Updated dependencies [f6a3aa1]
+- Updated dependencies [fb02c81]
+- Updated dependencies [9f7bfa6]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/prod-server@1.18.1
+  - @modern-js/types@1.18.1
+  - @modern-js/server-utils@1.18.1
+  - @modern-js/utils@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- 3d5e3a5: chore: get api mode from bff core
+  chore: 从 bff core 中获取 api mode
+- 8280920: chore(server): export DevServerOptions type
+
+  chore(server): 导出 DevServerOptions 类型
+
+- 2b7406d: feat: use typescript instead of babel as typescript compiler in server
+  feat: 服务端，增加 typescript 作为 typescipt 编译器
+- fc7214d: feat(server): export DevServerHttpsOptions type
+
+  feat(server): 导出 DevServerHttpsOptions 类型
+
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [2b7406d]
+- Updated dependencies [0a4d622]
+- Updated dependencies [60a2e3a]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/prod-server@1.18.0
+  - @modern-js/server-utils@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- 151329d: chore(dev-server): no longer depend on @modern-js/webpack
+
+  chore(dev-server): 不再依赖 @modern-js/webpack
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/prod-server@1.17.0
+  - @modern-js/server-utils@1.17.0
+
 ## 1.16.0
 
 ### Patch Changes

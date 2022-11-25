@@ -6,9 +6,35 @@ import {
   createRuntimeExportsUtils,
   isSingleEntry,
 } from '@modern-js/utils';
-import type { CliPlugin, SSGMultiEntryOptions } from '@modern-js/core';
+import type {
+  CliPlugin,
+  SSGMultiEntryOptions,
+  ServerConfig,
+  NormalizedConfig,
+} from '@modern-js/core';
 
 const PLUGIN_IDENTIFIER = 'ssr';
+
+const hasStringSSREntry = (userConfig: NormalizedConfig): boolean => {
+  const isStreaming = (ssr: ServerConfig['ssr']) =>
+    ssr && typeof ssr === 'object' && ssr.mode === 'stream';
+
+  const { server } = userConfig;
+
+  if (server?.ssr && !isStreaming(server.ssr)) {
+    return true;
+  }
+
+  if (server?.ssrByEntries && typeof server.ssrByEntries === 'object') {
+    for (const name of Object.keys(server.ssrByEntries)) {
+      if (!isStreaming(server.ssrByEntries[name])) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-ssr',
@@ -35,9 +61,14 @@ export default (): CliPlugin => ({
           tools: {
             webpackChain: (chain, { name, CHAIN_ID }) => {
               const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig) && name !== 'server') {
+
+              if (
+                isUseSSRBundle(userConfig) &&
+                name !== 'server' &&
+                hasStringSSREntry(userConfig)
+              ) {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-                const LoadableWebpackPlugin = require('@modern-js/webpack/@loadable/webpack-plugin');
+                const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
                 chain
                   .plugin(CHAIN_ID.PLUGIN.LOADABLE)
                   .use(LoadableWebpackPlugin, [
@@ -47,20 +78,20 @@ export default (): CliPlugin => ({
             },
             babel: (config: any) => {
               const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig)) {
+              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
                 config.plugins.push(require.resolve('@loadable/babel-plugin'));
               }
             },
           },
         };
       },
-      modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName } = entrypoint;
+      modifyEntryImports({ entrypoint, imports }) {
+        const { entryName, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName, entrypoints } = api.useAppContext();
 
         pluginsExportsUtils.addExport(
-          `export { default as ssr } from '@modern-js/runtime/runtime-ssr'`,
+          `export { default as ssr } from '@modern-js/runtime/ssr'`,
         );
 
         // if use ssg then set ssr config to true
@@ -70,6 +101,25 @@ export default (): CliPlugin => ({
           userConfig.server.ssrByEntries,
           packageName,
         );
+
+        if (typeof ssrConfig === 'object' && ssrConfig.mode === 'stream') {
+          const runtimeConfig = getEntryOptions(
+            entryName,
+            userConfig.runtime,
+            userConfig.runtimeByEntries,
+            packageName,
+          );
+          if (runtimeConfig?.router?.legacy) {
+            throw new Error(
+              `Legacy router plugin doesn't support streaming SSR, check your config 'runtime.router'`,
+            );
+          }
+          if (fileSystemRoutes && !entrypoint.nestedRoutesEntry) {
+            throw new Error(
+              `You should switch to file-system based router to support streaming SSR.`,
+            );
+          }
+        }
 
         const ssgConfig = userConfig.output.ssg;
         const useSSG = isSingleEntry(entrypoints)
@@ -94,7 +144,7 @@ export default (): CliPlugin => ({
         if (ssrConfigMap.get(entrypoint.entryName)) {
           plugins.push({
             name: PLUGIN_IDENTIFIER,
-            options: ssrConfigMap.get(entrypoint.entryName),
+            options: JSON.stringify(ssrConfigMap.get(entrypoint.entryName)),
           });
         }
         return {

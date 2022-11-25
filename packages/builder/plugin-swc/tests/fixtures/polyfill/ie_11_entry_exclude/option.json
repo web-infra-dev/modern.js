@@ -1,0 +1,7 @@
+{
+  "env": {
+    "mode": "entry",
+    "targets": "ie 11",
+    "exclude": ["transform-async-to-generator", "transform-regenerator"]
+  }
+}

@@ -16,3 +16,5 @@ export const hooks = {
   ...devHooks,
   addRuntimeExports,
 };
+
+export type ModuleHooks = typeof hooks;

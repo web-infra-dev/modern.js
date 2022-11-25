@@ -1,5 +1,53 @@
 # @modern-js/changeset-generator
 
+## 3.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 6b6f180279: fix: generator bundle
+
+  fix: 生成器打包
+
+## 3.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 6b6f180: fix: generator bundle
+
+  fix: 生成器打包
+
+## 2.4.7
+
+## 2.4.6
+
+## 2.4.5
+
+### Patch Changes
+
+- cfd8557: feat: new command install not run prepare scripts
+
+  feat: new 命令安装依赖时不执行 prepare 脚本
+
+## 2.4.4
+
+## 2.4.3
+
+## 2.4.0
+
+## 2.3.4
+
+## 2.3.3
+
+## 2.3.1
+
 ## 2.3.0
 
 ### Patch Changes

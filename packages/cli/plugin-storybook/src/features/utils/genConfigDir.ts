@@ -1,5 +1,5 @@
 import path from 'path';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/module-tools-v2';
 import { Import, fs, glob, logger } from '@modern-js/utils';
 import { transformSync } from 'esbuild';
 
@@ -10,14 +10,12 @@ const constants: typeof import('../constants') = Import.lazy(
 const gen: typeof import('./generate') = Import.lazy('./generate', require);
 
 export type GenerateOptions = {
-  disableTsChecker: boolean;
   modernConfig: NormalizedConfig;
   stories: string[];
   isTsProject: boolean;
 };
 
 const defaultOptions = {
-  disableTsChecker: false,
   stories: [],
   isTsProject: false,
 };
@@ -38,7 +36,7 @@ export const generateConfig = async (
   customOptions: Partial<GenerateOptions> = {},
 ) => {
   const options = { ...defaultOptions, ...customOptions };
-  const { disableTsChecker, stories, modernConfig = {}, isTsProject } = options;
+  const { stories, modernConfig = {}, isTsProject } = options;
   const userConfigDir = path.resolve(
     appDirectory,
     constants.STORYBOOK_USER_CONFIG_PATH,
@@ -54,7 +52,6 @@ export const generateConfig = async (
     );
   }
   await genMainFile(appDirectory, {
-    disableTsChecker,
     configDir,
     stories,
     isTsProject,
@@ -141,16 +138,15 @@ const checkMainFile = async (storybookUserConfigPath: string) => {
 const genMainFile = async (
   appDirectory: string,
   options: {
-    disableTsChecker: boolean;
     configDir: string;
     stories: string[];
     isTsProject: boolean;
   },
 ) => {
-  const { disableTsChecker, configDir, stories, isTsProject = false } = options;
+  const { configDir, stories, isTsProject = false } = options;
   const mainContent = gen.generateMain({
     appDirectory,
-    disableTsChecker,
+
     stories,
     isTsProject,
   });

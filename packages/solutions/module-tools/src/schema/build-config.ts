@@ -42,6 +42,9 @@ const properties = {
   bundleOptions: {
     type: 'object',
     properties: {
+      getModuleId: {
+        instanceof: 'Function',
+      },
       entry: {
         type: 'object',
       },

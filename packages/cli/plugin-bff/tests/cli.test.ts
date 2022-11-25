@@ -33,36 +33,29 @@ describe('bff cli plugin', () => {
     } as any);
     tools.webpackChain(chain, { CHAIN_ID });
 
-    expect(chain.toConfig()).toMatchObject({
-      module: {
-        rules: [
-          {
-            oneOf: [
-              {
-                test: /.\/fixtures\/function\/api\/\.*(\.[tj]s)$/,
-                use: [
-                  {
-                    loader: require
-                      .resolve('../src/loader.ts')
-                      .replace(/\\/g, '/'),
-                    options: {
-                      apiDir: path.resolve('./fixtures/function/api'),
-                      fetcher: undefined,
-                      port: 3000,
-                      prefix: '/api',
-                      target: undefined,
-                    },
-                  },
-                ],
-              },
-            ],
+    const config = chain.toConfig();
+    expect(config.module?.rules?.[1]).toMatchObject({
+      test: /.\/fixtures\/function\/api\/\.*(\.[tj]s)$/,
+      use: [
+        {
+          loader: require.resolve('../src/loader.ts').replace(/\\/g, '/'),
+          options: {
+            existLambda: false,
+            apiDir: path.resolve('./fixtures/function/api'),
+            lambdaDir: path.resolve('./fixtures/function/api'),
+            fetcher: undefined,
+            port: 3000,
+            prefix: '/api',
+            target: undefined,
+            requestCreator: undefined,
           },
-        ],
-      },
-      resolve: {
-        alias: {
-          '@api': path.resolve('./fixtures/function/api'),
         },
+      ],
+    });
+
+    expect(config.resolve).toMatchObject({
+      alias: {
+        '@api': path.resolve('./fixtures/function/api'),
       },
     });
   });

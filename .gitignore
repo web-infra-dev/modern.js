@@ -51,6 +51,10 @@ local-test-project/*
 .runtime-exports/
 
 # website
-website/.docusaurus
+.docusaurus
+website/main/build
+website/**/.temp
 
 .wireit/
+.turbo/
+playground/

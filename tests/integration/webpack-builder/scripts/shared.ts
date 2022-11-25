@@ -1,39 +1,36 @@
 import { join } from 'path';
-import { InspectorWebpackPlugin } from '@modern-js/inspector-webpack-plugin';
-import type { BuilderPlugin } from '../../../../packages/builder/webpack-builder/src';
-
-export const TestPlugin = (): BuilderPlugin => ({
-  name: 'test-plugin',
-
-  setup(api) {
-    api.modifyWebpackConfig(config => {
-      // Webpack devtool
-      config.plugins?.push(new InspectorWebpackPlugin());
-    });
-  },
-});
 
 export const createBuilder = async () => {
-  const { createBuilder } = await import(
-    '../../../../packages/builder/webpack-builder/src'
+  const { createBuilder } = await import('@modern-js/builder');
+  const { builderWebpackProvider } = await import(
+    '@modern-js/builder-webpack-provider'
   );
 
-  const cwd = join(__dirname, '..');
-  const entry = {
-    main: join(cwd, 'src', 'index.ts'),
-  };
-
-  const builder = await createBuilder({
-    cwd,
-    entry,
-    configPath: __filename,
-    builderConfig: {},
+  const builderProvider = builderWebpackProvider({
+    builderConfig: {
+      tools: {
+        // inspector: {},
+      },
+    },
   });
 
-  builder.addPlugins([TestPlugin()]);
+  const builder = await createBuilder(builderProvider, {
+    entry: {
+      main: join(process.cwd(), 'src', 'index.ts'),
+    },
+    target: ['web'],
+    configPath: __filename,
+  });
 
-  return {
-    cwd,
-    builder,
-  };
+  if (process.env.ESBUILD) {
+    const { PluginEsbuild } = await import('@modern-js/builder-plugin-esbuild');
+    builder.addPlugins([PluginEsbuild()]);
+  }
+
+  if (process.env.SWC) {
+    const { PluginSwc } = await import('@modern-js/builder-plugin-swc');
+    builder.addPlugins([PluginSwc()]);
+  }
+
+  return builder;
 };

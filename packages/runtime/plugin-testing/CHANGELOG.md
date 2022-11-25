@@ -1,5 +1,258 @@
 # @modern-js/plugin-testing
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [2344eb2]
+- Updated dependencies [a11fcf8]
+- Updated dependencies [b18fa8f]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [d032d49]
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [3e57f2b]
+- Updated dependencies [fbf5eed]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [decfcd989d]
+- Updated dependencies [4369648ae2]
+- Updated dependencies [92f0ead]
+- Updated dependencies [92c0994]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed587]
+- Updated dependencies [60d5378632]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [73cd29dd9f]
+- Updated dependencies [18aaf42]
+- Updated dependencies [f179749]
+- Updated dependencies [fcace5b5b9]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/runtime@2.0.0-beta.1
+  - @modern-js/prod-server@2.0.0-beta.1
+  - @modern-js/babel-preset-app@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/plugin@2.0.0-beta.1
+  - @modern-js/babel-compiler@2.0.0-beta.1
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- cc971eabf: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [b18fa8f]
+- Updated dependencies [c9e800d39]
+- Updated dependencies [15bf09d9c]
+- Updated dependencies [a2509bf]
+- Updated dependencies [decfcd989]
+- Updated dependencies [4369648ae]
+- Updated dependencies [edd1cfb1a]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed7]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [60d5378]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4b]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [73cd29dd9]
+- Updated dependencies [fcace5b5b]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/runtime@2.0.0-beta.0
+  - @modern-js/prod-server@2.0.0-beta.0
+  - @modern-js/babel-preset-app@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/plugin@2.0.0-beta.0
+  - @modern-js/babel-compiler@2.0.0-beta.0
+
+## 1.21.2
+
+### Patch Changes
+
+- Updated dependencies [9d4c0ba]
+  - @modern-js/plugin@1.21.2
+  - @modern-js/prod-server@1.21.2
+  - @modern-js/runtime@1.21.2
+  - @modern-js/webpack@1.21.2
+  - @modern-js/babel-preset-app@1.21.2
+  - @modern-js/babel-compiler@1.21.2
+  - @modern-js/utils@1.21.2
+
+## 1.21.1
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@1.21.1
+- @modern-js/webpack@1.21.1
+- @modern-js/runtime@1.21.1
+- @modern-js/prod-server@1.21.1
+- @modern-js/babel-compiler@1.21.1
+- @modern-js/plugin@1.21.1
+- @modern-js/utils@1.21.1
+
+## 1.21.0
+
+### Patch Changes
+
+- Updated dependencies [f51c59a]
+- Updated dependencies [4c1f3a4]
+- Updated dependencies [17d1672]
+- Updated dependencies [4c1f3a4]
+- Updated dependencies [8f3674a]
+- Updated dependencies [c40fc4b]
+- Updated dependencies [28f0a4f]
+- Updated dependencies [b0597e3]
+- Updated dependencies [519965e]
+- Updated dependencies [67d80b7]
+  - @modern-js/runtime@1.21.0
+  - @modern-js/prod-server@1.21.0
+  - @modern-js/webpack@1.21.0
+  - @modern-js/plugin@1.21.0
+  - @modern-js/utils@1.21.0
+  - @modern-js/babel-preset-app@1.21.0
+  - @modern-js/babel-compiler@1.21.0
+
+## 1.20.1
+
+### Patch Changes
+
+- Updated dependencies [49515c5]
+  - @modern-js/utils@1.20.1
+  - @modern-js/babel-preset-app@1.20.1
+  - @modern-js/webpack@1.20.1
+  - @modern-js/runtime@1.20.1
+  - @modern-js/prod-server@1.20.1
+  - @modern-js/babel-compiler@1.20.1
+  - @modern-js/plugin@1.20.1
+
+## 1.20.0
+
+### Patch Changes
+
+- Updated dependencies [d5d570b]
+- Updated dependencies [b57d5ff]
+- Updated dependencies [4ddc185]
+- Updated dependencies [715df7a]
+- Updated dependencies [df8ee7e]
+- Updated dependencies [077aef8]
+- Updated dependencies [8c05089]
+- Updated dependencies [baf7337]
+  - @modern-js/utils@1.20.0
+  - @modern-js/runtime@1.20.0
+  - @modern-js/webpack@1.20.0
+  - @modern-js/prod-server@1.20.0
+  - @modern-js/babel-preset-app@1.20.0
+  - @modern-js/babel-compiler@1.20.0
+  - @modern-js/plugin@1.20.0
+
+## 1.19.0
+
+### Patch Changes
+
+- Updated dependencies [1903f68]
+  - @modern-js/prod-server@1.19.0
+  - @modern-js/webpack@1.19.0
+  - @modern-js/runtime@1.19.0
+  - @modern-js/babel-preset-app@1.19.0
+  - @modern-js/babel-compiler@1.19.0
+  - @modern-js/plugin@1.19.0
+  - @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [3586707]
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [f6a3aa1]
+- Updated dependencies [9f7bfa6]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/prod-server@1.18.1
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/webpack@1.18.1
+  - @modern-js/runtime@1.18.1
+  - @modern-js/babel-preset-app@1.18.1
+  - @modern-js/babel-compiler@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [8280920]
+- Updated dependencies [2b7406d]
+- Updated dependencies [fc7214d]
+- Updated dependencies [5227370]
+- Updated dependencies [968be1b]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/server@1.18.0
+  - @modern-js/babel-preset-app@1.18.0
+  - @modern-js/webpack@1.18.0
+  - @modern-js/runtime@1.18.0
+  - @modern-js/babel-compiler@1.18.0
+  - @modern-js/plugin@1.18.0
+
+## 1.17.0
+
+### Patch Changes
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [f1a09c5]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [77d3a38]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [492437f]
+- Updated dependencies [7b8ecf5]
+- Updated dependencies [c3d4a6a]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/babel-preset-app@1.17.0
+  - @modern-js/webpack@1.17.0
+  - @modern-js/server@1.17.0
+  - @modern-js/runtime@1.17.0
+  - @modern-js/babel-compiler@1.17.0
+  - @modern-js/plugin@1.17.0
+
 ## 1.16.0
 
 ### Minor Changes
