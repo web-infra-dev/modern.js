@@ -89,7 +89,7 @@ export async function getModernPluginVersion(
   const { cwd = process.cwd(), registry, distTag } = options;
   const getLatetPluginVersion = async () => {
     const version = await getPackageVersion(
-      `${packageName}@${distTag}`,
+      `${packageName}@${distTag || 'latest'}`,
       registry,
     );
     return version;
