@@ -6,7 +6,7 @@ exports[`plugin/image-compress > should generate correct options 1`] = `
     "rules": [
       {
         "generator": {
-          "filename": "static/image/[name][ext]",
+          "filename": "static/image/[name].[contenthash:8][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@modern-js/web-builder-plugin-image-compress",
+  "name": "@modern-js/builder-plugin-image-compress",
   "description": "Image compress plugin for modern-js/web-builder",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -16,8 +16,11 @@
     "node": ">=14.0.0"
   },
   "version": "0.0.1",
-  "types": "./src/index.ts",
-  "main": "dist/index.js",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "jsnext:modern": "./dist/index.js",
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
@@ -50,7 +53,6 @@
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "typescript": "^4",
-    "vitest": "^0.21.1",
     "webpack": "^5.74.0"
   },
   "sideEffects": false,
