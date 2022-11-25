@@ -2,7 +2,7 @@ import * as path from 'path';
 import { fs, getRouteId } from '@modern-js/utils';
 import type { NestedRoute } from '@modern-js/types';
 import { JS_EXTENSIONS } from './constants';
-import { replaceWithAlias } from './utils';
+import { hasLoader, replaceWithAlias } from './utils';
 
 const LAYOUT_FILE = 'layout';
 const PAGE_FILE = 'page';
@@ -17,6 +17,13 @@ const conventionNames = [
   ERROR_FILE,
   LOADER_FILE,
 ];
+
+const getLoaderPath = async (filename: string) => {
+  if (await hasLoader(filename)) {
+    return filename;
+  }
+  return undefined;
+};
 
 const replaceDynamicPath = (routePath: string) => {
   return routePath.replace(/\[(.*?)\]/g, ':$1');
@@ -113,6 +120,7 @@ export const walk = async (
 
     if (itemWithoutExt === LAYOUT_FILE) {
       route._component = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route.loader = await getLoaderPath(itemPath);
     }
 
     if (itemWithoutExt === PAGE_FILE) {
@@ -124,12 +132,13 @@ export const walk = async (
         itemPath,
         entryName,
       );
+      childRoute.loader = await getLoaderPath(itemPath);
       route.children?.push(childRoute);
     }
 
-    if (itemWithoutExt === LOADER_FILE) {
-      route.loader = replaceWithAlias(alias.basename, itemPath, alias.name);
-    }
+    // if (itemWithoutExt === LOADER_FILE) {
+    //   route.loader = replaceWithAlias(alias.basename, itemPath, alias.name);
+    // }
 
     if (itemWithoutExt === LOADING_FILE) {
       route.loading = replaceWithAlias(alias.basename, itemPath, alias.name);

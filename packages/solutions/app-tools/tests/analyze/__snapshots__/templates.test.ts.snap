@@ -11,6 +11,8 @@ exports[`fileSystemRoutes generate code 1`] = `
     import error_0 from '@_modern_js_src/routes/error.tsx';
 
     
+    import { loader_0,loader_1 } from \\"@_modern_js_internal/main/__loaders__/index.js\\"
+  
     
     export const routes = [
   {
@@ -26,6 +28,7 @@ exports[`fileSystemRoutes generate code 1`] = `
       \\"loading\\": loading_0,
       \\"id\\": \\"user/layout\\",
       \\"type\\": \\"nested\\",
+      \\"loader\\": loader_1,
       \\"children\\": [
         {
           \\"path\\": \\":id\\",
@@ -36,6 +39,7 @@ exports[`fileSystemRoutes generate code 1`] = `
               \\"_component\\": \\"@_modern_js_src/routes/user/[id]/page.tsx\\",
               \\"index\\": true,
               \\"id\\": \\"user/[id]/page\\",
+              \\"loader\\": loader_0,
               \\"type\\": \\"nested\\",
               \\"component\\": loadable(() => import(/* webpackChunkName: \\"user/[id]/page\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/user/[id]/page.tsx'))
             }

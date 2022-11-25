@@ -11,6 +11,7 @@ import {
   LoaderFunction,
   LoaderFunctionArgs,
 } from 'react-router-dom';
+import { LOADER_ROUTES_DIR } from '@modern-js/utils';
 
 type LoaderContext = {
   [key: string]: unknown;
@@ -207,7 +208,7 @@ export const handleRequest = async ({
   }
 
   const { routes } = await import(
-    `${distDir}/loader-routes/${entry.entryName}`
+    `${distDir}/${LOADER_ROUTES_DIR}/${entry.entryName}`
   );
 
   if (!routes) {

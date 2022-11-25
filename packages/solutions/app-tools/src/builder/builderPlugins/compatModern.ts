@@ -175,7 +175,16 @@ function applyNodeCompat(
   isProd: boolean,
 ) {
   // apply node resolve extensions
-  for (const ext of ['.node.js', '.node.jsx', '.node.ts', '.node.tsx']) {
+  for (const ext of [
+    '.node.js',
+    '.node.jsx',
+    '.node.ts',
+    '.node.tsx',
+    '.server.js',
+    '.server.ts',
+    '.server.ts',
+    '.server.tsx',
+  ]) {
     chain.resolve.extensions.prepend(ext);
   }
 

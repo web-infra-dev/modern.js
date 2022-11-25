@@ -7,6 +7,7 @@ export default async function loader(
   this: LoaderContext<{
     routesDir: string;
     entryName: string;
+    mapFile: string;
   }>,
   source: string,
 ) {
@@ -17,9 +18,7 @@ export default async function loader(
   }
   const options = this.getOptions();
   const code = generateClient({
-    basedir: options.routesDir,
-    filename: this.resourcePath,
-    entryName: options.entryName,
+    mapFile: options.mapFile,
   });
   return code;
 }
