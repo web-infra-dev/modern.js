@@ -10,6 +10,7 @@ import type { AppHooks } from '../hooks';
 
 export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
   if (options.analyze) {
+    // Builder will read this env var to enable bundle analyzer
     process.env.BUNDLE_ANALYZE = 'true';
   }
 
