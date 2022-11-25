@@ -1,9 +1,9 @@
 - Type: `Object | Function`
-- Default: `undefined`
+- Default: `{}`
 
-The config of [style-loader](https://github.com/webpack-contrib/style-loader) can be set through `tools.styleLoader`. The default config is an empty object.
+The config of [style-loader](https://github.com/webpack-contrib/style-loader) can be set through `tools.styleLoader`.
 
-It is worth noting that Builder does not enable `style-loader` by default. If this value is set to Object or Function type, `style-loader` will be enabled and Builder will no longer extract CSS.
+It is worth noting that Builder does not enable `style-loader` by default. You can use `output.disableCssExtract` config to enable it。
 
 ### Object Type
 

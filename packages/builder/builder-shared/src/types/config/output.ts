@@ -132,6 +132,10 @@ export interface SharedOutputConfig {
    */
   cssModuleLocalIdentName?: string;
   /**
+   * Disable css extract and inline CSS files into the JS bundle.
+   */
+  disableCssExtract?: boolean;
+  /**
    * Whether to disable code minification in production build.
    */
   disableMinimize?: boolean;
@@ -200,6 +204,7 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   assetsRetry?: AssetsRetryOptions;
   dataUriLimit: NormalizedDataUriLimit;
   cleanDistPath: boolean;
+  disableCssExtract: boolean;
   disableMinimize: boolean;
   disableSourceMap: DisableSourceMapOption;
   disableTsChecker: boolean;
