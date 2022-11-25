@@ -1,0 +1,41 @@
+name: E2E Test for Builder
+
+on:
+  push:
+    branches: [main, next]
+  pull_request:
+    branches: [main, next]
+
+  workflow_dispatch:
+
+jobs:
+  ut-mac:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 5
+
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --ignore-scripts
+
+      - name: Prepare
+        run: pnpm run prepare
+
+      - name: Test
+        run: cd ./tests && pnpm run test:builder

@@ -7,7 +7,7 @@ import {
   type PluginStore,
 } from '@modern-js/builder-shared';
 import type * as playwright from '@modern-js/e2e/playwright';
-import { getTemplatePath } from '@modern-js/utils';
+import { fs, getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
@@ -181,7 +181,12 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     if (Array.isArray(paths) && isRelative) {
       throw new Error('`isRelative` is not supported for multiple paths.');
     }
+
+    // Clean build cache because it may break the test cases.
+    fs.removeSync(context.cachePath);
+
     await build();
+
     return globContentJSON(paths, { absolute: !isRelative, maxSize });
   };
 

@@ -8,6 +8,7 @@
     "test": "pnpm test --filter api-service-koa & jest -w 1",
     "cypress:test": "pnpm --parallel --filter '@cypress-test/*' run dev & cypress open",
     "prepare": "node node_modules/puppeteer/install.js",
+    "test:builder": "pnpm --filter './e2e/**/*' run test",
     "test:mwa": "ts-node -T generator/mwa.ts",
     "test:module": "ts-node -T generator/module.ts",
     "test:monorepo": "ts-node -T generator/monorepo.ts"
