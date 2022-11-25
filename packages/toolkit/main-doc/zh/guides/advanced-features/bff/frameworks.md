@@ -1,80 +1,105 @@
 ---
-sidebar_position: 4
+sidebar_position: 3
 title: 运行时框架
 ---
 
-如前面章节所说，目前 Modern.js 的 BFF 支持 4 种主流的 Server 框架，可以根据自身偏好选择。
-
-多框架支持也是【 一体化 BFF 】中重要的一环，多数情况下，开发者直接使用钩子文件来扩展 BFF 函数，无需关心通过框架启动服务、日志输出等应用级别的问题。
-
-所有框架均支持 BFF 函数的所有能力，并且使用方式是相同的，例如：
-
-- RESTful API
-- Schema 模式
-- Hooks(useContext)
-- 不同的数据类型
-- 动态路由
-- 一体化调用
-
-Modern.js BFF 中兼容了这些框架大部分的规范，开发者可以直接使用对应 Server 框架的约定和生态。
-
-每一种框架都提供了两类扩展写法 BFF 函数的方式，分别是【 函数写法 】和【 框架写法 】。
-
 ## 函数写法
 
-在上一章节中，简单的演示了 Express 扩展 BFF 函数的示例。
-
-函数写法就是通过添加钩子文件 `_app.ts` 的方式，编写中间件逻辑来扩展 BFF 函数。
-
-### [Express](https://expressjs.com/)
-
-Express 的函数写法，可以通过在 `_app.[tj]s` 下添加 `express` 的中间件：
+在函数写法下，各类运行时框架仅中间件写法存在差异，其他实现基本相同。这里以 Express 为例，介绍如何在 `api/_app.ts` 中，手写一个中间件，添加权限校验：
 
 ```ts
-import { hook } from "@modern-js/runtime/server";
+import { hook } from '@modern-js/runtime/server';
+import { Request, Response, NextFunction } from 'express';
 
 export default hook(({ addMiddleware }) => {
-  addMiddleware(async (req, res, next) => {
-    req.query.id = "express";
-    await next();
+  addMiddleware(async (req: Request, res: Response, next: NextFunction) => {
+    if (req.url !== '/api/login') {
+      const sid = req?.cookies?.sid;
+      if (!sid) {
+        res.status(400);
+        res.json({ code: -1, message: 'need login' });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
   });
 });
 ```
 
-### [Koa](https://koajs.com/)
-
-Koa 函数写法下，可以通过在 `_app.[tj]s` 下添加 koa 的中间件：
+然后添加一个普通的 BFF 函数 `/api/hello.ts`：
 
 ```ts
-import { hook } from "@modern-js/runtime/server";
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware(async (ctx, next) => {
-    console.info(`access url: ${ctx.url}`);
-    next();
-  });
-});
+export default async () => {
+  return 'Hello Modern.js';
+};
 ```
+
+最后在前端 `src/App.tsx` 添加接口的访问代码，直接使用一体化的方式调用：
+
+```ts
+import { useState, useEffect } from 'react';
+import { get as hello } from '@api/hello';
+
+export default () => {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    async function fetchMyApi() {
+      const { message } = await hello();
+      setText(message);
+    }
+
+    fetchMyApi();
+  }, []);
+
+  return <p>{text}</p>;
+};
+```
+
+然后 `pnpm run dev` 启动项目，访问 `http://localhost:8080/` 会发现 `/api/hello` 的请求被拦截了：
+
+![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/network2.png)
+
+最后再修改前端代码 `src/App.tsx`，在访问 `/api/hello` 前先调用登录接口：
+
+```ts
+import { useState, useEffect } from 'react';
+import { get as hello } from '@api/hello';
+import { post as login } from '@api/login';
+
+export default () => {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    async function fetchAfterLogin() {
+      const { code } = await login();
+      if (code === 0) {
+        const { message } = await hello();
+        setText(message);
+      }
+    }
+    fetchAfterLogin();
+  }, []);
+
+  return <p>{text}</p>;
+};
+```
+
+刷新页面，可以看到 `/api/hello` 访问成功：
+
+![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/network3.png)
+
+以上代码模拟了在 `/api/_app.ts` 中添加中间件的方式，实现了简易的登录功能。同样，可以在这个钩子文件中实现其他功能来扩展 BFF Server。
 
 ## 框架写法
 
-框架写法是一种使用框架分层结构来扩展 BFF 函数的方式。
-
-和函数写法相比，框架写法虽然能够利用更多框架的结构，在复杂场景下让整个 BFF Server 更加清晰，但也相的更加复杂，需要关心更多框架层面的内容。
-
-:::info 注
-多数情况下，函数写法就能覆盖大多数 BFF 函数的定制需求。只有当你的项目服务端逻辑比较复杂，代码需要分层，或者需要使用更多框架的元素时（如 egg 插件），才需要使用框架写法。
-:::
-
-框架写法中，所有的 BFF 函数都需要写在 `api/lambda/` 目录下，并且无法使用钩子文件 `_app.[tj]s`。
+框架写法下，Modern.js 不会收集 `api/_app.ts` 中的中间件，运行流程由插件自行控制。
 
 ### Express
 
 Express 的框架写法支持可在 `api/app.[tj]s` 定义 API Server 的启动逻辑，执行应用的初始化工作，添加全局中间件，声明路由，甚至扩展原有框架等。
-
-:::info 注
-注意这里是 `app.[tj]s`，而不是函数写法中的钩子文件 `_app.[tj]s`。
-:::
 
 BFF 函数定义的路由会在 `app.ts` 文件定义的路由之后注册，所以在这里你也可以拦截 BFF 函数定义的路由，进行预处理或是提前响应。
 
@@ -98,10 +123,6 @@ export default app;
 ### Koa
 
 Koa 框架写法与 Express 类似，支持在 `app.[tj]s` 定义 API Server 的启动逻辑，执行应用的初始化工作，添加全局中间件，声明路由，扩展原有框架等。
-
-:::info 注
-注意这里是 `app.[tj]s`，而不是函数写法中的钩子文件 `_app.[tj]s`。
-:::
 
 BFF 函数定义的路由会在 `app.ts` 文件定义的路由之后注册，所以在这里你也可以拦截 BFF 函数定义的路由，进行预处理或是提前响应。
 
