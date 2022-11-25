@@ -1,11 +1,12 @@
+declare const expect: any;
 export const initSnapshotSerializer = (root: string) => {
   expect.addSnapshotSerializer({
-    test: val =>
+    test: (val: string) =>
       typeof val === 'string' &&
       (val.includes('modern.js') ||
         val.includes('node_modules') ||
         val.includes(root)),
-    print: val =>
+    print: (val: string) =>
       // eslint-disable-next-line no-nested-ternary
       typeof val === 'string'
         ? // eslint-disable-next-line no-nested-ternary
