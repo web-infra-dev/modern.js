@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ut-mac:
+  e2e-test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -32,10 +32,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install --ignore-scripts
-
-      - name: Prepare
-        run: pnpm run prepare
+        run: pnpm install
 
       - name: Test
         run: cd ./tests && pnpm run test:builder
