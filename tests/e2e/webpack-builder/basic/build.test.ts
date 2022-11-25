@@ -4,7 +4,8 @@ import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
 import { PluginEntry } from '@modern-js/builder-webpack-provider/plugins/entry';
 import { PluginHtml } from '@modern-js/builder-webpack-provider/plugins/html';
 
-test('basic', async ({ page }) => {
+// Skipped because it is not a real test
+test.skip('basic', async ({ page }) => {
   // TODO: serve dist files from memfs directly (instead of output files to disk first).
   // TODO: re-organize builtin plugins so that we can setup plugins by `plugins: 'minimal'` or `plugins: ['react']`.
   // TODO: display all files in 404 page.
