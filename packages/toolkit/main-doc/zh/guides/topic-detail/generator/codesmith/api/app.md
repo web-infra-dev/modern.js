@@ -31,7 +31,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
 参数：
 
-- nodeVersion?: `string` 校验的 node 版本
+- nodeVersion?: `string` 校验的 node 版本。
 
 ### runInstall
 
@@ -39,20 +39,20 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
 参数：
 
-- command?: `string` 安装依赖命令
+- command?: `string` 安装依赖命令。
 
 ### runGitAndInstall
 
 该函数完成以下动作：
 
-1. 校验当前生成器执行目录是否为一个 git 仓库
-2. 如果不是一个 git 仓库，初始化为一个 git 仓库
-3. 安装依赖
-4. 在非 monorepo 项目(判断条件，config 中 `isMonorepoSubProject` 不存在或者为 false)中提交初始 commit，commit 信息为 feat: init，支持自定义
+1. 校验当前生成器执行目录是否为一个 git 仓库。
+2. 如果不是一个 git 仓库，初始化为一个 git 仓库。
+3. 安装依赖。
+4. 在非 monorepo 项目(判断条件，config 中 `isMonorepoSubProject` 不存在或者为 false)中提交初始 commit，commit 信息为 feat: init，支持自定义。
 
 参数：
-- commitMessage?: `string` 初始化 commit message 信息
-- installFunc?: `() => Promise<void>` 安装依赖函数
+- commitMessage?: `string` 初始化 commit message 信息。
+- installFunc?: `() => Promise<void>` 安装依赖函数。
 
 ### forgeTemplate
 
@@ -62,8 +62,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
 - templatePattern: string 模板文件匹配正则，例如： `templates/base-templates/**/*` 。
 - filter?: `(resourceKey: string) => boolean` 过滤函数，参数为 templatePattern 匹配的文件路径，返回 true 表示渲染该文件，返回 false 表示不渲染该文件。
-- rename?: `(resourceKey: string) => string` 重命名函数，参数为 templatePattern 匹配的文件路径，返回新文件名。默认会替换 resourceKey 开头的 templates 目录和结尾的 .handlebars 后缀
-- parameters?: `Record<string, any>` 渲染参数，当模板中存在 handlebars 变量时，使用其传递对应变量值。
+- rename?: `(resourceKey: string) => string` 重命名函数，参数为 templatePattern 匹配的文件路径，返回新文件名。默认会替换 resourceKey 开头的 templates 目录和结尾的 .handlebars 后缀。
+- parameters?: `Record<string, any>` 渲染参数，当模板中存在 handlebars 或者 ejs 变量时，使用其传递对应变量值。
 - type?: `'handlebars' | 'ejs'`  模板文件类型，默认为 handlebars。
 
 例如:
@@ -101,7 +101,7 @@ await appApi.forgeTemplate(
 
 参数：
 
-- successInfo?: `string`，默认为 Success || 成功
+- successInfo?: `string`，默认为 Success || 成功。
 
 ### runSubGenerator
 
@@ -139,7 +139,7 @@ Formily Schema 类型支持方式可参考[自定义输入相关类型定义](/d
 
 ### getInputBySchemaFunc
 
-通过 schema 完成用户交互输入，schema 参数值为函数，用户处理国际化问题，仅支持 Formily schema
+通过 schema 完成用户交互输入，schema 参数值为函数，用户处理国际化问题，仅支持 Formily schema。
 
 
 参数：
