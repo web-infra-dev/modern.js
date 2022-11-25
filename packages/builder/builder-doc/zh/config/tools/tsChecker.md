@@ -1,20 +1,8 @@
-- Type: `boolean | Object | Function`
-- Default: `true`
-
-默认情况下，Builder 会开启 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 进行类型检查。
-
-你可以通过:
-
-- 配置为 `true` 以开启 `fork-ts-checker-webpack-plugin` 的类型检查。
-- 配置为 `false` 以关闭 `fork-ts-checker-webpack-plugin` 的类型检查。
-- 配置为 `Object` 或者 `Function` 修改默认配置；
-
-默认配置如下:
-
-> 大多数情况下你不需要修改 `tools.tsChecker` 默认配置。
+- Type: `Object | Function`
+- Default:
 
 ```js
-{
+const defaultOptions = {
   typescript: {
     // avoid OOM issue
     memoryLimit: 8192,
@@ -40,6 +28,8 @@
   },
 },
 ```
+
+默认情况下，Builder 会开启 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 进行类型检查。你可以通过 `output.disableTsChecker` 配置项来关闭类型检查。
 
 ### Object 类型
 

@@ -70,6 +70,7 @@ export const defaultOutputConfig: NormalizedSharedOutputConfig = {
   legalComments: 'linked',
   cleanDistPath: true,
   svgDefaultExport: 'url',
+  disableCssExtract: false,
   disableMinimize: false,
   disableSourceMap: {
     js: false,

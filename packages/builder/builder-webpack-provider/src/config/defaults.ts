@@ -19,7 +19,7 @@ export const createDefaultConfig = () =>
         loaderOptions: {},
         pluginOptions: {},
       },
-      tsChecker: true,
+      tsChecker: {},
     },
     source: defaultSourceConfig,
     output: defaultOutputConfig,
