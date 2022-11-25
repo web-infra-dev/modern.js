@@ -1,4 +1,4 @@
-name: E2E Test for Builder
+name: E2E Test (Builder)
 
 on:
   push:
@@ -21,6 +21,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 5
+
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+              turbo-${{ github.job }}-${{ github.ref_name }}-
 
       - name: Install Pnpm
         run: npm install -g pnpm@7
