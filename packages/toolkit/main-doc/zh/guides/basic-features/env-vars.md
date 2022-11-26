@@ -100,5 +100,30 @@ export default defineConfig({
 此时，在代码中的 `process.env.VERSION`，将会被替换为环境变量中 `VERSION` 的值。
 
 :::note
-`source.globalVar` 也支持将其他表达式或字符串替换为指定的值，不仅限于环境变量。
+`source.globalVars` 也支持将其他表达式或字符串替换为指定的值，不仅限于环境变量。
 :::
+
+## 使用全局替换
+
+除了环境变量，Modern.js 也支持将代码中的变量替换成其它值或者表达式，可以用于在代码逻辑中区分开发环境与生产环境等场景。
+
+例如将代码中的 `TWO` 转换为 `1 + 1` 的表达式：
+
+```ts
+export default {
+  source: {
+    define: {
+      TWO: '1 + 1',
+    },
+  },
+};
+```
+
+```ts
+const foo = TWO;
+
+// ⬇️ Turn into being...
+const foo = 1 + 1;
+```
+
+在大多数情况下，`source.globalVars` 已经能满足替换变量的需求。但 `source.globalVars` 传入的值都会默认被 JSON 序列化，因此无法做出像上面例子中 `1 + 1` 的替换，此时就需要使用 [`source.define`](/docs/configure/app/source/define)。
