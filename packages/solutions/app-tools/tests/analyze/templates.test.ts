@@ -1,5 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-empty-function */
+import path from 'path';
 import { RouteLegacy } from '@modern-js/types/cli';
 import { fileSystemRoutes } from '../../src/analyze/templates';
 
@@ -12,6 +13,15 @@ jest.mock('@modern-js/utils', () => {
   return {
     fs,
   };
+});
+
+const root = path.resolve(__dirname, '../../../../../');
+expect.addSnapshotSerializer({
+  test: val => typeof val === 'string' && val.includes(root),
+  print: val =>
+    typeof val === 'string'
+      ? `"${val.replace(root, '').replace(/\\/g, '/')}"`
+      : (val as string),
 });
 
 describe('fileSystemRoutes', () => {
