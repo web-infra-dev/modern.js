@@ -60,7 +60,6 @@ export const build = async (
   } else {
     const { rspackConfigs } = await initConfigs(initOptions);
     compiler = await createCompiler({
-      watch,
       context,
       rspackConfigs,
     });
