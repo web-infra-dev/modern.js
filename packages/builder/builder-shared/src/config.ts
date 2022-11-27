@@ -18,6 +18,7 @@ import type {
   NormalizedSharedSourceConfig,
   InspectConfigOptions,
   CreateBuilderOptions,
+  BuilderTarget,
 } from './types';
 import { logger } from './logger';
 import { join } from 'path';
@@ -165,9 +166,11 @@ export const setConfig = <T extends Record<string, any>, P extends string>(
 };
 
 export function getExtensions({
+  target = 'web',
   resolveExtensionPrefix,
   isTsProject,
 }: {
+  target?: BuilderTarget;
   resolveExtensionPrefix?: NormalizedSharedSourceConfig['resolveExtensionPrefix'];
   isTsProject?: boolean;
 } = {}) {
@@ -183,10 +186,17 @@ export function getExtensions({
 
   // add an extra prefix to all extensions
   if (resolveExtensionPrefix) {
-    extensions = extensions.reduce<string[]>(
-      (ret, ext) => [...ret, resolveExtensionPrefix + ext, ext],
-      [],
-    );
+    const extensionPrefix =
+      typeof resolveExtensionPrefix === 'string'
+        ? resolveExtensionPrefix
+        : resolveExtensionPrefix[target];
+
+    if (extensionPrefix) {
+      extensions = extensions.reduce<string[]>(
+        (ret, ext) => [...ret, extensionPrefix + ext, ext],
+        [],
+      );
+    }
   }
 
   return extensions;

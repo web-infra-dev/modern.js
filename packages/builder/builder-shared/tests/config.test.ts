@@ -29,3 +29,24 @@ it('should get extensions with prefix', async () => {
     '.json',
   ]);
 });
+
+it('should get extensions with prefix by target', async () => {
+  expect(
+    getExtensions({
+      target: 'node',
+      resolveExtensionPrefix: {
+        web: '.web',
+        node: '.node',
+      },
+    }),
+  ).toEqual([
+    '.node.js',
+    '.js',
+    '.node.jsx',
+    '.jsx',
+    '.node.mjs',
+    '.mjs',
+    '.node.json',
+    '.json',
+  ]);
+});
