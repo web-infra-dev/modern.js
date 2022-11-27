@@ -3,53 +3,53 @@
 exports[`fileSystemRoutes generate code 1`] = `
 "
     
-    import { lazy } from \\"react\\";
-    import loadable, { lazy as loadableLazy } from \\"@modern-js/runtime/loadable\\"
+    import { lazy } from "react";
+    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   
     import loading_0 from '@_modern_js_src/routes/loading.tsx';
 
     import error_0 from '@_modern_js_src/routes/error.tsx';
 
     
-    import { loader_0,loader_1 } from \\"@_modern_js_internal/main/__loaders__/index.js\\"
+    import { loader_0,loader_1 } from "@_modern_js_internal/main/__loaders__/index.js"
   
     
     export const routes = [
   {
-  \\"path\\": \\"/\\",
-  \\"_component\\": \\"@_modern_js_src/routes/layout.tsx\\",
-  \\"id\\": \\"layout\\",
-  \\"type\\": \\"nested\\",
-  \\"children\\": [
+  "path": "/",
+  "_component": "@_modern_js_src/routes/layout.tsx",
+  "id": "layout",
+  "type": "nested",
+  "children": [
     {
-      \\"path\\": \\"user\\",
-      \\"error\\": error_0,
-      \\"_component\\": \\"@_modern_js_src/routes/user.tsx\\",
-      \\"loading\\": loading_0,
-      \\"id\\": \\"user/layout\\",
-      \\"type\\": \\"nested\\",
-      \\"loader\\": loader_1,
-      \\"children\\": [
+      "path": "user",
+      "error": error_0,
+      "_component": "@_modern_js_src/routes/user.tsx",
+      "loading": loading_0,
+      "id": "user/layout",
+      "type": "nested",
+      "loader": loader_1,
+      "children": [
         {
-          \\"path\\": \\":id\\",
-          \\"id\\": \\"user/[id]/layout\\",
-          \\"type\\": \\"nested\\",
-          \\"children\\": [
+          "path": ":id",
+          "id": "user/[id]/layout",
+          "type": "nested",
+          "children": [
             {
-              \\"_component\\": \\"@_modern_js_src/routes/user/[id]/page.tsx\\",
-              \\"index\\": true,
-              \\"id\\": \\"user/[id]/page\\",
-              \\"loader\\": loader_0,
-              \\"type\\": \\"nested\\",
-              \\"component\\": loadable(() => import(/* webpackChunkName: \\"user/[id]/page\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/user/[id]/page.tsx'))
+              "_component": "@_modern_js_src/routes/user/[id]/page.tsx",
+              "index": true,
+              "id": "user/[id]/page",
+              "loader": loader_0,
+              "type": "nested",
+              "component": loadable(() => import(/* webpackChunkName: "user/[id]/page" */  /* webpackMode: "lazy-once" */ '@_modern_js_src/routes/user/[id]/page.tsx'))
             }
           ]
         }
       ],
-      \\"component\\": loadable(() => import(/* webpackChunkName: \\"user/layout\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/user.tsx'))
+      "component": loadable(() => import(/* webpackChunkName: "user/layout" */  /* webpackMode: "lazy-once" */ '@_modern_js_src/routes/user.tsx'))
     }
   ],
-  \\"component\\": loadable(() => import(/* webpackChunkName: \\"layout\\" */  /* webpackMode: \\"lazy-once\\" */ '@_modern_js_src/routes/layout.tsx'))
+  "component": loadable(() => import(/* webpackChunkName: "layout" */  /* webpackMode: "lazy-once" */ '@_modern_js_src/routes/layout.tsx'))
 },
 ];
   "
