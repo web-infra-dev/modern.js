@@ -7,7 +7,7 @@ title: Middleware
 与 [Hook](/docs/apis/app/runtime/web-server/hook) 不同的是，Middleware 可以使用 Server 运行时框架拓展。
 
 :::note
-更多内容可以查看[扩展 Web Server](/docs/guides/advanced-features/web-server)。
+更多内容可以查看[自定义 Web Server](/docs/guides/advanced-features/web-server)。
 :::
 
 ## 使用姿势
@@ -22,13 +22,13 @@ export const middleware: Middleware[] = [
 ]
 ```
 
-:::info 扩展 Web Server
-使用该 API 前，请先执行 `pnpm run new` 新建「Web Server 扩展」源码目录。
+:::info 自定义 Web Server
+使用该 API 前，请先执行 `pnpm run new` 新建「自定义 Web Server」源码目录。
 
 ```bash
 pnpm run new
 ? 请选择你想要的操作 创建工程元素
-? 新建「Web Server 扩展」源码目录
+? 新建「自定义 Web Server」源码目录
 ```
 :::
 
