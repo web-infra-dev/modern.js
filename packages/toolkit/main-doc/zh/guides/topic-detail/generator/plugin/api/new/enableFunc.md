@@ -6,7 +6,7 @@ sidebar_position: 3
 
 启用功能，支持应用和模块工程方案。
 
-该方法可在 onForged 生命周期的 api 参数上获取。
+该方法可在 `onForged` 生命周期的 api 参数上获取。
 
 其类型定义为：
 

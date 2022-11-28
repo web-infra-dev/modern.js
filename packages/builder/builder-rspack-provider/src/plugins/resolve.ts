@@ -1,16 +1,23 @@
 import type { BuilderPlugin, NormalizedConfig, RspackConfig } from '../types';
-import { setConfig, getExtensions } from '@modern-js/builder-shared';
+import {
+  setConfig,
+  getExtensions,
+  BuilderTarget,
+} from '@modern-js/builder-shared';
 
 function applyExtensions({
+  target,
   rspackConfig,
   config,
   isTsProject,
 }: {
+  target: BuilderTarget;
   rspackConfig: RspackConfig;
   config: NormalizedConfig;
   isTsProject: boolean;
 }) {
   const extensions = getExtensions({
+    target,
     isTsProject,
     resolveExtensionPrefix: config.source.resolveExtensionPrefix,
   });
@@ -75,29 +82,37 @@ async function applyAlias({
 function applyMainFields({
   rspackConfig,
   config,
+  target,
 }: {
   rspackConfig: RspackConfig;
   config: NormalizedConfig;
+  target: BuilderTarget;
 }) {
   const { resolveMainFields } = config.source;
   if (!resolveMainFields) {
     return;
   }
 
-  setConfig(rspackConfig, 'resolve.mainFields', [
-    ...(rspackConfig.resolve?.mainFields || []),
-    ...resolveMainFields.flat(),
-  ]);
+  const mainFields = Array.isArray(resolveMainFields)
+    ? resolveMainFields
+    : resolveMainFields[target];
+
+  if (mainFields) {
+    setConfig(rspackConfig, 'resolve.mainFields', [
+      ...(rspackConfig.resolve?.mainFields || []),
+      ...mainFields.flat(),
+    ]);
+  }
 }
 
 export const PluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
 
   setup(api) {
-    api.modifyRspackConfig(async rspackConfig => {
+    api.modifyRspackConfig(async (rspackConfig, { target }) => {
       const config = api.getNormalizedConfig();
       const isTsProject = Boolean(api.context.tsconfigPath);
-      applyExtensions({ rspackConfig, config, isTsProject });
+      applyExtensions({ target, rspackConfig, config, isTsProject });
 
       await applyAlias({
         rspackConfig,
@@ -108,6 +123,7 @@ export const PluginResolve = (): BuilderPlugin => ({
       applyMainFields({
         rspackConfig,
         config,
+        target,
       });
 
       if (isTsProject) {
