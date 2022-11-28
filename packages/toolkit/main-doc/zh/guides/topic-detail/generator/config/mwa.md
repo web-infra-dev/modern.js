@@ -32,7 +32,7 @@ New 命令的操作类型(actionType)，类型支持两种：
 
 - 创建应用入口(entry)
 
-- 新建 Server 自定义源码目录(server)
+- 新建自定义 Web Serve 源码目录(server)
 
 这两个选项还需要配置具体的配合使用，介绍如下：
 
@@ -42,7 +42,7 @@ New 命令的操作类型(actionType)，类型支持两种：
 
 #### framework
 
-自定义 Server 运行时框架(framework)，支持两个选项：
+自定义 Web Serve 运行时框架(framework)，支持两个选项：
 
 - Express(express)
 
