@@ -44,7 +44,8 @@ const App = (props: { msg?: string; getHelloContext: any }) => {
           path="/throw-error"
           component={() => {
             return <div>throw Error</div>;
-          }}></Route>
+          }}
+        ></Route>
         <Route path="*">
           <div>404</div>
         </Route>

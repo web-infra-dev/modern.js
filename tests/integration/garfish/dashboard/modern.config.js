@@ -12,25 +12,27 @@ module.exports = defineConfig({
       externalBasicLibrary: false,
     },
   },
+  source: {
+    enableAsyncEntry: true,
+  },
   server: {
     port: getPort('@cypress-test/garfish-dashboard'),
   },
   tools: {
-    // devServer: {
-    //   headers: {
-    //     'Access-Control-Allow-Origin': '*',
-    //   },
-    // },
-    // webpack: () => ({
-    //   devServer: {
-    //     // 保证在开发模式下应用端口不一样
-    //     port: '8000',
-    //     headers: {
-    //       // 保证子应用的资源支持跨域，在上线后需要保证子应用的资源在主应用的环境中加载不会存在跨域问题（**也需要限制范围注意安全问题**）
-    //       'Access-Control-Allow-Origin': '*',
-    //     },
-    //   },
-    // }),
+    webpack: (config, { appendPlugins, webpack }) => {
+      const { ModuleFederationPlugin } = webpack.container;
+      appendPlugins([
+        new ModuleFederationPlugin({
+          filename: 'remoteEntry.js',
+          name: 'dashboard',
+          exposes: {
+            './share-button': './src/ShareButton.tsx',
+          },
+        }),
+      ]);
+      delete config.optimization?.runtimeChunk;
+      delete config.optimization?.splitChunks;
+    },
   },
   // dev: {
   //   withMasterApp: {

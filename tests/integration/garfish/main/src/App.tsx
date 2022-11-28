@@ -1,5 +1,6 @@
 import { useModuleApps } from '@modern-js/plugin-garfish';
 import { Switch, Route, Link } from '@modern-js/runtime/router';
+import DashboardButton from 'dashboardApp/share-button';
 import { getAppInfo } from '../../../../utils/testCase';
 import { name } from '../package.json';
 import './App.css';
@@ -29,7 +30,11 @@ const App: React.FC = () => {
           Dashboard detail |{' '}
         </Link>
         <Link data-test="link-tablelist" to="/tablelist">
-          Table
+          Table |{' '}
+        </Link>{' '}
+        &nbsp;
+        <Link data-test="link-shared" to="/shared">
+          Shared
         </Link>{' '}
         &nbsp;
       </div>
@@ -50,6 +55,9 @@ const App: React.FC = () => {
               },
             }}
           />
+        </Route>
+        <Route path="/shared" exact={false}>
+          <DashboardButton />
         </Route>
         {/* <Route path="/tablelist" exact={false}>
           <TableList

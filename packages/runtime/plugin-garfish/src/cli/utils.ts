@@ -125,3 +125,18 @@ export function setRuntimeConfig(
   }
   return undefined;
 }
+
+export const generateAsyncEntry = (code: string) => {
+  const transformCode = code.replace(
+    `import('./bootstrap.js');`,
+    `if (!window.__GARFISH__) { import('./bootstrap.js'); }`,
+  );
+
+  return `
+      export const provider = async (...args) => {
+        const exports = await import('./bootstrap');
+        return exports.provider.apply(null, args);
+      };
+      ${transformCode}
+    `;
+};
