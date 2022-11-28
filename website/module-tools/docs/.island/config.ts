@@ -147,23 +147,23 @@ function getSidebar(lang: 'zh' | 'en') {
         text: getText('配置项', 'Config'),
         items: [
           {
-            text: getText('构建配置', 'Build Config'),
+            text: getText('Build', 'Build'),
             link: getLink('/api/config-build')
           },
           {
-            text: getText('调试配置', 'Dev Config'),
+            text: getText('Dev', 'Dev'),
             link: getLink('/api/config-dev')
           },
           {
-            text: getText('测试配置', 'Test Config'),
+            text: getText('Test', 'Test'),
             link: getLink('/api/config-test')
           },
           {
-            text: getText('插件配置', 'Plugin Config'),
+            text: getText('Plugin', 'Plugin'),
             link: getLink('/api/config-plugin')
           },
           {
-            text: getText('主题配置', 'Design System Config'),
+            text: getText('DesignSystem', 'DesignSystem'),
             link: getLink('/api/config-design-system')
           },
         ]
