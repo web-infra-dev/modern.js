@@ -39,7 +39,7 @@ export const EN_LOCALE = {
     element: {
       self: 'Create project element',
       entry: 'New "entry"',
-      server: 'New "Server Custom" source code directory',
+      server: 'New "Custom Web Server" source code directory',
     },
     refactor: {
       self: 'Automatic refactor',

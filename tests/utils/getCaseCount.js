@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /** 获取用例数目脚本 */
 const fs = require('fs');
 const path = require('path');
@@ -24,4 +23,3 @@ readDirSync(root);
 
 console.log('\n');
 console.log('test case amount:', count);
-/* eslint-enable no-console */
