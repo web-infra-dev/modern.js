@@ -1,4 +1,4 @@
-import { createParallelWorkflow } from '@modern-js/plugin';
+import { createParallelWorkflow, createAsyncPipeline } from '@modern-js/plugin';
 import { BuildCommandOptions } from '../types';
 import type { BuildConfig, BaseBuildConfig } from '../types/config';
 import type {
@@ -9,11 +9,11 @@ import type {
 } from '../types/hooks';
 
 export const buildHooks = {
-  beforeBuild: createParallelWorkflow<
+  beforeBuild: createAsyncPipeline<
     { config: BuildConfig; options: BuildCommandOptions },
     BuildConfig
   >(),
-  beforeBuildTask: createParallelWorkflow<
+  beforeBuildTask: createAsyncPipeline<
     { config: BaseBuildConfig; options: BuildCommandOptions },
     BaseBuildConfig
   >(),

@@ -5,7 +5,14 @@ import type {
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build-presets';
 import type { CopyConfig } from '../copy';
-import type { LessConfig, SassConfig, PostCSSConfig } from './style';
+import type {
+  LessConfig,
+  SassConfig,
+  PostCSSConfig,
+  LessOptions,
+  SassOptions,
+  PostcssOptions,
+} from './style';
 
 export * from './style';
 
@@ -60,8 +67,17 @@ export type AliasOption =
   | Record<string, string>
   | ((aliases: Record<string, string>) => Record<string, string> | void);
 
-export type BaseBuildConfig = Omit<Required<PartialBaseBuildConfig>, 'dts'> & {
+export type BaseBuildConfig = Omit<
+  Required<PartialBaseBuildConfig>,
+  'dts' | 'style'
+> & {
   dts: false | DTSOptions;
+  style: {
+    less: LessOptions;
+    sass: SassOptions;
+    postcss: PostcssOptions;
+    cssInline: boolean;
+  };
 };
 
 export type PartialBaseBuildConfig = {
@@ -82,10 +98,10 @@ export type PartialBaseBuildConfig = {
   minify?: LibuildUserConfig['minify'];
   externals?: LibuildUserConfig['external'];
   autoExternal?: AutoExternal;
-  entryNames?: LibuildUserConfig['entryNames'];
   umdGlobals?: LibuildUserConfig['globals'];
   umdModuleName?: ((chunkName: string) => string) | string | undefined;
   define?: LibuildUserConfig['define'];
+  style?: StyleConfig;
 };
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];
@@ -99,7 +115,8 @@ export type BuildPreset =
       preset: typeof BuildInPreset;
     }) => PartialBuildConfig | Promise<PartialBuildConfig>);
 
-export interface ToolsConfig {
+export interface StyleConfig {
+  cssInline?: boolean;
   less?: LessConfig;
   sass?: SassConfig;
   postcss?: PostCSSConfig;
@@ -120,7 +137,7 @@ export interface Dev {
   storybook: StorybookDevConfig;
 }
 
-export interface UserConfig {
+export interface ModuleExtraConfig {
   designSystem?: Record<string, any>;
 
   buildConfig?: PartialBuildConfig;
@@ -128,11 +145,4 @@ export interface UserConfig {
   buildPreset?: BuildPreset;
 
   dev?: DeepPartial<Dev>;
-
-  tools?: Partial<ToolsConfig>;
 }
-
-export type Config =
-  | UserConfig
-  | Promise<UserConfig>
-  | ((env: any) => UserConfig | Promise<UserConfig>);

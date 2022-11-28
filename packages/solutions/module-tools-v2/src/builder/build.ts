@@ -1,4 +1,4 @@
-import type { CLIConfig, Style } from '@modern-js/libuild';
+import type { CLIConfig } from '@modern-js/libuild';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
@@ -13,7 +13,6 @@ export const runBuildTask = async (
     buildConfig: BaseBuildConfig;
     buildCmdOptions: BuildCommandOptions;
     context: ModuleContext;
-    styleConfig: Style;
   },
   api: PluginAPI<ModuleTools>,
 ) => {
@@ -35,22 +34,20 @@ export const buildInTsProject = async (
     buildConfig: BaseBuildConfig;
     buildCmdOptions: BuildCommandOptions;
     context: ModuleContext;
-    styleConfig: Style;
   },
   api: PluginAPI<ModuleTools>,
 ) => {
-  const { buildConfig, buildCmdOptions, styleConfig } = options;
+  const { buildConfig, buildCmdOptions } = options;
   const dts = buildCmdOptions.dts ? buildConfig.dts : false;
   const watch = buildCmdOptions.watch ?? false;
 
   if (dts === false) {
-    await buildLib(buildConfig, api, { watch, styleConfig });
+    await buildLib(buildConfig, api, { watch });
   } else {
     const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
     const { default: pMap } = await import('../../compiled/p-map');
     await pMap(tasks, async task => {
-      // FIXME: remove the any type
-      await task(buildConfig, api as any, { watch, dts, styleConfig });
+      await task(buildConfig, api as any, { watch, dts });
     });
   }
 };
@@ -60,11 +57,10 @@ export const buildInJsProject = async (
     buildConfig: BaseBuildConfig;
     buildCmdOptions: BuildCommandOptions;
     context: ModuleContext;
-    styleConfig: Style;
   },
   api: PluginAPI<ModuleTools>,
 ) => {
-  const { buildConfig, buildCmdOptions, styleConfig } = options;
+  const { buildConfig, buildCmdOptions } = options;
   const dts = buildCmdOptions.dts ? buildConfig.dts : false;
   const watch = buildCmdOptions.watch ?? false;
 
@@ -72,7 +68,7 @@ export const buildInJsProject = async (
     return;
   }
 
-  await buildLib(buildConfig, api, { watch, styleConfig });
+  await buildLib(buildConfig, api, { watch });
 };
 
 export const generatorDts = async (
@@ -115,11 +111,10 @@ export const buildLib = async (
   config: BaseBuildConfig,
   api: PluginAPI<ModuleTools>,
   options: {
-    styleConfig: Style;
     watch: boolean;
   },
 ) => {
-  const { watch, styleConfig } = options;
+  const { watch } = options;
   const {
     target,
     buildType,
@@ -133,11 +128,11 @@ export const buildLib = async (
     splitting,
     minify,
     sourceDir,
-    entryNames,
     umdGlobals,
     umdModuleName,
     define,
     alias: userAlias,
+    style,
   } = config;
   const { appDirectory, srcDirectory } = api.useAppContext();
 
@@ -183,7 +178,12 @@ export const buildLib = async (
     format,
     outdir,
     define,
-    style: styleConfig,
+    style: {
+      less: style.less,
+      sass: style.sass,
+      postcss: style.postcss,
+      inject: style.cssInline,
+    },
     resolve: {
       alias,
     },
@@ -198,7 +198,6 @@ export const buildLib = async (
     splitting,
     minify,
     sourceDir,
-    entryNames,
     globals: umdGlobals,
     external: finalExternals,
     bundle: buildType === 'bundle',

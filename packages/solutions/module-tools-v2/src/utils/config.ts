@@ -36,7 +36,8 @@ export const mergeDefaultBaseConfig = async (
   );
   const { cloneDeep } = await import('@modern-js/utils/lodash');
   const { getDefaultIndexEntry } = await import('./input');
-
+  const { getStyleConfig } = await import('./style');
+  const styleConfig = await getStyleConfig(pConfig);
   const buildType = pConfig.buildType ?? defaultConfig.buildType;
   const sourceDir = pConfig.sourceDir ?? defaultConfig.sourceDir;
   const input =
@@ -67,7 +68,6 @@ export const mergeDefaultBaseConfig = async (
     splitting: pConfig.splitting ?? defaultConfig.splitting,
     minify: pConfig.minify ?? defaultConfig.minify,
     autoExternal: pConfig.autoExternal ?? defaultConfig.autoExternal,
-    entryNames: pConfig.entryNames ?? defaultConfig.entryNames,
     umdGlobals: {
       ...defaultConfig.umdGlobals,
       ...pConfig.umdGlobals,
@@ -77,6 +77,10 @@ export const mergeDefaultBaseConfig = async (
     sourceDir,
     alias: pConfig.alias ?? defaultConfig.alias,
     define,
+    style: {
+      ...styleConfig,
+      cssInline: pConfig.style?.cssInline ?? defaultConfig.style.cssInline,
+    },
   };
 };
 
