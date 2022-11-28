@@ -29,10 +29,10 @@ exports[`plugins/output > should allow to use filename.js to modify filename 1`]
 exports[`plugins/output > should set output correctly 1`] = `
 {
   "output": {
-    "chunkFilename": "static/js/async/[name][ext]",
-    "cssChunkFilename": "static/css/async/[name][ext]",
-    "cssFilename": "static/css/[name][ext]",
-    "filename": "static/js/[name][ext]",
+    "chunkFilename": "static/js/async/[name].js",
+    "cssChunkFilename": "static/css/async/[name].css",
+    "cssFilename": "static/css/[name].css",
+    "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/dist",
     "publicPath": "/",
