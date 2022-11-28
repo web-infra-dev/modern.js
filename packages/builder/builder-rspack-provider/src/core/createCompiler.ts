@@ -2,11 +2,9 @@ import { logger, debug, formatStats } from '@modern-js/builder-shared';
 import type { Context, RspackConfig } from '../types';
 
 export async function createCompiler({
-  watch = true,
   context,
   rspackConfigs,
 }: {
-  watch?: boolean;
   context: Context;
   rspackConfigs: RspackConfig[];
 }) {
@@ -16,6 +14,7 @@ export async function createCompiler({
   });
 
   const { rspack } = await import('@rspack/core');
+  const { isDev } = await import('@modern-js/utils');
 
   // todo: support multiple compiler
   const compiler = rspack(rspackConfigs[0]);
@@ -29,12 +28,13 @@ export async function createCompiler({
       logger.log(message);
     }
 
-    if (watch) {
+    if (isDev()) {
       await context.hooks.onDevCompileDoneHook.call({
         isFirstCompile,
       });
-      isFirstCompile = false;
     }
+
+    isFirstCompile = false;
   });
 
   await context.hooks.onAfterCreateCompilerHook.call({ compiler });
