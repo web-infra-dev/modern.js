@@ -2,7 +2,7 @@
 sidebar_position: 0
 ---
 
-# Overview
+# overview
 
 This section covers all APIs in `@modern-js/app-tools`.
 

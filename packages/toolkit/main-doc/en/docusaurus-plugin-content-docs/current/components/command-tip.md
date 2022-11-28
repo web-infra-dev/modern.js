@@ -1,0 +1,56 @@
+:::tip 提示
+The pnpm v6 and pnpm v7 versions do not use the same posture when executing commands. The following should be noted:
+
+pnpm v7：
+
+When using pnpm to invoke a command in `package.json`, if you need to pass arguments to pnpm, you need to put the arguments before the command.
+
+For example, execute the prepare command with the pnpm '--filter' parameter:
+
+```bash
+pnpm run --filter "./packages/**" prepare
+```
+
+If you need to pass parameters to a command, you need to put the parameters after the command.
+
+For example, in the following `package.json` configuration:
+
+``` json
+{
+  "scripts": {
+    "command": "modern command"
+  }
+}
+```
+
+The way to carry parameters when executing the command command is:
+```bash
+pnpm run command --options
+```
+
+pnpm v6:
+
+In the following `package.json` configuration:
+
+``` json
+{
+  "scripts": {
+    "command": "modern command"
+  }
+}
+```
+
+If you need to execute `modern command --option`,
+
+When using pnpm, you need to execute the `pnpm run command -- --option`。
+
+This is because pnpm does not handle command parameters the same as Yarn, but is similar to npm: when not adding a `--` character string, the parameters of pnpm are passed; when using a `--` character string, the parameters of the execution script are passed.
+
+In the above example the parameter `--option` is passed to `modern command`. If `pnpm run command --option` is executed, the parameter `--option` will be passed to pnpm.
+
+Summary:
+
+** When using pnpm v7, if you pass arguments to pnpm, you need to put the arguments before the command **
+
+** When using pnpm v6, if the parameter passed to pnpm, you do not need to add `--`; if the parameter passed is for script use, you need to add `--` character string **.
+:::
