@@ -40,7 +40,7 @@ SWC plugin in Builder supports TypeScript, TSX and legacy decorator, you can che
 
 ### Why Babel is the default option
 
-Babel supports TypeScript well. It cannot check types, but we can check types in another process. Babel follows standards more when transpiled to lower versions of JavaScript in certain situations. For example, Babel will initialize class members as undefined, and mark class methods as non-enumerable. If TSC is enabled, for better syntax downgrading and Polyfill, the TSC output will still be transpied by Babel, causing unnecessary performance costs.
+Babel supports TypeScript well. It cannot check types, but we can check types in another process. Babel follows standards more when transpiled to lower versions of JavaScript in certain situations. For example, Babel will initialize class members as undefined, and mark class methods as non-enumerable. If TSC is enabled, for better syntax downgrading and Polyfill, the TSC output will still be transpiled by Babel, causing unnecessary performance costs.
 
 ## Type checking
 

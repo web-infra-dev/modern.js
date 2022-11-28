@@ -14,7 +14,7 @@ export default {
   html: {
     title: 'ByteDance',
     titleByEntries: {
-      foo: 'Tiktok',
+      foo: 'TikTok',
     },
   },
 };
@@ -22,5 +22,5 @@ export default {
 
 重新编译后，可以看到:
 
-- 页面 `foo` 的 title 为 `Tiktok`。
+- 页面 `foo` 的 title 为 `TikTok`。
 - 其他页面的 title 为 `ByteDance`。

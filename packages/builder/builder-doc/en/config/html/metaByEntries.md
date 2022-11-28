@@ -17,7 +17,7 @@ export default {
     },
     metaByEntries: {
       foo: {
-        description: 'Tiktok',
+        description: 'TikTok',
       },
     },
   },
@@ -27,7 +27,7 @@ export default {
 After compiling, you can see that the meta of the page `foo` is:
 
 ```html
-<meta name="description" content="Tiktok" />
+<meta name="description" content="TikTok" />
 ```
 
 The meta of other pages is:

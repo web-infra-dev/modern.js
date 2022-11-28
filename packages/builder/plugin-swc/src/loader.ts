@@ -36,8 +36,8 @@ export function createLoader() {
         setReactDevMode(options, this.mode);
       }
 
-      // disable unneccessary config searching
-      // all config should be explitly set
+      // disable unnecessary config searching
+      // all config should be explicitly set
       options.swcrc = false;
 
       compiler = new Compiler(options);

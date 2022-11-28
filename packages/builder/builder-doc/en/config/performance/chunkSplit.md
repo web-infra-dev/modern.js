@@ -108,7 +108,7 @@ export default {
 };
 ```
 
-This is an easier way than configuring Webpack's splitChunks directly.
+This is an easier way than configuring webpack's splitChunks directly.
 
 ### chunkSplit.splitChunks
 
