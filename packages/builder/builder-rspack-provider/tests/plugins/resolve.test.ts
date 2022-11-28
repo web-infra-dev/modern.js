@@ -93,7 +93,7 @@ describe('plugins/resolve', () => {
   });
 
   it('should support custom resolve.mainFields', async () => {
-    const mainFieldsOption = ['main', 'test', 'broswer', ['module', 'exports']];
+    const mainFieldsOption = ['main', 'test', 'browser', ['module', 'exports']];
 
     const builder = await createBuilder({
       plugins: [PluginResolve()],
@@ -110,9 +110,30 @@ describe('plugins/resolve', () => {
     expect(bundlerConfigs[0].resolve?.mainFields).toEqual([
       'main',
       'test',
-      'broswer',
+      'browser',
       'module',
       'exports',
     ]);
+  });
+
+  it('should support custom webpack resolve.mainFields by target', async () => {
+    const mainFieldsOption = {
+      web: ['main', 'browser'],
+      node: ['main', 'node'],
+    };
+
+    const builder = await createBuilder({
+      plugins: [PluginResolve()],
+      builderConfig: {
+        source: {
+          resolveMainFields: mainFieldsOption,
+        },
+      },
+    });
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0].resolve?.mainFields).toEqual(mainFieldsOption.web);
   });
 });
