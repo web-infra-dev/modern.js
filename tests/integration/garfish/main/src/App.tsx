@@ -109,7 +109,6 @@ const App: React.FC = () => {
 //   },
 // });
 
-// eslint-disable-next-line no-console
 console.log((App as any).config);
 
 export default App;

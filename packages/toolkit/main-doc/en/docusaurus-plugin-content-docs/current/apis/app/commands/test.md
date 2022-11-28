@@ -31,6 +31,6 @@ Time:        0.994 s, estimated 1 s
 files match `*.test.(js|ts)` in `api/` or `src/` will be recognized as test cases by default。
 :::
 
-import CommandTip from '@site-docs/components/command-tip.md'
+import CommandTip from '@site-docs-en/components/command-tip.md'
 
 <CommandTip />

@@ -275,6 +275,10 @@
     "message": "server",
     "description": "The label for category server in sidebar configsAppSidebar"
   },
+  "sidebar.configsAppSidebar.category.deploy (部署)": {
+    "message": "deploy",
+    "description": "The label for category deploy in sidebar configsAppSidebar"
+  },
   "sidebar.configsAppSidebar.category.bff (BFF API)": {
     "message": "bff",
     "description": "The label for category bff in sidebar configsAppSidebar"
