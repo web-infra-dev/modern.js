@@ -1,14 +1,8 @@
-import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { CliNormalizedConfig, IAppContext } from '@modern-js/core';
-import { LegacyAppTools } from '../types';
-import { createCopyPattern } from './share';
+import { AppLegacyNormalizedConfig, AppNormalizedConfig } from '../../types';
 
 export function createOutputConfig(
-  normalizedConfig: CliNormalizedConfig<LegacyAppTools>,
-  appContext: IAppContext,
-): BuilderConfig['output'] {
-  // TODO: add `externals` options in Modern.
-
+  config: Readonly<AppLegacyNormalizedConfig>,
+): AppNormalizedConfig['output'] {
   const {
     assetPrefix,
     copy,
@@ -32,20 +26,14 @@ export function createOutputConfig(
     disableAssetsCache,
     enableLatestDecorators,
     disableCssModuleExtension,
-  } = normalizedConfig.output;
-
-  const defaultCopyPattern = createCopyPattern(
-    appContext,
-    normalizedConfig as any,
-    'upload',
-  );
-  const builderCopy = copy
-    ? [...copy, defaultCopyPattern]
-    : [defaultCopyPattern];
+    ssg,
+    enableModernMode,
+    disableNodePolyfill,
+  } = config.output;
 
   return {
     assetPrefix,
-    copy: builderCopy,
+    copy,
     distPath: {
       root: path,
       css: cssPath,
@@ -73,16 +61,13 @@ export function createOutputConfig(
     enableInlineScripts,
     enableInlineStyles,
     polyfill,
-    // We need to do this in the app-tools prepare hook because some files will be generated into the dist directory in the analyze process
-    cleanDistPath: false,
     disableFilenameHash: disableAssetsCache,
     enableLatestDecorators,
     filename: {
       css: cssModuleLocalIdentName,
     },
-    // `@modern-js/webpack` used to generate asset manifest by default
-    enableAssetManifest: true,
-    // compatible the modern-js with fallback behavior
-    enableAssetFallback: true,
+    ssg,
+    enableModernMode,
+    disableNodePolyfill,
   };
 }

@@ -1,9 +1,9 @@
-import { CliNormalizedConfig, CliUserConfig, PluginAPI } from '@modern-js/core';
+import type { NormalizedConfig, UserConfig } from '@modern-js/core';
 import type { AppToolsUserConfig, AppToolsNormalizedConfig } from './config';
 import type { AppToolsHooks } from './hooks';
 import type {
-  LegacyAppToolsNormalizedConfig,
-  LegacyAppToolsUserConfig,
+  AppToolsLegacyUserConfig,
+  AppToolsLegacyNormalizedConfig,
 } from './legacyConfig';
 
 export * from './hooks';
@@ -21,8 +21,8 @@ export type {
   IAppContext,
   PluginAPI,
   CliPlugin,
-  CliNormalizedConfig,
-  CliUserConfig,
+  NormalizedConfig,
+  UserConfig,
 } from '@modern-js/core';
 
 export type AppTools = {
@@ -33,13 +33,12 @@ export type AppTools = {
 
 export type LegacyAppTools = {
   hooks: AppToolsHooks;
-  userConfig: LegacyAppToolsUserConfig;
-  normalizedConfig: LegacyAppToolsNormalizedConfig;
+  userConfig: AppToolsLegacyUserConfig;
+  normalizedConfig: AppToolsLegacyNormalizedConfig;
 };
 
-export type NormalizedConfig = CliNormalizedConfig<AppTools>;
-export type LegacyNormalizedConfig = CliNormalizedConfig<LegacyAppTools>;
+export type AppNormalizedConfig = NormalizedConfig<AppTools>;
+export type AppLegacyNormalizedConfig = NormalizedConfig<LegacyAppTools>;
 
-export type UserConfig = CliUserConfig<AppTools>;
-export type LegacyUserConfig = CliUserConfig<LegacyAppTools>;
-export type LegacyPluginAPI = PluginAPI<LegacyAppTools>;
+export type AppUserConfig = UserConfig<AppTools>;
+export type AppLegacyUserConfig = UserConfig<LegacyAppTools>;

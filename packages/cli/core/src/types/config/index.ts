@@ -11,7 +11,7 @@ export type {
 
 type DropUndefined<T> = T extends undefined ? never : T;
 
-export type CliUserConfig<
+export type UserConfig<
   Extends extends {
     hooks?: ExtendHooks;
     userConfig?: ExtendUserConfig;
@@ -36,7 +36,7 @@ export type CliUserConfig<
   plugins?: PluginConfig<Extends>;
 } & Omit<Extends['userConfig'], 'plugins' | 'testing'>;
 
-export type CliNormalizedConfig<
+export type NormalizedConfig<
   Extends extends {
     hooks?: ExtendHooks;
     userConfig?: ExtendUserConfig;
@@ -72,14 +72,14 @@ export type LoadedConfig<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
 > = {
-  config: CliUserConfig<Extends>;
+  config: UserConfig<Extends>;
   filePath: string | false;
   dependencies: string[];
-  pkgConfig: CliUserConfig<Extends>;
-  jsConfig: CliUserConfig<Extends>;
+  pkgConfig: UserConfig<Extends>;
+  jsConfig: UserConfig<Extends>;
 };
 
 export type ConfigParams =
-  | CliUserConfig
-  | Promise<CliUserConfig>
-  | ((env: any) => CliUserConfig | Promise<CliUserConfig>);
+  | UserConfig
+  | Promise<UserConfig>
+  | ((env: any) => UserConfig | Promise<UserConfig>);

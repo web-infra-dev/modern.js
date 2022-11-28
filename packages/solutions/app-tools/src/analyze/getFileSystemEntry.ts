@@ -1,9 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { findExists, ensureAbsolutePath } from '@modern-js/utils';
-import type { CliNormalizedConfig, IAppContext } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
-import type { AppTools } from '../types';
+import type { AppNormalizedConfig, IAppContext } from '../types';
 import { isDefaultExportFunction } from './isDefaultExportFunction';
 import {
   JS_EXTENSIONS,
@@ -105,7 +104,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
 
 export const getFileSystemEntry = (
   appContext: IAppContext,
-  config: CliNormalizedConfig<AppTools>,
+  config: AppNormalizedConfig,
 ): Entrypoint[] => {
   const { appDirectory } = appContext;
 

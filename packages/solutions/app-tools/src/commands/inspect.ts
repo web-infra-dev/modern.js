@@ -9,7 +9,12 @@ export const inspect = async (
   options: InspectOptions,
 ) => {
   const appContext = api.useAppContext();
-  return appContext.builder?.inspectConfig({
+  if (!appContext.builder) {
+    throw new Error(
+      'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
+    );
+  }
+  return appContext.builder.inspectConfig({
     env: options.env as BuilderMode,
     verbose: options.verbose,
     outputPath: join(appContext?.builder.context.distPath, options.output),

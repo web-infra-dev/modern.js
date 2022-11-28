@@ -1,19 +1,18 @@
 import path from 'path';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { WebpackChain } from '@modern-js/builder-webpack-provider';
-import { IAppContext, CliNormalizedConfig } from '@modern-js/core';
 import { removeTailSlash } from '@modern-js/utils';
-import { AppTools } from '../types';
+import { AppNormalizedConfig, IAppContext } from '../types';
 
 export function createCopyPattern(
   appContext: IAppContext,
-  config: CliNormalizedConfig<AppTools>,
+  config: AppNormalizedConfig,
   patternsType: 'upload' | 'public',
   chain?: WebpackChain,
 ) {
   const configDir = path.resolve(
     appContext.appDirectory,
-    config.source.configDir!,
+    config.source.configDir || './config',
   );
   const uploadDir = path.posix.join(configDir.replace(/\\/g, '/'), 'upload');
   const publicDir = path.posix.join(configDir.replace(/\\/g, '/'), 'public');

@@ -1,9 +1,9 @@
-import type { CliNormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 
 const allowedFeatures = ['router', 'state'];
 
 export default function resolvePlugins(
-  features: CliNormalizedConfig<{
+  features: NormalizedConfig<{
     normalizedConfig: {
       runtime: any;
     };

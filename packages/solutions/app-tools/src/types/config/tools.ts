@@ -1,4 +1,3 @@
-import type { DevServerOptions } from '@modern-js/types';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { JestConfig } from '@modern-js/core';
 
@@ -14,7 +13,6 @@ export type Tailwindcss =
   | ((options: Record<string, any>) => Record<string, any> | void);
 
 export interface ToolsUserConfig extends BuilderToolsConfig {
-  devServer?: DevServerOptions;
   tailwindcss?: Tailwindcss;
   jest?: JestConfig | ((jestConfig: JestConfig) => JestConfig);
   esbuild?: Record<string, unknown>;

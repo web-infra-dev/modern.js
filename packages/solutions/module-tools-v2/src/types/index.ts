@@ -1,4 +1,4 @@
-import { CliNormalizedConfig, CliUserConfig } from '@modern-js/core';
+import { NormalizedConfig, UserConfig } from '@modern-js/core';
 import { UserConfig as ModuleToolsUserConfig } from './config';
 import { ModuleToolsHooks } from './hooks';
 
@@ -9,8 +9,9 @@ export * from './dts';
 export * from './context';
 export type {
   CliPlugin,
-  CliNormalizedConfig,
-  CliUserConfig,
+  NormalizedConfig,
+  // FIXME: conflict with ModuleTools.config export type: `UserConfig`
+  // UserConfig,
   IAppContext,
   PluginAPI,
 } from '@modern-js/core';
@@ -21,5 +22,5 @@ export type ModuleTools = {
   normalizedConfig: Required<ModuleToolsUserConfig>;
 };
 
-export type NormalizedConfig = CliNormalizedConfig<ModuleTools>;
-export type UserConfig = CliUserConfig<ModuleTools>;
+export type ModuleNormalizedConfig = NormalizedConfig<ModuleTools>;
+export type ModuleUserConfig = UserConfig<ModuleTools>;

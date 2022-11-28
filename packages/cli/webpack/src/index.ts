@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import { IAppContext, LegacyNormalizedConfig } from '@modern-js/app-tools';
+import { IAppContext, AppLegacyNormalizedConfig } from '@modern-js/app-tools';
 import {
   ClientWebpackConfig,
   ModernWebpackConfig,
@@ -26,7 +26,7 @@ export enum WebpackConfigTarget {
 export const getWebpackConfig = (
   target: WebpackConfigTarget,
   appContext: IAppContext,
-  resolvedConfig: LegacyNormalizedConfig,
+  resolvedConfig: AppLegacyNormalizedConfig,
 ) => {
   let Config = null;
 

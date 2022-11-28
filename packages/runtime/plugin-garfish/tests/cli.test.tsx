@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { manager, CliPlugin } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
 import { CHAIN_ID } from '@modern-js/utils';
-import type { UserConfig } from '@modern-js/app-tools';
+import type { AppUserConfig } from '@modern-js/app-tools';
 import GarfishPlugin, { externals } from '../src/cli';
 import type { UseConfig } from '../src/cli';
 import { getRuntimeConfig, setRuntimeConfig } from '../src/cli/utils';
@@ -210,7 +210,7 @@ describe('plugin-garfish cli', () => {
 
     const runner = await main.init();
     await runner.prepare();
-    const config = (await runner.config()) as UserConfig[];
+    const config = (await runner.config()) as AppUserConfig[];
     expect(config[0].output!.disableCssExtract).toBe(false);
   });
 
@@ -234,7 +234,7 @@ describe('plugin-garfish cli', () => {
       .usePlugin(GarfishPlugin as CliPlugin);
     const runner = await main.init();
     await runner.prepare();
-    const config = (await runner.config()) as UserConfig[];
+    const config = (await runner.config()) as AppUserConfig[];
     expect(config[0].output!.disableCssExtract).toBe(true);
   });
 
@@ -249,7 +249,7 @@ describe('plugin-garfish cli', () => {
       .usePlugin(GarfishPlugin as CliPlugin);
     const runner = await main.init();
     await runner.prepare();
-    const config = (await runner.config()) as UserConfig[];
+    const config = (await runner.config()) as AppUserConfig[];
     expect(config[0].output!.disableCssExtract).toBe(false);
   });
 });

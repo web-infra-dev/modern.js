@@ -1,5 +1,8 @@
 import { ensureArray, WebpackChain } from '@modern-js/utils';
-import type { IAppContext, LegacyNormalizedConfig } from '@modern-js/app-tools';
+import type {
+  IAppContext,
+  AppLegacyNormalizedConfig,
+} from '@modern-js/app-tools';
 import type {
   Configuration,
   RuleSetRule,
@@ -13,7 +16,7 @@ import {
 
 export type ChainUtils = {
   chain: WebpackChain;
-  config: LegacyNormalizedConfig;
+  config: AppLegacyNormalizedConfig;
   loaders: WebpackChain.Rule<WebpackChain.Module>;
   appContext: IAppContext;
 };

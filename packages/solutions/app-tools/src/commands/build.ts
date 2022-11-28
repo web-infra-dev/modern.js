@@ -55,8 +55,12 @@ export const build = async (
 
   try {
     logger.info('Create a production build...\n');
-
-    await appContext.builder?.build();
+    if (!appContext.builder) {
+      throw new Error(
+        'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
+      );
+    }
+    await appContext.builder.build();
   } catch (error) {
     printBuildError(error as Error);
     // eslint-disable-next-line no-process-exit

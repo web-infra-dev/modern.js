@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { fs, Import, globby, fastGlob, slash } from '@modern-js/utils';
-import type { CliNormalizedConfig, IAppContext } from '@modern-js/core';
+import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 
 const normalizePath: typeof import('normalize-path') = Import.lazy(
   'normalize-path',
@@ -8,7 +8,7 @@ const normalizePath: typeof import('normalize-path') = Import.lazy(
 );
 
 export const copyTask = async (option: {
-  modernConfig: CliNormalizedConfig;
+  modernConfig: NormalizedConfig;
   appContext: IAppContext;
 }) => {
   const { modernConfig, appContext } = option as any;

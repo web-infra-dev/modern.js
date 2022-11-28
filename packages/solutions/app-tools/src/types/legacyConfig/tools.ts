@@ -4,7 +4,7 @@ import type { JestConfig } from '@modern-js/core';
 
 // FIXME: need definition by itself.
 type BuilderToolsConfig = Required<BuilderConfig>['tools'];
-export type LegacyToolsUserConfig = BuilderToolsConfig & {
+export type ToolsLegacyUserConfig = BuilderToolsConfig & {
   esbuild?: Record<string, unknown>;
   devServer?: DevServerOptions;
   /**

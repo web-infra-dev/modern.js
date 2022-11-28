@@ -1,15 +1,15 @@
 import { mergeWith } from '@modern-js/utils/lodash';
 import { isPlainObject } from '@modern-js/utils';
-import { LoadedConfig, CliUserConfig, ConfigParams } from '../types';
+import { LoadedConfig, UserConfig, ConfigParams } from '../types';
 import { loadConfig } from '../load-configs';
 
 /**
  * Assign the pkg config into the user config.
  */
 export const assignPkgConfig = (
-  userConfig: CliUserConfig = {},
+  userConfig: UserConfig = {},
   pkgConfig: ConfigParams = {},
-): CliUserConfig =>
+): UserConfig =>
   mergeWith({}, userConfig, pkgConfig, (objValue, srcValue) => {
     // mergeWith can not merge object with symbol, but plugins object contains symbol,
     // so we need to handle it manually.

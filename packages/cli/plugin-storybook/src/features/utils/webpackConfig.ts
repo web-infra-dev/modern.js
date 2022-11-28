@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
 import { fs, Import, CHAIN_ID } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/module-tools-v2';
+import type {
+  IAppContext,
+  ModuleNormalizedConfig,
+} from '@modern-js/module-tools-v2';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type {
   Configuration,
@@ -172,7 +175,7 @@ export const getCustomWebpackConfigHandle: any = ({
   isTsProject = false,
 }: {
   appContext: IAppContext;
-  modernConfig: NormalizedConfig;
+  modernConfig: ModuleNormalizedConfig;
   configDir: string;
   isTsProject: boolean;
   env: 'dev' | 'prod';

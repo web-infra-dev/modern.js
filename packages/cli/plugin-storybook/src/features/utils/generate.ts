@@ -1,5 +1,4 @@
 import path from 'path';
-// import type { NormalizedConfig } from '@modern-js/module-tools-v2';
 import { fs, normalizeOutputPath } from '@modern-js/utils';
 import { template } from '@modern-js/utils/lodash';
 import { STORYBOOK_TEMPLATE_DIR } from '../constants';

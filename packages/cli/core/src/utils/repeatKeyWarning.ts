@@ -1,5 +1,5 @@
 import { traverseSchema } from '../schema/traverseSchema';
-import { CliUserConfig } from '../types';
+import { UserConfig } from '../types';
 
 export const deepGet = (obj: any, key: string) => {
   for (const p of key.split('.')) {
@@ -11,8 +11,8 @@ export const deepGet = (obj: any, key: string) => {
 
 export const repeatKeyWarning = <E extends Record<string, any>>(
   schema: any,
-  jsConfig: CliUserConfig<E>,
-  pkgConfig: CliUserConfig<E>,
+  jsConfig: UserConfig<E>,
+  pkgConfig: UserConfig<E>,
 ) => {
   const keys = traverseSchema(schema);
 

@@ -8,16 +8,15 @@ import type {
   BuilderPluginAPI,
   WebpackChain,
 } from '@modern-js/builder-webpack-provider';
-import type { IAppContext, CliNormalizedConfig } from '@modern-js/core';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 import { getEntryOptions, ChainIdentifier } from '@modern-js/utils';
 import { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import {
+import type {
+  IAppContext,
   SSGMultiEntryOptions,
-  // LegacyAppTools,
   ServerUserConfig,
-  AppTools,
+  AppNormalizedConfig,
 } from '../../types';
 import { BottomTemplatePlugin } from '../webpackPlugins/htmlBottomTemplate';
 import { HtmlAsyncChunkPlugin } from '../webpackPlugins/htmlAsyncChunkPlugin';
@@ -54,7 +53,7 @@ export type PluginCompatModernOptions = FnParameter<
  */
 export const PluginCompatModern = (
   appContext: IAppContext,
-  modernConfig: CliNormalizedConfig<AppTools>,
+  modernConfig: AppNormalizedConfig,
   options?: PluginCompatModernOptions,
 ): BuilderPlugin<BuilderPluginAPI> => ({
   name: 'builder-plugin-compat-modern',
@@ -172,7 +171,7 @@ function applyCallbacks(
  */
 function applyNodeCompat(
   chain: WebpackChain,
-  modernConfig: CliNormalizedConfig<AppTools>,
+  modernConfig: AppNormalizedConfig,
   isProd: boolean,
 ) {
   // apply node resolve extensions
@@ -191,8 +190,8 @@ function applyNodeCompat(
   function filterEntriesBySSRConfig(
     isProd: boolean,
     chain: WebpackChain,
-    serverConfig?: CliNormalizedConfig<AppTools>['server'],
-    outputConfig?: CliNormalizedConfig<AppTools>['output'],
+    serverConfig?: AppNormalizedConfig['server'],
+    outputConfig?: AppNormalizedConfig['output'],
   ) {
     const entries = chain.entryPoints.entries();
     // if prod and ssg config is true or function
@@ -247,7 +246,7 @@ function applyBottomHtmlWebpackPlugin({
 }: {
   api: BuilderPluginAPI;
   chain: WebpackChain;
-  modernConfig: CliNormalizedConfig<AppTools>;
+  modernConfig: AppNormalizedConfig;
   appContext: IAppContext;
   CHAIN_ID: ChainIdentifier;
 }) {
@@ -287,7 +286,7 @@ function applyBottomHtmlWebpackPlugin({
     .use(BottomTemplatePlugin, [HtmlWebpackPlugin]);
 }
 
-const isStreamingSSR = (userConfig: CliNormalizedConfig<AppTools>): boolean => {
+const isStreamingSSR = (userConfig: AppNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
@@ -316,7 +315,7 @@ function applyAsyncChunkHtmlPlugin({
   CHAIN_ID,
 }: {
   chain: WebpackChain;
-  modernConfig: CliNormalizedConfig<AppTools>;
+  modernConfig: AppNormalizedConfig;
   CHAIN_ID: ChainIdentifier;
 }) {
   if (isStreamingSSR(modernConfig)) {

@@ -5,7 +5,7 @@ import {
   removeLeadingSlash,
   isFastRefresh,
 } from '@modern-js/utils';
-import { IAppContext, LegacyNormalizedConfig } from '@modern-js/app-tools';
+import { IAppContext, AppLegacyNormalizedConfig } from '@modern-js/app-tools';
 import { HotModuleReplacementPlugin } from 'webpack';
 import { BaseWebpackConfig } from './base';
 import { addCoreJsEntry } from './features/babel';
@@ -28,7 +28,7 @@ import { applyHTMLPlugin } from './features/html';
 export class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
 
-  constructor(appContext: IAppContext, options: LegacyNormalizedConfig) {
+  constructor(appContext: IAppContext, options: AppLegacyNormalizedConfig) {
     super(appContext, options);
 
     this.htmlFilename = (name: string) =>

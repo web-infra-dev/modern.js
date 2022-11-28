@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { Import, glob, fs, nanoid } from '@modern-js/utils';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
-import type { CliNormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import type { ITsconfig } from '../../../../types';
 
 const babel: typeof import('../../../../utils/babel') = Import.lazy(
@@ -93,7 +93,7 @@ export const generatorTsConfig = (
 };
 
 export const resolveAlias = (
-  modernConfig: CliNormalizedConfig,
+  modernConfig: NormalizedConfig,
   config: IGeneratorConfig,
   watchFilenames: string[] = [],
 ) => {

@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import type { CliNormalizedConfig, IAppContext } from '@modern-js/core';
-
+import type { IAppContext } from '@modern-js/core';
 import {
   urlJoin,
   isPlainObject,
@@ -12,7 +11,7 @@ import {
   removeTailSlash,
 } from '@modern-js/utils';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
-import type { AppTools } from '../types';
+import type { AppNormalizedConfig } from '../types';
 import { walkDirectory } from './utils';
 
 /**
@@ -117,7 +116,7 @@ const applyRouteOptions = (
 const collectHtmlRoutes = (
   entrypoints: Entrypoint[],
   appContext: IAppContext,
-  config: CliNormalizedConfig<AppTools>,
+  config: AppNormalizedConfig,
 ): ServerRoute[] => {
   const {
     html: { disableHtmlFolder },
@@ -189,7 +188,7 @@ const collectHtmlRoutes = (
  */
 const collectStaticRoutes = (
   appContext: IAppContext,
-  config: CliNormalizedConfig<AppTools>,
+  config: AppNormalizedConfig,
 ): ServerRoute[] => {
   const { appDirectory } = appContext;
   const {
@@ -226,7 +225,7 @@ export const getServerRoutes = (
     config,
   }: {
     appContext: IAppContext;
-    config: CliNormalizedConfig<AppTools>;
+    config: AppNormalizedConfig;
   },
 ): ServerRoute[] => [
   ...collectHtmlRoutes(entrypoints, appContext, config),

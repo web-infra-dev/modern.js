@@ -1,7 +1,9 @@
 import { MetaOptions } from '@modern-js/utils';
 import { SSGConfig } from '../config';
 
-export type LegacyOutputUserConfig = {
+type CrossOrigin = 'anonymous' | 'use-credentials';
+
+export type OutputLegacyUserConfig = {
   assetPrefix?: string;
   htmlPath?: string;
   jsPath?: string;
@@ -18,7 +20,6 @@ export type LegacyOutputUserConfig = {
   favicon?: string;
   faviconByEntries?: Record<string, string | undefined>;
   copy?: Array<Record<string, unknown> & { from: string }>;
-  scriptExt?: Record<string, unknown>;
   disableTsChecker?: boolean;
   disableHtmlFolder?: boolean;
   disableCssModuleExtension?: boolean;
@@ -34,14 +35,10 @@ export type LegacyOutputUserConfig = {
   polyfill?: 'off' | 'usage' | 'entry' | 'ua';
   dataUriLimit?: number;
   templateParameters?: Record<string, unknown>;
-  templateParametersByEntries?: Record<
-    string,
-    Record<string, unknown> | undefined
-  >;
+  templateParametersByEntries?: Record<string, Record<string, unknown>>;
+  crossorigin?: boolean | CrossOrigin;
   cssModuleLocalIdentName?: string;
   enableModernMode?: boolean;
-  // TODO: need confirm the config item should be saved
-  federation?: boolean;
   disableNodePolyfill?: boolean;
   enableTsLoader?: boolean;
 

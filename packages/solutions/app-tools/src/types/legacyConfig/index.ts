@@ -2,41 +2,41 @@ import type {
   ServerUserConfig as LegacyServerUserConfig,
   BffUserConfig as LegacyBffUserConfig,
 } from '@modern-js/server-core';
-import type { LegacyDevUserConfig } from './dev';
-import type { LegacyOutputUserConfig } from './output';
-import type { LegacySourceUserConfig } from './source';
-import type { LegacyDeployUserConfig } from './deploy';
-import type { LegacyToolsUserConfig } from './tools';
+import type { DevUserLegacyConfig } from './dev';
+import type { OutputLegacyUserConfig } from './output';
+import type { SourceLegacyUserConfig } from './source';
+import type { DeployLegacyUserConfig } from './deploy';
+import type { ToolsLegacyUserConfig } from './tools';
 
-export type { LegacyDevUserConfig } from './dev';
-export type { LegacyOutputUserConfig } from './output';
-export type { LegacyDeployUserConfig } from './deploy';
-export type { LegacySourceUserConfig } from './source';
-export type { LegacyToolsUserConfig } from './tools';
+export type { DevUserLegacyConfig } from './dev';
+export type { OutputLegacyUserConfig } from './output';
+export type { DeployLegacyUserConfig } from './deploy';
+export type { SourceLegacyUserConfig } from './source';
+export type { ToolsLegacyUserConfig } from './tools';
 
-export interface LegacyRuntimeConfig {
+export interface RuntimeLegacyConfig {
   [name: string]: any;
 }
 
-export interface LegacyRuntimeByEntriesConfig {
-  [name: string]: LegacyRuntimeConfig;
+export interface RuntimeByEntriesLegacyConfig {
+  [name: string]: RuntimeLegacyConfig;
 }
 
-export type LegacyAppToolsUserConfig = {
-  source?: LegacySourceUserConfig;
-  output?: LegacyOutputUserConfig;
+export type AppToolsLegacyUserConfig = {
+  source?: SourceLegacyUserConfig;
+  output?: OutputLegacyUserConfig;
   server?: LegacyServerUserConfig;
-  dev?: LegacyDevUserConfig;
-  deploy?: LegacyDeployUserConfig;
-  tools?: LegacyToolsUserConfig;
-  runtime?: LegacyRuntimeConfig;
-  runtimeByEntries?: LegacyRuntimeByEntriesConfig;
+  dev?: DevUserLegacyConfig;
+  deploy?: DeployLegacyUserConfig;
+  tools?: ToolsLegacyUserConfig;
+  runtime?: RuntimeLegacyConfig;
+  runtimeByEntries?: RuntimeByEntriesLegacyConfig;
   bff?: LegacyBffUserConfig;
   legacy?: boolean;
 };
 
-export interface LegacyAppToolsNormalizedConfig
-  extends Required<LegacyAppToolsUserConfig> {
+export interface AppToolsLegacyNormalizedConfig
+  extends Required<AppToolsLegacyUserConfig> {
   cliOptions?: Record<string, any>;
-  _raw: LegacyAppToolsUserConfig;
+  _raw: AppToolsLegacyUserConfig;
 }

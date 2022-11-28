@@ -1,8 +1,8 @@
 import { validAlias } from '@modern-js/utils';
-import type { CliNormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 
 export interface IValideOption {
-  modernConfig: CliNormalizedConfig<any>;
+  modernConfig: NormalizedConfig<any>;
   tsconfigPath: string;
 }
 
@@ -23,7 +23,7 @@ export const valideBeforeTask = ({
 };
 
 export const modernConfigValid = (
-  modernConfig: CliNormalizedConfig<any>,
+  modernConfig: NormalizedConfig<any>,
   option: { tsconfigPath: string },
 ) => {
   const valids = [validAlias];

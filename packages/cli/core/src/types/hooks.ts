@@ -6,7 +6,7 @@ import {
   ToThreads,
 } from '@modern-js/plugin';
 import type { Command } from '@modern-js/utils';
-import type { CliUserConfig, CliNormalizedConfig } from './config';
+import type { UserConfig, NormalizedConfig } from './config';
 
 export type BaseHooks<
   Extends extends {
@@ -21,9 +21,9 @@ export type BaseHooks<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = {
-  config: ParallelWorkflow<void, CliUserConfig<Extends>>;
+  config: ParallelWorkflow<void, UserConfig<Extends>>;
   resolvedConfig: AsyncWaterfall<{
-    resolved: CliNormalizedConfig<Extends>;
+    resolved: NormalizedConfig<Extends>;
   }>;
   validateSchema: ParallelWorkflow<void>;
   prepare: AsyncWorkflow<void, void>;

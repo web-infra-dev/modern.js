@@ -9,14 +9,14 @@ import {
 } from '@modern-js/utils';
 import { compile } from '@modern-js/server-utils';
 import type { ServerRoute } from '@modern-js/types';
-import type { CliPlugin } from '@modern-js/core';
 import { ApiRouter } from '@modern-js/bff-core';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { registerModernRuntimePath } from './helper';
 
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 
-export default (): CliPlugin<any> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
     let unRegisterResolveRuntimePath: (() => void) | null = null;
@@ -27,11 +27,10 @@ export default (): CliPlugin<any> => ({
       config() {
         return {
           tools: {
-            webpackChain: (chain: any, { name, CHAIN_ID }: any) => {
+            webpackChain: (chain, { name, CHAIN_ID }) => {
               const { appDirectory, port } = api.useAppContext();
               const modernConfig = api.useResolvedConfigContext();
               const { bff } = modernConfig || {};
-              // const { fetcher } = bff || {};
               const prefix = bff?.prefix || DEFAULT_API_PREFIX;
 
               const rootDir = path.resolve(appDirectory, API_DIR);
@@ -62,9 +61,7 @@ export default (): CliPlugin<any> => ({
                   lambdaDir,
                   existLambda,
                   port,
-                  // fetcher,
                   target: name,
-                  // requestCreator: bff?.requestCreator,
                 });
             },
           },
@@ -73,7 +70,7 @@ export default (): CliPlugin<any> => ({
           },
         };
       },
-      modifyServerRoutes({ routes }: any) {
+      modifyServerRoutes({ routes }) {
         const modernConfig = api.useResolvedConfigContext();
 
         const { bff } = modernConfig || {};
@@ -150,6 +147,6 @@ export default (): CliPlugin<any> => ({
           );
         }
       },
-    } as any;
+    };
   },
 });

@@ -5,9 +5,8 @@ import {
   findExists,
   MAIN_ENTRY_NAME,
 } from '@modern-js/utils';
-import type { IAppContext, CliNormalizedConfig } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
-import type { AppTools } from '../types';
+import type { AppNormalizedConfig, IAppContext } from '../types';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { JS_EXTENSIONS } from './constants';
 
@@ -45,7 +44,7 @@ const ifAlreadyExists = (
 
 export const getBundleEntry = (
   appContext: IAppContext,
-  config: CliNormalizedConfig<AppTools>,
+  config: AppNormalizedConfig,
 ) => {
   const { appDirectory, packageName } = appContext;
   const {

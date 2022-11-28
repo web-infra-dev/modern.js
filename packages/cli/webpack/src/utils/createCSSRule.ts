@@ -1,9 +1,9 @@
 import { getPostcssConfig } from '@modern-js/css-config';
 import { CHAIN_ID } from '@modern-js/utils';
-import type { LegacyNormalizedConfig } from '@modern-js/app-tools';
+import type { AppLegacyNormalizedConfig } from '@modern-js/app-tools';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
 
-export const enableCssExtract = (config: LegacyNormalizedConfig) => {
+export const enableCssExtract = (config: AppLegacyNormalizedConfig) => {
   return config.output.disableCssExtract !== true;
 };
 
@@ -38,7 +38,7 @@ export const createCSSRule = ({
   name: string;
   test: RegExp | RegExp[];
   chain: WebpackChain;
-  config: LegacyNormalizedConfig;
+  config: AppLegacyNormalizedConfig;
   genTSD?: boolean;
   exclude?: Array<RegExp | ((path: string) => boolean)>;
   appDirectory: string;

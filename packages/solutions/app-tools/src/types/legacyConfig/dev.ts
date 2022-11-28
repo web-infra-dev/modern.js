@@ -2,7 +2,7 @@ import type { DevServerHttpsOptions } from '@modern-js/types';
 
 export type DevProxyOptions = string | Record<string, string>;
 
-export type LegacyDevUserConfig = {
+export type DevUserLegacyConfig = {
   assetPrefix?: string | boolean;
   https?: DevServerHttpsOptions;
 

@@ -1,5 +1,6 @@
 import { logger } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import { webpack } from '@modern-js/builder-webpack-provider';
 import { createFileWatcher } from '../utils/createFileWatcher';
 import { printInstructions } from '../utils/printInstructions';
 import { createServer, injectDataLoaderPlugin } from '../utils/createServer';
@@ -54,10 +55,15 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
 
   await hookRunners.beforeDev();
 
-  let compiler = null;
+  let compiler: webpack.Compiler | webpack.MultiCompiler | null = null;
 
   if (!apiOnly) {
-    compiler = await appContext.builder?.createCompiler();
+    if (!appContext.builder) {
+      throw new Error(
+        'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
+      );
+    }
+    compiler = await appContext.builder.createCompiler();
   }
 
   await generateRoutes(appContext);

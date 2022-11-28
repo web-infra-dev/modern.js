@@ -4,6 +4,6 @@ export interface MicroFrontend {
   moduleApp?: string;
 }
 
-export type LegacyDeployUserConfig = {
+export type DeployLegacyUserConfig = {
   microFrontend?: boolean | MicroFrontend;
 };

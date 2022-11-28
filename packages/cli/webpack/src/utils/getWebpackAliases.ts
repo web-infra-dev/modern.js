@@ -1,4 +1,4 @@
-import type { IAppContext, LegacyUserConfig } from '@modern-js/app-tools';
+import type { IAppContext, AppLegacyUserConfig } from '@modern-js/app-tools';
 import {
   isProdProfile,
   isTypescript,
@@ -8,7 +8,7 @@ import {
 
 export const verifyTsConfigPaths = (
   root: string,
-  userConfig: LegacyUserConfig,
+  userConfig: AppLegacyUserConfig,
 ) => {
   const userAliases = userConfig.source?.alias;
 
@@ -35,7 +35,7 @@ export const verifyTsConfigPaths = (
 
 export const getWebpackAliases = (
   appContext: IAppContext,
-  userConfig: LegacyUserConfig,
+  userConfig: AppLegacyUserConfig,
 ) => {
   if (isTypescript(appContext.appDirectory)) {
     verifyTsConfigPaths(appContext.appDirectory, userConfig);

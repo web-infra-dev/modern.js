@@ -2,7 +2,6 @@ import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import {
   IAppContext,
-  CliNormalizedConfig,
   PluginAPI,
   useResolvedConfigContext,
 } from '@modern-js/core';
@@ -14,7 +13,12 @@ import type {
   PageRoute,
 } from '@modern-js/types';
 import esbuild from 'esbuild';
-import { AppTools, ImportSpecifier, ImportStatement } from '../types';
+import {
+  AppNormalizedConfig,
+  AppTools,
+  ImportSpecifier,
+  ImportStatement,
+} from '../types';
 import { getCommand } from '../utils/commands';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
@@ -128,7 +132,7 @@ const buildLoader = async (entry: string, outfile: string) => {
 
 export const generateCode = async (
   appContext: IAppContext,
-  config: CliNormalizedConfig<AppTools>,
+  config: AppNormalizedConfig,
   entrypoints: Entrypoint[],
   api: PluginAPI<AppTools>,
 ) => {

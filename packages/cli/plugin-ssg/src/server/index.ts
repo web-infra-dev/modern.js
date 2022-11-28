@@ -2,7 +2,7 @@ import childProcess from 'child_process';
 import path from 'path';
 import { logger } from '@modern-js/utils';
 import type {
-  NormalizedConfig,
+  AppNormalizedConfig,
   PluginAPI,
   AppTools,
 } from '@modern-js/app-tools';
@@ -16,7 +16,7 @@ export const createServer = (
   ssgRoutes: SsgRoute[],
   pageRoutes: ModernRoute[],
   apiRoutes: ModernRoute[],
-  options: NormalizedConfig,
+  options: AppNormalizedConfig,
   appDirectory: string,
 ): Promise<string[]> =>
   new Promise((resolve, reject) => {

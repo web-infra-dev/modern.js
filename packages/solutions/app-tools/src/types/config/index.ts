@@ -1,4 +1,4 @@
-import type { CliUserConfig } from '@modern-js/core';
+import type { UserConfig } from '@modern-js/core';
 import type {
   ServerUserConfig,
   ServerNormalizedConfig,
@@ -13,6 +13,14 @@ import type { ToolsNormalizedConfig, ToolsUserConfig } from './tools';
 import type { HtmlNormalizedConfig, HtmlUserConfig } from './html';
 import type { SecurityNormalizedConfig, SecurityUserConfig } from './security';
 import type { DeployNormalizedConfig, DeployUserConfig } from './deploy';
+import type {
+  ExperimentsUserConfig,
+  ExperimentsNormalizedConfig,
+} from './experiments';
+import type {
+  PerformanceNormalizedConfig,
+  PerformanceUserConfig,
+} from './performance';
 
 export * from './output';
 
@@ -36,6 +44,8 @@ export interface AppToolsUserConfig {
   runtime?: RuntimeUserConfig;
   security?: SecurityUserConfig;
   runtimeByEntries?: RuntimeByEntriesUserConfig;
+  performance?: PerformanceUserConfig;
+  experiments?: ExperimentsUserConfig;
   /**
    * The configuration of `bff` is provided by `bff` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
@@ -56,9 +66,11 @@ export type AppToolsNormalizedConfig = {
   security: SecurityNormalizedConfig;
   server: ServerNormalizedConfig;
   tools: ToolsNormalizedConfig;
+  performance: PerformanceNormalizedConfig;
+  experiments: ExperimentsNormalizedConfig;
 
   cliOptions?: Record<string, any>;
-  _raw: CliUserConfig<{
+  _raw: UserConfig<{
     hooks: AppToolsHooks;
     userConfig: AppToolsUserConfig;
     normalizedConfig: AppToolsNormalizedConfig;

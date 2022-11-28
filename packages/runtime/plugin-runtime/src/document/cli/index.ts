@@ -2,7 +2,7 @@ import path from 'path';
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import { build } from 'esbuild';
-import type { UserConfig, CliPlugin, AppTools } from '@modern-js/app-tools';
+import type { AppUserConfig, CliPlugin, AppTools } from '@modern-js/app-tools';
 import { createDebugger, findExists } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types/cli';
 
@@ -42,7 +42,7 @@ export default (): CliPlugin<AppTools> => ({
   setup: async api => {
     // get params for document.tsx
     function getDocParams(params: {
-      config: UserConfig;
+      config: AppUserConfig;
       entryName: string;
       templateParameters: Record<string, unknown>;
     }) {

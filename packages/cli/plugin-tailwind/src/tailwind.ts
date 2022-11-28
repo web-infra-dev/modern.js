@@ -1,4 +1,4 @@
-import type { LegacyNormalizedConfig } from '@modern-js/app-tools';
+import type { AppLegacyNormalizedConfig } from '@modern-js/app-tools';
 import { applyOptionsChain, logger } from '@modern-js/utils';
 import { merge, cloneDeep } from '@modern-js/utils/lodash';
 import type { LegacyUserConfig } from './types';
@@ -27,7 +27,7 @@ const getPureDesignSystemConfig = (
 };
 
 const getTailwindConfig = (
-  config: LegacyNormalizedConfig,
+  config: AppLegacyNormalizedConfig,
   option: { pureConfig?: Record<string, any> } = {},
 ) => {
   const purgeConfig = merge(

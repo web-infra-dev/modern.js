@@ -3,10 +3,10 @@ import type {
   ServerUserConfig,
   OutputUserConfig,
   SSGMultiEntryOptions,
+  AppLegacyNormalizedConfig,
 } from '@modern-js/app-tools';
 import { CHAIN_ID, isProd, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
-import { LegacyNormalizedConfig } from '../../../../solutions/app-tools/src/types';
 import { BaseWebpackConfig } from './base';
 import { applyBundleAnalyzerPlugin } from './features/bundle-analyzer';
 
@@ -56,7 +56,7 @@ export function filterEntriesBySSRConfig(
 }
 
 class NodeWebpackConfig extends BaseWebpackConfig {
-  constructor(appContext: IAppContext, options: LegacyNormalizedConfig) {
+  constructor(appContext: IAppContext, options: AppLegacyNormalizedConfig) {
     super(appContext, options);
     this.babelPresetAppOptions = {
       target: 'server',

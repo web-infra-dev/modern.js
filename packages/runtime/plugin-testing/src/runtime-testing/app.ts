@@ -1,6 +1,6 @@
 import React from 'react';
 import { createApp } from '@modern-js/runtime';
-import type { CliUserConfig } from '@modern-js/core';
+import type { UserConfig } from '@modern-js/core';
 import { MODERNJS_CONFIG_KEY } from '../constant';
 import resolvePlugins from './resolvePlugins';
 
@@ -10,12 +10,12 @@ interface CreateAppProps {
 }
 
 class ModernRuntime {
-  private options: CliUserConfig<{
+  private options: UserConfig<{
     userConfig: { runtime?: any; runtimeByEntries?: any };
   }>;
 
   constructor(
-    options: CliUserConfig<{
+    options: UserConfig<{
       userConfig: { runtime?: any; runtimeByEntries?: any };
     }>,
   ) {
@@ -23,7 +23,7 @@ class ModernRuntime {
   }
 
   public init(
-    options: CliUserConfig<{
+    options: UserConfig<{
       userConfig: { runtime?: any; runtimeByEntries?: any };
     }>,
   ) {

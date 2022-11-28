@@ -15,7 +15,10 @@ import {
 } from '@modern-js/utils';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import type { IAppContext, LegacyNormalizedConfig } from '@modern-js/app-tools';
+import type {
+  IAppContext,
+  AppLegacyNormalizedConfig,
+} from '@modern-js/app-tools';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import type { Options as BabelPrestAppOptions } from '@modern-js/babel-preset-app';
 import { merge as webpackMerge } from '../../compiled/webpack-merge';
@@ -47,7 +50,7 @@ class BaseWebpackConfig {
 
   appContext: IAppContext;
 
-  options: LegacyNormalizedConfig;
+  options: AppLegacyNormalizedConfig;
 
   appDirectory: string;
 
@@ -67,7 +70,7 @@ class BaseWebpackConfig {
 
   babelPresetAppOptions?: Partial<BabelPrestAppOptions>;
 
-  constructor(appContext: IAppContext, options: LegacyNormalizedConfig) {
+  constructor(appContext: IAppContext, options: AppLegacyNormalizedConfig) {
     this.options = options;
     this.appContext = appContext;
     this.appDirectory = this.appContext.appDirectory;

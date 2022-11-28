@@ -3,18 +3,18 @@ import { address } from '@modern-js/utils';
 import { createContext } from '@modern-js/plugin';
 import type {
   CliPlugin,
-  CliUserConfig,
+  UserConfig,
   IAppContext,
   InternalPlugins,
-  CliNormalizedConfig,
+  NormalizedConfig,
 } from './types';
 
 export const AppContext = createContext<IAppContext>({} as IAppContext);
 
-export const ConfigContext = createContext<CliUserConfig<any>>({});
+export const ConfigContext = createContext<UserConfig<any>>({});
 
-export const ResolvedConfigContext = createContext<CliNormalizedConfig<any>>(
-  {} as CliNormalizedConfig<any>,
+export const ResolvedConfigContext = createContext<NormalizedConfig<any>>(
+  {} as NormalizedConfig<any>,
 );
 
 /**
@@ -33,14 +33,14 @@ export const useAppContext = () => AppContext.use().value;
  */
 export const useConfigContext: <
   Extends extends Record<string, any>,
->() => CliUserConfig<Extends> = () => ConfigContext.use().value;
+>() => UserConfig<Extends> = () => ConfigContext.use().value;
 
 /**
  * Get normalized content of user config.
  */
 export const useResolvedConfigContext: <
   Extends extends Record<string, any>,
->() => CliNormalizedConfig<Extends> = () => ResolvedConfigContext.use().value;
+>() => NormalizedConfig<Extends> = () => ResolvedConfigContext.use().value;
 
 export const initAppContext = ({
   appDirectory,

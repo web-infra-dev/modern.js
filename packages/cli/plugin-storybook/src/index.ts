@@ -24,6 +24,7 @@ export default (): CliPlugin<ModuleTools> => ({
         //     '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
         //   },
         // },
+
         buildConfig: {
           alias: {
             '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),

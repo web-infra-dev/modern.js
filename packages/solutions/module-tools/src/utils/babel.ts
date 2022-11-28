@@ -8,12 +8,12 @@ import {
   isUseSSRBundle,
   applyOptionsChain,
 } from '@modern-js/utils';
-import type { CliNormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import type { IPackageModeValue } from '../types';
 import type { BundlelessOptions, SourceMap } from '../schema/types';
 
 export const getFinalAlias: any = (
-  modernConfig: CliNormalizedConfig<any>,
+  modernConfig: NormalizedConfig<any>,
   option: { appDirectory: string; tsconfigPath: string; sourceAbsDir: string },
 ) => {
   const aliasConfig = getAliasConfig(modernConfig.source.alias, option);
@@ -35,7 +35,7 @@ export const getFinalAlias: any = (
 
 export const resolveBabelConfig = (
   appDirectory: string,
-  modernConfig: CliNormalizedConfig<any>,
+  modernConfig: NormalizedConfig<any>,
   sourceMap: SourceMap,
   bundlelessOptions: Required<BundlelessOptions>,
   option: Pick<IPackageModeValue, 'syntax' | 'type'> & {

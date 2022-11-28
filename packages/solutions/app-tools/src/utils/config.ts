@@ -6,9 +6,8 @@ import {
   getServerConfig,
   OUTPUT_CONFIG_FILE,
 } from '@modern-js/utils';
-import type { CliNormalizedConfig } from '@modern-js/core';
 import type { ServerConfig } from '@modern-js/server-core';
-import type { AppTools } from '../types';
+import type { AppNormalizedConfig } from '../types';
 
 export const defineServerConfig = (config: ServerConfig): ServerConfig =>
   config;
@@ -91,7 +90,7 @@ export const safeReplacer = () => {
 
 export const emitResolvedConfig = async (
   appDirectory: string,
-  resolvedConfig: CliNormalizedConfig<AppTools>,
+  resolvedConfig: AppNormalizedConfig,
 ) => {
   const outputPath = path.join(
     appDirectory,

@@ -2,8 +2,8 @@ import path from 'path';
 import LintPlugin from '@modern-js/plugin-lint';
 import { cleanRequireCache, emptyDir, Import } from '@modern-js/utils';
 import { CliPlugin } from '@modern-js/core';
-import schema from './schema';
 import AnalyzePlugin from './analyze';
+import InitializePlugin from './initialize';
 import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
@@ -29,6 +29,7 @@ export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
 
   post: [
+    '@modern-js/plugin-initialize',
     '@modern-js/plugin-analyze',
     '@modern-js/plugin-ssr',
     '@modern-js/plugin-document',
@@ -40,7 +41,7 @@ export default (): CliPlugin<AppTools> => ({
 
   registerHook: hooks,
 
-  usePlugins: [AnalyzePlugin(), LintPlugin()],
+  usePlugins: [InitializePlugin(), AnalyzePlugin(), LintPlugin()],
 
   setup: api => {
     const locale = getLocaleLanguage();
@@ -181,10 +182,6 @@ export default (): CliPlugin<AppTools> => ({
 
       async beforeRestart() {
         cleanRequireCache([require.resolve('./analyze')]);
-      },
-
-      validateSchema() {
-        return schema.generate();
       },
     };
   },

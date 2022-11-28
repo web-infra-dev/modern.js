@@ -1,12 +1,12 @@
 import path from 'path';
 import { fs, findExists, MAIN_ENTRY_NAME } from '@modern-js/utils';
-import type {
-  IAppContext,
-  CliNormalizedConfig,
-  PluginAPI,
-} from '@modern-js/core';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
-import { AppTools } from '../types';
+import type {
+  AppNormalizedConfig,
+  AppTools,
+  IAppContext,
+  PluginAPI,
+} from '../types';
 import { HTML_PARTIALS_EXTENSIONS, HTML_PARTIALS_FOLDER } from './constants';
 import * as templates from './templates';
 
@@ -52,7 +52,7 @@ export const getHtmlTemplate = async (
     config,
   }: {
     appContext: IAppContext;
-    config: CliNormalizedConfig<AppTools>;
+    config: AppNormalizedConfig;
   },
 ) => {
   const { appDirectory, internalDirectory } = appContext;

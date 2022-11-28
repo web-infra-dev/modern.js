@@ -7,7 +7,7 @@ import {
   isSingleEntry,
 } from '@modern-js/utils';
 import type {
-  NormalizedConfig,
+  AppNormalizedConfig,
   ServerUserConfig,
   SSGMultiEntryOptions,
   CliPlugin,
@@ -16,7 +16,7 @@ import type {
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
-const hasStringSSREntry = (userConfig: NormalizedConfig): boolean => {
+const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 

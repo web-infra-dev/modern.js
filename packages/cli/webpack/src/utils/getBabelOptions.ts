@@ -5,9 +5,9 @@ import {
   Options as BabelPresetAppOptions,
 } from '@modern-js/babel-preset-app';
 import { BabelTransformOptions as TransformOptions } from '@modern-js/types';
-import type { LegacyNormalizedConfig } from '@modern-js/app-tools';
+import type { AppLegacyNormalizedConfig } from '@modern-js/app-tools';
 
-export const getUseBuiltIns = (config: LegacyNormalizedConfig) => {
+export const getUseBuiltIns = (config: AppLegacyNormalizedConfig) => {
   const { polyfill } = config.output || {};
   if (polyfill === 'ua' || polyfill === 'off') {
     return false;
@@ -18,7 +18,7 @@ export const getUseBuiltIns = (config: LegacyNormalizedConfig) => {
 export const getBabelOptions = (
   metaName: string,
   appDirectory: string,
-  config: LegacyNormalizedConfig,
+  config: AppLegacyNormalizedConfig,
   chain: BabelChain,
   babelPresetAppOptions?: Partial<BabelPresetAppOptions>,
 ) => {

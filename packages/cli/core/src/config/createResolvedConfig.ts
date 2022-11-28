@@ -8,8 +8,8 @@ import type { ErrorObject } from '@modern-js/utils/ajv';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils/constants';
 import { patchSchema } from '../schema/patchSchema';
 import type {
-  CliUserConfig,
-  CliNormalizedConfig,
+  UserConfig,
+  NormalizedConfig,
   LoadedConfig,
   PluginValidateSchema,
 } from '../types';
@@ -52,12 +52,12 @@ const showAdditionalPropertiesError = async (error: ErrorObject) => {
 export const createResolveConfig = async (
   // eslint-disable-next-line @typescript-eslint/ban-types
   loaded: LoadedConfig<{}>,
-  configs: CliUserConfig[],
+  configs: UserConfig[],
   schemas: PluginValidateSchema[],
   _onSchemaError: (
     error: ErrorObject,
   ) => void | Promise<void> = showAdditionalPropertiesError,
-): Promise<CliNormalizedConfig> => {
+): Promise<NormalizedConfig> => {
   const { default: Ajv } = await import('@modern-js/utils/ajv');
   const { default: ajvKeywords } = await import(
     '@modern-js/utils/ajv-keywords'
@@ -81,7 +81,7 @@ export const createResolveConfig = async (
   // const valid = validate(userConfig);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _formatValidateError = (config: CliUserConfig) =>
+  const _formatValidateError = (config: UserConfig) =>
     betterAjvErrors(
       validateSchema,
       config,

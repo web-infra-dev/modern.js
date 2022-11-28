@@ -1,11 +1,9 @@
 import { mergeWith, isFunction } from '@modern-js/utils/lodash';
-import { CliUserConfig, CliNormalizedConfig } from '../types';
+import { UserConfig, NormalizedConfig } from '../types';
 
 export const mergeConfig = <ExtendConfig extends Record<string, any>>(
-  configs: Array<
-    CliUserConfig<ExtendConfig> | CliNormalizedConfig<ExtendConfig>
-  >,
-): CliNormalizedConfig<ExtendConfig> =>
+  configs: Array<UserConfig<ExtendConfig> | NormalizedConfig<ExtendConfig>>,
+): NormalizedConfig<ExtendConfig> =>
   mergeWith({}, ...configs, (target: any, source: any, key: string) => {
     // Do not use the following merge logic for source.designSystem and tools.tailwind(css)
     if (
