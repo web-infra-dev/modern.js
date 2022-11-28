@@ -251,10 +251,11 @@ export const fileSystemRoutes = async ({
       }
 
       if (route._component) {
-        if (ssrMode === 'stream') {
-          component = `lazy(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${componentLoaderPath}${route._component}'))`;
+        if (ssrMode === 'string') {
+          component = `loadable(() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}'))`;
         } else {
-          component = `loadable(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${componentLoaderPath}${route._component}'))`;
+          // csr and streaming
+          component = `lazy(() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}'))`;
         }
       }
     } else if (route._component) {
