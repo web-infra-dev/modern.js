@@ -31,7 +31,7 @@ export const webpackBuild: BuildExecuter = async compiler => {
         closeErr && logger.error(closeErr);
         if (err || !stats || stats.hasErrors()) {
           const buildError: WebpackBuildError =
-            err || new Error('Webpack build failed!');
+            err || new Error('webpack build failed!');
           buildError.stats = stats;
           reject(buildError);
         } else {

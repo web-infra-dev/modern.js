@@ -200,7 +200,7 @@ export const PluginInspector = (options?: Options): BuilderPlugin => ({
       const { InspectorWebpackPlugin } = await import(
         '@modern-js/inspector-webpack-plugin'
       );
-      // 修改 Webpack Chain 接入插件
+      // 修改 webpack chain 接入插件
       chain
         .plugin('inspector-webpack-plugin')
         .use(InspectorWebpackPlugin, [inspectorOptions]);

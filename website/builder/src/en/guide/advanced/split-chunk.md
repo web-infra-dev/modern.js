@@ -1,4 +1,4 @@
-# Chunk Splitting Practise
+# Chunk Splitting Practice
 
 A great chunk splitting strategy is very important to improve the loading performance of the application. It can make full use of the browser's caching mechanism to reduce the number of requests and improve the loading speed of the application.
 
