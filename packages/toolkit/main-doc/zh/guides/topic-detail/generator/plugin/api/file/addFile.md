@@ -8,7 +8,7 @@ sidebar_position: 4
 
 该方法可用于任何文件类型，对于二进制以外的文件类型，添加文件时会进行 Handlebars 渲染。
 
-该方法可在 onForged 生命周期的 api 参数上获取。
+该方法可在 `onForged` 生命周期的 api 参数上获取。
 
 其类型定义为：
 
