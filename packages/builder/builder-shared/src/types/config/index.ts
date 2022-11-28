@@ -4,6 +4,7 @@ import type { SharedOutputConfig } from './output';
 import type { SharedSourceConfig } from './source';
 import type { SharedSecurityConfig } from './security';
 import type { SharedPerformanceConfig } from './performance';
+import type { SharedExperimentsConfig } from './experiments';
 
 /**
  * The shared Builder Config.
@@ -16,6 +17,7 @@ export interface SharedBuilderConfig {
   output?: SharedOutputConfig;
   security?: SharedSecurityConfig;
   performance?: SharedPerformanceConfig;
+  experiments?: SharedExperimentsConfig;
 }
 
 export * from './dev';
@@ -24,3 +26,4 @@ export * from './output';
 export * from './source';
 export * from './security';
 export * from './performance';
+export * from './experiments';

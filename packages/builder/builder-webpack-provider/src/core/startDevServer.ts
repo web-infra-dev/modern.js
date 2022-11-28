@@ -58,8 +58,7 @@ export async function createDevServer(
       port,
       liveReload: builderConfig.dev?.hmr ?? true,
       devMiddleware: {
-        writeToDisk: (file: string) =>
-          !file.includes('.hot-update.') && !file.endsWith('.map'),
+        writeToDisk: (file: string) => !file.includes('.hot-update.'),
       },
       https: builderConfig.dev?.https,
     },

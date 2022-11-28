@@ -1,4 +1,4 @@
-- Type: `string[]`
+- Type: `string[] | Record<BuilderTarget, string[]`
 - Default: `undefined`
 
 Specifies the range of target browsers that the project is compatible with. This value will be used by [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) and [autoprefixer](https://github.com/postcss/autoprefixer) to identify the JavaScript syntax that need to be transformed and the CSS browser prefixes that need to be added.
@@ -36,3 +36,20 @@ export default {
 ```
 
 Check out the [browserslist documentation](https://github.com/browserslist/browserslist) to learn more about browserslist.
+
+#### Set according to Targets
+
+When you build targets at the same time, you can set different browser ranges for different targets. At this point, you need to set `overrideBrowserslist` to an object whose key is the corresponding build target.
+
+For example to set different ranges for `web` and `node`:
+
+```js
+export default {
+  output: {
+    overrideBrowserslist: {
+      web: ['iOS 9', 'Android 4.4', 'last 2 versions', '> 0.2%', 'not dead'],
+      node: ['node >= 14'],
+    },
+  },
+};
+```

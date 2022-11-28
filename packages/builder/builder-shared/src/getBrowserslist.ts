@@ -28,7 +28,11 @@ export async function getBrowserslistWithDefault(
   target: BuilderTarget,
 ) {
   if (config?.output?.overrideBrowserslist) {
-    return config.output.overrideBrowserslist;
+    const { overrideBrowserslist } = config.output;
+    if (Array.isArray(overrideBrowserslist)) {
+      return overrideBrowserslist;
+    }
+    return overrideBrowserslist[target];
   }
 
   const result = await getBrowserslist(path);

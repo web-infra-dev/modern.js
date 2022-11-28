@@ -35,7 +35,7 @@ function PreRender(props: Props): React.Component
 ### 参数
 
 - `interval`：设置缓存保持新鲜的时间，单位秒。在该时间内，将直接使用缓存，并且不做异步渲染。
-- `staleLimit`：设置缓存完全过期的时间，单位秒。在该时间内，缓存可以被返回，否则必须使用重新渲染的结果。
+- `staleLimit`：设置缓存完全过期的时间，单位秒。在该时间内，缓存可以被返回，并且会做一步渲染，否则必须使用重新渲染的结果。
 - `level`：设置缓存标识的计算规则等级，通常配合 `includes` 与 `matches` 使用。默认值为 `0`。
 
 ```bash
@@ -56,8 +56,8 @@ import { PreRender } from '@modern-js/runtime/ssr';
 export default function App() {
   return (
     <>
-        <PreRender interval={10} />
-        <div>Hello Modern</div>
+      <PreRender interval={10} />
+      <div>Hello Modern</div>
     </>
   )
 }
@@ -68,8 +68,8 @@ export default function App() {
 ```tsx
 /* 使用 query 中的 channel 和 header 中的 language 计算缓存标识 */
 <PreRender interval={10} level={2} includes={{
-    query: ["channel"],
-    header: ["language"]
+  query: ["channel"],
+  header: ["language"]
 }} />
 ```
 
@@ -78,14 +78,14 @@ export default function App() {
 ```tsx
 /* 将 query 中 channel 值为 test_ 开头的重写为 testChannel，否则重写为 otherChannel */
 <PreRender interval={10} level={2} includes={{
-    query: ["channel"],
-    header: ["language"]
+  query: ["channel"],
+  header: ["language"]
 }} matches={{
-    query: {
-        channel: {
-            "testChannel", "^test_",
-            "otherChannel", ".*"
-        }
+  query: {
+    channel: {
+      "testChannel", "^test_",
+      "otherChannel", ".*"
     }
+  }
 }} />
 ```

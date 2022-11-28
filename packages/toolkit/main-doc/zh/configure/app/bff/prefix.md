@@ -25,7 +25,7 @@ api
 
 该配置选项可以修改默认的路由前缀：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   bff: {
     prefix: '/api-demo'

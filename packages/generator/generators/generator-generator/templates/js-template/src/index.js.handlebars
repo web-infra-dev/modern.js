@@ -1,7 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable node/no-unsupported-features/es-syntax */
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { i18n } from '@modern-js/generator-common';
 
 const handleTemplateFile = async appApi => {
   await appApi.forgeTemplate('templates/**/*');
@@ -11,7 +10,6 @@ export default async (context, generator) => {
   const appApi = new AppAPI(context, generator);
 
   const { locale } = context.config;
-  i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {

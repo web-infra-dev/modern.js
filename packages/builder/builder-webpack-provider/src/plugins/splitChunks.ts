@@ -62,10 +62,8 @@ function splitByExperience(ctx: SplitChunksContext): SplitChunks {
     antd: /[\\/]antd[\\/]/,
     semi: /[\\/]@ies\/semi|@douyinfe\/semi[\\/]/,
     arco: /[\\/]@arco-design[\\/]/,
-    babel:
-      /[\\/]@babel\/runtime|@babel\/runtime-corejs2|@babel\/runtime-corejs3[\\/]/,
     lodash: /[\\/]lodash|lodash-es[\\/]/,
-    corejs: /[\\/]core-js[\\/]/,
+    polyfill: /[\\/]core-js|@babel\/runtime[\\/]/,
   };
 
   Object.entries(SPLIT_EXPERIENCE_LIST).forEach(([name, test]) => {

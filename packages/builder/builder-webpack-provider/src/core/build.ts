@@ -62,7 +62,6 @@ export const build = async (
   } else {
     const { webpackConfigs } = await initConfigs(initOptions);
     compiler = await createCompiler({
-      watch,
       context,
       webpackConfigs,
     });

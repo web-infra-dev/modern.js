@@ -62,7 +62,7 @@ const LoadableFruit = loadable(() => import('./components'), {
 
 #### options.fallback
 
-在 loading 阶段显示 fallback 内容。
+是否在 loading 阶段显示 fallback 内容。
 
 #### options.ssr
 

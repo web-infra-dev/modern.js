@@ -128,7 +128,7 @@ export interface ToolsConfig {
   /**
    * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
    */
-  tsChecker?: boolean | ToolsTSCheckerConfig;
+  tsChecker?: ToolsTSCheckerConfig;
   /**
    * Modify the options of DevServer.
    */
@@ -156,7 +156,7 @@ export interface ToolsConfig {
   /**
    * Modify the options of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
    */
-  cssExtract?: false | CSSExtractOptions;
+  cssExtract?: CSSExtractOptions;
   /**
    * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).
    */

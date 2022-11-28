@@ -1,6 +1,7 @@
 {
   "name": "app-docmuent",
   "version": "0.1.0",
+  "private": true,
   "scripts": {
     "bb": "cd ../../.. && pnpm --filter @modern-js/runtime build && pnpm --filter @modern-js/webpack build && pnpm --filter @modern-js/app-tools build && cd ./tests/integration/app-document && pnpm run dev",
     "reset": "npx rimraf ./**/node_modules",
@@ -12,14 +13,6 @@
   },
   "engines": {
     "node": ">=14.17.6"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
-    ],
-    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
-    ]
   },
   "eslintIgnore": [
     "node_modules/",

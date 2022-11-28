@@ -27,7 +27,7 @@ function App() {
 
 #### 示例
 
-如下 `App` 组件消费了 `userModel` 的状态，但没有直接在 JSX 里使用。如果 `userModel` 状态的改变会引起组件重新渲染，这是没有必要的，这种情况可以使用 `useStaticModel` 进行优化。
+如下 `App` 组件消费了 `userModel` 的状态，但没有直接在 JSX 里使用。可以发现，`userModel` 状态的改变没有必要引起组件重新渲染，这种情况可以使用 `useStaticModel` 进行优化。
 
 ```tsx
 function App() {

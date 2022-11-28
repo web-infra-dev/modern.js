@@ -1,41 +1,23 @@
 ---
 sidebar_position: 1
-title: BFF 函数
+title: 一体化调用
 ---
 
-在[一体化 Web 专题](/docs/guides/basic-features/routes)中，介绍过 Modern.js 的 Serverless Web Development 开发方式，包括自动化路由、内置 Web Server、一体化 SSG/SSR/SPR 等。其中的 SSR 技术，可以称作 Serverless SSR，实现了 SSR 在开发、运行、部署全流程中的 Serverless。
+Modern.js 允许在 React 组件中直接调用 `api/` 目录下满足一定条件的函数，称为**一体化调用**。
 
-这一专题中会详细介绍另一部分：Serverless BFF。跟 SSR 一样，能实现 BFF（Backends for Frontends）在开发、运行、部署全流程中的 Serverless。
+:::note
+使用一体化调用需要先开启 BFF 功能。
+:::
 
-在**前后端分离**概念出现后一段时间发展中，前端部分能够做的事越来越多，前端需要一些面向 UI 的数据接口，因此业界引入了 BFF 这一概念。
+## BFF 函数
 
-它主要为了解决的问题包括：
-
-* 根据自身业务需求，对更底层 API 的聚合、映射、裁剪、代理。
-* 对一些特定场景的数据进行缓存，提高性能，进而提升用户体验。
-* 根据已有接口快速开发新产品。
-* 与第三方系统对接，例如登陆鉴权。
-
-Modern.js 提供了**一体化 BFF 方案**来进一步强化 BFF 能力，主要包括以下能力：
-
-* 快速开发调试上线，在同一项目中运行、构建、部署 BFF 代码。
-* 极简的纯函数调用，在前端直接 import BFF 函数，调用时能自动转换成 HTTP 请求。
-* 无私有协议，遵循 RESTful API 规范，所有 BFF 接口都是标准化的。
-* 完善的 TypeScript 支持。
-* 满足用户使用偏好，支持多框架扩展写法。
-* 接口调用安全，提供 schema 的接口定义方式。
-
-## 一体化调用
-
-Modern.js 允许可以在 `src` 目录下的 React 组件中直接引入并调用在 `api` 目录下定义好函数。
-
-[开启 BFF 功能](/docs/tutorials/first-app/c09-bff/9.2-enable-bff)之后，创建 `api/hello.ts` 文件，这里定义一个最简单的 BFF 函数：
+允许通过一体化调用的函数，称为 **BFF 函数**。这里写一个最简单的 BFF 函数，创建 `api/hello.ts` 文件：
 
 ```ts title="api/hello.ts"
 export const get = async () => 'Hello Modern.js';
 ```
 
-接着在 `src` 下的 `App.tsx` 中直接 import 函数调用：
+接着在 `src/App.tsx` 中直接引入函数并调用：
 
 ```tsx title=src/App.tsx
 import { useState, useEffect } from 'react';
@@ -57,7 +39,7 @@ Modern.js 生成器已经在 `tsconfig.json` 中配置 `@api` 别名，因此可
 
 在 `src/App.tsx` 中引入的函数，会自动转换成接口调用，不需要再去通过 fetch 去调用接口。
 
-执行 `pnpm run dev` 打开 <http://localhost:8080/> 可以看到页面已经展示了 BFF 函数返回的内容，在Network，可以看到页面向 <http://localhost:8080/api/hello> 发送了请求：
+执行 `pnpm run dev` 打开 `http://localhost:8080/` 可以看到页面已经展示了 BFF 函数返回的内容，在 Network 中可以看到页面向 `http://localhost:8080/api/hello` 发送了请求：
 
 ![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/hello-modern.png)
 
@@ -65,12 +47,16 @@ Modern.js 生成器已经在 `tsconfig.json` 中配置 `@api` 别名，因此可
 
 Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，也是一种**约定式路由**。
 
-函数模式下 `api` 下的所有文件中的每个 BFF 函数都会映射为一个接口，框架模式下 `api/lambda` 下的所有文件中的每个 BFF 函数都会映射为一个接口。
+函数写法下 `api/` 下的所有文件中的每个 BFF 函数都会映射为一个接口。框架写法下 `api/lambda` 下的所有文件中的每个 BFF 函数都会映射为一个接口。
+
+:::note
+函数写法和框架写法会在下一节详细介绍。
+:::
 
 以下的 `$BASENAME` 指的是 BFF 函数的[路由前缀](/docs/configure/app/bff/prefix)，可以在 `modern.config.js` 中进行配置，默认值为 `/api`。
 
 :::info 注
-你可以通过 [prefix](/docs/configure/app/bff/prefix) 设置公共路由的前缀。
+可以通过 [bff.prefix](/docs/configure/app/bff/prefix) 设置公共路由的前缀。
 :::
 
 ### 默认路由
@@ -89,7 +75,7 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 
 ### 动态路由
 
-同样的，你可以通过创建命名带有 `[xxx]` 的文件夹或者文件来支持动态的命名路由参数。
+同样的，创建命名带有 `[xxx]` 的文件夹或者文件，支持动态的命名路由参数。
 
 * `api/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
 * `api/user/username/[action].ts` -> `$BASENAME/user/username/:action`

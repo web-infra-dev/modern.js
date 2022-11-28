@@ -14,7 +14,7 @@ sidebar_label: entriesDir
 
 例如，当配置与目录结构如下时：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   source: {
     entriesDir: './src/pages'

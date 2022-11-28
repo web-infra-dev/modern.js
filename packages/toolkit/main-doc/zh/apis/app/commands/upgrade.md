@@ -14,8 +14,6 @@ Options:
   -h, --help             display help for command
 ```
 
-`modern upgrade` 命令，用于升级项目 Modern.js 相关依赖至最新版本。
-
 在项目根目录下执行命令 `npx modern upgrade`，会默认将当前执行命令项目的 `package.json` 中的 Modern.js 相关依赖更新至最新版本。
 
 :::info

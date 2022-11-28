@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -82,23 +82,23 @@
   "dependencies": {
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/inspector-webpack-plugin": "1.0.3",
+    "@modern-js/inspector-webpack-plugin": "1.0.5",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.8",
-    "@svgr/webpack": "6.2.1",
-    "caniuse-lite": "^1.0.30001332",
-    "css-minimizer-webpack-plugin": "4.0.0",
-    "cssnano": "^5.1.12",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.9",
+    "@svgr/webpack": "6.5.1",
+    "caniuse-lite": "^1.0.30001434",
+    "css-minimizer-webpack-plugin": "4.2.2",
+    "cssnano": "5.1.14",
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "html-webpack-plugin": "5.5.0",
-    "mini-css-extract-plugin": "2.4.5",
-    "postcss": "8.4.16",
-    "react-refresh": "0.12.0",
+    "mini-css-extract-plugin": "2.7.0",
+    "postcss": "8.4.19",
+    "react-refresh": "0.14.0",
     "style-loader": "3.3.1",
-    "terser-webpack-plugin": "5.3.3",
-    "ts-loader": "9.3.1",
+    "terser-webpack-plugin": "5.3.6",
+    "ts-loader": "9.4.1",
     "webpack": "^5.74.0"
   },
   "devDependencies": {
@@ -108,13 +108,12 @@
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.1.19",
     "@types/babel__preset-env": "^7.9.2",
-    "@types/mini-css-extract-plugin": "2.2.0",
+    "@types/mini-css-extract-plugin": "2.5.1",
     "@types/node": "^14",
-    "autoprefixer": "^10.4.8",
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.0.0-beta.0"
+    "@modern-js/e2e": "workspace:^2.0.0-beta.1"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

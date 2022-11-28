@@ -8,13 +8,13 @@ describe('plugins/tsChecker', () => {
     tsconfigPath: '/path/tsconfig.json',
   } as Context;
 
-  it('should disable ts-checker when tools.tsChecker is false', async () => {
+  it('should disable ts-checker when output.disableTsChecker is true', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginTsChecker()],
       context,
       builderConfig: {
-        tools: {
-          tsChecker: false,
+        output: {
+          disableTsChecker: true,
         },
       },
     });
@@ -30,22 +30,6 @@ describe('plugins/tsChecker', () => {
       context,
       builderConfig: {
         tools: {},
-      },
-    });
-
-    expect(
-      await builder.matchWebpackPlugin('ForkTsCheckerWebpackPlugin'),
-    ).toBeTruthy();
-  });
-
-  it('should enable tsChecker plugin when tools.tsChecker is true', async () => {
-    const builder = await createStubBuilder({
-      plugins: [PluginTsChecker()],
-      context,
-      builderConfig: {
-        tools: {
-          tsChecker: true,
-        },
       },
     });
 

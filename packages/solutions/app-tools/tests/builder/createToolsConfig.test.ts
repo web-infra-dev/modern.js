@@ -1,23 +1,8 @@
 import { createBuilderTsChecker } from '../../src/builder/createToolsConfig';
 
 describe('test create Builder TsChecker Config', () => {
-  it('should disableTsChecker', () => {
-    const output1 = {
-      enableTsLoader: true,
-    };
-    const tsCheckerConfig1 = createBuilderTsChecker(output1);
-    expect(tsCheckerConfig1).toBeFalsy();
-
-    const output2 = {
-      disableTsChecker: true,
-    };
-    const tsCheckerConfig2 = createBuilderTsChecker(output2);
-    expect(tsCheckerConfig2).toBeFalsy();
-  });
-
   it('should return default TsChecker Config', () => {
-    const output = {};
-    const tsCheckerConfig = createBuilderTsChecker(output);
+    const tsCheckerConfig = createBuilderTsChecker();
     expect(tsCheckerConfig).toEqual({
       issue: {
         include: [{ file: '**/src/**/*' }],

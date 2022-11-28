@@ -64,5 +64,9 @@ export async function inspectConfig({
   return {
     builderConfig: rawBuilderConfig,
     bundlerConfigs: rawBundlerConfigs,
+    origin: {
+      builderConfig: context.config,
+      bundlerConfigs: webpackConfigs,
+    },
   };
 }
