@@ -39,6 +39,6 @@ Open the above HTML file in the browser, you can see the tile diagram of the pac
 
 ## Command Arguments
 
-import CommandTip from '@site-docs/components/command-tip.md'
+import CommandTip from '@site-docs-en/components/command-tip.md'
 
 <CommandTip />
