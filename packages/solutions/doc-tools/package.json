@@ -1,0 +1,69 @@
+{
+  "name": "@modern-js/doc-tools",
+  "description": "The doc generator for Modern.js",
+  "version": "0.1.0",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "type": "module",
+  "jsnext:modern": "./dist/index.js",
+  "scripts": {
+    "prepare": "modern build",
+    "prepublishOnly": "modern build --platform",
+    "dev": "modern dev",
+    "build": "modern build",
+    "reset": "rimraf ./**/node_modules",
+    "lint": "modern lint",
+    "change": "modern change",
+    "bump": "modern bump",
+    "pre": "modern pre",
+    "change-status": "modern change-status",
+    "gen-release-note": "modern gen-release-note",
+    "release": "modern release",
+    "new": "modern new",
+    "test": "modern test --passWithNoTests",
+    "upgrade": "modern upgrade"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/doc-core": "workspace:*",
+    "@modern-js/plugin-changeset": "^1.21.4",
+    "@modern-js/utils": "1.21.4"
+  },
+  "peerDependencies": {
+    "react": "^17"
+  },
+  "devDependencies": {
+    "@modern-js/core": "workspace:*",
+    "@modern-js/module-tools": "1.21.4",
+    "@modern-js/plugin-testing": "1.21.4",
+    "@modern-js/tsconfig": "1.21.4",
+    "@types/jest": "^26.0.9",
+    "@types/node": "^14",
+    "@types/react": "^17",
+    "husky": "^8",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.6.2",
+    "react": "^17",
+    "rimraf": "^3.0.2",
+    "typescript": "^4"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.less",
+    "*.sass",
+    "*.scss"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
