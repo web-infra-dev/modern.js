@@ -90,23 +90,17 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]@arco-design\\[\\\\\\\\/\\]/,
         },
-        "lib-babel": {
-          "name": "lib-babel",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]@babel\\\\/runtime\\|@babel\\\\/runtime-corejs2\\|@babel\\\\/runtime-corejs3\\[\\\\\\\\/\\]/,
-        },
-        "lib-corejs": {
-          "name": "lib-corejs",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]core-js\\[\\\\\\\\/\\]/,
-        },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+        },
+        "lib-polyfill": {
+          "name": "lib-polyfill",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]core-js\\|@babel\\\\/runtime\\[\\\\\\\\/\\]/,
         },
         "lib-react": {
           "name": "lib-react",

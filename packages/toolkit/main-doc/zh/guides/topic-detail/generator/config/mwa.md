@@ -32,15 +32,13 @@ New 命令的操作类型(actionType)，类型支持两种：
 
 - 创建应用入口(entry)
 
-- 新建 Server 自定义源码目(server)
+- 新建 Server 自定义源码目录(server)
 
 这两个选项还需要配置具体的配合使用，介绍如下：
 
 #### name
 
 入口名称(name), 字符串类型。
-
-创建入口除了`name`之外，还需要 `needModifyMWAConfig`、`clientRoute` 字段。
 
 #### framework
 
@@ -66,13 +64,11 @@ New 命令的操作类型(actionType)，类型支持两种：
 
 - Storybook(mwa_storybook)
 
-- 部署(deploy)
-
 - 启用「基于 UA 的 Polyfill」功能(polyfill)
 
 - 启用「全局代理」(proxy)
 
-`bff` 和 `deploy` 和还需要配置具体的配合使用，介绍如下：
+`bff` 和还需要配置具体的配合使用，介绍如下：
 
 #### BFF 相关参数
 
@@ -86,7 +82,7 @@ BFF 类型(bffType)，支持两个选项：
 
 ##### framework
 
-扩展 Web Server 运行时框架(framework)，支持两个选项：
+BFF 运行时框架(framework)，支持两个选项：
 
 - Express(express)
 

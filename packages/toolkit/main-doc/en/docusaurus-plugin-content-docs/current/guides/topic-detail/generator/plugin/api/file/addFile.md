@@ -1,0 +1,52 @@
+---
+sidebar_position: 4
+---
+
+# addFile
+
+Add a single file. Use to add a single template file to the `templates` directory or add to a template file directly using templates.
+
+This method can be used with any file type, for file types other than binary, Handlebars render is performed when files are added.
+
+This method is available on the `onForged` time to live API parameter.
+
+Its type is defined as:
+
+```ts
+export interface AddFileParams {
+  type: FileType;
+  file: string;
+  template?: string;
+  templateFile?: string;
+  force?: boolean;
+  data?: Record<string, string>;
+}
+export type ForgedAPI = {
+  addFile: (params: AddFileParams) => Promise<void>;
+  ...
+};
+```
+
+## type
+
+File type, specific viewable[File type](/docs/guides/topic-detail/generator/plugin/api/file/introduce).
+
+## file
+
+The path to the created target file.
+
+## template
+
+File template, configuration This field value can be used directly for template render files. The priority is lower than `templateFile`.
+
+## templateFile
+
+Template file, the template file path used for rendering, its value is the relative path of `templates`.
+
+## force
+
+Whether to force coverage, when the added file already exists, an error will be reported in conflict by default. When setting this value to true, coverage can be forced.
+
+## data
+
+Handlebars renders data.

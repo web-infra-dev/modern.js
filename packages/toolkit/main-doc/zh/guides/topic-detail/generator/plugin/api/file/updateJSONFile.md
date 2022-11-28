@@ -8,7 +8,7 @@ sidebar_position: 6
 
 该方法适用于 JSON 文件类型，可批量更新 JSON 文件中字段值。
 
-该方法可在 onForged 生命周期的 api 参数上获取。
+该方法可在 `onForged` 生命周期的 api 参数上获取。
 
 其类型定义为：
 
@@ -29,7 +29,8 @@ JSON 文件的文件名或者文件路径。
 ## updateInfo
 
 字段更新信息。
-该信息使用 Record 形式表示。
+
+该信息使用 `Record` 形式表示。
 
 例如需要更新 name 字段：
 

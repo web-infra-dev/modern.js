@@ -4,10 +4,16 @@ import {
   FileType,
   PluginType,
 } from '@modern-js/generator-plugin';
-import { Solution, SolutionText } from '@modern-js/generator-common';
+import {
+  Solution,
+  SolutionText,
+  i18n as commonI18n,
+} from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
 
 export default function (context: IPluginContext) {
+  commonI18n.changeLanguage({ locale: context.locale });
+  i18n.changeLanguage({ locale: context.locale });
   context.setInput('packageName', 'title', i18n.t(localeKeys.package_name));
   context.addInputAfter('packageManager', {
     type: 'object',

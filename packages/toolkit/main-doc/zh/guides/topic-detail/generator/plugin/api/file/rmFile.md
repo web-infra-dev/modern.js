@@ -8,7 +8,7 @@ sidebar_position: 9
 
 该方法可用于任何文件类型。
 
-该方法可在 onForged 生命周期的 api 参数上获取。
+该方法可在 `onForged` 生命周期的 api 参数上获取。
 
 其类型定义为：
 
