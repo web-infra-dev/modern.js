@@ -178,6 +178,10 @@ module.exports = {
                   __dirname,
                   '../../packages/toolkit/main-doc/zh',
                 ),
+                '@site-docs-en': path.join(
+                  __dirname,
+                  '../../packages/toolkit/main-doc/en/docusaurus-plugin-content-docs/current',
+                ),
               },
             },
             resolveLoader: {

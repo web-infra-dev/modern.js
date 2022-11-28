@@ -19,7 +19,7 @@ The `modern new` command is used to enable features to an existing project.
 
 For example, add application entry, enable some optional features such as Tailwind CSS, micro frontend, etc.
 
-import CommandTip from '@site-docs/components/command-tip.md'
+import CommandTip from '@site-docs-en/components/command-tip.md'
 
 <CommandTip />
 
