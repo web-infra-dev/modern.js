@@ -34,7 +34,7 @@ export default {
 
 ### 为什么默认 Babel
 
-Babel 除了没有类型检查以外，对 TypeScript 的支持已经非常完善，而类型检查可以用另外的工具更好地进行。编译到低版本的 JavaSript 时，某些语法 Babel 会处理的更符合标准，例如 Babel 会将类成员初始化为 undefined，类方法 Babel 会标记不可枚举等。如果启用 ts-loader，为了更精确的语法降级和 Polyfill 最后还是会将处理后的产物再次经过 Babel 处理，产生不必要的性能开销。
+Babel 除了没有类型检查以外，对 TypeScript 的支持已经非常完善，而类型检查可以用另外的工具更好地进行。编译到低版本的 JavaScript 时，某些语法 Babel 会处理的更符合标准，例如 Babel 会将类成员初始化为 undefined，类方法 Babel 会标记不可枚举等。如果启用 ts-loader，为了更精确的语法降级和 Polyfill 最后还是会将处理后的产物再次经过 Babel 处理，产生不必要的性能开销。
 
 ## 类型检查
 

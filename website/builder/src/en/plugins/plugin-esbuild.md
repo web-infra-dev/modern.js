@@ -1,4 +1,4 @@
-# Esbuild Plugin
+# esbuild Plugin
 
 :::tip About esbuild
 [esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.

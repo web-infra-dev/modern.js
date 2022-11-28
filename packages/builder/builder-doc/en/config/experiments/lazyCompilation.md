@@ -61,7 +61,7 @@ export default {
 
 When `entries` option is enabled, all pages will not be compiled when the compilation is started, and the page will be compiled only when you visit it.
 
-When using lazy compilation for entires, there are some considerations:
+When using lazy compilation for entries, there are some considerations:
 
 - Only work for multi-page applications, no work for single-page applications.
 - when you visit a page, there will be a white screen for a period of time due to waiting for the page to be compiled.
