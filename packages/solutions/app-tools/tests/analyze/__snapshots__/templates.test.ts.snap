@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`fileSystemRoutes generate code 1`] = `
-"
+
     
     import { lazy } from "react";
     import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
@@ -52,14 +52,14 @@ exports[`fileSystemRoutes generate code 1`] = `
   "component": lazy(() => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx'))
 },
 ];
-  "
+  
 `;
 
 exports[`fileSystemRoutes generate code for legacy router 1`] = `
-"
+
     
-    import { lazy } from \\"react\\";
-    import loadable, { lazy as loadableLazy } from \\"@modern-js/runtime/loadable\\"
+    import { lazy } from "react";
+    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   
     
     
@@ -67,11 +67,11 @@ exports[`fileSystemRoutes generate code for legacy router 1`] = `
     
     export const routes = [
   {
-  \\"path\\": \\"/user\\",
-  \\"exact\\": true,
-  \\"component\\": loadable(() => import('@/pages/user')),
-  \\"_component\\": \\"@/pages/user\\"
+  "path": "/user",
+  "exact": true,
+  "component": loadable(() => import('@/pages/user')),
+  "_component": "@/pages/user"
 },
 ];
-  "
+  
 `;

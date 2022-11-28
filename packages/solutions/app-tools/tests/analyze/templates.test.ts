@@ -15,9 +15,8 @@ jest.mock('@modern-js/utils', () => {
 });
 
 expect.addSnapshotSerializer({
-  test: val => typeof val === 'string' && val.includes('@_modern_js_internal'),
-  print: val =>
-    typeof val === 'string' ? `"${val.replace(/\\/g, '/')}"` : (val as string),
+  test: val => typeof val === 'string',
+  print: val => val as string,
 });
 
 describe('fileSystemRoutes', () => {
