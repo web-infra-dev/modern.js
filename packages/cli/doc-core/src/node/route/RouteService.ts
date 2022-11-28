@@ -1,5 +1,4 @@
 import path from 'path';
-import globby from 'globby';
 import { normalizePath } from '../utils';
 
 export const DEFAULT_PAGE_EXTENSIONS = ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'];
@@ -46,6 +45,7 @@ export class RouteService {
   }
 
   async init() {
+    const globby = await import('@modern-js/utils/globby');
     const files = globby
       .sync([`**/*.{${this.#extensions.join(',')}}`, ...this.#include], {
         cwd: this.#scanDir,

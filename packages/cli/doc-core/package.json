@@ -1,13 +1,14 @@
 {
   "name": "@modern-js/doc-core",
   "version": "0.1.0",
-  "jsnext:source": "./src/node/index.ts",
-  "types": "./dist/types/node/index.d.ts",
-  "main": "./dist/js/node/node/index.js",
-  "module": "./dist/js/treeshaking/node/index.js",
-  "jsnext:modern": "./dist/js/modern/node/index.js",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "type": "module",
+  "module": "./dist/node/index.js",
+  "jsnext:modern": "./dist/modern/node/index.js",
   "scripts": {
-    "prepare": "modern build && husky install",
+    "prepare": "modern build",
     "prepublishOnly": "modern build --platform",
     "dev": "modern dev",
     "build": "modern build",
@@ -26,14 +27,6 @@
   "engines": {
     "node": ">=14.17.6"
   },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
-    ],
-    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
-    ]
-  },
   "eslintIgnore": [
     "node_modules/",
     "dist/"
@@ -43,21 +36,19 @@
     "@loadable/component": "^5.15.2",
     "@modern-js/builder": "^1.20.1",
     "@modern-js/builder-webpack-provider": "^1.21.3",
+    "@modern-js/utils": "^1.21.5",
     "autoprefixer": "^10.4.13",
-    "fs-extra": "^10.1.0",
-    "globby": "^11.1.0",
+    "cac": "^6.7.14",
     "postcss": "^8.4.19",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3",
     "rehype-autolink-headings": "^6.1.1",
     "remark-gfm": "^3.0.1",
     "source-map": "^0.7.4",
-    "tailwindcss": "^2.0.4",
-    "webpack-virtual-modules": "^0.4.6",
-    "windicss-webpack-plugin": "^1.7.7"
+    "webpack-virtual-modules": "^0.4.6"
   },
   "peerDependencies": {
-    "react": "^17"
+    "react": ">=17"
   },
   "devDependencies": {
     "@mdx-js/loader": "^2.1.5",

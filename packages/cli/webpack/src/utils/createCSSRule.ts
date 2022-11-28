@@ -44,6 +44,8 @@ export const createCSSRule = ({
   appDirectory: string;
   cssLoaderOptions: CSSLoaderOptions;
 }) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error @modern-js/core type error
   const postcssOptions = getPostcssConfig(appDirectory, config);
   const loaders = chain.module.rule(CHAIN_ID.RULE.LOADERS);
   const isExtractCSS = enableCssExtract(config);

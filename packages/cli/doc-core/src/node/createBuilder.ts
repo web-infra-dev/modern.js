@@ -1,17 +1,16 @@
 import path from 'path';
+import { createRequire } from 'module';
 import type { Options } from '@mdx-js/loader';
-// Avoid transpiling to require calls in tsc build
-// eslint-disable-next-line @typescript-eslint/no-implied-eval, no-new-func
-const dynamicImport = new Function('m', 'return import(m)');
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const require = createRequire(import.meta.url);
 
 export async function createMdxOptions(): Promise<Options> {
-  const { default: remarkGFMPlugin } = (await dynamicImport(
-    'remark-gfm',
-  )) as typeof import('remark-gfm');
+  const { default: remarkGFMPlugin } = await import('remark-gfm');
 
-  const { default: rehypePluginAutolinkHeadings } = (await dynamicImport(
-    'rehype-autolink-headings',
-  )) as typeof import('rehype-autolink-headings');
+  const { default: rehypePluginAutolinkHeadings } = await import(
+    'rehype-autolink-headings'
+  );
 
   return {
     remarkPlugins: [[remarkGFMPlugin]],
@@ -34,7 +33,7 @@ export async function createMdxOptions(): Promise<Options> {
 }
 
 export async function createModernBuilder(rootDir: string) {
-  const PACKAGE_ROOT = path.join(__dirname, '..', '..', '..', '..');
+  const PACKAGE_ROOT = path.join(__dirname, '..');
   const userRoot = path.resolve(rootDir || process.cwd());
   const { createBuilder } = await import('@modern-js/builder');
   const { builderWebpackProvider } = await import(
@@ -64,17 +63,16 @@ export async function createModernBuilder(rootDir: string) {
         alias: {
           'react/jsx-runtime': require.resolve('react/jsx-runtime'),
         },
+        include: [PACKAGE_ROOT],
       },
       tools: {
-        postcss(options) {
-          options.postcssOptions!.plugins!.push(
-            // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-            require('tailwindcss')({
-              content: ['dist/**/*.js'],
-            }),
-          );
-        },
         cssExtract: {},
+        babel(options, { modifyPresetReactOptions }) {
+          modifyPresetReactOptions({
+            runtime: 'automatic',
+          });
+          return options;
+        },
         webpackChain(chain, { CHAIN_ID }) {
           const [loader, options] = chain.module
             .rule(CHAIN_ID.RULE.JS)
@@ -89,24 +87,16 @@ export async function createModernBuilder(rootDir: string) {
             .loader(require.resolve('@mdx-js/loader'))
             .options(mdxOptions)
             .end();
-          chain.optimization.realContentHash(true);
+          chain.resolve.extensions.merge(['.ts', '.tsx', '.mdx', '.md']);
         },
         webpack(config) {
           config.plugins!.push(routeVirtualModulePlugin);
-
           return config;
         },
       },
     },
   });
-  const entry = path.join(
-    PACKAGE_ROOT,
-    'dist',
-    'js',
-    'modern',
-    'runtime',
-    'clientEntry.js',
-  );
+  const entry = path.join(PACKAGE_ROOT, 'src', 'runtime', 'clientEntry.tsx');
   const builder = await createBuilder(builderProvider, {
     target: ['web'],
     entry: {
