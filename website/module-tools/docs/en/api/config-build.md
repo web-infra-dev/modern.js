@@ -55,10 +55,10 @@ Static resource output path, will be based on [outdir](/zh/api/config-build/#out
 - default: `assets`
 
 ### limit
-The threshold for automatically inlining static resources when building, resources less than 14336 bytes will be automatically inlined into the bundle product
+The threshold for automatically inlining static resources when building, resources less than 10240 bytes will be automatically inlined into the bundle product
 
 - type: `number`
-- default: `14 * 1024`
+- default: `10 * 1024`
 
 ### publicPath
 The CDN prefix given to unlinked resources when packaging
