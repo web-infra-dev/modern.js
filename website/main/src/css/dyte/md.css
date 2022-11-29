@@ -17,6 +17,9 @@
 }
 
 .markdown > h2 {
+  margin: 4rem 0 1.8rem;
+  border-top: 1px solid var(--ifm-toc-border-color-100);
+  padding-top: 1.8rem;
   font-size: 24px;
   letter-spacing: -0.02em;
 }

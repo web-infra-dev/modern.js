@@ -37,7 +37,7 @@ Middleware 可以为 Web Server 添加前置中间件，只有 SSR 请求会经�
 
 Middleware 可以使用运行时框架拓展。
 
-详细 API 可以查看 [Hook](/docs/apis/app/runtime/web-server/middleware)。
+详细 API 可以查看 [Middleware](/docs/apis/app/runtime/web-server/middleware)。
 
 ## 完全自定义的 Web Server
 
