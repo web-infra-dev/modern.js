@@ -87,11 +87,15 @@ function getSidebar(lang: 'zh' | 'en') {
   return {
     [getLink('/guide/')]: [
       {
-        text: getText('介绍', 'Getting Started'),
+        text: getText('介绍', 'Introduction'),
         items: [
           {
             text: getText('欢迎使用', 'WelCome'),
             link: getLink('/guide/welcome')
+          },
+          {
+            text: getText('为什么需要模块工程解决方案', 'Why module project solution'),
+            link: getLink('/guide/why-module-engineering-solution')
           },
           {
             text: getText('快速开始', 'Getting Started'),
@@ -107,12 +111,16 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/before-getting-started')
           },
           {
-            text: getText('命令一览', 'Command preview'),
+            text: getText('命令预览', 'Command preview'),
             link: getLink('/guide/command-preview')
           },
           {
-            text: getText('构建你的项目', 'Build your project'),
-            link: getLink('/guide/build-your-project')
+            text: getText('修改输出产物', 'Modify output product'),
+            link: getLink('/guide/modify-output-product')
+          },
+          {
+            text: getText('使用微生成器', 'Use Micro generator'),
+            link: getLink('/guide/use-micro-generator')
           },
           {
             text: getText('测试你的项目', 'Test your project'),
@@ -178,7 +186,7 @@ function getNavbar(lang: 'zh' | 'en') {
   return [
     {
       text: getText('指南', 'Guide'),
-      link: getLink('/guide/getting-started'),
+      link: getLink('/guide/welcome'),
       activeMatch: '/guide/'
     },
     {
