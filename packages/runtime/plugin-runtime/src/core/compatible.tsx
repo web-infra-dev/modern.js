@@ -97,9 +97,23 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
   };
 };
 
+export interface Root {
+  render: (children: React.ReactNode) => void;
+  unmount: () => void;
+}
+
+export interface HydrationOptions {
+  identifierPrefix?: string;
+  onRecoverableError?: (error: unknown) => void;
+}
+
 interface HydrateFunc {
   // React 18
-  (container: Element | Document, initialChildren: React.ReactNode): void;
+  (
+    container: Element | Document,
+    initialChildren: React.ReactNode,
+    options?: HydrationOptions,
+  ): Root;
   // React 17
   (
     initialChildren: React.ReactNode,
