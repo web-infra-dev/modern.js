@@ -118,8 +118,10 @@ export const handleTemplateFile = async (
   );
   const updateInfo: Record<string, string> = {};
 
-  const spinner = ora('Loading...').start();
-  spinner.color = 'yellow';
+  const spinner = ora({
+    text: 'Load Generator...',
+    spinner: 'runner',
+  }).start();
 
   await Promise.all(
     modernDeps.map(
