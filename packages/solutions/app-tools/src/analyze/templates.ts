@@ -209,15 +209,12 @@ export const fileSystemRoutes = async ({
     import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   `;
   let dataLoaderPath = '';
+  let componentLoaderPath = '';
   if (ssrMode) {
     dataLoaderPath = require.resolve(`@modern-js/plugin-data-loader/loader`);
     if (nestedRoutesEntry) {
-      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}&mapFile=${loadersMapFile}&entryName=${entryName}!`;
+      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}&mapFile=${loadersMapFile}!`;
     }
-  }
-
-  let componentLoaderPath = '';
-  if (ssrMode) {
     componentLoaderPath = `${path.join(
       __dirname,
       '../builder/loaders/routerLoader',

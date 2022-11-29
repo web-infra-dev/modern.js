@@ -1,4 +1,8 @@
 declare const expect: any;
+/**
+ *
+ * remove the path before "modern.js"
+ */
 export const initSnapshotSerializer = (root: string) => {
   expect.addSnapshotSerializer({
     test: (val: string) =>
