@@ -3,7 +3,8 @@
   "name": "@e2e/builder",
   "version": "0.1.0",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:rspack": "PROVIDE_TYPE=rspack playwright test"
   },
   "dependencies": {
     "react": "^17.0.1",
