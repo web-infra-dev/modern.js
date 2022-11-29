@@ -8,7 +8,8 @@ import {
   generateMetaTags,
 } from '@modern-js/utils';
 import webpack from 'webpack';
-import type { Entrypoint, IAppContext } from '@modern-js/types';
+import type { IAppContext } from '@modern-js/app-tools';
+import type { Entrypoint } from '@modern-js/types';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { BottomTemplatePlugin } from '../../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../../utils/constants';

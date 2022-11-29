@@ -1,5 +1,5 @@
 import path from 'path';
-import { manager, AppContext } from '@modern-js/core';
+import { manager, AppContext, CliPlugin } from '@modern-js/core';
 import Chain from 'webpack-chain';
 import { CHAIN_ID } from '@modern-js/utils';
 import plugin from '../src/cli';
@@ -7,7 +7,7 @@ import './helper';
 
 describe('bff cli plugin', () => {
   it('schema', async () => {
-    const main = manager.clone().usePlugin(plugin);
+    const main = manager.clone().usePlugin(plugin as CliPlugin);
     const runner = await main.init();
     const result = await runner.validateSchema();
 
@@ -15,7 +15,7 @@ describe('bff cli plugin', () => {
   });
 
   it('config', async () => {
-    const main = manager.clone().usePlugin(plugin);
+    const main = manager.clone().usePlugin(plugin as CliPlugin);
     const runner = await main.init();
     const result = await runner.config();
 
@@ -23,7 +23,7 @@ describe('bff cli plugin', () => {
   });
 
   it('config webpack chain', async () => {
-    const main = manager.clone().usePlugin(plugin);
+    const main = manager.clone().usePlugin(plugin as CliPlugin);
     const runner = await main.init();
     const [{ tools }]: any = await runner.config();
     const chain = new Chain();
@@ -43,11 +43,8 @@ describe('bff cli plugin', () => {
             existLambda: false,
             apiDir: path.resolve('./fixtures/function/api'),
             lambdaDir: path.resolve('./fixtures/function/api'),
-            fetcher: undefined,
             port: 3000,
             prefix: '/api',
-            target: undefined,
-            requestCreator: undefined,
           },
         },
       ],

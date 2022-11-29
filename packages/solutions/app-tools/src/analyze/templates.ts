@@ -1,4 +1,3 @@
-import type { RuntimePlugin } from '@modern-js/core';
 import type {
   Entrypoint,
   NestedRoute,
@@ -6,6 +5,7 @@ import type {
   Route,
   RouteLegacy,
 } from '@modern-js/types';
+import type { RuntimePlugin } from '../types';
 
 export const index = ({
   mountId,

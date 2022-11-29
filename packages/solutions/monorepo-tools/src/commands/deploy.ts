@@ -4,13 +4,14 @@ import { initDAG } from '../dag';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { getProjects } from '../projects/get-projects';
 import { deploy as runDeployTask } from '../features/deploy';
+import { MonorepoTools } from '../type';
 
 export interface IDeployCommandOption {
   deployPath?: string;
 }
 
 export const deploy = async (
-  api: PluginAPI,
+  api: PluginAPI<MonorepoTools>,
   deployProjectNames: string[],
   option: IDeployCommandOption,
   ignoreMatchs: string[] = [],

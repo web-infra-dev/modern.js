@@ -5,6 +5,7 @@ import {
   DistPathConfig,
   NormalizedSharedOutputConfig,
   SharedHtmlConfig,
+  FilenameConfig,
 } from './types';
 
 export function getAbsoluteDistPath(
@@ -64,3 +65,30 @@ export function getHTMLPathByEntry(
 
   return removeLeadingSlash(`${htmlPath}/${filename}`);
 }
+
+export const getFilename = (
+  output: NormalizedSharedOutputConfig,
+  type: keyof FilenameConfig,
+  isProd: boolean,
+) => {
+  const { filename } = output;
+  const useHash = !output.disableFilenameHash;
+  const hash = useHash ? '.[contenthash:8]' : '';
+
+  switch (type) {
+    case 'js':
+      return filename.js ?? `[name]${isProd ? hash : ''}.js`;
+    case 'css':
+      return filename.css ?? `[name]${isProd ? hash : ''}.css`;
+    case 'svg':
+      return filename.svg ?? `[name]${hash}.svg`;
+    case 'font':
+      return filename.font ?? `[name]${hash}[ext]`;
+    case 'image':
+      return filename.image ?? `[name]${hash}[ext]`;
+    case 'media':
+      return filename.media ?? `[name]${hash}[ext]`;
+    default:
+      throw new Error(`unknown key ${type} in "output.filename"`);
+  }
+};

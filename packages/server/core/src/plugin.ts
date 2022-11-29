@@ -21,21 +21,8 @@ import type {
   ISAppContext,
   ServerRoute,
 } from '@modern-js/types';
-import type { NormalizedConfig, UserConfig } from '@modern-js/core';
 import type { Options } from 'http-proxy-middleware';
-
-/** The subset of NormalizedConfig, which really need in server */
-export type ServerOptions = {
-  output: Pick<NormalizedConfig['output'], 'path' | 'assetPrefix'>;
-  source: Pick<NormalizedConfig['source'], 'alias' | 'envVars' | 'globalVars'>;
-  tools: {
-    babel: NormalizedConfig['tools']['babel'];
-  };
-  server: NormalizedConfig['server'];
-  runtime: NormalizedConfig['runtime'];
-  bff: NormalizedConfig['bff'];
-  plugins: NormalizedConfig['plugins'];
-};
+import type { ServerOptions, UserConfig } from './types/config';
 
 // collect all middleware register in server plugins
 const gather = createParallelWorkflow<{

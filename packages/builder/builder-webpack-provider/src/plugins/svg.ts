@@ -4,8 +4,9 @@ import {
   TS_REGEX,
   SVG_REGEX,
   getDistPath,
+  getFilename,
 } from '@modern-js/builder-shared';
-import { getFilename, getDataUrlCondition } from '../shared';
+import { getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginSvg = (): BuilderPlugin => {
@@ -18,7 +19,7 @@ export const PluginSvg = (): BuilderPlugin => {
           const defaultExport = config.output.svgDefaultExport;
 
           const distDir = getDistPath(config.output, 'svg');
-          const filename = getFilename(config, 'svg', isProd);
+          const filename = getFilename(config.output, 'svg', isProd);
           const outputName = join(distDir, filename);
 
           const rule = chain.module.rule(CHAIN_ID.RULE.SVG).test(SVG_REGEX);

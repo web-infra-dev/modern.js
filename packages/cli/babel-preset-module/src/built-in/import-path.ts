@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs, slash } from '@modern-js/utils';
 import { types as t } from '@babel/core';
-import type { NodePath, PluginPass, PluginObj } from '@babel/core';
+import type { PluginPass, PluginObj } from '@babel/core';
 import type { BuiltInOptsType } from '../types';
 
 let replaceValueHash: Record<string, string> = {};
@@ -113,7 +113,7 @@ const importPath = (): PluginObj => ({
     replaceValueHash = {};
   },
   visitor: {
-    Program(nodePath: NodePath<t.Program>, { opts, file }: PluginPass) {
+    Program(nodePath, { opts, file }: PluginPass) {
       nodePath.traverse({
         ImportDeclaration({ node }) {
           const { source } = node;

@@ -1,8 +1,8 @@
 import { RouterConfig } from '../dist/types';
 import '../dist/types/runtime';
 
-declare module '@modern-js/core/config' {
-  interface RuntimeConfig {
+declare module '@modern-js/app-tools' {
+  export interface RuntimeUserConfig {
     router?: RouterConfig | boolean;
   }
 }

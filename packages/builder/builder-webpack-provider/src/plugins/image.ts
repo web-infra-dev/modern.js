@@ -3,8 +3,9 @@ import {
   getRegExpForExts,
   IMAGE_EXTENSIONS,
   getDistPath,
+  getFilename,
 } from '@modern-js/builder-shared';
-import { getFilename, getDataUrlCondition } from '../shared';
+import { getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginImage = (): BuilderPlugin => ({
@@ -15,7 +16,7 @@ export const PluginImage = (): BuilderPlugin => ({
       const config = api.getNormalizedConfig();
       const regExp = getRegExpForExts(IMAGE_EXTENSIONS);
       const distDir = getDistPath(config.output, 'image');
-      const filename = getFilename(config, 'image', isProd);
+      const filename = getFilename(config.output, 'image', isProd);
 
       chain.module
         .rule(CHAIN_ID.RULE.IMAGE)

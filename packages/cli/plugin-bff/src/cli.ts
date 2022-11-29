@@ -8,16 +8,15 @@ import {
   isProd,
 } from '@modern-js/utils';
 import { compile } from '@modern-js/server-utils';
-
 import type { ServerRoute } from '@modern-js/types';
-import type { CliPlugin, UserConfig } from '@modern-js/core';
 import { ApiRouter } from '@modern-js/bff-core';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { registerModernRuntimePath } from './helper';
 
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
     let unRegisterResolveRuntimePath: (() => void) | null = null;
@@ -30,9 +29,8 @@ export default (): CliPlugin => ({
           tools: {
             webpackChain: (chain, { name, CHAIN_ID }) => {
               const { appDirectory, port } = api.useAppContext();
-              const modernConfig = api.useResolvedConfigContext() as UserConfig;
+              const modernConfig = api.useResolvedConfigContext();
               const { bff } = modernConfig || {};
-              const { fetcher } = bff || {};
               const prefix = bff?.prefix || DEFAULT_API_PREFIX;
 
               const rootDir = path.resolve(appDirectory, API_DIR);
@@ -63,9 +61,7 @@ export default (): CliPlugin => ({
                   lambdaDir,
                   existLambda,
                   port,
-                  fetcher,
                   target: name,
-                  requestCreator: bff?.requestCreator,
                 });
             },
           },
@@ -74,7 +70,7 @@ export default (): CliPlugin => ({
           },
         };
       },
-      modifyServerRoutes({ routes }: { routes: ServerRoute[] }) {
+      modifyServerRoutes({ routes }) {
         const modernConfig = api.useResolvedConfigContext();
 
         const { bff } = modernConfig || {};
@@ -130,7 +126,7 @@ export default (): CliPlugin => ({
         }
 
         const { server } = modernConfig;
-        const { alias, envVars, globalVars } = modernConfig.source;
+        const { alias, define, globalVars } = modernConfig.source;
         const { babel } = modernConfig.tools;
 
         if (sourceDirs.length > 0) {
@@ -139,7 +135,7 @@ export default (): CliPlugin => ({
             {
               server,
               alias,
-              envVars,
+              define,
               globalVars,
               babelConfig: babel,
             },

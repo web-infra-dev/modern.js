@@ -171,7 +171,7 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern new",
+    "new": "modern-lib new",
     "dev": "tsc --watch",
     "build": "tsc",
     "test": "jest --passWithNoTests"
