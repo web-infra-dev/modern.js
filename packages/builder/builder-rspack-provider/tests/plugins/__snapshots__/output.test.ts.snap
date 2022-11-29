@@ -1,0 +1,41 @@
+// Vitest Snapshot v1
+
+exports[`plugins/output > should allow to custom server directory with distPath.server 1`] = `
+{
+  "output": {
+    "chunkFilename": "server/[name].js",
+    "filename": "server/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "publicPath": "/",
+  },
+}
+`;
+
+exports[`plugins/output > should allow to use filename.js to modify filename 1`] = `
+{
+  "output": {
+    "chunkFilename": "static/js/async/foo.js",
+    "cssChunkFilename": "static/css/async/[name].css",
+    "cssFilename": "static/css/[name].css",
+    "filename": "static/js/foo.js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "publicPath": "/",
+  },
+}
+`;
+
+exports[`plugins/output > should set output correctly 1`] = `
+{
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "cssChunkFilename": "static/css/async/[name].css",
+    "cssFilename": "static/css/[name].css",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "publicPath": "/",
+  },
+}
+`;

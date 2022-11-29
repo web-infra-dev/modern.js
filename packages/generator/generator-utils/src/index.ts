@@ -36,8 +36,10 @@ export async function getPackageVersion(
   packageName: string,
   registry?: string,
 ) {
-  const spinner = ora('Loading...').start();
-  spinner.color = 'yellow';
+  const spinner = ora({
+    text: 'Load Generator...',
+    spinner: 'runner',
+  }).start();
   if (await canUsePnpm()) {
     const args = ['info', packageName, 'version'];
     if (registry) {

@@ -1,8 +1,9 @@
 import type { Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { clear, IClearCommandOption } from '../commands';
+import { MonorepoTools } from '../type';
 
-export const clearCli = (program: Command, api: PluginAPI) => {
+export const clearCli = (program: Command, api: PluginAPI<MonorepoTools>) => {
   program
     .command('clear [projects...]')
     .usage('[options]')

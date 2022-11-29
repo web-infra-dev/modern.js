@@ -13,7 +13,7 @@ import type { IPackageModeValue } from '../types';
 import type { BundlelessOptions, SourceMap } from '../schema/types';
 
 export const getFinalAlias: any = (
-  modernConfig: NormalizedConfig,
+  modernConfig: NormalizedConfig<any>,
   option: { appDirectory: string; tsconfigPath: string; sourceAbsDir: string },
 ) => {
   const aliasConfig = getAliasConfig(modernConfig.source.alias, option);
@@ -35,18 +35,21 @@ export const getFinalAlias: any = (
 
 export const resolveBabelConfig = (
   appDirectory: string,
-  modernConfig: NormalizedConfig,
+  modernConfig: NormalizedConfig<any>,
   sourceMap: SourceMap,
   bundlelessOptions: Required<BundlelessOptions>,
   option: Pick<IPackageModeValue, 'syntax' | 'type'> & {
     sourceAbsDir: string;
     tsconfigPath: string;
   },
-) => {
+): any => {
   const {
     source: { envVars, globalVars, jsxTransformRuntime = 'automatic' },
     output: { importStyle },
-    tools: { lodash: userLodashOption, styledComponents },
+    tools: { lodash: userLodashOption, styledComponents } = {
+      lodash: {},
+      styledComponents: {},
+    },
   } = modernConfig;
 
   // alias config
@@ -59,7 +62,7 @@ export const resolveBabelConfig = (
   const lodashOptions = applyOptionsChain(
     { id: ['lodash', 'ramda'] },
     // TODO: 需要处理类型问题
-    userLodashOption as any,
+    userLodashOption || ({} as any),
   );
   // babel config
   const internalBabelConfig = getBabelConfig(
@@ -96,6 +99,6 @@ export const resolveBabelConfig = (
   internalBabelConfig.compact = false;
   internalBabelConfig.sourceMaps = sourceMap === 'external' ? true : sourceMap;
 
-  const userBabelConfig = modernConfig.tools.babel;
+  const userBabelConfig = modernConfig.tools?.babel;
   return applyUserBabelConfig(internalBabelConfig, userBabelConfig);
 };

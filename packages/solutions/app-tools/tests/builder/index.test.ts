@@ -1,5 +1,8 @@
 import type { BuilderTarget } from '@modern-js/builder-shared';
-import { createBuilderOptions } from '../../src/builder';
+import {
+  createBuilderOptions,
+  createBuilderProviderConfig,
+} from '../../src/builder';
 
 describe('create builder Options', () => {
   it('test create builder Options', () => {
@@ -35,5 +38,32 @@ describe('create builder Options', () => {
         next: ['./src/next.ts'],
       },
     });
+  });
+});
+
+describe('create builder provider config', () => {
+  it('should add default config', () => {
+    const config = {
+      output: {
+        assetPrefix: '/x',
+        copy: [{ from: 'xxx', to: 'yyy' }],
+      },
+      source: {},
+      performance: {},
+      dev: {},
+      html: {},
+    };
+    const appContext = {
+      appDirectory: `/fixtrues`,
+      configDir: './icons',
+    };
+
+    const builderConfig = createBuilderProviderConfig(
+      config as any,
+      appContext as any,
+    );
+    delete builderConfig.output?.copy;
+
+    expect(builderConfig).toMatchSnapshot();
   });
 });

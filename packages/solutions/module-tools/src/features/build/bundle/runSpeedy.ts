@@ -15,7 +15,7 @@ import {
 export type ResolveAlias = { [index: string]: string };
 export const getAlias = (api: PluginAPI) => {
   const { appDirectory, srcDirectory } = api.useAppContext();
-  const { source } = api.useResolvedConfigContext();
+  const { source } = api.useResolvedConfigContext() as any;
   // TODO: maybe check tsconfig `paths`
   const defaultAlias = {
     '@': srcDirectory,
@@ -36,7 +36,7 @@ export const getAlias = (api: PluginAPI) => {
 export const getDefine = (api: PluginAPI) => {
   const {
     source: { envVars, globalVars },
-  } = api.useResolvedConfigContext();
+  } = api.useResolvedConfigContext() as any;
   const envVarsDefine = [...(envVars || [])].reduce<Record<string, string>>(
     (memo, name) => {
       memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
@@ -58,7 +58,7 @@ export const getDefine = (api: PluginAPI) => {
 };
 
 const getStyleOptionFromModern = async (api: PluginAPI) => {
-  const runner = api.useHookRunners();
+  const runner: any = api.useHookRunners();
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
   const lessOption = await runner.moduleLessConfig(
@@ -94,8 +94,9 @@ export const runSpeedy = async (
   const { appDirectory } = api.useAppContext();
   const {
     output: { path: distPath = 'dist' },
-    tools: { speedy: userSpeedyConfig },
-  } = api.useResolvedConfigContext();
+    tools: { speedy: userSpeedyConfig } = { speedy: undefined },
+  } = api.useResolvedConfigContext() as any;
+
   const { target, watch, bundleOptions, outputPath, format, sourceMap } =
     config;
   const { entry, platform, splitting, minify, externals, getModuleId } =

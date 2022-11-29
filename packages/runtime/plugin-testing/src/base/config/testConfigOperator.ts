@@ -25,11 +25,11 @@ class TestConfigOperator {
     this._testConfig = merge({}, this.defaultTestConfig, this.testConfig);
   }
 
-  get jestConfig() {
+  get jestConfig(): JestConfig {
     return this._jestConfig;
   }
 
-  get testConfig() {
+  get testConfig(): TestConfig {
     return this._testConfig;
   }
 

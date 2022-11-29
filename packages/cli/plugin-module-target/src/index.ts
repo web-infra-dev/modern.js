@@ -1,9 +1,9 @@
-import type { CliPlugin, ModuleToolsHooks } from '@modern-js/module-tools-v2';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
 
 export const ModuleTargetPlugin = (
   // refer: https://esbuild.github.io/api/#target
   options: { target: string[] },
-): CliPlugin<ModuleToolsHooks> => ({
+): CliPlugin<ModuleTools> => ({
   name: 'module-target',
   setup: () => ({
     modifyLibuild(config) {

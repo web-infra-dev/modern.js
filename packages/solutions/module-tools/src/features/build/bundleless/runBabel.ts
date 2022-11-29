@@ -219,7 +219,7 @@ export const runBabelBuild = async (
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { path: distPath = 'dist' },
-  } = modernConfig;
+  } = modernConfig as any;
   const { sourceDir = './src' } = bundlelessOptions;
   const sourceAbsDir = path.join(appDirectory, sourceDir);
   const tsconfigPath = path.join(appDirectory, tsconfig);

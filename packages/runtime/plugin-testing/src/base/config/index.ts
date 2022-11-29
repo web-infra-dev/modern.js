@@ -1,3 +1,5 @@
+import { AliasOption } from '@modern-js/utils';
+import { JestConfig } from '@modern-js/core';
 import { TestConfig } from '../types';
 import { applyPatches } from './patches';
 import { TestConfigOperator } from './testConfigOperator';
@@ -18,5 +20,14 @@ const patchConfig = async (testOperator: TestConfigOperator) => {
 };
 
 export const DEFAULT_RESOLVER_PATH = require.resolve('./resolver');
+
+export type UserConfig = {
+  source?: {
+    alias?: AliasOption;
+  };
+  tools?: {
+    jest: JestConfig | ((config: JestConfig) => JestConfig);
+  };
+};
 
 export { getJestUtils, patchConfig };

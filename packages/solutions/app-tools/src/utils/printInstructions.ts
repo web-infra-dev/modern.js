@@ -1,11 +1,11 @@
 import { prettyInstructions, logger } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig, ToRunners } from '@modern-js/core';
-import type { AppHooks } from '../hooks';
+import type { IAppContext, CliHooksRunner } from '@modern-js/core';
+import type { AppNormalizedConfig, AppTools } from '../types';
 
 export const printInstructions = async (
-  hookRunners: ToRunners<AppHooks>,
+  hookRunners: CliHooksRunner<AppTools>,
   appContext: IAppContext,
-  config: NormalizedConfig,
+  config: AppNormalizedConfig,
 ) => {
   const message = prettyInstructions(appContext, config);
 

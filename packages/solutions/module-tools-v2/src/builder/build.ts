@@ -2,7 +2,7 @@ import type { CLIConfig, Style } from '@modern-js/libuild';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
-  ModuleToolsHooks,
+  ModuleTools,
   PluginAPI,
   DTSOptions,
   ModuleContext,
@@ -15,7 +15,7 @@ export const runBuildTask = async (
     context: ModuleContext;
     styleConfig: Style;
   },
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
 ) => {
   const { buildConfig, context } = options;
   const { appDirectory, isTsProject } = context;
@@ -37,7 +37,7 @@ export const buildInTsProject = async (
     context: ModuleContext;
     styleConfig: Style;
   },
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
 ) => {
   const { buildConfig, buildCmdOptions, styleConfig } = options;
   const dts = buildCmdOptions.dts ? buildConfig.dts : false;
@@ -49,7 +49,8 @@ export const buildInTsProject = async (
     const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
     const { default: pMap } = await import('../../compiled/p-map');
     await pMap(tasks, async task => {
-      await task(buildConfig, api, { watch, dts, styleConfig });
+      // FIXME: remove the any type
+      await task(buildConfig, api as any, { watch, dts, styleConfig });
     });
   }
 };
@@ -61,7 +62,7 @@ export const buildInJsProject = async (
     context: ModuleContext;
     styleConfig: Style;
   },
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
 ) => {
   const { buildConfig, buildCmdOptions, styleConfig } = options;
   const dts = buildCmdOptions.dts ? buildConfig.dts : false;
@@ -112,7 +113,7 @@ export const generatorDts = async (
 
 export const buildLib = async (
   config: BaseBuildConfig,
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
   options: {
     styleConfig: Style;
     watch: boolean;

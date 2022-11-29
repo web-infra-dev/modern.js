@@ -71,7 +71,9 @@ describe('test server utils', () => {
 
     test('should test custom static path correctly', () => {
       const reg = getStaticReg({
-        cssPath: 'static-css',
+        distPath: {
+          css: 'static-css',
+        },
       });
       expect(reg.test('/static-css')).toBeTruthy();
     });
@@ -91,13 +93,16 @@ describe('test server utils', () => {
     });
 
     test('should test favicon path correctly', () => {
-      const reg = getStaticReg({
-        favicon: 'index.icon',
-        faviconByEntries: {
-          foo: 'foo.icon',
-          baz: 'baz.icon',
+      const reg = getStaticReg(
+        {},
+        {
+          favicon: 'index.icon',
+          faviconByEntries: {
+            foo: 'foo.icon',
+            baz: 'baz.icon',
+          },
         },
-      });
+      );
       expect(reg.test('/index.icon')).toBeTruthy();
       expect(reg.test('/foo.icon')).toBeTruthy();
       expect(reg.test('/baz.icon')).toBeTruthy();

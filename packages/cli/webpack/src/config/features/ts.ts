@@ -42,7 +42,7 @@ export function applyTsLoader({ config, loaders, appContext }: ChainUtils) {
     },
   };
 
-  const tsLoaderOptions = applyOptionsChain(
+  const tsLoaderOptions = applyOptionsChain<any, any>(
     {
       compilerOptions: {
         target: 'es5',

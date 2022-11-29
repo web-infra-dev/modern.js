@@ -70,7 +70,7 @@ export const resolveBabelConfig = (
   option: IPackageModeValue,
   // FIXME: babel type can't pass type checking
 ): any => {
-  const { envVars, globalVars, alias, babelConfig } = config;
+  const { define, globalVars, alias, babelConfig } = config;
 
   // alias config
   const aliasConfig = getAliasConfig(alias, {
@@ -85,8 +85,9 @@ export const resolveBabelConfig = (
       enableReactPreset: true,
       enableTypescriptPreset: true,
       alias: aliasConfig,
-      envVars,
-      globalVars,
+      // FIXME: handle the define envVars
+      envVars: define as any,
+      globalVars: globalVars as Record<string, string>,
     },
     {
       type: option.type,

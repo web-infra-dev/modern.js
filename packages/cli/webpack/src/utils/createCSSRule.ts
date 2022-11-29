@@ -1,9 +1,9 @@
 import { getPostcssConfig } from '@modern-js/css-config';
 import { CHAIN_ID } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { AppLegacyNormalizedConfig } from '@modern-js/app-tools';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
 
-export const enableCssExtract = (config: NormalizedConfig) => {
+export const enableCssExtract = (config: AppLegacyNormalizedConfig) => {
   return config.output.disableCssExtract !== true;
 };
 
@@ -38,15 +38,13 @@ export const createCSSRule = ({
   name: string;
   test: RegExp | RegExp[];
   chain: WebpackChain;
-  config: NormalizedConfig;
+  config: AppLegacyNormalizedConfig;
   genTSD?: boolean;
   exclude?: Array<RegExp | ((path: string) => boolean)>;
   appDirectory: string;
   cssLoaderOptions: CSSLoaderOptions;
 }) => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error @modern-js/core type error
-  const postcssOptions = getPostcssConfig(appDirectory, config);
+  const postcssOptions = getPostcssConfig(appDirectory, config as any);
   const loaders = chain.module.rule(CHAIN_ID.RULE.LOADERS);
   const isExtractCSS = enableCssExtract(config);
   const rule = loaders.oneOf(name);

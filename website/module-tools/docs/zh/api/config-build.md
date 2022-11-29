@@ -55,10 +55,10 @@ export default {
 - default: `assets`
 
 ### limit
-打包时自动内联静态资源的阈值，小于14336字节的资源会被自动内联进bundle产物中
+打包时自动内联静态资源的阈值，小于 10240 字节的资源会被自动内联进bundle产物中
 
 - type: `number`
-- default: `14 * 1024`
+- default: `10 * 1024`
 
 ### publicPath
 打包时给未内联资源的CDN前缀

@@ -3,9 +3,9 @@ import {
   DEFAULT_PORT,
   addTrailingSlash,
   getDistPath,
+  getFilename,
   type BuilderContext,
 } from '@modern-js/builder-shared';
-import { getFilename } from '../shared';
 import { isUseCssExtract } from './css';
 import type { BuilderPlugin, NormalizedConfig } from '../types';
 
@@ -54,7 +54,7 @@ export const PluginOutput = (): BuilderPlugin => ({
         });
 
         // js output
-        const jsFilename = getFilename(config, 'js', isProd);
+        const jsFilename = getFilename(config.output, 'js', isProd);
         chain.output
           .path(api.context.distPath)
           .filename(`${jsPath}/${jsFilename}`)
@@ -79,7 +79,7 @@ export const PluginOutput = (): BuilderPlugin => ({
             (config.tools.cssExtract as CSSExtractOptions)?.pluginOptions || {},
           );
 
-          const cssFilename = getFilename(config, 'css', isProd);
+          const cssFilename = getFilename(config.output, 'css', isProd);
 
           chain
             .plugin(CHAIN_ID.PLUGIN.MINI_CSS_EXTRACT)

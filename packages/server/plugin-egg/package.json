@@ -19,8 +19,8 @@
   "jsnext:modern": "./dist/js/modern/index.js",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "exports": {

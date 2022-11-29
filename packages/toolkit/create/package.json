@@ -34,13 +34,13 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern new",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/codesmith": "2.0.0",
+    "@modern-js/codesmith": "2.0.1",
     "@modern-js/generator-plugin-plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/repo-generator": "workspace:*",

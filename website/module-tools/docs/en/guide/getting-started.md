@@ -1,69 +1,78 @@
-# 快速开始
+# Quick start
 
-想要实际体验 Module Tools？首先需要安装 Node.js LTS，并确保 Node 版本大于等于 14.17.6。
+## 3 minute demo
 
-然后在你已有的项目里安装以下依赖：
-- @modern-js/module-tools
-- @modern-js/plugin-testing
+Want to experience Module Tools in action? The only prerequisite you need is [Node.js LTS](https://github.com/nodejs/Release) and make sure your Node version is **>= 14.17.6**.
+
+From your shell, install the following dependencies in your project.
+
+- `@modern-js/module-tools`
+- `@modern-js/plugin-testing`
+
+> If it's a TypeScript project, add the `"typescript"` dependency.
 
 ```bash
-npm install -D  @modern-js/module-tools @modern-js/plugin-testing
+npm install -D @modern-js/module-tools @modern-js/plugin-testing
 ```
 
-对于使用 PNPM 和 Yarn 包管理器的项目，只需要替换 npm 就可以了。推荐使用 pnpm。
+> For projects that use pnpm or the Yarn package manager, just replace npm. **pnpm is recommended**.
 
-接着在项目的 package.json 里增加命令 "build": "modern build"
+Then add the command `"build": "modern build"` to your project's `package.json` file.
 
 ```json
 {
- "scripts": {
-     "build": "modern build"
- }
+    "scripts": {
+        "build": "modern build"
+    }
 }
 ```
 
-如果你的项目存在 src/index.(js|jsx) 文件或者同时存在 src/index.(ts|tsx) 和 tsconfig.json 文件，那么恭喜你，你可以运行直接运行 npm build 来使用 Module Tools 构建你的项目了。
+If your project has a `src/index.(js|jsx)` file or both `src/index.(ts|tsx)` and `tsconfig.json` files, then congratulations you can run the `npm run build` command directly to build your project with Module Tools.
 
-如果你想要看看 Module Tools 模块工程的真实项目，可以执行以下命令：
+**If you want to see real projects that use the module engineering solution, you can execute the following command**.
 ```bash
 git clone https://github.com/modern-js-dev/module-tools-examples
 cd module-tools-example
-```
 
-## 执行构建：
-```bash
+## Execute the build.
 pnpm build
-```
 
-## 监听模式执行构建：
-```bash
+## Execute the build in listening mode.
 pnpm build --watch
-```
 
-## 启动 Storybook
-```bash
+## Start Storybook
 pnpm dev storybook
-```
 
-## 测试
-```bash
+## Test
+pnpm test
 pnpm test
 ```
 
-如果你想要看创建一个完整的 Module Tools 模块工程项目，可以执行以下命令：
+**If you want to create a complete module project, you can execute the following command:**
+
 ```bash
 npx @modern-js/create your-project-dir-name
 ```
 
-接着在问题交互中，按照如下选择：
+Next, in the issue interaction, follow the options below.
+
 ```bash
-? 请选择你想创建的工程类型 模块
-? 请填写项目名称 library
-? 请选择开发语言 TS
-? 请选择包管理工具 pnpm
+? Please select the type of project you want to create Module
+? Please fill in the project name library
+? Please select the development language TS
+? Please select the package management tool pnpm
 ```
-项目名称为 package.json 中的 name 字段值。
+> The project name is the value of the `"name"` field in `package.json`.
 
-接着就会开始初始化项目的流程。在项目目录和文件生成以及依赖安装完毕后，此时就创建了一个完整的模块工程项目。
+Then the process of initializing the project will start. After the project directory and files are generated and the dependencies are installed, a complete module project is created.
 
-我们可以直接执行 pnpm build 命令启动项目的构建，执行 pnpm build --watch 命令开启构建的监听模式。
+We can start the project build directly with the `pnpm build` command, and start the build in watching mode with the `pnpm build --watch` command.
+
+## Let's get started
+
+Choose your tutorial scenario...
+
+- I'm a beginner and need to learn [basic usage](/en/guide/before-getting-started) of Module Tools.
+- I have learned the basic usage of Module Tools and can learn [advanced usage](/en/guide/before-getting-started) of Module Tools.
+- I am the maintainer of the project and need to learn how to develop plugins for Module Tools and learn more about Module Tools Advanced.
+

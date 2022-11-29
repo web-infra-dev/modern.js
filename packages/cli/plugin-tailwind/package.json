@@ -44,9 +44,9 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
-    "dev": "modern build --watch",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -59,6 +59,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
     "@types/tailwindcss": "^2.2.1",

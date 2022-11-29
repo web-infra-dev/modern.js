@@ -6,28 +6,22 @@ import {
   getInternalPlugins,
   dynamicImport,
 } from '@modern-js/utils';
-import type { UserConfig } from './config';
-import { CliPlugin, createPlugin } from './manager';
+import type {
+  CliPlugin,
+  UserConfig,
+  OldPluginConfig,
+  PluginConfig,
+  PluginItem,
+} from './types';
+import { createPlugin } from './manager';
 
 const debug = createDebugger('load-plugins');
-
-type PluginItem = string | [string, any];
 
 export type TransformPlugin = (
   plugin: PluginConfig,
   resolvedConfig: UserConfig,
   pluginOptions?: any,
 ) => PluginConfig;
-
-/**
- * @deprecated
- * Using NewPluginConfig instead.
- */
-type OldPluginConfig = Array<PluginItem>;
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type NewPluginConfig<T = {}> = CliPlugin<T>[];
-export type PluginConfig = OldPluginConfig | NewPluginConfig;
 
 const resolveCliPlugin = async (
   p: PluginItem,

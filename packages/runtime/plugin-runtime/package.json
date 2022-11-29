@@ -116,10 +116,10 @@
     }
   },
   "scripts": {
-    "dev": "modern build --watch",
+    "dev": "modern-lib build --watch",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -163,6 +163,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
     "@testing-library/react-hooks": "^8.0.1",

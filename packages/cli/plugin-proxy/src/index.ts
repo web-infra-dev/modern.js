@@ -15,7 +15,7 @@ export default (): CliPlugin => {
       },
 
       async afterDev() {
-        const { dev } = api.useResolvedConfigContext();
+        const { dev } = api.useResolvedConfigContext() as any;
         const { internalDirectory } = api.useAppContext();
 
         if (!dev?.proxy) {

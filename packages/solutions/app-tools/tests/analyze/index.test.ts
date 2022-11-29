@@ -1,6 +1,7 @@
 import * as path from 'path';
-import { manager } from '@modern-js/core';
+import { manager, CliPlugin } from '@modern-js/core';
 import plugin from '../../src/analyze';
+import appToolsPlugin from '../../src';
 
 describe('analyze', () => {
   afterAll(() => {
@@ -29,7 +30,8 @@ describe('analyze', () => {
           mockContext.set(value);
         },
       })
-      .usePlugin(plugin);
+      .usePlugin(appToolsPlugin as CliPlugin)
+      .usePlugin(plugin as CliPlugin);
 
     const runner = await main.init();
     await runner.prepare();

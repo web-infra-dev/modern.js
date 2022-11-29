@@ -2,8 +2,9 @@ import type { Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { deploy } from '../commands';
 import type { IDeployCommandOption } from '../commands';
+import type { MonorepoTools } from '../type';
 
-export const deployCli = (program: Command, api: PluginAPI) => {
+export const deployCli = (program: Command, api: PluginAPI<MonorepoTools>) => {
   program
     .command('deploy [project...]')
     .usage('[options]')
