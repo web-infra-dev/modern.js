@@ -1,14 +1,14 @@
 import type { Command } from '@modern-js/utils';
 import { createDebugger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import type { ModuleToolsHooks } from './types/hooks';
+import type { ModuleTools } from './types';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
 
 const debug = createDebugger('module-tools');
 
 export const buildCommand = async (
   program: Command,
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
 ) => {
   const local = await import('./locale');
   const { defaultTsConfigPath } = await import('./constants/dts');
@@ -64,7 +64,7 @@ export const buildCommand = async (
 
 export const devCommand = async (
   program: Command,
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
 ) => {
   const local = await import('./locale');
   const runner = api.useHookRunners();

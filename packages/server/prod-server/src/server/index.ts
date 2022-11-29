@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse, Server as httpServer } from 'http';
+
 import type { ListenOptions } from 'net';
 import path from 'path';
 import fs from 'fs';
@@ -18,7 +19,6 @@ import {
   loadPlugins,
   ServerConfig,
 } from '@modern-js/server-core';
-import type { UserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
 import {
   ModernServerOptions,
@@ -121,7 +121,7 @@ export class Server {
 
   private initServerConfig(options: ModernServerOptions) {
     const { pwd, serverConfigFile } = options;
-    const distDirectory = path.join(pwd, options.config.output?.path || 'dist');
+    const distDirectory = path.join(pwd, options.config.output.path || 'dist');
     const serverConfigPath = getServerConfigPath(
       distDirectory,
       serverConfigFile,
@@ -146,7 +146,7 @@ export class Server {
 
     const resolvedConfigPath = path.join(
       pwd,
-      config?.output?.path || 'dist',
+      config.output.path || 'dist',
       OUTPUT_CONFIG_FILE,
     );
 
@@ -193,14 +193,14 @@ export class Server {
 
     const { options } = this;
     // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
-    const { internalPlugins = INTERNAL_SERVER_PLUGINS, pwd, config } = options;
+    const { internalPlugins = INTERNAL_SERVER_PLUGINS, pwd } = options;
 
     const serverPlugins = this.serverConfig.plugins || [];
 
     // server app context for serve plugin
     const loadedPlugins = loadPlugins(pwd, serverPlugins, { internalPlugins });
 
-    debug('plugins', config.plugins, loadedPlugins);
+    debug('plugins', loadedPlugins);
     loadedPlugins.forEach(p => {
       serverManager.usePlugin(p);
     });
@@ -218,10 +218,10 @@ export class Server {
     const appContext = this.initAppContext();
     const { config, pwd } = options;
 
-    ConfigContext.set(config as UserConfig);
+    ConfigContext.set(config);
     AppContext.set({
       ...appContext,
-      distDirectory: path.join(pwd, config.output?.path || 'dist'),
+      distDirectory: path.join(pwd, config.output.path || 'dist'),
     });
   }
 
@@ -234,7 +234,7 @@ export class Server {
 
     return {
       appDirectory,
-      distDirectory: path.join(appDirectory, config.output?.path || 'dist'),
+      distDirectory: path.join(appDirectory, config.output.path || 'dist'),
       sharedDirectory: path.resolve(appDirectory, SHARED_DIR),
       plugins: serverPlugins,
     };

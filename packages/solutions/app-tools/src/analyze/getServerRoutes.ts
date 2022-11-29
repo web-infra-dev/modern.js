@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import type { NormalizedConfig, IAppContext } from '@modern-js/core';
+import type { IAppContext } from '@modern-js/core';
 import {
   urlJoin,
   isPlainObject,
@@ -11,6 +11,7 @@ import {
   removeTailSlash,
 } from '@modern-js/utils';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
+import type { AppNormalizedConfig } from '../types';
 import { walkDirectory } from './utils';
 
 /**
@@ -115,10 +116,11 @@ const applyRouteOptions = (
 const collectHtmlRoutes = (
   entrypoints: Entrypoint[],
   appContext: IAppContext,
-  config: NormalizedConfig,
+  config: AppNormalizedConfig,
 ): ServerRoute[] => {
   const {
-    output: { htmlPath, disableHtmlFolder, enableModernMode },
+    html: { disableHtmlFolder },
+    output: { distPath: { html: htmlPath } = {} },
     server: { baseUrl, routes, ssr, ssrByEntries },
   } = config;
 
@@ -140,7 +142,7 @@ const collectHtmlRoutes = (
         entryName,
         entryPath: removeLeadingSlash(
           path.posix.normalize(
-            `${htmlPath!}/${entryName}${
+            `${htmlPath}/${entryName}${
               disableHtmlFolder ? '.html' : '/index.html'
             }`,
           ),
@@ -148,7 +150,8 @@ const collectHtmlRoutes = (
         isSPA: true,
         isSSR,
         responseHeaders: resHeaders,
-        enableModernMode: Boolean(enableModernMode),
+        // FIXME: remove the config.enableModernMode
+        // enableModernMode: Boolean(enableModernMode),
         bundle: isSSR
           ? `${SERVER_BUNDLE_DIRECTORY}/${entryName}.js`
           : undefined,
@@ -185,14 +188,14 @@ const collectHtmlRoutes = (
  */
 const collectStaticRoutes = (
   appContext: IAppContext,
-  config: NormalizedConfig,
+  config: AppNormalizedConfig,
 ): ServerRoute[] => {
   const { appDirectory } = appContext;
   const {
     source: { configDir },
     server: { publicRoutes = {} },
   } = config;
-  const publicFolder = path.resolve(appDirectory, configDir!, 'public');
+  const publicFolder = path.resolve(appDirectory, configDir || '', 'public');
 
   return fs.existsSync(publicFolder)
     ? walkDirectory(publicFolder).map(filePath => {
@@ -205,7 +208,10 @@ const collectStaticRoutes = (
           isSPA: true,
           isSSR: false,
           entryPath: toPosix(
-            path.relative(path.resolve(appDirectory, configDir!), filePath),
+            path.relative(
+              path.resolve(appDirectory, configDir || ''),
+              filePath,
+            ),
           ),
         };
       })
@@ -219,7 +225,7 @@ export const getServerRoutes = (
     config,
   }: {
     appContext: IAppContext;
-    config: NormalizedConfig;
+    config: AppNormalizedConfig;
   },
 ): ServerRoute[] => [
   ...collectHtmlRoutes(entrypoints, appContext, config),

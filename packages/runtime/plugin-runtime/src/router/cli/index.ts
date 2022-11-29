@@ -4,13 +4,13 @@ import {
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {

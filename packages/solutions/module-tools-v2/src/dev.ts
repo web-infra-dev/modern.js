@@ -1,7 +1,7 @@
 import type { PluginAPI } from '@modern-js/core';
 import type { DevCommandOptions } from './types/command';
 import type { ModuleContext } from './types/context';
-import type { DevToolData, ModuleToolsHooks } from './types/hooks';
+import type { DevToolData, ModuleTools } from './types';
 
 export const runBuildBeforeDevTools = async (options: {
   disableRunBuild: boolean;
@@ -20,7 +20,7 @@ export const runBuildBeforeDevTools = async (options: {
 export const showMenu = async (
   metas: DevToolData[],
   devCmdOptions: DevCommandOptions,
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
   context: ModuleContext,
 ) => {
   const { chalk, inquirer } = await import('@modern-js/utils');
@@ -64,7 +64,7 @@ export const showMenu = async (
 export const dev = async (
   options: DevCommandOptions,
   metas: DevToolData[],
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
   context: ModuleContext,
 ) => {
   const { chalk } = await import('@modern-js/utils');

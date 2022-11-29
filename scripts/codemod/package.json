@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.0.0-beta.1",
   "scripts": {
-    "build": "modern build"
+    "build": "modern-lib build"
   },
   "devDependencies": {
     "btsm": "2.2.2",

@@ -4,9 +4,10 @@ import {
   BabelChain,
   Options as BabelPresetAppOptions,
 } from '@modern-js/babel-preset-app';
-import type { NormalizedConfig, TransformOptions } from '@modern-js/core';
+import { BabelTransformOptions as TransformOptions } from '@modern-js/types';
+import type { AppLegacyNormalizedConfig } from '@modern-js/app-tools';
 
-export const getUseBuiltIns = (config: NormalizedConfig) => {
+export const getUseBuiltIns = (config: AppLegacyNormalizedConfig) => {
   const { polyfill } = config.output || {};
   if (polyfill === 'ua' || polyfill === 'off') {
     return false;
@@ -17,14 +18,15 @@ export const getUseBuiltIns = (config: NormalizedConfig) => {
 export const getBabelOptions = (
   metaName: string,
   appDirectory: string,
-  config: NormalizedConfig,
+  config: AppLegacyNormalizedConfig,
   chain: BabelChain,
   babelPresetAppOptions?: Partial<BabelPresetAppOptions>,
 ) => {
-  const lodashOptions = applyOptionsChain(
-    { id: ['lodash', 'ramda'] },
-    config.tools?.lodash as any,
-  );
+  // remove the lodash Options, modernjs not support tools.lodash
+  // const lodashOptions = applyOptionsChain(
+  //   { id: ['lodash', 'ramda'] },
+  //   config.tools?.lodash,
+  // );
 
   const styledComponentsOptions = applyOptionsChain(
     {
@@ -63,7 +65,7 @@ export const getBabelOptions = (
     ...getBabelConfig({
       metaName,
       appDirectory,
-      lodash: lodashOptions,
+      lodash: {},
       useLegacyDecorators: !config.output?.enableLatestDecorators,
       useBuiltIns: getUseBuiltIns(config),
       chain,

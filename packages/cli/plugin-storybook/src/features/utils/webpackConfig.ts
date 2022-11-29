@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
 import { fs, Import, CHAIN_ID } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/module-tools-v2';
+import type {
+  IAppContext,
+  ModuleNormalizedConfig,
+} from '@modern-js/module-tools-v2';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type {
   Configuration,
@@ -172,7 +175,7 @@ export const getCustomWebpackConfigHandle: any = ({
   isTsProject = false,
 }: {
   appContext: IAppContext;
-  modernConfig: NormalizedConfig;
+  modernConfig: ModuleNormalizedConfig;
   configDir: string;
   isTsProject: boolean;
   env: 'dev' | 'prod';
@@ -181,11 +184,11 @@ export const getCustomWebpackConfigHandle: any = ({
   const { appDirectory } = appContext;
 
   // Manual configuration `output.path = 'storybook-static'`;
-  modernConfig.output.path = './dist/storybook-static';
+  (modernConfig as any).output.path = './dist/storybook-static';
 
   const webpackConfig = new ClientNoEntryWebpackConfig(
     appContext,
-    modernConfig,
+    modernConfig as any,
   );
   const chain: Chain = webpackConfig.getChain();
   chain.plugin('polyfill').use(NodePolyfillPlugin);

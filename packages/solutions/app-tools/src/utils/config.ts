@@ -6,9 +6,8 @@ import {
   getServerConfig,
   OUTPUT_CONFIG_FILE,
 } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
-
 import type { ServerConfig } from '@modern-js/server-core';
+import type { AppNormalizedConfig } from '../types';
 
 export const defineServerConfig = (config: ServerConfig): ServerConfig =>
   config;
@@ -91,11 +90,11 @@ export const safeReplacer = () => {
 
 export const emitResolvedConfig = async (
   appDirectory: string,
-  resolvedConfig: NormalizedConfig,
+  resolvedConfig: AppNormalizedConfig,
 ) => {
   const outputPath = path.join(
     appDirectory,
-    resolvedConfig?.output?.path || './dist',
+    resolvedConfig.output.distPath?.root || './dist',
     OUTPUT_CONFIG_FILE,
   );
   await fs.writeJSON(outputPath, resolvedConfig, {

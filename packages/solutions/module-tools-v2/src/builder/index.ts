@@ -3,7 +3,7 @@ import type { ModuleContext } from '../types/context';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
-  ModuleToolsHooks,
+  ModuleTools,
 } from '../types';
 
 export const run = async (
@@ -12,7 +12,7 @@ export const run = async (
     resolvedBuildConfig: BaseBuildConfig[];
     context: ModuleContext;
   },
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
 ) => {
   const { chalk } = await import('@modern-js/utils');
   const { resolvedBuildConfig, context, cmdOptions } = options;

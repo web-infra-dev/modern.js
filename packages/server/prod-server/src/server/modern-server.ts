@@ -125,7 +125,7 @@ export class ModernServer implements ModernServerInterface {
     require('ignore-styles');
 
     this.pwd = pwd;
-    this.distDir = path.join(pwd, config.output?.path || 'dist');
+    this.distDir = path.join(pwd, config.output.path || 'dist');
     this.workDir = this.distDir;
     this.conf = config;
     debug('server conf', this.conf);
@@ -172,7 +172,11 @@ export class ModernServer implements ModernServerInterface {
 
     // Only work when without setting `assetPrefix`.
     // Setting `assetPrefix` means these resources should be uploaded to CDN.
-    const staticPathRegExp = getStaticReg(this.conf.output || {});
+    const staticPathRegExp = getStaticReg(
+      this.conf.output || {},
+      // FIXME:
+      this.conf.html,
+    );
     this.staticFileHandler = createStaticFileHandler(
       [
         {

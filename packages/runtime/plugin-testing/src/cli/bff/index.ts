@@ -2,11 +2,13 @@ import path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { isApiOnly } from '@modern-js/utils';
 import { InternalPlugins } from '@modern-js/types';
+import { UserConfig } from '../../base/config';
 import {
   TestConfigOperator,
   getModuleNameMapper,
   DEFAULT_RESOLVER_PATH,
 } from '../../base';
+import type { Hooks } from '../../base/hook';
 import { bff_info_key } from './constant';
 import { isBFFProject } from './utils';
 
@@ -113,7 +115,11 @@ export const setJestConfigForBFF = async ({
   utils.setJestConfig(commonConfig);
 };
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<{
+  hooks: Hooks;
+  userConfig: UserConfig;
+  normalizedConfig: Required<UserConfig>;
+}> => ({
   name: '@modern-js/testing-plugin-bff',
 
   setup(api) {

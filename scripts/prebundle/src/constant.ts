@@ -178,16 +178,6 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
-    packageDir: 'cli/core',
-    packageName: '@modern-js/core',
-    dependencies: [
-      {
-        name: 'v8-compile-cache',
-        ignoreDts: true,
-      },
-    ],
-  },
-  {
     packageDir: 'builder/builder-webpack-provider',
     packageName: '@modern-js/builder-webpack-provider',
     dependencies: [

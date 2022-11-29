@@ -1,5 +1,5 @@
 import { Import } from '@modern-js/utils';
-import type { PluginAPI } from '@modern-js/module-tools-v2';
+import type { PluginAPI, ModuleTools } from '@modern-js/module-tools-v2';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(
@@ -26,7 +26,7 @@ export interface IRunDevOption {
 }
 
 export const runDev = async (
-  api: PluginAPI,
+  api: PluginAPI<ModuleTools>,
   { isTsProject = false, stories, isModuleTools = false }: IRunDevOption,
 ) => {
   const appContext = api.useAppContext();

@@ -7,7 +7,7 @@ const {
 } = require('../../../utils/modernTestUtils');
 const { getFolderList, getFilesList, formatFolder } = require('./utils');
 
-describe('nothing config', () => {
+describe.skip('nothing config', () => {
   const projectPath = path.resolve(__dirname, '../fixtures/build');
   afterAll(() => {
     clearBuildDist(projectPath);
@@ -18,7 +18,7 @@ describe('nothing config', () => {
   });
 });
 
-describe('legacy config', () => {
+describe.skip('legacy config', () => {
   const projectPath = path.resolve(__dirname, '../fixtures/build-legacy');
   const projectDistPath = path.join(projectPath, 'dist');
 
@@ -90,7 +90,7 @@ describe('legacy config', () => {
   });
 });
 
-describe('output.buildPreset', () => {
+describe.skip('output.buildPreset', () => {
   const projectPath = path.resolve(__dirname, '../fixtures/build-preset');
   const projectDistPath = path.join(projectPath, 'dist');
   beforeEach(() => {
@@ -159,7 +159,7 @@ describe('output.buildPreset', () => {
   });
 });
 
-describe('output.buildConfig', () => {
+describe.skip('output.buildConfig', () => {
   const projectPath = path.resolve(__dirname, '../fixtures/build-config');
   const projectDistPath = path.join(projectPath, 'dist');
 
