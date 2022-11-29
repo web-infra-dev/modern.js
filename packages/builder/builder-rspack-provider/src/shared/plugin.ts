@@ -10,6 +10,7 @@ export const applyMinimalPlugins = () =>
     import('../plugins/output').then(m => m.PluginOutput()),
     import('../plugins/devtool').then(m => m.PluginDevtool()),
     import('../plugins/resolve').then(m => m.PluginResolve()),
+    import('../plugins/html').then(m => m.PluginHtml()),
     import('../plugins/define').then(m => m.PluginDefine()),
   ]);
 
@@ -18,6 +19,5 @@ export const applyDefaultPlugins = () =>
     ...applyMinimalPlugins().promises,
     import('../plugins/hmr').then(m => m.PluginHMR()),
     import('../plugins/progress').then(m => m.PluginProgress()),
-    import('../plugins/html').then(m => m.PluginHtml()),
     import('../plugins/react').then(m => m.PluginReact()),
   ]);
