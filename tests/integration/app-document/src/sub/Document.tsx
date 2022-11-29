@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable react/no-danger */
 import React, { useContext } from 'react';
 import {
   Html,
