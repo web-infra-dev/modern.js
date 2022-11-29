@@ -138,119 +138,115 @@ export const PluginHtml = (): BuilderPlugin => ({
   setup(api) {
     const routesInfo: RoutesInfo[] = [];
 
-    api.modifyRspackConfig(
-      async (rspackConfig, { isProd, CHAIN_ID, target }) => {
-        const config = api.getNormalizedConfig();
+    api.modifyRspackConfig(async (rspackConfig, { isProd, target }) => {
+      const config = api.getNormalizedConfig();
 
-        // if html is disabled or target is server, skip html plugin
-        if (isHtmlDisabled(config, target)) {
-          return;
-        }
+      // if html is disabled or target is server, skip html plugin
+      if (isHtmlDisabled(config, target)) {
+        return;
+      }
 
-        const { default: HTMLRspackPlugin } = await import(
-          '@rspack/plugin-html'
-        );
-        const { removeTailSlash, applyOptionsChain } = await import(
-          '@modern-js/utils'
-        );
+      const { default: HTMLRspackPlugin } = await import('@rspack/plugin-html');
+      const { removeTailSlash, applyOptionsChain } = await import(
+        '@modern-js/utils'
+      );
 
-        const minify = getMinify(isProd, config);
-        const assetPrefix = removeTailSlash(
-          rspackConfig.output?.publicPath || '',
-        );
-        const entries = rspackConfig.entry || {};
-        const entryNames = Object.keys(entries);
-        const htmlPaths = api.getHTMLPaths();
+      const minify = getMinify(isProd, config);
+      const assetPrefix = removeTailSlash(
+        rspackConfig.output?.publicPath || '',
+      );
+      const entries = rspackConfig.entry || {};
+      const entryNames = Object.keys(entries);
+      const htmlPaths = api.getHTMLPaths();
 
-        await Promise.all(
-          entryNames.map(async (entryName, index) => {
-            const entryValue = entries[entryName];
-            const chunks = [entryName];
-            const inject = getInject(entryName, config);
-            const favicon = getFavicon(entryName, config);
-            const filename = htmlPaths[entryName];
-            const template = getTemplatePath(entryName, config);
-            const templateParameters = await getTemplateParameters(
+      await Promise.all(
+        entryNames.map(async (entryName, index) => {
+          const entryValue = entries[entryName];
+          const chunks = [entryName];
+          const inject = getInject(entryName, config);
+          const favicon = getFavicon(entryName, config);
+          const filename = htmlPaths[entryName];
+          const template = getTemplatePath(entryName, config);
+          const templateParameters = await getTemplateParameters(
+            entryName,
+            config,
+            assetPrefix,
+          );
+
+          const pluginOptions: Options = {
+            chunks,
+            inject,
+            minify,
+            favicon,
+            filename,
+            template,
+            templateParameters,
+          };
+
+          const finalOptions = applyOptionsChain(
+            pluginOptions,
+            config.tools.htmlPlugin,
+            {
               entryName,
-              config,
-              assetPrefix,
-            );
+              entryValue,
+            },
+          );
 
-            const pluginOptions: Options = {
-              chunks,
-              inject,
-              minify,
-              favicon,
-              filename,
-              template,
-              templateParameters,
-            };
+          routesInfo.push({
+            urlPath: index === 0 ? '/' : `/${entryName}`,
+            entryName,
+            entryPath: filename,
+            isSPA: true,
+          });
 
-            const finalOptions = applyOptionsChain(
-              pluginOptions,
-              config.tools.htmlPlugin,
-              {
-                entryName,
-                entryValue,
-              },
-            );
+          const plugin = new HTMLRspackPlugin(finalOptions);
 
-            routesInfo.push({
-              urlPath: index === 0 ? '/' : `/${entryName}`,
-              entryName,
-              entryPath: filename,
-              isSPA: true,
-            });
+          // @ts-expect-error
+          plugin.name = `html-${entryName}`;
 
-            const plugin = new HTMLRspackPlugin(finalOptions);
-
+          setConfig(rspackConfig, 'plugins', [
             // @ts-expect-error
-            plugin.name = `${CHAIN_ID.PLUGIN.HTML}-${entryName}`;
+            ...(rspackConfig.plugins || []),
+            // @ts-expect-error
+            plugin,
+          ]);
+        }),
+      );
 
-            setConfig(rspackConfig, 'plugins', [
-              // @ts-expect-error
-              ...(rspackConfig.plugins || []),
-              // @ts-expect-error
-              plugin,
-            ]);
-          }),
-        );
+      if (config.html) {
+        const { appIcon, crossorigin } = config.html;
 
-        if (config.html) {
-          const { appIcon, crossorigin } = config.html;
+        if (crossorigin) {
+          const { HtmlCrossOriginPlugin } = await import(
+            '../rspackPlugins/HtmlCrossOriginPlugin'
+          );
 
-          if (crossorigin) {
-            const { HtmlCrossOriginPlugin } = await import(
-              '../rspackPlugins/HtmlCrossOriginPlugin'
-            );
+          const formattedCrossorigin =
+            crossorigin === true ? 'anonymous' : crossorigin;
 
-            const formattedCrossorigin =
-              crossorigin === true ? 'anonymous' : crossorigin;
-
-            setConfig(rspackConfig, 'plugins', [
-              ...(rspackConfig.plugins || []),
-              new HtmlCrossOriginPlugin({ crossOrigin: formattedCrossorigin }),
-            ]);
-          }
-
-          if (appIcon) {
-            const { HtmlAppIconPlugin } = await import(
-              '../rspackPlugins/HtmlAppIconPlugin'
-            );
-
-            const distDir = getDistPath(config.output, 'image');
-            const iconPath = path.isAbsolute(appIcon)
-              ? appIcon
-              : path.join(api.context.rootPath, appIcon);
-
-            setConfig(rspackConfig, 'plugins', [
-              ...(rspackConfig.plugins || []),
-              new HtmlAppIconPlugin({ iconPath, distDir }),
-            ]);
-          }
+          setConfig(rspackConfig, 'plugins', [
+            ...(rspackConfig.plugins || []),
+            new HtmlCrossOriginPlugin({ crossOrigin: formattedCrossorigin }),
+          ]);
         }
-      },
-    );
+
+        if (appIcon) {
+          const { HtmlAppIconPlugin } = await import(
+            '../rspackPlugins/HtmlAppIconPlugin'
+          );
+
+          const distDir = getDistPath(config.output, 'image');
+          const iconPath = path.isAbsolute(appIcon)
+            ? appIcon
+            : path.join(api.context.rootPath, appIcon);
+
+          setConfig(rspackConfig, 'plugins', [
+            ...(rspackConfig.plugins || []),
+            new HtmlAppIconPlugin({ iconPath, distDir }),
+          ]);
+        }
+      }
+    });
 
     api.onBeforeStartDevServer(async () => {
       const { fs, ROUTE_SPEC_FILE } = await import('@modern-js/utils');
