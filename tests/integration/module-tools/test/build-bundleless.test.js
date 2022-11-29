@@ -12,7 +12,7 @@ const projectPath = path.resolve(
 );
 // const projectDistPath = path.join(projectPath, 'dist');
 
-describe('bundlelessOptions', () => {
+describe.skip('bundlelessOptions', () => {
   beforeEach(() => {
     clearBuildDist(projectPath);
   });

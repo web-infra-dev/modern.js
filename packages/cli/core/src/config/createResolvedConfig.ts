@@ -54,7 +54,7 @@ export const createResolveConfig = async (
   loaded: LoadedConfig<{}>,
   configs: UserConfig[],
   schemas: PluginValidateSchema[],
-  _onSchemaError: (
+  onSchemaError: (
     error: ErrorObject,
   ) => void | Promise<void> = showAdditionalPropertiesError,
 ): Promise<NormalizedConfig> => {
@@ -78,10 +78,9 @@ export const createResolveConfig = async (
   repeatKeyWarning(validateSchema, jsConfig, pkgConfig);
 
   // validate user config.
-  // const valid = validate(userConfig);
+  const valid = validate(userConfig);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _formatValidateError = (config: UserConfig) =>
+  const formatValidateError = (config: UserConfig) =>
     betterAjvErrors(
       validateSchema,
       config,
@@ -95,21 +94,21 @@ export const createResolveConfig = async (
     );
 
   // FIXME: pass temporarily
-  // if (!valid && validate.errors?.length) {
-  //   await onSchemaError(validate?.errors[0]);
-  //   const errors = formatValidateError(userConfig);
-  //   logger.log(errors);
-  //   throw new Error(`Validate configuration error`);
-  // }
+  if (!valid && validate.errors?.length) {
+    await onSchemaError(validate?.errors[0]);
+    const errors = formatValidateError(userConfig);
+    logger.log(errors);
+    throw new Error(`Validate configuration error`);
+  }
 
   // validate config from plugins.
-  // for (const config of configs) {
-  //   if (!validate(config)) {
-  //     const errors = formatValidateError(config);
-  //     logger.error(errors);
-  //     throw new Error(`Validate configuration error.`);
-  //   }
-  // }
+  for (const config of configs) {
+    if (!validate(config)) {
+      const errors = formatValidateError(config);
+      logger.error(errors);
+      throw new Error(`Validate configuration error.`);
+    }
+  }
 
   const resolved = mergeConfig([...configs, userConfig]);
 

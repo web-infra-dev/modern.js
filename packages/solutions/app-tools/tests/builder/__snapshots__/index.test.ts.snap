@@ -2,22 +2,16 @@
 
 exports[`create builder provider config should add default config 1`] = `
 Object {
+  "dev": Object {
+    "assetPrefix": undefined,
+    "https": undefined,
+  },
+  "html": Object {
+    "templateByEntries": undefined,
+  },
   "output": Object {
     "assetPrefix": "/x",
     "cleanDistPath": false,
-    "copy": Array [
-      Object {
-        "from": "xxx",
-        "to": "yyy",
-      },
-      Object {
-        "context": "/fixtrues/config/upload",
-        "from": "**/*",
-        "info": [Function],
-        "noErrorOnMissing": true,
-        "to": "upload",
-      },
-    ],
     "enableAssetFallback": true,
     "enableAssetManifest": true,
   },

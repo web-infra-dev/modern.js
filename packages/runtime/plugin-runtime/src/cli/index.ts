@@ -33,7 +33,9 @@ export default (): CliPlugin<AppTools> => ({
                */
               'styled-components': require.resolve('styled-components'),
             },
-            envVars: ['IS_REACT18'],
+            globalVars: {
+              'process.env.IS_REACT18': process.env.IS_REACT18,
+            },
           },
         };
       },

@@ -8,6 +8,7 @@ import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
 import { getCommand } from '../utils/commands';
 import { AppTools } from '../types';
+import { initialNormalizedConfig } from '../config';
 import { isRouteComponentFile } from './utils';
 
 const debug = createDebugger('plugin-analyze');
@@ -185,6 +186,14 @@ export default (): CliPlugin<AppTools> => ({
       },
       watchFiles() {
         return pagesDir;
+      },
+
+      resolvedConfig({ resolved }) {
+        const appContext = api.useAppContext();
+        const config = initialNormalizedConfig(resolved, appContext);
+        return {
+          resolved: config,
+        };
       },
 
       async fileChange(e) {

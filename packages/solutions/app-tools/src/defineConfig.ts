@@ -1,5 +1,5 @@
 import { AppToolsUserConfig } from './types/config';
-import { AppToolsLegacyNormalizedConfig } from './types/legacyConfig';
+import { AppToolsLegacyUserConfig } from './types/legacyConfig';
 
 export const defineConfig = (config: AppToolsUserConfig) => config;
 
@@ -7,7 +7,7 @@ export const defineConfig = (config: AppToolsUserConfig) => config;
  * @deprecated
  * Using defineConfig first.
  */
-export const defineLegacyConfig = (config: AppToolsLegacyNormalizedConfig) => ({
+export const defineLegacyConfig = (config: AppToolsLegacyUserConfig) => ({
   ...config,
   legacy: true,
 });

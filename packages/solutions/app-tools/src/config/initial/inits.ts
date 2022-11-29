@@ -8,7 +8,7 @@ import {
 } from '@modern-js/utils';
 import { AppNormalizedConfig, IAppContext } from '../../types';
 
-export function updateHtmlConfig(
+export function initHtmlConfig(
   config: AppNormalizedConfig,
   appContext: IAppContext,
 ) {
@@ -52,12 +52,12 @@ export function updateHtmlConfig(
     return favicon || defaultFavicon || undefined;
   }
 }
-export function updateSourceConfig(
+export function initSourceConfig(
   config: AppNormalizedConfig,
   appContext: IAppContext,
 ) {
   config.source.include = createBuilderInclude(config, appContext);
-
+  config.source.moduleScopes = createBuilderModuleScope(config);
   function createBuilderInclude(
     config: AppNormalizedConfig,
     appContext: IAppContext,
@@ -94,8 +94,42 @@ export function updateSourceConfig(
 
     return transformInclude;
   }
+
+  function createBuilderModuleScope(config: AppNormalizedConfig) {
+    const { moduleScopes } = config.source;
+    if (moduleScopes) {
+      let builderModuleScope: any[] = [];
+      const DEFAULT_SCOPES: Array<string | RegExp> = [
+        './src',
+        './shared',
+        /node_modules/,
+      ];
+      if (Array.isArray(moduleScopes)) {
+        if (isPrimitiveScope(moduleScopes)) {
+          builderModuleScope = DEFAULT_SCOPES.concat(moduleScopes);
+        } else {
+          builderModuleScope = [DEFAULT_SCOPES, ...moduleScopes];
+        }
+      } else {
+        builderModuleScope = [DEFAULT_SCOPES, moduleScopes];
+      }
+      return builderModuleScope;
+    } else {
+      return undefined;
+    }
+
+    function isPrimitiveScope(
+      items: unknown[],
+    ): items is Array<string | RegExp> {
+      return items.every(
+        item =>
+          typeof item === 'string' ||
+          Object.prototype.toString.call(item) === '[object RegExp]',
+      );
+    }
+  }
 }
-export function updateToolsConfig(config: AppNormalizedConfig) {
+export function initToolsConfig(config: AppNormalizedConfig) {
   const defaultTsChecker = {
     issue: {
       include: [{ file: '**/src/**/*' }],
@@ -106,31 +140,20 @@ export function updateToolsConfig(config: AppNormalizedConfig) {
     },
   };
 
-  const defaultTsLoader = {
-    compilerOptions: {
-      target: 'es5' as any,
-      module: 'ESNext' as any,
-    },
-    transpileOnly: false,
-    allowTsInNodeModules: true,
-  };
-
-  config.tools.tsChecker = applyOptionsChain(
-    defaultTsChecker,
-    config.tools.tsChecker,
-  );
-
-  config.tools.tsLoader = (tsLoaderConfig, utils) => {
-    applyOptionsChain(
-      {
-        ...tsLoaderConfig,
-        ...defaultTsLoader,
-      },
-      config.tools.tsLoader || {},
-      utils,
-    );
-  };
-  const { htmlPlugin } = config.tools;
+  const { tsChecker, tsLoader, htmlPlugin } = config.tools;
+  config.tools.tsChecker = applyOptionsChain(defaultTsChecker, tsChecker);
+  tsLoader &&
+    (config.tools.tsLoader = (tsLoaderConfig, utils) => {
+      applyOptionsChain(
+        {
+          ...tsLoaderConfig,
+          transpileOnly: false,
+          allowTsInNodeModules: true,
+        },
+        tsLoader || {},
+        utils,
+      );
+    });
   config.tools.htmlPlugin = [
     config => ({
       ...config,

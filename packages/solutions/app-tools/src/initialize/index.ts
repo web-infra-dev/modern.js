@@ -1,7 +1,7 @@
 import { ensureAbsolutePath, getPort, isDev } from '@modern-js/utils';
 import { legacySchema, schema } from '../schema';
 import { getCommand } from '../utils/commands';
-import { initialNormalizedConfig } from '../config/initial';
+import { transformNormalizedConfig } from '../config/initial/transformNormalizedConfig';
 import {
   checkIsLegacyConfig,
   createDefaultConfig,
@@ -16,7 +16,7 @@ import {
 } from '../types';
 
 export default (): CliPlugin<AppTools> => ({
-  name: '@modern-js-plugin-initialize',
+  name: '@modern-js/plugin-initialize',
 
   setup(api) {
     const config = () => {
@@ -49,7 +49,9 @@ export default (): CliPlugin<AppTools> => ({
           ),
         };
         api.setAppContext(appContext);
-        const normalizedConfig = initialNormalizedConfig(resolved, appContext);
+        const normalizedConfig = checkIsLegacyConfig(resolved)
+          ? transformNormalizedConfig(resolved as any)
+          : resolved;
 
         return {
           resolved: {
@@ -90,5 +92,5 @@ async function getDevServerPort(
       ? appContext.port
       : await getPort(resolved.server.port || 8080);
   }
-  return undefined;
+  return resolved.server.port;
 }

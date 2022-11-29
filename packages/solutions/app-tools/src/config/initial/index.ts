@@ -1,16 +1,12 @@
 import {
-  AppLegacyNormalizedConfig,
   AppNormalizedConfig,
   IAppContext,
   AppLegacyUserConfig,
   AppUserConfig,
 } from '../../types';
-import { transformNormalizedConfig } from './transformNormalizedConfig';
-import {
-  updateHtmlConfig,
-  updateSourceConfig,
-  updateToolsConfig,
-} from './updates';
+import { initHtmlConfig, initSourceConfig, initToolsConfig } from './inits';
+
+export { transformNormalizedConfig } from './transformNormalizedConfig';
 
 export function checkIsLegacyConfig(
   config: AppLegacyUserConfig | AppUserConfig,
@@ -19,16 +15,12 @@ export function checkIsLegacyConfig(
 }
 
 export function initialNormalizedConfig(
-  config: AppLegacyNormalizedConfig | AppNormalizedConfig,
+  config: AppNormalizedConfig,
   appContext: IAppContext,
 ): AppNormalizedConfig {
-  const normalizedConfig = checkIsLegacyConfig(config)
-    ? transformNormalizedConfig(config)
-    : config;
+  initHtmlConfig(config, appContext);
+  initSourceConfig(config, appContext);
+  initToolsConfig(config);
 
-  updateHtmlConfig(normalizedConfig, appContext);
-  updateSourceConfig(normalizedConfig, appContext);
-  updateToolsConfig(normalizedConfig);
-
-  return normalizedConfig;
+  return config;
 }

@@ -50,6 +50,8 @@ describe('create builder provider config', () => {
       },
       source: {},
       performance: {},
+      dev: {},
+      html: {},
     };
     const appContext = {
       appDirectory: `/fixtrues`,
@@ -60,6 +62,7 @@ describe('create builder provider config', () => {
       config as any,
       appContext as any,
     );
+    delete builderConfig.output?.copy;
 
     expect(builderConfig).toMatchSnapshot();
   });

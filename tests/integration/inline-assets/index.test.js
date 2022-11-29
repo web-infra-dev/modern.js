@@ -14,7 +14,7 @@ describe('inline image/fonts assets', () => {
 
     await modernBuild(appDir);
 
-    const medias = fs.readdirSync(path.resolve(appDir, 'dist/static/media'));
+    const medias = fs.readdirSync(path.resolve(appDir, 'dist/static/image'));
 
     expect(medias.length).toBe(1);
   });
@@ -24,7 +24,7 @@ describe('inline image/fonts assets', () => {
 
     await modernBuild(appDir);
 
-    const exists = fs.existsSync(path.resolve(appDir, 'dist/static/media'));
+    const exists = fs.existsSync(path.resolve(appDir, 'dist/static/image'));
 
     expect(exists).toBe(false);
   });
@@ -34,9 +34,13 @@ describe('inline image/fonts assets', () => {
 
     await modernBuild(appDir);
 
-    const medias = fs.readdirSync(path.resolve(appDir, 'dist/static/media'));
+    const image = fs.readdirSync(path.resolve(appDir, 'dist/static/image'));
 
-    expect(medias.length).toBe(2);
+    expect(image.length).toBe(1);
+
+    const svg = fs.readdirSync(path.resolve(appDir, 'dist/static/svg'));
+
+    expect(svg.length).toBe(1);
   });
 
   it('should emit svg in css background', async () => {
@@ -44,7 +48,7 @@ describe('inline image/fonts assets', () => {
 
     await modernBuild(appDir);
 
-    const medias = fs.readdirSync(path.resolve(appDir, 'dist/static/media'));
+    const medias = fs.readdirSync(path.resolve(appDir, 'dist/static/svg'));
 
     const cssFiles = fs
       .readdirSync(path.resolve(appDir, 'dist/static/css'))

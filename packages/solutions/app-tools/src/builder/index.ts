@@ -80,6 +80,15 @@ export function createBuilderProviderConfig(
       resolveExtensionPrefix: '.web',
     },
     output,
+    dev: {
+      https: normalizedConfig.dev.https,
+      assetPrefix: normalizedConfig.dev.assetPrefix,
+    },
+    html: {
+      ...normalizedConfig.html,
+      templateByEntries:
+        normalizedConfig.html.templateByEntries || appContext.htmlTemplates,
+    },
     performance: {
       ...normalizedConfig.performance,
       // `@modern-js/webpack` used to remove moment locale by default

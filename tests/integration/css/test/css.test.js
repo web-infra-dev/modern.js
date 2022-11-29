@@ -233,7 +233,7 @@ describe('test css support', () => {
       expect(cssFiles.length).toBe(1);
 
       expect(readCssFile(appDir, cssFiles[0])).toMatch(
-        /background:url\(\/static\/media\/logo\.[a-z0-9]+\.png/,
+        /background:url\(\/static\/image\/logo\.[a-z0-9]+\.png/,
       );
     });
   });
