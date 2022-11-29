@@ -21,17 +21,27 @@ import {
 
 const debug = createDebugger('html_genarate');
 
+// get the entry document file,
+// if not exist, fallback to src/
 const getDocumenByEntryName = function (
   entrypoints: Entrypoint[],
   entryName: string,
+  fallbackDir?: string,
 ): string | undefined {
   const entryDir = entrypoints.find(
     item => item.entryName === entryName,
   )?.absoluteEntryDir;
 
-  const docFile = findExists(
-    DOC_EXT.map(item => `${entryDir}${path.sep}${DOCUMENT_FILE_NAME}.${item}`),
+  const entryDirs = DOC_EXT.map(
+    item => `${entryDir}${path.sep}${DOCUMENT_FILE_NAME}.${item}`,
   );
+  const fallbackDirs = fallbackDir
+    ? DOC_EXT.map(item =>
+        [fallbackDir, 'src', `${DOCUMENT_FILE_NAME}.${item}`].join(path.sep),
+      )
+    : [];
+
+  const docFile = findExists([...entryDirs, ...fallbackDirs]);
 
   return docFile || undefined;
 };
@@ -62,13 +72,14 @@ export default (): CliPlugin<AppTools> => ({
       // config: HtmlPluginConfig,
       templateParameters: Record<string, unknown>,
     ) => {
-      const { entrypoints, internalDirectory } = api.useAppContext();
+      const { entrypoints, internalDirectory, appDirectory } =
+        api.useAppContext();
       // search the document.[tsx|jsx|js|ts] under entry
-      // if not, use main as default
-      let documentFilePath = getDocumenByEntryName(entrypoints, entryName);
-      if (!documentFilePath) {
-        documentFilePath = getDocumenByEntryName(entrypoints, 'main');
-      }
+      const documentFilePath = getDocumenByEntryName(
+        entrypoints,
+        entryName,
+        appDirectory,
+      );
       // if no document file, do nothing as default
       if (!documentFilePath) {
         return null;
@@ -86,7 +97,7 @@ export default (): CliPlugin<AppTools> => ({
         );
         // transform document file to html string
         await build({
-          entryPoints: [documentFilePath!],
+          entryPoints: [documentFilePath],
           // write: false,
           outfile: htmlOutputFile,
           platform: 'node',
