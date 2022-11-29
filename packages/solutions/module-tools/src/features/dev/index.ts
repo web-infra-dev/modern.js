@@ -14,7 +14,7 @@ export interface IDevConfig {
 export type DevTaskType = 'storybook' | 'docsite' | 'unknown';
 
 export const showMenu = async (api: PluginAPI, config: IDevConfig) => {
-  const runners = api.useHookRunners();
+  const runners: any = api.useHookRunners();
   const metas = await runners.moduleToolsMenu(undefined);
   if (metas.length <= 0) {
     console.info(
@@ -42,7 +42,7 @@ export const showMenu = async (api: PluginAPI, config: IDevConfig) => {
 };
 
 export const devStorybook = async (api: PluginAPI, config: IDevConfig) => {
-  const runners = api.useHookRunners();
+  const runners: any = api.useHookRunners();
   const metas = await runners.moduleToolsMenu(undefined);
   const findStorybook = metas.find((meta: any) => meta.value === 'storybook');
   if (findStorybook) {
@@ -63,7 +63,7 @@ export const runSubCmd = async (
   subCmd: string,
   config: IDevConfig,
 ) => {
-  const runners = api.useHookRunners();
+  const runners: any = api.useHookRunners();
   const metas = await runners.moduleToolsMenu(undefined);
 
   const devMeta = metas.find(

@@ -103,7 +103,7 @@ export const genDts = async (
     return;
   }
   const { appDirectory } = api.useAppContext();
-  const modernConfig = api.useResolvedConfigContext();
+  const modernConfig = api.useResolvedConfigContext() as any;
   const {
     output: { path: distPath = 'dist' },
   } = modernConfig;

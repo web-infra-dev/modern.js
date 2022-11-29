@@ -2,10 +2,7 @@ import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import {
   IAppContext,
-  NormalizedConfig,
   PluginAPI,
-  ImportSpecifier,
-  ImportStatement,
   useResolvedConfigContext,
 } from '@modern-js/core';
 import type {
@@ -16,6 +13,12 @@ import type {
   PageRoute,
 } from '@modern-js/types';
 import esbuild from 'esbuild';
+import {
+  AppNormalizedConfig,
+  AppTools,
+  ImportSpecifier,
+  ImportStatement,
+} from '../types';
 import { getCommand } from '../utils/commands';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
@@ -129,9 +132,9 @@ const buildLoader = async (entry: string, outfile: string) => {
 
 export const generateCode = async (
   appContext: IAppContext,
-  config: NormalizedConfig,
+  config: AppNormalizedConfig,
   entrypoints: Entrypoint[],
-  api: PluginAPI,
+  api: PluginAPI<AppTools>,
 ) => {
   const {
     internalDirectory,
@@ -142,8 +145,9 @@ export const generateCode = async (
   } = appContext;
 
   const hookRunners = api.useHookRunners();
+
   const islegacy = Boolean(config?.runtime?.router?.legacy);
-  const { mountId } = config.output;
+  const { mountId } = config.html;
   const getRoutes = islegacy ? getClientRoutesLegacy : getClientRoutes;
 
   await Promise.all(entrypoints.map(generateEntryCode));

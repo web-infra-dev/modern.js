@@ -40,7 +40,7 @@
     "dev": "mdn build --watch",
     "test": "jest",
     "test:update": "jest --updateSnapshot",
-    "new": "modern new"
+    "new": "modern-lib new"
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",

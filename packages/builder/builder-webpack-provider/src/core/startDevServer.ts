@@ -69,17 +69,20 @@ export async function createDevServer(
     output: {
       path: builderConfig.output?.distPath?.root,
       assetPrefix: builderConfig.output?.assetPrefix,
+      distPath: builderConfig.output?.distPath,
     },
     source: {
       alias: {},
+      define: {},
+      globalVars: {},
     },
+    html: {},
     tools: {
       babel: {},
     },
     server: {},
     runtime: {},
     bff: {},
-    plugins: [],
   };
 
   const server = new Server({

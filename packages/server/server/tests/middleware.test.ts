@@ -1,10 +1,20 @@
 import path from 'path';
 import { EventEmitter, Readable } from 'stream';
 import webpack from 'webpack';
-import { getDefaultConfig, NormalizedConfig } from '@modern-js/core';
 import httpMocks from 'node-mocks-http';
 import createServer from '../src';
 import { DevMiddlewareAPI } from '../src/types';
+
+function getDefaultConfig() {
+  return {
+    source: {},
+    tools: {},
+    server: {},
+    runtime: {},
+    html: {},
+    bff: {},
+  };
+}
 
 (global as any).setImmediate = () => false;
 const appDirectory = path.join(__dirname, './fixtures/pure');
@@ -26,7 +36,7 @@ describe('test dev server middleware', () => {
         output: {
           path: 'test-dist',
         },
-      } as unknown as NormalizedConfig,
+      },
       pwd: appDirectory,
       dev: {
         devMiddleware: {
@@ -79,7 +89,7 @@ describe('test dev server middleware', () => {
         output: {
           path: 'test-dist',
         },
-      } as unknown as NormalizedConfig,
+      },
       pwd: appDirectory,
       dev: {
         hot: false,
@@ -119,7 +129,7 @@ describe('test dev server middleware', () => {
         output: {
           path: 'test-dist',
         },
-      } as unknown as NormalizedConfig,
+      },
       pwd: appDirectory,
       dev: {
         historyApiFallback: {
@@ -164,7 +174,7 @@ describe('test dev server middleware', () => {
         output: {
           path: 'test-dist',
         },
-      } as unknown as NormalizedConfig,
+      },
       pwd: appDirectory,
       dev: {
         setupMiddlewares: [

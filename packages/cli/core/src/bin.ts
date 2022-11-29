@@ -43,4 +43,4 @@ if (SUPPORT_CONFIG_PARAM_COMMANDS.includes(command) && customConfigFile) {
   runOptions.configFile = customConfigFile;
 }
 
-cli.run(process.argv.slice(2), runOptions);
+cli.run(runOptions);

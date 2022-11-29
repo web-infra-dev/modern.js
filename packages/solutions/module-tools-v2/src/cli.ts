@@ -1,16 +1,16 @@
 import type { CliPlugin } from '@modern-js/core';
-import type { ModuleToolsHooks } from './types/hooks';
+import type { ModuleTools } from './types';
 import { registerHook } from './hooks';
 import { getPlugins } from './plugins';
 
-export const cli = (): CliPlugin<ModuleToolsHooks> => ({
+export const cli = (): CliPlugin<ModuleTools> => ({
   name: '@modern-js/module-tools-v2',
   registerHook,
   usePlugins: getPlugins(process.argv.slice(2)[0]),
   setup,
 });
 
-const setup: CliPlugin<ModuleToolsHooks>['setup'] = async api => {
+const setup: CliPlugin<ModuleTools>['setup'] = async api => {
   const prepare = async () => {
     const { initLocalLanguage } = await import('./utils/language');
     await initLocalLanguage();

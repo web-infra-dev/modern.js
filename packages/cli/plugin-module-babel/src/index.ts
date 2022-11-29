@@ -1,4 +1,4 @@
-import { CliPlugin, ModuleToolsHooks } from '@modern-js/module-tools-v2';
+import { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
 import { babelPresetPlugin } from '@modern-js/libuild-plugin-babel-preset';
 
 export type Options = typeof babelPresetPlugin extends (
@@ -13,7 +13,7 @@ export type Options = typeof babelPresetPlugin extends (
 
 export const ModulePluginBabel = (
   options?: Options,
-): CliPlugin<ModuleToolsHooks> => ({
+): CliPlugin<ModuleTools> => ({
   name: 'babel-plugin',
   setup: () => ({
     modifyLibuild(config) {
