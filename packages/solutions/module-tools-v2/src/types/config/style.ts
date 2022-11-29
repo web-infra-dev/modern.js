@@ -22,3 +22,7 @@ export type PostCSSConfig =
       options: PostcssOptions,
       utils: PostCSSConfigUtils,
     ) => PostcssOptions | void);
+
+export type TailwindCSSConfig =
+  | Record<string, any>
+  | ((options: Record<string, any>) => Record<string, any> | void);

@@ -131,26 +131,11 @@ export const buildLib = async (
     umdGlobals,
     umdModuleName,
     define,
-    alias: userAlias,
+    alias,
     style,
   } = config;
-  const { appDirectory, srcDirectory } = api.useAppContext();
-
-  const defaultAlias = {
-    '@': srcDirectory,
-  };
-
-  const { applyOptionsChain, ensureAbsolutePath, slash } = await import(
-    '@modern-js/utils'
-  );
-  const mergedAlias = applyOptionsChain(defaultAlias, userAlias);
-
-  const alias = Object.keys(mergedAlias).reduce((o, name) => {
-    return {
-      ...o,
-      [name]: slash(ensureAbsolutePath(appDirectory, mergedAlias[name])),
-    };
-  }, {});
+  const { appDirectory } = api.useAppContext();
+  const { slash } = await import('@modern-js/utils');
 
   const { getFinalExternals } = await import('../utils/builder');
   const finalExternals = await getFinalExternals(config, { appDirectory });

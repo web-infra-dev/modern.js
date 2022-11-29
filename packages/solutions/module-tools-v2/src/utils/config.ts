@@ -35,8 +35,23 @@ export const mergeDefaultBaseConfig = async (
     '../constants/build'
   );
   const { cloneDeep } = await import('@modern-js/utils/lodash');
+  const { applyOptionsChain, ensureAbsolutePath, slash } = await import(
+    '@modern-js/utils'
+  );
   const { getDefaultIndexEntry } = await import('./input');
   const { getStyleConfig } = await import('./style');
+  const defaultAlias = {
+    '@': context.srcDirectory,
+  };
+  const mergedAlias = applyOptionsChain(defaultAlias, pConfig.alias);
+  const alias = Object.keys(mergedAlias).reduce((o, name) => {
+    return {
+      ...o,
+      [name]: slash(
+        ensureAbsolutePath(context.appDirectory, mergedAlias[name]),
+      ),
+    };
+  }, {});
   const styleConfig = await getStyleConfig(pConfig);
   const buildType = pConfig.buildType ?? defaultConfig.buildType;
   const sourceDir = pConfig.sourceDir ?? defaultConfig.sourceDir;
@@ -75,11 +90,12 @@ export const mergeDefaultBaseConfig = async (
     umdModuleName: pConfig.umdModuleName ?? defaultConfig.umdModuleName,
     externals: pConfig.externals ?? defaultConfig.externals,
     sourceDir,
-    alias: pConfig.alias ?? defaultConfig.alias,
+    alias,
     define,
     style: {
       ...styleConfig,
       cssInline: pConfig.style?.cssInline ?? defaultConfig.style.cssInline,
+      tailwindCss: defaultConfig.style.tailwindCss,
     },
   };
 };

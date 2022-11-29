@@ -40,5 +40,6 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     sass: {},
     postcss: {},
     cssInline: false,
+    tailwindCss: {},
   },
 });

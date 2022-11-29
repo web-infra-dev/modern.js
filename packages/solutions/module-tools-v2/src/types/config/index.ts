@@ -9,6 +9,7 @@ import type {
   LessConfig,
   SassConfig,
   PostCSSConfig,
+  TailwindCSSConfig,
   LessOptions,
   SassOptions,
   PostcssOptions,
@@ -69,7 +70,7 @@ export type AliasOption =
 
 export type BaseBuildConfig = Omit<
   Required<PartialBaseBuildConfig>,
-  'dts' | 'style'
+  'dts' | 'style' | 'alias'
 > & {
   dts: false | DTSOptions;
   style: {
@@ -77,7 +78,9 @@ export type BaseBuildConfig = Omit<
     sass: SassOptions;
     postcss: PostcssOptions;
     cssInline: boolean;
+    tailwindCss: TailwindCSSConfig;
   };
+  alias: Record<string, string>;
 };
 
 export type PartialBaseBuildConfig = {
@@ -125,9 +128,7 @@ export interface StyleConfig {
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
    * @requires `tailwindcss` plugin
    */
-  tailwindcss?:
-    | Record<string, any>
-    | ((options: Record<string, any>) => Record<string, any> | void);
+  tailwindcss?: TailwindCSSConfig;
 }
 
 export interface StorybookDevConfig {

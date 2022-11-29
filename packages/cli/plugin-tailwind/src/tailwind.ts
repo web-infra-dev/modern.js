@@ -1,7 +1,5 @@
-import type { AppLegacyNormalizedConfig } from '@modern-js/app-tools';
 import { applyOptionsChain, logger } from '@modern-js/utils';
 import { merge, cloneDeep } from '@modern-js/utils/lodash';
-import type { LegacyUserConfig } from './types';
 
 const checkIfExistNotAllowKeys = (
   tailwindConfig: Record<string, any>,
@@ -27,7 +25,8 @@ const getPureDesignSystemConfig = (
 };
 
 const getTailwindConfig = (
-  config: AppLegacyNormalizedConfig,
+  tailwindcss?: any,
+  designSystem?: any,
   option: { pureConfig?: Record<string, any> } = {},
 ) => {
   const purgeConfig = merge(
@@ -45,14 +44,10 @@ const getTailwindConfig = (
   };
   const tailwindConfig = applyOptionsChain(
     defaultTailwindConfig,
-    config.tools?.tailwindcss || {},
+    tailwindcss || {},
   );
 
-  const designSystem = getPureDesignSystemConfig(
-    (config as LegacyUserConfig).designSystem ??
-      (config.source as LegacyUserConfig).designSystem ??
-      {},
-  );
+  const designSystemConfig = getPureDesignSystemConfig(designSystem ?? {});
 
   const [exist, key] = checkIfExistNotAllowKeys(tailwindConfig);
 
@@ -65,7 +60,7 @@ const getTailwindConfig = (
   }
 
   // Because there is no default theme configuration
-  tailwindConfig.theme = designSystem || {};
+  tailwindConfig.theme = designSystemConfig || {};
 
   return tailwindConfig;
 };

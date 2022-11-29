@@ -7,7 +7,8 @@ import {
   nanoid,
   slash,
 } from '@modern-js/utils';
-import type { LegacyAppTools, CliPlugin } from '@modern-js/app-tools';
+import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
 import DesignTokenPlugin from './design-token/cli';
 import { getTailwindConfig } from './tailwind';
 import { template, checkTwinMacroNotExist } from './utils';
@@ -27,98 +28,20 @@ export default (
   { pluginName } = {
     pluginName: '@modern-js/plugin-tailwindcss',
   },
-): CliPlugin<LegacyAppTools> => ({
+): CliPlugin<LegacyAppTools & ModuleTools> => ({
   name: '@modern-js/plugin-tailwindcss',
 
   // support designSystem.supportStyledComponents
   usePlugins: [
     DesignTokenPlugin({
       pluginName,
-    }),
+    }) as any,
   ],
   setup: async api => {
     const { appDirectory, internalDirectory } = api.useAppContext();
     let internalTwConfigPath = '';
     // When reinstalling dependencies, most of the time the project will be restarted
     const notHaveTwinMacro = await checkTwinMacroNotExist(appDirectory);
-    const postcssOptions = (config: Record<string, any>) => {
-      const modernConfig = api.useResolvedConfigContext();
-      if (
-        !config.postcssOptions
-        // config.$$tools === 'module-tools'
-      ) {
-        if (Array.isArray(config.plugins)) {
-          const tailwindConfig = getTailwindConfig(modernConfig, {
-            pureConfig: {
-              content: [
-                './src/**/*.js',
-                './src/**/*.jsx',
-                './src/**/*.ts',
-                './src/**/*.tsx',
-                './src/**/*.less',
-                './src/**/*.css',
-                './src/**/*.sass',
-                './src/**/*.scss',
-                './styles/**/*.less',
-                './styles/**/*.css',
-                './styles/**/*.sass',
-                './styles/**/*.scss',
-              ],
-            },
-          });
-          config.plugins.push(require('tailwindcss')(tailwindConfig));
-        } else {
-          const tailwindConfig = getTailwindConfig(modernConfig, {
-            pureConfig: {
-              content: [
-                './src/**/*.js',
-                './src/**/*.jsx',
-                './src/**/*.ts',
-                './src/**/*.tsx',
-                './src/**/*.less',
-                './src/**/*.css',
-                './src/**/*.sass',
-                './src/**/*.scss',
-                './styles/**/*.less',
-                './styles/**/*.css',
-                './styles/**/*.sass',
-                './styles/**/*.scss',
-              ],
-            },
-          });
-          config.plugins = [require('tailwindcss')(tailwindConfig)];
-        }
-      } else {
-        const tailwindConfig = getTailwindConfig(modernConfig, {
-          pureConfig: {
-            content: [
-              './config/html/**/*.html',
-              './config/html/**/*.ejs',
-              './config/html/**/*.hbs',
-              './src/**/*.js',
-              './src/**/*.jsx',
-              './src/**/*.ts',
-              './src/**/*.tsx',
-              // about storybook
-              './storybook/**/*',
-              './styles/**/*.less',
-              './styles/**/*.css',
-              './styles/**/*.sass',
-              './styles/**/*.scss',
-            ],
-          },
-        });
-        if (Array.isArray(config.postcssOptions.plugins)) {
-          config.postcssOptions.plugins.push(
-            require('tailwindcss')(tailwindConfig),
-          );
-        } else {
-          config.postcssOptions.plugins = [
-            require('tailwindcss')(tailwindConfig),
-          ];
-        }
-      }
-    };
 
     return {
       prepare() {
@@ -146,15 +69,49 @@ export default (
       },
       config() {
         return {
-          buildConfig: {
-            style: {
-              postcss: postcssOptions,
-            },
-          },
           tools: {
             // TODO: Add interface about postcss config
             // TODO: In module project, also is called, but should not be called.
-            postcss: postcssOptions,
+            postcss: (config: Record<string, any>) => {
+              const modernConfig =
+                api.useResolvedConfigContext() as NormalizedConfig<LegacyAppTools>;
+              const {
+                tools: { tailwindcss },
+                source: { designSystem },
+              } = modernConfig;
+              const tailwindConfig = getTailwindConfig(
+                tailwindcss,
+                designSystem,
+                {
+                  pureConfig: {
+                    content: [
+                      './config/html/**/*.html',
+                      './config/html/**/*.ejs',
+                      './config/html/**/*.hbs',
+                      './src/**/*.js',
+                      './src/**/*.jsx',
+                      './src/**/*.ts',
+                      './src/**/*.tsx',
+                      // about storybook
+                      './storybook/**/*',
+                      './styles/**/*.less',
+                      './styles/**/*.css',
+                      './styles/**/*.sass',
+                      './styles/**/*.scss',
+                    ],
+                  },
+                },
+              );
+              if (Array.isArray(config.postcssOptions.plugins)) {
+                config.postcssOptions.plugins.push(
+                  require('tailwindcss')(tailwindConfig),
+                );
+              } else {
+                config.postcssOptions.plugins = [
+                  require('tailwindcss')(tailwindConfig),
+                ];
+              }
+            },
             babel(config) {
               if (notHaveTwinMacro) {
                 return;
@@ -192,6 +149,44 @@ export default (
             },
           },
         };
+      },
+      beforeBuildTask({ config }) {
+        const modernConfig =
+          api.useResolvedConfigContext() as NormalizedConfig<ModuleTools>;
+        const { designSystem } = modernConfig;
+        const tailwindConfig = getTailwindConfig(
+          config.style.tailwindCss,
+          designSystem,
+          {
+            pureConfig: {
+              content: [
+                './config/html/**/*.html',
+                './config/html/**/*.ejs',
+                './config/html/**/*.hbs',
+                './src/**/*.js',
+                './src/**/*.jsx',
+                './src/**/*.ts',
+                './src/**/*.tsx',
+                // about storybook
+                './storybook/**/*',
+                './styles/**/*.less',
+                './styles/**/*.css',
+                './styles/**/*.sass',
+                './styles/**/*.scss',
+              ],
+            },
+          },
+        );
+        if (Array.isArray(config.style.postcss.plugins)) {
+          config.style.postcss.plugins.push(
+            require('tailwindcss')(tailwindConfig),
+          );
+        } else {
+          config.style.postcss.plugins = [
+            require('tailwindcss')(tailwindConfig),
+          ];
+        }
+        return config;
       },
     };
   },

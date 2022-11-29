@@ -9,7 +9,7 @@ import type {
 } from '../types/hooks';
 
 export const buildHooks = {
-  beforeBuild: createAsyncPipeline<
+  beforeBuild: createParallelWorkflow<
     { config: BuildConfig; options: BuildCommandOptions },
     BuildConfig
   >(),
