@@ -154,40 +154,42 @@ export const handleTemplateFile = async (
 
   // update husky
   const huskyVersion = deps.husky;
-  if (huskyVersion && semver.lt(huskyVersion, '8.0.0')) {
-    generator.logger.info(`${i18n.t(localeKeys.updateHusky)}`);
-    await jsonAPI.update(
-      context.materials.default.get(path.join(appDir, 'package.json')),
-      {
-        query: {},
-        update: {
-          $set: {
-            'devDependencies.husky': '^8.0.0',
+  try {
+    if (huskyVersion && semver.lt(huskyVersion, '8.0.0')) {
+      generator.logger.info(`${i18n.t(localeKeys.updateHusky)}`);
+      await jsonAPI.update(
+        context.materials.default.get(path.join(appDir, 'package.json')),
+        {
+          query: {},
+          update: {
+            $set: {
+              'devDependencies.husky': '^8.0.0',
+            },
           },
         },
-      },
-    );
+      );
 
-    const pkgPath = context.materials.default.get(
-      path.join(appDir, 'package.json'),
-    ).filePath;
-    const pkgInfo = fs.readJSONSync(pkgPath, 'utf-8');
-    const { prepare } = pkgInfo.scripts;
-    if (!prepare) {
-      pkgInfo.scripts.prepare = 'husky install';
-    } else if (!prepare.includes('husky install')) {
-      pkgInfo.scripts.prepare = `${prepare} && husky install`;
+      const pkgPath = context.materials.default.get(
+        path.join(appDir, 'package.json'),
+      ).filePath;
+      const pkgInfo = fs.readJSONSync(pkgPath, 'utf-8');
+      const { prepare } = pkgInfo.scripts;
+      if (!prepare) {
+        pkgInfo.scripts.prepare = 'husky install';
+      } else if (!prepare.includes('husky install')) {
+        pkgInfo.scripts.prepare = `${prepare} && husky install`;
+      }
+      pkgInfo.husky = undefined;
+
+      fs.writeJSONSync(pkgPath, pkgInfo, { spaces: 2 });
+
+      await appApi.forgeTemplate('templates/**/*');
+      fs.chmodSync(
+        path.join(generator.outputPath, '.husky', 'pre-commit'),
+        '755',
+      );
     }
-    pkgInfo.husky = undefined;
-
-    fs.writeJSONSync(pkgPath, pkgInfo, { spaces: 2 });
-
-    await appApi.forgeTemplate('templates/**/*');
-    fs.chmodSync(
-      path.join(generator.outputPath, '.husky', 'pre-commit'),
-      '755',
-    );
-  }
+  } catch (e) {}
 
   await appApi.runInstall();
 
