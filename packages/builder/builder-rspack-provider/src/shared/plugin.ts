@@ -16,4 +16,5 @@ export const applyDefaultPlugins = () =>
   awaitableGetter<BuilderPlugin>([
     ...applyMinimalPlugins().promises,
     import('../plugins/progress').then(m => m.PluginProgress()),
+    import('../plugins/html').then(m => m.PluginHtml()),
   ]);
