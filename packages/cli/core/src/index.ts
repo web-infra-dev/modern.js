@@ -127,7 +127,7 @@ const createCli = () => {
       mergedOptions?.packageJsonConfig,
     );
 
-    const plugins = loadPlugins(appDirectory, loaded.config, {
+    const plugins = await loadPlugins(appDirectory, loaded.config, {
       internalPlugins: mergedOptions?.internalPlugins?.cli,
       transformPlugin: mergedOptions?.transformPlugin,
     });

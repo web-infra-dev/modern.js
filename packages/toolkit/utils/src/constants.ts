@@ -84,6 +84,7 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/monorepo-tools': '@modern-js/monorepo-tools/cli',
   '@modern-js/module-tools': '@modern-js/module-tools/cli',
   '@modern-js/module-tools-v2': '@modern-js/module-tools-v2',
+  '@modern-js/doc-tools': '@modern-js/doc-tools',
   '@modern-js/runtime': '@modern-js/runtime/cli',
   '@modern-js/plugin-proxy': '@modern-js/plugin-proxy/cli',
   '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
