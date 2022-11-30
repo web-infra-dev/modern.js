@@ -1,10 +1,9 @@
 ---
-sidebar_position: 2
+title: 如何编写插件
+sidebar_position: 3
 ---
 
-# 如何编写插件
-
-Modern.js 支持通过自定义插件的方式来实现个性化功能。
+上一小节介绍了 Modern.js 插件的 Hook 模型，这一小节介绍如何编写插件。
 
 ## 实现插件
 
@@ -31,6 +30,8 @@ const MyPlugin = {
 };
 ```
 
+另外，在插件中，允许配置与其他插件的执行顺序，详情可以参考[插件关系](/docs/guides/topic-detail/framework-plugin/relationship)。
+
 ### 插件类型
 
 使用 TypeScript 时，可以引入内置的 `CliPlugin` 类型，为插件提供正确的类型推导：
@@ -53,9 +54,19 @@ const MyPlugin: CliPlugin = {
 };
 ```
 
-:::info 注
-插件可以注册丰富的 Hooks，不同的 Hook 拥有不同的模型和运行规则，详见 [Hook 模型](/docs/apis/app/runtime/plugin/hook)。
-:::
+Modern.js 导出的 `Plugin` 类型支持泛型扩展。
+
+在 Modern.js 中，任意插件可以注册自己的 Hook，如果想拥有其他插件注册的 Hook 的类型，可以添加泛型：
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+import type { MyPluginHook } from 'xxx';
+
+const MyPlugin: CliPlugin<MyPluginHook> = {};
+```
+
+详细说明，请参考 [扩展 Hook](/docs/guides/topic-detail/framework-plugin/extend)。
+
 
 ### 插件配置项
 
@@ -79,7 +90,7 @@ const MyPlugin = (options: MyPluginOptions): CliPlugin => ({
 
 ### 插件 API
 
-插件的 setup 函数会接收一个 api 入参，你可以调用 api 上提供的一些方法来获取到配置、应用上下文等信息。
+插件的 `setup` 函数会接收一个 api 入参，你可以调用 api 上提供的一些方法来获取到配置、应用上下文等信息。
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -98,7 +109,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-插件 API 的详细说明，请参考 [Plugin API](/docs/apis/app/runtime/plugin/plugin-api)。
+插件 API 的详细说明，请参考 [Plugin API](/docs/guides/topic-detail/framework-plugin/plugin-api)。
 
 ### 异步 setup
 
@@ -149,7 +160,7 @@ export default defineConfig({
 
 ### 在 npm 上发布插件
 
-如果需要将 Modern.js 插件发布到 npm，推荐使用 Modern.js 中的模块工程方案来管理和构建，如果需要将它和使用项目管理在一起，则推荐使用 Modern.js 中的 Monorepo 工程方案管理。这里就简单地使用模块工程方案进行演示。
+如果需要将 Modern.js 插件发布到 npm，推荐使用 Modern.js 中的模块工程方案来管理和构建。
 
 首先创建一个空的模块工程方案项目，调整 npm 包名称：
 
