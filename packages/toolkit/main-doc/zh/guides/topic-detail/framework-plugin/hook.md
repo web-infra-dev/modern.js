@@ -1,8 +1,7 @@
 ---
+title: Hook 模型
 sidebar_position: 2
 ---
-
-# Hook 模型
 
 首先介绍一下 Modern.js 的基础的插件系统中的一些内容，包括 Hook 模型的工作方式、各个 Hook 模型的运行模式、Manager 的工作模式。
 
@@ -10,7 +9,7 @@ sidebar_position: 2
 
 ## 基础工作方式
 
-先以 Pipeline 为例，简单介绍一下 Hook 模型的工作方式。先看一个简单的例子:
+先以 Pipeline 为例，简单介绍一下 Hook 模型的工作方式。先看一个简单的例子：
 
 ```ts
 import { createPipeline } from '@modern-js/plugin'
@@ -31,20 +30,20 @@ pipeline.run(1) // 4
 pipeline.run(5) // 12
 ```
 
-在这个例子中，创建了一个 `Pipeline<number, number>` 类型的 Pipeline（L3），这意味着运行它的时候，你需要传入一个 `number`，然后你会得到一个 `number`，而这个模型管理的函数的类型是:
+在这个例子中，创建了一个 `Pipeline<number, number>` 类型的 Pipeline（L3），这意味着运行它的时候，你需要传入一个 `number`，然后你会得到一个 `number`，而这个模型管理的函数的类型是：
 
 ```ts
 (count: number, next: (nextCount: number) => number) => number
 ```
 
-这里全是 `number`，是因为我们创建的是 `Pipeline<number, number>` ，如果创建的是 `Pipeline<number, string>` 则运行它入参是 `number`，返回值是 `string`，对应管理的函数的类型会是:
+这里全是 `number`，是因为我们创建的是 `Pipeline<number, number>` ，如果创建的是 `Pipeline<number, string>` 则运行它入参是 `number`，返回值是 `string`，对应管理的函数的类型会是：
 
 ```ts
 (count: number, next: (nextCount: number) => string) => string
 ```
 
 
-创建好 Pipeline 之后，可以通过 `use` 添加函数（L5、L8），需要注意的是，添加的顺序就是他们默认的运行顺序，在这些函数中，你可以对 `count` 进行处理、返回一个值，如果你调用了 `next` 函数，则会运行后面的函数，即如果你添加了三个函数:  `A`、`B`、`C`，如果你在 `A` 中调用 `next` 那么就会运行 `B`，同样的，如果你在 `B` 中调用 `next` 那么就会运行 `C`，而在上面的例子中，添加的第一个函数（L5）就运行了 `next`，所以这里就会运行第二个函数（L8），并且运行的返回值就是 第二个函数的返回值，如果在第一个函数中没有调用 `next`，直接返回，例如:
+创建好 Pipeline 之后，可以通过 `use` 添加函数（L5、L8），需要注意的是，添加的顺序就是他们默认的运行顺序，在这些函数中，你可以对 `count` 进行处理、返回一个值，如果你调用了 `next` 函数，则会运行后面的函数，即如果你添加了三个函数： `A`、`B`、`C`，如果你在 `A` 中调用 `next` 那么就会运行 `B`，同样的，如果你在 `B` 中调用 `next` 那么就会运行 `C`，而在上面的例子中，添加的第一个函数（L5）就运行了 `next`，所以这里就会运行第二个函数（L8），并且运行的返回值就是 第二个函数的返回值，如果在第一个函数中没有调用 `next`，直接返回，例如：
 
 ```ts
 import { createPipeline } from '@modern-js/plugin'
@@ -75,10 +74,10 @@ pipeline.run(5) // 6
 
 ### Pipeline
 
-上面的例子就是以 Pipeline 为例描述的，这里就不赘述了，在 Pipeline 这个大类中，提供了两个小类: Sync 和 Async，顾名思义，它们的区别就是管理的函数的类型是 Sync 的还是 Async 的。
+上面的例子就是以 Pipeline 为例描述的，这里就不赘述了，在 Pipeline 这个大类中，提供了两个小类：Sync 和 Async，顾名思义，它们的区别就是管理的函数的类型是 Sync 的还是 Async 的。
 
-:::info
-当 Pipeline 中没有函数或者所有函数都调用了 `next` 函数，则就需要在运行的时候提供:
+:::info 注
+当 Pipeline 中没有函数或者所有函数都调用了 `next` 函数，则就需要在运行的时候提供：
 
 ```ts
 pipeline({}, {
@@ -91,7 +90,7 @@ pipeline({}, {
 
 ### Waterfall
 
-这种模型顾名思义，他的特点就是参数的顺序递交，即前面一个函数的返回值，将会成为下一个函数的入参，我们也用一个例子来看一下:
+这种模型顾名思义，他的特点就是参数的顺序递交，即前面一个函数的返回值，将会成为下一个函数的入参，我们也用一个例子来看一下：
 
 ```ts
 import { createWaterfall } from '@modern-js/plugin'
@@ -112,7 +111,7 @@ waterfall.run(1) // 4
 waterfall.run(5) // 12
 ```
 
-这个例子中，创建了一个类型为 `Waterfall<number> `，即这个模型执行的入参和返回值是一样的，这个例子中都是 `number`，而它管理的函数的类型是:
+这个例子中，创建了一个类型为 `Waterfall<number> `，即这个模型执行的入参和返回值是一样的，这个例子中都是 `number`，而它管理的函数的类型是：
 
 ```ts
 (count: number) => number
@@ -124,7 +123,7 @@ waterfall.run(5) // 12
 
 ### Workflow
 
-这种 Hook 模型与上面两种 Hook 模型的区别是，没有那么强的前后参数返回值递交的概念，在这个模型中，每个函数都是基于同样的入参，相对独立运行的，通过一个例子简单看一下:
+这种 Hook 模型与上面两种 Hook 模型的区别是，没有那么强的前后参数返回值递交的概念，在这个模型中，每个函数都是基于同样的入参，相对独立运行的，通过一个例子简单看一下：
 
 ```ts
 import { createWorkflow } from '@modern-js/plugin'
@@ -147,7 +146,7 @@ workflow.run(5) // [6, 10]
 
 在这个例子中，添加了两个函数，所以运行的结果就是这两个函数运行的结果形成的一个数组。
 
-虽然这种模型中没有那么强的前后参数返回值递交的概念，但依旧有执行顺序的区别，在 Workflow 这个大类中，提供了三个小类: Sync、Async、Parallel。他们之间的区别就是函数的执行顺序，当然默认的都是按照添加顺序执行，而在 Sync、Async 则是强制按照添加顺序执行，而 Parallel 则是 Async 模式的一个变体，即它使用的是 `Promise.all` 来执行所有函数，而 Async 则会 `await` 前面的函数运行结束。
+虽然这种模型中没有那么强的前后参数返回值递交的概念，但依旧有执行顺序的区别，在 Workflow 这个大类中，提供了三个小类：Sync、Async、Parallel。他们之间的区别就是函数的执行顺序，当然默认的都是按照添加顺序执行，而在 Sync、Async 则是强制按照添加顺序执行，而 Parallel 则是 Async 模式的一个变体，即它使用的是 `Promise.all` 来执行所有函数，而 Async 则会 `await` 前面的函数运行结束。
 
 ## Hook 模型对比
 
@@ -167,4 +166,4 @@ workflow.run(5) // [6, 10]
 </div>
 </div>
 
-Workflow、Waterfall 其实都是 Pipeline 的变体，Pipeline 可以通过特定的写法来实现 Workflow、Waterfall ，但都较为麻烦，有许多隐形的约定，为了方便使用，提供了这两种变体来满足这种特殊场景。
+Workflow、Waterfall 其实都是 Pipeline 的变体，Pipeline 可以通过特定的写法来实现 Workflow、Waterfall，但都较为麻烦，有许多隐形的约定。为了方便使用，提供了这两种变体来满足这种特殊场景。

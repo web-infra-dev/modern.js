@@ -1,10 +1,9 @@
 ---
-sidebar_position: 5
+title: 插件 API
+sidebar_position: 6
 ---
 
-# Plugin API
-
-插件的 setup 函数会接收一个 api 入参，你可以调用 api 上提供的一些方法来获取到配置、应用上下文等信息。
+插件的 `setup` 函数会接收一个 `api` 入参，你可以调用 api 上提供的一些方法来获取到配置、应用上下文等信息。
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';

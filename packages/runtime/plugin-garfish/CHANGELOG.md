@@ -1,5 +1,48 @@
 # @modern-js/plugin-garfish
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 21d2ddb: feat: support async export provider for module federation
+  支持模块联邦场景异步导出 provider
+- 2344eb2: fix: loadApp when dom is mount
+  修复 dom 未渲染时挂载子应用行为
+- Updated dependencies [2344eb2]
+- Updated dependencies [a11fcf8]
+- Updated dependencies [b18fa8f3ed]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [3e57f2b]
+- Updated dependencies [fbf5eed]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [e4357f1]
+- Updated dependencies [4369648ae2]
+- Updated dependencies [92f0ead]
+- Updated dependencies [92c0994]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed587]
+- Updated dependencies [60d5378632]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [18aaf42]
+- Updated dependencies [fcace5b5b9]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/runtime@2.0.0-beta.2
+  - @modern-js/utils@2.0.0-beta.2
+
 ## 2.0.0-beta.1
 
 ### Major Changes

@@ -3,7 +3,7 @@ title: plugins
 sidebar_position: 9
 ---
 
-* Type: `CliPlugin[] | { cli: CliPlugin[] }`
+* Type: `CliPlugin[]`
 * Default: `[]`
 
 Used to configure custom Modern.js plugins.
