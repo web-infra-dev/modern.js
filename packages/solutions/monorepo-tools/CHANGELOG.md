@@ -1,5 +1,43 @@
 # @modern-js/monorepo-tools
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- d4a4566: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [85edee888c]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [d4a4566]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/core@2.0.0-beta.2
+  - @modern-js/utils@2.0.0-beta.2
+  - @modern-js/plugin-lint@2.0.0-beta.2
+  - @modern-js/plugin@2.0.0-beta.2
+  - @modern-js/plugin-changeset@2.0.0-beta.2
+  - @modern-js/plugin-i18n@2.0.0-beta.2
+  - @modern-js/new-action@2.0.0-beta.2
+  - @modern-js/upgrade@2.0.0-beta.2
+
 ## 2.0.0-beta.1
 
 ### Major Changes

@@ -1,5 +1,86 @@
 # @modern-js/runtime
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- c9e800d39a: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- 2344eb2: fix: bootstrap function params type define
+
+  fix: 修复 bootstrap 函数参数类型定义
+
+- a11fcf8: feat: fallback logic of streaming ssr
+  feat: streaming ssr 降级逻辑
+- b18fa8f3ed: feat: remove @loadable/component in streaming ssr
+  feat: 移除 streaming ssr 中的 @loadable/component 逻辑
+- 3e57f2b: feat: add document feature with plugin
+
+  feat: 增加 document 功能插件
+
+- fbf5eed: fix: fix ssg failure due to lack of Web Response API
+  fix: 修复因为缺少 Web Response API 而导致 ssg 失败
+- a2509bfbdb: feat: bump esbuild from 0.14.38 to 0.15.7
+
+  feat: 将 esbuild 从 0.14.38 版本升级至 0.15.7 版本
+
+- e4357f1: fix: change default document file and name
+
+  fix: 重置默认的 document 文件和文件名
+
+- 4369648ae2: fix: fix html template of streaming ssr
+  fix: 修复流式渲染的 html 模版
+- 92c0994: chore: remove `registerPrefetch`
+  chore: 移除 `registerPrefetch`
+- 6bda14ed71: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- 92004d1: feat: support load chunks parallelly
+  feat: 支持并行加载 chunks
+- 40ed587: feat: inject css chunk into html for streaming ssr
+  feat: streaming ssr 返回的 html 注入 css chunk
+- 60d5378632: fix: function extname should not return array
+  fix: 函数 extname 不应该返回一个数组
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- 18aaf42: fix: fix server loader redirects
+  fix: 修复 server loader 重定向错误
+- fcace5b5b9: fix: remove overmuch `@modernjs/utils` dependency import in ssr runtime & SSR hydrate error
+  fix: 去除 ssr 运行时过多的 `@modernjs/utils` 依赖引入 & SSR hydrate 错误
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed587]
+- Updated dependencies [87c1ff8]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/utils@2.0.0-beta.2
+  - @modern-js/types@2.0.0-beta.2
+  - @modern-js/plugin@2.0.0-beta.2
+
 ## 2.0.0-beta.1
 
 ### Major Changes
