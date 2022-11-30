@@ -4,6 +4,11 @@ import {
   DEFAULT_MOUNT_ID,
   getDistPath,
   setConfig,
+  getMinify,
+  getTitle,
+  getInject,
+  getFavicon,
+  getMetaTags,
   type BuilderTarget,
 } from '@modern-js/builder-shared';
 import type { BuilderPlugin, NormalizedConfig } from '../types';
@@ -16,53 +21,6 @@ type RoutesInfo = {
   entryName: string;
   entryPath: string;
 };
-
-function getMinify(isProd: boolean, config: NormalizedConfig) {
-  if (config.output.disableMinimize || !isProd) {
-    return false;
-  }
-
-  // these options are same as the default options of html-webpack-plugin
-  return {
-    removeComments: true,
-    useShortDoctype: true,
-    keepClosingSlash: true,
-    collapseWhitespace: true,
-    removeRedundantAttributes: true,
-    removeScriptTypeAttributes: true,
-    removeStyleLinkTypeAttributes: true,
-  };
-}
-
-function getTitle(entryName: string, config: NormalizedConfig) {
-  const { title, titleByEntries } = config.html;
-  return titleByEntries?.[entryName] || title || '';
-}
-
-function getInject(entryName: string, config: NormalizedConfig) {
-  const { inject, injectByEntries } = config.html;
-  return injectByEntries?.[entryName] || inject || true;
-}
-
-function getFavicon(entryName: string, config: NormalizedConfig) {
-  const { favicon, faviconByEntries } = config.html;
-  return faviconByEntries?.[entryName] || favicon;
-}
-
-async function getMetaTags(entryName: string, config: NormalizedConfig) {
-  const { generateMetaTags } = await import('@modern-js/utils');
-  const { meta, metaByEntries } = config.html;
-
-  const metaOptions = {
-    ...(metaByEntries?.[entryName] || meta || {}),
-  };
-
-  if (config.output.charset === 'utf8') {
-    metaOptions.charset = { charset: 'utf-8' };
-  }
-
-  return generateMetaTags(metaOptions);
-}
 
 async function getTemplateParameters(
   entryName: string,
@@ -108,21 +66,6 @@ export function getTemplatePath(entryName: string, config: NormalizedConfig) {
   const { template = DEFAULT_TEMPLATE, templateByEntries = {} } = config.html;
   return templateByEntries[entryName] || template;
 }
-
-// todo: is dependOn needed in builder?
-// async function getChunks(
-//   entryName: string,
-//   entryValue: WebpackConfig['entry'],
-// ) {
-//   const { isPlainObject } = await import('@modern-js/utils');
-//   const dependOn = [];
-
-//   if (isPlainObject(entryValue)) {
-//     dependOn.push(...entryValue.dependOn);
-//   }
-
-//   return [...dependOn, entryName];
-// }
 
 export const isHtmlDisabled = (
   config: NormalizedConfig,
