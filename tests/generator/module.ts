@@ -20,9 +20,6 @@ async function createAllModuleProject(
 ) {
   const cases: any = getModuleCases(isSimple ? 2 : undefined);
   for (const config of cases) {
-    if (config.runWay === 'electron') {
-      continue;
-    }
     await usingTempDir(tmpDir, async cwd => {
       const projectName = `module-${Object.values(config).join(
         '-',

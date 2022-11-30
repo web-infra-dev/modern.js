@@ -17,9 +17,6 @@ async function createAllMonorepoProject(
 ) {
   const cases: any = getMonorepoCases();
   for (const config of cases) {
-    if (config.runWay === 'electron') {
-      continue;
-    }
     await usingTempDir(tmpDir, async cwd => {
       const projectName = `module-${Object.values(config).join(
         '-',
