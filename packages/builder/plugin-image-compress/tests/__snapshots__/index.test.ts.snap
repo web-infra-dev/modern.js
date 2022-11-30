@@ -15,21 +15,21 @@ exports[`plugin/image-compress > should generate correct options 1`] = `
         "type": "asset",
         "use": [
           {
-            "loader": "@modern-js/web-builder-plugin-image-compress/loader",
+            "loader": "/Users/bytedance/repositories/modern.js/packages/builder/plugin-image-compress/src/loader",
             "options": {
               "test": /\\\\\\.jpeg\\$/,
               "use": "jpeg",
             },
           },
           {
-            "loader": "@modern-js/web-builder-plugin-image-compress/loader",
+            "loader": "/Users/bytedance/repositories/modern.js/packages/builder/plugin-image-compress/src/loader",
             "options": {
               "test": /\\\\\\.png\\$/,
               "use": "png",
             },
           },
           {
-            "loader": "@modern-js/web-builder-plugin-image-compress/loader",
+            "loader": "/Users/bytedance/repositories/modern.js/packages/builder/plugin-image-compress/src/loader",
             "options": {
               "test": /\\\\\\.\\(ico\\|icon\\)\\$/,
               "use": "ico",
