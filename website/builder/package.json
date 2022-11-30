@@ -1,11 +1,16 @@
 {
-  "private": true,
   "name": "@modern-js/builder-website",
   "version": "2.0.0-beta.1",
-  "main": "index.js",
   "scripts": {
     "dev": "vuepress dev src --temp .temp",
     "build": "vuepress build src --temp .temp && cp ./src/.vuepress/index.html ./src/.vuepress/dist"
+  },
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",
