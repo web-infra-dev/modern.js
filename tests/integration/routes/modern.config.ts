@@ -3,22 +3,14 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   runtime: {
     router: true,
-    state: true,
+    state: false,
   },
   runtimeByEntries: {
     one: {
       router: false,
     },
   },
-  // server: {
-  //   ssr: {
-  //     mode: 'stream',
-  //   },
-  // },
   server: {
     ssr: false,
-    // ssr: {
-    //   mode: 'stream',
-    // },
   },
 });

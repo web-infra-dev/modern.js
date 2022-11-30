@@ -77,6 +77,11 @@ export const ROUTE_MINIFEST_FILE = 'routes-manifest.json';
 export const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
 
 /**
+ * directory name for loader routes
+ */
+export const LOADER_ROUTES_DIR = `loader-routes`;
+
+/**
  * Internal plugins that work as soon as they are installed.
  */
 export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
