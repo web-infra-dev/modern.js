@@ -120,7 +120,7 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern-lib new",
     "build": "modern-lib build",
-    "test": "IS_REACT18=true jest"
+    "test": "jest"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",

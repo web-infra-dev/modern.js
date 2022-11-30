@@ -27,9 +27,7 @@ describe('bootstrap', () => {
               root.render(App);
             });
           },
-          unmount: () => {
-            /** empty */
-          },
+          unmount: root.unmount,
         };
       },
     });
