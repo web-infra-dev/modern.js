@@ -145,6 +145,8 @@ class NodeWebpackConfig extends BaseWebpackConfig {
   resolve() {
     super.resolve();
     for (const ext of [
+      '.server.js',
+      '.server.ts',
       '.node.js',
       '.node.jsx',
       '.node.ts',
