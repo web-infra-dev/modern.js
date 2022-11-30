@@ -1,4 +1,5 @@
 module.exports = {
+  setupFiles: ['<rootDir>/.jest/setEnvVars.js'],
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/packages/**/src/**/*.ts',
