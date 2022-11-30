@@ -46,4 +46,9 @@ describe('render sub app', () => {
     cy.get('[data-test=sub-link-dashboard]').click();
     cy.contains('Dashboard detail page').should('exist');
   });
+
+  it('render module federation component', () => {
+    cy.get('[data-test=link-shared]').click();
+    cy.contains('A Module Federation Shared Button').should('exist');
+  });
 });

@@ -116,6 +116,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry,
       distTag,
+      cwd,
     });
   };
 
