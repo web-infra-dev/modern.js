@@ -1,18 +1,13 @@
 ---
-sidebar_position: 5
+title: Hook 列表
+sidebar_position: 8
 ---
 
-# Hook API
+在 Modern.js 中暴露了三类插件：CLI、Runtime、Server。下面列举下各类中的 Hook：
 
-在 Modern.js 中主要构建了三套 Manager 模型：CLI、Runtime、Server，其中 CLI 是三套工程方案都有的，而 Runtime、Server 则是应用工程独有的，不同的工程方案中 Manager 模型的功能是不同的。
+## CLI
 
-## 基础
-
-这一部分的 Hook 模型是所有工程方案都有的，就是说在任意的工程方案中都可以在插件中添加实现对应的中间件函数。
-
-接下来对支持的所有基础 Hook 分别进行介绍。
-
-#### `config`
+### `config`
 
 - 功能：收集配置
 - 执行阶段：解析完 `modern.config.ts` 中的配置之后
@@ -38,7 +33,7 @@ export default (): CliPlugin => ({
 
 这里返回的配置信息，会被收集和统一处理合并。
 
-#### `validateSchema`
+### `validateSchema`
 
 - 功能：收集各个插件中配置的用来校验用户配置的 [JSON Schema](https://json-schema.org/)
 - 执行阶段：`config` Hook 运行完之后。
@@ -104,7 +99,7 @@ $ modern dev
     |   ^^^^^  Property foo is not expected to be here
 ```
 
-#### `prepare`
+### `prepare`
 
 - 功能：运行主流程的前置准备流程
 - 执行阶段：校验完配置之后
@@ -126,7 +121,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `commands`
+### `commands`
 
 - 功能：为 command 添加新的命令
 - 执行阶段：`prepare` Hook 运行完之后
@@ -168,7 +163,7 @@ $ modern foo
 foo
 ```
 
-#### `beforeExit`
+### `beforeExit`
 
 - 功能：在退出进程前，重置一些文件状态
 - 执行阶段：进程退出之前
@@ -190,17 +185,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-## 应用工程方案
-
-应用工程支持添加到项目中的插件主要有三种：CLI 插件、 Server 插件、Runtime 插件。他们是基于同一套插件系统实现的，但它们所支持的 Hook 不同、功能不同、运行的时机也不同。
-
-不同的 Manager 对应 Hook 模型和运行时机是不同的，所以接下来会对 CLI、Server、Runtime 的 Hook 模型分开讨论。
-
-### CLI
-
-应用工程中除了上面提到的基础的 CLI Hook 之外还有一些 MWA 场景下特定的 Hook。
-
-#### `beforeDev`
+### `beforeDev`
 
 - 功能：运行 dev 主流程的之前的任务
 - 执行阶段：`dev` 命令运行时，项目开始启动前执行
@@ -222,7 +207,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `afterDev`
+### `afterDev`
 
 - 功能：运行 dev 主流程的之后的任务
 - 执行阶段：`dev` 命令运行时，项目启动完成之后执行
@@ -244,7 +229,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `beforeCreateCompiler`
+### `beforeCreateCompiler`
 
 - 功能：在中间件函数中可以拿到创建 Webpack Compiler 的 Webpack 配置
 - 执行阶段：创建 Webpack Compiler 之前执行
@@ -266,7 +251,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `afterCreateCompiler`
+### `afterCreateCompiler`
 
 - 功能：在中间件函数中可以拿到创建的 Webpack Compiler
 - 执行阶段：创建 Webpack Compiler 之后执行
@@ -288,7 +273,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `beforePrintInstructions`
+### `beforePrintInstructions`
 
 - 功能：在中间件函数中可以拿到即将打印的日志信息，并对其进行修改
 - 执行阶段：打印日志信息之前执行
@@ -313,7 +298,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `beforeBuild`
+### `beforeBuild`
 
 - 功能：运行 build 主流程的之前的任务，可以拿到构建的 Webpack 配置
 - 执行阶段：`build` 命令运行时，项目构建启动前执行
@@ -335,7 +320,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `afterBuild`
+### `afterBuild`
 
 - 功能：运行 build 主流程的之后的任务
 - 执行阶段：`build` 命令运行时，项目构建完成之后执行
@@ -357,7 +342,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `modifyEntryImports`
+### `modifyEntryImports`
 
 - 功能：用于修改、添加生成入口文件中的 `import` 语句
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
@@ -389,7 +374,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `modifyEntryExport`
+### `modifyEntryExport`
 
 - 功能：用于修改生成入口文件中的 `export` 语句
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
@@ -416,7 +401,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `modifyEntryRuntimePlugins`
+### `modifyEntryRuntimePlugins`
 
 - 功能：用于添加、修改生成入口文件中的 [Runtime 插件](#Runtime)
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
@@ -451,7 +436,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `modifyEntryRenderFunction`
+### `modifyEntryRenderFunction`
 
 - 功能：用于修改生成入口文件中 `render` 函数
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
@@ -477,7 +462,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `modifyFileSystemRoutes`
+### `modifyFileSystemRoutes`
 
 - 功能：用于修改生成前端页面路由文件中的内容，内容都是需要可序列化的
 - 执行阶段：生成前端路由文件之前，[`prepare`](#prepare) 阶段触发
@@ -511,7 +496,7 @@ export default (): CliPlugin => ({
 
 这样就为前端新增了一个页面路由。
 
-#### `modifyServerRoutes`
+### `modifyServerRoutes`
 
 - 功能：用于修改生成服务器路由中的内容
 - 执行阶段：生成 Server 路由文件之前，[`prepare`](#prepare) 阶段触发
@@ -544,7 +529,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `modifyAsyncEntry`
+### `modifyAsyncEntry`
 
 - 功能：用于修改包裹入口文件的异步模块，参见 [source.enableAsyncEntry](/docs/configure/app/source/enable-async-entry)
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
@@ -570,7 +555,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-#### `htmlPartials`
+### `htmlPartials`
 
 - 功能：用于定制生成的 HTML 页面模版
 - 执行阶段：[`prepare`](#prepare) 阶段触发
@@ -598,11 +583,15 @@ export default (): CliPlugin => ({
 
 这样就为 HTML 模版中新增了一个 Script 标签。
 
-### Server
+## Server
+
+:::note
+目前 Server 插件还未完全开放，API 不保证稳定，使用需谨慎。
+:::
 
 应用工程中的 Server 部分也支持了插件。其中的 Hook 将会提供一些特定阶段调用和特殊功能的 Hook。
 
-#### `create`
+### `create`
 
 - 功能：在中间件函数中会拿到 Server 初始化用到的指标测量工具配置 `measureOptions` 和日志工具配置 `loggerOptions`，并返回自定义的指标测量工具 `measure` 和日志工具配置 `logger`
 - 执行阶段：Server 初始化
@@ -624,7 +613,7 @@ export default (): ServerPlugin => ({
 });
 ```
 
-#### `prepareWebServer`
+### `prepareWebServer`
 
 - 功能：设置 Web 路由的处理函数，在中间件函数中可以拿到 Web Server 的前置中间件
 - 执行阶段：在请求到达的时候
@@ -650,7 +639,7 @@ export default (): ServerPlugin => ({
 });
 ```
 
-#### `prepareApiServer`
+### `prepareApiServer`
 
 - 功能：设置 API 路由的处理函数，在中间件函数中可以拿到 API Server 的前置中间件
 - 执行阶段：请求到达并且 match bff basename 之后执行
@@ -676,11 +665,15 @@ export default (): ServerPlugin => ({
 });
 ```
 
-### Runtime
+## Runtime
+
+:::note
+目前 Runtime 插件还未完全开放，API 不保证稳定，使用需谨慎。
+:::
 
 Runtime 插件主要用于开发者修改需要渲染的组件与 Element 和定制服务器端、客户端的渲染过程。
 
-#### `init`
+### `init`
 
 - 功能：执行 `App.init`
 - 执行阶段：渲染（SSR/CSR）
@@ -703,7 +696,7 @@ export default (): Plugin => ({
 });
 ```
 
-#### `hoc`
+### `hoc`
 
 - 功能：修改需要渲染的组件
 - 执行阶段：渲染（SSR/CSR）
@@ -735,7 +728,7 @@ export default (): Plugin => ({
 });
 ```
 
-#### `provide`
+### `provide`
 
 - 功能：修改需要渲染的 Element
 - 执行阶段：渲染（SSR/CSR）
@@ -758,7 +751,7 @@ export default (): Plugin => ({
 });
 ```
 
-#### `client`
+### `client`
 
 - 功能：定制客户端渲染流程
 - 执行阶段：在浏览器客户端渲染
@@ -784,7 +777,7 @@ export default (): Plugin => ({
 });
 ```
 
-#### `server`
+### `server`
 
 - 功能：定制服务器端渲染流程
 - 执行阶段：SSR
@@ -808,89 +801,3 @@ export default (): Plugin => ({
   },
 });
 ```
-
-## 模块工程方案
-
-模块工程方案用于开发可复用模块，主要提供编译构建的能力，插件方面则是主要提供了调整编译构建配置的 Hook。
-
-#### `moduleLessConfig`
-
-- 功能：用于设置 [Less](https://lesscss.org/) 文件的编译配置
-- 执行阶段：`build` 阶段
-- Hook 模型：AsyncPipeline
-- 类型：`AsyncPipeline<{ modernConfig: NormalizedConfig }, LessOption | undefined>`
-- 使用示例：
-
-```ts
-import type { CliPlugin } from '@modern-js/core';
-
-export default (): CliPlugin => ({
-  setup(api) {
-    return {
-      moduleLessConfig: ({ modernConfig }) => {
-        // do something
-
-        return {
-          // LESS 配置
-        };
-      },
-    };
-  },
-});
-```
-
-#### `moduleSassConfig`
-
-- 功能：用于设置 [Sass](https://sass-lang.com/) 文件的编译配置
-- 执行阶段：`build` 阶段
-- Hook 模型：AsyncPipeline
-- 类型：`AsyncPipeline<{ modernConfig: NormalizedConfig }, SassOptions | undefined>`
-- 使用示例：
-
-```ts
-import type { CliPlugin } from '@modern-js/core';
-
-export default (): CliPlugin => ({
-  setup(api) {
-    return {
-      moduleSassConfig: ({ modernConfig }) => {
-        // do something
-
-        return {
-          // SASS 配置
-        };
-      },
-    };
-  },
-});
-```
-
-#### `moduleTailwindConfig`
-
-- 功能：用于设置 [Tailwind CSS](https://tailwindcss.com/) 的相关配置
-- 执行阶段：`build` 阶段
-- Hook 模型：AsyncPipeline
-- 类型：`AsyncPipeline<{ modernConfig: NormalizedConfig }, any>`
-- 使用示例：
-
-```ts
-import type { CliPlugin } from '@modern-js/core';
-
-export default (): CliPlugin => ({
-  setup(api) {
-    return {
-      moduleTailwindConfig: ({ modernConfig }) => {
-        // do something
-
-        return {
-          // Tailwind CSS 配置
-        };
-      },
-    };
-  },
-});
-```
-
-## Monorepo 工程方案
-
-Monorepo 工程方案中目前没有设置额外的插件 Hook，可以创建、添加拥有基础 Hook 的插件：[基础](#基础)。
