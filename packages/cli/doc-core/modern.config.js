@@ -1,7 +1,4 @@
-import { defineConfig } from '@modern-js/module-tools';
-
-// https://modernjs.dev/docs/apis/module/config
-export default defineConfig({
+module.exports = {
   testing: {
     transformer: 'ts-jest',
   },
@@ -12,4 +9,4 @@ export default defineConfig({
       format: 'esm',
     },
   },
-});
+};
