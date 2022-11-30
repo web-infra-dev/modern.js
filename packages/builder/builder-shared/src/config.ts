@@ -18,6 +18,7 @@ import type {
   NormalizedSharedSourceConfig,
   InspectConfigOptions,
   CreateBuilderOptions,
+  BuilderTarget,
 } from './types';
 import { logger } from './logger';
 import { join } from 'path';
@@ -163,3 +164,40 @@ export const setConfig = <T extends Record<string, any>, P extends string>(
 ) => {
   _.set(config, path, value);
 };
+
+export function getExtensions({
+  target = 'web',
+  resolveExtensionPrefix,
+  isTsProject,
+}: {
+  target?: BuilderTarget;
+  resolveExtensionPrefix?: NormalizedSharedSourceConfig['resolveExtensionPrefix'];
+  isTsProject?: boolean;
+} = {}) {
+  let extensions = [
+    // only resolve .ts(x) files if it's a ts project
+    // most projects are using TypeScript, resolve .ts(x) files first to reduce resolve time.
+    ...(isTsProject ? ['.ts', '.tsx'] : []),
+    '.js',
+    '.jsx',
+    '.mjs',
+    '.json',
+  ];
+
+  // add an extra prefix to all extensions
+  if (resolveExtensionPrefix) {
+    const extensionPrefix =
+      typeof resolveExtensionPrefix === 'string'
+        ? resolveExtensionPrefix
+        : resolveExtensionPrefix[target];
+
+    if (extensionPrefix) {
+      extensions = extensions.reduce<string[]>(
+        (ret, ext) => [...ret, extensionPrefix + ext, ext],
+        [],
+      );
+    }
+  }
+
+  return extensions;
+}

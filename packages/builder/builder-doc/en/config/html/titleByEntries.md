@@ -14,7 +14,7 @@ export default {
   html: {
     title: 'ByteDance',
     titleByEntries: {
-      foo: 'Tiktok',
+      foo: 'TikTok',
     },
   },
 };
@@ -22,5 +22,5 @@ export default {
 
 After recompiling, you can see:
 
-- The title of the page `foo` is `Tiktok`.
+- The title of the page `foo` is `TikTok`.
 - The title of other pages is `ByteDance`.

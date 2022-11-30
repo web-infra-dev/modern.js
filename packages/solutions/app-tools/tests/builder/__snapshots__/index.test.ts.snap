@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`create builder provider config should add default config 1`] = `
+Object {
+  "dev": Object {
+    "assetPrefix": undefined,
+    "https": undefined,
+  },
+  "html": Object {
+    "templateByEntries": undefined,
+  },
+  "output": Object {
+    "assetPrefix": "/x",
+    "cleanDistPath": false,
+    "enableAssetFallback": true,
+    "enableAssetManifest": true,
+  },
+  "performance": Object {
+    "removeMomentLocale": true,
+  },
+  "source": Object {
+    "resolveExtensionPrefix": ".web",
+  },
+}
+`;

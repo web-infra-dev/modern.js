@@ -4,13 +4,18 @@ import {
   createDebugger,
   compatRequire,
   getInternalPlugins,
+  dynamicImport,
 } from '@modern-js/utils';
-import type { UserConfig } from './config';
-import { CliPlugin, createPlugin } from './manager';
+import type {
+  CliPlugin,
+  UserConfig,
+  OldPluginConfig,
+  PluginConfig,
+  PluginItem,
+} from './types';
+import { createPlugin } from './manager';
 
 const debug = createDebugger('load-plugins');
-
-type PluginItem = string | [string, any];
 
 export type TransformPlugin = (
   plugin: PluginConfig,
@@ -18,27 +23,22 @@ export type TransformPlugin = (
   pluginOptions?: any,
 ) => PluginConfig;
 
-/**
- * @deprecated
- * Using NewPluginConfig instead.
- */
-type OldPluginConfig = Array<PluginItem>;
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type NewPluginConfig<T = {}> = CliPlugin<T>[];
-export type PluginConfig = OldPluginConfig | NewPluginConfig;
-
-const resolveCliPlugin = (
+const resolveCliPlugin = async (
   p: PluginItem,
   userConfig: UserConfig,
   appDirectory: string,
   transformPlugin?: TransformPlugin,
-): CliPlugin => {
+): Promise<CliPlugin> => {
   const pkg = typeof p === 'string' ? p : p[0];
   const pluginOptions = typeof p === 'string' ? undefined : p[1];
   const path = tryResolve(pkg, appDirectory);
-
-  let module = compatRequire(path);
+  let module;
+  try {
+    module = compatRequire(path);
+  } catch (e) {
+    // load esm module
+    ({ default: module } = await dynamicImport(path));
+  }
   if (transformPlugin) {
     module = transformPlugin(module, userConfig, pluginOptions);
   }
@@ -67,7 +67,7 @@ export const isOldPluginConfig = (
  * @param options.transformPlugin - transform plugin before using it. Used for compatible with legacy jupiter plugins.
  * @returns Plugin Objects has been required.
  */
-export const loadPlugins = (
+export const loadPlugins = async (
   appDirectory: string,
   userConfig: UserConfig,
   options: {
@@ -81,19 +81,21 @@ export const loadPlugins = (
     ...(isOldPluginConfig(pluginConfig) ? pluginConfig : []),
   ];
 
-  const loadedPlugins = plugins.map(plugin => {
-    const loadedPlugin = resolveCliPlugin(
-      plugin,
-      userConfig,
-      appDirectory,
-      options.transformPlugin,
-    );
+  const loadedPlugins = await Promise.all(
+    plugins.map(plugin => {
+      const loadedPlugin = resolveCliPlugin(
+        plugin,
+        userConfig,
+        appDirectory,
+        options.transformPlugin,
+      );
 
-    // server plugins don't support to accept params
-    debug(`resolve plugin %s: %s`, plugin, loadedPlugin);
+      // server plugins don't support to accept params
+      debug(`resolve plugin %s: %s`, plugin, loadedPlugin);
 
-    return loadedPlugin;
-  });
+      return loadedPlugin;
+    }),
+  );
 
   if (!isOldPluginConfig(pluginConfig)) {
     if (pluginConfig?.length) {

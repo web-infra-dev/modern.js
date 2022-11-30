@@ -9,6 +9,7 @@ import type { Options as SassOptions } from '../../../compiled/sass';
 import type * as SassLoader from '../../../compiled/sass-loader';
 import type Less from '../../../compiled/less';
 
+export type { BabelTransformOptions } from '@modern-js/types';
 export type { InspectorPluginOptions } from '@modern-js/inspector-webpack-plugin';
 export type { CopyPluginOptions } from './CopyWebpackPlugin';
 export type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
@@ -24,8 +25,6 @@ export type CssMinimizerPluginOptions = CssMinimizerPlugin.BasePluginOptions &
 export type { CssNanoOptions } from 'css-minimizer-webpack-plugin';
 
 export type { BabelConfigUtils } from '@modern-js/babel-preset-app';
-
-export type { TransformOptions as BabelTransformOptions } from '@babel/core';
 
 export type TSLoaderOptions = Partial<RawTSLoaderOptions>;
 

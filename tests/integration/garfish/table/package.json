@@ -12,21 +12,6 @@
   "engines": {
     "node": ">=14.17.6"
   },
-  "eslintConfig": {
-    "extends": [
-      "@modern-js"
-    ]
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
-    ],
-    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
-    ]
-  },
   "eslintIgnore": [
     "node_modules/",
     "dist/"

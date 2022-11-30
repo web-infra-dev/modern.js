@@ -13,7 +13,7 @@ export const DOCUMENT_CHUNKSMAP_PLACEHOLDER = encodeURIComponent(
 export const DOCUMENT_SSRDATASCRIPT_PLACEHOLDER = encodeURIComponent(
   HTML_SSRDATASCRIPT_SEPARATOR,
 );
-export const DOCUMENT_FILE_NAME = 'document';
+export const DOCUMENT_FILE_NAME = 'Document';
 export const DOCUMENT_SCRIPTS_PLACEHOLDER = encodeURIComponent(
   '<!-- chunk scripts placeholder -->',
 );

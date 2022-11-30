@@ -3,7 +3,7 @@ sidebar_position: 11
 title: createApp
 ---
 
-import ReduckTip from '@site-docs/components/reduck-tip.md'
+import ReduckTip from '@site-docs-en/components/reduck-tip.md'
 
 <ReduckTip />
 

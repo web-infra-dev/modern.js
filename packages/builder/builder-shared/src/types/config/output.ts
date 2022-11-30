@@ -1,3 +1,5 @@
+import type { BuilderTarget } from '../builder';
+
 export type DistPathConfig = {
   /** The root directory of all files. */
   root?: string;
@@ -190,7 +192,7 @@ export interface SharedOutputConfig {
    * [autoprefixer](https://github.com/postcss/autoprefixer) to identify the JavaScript syntax that
    * need to be transformed and the CSS browser prefixes that need to be added.
    */
-  overrideBrowserslist?: string[];
+  overrideBrowserslist?: string[] | Partial<Record<BuilderTarget, string[]>>;
   /**
    * Configure the default export type of SVG files.
    */

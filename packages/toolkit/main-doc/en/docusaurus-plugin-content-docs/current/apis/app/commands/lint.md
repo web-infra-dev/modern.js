@@ -17,6 +17,6 @@ Run ESLint to check the syntax of the code. Normally, only the part of the code 
 
 * `--no-fix` close auto fix by lint.
 
-import CommandTip from '@site-docs/components/command-tip.md'
+import CommandTip from '@site-docs-en/components/command-tip.md'
 
 <CommandTip />

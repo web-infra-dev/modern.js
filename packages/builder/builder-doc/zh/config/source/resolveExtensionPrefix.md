@@ -1,4 +1,4 @@
-- Type: `string`
+- Type: `string | Record<BuilderTarget, string>`
 - Default: `undefined`
 
 用于为 [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolveextensions) 添加统一的前缀。
@@ -28,3 +28,24 @@ const extensions = ['.web.js', '.js', '.web.ts' , '.ts', ...];
 ```
 
 在代码中 `import './foo'` 时，会优先识别 `foo.web.js` 文件，再识别 `foo.js` 文件。
+
+#### 根据产物类型设置
+
+当你同时构建多种类型的产物时，你可以为不同的产物类型设置不同的 extension 前缀。此时，你需要把 `resolveExtensionPrefix` 设置为一个对象，对象的 key 为对应的产物类型。
+
+比如为 `web` 和 `node` 设置不同的 extension 前缀：
+
+```js
+export default {
+  output: {
+    source: {
+      resolveExtensionPrefix: {
+        web: '.web',
+        node: '.node',
+      },
+    },
+  },
+};
+```
+
+在代码中 `import './foo'` 时，对于 node 产物，会优先识别 `foo.node.js` 文件，而对于 web 产物，则会优先识别 `foo.web.js` 文件。

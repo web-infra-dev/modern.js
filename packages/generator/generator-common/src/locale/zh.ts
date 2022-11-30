@@ -38,7 +38,7 @@ export const ZH_LOCALE = {
     element: {
       self: '创建工程元素',
       entry: '新建「应用入口」',
-      server: '新建「Server 自定义」源码目录',
+      server: '新建「自定义 Web Server」源码目录',
     },
     refactor: {
       self: '自动重构',

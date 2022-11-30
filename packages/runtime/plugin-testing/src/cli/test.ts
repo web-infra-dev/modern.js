@@ -2,8 +2,16 @@ import path from 'path';
 import { compiler } from '@modern-js/babel-compiler';
 import type { PluginAPI } from '@modern-js/core';
 import { runTest } from '../base';
+import { Hooks } from '../base/hook';
+import { UserConfig } from '../base/config';
 
-const test = async (api: PluginAPI) => {
+const test = async (
+  api: PluginAPI<{
+    hooks: Hooks;
+    userConfig: UserConfig;
+    normalizedConfig: Required<UserConfig>;
+  }>,
+) => {
   const userConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
 

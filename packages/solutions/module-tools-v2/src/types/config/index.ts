@@ -1,12 +1,7 @@
 import type {
-  UserConfig as UserConfig_,
-  NewPluginConfig,
-} from '@modern-js/core';
-import type {
   UserConfig as LibuildUserConfig,
   Asset as LibuildAsset,
 } from '@modern-js/libuild';
-import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build-presets';
 import type { CopyConfig } from '../copy';
@@ -135,10 +130,6 @@ export interface UserConfig {
   dev?: DeepPartial<Dev>;
 
   tools?: Partial<ToolsConfig>;
-
-  plugins?: NewPluginConfig<ModuleToolsHooks>;
-
-  testing?: Pick<UserConfig_, 'testing'>;
 }
 
 export type Config =

@@ -32,4 +32,23 @@ describe('getBrowserslistWithDefault', () => {
       ),
     ).toEqual(override);
   });
+
+  it('should allow to override browserslist according to target', async () => {
+    const override = {
+      web: ['Android >= 4.4', 'iOS >= 8'],
+      node: ['node >= 12'],
+    };
+
+    expect(
+      await getBrowserslistWithDefault(
+        __dirname,
+        {
+          output: {
+            overrideBrowserslist: override,
+          },
+        },
+        'node',
+      ),
+    ).toEqual(override.node);
+  });
 });

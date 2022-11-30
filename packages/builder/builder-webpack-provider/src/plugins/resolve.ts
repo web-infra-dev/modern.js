@@ -1,35 +1,24 @@
 import type { ChainIdentifier } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin, NormalizedConfig, WebpackChain } from '../types';
+import { BuilderTarget, getExtensions } from '@modern-js/builder-shared';
 
 function applyExtensions({
   chain,
   config,
+  target,
   isTsProject,
 }: {
   chain: WebpackChain;
   config: NormalizedConfig;
+  target: BuilderTarget;
   isTsProject: boolean;
 }) {
-  let extensions = [
-    // only resolve .ts(x) files if it's a ts project
-    // most projects are using TypeScript, resolve .ts(x) files first to reduce resolve time.
-    ...(isTsProject ? ['.ts', '.tsx'] : []),
-    '.js',
-    '.jsx',
-    '.mjs',
-    '.json',
-  ];
-
-  const { resolveExtensionPrefix } = config.source || {};
-
-  // add an extra prefix to all extensions
-  if (resolveExtensionPrefix) {
-    extensions = extensions.reduce<string[]>(
-      (ret, ext) => [...ret, resolveExtensionPrefix + ext, ext],
-      [],
-    );
-  }
+  const extensions = getExtensions({
+    target,
+    isTsProject,
+    resolveExtensionPrefix: config.source.resolveExtensionPrefix,
+  });
 
   chain.resolve.extensions.merge(extensions);
 
@@ -104,25 +93,39 @@ function applyFullySpecified({
 function applyMainFields({
   chain,
   config,
+  target,
 }: {
   chain: WebpackChain;
   config: NormalizedConfig;
+  target: BuilderTarget;
 }) {
   const { resolveMainFields } = config.source;
   if (!resolveMainFields) {
     return;
   }
-  chain.resolve.mainFields.merge(resolveMainFields);
+
+  const mainFields = Array.isArray(resolveMainFields)
+    ? resolveMainFields
+    : resolveMainFields[target];
+
+  if (mainFields) {
+    chain.resolve.mainFields.merge(mainFields);
+  }
 }
 
 export const PluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
       const config = api.getNormalizedConfig();
       const isTsProject = Boolean(api.context.tsconfigPath);
-      const extensions = applyExtensions({ chain, config, isTsProject });
+      const extensions = applyExtensions({
+        chain,
+        config,
+        target,
+        isTsProject,
+      });
 
       applyFullySpecified({ chain, config, CHAIN_ID });
 
@@ -135,6 +138,7 @@ export const PluginResolve = (): BuilderPlugin => ({
       applyMainFields({
         chain,
         config,
+        target,
       });
 
       if (!isTsProject) {

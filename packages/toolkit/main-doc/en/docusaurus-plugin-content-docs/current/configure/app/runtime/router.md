@@ -9,7 +9,7 @@ sidebar_label: router
 
 When `router` is enabled, routing management using conventional routes provided by Modern.js default is supported.
 
-具体配置如下：
+## Configuration
 
 ### supportHtml5History
 

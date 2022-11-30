@@ -1,19 +1,20 @@
 import path from 'path';
 import { address } from '@modern-js/utils';
 import { createContext } from '@modern-js/plugin';
-import type { IAppContext, InternalPlugins } from '@modern-js/types';
-import { UserConfig } from './config';
-import { NormalizedConfig } from './config/mergeConfig';
-import { CliPlugin } from './manager';
-
-export type { IAppContext };
+import type {
+  CliPlugin,
+  UserConfig,
+  IAppContext,
+  InternalPlugins,
+  NormalizedConfig,
+} from './types';
 
 export const AppContext = createContext<IAppContext>({} as IAppContext);
 
-export const ConfigContext = createContext<UserConfig>({} as UserConfig);
+export const ConfigContext = createContext<UserConfig<any>>({});
 
-export const ResolvedConfigContext = createContext<NormalizedConfig>(
-  {} as NormalizedConfig,
+export const ResolvedConfigContext = createContext<NormalizedConfig<any>>(
+  {} as NormalizedConfig<any>,
 );
 
 /**
@@ -30,12 +31,16 @@ export const useAppContext = () => AppContext.use().value;
 /**
  * Get original content of user config.
  */
-export const useConfigContext = () => ConfigContext.use().value;
+export const useConfigContext: <
+  Extends extends Record<string, any>,
+>() => UserConfig<Extends> = () => ConfigContext.use().value;
 
 /**
  * Get normalized content of user config.
  */
-export const useResolvedConfigContext = () => ResolvedConfigContext.use().value;
+export const useResolvedConfigContext: <
+  Extends extends Record<string, any>,
+>() => NormalizedConfig<Extends> = () => ResolvedConfigContext.use().value;
 
 export const initAppContext = ({
   appDirectory,

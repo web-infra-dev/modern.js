@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLoader } from '@modern-js/runtime';
 
 function App() {
@@ -59,4 +58,3 @@ function App() {
 }
 
 export default App;
-/* eslint-enable no-console */

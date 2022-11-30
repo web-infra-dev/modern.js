@@ -1,11 +1,6 @@
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import {
-  logger,
-  BuildOptions,
-  Stats,
-  MultiStats,
-} from '@modern-js/builder-shared';
+import { BuildOptions, Stats, MultiStats } from '@modern-js/builder-shared';
 import type { Compiler, RspackConfig } from '../types';
 
 // TODO: support MultiCompiler MultiStats
@@ -60,7 +55,6 @@ export const build = async (
   } else {
     const { rspackConfigs } = await initConfigs(initOptions);
     compiler = await createCompiler({
-      watch,
       context,
       rspackConfigs,
     });
@@ -72,11 +66,7 @@ export const build = async (
   });
 
   if (watch) {
-    compiler.watch({}, (err: any) => {
-      if (err) {
-        logger.error(err);
-      }
-    });
+    compiler.watch({});
   } else {
     const executeResult = await executer?.(compiler);
     await context.hooks.onAfterBuildHook.call({

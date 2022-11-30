@@ -6,8 +6,8 @@ import type {
   PostCSSConfigUtils,
   LessOptions,
   SassOptions,
+  ModuleTools,
 } from '../types';
-import type { ModuleToolsHooks } from '../types/hooks';
 
 export const getLessConfig = async (config: UserConfig) => {
   const { applyOptionsChain } = await import('@modern-js/utils');
@@ -80,7 +80,7 @@ export const getPostcssConfig = async (config: UserConfig) => {
   return mergedConfig;
 };
 
-export const getStyleConfig = async (api: PluginAPI<ModuleToolsHooks>) => {
+export const getStyleConfig = async (api: PluginAPI<ModuleTools>) => {
   const config = api.useResolvedConfigContext() as unknown as UserConfig;
   const postcssConfig = await getPostcssConfig(config);
   const lessConfig = await getLessConfig(config);

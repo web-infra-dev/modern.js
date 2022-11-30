@@ -10,8 +10,8 @@ extractApiHeaders: [2]
 
 - **通用钩子**
   - `modifyBuilderConfig`：修改传递给 Builder 的配置项
-  - `modifyWebpackChain`：修改 Webpack Chain 配置
-  - `modifyWebpackConfig`：修改最终的 Webpack 配置
+  - `modifyWebpackChain`：修改 webpack chain 配置
+  - `modifyWebpackConfig`：修改最终的 webpack 配置
   - `onBeforeCreateCompiler`：创建编译器前触发
   - `onAfterCreateCompiler`：创建编译器后触发、在构建前操作编译器实例
 - **构建钩子**：仅运行构建输出产物时触发

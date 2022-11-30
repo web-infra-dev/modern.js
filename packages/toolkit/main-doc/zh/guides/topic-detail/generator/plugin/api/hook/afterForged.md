@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # AfterForged
 
-afterForged 函数为生成器插件生命周期函数，其通常用于定义安装依赖、Git 等操作，专业些操作将会在 onForged 函数执行完成后进行。
+`afterForged` 函数为生成器插件生命周期函数，其通常用于定义安装依赖、Git 等操作，这些操作将会在 `onForged` 函数执行完成后进行。
 
 该方法可直接在 context 上获取。
 
@@ -24,11 +24,11 @@ export interface IPluginContext {
 
 ## func
 
-afterForged 参数是一个回调函数，函数参数为 api 和 inputData。
+`afterForged` 参数是一个回调函数，函数参数为 `api` 和 `inputData。`
 
 ### api
 
-在 afterForged 生命周期中支持的函数列表，具体可查看 [Git API](/docs/guides/topic-detail/generator/plugin/api/git/isInGitRepo) 和 [NPM API](/docs/guides/topic-detail/generator/plugin/api/npm/install)。
+在 `afterForged` 生命周期中支持的函数列表，具体可查看 [Git API](/docs/guides/topic-detail/generator/plugin/api/git/isInGitRepo) 和 [NPM API](/docs/guides/topic-detail/generator/plugin/api/npm/install)。
 
 ### inputData
 

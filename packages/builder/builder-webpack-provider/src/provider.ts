@@ -24,14 +24,14 @@ export function builderWebpackProvider({
         pluginStore.addPlugins(await applyDefaultPlugins());
       },
 
-      async createCompiler({ watch } = {}) {
+      async createCompiler() {
         const { createCompiler } = await import('./core/createCompiler');
         const { webpackConfigs } = await initConfigs({
           context,
           pluginStore,
           builderOptions,
         });
-        return createCompiler({ watch, context, webpackConfigs });
+        return createCompiler({ context, webpackConfigs });
       },
 
       async startDevServer(options) {

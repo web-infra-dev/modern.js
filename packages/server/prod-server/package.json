@@ -47,9 +47,9 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
-    "new": "modern new",
-    "build": "modern build",
-    "dev": "modern build --watch",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "test": "jest"
   },
   "dependencies": {
@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
-    "@modern-js/core": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/cookie": "^0.4.1",

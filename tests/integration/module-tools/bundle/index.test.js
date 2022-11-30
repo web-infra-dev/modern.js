@@ -8,7 +8,7 @@ function existsSync(filePath) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
 }
 
-describe('module tools build cli', () => {
+describe.skip('module tools build cli', () => {
   it(`less and sass support`, async () => {
     const buildRes = await modernBuild(appDir, [
       '--config',
