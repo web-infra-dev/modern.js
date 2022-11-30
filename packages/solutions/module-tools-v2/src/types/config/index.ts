@@ -1,6 +1,7 @@
 import type {
   UserConfig as LibuildUserConfig,
   Asset as LibuildAsset,
+  Style as LibuildStyle,
 } from '@modern-js/libuild';
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build-presets';
@@ -10,9 +11,6 @@ import type {
   SassConfig,
   PostCSSConfig,
   TailwindCSSConfig,
-  LessOptions,
-  SassOptions,
-  PostcssOptions,
 } from './style';
 
 export * from './style';
@@ -73,11 +71,7 @@ export type BaseBuildConfig = Omit<
   'dts' | 'style' | 'alias'
 > & {
   dts: false | DTSOptions;
-  style: {
-    less: LessOptions;
-    sass: SassOptions;
-    postcss: PostcssOptions;
-    cssInline: boolean;
+  style: Omit<Required<LibuildStyle>, 'cleanCss'> & {
     tailwindCss: TailwindCSSConfig;
   };
   alias: Record<string, string>;
@@ -119,10 +113,12 @@ export type BuildPreset =
     }) => PartialBuildConfig | Promise<PartialBuildConfig>);
 
 export interface StyleConfig {
-  cssInline?: boolean;
   less?: LessConfig;
   sass?: SassConfig;
   postcss?: PostCSSConfig;
+  autoModules?: LibuildStyle['autoModules'];
+  modules?: LibuildStyle['modules'];
+  inject?: LibuildStyle['inject'];
   /**
    * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.

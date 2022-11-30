@@ -133,13 +133,11 @@ export const buildLib = async (
     define,
     alias,
     style,
+    externals,
+    autoExternal,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
-
-  const { getFinalExternals } = await import('../utils/builder');
-  const finalExternals = await getFinalExternals(config, { appDirectory });
-
   const { es5Plugin } = await import('@modern-js/libuild-plugin-es5');
   const { umdPlugin } = await import('@modern-js/libuild-plugin-umd');
   const plugins = target === 'es5' ? [es5Plugin()] : [];
@@ -154,7 +152,7 @@ export const buildLib = async (
   const root = slash(appDirectory);
   const outdir = slash(distPath);
   const assetOutDir = asset.path ? slash(asset.path) : asset.path;
-
+  const { less, sass, postcss, inject, modules, autoModules } = style;
   const buildConfig: CLIConfig = {
     root,
     watch,
@@ -164,10 +162,12 @@ export const buildLib = async (
     outdir,
     define,
     style: {
-      less: style.less,
-      sass: style.sass,
-      postcss: style.postcss,
-      inject: style.cssInline,
+      less,
+      sass,
+      postcss,
+      inject,
+      modules,
+      autoModules,
     },
     resolve: {
       alias,
@@ -184,7 +184,8 @@ export const buildLib = async (
     minify,
     sourceDir,
     globals: umdGlobals,
-    external: finalExternals,
+    external: externals,
+    autoExternal,
     bundle: buildType === 'bundle',
     // outbase for [dir]/[name]
     outbase: sourceDir,

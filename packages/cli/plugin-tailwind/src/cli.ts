@@ -73,15 +73,10 @@ export default (
             // TODO: Add interface about postcss config
             // TODO: In module project, also is called, but should not be called.
             postcss: (config: Record<string, any>) => {
-              const modernConfig =
-                api.useResolvedConfigContext() as NormalizedConfig<LegacyAppTools>;
-              const {
-                tools: { tailwindcss },
-                source: { designSystem },
-              } = modernConfig;
+              const modernConfig = api.useResolvedConfigContext();
               const tailwindConfig = getTailwindConfig(
-                tailwindcss,
-                designSystem,
+                modernConfig?.tools?.tailwindcss,
+                modernConfig?.source?.designSystem,
                 {
                   pureConfig: {
                     content: [

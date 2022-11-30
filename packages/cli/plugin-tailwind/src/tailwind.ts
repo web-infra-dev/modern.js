@@ -1,5 +1,6 @@
 import { applyOptionsChain, logger } from '@modern-js/utils';
 import { merge, cloneDeep } from '@modern-js/utils/lodash';
+import { DesignSystem, Tailwind } from './types';
 
 const checkIfExistNotAllowKeys = (
   tailwindConfig: Record<string, any>,
@@ -14,19 +15,15 @@ const checkIfExistNotAllowKeys = (
   return [ret, notAllowKey];
 };
 
-const getPureDesignSystemConfig = (
-  designSystemConfig: Record<string, any> & {
-    supportStyledComponents?: boolean;
-  },
-) => {
+const getPureDesignSystemConfig = (designSystemConfig: DesignSystem) => {
   const pureDesignSystemConfig = cloneDeep(designSystemConfig);
   delete pureDesignSystemConfig.supportStyledComponents;
   return pureDesignSystemConfig;
 };
 
 const getTailwindConfig = (
-  tailwindcss?: any,
-  designSystem?: any,
+  tailwindcss?: Tailwind,
+  designSystem?: DesignSystem,
   option: { pureConfig?: Record<string, any> } = {},
 ) => {
   const purgeConfig = merge(

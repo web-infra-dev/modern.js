@@ -94,7 +94,10 @@ export const mergeDefaultBaseConfig = async (
     define,
     style: {
       ...styleConfig,
-      cssInline: pConfig.style?.cssInline ?? defaultConfig.style.cssInline,
+      inject: pConfig.style?.inject ?? defaultConfig.style.inject,
+      modules: pConfig.style?.modules ?? defaultConfig.style.modules,
+      autoModules:
+        pConfig.style?.autoModules ?? defaultConfig.style.autoModules,
       tailwindCss: defaultConfig.style.tailwindCss,
     },
   };
