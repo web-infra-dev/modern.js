@@ -27,7 +27,7 @@ export type Codecs = keyof CodecBaseOptions;
 
 export interface BaseCompressOptions<T extends Codecs> {
   use: T;
-  test?: RegExp;
+  test: RegExp;
 }
 
 export type OptionCollection = {

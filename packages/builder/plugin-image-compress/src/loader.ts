@@ -1,23 +1,29 @@
-import type { LoaderDefinition } from 'webpack';
+import type { LoaderContext } from 'webpack';
 import { Buffer } from 'buffer';
 import { FinalOptions } from './types';
 import Codecs from './shared/codecs';
 
 /* eslint-disable @babel/no-invalid-this */
-const loader: LoaderDefinition<FinalOptions> = function loader(content) {
+export function loader(this: LoaderContext<FinalOptions>, content: string) {
   const callback = this.async();
-  const opt = this.getOptions();
-  const buf = Buffer.from(content);
-  const codec = Codecs[opt.use];
+  const rawOptions = this.getOptions();
+  const codec = Codecs[rawOptions.use];
   if (!codec) {
-    throw new Error(`Codec ${opt.use} is not supported`);
+    throw new Error(`Codec ${rawOptions.use} is not supported`);
   }
-  codec
-    .handler(buf, opt)
-    .then(buf => callback(null, buf))
-    .catch(err => callback(err));
-};
+  const opts = { ...codec.defaultOptions, ...rawOptions };
+  if (this.resourcePath.match(opts.test)) {
+    const buf = Buffer.from(content);
+    codec
+      .handler(buf, opts)
+      .then(buf => callback(null, buf))
+      .catch(err => callback(err));
+  } else {
+    callback(null, content);
+  }
+}
 /* eslint-enable */
 
-module.exports = loader;
-module.exports.default = loader;
+export const raw = true;
+
+export default loader;

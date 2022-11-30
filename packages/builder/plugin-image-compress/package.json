@@ -17,7 +17,7 @@
   },
   "version": "0.0.1",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "jsnext:modern": "./dist/index.js",
@@ -25,7 +25,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
-    "dev": "tsc --watch",
+    "dev": "tsc --watch --sourceMap",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
   },
@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "typescript": "^4",

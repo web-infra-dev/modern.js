@@ -9,7 +9,7 @@ export const DEFAULT_OPTIONS: Codecs[] = ['jpeg', 'png', 'ico'];
 
 /** Options enable by default: {@link DEFAULT_OPTIONS} */
 export const PluginImageCompress = (...options: Options[]): BuilderPlugin => ({
-  name: 'web-builder-plugin-image-compress',
+  name: 'builder-plugin-image-compress',
   setup(api) {
     const optsWithDefault = options.length ? options : DEFAULT_OPTIONS;
     const opts = optsWithDefault.map(opt => withDefaultOptions(opt));
@@ -18,7 +18,7 @@ export const PluginImageCompress = (...options: Options[]): BuilderPlugin => ({
         chain.module
           .rule(CHAIN_ID.RULE.IMAGE)
           .use(`web-builder-plugin-image-compress#${opt.use}`)
-          .loader('@modern-js/web-builder-plugin-image-compress/loader')
+          .loader(path.resolve(__dirname, './loader'))
           .options(opt);
       });
     });
