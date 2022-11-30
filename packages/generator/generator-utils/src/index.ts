@@ -7,7 +7,6 @@ import {
   canUseNpm,
   canUsePnpm,
   canUseYarn,
-  semver,
 } from '@modern-js/utils';
 import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import { GeneratorContext } from '@modern-js/codesmith';
@@ -117,9 +116,6 @@ export async function getModernPluginVersion(
 
     const modernVersion = pkgInfo.version;
     if (typeof modernVersion !== 'string') {
-      return getLatetPluginVersion();
-    }
-    if (semver.lt(modernVersion, '1.15.0')) {
       return getLatetPluginVersion();
     }
     return getAvailableVersion(packageName, modernVersion, registry);
