@@ -87,6 +87,7 @@ async function runModuleNewCommand(
   if (isLocal) {
     console.info('runModuleNewCommand', cwd, config);
     await ModuleNewAction({
+      distTag: 'next',
       locale: 'zh',
       debug,
       config,

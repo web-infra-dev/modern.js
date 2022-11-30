@@ -102,6 +102,7 @@ async function runMonorepoNewCommand(
   if (isLocal) {
     console.info('runMonorepoNewCommand', cwd, config);
     await MonorepoNewAction({
+      distTag: 'next',
       locale: 'zh',
       debug: true,
       config,

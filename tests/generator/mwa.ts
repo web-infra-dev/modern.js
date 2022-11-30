@@ -124,6 +124,7 @@ async function runMWANewCommand(
   if (isLocal) {
     console.info('runMWANewCommand', cwd, config);
     await MWANewAction({
+      distTag: 'next',
       locale: 'zh',
       debug,
       config,
