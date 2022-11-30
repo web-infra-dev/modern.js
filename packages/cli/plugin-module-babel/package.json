@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {

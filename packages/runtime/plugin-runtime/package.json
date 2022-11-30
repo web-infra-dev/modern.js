@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -120,7 +120,7 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern-lib new",
     "build": "modern-lib build",
-    "test": "jest --passWithNoTests"
+    "test": "jest"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",

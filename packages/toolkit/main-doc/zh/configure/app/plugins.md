@@ -3,7 +3,7 @@ title: plugins (插件)
 sidebar_position: 9
 ---
 
-- 类型： `CliPlugin[] | { cli: CliPlugin[] }`
+- 类型： `CliPlugin[]`
 - 默认值：`[]`
 
 用于配置自定义的 Modern.js 插件。

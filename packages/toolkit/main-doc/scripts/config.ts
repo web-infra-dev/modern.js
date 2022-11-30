@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs-extra';
 
 const tip: Record<string, string> = {
-  zh: '该配置为 Modern.js Builder 配置，可能存在无法跳转的链接。详细信息可参考',
-  en: 'This configuration is Modern.js Builder configuration, there may be links that cannot be redirected. for details, please refer to',
+  zh: '该配置为 Modern.js Builder 配置，详细信息可参考',
+  en: 'This configuration is Modern.js Builder configuration, more detail can see',
 };
 
 export type Summary = {

@@ -1,5 +1,38 @@
 # @modern-js/server-plugin
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- 15bf09d9c8: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/utils@2.0.0-beta.2
+  - @modern-js/plugin@2.0.0-beta.2
+
 ## 2.0.0-beta.1
 
 ### Major Changes
