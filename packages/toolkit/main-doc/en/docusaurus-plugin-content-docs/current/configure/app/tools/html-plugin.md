@@ -4,7 +4,7 @@ sidebar_label: htmlPlugin
 ---
 
 :::info BUILDER
-This configuration is Modern.js Builder configuration, there may be links that cannot be redirected. for details, please refer to [tools.htmlPlugin](https://modernjs.dev/builder/zh/api/config-tools.html#tools-htmlplugin)。
+This configuration is Modern.js Builder configuration, more detail can see [tools.htmlPlugin](https://modernjs.dev/builder/zh/api/config-tools.html#tools-htmlplugin)。
 :::
 
 import Main from '@modern-js/builder-doc/en/config/tools/htmlPlugin.md'

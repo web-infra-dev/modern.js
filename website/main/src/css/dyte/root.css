@@ -51,6 +51,9 @@
   --docusaurus-highlighted-code-line-bg: rgba(147, 178, 244, 0.38);
 
   --ifm-font-size-base: 15px;
+
+  /* 列表配置 */
+  --ifm-list-left-padding: 1rem;
 }
 
 html[data-theme='dark'] {

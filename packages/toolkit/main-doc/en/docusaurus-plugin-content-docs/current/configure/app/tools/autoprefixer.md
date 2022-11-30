@@ -4,7 +4,7 @@ sidebar_label: autoprefixer
 ---
 
 :::info BUILDER
-This configuration is Modern.js Builder configuration, there may be links that cannot be redirected. for details, please refer to [tools.autoprefixer](https://modernjs.dev/builder/zh/api/config-tools.html#tools-autoprefixer)。
+This configuration is Modern.js Builder configuration, more detail can see [tools.autoprefixer](https://modernjs.dev/builder/zh/api/config-tools.html#tools-autoprefixer)。
 :::
 
 import Main from '@modern-js/builder-doc/en/config/tools/autoprefixer.md'
