@@ -4,7 +4,7 @@ sidebar_label: styleLoader
 ---
 
 :::info BUILDER
-This configuration is Modern.js Builder configuration, there may be links that cannot be redirected. for details, please refer to [tools.styleLoader](https://modernjs.dev/builder/zh/api/config-tools.html#tools-styleloader)。
+This configuration is Modern.js Builder configuration, more detail can see [tools.styleLoader](https://modernjs.dev/builder/zh/api/config-tools.html#tools-styleloader)。
 :::
 
 import Main from '@modern-js/builder-doc/en/config/tools/styleLoader.md'
