@@ -114,7 +114,6 @@ export const runRollup = async ({
     return watcher;
   } else {
     try {
-      console.info(inputConfig);
       const { rollup } = await import('../../../compiled/rollup');
       const bundle = await rollup(inputConfig);
       await bundle.write(outputConfig);

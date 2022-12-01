@@ -1,11 +1,9 @@
-module.exports = {
+export default {
   testing: {
     transformer: 'ts-jest',
   },
-  output: {
-    buildConfig: {
-      format: 'esm',
-      enableDts: true,
-    },
+  buildConfig: {
+    buildType: 'bundleless',
+    format: 'esm',
   },
 };

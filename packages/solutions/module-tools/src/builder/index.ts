@@ -33,7 +33,7 @@ export const run = async (
     if (cmdOptions.watch) {
       console.info(chalk.blue.underline('start build in watch mode...\n'));
     }
-    console.info('resolvedBuildConfig', resolvedBuildConfig);
+
     try {
       await pMap(resolvedBuildConfig, async config => {
         const buildConfig = await runner.beforeBuildTask(

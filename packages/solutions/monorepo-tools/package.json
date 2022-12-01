@@ -15,8 +15,6 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
@@ -24,7 +22,7 @@
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/js/node/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/index.ts",
@@ -66,11 +64,6 @@
     "typescript": "^4"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
