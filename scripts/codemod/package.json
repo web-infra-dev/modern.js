@@ -11,7 +11,8 @@
     "@types/node": "^14",
     "@types/glob": "^7.1.4",
     "@modern-js/tsconfig": "workspace:*",
-    "@scripts/build": "workspace:*"
+    "@scripts/build": "workspace:*",
+    "typescript": "^4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
