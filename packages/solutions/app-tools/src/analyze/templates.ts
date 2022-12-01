@@ -1,4 +1,4 @@
-import type { RuntimePlugin } from '@modern-js/core';
+import path from 'path';
 import type {
   Entrypoint,
   NestedRoute,
@@ -6,6 +6,9 @@ import type {
   Route,
   RouteLegacy,
 } from '@modern-js/types';
+import { fs } from '@modern-js/utils';
+import type { RuntimePlugin } from '../types';
+import { TEMP_LOADERS_DIR } from './constants';
 
 export const index = ({
   mountId,
@@ -105,16 +108,20 @@ export const html = (partials: {
 
 export const routesForServer = ({
   routes,
-  alias,
+  internalDirectory,
+  entryName,
 }: {
   routes: (NestedRoute | PageRoute)[];
-  alias: {
-    name: string;
-    basename: string;
-  };
+  internalDirectory: string;
+  entryName: string;
 }) => {
-  const { name, basename } = alias;
   const loaders: string[] = [];
+  const loaderIndexFile = path.join(
+    internalDirectory,
+    entryName,
+    TEMP_LOADERS_DIR,
+    'index.js',
+  );
   const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
     let children: Route['children'];
     if ('children' in route && route.children) {
@@ -152,12 +159,13 @@ export const routesForServer = ({
     }
   }
   routesCode += `\n];`;
-  const importLoadersCode = loaders
-    .map((loader, index) => {
-      const realLoaderPath = loader.replace(name, basename);
-      return `import loader_${index} from '${realLoaderPath}';\n`;
-    })
-    .join('');
+  let importLoadersCode = '';
+  if (loaders.length > 0) {
+    importLoadersCode = `
+    import { ${loaders.map(
+      (loader, index) => `loader_${index}`,
+    )} } from "${loaderIndexFile}"`;
+  }
 
   return `
     ${importLoadersCode}
@@ -165,35 +173,53 @@ export const routesForServer = ({
   `;
 };
 
-export const fileSystemRoutes = ({
+export const fileSystemRoutes = async ({
   routes,
   ssrMode,
   nestedRoutesEntry,
   entryName,
+  internalDirectory,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
   ssrMode: 'string' | 'stream' | false;
   nestedRoutesEntry?: string;
   entryName: string;
+  internalDirectory: string;
 }) => {
-  // The legacy mode and pages dir routes should use loadable
-  // nested routes + renderTostring should use loadable.lazy
-  // nested routes + renderToStream should use react.lazy
+  const loadings: string[] = [];
+  const errors: string[] = [];
+  const loaders: string[] = [];
+  const loadersMap: Record<string, string> = {};
+  const loadersIndexFile = path.join(
+    '@_modern_js_internal',
+    entryName,
+    TEMP_LOADERS_DIR,
+    'index.js',
+  );
+
+  const loadersMapFile = path.join(
+    internalDirectory,
+    entryName,
+    TEMP_LOADERS_DIR,
+    'map.json',
+  );
+
   const importLazyCode = `
     import { lazy } from "react";
     import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   `;
   let dataLoaderPath = '';
+  let componentLoaderPath = '';
   if (ssrMode) {
     dataLoaderPath = require.resolve(`@modern-js/plugin-data-loader/loader`);
     if (nestedRoutesEntry) {
-      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}&entryName=${entryName}!`;
+      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}&mapFile=${loadersMapFile}!`;
     }
+    componentLoaderPath = `${path.join(
+      __dirname,
+      '../builder/loaders/routerLoader',
+    )}!`;
   }
-
-  const loadings: string[] = [];
-  const errors: string[] = [];
-  const loaders: string[] = [];
 
   const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
     let children: Route['children'];
@@ -216,14 +242,17 @@ export const fileSystemRoutes = ({
       }
       if (route.loader) {
         loaders.push(route.loader);
-        loader = `loader_${loaders.length - 1}`;
+        const loaderId = loaders.length - 1;
+        loader = `loader_${loaderId}`;
+        loadersMap[loader] = route.id!;
       }
 
       if (route._component) {
-        if (ssrMode === 'stream') {
-          component = `lazy(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
+        if (ssrMode === 'string') {
+          component = `loadable(() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}'))`;
         } else {
-          component = `loadable(() => import(/* webpackChunkName: "${route.id}" */  /* webpackMode: "lazy-once" */ '${route._component}'))`;
+          // csr and streaming
+          component = `lazy(() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}'))`;
         }
       }
     } else if (route._component) {
@@ -283,17 +312,55 @@ export const fileSystemRoutes = ({
     })
     .join('');
 
-  const importLoaderComponentsCode = loaders
-    .map((loader, index) => {
-      return `import loader_${index} from '${dataLoaderPath}${loader}';\n`;
-    })
-    .join('');
+  let importLoadersCode = '';
+
+  if (loaders.length > 0) {
+    importLoadersCode = `
+    import { ${loaders.map(
+      (loader, index) => `loader_${index}`,
+    )} } from "${dataLoaderPath}${loadersIndexFile}"
+  `;
+
+    const loaderEntryCode = loaders
+      .map((loader, index) => {
+        return `export * from './loader_${index}.js';`;
+      })
+      .join('\n');
+
+    const loaderEntryFile = path.join(
+      internalDirectory,
+      entryName,
+      TEMP_LOADERS_DIR,
+      'entry.js',
+    );
+
+    await fs.ensureFile(loaderEntryFile);
+    await fs.writeFile(loaderEntryFile, loaderEntryCode);
+    await fs.writeJSON(loadersMapFile, loadersMap);
+
+    await Promise.all(
+      loaders.map(async (loader, index) => {
+        const name = `loader_${index}`;
+        const filename = path.join(
+          internalDirectory,
+          entryName,
+          TEMP_LOADERS_DIR,
+          `${name}.js`,
+        );
+        const code = `
+          export { loader as ${name} } from '${loader}'
+        `;
+        await fs.ensureFile(filename);
+        await fs.writeFile(filename, code);
+      }),
+    );
+  }
 
   return `
     ${importLazyCode}
     ${importLoadingCode}
     ${importErrorComponentsCode}
-    ${importLoaderComponentsCode}
+    ${importLoadersCode}
     ${routeComponentsCode}
   `;
 };

@@ -6,13 +6,14 @@ import { i18n } from './locale';
 import { newCli, deployCli, clearCli } from './cli';
 import { getLocaleLanguage } from './utils/language';
 import { hooks } from './hooks';
+import { MonorepoTools } from './type';
 
 const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',
   require,
 );
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<MonorepoTools> => ({
   name: '@modern-js/monorepo-tools',
   usePlugins: [ChangesetPlugin(), LintPlugin()],
   registerHook: hooks,

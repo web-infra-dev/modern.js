@@ -1,6 +1,7 @@
 import { join, resolve } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '../scripts/shared';
+import { webpackOnlyTest, allProviderTest } from './helper';
 
 const fixtures = resolve(__dirname, '../fixtures/source');
 
@@ -26,18 +27,18 @@ test.describe('source configure multi', () => {
     );
   });
 
-  test('alias', async ({ page }) => {
+  allProviderTest('alias', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
     await expect(page.innerHTML('#test')).resolves.toBe('Hello Builder! 1');
   });
 
-  test('pre-entry', async ({ page }) => {
+  allProviderTest('pre-entry', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
     await expect(page.innerHTML('#test-el')).resolves.toBe('aaaaa');
   });
 });
 
-test('module-scopes', async ({ page }) => {
+webpackOnlyTest('module-scopes', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'module-scopes'),
     entry: {
@@ -67,7 +68,7 @@ test('module-scopes', async ({ page }) => {
   });
 });
 
-test('resolve-extension-prefix', async ({ page }) => {
+allProviderTest('resolve-extension-prefix', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'resolve-extension-prefix'),
     entry: {
@@ -90,7 +91,7 @@ test('resolve-extension-prefix', async ({ page }) => {
   await expect(page.innerHTML('#test-el')).resolves.toBe('web');
 });
 
-test('global-vars', async ({ page }) => {
+allProviderTest('global-vars & tsConfigPath', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'global-vars'),
     entry: {
@@ -109,9 +110,13 @@ test('global-vars', async ({ page }) => {
   await expect(
     page.evaluate(`document.getElementById('test-el').innerHTML`),
   ).resolves.toBe('aaaaa');
+
+  await expect(
+    page.evaluate(`document.getElementById('test-alias-el').innerHTML`),
+  ).resolves.toBe('alias work correctly');
 });
 
-test('define', async ({ page }) => {
+allProviderTest('define', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'global-vars'),
     entry: {

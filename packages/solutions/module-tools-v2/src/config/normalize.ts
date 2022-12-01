@@ -1,13 +1,14 @@
 import path from 'path';
 import type { PluginAPI } from '@modern-js/core';
 import type {
-  UserConfig,
+  ModuleUserConfig,
   BaseBuildConfig,
   BuildPreset,
   PartialBuildConfig,
   PartialBaseBuildConfig,
   ModuleContext,
   BuildCommandOptions,
+  ModuleTools,
 } from '../types';
 
 export const transformBuildPresetToBaseConfigs = async (
@@ -124,7 +125,7 @@ export const transformToAbsPath = async (
   return newConfig;
 };
 
-export const checkConfig = async (config: UserConfig) => {
+export const checkConfig = async (config: ModuleUserConfig) => {
   const { buildConfig, buildPreset } = config;
   if (buildConfig && buildPreset) {
     const { logger } = await import('@modern-js/utils');
@@ -135,11 +136,11 @@ export const checkConfig = async (config: UserConfig) => {
 };
 
 export const normalizeBuildConfig = async (
-  api: PluginAPI,
+  api: PluginAPI<ModuleTools>,
   context: ModuleContext,
   buildCmdOptions: BuildCommandOptions,
 ): Promise<BaseBuildConfig[]> => {
-  const config = api.useResolvedConfigContext() as unknown as UserConfig;
+  const config = api.useResolvedConfigContext() as unknown as ModuleUserConfig;
   const { buildConfig, buildPreset } = config;
 
   await checkConfig(config);

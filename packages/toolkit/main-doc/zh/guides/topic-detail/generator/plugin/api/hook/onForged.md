@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # OnForged
 
-onForged 函数为生成器插件生命周期函数，其通常用于定义文件类型操作，这些操作将在 base 的工程方案文件操作完成后进行。
+`onForged` 函数为生成器插件生命周期函数，其通常用于定义文件类型操作，这些操作将在 base 的工程方案文件操作完成后进行。
 
 该方法可直接在 context 上获取。
 
@@ -24,11 +24,11 @@ export interface IPluginContext {
 
 ## func
 
-onForged 参数是一个回调函数，函数参数为 api 和 inputData。
+`onForged` 参数是一个回调函数，函数参数为 api 和 inputData。
 
 ### api
 
-在 onForged 生命周期中支持的函数列表，具体可查看[文件操作 API](/docs/guides/topic-detail/generator/plugin/api/file/introduce) 和[启用功能 API](/docs/guides/topic-detail/generator/plugin/api/new/introduce)。
+在 `onForged` 生命周期中支持的函数列表，具体可查看[文件操作 API](/docs/guides/topic-detail/generator/plugin/api/file/introduce) 和[启用功能 API](/docs/guides/topic-detail/generator/plugin/api/new/introduce)。
 
 ### inputData
 

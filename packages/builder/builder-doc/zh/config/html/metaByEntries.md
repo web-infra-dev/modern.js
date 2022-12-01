@@ -17,7 +17,7 @@ export default {
     },
     metaByEntries: {
       foo: {
-        description: 'Tiktok',
+        description: 'TikTok',
       },
     },
   },
@@ -27,7 +27,7 @@ export default {
 编译后，可以看到页面 `foo` 的 meta 为：
 
 ```html
-<meta name="description" content="Tiktok" />
+<meta name="description" content="TikTok" />
 ```
 
 其他页面的 meta 为：

@@ -23,13 +23,12 @@ Builder 中包括如下的拆包策略：
 
 根据以往的经验，内置的拆分组包括：
 
-- React (react、react-dom)
-- Router (react-router、react-router-dom、history)
-- Semi (@ies/semi、@douyinfe/semi-ui)
+- React (react, react-dom)
+- Router (react-router, react-router-dom, history)
+- Polyfill (core-js, @babel/runtime)
+- Semi (@ies/semi, @douyinfe/semi-ui)
 - Arco (@arco-design/web-react)
-- Babel Runtime (@babel/runtime、@babel/runtime-corejs2、@babel/runtime-corejs3)
-- Lodash (lodash、lodash-es)
-- CoreJS (core-js)
+- Lodash (lodash, lodash-es)
 
 这种拆包策略将常用的包进行分组，然后拆分为单独的 Chunk，一般 Chunk 的数量不会很多，适合绝大部分应用，同时也是我们推荐的拆包策略。
 

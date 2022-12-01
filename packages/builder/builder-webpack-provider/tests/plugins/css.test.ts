@@ -160,8 +160,8 @@ describe('plugins/css', () => {
     const builder = await createStubBuilder({
       plugins: [PluginCss()],
       builderConfig: {
-        tools: {
-          cssExtract: false,
+        output: {
+          disableCssExtract: true,
         },
       },
     });

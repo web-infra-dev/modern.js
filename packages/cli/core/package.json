@@ -10,7 +10,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -28,18 +28,24 @@
     "./bin": {
       "jsnext:source": "./src/bin.ts",
       "default": "./dist/bin.js"
+    },
+    "./types": {
+      "default": "./dist/types/index.js"
     }
   },
   "typesVersions": {
     "*": {
       "config": [
         "./dist/config/types/index.d.ts"
+      ],
+      "types": [
+        "./dist/types/index.d.ts"
       ]
     }
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern new",
+    "new": "modern-lib new",
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "jest"
@@ -51,6 +57,7 @@
   },
   "devDependencies": {
     "@jest/types": "^27.0.6",
+    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",

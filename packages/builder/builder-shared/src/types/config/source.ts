@@ -1,7 +1,10 @@
 import type { Alias } from '@modern-js/utils';
+import type { BuilderTarget } from '../builder';
 import type { ChainedConfig, JSONValue } from '../utils';
 
 export type ModuleScopes = Array<string | RegExp>;
+
+export type MainFields = (string | string[])[];
 
 export interface SharedSourceConfig {
   /**
@@ -41,11 +44,11 @@ export interface SharedSourceConfig {
    * This configuration will determine which field of `package.json` you use to import the `npm` module.
    * Same as the [resolve.mainFields](https://webpack.js.org/configuration/resolve/#resolvemainfields) config of webpack.
    */
-  resolveMainFields?: (string[] | string)[];
+  resolveMainFields?: MainFields | Partial<Record<BuilderTarget, MainFields>>;
   /**
    * Add a prefix to [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolveextensions).
    */
-  resolveExtensionPrefix?: string;
+  resolveExtensionPrefix?: string | Partial<Record<BuilderTarget, string>>;
 }
 
 export interface NormalizedSharedSourceConfig extends SharedSourceConfig {

@@ -58,6 +58,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/basic/svg-assets'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/alias'),
+          getLink('/guide/basic/typescript'),
         ],
       },
       {
@@ -67,6 +68,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/advanced/build-performance'),
           getLink('/guide/advanced/inline-assets'),
           getLink('/guide/advanced/split-chunk'),
+          getLink('/guide/advanced/custom-webpack-config'),
         ],
       },
       {

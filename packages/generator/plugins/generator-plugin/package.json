@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -25,8 +25,8 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
-    "new": "modern new",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

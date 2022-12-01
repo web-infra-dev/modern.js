@@ -3,6 +3,7 @@ import { join } from 'path';
 import fs from '@modern-js/utils/fs-extra';
 import type { CreateBuilderOptions } from '@modern-js/builder';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
@@ -25,13 +26,12 @@ async function getWebpackBuilderProvider(builderConfig: BuilderConfig) {
   return builderProvider;
 }
 
-// todo: access builder-rspack-provider
-async function getRspackBuilderProvider(builderConfig: BuilderConfig) {
-  const { builderWebpackProvider } = await import(
-    '@modern-js/builder-webpack-provider'
+async function getRspackBuilderProvider(builderConfig: RspackBuilderConfig) {
+  const { builderRspackProvider } = await import(
+    '@modern-js/builder-rspack-provider'
   );
 
-  const builderProvider = builderWebpackProvider({
+  const builderProvider = builderRspackProvider({
     builderConfig,
   });
 
@@ -40,13 +40,13 @@ async function getRspackBuilderProvider(builderConfig: BuilderConfig) {
 
 export const createBuilder = async (
   builderOptions: CreateBuilderOptions,
-  builderConfig: BuilderConfig = {},
+  builderConfig: BuilderConfig | RspackBuilderConfig = {},
 ) => {
   const { createBuilder } = await import('@modern-js/builder');
 
   const builderProvider =
     process.env.PROVIDE_TYPE === 'rspack'
-      ? await getRspackBuilderProvider(builderConfig)
+      ? await getRspackBuilderProvider(builderConfig as RspackBuilderConfig)
       : await getWebpackBuilderProvider(builderConfig);
 
   const builder = await createBuilder(builderProvider, builderOptions);

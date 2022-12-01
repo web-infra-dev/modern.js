@@ -13,9 +13,6 @@ export default (): CliPlugin => ({
     i18n.changeLanguage({ locale: getLocaleLanguage() });
 
     return {
-      plugins() {
-        return [{}];
-      },
       commands({ program }) {
         program
           .command('change')

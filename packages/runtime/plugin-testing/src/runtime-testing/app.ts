@@ -10,13 +10,23 @@ interface CreateAppProps {
 }
 
 class ModernRuntime {
-  private options: UserConfig;
+  private options: UserConfig<{
+    userConfig: { runtime?: any; runtimeByEntries?: any };
+  }>;
 
-  constructor(options: UserConfig) {
+  constructor(
+    options: UserConfig<{
+      userConfig: { runtime?: any; runtimeByEntries?: any };
+    }>,
+  ) {
     this.options = options;
   }
 
-  public init(options: UserConfig) {
+  public init(
+    options: UserConfig<{
+      userConfig: { runtime?: any; runtimeByEntries?: any };
+    }>,
+  ) {
     this.options = options;
   }
 

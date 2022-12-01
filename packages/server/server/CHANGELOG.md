@@ -1,5 +1,100 @@
 # @modern-js/server
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 15bf09d9c8: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- 61f21d1e77: fix: ignore the entire distPath for pia ssr bundle
+  fix: dist 目录的产物不应该被 ts-node 编译
+- ebbeed1: chore: dev server default cross origin
+  chore: 开发环境 Server 默认跨域
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [9b915e0c10]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [d032d49]
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [a8642da58f]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed587]
+- Updated dependencies [87c1ff8]
+- Updated dependencies [c2bb0f1]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [73cd29dd9f]
+- Updated dependencies [18aaf42]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/server-utils@2.0.0-beta.2
+  - @modern-js/prod-server@2.0.0-beta.2
+  - @modern-js/utils@2.0.0-beta.2
+  - @modern-js/types@2.0.0-beta.2
+
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 15bf09d9c8: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- 61f21d1e77: fix: ignore the entire distPath for pia ssr bundle
+  fix: dist 目录的产物不应该被 ts-node 编译
+- ebbeed1: chore: dev server default cross origin
+  chore: 开发环境 Server 默认跨域
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [9b915e0c10]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [d032d49]
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [a8642da]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed587]
+- Updated dependencies [87c1ff8]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [73cd29dd9f]
+- Updated dependencies [18aaf42]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/server-utils@2.0.0-beta.1
+  - @modern-js/prod-server@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/types@2.0.0-beta.1
+
 ## 2.0.0-beta.0
 
 ### Major Changes

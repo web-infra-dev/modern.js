@@ -1,9 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable-next-line eslint-comments/disable-enable-pair */
-/* eslint-disable import/first */
-
-require('../compiled/v8-compile-cache');
-
 import { minimist } from '@modern-js/utils';
 import { cli, CoreOptions } from '.';
 
@@ -48,4 +43,4 @@ if (SUPPORT_CONFIG_PARAM_COMMANDS.includes(command) && customConfigFile) {
   runOptions.configFile = customConfigFile;
 }
 
-cli.run(process.argv.slice(2), runOptions);
+cli.run(runOptions);

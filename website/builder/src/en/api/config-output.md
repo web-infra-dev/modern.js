@@ -38,6 +38,10 @@ This section describes some output related configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/dataUriLimit.md)!!!
 
+## output.disableCssExtract
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/disableCssExtract.md)!!!
+
 ## output.disableCssModuleExtension
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/disableCssModuleExtension.md)!!!

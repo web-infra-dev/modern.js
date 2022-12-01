@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { findExists, ensureAbsolutePath } from '@modern-js/utils';
-import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
+import type { AppNormalizedConfig, IAppContext } from '../types';
 import { isDefaultExportFunction } from './isDefaultExportFunction';
 import {
   JS_EXTENSIONS,
@@ -104,7 +104,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
 
 export const getFileSystemEntry = (
   appContext: IAppContext,
-  config: NormalizedConfig,
+  config: AppNormalizedConfig,
 ): Entrypoint[] => {
   const { appDirectory } = appContext;
 
@@ -112,7 +112,7 @@ export const getFileSystemEntry = (
     source: { entriesDir },
   } = config;
 
-  const src = ensureAbsolutePath(appDirectory, entriesDir!);
+  const src = ensureAbsolutePath(appDirectory, entriesDir || '');
 
   if (fs.existsSync(src)) {
     if (fs.statSync(src).isDirectory()) {
@@ -130,6 +130,6 @@ export const getFileSystemEntry = (
       throw Error(`source.entriesDir accept a directory.`);
     }
   } else {
-    throw Error(`src dir ${entriesDir!} not found.`);
+    throw Error(`src dir ${entriesDir} not found.`);
   }
 };

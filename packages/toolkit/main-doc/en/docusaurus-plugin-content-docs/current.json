@@ -103,9 +103,41 @@
     "message": "自定义插件",
     "description": "The label for category 自定义插件 in sidebar guidesSidebar"
   },
-  "sidebar.guidesSidebar.category.自定义生成器插件": {
-    "message": "自定义生成器插件",
-    "description": "The label for category 自定义生成器插件 in sidebar guidesSidebar"
+  "sidebar.guidesSidebar.category.项目生成器": {
+    "message": "Project Generator",
+    "description": "The label for category 项目生成器 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.工程方案配置": {
+    "message": "Engineering configuration",
+    "description": "The label for category 工程方案配置 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.开发生成器插件": {
+    "message": "Development Generator Plugin",
+    "description": "The label for category 开发生成器插件 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.开发微生成器": {
+    "message": "Develop microgenerator",
+    "description": "The label for category 开发微生成器 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.自定义输入 API": {
+    "message": "Customized Input API",
+    "description": "The label for category 自定义输入 API in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.获取信息 API": {
+    "message": "Get Information API",
+    "description": "The label for category 获取信息 API in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.Hook 函数 API": {
+    "message": "Hook Function API",
+    "description": "The label for category Hook 函数 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.文件操作 API": {
+    "message": "File API",
+    "description": "The label for category 文件操作 API in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.启用功能 API": {
+    "message": "Enable function API",
+    "description": "The label for category 启用功能 API in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.常见问题": {
     "message": "常见问题",
@@ -242,6 +274,10 @@
   "sidebar.configsAppSidebar.category.server (服务器)": {
     "message": "server",
     "description": "The label for category server in sidebar configsAppSidebar"
+  },
+  "sidebar.configsAppSidebar.category.deploy (部署)": {
+    "message": "deploy",
+    "description": "The label for category deploy in sidebar configsAppSidebar"
   },
   "sidebar.configsAppSidebar.category.bff (BFF API)": {
     "message": "bff",

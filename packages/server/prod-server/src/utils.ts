@@ -1,5 +1,8 @@
 import { IncomingMessage } from 'http';
-import type { NormalizedConfig } from '@modern-js/core';
+import type {
+  OutputNormalizedConfig,
+  HtmlNormalizedConfig,
+} from '@modern-js/server-core';
 import { createDebugger, isProd } from '@modern-js/utils';
 
 export const debug = createDebugger('prod-server') as any;
@@ -79,15 +82,16 @@ export const useLocalPrefix = (url: string) => {
   return isProd() && !url.includes('.');
 };
 
-export const getStaticReg = (output: NormalizedConfig['output'] = {}) => {
+export const getStaticReg = (
+  output: OutputNormalizedConfig = {},
+  html: HtmlNormalizedConfig = {},
+) => {
   const {
-    favicon,
-    faviconByEntries,
-    cssPath,
-    jsPath,
-    mediaPath,
+    distPath: { css: cssPath, js: jsPath, media: mediaPath } = {},
     assetPrefix = '/',
   } = output;
+  const { favicon, faviconByEntries } = html;
+
   const prefix = useLocalPrefix(assetPrefix) ? assetPrefix : '';
   const favicons = prepareFavicons(favicon, faviconByEntries);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));

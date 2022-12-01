@@ -17,17 +17,17 @@ export const platformBuild = createParallelWorkflow<
 >();
 
 export const moduleLessConfig = createAsyncPipeline<
-  { modernConfig: NormalizedConfig },
+  { modernConfig: NormalizedConfig<any> },
   LessOption | undefined
 >();
 
 export const moduleSassConfig = createAsyncPipeline<
-  { modernConfig: NormalizedConfig },
+  { modernConfig: NormalizedConfig<any> },
   SassOptions<'sync'> | undefined
 >();
 
 export const moduleTailwindConfig = createAsyncPipeline<
-  { modernConfig: NormalizedConfig },
+  { modernConfig: NormalizedConfig<any> },
   any
 >();
 
@@ -44,7 +44,7 @@ export const lifecycle = () => {
     moduleSassConfig,
     moduleTailwindConfig,
     platformBuild,
-  });
+  } as any);
 };
 
 declare module '@modern-js/core' {

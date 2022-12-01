@@ -22,7 +22,7 @@ export function applyModuleScopePlugin({
           const ret = scope(defaultScopes);
           defaultScopes = ret ? ret : defaultScopes;
         } else {
-          defaultScopes.push(scope as string | RegExp);
+          defaultScopes.push(scope);
         }
       }
     } else {

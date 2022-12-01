@@ -12,19 +12,22 @@
 }
 
 .markdown h1:first-child {
-  /* --ifm-h1-font-size: 2.5rem; */
   font-size: 38px;
   margin-bottom: 3rem;
 }
 
 .markdown > h2 {
-  /* --ifm-h2-font-size: 1.8rem; */
   font-size: 24px;
   letter-spacing: -0.02em;
 }
 
 .markdown > h3 {
   --ifm-h3-font-size: 20px;
+}
+
+.markdown li::marker {
+  color: var(--docs-color-text-100);
+  font-weight: 500;
 }
 
 /* md 内部右侧导航 */

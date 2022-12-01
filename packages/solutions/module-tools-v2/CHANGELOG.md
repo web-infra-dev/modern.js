@@ -1,5 +1,153 @@
 # @modern-js/module-tools
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- 92f0ead: feat:
+
+  1. add style config and add new hook
+  2. add dts alias logic
+  3. add copy logic
+  4. add log logic
+  5. add skipDeps config
+
+  feat:
+
+  1. 添加样式配置以及新的 hook
+  2. 添加 dts 别名处理
+  3. 添加 copy 逻辑
+  4. 添加日志逻辑
+  5. 添加 skipDeps 配置
+
+- 4fd53b48fd: feat: add normalize config logic
+  feat: 添加处理配置的逻辑
+- f0ee9120db: feat: change dev menu log
+  feat: 修改 dev 菜单展示的内容
+- 0bb776858a: feat: add ModuleContext
+  feat: 添加 ModuleContext
+- e6bfca6d31: feat: add type define and schema for config
+  feat: 为配置增加类型定义和 schema
+- 54abc88a2a: feat: add new and upgrade command
+  feat: 添加 new 和 upgrade 命令
+
+### Patch Changes
+
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- d4a4566: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- 540de1fd5d: fix: filename typo, color.ts --> colors.ts
+  fix: 文件名错误，color.ts 修改为 colors.ts
+- a2c8cc3: fix: change tools define userconfig type
+  fix: 修改工程定义的 UserConfig 类型
+- 1be4ba1ccd: feat: add platform build log
+  feat: 添加 platform 构建的 log 内容
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [85edee888c]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [d4a4566]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/core@2.0.0-beta.2
+  - @modern-js/utils@2.0.0-beta.2
+  - @modern-js/plugin-lint@2.0.0-beta.2
+  - @modern-js/plugin@2.0.0-beta.2
+  - @modern-js/plugin-changeset@2.0.0-beta.2
+  - @modern-js/plugin-i18n@2.0.0-beta.2
+  - @modern-js/new-action@2.0.0-beta.2
+  - @modern-js/upgrade@2.0.0-beta.2
+
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Minor Changes
+
+- 92f0ead: feat:
+
+  1. add style config and add new hook
+  2. add dts alias logic
+  3. add copy logic
+  4. add log logic
+  5. add skipDeps config
+
+  feat:
+
+  1. 添加样式配置以及新的 hook
+  2. 添加 dts 别名处理
+  3. 添加 copy 逻辑
+  4. 添加日志逻辑
+  5. 添加 skipDeps 配置
+
+- 4fd53b48fd: feat: add normalize config logic
+  feat: 添加处理配置的逻辑
+- f0ee9120db: feat: change dev menu log
+  feat: 修改 dev 菜单展示的内容
+- 0bb776858a: feat: add ModuleContext
+  feat: 添加 ModuleContext
+- e6bfca6d31: feat: add type define and schema for config
+  feat: 为配置增加类型定义和 schema
+- 54abc88a2a: feat: add new and upgrade command
+  feat: 添加 new 和 upgrade 命令
+
+### Patch Changes
+
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- d4a4566: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- 540de1fd5d: fix: filename typo, color.ts --> colors.ts
+  fix: 文件名错误，color.ts 修改为 colors.ts
+- 1be4ba1ccd: feat: add platform build log
+  feat: 添加 platform 构建的 log 内容
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [85edee888c]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [d4a4566]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/core@2.0.0-beta.1
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/plugin-lint@2.0.0-beta.1
+  - @modern-js/plugin@2.0.0-beta.1
+  - @modern-js/plugin-changeset@2.0.0-beta.1
+  - @modern-js/plugin-i18n@2.0.0-beta.1
+  - @modern-js/new-action@2.0.0-beta.1
+  - @modern-js/upgrade@2.0.0-beta.1
+
 ## 2.0.0-beta.0
 
 ### Major Changes

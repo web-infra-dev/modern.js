@@ -1,10 +1,10 @@
 {
   "name": "@scripts/build",
   "private": true,
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.2",
   "main": "./src/index.js",
   "bin": {
-    "modern": "./bin/modern.js",
+    "modern-lib": "./bin/modern.js",
     "mdn": "./bin/modern.js",
     "only-allow-pnpm": "./bin/only-allow-pnpm.js"
   },

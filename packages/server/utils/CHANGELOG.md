@@ -1,5 +1,81 @@
 # @modern-js/server-utils
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 9b915e0c10: fix: tsconfig-paths plugin's new node use old node flag
+  fix: tsconfig-paths 插件转换的新节点使用旧节点的 flag
+- a8642da58f: fix(server-utils): incorrect babel-compiler version
+
+  fix(server-utils): 修复引用错误的 babel-compiler 版本的问题
+
+- c2bb0f1: chore(server-utils): using pre-bundled tsconfig-paths
+
+  chore(server-utils): 使用预打包的 tsconfig-paths 依赖
+
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/utils@2.0.0-beta.2
+  - @modern-js/plugin@2.0.0-beta.2
+  - @modern-js/babel-preset-lib@2.0.0-beta.2
+  - @modern-js/babel-compiler@2.0.0-beta.2
+
+## 2.0.0-beta.1
+
+### Major Changes
+
+- dda38c9: chore: v2
+
+### Patch Changes
+
+- 9b915e0c10: fix: tsconfig-paths plugin's new node use old node flag
+  fix: tsconfig-paths 插件转换的新节点使用旧节点的 flag
+- a8642da: fix(server-utils): incorrect babel-compiler version
+
+  fix(server-utils): 修复引用错误的 babel-compiler 版本的问题
+
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712d]
+  - @modern-js/utils@2.0.0-beta.1
+  - @modern-js/plugin@2.0.0-beta.1
+  - @modern-js/babel-preset-lib@2.0.0-beta.1
+  - @modern-js/babel-compiler@2.0.0-beta.1
+
 ## 2.0.0-beta.0
 
 ### Major Changes

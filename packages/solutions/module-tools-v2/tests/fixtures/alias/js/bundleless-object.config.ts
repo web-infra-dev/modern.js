@@ -8,6 +8,7 @@ export default defineConfig({
         '@src': './src',
       },
       ...preset.BASE_CONFIG,
+      buildType: 'bundleless',
       outdir: './dist/bundleless/object',
     };
   },

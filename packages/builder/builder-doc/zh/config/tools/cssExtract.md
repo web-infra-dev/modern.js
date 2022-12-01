@@ -1,8 +1,8 @@
-- Type: `false | Object | Function`
-- Default
+- Type: `Object | Function`
+- Default:
 
 ```js
-{
+const defaultOptions = {
   // Loader 配置
   loaderOptions: {},
   // Plugin 配置
@@ -11,8 +11,8 @@
     filename: `${cssPath}/${cssFilename}`,
     chunkFilename: `${cssPath}/async/${cssFilename}`,
     ignoreOrder: true,
-  }
-}
+  },
+};
 ```
 
 通过 `tools.cssExtract` 可以更改 [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) 的配置。
@@ -49,15 +49,3 @@ export default {
 ```
 
 更多配置细节可参考 [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)。
-
-### Boolean 类型
-
-将 `tools.cssExtract` 配置为 `false`，可以禁用默认的 `mini-css-extract-plugin` 插件。
-
-```js
-export default {
-  tools: {
-    cssExtract: false,
-  },
-}
-```

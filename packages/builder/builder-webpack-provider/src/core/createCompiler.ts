@@ -3,11 +3,9 @@ import type { Context, WebpackConfig } from '../types';
 import type { Stats } from 'webpack';
 
 export async function createCompiler({
-  watch = true,
   context,
   webpackConfigs,
 }: {
-  watch?: boolean;
   context: Context;
   webpackConfigs: WebpackConfig[];
 }) {
@@ -17,6 +15,7 @@ export async function createCompiler({
   });
 
   const { default: webpack } = await import('webpack');
+  const { isDev } = await import('@modern-js/utils');
 
   const compiler =
     webpackConfigs.length === 1
@@ -35,12 +34,13 @@ export async function createCompiler({
       logger.log(message);
     }
 
-    if (watch) {
+    if (isDev()) {
       await context.hooks.onDevCompileDoneHook.call({
         isFirstCompile,
       });
-      isFirstCompile = false;
     }
+
+    isFirstCompile = false;
   });
 
   await context.hooks.onAfterCreateCompilerHook.call({ compiler });

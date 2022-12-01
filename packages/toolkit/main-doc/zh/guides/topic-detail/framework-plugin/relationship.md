@@ -1,8 +1,7 @@
 ---
-sidebar_position: 3
+title: 插件之间的关系
+sidebar_position: 4
 ---
-
-# 插件之间的关系
 
 Modern.js 的插件配置对象提供了一系列的字段，用于控制插件顺序、互斥等能力，可用的字段如下：
 

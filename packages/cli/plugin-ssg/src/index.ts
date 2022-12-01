@@ -1,6 +1,6 @@
 import path from 'path';
 import { logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import type { CliPlugin } from '@modern-js/core';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { generatePath } from 'react-router-dom';
 import { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
 import {
@@ -16,7 +16,7 @@ import { writeHtmlFile } from './libs/output';
 import { replaceRoute } from './libs/replace';
 import { makeRoute } from './libs/make';
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssg',
 
   pre: ['@modern-js/plugin-server', '@modern-js/plugin-bff'],
@@ -41,7 +41,7 @@ export default (): CliPlugin => ({
 
         const { appDirectory, entrypoints } = appContext;
         const { output, server } = resolvedConfig;
-        const { ssg, path: outputPath } = output;
+        const { ssg, distPath: { root: outputPath } = {} } = output;
 
         const ssgOptions: SSGConfig = Array.isArray(ssg) ? ssg.pop() : ssg;
         // no ssg configuration, skip ssg render.
