@@ -13,11 +13,16 @@ export const PluginImageCompress = (...options: Options[]): BuilderPlugin => ({
   setup(api) {
     const optsWithDefault = options.length ? options : DEFAULT_OPTIONS;
     const opts = optsWithDefault.map(opt => withDefaultOptions(opt));
-    api.modifyWebpackChain((chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain((chain, { CHAIN_ID, env }) => {
+      if (env !== 'production') {
+        return;
+      }
+      const rule = chain.module.rule(CHAIN_ID.RULE.IMAGE);
       _.each(opts, opt => {
-        chain.module
-          .rule(CHAIN_ID.RULE.IMAGE)
-          .use(`image-compress#${opt.use}`)
+        rule
+          .oneOf(opt.use)
+          .test(opt.test)
+          .use(`${CHAIN_ID.USE.IMAGE_COMPRESS}-${opt.use}`)
           .loader(path.resolve(__dirname, './loader'))
           .options(opt);
       });
