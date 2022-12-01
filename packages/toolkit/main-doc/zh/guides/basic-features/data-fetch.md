@@ -1,6 +1,6 @@
 ---
 title: 数据获取
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过这些 API，在 CSR 和 SSR 环境同构的进行开发。
