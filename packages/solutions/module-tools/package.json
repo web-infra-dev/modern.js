@@ -1,43 +1,26 @@
 {
-  "name": "@modern-js/module-tools",
+  "name": "@modern-js/module-tools-v2",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
   "license": "MIT",
   "keywords": [
-    "react",
-    "framework",
     "modern",
-    "modern.js"
+    "modern.js",
+    "module-tools",
+    "lib-tools"
   ],
   "version": "2.0.0-beta.3",
   "bin": {
     "modern": "./bin/modern.js",
     "modern-module": "./bin/modern.js"
   },
-  "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./src/index.ts",
   "exports": {
-    ".": {
-      "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
-      },
-      "default": "./dist/js/treeshaking/index.js"
-    },
-    "./cli": {
-      "jsnext:source": "./src/index.ts",
-      "default": "./dist/js/node/index.js"
-    },
-    "./build": {
-      "jsnext:source": "./src/build.ts",
-      "default": "./dist/js/node/build.js"
-    }
+    ".": "./src/index.ts",
+    "./defineConfig": "./src/config/defineConfig.ts"
   },
   "typesVersions": {
     "*": {
@@ -46,71 +29,78 @@
       ],
       "type": [
         "./lib/types.d.ts"
+      ],
+      "defineConfig": [
+        "./src/config/defineConfig.ts"
       ]
     }
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern-lib new",
-    "build": "modern-lib build",
-    "test": "jest --passWithNoTests",
-    "dev": "modern-lib build --watch"
+    "build": "mdn build",
+    "dev": "mdn build --watch",
+    "test": "jest",
+    "test:update": "jest --updateSnapshot",
+    "new": "modern-lib new"
   },
   "dependencies": {
-    "@babel/generator": "^7.18.0",
-    "@babel/parser": "^7.18.0",
-    "@babel/runtime": "^7.18.0",
-    "@babel/traverse": "^7.18.0",
-    "@babel/types": "^7.18.0",
-    "@modern-js/babel-compiler": "workspace:*",
-    "@modern-js/babel-preset-module": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/css-config": "1.21.1",
+    "@modern-js/libuild": "0.5.0",
+    "@modern-js/libuild-plugin-umd": "0.5.0",
+    "@modern-js/libuild-plugin-es5": "0.5.0",
     "@modern-js/new-action": "workspace:*",
-    "@modern-js/upgrade": "workspace:*",
     "@modern-js/plugin": "workspace:*",
-    "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/plugin-lint": "workspace:*",
-    "@modern-js/style-compiler": "workspace:*",
+    "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rollup/plugin-json": "~4.1.0",
-    "@speedy-js/speedy-types": "0.13.2-modern.4",
-    "@speedy-js/speedy-core": "0.13.2-modern.4",
-    "@speedy-js/speedy-plugin-es5": "0.13.2-modern.4",
-    "normalize-path": "^3.0.0",
-    "p-map": "^4",
-    "process.argv": "^0.6.0",
-    "rollup": "^2.70.2",
-    "rollup-plugin-dts": "^4.2.1",
-    "rollup-plugin-hashbang": "^3.0.0",
-    "signal-exit": "^3.0.7"
+    "@modern-js/plugin-changeset": "workspace:*",
+    "@modern-js/plugin-lint": "workspace:*"
   },
   "devDependencies": {
+    "@babel/core": "7.20.2",
+    "@modern-js/self": "workspace:@modern-js/module-tools-v2@*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/babel__core": "^7.1.15",
-    "@types/babel__generator": "^7.6.3",
-    "@types/babel__traverse": "^7.14.2",
-    "@types/glob": "^7.1.4",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/normalize-path": "^3.0.0",
-    "@types/signal-exit": "^3.0.1",
+    "@types/fs-extra": "9.0.13",
+    "fs-extra": "10.1.0",
     "jest": "^27",
-    "typescript": "^4",
-    "ajv": "^8",
-    "ajv-keywords": "^5"
-  },
-  "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
+    "path-browserify": "1.0.1",
+    "postcss": "8.4.6",
+    "postcss-alias": "2.0.0",
+    "react": "17",
+    "typescript": "^4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/index.d.ts",
+    "main": "./dist/index.js",
+    "exports": {
+      ".": "./dist/index.js",
+      "./defineConfig": "./dist/config/defineConfig.js"
+    },
+    "typesVersions": {
+      "*": {
+        "types": [
+          "./lib/types.d.ts"
+        ],
+        "type": [
+          "./lib/types.d.ts"
+        ],
+        "defineConfig": [
+          "./dist/config/defineConfig.d.ts"
+        ]
+      }
+    }
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "peerDependencies": {
+    "typescript": "^4"
   }
 }
