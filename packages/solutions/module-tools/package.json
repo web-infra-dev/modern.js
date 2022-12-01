@@ -36,17 +36,17 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "build": "mdn build",
-    "dev": "mdn build --watch",
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "test": "jest",
     "test:update": "jest --updateSnapshot",
     "new": "modern-lib new"
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "0.5.0",
-    "@modern-js/libuild-plugin-umd": "0.5.0",
-    "@modern-js/libuild-plugin-es5": "0.5.0",
+    "@modern-js/libuild": "0.5.2",
+    "@modern-js/libuild-plugin-umd": "0.5.2",
+    "@modern-js/libuild-plugin-es5": "0.5.2",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
