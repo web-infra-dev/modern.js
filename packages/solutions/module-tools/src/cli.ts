@@ -4,7 +4,7 @@ import { registerHook } from './hooks';
 import { getPlugins } from './plugins';
 
 export const cli = (): CliPlugin<ModuleTools> => ({
-  name: '@modern-js/module-tools-v2',
+  name: '@modern-js/module-tools',
   registerHook,
   usePlugins: getPlugins(process.argv.slice(2)[0]),
   setup,

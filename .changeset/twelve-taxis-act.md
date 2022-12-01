@@ -1,5 +1,5 @@
 ---
-'@modern-js/module-tools-v2': patch
+'@modern-js/module-tools': patch
 ---
 
 feat: add platform build log

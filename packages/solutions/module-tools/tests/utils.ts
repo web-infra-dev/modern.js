@@ -12,7 +12,7 @@ export const runCli = async (options: {
   enableTailwindCss?: boolean;
 }) => {
   const plugins: Record<string, any> = {
-    '@modern-js/module-tools-v2': {
+    '@modern-js/module-tools': {
       path: path.join(__dirname, '../src'),
       forced: true,
     } as any,

@@ -3,7 +3,7 @@ import { Import } from '@modern-js/utils';
 import type {
   ModuleNormalizedConfig,
   IAppContext,
-} from '@modern-js/module-tools-v2';
+} from '@modern-js/module-tools';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(

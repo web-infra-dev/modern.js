@@ -829,8 +829,8 @@ export const TASKS: TaskConfig[] = [
   },
   {
     // Todo: rename
-    packageDir: 'solutions/module-tools-v2',
-    packageName: '@modern-js/module-tools-v2',
+    packageDir: 'solutions/module-tools',
+    packageName: '@modern-js/module-tools',
     dependencies: [
       '@rollup/plugin-json',
       'normalize-path',
