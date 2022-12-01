@@ -6,12 +6,9 @@ export default defineConfig({
       black: 'white',
     },
   },
-  buildPreset({ preset }) {
-    return {
-      ...preset.BASE_CONFIG,
-      outdir: './dist/bundle',
-      buildType: 'bundle',
-      input: ['./src/index.css'],
-    };
+  buildConfig: {
+    outdir: './dist/bundle',
+    buildType: 'bundle',
+    input: ['./src/index.css'],
   },
 });
