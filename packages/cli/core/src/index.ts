@@ -201,7 +201,7 @@ const createCli = () => {
     init,
     run,
     test,
-    initOptions,
+    getPrevInitOptions: () => initOptions,
   };
 };
 

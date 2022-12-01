@@ -10,7 +10,7 @@ export async function restart(hooksRunner: ToRunners<AppToolsHooks>) {
   await hooksRunner.beforeRestart();
 
   try {
-    await cli.init(cli.initOptions);
+    await cli.init(cli.getPrevInitOptions());
   } catch (err) {
     console.error(err);
     hasGetError = true;
