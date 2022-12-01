@@ -3,6 +3,7 @@ import {
   isFileExists,
   DEFAULT_MOUNT_ID,
   getDistPath,
+  setConfig,
   getMinify,
   getTitle,
   getInject,
@@ -10,12 +11,8 @@ import {
   getMetaTags,
   type BuilderTarget,
 } from '@modern-js/builder-shared';
-import type {
-  BuilderPlugin,
-  WebpackConfig,
-  HTMLPluginOptions,
-  NormalizedConfig,
-} from '../types';
+import type { BuilderPlugin, NormalizedConfig } from '../types';
+import type { Options } from '@rspack/plugin-html';
 
 // This is a minimist subset of modern.js server routes
 type RoutesInfo = {
@@ -29,7 +26,7 @@ async function getTemplateParameters(
   entryName: string,
   config: NormalizedConfig,
   assetPrefix: string,
-): Promise<HTMLPluginOptions['templateParameters']> {
+): Promise<Options['templateParameters']> {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { mountId, templateParameters, templateParametersByEntries } =
     config.html;
@@ -70,21 +67,6 @@ export function getTemplatePath(entryName: string, config: NormalizedConfig) {
   return templateByEntries[entryName] || template;
 }
 
-async function getChunks(
-  entryName: string,
-  entryValue: WebpackConfig['entry'],
-) {
-  const { isPlainObject } = await import('@modern-js/utils');
-  const dependOn = [];
-
-  if (isPlainObject(entryValue)) {
-    // @ts-expect-error assume entry is an entry object
-    dependOn.push(...entryValue.dependOn);
-  }
-
-  return [...dependOn, entryName];
-}
-
 export const isHtmlDisabled = (
   config: NormalizedConfig,
   target: BuilderTarget,
@@ -99,7 +81,7 @@ export const PluginHtml = (): BuilderPlugin => ({
   setup(api) {
     const routesInfo: RoutesInfo[] = [];
 
-    api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID, target }) => {
+    api.modifyRspackConfig(async (rspackConfig, { isProd, target }) => {
       const config = api.getNormalizedConfig();
 
       // if html is disabled or target is server, skip html plugin
@@ -107,25 +89,23 @@ export const PluginHtml = (): BuilderPlugin => ({
         return;
       }
 
-      const { default: HtmlWebpackPlugin } = await import(
-        'html-webpack-plugin'
-      );
+      const { default: HTMLRspackPlugin } = await import('@rspack/plugin-html');
       const { removeTailSlash, applyOptionsChain } = await import(
         '@modern-js/utils'
       );
 
       const minify = getMinify(isProd, config);
-      const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
-      const entries = chain.entryPoints.entries() || {};
+      const assetPrefix = removeTailSlash(
+        rspackConfig.output?.publicPath || '',
+      );
+      const entries = rspackConfig.entry || {};
       const entryNames = Object.keys(entries);
       const htmlPaths = api.getHTMLPaths();
 
       await Promise.all(
         entryNames.map(async (entryName, index) => {
-          const entryValue = entries[
-            entryName
-          ].values() as WebpackConfig['entry'];
-          const chunks = await getChunks(entryName, entryValue);
+          const entryValue = entries[entryName];
+          const chunks = [entryName];
           const inject = getInject(entryName, config);
           const favicon = getFavicon(entryName, config);
           const filename = htmlPaths[entryName];
@@ -136,7 +116,7 @@ export const PluginHtml = (): BuilderPlugin => ({
             assetPrefix,
           );
 
-          const pluginOptions: HTMLPluginOptions = {
+          const pluginOptions: Options = {
             chunks,
             inject,
             minify,
@@ -162,9 +142,17 @@ export const PluginHtml = (): BuilderPlugin => ({
             isSPA: true,
           });
 
-          chain
-            .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
-            .use(HtmlWebpackPlugin, [finalOptions]);
+          const plugin = new HTMLRspackPlugin(finalOptions);
+
+          // @ts-expect-error
+          plugin.name = `html-${entryName}`;
+
+          setConfig(rspackConfig, 'plugins', [
+            // @ts-expect-error
+            ...(rspackConfig.plugins || []),
+            // @ts-expect-error
+            plugin,
+          ]);
         }),
       );
 
@@ -173,24 +161,21 @@ export const PluginHtml = (): BuilderPlugin => ({
 
         if (crossorigin) {
           const { HtmlCrossOriginPlugin } = await import(
-            '../webpackPlugins/HtmlCrossOriginPlugin'
+            '../rspackPlugins/HtmlCrossOriginPlugin'
           );
 
           const formattedCrossorigin =
             crossorigin === true ? 'anonymous' : crossorigin;
 
-          chain
-            .plugin(CHAIN_ID.PLUGIN.HTML_CROSS_ORIGIN)
-            .use(HtmlCrossOriginPlugin, [
-              { crossOrigin: formattedCrossorigin },
-            ]);
-
-          chain.output.crossOriginLoading(formattedCrossorigin);
+          setConfig(rspackConfig, 'plugins', [
+            ...(rspackConfig.plugins || []),
+            new HtmlCrossOriginPlugin({ crossOrigin: formattedCrossorigin }),
+          ]);
         }
 
         if (appIcon) {
           const { HtmlAppIconPlugin } = await import(
-            '../webpackPlugins/HtmlAppIconPlugin'
+            '../rspackPlugins/HtmlAppIconPlugin'
           );
 
           const distDir = getDistPath(config.output, 'image');
@@ -198,9 +183,10 @@ export const PluginHtml = (): BuilderPlugin => ({
             ? appIcon
             : path.join(api.context.rootPath, appIcon);
 
-          chain
-            .plugin(CHAIN_ID.PLUGIN.APP_ICON)
-            .use(HtmlAppIconPlugin, [{ iconPath, distDir }]);
+          setConfig(rspackConfig, 'plugins', [
+            ...(rspackConfig.plugins || []),
+            new HtmlAppIconPlugin({ iconPath, distDir }),
+          ]);
         }
       }
     });

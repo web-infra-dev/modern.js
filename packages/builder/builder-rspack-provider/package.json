@@ -39,7 +39,8 @@
     "@rspack/dev-client": "0.0.0-11afc8e36-20221128093256",
     "@rspack/dev-middleware": "0.0.0-11afc8e36-20221128093256",
     "@rspack/plugin-html": "0.0.0-11afc8e36-20221128093256",
-    "@rspack/less-loader": "0.0.0-11afc8e36-20221128093256"
+    "@rspack/less-loader": "0.0.0-11afc8e36-20221128093256",
+    "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",
