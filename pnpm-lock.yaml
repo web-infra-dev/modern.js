@@ -102,6 +102,7 @@ importers:
       '@types/node': ^14
       autoprefixer: ^10.4.8
       typescript: ^4
+      webpack-sources: ^3.2.3
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/server': link:../../server/server
@@ -112,6 +113,7 @@ importers:
       '@rspack/dev-middleware': 0.0.0-11afc8e36-20221128093256
       '@rspack/less-loader': 0.0.0-11afc8e36-20221128093256
       '@rspack/plugin-html': 0.0.0-11afc8e36-20221128093256
+      webpack-sources: 3.2.3
     devDependencies:
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
@@ -16623,8 +16625,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -35086,7 +35090,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
