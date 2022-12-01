@@ -27,10 +27,10 @@
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*",
-    "@modern-js/module-tools-v2": "workspace:*"
+    "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools-v2": "workspace:*"
+    "@modern-js/module-tools": "workspace:*"
   },
   "sideEffects": false,
   "publishConfig": {

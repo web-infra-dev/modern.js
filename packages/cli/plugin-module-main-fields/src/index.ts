@@ -1,4 +1,4 @@
-import { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
+import { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
 export const ModuleMainFieldsPlugin = (options: {
   mainFields: string[];
