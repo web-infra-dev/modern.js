@@ -17,6 +17,7 @@ export function PluginExternals(): BuilderPlugin {
             ? config.target.includes('webworker')
             : config.target === 'webworker';
 
+          // externals will not take effect, the Worker environment can not access global variables.
           if (isWebWorker && config.externals) {
             delete config.externals;
           }
