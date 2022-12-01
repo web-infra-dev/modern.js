@@ -17,7 +17,7 @@ export const PluginImageCompress = (...options: Options[]): BuilderPlugin => ({
       _.each(opts, opt => {
         chain.module
           .rule(CHAIN_ID.RULE.IMAGE)
-          .use(`web-builder-plugin-image-compress#${opt.use}`)
+          .use(`image-compress#${opt.use}`)
           .loader(path.resolve(__dirname, './loader'))
           .options(opt);
       });
