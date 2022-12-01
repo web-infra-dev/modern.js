@@ -67,6 +67,9 @@ export function createOutputConfig(
       css: cssModuleLocalIdentName,
     },
     ssg,
+    // set `true`, only in legacy config
+    enableAssetFallback: true,
+    enableAssetManifest: true,
     enableModernMode,
     disableNodePolyfill,
   };

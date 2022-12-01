@@ -22,7 +22,6 @@ export type BuilderOptions = {
   normalizedConfig: AppNormalizedConfig;
   appContext: IAppContext;
   compatPluginConfig?: PluginCompatModernOptions;
-  compatMode?: boolean;
 };
 
 function getBuilderTargets(normalizedConfig: AppNormalizedConfig) {
@@ -45,13 +44,11 @@ export async function createBuilderForEdenX({
   normalizedConfig,
   appContext,
   compatPluginConfig,
-  compatMode,
 }: BuilderOptions) {
   // create webpack provider
   const builderConfig = createBuilderProviderConfig(
     normalizedConfig,
     appContext,
-    Boolean(compatMode),
   );
   const webpackProvider = builderWebpackProvider({
     builderConfig,
@@ -74,9 +71,8 @@ export async function createBuilderForEdenX({
 export function createBuilderProviderConfig(
   normalizedConfig: AppNormalizedConfig,
   appContext: IAppContext,
-  compatMode: boolean,
 ): BuilderConfig {
-  const output = createOutputConfig(normalizedConfig, appContext, compatMode);
+  const output = createOutputConfig(normalizedConfig, appContext);
   return {
     ...normalizedConfig,
     source: {
@@ -103,7 +99,6 @@ export function createBuilderProviderConfig(
   function createOutputConfig(
     config: AppNormalizedConfig,
     appContext: IAppContext,
-    compatMode: boolean,
   ) {
     const defaultCopyPattern = createCopyPattern(appContext, config, 'upload');
     const { copy } = config.output;
@@ -114,10 +109,6 @@ export function createBuilderProviderConfig(
       copy: builderCopy,
       // We need to do this in the app-tools prepare hook because some files will be generated into the dist directory in the analyze process
       cleanDistPath: false,
-      // `@modern-js/webpack` used to generate asset manifest by default
-      enableAssetManifest: true,
-      // compatible the modern-js with fallback behavior
-      enableAssetFallback: compatMode,
     };
   }
 }
