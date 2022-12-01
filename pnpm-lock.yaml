@@ -5231,13 +5231,9 @@ importers:
 
   website/module-tools:
     specifiers:
-      islandjs: 0.7.10
-      react: ^18.2.0
-      react-dom: ^18.2.0
+      islandjs: 0.7.19
     dependencies:
-      islandjs: 0.7.10
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      islandjs: 0.7.19
 
 packages:
 
@@ -10426,23 +10422,23 @@ packages:
       - supports-color
     dev: false
 
-  /@islandjs/plugin-backtop/0.7.10_islandjs@0.7.10:
-    resolution: {integrity: sha512-xLzidF4tzuHIy9NgENp/Fz8lMX2LUFahnB4HjdW7cQCfuIbG5evdG3J3QM7o2R1ICOuNba1/IgWqOqbfoTyzZw==}
+  /@islandjs/plugin-backtop/0.7.19_islandjs@0.7.19:
+    resolution: {integrity: sha512-WVsKsENmvB5ktyP9NM1+ebl46HVahRmDVNmNRxzLYsCjCgPxxFclLpmzQ+zTytuUfvvJNQt5GnmrlYF4QTZmzw==}
     peerDependencies:
-      islandjs: 0.7.10
+      islandjs: 0.7.19
     dependencies:
       b-tween: 0.3.3
-      islandjs: 0.7.10
+      islandjs: 0.7.19
       lodash-es: 4.17.21
     dev: false
 
-  /@islandjs/plugin-search/0.7.10_islandjs@0.7.10:
-    resolution: {integrity: sha512-etzQu+rtP7Z85pMc8ibuiamRcq/I4gc9MfTRBaVRDv1b2iAz+Pqjtkb1a2L11bnC1lsKwDckKpW863+SJ6bhdA==}
+  /@islandjs/plugin-search/0.7.19_islandjs@0.7.19:
+    resolution: {integrity: sha512-HSEgvFArQM3qGbBg3YktZfL1Qfb6DyG/+IwY2bgJdPuv87w3K3anNgY7KldxMMFXZactt/HWSwYeiXGRXF3X4g==}
     peerDependencies:
-      islandjs: 0.7.10
+      islandjs: 0.7.19
     dependencies:
       flexsearch: 0.6.32
-      islandjs: 0.7.10
+      islandjs: 0.7.19
       lodash-es: 4.17.21
     dev: false
 
@@ -14792,7 +14788,7 @@ packages:
   /@types/estree-jsx/1.0.0:
     resolution: {integrity: sha512-3qvGd0z8F2ENTGr/GG1yViqfiKmRfrXVx5sJyHGFu3z7m5g5utCQtGp/g29JnjflhtQJBv1WDQukHiT58xPcYQ==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
 
   /@types/estree/0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
@@ -15272,12 +15268,6 @@ packages:
     dependencies:
       '@types/react': 18.0.21
     dev: true
-
-  /@types/react-transition-group/4.4.5:
-    resolution: {integrity: sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA==}
-    dependencies:
-      '@types/react': 18.0.21
-    dev: false
 
   /@types/react/18.0.21:
     resolution: {integrity: sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==}
@@ -20730,6 +20720,7 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -23817,7 +23808,6 @@ packages:
       glob-parent: 5.1.2
       merge2: 1.4.1
       micromatch: 4.0.5
-    dev: false
 
   /fast-json-parse/1.0.3:
     resolution: {integrity: sha512-FRWsaZRWEJ1ESVNbDWmsAlqDk96gPQezzLghafp5J4GUKjbCz3OkAHuZs5TuPEtkbVQERysLp9xv6c24fBm8Aw==}
@@ -24277,7 +24267,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4_supports-color@6.1.0
+      debug: 4.3.4
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -24989,7 +24979,7 @@ packages:
       '@types/glob': 7.2.0
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.2.11
+      fast-glob: 3.2.12
       glob: 7.2.3
       ignore: 5.2.0
       merge2: 1.4.1
@@ -26853,21 +26843,20 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  /islandjs/0.7.10:
-    resolution: {integrity: sha512-9UX6aM+hMu2S24dXPuI311sa6AUpOkIHqvAbkBI/IN+2CxrVlub0NzF/aApJ+kIbBVFaCbL2Kpq6WdWykOZUeg==}
+  /islandjs/0.7.19:
+    resolution: {integrity: sha512-N08BcKD/IDtrt6LvZy4EVBRwrcCQU575IkHRi8lpAjdcVRNCk9VtT+fKIIpbDlAQ7LPBk3TtAAsJ5NB7D+IrAQ==}
     hasBin: true
     dependencies:
       '@babel/core': 7.19.0
       '@babel/helper-plugin-utils': 7.19.0
       '@babel/preset-react': 7.18.6_@babel+core@7.19.0
       '@iconify-json/carbon': 1.1.8
-      '@islandjs/plugin-backtop': 0.7.10_islandjs@0.7.10
-      '@islandjs/plugin-search': 0.7.10_islandjs@0.7.10
+      '@islandjs/plugin-backtop': 0.7.19_islandjs@0.7.19
+      '@islandjs/plugin-search': 0.7.19_islandjs@0.7.19
       '@mdx-js/mdx': 2.1.3
       '@mdx-js/react': 2.1.3_react@18.2.0
       '@mdx-js/rollup': 2.1.5
       '@svgr/core': 6.3.1
-      '@types/react-transition-group': 4.4.5
       '@unocss/preset-attributify': 0.45.26
       '@unocss/preset-icons': 0.45.29
       '@unocss/preset-wind': 0.45.26
@@ -26897,7 +26886,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       react-helmet-async: 1.3.0_biqbaboplfbrettd7655fr4n2y
       react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
-      react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
       rehype-autolink-headings: 6.1.1
       rehype-external-links: 2.0.1
       rehype-highlight: 5.0.2
@@ -34166,20 +34154,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /react-transition-group/4.4.5_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
-    peerDependencies:
-      react: '>=16.6.0'
-      react-dom: '>=16.6.0'
-    dependencies:
-      '@babel/runtime': 7.18.6
-      dom-helpers: 5.2.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
   /react/17.0.2:
     resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
     engines: {node: '>=0.10.0'}
@@ -36629,6 +36603,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
+    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
