@@ -42,12 +42,6 @@
     "typescript": "^4"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js",
-      "disableSourceMap": true
-    }
-  },
   "publishConfig": {
     "main": "./dist/index.js",
     "registry": "https://registry.npmjs.org/",

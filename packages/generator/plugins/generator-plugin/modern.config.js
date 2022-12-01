@@ -1,21 +1,12 @@
 module.exports = {
-  output: {
-    buildConfig: {
-      buildType: 'bundle',
-      sourceMap: false,
-      bundleOptions: {
-        skipDeps: false,
-        externals: ['vm2'],
-      },
+  buildConfig: {
+    buildType: 'bundle',
+    format: 'cjs',
+    autoExternal: false,
+    externals: ['vm2'],
+    alias: {
+      chalk: '@modern-js/utils/chalk',
     },
-  },
-  tools: {
-    speedy: {
-      resolve: {
-        alias: {
-          chalk: '@modern-js/utils/chalk',
-        },
-      },
-    },
+    dts: false,
   },
 };
