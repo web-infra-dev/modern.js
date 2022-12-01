@@ -1,0 +1,97 @@
+// Vitest Snapshot v1
+
+exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
+{
+  "builtins": {
+    "define": {
+      "process.env.NODE_ENV": "\\"test\\"",
+    },
+    "progress": {
+      "prefix": "Client",
+    },
+    "react": {
+      "development": true,
+      "refresh": true,
+    },
+  },
+  "context": "<ROOT>",
+  "devServer": {
+    "hot": true,
+  },
+  "devtool": "cheap-module-source-map",
+  "entry": {},
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "cssChunkFilename": "static/css/async/[name].css",
+    "cssFilename": "static/css/[name].css",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "publicPath": "/",
+  },
+  "resolve": {
+    "alias": {},
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+    ],
+    "tsConfigPath": "<ROOT>/tsconfig.json",
+  },
+}
+`;
+
+exports[`applyDefaultPlugins > should apply default plugins correctly when prod 1`] = `
+{
+  "builtins": {
+    "define": {
+      "process.env.NODE_ENV": "\\"production\\"",
+    },
+    "progress": {
+      "prefix": "Client",
+    },
+    "react": {
+      "development": false,
+      "refresh": false,
+    },
+  },
+  "context": "<ROOT>",
+  "devServer": {
+    "hot": false,
+  },
+  "devtool": "source-map",
+  "entry": {},
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "production",
+  "output": {
+    "chunkFilename": "static/js/async/[name].[contenthash:8].js",
+    "cssChunkFilename": "static/css/async/[name].[contenthash:8].css",
+    "cssFilename": "static/css/[name].[contenthash:8].css",
+    "filename": "static/js/[name].[contenthash:8].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "publicPath": "/",
+  },
+  "resolve": {
+    "alias": {},
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+    ],
+    "tsConfigPath": "<ROOT>/tsconfig.json",
+  },
+}
+`;

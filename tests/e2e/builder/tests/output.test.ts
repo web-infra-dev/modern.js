@@ -2,10 +2,11 @@ import { join, resolve, dirname } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
 import { build, getHrefByEntryName } from '../scripts/shared';
+import { webpackOnlyTest, allProviderTest } from './helper';
 
 const fixtures = resolve(__dirname, '../fixtures/output');
 
-test.describe('output configure multi', () => {
+webpackOnlyTest.describe('output configure multi', () => {
   const distFilePath = join(fixtures, 'rem/dist-1/test.json');
 
   let builder: Awaited<ReturnType<typeof build>>;
@@ -74,7 +75,7 @@ test.describe('output configure multi', () => {
   });
 });
 
-test('rem enable', async ({ page }) => {
+webpackOnlyTest('rem enable', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'rem'),
     entry: {
@@ -117,7 +118,7 @@ test('rem enable', async ({ page }) => {
   ).resolves.toBe('20.48px');
 });
 
-test('cleanDistPath disable', async () => {
+webpackOnlyTest('cleanDistPath disable', async () => {
   const buildOpts = {
     cwd: join(fixtures, 'rem'),
     entry: {
@@ -144,7 +145,7 @@ test('cleanDistPath disable', async () => {
   expect(fs.existsSync(distFilePath)).toBeTruthy();
 });
 
-test('externals', async ({ page }) => {
+allProviderTest('externals', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'externals'),
     entry: {
@@ -172,4 +173,8 @@ test('externals', async ({ page }) => {
   await expect(
     page.evaluate(`document.getElementById('test-external').innerHTML`),
   ).resolves.toBe('1');
+
+  const externalVar = await page.evaluate(`window.aa`);
+
+  expect(externalVar).toBeDefined();
 });

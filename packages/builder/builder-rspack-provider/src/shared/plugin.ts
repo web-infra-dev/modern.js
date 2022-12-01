@@ -20,4 +20,5 @@ export const applyDefaultPlugins = () =>
     import('../plugins/hmr').then(m => m.PluginHMR()),
     import('../plugins/progress').then(m => m.PluginProgress()),
     import('../plugins/react').then(m => m.PluginReact()),
+    import('../plugins/externals').then(m => m.PluginExternals()),
   ]);
