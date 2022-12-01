@@ -39,7 +39,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern-lib new",
-    "build": "mdn build",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests",
     "dev": "modern-lib build --watch"
   },
