@@ -8,7 +8,7 @@ import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
 import { getCommand } from '../utils/commands';
 import { AppTools } from '../types';
-import { initialNormalizedConfig } from '../config';
+import { checkIsLegacyConfig, initialNormalizedConfig } from '../config';
 import { isRouteComponentFile } from './utils';
 
 const debug = createDebugger('plugin-analyze');
@@ -124,12 +124,14 @@ export default (): CliPlugin<AppTools> => ({
 
         const command = getCommand();
         const buildCommands = ['dev', 'build', 'inspect', 'deploy'];
-
         if (buildCommands.includes(command)) {
+          const userConfig = api.useConfigContext();
+          const compatMode = checkIsLegacyConfig(userConfig);
           const normalizedConfig = api.useResolvedConfigContext();
           const builder = await createBuilderForEdenX({
             normalizedConfig: normalizedConfig as any,
             appContext,
+            compatMode,
             compatPluginConfig: {
               async onBeforeBuild({ bundlerConfigs }) {
                 const hookRunners = api.useHookRunners();

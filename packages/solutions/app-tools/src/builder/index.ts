@@ -22,6 +22,7 @@ export type BuilderOptions = {
   normalizedConfig: AppNormalizedConfig;
   appContext: IAppContext;
   compatPluginConfig?: PluginCompatModernOptions;
+  compatMode?: boolean;
 };
 
 function getBuilderTargets(normalizedConfig: AppNormalizedConfig) {
@@ -44,11 +45,13 @@ export async function createBuilderForEdenX({
   normalizedConfig,
   appContext,
   compatPluginConfig,
+  compatMode,
 }: BuilderOptions) {
   // create webpack provider
   const builderConfig = createBuilderProviderConfig(
     normalizedConfig,
     appContext,
+    Boolean(compatMode),
   );
   const webpackProvider = builderWebpackProvider({
     builderConfig,
@@ -71,8 +74,9 @@ export async function createBuilderForEdenX({
 export function createBuilderProviderConfig(
   normalizedConfig: AppNormalizedConfig,
   appContext: IAppContext,
+  compatMode: boolean,
 ): BuilderConfig {
-  const output = createOutputConfig(normalizedConfig, appContext);
+  const output = createOutputConfig(normalizedConfig, appContext, compatMode);
   return {
     ...normalizedConfig,
     source: {
@@ -99,6 +103,7 @@ export function createBuilderProviderConfig(
   function createOutputConfig(
     config: AppNormalizedConfig,
     appContext: IAppContext,
+    compatMode: boolean,
   ) {
     const defaultCopyPattern = createCopyPattern(appContext, config, 'upload');
     const { copy } = config.output;
@@ -112,7 +117,7 @@ export function createBuilderProviderConfig(
       // `@modern-js/webpack` used to generate asset manifest by default
       enableAssetManifest: true,
       // compatible the modern-js with fallback behavior
-      enableAssetFallback: true,
+      enableAssetFallback: compatMode,
     };
   }
 }
