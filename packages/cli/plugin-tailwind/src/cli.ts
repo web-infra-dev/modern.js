@@ -8,7 +8,7 @@ import {
   slash,
 } from '@modern-js/utils';
 import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
-import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import DesignTokenPlugin from './design-token/cli';
 import { getTailwindConfig } from './tailwind';
 import { template, checkTwinMacroNotExist } from './utils';

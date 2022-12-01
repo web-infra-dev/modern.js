@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/module-tools-v2",
+  "name": "@modern-js/module-tools",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.20.2",
-    "@modern-js/self": "workspace:@modern-js/module-tools-v2@*",
+    "@modern-js/self": "workspace:@modern-js/module-tools@*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
