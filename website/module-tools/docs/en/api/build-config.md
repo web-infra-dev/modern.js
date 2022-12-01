@@ -1,4 +1,4 @@
-# Build
+# BuildConfig
 This section describes all the configuration of Module tools for building
 ## alias
 - type: `Record<string, string | string[]> | Function`
@@ -49,13 +49,13 @@ export default {
 ## asset
 
 ### path
-Static resource output path, will be based on [outdir](/zh/api/config-build/#outdir)
+Static resource output path, will be based on [outdir](/zh/api/build-config/#outdir)
 
 - type: `string`
 - default: `assets`
 
 ### limit
-The threshold for automatically inlining static resources when building, resources less than 10240 bytes will be automatically inlined into the bundle product
+Threshold for automatically inlining static resources when building, resources less than 10240 bytes will be automatically inlined into the bundle product
 
 - type: `number`
 - default: `10 * 1024`
@@ -66,8 +66,10 @@ The CDN prefix given to unlinked resources when packaging
 - default: `undefined`
 ```js
 export default {
-  output: {
-    publicPath: 'https://xxx/'
+  build: {
+    asset: {
+      publicPath: 'https://xxx/'
+    }
   }
 };
 ```
@@ -75,36 +77,36 @@ At this point, all static resources will be prefixed with `https://xxx/`
 
 ### svgr
 Treat svg as a React component when packaging
-- type: `boolean | object`
+- type: `boolean | Object`
 
-#### svgr.include
+#### include
 Set the matching svg file
 - type: `string | RegExp | (string | RegExp)[]`
 - default: `/\.svg$/`
 
-#### svgr.exclude
-Set mismatched svg files
+#### exclude
+Set unmatched svg files
 - type: `string | RegExp | (string | RegExp)[]`
 - default: `undefined`
 
 
 ## autoExternal
 Automatically externalize project dependencies and peerDependencies and not package them into the final bundle
-- type: `boolean | object`
+- type: `boolean | Object`
 - default: `true`
 
-### autoExternal.dependencies
-Whether to require external project dep dependencies
+### dependencies
+Whether or not the dep dependencies of the external project are needed
 - type: `boolean`
 - default: `true`
 
-### autoExternal.peerDependencies
+### peerDependencies
 Whether to require peerDep dependencies for external projects
 - type: `boolean`
 - default: `true`
 
 ## buildType
-Build type, `bundle` will package your code, `bundleless` only does code conversions
+The build type, `bundle` will package your code, `bundleless` will only do the code conversion
 - type: `'bundle' | 'bundleless'`
 - default: `bundle`
 
@@ -112,8 +114,15 @@ Build type, `bundle` will package your code, `bundleless` only does code convers
 Copies the specified file or directory into the build output directory
 - type: `Array`
 - default: `[]`
+``js
 
-Array settings reference: [copy-webpack-plugin patterns](https://github.com/webpack-contrib/copy-webpack-plugin#patterns)
+export default {
+  build: {
+    copy: [{ from: '. /src/assets', to: '' }],
+  },
+};
+```
+Reference for array settings: [copy-webpack-plugin patterns](https://github.com/webpack-contrib/copy-webpack-plugin#patterns)
 
 ## define
 Define global variables that will be injected into the code
@@ -141,30 +150,30 @@ To prevent excessive global replacement substitution, it is recommended that the
 ## dts
 The dts file generates the relevant configuration, by default it generates
 
-- type: `false | object`
+- type: `false | Object`
 - default: `{}`
 
-### dts.tsconfigPath
+### tsconfigPath
 Path to the tsconfig file
 - type: `string`
 - default: `. /tsconfig.json`
 
-### dts.distPath
-The output path of the dts file, based on [outdir]('/zh/api/config-build/#outdir')
+### distPath
+The output path of the dts file, based on [outdir]('/zh/api/build-config/#outdir')
 - type: `string`
 - default: `. /types`
 
-### dts.only
+### only
 Generate only dts files, not js files
 - type: `boolean`
 - default: `false`
 
 ## externals
-Externalize the specified module, which will not be packaged into the final bundle
+Configure external dependencies that will not be packaged into the final bundle
 - type: `(string | RegExp)[]`
 - default: `[]`
 ## format
-The format of the js product output, where `iife` and `umd` can only take effect when `buildType` is `bundle`.
+The format of the js product output, where `iife` and `umd` can only take effect when `buildType` is `bundle`
 - type: `'esm' | 'cjs' | 'iife' | 'umd'`
 - default: `cjs`
 
@@ -188,7 +197,7 @@ Specify the compilation method of jsx, default support React17, automatically in
 
 ## minify
 Use esbuild or terser to compress code, also pass [terserOptions](https://github.com/terser/terser#minify-options)
-- type: `'terser' | 'esbuild' | false | object`
+- type: `'terser' | 'esbuild' | false | Object`
 - default: `false`
 
 ```js
@@ -228,10 +237,214 @@ Whether to enable code splitting
 - type: `boolean`
 - default: `false`
 
+## style
+Configure style-related configuration
+
+### less
+less-related configuration
+#### lessOptions
+Refer to [less](https://less.bootcss.com/usage/#less-options) for detailed configuration
+- type: `Object`
+- default: `{ javascriptEnabled: true }`
+
+#### additionalData
+Add `Less` code to the beginning of the entry file.
+- type: `string`
+- default: `undefined`
+
+```js
+export default {
+  build: {
+    style: {
+      less: {
+        additionalData: `@base-color: #c6538c;`,
+      },
+    }
+  }
+}
+
+```
+#### implementation
+Configure the implementation library used by `Less`, if not specified, the built-in version used is `4.1.3`
+- type: `string | Object`
+- default: `undefined`
+
+Specify the implementation library for `Less` when the `Object` type is specified
+```js
+export default {
+  build: {
+    style: {
+      less: {
+        implementation: require('less'),
+      },
+    }
+  }
+}
+```
+
+For the `string` type, specify the path to the implementation library for `Less`
+```js
+export default {
+  build: {
+    style: {
+      less: {
+        implementation: require.resolve('less'),
+      },
+    }
+  }
+}
+```
+
+### sass
+sass-related configuration
+#### sassOptions
+Refer to [node-sass](https://github.com/sass/node-sass#options) for detailed configuration
+- type: `Object`
+- default: `{}`
+#### additionalData
+Add `Sass` code to the beginning of the entry file.
+- type: `string | Function`
+- default: `undefined`
+```js
+export default {
+  build: {
+    style: {
+      sass: {
+        additionalData: `$base-color: #c6538c;
+          $border-dark: rgba($base-color, 0.88);`,
+      },
+    }
+  }
+}
+```
+
+#### implementation
+Configure the implementation library used by `Sass`, the built-in version used is `1.5.4` if not specified
+- type: `string | Object`
+- default: `undefined`
+
+Specify the implementation library for `Sass` when the `Object` type is specified
+```js
+export default {
+  build: {
+    style: {
+      sass: {
+        implementation: require('sass'),
+      },
+    }
+  }
+}
+```
+
+For the `string` type, specify the path to the `Sass` implementation library
+```js
+export default {
+  build: {
+    style: {
+      sass: {
+        implementation: require.resolve('sass'),
+      },
+    }
+  }
+}
+```
+
+### postcss
+- plugins
+- processOptions
+
+See [postcss](https://github.com/postcss/postcss#options) for detailed configuration
+### inject
+Configure whether to insert style into js in packaged mode
+
+- type: `boolean`
+- default: `false`
+
+### autoModules
+Enable CSS Modules automatically based on the filename.
+
+- type: `boolean | RegExp`
+- default: `true `
+
+`true` : Enables CSS Modules for style files ending with `.module.css` `.module.less` `.module.scss` `.module.sass` filenames
+
+`false` : Disable CSS Modules.
+
+`RegExp` : Enables CSS Modules for all files that match the regular condition.
+
+### modules
+CSS Modules configuration
+
+- type: `Object`
+- default: `{}`
+
+A common configuration is ``localsConvention``, which changes the class name generation rules for css modules
+```js
+export default {
+  build: {
+    style: {
+      modules: {
+        localsConvention: 'camelCaseOnly',
+      },
+    }
+  }
+}
+```
+For the following styles
+```css
+.box-title {
+  color: red;
+}
+```
+You can use ``styles.boxTitle`` to access
+
+
+For detailed configuration see [postcss-modules](https://github.com/madyankin/postcss-modules#usage)
+
+### tailwind
+tailwindcss related configuration
+
+- type: `Object | Function`
+- default: `see configuration details below`
+
+<details>
+  <summary>TailwindCSS configuration details</summary>
+
+```js
+  const tailwind = {
+    purge: {
+        enabled: options.env === 'production',
+        content: [
+          '. /config/html/**/*.html',
+          '. /config/html/**/*.ejs',
+          '. /config/html/**/*.hbs',
+          '. /src/**/*',
+        ],
+        layers: ['utilities'],
+    },
+    // https://tailwindcss.com/docs/upcoming-changes
+    future: {
+      removeDeprecatedGapUtilities: false,
+      purgeLayersByDefault: true,
+      defaultLineHeights: false,
+      standardFontWeights: false,
+    },
+  }
+```
+
+When the value is of type `Object`, it is merged with the default configuration via `Object.assign`.
+
+When the value is of type `Function`, the object returned by the function is merged with the default configuration via `Object.assign`.
+
+The `theme` property is not allowed, otherwise the build will fail, using [`designSystem`](/zh/api/design-system) as the `Tailwind CSS Theme` configuration.
+
+The rest of the usage is the same as Tailwind CSS: [Quick Portal](https://tailwindcss.com/docs/configuration).
+
+
 ## target
 Specify the target environment for the build
 - type: `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
-- default: `es2015`
+- default: `'es2015'`
 
 
 ## umdGlobals
@@ -239,7 +452,7 @@ Specify global variables for external import of umd products
 - type: `Record<string, string>`
 - default: `{}`
 
-``js
+```js
 export default {
   build: {
     umdGlobals: {
@@ -260,11 +473,12 @@ Specifies the module name of the umd product
 ``js
 export default {
   build: {
+    format: 'umd',
     umdModuleName: 'myLib',
   }
 }
 ```
-At this point the umd product will go and mount to `global.myLib`
+At this point the umd product will go to mount on `global.myLib`
 :::tip
 - The module name of the umd product must not conflict with the global variable name.
 - Module names should not contain special characters like `-`, `@`, `/`, etc.
@@ -274,8 +488,9 @@ Also the function form can take one parameter, which is the output path of the c
 ```js
 export default {
   build: {
-    umdModuleName: (name) => {
-      if (name.includes('index')) {
+    format: 'umd',
+    umdModuleName: (path) => {
+      if (path.includes('index')) {
         return 'myLib';
       } else {
         return 'myLib2';
