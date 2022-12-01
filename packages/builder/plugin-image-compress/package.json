@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@modern-js/builder-plugin-image-compress",
   "description": "Image compress plugin for modern-js/web-builder",
   "homepage": "https://modernjs.dev",
