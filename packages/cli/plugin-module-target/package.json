@@ -16,8 +16,8 @@
   "main": "./dist/index.js",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "dev": "mdn build --watch",
-    "build": "mdn build",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
