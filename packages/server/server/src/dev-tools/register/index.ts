@@ -74,8 +74,7 @@ export const enableRegister = (
         ...config.source,
         babelConfig: config.tools?.babel,
         server: {
-          // FIXME: the compiler config from ??
-          compiler: (config.server as any)?.compiler,
+          compiler: config.server?.compiler,
         },
       },
       {

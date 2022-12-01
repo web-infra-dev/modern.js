@@ -40,7 +40,6 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
     disableFilenameHash: false,
     enableLatestDecorators: false,
     polyfill: 'entry',
-    dataUriLimit: 10000,
     cssModuleLocalIdentName: undefined,
   };
   const html: AppUserConfig['html'] = {
