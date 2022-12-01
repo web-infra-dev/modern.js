@@ -1,7 +1,15 @@
-import plugin from '../src';
+import ModuleToolsPlugin, { defineConfig, legacyPresets } from '../src';
 
-describe('module-tools', () => {
-  it('default', () => {
-    expect(plugin).toBeDefined();
+describe('index', () => {
+  it('defineConfig', () => {
+    expect(defineConfig({})).toBeDefined();
+  });
+
+  it('Plugin', () => {
+    expect(ModuleToolsPlugin()).toBeDefined();
+  });
+
+  it('legacyPresets', () => {
+    expect(legacyPresets).toBeDefined();
   });
 });

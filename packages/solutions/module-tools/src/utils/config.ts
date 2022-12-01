@@ -44,14 +44,28 @@ export const mergeDefaultBaseConfig = async (
     '@': context.srcDirectory,
   };
   const mergedAlias = applyOptionsChain(defaultAlias, pConfig.alias);
-  const alias = Object.keys(mergedAlias).reduce((o, name) => {
-    return {
-      ...o,
-      [name]: slash(
-        ensureAbsolutePath(context.appDirectory, mergedAlias[name]),
-      ),
-    };
-  }, {});
+
+  /**
+   * Format alias value:
+   * - Relative paths need to be turned into absolute paths.
+   * - Absolute paths or a package name are not processed.
+   */
+  const alias = Object.keys(mergedAlias).reduce<Record<string, string>>(
+    (prev, name) => {
+      const formattedValue = (value: string) => {
+        if (typeof value === 'string' && value.startsWith('.')) {
+          return slash(ensureAbsolutePath(context.appDirectory, value));
+        }
+        return value;
+      };
+      const value = formattedValue(mergedAlias[name]);
+
+      prev[name] = value;
+      return prev;
+    },
+    {},
+  );
+
   const styleConfig = await getStyleConfig(pConfig);
   const buildType = pConfig.buildType ?? defaultConfig.buildType;
   const sourceDir = pConfig.sourceDir ?? defaultConfig.sourceDir;
