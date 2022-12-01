@@ -1,5 +1,12 @@
 # @modern-js/plugin-sass
 
+## 1.21.6
+
+### Patch Changes
+
+- @modern-js/css-config@1.21.6
+- @modern-js/utils@1.21.6
+
 ## 1.21.5
 
 ### Patch Changes

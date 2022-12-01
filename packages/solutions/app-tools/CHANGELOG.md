@@ -1,5 +1,22 @@
 # @modern-js/app-tools
 
+## 1.21.6
+
+### Patch Changes
+
+- @modern-js/new-action@1.21.6
+- @modern-js/upgrade@1.21.6
+- @modern-js/core@1.21.6
+- @modern-js/plugin-i18n@1.21.6
+- @modern-js/plugin-jarvis@1.21.6
+- @modern-js/webpack@1.21.6
+- @modern-js/prod-server@1.21.6
+- @modern-js/server@1.21.6
+- @modern-js/node-bundle-require@1.21.6
+- @modern-js/plugin@1.21.6
+- @modern-js/types@1.21.6
+- @modern-js/utils@1.21.6
+
 ## 1.21.5
 
 ### Patch Changes

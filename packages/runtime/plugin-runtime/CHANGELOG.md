@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 1.21.6
+
+### Patch Changes
+
+- bb7788d: fix: bootstrap func ReactDOM params type when use react18
+
+  fix: 修复当使用 React18 时， bootstrap 函数 ReactDOM 参数类型
+
+- e951ac1: fix: state runtime plugin init hook not return next function
+
+  fix: 修复 state runtime 插件 init 钩子未返回 next 函数
+
+  - @modern-js/webpack@1.21.6
+  - @modern-js/plugin@1.21.6
+  - @modern-js/utils@1.21.6
+
 ## 1.21.5
 
 ### Patch Changes
