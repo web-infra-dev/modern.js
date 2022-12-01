@@ -6,11 +6,8 @@ export default defineConfig({
       black: 'white',
     },
   },
-  buildPreset({ preset }) {
-    return {
-      ...preset.BASE_CONFIG,
-      outdir: './dist/bundleless',
-      buildType: 'bundleless',
-    };
+  buildConfig: {
+    buildType: 'bundleless',
+    outdir: './dist/bundleless',
   },
 });

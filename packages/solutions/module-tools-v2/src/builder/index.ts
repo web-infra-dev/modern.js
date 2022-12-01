@@ -30,22 +30,24 @@ export const run = async (
     await clearBuildConfigPaths(resolvedBuildConfig);
     await clearDtsTemp();
 
-    const { getStyleConfig } = await import('../utils/style');
-    const styleConfig = await getStyleConfig(api);
-
     if (cmdOptions.watch) {
       console.info(chalk.blue.underline('start build in watch mode...\n'));
     }
 
     try {
       await pMap(resolvedBuildConfig, async config => {
-        await runner.beforeBuildTask({ config, options: cmdOptions });
+        const buildConfig = await runner.beforeBuildTask(
+          {
+            config,
+            options: cmdOptions,
+          },
+          { onLast: async c => c.config },
+        );
         await runBuildTask(
           {
-            buildConfig: config,
+            buildConfig,
             buildCmdOptions: cmdOptions,
             context,
-            styleConfig,
           },
           api,
         );

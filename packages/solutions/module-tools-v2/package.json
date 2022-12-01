@@ -44,9 +44,9 @@
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "0.4.1-alpha.0",
-    "@modern-js/libuild-plugin-umd": "0.4.0",
-    "@modern-js/libuild-plugin-es5": "0.4.0",
+    "@modern-js/libuild": "0.5.0",
+    "@modern-js/libuild-plugin-umd": "0.5.0",
+    "@modern-js/libuild-plugin-es5": "0.5.0",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
