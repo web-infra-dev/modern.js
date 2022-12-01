@@ -181,7 +181,7 @@ export const getCustomWebpackConfigHandle: any = ({
   env: 'dev' | 'prod';
 }) => {
   const { RULE, PLUGIN, ONE_OF } = CHAIN_ID;
-  const { appDirectory } = appContext;
+  const { appDirectory, packageName } = appContext;
 
   // Manual configuration `output.path = 'storybook-static'`;
   (modernConfig as any).output.path = './dist/storybook-static';
@@ -208,6 +208,13 @@ export const getCustomWebpackConfigHandle: any = ({
       perf_hooks: false,
     },
   });
+
+  !isTsProject &&
+    chain.resolve.merge({
+      alias: {
+        packageName: appDirectory,
+      },
+    });
 
   const jsRuleConfig = (
     chain.module.rule(RULE.LOADERS).oneOf(ONE_OF.JS) as any

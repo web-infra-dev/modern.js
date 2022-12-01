@@ -4,8 +4,21 @@ import {
   applyDefaultBuilderOptions,
   type CreateBuilderOptions,
 } from '@modern-js/builder-shared';
-import { BuilderPlugin, BuilderConfig } from '../src/types';
+import { BuilderPlugin, BuilderConfig, RspackConfig } from '../src/types';
 import { builderRspackProvider } from '../src/provider';
+
+/** Match plugin by constructor name. */
+export const matchPlugin = (config: RspackConfig, pluginName: string) => {
+  const result = config.plugins?.filter(
+    item => item.constructor.name === pluginName,
+  );
+
+  if (Array.isArray(result)) {
+    return result[0] || null;
+  } else {
+    return result || null;
+  }
+};
 
 /**
  * different with builder.createBuilder. support add custom plugins instead of applyDefaultPlugins.

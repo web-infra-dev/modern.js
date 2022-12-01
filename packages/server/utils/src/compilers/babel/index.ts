@@ -68,10 +68,14 @@ export const resolveBabelConfig = (
   appDirectory: string,
   config: Parameters<CompileFunc>[1],
   option: IPackageModeValue,
-  // FIXME: babel type can't pass type checking
 ): any => {
-  const { define, globalVars, alias, babelConfig } = config;
-
+  const { globalVars, alias, babelConfig, define } = config;
+  const globalDefineVars =
+    define &&
+    Object.entries(define).reduce((object, [key, value]) => {
+      object[key] = JSON.stringify(value);
+      return object;
+    }, {} as Record<string, string>);
   // alias config
   const aliasConfig = getAliasConfig(alias, {
     appDirectory,
@@ -85,9 +89,11 @@ export const resolveBabelConfig = (
       enableReactPreset: true,
       enableTypescriptPreset: true,
       alias: aliasConfig,
-      // FIXME: handle the define envVars
-      envVars: define as any,
-      globalVars: globalVars as Record<string, string>,
+      envVars: [],
+      globalVars: {
+        ...globalVars,
+        ...globalDefineVars,
+      } as Record<string, any>,
     },
     {
       type: option.type,

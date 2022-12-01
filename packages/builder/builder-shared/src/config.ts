@@ -201,3 +201,69 @@ export function getExtensions({
 
   return extensions;
 }
+
+export function getMinify(
+  isProd: boolean,
+  config: {
+    output: NormalizedSharedOutputConfig;
+  },
+) {
+  if (config.output.disableMinimize || !isProd) {
+    return false;
+  }
+
+  // these options are same as the default options of html-webpack-plugin
+  return {
+    removeComments: true,
+    useShortDoctype: true,
+    keepClosingSlash: true,
+    collapseWhitespace: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+  };
+}
+
+export function getTitle(
+  entryName: string,
+  config: { html: SharedHtmlConfig },
+) {
+  const { title, titleByEntries } = config.html;
+  return titleByEntries?.[entryName] || title || '';
+}
+
+export function getInject(
+  entryName: string,
+  config: { html: SharedHtmlConfig },
+) {
+  const { inject, injectByEntries } = config.html;
+  return injectByEntries?.[entryName] || inject || true;
+}
+
+export function getFavicon(
+  entryName: string,
+  config: {
+    html: SharedHtmlConfig;
+  },
+) {
+  const { favicon, faviconByEntries } = config.html;
+  return faviconByEntries?.[entryName] || favicon;
+}
+
+export async function getMetaTags(
+  entryName: string,
+  config: { html: SharedHtmlConfig; output: NormalizedSharedOutputConfig },
+) {
+  const { generateMetaTags } = await import('@modern-js/utils');
+  const { meta, metaByEntries } = config.html;
+
+  const metaOptions = {
+    ...(metaByEntries?.[entryName] || meta || {}),
+  };
+
+  if (config.output.charset === 'utf8') {
+    metaOptions.charset = { charset: 'utf-8' };
+  }
+
+  return generateMetaTags(metaOptions);
+}

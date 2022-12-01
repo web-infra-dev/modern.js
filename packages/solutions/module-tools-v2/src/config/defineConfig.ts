@@ -1,4 +1,4 @@
-import type { ModuleUserConfig } from '../types';
+import type { ModuleConfigParams } from '../types';
 
-export const defineConfig = (config: ModuleUserConfig): ModuleUserConfig =>
+export const defineConfig = (config: ModuleConfigParams): ModuleConfigParams =>
   config;

@@ -58,6 +58,16 @@ Object {
       "styled-components",
     ],
     Array [
+      "/babel-plugin-transform-define/lib/index.js",
+      Object {},
+    ],
+    Array [
+      "/babel-plugin-transform-inline-environment-variables/lib/index.js",
+      Object {
+        "include": Array [],
+      },
+    ],
+    Array [
       "/babel-plugin-module-resolver/lib/index.js",
       Object {
         "alias": Object {

@@ -16,8 +16,6 @@ export interface Pattern {
 export interface IConfig {
   alias?: SourceNormalizedConfig['alias'];
   define?: SourceNormalizedConfig['define'];
-  // FIXME: remove the envVars;
-  // envVars?: CliNormalizedConfig['source']['envVars'];
   globalVars?: SourceNormalizedConfig['globalVars'];
   babelConfig?: ToolsNormalizedConfig['babel'];
   server: {
