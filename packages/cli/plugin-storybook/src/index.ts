@@ -18,19 +18,22 @@ export default (): CliPlugin<ModuleTools> => ({
       );
 
       return {
-        // FIXME: need comfirm
-        // source: {
-        //   alias: {
-        //     '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-        //   },
-        // },
-
-        buildConfig: {
+        source: {
           alias: {
             '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
           },
         },
-      };
+      } as any;
+    },
+    beforeBuildTask({ config }) {
+      const appContext = api.useAppContext();
+      const pluginsExportsUtils = createRuntimeExportsUtils(
+        appContext.internalDirectory,
+        'plugins',
+      );
+      config.alias['@modern-js/runtime/plugins'] =
+        pluginsExportsUtils.getPath();
+      return config;
     },
 
     registerDev() {
