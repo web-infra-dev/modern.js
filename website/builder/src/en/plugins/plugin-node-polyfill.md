@@ -28,7 +28,7 @@ You can register the plugin in Builder to enable node polyfill features:
 ```js
 import { PluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
 
-// Add plugins to the builder instance
+// Add plugins to the builder instance.
 builder.addPlugins([PluginNodePolyfill()]);
 ```
 
