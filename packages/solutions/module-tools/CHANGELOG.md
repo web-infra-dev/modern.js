@@ -1,5 +1,24 @@
 # @modern-js/module-tools
 
+## 1.21.6
+
+### Patch Changes
+
+- dc4db21: update speedy version
+  更新依赖里 speedy 的版本
+  - @modern-js/new-action@1.21.6
+  - @modern-js/upgrade@1.21.6
+  - @modern-js/babel-preset-module@1.21.6
+  - @modern-js/core@1.21.6
+  - @modern-js/css-config@1.21.6
+  - @modern-js/plugin-changeset@1.21.6
+  - @modern-js/plugin-i18n@1.21.6
+  - @modern-js/plugin-jarvis@1.21.6
+  - @modern-js/babel-compiler@1.21.6
+  - @modern-js/style-compiler@1.21.6
+  - @modern-js/plugin@1.21.6
+  - @modern-js/utils@1.21.6
+
 ## 1.21.5
 
 ### Patch Changes

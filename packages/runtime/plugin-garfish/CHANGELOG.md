@@ -1,5 +1,16 @@
 # @modern-js/plugin-garfish
 
+## 1.21.6
+
+### Patch Changes
+
+- 57f7399: feat: support async export provider for module federation
+  支持模块联邦场景异步导出 provider
+- Updated dependencies [bb7788d]
+- Updated dependencies [e951ac1]
+  - @modern-js/runtime@1.21.6
+  - @modern-js/utils@1.21.6
+
 ## 1.21.5
 
 ### Patch Changes

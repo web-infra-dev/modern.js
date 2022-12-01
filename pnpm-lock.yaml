@@ -2579,7 +2579,7 @@ importers:
       '@babel/preset-env': ^7.18.0
       '@babel/preset-typescript': ^7.17.12
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-compiler': workspace:^1.21.5
+      '@modern-js/babel-compiler': workspace:^1.21.6
       '@modern-js/babel-preset-lib': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:*
@@ -13355,10 +13355,8 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -30314,7 +30312,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
