@@ -52,7 +52,7 @@ webpackOnlyTest('module-scopes', async ({ page }) => {
         moduleScopes: ['./src'],
       },
     }),
-  ).rejects.toThrowError('Webpack build failed!');
+  ).rejects.toThrowError('webpack build failed!');
 
   let builder = await build(buildOpts, {});
 
