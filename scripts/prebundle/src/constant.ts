@@ -438,6 +438,7 @@ export const TASKS: TaskConfig[] = [
     packageDir: 'builder/builder-rspack-provider',
     packageName: '@modern-js/builder-rspack-provider',
     dependencies: [
+      'webpack-merge',
       {
         name: 'pretty-time',
         ignoreDts: true,
