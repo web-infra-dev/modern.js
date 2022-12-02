@@ -85,23 +85,13 @@ const addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
 
 exports[`format is esm buildType is bundle 1`] = `
 "var __getOwnPropNames = Object.getOwnPropertyNames;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 
-// <define:import.meta.env>
-var init_define_import_meta_env = __esm({
-  \\"<define:import.meta.env>\\"() {
-  }
-});
-
 // src/utils.js
 var require_utils = __commonJS({
   \\"src/utils.js\\"(exports, module) {
-    init_define_import_meta_env();
     var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
     module.exports = {
       addPrefix
@@ -112,7 +102,6 @@ var require_utils = __commonJS({
 // src/index.js
 var require_src = __commonJS({
   \\"src/index.js\\"(exports, module) {
-    init_define_import_meta_env();
     var { addPrefix } = require_utils();
     module.exports = (str) => addPrefix(\\"DEBUG:\\", str);
   }
@@ -123,19 +112,11 @@ export default require_src();
 
 exports[`format is esm buildType is bundleless 1`] = `
 "var __getOwnPropNames = Object.getOwnPropertyNames;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
-var init_define_import_meta_env = __esm({
-  \\"<define:import.meta.env>\\"() {
-  }
-});
 var require_src = __commonJS({
   \\"src/index.js\\"(exports, module) {
-    init_define_import_meta_env();
     const { addPrefix } = require(\\"./utils\\");
     module.exports = (str) => addPrefix(\\"DEBUG:\\", str);
   }
@@ -146,19 +127,11 @@ export default require_src();
 
 exports[`format is esm buildType is bundleless 2`] = `
 "var __getOwnPropNames = Object.getOwnPropertyNames;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
-var init_define_import_meta_env = __esm({
-  \\"<define:import.meta.env>\\"() {
-  }
-});
 var require_utils = __commonJS({
   \\"src/utils.js\\"(exports, module) {
-    init_define_import_meta_env();
     const addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
     module.exports = {
       addPrefix
@@ -172,19 +145,11 @@ export default require_utils();
 exports[`format is iife buildType is bundle 1`] = `
 "(() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __esm = (fn, res) => function __init() {
-    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-  };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
-  var init_define_import_meta_env = __esm({
-    \\"<define:import.meta.env>\\"() {
-    }
-  });
   var require_utils = __commonJS({
     \\"src/utils.js\\"(exports, module) {
-      init_define_import_meta_env();
       var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
       module.exports = {
         addPrefix
@@ -193,7 +158,6 @@ exports[`format is iife buildType is bundle 1`] = `
   });
   var require_src = __commonJS({
     \\"src/index.js\\"(exports, module) {
-      init_define_import_meta_env();
       var { addPrefix } = require_utils();
       module.exports = (str) => addPrefix(\\"DEBUG:\\", str);
     }
@@ -220,22 +184,14 @@ exports[`format is umd buildType is bundle 1`] = `
         get: ()=>_default
     });
     var __getOwnPropNames = Object.getOwnPropertyNames;
-    var __esm = (fn, res)=>function __init() {
-            return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-        };
     var __commonJS = (cb, mod)=>function __require() {
             return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = {
                 exports: {}
             }).exports, mod), mod.exports;
         };
-    // <define:import.meta.env>
-    var init_define_import_meta_env = __esm({
-        \\"<define:import.meta.env>\\" () {}
-    });
     // src/utils.js
     var require_utils = __commonJS({
         \\"src/utils.js\\" (exports, module1) {
-            init_define_import_meta_env();
             var addPrefix = (prefix, str)=>\`\${prefix}\${str}\`;
             module1.exports = {
                 addPrefix
@@ -245,7 +201,6 @@ exports[`format is umd buildType is bundle 1`] = `
     // src/index.js
     var require_src = __commonJS({
         \\"src/index.js\\" (exports, module1) {
-            init_define_import_meta_env();
             var { addPrefix  } = require_utils();
             module1.exports = (str)=>addPrefix(\\"DEBUG:\\", str);
         }
