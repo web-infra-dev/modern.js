@@ -18,12 +18,63 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "devServer": {
     "hot": true,
   },
-  "devtool": "cheap-module-source-map",
   "entry": {},
   "infrastructureLogging": {
     "level": "error",
   },
   "mode": "development",
+  "module": {
+    "rules": [
+      {
+        "name": "css",
+        "test": /\\\\\\.css\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
   "output": {
     "chunkFilename": "static/js/async/[name].js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -66,12 +117,63 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "devServer": {
     "hot": false,
   },
-  "devtool": "source-map",
   "entry": {},
   "infrastructureLogging": {
     "level": "error",
   },
   "mode": "production",
+  "module": {
+    "rules": [
+      {
+        "name": "css",
+        "test": /\\\\\\.css\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
   "output": {
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
     "cssChunkFilename": "static/css/async/[name].[contenthash:8].css",
