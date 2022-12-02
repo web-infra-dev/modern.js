@@ -38,7 +38,7 @@ export default defineConfig({
 
 **构建预设的值可以是字符串形式**，因此这样形式的构建预设叫做预设字符串。
 
-模块工程解决方案根据 npm 包使用的通用场景，提供了通用的构建预设字符串以及相应的变体。目前支持的所有预设字符串可以通过 [BuildPreset API](/zh/api/config-build) 查看。这里讲解一下关于**通用的预设字符串与变体之间的关系**。
+模块工程解决方案根据 npm 包使用的通用场景，提供了通用的构建预设字符串以及相应的变体。目前支持的所有预设字符串可以通过 [BuildPreset API](/zh/api/build-config) 查看。这里讲解一下关于**通用的预设字符串与变体之间的关系**。
 
 在通用的预设字符串中，`"npm-library"` 可以用于在开发库类型的 npm 包的场景下使用，它适合大多数普通的模块类型项目。当设置 `"npm-library"` 的时候，项目的输出产物会有以下特点：
 
@@ -69,7 +69,7 @@ export default defineConfig({
 ```
 
 在上面的代码实现中，`preset.NPM_LIBRARY` 与预设字符串 `"npm-library"` 是相对应的，它代表着 `"npm-library"` 等价的多组构建相关的配置。我们通过 `map` 方法遍历了 `NPM_LIBRARY` 这个数组，在这个数组中包含了多个 `buildConfig` 对象。我们将原本的 `buildConfig` 对象进行了浅拷贝并修改了浅拷贝后得到 `buildConfig.target`，将它指定为 `es2017`。
-> 关于 `preset.NPM_LIBRARY` 具体对应的值，可以通过 [BuildPreset API](/zh/api/config-build) 查看。在 `preset` 对象下不仅包含了 `NPM_LIBRARY`，还包含了其他类似的常量。
+> 关于 `preset.NPM_LIBRARY` 具体对应的值，可以通过 [BuildPreset API](/zh/api/build-config) 查看。在 `preset` 对象下不仅包含了 `NPM_LIBRARY`，还包含了其他类似的常量。
 
 那么这里的 `buildConfig` 对象是什么呢？之前提到的构建产物特点又是根据什么呢？
 
@@ -81,34 +81,34 @@ export default defineConfig({
 
 **构建产物的基本属性包括：**
 
-- 产物是否被打包：对应的 API 是 [`buildConfig.buildType`](/zh/api/config-build#buildtype)。
-- 产物对于语法的支持：对应的 API 是 [`buildConfig.target`](/zh/api/config-build#target)。
-- 产物格式：对应的 API 是 [`buildConfig.format`](/zh/api/config-build#format)。
-- 产物类型文件如何处理，对应的 API 是 [`buildConfig.dts`](/zh/api/config-build#dts)。
-- 产物的 sourceMap 如何处理：对应的 API 是 [`buildConfig.sourceMap`](/zh/api/config-build#sourcemap)。
-- 产物对应的输入（或者是源文件）：对应的 API 是 [`buildConfig.input`](/zh/api/config-build#input)。
-- 产物输出的目录：对应的 API 是 [`buildConfig.outdir`](/zh/api/config-build#outdir)。
-- 构建的源码目录：对应的 API 是 [`buildConfig.sourceDir`](/zh/api/config-build#sourcedir)。
+- 产物是否被打包：对应的 API 是 [`buildConfig.buildType`](/zh/api/build-config#buildtype)。
+- 产物对于语法的支持：对应的 API 是 [`buildConfig.target`](/zh/api/build-config#target)。
+- 产物格式：对应的 API 是 [`buildConfig.format`](/zh/api/build-config#format)。
+- 产物类型文件如何处理，对应的 API 是 [`buildConfig.dts`](/zh/api/build-config#dts)。
+- 产物的 sourceMap 如何处理：对应的 API 是 [`buildConfig.sourceMap`](/zh/api/build-config#sourcemap)。
+- 产物对应的输入（或者是源文件）：对应的 API 是 [`buildConfig.input`](/zh/api/build-config#input)。
+- 产物输出的目录：对应的 API 是 [`buildConfig.outdir`](/zh/api/build-config#outdir)。
+- 构建的源码目录：对应的 API 是 [`buildConfig.sourceDir`](/zh/api/build-config#sourcedir)。
 
 **构建产物所需的常用功能包括：**
 
-- 别名：对应的 API 是 [`buildConfig.alias`](/zh/api/config-build#alias)。
-- 静态资源处理：对应的 API 是 [`buildConfig.asset`](/zh/api/config-build#asset)。
+- 别名：对应的 API 是 [`buildConfig.alias`](/zh/api/build-config#alias)。
+- 静态资源处理：对应的 API 是 [`buildConfig.asset`](/zh/api/build-config#asset)。
 - 第三方依赖处理：对应的 API 有：
-  * [`buildConfig.autoExternal`](/zh/api/config-build#autoexternal)。
-  * [`buildConfig.externals`](/zh/api/config-build#externals)。
-- 拷贝：对应的 API 是 [`buildConfig.copy`](/zh/api/config-build#copy)。
-- 全局变量替换：对应的 API 是 [`buildConfig.define`](/zh/api/config-build#define)。
-- 指定 [JSX](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) 编译方式，对应的 API 是 [`buildConfig.jsx`](/zh/api/config-build#jsx)。
+  * [`buildConfig.autoExternal`](/zh/api/build-config#autoexternal)。
+  * [`buildConfig.externals`](/zh/api/build-config#externals)。
+- 拷贝：对应的 API 是 [`buildConfig.copy`](/zh/api/build-config#copy)。
+- 全局变量替换：对应的 API 是 [`buildConfig.define`](/zh/api/build-config#define)。
+- 指定 [JSX](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) 编译方式，对应的 API 是 [`buildConfig.jsx`](/zh/api/build-config#jsx)。
 
 **一些高级属性或者使用频率不高的功能：**
 
-- 产物代码压缩：对应的 API 是 [`buildConfig.minify`](/zh/api/config-build#minify)。
-- 代码分割：[`buildConfig.spitting`](/zh/api/config-build#splitting)
-- 指定构建产物用于 NodeJS 环境还是浏览器环境：对应的 API 是 [`buildConfig.platform`](/zh/api/config-build#platform)。
+- 产物代码压缩：对应的 API 是 [`buildConfig.minify`](/zh/api/build-config#minify)。
+- 代码分割：[`buildConfig.spitting`](/zh/api/build-config#splitting)
+- 指定构建产物用于 NodeJS 环境还是浏览器环境：对应的 API 是 [`buildConfig.platform`](/zh/api/build-config#platform)。
 - umd 产物相关：
-  * 指定 umd 产物外部导入的全局变量：对应的 API 是 [`buildConfig.umdGlobals`](/zh/api/config-build#umdglobals)。
-  * 指定 umd 产物的模块名：对应的 API 是 [`buildConfig.umdModuleName`](/zh/api/config-build#umdmodulename)。
+  * 指定 umd 产物外部导入的全局变量：对应的 API 是 [`buildConfig.umdGlobals`](/zh/api/build-config#umdglobals)。
+  * 指定 umd 产物的模块名：对应的 API 是 [`buildConfig.umdModuleName`](/zh/api/build-config#umdmodulename)。
 
 除了以上分类以外，关于这些 API 的常见问题和最佳实践可以通过下面的链接来了解：
 
