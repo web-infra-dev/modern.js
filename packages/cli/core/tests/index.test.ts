@@ -1,13 +1,13 @@
 import path from 'path';
 import { cli, mergeOptions } from '../src';
-import { resolveConfig, loadUserConfig } from '../src/config';
+import { createResolveConfig, createLoadedConfig } from '../src/config';
 import { loadEnv } from '../src/loadEnv';
 
 jest.mock('../src/config', () => ({
   __esModule: true,
   ...jest.requireActual('../src/config'),
-  loadUserConfig: jest.fn(),
-  resolveConfig: jest.fn(),
+  createLoadedConfig: jest.fn(),
+  createResolveConfig: jest.fn(),
 }));
 
 jest.mock('../src/loadEnv', () => ({
@@ -25,10 +25,10 @@ describe('@modern-js/core test', () => {
   const resetMock = () => {
     jest.resetAllMocks();
     cwdSpy.mockReturnValue(cwd);
-    (resolveConfig as jest.Mock).mockReturnValue(
+    (createResolveConfig as jest.Mock).mockReturnValue(
       Promise.resolve(mockResolveConfig),
     );
-    (loadUserConfig as jest.Mock).mockImplementation(() =>
+    (createLoadedConfig as jest.Mock).mockImplementation(() =>
       Promise.resolve(mockLoadedConfig),
     );
   };
@@ -62,7 +62,7 @@ describe('@modern-js/core test', () => {
 
   it('test cli init dev', async () => {
     cwdSpy.mockReturnValue(path.join(cwd, 'nested-folder'));
-    await cli.init(['dev']);
+    await cli.init();
     expect(loadEnv).toHaveBeenCalledWith(cwd, undefined);
     // TODO: add more test cases
   });

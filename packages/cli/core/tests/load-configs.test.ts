@@ -108,18 +108,6 @@ describe('load user config file', () => {
 describe('get file dependencies', () => {
   const file = path.resolve(__dirname, './fixtures/deps/a.js');
 
-  // TODO: jest module.children is empty array
-  // test(`should return file dependencies`, () => {
-  //   // ensure require.cache
-  //   require(file);
-
-  //   const deps = getDependencies(file);
-
-  //   expect(deps).toEqual(
-  //     ['a.js'].map(name => path.join(__dirname, './fixtures/deps', name)),
-  //   );
-  // });
-
   test(`should return empty array`, () => {
     // delete cache manually
     jest.resetModules();

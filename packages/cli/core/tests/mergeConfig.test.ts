@@ -1,5 +1,6 @@
 import { mergeConfig } from '../src/utils/mergeConfig';
-// import { assignPkgConfig } from '../src/config';
+import { assignPkgConfig } from '../src/config';
+import { UserConfig, ConfigParams } from '../src/types';
 
 describe('merge config', () => {
   test('should replace property deeply', () => {
@@ -105,40 +106,41 @@ describe('merge config', () => {
   });
 });
 
-// describe('assign pkg config', () => {
-//   test('should preserve symbol of plugins', () => {
-//     expect(
-//       assignPkgConfig(
-//         {
-//           plugins: [
-//             {
-//               [Symbol.for('test')]: 'test',
-//             },
-//           ],
-//         },
-//         {
-//           runtime: {
-//             router: true,
-//           },
-//         },
-//       ),
-//     ).toMatchSnapshot();
-//   });
+// TODO: move into app-tools
+describe('assign pkg config', () => {
+  test('should preserve symbol of plugins', () => {
+    expect(
+      assignPkgConfig(
+        {
+          plugins: [
+            {
+              [Symbol.for('test')]: 'test',
+            },
+          ],
+        },
+        {
+          runtime: {
+            router: true,
+          },
+        } as ConfigParams,
+      ),
+    ).toMatchSnapshot();
+  });
 
-//   test('should merge properties deeply', () => {
-//     expect(
-//       assignPkgConfig(
-//         {
-//           runtime: {
-//             state: true,
-//           },
-//         },
-//         {
-//           runtime: {
-//             router: true,
-//           },
-//         },
-//       ),
-//     ).toMatchSnapshot();
-//   });
-// });
+  test('should merge properties deeply', () => {
+    expect(
+      assignPkgConfig(
+        {
+          runtime: {
+            state: true,
+          },
+        } as UserConfig,
+        {
+          runtime: {
+            router: true,
+          },
+        } as ConfigParams,
+      ),
+    ).toMatchSnapshot();
+  });
+});
