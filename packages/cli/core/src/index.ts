@@ -16,6 +16,7 @@ import {
   ConfigContext,
   initAppContext,
   ResolvedConfigContext,
+  useAppContext,
 } from './context';
 import { loadEnv } from './loadEnv';
 import { manager } from './manager';
@@ -164,15 +165,18 @@ const createCli = () => {
       resolved: normalizedConfig,
     });
 
-    // FIXME: Why need to configContext again?
     // update context value
     ConfigContext.set(loaded.config);
     ResolvedConfigContext.set(resolved);
 
-    // TODO: confirm the `addRuntimeExports` run order
     await hooksRunner.addRuntimeExports();
 
     await hooksRunner.prepare();
+
+    return {
+      resolved,
+      appContext: useAppContext(),
+    };
   };
 
   async function run(options?: CoreOptions) {
@@ -201,7 +205,7 @@ const createCli = () => {
     init,
     run,
     test,
-    initOptions,
+    getPrevInitOptions: () => initOptions,
   };
 };
 

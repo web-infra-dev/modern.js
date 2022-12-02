@@ -98,10 +98,14 @@ importers:
       '@rspack/dev-middleware': 0.0.0-11afc8e36-20221128093256
       '@rspack/less-loader': 0.0.0-11afc8e36-20221128093256
       '@rspack/plugin-html': 0.0.0-11afc8e36-20221128093256
+      '@rspack/postcss-loader': 0.0.0-11afc8e36-20221128093256
       '@scripts/vitest-config': workspace:*
       '@types/node': ^14
       autoprefixer: ^10.4.8
+      caniuse-lite: ^1.0.30001332
+      postcss: 8.4.16
       typescript: ^4
+      webpack-sources: ^3.2.3
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/server': link:../../server/server
@@ -112,11 +116,15 @@ importers:
       '@rspack/dev-middleware': 0.0.0-11afc8e36-20221128093256
       '@rspack/less-loader': 0.0.0-11afc8e36-20221128093256
       '@rspack/plugin-html': 0.0.0-11afc8e36-20221128093256
+      '@rspack/postcss-loader': 0.0.0-11afc8e36-20221128093256
+      caniuse-lite: 1.0.30001434
+      webpack-sources: 3.2.3
     devDependencies:
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/node': 14.18.21
-      autoprefixer: 10.4.8
+      autoprefixer: 10.4.8_postcss@8.4.16
+      postcss: 8.4.16
       typescript: 4.7.4
 
   packages/builder/builder-shared:
@@ -932,6 +940,7 @@ importers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
       '@modern-js/core': workspace:*
+      '@modern-js/module-tools-v2': workspace:*
       '@modern-js/runtime': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -953,6 +962,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../solutions/app-tools
       '@modern-js/core': link:../core
+      '@modern-js/module-tools-v2': link:../../solutions/module-tools-v2
       '@modern-js/runtime': link:../../runtime/plugin-runtime
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
@@ -2968,9 +2978,9 @@ importers:
     specifiers:
       '@babel/core': 7.20.2
       '@modern-js/core': workspace:*
-      '@modern-js/libuild': 0.4.1-alpha.0
-      '@modern-js/libuild-plugin-es5': 0.4.0
-      '@modern-js/libuild-plugin-umd': 0.4.0
+      '@modern-js/libuild': 0.5.0
+      '@modern-js/libuild-plugin-es5': 0.5.0
+      '@modern-js/libuild-plugin-umd': 0.5.0
       '@modern-js/new-action': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
@@ -2993,9 +3003,9 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.4.1-alpha.0
-      '@modern-js/libuild-plugin-es5': 0.4.0
-      '@modern-js/libuild-plugin-umd': 0.4.0
+      '@modern-js/libuild': 0.5.0
+      '@modern-js/libuild-plugin-es5': 0.5.0
+      '@modern-js/libuild-plugin-umd': 0.5.0
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
@@ -5188,13 +5198,9 @@ importers:
 
   website/module-tools:
     specifiers:
-      islandjs: 0.7.10
-      react: ^18.2.0
-      react-dom: ^18.2.0
+      islandjs: 0.7.19
     dependencies:
-      islandjs: 0.7.10
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      islandjs: 0.7.19
 
 packages:
 
@@ -10370,23 +10376,23 @@ packages:
       - supports-color
     dev: false
 
-  /@islandjs/plugin-backtop/0.7.10_islandjs@0.7.10:
-    resolution: {integrity: sha512-xLzidF4tzuHIy9NgENp/Fz8lMX2LUFahnB4HjdW7cQCfuIbG5evdG3J3QM7o2R1ICOuNba1/IgWqOqbfoTyzZw==}
+  /@islandjs/plugin-backtop/0.7.19_islandjs@0.7.19:
+    resolution: {integrity: sha512-WVsKsENmvB5ktyP9NM1+ebl46HVahRmDVNmNRxzLYsCjCgPxxFclLpmzQ+zTytuUfvvJNQt5GnmrlYF4QTZmzw==}
     peerDependencies:
-      islandjs: 0.7.10
+      islandjs: 0.7.19
     dependencies:
       b-tween: 0.3.3
-      islandjs: 0.7.10
+      islandjs: 0.7.19
       lodash-es: 4.17.21
     dev: false
 
-  /@islandjs/plugin-search/0.7.10_islandjs@0.7.10:
-    resolution: {integrity: sha512-etzQu+rtP7Z85pMc8ibuiamRcq/I4gc9MfTRBaVRDv1b2iAz+Pqjtkb1a2L11bnC1lsKwDckKpW863+SJ6bhdA==}
+  /@islandjs/plugin-search/0.7.19_islandjs@0.7.19:
+    resolution: {integrity: sha512-HSEgvFArQM3qGbBg3YktZfL1Qfb6DyG/+IwY2bgJdPuv87w3K3anNgY7KldxMMFXZactt/HWSwYeiXGRXF3X4g==}
     peerDependencies:
-      islandjs: 0.7.10
+      islandjs: 0.7.19
     dependencies:
       flexsearch: 0.6.32
-      islandjs: 0.7.10
+      islandjs: 0.7.19
       lodash-es: 4.17.21
     dev: false
 
@@ -11144,20 +11150,20 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-es5/0.4.0:
-    resolution: {integrity: sha512-3C4TeiLG2gF6QG3H14tHP0k0w4LMOCgPkxfazW+cC8bwtKM7+bfDgz39I/IFNhhGlhJPKnl2U5M2xsU3xQl9WQ==}
+  /@modern-js/libuild-plugin-es5/0.5.0:
+    resolution: {integrity: sha512-jmVg7eTo+ilrAO/NI9f608w2wESyQr1t458mSPAsAdIg5zaIDmFS9Ep4Yo8gfjcS0kNFDnrt5M8hDF9Pa8aZzA==}
     dependencies:
       '@swc/core': 1.3.14
     dev: false
 
-  /@modern-js/libuild-plugin-umd/0.4.0:
-    resolution: {integrity: sha512-/ReJC67RVpkGaUOFc+BxXmHyOYRyIM4Zuel4LO8bNn/3XxVe4Jey2b3EKeJ0CK+BIimuxePIFWwud5+404Ta/g==}
+  /@modern-js/libuild-plugin-umd/0.5.0:
+    resolution: {integrity: sha512-+esqLXbaxtrCfd4ZgW1uKaBWwOMJFen5ruwoGy1HyKcyy7ElOqvLpgtuwGhw3MEbOXcfe+ycPwo2jKSke4JOKQ==}
     dependencies:
       '@swc/core': 1.3.14
     dev: false
 
-  /@modern-js/libuild/0.4.1-alpha.0:
-    resolution: {integrity: sha512-jsPqx8/MV+tNORAQv3MAr7C28wdtZ0ZLlfLtMAKgQUeH4Pe+dNU67h/6jF5bUCOXaLi0SqssaYNM/Rby8hyK6w==}
+  /@modern-js/libuild/0.5.0:
+    resolution: {integrity: sha512-VCd7so3fI+GY4VX24ko2uzkoDRW9tQTXJLA3TuAWAMUE5ZYa4GwAgVk9xmBDs+n9MUzs8jZNpFlbDdgdf7SpsA==}
     hasBin: true
     dependencies:
       esbuild: 0.15.7
@@ -11995,6 +12001,15 @@ packages:
       - bufferutil
       - utf-8-validate
       - webpack
+    dev: false
+
+  /@rspack/postcss-loader/0.0.0-11afc8e36-20221128093256:
+    resolution: {integrity: sha512-/GDH9MXY808H2vV/HCb/Moi5hagZ2L70/nXjmcjvJswJtwbCGUy45ghHpsuYsnrYA+qf+fP0rT9OdVo9ubjYbQ==}
+    dependencies:
+      '@rspack/binding': 0.0.0-11afc8e36-20221128093256
+      postcss: 8.4.19
+      postcss-modules: 5.0.0_postcss@8.4.19
+      postcss-pxtorem: 6.0.0_postcss@8.4.19
     dev: false
 
   /@rushstack/node-core-library/3.48.0:
@@ -14610,7 +14625,7 @@ packages:
   /@types/estree-jsx/1.0.0:
     resolution: {integrity: sha512-3qvGd0z8F2ENTGr/GG1yViqfiKmRfrXVx5sJyHGFu3z7m5g5utCQtGp/g29JnjflhtQJBv1WDQukHiT58xPcYQ==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
 
   /@types/estree/0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
@@ -15090,12 +15105,6 @@ packages:
     dependencies:
       '@types/react': 18.0.21
     dev: true
-
-  /@types/react-transition-group/4.4.5:
-    resolution: {integrity: sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA==}
-    dependencies:
-      '@types/react': 18.0.21
-    dev: false
 
   /@types/react/18.0.21:
     resolution: {integrity: sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==}
@@ -17243,7 +17252,7 @@ packages:
       postcss-value-parser: 4.2.0
     dev: true
 
-  /autoprefixer/10.4.8:
+  /autoprefixer/10.4.8_postcss@8.4.16:
     resolution: {integrity: sha512-75Jr6Q/XpTqEf6D2ltS5uMewJIx5irCU1oBYJrWjFenq/m12WRRrz6g15L1EIoYvPLXTbEry7rDOwrcYNj77xw==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
@@ -17255,6 +17264,7 @@ packages:
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
+      postcss: 8.4.16
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -23635,7 +23645,6 @@ packages:
       glob-parent: 5.1.2
       merge2: 1.4.1
       micromatch: 4.0.5
-    dev: false
 
   /fast-json-parse/1.0.3:
     resolution: {integrity: sha512-FRWsaZRWEJ1ESVNbDWmsAlqDk96gPQezzLghafp5J4GUKjbCz3OkAHuZs5TuPEtkbVQERysLp9xv6c24fBm8Aw==}
@@ -24500,6 +24509,12 @@ packages:
     resolution: {integrity: sha512-wI0YWDIfQraQMDs0yXAVQiVBZeMm/rIYssf8LZlMDdssKF19YqJKOHkv4zvwtVQTBJ0LNmErv1S+DqlVUudz8g==}
     dev: false
 
+  /generic-names/4.0.0:
+    resolution: {integrity: sha512-ySFolZQfw9FoDb3ed9d80Cm9f0+r7qj+HJkWjeD9RBfpxEVTlVhol+gvaQB/78WbwYfbnNh8nWHHBSlg072y6A==}
+    dependencies:
+      loader-utils: 3.2.0
+    dev: false
+
   /gensync/1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
@@ -24792,7 +24807,7 @@ packages:
       '@types/glob': 7.2.0
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.2.11
+      fast-glob: 3.2.12
       glob: 7.2.3
       ignore: 5.2.0
       merge2: 1.4.1
@@ -25771,7 +25786,6 @@ packages:
 
   /icss-replace-symbols/1.1.0:
     resolution: {integrity: sha512-chIaY3Vh2mh2Q3RGXttaDIzeiPvaVXJ+C4DAh/w3c37SKZ/U6PGMmuicR2EQQp9bKG8zLMCl7I+PtIoOOPp8Gg==}
-    dev: true
 
   /icss-utils/4.1.1:
     resolution: {integrity: sha512-4aFq7wvWyMHKgxsH8QQtGpvbASCf+eM3wPRLI6R+MgAnTCZ6STYsRvttLvRWK0Nfif5piF394St3HeJDaljGPA==}
@@ -26650,21 +26664,20 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  /islandjs/0.7.10:
-    resolution: {integrity: sha512-9UX6aM+hMu2S24dXPuI311sa6AUpOkIHqvAbkBI/IN+2CxrVlub0NzF/aApJ+kIbBVFaCbL2Kpq6WdWykOZUeg==}
+  /islandjs/0.7.19:
+    resolution: {integrity: sha512-N08BcKD/IDtrt6LvZy4EVBRwrcCQU575IkHRi8lpAjdcVRNCk9VtT+fKIIpbDlAQ7LPBk3TtAAsJ5NB7D+IrAQ==}
     hasBin: true
     dependencies:
       '@babel/core': 7.19.0
       '@babel/helper-plugin-utils': 7.19.0
       '@babel/preset-react': 7.18.6_@babel+core@7.19.0
       '@iconify-json/carbon': 1.1.8
-      '@islandjs/plugin-backtop': 0.7.10_islandjs@0.7.10
-      '@islandjs/plugin-search': 0.7.10_islandjs@0.7.10
+      '@islandjs/plugin-backtop': 0.7.19_islandjs@0.7.19
+      '@islandjs/plugin-search': 0.7.19_islandjs@0.7.19
       '@mdx-js/mdx': 2.1.3
       '@mdx-js/react': 2.1.3_react@18.2.0
       '@mdx-js/rollup': 2.1.5
       '@svgr/core': 6.3.1
-      '@types/react-transition-group': 4.4.5
       '@unocss/preset-attributify': 0.45.26
       '@unocss/preset-icons': 0.45.29
       '@unocss/preset-wind': 0.45.26
@@ -26694,7 +26707,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       react-helmet-async: 1.3.0_biqbaboplfbrettd7655fr4n2y
       react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
-      react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
       rehype-autolink-headings: 6.1.1
       rehype-external-links: 2.0.1
       rehype-highlight: 5.0.2
@@ -31840,6 +31852,22 @@ packages:
       icss-utils: 5.1.0_postcss@8.4.19
       postcss: 8.4.19
 
+  /postcss-modules/5.0.0_postcss@8.4.19:
+    resolution: {integrity: sha512-rGvpTDOM3//3Ysn3Xtvhzaj8ab984wKCpP02TEF559tLbUjNay3RQDpPxb7BREmfBtJm3/1WbQOZ7fSXwYLZ/w==}
+    peerDependencies:
+      postcss: ^8.0.0
+    dependencies:
+      generic-names: 4.0.0
+      icss-replace-symbols: 1.1.0
+      lodash.camelcase: 4.3.0
+      postcss: 8.4.19
+      postcss-modules-extract-imports: 3.0.0_postcss@8.4.19
+      postcss-modules-local-by-default: 4.0.0_postcss@8.4.19
+      postcss-modules-scope: 3.0.0_postcss@8.4.19
+      postcss-modules-values: 4.0.0_postcss@8.4.19
+      string-hash: 1.1.3
+    dev: false
+
   /postcss-nested/5.0.6_postcss@8.4.19:
     resolution: {integrity: sha512-rKqm2Fk0KbA8Vt3AdGN0FB9OBOMDVajMG6ZCf/GoHgdxUJ4sBFp0A/uMIRm+MJUdo33YXEtjqIz8u7DAp8B7DA==}
     engines: {node: '>=12.0'}
@@ -32067,7 +32095,6 @@ packages:
       postcss: ^8.0.0
     dependencies:
       postcss: 8.4.19
-    dev: true
 
   /postcss-reduce-idents/5.2.0_postcss@8.4.19:
     resolution: {integrity: sha512-BTrLjICoSB6gxbc58D5mdBK8OhXRDqud/zodYfdSi52qvDHdMwk+9kB9xsM8yJThH/sZU5A6QVSmMmaN001gIg==}
@@ -33904,20 +33931,6 @@ packages:
 
   /react-transition-group/4.4.2_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg==}
-    peerDependencies:
-      react: '>=16.6.0'
-      react-dom: '>=16.6.0'
-    dependencies:
-      '@babel/runtime': 7.18.6
-      dom-helpers: 5.2.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /react-transition-group/4.4.5_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
     peerDependencies:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
@@ -35957,6 +35970,10 @@ packages:
 
   /string-convert/0.2.1:
     resolution: {integrity: sha512-u/1tdPl4yQnPBjnVrmdLo9gtuLvELKsAoRapekWggdiQNvvvum+jYF329d84NAa660KQw7pB2n36KrIKVoXa3A==}
+    dev: false
+
+  /string-hash/1.1.3:
+    resolution: {integrity: sha512-kJUvRUFK49aub+a7T1nNE66EJbZBMnBgoC1UbCZ5n6bsZKBRga4KgBRTMn/pFkeCZSYtNeSyMxPDM0AXWELk2A==}
     dev: false
 
   /string-length/4.0.2:

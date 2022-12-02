@@ -20,8 +20,7 @@ export const start = async (api: PluginAPI<AppTools>) => {
 
   const app = await server({
     pwd: appDirectory,
-    // FIXME: remove the `any` type
-    config: userConfig as any,
+    config: userConfig,
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(appContext.serverInternalPlugins),
     apiOnly,

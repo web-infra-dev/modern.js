@@ -1,0 +1,54 @@
+// Vitest Snapshot v1
+
+exports[`plugins/css > should override browserslist of autoprefixer when using output.overrideBrowserslist config 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "name": "css",
+        "test": /\\\\\\.css\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "Chrome 80",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "Chrome 80",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

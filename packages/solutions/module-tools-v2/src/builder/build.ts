@@ -1,4 +1,4 @@
-import type { CLIConfig, Style } from '@modern-js/libuild';
+import type { CLIConfig } from '@modern-js/libuild';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
@@ -13,7 +13,6 @@ export const runBuildTask = async (
     buildConfig: BaseBuildConfig;
     buildCmdOptions: BuildCommandOptions;
     context: ModuleContext;
-    styleConfig: Style;
   },
   api: PluginAPI<ModuleTools>,
 ) => {
@@ -35,22 +34,20 @@ export const buildInTsProject = async (
     buildConfig: BaseBuildConfig;
     buildCmdOptions: BuildCommandOptions;
     context: ModuleContext;
-    styleConfig: Style;
   },
   api: PluginAPI<ModuleTools>,
 ) => {
-  const { buildConfig, buildCmdOptions, styleConfig } = options;
+  const { buildConfig, buildCmdOptions } = options;
   const dts = buildCmdOptions.dts ? buildConfig.dts : false;
   const watch = buildCmdOptions.watch ?? false;
 
   if (dts === false) {
-    await buildLib(buildConfig, api, { watch, styleConfig });
+    await buildLib(buildConfig, api, { watch });
   } else {
     const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
     const { default: pMap } = await import('../../compiled/p-map');
     await pMap(tasks, async task => {
-      // FIXME: remove the any type
-      await task(buildConfig, api as any, { watch, dts, styleConfig });
+      await task(buildConfig, api as any, { watch, dts });
     });
   }
 };
@@ -60,11 +57,10 @@ export const buildInJsProject = async (
     buildConfig: BaseBuildConfig;
     buildCmdOptions: BuildCommandOptions;
     context: ModuleContext;
-    styleConfig: Style;
   },
   api: PluginAPI<ModuleTools>,
 ) => {
-  const { buildConfig, buildCmdOptions, styleConfig } = options;
+  const { buildConfig, buildCmdOptions } = options;
   const dts = buildCmdOptions.dts ? buildConfig.dts : false;
   const watch = buildCmdOptions.watch ?? false;
 
@@ -72,7 +68,7 @@ export const buildInJsProject = async (
     return;
   }
 
-  await buildLib(buildConfig, api, { watch, styleConfig });
+  await buildLib(buildConfig, api, { watch });
 };
 
 export const generatorDts = async (
@@ -115,11 +111,10 @@ export const buildLib = async (
   config: BaseBuildConfig,
   api: PluginAPI<ModuleTools>,
   options: {
-    styleConfig: Style;
     watch: boolean;
   },
 ) => {
-  const { watch, styleConfig } = options;
+  const { watch } = options;
   const {
     target,
     buildType,
@@ -133,33 +128,16 @@ export const buildLib = async (
     splitting,
     minify,
     sourceDir,
-    entryNames,
     umdGlobals,
     umdModuleName,
     define,
-    alias: userAlias,
+    alias,
+    style,
+    externals,
+    autoExternal,
   } = config;
-  const { appDirectory, srcDirectory } = api.useAppContext();
-
-  const defaultAlias = {
-    '@': srcDirectory,
-  };
-
-  const { applyOptionsChain, ensureAbsolutePath, slash } = await import(
-    '@modern-js/utils'
-  );
-  const mergedAlias = applyOptionsChain(defaultAlias, userAlias);
-
-  const alias = Object.keys(mergedAlias).reduce((o, name) => {
-    return {
-      ...o,
-      [name]: slash(ensureAbsolutePath(appDirectory, mergedAlias[name])),
-    };
-  }, {});
-
-  const { getFinalExternals } = await import('../utils/builder');
-  const finalExternals = await getFinalExternals(config, { appDirectory });
-
+  const { appDirectory } = api.useAppContext();
+  const { slash } = await import('@modern-js/utils');
   const { es5Plugin } = await import('@modern-js/libuild-plugin-es5');
   const { umdPlugin } = await import('@modern-js/libuild-plugin-umd');
   const plugins = target === 'es5' ? [es5Plugin()] : [];
@@ -174,7 +152,7 @@ export const buildLib = async (
   const root = slash(appDirectory);
   const outdir = slash(distPath);
   const assetOutDir = asset.path ? slash(asset.path) : asset.path;
-
+  const { less, sass, postcss, inject, modules, autoModules } = style;
   const buildConfig: CLIConfig = {
     root,
     watch,
@@ -183,7 +161,14 @@ export const buildLib = async (
     format,
     outdir,
     define,
-    style: styleConfig,
+    style: {
+      less,
+      sass,
+      postcss,
+      inject,
+      modules,
+      autoModules,
+    },
     resolve: {
       alias,
     },
@@ -198,9 +183,9 @@ export const buildLib = async (
     splitting,
     minify,
     sourceDir,
-    entryNames,
     globals: umdGlobals,
-    external: finalExternals,
+    external: externals,
+    autoExternal,
     bundle: buildType === 'bundle',
     // outbase for [dir]/[name]
     outbase: sourceDir,

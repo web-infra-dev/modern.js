@@ -21,7 +21,7 @@ export const targets: Target[] = [
 export const basePresetConfig: PartialBuildConfig = {
   format: 'esm',
   target: 'es6',
-  buildType: 'bundleless',
+  buildType: 'bundle',
   outdir: './dist',
   dts: { distPath: './types' },
 };

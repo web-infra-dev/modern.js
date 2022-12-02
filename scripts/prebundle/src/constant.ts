@@ -435,6 +435,60 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
+    packageDir: 'builder/builder-rspack-provider',
+    packageName: '@modern-js/builder-rspack-provider',
+    dependencies: [
+      'webpack-merge',
+      {
+        name: 'pretty-time',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-value-parser',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-custom-properties',
+        ignoreDts: true,
+        externals: {
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'postcss-flexbugs-fixes',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-font-variant',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-initial',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-media-minmax',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-nesting',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-page-break',
+        ignoreDts: true,
+      },
+      {
+        name: 'autoprefixer',
+        ignoreDts: true,
+        externals: {
+          browserslist: '@modern-js/utils/browserslist',
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+    ],
+  },
+  {
     packageDir: 'cli/webpack',
     packageName: '@modern-js/webpack',
     dependencies: [

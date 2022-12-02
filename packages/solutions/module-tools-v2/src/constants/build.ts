@@ -24,7 +24,6 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
   externals: [],
   minify: false,
   autoExternal: true,
-  entryNames: '[name]',
   umdGlobals: {},
   sourceDir: './src',
   alias: {},
@@ -35,5 +34,14 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     limit: 14336,
     publicPath: '',
     svgr: true,
+  },
+  style: {
+    less: {},
+    sass: {},
+    postcss: {},
+    tailwindCss: {},
+    inject: false,
+    autoModules: true,
+    modules: {},
   },
 });
