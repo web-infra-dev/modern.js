@@ -707,6 +707,7 @@ importers:
       '@types/node': ^14
       cross-spawn: ^7.0.1
       eslint: ^8.28.0
+      eslint-formatter-codeframe: ^7.32.1
       husky: ^8.0.0
       jest: ^27
       lint-staged: ^11.2.3
@@ -719,6 +720,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       cross-spawn: 7.0.3
       eslint: 8.28.0
+      eslint-formatter-codeframe: 7.32.1
       husky: 8.0.1
       lint-staged: 11.2.6
     devDependencies:
@@ -5406,6 +5408,12 @@ packages:
   /@arr/every/1.0.1:
     resolution: {integrity: sha512-UQFQ6SgyJ6LX42W8rHCs8KVc0JS0tzVL9ct4XYedJukskYVWTo49tNiMEK9C2HTyarbNiT/RVIRSY82vH+6sTg==}
     engines: {node: '>=4'}
+    dev: false
+
+  /@babel/code-frame/7.12.11:
+    resolution: {integrity: sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==}
+    dependencies:
+      '@babel/highlight': 7.18.6
     dev: false
 
   /@babel/code-frame/7.16.7:
@@ -22800,6 +22808,14 @@ packages:
       window-size: 0.3.0
       yargs: 16.2.0
     dev: true
+
+  /eslint-formatter-codeframe/7.32.1:
+    resolution: {integrity: sha512-DK/3Q3+zVKq/7PdSYiCxPrsDF8H/TRMK5n8Hziwr4IMkMy+XiKSwbpj25AdajS63I/B61Snetq4uVvX9fOLyAg==}
+    engines: {node: ^10.12.0 || >=12.0.0}
+    dependencies:
+      '@babel/code-frame': 7.12.11
+      chalk: 4.1.2
+    dev: false
 
   /eslint-import-resolver-node/0.3.6:
     resolution: {integrity: sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw==}
