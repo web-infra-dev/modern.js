@@ -17,7 +17,7 @@ ts-loader 使用 TypeScript 官方的 TSC 转译。当开启 ts-loader 后 TypeS
 
 开启 ts-loader:
 
-```typescript
+```ts
 export default {
   tools: {
     tsLoader: {},
@@ -42,7 +42,7 @@ Babel 除了没有类型检查以外，对 TypeScript 的支持已经非常完�
 
 配置 tsChecker:
 
-```typescript
+```ts
 export default {
   tools: {
     tsChecker: {},
