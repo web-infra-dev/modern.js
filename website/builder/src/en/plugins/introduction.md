@@ -19,7 +19,7 @@ provided by the Builder, but can also be built with lots of other parts.
 
 Plugin module should export an entry function just like `(options?: PluginOptions) => BuilderPlugin`:
 
-```typescript
+```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
 export interface PluginFooOptions {
@@ -70,7 +70,7 @@ But sometimes you may need to read and change the public config of the Builder. 
 
 Refer to this tiny example:
 
-```typescript
+```ts
 export const PluginUploadDist = (): BuilderPlugin => ({
   name: 'plugin-upload-dist',
   setup(api) {
@@ -108,7 +108,7 @@ When normalized, it will again merge the config object with the default values
 and make sure the optional properties exist.
 So for PluginUploadDist, part of its type looks like:
 
-```typescript
+```ts
 api.modifyBuilderConfig((config: BuilderConfig) => {});
 api.getBuilderConfig() as BuilderConfig;
 type BuilderConfig = {
@@ -154,7 +154,7 @@ which can be found in [sorrycc/webpack-chain](https://github.com/sorrycc/webpack
 
 The webpack loaders can be used to load and transform various file types. For more information, see [concepts](https://webpack.js.org/concepts/loaders) and [loaders](https://webpack.js.org/loaders/).
 
-```typescript
+```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
 export const PluginTypeScriptExt = (): BuilderPlugin => ({
@@ -172,7 +172,7 @@ export const PluginTypeScriptExt = (): BuilderPlugin => ({
 
 ### Add Entry Points
 
-```typescript
+```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
 export const PluginAdminPanel = (): BuilderPlugin => ({
@@ -191,7 +191,7 @@ export const PluginAdminPanel = (): BuilderPlugin => ({
 
 Integrate existing webpack plugins to migrate your applications:
 
-```typescript
+```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import type { Options } from '@modern-js/inspector-webpack-plugin';
 
