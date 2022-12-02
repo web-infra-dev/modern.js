@@ -174,7 +174,6 @@ export class ModernServer implements ModernServerInterface {
     // Setting `assetPrefix` means these resources should be uploaded to CDN.
     const staticPathRegExp = getStaticReg(
       this.conf.output || {},
-      // FIXME:
       this.conf.html,
     );
     this.staticFileHandler = createStaticFileHandler(

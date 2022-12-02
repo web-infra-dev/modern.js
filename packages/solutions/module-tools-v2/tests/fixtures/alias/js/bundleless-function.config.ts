@@ -10,6 +10,7 @@ export default defineConfig({
           '@src': './src',
         };
       },
+      buildType: 'bundleless',
       outdir: './dist/bundleless/function',
     };
   },

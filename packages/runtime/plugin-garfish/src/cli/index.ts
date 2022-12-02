@@ -106,7 +106,6 @@ export default ({
             useConfig.deploy?.microFrontend,
           );
           if (!enableHtmlEntry) {
-            // FIXME: the handle the `disableCssExtract` config
             disableCssExtract = true;
           }
         }

@@ -1,5 +1,5 @@
 import { repeatKeyWarning } from '../src/utils/repeatKeyWarning';
-import { UserConfig } from '../src/config';
+import { UserConfig } from '../src/types';
 
 jest.spyOn(process, 'exit').mockImplementation();
 

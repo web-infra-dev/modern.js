@@ -12,8 +12,6 @@ Object {
   "output": Object {
     "assetPrefix": "/x",
     "cleanDistPath": false,
-    "enableAssetFallback": true,
-    "enableAssetManifest": true,
   },
   "performance": Object {
     "removeMomentLocale": true,

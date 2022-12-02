@@ -8,7 +8,7 @@ import {
   isTest,
   getServerConfig,
 } from '@modern-js/utils';
-import { IAppContext, ToRunners } from '@modern-js/core';
+import type { IAppContext, ToRunners } from '@modern-js/core';
 import { AppToolsHooks } from '../types/hooks';
 
 /**
@@ -29,7 +29,7 @@ const getPackageConfig = <T>(
   return json[packageJsonConfig ?? PACKAGE_JSON_CONFIG_NAME] as T | undefined;
 };
 
-const addServerConfigToDeps = async (
+export const addServerConfigToDeps = async (
   dependencies: string[],
   appDirectory: string,
   serverConfigFile: string,
