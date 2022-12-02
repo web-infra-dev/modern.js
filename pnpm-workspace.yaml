@@ -16,4 +16,3 @@ packages:
  - 'tests/integration/**/*'
  - 'tests/e2e/**/*'
  - 'website/*'
- - '!packages/solutions/module-tools-legacy'
