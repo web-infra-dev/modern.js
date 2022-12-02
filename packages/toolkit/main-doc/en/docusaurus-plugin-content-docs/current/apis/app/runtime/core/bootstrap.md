@@ -7,25 +7,39 @@ Used to start and mount App, usually without manual calls。This API is only req
 ## Usage
 
 ```ts
+import ReactDOM from 'react-dom/client'
 import { bootstrap } from '@modern-js/runtime';
 
-bootstrap(App, 'root');
+bootstrap(App, 'root', undefined, ReactDOM);
 ```
 
 ## Function Signature
 
 ```ts
-function bootstrap(AppComponent: React.ComponentType<any>, rootId: string): React.ComponentType<any> | void
+type BootStrap<T = unknown> = (
+  App: React.ComponentType,
+  id: string | HTMLElement | RuntimeContext,
+  root?: any,
+  ReactDOM?: {
+    render?: Renderer;
+    hydrate?: Renderer;
+    createRoot?: typeof createRoot;
+    hydrateRoot?: typeof hydrateRoot;
+  },
+) => Promise<T>;
 ```
 
 ### Input
 
 - `AppComponent`: reactElement instance created by [`createApp`](./create-app).
 - `rootId`: DOM root element id to mount，like `"root"`.
+- `root`: ReactDOM.create the return value, which is used in the scenario where the root needs to destroy the component outside the bootstrap function.
+- `ReactDOM`: ReactDOM object for distinguishing between React 18 and React 17 APIs.
 
 ## Example
 
 ```tsx
+import ReactDOM from 'react-dom/client'
 import { createApp, bootstrap } from '@modern-js/runtime';
 import { router, state } from '@modern-js/runtime/plugins';
 
@@ -38,7 +52,7 @@ const WrappedApp = createApp({
   plugins: [router({}), state({})],
 })(App);
 
-bootstrap(WrappedApp, 'root');
+bootstrap(WrappedApp, 'root', undefined, ReactDOM);
 
 ```
 
