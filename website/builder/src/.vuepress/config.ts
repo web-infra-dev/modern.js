@@ -107,6 +107,12 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/builder-core'),
           getLink('/api/builder-instance'),
           getLink('/api/builder-types'),
+        ],
+      },
+      {
+        title: getText('Plugin API', 'Plugin API'),
+        collapsable: false,
+        children: [
           getLink('/api/plugin-core'),
           getLink('/api/plugin-hooks'),
         ],
@@ -118,8 +124,9 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         title: getText('指南', 'Guide'),
         children: [
           getLink('/plugins/introduction'),
-          getLink('/plugins/integration'),
-          getLink('/plugins/testing'),
+          // TODO to be written
+          // getLink('/plugins/integration'),
+          // getLink('/plugins/testing'),
         ],
       },
       {

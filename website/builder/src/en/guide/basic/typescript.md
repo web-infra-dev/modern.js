@@ -20,7 +20,7 @@ The ts-loader uses TypeScript's official transpiler-TSC under the hood. When ts-
 
 Enable ts-loader:
 
-```typescript
+```ts
 export default {
   tools: {
     tsLoader: {},
@@ -48,7 +48,7 @@ Currently, the only stable TypeScript type checking tool is TSC, and it usually 
 
 Set tsChecker:
 
-```typescript
+```ts
 export default {
   tools: {
     tsChecker: {},
