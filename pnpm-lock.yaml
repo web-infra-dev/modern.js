@@ -488,6 +488,7 @@ importers:
       autoprefixer: ^10.4.13
       cac: ^6.7.14
       husky: ^8
+      jest: ^27
       lint-staged: ^11.2.6
       postcss: ^8.4.19
       prettier: ^2.6.2
@@ -526,6 +527,7 @@ importers:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       husky: 8.0.1
+      jest: 27.5.1
       lint-staged: 11.2.6
       prettier: 2.7.1
       react: 18.2.0
