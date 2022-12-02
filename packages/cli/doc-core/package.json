@@ -20,7 +20,7 @@
     "gen-release-note": "modern-lib gen-release-note",
     "release": "modern-lib release",
     "new": "modern-lib new",
-    "test": "modern-lib test --passWithNoTests",
+    "test": "jest test --passWithNoTests",
     "upgrade": "modern-lib upgrade"
   },
   "engines": {
@@ -77,7 +77,8 @@
     "typescript": "^4.8.4",
     "unified": "^10.1.2",
     "vitest": "0.21.1",
-    "@modern-js/core": "workspace:*"
+    "@modern-js/core": "workspace:*",
+    "jest": "^27"
   },
   "sideEffects": [
     "*.css",
