@@ -189,6 +189,14 @@ export const buildLib = async (
     bundle: buildType === 'bundle',
     // outbase for [dir]/[name]
     outbase: sourceDir,
+    esbuildOptions: (options: any) => ({
+      ...options,
+      supported: {
+        'dynamic-import': !(
+          ['cjs', 'umd'].includes(format) && buildType === 'bundleless'
+        ),
+      },
+    }),
   };
   plugins.push(externalPlugin(config, { appDirectory }));
 
