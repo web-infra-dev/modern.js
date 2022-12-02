@@ -1,4 +1,4 @@
-# Build
+# BuildConfig
 本章节描述了Module tools关于构建的所有配置
 ## alias
 - type: `Record<string, string | string[]> | Function`
@@ -49,7 +49,7 @@ export default {
 ## asset
 
 ### path
-静态资源输出路径，会基于[outdir](/zh/api/config-build/#outdir)进行输出
+静态资源输出路径，会基于[outdir](/zh/api/build-config/#outdir)进行输出
 
 - type: `string`
 - default: `assets`
@@ -66,8 +66,10 @@ export default {
 - default: `undefined`
 ```js
 export default {
-  output: {
-    publicPath: 'https://xxx/'
+  build: {
+    asset: {
+      publicPath: 'https://xxx/'
+    }
   }
 };
 ```
@@ -75,14 +77,14 @@ export default {
 
 ### svgr
 打包时将svg作为一个React组件处理
-- type: `boolean | object`
+- type: `boolean | Object`
 
-#### svgr.include
+#### include
 设定匹配的svg文件
 - type: `string | RegExp | (string | RegExp)[]`
 - default: `/\.svg$/`
 
-#### svgr.exclude
+#### exclude
 设定不匹配的svg文件
 - type: `string | RegExp | (string | RegExp)[]`
 - default: `undefined`
@@ -90,15 +92,15 @@ export default {
 
 ## autoExternal
 自动外置项目的dependencies和peerDependencies，不会将其打包到最终的bundle中
-- type: `boolean | object`
+- type: `boolean | Object`
 - default: `true`
 
-### autoExternal.dependencies
+### dependencies
 是否需要外置项目的dep依赖
 - type: `boolean`
 - default: `true`
 
-### autoExternal.peerDependencies
+### peerDependencies
 是否需要外置项目的peerDep依赖
 - type: `boolean`
 - default: `true`
@@ -112,7 +114,14 @@ export default {
 将指定的文件或目录拷贝到构建输出目录中
 - type: `Array`
 - default: `[]`
+```js
 
+export default {
+  build: {
+    copy: [{ from: './src/assets', to: '' }],
+  },
+};
+```
 数组设置参考：[copy-webpack-plugin patterns](https://github.com/webpack-contrib/copy-webpack-plugin#patterns)
 
 ## define
@@ -141,20 +150,20 @@ export default {
 ## dts
 dts文件生成相关配置，默认会生成
 
-- type: `false | object`
+- type: `false | Object`
 - default: `{}`
 
-### dts.tsconfigPath
+### tsconfigPath
 tsconfig文件的路径
 - type: `string`
 - default: `./tsconfig.json`
 
-### dts.distPath
-dts文件的输出路径,基于[outdir]('/zh/api/config-build/#outdir')进行输出
+### distPath
+dts文件的输出路径,基于[outdir]('/zh/api/build-config/#outdir')进行输出
 - type: `string`
 - default: `./types`
 
-### dts.only
+### only
 只生成dts文件，不生成js文件
 - type: `boolean`
 - default: `false`
@@ -188,7 +197,7 @@ export default {
 
 ## minify
 使用esbuild或者terser压缩代码，也可以传入[terserOptions](https://github.com/terser/terser#minify-options)
-- type: `'terser' | 'esbuild' | false | object`
+- type: `'terser' | 'esbuild' | false | Object`
 - default: `false`
 
 ```js
@@ -228,10 +237,215 @@ export default {
 - type: `boolean`
 - default: `false`
 
+## style
+配置样式相关的配置
+
+### less
+less相关配置
+#### lessOptions
+详细配置参考[less](https://less.bootcss.com/usage/#less-options)
+- type: `Object`
+- default: `{ javascriptEnabled: true }`
+
+#### additionalData
+在入口文件起始添加 `Less` 代码。
+- type: `string`
+- default: `undefined`
+
+```js
+export default {
+  build: {
+    style: {
+      less: {
+        additionalData: `@base-color: #c6538c;`,
+      },
+    }
+  }
+}
+
+```
+#### implementation
+配置 `Less` 使用的实现库，在不指定的情况下，使用的内置版本是`4.1.3`
+- type: `string | Object`
+- default: `undefined`
+
+`Object` 类型时，指定 `Less` 的实现库
+```js
+export default {
+  build: {
+    style: {
+      less: {
+        implementation: require('less'),
+      },
+    }
+  }
+}
+```
+
+`string` 类型时，指定 `Less` 的实现库的路径
+```js
+export default {
+  build: {
+    style: {
+      less: {
+        implementation: require.resolve('less'),
+      },
+    }
+  }
+}
+```
+
+### sass
+sass相关配置
+#### sassOptions
+详细配置参考[node-sass](https://github.com/sass/node-sass#options)
+- type: `Object`
+- default: `{}`
+#### additionalData
+在入口文件起始添加 `Sass` 代码。
+- type: `string | Function`
+- default: `undefined`
+```js
+export default {
+  build: {
+    style: {
+      sass: {
+        additionalData: `$base-color: #c6538c;
+          $border-dark: rgba($base-color, 0.88);`,
+      },
+    }
+  }
+}
+```
+
+#### implementation
+配置 `Sass` 使用的实现库，在不指定的情况下，使用的内置版本是`1.5.4`
+- type: `string | Object`
+- default: `undefined`
+
+`Object` 类型时，指定 `Sass` 的实现库
+```js
+export default {
+  build: {
+    style: {
+      sass: {
+        implementation: require('sass'),
+      },
+    }
+  }
+}
+```
+
+`string` 类型时，指定 `Sass` 的实现库的路径
+```js
+export default {
+  build: {
+    style: {
+      sass: {
+        implementation: require.resolve('sass'),
+      },
+    }
+  }
+}
+```
+
+### postcss
+- plugins
+- processOptions
+
+详细配置查看[postcss](https://github.com/postcss/postcss#options)
+### inject
+配置打包模式下是否将style插入到js中
+
+- type: `boolean`
+- default: `false`
+
+### autoModules
+根据文件名自动启用 CSS Modules。
+
+- type: `boolean | RegExp`
+- default: `true `
+
+`true` : 为以 `.module.css` `.module.less` `.module.scss` `.module.sass` 文件名结尾的样式文件启用 CSS Modules
+
+`false` : 禁用 CSS Modules.
+
+`RegExp` : 为匹配正则条件的所有文件启用 CSS Modules.
+
+
+### modules
+CSS Modules配置
+
+- type: `Object`
+- default: `{}`
+
+一个常用的配置是`localsConvention`，它可以改变css modules的类名生成规则
+```js
+export default {
+  build: {
+    style: {
+      modules: {
+        localsConvention: 'camelCaseOnly',
+      },
+    }
+  }
+}
+```
+对于以下样式
+```css
+.box-title {
+  color: red;
+}
+```
+你可以使用`styles.boxTitle`来访问
+
+
+详细配置查看[postcss-modules](https://github.com/madyankin/postcss-modules#usage)
+
+### tailwind
+tailwindcss相关配置
+
+- type: `Object | Function`
+- default: `见下方配置详情`
+
+<details>
+  <summary>TailwindCSS 配置详情</summary>
+
+```js
+  const tailwind = {
+    purge: {
+        enabled: options.env === 'production',
+        content: [
+          './config/html/**/*.html',
+          './config/html/**/*.ejs',
+          './config/html/**/*.hbs',
+          './src/**/*',
+        ],
+        layers: ['utilities'],
+    },
+    // https://tailwindcss.com/docs/upcoming-changes
+    future: {
+      removeDeprecatedGapUtilities: false,
+      purgeLayersByDefault: true,
+      defaultLineHeights: false,
+      standardFontWeights: false,
+    },
+  }
+```
+
+值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
+
+值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
+
+不允许出现 `theme` 属性，否则会构建失败, 使用 [`designSystem`](/zh/api/design-system) 作为 `Tailwind CSS Theme` 配置。
+
+其他的使用方式和 Tailwind CSS 一致: [快速传送门](https://tailwindcss.com/docs/configuration)。
+
+
 ## target
 指定构建的目标环境
 - type: `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
-- default: `es2015`
+- default: `'es2015'`
 
 
 ## umdGlobals
@@ -260,6 +474,7 @@ export default {
 ```js
 export default {
   build: {
+    format: 'umd',
     umdModuleName: 'myLib',
   }
 }
@@ -274,8 +489,9 @@ export default {
 ```js
 export default {
   build: {
-    umdModuleName: (name) => {
-      if (name.includes('index')) {
+    format: 'umd',
+    umdModuleName: (path) => {
+      if (path.includes('index')) {
         return 'myLib';
       } else {
         return 'myLib2';

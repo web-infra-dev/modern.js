@@ -219,40 +219,25 @@ export default const ErrorBoundary = () => {
 
 ## 自控式路由
 
-以 `routes/` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发。
-
-例如：
+以 `routes/` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发，例如：
 
 ```tsx
 import {
   Route,
   Routes,
   BrowserRouter,
-  Outlet,
+  StaticRouter,
 } from '@modern-js/runtime/router';
 
+const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
 export default () => {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<div>index</div>} />
-          <Route
-            path="user"
-            element={
-              <div>
-                User Layout
-                <Outlet />
-              </div>
-            }
-          >
-            <Route index element={<div>user</div>} />
-            <Route path="profile" element={<div>profile</div>} />
-          </Route>
-          <Route path="about" element={<div>about</div>} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Router location={context.request.pathname}>
+      <Routes>
+        <Route index element={<div>index</div>} />
+        <Route path="about" element={<div>about</div>} />
+      </Routes>
+    </Router>
   );
 };
 ```
@@ -261,7 +246,7 @@ export default () => {
 在自控式路由下，开发者如果希望在 SSR 中使用 React Router 6 中 [Loader API](https://reactrouter.com/en/main/hooks/use-loader-data#useloaderdata) 的能力会相对复杂，推荐直接使用约定式路由。Modern.js 已经为你封装好了一切。
 
 <!-- Todo 嵌套路由带来的优化可以补充下文档-->
-如果项目只想升级到 React Router 6，而不希望使用嵌套路由带来的优化，那[useLoader](/docs/apis/app/runtime/core/use-loader) 在 SSR 下仍然可以工作。
+如果项目只想升级到 React Router 6，而不希望使用嵌套路由带来的优化，那 [useLoader](/docs/apis/app/runtime/core/use-loader) 在 SSR 下仍然可以工作。
 :::
 
 ## 配置式路由

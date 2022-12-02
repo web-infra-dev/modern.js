@@ -4,8 +4,6 @@ sidebar_label: ssr
 
 # server.ssr
 
-
-
 * 类型： `boolean`
 * 默认值： `false`
 
