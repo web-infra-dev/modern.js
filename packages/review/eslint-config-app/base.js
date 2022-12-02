@@ -91,7 +91,7 @@ module.exports = {
      * @TIPS: for non-VS Code users, please use `debugger // eslint-disable-line`
      *        instead of `debugger` to avoid it to be removed by IDE's autoFixOnSave feature
      */
-    'no-debugger': 'error',
+    'no-debugger': 'off',
     // https://eslint.org/docs/rules/no-dupe-args
     'no-dupe-args': 'error',
     // https://eslint.org/docs/rules/no-dupe-keys
