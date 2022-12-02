@@ -179,44 +179,44 @@
     "message": "Runtime",
     "description": "The label for category runtime in sidebar apisAppSidebar"
   },
-  "sidebar.apisAppSidebar.category.核心 API": {
-    "message": "Core API",
+  "sidebar.apisAppSidebar.category.核心": {
+    "message": "Core",
     "description": "The label for category Core API in sidebar apisAppSidebar"
   },
-  "sidebar.apisAppSidebar.category.App API": {
-    "message": "App API",
+  "sidebar.apisAppSidebar.category.App": {
+    "message": "App",
     "description": "The label for category App API in sidebar apisAppSidebar"
   },
-  "sidebar.apisAppSidebar.category.BFF Server API": {
-    "message": "BFF Server API",
+  "sidebar.apisAppSidebar.category.BFF Server": {
+    "message": "BFF Server",
     "description": "The label for category BFF Server API in sidebar apisAppSidebar"
   },
-  "sidebar.apisAppSidebar.category.Model API": {
-    "message": "Model API",
+  "sidebar.apisAppSidebar.category.Model": {
+    "message": "Model",
     "description": "The label for category Model API in sidebar apisAppSidebar"
   },
-  "sidebar.apisAppSidebar.category.Container API": {
-    "message": "Container API",
+  "sidebar.apisAppSidebar.category.Container": {
+    "message": "Container",
     "description": "The label for category Container API in sidebar apisAppSidebar"
   },
-  "sidebar.apisAppSidebar.category.Testing API": {
-    "message": "Testing API",
+  "sidebar.apisAppSidebar.category.Testing": {
+    "message": "Testing",
     "description": "The label for category Testing API in sidebar apisAppSidebar"
   },
-  "sidebar.apisAppSidebar.category.Web Server API": {
-    "message": "Web Server API",
+  "sidebar.apisAppSidebar.category.Web Server": {
+    "message": "Web Server",
     "description": "The label for category Web Server API in sidebar apisAppSidebar"
   },
-  "sidebar.apisAppSidebar.category.Utility API": {
-    "message": "Utility API",
+  "sidebar.apisAppSidebar.category.Utility": {
+    "message": "Utility",
     "description": "The label for category Utility API in sidebar apisAppSidebar"
   },
   "sidebar.apisAppSidebar.category.loadable": {
     "message": "loadable",
     "description": "The label for category loadable in sidebar apisAppSidebar"
   },
-  "sidebar.apisAppSidebar.category.插件 API": {
-    "message": "插件 API",
+  "sidebar.apisAppSidebar.category.插件": {
+    "message": "插件",
     "description": "The label for category 插件 API in sidebar apisAppSidebar"
   },
   "sidebar.apisMonorepoSidebar.category.文件约定": {
