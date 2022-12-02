@@ -8,3 +8,14 @@ export interface RspackConfig extends RspackOptions {
   // can't use htmlPlugin & builtins.html at the same time.
   builtins?: Omit<NonNullable<RspackOptions['builtins']>, 'html'>;
 }
+
+/** T[] => T */
+type GetElementType<T extends any[]> = T extends (infer U)[] ? U : never;
+
+export type RspackRuleSet = GetElementType<
+  NonNullable<NonNullable<RspackConfig['module']>['rules']>
+>;
+
+export type RspackPluginInstance = GetElementType<
+  NonNullable<RspackConfig['plugins']>
+>;
