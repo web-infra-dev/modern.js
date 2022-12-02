@@ -109,10 +109,6 @@ export function createBuilderProviderConfig(
       copy: builderCopy,
       // We need to do this in the app-tools prepare hook because some files will be generated into the dist directory in the analyze process
       cleanDistPath: false,
-      // `@modern-js/webpack` used to generate asset manifest by default
-      enableAssetManifest: true,
-      // compatible the modern-js with fallback behavior
-      enableAssetFallback: true,
     };
   }
 }

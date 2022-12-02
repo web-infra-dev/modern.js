@@ -124,7 +124,6 @@ export default (): CliPlugin<AppTools> => ({
 
         const command = getCommand();
         const buildCommands = ['dev', 'build', 'inspect', 'deploy'];
-
         if (buildCommands.includes(command)) {
           const normalizedConfig = api.useResolvedConfigContext();
           const builder = await createBuilderForEdenX({
