@@ -6,6 +6,8 @@ import type {
   PostCSSLoaderOptions,
   PostCSSPlugin,
 } from '../thirdParty';
+import type { RspackConfig } from '../rspack';
+import type { ModifyRspackConfigUtils } from '../hooks';
 
 export type ToolsDevServerConfig = ChainedConfig<DevServerOptions>;
 export type ToolsAutoprefixerConfig = ChainedConfig<AutoprefixerOptions>;
@@ -25,6 +27,11 @@ type ToolsHtmlPluginConfig = ChainedConfig<
   }
 >;
 
+export type ToolsRspackConfig = ChainedConfig<
+  RspackConfig,
+  ModifyRspackConfigUtils
+>;
+
 // TODO: add more configs
 export interface ToolsConfig {
   /**
@@ -34,6 +41,7 @@ export interface ToolsConfig {
   htmlPlugin?: false | ToolsHtmlPluginConfig;
   autoprefixer?: ToolsAutoprefixerConfig;
   postcss?: ToolsPostCSSLoaderConfig;
+  rspack?: ToolsRspackConfig;
 }
 
 export type NormalizedToolsConfig = ToolsConfig;
