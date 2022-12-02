@@ -120,7 +120,7 @@ const collectHtmlRoutes = (
 ): ServerRoute[] => {
   const {
     html: { disableHtmlFolder },
-    output: { distPath: { html: htmlPath } = {} },
+    output: { distPath: { html: htmlPath } = {}, enableModernMode },
     server: { baseUrl, routes, ssr, ssrByEntries },
   } = config;
 
@@ -150,8 +150,7 @@ const collectHtmlRoutes = (
         isSPA: true,
         isSSR,
         responseHeaders: resHeaders,
-        // FIXME: remove the config.enableModernMode
-        // enableModernMode: Boolean(enableModernMode),
+        enableModernMode: Boolean(enableModernMode),
         bundle: isSSR
           ? `${SERVER_BUNDLE_DIRECTORY}/${entryName}.js`
           : undefined,
