@@ -165,10 +165,6 @@
       "path": "packages/server/utils"
     },
     {
-      "name": "@modern-js/style-compiler",
-      "path": "packages/toolkit/compiler/style"
-    },
-    {
       "name": "@modern-js/types",
       "path": "packages/toolkit/types"
     },
