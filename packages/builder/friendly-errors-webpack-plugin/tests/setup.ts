@@ -5,8 +5,8 @@ import { createSnapshotSerializer } from '@scripts/vitest-config';
 
 global.console.Console = Console;
 
-expect.addSnapshotSerializer(
-  createSnapshotSerializer({
-    replace: [{ match: /(?<=at.+?:)\d+:\d+(?=\W)/g, mark: 'pos' }],
-  }),
-);
+export const snapshotSerializer = createSnapshotSerializer({
+  replace: [{ match: /(?<=at.+?:)\d+:\d+(?=\W)/g, mark: 'pos' }],
+});
+
+expect.addSnapshotSerializer(snapshotSerializer);

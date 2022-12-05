@@ -42,12 +42,15 @@ export function createSnapshotSerializer(options?: SnapshotSerializerOptions) {
     );
 
   return {
+    pathMatchers,
     // match path-format string
-    test: (val: unknown) => typeof val === 'string' && isPathString(val),
-    print: (val: unknown) => {
+    test(val: unknown) {
+      return typeof val === 'string' && isPathString(val);
+    },
+    print(val: unknown) {
       const normalized = normalizeToPosixPath(val as string);
       const replaced = applyMatcherReplacement(
-        pathMatchers,
+        this.pathMatchers,
         normalized,
       ).replace(/"/g, '\\"');
       debug(`Vitest snapshot serializer: ${val} -> ${replaced}`);

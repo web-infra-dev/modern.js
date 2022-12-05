@@ -149,11 +149,11 @@ const createOutputPrettyErrorContext = (
     formatters.push(prettyFormatter);
   }
   const transformers: ErrorTransformer[] = [];
-  if (Array.isArray(options.transformers)) {
-    transformers.push(...options.transformers);
-  }
   if (options.transformers !== false) {
     transformers.push(...builtinTransformers);
+  }
+  if (Array.isArray(options.transformers)) {
+    transformers.push(...options.transformers);
   }
   const type: ThrowableType = options.type || 'error';
   return {
