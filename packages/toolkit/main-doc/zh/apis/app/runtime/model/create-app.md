@@ -29,7 +29,7 @@ function createApp(config: AppConfig): object;
 - config：`Record<string, any>`
   - StoreConfig：同 [`createStore`](./create-store.md) 的参数。
   - devTools：默认值为true。是否开启 Redux DevTools，当为对象类型时，支持配置 Redux DevTools 的 [Options](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md)。
-  - autoActins：默认值为true。是否[自动生成 Actions](./auto-actions.md)。
+  - autoActions：默认值为true。是否[自动生成 Actions](./auto-actions.md)。
 
 ### 返回值
 
