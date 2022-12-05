@@ -1,20 +1,15 @@
 import path from 'path';
 import { expect, test, vi } from 'vitest';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
-import { PluginFriendlyErrors } from '@modern-js/builder-webpack-provider/plugins/error';
 
 test('should save the buildDependencies to cache directory', async () => {
-  const mockedError = vi.spyOn(console, 'error').mockImplementation(() => {
-    debugger;
-  });
+  const mockedError = vi.spyOn(console, 'error');
   const builder = await createStubBuilder({
     webpack: true,
     entry: { index: path.resolve(__dirname, './src/index.js') },
-    plugins: {
-      builtin: 'basic',
-      additional: [PluginFriendlyErrors()],
-    },
+    plugins: 'default',
   });
+  builder.removePlugins(['builder-plugin-progress']);
   await expect(builder.unwrapOutputJSON()).rejects.toThrowError();
   expect(mockedError.mock.calls).toMatchInlineSnapshot(`
     [
@@ -51,12 +46,6 @@ test('should save the buildDependencies to cache directory', async () => {
         [90mat[39m Function.transform [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+core@7.18.0/node_modules/@babel/core/lib/transform.js:25:41)[39m
         [90mat[39m transform.next [90m(<anonymous>)[39m
         [90mat[39m step [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:261:32)[39m
-        [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:273:13[39m
-        [90mat[39m async.call.result.err.err [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:223:11)[39m
-        [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:189:28[39m
-        [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+core@7.18.0/node_modules/@babel/core/lib/gensync-utils/async.js:74:7[39m
-        [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:113:33[39m
-        [90mat[39m step [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:287:14)[39m
         [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:273:13[39m
         [90mat[39m async.call.result.err.err [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:223:11)[39m
         [90mat[39m processResult [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/webpack@5.74.0/node_modules/webpack/lib/NormalModule.js:758:19)[39m
