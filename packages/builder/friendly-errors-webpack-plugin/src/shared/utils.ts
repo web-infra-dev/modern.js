@@ -2,7 +2,12 @@ import assert from 'assert';
 import _ from '@modern-js/utils/lodash';
 import StackTracey from '../../compiled/stacktracey';
 import { prettyFormatter, baseFormatter } from '../formatter';
-import { transformModuleParseError } from '../transformer';
+import {
+  transformModuleParseError,
+  transformReduceCauses,
+  flattenErrorCauses,
+  transformCleanMessage,
+} from '../transformer';
 import {
   ErrorFormatter,
   ErrorTransformer,
@@ -11,6 +16,13 @@ import {
   ThrowableType,
   WithSourcesMixin,
 } from './types';
+
+export const builtinTransformers = [
+  transformReduceCauses,
+  transformCleanMessage,
+  flattenErrorCauses,
+  transformModuleParseError,
+] as const;
 
 export const parseError = (
   error: Error,
@@ -141,7 +153,7 @@ const createOutputPrettyErrorContext = (
     transformers.push(...options.transformers);
   }
   if (options.transformers !== false) {
-    transformers.push(transformModuleParseError);
+    transformers.push(...builtinTransformers);
   }
   const type: ThrowableType = options.type || 'error';
   return {
