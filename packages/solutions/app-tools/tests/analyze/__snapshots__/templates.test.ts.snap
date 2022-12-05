@@ -6,6 +6,7 @@ exports[`fileSystemRoutes generate code 1`] = `
     import { lazy } from "react";
     import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   
+    
     import loading_0 from '@_modern_js_src/routes/loading.tsx';
 
     import error_0 from '@_modern_js_src/routes/error.tsx';
@@ -61,6 +62,7 @@ exports[`fileSystemRoutes generate code for legacy router 1`] = `
     import { lazy } from "react";
     import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   
+    
     
     
     

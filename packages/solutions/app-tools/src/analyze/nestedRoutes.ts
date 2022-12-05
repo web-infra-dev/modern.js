@@ -93,6 +93,7 @@ export const walk = async (
   const route: Partial<NestedRoute> = {
     path: routePath,
     children: [],
+    isRoot,
   };
 
   const items = await fs.readdir(dirname);
