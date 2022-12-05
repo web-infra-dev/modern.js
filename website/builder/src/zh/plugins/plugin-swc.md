@@ -99,13 +99,13 @@ type PluginImportOptions = Array<{
   fromSource: string;
   replaceJs?: {
     ignoreEsComponent?: string[];
-    replaceTpl?: string;
+    template?: string;
     replaceExpr?: (member: string) => string | false;
     transformToDefaultImport?: boolean;
   };
   replaceCss?: {
     ignoreStyleComponent?: string[];
-    replaceTpl?: string;
+    template?: string;
     replaceExpr?: (member: string) => string | false;
   };
 }>;
@@ -126,7 +126,7 @@ type PluginImportOptions = Array<{
 
 需要忽略掉的引入。
 
-**replaceJs.replaceTpl**
+**replaceJs.template**
 
 - 类型: `string`
 - 默认值: `undefined`
@@ -145,7 +145,7 @@ PluginSWC({
     pluginImport: [
       {
         replaceJs: {
-          replaceTpl: 'foo/es/{{member}}',
+          template: 'foo/es/{{member}}',
         },
       },
     ],
@@ -167,7 +167,7 @@ PluginSWC({
     pluginImport: [
       {
         replaceJs: {
-          replaceTpl: 'foo/es/{{ kebabCase member }}',
+          template: 'foo/es/{{ kebabCase member }}',
         },
       },
     ],

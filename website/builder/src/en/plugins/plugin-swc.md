@@ -100,13 +100,13 @@ type PluginImportOptions = Array<{
   fromSource: string;
   replaceJs?: {
     ignoreEsComponent?: string[];
-    replaceTpl?: string;
+    template?: string;
     replaceExpr?: (member: string) => string | false;
     transformToDefaultImport?: boolean;
   };
   replaceCss?: {
     ignoreStyleComponent?: string[];
-    replaceTpl?: string;
+    template?: string;
     replaceExpr?: (member: string) => string | false;
   };
 }>;
@@ -127,7 +127,7 @@ The package that need to be transformed，eg. in `import { a } from 'foo'`, `fro
 
 The import specifiers which don't need to be transformed.
 
-**replaceJs.replaceTpl**
+**replaceJs.template**
 
 - Type: `string`
 - Default: `undefined`
@@ -146,7 +146,7 @@ PluginSWC({
     pluginImport: [
       {
         replaceJs: {
-          replaceTpl: 'foo/es/{{member}}',
+          template: 'foo/es/{{member}}',
         },
       },
     ],
@@ -168,7 +168,7 @@ PluginSWC({
     pluginImport: [
       {
         replaceJs: {
-          replaceTpl: 'foo/es/{{ kebabCase member }}',
+          template: 'foo/es/{{ kebabCase member }}',
         },
       },
     ],
@@ -191,7 +191,7 @@ Besides `kebabCase`, there are also `camelCase`, `snakeCase`, `upperCase`, `lowe
 
 This is also used to replace import specifiers. The argument is the specifier that imported. eg. `a` in `import { a as b } from 'foo'`.
 This function is called by `Rust`，and it needs to be synchronous.
-We recommend `replaceTpl` instead, because call `js` function through `node-api` will cause performance issue. `node-api` invokes `js` function actually put this `js` call inside a queue, and wait for this call to be executed, so if current `js` thread is busy, then this call will block `Rust` thread for a while.
+We recommend `template` instead, because call `js` function through `node-api` will cause performance issue. `node-api` invokes `js` function actually put this `js` call inside a queue, and wait for this call to be executed, so if current `js` thread is busy, then this call will block `Rust` thread for a while.
 
 **transformToDefaultImport**
 
