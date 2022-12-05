@@ -1,6 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import { createBuilder } from '../helper';
 import { PluginCss } from '@/plugins/css';
+import { PluginLess } from '@/plugins/less';
 
 describe('plugins/css', () => {
   it('should override browserslist of autoprefixer when using output.overrideBrowserslist config', async () => {
@@ -88,5 +89,43 @@ describe('plugins/css', () => {
     expect(JSON.stringify(bundlerConfigs[0])).toContain(
       '"generateScopedName":"[hash:base64]"',
     );
+  });
+});
+
+describe('plugins/less', () => {
+  it('should add less-loader', async () => {
+    const builder = await createBuilder({
+      plugins: [PluginLess()],
+      builderConfig: {
+        tools: {
+          less: {},
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should add less-loader with tools.less', async () => {
+    const builder = await createBuilder({
+      plugins: [PluginLess()],
+      builderConfig: {
+        tools: {
+          less: {
+            lessOptions: {
+              javascriptEnabled: false,
+            },
+          },
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
   });
 });
