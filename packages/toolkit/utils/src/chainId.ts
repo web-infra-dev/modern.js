@@ -56,6 +56,7 @@ export const CHAIN_ID = {
     ASSETS: 'assets',
     ASSETS_URL: 'assets-url',
     ASSETS_INLINE: 'assets-inline',
+    IMAGE_COMPRESS: 'image-compress',
   },
   /** Predefined loaders */
   USE: {
@@ -99,6 +100,8 @@ export const CHAIN_ID = {
     CSS_MODULES_TS: 'css-modules-typescript',
     /** mini-css-extract-plugin.loader */
     MINI_CSS_EXTRACT: 'mini-css-extract',
+    /** builder-plugin-image-compress.loader */
+    IMAGE_COMPRESS: 'image-compress',
   },
   /** Predefined plugins */
   PLUGIN: {
