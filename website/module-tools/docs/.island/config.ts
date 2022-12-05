@@ -1,7 +1,9 @@
 import { defineConfig } from 'islandjs';
 import { createRequire } from 'module';
+import { remarkCodeHike } from "@code-hike/mdx";
 
 const require = createRequire(import.meta.url);
+const theme = require("shiki/themes/nord.json")
 const version = require('../../package.json').version;
 
 function getI18nHelper(lang: 'zh' | 'en') {
@@ -25,7 +27,17 @@ export default defineConfig({
   },
   markdown: {
     rehypePlugins: [],
-    remarkPlugins: []
+    remarkPlugins: [
+      [
+        remarkCodeHike,
+        {
+          theme,
+          autoImport: true,
+          showCopyButton: true,
+          enableSpa: true
+        }
+      ],
+    ],
   },
   route: {
     exclude: ['custom.tsx', '**/fragments/**']
@@ -123,16 +135,16 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/use-micro-generator')
           },
           {
-            text: getText('测试你的项目', 'Test your project'),
+            text: getText('使用 Storybook', 'Using Storybook'),
+            link: getLink('/guide/using-storybook')
+          },
+          {
+            text: getText('测试项目', 'Test project'),
             link: getLink('/guide/test-your-project')
           },
           {
-            text: getText('发布你的项目', 'Publish your project'),
+            text: getText('发布项目', 'Publish project'),
             link: getLink('/guide/publish-your-project')
-          },
-          {
-            text: getText('开启新能力', 'Enable new feature'),
-            link: getLink('/guide/enable-new-feature')
           },
           {
             text: getText('为你的项目构建UI(可选)', 'Build your UI(optional)'),
