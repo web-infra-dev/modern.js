@@ -29,7 +29,7 @@ function createApp(config: AppConfig): object;
 - `config`
   - `StoreConfig`: the same as [`createStore`](./create-store.md) params.
   - `devTools`: the default value is `true`. when it is an object type，configuring [Options](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md) of Redux DevTools。
-  - `autoActins`: the default value is `true`。if [auto generate Actions](./auto-actions.md)。
+  - `autoActions`: the default value is `true`。if [auto generate Actions](./auto-actions.md)。
 
 ### Return Value
 
