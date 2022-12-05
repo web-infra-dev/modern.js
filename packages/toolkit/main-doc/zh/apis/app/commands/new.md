@@ -43,8 +43,6 @@ $ npx modern new
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 (Use arrow keys)
 ❯ 启用 Tailwind CSS 支持
-  启用 Less 支持
-  启用 Sass 支持
   启用「BFF」功能
   启用「微前端」模式
   启用「单元测试 / 集成测试」功能

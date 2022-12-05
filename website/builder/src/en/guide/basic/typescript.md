@@ -16,11 +16,11 @@ If you want more Babel plugins
 
 **ts-loader**
 
-The ts-loader uses TypeScript's official transpiler-TSC under the hood. When ts-loader is enabled, TypeScript files will no longer be transpiled by Babel, but TSC output will still be handled by Babel.
+The ts-loader uses TypeScript's official transpiler-TSC under the hood. When ts-loader is enabled, TypeScript files will no longer be transpiled by Babel, but Babel will still inject polyfill into the TSC output and transform it to the lower version of JavaScript.
 
-Enable ts-loader:
+Enable ts-loader(with default options):
 
-```typescript
+```ts
 export default {
   tools: {
     tsLoader: {},
@@ -46,9 +46,9 @@ Babel supports TypeScript well. It cannot check types, but we can check types in
 
 Currently, the only stable TypeScript type checking tool is TSC, and it usually takes a while to check types in a large project, so Builder by default using tsChecker([fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin)) for asynchronous type checking, it won't block project setup.
 
-Set tsChecker:
+Set tsChecker(with default options):
 
-```typescript
+```ts
 export default {
   tools: {
     tsChecker: {},

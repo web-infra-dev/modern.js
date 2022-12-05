@@ -8,10 +8,13 @@ export const applyMinimalPlugins = () =>
     // todo: module import error when target is esX
     // import('../plugins/target').then(m => m.PluginTarget()),
     import('../plugins/output').then(m => m.PluginOutput()),
-    import('../plugins/devtool').then(m => m.PluginDevtool()),
+    // todo: need rspack solve performance problem
+    // import('../plugins/devtool').then(m => m.PluginDevtool()),
     import('../plugins/resolve').then(m => m.PluginResolve()),
     import('../plugins/html').then(m => m.PluginHtml()),
     import('../plugins/define').then(m => m.PluginDefine()),
+    import('../plugins/css').then(m => m.PluginCss()),
+    import('../plugins/less').then(m => m.PluginLess()),
   ]);
 
 export const applyDefaultPlugins = () =>

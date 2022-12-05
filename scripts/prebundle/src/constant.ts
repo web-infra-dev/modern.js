@@ -438,6 +438,7 @@ export const TASKS: TaskConfig[] = [
     packageDir: 'builder/builder-rspack-provider',
     packageName: '@modern-js/builder-rspack-provider',
     dependencies: [
+      'webpack-merge',
       {
         name: 'pretty-time',
         ignoreDts: true,
@@ -483,6 +484,28 @@ export const TASKS: TaskConfig[] = [
         externals: {
           browserslist: '@modern-js/utils/browserslist',
           'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'less',
+        externals: {
+          // needle is an optional dependency and no need to bundle it.
+          needle: 'needle',
+        },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
+            content.replace(
+              `declare module "less" {\n    export = less;\n}`,
+              `export = Less;`,
+            ),
+          );
+        },
+      },
+      {
+        name: '@rspack/less-loader',
+        ignoreDts: true,
+        externals: {
+          less: '../less',
         },
       },
     ],

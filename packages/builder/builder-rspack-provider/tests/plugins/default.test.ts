@@ -25,3 +25,37 @@ describe('applyDefaultPlugins', () => {
     process.env.NODE_ENV = NODE_ENV;
   });
 });
+
+describe('tools.rspack', () => {
+  it('should match snapshot', async () => {
+    class TestPlugin {
+      readonly name: string = 'TestPlugin';
+
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      apply() {}
+    }
+
+    const builder = await createBuilder({
+      builderConfig: {
+        tools: {
+          rspack: (config, { addRules, prependPlugins }) => {
+            addRules({
+              test: /\.test$/,
+              use: [
+                {
+                  builtinLoader: 'sass-loader',
+                },
+              ],
+            });
+            prependPlugins([new TestPlugin()]);
+          },
+        },
+      },
+    });
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+});

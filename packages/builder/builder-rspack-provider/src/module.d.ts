@@ -5,3 +5,5 @@ declare module 'webpack-sources' {
     source(): string;
   }
 }
+
+declare module '@rspack/postcss-loader';

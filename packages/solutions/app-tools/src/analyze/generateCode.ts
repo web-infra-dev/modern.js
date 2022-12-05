@@ -251,7 +251,7 @@ export const generateCode = async (
           const routesServerFile = path.join(
             internalDirectory,
             entryName,
-            'routes.server.js',
+            'route-server-loaders.js',
           );
           const outputRoutesServerFile = path.join(
             distDirectory,

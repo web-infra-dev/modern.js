@@ -11,6 +11,7 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@modern-js/tsconfig": "workspace:*",
+    "@rspack/less-loader": "0.0.0-11afc8e36-20221128093256",
     "@scripts/build": "workspace:*",
     "@types/node": "^14",
     "@vercel/ncc": "0.33.3",

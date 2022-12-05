@@ -324,10 +324,7 @@ export class ModernDevServer extends ModernServer {
       `${distDir}/${LOADER_ROUTES_DIR}/**`,
     ];
 
-    // FIXME: the server config.watchOptions;
-    const watchOptions = mergeWatchOptions(
-      (this.conf.server as any)?.watchOptions,
-    );
+    const watchOptions = mergeWatchOptions(this.conf.server?.watchOptions);
 
     const defaultWatchedPaths = defaultWatched.map(p => {
       const finalPath = path.isAbsolute(p) ? p : path.join(pwd, p);
