@@ -55,7 +55,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
-    "dev": "tsc --watch",
+    "dev": "tsc --watch --sourceMap",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
