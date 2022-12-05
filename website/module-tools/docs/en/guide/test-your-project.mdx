@@ -1,0 +1,158 @@
+# Testing Projects
+
+This chapter will describe how to test modules.
+
+## Prerequisites and conventions
+
+To use the testing functionality of the project, you need to make sure that the project contains the following dependencies:
+
+* `"@modern-js/plugin-testing"`
+
+In the module engineering scheme, the following conventions are in place for test cases, or files for writing tests:
+
+* The `tests` directory in the project directory is the directory for test cases and test files, **no support for changing the directory for running test cases**.
+* Files with the suffix `.test.[tj]sx?` are automatically recognized as test files by default.
+* Other `. [tj]sx?` suffixes are recognized as normal files that can be used as test `utils` files or for other purposes.
+
+
+## Run the tests
+
+Once the dependencies are prepared and we know where to write the test cases, we can execute the tests with the following command:
+
+``` bash
+modern test
+
+// Update snapshot
+modern test --updateSnapshot
+```
+
+After execution, you will see the results of the test:
+
+![test-result](/test-result.png)
+
+## Usage Configuration
+
+The Module Engineering Program provides the following configurations for testing.
+
+* [`testing`](/zh/api/config-test)
+
+You can add it in `modern.config.(j|t)s`.
+
+## Test example
+
+### Common modules
+
+For common modules, we can use the test function as follows:
+
+<CH.Spotlight>
+
+``` typescript ./src/index.ts
+export default function () {
+  return 'hello world';
+}
+```
+
+---
+
+First is the code of the module.
+
+``` typescript ./src/index.ts
+export default function () {
+  return 'hello world';
+}
+```
+
+---
+
+Then in the test file, we can do this.
+
+Where `@` points to the source directory, defined in `tests/tsconfig.json` in the initialization project.
+
+``` typescript ./tests/index.test.ts
+import main from '@/index';
+
+describe('default cases', () => {
+  test('Have returns', () => {
+    const drink = jest.fn(main);
+    drink();
+    expect(drink).toHaveReturned();
+  });
+});
+```
+
+---
+
+Finally we can execute `modern test`.
+
+``` bash
+pnpm test
+## or
+yarn test
+## or
+npm run test
+```
+
+</CH.Spotlight>
+
+### Components
+
+For components, Modern.js's [Runtime API](xxx) provides functionality for testing UI components, which is provided by `@modern-js/runtime/testing`.
+
+:::tip
+If you need to use the Runtime API, then you can turn it on via [microgenerator](/zh/guide/command-preview).
+:::
+
+<CH.Spotlight>
+
+``` tsx ./src/index.tsx
+export const default () {
+  return (
+    <div>This is a UI Component</div>
+  );
+}
+```
+
+---
+
+First is the code of the component.
+
+``` tsx ./src/index.tsx
+export const default () {
+  return (
+    <div>This is a UI Component</div>
+  );
+}
+```
+
+---
+
+Then in the test file, we can do this.
+
+Where `@` points to the source directory, defined in `tests/tsconfig.json` in the initialization project.
+
+``` tsx ./tests/index.test.tsx
+import { render, screen } from '@modern-js/runtime/testing';
+
+import Component from '@/index';
+
+describe('default cases', () => {
+  test('Rendered', () => {
+    render(<Component />);
+    expect(screen.getByText('This is a UI Component')).toBeInTheDocument();
+  });
+});
+```
+
+---
+
+Finally we can execute `modern test`.
+
+``` bash
+pnpm test
+## or
+yarn test
+## or
+npm run test
+```
+
+</CH.Spotlight>
