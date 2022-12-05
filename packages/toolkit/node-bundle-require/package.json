@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/node-bundle-require",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -39,8 +39,8 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern new",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

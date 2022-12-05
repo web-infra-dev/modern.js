@@ -91,13 +91,13 @@ Modern.js 会将和 `package.json` 中 `name` 同名的目录作为主入口，�
 
 如果入口为 `routes/` 约定，Modern.js 会在启动时扫描 `routes` 下的文件，基于文件约定，自动生成客户端路由（react-router）。
 
-详细内容可以参考[路由](/docs/guides/basic-features/routes).
+详细内容可以参考[路由](/docs/guides/basic-features/routes)。
 
 ### App 入口
 
 如果入口为 `App.[jt]sx?` 约定，开发者可以在这个文件中自由的设置客户端路由，或者不设置客户端路由。
 
-详细内容可以参考[路由](/docs/guides/basic-features/routes).
+详细内容可以参考[路由](/docs/guides/basic-features/routes)。
 
 ### Index 入口
 
@@ -105,12 +105,12 @@ Modern.js 会将和 `package.json` 中 `name` 同名的目录作为主入口，�
 
 如果入口为 `index.[jt]sx?` 约定，Modern.js 会根据该文件是否存在默认的组件导出，来决定构建行为。
 
-详细内容可以参考[自定义 App](/docs/guides/advanced-features/custom-app).
+详细内容可以参考[自定义 App](/docs/guides/advanced-features/custom-app)。
 
 ## 配置入口
 
 在 Modern.js 中，除了使用文件约定生成入口外，还可以在 `modern.config.[jt]s` 中手动配置入口。
 
 :::tip
-详情可以查看 [source.entries](/docs/configure/app/source/entries).
+详情可以查看 [source.entries](/docs/configure/app/source/entries)。
 :::

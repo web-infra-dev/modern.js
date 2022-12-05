@@ -7,7 +7,8 @@ import {
   nanoid,
   slash,
 } from '@modern-js/utils';
-import type { CliPlugin } from '@modern-js/core';
+import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
 import DesignTokenPlugin from './design-token/cli';
 import { getTailwindConfig } from './tailwind';
 import { template, checkTwinMacroNotExist } from './utils';
@@ -27,16 +28,15 @@ export default (
   { pluginName } = {
     pluginName: '@modern-js/plugin-tailwindcss',
   },
-): CliPlugin => ({
+): CliPlugin<LegacyAppTools & ModuleTools> => ({
   name: '@modern-js/plugin-tailwindcss',
 
   // support designSystem.supportStyledComponents
   usePlugins: [
     DesignTokenPlugin({
       pluginName,
-    }),
+    }) as any,
   ],
-
   setup: async api => {
     const { appDirectory, internalDirectory } = api.useAppContext();
     let internalTwConfigPath = '';
@@ -67,7 +67,6 @@ export default (
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-tailwindcss'];
       },
-
       config() {
         return {
           tools: {
@@ -75,53 +74,10 @@ export default (
             // TODO: In module project, also is called, but should not be called.
             postcss: (config: Record<string, any>) => {
               const modernConfig = api.useResolvedConfigContext();
-              if (
-                !config.postcssOptions
-                // config.$$tools === 'module-tools'
-              ) {
-                if (Array.isArray(config.plugins)) {
-                  const tailwindConfig = getTailwindConfig(modernConfig, {
-                    pureConfig: {
-                      content: [
-                        './src/**/*.js',
-                        './src/**/*.jsx',
-                        './src/**/*.ts',
-                        './src/**/*.tsx',
-                        './src/**/*.less',
-                        './src/**/*.css',
-                        './src/**/*.sass',
-                        './src/**/*.scss',
-                        './styles/**/*.less',
-                        './styles/**/*.css',
-                        './styles/**/*.sass',
-                        './styles/**/*.scss',
-                      ],
-                    },
-                  });
-                  config.plugins.push(require('tailwindcss')(tailwindConfig));
-                } else {
-                  const tailwindConfig = getTailwindConfig(modernConfig, {
-                    pureConfig: {
-                      content: [
-                        './src/**/*.js',
-                        './src/**/*.jsx',
-                        './src/**/*.ts',
-                        './src/**/*.tsx',
-                        './src/**/*.less',
-                        './src/**/*.css',
-                        './src/**/*.sass',
-                        './src/**/*.scss',
-                        './styles/**/*.less',
-                        './styles/**/*.css',
-                        './styles/**/*.sass',
-                        './styles/**/*.scss',
-                      ],
-                    },
-                  });
-                  config.plugins = [require('tailwindcss')(tailwindConfig)];
-                }
-              } else {
-                const tailwindConfig = getTailwindConfig(modernConfig, {
+              const tailwindConfig = getTailwindConfig(
+                modernConfig?.tools?.tailwindcss,
+                modernConfig?.source?.designSystem,
+                {
                   pureConfig: {
                     content: [
                       './config/html/**/*.html',
@@ -139,16 +95,16 @@ export default (
                       './styles/**/*.scss',
                     ],
                   },
-                });
-                if (Array.isArray(config.postcssOptions.plugins)) {
-                  config.postcssOptions.plugins.push(
-                    require('tailwindcss')(tailwindConfig),
-                  );
-                } else {
-                  config.postcssOptions.plugins = [
-                    require('tailwindcss')(tailwindConfig),
-                  ];
-                }
+                },
+              );
+              if (Array.isArray(config.postcssOptions.plugins)) {
+                config.postcssOptions.plugins.push(
+                  require('tailwindcss')(tailwindConfig),
+                );
+              } else {
+                config.postcssOptions.plugins = [
+                  require('tailwindcss')(tailwindConfig),
+                ];
               }
             },
             babel(config) {
@@ -188,6 +144,44 @@ export default (
             },
           },
         };
+      },
+      beforeBuildTask({ config }) {
+        const modernConfig =
+          api.useResolvedConfigContext() as NormalizedConfig<ModuleTools>;
+        const { designSystem } = modernConfig;
+        const tailwindConfig = getTailwindConfig(
+          config.style.tailwindCss,
+          designSystem,
+          {
+            pureConfig: {
+              content: [
+                './config/html/**/*.html',
+                './config/html/**/*.ejs',
+                './config/html/**/*.hbs',
+                './src/**/*.js',
+                './src/**/*.jsx',
+                './src/**/*.ts',
+                './src/**/*.tsx',
+                // about storybook
+                './storybook/**/*',
+                './styles/**/*.less',
+                './styles/**/*.css',
+                './styles/**/*.sass',
+                './styles/**/*.scss',
+              ],
+            },
+          },
+        );
+        if (Array.isArray(config.style.postcss.plugins)) {
+          config.style.postcss.plugins.push(
+            require('tailwindcss')(tailwindConfig),
+          );
+        } else {
+          config.style.postcss.plugins = [
+            require('tailwindcss')(tailwindConfig),
+          ];
+        }
+        return config;
       },
     };
   },

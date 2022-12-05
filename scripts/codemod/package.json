@@ -1,9 +1,9 @@
 {
   "name": "@scripts/codemod",
   "private": true,
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "scripts": {
-    "build": "modern build"
+    "build": "modern-lib build"
   },
   "devDependencies": {
     "btsm": "2.2.2",

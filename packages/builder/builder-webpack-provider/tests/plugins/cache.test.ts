@@ -52,9 +52,9 @@ describe('plugins/cache', () => {
     });
 
     const config = await builder.unwrapWebpackConfig();
-    expect((config.cache as { cacheDirectory?: string }).cacheDirectory).toBe(
-      customCacheDirectory,
-    );
+    expect(
+      (config.cache as { cacheDirectory?: string }).cacheDirectory,
+    ).toMatchSnapshot();
   });
 
   it('should disable cache', async () => {

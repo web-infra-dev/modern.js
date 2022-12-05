@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@modern-js/module-tools-docs",
-  "version": "1.0.0",
+  "version": "2.0.0-beta.2",
   "description": "docs",
   "main": "index.js",
   "scripts": {
@@ -13,8 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "islandjs": "0.7.10",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "islandjs": "0.7.19",
+    "@code-hike/mdx": "^0.7.4",
+    "shiki": "^0.11.1"
   }
 }

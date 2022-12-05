@@ -7,25 +7,39 @@ title: bootstrap
 ## 使用姿势
 
 ```ts
+import ReactDOM from 'react-dom/client'
 import { bootstrap } from '@modern-js/runtime';
 
-bootstrap(App, 'root');
+bootstrap(App, 'root', undefined, ReactDOM);
 ```
 
 ## 函数签名
 
 ```ts
-function bootstrap(AppComponent: React.ComponentType<any>, rootId: string): React.ComponentType<any> | void
+type BootStrap<T = unknown> = (
+  App: React.ComponentType,
+  id: string | HTMLElement | RuntimeContext,
+  root?: any,
+  ReactDOM?: {
+    render?: Renderer;
+    hydrate?: Renderer;
+    createRoot?: typeof createRoot;
+    hydrateRoot?: typeof hydrateRoot;
+  },
+) => Promise<T>;
 ```
 
 ### 参数
 
 - `AppComponent`：通过 [`createApp`](./create-app) 创建的 ReactElement 实例。
 - `rootId`：要挂载的 DOM 根元素 id，如 `"root"`。
+- `root`: ReactDOM.createRoot 的返回值，用于 bootstrap 函数外需要 root 销毁组件的场景。
+- `ReactDOM`: ReactDOM 对象，用于区分 React 18 和 React 17 API。
 
 ## 示例
 
 ```tsx
+import ReactDOM from 'react-dom/client'
 import { createApp, bootstrap } from '@modern-js/runtime';
 import { router, state } from '@modern-js/runtime/plugins';
 
@@ -38,7 +52,7 @@ const WrappedApp = createApp({
   plugins: [router({}), state({})],
 })(App);
 
-bootstrap(WrappedApp, 'root');
+bootstrap(WrappedApp, 'root', undefined, ReactDOM);
 
 ```
 

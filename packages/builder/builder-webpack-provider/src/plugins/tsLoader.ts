@@ -3,7 +3,7 @@ import _ from '@modern-js/utils/lodash';
 import { BuilderPlugin } from '../types';
 import { applyScriptCondition, getUseBuiltIns } from './babel';
 
-// Declare `ScriptTarget` and `ModuleKind` manualy to avoid high cost of typescript import
+// Declare `ScriptTarget` and `ModuleKind` manually to avoid high cost of typescript import
 enum ScriptTarget {
   ESNext = 99,
 }

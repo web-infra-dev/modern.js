@@ -11,6 +11,7 @@ import {
   LoaderFunction,
   LoaderFunctionArgs,
 } from 'react-router-dom';
+import { LOADER_ROUTES_DIR } from '@modern-js/utils';
 
 type LoaderContext = {
   [key: string]: unknown;
@@ -207,7 +208,7 @@ export const handleRequest = async ({
   }
 
   const { routes } = await import(
-    `${distDir}/loader-routes/${entry.entryName}`
+    `${distDir}/${LOADER_ROUTES_DIR}/${entry.entryName}`
   );
 
   if (!routes) {
@@ -244,7 +245,16 @@ export const handleRequest = async ({
       request,
       loadContext: {},
     });
-    // TODO: 处理 redirect
+    if (isRedirectResponse(response)) {
+      const headers = new Headers(response.headers);
+      headers.set('X-Modernjs-Redirect', headers.get('Location')!);
+      headers.delete('Location');
+
+      response = new NodeResponse(null, {
+        status: 204,
+        headers,
+      });
+    }
   } catch (error) {
     const message = String(error);
     response = new NodeResponse(message, {

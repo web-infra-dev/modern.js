@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -20,14 +20,14 @@
   ],
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
-    "new": "modern new",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/codesmith": "2.0.0",
-    "@modern-js/codesmith-api-app": "2.0.0",
+    "@modern-js/codesmith": "2.0.1",
+    "@modern-js/codesmith-api-app": "2.0.1",
     "@modern-js/generator-common": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

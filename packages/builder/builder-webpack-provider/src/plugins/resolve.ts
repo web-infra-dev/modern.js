@@ -1,18 +1,21 @@
 import type { ChainIdentifier } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin, NormalizedConfig, WebpackChain } from '../types';
-import { getExtensions } from '@modern-js/builder-shared';
+import { BuilderTarget, getExtensions } from '@modern-js/builder-shared';
 
 function applyExtensions({
   chain,
   config,
+  target,
   isTsProject,
 }: {
   chain: WebpackChain;
   config: NormalizedConfig;
+  target: BuilderTarget;
   isTsProject: boolean;
 }) {
   const extensions = getExtensions({
+    target,
     isTsProject,
     resolveExtensionPrefix: config.source.resolveExtensionPrefix,
   });
@@ -90,25 +93,39 @@ function applyFullySpecified({
 function applyMainFields({
   chain,
   config,
+  target,
 }: {
   chain: WebpackChain;
   config: NormalizedConfig;
+  target: BuilderTarget;
 }) {
   const { resolveMainFields } = config.source;
   if (!resolveMainFields) {
     return;
   }
-  chain.resolve.mainFields.merge(resolveMainFields);
+
+  const mainFields = Array.isArray(resolveMainFields)
+    ? resolveMainFields
+    : resolveMainFields[target];
+
+  if (mainFields) {
+    chain.resolve.mainFields.merge(mainFields);
+  }
 }
 
 export const PluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
       const config = api.getNormalizedConfig();
       const isTsProject = Boolean(api.context.tsconfigPath);
-      const extensions = applyExtensions({ chain, config, isTsProject });
+      const extensions = applyExtensions({
+        chain,
+        config,
+        target,
+        isTsProject,
+      });
 
       applyFullySpecified({ chain, config, CHAIN_ID });
 
@@ -121,6 +138,7 @@ export const PluginResolve = (): BuilderPlugin => ({
       applyMainFields({
         chain,
         config,
+        target,
       });
 
       if (!isTsProject) {

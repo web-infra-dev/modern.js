@@ -1,9 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import { isReact18, normalizeToPosixPath } from '@modern-js/utils';
+import { isReact18, normalizeToPosixPath, fs as fse } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
-import type { ImportStatement } from '@modern-js/core';
-import { FILE_SYSTEM_ROUTES_FILE_NAME } from './constants';
+import type { Loader } from 'esbuild';
+import { transform } from 'esbuild';
+import { parse } from 'es-module-lexer';
+import type { ImportStatement } from '../types';
+import { FILE_SYSTEM_ROUTES_FILE_NAME, LOADER_EXPORT_NAME } from './constants';
 
 export const walkDirectory = (dir: string): string[] =>
   fs.readdirSync(dir).reduce<string[]>((previous, filename) => {
@@ -56,7 +59,10 @@ export const getDefaultImports = ({
     const route: ImportStatement = {
       specifiers: [{ imported: 'routes' }],
       value: normalizeToPosixPath(
-        `${internalDirAlias}/${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
+        `${internalDirAlias}/${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME.replace(
+          '.js',
+          '',
+        )}`,
       ),
     };
     if (fileSystemRoutes.globalApp) {
@@ -100,3 +106,33 @@ export const replaceWithAlias = (
   filePath: string,
   alias: string,
 ) => normalizeToPosixPath(path.join(alias, path.relative(base, filePath)));
+
+export const parseModule = async ({
+  source,
+  filename,
+}: {
+  source: string;
+  filename: string;
+}) => {
+  let content = source;
+
+  if (filename.endsWith('.tsx') || filename.endsWith('.jsx')) {
+    const result = await transform(content, {
+      loader: path.extname(filename).slice(1) as Loader,
+      format: 'esm',
+    });
+    content = result.code;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  return await parse(content);
+};
+
+export const hasLoader = async (filename: string) => {
+  const source = await fse.readFile(filename);
+  const [, moduleExports] = await parseModule({
+    source: source.toString(),
+    filename,
+  });
+  return moduleExports.some(e => e.n === LOADER_EXPORT_NAME);
+};

@@ -61,6 +61,7 @@ export const handleTemplateFile = async (
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry: context.config.registry,
       distTag: context.config.distTag,
+      cwd: context.materials.default.basePath,
     });
   };
 

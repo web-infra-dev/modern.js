@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -72,10 +72,10 @@
       "node": "./dist/js/node/router/index.js",
       "default": "./dist/js/treeshaking/router/index.js"
     },
-    "./router-server": {
-      "jsnext:source": "./src/router/server/index.ts",
-      "node": "./dist/js/node/router/server/index.js",
-      "default": "./dist/js/treeshaking/router/server/index.js"
+    "./router/server": {
+      "jsnext:source": "./src/router/server.ts",
+      "node": "./dist/js/node/router/server.js",
+      "default": "./dist/js/treeshaking/router/server.js"
     }
   },
   "typesVersions": {
@@ -110,17 +110,17 @@
       "router": [
         "./dist/types/router/index.d.ts"
       ],
-      "router-server": [
-        "./dist/types/router/server/index.d.ts"
+      "router/server": [
+        "./dist/types/router/runtime/server.d.ts"
       ]
     }
   },
   "scripts": {
-    "dev": "modern build --watch",
+    "dev": "modern-lib build --watch",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
-    "build": "modern build",
-    "test": "jest --passWithNoTests"
+    "new": "modern-lib new",
+    "build": "modern-lib build",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
@@ -163,6 +163,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
     "@testing-library/react-hooks": "^8.0.1",

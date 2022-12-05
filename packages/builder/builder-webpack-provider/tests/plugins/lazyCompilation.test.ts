@@ -10,7 +10,7 @@ describe('plugins/lazyCompilation', () => {
       builderConfig: {
         experiments: {
           lazyCompilation: {
-            entires: false,
+            entries: false,
             imports: true,
           },
         },
@@ -21,7 +21,7 @@ describe('plugins/lazyCompilation', () => {
     expect(config).toEqual({
       experiments: {
         lazyCompilation: {
-          entires: false,
+          entries: false,
           imports: true,
         },
       },

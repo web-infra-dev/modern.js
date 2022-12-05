@@ -58,6 +58,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/basic/svg-assets'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/alias'),
+          getLink('/guide/basic/typescript'),
         ],
       },
       {
@@ -69,6 +70,11 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/advanced/split-chunk'),
           getLink('/guide/advanced/custom-webpack-config'),
         ],
+      },
+      {
+        collapsable: false,
+        title: getText('调试', 'Debug'),
+        children: [getLink('/guide/debug/inspector')],
       },
       {
         collapsable: false,
@@ -106,9 +112,12 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/builder-core'),
           getLink('/api/builder-instance'),
           getLink('/api/builder-types'),
-          getLink('/api/plugin-core'),
-          getLink('/api/plugin-hooks'),
         ],
+      },
+      {
+        title: getText('Plugin API', 'Plugin API'),
+        collapsable: false,
+        children: [getLink('/api/plugin-core'), getLink('/api/plugin-hooks')],
       },
     ],
     [getLink('/plugins')]: [
@@ -117,8 +126,9 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         title: getText('指南', 'Guide'),
         children: [
           getLink('/plugins/introduction'),
-          getLink('/plugins/integration'),
-          getLink('/plugins/testing'),
+          // TODO to be written
+          // getLink('/plugins/integration'),
+          // getLink('/plugins/testing'),
         ],
       },
       {
@@ -129,6 +139,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/plugins/plugin-swc'),
           getLink('/plugins/plugin-esbuild'),
           getLink('/plugins/plugin-node-polyfill'),
+          getLink('/plugins/plugin-image-compress'),
         ],
       },
     ],

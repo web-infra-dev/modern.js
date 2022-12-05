@@ -1,6 +1,6 @@
-import { defineConfig } from '@modern-js/app-tools';
+import { defineLegacyConfig } from '@modern-js/app-tools';
 
-export default defineConfig({
+export default defineLegacyConfig({
   server: {
     ssr: true,
   },

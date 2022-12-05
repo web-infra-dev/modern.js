@@ -1,4 +1,4 @@
-import type { ServerConfig } from '@modern-js/core';
+import { ServerUserConfig } from '@modern-js/app-tools';
 import type { RuntimeContext } from '../../core';
 import { RenderLevel } from './renderToString/type';
 
@@ -8,7 +8,7 @@ export { RuntimeContext, RenderLevel };
 
 export type SSRPluginConfig = {
   crossorigin?: boolean | 'anonymous' | 'use-credentials';
-} & Exclude<ServerConfig['ssr'], boolean>;
+} & Exclude<ServerUserConfig['ssr'], boolean>;
 
 export type ServerRenderOptions = {
   App: ModernSSRReactComponent;

@@ -1,7 +1,6 @@
-import type { NormalizedConfig } from '@modern-js/core';
 import { applyOptionsChain, logger } from '@modern-js/utils';
 import { merge, cloneDeep } from '@modern-js/utils/lodash';
-import type { LegacyUserConfig } from './types';
+import { DesignSystem, Tailwind } from './types';
 
 const checkIfExistNotAllowKeys = (
   tailwindConfig: Record<string, any>,
@@ -16,18 +15,15 @@ const checkIfExistNotAllowKeys = (
   return [ret, notAllowKey];
 };
 
-const getPureDesignSystemConfig = (
-  designSystemConfig: Record<string, any> & {
-    supportStyledComponents?: boolean;
-  },
-) => {
+const getPureDesignSystemConfig = (designSystemConfig: DesignSystem) => {
   const pureDesignSystemConfig = cloneDeep(designSystemConfig);
   delete pureDesignSystemConfig.supportStyledComponents;
   return pureDesignSystemConfig;
 };
 
 const getTailwindConfig = (
-  config: NormalizedConfig,
+  tailwindcss?: Tailwind,
+  designSystem?: DesignSystem,
   option: { pureConfig?: Record<string, any> } = {},
 ) => {
   const purgeConfig = merge(
@@ -45,14 +41,10 @@ const getTailwindConfig = (
   };
   const tailwindConfig = applyOptionsChain(
     defaultTailwindConfig,
-    config.tools.tailwindcss || {},
+    tailwindcss || {},
   );
 
-  const designSystem = getPureDesignSystemConfig(
-    (config as LegacyUserConfig).designSystem ??
-      (config.source as LegacyUserConfig).designSystem ??
-      {},
-  );
+  const designSystemConfig = getPureDesignSystemConfig(designSystem ?? {});
 
   const [exist, key] = checkIfExistNotAllowKeys(tailwindConfig);
 
@@ -65,7 +57,7 @@ const getTailwindConfig = (
   }
 
   // Because there is no default theme configuration
-  tailwindConfig.theme = designSystem || {};
+  tailwindConfig.theme = designSystemConfig || {};
 
   return tailwindConfig;
 };

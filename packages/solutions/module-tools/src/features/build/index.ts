@@ -94,7 +94,7 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { path: outputPath = 'dist' },
-  } = modernConfig;
+  } = modernConfig as any;
 
   // build platform
   const platformBuildRet = await checkPlatformAndRunBuild(platform, {

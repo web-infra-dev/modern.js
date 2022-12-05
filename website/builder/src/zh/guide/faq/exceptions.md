@@ -78,6 +78,16 @@ export default {
 
 将 `sourceType` 设置为 `unambiguous` 可能会产生一些其他影响，请参考 [babel 官方文档](https://babeljs.io/docs/en/options#sourcetype)。
 
+## 编译时报错 "Error: ES Modules may not assign module.exports or exports.\*, Use ESM export syntax"？
+
+如果编译时出现以下报错，通常也是因为在项目中使用 babel 编译了一个 CommonJS 模块，解决方法与上述的 `exports is not defined` 问题一致。
+
+```bash
+Error: ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: 581
+```
+
+更多信息请参考 issue：[babel#12731](https://github.com/babel/babel/issues/12731)。
+
 ## 热更新后 React 组件的 state 丢失？
 
 Builder 使用 React 官方的 [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) 能力来进行组件热更新。
@@ -192,5 +202,6 @@ Less 中除法的写法也可以通过配置项来修改，详见 [Less - Math](
 该报错表示在编译过程中对一个只读配置项进行了删除操作。通常情况下，我们不希望编译过程中的任何操作会直接对传入的配置进行修改，但难以限制底层插件（如 postcss-loader 等）的行为，如果出现该报错，请联系 builder 开发人员，我们需要对该配置进行单独处理。
 
 同类型报错还有：
+
 - 'TypeError: Cannot add property xxx, object is not extensible'
 - 'TypeError: Cannot assign to read only property 'xxx' of object '#\<Object\>'

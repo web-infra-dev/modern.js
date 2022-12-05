@@ -5,7 +5,7 @@ export interface SharedExperimentsConfig {
   lazyCompilation?:
     | boolean
     | {
-        entires?: boolean;
+        entries?: boolean;
         imports?: boolean;
       };
 }

@@ -1,6 +1,6 @@
 import type { Merge } from 'type-fest';
-import { InternalPlugins } from '../common';
-import { ServerRoute } from '../server';
+
+export type { Config as JestConfigTypes } from '@jest/types';
 
 /**
  * Bundle entrypoint
@@ -59,6 +59,7 @@ export type NestedRoute = Merge<
     component?: string;
     loading?: string;
     error?: string;
+    isRoot?: boolean;
   }
 >;
 
@@ -84,33 +85,6 @@ export interface HtmlPartials {
 
 export interface HtmlTemplates {
   [name: string]: string;
-}
-
-export interface IAppContext {
-  metaName: string; // name for generating conventional constants, such as .modern-js
-  appDirectory: string;
-  configFile: string | false;
-  serverConfigFile: string;
-  serverInternalPlugins: InternalPlugins;
-  ip?: string;
-  port?: number;
-  distDirectory: string;
-  packageName: string;
-  srcDirectory: string;
-  sharedDirectory: string;
-  nodeModulesDirectory: string;
-  internalDirectory: string;
-  plugins: any[];
-  entrypoints: Entrypoint[];
-  checkedEntries: string[];
-  serverRoutes: ServerRoute[];
-  htmlTemplates: HtmlTemplates;
-  absoluteEntryDir?: string;
-  apiOnly: boolean;
-  internalDirAlias: string;
-  internalSrcAlias: string;
-  // FIXME real builder type
-  builder?: Record<string, any>;
 }
 
 export type { Merge } from 'type-fest';

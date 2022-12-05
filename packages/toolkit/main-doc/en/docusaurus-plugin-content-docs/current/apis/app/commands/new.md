@@ -19,7 +19,7 @@ The `modern new` command is used to enable features to an existing project.
 
 For example, add application entry, enable some optional features such as Tailwind CSS, micro frontend, etc.
 
-import CommandTip from '@site-docs/components/command-tip.md'
+import CommandTip from '@site-docs-en/components/command-tip.md'
 
 <CommandTip />
 
@@ -32,7 +32,6 @@ $ npx modern new
 ? 请选择你想要的操作 创建工程元素
 ? 创建工程元素 新建「应用入口」
 ? 请填写入口名称 entry
-? 是否需要调整默认配置? 否
 ```
 
 ### Enable Features
@@ -44,8 +43,6 @@ $ npx modern new
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 (Use arrow keys)
 ❯ 启用 Tailwind CSS 支持
-  启用 Less 支持
-  启用 Sass 支持
   启用「BFF」功能
   启用「微前端」模式
   启用「单元测试 / 集成测试」功能

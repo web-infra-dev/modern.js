@@ -1,4 +1,5 @@
-import { patchSchema, traverseSchema } from '../src/config/schema';
+import { patchSchema } from '../src/schema/patchSchema';
+import { traverseSchema } from '../src/schema/traverseSchema';
 
 describe('patch schemas', () => {
   test('should add schema successfully', () => {
@@ -15,18 +16,34 @@ describe('patch schemas', () => {
 
     expect(schema.properties).toHaveProperty('foo');
 
-    expect(schema.properties.deploy.properties).toHaveProperty('foo');
+    expect(
+      (
+        schema.properties as unknown as {
+          deploy: {
+            properties: Record<string, any>;
+          };
+        }
+      ).deploy.properties,
+    ).toHaveProperty('foo');
   });
 
-  test('should throw error when node is undefined', () => {
-    expect(() => {
-      patchSchema([
-        {
-          target: 'deploy.a.foo',
-          schema: { type: 'string' },
-        },
-      ]);
-    }).toThrowError(/^add schema deploy\.a error$/);
+  test('should create a node when node is undefined', () => {
+    const schema = patchSchema([
+      {
+        target: 'deploy.a.foo',
+        schema: { type: 'string' },
+      },
+    ]);
+
+    expect(
+      (
+        schema.properties as unknown as {
+          deploy: {
+            properties: Record<string, any>;
+          };
+        }
+      ).deploy.properties.a.properties,
+    ).toHaveProperty('foo');
   });
 
   test(`should throw error on empty target property`, () => {
@@ -60,7 +77,15 @@ describe('patch schemas', () => {
 
     expect(schema.properties).toHaveProperty('foo');
     expect(schema.properties).toHaveProperty('bar');
-    expect(schema.properties.tools.properties).toHaveProperty('foo');
+    expect(
+      (
+        schema.properties as unknown as {
+          tools: {
+            properties: Record<string, any>;
+          };
+        }
+      ).tools.properties,
+    ).toHaveProperty('foo');
   });
 });
 

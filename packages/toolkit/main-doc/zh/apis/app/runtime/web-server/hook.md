@@ -5,7 +5,7 @@ title: Hook
 用于拓展 Modern.js 内置的 Web Server，非 BFF 请求会经过这些中 Hook 的处理。
 
 :::note
-更多内容可以查看[扩展 Web Server](/docs/guides/advanced-features/web-server)。
+更多内容可以查看[自定义 Web Server](/docs/guides/advanced-features/web-server)。
 :::
 
 ## 使用姿势
@@ -17,13 +17,13 @@ export const afterMatch: AfterMatchHook = (context, next) => {}
 export const afterRender: AfterRenderHook = (context, next) => {}
 ```
 
-:::info 扩展 Web Server
-使用该 API 前，请先执行 `pnpm run new` 新建「Web Server 扩展」源码目录。
+:::info 自定义 Web Server
+使用该 API 前，请先执行 `pnpm run new` 新建「自定义 Web Serve」源码目录。
 
 ```bash
 pnpm run new
 ? 请选择你想要的操作 创建工程元素
-? 新建「Web Server 扩展」源码目录
+? 新建「自定义 Web Server」源码目录
 ```
 :::
 

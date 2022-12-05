@@ -1,15 +1,13 @@
 import type { AcceptedPlugin } from 'postcss';
-import type { PluginAPI } from '@modern-js/core';
 import type { PostcssOptions } from '@modern-js/libuild';
 import type {
-  UserConfig,
+  PartialBaseBuildConfig,
   PostCSSConfigUtils,
   LessOptions,
   SassOptions,
 } from '../types';
-import type { ModuleToolsHooks } from '../types/hooks';
 
-export const getLessConfig = async (config: UserConfig) => {
+export const getLessConfig = async (config: PartialBaseBuildConfig) => {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { getCompiledPath } = await import('./path');
 
@@ -18,13 +16,13 @@ export const getLessConfig = async (config: UserConfig) => {
       lessOptions: { javascriptEnabled: true },
       implementation: await getCompiledPath('less'),
     },
-    config?.tools?.less || {},
+    config?.style?.less || {},
   );
 
   return mergedOptions;
 };
 
-export const getSassConfig = async (config: UserConfig) => {
+export const getSassConfig = async (config: PartialBaseBuildConfig) => {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { getCompiledPath } = await import('./path');
 
@@ -32,13 +30,13 @@ export const getSassConfig = async (config: UserConfig) => {
     {
       implementation: await getCompiledPath('sass'),
     },
-    config.tools?.sass || {},
+    config?.style?.sass || {},
   );
 
   return mergedOptions;
 };
 
-export const getPostcssConfig = async (config: UserConfig) => {
+export const getPostcssConfig = async (config: PartialBaseBuildConfig) => {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { getCompiledPath } = await import('./path');
   const extraPlugins: AcceptedPlugin[] = [];
@@ -70,7 +68,7 @@ export const getPostcssConfig = async (config: UserConfig) => {
         require(await getCompiledPath('postcss-nesting')),
       ].filter(Boolean),
     },
-    (config?.tools?.postcss as any) || {},
+    config?.style?.postcss || {},
     utils,
   );
   if (extraPlugins.length) {
@@ -80,12 +78,10 @@ export const getPostcssConfig = async (config: UserConfig) => {
   return mergedConfig;
 };
 
-export const getStyleConfig = async (api: PluginAPI<ModuleToolsHooks>) => {
-  const config = api.useResolvedConfigContext() as unknown as UserConfig;
+export const getStyleConfig = async (config: PartialBaseBuildConfig) => {
   const postcssConfig = await getPostcssConfig(config);
   const lessConfig = await getLessConfig(config);
   const sassConfig = await getSassConfig(config);
-
   return {
     less: lessConfig,
     sass: sassConfig,

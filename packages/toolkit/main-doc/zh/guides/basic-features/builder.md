@@ -1,0 +1,46 @@
+---
+title: 构建能力
+sidebar_position: 2
+---
+
+**Modern.js 的构建能力由 [Modern.js Builder](https://modernjs.dev/builder) 提供。**
+
+Modern.js Builder 是 Modern.js 体系的核心组件之一，它是一个面向现代 Web 开发场景的构建引擎，可以脱离 Modern.js 被独立使用。Modern.js Builder 同时支持 webpack 和 rspack 等多种打包工具，默认情况下使用最成熟的 webpack 进行打包。
+
+## 构建架构
+
+从构建的角度看，Modern.js 分为三层架构，从上到下依次是：
+
+- 上层研发框架：Modern.js。
+- 通用构建引擎：Modern.js Builder。
+- 底层打包工具：webpack 和 rspack。
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-1117.png" style={{ maxWidth: '540px' }} />
+
+## 构建文档
+
+由于 Modern.js Builder 是一个可独立使用的模块，我们为它提供了单独的文档，文档地址为：[modernjs.dev/builder](https://modernjs.dev/builder)。
+
+在该文档中，你可以了解到 Modern.js Builder 的详细介绍，同时也可以找到各个构建能力的完整使用指南。当你遇到构建方面的需求或问题时，建议你优先阅读 Modern.js Builder 文档来解决。
+
+## 构建配置
+
+Modern.js 的配置继承自 Modern.js Builder，因此你可以在 Modern.js 中使用 Modern.js Builder 提供的所有构建配置。
+
+以 Modern.js Builder 的 `html.title` 配置项为例，你可以直接在 `modern.config.ts` 文件中使用该配置项，它会被自动传递给 Modern.js Builder。
+
+```ts title="modern.config.js"
+export default defineConfig({
+  html: {
+    title: 'example',
+  },
+});
+```
+
+关于构建配置的详细说明，请参考 [「Modern.js Builder - Builder 配置」](https://modernjs.dev/builder/zh/guide/basic/builder-config.html)。
+
+## 构建能力
+
+Modern.js Builder 提供了丰富的构建能力，包括 JavaScript 编译、CSS 编译、静态资源处理、代码热更新、代码压缩、TS 类型检查等几十种能力。
+
+我们推荐你阅读 [「Modern.js Builder - 功能导航」](https://modernjs.dev/builder/zh/guide/features.html) 来了解 Modern.js Builder 提供的所有构建能力。

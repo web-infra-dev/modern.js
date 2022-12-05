@@ -2,7 +2,13 @@ import type { NormalizedConfig } from '@modern-js/core';
 
 const allowedFeatures = ['router', 'state'];
 
-export default function resolvePlugins(features: NormalizedConfig['runtime']) {
+export default function resolvePlugins(
+  features: NormalizedConfig<{
+    normalizedConfig: {
+      runtime: any;
+    };
+  }>['runtime'],
+) {
   const plugins: any[] = [];
 
   if (!features) {

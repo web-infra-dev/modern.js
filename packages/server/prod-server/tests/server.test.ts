@@ -1,12 +1,24 @@
 import path from 'path';
 import { EventEmitter, Readable } from 'stream';
-import { getDefaultConfig } from '@modern-js/core';
+// import { getDefaultConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
 import httpMocks from 'node-mocks-http';
 import portfinder from 'portfinder';
 import createServer, { Server } from '../src';
 import { ModernServer } from '../src/server/modern-server';
 import { createContext } from '../src/libs/context';
+
+function getDefaultConfig() {
+  return {
+    html: {},
+    output: {},
+    source: {},
+    tools: {},
+    server: {},
+    runtime: {},
+    bff: {},
+  };
+}
 
 const appDirectory = path.join(__dirname, './fixtures/pure');
 describe('test server', () => {
@@ -23,7 +35,7 @@ describe('test server', () => {
 
   test('shoule get modern server instance', async () => {
     const server = await createServer({
-      config: getDefaultConfig() as any,
+      config: getDefaultConfig(),
       pwd: appDirectory,
     });
     const port = await portfinder.getPortPromise();
@@ -55,7 +67,10 @@ describe('test server', () => {
       expect(pwd).toBe(appDirectory);
       expect(distDir).toBe(path.join(appDirectory, 'dist'));
       expect(workDir).toBe(distDir);
-      expect(conf).toEqual(getDefaultConfig());
+      expect(conf).toEqual({
+        ...getDefaultConfig(),
+        plugins: [],
+      });
       expect(handlers).toBeDefined();
       expect(isDev).toBeFalsy();
       expect(staticGenerate).toBeFalsy();

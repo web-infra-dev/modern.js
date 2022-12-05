@@ -1,10 +1,10 @@
 import { PluginAPI } from '@modern-js/core';
 import { ModuleContext } from '../types/context';
-import { BuildCommandOptions, ModuleToolsHooks } from '../types';
+import { BuildCommandOptions, ModuleTools } from '../types';
 
 export const buildPlatform = async (
   options: BuildCommandOptions,
-  api: PluginAPI<ModuleToolsHooks>,
+  api: PluginAPI<ModuleTools>,
   context: ModuleContext,
 ) => {
   const { chalk } = await import('@modern-js/utils');

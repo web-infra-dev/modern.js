@@ -1,7 +1,9 @@
 import { defineConfig } from 'islandjs';
 import { createRequire } from 'module';
+import { remarkCodeHike } from "@code-hike/mdx";
 
 const require = createRequire(import.meta.url);
+const theme = require("shiki/themes/nord.json")
 const version = require('../../package.json').version;
 
 function getI18nHelper(lang: 'zh' | 'en') {
@@ -25,7 +27,17 @@ export default defineConfig({
   },
   markdown: {
     rehypePlugins: [],
-    remarkPlugins: []
+    remarkPlugins: [
+      [
+        remarkCodeHike,
+        {
+          theme,
+          autoImport: true,
+          showCopyButton: true,
+          enableSpa: true
+        }
+      ],
+    ],
   },
   route: {
     exclude: ['custom.tsx', '**/fragments/**']
@@ -87,11 +99,15 @@ function getSidebar(lang: 'zh' | 'en') {
   return {
     [getLink('/guide/')]: [
       {
-        text: getText('介绍', 'Getting Started'),
+        text: getText('介绍', 'Introduction'),
         items: [
           {
             text: getText('欢迎使用', 'WelCome'),
             link: getLink('/guide/welcome')
+          },
+          {
+            text: getText('为什么需要模块工程解决方案', 'Why module project solution'),
+            link: getLink('/guide/why-module-engineering-solution')
           },
           {
             text: getText('快速开始', 'Getting Started'),
@@ -107,24 +123,28 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/before-getting-started')
           },
           {
-            text: getText('命令一览', 'Command preview'),
+            text: getText('命令预览', 'Command preview'),
             link: getLink('/guide/command-preview')
           },
           {
-            text: getText('构建你的项目', 'Build your project'),
-            link: getLink('/guide/build-your-project')
+            text: getText('修改输出产物', 'Modify output product'),
+            link: getLink('/guide/modify-output-product')
           },
           {
-            text: getText('测试你的项目', 'Test your project'),
+            text: getText('使用微生成器', 'Use Micro generator'),
+            link: getLink('/guide/use-micro-generator')
+          },
+          {
+            text: getText('使用 Storybook', 'Using Storybook'),
+            link: getLink('/guide/using-storybook')
+          },
+          {
+            text: getText('测试项目', 'Test project'),
             link: getLink('/guide/test-your-project')
           },
           {
-            text: getText('发布你的项目', 'Publish your project'),
+            text: getText('发布项目', 'Publish project'),
             link: getLink('/guide/publish-your-project')
-          },
-          {
-            text: getText('开启新能力', 'Enable new feature'),
-            link: getLink('/guide/enable-new-feature')
           },
           {
             text: getText('为你的项目构建UI(可选)', 'Build your UI(optional)'),
@@ -147,24 +167,28 @@ function getSidebar(lang: 'zh' | 'en') {
         text: getText('配置项', 'Config'),
         items: [
           {
-            text: getText('构建配置', 'Build Config'),
-            link: getLink('/api/config-build')
+            text: getText('BuildConfig', 'BuildConfig'),
+            link: getLink('/api/build-config')
           },
           {
-            text: getText('调试配置', 'Dev Config'),
-            link: getLink('/api/config-dev')
+            text: getText('BuildPreset', 'BuildPreset'),
+            link: getLink('/api/build-preset')
           },
           {
-            text: getText('测试配置', 'Test Config'),
-            link: getLink('/api/config-test')
+            text: getText('Dev', 'Dev'),
+            link: getLink('/api/dev')
           },
           {
-            text: getText('插件配置', 'Plugin Config'),
-            link: getLink('/api/config-plugin')
+            text: getText('Test', 'Test'),
+            link: getLink('/api/test')
           },
           {
-            text: getText('主题配置', 'Design System Config'),
-            link: getLink('/api/config-design-system')
+            text: getText('Plugin', 'Plugin'),
+            link: getLink('/api/plugin')
+          },
+          {
+            text: getText('DesignSystem', 'DesignSystem'),
+            link: getLink('/api/design-system')
           },
         ]
       },
@@ -178,7 +202,7 @@ function getNavbar(lang: 'zh' | 'en') {
   return [
     {
       text: getText('指南', 'Guide'),
-      link: getLink('/guide/getting-started'),
+      link: getLink('/guide/welcome'),
       activeMatch: '/guide/'
     },
     {

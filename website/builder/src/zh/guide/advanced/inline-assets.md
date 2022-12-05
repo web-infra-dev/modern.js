@@ -40,7 +40,7 @@ export default function Foo() {
 import img from './foo.png?__inline';
 ```
 
-### CSS 文件
+### 从 CSS 文件中引用
 
 当你在 CSS 文件中引用静态资源时，同样可以通过 `inline` 或 `__inline` 参数来强制内联资源。
 
@@ -75,7 +75,7 @@ export default function Foo() {
 import img from './foo.png?__inline=false';
 ```
 
-### CSS 文件
+### 从 CSS 文件中引用
 
 当你在 CSS 文件中引用静态资源时，同样可以通过 `url` 或 `__inline=false` 参数来强制不内联资源。
 
@@ -88,3 +88,35 @@ import img from './foo.png?__inline=false';
 :::tip 你真的需要把资源排除内联吗？
 将资源排除内联将增加 Web App 需要加载的资源数量，这对于弱网环境，或是未开启 HTTP2 的场景下，将会降低资源加载效率，因此，请酌情使用强制不内联。
 :::
+
+## 内联 JS 文件
+
+除了将静态资源文件内联到 JS 文件里，Builder 也支持将 JS 文件内联到 HTML 文件中。
+
+只需要开启 [output.enableInlineScripts](/zh/api/config-output.html#output-enableinlinescripts) 配置项，构建生成的 JS 文件将不会被写入产物目录下，而是会直接内联到对应的 HTML 文件中。
+
+```ts
+export default {
+  output: {
+    enableInlineScripts: true,
+  },
+};
+```
+
+:::tip
+内联 JS 文件可能会导致 HTML 单文件体积过大，并且不利于静态资源缓存，请酌情使用。
+:::
+
+## 内联 CSS 文件
+
+你也可以将 CSS 文件内联到 HTML 文件中。
+
+只需要开启 [output.enableInlineStyles](/zh/api/config-output.html#output-enableinlinestyles) 配置项，构建生成的 CSS 文件将不会被写入产物目录下，而是会直接内联到对应的 HTML 文件中。
+
+```ts
+export default {
+  output: {
+    enableInlineStyles: true,
+  },
+};
+```

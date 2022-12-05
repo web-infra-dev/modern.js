@@ -178,16 +178,6 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
-    packageDir: 'cli/core',
-    packageName: '@modern-js/core',
-    dependencies: [
-      {
-        name: 'v8-compile-cache',
-        ignoreDts: true,
-      },
-    ],
-  },
-  {
     packageDir: 'builder/builder-webpack-provider',
     packageName: '@modern-js/builder-webpack-provider',
     dependencies: [
@@ -440,6 +430,82 @@ export const TASKS: TaskConfig[] = [
         name: 'webpack-subresource-integrity',
         externals: {
           'html-webpack-plugin': 'html-webpack-plugin',
+        },
+      },
+    ],
+  },
+  {
+    packageDir: 'builder/builder-rspack-provider',
+    packageName: '@modern-js/builder-rspack-provider',
+    dependencies: [
+      'webpack-merge',
+      {
+        name: 'pretty-time',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-value-parser',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-custom-properties',
+        ignoreDts: true,
+        externals: {
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'postcss-flexbugs-fixes',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-font-variant',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-initial',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-media-minmax',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-nesting',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-page-break',
+        ignoreDts: true,
+      },
+      {
+        name: 'autoprefixer',
+        ignoreDts: true,
+        externals: {
+          browserslist: '@modern-js/utils/browserslist',
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'less',
+        externals: {
+          // needle is an optional dependency and no need to bundle it.
+          needle: 'needle',
+        },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
+            content.replace(
+              `declare module "less" {\n    export = less;\n}`,
+              `export = Less;`,
+            ),
+          );
+        },
+      },
+      {
+        name: '@rspack/less-loader',
+        ignoreDts: true,
+        externals: {
+          less: '../less',
         },
       },
     ],

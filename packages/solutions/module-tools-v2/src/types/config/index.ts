@@ -1,16 +1,17 @@
 import type {
-  UserConfig as UserConfig_,
-  NewPluginConfig,
-} from '@modern-js/core';
-import type {
   UserConfig as LibuildUserConfig,
   Asset as LibuildAsset,
+  Style as LibuildStyle,
 } from '@modern-js/libuild';
-import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build-presets';
 import type { CopyConfig } from '../copy';
-import type { LessConfig, SassConfig, PostCSSConfig } from './style';
+import type {
+  LessConfig,
+  SassConfig,
+  PostCSSConfig,
+  TailwindCSSConfig,
+} from './style';
 
 export * from './style';
 
@@ -65,8 +66,15 @@ export type AliasOption =
   | Record<string, string>
   | ((aliases: Record<string, string>) => Record<string, string> | void);
 
-export type BaseBuildConfig = Omit<Required<PartialBaseBuildConfig>, 'dts'> & {
+export type BaseBuildConfig = Omit<
+  Required<PartialBaseBuildConfig>,
+  'dts' | 'style' | 'alias'
+> & {
   dts: false | DTSOptions;
+  style: Omit<Required<LibuildStyle>, 'cleanCss'> & {
+    tailwindCss: TailwindCSSConfig;
+  };
+  alias: Record<string, string>;
 };
 
 export type PartialBaseBuildConfig = {
@@ -87,10 +95,10 @@ export type PartialBaseBuildConfig = {
   minify?: LibuildUserConfig['minify'];
   externals?: LibuildUserConfig['external'];
   autoExternal?: AutoExternal;
-  entryNames?: LibuildUserConfig['entryNames'];
   umdGlobals?: LibuildUserConfig['globals'];
   umdModuleName?: ((chunkName: string) => string) | string | undefined;
   define?: LibuildUserConfig['define'];
+  style?: StyleConfig;
 };
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];
@@ -104,18 +112,19 @@ export type BuildPreset =
       preset: typeof BuildInPreset;
     }) => PartialBuildConfig | Promise<PartialBuildConfig>);
 
-export interface ToolsConfig {
+export interface StyleConfig {
   less?: LessConfig;
   sass?: SassConfig;
   postcss?: PostCSSConfig;
+  autoModules?: LibuildStyle['autoModules'];
+  modules?: LibuildStyle['modules'];
+  inject?: LibuildStyle['inject'];
   /**
    * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
    * @requires `tailwindcss` plugin
    */
-  tailwindcss?:
-    | Record<string, any>
-    | ((options: Record<string, any>) => Record<string, any> | void);
+  tailwindcss?: TailwindCSSConfig;
 }
 
 export interface StorybookDevConfig {
@@ -125,7 +134,7 @@ export interface Dev {
   storybook: StorybookDevConfig;
 }
 
-export interface UserConfig {
+export interface ModuleExtraConfig {
   designSystem?: Record<string, any>;
 
   buildConfig?: PartialBuildConfig;
@@ -133,15 +142,4 @@ export interface UserConfig {
   buildPreset?: BuildPreset;
 
   dev?: DeepPartial<Dev>;
-
-  tools?: Partial<ToolsConfig>;
-
-  plugins?: NewPluginConfig<ModuleToolsHooks>;
-
-  testing?: Pick<UserConfig_, 'testing'>;
 }
-
-export type Config =
-  | UserConfig
-  | Promise<UserConfig>
-  | ((env: any) => UserConfig | Promise<UserConfig>);

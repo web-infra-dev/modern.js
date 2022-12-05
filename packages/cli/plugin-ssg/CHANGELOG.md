@@ -1,5 +1,31 @@
 # @modern-js/plugin-ssg
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/utils@2.0.0-beta.2
+
 ## 2.0.0-beta.1
 
 ### Major Changes

@@ -9,16 +9,22 @@ sidebar_position: 7
 
 ## 添加自定义行为
 
-当 `index` 文件默认导出**函数**是，Modern.js 还是会根据 `runtime.features` 的设置情况生成 `createApp` 包裹后的代码。在渲染过程中，将 `createApp` 包裹后的组件作为参数传递给 `index` 文件导出的函数，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
+当 `index` 文件默认导出**函数**是，Modern.js 还是会根据 `runtime` 的设置情况生成 `createApp` 包裹后的代码。在渲染过程中，将 `createApp` 包裹后的组件作为参数传递给 `index` 文件导出的函数，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
 
 ```js title=src/index.jsx
+import ReactDOM from 'react-dom/client'
 import { bootstrap } from '@modern-js/runtime';
+
 
 export default App => {
   // do something before bootstrap...
-  bootstrap(App, 'root');
+  bootstrap(App, 'root', undefined, ReactDOM);
 };
 ```
+
+:::warning
+由于 bootstrap 函数需要兼容 React17 和 React18 的用法，调用 bootstrap 函数时需要手动传入 ReactDOM 参数。
+:::
 
 Modern.js 生成的文件内容如下：
 

@@ -20,29 +20,7 @@ function useStore(): ReduckStore;
 
 - ReduckStore：Reduck Store，类型参考 [createStore](./create-store.md) 返回值。
 
-## 示例
-
-```ts
-// 保证 getStore 在组件树挂载完成后执行
-setTimeout(() => {
-  const store = getStore();
-  const [, actions] = store.use(countModel);
-  setInterval(() => {
-    actions.add();
-  }, 1000);
-}, 1000);
-
-function Counter() {
-  const [state] = useModel(countModel);
-
-  return (
-    <div>
-      <div>counter: {state.value}</div>
-    </div>
-  );
-}
-```
 
 :::info 更多参考
-[使用 Model](/docs/guides/topic-detail/model/use-model)
+[使用 Model](/docs/guides/topic-detail/model/use-model#在组件外使用)
 :::

@@ -375,11 +375,6 @@
     },
     "eslint.alwaysShowStatus": true,
     "eslint.run": "onType",
-    "eslint.options": {
-      "rules": {
-        "no-debugger": "off"
-      }
-    },
     "eslint.probe": [
       "javascript",
       "javascriptreact",

@@ -19,7 +19,7 @@ Builder 底层支持 webpack 和 rspack 等 bundler，并提供统一的 Node.js
 
 插件提供类似 `(options?: PluginOptions) => BuilderPlugin` 的函数作为入口。
 
-```typescript
+```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
 export interface PluginFooOptions {
@@ -71,7 +71,7 @@ Builder 不会接管底层 Bundler 的生命周期，相关生命周期钩子的
 
 整套流程可以通过这个简单的插件体现：
 
-```typescript
+```ts
 export const PluginUploadDist = (): BuilderPlugin => ({
   name: 'plugin-upload-dist',
   setup(api) {
@@ -106,7 +106,7 @@ export const PluginUploadDist = (): BuilderPlugin => ({
 
 归一化的配置项会再次合并默认值并移除大部分可选类型，对于 `PluginUploadDist` 的例子其部分类型定义为：
 
-```typescript
+```ts
 api.modifyBuilderConfig((config: BuilderConfig) => {});
 api.getBuilderConfig() as BuilderConfig;
 type BuilderConfig = {
@@ -151,7 +151,7 @@ Builder 使用的是兼容 webpack5 的修改版本：[sorrycc/webpack-chain](ht
 
 Loader 可以读取和处理不同类型的文件模块，具体参考 [concepts](https://webpack.js.org/concepts/loaders) 和 [loaders](https://webpack.js.org/loaders/)。
 
-```typescript
+```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
 export const PluginTypeScriptExt = (): BuilderPlugin => ({
@@ -169,7 +169,7 @@ export const PluginTypeScriptExt = (): BuilderPlugin => ({
 
 ### 添加模块入口
 
-```typescript
+```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
 export const PluginAdminPanel = (): BuilderPlugin => ({
@@ -188,7 +188,7 @@ export const PluginAdminPanel = (): BuilderPlugin => ({
 
 开发者可以在 Builder 插件中接入已有的 webpack 插件来平缓迁移项目：
 
-```typescript
+```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import type { Options } from '@modern-js/inspector-webpack-plugin';
 
@@ -200,7 +200,7 @@ export const PluginInspector = (options?: Options): BuilderPlugin => ({
       const { InspectorWebpackPlugin } = await import(
         '@modern-js/inspector-webpack-plugin'
       );
-      // 修改 Webpack Chain 接入插件
+      // 修改 webpack chain 接入插件
       chain
         .plugin('inspector-webpack-plugin')
         .use(InspectorWebpackPlugin, [inspectorOptions]);

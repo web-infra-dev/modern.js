@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -11,6 +11,7 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@modern-js/tsconfig": "workspace:*",
+    "@rspack/less-loader": "0.0.0-11afc8e36-20221128093256",
     "@scripts/build": "workspace:*",
     "@types/node": "^14",
     "@vercel/ncc": "0.33.3",

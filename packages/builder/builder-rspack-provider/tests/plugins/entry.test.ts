@@ -17,7 +17,7 @@ describe('plugins/entry', () => {
     expect(bundlerConfigs[0]).toMatchInlineSnapshot(`
       {
         "entry": {
-          "main": "./src/main.ts",
+          "main": "src/main.ts",
         },
       }
     `);
@@ -39,12 +39,12 @@ describe('plugins/entry', () => {
       {
         "entry": {
           "bar": [
-            "./src/polyfill.ts",
-            "./src/bar.ts",
+            "src/polyfill.ts",
+            "src/bar.ts",
           ],
           "foo": [
-            "./src/polyfill.ts",
-            "./src/foo.ts",
+            "src/polyfill.ts",
+            "src/foo.ts",
           ],
         },
       }
@@ -72,13 +72,13 @@ describe('plugins/entry', () => {
       {
         "entry": {
           "bar": [
-            "./src/pre-entry.ts",
-            "./src/bar.ts",
+            "src/pre-entry.ts",
+            "src/bar.ts",
           ],
           "foo": [
-            "./src/pre-entry.ts",
-            "./src/polyfill.ts",
-            "./src/foo.ts",
+            "src/pre-entry.ts",
+            "src/polyfill.ts",
+            "src/foo.ts",
           ],
         },
       }

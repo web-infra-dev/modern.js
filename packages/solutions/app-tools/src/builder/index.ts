@@ -8,26 +8,23 @@ import {
   BuilderConfig,
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext } from '@modern-js/core';
 import { applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
-
+import type { AppNormalizedConfig } from '../types';
 import {
   PluginCompatModernOptions,
   PluginCompatModern,
 } from './builderPlugins/compatModern';
-import { createHtmlConfig } from './createHtmlConfig';
-import { createOutputConfig } from './createOutputConfig';
-import { createSourceConfig } from './createSourceConfig';
-import { createToolsConfig } from './createToolsConfig';
+import { createCopyPattern } from './share';
 
 export type BuilderOptions = {
   target?: BuilderTarget | BuilderTarget[];
-  normalizedConfig: NormalizedConfig;
+  normalizedConfig: AppNormalizedConfig;
   appContext: IAppContext;
   compatPluginConfig?: PluginCompatModernOptions;
 };
 
-function getBuilderTargets(normalizedConfig: NormalizedConfig) {
+function getBuilderTargets(normalizedConfig: AppNormalizedConfig) {
   const targets: BuilderTarget[] = ['web'];
   if (
     normalizedConfig.output.enableModernMode &&
@@ -48,12 +45,14 @@ export async function createBuilderForEdenX({
   appContext,
   compatPluginConfig,
 }: BuilderOptions) {
+  // create webpack provider
   const builderConfig = createBuilderProviderConfig(
     normalizedConfig,
     appContext,
   );
-  // create webpack provider
-  const webpackProvider = builderWebpackProvider({ builderConfig });
+  const webpackProvider = builderWebpackProvider({
+    builderConfig,
+  });
 
   const target = getBuilderTargets(normalizedConfig);
   const builderOptions = createBuilderOptions(target, appContext);
@@ -69,29 +68,49 @@ export async function createBuilderForEdenX({
   return builder;
 }
 
-function createBuilderProviderConfig(
-  normalizedConfig: NormalizedConfig,
+export function createBuilderProviderConfig(
+  normalizedConfig: AppNormalizedConfig,
   appContext: IAppContext,
 ): BuilderConfig {
-  const source = createSourceConfig(normalizedConfig, appContext);
-  const html = createHtmlConfig(normalizedConfig, appContext);
   const output = createOutputConfig(normalizedConfig, appContext);
-  const tools = createToolsConfig(normalizedConfig);
-
   return {
-    source,
-    html,
+    ...normalizedConfig,
+    source: {
+      ...normalizedConfig.source,
+      resolveExtensionPrefix: '.web',
+    },
     output,
-    tools,
     dev: {
       https: normalizedConfig.dev.https,
       assetPrefix: normalizedConfig.dev.assetPrefix,
     },
+    html: {
+      ...normalizedConfig.html,
+      templateByEntries:
+        normalizedConfig.html.templateByEntries || appContext.htmlTemplates,
+    },
     performance: {
+      ...normalizedConfig.performance,
       // `@modern-js/webpack` used to remove moment locale by default
       removeMomentLocale: true,
     },
   };
+
+  function createOutputConfig(
+    config: AppNormalizedConfig,
+    appContext: IAppContext,
+  ) {
+    const defaultCopyPattern = createCopyPattern(appContext, config, 'upload');
+    const { copy } = config.output;
+    const copyOptions = Array.isArray(copy) ? copy : copy?.patterns;
+    const builderCopy = [...(copyOptions || []), defaultCopyPattern];
+    return {
+      ...config.output,
+      copy: builderCopy,
+      // We need to do this in the app-tools prepare hook because some files will be generated into the dist directory in the analyze process
+      cleanDistPath: false,
+    };
+  }
 }
 
 export function createBuilderOptions(
@@ -128,7 +147,7 @@ export function createBuilderOptions(
  */
 async function applyBuilderPlugins(
   builder: BuilderInstance,
-  normalizedConfig: NormalizedConfig,
+  normalizedConfig: AppNormalizedConfig,
   appContext: IAppContext,
   compatPluginConfig?: PluginCompatModernOptions,
 ) {
@@ -145,7 +164,7 @@ async function applyBuilderPlugins(
     builder.addPlugins([
       PluginEsbuild({
         loader: false,
-        minimize: applyOptionsChain({}, esbuildOptions),
+        minimize: applyOptionsChain<any, any>({}, esbuildOptions),
       }),
     ]);
   }

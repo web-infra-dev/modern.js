@@ -1,16 +1,14 @@
 import path from 'path';
 import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import type {
-  CliHookCallbacks,
-  CliPlugin,
-  useConfigContext,
-} from '@modern-js/core';
+import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { logger } from '../util';
 import {
   getRuntimeConfig,
   makeProvider,
   makeRenderFunction,
   setRuntimeConfig,
+  generateAsyncEntry,
 } from './utils';
 
 export type UseConfig = ReturnType<typeof useConfigContext>;
@@ -45,7 +43,7 @@ export default ({
   pluginName = '@modern-js/plugin-garfish',
   runtimePluginName = '@modern-js/runtime/plugins',
   mfPackagePath = path.resolve(__dirname, '../../../../'),
-} = {}): CliPlugin => ({
+} = {}): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-garfish',
   setup: ({ useAppContext, useResolvedConfigContext, useConfigContext }) => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
@@ -100,7 +98,7 @@ export default ({
           'index',
         );
 
-        let disableCssExtract = useConfig.output?.disableCssExtract ?? false;
+        let disableCssExtract = useConfig.output?.disableCssExtract || false;
 
         // When the micro-frontend application js entry, there is no need to extract css, close cssExtract
         if (useConfig.deploy?.microFrontend) {
@@ -189,7 +187,7 @@ export default ({
         pluginsExportsUtils.addExport(addExportStatement);
         runtimeExportsUtils.addExport(`export * from '${mfPackagePath}'`);
       },
-      modifyEntryImports({ entrypoint, imports }: any) {
+      modifyEntryImports({ entrypoint, imports }) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useResolvedConfigContext();
         const { masterApp } = getRuntimeConfig(config);
@@ -233,7 +231,7 @@ export default ({
         });
         return { imports, entrypoint };
       },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
+      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useResolvedConfigContext();
         const { masterApp } = getRuntimeConfig(config);
@@ -250,7 +248,7 @@ export default ({
         }
         return { entrypoint, plugins };
       },
-      modifyEntryRenderFunction({ entrypoint, code }: any) {
+      modifyEntryRenderFunction({ entrypoint, code }) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useResolvedConfigContext();
         if (!config?.deploy?.microFrontend) {
@@ -261,6 +259,22 @@ export default ({
         return {
           entrypoint,
           code: nCode,
+        };
+      },
+      modifyAsyncEntry({ entrypoint, code }) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const config = useResolvedConfigContext();
+        let finalCode = code;
+        if (config?.deploy?.microFrontend && config?.source?.enableAsyncEntry) {
+          finalCode = generateAsyncEntry(code);
+          return {
+            entrypoint,
+            code: `${finalCode}`,
+          };
+        }
+        return {
+          entrypoint,
+          code: finalCode,
         };
       },
       modifyEntryExport({ entrypoint, exportStatement }: any) {

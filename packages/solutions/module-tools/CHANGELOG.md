@@ -1,5 +1,56 @@
 # @modern-js/module-tools
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- d61ca88: update speedy version
+  更新依赖里 speedy 的版本
+- b8bbe036c7: feat: export Hooks type
+  feat: 导出 Hooks 类型
+- ebbeed1: update speedy-core to fix sass resolve error
+  更新 speedy-core 版本以修复 sass resolve 错误
+- d4a4566: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [85edee888c]
+- Updated dependencies [92f0ead]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [d4a4566]
+- Updated dependencies [92004d1]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [f179749]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/core@2.0.0-beta.2
+  - @modern-js/utils@2.0.0-beta.2
+  - @modern-js/plugin-lint@2.0.0-beta.2
+  - @modern-js/plugin@2.0.0-beta.2
+  - @modern-js/babel-preset-module@2.0.0-beta.2
+  - @modern-js/plugin-changeset@2.0.0-beta.2
+  - @modern-js/plugin-i18n@2.0.0-beta.2
+  - @modern-js/new-action@2.0.0-beta.2
+  - @modern-js/babel-compiler@2.0.0-beta.2
+  - @modern-js/style-compiler@2.0.0-beta.2
+  - @modern-js/upgrade@2.0.0-beta.2
+
 ## 2.0.0-beta.1
 
 ### Major Changes
