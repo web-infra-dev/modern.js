@@ -1,5 +1,6 @@
 import path from 'path';
 import { normalizeToPosixPath } from './path';
+import { MAIN_ENTRY_NAME } from './constants';
 
 export const getPathWithoutExt = (filename: string) => {
   const extname = path.extname(filename);
@@ -15,6 +16,11 @@ export const getRouteId = (
     path.relative(routesDir, componentPath),
   );
   const pathWithoutExt = getPathWithoutExt(relativePath);
-  const id = `${entryName}_${pathWithoutExt}`;
+  let id = ``;
+  if (entryName === MAIN_ENTRY_NAME) {
+    id = pathWithoutExt;
+  } else {
+    id = `${entryName}_${pathWithoutExt}`;
+  }
   return id;
 };

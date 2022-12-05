@@ -245,7 +245,16 @@ export const handleRequest = async ({
       request,
       loadContext: {},
     });
-    // TODO: 处理 redirect
+    if (isRedirectResponse(response)) {
+      const headers = new Headers(response.headers);
+      headers.set('X-Modernjs-Redirect', headers.get('Location')!);
+      headers.delete('Location');
+
+      response = new NodeResponse(null, {
+        status: 204,
+        headers,
+      });
+    }
   } catch (error) {
     const message = String(error);
     response = new NodeResponse(message, {
