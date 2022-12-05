@@ -28,7 +28,9 @@ function applyRemoveConsole(
       drop_console: true,
     };
   } else if (Array.isArray(removeConsole)) {
-    const pureFuncs = removeConsole.map(method => `console.${method}`);
+    const pureFuncs = removeConsole
+      .filter(Boolean)
+      .map(method => `console.${method}`);
     options.terserOptions.compress = {
       ...compressOptions,
       pure_funcs: pureFuncs,
