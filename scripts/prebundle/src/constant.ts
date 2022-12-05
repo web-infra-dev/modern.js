@@ -1,6 +1,6 @@
 import { basename, join } from 'path';
 import glob from 'fast-glob';
-import { copyFileSync, copySync } from 'fs-extra';
+import fs, { copyFileSync, copySync } from 'fs-extra';
 import { replaceFileContent } from './helper';
 import type { TaskConfig } from './types';
 
@@ -961,6 +961,15 @@ export const TASKS: TaskConfig[] = [
   {
     packageDir: 'builder/friendly-errors-webpack-plugin',
     packageName: '@modern-js/friendly-errors-webpack-plugin',
-    dependencies: ['stacktracey'],
+    dependencies: [
+      {
+        name: 'stacktracey',
+        beforeBundle(task) {
+          let content = fs.readFileSync(task.depEntry, 'utf-8');
+          content = content.replace(/nodeRequire\s*\((.+?)\)/g, 'require($1)');
+          fs.writeFileSync(task.depEntry, content, 'utf-8');
+        },
+      },
+    ],
   },
 ];
