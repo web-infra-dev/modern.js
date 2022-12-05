@@ -132,6 +132,20 @@ export default {
 };
 ```
 
+Note that Babel cannot compile CommonJS modules by default. When you use `source.include` to compile CommonJS modules, you need to set Babel's `sourceType` config to `unambiguous`:
+
+```ts
+export default {
+  tools: {
+    babel(config) {
+      config.sourceType = 'unambiguous';
+    },
+  },
+};
+```
+
+Setting `sourceType` to `unambiguous` may have some other effects, please refer to [Babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
+
 #### addExcludes
 
 Contrary to `addIncludes`, specifies that certain files are excluded from Babel's compilation.

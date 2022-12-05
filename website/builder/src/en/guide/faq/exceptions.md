@@ -88,6 +88,72 @@ Error: ES Modules may not assign module.exports or exports.*, Use ESM export syn
 
 For more information, please refer to issue: [babel#12731](https://github.com/babel/babel/issues/12731).
 
+## The compilation progress bar is stuck, but there is no Error log in the terminal?
+
+When the compilation progress bar is stuck, but there is no Error log on the terminal, it is usually because an exception occurred during the compilation. In some cases, when Error is caught by webpack or other modules, the error log can not be output correctly. The most common scenario is that there is an exception in the Babel config, which is caught by webpack, and webpack swallows the Error in some cases.
+
+**Solution:**
+
+If this problem occurs after you modify the Babel config, it is recommended to check for the following incorrect usages:
+
+1. You have configured a plugin or preset that does not exist, maybe the name is misspelled, or it is not installed correctly.
+
+```ts
+// wrong example
+export default {
+  tools: {
+    babel(config, { addPlugins }) {
+      // The plugin has the wrong name or is not installed
+      addPlugins('babel-plugin-not-exists');
+    },
+  },
+};
+```
+
+2. Whether multiple babel-plugin-imports are configured, but the name of each babel-plugin-import is not declared in the third item of the array.
+
+```ts
+// wrong example
+export default {
+  tools: {
+    babel(config, { addPlugins }) {
+      addPlugins([
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd', libraryDirectory: 'es' },
+        ],
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd-mobile', libraryDirectory: 'es' },
+        ],
+      ]);
+    },
+  },
+};
+```
+
+```ts
+// correct example
+export default {
+  tools: {
+    babel(config, { addPlugins }) {
+      addPlugins([
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd', libraryDirectory: 'es' },
+          'antd',
+        ],
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd-mobile', libraryDirectory: 'es' },
+          'antd-mobile',
+        ],
+      ]);
+    },
+  },
+};
+```
+
 ## React component state lost after HMR?
 
 Builder uses React's official [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) capability for component hot update.

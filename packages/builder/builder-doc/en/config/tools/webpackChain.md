@@ -128,13 +128,13 @@ export default {
 The HtmlWebpackPlugin instance:
 
 ```js
-export default defineConfig({
+export default {
   tools: {
     webpackChain: (chain, { HtmlWebpackPlugin }) => {
       console.log(HtmlWebpackPlugin);
     },
   },
-});
+};
 ```
 
 #### CHAIN_ID

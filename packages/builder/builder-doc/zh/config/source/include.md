@@ -17,7 +17,7 @@ export default {
 };
 ```
 
-#### 场景示例
+### 场景示例
 
 比较典型的使用场景是编译 node_modules 下的文件，因为某些第三方依赖存在 ES6+ 的语法，这可能导致在低版本浏览器上无法运行，你可以通过该选项指定需要编译的依赖，从而解决此类问题。以 `query-string` 为例，你可以做如下的配置：
 
@@ -42,7 +42,7 @@ export default {
 
 > 注意，该配置只会编译 `query-string` 自身的代码，不会编译 `query-string` 的**子依赖**。如果需要编译 `query-string` 的子依赖，则需要将对应的 npm 包也加入到 `source.include` 中。
 
-#### Monorepo 项目
+### Monorepo 项目
 
 使用 Monorepo 时，如果需要引用 Monorepo 中其他库的源代码，也可以直接在 `source.include` 进行配置:
 
@@ -64,3 +64,19 @@ export default {
   },
 };
 ```
+
+### 注意事项
+
+注意，Babel 默认无法编译 CommonJS 模块，当你使用 `source.include` 来编译 CommonJS 模块时，需要将 Babel 的 `sourceType` 配置设置为 `unambiguous`：
+
+```ts
+export default {
+  tools: {
+    babel(config) {
+      config.sourceType = 'unambiguous';
+    },
+  },
+};
+```
+
+将 `sourceType` 设置为 `unambiguous` 可能会产生一些其他影响，请参考 [Babel 官方文档](https://babeljs.io/docs/en/options#sourcetype)。
