@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@modern-js/builder-rspack-provider",
   "description": "Builder provider for rspack",
   "homepage": "https://modernjs.dev",
