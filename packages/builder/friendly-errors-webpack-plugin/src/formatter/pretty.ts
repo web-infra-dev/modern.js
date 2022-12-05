@@ -32,12 +32,12 @@ export const prettyFormatter: ErrorFormatter = e => {
   const errorName =
     e.type === 'error' ? chalk.red.bold(name) : chalk.yellow.bold(name);
   const connector = chalk.gray(':');
-  const title = `${errorSign} ${errorName}${connector} ${message}`;
-  const formattedStack = e.trace.map(formatTraceEntry).join('\n');
+  const ret = [];
+  ret.push(`${errorSign} ${errorName}${connector} ${message}\n`);
+  typeof e.details === 'string' && ret.push(`${e.details}\n`);
+  ret.push(e.trace.map(formatTraceEntry).join('\n'));
+  ret.push('\n');
 
-  let ret = `${title}\n${formattedStack}`;
-  if (e.causes.length) {
-    ret += `\n${prettyFormatter(e.causes[0])}`;
-  }
-  return ret;
+  e.causes.length && ret.push(`\n${prettyFormatter(e.causes[0])}`);
+  return ret.join('');
 };

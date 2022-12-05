@@ -8,6 +8,7 @@ export interface ParsedError<R extends Error = Error> extends Error {
   causes: ParsedError[];
   trace: TracingFrame[];
   isCause: boolean;
+  details?: unknown;
 }
 
 export interface WithSourcesMixin {
