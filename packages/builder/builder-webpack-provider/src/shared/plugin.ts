@@ -1,23 +1,8 @@
 import { BuilderPlugin } from '../types';
-
-interface AwaitablePluginGroup extends PromiseLike<BuilderPlugin[]> {
-  promises: Promise<BuilderPlugin>[];
-}
-
-/**
- * Make plugin loaders Awaitable.
- * @see {@link tests/shared/plugin.test.ts}
- */
-export const awaitablePlugins = (
-  promises: Promise<BuilderPlugin>[],
-): AwaitablePluginGroup => {
-  const then: PromiseLike<BuilderPlugin[]>['then'] = (...args) =>
-    Promise.all(promises).then(...args);
-  return { then, promises };
-};
+import { awaitableGetter } from '@modern-js/builder-shared';
 
 export const applyMinimalPlugins = () =>
-  awaitablePlugins([
+  awaitableGetter<BuilderPlugin>([
     import('../plugins/basic').then(m => m.PluginBasic()),
     import('../plugins/entry').then(m => m.PluginEntry()),
     import('../plugins/cache').then(m => m.PluginCache()),
@@ -28,7 +13,7 @@ export const applyMinimalPlugins = () =>
   ]);
 
 export const applyBasicPlugins = () =>
-  awaitablePlugins([
+  awaitableGetter<BuilderPlugin>([
     ...applyMinimalPlugins().promises,
     import('../plugins/copy').then(m => m.PluginCopy()),
     import('../plugins/html').then(m => m.PluginHtml()),
@@ -43,7 +28,7 @@ export const applyBasicPlugins = () =>
   ]);
 
 export const applyDefaultPlugins = () =>
-  awaitablePlugins([
+  awaitableGetter<BuilderPlugin>([
     ...applyMinimalPlugins().promises,
     import('../plugins/fileSize').then(m => m.PluginFileSize()),
     import('../plugins/cleanOutput').then(m => m.PluginCleanOutput()),
@@ -80,6 +65,7 @@ export const applyDefaultPlugins = () =>
     import('../plugins/assetsRetry').then(m => m.PluginAssetsRetry()),
     import('../plugins/externals').then(m => m.PluginExternals()),
     import('../plugins/performance').then(m => m.PluginPerformance()),
+    import('../plugins/lazyCompilation').then(m => m.PluginLazyCompilation()),
     import('../plugins/error').then(m => m.PluginFriendlyErrors()),
     import('../plugins/fallback').then(m => m.PluginFallback()), // fallback should be the last plugin
   ]);

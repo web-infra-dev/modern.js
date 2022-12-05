@@ -14,11 +14,10 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-plugin-esbuild": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@swc/cli": "^0.1.57",
     "@swc/core": "1.3.18",
-    "@swc/helpers": "0.4.12",
-    "core-js": "^3.25.0",
     "react": "^18",
     "react-dom": "^18"
   },

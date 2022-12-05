@@ -1,89 +1,36 @@
 import {
-  ToThreads,
-  ToRunners,
-  AsyncSetup,
-  PluginOptions,
-  AsyncWorkflow,
-  AsyncWaterfall,
-  ParallelWorkflow,
   createAsyncManager,
   createAsyncWorkflow,
   createAsyncWaterfall,
   createParallelWorkflow,
 } from '@modern-js/plugin';
-import type { Hooks } from './types';
-import type { Command } from './utils/commander';
-import type { NormalizedConfig } from './config/mergeConfig';
-import type { UserConfig } from './config';
-import { pluginAPI } from './pluginAPI';
+import { BaseHooks } from './types/hooks';
+import { BasePluginAPI } from './types';
+import {
+  setAppContext,
+  useAppContext,
+  useConfigContext,
+  useResolvedConfigContext,
+} from './context';
 
-export type HooksRunner = ToRunners<{
-  config: ParallelWorkflow<void, UserConfig>;
-  resolvedConfig: AsyncWaterfall<{
-    resolved: NormalizedConfig;
-  }>;
-  validateSchema: ParallelWorkflow<void>;
-  prepare: AsyncWorkflow<void, void>;
-  commands: AsyncWorkflow<
-    {
-      program: Command;
-    },
-    void
-  >;
-  watchFiles: ParallelWorkflow<void>;
-  fileChange: AsyncWorkflow<
-    {
-      filename: string;
-      eventType: 'add' | 'change' | 'unlink';
-    },
-    void
-  >;
-  beforeExit: AsyncWorkflow<void, void>;
-  beforeRestart: AsyncWorkflow<void, void>;
-}>;
-
-const baseHooks = {
-  config: createParallelWorkflow<void, UserConfig>(),
-  resolvedConfig: createAsyncWaterfall<{
-    resolved: NormalizedConfig;
-  }>(),
+// eslint-disable-next-line @typescript-eslint/ban-types
+const baseHooks: BaseHooks<{}> = {
+  config: createParallelWorkflow(),
+  resolvedConfig: createAsyncWaterfall(),
   validateSchema: createParallelWorkflow(),
-  prepare: createAsyncWorkflow<void, void>(),
-  commands: createAsyncWorkflow<
-    {
-      program: Command;
-    },
-    void
-  >(),
-  watchFiles: createParallelWorkflow(),
-  fileChange: createAsyncWorkflow<
-    {
-      filename: string;
-      eventType: 'add' | 'change' | 'unlink';
-    },
-    void
-  >(),
-  beforeExit: createAsyncWorkflow<void, void>(),
-  beforeRestart: createAsyncWorkflow<void, void>(),
+  prepare: createAsyncWorkflow(),
+  commands: createAsyncWorkflow(),
+  beforeExit: createAsyncWorkflow(),
+  addRuntimeExports: createAsyncWaterfall(),
+};
+// eslint-disable-next-line @typescript-eslint/ban-types
+const pluginAPI: BasePluginAPI<{}> = {
+  setAppContext,
+  useAppContext,
+  useConfigContext,
+  useResolvedConfigContext,
 };
 
-/** All hooks of cli plugin. */
-export type CliHooks = typeof baseHooks & Hooks;
-
-/** All hook callbacks of cli plugin. */
-export type CliHookCallbacks = ToThreads<CliHooks>;
-
-export const manager = createAsyncManager<CliHooks, typeof pluginAPI>(
-  baseHooks,
-  pluginAPI,
-);
-
-/** Plugin options of a cli plugin. */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type CliPlugin<ExtendHooks = {}> = PluginOptions<
-  CliHooks,
-  AsyncSetup<CliHooks & ExtendHooks, typeof pluginAPI>,
-  ExtendHooks
->;
+export const manager = createAsyncManager(baseHooks, pluginAPI);
 
 export const { createPlugin, registerHook, useRunner: mountHook } = manager;

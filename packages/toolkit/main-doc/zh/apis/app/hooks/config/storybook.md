@@ -1,11 +1,9 @@
 ---
-title: config/storybook/
+title: storybook/
 sidebar_position: 7
 ---
 
-应用工程方案 Storybook 配置文件。
-
-应用工程方案支持使用 Storybook 进行调试，当需要对 Storybook 进行配置时，需要在项目 config/storybook 目录进行配置。
+Modern.js 支持使用 Storybook 进行调试，当需要对 Storybook 进行配置时，需要在项目 config/storybook 目录进行配置。
 
 Storybook 配置请查看：[Storybook 配置](https://storybook.js.org/docs/react/configure/overview)
 

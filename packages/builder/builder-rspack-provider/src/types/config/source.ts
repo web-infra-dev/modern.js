@@ -1,18 +1,25 @@
 import type {
   SharedSourceConfig,
   NormalizedSharedSourceConfig,
+  ChainedConfig,
 } from '@modern-js/builder-shared';
 
-export interface SourceConfig extends SharedSourceConfig {
-  /**
-   * Create aliases to import or require certain modules,
-   */
-  alias?: Record<string, string>;
-}
+/**
+ * type: Record<string, string> | Function
+ *
+ * not support Record<string, string[]>
+ */
+type Alias = ChainedConfig<Record<string, string>>;
 
-export interface NormalizedSourceConfig extends NormalizedSharedSourceConfig {
-  /**
-   * Create aliases to import or require certain modules,
-   */
-  alias?: Record<string, string>;
-}
+export type SourceConfig = Omit<SharedSourceConfig, 'Alias' | 'define'> & {
+  alias?: Alias;
+  define?: Record<string, string>;
+};
+
+export type NormalizedSourceConfig = Omit<
+  NormalizedSharedSourceConfig,
+  'Alias' | 'define'
+> & {
+  alias?: Alias;
+  define?: Record<string, string>;
+};

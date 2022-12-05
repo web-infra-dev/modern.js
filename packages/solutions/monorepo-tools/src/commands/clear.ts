@@ -1,4 +1,5 @@
 import type { PluginAPI } from '@modern-js/core';
+import type { MonorepoTools } from '../type';
 import { getProjects } from '../projects/get-projects';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { runClearTask } from '../features/clear';
@@ -10,7 +11,7 @@ export interface IClearCommandOption {
 export const clear = async (
   projectNames: string[],
   option: IClearCommandOption,
-  api: PluginAPI,
+  api: PluginAPI<MonorepoTools>,
 ) => {
   const { removeDirs } = option;
   const { appDirectory } = api.useAppContext();

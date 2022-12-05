@@ -1,3 +1,5 @@
+import type { BuilderTarget } from '../builder';
+
 export type DistPathConfig = {
   /** The root directory of all files. */
   root?: string;
@@ -73,6 +75,13 @@ export type NormalizedDataUriLimit = Required<DataUriLimit>;
 
 export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 
+export type DisableSourceMapOption =
+  | boolean
+  | {
+      js?: boolean;
+      css?: boolean;
+    };
+
 export interface SharedOutputConfig {
   /**
    * Set the directory of the dist files.
@@ -125,13 +134,21 @@ export interface SharedOutputConfig {
    */
   cssModuleLocalIdentName?: string;
   /**
+   * Disable css extract and inline CSS files into the JS bundle.
+   */
+  disableCssExtract?: boolean;
+  /**
    * Whether to disable code minification in production build.
    */
   disableMinimize?: boolean;
   /**
    * Whether to disable source map.
    */
-  disableSourceMap?: boolean;
+  disableSourceMap?: DisableSourceMapOption;
+  /**
+   * Whether to disable TypeScript Type Checker.
+   */
+  disableTsChecker?: boolean;
   /**
    * Remove the hash from the name of static files after production build.
    */
@@ -175,7 +192,7 @@ export interface SharedOutputConfig {
    * [autoprefixer](https://github.com/postcss/autoprefixer) to identify the JavaScript syntax that
    * need to be transformed and the CSS browser prefixes that need to be added.
    */
-  overrideBrowserslist?: string[];
+  overrideBrowserslist?: string[] | Partial<Record<BuilderTarget, string[]>>;
   /**
    * Configure the default export type of SVG files.
    */
@@ -189,8 +206,10 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   assetsRetry?: AssetsRetryOptions;
   dataUriLimit: NormalizedDataUriLimit;
   cleanDistPath: boolean;
+  disableCssExtract: boolean;
   disableMinimize: boolean;
-  disableSourceMap: boolean;
+  disableSourceMap: DisableSourceMapOption;
+  disableTsChecker: boolean;
   disableFilenameHash: boolean;
   disableInlineRuntimeChunk: boolean;
   enableAssetManifest: boolean;

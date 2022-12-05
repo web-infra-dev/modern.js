@@ -29,11 +29,11 @@ const legacyConstants: typeof import('./legacy-constants') = Import.lazy(
 export const getNormalizeModuleConfigByPackageModeAndFileds = (
   api: PluginAPI,
   buildFeatOption: IBuildFeatOption,
-): BuildConfig => {
+): BuildConfig[] => {
   const {
     output: { packageMode, packageFields, disableTsChecker, importStyle },
-  } = api.useResolvedConfigContext();
-  let configs: BuildConfig = [];
+  } = api.useResolvedConfigContext() as any;
+  let configs: BuildConfig[] = [];
 
   if (buildFeatOption.styleOnly) {
     configs.push({
@@ -80,11 +80,10 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     (typeof packageFields === 'object' &&
       Object.keys(packageFields).length === 0)
   ) {
-    const buildConfigs =
-      legacyConstants.PACKAGE_MODES[
-        packageMode || legacyConstants.DEFAULT_PACKAGE_MODE
-      ];
-    configs = buildConfigs.map<NormalizedBundlelessBuildConfig>(config =>
+    const buildConfigs = (legacyConstants as any).PACKAGE_MODES[
+      packageMode || (legacyConstants.DEFAULT_PACKAGE_MODE as any)
+    ];
+    configs = buildConfigs.map((config: any) =>
       lodash.mergeWith({}, commonConfig, config),
     );
   } else {
@@ -215,7 +214,7 @@ export const getSourceMap = (
   // TODO: remove
   const {
     output: { disableSourceMap },
-  } = api.useResolvedConfigContext();
+  } = api.useResolvedConfigContext() as any;
   if (disableSourceMap) {
     return false;
   }
@@ -320,7 +319,7 @@ export const normalizeModuleConfig = (context: {
   const { buildFeatOption, api, deps } = context;
   const {
     output: { buildConfig, buildPreset },
-  } = api.useResolvedConfigContext();
+  } = api.useResolvedConfigContext() as any;
 
   // buildConfig is the most important.
   if (buildConfig) {
@@ -330,7 +329,7 @@ export const normalizeModuleConfig = (context: {
   // buildPreset is the second important. It can be used when buildConfig is not defined.
   // buildPreset -> buildConfig
   if (buildPreset) {
-    const { unPresetConfigs, unPresetWithTargetConfigs } = constants;
+    const { unPresetConfigs, unPresetWithTargetConfigs } = constants as any;
     if (unPresetConfigs[buildPreset]) {
       return normalizeBuildConfig(context, unPresetConfigs[buildPreset], deps);
     } else if (unPresetWithTargetConfigs[buildPreset]) {
@@ -352,6 +351,6 @@ export const normalizeModuleConfig = (context: {
     api,
     buildFeatOption,
   );
-  return normalizeBuildConfig(context, legacyBuildConfig, deps);
+  return normalizeBuildConfig(context, legacyBuildConfig as any, deps);
 };
 /* eslint-enable max-lines */

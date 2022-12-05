@@ -1,15 +1,13 @@
 ---
-title: config/public/
+title: public/
 sidebar_position: 3
 ---
-
-应用工程方案静态资源文件。
 
 `public/` 目录中可以放置任意格式的静态资源文件，文件会被 Serve 在 Web 应用域名下。
 
 ## 说明
 
-被 Serve 的文件路由基于目录结构的约定，其中，`public/` 为根目录，对应 Web 应用根域名。
+被 Serve 的文件路由基于目录结构的约定，其中，`public/` 为根目录，对应 Web 应用根路径。
 
 例如 `config/public/sdk/index.js` 文件，在部署后将会被 Serve 在 `${domain}/sdk/index.js` 下。
 

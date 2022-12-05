@@ -53,10 +53,12 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/basic/builder-config'),
           getLink('/guide/basic/build-target'),
+          getLink('/guide/basic/output-files'),
           getLink('/guide/basic/static-assets'),
           getLink('/guide/basic/svg-assets'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/alias'),
+          getLink('/guide/basic/typescript'),
         ],
       },
       {
@@ -66,6 +68,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/advanced/build-performance'),
           getLink('/guide/advanced/inline-assets'),
           getLink('/guide/advanced/split-chunk'),
+          getLink('/guide/advanced/custom-webpack-config'),
         ],
       },
       {
@@ -94,6 +97,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/config-security'),
           getLink('/api/config-tools'),
           getLink('/api/config-performance'),
+          getLink('/api/config-experiments'),
         ],
       },
       {
@@ -103,6 +107,12 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/builder-core'),
           getLink('/api/builder-instance'),
           getLink('/api/builder-types'),
+        ],
+      },
+      {
+        title: getText('Plugin API', 'Plugin API'),
+        collapsable: false,
+        children: [
           getLink('/api/plugin-core'),
           getLink('/api/plugin-hooks'),
         ],
@@ -114,8 +124,9 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         title: getText('指南', 'Guide'),
         children: [
           getLink('/plugins/introduction'),
-          getLink('/plugins/integration'),
-          getLink('/plugins/testing'),
+          // TODO to be written
+          // getLink('/plugins/integration'),
+          // getLink('/plugins/testing'),
         ],
       },
       {
@@ -126,6 +137,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/plugins/plugin-swc'),
           getLink('/plugins/plugin-esbuild'),
           getLink('/plugins/plugin-node-polyfill'),
+          getLink('/plugins/plugin-image-compress'),
         ],
       },
     ],

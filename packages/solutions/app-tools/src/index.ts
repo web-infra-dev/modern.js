@@ -1,9 +1,11 @@
 import path from 'path';
-import { defineConfig, cli, CliPlugin } from '@modern-js/core';
 import LintPlugin from '@modern-js/plugin-lint';
 import { cleanRequireCache, emptyDir, Import } from '@modern-js/utils';
+import { CliPlugin } from '@modern-js/core';
 import AnalyzePlugin from './analyze';
-import { hooks, AppHooks } from './hooks';
+import InitializePlugin from './initialize';
+import { AppTools } from './types';
+import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
 import type {
@@ -13,21 +15,24 @@ import type {
   InspectOptions,
 } from './utils/types';
 import { getCommand } from './utils/commands';
+import { restart } from './utils/restart';
 
-export { defineConfig, hooks };
-export type { AppHooks, CliPlugin };
+export * from './defineConfig';
+export * from './types';
 
 const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',
   require,
 );
 
-export default (): CliPlugin<AppHooks> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
 
   post: [
+    '@modern-js/plugin-initialize',
     '@modern-js/plugin-analyze',
     '@modern-js/plugin-ssr',
+    '@modern-js/plugin-document',
     '@modern-js/plugin-state',
     '@modern-js/plugin-router',
     '@modern-js/plugin-router-legacy',
@@ -36,7 +41,7 @@ export default (): CliPlugin<AppHooks> => ({
 
   registerHook: hooks,
 
-  usePlugins: [AnalyzePlugin(), LintPlugin()],
+  usePlugins: [InitializePlugin(), AnalyzePlugin(), LintPlugin()],
 
   setup: api => {
     const locale = getLocaleLanguage();
@@ -164,13 +169,14 @@ export default (): CliPlugin<AppHooks> => ({
         const appContext = api.useAppContext();
         const { appDirectory, srcDirectory } = appContext;
         const absolutePath = path.resolve(appDirectory, filename);
+
         if (
           !absolutePath.includes(srcDirectory) &&
           (eventType === 'change' || eventType === 'unlink')
         ) {
           const { closeServer } = await import('./utils/createServer');
           await closeServer();
-          await cli.restart();
+          await restart(api.useHookRunners());
         }
       },
 

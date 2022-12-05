@@ -1,14 +1,24 @@
-import type { LoaderFunction } from '@modern-js/runtime/router';
-
-const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-const loader: LoaderFunction = async ({ request }) => {
-  // eslint-disable-next-line no-console
-  console.log('request user layout', request.url);
-  await wait(200);
+async function loader() {
+  return 'request profile page';
+}
+async function loader2() {
+  return 'request profile layout';
+}
+const loader3 = async () => {
   return {
     message: 'hello user',
   };
 };
 
-export default loader;
+// src/routes/layout.tsx
+const loader4 = async () => {
+  return {
+    message: 'from  server',
+  };
+};
+export {
+  loader as loader_0,
+  loader2 as loader_1,
+  loader3 as loader_2,
+  loader4 as loader_3,
+};

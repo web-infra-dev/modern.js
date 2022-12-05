@@ -12,7 +12,7 @@ describe('plugin-router-legacy', () => {
 });
 
 describe('cli-router-legacy', () => {
-  const main = manager.clone().usePlugin(RuntimePlugin, cliPlugin);
+  const main = manager.clone().usePlugin(RuntimePlugin, cliPlugin as any);
   let runner: any;
 
   beforeAll(async () => {

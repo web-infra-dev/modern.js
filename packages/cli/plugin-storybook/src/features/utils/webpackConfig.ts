@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
 import { fs, Import, CHAIN_ID } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/module-tools-v2';
+import type {
+  IAppContext,
+  ModuleNormalizedConfig,
+} from '@modern-js/module-tools-v2';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type {
   Configuration,
@@ -172,20 +175,20 @@ export const getCustomWebpackConfigHandle: any = ({
   isTsProject = false,
 }: {
   appContext: IAppContext;
-  modernConfig: NormalizedConfig;
+  modernConfig: ModuleNormalizedConfig;
   configDir: string;
   isTsProject: boolean;
   env: 'dev' | 'prod';
 }) => {
   const { RULE, PLUGIN, ONE_OF } = CHAIN_ID;
-  const { appDirectory } = appContext;
+  const { appDirectory, packageName } = appContext;
 
   // Manual configuration `output.path = 'storybook-static'`;
-  modernConfig.output.path = './dist/storybook-static';
+  (modernConfig as any).output.path = './dist/storybook-static';
 
   const webpackConfig = new ClientNoEntryWebpackConfig(
     appContext,
-    modernConfig,
+    modernConfig as any,
   );
   const chain: Chain = webpackConfig.getChain();
   chain.plugin('polyfill').use(NodePolyfillPlugin);
@@ -205,6 +208,13 @@ export const getCustomWebpackConfigHandle: any = ({
       perf_hooks: false,
     },
   });
+
+  !isTsProject &&
+    chain.resolve.merge({
+      alias: {
+        packageName: appDirectory,
+      },
+    });
 
   const jsRuleConfig = (
     chain.module.rule(RULE.LOADERS).oneOf(ONE_OF.JS) as any

@@ -1,9 +1,9 @@
 ---
-title: api/**/*.[tj]s
+title: "**/*.[tj]s"
 sidebar_position: 1
 ---
 
-声明 API 路由的文件，在 Modern.js 函数写法下；除了[某些约定文件](/docs/apis/app/hooks/api/functions/api)外，`api` 目录下的文件会被注册为接口的路由。
+在 BFF 函数写法下，声明 API 路由的文件。除了[某些约定文件](/docs/apis/app/hooks/api/functions/api)外，`api` 目录下的文件会被注册为接口的路由。
 
 :::info 注
 使用 `api` 目录需要开启 BFF 功能，需要在项目下执行 new 命令启用「BFF」功能。
@@ -47,4 +47,31 @@ sidebar_position: 1
 * TypeScript 类型文件。例如：`hello.d.ts`。
 * `node_module` 下的文件。
 
+## 函数定义
 
+除了上面的路由规则之外，代码中函数定义与导出也有相应的约定。
+
+函数通过具名导出，导出函数的名字为对应接口接受的 HTTP Method，即：
+
+```ts
+export const get = async () => {
+  return {
+    name: 'Modern.js',
+    desc: '现代 web 工程方案',
+  };
+};
+```
+
+这样导出函数，则会得到一个 `POST` 接口。
+
+应用工程中支持了 9 个 Method 定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
+
+名字是大小不敏感的，就是说，如果是 `GET`，写成 `get`、`Get`、`GEt`、`GET`，都可以准确识别。而默认导出，即 `export default xxx` 则会被映射为 `Get`。
+
+因为 `delete` 是 JavaScript 中的关键字，可以使用 `del` 或者 `DELETE` 代替。
+
+可以在一个文件中定义多个不同 Method 的函数，但如果定义多个相同 Method 的函数，则只有第一个会生效。
+
+:::info 注
+需要注意的是，定义的函数都应该是异步的，这个与函数调用时类型有关，这个后面会提到。
+:::

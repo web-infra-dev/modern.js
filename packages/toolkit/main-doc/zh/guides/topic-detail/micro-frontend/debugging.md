@@ -16,7 +16,7 @@ title: 子应用调试
 
 #### 配置
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   runtime: {
     router: true,
@@ -38,7 +38,7 @@ export default defineConfig({
 
 #### 加载子应用
 
-使用 [useModuleApps](/docs/apis/app/runtime/app/use-module-apps) API 获取子应用组件，并加载子应用。
+使用 [useModuleApps](/docs/apis/app/runtime/core/use-module-apps) API 获取子应用组件，并加载子应用。
 
 ```tsx title=App.tsx
 import { useModuleApps } from '@modern-js/plugin-garfish';
@@ -61,7 +61,7 @@ function App() {
 
 #### 配置
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   deploy: {
     microFrontend: true,
@@ -99,7 +99,7 @@ function App() {
 
 #### 配置
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   server: {
     enableMicroFrontendDebug: true,
@@ -128,7 +128,7 @@ export default defineConfig({
 
 #### 配置
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   deploy: {
     microFrontend: true,

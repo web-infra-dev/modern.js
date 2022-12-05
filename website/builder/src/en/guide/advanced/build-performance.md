@@ -107,7 +107,7 @@ For example, if you only need to be compatible with browsers above Chrome 61, yo
 
 When it is clear that third-party dependencies do not require additional polyfill, you can set [output.polyfill](/en/api/config-output.html#output-polyfill) to `usage`.
 
-In the case where it is clear that third-party dependencies do not require Polyfill, you can set [output.polyfill](/zh/api/config-output.html#output-polyfill) to `usage`.
+In the case where it is clear that third-party dependencies do not require Polyfill, you can set [output.polyfill](/en/api/config-output.html#output-polyfill) to `usage`.
 
 In `usage` mode, Builder analyzes the syntax used in the source code and injects the required polyfill code on demand to reduce the size of polyfill.
 
@@ -122,6 +122,23 @@ export default {
 ## Development optimization strategies
 
 The following are strategies for improve build performance in development environment.
+
+### Enable Lazy Compilation
+
+You can enable the lazy compilation (i.e. on-demand compilation) to improve the compilation startup speed.
+
+```ts
+export default {
+  experiments: {
+    lazyCompilation: {
+      imports: true,
+      entries: false,
+    },
+  },
+};
+```
+
+This is an experimental feature and may not work correctly in some scenarios, see [experiments.lazyCompilation](/en/api/config-experiments.html#experiments-lazycompilation) for details.
 
 ### Adjust Source Map format
 

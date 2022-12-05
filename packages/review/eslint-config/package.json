@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/eslint-config",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.2",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -21,8 +21,8 @@
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
-    "eslint": "^7.32.0",
-    "eslint-find-rules": "^3.4.0"
+    "eslint": "^8.28.0",
+    "eslint-find-rules": "^4.1.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

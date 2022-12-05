@@ -7,7 +7,7 @@ import ReduckTip from '@site-docs/components/reduck-tip.md'
 
 <ReduckTip />
 
-一个异步函数类型的 Effect，通常有三种需要处理的状态: 1.请求中；2.请求成功；3.请求处理失败。这些状态处理的方式，就是编写对应的 Action 函数(pending、fulfilled、rejected)。
+一个异步函数类型的 Effect，通常有三种需要处理的状态: 请求中、请求成功、请求处理失败。这些状态处理的方式，就是编写对应的 Action 函数(pending、fulfilled、rejected)。
 
 借助 `handleEffect` API，我们可以生成默认的 Action 函数来处理异步请求各个阶段的不同结果。`handleEffect` 生成的 Action 返回的 State 的结构如下：
 
@@ -19,7 +19,7 @@ interface State {
 }
 ```
 
-## 类型
+## 函数签名
 
 ```ts
 interface EffectActions {
@@ -40,7 +40,7 @@ interface Config {
 function handleEffect(config: Config): EffectActions;
 ```
 
-## 参数
+### 参数
 
 - ns：默认返回的 State 结构扁平地挂载到 Model 的 State 上，通过设置该参数可以将返回的 State 挂载到 `ns` 值命名的字段下。例如，`ns` 设置为 `data`，返回的 State 结构为：
 
@@ -96,7 +96,7 @@ interface State {
 ```
 
 
-## 返回值
+### 返回值
 
 分别处理 pending、fulfilled、rejected 三种状态的 Action 组成的对象。
 

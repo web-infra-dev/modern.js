@@ -1,4 +1,4 @@
-# Chunk Splitting Practise
+# Chunk Splitting Practice
 
 A great chunk splitting strategy is very important to improve the loading performance of the application. It can make full use of the browser's caching mechanism to reduce the number of requests and improve the loading speed of the application.
 
@@ -24,11 +24,10 @@ Based on past experience, built-in split groups include:
 
 - React (react, react-dom)
 - Router (react-router, react-router-dom, history)
+- Polyfill (core-js, @babel/runtime)
 - Semi (@ies/semi, @douyinfe/semi-ui)
 - Arco (@arco-design/web-react)
-- Babel Runtime (@babel/runtime, @babel/runtime-corejs2, @babel/runtime-corejs3)
 - Lodash (lodash, lodash-es)
-- CoreJS (core-js)
 
 This strategy groups commonly used packages and then splits them into separate chunks. Generally, the number of chunks is not large, which is suitable for most applications and is also our recommended  strategy.
 

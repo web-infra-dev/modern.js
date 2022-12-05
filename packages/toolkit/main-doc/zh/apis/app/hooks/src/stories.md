@@ -1,11 +1,11 @@
 ---
-title: "src/**/*.stories.[tj]sx"
+title: "**/*.stories.[tj]sx"
 sidebar_position: 7
 ---
 
 应用项目 Storybook 调试文件。
 
-可以在项目源码目录(src)下创建 `*.stories.[tj]sx` 格式的文件作为 Storybook 的调试文件。
+可以在项目源码目录 `src/` 下创建 `*.stories.[tj]sx` 格式的文件作为 Storybook 的调试文件。
 
 在项目下执行 dev story 命令，支持使用这些文件在 Storybook 中对相关内容进行调试。
 

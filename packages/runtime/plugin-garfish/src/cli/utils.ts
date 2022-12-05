@@ -1,4 +1,4 @@
-import type { NormalizedConfig } from '@modern-js/core';
+import type { AppNormalizedConfig } from '@modern-js/app-tools';
 
 export const makeProvider = () => `
 export const provider = function ({basename, dom}) {
@@ -102,7 +102,7 @@ export const makeRenderFunction = (code: string) => {
 };
 
 // support legacy config
-export function getRuntimeConfig(config: Partial<NormalizedConfig>) {
+export function getRuntimeConfig(config: Partial<AppNormalizedConfig>) {
   if (config?.runtime?.features) {
     return config?.runtime?.features;
   }
@@ -111,7 +111,7 @@ export function getRuntimeConfig(config: Partial<NormalizedConfig>) {
 
 // support legacy config
 export function setRuntimeConfig(
-  config: Partial<NormalizedConfig>,
+  config: Partial<AppNormalizedConfig>,
   key: string,
   value: any,
 ): undefined {
@@ -125,3 +125,18 @@ export function setRuntimeConfig(
   }
   return undefined;
 }
+
+export const generateAsyncEntry = (code: string) => {
+  const transformCode = code.replace(
+    `import('./bootstrap.js');`,
+    `if (!window.__GARFISH__) { import('./bootstrap.js'); }`,
+  );
+
+  return `
+      export const provider = async (...args) => {
+        const exports = await import('./bootstrap');
+        return exports.provider.apply(null, args);
+      };
+      ${transformCode}
+    `;
+};

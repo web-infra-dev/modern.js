@@ -8,6 +8,7 @@ export const targets = [
   'es2019',
   'es2020',
   'es2021',
+  'es2022',
   // The default target is esnext which means that by default, assume all of the latest JavaScript and CSS features are supported.
   'esnext',
 ];
@@ -86,9 +87,6 @@ const buildConfigProperties = {
     },
     else: { type: 'boolean' },
   },
-  entryNames: {
-    type: 'string',
-  },
   externals: {
     type: 'array',
     items: {
@@ -129,6 +127,10 @@ const buildConfigProperties = {
   },
   splitting: {
     type: 'boolean',
+  },
+  style: {
+    // TODO: add properties
+    type: 'object',
   },
   target: {
     enum: targets,

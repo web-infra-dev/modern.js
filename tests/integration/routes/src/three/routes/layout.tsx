@@ -1,5 +1,11 @@
 import { Link, Outlet } from '@modern-js/runtime/router';
 
+export const loader = async () => {
+  return {
+    message: 'from  server',
+  };
+};
+
 export default function Layout() {
   return (
     <div>

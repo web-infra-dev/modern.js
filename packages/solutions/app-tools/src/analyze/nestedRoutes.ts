@@ -1,8 +1,8 @@
 import * as path from 'path';
-import { fs, getRouteId } from '@modern-js/utils';
+import { fs, getRouteId, normalizeToPosixPath } from '@modern-js/utils';
 import type { NestedRoute } from '@modern-js/types';
 import { JS_EXTENSIONS } from './constants';
-import { replaceWithAlias } from './utils';
+import { hasLoader, replaceWithAlias } from './utils';
 
 const LAYOUT_FILE = 'layout';
 const PAGE_FILE = 'page';
@@ -18,6 +18,13 @@ const conventionNames = [
   LOADER_FILE,
 ];
 
+const getLoaderPath = async (filename: string) => {
+  if (await hasLoader(filename)) {
+    return normalizeToPosixPath(filename);
+  }
+  return undefined;
+};
+
 const replaceDynamicPath = (routePath: string) => {
   return routePath.replace(/\[(.*?)\]/g, ':$1');
 };
@@ -26,6 +33,7 @@ const createIndexRoute = (
   routeInfo: Omit<NestedRoute, 'type'>,
   rootDir: string,
   filename: string,
+  entryName: string,
 ): NestedRoute => {
   return createRoute(
     {
@@ -35,6 +43,7 @@ const createIndexRoute = (
     },
     rootDir,
     filename,
+    entryName,
   );
 };
 
@@ -42,8 +51,9 @@ const createRoute = (
   routeInfo: Omit<NestedRoute, 'type'>,
   rootDir: string,
   filename: string,
+  entryName: string,
 ): NestedRoute => {
-  const id = getRouteId(filename, rootDir);
+  const id = getRouteId(filename, rootDir, entryName);
   return {
     ...routeInfo,
     id,
@@ -58,6 +68,7 @@ export const walk = async (
     name: string;
     basename: string;
   },
+  entryName: string,
 ): Promise<NestedRoute | null> => {
   if (!(await fs.pathExists(dirname))) {
     return null;
@@ -93,7 +104,7 @@ export const walk = async (
     const isDirectory = (await fs.stat(itemPath)).isDirectory();
 
     if (isDirectory) {
-      const childRoute = await walk(itemPath, rootDir, alias);
+      const childRoute = await walk(itemPath, rootDir, alias, entryName);
       if (childRoute) {
         route.children?.push(childRoute);
       }
@@ -109,6 +120,7 @@ export const walk = async (
 
     if (itemWithoutExt === LAYOUT_FILE) {
       route._component = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route.loader = await getLoaderPath(itemPath);
     }
 
     if (itemWithoutExt === PAGE_FILE) {
@@ -118,13 +130,15 @@ export const walk = async (
         } as NestedRoute,
         rootDir,
         itemPath,
+        entryName,
       );
+      childRoute.loader = await getLoaderPath(itemPath);
       route.children?.push(childRoute);
     }
 
-    if (itemWithoutExt === LOADER_FILE) {
-      route.loader = replaceWithAlias(alias.basename, itemPath, alias.name);
-    }
+    // if (itemWithoutExt === LOADER_FILE) {
+    //   route.loader = replaceWithAlias(alias.basename, itemPath, alias.name);
+    // }
 
     if (itemWithoutExt === LOADING_FILE) {
       route.loading = replaceWithAlias(alias.basename, itemPath, alias.name);
@@ -139,6 +153,7 @@ export const walk = async (
     route,
     rootDir,
     path.join(dirname, `${LAYOUT_FILE}.ts`),
+    entryName,
   );
 
   /**

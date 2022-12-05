@@ -2,6 +2,7 @@ import path from 'path';
 import assert from 'assert';
 import {
   CSS_REGEX,
+  isUseCssSourceMap,
   isLooseCssModules,
   getBrowserslistWithDefault,
   type BuilderTarget,
@@ -24,8 +25,7 @@ export const isUseCssExtract = (
   config: NormalizedConfig,
   target: BuilderTarget,
 ) =>
-  config.tools.cssExtract !== false &&
-  !config.tools.styleLoader &&
+  !config.output.disableCssExtract &&
   target !== 'node' &&
   target !== 'web-worker';
 
@@ -141,7 +141,7 @@ export async function applyBaseCSSRule(
 
   // 1. Check user config
   const enableExtractCSS = isUseCssExtract(config, target);
-  const enableSourceMap = !config.output.disableSourceMap;
+  const enableSourceMap = isUseCssSourceMap(config);
   const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   // 2. Prepare loader options
   const extraCSSOptions: Required<CSSExtractOptions> =

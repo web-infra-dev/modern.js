@@ -29,10 +29,11 @@ expect.addSnapshotSerializer({
 describe('data loader', () => {
   let id = 0;
   const routesDir = path.join(__dirname, 'fixtures/loader');
+  const mapFile = path.join(__dirname, 'fixtures/loader/map.json');
   const dataLoaderPath = `${path.resolve(
     __dirname,
     '../src/cli/loader.ts',
-  )}?routesDir=${routesDir}!`;
+  )}?mapFile=${mapFile}!`;
 
   const loaderPath = `${dataLoaderPath}./loader`.replace(/\\/g, '/');
 

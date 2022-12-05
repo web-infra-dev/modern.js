@@ -4,7 +4,7 @@ import {
 } from '@modern-js/builder-shared';
 import { createContext } from './core/createContext';
 import { initConfigs } from './core/initConfigs';
-// import { applyDefaultPlugins } from './shared/plugin';
+import { applyDefaultPlugins } from './shared/plugin';
 import { BuilderConfig } from './types';
 
 export function builderRspackProvider({
@@ -21,10 +21,10 @@ export function builderRspackProvider({
       publicContext: createPublicContext(context),
 
       async applyDefaultPlugins() {
-        // pluginStore.addPlugins(await applyDefaultPlugins());
+        pluginStore.addPlugins(await applyDefaultPlugins());
       },
 
-      async createCompiler(options) {
+      async createCompiler() {
         const { createCompiler } = await import('./core/createCompiler');
         const { rspackConfigs } = await initConfigs({
           context,
@@ -34,7 +34,6 @@ export function builderRspackProvider({
 
         // todo: compiler 类型定义
         return createCompiler({
-          watch: options?.watch,
           context,
           rspackConfigs,
         }) as any;

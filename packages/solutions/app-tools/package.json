@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -56,9 +56,9 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
-    "dev": "modern build --watch",
-    "build": "modern build",
+    "new": "modern-lib new",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -66,6 +66,11 @@
     "@babel/runtime": "^7.18.0",
     "@babel/traverse": "^7.18.0",
     "@babel/types": "^7.18.0",
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-plugin-esbuild": "workspace:*",
+    "@modern-js/builder-plugin-node-polyfill": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/node-bundle-require": "workspace:*",
@@ -78,11 +83,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/builder": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/builder-webpack-provider": "workspace:*",
-    "@modern-js/builder-plugin-node-polyfill": "workspace:*",
-    "@modern-js/builder-plugin-esbuild": "workspace:*"
+    "es-module-lexer": "^1.1.0"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
@@ -92,7 +93,8 @@
     "@types/jest": "^27",
     "@types/node": "^14",
     "jest": "^27",
-    "typescript": "^4"
+    "typescript": "^4",
+    "webpack": "^5.75.0"
   },
   "sideEffects": false,
   "publishConfig": {

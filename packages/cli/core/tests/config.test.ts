@@ -1,14 +1,8 @@
 import path from 'path';
-// import os from 'os';
-import { isDev, getPort, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
-import {
-  resolveConfig,
-  getDefaultConfig,
-  addServerConfigToDeps,
-} from '../src/config';
+import { isDev } from '@modern-js/utils';
+import { createResolveConfig, createLoadedConfig } from '../src/config';
 import {
   cli,
-  loadUserConfig,
   initAppContext,
   initAppDir,
   manager,
@@ -22,9 +16,6 @@ jest.mock('@modern-js/utils', () => ({
   isDev: jest.fn(),
   getPort: jest.fn(),
 }));
-
-// const kOSRootDir =
-//   os.platform() === 'win32' ? process.cwd().split(path.sep)[0] : '/';
 
 describe('config', () => {
   /**
@@ -43,12 +34,11 @@ describe('config', () => {
     jsConfig: {},
   };
   let schemas: any[] = [];
-  let restartWithExistingPort = 0;
-  let argv: string[] = ['dev'];
   let configs: any[] = [];
 
-  const getResolvedConfig = async () =>
-    resolveConfig(loaded, configs, schemas, restartWithExistingPort, argv);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _getResolvedConfig = async () =>
+    createResolveConfig(loaded, configs, schemas);
 
   const resetParams = () => {
     loaded = {
@@ -59,19 +49,11 @@ describe('config', () => {
       jsConfig: {},
     };
     schemas = [];
-    restartWithExistingPort = 0;
-    argv = ['dev'];
     configs = [];
   };
-
-  const defaultConfig = getDefaultConfig();
-
   const resetMock = () => {
     jest.resetAllMocks();
     (isDev as jest.Mock).mockReturnValue(true);
-    (getPort as jest.Mock).mockReturnValue(
-      Promise.resolve(defaultConfig.server.port),
-    );
   };
   beforeEach(() => {
     resetParams();
@@ -79,9 +61,9 @@ describe('config', () => {
   });
 
   it('default', () => {
-    expect(resolveConfig).toBeDefined();
+    expect(createResolveConfig).toBeDefined();
     expect(cli).toBeDefined();
-    expect(loadUserConfig).toBeDefined();
+    expect(createLoadedConfig).toBeDefined();
     expect(initAppContext).toBeDefined();
     expect(initAppDir).toBeDefined();
     expect(manager).toBeDefined();
@@ -100,51 +82,5 @@ describe('config', () => {
     // } catch (err: any) {
     //   expect(err.message).toMatch(/no package.json found in current work dir/);
     // }
-  });
-
-  test('should use default port if not restarting in dev mode', async () => {
-    let resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(defaultConfig.server.port);
-    expect(getPort).toHaveBeenCalledWith(defaultConfig.server.port);
-
-    // getResolvedConfig should use the value given by getPort
-    restartWithExistingPort = -1;
-    (getPort as jest.Mock).mockClear();
-    (getPort as jest.Mock).mockReturnValue(1111);
-    resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(1111);
-    expect(getPort).toHaveBeenCalledWith(defaultConfig.server.port);
-
-    argv = ['start'];
-    (isDev as jest.Mock).mockReturnValue(false);
-    restartWithExistingPort = 0;
-    resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(defaultConfig.server.port);
-
-    restartWithExistingPort = 1234;
-    resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(defaultConfig.server.port);
-
-    restartWithExistingPort = -1;
-    resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(defaultConfig.server.port);
-  });
-
-  test('should reuse existing port if restarting in dev mode', async () => {
-    restartWithExistingPort = 1234;
-    const resolved = await getResolvedConfig();
-    expect(resolved.server.port).toEqual(1234);
-  });
-});
-
-describe('addServerConfigToDeps', () => {
-  it('should add server config to deps', async () => {
-    const appDirectory = path.join(__dirname, './fixtures/index-test');
-    const deps: string[] = [];
-    await addServerConfigToDeps(deps, appDirectory, DEFAULT_SERVER_CONFIG);
-    expect(deps.length).toBe(1);
-    expect(deps[0]).toBe(
-      path.join(appDirectory, `${DEFAULT_SERVER_CONFIG}.js`),
-    );
   });
 });

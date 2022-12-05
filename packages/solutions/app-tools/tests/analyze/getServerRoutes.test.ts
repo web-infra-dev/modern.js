@@ -3,6 +3,7 @@ import { IAppContext } from '@modern-js/core';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
 import { getServerRoutes } from '../../src/analyze/getServerRoutes';
 import { Entrypoint } from '../../src/analyze/getFileSystemEntry';
+import { NormalizedConfig } from '../../src/types';
 
 describe('get server routes', () => {
   const appContext: any = {
@@ -12,7 +13,11 @@ describe('get server routes', () => {
   const sourceConfig = { configDir: 'config' };
 
   const outputConfig = {
-    htmlPath: 'html',
+    distPath: {
+      html: 'html',
+    },
+  };
+  const htmlConfig = {
     disableHtmlFolder: false,
   };
 
@@ -27,7 +32,8 @@ describe('get server routes', () => {
           source: sourceConfig,
           output: outputConfig,
           server: serverConfig,
-        } as any,
+          html: {},
+        } as unknown as NormalizedConfig,
       },
     );
 
@@ -64,6 +70,7 @@ describe('get server routes', () => {
             ssrByEntries: { 'page-a': true },
             routes: { 'page-a': '/a' },
           },
+          html: htmlConfig,
         } as any,
       },
     );
@@ -96,6 +103,8 @@ describe('get server routes', () => {
           source: sourceConfig,
           output: {
             ...outputConfig,
+          },
+          html: {
             disableHtmlFolder: true,
           },
           server: {
@@ -146,6 +155,7 @@ describe('get server routes', () => {
         config: {
           source: sourceConfig,
           output: outputConfig,
+          html: htmlConfig,
           server: { baseUrl: ['/a', '/b'] },
         } as any,
       },
@@ -191,6 +201,7 @@ describe('get server routes', () => {
         config: {
           source: sourceConfig,
           output: outputConfig,
+          html: htmlConfig,
           server: serverConfig,
         },
       } as any,
@@ -214,6 +225,7 @@ describe('get server routes', () => {
           config: {
             source: sourceConfig,
             output: outputConfig,
+            html: htmlConfig,
             server: {
               ...serverConfig,
               routes: { main: '/test' },
@@ -243,6 +255,7 @@ describe('get server routes', () => {
       config: {
         source: sourceConfig,
         output: outputConfig,
+        html: htmlConfig,
         server: {
           ...serverConfig,
           publicRoutes: {
@@ -295,6 +308,7 @@ describe('get server routes', () => {
         config: {
           source: sourceConfig,
           output: outputConfig,
+          html: htmlConfig,
           server: {
             ...serverConfig,
             baseUrl: undefined,

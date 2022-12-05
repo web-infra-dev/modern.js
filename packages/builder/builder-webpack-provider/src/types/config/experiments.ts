@@ -1,4 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ExperimentsConfig {}
+import type { SharedExperimentsConfig } from '@modern-js/builder-shared';
+
+export type ExperimentsConfig = SharedExperimentsConfig;
 
 export type NormalizedExperimentsConfig = Required<ExperimentsConfig>;

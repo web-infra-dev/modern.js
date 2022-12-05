@@ -106,7 +106,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -232,7 +232,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -631,7 +631,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -757,7 +757,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -905,7 +905,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1029,7 +1029,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1167,7 +1167,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1293,7 +1293,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1437,7 +1437,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1563,7 +1563,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.25",
+                      "version": "3.26",
                     },
                     "exclude": [
                       "transform-typeof-symbol",

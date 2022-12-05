@@ -1,11 +1,11 @@
 ---
-title: 服务端渲染
+title: 服务端渲染（SSR）
 sidebar_position: 3
 ---
 
-在 Modern.js 中，和 Web Server 一样，SSR 服务与应用也是一体的，开发者无需为 SSR 编写复杂的服务端逻辑。同样，开发者也无需关心 SSR 服务的运维，Modern.js 拥有完备的 SSR 降级策略，保证页面能够安全运行。
+在 Modern.js 中，SSR 也是开箱即用的。开发者无需为 SSR 编写复杂的服务端逻辑，也无需关心 SSR 的运维，或是创建单独的服务。Modern.js 拥有完备的 SSR 降级策略，保证页面能够安全运行。
 
-Modern.js 启用 SSR 非常简单，只需要设置 [`server.ssr`](/docs/configure/app/server/ssr) 为 `true` 即可：
+启用 SSR 非常简单，只需要设置 [`server.ssr`](/docs/configure/app/server/ssr) 为 `true` 即可：
 
 ```json title="package.json"
 {
@@ -15,9 +15,9 @@ Modern.js 启用 SSR 非常简单，只需要设置 [`server.ssr`](/docs/configu
 }
 ```
 
-## SSR 时的数据请求
+## SSR 时的数据获取
 
-Modern.js 中提供了 `useLoader` Hooks API，可以在某些场景下代替 `useEffect` 进行数据请求。这是一个同构的 API，直接使用它即可完成在服务端的数据获取：
+Modern.js 中提供了 [`useLoader`](/docs/apis/app/runtime/core/use-loader) Hooks API，用于在 SSR 环境下同构的获取数据：
 
 ```ts
 const { data, loading, error } = useLoader(() => {
@@ -30,16 +30,14 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 不过，开发者仍然需要关注数据的兜底处理，例如 `null` 值或不符合预期的数据返回。避免在 SSR 时产生 React 渲染错误或是返回凌乱的渲染结果。
 
 :::info 补充信息
-关于 `useLoader` 的详细介绍可以参考[这里](/docs/apis/app/runtime/container/use-loader)。
+更多相关内容可以查看[数据获取](/docs/guides/basic-features/data-fetch)。
 :::
 
 ## 保持渲染一致
 
-代码中区分 SSR 和 CSR 渲染，通常需要根据当前的运行容器环境特征做判断，例如 [UA](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) 信息或是某个 Native 模块。如果处理不够仔细，此时很有可能出现不符合预期的渲染结果。
+有些业务中，通常需要根据当前的运行容器环境特征做不同的 UI 展示，例如 [UA](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) 信息。如果处理不够仔细，此时很有可能出现不符合预期的渲染结果。
 
-这里通过一个例子，演示当 SSR 与 CSR 渲染不一致时出现的问题。
-
-在组件中添加以下代码：
+这里通过一个例子，演示当 SSR 与 CSR 渲染不一致时出现的问题，在组件中添加以下代码：
 
 ```tsx
 {
@@ -57,13 +55,13 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 Warning: Expected server HTML to contain a matching <div> in <div>.
 ```
 
-这是因为 React 在客户端执行注水逻辑时，发现渲染结果与 SSR 渲染结果不一致造成的。虽然页面表现正常，但在复杂应用中，很有可能因此出现 DOM 层级混乱、样式混乱等问题。
+这是 React 在客户端执行注水逻辑时，发现渲染结果与 SSR 渲染结果不一致造成的。虽然页面表现正常，但在复杂应用中，很有可能因此出现 DOM 层级混乱、样式混乱等问题。
 
 :::info 注
 关于注水逻辑请参考[这里](https://reactjs.org/docs/react-dom.html#hydrate)。
 :::
 
-应用需要保持 SSR 与 CSR 渲染结果的一致性，如果存在不一致的情况，说明这部分内容无需在 SSR 中进行渲染。Modern.js 为这类在 SSR 中不需要渲染的内容提供 [`<NoSSR>` 工具组件](/docs/apis/app/runtime/app/use-runtime-context)：
+应用需要保持 SSR 与 CSR 渲染结果的一致性，如果存在不一致的情况，说明这部分内容无需在 SSR 中进行渲染。Modern.js 为这类在 SSR 中不需要渲染的内容提供 [`<NoSSR>` 工具组件](/docs/apis/app/runtime/core/use-runtime-context)：
 
 ```ts
 import { NoSSR } from '@modern-js/runtime/ssr';
@@ -82,7 +80,7 @@ import { NoSSR } from '@modern-js/runtime/ssr';
 修改代码后，刷新页发现之前的 Waring 消失。打开浏览器开发者工具的 Network 窗口，查看返回的 HTML 文档是不包含 `NoSSR` 组件包裹的内容的。
 
 :::info 补充信息
-[`useRuntimeContext`](/docs/apis/app/runtime/app/use-runtime-context) 可以获取完整的请求信息，可以利用它保证 SSR 与 CSR 的渲染结果一致。
+[`useRuntimeContext`](/docs/apis/app/runtime/core/use-runtime-context) 可以获取完整的请求信息，可以利用它保证 SSR 与 CSR 的渲染结果一致。
 :::
 
 ## 关注内存泄漏
@@ -182,5 +180,72 @@ import { PreRender } from '@modern-js/runtime/ssr';
 可以想象，当 `interval` 设置为 1 时，用户可以在感知到实时数据的同时，拥有静态页面的响应体验。
 
 :::info 补充信息
-`PreRender` 的详细使用可以参考[这里](/docs/apis/app/runtime/app/pre-render)。
+`PreRender` 的详细使用可以参考[这里](/docs/apis/app/runtime/ssr/pre-render)。
 :::
+
+## Treeshaking
+
+开启 SSR 时，Modern.js 会用相同的入口，构建出 SSR Bundle 和 CSR Bundle 两份产物。因此，在 SSR Bundle 中存在 Web API，或是在 CSR Bundle 中存在 Node API 时，都可能导致运行出错。
+
+### 环境变量区分
+
+在组件中可以直接使用 EdenX 内置的环境变量 `EDENX_TARGET` 进行判断，方便在构建时删除无用代码：
+
+```ts
+export default () => {
+  if (process.env.EDENX_TARGET === 'node') {
+    console.log('server render')
+  } else {
+    console.log('client render')
+  }
+}
+```
+
+在 SSR 中直接调用 RPC 接口时，该环境变量会非常有用，因为 RPC 调用时往往会执行到浏览器中无法运行的代码。
+
+:::note
+更多内容可以查看[环境变量](/docs/guides/basic-features/env-vars)。
+:::
+
+### 文件后缀区分
+
+但有时，这种 Treeshaking 的方式并不能保证代码被完全分离。EdenX 也支持通过 `.node.` 后缀的文件来区分 SSR Bundle 和 CSR Bundle 产物的打包文件。
+
+例如存在 `client-sdk` 中直接使用了 Web API：
+
+```ts
+// client-sdk
+export const href = location.href;
+```
+
+这时候直接引用到组件中，会造成 SSR 报错。可以创建同名的 `.ts` 和 `.node.ts` 文件做一层代理：
+
+```ts title="compat.ts"
+export { href } from 'client-sdk';
+```
+
+```ts title="compat.node.ts"
+export const href = '';
+```
+
+在文件中直接引入 `./compat`，此时 SSR 环境下会优先使用 `.node.ts` 后缀的文件，CSR 环境下会使用 `.ts` 后缀的文件。
+
+```ts title="App.tsx"
+import { href } from './compat'
+
+export default () => {
+  return <div onClick={() => { console.log(href) }}></div>
+}
+```
+
+### 独立文件
+
+上述两种方式，都会为开发者带来一些心智负担。Modern.js 正在基于[嵌套路由](/docs/guides/basic-features/routes)开发设计更简单的方案来分离 CSR 和 SSR 的代码。。
+
+## 接口请求
+
+在 SSR 中发起接口请求时，开发者有时自己封装了同构的请求工具。部分接口需要传递用户 Cookie，开发者可以通过 [`useRuntimeContext`](/docs/apis/app/runtime/core/use-runtime-context) API 获取到请求头来实现。
+
+需要注意的是，此时获取到的是 HTML 请求的请求头，不一定适用于接口请求，因此**千万不能**透传所有请求头。并且，一些后端接口，或是通用网关，会根据请求头中的信息做校验，全量透传容易出现各种难以排查的问题，推荐**按需透传**。
+
+如果实在需要透传所有请求头，请务必过滤 `host` 字段。

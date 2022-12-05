@@ -6,9 +6,14 @@ exports[`data loader basic usage 1`] = `
     import { createRequest } from '/packages/cli/plugin-data-loader/src/cli/create-request';
   
     
-    const loader = createRequest('layout');
-    export default loader;
-    export { loader };
-  
+      const loader_0 = createRequest('main_user/profile/page');
+    
+      const loader_1 = createRequest('main_user/profile/layout');
+    
+      const loader_2 = createRequest('main_user/layout');
+    
+      const loader_3 = createRequest('main_layout');
+    
+    export {loader_0,loader_1,loader_2,loader_3,}
   "
 `;

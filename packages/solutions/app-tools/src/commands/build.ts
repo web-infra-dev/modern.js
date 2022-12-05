@@ -3,12 +3,17 @@ import { logger, printBuildError } from '@modern-js/utils';
 import { generateRoutes } from '../utils/routes';
 import { buildServerConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
-import type { AppHooks } from '../hooks';
+import type { AppTools } from '../types';
 
 export const build = async (
-  api: PluginAPI<AppHooks>,
+  api: PluginAPI<AppTools>,
   options?: BuildOptions,
 ) => {
+  if (options?.analyze) {
+    // Builder will read this env var to enable bundle analyzer
+    process.env.BUNDLE_ANALYZE = 'true';
+  }
+
   let resolvedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
@@ -50,8 +55,12 @@ export const build = async (
 
   try {
     logger.info('Create a production build...\n');
-
-    await appContext.builder?.build();
+    if (!appContext.builder) {
+      throw new Error(
+        'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
+      );
+    }
+    await appContext.builder.build();
   } catch (error) {
     printBuildError(error as Error);
     // eslint-disable-next-line no-process-exit

@@ -1,4 +1,4 @@
-import type { IAppContext, UserConfig } from '@modern-js/core';
+import type { IAppContext, AppLegacyUserConfig } from '@modern-js/app-tools';
 import {
   isProdProfile,
   isTypescript,
@@ -6,7 +6,10 @@ import {
   chalk,
 } from '@modern-js/utils';
 
-export const verifyTsConfigPaths = (root: string, userConfig: UserConfig) => {
+export const verifyTsConfigPaths = (
+  root: string,
+  userConfig: AppLegacyUserConfig,
+) => {
   const userAliases = userConfig.source?.alias;
 
   if (!userAliases) {
@@ -32,7 +35,7 @@ export const verifyTsConfigPaths = (root: string, userConfig: UserConfig) => {
 
 export const getWebpackAliases = (
   appContext: IAppContext,
-  userConfig: UserConfig,
+  userConfig: AppLegacyUserConfig,
 ) => {
   if (isTypescript(appContext.appDirectory)) {
     verifyTsConfigPaths(appContext.appDirectory, userConfig);

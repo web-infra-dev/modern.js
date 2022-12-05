@@ -20,7 +20,7 @@ sidebar_label: proxy
 
 例如：
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   dev: {
     proxy: {
@@ -35,7 +35,7 @@ export default defineConfig({
 值为 `string` 时， 可以用来指定单独的代理文件，例如：
 
 
-```js title="modern.config.js"
+```typescript title="modern.config.ts"
 export default defineConfig({
   dev: {
     proxy: './proxy.js',

@@ -1,0 +1,120 @@
+---
+sidebar_position: 6
+title: Auto actions
+---
+
+import ReduckTip from '@site-docs-en/components/reduck-tip.md'
+
+<ReduckTip />
+
+Reduck can automatically generate Actions according to the type of State，for easy to modify State.
+
+:::tip
+can use [`runtime.state.autoActions`](/docs/configure/app/runtime/state#autoactions) close auto actions feature.
+:::
+
+## Example
+
+### Basic Data Type
+
+State type in `string`、`number`、`boolean`、`null`，generate `setState` Action。
+
+```tsx title="example"
+const fooModel = model('foo').define({
+  state: 1,
+});
+
+function App() {
+  const [state, actions] = useModel(fooModel);
+
+  return (
+    <div>
+      <div>State: {state}</div>
+      <button
+        type="button"
+        onClick={() => {
+          // call auto generate setState Action
+          actions.setState(state + 1);
+        }}
+      >
+        add
+      </button>
+    </div>
+  );
+}
+```
+
+### Array
+
+State type is Array，generate the following Actions:
+
+- `push`: adds one or more elements to the end of the array.
+- `pop`: removes the last element from the array.
+- `shift`: removes the first element from the array.
+- `unshift`: adds one or more elements to the beginning of the array.
+  - usage: `arr.unshift(element1, ..., elementN)`
+  - `elementN`: the element or elements to add to the beginning of the array.
+- `filter`: filter element.
+<!-- 语义与原生方法不同，待修改 API -->
+- `concat`: concat array.
+<!-- 语义与原生方法不同，待修改 API -->
+- `splice`: modify the array by deleting or replacing existing elements or adding new elements in place, and return the modified array(Note that it is different from the native `splice` return value).
+  - usage: `splice(start[, deleteCount[, item1[, item2[, ...]]]])`
+  - `start`: specifies the start position of the modification(counting from 0).
+  - `deleteCount`: an integer representing the number of array elements to remove.
+  - `item, item2, ...`: The elements to add to the array, starting at the start position. If not specified, `splice` will only delete array elements.
+
+```tsx title="example"
+const fooModel = model('foo').define({
+  state: [1, 2, 3],
+});
+
+function App() {
+  const [state, actions] = useModel(fooModel);
+
+  useEffect(() => {
+    actions.push(4);
+    actions.pop();
+    actions.shift(0);
+    actions.unshift();
+    actions.filter(val => val <= 2);
+    actions.splice(0, 1, 1, 2);
+  }, []);
+
+  return (
+    <div>
+      <div>State: {state}</div>
+    </div>
+  );
+}
+```
+
+### PlainObject
+
+State type is PlainObject，base on the names contained in State，generate `set${key}`(Camel-Case) Actions。
+
+```tsx title="example"
+const fooModel = model('foo').define({
+  state: {
+    a: 1,
+    b: { value: 1 },
+    c: 'c',
+  },
+});
+
+function App() {
+  const [state, actions] = useModel(fooModel);
+
+  useEffect(() => {
+    actions.setA(2);
+    actions.setB({ value: 2 });
+    actions.setC('d');
+  }, []);
+
+  return (
+    <div>
+      <div>State: {state}</div>
+    </div>
+  );
+}
+```

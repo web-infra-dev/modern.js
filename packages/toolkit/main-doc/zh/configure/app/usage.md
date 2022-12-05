@@ -54,7 +54,7 @@ export default {
 
 我们推荐使用 .ts 格式的配置文件，它提供了友好的 TypeScript 类型提示，从而帮助你避免配置中的错误。
 
-从`@modern-js/app-tools`中导入 `defineConfig` 工具函数, 它会帮助你进行配置的类型推导和类型补全：
+从 `@modern-js/app-tools` 中导入 `defineConfig` 工具函数, 它会帮助你进行配置的类型推导和类型补全：
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -88,5 +88,5 @@ export default defineConfig({
 
 ## 注意事项
 
-- 不建议同时使用 `package.json` 和 `modern.config.js` 进行配置。如果同时使用了两者并出现配置冲突，modern.js 会在命令行进行提示。
+- 不建议同时使用 `package.json` 和 `modern.config.js` 进行配置。如果同时使用了两者并出现配置冲突，Modern.js 会在命令行进行提示。
 - `@modern-js/runtime` 导出了同名的 [defineConfig](/docs/apis/app/runtime/app/define-config) API，请注意区分。

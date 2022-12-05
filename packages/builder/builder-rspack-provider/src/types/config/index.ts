@@ -9,7 +9,7 @@ import type { NormalizedSecurityConfig, SecurityConfig } from './security';
 import type { NormalizedSourceConfig, SourceConfig } from './source';
 import type { NormalizedToolsConfig, ToolsConfig } from './tools';
 
-/** The Builder Config when using webpack provider */
+/** The Builder Config when using rspack provider */
 export interface BuilderConfig {
   dev?: DevConfig;
   html?: HtmlConfig;

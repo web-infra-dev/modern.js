@@ -1,9 +1,12 @@
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type {
+  IAppContext,
+  AppLegacyNormalizedConfig,
+} from '@modern-js/app-tools';
 import { CHAIN_ID, removeLeadingSlash } from '@modern-js/utils';
 import { ClientWebpackConfig } from './client';
 
 class ModernWebpackConfig extends ClientWebpackConfig {
-  constructor(appContext: IAppContext, options: NormalizedConfig) {
+  constructor(appContext: IAppContext, options: AppLegacyNormalizedConfig) {
     super(appContext, options);
 
     this.htmlFilename = (name: string) =>

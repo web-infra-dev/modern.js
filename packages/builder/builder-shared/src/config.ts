@@ -18,6 +18,7 @@ import type {
   NormalizedSharedSourceConfig,
   InspectConfigOptions,
   CreateBuilderOptions,
+  BuilderTarget,
 } from './types';
 import { logger } from './logger';
 import { join } from 'path';
@@ -70,8 +71,13 @@ export const defaultOutputConfig: NormalizedSharedOutputConfig = {
   legalComments: 'linked',
   cleanDistPath: true,
   svgDefaultExport: 'url',
+  disableCssExtract: false,
   disableMinimize: false,
-  disableSourceMap: false,
+  disableSourceMap: {
+    js: false,
+    css: undefined,
+  },
+  disableTsChecker: false,
   disableFilenameHash: false,
   disableCssModuleExtension: false,
   disableInlineRuntimeChunk: false,
@@ -136,4 +142,128 @@ export async function outputInspectConfigFiles({
   logger.success(
     `Inspect config succeed, open following files to view the content: \n\n${fileInfos}\n`,
   );
+}
+
+/**
+ * lodash set type declare.
+ * eg. a.b.c; a[0].b[1]
+ */
+export type GetTypeByPath<
+  T extends string,
+  C extends Record<string, any>,
+> = T extends `${infer K}[${infer P}]${infer S}`
+  ? GetTypeByPath<`${K}.${P}${S}`, C>
+  : T extends `${infer K}.${infer P}`
+  ? GetTypeByPath<P, K extends '' ? C : NonNullable<C[K]>>
+  : C[T];
+
+export const setConfig = <T extends Record<string, any>, P extends string>(
+  config: T,
+  path: P,
+  value: GetTypeByPath<P, T>,
+) => {
+  _.set(config, path, value);
+};
+
+export function getExtensions({
+  target = 'web',
+  resolveExtensionPrefix,
+  isTsProject,
+}: {
+  target?: BuilderTarget;
+  resolveExtensionPrefix?: NormalizedSharedSourceConfig['resolveExtensionPrefix'];
+  isTsProject?: boolean;
+} = {}) {
+  let extensions = [
+    // only resolve .ts(x) files if it's a ts project
+    // most projects are using TypeScript, resolve .ts(x) files first to reduce resolve time.
+    ...(isTsProject ? ['.ts', '.tsx'] : []),
+    '.js',
+    '.jsx',
+    '.mjs',
+    '.json',
+  ];
+
+  // add an extra prefix to all extensions
+  if (resolveExtensionPrefix) {
+    const extensionPrefix =
+      typeof resolveExtensionPrefix === 'string'
+        ? resolveExtensionPrefix
+        : resolveExtensionPrefix[target];
+
+    if (extensionPrefix) {
+      extensions = extensions.reduce<string[]>(
+        (ret, ext) => [...ret, extensionPrefix + ext, ext],
+        [],
+      );
+    }
+  }
+
+  return extensions;
+}
+
+export function getMinify(
+  isProd: boolean,
+  config: {
+    output: NormalizedSharedOutputConfig;
+  },
+) {
+  if (config.output.disableMinimize || !isProd) {
+    return false;
+  }
+
+  // these options are same as the default options of html-webpack-plugin
+  return {
+    removeComments: true,
+    useShortDoctype: true,
+    keepClosingSlash: true,
+    collapseWhitespace: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+  };
+}
+
+export function getTitle(
+  entryName: string,
+  config: { html: SharedHtmlConfig },
+) {
+  const { title, titleByEntries } = config.html;
+  return titleByEntries?.[entryName] || title || '';
+}
+
+export function getInject(
+  entryName: string,
+  config: { html: SharedHtmlConfig },
+) {
+  const { inject, injectByEntries } = config.html;
+  return injectByEntries?.[entryName] || inject || true;
+}
+
+export function getFavicon(
+  entryName: string,
+  config: {
+    html: SharedHtmlConfig;
+  },
+) {
+  const { favicon, faviconByEntries } = config.html;
+  return faviconByEntries?.[entryName] || favicon;
+}
+
+export async function getMetaTags(
+  entryName: string,
+  config: { html: SharedHtmlConfig; output: NormalizedSharedOutputConfig },
+) {
+  const { generateMetaTags } = await import('@modern-js/utils');
+  const { meta, metaByEntries } = config.html;
+
+  const metaOptions = {
+    ...(metaByEntries?.[entryName] || meta || {}),
+  };
+
+  if (config.output.charset === 'utf8') {
+    metaOptions.charset = { charset: 'utf-8' };
+  }
+
+  return generateMetaTags(metaOptions);
 }

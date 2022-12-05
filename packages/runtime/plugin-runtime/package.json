@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.2",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -47,6 +47,11 @@
       "jsnext:source": "./src/exports/server.ts",
       "node": "./dist/js/node/exports/server.js",
       "default": "./dist/js/treeshaking/exports/server.js"
+    },
+    "./document": {
+      "jsnext:source": "./src/document/index.ts",
+      "node": "./dist/js/node/document/index.js",
+      "default": "./dist/js/treeshaking/document/index.js"
     },
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
@@ -93,6 +98,9 @@
       "server": [
         "./dist/types/exports/server.d.ts"
       ],
+      "document": [
+        "./dist/types/document/index.d.ts"
+      ],
       "ssr": [
         "./dist/types/ssr/index.d.ts"
       ],
@@ -108,11 +116,11 @@
     }
   },
   "scripts": {
-    "dev": "modern build --watch",
+    "dev": "modern-lib build --watch",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "new": "modern new",
-    "build": "modern build",
-    "test": "jest --passWithNoTests"
+    "new": "modern-lib new",
+    "build": "modern-lib build",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
@@ -155,6 +163,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
     "@testing-library/react-hooks": "^8.0.1",

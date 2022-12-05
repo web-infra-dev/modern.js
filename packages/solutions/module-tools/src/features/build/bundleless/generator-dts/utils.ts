@@ -97,7 +97,7 @@ export const resolveAlias = (
   config: IGeneratorConfig,
   watchFilenames: string[] = [],
 ) => {
-  const { output } = modernConfig;
+  const { output } = modernConfig as any;
   const defaultPaths = { '@': ['./src'] };
   const dtsDistPath = `${config.distDir}/**/*.d.ts`;
   const dtsFilenames =

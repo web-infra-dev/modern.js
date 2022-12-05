@@ -68,6 +68,7 @@ export type BaseSSRServerContext = {
   };
   redirection: { url?: string; status?: number };
   loadableStats: Record<string, any>;
+  routeManifest?: Record<string, any>;
   template: string;
   entryName: string;
   logger: {

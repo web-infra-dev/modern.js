@@ -3,8 +3,9 @@ import {
   getRegExpForExts,
   FONT_EXTENSIONS,
   getDistPath,
+  getFilename,
 } from '@modern-js/builder-shared';
-import { getFilename, getDataUrlCondition } from '../shared';
+import { getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginFont = (): BuilderPlugin => ({
@@ -15,7 +16,7 @@ export const PluginFont = (): BuilderPlugin => ({
       const config = api.getNormalizedConfig();
       const regExp = getRegExpForExts(FONT_EXTENSIONS);
       const distDir = getDistPath(config.output, 'font');
-      const filename = getFilename(config, 'font', isProd);
+      const filename = getFilename(config.output, 'font', isProd);
 
       chain.module
         .rule(CHAIN_ID.RULE.FONT)

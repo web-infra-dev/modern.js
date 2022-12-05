@@ -1,5 +1,23 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { RouteLegacy } from '@modern-js/types/cli';
 import { fileSystemRoutes } from '../../src/analyze/templates';
+
+jest.mock('@modern-js/utils', () => {
+  const fs = {
+    writeFile() {},
+    writeJSON() {},
+    ensureFile() {},
+  };
+  return {
+    fs,
+  };
+});
+
+expect.addSnapshotSerializer({
+  test: val => typeof val === 'string',
+  print: (val: string) => val.replace(/\\/g, '/'),
+});
 
 describe('fileSystemRoutes', () => {
   test('generate code for legacy router', async () => {
@@ -12,7 +30,12 @@ describe('fileSystemRoutes', () => {
       },
     ];
 
-    const code = fileSystemRoutes({ routes, ssrMode: false });
+    const code = await fileSystemRoutes({
+      routes,
+      ssrMode: false,
+      entryName: 'main',
+      internalDirectory: '',
+    });
     expect(code).toMatchSnapshot();
   });
 
@@ -31,6 +54,7 @@ describe('fileSystemRoutes', () => {
             loading: '@_modern_js_src/routes/loading.tsx',
             id: 'user/layout',
             type: 'nested' as const,
+            loader: '@_modern_js_src/routes/user.tsx',
             children: [
               {
                 path: ':id',
@@ -41,6 +65,7 @@ describe('fileSystemRoutes', () => {
                     _component: '@_modern_js_src/routes/user/[id]/page.tsx',
                     index: true,
                     id: 'user/[id]/page',
+                    loader: '@_modern_js_src/routes/user/[id]/page.tsx',
                     type: 'nested' as const,
                   },
                 ],
@@ -50,7 +75,12 @@ describe('fileSystemRoutes', () => {
         ],
       },
     ];
-    const code = fileSystemRoutes({ routes, ssrMode: false });
+    const code = await fileSystemRoutes({
+      entryName: 'main',
+      routes,
+      ssrMode: false,
+      internalDirectory: '',
+    });
     expect(code).toMatchSnapshot();
   });
 });

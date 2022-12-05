@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react';
-import defaultReactDOM from 'react-dom';
+import type { Renderer } from 'react-dom';
+import type { hydrateRoot, createRoot } from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
   RuntimeReactContext,
@@ -10,6 +11,7 @@ import { Plugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
+const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
 
 export type CreateAppOptions = {
   plugins: Plugin[];
@@ -32,6 +34,8 @@ const getInitialContext = (runner: PluginRunner) => ({
   loaderManager: createLoaderManager({}),
   runner,
   isBrowser: true,
+  routeManifest:
+    typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
 });
 
 export const createApp = ({ plugins }: CreateAppOptions) => {
@@ -97,26 +101,15 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
   };
 };
 
-interface HydrateFunc {
-  // React 18
-  (container: Element | Document, initialChildren: React.ReactNode): void;
-  // React 17
-  (
-    initialChildren: React.ReactNode,
-    container: Element | Document,
-    callback?: () => void,
-  ): void;
-}
-
 type BootStrap<T = unknown> = (
   App: React.ComponentType,
   id: string | HTMLElement | RuntimeContext,
-  root: any,
-  ReactDOM: {
-    render: (children: React.ReactNode, rootElement?: HTMLElement) => void;
-    hydrate: HydrateFunc;
-    createRoot?: (rootElement: HTMLElement) => any;
-    hydrateRoot: HydrateFunc;
+  root?: any,
+  ReactDOM?: {
+    render?: Renderer;
+    hydrate?: Renderer;
+    createRoot?: typeof createRoot;
+    hydrateRoot?: typeof hydrateRoot;
   },
 ) => Promise<T>;
 
@@ -131,7 +124,7 @@ export const bootstrap: BootStrap = async (
    * root.render need use root to run function
    */
   root,
-  ReactDOM = defaultReactDOM as any,
+  ReactDOM,
   // eslint-disable-next-line consistent-return
 ) => {
   let App = BootApp;
@@ -196,19 +189,48 @@ export const bootstrap: BootStrap = async (
       const rootElement =
         typeof id !== 'string' ? id : document.getElementById(id || 'root')!;
 
+      if (!ReactDOM) {
+        throw Error('The `bootstrap` need provide `ReactDOM` parameter');
+      }
       // https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
-      const ModernRender = (App: React.ReactNode) => {
+      const ModernRender = (App: React.ReactElement) => {
         if (IS_REACT18) {
-          (root || ReactDOM.createRoot!(rootElement)).render(App);
+          if (root) {
+            root.render(App);
+          } else if (ReactDOM.createRoot) {
+            ReactDOM.createRoot(rootElement).render(App);
+          } else {
+            throw Error(
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `createRoot` method',
+            );
+          }
         } else {
+          if (!ReactDOM.render) {
+            throw Error(
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `render` method',
+            );
+          }
           ReactDOM.render(App, rootElement);
         }
       };
 
-      const ModernHydrate = (App: React.ReactNode, callback?: () => void) => {
+      const ModernHydrate = (
+        App: React.ReactElement,
+        callback?: () => void,
+      ) => {
         if (IS_REACT18) {
+          if (!ReactDOM.hydrateRoot) {
+            throw Error(
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrateRoot` method',
+            );
+          }
           ReactDOM.hydrateRoot(rootElement, App);
         } else {
+          if (!ReactDOM.hydrate) {
+            throw Error(
+              'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrate` method',
+            );
+          }
           ReactDOM.hydrate(App, rootElement, callback);
         }
       };
@@ -250,6 +272,7 @@ export const bootstrap: BootStrap = async (
     // Handle redirects from React Router with an HTTP redirect
     const isRedirectResponse = (result: any) => {
       if (
+        typeof Response !== 'undefined' && // fix: ssg workflow doesn't inject Web Response
         result instanceof Response &&
         result.status >= 300 &&
         result.status <= 399

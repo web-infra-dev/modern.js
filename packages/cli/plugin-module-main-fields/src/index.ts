@@ -1,9 +1,9 @@
-import { CliPlugin, ModuleToolsHooks } from '@modern-js/module-tools-v2';
+import { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
 
 export const ModuleMainFieldsPlugin = (options: {
   mainFields: string[];
   disableMerge?: boolean;
-}): CliPlugin<ModuleToolsHooks> => ({
+}): CliPlugin<ModuleTools> => ({
   name: 'module-main-fields',
   setup: () => ({
     modifyLibuild(config) {

@@ -13,7 +13,7 @@ import type {
 import type { Module } from 'webpack';
 
 // We expose the three-layer to specify webpack chunk-split ability:
-// 1. By strategy.There some best pratice integrated in our internal strategy.
+// 1. By strategy.There some best practice integrated in our internal strategy.
 // 2. By forceSplitting config, which is designed to split chunks by user defined rules.That's easier to use than webpack raw config.
 // 3. By override config, which is designed to override the raw config of webpack `splitChunks`.It has the highest priority.
 // By the way, the config complexity is increasing gradually.
@@ -32,7 +32,7 @@ interface SplitChunksContext {
    */
   override: SplitChunks;
   /**
-   * User builder `chunkSplit` cpnfig
+   * User builder `chunkSplit` config
    */
   builderConfig: BuilderChunkSplit;
 }
@@ -62,10 +62,8 @@ function splitByExperience(ctx: SplitChunksContext): SplitChunks {
     antd: /[\\/]antd[\\/]/,
     semi: /[\\/]@ies\/semi|@douyinfe\/semi[\\/]/,
     arco: /[\\/]@arco-design[\\/]/,
-    babel:
-      /[\\/]@babel\/runtime|@babel\/runtime-corejs2|@babel\/runtime-corejs3[\\/]/,
     lodash: /[\\/]lodash|lodash-es[\\/]/,
-    corejs: /[\\/]core-js[\\/]/,
+    polyfill: /[\\/]core-js|@babel\/runtime[\\/]/,
   };
 
   Object.entries(SPLIT_EXPERIENCE_LIST).forEach(([name, test]) => {

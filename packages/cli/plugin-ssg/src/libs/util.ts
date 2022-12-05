@@ -6,7 +6,7 @@ import {
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
-import { ServerConfig } from '@modern-js/core';
+import { ServerUserConfig } from '@modern-js/app-tools';
 import {
   SsgRoute,
   SSGConfig,
@@ -111,7 +111,7 @@ export const standardOptions = (
   ssgOptions: SSGConfig,
   entrypoints: EntryPoint[],
   routes: ModernRoute[],
-  server: ServerConfig,
+  server: ServerUserConfig,
 ) => {
   if (ssgOptions === false) {
     return false;

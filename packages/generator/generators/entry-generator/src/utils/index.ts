@@ -41,6 +41,9 @@ export function isSingleEntry(appDir: string, entriesDir: string) {
     if (dirs.includes('pages')) {
       return true;
     }
+    if (dirs.includes('routes')) {
+      return true;
+    }
     return false;
   }
   return hasMainEntryFile;

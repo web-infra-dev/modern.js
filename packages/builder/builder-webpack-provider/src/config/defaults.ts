@@ -19,12 +19,14 @@ export const createDefaultConfig = () =>
         loaderOptions: {},
         pluginOptions: {},
       },
-      tsChecker: true,
+      tsChecker: {},
     },
     source: defaultSourceConfig,
     output: defaultOutputConfig,
     security: { sri: false },
-    experiments: {},
+    experiments: {
+      lazyCompilation: false,
+    },
     performance: {
       profile: false,
       buildCache: true,

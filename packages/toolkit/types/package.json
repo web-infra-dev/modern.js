@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.2",
   "types": "./index.d.ts",
   "exports": {
     ".": "./index.d.ts",
@@ -32,9 +32,11 @@
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
+    "@types/babel__core": "^7.1.19",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
+    "@jest/types": "^27.0.6",
     "http-proxy-middleware": "^2.0.4",
     "jest": "^27",
     "type-fest": "2.15.0"

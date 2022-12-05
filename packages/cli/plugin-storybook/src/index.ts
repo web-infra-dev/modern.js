@@ -1,8 +1,8 @@
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import type { CliPlugin, ModuleToolsHooks } from '@modern-js/module-tools-v2';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
 import { defaultStories } from './constants/stores';
 
-export default (): CliPlugin<ModuleToolsHooks> => ({
+export default (): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-storybook',
   setup: api => ({
     async validateSchema() {
@@ -23,7 +23,17 @@ export default (): CliPlugin<ModuleToolsHooks> => ({
             '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
           },
         },
-      };
+      } as any;
+    },
+    beforeBuildTask({ config }) {
+      const appContext = api.useAppContext();
+      const pluginsExportsUtils = createRuntimeExportsUtils(
+        appContext.internalDirectory,
+        'plugins',
+      );
+      config.alias['@modern-js/runtime/plugins'] =
+        pluginsExportsUtils.getPath();
+      return config;
     },
 
     registerDev() {

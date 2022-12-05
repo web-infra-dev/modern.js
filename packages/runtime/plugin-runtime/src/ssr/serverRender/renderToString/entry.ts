@@ -10,9 +10,9 @@ import {
   SSRPluginConfig,
 } from '../types';
 import { time } from '../utils';
+import prefetch from '../../prefetch';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
-
 import { reduce } from './reduce';
 import * as loadableRenderer from './loadable';
 import * as styledComponentRenderer from './styledComponent';
@@ -130,15 +130,11 @@ export default class Entry {
   }
 
   private async prefetch(context: RuntimeContext) {
-    const {
-      App: { prefetch },
-    } = this;
-
     let prefetchData;
     const end = time();
 
     try {
-      prefetchData = prefetch ? await prefetch(context) : null;
+      prefetchData = await prefetch(this.App, context);
       this.result.renderLevel = RenderLevel.SERVER_PREFETCH;
       const prefetchCost = end();
       this.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);

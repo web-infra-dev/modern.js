@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "@modern-js/module-tools-docs",
+  "version": "2.0.0-beta.2",
+  "description": "docs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "island dev docs",
+    "build": "island build docs",
+    "preview": "island start docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "islandjs": "0.7.19"
+  }
+}
