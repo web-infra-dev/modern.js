@@ -5,6 +5,7 @@ import type {
   AutoprefixerOptions,
   PostCSSLoaderOptions,
   PostCSSPlugin,
+  LessLoaderOptions,
 } from '../thirdParty';
 import type { RspackConfig } from '../rspack';
 import type { ModifyRspackConfigUtils } from '../hooks';
@@ -27,6 +28,12 @@ type ToolsHtmlPluginConfig = ChainedConfig<
   }
 >;
 
+export type ToolsLessConfig = ChainedConfig<
+  LessLoaderOptions,
+  void
+  // { addExcludes: (excludes: RegExp | RegExp[]) => void }
+>;
+
 export type ToolsRspackConfig = ChainedConfig<
   RspackConfig,
   ModifyRspackConfigUtils
@@ -42,6 +49,7 @@ export interface ToolsConfig {
   autoprefixer?: ToolsAutoprefixerConfig;
   postcss?: ToolsPostCSSLoaderConfig;
   rspack?: ToolsRspackConfig;
+  less?: ToolsLessConfig;
 }
 
 export type NormalizedToolsConfig = ToolsConfig;
