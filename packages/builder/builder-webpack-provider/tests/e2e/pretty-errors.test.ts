@@ -52,17 +52,7 @@ describe('Pretty output errors', () => {
           [90mat[39m new Promise [90m(<anonymous>)[39m
           [90mat[39m webpackBuild [90m(<ROOT>/src/core/build.ts:<POS>)[39m
           [90mat[39m build [90m(<ROOT>/src/core/build.ts:<POS>)[39m
-          [90mat[39m async Object.<anonymous> [90m(<ROOT>/src/stub/builder.ts:<POS>)[39m
-          [90mat[39m [90masync <ROOT>/tests/e2e/pretty-errors.test.ts:<POS>[39m
-          [90mat[39m async runTest [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async runFiles [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async startTestsNode [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m [90masync <WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>[39m
-          [90mat[39m async Module.withEnv [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>)[39m
-          [90mat[39m [90masync file:<WORKSPACE>/node_modules/<PNPM_INNER>/tinypool/dist/esm/worker.js:<POS>[39m"
+          [90mat[39m async Object.<anonymous> [90m(<ROOT>/src/stub/builder.ts:<POS>)[39m"
     `);
   });
   // Unable to spy on console.error within vitest worker.

@@ -39,23 +39,11 @@ test.skipIf(os.platform() === 'win32')('MissingLoader', async () => {
     You may need an additional loader to handle the result of these loaders.
     Error: foo
         at <ROOT>/tests/plugins/error/ModuleParseError.test.ts:<POS>
-        at async runTest (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async runSuite (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async runFiles (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async startTestsNode (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async <WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>
-        at async Module.withEnv (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async run (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>)
-        at async file:<WORKSPACE>/node_modules/<PNPM_INNER>/tinypool/dist/esm/worker.js:<POS>
+        at Generator.next (<anonymous>)
+        at fulfilled (<ROOT>/tests/plugins/error/ModuleParseError.test.ts:<POS>)
         at <ROOT>/tests/plugins/error/ModuleParseError.test.ts:<POS>
-        at async runTest (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async runSuite (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async runFiles (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async startTestsNode (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async <WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>
-        at async Module.withEnv (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)
-        at async run (<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>)
-        at async file:<WORKSPACE>/node_modules/<PNPM_INNER>/tinypool/dist/esm/worker.js:99:20"
+        at Generator.next (<anonymous>)
+        at fulfilled (<ROOT>/tests/plugins/error/ModuleParseError.test.ts:<POS>)"
   `);
   transformModuleParseError(parsed);
   expect(prettyFormatter(parsed)).toMatchInlineSnapshot(`
@@ -69,23 +57,11 @@ test.skipIf(os.platform() === 'win32')('MissingLoader', async () => {
      [90m*[39m Install builder plugins: https:/modernjs.dev/builder/en/plugin
     Or you can try to configure bundler loaders manually.
         [90mat[39m [90m<ROOT>/tests/plugins/error/ModuleParseError.test.ts:<POS>[39m
-        [90mat[39m async runTest [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m async runFiles [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m async startTestsNode [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m [90masync <WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>[39m
-        [90mat[39m async Module.withEnv [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m async run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>)[39m
-        [90mat[39m [90masync file:<WORKSPACE>/node_modules/<PNPM_INNER>/tinypool/dist/esm/worker.js:<POS>[39m
+        [90mat[39m Generator.next [90m(<anonymous>)[39m
+        [90mat[39m fulfilled [90m(<ROOT>/tests/plugins/error/ModuleParseError.test.ts:<POS>)[39m
     [41m[1m CAUSE [22m[49m [31m[1mError[22m[39m[90m:[39m foo
         [90mat[39m [90m<ROOT>/tests/plugins/error/ModuleParseError.test.ts:<POS>[39m
-        [90mat[39m async runTest [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m async runFiles [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m async startTestsNode [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m [90masync <WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>[39m
-        [90mat[39m async Module.withEnv [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-        [90mat[39m async run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>)[39m
-        [90mat[39m [90masync file:<WORKSPACE>/node_modules/<PNPM_INNER>/tinypool/dist/esm/worker.js:<POS>[39m"
+        [90mat[39m Generator.next [90m(<anonymous>)[39m
+        [90mat[39m fulfilled [90m(<ROOT>/tests/plugins/error/ModuleParseError.test.ts:<POS>)[39m"
   `);
 });

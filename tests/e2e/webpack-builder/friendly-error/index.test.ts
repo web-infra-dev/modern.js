@@ -21,22 +21,22 @@ test('should save the buildDependencies to cache directory', async () => {
         |        ^
       2 |   return 'foo';
       3 | }
-        [90mat[39m instantiate [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:72:32)[39m
-        [90mat[39m constructor [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:359:12)[39m
-        [90mat[39m Object.raise [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:3339:19)[39m
-        [90mat[39m Object.unexpected [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:3377:16)[39m
-        [90mat[39m Object.parseExport [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:15910:16)[39m
-        [90mat[39m Object.parseExport [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:10294:20)[39m
-        [90mat[39m Object.parseStatementContent [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:14759:27)[39m
-        [90mat[39m Object.parseStatementContent [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:10364:18)[39m
-        [90mat[39m Object.parseStatement [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:14643:17)[39m
-        [90mat[39m Object.parseBlockOrModuleBlockBody [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:15286:25)[39m
-        [90mat[39m Object.parseBlockBody [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:15277:10)[39m
-        [90mat[39m Object.parseProgram [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:14561:10)[39m
-        [90mat[39m Object.parseTopLevel [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:14548:25)[39m
-        [90mat[39m Object.parse [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:16556:10)[39m
-        [90mat[39m Object.parse [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:11154:18)[39m
-        [90mat[39m parse [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.18.6/node_modules/@babel/parser/lib/index.js:16608:38)[39m
+        [90mat[39m instantiate [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:67:32)[39m
+        [90mat[39m constructor [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:364:12)[39m
+        [90mat[39m TypeScriptParserMixin.raise [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:3364:19)[39m
+        [90mat[39m TypeScriptParserMixin.unexpected [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:3397:16)[39m
+        [90mat[39m TypeScriptParserMixin.parseExport [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:14087:16)[39m
+        [90mat[39m TypeScriptParserMixin.parseExport [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:9163:20)[39m
+        [90mat[39m TypeScriptParserMixin.parseStatementContent [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:13020:27)[39m
+        [90mat[39m TypeScriptParserMixin.parseStatementContent [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:9222:18)[39m
+        [90mat[39m TypeScriptParserMixin.parseStatement [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:12917:17)[39m
+        [90mat[39m TypeScriptParserMixin.parseBlockOrModuleBlockBody [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:13497:25)[39m
+        [90mat[39m TypeScriptParserMixin.parseBlockBody [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:13489:10)[39m
+        [90mat[39m TypeScriptParserMixin.parseProgram [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:12832:10)[39m
+        [90mat[39m TypeScriptParserMixin.parseTopLevel [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:12822:25)[39m
+        [90mat[39m TypeScriptParserMixin.parse [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:14674:10)[39m
+        [90mat[39m TypeScriptParserMixin.parse [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:9890:18)[39m
+        [90mat[39m parse [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+parser@7.20.3/node_modules/@babel/parser/lib/index.js:14716:38)[39m
         [90mat[39m parser [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+core@7.18.0/node_modules/@babel/core/lib/parser/index.js:52:34)[39m
         [90mat[39m parser.next [90m(<anonymous>)[39m
         [90mat[39m normalizeFile [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/@babel+core@7.18.0/node_modules/@babel/core/lib/transformation/normalize-file.js:87:38)[39m
@@ -48,8 +48,8 @@ test('should save the buildDependencies to cache directory', async () => {
         [90mat[39m step [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:261:32)[39m
         [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:273:13[39m
         [90mat[39m async.call.result.err.err [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:223:11)[39m
-        [90mat[39m processResult [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/webpack@5.74.0/node_modules/webpack/lib/NormalModule.js:758:19)[39m
-        [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/webpack@5.74.0/node_modules/webpack/lib/NormalModule.js:860:5[39m
+        [90mat[39m processResult [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/webpack@5.75.0/node_modules/webpack/lib/NormalModule.js:758:19)[39m
+        [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/webpack@5.75.0/node_modules/webpack/lib/NormalModule.js:860:5[39m
         [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/loader-runner@4.3.0/node_modules/loader-runner/lib/LoaderRunner.js:400:11[39m
         [90mat[39m [90m/Users/bytedance/repositories/modern.js/node_modules/.pnpm/loader-runner@4.3.0/node_modules/loader-runner/lib/LoaderRunner.js:252:18[39m
         [90mat[39m context.callback [90m(/Users/bytedance/repositories/modern.js/node_modules/.pnpm/loader-runner@4.3.0/node_modules/loader-runner/lib/LoaderRunner.js:124:13)[39m
