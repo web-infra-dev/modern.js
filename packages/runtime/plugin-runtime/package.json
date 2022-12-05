@@ -72,10 +72,10 @@
       "node": "./dist/js/node/router/index.js",
       "default": "./dist/js/treeshaking/router/index.js"
     },
-    "./router-server": {
-      "jsnext:source": "./src/router/server/index.ts",
-      "node": "./dist/js/node/router/server/index.js",
-      "default": "./dist/js/treeshaking/router/server/index.js"
+    "./router/server": {
+      "jsnext:source": "./src/router/server.ts",
+      "node": "./dist/js/node/router/server.js",
+      "default": "./dist/js/treeshaking/router/server.js"
     }
   },
   "typesVersions": {
@@ -110,8 +110,8 @@
       "router": [
         "./dist/types/router/index.d.ts"
       ],
-      "router-server": [
-        "./dist/types/router/server/index.d.ts"
+      "router/server": [
+        "./dist/types/router/runtime/server.d.ts"
       ]
     }
   },
