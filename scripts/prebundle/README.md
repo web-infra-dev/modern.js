@@ -10,6 +10,12 @@ Run following command to prebundle all dependencies:
 pnpm start
 ```
 
+Or specify the package to build its dependencies:
+
+```
+pnpm start @modern-js/builder-webpack-provider
+```
+
 ## Add a new dependency
 
 1. Remove the dependency from the `dependencies` of original package.
