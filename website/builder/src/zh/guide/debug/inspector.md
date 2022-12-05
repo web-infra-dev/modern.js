@@ -1,12 +1,12 @@
 # 使用 Webpack Inspector
 
-Builder 内置了 [webpack inspector](https://github.com/modern-js-dev/webpack-inspector) 来调试 webpack 构建问题。
+Builder 内置了 [webpack inspector](https://github.com/modern-js-dev/webpack-inspector) 来辅助调试 webpack 构建问题。
 
 ## 介绍
 
 由于 webpack 内部的工作流程比较黑盒，在使用 webpack 时，我们常常会遇到如下的一些问题:
 
-- 在使用某些上层框架时，不知道最终生成的 webpack 配置包含哪些内容。
+- 在使用上层框架时，不知道最终生成的 webpack 配置包含哪些内容。
 - 每个模块会经过不同的 loader 处理，经过各个 loader 的编译结果难以感知。
 - 难以感知 webpack 各个编译环节 (比如 babel-loader、ts-loader) 的耗时情况。
 
