@@ -40,7 +40,7 @@ In addition to the `inline` query, you can also use the `__inline` query to forc
 import img from '. /foo.png?__inline';
 ```
 
-### CSS files
+### Referenced from CSS file
 
 When you reference a static asset in your CSS file, you can also force inline the asset with the `inline` or `__inline` queries.
 
@@ -75,7 +75,7 @@ In addition to the `url` query, you can also use the `__inline=false` query to f
 import img from '. /foo.png?__inline=false';
 ```
 
-### CSS files
+### Referenced from CSS file
 
 When you reference a static asset in your CSS file, you can also force the asset not to be inlined with `url` or `__inline=false` queries.
 
@@ -87,3 +87,35 @@ When you reference a static asset in your CSS file, you can also force the asset
 
 :::tip Do you really need to exclude assets from inlining?
 Excluding assets from inlining will increase the number of assets that the Web App needs to load. This will reduce the efficiency of loading assets in a weak network environment or in scenarios where HTTP2 is not enabled. Please use force no Inline with caution.
+
+## Inline JS files
+
+In addition to inlining static resource files into JS files, Builder also supports inlining JS files into HTML files.
+
+Just enable the [output.enableInlineScripts](/zh/api/config-output.html#output-enableinlinescripts) config, and the generated JS files will not be written into the output directory, but will be directly inlined to the corresponding in the HTML file.
+
+```ts
+export default {
+  output: {
+    enableInlineScripts: true,
+  },
+};
+```
+
+:::tip
+Inline JS files may cause the single HTML file to be too large, and it will break the HTTP caching. Please use it with caution.
+:::
+
+## Inline CSS files
+
+You can also inline CSS files into HTML files.
+
+Just enable the [output.enableInlineStyles](/zh/api/config-output.html#output-enableinlinestyles) config, the generated CSS file will not be written into the output directory, but will be directly inlined to the corresponding in the HTML file.
+
+```ts
+export default {
+  output: {
+    enableInlineStyles: true,
+  },
+};
+```

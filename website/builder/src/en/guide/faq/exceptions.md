@@ -78,6 +78,16 @@ export default {
 
 Setting `sourceType` to `unambiguous` may have some other effects, please refer to [babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
 
+## Compile error "Error: ES Modules may not assign module.exports or exports.\*, Use ESM export syntax"?
+
+If the following error occurs during compilation, it is usually because a CommonJS module is compiled with babel in the project, and the solution is same as the above `exports is not defined` problem.
+
+```bash
+Error: ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: 581
+```
+
+For more information, please refer to issue: [babel#12731](https://github.com/babel/babel/issues/12731).
+
 ## React component state lost after HMR?
 
 Builder uses React's official [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) capability for component hot update.
@@ -192,5 +202,6 @@ The writing of division in Less can also be modified through configuration items
 This error indicates that a read-only configuration item was deleted during the compilation process. Normally, we do not want any operation to directly modify the incoming configuration when compiling, but it is difficult to restrict the behavior of underlying plugins (such as postcss-loader, etc). If this error occurs, please contact the builder developer and we will need to do something special with that configuration.
 
 The same type of error is also reported:
+
 - 'TypeError: Cannot add property xxx, object is not extensible'
 - 'TypeError: Cannot assign to read only property 'xxx' of object '#\<Object\>'
