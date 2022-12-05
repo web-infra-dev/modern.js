@@ -137,6 +137,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/plugins/plugin-swc'),
           getLink('/plugins/plugin-esbuild'),
           getLink('/plugins/plugin-node-polyfill'),
+          getLink('/plugins/plugin-image-compress'),
         ],
       },
     ],
