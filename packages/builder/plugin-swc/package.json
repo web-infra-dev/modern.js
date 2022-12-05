@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.0.9",
+    "@modern-js/swc-plugins": "0.0.10",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.4.12",
     "core-js": "^3.26.0"
