@@ -1,10 +1,10 @@
-/* eslint-disable import/no-commonjs */
 module.exports = {
   tools: {
     less: (opts, { addExcludes }) => {
       addExcludes([/b\.less$/]);
     },
   },
+  output: {
+    enableAssetFallback: true,
+  },
 };
-
-/* eslint-enable import/no-commonjs */
