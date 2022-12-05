@@ -73,6 +73,11 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       },
       {
         collapsable: false,
+        title: getText('调试', 'Debug'),
+        children: [getLink('/guide/debug/inspector')],
+      },
+      {
+        collapsable: false,
         title: getText('常见问题', 'FAQ'),
         children: [
           getLink('/guide/faq/general'),
@@ -112,10 +117,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       {
         title: getText('Plugin API', 'Plugin API'),
         collapsable: false,
-        children: [
-          getLink('/api/plugin-core'),
-          getLink('/api/plugin-hooks'),
-        ],
+        children: [getLink('/api/plugin-core'), getLink('/api/plugin-hooks')],
       },
     ],
     [getLink('/plugins')]: [

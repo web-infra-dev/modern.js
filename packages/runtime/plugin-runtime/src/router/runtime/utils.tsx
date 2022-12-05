@@ -48,12 +48,8 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
     }
   }
 
-  if (!parent) {
-    element = (
-      <RootLayout routes={[nestedRoute]}>
-        <Suspense>{element}</Suspense>
-      </RootLayout>
-    );
+  if (!parent && element) {
+    element = <RootLayout routes={[nestedRoute]}>{element}</RootLayout>;
   }
 
   routeProps.element = element;

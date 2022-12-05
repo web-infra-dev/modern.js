@@ -3,29 +3,6 @@
 
 By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
-### Object Type
-
-When `tools.babel`'s type is `Object`, the config will be merged with default config by Object.assign.
-
-```js
-export default {
-  tools: {
-    babel: {
-      plugins: [
-        [
-          'babel-plugin-import',
-          {
-            libraryName: 'xxx-components',
-            libraryDirectory: 'es',
-            style: true,
-          },
-        ],
-      ],
-    },
-  },
-};
-```
-
 ### Function Type
 
 When `tools.babel`'s type is Function，the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result. The second parameter provides some util functions that can be called directly:
@@ -44,6 +21,29 @@ export default {
           style: true,
         },
       ]);
+    },
+  },
+};
+```
+
+### Object Type
+
+When `tools.babel`'s type is `Object`, the config will be merged with default config by `Object.assign`. Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
+
+```js
+export default {
+  tools: {
+    babel: {
+      plugins: [
+        [
+          'babel-plugin-import',
+          {
+            libraryName: 'xxx-components',
+            libraryDirectory: 'es',
+            style: true,
+          },
+        ],
+      ],
     },
   },
 };

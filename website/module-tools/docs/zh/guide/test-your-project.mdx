@@ -1,0 +1,158 @@
+# 测试项目
+
+本章将要介绍如何测试可复用模块。
+
+## 先决条件和约定
+
+想要使用项目的测试功能，需要确保项目中包含以下依赖：
+
+* `"@modern-js/plugin-testing"`
+
+在模块工程方案中，对于测试用例或者说编写测试的文件有如下约定：
+
+* 项目目录下的 `tests` 目录为测试用例和测试文件的目录，**不支持更改运行测试用例的目录**。
+* 默认会自动将后缀为 `.test.[tj]sx?` 的文件识别为测试文件。
+* 其他的 `.[tj]sx?` 后缀的文件被识别为普通的文件，可以用于测试的 `utils` 文件或者其他用途。
+
+
+## 运行测试
+
+当准备好了依赖以及了解了测试用例在哪里编写后，我们可以通过以下命令来执行测试：
+
+``` bash
+modern test
+
+// 更新 snapshot
+modern test --updateSnapshot
+```
+
+执行之后，会看到测试的结果：
+
+![test-result](/test-result.png)
+
+## 使用配置
+
+模块工程方案对测试提供了以下配置：
+
+* [`testing`](/zh/api/config-test)
+
+可以在 `modern.config.(j|t)s` 中增加它。
+
+## 测试示例
+
+### 普通模块
+
+对于普通的模块，我们可以按照如下方式使用测试功能：
+
+<CH.Spotlight>
+
+``` typescript ./src/index.ts
+export default function () {
+  return 'hello world';
+}
+```
+
+---
+
+首先是模块的代码。
+
+``` typescript ./src/index.ts
+export default function () {
+  return 'hello world';
+}
+```
+
+---
+
+然后在测试文件中，我们可以这样。
+
+其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 中定义了。
+
+``` typescript ./tests/index.test.ts
+import main from '@/index';
+
+describe('默认值 cases', () => {
+  test('Have returns', () => {
+    const drink = jest.fn(main);
+    drink();
+    expect(drink).toHaveReturned();
+  });
+});
+```
+
+---
+
+最后我们可以执行 `modern test`。
+
+``` bash
+pnpm test
+## or
+yarn test
+## or
+npm run test
+```
+
+</CH.Spotlight>
+
+### 组件
+
+对于组件，Modern.js 的 [Runtime API](xxx) 提供了用于测试 UI 组件的功能，其功能由 `@modern-js/runtime/testing` 提供。
+
+:::tip
+如果需要使用 Runtime API，那么可以通过 [微生成器](/zh/guide/command-preview) 开启。
+:::
+
+<CH.Spotlight>
+
+``` tsx ./src/index.tsx
+export const default () {
+  return (
+    <div>This is a UI Component</div>
+  );
+}
+```
+
+---
+
+首先是组件的代码。
+
+``` tsx ./src/index.tsx
+export const default () {
+  return (
+    <div>This is a UI Component</div>
+  );
+}
+```
+
+---
+
+然后在测试文件中，我们可以这样。
+
+其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 中定义了。
+
+``` tsx ./tests/index.test.tsx
+import { render, screen } from '@modern-js/runtime/testing';
+
+import Component from '@/index';
+
+describe('默认值 cases', () => {
+  test('Rendered', () => {
+    render(<Component />);
+    expect(screen.getByText('This is a UI Component')).toBeInTheDocument();
+  });
+});
+```
+
+---
+
+最后我们可以执行 `modern test`。
+
+``` bash
+pnpm test
+## or
+yarn test
+## or
+npm run test
+```
+
+</CH.Spotlight>

@@ -24,23 +24,6 @@ const defaultOptions = {
 
 Builder 默认集成 PostCSS，你可以通过 `tools.postcss` 对 [postcss-loader](https://github.com/webpack-contrib/postcss-loader) 进行配置。
 
-### Object 类型
-
-当此值为 Object 类型时，与默认配置通过 Object.assign 合并。比如:
-
-```js
-export default {
-  tools: {
-    postcss: {
-      // 由于使用 `Object.assign` 合并，因此默认的 postcssOptions 会被覆盖。
-      postcssOptions: {
-        plugins: [require('postcss-px-to-viewport')],
-      },
-    },
-  },
-};
-```
-
 ### Function 类型
 
 值为 Function 类型时，内部默认配置作为第一参数传入，可以直接修改配置对象不做返回，也可以返回一个对象作为最终结果；第二个参数为修改 postcss-loader 配置的工具函数集合。
@@ -83,6 +66,23 @@ export default {
           plugins: [require('postcss-px-to-viewport')],
         },
       };
+    },
+  },
+};
+```
+
+### Object 类型
+
+当此值为 Object 类型时，与默认配置通过 `Object.assign` 合并。注意 `Object.assign` 是浅拷贝，会完全覆盖内置的 `plugins` 数组，请谨慎使用。
+
+```js
+export default {
+  tools: {
+    postcss: {
+      // 由于使用 `Object.assign` 合并，因此默认的 postcssOptions 会被覆盖。
+      postcssOptions: {
+        plugins: [require('postcss-px-to-viewport')],
+      },
     },
   },
 };

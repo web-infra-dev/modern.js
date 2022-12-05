@@ -51,12 +51,8 @@ export default defineConfig({
 
 ```tsx title="App.tsx"
 import { useRuntimeContext } from '@modern-js/runtime';
-import {
-  Routes,
-  Route,
-  StaticRouter,
-  BrowserRouter,
-} from '@modern-js/runtime/router';
+import { Routes, Route, BrowserRouter } from '@modern-js/runtime/router';
+import { StaticRouter } from '@modern-js/runtime/router/server';
 
 const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
 
@@ -122,12 +118,8 @@ export default defineConfig({
 
 ```tsx title="src/App.tsx"
 import { useRuntimeContext } from '@modern-js/runtime';
-import {
-  Routes,
-  Route,
-  StaticRouter,
-  BrowserRouter,
-} from '@modern-js/runtime/router';
+import { Routes, Route, BrowserRouter } from '@modern-js/runtime/router';
+import { StaticRouter } from '@modern-js/runtime/router/server';
 
 const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
 

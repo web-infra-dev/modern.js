@@ -57,7 +57,6 @@ describe('test build', () => {
 
   it(`should get right alias build!`, async () => {
     expect(buildRes.code === 0).toBe(true);
-    expect(existsSync('asset-manifest.json')).toBe(true);
     expect(existsSync('route.json')).toBe(true);
     expect(existsSync('html/main/index.html')).toBe(true);
   });

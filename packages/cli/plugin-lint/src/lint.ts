@@ -1,3 +1,4 @@
+import { join } from 'path';
 import spawn from 'cross-spawn';
 import { chalk, logger, minimist } from '@modern-js/utils';
 
@@ -39,7 +40,10 @@ export default () => {
     rawArgs.push('./');
   }
 
-  const eslintScript = require.resolve('eslint/bin/eslint.js');
+  const eslintScript = join(
+    require.resolve('eslint/package.json'),
+    '../bin/eslint.js',
+  );
 
   logger.info(chalk.bold('Lint...'));
   logger.info(

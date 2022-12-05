@@ -208,6 +208,7 @@ export const fileSystemRoutes = async ({
     import { lazy } from "react";
     import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   `;
+  let rootLayoutCode = ``;
   let dataLoaderPath = '';
   let componentLoaderPath = '';
   if (ssrMode) {
@@ -248,7 +249,10 @@ export const fileSystemRoutes = async ({
       }
 
       if (route._component) {
-        if (ssrMode === 'string') {
+        if (route.isRoot) {
+          rootLayoutCode = `import RootLayout from '${route._component}'`;
+          component = `RootLayout`;
+        } else if (ssrMode === 'string') {
           component = `loadable(() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}'))`;
         } else {
           // csr and streaming
@@ -284,6 +288,7 @@ export const fileSystemRoutes = async ({
         .replace(/"(lazy.*\))"/g, '$1')
         .replace(/"(loading_[^"])"/g, '$1')
         .replace(/"(loader_[^"])"/g, '$1')
+        .replace(/"(RootLayout)"/g, '$1')
         .replace(/"(error_[^"])"/g, '$1')
         .replace(/\\"/g, '"')},`;
     } else {
@@ -358,6 +363,7 @@ export const fileSystemRoutes = async ({
 
   return `
     ${importLazyCode}
+    ${rootLayoutCode}
     ${importLoadingCode}
     ${importErrorComponentsCode}
     ${importLoadersCode}
