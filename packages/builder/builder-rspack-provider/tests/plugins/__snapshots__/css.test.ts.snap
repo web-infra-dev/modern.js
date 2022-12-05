@@ -52,3 +52,139 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
   },
 }
 `;
+
+exports[`plugins/less > should add less-loader 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "name": "less",
+        "test": /\\\\\\.less\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": [Function],
+            "name": "less",
+            "options": {
+              "implementation": "<ROOT>/compiled/less",
+              "lessOptions": {
+                "javascriptEnabled": true,
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/less > should add less-loader with tools.less 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "name": "less",
+        "test": /\\\\\\.less\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": [Function],
+            "name": "less",
+            "options": {
+              "implementation": "<ROOT>/compiled/less",
+              "lessOptions": {
+                "javascriptEnabled": false,
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
