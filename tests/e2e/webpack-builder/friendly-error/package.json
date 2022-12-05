@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "@e2e/friendly-error",
+  "version": "0.1.0",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@modern-js/e2e": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@types/node": "^14",
+    "typescript": "^4"
+  }
+}
