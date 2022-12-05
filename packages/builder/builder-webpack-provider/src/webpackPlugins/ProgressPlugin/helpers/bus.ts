@@ -1,3 +1,5 @@
+// eslint-disable-next-line node/prefer-global/console
+import { Console } from 'console';
 import patchConsole from '../../../../compiled/patch-console';
 import cliTruncate from '../../../../compiled/cli-truncate';
 import type { Props } from './type';
@@ -33,6 +35,8 @@ class Bus {
   constructor() {
     this.prevOutput = '';
     this.log = create(process.stdout);
+    // eslint-disable-next-line no-console
+    console.Console = Console;
     this.restore = patchConsole((type, data) => {
       this.writeToStd(type, data);
     });

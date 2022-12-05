@@ -24,10 +24,25 @@ export default {
 
 你可以通过 [html.title](/zh/api/config-html.html#html-title) 和 [html.titleByEntries](/zh/api/config-html.html#html-titlebyentries) 配置项来设置 HTML 的 `<title>` 标签。
 
+当你的项目中只有一个页面时，直接使用 `html.title` 设置即可：
+
 ```ts
 export default {
   html: {
     title: 'example',
+  },
+};
+```
+
+当你的项目中有多个页面时，请使用 `html.titleByEntries` 来为不同的页面设置对应的标题，`html.titleByEntries` 使用页面的「入口名称」作为 key。
+
+```ts
+export default {
+  html: {
+    titleByEntries: {
+      foo: 'Foo',
+      bar: 'Bar',
+    },
   },
 };
 ```
