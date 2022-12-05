@@ -7,7 +7,4 @@ export default defineConfig({
   server: {
     ssr: true,
   },
-  tools: {
-    inspector: process.env.DEBUG ? {} : undefined,
-  },
 });
