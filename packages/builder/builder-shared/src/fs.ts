@@ -8,6 +8,9 @@ import {
   FilenameConfig,
 } from './types';
 
+export const getCompiledPath = (packageName: string) =>
+  join(__dirname, '../../compiled', packageName);
+
 export function getAbsoluteDistPath(
   cwd: string,
   outputConfig: NormalizedSharedOutputConfig,
