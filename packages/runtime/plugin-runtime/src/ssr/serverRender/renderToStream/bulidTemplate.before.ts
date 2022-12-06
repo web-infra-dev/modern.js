@@ -9,7 +9,6 @@ import {
 } from './buildTemplate.share';
 
 const CSS_CHUNKS_PLACEHOLDER = '<!--<?- chunksMap.css ?>-->';
-const ROOT_LAYOUT = 'layout';
 
 // build head template
 function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
@@ -43,10 +42,14 @@ function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
       const cssChunks: string[] = [];
 
       const matches = matchRoutes(routes, routerContext.location);
-      matches?.forEach(match => {
-        const routeId = match.route.id;
+      matches?.forEach((match, index) => {
+        // root layout css chunks should't be loaded
+        if (!index) {
+          return;
+        }
 
-        if (routeId && routeId !== ROOT_LAYOUT) {
+        const routeId = match.route.id;
+        if (routeId) {
           const { assets = [] } = routeAssets[routeId];
           const _cssChunks = assets.filter((asset?: string) =>
             asset?.endsWith('.css'),
