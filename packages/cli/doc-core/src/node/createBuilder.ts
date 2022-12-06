@@ -1,16 +1,27 @@
 import path from 'path';
 <<<<<<< HEAD
 import { createRequire } from 'module';
-import type { Options } from '@mdx-js/loader';
+// import UnoCSSPlugin from '@unocss/webpack';
+// import { presetUno, presetAttributify } from 'unocss';
+import { UserConfig } from 'shared/types';
+import { mergeBuilderConfig } from '@modern-js/builder';
+import { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import { CLIENT_ENTRY, PACKAGE_ROOT } from './constants';
+import { createMDXOptions } from './mdx';
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const require = createRequire(import.meta.url);
 
-export async function createMdxOptions(): Promise<Options> {
-  const { default: remarkGFMPlugin } = await import('remark-gfm');
+async function createInternalBuildConfig(
+  userRoot: string,
+  config: UserConfig,
+): Promise<BuilderConfig> {
+  const mdxOptions = createMDXOptions();
 
-  const { default: rehypePluginAutolinkHeadings } = await import(
-    'rehype-autolink-headings'
+  const { createRouteVirtualModulePlugin, createSiteDataVirtualModulePlugin } =
+    await import('./virtualModule');
+
+  const routeVirtualModulePlugin = await createRouteVirtualModulePlugin(
+    userRoot,
   );
 =======
 import type { Options } from '@mdx-js/loader';
@@ -28,48 +39,103 @@ export async function createMdxOptions(): Promise<Options> {
   )) as typeof import('rehype-autolink-headings');
 >>>>>>> 48910dbf71 (feat: init doc tools and doc core)
 
+  const siteDataVirtualModulePlugin = await createSiteDataVirtualModulePlugin(
+    config,
+  );
   return {
-    remarkPlugins: [[remarkGFMPlugin]],
-    rehypePlugins: [
-      [
-        rehypePluginAutolinkHeadings,
-        {
-          properties: {
-            class: 'header-anchor',
-            ariaHidden: 'true',
-          },
-          content: {
-            type: 'text',
-            value: '#',
-          },
-        },
-      ],
-    ],
+    html: {
+      template: path.join(PACKAGE_ROOT, 'index.html'),
+    },
+    output: {
+      distPath: {
+        root: 'build',
+      },
+    },
+    source: {
+      alias: {
+        'react/jsx-runtime': require.resolve('react/jsx-runtime'),
+        '@': path.join(PACKAGE_ROOT, 'src'),
+        '@runtime': path.join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts'),
+      },
+      include: [PACKAGE_ROOT],
+    },
+    tools: {
+      babel(options, { modifyPresetReactOptions }) {
+        modifyPresetReactOptions({
+          runtime: 'automatic',
+        });
+        return options;
+      },
+      webpackChain(chain, { CHAIN_ID }) {
+        const [loader, options] = chain.module
+          .rule(CHAIN_ID.RULE.JS)
+          .use(CHAIN_ID.USE.BABEL)
+          .values();
+        chain.module
+          .rule('MDX')
+          .test(/\.mdx?$/)
+          .use('babel-loader')
+          .loader(loader as unknown as string)
+          .options(options)
+          .end()
+          .use('string-replace-loader')
+          .loader(require.resolve('string-replace-loader'))
+          .options({
+            multiple: [
+              {
+                search: '\\$FRAMEWORK',
+                replace: 'EDEN',
+                flags: 'g',
+              },
+            ],
+          })
+          .end()
+          .use('mdx-loader')
+          .loader(require.resolve('@mdx-js/loader'))
+          .options(mdxOptions)
+          .end();
+
+        chain.resolve.extensions.merge(['.ts', '.tsx', '.mdx', '.md']);
+      },
+      webpack(config) {
+        config
+          .plugins!.push
+          // UnoCSSPlugin({
+          //   presets: [presetUno(), presetAttributify()],
+          // }),
+          ();
+        config.plugins!.push(
+          routeVirtualModulePlugin,
+          siteDataVirtualModulePlugin,
+        );
+
+        return config;
+      },
+    },
   };
 }
 
+<<<<<<< HEAD
 export async function createModernBuilder(rootDir: string) {
 <<<<<<< HEAD
   const PACKAGE_ROOT = path.join(__dirname, '..');
 =======
   const PACKAGE_ROOT = path.join(__dirname, '..', '..', '..', '..');
 >>>>>>> 48910dbf71 (feat: init doc tools and doc core)
+=======
+export async function createModernBuilder(rootDir: string, config: UserConfig) {
+>>>>>>> f8c30423ea (feat: parse doc config & schema)
   const userRoot = path.resolve(rootDir || process.cwd());
   const { createBuilder } = await import('@modern-js/builder');
   const { builderWebpackProvider } = await import(
     '@modern-js/builder-webpack-provider'
   );
-  const { createRouteVirtualModulePlugin } = await import(
-    './route/createRouteVirtualModulePlugin'
-  );
-
-  const routeVirtualModulePlugin = await createRouteVirtualModulePlugin(
+  const internalBuilderConfig = await createInternalBuildConfig(
     userRoot,
-    PACKAGE_ROOT,
+    config,
   );
-
-  const mdxOptions = await createMdxOptions();
   const builderProvider = builderWebpackProvider({
+<<<<<<< HEAD
     builderConfig: {
       html: {
         template: path.join(PACKAGE_ROOT, 'index.html'),
@@ -150,10 +216,17 @@ export async function createModernBuilder(rootDir: string) {
     'clientEntry.js',
   );
 >>>>>>> 48910dbf71 (feat: init doc tools and doc core)
+=======
+    builderConfig: mergeBuilderConfig(
+      internalBuilderConfig,
+      config.doc?.builderConfig || {},
+    ),
+  });
+>>>>>>> f8c30423ea (feat: parse doc config & schema)
   const builder = await createBuilder(builderProvider, {
     target: ['web'],
     entry: {
-      main: entry,
+      main: CLIENT_ENTRY,
     },
   });
   return builder;

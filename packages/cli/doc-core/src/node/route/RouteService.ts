@@ -50,16 +50,23 @@ export class RouteService {
 
   async init() {
 <<<<<<< HEAD
+<<<<<<< HEAD
     const globby = await import('@modern-js/utils/globby');
 =======
 >>>>>>> 48910dbf71 (feat: init doc tools and doc core)
     const files = globby
       .sync([`**/*.{${this.#extensions.join(',')}}`, ...this.#include], {
+=======
+    const { globbySync } = await import('globby');
+    const files = globbySync(
+      [`**/*.{${this.#extensions.join(',')}}`, ...this.#include],
+      {
+>>>>>>> f8c30423ea (feat: parse doc config & schema)
         cwd: this.#scanDir,
         absolute: true,
         ignore: [...this.#exclude],
-      })
-      .sort();
+      },
+    ).sort();
     files.forEach(file => this.addRoute(file));
   }
 

@@ -30,7 +30,7 @@
     "gen-release-note": "modern gen-release-note",
     "release": "modern release",
     "new": "modern new",
-    "test": "modern test --passWithNoTests",
+    "test": "vitest run --passWithNoTests",
     "upgrade": "modern upgrade"
   },
   "engines": {
@@ -41,6 +41,7 @@
     "dist/"
   ],
   "dependencies": {
+<<<<<<< HEAD
     "@babel/runtime": "^7.18.0",
     "@loadable/component": "^5.15.2",
 <<<<<<< HEAD
@@ -69,17 +70,43 @@
     "webpack-virtual-modules": "^0.4.6",
     "windicss-webpack-plugin": "^1.7.7"
 >>>>>>> 48910dbf71 (feat: init doc tools and doc core)
+=======
+    "@babel/runtime": "7.18.0",
+    "@loadable/component": "5.15.2",
+    "@mdx-js/loader": "2.1.5",
+    "@modern-js/builder": "1.21.4",
+    "@modern-js/builder-webpack-provider": "1.21.4",
+    "@modern-js/utils": "1.21.4",
+    "@unocss/preset-attributify": "^0.46.5",
+    "@unocss/webpack": "^0.46.5",
+    "autoprefixer": "10.4.13",
+    "globby": "^13.1.2",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "6.4.3",
+    "rehype-autolink-headings": "6.1.1",
+    "rehype-slug": "^5.1.0",
+    "remark-gfm": "3.0.1",
+    "source-map": "0.7.4",
+    "string-replace-loader": "^3.1.0",
+    "unocss": "^0.46.5",
+    "webpack-virtual-modules": "0.4.6"
+>>>>>>> f8c30423ea (feat: parse doc config & schema)
   },
   "peerDependencies": {
+    "@modern-js/core": ">=1.21.4",
     "react": ">=17"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@mdx-js/loader": "^2.1.5",
 <<<<<<< HEAD
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
 =======
+=======
+    "@modern-js/core": "workspace:*",
+>>>>>>> f8c30423ea (feat: parse doc config & schema)
     "@modern-js/module-tools": "1.21.3",
     "@modern-js/plugin-testing": "1.21.3",
     "@modern-js/tsconfig": "1.21.3",
@@ -89,12 +116,18 @@
     "@types/node": "^14",
     "@types/react": "^17.0.50",
     "@types/react-dom": "^18",
+    "@types/string-replace-loader": "^2.3.2",
     "husky": "^8",
     "lint-staged": "^11.2.6",
     "prettier": "^2.6.2",
     "react": "18.2",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
     "rimraf": "^3.0.2",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "unified": "^10.1.2",
+    "vitest": "0.21.1"
   },
   "sideEffects": [
     "*.css",

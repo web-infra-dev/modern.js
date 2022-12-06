@@ -7,7 +7,7 @@ export default defineConfig({
   },
   output: {
     buildConfig: {
-      format: 'esm',
+      buildType: 'bundle',
       enableDts: true,
     },
   },
