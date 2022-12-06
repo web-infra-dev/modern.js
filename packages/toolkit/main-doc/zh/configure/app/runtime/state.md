@@ -12,6 +12,19 @@ sidebar_label: state
 
 具体配置项如下：
 
+## `models`
+
+* 类型：`Array<Model>`
+* 默认值：`[]`
+
+注册提前挂载的 model 对象，这些 model 会在 Reduck store 创建完成后立即执行挂载。一般使用无需提前挂载。
+
+## `initialState`
+* 类型: `Object`
+* * 默认值：`{}`
+
+用于设置全局 store 的初始状态。一般用于 SSR 在 hydration 阶段初始化数据。
+
 ## `immer`
 
 * 类型：`boolean`
