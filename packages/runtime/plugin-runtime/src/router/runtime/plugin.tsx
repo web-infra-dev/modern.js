@@ -10,6 +10,19 @@ import type { Plugin } from '../../core';
 import { renderRoutes } from './utils';
 import type { RouterConfig } from './types';
 
+let modifiableRoutesConfig: RouterConfig['routesConfig'];
+let modifiable = true;
+
+export type ModifyFn = (routesConfig: RouterConfig['routesConfig']) => RouterConfig['routesConfig'];
+
+export const modifyRoutesConfig = (modifyFn: ModifyFn) => {
+  if (modifiable) {
+    modifiableRoutesConfig = modifyFn(modifiableRoutesConfig);
+  } else {
+    console.error('cannot modify routes during render');
+  }
+};
+
 export const routerPlugin = ({
   serverBase = [],
   supportHtml5History = true,
@@ -28,21 +41,26 @@ export const routerPlugin = ({
           if (!routesConfig) {
             return next({ App });
           }
+          
+          modifiableRoutesConfig = routesConfig;
 
           const getRouteApp = () => {
+            let router: any;
+
             return (props => {
-              const routeElements = renderRoutes(routesConfig);
-              const routes = createRoutes
-                ? createRoutes()
-                : createRoutesFromElements(routeElements);
-
-              const baseUrl =
-                window._SERVER_DATA?.router.baseUrl ||
-                select(location.pathname);
-
-              const router = supportHtml5History
-                ? createBrowserRouter(routes, { basename: baseUrl })
-                : createHashRouter(routes, { basename: baseUrl });
+              modifiable = false;
+              
+              if (!router) {
+                const routes = createRoutes
+                  ? createRoutes()
+                  : createRoutesFromElements(renderRoutes(modifiableRoutesConfig));
+                const baseUrl =
+                  window._SERVER_DATA?.router.baseUrl ||
+                  select(location.pathname);
+                router = supportHtml5History
+                  ? createBrowserRouter(routes, { basename: baseUrl })
+                  : createHashRouter(routes, { basename: baseUrl });
+              }
 
               return (
                 <App {...props}>
