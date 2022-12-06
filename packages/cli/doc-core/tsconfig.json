@@ -4,18 +4,10 @@
     "declaration": false,
     "module": "ESNext",
     "target": "ESNext",
-<<<<<<< HEAD
     "jsx": "react-jsx",
-<<<<<<< HEAD
-=======
-    "jsx": "preserve",
->>>>>>> 48910dbf71 (feat: init doc tools and doc core)
-    "baseUrl": "./",
-=======
     "baseUrl": "src",
     "rootDir": ".",
     "esModuleInterop": true,
->>>>>>> f8c30423ea (feat: parse doc config & schema)
     "paths": {
       "@/*": ["./*"],
       "@style/*": ["./styles/*"]

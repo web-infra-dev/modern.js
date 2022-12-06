@@ -1,6 +1,5 @@
 {
   "name": "@modern-js/doc-core",
-<<<<<<< HEAD
   "version": "2.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
@@ -8,14 +7,6 @@
   "type": "module",
   "module": "./dist/node/index.js",
   "jsnext:modern": "./dist/modern/node/index.js",
-=======
-  "version": "0.1.0",
-  "jsnext:source": "./src/node/index.ts",
-  "types": "./dist/types/node/index.d.ts",
-  "main": "./dist/js/node/node/index.js",
-  "module": "./dist/js/treeshaking/node/index.js",
-  "jsnext:modern": "./dist/js/modern/node/index.js",
->>>>>>> 48910dbf71 (feat: init doc tools and doc core)
   "scripts": {
     "prepare": "modern build",
     "prepublishOnly": "modern build --platform",
@@ -41,76 +32,37 @@
     "dist/"
   ],
   "dependencies": {
-<<<<<<< HEAD
-    "@babel/runtime": "^7.18.0",
-    "@loadable/component": "^5.15.2",
-<<<<<<< HEAD
-    "@modern-js/builder": "workspace:*",
-    "@modern-js/builder-webpack-provider": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "autoprefixer": "^10.4.13",
-    "cac": "^6.7.14",
-=======
-    "@modern-js/builder": "^1.20.1",
-    "@modern-js/builder-webpack-provider": "^1.21.3",
-    "autoprefixer": "^10.4.13",
-    "fs-extra": "^10.1.0",
-    "globby": "^11.1.0",
->>>>>>> 48910dbf71 (feat: init doc tools and doc core)
-    "postcss": "^8.4.19",
+    "cac": "6.7.14",
+    "@modern-js/builder": "1.20.1",
+    "@modern-js/builder-webpack-provider": "1.21.3",
+    "fs-extra": "10.1.0",
+    "globby": "11.1.0",
+    "postcss": "8.4.19",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3",
-    "rehype-autolink-headings": "^6.1.1",
-    "remark-gfm": "^3.0.1",
-    "source-map": "^0.7.4",
-<<<<<<< HEAD
-    "webpack-virtual-modules": "^0.4.6"
-=======
-    "tailwindcss": "^2.0.4",
-    "webpack-virtual-modules": "^0.4.6",
-    "windicss-webpack-plugin": "^1.7.7"
->>>>>>> 48910dbf71 (feat: init doc tools and doc core)
-=======
+    "rehype-autolink-headings": "6.1.1",
+    "source-map": "0.7.4",
     "@babel/runtime": "7.18.0",
     "@loadable/component": "5.15.2",
     "@mdx-js/loader": "2.1.5",
-    "@modern-js/builder": "1.21.4",
-    "@modern-js/builder-webpack-provider": "1.21.4",
     "@modern-js/utils": "1.21.4",
-    "@unocss/preset-attributify": "^0.46.5",
     "@unocss/webpack": "^0.46.5",
     "autoprefixer": "10.4.13",
-    "globby": "^13.1.2",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "6.4.3",
-    "rehype-autolink-headings": "6.1.1",
     "rehype-slug": "^5.1.0",
     "remark-gfm": "3.0.1",
-    "source-map": "0.7.4",
-    "string-replace-loader": "^3.1.0",
+    "string-replace-loader": "3.1.0",
     "unocss": "^0.46.5",
     "webpack-virtual-modules": "0.4.6"
->>>>>>> f8c30423ea (feat: parse doc config & schema)
   },
   "peerDependencies": {
     "@modern-js/core": ">=1.21.4",
     "react": ">=17"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@mdx-js/loader": "^2.1.5",
-<<<<<<< HEAD
-    "@modern-js/module-tools": "workspace:*",
-    "@modern-js/plugin-testing": "workspace:*",
-    "@modern-js/tsconfig": "workspace:*",
-=======
-=======
-    "@modern-js/core": "workspace:*",
->>>>>>> f8c30423ea (feat: parse doc config & schema)
     "@modern-js/module-tools": "1.21.3",
     "@modern-js/plugin-testing": "1.21.3",
     "@modern-js/tsconfig": "1.21.3",
->>>>>>> 48910dbf71 (feat: init doc tools and doc core)
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",

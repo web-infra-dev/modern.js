@@ -34,28 +34,17 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/doc-core": "workspace:*",
-<<<<<<< HEAD
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/utils": "workspace:*"
-=======
-    "@modern-js/plugin-changeset": "^1.21.4",
-    "@modern-js/utils": "1.21.4"
->>>>>>> 48910dbf71 (feat: init doc tools and doc core)
   },
   "peerDependencies": {
     "react": "^17"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-<<<<<<< HEAD
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-=======
-    "@modern-js/module-tools": "1.21.4",
-    "@modern-js/plugin-testing": "1.21.4",
-    "@modern-js/tsconfig": "1.21.4",
->>>>>>> 48910dbf71 (feat: init doc tools and doc core)
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
     "@types/react": "^17",
