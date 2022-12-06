@@ -10,6 +10,7 @@ import {
 } from '@modern-js/friendly-errors-webpack-plugin/formatter';
 import { parseError } from '@modern-js/friendly-errors-webpack-plugin/shared/utils';
 import { flattenErrorCauses } from '@modern-js/friendly-errors-webpack-plugin/transformer';
+import stripAnsi from '@modern-js/utils/strip-ansi';
 import { createStubBuilder } from '@/stub';
 
 test.skipIf(os.platform() === 'win32')('ChunkRenderError', async () => {
@@ -37,15 +38,16 @@ test.skipIf(os.platform() === 'win32')('ChunkRenderError', async () => {
         at Generator.next (<anonymous>)
         at fulfilled (<ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>)"
   `);
-  expect(prettyFormatter(flattenErrorCauses(parsed)!)).toMatchInlineSnapshot(`
-    "[41m[1m ERROR [22m[49m [31m[1mChunkRenderError[22m[39m[90m:[39m foo
-    Error: foo
-        at <ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>
-        at Generator.next (<anonymous>)
-        at fulfilled (<ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>)
-        [90mat[39m [90m<ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>[39m
-        [90mat[39m [90m<ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>[39m
-        [90mat[39m Generator.next [90m(<anonymous>)[39m
-        [90mat[39m fulfilled [90m(<ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>)[39m"
-  `);
+  expect(stripAnsi(prettyFormatter(flattenErrorCauses(parsed)!)!))
+    .toMatchInlineSnapshot(`
+      " ERROR  ChunkRenderError: foo
+      Error: foo
+          at <ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>
+          at Generator.next (<anonymous>)
+          at fulfilled (<ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>)
+          at <ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>
+          at <ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>
+          at Generator.next (<anonymous>)
+          at fulfilled (<ROOT>/tests/plugins/error/ChunkRenderError.test.ts:<POS>)"
+    `);
 });
