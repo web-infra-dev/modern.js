@@ -31,7 +31,7 @@ export async function createBuilder(
   });
 
   debug('add default plugins');
-  await applyDefaultPlugins();
+  await applyDefaultPlugins(pluginStore);
   debug('add default plugins done');
 
   return {

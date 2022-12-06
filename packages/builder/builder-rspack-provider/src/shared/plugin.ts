@@ -3,7 +3,6 @@ import { awaitableGetter, PluginMaterials } from '@modern-js/builder-shared';
 
 export const applyMinimalPlugins = (pluginMaterials: PluginMaterials) =>
   awaitableGetter<BuilderPlugin>([
-    pluginMaterials.cleanOutput(),
     import('../plugins/basic').then(m => m.PluginBasic()),
     import('../plugins/entry').then(m => m.PluginEntry()),
     // todo: module import error when target is esX
@@ -12,6 +11,8 @@ export const applyMinimalPlugins = (pluginMaterials: PluginMaterials) =>
     // todo: need rspack solve performance problem
     // import('../plugins/devtool').then(m => m.PluginDevtool()),
     import('../plugins/resolve').then(m => m.PluginResolve()),
+    // should before the html plugin
+    pluginMaterials.cleanOutput(),
     import('../plugins/html').then(m => m.PluginHtml()),
     import('../plugins/define').then(m => m.PluginDefine()),
     import('../plugins/css').then(m => m.PluginCss()),
