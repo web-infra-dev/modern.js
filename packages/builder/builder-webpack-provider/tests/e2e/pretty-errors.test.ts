@@ -2,7 +2,7 @@ import assert from 'assert';
 import os from 'os';
 import { describe, expect, test, vi } from 'vitest';
 import { WebpackError } from 'webpack';
-import { useFixture } from '@modern-js/e2e';
+import { cleanOutput, useFixture } from '@modern-js/e2e';
 import { PluginFriendlyErrors } from '@/plugins/error';
 import { createStubBuilder } from '@/stub';
 
@@ -24,35 +24,35 @@ describe('Pretty output errors', () => {
         compilation.errors.push(new WebpackError('foo'));
       });
     });
-    const errorLog = vi.spyOn(console, 'error');
+    const mockedError = vi.spyOn(console, 'error');
     await expect(builder.build()).rejects.toThrowError();
-    expect(errorLog.mock.calls[0][0]).toMatchInlineSnapshot(`
-      "[41m[1m ERROR [22m[49m [31m[1mError[22m[39m[90m:[39m foo
-          [90mat[39m [90m<ROOT>/tests/e2e/pretty-errors.test.ts:<POS>[39m
-          [90mat[39m _next27 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m _next5 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.eval [as call] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_DELEGATE [as _call] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m Compiler.newCompilation [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Hook.eval [as callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m Compiler.compile [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Compiler.readRecords [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Hook.eval [as callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Hook.eval [as callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m Compiler.run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<ROOT>/src/core/build.ts:<POS>[39m
-          [90mat[39m new Promise [90m(<anonymous>)[39m
-          [90mat[39m webpackBuild [90m(<ROOT>/src/core/build.ts:<POS>)[39m
-          [90mat[39m build [90m(<ROOT>/src/core/build.ts:<POS>)[39m
-          [90mat[39m async Object.<anonymous> [90m(<ROOT>/src/stub/builder.ts:<POS>)[39m"
+    expect(cleanOutput(mockedError)).toMatchInlineSnapshot(`
+      " ERROR  Error: foo
+          at <ROOT>/tests/e2e/pretty-errors.test.ts:<POS>
+          at _next27 (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at _next5 (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.eval [as call] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_DELEGATE [as _call] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at Compiler.newCompilation (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at Compiler.compile (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Compiler.readRecords (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at run (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at Compiler.run (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <ROOT>/src/core/build.ts:<POS>
+          at new Promise (<anonymous>)
+          at webpackBuild (<ROOT>/src/core/build.ts:<POS>)
+          at build (<ROOT>/src/core/build.ts:<POS>)
+          at async Object.<anonymous> (<ROOT>/src/stub/builder.ts:<POS>)"
     `);
   });
   // Unable to spy on console.error within vitest worker.
@@ -83,6 +83,6 @@ describe('Pretty output errors', () => {
     await expect(builder.build()).rejects.toThrowErrorMatchingInlineSnapshot(
       '"foo"',
     );
-    expect(recordStdErr.mock.calls).toMatchInlineSnapshot('[]');
+    expect(cleanOutput(recordStdErr)).toMatchInlineSnapshot('[]');
   });
 });
