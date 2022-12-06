@@ -43,8 +43,7 @@
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "4.7.4",
-    "wireit": "^0.7.1",
-    "webpack": "^5.74.0"
+    "wireit": "^0.7.1"
   },
   "sideEffects": false,
   "publishConfig": {
