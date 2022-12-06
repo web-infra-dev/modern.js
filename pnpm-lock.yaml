@@ -967,6 +967,7 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
+      typescript: ^4
     dependencies:
       '@modern-js/builder-plugin-swc': link:../../builder/plugin-swc
       '@modern-js/utils': link:../../toolkit/utils
@@ -980,6 +981,7 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
+      typescript: 4.9.3
 
   packages/cli/plugin-tailwind:
     specifiers:
@@ -1166,7 +1168,6 @@ importers:
       handlebars: ^4.7.7
       jest: ^27
       typescript: ^4
-      vm2: ^3.9.2
     dependencies:
       '@babel/runtime': 7.18.6
       '@modern-js/codesmith': 2.0.1
@@ -1180,7 +1181,6 @@ importers:
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/utils': link:../../toolkit/utils
       handlebars: 4.7.7
-      vm2: 3.9.9
     devDependencies:
       '@modern-js/plugin-lint': link:../../cli/plugin-lint
       '@scripts/build': link:../../../scripts/build
@@ -1572,9 +1572,6 @@ importers:
       '@types/node': ^14
       jest: ^27
       typescript: ^4
-      vm2: ^3.9.2
-    dependencies:
-      vm2: 3.9.9
     devDependencies:
       '@babel/runtime': 7.18.6
       '@modern-js/base-generator': link:../base-generator
@@ -1849,9 +1846,6 @@ importers:
       '@types/node': ^14
       jest: ^27
       typescript: ^4
-      vm2: ^3.9.2
-    dependencies:
-      vm2: 3.9.9
     devDependencies:
       '@babel/runtime': 7.18.6
       '@modern-js/generator-common': link:../../generator-common
@@ -20794,7 +20788,6 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
-    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -24348,7 +24341,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.4_supports-color@6.1.0
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -36652,7 +36645,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
-    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -38727,6 +38719,7 @@ packages:
     dependencies:
       acorn: 8.7.1
       acorn-walk: 8.2.0
+    dev: true
 
   /void-elements/3.1.0:
     resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
