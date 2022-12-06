@@ -1,6 +1,6 @@
 import path from 'path';
 import { downloadPackage, getPackageInfo } from '@modern-js/codesmith';
-import { requireModuleWithVm } from './vm';
+import { requireModule } from './module';
 
 export { getPackageMeta } from './getPackageMeta';
 
@@ -10,7 +10,7 @@ export async function installPlugins(plugins: string[], registryUrl?: string) {
       if (path.isAbsolute(plugin)) {
         return {
           templatePath: plugin,
-          module: requireModuleWithVm(plugin),
+          module: requireModule(plugin),
         };
       } else {
         const { name, version } = getPackageInfo(plugin);
@@ -20,7 +20,7 @@ export async function installPlugins(plugins: string[], registryUrl?: string) {
         });
         return {
           templatePath: pluginPath,
-          module: requireModuleWithVm(pluginPath),
+          module: requireModule(pluginPath),
         };
       }
     }),
