@@ -18,7 +18,8 @@ test('should save the buildDependencies to cache directory', async () => {
   expect(
     cleanOutput(mockedError)
       .replace(pathExpr, '<PATH>')
-      .replace(posExpr, '<POS>'),
+      .replace(posExpr, '<POS>')
+      .replace(/(?:\s+at .*?(?:<PATH>:<POS>|<anonymous>).*)+/, '<STACK>'),
   ).toMatchInlineSnapshot(`
     " ERROR  ModuleBuildError: Module build failed (from <PATH>):
     SyntaxError: <PATH>: Unexpected token, expected \\"{\\" (1:7)
@@ -26,39 +27,6 @@ test('should save the buildDependencies to cache directory', async () => {
     > 1 | export conts foo = () => {
         |        ^
       2 |   return 'foo';
-      3 | }
-        at instantiate (<PATH>:<POS>)
-        at constructor (<PATH>:<POS>)
-        at TypeScriptParserMixin.raise (<PATH>:<POS>)
-        at TypeScriptParserMixin.unexpected (<PATH>:<POS>)
-        at TypeScriptParserMixin.parseExport (<PATH>:<POS>)
-        at TypeScriptParserMixin.parseExport (<PATH>:<POS>)
-        at TypeScriptParserMixin.parseStatementContent (<PATH>:<POS>)
-        at TypeScriptParserMixin.parseStatementContent (<PATH>:<POS>)
-        at TypeScriptParserMixin.parseStatement (<PATH>:<POS>)
-        at TypeScriptParserMixin.parseBlockOrModuleBlockBody (<PATH>:<POS>)
-        at TypeScriptParserMixin.parseBlockBody (<PATH>:<POS>)
-        at TypeScriptParserMixin.parseProgram (<PATH>:<POS>)
-        at TypeScriptParserMixin.parseTopLevel (<PATH>:<POS>)
-        at TypeScriptParserMixin.parse (<PATH>:<POS>)
-        at TypeScriptParserMixin.parse (<PATH>:<POS>)
-        at parse (<PATH>:<POS>)
-        at parser (<PATH>:<POS>)
-        at parser.next (<anonymous>)
-        at normalizeFile (<PATH>:<POS>)
-        at normalizeFile.next (<anonymous>)
-        at run (<PATH>:<POS>)
-        at run.next (<anonymous>)
-        at Function.transform (<PATH>:<POS>)
-        at transform.next (<anonymous>)
-        at step (<PATH>:<POS>)
-        at <PATH>:<POS>
-        at async.call.result.err.err (<PATH>:<POS>)
-        at processResult (<PATH>:<POS>)
-        at <PATH>:<POS>
-        at <PATH>:<POS>
-        at <PATH>:<POS>
-        at context.callback (<PATH>:<POS>)
-        at <PATH>:<POS>"
+      3 | }<STACK>"
   `);
 }, 0);
