@@ -2056,12 +2056,12 @@ importers:
       '@loadable/component': ^5.15.0
       '@loadable/server': ^5.15.1
       '@loadable/webpack-plugin': 5.15.2
-      '@modern-js-reduck/plugin-auto-actions': ^1.0.2
-      '@modern-js-reduck/plugin-devtools': ^1.0.3
-      '@modern-js-reduck/plugin-effects': ^1.0.2
-      '@modern-js-reduck/plugin-immutable': ^1.0.1
-      '@modern-js-reduck/react': ^1.0.1
-      '@modern-js-reduck/store': ^1.0.3
+      '@modern-js-reduck/plugin-auto-actions': ^1.1.4
+      '@modern-js-reduck/plugin-devtools': ^1.1.4
+      '@modern-js-reduck/plugin-effects': ^1.1.4
+      '@modern-js-reduck/plugin-immutable': ^1.1.4
+      '@modern-js-reduck/react': ^1.1.4
+      '@modern-js-reduck/store': ^1.1.4
       '@modern-js/app-tools': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:*
@@ -2106,12 +2106,12 @@ importers:
       '@loadable/component': 5.15.2_react@18.2.0
       '@loadable/server': 5.15.2_ik7avrk5bhag2nqkdfypunpmvu
       '@loadable/webpack-plugin': 5.15.2
-      '@modern-js-reduck/plugin-auto-actions': 1.0.2_ispnipafpzzhhphzi7uvk3q7n4
-      '@modern-js-reduck/plugin-devtools': 1.0.3_ispnipafpzzhhphzi7uvk3q7n4
-      '@modern-js-reduck/plugin-effects': 1.0.2_ispnipafpzzhhphzi7uvk3q7n4
-      '@modern-js-reduck/plugin-immutable': 1.0.1_ispnipafpzzhhphzi7uvk3q7n4
-      '@modern-js-reduck/react': 1.0.1_react@18.2.0
-      '@modern-js-reduck/store': 1.0.4
+      '@modern-js-reduck/plugin-auto-actions': 1.1.4_dwypcn7l4in2rkcdfehzlcdy6i
+      '@modern-js-reduck/plugin-devtools': 1.1.4_dwypcn7l4in2rkcdfehzlcdy6i
+      '@modern-js-reduck/plugin-effects': 1.1.4_dwypcn7l4in2rkcdfehzlcdy6i
+      '@modern-js-reduck/plugin-immutable': 1.1.4_dwypcn7l4in2rkcdfehzlcdy6i
+      '@modern-js-reduck/react': 1.1.4_biqbaboplfbrettd7655fr4n2y
+      '@modern-js-reduck/store': 1.1.4
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
@@ -11098,13 +11098,22 @@ packages:
       '@modern-js-reduck/store': 1.0.4
     dev: false
 
-  /@modern-js-reduck/plugin-devtools/1.0.3_ispnipafpzzhhphzi7uvk3q7n4:
-    resolution: {integrity: sha512-P9HhHRYXtr1T5Zf9Xt+8YwMhUvd/AQLivs1AXnQuDlFwGv2Pi1RelRwkODMmPjf6DK4gDQjiIJ3L/kcCTPVgsg==}
+  /@modern-js-reduck/plugin-auto-actions/1.1.4_dwypcn7l4in2rkcdfehzlcdy6i:
+    resolution: {integrity: sha512-RdAOIEGXLRzdlLDSOlk433nFfLg04WvT9DyFeZFtYFMphFmHvV47PpaWb49mws+yYWSJ3hVP2JsZD57HfReP/Q==}
     peerDependencies:
-      '@modern-js-reduck/store': ^1.0.4
+      '@modern-js-reduck/store': ^1.1.4
     dependencies:
       '@babel/runtime': 7.18.6
-      '@modern-js-reduck/store': 1.0.4
+      '@modern-js-reduck/store': 1.1.4
+    dev: false
+
+  /@modern-js-reduck/plugin-devtools/1.1.4_dwypcn7l4in2rkcdfehzlcdy6i:
+    resolution: {integrity: sha512-fzbyxjJD8TtCFQrb/jvh2vltE779nPcYO6bqy2xXbs64SUue/fxnMmvIcZzSBioAakYELWCOUr0UY464Rwq28A==}
+    peerDependencies:
+      '@modern-js-reduck/store': ^1.1.4
+    dependencies:
+      '@babel/runtime': 7.18.6
+      '@modern-js-reduck/store': 1.1.4
       '@redux-devtools/extension': 3.2.2_redux@4.2.0
       redux: 4.2.0
     dev: false
@@ -11121,6 +11130,17 @@ packages:
       redux-thunk: 2.4.1_redux@4.2.0
     dev: false
 
+  /@modern-js-reduck/plugin-effects/1.1.4_dwypcn7l4in2rkcdfehzlcdy6i:
+    resolution: {integrity: sha512-gVo/UcnmfF44nI1Uhql5/+YwyYEyLWgQUg6nusGgLYQGOKippKTH4Vjkxld6Vcq0l6xTEXEonQye1Ag8O71vjw==}
+    peerDependencies:
+      '@modern-js-reduck/store': ^1.1.4
+    dependencies:
+      '@babel/runtime': 7.18.6
+      '@modern-js-reduck/store': 1.1.4
+      redux: 4.2.0
+      redux-promise-middleware: 6.1.2_redux@4.2.0
+    dev: false
+
   /@modern-js-reduck/plugin-immutable/1.0.1_ispnipafpzzhhphzi7uvk3q7n4:
     resolution: {integrity: sha512-v0Y/OB7QWAQEooCaqqEJljo1jb7HTgjwFK+sxcAhBlvueXreiJ1HXwxE+ZAFncsKEKszbSJ3Xf+KMpKxY2uMBw==}
     peerDependencies:
@@ -11131,19 +11151,50 @@ packages:
       immer: 9.0.15
     dev: false
 
-  /@modern-js-reduck/react/1.0.1_react@18.2.0:
-    resolution: {integrity: sha512-DKZgznT/dRYsuSKt5299iSwSdTUk+smNN1T8vxg2L9+T/5jdMJJKelFIBJwioy6GMU/IAGJ6+E26wVOsjYOsEA==}
+  /@modern-js-reduck/plugin-immutable/1.1.4_dwypcn7l4in2rkcdfehzlcdy6i:
+    resolution: {integrity: sha512-KOaRQg7aRHH3U6U/GxJT5/3rDJYIafmqTsX16wGzuDLtXD9Hsb5CaVsqRbLARzHMCzGMH1icLvnMXUR97gXhwA==}
     peerDependencies:
-      react: ^17.0.2
+      '@modern-js-reduck/store': ^1.1.4
     dependencies:
       '@babel/runtime': 7.18.6
-      '@modern-js-reduck/store': 1.0.4
+      '@modern-js-reduck/store': 1.1.4
+      immer: 9.0.15
+    dev: false
+
+  /@modern-js-reduck/react/1.1.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-6Yeo+wKfMVIcZj+hO+Er2pii50N4x+CJTP0Ldhdv2Nnl9I9VfTMic5gCVHwTzgXfxnN1csmgSZZ4dth7kW0sIQ==}
+    peerDependencies:
+      '@types/react': ^16.8 || ^17.0 || ^18.0
+      '@types/react-dom': ^16.8 || ^17.0 || ^18.0
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.18.6
+      '@modern-js-reduck/plugin-auto-actions': 1.1.4_dwypcn7l4in2rkcdfehzlcdy6i
+      '@modern-js-reduck/plugin-devtools': 1.1.4_dwypcn7l4in2rkcdfehzlcdy6i
+      '@modern-js-reduck/plugin-effects': 1.1.4_dwypcn7l4in2rkcdfehzlcdy6i
+      '@modern-js-reduck/plugin-immutable': 1.1.4_dwypcn7l4in2rkcdfehzlcdy6i
+      '@modern-js-reduck/store': 1.1.4
+      hoist-non-react-statics: 3.3.2
       invariant: 2.2.4
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@modern-js-reduck/store/1.0.4:
     resolution: {integrity: sha512-IXOYvvENs+kCO+3I625r0CkPdpa6guqhbUk6nG5fmu5BLQDePzNw95gFATD5dI2S6IbhQ8mTESolxOsRZM+Alw==}
+    dependencies:
+      '@babel/runtime': 7.18.6
+      redux: 4.2.0
+    dev: false
+
+  /@modern-js-reduck/store/1.1.4:
+    resolution: {integrity: sha512-jZzrE2FXFHcN5VDJOsah5ng6EN5WlcGTqTU5icYsDOE5QAhPbbKJUCI4G9FWZ0RWYBeEKdNHn3hmQUFIpr8B6Q==}
     dependencies:
       '@babel/runtime': 7.18.6
       redux: 4.2.0
@@ -16856,8 +16907,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -20794,7 +20847,6 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
-    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -24348,7 +24400,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.4_supports-color@6.1.0
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -35273,7 +35325,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
@@ -36652,7 +36704,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
-    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}

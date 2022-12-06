@@ -3,6 +3,10 @@ sidebar_position: 1
 title: 快速上手
 ---
 
+import ReduckMigration from '@site-docs/components/reduck-migration.md'
+
+<ReduckMigration />
+
 [Reduck](https://github.com/modern-js-dev/reduck) 是 Modern.js 团队开发的遵循 MVC 模式的状态管理库，底层状态存储基于 [Redux](https://redux.js.org/) 实现，同时提供更高层级的抽象，并完全兼容 Redux 生态。
 
 Reduck 的目标是以 MVC 模式组织 React 应用开发结构，将业务逻辑维护在 Model 层，业务逻辑与 UI 解耦，让开发业务逻辑更集中、更简单，同时通过更高层级的抽象，减少重复工作（样板代码）。
