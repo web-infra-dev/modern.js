@@ -29,6 +29,10 @@
       "jsnext:source": "./src/bin.ts",
       "default": "./dist/bin.js"
     },
+    "./runBin": {
+      "jsnext:source": "./src/runBin.ts",
+      "default": "./dist/runBin.js"
+    },
     "./types": {
       "default": "./dist/types/index.js"
     }
@@ -40,6 +44,9 @@
       ],
       "types": [
         "./dist/types/index.d.ts"
+      ],
+      "runBin": [
+        "./dist/runBin.d.ts"
       ]
     }
   },
