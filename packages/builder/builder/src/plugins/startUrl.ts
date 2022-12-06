@@ -21,6 +21,7 @@ export function PluginStartUrl(): BuilderPlugin {
         if (!startUrl) {
           return;
         }
+        // todo: prebundle `open` to modern/shared ？
         const { default: open } = await import(getCompiledPath('open'));
         const urls: string[] = [];
         if (startUrl === true) {
