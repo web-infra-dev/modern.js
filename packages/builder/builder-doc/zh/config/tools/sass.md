@@ -44,7 +44,9 @@ export default {
 
 #### addExcludes
 
-用来指定 `sass-loader` 不编译哪些文件，例如：
+- Type: `(excludes: RegExp | RegExp[]) => void`
+
+用来指定 `sass-loader` 不编译哪些文件，你可以传入一个或多个正则表达式来匹配 sass 文件的路径。例如：
 
 ```js
 export default {

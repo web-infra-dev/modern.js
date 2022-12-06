@@ -55,7 +55,9 @@ When `tools.babel` is a Function, the tool functions available for the second pa
 
 #### addPlugins
 
-Add Babel plugin. For example:
+- Type: `(plugins: BabelPlugin[]) => void`
+
+Add some Babel plugins. For example:
 
 ```js
 export default {
@@ -78,6 +80,8 @@ export default {
 
 #### addPresets
 
+- Type: `(presets: BabelPlugin[]) => void`
+
 Add Babel preset configuration. (No need to add presets in most cases)
 
 ```js
@@ -92,7 +96,9 @@ export default {
 
 #### removePlugins
 
-To remove the Babel plugin, just pass in the name of the plugin to be removed.
+- Type: `(plugins: string | string[]) => void`
+
+To remove the Babel plugin, just pass in the name of the plugin to be removed, you can pass in a single string or an array of strings.
 
 ```js
 export default {
@@ -106,7 +112,9 @@ export default {
 
 #### removePresets
 
-To remove the Babel preset configuration, pass in the name of the preset to be removed.
+- Type: `(presets: string | string[]) => void`
+
+To remove the Babel preset configuration, pass in the name of the preset to be removed, you can pass in a single string or an array of strings.
 
 ```js
 export default {
@@ -120,7 +128,9 @@ export default {
 
 #### addIncludes
 
-By default, Babel will only compile the application code in the src directory. With addIncludes you can specify that Babel compile some files in node_modules. For example:
+- Type: `(includes: string | RegExp | (string | RegExp)[]) => void`
+
+By default, Babel will only compile the application code in the src directory. With `addIncludes` you can specify that Babel compile some files in node_modules. For example:
 
 ```js
 export default {
@@ -146,7 +156,13 @@ export default {
 
 Setting `sourceType` to `unambiguous` may have some other effects, please refer to [Babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
 
+:::tip
+Builder provides a more general [source.include](https://modernjs.dev/builder/en/api/config-source.html#source-include) config than `addIncludes`, and it is recommended to use this configuration item first.
+:::
+
 #### addExcludes
+
+- Type: `(excludes: string | RegExp | (string | RegExp)[]) => void`
 
 Contrary to `addIncludes`, specifies that certain files are excluded from Babel's compilation.
 
@@ -164,7 +180,9 @@ export default {
 
 #### modifyPresetEnvOptions
 
-Modify the configuration of `@babel/preset-env`, the configuration you pass in will be shallowly merged with default config. For example:
+- Type: `(options: PresetEnvOptions) => void`
+
+Modify the configuration of [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env), the configuration you pass in will be shallowly merged with default config. For example:
 
 ```js
 export default {
@@ -182,7 +200,9 @@ export default {
 
 #### modifyPresetReactOptions
 
-Modify the configuration of `@babel/preset-react`, the configuration you pass in will be shallowly merged with default config. For example:
+- Type: `(options: PresetReactOptions) => void`
+
+Modify the configuration of [@babel/preset-react](https://babeljs.io/docs/en/babel-preset-react), the configuration you pass in will be shallowly merged with default config. For example:
 
 ```js
 export default {
