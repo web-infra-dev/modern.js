@@ -6,13 +6,13 @@ import type {
   MinifyPluginOptions,
 } from '../compiled/esbuild-loader/interfaces';
 
-export interface EsbuildOptions {
+export interface PluginEsbuildOptions {
   loader?: false | LoaderOptions;
   minimize?: false | MinifyPluginOptions;
 }
 
 export function PluginEsbuild(
-  userOptions: EsbuildOptions = {},
+  userOptions: PluginEsbuildOptions = {},
 ): BuilderPlugin<BuilderPluginAPI> {
   return {
     name: 'builder-plugin-esbuild',

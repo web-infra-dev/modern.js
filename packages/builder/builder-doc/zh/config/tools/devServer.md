@@ -276,7 +276,7 @@ export default {
 };
 ```
 
-DevServer Proxy 基于 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware) 实现。你可以使用 http-proxy-middleware 的所有配置项，具体可以查看文档。
+DevServer Proxy 基于 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware/tree/2.x) 实现。你可以使用 http-proxy-middleware 的所有配置项，具体可以查看文档。
 
 DevServer Proxy 完整类型定义为：
 

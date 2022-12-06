@@ -17,7 +17,7 @@ export default {
 };
 ```
 
-#### Typical Example
+### Typical Example
 
 A typical usage scenario is to compile files under node_modules, because some third-party dependencies have ES6+ syntax, which may cause them to fail to run on low-version browsers. You can solve the problem by using this config to specify the dependencies that need to be compiled. Take `query-string` as an example, you can do the following config:
 
@@ -42,7 +42,7 @@ export default {
 
 > Note that this config will only compile the code of `query-string` itself, not the **sub-dependencies** of `query-string`. If you need to compile a sub-dependency of `query-string`, you need to add the corresponding npm package to `source.include`.
 
-#### Monorepo Project
+### Monorepo Project
 
 When using Monorepo, if you need to refer to the source code of other libraries in Monorepo, you can add the corresponding library to `source.include`:
 
@@ -64,3 +64,19 @@ export default {
   },
 };
 ```
+
+### Precautions
+
+Note that Babel cannot compile CommonJS modules by default. When you use `source.include` to compile CommonJS modules, you need to set Babel's `sourceType` config to `unambiguous`:
+
+```ts
+export default {
+  tools: {
+    babel(config) {
+      config.sourceType = 'unambiguous';
+    },
+  },
+};
+```
+
+Setting `sourceType` to `unambiguous` may have some other effects, please refer to [Babel official documentation](https://babeljs.io/docs/en/options#sourcetype).

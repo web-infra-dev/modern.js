@@ -25,16 +25,15 @@ export const routerPlugin = ({
         hoc: ({ App }, next) => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
-          if (!routesConfig) {
+          if (!routesConfig && !createRoutes) {
             return next({ App });
           }
 
           const getRouteApp = () => {
             return (props => {
-              const routeElements = renderRoutes(routesConfig);
               const routes = createRoutes
                 ? createRoutes()
-                : createRoutesFromElements(routeElements);
+                : createRoutesFromElements(renderRoutes(routesConfig));
 
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
@@ -54,7 +53,7 @@ export const routerPlugin = ({
 
           const RouteApp = getRouteApp();
 
-          if (routesConfig.globalApp) {
+          if (routesConfig?.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
             });

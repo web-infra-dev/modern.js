@@ -88,6 +88,72 @@ Error: ES Modules may not assign module.exports or exports.*, Use ESM export syn
 
 更多信息请参考 issue：[babel#12731](https://github.com/babel/babel/issues/12731)。
 
+## 编译进度条卡死，但终端无 Error 日志？
+
+当编译进度条卡死，但终端无 Error 日志时，通常是因为编译过程中出现了异常。在某些情况下，当 Error 被 webpack 或其他模块捕获后，错误日志不会被正确输出。最为常见的场景是 Babel 配置出现异常，抛出 Error 后被 webpack 捕获，而 webpack 在个别情况下吞掉了 Error。
+
+**解决方法：**
+
+如果你修改 Babel 配置后出现此问题，建议检查是否有以下错误用法：
+
+1. 配置了一个不存在的 plugin 或 preset，可能是名称拼写错误，或是未正确安装。
+
+```ts
+// 错误示例
+export default {
+  tools: {
+    babel(config, { addPlugins }) {
+      // 该插件名称错误，或者未安装
+      addPlugins('babel-plugin-not-exists');
+    },
+  },
+};
+```
+
+2. 是否配置了多个 babel-plugin-import，但是没有在数组的第三项声明每一个 babel-plugin-import 的名称。
+
+```ts
+// 错误示例
+export default {
+  tools: {
+    babel(config, { addPlugins }) {
+      addPlugins([
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd', libraryDirectory: 'es' },
+        ],
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd-mobile', libraryDirectory: 'es' },
+        ],
+      ]);
+    },
+  },
+};
+```
+
+```ts
+// 正确示例
+export default {
+  tools: {
+    babel(config, { addPlugins }) {
+      addPlugins([
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd', libraryDirectory: 'es' },
+          'antd',
+        ],
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd-mobile', libraryDirectory: 'es' },
+          'antd-mobile',
+        ],
+      ]);
+    },
+  },
+};
+```
+
 ## 热更新后 React 组件的 state 丢失？
 
 Builder 使用 React 官方的 [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) 能力来进行组件热更新。

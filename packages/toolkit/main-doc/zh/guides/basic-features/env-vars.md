@@ -23,6 +23,40 @@ Modern.js 提供了对环境变量的支持，包含内置的环境变量和自�
 MODERN_ENV 的优先级高于 NODE_ENV。
 :::
 
+### MODERN_TARGET
+
+使用 `@modern-js/runtime` 时会自动注入，用于区分 SSR 与 CSR 环境。开发者可以自行在代码中判断，构建时会默认移除 dead code。
+
+```ts title="App.tsx"
+function App() {
+  if (process.env.MODERN_TARGET === 'browser') {
+    console.log(window.innerHeight);
+  };
+};
+```
+
+开发环境打包后，可以看到 SSR 产物和 CSR 产物如下：
+
+```js title="dist/bundles/main.js"
+function App() {
+  if (false) {}
+}
+```
+
+```js title="dist/static/main.js"
+function App() {
+  if (true) {
+    console.log(window.innerHeight);
+  }
+}
+```
+
+:::note
+在生产环境，会将 dead code 移除，例如上述 `if` 语句。
+:::
+
+这种方式可以针对不同客户端提供不同的产物，保证代码体积最小化。也能方便处理不同环境下，代码中的一些副作用，
+
 ## 自定义环境变量
 
 环境变量支持通过 `shell` 和 `.env` 文件两种方式指定。
