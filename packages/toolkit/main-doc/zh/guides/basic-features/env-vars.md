@@ -35,7 +35,7 @@ function App() {
 };
 ```
 
-打包后可以看到 SSR 产物和 CSR 产物如下：
+开发环境打包后，可以看到 SSR 产物和 CSR 产物如下：
 
 ```js title="dist/bundles/main.js"
 function App() {
@@ -50,6 +50,10 @@ function App() {
   }
 }
 ```
+
+:::note
+在生产环境，会将 dead code 移除，例如上述 `if` 语句。
+:::
 
 这种方式可以针对不同客户端提供不同的产物，保证代码体积最小化。也能方便处理不同环境下，代码中的一些副作用，
 

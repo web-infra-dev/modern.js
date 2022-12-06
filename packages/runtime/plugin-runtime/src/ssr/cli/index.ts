@@ -81,7 +81,7 @@ export default (): CliPlugin<AppTools> => ({
               const prefix = `${
                 appContext.metaName.split(/[-_]/)[0]
               }_`.toUpperCase();
-              const jupiterVars = {
+              const modernVars = {
                 [`process.env.${prefix}TARGET`]: JSON.stringify(
                   isServer ? 'node' : 'browser',
                 ),
@@ -91,7 +91,7 @@ export default (): CliPlugin<AppTools> => ({
                 return [
                   {
                     ...vars,
-                    ...jupiterVars,
+                    ...modernVars,
                   },
                   ...rest,
                 ];
