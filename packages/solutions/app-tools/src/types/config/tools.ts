@@ -1,5 +1,7 @@
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { JestConfig } from '@modern-js/core';
+import type { PluginSwcOptions } from '@modern-js/builder-plugin-swc';
+import type { PluginEsbuildOptions } from '@modern-js/builder-plugin-esbuild';
 
 export type BuilderToolsConfig = Required<BuilderConfig>['tools'];
 
@@ -15,7 +17,8 @@ export type Tailwindcss =
 export interface ToolsUserConfig extends BuilderToolsConfig {
   tailwindcss?: Tailwindcss;
   jest?: JestConfig | ((jestConfig: JestConfig) => JestConfig);
-  esbuild?: Record<string, unknown>;
+  swc?: PluginSwcOptions;
+  esbuild?: PluginEsbuildOptions;
 }
 
 export type ToolsNormalizedConfig = ToolsUserConfig;
