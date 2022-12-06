@@ -131,13 +131,13 @@ export default {
 通过这个参数你可以拿到 HtmlWebpackPlugin 实例。
 
 ```js
-export default defineConfig({
+export default {
   tools: {
     webpackChain: (chain, { HtmlWebpackPlugin }) => {
       console.log(HtmlWebpackPlugin);
     },
   },
-});
+};
 ```
 
 #### CHAIN_ID

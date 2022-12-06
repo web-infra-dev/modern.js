@@ -7,4 +7,26 @@ export default defineConfig({
   server: {
     ssr: true,
   },
+  tools: {
+    babel(config, { addPlugins }) {
+      addPlugins([
+        [
+          'babel-plugin-import',
+          {
+            libraryName: 'xxx-components',
+            libraryDirectory: 'es',
+            style: true,
+          },
+        ],
+        [
+          'babel-plugin-import',
+          {
+            libraryName: 'xxx-components',
+            libraryDirectory: 'es',
+            style: true,
+          },
+        ],
+      ]);
+    },
+  },
 });
