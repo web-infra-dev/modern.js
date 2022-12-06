@@ -1,19 +1,15 @@
 {
-  "name": "@modern-js/builder-plugin-esbuild",
-  "description": "Esbuild plugin for builder in Modern.js",
+  "name": "@modern-js/plugin-swc",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
   "license": "MIT",
   "keywords": [
-    "react",
     "framework",
     "modern",
     "modern.js"
   ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
   "version": "2.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
@@ -22,31 +18,36 @@
   "jsnext:modern": "./dist/index.js",
   "exports": {
     ".": {
-      "jsnext:source": "./src/index.ts",
+      "node": {
+        "jsnext:source": "./src/index.ts",
+        "import": "./dist/index.js",
+        "require": "./dist/index.js"
+      },
       "default": "./dist/index.js"
     }
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern new",
+    "new": "modern-lib new",
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage"
+    "test": "jest"
   },
   "dependencies": {
-    "esbuild": "0.15.7",
-    "@modern-js/builder-shared": "workspace:*"
+    "@modern-js/builder-plugin-swc": "workspace:*",
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/builder": "workspace:*",
-    "@modern-js/builder-webpack-provider": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "@scripts/vitest-config": "workspace:*",
-    "typescript": "4.7.4",
-    "wireit": "^0.7.1"
+    "@jest/types": "^27.0.6",
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/babel-preset-app": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
+    "@types/jest": "^27",
+    "@types/node": "^14"
   },
-  "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

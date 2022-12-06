@@ -15,7 +15,7 @@ export type PartialRecursive<O> = O extends Record<any, any>
     : { [k in keyof O]?: PartialRecursive<O[k]> }
   : O;
 
-export interface PluginConfig {
+export interface PluginSwcOptions {
   presetReact?: ReactConfig;
   presetEnv?: EnvConfig;
 

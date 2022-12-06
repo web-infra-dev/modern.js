@@ -954,6 +954,33 @@ importers:
       webpack: 5.75.0_esbuild@0.15.7
       webpack-chain: 6.5.1
 
+  packages/cli/plugin-swc:
+    specifiers:
+      '@jest/types': ^27.0.6
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/babel-preset-app': workspace:*
+      '@modern-js/builder-plugin-swc': workspace:*
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/types': workspace:*
+      '@modern-js/utils': workspace:*
+      '@scripts/build': workspace:*
+      '@scripts/jest-config': workspace:*
+      '@types/jest': ^27
+      '@types/node': ^14
+    dependencies:
+      '@modern-js/builder-plugin-swc': link:../../builder/plugin-swc
+      '@modern-js/utils': link:../../toolkit/utils
+    devDependencies:
+      '@jest/types': 27.5.1
+      '@modern-js/app-tools': link:../../solutions/app-tools
+      '@modern-js/babel-preset-app': link:../babel-preset-app
+      '@modern-js/builder-shared': link:../../builder/builder-shared
+      '@modern-js/types': link:../../toolkit/types
+      '@scripts/build': link:../../../scripts/build
+      '@scripts/jest-config': link:../../../scripts/jest-config
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+
   packages/cli/plugin-tailwind:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -2807,6 +2834,7 @@ importers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-plugin-esbuild': workspace:*
       '@modern-js/builder-plugin-node-polyfill': workspace:*
+      '@modern-js/builder-plugin-swc': workspace:*
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
@@ -2855,6 +2883,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       es-module-lexer: 1.1.0
     devDependencies:
+      '@modern-js/builder-plugin-swc': link:../../builder/plugin-swc
       '@modern-js/server-core': link:../../server/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -4907,6 +4936,7 @@ importers:
   tests/integration/mwa-app:
     specifiers:
       '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-swc': workspace:*
       '@modern-js/runtime': workspace:*
       '@types/node': ^14
       '@types/react': ^18
@@ -4920,6 +4950,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc': link:../../../packages/cli/plugin-swc
       '@types/node': 14.18.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -5101,6 +5132,31 @@ importers:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       typescript: 4.7.4
+
+  tests/integration/swc:
+    specifiers:
+      '@types/jest': ^27
+      '@types/node': ^14
+    dependencies:
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+
+  tests/integration/swc/fixtures/minify-js:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-swc': workspace:*
+      '@modern-js/runtime': workspace:*
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@babel/runtime': 7.18.6
+      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc': link:../../../../../packages/cli/plugin-swc
 
   tests/integration/testing-app:
     specifiers:
@@ -20738,6 +20794,7 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -24291,7 +24348,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4_supports-color@6.1.0
+      debug: 4.3.4
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -36595,6 +36652,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
+    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}

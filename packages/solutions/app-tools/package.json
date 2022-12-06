@@ -86,6 +86,7 @@
     "es-module-lexer": "^1.1.0"
   },
   "devDependencies": {
+    "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

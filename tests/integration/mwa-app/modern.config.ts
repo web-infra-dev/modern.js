@@ -4,8 +4,8 @@ export default defineConfig({
   runtime: {
     state: true,
   },
-  server: {
-    ssr: true,
+  output: {
+    disableTsChecker: true,
   },
   tools: {
     babel(config, { addPlugins }) {

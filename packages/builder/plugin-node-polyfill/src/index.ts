@@ -21,6 +21,7 @@ export function PluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
 
         const { default: webpack } = await import('webpack');
 
+        // @ts-expect-error
         const { default: nodeLibsBrowser } = await import('node-libs-browser');
 
         chain

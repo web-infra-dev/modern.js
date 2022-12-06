@@ -7,6 +7,8 @@ import { Codecs, Options } from './types';
 export const loaderPath = path.resolve(__dirname, 'loader.js');
 export const DEFAULT_OPTIONS: Codecs[] = ['jpeg', 'png', 'ico'];
 
+export type PluginImageCompressOptions = Options[];
+
 /** Options enable by default: {@link DEFAULT_OPTIONS} */
 export const PluginImageCompress = (...options: Options[]): BuilderPlugin => ({
   name: 'builder-plugin-image-compress',
