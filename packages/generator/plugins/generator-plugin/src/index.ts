@@ -125,7 +125,6 @@ export default function (context: IPluginContext) {
       exports: undefined,
       'scripts.prepare': `${packageManager as string} build`,
       'devDependencies.@modern-js/generator-plugin': '^1.0.0',
-      'dependencies.vm2': '^3.9.2',
       'modernConfig.output.packageMode': 'node-js',
     });
     api.updateModernConfig({
@@ -135,7 +134,6 @@ export default function (context: IPluginContext) {
           sourceMap: false,
           bundleOptions: {
             skipDeps: false,
-            externals: ['vm2'],
           },
         },
       },
