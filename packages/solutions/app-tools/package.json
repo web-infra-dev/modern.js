@@ -52,7 +52,8 @@
     }
   },
   "bin": {
-    "modern": "./bin/modern.js"
+    "modern": "./bin/modern.js",
+    "modern-app": "./bin/modern.js"
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
