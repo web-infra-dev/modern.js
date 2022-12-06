@@ -132,6 +132,20 @@ export default {
 };
 ```
 
+注意，Babel 默认无法编译 CommonJS 模块，当你使用 `addIncludes` 来编译 CommonJS 模块时，需要将 Babel 的 `sourceType` 配置设置为 `unambiguous`：
+
+```ts
+export default {
+  tools: {
+    babel(config) {
+      config.sourceType = 'unambiguous';
+    },
+  },
+};
+```
+
+将 `sourceType` 设置为 `unambiguous` 可能会产生一些其他影响，请参考 [Babel 官方文档](https://babeljs.io/docs/en/options#sourcetype)。
+
 #### addExcludes
 
 和 `addIncludes` 相反，指定 Babel 编译时排除某些文件。
