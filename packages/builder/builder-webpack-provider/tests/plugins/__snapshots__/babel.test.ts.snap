@@ -377,7 +377,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "modules": false,
                     "shippedProposals": false,
                     "targets": [
-                      "node >= 12",
+                      "node >= 14",
                     ],
                     "useBuiltIns": false,
                   },
@@ -498,7 +498,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "modules": false,
                     "shippedProposals": false,
                     "targets": [
-                      "node >= 12",
+                      "node >= 14",
                     ],
                     "useBuiltIns": false,
                   },
