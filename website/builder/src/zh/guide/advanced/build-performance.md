@@ -212,3 +212,36 @@ export default {
 ```
 
 详见 [output.disableSourceMap](/zh/api/config-output.html#output-disablesourcemap)。
+
+### 使用图片压缩
+
+在一般的前端项目中，图片资源的体积往往是项目产物体积的大头，因此如果能尽可能精简图片的体积，那么将会对项目的打包产物体积起到明显的优化效果。你可以在 Builder 中注册插件来启用图片压缩功能:
+
+```js
+import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
+
+// 往 builder 实例上添加插件
+builder.addPlugins([PluginImageCompress()]);
+```
+
+详见 [图片压缩插件](/zh/plugins/plugin-image-compress)。
+
+### 代码拆包
+
+良好的拆包策略对于提升应用的加载性能是十分重要的，可以充分利用浏览器的缓存机制，减少请求数量，加快页面加载速度。
+
+在 Builder 中内置了[多种拆包策略](/zh/guide/advanced/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置，比如下面的配置:
+
+```ts
+export default {
+  performance: {
+    chunkSplit: {
+      strategy: 'split-by-experience',
+      forceSplitting: {
+        // 比如将 react-query 包拆分为一个 Chunk
+        react_query: [/node_modules\/react-query/],
+      },
+    },
+  },
+};
+```

@@ -214,3 +214,36 @@ export default {
 ```
 
 See [output.disableSourceMap](/en/api/config-output.html#output-disablesourcemap) for details.
+
+### Image Compression
+
+In general front-end projects, the size of image often accounts for a large proportion of the total bundle size of the project.So if the image size can be reduced as much as possible, it will have a significant optimization effect on the project bundle size. You can enable image compression by registering a plugin in the Builder:
+
+```js
+import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
+
+// Add the plugin to the Builder
+builder.addPlugins([PluginImageCompress()]);
+```
+
+See details in [plugin-image-compress](/en/plugins/plugin-image-compress)。
+
+### Split Chunk
+
+A great chunk splitting strategy is very important to improve the loading performance of the application. It can make full use of the browser's caching mechanism to reduce the number of requests and improve the loading speed of the application.
+
+A variety of [chunk splitting strategies](/en/guide/advanced/split-chunk) are built into Builder, which can meet the needs of most applications. You can also customize the chunk splitting config according to your own business scenarios. For example:
+
+```ts
+export default {
+  performance: {
+    chunkSplit: {
+      strategy: 'split-by-experience',
+      forceSplitting: {
+        // For example, split the `react-query` into a Chunk
+        react_query: [/node_modules\/react-query/],
+      },
+    },
+  },
+};
+```
