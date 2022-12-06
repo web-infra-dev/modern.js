@@ -11,14 +11,6 @@ export interface DocPlugin {
    */
   globalStyles?: string;
   /**
-   * Resolve.alias in build tool config.
-   */
-  alias?: Record<string, string>;
-  /**
-   * Define in build tool config.
-   */
-  define?: Record<string, string>;
-  /**
    * Markdown options.
    */
   markdown?: {
@@ -34,7 +26,7 @@ export interface DocPlugin {
    */
   watchFiles?: string[];
   /**
-   * TODO:Path list of global components.
+   * Inject global components.
    */
   globalUIComponents?: string[];
 }

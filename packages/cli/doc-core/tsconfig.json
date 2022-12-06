@@ -8,6 +8,7 @@
     "baseUrl": "src",
     "rootDir": ".",
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["./*"],
       "@style/*": ["./styles/*"]

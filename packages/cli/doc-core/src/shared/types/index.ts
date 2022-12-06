@@ -168,7 +168,7 @@ export interface MarkdownOptions {
 }
 
 export interface UserConfig {
-  doc: DocConfig;
+  doc?: DocConfig;
   // Modern.js Plugins
   plugins?: PluginConfig;
 }

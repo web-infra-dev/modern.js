@@ -1,9 +1,13 @@
 import { join } from 'path';
+import { UserConfig } from 'shared/types';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { PACKAGE_ROOT } from '../constants';
 import { RouteService } from '../route/RouteService';
 
-export async function createRouteVirtualModulePlugin(scanDir: string) {
+export async function createRouteVirtualModulePlugin(
+  scanDir: string,
+  _config: UserConfig,
+) {
   const routeService = new RouteService(scanDir);
 
   await routeService.init();

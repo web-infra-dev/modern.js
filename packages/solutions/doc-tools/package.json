@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/module-tools": "1.21.6",
     "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@types/jest": "^26.0.9",
