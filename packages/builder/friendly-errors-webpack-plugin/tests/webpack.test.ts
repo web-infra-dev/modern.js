@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest';
 import webpack, { WebpackError } from 'webpack';
 import _ from '@modern-js/utils/lodash';
-import { useFixture } from '@modern-js/e2e';
+import { useFixture, cleanOutput } from '@modern-js/e2e';
 import { transformPathReplacements } from './pathReplacements';
 import { FriendlyErrorsWebpackPlugin } from '@/plugin';
 import { outputPrettyError } from '@/shared/utils';
@@ -51,48 +51,40 @@ describe('webpack', () => {
       compilation.errors.push(new WebpackError('foo'));
     });
     await expect(webpackBuild(compiler)).rejects.toThrow();
-    expect(mockedError.mock.calls).toMatchInlineSnapshot(`
-      [
-        [
-          "[41m[1m ERROR [22m[49m [31m[1mError[22m[39m[90m:[39m foo
-          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
-          [90mat[39m _next32 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m _next10 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.eval [as call] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_DELEGATE [as _call] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m Compiler.newCompilation [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Hook.eval [as callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m Compiler.compile [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Compiler.readRecords [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Hook.eval [as callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Hook.eval [as callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m Compiler.run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
-          [90mat[39m new Promise [90m(<anonymous>)[39m
-          [90mat[39m webpackBuild [90m(<ROOT>/tests/webpack.test.ts:<POS>)[39m
-          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
-          [90mat[39m async runTest [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async runFiles [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async startTestsNode [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m [90masync <WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>[39m
-          [90mat[39m async Module.withEnv [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>)[39m
-          [90mat[39m [90masync file:/<WORKSPACE>/node_modules/<PNPM_INNER>/tinypool/dist/esm/worker.js:<POS>[39m",
-        ],
-        [
-          null,
-        ],
-      ]
+    expect(cleanOutput(mockedError)).toMatchInlineSnapshot(`
+      " ERROR  Error: foo
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at _next32 (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at _next10 (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.eval [as call] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_DELEGATE [as _call] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at Compiler.newCompilation (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at Compiler.compile (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Compiler.readRecords (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at run (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at Compiler.run (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at new Promise (<anonymous>)
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at Generator.next (<anonymous>)
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at new Promise (<anonymous>)
+          at __async (<ROOT>/tests/webpack.test.ts:<POS>)
+          at webpackBuild (<ROOT>/tests/webpack.test.ts:<POS>)
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at Generator.next (<anonymous>)
+          at fulfilled (<ROOT>/tests/webpack.test.ts:<POS>)
+      "
     `);
   });
 
@@ -119,45 +111,39 @@ describe('webpack', () => {
         transformers: [transformPathReplacements],
       }),
     );
-    expect(mockedError.mock.calls).toMatchInlineSnapshot(`
-      [
-        [
-          "[41m[1m ERROR [22m[49m [31m[1mError[22m[39m[90m:[39m bar
-          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
-          [90mat[39m _next32 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m _next10 [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.eval [as call] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_DELEGATE [as _call] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m Compiler.newCompilation [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Hook.eval [as callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m Compiler.compile [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Compiler.readRecords [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Hook.eval [as callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m [90m<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>[39m
-          [90mat[39m Hook.eval [as callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)[39m
-          [90mat[39m Hook.CALL_ASYNC_DELEGATE [as _callAsync] [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)[39m
-          [90mat[39m run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m Compiler.run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)[39m
-          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
-          [90mat[39m new Promise [90m(<anonymous>)[39m
-          [90mat[39m webpackBuild [90m(<ROOT>/tests/webpack.test.ts:<POS>)[39m
-          [90mat[39m [90m<ROOT>/tests/webpack.test.ts:<POS>[39m
-          [90mat[39m async runTest [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async runSuite [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async runFiles [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async startTestsNode [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m [90masync <WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>[39m
-          [90mat[39m async Module.withEnv [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/chunk-runtime-error.87a2b5a2.mjs:<POS>)[39m
-          [90mat[39m async run [90m(<WORKSPACE>/node_modules/<PNPM_INNER>/vitest/dist/entry.mjs:<POS>)[39m
-          [90mat[39m [90masync file:/<WORKSPACE>/node_modules/<PNPM_INNER>/tinypool/dist/esm/worker.js:<POS>[39m",
-        ],
-      ]
+    expect(cleanOutput(mockedError)).toMatchInlineSnapshot(`
+      " ERROR  Error: bar
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at _next32 (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at _next10 (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.eval [as call] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_DELEGATE [as _call] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at Compiler.newCompilation (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at Compiler.compile (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Compiler.readRecords (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
+          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
+          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
+          at run (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at Compiler.run (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at new Promise (<anonymous>)
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at Generator.next (<anonymous>)
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at new Promise (<anonymous>)
+          at __async (<ROOT>/tests/webpack.test.ts:<POS>)
+          at webpackBuild (<ROOT>/tests/webpack.test.ts:<POS>)
+          at <ROOT>/tests/webpack.test.ts:<POS>
+          at Generator.next (<anonymous>)
+          at fulfilled (<ROOT>/tests/webpack.test.ts:<POS>)"
     `);
   });
 });

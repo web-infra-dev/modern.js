@@ -1,3 +1,3 @@
 export * from './server';
-export { useOutput } from './utils';
+export * from './utils';
 export { useFixture } from './fixture';
