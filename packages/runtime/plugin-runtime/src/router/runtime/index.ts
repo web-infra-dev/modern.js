@@ -1,4 +1,4 @@
-import { routerPlugin } from './plugin';
+import { routerPlugin, modifyRoutesConfig } from './plugin';
 import type { SingleRouteConfig, RouterConfig } from './types';
 
 export type { SingleRouteConfig, RouterConfig };
