@@ -9,6 +9,7 @@ import {
 } from './buildTemplate.share';
 
 const CSS_CHUNKS_PLACEHOLDER = '<!--<?- chunksMap.css ?>-->';
+const ROUTE_LAYOUT = 'layout';
 
 // build head template
 function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
@@ -45,7 +46,7 @@ function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
       matches?.forEach(match => {
         const routeId = match.route.id;
 
-        if (routeId) {
+        if (routeId && routeId !== ROUTE_LAYOUT) {
           const { assets = [] } = routeAssets[routeId];
           const _cssChunks = assets.filter((asset?: string) =>
             asset?.endsWith('.css'),
