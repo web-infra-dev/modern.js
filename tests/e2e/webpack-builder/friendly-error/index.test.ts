@@ -54,12 +54,6 @@ test('should save the buildDependencies to cache directory', async () => {
         at step (<PATH>:<POS>)
         at <PATH>:<POS>
         at async.call.result.err.err (<PATH>:<POS>)
-        at <PATH>:<POS>
-        at <PATH>:<POS>
-        at <PATH>:<POS>
-        at step (<PATH>:<POS>)
-        at <PATH>:<POS>
-        at async.call.result.err.err (<PATH>:<POS>)
         at processResult (<PATH>:<POS>)
         at <PATH>:<POS>
         at <PATH>:<POS>
