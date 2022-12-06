@@ -1,6 +1,7 @@
 import {
   createPublicContext,
   type BuilderProvider,
+  type BuilderMaterials,
 } from '@modern-js/builder-shared';
 import { createContext } from './core/createContext';
 import { initConfigs } from './core/initConfigs';
@@ -9,7 +10,9 @@ import { BuilderConfig } from './types';
 
 export function builderRspackProvider({
   builderConfig,
+  materials,
 }: {
+  materials: BuilderMaterials;
   builderConfig: BuilderConfig;
 }): BuilderProvider {
   return async ({ pluginStore, builderOptions }) => {
@@ -21,7 +24,7 @@ export function builderRspackProvider({
       publicContext: createPublicContext(context),
 
       async applyDefaultPlugins() {
-        pluginStore.addPlugins(await applyDefaultPlugins());
+        pluginStore.addPlugins(await applyDefaultPlugins(materials.plugins));
       },
 
       async createCompiler() {

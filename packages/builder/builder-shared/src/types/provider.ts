@@ -1,4 +1,4 @@
-import type { PluginStore } from './plugin';
+import type { PluginStore, PluginMaterials } from './plugin';
 import type { BuilderContext } from './context';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderMode, CreateBuilderOptions } from './builder';
@@ -36,12 +36,19 @@ export type StartDevServerResult = {
   server: Server;
 };
 
+export type BuilderMaterials = {
+  plugins: PluginMaterials;
+  // bundlerLoaders: bundlerLoaderMaterials;
+  // bundlerPlugins: bundlerPluginMaterials;
+};
+
 export type BuilderProvider<
   BuilderConfig extends Record<string, any> = Record<string, any>,
   BundlerConfigs extends Record<string, any> = Record<string, any>,
 > = (options: {
   pluginStore: PluginStore;
   builderOptions: Required<CreateBuilderOptions>;
+  materials: BuilderMaterials;
 }) => Promise<ProviderInstance<BuilderConfig, BundlerConfigs>>;
 
 export type ProviderInstance<

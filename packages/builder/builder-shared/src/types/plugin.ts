@@ -9,3 +9,10 @@ export type BuilderPlugin<API = any> = {
   name: string;
   setup: (api: API) => Promise<void> | void;
 };
+
+type PluginMaterialsFn = () => Promise<BuilderPlugin>;
+
+export type PluginMaterials = {
+  cleanOutput: PluginMaterialsFn;
+  startUrl: PluginMaterialsFn;
+};

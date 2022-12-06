@@ -1,6 +1,7 @@
 import {
   createPublicContext,
   type BuilderProvider,
+  type BuilderMaterials,
 } from '@modern-js/builder-shared';
 import { createContext } from './core/createContext';
 import { applyDefaultPlugins } from './shared/plugin';
@@ -9,7 +10,9 @@ import { initConfigs } from './core/initConfigs';
 
 export function builderWebpackProvider({
   builderConfig,
+  materials,
 }: {
+  materials: BuilderMaterials;
   builderConfig: BuilderConfig;
 }): BuilderProvider<BuilderConfig, WebpackConfig> {
   return async ({ pluginStore, builderOptions }) => {
@@ -21,7 +24,7 @@ export function builderWebpackProvider({
       publicContext: createPublicContext(context),
 
       async applyDefaultPlugins() {
-        pluginStore.addPlugins(await applyDefaultPlugins());
+        pluginStore.addPlugins(await applyDefaultPlugins(materials.plugins));
       },
 
       async createCompiler() {
