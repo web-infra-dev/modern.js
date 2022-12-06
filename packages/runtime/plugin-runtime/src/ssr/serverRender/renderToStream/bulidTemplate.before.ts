@@ -42,9 +42,13 @@ function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
       const cssChunks: string[] = [];
 
       const matches = matchRoutes(routes, routerContext.location);
-      matches?.forEach(match => {
-        const routeId = match.route.id;
+      matches?.forEach((match, index) => {
+        // root layout css chunks should't be loaded
+        if (!index) {
+          return;
+        }
 
+        const routeId = match.route.id;
         if (routeId) {
           const { assets = [] } = routeAssets[routeId];
           const _cssChunks = assets.filter((asset?: string) =>
