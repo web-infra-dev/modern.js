@@ -17,8 +17,12 @@ export type Tailwindcss =
 export interface ToolsUserConfig extends BuilderToolsConfig {
   tailwindcss?: Tailwindcss;
   jest?: JestConfig | ((jestConfig: JestConfig) => JestConfig);
-  swc?: PluginSwcOptions;
   esbuild?: PluginEsbuildOptions;
+  /**
+   * The configuration of `swc` is provided by `swc` plugin.
+   * @requires `swc` plugin
+   */
+  swc?: PluginSwcOptions;
 }
 
 export type ToolsNormalizedConfig = ToolsUserConfig;
