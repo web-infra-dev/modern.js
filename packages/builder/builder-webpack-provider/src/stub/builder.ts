@@ -120,7 +120,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   // tap on each hook and cache the args.
   const resolvedHooks: Record<string, any> = {};
   _.each(context.hooks, ({ tap }, name) => {
-    tap((...args) => {
+    tap((...args: any[]) => {
       resolvedHooks[name] = args;
     });
   });

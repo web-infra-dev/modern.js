@@ -33,6 +33,7 @@ export type Plugins = {
  */
 export type DefaultBuilderPluginAPI<
   Config extends SharedBuilderConfig = SharedBuilderConfig,
+  NormalizedConfig extends ShareNormalizedConfig = ShareNormalizedConfig,
 > = {
   context: Readonly<BuilderContext>;
 
@@ -44,7 +45,7 @@ export type DefaultBuilderPluginAPI<
   onBeforeStartDevServer: (fn: OnBeforeStartDevServerFn) => void;
 
   getBuilderConfig: () => Readonly<Config>;
-  getNormalizedConfig: () => Readonly<ShareNormalizedConfig>;
+  getNormalizedConfig: () => Readonly<NormalizedConfig>;
 };
 
 export type DefaultBuilderPlugin = BuilderPlugin<DefaultBuilderPluginAPI>;
