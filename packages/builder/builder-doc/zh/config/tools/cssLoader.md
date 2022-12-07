@@ -14,8 +14,8 @@
     // isWebWorker 表示 web worker 构建
     exportOnlyLocals: isServer || isWebWorker,
   },
-  // 默认在生产环境中的 enableSourceMap 为 true
-  sourceMap: enableSourceMap,
+  // 默认在开发环境下启用 CSS 的 Source Map
+  sourceMap: isDev,
 }
 ```
 
