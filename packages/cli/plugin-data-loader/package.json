@@ -51,7 +51,7 @@
     "@modern-js/utils": "workspace:*",
     "@remix-run/node": "^1.7.0",
     "path-to-regexp": "^6.2.0",
-    "react-router-dom": "^6.4.2"
+    "react-router-dom": "^6.4.4"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
