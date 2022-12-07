@@ -23,34 +23,30 @@ __export(stdin_exports, {
   Person: () => Person
 });
 module.exports = __toCommonJS(stdin_exports);
-var __decorate = function(decorators, target, key, desc) {
-  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-  if (typeof Reflect === \\"object\\" && typeof Reflect.decorate === \\"function\\")
-    r = Reflect.decorate(decorators, target, key, desc);
-  else
-    for (var i = decorators.length - 1; i >= 0; i--)
-      if (d = decorators[i])
-        r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-  return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = function(k, v) {
-  if (typeof Reflect === \\"object\\" && typeof Reflect.metadata === \\"function\\")
-    return Reflect.metadata(k, v);
+var __defProp2 = Object.defineProperty;
+var __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc2(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp2(target, key, result);
+  return result;
 };
 function enhancer(name) {
   return function enhancer2(target) {
     target.prototype.name = name;
   };
 }
-var Person = class Person2 {
+var Person = class {
+  version;
   constructor() {
     this.version = \\"1.0.0\\";
   }
 };
-Person = __decorate([
-  enhancer(\\"module-tools\\"),
-  __metadata(\\"design:type\\", Function),
-  __metadata(\\"design:paramtypes\\", [])
+Person = __decorateClass([
+  enhancer(\\"module-tools\\")
 ], Person);
 "
 `;

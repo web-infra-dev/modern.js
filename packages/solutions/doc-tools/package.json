@@ -21,7 +21,7 @@
     "gen-release-note": "modern-lib gen-release-note",
     "release": "modern-lib release",
     "new": "modern-lib new",
-    "test": "modern-lib test --passWithNoTests",
+    "test": "jest test --passWithNoTests",
     "upgrade": "modern-lib upgrade"
   },
   "engines": {
@@ -43,6 +43,7 @@
   "devDependencies": {
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@types/jest": "^26.0.9",

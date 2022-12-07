@@ -41,14 +41,27 @@ const universalJsPreset = [
 
 const universalJsLitePreset = [
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     outdir: './dist/js/treeshaking',
     copy: legacyWithSourceCodeToCopyConfig,
     dts: false,
   },
-  { format: 'cjs', target: 'es6', outdir: './dist/js/node', dts: false },
-  { format: 'esm', target: 'es5', outdir: './dist/js/modern', dts: false },
+  {
+    buildType: 'bundleless',
+    format: 'cjs',
+    target: 'es6',
+    outdir: './dist/js/node',
+    dts: false,
+  },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es5',
+    outdir: './dist/js/modern',
+    dts: false,
+  },
   {
     buildType: 'bundleless',
     dts: { only: true },
@@ -57,14 +70,27 @@ const universalJsLitePreset = [
 ];
 const browserJsPreset = [
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     outdir: './dist/js/treeshaking',
     copy: legacyWithSourceCodeToCopyConfig,
     dts: false,
   },
-  { format: 'esm', target: 'es6', outdir: './dist/js/node', dts: false },
-  { format: 'esm', target: 'es6', outdir: './dist/js/modern', dts: false },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es6',
+    outdir: './dist/js/node',
+    dts: false,
+  },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es6',
+    outdir: './dist/js/modern',
+    dts: false,
+  },
   {
     buildType: 'bundleless',
     dts: { only: true },
@@ -74,6 +100,7 @@ const browserJsPreset = [
 
 const browserJsLitePreset = [
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     dts: false,
@@ -81,12 +108,14 @@ const browserJsLitePreset = [
     copy: legacyWithSourceCodeToCopyConfig,
   },
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     outdir: './dist/js/node',
     dts: false,
   },
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     outdir: './dist/js/modern',
@@ -101,13 +130,20 @@ const browserJsLitePreset = [
 
 const nodeJsPreset = [
   {
+    buildType: 'bundleless',
     format: 'cjs',
     target: 'es6',
     dts: false,
     outdir: './dist/js/node',
     copy: legacyWithSourceCodeToCopyConfig,
   },
-  { format: 'esm', target: 'es6', dts: false, outdir: './dist/js/modern' },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es6',
+    dts: false,
+    outdir: './dist/js/modern',
+  },
   {
     buildType: 'bundleless',
     dts: { only: true },

@@ -1,4 +1,4 @@
-import { Import } from '@modern-js/utils';
+import { Import, getPort } from '@modern-js/utils';
 import type { PluginAPI, ModuleTools } from '@modern-js/module-tools';
 import { valid } from './utils/valid';
 

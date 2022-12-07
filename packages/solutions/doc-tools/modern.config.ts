@@ -4,10 +4,11 @@ export default {
   testing: {
     transformer: 'ts-jest',
   },
-  output: {
-    buildConfig: {
+  buildConfig: [
+    {
       buildType: 'bundle',
-      enableDts: true,
+      dts: false,
     },
-  },
+    { buildType: 'bundleless', dts: { only: true } },
+  ],
 };
