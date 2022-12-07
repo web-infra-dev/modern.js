@@ -1,15 +1,17 @@
-import { createAsyncHook } from '@modern-js/builder-shared';
-import type {
+import {
+  createAsyncHook,
   OnExitFn,
   OnAfterBuildFn,
   OnBeforeBuildFn,
   OnDevCompileDoneFn,
+  OnAfterStartDevServerFn,
+  OnBeforeStartDevServerFn,
+} from '@modern-js/builder-shared';
+import type {
   ModifyRspackConfigFn,
   ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
-  OnAfterStartDevServerFn,
-  OnBeforeStartDevServerFn,
 } from '../types';
 
 export function initHooks() {
