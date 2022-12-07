@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react';
-import defaultReactDOM from 'react-dom';
+import type { Renderer } from 'react-dom';
+import type { hydrateRoot, createRoot } from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
   RuntimeReactContext,
@@ -100,26 +101,15 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
   };
 };
 
-interface HydrateFunc {
-  // React 18
-  (container: Element | Document, initialChildren: React.ReactNode): void;
-  // React 17
-  (
-    initialChildren: React.ReactNode,
-    container: Element | Document,
-    callback?: () => void,
-  ): void;
-}
-
 type BootStrap<T = unknown> = (
   App: React.ComponentType,
   id: string | HTMLElement | RuntimeContext,
   root?: any,
   ReactDOM?: {
-    render?: (children: React.ReactNode, rootElement?: HTMLElement) => void;
-    hydrate?: HydrateFunc;
-    createRoot?: (rootElement: HTMLElement) => any;
-    hydrateRoot?: HydrateFunc;
+    render?: Renderer;
+    hydrate?: Renderer;
+    createRoot?: typeof createRoot;
+    hydrateRoot?: typeof hydrateRoot;
   },
 ) => Promise<T>;
 
@@ -134,7 +124,7 @@ export const bootstrap: BootStrap = async (
    * root.render need use root to run function
    */
   root,
-  ReactDOM = defaultReactDOM as any,
+  ReactDOM,
   // eslint-disable-next-line consistent-return
 ) => {
   let App = BootApp;
@@ -199,8 +189,11 @@ export const bootstrap: BootStrap = async (
       const rootElement =
         typeof id !== 'string' ? id : document.getElementById(id || 'root')!;
 
+      if (!ReactDOM) {
+        throw Error('The `bootstrap` need provide `ReactDOM` parameter');
+      }
       // https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
-      const ModernRender = (App: React.ReactNode) => {
+      const ModernRender = (App: React.ReactElement) => {
         if (IS_REACT18) {
           if (root) {
             root.render(App);
@@ -221,7 +214,10 @@ export const bootstrap: BootStrap = async (
         }
       };
 
-      const ModernHydrate = (App: React.ReactNode, callback?: () => void) => {
+      const ModernHydrate = (
+        App: React.ReactElement,
+        callback?: () => void,
+      ) => {
         if (IS_REACT18) {
           if (!ReactDOM.hydrateRoot) {
             throw Error(

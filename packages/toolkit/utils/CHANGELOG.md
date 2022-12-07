@@ -1,5 +1,56 @@
 # @modern-js/utils
 
+## 2.0.0-beta.2
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- 92f0ead: feat:
+
+  1. core: 增加 test 函数
+  2. module plugins: 增加 `babel`, `mainField`, `target` 插件
+  3. storybook: 修改部分逻辑并且增加 tspath webpack 插件
+  4. 增加 designSystem 配置
+
+  feat:
+
+  1. core: add test method
+  2. module plugins: add `babel`, `mainField`, `target` plugin
+  3. storybook: change some logic and add tspath webpack plugin
+  4. add `designSystem` config
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- d5a31df781: refactor: remove unbundle configs and types
+
+  refactor: 移除 unbundle 相关的配置项和类型定义
+
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 5b9049f2e9: feat: inject async js chunk when streaming ssr
+  feat: streaming ssr 时, 注入 async 类型的 js chunk
+- 92004d1: feat: support load chunks parallelly
+  feat: 支持并行加载 chunks
+- b8bbe036c7: feat: change type logic
+  feat: 修改类型相关的逻辑
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- abf3421a75: fix(dev-server): isDepsExists add non pkgPath judege
+
+  修复: isDepsExists 方法添加 package.json 不存在的兜底
+
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
 ## 2.0.0-beta.1
 
 ### Major Changes

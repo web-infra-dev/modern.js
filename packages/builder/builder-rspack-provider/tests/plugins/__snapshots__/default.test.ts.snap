@@ -1,0 +1,488 @@
+// Vitest Snapshot v1
+
+exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
+{
+  "builtins": {
+    "define": {
+      "process.env.NODE_ENV": "\\"test\\"",
+    },
+    "progress": {
+      "prefix": "Client",
+    },
+    "react": {
+      "development": true,
+      "refresh": true,
+    },
+  },
+  "context": "<ROOT>",
+  "devServer": {
+    "hot": true,
+  },
+  "entry": {},
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "rules": [
+      {
+        "name": "css",
+        "test": /\\\\\\.css\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "name": "less",
+        "test": /\\\\\\.less\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": [Function],
+            "name": "less",
+            "options": {
+              "implementation": "<ROOT>/compiled/less",
+              "lessOptions": {
+                "javascriptEnabled": true,
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "cssChunkFilename": "static/css/async/[name].css",
+    "cssFilename": "static/css/[name].css",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "publicPath": "/",
+  },
+  "resolve": {
+    "alias": {},
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+    ],
+    "tsConfigPath": "<ROOT>/tsconfig.json",
+  },
+}
+`;
+
+exports[`applyDefaultPlugins > should apply default plugins correctly when prod 1`] = `
+{
+  "builtins": {
+    "define": {
+      "process.env.NODE_ENV": "\\"production\\"",
+    },
+    "progress": {
+      "prefix": "Client",
+    },
+    "react": {
+      "development": false,
+      "refresh": false,
+    },
+  },
+  "context": "<ROOT>",
+  "devServer": {
+    "hot": false,
+  },
+  "entry": {},
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "production",
+  "module": {
+    "rules": [
+      {
+        "name": "css",
+        "test": /\\\\\\.css\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "name": "less",
+        "test": /\\\\\\.less\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": [Function],
+            "name": "less",
+            "options": {
+              "implementation": "<ROOT>/compiled/less",
+              "lessOptions": {
+                "javascriptEnabled": true,
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "output": {
+    "chunkFilename": "static/js/async/[name].[contenthash:8].js",
+    "cssChunkFilename": "static/css/async/[name].[contenthash:8].css",
+    "cssFilename": "static/css/[name].[contenthash:8].css",
+    "filename": "static/js/[name].[contenthash:8].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "publicPath": "/",
+  },
+  "resolve": {
+    "alias": {},
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+    ],
+    "tsConfigPath": "<ROOT>/tsconfig.json",
+  },
+}
+`;
+
+exports[`tools.rspack > should match snapshot 1`] = `
+{
+  "builtins": {
+    "define": {
+      "process.env.NODE_ENV": "\\"test\\"",
+    },
+    "progress": {
+      "prefix": "Client",
+    },
+    "react": {
+      "development": true,
+      "refresh": true,
+    },
+  },
+  "context": "<ROOT>",
+  "devServer": {
+    "hot": true,
+  },
+  "entry": {},
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.test\\$/,
+        "use": [
+          {
+            "builtinLoader": "sass-loader",
+          },
+        ],
+      },
+      {
+        "name": "css",
+        "test": /\\\\\\.css\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "name": "less",
+        "test": /\\\\\\.less\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": [Function],
+            "name": "less",
+            "options": {
+              "implementation": "<ROOT>/compiled/less",
+              "lessOptions": {
+                "javascriptEnabled": true,
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "cssChunkFilename": "static/css/async/[name].css",
+    "cssFilename": "static/css/[name].css",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "publicPath": "/",
+  },
+  "plugins": [
+    TestPlugin {
+      "name": "TestPlugin",
+    },
+  ],
+  "resolve": {
+    "alias": {},
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+    ],
+    "tsConfigPath": "<ROOT>/tsconfig.json",
+  },
+}
+`;

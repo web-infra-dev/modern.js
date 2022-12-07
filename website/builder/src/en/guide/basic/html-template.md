@@ -24,10 +24,25 @@ export default {
 
 You can set the HTML `<title>` tag through the [html.title](/en/api/config-html.html#html-title) and [html.titleByEntries](/en/api/config-html.html#html-titlebyentries) configs.
 
+When there is only one page in your project, just use the `html.title` setting directly:
+
 ```ts
 export default {
   html: {
     title: 'example',
+  },
+};
+```
+
+When there are multiple pages in your project, please use `html.titleByEntries` to set corresponding titles for different pages. `html.titleByEntries` uses the page's "entry name" as the key.
+
+```ts
+export default {
+  html: {
+    titleByEntries: {
+      foo: 'Foo',
+      bar: 'Bar',
+    },
   },
 };
 ```
@@ -101,7 +116,7 @@ type DefaultParameters = {
 };
 ```
 
-You can also use the [html.templateParameters](/zh/api/config-html.html#html-templateparameters) and [html.templateParametersByEntries](/zh/api/config-html.html#html-templateparametersbyentries) configs to pass in custom template parameters.
+You can also use the [html.templateParameters](/en/api/config-html.html#html-templateparameters) and [html.templateParametersByEntries](/en/api/config-html.html#html-templateparametersbyentries) configs to pass in custom template parameters.
 
 For example:
 
@@ -151,7 +166,7 @@ Please read the [Lodash Template](https://www.lodashjs.com/docs/lodash.template)
 
 When the suffix of the template is `.ejs`, Builder will use the EJS template engine to compile it. EJS is a simple templating language that lets you generate HTML markup with plain JavaScript.
 
-For example, you can first refer to a `.ejs` template through the [html.template](/zh/api/config-html.html#html-template) config:
+For example, you can first refer to a `.ejs` template through the [html.template](/en/api/config-html.html#html-template) config:
 
 ```ts
 export default {
@@ -179,7 +194,7 @@ Please read the [EJS](https://ejs.co/) documentation for details.
 
 When the suffix of the template is `.pug`, Builder will use the Pug template engine to compile it. Pug is a robust, elegant, feature rich template engine for Node.js.
 
-Before using the Pug template, you need to enable the [tools.pug](/zh/api/config-tools.html#tools-pug) config, and define the [html.template](/zh/api/config-html.html#html-template) config to reference a `.pug` template:
+Before using the Pug template, you need to enable the [tools.pug](/en/api/config-tools.html#tools-pug) config, and define the [html.template](/en/api/config-html.html#html-template) config to reference a `.pug` template:
 
 ```ts
 export default {

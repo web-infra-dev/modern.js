@@ -1,7 +1,11 @@
 import path from 'path';
+import { initSnapshotSerializer } from '@modern-js/utils';
 import { walk } from '../../src/analyze/nestedRoutes';
 
 const fixtures = path.join(__dirname, 'fixtures');
+
+const root = path.resolve(__dirname, '../../../../../');
+initSnapshotSerializer(root);
 
 describe('nested routes', () => {
   test('walk', async () => {

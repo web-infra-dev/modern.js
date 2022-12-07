@@ -1,0 +1,160 @@
+// Vitest Snapshot v1
+
+exports[`plugins/html > should allow to modify plugin options by tools.htmlPlugin 1`] = `
+{
+  "entry": {
+    "main": "src/main.ts",
+  },
+  "plugins": [
+    HtmlRspackPlugin {
+      "name": "html-main",
+      "userOptions": {
+        "inject": true,
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugins/html > should allow to set favicon by html.favicon option 1`] = `
+{
+  "entry": {
+    "main": "src/main.ts",
+  },
+  "plugins": [
+    HtmlRspackPlugin {
+      "name": "html-main",
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": "src/favicon.ico",
+        "filename": "html/main/index.html",
+        "inject": true,
+        "minify": false,
+        "template": "<ROOT>/static/template.html",
+        "templateParameters": [Function],
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugins/html > should allow to set inject by html.inject option 1`] = `
+{
+  "entry": {
+    "main": "src/main.ts",
+  },
+  "plugins": [
+    HtmlRspackPlugin {
+      "name": "html-main",
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": "body",
+        "minify": false,
+        "template": "<ROOT>/static/template.html",
+        "templateParameters": [Function],
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugins/html > should enable minify in production 1`] = `
+{
+  "entry": {
+    "main": "src/main.ts",
+  },
+  "plugins": [
+    HtmlRspackPlugin {
+      "name": "html-main",
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": true,
+        "minify": {
+          "collapseWhitespace": true,
+          "keepClosingSlash": true,
+          "removeComments": true,
+          "removeRedundantAttributes": true,
+          "removeScriptTypeAttributes": true,
+          "removeStyleLinkTypeAttributes": true,
+          "useShortDoctype": true,
+        },
+        "template": "<ROOT>/static/template.html",
+        "templateParameters": [Function],
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugins/html > should register html plugin correctly 1`] = `
+{
+  "entry": {
+    "main": "src/main.ts",
+  },
+  "plugins": [
+    HtmlRspackPlugin {
+      "name": "html-main",
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": true,
+        "minify": false,
+        "template": "<ROOT>/static/template.html",
+        "templateParameters": [Function],
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugins/html > should support multi entry 1`] = `
+{
+  "entry": {
+    "foo": "src/foo.ts",
+    "main": "src/main.ts",
+  },
+  "plugins": [
+    HtmlRspackPlugin {
+      "name": "html-main",
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": true,
+        "minify": false,
+        "template": "foo",
+        "templateParameters": [Function],
+      },
+    },
+    HtmlRspackPlugin {
+      "name": "html-foo",
+      "userOptions": {
+        "chunks": [
+          "foo",
+        ],
+        "favicon": undefined,
+        "filename": "html/foo/index.html",
+        "inject": true,
+        "minify": false,
+        "template": "bar",
+        "templateParameters": [Function],
+      },
+    },
+  ],
+}
+`;

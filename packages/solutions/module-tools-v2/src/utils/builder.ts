@@ -15,7 +15,6 @@ export const getFinalExternals = async (
 
     const deps = await getAllDeps(appDirectory, {
       dependencies: true,
-      devDependencies: true,
       peerDependencies: true,
     });
     return [
@@ -35,7 +34,6 @@ export const getAllDeps = async <T>(
   appDirectory: string,
   options: {
     dependencies?: boolean;
-    devDependencies?: boolean;
     peerDependencies?: boolean;
   } = {},
 ) => {
@@ -51,13 +49,6 @@ export const getAllDeps = async <T>(
       deps = [
         ...deps,
         ...Object.keys((json.dependencies as T | undefined) || {}),
-      ];
-    }
-
-    if (options.devDependencies) {
-      deps = [
-        ...deps,
-        ...Object.keys((json.devDependencies as T | undefined) || {}),
       ];
     }
 

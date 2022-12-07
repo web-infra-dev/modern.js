@@ -28,6 +28,11 @@
   --ifm-h3-font-size: 20px;
 }
 
+.markdown li::marker {
+  color: var(--docs-color-text-100);
+  font-weight: 500;
+}
+
 /* md 内部右侧导航 */
 .table-of-contents__left-border {
   border-left: 0px;

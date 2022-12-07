@@ -1,0 +1,6 @@
+{
+  "loader_0": "main_user/profile/page",
+  "loader_1": "main_user/profile/layout",
+  "loader_2": "main_user/layout",
+  "loader_3": "main_layout"
+}

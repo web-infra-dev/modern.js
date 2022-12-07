@@ -19,9 +19,6 @@ async function createAllMWAProject(
 ) {
   const cases: any = getMWACases(isSimple ? 2 : undefined);
   for (const config of cases) {
-    if (config.runWay === 'electron') {
-      continue;
-    }
     await usingTempDir(tmpDir, async cwd => {
       const projectName = `mwa-${Object.values(config).join('-')}-${uuidv4()}`;
       await runCreteCommand(repoDir, isLocal, {
@@ -98,9 +95,6 @@ async function runNewMWAProject(
     if (config.actionType === 'refactor') {
       continue;
     }
-    if (config.actionType === 'function' && config.function === 'electron') {
-      continue;
-    }
     await runMWANewCommand(isLocal, packageManager, {
       cwd: path.join(tmpDir, project),
       config: JSON.stringify({
@@ -130,6 +124,7 @@ async function runMWANewCommand(
   if (isLocal) {
     console.info('runMWANewCommand', cwd, config);
     await MWANewAction({
+      distTag: 'next',
       locale: 'zh',
       debug,
       config,

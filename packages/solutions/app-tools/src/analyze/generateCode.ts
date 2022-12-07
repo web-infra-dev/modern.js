@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, logger } from '@modern-js/utils';
+import { fs, LOADER_ROUTES_DIR, logger } from '@modern-js/utils';
 import {
   IAppContext,
   PluginAPI,
@@ -26,9 +26,16 @@ import {
   FILE_SYSTEM_ROUTES_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
   ENTRY_BOOTSTRAP_FILE_NAME,
+  TEMP_LOADERS_DIR,
 } from './constants';
 import { getDefaultImports } from './utils';
 import { walk } from './nestedRoutes';
+
+const loader: { [ext: string]: esbuild.Loader } = {
+  '.js': 'jsx',
+  '.ts': 'tsx',
+};
+const EXTERNAL_REGEXP = /^[^./]|^\.[^./]|^\.\.[^/]/;
 
 const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
   let defaults = '';
@@ -92,15 +99,10 @@ export const createImportStatements = (
 };
 
 const buildLoader = async (entry: string, outfile: string) => {
-  const loader: { [ext: string]: esbuild.Loader } = {
-    '.js': 'jsx',
-    '.ts': 'tsx',
-  };
-  const EXTERNAL_REGEXP = /^[^./]|^\.[^./]|^\.\.[^/]/;
   const command = getCommand();
   await esbuild.build({
-    format: 'cjs',
-    platform: 'node',
+    format: 'esm',
+    platform: 'browser',
     target: 'esnext',
     loader,
     watch: command === 'dev' && {},
@@ -127,6 +129,21 @@ const buildLoader = async (entry: string, outfile: string) => {
         },
       },
     ],
+  });
+};
+
+const buildServerLoader = async (entry: string, outfile: string) => {
+  const command = getCommand();
+  await esbuild.build({
+    format: 'cjs',
+    platform: 'node',
+    target: 'esnext',
+    loader,
+    watch: command === 'dev' && {},
+    bundle: true,
+    logLevel: 'error',
+    entryPoints: [entry],
+    outfile,
   });
 };
 
@@ -220,11 +237,12 @@ export const generateCode = async (
 
         const { code } = await hookRunners.beforeGenerateRoutes({
           entrypoint,
-          code: templates.fileSystemRoutes({
+          code: await templates.fileSystemRoutes({
             routes,
             ssrMode: mode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
+            internalDirectory,
           }),
         });
 
@@ -233,26 +251,45 @@ export const generateCode = async (
           const routesServerFile = path.join(
             internalDirectory,
             entryName,
-            'routes.server.js',
+            'route-server-loaders.js',
           );
           const outputRoutesServerFile = path.join(
             distDirectory,
-            'loader-routes',
+            LOADER_ROUTES_DIR,
             entryName,
             'index.js',
           );
 
           const code = templates.routesForServer({
             routes: routes as (NestedRoute | PageRoute)[],
-            alias: {
-              name: internalSrcAlias,
-              basename: srcDirectory,
-            },
+            internalDirectory,
+            entryName,
           });
+
           await fs.ensureFile(routesServerFile);
           await fs.writeFile(routesServerFile, code);
 
-          await buildLoader(routesServerFile, outputRoutesServerFile);
+          const loaderEntryFile = path.join(
+            internalDirectory,
+            entryName,
+            TEMP_LOADERS_DIR,
+            'entry.js',
+          );
+
+          const loaderIndexFile = path.join(
+            internalDirectory,
+            entryName,
+            TEMP_LOADERS_DIR,
+            'index.js',
+          );
+
+          if (await fs.pathExists(loaderEntryFile)) {
+            await buildLoader(loaderEntryFile, loaderIndexFile);
+          }
+
+          if (await fs.pathExists(routesServerFile)) {
+            await buildServerLoader(routesServerFile, outputRoutesServerFile);
+          }
         }
 
         fs.outputFileSync(

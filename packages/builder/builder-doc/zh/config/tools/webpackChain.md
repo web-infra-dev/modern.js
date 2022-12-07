@@ -131,13 +131,13 @@ export default {
 通过这个参数你可以拿到 HtmlWebpackPlugin 实例。
 
 ```js
-export default defineConfig({
+export default {
   tools: {
     webpackChain: (chain, { HtmlWebpackPlugin }) => {
       console.log(HtmlWebpackPlugin);
     },
   },
-});
+};
 ```
 
 #### CHAIN_ID
@@ -232,6 +232,7 @@ builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `MINIMIZER.JS`      | 对应 `TerserWebpackPlugin`       |
 | `MINIMIZER.CSS`     | 对应 `CssMinimizerWebpackPlugin` |
 | `MINIMIZER.ESBUILD` | 对应 `ESBuildPlugin`             |
+| `MINIMIZER.SWC`     | 对应 `SwcWebpackPlugin`          |
 
 ### 常用 WebpackChain 使用示例
 

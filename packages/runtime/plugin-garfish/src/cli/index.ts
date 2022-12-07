@@ -8,6 +8,7 @@ import {
   makeProvider,
   makeRenderFunction,
   setRuntimeConfig,
+  generateAsyncEntry,
 } from './utils';
 
 export type UseConfig = ReturnType<typeof useConfigContext>;
@@ -105,7 +106,6 @@ export default ({
             useConfig.deploy?.microFrontend,
           );
           if (!enableHtmlEntry) {
-            // FIXME: the handle the `disableCssExtract` config
             disableCssExtract = true;
           }
         }
@@ -261,7 +261,23 @@ export default ({
           code: nCode,
         };
       },
-      modifyEntryExport({ entrypoint, exportStatement }) {
+      modifyAsyncEntry({ entrypoint, code }) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const config = useResolvedConfigContext();
+        let finalCode = code;
+        if (config?.deploy?.microFrontend && config?.source?.enableAsyncEntry) {
+          finalCode = generateAsyncEntry(code);
+          return {
+            entrypoint,
+            code: `${finalCode}`,
+          };
+        }
+        return {
+          entrypoint,
+          code: finalCode,
+        };
+      },
+      modifyEntryExport({ entrypoint, exportStatement }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useResolvedConfigContext();
         if (config?.deploy?.microFrontend) {

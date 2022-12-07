@@ -128,13 +128,13 @@ export default {
 The HtmlWebpackPlugin instance:
 
 ```js
-export default defineConfig({
+export default {
   tools: {
     webpackChain: (chain, { HtmlWebpackPlugin }) => {
       console.log(HtmlWebpackPlugin);
     },
   },
-});
+};
 ```
 
 #### CHAIN_ID
@@ -229,6 +229,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `MINIMIZER.JS`      | correspond to `TerserWebpackPlugin`       |
 | `MINIMIZER.CSS`     | correspond to `CssMinimizerWebpackPlugin` |
 | `MINIMIZER.ESBUILD` | correspond to `ESBuildPlugin`             |
+| `MINIMIZER.SWC`     | correspond to `SwcWebpackPlugin`          |
 
 ### Examples
 

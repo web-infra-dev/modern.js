@@ -173,4 +173,23 @@ describe('plugins/html', () => {
     const templatePath = getTemplatePath(entry, { html } as NormalizedConfig);
     expect(templatePath).toEqual(expected);
   });
+
+  it('should support multi entry', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      entry: {
+        main: './src/main.ts',
+        foo: './src/foo.ts',
+      },
+      builderConfig: {
+        html: {
+          template: 'bar',
+          templateByEntries: { main: 'foo' },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });

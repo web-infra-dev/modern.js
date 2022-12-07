@@ -78,6 +78,82 @@ export default {
 
 将 `sourceType` 设置为 `unambiguous` 可能会产生一些其他影响，请参考 [babel 官方文档](https://babeljs.io/docs/en/options#sourcetype)。
 
+## 编译时报错 "Error: ES Modules may not assign module.exports or exports.\*, Use ESM export syntax"？
+
+如果编译时出现以下报错，通常也是因为在项目中使用 babel 编译了一个 CommonJS 模块，解决方法与上述的 `exports is not defined` 问题一致。
+
+```bash
+Error: ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: 581
+```
+
+更多信息请参考 issue：[babel#12731](https://github.com/babel/babel/issues/12731)。
+
+## 编译进度条卡死，但终端无 Error 日志？
+
+当编译进度条卡死，但终端无 Error 日志时，通常是因为编译过程中出现了异常。在某些情况下，当 Error 被 webpack 或其他模块捕获后，错误日志不会被正确输出。最为常见的场景是 Babel 配置出现异常，抛出 Error 后被 webpack 捕获，而 webpack 在个别情况下吞掉了 Error。
+
+**解决方法：**
+
+如果你修改 Babel 配置后出现此问题，建议检查是否有以下错误用法：
+
+1. 配置了一个不存在的 plugin 或 preset，可能是名称拼写错误，或是未正确安装。
+
+```ts
+// 错误示例
+export default {
+  tools: {
+    babel(config, { addPlugins }) {
+      // 该插件名称错误，或者未安装
+      addPlugins('babel-plugin-not-exists');
+    },
+  },
+};
+```
+
+2. 是否配置了多个 babel-plugin-import，但是没有在数组的第三项声明每一个 babel-plugin-import 的名称。
+
+```ts
+// 错误示例
+export default {
+  tools: {
+    babel(config, { addPlugins }) {
+      addPlugins([
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd', libraryDirectory: 'es' },
+        ],
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd-mobile', libraryDirectory: 'es' },
+        ],
+      ]);
+    },
+  },
+};
+```
+
+```ts
+// 正确示例
+export default {
+  tools: {
+    babel(config, { addPlugins }) {
+      addPlugins([
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd', libraryDirectory: 'es' },
+          'antd',
+        ],
+        [
+          'babel-plugin-import',
+          { libraryName: 'antd-mobile', libraryDirectory: 'es' },
+          'antd-mobile',
+        ],
+      ]);
+    },
+  },
+};
+```
+
 ## 热更新后 React 组件的 state 丢失？
 
 Builder 使用 React 官方的 [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) 能力来进行组件热更新。
@@ -192,5 +268,6 @@ Less 中除法的写法也可以通过配置项来修改，详见 [Less - Math](
 该报错表示在编译过程中对一个只读配置项进行了删除操作。通常情况下，我们不希望编译过程中的任何操作会直接对传入的配置进行修改，但难以限制底层插件（如 postcss-loader 等）的行为，如果出现该报错，请联系 builder 开发人员，我们需要对该配置进行单独处理。
 
 同类型报错还有：
+
 - 'TypeError: Cannot add property xxx, object is not extensible'
 - 'TypeError: Cannot assign to read only property 'xxx' of object '#\<Object\>'

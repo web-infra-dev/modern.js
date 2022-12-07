@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -72,10 +72,10 @@
       "node": "./dist/js/node/router/index.js",
       "default": "./dist/js/treeshaking/router/index.js"
     },
-    "./router-server": {
-      "jsnext:source": "./src/router/server/index.ts",
-      "node": "./dist/js/node/router/server/index.js",
-      "default": "./dist/js/treeshaking/router/server/index.js"
+    "./router/server": {
+      "jsnext:source": "./src/router/server.ts",
+      "node": "./dist/js/node/router/server.js",
+      "default": "./dist/js/treeshaking/router/server.js"
     }
   },
   "typesVersions": {
@@ -110,8 +110,8 @@
       "router": [
         "./dist/types/router/index.d.ts"
       ],
-      "router-server": [
-        "./dist/types/router/server/index.d.ts"
+      "router/server": [
+        "./dist/types/router/runtime/server.d.ts"
       ]
     }
   },
@@ -120,7 +120,7 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern-lib new",
     "build": "modern-lib build",
-    "test": "jest --passWithNoTests"
+    "test": "jest"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
@@ -129,12 +129,12 @@
     "@loadable/webpack-plugin": "5.15.2",
     "@loadable/component": "^5.15.0",
     "@loadable/server": "^5.15.1",
-    "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
-    "@modern-js-reduck/plugin-devtools": "^1.0.3",
-    "@modern-js-reduck/plugin-effects": "^1.0.2",
-    "@modern-js-reduck/plugin-immutable": "^1.0.1",
-    "@modern-js-reduck/react": "^1.0.1",
-    "@modern-js-reduck/store": "^1.0.3",
+    "@modern-js-reduck/plugin-auto-actions": "^1.1.4",
+    "@modern-js-reduck/plugin-devtools": "^1.1.4",
+    "@modern-js-reduck/plugin-effects": "^1.1.4",
+    "@modern-js-reduck/plugin-immutable": "^1.1.4",
+    "@modern-js-reduck/react": "^1.1.4",
+    "@modern-js-reduck/store": "^1.1.4",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",

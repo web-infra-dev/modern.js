@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@modern-js/builder-rspack-provider",
   "description": "Builder provider for rspack",
   "homepage": "https://modernjs.dev",
@@ -15,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -39,17 +38,20 @@
     "@rspack/dev-client": "0.0.0-11afc8e36-20221128093256",
     "@rspack/dev-middleware": "0.0.0-11afc8e36-20221128093256",
     "@rspack/plugin-html": "0.0.0-11afc8e36-20221128093256",
-    "@rspack/less-loader": "0.0.0-11afc8e36-20221128093256"
+    "@rspack/postcss-loader": "0.0.0-11afc8e36-20221128093256",
+    "caniuse-lite": "^1.0.30001332",
+    "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "autoprefixer": "^10.4.8",
+    "postcss": "8.4.16",
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.0.0-beta.1"
+    "@modern-js/e2e": "workspace:^2.0.0-beta.2"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

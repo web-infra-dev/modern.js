@@ -7,7 +7,7 @@ export const DEFAULT_MOUNT_ID = 'root';
 
 export const DEFAULT_BROWSERSLIST = {
   web: ['> 0.01%', 'not dead', 'not op_mini all'],
-  node: ['node >= 12'],
+  node: ['node >= 14'],
   'web-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
   'modern-web': [
     'chrome > 61',

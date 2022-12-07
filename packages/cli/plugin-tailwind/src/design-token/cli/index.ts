@@ -4,7 +4,7 @@ import {
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import type { CliPlugin, LegacyAppTools } from '@modern-js/app-tools';
-import type { LegacyUserConfig } from '../../types';
+import { DesignSystem } from '../../types';
 
 export default (
   { pluginName } = { pluginName: '@modern-js/plugin-tailwindcss' },
@@ -17,9 +17,7 @@ export default (
 
     const PLUGIN_IDENTIFIER = 'designToken';
 
-    const getDesignTokens = (userConfig: LegacyUserConfig) => {
-      const designSystem = userConfig.source?.designSystem;
-
+    const getDesignTokens = (designSystem?: DesignSystem) => {
       const tailwindcssConfig: Record<string, any> = {};
 
       tailwindcssConfig.theme = designSystem ? { ...designSystem } : {};
@@ -61,14 +59,14 @@ export default (
       },
 
       modifyEntryImports({ entrypoint, imports }: any) {
-        const userConfig = api.useResolvedConfigContext() as LegacyUserConfig;
+        const userConfig = api.useResolvedConfigContext();
         const designSystem = userConfig.source?.designSystem ?? {};
 
         if (
           typeof designSystem === 'object' &&
           designSystem.supportStyledComponents
         ) {
-          const designTokens = getDesignTokens(userConfig);
+          const designTokens = getDesignTokens(userConfig.source.designSystem);
           imports.push({
             value: '@modern-js/runtime/plugins',
             specifiers: [
@@ -89,7 +87,7 @@ export default (
       },
 
       modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
-        const userConfig = api.useResolvedConfigContext() as LegacyUserConfig;
+        const userConfig = api.useResolvedConfigContext();
         const designSystem = userConfig.source?.designSystem ?? {};
         let useSCThemeProvider = true;
         if (designSystem) {

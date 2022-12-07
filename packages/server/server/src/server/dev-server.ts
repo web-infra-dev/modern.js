@@ -1,7 +1,12 @@
 import { createServer, IncomingMessage, Server, ServerResponse } from 'http';
 import path from 'path';
 import { createServer as createHttpsServer } from 'https';
-import { API_DIR, SERVER_DIR, SHARED_DIR } from '@modern-js/utils';
+import {
+  API_DIR,
+  LOADER_ROUTES_DIR,
+  SERVER_DIR,
+  SHARED_DIR,
+} from '@modern-js/utils';
 import {
   createProxyHandler,
   NextFunction,
@@ -309,23 +314,22 @@ export class ModernDevServer extends ModernServer {
   }
 
   private startWatcher() {
-    const { pwd } = this;
+    const { pwd, distDir } = this;
     const { mock } = AGGRED_DIR;
     const defaultWatched = [
       `${mock}/**/*`,
       `${SERVER_DIR}/**/*`,
       `${API_DIR}/**`,
       `${SHARED_DIR}/**/*`,
+      `${distDir}/${LOADER_ROUTES_DIR}/**`,
     ];
 
-    // FIXME: the server config.watchOptions;
-    const watchOptions = mergeWatchOptions(
-      (this.conf.server as any)?.watchOptions,
-    );
+    const watchOptions = mergeWatchOptions(this.conf.server?.watchOptions);
 
-    const defaultWatchedPaths = defaultWatched.map(p =>
-      path.normalize(path.join(pwd, p)),
-    );
+    const defaultWatchedPaths = defaultWatched.map(p => {
+      const finalPath = path.isAbsolute(p) ? p : path.join(pwd, p);
+      return path.normalize(finalPath);
+    });
 
     const watcher = new Watcher();
     watcher.createDepTree();

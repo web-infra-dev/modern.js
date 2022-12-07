@@ -1,0 +1,10 @@
+/* .island/styles/index.css */
+@import '@code-hike/mdx/dist/index.css';
+
+.ch-scrollycoding .header-anchor {
+  display: none;
+}
+
+.ch-spotlight .header-anchor {
+  display: none;
+}

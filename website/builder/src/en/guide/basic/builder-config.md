@@ -14,7 +14,7 @@ Builder Configs are divided into the following categories:
 - [Security Config](/api/config-security.html): Config related to security.
 - [Performance Config](/api/config-performance.html): Config related to performance.
 
-You can find detailed descriptions of all configs on the [API Reference](/zh/api/) page.
+You can find detailed descriptions of all configs on the [API Reference](/en/api/) page.
 
 ## Default Values
 
@@ -63,7 +63,7 @@ const provider = builderWebpackProvider({
 });
 ```
 
-Please refer to [API - createBuilder](/zh/api/builder-core.html#createbuilder) for details.
+Please refer to [API - createBuilder](/en/api/builder-core.html#createbuilder) for details.
 
 ## Relationship with Framework Config
 

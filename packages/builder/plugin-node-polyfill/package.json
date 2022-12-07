@@ -14,9 +14,9 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "jsnext:modern": "./dist/index.js",
@@ -43,8 +43,7 @@
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "4.7.4",
-    "wireit": "^0.7.1",
-    "webpack": "^5.74.0"
+    "wireit": "^0.7.1"
   },
   "sideEffects": false,
   "publishConfig": {

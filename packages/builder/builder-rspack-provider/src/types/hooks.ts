@@ -5,7 +5,12 @@ import type {
   MultiStats,
 } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
-import type { RspackConfig, Compiler } from './rspack';
+import type {
+  RspackConfig,
+  RspackRuleSet,
+  RspackPluginInstance,
+  Compiler,
+} from './rspack';
 
 export type ModifyRspackConfigUtils = {
   env: NodeEnv;
@@ -14,6 +19,15 @@ export type ModifyRspackConfigUtils = {
   isServer: boolean;
   isWebWorker: boolean;
   getCompiledPath: (name: string) => string;
+
+  addRules: (rules: RspackRuleSet | RspackRuleSet[]) => void;
+  prependPlugins: (
+    plugins: RspackPluginInstance | RspackPluginInstance[],
+  ) => void;
+  appendPlugins: (
+    plugins: RspackPluginInstance | RspackPluginInstance[],
+  ) => void;
+  removePlugin: (pluginName: string) => void;
 };
 
 export type ModifyRspackConfigFn = (

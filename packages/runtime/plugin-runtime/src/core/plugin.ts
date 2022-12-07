@@ -34,8 +34,8 @@ const client = createAsyncPipeline<
   {
     App: React.ComponentType<any>;
     readonly context?: RuntimeContext;
-    ModernRender: (App: React.ReactNode) => void;
-    ModernHydrate: (App: React.ReactNode, callback?: () => void) => void;
+    ModernRender: (App: React.ReactElement) => void;
+    ModernHydrate: (App: React.ReactElement, callback?: () => void) => void;
   },
   void
 >();

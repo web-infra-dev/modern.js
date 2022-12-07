@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/generator-plugin",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -25,8 +25,7 @@
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "handlebars": "^4.7.7",
-    "vm2": "^3.9.2"
+    "handlebars": "^4.7.7"
   },
   "devDependencies": {
     "@modern-js/plugin-lint": "workspace:*",

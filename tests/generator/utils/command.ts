@@ -28,6 +28,8 @@ export async function runCreteCommand(
           packageName: projectName,
           ...config,
         }),
+        '--dist-tag',
+        'next',
         debug ? '--debug' : '',
         platform ? '--platform' : '',
         plugin ? '--plugin' : '',

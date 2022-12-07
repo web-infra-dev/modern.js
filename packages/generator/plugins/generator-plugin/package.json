@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -28,9 +28,6 @@
     "new": "modern-lib new",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
-  },
-  "dependencies": {
-    "vm2": "^3.9.2"
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",

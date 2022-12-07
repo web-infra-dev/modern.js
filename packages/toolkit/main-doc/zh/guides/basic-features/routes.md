@@ -3,7 +3,7 @@ title: 路由
 sidebar_position: 1
 ---
 
-Modern.js 内置了对 [React Router 6](https://reactrouter.com/en/main) 的**部分**支持，并提供了多种类型的路由模式。根据不同[入口](/docs/guides/concept/entries)类型，将路由分为三种模式，分别是**约定式路由**，**自控式路由**和**配置式路由**。
+Modern.js 内置了对 [React Router 6](https://reactrouter.com/en/main) 的**部分**支持，并提供了多种类型的路由模式。根据不同[入口](/docs/guides/concept/entries)类型，将路由分为三种模式，分别是**约定式路由**，**自控式路由**和**其他路由方案**。
 
 :::note
 本小节提到的路由，都是客户端路由，即 SPA 路由。
@@ -219,40 +219,21 @@ export default const ErrorBoundary = () => {
 
 ## 自控式路由
 
-以 `routes/` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发。
-
-例如：
+以 `routes/` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发，例如：
 
 ```tsx
-import {
-  Route,
-  Routes,
-  BrowserRouter,
-  Outlet,
-} from '@modern-js/runtime/router';
+import { Route, Routes, BrowserRouter } from '@modern-js/runtime/router';
+import { StaticRouter } from '@modern-js/runtime/router/server';
 
+const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
 export default () => {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<div>index</div>} />
-          <Route
-            path="user"
-            element={
-              <div>
-                User Layout
-                <Outlet />
-              </div>
-            }
-          >
-            <Route index element={<div>user</div>} />
-            <Route path="profile" element={<div>profile</div>} />
-          </Route>
-          <Route path="about" element={<div>about</div>} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Router location={context.request.pathname}>
+      <Routes>
+        <Route index element={<div>index</div>} />
+        <Route path="about" element={<div>about</div>} />
+      </Routes>
+    </Router>
   );
 };
 ```
@@ -261,11 +242,27 @@ export default () => {
 在自控式路由下，开发者如果希望在 SSR 中使用 React Router 6 中 [Loader API](https://reactrouter.com/en/main/hooks/use-loader-data#useloaderdata) 的能力会相对复杂，推荐直接使用约定式路由。Modern.js 已经为你封装好了一切。
 
 <!-- Todo 嵌套路由带来的优化可以补充下文档-->
-如果项目只想升级到 React Router 6，而不希望使用嵌套路由带来的优化，那[useLoader](/docs/apis/app/runtime/core/use-loader) 在 SSR 下仍然可以工作。
+如果项目只想升级到 React Router 6，而不希望使用嵌套路由带来的优化，那 [useLoader](/docs/apis/app/runtime/core/use-loader) 在 SSR 下仍然可以工作。
 :::
 
-## 配置式路由
+## 其他路由方案
 
-:::note
-敬请期待
-:::
+默认情况下，Modern.js 会开启内置的路由方案，即 React Router。
+
+```js
+export default defineConfig({
+  runtime: {
+    router: true,
+  }
+})
+```
+
+Modern.js 从 `@modern-js/runtime/router` 命名空间暴露了 React Router 的 API 供开发者使用，保证开发者和 Modern.js 中使用同一份代码。另外，这种情况下，React Router 的代码会被打包到 JS 产物中。如果项目已经有自己的路由方案，或者不需要使用客户端路由，可以关闭这个功能。
+
+```js
+export default defineConfig({
+  runtime: {
+    router: false,
+  }
+})
+```

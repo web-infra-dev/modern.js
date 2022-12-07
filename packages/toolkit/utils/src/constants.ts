@@ -77,6 +77,67 @@ export const ROUTE_MINIFEST_FILE = 'routes-manifest.json';
 export const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
 
 /**
+ * directory name for loader routes
+ */
+export const LOADER_ROUTES_DIR = `loader-routes`;
+
+/**
+ * Internal app-tools plugins that work as soon as they are installed.
+ */
+
+export const INTERNAL_APP_TOOLS_PLUGINS: InternalPlugins = {
+  '@modern-js/app-tools': '@modern-js/app-tools/cli',
+  '@modern-js/runtime': '@modern-js/runtime/cli',
+  '@modern-js/plugin-proxy': '@modern-js/plugin-proxy/cli',
+  '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
+  '@modern-js/plugin-bff': '@modern-js/plugin-bff/cli',
+  '@modern-js/plugin-testing': '@modern-js/plugin-testing/cli',
+  '@modern-js/plugin-storybook': '@modern-js/plugin-storybook/cli',
+  '@modern-js/plugin-express': '@modern-js/plugin-express/cli',
+  '@modern-js/plugin-egg': '@modern-js/plugin-egg/cli',
+  '@modern-js/plugin-koa': '@modern-js/plugin-koa/cli',
+  '@modern-js/plugin-nest': '@modern-js/plugin-nest/cli',
+  '@modern-js/plugin-server': '@modern-js/plugin-server/cli',
+  '@modern-js/plugin-garfish': '@modern-js/plugin-garfish/cli',
+  '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
+  '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',
+  // legacy router (inner react-router-dom v5)
+  '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
+};
+
+/**
+ * Internal module-tools plugins that work as soon as they are installed.
+ */
+export const INTERNAL_MODULE_TOOLS_PLUGINS: InternalPlugins = {
+  '@modern-js/module-tools': '@modern-js/module-tools/cli',
+  '@modern-js/module-tools-v2': '@modern-js/module-tools-v2',
+  '@modern-js/doc-tools': '@modern-js/doc-tools',
+  '@modern-js/runtime': '@modern-js/runtime/cli',
+  '@modern-js/plugin-testing': '@modern-js/plugin-testing/cli',
+  '@modern-js/plugin-storybook': '@modern-js/plugin-storybook/cli',
+  '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
+  // TODO: Maybe can remove it
+  '@modern-js/plugin-nocode': '@modern-js/plugin-nocode/cli',
+};
+
+/**
+ * Internal module-tools plugins that work as soon as they are installed.
+ */
+export const INTERNAL_MONOREPO_TOOLS_PLUGINS: InternalPlugins = {
+  '@modern-js/monorepo-tools': '@modern-js/monorepo-tools/cli',
+  '@modern-js/plugin-testing': '@modern-js/plugin-testing/cli',
+};
+
+/**
+ * Internal module-tools plugins that work as soon as they are installed.
+ */
+export const INTERNAL_DOC_TOOLS_PLUGINS: InternalPlugins = {
+  '@modern-js/doc-tools': '@modern-js/doc-tools',
+  '@modern-js/runtime': '@modern-js/runtime/cli',
+  '@modern-js/plugin-testing': '@modern-js/plugin-testing/cli',
+};
+
+/**
  * Internal plugins that work as soon as they are installed.
  */
 export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
@@ -96,6 +157,7 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-koa': '@modern-js/plugin-koa/cli',
   '@modern-js/plugin-nest': '@modern-js/plugin-nest/cli',
   '@modern-js/plugin-server': '@modern-js/plugin-server/cli',
+  '@modern-js/plugin-swc': '@modern-js/plugin-swc',
   '@modern-js/plugin-garfish': '@modern-js/plugin-garfish/cli',
   '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
   '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',
@@ -134,6 +196,12 @@ export const PLUGIN_SCHEMAS = {
         patternProperties: { [ENTRY_NAME_PATTERN]: { type: 'object' } },
         additionalProperties: false,
       },
+    },
+  ],
+  '@modern-js/plugin-swc': [
+    {
+      target: 'tools.swc',
+      schema: { typeof: ['object'] },
     },
   ],
   '@modern-js/plugin-bff': [

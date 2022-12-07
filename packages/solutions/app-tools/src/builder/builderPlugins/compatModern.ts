@@ -129,6 +129,15 @@ export const PluginCompatModern = (
           existNestedRoutes,
         },
       ]);
+      if (target !== 'node') {
+        const bareServerModuleReg = /\.(server|node)\.[tj]sx?$/;
+        chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(bareServerModuleReg);
+        chain.module
+          .rule('bare-server-module')
+          .test(bareServerModuleReg)
+          .use('server-module-loader')
+          .loader(require.resolve('../loaders/serverModuleLoader'));
+      }
 
       function isHtmlEnabled(config: BuilderConfig, target: BuilderTarget) {
         return (
@@ -175,7 +184,16 @@ function applyNodeCompat(
   isProd: boolean,
 ) {
   // apply node resolve extensions
-  for (const ext of ['.node.js', '.node.jsx', '.node.ts', '.node.tsx']) {
+  for (const ext of [
+    '.node.js',
+    '.node.jsx',
+    '.node.ts',
+    '.node.tsx',
+    '.server.js',
+    '.server.ts',
+    '.server.ts',
+    '.server.tsx',
+  ]) {
     chain.resolve.extensions.prepend(ext);
   }
 

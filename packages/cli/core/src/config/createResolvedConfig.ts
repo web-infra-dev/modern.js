@@ -93,7 +93,6 @@ export const createResolveConfig = async (
       },
     );
 
-  // FIXME: pass temporarily
   if (!valid && validate.errors?.length) {
     await onSchemaError(validate?.errors[0]);
     const errors = formatValidateError(userConfig);

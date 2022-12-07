@@ -65,11 +65,17 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         collapsable: false,
         title: getText('进阶', 'Advanced'),
         children: [
+          getLink('/guide/advanced/optimize-bundle'),
           getLink('/guide/advanced/build-performance'),
           getLink('/guide/advanced/inline-assets'),
           getLink('/guide/advanced/split-chunk'),
           getLink('/guide/advanced/custom-webpack-config'),
         ],
+      },
+      {
+        collapsable: false,
+        title: getText('调试', 'Debug'),
+        children: [getLink('/guide/debug/inspector')],
       },
       {
         collapsable: false,
@@ -107,9 +113,12 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/builder-core'),
           getLink('/api/builder-instance'),
           getLink('/api/builder-types'),
-          getLink('/api/plugin-core'),
-          getLink('/api/plugin-hooks'),
         ],
+      },
+      {
+        title: getText('Plugin API', 'Plugin API'),
+        collapsable: false,
+        children: [getLink('/api/plugin-core'), getLink('/api/plugin-hooks')],
       },
     ],
     [getLink('/plugins')]: [
@@ -118,8 +127,9 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         title: getText('指南', 'Guide'),
         children: [
           getLink('/plugins/introduction'),
-          getLink('/plugins/integration'),
-          getLink('/plugins/testing'),
+          // TODO to be written
+          // getLink('/plugins/integration'),
+          // getLink('/plugins/testing'),
         ],
       },
       {
@@ -130,6 +140,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/plugins/plugin-swc'),
           getLink('/plugins/plugin-esbuild'),
           getLink('/plugins/plugin-node-polyfill'),
+          getLink('/plugins/plugin-image-compress'),
         ],
       },
     ],
@@ -207,7 +218,7 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   ],
   evergreen: true,
   markdown: {
-    extractHeaders: ['h2', 'h3', 'h4'],
+    extractHeaders: ['h2'],
   },
   configureWebpack(config) {
     // OptimizeCssAssetsWebpackPlugin will cause the build to fail,

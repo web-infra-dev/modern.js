@@ -1,10 +1,10 @@
-/* eslint-disable import/no-commonjs */
 module.exports = {
   tools: {
     sass: (opts, { addExcludes }) => {
       addExcludes([/b\.scss$/]);
     },
   },
+  output: {
+    enableAssetFallback: true,
+  },
 };
-
-/* eslint-enable import/no-commonjs */

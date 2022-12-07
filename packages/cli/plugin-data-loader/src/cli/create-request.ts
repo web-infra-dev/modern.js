@@ -3,6 +3,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable node/no-unsupported-features/node-builtins */
 import { compile } from 'path-to-regexp';
+import { redirect } from 'react-router-dom';
 
 export const getRequestUrl = ({
   params,
@@ -23,6 +24,15 @@ export const getRequestUrl = ({
   return url;
 };
 
+const handleRedirectResponse = (res: Response) => {
+  const { headers } = res;
+  const location = headers.get('X-Modernjs-Redirect');
+  if (location) {
+    return redirect(location);
+  }
+  return res;
+};
+
 export const createRequest = (routeId: string, method = 'get') => {
   return async ({
     params,
@@ -37,7 +47,7 @@ export const createRequest = (routeId: string, method = 'get') => {
         method,
         signal: request.signal,
       });
-      return res;
+      return handleRedirectResponse(res);
     } catch (error) {
       console.error(error);
       throw error;

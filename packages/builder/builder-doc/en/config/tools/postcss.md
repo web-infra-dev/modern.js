@@ -24,23 +24,6 @@ const defaultOptions = {
 
 Builder integrates PostCSS by default, you can configure [postcss-loader](https://github.com/webpack-contrib/postcss-loader) through `tools.postcss`.
 
-### Object Type
-
-When this value is an Object, it is merged with the default config via Object.assign. For example:
-
-```js
-export default {
-  tools: {
-    postcss: {
-      // Because `Object.assign` is used, the default postcssOptions will be overwritten.
-      postcssOptions: {
-        plugins: [require('postcss-px-to-viewport')],
-      },
-    },
-  },
-};
-```
-
 ### Function Type
 
 When the value is a Function, the internal default config is passed as the first parameter, and the config object can be modified directly without returning, or an object can be returned as the final result; the second parameter is a set of tool functions for modifying the postcss-loader config.
@@ -88,11 +71,30 @@ export default {
 };
 ```
 
+### Object Type
+
+When this value is an Object, it is merged with the default config via `Object.assign`. Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
+
+```js
+export default {
+  tools: {
+    postcss: {
+      // Because `Object.assign` is used, the default postcssOptions will be overwritten.
+      postcssOptions: {
+        plugins: [require('postcss-px-to-viewport')],
+      },
+    },
+  },
+};
+```
+
 ### Util Functions
 
 #### addPlugins
 
-For adding additional PostCSS plugins.
+- Type: `(plugins: PostCSSPlugin | PostCSSPlugin[]) => void`
+
+For adding additional PostCSS plugins, You can pass in a single PostCSS plugin, or an array of PostCSS plugins.
 
 ```js
 export default {
