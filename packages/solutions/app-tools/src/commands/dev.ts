@@ -56,14 +56,14 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
 
   let compiler: webpack.Compiler | webpack.MultiCompiler | undefined;
 
-  if (!appContext.builder) {
+  if (!appContext.builder && !apiOnly) {
     throw new Error(
       'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
     );
   }
 
   if (!apiOnly) {
-    compiler = await appContext.builder.createCompiler();
+    compiler = await appContext.builder!.createCompiler();
   }
 
   await generateRoutes(appContext);
@@ -90,7 +90,7 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
       printInstructions(hookRunners, appContext, normalizedConfig);
     });
   } else {
-    await appContext.builder.startDevServer({
+    await appContext.builder!.startDevServer({
       compiler,
       printURLs: false,
       serverOptions,
