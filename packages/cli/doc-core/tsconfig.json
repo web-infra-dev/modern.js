@@ -5,11 +5,14 @@
     "module": "ESNext",
     "target": "ESNext",
     "jsx": "react-jsx",
-    "baseUrl": "./",
+    "baseUrl": "src",
+    "rootDir": ".",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./*"],
       "@style/*": ["./styles/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "vitest.config.ts"]
 }

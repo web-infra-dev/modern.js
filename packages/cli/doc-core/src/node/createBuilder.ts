@@ -1,106 +1,113 @@
 import path from 'path';
 import { createRequire } from 'module';
-import type { Options } from '@mdx-js/loader';
+import UnoCSSPlugin from '@unocss/webpack';
+import { presetUno, presetAttributify } from 'unocss';
+import { UserConfig } from 'shared/types';
+import { mergeBuilderConfig } from '@modern-js/builder';
+import { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import { CLIENT_ENTRY, PACKAGE_ROOT } from './constants';
+import { createMDXOptions } from './mdx';
+import { virtualModuleFactoryList } from './virtualModule';
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const require = createRequire(import.meta.url);
 
-export async function createMdxOptions(): Promise<Options> {
-  const { default: remarkGFMPlugin } = await import('remark-gfm');
+async function createInternalBuildConfig(
+  userRoot: string,
+  config: UserConfig,
+): Promise<BuilderConfig> {
+  const mdxOptions = createMDXOptions(config);
 
-  const { default: rehypePluginAutolinkHeadings } = await import(
-    'rehype-autolink-headings'
+  const virtualModulePlugins = await Promise.all(
+    virtualModuleFactoryList.map(factory => factory(userRoot, config)),
   );
 
   return {
-    remarkPlugins: [[remarkGFMPlugin]],
-    rehypePlugins: [
-      [
-        rehypePluginAutolinkHeadings,
-        {
-          properties: {
-            class: 'header-anchor',
-            ariaHidden: 'true',
-          },
-          content: {
-            type: 'text',
-            value: '#',
-          },
-        },
-      ],
-    ],
+    html: {
+      template: path.join(PACKAGE_ROOT, 'index.html'),
+    },
+    output: {
+      distPath: {
+        root: 'build',
+      },
+    },
+    source: {
+      alias: {
+        'react/jsx-runtime': require.resolve('react/jsx-runtime'),
+        '@': path.join(PACKAGE_ROOT, 'src'),
+        '@runtime': path.join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts'),
+      },
+      include: [PACKAGE_ROOT],
+    },
+    tools: {
+      babel(options, { modifyPresetReactOptions }) {
+        modifyPresetReactOptions({
+          runtime: 'automatic',
+        });
+        return options;
+      },
+      webpackChain(chain, { CHAIN_ID }) {
+        const [loader, options] = chain.module
+          .rule(CHAIN_ID.RULE.JS)
+          .use(CHAIN_ID.USE.BABEL)
+          .values();
+        chain.module
+          .rule('MDX')
+          .test(/\.mdx?$/)
+          .use('babel-loader')
+          .loader(loader as unknown as string)
+          .options(options)
+          .end()
+          .use('mdx-loader')
+          .loader(require.resolve('@mdx-js/loader'))
+          .options(mdxOptions)
+          .end();
+
+        chain.plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH).tap(options => {
+          options[0] = {
+            ...options[0],
+            // Avoid hmr client error in browser
+            esModule: false,
+          };
+          return options;
+        });
+
+        chain.resolve.extensions.merge(['.ts', '.tsx', '.mdx', '.md']);
+      },
+      webpack(config) {
+        config.plugins!.push(
+          UnoCSSPlugin({
+            presets: [presetUno(), presetAttributify()],
+          }),
+        );
+        config.plugins!.push(...virtualModulePlugins);
+
+        return config;
+      },
+    },
   };
 }
 
-export async function createModernBuilder(rootDir: string) {
-  const PACKAGE_ROOT = path.join(__dirname, '..');
+export async function createModernBuilder(rootDir: string, config: UserConfig) {
   const userRoot = path.resolve(rootDir || process.cwd());
   const { createBuilder } = await import('@modern-js/builder');
   const { builderWebpackProvider } = await import(
     '@modern-js/builder-webpack-provider'
   );
-  const { createRouteVirtualModulePlugin } = await import(
-    './route/createRouteVirtualModulePlugin'
-  );
-
-  const routeVirtualModulePlugin = await createRouteVirtualModulePlugin(
+  const internalBuilderConfig = await createInternalBuildConfig(
     userRoot,
-    PACKAGE_ROOT,
+    config,
   );
-
-  const mdxOptions = await createMdxOptions();
   const builderProvider = builderWebpackProvider({
-    builderConfig: {
-      html: {
-        template: path.join(PACKAGE_ROOT, 'index.html'),
-      },
-      output: {
-        distPath: {
-          root: 'build',
-        },
-      },
-      source: {
-        alias: {
-          'react/jsx-runtime': require.resolve('react/jsx-runtime'),
-        },
-        include: [PACKAGE_ROOT],
-      },
-      tools: {
-        cssExtract: {},
-        babel(options, { modifyPresetReactOptions }) {
-          modifyPresetReactOptions({
-            runtime: 'automatic',
-          });
-          return options;
-        },
-        webpackChain(chain, { CHAIN_ID }) {
-          const [loader, options] = chain.module
-            .rule(CHAIN_ID.RULE.JS)
-            .use(CHAIN_ID.USE.BABEL)
-            .values();
-          chain.module
-            .rule('MDX')
-            .test(/\.mdx?$/)
-            .use('mdx-loader')
-            .loader(loader as unknown as string)
-            .options(options)
-            .loader(require.resolve('@mdx-js/loader'))
-            .options(mdxOptions)
-            .end();
-          chain.resolve.extensions.merge(['.ts', '.tsx', '.mdx', '.md']);
-        },
-        webpack(config) {
-          config.plugins!.push(routeVirtualModulePlugin);
-          return config;
-        },
-      },
-    },
+    builderConfig: mergeBuilderConfig(
+      internalBuilderConfig,
+      ...(config.doc?.plugins?.map(plugin => plugin.builderConfig ?? {}) || []),
+      config.doc?.builderConfig || {},
+    ),
   });
-  const entry = path.join(PACKAGE_ROOT, 'src', 'runtime', 'clientEntry.tsx');
   const builder = await createBuilder(builderProvider, {
     target: ['web'],
     entry: {
-      main: entry,
+      main: CLIENT_ENTRY,
     },
   });
   return builder;
