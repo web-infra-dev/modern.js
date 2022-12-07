@@ -29,7 +29,6 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
                     "appDirectory": "<ROOT>",
-                    "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",
                     "useTsLoader": true,
@@ -82,7 +81,6 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
                     "appDirectory": "<ROOT>",
-                    "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",
                     "useTsLoader": true,

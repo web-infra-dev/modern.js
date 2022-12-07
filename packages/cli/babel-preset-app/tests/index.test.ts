@@ -14,7 +14,6 @@ describe('babel-preset-app', () => {
 
     expect(babelOptions.plugins).toContainEqual([
       path.join(__dirname, '../src/built-in/babel-plugin-lock-corejs-version'),
-      expect.objectContaining({ metaName: 'modern-js' }),
     ]);
     expect(cache).toBeCalledWith(true);
   });

@@ -21,7 +21,6 @@ export type Options = {
   styledComponents?: IStyledComponentOptions;
   appDirectory: string;
   chain?: BabelChain;
-  metaName?: string;
   userBabelConfig?: BabelConfig | BabelConfig[];
   userBabelConfigUtils?: Partial<BabelConfigUtils>;
   overrideBrowserslist?: string[];
