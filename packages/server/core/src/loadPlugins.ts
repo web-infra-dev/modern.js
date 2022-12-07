@@ -29,7 +29,7 @@ export const loadPlugins = (
   options: {
     internalPlugins?: InternalPlugins;
   },
-) => {
+): ReturnType<typeof createPlugin>[] => {
   const loadedPlugins = getInternalPlugins(
     appDirectory,
     options.internalPlugins,

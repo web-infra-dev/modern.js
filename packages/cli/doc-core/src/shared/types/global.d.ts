@@ -7,3 +7,10 @@ declare module 'virtual-routes' {
   }
   export const routes: Route[];
 }
+
+declare module 'virtual-site-data' {
+  import { UserConfig } from 'shared/types';
+
+  const data: UserConfig;
+  export default data;
+}
