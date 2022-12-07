@@ -59,14 +59,14 @@
     "jest": "^27",
     "node-mocks-http": "^1.11.0",
     "ts-node": "^10.1.0",
-    "tsconfig-paths": "3.14.1",
+    "tsconfig-paths": "4.1.1",
     "typescript": "^4",
     "webpack": "^5.74.0",
     "websocket": "^1"
   },
   "peerDependencies": {
     "ts-node": "^10.1.0",
-    "tsconfig-paths": "3.14.1"
+    "tsconfig-paths": ">= 3.0.0 || >= 4.0.0"
   },
   "sideEffects": false,
   "modernConfig": {

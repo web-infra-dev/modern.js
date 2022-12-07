@@ -2756,7 +2756,7 @@ importers:
       node-mocks-http: ^1.11.0
       path-to-regexp: ^6.2.0
       ts-node: ^10.1.0
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 4.1.1
       typescript: ^4
       webpack: ^5.74.0
       websocket: ^1
@@ -2785,7 +2785,7 @@ importers:
       jest: 27.5.1_ts-node@10.8.1
       node-mocks-http: 1.11.0
       ts-node: 10.8.1_ah2igguqgj6e7ik4ubgohitm4e
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 4.1.1
       typescript: 4.7.4
       webpack: 5.75.0
       websocket: 1.0.34
@@ -3598,7 +3598,7 @@ importers:
       tapable: 2.2.1
       toml-loader: 1.0.0
       ts-loader: 9.3.1
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 4.1.1
       typescript: ^4
       upath: 2.0.1
       url-join: 4.0.1
@@ -3747,7 +3747,7 @@ importers:
       tapable: 2.2.1
       toml-loader: 1.0.0
       ts-loader: 9.3.1_l2co7ao223gzrfox7yaiyzd7wu
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 4.1.1
       upath: 2.0.1
       url-join: 4.0.1
       url-loader: 4.1.1_p5dl6emkcwslbw72e37w4ug7em
@@ -21084,7 +21084,6 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
-    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -24644,7 +24643,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.4_supports-color@6.1.0
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -37006,7 +37005,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
-    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -37909,7 +37907,7 @@ packages:
     dependencies:
       chalk: 4.1.2
       enhanced-resolve: 5.10.0
-      tsconfig-paths: 4.1.0
+      tsconfig-paths: 4.1.1
     dev: false
 
   /tsconfig-paths/3.14.1:
@@ -37920,14 +37918,13 @@ packages:
       minimist: 1.2.6
       strip-bom: 3.0.0
 
-  /tsconfig-paths/4.1.0:
-    resolution: {integrity: sha512-AHx4Euop/dXFC+Vx589alFba8QItjF+8hf8LtmuiCwHyI4rHXQtOOENaM8kvYf5fR0dRChy3wzWIZ9WbB7FWow==}
+  /tsconfig-paths/4.1.1:
+    resolution: {integrity: sha512-VgPrtLKpRgEAJsMj5Q/I/mXouC6A/7eJ/X4Nuk6o0cRPwBtznYxTCU4FodbexbzH9somBPEXYi0ZkUViUpJ21Q==}
     engines: {node: '>=6'}
     dependencies:
       json5: 2.2.1
       minimist: 1.2.6
       strip-bom: 3.0.0
-    dev: false
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
