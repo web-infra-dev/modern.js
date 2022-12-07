@@ -26,9 +26,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -158,9 +155,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -316,7 +310,6 @@ exports[`plugins/react > should work with ts-loader 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
                     "appDirectory": "<ROOT>",
-                    "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",
                     "useTsLoader": true,

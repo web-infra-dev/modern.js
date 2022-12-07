@@ -115,7 +115,6 @@ export const PluginBabel = (): BuilderPlugin => ({
             compact: isProd,
             ...getBabelConfig({
               target: isServer ? 'server' : 'client',
-              metaName: framework,
               appDirectory,
               useLegacyDecorators: !config.output.enableLatestDecorators,
               useBuiltIns: isServer ? false : getUseBuiltIns(config),
