@@ -1,5 +1,4 @@
 import nodePath from 'path';
-import { normalizeToPosixPath } from '@modern-js/utils';
 import * as t from '@babel/types';
 
 const REWRITE_TARGETS: Record<string, string> = {
@@ -12,18 +11,9 @@ const REWRITE_TARGETS: Record<string, string> = {
 const matchedKey = (value: string) =>
   Object.keys(REWRITE_TARGETS).find(name => value.startsWith(`${name}/`));
 
-export default (_: any, options: { metaName: string }) => {
-  const { metaName } = options;
-  const regExp = new RegExp(`node_modules(?!\\/\\.${metaName}\\/)`);
-
+export default (_: any) => {
   return {
-    post({ path, ...stats }: any) {
-      const { sourceFileName } = stats.opts;
-      const normalizedFileName = normalizeToPosixPath(sourceFileName);
-      if (regExp.test(normalizedFileName)) {
-        return;
-      }
-
+    post({ path }: any) {
       path.node.body.forEach((node: t.Node) => {
         // import
         if (t.isImportDeclaration(node)) {
