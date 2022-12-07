@@ -155,7 +155,7 @@ const resolveStorybookWebPackConfig = (
   // sbWebpackConfig.plugins = (_sbWebpackConfig$plug = sbWebpackConfig.plugins) === null || _sbWebpackConfig$plug === void 0 ? void 0 : _sbWebpackConfig$plug.filter(p => p.constructor.name !== 'DefinePlugin');
 };
 
-export const getCustomWebpackConfigHandle: any = async ({
+export const getCustomWebpackConfigHandle = async ({
   appContext,
   configDir,
 }: {

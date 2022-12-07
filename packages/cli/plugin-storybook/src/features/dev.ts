@@ -44,13 +44,11 @@ export const runDev = async (
     modernConfig,
   });
 
-  const handleWebpack = webpackConfig.getCustomWebpackConfigHandle({
-    modernConfig,
+  const handleWebpack = await webpackConfig.getCustomWebpackConfigHandle({
     appContext,
     configDir,
-    isTsProject,
-    env: 'dev',
   });
+
   // NB: must set NODE_ENV
   process.env.NODE_ENV = 'development';
 
