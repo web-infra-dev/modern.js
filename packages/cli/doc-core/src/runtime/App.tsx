@@ -1,10 +1,14 @@
 import { BrowserRouter } from 'react-router-dom';
-import { Layout } from '../theme-default/Layout';
+import siteData from 'virtual-site-data';
+import { Layout } from '../theme-default/Layout/Layout';
+import { DataContext } from './hooks';
 
 export function App() {
   return (
-    <BrowserRouter>
-      <Layout />
-    </BrowserRouter>
+    <DataContext.Provider value={{ data: siteData }}>
+      <BrowserRouter>
+        <Layout />
+      </BrowserRouter>
+    </DataContext.Provider>
   );
 }
