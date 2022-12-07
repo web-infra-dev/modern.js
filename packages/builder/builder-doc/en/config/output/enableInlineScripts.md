@@ -1,7 +1,7 @@
 - Type: `boolean`
 - Default: `false`
 
-Whether to inline output scripts files (.js files) into HTML with `<script>` tags.
+Whether to inline output scripts files (.js files) into HTML with `<script>` tags in production mode.
 
 Note that, with this option on, the scripts files will no longer be written in dist directory, they will only exist inside the HTML file instead.
 
