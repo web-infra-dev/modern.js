@@ -19,7 +19,6 @@ export * from '@modern-js/babel-preset-base';
 
 const defaultOptions: Options = {
   appDirectory: process.cwd(),
-  metaName: 'modern-js',
   target: 'client',
   modules: false,
   useBuiltIns: 'entry',

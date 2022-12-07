@@ -72,7 +72,6 @@ export const PluginBabel = (): BuilderPlugin => ({
         );
 
         const getBabelOptions = (
-          framework: string,
           appDirectory: string,
           config: NormalizedConfig,
         ) => {
@@ -115,7 +114,6 @@ export const PluginBabel = (): BuilderPlugin => ({
             compact: isProd,
             ...getBabelConfig({
               target: isServer ? 'server' : 'client',
-              metaName: framework,
               appDirectory,
               useLegacyDecorators: !config.output.enableLatestDecorators,
               useBuiltIns: isServer ? false : getUseBuiltIns(config),
@@ -140,9 +138,8 @@ export const PluginBabel = (): BuilderPlugin => ({
           };
         };
 
-        const { rootPath, framework } = api.context;
+        const { rootPath } = api.context;
         const { babelOptions, includes, excludes } = getBabelOptions(
-          framework,
           rootPath,
           config,
         );
