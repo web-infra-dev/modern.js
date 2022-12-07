@@ -7,7 +7,7 @@ import {
   type BuilderProvider,
   type CreateBuilderOptions,
 } from '@modern-js/builder-shared';
-import { pluginMaterials } from './plugins';
+import { plugins } from './plugins';
 
 export async function createBuilder(
   provider: BuilderProvider,
@@ -25,9 +25,7 @@ export async function createBuilder(
   } = await provider({
     pluginStore,
     builderOptions,
-    materials: {
-      plugins: pluginMaterials,
-    },
+    plugins,
   });
 
   debug('add default plugins');

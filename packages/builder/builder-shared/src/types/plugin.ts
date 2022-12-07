@@ -21,11 +21,11 @@ export type BuilderPlugin<API = any> = {
   setup: (api: API) => Promise<void> | void;
 };
 
-type PluginMaterialsFn = () => Promise<BuilderPlugin>;
+type PluginsFn = () => Promise<BuilderPlugin>;
 
-export type PluginMaterials = {
-  cleanOutput: PluginMaterialsFn;
-  startUrl: PluginMaterialsFn;
+export type Plugins = {
+  cleanOutput: PluginsFn;
+  startUrl: PluginsFn;
 };
 
 /**

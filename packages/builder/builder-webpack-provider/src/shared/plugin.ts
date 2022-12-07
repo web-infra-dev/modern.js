@@ -1,5 +1,5 @@
 import { BuilderPlugin } from '../types';
-import { awaitableGetter, PluginMaterials } from '@modern-js/builder-shared';
+import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
 
 export const applyMinimalPlugins = () =>
   awaitableGetter<BuilderPlugin>([
@@ -27,11 +27,11 @@ export const applyBasicPlugins = () =>
     import('../plugins/react').then(m => m.PluginReact()),
   ]);
 
-export const applyDefaultPlugins = (materials: PluginMaterials) =>
+export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     ...applyMinimalPlugins().promises,
     import('../plugins/fileSize').then(m => m.PluginFileSize()),
-    materials.cleanOutput(),
+    plugins.cleanOutput(),
     import('../plugins/hmr').then(m => m.PluginHMR()),
     import('../plugins/svg').then(m => m.PluginSvg()),
     import('../plugins/pug').then(m => m.PluginPug()),
@@ -60,7 +60,7 @@ export const applyDefaultPlugins = (materials: PluginMaterials) =>
     import('../plugins/splitChunks').then(m => m.PluginSplitChunks()),
     import('../plugins/inspector').then(m => m.PluginInspector()),
     import('../plugins/sri').then(m => m.PluginSRI()),
-    materials.startUrl(),
+    plugins.startUrl(),
     import('../plugins/inlineChunk').then(m => m.PluginInlineChunk()),
     import('../plugins/assetsRetry').then(m => m.PluginAssetsRetry()),
     import('../plugins/externals').then(m => m.PluginExternals()),

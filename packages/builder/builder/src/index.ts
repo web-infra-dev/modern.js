@@ -11,5 +11,3 @@ export type {
   CreateBuilderOptions,
   InspectConfigOptions,
 } from '@modern-js/builder-shared';
-
-export { pluginMaterials } from './plugins';

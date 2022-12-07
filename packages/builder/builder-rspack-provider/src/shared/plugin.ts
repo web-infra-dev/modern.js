@@ -1,7 +1,7 @@
 import { BuilderPlugin } from '../types';
-import { awaitableGetter, PluginMaterials } from '@modern-js/builder-shared';
+import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
 
-export const applyMinimalPlugins = (pluginMaterials: PluginMaterials) =>
+export const applyMinimalPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     import('../plugins/basic').then(m => m.PluginBasic()),
     import('../plugins/entry').then(m => m.PluginEntry()),
@@ -12,19 +12,19 @@ export const applyMinimalPlugins = (pluginMaterials: PluginMaterials) =>
     // import('../plugins/devtool').then(m => m.PluginDevtool()),
     import('../plugins/resolve').then(m => m.PluginResolve()),
     // should before the html plugin
-    pluginMaterials.cleanOutput(),
+    plugins.cleanOutput(),
     import('../plugins/html').then(m => m.PluginHtml()),
     import('../plugins/define').then(m => m.PluginDefine()),
     import('../plugins/css').then(m => m.PluginCss()),
     import('../plugins/less').then(m => m.PluginLess()),
   ]);
 
-export const applyDefaultPlugins = (pluginMaterials: PluginMaterials) =>
+export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
-    ...applyMinimalPlugins(pluginMaterials).promises,
+    ...applyMinimalPlugins(plugins).promises,
     import('../plugins/hmr').then(m => m.PluginHMR()),
     import('../plugins/progress').then(m => m.PluginProgress()),
     import('../plugins/react').then(m => m.PluginReact()),
     import('../plugins/externals').then(m => m.PluginExternals()),
-    pluginMaterials.startUrl(),
+    plugins.startUrl(),
   ]);
