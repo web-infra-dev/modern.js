@@ -62,6 +62,15 @@ async function createInternalBuildConfig(
           .options(mdxOptions)
           .end();
 
+        chain.plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH).tap(options => {
+          options[0] = {
+            ...options[0],
+            // Avoid hmr client error in browser
+            esModule: false,
+          };
+          return options;
+        });
+
         chain.resolve.extensions.merge(['.ts', '.tsx', '.mdx', '.md']);
       },
       webpack(config) {

@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import siteData from 'virtual-site-data';
-import { Layout } from '../theme-default/layout/Layout';
+import { Layout } from '../theme-default/Layout/Layout';
 import { DataContext } from './hooks';
 
 export function App() {
