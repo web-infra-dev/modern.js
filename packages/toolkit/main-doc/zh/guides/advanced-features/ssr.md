@@ -189,19 +189,17 @@ import { PreRender } from '@modern-js/runtime/ssr';
 
 ### 环境变量区分
 
-在组件中可以直接使用 EdenX 内置的环境变量 `EDENX_TARGET` 进行判断，方便在构建时删除无用代码：
+在组件中可以直接使用 Modern.js 内置的环境变量 `MODERN_TARGET` 进行判断，方便在构建时删除无用代码：
 
 ```ts
 export default () => {
-  if (process.env.EDENX_TARGET === 'node') {
-    console.log('server render')
+  if (process.env.MODERN_TARGET === 'node') {
+    console.log('server render');
   } else {
-    console.log('client render')
+    console.log('client render');
   }
 }
 ```
-
-在 SSR 中直接调用 RPC 接口时，该环境变量会非常有用，因为 RPC 调用时往往会执行到浏览器中无法运行的代码。
 
 :::note
 更多内容可以查看[环境变量](/docs/guides/basic-features/env-vars)。
@@ -240,11 +238,11 @@ export default () => {
 
 ### 独立文件
 
-上述两种方式，都会为开发者带来一些心智负担。Modern.js 正在基于[嵌套路由](/docs/guides/basic-features/routes)开发设计更简单的方案来分离 CSR 和 SSR 的代码。。
+上述两种方式，都会为开发者带来一些心智负担。Modern.js 正在基于[嵌套路由](/docs/guides/basic-features/routes)开发设计[更简单的方案](/docs/guides/basic-features/data-fetch)来分离 CSR 和 SSR 的代码。
 
 ## 接口请求
 
-在 SSR 中发起接口请求时，开发者有时自己封装了同构的请求工具。部分接口需要传递用户 Cookie，开发者可以通过 [`useRuntimeContext`](/docs/apis/app/runtime/core/use-runtime-context) API 获取到请求头来实现。
+在 SSR 中发起接口请求时，开发者有时自己封装了同构的请求工具。部分接口需要传递用户 Cookie，开发者可以通过 [`useRuntimeContext`](/docs/guides/basic-features/data-fetch#route-loader) API 获取到请求头来实现。
 
 需要注意的是，此时获取到的是 HTML 请求的请求头，不一定适用于接口请求，因此**千万不能**透传所有请求头。并且，一些后端接口，或是通用网关，会根据请求头中的信息做校验，全量透传容易出现各种难以排查的问题，推荐**按需透传**。
 

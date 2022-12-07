@@ -60,7 +60,7 @@ export default (): CliPlugin<AppTools> => ({
             },
           },
           tools: {
-            webpackChain: (chain, { name, CHAIN_ID }) => {
+            webpackChain: (chain, { name, isServer, CHAIN_ID }) => {
               const userConfig = api.useResolvedConfigContext();
 
               if (
@@ -76,6 +76,26 @@ export default (): CliPlugin<AppTools> => ({
                     { filename: LOADABLE_STATS_FILE },
                   ]);
               }
+
+              // add environment variables to determine the node/browser
+              const prefix = `${
+                appContext.metaName.split(/[-_]/)[0]
+              }_`.toUpperCase();
+              const modernVars = {
+                [`process.env.${prefix}TARGET`]: JSON.stringify(
+                  isServer ? 'node' : 'browser',
+                ),
+              };
+              chain.plugin(CHAIN_ID.PLUGIN.DEFINE).tap(args => {
+                const [vars, ...rest] = args;
+                return [
+                  {
+                    ...vars,
+                    ...modernVars,
+                  },
+                  ...rest,
+                ];
+              });
             },
             babel: (config: any) => {
               const userConfig = api.useResolvedConfigContext();

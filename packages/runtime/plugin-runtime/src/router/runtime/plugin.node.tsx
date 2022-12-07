@@ -73,17 +73,16 @@ export const routerPlugin = ({
         async init({ context }, next) {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
-          if (!routesConfig) {
+          if (!routesConfig && !createRoutes) {
             return next({ context });
           }
 
           const { request }: { request: SSRServerContext['request'] } =
             context.ssrContext!;
 
-          const routeElements = renderRoutes(routesConfig);
           const routes = createRoutes
             ? createRoutes()
-            : createRoutesFromElements(routeElements);
+            : createRoutesFromElements(renderRoutes(routesConfig));
 
           const { query } = createStaticHandler(routes);
           const remixRequest = createFetchRequest(request);
@@ -127,7 +126,7 @@ export const routerPlugin = ({
 
           const RouteApp = getRouteApp();
 
-          if (routesConfig.globalApp) {
+          if (routesConfig?.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
             });

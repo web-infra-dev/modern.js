@@ -5,7 +5,6 @@ module.exports = {
       sourceMap: false,
       bundleOptions: {
         skipDeps: false,
-        externals: ['vm2'],
       },
     },
   },

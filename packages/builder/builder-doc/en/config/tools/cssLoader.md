@@ -14,8 +14,8 @@ The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be
     // isWebWorker indicates web worker build
     exportOnlyLocals: isServer || isWebWorker,
   },
-  // The default value of enableSourceMap in production build is true
-  sourceMap: enableSourceMap,
+  // CSS Source Map enabled by default in development environment
+  sourceMap: isDev,
 }
 ```
 

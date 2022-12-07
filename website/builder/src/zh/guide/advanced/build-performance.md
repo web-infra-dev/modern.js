@@ -4,6 +4,10 @@ Modern.js Builder 默认对构建性能进行了充分优化，但是随着业�
 
 本文档提供了一些可选的提速策略，**开发者可以根据实际场景选取其中的部分策略**，从而进一步提升构建速度。
 
+:::tip 📢 注意
+在[优化产物体积](/zh/guide/advanced/optimize-bundle)一文中介绍的策略也可以用于提升构建性能，这里不再重复介绍。
+:::
+
 ## 通用优化策略
 
 以下是一些通用的优化策略，对开发环境和生产环境均有提速效果，其中部分策略对包体积也有优化。
@@ -38,38 +42,6 @@ node -v
 
 Builder 提供了 esbuild 插件，让你能使用 esbuild 代替 babel-loader、ts-loader 和 terser 等库进行代码编译和压缩。详见 [esbuild 插件](/plugins/plugin-esbuild.html)。
 
-### 减少重复依赖
-
-在业务项目中，会存在某些第三方依赖被安装了多个版本的现象。重复依赖会导致包体积变大、构建速度变慢。
-
-我们可以通过社区中的一些工具来检测或消除重复依赖。
-
-如果你在使用 `pnpm`，可以使用 [pnpm-deduplicate](https://github.com/ocavue/pnpm-deduplicate) 来分析出所有的重复依赖，并通过升级依赖或声明 [pnpm overrides](https://pnpm.io/package_json#pnpmoverrides) 进行版本合并。
-
-```bash
-npx pnpm-deduplicate --list
-```
-
-如果你在使用 `yarn`，可以使用 [yarn-deduplicate](https://github.com/scinos/yarn-deduplicate) 来自动合并重复依赖：
-
-```bash
-npx yarn-deduplicate && yarn
-```
-
-### 使用更轻量的库
-
-建议将项目中体积较大的三方库替换为更轻量的库，比如将 [moment](https://momentjs.com/) 替换为 [day.js](https://day.js.org/)。
-
-如果你需要找出项目中体积较大的三方库，可以在执行构建时添加 [BUNDLE_ANALYZE=true](/zh/api/config-performance.html#performance-bundleanalyze) 环境变量：
-
-```bash
-BUNDLE_ANALYZE=true pnpm build
-```
-
-添加该参数后，Builder 会生成一个分析构建产物体积的 HTML 文件，手动在浏览器中打开该文件，可以看到打包产物的瓦片图。区块的面积越大，说明该模块的体积越大。
-
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
-
 ### 避免使用 ts-loader
 
 默认情况下，Builder 使用 Babel 编译 TS 文件，开启 [tools.tsLoader](/zh/api/config-tools.html#tools-tsloader) 选项后，会使用 `ts-loader` 编译 TS 文件。
@@ -86,36 +58,6 @@ export default {
 ```
 
 详见 [tools.tsLoader 文档](/zh/api/config-tools.html#tools-tsloader)。
-
-### 提升 Browserslist 范围
-
-Builder 会根据项目的 Browserslist 配置范围进行代码编译，并注入相应的 Polyfill。如果项目不需要兼容旧版浏览器，可以根据实际情况来提升 Browserslist 范围，从而减少在语法和 Polyfill 上的编译开销。
-
-Builder 默认的 Browserslist 配置为：
-
-```js
-['> 0.01%', 'not dead', 'not op_mini all'];
-```
-
-比如只兼容 Chrome 61 以上的浏览器，可以改成：
-
-```js
-['Chrome >= 61'];
-```
-
-### 按需引入 Polyfill
-
-在明确第三方依赖不需要额外 Polyfill 的情况下，你可以将 [output.polyfill](/zh/api/config-output.html#output-polyfill) 设置为 `usage`。
-
-在 `usage` 模式下，Builder 会分析源代码中使用的语法，按需注入所需的 Polyfill 代码，从而减少 Polyfill 的代码量。
-
-```js
-export default {
-  output: {
-    polyfill: 'usage',
-  },
-};
-```
 
 ## 开发环境优化策略
 
@@ -176,7 +118,7 @@ export default {
 
 ### 调整 Browserslist 范围
 
-这项优化的原理与「提升 Browserslist 范围」类似，区别在于，我们可以为开发环境和生产环境设置不同的 browserslist，从而减少开发环境下的编译开销。
+这项优化的原理与[「提升 Browserslist 范围」](/zh/guide/advanced/optimize-bundle.html#adjust-browserslist)类似，区别在于，我们可以为开发环境和生产环境设置不同的 browserslist，从而减少开发环境下的编译开销。
 
 比如，你可以在 `package.json` 中添加以下配置，表示在开发环境下只兼容最新的浏览器，在生产环境下兼容实际需要的浏览器：
 
