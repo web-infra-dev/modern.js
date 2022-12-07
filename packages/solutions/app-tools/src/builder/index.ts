@@ -81,6 +81,7 @@ export function createBuilderProviderConfig(
     },
     output,
     dev: {
+      port: normalizedConfig.server.port,
       https: normalizedConfig.dev.https,
       assetPrefix: normalizedConfig.dev.assetPrefix,
     },
