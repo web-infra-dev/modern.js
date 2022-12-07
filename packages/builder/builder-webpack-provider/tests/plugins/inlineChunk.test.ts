@@ -1,10 +1,18 @@
-import { expect, describe, it } from 'vitest';
+import { expect, describe, it, beforeEach, afterEach } from 'vitest';
 import { PluginEntry } from '@/plugins/entry';
 import { PluginHtml } from '@/plugins/html';
 import { PluginInlineChunk } from '@/plugins/inlineChunk';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/inlineChunk', () => {
+  beforeEach(() => {
+    process.env.NODE_ENV = 'production';
+  });
+
+  afterEach(() => {
+    process.env.NODE_ENV = '';
+  });
+
   it('should add InlineChunkHtmlPlugin properly by default', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
@@ -89,6 +97,20 @@ describe('plugins/inlineChunk', () => {
         main: './src/main.ts',
       },
       target: 'web-worker',
+    });
+
+    expect(
+      await builder.matchWebpackPlugin('InlineChunkHtmlPlugin'),
+    ).toBeFalsy();
+  });
+
+  it('should not apply InlineChunkHtmlPlugin in development mode', async () => {
+    process.env.NODE_ENV = 'development';
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      entry: {
+        main: './src/main.ts',
+      },
     });
 
     expect(
