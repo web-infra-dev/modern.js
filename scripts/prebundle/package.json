@@ -65,7 +65,7 @@
     "ajv-keywords": "5.1.0",
     "ansi-escapes": "4.3.2",
     "autoprefixer": "10.4.7",
-    "babel-loader": "8.2.5",
+    "babel-loader": "9.1.0",
     "babel-plugin-dynamic-import-node": "2.3.3",
     "babel-plugin-import": "1.13.5",
     "babel-plugin-lodash": "3.3.4",

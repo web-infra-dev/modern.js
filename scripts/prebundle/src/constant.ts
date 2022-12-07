@@ -244,7 +244,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           '@babel/core': '@babel/core',
-          'loader-utils': '../loader-utils1',
         },
       },
       {
