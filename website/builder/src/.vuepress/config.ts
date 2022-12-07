@@ -65,6 +65,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         collapsable: false,
         title: getText('进阶', 'Advanced'),
         children: [
+          getLink('/guide/advanced/optimize-bundle'),
           getLink('/guide/advanced/build-performance'),
           getLink('/guide/advanced/inline-assets'),
           getLink('/guide/advanced/split-chunk'),

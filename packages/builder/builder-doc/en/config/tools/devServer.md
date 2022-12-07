@@ -276,7 +276,7 @@ export default {
 };
 ```
 
-The DevServer Proxy makes use of the [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware) package. Check out its documentation for more advanced usages.
+The DevServer Proxy makes use of the [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware/tree/2.x) package. Check out its documentation for more advanced usages.
 
 The full type definition of DevServer Proxy is:
 

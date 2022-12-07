@@ -29,9 +29,6 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
-  "dependencies": {
-    "vm2": "^3.9.2"
-  },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/generator-common": "workspace:*",

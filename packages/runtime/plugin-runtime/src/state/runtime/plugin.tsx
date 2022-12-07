@@ -1,5 +1,9 @@
 import { useContext } from 'react';
-import { createStore } from '@modern-js-reduck/store';
+import {
+  createStore,
+  type Model,
+  type StoreConfig,
+} from '@modern-js-reduck/store';
 import { Provider } from '@modern-js-reduck/react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { immer, effects, autoActions, devtools } from '../plugins';
@@ -7,9 +11,15 @@ import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { isBrowser } from '../../common';
 
-export type StatePluginType = 'immer' | 'effects' | 'autoActions' | 'devtools';
+type StatePluginType = 'immer' | 'effects' | 'autoActions' | 'devtools';
+type StateExtraType = {
+  initialState: any;
+  models: Array<Model>;
+};
 
-export type StateConfig = Partial<Record<StatePluginType, boolean>>;
+export type StateConfig = Partial<
+  Record<StatePluginType, boolean> & StateExtraType
+>;
 
 const StatePluginHandleMap: Record<StatePluginType, any> = {
   immer,
@@ -18,9 +28,7 @@ const StatePluginHandleMap: Record<StatePluginType, any> = {
   devtools,
 };
 
-const getStoreConfig = (
-  config: StateConfig,
-): NonNullable<Parameters<typeof createStore>[0]> => {
+const getStoreConfig = (config: StateConfig): StoreConfig => {
   const internalPlugins: StatePluginType[] = [
     'immer',
     'effects',
@@ -33,7 +41,20 @@ const getStoreConfig = (
     .forEach(plugin =>
       plugins.push(StatePluginHandleMap[plugin](config[plugin])),
     );
-  return { plugins };
+
+  const storeConfig: StoreConfig = {};
+
+  for (const [key, value] of Object.entries(config)) {
+    if (internalPlugins.includes(key as StatePluginType)) {
+      plugins.push(StatePluginHandleMap[key as StatePluginType](value));
+    } else {
+      storeConfig[key as keyof StoreConfig] = value;
+    }
+  }
+
+  storeConfig.plugins = plugins;
+
+  return storeConfig;
 };
 
 const state = (config: StateConfig): Plugin => ({

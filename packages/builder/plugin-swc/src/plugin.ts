@@ -10,7 +10,7 @@ import {
   BuilderPlugin,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import { PluginConfig, TransformConfig } from './config';
+import { PluginSwcOptions, TransformConfig } from './config';
 import { minify } from './binding';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
@@ -20,17 +20,15 @@ const PLUGIN_NAME = 'builder-plugin-swc';
  * - Remove Babel loader if exists
  * - Add our own swc loader
  */
-export const PluginSwc = (pluginConfig: PluginConfig = {}): BuilderPlugin => ({
+export const PluginSwc = (
+  pluginConfig: PluginSwcOptions = {},
+): BuilderPlugin => ({
   name: PLUGIN_NAME,
 
   setup(api: BuilderPluginAPI) {
     // Find if babel & ts loader exists
     api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
-      const { isProd, logger } = await import('@modern-js/utils');
-
-      logger.info(
-        'You are using experimental SWC ability, babel-loader and ts-loader will be ignored.',
-      );
+      const { isProd } = await import('@modern-js/utils');
 
       chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
       chain.module.delete(CHAIN_ID.RULE.TS);

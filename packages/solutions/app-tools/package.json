@@ -52,7 +52,8 @@
     }
   },
   "bin": {
-    "modern": "./bin/modern.js"
+    "modern": "./bin/modern.js",
+    "modern-app": "./bin/modern.js"
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
@@ -86,6 +87,7 @@
     "es-module-lexer": "^1.1.0"
   },
   "devDependencies": {
+    "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

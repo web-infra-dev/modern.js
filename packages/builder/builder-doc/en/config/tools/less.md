@@ -49,7 +49,9 @@ export default {
 
 #### addExcludes
 
-Used to specify which files `less-loader` does not compile, for example:
+- Type: `(excludes: RegExp | RegExp[]) => void`
+
+Used to specify which files `less-loader` does not compile, You can pass in one or more regular expressions to match the path of less files, for example:
 
 ```js
 export default {
