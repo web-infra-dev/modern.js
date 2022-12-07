@@ -45,7 +45,7 @@ export class RouteService {
   }
 
   async init() {
-    const globby = await import('@modern-js/utils/globby');
+    const { default: globby } = await import('@modern-js/utils/globby');
     const files = globby
       .sync([`**/*.{${this.#extensions.join(',')}}`, ...this.#include], {
         cwd: this.#scanDir,
