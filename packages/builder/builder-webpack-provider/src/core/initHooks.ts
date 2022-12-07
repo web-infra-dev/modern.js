@@ -13,14 +13,14 @@ import type {
   ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
-  BuilderConfig,
+  WebpackConfig,
 } from '../types';
 
 export function initHooks() {
   return {
     onExitHook: createAsyncHook<OnExitFn>(),
     onAfterBuildHook: createAsyncHook<OnAfterBuildFn>(),
-    onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn<BuilderConfig>>(),
+    onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn<WebpackConfig>>(),
     onDevCompileDoneHook: createAsyncHook<OnDevCompileDoneFn>(),
     modifyWebpackChainHook: createAsyncHook<ModifyWebpackChainFn>(),
     modifyWebpackConfigHook: createAsyncHook<ModifyWebpackConfigFn>(),

@@ -12,7 +12,7 @@ import type {
   ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
-  BuilderConfig,
+  RspackConfig,
 } from '../types';
 
 export function initHooks() {
@@ -25,7 +25,7 @@ export function initHooks() {
 
     /** parameters are bundler-related */
     onAfterBuildHook: createAsyncHook<OnAfterBuildFn>(),
-    onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn<BuilderConfig>>(),
+    onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn<RspackConfig>>(),
     modifyRspackConfigHook: createAsyncHook<ModifyRspackConfigFn>(),
     modifyBuilderConfigHook: createAsyncHook<ModifyBuilderConfigFn>(),
     onAfterCreateCompilerHook: createAsyncHook<OnAfterCreateCompilerFn>(),

@@ -39,7 +39,7 @@ export type DefaultBuilderPluginAPI<
 
   onExit: (fn: OnExitFn) => void;
   onAfterBuild: (fn: OnAfterBuildFn) => void;
-  onBeforeBuild: (fn: OnBeforeBuildFn<Config>) => void;
+  onBeforeBuild: (fn: OnBeforeBuildFn) => void;
   onDevCompileDone: (fn: OnDevCompileDoneFn) => void;
   onAfterStartDevServer: (fn: OnAfterStartDevServerFn) => void;
   onBeforeStartDevServer: (fn: OnBeforeStartDevServerFn) => void;
