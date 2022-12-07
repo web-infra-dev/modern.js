@@ -1,9 +1,9 @@
 import type { Stats, MultiStats } from './stats';
 import { SharedBuilderConfig } from './config';
 
-export type OnBeforeBuildFn<T extends SharedBuilderConfig> = (params: {
-  bundlerConfigs: T[];
-}) => Promise<void> | void;
+export type OnBeforeBuildFn<
+  T extends SharedBuilderConfig = SharedBuilderConfig,
+> = (params: { bundlerConfigs?: T[] }) => Promise<void> | void;
 
 export type OnAfterBuildFn = (params: {
   stats?: Stats | MultiStats;
