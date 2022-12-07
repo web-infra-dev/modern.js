@@ -72,7 +72,6 @@ export const PluginBabel = (): BuilderPlugin => ({
         );
 
         const getBabelOptions = (
-          framework: string,
           appDirectory: string,
           config: NormalizedConfig,
         ) => {
@@ -139,9 +138,8 @@ export const PluginBabel = (): BuilderPlugin => ({
           };
         };
 
-        const { rootPath, framework } = api.context;
+        const { rootPath } = api.context;
         const { babelOptions, includes, excludes } = getBabelOptions(
-          framework,
           rootPath,
           config,
         );
