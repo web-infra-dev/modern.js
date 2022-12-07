@@ -1,33 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
-import { fs, Import, CHAIN_ID } from '@modern-js/utils';
-import type {
-  IAppContext,
-  ModuleNormalizedConfig,
-} from '@modern-js/module-tools-v2';
+import { fs } from '@modern-js/utils';
+import type { IAppContext } from '@modern-js/module-tools-v2';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type {
   Configuration,
   RuleSetRule,
-  RuleSetUseItem,
   RuleSetConditionAbsolute,
 } from 'webpack';
-import type Chain from 'webpack-chain';
-import {
-  ClientWebpackConfig,
-  JS_REGEX,
-  TS_REGEX,
-  mergeRegex,
-} from '@modern-js/webpack';
+import { merge } from '@modern-js/utils/lodash';
+import type { WebpackConfig } from '@modern-js/builder-webpack-provider';
+import { JS_REGEX, TS_REGEX, mergeRegex } from '@modern-js/builder-shared';
 import { CURRENT_PKG_PATH } from '../constants';
-
-const NodePolyfillPlugin: typeof import('node-polyfill-webpack-plugin') =
-  Import.lazy('node-polyfill-webpack-plugin', require);
-
-class ClientNoEntryWebpackConfig extends ClientWebpackConfig {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  entry() {}
-}
 
 // 改变storybook webpack config，有副作用
 const resolveStorybookWebPackConfig = (
@@ -35,6 +18,7 @@ const resolveStorybookWebPackConfig = (
   clientWebpackConfig: Configuration,
   { appDirectory }: { appDirectory: string },
 ) => {
+  // override output
   sbWebpackConfig.output = clientWebpackConfig.output;
   if (typeof clientWebpackConfig.output === 'object') {
     sbWebpackConfig.output = {
@@ -49,6 +33,8 @@ const resolveStorybookWebPackConfig = (
       publicPath: '',
     };
   }
+
+  // handle module rules
   if (sbWebpackConfig.module) {
     const blackRuleList = [
       /\.css$/.toString(),
@@ -101,6 +87,7 @@ const resolveStorybookWebPackConfig = (
         ...(clientJsAndTsRule as any).use[0].options,
         cacheDirectory: (jsAndTsRule as any).use[0].options.cacheDirectory,
         plugins: [
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ...options.plugins,
           ...((clientJsAndTsRule as any).use[0].options.plugins || []),
         ],
@@ -168,81 +155,44 @@ const resolveStorybookWebPackConfig = (
   // sbWebpackConfig.plugins = (_sbWebpackConfig$plug = sbWebpackConfig.plugins) === null || _sbWebpackConfig$plug === void 0 ? void 0 : _sbWebpackConfig$plug.filter(p => p.constructor.name !== 'DefinePlugin');
 };
 
-export const getCustomWebpackConfigHandle: any = ({
+export const getCustomWebpackConfigHandle: any = async ({
   appContext,
-  modernConfig,
   configDir,
-  isTsProject = false,
 }: {
   appContext: IAppContext;
-  modernConfig: ModuleNormalizedConfig;
   configDir: string;
-  isTsProject: boolean;
-  env: 'dev' | 'prod';
 }) => {
-  const { RULE, PLUGIN, ONE_OF } = CHAIN_ID;
-  const { appDirectory, packageName } = appContext;
+  const { appDirectory } = appContext;
 
-  // Manual configuration `output.path = 'storybook-static'`;
-  (modernConfig as any).output.path = './dist/storybook-static';
+  if (!appContext.builder) {
+    throw new Error(
+      'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
+    );
+  }
 
-  const webpackConfig = new ClientNoEntryWebpackConfig(
-    appContext,
-    modernConfig as any,
+  const { PluginStorybook } = await import('./builder-plugin');
+  const { PluginNodePolyfill } = await import(
+    '@modern-js/builder-plugin-node-polyfill'
   );
-  const chain: Chain = webpackConfig.getChain();
-  chain.plugin('polyfill').use(NodePolyfillPlugin);
 
-  // 移除 fallback 规则
-  chain.module.rule(RULE.LOADERS).oneOfs.delete(ONE_OF.FALLBACK);
+  appContext.builder.addPlugins([
+    PluginNodePolyfill(),
+    PluginStorybook({ appDirectory, configDir }),
+  ]);
 
-  chain.plugins
-    .delete(PLUGIN.PROGRESS)
-    // main 入口文件的 html-plugin
-    .delete(`${PLUGIN.HTML}-main`)
-    // remove `ForkTsCheckerWebpackPlugin`, because storybook is supported
-    .delete(PLUGIN.TS_CHECKER);
+  // todo: call initConfig
+  const {
+    origin: { bundlerConfigs },
+  } = await appContext.builder.inspectConfig();
 
-  chain.resolve.merge({
-    fallback: {
-      perf_hooks: false,
-    },
-  });
-
-  !isTsProject &&
-    chain.resolve.merge({
-      alias: {
-        packageName: appDirectory,
-      },
-    });
-
-  const jsRuleConfig = (
-    chain.module.rule(RULE.LOADERS).oneOf(ONE_OF.JS) as any
-  ).toConfig() as RuleSetRule;
-
-  // config dir 针对内部的 storybook 配置目录下的文件做编译处理，复用 js rules
-  const configDirRuleChain = chain.module
-    .rule(RULE.LOADERS)
-    .oneOf('config-dir');
-
-  configDirRuleChain
-    .test(isTsProject ? /\.(js|mjs|jsx|ts|tsx)$/ : /\.(js|mjs|jsx)$/)
-    .include.add(configDir)
-    .end()
-    .enforce('pre')
-    .use('a')
-    .merge({
-      ...((jsRuleConfig.use as RuleSetUseItem[])[0] as Record<string, any>),
-    });
-  chain.module.rule('js').merge(jsRuleConfig);
+  const config = bundlerConfigs[0] as WebpackConfig;
 
   return (sbWebpackConfig: Configuration) => {
-    chain.merge({
-      resolve: sbWebpackConfig.resolve,
+    config.resolve = merge({}, config.resolve, sbWebpackConfig.resolve);
+
+    resolveStorybookWebPackConfig(sbWebpackConfig, config, {
+      appDirectory,
     });
-    const config = chain.toConfig();
-    resolveStorybookWebPackConfig(sbWebpackConfig, config, { appDirectory });
     return sbWebpackConfig;
   };
 };
-/* eslint-enable @typescript-eslint/no-unused-vars */
