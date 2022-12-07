@@ -47,9 +47,9 @@ describe('Streaming SSR', () => {
     const body = await res.text();
     // css chunks inject correctly
     expect(body).toMatch(
-      /<link href="\/static\/css\/async\/main_user\/page.css" rel="stylesheet" \/>/,
+      /<link href="\/static\/css\/async\/user\/page.css" rel="stylesheet" \/>/,
     );
 
-    expect(body).toMatch(/<div hidden id="S:2">[\s\S]*<div>About Page<\/div>/);
+    expect(body).toMatch(/<div hidden id="S:1">[\s\S]*<div>About Page<\/div>/);
   });
 });

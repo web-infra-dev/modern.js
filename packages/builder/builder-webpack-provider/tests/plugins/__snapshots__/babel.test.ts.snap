@@ -35,9 +35,6 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -161,9 +158,6 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -301,9 +295,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -377,7 +368,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "modules": false,
                     "shippedProposals": false,
                     "targets": [
-                      "node >= 12",
+                      "node >= 14",
                     ],
                     "useBuiltIns": false,
                   },
@@ -422,9 +413,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -498,7 +486,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "modules": false,
                     "shippedProposals": false,
                     "targets": [
-                      "node >= 12",
+                      "node >= 14",
                     ],
                     "useBuiltIns": false,
                   },
@@ -560,9 +548,6 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -686,9 +671,6 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -834,9 +816,6 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -958,9 +937,6 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -1096,9 +1072,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -1222,9 +1195,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -1366,9 +1336,6 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
@@ -1492,9 +1459,6 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",

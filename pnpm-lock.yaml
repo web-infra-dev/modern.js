@@ -263,7 +263,6 @@ importers:
       '@scripts/vitest-config': workspace:*
       node-libs-browser: 2.2.1
       typescript: 4.7.4
-      webpack: ^5.74.0
       wireit: ^0.7.1
     dependencies:
       node-libs-browser: 2.2.1
@@ -273,7 +272,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 4.7.4
-      webpack: 5.75.0
       wireit: 0.7.1
 
   packages/builder/plugin-swc:
@@ -3610,7 +3608,7 @@ importers:
       webpack-5-chain: 8.0.1
       webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
-      webpack-dev-middleware: 5.3.3
+      webpack-dev-middleware: 6.0.1
       webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
       webpack-sources: 3.2.3
@@ -3757,7 +3755,7 @@ importers:
       webpack-5-chain: 8.0.1
       webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
-      webpack-dev-middleware: 5.3.3_webpack@5.75.0
+      webpack-dev-middleware: 6.0.1_webpack@5.75.0
       webpack-manifest-plugin: 5.0.0_webpack@5.75.0
       webpack-merge: 5.8.0
       webpack-sources: 3.2.3
@@ -29627,7 +29625,6 @@ packages:
     engines: {node: '>= 4.0.0'}
     dependencies:
       fs-monkey: 1.0.3
-    dev: false
 
   /memfs/3.4.7:
     resolution: {integrity: sha512-ygaiUSNalBX85388uskeCyhSAoOSgzBbtVCr9jA2RROssFL9Q19/ZXFqS+2Th2sr1ewNIWgFdLzLC3Yl1Zv+lw==}
@@ -39657,11 +39654,12 @@ packages:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
       colorette: 2.0.19
-      memfs: 3.4.7
+      memfs: 3.4.12
       mime-types: 2.1.35
       range-parser: 1.2.1
       schema-utils: 4.0.0
       webpack: 5.75.0
+    dev: false
 
   /webpack-dev-middleware/6.0.0:
     resolution: {integrity: sha512-A7jSXBifCJsJqUCVISlcbx9pkmCuP0KriMRcOJ13pOb6/xMXZvh4/ygeJeSArjRd50IT5IVbBFuejGDA/zWrNQ==}
@@ -39675,6 +39673,20 @@ packages:
       range-parser: 1.2.1
       schema-utils: 4.0.0
     dev: false
+
+  /webpack-dev-middleware/6.0.1_webpack@5.75.0:
+    resolution: {integrity: sha512-PZPZ6jFinmqVPJZbisfggDiC+2EeGZ1ZByyMP5sOFJcPPWSexalISz+cvm+j+oYPT7FIJyxT76esjnw9DhE5sw==}
+    engines: {node: '>= 14.15.0'}
+    peerDependencies:
+      webpack: ^5.0.0
+    dependencies:
+      colorette: 2.0.19
+      memfs: 3.4.12
+      mime-types: 2.1.35
+      range-parser: 1.2.1
+      schema-utils: 4.0.0
+      webpack: 5.75.0
+    dev: true
 
   /webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==}

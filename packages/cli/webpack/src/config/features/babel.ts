@@ -94,7 +94,6 @@ export function applyBabelLoader({
   babelPresetAppOptions?: Partial<BabelPresetAppOptions>;
 }) {
   const { options, includes, excludes } = getBabelOptions(
-    appContext.metaName,
     appContext.appDirectory,
     config,
     createBabelChain(),

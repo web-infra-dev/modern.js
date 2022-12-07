@@ -36,7 +36,6 @@ export const genCommon = (options: Options): BabelChain => {
   const {
     lodash: lodashOptions,
     target,
-    metaName,
     appDirectory,
     useLegacyDecorators,
     modules,
@@ -103,9 +102,7 @@ export const genCommon = (options: Options): BabelChain => {
 
   chain
     .plugin('built-in/babel-plugin-lock-corejs-version')
-    .use(join(__dirname, './built-in/babel-plugin-lock-corejs-version'), [
-      { metaName },
-    ]);
+    .use(join(__dirname, './built-in/babel-plugin-lock-corejs-version'));
 
   chain
     .plugin('./built-in/babel-plugin-ssr-loader-id')

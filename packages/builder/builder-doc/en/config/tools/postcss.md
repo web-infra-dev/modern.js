@@ -92,7 +92,9 @@ export default {
 
 #### addPlugins
 
-For adding additional PostCSS plugins.
+- Type: `(plugins: PostCSSPlugin | PostCSSPlugin[]) => void`
+
+For adding additional PostCSS plugins, You can pass in a single PostCSS plugin, or an array of PostCSS plugins.
 
 ```js
 export default {

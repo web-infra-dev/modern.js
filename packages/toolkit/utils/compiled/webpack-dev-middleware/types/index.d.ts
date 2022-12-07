@@ -1,4 +1,5 @@
 /// <reference types="node" />
+/// <reference types="node" />
 export = wdm;
 /** @typedef {import('../schema-utils3/declarations/validate').Schema} Schema */
 /** @typedef {import('webpack').Compiler} Compiler */
@@ -35,31 +36,31 @@ export = wdm;
  * @param {Stats | MultiStats} [stats]
  */
 /**
- * @template {IncomingMessage} Request
- * @template {ServerResponse} Response
+ * @template {IncomingMessage} RequestInternal
+ * @template {ServerResponse} ResponseInternal
  * @typedef {Object} Context
  * @property {boolean} state
  * @property {Stats | MultiStats | undefined} stats
  * @property {Callback[]} callbacks
- * @property {Options<Request, Response>} options
+ * @property {Options<RequestInternal, ResponseInternal>} options
  * @property {Compiler | MultiCompiler} compiler
  * @property {Watching | MultiWatching} watching
  * @property {Logger} logger
  * @property {OutputFileSystem} outputFileSystem
  */
 /**
- * @template {IncomingMessage} Request
- * @template {ServerResponse} Response
- * @typedef {Record<string, string | number> | Array<{ key: string, value: number | string }> | ((req: Request, res: Response, context: Context<Request, Response>) =>  void | undefined | Record<string, string | number>) | undefined} Headers
+ * @template {IncomingMessage} RequestInternal
+ * @template {ServerResponse} ResponseInternal
+ * @typedef {Record<string, string | number> | Array<{ key: string, value: number | string }> | ((req: RequestInternal, res: ResponseInternal, context: Context<RequestInternal, ResponseInternal>) =>  void | undefined | Record<string, string | number>) | undefined} Headers
  */
 /**
- * @template {IncomingMessage} Request
- * @template {ServerResponse} Response
+ * @template {IncomingMessage} RequestInternal
+ * @template {ServerResponse} ResponseInternal
  * @typedef {Object} Options
  * @property {{[key: string]: string}} [mimeTypes]
  * @property {boolean | ((targetPath: string) => boolean)} [writeToDisk]
  * @property {string} [methods]
- * @property {Headers<Request, Response>} [headers]
+ * @property {Headers<RequestInternal, ResponseInternal>} [headers]
  * @property {NonNullable<Configuration["output"]>["publicPath"]} [publicPath]
  * @property {Configuration["stats"]} [stats]
  * @property {boolean} [serverSideRender]
@@ -67,11 +68,11 @@ export = wdm;
  * @property {boolean | string} [index]
  */
 /**
- * @template {IncomingMessage} Request
- * @template {ServerResponse} Response
+ * @template {IncomingMessage} RequestInternal
+ * @template {ServerResponse} ResponseInternal
  * @callback Middleware
- * @param {Request} req
- * @param {Response} res
+ * @param {RequestInternal} req
+ * @param {ResponseInternal} res
  * @param {NextFunction} next
  * @return {Promise<void>}
  */
@@ -93,34 +94,34 @@ export = wdm;
  * @param {(err: Error | null | undefined) => void} callback
  */
 /**
- * @template {IncomingMessage} Request
- * @template {ServerResponse} Response
+ * @template {IncomingMessage} RequestInternal
+ * @template {ServerResponse} ResponseInternal
  * @typedef {Object} AdditionalMethods
  * @property {GetFilenameFromUrl} getFilenameFromUrl
  * @property {WaitUntilValid} waitUntilValid
  * @property {Invalidate} invalidate
  * @property {Close} close
- * @property {Context<Request, Response>} context
+ * @property {Context<RequestInternal, ResponseInternal>} context
  */
 /**
- * @template {IncomingMessage} Request
- * @template {ServerResponse} Response
- * @typedef {Middleware<Request, Response> & AdditionalMethods<Request, Response>} API
+ * @template {IncomingMessage} RequestInternal
+ * @template {ServerResponse} ResponseInternal
+ * @typedef {Middleware<RequestInternal, ResponseInternal> & AdditionalMethods<RequestInternal, ResponseInternal>} API
  */
 /**
- * @template {IncomingMessage} Request
- * @template {ServerResponse} Response
+ * @template {IncomingMessage} RequestInternal
+ * @template {ServerResponse} ResponseInternal
  * @param {Compiler | MultiCompiler} compiler
- * @param {Options<Request, Response>} [options]
- * @returns {API<Request, Response>}
+ * @param {Options<RequestInternal, ResponseInternal>} [options]
+ * @returns {API<RequestInternal, ResponseInternal>}
  */
 declare function wdm<
-  Request_1 extends import('http').IncomingMessage,
-  Response_1 extends ServerResponse
+  RequestInternal extends import('http').IncomingMessage,
+  ResponseInternal extends ServerResponse
 >(
   compiler: Compiler | MultiCompiler,
-  options?: Options<Request_1, Response_1> | undefined
-): API<Request_1, Response_1>;
+  options?: Options<RequestInternal, ResponseInternal> | undefined
+): API<RequestInternal, ResponseInternal>;
 declare namespace wdm {
   export {
     Schema,
@@ -155,8 +156,8 @@ type ServerResponse = import('http').ServerResponse & ExtendedServerResponse;
 type Compiler = import('webpack').Compiler;
 type MultiCompiler = import('webpack').MultiCompiler;
 type Options<
-  Request_1 extends import('http').IncomingMessage,
-  Response_1 extends ServerResponse
+  RequestInternal extends import('http').IncomingMessage,
+  ResponseInternal extends ServerResponse
 > = {
   mimeTypes?:
     | {
@@ -165,7 +166,7 @@ type Options<
     | undefined;
   writeToDisk?: boolean | ((targetPath: string) => boolean) | undefined;
   methods?: string | undefined;
-  headers?: Headers<Request_1, Response_1>;
+  headers?: Headers<RequestInternal, ResponseInternal>;
   publicPath?: NonNullable<Configuration["output"]>["publicPath"];
   stats?: Configuration["stats"];
   serverSideRender?: boolean | undefined;
@@ -173,10 +174,10 @@ type Options<
   index?: string | boolean | undefined;
 };
 type API<
-  Request_1 extends import('http').IncomingMessage,
-  Response_1 extends ServerResponse
-> = Middleware<Request_1, Response_1> &
-  AdditionalMethods<Request_1, Response_1>;
+  RequestInternal extends import('http').IncomingMessage,
+  ResponseInternal extends ServerResponse
+> = Middleware<RequestInternal, ResponseInternal> &
+  AdditionalMethods<RequestInternal, ResponseInternal>;
 type Schema = import('../schema-utils3/declarations/validate').Schema;
 type Configuration = import('webpack').Configuration;
 type Stats = import('webpack').Stats;
@@ -201,7 +202,7 @@ type Watching = Compiler["watching"];
 type MultiWatching = ReturnType<Compiler["watch"]>;
 type OutputFileSystem = Compiler["outputFileSystem"] & {
   createReadStream?: typeof import('fs').createReadStream;
-  statSync?: typeof import('fs').statSync;
+  statSync?: import('fs').StatSyncFn;
   lstat?: typeof import('fs').lstat;
   readFileSync?: typeof import('fs').readFileSync;
 };
@@ -210,21 +211,21 @@ type Callback = (
   stats?: import('webpack').Stats | import('webpack').MultiStats | undefined
 ) => any;
 type Context<
-  Request_1 extends import('http').IncomingMessage,
-  Response_1 extends ServerResponse
+  RequestInternal extends import('http').IncomingMessage,
+  ResponseInternal extends ServerResponse
 > = {
   state: boolean;
   stats: Stats | MultiStats | undefined;
   callbacks: Callback[];
-  options: Options<Request_1, Response_1>;
+  options: Options<RequestInternal, ResponseInternal>;
   compiler: Compiler | MultiCompiler;
   watching: Watching | MultiWatching;
   logger: Logger;
   outputFileSystem: OutputFileSystem;
 };
 type Headers<
-  Request_1 extends import('http').IncomingMessage,
-  Response_1 extends ServerResponse
+  RequestInternal extends import('http').IncomingMessage,
+  ResponseInternal extends ServerResponse
 > =
   | Record<string, string | number>
   | {
@@ -232,26 +233,30 @@ type Headers<
       value: number | string;
     }[]
   | ((
-      req: Request_1,
-      res: Response_1,
-      context: Context<Request_1, Response_1>
+      req: RequestInternal,
+      res: ResponseInternal,
+      context: Context<RequestInternal, ResponseInternal>
     ) => void | undefined | Record<string, string | number>)
   | undefined;
 type Middleware<
-  Request_1 extends import('http').IncomingMessage,
-  Response_1 extends ServerResponse
-> = (req: Request_1, res: Response_1, next: NextFunction) => Promise<void>;
+  RequestInternal extends import('http').IncomingMessage,
+  ResponseInternal extends ServerResponse
+> = (
+  req: RequestInternal,
+  res: ResponseInternal,
+  next: NextFunction
+) => Promise<void>;
 type GetFilenameFromUrl = (url: string) => string | undefined;
 type WaitUntilValid = (callback: Callback) => any;
 type Invalidate = (callback: Callback) => any;
 type Close = (callback: (err: Error | null | undefined) => void) => any;
 type AdditionalMethods<
-  Request_1 extends import('http').IncomingMessage,
-  Response_1 extends ServerResponse
+  RequestInternal extends import('http').IncomingMessage,
+  ResponseInternal extends ServerResponse
 > = {
   getFilenameFromUrl: GetFilenameFromUrl;
   waitUntilValid: WaitUntilValid;
   invalidate: Invalidate;
   close: Close;
-  context: Context<Request_1, Response_1>;
+  context: Context<RequestInternal, ResponseInternal>;
 };
