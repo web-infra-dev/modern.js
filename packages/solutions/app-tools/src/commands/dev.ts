@@ -1,6 +1,5 @@
-import { logger } from '@modern-js/utils';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { webpack } from '@modern-js/builder-webpack-provider';
+import type { webpack } from '@modern-js/builder-webpack-provider';
 import { createFileWatcher } from '../utils/createFileWatcher';
 import { printInstructions } from '../utils/printInstructions';
 import { createServer, injectDataLoaderPlugin } from '../utils/createServer';
@@ -55,53 +54,48 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
 
   await hookRunners.beforeDev();
 
-  let compiler: webpack.Compiler | webpack.MultiCompiler | null = null;
+  let compiler: webpack.Compiler | webpack.MultiCompiler | undefined;
+
+  if (!appContext.builder) {
+    throw new Error(
+      'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
+    );
+  }
 
   if (!apiOnly) {
-    if (!appContext.builder) {
-      throw new Error(
-        'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
-      );
-    }
     compiler = await appContext.builder.createCompiler();
   }
 
   await generateRoutes(appContext);
 
-  const app = await createServer({
+  const serverOptions = {
     dev: {
-      ...{
-        client: {
-          port: port!.toString(),
-        },
-        devMiddleware: {
-          writeToDisk: (file: string) => !file.includes('.hot-update.'),
-        },
-        hot: true,
-        liveReload: true,
-        port,
-        https: normalizedConfig.dev.https,
-      },
+      port,
+      https: normalizedConfig.dev.https,
       ...normalizedConfig.tools?.devServer,
     },
-    compiler,
+    compiler: compiler || null,
     pwd: appDirectory,
     config: normalizedConfig,
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
-  });
+  };
 
-  app.listen(port, async (err: Error) => {
-    if (err) {
-      throw err;
-    }
-
-    if (!apiOnly) {
-      logger.info(`Starting dev server...\n`);
-    } else {
+  if (apiOnly) {
+    const app = await createServer(serverOptions);
+    app.listen(port, async (err: Error) => {
+      if (err) {
+        throw err;
+      }
       printInstructions(hookRunners, appContext, normalizedConfig);
-    }
-  });
+    });
+  } else {
+    await appContext.builder.startDevServer({
+      compiler,
+      printURLs: false,
+      serverOptions,
+    });
+  }
 
   await createFileWatcher(
     appContext,
