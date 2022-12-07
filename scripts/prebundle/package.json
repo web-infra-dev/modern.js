@@ -117,7 +117,7 @@
     "postcss-flexbugs-fixes": "5.0.2",
     "postcss-font-variant": "5.0.0",
     "postcss-initial": "4.0.1",
-    "postcss-loader": "6.2.1",
+    "postcss-loader": "7.0.2",
     "postcss-media-minmax": "5.0.0",
     "postcss-nesting": "10.1.4",
     "postcss-page-break": "3.0.4",
