@@ -10,9 +10,14 @@ import type {
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
 } from './hooks';
+import type { RspackConfig } from './rspack';
 
 export interface BuilderPluginAPI
-  extends DefaultBuilderPluginAPI<BuilderConfig, NormalizedConfig> {
+  extends DefaultBuilderPluginAPI<
+    BuilderConfig,
+    NormalizedConfig,
+    RspackConfig
+  > {
   isPluginExists: PluginStore['isPluginExists'];
   /**
    * Get the relative paths of generated HTML files.

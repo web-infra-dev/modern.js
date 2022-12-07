@@ -4,6 +4,7 @@ import type {
   BuilderPlugin as BaseBuilderPlugin,
 } from '@modern-js/builder-shared';
 import type { BuilderConfig, NormalizedConfig } from './config';
+import type { WebpackConfig } from './thirdParty';
 import type {
   ModifyWebpackChainFn,
   ModifyWebpackConfigFn,
@@ -13,7 +14,11 @@ import type {
 } from './hooks';
 
 export interface BuilderPluginAPI
-  extends DefaultBuilderPluginAPI<BuilderConfig, NormalizedConfig> {
+  extends DefaultBuilderPluginAPI<
+    BuilderConfig,
+    NormalizedConfig,
+    WebpackConfig
+  > {
   isPluginExists: PluginStore['isPluginExists'];
   /**
    * Get the relative paths of generated HTML files.
