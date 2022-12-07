@@ -42,14 +42,27 @@ export const universalJsPreset: PartialBuildConfig = [
 
 export const universalJsLitePreset: PartialBuildConfig = [
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     outdir: './dist/js/treeshaking',
     copy: legacyWithSourceCodeToCopyConfig,
     dts: false,
   },
-  { format: 'cjs', target: 'es6', outdir: './dist/js/node', dts: false },
-  { format: 'esm', target: 'es5', outdir: './dist/js/modern', dts: false },
+  {
+    buildType: 'bundleless',
+    format: 'cjs',
+    target: 'es6',
+    outdir: './dist/js/node',
+    dts: false,
+  },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es5',
+    outdir: './dist/js/modern',
+    dts: false,
+  },
   {
     buildType: 'bundleless',
     dts: { only: true },
@@ -58,14 +71,27 @@ export const universalJsLitePreset: PartialBuildConfig = [
 ];
 export const browserJsPreset: PartialBuildConfig = [
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     outdir: './dist/js/treeshaking',
     copy: legacyWithSourceCodeToCopyConfig,
     dts: false,
   },
-  { format: 'esm', target: 'es6', outdir: './dist/js/node', dts: false },
-  { format: 'esm', target: 'es6', outdir: './dist/js/modern', dts: false },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es6',
+    outdir: './dist/js/node',
+    dts: false,
+  },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es6',
+    outdir: './dist/js/modern',
+    dts: false,
+  },
   {
     buildType: 'bundleless',
     dts: { only: true },
@@ -75,6 +101,7 @@ export const browserJsPreset: PartialBuildConfig = [
 
 export const browserJsLitePreset: PartialBuildConfig = [
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     dts: false,
@@ -82,12 +109,14 @@ export const browserJsLitePreset: PartialBuildConfig = [
     copy: legacyWithSourceCodeToCopyConfig,
   },
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     outdir: './dist/js/node',
     dts: false,
   },
   {
+    buildType: 'bundleless',
     format: 'esm',
     target: 'es5',
     outdir: './dist/js/modern',
@@ -102,13 +131,20 @@ export const browserJsLitePreset: PartialBuildConfig = [
 
 export const nodeJsPreset: PartialBuildConfig = [
   {
+    buildType: 'bundleless',
     format: 'cjs',
     target: 'es6',
     dts: false,
     outdir: './dist/js/node',
     copy: legacyWithSourceCodeToCopyConfig,
   },
-  { format: 'esm', target: 'es6', dts: false, outdir: './dist/js/modern' },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es6',
+    dts: false,
+    outdir: './dist/js/modern',
+  },
   {
     buildType: 'bundleless',
     dts: { only: true },

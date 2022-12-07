@@ -39,10 +39,12 @@ export const buildInTsProject = async (
 ) => {
   const { buildConfig, buildCmdOptions } = options;
   const dts = buildCmdOptions.dts ? buildConfig.dts : false;
+  const skipBuildLib = buildConfig.dts ? buildConfig.dts.only : false;
   const watch = buildCmdOptions.watch ?? false;
 
   if (dts === false) {
-    await buildLib(buildConfig, api, { watch });
+    // --no-dts and buildConfig is `{ dts: { only: true } }`, then skip.
+    !skipBuildLib && (await buildLib(buildConfig, api, { watch }));
   } else {
     const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
     const { default: pMap } = await import('../../compiled/p-map');
