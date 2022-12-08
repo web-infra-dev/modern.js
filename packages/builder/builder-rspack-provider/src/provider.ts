@@ -4,8 +4,9 @@ import {
 } from '@modern-js/builder-shared';
 import { createContext } from './core/createContext';
 import { initConfigs } from './core/initConfigs';
+import { getPluginAPI } from './core/initPlugins';
 import { applyDefaultPlugins } from './shared/plugin';
-import { BuilderConfig } from './types';
+import type { BuilderConfig } from './types';
 
 export function builderRspackProvider({
   builderConfig,
@@ -14,9 +15,14 @@ export function builderRspackProvider({
 }): BuilderProvider {
   return async ({ pluginStore, builderOptions, plugins }) => {
     const context = await createContext(builderOptions, builderConfig);
+    const pluginAPI = getPluginAPI({ context, pluginStore });
+
+    context.pluginAPI = pluginAPI;
 
     return {
       bundler: 'rspack',
+
+      pluginAPI,
 
       publicContext: createPublicContext(context),
 
