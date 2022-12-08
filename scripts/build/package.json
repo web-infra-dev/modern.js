@@ -1,7 +1,7 @@
 {
   "name": "@scripts/build",
   "private": true,
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "main": "./src/index.js",
   "bin": {
     "modern-lib": "./bin/modern.js",

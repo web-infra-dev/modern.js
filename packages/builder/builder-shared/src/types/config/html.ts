@@ -90,3 +90,5 @@ export interface SharedHtmlConfig {
     ChainedConfig<Record<string, unknown>>
   >;
 }
+
+export type NormalizedHtmlConfig = SharedHtmlConfig;

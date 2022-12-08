@@ -1,5 +1,98 @@
 # @modern-js/module-tools
 
+## 2.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- 92f0eade39: feat:
+
+  1. add style config and add new hook
+  2. add dts alias logic
+  3. add copy logic
+  4. add log logic
+  5. add skipDeps config
+
+  feat:
+
+  1. 添加样式配置以及新的 hook
+  2. 添加 dts 别名处理
+  3. 添加 copy 逻辑
+  4. 添加日志逻辑
+  5. 添加 skipDeps 配置
+
+- 4fd53b48fd: feat: add normalize config logic
+  feat: 添加处理配置的逻辑
+- f0ee9120db: feat: change dev menu log
+  feat: 修改 dev 菜单展示的内容
+- 0bb776858a: feat: add ModuleContext
+  feat: 添加 ModuleContext
+- e6bfca6d31: feat: add type define and schema for config
+  feat: 为配置增加类型定义和 schema
+- 54abc88a2a: feat: add new and upgrade command
+  feat: 添加 new 和 upgrade 命令
+
+### Patch Changes
+
+- d6546ad: add buildConfig style in module-tools-v2 and remove tools
+  在 module-tools-v2 里新增 buildConfig style 并删除 tools
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- 540de1fd5d: fix: filename typo, color.ts --> colors.ts
+  fix: 文件名错误，color.ts 修改为 colors.ts
+- a2c8cc3: fix: change tools define userconfig type
+  fix: 修改工程定义的 UserConfig 类型
+- e303dfa: support emitDecoratorMetadata
+  支持 emitDecoratorMetadata
+- ea7cf06: chore: bump webpack/babel-loader/postcss-loader/tsconfig-paths
+
+  chore: 升级 webpack/babel-loader/postcss-loader/tsconfig-paths 版本
+
+- 1be4ba1ccd: feat: add platform build log
+  feat: 添加 platform 构建的 log 内容
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [6aca875]
+- Updated dependencies [85edee888c]
+- Updated dependencies [2e60319]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [a3af050]
+- Updated dependencies [d4a456659b]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [f680410]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb]
+- Updated dependencies [b7a96c3]
+- Updated dependencies [cce8ece]
+- Updated dependencies [f179749375]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/core@2.0.0-beta.3
+  - @modern-js/utils@2.0.0-beta.3
+  - @modern-js/plugin-lint@2.0.0-beta.3
+  - @modern-js/plugin@2.0.0-beta.3
+  - @modern-js/plugin-changeset@2.0.0-beta.3
+  - @modern-js/plugin-i18n@2.0.0-beta.3
+  - @modern-js/new-action@2.0.0-beta.3
+  - @modern-js/upgrade@2.0.0-beta.3
+
 ## 2.0.0-beta.2
 
 ### Major Changes

@@ -19,10 +19,10 @@ const DOCS_FOLDERS = [
 ];
 
 async function main() {
-  await exec('git fetch origin next');
+  await exec('git fetch origin main');
 
   const { stdout: changedFilesOutput } = await exec(
-    'git diff origin/next... --name-only',
+    'git diff origin/main... --name-only',
   );
   const changedFiles = changedFilesOutput
     .split('\n')

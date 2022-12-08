@@ -1,5 +1,49 @@
 # @modern-js/plugin-bff
 
+## 2.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 8ff2cf4c71: fix: bff api loader should run before babel loader
+  fix: bff 一体化调用的 loader 应该在 babel loader 前执行
+- ea7cf06: chore: bump webpack/babel-loader/postcss-loader/tsconfig-paths
+
+  chore: 升级 webpack/babel-loader/postcss-loader/tsconfig-paths 版本
+
+- Updated dependencies [9b915e0c10]
+- Updated dependencies [d4e8e6f]
+- Updated dependencies [6aca875]
+- Updated dependencies [2e60319]
+- Updated dependencies [2344eb26ed]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [a8642da58f]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [c2bb0f1]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/server-utils@2.0.0-beta.3
+  - @modern-js/utils@2.0.0-beta.3
+  - @modern-js/bff-core@2.0.0-beta.3
+  - @modern-js/create-request@2.0.0-beta.3
+  - @modern-js/babel-compiler@2.0.0-beta.3
+
 ## 2.0.0-beta.2
 
 ### Major Changes

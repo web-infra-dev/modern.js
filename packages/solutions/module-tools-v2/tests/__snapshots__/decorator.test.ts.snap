@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`decorator emitDecoratorMetadata 1`] = `
+"var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
+var stdin_exports = {};
+__export(stdin_exports, {
+  Person: () => Person
+});
+module.exports = __toCommonJS(stdin_exports);
+var __decorate = function(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === \\"object\\" && typeof Reflect.decorate === \\"function\\")
+    r = Reflect.decorate(decorators, target, key, desc);
+  else
+    for (var i = decorators.length - 1; i >= 0; i--)
+      if (d = decorators[i])
+        r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = function(k, v) {
+  if (typeof Reflect === \\"object\\" && typeof Reflect.metadata === \\"function\\")
+    return Reflect.metadata(k, v);
+};
+function enhancer(name) {
+  return function enhancer2(target) {
+    target.prototype.name = name;
+  };
+}
+var Person = class Person2 {
+  constructor() {
+    this.version = \\"1.0.0\\";
+  }
+};
+Person = __decorate([
+  enhancer(\\"module-tools\\"),
+  __metadata(\\"design:type\\", Function),
+  __metadata(\\"design:paramtypes\\", [])
+], Person);
+"
+`;

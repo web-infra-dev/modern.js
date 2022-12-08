@@ -1,5 +1,50 @@
 # @modern-js/plugin-lint
 
+## 2.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- a3af050: fix(plugin-lint): failed to execute modern lint command
+
+  fix(plugin-lint): 修复执行 modern lint 命令失败的问题
+
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- f680410: feat: upgrade ESLint to 8.x version
+
+  feat: 升级 ESLint 到 8.x 版本
+
+- Updated dependencies [6aca875]
+- Updated dependencies [2e60319]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [d4a456659b]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [f680410]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/utils@2.0.0-beta.3
+  - @modern-js/eslint-config@2.0.0-beta.3
+  - @modern-js-app/eslint-config@2.0.0-beta.3
+  - @modern-js/tsconfig@2.0.0-beta.3
+
 ## 2.0.0-beta.2
 
 ### Major Changes

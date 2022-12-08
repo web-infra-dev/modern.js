@@ -1,7 +1,9 @@
 import type { ChildProcess } from 'child_process';
 import type { BundlelessGeneratorDtsConfig, ITsconfig } from '../../types';
 
-const getProjectTsconfig = async (tsconfigPath: string): Promise<ITsconfig> => {
+export const getProjectTsconfig = async (
+  tsconfigPath: string,
+): Promise<ITsconfig> => {
   const { json5, fs } = await import('@modern-js/utils');
   if (!fs.existsSync(tsconfigPath)) {
     return {};

@@ -12,7 +12,7 @@ export function builderRspackProvider({
 }: {
   builderConfig: BuilderConfig;
 }): BuilderProvider {
-  return async ({ pluginStore, builderOptions }) => {
+  return async ({ pluginStore, builderOptions, plugins }) => {
     const context = await createContext(builderOptions, builderConfig);
 
     return {
@@ -21,7 +21,7 @@ export function builderRspackProvider({
       publicContext: createPublicContext(context),
 
       async applyDefaultPlugins() {
-        pluginStore.addPlugins(await applyDefaultPlugins());
+        pluginStore.addPlugins(await applyDefaultPlugins(plugins));
       },
 
       async createCompiler() {

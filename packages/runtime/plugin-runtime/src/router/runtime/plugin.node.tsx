@@ -11,7 +11,7 @@ import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
 import type { RouterConfig } from './types';
-import { renderRoutes } from './utils';
+import { renderRoutes, urlJoin } from './utils';
 
 // Polyfill Web Fetch API
 installGlobals();
@@ -63,6 +63,7 @@ export function createFetchHeaders(
 }
 
 export const routerPlugin = ({
+  basename = '',
   routesConfig,
   createRoutes,
 }: RouterConfig): Plugin => {
@@ -79,12 +80,17 @@ export const routerPlugin = ({
 
           const { request }: { request: SSRServerContext['request'] } =
             context.ssrContext!;
+          const baseUrl = request.baseUrl as string;
+          const _basename =
+            baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
           const routes = createRoutes
             ? createRoutes()
             : createRoutesFromElements(renderRoutes(routesConfig));
 
-          const { query } = createStaticHandler(routes);
+          const { query } = createStaticHandler(routes, {
+            basename: _basename,
+          });
           const remixRequest = createFetchRequest(request);
           const routerContext = await query(remixRequest);
 

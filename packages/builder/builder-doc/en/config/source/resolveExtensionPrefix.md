@@ -29,7 +29,7 @@ When `import './foo'` in the code, the `foo.web.js` file will be resolved first,
 
 #### Set according to Targets
 
-When you build targets at the same time, you can set different extension prefix for different targets. At this point, you need to set `resolveExtensionPrefix` to an object whose key is the corresponding build target.
+When you build multiple targets at the same time, you can set different extension prefix for different targets. At this point, you need to set `resolveExtensionPrefix` to an object whose key is the corresponding build target.
 
 For example to set different extension prefix for `web` and `node`:
 

@@ -7,12 +7,13 @@ import {
 } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import type { Plugin } from '../../core';
-import { renderRoutes } from './utils';
+import { renderRoutes, urlJoin } from './utils';
 import type { RouterConfig } from './types';
 
 export const routerPlugin = ({
   serverBase = [],
   supportHtml5History = true,
+  basename = '',
   routesConfig,
   createRoutes,
 }: RouterConfig): Plugin => {
@@ -38,10 +39,12 @@ export const routerPlugin = ({
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
+              const _basename =
+                baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
               const router = supportHtml5History
-                ? createBrowserRouter(routes, { basename: baseUrl })
-                : createHashRouter(routes, { basename: baseUrl });
+                ? createBrowserRouter(routes, { basename: _basename })
+                : createHashRouter(routes, { basename: _basename });
 
               return (
                 <App {...props}>

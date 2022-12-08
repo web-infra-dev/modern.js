@@ -1,23 +1,26 @@
-import { createAsyncHook } from '@modern-js/builder-shared';
-import type {
+import {
+  createAsyncHook,
   OnExitFn,
   OnAfterBuildFn,
   OnBeforeBuildFn,
   OnDevCompileDoneFn,
+  OnAfterStartDevServerFn,
+  OnBeforeStartDevServerFn,
+} from '@modern-js/builder-shared';
+import type {
   ModifyWebpackChainFn,
   ModifyWebpackConfigFn,
   ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
-  OnAfterStartDevServerFn,
-  OnBeforeStartDevServerFn,
+  WebpackConfig,
 } from '../types';
 
 export function initHooks() {
   return {
     onExitHook: createAsyncHook<OnExitFn>(),
     onAfterBuildHook: createAsyncHook<OnAfterBuildFn>(),
-    onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn>(),
+    onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn<WebpackConfig>>(),
     onDevCompileDoneHook: createAsyncHook<OnDevCompileDoneFn>(),
     modifyWebpackChainHook: createAsyncHook<ModifyWebpackChainFn>(),
     modifyWebpackConfigHook: createAsyncHook<ModifyWebpackConfigFn>(),

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -40,13 +40,13 @@
     "postcss": "8.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.3",
+    "react-router-dom": "^6.4.4",
     "rehype-autolink-headings": "6.1.1",
     "source-map": "0.7.4",
     "@babel/runtime": "7.18.0",
     "@loadable/component": "5.15.2",
     "@mdx-js/loader": "2.1.5",
-    "@modern-js/utils": "1.21.4",
+    "@modern-js/utils": "workspace:*",
     "@unocss/webpack": "^0.46.5",
     "autoprefixer": "10.4.13",
     "rehype-slug": "^5.1.0",
@@ -55,7 +55,7 @@
     "webpack-virtual-modules": "0.4.6"
   },
   "peerDependencies": {
-    "@modern-js/core": ">=1.21.4",
+    "@modern-js/core": ">=2.0.0-beta.3",
     "react": ">=17"
   },
   "devDependencies": {

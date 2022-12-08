@@ -7,7 +7,7 @@
 
 `overrideBrowserslist` 配置的优先级高于项目中的 `.browserslistrc` 配置文件和 package.json 中的 `browserslist` 字段。
 
-大多数场景下，推荐优先使用 `.browserslistrc` 文件，而不是使用 `overrideBrowserslist` 配置。因为 `.browserslistrc` 文件是官方定义的配置文件，更加通用，可以被社区中的其他库识别。
+大多数场景下，推荐优先使用 `.browserslistrc` 文件，而不是使用 `overrideBrowserslist` 配置。因为 `.browserslistrc` 文件是官方定义的配置文件，通用性更强，可以被社区中的其他库识别。
 
 #### 默认值
 

@@ -1,7 +1,13 @@
-import type { SharedDevConfig } from './dev';
-import type { SharedHtmlConfig } from './html';
-import type { SharedOutputConfig } from './output';
-import type { SharedSourceConfig } from './source';
+import type { SharedDevConfig, NormalizedSharedDevConfig } from './dev';
+import type { SharedHtmlConfig, NormalizedHtmlConfig } from './html';
+import type {
+  SharedOutputConfig,
+  NormalizedSharedOutputConfig,
+} from './output';
+import type {
+  SharedSourceConfig,
+  NormalizedSharedSourceConfig,
+} from './source';
 import type { SharedSecurityConfig } from './security';
 import type { SharedPerformanceConfig } from './performance';
 import type { SharedExperimentsConfig } from './experiments';
@@ -18,6 +24,14 @@ export interface SharedBuilderConfig {
   security?: SharedSecurityConfig;
   performance?: SharedPerformanceConfig;
   experiments?: SharedExperimentsConfig;
+}
+
+export interface ShareNormalizedConfig {
+  dev: NormalizedSharedDevConfig;
+  html: NormalizedHtmlConfig;
+  // alias type incompatible between webpack and rspack
+  source: Omit<NormalizedSharedSourceConfig, 'alias'>;
+  output: NormalizedSharedOutputConfig;
 }
 
 export * from './dev';
