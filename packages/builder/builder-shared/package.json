@@ -24,7 +24,8 @@
     ".": {
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
-    }
+    },
+    "./open": "./compiled/open/index.js"
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
@@ -52,6 +53,17 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/index.d.ts"
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": "./dist/index.js",
+      "./open": "./compiled/open/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "open": [
+        "./compiled/open/index.d.ts"
+      ]
+    }
   }
 }

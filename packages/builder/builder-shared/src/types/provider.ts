@@ -1,4 +1,4 @@
-import type { PluginStore } from './plugin';
+import type { PluginStore, Plugins } from './plugin';
 import type { BuilderContext } from './context';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderMode, CreateBuilderOptions } from './builder';
@@ -42,6 +42,7 @@ export type BuilderProvider<
 > = (options: {
   pluginStore: PluginStore;
   builderOptions: Required<CreateBuilderOptions>;
+  plugins: Plugins;
 }) => Promise<ProviderInstance<BuilderConfig, BundlerConfigs>>;
 
 export type ProviderInstance<

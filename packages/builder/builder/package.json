@@ -36,7 +36,8 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "@modern-js/builder-shared": "workspace:*"
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",

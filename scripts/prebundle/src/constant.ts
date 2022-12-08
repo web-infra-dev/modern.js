@@ -178,11 +178,15 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
+    packageDir: 'builder/builder-shared',
+    packageName: '@modern-js/builder-shared',
+    dependencies: ['open'],
+  },
+  {
     packageDir: 'builder/builder-webpack-provider',
     packageName: '@modern-js/builder-webpack-provider',
     dependencies: [
       'serialize-javascript',
-      'open',
       'tapable',
       'webpack-merge',
       'ansi-escapes',

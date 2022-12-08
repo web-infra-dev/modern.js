@@ -68,6 +68,7 @@ importers:
     specifiers:
       '@babel/core': 7.18.0
       '@modern-js/builder-shared': workspace:*
+      '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
@@ -75,6 +76,7 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
+      '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@babel/core': 7.18.0
       '@scripts/vitest-config': link:../../../scripts/vitest-config

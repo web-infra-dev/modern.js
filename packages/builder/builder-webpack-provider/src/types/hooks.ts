@@ -2,9 +2,7 @@ import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
 import type {
-  Stats,
   Compiler,
-  MultiStats,
   RuleSetRule,
   MultiCompiler,
   WebpackPluginInstance,
@@ -50,18 +48,6 @@ export type ModifyBuilderConfigFn = (
   config: BuilderConfig,
 ) => Promise<BuilderConfig | void> | BuilderConfig | void;
 
-export type OnBeforeBuildFn = (params: {
-  bundlerConfigs?: WebpackConfig[];
-}) => Promise<void> | void;
-
-export type OnAfterBuildFn = (params: {
-  stats?: Stats | MultiStats;
-}) => Promise<void> | void;
-
-export type OnDevCompileDoneFn = (params: {
-  isFirstCompile: boolean;
-}) => Promise<void> | void;
-
 export type OnBeforeCreateCompilerFn = (params: {
   bundlerConfigs: WebpackConfig[];
 }) => Promise<void> | void;
@@ -69,11 +55,3 @@ export type OnBeforeCreateCompilerFn = (params: {
 export type OnAfterCreateCompilerFn = (params: {
   compiler: Compiler | MultiCompiler;
 }) => Promise<void> | void;
-
-export type OnBeforeStartDevServerFn = () => Promise<void> | void;
-
-export type OnAfterStartDevServerFn = (params: {
-  port: number;
-}) => Promise<void> | void;
-
-export type OnExitFn = () => void;
