@@ -43,7 +43,7 @@ export default {
 };
 ```
 
-以上例子中展示的环境变量 `NODE_ENV` 已经由 Builder 自动注入，通常你不需要手动配置它的值。 
+以上例子中展示的环境变量 `NODE_ENV` 已经由 Builder 自动注入，通常你不需要手动配置它的值。
 
 需要注意的是不论以上哪种方式都只会匹配完整的表达式，对表达式进行解构会让 Builder 无法正确识别：
 
@@ -108,7 +108,7 @@ const App = () => {
 
 ### 源码内联测试
 
-Vitest 支持将测试写在源码文件内，能够在不导出地情况下测试私有功能的行为，并且通过设置 Define 来在正式构建时剔除测试代码。详细指南请参考 [Vitest 官方文档](https://cn.vitest.dev/guide/in-source.html)。
+Vitest 支持将测试写在源码文件内，能够在不导出的情况下测试私有功能的行为，并且通过设置 Define 来在正式构建时剔除测试代码。详细指南请参考 [Vitest 官方文档](https://cn.vitest.dev/guide/in-source.html)。
 
 ```js
 // 函数实现
