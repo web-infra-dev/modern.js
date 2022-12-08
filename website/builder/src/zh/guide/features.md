@@ -18,6 +18,7 @@
 | SWC 编译        | 可选功能，通过 SWC 对 JavaScript 和 TypeScript 代码进行转译和压缩                     | <ul><li>[SWC 插件](/plugins/plugin-swc.html)</li></ul>                                                                                                                                                               |
 | Node 产物       | 可选功能，支持构建出运行在 Node.js 环境的 JavaScript 产物                             | <ul><li>[Node 产物](/zh/guide/basic/build-target.html#node-产物)</li></ul>                                                                                                                                           |
 | Web Worker 产物 | 可选功能，支持构建出运行在 Web Worker 环境的 JavaScript 产物                          | <ul><li>[Web Worker 产物](/zh/guide/basic/build-target.html#web-worker-%E4%BA%A7%E7%89%A9)</li></ul>                                                                                                                 |
+| 浏览器范围      | 可选功能，通过 browserslist 来设置 Web 应用需要兼容的浏览器范围                       | <ul><li>[浏览器范围](/guide/basic/browserslist.html)</li></ul>                                                                                                                                                       |
 
 ## CSS 编译
 

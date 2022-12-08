@@ -2,6 +2,10 @@
 
 Builder supports import SVG assets and transform SVG into React components or URLs.
 
+:::tip What is SVG
+SVG stands for Scalable Vector Graphics. It is a type of image format that uses vector graphics to represent images. Vector graphics are different from raster graphics, which are made up of pixels. Instead, vector graphics use geometric shapes, lines, and curves to represent images. Because vector graphics are not made up of pixels, they can be scaled to any size without losing resolution or quality.
+:::
+
 ## Import SVG in JS file
 
 When import an SVG in a JS file, if you import `ReactComponent`, Builder will call [SVGR](https://react-svgr.com/) to convert the SVG into a React component.

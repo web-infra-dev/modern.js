@@ -59,6 +59,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/alias'),
           getLink('/guide/basic/typescript'),
+          getLink('/guide/basic/browserslist'),
         ],
       },
       {

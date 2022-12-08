@@ -39,7 +39,7 @@ Check out the [browserslist documentation](https://github.com/browserslist/brows
 
 #### Set according to Targets
 
-When you build targets at the same time, you can set different browser ranges for different targets. At this point, you need to set `overrideBrowserslist` to an object whose key is the corresponding build target.
+When you build multiple targets at the same time, you can set different browser ranges for different targets. At this point, you need to set `overrideBrowserslist` to an object whose key is the corresponding build target.
 
 For example to set different ranges for `web` and `node`:
 
