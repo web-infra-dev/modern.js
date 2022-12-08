@@ -15,7 +15,7 @@ on:
       branch:
         description: 'Release Branch(confirm release branch)'
         required: true
-        default: 'main'
+        default: 'v1'
 
 jobs:
   release:

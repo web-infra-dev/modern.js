@@ -8,7 +8,7 @@ concurrency:
 on:
   # Triggers unit test on push events for the main branch to collect unit test coverage
   push:
-    branches: [main]
+    branches: [v1]
 
   workflow_dispatch:
 

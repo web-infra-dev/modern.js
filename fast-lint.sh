@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TARGET_BRANCH=origin/main
+TARGET_BRANCH=origin/v1
 if [ ! -z ${GITHUB_BASE_REF+x} ]; then
   git fetch origin ${GITHUB_BASE_REF}
   TARGET_BRANCH=origin/${GITHUB_BASE_REF}
