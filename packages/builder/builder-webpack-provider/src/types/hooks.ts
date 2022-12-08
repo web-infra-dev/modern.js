@@ -1,12 +1,6 @@
 import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
-import type { BuilderConfig } from './config';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
-import type {
-  Compiler,
-  RuleSetRule,
-  MultiCompiler,
-  WebpackPluginInstance,
-} from 'webpack';
+import type { RuleSetRule, WebpackPluginInstance } from 'webpack';
 import type { ChainIdentifier } from '@modern-js/utils';
 
 export type ModifyWebpackChainUtils = {
@@ -43,15 +37,3 @@ export type ModifyWebpackConfigFn = (
   config: WebpackConfig,
   utils: ModifyWebpackConfigUtils,
 ) => Promise<WebpackConfig | void> | WebpackConfig | void;
-
-export type ModifyBuilderConfigFn = (
-  config: BuilderConfig,
-) => Promise<BuilderConfig | void> | BuilderConfig | void;
-
-export type OnBeforeCreateCompilerFn = (params: {
-  bundlerConfigs: WebpackConfig[];
-}) => Promise<void> | void;
-
-export type OnAfterCreateCompilerFn = (params: {
-  compiler: Compiler | MultiCompiler;
-}) => Promise<void> | void;
