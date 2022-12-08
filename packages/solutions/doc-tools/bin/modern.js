@@ -1,8 +1,5 @@
 #!/usr/bin/env node
-import { createRequire } from 'module';
-import { INTERNAL_DOC_TOOLS_PLUGINS } from '@modern-js/utils';
-
-const require = createRequire(import.meta.url);
+const { INTERNAL_DOC_TOOLS_PLUGINS } = require('@modern-js/utils');
 
 require('@modern-js/core/runBin').run({
   internalPlugins: {

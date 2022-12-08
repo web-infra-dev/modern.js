@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/codesmith": "2.0.1",
+    "@modern-js/codesmith": "2.0.2",
     "@modern-js/generator-plugin-plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/repo-generator": "workspace:*",
