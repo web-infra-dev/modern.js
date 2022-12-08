@@ -1,5 +1,25 @@
 # @modern-js/monorepo-generator
 
+## 3.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- f680410: feat: upgrade ESLint to 8.x version
+
+  feat: 升级 ESLint 到 8.x 版本
+
+- 6b6f180279: fix: generator bundle
+
+  fix: 生成器打包
+
 ## 3.0.0-beta.2
 
 ### Major Changes

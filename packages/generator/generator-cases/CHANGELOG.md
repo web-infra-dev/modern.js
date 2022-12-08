@@ -1,5 +1,16 @@
 # @modern-js/generator-cases
 
+## 3.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [dda38c9c3e]
+  - @modern-js/generator-common@3.0.0-beta.3
+
 ## 3.0.0-beta.2
 
 ### Major Changes

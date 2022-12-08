@@ -22,7 +22,7 @@ export const getWatchedFiles = (watcher: FSWatcher) => {
   return files;
 };
 
-export const mergeWatchOptions = (options?: any) => {
+export const mergeWatchOptions = (options?: WatchOptions): WatchOptions => {
   const watchOptions = {
     ...options,
   };
