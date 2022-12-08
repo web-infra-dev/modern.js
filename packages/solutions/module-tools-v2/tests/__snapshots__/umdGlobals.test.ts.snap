@@ -30,13 +30,8 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, \\"default\\", { value: mod, enumerable: true }) : target,
     mod
   ));
-  var init_define_import_meta_env = __esm({
-    \\"<define:import.meta.env>\\"() {
-    }
-  });
   var require_react = __commonJS({
     \\"libuild:globals:react\\"(exports, module) {
-      init_define_import_meta_env();
       module.exports = Function(\\"return this\\")()[\\"React\\"];
     }
   });
@@ -47,11 +42,9 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
   var addPrefix;
   var init_common = __esm({
     \\"src/common.js\\"() {
-      init_define_import_meta_env();
       addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
     }
   });
-  init_define_import_meta_env();
   var import_react = __toESM(require_react());
   var debug = async (str) => {
     const { addPrefix: addPrefix2 } = await Promise.resolve().then(() => (init_common(), common_exports));
@@ -110,14 +103,9 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
             value: mod,
             enumerable: true
         }) : target, mod));
-    // <define:import.meta.env>
-    var init_define_import_meta_env = __esm({
-        \\"<define:import.meta.env>\\" () {}
-    });
     // libuild:globals:react
     var require_react = __commonJS({
         \\"libuild:globals:react\\" (exports, module1) {
-            init_define_import_meta_env();
             module1.exports = Function(\\"return this\\")()[\\"React\\"];
         }
     });
@@ -129,12 +117,10 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     var addPrefix;
     var init_common = __esm({
         \\"src/common.js\\" () {
-            init_define_import_meta_env();
             addPrefix = (prefix, str)=>\`\${prefix}:\${str}\`;
         }
     });
     // src/index.js
-    init_define_import_meta_env();
     var import_react = __toESM(require_react());
     var debug = async (str)=>{
         const { addPrefix: addPrefix2  } = await Promise.resolve().then(()=>(init_common(), common_exports));

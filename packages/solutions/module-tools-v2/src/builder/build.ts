@@ -135,20 +135,36 @@ export const buildLib = async (
     style,
     externals,
     autoExternal,
+    dts,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
-  const { es5Plugin } = await import('@modern-js/libuild-plugin-es5');
-  const { umdPlugin } = await import('@modern-js/libuild-plugin-umd');
+  const { es5Plugin, umdPlugin, transformPlugin } = await import(
+    '@modern-js/libuild-plugin-swc'
+  );
   const plugins = target === 'es5' ? [es5Plugin()] : [];
   if (format === 'umd') {
-    plugins.push(umdPlugin({ moduleName: umdModuleName }));
+    plugins.push(umdPlugin(umdModuleName));
   }
   const { watchPlugin, externalPlugin } = await import(
     '../utils/libuild-plugins'
   );
   plugins.push(watchPlugin(config));
-
+  if (dts) {
+    const { getProjectTsconfig } = await import('./dts/tsc');
+    const userTsconfig = await getProjectTsconfig(dts.tsconfigPath);
+    userTsconfig.compilerOptions?.emitDecoratorMetadata &&
+      plugins.push(
+        transformPlugin({
+          jsc: {
+            transform: {
+              legacyDecorator: true,
+              decoratorMetadata: true,
+            },
+          },
+        }),
+      );
+  }
   const root = slash(appDirectory);
   const outdir = slash(distPath);
   const assetOutDir = asset.path ? slash(asset.path) : asset.path;
