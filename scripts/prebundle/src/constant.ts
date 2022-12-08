@@ -22,6 +22,7 @@ export const DEFAULT_EXTERNALS = {
   // ncc bundled wrong package.json, using external to avoid this problem
   './package.json': './package.json',
   '../package.json': './package.json',
+  '../../package.json': './package.json',
   postcss: 'postcss',
   '@babel/core': '@babel/core',
   '@babel/runtime': '@babel/runtime',
@@ -248,7 +249,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           '@babel/core': '@babel/core',
-          'loader-utils': '../loader-utils1',
         },
       },
       {

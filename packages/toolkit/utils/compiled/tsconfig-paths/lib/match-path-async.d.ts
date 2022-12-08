@@ -14,8 +14,8 @@ export interface MatchPathAsyncCallback {
  */
 export declare function createMatchPathAsync(absoluteBaseUrl: string, paths: {
     [key: string]: Array<string>;
-}, mainFields?: string[], addMatchAll?: boolean): MatchPathAsync;
+}, mainFields?: (string | string[])[], addMatchAll?: boolean): MatchPathAsync;
 /**
  * See the sync version for docs.
  */
-export declare function matchFromAbsolutePathsAsync(absolutePathMappings: ReadonlyArray<MappingEntry.MappingEntry>, requestedModule: string, readJson: Filesystem.ReadJsonAsync | undefined, fileExists: Filesystem.FileExistsAsync | undefined, extensions: readonly string[] | undefined, callback: MatchPathAsyncCallback, mainFields?: string[]): void;
+export declare function matchFromAbsolutePathsAsync(absolutePathMappings: ReadonlyArray<MappingEntry.MappingEntry>, requestedModule: string, readJson: Filesystem.ReadJsonAsync | undefined, fileExists: Filesystem.FileExistsAsync | undefined, extensions: readonly string[] | undefined, callback: MatchPathAsyncCallback, mainFields?: (string | string[])[]): void;
