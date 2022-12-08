@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, ROUTE_MANIFEST, ROUTE_MINIFEST_FILE } from '@modern-js/utils';
-import type { Page } from 'puppeteer';
+import type { Browser, Page } from 'puppeteer';
 import {
   launchApp,
   killApp,
@@ -10,6 +10,8 @@ import {
 } from '../../../utils/modernTestUtils';
 
 declare const page: Page;
+
+declare const browser: Browser;
 
 const appDir = path.resolve(__dirname, '../');
 
@@ -192,6 +194,22 @@ const supportNestedRouteAndPage = async (errors: string[], appPort: number) => {
   expect(text1.includes('1234')).toBeTruthy();
 };
 
+const supportHandleLoaderError = async (errors: string[], appPort: number) => {
+  const page = await browser.newPage();
+  await page.goto(`http://localhost:${appPort}/three`, {
+    waitUntil: ['domcontentloaded'],
+  });
+  await Promise.all([
+    page.click('.loader-error-btn'),
+    page.waitForSelector('.error-case'),
+  ]);
+  const errorElm = await page.$('.error-case');
+  const text = await page.evaluate(el => el.textContent, errorElm);
+  console.log('11111111111111', text);
+  expect(text.includes('loader error')).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
 const supportLoadChunksParallelly = async () => {
   const distDir = path.join(appDir, './dist');
   const manifestFile = path.join(distDir, ROUTE_MINIFEST_FILE);
@@ -201,6 +219,67 @@ const supportLoadChunksParallelly = async () => {
   expect(thressBundleContent.includes(ROUTE_MANIFEST)).toBeTruthy();
 };
 
+const supportLoader = async (errors: string[], appPort: number) => {
+  const page = await browser.newPage();
+  await page.goto(`http://localhost:${appPort}/three/user`, {
+    waitUntil: ['domcontentloaded'],
+  });
+  const userLayout = await page.$('.user-layout');
+  const text = await page.evaluate(el => el.textContent, userLayout);
+  expect(text).toBe('user layout');
+  expect(errors.length).toBe(0);
+};
+
+const supportLoaderForSSRAndCSR = async (errors: string[], appPort: number) => {
+  const page = await browser.newPage();
+  await page.goto(`http://localhost:${appPort}/three`, {
+    waitUntil: ['domcontentloaded'],
+  });
+  await Promise.all([
+    page.click('.user-btn'),
+    page.waitForSelector('.user-layout'),
+  ]);
+  const userLayout = await page.$(`.user-layout`);
+  const text = await page.evaluate(el => el.textContent, userLayout);
+  expect(text).toBe('user layout');
+  expect(errors.length).toBe(0);
+};
+
+const supportLoaderForCSR = async (errors: string[], appPort: number) => {
+  await page.goto(`http://localhost:${appPort}/four/user/123`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el.textContent, rootElm);
+  expect(text.includes('user layout')).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
+const supportRedirectForSSR = async (errors: string[], appPort: number) => {
+  await page.goto(`http://localhost:${appPort}/three/redirect`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el.textContent, rootElm);
+  expect(text.includes('profile page')).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
+const supportRedirectForCSR = async (errors: string[], appPort: number) => {
+  await page.goto(`http://localhost:${appPort}/three/user`, {
+    waitUntil: ['networkidle0'],
+  });
+  await Promise.all([
+    page.click('.redirect-btn'),
+    page.waitForSelector('.user-profile'),
+  ]);
+  const rootElm = await page.$('.user-profile');
+  const text = await page.evaluate(el => el.textContent, rootElm);
+  expect(text.includes('profile page')).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
+// TODO: ssr 重定向和 csr 重定向, csr loader
 describe('dev', () => {
   let app: unknown;
   let appPort: number;
@@ -244,14 +323,29 @@ describe('dev', () => {
       supportPathWithoutLayout(errors, appPort));
 
     test('support load chunks Parallelly', supportLoadChunksParallelly);
+
+    test('support handle loader error', async () =>
+      supportHandleLoaderError(errors, appPort));
   });
 
-  describe('suppot both page route and nested route', () => {
+  describe('support both page route and nested route', () => {
     test('nested route has higher priority', async () =>
       nestedRouteOverPage(errors, appPort));
 
     test('support works together', async () =>
       supportNestedRouteAndPage(errors, appPort));
+  });
+
+  describe('loader', () => {
+    test('support loader', async () => supportLoader(errors, appPort));
+    test('support loader for ssr and csr', async () =>
+      supportLoaderForSSRAndCSR(errors, appPort));
+
+    test('support loader for csr', () => supportLoaderForCSR(errors, appPort));
+    test('support redirect for ssr', () =>
+      supportRedirectForSSR(errors, appPort));
+    test('support redirect for csr', () =>
+      supportRedirectForCSR(errors, appPort));
   });
 
   afterAll(async () => {
@@ -304,6 +398,9 @@ describe('build', () => {
 
     test('path without layout', async () =>
       supportPathWithoutLayout(errors, appPort));
+
+    test('support handle loader error', async () =>
+      supportHandleLoaderError(errors, appPort));
   });
 
   describe('suppot both page route and nested route', () => {
@@ -312,6 +409,18 @@ describe('build', () => {
 
     test('support works together', async () =>
       supportNestedRouteAndPage(errors, appPort));
+  });
+
+  describe('loader', () => {
+    test('support loader', async () => supportLoader(errors, appPort));
+    test('support loader for ssr and csr', async () =>
+      supportLoaderForSSRAndCSR(errors, appPort));
+
+    test('support loader for csr', () => supportLoaderForCSR(errors, appPort));
+    test('support redirect for ssr', () =>
+      supportRedirectForSSR(errors, appPort));
+    test('support redirect for csr', () =>
+      supportRedirectForCSR(errors, appPort));
   });
 
   afterAll(async () => {
