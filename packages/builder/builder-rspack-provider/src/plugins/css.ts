@@ -156,6 +156,7 @@ export async function getCssLoaderUses(
     // todo: css module (exportOnlyLocals) required in server
     const postcssLoaderOptions = getPostcssConfig();
 
+    // @ts-expect-error
     const { default: postcssLoader } = await import('@rspack/postcss-loader');
     uses.push({
       name: 'postcss',

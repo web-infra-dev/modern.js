@@ -21,5 +21,5 @@ export type NormalizedSourceConfig = Omit<
   'Alias' | 'define'
 > & {
   alias?: Alias;
-  define?: Record<string, string>;
+  define: Record<string, string>;
 };

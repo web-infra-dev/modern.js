@@ -46,7 +46,7 @@
     "@babel/runtime": "7.18.0",
     "@loadable/component": "5.15.2",
     "@mdx-js/loader": "2.1.5",
-    "@modern-js/utils": "1.21.4",
+    "@modern-js/utils": "workspace:*",
     "@unocss/webpack": "^0.46.5",
     "autoprefixer": "10.4.13",
     "rehype-slug": "^5.1.0",
