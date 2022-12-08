@@ -1,6 +1,5 @@
 import _ from '@modern-js/utils/lodash';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
-import { getCompiledPath } from '@modern-js/builder-shared';
 
 export function PluginStartUrl(): DefaultBuilderPlugin {
   return {
@@ -22,7 +21,9 @@ export function PluginStartUrl(): DefaultBuilderPlugin {
           return;
         }
 
-        const { default: open } = await import(getCompiledPath('open'));
+        const { default: open } = await import(
+          '@modern-js/builder-shared/open'
+        );
         const urls: string[] = [];
         if (startUrl === true) {
           const protocol = config.dev.https ? 'https' : 'http';
