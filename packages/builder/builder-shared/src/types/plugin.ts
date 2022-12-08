@@ -5,6 +5,9 @@ import type {
   OnDevCompileDoneFn,
   OnAfterStartDevServerFn,
   OnBeforeStartDevServerFn,
+  OnAfterCreateCompilerFn,
+  OnBeforeCreateCompilerFn,
+  ModifyBuilderConfigFn,
 } from './hooks';
 import { BuilderContext } from './context';
 import type { SharedBuilderConfig, ShareNormalizedConfig } from './config';
@@ -35,8 +38,10 @@ export type DefaultBuilderPluginAPI<
   Config extends SharedBuilderConfig = SharedBuilderConfig,
   NormalizedConfig extends ShareNormalizedConfig = ShareNormalizedConfig,
   BundlerConfig = unknown,
+  Compiler = unknown,
 > = {
   context: Readonly<BuilderContext>;
+  isPluginExists: PluginStore['isPluginExists'];
 
   onExit: (fn: OnExitFn) => void;
   onAfterBuild: (fn: OnAfterBuildFn) => void;
@@ -44,9 +49,18 @@ export type DefaultBuilderPluginAPI<
   onDevCompileDone: (fn: OnDevCompileDoneFn) => void;
   onAfterStartDevServer: (fn: OnAfterStartDevServerFn) => void;
   onBeforeStartDevServer: (fn: OnBeforeStartDevServerFn) => void;
+  onAfterCreateCompiler: (fn: OnAfterCreateCompilerFn<Compiler>) => void;
+  onBeforeCreateCompiler: (fn: OnBeforeCreateCompilerFn<BundlerConfig>) => void;
 
+  /**
+   * Get the relative paths of generated HTML files.
+   * The key is entry name and the value is path.
+   */
+  getHTMLPaths: () => Record<string, string>;
   getBuilderConfig: () => Readonly<Config>;
   getNormalizedConfig: () => Readonly<NormalizedConfig>;
+
+  modifyBuilderConfig: (fn: ModifyBuilderConfigFn<Config>) => void;
 };
 
 export type DefaultBuilderPlugin = BuilderPlugin<DefaultBuilderPluginAPI>;
