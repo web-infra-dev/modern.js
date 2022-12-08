@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -51,7 +51,7 @@
     "@modern-js/utils": "workspace:*",
     "@remix-run/node": "^1.7.0",
     "path-to-regexp": "^6.2.0",
-    "react-router-dom": "^6.4.2"
+    "react-router-dom": "^6.4.4"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
@@ -69,7 +69,7 @@
     "supertest": "^6.1.6",
     "ts-jest": "^27.0.5",
     "typescript": "^4",
-    "webpack": "^5.74.0",
+    "webpack": "^5.75.0",
     "webpack-chain": "^6.5.1"
   },
   "sideEffects": false,

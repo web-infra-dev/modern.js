@@ -53,12 +53,14 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/basic/builder-config'),
           getLink('/guide/basic/build-target'),
+          getLink('/guide/basic/define'),
           getLink('/guide/basic/output-files'),
           getLink('/guide/basic/static-assets'),
           getLink('/guide/basic/svg-assets'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/alias'),
           getLink('/guide/basic/typescript'),
+          getLink('/guide/basic/browserslist'),
         ],
       },
       {

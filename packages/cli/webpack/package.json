@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -63,7 +63,7 @@
     "tapable": "^2.2.1",
     "terser-webpack-plugin": "^5.1.4",
     "ts-loader": "^9.2.5",
-    "webpack": "^5.74.0",
+    "webpack": "^5.75.0",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {

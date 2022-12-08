@@ -3,7 +3,7 @@ name: Check Changeset
 on:
   # Triggers the workflow on pull request events but only for the main branch
   pull_request:
-    branches: [main, next]
+    branches: [main]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 

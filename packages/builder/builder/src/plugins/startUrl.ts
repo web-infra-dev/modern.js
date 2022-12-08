@@ -1,7 +1,7 @@
 import _ from '@modern-js/utils/lodash';
-import { BuilderPlugin } from '../types';
+import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export function PluginStartUrl(): BuilderPlugin {
+export function PluginStartUrl(): DefaultBuilderPlugin {
   return {
     name: 'builder-plugin-start-url',
     async setup(api) {
@@ -20,7 +20,10 @@ export function PluginStartUrl(): BuilderPlugin {
         if (!startUrl) {
           return;
         }
-        const { default: open } = await import('../../compiled/open');
+
+        const { default: open } = await import(
+          '@modern-js/builder-shared/open'
+        );
         const urls: string[] = [];
         if (startUrl === true) {
           const protocol = config.dev.https ? 'https' : 'http';

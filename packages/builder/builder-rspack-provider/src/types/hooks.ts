@@ -1,9 +1,4 @@
-import type {
-  NodeEnv,
-  BuilderTarget,
-  Stats,
-  MultiStats,
-} from '@modern-js/builder-shared';
+import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
 import type {
   RspackConfig,
@@ -39,18 +34,6 @@ export type ModifyBuilderConfigFn = (
   config: BuilderConfig,
 ) => Promise<BuilderConfig | void> | BuilderConfig | void;
 
-export type OnBeforeBuildFn = (params: {
-  bundlerConfigs?: RspackConfig[];
-}) => Promise<void> | void;
-
-export type OnAfterBuildFn = (params: {
-  stats?: Stats | MultiStats;
-}) => Promise<void> | void;
-
-export type OnDevCompileDoneFn = (params: {
-  isFirstCompile: boolean;
-}) => Promise<void> | void;
-
 export type OnBeforeCreateCompilerFn = (params: {
   bundlerConfigs: RspackConfig[];
 }) => Promise<void> | void;
@@ -59,11 +42,3 @@ export type OnBeforeCreateCompilerFn = (params: {
 export type OnAfterCreateCompilerFn = (params: {
   compiler: Compiler;
 }) => Promise<void> | void;
-
-export type OnBeforeStartDevServerFn = () => Promise<void> | void;
-
-export type OnAfterStartDevServerFn = (params: {
-  port: number;
-}) => Promise<void> | void;
-
-export type OnExitFn = () => void;

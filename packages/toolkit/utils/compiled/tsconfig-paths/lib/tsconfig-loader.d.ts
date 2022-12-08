@@ -24,5 +24,5 @@ export interface TsConfigLoaderParams {
     loadSync?(cwd: string, filename?: string, baseUrl?: string): TsConfigLoaderResult;
 }
 export declare function tsConfigLoader({ getEnv, cwd, loadSync, }: TsConfigLoaderParams): TsConfigLoaderResult;
-export declare function walkForTsConfig(directory: string, existsSync?: (path: string) => boolean): string | undefined;
+export declare function walkForTsConfig(directory: string, readdirSync?: (path: string) => string[]): string | undefined;
 export declare function loadTsconfig(configFilePath: string, existsSync?: (path: string) => boolean, readFileSync?: (filename: string) => string): Tsconfig | undefined;

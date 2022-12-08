@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "types": "./src/server.ts",
   "jsnext:source": "./src/server.ts",
   "main": "./dist/js/node/server.js",
