@@ -5,6 +5,7 @@ Object {
   "dev": Object {
     "assetPrefix": undefined,
     "https": undefined,
+    "port": undefined,
   },
   "html": Object {
     "templateByEntries": undefined,
