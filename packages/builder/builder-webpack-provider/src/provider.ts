@@ -6,6 +6,7 @@ import { createContext } from './core/createContext';
 import { applyDefaultPlugins } from './shared/plugin';
 import { BuilderConfig, WebpackConfig } from './types';
 import { initConfigs } from './core/initConfigs';
+import { getPluginAPI } from './core/initPlugins';
 
 export function builderWebpackProvider({
   builderConfig,
@@ -14,9 +15,14 @@ export function builderWebpackProvider({
 }): BuilderProvider<BuilderConfig, WebpackConfig> {
   return async ({ pluginStore, builderOptions, plugins }) => {
     const context = await createContext(builderOptions, builderConfig);
+    const pluginAPI = getPluginAPI({ context, pluginStore });
+
+    context.pluginAPI = pluginAPI;
 
     return {
       bundler: 'webpack',
+
+      pluginAPI,
 
       publicContext: createPublicContext(context),
 
