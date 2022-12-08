@@ -1,5 +1,68 @@
 # @modern-js/prod-server
 
+## 2.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- c9e800d39a: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- d032d49e09: export createHandle
+  导出 createHandle 函数
+- 15bf09d9c8: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 40ed5874c6: feat: inject css chunk into html for streaming ssr
+  feat: streaming ssr 返回的 html 注入 css chunk
+- 102d32e4ba: feat(server): add `req` and `res` to SSR context
+
+  feat(server): 添加 `req` 和 `res` 到 SSR context 中
+
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- 73cd29dd9f: fix(server): add favicon fallback handler
+
+  fix(server): 添加 favicon 兜底处理逻辑
+
+- cce8ece: fix: handle some `TODO` & `FIXME`, change some tests
+  fix: 处理一些 `TODO` 和 `FIXME`, 修改了一些 tests
+- 18aaf42249: fix: fix server loader redirects
+  fix: 修复 server loader 重定向错误
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [6aca875]
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [2e60319]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/utils@2.0.0-beta.3
+  - @modern-js/server-core@2.0.0-beta.3
+
 ## 2.0.0-beta.2
 
 ### Major Changes
