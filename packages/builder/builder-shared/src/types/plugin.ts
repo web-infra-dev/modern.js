@@ -10,13 +10,14 @@ import type {
   ModifyBuilderConfigFn,
 } from './hooks';
 import { BuilderContext } from './context';
-import type { SharedBuilderConfig, ShareNormalizedConfig } from './config';
 
 export type PluginStore = {
   readonly plugins: BuilderPlugin[];
   addPlugins: (plugins: BuilderPlugin[], options?: { before?: string }) => void;
   removePlugins: (pluginNames: string[]) => void;
   isPluginExists: (pluginName: string) => boolean;
+  /** The plugin API. */
+  pluginAPI?: DefaultBuilderPluginAPI;
 };
 
 export type BuilderPlugin<API = any> = {
@@ -35,8 +36,8 @@ export type Plugins = {
  * Define a generic builder plugin API that provider can extend as needed.
  */
 export type DefaultBuilderPluginAPI<
-  Config extends SharedBuilderConfig = SharedBuilderConfig,
-  NormalizedConfig extends ShareNormalizedConfig = ShareNormalizedConfig,
+  Config extends Record<string, any> = Record<string, any>,
+  NormalizedConfig extends Record<string, any> = Record<string, any>,
   BundlerConfig = unknown,
   Compiler = unknown,
 > = {
