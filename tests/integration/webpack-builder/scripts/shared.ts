@@ -1,12 +1,20 @@
 import { join } from 'path';
 
+const runType = process.argv[2] || 'webpack';
+
 export const createBuilder = async () => {
   const { createBuilder } = await import('@modern-js/builder');
   const { builderWebpackProvider } = await import(
     '@modern-js/builder-webpack-provider'
   );
 
-  const builderProvider = builderWebpackProvider({
+  const { builderRspackProvider } = await import(
+    '@modern-js/builder-rspack-provider'
+  );
+
+  const builderProvider = (
+    runType === 'rspack' ? builderRspackProvider : builderWebpackProvider
+  )({
     builderConfig: {
       tools: {
         // inspector: {},
