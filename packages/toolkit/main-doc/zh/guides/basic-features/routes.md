@@ -219,7 +219,7 @@ export default const ErrorBoundary = () => {
 
 ## 自控式路由
 
-以 `routes/` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发，例如：
+以 `src/App.tsx` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发，例如：
 
 ```tsx
 import { Route, Routes, BrowserRouter } from '@modern-js/runtime/router';
