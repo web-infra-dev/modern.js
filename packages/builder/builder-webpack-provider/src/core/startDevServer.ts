@@ -10,6 +10,7 @@ import type { ModernDevServerOptions } from '@modern-js/server';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import type { Compiler, MultiCompiler } from 'webpack';
+import { getDevMiddleware } from './devMiddleware';
 
 async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {
   const { chalk } = await import('@modern-js/utils');
@@ -88,7 +89,7 @@ export async function createDevServer(
   const server = new Server({
     pwd: options.context.rootPath,
     dev: devServerOptions,
-    compiler,
+    devMiddleware: getDevMiddleware(compiler),
     ...serverOptions,
     config: serverOptions.config
       ? merge({}, defaultConfig, serverOptions.config)

@@ -74,7 +74,6 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
       https: normalizedConfig.dev.https,
       ...normalizedConfig.tools?.devServer,
     },
-    compiler: compiler || null,
     pwd: appDirectory,
     config: normalizedConfig,
     serverConfigFile,
