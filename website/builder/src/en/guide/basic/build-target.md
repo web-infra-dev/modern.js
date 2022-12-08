@@ -1,6 +1,8 @@
 # Build Target
 
-Builder support build multiple targets for different environments. You can set the type through the `target` parameter of the [createBuilder](/en/api/builder-core.html#createbuilder) method.
+Builder supports build multiple target types for running in different target environments. After setting the correct target type, Builder will optimize the build results for the environment, and enable some plugins or configs for the target environment during the build process.
+
+You can set the type through the `target` parameter of the [createBuilder](/en/api/builder-core.html#createbuilder) method.
 
 ## Default Target
 
@@ -46,7 +48,7 @@ When `target` is set to `'node'`, Builder will:
 - CSS code will not be bundled or extracted, but the id information of CSS Modules will be included in the bundle.
 - The default code split strategy will be disabled, but dynamic import can still work.
 - Disable the HMR.
-- Adjust the default value of Browserslist to `['node >= 12']`。
+- Adjust the default value of Browserslist to `['node >= 14']`。
 
 :::tip
 If target is an array, such as building web and node targets at the same time, then the above processing will not affect the web target, The HTML, CSS and other files required for the web target will still be generated correctly.
@@ -55,6 +57,10 @@ If target is an array, such as building web and node targets at the same time, t
 ## Web Worker Target
 
 Refers to the build target running in the [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) environment.
+
+:::tip Web Worker
+A web worker is a type of JavaScript program that runs in the background, independently of other scripts, without affecting the performance of the page. This makes it possible to run long-running scripts, such as ones that handle complex calculations or access remote resources, without blocking the user interface or other scripts. Web workers provide an easy way to run tasks in the background and improve the overall performance of web applications.
+:::
 
 When `target` is set to `'web-worker'`, Builder will:
 

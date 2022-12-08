@@ -22,7 +22,7 @@ export default {
 
 #### Set according to Targets
 
-When you build targets at the same time, you can set different mainFields for different targets. At this point, you need to set `resolveMainFields` to an object whose key is the corresponding build target.
+When you build multiple targets at the same time, you can set different mainFields for different targets. At this point, you need to set `resolveMainFields` to an object whose key is the corresponding build target.
 
 For example to set different mainFields for `web` and `node`:
 
