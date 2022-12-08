@@ -4,15 +4,23 @@ import {
 } from '@modern-js/builder-shared';
 import { createContext } from './core/createContext';
 import { applyDefaultPlugins } from './shared/plugin';
-import { BuilderConfig, WebpackConfig } from './types';
+import { BuilderConfig, NormalizedConfig, WebpackConfig } from './types';
 import { initConfigs } from './core/initConfigs';
 import { getPluginAPI } from './core/initPlugins';
+import type { Compiler, MultiCompiler } from 'webpack';
+
+export type BuilderWebpackProvider = BuilderProvider<
+  BuilderConfig,
+  WebpackConfig,
+  NormalizedConfig,
+  Compiler | MultiCompiler
+>;
 
 export function builderWebpackProvider({
   builderConfig,
 }: {
   builderConfig: BuilderConfig;
-}): BuilderProvider<BuilderConfig, WebpackConfig> {
+}): BuilderWebpackProvider {
   return async ({ pluginStore, builderOptions, plugins }) => {
     const context = await createContext(builderOptions, builderConfig);
     const pluginAPI = getPluginAPI({ context, pluginStore });

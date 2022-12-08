@@ -1,4 +1,5 @@
 export { builderWebpackProvider } from './provider';
+export type { BuilderWebpackProvider } from './provider';
 export { webpackBuild } from './core/build';
 export type { WebpackBuildError } from './core/build';
 export type {

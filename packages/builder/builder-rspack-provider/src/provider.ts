@@ -6,13 +6,25 @@ import { createContext } from './core/createContext';
 import { initConfigs } from './core/initConfigs';
 import { getPluginAPI } from './core/initPlugins';
 import { applyDefaultPlugins } from './shared/plugin';
-import type { BuilderConfig } from './types';
+import type {
+  Compiler,
+  RspackConfig,
+  BuilderConfig,
+  NormalizedConfig,
+} from './types';
+
+export type BuilderRspackProvider = BuilderProvider<
+  BuilderConfig,
+  RspackConfig,
+  NormalizedConfig,
+  Compiler
+>;
 
 export function builderRspackProvider({
   builderConfig,
 }: {
   builderConfig: BuilderConfig;
-}): BuilderProvider {
+}): BuilderRspackProvider {
   return async ({ pluginStore, builderOptions, plugins }) => {
     const context = await createContext(builderOptions, builderConfig);
     const pluginAPI = getPluginAPI({ context, pluginStore });

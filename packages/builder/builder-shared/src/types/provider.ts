@@ -53,7 +53,7 @@ export type ProviderInstance<
   BuilderConfig extends Record<string, any> = Record<string, any>,
   BundlerConfig extends Record<string, any> = Record<string, any>,
   NormalizedConfig extends Record<string, any> = Record<string, any>,
-  Compiler extends Record<string, any> = Record<string, any>,
+  CommonCompiler extends Record<string, any> = Record<string, any>,
 > = {
   readonly bundler: Bundler;
 
@@ -63,11 +63,12 @@ export type ProviderInstance<
     BuilderConfig,
     NormalizedConfig,
     BundlerConfig,
-    Compiler
+    CommonCompiler
   >;
 
   applyDefaultPlugins: (pluginStore: PluginStore) => Promise<void>;
 
+  // TODO using common compiler type
   createCompiler: (
     options?: CreateCompilerOptions,
   ) => Promise<Compiler | MultiCompiler>;
