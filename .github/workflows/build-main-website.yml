@@ -2,7 +2,7 @@ name: Build Main Website
 
 on:
   push:
-    branches: [next]
+    branches: [main]
     paths:
       - 'website/main/**'
       - 'packages/builder/builder-doc/**'
