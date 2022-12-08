@@ -62,6 +62,7 @@ export const runBuild = async ({
   const handleWebpack = await webpackConfig.getCustomWebpackConfigHandle({
     appContext,
     configDir,
+    modernConfig,
   });
 
   // NB: must set NODE_ENV

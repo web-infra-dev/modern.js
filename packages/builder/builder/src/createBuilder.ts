@@ -17,6 +17,7 @@ export async function createBuilder(
   const {
     build,
     publicContext,
+    initConfigs,
     inspectConfig,
     createCompiler,
     startDevServer,
@@ -34,6 +35,7 @@ export async function createBuilder(
     ...pick(pluginStore, ['addPlugins', 'removePlugins', 'isPluginExists']),
     build,
     createCompiler,
+    initConfigs,
     inspectConfig,
     startDevServer,
     context: publicContext,

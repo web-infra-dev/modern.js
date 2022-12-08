@@ -64,6 +64,8 @@ export type ProviderInstance<
 
   build: (options?: BuildOptions) => Promise<void>;
 
+  initConfigs: () => Promise<BundlerConfigs[]>;
+
   inspectConfig: (options?: InspectConfigOptions) => Promise<{
     builderConfig: string;
     bundlerConfigs: string[];

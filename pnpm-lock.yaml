@@ -903,6 +903,7 @@ importers:
     specifiers:
       '@babel/core': ^7.18.0
       '@babel/runtime': ^7.18.0
+      '@modern-js/builder': workspace:*
       '@modern-js/builder-plugin-node-polyfill': workspace:*
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -939,8 +940,10 @@ importers:
       webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.18.6
+      '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-plugin-node-polyfill': link:../../builder/plugin-node-polyfill
       '@modern-js/builder-shared': link:../../builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
       '@modern-js/utils': link:../../toolkit/utils
       '@storybook/addon-actions': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/addon-essentials': 6.5.12_iuptvv7s5coj7l3y2ilfmzdwx4
@@ -957,7 +960,6 @@ importers:
       tsconfig-paths-webpack-plugin: 4.0.0
     devDependencies:
       '@babel/core': 7.20.2
-      '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
       '@modern-js/module-tools-v2': link:../../solutions/module-tools-v2
       '@modern-js/runtime': link:../../runtime/plugin-runtime
       '@modern-js/types': link:../../toolkit/types

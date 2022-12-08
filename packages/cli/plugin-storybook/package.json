@@ -46,6 +46,8 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/builder-plugin-node-polyfill": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@storybook/addon-actions": "6.5.12",
@@ -65,7 +67,6 @@
   "devDependencies": {
     "@babel/core": "^7.18.0",
     "@modern-js/module-tools-v2": "workspace:*",
-    "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@scripts/build": "workspace:*",

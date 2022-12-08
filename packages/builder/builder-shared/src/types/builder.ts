@@ -29,6 +29,7 @@ export type BuilderInstance = {
   isPluginExists: PluginStore['isPluginExists'];
 
   build: ProviderInstance['build'];
+  initConfigs: ProviderInstance['initConfigs'];
   inspectConfig: ProviderInstance['inspectConfig'];
   createCompiler: ProviderInstance['createCompiler'];
   startDevServer: ProviderInstance['startDevServer'];

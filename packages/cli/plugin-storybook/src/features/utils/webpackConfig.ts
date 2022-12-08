@@ -1,6 +1,9 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import type { IAppContext } from '@modern-js/module-tools-v2';
+import type {
+  IAppContext,
+  ModuleNormalizedConfig,
+} from '@modern-js/module-tools-v2';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type {
   Configuration,
@@ -8,7 +11,7 @@ import type {
   RuleSetConditionAbsolute,
 } from 'webpack';
 import { merge } from '@modern-js/utils/lodash';
-import type { WebpackConfig } from '@modern-js/builder-webpack-provider';
+import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import { JS_REGEX, TS_REGEX, mergeRegex } from '@modern-js/builder-shared';
 import { CURRENT_PKG_PATH } from '../constants';
 
@@ -35,80 +38,86 @@ const resolveStorybookWebPackConfig = (
   }
 
   // handle module rules
-  if (sbWebpackConfig.module) {
-    const blackRuleList = [
-      /\.css$/.toString(),
-      /\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/.toString(),
-      /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/.toString(),
-    ];
-    // 更新 /\.(mjs|tsx?|jsx?)$/ 配置
-    const jsAndTsRule = sbWebpackConfig.module.rules!.find(
-      rule =>
-        (rule as RuleSetRule).test &&
-        (rule as RuleSetRule).test instanceof RegExp &&
-        (rule as RuleSetRule).test?.toString &&
-        (rule as any).test.toString() === /\.(mjs|tsx?|jsx?)$/.toString(),
-    );
-    const ruleWithOneOf = clientWebpackConfig.module?.rules!.find(rule =>
-      Boolean((rule as RuleSetRule).oneOf),
-    );
-    const oneOf = ruleWithOneOf && (ruleWithOneOf as RuleSetRule).oneOf;
-
-    if (!oneOf) {
-      return;
-    }
-
-    const clientJsAndTsRule = oneOf.find(
-      rule =>
-        rule.test &&
-        rule.test instanceof RegExp &&
-        (rule.test.toString() === mergeRegex(JS_REGEX, TS_REGEX).toString() ||
-          rule.test.toString() === JS_REGEX.toString()),
-    );
-
-    if (!clientJsAndTsRule || !jsAndTsRule) {
-      return;
-    }
-
-    if (
-      jsAndTsRule &&
-      Array.isArray((jsAndTsRule as RuleSetRule).use) &&
-      (jsAndTsRule as any).use[0] &&
-      typeof (jsAndTsRule as any).use[0].options === 'object'
-    ) {
-      (jsAndTsRule as RuleSetRule).include = [
-        ...((jsAndTsRule as RuleSetRule).include as RuleSetConditionAbsolute[]),
-        ...(clientJsAndTsRule.include as RuleSetConditionAbsolute[]),
+  const applyModuleRules = () => {
+    if (sbWebpackConfig.module) {
+      const blackRuleList = [
+        /\.css$/.toString(),
+        /\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/.toString(),
+        /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/.toString(),
       ];
-      (jsAndTsRule as RuleSetRule).test = clientJsAndTsRule.test;
-      let { options } = (jsAndTsRule as any).use[0];
-      options = {
-        ...options,
-        ...(clientJsAndTsRule as any).use[0].options,
-        cacheDirectory: (jsAndTsRule as any).use[0].options.cacheDirectory,
-        plugins: [
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          ...options.plugins,
-          ...((clientJsAndTsRule as any).use[0].options.plugins || []),
-        ],
-        presets: (clientJsAndTsRule as any).use[0].options.presets || [],
-      };
+      // 更新 /\.(mjs|tsx?|jsx?)$/ 配置
+      const jsAndTsRule = sbWebpackConfig.module.rules!.find(
+        rule =>
+          (rule as RuleSetRule).test &&
+          (rule as RuleSetRule).test instanceof RegExp &&
+          (rule as RuleSetRule).test?.toString &&
+          (rule as any).test.toString() === /\.(mjs|tsx?|jsx?)$/.toString(),
+      );
+      const ruleWithOneOf = clientWebpackConfig.module?.rules!.find(rule =>
+        Boolean((rule as RuleSetRule).oneOf),
+      );
+      const oneOf = ruleWithOneOf && (ruleWithOneOf as RuleSetRule).oneOf;
+
+      if (!oneOf) {
+        return;
+      }
+
+      const clientJsAndTsRule = oneOf.find(
+        rule =>
+          rule.test &&
+          rule.test instanceof RegExp &&
+          (rule.test.toString() === mergeRegex(JS_REGEX, TS_REGEX).toString() ||
+            rule.test.toString() === JS_REGEX.toString()),
+      );
+
+      if (!clientJsAndTsRule || !jsAndTsRule) {
+        return;
+      }
+
+      if (
+        jsAndTsRule &&
+        Array.isArray((jsAndTsRule as RuleSetRule).use) &&
+        (jsAndTsRule as any).use[0] &&
+        typeof (jsAndTsRule as any).use[0].options === 'object'
+      ) {
+        (jsAndTsRule as RuleSetRule).include = [
+          ...((jsAndTsRule as RuleSetRule)
+            .include as RuleSetConditionAbsolute[]),
+          ...(clientJsAndTsRule.include as RuleSetConditionAbsolute[]),
+        ];
+        (jsAndTsRule as RuleSetRule).test = clientJsAndTsRule.test;
+        let { options } = (jsAndTsRule as any).use[0];
+        options = {
+          ...options,
+          ...(clientJsAndTsRule as any).use[0].options,
+          cacheDirectory: (jsAndTsRule as any).use[0].options.cacheDirectory,
+          plugins: [
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            ...options.plugins,
+            ...((clientJsAndTsRule as any).use[0].options.plugins || []),
+          ],
+          presets: (clientJsAndTsRule as any).use[0].options.presets || [],
+        };
+      }
+
+      sbWebpackConfig.module.rules = sbWebpackConfig.module.rules!.filter(
+        (rule: any) => {
+          if (rule.test?.toString) {
+            return !blackRuleList.includes(rule.test.toString());
+          }
+
+          return true;
+        },
+      );
+      const clientOneOfRule = (clientWebpackConfig as any).module.rules.filter(
+        (rule: any) => Boolean(rule.oneOf),
+      )[0];
+      sbWebpackConfig.module.rules.push(clientOneOfRule);
     }
+  };
 
-    sbWebpackConfig.module.rules = sbWebpackConfig.module.rules!.filter(
-      (rule: any) => {
-        if (rule.test?.toString) {
-          return !blackRuleList.includes(rule.test.toString());
-        }
+  applyModuleRules();
 
-        return true;
-      },
-    );
-    const clientOneOfRule = (clientWebpackConfig as any).module.rules.filter(
-      (rule: any) => Boolean(rule.oneOf),
-    )[0];
-    sbWebpackConfig.module.rules.push(clientOneOfRule);
-  }
   // 处理 resolve
   // 将已经合并的 storybook 和 Client 的resolve 配置到 Storybook resolve上
   sbWebpackConfig.resolve = clientWebpackConfig.resolve;
@@ -155,40 +164,59 @@ const resolveStorybookWebPackConfig = (
   // sbWebpackConfig.plugins = (_sbWebpackConfig$plug = sbWebpackConfig.plugins) === null || _sbWebpackConfig$plug === void 0 ? void 0 : _sbWebpackConfig$plug.filter(p => p.constructor.name !== 'DefinePlugin');
 };
 
+export const createWebpackBuilder = async (modernConfig: BuilderConfig) => {
+  const { createBuilder } = await import('@modern-js/builder');
+  const { builderWebpackProvider } = await import(
+    '@modern-js/builder-webpack-provider'
+  );
+
+  const webpackProvider = builderWebpackProvider({
+    builderConfig: {
+      ...modernConfig,
+      dev: {
+        // use storybook hmr
+        hmr: false,
+      },
+    },
+  });
+
+  const builder = await createBuilder(webpackProvider, {
+    target: ['web'],
+    entry: {},
+  });
+
+  return builder;
+};
+
 export const getCustomWebpackConfigHandle = async ({
   appContext,
   configDir,
+  modernConfig,
 }: {
   appContext: IAppContext;
   configDir: string;
+  modernConfig: ModuleNormalizedConfig;
 }) => {
   const { appDirectory } = appContext;
 
-  if (!appContext.builder) {
-    throw new Error(
-      'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
-    );
-  }
+  const builder =
+    appContext.builder ||
+    (await createWebpackBuilder(modernConfig as BuilderConfig));
 
   const { PluginStorybook } = await import('./builder-plugin');
   const { PluginNodePolyfill } = await import(
     '@modern-js/builder-plugin-node-polyfill'
   );
 
-  appContext.builder.addPlugins([
+  builder.addPlugins([
     PluginNodePolyfill(),
     PluginStorybook({ appDirectory, configDir }),
   ]);
 
-  // todo: call initConfig
-  const {
-    origin: { bundlerConfigs },
-  } = await appContext.builder.inspectConfig();
-
-  const config = bundlerConfigs[0] as WebpackConfig;
+  const [config] = await builder.initConfigs();
 
   return (sbWebpackConfig: Configuration) => {
-    config.resolve = merge({}, config.resolve, sbWebpackConfig.resolve);
+    config.resolve = merge({}, sbWebpackConfig.resolve, config.resolve);
 
     resolveStorybookWebPackConfig(sbWebpackConfig, config, {
       appDirectory,

@@ -16,6 +16,8 @@ export const PluginStorybook = ({
       const { RULE, PLUGIN, ONE_OF } = CHAIN_ID;
       const isTsProject = Boolean(api.context.tsconfigPath);
 
+      chain.target('web');
+
       chain.output.path(path.join(api.context.distPath, 'storybook-static'));
 
       // 移除 fallback 规则
@@ -57,7 +59,9 @@ export const PluginStorybook = ({
         .enforce('pre')
         .use('a')
         .merge({
-          ...((jsRuleConfig.use as RuleSetUseItem[])[0] as Record<string, any>),
+          ...(jsRuleConfig.use
+            ? ((jsRuleConfig.use as RuleSetUseItem[])[0] as Record<string, any>)
+            : {}),
         });
       chain.module.rule('js').merge(jsRuleConfig);
     });
