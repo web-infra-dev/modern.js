@@ -22,13 +22,12 @@ export const PluginTsLoader = (): BuilderPlugin => {
           return;
         }
 
-        const { framework, rootPath } = api.context;
+        const { rootPath } = api.context;
         const babelLoaderOptions = {
           presets: [
             [
               require.resolve('@modern-js/babel-preset-app'),
               {
-                metaName: framework,
                 appDirectory: rootPath,
                 target: 'client',
                 useTsLoader: true,

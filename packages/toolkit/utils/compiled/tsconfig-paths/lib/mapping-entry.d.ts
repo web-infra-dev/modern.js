@@ -10,6 +10,7 @@ export interface Paths {
  * The array is sorted by longest prefix.
  * Having an array with entries allows us to keep a sorting order rather than
  * sort by keys each time we use the mappings.
+ *
  * @param absoluteBaseUrl
  * @param paths
  * @param addMatchAll

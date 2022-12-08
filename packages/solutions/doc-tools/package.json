@@ -3,10 +3,9 @@
   "description": "The doc generator for Modern.js",
   "version": "2.0.0-beta.2",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "type": "module",
   "jsnext:modern": "./dist/index.js",
   "scripts": {
     "prepare": "modern build",

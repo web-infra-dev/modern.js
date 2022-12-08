@@ -2,7 +2,7 @@
  * Typing for the fields of package.json we care about
  */
 export interface PackageJson {
-    [key: string]: string;
+    [key: string]: string | PackageJson;
 }
 /**
  * A function that json from a file
@@ -25,6 +25,7 @@ export interface ReadJsonAsync {
 export declare function fileExistsSync(path: string): boolean;
 /**
  * Reads package.json from disk
+ *
  * @param file Path to package.json
  */
 export declare function readJsonFromDiskSync(packageJsonPath: string): any | undefined;

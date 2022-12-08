@@ -1,15 +1,18 @@
-import { createAsyncHook } from '@modern-js/builder-shared';
-import type {
+import {
+  createAsyncHook,
   OnExitFn,
   OnAfterBuildFn,
   OnBeforeBuildFn,
   OnDevCompileDoneFn,
+  OnAfterStartDevServerFn,
+  OnBeforeStartDevServerFn,
+} from '@modern-js/builder-shared';
+import type {
   ModifyRspackConfigFn,
   ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
-  OnAfterStartDevServerFn,
-  OnBeforeStartDevServerFn,
+  RspackConfig,
 } from '../types';
 
 export function initHooks() {
@@ -22,7 +25,7 @@ export function initHooks() {
 
     /** parameters are bundler-related */
     onAfterBuildHook: createAsyncHook<OnAfterBuildFn>(),
-    onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn>(),
+    onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn<RspackConfig>>(),
     modifyRspackConfigHook: createAsyncHook<ModifyRspackConfigFn>(),
     modifyBuilderConfigHook: createAsyncHook<ModifyBuilderConfigFn>(),
     onAfterCreateCompilerHook: createAsyncHook<OnAfterCreateCompilerFn>(),

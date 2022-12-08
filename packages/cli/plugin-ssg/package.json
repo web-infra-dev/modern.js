@@ -83,7 +83,7 @@
     "@scripts/build": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "react-router-dom": "^6.4.2",
+    "react-router-dom": "^6.4.4",
     "react": "^18",
     "typescript": "^4",
     "jest": "^27"

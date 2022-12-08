@@ -16,7 +16,6 @@ export const getUseBuiltIns = (config: AppLegacyNormalizedConfig) => {
 };
 
 export const getBabelOptions = (
-  metaName: string,
   appDirectory: string,
   config: AppLegacyNormalizedConfig,
   chain: BabelChain,
@@ -63,7 +62,6 @@ export const getBabelOptions = (
     configFile: false,
     compact: isProd(),
     ...getBabelConfig({
-      metaName,
       appDirectory,
       lodash: {},
       useLegacyDecorators: !config.output?.enableLatestDecorators,
