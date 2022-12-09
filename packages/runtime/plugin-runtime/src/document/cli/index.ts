@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
@@ -133,7 +135,9 @@ export default (): CliPlugin<AppTools> => ({
           ],
         });
 
-        const Document = (await import(htmlOutputFile)).default;
+        delete require.cache[require.resolve(htmlOutputFile)];
+        // eslint-disable-next-line import/no-dynamic-require
+        const Document = (await require(htmlOutputFile)).default;
 
         const HTMLElement = React.createElement(
           DocumentContext.Provider,
