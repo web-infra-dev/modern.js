@@ -5,6 +5,10 @@ let server: Server | null = null;
 
 export const getServer = () => server;
 
+export const setServer = (newServer: Server) => {
+  server = newServer;
+};
+
 export const closeServer = async () => {
   if (server) {
     await server.close();

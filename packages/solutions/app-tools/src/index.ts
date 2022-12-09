@@ -176,7 +176,7 @@ export default (): CliPlugin<AppTools> => ({
         ) {
           const { closeServer } = await import('./utils/createServer');
           await closeServer();
-          await restart(api.useHookRunners());
+          await restart(api.useHookRunners(), filename);
         }
       },
 
