@@ -193,17 +193,7 @@ export default () => ({
 
 ### onBeforeCreateCompiler
 
-Called before creating the compiler instance, when you execute `builder.startDevServer`, `builder.build` or `builder.createCompiler`, this hook will be called. You can get the final config object of the bundler through the `bundlerConfigs` parameter.
-
-- **Type**
-
-```ts
-function OnBeforeCreateCompiler(
-  callback: (params: {
-    bundlerConfigs: WebpackConfig[] | RspackConfig[];
-  }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/en/shared/onBeforeCreateCompiler.md)!!!
 
 - **Example**
 
@@ -211,7 +201,7 @@ function OnBeforeCreateCompiler(
 export default () => ({
   setup: api => {
     api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
-      console.log('the bundler config is ': bundlerConfigs);
+      console.log('the bundler config is ', bundlerConfigs);
     });
   },
 });
@@ -219,15 +209,7 @@ export default () => ({
 
 ### onAfterCreateCompiler
 
-Called after creating a compiler instance, before executing a build, when you execute `builder.startDevServer`, `builder.build` or `builder.createCompiler`, this hook will be called. You can get the compiler instance through the `compiler` parameter.
-
-- **Type**
-
-```ts
-function OnAfterCreateCompiler(callback: (params: {
-  compiler: Compiler | MultiCompiler;
-}) => Promise<void> | void;): void;
-```
+!!!include(./src/en/shared/onAfterCreateCompiler.md)!!!
 
 - **Example**
 
@@ -235,7 +217,7 @@ function OnAfterCreateCompiler(callback: (params: {
 export default () => ({
   setup: api => {
     api.onAfterCreateCompiler(({ compiler }) => {
-      console.log('the compiler is ': compiler);
+      console.log('the compiler is ', compiler);
     });
   },
 });
@@ -245,17 +227,7 @@ export default () => ({
 
 ### onBeforeBuild
 
-Called before executing the production environment build, you can get the final config object of the bundler through the `bundlerConfigs` parameter.
-
-- **Type**
-
-```ts
-function OnBeforeBuild(
-  callback: (params: {
-    bundlerConfigs?: WebpackConfig[] | RspackConfig[];
-  }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/en/shared/onBeforeBuild.md)!!!
 
 - **Example**
 
@@ -263,7 +235,7 @@ function OnBeforeBuild(
 export default () => ({
   setup: api => {
     api.onBeforeBuild(({ bundlerConfigs }) => {
-      console.log('the bundler config is ': bundlerConfigs);
+      console.log('the bundler config is ', bundlerConfigs);
     });
   },
 });
@@ -271,15 +243,7 @@ export default () => ({
 
 ### onAfterBuild
 
-Called after executing the production build, you can get the build result information through the `stats` parameter.
-
-- **Type**
-
-```ts
-function OnAfterBuild(
-  callback: (params: { stats?: Stats | MultiStats }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/en/shared/onAfterBuild.md)!!!
 
 - **Example**
 
@@ -297,13 +261,7 @@ export default () => ({
 
 ### onBeforeStartDevServer
 
-Called before starting the development server.
-
-- **Type**
-
-```ts
-function OnBeforeStartDevServer(callback: () => Promise<void> | void): void;
-```
+!!!include(./src/en/shared/onBeforeStartDevServer.md)!!!
 
 - **Example**
 
@@ -319,15 +277,7 @@ export default () => ({
 
 ### onAfterStartDevServer
 
-Called after starting the development server, you can get the port number through the `port` parameter.
-
-- **Type**
-
-```ts
-function OnAfterStartDevServer(
-  callback: (params: { port: number }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/en/shared/onAfterStartDevServer.md)!!!
 
 - **Example**
 
@@ -343,15 +293,7 @@ export default () => ({
 
 ### onDevCompileDone
 
-Called after each development environment build, you can use `isFirstCompile` to determine whether it is the first build.
-
-- **Type**
-
-```ts
-function OnDevCompileDone(
-  callback: (params: { isFirstCompile: boolean }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/en/shared/onDevCompileDone.md)!!!
 
 - **Example**
 
@@ -373,13 +315,7 @@ export default () => ({
 
 ### onExit
 
-Called when the process is going to exit, this hook can only execute synchronous code.
-
-- **Type**
-
-```ts
-function OnExit(callback: () => void): void;
-```
+!!!include(./src/en/shared/onExit.md)!!!
 
 - **Example**
 
