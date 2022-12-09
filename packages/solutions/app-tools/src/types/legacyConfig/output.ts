@@ -38,7 +38,6 @@ export type OutputLegacyUserConfig = {
   templateParametersByEntries?: Record<string, Record<string, unknown>>;
   crossorigin?: boolean | CrossOrigin;
   cssModuleLocalIdentName?: string;
-  enableModernMode?: boolean;
   disableNodePolyfill?: boolean;
   enableTsLoader?: boolean;
 

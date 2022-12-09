@@ -4,7 +4,6 @@ export type BuilderOutputConfig = Required<BuilderConfig>['output'];
 
 export interface OutputUserConfig extends BuilderOutputConfig {
   ssg?: SSGConfig;
-  enableModernMode?: boolean;
   disableNodePolyfill?: boolean;
 }
 
