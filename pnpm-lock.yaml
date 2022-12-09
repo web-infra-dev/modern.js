@@ -68,6 +68,7 @@ importers:
     specifiers:
       '@babel/core': 7.18.0
       '@modern-js/builder-shared': workspace:*
+      '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
@@ -75,6 +76,7 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
+      '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@babel/core': 7.18.0
       '@scripts/vitest-config': link:../../../scripts/vitest-config
@@ -136,7 +138,7 @@ importers:
       '@types/babel__preset-env': ^7.9.2
       '@types/node': ^14
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
     dependencies:
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
@@ -180,7 +182,7 @@ importers:
       terser-webpack-plugin: 5.3.6
       ts-loader: 9.4.1
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
     dependencies:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/builder-shared': link:../builder-shared
@@ -243,7 +245,7 @@ importers:
       '@scripts/vitest-config': workspace:*
       '@types/node': ^14
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
     dependencies:
       '@modern-js/utils': link:../../toolkit/utils
       '@napi-rs/image': 1.4.1
@@ -286,7 +288,7 @@ importers:
       magic-string: ^0.26.2
       source-map: ^0.7.4
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/swc-plugins': 0.0.10
@@ -464,7 +466,7 @@ importers:
       sass: ^1.45.0
       terser-webpack-plugin: ^5.1.4
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
     dependencies:
       '@modern-js/node-bundle-require': link:../../toolkit/node-bundle-require
       '@modern-js/plugin': link:../../toolkit/plugin
@@ -503,7 +505,7 @@ importers:
       '@modern-js/module-tools': workspace:*
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/tsconfig': workspace:*
-      '@modern-js/utils': 1.21.4
+      '@modern-js/utils': workspace:*
       '@types/fs-extra': ^9.0.13
       '@types/jest': ^26.0.9
       '@types/node': ^14
@@ -540,7 +542,7 @@ importers:
       '@mdx-js/loader': 2.1.5
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
-      '@modern-js/utils': 1.21.4
+      '@modern-js/utils': link:../../toolkit/utils
       '@unocss/webpack': 0.46.5
       autoprefixer: 10.4.13_postcss@8.4.19
       cac: 6.7.14
@@ -601,7 +603,7 @@ importers:
       memfs: ^3.3.0
       ts-jest: ^27.0.5
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
       webpack-chain: ^6.5.1
     dependencies:
       '@babel/core': 7.20.2
@@ -689,7 +691,7 @@ importers:
       supertest: ^6.1.6
       ts-jest: ^27.0.5
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
       webpack-chain: ^6.5.1
     dependencies:
       '@babel/core': 7.20.2
@@ -934,7 +936,7 @@ importers:
       react-dom: ^18.0.2
       tsconfig-paths-webpack-plugin: 4.0.0
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
       webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.18.6
@@ -1077,7 +1079,7 @@ importers:
       terser-webpack-plugin: ^5.1.4
       ts-loader: ^9.2.5
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
       webpack-sources: ^3.2.3
     dependencies:
       '@babel/core': 7.20.2
@@ -2756,9 +2758,9 @@ importers:
       node-mocks-http: ^1.11.0
       path-to-regexp: ^6.2.0
       ts-node: ^10.1.0
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 4.1.1
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
       websocket: ^1
       ws: ^8.2.0
     dependencies:
@@ -2785,7 +2787,7 @@ importers:
       jest: 27.5.1_ts-node@10.8.1
       node-mocks-http: 1.11.0
       ts-node: 10.8.1_ah2igguqgj6e7ik4ubgohitm4e
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 4.1.1
       typescript: 4.7.4
       webpack: 5.75.0
       websocket: 1.0.34
@@ -2870,6 +2872,7 @@ importers:
       '@types/jest': ^27
       '@types/node': ^14
       es-module-lexer: ^1.1.0
+      esbuild: 0.15.7
       jest: ^27
       typescript: ^4
       webpack: ^5.75.0
@@ -2896,6 +2899,7 @@ importers:
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       es-module-lexer: 1.1.0
+      esbuild: 0.15.7
     devDependencies:
       '@modern-js/builder-plugin-swc': link:../../builder/plugin-swc
       '@modern-js/server-core': link:../../server/core
@@ -2906,7 +2910,7 @@ importers:
       '@types/node': 14.18.21
       jest: 27.5.1
       typescript: 4.7.4
-      webpack: 5.75.0
+      webpack: 5.75.0_esbuild@0.15.7
 
   packages/solutions/doc-tools:
     specifiers:
@@ -3380,7 +3384,7 @@ importers:
       jest: ^27
       lodash: ^4.17.21
       typescript: ^4
-      webpack: ^5.74.0
+      webpack: ^5.75.0
     dependencies:
       caniuse-lite: 1.0.30001434
       lodash: 4.17.21
@@ -3518,7 +3522,7 @@ importers:
       ajv-keywords: 5.1.0
       ansi-escapes: 4.3.2
       autoprefixer: 10.4.7
-      babel-loader: 8.2.5
+      babel-loader: 9.1.0
       babel-plugin-dynamic-import-node: 2.3.3
       babel-plugin-import: 1.13.5
       babel-plugin-lodash: 3.3.4
@@ -3572,7 +3576,7 @@ importers:
       postcss-flexbugs-fixes: 5.0.2
       postcss-font-variant: 5.0.0
       postcss-initial: 4.0.1
-      postcss-loader: 6.2.1
+      postcss-loader: 7.0.2
       postcss-media-minmax: 5.0.0
       postcss-nesting: 10.1.4
       postcss-page-break: 3.0.4
@@ -3596,13 +3600,13 @@ importers:
       tapable: 2.2.1
       toml-loader: 1.0.0
       ts-loader: 9.3.1
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 4.1.1
       typescript: ^4
       upath: 2.0.1
       url-join: 4.0.1
       url-loader: 4.1.1
       v8-compile-cache: 2.3.0
-      webpack: ^5.74.0
+      webpack: ^5.75.0
       webpack-5-chain: 8.0.1
       webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
@@ -3669,7 +3673,7 @@ importers:
       ajv-keywords: 5.1.0_ajv@8.11.0
       ansi-escapes: 4.3.2
       autoprefixer: 10.4.7_postcss@8.4.19
-      babel-loader: 8.2.5_npabyccmuonwo2rku4k53xo3hi
+      babel-loader: 9.1.0_npabyccmuonwo2rku4k53xo3hi
       babel-plugin-dynamic-import-node: 2.3.3
       babel-plugin-import: 1.13.5
       babel-plugin-lodash: 3.3.4
@@ -3721,7 +3725,7 @@ importers:
       postcss-flexbugs-fixes: 5.0.2_postcss@8.4.19
       postcss-font-variant: 5.0.0_postcss@8.4.19
       postcss-initial: 4.0.1_postcss@8.4.19
-      postcss-loader: 6.2.1_upg3rk2kpasnbk27hkqapxaxfq
+      postcss-loader: 7.0.2_upg3rk2kpasnbk27hkqapxaxfq
       postcss-media-minmax: 5.0.0_postcss@8.4.19
       postcss-nesting: 10.1.4_postcss@8.4.19
       postcss-page-break: 3.0.4_postcss@8.4.19
@@ -3745,7 +3749,7 @@ importers:
       tapable: 2.2.1
       toml-loader: 1.0.0
       ts-loader: 9.3.1_l2co7ao223gzrfox7yaiyzd7wu
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 4.1.1
       upath: 2.0.1
       url-join: 4.0.1
       url-loader: 4.1.1_p5dl6emkcwslbw72e37w4ug7em
@@ -8921,7 +8925,7 @@ packages:
       lodash: 4.17.21
       mini-css-extract-plugin: 2.7.0_webpack@5.75.0
       postcss: 8.4.19
-      postcss-loader: 7.0.1_upg3rk2kpasnbk27hkqapxaxfq
+      postcss-loader: 7.0.2_upg3rk2kpasnbk27hkqapxaxfq
       prompts: 2.4.2
       react: 18.2.0
       react-dev-utils: 12.0.1_l2co7ao223gzrfox7yaiyzd7wu
@@ -9021,7 +9025,7 @@ packages:
       lodash: 4.17.21
       mini-css-extract-plugin: 2.7.0_webpack@5.75.0
       postcss: 8.4.19
-      postcss-loader: 7.0.1_upg3rk2kpasnbk27hkqapxaxfq
+      postcss-loader: 7.0.2_upg3rk2kpasnbk27hkqapxaxfq
       prompts: 2.4.2
       react: 18.2.0
       react-dev-utils: 12.0.1_l2co7ao223gzrfox7yaiyzd7wu
@@ -9121,7 +9125,7 @@ packages:
       lodash: 4.17.21
       mini-css-extract-plugin: 2.7.0_webpack@5.75.0
       postcss: 8.4.19
-      postcss-loader: 7.0.1_upg3rk2kpasnbk27hkqapxaxfq
+      postcss-loader: 7.0.2_upg3rk2kpasnbk27hkqapxaxfq
       prompts: 2.4.2
       react: 18.2.0
       react-dev-utils: 12.0.1_l2co7ao223gzrfox7yaiyzd7wu
@@ -10280,7 +10284,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       '@financial-times/useragent_parser': 1.6.3
-      semver: 7.3.7
+      semver: 7.3.8
     dev: false
 
   /@financial-times/useragent_parser/1.6.3:
@@ -11644,13 +11648,6 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@modern-js/utils/1.21.4:
-    resolution: {integrity: sha512-sb+oGHwtNQEyjSrhAvhi8OiVi3YWxpENLLr2wkPtKvmfJmcaC3peSSR95MHByXXdALg8jQTAKkyvQPWj/OShKQ==}
-    dependencies:
-      caniuse-lite: 1.0.30001434
-      lodash: 4.17.21
-    dev: false
-
   /@modern-js/utils/1.21.5:
     resolution: {integrity: sha512-mZ3uwLNge37FAiwvLAn33nNRt5cC/LDHVMjVw4VR1jaS/eSaKShJbHn/WdQyyFexZHZzPbZewPGtY2z94378zw==}
     dependencies:
@@ -12025,7 +12022,7 @@ packages:
     resolution: {integrity: sha512-8KG5RD0GVP4ydEzRn/I4BNDuxDtqVbOdm8675T49OIG/NGhaK0pjPX7ZcDlvKYbA+ulvVK3ztfcF4uBdOxuJbQ==}
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.3.7
+      semver: 7.3.8
     dev: false
 
   /@npmcli/move-file/1.1.2:
@@ -17123,10 +17120,8 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -17410,7 +17405,7 @@ packages:
       normalize-package-data: 2.5.0
       read-config-file: 6.0.0
       sanitize-filename: 1.6.3
-      semver: 7.3.7
+      semver: 7.3.8
       temp-file: 3.4.0
     transitivePeerDependencies:
       - supports-color
@@ -17908,7 +17903,8 @@ packages:
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.75.0
+      webpack: 5.75.0_esbuild@0.15.7
+    dev: false
 
   /babel-loader/8.2.5_tktscwi5cl3qcx6vcfwkvrwn6i:
     resolution: {integrity: sha512-OSiFfH89LrEMiWd4pLNqGz4CwJDtbs2ZVc+iGu2HrkRfPxId9F2anQj38IxWpmRfsUY0aBZYi1EFcd3mhtRMLQ==}
@@ -17923,6 +17919,19 @@ packages:
       make-dir: 3.1.0
       schema-utils: 2.7.1
       webpack: 4.46.0
+
+  /babel-loader/9.1.0_npabyccmuonwo2rku4k53xo3hi:
+    resolution: {integrity: sha512-Antt61KJPinUMwHwIIz9T5zfMgevnfZkEVWYDWlG888fgdvRRGD0JTuf/fFozQnfT+uq64sk1bmdHDy/mOEWnA==}
+    engines: {node: '>= 14.15.0'}
+    peerDependencies:
+      '@babel/core': ^7.12.0
+      webpack: '>=5'
+    dependencies:
+      '@babel/core': 7.20.2
+      find-cache-dir: 3.3.2
+      schema-utils: 4.0.0
+      webpack: 5.75.0
+    dev: true
 
   /babel-plugin-add-react-displayname/0.0.5:
     resolution: {integrity: sha512-LY3+Y0XVDYcShHHorshrDbt4KFWL4bSeniCtl4SYZbask+Syngk1uMPCeN9+nSiZo6zX5s0RTq/J9Pnaaf/KHw==}
@@ -20440,7 +20449,7 @@ packages:
       postcss-modules-values: 4.0.0_postcss@8.4.19
       postcss-value-parser: 4.2.0
       schema-utils: 3.1.1
-      semver: 7.3.7
+      semver: 7.3.8
       webpack: 5.75.0_esbuild@0.15.7
     dev: false
 
@@ -24713,7 +24722,7 @@ packages:
       memfs: 3.4.7
       minimatch: 3.1.2
       schema-utils: 2.7.0
-      semver: 7.3.7
+      semver: 7.3.8
       tapable: 1.1.3
       typescript: 4.7.4
       webpack: 4.46.0
@@ -24744,7 +24753,7 @@ packages:
       memfs: 3.4.7
       minimatch: 3.1.2
       schema-utils: 2.7.0
-      semver: 7.3.7
+      semver: 7.3.8
       tapable: 1.1.3
       typescript: 4.7.4
       webpack: 5.75.0_esbuild@0.15.7
@@ -28028,7 +28037,7 @@ packages:
       jest-util: 27.5.1
       natural-compare: 1.4.0
       pretty-format: 27.5.1
-      semver: 7.3.7
+      semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
 
@@ -30953,7 +30962,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.9.0
-      semver: 7.3.7
+      semver: 7.3.8
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -32185,26 +32194,12 @@ packages:
       loader-utils: 2.0.4
       postcss: 7.0.39
       schema-utils: 3.1.1
-      semver: 7.3.7
+      semver: 7.3.8
       webpack: 4.46.0
     dev: false
 
-  /postcss-loader/6.2.1_upg3rk2kpasnbk27hkqapxaxfq:
-    resolution: {integrity: sha512-WbbYpmAaKcux/P66bZ40bpWsBucjx/TTgVVzRZ9yUO8yQfVBlameJ0ZGVaPfH64hNSBh63a+ICP5nqOpBA0w+Q==}
-    engines: {node: '>= 12.13.0'}
-    peerDependencies:
-      postcss: ^7.0.0 || ^8.0.1
-      webpack: ^5.0.0
-    dependencies:
-      cosmiconfig: 7.0.1
-      klona: 2.0.5
-      postcss: 8.4.19
-      semver: 7.3.7
-      webpack: 5.75.0
-    dev: true
-
-  /postcss-loader/7.0.1_upg3rk2kpasnbk27hkqapxaxfq:
-    resolution: {integrity: sha512-VRviFEyYlLjctSM93gAZtcJJ/iSkPZ79zWbN/1fSH+NisBByEiVLqpdVDrPLVSi8DX0oJo12kL/GppTBdKVXiQ==}
+  /postcss-loader/7.0.2_upg3rk2kpasnbk27hkqapxaxfq:
+    resolution: {integrity: sha512-fUJzV/QH7NXUAqV8dWJ9Lg4aTkDCezpTS5HgJ2DvqznexTbSTxgi/dTECvTZ15BwKTtk8G/bqI/QTu2HPd3ZCg==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       postcss: ^7.0.0 || ^8.0.1
@@ -32213,9 +32208,8 @@ packages:
       cosmiconfig: 7.0.1
       klona: 2.0.5
       postcss: 8.4.19
-      semver: 7.3.7
+      semver: 7.3.8
       webpack: 5.75.0
-    dev: false
 
   /postcss-media-minmax/5.0.0_postcss@8.4.19:
     resolution: {integrity: sha512-yDUvFf9QdFZTuCUg0g0uNSHVlJ5X1lSzDZjPSFaiCWvjgsvu8vEVxtahPrLMinIDEEGnx6cBe6iqdx5YWz08wQ==}
@@ -35591,7 +35585,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
@@ -35687,6 +35681,13 @@ packages:
 
   /semver/7.3.7:
     resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
+
+  /semver/7.3.8:
+    resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -36937,7 +36938,7 @@ packages:
       mime: 2.6.0
       qs: 6.11.0
       readable-stream: 3.6.0
-      semver: 7.3.7
+      semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
 
@@ -37873,7 +37874,7 @@ packages:
     dependencies:
       chalk: 4.1.2
       enhanced-resolve: 5.10.0
-      tsconfig-paths: 4.1.0
+      tsconfig-paths: 4.1.1
     dev: false
 
   /tsconfig-paths/3.14.1:
@@ -37884,14 +37885,13 @@ packages:
       minimist: 1.2.6
       strip-bom: 3.0.0
 
-  /tsconfig-paths/4.1.0:
-    resolution: {integrity: sha512-AHx4Euop/dXFC+Vx589alFba8QItjF+8hf8LtmuiCwHyI4rHXQtOOENaM8kvYf5fR0dRChy3wzWIZ9WbB7FWow==}
+  /tsconfig-paths/4.1.1:
+    resolution: {integrity: sha512-VgPrtLKpRgEAJsMj5Q/I/mXouC6A/7eJ/X4Nuk6o0cRPwBtznYxTCU4FodbexbzH9somBPEXYi0ZkUViUpJ21Q==}
     engines: {node: '>=6'}
     dependencies:
       json5: 2.2.1
       minimist: 1.2.6
       strip-bom: 3.0.0
-    dev: false
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}

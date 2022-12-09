@@ -2,6 +2,7 @@ import {
   applyDefaultBuilderOptions,
   createPluginStore,
   createPublicContext,
+  mockBuilderPlugins,
   type BuildOptions,
   type CreateBuilderOptions,
   type PluginStore,
@@ -82,7 +83,7 @@ export async function applyPluginOptions(
   } else if (opt.builtin === 'basic') {
     pluginStore.addPlugins(await applyBasicPlugins());
   } else if (opt.builtin === 'default') {
-    pluginStore.addPlugins(await applyDefaultPlugins());
+    pluginStore.addPlugins(await applyDefaultPlugins(mockBuilderPlugins));
   }
   pluginStore.addPlugins(opt.additional);
 }
@@ -119,7 +120,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   // tap on each hook and cache the args.
   const resolvedHooks: Record<string, any> = {};
   _.each(context.hooks, ({ tap }, name) => {
-    tap((...args) => {
+    tap((...args: any[]) => {
       resolvedHooks[name] = args;
     });
   });

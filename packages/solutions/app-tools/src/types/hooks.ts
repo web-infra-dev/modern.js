@@ -12,6 +12,7 @@ import type {
   RouteLegacy,
   ServerRoute,
 } from '@modern-js/types';
+import type { Stats, MultiStats } from '@modern-js/builder-shared';
 
 export interface ImportSpecifier {
   local?: string;
@@ -83,10 +84,7 @@ export type AppToolsHooks = {
     { bundlerConfigs?: webpack.Configuration[] },
     unknown
   >;
-  afterBuild: AsyncWorkflow<
-    { stats?: webpack.Stats | webpack.MultiStats },
-    unknown
-  >;
+  afterBuild: AsyncWorkflow<{ stats?: Stats | MultiStats }, unknown>;
   beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
 

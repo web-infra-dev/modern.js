@@ -26,13 +26,13 @@ function findCurrentDomain(url: string, domainList: string[]) {
       break;
     }
   }
-  return domain;
+  return domain || url;
 }
 
 function findNextDomain(url: string, domainList: string[]) {
   const currentDomain = findCurrentDomain(url, domainList);
   const index = domainList.indexOf(currentDomain);
-  return domainList[(index + 1) % domainList.length];
+  return domainList[(index + 1) % domainList.length] || url;
 }
 
 function getRequestUrl(element: HTMLElement) {
@@ -187,7 +187,7 @@ export function retry(config: AssetsRetryOptions, e: Event) {
   }
 
   // Then, we will start to retry
-  const nextDomain = findNextDomain(domain, config.domain!) || '';
+  const nextDomain = findNextDomain(domain, config.domain!);
 
   const isAsync =
     Boolean(target.dataset.builderAsync) ||
@@ -275,6 +275,10 @@ function init(options: AssetsRetryOptions) {
   }
   if (!Array.isArray(config.domain) || config.domain.length === 0) {
     config.domain = defaultConfig.domain;
+  }
+
+  if (Array.isArray(config.domain)) {
+    config.domain = config.domain.filter(Boolean);
   }
 
   // Bind event in window

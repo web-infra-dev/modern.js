@@ -2,6 +2,10 @@
 
 Builder 支持在代码中引用 SVG 资源，并将 SVG 图片转换为 React 组件或 URL。
 
+:::tip 什么是 SVG
+SVG 是 Scalable Vector Graphics 的缩写，意为可伸缩矢量图形。SVG 是一种用来描述二维矢量图形的 XML-based 格式，可以用来创建可以无限放大或缩小而不失真的图像。因为 SVG 图形是由矢量图形元素组成的，所以可以轻松地在各种尺寸和分辨率下渲染。
+:::
+
 ## 在 JS 文件中引用
 
 在 JS 文件中引用 SVG 资源时，如果你具名导入 `ReactComponent` 对象，Builder 会调用 [SVGR](https://react-svgr.com/)，将 SVG 图片转换为一个 React 组件。

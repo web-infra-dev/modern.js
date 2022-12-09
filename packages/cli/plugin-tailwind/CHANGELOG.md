@@ -1,5 +1,89 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- 92f0eade39: feat:
+
+  1. add style config and add new hook
+  2. add dts alias logic
+  3. add copy logic
+  4. add log logic
+  5. add skipDeps config
+
+  feat:
+
+  1. 添加样式配置以及新的 hook
+  2. 添加 dts 别名处理
+  3. 添加 copy 逻辑
+  4. 添加日志逻辑
+  5. 添加 skipDeps 配置
+
+- 92f0eade39: feat:
+
+  1. core: 增加 test 函数
+  2. module plugins: 增加 `babel`, `mainField`, `target` 插件
+  3. storybook: 修改部分逻辑并且增加 tspath webpack 插件
+  4. 增加 designSystem 配置
+
+  feat:
+
+  1. core: add test method
+  2. module plugins: add `babel`, `mainField`, `target` plugin
+  3. storybook: change some logic and add tspath webpack plugin
+  4. add `designSystem` config
+
+### Patch Changes
+
+- d6546ad: add buildConfig style in module-tools-v2 and remove tools
+  在 module-tools-v2 里新增 buildConfig style 并删除 tools
+- Updated dependencies [2344eb26ed]
+- Updated dependencies [a11fcf8b50]
+- Updated dependencies [e7ce063]
+- Updated dependencies [b18fa8f3ed]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [6604f1b]
+- Updated dependencies [6aca875]
+- Updated dependencies [fda836f]
+- Updated dependencies [3e57f2bd58]
+- Updated dependencies [2e60319]
+- Updated dependencies [fbf5eed5aa]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [425e570]
+- Updated dependencies [e4357f1]
+- Updated dependencies [4369648ae2]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [92c0994468]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed5874c6]
+- Updated dependencies [60d5378632]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb]
+- Updated dependencies [18aaf42249]
+- Updated dependencies [34702d5]
+- Updated dependencies [fcace5b5b9]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/runtime@2.0.0-beta.3
+  - @modern-js/utils@2.0.0-beta.3
+
 ## 2.0.0-beta.2
 
 ### Major Changes

@@ -1,6 +1,8 @@
 # 构建产物类型
 
-Builder 支持构建出多种产物类型，你可以通过 [createBuilder](/zh/api/builder-core.html#createbuilder) 方法的 `target` 参数来设置产物类型。
+Builder 支持多种构建产物类型，分别适用于不同的目标运行环境。在设置正确的产物类型后，Builder 会针对该环境优化打包结果，在构建过程中启用一些对应的插件或者配置。
+
+你可以通过 [createBuilder](/zh/api/builder-core.html#createbuilder) 方法的 `target` 参数来设置产物类型。
 
 ## 默认产物
 
@@ -46,7 +48,7 @@ const builder = await createBuilder(provider, {
 - 不会打包或抽取 CSS 代码，但产物中会包含 CSS Modules 的 id 信息。
 - 不会开启默认的拆包策略，但 dynamic import 依然可以生效。
 - 不会开启热更新相关的能力。
-- 将 Browserslist 的默认值调整为 `['node >= 12']`。
+- 将 Browserslist 的默认值调整为 `['node >= 14']`。
 
 :::tip
 如果触发了并行构建，比如同时构建 web 产物和 node 产物，那么上述处理不会影响 web 产物，web 产物所需的 HTML、CSS 等文件依然会正确生成。
@@ -55,6 +57,10 @@ const builder = await createBuilder(provider, {
 ## Web Worker 产物
 
 指运行在 [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) 环境的产物。
+
+:::tip Web Worker
+Web Workers 是一种 JavaScript API，它允许网页在后台线程中执行脚本，与主线程（网页）分离。这意味着，您可以使用 Web Workers 来执行计算密集型或长时间运行的任务，而无需阻塞主线程，进而影响网页的性能。
+:::
 
 当 `target` 设置为 `'web-worker'` 时，Builder 会进行以下处理：
 

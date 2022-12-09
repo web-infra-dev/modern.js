@@ -14,3 +14,4 @@ export * from './regexp';
 export * from './types';
 export * from './config';
 export * from './format';
+export * from './test-helper';
