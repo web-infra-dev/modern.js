@@ -180,7 +180,8 @@ function tryApplyUpdates() {
     return;
   }
 
-  if (!isUpdateAvailable() || !canApplyUpdates()) {
+  // TODO: temp compat rspack (not support full hash)
+  if ((!__webpack_hash__ && !isUpdateAvailable()) || !canApplyUpdates()) {
     return;
   }
 
@@ -191,7 +192,7 @@ function tryApplyUpdates() {
       return;
     }
 
-    if (isUpdateAvailable()) {
+    if (__webpack_hash__ && isUpdateAvailable()) {
       // While we were updating, there was a new update! Do it again.
       tryApplyUpdates();
     }
