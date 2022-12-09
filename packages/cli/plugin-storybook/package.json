@@ -46,7 +46,10 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-plugin-node-polyfill": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
     "@storybook/addon-actions": "6.5.12",
     "@storybook/addon-essentials": "6.5.12",
     "@storybook/addon-links": "6.5.12",
@@ -58,7 +61,6 @@
     "esbuild": "0.15.7",
     "findup-sync": "^4.0.0",
     "fs-extra": "^10.0.0",
-    "node-polyfill-webpack-plugin": "^1.1.4",
     "process.argv": "^0.6.0",
     "tsconfig-paths-webpack-plugin": "4.0.0"
   },
