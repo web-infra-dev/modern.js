@@ -7,7 +7,8 @@ import {
 import { BuilderInstance } from '@modern-js/builder-shared';
 
 export interface IAppContext {
-  metaName: string; // name for generating conventional constants, such as .modern-js
+  /** The name of framework, such as 'modern-js' */
+  metaName: string;
   appDirectory: string;
   configFile: string | false;
   serverConfigFile: string;
@@ -29,4 +30,6 @@ export interface IAppContext {
   internalDirAlias: string;
   internalSrcAlias: string;
   builder?: BuilderInstance;
+  /**  The version of the framework  */
+  version?: string;
 }
