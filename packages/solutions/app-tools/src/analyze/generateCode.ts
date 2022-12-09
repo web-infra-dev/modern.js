@@ -12,7 +12,8 @@ import type {
   RouteLegacy,
   PageRoute,
 } from '@modern-js/types';
-import esbuild from 'esbuild';
+import type { Loader } from 'esbuild';
+import { build } from 'esbuild';
 import {
   AppNormalizedConfig,
   AppTools,
@@ -31,7 +32,7 @@ import {
 import { getDefaultImports } from './utils';
 import { walk } from './nestedRoutes';
 
-const loader: { [ext: string]: esbuild.Loader } = {
+const loader: { [ext: string]: Loader } = {
   '.js': 'jsx',
   '.ts': 'tsx',
 };
@@ -100,7 +101,7 @@ export const createImportStatements = (
 
 const buildLoader = async (entry: string, outfile: string) => {
   const command = getCommand();
-  await esbuild.build({
+  await build({
     format: 'esm',
     platform: 'browser',
     target: 'esnext',
@@ -134,7 +135,7 @@ const buildLoader = async (entry: string, outfile: string) => {
 
 const buildServerLoader = async (entry: string, outfile: string) => {
   const command = getCommand();
-  await esbuild.build({
+  await build({
     format: 'cjs',
     platform: 'node',
     target: 'esnext',

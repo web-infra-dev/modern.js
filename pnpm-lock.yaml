@@ -2876,6 +2876,7 @@ importers:
       '@types/jest': ^27
       '@types/node': ^14
       es-module-lexer: ^1.1.0
+      esbuild: 0.15.7
       jest: ^27
       typescript: ^4
       webpack: ^5.75.0
@@ -2902,6 +2903,7 @@ importers:
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       es-module-lexer: 1.1.0
+      esbuild: 0.15.7
     devDependencies:
       '@modern-js/builder-plugin-swc': link:../../builder/plugin-swc
       '@modern-js/server-core': link:../../server/core
@@ -2912,7 +2914,7 @@ importers:
       '@types/node': 14.18.21
       jest: 27.5.1
       typescript: 4.7.4
-      webpack: 5.75.0
+      webpack: 5.75.0_esbuild@0.15.7
 
   packages/solutions/doc-tools:
     specifiers:
