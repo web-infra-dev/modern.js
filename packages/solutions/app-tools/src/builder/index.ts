@@ -6,6 +6,7 @@ import {
 } from '@modern-js/builder';
 import {
   BuilderConfig,
+  BuilderWebpackProvider,
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import type { IAppContext } from '@modern-js/core';
@@ -44,7 +45,7 @@ export async function createBuilderForEdenX({
   normalizedConfig,
   appContext,
   compatPluginConfig,
-}: BuilderOptions) {
+}: BuilderOptions): Promise<BuilderInstance<BuilderWebpackProvider>> {
   // create webpack provider
   const builderConfig = createBuilderProviderConfig(
     normalizedConfig,
