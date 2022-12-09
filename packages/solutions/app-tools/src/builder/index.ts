@@ -27,12 +27,6 @@ export type BuilderOptions = {
 
 function getBuilderTargets(normalizedConfig: AppNormalizedConfig) {
   const targets: BuilderTarget[] = ['web'];
-  if (
-    normalizedConfig.output.enableModernMode &&
-    !targets.includes('modern-web')
-  ) {
-    targets.push('modern-web');
-  }
 
   if (isUseSSRBundle(normalizedConfig)) {
     targets.push('node');

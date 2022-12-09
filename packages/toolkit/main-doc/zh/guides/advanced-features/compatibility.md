@@ -40,42 +40,6 @@ Modern.js 中还提供了基于浏览器 [UA](https://developer.mozilla.org/zh-C
 
 ![ua-polyfill](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ua-polyfill.png)
 
-
-## 差异化分发
-
-Modern.js 提供了运行时基于浏览器 User Agent 的差异化分发方案, 设置 [`output.enableModernMode`](/docs/configure/app/output/enable-modern-mode) 后， 生产环境会自动构建出针对现代浏览器语法未降级的 JS 产物和针对旧版本浏览器带有 Polyfill 的 JS 产物:
-
-```bash title="dist/static/js"
-├── 370.95db0e84-es6.js
-├── 370.95db0e84-es6.js.map
-├── 370.ace5d8a0.js
-├── 370.ace5d8a0.js.map
-├── main.64eb3bc7-es6.js
-├── main.64eb3bc7-es6.js.map
-├── main.c8aab430.js
-├── main.c8aab430.js.map
-├── runtime-main.9ad9a46b-es6.js
-├── runtime-main.9ad9a46b-es6.js.map
-├── runtime-main.dccca6e0.js
-└── runtime-main.dccca6e0.js.map
-```
-
-同时 HTML 也会构建出对应的 ES6 版本:
-
-```js title="dist/html/main/index-es6.html"
-<script defer="defer" src="/static/js/370.95db0e84-es6.js"></script>
-```
-
-```js title="dist/html/main/index.html"
-<script defer="defer" src="/static/js/370.ace5d8a0.js"></script>
-```
-
-通过 `pnpm run build && pnpm run start` 启动服务器, 访问页面时，会根据浏览器信息决定返回 `index-es6.html` 还是 `index.html`。
-
-:::info 注
-内部目前使用 [@babel/compat-data](https://github.com/babel/babel/blob/main/packages/babel-compat-data/data/native-modules.json) 来判断具体浏览器是否支持 es6 语法。
-:::
-
 ## Browserslist 配置
 
 Modern.js 支持在项目根目录 `package.json` 文件中的 `browserslist` 字段（或单独的 `.browserslistrc` 文件）指定项目覆盖的目标浏览器范围。该值会被 [`@babel/preset-env`](https://babeljs.io/docs/en/babel-preset-env) 和 [`autoprefixer`](https://github.com/postcss/autoprefixer) 用来确定需要转换的 JavaScript 语法特性和需要添加的 CSS 浏览器前缀。
