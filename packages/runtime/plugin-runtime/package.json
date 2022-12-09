@@ -53,6 +53,11 @@
       "node": "./dist/js/node/document/index.js",
       "default": "./dist/js/treeshaking/document/index.js"
     },
+    "./document/cli": {
+      "jsnext:source": "./src/document/cli/index.ts",
+      "node": "./dist/js/node/document/cli/index.js",
+      "default": "./dist/js/treeshaking/document/cli/index.js"
+    },
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
       "node": "./dist/js/node/ssr/index",
@@ -100,6 +105,9 @@
       ],
       "document": [
         "./dist/types/document/index.d.ts"
+      ],
+      "document/cli": [
+        "./dist/types/document/cli/index.d.ts"
       ],
       "ssr": [
         "./dist/types/ssr/index.d.ts"
