@@ -1,7 +1,6 @@
 import { Outlet, useLoaderData } from '@modern-js/runtime/router';
 
 export const loader = () => {
-  console.log('throw');
   throw new Error('loader error');
 };
 

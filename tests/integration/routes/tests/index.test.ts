@@ -205,7 +205,6 @@ const supportHandleLoaderError = async (errors: string[], appPort: number) => {
   ]);
   const errorElm = await page.$('.error-case');
   const text = await page.evaluate(el => el.textContent, errorElm);
-  console.log('11111111111111', text);
   expect(text.includes('loader error')).toBeTruthy();
   expect(errors.length).toBe(0);
 };
