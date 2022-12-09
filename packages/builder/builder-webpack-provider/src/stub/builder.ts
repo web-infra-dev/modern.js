@@ -24,7 +24,7 @@ import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
 import { globContentJSON, matchLoader } from './utils';
-import { getPluginAPI } from 'src/core/initPlugins';
+import { getPluginAPI } from '../core/initPlugins';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
