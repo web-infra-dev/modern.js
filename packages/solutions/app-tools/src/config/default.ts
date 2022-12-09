@@ -171,7 +171,6 @@ export function createLegacyDefaultConfig(
     templateParameters: {},
     templateParametersByEntries: undefined,
     cssModuleLocalIdentName: undefined,
-    enableModernMode: false,
     disableNodePolyfill: false,
     enableTsLoader: false,
   };

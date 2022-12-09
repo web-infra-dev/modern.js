@@ -9,14 +9,14 @@ import {
 } from '@modern-js/builder-shared';
 import { plugins } from './plugins';
 
-export async function createBuilder(
-  provider: BuilderProvider,
-  options: CreateBuilderOptions,
-): Promise<BuilderInstance> {
+export async function createBuilder<
+  P extends BuilderProvider = BuilderProvider,
+>(provider: P, options: CreateBuilderOptions): Promise<BuilderInstance<P>> {
   const builderOptions = applyDefaultBuilderOptions(options);
   const pluginStore = createPluginStore();
   const {
     build,
+    pluginAPI,
     publicContext,
     initConfigs,
     inspectConfig,
@@ -35,6 +35,16 @@ export async function createBuilder(
 
   return {
     ...pick(pluginStore, ['addPlugins', 'removePlugins', 'isPluginExists']),
+    ...pick(pluginAPI, [
+      'onBeforeBuild',
+      'onBeforeCreateCompiler',
+      'onBeforeStartDevServer',
+      'onAfterBuild',
+      'onAfterCreateCompiler',
+      'onAfterStartDevServer',
+      'onDevCompileDone',
+      'onExit',
+    ]),
     build,
     createCompiler,
     initConfigs,

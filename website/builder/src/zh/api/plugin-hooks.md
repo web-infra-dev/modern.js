@@ -193,17 +193,7 @@ export default () => ({
 
 ### onBeforeCreateCompiler
 
-在创建 compiler 实例前调用，当你执行 `builder.startDevServer`、`builder.build` 或 `builder.createCompiler` 时，都会调用此钩子。你可以通过 `bundlerConfigs` 参数获取到底层打包工具的最终配置对象。
-
-- **Type**
-
-```ts
-function OnBeforeCreateCompiler(
-  callback: (params: {
-    bundlerConfigs: WebpackConfig[] | RspackConfig[];
-  }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/zh/shared/onBeforeCreateCompiler.md)!!!
 
 - **Example**
 
@@ -211,7 +201,7 @@ function OnBeforeCreateCompiler(
 export default () => ({
   setup: api => {
     api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
-      console.log('the bundler config is ': bundlerConfigs);
+      console.log('the bundler config is ', bundlerConfigs);
     });
   },
 });
@@ -219,15 +209,7 @@ export default () => ({
 
 ### onAfterCreateCompiler
 
-在创建 compiler 实例后、执行构建前调用，当你执行 `builder.startDevServer`、`builder.build` 或 `builder.createCompiler` 时，都会调用此钩子。你可以通过 `compiler` 参数获取到 compiler 实例对象。
-
-- **Type**
-
-```ts
-function OnAfterCreateCompiler(callback: (params: {
-  compiler: Compiler | MultiCompiler;
-}) => Promise<void> | void;): void;
-```
+!!!include(./src/zh/shared/onAfterCreateCompiler.md)!!!
 
 - **Example**
 
@@ -235,7 +217,7 @@ function OnAfterCreateCompiler(callback: (params: {
 export default () => ({
   setup: api => {
     api.onAfterCreateCompiler(({ compiler }) => {
-      console.log('the compiler is ': compiler);
+      console.log('the compiler is ', compiler);
     });
   },
 });
@@ -245,17 +227,7 @@ export default () => ({
 
 ### onBeforeBuild
 
-在执行生产环境构建前调用，你可以通过 `bundlerConfigs` 参数获取到底层打包工具的最终配置对象。
-
-- **Type**
-
-```ts
-function OnBeforeBuild(
-  callback: (params: {
-    bundlerConfigs?: WebpackConfig[] | RspackConfig[];
-  }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/zh/shared/onBeforeBuild.md)!!!
 
 - **Example**
 
@@ -263,7 +235,7 @@ function OnBeforeBuild(
 export default () => ({
   setup: api => {
     api.onBeforeBuild(({ bundlerConfigs }) => {
-      console.log('the bundler config is ': bundlerConfigs);
+      console.log('the bundler config is ', bundlerConfigs);
     });
   },
 });
@@ -271,15 +243,7 @@ export default () => ({
 
 ### onAfterBuild
 
-在执行生产环境构建后调用，你可以通过 `stats` 参数获取到构建结果信息。
-
-- **Type**
-
-```ts
-function OnAfterBuild(
-  callback: (params: { stats?: Stats | MultiStats }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/zh/shared/onAfterBuild.md)!!!
 
 - **Example**
 
@@ -297,13 +261,7 @@ export default () => ({
 
 ### onBeforeStartDevServer
 
-在启动开发服务器前调用。
-
-- **Type**
-
-```ts
-function OnBeforeStartDevServer(callback: () => Promise<void> | void): void;
-```
+!!!include(./src/zh/shared/onBeforeStartDevServer.md)!!!
 
 - **Example**
 
@@ -319,15 +277,7 @@ export default () => ({
 
 ### onAfterStartDevServer
 
-在启动开发服务器后调用，你可以通过 `port` 参数获得开发服务器监听的端口号。
-
-- **Type**
-
-```ts
-function OnAfterStartDevServer(
-  callback: (params: { port: number }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/zh/shared/onAfterStartDevServer.md)!!!
 
 - **Example**
 
@@ -343,15 +293,7 @@ export default () => ({
 
 ### onDevCompileDone
 
-在每次开发环境构建结束后调用，你可以通过 `isFirstCompile` 来判断是否为首次构建。
-
-- **Type**
-
-```ts
-function OnDevCompileDone(
-  callback: (params: { isFirstCompile: boolean }) => Promise<void> | void,
-): void;
-```
+!!!include(./src/zh/shared/onDevCompileDone.md)!!!
 
 - **Example**
 
@@ -373,13 +315,7 @@ export default () => ({
 
 ### onExit
 
-在进程即将退出时调用，这个钩子只能执行同步代码。
-
-- **Type**
-
-```ts
-function OnExit(callback: () => void): void;
-```
+!!!include(./src/zh/shared/onExit.md)!!!
 
 - **Example**
 

@@ -6,6 +6,7 @@ import {
 } from '@modern-js/builder';
 import {
   BuilderConfig,
+  BuilderWebpackProvider,
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import type { IAppContext } from '@modern-js/core';
@@ -26,12 +27,6 @@ export type BuilderOptions = {
 
 function getBuilderTargets(normalizedConfig: AppNormalizedConfig) {
   const targets: BuilderTarget[] = ['web'];
-  if (
-    normalizedConfig.output.enableModernMode &&
-    !targets.includes('modern-web')
-  ) {
-    targets.push('modern-web');
-  }
 
   if (isUseSSRBundle(normalizedConfig)) {
     targets.push('node');
@@ -44,7 +39,7 @@ export async function createBuilderForEdenX({
   normalizedConfig,
   appContext,
   compatPluginConfig,
-}: BuilderOptions) {
+}: BuilderOptions): Promise<BuilderInstance<BuilderWebpackProvider>> {
   // create webpack provider
   const builderConfig = createBuilderProviderConfig(
     normalizedConfig,

@@ -39,7 +39,6 @@ const bff = {
 };
 const output = {
   ssg: { typeof: ['boolean', 'object', 'function'] },
-  enableModernMode: { type: 'boolean' },
   disableNodePolyfill: { type: 'boolean' },
 };
 const dev = {

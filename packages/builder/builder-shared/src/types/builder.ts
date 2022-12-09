@@ -1,6 +1,6 @@
 import type { BuilderContext } from './context';
 import type { PluginStore } from './plugin';
-import type { ProviderInstance } from './provider';
+import type { BuilderProvider, ProviderInstance } from './provider';
 
 export type BuilderTarget = 'web' | 'node' | 'modern-web' | 'web-worker';
 
@@ -21,7 +21,7 @@ export type CreateBuilderOptions = {
   configPath?: string | null;
 };
 
-export type BuilderInstance = {
+export type BuilderInstance<P extends BuilderProvider = BuilderProvider> = {
   context: BuilderContext;
 
   addPlugins: PluginStore['addPlugins'];
@@ -33,4 +33,20 @@ export type BuilderInstance = {
   inspectConfig: ProviderInstance['inspectConfig'];
   createCompiler: ProviderInstance['createCompiler'];
   startDevServer: ProviderInstance['startDevServer'];
+
+  onBeforeBuild: Awaited<ReturnType<P>>['pluginAPI']['onBeforeBuild'];
+  onBeforeCreateCompiler: Awaited<
+    ReturnType<P>
+  >['pluginAPI']['onBeforeCreateCompiler'];
+  onBeforeStartDevServer: Awaited<
+    ReturnType<P>
+  >['pluginAPI']['onBeforeStartDevServer'];
+  onAfterBuild: Awaited<ReturnType<P>>['pluginAPI']['onAfterBuild'];
+  onAfterCreateCompiler: Awaited<
+    ReturnType<P>
+  >['pluginAPI']['onAfterCreateCompiler'];
+  onAfterStartDevServer: Awaited<
+    ReturnType<P>
+  >['pluginAPI']['onAfterStartDevServer'];
+  onExit: Awaited<ReturnType<P>>['pluginAPI']['onExit'];
 };
