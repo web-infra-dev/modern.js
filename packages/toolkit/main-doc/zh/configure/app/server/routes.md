@@ -52,16 +52,14 @@ export default defineConfig({
       "entryName": "page-a",
       "entryPath": "html/page-a/index.html",
       "isSPA": true,
-      "isSSR": false,
-      "enableModernMode": false
+      "isSSR": false
     },
     {
       "urlPath": "/b",
       "entryName": "page-a",
       "entryPath": "html/page-a/index.html",
       "isSPA": true,
-      "isSSR": false,
-      "enableModernMode": false
+      "isSSR": false
     },
   ]
 }

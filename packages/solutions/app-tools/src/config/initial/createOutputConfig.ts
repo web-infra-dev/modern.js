@@ -27,7 +27,6 @@ export function createOutputConfig(
     enableLatestDecorators,
     disableCssModuleExtension,
     ssg,
-    enableModernMode,
     disableNodePolyfill,
   } = config.output;
 
@@ -70,7 +69,6 @@ export function createOutputConfig(
     // set `true`, only in legacy config
     enableAssetFallback: true,
     enableAssetManifest: true,
-    enableModernMode,
     disableNodePolyfill,
   };
 }

@@ -13,8 +13,6 @@ export interface ServerRoute {
   isApi?: boolean;
   // ssr js bundle for ssr page
   bundle?: string;
-  // if route has modern product
-  enableModernMode?: boolean;
   // response header for routes
   responseHeaders?: Record<string, unknown>;
 }
