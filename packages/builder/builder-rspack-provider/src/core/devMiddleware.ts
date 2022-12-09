@@ -54,8 +54,8 @@ function applyHMREntry(compiler: Compiler, clientPath: string) {
     // compat webpack module variables.
     require.resolve('./hmr-client-hack'),
     // TODO: rspack resolve bug
-    clientPath.slice(0, clientPath.indexOf('?')),
-    // clientPath
+    // clientPath.slice(0, clientPath.indexOf('?')),
+    clientPath,
   ];
 
   for (const key in compiler.options.entry) {
