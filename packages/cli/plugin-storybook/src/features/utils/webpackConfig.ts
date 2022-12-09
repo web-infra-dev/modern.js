@@ -5,14 +5,9 @@ import type {
   ModuleNormalizedConfig,
 } from '@modern-js/module-tools-v2';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import type {
-  Configuration,
-  RuleSetRule,
-  RuleSetConditionAbsolute,
-} from 'webpack';
+import type { Configuration } from 'webpack';
 import { merge } from '@modern-js/utils/lodash';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import { JS_REGEX, TS_REGEX, mergeRegex } from '@modern-js/builder-shared';
 import { CURRENT_PKG_PATH } from '../constants';
 
 // 改变storybook webpack config，有副作用
@@ -39,67 +34,19 @@ const resolveStorybookWebPackConfig = (
 
   // handle module rules
   const applyModuleRules = () => {
+    if (!clientWebpackConfig.module?.rules) {
+      return;
+    }
+
     if (sbWebpackConfig.module) {
       const blackRuleList = [
         /\.css$/.toString(),
         /\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/.toString(),
         /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/.toString(),
+        /\.(mjs|tsx?|jsx?)$/.toString(),
       ];
-      // 更新 /\.(mjs|tsx?|jsx?)$/ 配置
-      const jsAndTsRule = sbWebpackConfig.module.rules!.find(
-        rule =>
-          (rule as RuleSetRule).test &&
-          (rule as RuleSetRule).test instanceof RegExp &&
-          (rule as RuleSetRule).test?.toString &&
-          (rule as any).test.toString() === /\.(mjs|tsx?|jsx?)$/.toString(),
-      );
-      const ruleWithOneOf = clientWebpackConfig.module?.rules!.find(rule =>
-        Boolean((rule as RuleSetRule).oneOf),
-      );
-      const oneOf = ruleWithOneOf && (ruleWithOneOf as RuleSetRule).oneOf;
 
-      if (!oneOf) {
-        return;
-      }
-
-      const clientJsAndTsRule = oneOf.find(
-        rule =>
-          rule.test &&
-          rule.test instanceof RegExp &&
-          (rule.test.toString() === mergeRegex(JS_REGEX, TS_REGEX).toString() ||
-            rule.test.toString() === JS_REGEX.toString()),
-      );
-
-      if (!clientJsAndTsRule || !jsAndTsRule) {
-        return;
-      }
-
-      if (
-        jsAndTsRule &&
-        Array.isArray((jsAndTsRule as RuleSetRule).use) &&
-        (jsAndTsRule as any).use[0] &&
-        typeof (jsAndTsRule as any).use[0].options === 'object'
-      ) {
-        (jsAndTsRule as RuleSetRule).include = [
-          ...((jsAndTsRule as RuleSetRule)
-            .include as RuleSetConditionAbsolute[]),
-          ...(clientJsAndTsRule.include as RuleSetConditionAbsolute[]),
-        ];
-        (jsAndTsRule as RuleSetRule).test = clientJsAndTsRule.test;
-        let { options } = (jsAndTsRule as any).use[0];
-        options = {
-          ...options,
-          ...(clientJsAndTsRule as any).use[0].options,
-          cacheDirectory: (jsAndTsRule as any).use[0].options.cacheDirectory,
-          plugins: [
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            ...options.plugins,
-            ...((clientJsAndTsRule as any).use[0].options.plugins || []),
-          ],
-          presets: (clientJsAndTsRule as any).use[0].options.presets || [],
-        };
-      }
-
+      // use builder rules instead of storybook rules. only preserve story-about rules
       sbWebpackConfig.module.rules = sbWebpackConfig.module.rules!.filter(
         (rule: any) => {
           if (rule.test?.toString) {
@@ -109,10 +56,10 @@ const resolveStorybookWebPackConfig = (
           return true;
         },
       );
-      const clientOneOfRule = (clientWebpackConfig as any).module.rules.filter(
-        (rule: any) => Boolean(rule.oneOf),
-      )[0];
-      sbWebpackConfig.module.rules.push(clientOneOfRule);
+
+      sbWebpackConfig.module.rules.push(...clientWebpackConfig.module.rules);
+    } else {
+      sbWebpackConfig.module = clientWebpackConfig.module;
     }
   };
 
@@ -142,14 +89,12 @@ const resolveStorybookWebPackConfig = (
     (sbWebpackConfig as any).resolve.modules.push(pnpmNodeModulesPath);
   } // compat pnpm and yarn end
 
-  if (Array.isArray(sbWebpackConfig.resolve!.plugins)) {
-    sbWebpackConfig.resolve!.plugins.push(
-      new TsconfigPathsPlugin({
-        configFile: path.join(appDirectory, 'stories/tsconfig.json'),
-      }),
-    );
-  } else {
-    sbWebpackConfig.resolve!.plugins = [
+  const tsconfigPath = path.join(appDirectory, 'stories/tsconfig.json');
+
+  if (fs.existsSync(tsconfigPath)) {
+    sbWebpackConfig.resolve = sbWebpackConfig.resolve || {};
+    sbWebpackConfig.resolve.plugins = [
+      ...(sbWebpackConfig.resolve.plugins || []),
       new TsconfigPathsPlugin({
         configFile: path.join(appDirectory, 'stories/tsconfig.json'),
       }),

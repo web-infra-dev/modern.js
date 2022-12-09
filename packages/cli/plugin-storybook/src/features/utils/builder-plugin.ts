@@ -1,6 +1,7 @@
 import path from 'path';
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import type { RuleSetRule, RuleSetUseItem } from 'webpack';
+import { mergeBuilderConfig } from '@modern-js/builder-shared';
 
 export const PluginStorybook = ({
   configDir,
@@ -12,16 +13,21 @@ export const PluginStorybook = ({
   name: 'builder-plugin-storybook',
 
   setup(api) {
+    api.modifyBuilderConfig(config => {
+      return mergeBuilderConfig(config, {
+        output: {
+          enableAssetFallback: false,
+        },
+      });
+    });
+
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      const { RULE, PLUGIN, ONE_OF } = CHAIN_ID;
+      const { RULE, PLUGIN } = CHAIN_ID;
       const isTsProject = Boolean(api.context.tsconfigPath);
 
       chain.target('web');
 
       chain.output.path(path.join(api.context.distPath, 'storybook-static'));
-
-      // TODO: 移除 fallback 规则
-      chain.module.rule(RULE.LOADERS).oneOfs.delete(ONE_OF.FALLBACK);
 
       chain.plugins
         .delete(PLUGIN.PROGRESS)
