@@ -20,7 +20,7 @@ export const PluginStorybook = ({
 
       chain.output.path(path.join(api.context.distPath, 'storybook-static'));
 
-      // 移除 fallback 规则
+      // TODO: 移除 fallback 规则
       chain.module.rule(RULE.LOADERS).oneOfs.delete(ONE_OF.FALLBACK);
 
       chain.plugins
@@ -44,7 +44,7 @@ export const PluginStorybook = ({
         });
 
       const jsRuleConfig = (
-        chain.module.rule(RULE.LOADERS).oneOf(ONE_OF.JS) as any
+        chain.module.rule(RULE.JS) as any
       ).toConfig() as RuleSetRule;
 
       // config dir 针对内部的 storybook 配置目录下的文件做编译处理，复用 js rules
@@ -63,7 +63,6 @@ export const PluginStorybook = ({
             ? ((jsRuleConfig.use as RuleSetUseItem[])[0] as Record<string, any>)
             : {}),
         });
-      chain.module.rule('js').merge(jsRuleConfig);
     });
   },
 });
