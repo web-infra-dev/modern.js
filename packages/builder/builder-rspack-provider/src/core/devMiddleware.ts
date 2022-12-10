@@ -11,8 +11,6 @@ export function getHotRuntimeEntries(compiler: Compiler) {
   const entries: string[] = [];
 
   if (hot) {
-    const cssHotEntryPath = require.resolve('@rspack/dev-client/css');
-    entries.push(cssHotEntryPath);
     if (refresh) {
       const reactRefreshEntryPath = require.resolve(
         '@rspack/dev-client/react-refresh',
