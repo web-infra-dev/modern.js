@@ -38,7 +38,7 @@ export function createOutputConfig(
       css: cssPath,
       js: jsPath,
       html: htmlPath,
-      // `@modern-js/webpack` output all media files to `dist/media` by default
+      // modern.js v1 output all media files to `dist/media` by default
       svg: mediaPath || 'media',
       image: mediaPath || 'media',
       font: mediaPath || 'media',
