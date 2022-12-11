@@ -68,6 +68,17 @@ export function createBuilderProviderConfig(
   appContext: IAppContext,
 ): BuilderConfig {
   const output = createOutputConfig(normalizedConfig, appContext);
+
+  const htmlConfig = { ...normalizedConfig.html };
+
+  // Priority: templateByEntries > template > appContext.htmlTemplates
+  if (!htmlConfig.template) {
+    htmlConfig.templateByEntries = {
+      ...htmlConfig.templateByEntries,
+      ...appContext.htmlTemplates,
+    };
+  }
+
   return {
     ...normalizedConfig,
     source: {
@@ -80,11 +91,7 @@ export function createBuilderProviderConfig(
       https: normalizedConfig.dev.https,
       assetPrefix: normalizedConfig.dev.assetPrefix,
     },
-    html: {
-      ...normalizedConfig.html,
-      templateByEntries:
-        normalizedConfig.html.templateByEntries || appContext.htmlTemplates,
-    },
+    html: htmlConfig,
     performance: {
       ...normalizedConfig.performance,
       // modern.js v1 used to remove moment locale by default
