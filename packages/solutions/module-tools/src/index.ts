@@ -30,7 +30,7 @@ export default (): CliPlugin => ({
 
   registerHook: hooks as any,
 
-  usePlugins: isBuildMode ? [] : ([ChangesetPlugin(), LintPlugin()] as any),
+  usePlugins: isBuildMode ? [] : [ChangesetPlugin(), LintPlugin()],
 
   setup: api => {
     const locale = lang.getLocaleLanguage();
