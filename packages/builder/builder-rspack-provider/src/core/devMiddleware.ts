@@ -51,8 +51,6 @@ function applyHMREntry(compiler: Compiler, clientPath: string) {
     // TODO: temp hack. https://github.com/speedy-js/rspack/issues/1337
     // compat webpack module variables.
     require.resolve('./hmr-client-hack'),
-    // TODO: rspack resolve bug
-    // clientPath.slice(0, clientPath.indexOf('?')),
     clientPath,
   ];
 

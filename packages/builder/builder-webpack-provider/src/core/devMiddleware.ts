@@ -5,7 +5,6 @@ import type { ModernDevServerOptions } from '@modern-js/server';
 
 type DevMiddlewareOptions = ModernDevServerOptions['devMiddleware'];
 
-// todo: reuse
 const isClientCompiler = (compiler: Compiler) => {
   const { target } = compiler.options;
 
