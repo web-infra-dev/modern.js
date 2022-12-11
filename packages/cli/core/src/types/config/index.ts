@@ -33,7 +33,7 @@ export type UserConfig<
   testing?: BaseTestingUserConfig<
     DropUndefined<Extends['userConfig']>['testing']
   >;
-  plugins?: PluginConfig<Extends>;
+  plugins?: PluginConfig<any>;
 } & Omit<Extends['userConfig'], 'plugins' | 'testing'>;
 
 export type NormalizedConfig<
@@ -55,7 +55,7 @@ export type NormalizedConfig<
     // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
 > = {
-  plugins: PluginConfig<Extends>;
+  plugins: PluginConfig<any>;
   testing: BaseTestingNormalizedConfig<
     DropUndefined<Extends['normalizedConfig']>['testing']
   >;

@@ -35,7 +35,7 @@ export default (
   usePlugins: [
     DesignTokenPlugin({
       pluginName,
-    }) as any,
+    }),
   ],
   setup: async api => {
     const { appDirectory, internalDirectory } = api.useAppContext();
