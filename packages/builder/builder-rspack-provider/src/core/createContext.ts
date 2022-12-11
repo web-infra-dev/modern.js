@@ -1,6 +1,5 @@
 import { join } from 'path';
 import {
-  deepFreezed,
   isFileExists,
   createContextByConfig,
   type CreateBuilderOptions,
@@ -38,7 +37,7 @@ export async function createContext(
     hooks: initHooks(),
     configValidatingTask,
     config: { ...builderConfig },
-    originalConfig: deepFreezed(userBuilderConfig),
+    originalConfig: userBuilderConfig,
     tsconfigPath: (await isFileExists(tsconfigPath)) ? tsconfigPath : undefined,
   };
 }

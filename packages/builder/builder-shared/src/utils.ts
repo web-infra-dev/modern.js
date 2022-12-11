@@ -1,22 +1,9 @@
-import _ from '@modern-js/utils/lodash';
 import {
   CSS_MODULES_REGEX,
   GLOBAL_CSS_REGEX,
   NODE_MODULES_REGEX,
 } from './constants';
 import type { SharedBuilderConfig } from './types';
-
-export function deepFreezed<T>(obj: T): T {
-  if (!_.isObject(obj) || _.isNull(obj)) {
-    return obj;
-  }
-  if (Array.isArray(obj)) {
-    obj.forEach(deepFreezed);
-  } else {
-    Object.values(obj).forEach(deepFreezed);
-  }
-  return Object.freeze(obj);
-}
 
 export const extendsType =
   <T>() =>

@@ -1,7 +1,6 @@
 import {
   debug,
   isDebug,
-  deepFreezed,
   type PluginStore,
   type InspectConfigOptions,
   type CreateBuilderOptions,
@@ -17,7 +16,7 @@ async function modifyBuilderConfig(context: Context) {
   const [modified] = await context.hooks.modifyBuilderConfigHook.call(
     context.config,
   );
-  context.config = deepFreezed(modified);
+  context.config = modified;
   debug('modify builder config done');
 }
 
@@ -41,7 +40,11 @@ export async function initConfigs({
   });
 
   await modifyBuilderConfig(context);
-  context.normalizedConfig = deepFreezed(normalizeConfig(context.config));
+  context.normalizedConfig = normalizeConfig(context.config);
+
+  if (context.config.dev) {
+    context.config.dev.assetPrefix = '1';
+  }
 
   const targets = ensureArray(builderOptions.target);
   const webpackConfigs = await Promise.all(

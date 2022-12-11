@@ -1,4 +1,4 @@
-import type { BuilderContext } from '@modern-js/builder-shared';
+import type { BuilderContext, DeepReadonly } from '@modern-js/builder-shared';
 import type { Hooks } from '../core/initHooks';
 import type { BuilderConfig, NormalizedConfig } from './config';
 import type { BuilderPluginAPI } from './plugin';
@@ -8,13 +8,13 @@ export type Context = BuilderContext & {
   /** All hooks. */
   hooks: Readonly<Hooks>;
   /** Current builder config. */
-  config: Readonly<BuilderConfig>;
+  config: DeepReadonly<BuilderConfig>;
   /** The async task to validate schema of config. */
   configValidatingTask: Promise<void>;
   /** The original builder config passed from the createBuilder method. */
-  originalConfig: Readonly<BuilderConfig>;
+  originalConfig: DeepReadonly<BuilderConfig>;
   /** The normalized builder config. */
-  normalizedConfig?: Readonly<NormalizedConfig>;
+  normalizedConfig?: DeepReadonly<NormalizedConfig>;
   /** The plugin API. */
   pluginAPI?: BuilderPluginAPI;
 };
