@@ -164,7 +164,7 @@ export const routesForServer = ({
     importLoadersCode = `
     import { ${loaders.map(
       (loader, index) => `loader_${index}`,
-    )} } from "${loaderIndexFile}"`;
+    )} } from "${loaderIndexFile.replace(/\\/g, '/')}"`;
   }
 
   return `
@@ -325,7 +325,7 @@ export const fileSystemRoutes = async ({
     importLoadersCode = `
     import { ${loaders.map(
       (loader, index) => `loader_${index}`,
-    )} } from "${dataLoaderPath}${loadersIndexFile}"
+    )} } from "${dataLoaderPath}${loadersIndexFile.replace(/\\/g, '/')}"
   `;
 
     const loaderEntryCode = loaders
@@ -355,7 +355,7 @@ export const fileSystemRoutes = async ({
           `${name}.js`,
         );
         const code = `
-          export { loader as ${name} } from '${loader}'
+          export { loader as ${name} } from '${loader.replace(/\\/g, '/')}'
         `;
         await fs.ensureFile(filename);
         await fs.writeFile(filename, code);

@@ -405,3 +405,103 @@ await builder.inspectConfig({
   writeToDisk: true,
 });
 ```
+
+## builder.onBeforeCreateCompiler
+
+!!!include(./src/en/shared/onBeforeCreateCompiler.md)!!!
+
+- **Example**
+
+```ts
+builder.onBeforeCreateCompiler(({ bundlerConfigs }) => {
+  console.log('the bundler config is ', bundlerConfigs);
+});
+```
+
+## builder.onAfterCreateCompiler
+
+!!!include(./src/en/shared/onAfterCreateCompiler.md)!!!
+
+- **Example**
+
+```ts
+builder.onAfterCreateCompiler(({ compiler }) => {
+  console.log('the compiler is ', compiler);
+});
+```
+
+## builder.onBeforeBuild
+
+!!!include(./src/en/shared/onBeforeBuild.md)!!!
+
+- **Example**
+
+```ts
+builder.onBeforeBuild(({ bundlerConfigs }) => {
+  console.log('the bundler config is ', bundlerConfigs);
+});
+```
+
+## builder.onAfterBuild
+
+!!!include(./src/en/shared/onAfterBuild.md)!!!
+
+- **Example**
+
+```ts
+builder.onAfterBuild(({ stats }) => {
+  console.log(stats?.toJson());
+});
+```
+
+## builder.onBeforeStartDevServer
+
+!!!include(./src/en/shared/onBeforeStartDevServer.md)!!!
+
+- **Example**
+
+```ts
+builder.onBeforeStartDevServer(() => {
+  console.log('before start!');
+});
+```
+
+## builder.onAfterStartDevServer
+
+!!!include(./src/en/shared/onAfterStartDevServer.md)!!!
+
+- **Example**
+
+```ts
+builder.onAfterStartDevServer(({ port }) => {
+  console.log('this port is: ', port);
+});
+```
+
+## builder.onDevCompileDone
+
+!!!include(./src/en/shared/onDevCompileDone.md)!!!
+
+- **Example**
+
+```ts
+builder.onDevCompileDone(({ isFirstCompile }) => {
+  if (isFirstCompile) {
+    console.log('first compile!');
+  } else {
+    console.log('re-compile!');
+  }
+});
+```
+
+## builder.onExit
+
+!!!include(./src/en/shared/onExit.md)!!!
+
+- **Example**
+
+```ts
+builder.onExit(() => {
+  console.log('exit!');
+});
+```

@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   getEntryOptions,
   SERVER_RENDER_FUNCTION_NAME,
@@ -97,10 +98,19 @@ export default (): CliPlugin<AppTools> => ({
                 ];
               });
             },
+
             babel: (config: any) => {
               const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
-                config.plugins.push(require.resolve('@loadable/babel-plugin'));
+              if (isUseSSRBundle(userConfig)) {
+                config.plugins.push(
+                  path.join(__dirname, './babel-plugin-ssr-loader-id'),
+                );
+
+                if (hasStringSSREntry(userConfig)) {
+                  config.plugins.push(
+                    require.resolve('@loadable/babel-plugin'),
+                  );
+                }
               }
             },
           },
@@ -110,7 +120,6 @@ export default (): CliPlugin<AppTools> => ({
         const { entryName, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName, entrypoints } = api.useAppContext();
-
         pluginsExportsUtils.addExport(
           `export { default as ssr } from '@modern-js/runtime/ssr'`,
         );
@@ -135,6 +144,7 @@ export default (): CliPlugin<AppTools> => ({
               `Legacy router plugin doesn't support streaming SSR, check your config 'runtime.router'`,
             );
           }
+
           if (fileSystemRoutes && !entrypoint.nestedRoutesEntry) {
             throw new Error(
               `You should switch to file-system based router to support streaming SSR.`,

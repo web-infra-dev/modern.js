@@ -24,6 +24,7 @@ import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
 import { globContentJSON, matchLoader } from './utils';
+import { getPluginAPI } from '../core/initPlugins';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
@@ -113,6 +114,8 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
 
   const publicContext = createPublicContext(context);
   const pluginStore = createPluginStore();
+
+  context.pluginAPI = getPluginAPI({ context, pluginStore });
 
   // add builtin and custom plugins by `options.plugins`.
   await applyPluginOptions(pluginStore, options?.plugins);

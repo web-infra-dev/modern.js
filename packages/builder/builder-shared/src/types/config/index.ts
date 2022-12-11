@@ -26,7 +26,7 @@ export interface SharedBuilderConfig {
   experiments?: SharedExperimentsConfig;
 }
 
-export interface ShareNormalizedConfig {
+export interface SharedNormalizedConfig {
   dev: NormalizedSharedDevConfig;
   html: NormalizedHtmlConfig;
   // alias type incompatible between webpack and rspack

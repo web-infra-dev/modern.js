@@ -1,6 +1,7 @@
 import type { BuilderContext } from '@modern-js/builder-shared';
 import type { Hooks } from '../core/initHooks';
 import type { BuilderConfig, NormalizedConfig } from './config';
+import type { BuilderPluginAPI } from './plugin';
 
 /** The inner context. */
 export type Context = BuilderContext & {
@@ -14,4 +15,6 @@ export type Context = BuilderContext & {
   originalConfig: Readonly<BuilderConfig>;
   /** The normalized builder config. */
   normalizedConfig?: Readonly<NormalizedConfig>;
+  /** The plugin API. */
+  pluginAPI?: BuilderPluginAPI;
 };
