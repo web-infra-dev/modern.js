@@ -244,6 +244,7 @@ export const generateCode = async (
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
             internalDirectory,
+            internalDirAlias,
           }),
         });
 
