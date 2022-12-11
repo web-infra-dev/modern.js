@@ -22,7 +22,6 @@
 '@modern-js/plugin-ssg': major
 '@modern-js/plugin-storybook': major
 '@modern-js/plugin-tailwindcss': major
-'@modern-js/webpack': major
 '@modern-js/generator-cases': major
 '@modern-js/generator-common': major
 '@modern-js/generator-plugin': major
