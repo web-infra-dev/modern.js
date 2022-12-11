@@ -1,5 +1,41 @@
 # @modern-js/types
 
+## 2.0.0-next.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 7879e8f: refactor: remove enableModernMode config
+
+  refactor: 不再支持 enableModernMode 配置项
+
+- 2e60319: fix: some optimizations for router and loader
+  fix: 一些 router 和 loader 的优化
+  q
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 6bda14ed71: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- 40ed5874c6: feat: inject css chunk into html for streaming ssr
+  feat: streaming ssr 返回的 html 注入 css chunk
+- 87c1ff86b9: feat(app-tools): attach builder instance to appContext
+
+  feat(app-tools): 将 builder 实例挂载到 appContext 上
+
+- 102d32e4ba: feat(server): add `req` and `res` to SSR context
+
+  feat(server): 添加 `req` 和 `res` 到 SSR context 中
+
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+
 ## 2.0.0-beta.3
 
 ### Major Changes

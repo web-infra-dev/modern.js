@@ -1,5 +1,65 @@
 # @modern-js/plugin-garfish
 
+## 2.0.0-next.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 6604f1b: feat: support router basename
+  feat: router 插件支持设置 basename
+- 21d2ddb: feat: support async export provider for module federation
+  支持模块联邦场景异步导出 provider
+- cce8ece: fix: handle some `TODO` & `FIXME`, change some tests
+  fix: 处理一些 `TODO` 和 `FIXME`, 修改了一些 tests
+- 2344eb26ed: fix: loadApp when dom is mount
+  修复 dom 未渲染时挂载子应用行为
+- Updated dependencies [2344eb26ed]
+- Updated dependencies [a11fcf8b50]
+- Updated dependencies [e7ce063]
+- Updated dependencies [b18fa8f3ed]
+- Updated dependencies [7879e8f]
+- Updated dependencies [50d4675]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [6604f1b]
+- Updated dependencies [6aca875]
+- Updated dependencies [fda836f]
+- Updated dependencies [3e57f2bd58]
+- Updated dependencies [2e60319]
+- Updated dependencies [fbf5eed5aa]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [425e570]
+- Updated dependencies [e4357f1]
+- Updated dependencies [4369648ae2]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [92c0994468]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed5874c6]
+- Updated dependencies [60d5378632]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb]
+- Updated dependencies [18aaf42249]
+- Updated dependencies [34702d5]
+- Updated dependencies [fcace5b5b9]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/runtime@2.0.0-next.4
+  - @modern-js/utils@2.0.0-next.4
+
 ## 2.0.0-beta.3
 
 ### Major Changes

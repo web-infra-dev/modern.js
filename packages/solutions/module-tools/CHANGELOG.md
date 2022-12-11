@@ -1,5 +1,81 @@
 # @modern-js/module-tools
 
+## 2.0.0-next.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- e4558a0: feat:
+
+  1. add `runBin` function
+  2. config internal plugins constants in the app/module/doc tools
+  3. add app/module/doc tools internal plugins
+
+  feat:
+
+  1. 添加 `runBin` 函数
+  2. 在 app/module/doc tools 里配置内部插件
+  3. 增加 app/module/doc tools 使用的插件常量
+
+### Patch Changes
+
+- d61ca88a0b: update speedy version
+  更新依赖里 speedy 的版本
+- b8bbe036c7: feat: export Hooks type
+  feat: 导出 Hooks 类型
+- ebbeed1ece: update speedy-core to fix sass resolve error
+  更新 speedy-core 版本以修复 sass resolve 错误
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [7879e8f]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [6aca875]
+- Updated dependencies [85edee888c]
+- Updated dependencies [2e60319]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [a3af050]
+- Updated dependencies [d4a456659b]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [f680410]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb]
+- Updated dependencies [b7a96c3]
+- Updated dependencies [cce8ece]
+- Updated dependencies [f179749375]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/utils@2.0.0-next.4
+  - @modern-js/core@2.0.0-next.4
+  - @modern-js/plugin-lint@2.0.0-next.4
+  - @modern-js/plugin@2.0.0-next.4
+  - @modern-js/babel-preset-module@2.0.0-next.4
+  - @modern-js/plugin-changeset@2.0.0-next.4
+  - @modern-js/plugin-i18n@2.0.0-next.4
+  - @modern-js/new-action@2.0.0-next.4
+  - @modern-js/babel-compiler@2.0.0-next.4
+  - @modern-js/style-compiler@2.0.0-next.4
+  - @modern-js/upgrade@2.0.0-next.4
+
 ## 2.0.0-beta.3
 
 ### Major Changes

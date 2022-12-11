@@ -1,5 +1,19 @@
 # @modern-js/plugin
 
+## 2.0.0-next.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- b8bbe036c7: feat: change type logic
+  feat: 修改类型相关的逻辑
+- f179749375: fix: the sortPlugins api not work
+
+  fix: sortPlugins 没有真实生效
+
 ## 2.0.0-beta.3
 
 ### Major Changes
