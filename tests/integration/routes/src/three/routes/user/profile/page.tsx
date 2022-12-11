@@ -10,7 +10,7 @@ export async function loader() {
 export default function Page() {
   const data = useLoaderData() as string;
   return (
-    <div>
+    <div className="user-profile">
       {data}
       <Outlet />
     </div>

@@ -50,11 +50,14 @@ function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
 
         const routeId = match.route.id;
         if (routeId) {
-          const { assets = [] } = routeAssets[routeId];
-          const _cssChunks = assets.filter((asset?: string) =>
-            asset?.endsWith('.css'),
-          );
-          cssChunks.push(..._cssChunks);
+          const routeManifest = routeAssets[routeId];
+          if (routeManifest) {
+            const { assets = [] } = routeManifest;
+            const _cssChunks = assets.filter((asset?: string) =>
+              asset?.endsWith('.css'),
+            );
+            cssChunks.push(..._cssChunks);
+          }
         }
       });
 
