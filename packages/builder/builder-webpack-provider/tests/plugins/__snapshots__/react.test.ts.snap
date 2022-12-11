@@ -28,9 +28,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
                 ],
                 [
@@ -155,9 +152,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",

@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   getEntryOptions,
   SERVER_RENDER_FUNCTION_NAME,
@@ -97,10 +98,19 @@ export default (): CliPlugin<AppTools> => ({
                 ];
               });
             },
+
             babel: (config: any) => {
               const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
-                config.plugins.push(require.resolve('@loadable/babel-plugin'));
+              if (isUseSSRBundle(userConfig)) {
+                config.plugins.push(
+                  path.join(__dirname, './babel-plugin-ssr-loader-id'),
+                );
+
+                if (hasStringSSREntry(userConfig)) {
+                  config.plugins.push(
+                    require.resolve('@loadable/babel-plugin'),
+                  );
+                }
               }
             },
           },

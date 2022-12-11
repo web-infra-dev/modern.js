@@ -95,6 +95,7 @@ function getSelfRunLoaderExpression(
   );
 }
 
+// eslint-disable-next-line import/no-commonjs
 module.exports = function () {
   let useLoader: string | null = null;
   let hash = '';
