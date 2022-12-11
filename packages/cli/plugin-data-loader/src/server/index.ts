@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import path from 'path';
 import type { ServerPlugin } from '@modern-js/server-core';
 import type { ModernServerContext, ServerRoute } from '@modern-js/types';
 import {
@@ -11,7 +12,7 @@ import {
   LoaderFunction,
   LoaderFunctionArgs,
 } from 'react-router-dom';
-import { LOADER_ROUTES_DIR } from '@modern-js/utils';
+import { LOADER_ROUTES_DIR, MAIN_ENTRY_NAME } from '@modern-js/utils';
 
 type LoaderContext = {
   [key: string]: unknown;
@@ -207,9 +208,12 @@ export const handleRequest = async ({
     return;
   }
 
-  const { routes } = await import(
-    `${distDir}/${LOADER_ROUTES_DIR}/${entry.entryName}`
+  const routesPath = path.join(
+    distDir,
+    LOADER_ROUTES_DIR,
+    entry.entryName || MAIN_ENTRY_NAME,
   );
+  const { routes } = await import(routesPath);
 
   if (!routes) {
     return;

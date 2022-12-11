@@ -1,5 +1,10 @@
 import path from 'path';
-import { fs, LOADER_ROUTES_DIR, logger } from '@modern-js/utils';
+import {
+  fs,
+  getEntryOptions,
+  LOADER_ROUTES_DIR,
+  logger,
+} from '@modern-js/utils';
 import {
   IAppContext,
   PluginAPI,
@@ -160,6 +165,7 @@ export const generateCode = async (
     srcDirectory,
     internalDirAlias,
     internalSrcAlias,
+    packageName,
   } = appContext;
 
   const hookRunners = api.useHookRunners();
@@ -214,7 +220,12 @@ export const generateCode = async (
         });
 
         const config = useResolvedConfigContext();
-        const ssr = config?.server.ssr;
+        const ssr = getEntryOptions(
+          entryName,
+          config.server.ssr,
+          config.server.ssrByEntries,
+          packageName,
+        );
 
         let mode: false | 'stream' | 'string';
         if (ssr) {
@@ -222,14 +233,13 @@ export const generateCode = async (
         } else {
           mode = false;
         }
-
         if (mode === 'stream') {
           const hasPageRoute = routes.some(
             route => 'type' in route && route.type === 'page',
           );
           if (hasPageRoute) {
             logger.error(
-              'streaming ssr is not supported when pages dir exists',
+              'Streaming ssr is not supported when pages dir exists',
             );
             // eslint-disable-next-line no-process-exit
             process.exit(1);
