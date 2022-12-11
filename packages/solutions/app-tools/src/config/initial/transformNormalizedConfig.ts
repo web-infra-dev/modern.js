@@ -40,5 +40,7 @@ export function transformNormalizedConfig(
     _raw: {},
     experiments: {},
     performance: {},
+    // the auto load plugins default set `true` in legacy mode.
+    autoLoadPlugins: true,
   };
 }

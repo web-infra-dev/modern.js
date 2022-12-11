@@ -73,11 +73,14 @@ export const loadPlugins = async (
   options: {
     internalPlugins?: InternalPlugins;
     transformPlugin?: TransformPlugin;
+    forceAutoLoadPlugins?: boolean;
   } = {},
 ) => {
   const pluginConfig = userConfig.plugins;
   const plugins = [
-    ...getInternalPlugins(appDirectory, options.internalPlugins),
+    ...(options.forceAutoLoadPlugins || userConfig.autoLoadPlugins
+      ? getInternalPlugins(appDirectory, options.internalPlugins)
+      : []),
     ...(isOldPluginConfig(pluginConfig) ? pluginConfig : []),
   ];
 
