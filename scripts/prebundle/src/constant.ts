@@ -625,14 +625,6 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
-        name: 'babel-plugin-macros',
-        ignoreDts: true,
-        externals: {
-          resolve: 'resolve',
-          cosmiconfig: 'cosmiconfig',
-        },
-      },
-      {
         name: '@babel/plugin-proposal-pipeline-operator',
         ignoreDts: true,
         externals: {
