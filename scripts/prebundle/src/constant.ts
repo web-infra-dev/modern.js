@@ -212,13 +212,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
-        name: 'loader-utils1',
-        ignoreDts: true,
-        externals: {
-          json5: '@modern-js/utils/json5',
-        },
-      },
-      {
         name: 'loader-utils2',
         ignoreDts: true,
         externals: {
