@@ -11,6 +11,13 @@ export default defineConfig({
     },
   },
   server: {
-    ssr: false,
+    ssr: {
+      mode: 'stream',
+    },
+    ssrByEntries: {
+      one: false,
+      two: false,
+      four: false,
+    },
   },
 });
