@@ -94,7 +94,7 @@ export function createBuilderProviderConfig(
     html: htmlConfig,
     performance: {
       ...normalizedConfig.performance,
-      // `@modern-js/webpack` used to remove moment locale by default
+      // modern.js v1 used to remove moment locale by default
       removeMomentLocale: true,
     },
   };

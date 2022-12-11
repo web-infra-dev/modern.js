@@ -70,6 +70,15 @@ export function builderRspackProvider({
         );
       },
 
+      async initConfigs() {
+        const { rspackConfigs } = await initConfigs({
+          context,
+          pluginStore,
+          builderOptions,
+        });
+        return rspackConfigs;
+      },
+
       async inspectConfig(inspectOptions) {
         const { inspectConfig } = await import('./core/inspectConfig');
         return inspectConfig({
