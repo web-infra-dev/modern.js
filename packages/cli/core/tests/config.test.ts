@@ -1,6 +1,10 @@
 import path from 'path';
 import { isDev } from '@modern-js/utils';
-import { createResolveConfig, createLoadedConfig } from '../src/config';
+import {
+  createResolveConfig,
+  createLoadedConfig,
+  createDefaultConfig,
+} from '../src/config';
 import {
   cli,
   initAppContext,
@@ -82,5 +86,12 @@ describe('config', () => {
     // } catch (err: any) {
     //   expect(err.message).toMatch(/no package.json found in current work dir/);
     // }
+  });
+
+  it('create default config', () => {
+    const config = createDefaultConfig();
+    expect(config).toEqual({
+      autoLoadPlugins: false,
+    });
   });
 });
