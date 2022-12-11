@@ -1,10 +1,8 @@
 {
-  "name": "app-docmuent",
-  "version": "0.1.0",
   "private": true,
+  "name": "integration-custom-template",
+  "version": "0.1.0",
   "scripts": {
-    "bb": "cd ../../.. && pnpm --filter @modern-js/runtime build && pnpm --filter @modern-js/app-tools build && cd ./tests/integration/app-document && pnpm run dev",
-    "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
@@ -25,12 +23,10 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-router-legacy": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
-    "@modern-js/tsconfig": "workspace:*",
-    "@types/node": "^14",
+    "typescript": "^4",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^4"
+    "@types/jest": "^27",
+    "@types/node": "^14"
   }
 }

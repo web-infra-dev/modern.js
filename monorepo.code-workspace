@@ -177,10 +177,6 @@
       "path": "packages/toolkit/utils"
     },
     {
-      "name": "@modern-js/webpack",
-      "path": "packages/cli/webpack"
-    },
-    {
       "name": "@modern-js/create",
       "path": "packages/toolkit/create"
     },
