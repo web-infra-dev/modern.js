@@ -6,7 +6,6 @@
       "entryPath": "html/entry/index.html",
       "isSPA": true,
       "isSSR": true,
-      "enableModernMode": false,
       "bundle": "bundles/entry.js"
     },
     {
@@ -15,7 +14,6 @@
       "entryPath": "html/home/index.html",
       "isSPA": true,
       "isSSR": true,
-      "enableModernMode": false,
       "bundle": "bundles/home.js"
     },
     {

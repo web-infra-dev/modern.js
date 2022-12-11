@@ -391,7 +391,7 @@ export const TASKS: TaskConfig[] = [
         name: 'file-loader',
         ignoreDts: true,
         externals: {
-          'schema-utils': 'schema-utils',
+          'schema-utils': '../schema-utils3',
           'loader-utils': '../loader-utils2',
         },
       },
@@ -515,141 +515,6 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
-    packageDir: 'cli/webpack',
-    packageName: '@modern-js/webpack',
-    dependencies: [
-      'webpack-merge',
-      {
-        name: '@loadable/webpack-plugin',
-        ignoreDts: true,
-        externals: {
-          semver: '@modern-js/utils/semver',
-        },
-      },
-      {
-        name: 'css-modules-typescript-loader',
-        ignoreDts: true,
-        externals: {
-          'loader-utils': '../loader-utils1',
-        },
-      },
-      {
-        name: 'loader-utils1',
-        ignoreDts: true,
-        externals: {
-          json5: '@modern-js/utils/json5',
-        },
-      },
-      {
-        name: 'loader-utils2',
-        ignoreDts: true,
-        externals: {
-          json5: '@modern-js/utils/json5',
-        },
-      },
-      {
-        name: 'webpack-manifest-plugin',
-        externals: {
-          tapable: 'tapable',
-          'webpack-sources': 'webpack-sources',
-        },
-        beforeBundle() {
-          const pkgPath = require.resolve(
-            'webpack-manifest-plugin/package.json',
-          );
-          replaceFileContent(pkgPath, content => {
-            const json = JSON.parse(content);
-            json.types = 'dist/index.d.ts';
-            return JSON.stringify(json);
-          });
-        },
-      },
-      {
-        name: 'webpackbar',
-        ignoreDts: true,
-      },
-      {
-        name: 'webpack-bundle-analyzer',
-        externals: {
-          chalk: '@modern-js/utils/chalk',
-          'gzip-size': '@modern-js/utils/gzip-size',
-        },
-      },
-      {
-        name: 'copy-webpack-plugin',
-        ignoreDts: true,
-        externals: {
-          globby: '@modern-js/utils/globby',
-          'fast-glob': '@modern-js/utils/fast-glob',
-          'schema-utils': 'schema-utils',
-        },
-      },
-      {
-        name: 'yaml-loader',
-        ignoreDts: true,
-        externals: {
-          'loader-utils': '../loader-utils2',
-        },
-      },
-      {
-        name: 'toml-loader',
-        ignoreDts: true,
-      },
-      {
-        name: 'markdown-loader',
-        ignoreDts: true,
-      },
-      {
-        name: 'file-loader',
-        ignoreDts: true,
-        externals: {
-          'schema-utils': 'schema-utils',
-          'loader-utils': '../loader-utils2',
-        },
-      },
-      {
-        name: 'url-loader',
-        ignoreDts: true,
-        externals: {
-          'schema-utils': 'schema-utils',
-          'loader-utils': '../loader-utils2',
-          'mime-types': '@modern-js/utils/mime-types',
-        },
-        afterBundle(task) {
-          replaceFileContent(join(task.distPath, 'index.js'), content => {
-            // using prebunled file-loader
-            return content.replace(
-              '"file-loader"',
-              'require.resolve("../file-loader")',
-            );
-          });
-        },
-      },
-      {
-        name: 'babel-loader',
-        ignoreDts: true,
-        externals: {
-          '@babel/core': '@babel/core',
-          'loader-utils': '../loader-utils1',
-        },
-      },
-      {
-        name: 'postcss-loader',
-        ignoreDts: true,
-        externals: {
-          semver: '@modern-js/utils/semver',
-        },
-      },
-      {
-        name: 'css-loader',
-        ignoreDts: true,
-        externals: {
-          semver: '@modern-js/utils/semver',
-        },
-      },
-    ],
-  },
-  {
     packageDir: 'cli/babel-preset-base',
     packageName: '@modern-js/babel-preset-base',
     dependencies: [
@@ -757,14 +622,6 @@ export const TASKS: TaskConfig[] = [
         externals: {
           '@babel/helper-module-imports': '../@babel/helper-module-imports',
           '@babel/helper-annotate-as-pure': '../@babel/helper-annotate-as-pure',
-        },
-      },
-      {
-        name: 'babel-plugin-macros',
-        ignoreDts: true,
-        externals: {
-          resolve: 'resolve',
-          cosmiconfig: 'cosmiconfig',
         },
       },
       {

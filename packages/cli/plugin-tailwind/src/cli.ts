@@ -107,40 +107,21 @@ export default (
                 ];
               }
             },
-            babel(config) {
+            babel(_, { addPlugins }) {
               if (notHaveTwinMacro) {
                 return;
               }
-              const twinConfig = {
-                twin: {
-                  preset: supportCssInJsLibrary,
-                  config: internalTwConfigPath,
-                },
-              };
-              config.plugins?.some(plugin => {
-                if (Array.isArray(plugin) && plugin[0]) {
-                  const pluginTarget = plugin[0];
-                  let pluginOptions = plugin[1];
-                  if (
-                    typeof pluginTarget === 'string' &&
-                    // TODO: use babel chain
-                    slash(pluginTarget).includes('compiled/babel-plugin-macros')
-                  ) {
-                    if (pluginOptions) {
-                      pluginOptions = {
-                        ...pluginOptions,
-                        ...twinConfig,
-                      };
-                    } else {
-                      plugin.push(twinConfig);
-                    }
-
-                    return true;
-                  }
-                }
-
-                return false;
-              });
+              addPlugins([
+                [
+                  require.resolve('babel-plugin-macros'),
+                  {
+                    twin: {
+                      preset: supportCssInJsLibrary,
+                      config: internalTwConfigPath,
+                    },
+                  },
+                ],
+              ]);
             },
           },
         };

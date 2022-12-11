@@ -57,6 +57,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/basic/output-files'),
           getLink('/guide/basic/static-assets'),
           getLink('/guide/basic/svg-assets'),
+          getLink('/guide/basic/css-usage'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/alias'),
           getLink('/guide/basic/typescript'),

@@ -4,16 +4,18 @@ import {
   OnAfterBuildFn,
   OnBeforeBuildFn,
   OnDevCompileDoneFn,
+  ModifyBuilderConfigFn,
   OnAfterStartDevServerFn,
   OnBeforeStartDevServerFn,
-} from '@modern-js/builder-shared';
-import type {
-  ModifyWebpackChainFn,
-  ModifyWebpackConfigFn,
-  ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
+} from '@modern-js/builder-shared';
+import type { Compiler, MultiCompiler } from 'webpack';
+import type {
   WebpackConfig,
+  BuilderConfig,
+  ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
 } from '../types';
 
 export function initHooks() {
@@ -24,9 +26,12 @@ export function initHooks() {
     onDevCompileDoneHook: createAsyncHook<OnDevCompileDoneFn>(),
     modifyWebpackChainHook: createAsyncHook<ModifyWebpackChainFn>(),
     modifyWebpackConfigHook: createAsyncHook<ModifyWebpackConfigFn>(),
-    modifyBuilderConfigHook: createAsyncHook<ModifyBuilderConfigFn>(),
-    onAfterCreateCompilerHook: createAsyncHook<OnAfterCreateCompilerFn>(),
-    onBeforeCreateCompilerHook: createAsyncHook<OnBeforeCreateCompilerFn>(),
+    modifyBuilderConfigHook:
+      createAsyncHook<ModifyBuilderConfigFn<BuilderConfig>>(),
+    onAfterCreateCompilerHook:
+      createAsyncHook<OnAfterCreateCompilerFn<Compiler | MultiCompiler>>(),
+    onBeforeCreateCompilerHook:
+      createAsyncHook<OnBeforeCreateCompilerFn<WebpackConfig>>(),
     onAfterStartDevServerHook: createAsyncHook<OnAfterStartDevServerFn>(),
     onBeforeStartDevServerHook: createAsyncHook<OnBeforeStartDevServerFn>(),
   };

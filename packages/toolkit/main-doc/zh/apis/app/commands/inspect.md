@@ -33,7 +33,3 @@ modern inspect --env production
 ### SSR 配置
 
 如果项目开启了 SSR 能力，则在 `dist` 目录会另外生成一份 `webpack.ssr.inspect.js` 文件，对应 SSR 构建时的 webpack 配置。
-
-### Modern 配置
-
-如果项目开启了 [enableModernMode](/docs/configure/app/output/enable-modern-mode) 选项，则在 `dist` 目录会另外生成一份 `webpack.modern.inspect.js` 文件，对应现代浏览器的 webpack 配置。

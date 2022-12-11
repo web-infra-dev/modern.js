@@ -52,16 +52,14 @@ After executing the `dev` command, you can see in `dist/route.json` that there a
       "entryName": "page-a",
       "entryPath": "html/page-a/index.html",
       "isSPA": true,
-      "isSSR": false,
-      "enableModernMode": false
+      "isSSR": false
     },
     {
       "urlPath": "/b",
       "entryName": "page-a",
       "entryPath": "html/page-a/index.html",
       "isSPA": true,
-      "isSSR": false,
-      "enableModernMode": false
+      "isSSR": false
     },
   ]
 }

@@ -37,7 +37,6 @@
     "@babel/template": "7.16.7",
     "@babel/traverse": "7.18.2",
     "@babel/types": "7.18.4",
-    "@loadable/webpack-plugin": "5.15.2",
     "@rollup/plugin-json": "4.1.0",
     "@types/babel__generator": "7.6.4",
     "@types/babel__traverse": "7.18.2",
@@ -69,7 +68,6 @@
     "babel-plugin-dynamic-import-node": "2.3.3",
     "babel-plugin-import": "1.13.5",
     "babel-plugin-lodash": "3.3.4",
-    "babel-plugin-macros": "3.1.0",
     "babel-plugin-styled-components": "1.13.3",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "better-ajv-errors": "1.2.0",
@@ -103,7 +101,6 @@
     "less-loader": "11.0.0",
     "loader-utils1": "npm:loader-utils@1.4.0",
     "loader-utils2": "npm:loader-utils@2.0.2",
-    "markdown-loader": "8.0.0",
     "mime-types": "2.1.35",
     "minimist": "1.2.6",
     "nanoid": "3.3.4",
@@ -154,7 +151,6 @@
     "webpack-merge": "5.8.0",
     "webpack-sources": "3.2.3",
     "webpack-subresource-integrity": "5.1.0",
-    "webpackbar": "5.0.2",
     "yaml-loader": "0.8.0"
   },
   "publishConfig": {

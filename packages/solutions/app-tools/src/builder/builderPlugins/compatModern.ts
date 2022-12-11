@@ -49,7 +49,7 @@ export type PluginCompatModernOptions = FnParameter<
 >;
 
 /**
- * Provides default configuration consistent with `@modern-js/webpack`
+ * Provides default configuration consistent with modern.js v1
  */
 export const PluginCompatModern = (
   appContext: IAppContext,

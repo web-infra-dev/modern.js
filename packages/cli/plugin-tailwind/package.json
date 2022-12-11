@@ -52,6 +52,7 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
+    "babel-plugin-macros": "3.1.0",
     "hoist-non-react-statics": "^3.3.2"
   },
   "devDependencies": {

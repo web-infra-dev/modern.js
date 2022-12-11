@@ -15,10 +15,10 @@ export const initSnapshotSerializer = (root: string) => {
       typeof val === 'string'
         ? // eslint-disable-next-line no-nested-ternary
           val.includes('node_modules')
-          ? `"${val.replace(/.+node_modules/, ``)}"`
+          ? `"${val.replace(/.+node_modules/, ``).replace(/\\/g, '/')}"`
           : val.includes('modern.js')
-          ? `"${val.replace(/.+modern\.js/, ``)}"`
-          : `"${val.replace(root, '')}"`
+          ? `"${val.replace(/.+modern\.js/, ``).replace(/\\/g, '/')}"`
+          : `"${val.replace(root, '').replace(/\\/g, '/')}"`
         : (val as string),
   });
 };
