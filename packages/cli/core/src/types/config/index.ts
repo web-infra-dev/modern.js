@@ -21,8 +21,6 @@ export type UserConfig<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends Record<string, any> = {},
   ExtendUserConfig extends {
-    source?: Record<string, any>;
-    tools?: Record<string, any>;
     testing?: Record<string, any>;
     [property: string]: any;
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -48,8 +46,6 @@ export type NormalizedConfig<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
   ExtendNormalizedConfig extends {
-    source?: Record<string, any>;
-    tools?: Record<string, any>;
     testing?: Record<string, any>;
     [property: string]: any;
     // eslint-disable-next-line @typescript-eslint/ban-types
