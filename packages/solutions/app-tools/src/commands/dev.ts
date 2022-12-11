@@ -2,7 +2,11 @@ import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import type { webpack } from '@modern-js/builder-webpack-provider';
 import { createFileWatcher } from '../utils/createFileWatcher';
 import { printInstructions } from '../utils/printInstructions';
-import { createServer, injectDataLoaderPlugin } from '../utils/createServer';
+import {
+  setServer,
+  createServer,
+  injectDataLoaderPlugin,
+} from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
 import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
@@ -90,11 +94,12 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
       printInstructions(hookRunners, appContext, normalizedConfig);
     });
   } else {
-    await appContext.builder!.startDevServer({
+    const { server } = await appContext.builder!.startDevServer({
       compiler,
       printURLs: false,
       serverOptions,
     });
+    setServer(server);
   }
 
   await createFileWatcher(

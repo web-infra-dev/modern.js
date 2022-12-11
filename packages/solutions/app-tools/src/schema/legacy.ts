@@ -90,7 +90,6 @@ const output = {
   cssModuleLocalIdentName: { type: 'string' },
   federation: { type: 'object' },
   disableNodePolyfill: { type: 'boolean' },
-  enableModernMode: { type: 'boolean' },
 };
 
 const server = {

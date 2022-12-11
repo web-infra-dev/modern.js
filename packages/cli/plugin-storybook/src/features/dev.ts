@@ -1,4 +1,4 @@
-import { Import } from '@modern-js/utils';
+import { Import, getPort } from '@modern-js/utils';
 import type { PluginAPI, ModuleTools } from '@modern-js/module-tools-v2';
 import { valid } from './utils/valid';
 
@@ -31,7 +31,7 @@ export const runDev = async (
 ) => {
   const appContext = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
-  const { appDirectory, port = constants.STORYBOOK_PORT } = appContext;
+  const { appDirectory, port } = appContext;
 
   if (!valid({ stories, isModuleTools, isTs: isTsProject })) {
     return;
@@ -44,20 +44,19 @@ export const runDev = async (
     modernConfig,
   });
 
-  const handleWebpack = webpackConfig.getCustomWebpackConfigHandle({
-    modernConfig,
+  const handleWebpack = await webpackConfig.getCustomWebpackConfigHandle({
     appContext,
     configDir,
-    isTsProject,
-    env: 'dev',
+    modernConfig,
   });
+
   // NB: must set NODE_ENV
   process.env.NODE_ENV = 'development';
 
   storybook({
     ci: true,
     mode: 'dev',
-    port,
+    port: await getPort(port || constants.STORYBOOK_PORT),
     configDir,
     customFinalWebpack: handleWebpack,
   });

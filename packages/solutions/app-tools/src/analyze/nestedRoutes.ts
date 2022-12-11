@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { fs, getRouteId, normalizeToPosixPath } from '@modern-js/utils';
+import { fs, getRouteId } from '@modern-js/utils';
 import type { NestedRoute } from '@modern-js/types';
 import { JS_EXTENSIONS } from './constants';
 import { hasLoader, replaceWithAlias } from './utils';
@@ -20,7 +20,7 @@ const conventionNames = [
 
 const getLoaderPath = async (filename: string) => {
   if (await hasLoader(filename)) {
-    return normalizeToPosixPath(filename);
+    return filename;
   }
   return undefined;
 };

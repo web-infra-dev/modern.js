@@ -14,7 +14,7 @@ describe('onExit hook', () => {
     const spy = vi.spyOn(process, 'on');
     spy.mockImplementation((event, cb) => {
       if (event === 'exit') {
-        cb();
+        setTimeout(cb, 0);
       }
       return process;
     });
