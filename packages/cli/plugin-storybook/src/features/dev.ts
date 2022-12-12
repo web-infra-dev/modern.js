@@ -59,5 +59,21 @@ export const runDev = async (
     port: await getPort(port || constants.STORYBOOK_PORT),
     configDir,
     customFinalWebpack: handleWebpack,
+  }).catch(async (err: any) => {
+    const { formatStats, logger } = await import('@modern-js/builder-shared');
+
+    // catch & log storybook preview error
+    if (err.toJSON) {
+      const { message } = await formatStats(err);
+      logger.log(message);
+    } else if (err.toString) {
+      logger.error(err.toString({ preset: 'errors-warnings' }));
+    } else {
+      logger.error(err);
+    }
+
+    // bail out, the storybook has dead
+    // eslint-disable-next-line no-process-exit
+    process.exit(1);
   });
 };
