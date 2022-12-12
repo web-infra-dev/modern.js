@@ -178,7 +178,8 @@
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001332",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "core-js": "^3.26.0"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",

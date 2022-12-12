@@ -1,11 +1,12 @@
 import nodePath from 'path';
+import { CORE_JS_PATH } from '@modern-js/utils';
 import * as t from '@babel/types';
 
 const REWRITE_TARGETS: Record<string, string> = {
   '@babel/runtime': nodePath.dirname(
     require.resolve('@babel/runtime/package.json'),
   ),
-  'core-js': nodePath.dirname(require.resolve('core-js/package.json')),
+  'core-js': nodePath.dirname(CORE_JS_PATH),
 };
 
 const matchedKey = (value: string) =>

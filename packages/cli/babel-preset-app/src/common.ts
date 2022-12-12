@@ -4,8 +4,8 @@ import {
   createBabelChain,
   BabelChain,
 } from '@modern-js/babel-preset-base';
-import { isTest, isDev, isProd } from '@modern-js/utils';
-import { getCoreJsVersion, isBeyondReact17 } from './utils';
+import { isTest, isDev, isProd, getCoreJsVersion } from '@modern-js/utils';
+import { isBeyondReact17 } from './utils';
 import type { Options, PresetEnvOptions } from './type';
 
 const prepareEnvOptions = (options: Options): PresetEnvOptions => {
