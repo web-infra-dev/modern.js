@@ -2,12 +2,10 @@ import {
   createAsyncWaterfall,
   createAsyncWorkflow,
   createParallelWorkflow,
-} from '@modern-js/plugin';
-import {
-  AppToolsHooks,
   DevToolData,
   RegisterBuildPlatformResult,
-} from './types/hooks';
+} from '@modern-js/plugin';
+import { AppToolsHooks } from './types/hooks';
 
 export const hooks: AppToolsHooks = {
   modifyEntryExport: createAsyncWaterfall(),
