@@ -8,21 +8,20 @@
   "module": "./dist/node/index.js",
   "jsnext:modern": "./dist/modern/node/index.js",
   "scripts": {
-    "prepare": "modern build",
-    "prepublishOnly": "modern build --platform",
-    "dev": "modern dev",
-    "build": "modern build",
+    "prepare": "modern-lib build",
+    "dev": "modern-lib dev",
+    "build": "modern-lib build",
     "reset": "rimraf ./**/node_modules",
-    "lint": "modern lint",
-    "change": "modern change",
-    "bump": "modern bump",
-    "pre": "modern pre",
-    "change-status": "modern change-status",
-    "gen-release-note": "modern gen-release-note",
-    "release": "modern release",
-    "new": "modern new",
+    "lint": "modern-lib lint",
+    "change": "modern-lib change",
+    "bump": "modern-lib bump",
+    "pre": "modern-lib pre",
+    "change-status": "modern-lib change-status",
+    "gen-release-note": "modern-lib gen-release-note",
+    "release": "modern-lib release",
+    "new": "modern-lib new",
     "test": "vitest run --passWithNoTests",
-    "upgrade": "modern upgrade"
+    "upgrade": "modern-lib upgrade"
   },
   "engines": {
     "node": ">=14.17.6"
@@ -60,7 +59,7 @@
   },
   "devDependencies": {
     "@mdx-js/loader": "^2.1.5",
-    "@modern-js/module-tools": "workspace:*",
+    "@scripts/build": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@types/fs-extra": "^9.0.13",

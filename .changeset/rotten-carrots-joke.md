@@ -67,10 +67,8 @@
 '@modern-js/server-utils': major
 '@modern-js/app-tools': major
 '@modern-js/module-tools': major
-'@modern-js/module-tools-v2': major
 '@modern-js/monorepo-tools': major
 '@modern-js/babel-compiler': major
-'@modern-js/style-compiler': major
 '@modern-js/create': major
 '@modern-js/e2e': major
 '@modern-js/node-bundle-require': major

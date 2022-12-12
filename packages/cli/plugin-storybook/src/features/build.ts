@@ -3,7 +3,7 @@ import { Import } from '@modern-js/utils';
 import type {
   ModuleNormalizedConfig,
   IAppContext,
-} from '@modern-js/module-tools-v2';
+} from '@modern-js/module-tools';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import { valid } from './utils/valid';
 

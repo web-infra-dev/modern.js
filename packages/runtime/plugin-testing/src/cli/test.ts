@@ -17,13 +17,13 @@ const test = async (
 
   userConfig.testing = userConfig.testing || {};
 
-  const jest = userConfig.testing.jest || userConfig.tools.jest;
+  const jest = userConfig.testing.jest || userConfig?.tools?.jest;
 
   if (Array.isArray(jest)) {
     userConfig.testing.jest = jest[0];
   }
 
-  userConfig.testing.jest = userConfig.testing.jest || userConfig.tools.jest;
+  userConfig.testing.jest = userConfig.testing.jest || userConfig?.tools?.jest;
 
   const runtimeExportsPath = path.join(
     appContext.internalDirectory,

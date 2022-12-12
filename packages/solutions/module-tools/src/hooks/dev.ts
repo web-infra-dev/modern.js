@@ -1,24 +1,18 @@
-import { createParallelWorkflow, createAsyncWorkflow } from '@modern-js/plugin';
-import { registerHook } from '@modern-js/core';
-
-export const moduleToolsMenu = createParallelWorkflow<
-  undefined,
-  { name: string; value: string; runTask: (p: any) => void | Promise<void> }
->();
-
-export const afterDev = createAsyncWorkflow();
+import { createParallelWorkflow } from '@modern-js/plugin';
+import type { QuestionCollection } from '@modern-js/utils/compiled/inquirer';
+import type { DevToolData, PromptResult } from '../types/hooks';
 
 export const devHooks = {
-  moduleToolsMenu,
-  afterDev,
+  registerDev: createParallelWorkflow<void, DevToolData>(),
+  beforeDev: createParallelWorkflow<DevToolData[], void>(),
+  beforeDevMenu: createParallelWorkflow<
+    QuestionCollection,
+    QuestionCollection | void
+  >(),
+  afterDevMenu: createParallelWorkflow<
+    { result: PromptResult; devTools: DevToolData[] },
+    void
+  >(),
+  beforeDevTask: createParallelWorkflow<DevToolData, void>(),
+  afterDev: createParallelWorkflow<void, void>(),
 };
-
-export const lifecycle = () => {
-  registerHook({ moduleToolsMenu, afterDev } as any);
-};
-
-declare module '@modern-js/core' {
-  export interface Hooks {
-    moduleToolsMenu: typeof moduleToolsMenu;
-  }
-}
