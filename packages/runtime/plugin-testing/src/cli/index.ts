@@ -109,13 +109,10 @@ export default (): CliPlugin<{
             testEnvironment: 'jsdom',
             resolver: DEFAULT_RESOLVER_PATH,
             rootDir: appContext.appDirectory || process.cwd(),
-            // todo: diffrernt test root for diffrent solutions
-            // testMatch: [`<rootDir>/(src|tests|electron)/**/*.test.[jt]s?(x)`],
             // testMatch bug on windows, issue: https://github.com/facebook/jest/issues/7914
             testMatch: [
               `<rootDir>/src/**/*.test.[jt]s?(x)`,
               `<rootDir>/tests/**/*.test.[jt]s?(x)`,
-              `<rootDir>/electron/**/*.test.[jt]s?(x)`,
             ],
           });
 

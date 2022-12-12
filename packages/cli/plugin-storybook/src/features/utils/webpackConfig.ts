@@ -3,7 +3,7 @@ import { fs } from '@modern-js/utils';
 import type {
   IAppContext,
   ModuleNormalizedConfig,
-} from '@modern-js/module-tools-v2';
+} from '@modern-js/module-tools';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { merge } from '@modern-js/utils/lodash';

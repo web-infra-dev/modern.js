@@ -7,7 +7,7 @@ sidebar_position: 1
 
 ### Node.js
 
-需要 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 14.17.6。
+需要 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 14.19.0, 推荐使用 16.x 版本。
 
 Modern.js 推荐在开发环境里先安装 [nvm](https://github.com/nvm-sh/nvm#install--update-script)，在 shell 里集成[自动切换 node 版本的脚本](https://github.com/nvm-sh/nvm#deeper-shell-integration)。
 

@@ -6,17 +6,21 @@ sidebar_position: 1
 
 ### 如何升级项目中的 Modern.js 到最新版本？
 
-对于使用 yarn 的项目，可以执行：
+Modern.js 提供了 `upgrade` 命令支持项目升级到最新的 Modern.js 版本。
+
+在项目中执行 `pnpm run upgrade`:
 
 ```bash
-yarn upgrade --scope @modern-js
+$ pnpm run upgrade
+
+> modern upgrade
+
+[INFO] [项目类型]: 应用
+[INFO] [Modern.js 最新版本]: 2.0.0
+[INFO] [当前项目 Modern.js 依赖已经为最新版本]: 2.0.0
 ```
 
-对于使用 pnpm 的项目，可以执行：
-
-```bash
-pnpm update "@modern-js/*" -r
-```
+可以看到项目 package.json 中的依赖已经更改到最新。
 
 如果需要了解不同版本之间的更新内容，可以查看：
 

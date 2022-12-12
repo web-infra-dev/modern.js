@@ -4,7 +4,7 @@
 '@modern-js/server-core': patch
 '@modern-js/prod-server': patch
 '@modern-js/app-tools': patch
-'@modern-js/module-tools-v2': patch
+'@modern-js/module-tools': patch
 '@modern-js/create': patch
 '@modern-js/types': patch
 '@modern-js/utils': patch
