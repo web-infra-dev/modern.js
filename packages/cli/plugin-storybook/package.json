@@ -39,7 +39,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern-lib new",
-    "build": "mdn build",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests",
     "dev": "modern-lib build --watch"
   },
@@ -66,7 +66,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
-    "@modern-js/module-tools-v2": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@scripts/build": "workspace:*",

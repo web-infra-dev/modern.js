@@ -1,6 +1,6 @@
 ---
 '@modern-js/app-tools': patch
-'@modern-js/module-tools-v2': patch
+'@modern-js/module-tools': patch
 ---
 
 fix: change tools define userconfig type

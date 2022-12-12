@@ -344,13 +344,7 @@ builder.removePlugins([pluginFoo.name]);
 
 ## builder.isPluginExists
 
-判断某个插件是否已经被注册。
-
-- **Type**
-
-```ts
-function IsPluginExists(pluginName: string): boolean;
-```
+!!!include(./src/zh/shared/isPluginExists.md)!!!
 
 - **Example**
 
@@ -503,5 +497,44 @@ builder.onDevCompileDone(({ isFirstCompile }) => {
 ```ts
 builder.onExit(() => {
   console.log('exit!');
+});
+```
+
+## builder.getBuilderConfig
+
+!!!include(./src/zh/shared/getBuilderConfig.md)!!!
+
+- **Example**
+
+```ts
+builder.onBeforeBuild(() => {
+  const config = api.getBuilderConfig();
+  console.log(config.html?.title);
+});
+```
+
+## builder.getNormalizedConfig
+
+!!!include(./src/zh/shared/getNormalizedConfig.md)!!!
+
+- **Example**
+
+```ts
+builder.onBeforeBuild(() => {
+  const config = api.getNormalizedConfig();
+  console.log(config.html.title);
+});
+```
+
+## builder.getHTMLPaths
+
+!!!include(./src/zh/shared/getHTMLPaths.md)!!!
+
+- **Example**
+
+```ts
+builder.onBeforeBuild(() => {
+  const htmlPaths = api.getHTMLPaths();
+  console.log(htmlPaths); // { main: 'html/main/index.html' };
 });
 ```

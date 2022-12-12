@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`decorator emitDecoratorMetadata 1`] = `
+"var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
+var stdin_exports = {};
+__export(stdin_exports, {
+  Person: () => Person
+});
+module.exports = __toCommonJS(stdin_exports);
+var __defProp2 = Object.defineProperty;
+var __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc2(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp2(target, key, result);
+  return result;
+};
+function enhancer(name) {
+  return function enhancer2(target) {
+    target.prototype.name = name;
+  };
+}
+var Person = class {
+  version;
+  constructor() {
+    this.version = \\"1.0.0\\";
+  }
+};
+Person = __decorateClass([
+  enhancer(\\"module-tools\\")
+], Person);
+"
+`;

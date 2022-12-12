@@ -19,25 +19,25 @@ $ pnpm run upgrade
 [INFO] [当前项目 Modern.js 依赖已经为最新版本]: 2.0.0
 ```
 
-可以看到项目 `package.json` 中的依赖已经更改到最新，执行 `pnpm install` 重新安装即可。
+可以看到项目 `package.json` 中的依赖已经更改到最新。
 
 ## 指定版本升级
 
-Modern.js 所有的官方包目前都使用统一版本号进行发布。
+Modern.js 所有的官方包目前都使用**统一版本号**进行发布。
 
 根据官网 Release Note，开发者也可以手动将项目升级到想要的版本。
 
 :::tip
-对所有 Modern.js 官方提供的包做统一升级，而不是升级单个依赖。
+当升级时，需要对 Modern.js 官方提供的所有包做统一升级，而不是升级单个依赖。
 :::
 
 ## 锁定子依赖
 
 当项目某个子依赖出现问题，而 Modern.js 无法立即更新时，可以使用包管理器锁定子依赖版本。
 
-### Pnpm
+### pnpm
 
-对于使用 Pnpm 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `pnpm i`：
+对于使用 pnpm 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `pnpm install`：
 
 ```json
 {
@@ -51,7 +51,7 @@ Modern.js 所有的官方包目前都使用统一版本号进行发布。
 
 ### Yarn
 
-对于使用 Yarn 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `yarn i`：
+对于使用 Yarn 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `yarn install`：
 
 ```json
 {
@@ -63,7 +63,7 @@ Modern.js 所有的官方包目前都使用统一版本号进行发布。
 
 ### Npm
 
-对于使用 Npm 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `npm i`：
+对于使用 Npm 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `npm install`：
 
 ```json
 {

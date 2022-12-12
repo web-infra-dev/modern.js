@@ -82,7 +82,7 @@ export default (): BuilderPlugin<BuilderPluginAPI> => ({
 });
 ```
 
-### api.context
+## api.context
 
 `api.context` is a read-only object that provides some context information.
 
@@ -98,63 +98,39 @@ const PluginFoo = () => ({
 );
 ```
 
-### api.getBuilderConfig
+## api.getBuilderConfig
 
-Get the Builder config, this method must be called after the `modifyBuilderConfig` hook is executed.
-
-- **Type**
-
-```ts
-function GetBuilderConfig(): Readonly<BuilderConfig>;
-```
+!!!include(./src/en/shared/getBuilderConfig.md)!!!
 
 - **Example**
 
 ```ts
 const PluginFoo = () => ({
    setup(api) {
-     const config = api. getBuilderConfig();
+     const config = api.getBuilderConfig();
      console.log(config.html?.title);
    }
 );
 ```
 
-### api.getNormalizedConfig
-
 ## api.getNormalizedConfig
 
-Get the normalized Builder config, this method must be called after the `modifyBuilderConfig` hook is executed.
-
-Compared with the `api.getBuilderConfig` method, the config returned by this method has been normalized, and the type definition of the config will be narrowed. For example, the `undefined` type of `config.html` will be removed.
-
-It is recommended to use this method to get the Builder config.
-
-- **Type**
-
-```ts
-function GetNormalizedConfig(): Readonly<NormalizedConfig>;
-```
+!!!include(./src/en/shared/getNormalizedConfig.md)!!!
 
 - **Example**
 
 ```ts
 const PluginFoo = () => ({
    setup(api) {
-     const config = api. getNormalizedConfig();
+     const config = api.getNormalizedConfig();
      console.log(config.html.title);
    }
 );
 ```
 
-### api.isPluginExists
+## api.isPluginExists
 
-Determine whether a plugin has been registered.
-
-- **Type**
-
-```ts
-function IsPluginExists(pluginName: string): boolean;
-```
+!!!include(./src/en/shared/isPluginExists.md)!!!
 
 - **Example**
 
@@ -166,17 +142,9 @@ export default () => ({
 });
 ```
 
-### api.getHTMLPaths
+## api.getHTMLPaths
 
-Get path information for all HTML assets.
-
-This method will return an object, the key is the entry name and the value is the relative path of the HTML file in the dist directory.
-
-- **Type**
-
-```ts
-function GetHTMLPaths(): Record<string, string>;
-```
+!!!include(./src/en/shared/getHTMLPaths.md)!!!
 
 - **Example**
 
@@ -184,7 +152,7 @@ function GetHTMLPaths(): Record<string, string>;
 const PluginFoo = () => ({
    setup(api) {
      api.modifyWebpackChain(() => {
-       const htmlPaths = api. getHTMLPaths();
+       const htmlPaths = api.getHTMLPaths();
        console.log(htmlPaths); // { main: 'html/main/index.html' };
      });
    }

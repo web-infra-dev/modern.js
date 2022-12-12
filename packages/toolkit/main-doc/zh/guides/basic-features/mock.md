@@ -44,28 +44,22 @@ module.exports = {
 
 ## 返回随机数据
 
-可以在 `./config/mock/index.js` 中自主引入 [Mock.js](https://github.com/nuysoft/Mock/wiki/Getting-Started)、[faker.js](https://github.com/marak/Faker.js/) 等库生成随机数据，例如：
+可以在 `./config/mock/index.js` 中自主引入 [Mock.js](https://github.com/nuysoft/Mock/wiki/Getting-Started) 等库生成随机数据，例如：
 
 ```js
 const Mock = require('mockjs');
-const faker = require('faker');
 
 module.exports = {
   '/api/getInfo': Mock.mock({
      'data|1-10': [{ name: '@cname' }]
-   }) /* => {data: [{name: "董霞"}, {name: "魏敏"},  {name: "石磊"}} */
-  '/a/b': {
-    name: faker.fake("{{name.lastName}}, {{name.firstName}} {{name.suffix}}")
-   }  /* => { name: 'Marks, Dean Sr.'} */
-}
+   }), /* => {data: [{name: "董霞"}, {name: "魏敏"},  {name: "石磊"}} */
+};
 ```
 
 :::info 更多随机数据生成库
 
-* [Faker.js](https://github.com/marak/Faker.js/)
 * [Chancejs](https://github.com/chancejs/chancejs)
 * [Mock](https://github.com/nuysoft/Mock/wiki/Getting-Started)
-* https://www.npmtrends.com/mockjs-vs-faker-vs-chance
 
 :::
 

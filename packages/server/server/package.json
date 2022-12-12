@@ -69,11 +69,6 @@
     "tsconfig-paths": ">= 3.0.0 || >= 4.0.0"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
