@@ -104,9 +104,5 @@ export const genCommon = (options: Options): BabelChain => {
     .plugin('built-in/babel-plugin-lock-corejs-version')
     .use(join(__dirname, './built-in/babel-plugin-lock-corejs-version'));
 
-  chain
-    .plugin('./built-in/babel-plugin-ssr-loader-id')
-    .use(join(__dirname, './built-in/babel-plugin-ssr-loader-id'));
-
   return chain.merge(baseConfigChain);
 };

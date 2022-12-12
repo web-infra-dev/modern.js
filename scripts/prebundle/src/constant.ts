@@ -212,13 +212,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
-        name: 'loader-utils1',
-        ignoreDts: true,
-        externals: {
-          json5: '@modern-js/utils/json5',
-        },
-      },
-      {
         name: 'loader-utils2',
         ignoreDts: true,
         externals: {
@@ -622,14 +615,6 @@ export const TASKS: TaskConfig[] = [
         externals: {
           '@babel/helper-module-imports': '../@babel/helper-module-imports',
           '@babel/helper-annotate-as-pure': '../@babel/helper-annotate-as-pure',
-        },
-      },
-      {
-        name: 'babel-plugin-macros',
-        ignoreDts: true,
-        externals: {
-          resolve: 'resolve',
-          cosmiconfig: 'cosmiconfig',
         },
       },
       {

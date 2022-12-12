@@ -132,6 +132,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
+    "@babel/types": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/webpack-plugin": "5.15.2",
