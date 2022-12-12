@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# 简介
+# Monorepo 工程介绍
 
 Modern.js 提供了对于 Monorepo 工程方案的支持，其主要通过 `@modern-js/monorepo-tools` 来提供功能。
 
