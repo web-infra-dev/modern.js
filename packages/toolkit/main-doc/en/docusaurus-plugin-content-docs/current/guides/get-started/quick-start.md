@@ -74,7 +74,6 @@ Now, the project structure is as follows:
 
 ```
 .
-├── node_modules
 ├── src
 │   ├── modern-app-env.d.ts
 │   └── routes

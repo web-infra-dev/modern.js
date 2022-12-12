@@ -13,7 +13,6 @@ Modern.js initialization project is a single entry, the project structure is as 
 
 ```
 .
-├── node_modules
 ├── src
 │   ├── modern-app-env.d.ts
 │   └── routes
