@@ -67,7 +67,7 @@ export const runDev = async (
       const { message } = await formatStats(err);
       logger.log(message);
     } else if (err.toString) {
-      logger.error(err.toString());
+      logger.error(err.toString({ preset: 'errors-warnings' }));
     } else {
       logger.error(err);
     }
