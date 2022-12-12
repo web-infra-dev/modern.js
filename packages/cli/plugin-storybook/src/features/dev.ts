@@ -1,5 +1,5 @@
 import { Import, getPort } from '@modern-js/utils';
-import type { PluginAPI, ModuleTools } from '@modern-js/module-tools-v2';
+import type { PluginAPI, ModuleTools } from '@modern-js/module-tools';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(

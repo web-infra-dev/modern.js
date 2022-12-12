@@ -1,4 +1,4 @@
-import { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
+import { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import { babelPresetPlugin } from '@modern-js/libuild-plugin-babel-preset';
 
 export type Options = typeof babelPresetPlugin extends (

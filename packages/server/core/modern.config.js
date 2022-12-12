@@ -1,2 +1,5 @@
-/** @type {import('@modern-js/module-tools').UserConfig} */
-module.exports = {};
+const { legacyPresets } = require('@scripts/build');
+
+module.exports = {
+  buildConfig: legacyPresets.NODE_JS,
+};
