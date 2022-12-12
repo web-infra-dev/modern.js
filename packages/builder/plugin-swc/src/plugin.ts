@@ -9,7 +9,7 @@ import {
   getBrowserslistWithDefault,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import { CORE_JS_PATH, getCoreJsVersion } from '@modern-js/utils';
+import { getCoreJsVersion } from '@modern-js/utils';
 import { JsMinifyOptions } from '@modern-js/swc-plugins';
 import { minify } from './binding';
 import { PluginSwcOptions, TransformConfig } from './config';
@@ -27,6 +27,7 @@ export const PluginSwc = (
   name: PLUGIN_NAME,
 
   setup(api: BuilderPluginAPI) {
+    const CORE_JS_PATH = require.resolve('core-js/package.json');
     const SWC_HELPERS_PATH = require.resolve('@swc/helpers/package.json');
 
     // Find if babel & ts loader exists
@@ -60,7 +61,7 @@ export const PluginSwc = (
 
       // If `targets` is not specified manually, we get `browserslist` from project.
       if (!swc.env!.coreJs) {
-        swc.env!.coreJs = getCoreJsVersion();
+        swc.env!.coreJs = getCoreJsVersion(CORE_JS_PATH);
       }
 
       // If `targets` is not specified manually, we get `browserslist` from project.

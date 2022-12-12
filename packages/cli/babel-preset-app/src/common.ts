@@ -17,7 +17,7 @@ const prepareEnvOptions = (options: Options): PresetEnvOptions => {
     exclude: ['transform-typeof-symbol'],
     corejs: useBuiltIns
       ? {
-          version: getCoreJsVersion(),
+          version: getCoreJsVersion(require.resolve('core-js/package.json')),
           proposals: true,
         }
       : undefined,
