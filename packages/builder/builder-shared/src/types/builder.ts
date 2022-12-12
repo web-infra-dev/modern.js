@@ -34,6 +34,12 @@ export type BuilderInstance<P extends BuilderProvider = BuilderProvider> = {
   createCompiler: ProviderInstance['createCompiler'];
   startDevServer: ProviderInstance['startDevServer'];
 
+  getHTMLPaths: Awaited<ReturnType<P>>['pluginAPI']['getHTMLPaths'];
+  getBuilderConfig: Awaited<ReturnType<P>>['pluginAPI']['getBuilderConfig'];
+  getNormalizedConfig: Awaited<
+    ReturnType<P>
+  >['pluginAPI']['getNormalizedConfig'];
+
   onBeforeBuild: Awaited<ReturnType<P>>['pluginAPI']['onBeforeBuild'];
   onBeforeCreateCompiler: Awaited<
     ReturnType<P>
