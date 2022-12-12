@@ -1,57 +1,35 @@
 import { createParallelWorkflow, createAsyncPipeline } from '@modern-js/plugin';
-import { registerHook, NormalizedConfig } from '@modern-js/core';
-import { LessOption, SassOptions } from '@modern-js/style-compiler';
-
-export interface PlatformBuildOption {
-  isTsProject: boolean;
-}
-
-export const platformBuild = createParallelWorkflow<
-  PlatformBuildOption,
-  {
-    name: string;
-    title: string;
-    taskPath: string;
-    params: string[];
-  }
->();
-
-export const moduleLessConfig = createAsyncPipeline<
-  { modernConfig: NormalizedConfig<any> },
-  LessOption | undefined
->();
-
-export const moduleSassConfig = createAsyncPipeline<
-  { modernConfig: NormalizedConfig<any> },
-  SassOptions<'sync'> | undefined
->();
-
-export const moduleTailwindConfig = createAsyncPipeline<
-  { modernConfig: NormalizedConfig<any> },
-  any
->();
+import { BuildCommandOptions } from '../types';
+import type { BuildConfig, BaseBuildConfig } from '../types/config';
+import type {
+  BuildTaskResult,
+  BuildResult,
+  RegisterBuildPlatformResult,
+  BuildPlatformResult,
+} from '../types/hooks';
 
 export const buildHooks = {
-  platformBuild,
-  moduleLessConfig,
-  moduleSassConfig,
-  moduleTailwindConfig,
+  beforeBuild: createParallelWorkflow<
+    { config: BuildConfig; options: BuildCommandOptions },
+    BuildConfig
+  >(),
+  beforeBuildTask: createAsyncPipeline<
+    { config: BaseBuildConfig; options: BuildCommandOptions },
+    BaseBuildConfig
+  >(),
+  afterBuildTask: createParallelWorkflow<BuildTaskResult, void>(),
+  afterBuild: createParallelWorkflow<BuildResult, void>(),
+  registerBuildPlatform: createParallelWorkflow<
+    void,
+    RegisterBuildPlatformResult
+  >(),
+  beforeBuildPlatform: createParallelWorkflow<
+    RegisterBuildPlatformResult[],
+    void
+  >(),
+  buildPlatform: createParallelWorkflow<
+    { platform: string },
+    Pick<RegisterBuildPlatformResult, 'build'>
+  >(),
+  afterBuildPlatform: createParallelWorkflow<void, BuildPlatformResult>(),
 };
-
-export const lifecycle = () => {
-  registerHook({
-    moduleLessConfig,
-    moduleSassConfig,
-    moduleTailwindConfig,
-    platformBuild,
-  } as any);
-};
-
-declare module '@modern-js/core' {
-  export interface Hooks {
-    platformBuild: typeof platformBuild;
-    moduleLessConfig: typeof moduleLessConfig;
-    moduleSassConfig: typeof moduleSassConfig;
-    moduleTailwindConfig: typeof moduleTailwindConfig;
-  }
-}

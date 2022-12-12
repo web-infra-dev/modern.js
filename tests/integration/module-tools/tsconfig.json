@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "types": ["jest"],
-    "allowJs": true,
-    "outDir": "./dist"
-  },
-  "include": ["./test"]
-}

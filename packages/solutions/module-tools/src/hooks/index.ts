@@ -1,20 +1,9 @@
-import { createAsyncWaterfall } from '@modern-js/plugin';
-import { buildHooks, lifecycle as buildLifeCycle } from './build';
-import { devHooks, lifecycle as devLifeCycle } from './dev';
+import { buildHooks } from './build';
+import { devHooks } from './dev';
+import { miscHooks } from './misc';
 
-export { buildLifeCycle, devLifeCycle };
-
-export const lifecycle = () => {
-  devLifeCycle();
-  buildLifeCycle();
-};
-
-export const addRuntimeExports = createAsyncWaterfall();
-
-export const hooks = {
+export const registerHook = {
   ...buildHooks,
   ...devHooks,
-  addRuntimeExports,
+  ...miscHooks,
 };
-
-export type ModuleHooks = typeof hooks;
