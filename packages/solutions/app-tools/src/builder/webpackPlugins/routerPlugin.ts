@@ -105,7 +105,9 @@ export default class RouterPlugin {
           const entryChunks = [...compilation.chunks].filter(chunk => {
             return entryChunkIds.includes(chunk.name);
           });
-          const entryChunkFiles = entryChunks.map(chunk => [...chunk.files][0]);
+          const entryChunkFiles = entryChunks.map(
+            chunk => [...chunk.files].find(fname => fname.includes('.js'))!,
+          );
 
           for (const file of entryChunkFiles) {
             const asset = compilation.assets[file];

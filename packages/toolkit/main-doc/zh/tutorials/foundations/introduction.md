@@ -38,4 +38,4 @@ Modern.js 能为开发者提供极致的**开发体验（Development Experience�
 
 如果你是前端初学者，可能会觉得这些概念有些复杂。我们提供了一些 [JavaScript 和 React](/docs/tutorials/foundations/basic) 的学习资料，你可以先对它们做些了解。
 
-如果你是有经验的开发者，希望了解如何使用 Modern.js，你可以尝试[创建第一个应用](/docs/tutorials/first-app/overview)，或是阅读[指南](/docs/guides/overview)。
+如果你是有经验的开发者，希望了解如何使用 Modern.js，你可以尝试[创建第一个应用](/docs/tutorials/first-app/c01-start)，或是阅读[指南](/docs/guides/overview)。

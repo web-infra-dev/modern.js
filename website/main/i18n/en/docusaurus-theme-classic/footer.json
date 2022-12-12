@@ -15,10 +15,6 @@
     "message": "快速上手",
     "description": "The label of footer link with label=快速上手 linking to /docs/guides/get-started/quick-start"
   },
-  "link.item.label.实战教程": {
-    "message": "实战教程",
-    "description": "The label of footer link with label=实战教程 linking to /docs/tutorials/first-app/overview"
-  },
   "link.item.label.基础功能": {
     "message": "基础功能",
     "description": "The label of footer link with label=基础功能 linking to /docs/guides/basic-features/"
