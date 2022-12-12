@@ -13,6 +13,7 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { Stats, MultiStats } from '@modern-js/builder-shared';
+import { DevOptions } from '../utils/types';
 
 export interface ImportSpecifier {
   local?: string;
@@ -94,4 +95,32 @@ export type AppToolsHooks = {
     void
   >;
   beforeRestart: AsyncWorkflow<void, void>;
+
+  registerDev: ParallelWorkflow<void, DevToolData>;
+  beforeDevTask: ParallelWorkflow<DevToolData, void>;
+
+  registerBuildPlatform: ParallelWorkflow<void, RegisterBuildPlatformResult>;
+  beforeBuildPlatform: ParallelWorkflow<RegisterBuildPlatformResult[], void>;
 };
+
+export interface RegisterBuildPlatformResult {
+  platform: string | string[];
+  build: (
+    currentPlatform: string,
+    context: { isTsProject: boolean },
+  ) => void | Promise<void>;
+}
+
+export interface DevToolData {
+  name: string;
+  subCommands?: string[];
+  menuItem?: {
+    name: string;
+    value: string;
+  };
+  // disableRunBuild?: boolean;
+  action: (
+    options: DevOptions,
+    context: { isTsProject?: boolean },
+  ) => void | Promise<void>;
+}

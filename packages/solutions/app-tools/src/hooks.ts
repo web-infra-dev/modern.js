@@ -3,7 +3,11 @@ import {
   createAsyncWorkflow,
   createParallelWorkflow,
 } from '@modern-js/plugin';
-import { AppToolsHooks } from './types/hooks';
+import {
+  AppToolsHooks,
+  DevToolData,
+  RegisterBuildPlatformResult,
+} from './types/hooks';
 
 export const hooks: AppToolsHooks = {
   modifyEntryExport: createAsyncWaterfall(),
@@ -30,4 +34,16 @@ export const hooks: AppToolsHooks = {
   watchFiles: createParallelWorkflow(),
   fileChange: createAsyncWorkflow(),
   beforeRestart: createAsyncWorkflow(),
+
+  registerDev: createParallelWorkflow<void, DevToolData>(),
+  beforeDevTask: createParallelWorkflow<DevToolData, void>(),
+
+  registerBuildPlatform: createParallelWorkflow<
+    void,
+    RegisterBuildPlatformResult
+  >(),
+  beforeBuildPlatform: createParallelWorkflow<
+    RegisterBuildPlatformResult[],
+    void
+  >(),
 };
