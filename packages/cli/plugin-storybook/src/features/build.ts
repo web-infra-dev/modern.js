@@ -46,9 +46,7 @@ export const runBuild = async ({
   // TODO: add some debug code
   const { appDirectory } = appContext;
   // FIXME: remove the `any` type;
-  const {
-    output: { path: outputPath = 'dist' },
-  } = modernConfig as any;
+  const { output: { root: outputPath = 'dist' } = {} } = modernConfig as any;
 
   if (!valid({ stories, isTs: isTsProject, isModuleTools: true })) {
     return;
