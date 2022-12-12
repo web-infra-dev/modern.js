@@ -49,7 +49,7 @@ SSG 在**约定式路由**和**自控式路由**下的使用方式不同。
 
 在 `src/routes/page.tsx` 中添加组件代码：
 
-```jsx title="src/pages/index.tsx"
+```jsx title="src/routes/page.tsx"
 export default () => {
   return  <div>Index Page</div>
 }
@@ -133,7 +133,7 @@ export default defineConfig({
 修改上述 `src/App.ts` 的代码为：
 
 ```tsx title="App.ts"
-import { useRuntimeContext, useStaticLoader } from '@modern-js/runtime';
+import { useRuntimeContext, useLoader } from '@modern-js/runtime';
 import { Routes, Route, BrowserRouter } from '@modern-js/runtime/router';
 import { StaticRouter } from '@modern-js/runtime/router/server';
 
@@ -142,9 +142,9 @@ const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
 export default () => {
   const { context } = useRuntimeContext();
 
-  const { data } = useStaticLoader(async () => ({
+  const { data } = useLoader(async () => ({
     message: Math.random(),
-  }));
+  }), { static: true });
 
   return (
     <Router location={context.request.pathname}>

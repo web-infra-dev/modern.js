@@ -78,10 +78,10 @@ Document 模板共提供了 `Html`、`Root` `Head` `Body` 渲染页面的组件�
 因为是 JSX 形式，Document.tsx 里，可以比较自由的在组件内使用各种变量去赋值给各种自定义组件。
 但同时 Document 自身也提供了 `DocumentContext` context 来提供一些配置、环境参数，方便直接获取。主要以下参数：
 
-- processEnv：提供构建时的 `process.env`
-- config: Modern.js 项目的配置。目前只暴露出 output 相关的配置
-- entryName: 当前的 entry 名。
-- templateParams: html 模板的参数，由 builder 提供。对应 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的 `templateParameters` 配置项最终获取到的结果。不建议使用!
+- `processEnv`：提供构建时的 `process.env`
+- `config`: Modern.js 项目的配置。目前只暴露出 output 相关的配置
+- `entryName`: 当前的 entry 名。
+- `templateParams`: html 模板的参数，由 builder 提供。对应 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的 `templateParameters` 配置项最终获取到的结果。不建议使用!
 
 
 ## 示例
@@ -110,7 +110,7 @@ export default function Document(): React.ReactElement {
     <Html>
       <Head>
         // Head 组件支持自定义子元素。包括 link, script
-        <link href="https://www.baidu.com">百度</link>
+        <link href="https://modernjs.dev">Modern.js</link>
         <script
           // inline script 的脚本需要如下处理
           dangerouslySetInnerHTML={{
