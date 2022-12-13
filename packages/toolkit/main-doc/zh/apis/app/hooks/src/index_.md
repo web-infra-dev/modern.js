@@ -12,11 +12,12 @@ sidebar_position: 3
 只需要 `src/index.[tj]s` 默认导出函数:
 
 ```js title=src/index.js
-import { bootstrap } from '@modern-js/runtime';
+import ReactDOM from 'react-dom/client';
+import { bootstrap } from '@edenx/runtime';
 
-export default App => {
+export default (App: React.ComponentType) => {
   // do something before bootstrap...
-  bootstrap(App, 'root');
+  bootstrap(App, 'root', undefined, ReactDOM);
 };
 ```
 
@@ -28,8 +29,8 @@ export default App => {
 
 ```js title=src/index.jsx
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
 ```
