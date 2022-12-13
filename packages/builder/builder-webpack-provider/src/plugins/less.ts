@@ -41,7 +41,19 @@ export function PluginLess(): BuilderPlugin {
             defaultLessLoaderOptions,
             config.tools.less,
             { addExcludes },
-            deepMerge,
+            (
+              defaults: LessLoaderOptions,
+              userOptions: LessLoaderOptions,
+            ): LessLoaderOptions => {
+              return {
+                ...defaults,
+                ...userOptions,
+                lessOptions: deepMerge(
+                  defaults.lessOptions,
+                  userOptions.lessOptions,
+                ),
+              };
+            },
           );
 
           return {

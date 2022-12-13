@@ -11,7 +11,7 @@
 
 ### Object 类型
 
-当 `tools.sass` 的值为 `Object` 类型时，会与默认配置通过 deepMerge 进行深层合并。
+当 `tools.sass` 的值为 `Object` 类型时，会与默认配置通过 Object.assign 进行浅层合并，值得注意的是，`sassOptions` 会通过 deepMerge 进行深层合并。
 
 ```js
 export default {

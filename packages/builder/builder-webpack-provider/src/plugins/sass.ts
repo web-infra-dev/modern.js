@@ -32,7 +32,19 @@ export function PluginSass(): BuilderPlugin {
             },
             config.tools.sass,
             { addExcludes },
-            deepMerge,
+            (
+              defaults: SassLoaderOptions,
+              userOptions: SassLoaderOptions,
+            ): SassLoaderOptions => {
+              return {
+                ...defaults,
+                ...userOptions,
+                sassOptions: deepMerge(
+                  defaults.sassOptions,
+                  userOptions.sassOptions,
+                ),
+              };
+            },
           );
 
           return {
