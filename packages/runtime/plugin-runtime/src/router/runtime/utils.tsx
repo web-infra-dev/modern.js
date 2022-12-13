@@ -21,6 +21,7 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
     shouldRevalidate: nestedRoute.shouldRevalidate,
     handle: nestedRoute.handle,
     index: nestedRoute.index,
+    element: nestedRoute.element,
     errorElement: nestedRoute.errorElement,
   };
 
@@ -52,7 +53,9 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
     element = <RootLayout routes={[nestedRoute]}>{element}</RootLayout>;
   }
 
-  routeProps.element = element;
+  if (element) {
+    routeProps.element = element;
+  }
 
   const routeElement = index ? (
     <Route key={id} {...routeProps} index={true} />
