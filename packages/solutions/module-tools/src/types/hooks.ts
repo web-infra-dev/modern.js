@@ -1,4 +1,4 @@
-import { DevToolData as BaseDevToolData } from '@modern-js/plugin';
+import { DevToolData as BaseDevToolData } from '@modern-js/core';
 import { registerHook } from '../hooks';
 import type { BaseBuildConfig, BuildConfig } from './config';
 import type { DevCommandOptions } from './command';

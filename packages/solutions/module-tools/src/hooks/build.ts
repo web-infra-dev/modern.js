@@ -1,8 +1,5 @@
-import {
-  createParallelWorkflow,
-  createAsyncPipeline,
-  RegisterBuildPlatformResult,
-} from '@modern-js/plugin';
+import { createParallelWorkflow, createAsyncPipeline } from '@modern-js/plugin';
+import type { RegisterBuildPlatformResult } from '@modern-js/core';
 import { BuildCommandOptions } from '../types';
 import type { BuildConfig, BaseBuildConfig } from '../types/config';
 import type {

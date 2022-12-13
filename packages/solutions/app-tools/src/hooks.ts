@@ -2,9 +2,8 @@ import {
   createAsyncWaterfall,
   createAsyncWorkflow,
   createParallelWorkflow,
-  DevToolData,
-  RegisterBuildPlatformResult,
 } from '@modern-js/plugin';
+import { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import { AppToolsHooks } from './types/hooks';
 
 export const hooks: AppToolsHooks = {

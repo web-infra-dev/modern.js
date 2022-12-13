@@ -3,8 +3,6 @@ import type {
   AsyncWaterfall,
   AsyncWorkflow,
   ParallelWorkflow,
-  RegisterBuildPlatformResult,
-  DevToolData,
 } from '@modern-js/plugin';
 import type {
   Entrypoint,
@@ -14,6 +12,7 @@ import type {
   RouteLegacy,
   ServerRoute,
 } from '@modern-js/types';
+import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
 import type { Stats, MultiStats } from '@modern-js/builder-shared';
 
 export interface ImportSpecifier {
