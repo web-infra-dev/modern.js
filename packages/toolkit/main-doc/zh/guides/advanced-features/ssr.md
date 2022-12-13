@@ -15,18 +15,6 @@ sidebar_position: 3
 }
 ```
 
-Modern.js 支持了 React 18 的流式渲染，可以通过如下配置修改默认的渲染模式：
-
-```json
-{
-  "server": {
-    "ssr": {
-      "mode": "stream"
-    }
-  }
-}
-```
-
 ## SSR 时的数据获取
 
 Modern.js 中提供了 Data Loader，方便开发者在 SSR、CSR 下同构的获取数据。每个路由模块，如 `layout.tsx` 和 `page.tsx` 都可以定义自己的 Data Loader：
@@ -284,3 +272,21 @@ export const loader = () => {
 需要注意的是，此时获取到的是 HTML 请求的请求头，不一定适用于接口请求，因此**千万不能**透传所有请求头。并且，一些后端接口，或是通用网关，会根据请求头中的信息做校验，全量透传容易出现各种难以排查的问题，推荐**按需透传**。
 
 如果实在需要透传所有请求头，请务必过滤 `host` 字段。
+
+## 流式渲染
+
+Modern.js 支持了 React 18 的流式渲染，可以通过如下配置修改默认的渲染模式：
+
+```json
+{
+  "server": {
+    "ssr": {
+      "mode": "stream"
+    }
+  }
+}
+```
+
+:::note
+目前 Modern.js 内置的数据获取方式还未支持流式渲染，如迫切需要开发者可以按照 React Stream SSR 的 Demo 自建。
+:::
