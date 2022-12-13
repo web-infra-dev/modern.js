@@ -32,7 +32,6 @@ Document 文件，默认在应用根目录下:
 
 ```bash
 .
-├── node_modules
 ├── src
 │   ├── modern-app-env.d.ts
 │   ├── myapp
