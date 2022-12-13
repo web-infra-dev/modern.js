@@ -114,9 +114,8 @@ Modern.js 集成了主流、轻量、通用的 Utility Class 工具库 [Tailwind
 执行 `pnpm run new`，进行如下选择，开启 Tailwind CSS：
 
 ```bash
-# 启用可选功能
-❯ 启用 Tailwind CSS 支持
-  ...
+? 请选择你想要的操作 启用可选功能
+? 启用可选功能 启用 Tailwind CSS 支持
 ```
 
 在 `src/routes/page.tsx` 顶部引入 Tailwind CSS 的 css 文件，就可以开始快速实现专业的 UI：
