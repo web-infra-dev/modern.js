@@ -124,11 +124,11 @@ export const PluginCompatModern = (
       const existNestedRoutes = entrypoints.some(
         entrypoint => entrypoint.nestedRoutesEntry,
       );
-      chain.plugin('route-plugin').use(RouterPlugin, [
-        {
-          existNestedRoutes,
-        },
-      ]);
+
+      const routerManifest = Boolean(modernConfig.runtime.router.minifest);
+      if (existNestedRoutes || routerManifest) {
+        chain.plugin('route-plugin').use(RouterPlugin);
+      }
       if (target !== 'node') {
         const bareServerModuleReg = /\.(server|node)\.[tj]sx?$/;
         chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(bareServerModuleReg);
