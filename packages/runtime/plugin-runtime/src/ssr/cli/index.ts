@@ -100,8 +100,8 @@ export default (): CliPlugin<AppTools> => ({
             },
 
             babel: (config: any) => {
-              // Add id for useLoader method
-              // can be used both in client and server
+              // Add id for useLoader method,
+              // The useLoader can be used even if the SSR is not enabled
               config.plugins.push(
                 path.join(__dirname, './babel-plugin-ssr-loader-id'),
               );
