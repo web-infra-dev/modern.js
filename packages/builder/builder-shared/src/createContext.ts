@@ -2,7 +2,6 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import { pick } from './pick';
 import {
-  DeepReadonly,
   BuilderContext,
   CreateBuilderOptions,
   NormalizedSharedOutputConfig,
@@ -42,7 +41,7 @@ export function createContextByConfig(
 
 export function createPublicContext(
   context: BuilderContext,
-): DeepReadonly<BuilderContext> {
+): Readonly<BuilderContext> {
   const ctx = pick(context, [
     'entry',
     'target',
@@ -55,5 +54,5 @@ export function createPublicContext(
     'configPath',
     'tsconfigPath',
   ]);
-  return ctx;
+  return Object.freeze(ctx);
 }

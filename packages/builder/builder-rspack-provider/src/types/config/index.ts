@@ -1,3 +1,4 @@
+import type { DeepReadonly } from '@modern-js/builder-shared';
 import type { DevConfig, NormalizedDevConfig } from './dev';
 import type { HtmlConfig, NormalizedHtmlConfig } from './html';
 import type { NormalizedOutputConfig, OutputConfig } from './output';
@@ -20,7 +21,7 @@ export interface BuilderConfig {
   performance?: PerformanceConfig;
 }
 
-export interface NormalizedConfig {
+export type NormalizedConfig = DeepReadonly<{
   dev: NormalizedDevConfig;
   html: NormalizedHtmlConfig;
   tools: NormalizedToolsConfig;
@@ -28,7 +29,7 @@ export interface NormalizedConfig {
   output: NormalizedOutputConfig;
   security: NormalizedSecurityConfig;
   performance: NormalizedPerformanceConfig;
-}
+}>;
 
 /* eslint-disable @typescript-eslint/no-restricted-imports */
 export * from './dev';
