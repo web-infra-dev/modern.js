@@ -49,3 +49,25 @@ export type CliHooksRunner<
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type CliHookCallbacks = ToThreads<BaseHooks<{}>>;
+
+export interface DevToolData<DevOptions = any> {
+  name: string;
+  subCommands?: string[];
+  menuItem?: {
+    name: string;
+    value: string;
+  };
+  disableRunBuild?: boolean;
+  action: (
+    options: DevOptions,
+    context: { isTsProject?: boolean },
+  ) => void | Promise<void>;
+}
+
+export interface RegisterBuildPlatformResult {
+  platform: string | string[];
+  build: (
+    currentPlatform: string,
+    context: { isTsProject: boolean },
+  ) => void | Promise<void>;
+}

@@ -2933,59 +2933,6 @@ importers:
       react: 17.0.2
       typescript: 4.7.4
 
-  packages/solutions/module-tools-v2:
-    specifiers:
-      '@babel/core': 7.20.2
-      '@modern-js/core': workspace:*
-      '@modern-js/libuild': 0.6.0
-      '@modern-js/libuild-plugin-swc': 0.6.0
-      '@modern-js/new-action': workspace:*
-      '@modern-js/plugin': workspace:*
-      '@modern-js/plugin-changeset': workspace:*
-      '@modern-js/plugin-i18n': workspace:*
-      '@modern-js/plugin-lint': workspace:*
-      '@modern-js/self': workspace:@modern-js/module-tools-v2@*
-      '@modern-js/upgrade': workspace:*
-      '@modern-js/utils': workspace:*
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@types/fs-extra': 9.0.13
-      '@types/jest': ^27
-      '@types/node': ^14
-      fs-extra: 10.1.0
-      jest: ^27
-      path-browserify: 1.0.1
-      postcss: 8.4.6
-      postcss-alias: 2.0.0
-      react: '17'
-      typescript: ^4
-    dependencies:
-      '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.6.0
-      '@modern-js/libuild-plugin-swc': 0.6.0
-      '@modern-js/new-action': link:../../generator/new-action
-      '@modern-js/plugin': link:../../toolkit/plugin
-      '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
-      '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
-      '@modern-js/plugin-lint': link:../../cli/plugin-lint
-      '@modern-js/upgrade': link:../../toolkit/upgrade
-      '@modern-js/utils': link:../../toolkit/utils
-    devDependencies:
-      '@babel/core': 7.20.2
-      '@modern-js/self': 'link:'
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/fs-extra': 9.0.13
-      '@types/jest': 27.5.2
-      '@types/node': 14.18.21
-      fs-extra: 10.1.0
-      jest: 27.5.1
-      path-browserify: 1.0.1
-      postcss: 8.4.6
-      postcss-alias: 2.0.0
-      react: 17.0.2
-      typescript: 4.7.4
-
   packages/solutions/monorepo-tools:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -20422,7 +20369,6 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
-    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -23969,7 +23915,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.4_supports-color@6.1.0
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -36028,7 +35974,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
-    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
