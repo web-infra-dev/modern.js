@@ -63,7 +63,7 @@ export const getDevMiddleware: (compiler: Compiler) => DevMiddlewareOptions =
   compiler => options => {
     const { hmrClientPath, callbacks, ...restOptions } = options;
 
-    applyHMREntry(compiler, hmrClientPath);
+    hmrClientPath && applyHMREntry(compiler, hmrClientPath);
 
     // register hooks for each compilation, update socket stats if recompiled
     setupHooks(compiler, callbacks);

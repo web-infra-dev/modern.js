@@ -24,10 +24,10 @@ export type MiddlewareCallbacks = {
 };
 
 export type DevMiddlewareOptions = {
-  /** To ensure HMR works, the devMiddleware need inject the hmr client path into page. */
-  hmrClientPath: string;
+  /** To ensure HMR works, the devMiddleware need inject the hmr client path into page when HMR enable. */
+  hmrClientPath?: string;
 
-  /** The options need by sub middleware (like webpackMiddleware) */
+  /** The options need by compiler middleware (like webpackMiddleware) */
   headers?: Record<string, string>;
   writeToDisk?: boolean | ((filename: string) => boolean);
   stats?: boolean;
@@ -37,10 +37,9 @@ export type DevMiddlewareOptions = {
 };
 
 /**
- * TODO: check
  * The modern/server do nothing about compiler, the devMiddleware need do such things to ensure dev works well:
- * - call compiler.watch （normally did by webpack-dev-middleware）.
- * - inject the hmr client path into page （the hmr client modern/server already provide）.
+ * - Call compiler.watch （normally did by webpack-dev-middleware）.
+ * - Inject the hmr client path into page （the hmr client modern/server already provide）.
  * - Notify server when compiler hooks are triggered.
  */
 export type DevMiddleware = (options: DevMiddlewareOptions) => DevMiddlewareAPI;

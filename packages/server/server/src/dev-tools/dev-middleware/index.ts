@@ -80,11 +80,15 @@ export default class DevMiddleware extends EventEmitter {
       },
     };
 
+    const enableHMR = this.devOptions.hot || this.devOptions.liveReload;
+
     const middleware = devMiddleware({
       headers: devOptions.headers,
       stats: false,
       callbacks,
-      hmrClientPath: getHMRClientPath(devOptions.client),
+      hmrClientPath: enableHMR
+        ? getHMRClientPath(devOptions.client)
+        : undefined,
       ...devOptions.devMiddleware,
     });
 
