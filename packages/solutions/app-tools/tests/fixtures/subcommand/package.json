@@ -1,0 +1,6 @@
+{
+  "name": "app-tools-subcommand-test",
+  "devDependencies": {
+    "react": "^17"
+  }
+}

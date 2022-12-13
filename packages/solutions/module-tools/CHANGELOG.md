@@ -81,22 +81,49 @@
 
 - dda38c9c3e: chore: v2
 
+### Minor Changes
+
+- 92f0ead: feat:
+
+  1. add style config and add new hook
+  2. add dts alias logic
+  3. add copy logic
+  4. add log logic
+  5. add skipDeps config
+
+  feat:
+
+  1. 添加样式配置以及新的 hook
+  2. 添加 dts 别名处理
+  3. 添加 copy 逻辑
+  4. 添加日志逻辑
+  5. 添加 skipDeps 配置
+
+- 4fd53b48fd: feat: add normalize config logic
+  feat: 添加处理配置的逻辑
+- f0ee9120db: feat: change dev menu log
+  feat: 修改 dev 菜单展示的内容
+- 0bb776858a: feat: add ModuleContext
+  feat: 添加 ModuleContext
+- e6bfca6d31: feat: add type define and schema for config
+  feat: 为配置增加类型定义和 schema
+- 54abc88a2a: feat: add new and upgrade command
+  feat: 添加 new 和 upgrade 命令
+
 ### Patch Changes
 
-- d61ca88: update speedy version
-  更新依赖里 speedy 的版本
-- b8bbe036c7: feat: export Hooks type
-  feat: 导出 Hooks 类型
-- ebbeed1: update speedy-core to fix sass resolve error
-  更新 speedy-core 版本以修复 sass resolve 错误
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
 - d4a4566: chore: rename plugin-jarvis to plugin-lint
 
   chore: 重命名 plugin-jarvis 为 plugin-lint
 
-- 14b712da84: fix: use consistent alias type and default value across packages
-
-  fix: 在各个包中使用一致的 alias 类型定义和默认值
-
+- 540de1fd5d: fix: filename typo, color.ts --> colors.ts
+  fix: 文件名错误，color.ts 修改为 colors.ts
+- a2c8cc3: fix: change tools define userconfig type
+  fix: 修改工程定义的 UserConfig 类型
+- 1be4ba1ccd: feat: add platform build log
+  feat: 添加 platform 构建的 log 内容
 - Updated dependencies [c9e800d39a]
 - Updated dependencies [85edee888c]
 - Updated dependencies [92f0ead]
@@ -118,12 +145,9 @@
   - @modern-js/utils@2.0.0-beta.2
   - @modern-js/plugin-lint@2.0.0-beta.2
   - @modern-js/plugin@2.0.0-beta.2
-  - @modern-js/babel-preset-module@2.0.0-beta.2
   - @modern-js/plugin-changeset@2.0.0-beta.2
   - @modern-js/plugin-i18n@2.0.0-beta.2
   - @modern-js/new-action@2.0.0-beta.2
-  - @modern-js/babel-compiler@2.0.0-beta.2
-  - @modern-js/style-compiler@2.0.0-beta.2
   - @modern-js/upgrade@2.0.0-beta.2
 
 ## 2.0.0-beta.1
@@ -132,22 +156,47 @@
 
 - dda38c9: chore: v2
 
+### Minor Changes
+
+- 92f0ead: feat:
+
+  1. add style config and add new hook
+  2. add dts alias logic
+  3. add copy logic
+  4. add log logic
+  5. add skipDeps config
+
+  feat:
+
+  1. 添加样式配置以及新的 hook
+  2. 添加 dts 别名处理
+  3. 添加 copy 逻辑
+  4. 添加日志逻辑
+  5. 添加 skipDeps 配置
+
+- 4fd53b48fd: feat: add normalize config logic
+  feat: 添加处理配置的逻辑
+- f0ee9120db: feat: change dev menu log
+  feat: 修改 dev 菜单展示的内容
+- 0bb776858a: feat: add ModuleContext
+  feat: 添加 ModuleContext
+- e6bfca6d31: feat: add type define and schema for config
+  feat: 为配置增加类型定义和 schema
+- 54abc88a2a: feat: add new and upgrade command
+  feat: 添加 new 和 upgrade 命令
+
 ### Patch Changes
 
-- d61ca88: update speedy version
-  更新依赖里 speedy 的版本
-- b8bbe036c7: feat: export Hooks type
-  feat: 导出 Hooks 类型
-- ebbeed1: update speedy-core to fix sass resolve error
-  更新 speedy-core 版本以修复 sass resolve 错误
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
 - d4a4566: chore: rename plugin-jarvis to plugin-lint
 
   chore: 重命名 plugin-jarvis 为 plugin-lint
 
-- 14b712d: fix: use consistent alias type and default value across packages
-
-  fix: 在各个包中使用一致的 alias 类型定义和默认值
-
+- 540de1fd5d: fix: filename typo, color.ts --> colors.ts
+  fix: 文件名错误，color.ts 修改为 colors.ts
+- 1be4ba1ccd: feat: add platform build log
+  feat: 添加 platform 构建的 log 内容
 - Updated dependencies [c9e800d39a]
 - Updated dependencies [85edee888c]
 - Updated dependencies [92f0ead]
@@ -169,12 +218,9 @@
   - @modern-js/utils@2.0.0-beta.1
   - @modern-js/plugin-lint@2.0.0-beta.1
   - @modern-js/plugin@2.0.0-beta.1
-  - @modern-js/babel-preset-module@2.0.0-beta.1
   - @modern-js/plugin-changeset@2.0.0-beta.1
   - @modern-js/plugin-i18n@2.0.0-beta.1
   - @modern-js/new-action@2.0.0-beta.1
-  - @modern-js/babel-compiler@2.0.0-beta.1
-  - @modern-js/style-compiler@2.0.0-beta.1
   - @modern-js/upgrade@2.0.0-beta.1
 
 ## 2.0.0-beta.0
@@ -183,14 +229,27 @@
 
 - dda38c9: chore: v2
 
+### Minor Changes
+
+- 4fd53b48f: feat: add normalize config logic
+  feat: 添加处理配置的逻辑
+- f0ee9120d: feat: change dev menu log
+  feat: 修改 dev 菜单展示的内容
+- 0bb776858: feat: add ModuleContext
+  feat: 添加 ModuleContext
+- e6bfca6d3: feat: add type define and schema for config
+  feat: 为配置增加类型定义和 schema
+- 54abc88a2: feat: add new and upgrade command
+  feat: 添加 new 和 upgrade 命令
+
 ### Patch Changes
 
-- b8bbe036c: feat: export Hooks type
-  feat: 导出 Hooks 类型
-- 14b712d: fix: use consistent alias type and default value across packages
-
-  fix: 在各个包中使用一致的 alias 类型定义和默认值
-
+- cc971eabf: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 540de1fd5: fix: filename typo, color.ts --> colors.ts
+  fix: 文件名错误，color.ts 修改为 colors.ts
+- 1be4ba1cc: feat: add platform build log
+  feat: 添加 platform 构建的 log 内容
 - Updated dependencies [c9e800d39]
 - Updated dependencies [85edee8]
 - Updated dependencies [edd1cfb1a]
@@ -207,187 +266,9 @@
   - @modern-js/core@2.0.0-beta.0
   - @modern-js/utils@2.0.0-beta.0
   - @modern-js/plugin@2.0.0-beta.0
-  - @modern-js/babel-preset-module@2.0.0-beta.0
-  - @modern-js/plugin-changeset@2.0.0-beta.0
   - @modern-js/plugin-i18n@2.0.0-beta.0
-  - @modern-js/plugin-jarvis@2.0.0-beta.0
   - @modern-js/new-action@2.0.0-beta.0
-  - @modern-js/babel-compiler@2.0.0-beta.0
-  - @modern-js/style-compiler@2.0.0-beta.0
   - @modern-js/upgrade@2.0.0-beta.0
-
-## 1.21.2
-
-### Patch Changes
-
-- Updated dependencies [c85bcfc]
-- Updated dependencies [9d4c0ba]
-  - @modern-js/style-compiler@1.21.2
-  - @modern-js/plugin@1.21.2
-  - @modern-js/new-action@1.21.2
-  - @modern-js/core@1.21.2
-  - @modern-js/css-config@1.21.2
-  - @modern-js/plugin-changeset@1.21.2
-  - @modern-js/plugin-jarvis@1.21.2
-  - @modern-js/babel-preset-module@1.21.2
-  - @modern-js/plugin-i18n@1.21.2
-  - @modern-js/babel-compiler@1.21.2
-  - @modern-js/upgrade@1.21.2
-  - @modern-js/utils@1.21.2
-
-## 1.21.1
-
-### Patch Changes
-
-- fdea3b7: fix: support node-linker=hoist
-
-  fix: 支持 node-linker=hoist
-
-  - @modern-js/babel-preset-module@1.21.1
-  - @modern-js/core@1.21.1
-  - @modern-js/css-config@1.21.1
-  - @modern-js/plugin-changeset@1.21.1
-  - @modern-js/plugin-i18n@1.21.1
-  - @modern-js/plugin-jarvis@1.21.1
-  - @modern-js/new-action@1.21.1
-  - @modern-js/babel-compiler@1.21.1
-  - @modern-js/style-compiler@1.21.1
-  - @modern-js/plugin@1.21.1
-  - @modern-js/upgrade@1.21.1
-  - @modern-js/utils@1.21.1
-
-## 1.21.0
-
-### Patch Changes
-
-- Updated dependencies [cfd8557]
-- Updated dependencies [dca34c4]
-- Updated dependencies [28f0a4f]
-- Updated dependencies [b0597e3]
-  - @modern-js/new-action@1.21.0
-  - @modern-js/upgrade@1.21.0
-  - @modern-js/core@1.21.0
-  - @modern-js/plugin@1.21.0
-  - @modern-js/utils@1.21.0
-  - @modern-js/css-config@1.21.0
-  - @modern-js/plugin-changeset@1.21.0
-  - @modern-js/plugin-jarvis@1.21.0
-  - @modern-js/babel-preset-module@1.21.0
-  - @modern-js/plugin-i18n@1.21.0
-  - @modern-js/babel-compiler@1.21.0
-  - @modern-js/style-compiler@1.21.0
-
-## 1.20.1
-
-### Patch Changes
-
-- Updated dependencies [49515c5]
-  - @modern-js/utils@1.20.1
-  - @modern-js/babel-preset-module@1.20.1
-  - @modern-js/core@1.20.1
-  - @modern-js/css-config@1.20.1
-  - @modern-js/plugin-changeset@1.20.1
-  - @modern-js/plugin-i18n@1.20.1
-  - @modern-js/plugin-jarvis@1.20.1
-  - @modern-js/new-action@1.20.1
-  - @modern-js/babel-compiler@1.20.1
-  - @modern-js/style-compiler@1.20.1
-  - @modern-js/upgrade@1.20.1
-  - @modern-js/plugin@1.20.1
-
-## 1.20.0
-
-### Patch Changes
-
-- fffceae: fix: extends path error
-  fix: 修复 extends 字段路径的问题
-- a4f8761: feat: add afterDev hook
-  feat: 添加 afterDev 钩子
-- 3e5ad1e: chore: move copyTask from bundleless task to build task
-  chore: 把 copy 任务从 bundleless 任务中移动到 build 任务中
-- Updated dependencies [d5d570b]
-- Updated dependencies [4ddc185]
-- Updated dependencies [df8ee7e]
-- Updated dependencies [8c05089]
-- Updated dependencies [d5d570b]
-  - @modern-js/utils@1.20.0
-  - @modern-js/core@1.20.0
-  - @modern-js/plugin-changeset@1.20.0
-  - @modern-js/babel-preset-module@1.20.0
-  - @modern-js/css-config@1.20.0
-  - @modern-js/plugin-i18n@1.20.0
-  - @modern-js/plugin-jarvis@1.20.0
-  - @modern-js/new-action@1.20.0
-  - @modern-js/babel-compiler@1.20.0
-  - @modern-js/style-compiler@1.20.0
-  - @modern-js/upgrade@1.20.0
-  - @modern-js/plugin@1.20.0
-
-## 1.19.0
-
-### Patch Changes
-
-- bce327b: 支持自定义 umd 模块名通过设置'getModuleId'
-  support custom umd module name by 'getModuleId'
-- Updated dependencies [d2cfa69]
-- Updated dependencies [d2fbefc]
-- Updated dependencies [d2fbefc]
-  - @modern-js/core@1.19.0
-  - @modern-js/plugin-jarvis@1.19.0
-  - @modern-js/plugin-changeset@1.19.0
-  - @modern-js/css-config@1.19.0
-  - @modern-js/new-action@1.19.0
-  - @modern-js/upgrade@1.19.0
-  - @modern-js/babel-preset-module@1.19.0
-  - @modern-js/plugin-i18n@1.19.0
-  - @modern-js/babel-compiler@1.19.0
-  - @modern-js/style-compiler@1.19.0
-  - @modern-js/plugin@1.19.0
-  - @modern-js/utils@1.19.0
-
-## 1.18.1
-
-### Patch Changes
-
-- Updated dependencies [318e149]
-- Updated dependencies [c1a4d9b]
-- Updated dependencies [9fcfbd4]
-- Updated dependencies [6c2c745]
-  - @modern-js/core@1.18.1
-  - @modern-js/plugin@1.18.1
-  - @modern-js/utils@1.18.1
-  - @modern-js/css-config@1.18.1
-  - @modern-js/plugin-changeset@1.18.1
-  - @modern-js/plugin-jarvis@1.18.1
-  - @modern-js/babel-preset-module@1.18.1
-  - @modern-js/plugin-i18n@1.18.1
-  - @modern-js/new-action@1.18.1
-  - @modern-js/babel-compiler@1.18.1
-  - @modern-js/style-compiler@1.18.1
-  - @modern-js/upgrade@1.18.1
-
-## 1.18.0
-
-### Patch Changes
-
-- Updated dependencies [8280920]
-- Updated dependencies [9f13d8c]
-- Updated dependencies [60a2e3a]
-- Updated dependencies [5227370]
-- Updated dependencies [66ad36f]
-- Updated dependencies [7928bae]
-  - @modern-js/utils@1.18.0
-  - @modern-js/upgrade@1.18.0
-  - @modern-js/core@1.18.0
-  - @modern-js/babel-preset-module@1.18.0
-  - @modern-js/css-config@1.18.0
-  - @modern-js/plugin-changeset@1.18.0
-  - @modern-js/plugin-i18n@1.18.0
-  - @modern-js/plugin-jarvis@1.18.0
-  - @modern-js/new-action@1.18.0
-  - @modern-js/babel-compiler@1.18.0
-  - @modern-js/style-compiler@1.18.0
-  - @modern-js/plugin@1.18.0
 
 ## 1.17.0
 

@@ -1,14 +1,14 @@
 {
   "item.label.教程": {
-    "message": "教程",
+    "message": "Tutorial",
     "description": "Navbar item with label 教程"
   },
   "item.label.指南": {
-    "message": "指南",
+    "message": "User Guide",
     "description": "Navbar item with label 指南"
   },
   "item.label.配置": {
-    "message": "配置",
+    "message": "Configuration",
     "description": "Navbar item with label 配置"
   },
   "item.label.API": {
@@ -16,7 +16,7 @@
     "description": "Navbar item with label API"
   },
   "item.label.博客": {
-    "message": "博客",
+    "message": "Blog",
     "description": "Navbar item with label 博客"
   }
 }

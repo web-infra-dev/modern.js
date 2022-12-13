@@ -7,7 +7,7 @@ sidebar_position: 3
 
 启用 SSR 非常简单，只需要设置 [`server.ssr`](/docs/configure/app/server/ssr) 为 `true` 即可：
 
-```json title="package.json"
+```json
 {
   "server": {
     "ssr": true
@@ -17,12 +17,23 @@ sidebar_position: 3
 
 ## SSR 时的数据获取
 
-Modern.js 中提供了 [`useLoader`](/docs/apis/app/runtime/core/use-loader) Hooks API，用于在 SSR 环境下同构的获取数据：
+Modern.js 中提供了 Data Loader，方便开发者在 SSR、CSR 下同构的获取数据。每个路由模块，如 `layout.tsx` 和 `page.tsx` 都可以定义自己的 Data Loader：
 
-```ts
-const { data, loading, error } = useLoader(() => {
-  return loadData()
-});
+```ts title="src/routes/page.tsx"
+export const loader = () => {
+  return {
+    message: 'Hello World',
+  };
+};
+```
+
+在组件中可以通过 Hooks API 的方式获取 `loader` 函数返回的数据：
+
+```tsx
+export default () => {
+  const data = useLoaderData();
+  return <div>{data.message}</div>;
+}
 ```
 
 Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发体验。并且提供了优雅的降级处理，一旦 SSR 请求失败，会自动降级在浏览器端重新发起请求。
@@ -30,7 +41,7 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 不过，开发者仍然需要关注数据的兜底处理，例如 `null` 值或不符合预期的数据返回。避免在 SSR 时产生 React 渲染错误或是返回凌乱的渲染结果。
 
 :::info 补充信息
-更多相关内容可以查看[数据获取](/docs/guides/basic-features/data-fetch)。
+使用 Data Loader 时，数据获取发生在渲染前，Modern.js 也仍然支持在组件渲染时获取数据。更多相关内容可以查看[数据获取](/docs/guides/basic-features/data-fetch)。
 :::
 
 ## 保持渲染一致
@@ -55,10 +66,10 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 Warning: Expected server HTML to contain a matching <div> in <div>.
 ```
 
-这是 React 在客户端执行注水逻辑时，发现渲染结果与 SSR 渲染结果不一致造成的。虽然页面表现正常，但在复杂应用中，很有可能因此出现 DOM 层级混乱、样式混乱等问题。
+这是 React 在客户端执行 hydrate 逻辑时，发现渲染结果与 SSR 渲染结果不一致造成的。虽然页面表现正常，但在复杂应用中，很有可能因此出现 DOM 层级混乱、样式混乱等问题。
 
 :::info 注
-关于注水逻辑请参考[这里](https://reactjs.org/docs/react-dom.html#hydrate)。
+关于 hydrate (注水)逻辑请参考[这里](https://reactjs.org/docs/react-dom.html#hydrate)。
 :::
 
 应用需要保持 SSR 与 CSR 渲染结果的一致性，如果存在不一致的情况，说明这部分内容无需在 SSR 中进行渲染。Modern.js 为这类在 SSR 中不需要渲染的内容提供 [`<NoSSR>` 工具组件](/docs/apis/app/runtime/core/use-runtime-context)：
@@ -129,29 +140,25 @@ SPR 利用预渲染与缓存技术，为 SSR 页面提供静态 Web 的响应性
 
 在 Modern.js 中使用 SPR 非常简单，只需要在组件中新增 `PreRender` 组件，该组件所在的页面就会自动开启 SPR。
 
-这里模拟一个使用 `useLoader` API 的组件，`useLoader` 中的请求需要消耗 2s 时间。
+这里模拟一个使用 `useLoaderData` API 的组件，Data Loader 中的请求需要消耗 2s 时间。
 
 ```jsx
-import { useLoader } from '@modern-js/runtime';
+import { useLoaderData } from '@modern-js/runtime/router';
+
+export const loader = async () => {
+  await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(null);
+    }, 2000);
+  });
+
+  return {
+    message: 'Hello Modern.js',
+  };
+};
 
 export default () => {
-  const { data } = useLoader(
-    async () => {
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(null);
-        }, 2000);
-      });
-
-      return {
-        message: 'Hello Modern.js',
-      };
-    },
-    {
-      params: 'foo',
-    },
-  );
-
+  const data = useLoaderData();
   return <div>{data?.message}</div>;
 };
 ```
@@ -187,17 +194,39 @@ import { PreRender } from '@modern-js/runtime/ssr';
 
 开启 SSR 时，Modern.js 会用相同的入口，构建出 SSR Bundle 和 CSR Bundle 两份产物。因此，在 SSR Bundle 中存在 Web API，或是在 CSR Bundle 中存在 Node API 时，都可能导致运行出错。
 
-### 环境变量区分
+在组件中引入 Web API，通常情况下是要做一些全局监听，或是获取浏览器相关的数据，例如：
 
-在组件中可以直接使用 Modern.js 内置的环境变量 `MODERN_TARGET` 进行判断，方便在构建时删除无用代码：
+```tsx
+document.addEventListener('load', () => {
+  console.log('document load');
+});
+const App = () => {
+  return <div>Hello World</div>
+}
+export default App;
+```
+
+在组件文件中引入 Node API，通常情况下是因为使用了 Data Loader，例如：
 
 ```ts
-export default () => {
-  if (process.env.MODERN_TARGET === 'node') {
-    console.log('server render');
-  } else {
-    console.log('client render');
-  }
+import fse from 'fs-extra';
+export const loader = () => {
+  const file = fse.readFileSync('./myfile');
+  return {
+    ...
+  };
+};
+```
+
+### 环境变量区分
+
+对于第一种情况，我们可以直接使用 Modern.js 内置的环境变量 `MODERN_TARGET` 进行判断，在构建时删除无用代码：
+
+```ts
+if (process.env.MODERN_TARGET === 'browser') {
+  document.addEventListener('load', () => {
+    console.log('document load');
+  });
 }
 ```
 
@@ -207,38 +236,34 @@ export default () => {
 
 ### 文件后缀区分
 
-但有时，这种 Treeshaking 的方式并不能保证代码被完全分离。EdenX 也支持通过 `.node.` 后缀的文件来区分 SSR Bundle 和 CSR Bundle 产物的打包文件。
+但例如第二种情况，Treeshaking 的方式并不能保证代码被完全分离。Modern.js 也支持通过 `.node.` 后缀的文件来区分 SSR Bundle 和 CSR Bundle 产物的打包文件。
 
-例如存在 `client-sdk` 中直接使用了 Web API：
-
-```ts
-// client-sdk
-export const href = location.href;
-```
-
-这时候直接引用到组件中，会造成 SSR 报错。可以创建同名的 `.ts` 和 `.node.ts` 文件做一层代理：
+例如在代码中引入了 `fs-extra`，这时候直接引用到组件中，会造成 CSR 加载报错。可以创建同名的 `.ts` 和 `.node.ts` 文件做一层代理：
 
 ```ts title="compat.ts"
-export { href } from 'client-sdk';
+export { readFileSync } from 'fs-extra';
 ```
 
 ```ts title="compat.node.ts"
-export const href = '';
+export const readFileSync: any = () => {};
 ```
 
 在文件中直接引入 `./compat`，此时 SSR 环境下会优先使用 `.node.ts` 后缀的文件，CSR 环境下会使用 `.ts` 后缀的文件。
 
 ```ts title="App.tsx"
-import { href } from './compat'
+import { readFileSync } from './compat'
 
-export default () => {
-  return <div onClick={() => { console.log(href) }}></div>
-}
+export const loader = () => {
+  const file = readFileSync('./myfile');
+  return {
+    ...
+  };
+};
 ```
 
 ### 独立文件
 
-上述两种方式，都会为开发者带来一些心智负担。Modern.js 正在基于[嵌套路由](/docs/guides/basic-features/routes)开发设计[更简单的方案](/docs/guides/basic-features/data-fetch)来分离 CSR 和 SSR 的代码。
+上述两种方式，都会为开发者带来一些心智负担。Modern.js 基于[嵌套路由](/docs/guides/basic-features/routes)开发设计了[更简单的方案](/docs/guides/basic-features/data-fetch)来分离 CSR 和 SSR 的代码。
 
 ## 接口请求
 
@@ -247,3 +272,21 @@ export default () => {
 需要注意的是，此时获取到的是 HTML 请求的请求头，不一定适用于接口请求，因此**千万不能**透传所有请求头。并且，一些后端接口，或是通用网关，会根据请求头中的信息做校验，全量透传容易出现各种难以排查的问题，推荐**按需透传**。
 
 如果实在需要透传所有请求头，请务必过滤 `host` 字段。
+
+## 流式渲染
+
+Modern.js 支持了 React 18 的流式渲染，可以通过如下配置修改默认的渲染模式：
+
+```json
+{
+  "server": {
+    "ssr": {
+      "mode": "stream"
+    }
+  }
+}
+```
+
+:::note
+目前 Modern.js 内置的数据获取方式还未支持流式渲染，如迫切需要开发者可以按照 React Stream SSR 的 Demo 自建。
+:::

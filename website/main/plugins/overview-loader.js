@@ -13,6 +13,7 @@ module.exports = () => {
       ),
     );
     const routeFile = files[0];
+    delete require.cache[routeFile];
     versionMetaData = require(routeFile);
   }
 

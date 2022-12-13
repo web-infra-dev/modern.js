@@ -25,8 +25,8 @@
   --ifm-code-border-radius: 8px;
   --ifm-code-background: #f1f1f1;
   --ifm-code-padding-horizontal: 0.4rem;
-  --ifm-code-padding-vertical: 0.15rem;
-  --ifm-code-font-size: 90%;
+  --ifm-code-padding-vertical: 0.18rem;
+  --ifm-code-font-size: 85%;
 
   /* 行高 */
   --ifm-line-height-base: 1.8;

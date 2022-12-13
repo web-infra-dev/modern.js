@@ -85,9 +85,6 @@
     "typescript": "^4"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {}
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",

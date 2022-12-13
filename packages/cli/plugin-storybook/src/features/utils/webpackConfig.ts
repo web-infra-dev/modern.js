@@ -3,7 +3,7 @@ import { fs } from '@modern-js/utils';
 import type {
   IAppContext,
   ModuleNormalizedConfig,
-} from '@modern-js/module-tools-v2';
+} from '@modern-js/module-tools';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { merge } from '@modern-js/utils/lodash';
@@ -149,14 +149,16 @@ export const getCustomWebpackConfigHandle = async ({
     (await createWebpackBuilder(modernConfig as BuilderConfig));
 
   const { PluginStorybook } = await import('./builder-plugin');
-  const { PluginNodePolyfill } = await import(
-    '@modern-js/builder-plugin-node-polyfill'
-  );
 
-  builder.addPlugins([
-    PluginNodePolyfill(),
-    PluginStorybook({ appDirectory, configDir }),
-  ]);
+  if (!builder.isPluginExists('builder-plugin-node-polyfill')) {
+    const { PluginNodePolyfill } = await import(
+      '@modern-js/builder-plugin-node-polyfill'
+    );
+
+    builder.addPlugins([PluginNodePolyfill()]);
+  }
+
+  builder.addPlugins([PluginStorybook({ appDirectory, configDir })]);
 
   const [config] = await builder.initConfigs();
 

@@ -1,7 +1,8 @@
 import path from 'path';
 import LintPlugin from '@modern-js/plugin-lint';
-import { cleanRequireCache, emptyDir, Import } from '@modern-js/utils';
-import { CliPlugin } from '@modern-js/core';
+import { cleanRequireCache, emptyDir, Import, Command } from '@modern-js/utils';
+import { castArray } from '@modern-js/utils/lodash';
+import { CliPlugin, PluginAPI } from '@modern-js/core';
 import AnalyzePlugin from './analyze';
 import InitializePlugin from './initialize';
 import { AppTools } from './types';
@@ -24,6 +25,82 @@ const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',
   require,
 );
+
+export const devCommand = async (
+  program: Command,
+  api: PluginAPI<AppTools>,
+) => {
+  const runner = api.useHookRunners();
+  const devToolMetas = await runner.registerDev();
+
+  const devProgram = program
+    .command('dev')
+    .usage('[options]')
+    .description(i18n.t(localeKeys.command.dev.describe))
+    .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
+    .option('-e --entry [entry...]', i18n.t(localeKeys.command.dev.entry))
+    .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
+    .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
+    .action(async (options: DevOptions) => {
+      const { dev } = await import('./commands/dev');
+      await dev(api, options);
+    });
+
+  for (const meta of devToolMetas) {
+    if (!meta.subCommands) {
+      continue;
+    }
+
+    for (const subCmd of meta.subCommands) {
+      devProgram.command(subCmd).action(async (options: DevOptions = {}) => {
+        const { appDirectory } = api.useAppContext();
+        const { isTypescript } = await import('@modern-js/utils');
+
+        await runner.beforeDevTask(meta);
+        await meta.action(options, {
+          isTsProject: isTypescript(appDirectory),
+        });
+      });
+    }
+  }
+};
+
+export const buildCommand = async (
+  program: Command,
+  api: PluginAPI<AppTools>,
+) => {
+  const runner = api.useHookRunners();
+  const platformBuilders = await runner.registerBuildPlatform();
+
+  const buildProgram = program
+    .command('build')
+    .usage('[options]')
+    .description(i18n.t(localeKeys.command.build.describe))
+    .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
+    .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
+    .action(async (options: BuildOptions) => {
+      const { build } = await import('./commands/build');
+      await build(api, options);
+      // force exit after build.
+      // eslint-disable-next-line no-process-exit
+      process.exit(0);
+    });
+
+  for (const platformBuilder of platformBuilders) {
+    const platforms = castArray(platformBuilder.platform);
+    for (const platform of platforms) {
+      buildProgram.command(platform).action(async () => {
+        const { appDirectory } = api.useAppContext();
+        const { isTypescript } = await import('@modern-js/utils');
+
+        await runner.beforeBuildPlatform(platformBuilders);
+        await platformBuilder.build(platform, {
+          isTsProject: isTypescript(appDirectory),
+        });
+      });
+    }
+  }
+};
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
@@ -48,39 +125,10 @@ export default (): CliPlugin<AppTools> => ({
     i18n.changeLanguage({ locale });
 
     return {
-      commands({ program }) {
-        program
-          .command('dev')
-          .usage('[options]')
-          .description(i18n.t(localeKeys.command.dev.describe))
-          .option(
-            '-c --config <config>',
-            i18n.t(localeKeys.command.shared.config),
-          )
-          .option('-e --entry [entry...]', i18n.t(localeKeys.command.dev.entry))
-          .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
-          .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
-          .action(async (options: DevOptions) => {
-            const { dev } = await import('./commands/dev');
-            await dev(api, options);
-          });
+      async commands({ program }) {
+        await devCommand(program, api);
 
-        program
-          .command('build')
-          .usage('[options]')
-          .description(i18n.t(localeKeys.command.build.describe))
-          .option(
-            '-c --config <config>',
-            i18n.t(localeKeys.command.shared.config),
-          )
-          .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
-          .action(async (options: BuildOptions) => {
-            const { build } = await import('./commands/build');
-            await build(api, options);
-            // force exit after build.
-            // eslint-disable-next-line no-process-exit
-            process.exit(0);
-          });
+        await buildCommand(program, api);
 
         program
           .command('start')

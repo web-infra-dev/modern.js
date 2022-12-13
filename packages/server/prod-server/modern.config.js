@@ -1,2 +1,5 @@
-// https://modernjs.dev/docs/apis/app/config
-module.exports = {};
+const { legacyPresets } = require('@scripts/build');
+
+module.exports = {
+  buildConfig: legacyPresets.UNIVERSAL_JS,
+};
