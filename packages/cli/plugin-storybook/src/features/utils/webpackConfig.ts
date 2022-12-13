@@ -144,9 +144,31 @@ export const getCustomWebpackConfigHandle = async ({
 }) => {
   const { appDirectory } = appContext;
 
+  const {
+    buildConfig: _,
+    buildPreset: __,
+    dev,
+    designSystem: ___,
+    ...builderConfig
+  } = modernConfig;
+  const storybookBuildConfig = dev?.storybook ?? {};
   const builder =
     appContext.builder ||
-    (await createWebpackBuilder(modernConfig as BuilderConfig));
+    (await createWebpackBuilder({
+      ...builderConfig,
+      tools: {
+        ...(builderConfig as any).tools,
+        // maybe buildConfig is app-tools`s config
+        webpack: [
+          (builderConfig as any).tools.webpack,
+          storybookBuildConfig.webpack,
+        ].filter(p => Boolean(p)),
+        webpackChain: [
+          (builderConfig as any).tools.webpackChain,
+          storybookBuildConfig.webpackChain,
+        ].filter(p => Boolean(p)),
+      },
+    }));
 
   const { PluginStorybook } = await import('./builder-plugin');
 

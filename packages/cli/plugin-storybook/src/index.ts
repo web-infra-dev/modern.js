@@ -17,6 +17,7 @@ export default (): CliPlugin<ModuleTools> => ({
         'plugins',
       );
 
+      // TODO: Remove dependencies on @modern-js/runtime
       return {
         source: {
           alias: {

@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",

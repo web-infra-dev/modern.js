@@ -1,8 +1,9 @@
 import React from 'react';
-import { createApp } from '@modern-js/runtime';
+import { createApp, bootstrap } from '@modern-js/runtime';
 import type { Plugin, RouterConfig } from '@modern-js/runtime';
 import { state, router } from '@modern-js/runtime/plugins';
 import type { StoryFn as StoryFunction } from '@storybook/addons';
+import ReactDOM from 'react-dom';
 import type { IConfig } from '../type';
 import { getStateOption } from './state';
 
@@ -15,7 +16,7 @@ const _createApp = (StoryFn: StoryFunction<JSX.Element>, options: IConfig) => {
   const AppWrapper = createApp({
     plugins: resolvePlugins(options.modernConfigRuntime),
   })(StoryFn);
-  // bootstrap(AppWrapper, 'root');
+  bootstrap(AppWrapper, 'root', null, ReactDOM);
   return AppWrapper;
 };
 const allowedRuntimeAPI = {

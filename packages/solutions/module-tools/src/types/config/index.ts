@@ -4,6 +4,7 @@ import type {
   Style as LibuildStyle,
 } from '@modern-js/libuild';
 import type { Options } from '@modern-js/libuild-plugin-svgr';
+import type { ToolsConfig as WebpackBuilderToolsConfig } from '@modern-js/builder-webpack-provider';
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build-presets';
 import type { CopyConfig } from '../copy';
@@ -123,11 +124,12 @@ export interface StyleConfig {
   tailwindcss?: TailwindCSSConfig;
 }
 
-export interface StorybookDevConfig {
-  name?: string;
+export interface StorybookBuildConfig {
+  webpack?: WebpackBuilderToolsConfig['webpack'];
+  webpackChain?: WebpackBuilderToolsConfig['webpackChain'];
 }
 export interface Dev {
-  storybook: StorybookDevConfig;
+  storybook?: StorybookBuildConfig;
 }
 
 export interface ModuleExtraConfig {
@@ -137,5 +139,5 @@ export interface ModuleExtraConfig {
 
   buildPreset?: BuildPreset;
 
-  dev?: DeepPartial<Dev>;
+  dev?: Dev;
 }
