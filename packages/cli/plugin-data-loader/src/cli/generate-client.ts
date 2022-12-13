@@ -19,7 +19,7 @@ export const generateClient = ({ mapFile }: { mapFile: string }) => {
 
   const requestCreatorPath = path
     .join(__dirname, './create-request')
-    .replace('node', 'treeshaking')
+    .replace('/node/cli/', '/treeshaking/cli/')
     .replace(/\\/g, '/');
 
   const importCode = `

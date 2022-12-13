@@ -26,7 +26,7 @@ const bestPractice = [
   {
     title: '零配置运行',
     img: FrameWorkConfigSVG,
-    href: '/docs/tutorials/first-app/c01-getting-started/1.2-minimal-mwa',
+    href: '/docs/tutorials/first-app/c01-start',
     desc: '直接启动你的应用，Modern.js 来管理其他的一切'
   },
   {
