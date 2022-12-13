@@ -7,6 +7,7 @@ import type {
   IAppContext,
   InternalPlugins,
   NormalizedConfig,
+  ToolsType,
 } from './types';
 
 export const AppContext = createContext<IAppContext>({} as IAppContext);
@@ -62,7 +63,7 @@ export const initAppContext = ({
   };
   serverConfigFile: string;
   serverInternalPlugins: InternalPlugins;
-  toolsType?: string;
+  toolsType?: ToolsType;
 }): IAppContext => {
   const {
     metaName = 'modern-js',

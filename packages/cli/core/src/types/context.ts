@@ -6,6 +6,12 @@ import {
 } from '@modern-js/types';
 import { BuilderInstance } from '@modern-js/builder-shared';
 
+export type ToolsType =
+  | 'app-tools'
+  | 'module-tools'
+  | 'doc-tools'
+  | 'monorepo-tools';
+
 export interface IAppContext {
   metaName: string; // name for generating conventional constants, such as .modern-js
   appDirectory: string;
@@ -15,7 +21,7 @@ export interface IAppContext {
   ip?: string;
   port?: number;
   distDirectory: string;
-  toolsType?: string;
+  toolsType?: ToolsType;
   packageName: string;
   srcDirectory: string;
   sharedDirectory: string;
