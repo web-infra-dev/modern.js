@@ -14,7 +14,7 @@ You can modify the config of [less-loader](https://github.com/webpack-contrib/le
 
 ### Object Type
 
-When `tools.less` is configured as `Object` type, it is merged with the default config through Object.assign. For example:
+When `tools.less` is configured as `Object` type, it is merged with the default config through deepMerge. For example:
 
 ```js
 export default {

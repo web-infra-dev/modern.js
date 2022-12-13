@@ -14,7 +14,7 @@
 
 ### Object 类型
 
-当 `tools.less` 的值为 `Object` 类型时，会与默认配置通过 Object.assign 合并。
+当 `tools.less` 的值为 `Object` 类型时，会与默认配置通过 deepMerge 进行深层合并。
 
 ```js
 export default {

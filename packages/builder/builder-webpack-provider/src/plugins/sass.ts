@@ -9,6 +9,7 @@ export function PluginSass(): BuilderPlugin {
         const config = api.getNormalizedConfig();
         const { applyOptionsChain } = await import('@modern-js/utils');
         const { applyBaseCSSRule } = await import('./css');
+        const { merge: deepMerge } = await import('@modern-js/utils/lodash');
 
         const getSassLoaderOptions = () => {
           const excludes: RegExp[] = [];
@@ -31,6 +32,7 @@ export function PluginSass(): BuilderPlugin {
             },
             config.tools.sass,
             { addExcludes },
+            deepMerge,
           );
 
           return {
