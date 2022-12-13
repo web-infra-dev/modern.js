@@ -9,8 +9,8 @@ sidebar_position: 2
 按照如下进行选择：
 
 ```bash
-? 请选择你想要的操作: 启用可选功能
-? 启用可选功能: 启用 Tailwind CSS 支持
+? 请选择你想要的操作 启用可选功能
+? 启用可选功能 启用 Tailwind CSS 支持
 ```
 
 使用时在入口的根组件(如 `src/App.jsx`)添加如下代码：
