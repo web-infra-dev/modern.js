@@ -20,7 +20,7 @@
     "description": "The label of footer link with label=实战教程 linking to /docs/tutorials/first-app/overview"
   },
   "link.item.label.基础功能": {
-    "message": "Basic Function",
+    "message": "Basic Features",
     "description": "The label of footer link with label=基础功能 linking to /docs/guides/basic-features/"
   },
   "link.item.label.进阶功能": {

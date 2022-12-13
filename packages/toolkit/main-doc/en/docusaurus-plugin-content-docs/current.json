@@ -64,7 +64,7 @@
     "description": "The label for category 核心概念 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.基础功能": {
-    "message": "Basic Function",
+    "message": "Basic Features",
     "description": "The label for category 基础功能 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.CSS 开发方案": {
