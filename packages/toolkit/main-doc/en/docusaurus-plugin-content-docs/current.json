@@ -4,7 +4,7 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialsSidebar.category.基础": {
-    "message": "基础",
+    "message": "Basic",
     "description": "The label for category 基础 in sidebar tutorialsSidebar"
   },
   "sidebar.tutorialsSidebar.category.创建第一个应用": {
@@ -56,23 +56,23 @@
     "description": "The label for category 11: 添加容器组件 in sidebar tutorialsSidebar"
   },
   "sidebar.guidesSidebar.category.开始": {
-    "message": "开始",
+    "message": "Start",
     "description": "The label for category 开始 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.核心概念": {
-    "message": "核心概念",
+    "message": "Core Concept",
     "description": "The label for category 核心概念 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.基础功能": {
-    "message": "基础功能",
+    "message": "Basic Features",
     "description": "The label for category 基础功能 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.CSS 开发方案": {
-    "message": "CSS 开发方案",
+    "message": "CSS Development",
     "description": "The label for category CSS 开发方案 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.进阶功能": {
-    "message": "进阶功能",
+    "message": "Advanced Features",
     "description": "The label for category 进阶功能 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.BFF": {
@@ -80,15 +80,15 @@
     "description": "The label for category BFF in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.专题详解": {
-    "message": "专题详解",
+    "message": "Topic Detail",
     "description": "The label for category 专题详解 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.Reduck 状态管理": {
-    "message": "Reduck 状态管理",
+    "message": "Reduck State Manager",
     "description": "The label for category Reduck 状态管理 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.微前端": {
-    "message": "微前端",
+    "message": "Micro-frontend",
     "description": "The label for category 微前端 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.Monorepo": {
@@ -96,11 +96,11 @@
     "description": "The label for category Monorepo in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.包版本管理": {
-    "message": "包版本管理",
+    "message": "Package Version Manager",
     "description": "The label for category 包版本管理 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.自定义插件": {
-    "message": "自定义插件",
+    "message": "Customized plugins",
     "description": "The label for category 自定义插件 in sidebar guidesSidebar"
   },
   "sidebar.guidesSidebar.category.项目生成器": {
