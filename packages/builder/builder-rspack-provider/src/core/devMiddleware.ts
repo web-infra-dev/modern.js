@@ -1,5 +1,6 @@
 import inner from '@rspack/dev-middleware';
 import type { ModernDevServerOptions } from '@modern-js/server';
+import { setupServerHooks } from '@modern-js/builder-shared';
 
 import type { Compiler } from '@rspack/core';
 
@@ -8,40 +9,16 @@ type DevMiddlewareOptions = ModernDevServerOptions['devMiddleware'];
 export function getHotRuntimeEntries(compiler: Compiler) {
   const hot = compiler.options.devServer?.hot ?? true;
   const refresh = compiler.options.builtins?.react?.refresh ?? true;
-  const entries: string[] = [];
 
-  if (hot) {
-    if (refresh) {
-      const reactRefreshEntryPath = require.resolve(
-        '@rspack/dev-client/react-refresh',
-      );
-      entries.push(reactRefreshEntryPath);
-    }
+  if (hot && refresh) {
+    const reactRefreshEntryPath = require.resolve(
+      '@rspack/dev-client/react-refresh',
+    );
+    return [reactRefreshEntryPath];
   }
 
-  return entries;
+  return [];
 }
-
-type IHookCallbacks = {
-  onInvalid: () => void;
-  onDone: (stats: any) => void;
-};
-
-const setupHooks = (compiler: Compiler, hookCallbacks: IHookCallbacks) => {
-  const addHooks = (compiler: Compiler) => {
-    if (compiler.name === 'server') {
-      return;
-    }
-
-    const { compile, invalid, done } = compiler.hooks;
-
-    compile.tap('modern-dev-server', hookCallbacks.onInvalid);
-    invalid.tap('modern-dev-server', hookCallbacks.onInvalid);
-    done.tap('modern-dev-server', hookCallbacks.onDone);
-  };
-
-  addHooks(compiler);
-};
 
 function applyHMREntry(compiler: Compiler, clientPath: string) {
   const hotRuntimeEntires = getHotRuntimeEntries(compiler);
@@ -66,7 +43,7 @@ export const getDevMiddleware: (compiler: Compiler) => DevMiddlewareOptions =
     hmrClientPath && applyHMREntry(compiler, hmrClientPath);
 
     // register hooks for each compilation, update socket stats if recompiled
-    setupHooks(compiler, callbacks);
+    setupServerHooks(compiler, callbacks);
 
     // @ts-expect-error
     return inner(compiler, restOptions);

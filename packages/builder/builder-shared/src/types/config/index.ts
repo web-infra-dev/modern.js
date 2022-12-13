@@ -11,6 +11,7 @@ import type {
 import type { SharedSecurityConfig } from './security';
 import type { SharedPerformanceConfig } from './performance';
 import type { SharedExperimentsConfig } from './experiments';
+import type { SharedToolsConfig } from './tools';
 
 /**
  * The shared Builder Config.
@@ -24,6 +25,7 @@ export interface SharedBuilderConfig {
   security?: SharedSecurityConfig;
   performance?: SharedPerformanceConfig;
   experiments?: SharedExperimentsConfig;
+  tools?: SharedToolsConfig;
 }
 
 export interface SharedNormalizedConfig {
@@ -41,3 +43,4 @@ export * from './source';
 export * from './security';
 export * from './performance';
 export * from './experiments';
+export * from './tools';

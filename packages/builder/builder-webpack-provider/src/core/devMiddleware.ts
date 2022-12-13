@@ -2,6 +2,7 @@
 import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { ModernDevServerOptions } from '@modern-js/server';
+import { setupServerHooks } from '@modern-js/builder-shared';
 
 type DevMiddlewareOptions = ModernDevServerOptions['devMiddleware'];
 
@@ -50,22 +51,12 @@ const setupHooks = (
   compiler: Compiler | MultiCompiler,
   hookCallbacks: IHookCallbacks,
 ) => {
-  const addHooks = (compiler: Compiler) => {
-    if (compiler.name === 'server') {
-      return;
-    }
-
-    const { compile, invalid, done } = compiler.hooks;
-
-    compile.tap('modern-dev-server', hookCallbacks.onInvalid);
-    invalid.tap('modern-dev-server', hookCallbacks.onInvalid);
-    done.tap('modern-dev-server', hookCallbacks.onDone);
-  };
-
   if ((compiler as MultiCompiler).compilers) {
-    (compiler as MultiCompiler).compilers.forEach(addHooks);
+    (compiler as MultiCompiler).compilers.forEach(compiler =>
+      setupServerHooks(compiler, hookCallbacks),
+    );
   } else {
-    addHooks(compiler as Compiler);
+    setupServerHooks(compiler as Compiler, hookCallbacks);
   }
 };
 
