@@ -71,6 +71,7 @@ export interface CoreOptions {
     distDir?: string;
     sharedDir?: string;
   };
+  toolsType?: string;
 }
 
 export const mergeOptions = (options?: CoreOptions) => {
@@ -121,6 +122,7 @@ const createCli = () => {
     plugins.forEach(plugin => plugin && manager.usePlugin(plugin));
 
     const appContext = initAppContext({
+      toolsType: mergedOptions?.toolsType,
       appDirectory,
       plugins,
       configFile: loaded.filePath,

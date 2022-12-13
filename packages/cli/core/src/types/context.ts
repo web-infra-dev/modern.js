@@ -15,6 +15,7 @@ export interface IAppContext {
   ip?: string;
   port?: number;
   distDirectory: string;
+  toolsType?: string;
   packageName: string;
   srcDirectory: string;
   sharedDirectory: string;

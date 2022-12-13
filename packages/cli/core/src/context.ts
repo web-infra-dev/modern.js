@@ -49,6 +49,7 @@ export const initAppContext = ({
   options,
   serverConfigFile,
   serverInternalPlugins,
+  toolsType,
 }: {
   appDirectory: string;
   plugins: CliPlugin[];
@@ -61,6 +62,7 @@ export const initAppContext = ({
   };
   serverConfigFile: string;
   serverInternalPlugins: InternalPlugins;
+  toolsType?: string;
 }): IAppContext => {
   const {
     metaName = 'modern-js',
@@ -94,5 +96,6 @@ export const initAppContext = ({
     apiOnly: false,
     internalDirAlias: `@_${metaName.replace(/-/g, '_')}_internal`,
     internalSrcAlias: `@_${metaName.replace(/-/g, '_')}_src`,
+    toolsType,
   };
 };
