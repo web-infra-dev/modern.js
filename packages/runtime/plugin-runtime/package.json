@@ -53,6 +53,11 @@
       "node": "./dist/js/node/document/index.js",
       "default": "./dist/js/treeshaking/document/index.js"
     },
+    "./document/cli": {
+      "jsnext:source": "./src/document/cli/index.ts",
+      "node": "./dist/js/node/document/cli/index.js",
+      "default": "./dist/js/treeshaking/document/cli/index.js"
+    },
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
       "node": "./dist/js/node/ssr/index",
@@ -60,7 +65,7 @@
     },
     "./model": {
       "jsnext:source": "./src/state/index.ts",
-      "node": "./dist/js/node/state/index",
+      "node": "./dist/js/node/state/index.js",
       "default": "./dist/js/treeshaking/state/index.js"
     },
     "./cli": {
@@ -101,6 +106,9 @@
       "document": [
         "./dist/types/document/index.d.ts"
       ],
+      "document/cli": [
+        "./dist/types/document/cli/index.d.ts"
+      ],
       "ssr": [
         "./dist/types/ssr/index.d.ts"
       ],
@@ -124,6 +132,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
+    "@babel/types": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/webpack-plugin": "5.15.2",
@@ -161,7 +170,6 @@
   "devDependencies": {
     "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@scripts/jest-config": "workspace:*",

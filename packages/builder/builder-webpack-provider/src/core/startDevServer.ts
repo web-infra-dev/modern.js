@@ -62,6 +62,8 @@ export async function createDevServer(
         writeToDisk: (file: string) => !file.includes('.hot-update.'),
       },
       https: builderConfig.dev?.https,
+      // merge devServerOptions from serverOptions
+      ...serverOptions.dev,
     },
     builderConfig.tools?.devServer,
   );
@@ -88,9 +90,9 @@ export async function createDevServer(
 
   const server = new Server({
     pwd: options.context.rootPath,
-    dev: devServerOptions,
     devMiddleware: getDevMiddleware(compiler),
     ...serverOptions,
+    dev: devServerOptions,
     config: serverOptions.config
       ? merge({}, defaultConfig, serverOptions.config)
       : defaultConfig,

@@ -1,7 +1,7 @@
 ---
 '@modern-js/plugin-tailwindcss': patch
-'@modern-js/module-tools-v2': patch
+'@modern-js/module-tools': patch
 ---
 
-add buildConfig style in module-tools-v2 and remove tools
-在module-tools-v2里新增buildConfig style并删除tools
+add buildConfig style in module-tools and remove tools
+在module-tools里新增buildConfig style并删除tools

@@ -3,8 +3,11 @@ import { createRequire } from 'module';
 import UnoCSSPlugin from '@unocss/webpack';
 import { presetUno, presetAttributify } from 'unocss';
 import { UserConfig } from 'shared/types';
-import { mergeBuilderConfig } from '@modern-js/builder';
-import { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import { BuilderInstance, mergeBuilderConfig } from '@modern-js/builder';
+import type {
+  BuilderConfig,
+  BuilderWebpackProvider,
+} from '@modern-js/builder-webpack-provider';
 import { CLIENT_ENTRY, PACKAGE_ROOT } from './constants';
 import { createMDXOptions } from './mdx';
 import { virtualModuleFactoryList } from './virtualModule';
@@ -87,7 +90,10 @@ async function createInternalBuildConfig(
   };
 }
 
-export async function createModernBuilder(rootDir: string, config: UserConfig) {
+export async function createModernBuilder(
+  rootDir: string,
+  config: UserConfig,
+): Promise<BuilderInstance<BuilderWebpackProvider>> {
   const userRoot = path.resolve(rootDir || process.cwd());
   const { createBuilder } = await import('@modern-js/builder');
   const { builderWebpackProvider } = await import(
@@ -110,5 +116,6 @@ export async function createModernBuilder(rootDir: string, config: UserConfig) {
       main: CLIENT_ENTRY,
     },
   });
+
   return builder;
 }

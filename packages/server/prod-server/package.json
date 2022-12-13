@@ -54,20 +54,17 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@babel/compat-data": "^7.17.10",
     "@modern-js/server-core": "workspace:*",
     "axios": "^0.24.0",
     "etag": "^1.8.1",
     "fresh": "^0.5.2",
-    "compare-versions": "^3.6.0",
     "cookie": "^0.4.2",
     "http-proxy-middleware": "^2.0.1",
     "ignore-styles": "^5.0.1",
     "lru-cache": "^6.0.0",
     "merge-deep": "^3.0.3",
     "path-to-regexp": "^6.2.0",
-    "serve-static": "^1.14.1",
-    "ua-parser-js": "^0.7.28"
+    "serve-static": "^1.14.1"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
@@ -82,16 +79,12 @@
     "@types/etag": "^1.8.1",
     "@types/fresh": "^0.5.0",
     "@types/serve-static": "^1.13.10",
-    "@types/ua-parser-js": "^0.7.36",
     "jest": "^27",
     "node-mocks-http": "^1.11.0",
     "portfinder": "^1.0.28",
     "typescript": "^4"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {}
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",

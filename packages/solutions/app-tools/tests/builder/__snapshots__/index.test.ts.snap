@@ -8,7 +8,7 @@ Object {
     "port": undefined,
   },
   "html": Object {
-    "templateByEntries": undefined,
+    "templateByEntries": Object {},
   },
   "output": Object {
     "assetPrefix": "/x",

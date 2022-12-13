@@ -164,7 +164,7 @@ export const routesForServer = ({
     importLoadersCode = `
     import { ${loaders.map(
       (loader, index) => `loader_${index}`,
-    )} } from "${loaderIndexFile}"`;
+    )} } from "${loaderIndexFile.replace(/\\/g, '/')}"`;
   }
 
   return `
@@ -179,19 +179,21 @@ export const fileSystemRoutes = async ({
   nestedRoutesEntry,
   entryName,
   internalDirectory,
+  internalDirAlias,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
   ssrMode: 'string' | 'stream' | false;
   nestedRoutesEntry?: string;
   entryName: string;
   internalDirectory: string;
+  internalDirAlias: string;
 }) => {
   const loadings: string[] = [];
   const errors: string[] = [];
   const loaders: string[] = [];
   const loadersMap: Record<string, string> = {};
   const loadersIndexFile = path.join(
-    '@_modern_js_internal',
+    internalDirAlias,
     entryName,
     TEMP_LOADERS_DIR,
     'index.js',
@@ -323,7 +325,7 @@ export const fileSystemRoutes = async ({
     importLoadersCode = `
     import { ${loaders.map(
       (loader, index) => `loader_${index}`,
-    )} } from "${dataLoaderPath}${loadersIndexFile}"
+    )} } from "${dataLoaderPath}${loadersIndexFile.replace(/\\/g, '/')}"
   `;
 
     const loaderEntryCode = loaders
@@ -353,7 +355,7 @@ export const fileSystemRoutes = async ({
           `${name}.js`,
         );
         const code = `
-          export { loader as ${name} } from '${loader}'
+          export { loader as ${name} } from '${loader.replace(/\\/g, '/')}'
         `;
         await fs.ensureFile(filename);
         await fs.writeFile(filename, code);

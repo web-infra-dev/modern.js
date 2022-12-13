@@ -17,8 +17,6 @@ export class ModernRoute implements ModernRouteInterface {
 
   public isSPA: boolean;
 
-  public enableModernMode?: boolean;
-
   public params: Record<string, any> = {};
 
   public responseHeaders?: Record<string, any>;
@@ -31,7 +29,6 @@ export class ModernRoute implements ModernRouteInterface {
     this.isSPA = routeSpec.isSPA || false;
     this.isApi = routeSpec.isApi || false;
     this.bundle = routeSpec.bundle || '';
-    this.enableModernMode = routeSpec.enableModernMode ?? false;
     this.responseHeaders = routeSpec.responseHeaders;
   }
 }

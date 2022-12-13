@@ -5,7 +5,7 @@ title: 使用 BFF 代理
 
 通过配置 BFF 代理，无需手动写码，即可对 API 请求进行转发。
 
-::: caution
+:::caution
 使用 BFF 代理需确保请求能进入 BFF handler。（例如请求路径必须包含 bff prefix）
 :::
 

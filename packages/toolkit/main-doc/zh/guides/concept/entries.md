@@ -13,7 +13,6 @@ Modern.js 初始化的项目是单入口的，项目结构如下：
 
 ```
 .
-├── node_modules
 ├── src
 │   ├── modern-app-env.d.ts
 │   └── routes
@@ -30,9 +29,9 @@ Modern.js 初始化的项目是单入口的，项目结构如下：
 Modern.js 可以很方便的将单入口切换成多入口。可以在项目下执行 `pnpm run new`，通过生成器创建入口：
 
 ```bash
-? 请选择你想要的操作： 创建工程元素
-? 创建工程元素： 新建「应用入口」
-? 请填写入口名称： new-entry
+? 请选择你想要的操作 创建工程元素
+? 创建工程元素 新建「应用入口」
+? 请填写入口名称 new-entry
 ```
 
 执行后，`src/` 目录将会变成如下结构：
@@ -73,7 +72,7 @@ Modern.js 会将和 `package.json` 中 `name` 同名的目录作为主入口，�
 1. 具有 `routes/` 目录
 2. 具有 `App.[jt]sx?` 文件
 3. 具有 `index.[jt]sx?` 文件
-2. 具有 `pages/` 目录（兼容旧版本）
+2. 具有 `pages/` 目录（兼容 Modern.js 1.0）
 
 当 `src/` 目录满足入口特征时，Modern.js 会认为当前项目为单入口应用。
 

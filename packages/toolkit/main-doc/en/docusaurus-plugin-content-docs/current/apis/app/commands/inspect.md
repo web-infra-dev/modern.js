@@ -33,7 +33,3 @@ modern inspect --env production
 ### SSR Configuration
 
 If the project has SSR enable, an additional `webpack.ssr.inspect.js` file will be generated in the `dist/`, corresponding to the webpack configuration at SSR build time.
-
-### Modern Configuration
-
-if project enable [enableModernMode](/docs/configure/app/output/enable-modern-mode), an additional `webpack.modern.inspect.js` file will be generated in the `dist/`corresponding to the webpack configuration at modern web build.

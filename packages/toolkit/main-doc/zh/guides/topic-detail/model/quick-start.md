@@ -81,7 +81,7 @@ export default countModel;
 
 接下来，我们演示如何在组件中使用 Model。
 
-新建一个组件 Counter，在组件内通过 `useModel` API 使用 countModel：
+新建一个组件 Counter，在组件内通过 `useModel` API 使用 `countModel`：
 
 ```js
 import { useModel } from '@modern-js/runtime/model';
