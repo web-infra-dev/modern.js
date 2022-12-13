@@ -30,6 +30,7 @@ type PluginsFn = () => Promise<BuilderPlugin>;
 export type Plugins = {
   cleanOutput: PluginsFn;
   startUrl: PluginsFn;
+  fileSize: PluginsFn;
 };
 
 /**
