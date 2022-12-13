@@ -5,4 +5,5 @@ require('@modern-js/core/runBin').run({
   internalPlugins: {
     cli: INTERNAL_DOC_TOOLS_PLUGINS,
   },
+  toolsType: 'doc-tools',
 });
