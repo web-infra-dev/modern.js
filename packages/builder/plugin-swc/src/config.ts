@@ -45,7 +45,7 @@ function getDefaultSwcConfig(): TransformConfig {
     minify: false, // for loader, we don't need to minify, we do minification using plugin
     sourceMaps: true,
     env: {
-      targets: '',
+      targets: '> 0.01%, not dead, not op_mini all',
       mode: 'usage',
     },
     exclude: [],
