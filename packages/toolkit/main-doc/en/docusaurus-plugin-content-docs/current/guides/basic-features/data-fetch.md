@@ -7,7 +7,7 @@ Modern.js provides out of the box fetching data capabilities, developers can use
 
 It should be noted that these APIs do not help applications to initiate requests, but help developers better manage the relationship between data and routing.
 
-## useLoader（旧版）
+## useLoader(Old)
 
 **`useLoader`** is an API in Modern.js old version. The API is a React Hook specially provided for SSR applications, allowing developers to fetch data in components.
 
