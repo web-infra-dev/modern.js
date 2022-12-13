@@ -12,6 +12,7 @@ import type {
   RouteLegacy,
   ServerRoute,
 } from '@modern-js/types';
+import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
 import type { Stats, MultiStats } from '@modern-js/builder-shared';
 
 export interface ImportSpecifier {
@@ -94,4 +95,10 @@ export type AppToolsHooks = {
     void
   >;
   beforeRestart: AsyncWorkflow<void, void>;
+
+  registerDev: ParallelWorkflow<void, DevToolData>;
+  beforeDevTask: ParallelWorkflow<DevToolData, void>;
+
+  registerBuildPlatform: ParallelWorkflow<void, RegisterBuildPlatformResult>;
+  beforeBuildPlatform: ParallelWorkflow<RegisterBuildPlatformResult[], void>;
 };
