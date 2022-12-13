@@ -37,6 +37,7 @@ describe('fileSystemRoutes', () => {
       ssrMode: false,
       entryName: 'main',
       internalDirectory: '',
+      internalDirAlias: '@_modern_js_internal',
     });
     expect(code).toMatchSnapshot();
   });
@@ -82,6 +83,7 @@ describe('fileSystemRoutes', () => {
       routes,
       ssrMode: false,
       internalDirectory: '',
+      internalDirAlias: '@_modern_js_internal',
     });
     expect(code).toMatchSnapshot();
   });

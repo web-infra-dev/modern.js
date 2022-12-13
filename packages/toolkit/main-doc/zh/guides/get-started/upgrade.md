@@ -16,7 +16,7 @@ $ pnpm run upgrade
 
 [INFO] [项目类型]: 应用
 [INFO] [Modern.js 最新版本]: 2.0.0
-[INFO] [当前项目 Modern.js 依赖已经为最新版本]: 2.0.0
+[INFO] 已更新 Modern.js 依赖至最新版本!
 ```
 
 可以看到项目 `package.json` 中的依赖已经更改到最新。
