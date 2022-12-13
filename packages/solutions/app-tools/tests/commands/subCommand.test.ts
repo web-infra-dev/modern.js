@@ -1,5 +1,6 @@
 import path from 'path';
 import { runCli, initBeforeTest } from '../helper';
+import { CliPlugin, AppTools } from '@/types';
 
 const buildAction = jest.fn();
 const devAction = jest.fn();
@@ -8,9 +9,9 @@ const fixtureDir = path.join(__dirname, '../fixtures/subcommand');
 
 const mockPluginPath = path.join(fixtureDir, 'mock-plugin');
 
-const mockPlugin = () => ({
+const mockPlugin: () => CliPlugin<AppTools> = () => ({
   name: '@modern-js/plugin-test-storybook',
-  setup: () => ({
+  setup: api => ({
     registerDev() {
       return {
         name: 'storybook',
@@ -19,7 +20,11 @@ const mockPlugin = () => ({
           value: 'storybook',
         },
         subCommands: ['storybook', 'story'],
-        action: devAction,
+        action: (...args: any[]) => {
+          const context = api.useAppContext();
+          expect(context.toolsType).toBe('app-tools');
+          devAction(...args);
+        },
       };
     },
 
