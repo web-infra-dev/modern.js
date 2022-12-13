@@ -6,7 +6,8 @@
     "outDir": "dist",
     "isolatedModules": true,
     "noImplicitAny": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "sourceMap": true
   },
   "include": ["./src"],
   "exclude": ["./tests/fixtures"]

@@ -27,9 +27,22 @@ export const PluginTsChecker = (): BuilderPlugin => {
         const { default: ForkTsCheckerWebpackPlugin } = await import(
           'fork-ts-checker-webpack-plugin'
         );
-        const { CHAIN_ID, applyOptionsChain } = await import(
+        const { logger, CHAIN_ID, applyOptionsChain } = await import(
           '@modern-js/utils'
         );
+
+        // use typescript of user project
+        let typescriptPath: string;
+        try {
+          typescriptPath = require.resolve('typescript', {
+            paths: [api.context.rootPath],
+          });
+        } catch (err) {
+          logger.warn(
+            '"typescript" is not found in current project, Type Checker will not work.',
+          );
+          return;
+        }
 
         const tsCheckerOptions = applyOptionsChain(
           {
@@ -38,8 +51,7 @@ export const PluginTsChecker = (): BuilderPlugin => {
               memoryLimit: 8192,
               // use tsconfig of user project
               configFile: api.context.tsconfigPath,
-              // use typescript of user project
-              typescriptPath: require.resolve('typescript'),
+              typescriptPath,
             },
             issue: {
               exclude: [
