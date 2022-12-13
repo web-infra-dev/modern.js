@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import { build } from 'esbuild';
 import type { AppUserConfig, CliPlugin, AppTools } from '@modern-js/app-tools';
-import { createDebugger, findExists, fs } from '@modern-js/utils';
+import { createDebugger, findExists } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types/cli';
 
 import { DocumentContext } from '../DocumentContext';
@@ -93,13 +93,10 @@ export default (): CliPlugin<AppTools> => ({
           entryName,
           templateParameters,
         });
-        const tempTsConfigFile = path.join(
-          internalDirectory,
-          `./document/tsconfig.json`,
-        );
-        fs.outputFileSync(
-          tempTsConfigFile,
-          '{"compilerOptions":{"jsx":"react-jsx"}}',
+        const tsConfigFile = path.join(
+          __dirname,
+          '../../../../../',
+          './static/config.json',
         );
         const htmlOutputFile = path.join(
           internalDirectory,
@@ -111,7 +108,7 @@ export default (): CliPlugin<AppTools> => ({
           outfile: htmlOutputFile,
           platform: 'node',
           // change esbuild use the rootDir tsconfig.json as default to tempTsConfigFile
-          tsconfig: tempTsConfigFile,
+          tsconfig: tsConfigFile,
           target: 'es6',
           loader: {
             '.ts': 'ts',
