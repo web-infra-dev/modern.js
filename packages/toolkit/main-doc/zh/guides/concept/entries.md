@@ -13,7 +13,6 @@ Modern.js 初始化的项目是单入口的，项目结构如下：
 
 ```
 .
-├── node_modules
 ├── src
 │   ├── modern-app-env.d.ts
 │   └── routes

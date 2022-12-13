@@ -86,17 +86,17 @@ describe('fixtures', () => {
       // original location is line 1 at `raw`
       const locB = smc.originalPositionFor({
         line: 7,
-        column: 0,
-      });
+        column: 13,
+      }); // Code position for `_x.b`
       expect(locB.line).equal(1);
-      expect(locB.column).equal(14);
+      expect(locB.column).equal(12);
 
       const locA = smc.originalPositionFor({
         line: 6,
-        column: 0,
+        column: 13,
       });
-      expect(locA.line).equal(1);
-      expect(locA.column).equal(0);
+      expect(locA.line).equal(2);
+      expect(locA.column).equal(12);
     });
   });
 
