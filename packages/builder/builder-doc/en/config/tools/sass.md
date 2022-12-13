@@ -11,7 +11,9 @@ You can modify the config of [sass-loader](https://github.com/webpack-contrib/sa
 
 ### Object Type
 
-When `tools.sass` is `Object` type, it is merged with the default config via Object.assign. For example:
+When `tools.sass` is `Object` type, it is merged with the default config through Object.assign. It should be noted that `sassOptions` is merged through deepMerge in a deep way.
+
+For example:
 
 ```js
 export default {
