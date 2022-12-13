@@ -9,4 +9,5 @@ require('@modern-js/core/runBin').run({
     cli: INTERNAL_APP_TOOLS_PLUGINS,
     server: INTERNAL_SERVER_PLUGINS,
   },
+  toolsType: 'app-tools',
 });

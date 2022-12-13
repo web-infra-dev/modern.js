@@ -2,7 +2,7 @@ import * as path from 'path';
 import { createDebugger, fs, isApiOnly } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import { createBuilderForEdenX } from '../builder';
+import { createBuilderForModern } from '../builder';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
@@ -126,7 +126,7 @@ export default (): CliPlugin<AppTools> => ({
         const buildCommands = ['dev', 'build', 'inspect', 'deploy'];
         if (buildCommands.includes(command)) {
           const normalizedConfig = api.useResolvedConfigContext();
-          const builder = await createBuilderForEdenX({
+          const builder = await createBuilderForModern({
             normalizedConfig: normalizedConfig as any,
             appContext,
             compatPluginConfig: {
