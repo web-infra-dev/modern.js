@@ -2,7 +2,7 @@ import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React, { useState } from "react";
 export var App = function() {
-    var ref = _sliced_to_array(useState(0), 2), count = ref[0], setCount = ref[1];
+    var _useState = _sliced_to_array(useState(0), 2), count = _useState[0], setCount = _useState[1];
     return /*#__PURE__*/ _jsxs("div", {
         children: [
             "Hello World. ",

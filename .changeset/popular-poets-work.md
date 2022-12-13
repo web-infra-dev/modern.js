@@ -1,6 +1,6 @@
 ---
 '@modern-js/plugin-storybook': minor
-'@modern-js/module-tools-v2': minor
+'@modern-js/module-tools': minor
 ---
 
 feat: change dev menu log

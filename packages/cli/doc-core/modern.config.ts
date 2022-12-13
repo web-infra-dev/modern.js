@@ -4,11 +4,9 @@ export default {
   testing: {
     transformer: 'ts-jest',
   },
-  output: {
-    buildConfig: {
-      buildType: 'bundle',
-      enableDts: true,
-      format: 'esm',
-    },
+  buildConfig: {
+    buildType: 'bundle',
+    format: 'esm',
+    sourceMap: true,
   },
 };

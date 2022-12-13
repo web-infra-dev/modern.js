@@ -344,13 +344,7 @@ builder.removePlugins([pluginFoo.name]);
 
 ## builder.isPluginExists
 
-Determines whether a plugin has been registered.
-
-- **Type**
-
-```ts
-function IsPluginExists(pluginName: string): boolean;
-```
+!!!include(./src/en/shared/isPluginExists.md)!!!
 
 - **Example**
 
@@ -503,5 +497,44 @@ builder.onDevCompileDone(({ isFirstCompile }) => {
 ```ts
 builder.onExit(() => {
   console.log('exit!');
+});
+```
+
+## builder.getBuilderConfig
+
+!!!include(./src/en/shared/getBuilderConfig.md)!!!
+
+- **Example**
+
+```ts
+builder.onBeforeBuild(() => {
+  const config = builder.getBuilderConfig();
+  console.log(config.html?.title);
+});
+```
+
+## builder.getNormalizedConfig
+
+!!!include(./src/en/shared/getNormalizedConfig.md)!!!
+
+- **Example**
+
+```ts
+builder.onBeforeBuild(() => {
+  const config = api.getNormalizedConfig();
+  console.log(config.html.title);
+});
+```
+
+## builder.getHTMLPaths
+
+!!!include(./src/en/shared/getHTMLPaths.md)!!!
+
+- **Example**
+
+```ts
+builder.onBeforeBuild(() => {
+  const htmlPaths = api.getHTMLPaths();
+  console.log(htmlPaths); // { main: 'html/main/index.html' };
 });
 ```

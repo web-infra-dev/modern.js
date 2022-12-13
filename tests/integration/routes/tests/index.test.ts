@@ -1,6 +1,9 @@
 import path from 'path';
 import { fs, ROUTE_MANIFEST, ROUTE_MINIFEST_FILE } from '@modern-js/utils';
-import type { Browser, Page } from 'puppeteer';
+import type {
+  // Browser,
+  Page,
+} from 'puppeteer';
 import {
   launchApp,
   killApp,
@@ -11,7 +14,7 @@ import {
 
 declare const page: Page;
 
-declare const browser: Browser;
+// declare const browser: Browser;
 
 const appDir = path.resolve(__dirname, '../');
 
@@ -195,7 +198,7 @@ const supportNestedRouteAndPage = async (errors: string[], appPort: number) => {
 };
 
 const supportHandleLoaderError = async (errors: string[], appPort: number) => {
-  const page = await browser.newPage();
+  // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });
@@ -219,7 +222,7 @@ const supportLoadChunksParallelly = async () => {
 };
 
 const supportLoader = async (errors: string[], appPort: number) => {
-  const page = await browser.newPage();
+  // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three/user`, {
     waitUntil: ['domcontentloaded'],
   });
@@ -230,7 +233,7 @@ const supportLoader = async (errors: string[], appPort: number) => {
 };
 
 const supportLoaderForSSRAndCSR = async (errors: string[], appPort: number) => {
-  const page = await browser.newPage();
+  // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });

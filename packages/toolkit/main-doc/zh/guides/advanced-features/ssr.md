@@ -55,10 +55,10 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 Warning: Expected server HTML to contain a matching <div> in <div>.
 ```
 
-这是 React 在客户端执行注水逻辑时，发现渲染结果与 SSR 渲染结果不一致造成的。虽然页面表现正常，但在复杂应用中，很有可能因此出现 DOM 层级混乱、样式混乱等问题。
+这是 React 在客户端执行 hydrate 逻辑时，发现渲染结果与 SSR 渲染结果不一致造成的。虽然页面表现正常，但在复杂应用中，很有可能因此出现 DOM 层级混乱、样式混乱等问题。
 
 :::info 注
-关于注水逻辑请参考[这里](https://reactjs.org/docs/react-dom.html#hydrate)。
+关于 hydrate (注水)逻辑请参考[这里](https://reactjs.org/docs/react-dom.html#hydrate)。
 :::
 
 应用需要保持 SSR 与 CSR 渲染结果的一致性，如果存在不一致的情况，说明这部分内容无需在 SSR 中进行渲染。Modern.js 为这类在 SSR 中不需要渲染的内容提供 [`<NoSSR>` 工具组件](/docs/apis/app/runtime/core/use-runtime-context)：

@@ -45,10 +45,6 @@ module.exports = {
               to: '/docs/guides/get-started/quick-start',
             },
             {
-              label: '实战教程',
-              to: '/docs/tutorials/first-app/overview',
-            },
-            {
               label: '基础功能',
               to: '/docs/guides/basic-features/',
             },

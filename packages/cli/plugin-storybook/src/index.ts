@@ -1,5 +1,5 @@
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import { defaultStories } from './constants/stores';
 
 export default (): CliPlugin<ModuleTools> => ({
