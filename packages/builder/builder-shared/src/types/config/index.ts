@@ -36,7 +36,6 @@ export type SharedNormalizedConfig = DeepReadonly<{
   performance: Pick<SharedPerformanceConfig, 'printFileSize'>;
 }>;
 
-
 export * from './dev';
 export * from './html';
 export * from './output';
