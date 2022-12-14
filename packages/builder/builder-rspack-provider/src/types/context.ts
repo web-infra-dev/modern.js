@@ -14,7 +14,7 @@ export type Context = BuilderContext & {
   /** The original builder config passed from the createBuilder method. */
   originalConfig: Readonly<BuilderConfig>;
   /** The normalized builder config. */
-  normalizedConfig?: Readonly<NormalizedConfig>;
+  normalizedConfig?: NormalizedConfig;
   /** The plugin API. */
   pluginAPI?: BuilderPluginAPI;
 };

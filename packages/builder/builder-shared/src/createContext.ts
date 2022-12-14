@@ -6,7 +6,6 @@ import {
   CreateBuilderOptions,
   NormalizedSharedOutputConfig,
 } from './types';
-import { deepFreezed } from './utils';
 import { getAbsoluteDistPath } from './fs';
 
 /**
@@ -55,5 +54,5 @@ export function createPublicContext(
     'configPath',
     'tsconfigPath',
   ]);
-  return deepFreezed(ctx);
+  return Object.freeze(ctx);
 }
