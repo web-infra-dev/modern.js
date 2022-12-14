@@ -3,12 +3,16 @@ import { createBuilder } from '../helper';
 
 describe('applyDefaultPlugins', () => {
   it('should apply default plugins correctly', async () => {
+    const { NODE_ENV } = process.env;
+    process.env.NODE_ENV = 'development';
     const builder = await createBuilder({});
 
     const {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
     expect(bundlerConfigs[0]).toMatchSnapshot();
+
+    process.env.NODE_ENV = NODE_ENV;
   });
 
   it('should apply default plugins correctly when prod', async () => {
@@ -28,6 +32,9 @@ describe('applyDefaultPlugins', () => {
 
 describe('tools.rspack', () => {
   it('should match snapshot', async () => {
+    const { NODE_ENV } = process.env;
+    process.env.NODE_ENV = 'development';
+
     class TestPlugin {
       readonly name: string = 'TestPlugin';
 
@@ -57,5 +64,7 @@ describe('tools.rspack', () => {
     } = await builder.inspectConfig();
 
     expect(bundlerConfigs[0]).toMatchSnapshot();
+
+    process.env.NODE_ENV = NODE_ENV;
   });
 });
