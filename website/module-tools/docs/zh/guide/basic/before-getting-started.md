@@ -2,7 +2,7 @@
 
 ## 环境准备
 
-为了使用 Modern.js/EdenX 模块工程解决方案，首先需要 [NodeJS](https://nodejs.org/zh/)，我们推荐最新的[长期维护版本](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.17.6**。因为非稳定的 NodeJS 时常有一些 Bug，你可以使用 [nvm-windows](https://github.com/coreybutler/nvm-windows) 和 [nvm](https://github.com/nvm-sh/nvm)（Mac/linux）安装，这样你就可以方便地切换到不同的 NodeJS 版本，这些版本可能会用于不同的项目。
+为了使用 Modern.js 模块工程解决方案，首先需要 [NodeJS](https://nodejs.org/zh/)，我们推荐最新的[长期维护版本](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.17.6**。因为非稳定的 NodeJS 时常有一些 Bug，你可以使用 [nvm-windows](https://github.com/coreybutler/nvm-windows) 和 [nvm](https://github.com/nvm-sh/nvm)（Mac/linux）安装，这样你就可以方便地切换到不同的 NodeJS 版本，这些版本可能会用于不同的项目。
 ## 初识 npm
 
 当 NodeJS 被安装后，你不仅可以在命令行中访问 `node` 可执行程序，同时你也可以执行 `npm` 命令。

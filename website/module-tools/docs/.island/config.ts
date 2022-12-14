@@ -159,10 +159,6 @@ function getSidebar(lang: 'zh' | 'en') {
             text: getText('深入理解 dev 命令', 'In depth about dev command'),
             link: getLink('/guide/advance/in-depth-about-dev-command')
           },
-          {
-            text: getText('使用插件扩展', 'Plugins extension'),
-            link: getLink('/guide/advance/extension')
-          },
         ]
       }
     ],

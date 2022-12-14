@@ -30,6 +30,6 @@ For more information on how to use Tailwind CSS in your module projects, check o
 
 ## Modern.js Runtime API
 
-**Modern.js/EdenX provides [Runtime API](xxx) capabilities that can only be used in the Modern.js/EdenX application project environment**. If you need to develop a component for use in a Modern.js/EdenX application environment, then you can turn on this feature and the microgenerator will add the `"@modern-js/runtime"` dependency.
+**Modern.js provides [Runtime API](xxx) capabilities that can only be used in the Modern.js application project environment**. If you need to develop a component for use in a Modern.js application environment, then you can turn on this feature and the microgenerator will add the `"@modern-js/runtime"` dependency.
 
-Also, the Storybook debugging tool will determine if the project needs to use the Runtime API by checking the project's dependencies and providing the same Runtime API runtime environment as the Modern.js/EdenX application project.
+Also, the Storybook debugging tool will determine if the project needs to use the Runtime API by checking the project's dependencies and providing the same Runtime API runtime environment as the Modern.js application project.
