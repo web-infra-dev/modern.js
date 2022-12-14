@@ -10,6 +10,7 @@ import { getCommand } from '../utils/commands';
 import { AppTools } from '../types';
 import { initialNormalizedConfig } from '../config';
 import { isRouteComponentFile } from './utils';
+import { loaderBuilder, serverLoaderBuilder } from './Builder';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -193,6 +194,11 @@ export default (): CliPlugin<AppTools> => ({
         return {
           resolved: config,
         };
+      },
+
+      async beforeRestart() {
+        serverLoaderBuilder.stop();
+        loaderBuilder.stop();
       },
 
       async fileChange(e) {
