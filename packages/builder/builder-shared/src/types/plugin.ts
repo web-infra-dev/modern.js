@@ -10,6 +10,7 @@ import type {
   ModifyBuilderConfigFn,
 } from './hooks';
 import { BuilderContext } from './context';
+import { SharedBuilderConfig, SharedNormalizedConfig } from './config';
 
 export type PluginStore = {
   readonly plugins: BuilderPlugin[];
@@ -30,6 +31,7 @@ type PluginsFn = () => Promise<BuilderPlugin>;
 export type Plugins = {
   cleanOutput: PluginsFn;
   startUrl: PluginsFn;
+  fileSize: PluginsFn;
 };
 
 /**
@@ -64,4 +66,6 @@ export type DefaultBuilderPluginAPI<
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn<Config>) => void;
 };
 
-export type DefaultBuilderPlugin = BuilderPlugin<DefaultBuilderPluginAPI>;
+export type DefaultBuilderPlugin = BuilderPlugin<
+  DefaultBuilderPluginAPI<SharedBuilderConfig, SharedNormalizedConfig>
+>;

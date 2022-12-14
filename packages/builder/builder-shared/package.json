@@ -25,7 +25,8 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
-    "./open": "./compiled/open/index.js"
+    "./open": "./compiled/open/index.js",
+    "./test-stub": "./dist/test-stub/index.js"
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
@@ -56,13 +57,17 @@
     "types": "./dist/index.d.ts",
     "exports": {
       ".": "./dist/index.js",
-      "./open": "./compiled/open/index.js"
+      "./open": "./compiled/open/index.js",
+      "./test-stub": "./dist/test-stub/index.js"
     }
   },
   "typesVersions": {
     "*": {
       "open": [
         "./compiled/open/index.d.ts"
+      ],
+      "test-stub": [
+        "./dist/test-stub/index.d.js"
       ]
     }
   }

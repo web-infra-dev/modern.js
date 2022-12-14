@@ -2,9 +2,9 @@ import {
   pick,
   createPluginStore,
   applyDefaultBuilderOptions,
-  mockBuilderPlugins,
   type CreateBuilderOptions,
 } from '@modern-js/builder-shared';
+import { mockBuilderPlugins } from '@modern-js/builder-shared/test-stub';
 import { BuilderPlugin, BuilderConfig, RspackConfig } from '../src/types';
 import { builderRspackProvider } from '../src/provider';
 

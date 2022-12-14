@@ -10,7 +10,7 @@ import {
   MultiStats,
   StatsAsset,
 } from '@modern-js/builder-shared';
-import type { BuilderPlugin } from '../types';
+import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
 /** Filter source map files */
 export const filterAsset = (asset: string) => !/\.map$/.test(asset);
@@ -125,7 +125,7 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
   logger.log('');
 }
 
-export const PluginFileSize = (): BuilderPlugin => ({
+export const PluginFileSize = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-file-size',
 
   setup(api) {

@@ -2,11 +2,11 @@ import {
   applyDefaultBuilderOptions,
   createPluginStore,
   createPublicContext,
-  mockBuilderPlugins,
   type BuildOptions,
   type CreateBuilderOptions,
   type PluginStore,
 } from '@modern-js/builder-shared';
+import { mockBuilderPlugins } from '@modern-js/builder-shared/test-stub';
 import type * as playwright from '@modern-js/e2e/playwright';
 import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
