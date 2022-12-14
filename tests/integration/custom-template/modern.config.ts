@@ -1,4 +1,4 @@
-import { defineConfig } from '@modern-js/app-tools';
+import PluginAppTools, { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   html: {
@@ -8,4 +8,5 @@ export default defineConfig({
     disableFilenameHash: true,
     disableInlineRuntimeChunk: true,
   },
+  plugins: [PluginAppTools()],
 });

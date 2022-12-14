@@ -7,6 +7,7 @@ import {
   SHARED_DIR,
   isProd,
 } from '@modern-js/utils';
+import { SERVER_PLUGIN_BFF } from '@modern-js/utils/constants';
 import { compile } from '@modern-js/server-utils';
 import type { ServerRoute } from '@modern-js/types';
 import { ApiRouter } from '@modern-js/bff-core';
@@ -93,6 +94,11 @@ export default (): CliPlugin<AppTools> => ({
         })) as ServerRoute[];
 
         return { routes: routes.concat(apiServerRoutes) };
+      },
+
+      collectServerPlugins({ plugins }) {
+        plugins.push(SERVER_PLUGIN_BFF);
+        return { plugins };
       },
 
       async beforeBuild() {

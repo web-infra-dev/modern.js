@@ -1,3 +1,5 @@
+import PluginAppTools from '@modern-js/app-tools';
+
 module.exports = {
   source: {
     alias: {
@@ -6,4 +8,5 @@ module.exports = {
     },
   },
   runtime: {},
+  plugins: [PluginAppTools()],
 };

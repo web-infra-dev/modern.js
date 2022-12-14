@@ -4,7 +4,6 @@ import {
   program,
   logger,
   DEFAULT_SERVER_CONFIG,
-  INTERNAL_SERVER_PLUGINS,
   Command,
 } from '@modern-js/utils';
 import type { ErrorObject } from '@modern-js/utils/ajv';
@@ -120,6 +119,7 @@ const createCli = () => {
     const plugins = await loadPlugins(appDirectory, loaded.config, {
       internalPlugins: mergedOptions?.internalPlugins?.cli,
       transformPlugin: mergedOptions?.transformPlugin,
+      toolsTypes: mergedOptions?.toolsType,
       forceAutoLoadPlugins: mergedOptions?.forceAutoLoadPlugins,
     });
 
@@ -132,8 +132,6 @@ const createCli = () => {
       configFile: loaded.filePath,
       options: mergedOptions?.options,
       serverConfigFile: mergedOptions?.serverConfigFile,
-      serverInternalPlugins:
-        mergedOptions?.internalPlugins?.server || INTERNAL_SERVER_PLUGINS,
     });
 
     ConfigContext.set(loaded.config);

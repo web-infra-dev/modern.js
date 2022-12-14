@@ -19,12 +19,12 @@
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
+      "jsnext:source": "./src/cli.ts",
       "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "import": "./dist/js/node/cli.js",
+        "require": "./dist/js/node/cli.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/js/node/cli.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli.ts",
@@ -33,6 +33,14 @@
         "require": "./dist/js/node/cli.js"
       },
       "default": "./dist/js/node/cli.js"
+    },
+    "./server": {
+      "node": {
+        "jsnext:source": "./src/index.ts",
+        "import": "./dist/js/modern/index.js",
+        "require": "./dist/js/node/index.js"
+      },
+      "default": "./dist/js/treeshaking/index.js"
     }
   },
   "scripts": {
@@ -51,6 +59,7 @@
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@types/jest": "^27",
     "@types/lru-cache": "^5.1.1",

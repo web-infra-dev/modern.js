@@ -26,16 +26,20 @@
   "exports": {
     "./types": "./types.d.ts",
     ".": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
+    "./server": {
       "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
-    },
-    "./cli": {
-      "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
     }
   },
   "dependencies": {
@@ -48,6 +52,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

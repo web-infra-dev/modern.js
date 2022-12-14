@@ -125,7 +125,7 @@ export const PluginCompatModern = (
         entrypoint => entrypoint.nestedRoutesEntry,
       );
 
-      const routerManifest = Boolean(modernConfig.runtime.router.manifest);
+      const routerManifest = Boolean(modernConfig.runtime.router?.manifest);
       if (existNestedRoutes || routerManifest) {
         chain.plugin('route-plugin').use(RouterPlugin);
       }

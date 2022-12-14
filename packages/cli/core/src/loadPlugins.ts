@@ -6,12 +6,14 @@ import {
   getInternalPlugins,
   dynamicImport,
 } from '@modern-js/utils';
+import { INTERNAL_APP_TOOLS_RUNTIME_PLUGINS } from '@modern-js/utils/constants';
 import type {
   CliPlugin,
   UserConfig,
   OldPluginConfig,
   PluginConfig,
   PluginItem,
+  ToolsType,
 } from './types';
 import { createPlugin } from './manager';
 
@@ -73,6 +75,7 @@ export const loadPlugins = async (
   options: {
     internalPlugins?: InternalPlugins;
     transformPlugin?: TransformPlugin;
+    toolsTypes?: ToolsType;
     forceAutoLoadPlugins?: boolean;
   } = {},
 ) => {
@@ -82,6 +85,7 @@ export const loadPlugins = async (
       ? getInternalPlugins(appDirectory, options.internalPlugins)
       : []),
     ...(isOldPluginConfig(pluginConfig) ? pluginConfig : []),
+    ...getInternalPlugins(appDirectory, INTERNAL_APP_TOOLS_RUNTIME_PLUGINS),
   ];
 
   const loadedPlugins = await Promise.all(

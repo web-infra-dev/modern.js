@@ -1,7 +1,9 @@
-import { defineConfig } from '@modern-js/app-tools';
+import PluginAppTools, { defineConfig } from '@modern-js/app-tools';
+import PluginRouterLegacy from '@modern-js/plugin-router-legacy';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
+  plugins: [PluginAppTools(), PluginRouterLegacy()],
   runtime: {
     // router: true,
     router: {
@@ -20,7 +22,7 @@ export default defineConfig({
       test: true,
     },
   },
-  output: {
+  html: {
     favicon: './static/a.icon',
   },
 });

@@ -5,7 +5,6 @@ import type {
   CliPlugin,
   UserConfig,
   IAppContext,
-  InternalPlugins,
   NormalizedConfig,
   ToolsType,
 } from './types';
@@ -49,7 +48,6 @@ export const initAppContext = ({
   configFile,
   options,
   serverConfigFile,
-  serverInternalPlugins,
   toolsType,
 }: {
   appDirectory: string;
@@ -62,7 +60,6 @@ export const initAppContext = ({
     sharedDir?: string;
   };
   serverConfigFile: string;
-  serverInternalPlugins: InternalPlugins;
   toolsType?: ToolsType;
 }): IAppContext => {
   const {
@@ -77,7 +74,7 @@ export const initAppContext = ({
     appDirectory,
     configFile,
     serverConfigFile,
-    serverInternalPlugins,
+    serverInternalPlugins: {},
     ip: address.ip(),
     port: 0,
     packageName: require(path.resolve(appDirectory, './package.json')).name,

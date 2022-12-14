@@ -57,6 +57,7 @@
   "devDependencies": {
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.6",
