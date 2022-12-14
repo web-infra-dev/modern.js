@@ -1,9 +1,11 @@
+import { Buffer } from 'buffer';
 import {
   compressJpeg,
   losslessCompressPng,
   pngQuantize,
   Transformer,
 } from '@napi-rs/image';
+import svgo from 'svgo';
 import { Codec, Codecs } from '../types';
 
 export const jpegCodec: Codec<'jpeg'> = {
@@ -43,8 +45,9 @@ export const icoCodec: Codec<'ico'> = {
 };
 
 export const svgCodec: Codec<'svg'> = {
-  handler(buf) {
-    return Promise.resolve(buf);
+  async handler(buf, options) {
+    const result = svgo.optimize(buf.toString(), options);
+    return Buffer.from(result.data);
   },
   defaultOptions: {
     test: /\.svg$/,
