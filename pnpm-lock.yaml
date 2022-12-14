@@ -3853,7 +3853,10 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
+      react: '16'
       typescript: ^4
+    dependencies:
+      react: 16.14.0
     devDependencies:
       '@modern-js/builder-plugin-image-compress': link:../../../../packages/builder/plugin-image-compress
       '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
@@ -33591,6 +33594,15 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /react/16.14.0:
+    resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      prop-types: 15.8.1
     dev: false
 
   /react/17.0.2:
