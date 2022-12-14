@@ -30,14 +30,14 @@
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:*"
+    "@modern-js/module-tools": "workspace:*",
+    "core-js-pure": "^3.25.0"
   },
   "dependencies": {
     "@modern-js/libuild-plugin-babel": "0.7.1",
     "@babel/plugin-syntax-typescript": "7.18.6",
     "@babel/plugin-syntax-jsx": "7.18.6",
-    "babel-plugin-polyfill-corejs3": "0.5.2",
-    "core-js-pure": "3.25.0"
+    "babel-plugin-polyfill-corejs3": "0.5.2"
   },
   "sideEffects": false,
   "publishConfig": {
