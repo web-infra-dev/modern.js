@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import { build } from 'esbuild';
 import type { AppUserConfig, CliPlugin, AppTools } from '@modern-js/app-tools';
-import { createDebugger, findExists } from '@modern-js/utils';
+import { createDebugger, findExists, fs } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types/cli';
 
 import { DocumentContext } from '../DocumentContext';
@@ -93,6 +93,29 @@ export default (): CliPlugin<AppTools> => ({
           entryName,
           templateParameters,
         });
+
+        // set a temporary tsconfig file for divide the influence by project's jsx
+        const tempTsConfigFile = path.join(
+          internalDirectory,
+          `./document/_tempTsconfig.json`,
+        );
+        const userTsConfigFilePath = path.join(appDirectory, 'tsconfig.json');
+        let tsConfig;
+        try {
+          // eslint-disable-next-line import/no-dynamic-require
+          tsConfig = await require(userTsConfigFilePath);
+        } catch (err) {
+          tsConfig = {};
+        }
+        if (tsConfig?.compilerOptions) {
+          tsConfig.compilerOptions.jsx = 'react-jsx';
+        } else {
+          tsConfig.compilerOptions = {
+            jsx: 'react-jsx',
+          };
+        }
+        fs.outputFileSync(tempTsConfigFile, JSON.stringify(tsConfig));
+
         const htmlOutputFile = path.join(
           internalDirectory,
           `./document/_${entryName}.html.js`,
@@ -100,9 +123,10 @@ export default (): CliPlugin<AppTools> => ({
         // transform document file to html string
         await build({
           entryPoints: [documentFilePath],
-          // write: false,
           outfile: htmlOutputFile,
           platform: 'node',
+          // change esbuild use the rootDir tsconfig.json as default to tempTsConfigFile
+          tsconfig: tempTsConfigFile,
           target: 'es6',
           loader: {
             '.ts': 'ts',
