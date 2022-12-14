@@ -43,10 +43,6 @@ export const PluginSvg = (): BuilderPlugin => {
             .oneOf(CHAIN_ID.ONE_OF.SVG_INLINE)
             .type('javascript/auto')
             .resourceQuery(/inline/)
-            .use(CHAIN_ID.USE.SVGR)
-            .loader(require.resolve('@svgr/webpack'))
-            .options({ svgo: false })
-            .end()
             .use(CHAIN_ID.USE.URL)
             .loader(getCompiledPath('url-loader'))
             .options({
@@ -58,10 +54,6 @@ export const PluginSvg = (): BuilderPlugin => {
             .oneOf(CHAIN_ID.ONE_OF.SVG_URL)
             .type('javascript/auto')
             .resourceQuery(/url/)
-            .use(CHAIN_ID.USE.SVGR)
-            .loader(require.resolve('@svgr/webpack'))
-            .options({ svgo: false })
-            .end()
             .use(CHAIN_ID.USE.URL)
             .loader(getCompiledPath('url-loader'))
             .options({
