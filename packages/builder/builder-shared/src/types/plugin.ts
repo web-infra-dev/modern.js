@@ -10,13 +10,15 @@ import type {
   ModifyBuilderConfigFn,
 } from './hooks';
 import { BuilderContext } from './context';
-import type { SharedBuilderConfig, ShareNormalizedConfig } from './config';
+import { SharedBuilderConfig, SharedNormalizedConfig } from './config';
 
 export type PluginStore = {
   readonly plugins: BuilderPlugin[];
   addPlugins: (plugins: BuilderPlugin[], options?: { before?: string }) => void;
   removePlugins: (pluginNames: string[]) => void;
   isPluginExists: (pluginName: string) => boolean;
+  /** The plugin API. */
+  pluginAPI?: DefaultBuilderPluginAPI;
 };
 
 export type BuilderPlugin<API = any> = {
@@ -29,14 +31,15 @@ type PluginsFn = () => Promise<BuilderPlugin>;
 export type Plugins = {
   cleanOutput: PluginsFn;
   startUrl: PluginsFn;
+  fileSize: PluginsFn;
 };
 
 /**
  * Define a generic builder plugin API that provider can extend as needed.
  */
 export type DefaultBuilderPluginAPI<
-  Config extends SharedBuilderConfig = SharedBuilderConfig,
-  NormalizedConfig extends ShareNormalizedConfig = ShareNormalizedConfig,
+  Config extends Record<string, any> = Record<string, any>,
+  NormalizedConfig extends Record<string, any> = Record<string, any>,
   BundlerConfig = unknown,
   Compiler = unknown,
 > = {
@@ -58,9 +61,11 @@ export type DefaultBuilderPluginAPI<
    */
   getHTMLPaths: () => Record<string, string>;
   getBuilderConfig: () => Readonly<Config>;
-  getNormalizedConfig: () => Readonly<NormalizedConfig>;
+  getNormalizedConfig: () => NormalizedConfig;
 
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn<Config>) => void;
 };
 
-export type DefaultBuilderPlugin = BuilderPlugin<DefaultBuilderPluginAPI>;
+export type DefaultBuilderPlugin = BuilderPlugin<
+  DefaultBuilderPluginAPI<SharedBuilderConfig, SharedNormalizedConfig>
+>;

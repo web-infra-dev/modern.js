@@ -3,7 +3,7 @@ var _this = this;
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 import { useState } from "react";
 var App = function() {
-    var ref = _sliced_to_array(useState(0), 2), count = ref[0], setCount = ref[1];
+    var _useState = _sliced_to_array(useState(0), 2), count = _useState[0], setCount = _useState[1];
     return /*#__PURE__*/ _jsxDEV("div", {
         children: [
             "Hello World. ",

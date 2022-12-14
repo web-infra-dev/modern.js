@@ -100,13 +100,7 @@ const PluginFoo = () => ({
 
 ## api.getBuilderConfig
 
-获取 Builder 配置，该方法必须在 `modifyBuilderConfig` 钩子执行完成后才能被调用。
-
-- **Type**
-
-```ts
-function GetBuilderConfig(): Readonly<BuilderConfig>;
-```
+!!!include(./src/zh/shared/getBuilderConfig.md)!!!
 
 - **Example**
 
@@ -121,17 +115,7 @@ const PluginFoo = () => ({
 
 ## api.getNormalizedConfig
 
-获取归一化后的 Builder 配置，该方法必须在 `modifyBuilderConfig` 钩子执行完成后才能被调用。
-
-相较于 `api.getBuilderConfig` 方法，该方法返回的配置经过了归一化处理，配置的类型定义会得到收敛，比如 `config.html` 的 `undefined` 类型将被移除。
-
-推荐优先使用该方法获取配置。
-
-- **Type**
-
-```ts
-function GetNormalizedConfig(): Readonly<NormalizedConfig>;
-```
+!!!include(./src/zh/shared/getNormalizedConfig.md)!!!
 
 - **Example**
 
@@ -146,13 +130,7 @@ const PluginFoo = () => ({
 
 ## api.isPluginExists
 
-判断某个插件是否已经被注册。
-
-- **Type**
-
-```ts
-function IsPluginExists(pluginName: string): boolean;
-```
+!!!include(./src/zh/shared/isPluginExists.md)!!!
 
 - **Example**
 
@@ -166,15 +144,7 @@ export default () => ({
 
 ## api.getHTMLPaths
 
-获取所有 HTML 产物的路径信息。
-
-该方法会返回一个对象，对象的 key 为 entry 名称，value 为 HTML 文件在产物目录下的相对路径。
-
-- **Type**
-
-```ts
-function GetHTMLPaths(): Record<string, string>;
-```
+!!!include(./src/zh/shared/getHTMLPaths.md)!!!
 
 - **Example**
 

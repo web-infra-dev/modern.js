@@ -52,11 +52,12 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
+    "babel-plugin-macros": "3.1.0",
     "hoist-non-react-statics": "^3.3.2"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/module-tools-v2": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",

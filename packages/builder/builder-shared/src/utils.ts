@@ -1,22 +1,9 @@
-import _ from '@modern-js/utils/lodash';
 import {
   CSS_MODULES_REGEX,
   GLOBAL_CSS_REGEX,
   NODE_MODULES_REGEX,
 } from './constants';
-import type { SharedBuilderConfig } from './types';
-
-export function deepFreezed<T>(obj: T): T {
-  if (!_.isObject(obj) || _.isNull(obj)) {
-    return obj;
-  }
-  if (Array.isArray(obj)) {
-    obj.forEach(deepFreezed);
-  } else {
-    Object.values(obj).forEach(deepFreezed);
-  }
-  return Object.freeze(obj);
-}
+import type { SharedNormalizedConfig } from './types';
 
 export const extendsType =
   <T>() =>
@@ -54,17 +41,17 @@ export const awaitableGetter = <T>(
   return { then, promises };
 };
 
-export const isUseJsSourceMap = (config: SharedBuilderConfig) => {
+export const isUseJsSourceMap = (config: SharedNormalizedConfig) => {
   const { disableSourceMap } = config.output || {};
 
   if (typeof disableSourceMap === 'boolean') {
     return !disableSourceMap;
   }
 
-  return !disableSourceMap?.js;
+  return !disableSourceMap.js;
 };
 
-export const isUseCssSourceMap = (config: SharedBuilderConfig) => {
+export const isUseCssSourceMap = (config: SharedNormalizedConfig) => {
   const { disableSourceMap } = config.output || {};
 
   if (typeof disableSourceMap === 'boolean') {
@@ -73,9 +60,9 @@ export const isUseCssSourceMap = (config: SharedBuilderConfig) => {
 
   // If the disableSourceMap.css option is not specified, we will enable it in development mode.
   // We do not need CSS Source Map in production mode.
-  if (disableSourceMap?.css === undefined) {
+  if (disableSourceMap.css === undefined) {
     return process.env.NODE_ENV !== 'production';
   }
 
-  return !disableSourceMap?.css;
+  return !disableSourceMap.css;
 };

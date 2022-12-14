@@ -1,6 +1,6 @@
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
-import { defaultStories } from './constants/stores';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
+import { defaultStories, appToolsStories } from './constants/stores';
 
 export default (): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-storybook',
@@ -46,10 +46,13 @@ export default (): CliPlugin<ModuleTools> => ({
         subCommands: ['storybook', 'story'],
         async action(_, context) {
           const { runDev } = await import('./features');
+          const appContext = api.useAppContext();
+          const isModuleTools = appContext.toolsType === 'module-tools';
+
           await runDev(api, {
             isTsProject: context.isTsProject,
-            stories: defaultStories,
-            isModuleTools: true,
+            stories: isModuleTools ? defaultStories : appToolsStories,
+            isModuleTools,
           });
         },
       };
@@ -62,8 +65,10 @@ export default (): CliPlugin<ModuleTools> => ({
           const { runBuild } = await import('./features/build');
           const appContext = api.useAppContext();
           const modernConfig = api.useResolvedConfigContext();
+          const isModuleTools = appContext.toolsType === 'module-tools';
+
           await runBuild({
-            stories: defaultStories,
+            stories: isModuleTools ? defaultStories : appToolsStories,
             appContext,
             modernConfig,
             isTsProject: context.isTsProject,

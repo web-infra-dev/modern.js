@@ -9,8 +9,8 @@ sidebar_position: 2
 按照如下进行选择：
 
 ```bash
-? 请选择你想要的操作: 启用可选功能
-? 启用可选功能: 启用 Tailwind CSS 支持
+? 请选择你想要的操作 启用可选功能
+? 启用可选功能 启用 Tailwind CSS 支持
 ```
 
 使用时在入口的根组件(如 `src/App.jsx`)添加如下代码：
@@ -68,11 +68,7 @@ export default defineConfig({
 在开启「Tailwind CSS 支持」的功能后，首先需要安装 [`Twin`](https://github.com/ben-rogerson/twin.macro) 依赖:
 
 ``` bash
-# package manager is `pnpm`
 pnpm add twin.macro -D
-
-# package manager is `yarn`
-yarn add twin.macro -D
 ```
 
 当项目安装 `twin.macro` 依赖后，Modern.js 会检测到该依赖并对内置的 `babel-plugin-macro` 增加 `twin.macro` 相关的配置。因此在安装完依赖后，无需手动配置。下面是一个简单使用 `twin.macro` 的示例：

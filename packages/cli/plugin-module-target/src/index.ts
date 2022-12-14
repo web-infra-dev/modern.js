@@ -1,4 +1,4 @@
-import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
 export const ModuleTargetPlugin = (
   // refer: https://esbuild.github.io/api/#target

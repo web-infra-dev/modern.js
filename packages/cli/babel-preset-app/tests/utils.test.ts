@@ -1,7 +1,9 @@
-import { getCoreJsVersion } from '../src/utils';
+import { getCoreJsVersion } from '@modern-js/utils';
 
 describe('getCoreJsVersion', () => {
   it('should get correct core-js version', () => {
-    expect(getCoreJsVersion()).toEqual('3.26');
+    expect(getCoreJsVersion(require.resolve('core-js/package.json'))).toEqual(
+      '3.26',
+    );
   });
 });

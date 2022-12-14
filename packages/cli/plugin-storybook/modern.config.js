@@ -1,12 +1,19 @@
-/** @type {import('@modern-js/module-tools').UserConfig} */
+const { legacyPresets } = require('@scripts/build');
+
 module.exports = {
-  output: {
-    copy: [
-      {
-        from: './template',
-        to: '',
+  buildConfig: [
+    ...legacyPresets.UNIVERSAL_JS,
+    {
+      input: [],
+      dts: false,
+      copy: {
+        patterns: [
+          {
+            from: './template',
+            to: './dist/js/template',
+          },
+        ],
       },
-    ],
-    disableSourceMap: true,
-  },
+    },
+  ],
 };

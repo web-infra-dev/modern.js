@@ -3,12 +3,10 @@
 exports[`create builder provider config should add default config 1`] = `
 Object {
   "dev": Object {
-    "assetPrefix": undefined,
-    "https": undefined,
     "port": undefined,
   },
   "html": Object {
-    "templateByEntries": undefined,
+    "templateByEntries": Object {},
   },
   "output": Object {
     "assetPrefix": "/x",

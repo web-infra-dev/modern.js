@@ -21,12 +21,7 @@ export type CliPlugin<
 > = PluginOptions<
   BaseHooks<Extends>,
   AsyncSetup<BaseHooks<Extends> & Extends['hooks'], BasePluginAPI<Extends>>,
-  Extends['hooks'],
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  BaseHooks<Extends> | BaseHooks<{}>,
-  | AsyncSetup<BaseHooks<Extends> & Extends['hooks'], BasePluginAPI<Extends>>
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  | AsyncSetup<BaseHooks<{}>, BasePluginAPI<{}>>
+  Extends['hooks']
 >;
 
 export type PluginItem = string | [string, any];

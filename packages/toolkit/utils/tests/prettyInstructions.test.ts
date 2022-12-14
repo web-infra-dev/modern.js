@@ -86,7 +86,6 @@ describe('prettyInstructions', () => {
           entryPath: 'html/main/index.html',
           isSPA: true,
           isSSR: false,
-          enableModernMode: false,
         },
         {
           urlPath: '/api',

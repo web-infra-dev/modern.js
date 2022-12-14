@@ -1,4 +1,4 @@
-import type { PluginStore, Plugins } from './plugin';
+import type { PluginStore, Plugins, DefaultBuilderPluginAPI } from './plugin';
 import type { BuilderContext } from './context';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderMode, CreateBuilderOptions } from './builder';
@@ -38,23 +38,37 @@ export type StartDevServerResult = {
 
 export type BuilderProvider<
   BuilderConfig extends Record<string, any> = Record<string, any>,
-  BundlerConfigs extends Record<string, any> = Record<string, any>,
+  BundlerConfig extends Record<string, any> = Record<string, any>,
+  NormalizedConfig extends Record<string, any> = Record<string, any>,
+  Compiler extends Record<string, any> = Record<string, any>,
 > = (options: {
   pluginStore: PluginStore;
   builderOptions: Required<CreateBuilderOptions>;
   plugins: Plugins;
-}) => Promise<ProviderInstance<BuilderConfig, BundlerConfigs>>;
+}) => Promise<
+  ProviderInstance<BuilderConfig, BundlerConfig, NormalizedConfig, Compiler>
+>;
 
 export type ProviderInstance<
   BuilderConfig extends Record<string, any> = Record<string, any>,
-  BundlerConfigs extends Record<string, any> = Record<string, any>,
+  BundlerConfig extends Record<string, any> = Record<string, any>,
+  NormalizedConfig extends Record<string, any> = Record<string, any>,
+  CommonCompiler extends Record<string, any> = Record<string, any>,
 > = {
   readonly bundler: Bundler;
 
   readonly publicContext: Readonly<BuilderContext>;
 
+  pluginAPI: DefaultBuilderPluginAPI<
+    BuilderConfig,
+    NormalizedConfig,
+    BundlerConfig,
+    CommonCompiler
+  >;
+
   applyDefaultPlugins: (pluginStore: PluginStore) => Promise<void>;
 
+  // TODO using common compiler type
   createCompiler: (
     options?: CreateCompilerOptions,
   ) => Promise<Compiler | MultiCompiler>;
@@ -65,12 +79,14 @@ export type ProviderInstance<
 
   build: (options?: BuildOptions) => Promise<void>;
 
+  initConfigs: () => Promise<BundlerConfig[]>;
+
   inspectConfig: (options?: InspectConfigOptions) => Promise<{
     builderConfig: string;
     bundlerConfigs: string[];
     origin: {
       builderConfig: BuilderConfig;
-      bundlerConfigs: BundlerConfigs[];
+      bundlerConfigs: BundlerConfig[];
     };
   }>;
 };

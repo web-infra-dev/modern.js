@@ -8,7 +8,6 @@
 '@modern-js-app/eslint-config': patch
 '@modern-js/app-tools': patch
 '@modern-js/module-tools': patch
-'@modern-js/module-tools-v2': patch
 '@modern-js/monorepo-tools': patch
 ---
 

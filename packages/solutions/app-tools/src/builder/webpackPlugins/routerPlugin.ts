@@ -16,27 +16,13 @@ interface RouteAssets {
   };
 }
 
-interface Options {
-  existNestedRoutes: boolean;
-}
-
 export default class RouterPlugin {
-  private existNestedRoutes: boolean;
-
-  constructor(options: Options) {
-    this.existNestedRoutes = options.existNestedRoutes;
-  }
-
   apply(compiler: Compiler) {
-    const { existNestedRoutes } = this;
     const { target } = compiler.options;
     if (
       target === 'node' ||
       (Array.isArray(target) && target.includes('node'))
     ) {
-      return;
-    }
-    if (!existNestedRoutes) {
       return;
     }
 
@@ -79,12 +65,14 @@ export default class RouterPlugin {
           }
 
           for (const [name, chunkGroup] of Object.entries(namedChunkGroups)) {
-            routeAssets[name] = {
-              chunkIds: chunkGroup.chunks,
-              assets: assetsByChunkName[name].map(item =>
-                publicPath ? normalizePath(publicPath) + item : item,
-              ),
-            };
+            if (assetsByChunkName[name]) {
+              routeAssets[name] = {
+                chunkIds: chunkGroup.chunks,
+                assets: assetsByChunkName[name].map(item =>
+                  publicPath ? normalizePath(publicPath) + item : item,
+                ),
+              };
+            }
           }
 
           const manifest = {
@@ -105,7 +93,9 @@ export default class RouterPlugin {
           const entryChunks = [...compilation.chunks].filter(chunk => {
             return entryChunkIds.includes(chunk.name);
           });
-          const entryChunkFiles = entryChunks.map(chunk => [...chunk.files][0]);
+          const entryChunkFiles = entryChunks.map(
+            chunk => [...chunk.files].find(fname => fname.includes('.js'))!,
+          );
 
           for (const file of entryChunkFiles) {
             const asset = compilation.assets[file];

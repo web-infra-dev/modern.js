@@ -212,13 +212,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
-        name: 'loader-utils1',
-        ignoreDts: true,
-        externals: {
-          json5: '@modern-js/utils/json5',
-        },
-      },
-      {
         name: 'loader-utils2',
         ignoreDts: true,
         externals: {
@@ -625,14 +618,6 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
-        name: 'babel-plugin-macros',
-        ignoreDts: true,
-        externals: {
-          resolve: 'resolve',
-          cosmiconfig: 'cosmiconfig',
-        },
-      },
-      {
         name: '@babel/plugin-proposal-pipeline-operator',
         ignoreDts: true,
         externals: {
@@ -698,8 +683,8 @@ export const TASKS: TaskConfig[] = [
   },
   {
     // Todo: rename
-    packageDir: 'solutions/module-tools-v2',
-    packageName: '@modern-js/module-tools-v2',
+    packageDir: 'solutions/module-tools',
+    packageName: '@modern-js/module-tools',
     dependencies: [
       '@rollup/plugin-json',
       'normalize-path',

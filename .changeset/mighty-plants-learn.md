@@ -1,5 +1,5 @@
 ---
-'@modern-js/module-tools-v2': minor
+'@modern-js/module-tools': minor
 ---
 
 feat: add normalize config logic

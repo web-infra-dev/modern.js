@@ -4,8 +4,8 @@ import {
   createBabelChain,
   BabelChain,
 } from '@modern-js/babel-preset-base';
-import { isTest, isDev, isProd } from '@modern-js/utils';
-import { getCoreJsVersion, isBeyondReact17 } from './utils';
+import { isTest, isDev, isProd, getCoreJsVersion } from '@modern-js/utils';
+import { isBeyondReact17 } from './utils';
 import type { Options, PresetEnvOptions } from './type';
 
 const prepareEnvOptions = (options: Options): PresetEnvOptions => {
@@ -17,7 +17,7 @@ const prepareEnvOptions = (options: Options): PresetEnvOptions => {
     exclude: ['transform-typeof-symbol'],
     corejs: useBuiltIns
       ? {
-          version: getCoreJsVersion(),
+          version: getCoreJsVersion(require.resolve('core-js/package.json')),
           proposals: true,
         }
       : undefined,
@@ -103,10 +103,6 @@ export const genCommon = (options: Options): BabelChain => {
   chain
     .plugin('built-in/babel-plugin-lock-corejs-version')
     .use(join(__dirname, './built-in/babel-plugin-lock-corejs-version'));
-
-  chain
-    .plugin('./built-in/babel-plugin-ssr-loader-id')
-    .use(join(__dirname, './built-in/babel-plugin-ssr-loader-id'));
 
   return chain.merge(baseConfigChain);
 };

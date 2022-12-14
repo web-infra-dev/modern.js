@@ -21,6 +21,7 @@ import {
 import { loadEnv } from './loadEnv';
 import { manager } from './manager';
 import type { CliHooksRunner } from './types/hooks';
+import type { ToolsType } from './types';
 import { createResolveConfig, createLoadedConfig } from './config';
 
 export * from './types';
@@ -71,6 +72,7 @@ export interface CoreOptions {
     distDir?: string;
     sharedDir?: string;
   };
+  toolsType?: ToolsType;
 }
 
 export const mergeOptions = (options?: CoreOptions) => {
@@ -121,6 +123,7 @@ const createCli = () => {
     plugins.forEach(plugin => plugin && manager.usePlugin(plugin));
 
     const appContext = initAppContext({
+      toolsType: mergedOptions?.toolsType,
       appDirectory,
       plugins,
       configFile: loaded.filePath,
