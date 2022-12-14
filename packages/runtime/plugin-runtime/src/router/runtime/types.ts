@@ -39,3 +39,5 @@ export type RouterConfig = {
   basename?: string;
   createRoutes?: () => RouteObject[];
 };
+
+export type Routes = RouterConfig['routesConfig']['routes'];

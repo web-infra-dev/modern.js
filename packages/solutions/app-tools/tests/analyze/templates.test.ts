@@ -10,6 +10,8 @@ jest.mock('@modern-js/utils', () => {
     ensureFile() {},
   };
   return {
+    __esModule: true,
+    ...jest.requireActual('@modern-js/utils'),
     fs,
   };
 });
