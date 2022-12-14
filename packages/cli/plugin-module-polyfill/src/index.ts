@@ -5,10 +5,14 @@ import { babelPlugin } from '@modern-js/libuild-plugin-babel';
 export const ModulePolyfillPlugin = (options: {
   targets?: Record<string, string> | string;
 }): CliPlugin<ModuleTools> => ({
-  name: 'module-polyfill',
+  name: '@modern-js/plugin-module-polyfill',
   setup: () => ({
     modifyLibuild(config) {
       const plugins = [
+        [
+          require('@babel/plugin-syntax-typescript'),
+          { isTSX: true, dts: true },
+        ],
         [require('@babel/plugin-syntax-jsx')],
         [
           require('babel-plugin-polyfill-corejs3'),

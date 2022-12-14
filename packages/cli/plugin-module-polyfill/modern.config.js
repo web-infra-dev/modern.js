@@ -2,7 +2,7 @@ module.exports = {
   buildConfig: [
     {
       format: 'cjs',
-      target: 'es2017',
+      target: 'es6',
       sourceMap: true,
     },
   ],
