@@ -111,7 +111,6 @@ export async function startDevServer(
     serverOptions = {},
   }: StartDevServerOptions = {},
 ) {
-  logger.log();
   logger.info('Starting dev server...');
 
   if (!process.env.NODE_ENV) {
