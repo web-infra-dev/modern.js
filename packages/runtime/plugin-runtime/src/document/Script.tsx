@@ -5,9 +5,9 @@ import {
   DOCUMENT_SCRIPT_PLACEHOLDER_END,
 } from './constants';
 
-export function Script(props: { fn: () => void }) {
-  const { fn } = props;
-  const fnStr = fn.toString();
+export function Script(props: { content: () => void }) {
+  const { content } = props;
+  const fnStr = content.toString();
   const fnIIFE = encodeURIComponent(`(${fnStr})()`);
   return (
     <>

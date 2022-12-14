@@ -53,7 +53,7 @@ describe('plugin-document', () => {
       <Html>
         <Head></Head>
         <Body></Body>
-        <Script fn={fn}></Script>
+        <Script content={fn}></Script>
       </Html>
     );
     const docHtml = ReactDomServer.renderToString(document);
