@@ -11,7 +11,7 @@ export const jpegCodec: Codec<'jpeg'> = {
     return compressJpeg(buf, options);
   },
   defaultOptions: {
-    test: /\.jpeg$/,
+    test: /\.(jpg|jpeg)$/,
   },
 };
 
@@ -42,11 +42,21 @@ export const icoCodec: Codec<'ico'> = {
   },
 };
 
+export const svgCodec: Codec<'svg'> = {
+  handler(buf) {
+    return Promise.resolve(buf);
+  },
+  defaultOptions: {
+    test: /\.svg$/,
+  },
+};
+
 const codecs: Record<Codecs, Codec<any>> = {
   jpeg: jpegCodec,
   png: pngCodec,
   pngLossless: pngLosslessCodec,
   ico: icoCodec,
+  svg: svgCodec,
 };
 
 export default codecs;

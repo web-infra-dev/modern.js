@@ -1,7 +1,7 @@
 import { Buffer } from 'buffer';
-import { webpack } from '@modern-js/builder-webpack-provider/types';
-import { FinalOptions } from './types';
+import type { webpack } from '@modern-js/builder-webpack-provider/types';
 import Codecs from './shared/codecs';
+import type { FinalOptions } from './types';
 
 export const MODERN_JS_IMAGE_MINIMIZER_PLUGIN_NAME =
   '@modern-js/builder-plugin-image-compress/minimizer' as const;
