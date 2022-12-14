@@ -37,7 +37,7 @@ export default {
 After adding the above config, when you execute `DEBUG=true pnpm dev`, Builder will start the inspector after the compilation is complete. At this time, you can see the following information in the Shell:
 
 ```shell
-info Starting dev server...
+info    Starting dev server...
 
 【Webpack Inspector】🔥 started at http://localhost:3333
 ```

@@ -1,4 +1,5 @@
 import type { LoaderContext } from 'webpack';
+import { slash } from '@modern-js/utils';
 
 function loader(this: LoaderContext<void>, source: string) {
   // eslint-disable-next-line @babel/no-invalid-this
@@ -11,7 +12,7 @@ function loader(this: LoaderContext<void>, source: string) {
   // eslint-disable-next-line @babel/no-invalid-this
   const { resourcePath } = this;
   const code = `
-    export { default } from "${resourcePath}";
+    export { default } from "${slash(resourcePath)}";
   `;
   return code;
 }
