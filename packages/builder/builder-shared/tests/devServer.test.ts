@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 import webpack from 'webpack';
-import { setupServerHooks } from '../src/devServer';
+import { setupServerHooks, isClientCompiler } from '../src/devServer';
 
 describe('test dev server', () => {
   test('should setupServerHooks correctly', () => {
@@ -48,5 +48,33 @@ describe('test dev server', () => {
     );
 
     expect(isOnDoneRegistered).toBeFalsy();
+  });
+
+  test('check isClientCompiler', () => {
+    expect(isClientCompiler(webpack({}))).toBeTruthy();
+
+    expect(
+      isClientCompiler(
+        webpack({
+          target: ['web', 'es5'],
+        }),
+      ),
+    ).toBeTruthy();
+
+    expect(
+      isClientCompiler(
+        webpack({
+          target: 'node',
+        }),
+      ),
+    ).toBeFalsy();
+
+    expect(
+      isClientCompiler(
+        webpack({
+          target: ['node'],
+        }),
+      ),
+    ).toBeFalsy();
   });
 });

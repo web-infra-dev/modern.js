@@ -2,23 +2,9 @@
 import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { ModernDevServerOptions } from '@modern-js/server';
-import { setupServerHooks } from '@modern-js/builder-shared';
+import { setupServerHooks, isClientCompiler } from '@modern-js/builder-shared';
 
 type DevMiddlewareOptions = ModernDevServerOptions['devMiddleware'];
-
-const isClientCompiler = (compiler: Compiler) => {
-  const { target } = compiler.options;
-
-  // if target not contains `node`, it's a client compiler
-  if (target) {
-    if (Array.isArray(target)) {
-      return !target.includes('node');
-    }
-    return target !== 'node';
-  }
-
-  return compiler.name === 'client';
-};
 
 const applyHMREntry = (
   compiler: Compiler | MultiCompiler,

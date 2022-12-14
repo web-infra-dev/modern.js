@@ -204,3 +204,22 @@ export const setupServerHooks = (
   invalid.tap('modern-dev-server', hookCallbacks.onInvalid);
   done.tap('modern-dev-server', hookCallbacks.onDone);
 };
+
+export const isClientCompiler = (compiler: {
+  options: {
+    target?: Compiler['options']['target'];
+  };
+  name?: Compiler['name'];
+}) => {
+  const { target } = compiler.options;
+
+  // if target not contains `node`, it's a client compiler
+  if (target) {
+    if (Array.isArray(target)) {
+      return !target.includes('node');
+    }
+    return target !== 'node';
+  }
+
+  return compiler.name === 'client';
+};

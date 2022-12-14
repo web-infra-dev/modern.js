@@ -1,6 +1,6 @@
 import inner from '@rspack/dev-middleware';
 import type { ModernDevServerOptions } from '@modern-js/server';
-import { setupServerHooks } from '@modern-js/builder-shared';
+import { setupServerHooks, isClientCompiler } from '@modern-js/builder-shared';
 
 import type { Compiler } from '@rspack/core';
 
@@ -21,6 +21,10 @@ export function getHotRuntimeEntries(compiler: Compiler) {
 }
 
 function applyHMREntry(compiler: Compiler, clientPath: string) {
+  if (!isClientCompiler(compiler)) {
+    return;
+  }
+
   const hotRuntimeEntires = getHotRuntimeEntries(compiler);
 
   const entires = [
