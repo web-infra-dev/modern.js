@@ -59,7 +59,7 @@ export const getBundleEntry = (
   if (entries) {
     Object.keys(entries).forEach(name => {
       const value = entries[name];
-      const entrypoint =
+      const entrypoint: Entrypoint =
         typeof value === 'string'
           ? {
               entryName: name,
@@ -78,6 +78,9 @@ export const getBundleEntry = (
               fileSystemRoutes: value.enableFileSystemRoutes ? {} : undefined,
             };
 
+      if (entrypoint.fileSystemRoutes) {
+        entrypoint.nestedRoutesEntry = entrypoint.entry;
+      }
       if (!ifAlreadyExists(defaults, entrypoint)) {
         defaults.push(entrypoint);
       }
