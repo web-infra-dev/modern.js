@@ -6,7 +6,7 @@ import type {
   Route,
   RouteLegacy,
 } from '@modern-js/types';
-import { fs } from '@modern-js/utils';
+import { fs, slash } from '@modern-js/utils';
 import type { RuntimePlugin } from '../types';
 import { TEMP_LOADERS_DIR } from './constants';
 
@@ -164,7 +164,7 @@ export const routesForServer = ({
     importLoadersCode = `
     import { ${loaders.map(
       (loader, index) => `loader_${index}`,
-    )} } from "${loaderIndexFile.replace(/\\/g, '/')}"`;
+    )} } from "${slash(loaderIndexFile)}"`;
   }
 
   return `
@@ -325,7 +325,7 @@ export const fileSystemRoutes = async ({
     importLoadersCode = `
     import { ${loaders.map(
       (loader, index) => `loader_${index}`,
-    )} } from "${dataLoaderPath}${loadersIndexFile.replace(/\\/g, '/')}"
+    )} } from "${slash(dataLoaderPath)}${slash(loadersIndexFile)}"
   `;
 
     const loaderEntryCode = loaders
@@ -355,7 +355,7 @@ export const fileSystemRoutes = async ({
           `${name}.js`,
         );
         const code = `
-          export { loader as ${name} } from '${loader.replace(/\\/g, '/')}'
+          export { loader as ${name} } from '${slash(loader)}'
         `;
         await fs.ensureFile(filename);
         await fs.writeFile(filename, code);

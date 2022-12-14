@@ -18,11 +18,7 @@ describe('webpack-router-plugin', () => {
         filename: '[name].js',
         chunkFilename: '[name].js',
       },
-      plugins: [
-        new RouterPlugin({
-          existNestedRoutes: true,
-        }),
-      ],
+      plugins: [new RouterPlugin()],
     });
 
     const res = stats?.toJson();
@@ -52,11 +48,6 @@ describe('webpack-router-plugin', () => {
         filename: '[name].js',
         chunkFilename: '[name].js',
       },
-      plugins: [
-        new RouterPlugin({
-          existNestedRoutes: false,
-        }),
-      ],
     });
 
     const res = stats?.toJson();
