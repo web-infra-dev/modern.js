@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "integration-copy-public-html",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@babel/runtime": "^7.18.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*"
+  }
+}
