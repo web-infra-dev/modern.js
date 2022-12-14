@@ -3656,6 +3656,29 @@ importers:
       axios: 0.24.0
       typescript: 4.7.4
 
+  tests/integration/copy-assets:
+    specifiers:
+      '@types/jest': ^27
+      '@types/node': ^14
+    dependencies:
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+
+  tests/integration/copy-assets/fixtures/copy-public-html:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/runtime': workspace:*
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@babel/runtime': 7.18.6
+      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
   tests/integration/css:
     specifiers:
       '@modern-js/app-tools': workspace:*
@@ -10142,7 +10165,7 @@ packages:
       '@storybook/semver': 7.3.2
       '@storybook/store': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
-      '@types/node': 14.18.21
+      '@types/node': 16.11.41
       babel-loader: 8.2.5_m3opitmgss2x7fiy6klia7uvaa
       babel-plugin-named-exports-order: 0.0.2
       browser-assert: 1.2.1
@@ -10654,7 +10677,7 @@ packages:
       '@storybook/node-logger': 6.5.9
       '@storybook/theming': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@storybook/ui': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
-      '@types/node': 14.18.21
+      '@types/node': 16.11.41
       babel-loader: 8.2.5_m3opitmgss2x7fiy6klia7uvaa
       case-sensitive-paths-webpack-plugin: 2.4.0
       chalk: 4.1.2
@@ -10817,7 +10840,7 @@ packages:
       '@storybook/semver': 7.3.2
       '@storybook/store': 6.5.9_sfoxds7t5ydpegc3knd667wn6m
       '@types/estree': 0.0.51
-      '@types/node': 14.18.21
+      '@types/node': 16.11.41
       '@types/webpack-env': 1.17.0
       acorn: 7.4.1
       acorn-jsx: 5.3.2_acorn@7.4.1
@@ -11521,7 +11544,7 @@ packages:
   /@types/cross-spawn/6.0.2:
     resolution: {integrity: sha512-KuwNhp3eza+Rhu8IFI5HUXRP0LIhqH5cAjubUvGXXthh4YYBuP2ntwEX+Cz8GJoZUHlKo247wPWOfA9LYEq4cw==}
     dependencies:
-      '@types/node': 14.18.21
+      '@types/node': 18.0.1
     dev: true
 
   /@types/css-minimizer-webpack-plugin/3.2.1_webpack@5.74.0:
@@ -11631,7 +11654,7 @@ packages:
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 18.0.0
+      '@types/node': 18.0.1
 
   /@types/get-port/3.2.0:
     resolution: {integrity: sha512-TiNg8R1kjDde5Pub9F9vCwZA/BNW9HeXP5b9j7Qucqncy/McfPZ6xze/EyBdXS5FhMIGN6Fx3vg75l5KHy3V1Q==}
@@ -11924,9 +11947,6 @@ packages:
   /@types/node/17.0.45:
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
     dev: false
-
-  /@types/node/18.0.0:
-    resolution: {integrity: sha512-cHlGmko4gWLVI27cGJntjs/Sj8th9aYwplmZFwmmgYQQvL5NUsgVJG7OddLvNfLqYS31KFN0s3qlaD9qCaxACA==}
 
   /@types/node/18.0.1:
     resolution: {integrity: sha512-CmR8+Tsy95hhwtZBKJBs0/FFq4XX7sDZHlGGf+0q+BRZfMbOTkzkj0AFAuTyXbObDIoanaBBW0+KEW+m3N16Wg==}
@@ -13355,8 +13375,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -30312,7 +30334,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
