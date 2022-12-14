@@ -1,7 +1,6 @@
 import { join } from 'path';
 import {
   debug,
-  deepFreezed,
   isFileExists,
   type CreateBuilderOptions,
   createContextByConfig,
@@ -33,7 +32,7 @@ export function createPrimaryContext(
     hooks: initHooks(),
     configValidatingTask,
     config: { ...builderConfig },
-    originalConfig: deepFreezed(userBuilderConfig),
+    originalConfig: userBuilderConfig,
   };
 }
 
