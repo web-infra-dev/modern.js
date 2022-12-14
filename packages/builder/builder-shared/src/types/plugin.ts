@@ -59,7 +59,7 @@ export type DefaultBuilderPluginAPI<
    */
   getHTMLPaths: () => Record<string, string>;
   getBuilderConfig: () => Readonly<Config>;
-  getNormalizedConfig: () => Readonly<NormalizedConfig>;
+  getNormalizedConfig: () => NormalizedConfig;
 
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn<Config>) => void;
 };

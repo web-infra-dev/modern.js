@@ -68,6 +68,14 @@
     "ts-node": "^10.1.0",
     "tsconfig-paths": ">= 3.0.0 || >= 4.0.0"
   },
+  "peerDependenciesMeta": {
+    "ts-node": {
+      "optional": true
+    },
+    "tsconfig-paths": {
+      "optional": true
+    }
+  },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
