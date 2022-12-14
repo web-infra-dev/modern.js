@@ -23,7 +23,7 @@ export interface SharedBuilderConfig {
   source?: SharedSourceConfig;
   output?: SharedOutputConfig;
   security?: SharedSecurityConfig;
-  performance?: SharedPerformanceConfig;
+  performance?: Pick<SharedPerformanceConfig, 'printFileSize'>;
   experiments?: SharedExperimentsConfig;
 }
 
@@ -33,6 +33,7 @@ export type SharedNormalizedConfig = DeepReadonly<{
   // alias type incompatible between webpack and rspack
   source: Omit<NormalizedSharedSourceConfig, 'alias'>;
   output: NormalizedSharedOutputConfig;
+  performance: Pick<SharedPerformanceConfig, 'printFileSize'>;
 }>;
 
 export * from './dev';

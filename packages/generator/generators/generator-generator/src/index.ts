@@ -118,7 +118,7 @@ const handleTemplateFile = async (
     'scripts.prepare': `${packageManager as string} build`,
     'devDependencies.@modern-js/codesmith-api-app': '^2.0.0',
     'devDependencies.@modern-js/codesmith': '^2.0.0',
-    'devDependencies.@babel/runtime': '^7.18.0',
+    'devDependencies.@babel/runtime': '~7.18.0',
     'dependencies.@babel/runtime': undefined,
     'peerDependencies.react': undefined,
   };
