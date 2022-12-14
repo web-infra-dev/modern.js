@@ -77,4 +77,31 @@ export class ModernJsImageMinimizerPlugin {
     const promises = Object.keys(assets).map(name => handleAsset(name));
     await Promise.all(promises);
   }
+
+  apply(compiler: webpack.Compiler) {
+    const handleCompilation = (compilation: webpack.Compilation) => {
+      compilation.hooks.processAssets.tapPromise(
+        {
+          name: this.name,
+          stage:
+            compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
+          additionalAssets: true,
+        },
+        assets => this.optimize(compiler, compilation, assets),
+      );
+
+      compilation.hooks.statsPrinter.tap(this.name, stats => {
+        stats.hooks.print
+          .for('asset.info.minimized')
+          .tap(
+            '@modern-js/builder-plugin-image-compress',
+            (minimized, { green, formatFlag }) =>
+              minimized && green && formatFlag
+                ? green(formatFlag('minimized'))
+                : '',
+          );
+      });
+    };
+    compiler.hooks.compilation.tap(this.name, handleCompilation);
+  }
 }
