@@ -7,12 +7,12 @@ import {
 
 export function Script(props: { content: () => void }) {
   const { content } = props;
-  const fnStr = content.toString();
-  const fnIIFE = encodeURIComponent(`(${fnStr})()`);
+  const contentStr = content.toString();
+  const contentIIFE = encodeURIComponent(`(${contentStr})()`);
   return (
     <>
       {`${DOCUMENT_SCRIPT_PLACEHOLDER_START}`}
-      {`${fnIIFE}`}
+      {`${contentIIFE}`}
       {`${DOCUMENT_SCRIPT_PLACEHOLDER_END}`}
     </>
   );
