@@ -207,6 +207,7 @@ export const buildLib = async (
     bundle: buildType === 'bundle',
     // outbase for [dir]/[name]
     outbase: sourceDir,
+    logLevel: 'error',
     esbuildOptions: (options: any) => ({
       ...options,
       supported: {
