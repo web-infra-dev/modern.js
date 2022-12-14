@@ -42,10 +42,6 @@ export async function initConfigs({
   await modifyBuilderConfig(context);
   context.normalizedConfig = normalizeConfig(context.config);
 
-  if (context.config.dev) {
-    context.config.dev.assetPrefix = '1';
-  }
-
   const targets = ensureArray(builderOptions.target);
   const webpackConfigs = await Promise.all(
     targets.map(target => generateWebpackConfig({ target, context })),
