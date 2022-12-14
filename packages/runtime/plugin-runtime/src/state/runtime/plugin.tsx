@@ -45,9 +45,7 @@ const getStoreConfig = (config: StateConfig): StoreConfig => {
   const storeConfig: StoreConfig = {};
 
   for (const [key, value] of Object.entries(config)) {
-    if (internalPlugins.includes(key as StatePluginType)) {
-      plugins.push(StatePluginHandleMap[key as StatePluginType](value));
-    } else {
+    if (!internalPlugins.includes(key as StatePluginType)) {
       storeConfig[key as keyof StoreConfig] = value;
     }
   }
@@ -60,6 +58,7 @@ const getStoreConfig = (config: StateConfig): StoreConfig => {
 const state = (config: StateConfig): Plugin => ({
   name: '@modern-js/plugin-state',
   setup: () => {
+    const storeConfig = getStoreConfig(config);
     return {
       hoc({ App }, next) {
         const getStateApp = (props: any) => {
@@ -67,7 +66,7 @@ const state = (config: StateConfig): Plugin => ({
           const context = useContext(RuntimeReactContext);
 
           return (
-            <Provider store={context.store} config={getStoreConfig(config)}>
+            <Provider store={context.store} config={storeConfig}>
               <App {...props} />
             </Provider>
           );
@@ -77,8 +76,6 @@ const state = (config: StateConfig): Plugin => ({
         });
       },
       init({ context }, next) {
-        const storeConfig = getStoreConfig(config || {});
-
         if (isBrowser()) {
           storeConfig.initialState =
             storeConfig.initialState ||

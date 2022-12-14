@@ -30,7 +30,7 @@ export const applyBasicPlugins = () =>
 export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     ...applyMinimalPlugins().promises,
-    import('../plugins/fileSize').then(m => m.PluginFileSize()),
+    plugins.fileSize(),
     plugins.cleanOutput(),
     import('../plugins/hmr').then(m => m.PluginHMR()),
     import('../plugins/svg').then(m => m.PluginSvg()),

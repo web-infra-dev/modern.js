@@ -13,6 +13,7 @@ export function PluginLess(): BuilderPlugin {
         const config = api.getNormalizedConfig();
         const { applyOptionsChain } = await import('@modern-js/utils');
         const { applyBaseCSSRule } = await import('./css');
+        const { merge: deepMerge } = await import('@modern-js/utils/lodash');
         const getLessLoaderOptions = () => {
           const excludes: RegExp[] = [];
 
@@ -24,15 +25,36 @@ export function PluginLess(): BuilderPlugin {
             }
           };
 
-          const defaultLessLoaderOptions = {
-            lessOptions: { javascriptEnabled: true },
+          const defaultLessLoaderOptions: LessLoaderOptions = {
+            lessOptions: {
+              // Compat for antd or other component libraries which use math function to calculate the value
+              math: 'always',
+              javascriptEnabled: true,
+            },
             sourceMap: isUseCssSourceMap(config),
             implementation: utils.getCompiledPath('less'),
           };
           const mergedOptions = applyOptionsChain<
             LessLoaderOptions,
             LessLoaderUtils
-          >(defaultLessLoaderOptions, config.tools.less, { addExcludes });
+          >(
+            defaultLessLoaderOptions,
+            config.tools.less,
+            { addExcludes },
+            (
+              defaults: LessLoaderOptions,
+              userOptions: LessLoaderOptions,
+            ): LessLoaderOptions => {
+              return {
+                ...defaults,
+                ...userOptions,
+                lessOptions: deepMerge(
+                  defaults.lessOptions,
+                  userOptions.lessOptions,
+                ),
+              };
+            },
+          );
 
           return {
             options: mergedOptions,

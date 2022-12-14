@@ -26,6 +26,7 @@ describe.only('plugin runtime cli', () => {
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
         internalDirectory: path.join(__dirname, './feature'),
+        appDirectory: path.join(__dirname, './feature'),
         entrypoints: [
           {
             entryName: 'main',

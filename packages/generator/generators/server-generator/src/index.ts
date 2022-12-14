@@ -2,21 +2,13 @@ import path from 'path';
 import {
   fs,
   getModernPluginVersion,
-  getPackageVersion,
   isTsProject,
   readTsConfigByFile,
 } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import {
-  Framework,
-  FrameworkAppendTypeContent,
-  i18n,
-  Language,
-  getServerSchema,
-  Solution,
-} from '@modern-js/generator-common';
+import { i18n, Language, Solution } from '@modern-js/generator-common';
 
 function isEmptyServerDir(serverDir: string) {
   const files = fs.readdirSync(serverDir);
@@ -38,10 +30,6 @@ const handleTemplateFile = async (
   appApi: AppAPI,
 ) => {
   const jsonAPI = new JsonAPI(generator);
-  const ans = await appApi.getInputBySchemaFunc(
-    getServerSchema,
-    context.config,
-  );
 
   const appDir = context.materials.default.basePath;
   const serverDir = path.join(appDir, 'server');
@@ -55,26 +43,7 @@ const handleTemplateFile = async (
     }
   }
 
-  const { framework } = ans;
-
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
-
-  let updateInfo = {};
-
-  if (framework === Framework.Express || framework === Framework.Koa) {
-    updateInfo = {
-      [`devDependencies.@types/${
-        framework as string
-      }`]: `^${await getPackageVersion(`@types/${framework as string}`)}`,
-    };
-  }
-
-  updateInfo = {
-    ...updateInfo,
-    [`dependencies.${framework as string}`]: `^${await getPackageVersion(
-      framework as string,
-    )}`,
-  };
 
   const getServerPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
@@ -93,12 +62,6 @@ const handleTemplateFile = async (
           'dependencies.@modern-js/plugin-server': `${await getServerPluginVersion(
             '@modern-js/plugin-server',
           )}`,
-          [`dependencies.@modern-js/plugin-${
-            framework as string
-          }`]: `${await getServerPluginVersion(
-            `@modern-js/plugin-${framework as string}`,
-          )}`,
-          ...updateInfo,
         },
       },
     },
@@ -128,30 +91,6 @@ const handleTemplateFile = async (
           },
         },
       );
-    }
-  }
-
-  await appApi.forgeTemplate(
-    `templates/${framework as string}/**/*`,
-    resourceKey => resourceKey.includes(language),
-    resourceKey =>
-      resourceKey
-        .replace(`templates/${framework as string}/`, 'server/')
-        .replace('.handlebars', ''),
-  );
-
-  const appendTypeContent = FrameworkAppendTypeContent[framework as Framework];
-
-  if (appendTypeContent && language === Language.TS) {
-    const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
-    if (fs.existsSync(typePath)) {
-      const npmrc = fs.readFileSync(typePath, 'utf-8');
-      if (!npmrc.includes(appendTypeContent)) {
-        fs.writeFileSync(typePath, `${npmrc}${appendTypeContent}\n`, 'utf-8');
-      }
-    } else {
-      fs.ensureFileSync(typePath);
-      fs.writeFileSync(typePath, appendTypeContent, 'utf-8');
     }
   }
 };

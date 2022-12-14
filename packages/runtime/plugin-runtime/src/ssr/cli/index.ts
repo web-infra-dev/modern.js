@@ -100,17 +100,15 @@ export default (): CliPlugin<AppTools> => ({
             },
 
             babel: (config: any) => {
-              const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig)) {
-                config.plugins.push(
-                  path.join(__dirname, './babel-plugin-ssr-loader-id'),
-                );
+              // Add id for useLoader method,
+              // The useLoader can be used even if the SSR is not enabled
+              config.plugins.push(
+                path.join(__dirname, './babel-plugin-ssr-loader-id'),
+              );
 
-                if (hasStringSSREntry(userConfig)) {
-                  config.plugins.push(
-                    require.resolve('@loadable/babel-plugin'),
-                  );
-                }
+              const userConfig = api.useResolvedConfigContext();
+              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
+                config.plugins.push(require.resolve('@loadable/babel-plugin'));
               }
             },
           },

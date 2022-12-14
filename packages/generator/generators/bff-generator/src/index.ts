@@ -71,13 +71,13 @@ export const handleTemplateFile = async (
     updateInfo = {
       [`devDependencies.@types/${
         framework as string
-      }`]: `^${await getPackageVersion(`@types/${framework as string}`)}`,
+      }`]: `~${await getPackageVersion(`@types/${framework as string}`)}`,
     };
   }
 
   updateInfo = {
     ...updateInfo,
-    [`dependencies.${framework as string}`]: `^${await getPackageVersion(
+    [`dependencies.${framework as string}`]: `~${await getPackageVersion(
       framework as string,
     )}`,
   };
@@ -96,6 +96,8 @@ export const handleTemplateFile = async (
           }`]: `${await getBffPluginVersion(
             `@modern-js/plugin-${framework as string}`,
           )}`,
+          'devDependencies.ts-node': '~10.1.0',
+          'devDependencies.tsconfig-paths': '~3.14.1',
           ...updateInfo,
         },
       },
