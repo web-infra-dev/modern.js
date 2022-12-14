@@ -1,4 +1,4 @@
-import { Plugins } from './types';
+import { Plugins } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const setup = () => {};
