@@ -11,6 +11,7 @@ import type {
 import type { SharedSecurityConfig } from './security';
 import type { SharedPerformanceConfig } from './performance';
 import type { SharedExperimentsConfig } from './experiments';
+import type { DeepReadonly } from '../utils';
 
 /**
  * The shared Builder Config.
@@ -26,13 +27,13 @@ export interface SharedBuilderConfig {
   experiments?: SharedExperimentsConfig;
 }
 
-export interface SharedNormalizedConfig {
+export type SharedNormalizedConfig = DeepReadonly<{
   dev: NormalizedSharedDevConfig;
   html: NormalizedHtmlConfig;
   // alias type incompatible between webpack and rspack
   source: Omit<NormalizedSharedSourceConfig, 'alias'>;
   output: NormalizedSharedOutputConfig;
-}
+}>;
 
 export * from './dev';
 export * from './html';

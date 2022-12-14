@@ -122,7 +122,6 @@ export async function applyBaseCSSRule(
         },
         sourceMap: enableSourceMap,
       },
-      // postcss-loader will modify config
       config.tools.postcss || {},
       utils,
     );
