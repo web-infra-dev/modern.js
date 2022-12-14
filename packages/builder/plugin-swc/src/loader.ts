@@ -1,6 +1,5 @@
-import { TransformConfig } from '@modern-js/swc-plugins';
+import { Options, TransformConfig } from '@modern-js/swc-plugins';
 import { getBrowserslist } from '@modern-js/utils';
-import type { Options } from '@swc/core';
 import type { LoaderContext } from 'webpack';
 import { Compiler } from './binding';
 
@@ -44,19 +43,6 @@ export function createLoader() {
     }
     const result = await compiler.transform(filename, code, map);
     resolve(null, result.code, result.map?.toString());
-
-    // try {
-    //   if (deoptimize) {
-    //     // Using of plugin-import results in napi call JsFunction, result in bad perf
-    //     const result = compiler.transformSync(filename, code, map);
-    //     resolve(null, result.code, result.map?.toString());
-    //   } else {
-    //     const result = await compiler.transform(filename, code, map);
-    //     resolve(null, result.code, result.map?.toString());
-    //   }
-    // } catch (e) {
-    //   resolve(e as Error);
-    // }
   };
 }
 
@@ -78,19 +64,3 @@ function setReactDevMode(
 
   swc.jsc.transform.react.development = mode === 'development';
 }
-
-// check if js function is needed
-// function shouldDeoptimize(config: TransformConfig): boolean {
-//   let hasJsFunction = false;
-
-//   if (config.extensions?.pluginImport) {
-//     if (
-//       config.extensions.pluginImport.some(it => {
-//         return it.replaceJs?.replaceExpr || it.replaceCss?.replaceExpr;
-//       })
-//     ) {
-//       hasJsFunction = true;
-//     }
-//   }
-//   return hasJsFunction;
-// }

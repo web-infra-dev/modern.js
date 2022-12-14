@@ -64,7 +64,7 @@ const OverviewNav = ({ cards, ret }) => (
       updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
     >
       {cards?.map(card => {
-        if (card.label === '概览') {
+        if (card.label === '概览' || card.label === 'Overview') {
           return null;
         } else {
           return <OverviewNavCard {...card} key={card.label} />;
