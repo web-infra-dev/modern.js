@@ -89,9 +89,8 @@ async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {
   logger.info(message);
 }
 
-/** The inner context. */
+/** The context used by startDevServer. */
 export type Context = BuilderContext & {
-  /** All hooks. */
   hooks: {
     onBeforeStartDevServerHook: ReturnType<
       typeof createAsyncHook<OnBeforeStartDevServerFn>
@@ -100,7 +99,6 @@ export type Context = BuilderContext & {
       typeof createAsyncHook<OnAfterStartDevServerFn>
     >;
   };
-  /** Current builder config. */
   config: Readonly<SharedBuilderConfig>;
 };
 
@@ -125,7 +123,6 @@ export async function startDevServer<
     defaultPort?: number;
   } = {},
 ) {
-  logger.log();
   logger.info('Starting dev server...');
 
   if (!process.env.NODE_ENV) {
@@ -182,19 +179,17 @@ type ServerCallbacks = {
   onDone: (stats: any) => void;
 };
 
+type CompilerTapFn<CallBack extends (...args: any[]) => void> = {
+  tap: (name: string, cb: CallBack) => void;
+};
+
 export const setupServerHooks = (
   compiler: {
     name?: Compiler['name'];
     hooks: {
-      compile: {
-        tap: (name: string, cb: ServerCallbacks['onInvalid']) => void;
-      };
-      invalid: {
-        tap: (name: string, cb: ServerCallbacks['onInvalid']) => void;
-      };
-      done: {
-        tap: (name: string, cb: ServerCallbacks['onDone']) => void;
-      };
+      compile: CompilerTapFn<ServerCallbacks['onInvalid']>;
+      invalid: CompilerTapFn<ServerCallbacks['onInvalid']>;
+      done: CompilerTapFn<ServerCallbacks['onDone']>;
     };
   },
   hookCallbacks: ServerCallbacks,

@@ -36,15 +36,16 @@ function applyHMREntry(compiler: Compiler, clientPath: string) {
   }
 }
 
-export const getDevMiddleware: (compiler: Compiler) => DevMiddlewareOptions =
-  compiler => options => {
-    const { hmrClientPath, callbacks, ...restOptions } = options;
+export const getDevMiddleware: (
+  compiler: Compiler,
+) => NonNullable<DevMiddlewareOptions> = compiler => options => {
+  const { hmrClientPath, callbacks, ...restOptions } = options;
 
-    hmrClientPath && applyHMREntry(compiler, hmrClientPath);
+  hmrClientPath && applyHMREntry(compiler, hmrClientPath);
 
-    // register hooks for each compilation, update socket stats if recompiled
-    setupServerHooks(compiler, callbacks);
+  // register hooks for each compilation, update socket stats if recompiled
+  setupServerHooks(compiler, callbacks);
 
-    // @ts-expect-error
-    return inner(compiler, restOptions);
-  };
+  // @ts-expect-error
+  return inner(compiler, restOptions);
+};

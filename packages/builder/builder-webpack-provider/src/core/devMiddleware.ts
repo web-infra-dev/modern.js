@@ -62,7 +62,7 @@ const setupHooks = (
 
 export const getDevMiddleware: (
   compiler: Compiler | MultiCompiler,
-) => DevMiddlewareOptions = compiler => options => {
+) => NonNullable<DevMiddlewareOptions> = compiler => options => {
   const { hmrClientPath, callbacks, ...restOptions } = options;
 
   hmrClientPath && applyHMREntry(compiler, hmrClientPath);
