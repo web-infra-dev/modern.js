@@ -1,5 +1,4 @@
 import path from 'path';
-import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { CHAIN_ID, fs, removeTailSlash } from '@modern-js/utils';
 import type { ChainUtils } from '../shared';
 
@@ -46,9 +45,12 @@ export function applyCopyPlugin({ chain, config, appContext }: ChainUtils) {
           return content;
         }
 
-        return lodashTemplate(content.toString('utf8'))({
-          assetPrefix: removeTailSlash(chain.output.get('publicPath')),
-        });
+        return content
+          .toString('utf8')
+          .replace(
+            /<%=\s+assetPrefix\s+%>/g,
+            removeTailSlash(chain.output.get('publicPath')),
+          );
       },
     });
   }
