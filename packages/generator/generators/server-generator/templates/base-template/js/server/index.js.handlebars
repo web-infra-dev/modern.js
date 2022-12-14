@@ -1,0 +1,9 @@
+export const middleware = async (context, next) => {
+  console.info(`user access url:${context.request.pathname}`);
+  next();
+};
+
+export const afterRender = (context, next) => {
+  context.template.appendBody('EdenX Server');
+  next();
+};
