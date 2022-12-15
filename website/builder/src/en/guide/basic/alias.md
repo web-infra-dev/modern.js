@@ -11,7 +11,7 @@ In Builder, you can set aliases in two ways:
 
 ## Using `source.alias` config
 
-[source.alias](/zh/api/config-source.html#source-alias) corresponds to webpack's native [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config, you can configure it as an object or a function.
+[source.alias](/en/api/config-source.html#source-alias) corresponds to webpack's native [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config, you can configure it as an object or a function.
 
 First, you can configure it as an object, for example:
 
