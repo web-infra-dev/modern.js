@@ -1,11 +1,11 @@
 # 欢迎使用
 
-Module Tools 是 Modern.js/EdenX 的模块工程解决方案，同时也是核心依赖。它可以让开发者更轻松地构建、调试、发布模块类型的项目。模块类型的项目大多数情况可以认为是 npm 包类型的项目，它可能是一个组件、组件库或者工具库项目。
+Module Tools 是 Modern.js 的模块工程解决方案，同时也是核心依赖。它可以让开发者更轻松地构建、调试、发布模块类型的项目。模块类型的项目大多数情况可以认为是 npm 包类型的项目，它可能是一个组件、组件库或者工具库项目。
 
-如果你正打算开发一个 npm 包类型的项目，那么你就来对地方了！Modern.js/EdenX 提供了专业的模块工程解决方案。它带来了：
+如果你正打算开发一个 npm 包类型的项目，那么你就来对地方了！Modern.js 提供了专业的模块工程解决方案。它带来了：
 
 - **简单的项目初始化**：仅需执行 `npx @modern-js/create project-dir` 命令，然后进行几个交互问题，就可以创建一个完整的模块类型项目。创建的项目还支持选择 [**pnpm**](https://pnpm.io/)、[**Yarn**](https://classic.yarnpkg.com/) 两种包管理器。
-- **代码格式化**：在模块工程项目中，你可以执行 `modern lint` 来对代码进行格式化。同时初始化的模块工程项目里包含了 Modern.js/EdenX 的 [ESLint](https://eslint.org/docs/latest/user-guide/core-concepts#what-is-eslint) 规则集，可以满足大部分场景下的需求。
+- **代码格式化**：在模块工程项目中，你可以执行 `modern lint` 来对代码进行格式化。同时初始化的模块工程项目里包含了 Modern.js 的 [ESLint](https://eslint.org/docs/latest/user-guide/core-concepts#what-is-eslint) 规则集，可以满足大部分场景下的需求。
 - **全面的构建能力和更快的构建速度**：Module Tools 基于 [esbuild](https://esbuild.github.io/getting-started/) 和 [SWC](https://swc.rs/) 提供了高性能的构建能力，并且为不同构建模块的场景提供了丰富的配置。
 - **Storybook 调试工具**：Module Tools 为调试模块项目提供了 [Storybook](https://storybook.js.org/) 调试工具。在安装了 Module Tools 的 Storybook 插件后，你可以使用 `modern dev storybook` 命令来启动它。你不仅可以使用 Storybook 对组件进行调试，也可以使用在其他类型的模块上。
 - **集成 Jest 的测试能力**：在需要对模块测试的时候，可以使用 Module Tools 的 `modern test` 命令。Module Tools 不仅集成了 [Jest](https://jestjs.io/)，同时也提供了配置 [Jest](https://jestjs.io/docs/configuration) 的 API。
