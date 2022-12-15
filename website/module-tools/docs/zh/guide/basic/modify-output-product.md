@@ -117,7 +117,7 @@ export default defineConfig({
 * [`buildConfig.define` 不同场景的使用方式。](/zh/guide/advance/in-depth-about-build#buildconfigdefine-不同场景的使用方式)
 * [如何处理第三方依赖？](/zh/guide/advance/external-dependency)
 * [如何使用拷贝？](/zh/guide/advance/copy)
-* 如何构建 umd 产物？
+* [如何构建 umd 产物？](/zh/guide/advance/build-umd#设置项目的全局变量名称)
 * 静态资源目前所支持的能力。
 
 ## 什么时候使用 `buildConfig`

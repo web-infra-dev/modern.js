@@ -168,6 +168,10 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/advance/external-dependency'),
           },
           {
+            text: getText('构建 umd 产物', 'Build umd'),
+            link: getLink('/guide/advance/build-umd'),
+          },
+          {
             text: getText('插件扩展', 'Plugins extension'),
             link: getLink('/guide/advance/extension')
           },
