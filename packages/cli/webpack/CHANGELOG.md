@@ -1,5 +1,17 @@
 # @modern-js/webpack
 
+## 1.21.7
+
+### Patch Changes
+
+- 5d92b31: fix(app-tools): failed to copy HTML from config/public dir
+
+  fix(app-tools): 修复从 config/public 拷贝 HTML 文件时可能出现编译错误的问题
+
+  - @modern-js/babel-preset-app@1.21.7
+  - @modern-js/css-config@1.21.7
+  - @modern-js/utils@1.21.7
+
 ## 1.21.6
 
 ### Patch Changes
