@@ -11,7 +11,10 @@ export const PluginDevtool = (): BuilderPlugin => ({
       if (!isUseJsSourceMap(config)) {
         rspackConfig.devtool = false;
       } else {
-        const devtool = isProd ? 'source-map' : 'cheap-module-source-map';
+        const devtool = isProd
+          ? // hide the source map URL in production to avoid Chrome warning
+            'hidden-source-map'
+          : 'cheap-module-source-map';
         rspackConfig.devtool = devtool;
       }
     });
