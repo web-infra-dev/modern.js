@@ -31,7 +31,6 @@ describe('copy usage', () => {
   it('copy file to file', async () => {
     const distFilePath = path.join(fixtureDir, './dist/temp-1/b.png');
     const copyFileExist = await fs.pathExists(distFilePath);
-    console.info(distFilePath, copyFileExist, fs.existsSync(distFilePath));
     expect(copyFileExist).toBeTruthy();
   });
 

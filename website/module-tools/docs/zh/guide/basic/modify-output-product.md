@@ -110,8 +110,7 @@ export default defineConfig({
   * 指定 umd 产物外部导入的全局变量：对应的 API 是 [`buildConfig.umdGlobals`](/zh/api/build-config#umdglobals)。
   * 指定 umd 产物的模块名：对应的 API 是 [`buildConfig.umdModuleName`](/zh/api/build-config#umdmodulename)。
 
-除了以上分类以外，关于这些 API 的常见问题和最佳实践可以通过下面的链接来了解：
-
+除了以上分类以外，关于这些 API 的常见问题和最佳实践可以通过下面的链接来了解，敬请期待。
 * 什么是 `bundle` 和 `bundleless`?
 * `input` 与 `sourceDir` 的关系。
 * 产物中类型文件的多种生成方式。

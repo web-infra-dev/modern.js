@@ -97,6 +97,7 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
     html,
     tools,
     plugins: [],
+    builderPlugins: [],
     runtime: {},
     runtimeByEntries: {},
   };

@@ -177,6 +177,8 @@ export default (): CliPlugin<AppTools> => ({
             },
           });
 
+          builder.addPlugins(resolvedConfig.builderPlugins);
+
           appContext = {
             ...appContext,
             builder,

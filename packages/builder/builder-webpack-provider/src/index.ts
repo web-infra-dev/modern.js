@@ -18,6 +18,10 @@ export type {
   PerformanceConfig,
   ExperimentsConfig,
 
+  // Hook Callback Types
+  ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
+
   // Third Party Types
   webpack,
   WebpackChain,

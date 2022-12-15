@@ -14,4 +14,4 @@ If you have to go through all this work every time you develop a module type pro
 
 ![Not using engineering solution vs. using engineering solution](/why-module-solution.png)
 
-Modern.js/EdenX, in order to make developing module type projects easier, provides a module engineering solution in order to solve the above mentioned problems and provides the main features using Module Tools. **Module-tools can be understood as a tool dedicated to the development of module type projects**.
+Modern.js, in order to make developing module type projects easier, provides a module engineering solution in order to solve the above mentioned problems and provides the main features using Module Tools. **Module-tools can be understood as a tool dedicated to the development of module type projects**.

@@ -1,5 +1,131 @@
 # @modern-js/runtime
 
+## 2.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- c9e800d39a: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- 2344eb26ed: fix: bootstrap function params type define
+
+  fix: 修复 bootstrap 函数参数类型定义
+
+- a11fcf8b50: feat: fallback logic of streaming ssr
+  feat: streaming ssr 降级逻辑
+- a931594: feat: support modify routes for csr app
+  feat: 支持 modifyRoutes API
+- e7ce063: fix: root layout css chunks should't be loaded
+  fix: 不应该加载 root layout 的 css chunks
+- b18fa8f3ed: feat: remove @loadable/component in streaming ssr
+  feat: 移除 streaming ssr 中的 @loadable/component 逻辑
+- 50d4675: fix: add document cli export
+
+  fix: 增加 document cli 插件的导出
+
+- 6604f1b: feat: support router basename
+  feat: router 插件支持设置 basename
+- fda836f: feat: support `models`,`initialState` config for state plugin
+  feat: state 插件支持`model`,`initialState` 配置
+- d6bc321: fix: the Document.tsx missed hmr
+
+  fix: Document.tsx 未能引发 hmr
+
+- 3e57f2bd58: feat: add document feature with plugin
+
+  feat: 增加 document 功能插件
+
+- 2e6031955e: fix: some optimizations for router and loader
+  fix: 一些 router 和 loader 的优化
+  q
+- c5798d2: fix(runtime): apply babel-plugin-ssr-loader-id when SSR is not used
+
+  fix(runtime): 在未启动 SSR 时需要注册 babel-plugin-ssr-loader-id
+
+- fbf5eed5aa: fix: fix ssg failure due to lack of Web Response API
+  fix: 修复因为缺少 Web Response API 而导致 ssg 失败
+- a2509bfbdb: feat: bump esbuild from 0.14.38 to 0.15.7
+
+  feat: 将 esbuild 从 0.14.38 版本升级至 0.15.7 版本
+
+- a7c6883: fix: only register babel-plugin-ssr-loader-id when SSR is enabled
+
+  fix: 仅在开启 SSR 的场景下注册 babel-plugin-ssr-loader-id
+
+- 425e57092d: feat: export react-router-dom/server staticRouter
+  feat: 导出 react-router-dom/server 的 staticRouter 组件
+- e4357f1856: fix: change default document file and name
+
+  fix: 重置默认的 document 文件和文件名
+
+- 4369648ae2: fix: fix html template of streaming ssr
+  fix: 修复流式渲染的 html 模版
+- 92c0994468: chore: remove `registerPrefetch`
+  chore: 移除 `registerPrefetch`
+- 2cc2eb3: fix: fix state plugin config
+  fix: 修复 state 插件 config 参数
+- 6bda14ed71: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- 92004d1906: feat: support load chunks parallelly
+  feat: 支持并行加载 chunks
+- 40ed5874c6: feat: inject css chunk into html for streaming ssr
+  feat: streaming ssr 返回的 html 注入 css chunk
+- 60d5378632: fix: function extname should not return array
+  fix: 函数 extname 不应该返回一个数组
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- 9144c21: fix: esbuild config use file
+
+  fix: 更改 esbuild 读取指定 ts 配置
+
+- 18aaf42249: fix: fix server loader redirects
+  fix: 修复 server loader 重定向错误
+- 34702d5: feat: support internal env vars: metaName_TARGET
+  feat: 支持内置环境变量 metaName_TARGET
+- fcace5b5b9: fix: remove overmuch `@modernjs/utils` dependency import in ssr runtime & SSR hydrate error
+  fix: 去除 ssr 运行时过多的 `@modernjs/utils` 依赖引入 & SSR hydrate 错误
+- Updated dependencies [7879e8f]
+- Updated dependencies [6aca875]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [7b7d12c]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed5874c6]
+- Updated dependencies [87c1ff86b9]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb843]
+- Updated dependencies [f179749375]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/types@2.0.0-beta.4
+  - @modern-js/utils@2.0.0-beta.4
+  - @modern-js/plugin@2.0.0-beta.4
+
 ## 2.0.0-beta.3
 
 ### Major Changes
