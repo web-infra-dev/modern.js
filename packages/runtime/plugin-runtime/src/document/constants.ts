@@ -19,6 +19,12 @@ export const DOCUMENT_SCRIPTS_PLACEHOLDER = encodeURIComponent(
 );
 export const DOCUMENT_NO_SCRIPTE_PLACEHOLDER =
   encodeURIComponent('<!-- no-script -->');
+export const DOCUMENT_SCRIPT_PLACEHOLDER_START = encodeURIComponent(
+  '<!-- script-start -->',
+);
+export const DOCUMENT_SCRIPT_PLACEHOLDER_END = encodeURIComponent(
+  '<!-- script-end -->',
+);
 
 export const PLACEHOLDER_REPLACER_MAP = {
   [DOCUMENT_NO_SCRIPTE_PLACEHOLDER]: `We're sorry but react app doesn't work properly without JavaScript enabled. Please enable it to continue.`,
