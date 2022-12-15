@@ -1,0 +1,125 @@
+# 如何处理第三方依赖
+
+一般来说，项目所需要的第三方依赖可以通过包管理器的 `install` 命令安装，在安装第三方依赖成功后，这些第三方依赖一般会出现在项目 `package.json` 的 `dependencies` 和 `devDependencies` 下。
+
+``` json pacakge.json
+{
+    "dependencies": {},
+    "devDependencies": {}
+}
+```
+
+而 `"dependencies"` 下的依赖通常来说是和项目代码以及构建相关的，如果这些第三方依赖声明在 `"devDependencies"` 下，那么在生产环境下就会出现缺失依赖的问题。
+
+除了 `"dependencies"` 以外，[`"peerDependencies"`](/zh/guide/basic/before-getting-started#peerdependencies) 也可以声明在生产环境下需要的依赖，不过它更强调项目在运行环境下存在 `"peerDependencies"` 声明的这些依赖，这类似于插件这样的机制。
+
+## 第三方依赖的默认处理
+
+在模块工程里，**默认情况下不会对`"dependencies"` 以及 `"peerDependencies"` 下的第三方依赖进行打包处理**，因此：
+
+<CH.Spotlight>
+
+```json ./v1/package.json
+{
+    "dependencies": {
+        "react": "^17"
+    },
+    // or
+    "peerDependencies": {
+        "react": "^17"
+    }
+}
+```
+
+---
+
+如果项目依赖了 `react`。
+
+```json ./v1/package.json
+{
+  "dependencies": {
+    "react": "^17"
+  },
+  // or
+  "peerDependencies": {
+      "react": "^17"
+  }
+}
+```
+
+---
+
+当源码中使用了 `react` 依赖。
+
+``` tsx src/index.ts
+import React from "react";
+console.info(React);
+```
+
+---
+
+此时产物中不会将 `react` 代码打包到产物中。
+
+``` js dist/index.js
+import React from "react";
+console.info(React);
+```
+
+</CH.Spotlight>
+
+## 打包第三方依赖
+
+不过也有一些情况希望将这些第三方依赖打包到产物。将第三方依赖打包到产物的好处是：**减少下载第三方依赖所花费的时间**。
+
+这种处理第三方依赖的方式一般在开发命令行工具中比较常见，这可以提升命令行工具的加载速度，给使用者带来更好的使用体验。
+
+那么如何在模块工程中开启对于第三方依赖的打包处理呢？
+
+在构建配置中提供了以下 API 来处理第三方依赖：
+
+* [`buildConfig.autoExternal`](zh/api/build-config#autoexternal)
+* [`buildConfig.externals`](/zh/api/build-config#externals)
+
+### 关闭默认行为
+
+当我们希望关闭对于第三方依赖的默认处理行为时候，可以通过以下方式来实现：
+
+``` ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: false,
+  }
+});
+```
+
+这样对于 `"dependencies"` 和 `"peerDependencies"` 下面的依赖都会进行打包处理。如果只想要关闭其中某个下面的依赖处理，则可以使用
+`buildConfig.autoExternal` 的对象形式：
+
+``` ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: {
+      dependencies: false,
+      peerDependencies: false,
+    },
+  }
+});
+```
+
+### 排除指定第三方依赖
+
+而除了 `buildConfig.autoExternal` API以外，`buildConfig.externals` 也可以控制哪些第三方依赖要进行处理。我们可以组合这两个
+API 对项目的依赖进行更细微的处理。
+
+例如当我们需要仅对某些依赖不进行打包处理的时候，可以按照如下方式进行配置：
+
+> 一般这种情况，可能是某些依赖不适合进行打包处理。如果遇到这种情况，则可以按照下面的方式进行处理。
+
+``` ts
+epxort default defineConfig({
+  buildConfig: {
+    autoExternal: false,
+    externals: ['pkg-1', /pkg-2/],
+  }
+});
+```
