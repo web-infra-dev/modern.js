@@ -180,8 +180,7 @@ function tryApplyUpdates() {
     return;
   }
 
-  // TODO: temp compat rspack (not support full hash)
-  if ((__webpack_hash__ && !isUpdateAvailable()) || !canApplyUpdates()) {
+  if (!isUpdateAvailable() || !canApplyUpdates()) {
     return;
   }
 
@@ -192,19 +191,24 @@ function tryApplyUpdates() {
       return;
     }
 
-    if (__webpack_hash__ && isUpdateAvailable()) {
+    if (isUpdateAvailable()) {
       // While we were updating, there was a new update! Do it again.
       tryApplyUpdates();
     }
   }
 
-  // https://webpack.js.org/api/hot-module-replacement/#check
-  module.hot.check(/* autoApply */ true).then(
-    (updatedModules: any) => {
-      handleApplyUpdates(null, updatedModules);
-    },
-    (err: any) => {
-      handleApplyUpdates(err, null);
-    },
-  );
+  // https://webpack.github.io/docs/hot-module-replacement.html#check
+  const result = module.hot.check(/* autoApply */ true, handleApplyUpdates);
+
+  // // webpack 2 returns a Promise instead of invoking a callback
+  if (result?.then) {
+    result.then(
+      (updatedModules: any) => {
+        handleApplyUpdates(null, updatedModules);
+      },
+      (err: any) => {
+        handleApplyUpdates(err, null);
+      },
+    );
+  }
 }
