@@ -2,6 +2,9 @@
   "private": true,
   "name": "integration-copy-public-html",
   "version": "1.0.0",
+  "scripts": {
+    "build": "modern build"
+  },
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
