@@ -112,12 +112,12 @@ We explain it next.
 
 In addition to the above categories, frequently asked questions and best practices about these APIs can be found at the following links.
 
-* What are `bundle` and `bundleless`?
-* The relationship between `input` and `sourceDir`.
-* The multiple ways of generating type files in products.
-* The use of `buildConfig.define` for different scenarios.
-* How to handle third-party dependencies?
-* How to use copy?
+* [What are `bundle` and `bundleless`?](/en/guide/advance/in-depth-about-build#bundle-and-bundleless)
+* [The relationship between `input` and `sourceDir`](/en/guide/advance/in-depth-about-build#relationship-between-input-and-sourcedir)
+* [The multiple ways of generating type files in products](/en/guide/advance/in-depth-about-build#declaration-type-files)
+* [The use of `buildConfig.define` for different scenarios.](/en/guide/advance/in-depth-about-build#buildconfigdefine-usage-for-different-scenarios)
+* [How to handle third-party dependencies?](/en/guide/advance/external-dependency)
+* [How to use copy?](/en/guide/advance/copy)
 * How to build umd products?
 * The capabilities currently supported by static resources.
 

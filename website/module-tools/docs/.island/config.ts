@@ -164,6 +164,10 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/advance/copy')
           },
           {
+            text: getText('如何处理第三方依赖', 'How to handle third-party dependencies'),
+            link: getLink('/guide/advance/external-dependency'),
+          },
+          {
             text: getText('插件扩展', 'Plugins extension'),
             link: getLink('/guide/advance/extension')
           },
