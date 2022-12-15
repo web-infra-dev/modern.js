@@ -30,15 +30,11 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, \\"default\\", { value: mod, enumerable: true }) : target,
     mod
   ));
-
-  // libuild:globals:react
   var require_react = __commonJS({
     \\"libuild:globals:react\\"(exports, module) {
       module.exports = Function(\\"return this\\")()[\\"React\\"];
     }
   });
-
-  // src/common.js
   var common_exports = {};
   __export(common_exports, {
     addPrefix: () => addPrefix
@@ -49,8 +45,6 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
       addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
     }
   });
-
-  // src/index.js
   var import_react = __toESM(require_react());
   var debug = async (str) => {
     const { addPrefix: addPrefix2 } = await Promise.resolve().then(() => (init_common(), common_exports));
