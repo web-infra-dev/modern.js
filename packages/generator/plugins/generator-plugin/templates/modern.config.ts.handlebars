@@ -1,4 +1,6 @@
-module.exports = {
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildConfig: {
     buildType: 'bundle',
     format: 'cjs',
@@ -8,4 +10,4 @@ module.exports = {
     },
     dts: false,
   },
-};
+});
