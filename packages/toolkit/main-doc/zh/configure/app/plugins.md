@@ -3,18 +3,24 @@ title: plugins (插件)
 sidebar_position: 9
 ---
 
-- 类型： `CliPlugin[]`
+- 类型：`CliPlugin[]`
 - 默认值：`[]`
 
-用于配置自定义的 Modern.js 插件。
+用于配置自定义的 Modern.js 框架插件。
 
 自定义插件的编写方式请参考 [如何编写插件](/docs/guides/topic-detail/framework-plugin/implement)。
 
-该选项用于配置框架插件，如果需要配置 webpack 插件，请使用 [tools.webpack](/docs/configure/app/tools/webpack) 或 [tools.webpackChain](/docs/configure/app/tools/webpack-chain); 需要配置 babel 插件，请使用 [tools.babel](/docs/configure/app/tools/babel)。
+## 注意事项
+
+该选项**用于配置框架插件**，如果你需要配置其他类型的插件，请选择对应的配置方式：
+
+- 配置 Modern.js Builder 插件，请使用 [builderPlugins](docs/configure/app/builder-plugins) 配置项。
+- 配置 webpack 插件，请使用 [tools.webpack](/docs/configure/app/tools/webpack) 或 [tools.webpackChain](/docs/configure/app/tools/webpack-chain) 配置项。
+- 配置 Babel 插件，请使用 [tools.babel](/docs/configure/app/tools/babel) 配置项。
 
 ## 插件类型
 
-Modern.js 中内置了三种不同的插件机制：
+Modern.js 中内置了三种不同的框架插件：
 
 - `CLI 插件`，适用于本地开发、编译构建阶段，可以在命令行和编译阶段扩展各种能力。
 - `Server 插件`，适用于服务端。

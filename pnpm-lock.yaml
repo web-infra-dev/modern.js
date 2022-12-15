@@ -4082,6 +4082,27 @@ importers:
       axios: 0.24.0
       typescript: 4.7.4
 
+  tests/integration/builder-plugins:
+    specifiers:
+      '@types/jest': ^27
+      '@types/node': ^14
+    dependencies:
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+
+  tests/integration/builder-plugins/fixtures/register-builder-plugins:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@babel/runtime': 7.18.6
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
   tests/integration/copy-assets:
     specifiers:
       '@types/jest': ^27
@@ -11066,7 +11087,6 @@ packages:
 
   /@modern-js/libuild-plugin-es5/0.5.2:
     resolution: {integrity: sha512-IatNX/ZNzENyWDeh/UIBZp3QrqF8FQSqD3V5xrxGLUeMHcmvF6uM1wQIdRRdC5nIHdRt4uo4lP16p1r07riwAg==}
-    deprecated: use @modern-js/libuild-plugin-swc instead of it
     dependencies:
       '@swc/core': 1.3.14
     dev: false
@@ -11079,7 +11099,6 @@ packages:
 
   /@modern-js/libuild-plugin-umd/0.5.2:
     resolution: {integrity: sha512-E3MaT6bUEvdrlM6jWbQi8QpofrM15HDgBKJXj2M2iVwoX21FIJzAzUbc+4bA9SVTJ6ssWaBlBOFh0PWJd5hcdA==}
-    deprecated: use @modern-js/libuild-plugin-swc instead of it
     dependencies:
       '@swc/core': 1.3.14
     dev: false
