@@ -6,6 +6,7 @@ import {
   bundlelessDistPath,
   REQUIRE_REGEX,
   IMPORT_FROM_REGEX,
+  IMPORT_REGEX,
   IIFE_REGEX,
 } from './constants';
 
@@ -99,6 +100,7 @@ describe('format is cjs', () => {
     const content1 = await fs.readFile(distIndexPath, 'utf-8');
     expect(content1.includes('module.exports')).toBe(true);
     expect(IMPORT_FROM_REGEX.test(content1)).toBe(false);
+    expect(IMPORT_REGEX.test(content1)).toBe(false);
     expect(content1).toMatchSnapshot();
 
     const distUtilsPath = path.join(
@@ -109,6 +111,7 @@ describe('format is cjs', () => {
     const content2 = await fs.readFile(distUtilsPath, 'utf-8');
     expect(content2.includes('module.exports')).toBe(true);
     expect(IMPORT_FROM_REGEX.test(content2)).toBe(false);
+    expect(IMPORT_REGEX.test(content2)).toBe(false);
     expect(content2).toMatchSnapshot();
   });
 });
