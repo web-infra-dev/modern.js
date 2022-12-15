@@ -1,5 +1,26 @@
 # @modern-js/eslint-config
 
+## 2.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- f680410886: feat: upgrade ESLint to 8.x version
+
+  feat: 升级 ESLint 到 8.x 版本
+
+- Updated dependencies [d4a456659b]
+- Updated dependencies [f680410886]
+- Updated dependencies [dda38c9c3e]
+  - @modern-js-app/eslint-config@2.0.0-beta.4
+
 ## 2.0.0-beta.3
 
 ### Major Changes

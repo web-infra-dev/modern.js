@@ -1,5 +1,310 @@
 # @modern-js/app-tools
 
+## 2.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- b710adb843: feat: extract the data loader
+  feat: 提取 data loader
+- bbe4c4a: feat: add @modern-js/plugin-swc
+
+  feat: 新增 @modern-js/plugin-swc 插件
+
+- e4558a0: feat:
+
+  1. add `runBin` function
+  2. config internal plugins constants in the app/module/doc tools
+  3. add app/module/doc tools internal plugins
+
+  feat:
+
+  1. 添加 `runBin` 函数
+  2. 在 app/module/doc tools 里配置内部插件
+  3. 增加 app/module/doc tools 使用的插件常量
+
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- c9f912ca4d: feat(app-tools): improve build logs of dev and build command
+
+  feat(app-tools): 优化 dev 和 build 过程中的日志展示
+
+- 0078da4c80: fix: remove webpack oneof rule in new config, save in legacy mode.
+  fix: 在新模式下删除 webpack oneof 规则，兼容模式下保留
+- 103973cde9: fix: builder tools.webpackChain config args not match the Modernjs tools.webpackChain
+  fix: builder tools.webpackChain 配置传参无法匹配 Modernjs tools.webpackChain
+- 7879e8f: refactor: remove enableModernMode config
+
+  refactor: 不再支持 enableModernMode 配置项
+
+- 0be536d: fix(app-tools): html.template config not work
+
+  fix(app-tools): 修复 html.template 配置项不生效的问题
+
+- d4e8e6fb90: fix: modernjs dev server can't start normaly
+  fix: modernjs dev 服务端不能正常启动
+- 0b2d1ef02b: fix: repeat register `babel-plugin-lodash`
+  fix: 重复注册 `babel-plugin-lodash`
+- 217c43a: fix: should generate path correctly for data loader
+  fix: 应该生成正确的路径给 data loader
+- 82cef85ed7: fix: specify builder compiler framework
+  fix: 指明 builder 构建时框架
+- 1eeb052: fix: support set entry with file-system based router
+  fix: 约定式路由支持设置 entry
+- e011faf: fix: the esbuild watcher should be stoped when cli restart
+  fix: 当 cli 重启时，esbuild watcher 应该停止监听文件
+- 3e57f2bd58: feat: add document feature with plugin
+
+  feat: 增加 document 功能插件
+
+- 3941653: fix: add esbuild to dependencies
+  fix: 将 esbuild 添加到依赖中
+- 33aeb51: feat: add manifest field for router config
+  feat: 为 router 配置添加 manifest 字段
+- 85edee888c: feat(app-tools): support tools.htmlPlugin config
+
+  feat(app-tools): 支持 tools.htmlPlugin 配置项
+
+- 2e6031955e: fix: some optimizations for router and loader
+  fix: 一些 router 和 loader 的优化
+  q
+- 752480d: fix(app-tools): failed to copy public assets
+
+  fix(app-tools): 修复拷贝 public 下的静态文件失败的问题
+
+- a55b9656c4: fix: rename "loader routes" file to avoid influence ssr
+  fix: 重命名 loader routes 避免影响 ssr
+- 5402fdb0ca: feat(Builder): add output.disableTsChecker config
+
+  feat(Builder): 新增 output.disableTsChecker 配置项
+
+- dc8eeb9cbb: fix: clear distDirectory in prepare hook & inject data loader plugin to server
+  fix: 在 prepare hook 中清理 dist 目录，并且向 server 中注入 data loader plugin
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 5b9049f2e9: feat: inject async js chunk when streaming ssr
+  feat: streaming ssr 时, 注入 async 类型的 js chunk
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- 6bda14ed71: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- d36c6ee126: fix(app-tools): failed to run inspect command
+
+  fix(app-tools): 修复运行 inspect 命令失败的问题
+
+- 92004d1906: feat: support load chunks parallelly
+  feat: 支持并行加载 chunks
+- b8bbe036c7: feat: change type logic
+  feat: 修改类型相关的逻辑
+- 40ed5874c6: feat: inject css chunk into html for streaming ssr
+  feat: streaming ssr 返回的 html 注入 css chunk
+- af4422d67f: feat(builder): complete utils of tools.webpack
+
+  feat(builder): 补全 tools.webpack 提供的 utils 方法
+
+- 4293748: fix: router config maybe not defined
+  fix: router 配置可能不存在
+- 87c1ff86b9: feat(app-tools): attach builder instance to appContext
+
+  feat(app-tools): 将 builder 实例挂载到 appContext 上
+
+- c258e34202: fix: add builder hooks `beforeBuild` params
+  fix: 新增 builder hooks `beforeBuild` 的参数
+- 3b3d709ee2: fix(app-tools): cli --analyze option not work
+
+  fix(app-tools): 修复 --analyze 命令行参数不生效的问题
+
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- f5178e1: fix(app-tools): dev.startUrl not work
+
+  fix(app-tools): 修复 dev.startUrl 不生效的问题
+
+- 88eb147: fix(app-tools): builder's onBeforeCreateDevServer hook not work
+
+  fix(app-tools): 修复 builder 的 onBeforeCreateDevServer hook 无法触发的问题
+
+- 8c32dc4: fix: builder should not be checked when apiOnly is true
+  fix: 当 apiOnly 为 true 时，builder 不应该被校验
+- a2c8cc3eb5: fix: change tools define userconfig type
+  fix: 修改工程定义的 UserConfig 类型
+- b7a96c35fc: fix(app-tools): loose CLI init options after restart
+
+  fix(app-tools): 修复重启 CLI 后丢失 init options 的问题
+
+- df62445: fix: fix generateCode logic for windows
+  fix: 兼容 generateCode 的逻辑在 windows 平台
+- 7de97ae24f: fix: `deploy` command has't load `builder` instance
+  fix: `deploy` 命令没有加载 builder 实例
+- cce8ecee2d: fix: handle some `TODO` & `FIXME`, change some tests
+  fix: 处理一些 `TODO` 和 `FIXME`, 修改了一些 tests
+- c3b7de4bfb: fix(app-tools): dev.assetPrefix not work
+
+  fix(app-tools): 修复 dev.assetPrefix 配置项不生效的问题
+
+- 16a3441: fix(app-tools): remove duplicated port log
+
+  fix(app-tools): 修复 port 重复的日志输出两遍的问题
+
+- 92004d1906: fix: use loadable lazy instead of loadable
+  fix: 使用 loadable lazy 组件替代 loadable
+- c677befc22: fix(app-tools): compat legacy resolve behavior
+
+  fix(app-tools): 兼容旧版本 node_modules 解析逻辑
+
+- f1b8e8a: fix(app-tools): failed to copy HTML from config/public dir
+
+  fix(app-tools): 修复从 config/public 拷贝 HTML 文件时可能出现编译错误的问题
+
+- 3f7cde5caa: fix: builder plugin setup can't get config
+  fix: builder 插件在 setup 阶段无法拿到 config
+- 99213e4bae: fix: process does't exit when exec command
+  fix: 修复执行命令时进程未退出的问题
+- b16fd964da: fix: `modern-js/app-tools` pass error config to builder.
+  fix: `modern-js/app-tools` 传递错误的 config 给 builder.
+- 16ef1a7: fix(app-tools): should not increase port when restart
+
+  fix(app-tools): 修复 restart 时端口号会增加的问题
+
+- 7eefedd7ca: fix: add html-webpack-plugin `__internal__` options, for bottom template
+  fix: 为了 bottom template, 增加 `html-webpack-plugin` `__internal__` 配置项，
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [c9f912ca4d]
+- Updated dependencies [95be7cc49c]
+- Updated dependencies [e439457a51]
+- Updated dependencies [4d1545f8c0]
+- Updated dependencies [4a7693f]
+- Updated dependencies [2bc090c089]
+- Updated dependencies [ba53257]
+- Updated dependencies [f0abb2e]
+- Updated dependencies [f96a725211]
+- Updated dependencies [7879e8f]
+- Updated dependencies [828f42f9ce]
+- Updated dependencies [060abd4553]
+- Updated dependencies [309cd71a1c]
+- Updated dependencies [c7456864a8]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [d4e8e6fb90]
+- Updated dependencies [0ff846fb56]
+- Updated dependencies [3cf9633195]
+- Updated dependencies [6604f1b]
+- Updated dependencies [57077b2c64]
+- Updated dependencies [217c43a]
+- Updated dependencies [d032d49e09]
+- Updated dependencies [6aca875]
+- Updated dependencies [2ff6167be0]
+- Updated dependencies [287f298990]
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [423188db70]
+- Updated dependencies [fd2d652c03]
+- Updated dependencies [0c2d8dae31]
+- Updated dependencies [2edad29dd7]
+- Updated dependencies [85edee888c]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [309f08b]
+- Updated dependencies [3998875791]
+- Updated dependencies [752480d]
+- Updated dependencies [b827e35]
+- Updated dependencies [ab3924a70e]
+- Updated dependencies [3998875791]
+- Updated dependencies [ba86b8b711]
+- Updated dependencies [61f21d1e77]
+- Updated dependencies [7b7d12c]
+- Updated dependencies [5402fdb0ca]
+- Updated dependencies [2ae58176fe]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [5d67c26cdb]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [83ac356]
+- Updated dependencies [a3af050486]
+- Updated dependencies [d4a456659b]
+- Updated dependencies [18360a38d7]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [0b314e6946]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [5911154129]
+- Updated dependencies [40ed5874c6]
+- Updated dependencies [af4422d67f]
+- Updated dependencies [705adc1dae]
+- Updated dependencies [f680410886]
+- Updated dependencies [87c1ff86b9]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [4f277fe]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [c258e34202]
+- Updated dependencies [812913ccdd]
+- Updated dependencies [7248342e4d]
+- Updated dependencies [568eab1e42]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [ae71096d45]
+- Updated dependencies [73cd29dd9f]
+- Updated dependencies [e06b9a2]
+- Updated dependencies [b710adb843]
+- Updated dependencies [b7a96c35fc]
+- Updated dependencies [a23010138d]
+- Updated dependencies [75d1b2657c]
+- Updated dependencies [cce8ecee2d]
+- Updated dependencies [18aaf42249]
+- Updated dependencies [f179749375]
+- Updated dependencies [b8494ef]
+- Updated dependencies [3fae2d03b3]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [8a6d45f105]
+- Updated dependencies [143d8dd]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [ebbeed1ece]
+- Updated dependencies [6354cfa]
+- Updated dependencies [90e2879520]
+- Updated dependencies [e4558a0]
+- Updated dependencies [df41d71ade]
+- Updated dependencies [f727e5c6cc]
+- Updated dependencies [5e3cecd523]
+- Updated dependencies [92de772]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [da2d1fc3c2]
+- Updated dependencies [543be9558e]
+- Updated dependencies [fd1d9fd]
+- Updated dependencies [14b712da84]
+- Updated dependencies [a24f1c9]
+  - @modern-js/builder-webpack-provider@2.0.0-beta.4
+  - @modern-js/builder-shared@2.0.0-beta.4
+  - @modern-js/prod-server@2.0.0-beta.4
+  - @modern-js/server@2.0.0-beta.4
+  - @modern-js/types@2.0.0-beta.4
+  - @modern-js/utils@2.0.0-beta.4
+  - @modern-js/core@2.0.0-beta.4
+  - @modern-js/builder-plugin-esbuild@2.0.0-beta.4
+  - @modern-js/plugin-data-loader@2.0.0-beta.4
+  - @modern-js/builder-plugin-node-polyfill@2.0.0-beta.4
+  - @modern-js/node-bundle-require@2.0.0-beta.4
+  - @modern-js/plugin-lint@2.0.0-beta.4
+  - @modern-js/plugin@2.0.0-beta.4
+  - @modern-js/builder@2.0.0-beta.4
+  - @modern-js/plugin-i18n@2.0.0-beta.4
+  - @modern-js/new-action@2.0.0-beta.4
+  - @modern-js/upgrade@2.0.0-beta.4
+
 ## 2.0.0-beta.3
 
 ### Major Changes
