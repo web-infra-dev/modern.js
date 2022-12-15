@@ -14,7 +14,7 @@
 
 ### Bundle 和 Bundleless
 
-那么首先我们来理解一下 Bundle 和 Bundleless。
+那么首先我们来了解一下 Bundle 和 Bundleless。
 
 所谓 Bundle 是指对构建产物进行打包，构建产物可能是一个文件，也有可能是基于一定的[代码拆分策略](https://esbuild.github.io/api/#splitting)得到的多个文件。
 
@@ -73,7 +73,7 @@ export default defineConfig({
 
 #### 关闭类型生成
 
-默认情况下类型生成功能是开启的，如果需要关闭的话，可以：
+默认情况下类型生成功能是开启的，如果需要关闭的话，可以按照如下配置：
 
 ```ts ./modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
@@ -85,49 +85,160 @@ export default defineConfig({
 });
 ```
 
+:::tip
+关闭类型文件后，一般来说构建速度会有所提升。
+:::
+
 #### 打包类型文件
 
 在 `buildType: 'bundleless'` 的时候，类型文件的生成是使用项目的 `tsc` 命令来完成生产。
 
-模块工程解决方案同时还支持对类型文件进行打包，不过使用该功能的时候需要注意：
+**模块工程解决方案同时还支持对类型文件进行打包**，不过使用该功能的时候需要注意：
 
-* 一些第三方依赖存在导致打包出现错误的语法，因此对于这种情况，需要手动通过 [`buildConfig.externals`](/zh/api/build-config#externals) 将这些包排除打包的范围。
-* 无法处理第三方包的类型文件指向源码的情况。
+* 一些第三方依赖存在错误的语法会导致打包过程失败。因此对于这种情况，需要手动通过 [`buildConfig.externals`](/zh/api/build-config#externals) 将这类第三方包排除。
+* 对于第三方依赖的类型文件指向的是一个 `.ts` 文件的情况，目前无法处理。比如第三方依赖的 `package.json` 中存在这样的内容： `{"types": "./src/index.ts"}`。
 
 #### 别名转换
 
-在 Bundleless 构建过程中，源码里可能会出现别名，例如：
+在 Bundleless 构建过程中，如果源代码中出现了别名，例如：
 
 ```ts ./src/index.ts
 import utils from '@common/utils';
 ```
 
-正常来说，使用 `tsc` 生成的产物类型文件也会包含这些别名。不过 module-tools 会对这些类型文件的别名进行转换处理：
+正常来说，使用 `tsc` 生成的产物类型文件也会包含这些别名。不过 Module Tools 会对 `tsc` 生成的类型文件里的别名进行转换处理：
 
-* 对于类似 `import '@common/utils'` 或者 `import utils from '@common/utils'` 这样形式的代码可以进行别名转换
+* 对于类似 `import '@common/utils'` 或者 `import utils from '@common/utils'` 这样形式的代码可以进行别名转换。
 * 对于类似 `export { utils } from '@common/utils'` 这样形式的代码可以进行别名转换。
 
 然而也存在一些情况，目前还无法处理：
 
 * 对于类似 `Promise<import('@common/utils')>` 这样形式的输出类型目前无法进行转换。
 
-####
+#### 一些 `dts` 的使用示例
+
+一般使用方式：
+
+``` ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  // 此时打包的类型文件输出路径为 `./dist/types`
+  buildConfig: {
+    buildType: 'bundle',
+    dts: {
+      tsconfigPath: './other-tsconfig.json',
+      distPath: './types',
+    },
+    outdir: './dist',
+  }
+});
+```
+
+使用 `dts.only` 的情况：
+
+``` ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  // 此时类型文件没有进行打包，输出路径为 `./dist/types`
+  buildConfig: [
+    {
+      buildType: 'bundle',
+      dts: false,
+      outdir: './dist',
+    },
+    {
+      buildType: 'bundleless',
+      dts: {
+        only: true,
+      },
+      outdir: './dist/types',
+    }
+  ]
+});
+```
+
+### `buildConfig.define` 不同场景的使用方式
+
+[`buildConfig.define`](/zh/api/build-config#define) 功能有些类似 [`webpack.DefinePlugin`](https://webpack.js.org/plugins/define-plugin/)。这里介绍几个使用场景：
+
+#### 环境变量替换
+
+``` ts
+import { defineConfig } from '@modern-js/module-tools';
+export default defineConfig({
+  buildConfig: {
+    define: {
+      'process.env.VERSION': JSON.stringify(process.env.VERSION || '0.0.0')
+    }
+  }
+});
+```
+
+通过上面的配置，我们就可以将下面这段代码：
+
+```
+// 编译前代码
+console.log(process.env.VERSION);
+```
+
+在执行 `VERSION=1.0.0 modern build` 的时候，转换为：
+
+```
+// 编译后代码
+console.log('1.0.0');
+```
+
+#### 全局变量替换
+
+``` ts
+import { defineConfig } from '@modern-js/module-tools';
+export default defineConfig({
+  buildConfig: {
+    define: {
+      'VERSION': JSON.stringify(require('./package.json').version || '0.0.0')
+    }
+  }
+});
+```
+
+通过上面的配置，我们就可以将下面这段代码：
+
+```
+// 编译前代码
+console.log(VERSION);
+```
+
+转换为：
+
+```
+// 编译后代码
+console.log('1.0.0');
+```
+
+不过要注意：如果项目是一个 TypeScript 项目，那么你可能需要在项目源代码目录下的 `.d.ts` 文件里增加以下内容：
+> 如果不存在 `d.ts` 文件，则可以手动创建。
+
+``` ts env.d.ts
+declare const YOUR_ADD_GLOBAL_VAR;
+```
 
 
 ## 构建过程
 
 当执行 `modern build` 命令的时候，会发生
 
-* 根据 `buildConfig.outdir` 清理产物目录
-* 编译 `js/ts` 生成 Bundle/Bundleless 的 JS 构建产物
-* 使用 `tsc` 生成 Bundle/Bundleless 的类型文件
-* 处理 Copy 任务
+* 根据 `buildConfig.outdir` 清理产物目录。
+* 编译 `js/ts` 源代码生成 Bundle/Bundleless 的 JS 构建产物。
+* 使用 `tsc` 生成 Bundle/Bundleless 的类型文件。
+* 处理 Copy 任务。
 
 ## 构建报错
 
-基于以上我们了解到的，当发生构建报错的时候，我们可以在终端看到下面的内容：
+当发生构建报错的时候，基于以上了解到的信息，可以很容易的明白在终端出现的报错内容：
 
-**js/ts 构建的报错：**
+**js 或者 ts 构建的报错：**
 ``` bash
 error  ModuleBuildError:
 
@@ -148,7 +259,7 @@ error   ModuleBuildError:
 bundle DTS failed:
 ```
 
-对于 `js/ts` 构建错误，我们可以从报错信息中得到以下信息：
+对于 `js/ts` 构建错误，我们可以从报错信息中知道：
 
 * 通过 `'bundle failed:'` 来判断报错的是 Bundle 构建还是 Bundleless 构建？
 * 构建过程的 `format` 是什么？
