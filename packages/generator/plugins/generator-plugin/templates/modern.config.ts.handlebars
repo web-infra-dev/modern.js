@@ -1,0 +1,14 @@
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundle',
+    format: 'cjs',
+    autoExternal: false,
+    externals: ['vm2'],
+    alias: {
+      chalk: '@modern-js/utils/chalk',
+    },
+    dts: false,
+  },
+});
