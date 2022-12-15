@@ -6,6 +6,8 @@ exports[`copy assets should copy public html and replace the assetPrefix variabl
   <head>
     <script>
       window.__assetPrefix__ = 'https://demo.com';
+      window.__assetPrefix2__ = 'https://demo.com';
+      window.__assetPrefix3__ = 'https://demo.com';
     </script>
   </head>
 </html>
