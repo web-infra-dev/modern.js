@@ -1,5 +1,15 @@
 # @modern-js/runtime
 
+## 1.22.1
+
+### Patch Changes
+
+- Updated dependencies [5d92b31]
+- Updated dependencies [3971dd6]
+  - @modern-js/webpack@1.22.1
+  - @modern-js/plugin@1.22.1
+  - @modern-js/utils@1.22.1
+
 ## 1.21.6
 
 ### Patch Changes
