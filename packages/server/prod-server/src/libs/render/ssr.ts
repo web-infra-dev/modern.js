@@ -8,7 +8,7 @@ import {
 } from '@modern-js/utils';
 import cookie from 'cookie';
 import type { ModernServerContext } from '@modern-js/types';
-import { RenderResult, ServerHookRunner } from '../../type';
+import { RenderResult } from '../../type';
 import cache from './cache';
 import { SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
@@ -23,7 +23,6 @@ export const render = async (
     entryName: string;
     staticGenerate: boolean;
   },
-  runner: ServerHookRunner,
 ): Promise<RenderResult> => {
   const { urlPath, bundle, distDir, template, entryName, staticGenerate } =
     renderOptions;
@@ -68,8 +67,6 @@ export const render = async (
   };
   context.logger = createLogger(context, ctx.logger);
   context.metrics = createMetrics(context, ctx.metrics);
-
-  runner.extendSSRContext(context);
   const serverRender = require(bundleJS)[SERVER_RENDER_FUNCTION_NAME];
   const content = await cache(serverRender, ctx)(context);
 

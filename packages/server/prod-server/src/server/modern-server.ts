@@ -406,11 +406,15 @@ export class ModernServer implements ModernServerInterface {
     await this.frameAPIHandler(req, res);
   }
 
-  protected async handleWeb(context: ModernServerContext, route: ModernRoute) {
+  protected async handleWeb(
+    context: ModernServerContext,
+    route: ModernRoute,
+    template?: string,
+  ) {
     return this.routeRenderHandler({
       ctx: context,
       route,
-      runner: this.runner,
+      template,
     });
   }
 
@@ -484,6 +488,7 @@ export class ModernServer implements ModernServerInterface {
       }
       route = matched.generate(context.url);
     }
+
     context.setParams(route.params);
     context.setServerData('router', {
       baseUrl: route.urlPath,
@@ -514,7 +519,12 @@ export class ModernServer implements ModernServerInterface {
       });
     }
 
-    const renderResult = await this.handleWeb(context, route);
+    const renderResult = await this.handleWeb(
+      context,
+      route,
+      // special scene, do not delete
+      res.locals?.unstable_route_template,
+    );
 
     if (!renderResult) {
       this.render404(context);
@@ -692,7 +702,6 @@ export class ModernServer implements ModernServerInterface {
           const file = await this.routeRenderHandler({
             route,
             ctx: context,
-            runner: this.runner,
           });
           if (file) {
             context.res.end(file.content);

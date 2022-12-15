@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs, mime } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
-import { RenderResult, ServerHookRunner } from '../../type';
+import { RenderResult } from '../../type';
 import { ModernRoute } from '../route';
 import { ERROR_DIGEST } from '../../constants';
 import { handleDirectory } from './static';
@@ -18,11 +18,11 @@ export const createRenderHandler = ({
   async function render({
     ctx,
     route,
-    runner,
+    template,
   }: {
     ctx: ModernServerContext;
     route: ModernRoute;
-    runner: ServerHookRunner;
+    template?: string;
   }): Promise<RenderResult | null> {
     if (ctx.resHasHandled()) {
       return null;
@@ -42,7 +42,7 @@ export const createRenderHandler = ({
       throw new Error(`Could not find template file: ${templatePath}`);
     }
 
-    const content = await readFile(templatePath);
+    const content = template || (await readFile(templatePath));
     if (!content) {
       return null;
     }
@@ -50,18 +50,14 @@ export const createRenderHandler = ({
     // handles ssr first
     if (route.isSSR) {
       try {
-        const result = await ssr.render(
-          ctx,
-          {
-            distDir,
-            entryName: route.entryName,
-            urlPath: route.urlPath,
-            bundle: route.bundle,
-            template: content.toString(),
-            staticGenerate,
-          },
-          runner,
-        );
+        const result = await ssr.render(ctx, {
+          distDir,
+          entryName: route.entryName,
+          urlPath: route.urlPath,
+          bundle: route.bundle,
+          template: content.toString(),
+          staticGenerate,
+        });
         return result;
       } catch (err) {
         ctx.error(
