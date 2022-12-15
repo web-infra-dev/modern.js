@@ -1,4 +1,4 @@
-import { defineConfig } from '@modern-js/app-tools';
+import PluginAppTools, { defineConfig } from '@modern-js/app-tools';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -10,4 +10,5 @@ export default defineConfig({
       mode: 'stream',
     },
   },
+  plugins: [PluginAppTools()],
 });

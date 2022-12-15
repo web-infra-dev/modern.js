@@ -1,4 +1,4 @@
-import { defineConfig } from '@modern-js/app-tools';
+import PluginAppTools, { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   runtime: {
@@ -7,4 +7,5 @@ export default defineConfig({
   source: {
     enableAsyncEntry: true,
   },
+  plugins: [PluginAppTools()],
 });

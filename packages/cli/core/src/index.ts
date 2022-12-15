@@ -73,6 +73,9 @@ export interface CoreOptions {
     sharedDir?: string;
   };
   toolsType?: ToolsType;
+
+  /** force the modern-js core auto register plugin exist in the package.json  */
+  forceAutoLoadPlugins?: boolean;
 }
 
 export const mergeOptions = (options?: CoreOptions) => {
@@ -118,6 +121,8 @@ const createCli = () => {
     const plugins = await loadPlugins(appDirectory, loaded.config, {
       internalPlugins: mergedOptions?.internalPlugins?.cli,
       transformPlugin: mergedOptions?.transformPlugin,
+      toolsTypes: mergedOptions?.toolsType,
+      forceAutoLoadPlugins: mergedOptions?.forceAutoLoadPlugins,
     });
 
     plugins.forEach(plugin => plugin && manager.usePlugin(plugin));

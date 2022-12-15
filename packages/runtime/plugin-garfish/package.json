@@ -13,7 +13,7 @@
   ],
   "version": "2.0.0-beta.4",
   "jsnext:source": "./src/index.ts",
-  "types": "./src/index.ts",
+  "types": "./src/cli/index.ts",
   "typesVersions": {
     "*": {
       ".": [
@@ -36,16 +36,20 @@
   "exports": {
     "./types": "./type.d.ts",
     ".": {
-      "node": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
+    "./runtime": {
+       "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/runtime/index.js"
-    },
-    "./cli": {
-      "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
     }
   },
   "scripts": {

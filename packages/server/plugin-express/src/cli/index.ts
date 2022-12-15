@@ -2,8 +2,10 @@ import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
 import { getRelativeRuntimePath } from '@modern-js/bff-core';
+import type { AppTools } from '@modern-js/app-tools';
+import { SERVER_PLUGIN_EXPRESS } from '@modern-js/utils/constants';
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-express',
   setup: api => {
     let bffExportsUtils: any;
@@ -45,6 +47,12 @@ export default (): CliPlugin => ({
           };
         }
       },
+
+      collectServerPlugins({ plugins }) {
+        plugins.push(SERVER_PLUGIN_EXPRESS);
+        return { plugins };
+      },
+
       addRuntimeExports(input) {
         const currentFile = bffExportsUtils.getPath();
 

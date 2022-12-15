@@ -41,5 +41,6 @@ export function transformNormalizedConfig(
     _raw: {},
     experiments: {},
     performance: {},
+    autoLoadPlugins: true,
   };
 }

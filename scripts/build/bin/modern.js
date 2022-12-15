@@ -18,6 +18,7 @@ process.env.CORE_INIT_OPTION_FILE = path.resolve(
 const { cli } = require(`${kProjectRoot}/packages/cli/core/src/index.ts`);
 
 cli.run({
+  forceAutoLoadPlugins: true,
   internalPlugins: {
     cli: {
       '@modern-js/module-tools': {
