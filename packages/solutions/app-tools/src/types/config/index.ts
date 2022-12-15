@@ -5,6 +5,7 @@ import type {
   BffUserConfig,
   BffNormalizedConfig,
 } from '@modern-js/server-core';
+import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import type { AppToolsHooks } from '../hooks';
 import type { OutputNormalizedConfig, OutputUserConfig } from './output';
 import type { SourceNormalizedConfig, SourceUserConfig } from './source';
@@ -46,6 +47,7 @@ export interface AppToolsUserConfig {
   runtimeByEntries?: RuntimeByEntriesUserConfig;
   performance?: PerformanceUserConfig;
   experiments?: ExperimentsUserConfig;
+  builderPlugins?: BuilderPlugin[];
   /**
    * The configuration of `bff` is provided by `bff` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
@@ -68,6 +70,7 @@ export type AppToolsNormalizedConfig = {
   tools: ToolsNormalizedConfig;
   performance: PerformanceNormalizedConfig;
   experiments: ExperimentsNormalizedConfig;
+  builderPlugins: BuilderPlugin[];
 
   cliOptions?: Record<string, any>;
   _raw: UserConfig<{

@@ -3,18 +3,24 @@ title: plugins
 sidebar_position: 9
 ---
 
-* Type: `CliPlugin[]`
-* Default: `[]`
+- Type: `CliPlugin[]`
+- Default: `[]`
 
-Used to configure custom Modern.js plugins.
+Used to configure custom Modern.js framework plugins.
 
 For the way to write custom plugins, please refer to [How to Write Plugins](/docs/guides/topic-detail/framework-plugin/implement).
 
-This option is used to configure the framework plugin. If you need to configure the webpack plugin, please use [tools.webpack](/docs/configure/app/tools/webpack) or [tools.webpack Chain](/docs/configure/app/tools/webpack-chain); If you need to configure the babel plugin, please use [tools.babel](/docs/configure/app/tools/babel).
+## Precautions
+
+This config **is used to configure the Modern.js framework plugin**. If you need to configure other types of plugins, please select the corresponding configs:
+
+- Use [builderPlugins](docs/configure/app/builder-plugins) to configure Modern.js Builder plugins.
+- Use [tools.webpack](/docs/configure/app/tools/webpack) or [tools.webpackChain](/docs/configure/app/tools/webpack-chain) to configure webpack plugins.
+- Use [tools.babel](/docs/configure/app/tools/babel) to configure babel plugins.
 
 ## Plugin type
 
-There are three different plug-in mechanisms built into the Modern.js:
+There are three different type of framework plugins built into the Modern.js:
 
 - `CLI Plugin`，for local development, compilation and build phases, can extend various capabilities on the command line and compilation phases.
 - `Server Plugin`，for server-level.
