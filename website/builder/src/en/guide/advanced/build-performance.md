@@ -5,7 +5,7 @@ Modern.js Builder optimizes build performance by default, but as the project bec
 This document provides some optional speed-up strategies, developers can choose some of them to improve the build performance.
 
 :::tip 📢 Notice
-The strategies in [Bundle Size Optimization](/zh/guide/advanced/optimize-bundle) can also be used to improve build performance, so we won't repeat them here.
+The strategies in [Bundle Size Optimization](/en/guide/advanced/optimize-bundle) can also be used to improve build performance, so we won't repeat them here.
 :::
 
 ## General optimization strategy
