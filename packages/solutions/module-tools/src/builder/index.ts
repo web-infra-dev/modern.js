@@ -18,8 +18,11 @@ export const run = async (
   const { resolvedBuildConfig, context, cmdOptions } = options;
   const runner = api.useHookRunners();
 
+  let totalDuration = 0;
+
   if (resolvedBuildConfig.length !== 0) {
     const { buildSuccessText } = await import('../constants/log');
+    totalDuration = Date.now();
     // eslint-disable-next-line no-console
     !cmdOptions.watch && console.time(buildSuccessText);
 
@@ -63,6 +66,7 @@ export const run = async (
         throw e;
       }
     }
+    totalDuration = Date.now() - totalDuration;
   } else {
     console.warn(
       chalk.yellow(
@@ -71,5 +75,10 @@ export const run = async (
     );
   }
 
-  await runner.afterBuild({ status: 'success', config: resolvedBuildConfig });
+  await runner.afterBuild({
+    status: 'success',
+    config: resolvedBuildConfig,
+    commandOptions: cmdOptions,
+    totalDuration,
+  });
 };
