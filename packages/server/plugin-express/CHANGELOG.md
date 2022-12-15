@@ -1,5 +1,49 @@
 # @modern-js/plugin-express
 
+## 2.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 8d24bed25b: fix: compat Hook API in /server namespace
+  fix: 在 @modern-js/runtime/server 命名空间下兼容 Hook API
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- Updated dependencies [7879e8f]
+- Updated dependencies [6aca875]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [2344eb26ed]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [7b7d12c]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed5874c6]
+- Updated dependencies [87c1ff86b9]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb843]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/types@2.0.0-beta.4
+  - @modern-js/utils@2.0.0-beta.4
+  - @modern-js/bff-core@2.0.0-beta.4
+  - @modern-js/bff-runtime@2.0.0-beta.4
+
 ## 2.0.0-beta.3
 
 ### Major Changes
