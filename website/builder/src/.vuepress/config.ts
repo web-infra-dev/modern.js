@@ -73,6 +73,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/advanced/inline-assets'),
           getLink('/guide/advanced/split-chunk'),
           getLink('/guide/advanced/custom-webpack-config'),
+          getLink('/guide/advanced/hmr'),
           getLink('/guide/advanced/rem'),
         ],
       },
