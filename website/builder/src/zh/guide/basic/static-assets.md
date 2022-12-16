@@ -31,7 +31,7 @@ import logo from './static/logo.png';
 export default = () => <img src={logo} />;
 ```
 
-也支持使用[路径别名](/guide/basic/alias.html)来引用：
+也支持使用[路径别名](/guide/advanced/alias.html)来引用：
 
 ```tsx
 import logo from '@/static/logo.png';
@@ -49,7 +49,7 @@ export default = () => <img src={logo} />;
 }
 ```
 
-也支持使用[路径别名](/guide/basic/alias.html)来引用：
+也支持使用[路径别名](/guide/advanced/alias.html)来引用：
 
 ```css
 .logo {

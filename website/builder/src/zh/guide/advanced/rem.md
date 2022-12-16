@@ -1,4 +1,4 @@
-# REM 适配
+# 开启 REM 适配
 
 Builder 支持通过 [output.convertToRem](/zh/api/config-output.html#output-converttorem) 一键开启 REM 适配能力，能够根据屏幕大小来动态调整字体大小，让网页在不同大小的屏幕上都能够自适应显示。
 
