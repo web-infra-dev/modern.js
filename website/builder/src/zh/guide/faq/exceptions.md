@@ -202,7 +202,7 @@ export default {
     webpack(config) {
       config.infrastructureLogging = {
         ...config.infrastructureLogging,
-        debug: true,
+        debug: /webpack\.cache/,
       };
     },
   },
