@@ -172,6 +172,10 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/advance/build-umd'),
           },
           {
+            text: getText('处理静态文件', 'Handling static files'),
+            link: getLink('/guide/advance/asset'),
+          },
+          {
             text: getText('插件扩展', 'Plugins extension'),
             link: getLink('/guide/advance/extension')
           },
