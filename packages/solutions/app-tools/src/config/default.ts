@@ -37,6 +37,7 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
       'wap-font-scale': 'no',
       'format-detection': 'telephone=no',
     },
+    mountId: 'root',
   };
 
   const server: AppUserConfig['server'] = {

@@ -3,7 +3,6 @@ import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
 import { getRelativeRuntimePath } from '@modern-js/bff-core';
 import type { AppTools } from '@modern-js/app-tools';
-import { SERVER_PLUGIN_NEST } from '@modern-js/utils/constants';
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-nest',
@@ -46,7 +45,9 @@ export default (): CliPlugin<AppTools> => ({
         }
       },
       collectServerPlugins({ plugins }) {
-        plugins.push(SERVER_PLUGIN_NEST);
+        plugins.push({
+          '@modern-js/plugin-nest': '@modern-js/plugin-nest/server',
+        });
         return { plugins };
       },
       addRuntimeExports(input) {

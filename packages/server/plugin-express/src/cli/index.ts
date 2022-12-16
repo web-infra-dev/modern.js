@@ -3,7 +3,6 @@ import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
 import { getRelativeRuntimePath } from '@modern-js/bff-core';
 import type { AppTools } from '@modern-js/app-tools';
-import { SERVER_PLUGIN_EXPRESS } from '@modern-js/utils/constants';
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-express',
@@ -49,7 +48,9 @@ export default (): CliPlugin<AppTools> => ({
       },
 
       collectServerPlugins({ plugins }) {
-        plugins.push(SERVER_PLUGIN_EXPRESS);
+        plugins.push({
+          '@modern-js/plugin-express': '@modern-js/plugin-express/server',
+        });
         return { plugins };
       },
 

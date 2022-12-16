@@ -68,7 +68,9 @@ export type AppToolsHooks = {
     code: string;
   }>;
   addDefineTypes: AsyncWaterfall<void>;
-  collectServerPlugins: AsyncWaterfall<{ plugins: string[] }>;
+  collectServerPlugins: AsyncWaterfall<{
+    plugins: Array<Record<string, string>>;
+  }>;
 
   // beforeCreateBuilder
   beforeDev: AsyncWorkflow<void, unknown>;

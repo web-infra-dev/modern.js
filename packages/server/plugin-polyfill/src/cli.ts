@@ -1,6 +1,5 @@
 import type { CliPlugin } from '@modern-js/core';
 import type { AppTools } from '@modern-js/app-tools';
-import { SERVER_PLUGIN_POLYFILL } from '@modern-js/utils/constants';
 import { defaultPolyfill } from './const';
 
 export default (): CliPlugin<AppTools> => ({
@@ -19,7 +18,9 @@ export default (): CliPlugin<AppTools> => ({
     },
 
     collectServerPlugins({ plugins }) {
-      plugins.push(SERVER_PLUGIN_POLYFILL);
+      plugins.push({
+        '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/server',
+      });
       return { plugins };
     },
   }),

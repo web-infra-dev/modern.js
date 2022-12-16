@@ -4,7 +4,6 @@ import type { CliPlugin } from '@modern-js/core';
 import { compile } from '@modern-js/server-utils';
 import { SHARED_DIR, SERVER_DIR } from '@modern-js/utils';
 import type { AppTools } from '@modern-js/app-tools';
-import { SERVER_PLUGIN_SERVER } from '@modern-js/utils/constants';
 
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 
@@ -55,7 +54,9 @@ export default (): CliPlugin<AppTools> => ({
       }
     },
     collectServerPlugins({ plugins }) {
-      plugins.push(SERVER_PLUGIN_SERVER);
+      plugins.push({
+        '@modern-js/plugin-server': '@modern-js/plugin-server/server',
+      });
       return { plugins };
     },
   }),
