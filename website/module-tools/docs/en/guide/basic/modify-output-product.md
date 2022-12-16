@@ -118,7 +118,7 @@ In addition to the above categories, frequently asked questions and best practic
 * [The use of `buildConfig.define` for different scenarios.](/en/guide/advance/in-depth-about-build#buildconfigdefine-usage-for-different-scenarios)
 * [How to handle third-party dependencies?](/en/guide/advance/external-dependency)
 * [How to use copy?](/en/guide/advance/copy)
-* How to build umd products?
+* [How to build umd products?](/en/guide/advance/build-umd)
 * The capabilities currently supported by static resources.
 
 ## When to use `buildConfig`
