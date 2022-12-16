@@ -1,10 +1,11 @@
-# Define 与环境变量
+# 环境变量
 
-配置 `source.define` 选项可以实现在构建时将代码中的变量替换成其它值或者表达式。
+通过配置 [source.define](/zh/api/config-source.html#source-define) 选项，你可以在构建时将代码中的变量替换成其它值或者表达式。
 
 Define 类似于其它一些语言提供的宏定义能力，但得益于 JavaScript 强大的运行时表达能力，通常不需要像那些语言一样将其用作复杂代码的生成器。它常用于在构建环境向运行时传递环境变量等简单信息，或是辅助 Builder 进行 Tree Shaking 等操作。
 
-针对设置环境变量的高频场景，Builder 还提供了 `source.globalVars` 配置用于简化配置。
+针对设置环境变量的高频场景，Builder 还提供了 [source.globalVars](/zh/api/config-source.html#source-globalvars) 配置用于简化配置，它是 `source.define` 的一个语法糖，唯一的区别是 `source.globalVars` 会自动将传入的值进行 JSON 序列化处理，这使得设置全局变量的值更容易。
+
 ## 替换表达式
 
 Define 最基础的用途是在构建时替换代码中的表达式。
@@ -48,15 +49,15 @@ export default {
 需要注意的是不论以上哪种方式都只会匹配完整的表达式，对表达式进行解构会让 Builder 无法正确识别：
 
 ```js
-console.log(process.env.NODE_ENV)
+console.log(process.env.NODE_ENV);
 // => production
 
 const { NODE_ENV } = process.env;
-console.log(NODE_ENV)
+console.log(NODE_ENV);
 // => undefined
 
 const vars = process.env;
-console.log(vars.NODE_ENV)
+console.log(vars.NODE_ENV);
 // => undefined
 ```
 
@@ -85,11 +86,11 @@ export default {
 ```js
 const App = () => {
   if (process.env.REGION === 'cn') {
-    return <EntryFoo />
+    return <EntryFoo />;
   } else if (process.env.REGION === 'sg') {
-    return <EntryBar />
+    return <EntryBar />;
   } else {
-    return <EntryBaz />
+    return <EntryBaz />;
   }
 };
 ```
@@ -98,15 +99,17 @@ const App = () => {
 
 ```js
 const App = () => {
-  if (false) {} else if (true) {
-    return <EntryBar />
-  } else {}
+  if (false) {
+  } else if (true) {
+    return <EntryBar />;
+  } else {
+  }
 };
 ```
 
 未用到的组件不会被打包到产物中，它们的外部依赖也会对应地被优化，最终即可得到体积和性能都更优的产物代码。
 
-### 源码内联测试
+## 源码内联测试
 
 Vitest 支持将测试写在源码文件内，能够在不导出的情况下测试私有功能的行为，并且通过设置 Define 来在正式构建时剔除测试代码。详细指南请参考 [Vitest 官方文档](https://cn.vitest.dev/guide/in-source.html)。
 
@@ -114,7 +117,7 @@ Vitest 支持将测试写在源码文件内，能够在不导出的情况下测�
 // 函数实现
 function add(...args) {
   return args.reduce((a, b) => a + b, 0);
-};
+}
 
 // 源码内的测试套件
 if (import.meta.vitest) {
@@ -124,5 +127,5 @@ if (import.meta.vitest) {
     expect(add(1)).toBe(1);
     expect(add(1, 2, 3)).toBe(6);
   });
-};
+}
 ```

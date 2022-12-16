@@ -1,5 +1,5 @@
 import type { SharedDevConfig, NormalizedSharedDevConfig } from './dev';
-import type { SharedHtmlConfig, NormalizedHtmlConfig } from './html';
+import type { SharedHtmlConfig, NormalizedSharedHtmlConfig } from './html';
 import type {
   SharedOutputConfig,
   NormalizedSharedOutputConfig,
@@ -29,7 +29,7 @@ export interface SharedBuilderConfig {
 
 export type SharedNormalizedConfig = DeepReadonly<{
   dev: NormalizedSharedDevConfig;
-  html: NormalizedHtmlConfig;
+  html: NormalizedSharedHtmlConfig;
   // alias type incompatible between webpack and rspack
   source: Omit<NormalizedSharedSourceConfig, 'alias'>;
   output: NormalizedSharedOutputConfig;
