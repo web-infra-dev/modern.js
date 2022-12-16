@@ -20,6 +20,7 @@ export interface ModernResponse {
 }
 
 export interface ModernRequest {
+  url: string;
   host: string;
   pathname: string;
   query: Record<string, any>;

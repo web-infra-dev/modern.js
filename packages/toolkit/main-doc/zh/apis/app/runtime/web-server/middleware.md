@@ -53,6 +53,7 @@ type MiddlewareContext = {
     locals: Record<string, any>;
   };
   request: {
+    url: string;
     host: string;
     pathname: string;
     query: Record<string, any>;
