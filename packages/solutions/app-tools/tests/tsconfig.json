@@ -7,7 +7,9 @@
     "outDir": "./out",
     "emitDeclarationOnly": true,
     "isolatedModules": true,
-    "paths": {},
+    "paths": {
+      "@/*": ["../src/*"]
+    },
     "types": ["node", "jest"]
   }
 }

@@ -66,4 +66,25 @@ describe('create builder provider config', () => {
 
     expect(builderConfig).toMatchSnapshot();
   });
+
+  it('should passing dev.startUrl config', () => {
+    const config = {
+      source: {},
+      output: {},
+      dev: {
+        startUrl: '/xxx',
+      },
+    };
+    const appContext = {
+      appDirectory: `/fixtrues`,
+      configDir: './icons',
+    };
+
+    const builderConfig = createBuilderProviderConfig(
+      config as any,
+      appContext as any,
+    );
+
+    expect(builderConfig.dev?.startUrl).toEqual('/xxx');
+  });
 });

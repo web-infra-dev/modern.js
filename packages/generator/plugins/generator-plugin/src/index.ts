@@ -113,6 +113,13 @@ export default function (context: IPluginContext) {
       file: `templates/.gitkeep`,
       templateFile: `.gitkeep`,
     });
+    api.addFile({
+      type: FileType.Text,
+      file: `modern.config.${language as string}`,
+      templateFile: `modern.config.${language as string}.handlebars`,
+      force: true,
+    });
+
     const meta =
       pluginType === PluginType.Extend ? { extend } : { key, name, type };
     await api.updateJSONFile('package.json', {
@@ -124,28 +131,7 @@ export default function (context: IPluginContext) {
       'jsnext:modern': undefined,
       exports: undefined,
       'scripts.prepare': `${packageManager as string} build`,
-      'devDependencies.@modern-js/generator-plugin': '^1.0.0',
-      'modernConfig.output.packageMode': 'node-js',
-    });
-    api.updateModernConfig({
-      output: {
-        buildConfig: {
-          buildType: 'bundle',
-          sourceMap: false,
-          bundleOptions: {
-            skipDeps: false,
-          },
-        },
-      },
-      tools: {
-        speedy: {
-          resolve: {
-            alias: {
-              chalk: '@modern-js/utils/chalk',
-            },
-          },
-        },
-      },
+      'devDependencies.@modern-js/generator-plugin': '^2.0.0',
     });
     api.rmDir('tests');
     api.rmFile('.npmignore');

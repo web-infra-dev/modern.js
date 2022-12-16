@@ -1,9 +1,11 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import { build } from 'esbuild';
 import type { AppUserConfig, CliPlugin, AppTools } from '@modern-js/app-tools';
-import { createDebugger, findExists } from '@modern-js/utils';
+import { createDebugger, findExists, fs } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types/cli';
 
 import { DocumentContext } from '../DocumentContext';
@@ -16,6 +18,8 @@ import {
   DOCUMENT_SSR_PLACEHOLDER,
   DOCUMENT_CHUNKSMAP_PLACEHOLDER,
   DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
+  DOCUMENT_SCRIPT_PLACEHOLDER_START,
+  DOCUMENT_SCRIPT_PLACEHOLDER_END,
   HTML_SEPARATOR,
 } from '../constants';
 
@@ -91,6 +95,29 @@ export default (): CliPlugin<AppTools> => ({
           entryName,
           templateParameters,
         });
+
+        // set a temporary tsconfig file for divide the influence by project's jsx
+        const tempTsConfigFile = path.join(
+          internalDirectory,
+          `./document/_tempTsconfig.json`,
+        );
+        const userTsConfigFilePath = path.join(appDirectory, 'tsconfig.json');
+        let tsConfig;
+        try {
+          // eslint-disable-next-line import/no-dynamic-require
+          tsConfig = await require(userTsConfigFilePath);
+        } catch (err) {
+          tsConfig = {};
+        }
+        if (tsConfig?.compilerOptions) {
+          tsConfig.compilerOptions.jsx = 'react-jsx';
+        } else {
+          tsConfig.compilerOptions = {
+            jsx: 'react-jsx',
+          };
+        }
+        fs.outputFileSync(tempTsConfigFile, JSON.stringify(tsConfig));
+
         const htmlOutputFile = path.join(
           internalDirectory,
           `./document/_${entryName}.html.js`,
@@ -98,9 +125,10 @@ export default (): CliPlugin<AppTools> => ({
         // transform document file to html string
         await build({
           entryPoints: [documentFilePath],
-          // write: false,
           outfile: htmlOutputFile,
           platform: 'node',
+          // change esbuild use the rootDir tsconfig.json as default to tempTsConfigFile
+          tsconfig: tempTsConfigFile,
           target: 'es6',
           loader: {
             '.ts': 'ts',
@@ -131,14 +159,15 @@ export default (): CliPlugin<AppTools> => ({
           ],
         });
 
-        const Document = (await import(htmlOutputFile)).default;
-
+        delete require.cache[require.resolve(htmlOutputFile)];
+        // eslint-disable-next-line import/no-dynamic-require
+        const Document = (await require(htmlOutputFile)).default;
         const HTMLElement = React.createElement(
           DocumentContext.Provider,
           { value: documentParams },
           React.createElement(Document, null),
         );
-        const html = ReactDomServer.renderToStaticMarkup(HTMLElement);
+        let html = ReactDomServer.renderToStaticMarkup(HTMLElement);
 
         debug("entry %s's document jsx rendered html: %o", entryName, html);
 
@@ -156,8 +185,22 @@ export default (): CliPlugin<AppTools> => ({
             .join(''),
         ].join('');
 
+        // if the Document.tsx has a functional script, replace to convert it
+        if (
+          html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_START) &&
+          html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_END)
+        ) {
+          html = html.replaceAll(
+            new RegExp(
+              `${DOCUMENT_SCRIPT_PLACEHOLDER_START}(.*?)${DOCUMENT_SCRIPT_PLACEHOLDER_END}`,
+              'g',
+            ),
+            (_scriptStr, $1) => `<script>${decodeURIComponent($1)}</script>`,
+          );
+        }
+
         // replace the html placeholder while transfer string to jsx component is not a easy way
-        return `<!DOCTYPE html>${html}`
+        const finalHtml = `<!DOCTYPE html>${html}`
           .replace(DOCUMENT_META_PLACEHOLDER, metas)
           .replace(DOCUMENT_SSR_PLACEHOLDER, HTML_SEPARATOR)
           .replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts)
@@ -169,6 +212,7 @@ export default (): CliPlugin<AppTools> => ({
             DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
             PLACEHOLDER_REPLACER_MAP[DOCUMENT_SSRDATASCRIPT_PLACEHOLDER],
           );
+        return finalHtml;
       };
     };
     return {

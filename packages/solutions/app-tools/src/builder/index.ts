@@ -35,7 +35,7 @@ function getBuilderTargets(normalizedConfig: AppNormalizedConfig) {
   return targets;
 }
 
-export async function createBuilderForEdenX({
+export async function createBuilderForModern({
   normalizedConfig,
   appContext,
   compatPluginConfig,
@@ -87,9 +87,8 @@ export function createBuilderProviderConfig(
     },
     output,
     dev: {
+      ...normalizedConfig.dev,
       port: normalizedConfig.server?.port,
-      https: normalizedConfig.dev.https,
-      assetPrefix: normalizedConfig.dev.assetPrefix,
     },
     html: htmlConfig,
     performance: {

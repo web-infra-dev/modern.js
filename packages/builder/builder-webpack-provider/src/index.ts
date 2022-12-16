@@ -2,6 +2,7 @@ export { builderWebpackProvider } from './provider';
 export type { BuilderWebpackProvider } from './provider';
 export { webpackBuild } from './core/build';
 export type { WebpackBuildError } from './core/build';
+export { createDefaultConfig } from './config/defaults';
 export type {
   BuilderPlugin,
   BuilderPluginAPI,
@@ -14,8 +15,13 @@ export type {
   SourceConfig,
   BuilderConfig,
   SecurityConfig,
+  NormalizedConfig,
   PerformanceConfig,
   ExperimentsConfig,
+
+  // Hook Callback Types
+  ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
 
   // Third Party Types
   webpack,

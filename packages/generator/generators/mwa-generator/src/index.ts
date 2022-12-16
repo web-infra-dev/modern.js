@@ -9,7 +9,6 @@ import {
   getMWASchema,
   Language,
   EntryGenerator,
-  PackageManager,
   PackagesGenerator,
 } from '@modern-js/generator-common';
 import {
@@ -118,7 +117,7 @@ export const handleTemplateFile = async (
 
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
-  const { packageName, packagePath, language, packageManager } = ans;
+  const { packageName, packagePath, language } = ans;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
@@ -143,7 +142,6 @@ export const handleTemplateFile = async (
         .replace('.handlebars', ''),
     {
       name: packageName || dirname,
-      packageManager: getPackageManagerText(packageManager as PackageManager),
       isMonorepoSubProject,
       modernVersion,
     },
@@ -156,10 +154,10 @@ export const handleTemplateFile = async (
         query: {},
         update: {
           $set: {
-            'devDependencies.typescript': '^4',
-            'devDependencies.@types/react': '^18',
-            'devDependencies.@types/react-dom': '^18',
-            'devDependencies.@types/node': '^14',
+            'devDependencies.typescript': '~4.9.4',
+            'devDependencies.@types/jest': '~29.2.4',
+            'devDependencies.@types/node': '~16.11.7',
+            'devDependencies.@types/react': '~18.0.26',
           },
         },
       },

@@ -1,17 +1,18 @@
 import path from 'path';
 import type { Compiler, Compilation } from 'webpack';
-import type { JsMinifyOptions } from '@swc/core';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import {
   mergeRegex,
   JS_REGEX,
   TS_REGEX,
-  getBrowserslistWithDefault,
   BuilderPlugin,
+  getBrowserslistWithDefault,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import { PluginSwcOptions, TransformConfig } from './config';
+import { getCoreJsVersion } from '@modern-js/utils';
+import { JsMinifyOptions } from '@modern-js/swc-plugins';
 import { minify } from './binding';
+import { PluginSwcOptions, TransformConfig } from './config';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
 
@@ -26,6 +27,9 @@ export const PluginSwc = (
   name: PLUGIN_NAME,
 
   setup(api: BuilderPluginAPI) {
+    const CORE_JS_PATH = require.resolve('core-js/package.json');
+    const SWC_HELPERS_PATH = require.resolve('@swc/helpers/package.json');
+
     // Find if babel & ts loader exists
     api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
       const { isProd } = await import('@modern-js/utils');
@@ -37,22 +41,27 @@ export const PluginSwc = (
 
       const swc: TransformConfig = {
         jsc: { transform: {} },
-        env: {},
+        env: pluginConfig.presetEnv || {},
         extensions: {},
         cwd: api.context.rootPath,
       };
-
-      if (pluginConfig.presetEnv) {
-        swc.env = pluginConfig.presetEnv;
-      }
 
       if (pluginConfig.presetReact) {
         swc.jsc!.transform!.react = pluginConfig.presetReact;
       }
 
       const { polyfill } = builderConfig.output;
-      if (polyfill !== 'ua' && polyfill !== 'off') {
+      if (
+        swc.env!.mode === undefined &&
+        polyfill !== 'ua' &&
+        polyfill !== 'off'
+      ) {
         swc.env!.mode = polyfill;
+      }
+
+      // If `targets` is not specified manually, we get `browserslist` from project.
+      if (!swc.env!.coreJs) {
+        swc.env!.coreJs = getCoreJsVersion(CORE_JS_PATH);
       }
 
       // If `targets` is not specified manually, we get `browserslist` from project.
@@ -67,8 +76,8 @@ export const PluginSwc = (
       const { extensions } = swc;
 
       extensions!.lockCorejsVersion = {
-        corejs: path.dirname(require.resolve('core-js/package.json')),
-        swcHelpers: path.dirname(require.resolve('@swc/helpers/package.json')),
+        corejs: path.dirname(CORE_JS_PATH),
+        swcHelpers: path.dirname(SWC_HELPERS_PATH),
       };
 
       const rule = chain.module.rule(CHAIN_ID.RULE.JS);

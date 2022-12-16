@@ -168,7 +168,6 @@ importers:
       '@svgr/webpack': 6.5.1
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
-      '@types/mini-css-extract-plugin': 2.5.1
       '@types/node': ^14
       caniuse-lite: ^1.0.30001434
       css-minimizer-webpack-plugin: 4.2.2
@@ -211,7 +210,6 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.19
       '@types/babel__preset-env': 7.9.2
-      '@types/mini-css-extract-plugin': 2.5.1_webpack@5.75.0
       '@types/node': 14.18.21
       typescript: 4.7.4
 
@@ -280,7 +278,7 @@ importers:
     specifiers:
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/swc-plugins': 0.0.10
+      '@modern-js/swc-plugins': 0.0.11
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       '@swc/helpers': 0.4.12
@@ -291,7 +289,7 @@ importers:
       webpack: ^5.75.0
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
-      '@modern-js/swc-plugins': 0.0.10
+      '@modern-js/swc-plugins': 0.0.11
       '@modern-js/utils': link:../../toolkit/utils
       '@swc/helpers': 0.4.12
       core-js: 3.26.0
@@ -2933,59 +2931,6 @@ importers:
       react: 17.0.2
       typescript: 4.7.4
 
-  packages/solutions/module-tools-v2:
-    specifiers:
-      '@babel/core': 7.20.2
-      '@modern-js/core': workspace:*
-      '@modern-js/libuild': 0.6.0
-      '@modern-js/libuild-plugin-swc': 0.6.0
-      '@modern-js/new-action': workspace:*
-      '@modern-js/plugin': workspace:*
-      '@modern-js/plugin-changeset': workspace:*
-      '@modern-js/plugin-i18n': workspace:*
-      '@modern-js/plugin-lint': workspace:*
-      '@modern-js/self': workspace:@modern-js/module-tools-v2@*
-      '@modern-js/upgrade': workspace:*
-      '@modern-js/utils': workspace:*
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@types/fs-extra': 9.0.13
-      '@types/jest': ^27
-      '@types/node': ^14
-      fs-extra: 10.1.0
-      jest: ^27
-      path-browserify: 1.0.1
-      postcss: 8.4.6
-      postcss-alias: 2.0.0
-      react: '17'
-      typescript: ^4
-    dependencies:
-      '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.6.0
-      '@modern-js/libuild-plugin-swc': 0.6.0
-      '@modern-js/new-action': link:../../generator/new-action
-      '@modern-js/plugin': link:../../toolkit/plugin
-      '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
-      '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
-      '@modern-js/plugin-lint': link:../../cli/plugin-lint
-      '@modern-js/upgrade': link:../../toolkit/upgrade
-      '@modern-js/utils': link:../../toolkit/utils
-    devDependencies:
-      '@babel/core': 7.20.2
-      '@modern-js/self': 'link:'
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/fs-extra': 9.0.13
-      '@types/jest': 27.5.2
-      '@types/node': 14.18.21
-      fs-extra: 10.1.0
-      jest: 27.5.1
-      path-browserify: 1.0.1
-      postcss: 8.4.6
-      postcss-alias: 2.0.0
-      react: 17.0.2
-      typescript: 4.7.4
-
   packages/solutions/monorepo-tools:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -3986,6 +3931,29 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.7.4
 
+  tests/e2e/webpack-builder/typescript:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18.0.2
+      react-dom: ^18.0.2
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder': link:../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@types/node': 14.18.21
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.3
+
   tests/integration/alias-set:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -4134,6 +4102,48 @@ importers:
       '@types/react-dom': 18.0.6
       axios: 0.24.0
       typescript: 4.7.4
+
+  tests/integration/builder-plugins:
+    specifiers:
+      '@types/jest': ^27
+      '@types/node': ^14
+    dependencies:
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+
+  tests/integration/builder-plugins/fixtures/register-builder-plugins:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@babel/runtime': 7.18.6
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
+  tests/integration/copy-assets:
+    specifiers:
+      '@types/jest': ^27
+      '@types/node': ^14
+    dependencies:
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+
+  tests/integration/copy-assets/fixtures/copy-public-html:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@babel/runtime': 7.18.6
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
 
   tests/integration/css:
     specifiers:
@@ -11184,8 +11194,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/swc-plugins-darwin-arm64/0.0.10:
-    resolution: {integrity: sha512-iqa111WaVvBE2U87FFucp4WGcMY5Arsuox1zQmGCChf+8GkLXQudNQMAWnAw5nEPlpdLavUNvfNODny6WBB2sg==}
+  /@modern-js/swc-plugins-darwin-arm64/0.0.11:
+    resolution: {integrity: sha512-8k81u8tzzBnesUX1P8fLN+AESIYnVHmwDo9vo6MHl7bGvA0k8ZE9CMOZDmUeuFhyxh2QJ2cWV+X4V8Z/qfs+nA==}
     engines: {node: '>= 14'}
     cpu: [arm64]
     os: [darwin]
@@ -11202,8 +11212,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-darwin-x64/0.0.10:
-    resolution: {integrity: sha512-cMC+QmevkplsKWOAH44h6EADCiMB7S7Wd+5DmW2/YknEDlOpXI+78vam36e/N9BDuFIJ9+mJXhYldaPy/MP5Ww==}
+  /@modern-js/swc-plugins-darwin-x64/0.0.11:
+    resolution: {integrity: sha512-ksmxv4rJRkC/s4Xev5NZOrkgPVG/QPX0D0+n3AqorKNI/Ck4SfZBvK4He7FUZNO/xZ8sWN0FYozk8os7fDKA2g==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [darwin]
@@ -11220,8 +11230,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm-gnueabihf/0.0.10:
-    resolution: {integrity: sha512-/lAQC9HdDfrkpma5yjLTYe9f3x7MQ6kNwrYdTOxuNIlPrIBZO9jRIWXGYiMtc2cHGj8djrbPv/swIMnHyuN9hw==}
+  /@modern-js/swc-plugins-linux-arm-gnueabihf/0.0.11:
+    resolution: {integrity: sha512-ZJivx32q6x13ideuSd8Vpcqeiz8q/7jdqFNH0XVwgL9YWeRHSBt/eiOqWo9/Ej+gy1zsGIXMs6bBOmZ/qzmbcA==}
     engines: {node: '>= 14.18'}
     cpu: [arm]
     os: [linux]
@@ -11238,8 +11248,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-gnu/0.0.10:
-    resolution: {integrity: sha512-A5Eh2hBgeCjsSVnohl/geraIPPVN2ncc+Ga4qtsrn/NKARNHj57vxm+FKZSqB6KM14lHOAE5zllFLuqJDOxr9g==}
+  /@modern-js/swc-plugins-linux-arm64-gnu/0.0.11:
+    resolution: {integrity: sha512-ogrkdfNDWWRW33QQTLZG+q7yvOXr18IsZ6X1P4CJJv+JuD1vS8Z86NbjaIlQlAVRo7AovaEj7Zlhax+8W3PC1w==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [linux]
@@ -11256,8 +11266,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-musl/0.0.10:
-    resolution: {integrity: sha512-MeSC8vGNnI8ptHHRY/4hP7EpXQnaE9QuMUQgDTGBlRIUZQk16bgR0vTNIpoXruBCkPnTKSc3YLJAPM61zGzARg==}
+  /@modern-js/swc-plugins-linux-arm64-musl/0.0.11:
+    resolution: {integrity: sha512-QiQ7UxVGjAIJ1VRTjjYkVM1ewiGf6zJF7pn6T1aM3LNF5rKOzQbOOnqKrlQb9aFAQKoNy1dw1MVVAfhYXGA5Ig==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [linux]
@@ -11274,8 +11284,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-gnu/0.0.10:
-    resolution: {integrity: sha512-scesNqwncrJuIhWDdu0EIU5qIWY6H8KmPCEVLUJRxFCahplXQ8EXyKEdzu+nTzQ+x+P5zSkHiBY2nUJcXs5R4Q==}
+  /@modern-js/swc-plugins-linux-x64-gnu/0.0.11:
+    resolution: {integrity: sha512-ugVYoNidzjrmcPkwb8h/IDgWubt0J3lEnL7JK/5MORxiUirAaTKVSvsLqD+G+dyOvsbvCAEnnyPnJTYLhPsxaw==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [linux]
@@ -11292,8 +11302,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-musl/0.0.10:
-    resolution: {integrity: sha512-KARbqffevTNNNf0zXoyf3T5XvWckI0refPnixW802dYwKTtmuTmhOziOFnxiuoYoIz+qs29flIQZ2gl/K7NePw==}
+  /@modern-js/swc-plugins-linux-x64-musl/0.0.11:
+    resolution: {integrity: sha512-G4/ph4Du21BgzEuHIg21J6lzuMapc6XDsf4UGPEUhBwacn1jib/lAiAiym/gj2wuQZGjYiHyQb+BenUjkOjlBA==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [linux]
@@ -11310,8 +11320,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-arm64-msvc/0.0.10:
-    resolution: {integrity: sha512-YYXYzseIIKV9s4mryHo+vnmfEJDFLsFJWyoFhNEp1iFgzL1VYF43QrdqxIUKaWBlLmzSfR4+mnYYRYDWkEWlvA==}
+  /@modern-js/swc-plugins-win32-arm64-msvc/0.0.11:
+    resolution: {integrity: sha512-egeotROFs7j+MJUWAqAKIn05FcRCMVh0lE9ESeOgZ4IJJ33cIx2tlWOK3sAXtHiONu2sbXDphHPqAcS50uzArQ==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [win32]
@@ -11328,8 +11338,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-ia32-msvc/0.0.10:
-    resolution: {integrity: sha512-JgYrWfHd7JowaYhEGISNayJajqJpOkIeBssDsLX10PvZrGGijYMer3CeRVVVVZZ6Yl5msprXvJqOgAn7Ek30LA==}
+  /@modern-js/swc-plugins-win32-ia32-msvc/0.0.11:
+    resolution: {integrity: sha512-oC00LRt/py5SSXh2Ttffl3K0IemtbGbm3tE/dpU0SsvzoGHoT0zBfodBqnThpGt9xx3CCtdtMqx4a1GMA8vE5A==}
     engines: {node: '>= 14.18'}
     cpu: [ia32]
     os: [win32]
@@ -11346,8 +11356,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-x64-msvc/0.0.10:
-    resolution: {integrity: sha512-g9Ra8g/OceLR5VER023VnirUyj/dPk6iB20saXIDN/ofbweb0dyIaKLWAz1jvQ8onkvIlLsdqQmF7LNrNG6Wtg==}
+  /@modern-js/swc-plugins-win32-x64-msvc/0.0.11:
+    resolution: {integrity: sha512-06mzJ6Xdj02y+DBp5rmhgRZg5xcCnhHq06PfAJqesdGcxWEk8dlh/c3/qz4HmbLlZhf04cQW/cfnj2fX5GlSJw==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [win32]
@@ -11364,20 +11374,20 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins/0.0.10:
-    resolution: {integrity: sha512-1UNgU3n33wRIIzuKkoYLJIZH+WO+Rqo6ED1LZPG4gynfIMR4SVtMX57sy4vY6CZ6A1PfGo+wiasOPQgOl4O8Ew==}
+  /@modern-js/swc-plugins/0.0.11:
+    resolution: {integrity: sha512-KYzUlxkTh0ifgLINRZaMcrMNOkwEuKV+ojVKXvdn84WgJPTml7nyLX8k2kGxg0eLuF2M2G3mDIrmCaCKV4mKqA==}
     engines: {node: '>=14.18.0'}
     optionalDependencies:
-      '@modern-js/swc-plugins-darwin-arm64': 0.0.10
-      '@modern-js/swc-plugins-darwin-x64': 0.0.10
-      '@modern-js/swc-plugins-linux-arm-gnueabihf': 0.0.10
-      '@modern-js/swc-plugins-linux-arm64-gnu': 0.0.10
-      '@modern-js/swc-plugins-linux-arm64-musl': 0.0.10
-      '@modern-js/swc-plugins-linux-x64-gnu': 0.0.10
-      '@modern-js/swc-plugins-linux-x64-musl': 0.0.10
-      '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.10
-      '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.10
-      '@modern-js/swc-plugins-win32-x64-msvc': 0.0.10
+      '@modern-js/swc-plugins-darwin-arm64': 0.0.11
+      '@modern-js/swc-plugins-darwin-x64': 0.0.11
+      '@modern-js/swc-plugins-linux-arm-gnueabihf': 0.0.11
+      '@modern-js/swc-plugins-linux-arm64-gnu': 0.0.11
+      '@modern-js/swc-plugins-linux-arm64-musl': 0.0.11
+      '@modern-js/swc-plugins-linux-x64-gnu': 0.0.11
+      '@modern-js/swc-plugins-linux-x64-musl': 0.0.11
+      '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.11
+      '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.11
+      '@modern-js/swc-plugins-win32-x64-msvc': 0.0.11
     dev: false
 
   /@modern-js/swc-plugins/0.0.9:
@@ -14675,15 +14685,6 @@ packages:
   /@types/mime/1.3.2:
     resolution: {integrity: sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==}
 
-  /@types/mini-css-extract-plugin/2.5.1_webpack@5.75.0:
-    resolution: {integrity: sha512-evjjtJttaUexgg3au9ZJFy76tV9mySwX3a4Jl82BuormBYluWLRt0xk2urWrhOdPgDWzulRFyotwYOJTmkSgKw==}
-    deprecated: This is a stub types definition. mini-css-extract-plugin provides its own type definitions, so you do not need this installed.
-    dependencies:
-      mini-css-extract-plugin: 2.7.0_webpack@5.75.0
-    transitivePeerDependencies:
-      - webpack
-    dev: true
-
   /@types/minimatch/3.0.5:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
 
@@ -16513,8 +16514,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -17287,7 +17290,7 @@ packages:
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.75.0_esbuild@0.15.7
+      webpack: 5.75.0
     dev: false
 
   /babel-loader/8.2.5_tktscwi5cl3qcx6vcfwkvrwn6i:
@@ -29538,6 +29541,7 @@ packages:
     dependencies:
       schema-utils: 4.0.0
       webpack: 5.75.0
+    dev: false
 
   /minimalistic-assert/1.0.1:
     resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==}
@@ -34660,7 +34664,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:

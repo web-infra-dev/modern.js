@@ -72,6 +72,9 @@ export default (): CliPlugin<{
           return {
             source: {
               alias: {
+                // The module-tools alias configuration is different and more specific than app-tools.
+                // So for the time being, the @ alias is configured here.
+                '@': path.join(appContext.appDirectory, 'src'),
                 '@modern-js/runtime/testing': testingExportsUtils.getPath(),
               },
             },

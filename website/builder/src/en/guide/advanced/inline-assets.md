@@ -96,7 +96,7 @@ Excluding assets from inlining will increase the number of assets that the Web A
 
 In addition to inlining static resource files into JS files, Builder also supports inlining JS files into HTML files.
 
-Just enable the [output.enableInlineScripts](/zh/api/config-output.html#output-enableinlinescripts) config, and the generated JS files will not be written into the output directory, but will be directly inlined to the corresponding in the HTML file.
+Just enable the [output.enableInlineScripts](/en/api/config-output.html#output-enableinlinescripts) config, and the generated JS files will not be written into the output directory, but will be directly inlined to the corresponding in the HTML file.
 
 ```ts
 export default {
@@ -114,7 +114,7 @@ Inline JS files may cause the single HTML file to be too large, and it will brea
 
 You can also inline CSS files into HTML files.
 
-Just enable the [output.enableInlineStyles](/zh/api/config-output.html#output-enableinlinestyles) config, the generated CSS file will not be written into the output directory, but will be directly inlined to the corresponding in the HTML file.
+Just enable the [output.enableInlineStyles](/en/api/config-output.html#output-enableinlinestyles) config, the generated CSS file will not be written into the output directory, but will be directly inlined to the corresponding in the HTML file.
 
 ```ts
 export default {

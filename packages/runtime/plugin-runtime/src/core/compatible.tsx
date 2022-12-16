@@ -2,6 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
 import type { hydrateRoot, createRoot } from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { ROUTE_MANIFEST } from '@modern-js/utils/constants';
 import {
   RuntimeReactContext,
   RuntimeContext,
@@ -11,7 +12,6 @@ import { Plugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
-const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
 
 export type CreateAppOptions = {
   plugins: Plugin[];
