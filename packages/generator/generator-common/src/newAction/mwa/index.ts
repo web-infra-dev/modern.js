@@ -1,5 +1,5 @@
 import { Schema } from '@modern-js/codesmith-formily';
-import { Framework } from 'src/mwa';
+import { Framework } from '../../mwa/common';
 import {
   ActionElement,
   ActionElementText,
@@ -177,7 +177,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
     [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
-    [ActionFunction.SSG]: '@modern-js/ssg-generator',
+    [ActionFunction.SSG]: '@modern-js/dependence-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',
     [ActionFunction.SWC]: '@modern-js/dependence-generator',

@@ -249,10 +249,6 @@
       "path": "packages/generator/generators/server-generator"
     },
     {
-      "name": "@modern-js/ssg-generator",
-      "path": "packages/generator/generators/ssg-generator"
-    },
-    {
       "name": "@modern-js/storybook-generator",
       "path": "packages/generator/generators/storybook-generator"
     },

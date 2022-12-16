@@ -43,11 +43,8 @@ export default (): CliPlugin<AppTools> => ({
         const { output, server } = resolvedConfig;
         const { ssg, distPath: { root: outputPath } = {} } = output;
 
-        const ssgOptions: SSGConfig = Array.isArray(ssg) ? ssg.pop() : ssg;
-        // no ssg configuration, skip ssg render.
-        if (!ssgOptions) {
-          return;
-        }
+        const ssgOptions: SSGConfig =
+          (Array.isArray(ssg) ? ssg.pop() : ssg) || true;
 
         const buildDir = path.join(appDirectory, outputPath as string);
         const routes = readJSONSpec(buildDir);
