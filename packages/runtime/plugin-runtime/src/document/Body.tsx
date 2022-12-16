@@ -12,7 +12,7 @@ export function Body(props: { children?: any }) {
   const { children } = props;
   return (
     <body>
-      {hasSetRoot ? null : DefaultRoot}
+      {hasSetRoot ? null : <DefaultRoot />}
       {children}
       {`${DOCUMENT_CHUNKSMAP_PLACEHOLDER}`}
       {`${DOCUMENT_SSRDATASCRIPT_PLACEHOLDER}`}
