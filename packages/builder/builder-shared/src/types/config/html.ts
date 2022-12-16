@@ -91,4 +91,9 @@ export interface SharedHtmlConfig {
   >;
 }
 
-export type NormalizedHtmlConfig = SharedHtmlConfig;
+export type NormalizedSharedHtmlConfig = SharedHtmlConfig & {
+  mountId: string;
+  inject: ScriptInject;
+  crossorigin: boolean | CrossOrigin;
+  disableHtmlFolder: boolean;
+};
