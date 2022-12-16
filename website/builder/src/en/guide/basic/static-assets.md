@@ -31,7 +31,7 @@ import logo from './static/logo.png';
 export default = () => <img src={logo} />;
 ```
 
-Import with [alias](/guide/basic/alias.html) are also supported:
+Import with [alias](/guide/advanced/alias.html) are also supported:
 
 ```tsx
 import logo from '@/static/logo.png';
@@ -49,7 +49,7 @@ In CSS files, you can reference static assets in relative paths:
 }
 ```
 
-Import with [alias](/guide/basic/alias.html) are also supported:
+Import with [alias](/guide/advanced/alias.html) are also supported:
 
 ```css
 .logo {
