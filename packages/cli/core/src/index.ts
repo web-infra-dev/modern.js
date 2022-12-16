@@ -63,6 +63,7 @@ export interface CoreOptions {
   internalPlugins?: {
     cli?: InternalPlugins;
     server?: InternalPlugins;
+    autoLoad?: InternalPlugins;
   };
   transformPlugin?: TransformPlugin;
   onSchemaError?: (error: ErrorObject) => void;
@@ -121,7 +122,7 @@ const createCli = () => {
     const plugins = await loadPlugins(appDirectory, loaded.config, {
       internalPlugins: mergedOptions?.internalPlugins?.cli,
       transformPlugin: mergedOptions?.transformPlugin,
-      toolsTypes: mergedOptions?.toolsType,
+      autoLoad: mergedOptions?.internalPlugins?.autoLoad,
       forceAutoLoadPlugins: mergedOptions?.forceAutoLoadPlugins,
     });
 
