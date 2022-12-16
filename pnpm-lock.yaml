@@ -2310,6 +2310,7 @@ importers:
   packages/server/plugin-egg:
     specifiers:
       '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
       '@modern-js/bff-core': workspace:*
       '@modern-js/bff-runtime': workspace:*
       '@modern-js/core': workspace:*
@@ -2339,6 +2340,7 @@ importers:
       egg-ts-helper: 1.30.3
       type-is: 1.6.18
     devDependencies:
+      '@modern-js/app-tools': link:../../solutions/app-tools
       '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@scripts/build': link:../../../scripts/build
@@ -2359,6 +2361,7 @@ importers:
   packages/server/plugin-express:
     specifiers:
       '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
       '@modern-js/bff-core': workspace:*
       '@modern-js/bff-runtime': workspace:*
       '@modern-js/core': workspace:*
@@ -2397,6 +2400,7 @@ importers:
       reflect-metadata: 0.1.13
       type-is: 1.6.18
     devDependencies:
+      '@modern-js/app-tools': link:../../solutions/app-tools
       '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@scripts/build': link:../../../scripts/build
@@ -2418,6 +2422,7 @@ importers:
   packages/server/plugin-koa:
     specifiers:
       '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
       '@modern-js/bff-core': workspace:*
       '@modern-js/bff-runtime': workspace:*
       '@modern-js/core': workspace:*
@@ -2450,6 +2455,7 @@ importers:
       koa-router: 10.1.1
       type-is: 1.6.18
     devDependencies:
+      '@modern-js/app-tools': link:../../solutions/app-tools
       '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@scripts/build': link:../../../scripts/build
@@ -2468,6 +2474,7 @@ importers:
 
   packages/server/plugin-nest:
     specifiers:
+      '@modern-js/app-tools': workspace:*
       '@modern-js/bff-core': workspace:*
       '@modern-js/bff-runtime': workspace:*
       '@modern-js/core': workspace:*
@@ -2512,6 +2519,7 @@ importers:
       rxjs: 7.5.5
       type-is: 1.6.18
     devDependencies:
+      '@modern-js/app-tools': link:../../solutions/app-tools
       '@modern-js/core': link:../../cli/core
       '@modern-js/runtime': link:../../runtime/plugin-runtime
       '@modern-js/server-core': link:../core
@@ -2536,6 +2544,7 @@ importers:
   packages/server/plugin-polyfill:
     specifiers:
       '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/polyfill-lib': ^1.0.0
       '@modern-js/server-core': workspace:*
@@ -2558,6 +2567,7 @@ importers:
       lru-cache: 6.0.0
       ua-parser-js: 0.7.31
     devDependencies:
+      '@modern-js/app-tools': link:../../solutions/app-tools
       '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@modern-js/types': link:../../toolkit/types
@@ -2573,6 +2583,7 @@ importers:
   packages/server/plugin-server:
     specifiers:
       '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
       '@modern-js/babel-compiler': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/server-core': workspace:*
@@ -2591,6 +2602,7 @@ importers:
       '@modern-js/server-utils': link:../utils
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
+      '@modern-js/app-tools': link:../../solutions/app-tools
       '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@modern-js/types': link:../../toolkit/types
@@ -16502,8 +16514,10 @@ packages:
     dependencies:
       ajv: 6.12.6
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -17276,7 +17290,7 @@ packages:
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.75.0_esbuild@0.15.7
+      webpack: 5.75.0
     dev: false
 
   /babel-loader/8.2.5_tktscwi5cl3qcx6vcfwkvrwn6i:
@@ -34649,7 +34663,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
