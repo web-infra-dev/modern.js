@@ -1,4 +1,5 @@
 import { Schema } from '@modern-js/codesmith-formily';
+import { Framework } from 'src/mwa';
 import {
   ActionElement,
   ActionElementText,
@@ -184,4 +185,28 @@ export const MWANewActionGenerators: Record<
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: '@modern-js/router-v5-generator',
   },
+};
+
+export const MWANewActionPluginName: Partial<
+  Record<ActionType, Record<string, string>>
+> = {
+  [ActionType.Element]: {
+    [ActionElement.Server]: 'ServerPlugin',
+  },
+  [ActionType.Function]: {
+    [ActionFunction.TailwindCSS]: 'TailwindCSSPlugin',
+    [ActionFunction.BFF]: 'BFFPlugin',
+    [ActionFunction.MicroFrontend]: 'MicroFrontendPlugin',
+    [ActionFunction.Test]: 'TestPlugin',
+    [ActionFunction.Storybook]: 'StorybookPlugin',
+    [ActionFunction.SSG]: 'SSGPlugin',
+    [ActionFunction.Polyfill]: 'PolyfillPlugin',
+    [ActionFunction.Proxy]: 'ProxyPlugin',
+    [ActionFunction.SWC]: 'SWCPlugin',
+  },
+};
+
+export const BFFPluginName: Record<Framework, string> = {
+  [Framework.Express]: 'ExpressBFFPlugin',
+  [Framework.Koa]: 'KoaBFFPlugin',
 };

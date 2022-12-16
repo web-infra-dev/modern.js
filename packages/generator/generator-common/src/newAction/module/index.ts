@@ -90,3 +90,12 @@ export const ModuleNewActionGenerators: Partial<
     [ActionFunction.RuntimeApi]: '@modern-js/dependence-generator',
   },
 };
+
+export const ModuleNewActionPluginName: Partial<
+  Record<ActionType, Record<string, string>>
+> = {
+  [ActionType.Function]: {
+    [ActionFunction.TailwindCSS]: 'TailwindCSSPlugin',
+    [ActionFunction.Storybook]: 'StoryBookPlugin',
+  },
+};
