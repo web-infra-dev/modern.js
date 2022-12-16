@@ -70,6 +70,7 @@ export default (): CliPlugin<AppTools> => ({
             tools: normalizedConfig.tools || {},
             testing: normalizedConfig.testing || {},
             plugins: normalizedConfig.plugins || [],
+            builderPlugins: normalizedConfig.builderPlugins || [],
             runtime: normalizedConfig.runtime || {},
             runtimeByEntries: normalizedConfig.runtimeByEntries || {},
             deploy: normalizedConfig.deploy || {},

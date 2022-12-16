@@ -1,4 +1,4 @@
-# 浏览器范围
+# 设置浏览器范围
 
 Builder 支持通过 [browserslist](https://browsersl.ist/) 来设置 Web 应用需要兼容的浏览器范围。
 

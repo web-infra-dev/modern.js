@@ -103,15 +103,15 @@ function getSidebar(lang: 'zh' | 'en') {
         items: [
           {
             text: getText('欢迎使用', 'WelCome'),
-            link: getLink('/guide/welcome')
+            link: getLink('/guide/intro/welcome')
           },
           {
             text: getText('为什么需要模块工程解决方案', 'Why module project solution'),
-            link: getLink('/guide/why-module-engineering-solution')
+            link: getLink('/guide/intro/why-module-engineering-solution')
           },
           {
             text: getText('快速开始', 'Getting Started'),
-            link: getLink('/guide/getting-started')
+            link: getLink('/guide/intro/getting-started')
           },
         ]
       },
@@ -120,35 +120,31 @@ function getSidebar(lang: 'zh' | 'en') {
         items: [
           {
             text: getText('开始之前', 'Before getting started'),
-            link: getLink('/guide/before-getting-started')
+            link: getLink('/guide/basic/before-getting-started')
           },
           {
             text: getText('命令预览', 'Command preview'),
-            link: getLink('/guide/command-preview')
+            link: getLink('/guide/basic/command-preview')
           },
           {
             text: getText('修改输出产物', 'Modify output product'),
-            link: getLink('/guide/modify-output-product')
+            link: getLink('/guide/basic/modify-output-product')
           },
           {
             text: getText('使用微生成器', 'Use Micro generator'),
-            link: getLink('/guide/use-micro-generator')
+            link: getLink('/guide/basic/use-micro-generator')
           },
           {
             text: getText('使用 Storybook', 'Using Storybook'),
-            link: getLink('/guide/using-storybook')
+            link: getLink('/guide/basic/using-storybook')
           },
           {
             text: getText('测试项目', 'Test project'),
-            link: getLink('/guide/test-your-project')
+            link: getLink('/guide/basic/test-your-project')
           },
           {
             text: getText('发布项目', 'Publish project'),
-            link: getLink('/guide/publish-your-project')
-          },
-          {
-            text: getText('为你的项目构建UI(可选)', 'Build your UI(optional)'),
-            link: getLink('/guide/build-your-ui')
+            link: getLink('/guide/basic/publish-your-project')
           },
         ]
       },
@@ -156,8 +152,28 @@ function getSidebar(lang: 'zh' | 'en') {
         text: getText('进阶指南', 'Advanced Guide'),
         items: [
           {
-            text: getText('使用插件扩展', 'Plugins extension'),
-            link: getLink('/guide/extension')
+            text: getText('深入理解构建', 'In depth about build'),
+            link: getLink('/guide/advance/in-depth-about-build')
+          },
+          {
+            text: getText('深入理解 dev 命令', 'In depth about dev command'),
+            link: getLink('/guide/advance/in-depth-about-dev-command')
+          },
+          {
+            text: getText('使用 Copy 工具', 'Use Copy Tools'),
+            link: getLink('/guide/advance/copy')
+          },
+          {
+            text: getText('如何处理第三方依赖', 'How to handle third-party dependencies'),
+            link: getLink('/guide/advance/external-dependency'),
+          },
+          {
+            text: getText('构建 umd 产物', 'Build umd'),
+            link: getLink('/guide/advance/build-umd'),
+          },
+          {
+            text: getText('插件扩展', 'Plugins extension'),
+            link: getLink('/guide/advance/extension')
           },
         ]
       }
@@ -202,7 +218,7 @@ function getNavbar(lang: 'zh' | 'en') {
   return [
     {
       text: getText('指南', 'Guide'),
-      link: getLink('/guide/welcome'),
+      link: getLink('/guide/intro/welcome'),
       activeMatch: '/guide/'
     },
     {

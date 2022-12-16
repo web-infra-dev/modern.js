@@ -111,18 +111,49 @@ export default {
 - default: `bundle`
 
 ## copy
-将指定的文件或目录拷贝到构建输出目录中
-- type: `Array`
-- default: `[]`
+
+将文件或目录拷贝到指定位置。
+
+- type: `Object`
 ```js
 
 export default {
-  build: {
-    copy: [{ from: './src/assets', to: '' }],
+  buildConfig: {
+    copy: {
+      patterns: [{ from: './src/assets', to: '' }],
+    },
   },
 };
 ```
-数组设置参考：[copy-webpack-plugin patterns](https://github.com/webpack-contrib/copy-webpack-plugin#patterns)
+
+### `copy.patterns`
+
+- type: `CopyPattern[]`
+- default: `[]`
+
+``` ts
+export interface CopyPattern {
+  from: string;
+  to?: string;
+  context?: string;
+  globOptions?: globby.GlobbyOptions;
+}
+```
+
+### copy.options
+
+- type: `Object`
+- default: `{ concurrency: 100, enableCopySync: false }`
+
+``` ts
+type Options = {
+  concurrency?: number;
+  enableCopySync?: boolean;
+};
+```
+
+* `concurrency`: 指定并行执行多少个复制任务。
+* `enableCopySync`: 使用 [`fs.copySync`](https://github.com/jprichardson/node-fs-extra/blob/master/lib/copy/copy-sync.js)，默认情况下 [`fs.copy`](https://github.com/jprichardson/node-fs-extra/blob/master/lib/copy/copy.js)。
 
 ## define
 定义全局变量，会被注入到代码中

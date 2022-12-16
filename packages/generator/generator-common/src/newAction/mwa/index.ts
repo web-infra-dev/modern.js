@@ -29,6 +29,7 @@ export const MWAActionFunctions = [
   // ActionFunction.Doc,
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
+  ActionFunction.SWC,
 ];
 
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
@@ -134,6 +135,7 @@ export const MWAActionFunctionsDevDependencies: Partial<
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
+  [ActionFunction.SWC]: '@modern-js/plugin-swc',
 };
 
 export const MWAActionFunctionsDependencies: Partial<
@@ -185,6 +187,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',
+    [ActionFunction.SWC]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: '@modern-js/router-legacy-generator',

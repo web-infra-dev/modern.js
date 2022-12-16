@@ -1,5 +1,120 @@
 # @modern-js/module-tools
 
+## 2.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- 92f0eade39: feat:
+
+  1. add style config and add new hook
+  2. add dts alias logic
+  3. add copy logic
+  4. add log logic
+  5. add skipDeps config
+
+  feat:
+
+  1. 添加样式配置以及新的 hook
+  2. 添加 dts 别名处理
+  3. 添加 copy 逻辑
+  4. 添加日志逻辑
+  5. 添加 skipDeps 配置
+
+- 4fd53b48fd: feat: add normalize config logic
+  feat: 添加处理配置的逻辑
+- f0ee9120db: feat: change dev menu log
+  feat: 修改 dev 菜单展示的内容
+- 148fbf8: feat: update afterBuild options
+  feat: 更新 afterBuild 函数的参数
+- 0bb776858a: feat: add ModuleContext
+  feat: 添加 ModuleContext
+- e6bfca6d31: feat: add type define and schema for config
+  feat: 为配置增加类型定义和 schema
+- 54abc88a2a: feat: add new and upgrade command
+  feat: 添加 new 和 upgrade 命令
+- e4558a0: feat:
+
+  1. add `runBin` function
+  2. config internal plugins constants in the app/module/doc tools
+  3. add app/module/doc tools internal plugins
+
+  feat:
+
+  1. 添加 `runBin` 函数
+  2. 在 app/module/doc tools 里配置内部插件
+  3. 增加 app/module/doc tools 使用的插件常量
+
+### Patch Changes
+
+- d6546ad916: add buildConfig style in module-tools and remove tools
+  在 module-tools 里新增 buildConfig style 并删除 tools
+- d61ca88a0b: update speedy version
+  更新依赖里 speedy 的版本
+- 9f9ef4e: fix: fix alias resolve
+  fix: 修复别名处理
+- b8bbe036c7: feat: export Hooks type
+  feat: 导出 Hooks 类型
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- ebbeed1ece: update speedy-core to fix sass resolve error
+  更新 speedy-core 版本以修复 sass resolve 错误
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- 540de1fd5d: fix: filename typo, color.ts --> colors.ts
+  fix: 文件名错误，color.ts 修改为 colors.ts
+- a2c8cc3eb5: fix: change tools define userconfig type
+  fix: 修改工程定义的 UserConfig 类型
+- 1be4ba1ccd: feat: add platform build log
+  feat: 添加 platform 构建的 log 内容
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [7879e8f]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [6aca875]
+- Updated dependencies [85edee888c]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [7b7d12c]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [a3af050486]
+- Updated dependencies [d4a456659b]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [f680410886]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb843]
+- Updated dependencies [b7a96c35fc]
+- Updated dependencies [cce8ecee2d]
+- Updated dependencies [f179749375]
+- Updated dependencies [b8494ef]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/utils@2.0.0-beta.4
+  - @modern-js/core@2.0.0-beta.4
+  - @modern-js/plugin-lint@2.0.0-beta.4
+  - @modern-js/plugin@2.0.0-beta.4
+  - @modern-js/plugin-changeset@2.0.0-beta.4
+  - @modern-js/plugin-i18n@2.0.0-beta.4
+  - @modern-js/new-action@2.0.0-beta.4
+  - @modern-js/upgrade@2.0.0-beta.4
+
 ## 2.0.0-beta.3
 
 ### Major Changes

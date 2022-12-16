@@ -4,7 +4,7 @@ import { manager } from '@modern-js/core';
 
 import plugin from '../../src/document/cli';
 
-describe.only('plugin runtime cli', () => {
+describe('plugin runtime cli', () => {
   const main = manager.clone().usePlugin(plugin);
   let runner: any;
 

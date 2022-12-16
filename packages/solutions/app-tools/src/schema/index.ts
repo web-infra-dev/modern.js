@@ -82,6 +82,7 @@ const tools = {
 const deploy = {
   microFrontend: { type: ['boolean', 'object'] },
 };
+const builderPlugins = { type: 'array' };
 
 const schema = new Schema();
 
@@ -92,7 +93,8 @@ schema
   .setSchema('source', source)
   .setSchema('output', output)
   .setSchema('tools', tools)
-  .setSchema('deploy', deploy);
+  .setSchema('deploy', deploy)
+  .set('builderPlugin', builderPlugins);
 
 export { default as legacySchema } from './legacy';
 export { schema };

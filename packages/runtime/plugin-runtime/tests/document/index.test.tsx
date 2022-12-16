@@ -8,6 +8,7 @@ import {
   Head,
   Root,
   DocumentContext,
+  Script,
 } from '../../src/document';
 import cliPlugin from '../../src/document/cli';
 
@@ -41,6 +42,27 @@ describe('plugin-document', () => {
     expect(docHtml.includes('Miss the ')).toBeTruthy();
     expect(docHtml.includes('Body')).toBeTruthy();
     expect(docHtml.includes(' Element')).toBeTruthy();
+  });
+
+  it('should runder the script by IIFE ', () => {
+    const fn = () => {
+      // eslint-disable-next-line no-console
+      console.log('===> script can use script');
+    };
+    const document = (
+      <Html>
+        <Head></Head>
+        <Body></Body>
+        <Script content={fn}></Script>
+      </Html>
+    );
+    const docHtml = ReactDomServer.renderToString(document);
+    const fnStr = fn.toString();
+    const expectFnStr = encodeURIComponent(`(${fnStr})()`);
+    expect(
+      // react will change ' => '&#x27;'
+      docHtml.includes(expectFnStr.replaceAll("'", '&#x27;')),
+    ).toBeTruthy();
   });
 
   it('should give the correct child', () => {

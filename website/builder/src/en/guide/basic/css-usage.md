@@ -25,14 +25,14 @@ The Builder has built-in community popular CSS preprocessors such as Less, Sass.
 No additional configuration required on your part, right out of the box.
 Of course you can also customize the loader by configuring [tools.less](/en/api/config-tools.html#tools-less) and [tools.sass](/en/api/config-tools.html#tools-sass).
 
-## Using PostCss
+## Using PostCSS
 
-Builder has built-in [PostCss](https://postcss.org/)
+Builder has built-in [PostCSS](https://postcss.org/).
 
 You can configure the postcss-loader via [tools.postcss](/en/api/config-tools.html#tools-postcss).
 
-By default, we have [autoprefixer](https://github.com/postcss/autoprefixer) turned on.
-If you want to configure the target browser, you can use [output.overrideBrowserslist](/en/api/config-output.html#output-overridebrowserslist) to do so
+By default, we have enabled [autoprefixer](https://github.com/postcss/autoprefixer) to add vendor prefixes to CSS rules.
+If you want to configure the target browser, you can use [output.overrideBrowserslist](/en/api/config-output.html#output-overridebrowserslist) config.
 
 ## CSS Minify
 

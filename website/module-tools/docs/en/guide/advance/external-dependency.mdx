@@ -1,0 +1,125 @@
+# How to handle third-party dependencies
+
+Generally, third-party dependencies required by a project can be installed via the `install` command in the package manager. After the third-party dependencies are successfully installed, they will generally appear under `dependencies` and `devDependencies` in the project `package.json`.
+
+``` json pacakge.json
+{
+    "dependencies": {},
+    "devDependencies": {}
+}
+```
+
+Dependencies under `"dependencies"` are generally related to project code and builds, and if these third-party dependencies are declared under `"devDependencies"`, then there will be missing dependencies in production environments.
+
+In addition to `"dependencies"`, [`"peerDependencies"`](/en/guide/basic/before-getting-started#peerdependencies) can also declare dependencies that are needed in the production environment, but it puts more emphasis on the existence of these dependencies declared by `"peerDependencies"` in the project's runtime environment, similar to the plugin mechanism.
+
+## Default handling of third-party dependencies
+
+By default, third-party dependencies under `"dependencies"` and `"peerDependencies"` are not packaged in the module project**, so:
+
+<CH.Spotlight>
+
+```json ./v1/package.json
+{
+    "dependencies": {
+        "react": "^17"
+    },
+    // or
+    "peerDependencies": {
+        "react": "^17"
+    }
+}
+```
+
+---
+
+If the project has a dependency on `react`.
+
+```json ./v1/package.json
+{
+  "dependencies": {
+    "react": "^17"
+  },
+  // or
+  "peerDependencies": {
+      "react": "^17"
+  }
+}
+```
+
+---
+
+When a `react` dependency is used in the source code.
+
+``` tsx src/index.ts
+import React from "react";
+console.info(React);
+```
+
+---
+
+The `react` code is not packaged into the product at this point.
+
+``` js dist/index.js
+import React from "react";
+console.info(React);
+```
+
+</CH.Spotlight>
+
+## Packaging third-party dependencies
+
+However there are cases where you want to package these third-party dependencies into the product. The benefits of packaging third-party dependencies into the product are: **Reducing the time spent downloading third-party dependencies**.
+
+This way of handling third-party dependencies is generally more common in developing command-line tools, which can improve the loading speed of command-line tools and give users a better experience.
+
+So how do you enable the packaging of third-party dependencies in your module project?
+
+The following APIs are provided in the build configuration to handle third-party dependencies:
+
+* [`buildConfig.autoExternal`](/en/api/build-config#autoexternal)
+* [`buildConfig.externals`](/en/api/build-config#externals)
+
+### Turn off default behavior
+
+When we want to turn off the default handling behavior for third-party dependencies, we can do so by:
+
+``` ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: false,
+  }
+});
+```
+
+This way the dependencies under `"dependencies"` and `"peerDependencies"` will be packaged. If you want to turn off the processing of only one of these dependencies, you can use the
+`buildConfig.autoExternal` in the form of an object.
+
+``` ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: {
+      dependencies: false,
+      peerDependencies: false,
+    },
+  }
+});
+```
+
+### Exclude specified third-party dependencies
+
+And in addition to the `buildConfig.autoExternal` API, `buildConfig.externals` can also control which third-party dependencies are to be handled. We can combine these two
+APIs to handle the project's dependencies in a more granular way.
+
+For example, when we need to leave only certain dependencies unpacked, we can configure it as follows.
+
+> In this case, it is likely that some dependencies are not suitable for packaging. If this is the case, then you can handle it as follows.
+
+``` ts
+epxort default defineConfig({
+  buildConfig: {
+    autoExternal: false,
+    externals: ['pkg-1', /pkg-2/],
+  }
+});
+```
