@@ -5,7 +5,7 @@ Modern.js Builder optimizes build performance by default, but as the project bec
 This document provides some optional speed-up strategies, developers can choose some of them to improve the build performance.
 
 :::tip 📢 Notice
-The strategies in [Bundle Size Optimization](/en/guide/advanced/optimize-bundle) can also be used to improve build performance, so we won't repeat them here.
+The strategies in [Bundle Size Optimization](/en/guide/optimization/optimize-bundle.html) can also be used to improve build performance, so we won't repeat them here.
 :::
 
 ## General optimization strategy
@@ -36,11 +36,20 @@ nvm default 16
 node -v
 ```
 
-### Using esbuild
+### Using SWC or esbuild
+
+[SWC](https://SWC.rs/) (Speedy Web Compiler) is a transformer and minimizer for JavaScript and TypeScript based on `Rust`. SWC can provide the same abilities with Babel, and it's more than 10x faster than Babel.
 
 [esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.
 
-Builder provides esbuild plugin that allow you to use esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. See [esbuild plugin](/plugins/plugin-esbuild.html) for details.
+Builder provides SWC plugin and esbuild plugin that allow you to use SWC or esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. See:
+
+- [SWC plugin document](/plugins/plugin-swc.html)
+- [esbuild plugin document](/plugins/plugin-esbuild.html)
+
+:::tip SWC vs esbuild
+The SWC compiled outputs has better compatibility, supports polyfills such as core-js, and has more complete features, so it is recommended to use the SWC plugin first.
+:::
 
 ### Avoid using ts-loader
 
@@ -118,7 +127,7 @@ export default {
 
 ### Adjust Browserslist for development
 
-This strategy is similar to ["Adjust Browserslist"](/en/guide/advanced/optimize-bundle.html#adjust-browserslist), the difference is that we can set different browserslist for development and production environment, thereby reducing the compilation overhead in the development environment.
+This strategy is similar to ["Adjust Browserslist"](/en/guide/optimization/optimize-bundle.html#adjust-browserslist), the difference is that we can set different browserslist for development and production environment, thereby reducing the compilation overhead in the development environment.
 
 For example, you can add the following config to `package.json`, which means that only the latest browsers are compatible in the development environment, and the actual browsers are compatible in the production environment:
 
