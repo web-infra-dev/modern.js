@@ -118,7 +118,7 @@ export const loader = async({ request }: LoaderArgs) => {
 }
 ```
 
-### 返回值
+#### 返回值
 
 `loader` 函数的返回值可以是任何可序列化的内容，也可以是一个 [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) 实例：
 
@@ -181,7 +181,7 @@ const ErrorBoundary = () => {
 export default ErrorBoundary;
 ```
 
-### 获取父组件数据
+### 获取上层组件数据
 
 很多场景下，子组件需要获取到祖先组件 loader 中的数据，你可以通过 `useRouteLoaderData` 方便地获取到祖先组件的数据：
 ```tsx
