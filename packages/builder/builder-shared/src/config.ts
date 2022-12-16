@@ -43,6 +43,7 @@ export const defaultSourceConfig: NormalizedSharedSourceConfig = {
 };
 
 export const defaultHtmlConfig: SharedHtmlConfig = {
+  inject: 'head',
   crossorigin: false,
   disableHtmlFolder: false,
 };
