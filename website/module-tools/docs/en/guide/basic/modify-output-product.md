@@ -119,7 +119,7 @@ In addition to the above categories, frequently asked questions and best practic
 * [How to handle third-party dependencies?](/en/guide/advance/external-dependency)
 * [How to use copy?](/en/guide/advance/copy)
 * [How to build umd products?](/en/guide/advance/build-umd)
-* The capabilities currently supported by static resources.
+* [The capabilities currently supported by static resources.](/en/guide/advance/asset)
 
 ## When to use `buildConfig`
 
