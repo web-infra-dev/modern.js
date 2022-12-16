@@ -154,38 +154,6 @@ export default {
 };
 ```
 
-## 热更新后 React 组件的 state 丢失？
-
-Builder 使用 React 官方的 [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) 能力来进行组件热更新。
-
-在使用 Fast Refresh 时，要求组件不能为匿名函数，否则热更新后无法保留 React 组件的 state。
-
-以下写法都是不正确的：
-
-```js
-// 错误写法 1
-export default function () {
-  return <div>Hello World</div>;
-}
-
-// 错误写法 2
-export default () => <div>Hello World</div>;
-```
-
-正确的写法为：
-
-```js
-// 正确写法 1
-export default function MyComponent() {
-  return <div>Hello World</div>;
-}
-
-// 正确写法 2
-const MyComponent = () => <div>Hello World</div>
-
-export default MyComponent;
-```
-
 ## webpack 编译缓存未生效，应该如何排查？
 
 Builder 默认开启了 webpack 的持久化缓存。
