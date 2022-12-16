@@ -68,7 +68,7 @@ const handleTemplateFile = async (
       configString.replace(
         'router: true',
         `router: {
-      legacy: true,
+      mode: 'react-router-5'
     }`,
       ),
     );
@@ -114,7 +114,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/router-legacy-generator`);
+  generator.logger.debug(`start run @modern-js/router-v5-generator`);
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
@@ -124,5 +124,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   appApi.showSuccessInfo(i18n.t(localeKeys.success));
 
-  generator.logger.debug(`forge @modern-js/router-legacy-generator succeed `);
+  generator.logger.debug(`forge @modern-js/router-v5-generator succeed `);
 };
