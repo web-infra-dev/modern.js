@@ -1,7 +1,6 @@
 import path from 'path';
 import {
   isFileExists,
-  DEFAULT_MOUNT_ID,
   getDistPath,
   getMinify,
   getTitle,
@@ -41,7 +40,7 @@ async function getTemplateParameters(
   const baseParameters = {
     meta,
     title,
-    mountId: mountId || DEFAULT_MOUNT_ID,
+    mountId,
     entryName,
     assetPrefix,
   };
