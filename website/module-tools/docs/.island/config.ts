@@ -175,10 +175,6 @@ function getSidebar(lang: 'zh' | 'en') {
             text: getText('处理静态文件', 'Handling static files'),
             link: getLink('/guide/advance/asset'),
           },
-          {
-            text: getText('插件扩展', 'Plugins extension'),
-            link: getLink('/guide/advance/extension')
-          },
         ]
       }
     ],
@@ -199,12 +195,12 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/api/dev')
           },
           {
-            text: getText('Test', 'Test'),
-            link: getLink('/api/test')
+            text: getText('Testing', 'Testing'),
+            link: getLink('/api/testing')
           },
           {
-            text: getText('Plugin', 'Plugin'),
-            link: getLink('/api/plugin')
+            text: getText('Plugins', 'Plugins'),
+            link: getLink('/api/plugins')
           },
           {
             text: getText('DesignSystem', 'DesignSystem'),
