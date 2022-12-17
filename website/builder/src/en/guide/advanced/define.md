@@ -1,10 +1,12 @@
 # Environment Variables
 
+Builder supports injecting environment variables or expressions into the code during compilation, which is helpful for distinguishing the running environment or injecting constant values. This chapter introduces how to use environment variables.
+
+# Using define config
+
 By configuring the [source.define](/en/api/config-source.html#source-define), you can replace expressions with other expressions or values in compile time.
 
 `Define` looks like macro definitions in other programming languages. But JavaScript has powerful runtime capabilities, so you don't need to use it as a complicated code generator. You can use it to pass simple data, such as environment variables, from compile time to runtime. Almost there, it can be used to work with Builder to shake trees.
-
-You may often need to set environment variables, in which case you can instead use the [source.globalVars](/en/api/config-source.html#source-globalvars) configuration to simplify configuration. It is a syntax sugar of `source.define`, the only difference is that `source.globalVars` will automatically stringify the value, which makes it easier to set the value of global variables.
 
 ## Replace Expressions
 
@@ -30,7 +32,7 @@ For more about `source.define`, just refer to [API References](/api/config-sourc
 
 ## Setup Environment Variables
 
-For setting environment variables, you can also use the `source.globalVars` to replace expressions to simplify configuration and avoid writing a lot of `JSON.stringify(...)` stuffs.
+You may often need to set environment variables, in which case you can instead use the [source.globalVars](/en/api/config-source.html#source-globalvars) configuration to simplify configuration. It is a syntax sugar of `source.define`, the only difference is that `source.globalVars` will automatically stringify the value, which makes it easier to set the value of global variables and avoid writing a lot of `JSON.stringify(...)` stuffs.
 
 ```js
 export default {

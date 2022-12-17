@@ -1,10 +1,12 @@
 # 环境变量
 
+Builder 支持在编译过程中向代码中注入环境变量或表达式，这对于区分运行环境、注入常量值等场景很有帮助。本章节会介绍环境变量的使用方式。
+
+## 使用 define 配置项
+
 通过配置 [source.define](/zh/api/config-source.html#source-define) 选项，你可以在构建时将代码中的变量替换成其它值或者表达式。
 
 Define 类似于其它一些语言提供的宏定义能力，但得益于 JavaScript 强大的运行时表达能力，通常不需要像那些语言一样将其用作复杂代码的生成器。它常用于在构建环境向运行时传递环境变量等简单信息，或是辅助 Builder 进行 Tree Shaking 等操作。
-
-针对设置环境变量的高频场景，Builder 还提供了 [source.globalVars](/zh/api/config-source.html#source-globalvars) 配置用于简化配置，它是 `source.define` 的一个语法糖，唯一的区别是 `source.globalVars` 会自动将传入的值进行 JSON 序列化处理，这使得设置全局变量的值更容易。
 
 ## 替换表达式
 
@@ -30,7 +32,7 @@ export default {
 
 ## 设置环境变量
 
-对于设置环境变量的需求来说，你也可以使用 `source.globalVars` 替换表达式来简化配置、避免大量书写 `JSON.stringify(...)` 转换语句：
+针对设置环境变量的高频场景，Builder 还提供了 [source.globalVars](/zh/api/config-source.html#source-globalvars) 配置用于简化配置，它是 `source.define` 的一个语法糖，唯一的区别是 `source.globalVars` 会自动将传入的值进行 JSON 序列化处理，这使得设置环境变量的值更容易，避免大量书写 `JSON.stringify(...)` 转换语句：
 
 ```js
 export default {
