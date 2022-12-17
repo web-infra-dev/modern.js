@@ -40,7 +40,7 @@ export default () => {
 };
 ```
 
-### 移除 .module 中缀
+### 为所有样式文件启用 CSS Modules
 
 在默认情况下，只有 `*.module.css` 结尾的文件才被视为 CSS Modules 模块。
 
@@ -99,10 +99,35 @@ Builder 内置了 [PostCSS](https://postcss.org/) 来转换 CSS 代码。
 
 你可以通过配置 [tools.minifyCss](/zh/api/config-tools.html#tools-minifycss) 来对它进行更自定义的配置。
 
-## 独立 CSS 文件
+## 内联 CSS 文件
 
 默认情况下，Builder 会把 CSS 提取为独立的 `.css` 文件，并输出到构建产物目录。
 
 如果你希望将样式内联到 JS 文件中，可以将 [output.disableCssExtract](/zh/api/config-output.html#output-disablecssextract) 设置为 `true` 来禁用 CSS 提取逻辑。当浏览器请求到 JS 文件后，JS 将动态地向 HTML 插入 `<style>` 标签，以此加载 CSS 样式。
 
 这将会增大你的 JS Bundle 体积，因此通常情况下，不太建议禁用 CSS 提取逻辑。
+
+## 引用 node_modules 里的样式
+
+你可以直接引用 node_modules 里的样式文件。
+
+- 在组件中引用：
+
+```ts
+// src/App.tsx
+// 引用 Arco Design 样式：
+import "@arco-design/web-react/dist/css/arco.css";
+```
+
+- 在样式文件中引用：
+
+```css
+/* src/App.css */
+/* 引用 normalize.css */
+/* https://github.com/necolas/normalize.css */
+@import 'normalize.css';
+
+body {
+  /* */
+}
+```

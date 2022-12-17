@@ -1,4 +1,4 @@
-# Css Usage
+# CSS Usage
 
 Builder has built-in multiple style resource processing capabilities, including Less / Sass preprocessor, PostCSS, CSS Modules, CSS inline and CSS compression.
 
@@ -40,7 +40,7 @@ export default () => {
 };
 ```
 
-### Remove the .module infix
+### Enable CSS Modules for all CSS files
 
 By default, only files ending in `*.module.css` are treated CSS Modules.
 
@@ -102,10 +102,35 @@ Builder automatically compresses CSS code at production build time with [css-min
 
 You can configure [tools.minifyCss](/en/api/config-tools.html#tools-minifycss) to make it more customizable.
 
-## Separate CSS File
+## Inline CSS Files
 
 By default, Builder will extract CSS into a separate `.css` file and output it to the dist directory.
 
 If you want to inline styles into your JS file, you can set [output.disableCssExtract](/en/api/config-output.html#output-disablecssextract) to true to disable CSS extraction logic.When the JS file is requested by the browser, JS dynamically inserts the `<style>` tag into the Html to load the CSS styles.
 
 This will increase the size of your JS Bundle, so it is usually not recommended to disable the CSS extraction.
+
+## Import CSS in node_modules
+
+You can directly import CSS files in node_modules.
+
+- Import in a component:
+
+```ts
+// src/App.tsx
+// Import the Arco Design style:
+import "@arco-design/web-react/dist/css/arco.css";
+```
+
+- Import in a style file:
+
+```css
+/* src/App.css */
+/* reference normalize.css */
+/* https://github.com/necolas/normalize.css */
+@import 'normalize.css';
+
+body {
+  /* */
+}
+```
