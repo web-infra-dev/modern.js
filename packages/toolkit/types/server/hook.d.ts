@@ -10,12 +10,12 @@ export type CookieAPI = {
 
 export interface ModernResponse {
   get: (key: string) => string | number | string[] | undefined;
-  set: (key: string, value: string) => void;
+  set: (key: string, value: string | number) => void;
   status: (code: number) => void;
   cookies: CookieAPI;
   raw: (
     body: string,
-    { status, headers }: { status: number; headers: Record<string, any> },
+    options?: { status?: number; headers?: Record<string, any> },
   ) => void;
 }
 
