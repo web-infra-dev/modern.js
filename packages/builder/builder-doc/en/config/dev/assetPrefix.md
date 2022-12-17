@@ -3,6 +3,8 @@
 
 Set the URL prefix of static assets in the development environment, similar to the [output.publicPath](https://webpack.js.org/guides/public-path/) config of webpack.
 
+`assetPrefix` will affect the URLs of most of the static assets, including JavaScript files, CSS files, images, videos, etc. If an incorrect value is specified, you'll receive 404 errors while loading these resources.
+
 This config is only used in the development environment. In the production environment, please use the `output.assetPrefix` to set the URL prefix.
 
 #### Boolean Type
