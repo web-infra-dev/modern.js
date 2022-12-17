@@ -939,7 +939,9 @@ const designSystem = {
 
 要覆盖默认配置中的选项，请在 `designSystem` 中添加要覆盖的属性：
 
-```js title="modern.config.js"
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
 const designSystem = {
   // Replaces all of the default `opacity` values
   opacity: {
@@ -953,9 +955,7 @@ const designSystem = {
 };
 
 export default defineConfig({
-  source: {
-    designSystem,
-  },
+  designSystem,
 });
 ```
 
@@ -969,7 +969,9 @@ export default defineConfig({
 
 例如，如果您想添加一个额外的断点但保留现有的断点，则可以扩展 `screens` 属性：
 
-```js title="modern.config.js"
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
 const designSystem = {
   extend: {
     // Adds a new breakpoint in addition to the default breakpoints
@@ -980,15 +982,15 @@ const designSystem = {
 };
 
 export default defineConfig({
-  source: {
-    designSystem,
-  },
+  designSystem,
 });
 ```
 
 您当然可以覆盖默认主题的某些部分，并在同一配置中扩展默认主题的其他部分：
 
-```js title="modern.config.js"
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
 const designSystem = {
   opacity: {
     0: '0',
@@ -1006,9 +1008,7 @@ const designSystem = {
 };
 
 export default defineConfig({
-  source: {
-    designSystem,
-  },
+  designSystem,
 });
 ```
 
@@ -1018,7 +1018,9 @@ export default defineConfig({
 
 例如，您可以在 `fill` 配置上通过引用 `theme('colors')` 为调色板中的每种颜色生成 `fill` utilities。
 
-```js title="modern.config.js"
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
 const designSystem = {
   colors: {
     // ...
@@ -1027,9 +1029,7 @@ const designSystem = {
 };
 
 export default defineConfig({
-  source: {
-    designSystem,
-  },
+  designSystem,
 });
 ```
 
@@ -1039,7 +1039,9 @@ export default defineConfig({
 
 如果出于任何原因想要引用默认配置中的值，则可以从 `tailwindcss/defaultTheme` 导入它。一个有用的示例是，如果要将添加默认配置提供的字体中某一个字体：
 
-```js title="modern.config.js"
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const designSystem = {
@@ -1051,9 +1053,7 @@ const designSystem = {
 };
 
 export default defineConfig({
-  source: {
-    designSystem,
-  },
+  designSystem,
 });
 ```
 
@@ -1104,7 +1104,9 @@ const designSystem = {
 
 另一个示例是在自定义插件中添加新的属性以进行引用。例如，如果您为项目编写了渐变插件，则可以向该插件引用的主题对象添加渐变属性：
 
-```js title="modern.config.js"
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
 const designSystem = {
   gradients: theme => ({
     'blue-green': [theme('colors.blue.500'), theme('colors.green.500')],
@@ -1114,13 +1116,13 @@ const designSystem = {
 };
 
 export default defineConfig({
-  source: {
-    designSystem,
-  },
-  tools: {
-    tailwind: {
-      plugins: [require('./plugins/gradients')],
-    },
+  designSystem,
+  buildConfig: {
+    style: {
+      postcss: {
+        plugins: [require('./plugins/gradients')],
+      }
+    }
   },
 });
 ```

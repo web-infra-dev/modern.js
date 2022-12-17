@@ -81,21 +81,12 @@ export function createBuilderProviderConfig(
 
   return {
     ...normalizedConfig,
-    source: {
-      ...normalizedConfig.source,
-      resolveExtensionPrefix: '.web',
-    },
     output,
     dev: {
       ...normalizedConfig.dev,
       port: normalizedConfig.server?.port,
     },
     html: htmlConfig,
-    performance: {
-      ...normalizedConfig.performance,
-      // modern.js v1 used to remove moment locale by default
-      removeMomentLocale: true,
-    },
   };
 
   function createOutputConfig(

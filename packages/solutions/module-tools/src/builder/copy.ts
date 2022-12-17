@@ -2,12 +2,14 @@ import path from 'path';
 import type { CopyPattern } from '../types/copy';
 import type { BaseBuildConfig } from '../types/config';
 
-// TODO: about copy rules
+// TODO: about copy rules and debug
 export const runPatterns = async (
   pattern: CopyPattern,
   options: {
     appDirectory: string;
     enableCopySync?: boolean;
+    outdir: string;
+    defaultContext: string;
   },
 ) => {
   const { fs, fastGlob, globby } = await import('@modern-js/utils');
@@ -17,22 +19,22 @@ export const runPatterns = async (
   const { appDirectory, enableCopySync = false } = options;
   const { from, globOptions = {} } = pattern;
   const normalizedFrom = path.normalize(from);
+  const defaultAbsContext = options.defaultContext;
 
   // when context is relative path
   if (typeof pattern.context === 'string') {
     pattern.context = path.isAbsolute(pattern.context)
       ? pattern.context
       : path.join(appDirectory, pattern.context);
+  } else {
+    pattern.context = defaultAbsContext;
   }
 
   let absoluteFrom;
   if (path.isAbsolute(normalizedFrom)) {
     absoluteFrom = normalizedFrom;
   } else {
-    absoluteFrom = path.resolve(
-      pattern.context ?? appDirectory,
-      normalizedFrom,
-    );
+    absoluteFrom = path.resolve(pattern.context, normalizedFrom);
   }
 
   let stats;
@@ -104,7 +106,7 @@ export const runPatterns = async (
     }
 
     const from = globEntry.path;
-    const absoluteFrom = path.resolve(pattern.context ?? appDirectory, from);
+    const absoluteFrom = path.resolve(pattern.context!, from);
     const to = path.normalize(
       typeof pattern.to !== 'undefined' ? pattern.to : '',
     );
@@ -112,7 +114,7 @@ export const runPatterns = async (
       path.extname(to) === '' || to.slice(-1) === path.sep ? 'dir' : 'file';
 
     const relativeFrom = path.relative(
-      pattern.context ?? appDirectory,
+      pattern.context ?? defaultAbsContext,
       absoluteFrom,
     );
 
@@ -120,8 +122,7 @@ export const runPatterns = async (
 
     const absoluteTo = path.isAbsolute(filename)
       ? filename
-      : path.join(appDirectory, filename);
-
+      : path.join(options.outdir, filename);
     if (enableCopySync) {
       fs.copySync(absoluteFrom, absoluteTo);
     } else {
@@ -151,6 +152,8 @@ export const copyTask = async (
         await runPatterns(copyOption, {
           ...options,
           enableCopySync: copyConfig.options?.enableCopySync,
+          outdir: buildConfig.outdir,
+          defaultContext: buildConfig.sourceDir,
         });
       },
       { concurrency },

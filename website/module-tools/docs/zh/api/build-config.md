@@ -8,42 +8,48 @@
 对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Module tools会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
 :::
 
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     alias: {
       '@common': './src/common',
     },
   },
-};
+});
 ```
 
 以上配置完成后，如果在代码中引用 `@common/Foo.tsx`, 则会映射到 `<root>/src/common/Foo.tsx` 路径上。
 
 `alias` 的值定义为函数时，可以接受预设的 alias 对象，并对其进行修改。
 
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     alias: alias => {
       alias['@common'] = './src/common';
     },
   },
-};
+});
 ```
 
 也可以在函数中返回一个新对象作为最终结果，新对象会覆盖预设的 alias 对象。
 
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     alias: alias => {
       return {
         '@common': './src/common',
       };
     },
   },
-};
+});
 ```
 
 ## asset
@@ -64,20 +70,23 @@ export default {
 打包时给未内联资源的CDN前缀
 - type: `string`
 - default: `undefined`
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     asset: {
       publicPath: 'https://xxx/'
     }
   }
-};
+});
 ```
 此时，所有静态资源都会添加`https://xxx/`前缀
 
 ### svgr
-打包时将svg作为一个React组件处理
+打包时将svg作为一个React组件处理，options参考[svgr](https://react-svgr.com/docs/options/)，另外还支持了`include`和`exclude`两个配置项，用于匹配需要处理的svg文件
 - type: `boolean | Object`
+- default: `true`
 
 #### include
 设定匹配的svg文件
@@ -111,18 +120,51 @@ export default {
 - default: `bundle`
 
 ## copy
-将指定的文件或目录拷贝到构建输出目录中
-- type: `Array`
-- default: `[]`
-```js
 
-export default {
-  build: {
-    copy: [{ from: './src/assets', to: '' }],
+将文件或目录拷贝到指定位置。
+
+- type: `Object`
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+
+export default defineConfig({
+  buildConfig: {
+    copy: {
+      patterns: [{ from: './src/assets', to: '' }],
+    },
   },
+});
+```
+
+### `copy.patterns`
+
+- type: `CopyPattern[]`
+- default: `[]`
+
+``` ts
+export interface CopyPattern {
+  from: string;
+  to?: string;
+  context?: string;
+  globOptions?: globby.GlobbyOptions;
+}
+```
+
+### copy.options
+
+- type: `Object`
+- default: `{ concurrency: 100, enableCopySync: false }`
+
+``` ts
+type Options = {
+  concurrency?: number;
+  enableCopySync?: boolean;
 };
 ```
-数组设置参考：[copy-webpack-plugin patterns](https://github.com/webpack-contrib/copy-webpack-plugin#patterns)
+
+* `concurrency`: 指定并行执行多少个复制任务。
+* `enableCopySync`: 使用 [`fs.copySync`](https://github.com/jprichardson/node-fs-extra/blob/master/lib/copy/copy-sync.js)，默认情况下 [`fs.copy`](https://github.com/jprichardson/node-fs-extra/blob/master/lib/copy/copy.js)。
 
 ## define
 定义全局变量，会被注入到代码中
@@ -130,15 +172,17 @@ export default {
 - default: `{}`
 
 由于`define`功能是由全局文本替换实现的，所以需要保证全局变量值为字符串，更为安全的做法是将每个全局变量的值转化为字符串，使用`JSON.stringify`进行转换，如下所示：
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     define: {
       'VERSION': JSON.stringify('1.0'),
 
     },
   },
-};
+});
 ```
 
 :::tip
@@ -182,16 +226,18 @@ js产物输出的格式,其中`iife`和`umd`只能在`buildType`为`bundle`时�
 - type: `string[] | Record<string, string>`
 - default: `bundle`模式下默认为`['src/index.ts']`，`bundleless`模式下默认为`['src']`
 
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     input: ['src/index.ts', 'src/index2.ts'],
   },
-};
+});
 ```
 
 ## jsx
-指定jsx的编译方式, 默认支持React17,自动注入jsx运行时代码
+指定jsx的编译方式, 默认支持React17以上,自动注入jsx运行时代码
 - type: `automatic | classic`
 - default: `automatic`
 
@@ -200,16 +246,18 @@ export default {
 - type: `'terser' | 'esbuild' | false | Object`
 - default: `false`
 
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     minify: {
       compress: {
         drop_console: true,
       },
     },
   },
-};
+});
 ```
 
 ## outdir
@@ -252,16 +300,18 @@ less相关配置
 - type: `string`
 - default: `undefined`
 
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     style: {
       less: {
         additionalData: `@base-color: #c6538c;`,
       },
     }
   }
-}
+});
 
 ```
 #### implementation
@@ -270,29 +320,33 @@ export default {
 - default: `undefined`
 
 `Object` 类型时，指定 `Less` 的实现库
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     style: {
       less: {
         implementation: require('less'),
       },
     }
   }
-}
+});
 ```
 
 `string` 类型时，指定 `Less` 的实现库的路径
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     style: {
       less: {
         implementation: require.resolve('less'),
       },
     }
   }
-}
+});
 ```
 
 ### sass
@@ -305,9 +359,11 @@ sass相关配置
 在入口文件起始添加 `Sass` 代码。
 - type: `string | Function`
 - default: `undefined`
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     style: {
       sass: {
         additionalData: `$base-color: #c6538c;
@@ -315,7 +371,7 @@ export default {
       },
     }
   }
-}
+});
 ```
 
 #### implementation
@@ -324,29 +380,33 @@ export default {
 - default: `undefined`
 
 `Object` 类型时，指定 `Sass` 的实现库
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     style: {
       sass: {
         implementation: require('sass'),
       },
     }
   }
-}
+});
 ```
 
 `string` 类型时，指定 `Sass` 的实现库的路径
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     style: {
       sass: {
         implementation: require.resolve('sass'),
       },
     }
   }
-}
+});
 ```
 
 ### postcss
@@ -380,16 +440,18 @@ CSS Modules配置
 - default: `{}`
 
 一个常用的配置是`localsConvention`，它可以改变css modules的类名生成规则
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     style: {
       modules: {
         localsConvention: 'camelCaseOnly',
       },
     }
   }
-}
+});
 ```
 对于以下样式
 ```css
@@ -411,7 +473,7 @@ tailwindcss相关配置
 <details>
   <summary>TailwindCSS 配置详情</summary>
 
-```js
+```ts modern.config.ts
   const tailwind = {
     purge: {
         enabled: options.env === 'production',
@@ -453,15 +515,17 @@ tailwindcss相关配置
 - type: `Record<string, string>`
 - default: `{}`
 
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     umdGlobals: {
       react: 'React',
       'react-dom': 'ReactDOM',
     },
   }
-}
+});
 ```
 此时，`react`和`react-dom`会被看做是外部导入的全局变量，不会被打包进umd产物中，而是通过`global.React`和`global.ReactDOM`的方式进行访问
 
@@ -471,13 +535,15 @@ export default {
 - type: `string` | `Function`
 - default: `name => name`
 
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     format: 'umd',
     umdModuleName: 'myLib',
   }
-}
+});
 ```
 此时umd产物会去挂载到`global.myLib`上
 :::tip
@@ -486,9 +552,11 @@ export default {
 :::
 
 同时函数形式可以接收一个参数，为当前打包文件的输出路径
-```js
-export default {
-  build: {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
     format: 'umd',
     umdModuleName: (path) => {
       if (path.includes('index')) {
@@ -498,5 +566,5 @@ export default {
       }
     },
   }
-}
+});
 ```

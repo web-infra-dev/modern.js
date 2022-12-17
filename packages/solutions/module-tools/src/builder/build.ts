@@ -1,3 +1,4 @@
+import { join } from 'path';
 import type { CLIConfig } from '@modern-js/libuild';
 import type {
   BuildCommandOptions,
@@ -141,6 +142,12 @@ export const buildLib = async (
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
+  const root = slash(appDirectory);
+  const outdir = slash(distPath);
+  const assetOutDir = asset.path ? slash(asset.path) : asset.path;
+  const { less, sass, postcss, inject, modules, autoModules } = style;
+
+  // support es5,umd and emitDecoratorMetadata by swc
   const { es5Plugin, umdPlugin, transformPlugin } = await import(
     '@modern-js/libuild-plugin-swc'
   );
@@ -148,29 +155,38 @@ export const buildLib = async (
   if (format === 'umd') {
     plugins.push(umdPlugin(umdModuleName));
   }
+  const { getProjectTsconfig } = await import('./dts/tsc');
+  const tsconfigPath = dts
+    ? dts.tsconfigPath
+    : join(appDirectory, './tsconfig.json');
+  const userTsconfig = await getProjectTsconfig(tsconfigPath);
+  if (userTsconfig?.compilerOptions?.emitDecoratorMetadata) {
+    plugins.push(
+      transformPlugin({
+        jsc: {
+          transform: {
+            legacyDecorator: true,
+            decoratorMetadata: true,
+          },
+        },
+      }),
+    );
+  }
+
+  // support svgr
+  if (asset.svgr) {
+    const { svgrPlugin } = await import('@modern-js/libuild-plugin-svgr');
+    const options = typeof asset.svgr === 'boolean' ? {} : asset.svgr;
+    plugins.push(svgrPlugin(options));
+  }
+
+  // adapt module tools
   const { watchPlugin, externalPlugin } = await import(
     '../utils/libuild-plugins'
   );
   plugins.push(watchPlugin(config));
-  if (dts) {
-    const { getProjectTsconfig } = await import('./dts/tsc');
-    const userTsconfig = await getProjectTsconfig(dts.tsconfigPath);
-    userTsconfig.compilerOptions?.emitDecoratorMetadata &&
-      plugins.push(
-        transformPlugin({
-          jsc: {
-            transform: {
-              legacyDecorator: true,
-              decoratorMetadata: true,
-            },
-          },
-        }),
-      );
-  }
-  const root = slash(appDirectory);
-  const outdir = slash(distPath);
-  const assetOutDir = asset.path ? slash(asset.path) : asset.path;
-  const { less, sass, postcss, inject, modules, autoModules } = style;
+  plugins.push(externalPlugin(config, { appDirectory }));
+
   const buildConfig: CLIConfig = {
     root,
     watch,
@@ -207,7 +223,6 @@ export const buildLib = async (
     bundle: buildType === 'bundle',
     // outbase for [dir]/[name]
     outbase: sourceDir,
-    logLevel: 'error',
     esbuildOptions: (options: any) => ({
       ...options,
       supported: {
@@ -217,7 +232,6 @@ export const buildLib = async (
       },
     }),
   };
-  plugins.push(externalPlugin(config, { appDirectory }));
 
   try {
     const { Libuilder } = await import('@modern-js/libuild');

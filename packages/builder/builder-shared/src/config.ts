@@ -9,16 +9,18 @@ import {
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
   SERVER_DIST_DIR,
+  DEFAULT_MOUNT_ID,
   DEFAULT_DATA_URL_SIZE,
 } from './constants';
 import type {
-  NormalizedSharedDevConfig,
-  NormalizedSharedOutputConfig,
+  BuilderTarget,
   SharedHtmlConfig,
-  NormalizedSharedSourceConfig,
   InspectConfigOptions,
   CreateBuilderOptions,
-  BuilderTarget,
+  NormalizedSharedDevConfig,
+  NormalizedSharedOutputConfig,
+  NormalizedSharedSourceConfig,
+  NormalizedSharedHtmlConfig,
 } from './types';
 import { logger } from './logger';
 import { join } from 'path';
@@ -42,7 +44,9 @@ export const defaultSourceConfig: NormalizedSharedSourceConfig = {
   compileJsDataURI: true,
 };
 
-export const defaultHtmlConfig: SharedHtmlConfig = {
+export const defaultHtmlConfig: NormalizedSharedHtmlConfig = {
+  inject: 'head',
+  mountId: DEFAULT_MOUNT_ID,
   crossorigin: false,
   disableHtmlFolder: false,
 };

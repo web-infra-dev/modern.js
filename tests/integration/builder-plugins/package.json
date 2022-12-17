@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "integration-builder-plugins",
+  "version": "1.0.0",
+  "dependencies": {
+    "@types/jest": "^27",
+    "@types/node": "^14"
+  }
+}

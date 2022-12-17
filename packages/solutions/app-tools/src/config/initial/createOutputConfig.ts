@@ -50,6 +50,7 @@ export function createOutputConfig(
       font: dataUriLimit,
       media: dataUriLimit,
     },
+    cssModuleLocalIdentName,
     disableCssExtract,
     disableCssModuleExtension,
     disableInlineRuntimeChunk,
@@ -62,9 +63,6 @@ export function createOutputConfig(
     polyfill,
     disableFilenameHash: disableAssetsCache,
     enableLatestDecorators,
-    filename: {
-      css: cssModuleLocalIdentName,
-    },
     ssg,
     // set `true`, only in legacy config
     enableAssetFallback: true,
