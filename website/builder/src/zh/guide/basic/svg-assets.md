@@ -61,3 +61,38 @@ export default () => <Logo />;
 当 SVG 不是作为 React 组件，而是作为一个普通的静态资源被引用时，它的处理逻辑和其他静态资源完全一致，也会受到静态资源内联、URL 前缀等规则的影响。
 
 请阅读 [引用静态资源](/guide/basic/static-assets.html) 章节来了解静态资源的处理规则。
+
+## 添加类型声明
+
+当你在 TypeScript 代码中引用 SVG 资源时，TypeScript 可能会提示该模块缺少类型定义：
+
+```
+TS2307: Cannot find module './logo.svg' or its corresponding type declarations.
+```
+
+此时你需要为 SVG 资源添加类型声明文件，请在项目中创建 `src/assets.d.ts` 文件，并添加相应的类型声明：
+
+```ts
+declare module '*.svg' {
+  export const ReactComponent: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement>
+  >;
+
+  const content: string;
+  export default content;
+}
+```
+
+如果你将 `svgDefaultExport` 设置为 `'component'`，则将类型声明修改为：
+
+```ts
+declare module '*.svg' {
+  export const ReactComponent: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement>
+  >;
+
+  export default ReactComponent;
+}
+```
+
+添加类型声明后，如果依然存在上述错误提示，请尝试重启当前 IDE，或者调整 `assets.d.ts` 所在的目录，使 TypeScript 能够正确识别类型定义。

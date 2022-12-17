@@ -124,3 +124,35 @@ export default {
   },
 };
 ```
+
+## 添加类型声明
+
+当你在 TypeScript 代码中使用 `?inline` 和 `?url` 等 URL 参数时，TypeScript 可能会提示该模块缺少类型定义：
+
+```
+TS2307: Cannot find module './logo.png?inline' or its corresponding type declarations.
+```
+
+此时你需要为这些 URL 参数添加类型声明，请在项目中创建 `src/assets.d.ts` 文件，并添加以下类型声明：
+
+```ts
+declare module '*?inline' {
+  const content: string;
+  export default content;
+}
+
+declare module '*?inline' {
+  const content: string;
+  export default content;
+}
+
+declare module '*?__inline' {
+  const content: string;
+  export default content;
+}
+
+declare module '*?inline=false' {
+  const content: string;
+  export default content;
+}
+```

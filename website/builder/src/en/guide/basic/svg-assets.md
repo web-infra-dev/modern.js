@@ -61,3 +61,38 @@ When import an SVG in a CSS file, the SVG is treated as a normal static resource
 When SVG is imported not as a React component but as a normal static resource, it is processed exactly the same as other static assets, and it is also affected by rules such as assets inlining and URL prefixing.
 
 Please read the [Import Static Assets](/guide/basic/static-assets.html) section to understand the processing rules for static assets.
+
+## Add type declaration
+
+When you reference an SVG asset in TypeScript code, TypeScript may prompt that the module is missing a type definition:
+
+```
+TS2307: Cannot find module './logo.svg' or its corresponding type declarations.
+```
+
+To fix this, you need to add a type declaration file for the SVG asset, please create a `src/assets.d.ts` file, and add the following type declaration:
+
+```ts
+declare module '*.svg' {
+  export const ReactComponent: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement>
+  >;
+
+  const content: string;
+  export default content;
+}
+```
+
+If you set `svgDefaultExport` to `'component'`, then change the type declaration to:
+
+```ts
+declare module '*.svg' {
+  export const ReactComponent: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement>
+  >;
+
+  export default ReactComponent;
+}
+```
+
+After adding the type declaration, if the type error still exists, you can try to restart the current IDE, or adjust the directory where `assets.d.ts` is located, making sure the TypeScript can correctly identify the type definition.

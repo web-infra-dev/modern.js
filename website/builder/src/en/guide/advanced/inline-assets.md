@@ -123,3 +123,35 @@ export default {
   },
 };
 ```
+
+## Add Type Declaration
+
+When you use URL queries such as `?inline` and `?url` in TypeScript code, TypeScript may prompt that the module is missing a type definition:
+
+```
+TS2307: Cannot find module './logo.png?inline' or its corresponding type declarations.
+```
+
+To fix this, you can add type declarations for these URL queries, please create `src/assets.d.ts` file and add the following type declarations:
+
+```ts
+declare module '*?inline' {
+  const content: string;
+  export default content;
+}
+
+declare module '*?inline' {
+  const content: string;
+  export default content;
+}
+
+declare module '*?__inline' {
+  const content: string;
+  export default content;
+}
+
+declare module '*?inline=false' {
+  const content: string;
+  export default content;
+}
+```
