@@ -26,6 +26,7 @@ export default (): CliPlugin<AppTools> => ({
         let appContext = api.useAppContext();
         const resolvedConfig = api.useResolvedConfigContext();
         const hookRunners = api.useHookRunners();
+
         try {
           fs.emptydirSync(appContext.internalDirectory);
         } catch {

@@ -81,7 +81,7 @@ builder.addPlugins([PluginImageCompress()]);
 
 良好的拆包策略对于提升应用的加载性能是十分重要的，可以充分利用浏览器的缓存机制，减少请求数量，加快页面加载速度。
 
-在 Builder 中内置了[多种拆包策略](/zh/guide/advanced/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置，比如下面的配置:
+在 Builder 中内置了[多种拆包策略](/zh/guide/optimization/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置，比如下面的配置:
 
 ```ts
 export default {

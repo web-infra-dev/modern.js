@@ -1,4 +1,4 @@
-# 样式资源处理
+# 引用样式资源
 
 Builder 支持处理多种样式资源, 例如：Less, Sass。除此之外，Builder 也提供多种配置来处理你的样式资源。
 
@@ -22,13 +22,13 @@ import styles2 from './bar.css';
 
 Builder 已内置了社区流行的 CSS 预处理器，例如 Less , Sass。 无需你额外的配置，即可开箱即用，当然你也可以通过配置 [tools.less](/zh/api/config-tools.html#tools-less) 、 [tools.sass](/zh/api/config-tools.html#tools-sass) 来自定义 loader。
 
-## 使用 PostCss
+## 使用 PostCSS
 
-Builder 内置了 [PostCss](https://postcss.org/)。
+Builder 内置了 [PostCSS](https://postcss.org/)。
 
-你可以通过 [tools.postcss](/zh/api/config-tools.html#tools-postcss) 来配置 postcss-loader
+你可以通过 [tools.postcss](/zh/api/config-tools.html#tools-postcss) 来配置 postcss-loader。
 
-在默认情况下，我们开启了 [autoprefixer](https://github.com/postcss/autoprefixer)。如果想配置目标浏览器，可使用 [output.overrideBrowserslist](/zh/api/config-output.html#output-overridebrowserslist) 进行配置。
+在默认情况下，我们开启了 [autoprefixer](https://github.com/postcss/autoprefixer) 来自动补齐 CSS 的浏览器前缀。如果你需要配置目标浏览器，可使用 [output.overrideBrowserslist](/zh/api/config-output.html#output-overridebrowserslist) 进行配置。
 
 ## CSS 压缩
 

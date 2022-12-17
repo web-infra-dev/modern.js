@@ -1,10 +1,10 @@
-# Define & Environment Variables
+# Environment Variables
 
-Use the `source.define` option to replace expressions with other expressions or values in compile time.
+By configuring the [source.define](/en/api/config-source.html#source-define), you can replace expressions with other expressions or values in compile time.
 
 `Define` looks like macro definitions in other programming languages. But JavaScript has powerful runtime capabilities, so you don't need to use it as a complicated code generator. You can use it to pass simple data, such as environment variables, from compile time to runtime. Almost there, it can be used to work with Builder to shake trees.
 
-You may often need to set environment variables, in which case you can instead use the `source.globalVars` configuration to simplify configuration.
+You may often need to set environment variables, in which case you can instead use the [source.globalVars](/en/api/config-source.html#source-globalvars) configuration to simplify configuration. It is a syntax sugar of `source.define`, the only difference is that `source.globalVars` will automatically stringify the value, which makes it easier to set the value of global variables.
 
 ## Replace Expressions
 
@@ -44,20 +44,20 @@ export default {
 };
 ```
 
-The environment variable `NODE_ENV` shown in the example above is already injected by the Builder, and you usually do not need to configure it manually. 
+The environment variable `NODE_ENV` shown in the example above is already injected by the Builder, and you usually do not need to configure it manually.
 
 Note that either of these methods will only match the full expression; destructing the expression will prevent the Builder from correctly recognizing it.
 
 ```js
-console.log(process.env.NODE_ENV)
+console.log(process.env.NODE_ENV);
 // => production
 
 const { NODE_ENV } = process.env;
-console.log(NODE_ENV)
+console.log(NODE_ENV);
 // => undefined
 
 const vars = process.env;
-console.log(vars.NODE_ENV)
+console.log(vars.NODE_ENV);
 // => undefined
 ```
 
@@ -86,11 +86,11 @@ For an internationalized app:
 ```js
 const App = () => {
   if (process.env.REGION === 'cn') {
-    return <EntryFoo />
+    return <EntryFoo />;
   } else if (process.env.REGION === 'sg') {
-    return <EntryBar />
+    return <EntryBar />;
   } else {
-    return <EntryBaz />
+    return <EntryBaz />;
   }
 };
 ```
@@ -99,15 +99,17 @@ Specifying the environment variable `REGION=sg` and then executing build will el
 
 ```js
 const App = () => {
-  if (false) {} else if (true) {
-    return <EntryBar />
-  } else {}
+  if (false) {
+  } else if (true) {
+    return <EntryBar />;
+  } else {
+  }
 };
 ```
 
 Unused components are not packaged into the product, and their external dependencies can be optimized accordingly, resulting in a destination with better size and performance.
 
-### In-source testing
+## In-source testing
 
 Vitest supports writing tests inside source files to test the behavior of private features without exporting them. Set up `Define` to remove the test code from the production build. Please refer to the [Vitest's documentation](https://vitest.dev/guide/in-source.html) for detailed guidelines
 
@@ -115,7 +117,7 @@ Vitest supports writing tests inside source files to test the behavior of privat
 // the implementation
 function add(...args) {
   return args.reduce((a, b) => a + b, 0);
-};
+}
 
 // in-source test suites
 if (import.meta.vitest) {
@@ -125,5 +127,5 @@ if (import.meta.vitest) {
     expect(add(1)).toBe(1);
     expect(add(1, 2, 3)).toBe(6);
   });
-};
+}
 ```

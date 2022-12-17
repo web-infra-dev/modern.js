@@ -1,4 +1,4 @@
-# TypeScript
+# Use TypeScript
 
 Builder supports TypeScript compilation and type checking by default, you can use `. ts` and `. tsx' files in the project without any configuration.
 

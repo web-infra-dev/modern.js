@@ -20,6 +20,7 @@ export interface ModernResponse {
 }
 
 export interface ModernRequest {
+  url: string;
   host: string;
   pathname: string;
   query: Record<string, any>;
@@ -40,7 +41,7 @@ export type AfterMatchContext = HookContext & {
     readonly current: string;
     readonly url: string;
     readonly status: number;
-    redirect: (url: string, status: number) => void;
+    redirect: (url: string, status?: number) => void;
     rewrite: (entry: string) => void;
     use: (entry: string) => void;
   };

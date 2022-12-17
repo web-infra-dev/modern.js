@@ -3,6 +3,7 @@ import type {
   Asset as LibuildAsset,
   Style as LibuildStyle,
 } from '@modern-js/libuild';
+import type { Options } from '@modern-js/libuild-plugin-svgr';
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build-presets';
 import type { CopyConfig } from '../copy';
@@ -42,16 +43,11 @@ export type DTSOptions = {
 };
 export type DTS = false | Partial<DTSOptions>;
 
-export type SvgrOptions = {
-  include: string | RegExp | (string | RegExp)[];
-  exclude: string | RegExp | (string | RegExp)[];
-};
-
 export interface Asset {
   path?: LibuildAsset['outdir'];
   limit?: LibuildAsset['limit'];
   publicPath?: LibuildAsset['publicPath'];
-  svgr?: boolean | SvgrOptions;
+  svgr?: boolean | Options;
 }
 export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
 export type AutoExternal =

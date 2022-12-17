@@ -168,7 +168,6 @@ importers:
       '@svgr/webpack': 6.5.1
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
-      '@types/mini-css-extract-plugin': 2.5.1
       '@types/node': ^14
       caniuse-lite: ^1.0.30001434
       css-minimizer-webpack-plugin: 4.2.2
@@ -211,7 +210,6 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.19
       '@types/babel__preset-env': 7.9.2
-      '@types/mini-css-extract-plugin': 2.5.1_webpack@5.75.0
       '@types/node': 14.18.21
       typescript: 4.7.4
 
@@ -2881,9 +2879,8 @@ importers:
       '@babel/core': 7.20.2
       '@modern-js/core': workspace:*
       '@modern-js/libuild': 0.6.0
-      '@modern-js/libuild-plugin-es5': 0.5.2
+      '@modern-js/libuild-plugin-svgr': 0.6.0
       '@modern-js/libuild-plugin-swc': 0.6.0
-      '@modern-js/libuild-plugin-umd': 0.5.2
       '@modern-js/new-action': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
@@ -2907,9 +2904,8 @@ importers:
     dependencies:
       '@modern-js/core': link:../../cli/core
       '@modern-js/libuild': 0.6.0
-      '@modern-js/libuild-plugin-es5': 0.5.2
+      '@modern-js/libuild-plugin-svgr': 0.6.0
       '@modern-js/libuild-plugin-swc': 0.6.0
-      '@modern-js/libuild-plugin-umd': 0.5.2
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
@@ -3932,6 +3928,29 @@ importers:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       typescript: 4.7.4
+
+  tests/e2e/webpack-builder/typescript:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18.0.2
+      react-dom: ^18.0.2
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder': link:../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@types/node': 14.18.21
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.3
 
   tests/integration/alias-set:
     specifiers:
@@ -11085,22 +11104,21 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-es5/0.5.2:
-    resolution: {integrity: sha512-IatNX/ZNzENyWDeh/UIBZp3QrqF8FQSqD3V5xrxGLUeMHcmvF6uM1wQIdRRdC5nIHdRt4uo4lP16p1r07riwAg==}
+  /@modern-js/libuild-plugin-svgr/0.6.0:
+    resolution: {integrity: sha512-r5w25KDnklzd19A5sUM+jpnu+FGvyKmckLfvI+crlJYwuGjzWHmhls1N3Nex0rbLm/X4ohflfah08sBG+RoAAg==}
     dependencies:
-      '@swc/core': 1.3.14
+      '@svgr/core': 6.2.0
+      '@svgr/plugin-jsx': 6.2.0_@svgr+core@6.2.0
+      '@svgr/plugin-svgo': 6.2.0_@svgr+core@6.2.0
+      rollup-pluginutils: 2.8.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@modern-js/libuild-plugin-swc/0.6.0:
     resolution: {integrity: sha512-Z4euVlrnCC9TXA/B3/jpYTyklLeuJWsngOFryXhWPlPwioD3fv+P8KBgieFtOaMdLahShv932IU81hfwmcpZag==}
     dependencies:
       '@modern-js/swc-plugins': 0.0.9
-    dev: false
-
-  /@modern-js/libuild-plugin-umd/0.5.2:
-    resolution: {integrity: sha512-E3MaT6bUEvdrlM6jWbQi8QpofrM15HDgBKJXj2M2iVwoX21FIJzAzUbc+4bA9SVTJ6ssWaBlBOFh0PWJd5hcdA==}
-    dependencies:
-      '@swc/core': 1.3.14
     dev: false
 
   /@modern-js/libuild/0.6.0:
@@ -13686,6 +13704,17 @@ packages:
       '@svgr/babel-plugin-transform-svg-component': 6.5.1_@babel+core@7.20.2
     dev: false
 
+  /@svgr/core/6.2.0:
+    resolution: {integrity: sha512-n5PrYAPoTpWGykqa8U05/TVTHOrVR/TxrUJ5EWHP9Db6vR3qnqzwAVLiFT1+slA7zQoJTXafQb+akwThf9SxGw==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@svgr/plugin-jsx': 6.5.1_@svgr+core@6.2.0
+      camelcase: 6.3.0
+      cosmiconfig: 7.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@svgr/core/6.3.1:
     resolution: {integrity: sha512-Sm3/7OdXbQreemf9aO25keerZSbnKMpGEfmH90EyYpj1e8wMD4TuwJIb3THDSgRMWk1kYJfSRulELBy4gVgZUA==}
     engines: {node: '>=10'}
@@ -13718,6 +13747,36 @@ packages:
       entities: 4.4.0
     dev: false
 
+  /@svgr/plugin-jsx/6.2.0_@svgr+core@6.2.0:
+    resolution: {integrity: sha512-QJDEe7K5Hkd4Eewu4pcjiOKTCtjB47Ol6lDLXVhf+jEewi+EKJAaAmM+bNixfW6LSNEg8RwOYQN3GZcprqKfHw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      '@svgr/core': ^6.0.0
+    dependencies:
+      '@babel/core': 7.20.2
+      '@svgr/babel-preset': 6.5.1_@babel+core@7.20.2
+      '@svgr/core': 6.2.0
+      '@svgr/hast-util-to-babel-ast': 6.5.1
+      svg-parser: 2.0.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@svgr/plugin-jsx/6.5.1_@svgr+core@6.2.0:
+    resolution: {integrity: sha512-+UdQxI3jgtSjCykNSlEMuy1jSRQlGC7pqBCPvkG/2dATdWo082zHTTK3uhnAju2/6XpE6B5mZ3z4Z8Ns01S8Gw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      '@svgr/core': ^6.0.0
+    dependencies:
+      '@babel/core': 7.20.2
+      '@svgr/babel-preset': 6.5.1_@babel+core@7.20.2
+      '@svgr/core': 6.2.0
+      '@svgr/hast-util-to-babel-ast': 6.5.1
+      svg-parser: 2.0.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@svgr/plugin-jsx/6.5.1_@svgr+core@6.3.1:
     resolution: {integrity: sha512-+UdQxI3jgtSjCykNSlEMuy1jSRQlGC7pqBCPvkG/2dATdWo082zHTTK3uhnAju2/6XpE6B5mZ3z4Z8Ns01S8Gw==}
     engines: {node: '>=10'}
@@ -13746,6 +13805,18 @@ packages:
       svg-parser: 2.0.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@svgr/plugin-svgo/6.2.0_@svgr+core@6.2.0:
+    resolution: {integrity: sha512-oDdMQONKOJEbuKwuy4Np6VdV6qoaLLvoY86hjvQEgU82Vx1MSWRyYms6Sl0f+NtqxLI/rDVufATbP/ev996k3Q==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      '@svgr/core': ^6.0.0
+    dependencies:
+      '@svgr/core': 6.2.0
+      cosmiconfig: 7.0.1
+      deepmerge: 4.2.2
+      svgo: 2.8.0
     dev: false
 
   /@svgr/plugin-svgo/6.5.1_@svgr+core@6.5.1:
@@ -13794,30 +13865,12 @@ packages:
       source-map: 0.7.4
     dev: false
 
-  /@swc/core-darwin-arm64/1.3.14:
-    resolution: {integrity: sha512-QFuUq3341uOCrJMIWGuo+CmRC5qZoM2lUo7o2lmv1FO1Dh9njTG85pLD83vz6y4j/F034DBGzvRgSti/Bsoccw==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-darwin-arm64/1.3.18:
     resolution: {integrity: sha512-4UEQ+LyzDFTszEy4LCU50h4cjVNJcNwD87aVBT/8i6YXj5dyMki/TrkIQ6Bhv7g5beg2GRncB2ndjN66r8I8+w==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    optional: true
-
-  /@swc/core-darwin-x64/1.3.14:
-    resolution: {integrity: sha512-fpAjbjXimJBmxCumRB8zjEtPc0lGUi9Uvu92XH6ww6AyXvg7KQmua5P2R9tnzAm6NwTCXKkgS86cgKysAbbObw==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@swc/core-darwin-x64/1.3.18:
@@ -13828,30 +13881,12 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@swc/core-linux-arm-gnueabihf/1.3.14:
-    resolution: {integrity: sha512-3XSFlgIyDPS+x2c0IFr0AGj4NUbrWGKbkkUCpmAURII0n3YoDsYw8Ux73I8MkWxTTwDGkou8qQOXyA28kAUM4w==}
-    engines: {node: '>=10'}
-    cpu: [arm]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-linux-arm-gnueabihf/1.3.18:
     resolution: {integrity: sha512-9dy6qJiWAls9OrBvrWbFDbjEkuOPrEP6OsKyrQWTMqLjCLwgLa3g4yC0YtPdUa/A8uyNVKtRcq+NXoKW+mP/QQ==}
     engines: {node: '>=10'}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
-    optional: true
-
-  /@swc/core-linux-arm64-gnu/1.3.14:
-    resolution: {integrity: sha512-r3fToDRYX76NEptAjvDg5aGrbitOgqooV37RpSTIGYd/CSNuin4cpCNFdca/Vh5lnNfal7mqdGDbG7gMruARtw==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@swc/core-linux-arm64-gnu/1.3.18:
@@ -13862,30 +13897,12 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@swc/core-linux-arm64-musl/1.3.14:
-    resolution: {integrity: sha512-IivEUC+3HNSsQNCfaCDzev2CpsvWpgFReitCmj0PKIdXFRsTi78jtJiraLWnYy956j4wwZbKN0OFGkS2ekKAVg==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-linux-arm64-musl/1.3.18:
     resolution: {integrity: sha512-0zNqfFeAHZp37lu+lTVvZKfDM10EIoYJtv9sWz+0EA5mkzwj4NtC3ialTIjcPAyJ9Oq4zBtToW2hv7qEtyBHZw==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    optional: true
-
-  /@swc/core-linux-x64-gnu/1.3.14:
-    resolution: {integrity: sha512-HtwwA1Z0tE2z9fgaR5ehgY5ULbnVLHj3tayyWhIElF4EWsi6aQfCyn/oCZAcjoPKfEnJiSNBYt5gMmfK8l4mJA==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@swc/core-linux-x64-gnu/1.3.18:
@@ -13896,30 +13913,12 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@swc/core-linux-x64-musl/1.3.14:
-    resolution: {integrity: sha512-RPXilkTD8IVgpou4TNuqZJOB7kMrVJ7sm7GgHF4v1eV3xdIyvy4w5FWjXZRdwMW6iunLgQEckuOmVx0I4mrdNg==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-linux-x64-musl/1.3.18:
     resolution: {integrity: sha512-RiZXHwED8cfD/zoBG01iY8YZtOF/8t9XHZ1JqCx9PWOMjXD3Vc8F2I7bp1Qg6ahzWEaP+2+/rqGO1kSwaJjJLw==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    optional: true
-
-  /@swc/core-win32-arm64-msvc/1.3.14:
-    resolution: {integrity: sha512-H8Ka/ahJRs84hQCHC5ndORujbLBmi1mv+Z/m4CXpOaEX7TmeAo8nA17rrRckNvVkud9fghsKQGjkBQvJ0v7mRw==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@swc/core-win32-arm64-msvc/1.3.18:
@@ -13930,30 +13929,12 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@swc/core-win32-ia32-msvc/1.3.14:
-    resolution: {integrity: sha512-H3ZmDXrVxrqBzzCFodwYfcXfTHE0xGNLJlLGzJ4haV6RBM3ZYIvRzDtPivDzic/VQncmPj1WpLoEDfx/7KNC8Q==}
-    engines: {node: '>=10'}
-    cpu: [ia32]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-win32-ia32-msvc/1.3.18:
     resolution: {integrity: sha512-Uu+m5BPemw5ZiG6LaF+pP0qFQuIXF55wMZNa0Dbl/16hF7ci6q941MT6CqeK5LQQ52FVVqeYO5lDk5CggaA3Mw==}
     engines: {node: '>=10'}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
-    optional: true
-
-  /@swc/core-win32-x64-msvc/1.3.14:
-    resolution: {integrity: sha512-/D1lhWF/DQi2M7b6jWL35NmTY0mRJ5mwTXdmjqNNWOZ8h8TXQo1A3/FDFnfIIcRUeSNdF7IeB3xInT3BI34E1w==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@swc/core-win32-x64-msvc/1.3.18:
@@ -13963,24 +13944,6 @@ packages:
     os: [win32]
     requiresBuild: true
     optional: true
-
-  /@swc/core/1.3.14:
-    resolution: {integrity: sha512-LpTTrXOGS7vnbR/rHrAux7GykUWbyVmI5NbICl9iF9yeqFdGm6JjaGBhbanmG8zrQL5aFx2kMxxb92V9D1KUiw==}
-    engines: {node: '>=10'}
-    hasBin: true
-    requiresBuild: true
-    optionalDependencies:
-      '@swc/core-darwin-arm64': 1.3.14
-      '@swc/core-darwin-x64': 1.3.14
-      '@swc/core-linux-arm-gnueabihf': 1.3.14
-      '@swc/core-linux-arm64-gnu': 1.3.14
-      '@swc/core-linux-arm64-musl': 1.3.14
-      '@swc/core-linux-x64-gnu': 1.3.14
-      '@swc/core-linux-x64-musl': 1.3.14
-      '@swc/core-win32-arm64-msvc': 1.3.14
-      '@swc/core-win32-ia32-msvc': 1.3.14
-      '@swc/core-win32-x64-msvc': 1.3.14
-    dev: false
 
   /@swc/core/1.3.18:
     resolution: {integrity: sha512-VChk3ldLhmVoX3Hd2M3Y4j960T0lo2Zus60iZoWST6P65RVPt8BatFVVPAB9dABy1dB5zn1BCpHlH85yXVysQw==}
@@ -14663,15 +14626,6 @@ packages:
 
   /@types/mime/1.3.2:
     resolution: {integrity: sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==}
-
-  /@types/mini-css-extract-plugin/2.5.1_webpack@5.75.0:
-    resolution: {integrity: sha512-evjjtJttaUexgg3au9ZJFy76tV9mySwX3a4Jl82BuormBYluWLRt0xk2urWrhOdPgDWzulRFyotwYOJTmkSgKw==}
-    deprecated: This is a stub types definition. mini-css-extract-plugin provides its own type definitions, so you do not need this installed.
-    dependencies:
-      mini-css-extract-plugin: 2.7.0_webpack@5.75.0
-    transitivePeerDependencies:
-      - webpack
-    dev: true
 
   /@types/minimatch/3.0.5:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
@@ -23060,6 +23014,10 @@ packages:
       '@types/unist': 2.0.6
     dev: false
 
+  /estree-walker/0.6.1:
+    resolution: {integrity: sha512-SqmZANLWS0mnatqbSfRP5g8OXZC12Fgg1IwNtLsyHDzJizORW4khDfjPqJZsemPWBB2uqykUah5YpQ6epsqC/w==}
+    dev: false
+
   /estree-walker/1.0.1:
     resolution: {integrity: sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==}
     dev: true
@@ -29527,6 +29485,7 @@ packages:
     dependencies:
       schema-utils: 4.0.0
       webpack: 5.75.0
+    dev: false
 
   /minimalistic-assert/1.0.1:
     resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==}
@@ -34424,6 +34383,12 @@ packages:
     optionalDependencies:
       '@babel/code-frame': 7.18.6
     dev: true
+
+  /rollup-pluginutils/2.8.2:
+    resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
+    dependencies:
+      estree-walker: 0.6.1
+    dev: false
 
   /rollup/2.78.1:
     resolution: {integrity: sha512-VeeCgtGi4P+o9hIg+xz4qQpRl6R401LWEXBmxYKOV4zlF82lyhgh2hTZnheFUbANE8l2A41F458iwj2vEYaXJg==}
