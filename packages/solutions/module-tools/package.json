@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "0.6.0",
+    "@modern-js/libuild": "0.7.2",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
@@ -57,7 +57,6 @@
     "@modern-js/libuild-plugin-swc": "0.6.0"
   },
   "devDependencies": {
-    "@babel/core": "7.20.2",
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
