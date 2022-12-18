@@ -2,13 +2,43 @@
 
 Builder supports injecting environment variables or expressions into the code during compilation, which is helpful for distinguishing the running environment or injecting constant values. This chapter introduces how to use environment variables.
 
+## Default environment variables
+
+By default, Builder will automatically set the `process.env.NODE_ENV` environment variable to `'development'` in development mode and `'production'` in production mode.
+
+You can use `process.env.NODE_ENV` directly in configuration files and in front-end code.
+
+```ts
+if (process.env.NODE_ENV === 'development') {
+  console.log('this is a development log');
+}
+```
+
+In the development environment, the above code will be compiled as:
+
+```js
+if (true) {
+  console.log('this is a development log');
+}
+```
+
+In the production environment, the above code will be compiled as:
+
+```js
+if (false) {
+  console.log('this is a development log');
+}
+```
+
+After code minification, `if (false) { ... }` will be recognized as invalid code and removed automatically.
+
 # Using define config
 
 By configuring the [source.define](/en/api/config-source.html#source-define), you can replace expressions with other expressions or values in compile time.
 
 `Define` looks like macro definitions in other programming languages. But JavaScript has powerful runtime capabilities, so you don't need to use it as a complicated code generator. You can use it to pass simple data, such as environment variables, from compile time to runtime. Almost there, it can be used to work with Builder to shake trees.
 
-## Replace Expressions
+### Replace Expressions
 
 The most basic use case for `Define` is to replace expressions in compile time.
 
@@ -30,6 +60,10 @@ Similarly `{ foo: "bar" }` should be converted to `"{\"foo\":\"bar\"}"`, which i
 
 For more about `source.define`, just refer to [API References](/api/config-source.html#source-define)。
 
+:::tip
+The environment variable `NODE_ENV` shown in the example above is already injected by the Builder, and you usually do not need to configure it manually.
+:::
+
 ## Setup Environment Variables
 
 You may often need to set environment variables, in which case you can instead use the [source.globalVars](/en/api/config-source.html#source-globalvars) configuration to simplify configuration. It is a syntax sugar of `source.define`, the only difference is that `source.globalVars` will automatically stringify the value, which makes it easier to set the value of global variables and avoid writing a lot of `JSON.stringify(...)` stuffs.
@@ -45,8 +79,6 @@ export default {
   },
 };
 ```
-
-The environment variable `NODE_ENV` shown in the example above is already injected by the Builder, and you usually do not need to configure it manually.
 
 Note that either of these methods will only match the full expression; destructing the expression will prevent the Builder from correctly recognizing it.
 
