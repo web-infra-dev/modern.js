@@ -85,13 +85,11 @@ target 支持设置为以下环境：
 - safari
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    loader: {
-      target: 'chrome61',
-    },
-  }),
-]);
+PluginEsbuild({
+  loader: {
+    target: 'chrome61',
+  },
+});
 ```
 
 #### 关闭代码转译
@@ -99,11 +97,9 @@ builder.addPlugins([
 将 `loader` 设置为 `false` 来关闭 esbuild 代码转译，此时 Builder 会继续使用 Babel 来进行代码转译。
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    loader: false,
-  }),
-]);
+PluginEsbuild({
+  loader: false,
+});
 ```
 
 ### minimize
@@ -132,13 +128,11 @@ const defaultOptions = {
 通过 `target` 选项来修改代码压缩的目标环境。
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    minimize: {
-      target: 'chrome61',
-    },
-  }),
-]);
+PluginEsbuild({
+  minimize: {
+    target: 'chrome61',
+  },
+});
 ```
 
 #### 关闭代码压缩
@@ -146,11 +140,9 @@ builder.addPlugins([
 将 `minimize` 设置为 `false` 来关闭 esbuild 代码压缩，此时 Builder 会继续使用 Terser 进行代码压缩。
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    minimize: false,
-  }),
-]);
+PluginEsbuild({
+  minimize: false,
+});
 ```
 
 ## esbuild 局限性
@@ -164,13 +156,11 @@ builder.addPlugins([
 你可以通过如下的配置指定目标语法版本:
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    loader: {
-      target: 'es2015',
-    },
-  }),
-]);
+PluginEsbuild({
+  loader: {
+    target: 'es2015',
+  },
+});
 ```
 
 使用 esbuild 进行代码压缩时（即 `minimize` 能力），esbuild 可以在生产环境中进行压缩和混淆，通常最低支持到 ES2015 语法。
@@ -182,13 +172,11 @@ builder.addPlugins([
 你可以通过如下的配置指定目标语法版本:
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    minimize: {
-      target: 'es2015',
-    },
-  }),
-]);
+PluginEsbuild({
+  minimize: {
+    target: 'es2015',
+  },
+});
 ```
 
 ### 不支持 Babel 插件
