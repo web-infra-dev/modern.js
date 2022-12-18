@@ -2876,9 +2876,8 @@ importers:
 
   packages/solutions/module-tools:
     specifiers:
-      '@babel/core': 7.20.2
       '@modern-js/core': workspace:*
-      '@modern-js/libuild': 0.6.0
+      '@modern-js/libuild': 0.7.2
       '@modern-js/libuild-plugin-svgr': 0.6.0
       '@modern-js/libuild-plugin-swc': 0.6.0
       '@modern-js/new-action': workspace:*
@@ -2903,7 +2902,7 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.6.0
+      '@modern-js/libuild': 0.7.2
       '@modern-js/libuild-plugin-svgr': 0.6.0
       '@modern-js/libuild-plugin-swc': 0.6.0
       '@modern-js/new-action': link:../../generator/new-action
@@ -2914,7 +2913,6 @@ importers:
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
-      '@babel/core': 7.20.2
       '@modern-js/self': 'link:'
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -5431,6 +5429,72 @@ packages:
   /@arr/every/1.0.1:
     resolution: {integrity: sha512-UQFQ6SgyJ6LX42W8rHCs8KVc0JS0tzVL9ct4XYedJukskYVWTo49tNiMEK9C2HTyarbNiT/RVIRSY82vH+6sTg==}
     engines: {node: '>=4'}
+    dev: false
+
+  /@ast-grep/napi-darwin-arm64/0.1.13:
+    resolution: {integrity: sha512-HI2wL+5YIk/VO/fM803/ywY9wgyg3mvqCWYzRILvB2lBklQSrlBmWnUfi4y3xbarte4lLqirOgeZBTDIR/lp+Q==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@ast-grep/napi-darwin-x64/0.1.13:
+    resolution: {integrity: sha512-FBZ/ZSvw8oLzyuzTe5dcSl8169BZz01YYb1TtCg+RdJGm6IWKZ/iKjxQC4Pfhjz3NaC4FNKaPlOeyJGQn49Nbw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@ast-grep/napi-linux-x64-gnu/0.1.13:
+    resolution: {integrity: sha512-FH+e8M2FMUMS/xqSl6aVJS+MQQVaYTxfmbfV+jxIiP+sC7TxxYPyBkyzhRiLB/eE+hd5hweRSSLYkFKqLTNAcQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@ast-grep/napi-win32-arm64-msvc/0.1.13:
+    resolution: {integrity: sha512-Gr14D8CRXM3PcyLS8ASQlxffgLDY1ZymSuNSgmk20qqzzc8HKQcJJOvXGoU+O4qKniEuYlvuXYP4vrhhVcEEdg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@ast-grep/napi-win32-ia32-msvc/0.1.13:
+    resolution: {integrity: sha512-9QNHlCPcNRyVK2Y9juS1gevPN7LmFAa08soCjL94M4RfXb8uCanLSURqUNxleJq4zqIFVRlQolQYhw4rb4sUBQ==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@ast-grep/napi-win32-x64-msvc/0.1.13:
+    resolution: {integrity: sha512-RHVMDFYvXzUaszSEWiSnGFpoPo/bsNIpwqCdlF4NLyXmgA6rDYzQMyk0LIycAg705CERRfXfNxaUFdSyHN8rMw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@ast-grep/napi/0.1.13:
+    resolution: {integrity: sha512-faMT20+uwRApczElYfx4Y57TDkq+9mRw8L0ha0pPKFQIn4bVEL48ISFq9l6S0WlmuGG7PB9QUBy3JHY7Ran2vQ==}
+    engines: {node: '>= 10'}
+    optionalDependencies:
+      '@ast-grep/napi-darwin-arm64': 0.1.13
+      '@ast-grep/napi-darwin-x64': 0.1.13
+      '@ast-grep/napi-linux-x64-gnu': 0.1.13
+      '@ast-grep/napi-win32-arm64-msvc': 0.1.13
+      '@ast-grep/napi-win32-ia32-msvc': 0.1.13
+      '@ast-grep/napi-win32-x64-msvc': 0.1.13
     dev: false
 
   /@babel/code-frame/7.12.11:
@@ -11246,15 +11310,17 @@ packages:
       '@modern-js/swc-plugins': 0.0.9
     dev: false
 
-  /@modern-js/libuild/0.6.0:
-    resolution: {integrity: sha512-cFMBs8vNRUhJ9LiHpm+OW7n8wQOU3JEaEHod0CUflwi4OhiE9tT5GJRc+a/XDTnURm+HvHcSAZQL4+Aipb6KiA==}
+  /@modern-js/libuild/0.7.2:
+    resolution: {integrity: sha512-1gnzi9z5nfzm3B4fpivYYKygi1vDWySM8CmrwZVo5KRMRWrRI3Grf9Bm3i2PGbTK1Wk1CnBy/8i5+KvEOsxr0A==}
     hasBin: true
     dependencies:
+      '@ast-grep/napi': 0.1.13
       esbuild: 0.15.7
       postcss: 8.4.6
       source-map: 0.7.4
       source-map-support: 0.5.20
       style-inject: 0.3.0
+      sucrase: 3.29.0
       terser: 5.15.0
     dev: false
 
@@ -16812,7 +16878,6 @@ packages:
 
   /any-promise/1.3.0:
     resolution: {integrity: sha512-7UvmKalWRt1wgjL1RrGxoSJW/0QZFIegpeGvZG9kjp8vrRu55XTHbwnqq2GpXm9uLbcuhxm3IqX9OB4MZR1b2A==}
-    dev: true
 
   /anymatch/2.0.0:
     resolution: {integrity: sha512-5teOsQWABXHHBFP9y3skS5P3d/WfWXpv3FUpy+LorMrNYaT9pI4oLMQX7jzQ2KklNpGpWHzdCXTDT2Y3XGlZBw==}
@@ -24622,6 +24687,17 @@ packages:
   /glob-to-regexp/0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
+  /glob/7.1.6:
+    resolution: {integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==}
+    dependencies:
+      fs.realpath: 1.0.0
+      inflight: 1.0.6
+      inherits: 2.0.4
+      minimatch: 3.1.2
+      once: 1.4.0
+      path-is-absolute: 1.0.1
+    dev: false
+
   /glob/7.2.0:
     resolution: {integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==}
     dependencies:
@@ -29882,7 +29958,6 @@ packages:
       any-promise: 1.3.0
       object-assign: 4.1.1
       thenify-all: 1.6.0
-    dev: true
 
   /nan/2.16.0:
     resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
@@ -36035,6 +36110,19 @@ packages:
       - supports-color
     dev: true
 
+  /sucrase/3.29.0:
+    resolution: {integrity: sha512-bZPAuGA5SdFHuzqIhTAqt9fvNEo9rESqXIG3oiKdF8K4UmkQxC4KlNL3lVyAErXp+mPvUqZ5l13qx6TrDIGf3A==}
+    engines: {node: '>=8'}
+    hasBin: true
+    dependencies:
+      commander: 4.1.1
+      glob: 7.1.6
+      lines-and-columns: 1.2.4
+      mz: 2.7.0
+      pirates: 4.0.5
+      ts-interface-checker: 0.1.13
+    dev: false
+
   /sudo-prompt/8.2.5:
     resolution: {integrity: sha512-rlBo3HU/1zAJUrkY6jNxDOC9eVYliG6nS4JA8u8KAshITd07tafMc/Br7xQwCSseXwJ2iCcHCE8SNWX3q8Z+kw==}
     dev: false
@@ -36470,13 +36558,11 @@ packages:
     engines: {node: '>=0.8'}
     dependencies:
       thenify: 3.3.1
-    dev: true
 
   /thenify/3.3.1:
     resolution: {integrity: sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==}
     dependencies:
       any-promise: 1.3.0
-    dev: true
 
   /throat/6.0.1:
     resolution: {integrity: sha512-8hmiGIJMDlwjg7dlJ4yKGLK8EsYqKgPWbG3b4wjJddKNwc7N7Dpn08Df4szr/sZdMVeOstrdYSsqzX6BYbcB+w==}
@@ -36712,6 +36798,10 @@ packages:
   /ts-dedent/2.2.0:
     resolution: {integrity: sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==}
     engines: {node: '>=6.10'}
+
+  /ts-interface-checker/0.1.13:
+    resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
+    dev: false
 
   /ts-jest/27.1.5_7i2bljrprb4t7zqdaypm3byuye:
     resolution: {integrity: sha512-Xv6jBQPoBEvBq/5i2TeSG9tt/nqkbpcurrEG1b+2yfBrcJelOZF9Ml6dmyMh7bcW9JyFbRYpR5rxROSlBLTZHA==}
