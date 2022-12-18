@@ -10,3 +10,12 @@ export const CLIENT_ENTRY = path.join(
   'runtime',
   'clientEntry.tsx',
 );
+
+export const SSR_ENTRY = path.join(
+  PACKAGE_ROOT,
+  'src',
+  'runtime',
+  'ssrEntry.tsx',
+);
+
+export const OUTPUT_DIR = 'doc_build';

@@ -1,5 +1,5 @@
 import path from 'path';
-import { normalizePath } from '../utils';
+import { getPageKey, normalizePath } from '../utils';
 
 export const DEFAULT_PAGE_EXTENSIONS = ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'];
 
@@ -7,6 +7,7 @@ export interface RouteMeta {
   routePath: string;
   basePath: string;
   absolutePath: string;
+  pageName: string;
 }
 
 export interface RouteOptions {
@@ -67,6 +68,7 @@ export class RouteService {
       routePath,
       basePath: this.#scanDir,
       absolutePath: normalizePath(absolutePath),
+      pageName: getPageKey(routePath),
     });
   }
 
@@ -94,7 +96,7 @@ ${this.#routeData
   .map((route, index) => {
     return ssr
       ? `import * as Route${index} from '${route.absolutePath}';`
-      : `const Route${index} = loadable(() => import('${route.absolutePath}'))`;
+      : `const Route${index} = loadable(() => import(/* webpackChunkName: "${route.pageName}" */'${route.absolutePath}'))`;
   })
   .join('\n')}
 export const routes = [
