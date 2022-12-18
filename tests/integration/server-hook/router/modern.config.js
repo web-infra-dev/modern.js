@@ -7,6 +7,6 @@ module.exports = {
     routes: {
       home: '/rewrite',
       entry: '/redirect',
-    }
-  }
+    },
+  },
 };

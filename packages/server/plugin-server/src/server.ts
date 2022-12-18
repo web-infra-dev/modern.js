@@ -97,8 +97,8 @@ export default (): ServerPlugin => ({
         interop: false,
       });
 
-      const { default: defaultExports, middleware = [], ...hooks } = mod;
-      const { middleware: unstableMiddleware = [] } = middlewareMode;
+      const { default: defaultExports, middleware, ...hooks } = mod || {};
+      const { middleware: unstableMiddleware = [] } = middlewareMode || {};
 
       if (defaultExports) {
         defaultExports(transformAPI);
@@ -112,9 +112,11 @@ export default (): ServerPlugin => ({
         }
       });
 
-      storage.middlewares = ([] as Middleware[])
-        .concat(middleware)
-        .concat(unstableMiddleware);
+      if (middleware) {
+        storage.middlewares = ([] as Middleware[]).concat(middleware);
+      }
+
+      storage.middlewares.concat(unstableMiddleware);
     };
 
     return {
