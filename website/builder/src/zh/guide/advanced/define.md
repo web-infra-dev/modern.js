@@ -95,6 +95,23 @@ console.log(vars.NODE_ENV);
 // => undefined
 ```
 
+## 声明环境变量类型
+
+当你在 TypeScript 代码中读取环境变量时，TypeScript 可能会提示该变量缺少类型定义，此时你需要添加相应的类型声明。
+
+比如你引用了一个 `CUSTOM_VAR` 变量，在 TypeScript 文件中会出现如下提示：
+
+```
+TS2304: Cannot find name 'CUSTOM_VAR'.
+```
+
+此时，你可以在项目中创建 `src/env.d.ts` 文件，并添加以下内容即可：
+
+```ts
+// src/env.d.ts
+declare const CUSTOM_VAR: string;
+```
+
 ## Tree Shaking
 
 Define 还可以用于标记死代码以协助 Builder 进行 Tree Shaking 优化。

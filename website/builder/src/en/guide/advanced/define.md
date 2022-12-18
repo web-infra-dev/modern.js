@@ -95,6 +95,23 @@ console.log(vars.NODE_ENV);
 // => undefined
 ```
 
+## Declare type of environment variable
+
+When you read an environment variable in a TypeScript file, TypeScript may prompt that the variable lacks a type definition, and you need to add the corresponding type declaration.
+
+For example, if you reference a `CUSTOM_VAR` variable, the following prompt will appear in the TypeScript file:
+
+```
+TS2304: Cannot find name 'CUSTOM_VAR'.
+```
+
+To fix this, you can create a `src/env.d.ts` file in your project and add the following content:
+
+```ts
+// src/env.d.ts
+declare const CUSTOM_VAR: string;
+```
+
 ## Tree Shaking
 
 `Define` can also be used to mark dead code to assist the Builder with Tree Shaking optimization.
