@@ -72,7 +72,7 @@ console.log(largeImage); // "/static/largeImage.6c12aba3.png"
 console.log(smallImage); // "data:image/png;base64,iVBORw0KGgo..."
 ```
 
-关于资源内联的更详细介绍，请参考 [静态资源内联](/guide/advanced/inline-assets.html) 章节。
+关于资源内联的更详细介绍，请参考 [静态资源内联](/guide/optimization/inline-assets.html) 章节。
 
 ## 构建产物
 

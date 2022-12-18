@@ -72,7 +72,7 @@ console.log(largeImage); // "/static/largeImage.6c12aba3.png"
 console.log(smallImage); // "data:image/png;base64,iVBORw0KGgo..."
 ```
 
-For a more detailed introduction to asset inlining, please refer to the [Static Asset Inlining](/guide/advanced/inline-assets.html) chapter.
+For a more detailed introduction to asset inlining, please refer to the [Static Asset Inlining](/guide/optimization/inline-assets.html) chapter.
 
 ## Output Files
 

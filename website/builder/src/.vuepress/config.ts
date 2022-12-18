@@ -62,7 +62,6 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/css-modules'),
           getLink('/guide/basic/typescript'),
-          getLink('/guide/basic/browserslist'),
         ],
       },
       {
@@ -71,8 +70,8 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/advanced/alias'),
           getLink('/guide/advanced/define'),
-          getLink('/guide/advanced/inline-assets'),
           getLink('/guide/advanced/rem'),
+          getLink('/guide/advanced/browserslist'),
           getLink('/guide/advanced/custom-webpack-config'),
         ],
       },
@@ -83,6 +82,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/optimization/optimize-bundle'),
           getLink('/guide/optimization/build-performance'),
           getLink('/guide/optimization/split-chunk'),
+          getLink('/guide/optimization/inline-assets'),
         ],
       },
       {

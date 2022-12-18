@@ -1,4 +1,4 @@
-# 自定义 webpack 配置
+# 修改 webpack 配置
 
 Builder 支持直接修改 webpack 配置对象，也支持通过 webpack-chain 来深度定制 webpack 配置。
 

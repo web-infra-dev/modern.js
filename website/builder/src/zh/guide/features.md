@@ -18,7 +18,7 @@
 | SWC 编译        | 可选功能，通过 SWC 对 JavaScript 和 TypeScript 代码进行转译和压缩                     | <ul><li>[SWC 插件](/plugins/plugin-swc.html)</li></ul>                                                                                                                                                               |
 | Node 产物       | 可选功能，支持构建出运行在 Node.js 环境的 JavaScript 产物                             | <ul><li>[Node 产物](/zh/guide/basic/build-target.html#node-产物)</li></ul>                                                                                                                                           |
 | Web Worker 产物 | 可选功能，支持构建出运行在 Web Worker 环境的 JavaScript 产物                          | <ul><li>[Web Worker 产物](/zh/guide/basic/build-target.html#web-worker-%E4%BA%A7%E7%89%A9)</li></ul>                                                                                                                 |
-| 浏览器范围      | 可选功能，通过 browserslist 来设置 Web 应用需要兼容的浏览器范围                       | <ul><li>[浏览器范围](/guide/basic/browserslist.html)</li></ul>                                                                                                                                                       |
+| 浏览器范围      | 可选功能，通过 browserslist 来设置 Web 应用需要兼容的浏览器范围                       | <ul><li>[浏览器范围](/guide/advanced/browserslist.html)</li></ul>                                                                                                                                                       |
 
 ## CSS 编译
 
@@ -44,8 +44,8 @@
 | 设置 app 图标     | 设置 iOS 系统下的 apple icon    | <ul><li>[设置页面图标](/zh/guide/basic/html-template.html#设置页面图标)</li><li>[html.appIcon](/zh/api/config-html.html#html-appicon)</li></ul>                                                                                 |
 | 使用 EJS 模板引擎 | 可选功能，使用 EJS 模板语法     | <ul><li>[模板引擎 - EJS](/zh/guide/basic/html-template.html#ejs)</li></ul>                                                                                                                                                      |
 | 使用 Pug 模板引擎 | 可选功能，使用 Pug 模板语法     | <ul><li>[模板引擎 - Pug](/zh/guide/basic/html-template.html#pug)</li></ul>                                                                                                                                                      |
-| 内联 JS 文件      | 可选功能，将 JS 内联到 HTML 中  | <ul><li>[静态资源内联](/guide/advanced/inline-assets.html)</li><li>[output.enableInlineScripts](/zh/api/config-output.html#output-enableinlinescripts)</li></ul>                                                                |
-| 内联 CSS 文件     | 可选功能，将 CSS 内联到 HTML 中 | <ul><li>[静态资源内联](/guide/advanced/inline-assets.html)</li><li>[output.enableInlineStyles](/zh/api/config-output.html#output-enableinlinestyles)</li></ul>                                                                  |
+| 内联 JS 文件      | 可选功能，将 JS 内联到 HTML 中  | <ul><li>[静态资源内联](/guide/optimization/inline-assets.html)</li><li>[output.enableInlineScripts](/zh/api/config-output.html#output-enableinlinescripts)</li></ul>                                                                |
+| 内联 CSS 文件     | 可选功能，将 CSS 内联到 HTML 中 | <ul><li>[静态资源内联](/guide/optimization/inline-assets.html)</li><li>[output.enableInlineStyles](/zh/api/config-output.html#output-enableinlinestyles)</li></ul>                                                                  |
 
 ## 开发调试相关
 
@@ -68,7 +68,7 @@
 | 引用图片资源       | 支持在代码中引用图片资源                       | <ul><li>[引用静态资源](/guide/basic/static-assets.html)</li></ul>                                                                                  |
 | 引用字体资源       | 支持在代码中引用字体资源                       | <ul><li>[引用静态资源](/guide/basic/static-assets.html)</li></ul>                                                                                  |
 | 引用视频资源       | 支持在代码中引用视频资源                       | <ul><li>[引用静态资源](/guide/basic/static-assets.html)</li></ul>                                                                                  |
-| 静态资源内联       | 默认将体积较小的图片等资源内联到 JS 中         | <ul><li>[静态资源内联](/guide/advanced/inline-assets.html)</li><li>[output.dataUriLimit](/zh/api/config-output.html#output-dataurilimit)</li></ul> |
+| 静态资源内联       | 默认将体积较小的图片等资源内联到 JS 中         | <ul><li>[静态资源内联](/guide/optimization/inline-assets.html)</li><li>[output.dataUriLimit](/zh/api/config-output.html#output-dataurilimit)</li></ul> |
 | 清理静态资源       | 每次开始构建前，自动清理 dist 目录下的静态资源 | <ul><li>[output.cleanDistPath](/zh/api/config-output.html#output-cleandistpath)</li></ul>                                                          |
 | 拷贝静态资源       | 可选功能，将静态资源拷贝到 dist 目录下         | <ul><li>[output.copy](/zh/api/config-output.html#output-copy)</li></ul>                                                                            |
 | 生成 manifest 文件 | 可选功能，生成包含静态资源信息的 manifest 文件 | <ul><li>[output.enableAssetManifest](/zh/api/config-output.html#output-enableassetmanifest)</li></ul>                                              |
