@@ -38,7 +38,7 @@ class Response implements ModernResponse {
     return this.res.getHeader(key);
   }
 
-  public set(key: string, value: string) {
+  public set(key: string, value: string | number) {
     return this.res.setHeader(key, value);
   }
 
@@ -79,8 +79,9 @@ class Response implements ModernResponse {
 
   public raw(
     body: string,
-    { status, headers }: { status: number; headers: Record<string, any> },
+    options?: { status?: number; headers?: Record<string, any> },
   ) {
+    const { status, headers = {} } = options || {};
     Object.entries(headers).forEach(([key, value]) => {
       this.res.setHeader(key, value);
     });

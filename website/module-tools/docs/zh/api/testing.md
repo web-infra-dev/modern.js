@@ -11,7 +11,9 @@
 
 对应 [Jest](https://jestjs.io/docs/configuration) 的配置，当为 `Object` 类型时，可以配置 Jest 所支持的所有底层配置 。
 
-```js title=modern.config.js
+```js title=modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
 export default defineConfig({
   testing: {
     jest: {
@@ -23,7 +25,9 @@ export default defineConfig({
 
 值为 `Function` 类型时，默认配置作为第一个参数传入，需要返回新的 Jest 配置对象。
 
-```js title=modern.config.js
+```js title=modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
 export default defineConfig({
   testing: {
     jest: options => {

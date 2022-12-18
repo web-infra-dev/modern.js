@@ -64,15 +64,19 @@ function App() {
 export default App;
 ```
 
-因为框架默认支持 [HMR](https://webpack.js.org/concepts/hot-module-replacement/)，可以看到 `http://localhost:8080/` 里的内容会自动变成 Hello Modern.js。
-
 删除多余的 css 文件，保持目录没有多余的文件：
 
 ```bash
 rm src/routes/index.css
 ```
 
-## 使用配置
+因为框架默认支持 [HMR](https://webpack.js.org/concepts/hot-module-replacement/)，可以看到 `http://localhost:8080/` 里的内容会自动更新为：
+
+![result](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvt/ljhwZthlaukjlkulzlp/screenshot-20221214-141909.png)
+
+此刻的页面还没有样式。下一章节将展开这部分的内容。
+
+## 开启 SSR
 
 接下来，我们修改项目中的 `modern.config.ts`，开启 SSR 能力：
 
