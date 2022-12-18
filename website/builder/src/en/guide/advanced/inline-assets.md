@@ -132,7 +132,7 @@ When you use URL queries such as `?inline` and `?url` in TypeScript code, TypeSc
 TS2307: Cannot find module './logo.png?inline' or its corresponding type declarations.
 ```
 
-To fix this, you can add type declarations for these URL queries, please create `src/assets.d.ts` file and add the following type declarations:
+To fix this, you can add type declarations for these URL queries, please create `src/global.d.ts` file and add the following type declarations:
 
 ```ts
 declare module '*?inline' {

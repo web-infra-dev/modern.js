@@ -70,7 +70,7 @@ When you reference an SVG asset in TypeScript code, TypeScript may prompt that t
 TS2307: Cannot find module './logo.svg' or its corresponding type declarations.
 ```
 
-To fix this, you need to add a type declaration file for the SVG asset, please create a `src/assets.d.ts` file, and add the following type declaration:
+To fix this, you need to add a type declaration file for the SVG asset, please create a `src/global.d.ts` file, and add the following type declaration:
 
 ```ts
 declare module '*.svg' {
@@ -95,4 +95,4 @@ declare module '*.svg' {
 }
 ```
 
-After adding the type declaration, if the type error still exists, you can try to restart the current IDE, or adjust the directory where `assets.d.ts` is located, making sure the TypeScript can correctly identify the type definition.
+After adding the type declaration, if the type error still exists, you can try to restart the current IDE, or adjust the directory where `global.d.ts` is located, making sure the TypeScript can correctly identify the type definition.

@@ -106,17 +106,17 @@ console.log(logo); // "https://modern.com/static/logo.6c12aba3.png"
 TS2307: Cannot find module './logo.png' or its corresponding type declarations.
 ```
 
-此时你需要为静态资源添加类型声明文件，请在项目中创建 `src/assets.d.ts` 文件，并添加相应的类型声明。以 png 图片为例，需要添加以下声明：
+此时你需要为静态资源添加类型声明文件，请在项目中创建 `src/global.d.ts` 文件，并添加相应的类型声明。以 png 图片为例，需要添加以下声明：
 
 ```ts
-// src/assets.d.ts
+// src/global.d.ts
 declare module '*.png' {
   const content: string;
   export default content;
 }
 ```
 
-添加类型声明后，如果依然存在上述错误提示，请尝试重启当前 IDE，或者调整 `assets.d.ts` 所在的目录，使 TypeScript 能够正确识别类型定义。
+添加类型声明后，如果依然存在上述错误提示，请尝试重启当前 IDE，或者调整 `global.d.ts` 所在的目录，使 TypeScript 能够正确识别类型定义。
 
 ## 图片格式
 

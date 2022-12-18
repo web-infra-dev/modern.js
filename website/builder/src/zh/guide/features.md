@@ -12,7 +12,7 @@
 | JS 压缩         | 默认在生产环境构建时开启压缩                                                          | <ul><li>[tools.terser](/zh/api/config-tools.html#tools-terser)</li></ul>                                                                                                                                             |
 | Polyfill        | 默认会注入 core-js 等 Polyfill                                                        | <ul><li>[output.polyfill](/zh/api/config-output.html#output-polyfill)</li></ul>                                                                                                                                      |
 | SourceMap 生成  | 默认在生产环境构建时生成高质量 SourceMap                                              | <ul><li>[output.disableSourceMap](/zh/api/config-output.html#output-disablesourcemap)</li></ul>                                                                                                                      |
-| 文件别名        | 可选功能，通过 alias 设置文件别名                                                     | <ul><li>[路径别名](/guide/advanced/alias.html)</li><li>[source.alias](/zh/api/config-source.html#source-alias)</li></ul>                                                                                                |
+| 文件别名        | 可选功能，通过 alias 设置文件别名                                                     | <ul><li>[路径别名](/guide/advanced/alias.html)</li><li>[source.alias](/zh/api/config-source.html#source-alias)</li></ul>                                                                                             |
 | 限制源代码路径  | 可选功能，限制源代码的引用路径                                                        | <ul><li>[source.moduleScopes](/zh/api/config-source.html#source-modulescopes)</li></ul>                                                                                                                              |
 | esbuild 编译    | 可选功能，通过 esbuild 对 JavaScript 和 TypeScript 代码进行转译和压缩                 | <ul><li>[esbuild 插件](/plugins/plugin-esbuild.html)</li></ul>                                                                                                                                                       |
 | SWC 编译        | 可选功能，通过 SWC 对 JavaScript 和 TypeScript 代码进行转译和压缩                     | <ul><li>[SWC 插件](/plugins/plugin-swc.html)</li></ul>                                                                                                                                                               |
@@ -22,17 +22,17 @@
 
 ## CSS 编译
 
-| 功能                 | 描述                                                | 相关链接                                                                                                                                              |
-| -------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PostCSS 编译         | 默认开启 PostCSS 编译，内置 autoprefixer 等多个插件 | <ul><li>[tools.postcss](/zh/api/config-tools.html#tools-postcss)</li><li>[tools.autoprefixer](/zh/api/config-tools.html#tools-autoprefixer)</li></ul> |
-| Sass 预处理          | 默认支持编译 `.scss` 和 `.sass` 文件                | <ul><li>[tools.sass](/zh/api/config-tools.html#tools-sass)</li></ul>                                                                                  |
-| Less 预处理          | 默认支持编译 `.less` 文件                           | <ul><li>[tools.less](/zh/api/config-tools.html#tools-less)</li></ul>                                                                                  |
-| CSS Modules 编译     | 默认支持编译 `*.module.*` 文件                      | <ul><li>[tools.cssLoader](/zh/api/config-tools.html#tools-cssloader)</li></ul>                                                                        |
-| CSS Modules 类型提示 | 可选功能，自动生成 CSS Modules 的类型定义文件       | <ul><li>[enableCssModuleTSDeclaration](/zh/api/config-output.html#output-enablecssmoduletsdeclaration)</li></ul>                                      |
-| CSS 压缩             | 默认在生产环境构建时开启压缩                        | <ul><li>[tools.minifyCss](/zh/api/config-tools.html#tools-minifycss)</li></ul>                                                                        |
-| 抽取 CSS 文件        | 默认会将 CSS 抽取为独立的文件                       | <ul><li>[tools.cssExtract](/zh/api/config-tools.html#tools-cssextract)</li></ul>                                                                      |
-| Styled Components    | 默认支持 styled-components 编译                     | <ul><li>[tools.styledComponents](/zh/api/config-tools.html#tools-styledcomponents)</li></ul>                                                          |
-| 将 CSS 插入到 JS 中  | 可选功能，通过 `style-loader` 插入样式              | <ul><li>[tools.styleLoader](/zh/api/config-tools.html#tools-styleloader)</li></ul>                                                                    |
+| 功能                 | 描述                                                | 相关链接                                                                                                                                                                   |
+| -------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PostCSS 编译         | 默认开启 PostCSS 编译，内置 autoprefixer 等多个插件 | <ul><li>[引用样式资源](/guide/basic/static-assets.html)</li><li>[tools.postcss](/zh/api/config-tools.html#tools-postcss)</li><li>[tools.autoprefixer](/zh/api/config-tools.html#tools-autoprefixer)</li></ul>                      |
+| Sass 预处理          | 默认支持编译 `.scss` 和 `.sass` 文件                | <ul><li>[引用样式资源](/guide/basic/static-assets.html)</li><li>[tools.sass](/zh/api/config-tools.html#tools-sass)</li></ul>                                                                                                       |
+| Less 预处理          | 默认支持编译 `.less` 文件                           | <ul><li>[引用样式资源](/guide/basic/static-assets.html)</li><li>[tools.less](/zh/api/config-tools.html#tools-less)</li></ul>                                                                                                       |
+| CSS Modules 编译     | 默认支持编译 CSS Modules 文件                       | <ul><li>[使用 CSS Modules](/guide/basic/css-modules.html)</li><li>[tools.cssLoader](/zh/api/config-tools.html#tools-cssloader)</li></ul>                                   |
+| CSS Modules 类型提示 | 可选功能，自动生成 CSS Modules 的类型定义文件       | <ul><li>[使用 CSS Modules](/guide/basic/css-modules.html)</li><li>[enableCssModuleTSDeclaration](/zh/api/config-output.html#output-enablecssmoduletsdeclaration)</li></ul> |
+| CSS 压缩             | 默认在生产环境构建时开启压缩                        | <ul><li>[引用样式资源](/guide/basic/static-assets.html)</li><li>[tools.minifyCss](/zh/api/config-tools.html#tools-minifycss)</li></ul>                                                                                             |
+| 抽取 CSS 文件        | 默认会将 CSS 抽取为独立的文件                       | <ul><li>[tools.cssExtract](/zh/api/config-tools.html#tools-cssextract)</li></ul>                                                                                           |
+| Styled Components    | 默认支持 styled-components 编译                     | <ul><li>[tools.styledComponents](/zh/api/config-tools.html#tools-styledcomponents)</li></ul>                                                                               |
+| 内联 CSS 到 JS 中    | 可选功能，将 CSS 文件内联到 JS 文件中               | <ul><li>[引用样式资源](/guide/basic/static-assets.html)</li><li>[output.disableCssExtract](/zh/api/config-output.html#output-disablecssextract)</li></ul>                                                                                         |
 
 ## HTML 编译
 
@@ -75,10 +75,10 @@
 
 ## 性能相关
 
-| 功能                | 描述                                                           | 相关链接                                                                                                                                                    |
-| ------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 功能                | 描述                                                           | 相关链接                                                                                                                                                        |
+| ------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 产物自动拆包        | Builder 中内置了多种拆包策略，自动将代码包拆分为体积适中的文件 | <ul><li>[拆包最佳实践](/guide/optimization/split-chunk.html)</li><li>[performance.chunkSplit](/zh/api/config-performance.html#performance-chunksplit)</li></ul> |
-| 展示产物体积        | 在生产环境构建后，默认展示所有静态资源的体积信息               | <ul><li>[performance.printFileSize](/zh/api/config-performance.html#performance-printfilesize)</li></ul>                                                    |
-| 分析产物体积        | 可选功能，通过 Bundle Analyzer 分析产物体积                    | <ul><li>[performance.bundleAnalyze](/zh/api/config-performance.html#performance-bundleanalyze)</li></ul>                                                    |
-| 移除 console        | 可选功能，移除代码中的 `console.xx`                            | <ul><li>[performance.removeConsole](/zh/api/config-performance.html#performance-removeconsole)</li></ul>                                                    |
-| 优化 moment.js 体积 | 可选功能，移除 moment.js 多余的 locale 文件                    | <ul><li>[performance.removeMomentLocale](/zh/api/config-performance.html#performance-removemomentlocale)</li></ul>                                          |
+| 展示产物体积        | 在生产环境构建后，默认展示所有静态资源的体积信息               | <ul><li>[performance.printFileSize](/zh/api/config-performance.html#performance-printfilesize)</li></ul>                                                        |
+| 分析产物体积        | 可选功能，通过 Bundle Analyzer 分析产物体积                    | <ul><li>[performance.bundleAnalyze](/zh/api/config-performance.html#performance-bundleanalyze)</li></ul>                                                        |
+| 移除 console        | 可选功能，移除代码中的 `console.xx`                            | <ul><li>[performance.removeConsole](/zh/api/config-performance.html#performance-removeconsole)</li></ul>                                                        |
+| 优化 moment.js 体积 | 可选功能，移除 moment.js 多余的 locale 文件                    | <ul><li>[performance.removeMomentLocale](/zh/api/config-performance.html#performance-removemomentlocale)</li></ul>                                              |
