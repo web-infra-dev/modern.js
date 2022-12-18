@@ -1,4 +1,4 @@
-# esbuild Plugin
+# Esbuild Plugin
 
 :::tip About esbuild
 [esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.
@@ -6,7 +6,9 @@
 
 Builder provides esbuild plugin that allow you to use esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. When you enable esbuild in a large project, **it can greatly reduce the time required for code compilation and compression, while effectively avoiding OOM (heap out of memory) problems**.
 
-## Install
+## Quick Start
+
+### Install
 
 You can install the plugin with the following command:
 
@@ -21,14 +23,24 @@ yarn add @modern-js/builder-plugin-esbuild -D
 pnpm install @modern-js/builder-plugin-esbuild -D
 ```
 
-## Register
+### Register
 
-You can register the plugin in Builder to enable esbuild features:
+In upper-level frameworks such as Modern.js or EdenX, you can register esbuild plugins through the `builderPlugins` config:
+
+```ts
+import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
+
+export default {
+  builderPlugins: [PluginEsbuild()],
+};
+```
+
+If you are using the Builder's Node API, you can register esbuild plugins through the `addPlugins` method:
 
 ```js
 import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
 
-// Add plugins to the builder instance
+// add the plugin to the builder instance
 builder.addPlugins([PluginEsbuild()]);
 ```
 

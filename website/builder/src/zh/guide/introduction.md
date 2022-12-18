@@ -76,7 +76,7 @@ Builder 已发布的 npm 包有：
 | [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                       | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc/beta?style=flat-square)            | SWC 插件               |
 | [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)               | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild/beta?style=flat-square)        | esbuild 插件           |
 | [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill)   | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill/beta?style=flat-square)  | Node Polyfill 插件     |
-| [@modern-js/builder-plugin-image-compress](https://www.npmjs.com/package/@modern-js/builder-plugin-image-compress) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-image-compress/beta?style=flat-square) | 图片压缩插件           |
+| [@modern-js/builder-plugin-image-compress](https://www.npmjs.com/package/@modern-js/builder-plugin-image-compress) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-image-compress/beta?style=flat-square) | Image Compress 插件           |
 | [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared)                               | ![](https://img.shields.io/npm/v/@modern-js/builder-shared/beta?style=flat-square)                | Builder 内部的公共模块 |
 | [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc)                                     | ![](https://img.shields.io/npm/v/@modern-js/builder-doc/beta?style=flat-square)                   | 提供可复用的文档片段   |
 
