@@ -16,52 +16,6 @@ Builder 支持通过 [browserslist](https://browsersl.ist/) 来设置 Web 应用
 Polyfill 是一种用于解决浏览器兼容问题的技术。它用于模拟某些浏览器不支持的新特性，使得这些特性能在不支持的浏览器中正常工作。例如，如果某个浏览器不支持 `Array.prototype.flat()` 方法，那么我们可以使用 Polyfill 来模拟这个方法，从而让代码在这个浏览器中也能正常工作。
 :::
 
-## Browserslist 默认值
-
-Builder 会根据[构建产物类型](/guide/basic/build-target.html)来设置不同的 Browserslist 默认值。
-
-### Web 产物
-
-Web 产物的默认值如下所示：
-
-```bash
-> 0.01%
-not dead
-not op_mini all
-```
-
-在该浏览器范围下，JavaScript 代码被会编译到 ES5 语法。
-
-### Node 产物
-
-Node 产物默认最低兼容到 Node.js 14.0 版本。
-
-```bash
-node >= 14
-```
-
-### Web Worker 产物
-
-Web Worker 产物默认的浏览器范围与 Web 一致。
-
-```bash
-> 0.01%
-not dead
-not op_mini all
-```
-
-### Modern Web 产物
-
-Modern Web 产物默认最低兼容到支持[原生 ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) 的浏览器。
-
-```bash
-chrome > 61
-edge > 16
-firefox > 60
-safari > 11
-ios_saf > 11
-```
-
 ## 设置 Browserslist
 
 你可以在当前项目根目录的 `package.json` 或 `.browserslistrc` 文件里设置 browserslist 的值。
@@ -126,3 +80,49 @@ export default {
 ```
 
 大多数场景下，推荐优先使用 `.browserslistrc` 文件，而不是使用 `overrideBrowserslist` 配置。因为 `.browserslistrc` 文件是官方定义的配置文件，通用性更强，可以被社区中的其他库识别。
+
+## Browserslist 默认值
+
+Builder 会根据[构建产物类型](/guide/basic/build-target.html)来设置不同的 Browserslist 默认值。
+
+### Web 产物
+
+Web 产物的默认值如下所示：
+
+```bash
+> 0.01%
+not dead
+not op_mini all
+```
+
+在该浏览器范围下，JavaScript 代码被会编译到 ES5 语法。
+
+### Node 产物
+
+Node 产物默认最低兼容到 Node.js 14.0 版本。
+
+```bash
+node >= 14
+```
+
+### Web Worker 产物
+
+Web Worker 产物默认的浏览器范围与 Web 一致。
+
+```bash
+> 0.01%
+not dead
+not op_mini all
+```
+
+### Modern Web 产物
+
+Modern Web 产物默认最低兼容到支持[原生 ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) 的浏览器。
+
+```bash
+chrome > 61
+edge > 16
+firefox > 60
+safari > 11
+ios_saf > 11
+```

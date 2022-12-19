@@ -94,7 +94,7 @@ describe('test server', () => {
 
       const newLen: number = modernServer.handlers.length;
       expect(len + 1).toBe(newLen);
-      expect(modernServer.handlers[newLen - 1]).not.toBe(syncHandler);
+      expect(modernServer.handlers[newLen - 1]).toBe(syncHandler);
 
       const asyncHandler = async (
         ctx: ModernServerContext,
