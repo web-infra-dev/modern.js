@@ -5,31 +5,37 @@ sidebar_position: 7
 ```
 Usage: modern inspect [options]
 
-inspect internal webpack config
-
 Options:
   --env <env>           view the configuration in the target environment (default: "development")
   --output <output>     Specify the path to output in the dist (default: "/")
-  --no-console          Do not output the full result in shell
   --verbose             Show the full function in the result
   -c --config <config>  configuration file path, which can be a relative path or an absolute path
   -h, --help            show command help
 ```
 
-`modern inspect` command used to view the full webpack configuration of the project.
+`modern inspect` command used to view the [Modern.js Builder config](https://modernjs.dev/builder/en/guide/basic/builder-config.html) and webpack config of the project.
 
-Executing the command `npx modern inspect` in the project will output the webpack configuration on the shell, and will also generate a `webpack.client.inspect.js` file in the project's `dist` directory, which developers can open and view manually.
+After executing the command `npx modern inspect` in the project root directory, the following files will be generated in the `dist` directory of the project:
+
+- `builder.config.js`: The Modern.js Builder config to use at build time.
+- `webpack.config.web.js`: The webpack config used by to use at build time.
 
 ## Configuration Env
 
-By default, the webpack configuration of the development environment is output. And the `env` option can be used to output the configuration of the production environment:
+By default, the inspect command will output the development configs, you can use the `env` option to output the production configs:
 
 ```bash
 modern inspect --env production
 ```
 
-## Configuration Type
+## Verbose content
+
+By default, the inspect command will omit the function content in the config object, you can use the `env` option to output the full content of the function:
+
+```bash
+modern inspect --verbose
+```
 
 ### SSR Configuration
 
-If the project has SSR enable, an additional `webpack.ssr.inspect.js` file will be generated in the `dist/`, corresponding to the webpack configuration at SSR build time.
+If the project has enabled SSR, an additional `webpack.config.node.js` file will be generated in the `dist/`, corresponding to the webpack configuration at SSR build time.
