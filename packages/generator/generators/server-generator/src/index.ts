@@ -1,6 +1,7 @@
 import path from 'path';
 import {
   fs,
+  getModernPluginVersion,
   isTsProject,
   readTsConfigByFile,
 } from '@modern-js/generator-utils';
@@ -11,6 +12,7 @@ import {
   DependenceGenerator,
   i18n,
   Language,
+  Solution,
 } from '@modern-js/generator-common';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
@@ -56,7 +58,7 @@ const handleTemplateFile = async (
   }
 
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
-
+  const serverPlugin = '@modern-js/plugin-server';
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),
     undefined,
@@ -64,6 +66,15 @@ const handleTemplateFile = async (
       ...context.config,
       devDependencies: {
         ...(context.config.devDependencies || {}),
+        [serverPlugin]: await getModernPluginVersion(
+          Solution.MWA,
+          serverPlugin,
+          {
+            registry: context.config.registry,
+            distTag: context.config.distTag,
+            cwd: context.materials.default.basePath,
+          },
+        ),
         'ts-node': '~10.8.1',
         'tsconfig-paths': '~3.14.1',
       },

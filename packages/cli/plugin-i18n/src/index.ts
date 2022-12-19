@@ -30,7 +30,7 @@ class I18n implements TI18n {
   private languageMap: LanguageModelMap = {};
 
   private format(msg: string, vars: { [key: string]: string }) {
-    return msg.replace(/\{([^}]+)\}/gm, (_match, capture: string) =>
+    return msg.replace(/\{(\w+)\}/g, (_match, capture: string) =>
       Object.prototype.hasOwnProperty.call(vars, capture)
         ? vars[capture]
         : capture,

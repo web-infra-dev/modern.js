@@ -7,10 +7,10 @@ module.exports = {
   runtime: {
     ...,
     router: {
-      mode: 'react-router-5'
-    }
+      mode: 'react-router-5',
+    },
   },
-  plugins: [{pluginName}()]
+  plugins: [..., {pluginName}()]
 };
 添加完成后，你将在当前项目中使用 React Router v5，请使用 React Router v5 相关 API 并从 '@modern-js/runtime/router-v5' 导入。
 `,
@@ -22,10 +22,10 @@ export default defineConfig({
   runtime: {
     ...,
     router: {
-      mode: 'react-router-5'
-    }
+      mode: 'react-router-5',
+    },
   },
-  plugins: [{pluginName}()]
+  plugins: [..., {pluginName}()]
 });
 添加完成后，你将在当前项目中使用 React Router v5，请使用 React Router v5 相关 API 并从 '@modern-js/runtime/router-v5' 导入。
 `,
