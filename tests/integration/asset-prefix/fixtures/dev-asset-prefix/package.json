@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "integration-dev-asset-prefix",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "modern build"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@babel/runtime": "^7.18.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*"
+  }
+}
