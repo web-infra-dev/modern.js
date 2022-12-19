@@ -8,7 +8,7 @@ Modern.js Builder 提供了开箱即用的 SWC 插件，可以为你的 Web 应�
 
 ### 安装
 
-在项目中安装该插件:
+你可以通过如下的命令安装插件:
 
 ```bash
 # npm
@@ -23,11 +23,22 @@ pnpm install @modern-js/builder-plugin-swc -D
 
 ### 注册插件
 
-在 Builder 中注册插件:
+在 Modern.js / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 SWC 插件：
+
+```ts
+import { PluginSwc } from '@modern-js/builder-plugin-swc';
+
+export default {
+  builderPlugins: [PluginSwc()],
+};
+```
+
+当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 SWC 插件：
 
 ```js
 import { PluginSwc } from '@modern-js/builder-plugin-swc';
 
+// 往 builder 实例上添加插件
 builder.addPlugins([PluginSwc()]);
 ```
 

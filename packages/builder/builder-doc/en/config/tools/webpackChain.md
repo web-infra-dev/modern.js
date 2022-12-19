@@ -18,11 +18,10 @@ The `env` parameter can be used to determine whether the current environment is 
 ```js
 export default {
   tools: {
-    webpack: (config, { env }) => {
+    webpackChain: (chain, { env }) => {
       if (env === 'development') {
-        config.devtool = 'cheap-module-eval-source-map';
+        chain.devtool('cheap-module-eval-source-map');
       }
-      return config;
     },
   },
 };
@@ -37,11 +36,10 @@ The `isProd` parameter can be used to determine whether the current environment 
 ```js
 export default {
   tools: {
-    webpack: (config, { isProd }) => {
+    webpackChain: (chain, { isProd }) => {
       if (isProd) {
-        config.devtool = 'source-map';
+        chain.devtool('source-map');
       }
-      return config;
     },
   },
 };
@@ -56,11 +54,10 @@ The `target` parameter can be used to determine the current environment. For exa
 ```js
 export default {
   tools: {
-    webpack: (config, { target }) => {
+    webpackChain: (chain, { target }) => {
       if (target === 'node') {
         // ...
       }
-      return config;
     },
   },
 };
@@ -75,11 +72,10 @@ Determines whether the target environment is `node`, equivalent to `target === '
 ```js
 export default {
   tools: {
-    webpack: (config, { isServer }) => {
+    webpackChain: (chain, { isServer }) => {
       if (isServer) {
         // ...
       }
-      return config;
     },
   },
 };
@@ -94,11 +90,10 @@ Determines whether the target environment is `web-worker`, equivalent to `target
 ```js
 export default {
   tools: {
-    webpack: (config, { isWebWorker }) => {
+    webpackChain: (chain, { isWebWorker }) => {
       if (isWebWorker) {
         // ...
       }
-      return config;
     },
   },
 };
@@ -113,9 +108,8 @@ The webpack instance. For example:
 ```js
 export default {
   tools: {
-    webpack: (config, { webpack }) => {
-      config.plugins.push(new webpack.ProgressPlugin());
-      return config;
+    webpackChain: (chain, { webpack }) => {
+      chain.plugin('my-progress').use(webpack.ProgressPlugin);
     },
   },
 };
@@ -218,7 +212,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `PLUGIN.INSPECTOR`             | correspond to `@modern-js/inspector-webpack-plugin`                                                            |
 | `PLUGIN.SUBRESOURCE_INTEGRITY` | correspond to `webpack-subresource-integrity`                                                                  |
 | `PLUGIN.ASSETS_RETRY`          | correspond to webpack static asset retry plugin in Builder                                                     |
-| `AUTO_SET_ROOT_SIZE`           | correspond to automatically set root font size plugin in Builder                                               |
+| `PLUGIN.AUTO_SET_ROOT_SIZE`           | correspond to automatically set root font size plugin in Builder                                               |
 
 ### CHAIN_ID.MINIMIZER
 
@@ -247,6 +241,7 @@ export default {
         .test(/\.md$/)
         .use('md-loader')
         .loader('md-loader');
+
       // Modify loader
       chain.module
         .rule(CHAIN_ID.RULE.JS)
@@ -255,6 +250,7 @@ export default {
           options.plugins.push('babel-plugin-xxx');
           return options;
         });
+
       // Delete loader
       chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
     },
@@ -276,11 +272,13 @@ export default {
           },
         },
       ]);
+
       // Modify plugin
       chain.plugin(CHAIN_ID.PLUGIN.HMR).tap(options => {
         options[0].fullBuildTimeout = 200;
         return options;
       });
+
       // Delete plugin
       chain.plugins.delete(CHAIN_ID.PLUGIN.HMR);
     },

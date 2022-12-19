@@ -1,12 +1,44 @@
 # Environment Variables
 
+Builder supports injecting environment variables or expressions into the code during compilation, which is helpful for distinguishing the running environment or injecting constant values. This chapter introduces how to use environment variables.
+
+## Default environment variables
+
+By default, Builder will automatically set the `process.env.NODE_ENV` environment variable to `'development'` in development mode and `'production'` in production mode.
+
+You can use `process.env.NODE_ENV` directly in configuration files and in front-end code.
+
+```ts
+if (process.env.NODE_ENV === 'development') {
+  console.log('this is a development log');
+}
+```
+
+In the development environment, the above code will be compiled as:
+
+```js
+if (true) {
+  console.log('this is a development log');
+}
+```
+
+In the production environment, the above code will be compiled as:
+
+```js
+if (false) {
+  console.log('this is a development log');
+}
+```
+
+After code minification, `if (false) { ... }` will be recognized as invalid code and removed automatically.
+
+# Using define config
+
 By configuring the [source.define](/en/api/config-source.html#source-define), you can replace expressions with other expressions or values in compile time.
 
 `Define` looks like macro definitions in other programming languages. But JavaScript has powerful runtime capabilities, so you don't need to use it as a complicated code generator. You can use it to pass simple data, such as environment variables, from compile time to runtime. Almost there, it can be used to work with Builder to shake trees.
 
-You may often need to set environment variables, in which case you can instead use the [source.globalVars](/en/api/config-source.html#source-globalvars) configuration to simplify configuration. It is a syntax sugar of `source.define`, the only difference is that `source.globalVars` will automatically stringify the value, which makes it easier to set the value of global variables.
-
-## Replace Expressions
+### Replace Expressions
 
 The most basic use case for `Define` is to replace expressions in compile time.
 
@@ -28,9 +60,13 @@ Similarly `{ foo: "bar" }` should be converted to `"{\"foo\":\"bar\"}"`, which i
 
 For more about `source.define`, just refer to [API References](/api/config-source.html#source-define)。
 
+:::tip
+The environment variable `NODE_ENV` shown in the example above is already injected by the Builder, and you usually do not need to configure it manually.
+:::
+
 ## Setup Environment Variables
 
-For setting environment variables, you can also use the `source.globalVars` to replace expressions to simplify configuration and avoid writing a lot of `JSON.stringify(...)` stuffs.
+You may often need to set environment variables, in which case you can instead use the [source.globalVars](/en/api/config-source.html#source-globalvars) configuration to simplify configuration. It is a syntax sugar of `source.define`, the only difference is that `source.globalVars` will automatically stringify the value, which makes it easier to set the value of global variables and avoid writing a lot of `JSON.stringify(...)` stuffs.
 
 ```js
 export default {
@@ -43,8 +79,6 @@ export default {
   },
 };
 ```
-
-The environment variable `NODE_ENV` shown in the example above is already injected by the Builder, and you usually do not need to configure it manually.
 
 Note that either of these methods will only match the full expression; destructing the expression will prevent the Builder from correctly recognizing it.
 
@@ -59,6 +93,23 @@ console.log(NODE_ENV);
 const vars = process.env;
 console.log(vars.NODE_ENV);
 // => undefined
+```
+
+## Declare type of environment variable
+
+When you read an environment variable in a TypeScript file, TypeScript may prompt that the variable lacks a type definition, and you need to add the corresponding type declaration.
+
+For example, if you reference a `CUSTOM_VAR` variable, the following prompt will appear in the TypeScript file:
+
+```
+TS2304: Cannot find name 'CUSTOM_VAR'.
+```
+
+To fix this, you can create a `src/env.d.ts` file in your project and add the following content:
+
+```ts
+// src/env.d.ts
+declare const CUSTOM_VAR: string;
 ```
 
 ## Tree Shaking

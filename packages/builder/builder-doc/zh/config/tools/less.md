@@ -1,13 +1,14 @@
 - Type: `Object | Function`
-- Default
+- Default:
 
 ```js
-{
+const defaultOptions = {
   lessOptions: {
-    javascriptEnabled: true
+    javascriptEnabled: true,
   },
-  sourceMap: false,
-}
+  // 默认在开发环境下启用 CSS 的 Source Map
+  sourceMap: isDev,
+};
 ```
 
 你可以通过 `tools.less` 修改 [less-loader](https://github.com/webpack-contrib/less-loader) 的配置。

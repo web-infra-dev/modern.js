@@ -21,11 +21,10 @@
 ```js
 export default {
   tools: {
-    webpack: (config, { env }) => {
+    webpackChain: (chain, { env }) => {
       if (env === 'development') {
-        config.devtool = 'cheap-module-eval-source-map';
+        chain.devtool('cheap-module-eval-source-map');
       }
-      return config;
     },
   },
 };
@@ -40,11 +39,10 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { isProd }) => {
+    webpackChain: (chain, { isProd }) => {
       if (isProd) {
-        config.devtool = 'source-map';
+        chain.devtool('source-map');
       }
-      return config;
     },
   },
 };
@@ -59,11 +57,10 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { target }) => {
+    webpackChain: (chain, { target }) => {
       if (target === 'node') {
         // ...
       }
-      return config;
     },
   },
 };
@@ -78,11 +75,10 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { isServer }) => {
+    webpackChain: (chain, { isServer }) => {
       if (isServer) {
         // ...
       }
-      return config;
     },
   },
 };
@@ -97,11 +93,10 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { isWebWorker }) => {
+    webpackChain: (chain, { isWebWorker }) => {
       if (isWebWorker) {
         // ...
       }
-      return config;
     },
   },
 };
@@ -116,9 +111,8 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { webpack }) => {
-      config.plugins.push(new webpack.ProgressPlugin());
-      return config;
+    webpackChain: (chain, { webpack }) => {
+      chain.plugin('my-progress').use(webpack.ProgressPlugin);
     },
   },
 };
@@ -142,7 +136,7 @@ export default {
 
 #### CHAIN_ID
 
-builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID 来定位到内置的 Rule 或 Plugin。
+Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID 来定位到内置的 Rule 或 Plugin。
 
 ##### CHAIN_ID.RULE
 
@@ -221,7 +215,7 @@ builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `PLUGIN.INSPECTOR`             | 对应 `@modern-js/inspector-webpack-plugin`                                         |
 | `PLUGIN.SUBRESOURCE_INTEGRITY` | 对应 `webpack-subresource-integrity`                                               |
 | `PLUGIN.ASSETS_RETRY`          | 对应 Builder 中的 webpack 静态资源重试插件 `WebpackAssetsRetryPlugin`              |
-| `AUTO_SET_ROOT_SIZE`           | 对应 Builder 中的自动设置根字体大小插件 `AutoSetRootSizePlugin`                    |
+| `PLUGIN.AUTO_SET_ROOT_SIZE`    | 对应 Builder 中的自动设置根字体大小插件 `AutoSetRootSizePlugin`                    |
 
 ### CHAIN_ID.MINIMIZER
 
@@ -250,6 +244,7 @@ export default {
         .test(/\.md$/)
         .use('md-loader')
         .loader('md-loader');
+
       // 修改 loader
       chain.module
         .rule(CHAIN_ID.RULE.JS)
@@ -258,6 +253,7 @@ export default {
           options.plugins.push('babel-plugin-xxx');
           return options;
         });
+
       // 删除 loader
       chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
     },
@@ -279,11 +275,13 @@ export default {
           },
         },
       ]);
+
       // 修改插件
       chain.plugin(CHAIN_ID.PLUGIN.HMR).tap(options => {
         options[0].fullBuildTimeout = 200;
         return options;
       });
+
       // 删除插件
       chain.plugins.delete(CHAIN_ID.PLUGIN.HMR);
     },
