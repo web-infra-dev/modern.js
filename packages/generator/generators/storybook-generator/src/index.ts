@@ -84,7 +84,6 @@ const handleTemplateFile = async (
         ...updateDependence,
         [runtimeDependence]: runtimeDependenceVersion,
       },
-      isSubGenerator: true,
     },
   );
 
