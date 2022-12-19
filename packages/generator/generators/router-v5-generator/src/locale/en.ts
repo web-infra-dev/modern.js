@@ -14,7 +14,7 @@ module.exports = {
   plugins: [..., {pluginName}()],
 };
 
-After add code, you will use React Router v5 in your project, please use React Router v5 API from '@modern-js/runtime/legacy-router'.
+After add code, you will use React Router v5 in your project, please use React Router v5 API from '@modern-js/runtime/router-v5'.
   `,
   success_ts: `Plugin dependency installed successfully! Please add the following code to {configFile}:
 
@@ -31,6 +31,6 @@ export default defineConfig({
   plugins: [..., {pluginName}()],
 });
 
-After add code, you will use React Router v5 in your project, please use React Router v5 API from '@modern-js/runtime/legacy-router'.
+After add code, you will use React Router v5 in your project, please use React Router v5 API from '@modern-js/runtime/router-v5'.
   `,
 };
