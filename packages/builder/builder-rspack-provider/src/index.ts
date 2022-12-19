@@ -1,3 +1,11 @@
 export { builderRspackProvider } from './provider';
+export type { BuilderRspackProvider } from './provider';
 
-export type { BuilderConfig } from './types';
+export type {
+  // Config Types
+  BuilderConfig,
+  NormalizedConfig,
+
+  // Hook Callback Types
+  ModifyRspackConfigFn,
+} from './types';

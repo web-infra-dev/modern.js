@@ -1,5 +1,167 @@
 # @modern-js/utils
 
+## 2.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- 92f0eade39: feat:
+
+  1. core: 增加 test 函数
+  2. module plugins: 增加 `babel`, `mainField`, `target` 插件
+  3. storybook: 修改部分逻辑并且增加 tspath webpack 插件
+  4. 增加 designSystem 配置
+
+  feat:
+
+  1. core: add test method
+  2. module plugins: add `babel`, `mainField`, `target` plugin
+  3. storybook: change some logic and add tspath webpack plugin
+  4. add `designSystem` config
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- d5a31df781: refactor: remove unbundle configs and types
+
+  refactor: 移除 unbundle 相关的配置项和类型定义
+
+- b710adb843: feat: extract the data loader
+  feat: 提取 data loader
+- bbe4c4a: feat: add @modern-js/plugin-swc
+
+  feat: 新增 @modern-js/plugin-swc 插件
+
+- e4558a0: feat:
+
+  1. add `runBin` function
+  2. config internal plugins constants in the app/module/doc tools
+  3. add app/module/doc tools internal plugins
+
+  feat:
+
+  1. 添加 `runBin` 函数
+  2. 在 app/module/doc tools 里配置内部插件
+  3. 增加 app/module/doc tools 使用的插件常量
+
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- 7879e8f: refactor: remove enableModernMode config
+
+  refactor: 不再支持 enableModernMode 配置项
+
+- 6aca875: fix: remove phantom webpack dependencies in node-polyfill and webpack-dev-middleware
+  fix: 移除 node-polyfill 插件和 webpack-dev-middleware 中对 webpack 的幻影依赖
+- 2e6031955e: fix: some optimizations for router and loader
+  fix: 一些 router 和 loader 的优化
+  q
+- 7b7d12c: refactor: Substract getCorejsVersion to the util package, so that swc plugin can reuse it.
+  refactor: 将 getCorejsVersion 提取到 util 包，让 swc 插件可以复用其逻辑
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 5b9049f2e9: feat: inject async js chunk when streaming ssr
+  feat: streaming ssr 时, 注入 async 类型的 js chunk
+- 92004d1906: feat: support load chunks parallelly
+  feat: 支持并行加载 chunks
+- b8bbe036c7: feat: change type logic
+  feat: 修改类型相关的逻辑
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- ea7cf06: chore: bump webpack/babel-loader/postcss-loader/tsconfig-paths
+
+  chore: 升级 webpack/babel-loader/postcss-loader/tsconfig-paths 版本
+
+- abf3421a75: fix(dev-server): isDepsExists add non pkgPath judege
+
+  修复: isDepsExists 方法添加 package.json 不存在的兜底
+
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+## 2.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- 92f0eade39: feat:
+
+  1. core: 增加 test 函数
+  2. module plugins: 增加 `babel`, `mainField`, `target` 插件
+  3. storybook: 修改部分逻辑并且增加 tspath webpack 插件
+  4. 增加 designSystem 配置
+
+  feat:
+
+  1. core: add test method
+  2. module plugins: add `babel`, `mainField`, `target` plugin
+  3. storybook: change some logic and add tspath webpack plugin
+  4. add `designSystem` config
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- d5a31df781: refactor: remove unbundle configs and types
+
+  refactor: 移除 unbundle 相关的配置项和类型定义
+
+- b710adb: feat: extract the data loader
+  feat: 提取 data loader
+- bbe4c4a: feat: add @modern-js/plugin-swc
+
+  feat: 新增 @modern-js/plugin-swc 插件
+
+- e4558a0: feat:
+
+  1. add `runBin` function
+  2. config internal plugins constants in the app/module/doc tools
+  3. add app/module/doc tools internal plugins
+
+  feat:
+
+  1. 添加 `runBin` 函数
+  2. 在 app/module/doc tools 里配置内部插件
+  3. 增加 app/module/doc tools 使用的插件常量
+
+- 543be9558e: feat: compile server loader and support handle loader request
+  feat: 编译 server loader 并支持处理 loader 的请求
+
+### Patch Changes
+
+- 6aca875: fix: remove phantom webpack dependencies in node-polyfill and webpack-dev-middleware
+  fix: 移除 node-polyfill 插件和 webpack-dev-middleware 中对 webpack 的幻影依赖
+- 2e60319: fix: some optimizations for router and loader
+  fix: 一些 router 和 loader 的优化
+  q
+- cc971eabfc: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 5b9049f2e9: feat: inject async js chunk when streaming ssr
+  feat: streaming ssr 时, 注入 async 类型的 js chunk
+- 92004d1906: feat: support load chunks parallelly
+  feat: 支持并行加载 chunks
+- b8bbe036c7: feat: change type logic
+  feat: 修改类型相关的逻辑
+- 3bbea92b2a: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- ea7cf06: chore: bump webpack/babel-loader/postcss-loader/tsconfig-paths
+
+  chore: 升级 webpack/babel-loader/postcss-loader/tsconfig-paths 版本
+
+- abf3421a75: fix(dev-server): isDepsExists add non pkgPath judege
+
+  修复: isDepsExists 方法添加 package.json 不存在的兜底
+
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
 ## 2.0.0-beta.2
 
 ### Major Changes

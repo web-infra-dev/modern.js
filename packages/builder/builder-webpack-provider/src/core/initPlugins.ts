@@ -7,14 +7,13 @@ import {
 } from '@modern-js/builder-shared';
 import type { Context, BuilderPluginAPI } from '../types';
 
-export async function initPlugins({
+export function getPluginAPI({
   context,
   pluginStore,
 }: {
   context: Context;
   pluginStore: PluginStore;
-}) {
-  debug('init plugins');
+}): BuilderPluginAPI {
   const { hooks } = context;
   const publicContext = createPublicContext(context);
 
@@ -46,7 +45,11 @@ export async function initPlugins({
     );
   };
 
-  const pluginAPI: BuilderPluginAPI = {
+  onExitProcess(() => {
+    hooks.onExitHook.call();
+  });
+
+  return {
     context: publicContext,
     getHTMLPaths,
     getBuilderConfig,
@@ -66,9 +69,19 @@ export async function initPlugins({
     onAfterStartDevServer: hooks.onAfterStartDevServerHook.tap,
     onBeforeStartDevServer: hooks.onBeforeStartDevServerHook.tap,
   };
+}
+
+export async function initPlugins({
+  context,
+  pluginStore,
+}: {
+  context: Context;
+  pluginStore: PluginStore;
+}) {
+  debug('init plugins');
 
   for (const plugin of pluginStore.plugins) {
-    await plugin.setup(pluginAPI);
+    await plugin.setup(context.pluginAPI);
   }
 
   onExitProcess(() => {

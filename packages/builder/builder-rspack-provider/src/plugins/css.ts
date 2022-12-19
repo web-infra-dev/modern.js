@@ -7,7 +7,6 @@ import {
   CSS_REGEX,
   type BuilderContext,
 } from '@modern-js/builder-shared';
-import _ from '@modern-js/utils/lodash';
 import type {
   BuilderPlugin,
   NormalizedConfig,
@@ -117,7 +116,7 @@ export async function getCssLoaderUses(
         modules: moduleConfig,
       },
       // postcss-loader will modify config
-      _.cloneDeep(config.tools.postcss || {}),
+      config.tools.postcss || {},
       utils,
     );
     if (extraPlugins.length) {
@@ -156,6 +155,7 @@ export async function getCssLoaderUses(
     // todo: css module (exportOnlyLocals) required in server
     const postcssLoaderOptions = getPostcssConfig();
 
+    // @ts-expect-error
     const { default: postcssLoader } = await import('@rspack/postcss-loader');
     uses.push({
       name: 'postcss',

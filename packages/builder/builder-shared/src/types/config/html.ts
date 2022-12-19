@@ -90,3 +90,10 @@ export interface SharedHtmlConfig {
     ChainedConfig<Record<string, unknown>>
   >;
 }
+
+export type NormalizedSharedHtmlConfig = SharedHtmlConfig & {
+  mountId: string;
+  inject: ScriptInject;
+  crossorigin: boolean | CrossOrigin;
+  disableHtmlFolder: boolean;
+};

@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
+"(() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __esm = (fn, res) => function __init() {
+    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  };
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, \\"default\\", { value: mod, enumerable: true }) : target,
+    mod
+  ));
+
+  // libuild:globals:react
+  var require_react = __commonJS({
+    \\"libuild:globals:react\\"(exports, module) {
+      module.exports = Function(\\"return this\\")()[\\"React\\"];
+    }
+  });
+
+  // src/common.js
+  var common_exports = {};
+  __export(common_exports, {
+    addPrefix: () => addPrefix
+  });
+  var addPrefix;
+  var init_common = __esm({
+    \\"src/common.js\\"() {
+      addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
+    }
+  });
+
+  // src/index.js
+  var import_react = __toESM(require_react());
+  var debug = async (str) => {
+    const { addPrefix: addPrefix2 } = await Promise.resolve().then(() => (init_common(), common_exports));
+    addPrefix2(\\"DEBUG:\\", \`\${import_react.default.version}/\${str}\`);
+  };
+})();
+"
+`;
+
+exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
+"(function(global, factory) {
+    if (typeof module === \\"object\\" && typeof module.exports === \\"object\\") factory(exports);
+    else if (typeof define === \\"function\\" && define.amd) define([
+        \\"exports\\"
+    ], factory);
+    else if (global = typeof globalThis !== \\"undefined\\" ? globalThis : global || self) factory(global.index = {});
+})(this, function(exports) {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    Object.defineProperty(exports, \\"debug\\", {
+        enumerable: true,
+        get: ()=>debug
+    });
+    var __create = Object.create;
+    var __defProp = Object.defineProperty;
+    var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+    var __getOwnPropNames = Object.getOwnPropertyNames;
+    var __getProtoOf = Object.getPrototypeOf;
+    var __hasOwnProp = Object.prototype.hasOwnProperty;
+    var __esm = (fn, res)=>function __init() {
+            return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+        };
+    var __commonJS = (cb, mod)=>function __require() {
+            return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = {
+                exports: {}
+            }).exports, mod), mod.exports;
+        };
+    var __export = (target, all)=>{
+        for(var name in all)__defProp(target, name, {
+            get: all[name],
+            enumerable: true
+        });
+    };
+    var __copyProps = (to, from, except, desc)=>{
+        if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
+            for (let key of __getOwnPropNames(from))if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
+                get: ()=>from[key],
+                enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+            });
+        }
+        return to;
+    };
+    var __toESM = (mod, isNodeMode, target)=>(target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, \\"default\\", {
+            value: mod,
+            enumerable: true
+        }) : target, mod));
+    // libuild:globals:react
+    var require_react = __commonJS({
+        \\"libuild:globals:react\\" (exports, module1) {
+            module1.exports = Function(\\"return this\\")()[\\"React\\"];
+        }
+    });
+    // src/common.js
+    var common_exports = {};
+    __export(common_exports, {
+        addPrefix: ()=>addPrefix
+    });
+    var addPrefix;
+    var init_common = __esm({
+        \\"src/common.js\\" () {
+            addPrefix = (prefix, str)=>\`\${prefix}:\${str}\`;
+        }
+    });
+    // src/index.js
+    var import_react = __toESM(require_react());
+    var debug = async (str)=>{
+        const { addPrefix: addPrefix2  } = await Promise.resolve().then(()=>(init_common(), common_exports));
+        addPrefix2(\\"DEBUG:\\", \`\${import_react.default.version}/\${str}\`);
+    };
+});
+"
+`;

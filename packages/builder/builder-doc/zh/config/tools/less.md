@@ -1,20 +1,21 @@
 - Type: `Object | Function`
-- Default
+- Default:
 
 ```js
-{
+const defaultOptions = {
   lessOptions: {
-    javascriptEnabled: true
+    javascriptEnabled: true,
   },
-  sourceMap: false,
-}
+  // 默认在开发环境下启用 CSS 的 Source Map
+  sourceMap: isDev,
+};
 ```
 
 你可以通过 `tools.less` 修改 [less-loader](https://github.com/webpack-contrib/less-loader) 的配置。
 
 ### Object 类型
 
-当 `tools.less` 的值为 `Object` 类型时，会与默认配置通过 Object.assign 合并。
+当 `tools.less` 的值为 `Object` 类型时，会与默认配置通过 Object.assign 进行浅层合并，值得注意的是，`lessOptions` 会通过 deepMerge 进行深层合并。
 
 ```js
 export default {
@@ -49,7 +50,9 @@ export default {
 
 #### addExcludes
 
-用来指定 `less-loader` 不编译哪些文件，例如：
+- Type: `(excludes: RegExp | RegExp[]) => void`
+
+用来指定 `less-loader` 不编译哪些文件，你可以传入一个或多个正则表达式来匹配 less 文件的路径。例如：
 
 ```js
 export default {

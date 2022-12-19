@@ -12,9 +12,6 @@ exports[`babel resolveBabelConfig 1`] = `
 Object {
   "plugins": Array [
     Array [
-      "/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
-    ],
-    Array [
       "/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
       Object {},
     ],
@@ -128,6 +125,7 @@ Object {
         "allowDeclareFields": true,
         "allowNamespaces": true,
         "isTSX": true,
+        "optimizeConstEnums": true,
       },
     ],
   ],

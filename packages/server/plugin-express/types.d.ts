@@ -15,7 +15,9 @@ declare module '@modern-js/runtime/express' {
   export * from '@modern-js/bff-core';
 }
 
+
 // Todo: remove on next version
+// For use with BFF, it will be removed on next version, and use @modern-js/runtime/express instead?
 declare module '@modern-js/runtime/server' {
   import { Request, Response, RequestHandler } from 'express';
 

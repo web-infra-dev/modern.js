@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-plugin-swc",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "description": "SWC plugin for builder in Modern.js",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
@@ -49,11 +49,11 @@
     "magic-string": "^0.26.2",
     "source-map": "^0.7.4",
     "typescript": "^4",
-    "webpack": "^5.74.0"
+    "webpack": "^5.75.0"
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.0.10",
+    "@modern-js/swc-plugins": "0.0.11",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.4.12",
     "core-js": "^3.26.0"

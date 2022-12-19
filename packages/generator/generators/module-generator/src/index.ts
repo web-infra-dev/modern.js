@@ -163,10 +163,10 @@ export const handleTemplateFile = async (
 
   if (language === Language.TS) {
     const updateInfo: Record<string, string> = {
-      'devDependencies.typescript': '^4',
-      'devDependencies.@types/jest': '^26.0.9',
-      'devDependencies.@types/node': '^14',
-      'devDependencies.@types/react': '^18',
+      'devDependencies.typescript': '~4.9.4',
+      'devDependencies.@types/jest': '~29.2.4',
+      'devDependencies.@types/node': '~16.11.7',
+      'devDependencies.@types/react': '~18.0.26',
     };
 
     await jsonAPI.update(

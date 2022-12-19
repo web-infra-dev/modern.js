@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

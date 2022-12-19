@@ -12,6 +12,8 @@ import type {
   RouteLegacy,
   ServerRoute,
 } from '@modern-js/types';
+import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
+import type { Stats, MultiStats } from '@modern-js/builder-shared';
 
 export interface ImportSpecifier {
   local?: string;
@@ -83,10 +85,7 @@ export type AppToolsHooks = {
     { bundlerConfigs?: webpack.Configuration[] },
     unknown
   >;
-  afterBuild: AsyncWorkflow<
-    { stats?: webpack.Stats | webpack.MultiStats },
-    unknown
-  >;
+  afterBuild: AsyncWorkflow<{ stats?: Stats | MultiStats }, unknown>;
   beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
 
@@ -96,4 +95,10 @@ export type AppToolsHooks = {
     void
   >;
   beforeRestart: AsyncWorkflow<void, void>;
+
+  registerDev: ParallelWorkflow<void, DevToolData>;
+  beforeDevTask: ParallelWorkflow<DevToolData, void>;
+
+  registerBuildPlatform: ParallelWorkflow<void, RegisterBuildPlatformResult>;
+  beforeBuildPlatform: ParallelWorkflow<RegisterBuildPlatformResult[], void>;
 };

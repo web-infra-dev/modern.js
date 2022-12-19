@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import HtmlPlugin from '@rspack/plugin-html';
 import { Compiler } from '../types';
+// @ts-expect-error
 import { RawSource } from 'webpack-sources';
 
 type AppIconOptions = {

@@ -1,17 +1,20 @@
 - Type: `Object | Function`
-- Default
+- Default:
 
 ```js
-{
-  sourceMap: false;
-}
+const defaultOptions = {
+  // CSS Source Map enabled by default in development environment
+  sourceMap: isDev,
+};
 ```
 
 You can modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader) via `tools.sass`.
 
 ### Object Type
 
-When `tools.sass` is `Object` type, it is merged with the default config via Object.assign. For example:
+When `tools.sass` is `Object` type, it is merged with the default config through Object.assign. It should be noted that `sassOptions` is merged through deepMerge in a deep way.
+
+For example:
 
 ```js
 export default {
@@ -44,7 +47,9 @@ export default {
 
 #### addExcludes
 
-Used to specify which files `sass-loader` does not compile, for example:
+- Type: `(excludes: RegExp | RegExp[]) => void`
+
+Used to specify which files `sass-loader` does not compile, You can pass in one or more regular expressions to match the path of sass files, for example:
 
 ```js
 export default {

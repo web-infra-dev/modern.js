@@ -2,6 +2,10 @@
 
 Builder supports import static assets, including images, fonts, and medias.
 
+::: tip What is Static Assets
+Static assets are files that are part of a web application and do not change, even when the application is being used. Examples of static assets include images, fonts, medias, stylesheets, and JavaScript files. These assets are typically stored on a web server or CDN, and delivered to the user's web browser when the Web application is accessed. Because they do not change, static assets can be cached by the browser, which helps to improve the performance of the Web application.
+:::
+
 ## Assets Format
 
 The following are the formats supported by Builder by default:
@@ -27,7 +31,7 @@ import logo from './static/logo.png';
 export default = () => <img src={logo} />;
 ```
 
-Import with [alias](/guide/basic/alias.html) are also supported:
+Import with [alias](/guide/advanced/alias.html) are also supported:
 
 ```tsx
 import logo from '@/static/logo.png';
@@ -45,7 +49,7 @@ In CSS files, you can reference static assets in relative paths:
 }
 ```
 
-Import with [alias](/guide/basic/alias.html) are also supported:
+Import with [alias](/guide/advanced/alias.html) are also supported:
 
 ```css
 .logo {
@@ -68,7 +72,7 @@ console.log(largeImage); // "/static/largeImage.6c12aba3.png"
 console.log(smallImage); // "data:image/png;base64,iVBORw0KGgo..."
 ```
 
-For a more detailed introduction to asset inlining, please refer to the [Static Asset Inlining](/guide/advanced/inline-assets.html) chapter.
+For a more detailed introduction to asset inlining, please refer to the [Static Asset Inlining](/guide/optimization/inline-assets.html) chapter.
 
 ## Output Files
 
@@ -93,6 +97,26 @@ import logo from './static/logo.png';
 
 console.log(logo); // "https://modern.com/static/logo.6c12aba3.png"
 ```
+
+## Add Type Declaration
+
+When you import static assets in TypeScript code, TypeScript may prompt that the module is missing a type definition:
+
+```
+TS2307: Cannot find module './logo.png' or its corresponding type declarations.
+```
+
+To fix this, you need to add a type declaration file for the static assets, please create a `src/global.d.ts` file, and add the corresponding type declaration. Taking png images as an example, you need to add the following declarations:
+
+```ts
+// src/global.d.ts
+declare module '*.png' {
+  const content: string;
+  export default content;
+}
+```
+
+After adding the type declaration, if the type error still exists, you can try to restart the current IDE, or adjust the directory where `global.d.ts` is located, making sure the TypeScript can correctly identify the type definition.
 
 ## Image Format
 

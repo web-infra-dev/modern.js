@@ -1,5 +1,153 @@
 # @modern-js/server
 
+## 2.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- b710adb843: feat: extract the data loader
+  feat: 提取 data loader
+
+### Patch Changes
+
+- 7879e8f: refactor: remove enableModernMode config
+
+  refactor: 不再支持 enableModernMode 配置项
+
+- d4e8e6fb90: fix: modernjs dev server can't start normaly
+  fix: modernjs dev 服务端不能正常启动
+- 15bf09d9c8: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- 61f21d1e77: fix: ignore the entire distPath for pia ssr bundle
+  fix: dist 目录的产物不应该被 ts-node 编译
+- 4f277fe: fix(server): remove peer dependencies warning
+
+  fix(server): 修复 peer dependencies 出现 warning 提示的问题
+
+- cce8ecee2d: fix: handle some `TODO` & `FIXME`, change some tests
+  fix: 处理一些 `TODO` 和 `FIXME`, 修改了一些 tests
+- ea7cf06: chore: bump webpack/babel-loader/postcss-loader/tsconfig-paths
+
+  chore: 升级 webpack/babel-loader/postcss-loader/tsconfig-paths 版本
+
+- ebbeed1ece: chore: dev server default cross origin
+  chore: 开发环境 Server 默认跨域
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [9b915e0c10]
+- Updated dependencies [7879e8f]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [d4e8e6fb90]
+- Updated dependencies [d032d49e09]
+- Updated dependencies [6aca875]
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [7b7d12c]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [a8642da58f]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed5874c6]
+- Updated dependencies [87c1ff86b9]
+- Updated dependencies [c2bb0f1745]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [73cd29dd9f]
+- Updated dependencies [b710adb843]
+- Updated dependencies [cce8ecee2d]
+- Updated dependencies [18aaf42249]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/server-utils@2.0.0-beta.4
+  - @modern-js/prod-server@2.0.0-beta.4
+  - @modern-js/types@2.0.0-beta.4
+  - @modern-js/utils@2.0.0-beta.4
+
+## 2.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- b710adb: feat: extract the data loader
+  feat: 提取 data loader
+
+### Patch Changes
+
+- d4e8e6f: fix: modernjs dev server can't start normaly
+  fix: modernjs dev 服务端不能正常启动
+- 15bf09d9c8: feat: support completely custom server, export render() api for render single page
+  feat: 支持完全自定义 Server，导出 render() 方法用来渲染单个页面
+- 61f21d1e77: fix: ignore the entire distPath for pia ssr bundle
+  fix: dist 目录的产物不应该被 ts-node 编译
+- cce8ece: fix: handle some `TODO` & `FIXME`, change some tests
+  fix: 处理一些 `TODO` 和 `FIXME`, 修改了一些 tests
+- ea7cf06: chore: bump webpack/babel-loader/postcss-loader/tsconfig-paths
+
+  chore: 升级 webpack/babel-loader/postcss-loader/tsconfig-paths 版本
+
+- ebbeed1ece: chore: dev server default cross origin
+  chore: 开发环境 Server 默认跨域
+- 14b712da84: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [9b915e0c10]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [d4e8e6f]
+- Updated dependencies [d032d49e09]
+- Updated dependencies [6aca875]
+- Updated dependencies [15bf09d9c8]
+- Updated dependencies [2e60319]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [a8642da58f]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [40ed5874c6]
+- Updated dependencies [87c1ff86b9]
+- Updated dependencies [c2bb0f1]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [102d32e4ba]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [73cd29dd9f]
+- Updated dependencies [b710adb]
+- Updated dependencies [cce8ece]
+- Updated dependencies [18aaf42249]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/server-utils@2.0.0-beta.3
+  - @modern-js/prod-server@2.0.0-beta.3
+  - @modern-js/utils@2.0.0-beta.3
+  - @modern-js/types@2.0.0-beta.3
+
 ## 2.0.0-beta.2
 
 ### Major Changes

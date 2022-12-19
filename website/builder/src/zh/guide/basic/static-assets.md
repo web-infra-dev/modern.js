@@ -2,6 +2,10 @@
 
 Builder 支持在代码中引用图片、字体、媒体类型的静态资源。
 
+:::tip 什么是静态资源
+静态资源是指 Web 应用中不会发生变化的文件。常见的静态资源包括图片、字体、视频、样式表和 JavaScript 文件。这些资源通常存储在服务器或 CDN 上，当用户访问 Web 应用时会被传送到用户的浏览器。由于它们不会发生变化，静态资源可以被浏览器缓存，从而提高 Web 应用的性能。
+:::
+
 ## 静态资源格式
 
 以下是 Builder 默认支持的静态资源格式：
@@ -27,7 +31,7 @@ import logo from './static/logo.png';
 export default = () => <img src={logo} />;
 ```
 
-也支持使用[路径别名](/guide/basic/alias.html)来引用：
+也支持使用[路径别名](/guide/advanced/alias.html)来引用：
 
 ```tsx
 import logo from '@/static/logo.png';
@@ -45,7 +49,7 @@ export default = () => <img src={logo} />;
 }
 ```
 
-也支持使用[路径别名](/guide/basic/alias.html)来引用：
+也支持使用[路径别名](/guide/advanced/alias.html)来引用：
 
 ```css
 .logo {
@@ -68,7 +72,7 @@ console.log(largeImage); // "/static/largeImage.6c12aba3.png"
 console.log(smallImage); // "data:image/png;base64,iVBORw0KGgo..."
 ```
 
-关于资源内联的更详细介绍，请参考 [静态资源内联](/guide/advanced/inline-assets.html) 章节。
+关于资源内联的更详细介绍，请参考 [静态资源内联](/guide/optimization/inline-assets.html) 章节。
 
 ## 构建产物
 
@@ -93,6 +97,26 @@ import logo from './static/logo.png';
 
 console.log(logo); // "https://modern.com/static/logo.6c12aba3.png"
 ```
+
+## 添加类型声明
+
+当你在 TypeScript 代码中引用静态资源时，TypeScript 可能会提示该模块缺少类型定义：
+
+```
+TS2307: Cannot find module './logo.png' or its corresponding type declarations.
+```
+
+此时你需要为静态资源添加类型声明文件，请在项目中创建 `src/global.d.ts` 文件，并添加相应的类型声明。以 png 图片为例，需要添加以下声明：
+
+```ts
+// src/global.d.ts
+declare module '*.png' {
+  const content: string;
+  export default content;
+}
+```
+
+添加类型声明后，如果依然存在上述错误提示，请尝试重启当前 IDE，或者调整 `global.d.ts` 所在的目录，使 TypeScript 能够正确识别类型定义。
 
 ## 图片格式
 

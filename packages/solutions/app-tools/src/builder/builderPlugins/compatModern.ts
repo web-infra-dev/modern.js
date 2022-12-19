@@ -5,13 +5,13 @@ import {
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
 import type {
-  BuilderPluginAPI,
   WebpackChain,
+  NormalizedConfig,
+  BuilderPluginAPI,
 } from '@modern-js/builder-webpack-provider';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 import { getEntryOptions, ChainIdentifier } from '@modern-js/utils';
-import { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type {
   IAppContext,
   SSGMultiEntryOptions,
@@ -49,7 +49,7 @@ export type PluginCompatModernOptions = FnParameter<
 >;
 
 /**
- * Provides default configuration consistent with `@modern-js/webpack`
+ * Provides default configuration consistent with modern.js v1
  */
 export const PluginCompatModern = (
   appContext: IAppContext,
@@ -124,11 +124,11 @@ export const PluginCompatModern = (
       const existNestedRoutes = entrypoints.some(
         entrypoint => entrypoint.nestedRoutesEntry,
       );
-      chain.plugin('route-plugin').use(RouterPlugin, [
-        {
-          existNestedRoutes,
-        },
-      ]);
+
+      const routerManifest = Boolean(modernConfig?.runtime?.router?.manifest);
+      if (existNestedRoutes || routerManifest) {
+        chain.plugin('route-plugin').use(RouterPlugin);
+      }
       if (target !== 'node') {
         const bareServerModuleReg = /\.(server|node)\.[tj]sx?$/;
         chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(bareServerModuleReg);
@@ -139,7 +139,7 @@ export const PluginCompatModern = (
           .loader(require.resolve('../loaders/serverModuleLoader'));
       }
 
-      function isHtmlEnabled(config: BuilderConfig, target: BuilderTarget) {
+      function isHtmlEnabled(config: NormalizedConfig, target: BuilderTarget) {
         return (
           config.tools?.htmlPlugin !== false &&
           target !== 'node' &&

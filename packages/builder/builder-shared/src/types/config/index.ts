@@ -1,10 +1,17 @@
-import type { SharedDevConfig } from './dev';
-import type { SharedHtmlConfig } from './html';
-import type { SharedOutputConfig } from './output';
-import type { SharedSourceConfig } from './source';
+import type { SharedDevConfig, NormalizedSharedDevConfig } from './dev';
+import type { SharedHtmlConfig, NormalizedSharedHtmlConfig } from './html';
+import type {
+  SharedOutputConfig,
+  NormalizedSharedOutputConfig,
+} from './output';
+import type {
+  SharedSourceConfig,
+  NormalizedSharedSourceConfig,
+} from './source';
 import type { SharedSecurityConfig } from './security';
 import type { SharedPerformanceConfig } from './performance';
 import type { SharedExperimentsConfig } from './experiments';
+import type { DeepReadonly } from '../utils';
 
 /**
  * The shared Builder Config.
@@ -16,9 +23,18 @@ export interface SharedBuilderConfig {
   source?: SharedSourceConfig;
   output?: SharedOutputConfig;
   security?: SharedSecurityConfig;
-  performance?: SharedPerformanceConfig;
+  performance?: Pick<SharedPerformanceConfig, 'printFileSize'>;
   experiments?: SharedExperimentsConfig;
 }
+
+export type SharedNormalizedConfig = DeepReadonly<{
+  dev: NormalizedSharedDevConfig;
+  html: NormalizedSharedHtmlConfig;
+  // alias type incompatible between webpack and rspack
+  source: Omit<NormalizedSharedSourceConfig, 'alias'>;
+  output: NormalizedSharedOutputConfig;
+  performance: Pick<SharedPerformanceConfig, 'printFileSize'>;
+}>;
 
 export * from './dev';
 export * from './html';

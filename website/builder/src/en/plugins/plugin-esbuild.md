@@ -1,12 +1,14 @@
-# esbuild Plugin
+# Esbuild Plugin
 
 :::tip About esbuild
 [esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.
 :::
 
-Builder provides esbuild plugin that allow you to use esbuild instead of babel-loader, ts-loader and terser for transformation and minification process.
+Builder provides esbuild plugin that allow you to use esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. When you enable esbuild in a large project, **it can greatly reduce the time required for code compilation and compression, while effectively avoiding OOM (heap out of memory) problems**.
 
-## Install
+## Quick Start
+
+### Install
 
 You can install the plugin with the following command:
 
@@ -21,18 +23,28 @@ yarn add @modern-js/builder-plugin-esbuild -D
 pnpm install @modern-js/builder-plugin-esbuild -D
 ```
 
-## Register
+### Register
 
-You can register the plugin in Builder to enable esbuild features:
+In upper-level frameworks such as Modern.js or EdenX, you can register esbuild plugins through the `builderPlugins` config:
+
+```ts
+import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
+
+export default {
+  builderPlugins: [PluginEsbuild()],
+};
+```
+
+If you are using the Builder's Node API, you can register esbuild plugins through the `addPlugins` method:
 
 ```js
 import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
 
-// Add plugins to the builder instance
+// add the plugin to the builder instance
 builder.addPlugins([PluginEsbuild()]);
 ```
 
-## Configuration
+## Config
 
 The plugin will enable code transformation and minification by default. You can also customize the behavior of the plugin through configuration.
 
@@ -59,9 +71,9 @@ If you want to modify the options, you can check the [esbuild-loader documentati
 
 #### Set the target environment
 
-Use the `target` option to set the target environment for transformation. `target` can be set directly to the JavaScript language version, such as `es6`, `es2020`; it can also be set to several target environments, each target environment is an environment name followed by a version number, such as `['chrome58', 'edge16' ,'firefox57']`.
+Use the `target` option to set the target environment for transformation. `target` can be set directly to the JavaScript language version, such as `es6`, `es2020`; it can also be set to several target environments, each target environment is an environment name followed by a version number, such as `['chrome58', 'edge16' ,'firefox57']`. For a detailed introduction of the `target` option, please refer to [esbuild - target](https://esbuild.github.io/api/#target).
 
-The following environments are supported:
+target supports setting to the following environments:
 
 - chrome
 - edge
@@ -73,13 +85,11 @@ The following environments are supported:
 - safari
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    loader: {
-      target: 'chrome61',
-    },
-  }),
-]);
+PluginEsbuild({
+  loader: {
+    target: 'chrome61',
+  },
+});
 ```
 
 #### Disable transformation
@@ -87,11 +97,9 @@ builder.addPlugins([
 Set `loader` to `false` to disable esbuild transformation, and Builder will continue to use Babel to transform the code.
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    loader: false,
-  }),
-]);
+PluginEsbuild({
+  loader: false,
+});
 ```
 
 ### minimize
@@ -120,13 +128,11 @@ If you want to modify the options, you can check the [esbuild-loader documentati
 Use the `target` option to set the target environment for minification.
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    minimize: {
-      target: 'chrome61',
-    },
-  }),
-]);
+PluginEsbuild({
+  minimize: {
+    target: 'chrome61',
+  },
+});
 ```
 
 #### Disable minification
@@ -134,11 +140,9 @@ builder.addPlugins([
 Set `minimize` to `false` to disable esbuild minification, and Builder will continue to use Terser to minify the code.
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    minimize: false,
-  }),
-]);
+PluginEsbuild({
+  minimize: false,
+});
 ```
 
 ## Limitations
@@ -147,18 +151,32 @@ Although esbuild can significantly improve the build performance of existing web
 
 ### Compatibility
 
-As a compiler (i.e. `loader` capability), esbuild can only support ES2015 (ie ES6) syntax. If the production environment needs to downgrade to ES5 and below syntax, **please close esbuild** in the production environment.
+As a compiler (i.e. `loader` capability), esbuild usually supports at least ES2015 (that is, ES6) syntax, and does not have the ability to automatically inject Polyfill.. If the production environment needs to downgrade to ES5 and below syntax, it is recommended to use SWC compilation.
 
-As a code minify tool (i.e. `minimize` capability), esbuild can minify the code in production environment, but only supports ES2015 or above syntax (because the compression process needs to recognize the code AST and perform syntax conversion). You can specify the target syntax version by following config:
+You can specify the target syntax version by following config:
+
+```ts
+PluginEsbuild({
+  loader: {
+    target: 'es2015',
+  },
+});
+```
+
+As a code minify tool (i.e. `minimize` capability), esbuild can minify the code in production environment, and usually supports ES2015 syntax at least.
+
+If you set the compressed `target` to `es5`, you need to ensure that all codes have been compiled to ES5 codes, otherwise it will cause esbuild compilation error: `Transforming 'xxx' to the configured target environment ("es5") is not supported yet `.
+
+Therefore, for projects that need to be compatible with ES5 and below syntax in the production environment, please be careful to enable the minimize capability, and it is recommended to use SWC compression.
+
+You can specify the target syntax version by following config:
 
 ```js
-builder.addPlugins([
-  PluginEsbuild({
-    minimize: {
-      target: 'es2015',
-    },
-  }),
-]);
+PluginEsbuild({
+  minimize: {
+    target: 'es2015',
+  },
+});
 ```
 
 :::danger Caution
@@ -168,6 +186,8 @@ Projects that need to be compatible with ES5 and below syntax in the production 
 ### Not support Babel plugins
 
 As a compiler, the syntax transformation function of the original Babel plugins such as `babel-plugin-import` is not available after esbuild is turned on. And since the bottom layer of the plugin uses esbuild's `Transform API`, it does not support esbuild plugins to customize the compilation process.
+
+If you have requirements related to Babel plugins such as `babel-plugin-import`, you can use the SWC plugin.
 
 ### Bundle Size
 

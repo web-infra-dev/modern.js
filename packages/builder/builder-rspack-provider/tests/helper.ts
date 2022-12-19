@@ -4,6 +4,7 @@ import {
   applyDefaultBuilderOptions,
   type CreateBuilderOptions,
 } from '@modern-js/builder-shared';
+import { mockBuilderPlugins } from '@modern-js/builder-shared/test-stub';
 import { BuilderPlugin, BuilderConfig, RspackConfig } from '../src/types';
 import { builderRspackProvider } from '../src/provider';
 
@@ -48,6 +49,7 @@ export async function createBuilder({
   } = await provider({
     pluginStore,
     builderOptions,
+    plugins: mockBuilderPlugins,
   });
 
   if (plugins) {

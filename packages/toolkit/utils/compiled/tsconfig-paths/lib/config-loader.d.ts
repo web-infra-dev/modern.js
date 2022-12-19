@@ -4,7 +4,7 @@ export interface ExplicitParams {
     paths: {
         [key: string]: Array<string>;
     };
-    mainFields?: Array<string>;
+    mainFields?: (string | string[])[];
     addMatchAll?: boolean;
 }
 export declare type TsConfigLoader = (params: TsConfigLoader2.TsConfigLoaderParams) => TsConfigLoader2.TsConfigLoaderResult;
@@ -16,12 +16,12 @@ export interface ConfigLoaderParams {
 export interface ConfigLoaderSuccessResult {
     resultType: "success";
     configFileAbsolutePath: string;
-    baseUrl: string;
+    baseUrl?: string;
     absoluteBaseUrl: string;
     paths: {
         [key: string]: Array<string>;
     };
-    mainFields?: Array<string>;
+    mainFields?: (string | string[])[];
     addMatchAll?: boolean;
 }
 export interface ConfigLoaderFailResult {

@@ -1,5 +1,37 @@
 # @modern-js/storybook-generator
 
+## 3.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 2344eb26ed: fix: storybook generator runtimeDependenceVersion keyword
+
+  fix: storybook 生成器 runtimeDependenceVersion 关键字
+
+- 6b6f180279: fix: generator bundle
+
+  fix: 生成器打包
+
+## 3.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 2344eb26ed: fix: storybook generator runtimeDependenceVersion keyword
+
+  fix: storybook 生成器 runtimeDependenceVersion 关键字
+
+- 6b6f180279: fix: generator bundle
+
+  fix: 生成器打包
+
 ## 3.0.0-beta.2
 
 ### Major Changes

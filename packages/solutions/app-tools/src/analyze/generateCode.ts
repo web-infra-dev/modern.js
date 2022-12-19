@@ -1,5 +1,10 @@
 import path from 'path';
-import { fs, LOADER_ROUTES_DIR, logger } from '@modern-js/utils';
+import {
+  fs,
+  getEntryOptions,
+  LOADER_ROUTES_DIR,
+  logger,
+} from '@modern-js/utils';
 import {
   IAppContext,
   PluginAPI,
@@ -12,7 +17,7 @@ import type {
   RouteLegacy,
   PageRoute,
 } from '@modern-js/types';
-import esbuild from 'esbuild';
+import type { Loader } from 'esbuild';
 import {
   AppNormalizedConfig,
   AppTools,
@@ -30,8 +35,9 @@ import {
 } from './constants';
 import { getDefaultImports } from './utils';
 import { walk } from './nestedRoutes';
+import { loaderBuilder, serverLoaderBuilder } from './Builder';
 
-const loader: { [ext: string]: esbuild.Loader } = {
+const loader: { [ext: string]: Loader } = {
   '.js': 'jsx',
   '.ts': 'tsx',
 };
@@ -100,7 +106,7 @@ export const createImportStatements = (
 
 const buildLoader = async (entry: string, outfile: string) => {
   const command = getCommand();
-  await esbuild.build({
+  await loaderBuilder.build({
     format: 'esm',
     platform: 'browser',
     target: 'esnext',
@@ -134,7 +140,7 @@ const buildLoader = async (entry: string, outfile: string) => {
 
 const buildServerLoader = async (entry: string, outfile: string) => {
   const command = getCommand();
-  await esbuild.build({
+  await serverLoaderBuilder.build({
     format: 'cjs',
     platform: 'node',
     target: 'esnext',
@@ -159,6 +165,7 @@ export const generateCode = async (
     srcDirectory,
     internalDirAlias,
     internalSrcAlias,
+    packageName,
   } = appContext;
 
   const hookRunners = api.useHookRunners();
@@ -213,7 +220,12 @@ export const generateCode = async (
         });
 
         const config = useResolvedConfigContext();
-        const ssr = config?.server.ssr;
+        const ssr = getEntryOptions(
+          entryName,
+          config.server.ssr,
+          config.server.ssrByEntries,
+          packageName,
+        );
 
         let mode: false | 'stream' | 'string';
         if (ssr) {
@@ -221,14 +233,13 @@ export const generateCode = async (
         } else {
           mode = false;
         }
-
         if (mode === 'stream') {
           const hasPageRoute = routes.some(
             route => 'type' in route && route.type === 'page',
           );
           if (hasPageRoute) {
             logger.error(
-              'streaming ssr is not supported when pages dir exists',
+              'Streaming ssr is not supported when pages dir exists',
             );
             // eslint-disable-next-line no-process-exit
             process.exit(1);
@@ -243,6 +254,7 @@ export const generateCode = async (
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
             internalDirectory,
+            internalDirAlias,
           }),
         });
 

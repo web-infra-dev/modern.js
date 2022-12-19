@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -30,7 +30,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern-lib new",
-    "build": "modern-lib build",
+    "build": "modern-lib build && node ./temp-fix-hmr.js",
     "dev": "modern-lib build --watch",
     "test": "jest"
   },
@@ -59,21 +59,24 @@
     "jest": "^27",
     "node-mocks-http": "^1.11.0",
     "ts-node": "^10.1.0",
-    "tsconfig-paths": "3.14.1",
+    "tsconfig-paths": "4.1.1",
     "typescript": "^4",
-    "webpack": "^5.74.0",
+    "webpack": "^5.75.0",
     "websocket": "^1"
   },
   "peerDependencies": {
     "ts-node": "^10.1.0",
-    "tsconfig-paths": "3.14.1"
+    "tsconfig-paths": ">= 3.0.0 || >= 4.0.0"
   },
-  "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
+  "peerDependenciesMeta": {
+    "ts-node": {
+      "optional": true
+    },
+    "tsconfig-paths": {
+      "optional": true
     }
   },
+  "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

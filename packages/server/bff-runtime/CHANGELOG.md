@@ -1,5 +1,17 @@
 # @modern-js/bff-runtime
 
+## 2.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+## 2.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
 ## 2.0.0-beta.2
 
 ### Major Changes

@@ -1,5 +1,5 @@
-import { Import } from '@modern-js/utils';
-import type { PluginAPI, ModuleTools } from '@modern-js/module-tools-v2';
+import { Import, getPort } from '@modern-js/utils';
+import type { PluginAPI, ModuleTools } from '@modern-js/module-tools';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(
@@ -31,7 +31,7 @@ export const runDev = async (
 ) => {
   const appContext = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
-  const { appDirectory, port = constants.STORYBOOK_PORT } = appContext;
+  const { appDirectory, port } = appContext;
 
   if (!valid({ stories, isModuleTools, isTs: isTsProject })) {
     return;
@@ -44,21 +44,36 @@ export const runDev = async (
     modernConfig,
   });
 
-  const handleWebpack = webpackConfig.getCustomWebpackConfigHandle({
-    modernConfig,
+  const handleWebpack = await webpackConfig.getCustomWebpackConfigHandle({
     appContext,
     configDir,
-    isTsProject,
-    env: 'dev',
+    modernConfig,
   });
+
   // NB: must set NODE_ENV
   process.env.NODE_ENV = 'development';
 
   storybook({
     ci: true,
     mode: 'dev',
-    port,
+    port: await getPort(port || constants.STORYBOOK_PORT),
     configDir,
     customFinalWebpack: handleWebpack,
+  }).catch(async (err: any) => {
+    const { formatStats, logger } = await import('@modern-js/builder-shared');
+
+    // catch & log storybook preview error
+    if (err.toJSON) {
+      const { message } = await formatStats(err);
+      logger.log(message);
+    } else if (err.toString) {
+      logger.error(err.toString({ preset: 'errors-warnings' }));
+    } else {
+      logger.error(err);
+    }
+
+    // bail out, the storybook has dead
+    // eslint-disable-next-line no-process-exit
+    process.exit(1);
   });
 };

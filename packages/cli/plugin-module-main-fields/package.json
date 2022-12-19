@@ -11,13 +11,13 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
-    "dev": "mdn build --watch",
-    "build": "mdn build",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
@@ -27,10 +27,10 @@
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*",
-    "@modern-js/module-tools-v2": "workspace:*"
+    "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools-v2": "workspace:*"
+    "@modern-js/module-tools": "workspace:*"
   },
   "sideEffects": false,
   "publishConfig": {

@@ -26,15 +26,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -134,6 +125,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "allowDeclareFields": true,
                     "allowNamespaces": true,
                     "isTSX": true,
+                    "optimizeConstEnums": true,
                   },
                 ],
               ],
@@ -158,15 +150,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "plugins": [
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
-                  {
-                    "metaName": "modern-js",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -260,6 +243,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "allowDeclareFields": true,
                     "allowNamespaces": true,
                     "isTSX": true,
+                    "optimizeConstEnums": true,
                   },
                 ],
               ],
@@ -316,7 +300,6 @@ exports[`plugins/react > should work with ts-loader 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
                     "appDirectory": "<ROOT>",
-                    "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",
                     "useTsLoader": true,

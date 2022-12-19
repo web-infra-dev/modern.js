@@ -27,7 +27,6 @@ export function createOutputConfig(
     enableLatestDecorators,
     disableCssModuleExtension,
     ssg,
-    enableModernMode,
     disableNodePolyfill,
   } = config.output;
 
@@ -39,7 +38,7 @@ export function createOutputConfig(
       css: cssPath,
       js: jsPath,
       html: htmlPath,
-      // `@modern-js/webpack` output all media files to `dist/media` by default
+      // modern.js v1 output all media files to `dist/media` by default
       svg: mediaPath || 'media',
       image: mediaPath || 'media',
       font: mediaPath || 'media',
@@ -51,6 +50,7 @@ export function createOutputConfig(
       font: dataUriLimit,
       media: dataUriLimit,
     },
+    cssModuleLocalIdentName,
     disableCssExtract,
     disableCssModuleExtension,
     disableInlineRuntimeChunk,
@@ -63,14 +63,10 @@ export function createOutputConfig(
     polyfill,
     disableFilenameHash: disableAssetsCache,
     enableLatestDecorators,
-    filename: {
-      css: cssModuleLocalIdentName,
-    },
     ssg,
     // set `true`, only in legacy config
     enableAssetFallback: true,
     enableAssetManifest: true,
-    enableModernMode,
     disableNodePolyfill,
   };
 }

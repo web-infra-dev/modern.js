@@ -16,7 +16,7 @@ import ReactDOM from 'react-dom/client'
 import { bootstrap } from '@modern-js/runtime';
 
 
-export default App => {
+export default (App: React.ComponentType) => {
   // do something before bootstrap...
   bootstrap(App, 'root', undefined, ReactDOM);
 };
@@ -29,32 +29,30 @@ export default App => {
 Modern.js 生成的文件内容如下：
 
 ```js
-import customRender from '@/src/index.js';
-import { createApp, bootstrap } from '@modern-js/runtime';
 import React from 'react';
-import App from '@/src/App';
+import ReactDOM from 'react-dom/client';
+import customBootstrap from '@_edenx_src/index.tsx';
+import App from '@_edenx_src/App';
+import { router, state } from '@edenx/runtime/plugins';
 
-const IS_BROWSER = typeof window !== 'undefined';
+const IS_BROWSER = typeof window !== 'undefined' && window.name !== 'nodejs';
 const MOUNT_ID = 'root';
 
 let AppWrapper = null;
 
-const renderApp = () => {
+function render() {
   AppWrapper = createApp({
     // runtime 的插件参数...
-  })(App);
-  customRender(AppWrapper);
-};
-
-renderApp();
-
-export default AppWrapper;
-
-if (IS_BROWSER && module.hot) {
-  module.hot.accept('<path>/src/App', () => {
-    renderApp();
-  });
+  })(App)
+  if (IS_BROWSER) {
+    customBootstrap(AppWrapper);
+  }
+  return AppWrapper
 }
+
+AppWrapper = render();
+
+export default AppWrapper;;
 ```
 
 ## 完全接管 Webpack 入口

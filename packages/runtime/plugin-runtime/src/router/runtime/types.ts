@@ -36,5 +36,8 @@ export type RouterConfig = {
   };
   serverBase?: string[];
   supportHtml5History?: boolean;
+  basename?: string;
   createRoutes?: () => RouteObject[];
 };
+
+export type Routes = RouterConfig['routesConfig']['routes'];

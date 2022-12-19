@@ -1,4 +1,4 @@
-# TypeScript
+# 使用 TypeScript
 
 Builder 对 TypeScript 的转译和类型检查做了默认支持，无需任何配置即可在项目中使用 `.ts` 和 `.tsx` 文件。
 
@@ -32,7 +32,7 @@ export default {
 
 如果想要更快的项目构建速度，并且项目没有依赖某些自定义的 Babel 插件，那么也可以选择 SWC 来对 JavaScript 和 TypeScript 进行转译和压缩。Builder 的 SWC 插件默认支持 TypeScript, TSX, Decorator，使用方式可见 [SWC 插件](/zh/plugins/plugin-swc.html)。
 
-### 为什么默认 Babel
+### 为什么默认使用 Babel
 
 Babel 除了没有类型检查以外，对 TypeScript 语法支持已经非常完善，而类型检查可以借助另外的工具更好地进行。转译到低版本的 JavaScript 时，某些语法 Babel 会处理得更符合标准，例如 Babel 会将类成员初始化为 undefined，将类方法标记不可枚举等行为。如果启用 ts-loader，为了更精确的语法降级和 Polyfill，最后还是会将处理后的产物再次经过 Babel 处理，产生不必要的性能开销。
 

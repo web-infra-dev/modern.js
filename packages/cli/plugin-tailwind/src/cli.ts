@@ -8,7 +8,7 @@ import {
   slash,
 } from '@modern-js/utils';
 import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
-import type { CliPlugin, ModuleTools } from '@modern-js/module-tools-v2';
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import DesignTokenPlugin from './design-token/cli';
 import { getTailwindConfig } from './tailwind';
 import { template, checkTwinMacroNotExist } from './utils';
@@ -35,7 +35,7 @@ export default (
   usePlugins: [
     DesignTokenPlugin({
       pluginName,
-    }) as any,
+    }),
   ],
   setup: async api => {
     const { appDirectory, internalDirectory } = api.useAppContext();
@@ -107,40 +107,21 @@ export default (
                 ];
               }
             },
-            babel(config) {
+            babel(_, { addPlugins }) {
               if (notHaveTwinMacro) {
                 return;
               }
-              const twinConfig = {
-                twin: {
-                  preset: supportCssInJsLibrary,
-                  config: internalTwConfigPath,
-                },
-              };
-              config.plugins?.some(plugin => {
-                if (Array.isArray(plugin) && plugin[0]) {
-                  const pluginTarget = plugin[0];
-                  let pluginOptions = plugin[1];
-                  if (
-                    typeof pluginTarget === 'string' &&
-                    // TODO: use babel chain
-                    slash(pluginTarget).includes('compiled/babel-plugin-macros')
-                  ) {
-                    if (pluginOptions) {
-                      pluginOptions = {
-                        ...pluginOptions,
-                        ...twinConfig,
-                      };
-                    } else {
-                      plugin.push(twinConfig);
-                    }
-
-                    return true;
-                  }
-                }
-
-                return false;
-              });
+              addPlugins([
+                [
+                  require.resolve('babel-plugin-macros'),
+                  {
+                    twin: {
+                      preset: supportCssInJsLibrary,
+                      config: internalTwConfigPath,
+                    },
+                  },
+                ],
+              ]);
             },
           },
         };

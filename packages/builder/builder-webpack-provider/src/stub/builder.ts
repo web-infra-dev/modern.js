@@ -6,6 +6,7 @@ import {
   type CreateBuilderOptions,
   type PluginStore,
 } from '@modern-js/builder-shared';
+import { mockBuilderPlugins } from '@modern-js/builder-shared/test-stub';
 import type * as playwright from '@modern-js/e2e/playwright';
 import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
@@ -23,6 +24,7 @@ import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
 import { globContentJSON, matchLoader } from './utils';
+import { getPluginAPI } from '../core/initPlugins';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
@@ -82,7 +84,7 @@ export async function applyPluginOptions(
   } else if (opt.builtin === 'basic') {
     pluginStore.addPlugins(await applyBasicPlugins());
   } else if (opt.builtin === 'default') {
-    pluginStore.addPlugins(await applyDefaultPlugins());
+    pluginStore.addPlugins(await applyDefaultPlugins(mockBuilderPlugins));
   }
   pluginStore.addPlugins(opt.additional);
 }
@@ -113,13 +115,15 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   const publicContext = createPublicContext(context);
   const pluginStore = createPluginStore();
 
+  context.pluginAPI = getPluginAPI({ context, pluginStore });
+
   // add builtin and custom plugins by `options.plugins`.
   await applyPluginOptions(pluginStore, options?.plugins);
 
   // tap on each hook and cache the args.
   const resolvedHooks: Record<string, any> = {};
   _.each(context.hooks, ({ tap }, name) => {
-    tap((...args) => {
+    tap((...args: any[]) => {
       resolvedHooks[name] = args;
     });
   });

@@ -1,5 +1,104 @@
 # @modern-js/monorepo-tools
 
+## 2.0.0-beta.4
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- Updated dependencies [7879e8f]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [6aca875]
+- Updated dependencies [85edee888c]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [7b7d12c]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [a3af050486]
+- Updated dependencies [d4a456659b]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [f680410886]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb843]
+- Updated dependencies [b7a96c35fc]
+- Updated dependencies [cce8ecee2d]
+- Updated dependencies [f179749375]
+- Updated dependencies [b8494ef]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/utils@2.0.0-beta.4
+  - @modern-js/core@2.0.0-beta.4
+  - @modern-js/plugin-lint@2.0.0-beta.4
+  - @modern-js/plugin@2.0.0-beta.4
+  - @modern-js/plugin-changeset@2.0.0-beta.4
+  - @modern-js/plugin-i18n@2.0.0-beta.4
+  - @modern-js/new-action@2.0.0-beta.4
+  - @modern-js/upgrade@2.0.0-beta.4
+
+## 2.0.0-beta.3
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [6aca875]
+- Updated dependencies [85edee888c]
+- Updated dependencies [2e60319]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [a3af050]
+- Updated dependencies [d4a456659b]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [f680410]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb]
+- Updated dependencies [b7a96c3]
+- Updated dependencies [cce8ece]
+- Updated dependencies [f179749375]
+- Updated dependencies [ea7cf06]
+- Updated dependencies [bbe4c4a]
+- Updated dependencies [e4558a0]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/core@2.0.0-beta.3
+  - @modern-js/utils@2.0.0-beta.3
+  - @modern-js/plugin-lint@2.0.0-beta.3
+  - @modern-js/plugin@2.0.0-beta.3
+  - @modern-js/plugin-changeset@2.0.0-beta.3
+  - @modern-js/plugin-i18n@2.0.0-beta.3
+  - @modern-js/new-action@2.0.0-beta.3
+  - @modern-js/upgrade@2.0.0-beta.3
+
 ## 2.0.0-beta.2
 
 ### Major Changes

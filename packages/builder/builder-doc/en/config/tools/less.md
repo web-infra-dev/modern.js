@@ -1,20 +1,21 @@
 - Type: `Object | Function`
-- Default
+- Default:
 
 ```js
-{
+const defaultOptions = {
   lessOptions: {
-    javascriptEnabled: true
+    javascriptEnabled: true,
   },
-  sourceMap: false,
-}
+  // CSS Source Map enabled by default in development environment
+  sourceMap: isDev,
+};
 ```
 
 You can modify the config of [less-loader](https://github.com/webpack-contrib/less-loader) via `tools.less`.
 
 ### Object Type
 
-When `tools.less` is configured as `Object` type, it is merged with the default config through Object.assign. For example:
+When `tools.less` is configured as `Object` type, it is merged with the default config through Object.assign in a shallow way. It should be noted that `lessOptions` is merged through deepMerge in a deep way. For example:
 
 ```js
 export default {
@@ -49,7 +50,9 @@ export default {
 
 #### addExcludes
 
-Used to specify which files `less-loader` does not compile, for example:
+- Type: `(excludes: RegExp | RegExp[]) => void`
+
+Used to specify which files `less-loader` does not compile, You can pass in one or more regular expressions to match the path of less files, for example:
 
 ```js
 export default {

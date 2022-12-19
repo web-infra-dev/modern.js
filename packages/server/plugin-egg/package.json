@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -63,11 +63,6 @@
     "koa": "^2.13.1",
     "supertest": "^6.1.6",
     "typescript": "^4"
-  },
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
   },
   "peerDependencies": {
     "egg": "^2.29.4"

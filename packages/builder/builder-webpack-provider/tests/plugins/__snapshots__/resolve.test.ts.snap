@@ -19,10 +19,37 @@ exports[`plugins/resolve > should disable resolve.fullySpecified by default 1`] 
   },
   "resolve": {
     "extensions": [
+      ".ts",
+      ".tsx",
       ".js",
       ".jsx",
       ".mjs",
       ".json",
+    ],
+    "plugins": [
+      TsConfigPathsPlugin {
+        "absoluteBaseUrl": "<ROOT>",
+        "compilerOptions": {
+          "baseUrl": "./",
+          "declaration": true,
+          "isolatedModules": true,
+          "jsx": "preserve",
+          "outDir": "dist",
+          "paths": {},
+          "target": "ES2019",
+        },
+        "cwd": "<ROOT>",
+        "extensions": [
+          ".ts",
+          ".tsx",
+          ".js",
+          ".jsx",
+          ".mjs",
+          ".json",
+        ],
+        "matchPath": [Function],
+        "resolved": Map {},
+      },
     ],
   },
 }

@@ -87,8 +87,6 @@ export type PluginOptions<
   Hooks,
   Setup = undefined,
   ExtendHooks = Record<string, unknown>,
-  PluginHooks = any,
-  PluginSetup = any,
 > = {
   name?: string;
   pre?: string[];
@@ -96,7 +94,7 @@ export type PluginOptions<
   setup?: Setup;
   rivals?: string[];
   required?: string[];
-  usePlugins?: PluginOptions<PluginHooks, PluginSetup>[];
+  usePlugins?: PluginOptions<any, any>[];
   registerHook?: Partial<Hooks & ExtendHooks>;
 };
 

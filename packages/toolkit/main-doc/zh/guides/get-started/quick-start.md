@@ -5,25 +5,9 @@ sidebar_position: 1
 
 ## 环境准备
 
-### Node.js
+import Prerequisites from '@site-docs/components/prerequisites.md'
 
-需要 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 14.17.6。
-
-Modern.js 推荐在开发环境里先安装 [nvm](https://github.com/nvm-sh/nvm#install--update-script)，在 shell 里集成[自动切换 node 版本的脚本](https://github.com/nvm-sh/nvm#deeper-shell-integration)。
-
-然后只要仓库根目录下有内容为 `lts/fermium` 或 `lts/gallium` 的 `.nvmrc` 文件，进入这个仓库时就会自动安装或切换到正确的 Node.js 版本。
-
-### pnpm
-
-推荐使用 [pnpm](https://pnpm.io/installation) 来管理依赖：
-
-```bash
-npm install -g pnpm
-```
-
-:::note
-Modern.js 同样支持使用 `yarn`、`npm` 进行依赖管理。
-:::
+<Prerequisites />
 
 ## 安装
 
@@ -44,72 +28,16 @@ npx @modern-js/create myapp
 
 ## 初始化项目
 
-Modern.js 生成器会提供一个可交互的问答界面，根据结果初始化项目，按照默认的选择进行初始化：
 
-```bash
-? 请选择你想创建的工程类型 应用
-? 请选择开发语言 TS
-? 请选择包管理工具 pnpm
-```
+import InitApp from '@site-docs/components/init-app.md'
 
-在生成项目后，Modern.js 会自动安装依赖、创建 git 仓库。
-
-```bash
-[INFO] 依赖自动安装成功
-[INFO] git 仓库初始化成功
-[INFO] 创建成功！
-可在新项目的目录下运行以下命令：
-pnpm run dev          # 按开发环境的要求，运行和调试项目
-pnpm run build        # 按产品环境的要求，构建项目
-pnpm run start        # 按产品环境的要求，运行项目
-pnpm run lint         # 检查和修复所有代码
-pnpm run new          # 继续创建更多项目要素，比如应用入口
-```
-
-:::note
-Modern.js 生成器除了在项目初始化时工作外，也能在后续研发中生成项目各种粒度的模块，并非一用即抛开。
-:::
-
-现在，项目结构如下：
-
-```
-.
-├── node_modules
-├── src
-│   ├── modern-app-env.d.ts
-│   └── routes
-│       ├── index.css
-│       ├── layout.tsx
-│       └── page.tsx
-├── modern.config.ts
-├── package.json
-├── pnpm-lock.yaml
-├── README.md
-└── tsconfig.json
-```
+<InitApp />
 
 ## 启动项目
 
-在项目中执行 `pnpm run dev` 即可启动项目：
+import DebugApp from '@site-docs/components/debug-app.md'
 
-```bash
-$ pnpm run dev
-
-> modern dev
-
-info    Starting dev server...
-info    App running at:
-
-  > Local:    http://localhost:8080/
-  > Network:  http://10.94.58.87:8080/
-  > Network:  http://10.254.68.105:8080/
-
- Client ✔ done in 76.10ms
-```
-
-在浏览器中打开 `http://localhost:8000/`，能看到以下内容：
-
-![dev](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/dev.png)
+<DebugApp />
 
 ## 使用配置
 

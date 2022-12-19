@@ -1,0 +1,229 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`format is cjs buildType is bundle 1`] = `
+"var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
+
+// src/index.js
+var src_exports = {};
+__export(src_exports, {
+  default: () => src_default
+});
+module.exports = __toCommonJS(src_exports);
+
+// src/utils.js
+var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+
+// src/index.js
+var src_default = (str) => addPrefix(\\"DEBUG:\\", str);
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {});
+"
+`;
+
+exports[`format is cjs buildType is bundleless 1`] = `
+"var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
+var src_exports = {};
+__export(src_exports, {
+  default: () => src_default
+});
+module.exports = __toCommonJS(src_exports);
+var import_utils = require(\\"./utils\\");
+var src_default = (str) => (0, import_utils.addPrefix)(\\"DEBUG:\\", str);
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {});
+"
+`;
+
+exports[`format is cjs buildType is bundleless 2`] = `
+"var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
+var utils_exports = {};
+__export(utils_exports, {
+  addPrefix: () => addPrefix
+});
+module.exports = __toCommonJS(utils_exports);
+const addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  addPrefix
+});
+"
+`;
+
+exports[`format is esm buildType is bundle 1`] = `
+"var __getOwnPropNames = Object.getOwnPropertyNames;
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+
+// src/utils.js
+var require_utils = __commonJS({
+  \\"src/utils.js\\"(exports, module) {
+    var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+    module.exports = {
+      addPrefix
+    };
+  }
+});
+
+// src/index.js
+var require_src = __commonJS({
+  \\"src/index.js\\"(exports, module) {
+    var { addPrefix } = require_utils();
+    module.exports = (str) => addPrefix(\\"DEBUG:\\", str);
+  }
+});
+export default require_src();
+"
+`;
+
+exports[`format is esm buildType is bundleless 1`] = `
+"var __getOwnPropNames = Object.getOwnPropertyNames;
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var require_src = __commonJS({
+  \\"src/index.js\\"(exports, module) {
+    const { addPrefix } = require(\\"./utils\\");
+    module.exports = (str) => addPrefix(\\"DEBUG:\\", str);
+  }
+});
+export default require_src();
+"
+`;
+
+exports[`format is esm buildType is bundleless 2`] = `
+"var __getOwnPropNames = Object.getOwnPropertyNames;
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var require_utils = __commonJS({
+  \\"src/utils.js\\"(exports, module) {
+    const addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+    module.exports = {
+      addPrefix
+    };
+  }
+});
+export default require_utils();
+"
+`;
+
+exports[`format is iife buildType is bundle 1`] = `
+"(() => {
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+
+  // src/utils.js
+  var require_utils = __commonJS({
+    \\"src/utils.js\\"(exports, module) {
+      var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+      module.exports = {
+        addPrefix
+      };
+    }
+  });
+
+  // src/index.js
+  var require_src = __commonJS({
+    \\"src/index.js\\"(exports, module) {
+      var { addPrefix } = require_utils();
+      module.exports = (str) => addPrefix(\\"DEBUG:\\", str);
+    }
+  });
+  require_src();
+})();
+"
+`;
+
+exports[`format is umd buildType is bundle 1`] = `
+"(function(global, factory) {
+    if (typeof module === \\"object\\" && typeof module.exports === \\"object\\") factory(exports);
+    else if (typeof define === \\"function\\" && define.amd) define([
+        \\"exports\\"
+    ], factory);
+    else if (global = typeof globalThis !== \\"undefined\\" ? globalThis : global || self) factory(global.index = {});
+})(this, function(exports) {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    Object.defineProperty(exports, \\"default\\", {
+        enumerable: true,
+        get: ()=>_default
+    });
+    var __getOwnPropNames = Object.getOwnPropertyNames;
+    var __commonJS = (cb, mod)=>function __require() {
+            return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = {
+                exports: {}
+            }).exports, mod), mod.exports;
+        };
+    // src/utils.js
+    var require_utils = __commonJS({
+        \\"src/utils.js\\" (exports, module1) {
+            var addPrefix = (prefix, str)=>\`\${prefix}\${str}\`;
+            module1.exports = {
+                addPrefix
+            };
+        }
+    });
+    // src/index.js
+    var require_src = __commonJS({
+        \\"src/index.js\\" (exports, module1) {
+            var { addPrefix  } = require_utils();
+            module1.exports = (str)=>addPrefix(\\"DEBUG:\\", str);
+        }
+    });
+    const _default = require_src();
+});
+"
+`;

@@ -6,10 +6,10 @@ export const PluginInlineChunk = (): BuilderPlugin => ({
   name: 'builder-plugin-inline-chunk',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { target, CHAIN_ID, isProd }) => {
       const config = api.getNormalizedConfig();
 
-      if (isHtmlDisabled(config, target)) {
+      if (isHtmlDisabled(config, target) || !isProd) {
         return;
       }
 

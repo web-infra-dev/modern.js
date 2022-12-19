@@ -7,6 +7,9 @@ exports[`plugins/cache > should add cache config correctly 1`] = `
       "packageJson": [
         "<ROOT>/package.json",
       ],
+      "tsconfig": [
+        "<ROOT>/tsconfig.json",
+      ],
     },
     "cacheDirectory": "<ROOT>/node_modules/.cache/webpack",
     "name": "web-test",
@@ -26,6 +29,9 @@ exports[`plugins/cache > should watch framework config change 1`] = `
       ],
       "packageJson": [
         "<ROOT>/package.json",
+      ],
+      "tsconfig": [
+        "<ROOT>/tsconfig.json",
       ],
     },
     "cacheDirectory": "<ROOT>/node_modules/.cache/webpack",

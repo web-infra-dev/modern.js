@@ -1,50 +1,34 @@
+import { createDefaultConfig as createDefaultBuilderConfig } from '@modern-js/builder-webpack-provider';
 import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
 
 export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
-  const defaultAlias: Record<string, string> = appContext
-    ? {
-        [appContext.internalDirAlias]: appContext.internalDirectory,
-        [appContext.internalSrcAlias]: appContext.srcDirectory,
-        '@': appContext.srcDirectory,
-        '@shared': appContext.sharedDirectory,
-      }
-    : {};
+  const defaultBuilderConfig = createDefaultBuilderConfig();
+
+  const dev: AppUserConfig['dev'] = { ...defaultBuilderConfig.dev };
+  const tools: AppUserConfig['tools'] = { ...defaultBuilderConfig.tools };
+  const output: AppUserConfig['output'] = {
+    ...defaultBuilderConfig.output,
+    disableNodePolyfill: true,
+  };
+
   const source: AppUserConfig['source'] = {
+    ...defaultBuilderConfig.source,
     entries: undefined,
     enableAsyncEntry: false,
     disableDefaultEntries: false,
     entriesDir: './src',
     configDir: './config',
-    globalVars: undefined,
-    moduleScopes: undefined,
-    include: [],
-    alias: defaultAlias,
-  };
-  const output: AppUserConfig['output'] = {
-    assetPrefix: '/',
-    distPath: {
-      html: 'html',
-      js: 'static/js',
-      css: 'static/css',
-      media: 'static/media',
-      root: 'dist',
+    alias: {
+      [appContext.internalDirAlias]: appContext.internalDirectory,
+      [appContext.internalSrcAlias]: appContext.srcDirectory,
+      '@': appContext.srcDirectory,
+      '@shared': appContext.sharedDirectory,
     },
-    copy: undefined,
-    disableCssModuleExtension: false,
-    enableCssModuleTSDeclaration: false,
-    disableMinimize: false,
-    enableInlineStyles: false,
-    enableInlineScripts: false,
-    disableSourceMap: false,
-    disableInlineRuntimeChunk: false,
-    disableFilenameHash: false,
-    enableLatestDecorators: false,
-    polyfill: 'entry',
-    cssModuleLocalIdentName: undefined,
   };
+
   const html: AppUserConfig['html'] = {
+    ...defaultBuilderConfig.html,
     title: '',
-    titleByEntries: undefined,
     meta: {
       charset: { charset: 'utf-8' },
       viewport:
@@ -56,16 +40,8 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
       'wap-font-scale': 'no',
       'format-detection': 'telephone=no',
     },
-    metaByEntries: undefined,
-    inject: 'head',
-    injectByEntries: undefined,
-    mountId: 'root',
-    favicon: '',
-    faviconByEntries: undefined,
-    disableHtmlFolder: false,
-    templateParameters: {},
-    templateParametersByEntries: undefined,
   };
+
   const server: AppUserConfig['server'] = {
     routes: undefined,
     publicRoutes: undefined,
@@ -73,20 +49,6 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
     ssrByEntries: undefined,
     baseUrl: '/',
     port: 8080,
-  };
-  const dev: AppUserConfig['dev'] = {
-    assetPrefix: false,
-    https: false,
-  };
-  const tools: AppUserConfig['tools'] = {
-    webpack: undefined,
-    babel: undefined,
-    postcss: undefined,
-    autoprefixer: undefined,
-    devServer: undefined,
-    tsLoader: undefined,
-    terser: undefined,
-    minifyCss: undefined,
   };
 
   return {
@@ -97,6 +59,7 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
     html,
     tools,
     plugins: [],
+    builderPlugins: [],
     runtime: {},
     runtimeByEntries: {},
   };
@@ -171,7 +134,6 @@ export function createLegacyDefaultConfig(
     templateParameters: {},
     templateParametersByEntries: undefined,
     cssModuleLocalIdentName: undefined,
-    enableModernMode: false,
     disableNodePolyfill: false,
     enableTsLoader: false,
   };

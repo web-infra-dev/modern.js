@@ -6,7 +6,7 @@ import type {
   Route,
   RouteLegacy,
 } from '@modern-js/types';
-import { fs } from '@modern-js/utils';
+import { fs, slash } from '@modern-js/utils';
 import type { RuntimePlugin } from '../types';
 import { TEMP_LOADERS_DIR } from './constants';
 
@@ -164,7 +164,7 @@ export const routesForServer = ({
     importLoadersCode = `
     import { ${loaders.map(
       (loader, index) => `loader_${index}`,
-    )} } from "${loaderIndexFile}"`;
+    )} } from "${slash(loaderIndexFile)}"`;
   }
 
   return `
@@ -179,19 +179,21 @@ export const fileSystemRoutes = async ({
   nestedRoutesEntry,
   entryName,
   internalDirectory,
+  internalDirAlias,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
   ssrMode: 'string' | 'stream' | false;
   nestedRoutesEntry?: string;
   entryName: string;
   internalDirectory: string;
+  internalDirAlias: string;
 }) => {
   const loadings: string[] = [];
   const errors: string[] = [];
   const loaders: string[] = [];
   const loadersMap: Record<string, string> = {};
   const loadersIndexFile = path.join(
-    '@_modern_js_internal',
+    internalDirAlias,
     entryName,
     TEMP_LOADERS_DIR,
     'index.js',
@@ -323,7 +325,7 @@ export const fileSystemRoutes = async ({
     importLoadersCode = `
     import { ${loaders.map(
       (loader, index) => `loader_${index}`,
-    )} } from "${dataLoaderPath}${loadersIndexFile}"
+    )} } from "${slash(dataLoaderPath)}${slash(loadersIndexFile)}"
   `;
 
     const loaderEntryCode = loaders
@@ -353,7 +355,7 @@ export const fileSystemRoutes = async ({
           `${name}.js`,
         );
         const code = `
-          export { loader as ${name} } from '${loader}'
+          export { loader as ${name} } from '${slash(loader)}'
         `;
         await fs.ensureFile(filename);
         await fs.writeFile(filename, code);

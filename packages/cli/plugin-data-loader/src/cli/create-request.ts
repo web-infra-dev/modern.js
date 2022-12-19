@@ -42,15 +42,13 @@ export const createRequest = (routeId: string, method = 'get') => {
     request: Request;
   }) => {
     const url = getRequestUrl({ params, request, routeId });
-    try {
-      const res = await fetch(url, {
-        method,
-        signal: request.signal,
-      });
-      return handleRedirectResponse(res);
-    } catch (error) {
-      console.error(error);
-      throw error;
+    const res = await fetch(url, {
+      method,
+      signal: request.signal,
+    });
+    if (!res.ok) {
+      throw res;
     }
+    return handleRedirectResponse(res);
   };
 };

@@ -21,8 +21,6 @@ export type UserConfig<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends Record<string, any> = {},
   ExtendUserConfig extends {
-    source?: Record<string, any>;
-    tools?: Record<string, any>;
     testing?: Record<string, any>;
     [property: string]: any;
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -33,7 +31,7 @@ export type UserConfig<
   testing?: BaseTestingUserConfig<
     DropUndefined<Extends['userConfig']>['testing']
   >;
-  plugins?: PluginConfig<Extends>;
+  plugins?: PluginConfig<any>;
 } & Omit<Extends['userConfig'], 'plugins' | 'testing'>;
 
 export type NormalizedConfig<
@@ -48,14 +46,12 @@ export type NormalizedConfig<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
   ExtendNormalizedConfig extends {
-    source?: Record<string, any>;
-    tools?: Record<string, any>;
     testing?: Record<string, any>;
     [property: string]: any;
     // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
 > = {
-  plugins: PluginConfig<Extends>;
+  plugins: PluginConfig<any>;
   testing: BaseTestingNormalizedConfig<
     DropUndefined<Extends['normalizedConfig']>['testing']
   >;

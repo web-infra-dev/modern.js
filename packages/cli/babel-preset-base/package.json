@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -44,9 +44,7 @@
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
     "@types/babel__core": "^7.1.16",
-    "cosmiconfig": "^7.0.1",
-    "lodash": "^4.17.21",
-    "resolve": "^1.22.0"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

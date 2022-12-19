@@ -1,8 +1,10 @@
-# 图片压缩插件
+# Image Compress 插件
 
-图片压缩插件会将项目中用到的图片资源进行压缩处理，进而在图片视觉观感不受影响的同时减小产物体积。
+Image Compress 插件会将项目中用到的图片资源进行压缩处理，进而在图片视觉观感不受影响的同时减小产物体积。
 
-## 安装插件
+## 快速开始
+
+### 安装插件
 
 你可以通过如下的命令安装插件:
 
@@ -17,9 +19,19 @@ yarn add @modern-js/builder-plugin-image-compress -D
 pnpm install @modern-js/builder-plugin-image-compress -D
 ```
 
-## 注册插件
+### 注册插件
 
-你可以在 Builder 中注册插件来启用图片压缩功能:
+在 Modern.js / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 Image Compress 插件：
+
+```ts
+import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
+
+export default {
+  builderPlugins: [PluginImageCompress()],
+};
+```
+
+当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 Image Compress 插件：
 
 ```js
 import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';

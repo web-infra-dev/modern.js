@@ -1,48 +1,22 @@
 import type {
-  BuilderContext,
-  PluginStore,
+  DefaultBuilderPluginAPI,
   BuilderPlugin as BaseBuilderPlugin,
 } from '@modern-js/builder-shared';
+import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderConfig, NormalizedConfig } from './config';
-import type {
-  OnExitFn,
-  OnAfterBuildFn,
-  OnBeforeBuildFn,
-  OnDevCompileDoneFn,
-  ModifyWebpackChainFn,
-  ModifyWebpackConfigFn,
-  ModifyBuilderConfigFn,
-  OnAfterCreateCompilerFn,
-  OnBeforeCreateCompilerFn,
-  OnAfterStartDevServerFn,
-  OnBeforeStartDevServerFn,
-} from './hooks';
+import type { WebpackConfig } from './thirdParty';
+import type { ModifyWebpackChainFn, ModifyWebpackConfigFn } from './hooks';
 
-export type BuilderPluginAPI = {
-  context: Readonly<BuilderContext>;
-  isPluginExists: PluginStore['isPluginExists'];
-  /**
-   * Get the relative paths of generated HTML files.
-   * The key is entry name and the value is path.
-   */
-  getHTMLPaths: () => Record<string, string>;
-  getBuilderConfig: () => Readonly<BuilderConfig>;
-  getNormalizedConfig: () => Readonly<NormalizedConfig>;
-
-  // Hooks
-  onExit: (fn: OnExitFn) => void;
-  onAfterBuild: (fn: OnAfterBuildFn) => void;
-  onBeforeBuild: (fn: OnBeforeBuildFn) => void;
-  onDevCompileDone: (fn: OnDevCompileDoneFn) => void;
-  onAfterCreateCompiler: (fn: OnAfterCreateCompilerFn) => void;
-  onBeforeCreateCompiler: (fn: OnBeforeCreateCompilerFn) => void;
-  onAfterStartDevServer: (fn: OnAfterStartDevServerFn) => void;
-  onBeforeStartDevServer: (fn: OnBeforeStartDevServerFn) => void;
-
+export interface BuilderPluginAPI
+  extends DefaultBuilderPluginAPI<
+    BuilderConfig,
+    NormalizedConfig,
+    WebpackConfig,
+    Compiler | MultiCompiler
+  > {
   // Modifiers
   modifyWebpackChain: (fn: ModifyWebpackChainFn) => void;
   modifyWebpackConfig: (fn: ModifyWebpackConfigFn) => void;
-  modifyBuilderConfig: (fn: ModifyBuilderConfigFn) => void;
-};
+}
 
 export type BuilderPlugin = BaseBuilderPlugin<BuilderPluginAPI>;

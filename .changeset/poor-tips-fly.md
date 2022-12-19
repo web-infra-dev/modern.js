@@ -1,5 +1,5 @@
 ---
-'@modern-js/module-tools-v2': patch
+'@modern-js/module-tools': patch
 ---
 
 fix: filename typo, color.ts --> colors.ts

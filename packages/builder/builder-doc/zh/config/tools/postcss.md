@@ -16,8 +16,8 @@ const defaultOptions = {
         flexbox: 'no-2009',
       }),
     ],
-    // 取决于生产环境，以及是否设置 `output.disableSourceMap`
-    sourceMap: enableSourceMap,
+    // 默认在开发环境下启用 CSS 的 Source Map
+    sourceMap: isDev,
   },
 };
 ```
@@ -92,7 +92,9 @@ export default {
 
 #### addPlugins
 
-用于添加额外的 PostCSS 插件。
+- Type: `(plugins: PostCSSPlugin | PostCSSPlugin[]) => void`
+
+用于添加额外的 PostCSS 插件，你可以传入单个 PostCSS 插件，也可以传入 PostCSS 插件数组。
 
 ```js
 export default {

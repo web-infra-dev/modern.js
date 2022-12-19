@@ -58,7 +58,6 @@ const outputDefaults = {
   templateParameters: {},
   templateParametersByEntries: undefined,
   cssModuleLocalIdentName: '[name]__[local]--[hash:base64:5]',
-  enableModernMode: false,
   federation: undefined,
   disableNodePolyfill: false,
   enableTsLoader: false,

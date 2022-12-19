@@ -7,7 +7,6 @@ import { ERROR_DIGEST } from '../../constants';
 import { handleDirectory } from './static';
 import { readFile } from './reader';
 import * as ssr from './ssr';
-import { supportModern, getModernEntry } from './modern';
 
 export const createRenderHandler = ({
   distDir,
@@ -37,12 +36,7 @@ export const createRenderHandler = ({
       return result;
     }
 
-    // only spa can use es6-html
-    const modernEntry = getModernEntry(entry);
-    const useModern =
-      // route.enableModernMode &&
-      supportModern(ctx) && fs.existsSync(modernEntry);
-    const templatePath = useModern ? modernEntry : entry;
+    const templatePath = entry;
 
     if (!fs.existsSync(templatePath)) {
       throw new Error(`Could not find template file: ${templatePath}`);

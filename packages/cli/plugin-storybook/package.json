@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -39,14 +39,17 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern-lib new",
-    "build": "mdn build",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests",
     "dev": "modern-lib build --watch"
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-plugin-node-polyfill": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
     "@storybook/addon-actions": "6.5.12",
     "@storybook/addon-essentials": "6.5.12",
     "@storybook/addon-links": "6.5.12",
@@ -58,13 +61,12 @@
     "esbuild": "0.15.7",
     "findup-sync": "^4.0.0",
     "fs-extra": "^10.0.0",
-    "node-polyfill-webpack-plugin": "^1.1.4",
     "process.argv": "^0.6.0",
     "tsconfig-paths-webpack-plugin": "4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
-    "@modern-js/module-tools-v2": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@scripts/build": "workspace:*",
@@ -79,12 +81,12 @@
     "react": "^18",
     "react-dom": "^18.0.2",
     "typescript": "^4",
-    "webpack": "^5.74.0",
+    "webpack": "^5.75.0",
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.0.0-beta.2",
-    "@modern-js/plugin-router-legacy": "workspace:^2.0.0-beta.2",
+    "@modern-js/runtime": "workspace:^2.0.0-beta.4",
+    "@modern-js/plugin-router-legacy": "workspace:^2.0.0-beta.4",
     "react": ">=18"
   },
   "sideEffects": false,

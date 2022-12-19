@@ -16,8 +16,8 @@ const defaultOptions = {
         flexbox: 'no-2009',
       }),
     ],
-    // Depends on production environment, and whether `output.disableSourceMap` is set
-    sourceMap: enableSourceMap,
+    // CSS Source Map enabled by default in development environment
+    sourceMap: isDev,
   },
 };
 ```
@@ -92,7 +92,9 @@ export default {
 
 #### addPlugins
 
-For adding additional PostCSS plugins.
+- Type: `(plugins: PostCSSPlugin | PostCSSPlugin[]) => void`
+
+For adding additional PostCSS plugins, You can pass in a single PostCSS plugin, or an array of PostCSS plugins.
 
 ```js
 export default {

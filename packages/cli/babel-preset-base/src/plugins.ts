@@ -18,10 +18,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   } = option;
   const chain = createBabelChain();
 
-  chain
-    .plugin('babel-plugin-macros')
-    .use(require.resolve('../compiled/babel-plugin-macros'));
-
   if (runEnvironments === 'node') {
     chain
       .plugin('babel-plugin-dynamic-import-node')
