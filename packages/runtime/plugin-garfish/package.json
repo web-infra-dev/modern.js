@@ -13,7 +13,7 @@
   ],
   "version": "2.0.0-beta.4",
   "jsnext:source": "./src/index.ts",
-  "types": "./src/cli/index.ts",
+  "types": "./dist/types/cli/index.d.ts",
   "typesVersions": {
     "*": {
       ".": [
@@ -44,7 +44,7 @@
       "default": "./dist/js/node/cli/index.js"
     },
     "./runtime": {
-       "node": {
+      "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
