@@ -16,8 +16,8 @@ const defaultOptions = {
         flexbox: 'no-2009',
       }),
     ],
-    // 取决于生产环境，以及是否设置 `output.disableSourceMap`
-    sourceMap: enableSourceMap,
+    // 默认在开发环境下启用 CSS 的 Source Map
+    sourceMap: isDev,
   },
 };
 ```

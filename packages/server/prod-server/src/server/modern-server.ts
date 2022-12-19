@@ -1,8 +1,7 @@
 /* eslint-disable max-lines */
 import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
-import util from 'util';
 import path from 'path';
-import { fs, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
+import { fs, isPromise, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
 import {
   Adapter,
   WebAdapter,
@@ -291,11 +290,7 @@ export class ModernServer implements ModernServerInterface {
   // add promisify request handler to server
   // handler should do not do more things after invoke next
   protected addHandler(handler: ModernServerHandler) {
-    if ((handler as any)[Symbol.toStringTag] === 'AsyncFunction') {
-      this.handlers.push(handler as ModernServerAsyncHandler);
-    } else {
-      this.handlers.push(util.promisify(handler));
-    }
+    this.handlers.push(handler as ModernServerAsyncHandler);
   }
 
   // return 404 page
@@ -613,6 +608,7 @@ export class ModernServer implements ModernServerInterface {
 
     this._handler = (context: ModernServerContext, next: NextFunction) => {
       let i = 0;
+      // eslint-disable-next-line consistent-return
       const dispatch = (error?: Error) => {
         if (error) {
           return this.onError(context, error);
@@ -623,7 +619,14 @@ export class ModernServer implements ModernServerInterface {
           return next();
         }
 
-        return handler(context, dispatch as NextFunction).catch(onError);
+        try {
+          const result = handler(context, dispatch as NextFunction);
+          if (isPromise(result)) {
+            return result.catch(onError);
+          }
+        } catch (e) {
+          return onError(e as Error);
+        }
       };
 
       const onError = (err: Error) => {

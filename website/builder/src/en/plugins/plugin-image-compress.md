@@ -2,7 +2,9 @@
 
 With the image compression plugin, image resources used in the project can be compressed to reduce the size of the product without affecting the visual appearance of the image.
 
-## Install
+## Quick Start
+
+### Install
 
 You can install the plugin with the following command:
 
@@ -17,14 +19,24 @@ yarn add @modern-js/builder-plugin-image-compress -D
 pnpm install @modern-js/builder-plugin-image-compress -D
 ```
 
-## Register
+### Register
 
-You can register the plugin with the Builder to enable image compression:
+In upper-level frameworks such as Modern.js or EdenX, you can register image compress plugins through the `builderPlugins` config:
+
+```ts
+import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
+
+export default {
+  builderPlugins: [PluginImageCompress()],
+};
+```
+
+If you are using the Builder's Node API, you can register image compress plugins through the `addPlugins` method:
 
 ```js
 import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
 
-// Add plugins to the builder instance.
+// add the plugin to the builder instance
 builder.addPlugins([PluginImageCompress()]);
 ```
 
@@ -40,11 +52,7 @@ PluginImageCompress(['jpeg', 'png', 'ico']);
 ```
 
 ```js
-PluginImageCompress([
-  { use: 'jpeg' },
-  { use: 'png' },
-  { use: 'ico' },
-]);
+PluginImageCompress([{ use: 'jpeg' }, { use: 'png' }, { use: 'ico' }]);
 ```
 
 The default configuration can be overridden by specifying a configuration item.

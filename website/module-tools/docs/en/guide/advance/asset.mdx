@@ -1,0 +1,132 @@
+# Handle static resource files
+
+The module project will handle static resources used in the code. If configuration is required, then the [`buildConfig.asset`](/en/api/build-config#asset) API can be used.
+
+## Default behavior
+
+By default, module projects are processed for the following static resources:
+
+* `'.svg'`、`'.png'`、`'.jpg'`、`'.jpeg'`、`'.gif'`、`'.webp'`
+* `'.ttf'`、`'.otf'`、`'.woff'`、`'.woff2'`、`'.eot'`
+* `'.mp3'`、`'.mp4'`、`'.webm'`、`'.ogg'`、`'.wav'`、`'.flac'`、`'.aac'`、`'.mov'`
+
+For the handling of static files, the module project currently supports the following functions.
+
+* Set the static resource path to `. /assets`.
+* For files over **10kb** they are inlined into the code.
+* Use [SVGR](https://react-svgr.com/) for files with the `.svg` suffix.
+
+Let us look at the following example:
+
+<CH.Spotlight>
+
+``` ts ./src/asset.ts
+import img from './bg.png';
+//...
+```
+
+---
+Project source code.
+
+``` ts ./src/asset.ts
+import img from './bg.png';
+//...
+```
+---
+If the size of `bg.png` is less than 10 kb, then the product directory structure and product content are.
+
+<CH.Code>
+
+``` bash
+./dist
+└── asset.js
+```
+---
+
+``` js ./dist/asset.js
+var bg_default = "data:image/png;base64,";
+console.info(bg_default);
+```
+</CH.Code>
+---
+
+If the size of `bg.png` is larger than 10 kb, then the product directory structure and product content are.
+
+<CH.Code>
+
+``` bash
+./dist
+├── asset.js
+└── assets
+    └── bg.13e2aba2.png
+```
+---
+
+``` js ./dist/asset.js
+var bg_default = "assets/bg.13e2aba2.png";
+console.info(bg_default);
+```
+</CH.Code>
+
+</CH.Spotlight>
+
+When wanting to modify the default behavior, the following API can be used:
+
+* `asset.path`: modify the output path of the static resource file.
+* `asset.limit`: modify the threshold value for inline static resource files.
+
+## Setting CDN Prefix
+
+If the project is running in a browser environment, we may need to host static resources to a CDN and then use them in the production environment.
+
+Then we need to add the CDN base path in front of the path to the static resource file in the default generated build product. Again, see an example:
+
+<CH.Spotlight>
+
+``` ts ./src/asset.ts
+import img from './bg.png';
+//...
+```
+
+---
+Project source code.
+
+``` ts ./src/asset.ts
+```
+---
+
+`modern.config` config file。
+
+``` ts ./modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'umd',
+    asset: {
+      publicPath: 'https://cdn/',
+    },
+  },
+});
+```
+
+---
+
+If the size of `bg.png` is larger than 10 kb, then the product content will be.
+
+``` js ./dist/asset.js focus=7:7
+(function(global, factory) {
+    if (typeof module === "object" && typeof module.exports === "object") factory();
+    else if (typeof define === "function" && define.amd) define([], factory);
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory();
+})(this, function() {
+    "use strict";
+    var bg_default = "http://cdn/assets/bg.13e2aba2.png";
+    // src/asset.tsx
+    console.info(bg_default);
+});
+```
+
+</CH.Spotlight>
+
+## SVGR
+
+WIP

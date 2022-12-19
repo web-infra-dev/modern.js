@@ -168,8 +168,12 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/advance/external-dependency'),
           },
           {
-            text: getText('插件扩展', 'Plugins extension'),
-            link: getLink('/guide/advance/extension')
+            text: getText('构建 umd 产物', 'Build umd'),
+            link: getLink('/guide/advance/build-umd'),
+          },
+          {
+            text: getText('处理静态文件', 'Handling static files'),
+            link: getLink('/guide/advance/asset'),
           },
         ]
       }
@@ -191,12 +195,12 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/api/dev')
           },
           {
-            text: getText('Test', 'Test'),
-            link: getLink('/api/test')
+            text: getText('Testing', 'Testing'),
+            link: getLink('/api/testing')
           },
           {
-            text: getText('Plugin', 'Plugin'),
-            link: getLink('/api/plugin')
+            text: getText('Plugins', 'Plugins'),
+            link: getLink('/api/plugins')
           },
           {
             text: getText('DesignSystem', 'DesignSystem'),
