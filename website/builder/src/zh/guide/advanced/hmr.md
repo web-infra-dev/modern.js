@@ -34,6 +34,13 @@ export default {
 };
 ```
 
+## Live reloading 和 Hot reloading 的区别
+
+- Live reloading: 修改文件之后，Webpack 重新编译，并强制刷新浏览器，属于全局（整个应用）刷新，相当于 window.location.reload()；
+- Hot reloading: 修改文件之后，Webpack 重新编译对应模块，刷新时可以记住应用的状态，从而做到局部刷新，即热更新。
+
+DevServer 提供了 [hot](/zh/api/config-tools.html#hot) 和 [liveReload](/zh/api/config-tools.html#livereload) 这两个配置项来控制更新方式。当 hot 和 liveReload 同时开启时，DevServer 会优先尝试使用 hot 模式 (HMR)，如果 HMR 更新失败后，会降级到重新加载页面。
+
 ## 常见问题
 
 ### External react/reactDom 后，热更新不生效？
@@ -42,7 +49,19 @@ export default {
 
 如果不确定你当前使用的 React 模式，你可以参考：[检查 React 模式](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
 
-## 热更新后 React 组件的 state 丢失？
+### 开启 https 后，热更新不生效？
+
+当开启 https 时，由于证书的问题，会出现 HMR 连接失败的情况，此时打开控制台，会出现 HMR connect failed 的报错。
+
+![hmr-connect-error-0](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/img_v2_2f90d027-a232-4bd8-8021-dac3c651682g.jpg)
+
+此问题的解决方法为：点击 Chrome 浏览器问题页面的「高级」->「继续前往 xxx（不安全）」。
+
+![hmr-connect-error-1](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/59b37606-52ad-4886-a423-af2edaa49245.png)
+
+> Tips: 当通过 Localhost 访问页面时，「您的连接不是私密连接」字样可能不会出现，可访问 Network 域名进行处理。
+
+### 热更新后 React 组件的 state 丢失？
 
 Builder 使用 React 官方的 [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) 能力来进行组件热更新。
 

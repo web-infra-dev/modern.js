@@ -37,6 +37,13 @@ export default {
 };
 ```
 
+## Live reloading vs Hot reloading
+
+- Live reloading: After modifying the file, Webpack recompiles and forces a browser refresh, which is a global (application-wide) refresh, equivalent to `window.location.reload()`.
+- Hot reloading: After modifying the file, Webpack recompiles the corresponding module and remembers the state of the application when it is refreshed, thus enabling a partial refresh, i.e. hot update.
+
+DevServer provides two configuration items, [hot](/en/api/config-tools.html#hot) and [liveReload](/en/api/config-tools.html#livereload), to control how updates are made. When both hot and liveReload are open, DevServer will attempt to use hot mode (HMR) first, and will degrade to reloading the page if the HMR update fails.
+
 ## FAQ
 
 ### HMR not work when external react/reactDom?
@@ -45,6 +52,18 @@ HMR work requires the development mode of react & react-dom. The cdn version of 
 You need to switch to development mode or make it not external when development.
 
 If you're not sure which React mode you're using, you can see: [Check React Mode](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
+
+### HMR not work when use https?
+
+When https is enabled, the HMR perhaps connection fail due to a certificate issue, and if you open the console, you will get an HMR connect failed error.
+
+![hmr-connect-error-0](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/img_v2_2f90d027-a232-4bd8-8021-dac3c651682g.jpg)
+
+The solution to this problem is to click on "Advanced" -> "Proceed to xxx (unsafe)" on the Chrome problem page.
+
+![hmr-connect-error-1](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/3d2d4a38-acfe-4fe2-bdff-48b3366db481.png)
+
+> Tips: When accessing the page through Localhost, the words "Your connection is not private" may not appear and can be handled by visiting the Network domain.
 
 ### React component state lost after HMR?
 
