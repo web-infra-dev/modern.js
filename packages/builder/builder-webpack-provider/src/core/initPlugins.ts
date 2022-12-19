@@ -84,10 +84,6 @@ export async function initPlugins({
     await plugin.setup(context.pluginAPI);
   }
 
-  onExitProcess(() => {
-    hooks.onExitHook.call();
-  });
-
   // Pretty log uncaught exception.
   const { outputPrettyError } = await import(
     '@modern-js/friendly-errors-webpack-plugin'
