@@ -20,9 +20,18 @@ After executing the command `npx modern inspect` in the project root directory, 
 - `builder.config.js`: The Modern.js Builder config to use at build time.
 - `webpack.config.web.js`: The webpack config used by to use at build time.
 
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+```
+
 ## Configuration Env
 
-By default, the inspect command will output the development configs, you can use the `env` option to output the production configs:
+By default, the inspect command will output the development configs, you can use the `--env production` option to output the production configs:
 
 ```bash
 modern inspect --env production
@@ -30,7 +39,7 @@ modern inspect --env production
 
 ## Verbose content
 
-By default, the inspect command will omit the function content in the config object, you can use the `env` option to output the full content of the function:
+By default, the inspect command will omit the function content in the config object, you can use the `--verbose` option to output the full content of the function:
 
 ```bash
 modern inspect --verbose
@@ -39,3 +48,13 @@ modern inspect --verbose
 ### SSR Configuration
 
 If the project has enabled SSR, an additional `webpack.config.node.js` file will be generated in the `dist/`, corresponding to the webpack configuration at SSR build time.
+
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+  - Webpack Config (node): /root/my-project/dist/webpack.config.node.js
+```

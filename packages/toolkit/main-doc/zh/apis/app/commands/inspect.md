@@ -13,16 +13,25 @@ Options:
   -h, --help            显示命令帮助
 ```
 
-`modern inspect` 命令，用于查看项目的 [Modern.js Builder 配置](https://modernjs.dev/builder/zh/guide/basic/builder-config.html)以及 webpack 配置。
+`modern inspect` 命令，用于查看项目的 [Modern.js Builder 配置](https://modernjs.dev/builder/zh/guide/basic/builder-config.html) 以及 webpack 配置。
 
 在项目根目录下执行命令 `npx modern inspect` 后，会在项目的 `dist` 目录生成以下文件：
 
 - `builder.config.js`: 表示在构建时使用的 Modern.js Builder 配置。
 - `webpack.config.web.js`: 表示在构建时使用的 webpack 配置。
 
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+```
+
 ## 指定环境
 
-默认情况下，inspect 命令会输出开发环境的配置，你可以使用 `env` 选项来输出生产环境的配置：
+默认情况下，inspect 命令会输出开发环境的配置，你可以添加 `--env production` 选项来输出生产环境的配置：
 
 ```bash
 modern inspect --env production
@@ -30,7 +39,7 @@ modern inspect --env production
 
 ## 完整内容
 
-默认情况下，inspect 命令会省略配置对象中的函数内容，你可以使用 `env` 选项来输出函数的完整内容：
+默认情况下，inspect 命令会省略配置对象中的函数内容，你可以添加 `--verbose` 选项来输出函数的完整内容：
 
 ```bash
 modern inspect --verbose
@@ -39,3 +48,13 @@ modern inspect --verbose
 ## SSR 构建配置
 
 如果项目开启了 SSR 能力，则在 `dist` 目录会另外生成一份 `webpack.config.node.js` 文件，对应 SSR 构建时的 webpack 配置。
+
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+  - Webpack Config (node): /root/my-project/dist/webpack.config.node.js
+```
