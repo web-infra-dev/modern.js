@@ -1,0 +1,246 @@
+---
+sidebar_position: 2
+title: 体验微前端
+---
+
+通过本章你可以了解到：
+
+- 如何创建微前端项目的主应用、子应用。
+- 微前端项目开发的基本流程。
+
+## 创建应用
+
+在这次的实践中，我们需要创建三个应用，分别为1个主应用，2个子应用：
+
+- main 主应用
+- dashboard 子应用
+- table 子应用
+
+### 创建 main 主应用
+
+通过命令行工具初始化项目：
+
+```bash
+mkdir main && cd main
+npx @modern-js/create
+```
+
+import DefaultMWAGenerate from '@site-docs/components/default-mwa-generate.md';
+
+<DefaultMWAGenerate />
+
+完成项目创建后我们可以通过 `pnpm run new` 来开启 `微前端` 功能：
+
+```bash
+? 请选择你想要的操作 启用可选功能
+? 启用可选功能 启用「微前端」模式
+```
+
+接下来，让我们修改 `modern.config.ts`，添加开启微前端主应用，并增加子应用列表：
+
+import EnableMicroFrontend from '@site-docs/components/enable-micro-frontend.md';
+
+<EnableMicroFrontend />
+
+import MicroRuntimeConfig from '@site-docs/components/micro-runtime-config.md';
+
+<MicroRuntimeConfig />
+
+
+### 创建 dashboard 子应用
+
+通过命令行工具初始化项目：
+
+```bash
+mkdir dashboard && cd dashboard
+npx @modern-js/create
+```
+
+按照如下选择，生成项目：
+
+<DefaultMWAGenerate/>
+
+我们执行 `pnpm run new` 来开启 `微前端` 功能：
+
+<EnableMicroFrontend />
+
+接下来，让我们修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
+
+```javascript title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  runtime: {
+    router: true,
+    state: true
+  },
+  deploy: {
+    microFrontend: true
+  }
+});
+```
+
+### 创建 table 子应用
+
+通过命令行工具初始化项目：
+
+```bash
+mkdir table && cd table
+npx @modern-js/create
+```
+
+按照如下选择，生成项目：
+
+<DefaultMWAGenerate/>
+
+我们执行 `pnpm run new` 来开启 `微前端` 与 less 功能：
+
+<EnableMicroFrontend />
+
+
+```bash
+? 请选择你想要的操作 启用可选功能
+? 启用可选功能 启用「微前端」模式
+```
+
+```bash
+? 请选择你想要的操作： 启用可选功能
+? 启用可选功能： 启用 Less 支持
+```
+
+然后执行以下命令，安装 @arco-design/web-react：
+
+```bash
+pnpm add @arco-design/web-react
+```
+
+
+```javascript title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  runtime: {
+    router: true,
+    state: true
+  },
+  deploy: {
+    microFrontend: true
+  }
+});
+```
+
+## 迁移代码
+
+### main 主应用
+
+修改 main 项目的 `src/App.tsx`：
+
+```tsx
+import { Link } from "@modern-js/runtime/router";
+import { useModuleApps } from '@modern-js/plugin-garfish';
+
+const App = () => {
+  const { DashBoard, TableList } = useModuleApps();
+  return (
+    <div>
+      <div>
+        <Link to="/dashboard">Dashboard</Link> &nbsp;
+        <Link to="/table">Table</Link>
+      </div>
+      <Route path="/dashboard">
+        <DashBoard />
+      </Route>
+      <Route path="/table">
+        <TableList />
+      </Route>
+    </div>
+  );
+};
+
+export default App;
+```
+
+### dashboard 子应用
+
+修改 dashboard 项目的 `src/App.tsx`：
+
+```tsx
+export default () => <div>Dashboard Page</div>;
+```
+
+### table 子应用
+
+然后，按照以下代码，修改 table 项目的 `src/App.tsx` 文件：
+
+
+```tsx
+import React, { useEffect } from 'react';
+import { Table } from '@arco-design/web-react';
+const App: React.FC = () => {
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
+    },
+    {
+      title: 'Country',
+      dataIndex: 'country',
+      key: 'country',
+    },
+  ];
+
+  const items = [
+  {
+    name: 'Jane Doe',
+    age: 32,
+    country: "America"
+  },
+  {
+    name: 'Jim Green',
+    age: 42,
+    country: "England"
+  },
+  {
+    name: 'Ming Li',
+    age: 30,
+    country: "China"
+  },
+];
+
+  return (
+    <div>
+      <Table columns={columns} data={items} />
+    </div>
+  );
+};
+
+export default App;
+```
+
+
+## 调试
+
+按顺序在 `main`、 `dashboard`、 `table` 目录执行 `pnpm run dev` 命令启动应用：
+
+- main      - `http://localhost:8080`
+- dashboard - `http://localhost:8081`
+- table     - `http://localhost:8082`
+
+访问主应用地址 `http://localhost:8080`，效果如下：
+
+![demo](https://tosv.byted.org/obj/eden-internal/ozpmyhn_lm_hymuPild/ljhwZthlaukjlkulzlp/modernjs/micro-demo.gif)
+
+在完成了微前端整体开发流程的体验后，你可以进一步了解如何 [开发主应用](./c03-main-app.md)
+
+
+## 常见问题
+
+自查手册: https://bytedance.feishu.cn/docx/doxcnHbul0TQKF3iRUC8RKw1pwe
+
+
