@@ -65,13 +65,14 @@ type PluginConfig = {
 
 Ported from `@babel/preset-react`. The value you passed will be merged with default option.
 
-Default option is:
+By default, the plugin can set some fields based on your `tsconfig.json` file.
 
-```ts
-{
-  runtime: 'automatic',
-}
-```
+- runtime: `jsx` field in compilerOptions.
+- importSource: `jsxImportSource` field in compilerOptions.
+- pragma: `jsxFactory` field in compilerOptions.
+- pragmaFrag: `jsxFragmentFactory` field in compilerOptions.
+
+If there is no `tsconfig.json` file, default option is `{ runtime: 'automatic' }`.
 
 ### presetEnv
 

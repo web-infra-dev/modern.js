@@ -65,13 +65,14 @@ type PluginConfig = {
 
 对标 `@babel/preset-react`。传入的值会与默认配置进行合并。
 
-默认配置为:
+插件默认会自动根据你的 `tsconfig.json` 文件设置一些配置选项。
 
-```ts
-{
-  runtime: 'automatic',
-}
-```
+- runtime: compilerOptions 中 `jsx` 字段。
+- importSource: compilerOptions 中 `jsxImportSource` 字段。
+- pragma: compilerOptions 中 `jsxFactory` 字段。
+- pragmaFrag: compilerOptions 中 `jsxFragmentFactory` 字段。
+
+如果没有找到 `tsconfig.json` 文件，默认配置是 `{ runtime: automatic }`。
 
 ### presetEnv
 
