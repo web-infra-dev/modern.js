@@ -116,29 +116,8 @@ function App() {
 
 **集中式路由** 是将子应用的激活路由集中配置的方式。我们给子应用列表信息添加 `activeWhen` 字段来启用 **集中式路由**。
 
-```js title=jupiter.config.js {8,13}
-module.exports = {
-  runtime: {
-    features: {
-      masterApp: {
-        apps: [
-          {
-            name: "Dashboard",
-            activeWhen: '/dashboard',
-            entry: "http://localhost:8081"
-          },
-          {
-            name: TableList,
-            activeWhen: '/table',
-            entry: "http://localhost:8082"
-          }
-        ]
-      }
-    }
 
-  }
-}
-```
+<MicroRuntimeConfig />
 
 然后在主应用中使用 `useModuleApp` 方法获取 `MApp` 组件, 并在主应用渲染 `MApp`。
 

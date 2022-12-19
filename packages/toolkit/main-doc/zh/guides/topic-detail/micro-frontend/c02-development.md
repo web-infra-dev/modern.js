@@ -103,17 +103,6 @@ npx @modern-js/create
 ? 启用可选功能 启用「微前端」模式
 ```
 
-```bash
-? 请选择你想要的操作： 启用可选功能
-? 启用可选功能： 启用 Less 支持
-```
-
-然后执行以下命令，安装 @arco-design/web-react：
-
-```bash
-pnpm add @arco-design/web-react
-```
-
 
 ```javascript title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -170,58 +159,12 @@ export default () => <div>Dashboard Page</div>;
 
 ### table 子应用
 
-然后，按照以下代码，修改 table 项目的 `src/App.tsx` 文件：
-
+修改 table 项目的 `src/App.tsx`：
 
 ```tsx
-import React, { useEffect } from 'react';
-import { Table } from '@arco-design/web-react';
-const App: React.FC = () => {
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Country',
-      dataIndex: 'country',
-      key: 'country',
-    },
-  ];
-
-  const items = [
-  {
-    name: 'Jane Doe',
-    age: 32,
-    country: "America"
-  },
-  {
-    name: 'Jim Green',
-    age: 42,
-    country: "England"
-  },
-  {
-    name: 'Ming Li',
-    age: 30,
-    country: "China"
-  },
-];
-
-  return (
-    <div>
-      <Table columns={columns} data={items} />
-    </div>
-  );
-};
-
-export default App;
+export default () => <div>Table Page</div>;
 ```
+
 
 
 ## 调试
