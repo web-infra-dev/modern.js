@@ -77,8 +77,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   await handleTemplateFile(context, generator, appApi);
 
-  await appApi.runInstall(undefined, { ignoreScripts: true });
-
   if (!context.config.isSubGenerator) {
     await appApi.runInstall(undefined, { ignoreScripts: true });
     if (!context.config.pluginName) {
