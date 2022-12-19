@@ -197,7 +197,7 @@ export const MWANewActionPluginName: Record<
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: 'TailwindCSSPlugin',
     [ActionFunction.BFF]: 'BFFPlugin',
-    [ActionFunction.MicroFrontend]: 'MicroFrontendPlugin',
+    [ActionFunction.MicroFrontend]: 'GarfishPlugin',
     [ActionFunction.Test]: 'TestPlugin',
     [ActionFunction.Storybook]: 'StorybookPlugin',
     [ActionFunction.SSG]: 'SSGPlugin',
