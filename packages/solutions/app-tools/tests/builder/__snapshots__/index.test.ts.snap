@@ -12,11 +12,7 @@ Object {
     "assetPrefix": "/x",
     "cleanDistPath": false,
   },
-  "performance": Object {
-    "removeMomentLocale": true,
-  },
-  "source": Object {
-    "resolveExtensionPrefix": ".web",
-  },
+  "performance": Object {},
+  "source": Object {},
 }
 `;

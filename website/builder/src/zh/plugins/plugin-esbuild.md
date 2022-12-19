@@ -1,4 +1,4 @@
-# esbuild 插件
+# Esbuild 插件
 
 :::tip esbuild 介绍
 [esbuild](https://esbuild.github.io/) 是一款基于 Golang 开发的前端构建工具，具有打包、编译和压缩 JavaScript 代码的功能，相比传统的打包编译工具，esbuild 在性能上有显著提升。在代码压缩方面，相比 webpack 内置的 terser 压缩器，esbuild 在性能上有数十倍的提升。
@@ -6,7 +6,9 @@
 
 Builder 提供了 esbuild 插件，让你能使用 esbuild 代替 babel-loader、ts-loader 和 terser 等库进行代码编译和压缩。在大型工程中启用 esbuild 后，**可以大幅度减少代码编译和压缩所需的时间，同时有效避免 OOM (heap out of memory) 问题**。
 
-## 安装插件
+## 快速开始
+
+### 安装插件
 
 你可以通过如下的命令安装插件:
 
@@ -21,9 +23,19 @@ yarn add @modern-js/builder-plugin-esbuild -D
 pnpm install @modern-js/builder-plugin-esbuild -D
 ```
 
-## 注册插件
+### 注册插件
 
-你可以在 Builder 中注册插件来启用 esbuild 相关功能:
+在 Modern.js / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 esbuild 插件：
+
+```ts
+import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
+
+export default {
+  builderPlugins: [PluginEsbuild()],
+};
+```
+
+当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 esbuild 插件：
 
 ```js
 import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
@@ -73,13 +85,11 @@ target 支持设置为以下环境：
 - safari
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    loader: {
-      target: 'chrome61',
-    },
-  }),
-]);
+PluginEsbuild({
+  loader: {
+    target: 'chrome61',
+  },
+});
 ```
 
 #### 关闭代码转译
@@ -87,11 +97,9 @@ builder.addPlugins([
 将 `loader` 设置为 `false` 来关闭 esbuild 代码转译，此时 Builder 会继续使用 Babel 来进行代码转译。
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    loader: false,
-  }),
-]);
+PluginEsbuild({
+  loader: false,
+});
 ```
 
 ### minimize
@@ -120,13 +128,11 @@ const defaultOptions = {
 通过 `target` 选项来修改代码压缩的目标环境。
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    minimize: {
-      target: 'chrome61',
-    },
-  }),
-]);
+PluginEsbuild({
+  minimize: {
+    target: 'chrome61',
+  },
+});
 ```
 
 #### 关闭代码压缩
@@ -134,11 +140,9 @@ builder.addPlugins([
 将 `minimize` 设置为 `false` 来关闭 esbuild 代码压缩，此时 Builder 会继续使用 Terser 进行代码压缩。
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    minimize: false,
-  }),
-]);
+PluginEsbuild({
+  minimize: false,
+});
 ```
 
 ## esbuild 局限性
@@ -152,13 +156,11 @@ builder.addPlugins([
 你可以通过如下的配置指定目标语法版本:
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    loader: {
-      target: 'es2015',
-    },
-  }),
-]);
+PluginEsbuild({
+  loader: {
+    target: 'es2015',
+  },
+});
 ```
 
 使用 esbuild 进行代码压缩时（即 `minimize` 能力），esbuild 可以在生产环境中进行压缩和混淆，通常最低支持到 ES2015 语法。
@@ -170,13 +172,11 @@ builder.addPlugins([
 你可以通过如下的配置指定目标语法版本:
 
 ```ts
-builder.addPlugins([
-  PluginEsbuild({
-    minimize: {
-      target: 'es2015',
-    },
-  }),
-]);
+PluginEsbuild({
+  minimize: {
+    target: 'es2015',
+  },
+});
 ```
 
 ### 不支持 Babel 插件

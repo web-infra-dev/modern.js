@@ -1,7 +1,7 @@
 - Type: `boolean`
 - Default: `false`
 
-是否将源码目录下的所有 `.css` 文件当做 CSS Modules 模块进行处理。
+是否将源码目录下的所有样式文件当做 CSS Modules 模块进行处理。
 
 在默认情况下，只有 `*.module.css` 结尾的文件才被视为 CSS Modules 模块。开启该配置项之后，会将源码目录下的所有 `*.css` 样式文件当做 CSS Modules 模块。
 

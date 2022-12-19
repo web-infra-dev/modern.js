@@ -1,4 +1,4 @@
-# TypeScript
+# 使用 TypeScript
 
 Builder 对 TypeScript 的转译和类型检查做了默认支持，无需任何配置即可在项目中使用 `.ts` 和 `.tsx` 文件。
 

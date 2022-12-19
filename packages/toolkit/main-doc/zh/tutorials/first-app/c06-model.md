@@ -216,9 +216,9 @@ export const loader = async (): Promise<LoaderData> => {
 
 function Index() {
   const { data } = useLoaderData() as LoaderData;
-  const [{ items }, { archive, setItem }] = useModel(contacts);
+  const [{ items }, { archive, setItems }] = useModel(contacts);
   if (items.length === 0) {
-    setItem(data);
+    setItems(data);
   }
 
   return (

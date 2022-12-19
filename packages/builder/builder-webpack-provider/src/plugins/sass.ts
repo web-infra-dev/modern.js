@@ -1,10 +1,21 @@
+import path from 'path';
+import { pathToFileURL } from 'url';
 import { isUseCssSourceMap, SASS_REGEX } from '@modern-js/builder-shared';
 import type { BuilderPlugin, SassLoaderOptions } from '../types';
+
+/** fix issue about dart2js: https://github.com/dart-lang/sdk/issues/27979 */
+export function patchGlobalLocation() {
+  const href = `${pathToFileURL(process.cwd()).href}${path.sep}`;
+  // @ts-expect-error
+  global.location ||= {};
+  global.location.href ||= href;
+}
 
 export function PluginSass(): BuilderPlugin {
   return {
     name: 'builder-plugin-sass',
     setup(api) {
+      patchGlobalLocation();
       api.modifyWebpackChain(async (chain, utils) => {
         const config = api.getNormalizedConfig();
         const { applyOptionsChain } = await import('@modern-js/utils');

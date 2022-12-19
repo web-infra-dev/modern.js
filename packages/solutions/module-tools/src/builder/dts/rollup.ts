@@ -60,7 +60,11 @@ export const runRollup = async ({
         // use external to prevent them which come from node_modules from be bundled.
         respectExternal: true,
         compilerOptions: {
+          declarationMap: false,
+          skipLibCheck: true,
+          preserveSymlinks: false,
           ...options,
+          // isAbsolute
           baseUrl,
           // Ensure ".d.ts" modules are generated
           declaration: true,
@@ -71,9 +75,6 @@ export const runRollup = async ({
           noEmitOnError: true,
           // Avoid extra work
           checkJs: false,
-          declarationMap: false,
-          skipLibCheck: true,
-          preserveSymlinks: false,
           // Ensure we can parse the latest code
           target: ts.ScriptTarget.ESNext,
         },

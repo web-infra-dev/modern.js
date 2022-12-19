@@ -2,9 +2,9 @@
 
 ## Bundler
 
-Refers to module bundlers such as `webpack` and `rspack`.
+Refers to module bundlers such as `webpack`, `turbopack` and `rspack`.
 
-When Bundler processes the Web application, it builds a dependency graph and then combines every module into one or more bundles.
+The main goal of bundlers is to bundle JavaScript, CSS and other files together, and the bundled files can be used in the browser, Node.js or other environments. When bundler processes the Web application, it builds a dependency graph and then combines every module into one or more bundles.
 
 ## Rspack
 

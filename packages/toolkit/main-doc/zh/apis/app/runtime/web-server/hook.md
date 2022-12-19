@@ -46,6 +46,7 @@ type HookContext = {
     ) => void;
   };
   request: {
+    url: string;
     host: string;
     pathname: string;
     query: Record<string, any>;
@@ -81,7 +82,6 @@ type AfterRenderContext = {
   };
 };
 ```
-
 
 ### 参数
 
