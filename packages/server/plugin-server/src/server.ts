@@ -116,7 +116,7 @@ export default (): ServerPlugin => ({
         storage.middlewares = ([] as Middleware[]).concat(middleware);
       }
 
-      storage.middlewares.concat(unstableMiddleware);
+      storage.middlewares = storage.middlewares.concat(unstableMiddleware);
     };
 
     return {
