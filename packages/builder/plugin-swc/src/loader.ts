@@ -63,4 +63,5 @@ function setReactDevMode(
   }
 
   swc.jsc.transform.react.development = mode === 'development';
+  swc.jsc.transform.react.refresh = mode === 'development';
 }
