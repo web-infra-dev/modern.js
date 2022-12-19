@@ -62,6 +62,8 @@ const handleTemplateFile = async (
           'dependencies.@modern-js/plugin-server': `${await getServerPluginVersion(
             '@modern-js/plugin-server',
           )}`,
+          'devDependencies.ts-node': '~10.8.1',
+          'devDependencies.tsconfig-paths': '~3.14.1',
         },
       },
     },

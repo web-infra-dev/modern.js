@@ -13,6 +13,7 @@ import { GeneratorContext } from '@modern-js/codesmith';
 import { stripAnsi } from './utils/strip-ansi';
 import { i18n, localeKeys } from './locale';
 import { getAvailableVersion } from './utils/package';
+import { fileExist } from './utils/fs-exist';
 
 export * from './utils';
 
@@ -205,4 +206,16 @@ export function getMWAProjectPath(
     return `${isTest ? 'examples' : 'apps'}/${packagePath}/`;
   }
   return '';
+}
+
+export async function getModernConfigFile(appDir: string) {
+  let exist = await fileExist(path.join(appDir, 'modern.config.ts'));
+  if (exist) {
+    return 'modern.config.ts';
+  }
+  exist = await fileExist(path.join(appDir, 'modern.config.js'));
+  if (exist) {
+    return 'modern.config.js';
+  }
+  return isTsProject(appDir) ? 'modern.config.ts' : 'modern.config.js';
 }

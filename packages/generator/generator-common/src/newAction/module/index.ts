@@ -99,3 +99,12 @@ export const ModuleNewActionPluginName: Partial<
     [ActionFunction.Storybook]: 'StoryBookPlugin',
   },
 };
+
+export const ModuleNewActionPluginDependence: Partial<
+  Record<ActionType, Record<string, string>>
+> = {
+  [ActionType.Function]: {
+    [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
+    [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+  },
+};

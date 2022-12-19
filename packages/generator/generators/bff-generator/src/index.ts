@@ -96,7 +96,7 @@ export const handleTemplateFile = async (
           }`]: `${await getBffPluginVersion(
             `@modern-js/plugin-${framework as string}`,
           )}`,
-          'devDependencies.ts-node': '~10.1.0',
+          'devDependencies.ts-node': '~10.8.1',
           'devDependencies.tsconfig-paths': '~3.14.1',
           ...updateInfo,
         },

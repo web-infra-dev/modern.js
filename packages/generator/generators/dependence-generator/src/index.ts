@@ -2,8 +2,9 @@ import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import { i18n } from '@modern-js/generator-common';
-import { fs } from '@modern-js/generator-utils';
+import { i18n as commonI18n } from '@modern-js/generator-common';
+import { fs, getModernConfigFile } from '@modern-js/generator-utils';
+import { i18n, localeKeys } from './locale';
 
 export const handleTemplateFile = async (
   context: GeneratorContext,
@@ -71,6 +72,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   process.setMaxListeners(20);
 
   const { locale } = context.config;
+  commonI18n.changeLanguage({ locale });
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
@@ -87,8 +89,24 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   if (!context.config.isSubGenerator) {
     await appApi.runInstall(undefined, { ignoreScripts: true });
-
-    appApi.showSuccessInfo();
+    if (!context.config.pluginName) {
+      appApi.showSuccessInfo();
+    } else {
+      const appDir = context.materials.default.basePath;
+      const configFile = await getModernConfigFile(appDir);
+      appApi.showSuccessInfo(
+        i18n.t(
+          configFile.endsWith('ts')
+            ? localeKeys.success_ts
+            : localeKeys.success_js,
+          {
+            configFile,
+            pluginName: context.config.pluginName,
+            pluginDependence: context.config.pluginDependence,
+          },
+        ),
+      );
+    }
   }
 
   generator.logger.debug(`forge @modern-js/dependence-generator succeed `);

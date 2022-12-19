@@ -187,8 +187,9 @@ export const MWANewActionGenerators: Record<
   },
 };
 
-export const MWANewActionPluginName: Partial<
-  Record<ActionType, Record<string, string>>
+export const MWANewActionPluginName: Record<
+  ActionType,
+  Record<string, string>
 > = {
   [ActionType.Element]: {
     [ActionElement.Server]: 'ServerPlugin',
@@ -204,9 +205,40 @@ export const MWANewActionPluginName: Partial<
     [ActionFunction.Proxy]: 'ProxyPlugin',
     [ActionFunction.SWC]: 'SWCPlugin',
   },
+  [ActionType.Refactor]: {
+    [ActionRefactor.ReactRouter5]: 'ReactRouter5Plugin',
+  },
+};
+
+export const MWANewActionPluginDependence: Record<
+  ActionType,
+  Record<string, string>
+> = {
+  [ActionType.Element]: {
+    [ActionElement.Server]: '@modern-js/plugin-server',
+  },
+  [ActionType.Function]: {
+    [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
+    [ActionFunction.BFF]: '@modern-js/plugin-bff',
+    [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
+    [ActionFunction.Test]: '@modern-js/plugin-testing',
+    [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+    [ActionFunction.SSG]: '@modern-js/plugin-ssg',
+    [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
+    [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
+    [ActionFunction.SWC]: '@modern-js/plugin-swc',
+  },
+  [ActionType.Refactor]: {
+    [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-v5',
+  },
 };
 
 export const BFFPluginName: Record<Framework, string> = {
   [Framework.Express]: 'ExpressBFFPlugin',
   [Framework.Koa]: 'KoaBFFPlugin',
+};
+
+export const BFFPluginDependence: Record<Framework, string> = {
+  [Framework.Express]: '@modern-js/plugin-express',
+  [Framework.Koa]: '@modern-js/plugin-koa',
 };
