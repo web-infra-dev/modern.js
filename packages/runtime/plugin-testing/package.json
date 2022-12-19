@@ -13,9 +13,9 @@
   ],
   "version": "2.0.0-beta.4",
   "jsnext:source": "./src/cli/index.ts",
-  "types": "./dist/types/cli/index.d.ts",
+  "types": "./src/cli/index.ts",
   "main": "./dist/js/node/cli/index.js",
-  "module": "./dist/js/treeshaking/cli/index.js",
+  "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/cli/index.js",
   "exports": {
     "./types": {
@@ -152,6 +152,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/cli/index.d.ts"
   }
 }
