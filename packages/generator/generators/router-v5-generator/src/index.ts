@@ -87,8 +87,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
       appApi.showSuccessInfo(
         i18n.t(
           configFile.endsWith('ts')
-            ? localeKeys.success_ts
-            : localeKeys.success_js,
+            ? localeKeys.successTs
+            : localeKeys.successJS,
           {
             configFile,
             pluginName: context.config.pluginName,
