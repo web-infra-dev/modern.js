@@ -5,25 +5,20 @@ title: 开发主应用
 
 在上一章 [体验微前端](./c02-development.md) 通过一个示例演示了如何创建和配置微前端子应用，通过本章你可以进一步了解如何开发主应用，以及它的常见配置。
 
-在通过 `@modern-js/create` 命令创建应用工程后，可以在项目中执行 `pnpm run new`（实际执行了 `modern new` 命令），在选择了「微前端」模式后，会安装微前端依赖依赖，根据该依赖会识别并自动注册 Garfish 插件
+在通过 `@modern-js/create` 命令创建应用工程后，可以在项目中执行 `pnpm run new`（实际执行了 `modern new` 命令），在选择了「微前端」模式后，会安装微前端依赖依赖，只需手动注册插件即可。
 
 import EnableMicroFrontend from '@site-docs/components/enable-micro-frontend.md';
 
 <EnableMicroFrontend />
 
-
-:::info 补充信息
-若需要关闭微前端模式，需要移除微前端的配置和 new 命令生成的依赖即可。主应用的更多配置请参考 [masterApp](/docs/configure/app/runtime/master-app)
-:::
-
 ## 注册子应用信息
 
-当在 masterApp 配置上提供了信息后，将会认为该应用为主应用，目前存在两种子应用信息的配置方式，这两种方式分别应用于不同的场景
+当在 `masterApp` 配置上提供了信息后，将会认为该应用为主应用，目前存在两种子应用信息的配置方式，这两种方式分别应用于不同的场景。
 
 
 ### 直接注册子应用信息
 
-可以直接通过配置注册子应用信息
+可以直接通过配置注册子应用信息：
 
 :::tip 提示
 可以通过 API [defineConfig](/docs/apis/app/runtime/app/define-config) 在运行时进行配置。
@@ -37,7 +32,7 @@ import MicroRuntimeConfig from '@site-docs/components/micro-runtime-config.md';
 
 ### 自定义远程应用列表
 
-通过该函数可以拉取远程的子应用列表，并将其注册至运行时框架
+通过该函数可以拉取远程的子应用列表，并将其注册至运行时框架：
 
 ```ts title="App.tsx"
 defineConfig(App, {
@@ -47,12 +42,12 @@ defineConfig(App, {
         // 可以从其他远程接口获取
         return [
             {
-              name: "DashBoard",
-              entry: "http://127.0.0.1:8081/"
+              name: 'DashBoard',
+              entry: 'http://127.0.0.1:8081/'
             },
             {
-              name: "TableList",
-              entry: "http://localhost:8082"
+              name: 'TableList',
+              entry: 'http://localhost:8082'
             }
         ];
       },

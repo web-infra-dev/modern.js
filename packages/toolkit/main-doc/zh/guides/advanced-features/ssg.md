@@ -16,6 +16,17 @@ SSG 是构建阶段的解决方案，因此仅对生产环境有效。通过 `de
 ? 启用可选功能 启用「SSG」功能
 ```
 
+执行命令后，在 `modern.config.ts` 中注册 SSG 插件:
+
+```ts title="modern.config.ts"
+import SSGPlugin from '@modern-js/plugin-ssg';
+// https://modernjs.dev/docs/apis/app/config
+export default defineConfig({
+  ...,
+  plugins: [..., SSGPlugin()],
+});
+```
+
 SSG 在**约定式路由**和**自控式路由**下的使用方式不同。
 
 ### 在约定式路由中使用
