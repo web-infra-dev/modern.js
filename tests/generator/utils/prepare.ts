@@ -16,7 +16,6 @@ async function addNewActionDevDependence(repoCwd: string) {
     '@modern-js/entry-generator': 'workspace:*',
     '@modern-js/server-generator': 'workspace:*',
     '@modern-js/test-generator': 'workspace:*',
-    '@modern-js/ssg-generator': 'workspace:*',
     '@modern-js/repo-generator': 'workspace:*',
     '@modern-js/tailwindcss-generator': 'workspace:*',
     '@modern-js/storybook-generator': 'workspace:*',

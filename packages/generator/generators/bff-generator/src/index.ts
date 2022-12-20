@@ -5,6 +5,7 @@ import {
   getModernPluginVersion,
   isTsProject,
   readTsConfigByFile,
+  getModernConfigFile,
 } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
@@ -12,12 +13,15 @@ import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   getBFFSchema,
   BFFType,
-  i18n,
+  i18n as commonI18n,
   Framework,
   Language,
   FrameworkAppendTypeContent,
   Solution,
+  BFFPluginName,
+  BFFPluginDependence,
 } from '@modern-js/generator-common';
+import { i18n, localeKeys } from './locale';
 
 function isEmptyApiDir(apiDir: string) {
   const files = fs.readdirSync(apiDir);
@@ -65,6 +69,11 @@ export const handleTemplateFile = async (
     });
   };
 
+  // update bff plugin config
+  context.config.bffPluginName = BFFPluginName[framework as Framework];
+  context.config.bffPluginDependence =
+    BFFPluginDependence[framework as Framework];
+
   let updateInfo: Record<string, string> = {};
 
   if (framework === Framework.Express || framework === Framework.Koa) {
@@ -96,7 +105,7 @@ export const handleTemplateFile = async (
           }`]: `${await getBffPluginVersion(
             `@modern-js/plugin-${framework as string}`,
           )}`,
-          'devDependencies.ts-node': '~10.1.0',
+          'devDependencies.ts-node': '~10.8.1',
           'devDependencies.tsconfig-paths': '~3.14.1',
           ...updateInfo,
         },
@@ -223,6 +232,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const { locale } = context.config;
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
+  commonI18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
     // eslint-disable-next-line no-process-exit
@@ -241,6 +251,30 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   }
 
   await appApi.runInstall(undefined, { ignoreScripts: true });
+
+  if (!context.config.isSubGenerator) {
+    await appApi.runInstall(undefined, { ignoreScripts: true });
+    if (!context.config.pluginName) {
+      appApi.showSuccessInfo();
+    } else {
+      const appDir = context.materials.default.basePath;
+      const configFile = await getModernConfigFile(appDir);
+      appApi.showSuccessInfo(
+        i18n.t(
+          configFile.endsWith('ts')
+            ? localeKeys.successTs
+            : localeKeys.successJS,
+          {
+            configFile,
+            pluginName: context.config.pluginName,
+            pluginDependence: context.config.pluginDependence,
+            bffPluginName: context.config.bffPluginName,
+            bffPluginDependence: context.config.bffPluginDependence,
+          },
+        ),
+      );
+    }
+  }
 
   generator.logger.debug(`forge @modern-js/bff-generator succeed `);
 };

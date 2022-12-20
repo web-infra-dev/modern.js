@@ -10,8 +10,6 @@ import { i18n, localeKeys } from '../../locale';
 export const ModuleActionTypes = [ActionType.Function];
 export const ModuleActionFunctions = [
   ActionFunction.TailwindCSS,
-  // ActionFunction.I18n,
-  // ActionFunction.Doc,
   ActionFunction.Storybook,
   ActionFunction.RuntimeApi,
 ];
@@ -80,7 +78,6 @@ export const ModuleActionFunctionsPeerDependencies: Partial<
 export const ModuleActionFunctionsDependencies: Partial<
   Record<ActionFunction, string>
 > = {
-  [ActionFunction.I18n]: '@modern-js/plugin-i18n',
   [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
 };
 
@@ -89,10 +86,25 @@ export const ModuleNewActionGenerators: Partial<
 > = {
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
-    [ActionFunction.I18n]: '@modern-js/dependence-generator',
-    [ActionFunction.Test]: '@modern-js/dependence-generator',
-    [ActionFunction.Doc]: '@modern-js/dependence-generator',
     [ActionFunction.Storybook]: '@modern-js/storybook-generator',
     [ActionFunction.RuntimeApi]: '@modern-js/dependence-generator',
+  },
+};
+
+export const ModuleNewActionPluginName: Partial<
+  Record<ActionType, Record<string, string>>
+> = {
+  [ActionType.Function]: {
+    [ActionFunction.TailwindCSS]: 'TailwindCSSPlugin',
+    [ActionFunction.Storybook]: 'StoryBookPlugin',
+  },
+};
+
+export const ModuleNewActionPluginDependence: Partial<
+  Record<ActionType, Record<string, string>>
+> = {
+  [ActionType.Function]: {
+    [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
+    [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   },
 };
