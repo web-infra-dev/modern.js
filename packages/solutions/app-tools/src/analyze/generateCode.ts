@@ -24,7 +24,7 @@ import {
   ImportSpecifier,
   ImportStatement,
 } from '../types';
-import { getCommand } from '../utils/commands';
+import { isDevCommand } from '../utils/commands';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
 import {
@@ -105,13 +105,12 @@ export const createImportStatements = (
 };
 
 const buildLoader = async (entry: string, outfile: string) => {
-  const command = getCommand();
   await loaderBuilder.build({
     format: 'esm',
     platform: 'browser',
     target: 'esnext',
     loader,
-    watch: command === 'dev' && {},
+    watch: isDevCommand() && {},
     bundle: true,
     logLevel: 'error',
     entryPoints: [entry],
@@ -139,13 +138,12 @@ const buildLoader = async (entry: string, outfile: string) => {
 };
 
 const buildServerLoader = async (entry: string, outfile: string) => {
-  const command = getCommand();
   await serverLoaderBuilder.build({
     format: 'cjs',
     platform: 'node',
     target: 'esnext',
     loader,
-    watch: command === 'dev' && {},
+    watch: isDevCommand() && {},
     bundle: true,
     logLevel: 'error',
     entryPoints: [entry],
