@@ -1,5 +1,5 @@
 ---
-'@modern-js/plugin-router-legacy': major
+'@modern-js/plugin-router-v5': major
 '@modern-js/runtime': major
 '@modern-js/builder': major
 '@modern-js/builder-doc': major

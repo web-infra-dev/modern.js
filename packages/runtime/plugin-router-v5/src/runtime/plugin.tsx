@@ -50,7 +50,7 @@ export type HistoryConfig =
     };
 
 export type RouterConfig = Partial<HistoryConfig> & {
-  legacy?: boolean;
+  mode?: 'react-router-5';
   routesConfig?: {
     globalApp?: React.ComponentType<any>;
     routes?: SingleRouteConfig[];

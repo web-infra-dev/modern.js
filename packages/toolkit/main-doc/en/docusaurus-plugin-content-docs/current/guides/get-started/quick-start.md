@@ -140,12 +140,12 @@ The bundle is generated to `dist/` by default, and the directory structure is as
 
 ## Verify
 
-Execute `pnpm run start` in the project to verify locally that the bundle is running correctly:
+Execute `pnpm run serve` in the project to verify locally that the bundle is running correctly:
 
 ```bash
-$ pnpm run start
+$ pnpm run serve
 
-> modern start
+> modern serve
 
 Starting the modern server...
 info    App running at:

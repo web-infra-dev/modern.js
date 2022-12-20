@@ -7,7 +7,7 @@ declare module '@modern-js/app-tools' {
   }
 }
 
-declare module '@modern-js/runtime/legacy-router' {
+declare module '@modern-js/runtime/router-v5' {
   export * from '../dist/types/runtime';
 }
 

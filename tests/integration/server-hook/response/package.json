@@ -8,7 +8,7 @@
     "deploy": "modern deploy",
     "preview": "modern deploy --mode preview",
     "deploy:local": "modern deploy --mode local",
-    "start": "modern start",
+    "serve": "modern serve",
     "new": "modern new"
   },
   "dependencies": {

@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { Link } from '@modern-js/runtime/legacy-router';
+import { Link } from '@modern-js/runtime/router-v5';
 
 const App = ({ Component, ...pageProps }) => {
   return (

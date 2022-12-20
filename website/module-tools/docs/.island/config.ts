@@ -25,6 +25,7 @@ export default defineConfig({
       }
     }
   },
+  enableSpa: true,
   markdown: {
     rehypePlugins: [],
     remarkPlugins: [
@@ -34,7 +35,6 @@ export default defineConfig({
           theme,
           autoImport: true,
           showCopyButton: true,
-          enableSpa: true
         }
       ],
     ],
@@ -57,7 +57,7 @@ export default defineConfig({
         description: '模块工程解决方案',
         editLink: {
           pattern:
-            'https://github.com/modern-js-dev/modern.js/tree/next/website/module-tools/docs/:path',
+            'https://github.com/modern-js-dev/modern.js/tree/main/website/module-tools/docs/:path',
           text: '📝 在 GitHub 上编辑此页'
         }
       },
@@ -72,7 +72,7 @@ export default defineConfig({
         lastUpdatedText: 'Last Updated',
         editLink: {
           pattern:
-            'https://github.com/modern-js-dev/modern.js/tree/next/website/module-tools/docs/:path',
+            'https://github.com/modern-js-dev/modern.js/tree/main/website/module-tools/docs/:path',
           text: '📝 Edit this page on GitHub'
         }
       }
@@ -82,7 +82,7 @@ export default defineConfig({
       {
         icon: 'github',
         mode: 'link',
-        content: 'https://github.com/modern-js-dev/modern.js'
+        content: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/solutions/module-tools'
       },
     ],
 
@@ -273,13 +273,11 @@ function getNavbar(lang: 'zh' | 'en') {
       items: [
         {
           text: getText('更新日志', 'Changelog'),
-          // TODO
-          link: 'https://github.com/modern-js-dev/modern.js'
+          link: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md'
         },
         {
           text: getText('贡献指南', 'Contributing'),
-          // TODO
-          link: 'https://github.com/modern-js-dev/modern.js'
+          link: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md'
         }
       ]
     }

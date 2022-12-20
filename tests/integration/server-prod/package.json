@@ -7,7 +7,7 @@
     "reset": "rm -rf node_modules",
     "dev": "modern dev",
     "build": "modern build",
-    "start": "modern start",
+    "serve": "modern serve",
     "test": "modern test",
     "preview": "modern deploy --mode preview",
     "deploy": "modern deploy"

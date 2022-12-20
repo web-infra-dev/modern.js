@@ -8,6 +8,6 @@
     "@babel/runtime": "^7",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-router-legacy": "workspace:*"
+    "@modern-js/plugin-router-v5": "workspace:*"
   }
 }

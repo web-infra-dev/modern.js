@@ -4,7 +4,7 @@ import {
   launchApp,
   killApp,
   modernBuild,
-  modernStart,
+  modernServe,
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
 
@@ -67,7 +67,7 @@ describe('api-service in prod', () => {
       cwd: appPath,
     });
 
-    app = await modernStart(appPath, port, {
+    app = await modernServe(appPath, port, {
       cwd: appPath,
     });
   });

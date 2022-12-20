@@ -12,7 +12,7 @@ export const EN_LOCALE = {
     build: {
       describe: 'build application',
     },
-    start: { describe: 'start server' },
+    serve: { describe: 'start server' },
     deploy: { describe: 'deploy application' },
     new: {
       describe: 'generator runner for MWA project',
