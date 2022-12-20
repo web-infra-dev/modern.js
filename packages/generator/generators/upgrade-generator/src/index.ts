@@ -8,7 +8,6 @@ import {
   getModernVersion,
   getPackageManager,
   getPackageObj,
-  execa,
   semver,
   fs,
 } from '@modern-js/generator-utils';
@@ -92,22 +91,6 @@ export const handleTemplateFile = async (
       fs.ensureFileSync(npmrcPath);
       fs.writeFileSync(npmrcPath, 'strict-peer-dependencies=false');
     }
-  }
-
-  if (
-    solutions[0] === Solution.Monorepo &&
-    packageManager === PackageManager.Pnpm
-  ) {
-    await execa(
-      'pnpm',
-      ['update', '@modern-js/*', '@modern-js-app/*', '--recursive', '--latest'],
-      {
-        stdin: 'inherit',
-        stdout: 'inherit',
-        stderr: 'inherit',
-      },
-    );
-    return;
   }
 
   const modernDeps = Object.keys(pkgInfo.dependencies || {}).filter(
