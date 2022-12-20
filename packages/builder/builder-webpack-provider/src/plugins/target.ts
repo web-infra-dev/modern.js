@@ -5,7 +5,7 @@ export const PluginTarget = (): BuilderPlugin => ({
   name: 'builder-plugin-target',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { target }) => {
+    api.modifyBundlerChain(async (chain, { target }) => {
       if (target === 'node') {
         chain.target('node');
         return;
@@ -17,6 +17,7 @@ export const PluginTarget = (): BuilderPlugin => ({
       if (browserslist) {
         chain.merge({ target: [basicTarget, 'browserslist'] });
       } else if (target === 'modern-web') {
+        // todo: es2015 ?
         chain.merge({ target: [basicTarget, 'es6'] });
       } else {
         chain.merge({ target: [basicTarget, 'es5'] });

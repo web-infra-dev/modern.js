@@ -5,7 +5,7 @@ export const PluginDevtool = (): BuilderPlugin => ({
   name: 'builder-plugin-devtool',
 
   setup(api) {
-    api.modifyWebpackChain((chain, { isProd }) => {
+    api.modifyBundlerChain((chain, { isProd }) => {
       const config = api.getNormalizedConfig();
 
       if (!isUseJsSourceMap(config)) {

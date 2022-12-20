@@ -1,6 +1,7 @@
 import type {
   DefaultBuilderPluginAPI,
   BuilderPlugin as BaseBuilderPlugin,
+  ModifyBundlerChainFn,
 } from '@modern-js/builder-shared';
 import type { BuilderConfig, NormalizedConfig } from './config';
 import type { ModifyRspackConfigFn } from './hooks';
@@ -14,6 +15,7 @@ export interface BuilderPluginAPI
     Compiler
   > {
   modifyRspackConfig: (fn: ModifyRspackConfigFn) => void;
+  modifyBundlerChain: (fn: ModifyBundlerChainFn) => void;
 }
 
 export type BuilderPlugin = BaseBuilderPlugin<BuilderPluginAPI>;
