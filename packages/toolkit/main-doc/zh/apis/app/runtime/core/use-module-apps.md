@@ -79,7 +79,7 @@ defineConfig(App, {
 然后在主应用中使用 `useModuleApp` 方法获取 `MApp` 组件, 并在主应用渲染 `MApp`。
 
 ```tsx title=主应用：App.tsx
-import { useModuleApp } from '@jupiter/plugin-runtime';
+import { useModuleApp } from '@modern-js/plugin-runtime';
 
 function App() {
   const { MApp } = useModuleApps();
