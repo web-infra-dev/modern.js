@@ -1,8 +1,17 @@
 import { debug } from './logger';
-import { BuilderContext, ModifyBundlerChainUtils } from './types';
+import {
+  BuilderContext,
+  CreateAsyncHook,
+  ModifyBundlerChainUtils,
+  ModifyBundlerChainFn,
+} from './types';
 
 export async function modifyBundlerChain(
-  context: BuilderContext,
+  context: BuilderContext & {
+    hooks: {
+      modifyBundlerChainHook: CreateAsyncHook<ModifyBundlerChainFn>;
+    };
+  },
   utils: ModifyBundlerChainUtils,
 ) {
   debug('modify bundler chain');

@@ -1,7 +1,6 @@
 import type {
   DefaultBuilderPluginAPI,
   BuilderPlugin as BaseBuilderPlugin,
-  ModifyBundlerChainFn,
 } from '@modern-js/builder-shared';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderConfig, NormalizedConfig } from './config';
@@ -18,7 +17,6 @@ export interface BuilderPluginAPI
   // Modifiers
   modifyWebpackChain: (fn: ModifyWebpackChainFn) => void;
   modifyWebpackConfig: (fn: ModifyWebpackConfigFn) => void;
-  modifyBundlerChain: (fn: ModifyBundlerChainFn) => void;
 }
 
 export type BuilderPlugin = BaseBuilderPlugin<BuilderPluginAPI>;

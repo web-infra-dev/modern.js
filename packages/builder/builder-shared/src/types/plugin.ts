@@ -8,6 +8,7 @@ import type {
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
   ModifyBuilderConfigFn,
+  ModifyBundlerChainFn,
 } from './hooks';
 import { BuilderContext } from './context';
 import { SharedBuilderConfig, SharedNormalizedConfig } from './config';
@@ -64,6 +65,7 @@ export type DefaultBuilderPluginAPI<
   getNormalizedConfig: () => NormalizedConfig;
 
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn<Config>) => void;
+  modifyBundlerChain: (fn: ModifyBundlerChainFn) => void;
 };
 
 export type DefaultBuilderPlugin = BuilderPlugin<

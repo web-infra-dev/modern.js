@@ -1,10 +1,4 @@
 import type { BuilderEntry, BuilderTarget } from './builder';
-import { ModifyBundlerChainFn } from './bundlerConfig';
-
-type CreateAsyncHook<Callback extends (...args: any[]) => any> = {
-  tap: (cb: Callback) => void;
-  call: (...args: Parameters<Callback>) => Promise<Parameters<Callback>>;
-};
 
 /** The public context */
 export type BuilderContext = {
@@ -30,8 +24,5 @@ export type BuilderContext = {
   devServer?: {
     hostname: string;
     port: number;
-  };
-  hooks: {
-    modifyBundlerChainHook: CreateAsyncHook<ModifyBundlerChainFn>;
   };
 };
