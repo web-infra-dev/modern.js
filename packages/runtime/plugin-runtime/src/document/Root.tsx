@@ -19,7 +19,7 @@ export function Root(props: { children?: any; rootId?: string }) {
 
 export function DefaultRoot(props: { children?: any }) {
   const {
-    templateParams: { mountId },
+    templateParams: { mountId = 'root' },
   } = useContext(DocumentContext);
   return (
     <div id={`${mountId}`}>

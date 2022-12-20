@@ -20,7 +20,7 @@ pnpm add @types/faker@5 -D
 修改 `src/routes/page.tsx`：
 
 ```tsx
-import { name, internet } from "faker";
+import { name, internet } from 'faker';
 
 type LoaderData = {
   code: number;
@@ -55,7 +55,7 @@ Data Loader 并非只为 SSR 工作。在 CSR 项目中，Data Loader 也可以�
 Modern.js 也提供了一个叫 `useLoaderData` 的 hooks API，我们修改 `src/routes/page.tsx` 导出的组件：
 
 ```tsx {1,4,13}
-import { useLoaderData } from "@modern-js/runtime/router";
+import { useLoaderData } from '@modern-js/runtime/router';
 
 function Index() {
   const { data } = useLoaderData() as LoaderData;
