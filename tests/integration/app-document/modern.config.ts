@@ -1,5 +1,5 @@
 import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import RouterLegacyPlugin from '@modern-js/plugin-router-legacy';
+import RouterLegacyPlugin from '@modern-js/plugin-router-v5';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({

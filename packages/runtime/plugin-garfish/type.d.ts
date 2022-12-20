@@ -1,5 +1,5 @@
 import { Config } from './dist/types/runtime/useModuleApps';
-import '@modern-js/plugin-router-legacy';
+import '@modern-js/plugin-router-v5';
 
 declare module '@modern-js/runtime' {
   export const useModuleApp: typeof import('./dist/types/runtime').useModuleApp;
