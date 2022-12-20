@@ -1,6 +1,7 @@
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
+  plugins: [AppToolsPlugin()],
   output: {
     disableSourceMap: false,
   },

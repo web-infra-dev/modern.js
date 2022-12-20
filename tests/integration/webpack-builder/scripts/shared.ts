@@ -40,13 +40,13 @@ export const createBuilder = async () => {
   });
 
   if (process.env.ESBUILD) {
-    const { PluginEsbuild } = await import('@modern-js/builder-plugin-esbuild');
-    builder.addPlugins([PluginEsbuild()]);
+    const { EsbuildPlugin } = await import('@modern-js/builder-plugin-esbuild');
+    builder.addPlugins([EsbuildPlugin()]);
   }
 
   if (process.env.SWC) {
-    const { PluginSwc } = await import('@modern-js/builder-plugin-swc');
-    builder.addPlugins([PluginSwc()]);
+    const { SwcPlugin } = await import('@modern-js/builder-plugin-swc');
+    builder.addPlugins([SwcPlugin()]);
   }
 
   return builder;
