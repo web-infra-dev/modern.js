@@ -41,7 +41,6 @@ type BootStrap<T = unknown> = (
 ```tsx
 import ReactDOM from 'react-dom/client'
 import { createApp, bootstrap } from '@modern-js/runtime';
-import { router, state } from '@modern-js/runtime/plugins';
 
 function App() {
   return <div>Hello Modern.js</div>;
@@ -49,7 +48,7 @@ function App() {
 
 const WrappedApp = createApp({
   // 传入自定义插件
-  plugins: [router({}), state({})],
+  plugins: [customPlugin()],
 })(App);
 
 bootstrap(WrappedApp, 'root', undefined, ReactDOM);

@@ -40,8 +40,7 @@ function App() {
 
 export default createApp({
   plugins: [
-    router({}),
-    state({}),
-  ]
+    customPlugin(),
+  ],
 })(App);
 ```

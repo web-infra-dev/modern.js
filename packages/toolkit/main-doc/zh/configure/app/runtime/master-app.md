@@ -6,21 +6,9 @@ sidebar_label: masterApp
 
 * 类型： `Object`
 
-:::info
-使用该配置首先需要使用 [new 命令](/docs/apis/app/commands/new)启用「微前端」功能。
+:::caution 注意
+需要先通过 `pnpm run new` 启用「微前端」 功能。
 :::
-
-
-## 启用
-
-在当前应用工程根目录执行 `pnpm run new`, 并选择 **启用「微前端」功能**
-
-```bash
-$ pnpm run new
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 (Use arrow keys)
-❯ 启用「微前端」功能
-```
 
 ## 示例
 
