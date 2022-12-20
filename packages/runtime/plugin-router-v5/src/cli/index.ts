@@ -17,13 +17,16 @@ interface UserConfig {
   };
 }
 
+const isV5 = (config: UserConfig) =>
+  config?.runtime?.router?.mode === 'react-router-5';
+
 export default (): CliPlugin<
   AppTools & {
     userConfig: UserConfig;
     normalizedConfig: Required<UserConfig>;
   }
 > => ({
-  name: '@modern-js/plugin-router-legacy',
+  name: '@modern-js/plugin-router-v5',
   required: ['@modern-js/runtime'],
   setup: api => {
     const runtimeConfigMap = new Map<string, any>();
@@ -49,7 +52,7 @@ export default (): CliPlugin<
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-              '@modern-js/runtime/legacy-router': routerExportsUtils.getPath(),
+              '@modern-js/runtime/router-v5': routerExportsUtils.getPath(),
             },
           },
         };
@@ -60,7 +63,6 @@ export default (): CliPlugin<
       modifyEntryImports({ entrypoint, imports }) {
         const { entryName } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
-        const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
         const { packageName } = api.useAppContext();
 
         const runtimeConfig = getEntryOptions(
@@ -72,14 +74,14 @@ export default (): CliPlugin<
 
         runtimeConfigMap.set(entryName, runtimeConfig);
 
-        if (isLegacy) {
+        if (isV5(userConfig)) {
           imports.push({
             value: '@modern-js/runtime/plugins',
             specifiers: [{ imported: PLUGIN_IDENTIFIER }],
           });
         } else {
           throw new Error(
-            `should enable runtime.router.legacy for entry ${entryName}`,
+            `should enable runtime.router.mode for entry ${entryName}`,
           );
         }
 
@@ -94,9 +96,8 @@ export default (): CliPlugin<
         const runtimeConfig = runtimeConfigMap.get(entryName);
 
         const userConfig = api.useResolvedConfigContext();
-        const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
 
-        if (isLegacy) {
+        if (isV5(userConfig)) {
           // Todo: plugin-router best to only handle manage client route.
           // here support base server route usage, part for compatibility
           const serverBase = serverRoutes
@@ -125,13 +126,12 @@ export default (): CliPlugin<
       },
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();
-        const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
-        if (isLegacy) {
+        if (isV5(userConfig)) {
           pluginsExportsUtils.addExport(
-            `export { default as router } from '@modern-js/plugin-router-legacy/runtime'`,
+            `export { default as router } from '@modern-js/plugin-router-v5/runtime'`,
           );
           routerExportsUtils?.addExport(
-            `export * from '@modern-js/plugin-router-legacy/runtime'`,
+            `export * from '@modern-js/plugin-router-v5/runtime'`,
           );
         }
       },

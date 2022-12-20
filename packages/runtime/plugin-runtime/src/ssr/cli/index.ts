@@ -137,9 +137,9 @@ export default (): CliPlugin<AppTools> => ({
             userConfig.runtimeByEntries,
             packageName,
           );
-          if (runtimeConfig?.router?.legacy) {
+          if (runtimeConfig?.router?.mode === 'react-router-5') {
             throw new Error(
-              `Legacy router plugin doesn't support streaming SSR, check your config 'runtime.router'`,
+              `router v5 plugin doesn't support streaming SSR, check your config 'runtime.router'`,
             );
           }
 
