@@ -9,7 +9,7 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     // import('../plugins/target').then(m => m.PluginTarget()),
     import('../plugins/output').then(m => m.PluginOutput()),
     // todo: need rspack solve performance problem
-    // import('../plugins/devtool').then(m => m.PluginDevtool()),
+    // plugins.devtool(),
     import('../plugins/resolve').then(m => m.PluginResolve()),
     plugins.fileSize(),
     // should before the html plugin

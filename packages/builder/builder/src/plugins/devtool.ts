@@ -1,7 +1,9 @@
-import { isUseJsSourceMap } from '@modern-js/builder-shared';
-import type { BuilderPlugin } from '../types';
+import {
+  isUseJsSourceMap,
+  DefaultBuilderPlugin,
+} from '@modern-js/builder-shared';
 
-export const PluginDevtool = (): BuilderPlugin => ({
+export const PluginDevtool = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-devtool',
 
   setup(api) {

@@ -33,6 +33,7 @@ export type Plugins = {
   cleanOutput: PluginsFn;
   startUrl: PluginsFn;
   fileSize: PluginsFn;
+  devtool: PluginsFn;
 };
 
 /**
