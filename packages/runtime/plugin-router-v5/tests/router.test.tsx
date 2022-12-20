@@ -6,7 +6,7 @@ import createRouterPlugin, { useLocation } from '../src/runtime';
 import { useHistory } from '../src';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
-describe('@modern-js/plugin-router-legacy', () => {
+describe('@modern-js/plugin-router-v5', () => {
   it('base usage', () => {
     const AppWrapper = createApp({
       plugins: [

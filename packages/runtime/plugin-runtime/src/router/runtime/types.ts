@@ -29,7 +29,7 @@ export type SingleRouteConfig = RouteProps & {
 };
 
 export type RouterConfig = {
-  legacy?: boolean;
+  mode?: 'react-router-5';
   routesConfig: {
     globalApp?: React.ComponentType<any>;
     routes: (NestedRoute | PageRoute)[];
