@@ -53,7 +53,6 @@ const handleTemplateFile = async (
         ...(context.config.devDependencies || {}),
         '@types/jest': '~29.2.4',
       },
-      isSubGenerator: true,
     },
   );
 
@@ -87,8 +86,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     generator,
     appApi,
   );
-
-  await appApi.runInstall(undefined, { ignoreScripts: true });
 
   appApi.showSuccessInfo(
     i18n.t(localeKeys.success, {
