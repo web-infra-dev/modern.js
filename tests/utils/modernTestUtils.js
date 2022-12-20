@@ -3,9 +3,13 @@ const spawn = require('cross-spawn');
 const treeKill = require('tree-kill');
 const portfinder = require('portfinder');
 
-const kModernBin = path.join(
+// const kModernBin = path.join(
+//   __dirname,
+//   '../node_modules/@modern-js/core/dist/bin.js',
+// );
+const kModernAppTools = path.join(
   __dirname,
-  '../node_modules/@modern-js/core/dist/bin.js',
+  '../node_modules/@modern-js/app-tools/bin/modern.js',
 );
 
 function runModernCommand(argv, options = {}) {
@@ -17,7 +21,7 @@ function runModernCommand(argv, options = {}) {
   };
 
   return new Promise((resolve, reject) => {
-    const instance = spawn(process.execPath, [kModernBin, ...argv], {
+    const instance = spawn(process.execPath, [kModernAppTools, ...argv], {
       ...options.spawnOptions,
       cwd,
       env,
@@ -78,7 +82,7 @@ function runModernCommandDev(argv, stdOut, options = {}) {
   };
 
   return new Promise((resolve, reject) => {
-    const instance = spawn(process.execPath, [kModernBin, ...argv], {
+    const instance = spawn(process.execPath, [kModernAppTools, ...argv], {
       cwd,
       env,
     });

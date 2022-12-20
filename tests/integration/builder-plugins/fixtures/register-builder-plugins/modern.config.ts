@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 import { fs } from '@modern-js/utils';
 
 const logs: string[] = [];
@@ -44,4 +44,5 @@ export default defineConfig({
       },
     },
   ],
+  plugins: [AppToolsPlugin()],
 });

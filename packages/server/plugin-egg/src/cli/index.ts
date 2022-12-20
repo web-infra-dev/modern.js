@@ -2,10 +2,11 @@ import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils, fs } from '@modern-js/utils';
 import { getRelativeRuntimePath } from '@modern-js/bff-core';
+import type { AppTools } from '@modern-js/app-tools';
 
 const PACKAGE_JSON = 'package.json';
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-egg',
   setup: api => {
     let bffExportsUtils: any;
@@ -62,6 +63,14 @@ export default (): CliPlugin => ({
         );
         return input;
       },
+
+      collectServerPlugins({ plugins }) {
+        plugins.push({
+          '@modern-js/plugin-egg': '@modern-js/plugin-egg/server',
+        });
+        return { plugins };
+      },
+
       async afterBuild() {
         const { appDirectory, distDirectory } = useAppContext();
 
