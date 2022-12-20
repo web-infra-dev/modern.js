@@ -6,7 +6,10 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
 
   const dev: AppUserConfig['dev'] = { ...defaultBuilderConfig.dev };
   const tools: AppUserConfig['tools'] = { ...defaultBuilderConfig.tools };
-  const output: AppUserConfig['output'] = { ...defaultBuilderConfig.output };
+  const output: AppUserConfig['output'] = {
+    ...defaultBuilderConfig.output,
+    disableNodePolyfill: true,
+  };
 
   const source: AppUserConfig['source'] = {
     ...defaultBuilderConfig.source,

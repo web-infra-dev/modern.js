@@ -6,7 +6,9 @@ Normally, we don't need to use Node libs on the browser side. However, it is pos
 
 By using the Node Polyfill plugin, Node core libs polyfills are automatically injected into the browser-side, allowing you to use these modules on the browser side with confidence.
 
-## Install
+## Quick Start
+
+### Install
 
 You can install the plugin with the following command:
 
@@ -21,14 +23,24 @@ yarn add @modern-js/builder-plugin-node-polyfill -D
 pnpm install @modern-js/builder-plugin-node-polyfill -D
 ```
 
-## Register
+### Register
 
-You can register the plugin in Builder to enable node polyfill features:
+In upper-level frameworks such as Modern.js or EdenX, you can register node polyfill plugins through the `builderPlugins` config:
+
+```ts
+import { PluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
+
+export default {
+  builderPlugins: [PluginNodePolyfill()],
+};
+```
+
+If you are using the Builder's Node API, you can register node polyfill plugins through the `addPlugins` method:
 
 ```js
 import { PluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
 
-// Add plugins to the builder instance.
+// add the plugin to the builder instance
 builder.addPlugins([PluginNodePolyfill()]);
 ```
 

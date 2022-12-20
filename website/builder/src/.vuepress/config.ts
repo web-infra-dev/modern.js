@@ -7,6 +7,8 @@ import { ThemeConfig } from 'vuepress-theme-vt';
 import markdownItInclude from 'markdown-it-include';
 import './md-include-hmr';
 
+const logo = 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/eden-x-logo.png';
+
 function getI18nHelper(lang: 'cn' | 'en') {
   const cn = lang === 'cn';
   const prefix = cn ? '/zh' : '/en';
@@ -53,28 +55,35 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/basic/builder-config'),
           getLink('/guide/basic/build-target'),
-          getLink('/guide/basic/define'),
           getLink('/guide/basic/output-files'),
+          getLink('/guide/basic/css-usage'),
           getLink('/guide/basic/static-assets'),
           getLink('/guide/basic/svg-assets'),
-          getLink('/guide/basic/css-usage'),
           getLink('/guide/basic/html-template'),
-          getLink('/guide/basic/alias'),
+          getLink('/guide/basic/css-modules'),
           getLink('/guide/basic/typescript'),
-          getLink('/guide/basic/browserslist'),
         ],
       },
       {
         collapsable: false,
         title: getText('进阶', 'Advanced'),
         children: [
-          getLink('/guide/advanced/optimize-bundle'),
-          getLink('/guide/advanced/build-performance'),
-          getLink('/guide/advanced/inline-assets'),
-          getLink('/guide/advanced/split-chunk'),
-          getLink('/guide/advanced/custom-webpack-config'),
+          getLink('/guide/advanced/alias'),
+          getLink('/guide/advanced/define'),
           getLink('/guide/advanced/hmr'),
           getLink('/guide/advanced/rem'),
+          getLink('/guide/advanced/browserslist'),
+          getLink('/guide/advanced/custom-webpack-config'),
+        ],
+      },
+      {
+        collapsable: false,
+        title: getText('优化', 'Optimization'),
+        children: [
+          getLink('/guide/optimization/optimize-bundle'),
+          getLink('/guide/optimization/build-performance'),
+          getLink('/guide/optimization/split-chunk'),
+          getLink('/guide/optimization/inline-assets'),
         ],
       },
       {
@@ -102,9 +111,9 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         collapsable: false,
         children: [
           getLink('/api/config-source'),
-          getLink('/api/config-output'),
-          getLink('/api/config-dev'),
           getLink('/api/config-html'),
+          getLink('/api/config-dev'),
+          getLink('/api/config-output'),
           getLink('/api/config-security'),
           getLink('/api/config-tools'),
           getLink('/api/config-performance'),
@@ -155,7 +164,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
 export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   base: '/builder/',
   head: [
-    ['link', { rel: 'icon', href: `https://modernjs.dev/img/favicon.ico` }],
+    ['link', { rel: 'icon', href: logo }],
     ['meta', { name: 'theme-color', content: '#5c6ac4' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     [
@@ -185,6 +194,7 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   },
   theme: 'vt',
   themeConfig: {
+    logo,
     repo: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/builder',
     repoLabel: 'GitHub',
     docsDir: 'docs/docs/src',
