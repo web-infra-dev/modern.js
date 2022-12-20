@@ -3,3 +3,8 @@ export const getCommand = () => {
   const command = args[0];
   return command;
 };
+
+export const isDevCommand = () => {
+  const command = getCommand();
+  return command === 'dev' || command === 'start';
+};
