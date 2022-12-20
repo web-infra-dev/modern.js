@@ -7,7 +7,7 @@ title: useModuleApps
 ## 使用姿势
 
 ```tsx
-import { useModuleApps } from '@modern/plugin-garfish';
+import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 ```
 
 :::info 开启微前端
