@@ -32,6 +32,7 @@
     "@modern-js/codesmith-api-json": "2.0.2",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
+    "@modern-js/dependence-generator": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",

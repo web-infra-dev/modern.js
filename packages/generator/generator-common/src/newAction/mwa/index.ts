@@ -1,4 +1,5 @@
 import { Schema } from '@modern-js/codesmith-formily';
+import { Framework } from '../../mwa/common';
 import {
   ActionElement,
   ActionElementText,
@@ -22,11 +23,8 @@ export const MWAActionFunctions = [
   ActionFunction.BFF,
   ActionFunction.SSG,
   ActionFunction.MicroFrontend,
-  // ActionFunction.I18n,
   ActionFunction.Test,
   ActionFunction.Storybook,
-  // ActionFunction.E2ETest,
-  // ActionFunction.Doc,
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
   ActionFunction.SWC,
@@ -131,7 +129,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
 > = {
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
-  [ActionFunction.E2ETest]: '@modern-js/plugin-e2e',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
@@ -143,7 +140,6 @@ export const MWAActionFunctionsDependencies: Partial<
 > = {
   [ActionFunction.BFF]: '@modern-js/plugin-bff',
   [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
-  [ActionFunction.I18n]: '@modern-js/plugin-i18n',
   [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
   [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
 };
@@ -158,13 +154,13 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
 export const MWAActionRefactorDependencies: Partial<
   Record<ActionRefactor, string>
 > = {
-  [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-legacy',
+  [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-v5',
 };
 
 export const MWAActionReactorAppendTypeContent: Partial<
   Record<ActionRefactor, string>
 > = {
-  [ActionRefactor.ReactRouter5]: `/// <reference types='@modern-js/plugin-router-legacy/types' />`,
+  [ActionRefactor.ReactRouter5]: `/// <reference types='@modern-js/plugin-router-v5/types' />`,
 };
 
 export const MWANewActionGenerators: Record<
@@ -179,17 +175,70 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
-    [ActionFunction.I18n]: '@modern-js/dependence-generator',
     [ActionFunction.Test]: '@modern-js/test-generator',
-    [ActionFunction.E2ETest]: '@modern-js/dependence-generator',
-    [ActionFunction.Doc]: '@modern-js/dependence-generator',
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
-    [ActionFunction.SSG]: '@modern-js/ssg-generator',
+    [ActionFunction.SSG]: '@modern-js/dependence-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',
     [ActionFunction.SWC]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {
-    [ActionRefactor.ReactRouter5]: '@modern-js/router-legacy-generator',
+    [ActionRefactor.ReactRouter5]: '@modern-js/router-v5-generator',
   },
+};
+
+export const MWANewActionPluginName: Record<
+  ActionType,
+  Record<string, string>
+> = {
+  [ActionType.Element]: {
+    [ActionElement.Server]: 'ServerPlugin',
+  },
+  [ActionType.Function]: {
+    [ActionFunction.TailwindCSS]: 'TailwindCSSPlugin',
+    [ActionFunction.BFF]: 'BFFPlugin',
+    [ActionFunction.MicroFrontend]: 'GarfishPlugin',
+    [ActionFunction.Test]: 'TestPlugin',
+    [ActionFunction.Storybook]: 'StorybookPlugin',
+    [ActionFunction.SSG]: 'SSGPlugin',
+    [ActionFunction.Polyfill]: 'PolyfillPlugin',
+    [ActionFunction.Proxy]: 'ProxyPlugin',
+    [ActionFunction.SWC]: 'SWCPlugin',
+  },
+  [ActionType.Refactor]: {
+    [ActionRefactor.ReactRouter5]: 'ReactRouter5Plugin',
+  },
+};
+
+export const MWANewActionPluginDependence: Record<
+  ActionType,
+  Record<string, string>
+> = {
+  [ActionType.Element]: {
+    [ActionElement.Server]: '@modern-js/plugin-server',
+  },
+  [ActionType.Function]: {
+    [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
+    [ActionFunction.BFF]: '@modern-js/plugin-bff',
+    [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
+    [ActionFunction.Test]: '@modern-js/plugin-testing',
+    [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+    [ActionFunction.SSG]: '@modern-js/plugin-ssg',
+    [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
+    [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
+    [ActionFunction.SWC]: '@modern-js/plugin-swc',
+  },
+  [ActionType.Refactor]: {
+    [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-v5',
+  },
+};
+
+export const BFFPluginName: Record<Framework, string> = {
+  [Framework.Express]: 'ExpressBFFPlugin',
+  [Framework.Koa]: 'KoaBFFPlugin',
+};
+
+export const BFFPluginDependence: Record<Framework, string> = {
+  [Framework.Express]: '@modern-js/plugin-express',
+  [Framework.Koa]: '@modern-js/plugin-koa',
 };

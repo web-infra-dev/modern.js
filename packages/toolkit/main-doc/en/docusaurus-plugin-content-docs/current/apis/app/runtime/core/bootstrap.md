@@ -2,7 +2,7 @@
 title: bootstrap
 ---
 
-Used to start and mount App, usually without manual calls。This API is only required when using [Custom App](/docs/guides/advanced-features/custom-app).
+Used to start and mount App, usually without manual calls。This API is only required when using [Custom App](/docs/guides/concept/entries#自定义-app).
 
 ## Usage
 

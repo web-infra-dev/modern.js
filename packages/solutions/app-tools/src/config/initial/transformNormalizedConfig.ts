@@ -40,6 +40,7 @@ export function transformNormalizedConfig(
     security: {},
     _raw: {},
     experiments: {},
+    autoLoadPlugins: true,
     performance: {
       removeMomentLocale: true,
     },

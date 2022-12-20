@@ -13,7 +13,7 @@
     "deploy": "modern deploy"
   },
   "engines": {
-    "node": ">=12.17.0"
+    "node": ">=14.17.6"
   },
   "eslintIgnore": [
     "node_modules/",

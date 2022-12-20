@@ -1,5 +1,4 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import type { webpack } from '@modern-js/builder-webpack-provider';
 import { createFileWatcher } from '../utils/createFileWatcher';
 import { printInstructions } from '../utils/printInstructions';
 import {
@@ -12,6 +11,7 @@ import { DevOptions } from '../utils/types';
 import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
+import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
 export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
   if (options.analyze) {
@@ -32,7 +32,6 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
     apiOnly,
     entrypoints,
     serverConfigFile,
-    serverInternalPlugins,
   } = appContext;
   const checkedEntries = await getSpecifiedEntries(
     options.entry || false,
@@ -58,19 +57,14 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
 
   await hookRunners.beforeDev();
 
-  let compiler: webpack.Compiler | webpack.MultiCompiler | undefined;
-
   if (!appContext.builder && !apiOnly) {
     throw new Error(
       'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
     );
   }
 
-  if (!apiOnly) {
-    compiler = await appContext.builder!.createCompiler();
-  }
-
   await generateRoutes(appContext);
+  const serverInternalPlugins = await getServerInternalPlugins(api);
 
   const serverOptions = {
     dev: {
@@ -78,7 +72,6 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
       https: normalizedConfig.dev.https,
       ...normalizedConfig.tools?.devServer,
     },
-    compiler: compiler || null,
     pwd: appDirectory,
     config: normalizedConfig,
     serverConfigFile,
@@ -86,7 +79,10 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
   };
 
   if (apiOnly) {
-    const app = await createServer(serverOptions);
+    const app = await createServer({
+      ...serverOptions,
+      compiler: null,
+    });
     app.listen(port, async (err: Error) => {
       if (err) {
         throw err;
@@ -95,7 +91,6 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
     });
   } else {
     const { server } = await appContext.builder!.startDevServer({
-      compiler,
       printURLs: false,
       serverOptions,
     });

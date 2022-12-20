@@ -1,12 +1,12 @@
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { pick } from './pick';
 import {
   BuilderContext,
   CreateBuilderOptions,
   NormalizedSharedOutputConfig,
 } from './types';
 import { getAbsoluteDistPath } from './fs';
+import { logger } from '@modern-js/utils/logger';
 
 /**
  * Create context by config.
@@ -42,7 +42,7 @@ export function createContextByConfig(
 export function createPublicContext(
   context: BuilderContext,
 ): Readonly<BuilderContext> {
-  const ctx = pick(context, [
+  const exposedKeys = [
     'entry',
     'target',
     'srcPath',
@@ -53,6 +53,21 @@ export function createPublicContext(
     'cachePath',
     'configPath',
     'tsconfigPath',
-  ]);
-  return Object.freeze(ctx);
+  ];
+
+  // Using Proxy to get the current value of context.
+  return new Proxy(context, {
+    get(target, prop: keyof BuilderContext) {
+      if (exposedKeys.includes(prop)) {
+        return target[prop];
+      }
+      return undefined;
+    },
+    set(target, prop: keyof BuilderContext) {
+      logger.error(
+        `Context is readonly, you can not assign to the "context.${prop}" prop.`,
+      );
+      return true;
+    },
+  });
 }

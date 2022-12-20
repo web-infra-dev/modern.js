@@ -2,7 +2,7 @@
 title: bootstrap
 ---
 
-用于启动和挂载应用，通常情况下不做手动调用。只有在使用[自定义入口](/docs/guides/advanced-features/custom-app)时，才需要使用该 API。
+用于启动和挂载应用，通常情况下不做手动调用。只有在使用[自定义 App](/docs/guides/concept/entries#自定义-app) 时，才需要使用该 API。
 
 ## 使用姿势
 
