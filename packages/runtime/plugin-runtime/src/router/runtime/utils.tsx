@@ -7,9 +7,6 @@ import { RootLayout } from './root';
 
 const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   const { children, index, id, component: Component } = nestedRoute;
-  const childElements = children?.map(childRoute => {
-    return renderNestedRoute(childRoute, nestedRoute);
-  });
 
   const routeProps: Omit<RouteProps, 'children'> = {
     caseSensitive: nestedRoute.caseSensitive,
@@ -40,13 +37,23 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
           <Component />
         </Suspense>
       );
-    } else {
+    } else if (!parent?.index) {
+      // If the parent component is a layout component and you don't define a loading component,
+      // wrap suspense to avoid the parent component flashing when switching routes.
+      // For example: There is a loading component under /a, the b component should not blink when switching from /a/b/c to /a/b/d
       element = (
         <Suspense>
           <Component />
         </Suspense>
       );
+    } else {
+      element = <Component />;
     }
+  } else {
+    // If the component is undefined, it means that the current component is a fake layout component,
+    // and it should inherit the loading of the parent component to make the loading of the parent layout component take effect.
+    // It also means when layout component is undefined, loading component in then same dir should not working.
+    nestedRoute.loading = parent?.loading;
   }
 
   if (!parent && element) {
@@ -56,6 +63,10 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   if (element) {
     routeProps.element = element;
   }
+
+  const childElements = children?.map(childRoute => {
+    return renderNestedRoute(childRoute, nestedRoute);
+  });
 
   const routeElement = index ? (
     <Route key={id} {...routeProps} index={true} />
