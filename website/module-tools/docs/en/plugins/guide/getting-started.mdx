@@ -1,0 +1,79 @@
+# Quick Start
+
+Module engineering solution not only provides a rich set of features, but also supports extending the capabilities of the current project by way of plugins.
+
+We can quickly see how to write a module-tools plugin by using the following example.
+
+<CH.Spotlight>
+
+```md . /project
+. /project .
+├── plugins
+│ └── example.ts
+├── src/
+└── modern.config.ts
+```
+---
+
+First we create `. /plugins/example.ts` file under the initialized project.
+
+```md . /project
+```
+
+---
+
+Next add the code for the plugin to the ``example.ts`` file.
+
+``` ts
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
+
+export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
+  return {
+    name: 'example',
+    setup() {
+      console.info('this is example plugin');
+      return {
+        // use hooks
+        afterBuild() {
+          console.info('build over');
+        }
+      };
+    };
+  };
+};
+```
+---
+
+Then we register the plugin we just wrote via the [`plugins`](/en/api/plugins) API.
+
+``` ts . /modern.config.ts
+import { ExamplePlugin } from '. /plugins/example';
+export default defineConfig({
+  plugins: [ExamplePlugin()],
+});
+```
+
+---
+
+Finally, run ``modern build`` and you will see.
+
+```bash terminal
+This is example plugin
+Build succeed: 510.684ms
+build over
+```
+
+</CH.Spotlight>
+
+With the above example, we learned the following things.
+
+* The recommended plugin directory structure
+* The initialization code of the plugin
+* Plugin registration
+
+In addition to the above, we also need to understand.
+
+* [plugin objects, type definitions and recommended configuration items](/en/plugins/guide/plugin-object)
+* [setup functions, `api` object parameters, lifecycle hooks](/en/plugins/guide/setup-functions)
+
+
