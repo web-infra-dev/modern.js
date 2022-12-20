@@ -4,11 +4,8 @@ title: source.entriesDir
 sidebar_label: entriesDir
 ---
 
-
-
 * 类型： `string`
 * 默认值： `./src`
-
 
 默认会根据 `src` 目录识别应用入口，可通过该选项自定义应用入口的识别目录。
 
