@@ -28,19 +28,3 @@ function createApp(options: { plugins: Plugin[] }): React.ComponentType<any>;
 ### 创建自定义入口
 
 详见 [`bootstrap`](./bootstrap.md)。
-
-### 定制插件
-
-```ts
-import { createApp } from '@modern-js/runtime';
-
-function App() {
-  return <div>app</div>;
-}
-
-export default createApp({
-  plugins: [
-    customPlugin(),
-  ],
-})(App);
-```
