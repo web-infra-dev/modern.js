@@ -36,8 +36,8 @@ export default {
 
 ## Live reloading 和 Hot reloading 的区别
 
-- Live reloading: 修改文件之后，Webpack 重新编译，并强制刷新浏览器，属于全局（整个应用）刷新，相当于 window.location.reload()；
-- Hot reloading: 修改文件之后，Webpack 重新编译对应模块，刷新时可以记住应用的状态，从而做到局部刷新，即热更新。
+- Live reloading: 修改文件之后，webpack 重新编译，并强制刷新浏览器，属于全局（整个应用）刷新，相当于 window.location.reload()；
+- Hot reloading: 修改文件之后，webpack 重新编译对应模块，刷新时可以记住应用的状态，从而做到局部刷新，即热更新。
 
 DevServer 提供了 [hot](/zh/api/config-tools.html#hot) 和 [liveReload](/zh/api/config-tools.html#livereload) 这两个配置项来控制更新方式。当 hot 和 liveReload 同时开启时，DevServer 会优先尝试使用 hot 模式 (HMR)，如果 HMR 更新失败后，会降级到重新加载页面。
 
