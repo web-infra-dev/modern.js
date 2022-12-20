@@ -1,5 +1,5 @@
 import { useModuleApps } from '@modern-js/plugin-garfish';
-import { Switch, Route, Link } from '@modern-js/runtime/legacy-router';
+import { Switch, Route, Link } from '@modern-js/runtime/router-v5';
 import DashboardButton from 'dashboardApp/share-button';
 import { getAppInfo } from '../../../../utils/testCase';
 import pkg from '../package.json';
