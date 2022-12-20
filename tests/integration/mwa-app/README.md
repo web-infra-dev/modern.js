@@ -1,4 +1,4 @@
-# Your EdenX App
+# Your App
 
 ## Prerequisites
 
