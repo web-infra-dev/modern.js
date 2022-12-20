@@ -1,4 +1,4 @@
-import { Switch, Route, Link } from '@modern-js/runtime/legacy-router';
+import { Switch, Route, Link } from '@modern-js/runtime/router-v5';
 import './App.css';
 // console.log(window.a.a.a)
 

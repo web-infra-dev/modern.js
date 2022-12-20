@@ -101,7 +101,7 @@ export const INTERNAL_APP_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
   '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',
   // legacy router (inner react-router-dom v5)
-  '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
+  '@modern-js/plugin-router-v5': '@modern-js/plugin-router-v5/cli',
 };
 
 export const INTERNAL_APP_TOOLS_RUNTIME_PLUGINS: InternalPlugins = {
@@ -165,7 +165,7 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   // TODO: Maybe can remove it
   '@modern-js/plugin-nocode': '@modern-js/plugin-nocode/cli',
   // legacy router (inner react-router-dom v5)
-  '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
+  '@modern-js/plugin-router-v5': '@modern-js/plugin-router-v5/cli',
 };
 
 export const SERVER_PLUGIN_BFF = '@modern-js/plugin-bff';
