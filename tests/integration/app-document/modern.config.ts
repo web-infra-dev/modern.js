@@ -6,7 +6,7 @@ export default defineConfig({
   runtime: {
     // router: true,
     router: {
-      legacy: true,
+      mode: 'react-router-5',
     },
     state: true,
   },
