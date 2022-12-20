@@ -1,12 +1,16 @@
 # Hot Module Replacement
 
-Hot Module Replacement (or HMR) allows all kinds of modules to be updated at runtime without the need for a full refresh.
+Hot Module Replacement (HMR) exchanges, adds, or removes modules while an application is running, without a full reload. This can significantly speed up development in a few ways:
+
+- Retain application state which is lost during a full reload.
+- Save valuable development time by only updating what's changed.
+- Instantly update the browser when modifications are made to CSS/JS in the source code, which is almost comparable to changing styles directly in the browser's dev tools.
 
 ## Enabling HMR
 
 Builder has built-in support for HMR. By default, HMR is enabled in development.
 
-By setting `dev.hmr` to false, HMR can be disabled, which the HMR and react-refresh will no longer work.
+By setting [dev.hmr](/en/api/config-dev.html#dev-hmr) to false, HMR can be disabled, which the HMR and react-refresh will no longer work.
 
 ```ts
 export default {

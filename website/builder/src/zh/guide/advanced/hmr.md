@@ -1,11 +1,15 @@
 # 模块热替换
 
-模块热替换(hot module replacement 或 HMR) 允许在运行时更新所有类型的模块，而无需完全刷新。
+模块热替换(HMR - hot module replacement)功能会在应用程序运行过程中，替换、添加或删除模块，而无需重新加载整个页面。主要是通过以下几种方式，来显著加快开发速度：
+
+- 保留在完全重新加载页面期间丢失的应用程序状态。
+- 只更新变更内容，以节省宝贵的开发时间。
+- 在源代码中 CSS/JS 产生修改时，会立刻在浏览器中进行更新，这几乎相当于在浏览器 devtools 直接更改样式。
 
 ## 启用 HMR
 
 Builder 已内置了对 HMR 的支持，开发环境下默认启用。
-可通过将 `dev.hmr` 设置为 false，关闭 HMR 能力，此时将不再提供热更新和 react-refresh 功能。
+可通过将 [dev.hmr](/zh/api/config-dev.html#dev-hmr) 设置为 false，关闭 HMR 能力，此时将不再提供热更新和 react-refresh 功能。
 
 ```ts
 export default {
