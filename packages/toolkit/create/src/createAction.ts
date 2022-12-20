@@ -69,6 +69,8 @@ function getDefaultConfig(
 
   if (distTag) {
     initialConfig.distTag = distTag;
+  } else {
+    initialConfig.distTag = 'modern-1';
   }
 
   initialConfig.defaultBranch = initialConfig.defaultBranch || 'main';

@@ -9,7 +9,7 @@ sidebar_position: 3
 Modern.js 提供了创建生成器插件项目的生成器插件用于创建项目，可直接执行以下命令创建:
 
 ```bash
-npx @modern-js/create plugin --plugin @modern-js/generator-plugin-plugin
+npx @modern-js/create@modern-1 plugin --plugin @modern-js/generator-plugin-plugin
 ```
 
 插件类型不同，会提问不同的问题，可根据需求选择插件类型

@@ -24,7 +24,7 @@ title: 开发微前端
 使用 `@modern-js/create` 创建新项目，运行命令如下：
 
 ```bash
-npx @modern-js/create main
+npx @modern-js/create@modern-1 main
 ```
 
 :::info 注
@@ -73,7 +73,7 @@ export default defineConfig({
 使用 `@modern-js/create` 创建新项目，运行命令如下：
 
 ```bash
-npx @modern-js/create dashboard
+npx @modern-js/create@modern-1 dashboard
 ```
 
 :::info 注
@@ -111,7 +111,7 @@ export default defineConfig({
 使用 `@modern-js/create` 创建新项目，运行命令如下：
 
 ```bash
-npx @modern-js/create table
+npx @modern-js/create@modern-1 table
 ```
 
 :::info 注

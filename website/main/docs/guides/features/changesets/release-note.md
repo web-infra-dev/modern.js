@@ -195,7 +195,7 @@ pnpm run gen-release-note -- --custom ./scripts/my-release-note-config.js
 
 custom 参数值还可以使用模块工程方案进行管理，提供通用方案。
 
-1. 使用 npx @modern-js/create 创建模块工程方案。
+1. 使用 npx @modern-js/create@modern-1 创建模块工程方案。
 
 ``` md
 ? 请选择你想创建的工程类型 模块

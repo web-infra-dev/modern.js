@@ -8,7 +8,7 @@ Modern.js 提供了 `create` 工具用于初始化不同工程方案项目。
 ## 基本使用
 
 ```bash
-npx @modern-js/create [projectDir]
+npx @modern-js/create@modern-1 [projectDir]
 ```
 
 ```bash

@@ -11,7 +11,7 @@ sidebar_position: 2
 `@modern-js/create` 默认支持工具库类型的可复用模块项目的生成。我们可以首先执行以下命令来启动项目生成器程序：
 
 ```
-npx @modern-js/create tools-lib
+npx @modern-js/create@modern-1 tools-lib
 ```
 
 :::info 注
