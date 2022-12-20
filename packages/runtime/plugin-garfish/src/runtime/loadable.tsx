@@ -1,6 +1,6 @@
 // logical reference to https://github.com/jamiebuilds/react-loadable/blob/6201c5837b212d6244c57f3748f2b1375096beeb/src/index.js
 import { useState, useEffect, useCallback } from 'react';
-import { RouteComponentProps } from '@modern-js/plugin-router-v5/runtime';
+import { WithRouterProps } from '@modern-js/runtime/router';
 import { logger } from '../util';
 import { LoadableConfig, MicroComponentProps } from './useModuleApps';
 
@@ -16,7 +16,7 @@ interface LoadableState {
   isLoading: boolean;
 }
 
-export interface MicroProps extends RouteComponentProps {
+export interface MicroProps extends WithRouterProps {
   setLoadingState: (state: { isLoading?: boolean; error?: unknown }) => void;
   [key: string]: any;
 }
