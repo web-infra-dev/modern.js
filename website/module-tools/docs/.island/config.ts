@@ -191,10 +191,6 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/api/build-preset')
           },
           {
-            text: getText('Dev', 'Dev'),
-            link: getLink('/api/dev')
-          },
-          {
             text: getText('Testing', 'Testing'),
             link: getLink('/api/testing')
           },
