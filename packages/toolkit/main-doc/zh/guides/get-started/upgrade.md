@@ -25,7 +25,9 @@ $ pnpm run upgrade
 
 Modern.js 所有的官方包目前都使用**统一版本号**进行发布。
 
-根据官网 Release Note，开发者也可以手动将项目升级到想要的版本。
+import ReleaseNote from '@site-docs/components/release-note.md'
+
+<ReleaseNote />
 
 :::tip
 当升级时，需要对 Modern.js 官方提供的所有包做统一升级，而不是升级单个依赖。

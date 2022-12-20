@@ -36,7 +36,7 @@ import DefaultMWAGenerate from '@site-docs/components/default-mwa-generate.md';
 ? 启用可选功能 启用「微前端」模式
 ```
 
-接下来，让我们修改 `modern.config.ts`，添加开启微前端主应用，并增加子应用列表：
+接下来，让我们注册微前端插件并添加开启微前端主应用，并增加子应用列表：
 
 import EnableMicroFrontend from '@site-docs/components/enable-micro-frontend.md';
 
@@ -62,12 +62,15 @@ npx @modern-js/create
 
 我们执行 `pnpm run new` 来开启 `微前端` 功能：
 
-<EnableMicroFrontend />
-
-接下来，让我们修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
+```bash
+? 请选择你想要的操作 启用可选功能
+? 启用可选功能 启用「微前端」模式
+```
+接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
 
 ```javascript title="modern.config.ts"
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolPlugin, { defineConfig } from '@modern-js/app-tools';
+import GarfishPlugin from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   runtime: {
@@ -76,7 +79,8 @@ export default defineConfig({
   },
   deploy: {
     microFrontend: true
-  }
+  },
+  plugins: [AppToolPlugin(), GarfishPlugin()],
 });
 ```
 
@@ -93,19 +97,18 @@ npx @modern-js/create
 
 <DefaultMWAGenerate/>
 
-我们执行 `pnpm run new` 来开启 `微前端` 与 less 功能：
-
-<EnableMicroFrontend />
-
+我们执行 `pnpm run new` 来开启 `微前端`：
 
 ```bash
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 启用「微前端」模式
 ```
 
+接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
 
 ```javascript title="modern.config.ts"
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolPlugin, { defineConfig } from '@modern-js/app-tools';
+import GarfishPlugin from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   runtime: {
@@ -114,18 +117,19 @@ export default defineConfig({
   },
   deploy: {
     microFrontend: true
-  }
+  },
+  plugins: [AppToolPlugin(), GarfishPlugin()],
 });
 ```
 
-## 迁移代码
+## 添加代码
 
 ### main 主应用
 
-修改 main 项目的 `src/App.tsx`：
+删除 `src/routers` 目录, 创建 `src/App.tsx`，并添加如下内容：
 
 ```tsx
-import { Link } from "@modern-js/runtime/router";
+import { Link } from '@modern-js/runtime/router';
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 
 const App = () => {
@@ -133,13 +137,13 @@ const App = () => {
   return (
     <div>
       <div>
-        <Link to="/dashboard">Dashboard</Link> &nbsp;
-        <Link to="/table">Table</Link>
+        <Link to='/dashboard'>Dashboard</Link> &nbsp;
+        <Link to='/table'>Table</Link>
       </div>
-      <Route path="/dashboard">
+      <Route path='/dashboard'>
         <DashBoard />
       </Route>
-      <Route path="/table">
+      <Route path='/table'>
         <TableList />
       </Route>
     </div>
@@ -151,7 +155,7 @@ export default App;
 
 ### dashboard 子应用
 
-修改 dashboard 项目的 `src/App.tsx`：
+删除 `src/routers` 目录, 创建 `src/App.tsx`，并添加如下内容：
 
 ```tsx
 export default () => <div>Dashboard Page</div>;
@@ -159,13 +163,11 @@ export default () => <div>Dashboard Page</div>;
 
 ### table 子应用
 
-修改 table 项目的 `src/App.tsx`：
+删除 `src/routers` 目录, 创建 `src/App.tsx`，并添加如下内容：
 
 ```tsx
 export default () => <div>Table Page</div>;
 ```
-
-
 
 ## 调试
 
