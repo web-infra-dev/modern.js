@@ -1,4 +1,4 @@
-import { Link } from '@modern-js/plugin-router-legacy';
+import { Link } from '@modern-js/runtime/legacy-router';
 import './a.less';
 
 export default function A() {

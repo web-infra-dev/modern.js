@@ -35,5 +35,9 @@ export function createSourceConfig(
     disableDefaultEntries,
     entriesDir,
     configDir,
+    resolveExtensionPrefix: {
+      web: '.web',
+      node: '.node',
+    },
   };
 }

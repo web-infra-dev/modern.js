@@ -16,6 +16,8 @@ import {
   Solution,
   ActionRefactor,
   MWAActionRefactorDependencies,
+  MWANewActionPluginName,
+  MWANewActionPluginDependence,
 } from '@modern-js/generator-common';
 import {
   getModernPluginVersion,
@@ -147,6 +149,8 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
       appendTypeContent:
         MWAActionFunctionsAppendTypeContent[action as ActionFunction] ||
         MWAActionReactorAppendTypeContent[action as ActionRefactor],
+      pluginName: MWANewActionPluginName[actionType][action],
+      pluginDependence: MWANewActionPluginDependence[actionType][action],
     },
   );
 

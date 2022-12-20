@@ -13,24 +13,18 @@
   ],
   "version": "2.0.0-beta.4",
   "jsnext:source": "./src/index.ts",
-  "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
+  "types": "./src/cli/index.ts",
+  "main": "./dist/js/node/cli/index.js",
   "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "jsnext:modern": "./dist/js/modern/cli/index.js",
   "exports": {
     ".": {
-      "node": {
-        "jsnext:source": "./src/runtime/index.ts",
-        "default": "./dist/js/node/runtime/index.js"
-      },
-      "default": "./dist/js/treeshaking/runtime/index.js"
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
     },
     "./runtime": {
       "jsnext:source": "./src/runtime/index.ts",
-      "node": {
-        "import": "./dist/js/modern/runtime/index.js",
-        "require": "./dist/js/node/runtime/index.js"
-      },
+      "node": "./dist/js/node/runtime/index.js",
       "default": "./dist/js/treeshaking/runtime/index.js"
     },
     "./cli": {
@@ -41,7 +35,7 @@
   "typesVersions": {
     "*": {
       ".": [
-        "./dist/types/runtime/index.d.ts"
+        "./dist/types/cli/index.d.ts"
       ],
       "types": [
         "./types/index.d.ts"
@@ -100,6 +94,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/cli/index.d.ts"
   }
 }

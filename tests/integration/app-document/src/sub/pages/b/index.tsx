@@ -1,4 +1,4 @@
-import { Link } from '@modern-js/plugin-router-legacy';
+import { Link } from '@modern-js/runtime/legacy-router';
 
 export default function B() {
   return (

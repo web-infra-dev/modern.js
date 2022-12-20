@@ -76,6 +76,7 @@ export default (): CliPlugin<AppTools> => ({
             deploy: normalizedConfig.deploy || {},
             performance: normalizedConfig.performance || {},
             experiments: normalizedConfig.experiments || {},
+            autoLoadPlugins: normalizedConfig.autoLoadPlugins || false,
           },
         };
       },

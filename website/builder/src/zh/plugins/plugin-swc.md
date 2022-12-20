@@ -1,6 +1,6 @@
 # SWC 插件
 
-[SWC](https://swc.rs/) (Speedy Web Compiler) 是基于 `Rust` 语言编写的高性能 JavaScript 和 TypeScript 转译和压缩工具。在 Polyfill 和语法降级方面可以和 Babel 提供一致的能力，并且比 Babel 性能高出 10 倍不止。
+[SWC](https://swc.rs/) (Speedy Web Compiler) 是基于 `Rust` 语言编写的高性能 JavaScript 和 TypeScript 转译和压缩工具。在 Polyfill 和语法降级方面可以和 Babel 提供一致的能力，并且性能比 Babel 高出一个数量级。
 
 Modern.js Builder 提供了开箱即用的 SWC 插件，可以为你的 Web 应用提供语法降级、Polyfill 以及压缩，并且移植了一些额外常见的 Babel 插件。
 
@@ -8,7 +8,7 @@ Modern.js Builder 提供了开箱即用的 SWC 插件，可以为你的 Web 应�
 
 ### 安装
 
-在项目中安装该插件:
+你可以通过如下的命令安装插件:
 
 ```bash
 # npm
@@ -23,11 +23,22 @@ pnpm install @modern-js/builder-plugin-swc -D
 
 ### 注册插件
 
-在 Builder 中注册插件:
+在 Modern.js / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 SWC 插件：
+
+```ts
+import { PluginSwc } from '@modern-js/builder-plugin-swc';
+
+export default {
+  builderPlugins: [PluginSwc()],
+};
+```
+
+当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 SWC 插件：
 
 ```js
 import { PluginSwc } from '@modern-js/builder-plugin-swc';
 
+// 往 builder 实例上添加插件
 builder.addPlugins([PluginSwc()]);
 ```
 
@@ -54,13 +65,14 @@ type PluginConfig = {
 
 对标 `@babel/preset-react`。传入的值会与默认配置进行合并。
 
-默认配置为:
+插件默认会自动根据你的 `tsconfig.json` 文件设置一些配置选项。
 
-```ts
-{
-  runtime: 'automatic',
-}
-```
+- runtime: compilerOptions 中 `jsx` 字段。
+- importSource: compilerOptions 中 `jsxImportSource` 字段。
+- pragma: compilerOptions 中 `jsxFactory` 字段。
+- pragmaFrag: compilerOptions 中 `jsxFragmentFactory` 字段。
+
+如果没有找到 `tsconfig.json` 文件，默认配置是 `{ runtime: automatic }`。
 
 ### presetEnv
 

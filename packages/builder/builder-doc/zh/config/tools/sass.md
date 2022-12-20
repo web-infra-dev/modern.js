@@ -1,10 +1,11 @@
 - Type: `Object | Function`
-- Default
+- Default:
 
 ```js
-{
-  sourceMap: false,
-}
+const defaultOptions = {
+  // 默认在开发环境下启用 CSS 的 Source Map
+  sourceMap: isDev,
+};
 ```
 
 你可以通过 `tools.sass` 修改 [sass-loader](https://github.com/webpack-contrib/sass-loader) 的配置。

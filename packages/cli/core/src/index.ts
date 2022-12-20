@@ -63,6 +63,7 @@ export interface CoreOptions {
   internalPlugins?: {
     cli?: InternalPlugins;
     server?: InternalPlugins;
+    autoLoad?: InternalPlugins;
   };
   transformPlugin?: TransformPlugin;
   onSchemaError?: (error: ErrorObject) => void;
@@ -73,6 +74,9 @@ export interface CoreOptions {
     sharedDir?: string;
   };
   toolsType?: ToolsType;
+
+  /** force the modern-js core auto register plugin exist in the package.json  */
+  forceAutoLoadPlugins?: boolean;
 }
 
 export const mergeOptions = (options?: CoreOptions) => {
@@ -118,6 +122,8 @@ const createCli = () => {
     const plugins = await loadPlugins(appDirectory, loaded.config, {
       internalPlugins: mergedOptions?.internalPlugins?.cli,
       transformPlugin: mergedOptions?.transformPlugin,
+      autoLoad: mergedOptions?.internalPlugins?.autoLoad,
+      forceAutoLoadPlugins: mergedOptions?.forceAutoLoadPlugins,
     });
 
     plugins.forEach(plugin => plugin && manager.usePlugin(plugin));

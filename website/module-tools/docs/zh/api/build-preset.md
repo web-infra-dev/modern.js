@@ -9,10 +9,12 @@
 
 字符串的形式可以让你直接使用内置的预设
 
-```js
-export default {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildPreset: 'npm-library',
-};
+});
 ```
 
 
@@ -186,10 +188,12 @@ export const buildConfig = [
 
 例如希望 `'npm-library'` 预设支持 `es2017`，则可以按照如下方式配置：
 
-```js
-export default {
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildPreset: 'npm-library-es2017',
-};
+});
 ```
 
 ## Function
@@ -198,7 +202,9 @@ export default {
 以下是一个函数的配置方式的例子，它配置了压缩构建产物的功能：
 
 ```js
-export default {
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildPreset({ preset }) {
     const { NPM_LIBRARY } = preset;
     return NPM_LIBRARY.map(config => {
@@ -210,5 +216,5 @@ export default {
       return config;
     });
   },
-}
+});
 ```

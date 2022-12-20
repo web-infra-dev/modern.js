@@ -128,10 +128,10 @@ export default (): CliPlugin<
         const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
         if (isLegacy) {
           pluginsExportsUtils.addExport(
-            `export { default as router } from '@modern-js/plugin-router-legacy'`,
+            `export { default as router } from '@modern-js/plugin-router-legacy/runtime'`,
           );
           routerExportsUtils?.addExport(
-            `export * from '@modern-js/plugin-router-legacy'`,
+            `export * from '@modern-js/plugin-router-legacy/runtime'`,
           );
         }
       },
