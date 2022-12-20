@@ -108,12 +108,12 @@ info    File sizes after production build:
 
 ## 本地验证
 
-在项目中执行 `pnpm run start` 即可在本地验证构建产物是否正常运行：
+在项目中执行 `pnpm run serve` 即可在本地验证构建产物是否正常运行：
 
 ```bash
-$ pnpm run start
+$ pnpm run serve
 
-> modern start
+> modern serve
 
 Starting the modern server...
 info    App running at:

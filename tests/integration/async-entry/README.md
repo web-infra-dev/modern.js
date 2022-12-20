@@ -22,6 +22,6 @@ pnpm run new
 其他
 
 ```
-pnpm run build        # 按产品环境的要求，构建项目
-pnpm run start        # 按产品环境的要求，运行项目
+pnpm run build        # 按生产环境的要求，构建项目
+pnpm run serve        # 按生产环境的要求，运行项目
 ```

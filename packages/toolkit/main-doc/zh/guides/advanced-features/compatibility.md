@@ -29,7 +29,7 @@ Modern.js 中还提供了基于浏览器 [UA](https://developer.mozilla.org/zh-C
 ? 启用可选功能 启用「基于 UA 的 Polyfill」功能
 ```
 
-安装依赖后，配置 `output.polyfill` 为 `ua` 并且执行 `pnpm run build && pnpm run start` 启动服务器后，访问页面可以看到 HTML 产物中包含如下脚本:
+安装依赖后，配置 `output.polyfill` 为 `ua` 并且执行 `pnpm run build && pnpm run serve` 启动服务器后，访问页面可以看到 HTML 产物中包含如下脚本:
 
 ```js
 <script src="/__polyfill__" crossorigin></script>
