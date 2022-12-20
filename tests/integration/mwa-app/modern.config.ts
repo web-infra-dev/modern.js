@@ -1,10 +1,11 @@
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
-  dev: {
-    assetPrefix: true,
+  runtime: {
+    state: true,
   },
-  server: {
-    port: 3333,
+  output: {
+    disableTsChecker: true,
   },
+  plugins: [AppToolsPlugin()],
 });

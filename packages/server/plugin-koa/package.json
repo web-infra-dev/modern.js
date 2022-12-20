@@ -13,7 +13,7 @@
   ],
   "version": "2.0.0-beta.4",
   "jsnext:source": "./src/index.ts",
-  "types": "./src/index.ts",
+  "types": "./src/cli",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
@@ -27,16 +27,33 @@
   "exports": {
     "./types": "./types.d.ts",
     ".": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
+    "./server": {
       "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
-    },
-    "./cli": {
-      "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/cli/"
+      ],
+      "cli": [
+        "./dist/types/cli"
+      ],
+      "server": [
+        "./dist/types/index.d.ts"
+      ]
     }
   },
   "dependencies": {
@@ -52,6 +69,7 @@
   "devDependencies": {
     "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",

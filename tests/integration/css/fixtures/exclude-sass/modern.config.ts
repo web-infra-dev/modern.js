@@ -1,4 +1,6 @@
-module.exports = {
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
   tools: {
     sass: (opts, { addExcludes }) => {
       addExcludes([/b\.scss$/]);
@@ -7,4 +9,5 @@ module.exports = {
   output: {
     enableAssetFallback: true,
   },
-};
+  plugins: [AppToolsPlugin()],
+});

@@ -33,6 +33,7 @@ export const createServer = (
     });
 
     const appContext = api.useAppContext();
+
     const plugins = appContext.serverInternalPlugins;
 
     cp.send(

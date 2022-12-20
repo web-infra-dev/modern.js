@@ -95,6 +95,13 @@ export default (): CliPlugin<AppTools> => ({
         return { routes: routes.concat(apiServerRoutes) };
       },
 
+      collectServerPlugins({ plugins }) {
+        plugins.push({
+          '@modern-js/plugin-bff': '@modern-js/plugin-bff/server',
+        });
+        return { plugins };
+      },
+
       async beforeBuild() {
         // help esbuild-register resolve @modern-js/server/runtime
         if (isProd()) {

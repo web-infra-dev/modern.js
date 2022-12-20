@@ -4,6 +4,7 @@ import server from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 import type { AppTools } from '../types';
 import { injectDataLoaderPlugin } from '../utils/createServer';
+import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
 export const start = async (api: PluginAPI<AppTools>) => {
   const appContext = api.useAppContext();
@@ -17,12 +18,13 @@ export const start = async (api: PluginAPI<AppTools>) => {
     appContext.appDirectory,
     userConfig?.source?.entriesDir,
   );
+  const serverInternalPlugins = await getServerInternalPlugins(api);
 
   const app = await server({
     pwd: appDirectory,
     config: userConfig,
     serverConfigFile,
-    internalPlugins: injectDataLoaderPlugin(appContext.serverInternalPlugins),
+    internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
     apiOnly,
   });
 
