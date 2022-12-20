@@ -2,7 +2,7 @@
 title: createApp
 ---
 
-用于创建自定义入口，定制运行时插件。只有在使用[自定义入口](/docs/guides/advanced-features/custom-app)时，才需要使用该 API。
+用于创建自定义入口，定制运行时插件。只有在使用[自定义 App](/docs/guides/concept/entries#自定义-app) 时，才需要使用该 API。
 
 ## 使用姿势
 
