@@ -1,6 +1,6 @@
-import PluginAppTools, { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 import plugin1 from './plugins/cliPlugin';
 
 export default defineConfig({
-  plugins: [plugin1(), PluginAppTools()],
+  plugins: [plugin1(), AppToolsPlugin()],
 });

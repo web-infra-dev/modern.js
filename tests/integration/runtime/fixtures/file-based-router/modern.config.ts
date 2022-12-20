@@ -1,5 +1,5 @@
-import PluginAppTools, { defineConfig } from '@modern-js/app-tools';
-import PluginRouterLegacy from '@modern-js/plugin-router-legacy';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import RouterLegacyPlugin from '@modern-js/plugin-router-legacy';
 
 export default defineConfig({
   runtime: {
@@ -7,5 +7,5 @@ export default defineConfig({
       legacy: true,
     },
   },
-  plugins: [PluginAppTools(), PluginRouterLegacy()],
+  plugins: [AppToolsPlugin(), RouterLegacyPlugin()],
 });

@@ -1,5 +1,5 @@
-import PluginAppTools, { defineConfig } from '@modern-js/app-tools';
-import PluginTailWindCss from '@modern-js/plugin-tailwindcss';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import TailWindCssPlugin from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
   source: {
@@ -9,5 +9,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [PluginAppTools(), PluginTailWindCss()],
+  plugins: [AppToolsPlugin(), TailWindCssPlugin()],
 });
