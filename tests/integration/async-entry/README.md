@@ -1,4 +1,4 @@
-# Your MWA
+# Your EdenX App
 
 ## Prerequisites
 
