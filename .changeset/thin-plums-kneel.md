@@ -11,7 +11,6 @@
 '@modern-js/plugin-data-loader': patch
 '@modern-js/plugin-storybook': patch
 '@modern-js/server': patch
-'@modern-js/module-tools-v2': patch
 '@modern-js/utils': patch
 ---
 

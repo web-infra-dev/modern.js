@@ -1,5 +1,4 @@
 import path from 'path';
-import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { WebpackChain } from '@modern-js/builder-webpack-provider';
 import { removeTailSlash } from '@modern-js/utils';
 import { AppNormalizedConfig, IAppContext } from '../types';
@@ -41,9 +40,12 @@ export function createCopyPattern(
           return content;
         }
 
-        return lodashTemplate(content.toString('utf8'))({
-          assetPrefix: removeTailSlash(chain.output.get('publicPath')),
-        });
+        return content
+          .toString('utf8')
+          .replace(
+            /<%=\s*assetPrefix\s*%>/g,
+            removeTailSlash(chain.output.get('publicPath')),
+          );
       },
     };
   } else {

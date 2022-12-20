@@ -1,5 +1,5 @@
 import type { SharedDevConfig, NormalizedSharedDevConfig } from './dev';
-import type { SharedHtmlConfig, NormalizedHtmlConfig } from './html';
+import type { SharedHtmlConfig, NormalizedSharedHtmlConfig } from './html';
 import type {
   SharedOutputConfig,
   NormalizedSharedOutputConfig,
@@ -24,17 +24,18 @@ export interface SharedBuilderConfig {
   source?: SharedSourceConfig;
   output?: SharedOutputConfig;
   security?: SharedSecurityConfig;
-  performance?: SharedPerformanceConfig;
+  performance?: Pick<SharedPerformanceConfig, 'printFileSize'>;
   experiments?: SharedExperimentsConfig;
   tools?: SharedToolsConfig;
 }
 
 export type SharedNormalizedConfig = DeepReadonly<{
   dev: NormalizedSharedDevConfig;
-  html: NormalizedHtmlConfig;
+  html: NormalizedSharedHtmlConfig;
   // alias type incompatible between webpack and rspack
   source: Omit<NormalizedSharedSourceConfig, 'alias'>;
   output: NormalizedSharedOutputConfig;
+  performance: Pick<SharedPerformanceConfig, 'printFileSize'>;
 }>;
 
 export * from './dev';

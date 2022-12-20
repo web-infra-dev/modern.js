@@ -1,4 +1,4 @@
-# TypeScript
+# Use TypeScript
 
 Builder supports TypeScript compilation and type checking by default, you can use `. ts` and `. tsx' files in the project without any configuration.
 
@@ -28,7 +28,7 @@ export default {
 };
 ```
 
-More configuration can be found at [tools.tsLoader](/zh/api/config-tools.html#tools-tsloader).
+More configuration can be found at [tools.tsLoader](/en/api/config-tools.html#tools-tsloader).
 
 If ts-loader is enabled with default configuration, it does not have type checking, we do type checking by [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
 
@@ -36,7 +36,7 @@ If ts-loader is enabled with default configuration, it does not have type checki
 
 If you want a super fast compiler, and you don't need some custom Babel plugins, then you can use SWC for compilation and minification.
 
-SWC plugin in Builder supports TypeScript, TSX and legacy decorator, you can check [SWC plugin](/zh/plugins/plugin-swc.html).
+SWC plugin in Builder supports TypeScript, TSX and legacy decorator, you can check [SWC plugin](/en/plugins/plugin-swc.html).
 
 ### Why Babel is the default option
 
@@ -56,7 +56,7 @@ export default {
 };
 ```
 
-More configurations can be seen at [tsChecker configuration](/zh/api/config-tools.html#tools-tschecker)。
+More configurations can be seen at [tsChecker configuration](/en/api/config-tools.html#tools-tschecker)。
 
 Note that if ts-loader is enabled and `compileOnly: false` is set, please disable tsChecker to avoid duplicate type-checking.
 

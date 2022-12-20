@@ -15,7 +15,7 @@ exports[`plugins/inlineChunk > should add InlineChunkHtmlPlugin properly by defa
         ],
         "favicon": undefined,
         "filename": "html/main/index.html",
-        "inject": true,
+        "inject": "head",
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
@@ -61,7 +61,7 @@ exports[`plugins/inlineChunk > should use proper plugin options when disableInli
         ],
         "favicon": undefined,
         "filename": "html/main/index.html",
-        "inject": true,
+        "inject": "head",
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
@@ -105,7 +105,7 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         ],
         "favicon": undefined,
         "filename": "html/main/index.html",
-        "inject": true,
+        "inject": "head",
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
@@ -152,7 +152,7 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         ],
         "favicon": undefined,
         "filename": "html/main/index.html",
-        "inject": true,
+        "inject": "head",
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,

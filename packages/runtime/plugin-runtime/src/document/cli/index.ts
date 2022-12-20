@@ -18,6 +18,8 @@ import {
   DOCUMENT_SSR_PLACEHOLDER,
   DOCUMENT_CHUNKSMAP_PLACEHOLDER,
   DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
+  DOCUMENT_SCRIPT_PLACEHOLDER_START,
+  DOCUMENT_SCRIPT_PLACEHOLDER_END,
   HTML_SEPARATOR,
 } from '../constants';
 
@@ -165,7 +167,7 @@ export default (): CliPlugin<AppTools> => ({
           { value: documentParams },
           React.createElement(Document, null),
         );
-        const html = ReactDomServer.renderToStaticMarkup(HTMLElement);
+        let html = ReactDomServer.renderToStaticMarkup(HTMLElement);
 
         debug("entry %s's document jsx rendered html: %o", entryName, html);
 
@@ -183,8 +185,22 @@ export default (): CliPlugin<AppTools> => ({
             .join(''),
         ].join('');
 
+        // if the Document.tsx has a functional script, replace to convert it
+        if (
+          html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_START) &&
+          html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_END)
+        ) {
+          html = html.replaceAll(
+            new RegExp(
+              `${DOCUMENT_SCRIPT_PLACEHOLDER_START}(.*?)${DOCUMENT_SCRIPT_PLACEHOLDER_END}`,
+              'g',
+            ),
+            (_scriptStr, $1) => `<script>${decodeURIComponent($1)}</script>`,
+          );
+        }
+
         // replace the html placeholder while transfer string to jsx component is not a easy way
-        return `<!DOCTYPE html>${html}`
+        const finalHtml = `<!DOCTYPE html>${html}`
           .replace(DOCUMENT_META_PLACEHOLDER, metas)
           .replace(DOCUMENT_SSR_PLACEHOLDER, HTML_SEPARATOR)
           .replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts)
@@ -196,6 +212,7 @@ export default (): CliPlugin<AppTools> => ({
             DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
             PLACEHOLDER_REPLACER_MAP[DOCUMENT_SSRDATASCRIPT_PLACEHOLDER],
           );
+        return finalHtml;
       };
     };
     return {
