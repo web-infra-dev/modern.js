@@ -1,4 +1,4 @@
-import { hook } from '@modern-js/runtime/express';
+import { hook } from '@modern-js/runtime/server';
 import { Request, Response, NextFunction } from 'express';
 
 export default hook(({ addMiddleware }) => {
