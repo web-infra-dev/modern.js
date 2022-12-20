@@ -1,5 +1,5 @@
 ```javascript title="App.tsx"
-import { defineConfig } from '@edenx/runtime';
+import { defineConfig } from '@modern-js/runtime';
 
 defineConfig(App, {
   masterApp: {

@@ -184,6 +184,6 @@ export default () => <div>Table Page</div>;
 
 ## 常见问题
 
-自查手册: https://bytedance.feishu.cn/docx/doxcnHbul0TQKF3iRUC8RKw1pwe
+自查手册: https://www.garfishjs.org/issues/
 
 
