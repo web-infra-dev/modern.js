@@ -1,16 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import type { CliPlugin } from '@modern-js/core';
-import { UserConfig } from '@modern-js/server-core';
 import { compile } from '@modern-js/server-utils';
 import { SHARED_DIR, SERVER_DIR } from '@modern-js/utils';
+import type { AppTools } from '@modern-js/app-tools';
 
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 
-export default (): CliPlugin<{
-  userConfig: UserConfig;
-  normalizedConfig: Required<UserConfig>;
-}> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-server',
 
   setup: api => ({
@@ -55,6 +52,12 @@ export default (): CliPlugin<{
           },
         );
       }
+    },
+    collectServerPlugins({ plugins }) {
+      plugins.push({
+        '@modern-js/plugin-server': '@modern-js/plugin-server/server',
+      });
+      return { plugins };
     },
   }),
 });

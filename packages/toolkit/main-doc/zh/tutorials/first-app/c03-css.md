@@ -118,6 +118,25 @@ Modern.js 集成了主流、轻量、通用的 Utility Class 工具库 [Tailwind
 ? 启用可选功能 启用 Tailwind CSS 支持
 ```
 
+在 `modern.config.ts` 中注册 Tailwind 插件:
+
+```ts title="modern.config.ts"
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
+
+// https://modernjs.dev/docs/apis/app/config
+export default defineConfig({
+  runtime: {
+    router: true,
+    state: true,
+  },
+  server: {
+    ssr: true,
+  },
+  plugins: [AppToolsPlugin(), TailwindCSSPlugin()],
+});
+```
+
 在 `src/routes/page.tsx` 顶部引入 Tailwind CSS 的 css 文件，就可以开始快速实现专业的 UI：
 
 ```js

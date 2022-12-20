@@ -32,7 +32,7 @@ const computed = {
 };
 ```
 
-computed 类型字段的定义方式是函数，但使用时可以像普通字段一样通过 state 访问。
+`computed` 类型字段的定义方式是函数，但使用时可以像普通字段一样通过 state 访问。
 
 :::info
 Modern.js 集成了 [Immer](https://immerjs.github.io/immer/)，能够像操作 JS 中常规的可变数据一样，去写这种状态转移的逻辑。
@@ -90,7 +90,7 @@ touch src/models/contacts.ts
 添加 `src/models/contacts.ts` 的内容：
 
 ```tsx
-import { model } from "@modern-js/runtime/model";
+import { model } from '@modern-js/runtime/model';
 
 type State = {
   items: {
@@ -103,18 +103,18 @@ type State = {
   error: null | Error;
 };
 
-export default model<State>("contacts").define({
+export default model<State>('contacts').define({
   state: {
     items: [],
     pending: false,
     error: null,
   },
   computed: {
-    archived: ({ items }: State) => items.filter((item) => item.archived),
+    archived: ({ items }: State) => items.filter(item => item.archived),
   },
   actions: {
     archive(draft, payload) {
-      const target = draft.items.find((item) => item.email === payload)!;
+      const target = draft.items.find(item => item.email === payload)!;
       if (target) {
         target.archived = true;
       }
@@ -132,7 +132,7 @@ export default model<State>("contacts").define({
 首先修改 `src/components/Item/index.tsx`，添加 **Archive 按钮**的 UI 和交互，内容如下：
 
 ```tsx
-import Avatar from "../Avatar";
+import Avatar from '../Avatar';
 
 type InfoProps = {
   avatar: string;
@@ -163,11 +163,11 @@ const Item = ({
           onClick={onArchive}
           className={`text-white font-bold py-2 px-4 rounded-full ${
             archived
-              ? "bg-gray-400 cursor-default"
-              : "bg-blue-500 hover:bg-blue-700"
+              ? 'bg-gray-400 cursor-default'
+              : 'bg-blue-500 hover:bg-blue-700'
           }`}
         >
-          {archived ? "Archived" : "Archive"}
+          {archived ? 'Archived' : 'Archive'}
         </button>
       </div>
     </div>
@@ -180,13 +180,13 @@ export default Item;
 接下来，我们修改 `src/routes/page.tsx`，为 `<Item>` 组件传递更多参数：
 
 ```tsx
-import { Helmet } from "@modern-js/runtime/head";
-import { useModel } from "@modern-js/runtime/model";
-import { useLoaderData } from "@modern-js/runtime/router";
-import { List } from "antd";
-import { name, internet } from "faker";
-import Item from "../components/Item";
-import contacts from "../models/contacts";
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { useLoaderData } from '@modern-js/runtime/router';
+import { List } from 'antd';
+import { name, internet } from 'faker';
+import Item from '../components/Item';
+import contacts from '../models/contacts';
 
 type LoaderData = {
   code: number;
@@ -228,7 +228,7 @@ function Index() {
       </Helmet>
       <List
         dataSource={items}
-        renderItem={(info) => (
+        renderItem={info => (
           <Item
             key={info.name}
             info={info}

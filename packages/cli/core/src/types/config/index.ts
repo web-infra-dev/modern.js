@@ -32,6 +32,13 @@ export type UserConfig<
     DropUndefined<Extends['userConfig']>['testing']
   >;
   plugins?: PluginConfig<any>;
+
+  /**
+   * auto load plugin that exist in the package.json
+   *
+   * **default: `false`**
+   */
+  autoLoadPlugins?: boolean;
 } & Omit<Extends['userConfig'], 'plugins' | 'testing'>;
 
 export type NormalizedConfig<
@@ -55,6 +62,13 @@ export type NormalizedConfig<
   testing: BaseTestingNormalizedConfig<
     DropUndefined<Extends['normalizedConfig']>['testing']
   >;
+
+  /**
+   * auto load plugin that exist in the package.json
+   *
+   * **default: `false`**
+   */
+  autoLoadPlugins: boolean;
 } & Omit<Extends['normalizedConfig'], 'plugins' | 'testing'>;
 
 export type LoadedConfig<

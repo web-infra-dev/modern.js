@@ -1,4 +1,4 @@
-# Your MWA
+# Your App
 
 ## Prerequisites
 
@@ -22,6 +22,6 @@ yarn new
 其他
 
 ```
-yarn build        # 按产品环境的要求，构建项目
-yarn start        # 按产品环境的要求，运行项目
+yarn build        # 按生产环境的要求，构建项目
+yarn serve        # 按生产环境的要求，运行项目
 ```

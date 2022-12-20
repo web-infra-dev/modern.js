@@ -95,8 +95,10 @@ mv src/myapp src/contacts
 现在，修改 `modern.config.ts` 里面添加内容：
 
 ```typescript
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
 
+// https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
   runtime: {
     router: true,
@@ -108,6 +110,7 @@ export default defineConfig({
       'landing-page': false,
     },
   },
+  plugins: [AppToolsPlugin(), TailwindCSSPlugin()],
 });
 ```
 

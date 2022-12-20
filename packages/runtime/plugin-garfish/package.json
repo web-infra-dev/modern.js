@@ -12,8 +12,8 @@
     "modern.js"
   ],
   "version": "2.0.0-beta.4",
-  "jsnext:source": "./src/index.ts",
-  "types": "./src/index.ts",
+  "jsnext:source": "./src/cli/index.ts",
+  "types": "./src/cli/index.ts",
   "typesVersions": {
     "*": {
       ".": [
@@ -30,22 +30,26 @@
       ]
     }
   },
-  "main": "./dist/js/node/index.js",
+  "main": "./dist/js/node/cli/index.js",
   "module": "./dist/js/treeshaking/runtime/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "jsnext:modern": "./dist/js/modern/cli/index.js",
   "exports": {
     "./types": "./type.d.ts",
     ".": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
+    "./runtime": {
       "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/runtime/index.js"
-    },
-    "./cli": {
-      "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
     }
   },
   "scripts": {
@@ -75,7 +79,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/plugin-router-legacy": "workspace:*",
+    "@modern-js/plugin-router-v5": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
@@ -101,6 +105,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/runtime/index.d.ts"
+    "types": "./dist/types/cli/index.d.ts"
   }
 }
