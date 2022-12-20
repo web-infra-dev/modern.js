@@ -1,4 +1,6 @@
-import { defineConfig } from '@modern-js/module-tools';
+import ModuleToolsPlugin, { defineConfig } from '@modern-js/module-tools';
+import TestingPlugin from '@modern-js/plugin-testing';
 
-// https://modernjs.dev/docs/apis/module/config
-export default defineConfig({});
+export default defineConfig({
+  plugins: [ModuleToolsPlugin(), TestingPlugin()],
+});

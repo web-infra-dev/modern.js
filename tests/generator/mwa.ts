@@ -26,6 +26,15 @@ async function createAllMWAProject(
         cwd,
         config,
       });
+      const pkgJSON = fs.readJSONSync(
+        path.join(cwd, projectName, 'package.json'),
+      );
+      pkgJSON.modernConfig = {
+        autoLoadPlugins: true,
+      };
+      fs.writeJSONSync(path.join(cwd, projectName, 'package.json'), pkgJSON, {
+        spaces: 2,
+      });
     });
   }
 }
