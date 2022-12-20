@@ -154,38 +154,6 @@ export default {
 };
 ```
 
-## React component state lost after HMR?
-
-Builder uses React's official [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) capability for component hot update.
-
-When using Fast Refresh, it is required that the component cannot be an anonymous function, otherwise the state of the React component cannot be preserved after hot update.
-
-The following spellings are incorrect:
-
-```js
-// wrong spelling 1
-export default function () {
-  return <div>Hello World</div>;
-}
-
-// wrong spelling 2
-export default () => <div>Hello World</div>;
-```
-
-The correct spelling is:
-
-```js
-// Correct spelling 1
-export default function MyComponent() {
-  return <div>Hello World</div>;
-}
-
-// Correct spelling 2
-const MyComponent = () => <div>Hello World</div>
-
-export default MyComponent;
-```
-
 ## The webpack cache does not work?
 
 Builder enables webpack's persistent cache by default.
