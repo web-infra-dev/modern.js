@@ -3,11 +3,11 @@ const path = require('path');
 const kProjectRoot = path.resolve(__dirname);
 const kModuleToolsCliPath = path.resolve(
   kProjectRoot,
-  'packages/solutions/monorepo-tools/dist/cli.js',
+  'packages/solutions/monorepo-tools/dist/js/node/index.js',
 );
 
-const { cli: PluginModuleTools } = require(kModuleToolsCliPath);
+const PluginMonorepoTools = require(kModuleToolsCliPath).default;
 
 module.exports = {
-  plugins: [PluginModuleTools()],
+  plugins: [PluginMonorepoTools()],
 };
