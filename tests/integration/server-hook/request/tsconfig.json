@@ -9,5 +9,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "test", "server"]
+  "include": ["src", "test", "server", "modern.config.ts"]
 }

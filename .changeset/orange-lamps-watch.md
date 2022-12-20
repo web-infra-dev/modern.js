@@ -1,5 +1,5 @@
 ---
-'@modern-js/plugin-router-legacy': patch
+'@modern-js/plugin-router-v5': patch
 '@modern-js/runtime': patch
 '@modern-js/app-tools': patch
 '@modern-js/types': patch

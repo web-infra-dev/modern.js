@@ -1,5 +1,5 @@
 ---
-'@modern-js/plugin-router-legacy': patch
+'@modern-js/plugin-router-v5': patch
 ---
 
 fix: change plugin-router-legacy exports field for node environment

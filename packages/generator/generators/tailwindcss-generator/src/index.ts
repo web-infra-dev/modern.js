@@ -18,7 +18,7 @@ export const handleTemplateFile = async (
   appApi: AppAPI,
 ) => {
   const { dependencies, peerDependencies, devDependencies } = context.config;
-  const TailwindCSSVersion = '^2.2.19';
+  const TailwindCSSVersion = '~2.2.19';
   if (dependencies?.tailwindcss) {
     dependencies.tailwindcss = TailwindCSSVersion;
   }

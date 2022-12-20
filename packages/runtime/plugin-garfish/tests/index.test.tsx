@@ -11,7 +11,7 @@ import {
   Switch,
   useLocation,
   MemoryRouter,
-} from '@modern-js/plugin-router-legacy';
+} from '@modern-js/plugin-router-v5/runtime';
 import ModernGarfishPlugin, { useModuleApp } from '../src/runtime';
 import { useModuleApps } from '../src';
 import {

@@ -8,7 +8,21 @@ import {
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import { i18n, Language, Solution } from '@modern-js/generator-common';
+import {
+  DependenceGenerator,
+  i18n,
+  Language,
+  Solution,
+} from '@modern-js/generator-common';
+
+const getGeneratorPath = (generator: string, distTag: string) => {
+  if (process.env.CODESMITH_ENV === 'development') {
+    return path.dirname(require.resolve(generator));
+  } else if (distTag) {
+    return `${generator}@${distTag}`;
+  }
+  return generator;
+};
 
 function isEmptyServerDir(serverDir: string) {
   const files = fs.readdirSync(serverDir);
@@ -44,25 +58,25 @@ const handleTemplateFile = async (
   }
 
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
-
-  const getServerPluginVersion = (packageName: string) => {
-    return getModernPluginVersion(Solution.MWA, packageName, {
-      registry: context.config.registry,
-      distTag: context.config.distTag,
-      cwd: context.materials.default.basePath,
-    });
-  };
-
-  await jsonAPI.update(
-    context.materials.default.get(path.join(appDir, 'package.json')),
+  const serverPlugin = '@modern-js/plugin-server';
+  await appApi.runSubGenerator(
+    getGeneratorPath(DependenceGenerator, context.config.distTag),
+    undefined,
     {
-      query: {},
-      update: {
-        $set: {
-          'dependencies.@modern-js/plugin-server': `${await getServerPluginVersion(
-            '@modern-js/plugin-server',
-          )}`,
-        },
+      ...context.config,
+      devDependencies: {
+        ...(context.config.devDependencies || {}),
+        [serverPlugin]: await getModernPluginVersion(
+          Solution.MWA,
+          serverPlugin,
+          {
+            registry: context.config.registry,
+            distTag: context.config.distTag,
+            cwd: context.materials.default.basePath,
+          },
+        ),
+        'ts-node': '~10.8.1',
+        'tsconfig-paths': '~3.14.1',
       },
     },
   );
@@ -112,10 +126,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
   await handleTemplateFile(context, generator, appApi);
-
-  await appApi.runInstall(undefined, { ignoreScripts: true });
-
-  appApi.showSuccessInfo();
 
   generator.logger.debug(`forge @modern-js/server-generator succeed `);
 };
