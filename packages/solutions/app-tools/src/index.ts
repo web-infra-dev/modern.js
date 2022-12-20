@@ -206,7 +206,7 @@ export default (): CliPlugin<AppTools> => ({
 
       async prepare() {
         const command = getCommand();
-        if (command === 'dev' || command === 'build') {
+        if (command === 'dev' || command === 'start' || command === 'build') {
           const appContext = api.useAppContext();
           await emptyDir(appContext.distDirectory);
         }

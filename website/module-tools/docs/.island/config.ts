@@ -208,7 +208,44 @@ function getSidebar(lang: 'zh' | 'en') {
           },
         ]
       },
-    ]
+      {
+        text: getText('Plugin API', 'Plugin API'),
+        items: [
+          {
+            text: getText('Plugin Hooks', 'Plugin Hooks'),
+            link: getLink('/api/plugin-hooks')
+          },
+        ],
+      }
+    ],
+    [getLink('/plugins/')]: [
+      {
+        text: getText('指南', 'Guide'),
+        items: [
+          {
+            text: getText('快速开始', 'Getting Started'),
+            link: getLink('/plugins/guide/getting-started')
+          },
+          {
+            text: getText('插件对象', 'Plugin Object'),
+            link: getLink('/plugins/guide/plugin-object'),
+          },
+          {
+            text: getText('Setup 函数', 'Setup Function'),
+            link: getLink('/plugins/guide/setup-function'),
+          },
+        ],
+      },
+      {
+        text: getText('插件列表', 'Plugins List'),
+        items: [
+          {
+            text: getText('总览', 'Overview'),
+            link: getLink('/plugins/official-list/overview')
+          },
+        ]
+      }
+    ],
   };
 }
 
@@ -225,6 +262,11 @@ function getNavbar(lang: 'zh' | 'en') {
       text: getText('API', 'API'),
       link: getLink('/api/'),
       activeMatch: '/api/'
+    },
+    {
+      text: getText('插件', 'Plugins'),
+      link: getLink('/plugins/guide/getting-started'),
+      activeMatch: '/plugins/'
     },
     {
       text: `v${version}`,
