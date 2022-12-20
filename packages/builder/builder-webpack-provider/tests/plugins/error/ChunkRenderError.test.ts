@@ -2,7 +2,7 @@ import os from 'os';
 import assert from 'assert';
 import { useFixture } from '@modern-js/e2e';
 import { expect, test } from 'vitest';
-import { Chunk } from 'webpack';
+import { Chunk, Stats } from 'webpack';
 import ChunkRenderError from 'webpack/lib/ChunkRenderError';
 import {
   baseFormatter,
@@ -20,7 +20,7 @@ test.skipIf(os.platform() === 'win32')('ChunkRenderError', async () => {
     plugins: 'minimal',
   });
   const [{ stats }] = await builder.unwrapHook('onAfterBuildHook');
-  assert(stats && 'compilation' in stats);
+  assert(stats instanceof Stats);
   const chunk = new Chunk('foo');
   const error = new ChunkRenderError(
     chunk,

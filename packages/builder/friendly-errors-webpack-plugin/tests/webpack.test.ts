@@ -1,6 +1,7 @@
 import { describe, expect, test, vi } from 'vitest';
 import webpack, { WebpackError } from 'webpack';
 import { useFixture, cleanOutput } from '@modern-js/e2e';
+import _ from '@modern-js/utils/lodash';
 import { transformPathReplacements } from './pathReplacements';
 import { FriendlyErrorsWebpackPlugin } from '@/plugin';
 import { outputPrettyError } from '@/shared/utils';
@@ -27,7 +28,7 @@ export const webpackBuild = async (compiler: webpack.Compiler) => {
 
 describe('webpack', () => {
   test('compilation.errors', async () => {
-    const mockedError = vi.spyOn(console, 'error');
+    const mockedError = vi.spyOn(console, 'error').mockImplementation(_.noop);
     const options = await useFixture('@modern-js/e2e/fixtures/builder/basic', {
       copy: true,
     });
@@ -57,7 +58,7 @@ describe('webpack', () => {
   });
 
   test('throw new error', async () => {
-    const mockedError = vi.spyOn(console, 'error');
+    const mockedError = vi.spyOn(console, 'error').mockImplementation(_.noop);
     const options = await useFixture('@modern-js/e2e/fixtures/builder/basic', {
       copy: true,
     });

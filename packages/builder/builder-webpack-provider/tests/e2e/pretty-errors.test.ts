@@ -26,34 +26,8 @@ describe('Pretty output errors', () => {
     });
     const mockedError = vi.spyOn(console, 'error');
     await expect(builder.build()).rejects.toThrowError();
-    expect(cleanOutput(mockedError)).toMatchInlineSnapshot(`
-      " ERROR  Error: foo
-          at <ROOT>/tests/e2e/pretty-errors.test.ts:<POS>
-          at _next27 (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
-          at _next5 (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
-          at Hook.eval [as call] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
-          at Hook.CALL_DELEGATE [as _call] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
-          at Compiler.newCompilation (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
-          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
-          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
-          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
-          at Compiler.compile (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
-          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
-          at Compiler.readRecords (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
-          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
-          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
-          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
-          at <WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>
-          at Hook.eval [as callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/HookCodeFactory.js:<POS>)
-          at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (<WORKSPACE>/node_modules/<PNPM_INNER>/tapable/lib/Hook.js:<POS>)
-          at run (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
-          at Compiler.run (<WORKSPACE>/node_modules/<PNPM_INNER>/webpack/lib/Compiler.js:<POS>)
-          at <ROOT>/src/core/build.ts:<POS>
-          at new Promise (<anonymous>)
-          at webpackBuild (<ROOT>/src/core/build.ts:<POS>)
-          at build (<ROOT>/src/core/build.ts:<POS>)
-          at async Object.<anonymous> (<ROOT>/src/stub/builder.ts:<POS>)"
-    `);
+    const errorMsg = cleanOutput(mockedError);
+    expect(errorMsg).toMatch(/ ERROR {2}Error: foo(\n\s+at .+)*/);
   });
   // Unable to spy on console.error within vitest worker.
   // But it should works fine. You can remove `.skip` to check the output.
