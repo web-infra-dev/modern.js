@@ -1,9 +1,10 @@
 {
   "name": "my-website",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
+    "dev": "docusaurus start",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "build:local": "LOCAL=true docusaurus build",

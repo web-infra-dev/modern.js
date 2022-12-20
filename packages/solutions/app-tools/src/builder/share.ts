@@ -43,7 +43,7 @@ export function createCopyPattern(
         return content
           .toString('utf8')
           .replace(
-            /<%=\s+assetPrefix\s+%>/g,
+            /<%=\s*assetPrefix\s*%>/g,
             removeTailSlash(chain.output.get('publicPath')),
           );
       },

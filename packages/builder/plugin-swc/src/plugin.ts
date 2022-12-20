@@ -1,4 +1,5 @@
 import path from 'path';
+import assert from 'assert';
 import type { Compiler, Compilation } from 'webpack';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import {
@@ -9,7 +10,7 @@ import {
   getBrowserslistWithDefault,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import { getCoreJsVersion } from '@modern-js/utils';
+import { getCoreJsVersion, readTsConfig } from '@modern-js/utils';
 import { JsMinifyOptions } from '@modern-js/swc-plugins';
 import { minify } from './binding';
 import { PluginSwcOptions, TransformConfig } from './config';
@@ -33,17 +34,19 @@ export const PluginSwc = (
     // Find if babel & ts loader exists
     api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
       const { isProd } = await import('@modern-js/utils');
+      const { rootPath } = api.context;
 
       chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
       chain.module.delete(CHAIN_ID.RULE.TS);
 
       const builderConfig = api.getNormalizedConfig();
+      determinePresetReact(rootPath, pluginConfig);
 
       const swc: TransformConfig = {
         jsc: { transform: {} },
         env: pluginConfig.presetEnv || {},
         extensions: {},
-        cwd: api.context.rootPath,
+        cwd: rootPath,
       };
 
       if (pluginConfig.presetReact) {
@@ -191,5 +194,43 @@ export class SwcWebpackPlugin {
         );
       }),
     );
+  }
+}
+
+function determinePresetReact(root: string, pluginConfig: PluginSwcOptions) {
+  let compilerOptions: Record<string, any>;
+  try {
+    const tsConfig = readTsConfig(root);
+    assert(typeof tsConfig === 'object');
+    assert('compilerOptions' in tsConfig);
+    ({ compilerOptions } = tsConfig);
+  } catch {
+    return;
+  }
+
+  const presetReact =
+    pluginConfig.presetReact || (pluginConfig.presetReact = {});
+
+  let runtime: 'classic' | 'automatic' = 'automatic';
+  if ('jsx' in compilerOptions) {
+    switch (compilerOptions.jsx) {
+      case 'react':
+        runtime = 'classic';
+        break;
+      case 'react-jsx':
+        runtime = 'automatic';
+        break;
+      default:
+    }
+    presetReact.runtime = runtime;
+  }
+
+  if (runtime === 'classic') {
+    presetReact.pragmaFrag = compilerOptions.jsxFragmentFactory;
+    presetReact.pragma = compilerOptions.jsxFactory;
+  }
+
+  if (runtime === 'automatic') {
+    presetReact.importSource = compilerOptions.jsxImportSource;
   }
 }

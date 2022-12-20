@@ -10,4 +10,15 @@ export type {
   BuilderInstance,
   CreateBuilderOptions,
   InspectConfigOptions,
+
+  // Hook Callback Types
+  OnExitFn,
+  OnAfterBuildFn,
+  OnAfterCreateCompilerFn,
+  OnAfterStartDevServerFn,
+  OnBeforeBuildFn,
+  OnBeforeStartDevServerFn,
+  OnBeforeCreateCompilerFn,
+  OnDevCompileDoneFn,
+  ModifyBuilderConfigFn,
 } from '@modern-js/builder-shared';

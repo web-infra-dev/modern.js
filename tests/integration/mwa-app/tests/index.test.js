@@ -7,7 +7,7 @@ const {
   killApp,
   getPort,
   modernBuild,
-  modernStart,
+  modernServe,
 } = require('../../../utils/modernTestUtils');
 
 const appDir = path.resolve(__dirname, '../');
@@ -46,7 +46,7 @@ describe('test build', () => {
 
     buildRes = await modernBuild(appDir);
 
-    app = await modernStart(appDir, port, {
+    app = await modernServe(appDir, port, {
       cwd: appDir,
     });
   });

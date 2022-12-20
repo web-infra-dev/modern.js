@@ -31,7 +31,7 @@ import logo from './static/logo.png';
 export default = () => <img src={logo} />;
 ```
 
-也支持使用[路径别名](/guide/basic/alias.html)来引用：
+也支持使用[路径别名](/guide/advanced/alias.html)来引用：
 
 ```tsx
 import logo from '@/static/logo.png';
@@ -49,7 +49,7 @@ export default = () => <img src={logo} />;
 }
 ```
 
-也支持使用[路径别名](/guide/basic/alias.html)来引用：
+也支持使用[路径别名](/guide/advanced/alias.html)来引用：
 
 ```css
 .logo {
@@ -72,7 +72,7 @@ console.log(largeImage); // "/static/largeImage.6c12aba3.png"
 console.log(smallImage); // "data:image/png;base64,iVBORw0KGgo..."
 ```
 
-关于资源内联的更详细介绍，请参考 [静态资源内联](/guide/advanced/inline-assets.html) 章节。
+关于资源内联的更详细介绍，请参考 [静态资源内联](/guide/optimization/inline-assets.html) 章节。
 
 ## 构建产物
 
@@ -97,6 +97,26 @@ import logo from './static/logo.png';
 
 console.log(logo); // "https://modern.com/static/logo.6c12aba3.png"
 ```
+
+## 添加类型声明
+
+当你在 TypeScript 代码中引用静态资源时，TypeScript 可能会提示该模块缺少类型定义：
+
+```
+TS2307: Cannot find module './logo.png' or its corresponding type declarations.
+```
+
+此时你需要为静态资源添加类型声明文件，请在项目中创建 `src/global.d.ts` 文件，并添加相应的类型声明。以 png 图片为例，需要添加以下声明：
+
+```ts
+// src/global.d.ts
+declare module '*.png' {
+  const content: string;
+  export default content;
+}
+```
+
+添加类型声明后，如果依然存在上述错误提示，请尝试重启当前 IDE，或者调整 `global.d.ts` 所在的目录，使 TypeScript 能够正确识别类型定义。
 
 ## 图片格式
 

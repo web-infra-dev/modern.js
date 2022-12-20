@@ -35,6 +35,7 @@ export const runCli = async (options: {
           internalPlugins: {
             cli: plugins,
           },
+          forceAutoLoadPlugins: true,
         },
         disableWatcher: true,
       },

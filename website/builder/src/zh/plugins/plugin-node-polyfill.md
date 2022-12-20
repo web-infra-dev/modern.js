@@ -6,7 +6,9 @@
 
 通过使用 Node Polyfill 插件，会自动注入 Node 核心模块在浏览器端的 polyfills，让你可以在浏览器端放心使用这些模块。
 
-## 安装插件
+## 快速开始
+
+### 安装插件
 
 你可以通过如下的命令安装插件:
 
@@ -21,12 +23,22 @@ yarn add @modern-js/builder-plugin-node-polyfill -D
 pnpm install @modern-js/builder-plugin-node-polyfill -D
 ```
 
-## 注册插件
+### 注册插件
 
-你可以在 Builder 中注册插件来启用 node polyfill 功能:
+在 Modern.js / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 node polyfill 插件：
+
+```ts
+import { PluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
+
+export default {
+  builderPlugins: [PluginNodePolyfill()],
+};
+```
+
+当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 node polyfill 插件：
 
 ```js
-const { PluginNodePolyfill } = await import('@modern-js/builder-plugin-node-polyfill');
+import { PluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
 
 // 往 builder 实例上添加插件
 builder.addPlugins([PluginNodePolyfill()]);

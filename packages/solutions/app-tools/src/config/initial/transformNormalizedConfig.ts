@@ -35,10 +35,14 @@ export function transformNormalizedConfig(
     server,
     cliOptions,
     testing,
+    builderPlugins: [],
     plugins: plugins as any,
     security: {},
     _raw: {},
     experiments: {},
-    performance: {},
+    autoLoadPlugins: true,
+    performance: {
+      removeMomentLocale: true,
+    },
   };
 }

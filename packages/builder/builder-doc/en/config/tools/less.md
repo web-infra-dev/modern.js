@@ -1,13 +1,14 @@
 - Type: `Object | Function`
-- Default
+- Default:
 
 ```js
-{
+const defaultOptions = {
   lessOptions: {
-    javascriptEnabled: true
+    javascriptEnabled: true,
   },
-  sourceMap: false,
-}
+  // CSS Source Map enabled by default in development environment
+  sourceMap: isDev,
+};
 ```
 
 You can modify the config of [less-loader](https://github.com/webpack-contrib/less-loader) via `tools.less`.

@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -93,6 +93,9 @@
       ],
       "loadable": [
         "./dist/types/exports/loadable.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli/index.d.ts"
       ],
       "head": [
         "./dist/types/exports/head.d.ts"

@@ -11,18 +11,14 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.3",
-  "types": "./src/server.ts",
-  "jsnext:source": "./src/server.ts",
-  "main": "./dist/js/node/server.js",
+  "version": "2.0.0-beta.4",
+  "types": "./src/cli",
+  "jsnext:source": "./src/cli",
+  "main": "./dist/js/node/cli.js",
   "exports": {
     ".": {
-      "node": {
-        "jsnext:source": "./src/server.ts",
-        "import": "./dist/js/modern/server.js",
-        "require": "./dist/js/node/server.js"
-      },
-      "default": "./dist/js/treeshaking/server.js"
+      "jsnext:source": "./src/cli.ts",
+      "default": "./dist/js/node/cli.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli.ts",
@@ -61,6 +57,7 @@
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:*",
@@ -79,6 +76,6 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",
-    "types": "./dist/types/server.d.ts"
+    "types": "./dist/types/cli.d.ts"
   }
 }

@@ -41,7 +41,11 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 },
               },
               "jsc": {
-                "transform": {},
+                "transform": {
+                  "react": {
+                    "importSource": undefined,
+                  },
+                },
               },
             },
           },
@@ -75,7 +79,11 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 },
               },
               "jsc": {
-                "transform": {},
+                "transform": {
+                  "react": {
+                    "importSource": undefined,
+                  },
+                },
               },
             },
           },
@@ -136,7 +144,11 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 },
               },
               "jsc": {
-                "transform": {},
+                "transform": {
+                  "react": {
+                    "importSource": undefined,
+                  },
+                },
               },
             },
           },
@@ -170,7 +182,11 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 },
               },
               "jsc": {
-                "transform": {},
+                "transform": {
+                  "react": {
+                    "importSource": undefined,
+                  },
+                },
               },
             },
           },

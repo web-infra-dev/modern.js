@@ -4,11 +4,18 @@ import {
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import type {
+  CliPlugin,
+  AppTools,
+  AppNormalizedConfig,
+} from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
+
+const isV5 = (config: AppNormalizedConfig) =>
+  config?.runtime?.router?.mode === 'react-router-5';
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
@@ -41,7 +48,6 @@ export default (): CliPlugin<AppTools> => ({
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
-        const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
         const { packageName } = api.useAppContext();
 
         const runtimeConfig = getEntryOptions(
@@ -54,7 +60,7 @@ export default (): CliPlugin<AppTools> => ({
         runtimeConfigMap.set(entryName, runtimeConfig);
 
         if (runtimeConfig?.router) {
-          if (!isLegacy) {
+          if (!isV5(userConfig)) {
             imports.push({
               value: '@modern-js/runtime/plugins',
               specifiers: [{ imported: PLUGIN_IDENTIFIER }],
@@ -74,9 +80,8 @@ export default (): CliPlugin<AppTools> => ({
         const { entryName, fileSystemRoutes } = entrypoint;
         const { serverRoutes } = api.useAppContext();
         const userConfig = api.useResolvedConfigContext();
-        const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
         const runtimeConfig = runtimeConfigMap.get(entryName);
-        if (runtimeConfig.router && !isLegacy) {
+        if (runtimeConfig.router && !isV5(userConfig)) {
           // Todo: plugin-router best to only handle manage client route.
           // here support base server route usage, part for compatibility
           const serverBase = serverRoutes
@@ -105,8 +110,7 @@ export default (): CliPlugin<AppTools> => ({
       },
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();
-        const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
-        if (!isLegacy) {
+        if (!isV5(userConfig)) {
           pluginsExportsUtils.addExport(
             `export { default as router } from '@modern-js/runtime/router'`,
           );

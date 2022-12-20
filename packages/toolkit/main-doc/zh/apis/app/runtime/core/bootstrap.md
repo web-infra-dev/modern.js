@@ -2,7 +2,7 @@
 title: bootstrap
 ---
 
-用于启动和挂载应用，通常情况下不做手动调用。只有在使用[自定义入口](/docs/guides/advanced-features/custom-app)时，才需要使用该 API。
+用于启动和挂载应用，通常情况下不做手动调用。只有在使用[自定义 App](/docs/guides/concept/entries#自定义-app) 时，才需要使用该 API。
 
 ## 使用姿势
 
@@ -32,7 +32,7 @@ type BootStrap<T = unknown> = (
 ### 参数
 
 - `AppComponent`：通过 [`createApp`](./create-app) 创建的 ReactElement 实例。
-- `rootId`：要挂载的 DOM 根元素 id，如 `"root"`。
+- `id`：要挂载的 DOM 根元素 id，如 `"root"`。
 - `root`: ReactDOM.createRoot 的返回值，用于 bootstrap 函数外需要 root 销毁组件的场景。
 - `ReactDOM`: ReactDOM 对象，用于区分 React 18 和 React 17 API。
 
@@ -41,7 +41,6 @@ type BootStrap<T = unknown> = (
 ```tsx
 import ReactDOM from 'react-dom/client'
 import { createApp, bootstrap } from '@modern-js/runtime';
-import { router, state } from '@modern-js/runtime/plugins';
 
 function App() {
   return <div>Hello Modern.js</div>;
@@ -49,7 +48,7 @@ function App() {
 
 const WrappedApp = createApp({
   // 传入自定义插件
-  plugins: [router({}), state({})],
+  plugins: [customPlugin()],
 })(App);
 
 bootstrap(WrappedApp, 'root', undefined, ReactDOM);

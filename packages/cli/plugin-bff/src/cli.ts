@@ -67,6 +67,9 @@ export default (): CliPlugin<AppTools> => ({
           },
           source: {
             moduleScopes: [`./${API_DIR}`, /create-request/],
+            define: {
+              'process.env.PORT': JSON.stringify(process.env.PORT),
+            },
           },
         };
       },
@@ -93,6 +96,13 @@ export default (): CliPlugin<AppTools> => ({
         })) as ServerRoute[];
 
         return { routes: routes.concat(apiServerRoutes) };
+      },
+
+      collectServerPlugins({ plugins }) {
+        plugins.push({
+          '@modern-js/plugin-bff': '@modern-js/plugin-bff/server',
+        });
+        return { plugins };
       },
 
       async beforeBuild() {
