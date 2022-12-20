@@ -34,7 +34,7 @@ ni src/routes/archives/page.tsx
 
 添加如下代码：
 
-```tsx
+```tsx title="src/archives/page.tsx"
 import { List } from 'antd';
 import { Helmet } from '@modern-js/runtime/head';
 import Item from '../../components/Item';
@@ -94,16 +94,16 @@ Modern.js 默认集成了 react-helmet，也可以结合 SSR 使用，满足 SEO
 import 'tailwindcss/base.css';
 import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
-import "../styles/utils.css";
+import '../styles/utils.css';
 ```
 
 执行 `pnpm run dev`，访问 `http://localhost:8080`，可以看到完整的联系人，页面的标题是 All：
 
-![display](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-all.png)
+![display1](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-archives.png)
 
 访问 `http://localhost:8080/archives`，只会看到已存档的联系人，页面的标题是 Archives：
 
-![display1](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-archives.png)
+![display](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-all.png)
 
 查看页面 HTML 源码，可以看到两个页面的内容是一样，是在客户端针对不同 URL 渲染不同内容。
 
