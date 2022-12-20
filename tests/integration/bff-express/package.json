@@ -6,8 +6,8 @@
     "dev": "modern dev",
     "dev:bff": "modern dev --api-only",
     "build": "modern build",
-    "start": "modern start",
-    "start:bff": "modern start --api-only",
+    "serve": "modern serve",
+    "start:bff": "modern serve --api-only",
     "new": "modern new",
     "lint": "modern lint"
   },

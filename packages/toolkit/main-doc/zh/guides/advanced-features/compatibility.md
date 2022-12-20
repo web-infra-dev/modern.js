@@ -40,7 +40,7 @@ export default defineConfig({
 });
 ```
 
-配置 `output.polyfill` 为 `ua` 并且执行 `pnpm run build && pnpm run start` 启动服务器后，访问页面可以看到 HTML 产物中包含如下脚本:
+配置 `output.polyfill` 为 `ua` 并且执行 `pnpm run build && pnpm run serve` 启动服务器后，访问页面可以看到 HTML 产物中包含如下脚本:
 
 ```js
 <script src="/__polyfill__" crossorigin></script>

@@ -57,8 +57,8 @@ pnpm run new
 [INFO] 创建成功！
 可在新项目的目录下运行以下命令：
 pnpm run dev          # 按开发环境的要求，运行和调试项目
-pnpm run build        # 按产品环境的要求，构建项目
-pnpm run start        # 按产品环境的要求，运行项目
+pnpm run build        # 按生产环境的要求，构建项目
+pnpm run serve        # 按生产环境的要求，运行项目
 pnpm run lint         # 检查和修复所有代码
 pnpm run new          # 继续创建更多项目要素，比如应用入口
 ```

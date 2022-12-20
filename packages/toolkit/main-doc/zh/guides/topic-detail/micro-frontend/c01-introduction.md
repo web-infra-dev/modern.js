@@ -25,5 +25,5 @@ title: 微前端介绍
 * 支持 loading
 * 支持主应用线上、子应用线下调试模式
 
-可以在 [开发微前端](/docs/guides/topic-detail/micro-frontend/development) 一节学习如何开发微前端主子应用。
+可以在 [体验微前端](/docs/guides/topic-detail/micro-frontend/c02-development) 一节学习如何开发微前端主子应用。
 

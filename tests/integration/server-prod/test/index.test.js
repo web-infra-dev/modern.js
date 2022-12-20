@@ -4,7 +4,7 @@ const axios = require('axios');
 const {
   modernBuild,
   clearBuildDist,
-  modernStart,
+  modernServe,
   getPort,
   killApp,
 } = require('../../../utils/modernTestUtils');
@@ -55,7 +55,7 @@ describe('test basic usage', () => {
   });
 
   it(`should start successfully`, async () => {
-    app = await modernStart(appPath, appPort);
+    app = await modernServe(appPath, appPort);
     expect(app.pid).toBeDefined();
 
     const { status } = await axios.get(`http://localhost:${appPort}`);
