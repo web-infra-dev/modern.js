@@ -82,7 +82,7 @@ export default defineConfig({
 
 **约定式路由**中的每一条路由，都会生成一个单独的 HTML 文件。查看 `main/index.html`，可以发现包含 `Index Page` 的文本内容，这正是 SSG 的效果。
 
-执行 `pnpm run start` 启动项目后，访问页面，在浏览器我们工具的 Network 窗口，查看请求返回的文档，文档包含组件渲染后的完整页面内容。
+执行 `pnpm run serve` 启动项目后，访问页面，在浏览器我们工具的 Network 窗口，查看请求返回的文档，文档包含组件渲染后的完整页面内容。
 
 ### 在自控式路由中使用
 
@@ -122,7 +122,7 @@ export default defineConfig({
 })
 ```
 
-执行 `pnpm run build` 与 `pnpm run start` 后，访问 `http://localhost:8080/about`，在 Preview 视图中可以看到页面已经完成渲染。
+执行 `pnpm run build` 与 `pnpm run serve` 后，访问 `http://localhost:8080/about`，在 Preview 视图中可以看到页面已经完成渲染。
 
 查看构建产物文件，可以看到 `dist/` 目录中，新增了一个 `main/about/index.html` 文件。
 
@@ -170,4 +170,4 @@ export default () => {
 
 执行 `pnpm run dev`，重复刷新页面，可以看到 `/foo` 页面的渲染结果不断发生变化，说明数据是在请求时获取的。
 
-重新执行 `pnpm run build` 后，执行 `pnpm run start`，重复刷新页面，发现页面渲染结果始终保持同样的内容，数据在请求时不会再次获取，说明页面在编译时已经完成渲染。
+重新执行 `pnpm run build` 后，执行 `pnpm run serve`，重复刷新页面，发现页面渲染结果始终保持同样的内容，数据在请求时不会再次获取，说明页面在编译时已经完成渲染。

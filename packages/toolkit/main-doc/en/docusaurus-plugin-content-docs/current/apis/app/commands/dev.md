@@ -2,10 +2,10 @@
 sidebar_position: 1
 ---
 
-# dev
+# dev / start
 
 ```bash
-Usage: modern dev [options]
+Usage: modern dev / modern start [options]
 
 Development commands
 
@@ -19,8 +19,13 @@ Options:
 
 `modern dev` start a development server，watch file change，default support React Fast Refresh:
 
+`modern start` is an alias of `modern dev` command, the usage of the two are exactly the same.
+
 ```bash
-App running at:
+$ modern dev
+
+info    Starting dev server...
+info    App running at:
 
   > Local:    http://localhost:8080/
   > Network:  http://192.168.0.1:8080/

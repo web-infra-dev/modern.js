@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
-    "start": "modern start",
+    "serve": "modern serve",
     "new": "modern new",
     "lint": "modern lint",
     "deploy": "modern deploy"
