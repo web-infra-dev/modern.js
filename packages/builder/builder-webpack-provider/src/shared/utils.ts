@@ -1,12 +1,8 @@
 import { URLSearchParams } from 'url';
 
 import type { Buffer } from 'buffer';
-import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
 import type { DataUriLimit } from '@modern-js/builder-shared';
 import type { NormalizedConfig } from '../types';
-
-/** Preserving the details of schema by generic types. */
-export const defineSchema = <T extends SomeJSONSchema>(schema: T): T => schema;
 
 export function getDataUrlCondition(
   config: NormalizedConfig,
@@ -40,7 +36,7 @@ export function getDataUrlCondition(
 
 export async function stringifyConfig(config: unknown, verbose?: boolean) {
   const { default: WebpackChain } = await import(
-    '../../compiled/webpack-5-chain'
+    '@modern-js/builder-shared/webpack-5-chain'
   );
 
   // webpackChain.toString can be used as a common stringify method
