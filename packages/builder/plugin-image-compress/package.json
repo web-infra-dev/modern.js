@@ -47,7 +47,8 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@napi-rs/image": "^1.3.0"
+    "@napi-rs/image": "^1.3.0",
+    "svgo": "^3.0.2"
   },
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",
