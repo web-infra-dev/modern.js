@@ -1,0 +1,10 @@
+.link:hover {
+  color: var(--modern-c-brand);
+  transition: color 0.2s;
+}
+
+.link {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+}

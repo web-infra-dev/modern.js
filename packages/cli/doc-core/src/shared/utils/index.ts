@@ -1,6 +1,8 @@
 export const queryRE = /\?.*$/s;
 export const hashRE = /#.*$/s;
 
+export const isProduction = () => process.env.NODE_ENV === 'production';
+
 export const cleanUrl = (url: string): string =>
   url.replace(hashRE, '').replace(queryRE, '');
 
@@ -23,3 +25,27 @@ export function withBase(url: string, base: string) {
   const normalizedUrl = addLeadingSlash(url);
   return normalizedBase ? `${normalizedBase}${normalizedUrl}` : normalizedUrl;
 }
+
+export const omit = (obj: Record<string, unknown>, keys: string[]) => {
+  const ret = { ...obj };
+  for (const key of keys) {
+    delete ret[key];
+  }
+  return ret;
+};
+
+export const parseUrl = (
+  url: string,
+): {
+  url: string;
+  query: string;
+  hash: string;
+} => {
+  const [withoutHash, hash = ''] = url.split('#');
+  const [cleanedUrl, query = ''] = withoutHash.split('?');
+  return {
+    url: cleanedUrl,
+    query,
+    hash,
+  };
+};

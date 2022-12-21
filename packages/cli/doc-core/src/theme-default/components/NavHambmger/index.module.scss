@@ -1,0 +1,80 @@
+.navHamburger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 56px;
+}
+
+@media (min-width: 768px) {
+  .navHamburger {
+    display: none;
+  }
+}
+.container {
+  position: relative;
+  width: 16px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.navHamburger:hover .top {
+  top: 0;
+  left: 0;
+  transform: translateX(4px);
+}
+.navHamburger:hover .middle {
+  top: 6px;
+  left: 0;
+  transform: translateX(0);
+}
+.navHamburger:hover .bottom {
+  top: 12px;
+  left: 0;
+  transform: translateX(8px);
+}
+
+.navHamburger.active .top {
+  top: 6px;
+  transform: translateX(0) rotate(225deg);
+}
+.navHamburger.active .middle {
+  top: 6px;
+  transform: translateX(16px);
+}
+.navHamburger.active .bottom {
+  top: 6px;
+  transform: translateX(0) rotate(135deg);
+}
+
+.navHamburger.active:hover .top,
+.navHamburger.active:hover .middle,
+.navHamburger.active:hover .bottom {
+  transition: top 0.25s, background-color 0.25s, transform 0.25s;
+}
+
+.top,
+.middle,
+.bottom {
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background-color: var(--modern-c-text-2);
+  transition: top 0.25s, background-color 0.5s, transform 0.25s;
+}
+
+.top {
+  top: 0;
+  left: 0;
+  transform: translateX(0);
+}
+.middle {
+  top: 6px;
+  left: 0;
+  transform: translateX(8px);
+}
+.bottom {
+  top: 12px;
+  left: 0;
+  transform: translateX(4px);
+}

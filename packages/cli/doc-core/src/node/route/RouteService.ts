@@ -1,5 +1,8 @@
 import path from 'path';
+import type { ComponentType } from 'react';
 import { getPageKey, normalizePath } from '../utils';
+import { PageModule, UserConfig } from '@/shared/types';
+import { withBase } from '@/shared/utils';
 
 export const DEFAULT_PAGE_EXTENSIONS = ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'];
 
@@ -8,6 +11,13 @@ export interface RouteMeta {
   basePath: string;
   absolutePath: string;
   pageName: string;
+}
+
+export interface Route {
+  path: string;
+  element: React.ReactElement;
+  filePath: string;
+  preload: () => Promise<PageModule<ComponentType<unknown>>>;
 }
 
 export interface RouteOptions {
@@ -20,15 +30,26 @@ export const addLeadingSlash = (str: string) => {
   return str.startsWith('/') ? str : `/${str}`;
 };
 
-export const normalizeRoutePath = (routePath: string) => {
+export const normalizeRoutePath = (
+  routePath: string,
+  lang: string,
+  base: string,
+): string => {
   const normalizedRoutePath = routePath
-    .replace(/\.(.*)?$/, '')
+    // extract lang prefix
+    .replace(new RegExp(`^${lang}`), '')
+    // remove the extension
+    .replace(/\.[^.]+$/, '')
+    // remove index
     .replace(/index$/, '');
-  return addLeadingSlash(normalizedRoutePath);
+
+  return withBase(addLeadingSlash(normalizedRoutePath), base);
 };
 
 export class RouteService {
   #scanDir: string;
+
+  #defaultLang: string;
 
   #routeData: RouteMeta[] = [];
 
@@ -38,11 +59,16 @@ export class RouteService {
 
   #exclude: string[] = [];
 
-  constructor(scanDir: string, options: RouteOptions = {}) {
+  #base: string = '';
+
+  constructor(scanDir: string, userConfig: UserConfig) {
+    const routeOptions = userConfig.doc?.route || {};
     this.#scanDir = scanDir;
-    this.#extensions = options.extensions || DEFAULT_PAGE_EXTENSIONS;
-    this.#include = options.include || [];
-    this.#exclude = options.exclude || [];
+    this.#extensions = routeOptions.extensions || DEFAULT_PAGE_EXTENSIONS;
+    this.#include = routeOptions.include || [];
+    this.#exclude = routeOptions.exclude || [];
+    this.#defaultLang = userConfig.doc?.lang || 'zh';
+    this.#base = userConfig.doc?.base || '';
   }
 
   async init() {
@@ -61,7 +87,11 @@ export class RouteService {
     const fileRelativePath = normalizePath(
       path.relative(this.#scanDir, filePath),
     );
-    const routePath = normalizeRoutePath(fileRelativePath);
+    const routePath = normalizeRoutePath(
+      fileRelativePath,
+      this.#defaultLang,
+      this.#base,
+    );
     const absolutePath = path.join(this.#scanDir, fileRelativePath);
 
     this.#routeData.push({
@@ -74,7 +104,11 @@ export class RouteService {
 
   removeRoute(filePath: string) {
     const fileRelativePath = path.relative(this.#scanDir, filePath);
-    const routePath = normalizeRoutePath(fileRelativePath);
+    const routePath = normalizeRoutePath(
+      fileRelativePath,
+      this.#defaultLang,
+      this.#base,
+    );
     this.#routeData = this.#routeData.filter(
       route => route.routePath !== routePath,
     );
@@ -91,19 +125,24 @@ export class RouteService {
   generateRoutesCode(ssr?: boolean) {
     return `
 import React from 'react';
-import loadable from '@loadable/component';
+import { lazyWithPreload } from "react-lazy-with-preload";
 ${this.#routeData
   .map((route, index) => {
     return ssr
       ? `import * as Route${index} from '${route.absolutePath}';`
-      : `const Route${index} = loadable(() => import(/* webpackChunkName: "${route.pageName}" */'${route.absolutePath}'))`;
+      : `const Route${index} = lazyWithPreload(() => import(/* webpackChunkName: "${route.pageName}" */'${route.absolutePath}'))`;
   })
   .join('\n')}
 export const routes = [
 ${this.#routeData
   .map((route, index) => {
     // In ssr, we don't need to import component dynamically.
-    const preload = ssr ? `() => Route${index}` : `Route${index}.preload`;
+    const preload = ssr
+      ? `() => Route${index}`
+      : `async () => { 
+        await Route${index}.preload();
+        return import("${route.absolutePath}");
+      }`;
     const component = ssr ? `Route${index}.default` : `Route${index}`;
     /**
      * For SSR, example:

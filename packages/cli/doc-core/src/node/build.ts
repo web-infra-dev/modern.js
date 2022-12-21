@@ -1,7 +1,7 @@
 import { dirname, join } from 'path';
-import { UserConfig } from 'shared/types';
+import { PageData, UserConfig } from 'shared/types';
 import { normalizeSlash } from '../shared/utils';
-import { OUTPUT_DIR } from './constants';
+import { OUTPUT_DIR, APP_HTML_MARKER, HEAD_MARKER } from './constants';
 import { createModernBuilder } from './createBuilder';
 
 export async function bundle(rootDir: string, config: UserConfig) {
@@ -10,7 +10,7 @@ export async function bundle(rootDir: string, config: UserConfig) {
     createModernBuilder(rootDir, config, true, {
       output: {
         distPath: {
-          root: `${OUTPUT_DIR}/ssr`,
+          root: `${config.doc?.outDir ?? OUTPUT_DIR}/ssr`,
         },
       },
     }),
@@ -19,7 +19,7 @@ export async function bundle(rootDir: string, config: UserConfig) {
 }
 
 export interface SSRBundleExports {
-  render: (url: string) => string;
+  render: (url: string) => Promise<{ appHtml: string; pageData: PageData }>;
   routes: import('virtual-routes').Route[];
 }
 
@@ -37,8 +37,15 @@ export async function renderPages(config: UserConfig) {
   await Promise.all(
     routes.map(async route => {
       const routePath = route.path;
-      const appHtml = render(routePath);
-      const html = htmlTemplate.replace('$DOC_CONTENT', appHtml);
+      const { appHtml, pageData } = await render(routePath);
+      const html = htmlTemplate
+        .replace(APP_HTML_MARKER, appHtml)
+        .replace(
+          HEAD_MARKER,
+          `<script>window.__MODERN_PAGE_DATA__ = ${JSON.stringify(
+            pageData,
+          )}</script>`,
+        );
       const normalizeHtmlFilePath = (path: string) => {
         const normalizedBase = normalizeSlash(config.doc?.base || '/');
 
@@ -53,6 +60,8 @@ export async function renderPages(config: UserConfig) {
       await fs.writeFile(join(outputPath, fileName), html);
     }),
   );
+  // Remove ssr bundle
+  await fs.remove(join(outputPath, 'ssr'));
 }
 
 export async function build(rootDir: string, config: UserConfig) {

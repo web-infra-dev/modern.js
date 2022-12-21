@@ -1,4 +1,3 @@
-import path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import type { UserConfig } from '@modern-js/doc-core';
 import { schema } from './config/schema';
@@ -17,19 +16,17 @@ export default (): CliPlugin => ({
         program
           .command('dev [root]')
           .description('start dev server')
-          .action(async (root: string) => {
-            const absoluteRoot = path.resolve(root);
+          .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
-            await dev(absoluteRoot, config);
+            await dev(root || '', config);
           });
 
         program
           .command('build [root]')
           .description('build in production')
-          .action(async (root: string) => {
-            const absoluteRoot = path.resolve(root);
+          .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
-            await build(absoluteRoot, config);
+            await build(root || '', config);
           });
       },
     };

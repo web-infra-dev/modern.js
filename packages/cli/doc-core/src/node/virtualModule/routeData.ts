@@ -6,11 +6,10 @@ import { RouteService } from '../route/RouteService';
 
 export async function createRouteVirtualModulePlugin(
   scanDir: string,
-  _config: UserConfig,
+  config: UserConfig,
   isSSR: boolean,
 ) {
-  const routeService = new RouteService(scanDir);
-
+  const routeService = new RouteService(scanDir, config);
   await routeService.init();
   const entryPath = join(PACKAGE_ROOT, 'node_modules', 'virtual-routes.js');
   const plugin = new VirtualModulesPlugin({
