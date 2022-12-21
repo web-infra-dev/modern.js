@@ -13,5 +13,6 @@ exports[`initHooks > should init hooks correctly 1`] = `
   "onBeforeCreateCompilerHook",
   "onAfterStartDevServerHook",
   "onBeforeStartDevServerHook",
+  "modifyBundlerChainHook",
 ]
 `;
