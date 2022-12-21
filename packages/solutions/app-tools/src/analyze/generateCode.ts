@@ -24,7 +24,7 @@ import {
   ImportSpecifier,
   ImportStatement,
 } from '../types';
-import { getCommand } from '../utils/commands';
+import { isDevCommand } from '../utils/commands';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
 import {
@@ -105,13 +105,12 @@ export const createImportStatements = (
 };
 
 const buildLoader = async (entry: string, outfile: string) => {
-  const command = getCommand();
   await loaderBuilder.build({
     format: 'esm',
     platform: 'browser',
     target: 'esnext',
     loader,
-    watch: command === 'dev' && {},
+    watch: isDevCommand() && {},
     bundle: true,
     logLevel: 'error',
     entryPoints: [entry],
@@ -139,13 +138,12 @@ const buildLoader = async (entry: string, outfile: string) => {
 };
 
 const buildServerLoader = async (entry: string, outfile: string) => {
-  const command = getCommand();
   await serverLoaderBuilder.build({
     format: 'cjs',
     platform: 'node',
     target: 'esnext',
     loader,
-    watch: command === 'dev' && {},
+    watch: isDevCommand() && {},
     bundle: true,
     logLevel: 'error',
     entryPoints: [entry],
@@ -170,9 +168,12 @@ export const generateCode = async (
 
   const hookRunners = api.useHookRunners();
 
-  const islegacy = Boolean(config?.runtime?.router?.legacy);
+  const isV5 =
+    typeof config.runtime?.router !== 'boolean' &&
+    (config?.runtime?.router as { mode?: 'react-router-5' })?.mode ===
+      'react-router-5';
   const { mountId } = config.html;
-  const getRoutes = islegacy ? getClientRoutesLegacy : getClientRoutes;
+  const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
 
   await Promise.all(entrypoints.map(generateEntryCode));
 
@@ -194,7 +195,7 @@ export const generateCode = async (
           });
         }
         if (entrypoint.nestedRoutesEntry) {
-          if (!islegacy) {
+          if (!isV5) {
             nestedRoute = await walk(
               entrypoint.nestedRoutesEntry,
               entrypoint.nestedRoutesEntry,

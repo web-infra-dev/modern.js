@@ -1,34 +1,13 @@
 # Plugins
-This section describes the configuration related to the plugin
 
-- type: `CliPlugin<ModuleToolsHooks>[]`
-- default: `[]`
+This chapter describes the configuration of the registered module-tools plugin.
 
-```js
-export default (): CliPlugin<ModuleToolsHooks> => {
-  return {
-    name: 'dev-plugin-example',
-    setup: () => {
-      return {
-        registerDev() {
-          return {
-            name: 'plugin-example',
-            menuItem: {
-              name: 'dev-example',
-              value: 'dev-example',
-            },
-            action() {
-              console.info('running dev-example');
-            },
-          };
-        },
-        beforeDevMenu(originQuestion) {
-          return originQuestion;
-        },
-      };
-    },
-  };
-};
+- type: `Array<ModuleToolsPlugin>`
+```js modern.config.ts
+import { ExamplePlugin } from '. /plugins/example';
+export default defineConfig({
+  plugins: [ExamplePlugin()],
+});
 ```
 
-Check out[插件](https://modernjs.dev/docs/apis/app/runtime/plugin/plugin-api)for more information
+For more information on how to write plugins, check out the [[Plugin Writing Guide]](/en/plugins/guide/getting-started).

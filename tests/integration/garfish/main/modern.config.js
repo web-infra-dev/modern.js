@@ -6,7 +6,7 @@ const port = getPort('@cypress-test/garfish-main');
 module.exports = defineConfig({
   runtime: {
     router: {
-      legacy: true,
+      mode: 'react-router-5',
       supportHtml5History: true,
       historyOptions: {
         basename: '/test',
