@@ -102,6 +102,8 @@ export const CHAIN_ID = {
     MINI_CSS_EXTRACT: 'mini-css-extract',
     /** builder-plugin-image-compress.loader */
     IMAGE_COMPRESS: 'image-compress',
+    /** builder-plugin-image-compress svgo-loader */
+    SVGO: 'svgo',
   },
   /** Predefined plugins */
   PLUGIN: {
