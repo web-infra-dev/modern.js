@@ -1,12 +1,8 @@
 import { URLSearchParams } from 'url';
 
 import type { Buffer } from 'buffer';
-import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
 import type { DataUriLimit } from '@modern-js/builder-shared';
 import type { NormalizedConfig } from '../types';
-
-/** Preserving the details of schema by generic types. */
-export const defineSchema = <T extends SomeJSONSchema>(schema: T): T => schema;
 
 export function getDataUrlCondition(
   config: NormalizedConfig,

@@ -64,8 +64,8 @@ export default (): CliPlugin<ModuleTools> => ({
 
   setup() {
     return {
-      beforeBuildTask(options: Options): return {
-        return options.config;
+      beforeBuildTask(config: BaseBuildConfig): BaseBuildConfig {
+        return config;
       }
     }
   },
@@ -74,22 +74,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 Parameters and return value types.
 
-``` ts
-type Options = { options: { config: BaseBuildConfig; cliOptions: BuildCommandOptions } }
-
-export interface BuildCommandOptions {
-  config: string;
-  clear?: boolean;
-  dts?: boolean;
-  platform?: boolean | string[];
-  tsconfig: string;
-  watch?: boolean;
-}
-
-type Return = BaseBuildConfig;
-```
-
-> `BaseBuildConfig` type reference [API configuration](en/api/)
+`BaseBuildConfig` type reference [API configuration](en/api/)
 
 ### `afterBuildTask`
 
