@@ -110,6 +110,3 @@ $ npx modern bump
 Then you can see that the updated version number in `package.json` will look like this: `0.1.2-next.0`.
 
 Finally, **if you don't need to do a pre-release anymore, be sure to run the `modern pre exit` command** to exit the pre-release state and to release the official version when you run the `modern bump` command again.
-
-
-Translated with www.DeepL.com/Translator (free version)
