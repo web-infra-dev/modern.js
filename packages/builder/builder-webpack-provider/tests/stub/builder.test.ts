@@ -43,6 +43,7 @@ describe('stub-builder', () => {
     expect(order).toMatchInlineSnapshot(`
       [
         "modifyBuilderConfigHook",
+        "modifyBundlerChainHook",
         "modifyWebpackChainHook",
         "modifyWebpackConfigHook",
         "onBeforeCreateCompilerHook",

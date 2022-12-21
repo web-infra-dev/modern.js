@@ -6,10 +6,10 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     import('../plugins/basic').then(m => m.PluginBasic()),
     import('../plugins/entry').then(m => m.PluginEntry()),
     // todo: module import error when target is esX
-    // import('../plugins/target').then(m => m.PluginTarget()),
+    // plugins.target(),
     import('../plugins/output').then(m => m.PluginOutput()),
     // todo: need rspack solve performance problem
-    // import('../plugins/devtool').then(m => m.PluginDevtool()),
+    // plugins.devtool(),
     import('../plugins/resolve').then(m => m.PluginResolve()),
     plugins.fileSize(),
     // should before the html plugin

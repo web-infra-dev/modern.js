@@ -61,6 +61,7 @@ export function getPluginAPI({
     onAfterBuild: hooks.onAfterBuildHook.tap,
     onBeforeBuild: hooks.onBeforeBuildHook.tap,
     onDevCompileDone: hooks.onDevCompileDoneHook.tap,
+    modifyBundlerChain: hooks.modifyBundlerChainHook.tap,
     modifyWebpackChain: hooks.modifyWebpackChainHook.tap,
     modifyWebpackConfig: hooks.modifyWebpackConfigHook.tap,
     modifyBuilderConfig: hooks.modifyBuilderConfigHook.tap,

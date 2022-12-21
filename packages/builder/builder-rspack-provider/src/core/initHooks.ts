@@ -9,6 +9,7 @@ import {
   OnBeforeStartDevServerFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
+  ModifyBundlerChainFn,
 } from '@modern-js/builder-shared';
 import type {
   Compiler,
@@ -35,6 +36,8 @@ export function initHooks() {
       createAsyncHook<OnAfterCreateCompilerFn<Compiler>>(),
     onBeforeCreateCompilerHook:
       createAsyncHook<OnBeforeCreateCompilerFn<RspackConfig>>(),
+
+    modifyBundlerChainHook: createAsyncHook<ModifyBundlerChainFn>(),
   };
 }
 
