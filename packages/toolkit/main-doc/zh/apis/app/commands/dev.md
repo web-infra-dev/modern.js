@@ -2,10 +2,10 @@
 sidebar_position: 1
 ---
 
-# dev
+# dev / start
 
 ```bash
-Usage: modern dev [options]
+Usage: modern dev / modern start [options]
 
 本地开发命令
 
@@ -17,10 +17,15 @@ Options:
   --api-only            仅启动 API 接口服务
 ```
 
-`modern dev` 命令启动一个开发服务器，同时监听源文件变化，默认支持 React Fast Refresh：
+`modern dev` 命令用于启动一个本地开发服务器，对源代码进行开发环境编译，同时监听源文件变化，默认支持模块热更新和 React Fast Refresh。
+
+`modern start` 是 `modern dev` 命令的别名，两者的功能和用法完全一致。
 
 ```bash
-App running at:
+$ modern dev
+
+info    Starting dev server...
+info    App running at:
 
   > Local:    http://localhost:8080/
   > Network:  http://192.168.0.1:8080/

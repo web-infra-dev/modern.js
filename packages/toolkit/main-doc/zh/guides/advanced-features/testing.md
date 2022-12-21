@@ -15,6 +15,17 @@ Modern.js 默认继承了 [Jest](https://jestjs.io/) 的测试能力。
 
 执行上述命令后，`package.json` 中将会自动生成 `"test": "modern test"` 命令。
 
+在 `modern.config.ts` 中注册 Test 插件:
+
+```ts title="modern.config.ts"
+import TestPlugin from '@modern-js/plugin-testing';
+// https://modernjs.dev/docs/apis/app/config
+export default defineConfig({
+  ...,
+  plugins: [..., TestPlugin()],
+});
+```
+
 ## 测试文件
 
 Modern.js 默认识别的测试文件路径为： `<rootDir>/src/**/*.test.[jt]s?(x)` 和 `<rootDir>/tests/**/*.test.[jt]s?(x)`。

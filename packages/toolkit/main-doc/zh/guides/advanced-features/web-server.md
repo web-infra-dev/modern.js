@@ -16,7 +16,18 @@ Modern.js 作为以客户端为中心的开发框架，对服务端的定制能�
 ? 创建工程元素 新建「自定义 Web Server」源码目录
 ```
 
-执行命令后，项目目录下会新建 `server/index.ts` 文件，自定义逻辑在这个文件中编写。
+执行命令后，在 `modern.config.ts` 中注册 Server 插件:
+
+```ts title="modern.config.ts"
+import ServerPlugin from '@modern-js/plugin-server';
+// https://modernjs.dev/docs/apis/app/config
+export default defineConfig({
+  ...,
+  plugins: [..., ServerPlugin()],
+});
+```
+
+项目目录下会新建 `server/index.ts` 文件，自定义逻辑在这个文件中编写。
 
 ## 使用 API 扩展 Web Server
 

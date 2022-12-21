@@ -18,13 +18,21 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
-var stdin_exports = {};
-__export(stdin_exports, {
+
+// src/index.js
+var src_exports = {};
+__export(src_exports, {
   default: () => src_default
 });
-module.exports = __toCommonJS(stdin_exports);
+module.exports = __toCommonJS(src_exports);
+
+// src/utils.js
 var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+
+// src/index.js
 var src_default = (str) => addPrefix(\\"DEBUG:\\", str);
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {});
 "
 `;
 
@@ -46,13 +54,15 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
-var stdin_exports = {};
-__export(stdin_exports, {
+var src_exports = {};
+__export(src_exports, {
   default: () => src_default
 });
-module.exports = __toCommonJS(stdin_exports);
+module.exports = __toCommonJS(src_exports);
 var import_utils = require(\\"./utils\\");
 var src_default = (str) => (0, import_utils.addPrefix)(\\"DEBUG:\\", str);
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {});
 "
 `;
 
@@ -74,12 +84,16 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, \\"__esModule\\", { value: true }), mod);
-var stdin_exports = {};
-__export(stdin_exports, {
+var utils_exports = {};
+__export(utils_exports, {
   addPrefix: () => addPrefix
 });
-module.exports = __toCommonJS(stdin_exports);
+module.exports = __toCommonJS(utils_exports);
 const addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  addPrefix
+});
 "
 `;
 
@@ -148,6 +162,8 @@ exports[`format is iife buildType is bundle 1`] = `
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
+
+  // src/utils.js
   var require_utils = __commonJS({
     \\"src/utils.js\\"(exports, module) {
       var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
@@ -156,13 +172,15 @@ exports[`format is iife buildType is bundle 1`] = `
       };
     }
   });
+
+  // src/index.js
   var require_src = __commonJS({
     \\"src/index.js\\"(exports, module) {
       var { addPrefix } = require_utils();
       module.exports = (str) => addPrefix(\\"DEBUG:\\", str);
     }
   });
-  var stdin_default = require_src();
+  require_src();
 })();
 "
 `;

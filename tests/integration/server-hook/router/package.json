@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "name": "server-hook-router",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "deploy": "modern deploy",
+    "preview": "modern deploy --mode preview",
+    "deploy:local": "modern deploy --mode local",
+    "serve": "modern serve",
+    "new": "modern new"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-server": "workspace:*",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^4.5.5"
+  },
+  "browserslist": {}
+}

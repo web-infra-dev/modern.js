@@ -4,7 +4,7 @@ title: 添加 Loader
 
 上一章节中，我们学习了如何添加客户端路由。
 
-这一章节中，我们将会学习如何**为路由组件添加 Loader**。
+这一章节中，我们将会学习如何为**路由组件添加 Loader**。
 
 到目前为止，我们都是通过硬编码的方式，为组件提供数据。如果要从远端获取数据，通常情况下会使用 `useEffect` 来做。但在启用 SSR 的情况下，`useEffect` 是不会在服务端执行的，所以这种 SSR 只能渲染很有限的 UI。
 
@@ -20,7 +20,7 @@ pnpm add @types/faker@5 -D
 修改 `src/routes/page.tsx`：
 
 ```tsx
-import { name, internet } from "faker";
+import { name, internet } from 'faker';
 
 type LoaderData = {
   code: number;
@@ -55,7 +55,7 @@ Data Loader 并非只为 SSR 工作。在 CSR 项目中，Data Loader 也可以�
 Modern.js 也提供了一个叫 `useLoaderData` 的 hooks API，我们修改 `src/routes/page.tsx` 导出的组件：
 
 ```tsx {1,4,13}
-import { useLoaderData } from "@modern-js/runtime/router";
+import { useLoaderData } from '@modern-js/runtime/router';
 
 function Index() {
   const { data } = useLoaderData() as LoaderData;

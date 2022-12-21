@@ -2,7 +2,7 @@
 title: createApp
 ---
 
-Used to create custom entries, custom runtime plugins. This API is only required when using [Custom App](/docs/guides/advanced-features/custom-app).
+Used to create custom entries, custom runtime plugins. This API is only required when using [Custom App](/docs/guides/concept/entries#自定义-app).
 
 ## Usage
 
@@ -40,8 +40,7 @@ function App() {
 
 export default createApp({
   plugins: [
-    router({}),
-    state({}),
+    customPlugin()
   ]
 })(App);
 ```

@@ -9,10 +9,12 @@
 
 字符串的形式可以让你直接使用内置的预设
 
-```js
-export default {
+```js modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildPreset: 'npm-library',
-};
+});
 ```
 
 
@@ -26,7 +28,7 @@ export default {
 * [pnpm](https://pnpm.io/)
 :::
 
-```json title="package.json"
+```json package.json
 {
     "main": "./dist/lib/index.js",
     "module": "./dist/es/index.js",
@@ -61,7 +63,7 @@ export const buildConfig = [
 ### `'npm-library-with-umd'`
 在类 [NPM](https://www.npmjs.com/) 包管理器下使用，并且 Library 支持类似 [unpkg](https://unpkg.com/) 的模式。在预设 `'npm-library'` 的基础上，额外提供 `umd` 产物。
 
-```json title="package.json"
+```json package.json
 {
     "main": "./dist/lib/index.js",
     "module": "./dist/es/index.js",
@@ -105,7 +107,7 @@ export const buildConfig = [
 
 对于源码中包含的样式文件，产物中提供样式的编译产物和样式的源文件。
 
-```json title="package.json"
+```json package.json
 {
     "main": "./dist/lib/index.js", // bundleless type
     "module": "./dist/es/index.js", // bundleless type
@@ -141,7 +143,7 @@ export const buildConfig = [
 ### `'npm-component-with-umd'`
 
 在类 [NPM](https://www.npmjs.com/) 包管理器下使用的组件（库），同时支持类 [unpkg](https://unpkg.com/) 的模式。 在预设 `'npm-component'` 的基础上，额外提供 `umd` 产物。
-```json title="package.json"
+```json package.json
 {
     "main": "./dist/lib/index.js", // bundleless type
     "module": "./dist/es/index.js", // bundleless type
@@ -186,10 +188,12 @@ export const buildConfig = [
 
 例如希望 `'npm-library'` 预设支持 `es2017`，则可以按照如下方式配置：
 
-```js
-export default {
+```js modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildPreset: 'npm-library-es2017',
-};
+});
 ```
 
 ## Function
@@ -197,8 +201,10 @@ export default {
 函数的配置方式，可以通过 `preset` 参数获取到预设值，然后对里面的构建配置进行修改来自定义你的构建配置。
 以下是一个函数的配置方式的例子，它配置了压缩构建产物的功能：
 
-```js
-export default {
+```js modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildPreset({ preset }) {
     const { NPM_LIBRARY } = preset;
     return NPM_LIBRARY.map(config => {
@@ -210,5 +216,5 @@ export default {
       return config;
     });
   },
-}
+});
 ```

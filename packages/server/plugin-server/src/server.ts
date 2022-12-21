@@ -86,13 +86,19 @@ export default (): ServerPlugin => ({
     const transformAPI = createTransformAPI(storage);
     const pwd = isProd() ? distDirectory : appDirectory;
     const webAppPath = path.resolve(pwd, SERVER_DIR, WEB_APP_NAME);
+    const middlewarePath = path.resolve(pwd, SERVER_DIR, '_middleware');
 
     const loadMod = () => {
       const mod: ServerMod = requireExistModule(webAppPath, {
         interop: false,
       });
 
-      const { default: defaultExports, middleware, ...hooks } = mod;
+      const middlewareMode = requireExistModule(middlewarePath, {
+        interop: false,
+      });
+
+      const { default: defaultExports, middleware, ...hooks } = mod || {};
+      const { middleware: unstableMiddleware = [] } = middlewareMode || {};
 
       if (defaultExports) {
         defaultExports(transformAPI);
@@ -109,6 +115,8 @@ export default (): ServerPlugin => ({
       if (middleware) {
         storage.middlewares = ([] as Middleware[]).concat(middleware);
       }
+
+      storage.middlewares = storage.middlewares.concat(unstableMiddleware);
     };
 
     return {

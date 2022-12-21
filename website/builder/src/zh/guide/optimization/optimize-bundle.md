@@ -75,7 +75,7 @@ import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
 builder.addPlugins([PluginImageCompress()]);
 ```
 
-详见 [图片压缩插件](/zh/plugins/plugin-image-compress)。
+详见 [Image Compress 插件](/zh/plugins/plugin-image-compress)。
 
 ## 代码拆包
 

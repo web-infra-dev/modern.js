@@ -125,6 +125,7 @@ Object {
         "allowDeclareFields": true,
         "allowNamespaces": true,
         "isTSX": true,
+        "optimizeConstEnums": true,
       },
     ],
   ],

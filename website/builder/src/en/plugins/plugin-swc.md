@@ -4,11 +4,11 @@
 
 Modern.js Builder has a out-of-box plugin for SWC, power your Web application with Polyfill and minification, we also port some common used Babel plugins to SWC.
 
-## Quick start
+## Quick Start
 
 ### Install
 
-Install the plugin by using:
+You can install the plugin with the following command:
 
 ```bash
 # npm
@@ -21,13 +21,24 @@ yarn add @modern-js/builder-plugin-swc -D
 pnpm install @modern-js/builder-plugin-swc -D
 ```
 
-### Register plugin
+### Register
 
-Register this plugin with Builder:
+In upper-level frameworks such as Modern.js or EdenX, you can register SWC plugin through the `builderPlugins` config:
+
+```ts
+import { PluginSwc } from '@modern-js/builder-plugin-swc';
+
+export default {
+  builderPlugins: [PluginSwc()],
+};
+```
+
+If you are using the Builder's Node API, you can register SWC plugin through the `addPlugins` method:
 
 ```js
 import { PluginSwc } from '@modern-js/builder-plugin-swc';
 
+// add the plugin to the builder instance
 builder.addPlugins([PluginSwc()]);
 ```
 
@@ -54,13 +65,14 @@ type PluginConfig = {
 
 Ported from `@babel/preset-react`. The value you passed will be merged with default option.
 
-Default option is:
+By default, the plugin can set some fields based on your `tsconfig.json` file.
 
-```ts
-{
-  runtime: 'automatic',
-}
-```
+- runtime: `jsx` field in compilerOptions.
+- importSource: `jsxImportSource` field in compilerOptions.
+- pragma: `jsxFactory` field in compilerOptions.
+- pragmaFrag: `jsxFragmentFactory` field in compilerOptions.
+
+If there is no `tsconfig.json` file, default option is `{ runtime: 'automatic' }`.
 
 ### presetEnv
 

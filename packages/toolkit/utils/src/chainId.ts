@@ -102,6 +102,8 @@ export const CHAIN_ID = {
     MINI_CSS_EXTRACT: 'mini-css-extract',
     /** builder-plugin-image-compress.loader */
     IMAGE_COMPRESS: 'image-compress',
+    /** builder-plugin-image-compress svgo-loader */
+    SVGO: 'svgo',
   },
   /** Predefined plugins */
   PLUGIN: {
@@ -151,6 +153,8 @@ export const CHAIN_ID = {
     AUTO_SET_ROOT_SIZE: 'auto-set-root-size',
     /** HtmlAsyncChunkPlugin */
     HTML_ASYNC_CHUNK: 'html-async-chunk',
+    /** SwcPolyfillCheckerPlugin */
+    SwcPolyfillCheckerPlugin: 'swc-polyfill-checker-plugin',
   },
   /** Predefined minimizers */
   MINIMIZER: {

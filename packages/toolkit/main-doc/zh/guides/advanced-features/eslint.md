@@ -49,10 +49,6 @@ pnpm run lint:error
 
 【Modern.js ESLint 规则集】要求 [eslint-disable](https://eslint.org/docs/user-guide/configuring/rules#disabling-rules) 必须成对使用，必须明确表达要影响的范围，以及在这个范围内明确表达要禁用什么规则，目的是让**例外**有明确的、最小化的范围，避免 [eslint-disable](https://eslint.org/docs/user-guide/configuring/rules#disabling-rules) 被滥用，导致不属于例外的代码也被禁用了规则。
 
-### 添加自定义配置
-
-<!-- 见 [如何自定义 Lint 规则](/guide/more-guides/more-about-lint#q-如何自定义-lint-规则) -->
-
 ## Q: 如何自定义 ESLint 规则
 
 ### 仓库根目录下 `package.json` 里的 "eslintConfig" 字段
@@ -73,7 +69,7 @@ pnpm run lint:error
 
 ```
 
-### `src/.eslintrc.json` 文件
+### `src/.eslintrc.js` 文件
 
 Modern.js 的应用工程、模块工程，源代码目录里都会默认有这个配置文件，是针对 Universal JS 代码设计的。
 
@@ -83,25 +79,29 @@ Universal JS 代码是既能浏览器端也能在服务器端运行的代码。
 
 如果项目在某些规则上确实有特殊要求或不可避免的兼容问题（不是例外），可以在这里增加规则配置，该配置会优先于默认的【Modern.js ESLint 规则集】，比如：
 
-```json
-{
-  "extends": [
-    "@modern-js-app"
-  ],
-  "rules": {
-    "filenames/match-exported": "off"
-  }
-}
+```js
+// eslint-disable-next-line import/no-commonjs
+module.exports = {
+  root: true,
+  extends: ['@modern-js-app'],
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: ['../tsconfig.json'],
+  },
+  rules: {
+    'filenames/match-exported': 'off',
+  },
+};
 ```
 
-如果有需要，还可以继续在不同的子目录里增加 `.eslintrc.json` 文件，针对这个子目录里的代码做特殊配置：
+如果有需要，还可以继续在不同的子目录里增加 `.eslintrc.js` 文件，针对这个子目录里的代码做特殊配置：
 
-```json
-{
-  "rules": {
-    "filenames/match-exported": "off"
-  }
-}
+```js
+module.exports = {
+  rules: {
+    'filenames/match-exported': 'off',
+  },
+};
 ```
 
 :::tip 提示

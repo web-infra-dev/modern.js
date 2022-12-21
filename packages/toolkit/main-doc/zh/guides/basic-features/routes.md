@@ -177,7 +177,7 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 
 `routes/` 下每一层目录中，开发者可以创建 `loading.tsx` 文件，默认导出一个 `<Loading>` 组件。
 
-当路由目录下存在该组件时，这一级子路由下所有的路由切换时，都会以该 `<Loading>` 组件作为 JS Chunk 加载时的 Fallback UI。当该目录下未定义 `layout.tsx` 文件时，`<Loading>` 组件不会生效。例如以下文件目录：
+当路由目录下存在该组件和 `layout` 组件时，这一级子路由下所有的路由切换时，都会以该 `<Loading>` 组件作为 JS Chunk 加载时的 Fallback UI。例如以下文件目录：
 
 ```bash
 .
@@ -191,7 +191,38 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
     └── page.tsx
 ```
 
-当路由从 `/` 跳转到 `/blog` 时，如果 `<Blog>` 组件的 JS Chunk 还未加载，则会先展示 `loading.tsx` 中导出的组件 UI。但从 `/blog` 跳转到 `/blog/20220101` 时，则不会展示。
+当定义 `loading.tsx` 时，就相当于以下布局：
+```tsx title="当路由为 / 时"
+<Layout>
+  <Suspense fallback={<Loading/>}>
+    <Page><Page>
+  </Suspense>
+</Layout>
+```
+
+```tsx title="当路由为 /blog 时"
+<Layout>
+  <Suspense fallback={<Loading/>}>
+    <BlogPage />
+  </Suspense>
+</Layout>
+```
+
+```tsx title="当路由为 /blog/123 时"
+<Layout>
+  <Suspense fallback={<Loading/>}>
+    <BlogIdPage />
+  </Suspense>
+</Layout>
+```
+:::info
+当目录的 layout 组件不存在时，该目录下的 loading 组件也不会生效。
+:::
+
+当路由从 `/` 跳转到 `/blog` 时，如果 `blog/page` 组件的 JS Chunk 还未加载，则会先展示 `loading.tsx` 中导出的组件 UI。
+
+同理，当路由从 `/` 或者 `/blog` 跳转到 `/blog/123` 时，如果 `blog/[id]/page` 组件的 JS Chunk 还未加载，也会先展示 `loading.tsx` 中导出的组件 UI。
+
 
 ### 错误处理
 
@@ -206,7 +237,7 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 
 ```tsx
 import { useRouteError } from '@modern-js/runtime/router';
-export default const ErrorBoundary = () => {
+const ErrorBoundary = () => {
   const error = useRouteError();
   return (
     <div>
@@ -215,6 +246,7 @@ export default const ErrorBoundary = () => {
     </div>
   )
 }
+export default ErrorBoundary;
 ```
 
 ## 自控式路由

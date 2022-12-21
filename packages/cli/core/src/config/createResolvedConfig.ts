@@ -15,6 +15,7 @@ import type {
 } from '../types';
 import { repeatKeyWarning } from '../utils/repeatKeyWarning';
 import { mergeConfig } from '../utils/mergeConfig';
+import { createDefaultConfig } from './createDefaultConfig';
 
 const debug = createDebugger('resolve-config');
 
@@ -109,7 +110,7 @@ export const createResolveConfig = async (
     }
   }
 
-  const resolved = mergeConfig([...configs, userConfig]);
+  const resolved = mergeConfig([createDefaultConfig(), ...configs, userConfig]);
 
   debug('resolved %o', resolved);
 

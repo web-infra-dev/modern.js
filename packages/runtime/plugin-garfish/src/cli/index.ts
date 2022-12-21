@@ -10,6 +10,7 @@ import {
   setRuntimeConfig,
   generateAsyncEntry,
 } from './utils';
+import './types';
 
 export type UseConfig = ReturnType<typeof useConfigContext>;
 
@@ -182,10 +183,12 @@ export default ({
         };
       },
       addRuntimeExports() {
-        const addExportStatement = `export { default as garfish, default as masterApp, hoistNonReactStatics } from '${pluginName}'`;
+        const addExportStatement = `export { default as garfish, default as masterApp, hoistNonReactStatics } from '${pluginName}/runtime'`;
         logger('exportStatement', addExportStatement);
         pluginsExportsUtils.addExport(addExportStatement);
-        runtimeExportsUtils.addExport(`export * from '${mfPackagePath}'`);
+        runtimeExportsUtils.addExport(
+          `export * from '${mfPackagePath}/runtime'`,
+        );
       },
       modifyEntryImports({ entrypoint, imports }) {
         // eslint-disable-next-line react-hooks/rules-of-hooks

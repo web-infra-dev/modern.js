@@ -87,7 +87,6 @@ export const LOADER_ROUTES_DIR = `loader-routes`;
 
 export const INTERNAL_APP_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/app-tools': '@modern-js/app-tools/cli',
-  '@modern-js/runtime': '@modern-js/runtime/cli',
   '@modern-js/plugin-proxy': '@modern-js/plugin-proxy/cli',
   '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
   '@modern-js/plugin-bff': '@modern-js/plugin-bff/cli',
@@ -102,7 +101,11 @@ export const INTERNAL_APP_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
   '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',
   // legacy router (inner react-router-dom v5)
-  '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
+  '@modern-js/plugin-router-v5': '@modern-js/plugin-router-v5/cli',
+};
+
+export const INTERNAL_APP_TOOLS_RUNTIME_PLUGINS: InternalPlugins = {
+  '@modern-js/runtime': '@modern-js/runtime/cli',
 };
 
 /**
@@ -162,17 +165,25 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   // TODO: Maybe can remove it
   '@modern-js/plugin-nocode': '@modern-js/plugin-nocode/cli',
   // legacy router (inner react-router-dom v5)
-  '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
+  '@modern-js/plugin-router-v5': '@modern-js/plugin-router-v5/cli',
 };
 
+export const SERVER_PLUGIN_BFF = '@modern-js/plugin-bff';
+export const SERVER_PLUGIN_EXPRESS = '@modern-js/plugin-express';
+export const SERVER_PLUGIN_EGG = '@modern-js/plugin-egg';
+export const SERVER_PLUGIN_KOA = '@modern-js/plugin-koa';
+export const SERVER_PLUGIN_NEST = '@modern-js/plugin-nest';
+export const SERVER_PLUGIN_SERVER = '@modern-js/plugin-server';
+export const SERVER_PLUGIN_POLYFILL = '@modern-js/plugin-polyfill';
+
 export const INTERNAL_SERVER_PLUGINS: InternalPlugins = {
-  '@modern-js/plugin-bff': '@modern-js/plugin-bff/server',
-  '@modern-js/plugin-express': '@modern-js/plugin-express',
-  '@modern-js/plugin-egg': '@modern-js/plugin-egg',
-  '@modern-js/plugin-koa': '@modern-js/plugin-koa',
-  '@modern-js/plugin-nest': '@modern-js/plugin-nest/server',
-  '@modern-js/plugin-server': '@modern-js/plugin-server/server',
-  '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill',
+  [SERVER_PLUGIN_BFF]: '@modern-js/plugin-bff/server',
+  [SERVER_PLUGIN_EXPRESS]: '@modern-js/plugin-express/server',
+  [SERVER_PLUGIN_EGG]: '@modern-js/plugin-egg/server',
+  [SERVER_PLUGIN_KOA]: '@modern-js/plugin-koa/server',
+  [SERVER_PLUGIN_NEST]: '@modern-js/plugin-nest/server',
+  [SERVER_PLUGIN_SERVER]: '@modern-js/plugin-server/server',
+  [SERVER_PLUGIN_POLYFILL]: '@modern-js/plugin-polyfill/server',
 };
 
 /**

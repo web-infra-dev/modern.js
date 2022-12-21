@@ -1,10 +1,11 @@
 - Type: `Object | Function`
-- Default
+- Default:
 
 ```js
-{
-  sourceMap: false;
-}
+const defaultOptions = {
+  // CSS Source Map enabled by default in development environment
+  sourceMap: isDev,
+};
 ```
 
 You can modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader) via `tools.sass`.
