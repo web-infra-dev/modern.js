@@ -30,5 +30,3 @@ export default defineConfig({
 
 - moduleApp: `string` 主应用的线上地址。
 - moduleName: `Contact` 子应用的名称（需要和在主应用中注册的模块名匹配）。
-
-详细使用方式，请参考【[微前端子应用](/docs/guides/topic-detail/micro-frontend/debugging)】。

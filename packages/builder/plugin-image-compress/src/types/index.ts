@@ -4,6 +4,7 @@ import {
   PNGLosslessOptions,
   PngQuantOptions,
 } from '@napi-rs/image';
+import type { Config as SvgoConfig } from 'svgo';
 
 export interface WebpTransformOptions {
   quality?: number;
@@ -15,6 +16,7 @@ export interface CodecBaseOptions {
   png: PngQuantOptions;
   pngLossless: PNGLosslessOptions;
   ico: {};
+  svg: SvgoConfig;
 }
 /* eslint-enable */
 

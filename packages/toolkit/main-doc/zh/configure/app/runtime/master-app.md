@@ -6,54 +6,51 @@ sidebar_label: masterApp
 
 * 类型： `Object`
 
-:::info
-使用该配置首先需要使用 [new 命令](/docs/apis/app/commands/new)启用「微前端」功能。
+:::caution 注意
+需要先通过 `pnpm run new` 启用「微前端」 功能。
 :::
+
+## 示例
+
+import EnableMicroFrontend from '@site-docs/components/enable-micro-frontend.md';
+
+<EnableMicroFrontend />
+
 ## `manifest`
 
-主应用添加子应用信息。
+```ts
+interface Manifest {
+  getAppList?: ()=> Array<AppInfo>
+}
+```
 
-* 类型：`modules: Array<{
-        name: string;
-        entry: string;
-        activeWhen?: string;
-      }> | string;`
-* 默认值：`null`
+#### `getAppList?`
 
-### `modules`
+通过 `getAppList` 配置，可以自定义如何获取远程列表数据
 
-当 `modules` 为对象类型的时候，表示子应用模块的信息。
+```ts
+type GetAppList = ()=> Promise<Array<AppInfo>>;
+```
+
+
+### apps
+
+当 `apps` 为对象类型的时候，表示子应用模块的信息 `Array<AppInfo>`
+
+```ts
+interface AppInfo {
+  name: string;
+  entry: string;
+  activeWhen?: string | ()=> boolean;
+}
+```
 
 - name: 子应用的名称。
 - entry: 子应用的入口。
 - activeWhen?: 子应用激活路径。
 
-当 `modules` 为 `string` 时，是一个 url 地址，请求该地址可以拿到和 `modules` 对象格式一样的数据结构。
+### 其他配置项
 
-## `LoadingComponent`
+在 `masterApp` 配置下，开发者可以透传 Garfish 的配置项。
 
-* 类型: `React.ComponentType | React.ElementType`
-* 默认值 `null`
-
-当加载或切换子应用的时候，加载的过渡动画。
-
-`LoadingComponent` 需要通过 [defineConfig](/docs/apis/app/runtime/app/define-config) 配置。
-
-```tsx
-import { defineConfig } from '@modern-js/runtime';
-
-function App() {
-  ...
-}
-
-defineConfig(
-  App,
-  {
-    masterApp: {
-      LoadingComponent: () => {
-        return <div>loading...</div>
-      }
-    }
-  }
-)
-```
+所有支持的配置项[点此查看](https://garfishjs.org/api/run/#%E5%8F%82%E6%95%B0)

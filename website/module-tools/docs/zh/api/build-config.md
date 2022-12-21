@@ -8,7 +8,7 @@
 对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Module tools会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
 :::
 
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -24,7 +24,7 @@ export default defineConfig({
 
 `alias` 的值定义为函数时，可以接受预设的 alias 对象，并对其进行修改。
 
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -38,7 +38,7 @@ export default defineConfig({
 
 也可以在函数中返回一个新对象作为最终结果，新对象会覆盖预设的 alias 对象。
 
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -70,7 +70,7 @@ export default defineConfig({
 打包时给未内联资源的CDN前缀
 - type: `string`
 - default: `undefined`
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -124,7 +124,7 @@ export default defineConfig({
 将文件或目录拷贝到指定位置。
 
 - type: `Object`
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 
@@ -172,7 +172,7 @@ type Options = {
 - default: `{}`
 
 由于`define`功能是由全局文本替换实现的，所以需要保证全局变量值为字符串，更为安全的做法是将每个全局变量的值转化为字符串，使用`JSON.stringify`进行转换，如下所示：
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -226,7 +226,7 @@ js产物输出的格式,其中`iife`和`umd`只能在`buildType`为`bundle`时�
 - type: `string[] | Record<string, string>`
 - default: `bundle`模式下默认为`['src/index.ts']`，`bundleless`模式下默认为`['src']`
 
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -246,7 +246,7 @@ export default defineConfig({
 - type: `'terser' | 'esbuild' | false | Object`
 - default: `false`
 
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -300,7 +300,7 @@ less相关配置
 - type: `string`
 - default: `undefined`
 
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -320,7 +320,7 @@ export default defineConfig({
 - default: `undefined`
 
 `Object` 类型时，指定 `Less` 的实现库
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -335,7 +335,7 @@ export default defineConfig({
 ```
 
 `string` 类型时，指定 `Less` 的实现库的路径
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -359,7 +359,7 @@ sass相关配置
 在入口文件起始添加 `Sass` 代码。
 - type: `string | Function`
 - default: `undefined`
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -380,7 +380,7 @@ export default defineConfig({
 - default: `undefined`
 
 `Object` 类型时，指定 `Sass` 的实现库
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -395,7 +395,7 @@ export default defineConfig({
 ```
 
 `string` 类型时，指定 `Sass` 的实现库的路径
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -440,7 +440,7 @@ CSS Modules配置
 - default: `{}`
 
 一个常用的配置是`localsConvention`，它可以改变css modules的类名生成规则
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -473,7 +473,7 @@ tailwindcss相关配置
 <details>
   <summary>TailwindCSS 配置详情</summary>
 
-```ts modern.config.ts
+```js modern.config.ts
   const tailwind = {
     purge: {
         enabled: options.env === 'production',
@@ -515,7 +515,7 @@ tailwindcss相关配置
 - type: `Record<string, string>`
 - default: `{}`
 
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -535,7 +535,7 @@ export default defineConfig({
 - type: `string` | `Function`
 - default: `name => name`
 
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -552,7 +552,7 @@ export default defineConfig({
 :::
 
 同时函数形式可以接收一个参数，为当前打包文件的输出路径
-```ts modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({

@@ -7,7 +7,7 @@
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
     "build": "modern build",
-    "start": "modern start",
+    "serve": "modern serve",
     "new": "modern new",
     "lint": "modern lint"
   },
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-router-legacy": "workspace:*",
+    "@modern-js/plugin-router-v5": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@types/node": "^14",

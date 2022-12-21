@@ -26,6 +26,7 @@
       "default": "./dist/index.js"
     },
     "./open": "./compiled/open/index.js",
+    "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
     "./test-stub": "./dist/test-stub/index.js"
   },
   "scripts": {
@@ -58,6 +59,7 @@
     "exports": {
       ".": "./dist/index.js",
       "./open": "./compiled/open/index.js",
+      "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
       "./test-stub": "./dist/test-stub/index.js"
     }
   },
@@ -65,6 +67,9 @@
     "*": {
       "open": [
         "./compiled/open/index.d.ts"
+      ],
+      "webpack-5-chain": [
+        "./compiled/webpack-5-chain/types/index.d.ts"
       ],
       "test-stub": [
         "./dist/test-stub/index.d.js"

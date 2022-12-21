@@ -4,6 +4,9 @@ exports[`bff cli plugin config 1`] = `
 Array [
   Object {
     "source": Object {
+      "define": Object {
+        "process.env.PORT": undefined,
+      },
       "moduleScopes": Array [
         "./api",
         /create-request/,

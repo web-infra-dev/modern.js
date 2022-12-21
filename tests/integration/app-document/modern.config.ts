@@ -1,11 +1,11 @@
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import RouterLegacyPlugin from '@modern-js/plugin-router-v5';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
   runtime: {
-    // router: true,
     router: {
-      legacy: true,
+      mode: 'react-router-5',
     },
     state: true,
   },
@@ -20,7 +20,9 @@ export default defineConfig({
       test: true,
     },
   },
-  output: {
+  html: {
     favicon: './static/a.icon',
   },
+  output: {},
+  plugins: [AppToolsPlugin(), RouterLegacyPlugin()],
 });

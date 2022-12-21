@@ -1,5 +1,6 @@
 import {
   debug,
+  modifyBundlerChain,
   type NodeEnv,
   type BuilderTarget,
 } from '@modern-js/builder-shared';
@@ -16,15 +17,19 @@ import type {
 async function modifyWebpackChain(
   context: Context,
   utils: ModifyWebpackChainUtils,
+  config: WebpackConfig,
 ) {
   debug('modify webpack chain');
 
   const { default: WebpackChain } = await import(
-    '../../compiled/webpack-5-chain'
+    '@modern-js/builder-shared/webpack-5-chain'
   );
   const { ensureArray } = await import('@modern-js/utils');
 
   const chain = new WebpackChain();
+
+  chain.merge(config);
+
   const [modifiedChain] = await context.hooks.modifyWebpackChainHook.call(
     chain,
     utils,
@@ -149,7 +154,14 @@ export async function generateWebpackConfig({
   context: Context;
 }) {
   const chainUtils = await getChainUtils(target);
-  const chain = await modifyWebpackChain(context, chainUtils);
+
+  const bundlerChain = await modifyBundlerChain(context, chainUtils);
+
+  const chain = await modifyWebpackChain(
+    context,
+    chainUtils,
+    bundlerChain.toConfig(),
+  );
 
   let webpackConfig = chain.toConfig();
 

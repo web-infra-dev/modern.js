@@ -1,6 +1,6 @@
 import { ensureAbsolutePath, getPort, isDev } from '@modern-js/utils';
 import { legacySchema, schema } from '../schema';
-import { getCommand } from '../utils/commands';
+import { isDevCommand } from '../utils/commands';
 import { transformNormalizedConfig } from '../config/initial/transformNormalizedConfig';
 import {
   checkIsLegacyConfig,
@@ -76,6 +76,7 @@ export default (): CliPlugin<AppTools> => ({
             deploy: normalizedConfig.deploy || {},
             performance: normalizedConfig.performance || {},
             experiments: normalizedConfig.experiments || {},
+            autoLoadPlugins: normalizedConfig.autoLoadPlugins || false,
           },
         };
       },
@@ -87,8 +88,7 @@ async function getDevServerPort(
   appContext: IAppContext,
   resolved: AppToolsNormalizedConfig,
 ) {
-  const command = getCommand();
-  if (isDev() && command === 'dev') {
+  if (isDev() && isDevCommand()) {
     return (appContext.port ?? 0) > 0
       ? appContext.port
       : await getPort(resolved.server.port || 8080);

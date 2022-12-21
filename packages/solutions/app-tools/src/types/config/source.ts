@@ -17,6 +17,7 @@ export interface SourceUserConfig extends BuilderSourceConfig {
   enableAsyncEntry?: boolean;
   disableDefaultEntries?: boolean;
   entriesDir?: string;
+  disableEntryDirs?: string[];
   configDir?: string;
   /**
    * The configuration of `source.designSystem` is provided by `tailwindcss` plugin.

@@ -5,7 +5,7 @@ import {
   launchApp,
   killApp,
   modernBuild,
-  modernStart,
+  modernServe,
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
 
@@ -109,7 +109,7 @@ describe('server config in prod', () => {
 
     await fs.ensureDir(path.resolve(__dirname, '../dist/api'));
 
-    app = await modernStart(appPath, port, {
+    app = await modernServe(appPath, port, {
       cwd: appPath,
     });
   });

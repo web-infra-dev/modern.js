@@ -11,6 +11,7 @@ import { DevOptions } from '../utils/types';
 import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
+import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
 export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
   if (options.analyze) {
@@ -31,7 +32,6 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
     apiOnly,
     entrypoints,
     serverConfigFile,
-    serverInternalPlugins,
   } = appContext;
   const checkedEntries = await getSpecifiedEntries(
     options.entry || false,
@@ -64,6 +64,7 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
   }
 
   await generateRoutes(appContext);
+  const serverInternalPlugins = await getServerInternalPlugins(api);
 
   const serverOptions = {
     dev: {
