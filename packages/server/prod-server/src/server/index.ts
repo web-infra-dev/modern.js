@@ -196,13 +196,12 @@ export class Server {
     const {
       internalPlugins = INTERNAL_SERVER_PLUGINS,
       pwd,
-      plugns = [],
+      plugins = [],
     } = options;
-
     const serverPlugins = this.serverConfig.plugins || [];
 
     // server app context for serve plugin
-    const loadedPlugins = loadPlugins(pwd, [...serverPlugins, ...plugns], {
+    const loadedPlugins = loadPlugins(pwd, [...serverPlugins, ...plugins], {
       internalPlugins,
     });
 
