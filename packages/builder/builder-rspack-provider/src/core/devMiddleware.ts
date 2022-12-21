@@ -27,13 +27,7 @@ function applyHMREntry(compiler: Compiler, clientPath: string) {
 
   const hotRuntimeEntires = getHotRuntimeEntries(compiler);
 
-  const entires = [
-    ...hotRuntimeEntires,
-    // TODO: temp hack. https://github.com/speedy-js/rspack/issues/1337
-    // compat webpack module variables.
-    require.resolve('./hmr-client-hack'),
-    clientPath,
-  ];
+  const entires = [...hotRuntimeEntires, clientPath];
 
   for (const key in compiler.options.entry) {
     compiler.options.entry[key].import.unshift(...entires);
