@@ -9,6 +9,7 @@ export interface Entrypoint {
   entryName: string;
   entry: string;
   nestedRoutesEntry?: string;
+  pageRoutesEntry?: string;
   isAutoMount?: boolean;
   customBootstrap?: string | false;
   fileSystemRoutes?: {
