@@ -1,6 +1,6 @@
-import { useModuleApps } from '@modern-js/plugin-garfish';
+import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 import { Switch, Route, Link } from '@modern-js/runtime/router-v5';
-import DashboardButton from 'dashboardApp/share-button';
+// import DashboardButton from 'dashboardApp/share-button';
 import { getAppInfo } from '../../../../utils/testCase';
 import pkg from '../package.json';
 import './App.css';
@@ -58,9 +58,9 @@ const App: React.FC = () => {
             }}
           />
         </Route>
-        <Route path="/shared" exact={false}>
+        {/* <Route path="/shared" exact={false}>
           <DashboardButton />
-        </Route>
+        </Route> */}
         {/* <Route path="/tablelist" exact={false}>
           <TableList
             loadable={{
@@ -77,7 +77,7 @@ const App: React.FC = () => {
           />
         </Route> */}
       </Switch>
-      <MApp
+      {/* <MApp
         msg={'hello world'}
         loadable={{
           loading: ({ pastDelay, error }: any) => {
@@ -90,7 +90,7 @@ const App: React.FC = () => {
             }
           },
         }}
-      />
+      /> */}
     </div>
   );
 };

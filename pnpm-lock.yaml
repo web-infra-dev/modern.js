@@ -4664,12 +4664,12 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/plugin-garfish': link:../../../../packages/runtime/plugin-garfish
+      '@modern-js/plugin-router-v5': link:../../../../packages/runtime/plugin-router-v5
       '@modern-js/runtime': link:../../../../packages/runtime/plugin-runtime
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-router-v5': link:../../../../packages/runtime/plugin-router-v5
       '@types/node': 14.18.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6

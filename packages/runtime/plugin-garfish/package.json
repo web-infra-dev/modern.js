@@ -56,6 +56,7 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern-lib new",
     "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "build:watch": "rm -rf ./dist && modern build --watch",
     "test": "jest --passWithNoTests"
   },
@@ -70,7 +71,7 @@
     "react-loadable": "^5.5.0"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.0.0-beta.4"
+    "@modern-js/runtime": "workspace:*"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {
@@ -79,7 +80,6 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/plugin-router-v5": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",

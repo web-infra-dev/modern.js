@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "dev": "DEBUG=modern-js:plugin-garfish modern dev",
+    "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
     "new": "modern new",
