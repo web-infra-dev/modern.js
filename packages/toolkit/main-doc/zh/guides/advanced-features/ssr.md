@@ -177,7 +177,7 @@ import { PreRender } from '@modern-js/runtime/ssr';
 <PreRender interval={5} />
 ```
 
-修改后，执行 `pnpm run build && pnpm run start` 启动应用，并打开页面。
+修改后，执行 `pnpm run build && pnpm run serve` 启动应用，并打开页面。
 
 首次打开时，和之前的渲染并没有什么不同，同样存在 2s 延迟。点击刷新，页面瞬间打开，但此时，页面数据并没有因为刷新发生变化，这是因为缓存还没有过期。
 

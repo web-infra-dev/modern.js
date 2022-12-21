@@ -71,6 +71,9 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
       allowNamespaces: true,
       allExtensions: true,
       allowDeclareFields: true,
+      // aligns Babel's behavior with TypeScript's default behavior.
+      // https://babeljs.io/docs/en/babel-preset-typescript#optimizeconstenums
+      optimizeConstEnums: true,
       isTSX: true,
       ...getPresetOptions(typescriptOptions),
     };

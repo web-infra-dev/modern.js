@@ -12,6 +12,8 @@ import {
   ModuleNewActionGenerators,
   ActionType,
   Solution,
+  ModuleNewActionPluginName,
+  ModuleNewActionPluginDependence,
 } from '@modern-js/generator-common';
 import {
   getPackageManager,
@@ -140,6 +142,8 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
             [peerDependency]: `${await getModulePluginVersion(peerDependency)}`,
           }
         : {},
+      pluginName: ModuleNewActionPluginName[actionType]![action],
+      pluginDependence: ModuleNewActionPluginDependence[actionType]![action],
     },
   );
 

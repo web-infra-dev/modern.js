@@ -1,14 +1,46 @@
 # 环境变量
 
+Builder 支持在编译过程中向代码中注入环境变量或表达式，这对于区分运行环境、注入常量值等场景很有帮助。本章节会介绍环境变量的使用方式。
+
+## 默认环境变量
+
+默认情况下，Builder 会自动设置 `process.env.NODE_ENV` 环境变量，在开发模式为 `'development'`，生产模式为 `'production'`。
+
+你可以在配置文件和运行时的前端代码中直接使用 `process.env.NODE_ENV`。
+
+```ts
+if (process.env.NODE_ENV === 'development') {
+  console.log('this is a development log');
+}
+```
+
+在开发环境，以上代码会被编译为：
+
+```js
+if (true) {
+  console.log('this is a development log');
+}
+```
+
+在生产环境，以上代码会被编译为：
+
+```js
+if (false) {
+  console.log('this is a development log');
+}
+```
+
+在代码压缩过程中，`if (false) { ... }` 会被识别为无效代码，并被自动移除。
+
+## 使用 define 配置项
+
 通过配置 [source.define](/zh/api/config-source.html#source-define) 选项，你可以在构建时将代码中的变量替换成其它值或者表达式。
 
-Define 类似于其它一些语言提供的宏定义能力，但得益于 JavaScript 强大的运行时表达能力，通常不需要像那些语言一样将其用作复杂代码的生成器。它常用于在构建环境向运行时传递环境变量等简单信息，或是辅助 Builder 进行 Tree Shaking 等操作。
+define 类似于其它一些语言提供的宏定义能力，但得益于 JavaScript 强大的运行时表达能力，通常不需要像那些语言一样将其用作复杂代码的生成器。它常用于在构建环境向运行时传递环境变量等简单信息，或是辅助 Builder 进行 Tree Shaking 等操作。
 
-针对设置环境变量的高频场景，Builder 还提供了 [source.globalVars](/zh/api/config-source.html#source-globalvars) 配置用于简化配置，它是 `source.define` 的一个语法糖，唯一的区别是 `source.globalVars` 会自动将传入的值进行 JSON 序列化处理，这使得设置全局变量的值更容易。
+### 替换表达式
 
-## 替换表达式
-
-Define 最基础的用途是在构建时替换代码中的表达式。
+define 最基础的用途是在构建时替换代码中的表达式。
 
 例如环境变量 `NODE_ENV` 的值会影响许多第三方模块的行为，在构建线上应用的产物时通常需要将它设置为 `"production"`：
 
@@ -28,9 +60,13 @@ export default {
 
 `source.define` 的具体行为请参考 [API 文档](/api/config-source.html#source-define)。
 
+:::tip
+以上例子中的环境变量 `NODE_ENV` 已经由 Builder 自动注入，通常你不需要手动配置它的值。
+:::
+
 ## 设置环境变量
 
-对于设置环境变量的需求来说，你也可以使用 `source.globalVars` 替换表达式来简化配置、避免大量书写 `JSON.stringify(...)` 转换语句：
+针对设置环境变量的高频场景，Builder 还提供了 [source.globalVars](/zh/api/config-source.html#source-globalvars) 配置用于简化配置，它是 `source.define` 的一个语法糖，唯一的区别是 `source.globalVars` 会自动将传入的值进行 JSON 序列化处理，这使得设置环境变量的值更容易，避免大量书写 `JSON.stringify(...)` 转换语句：
 
 ```js
 export default {
@@ -43,8 +79,6 @@ export default {
   },
 };
 ```
-
-以上例子中展示的环境变量 `NODE_ENV` 已经由 Builder 自动注入，通常你不需要手动配置它的值。
 
 需要注意的是不论以上哪种方式都只会匹配完整的表达式，对表达式进行解构会让 Builder 无法正确识别：
 
@@ -59,6 +93,23 @@ console.log(NODE_ENV);
 const vars = process.env;
 console.log(vars.NODE_ENV);
 // => undefined
+```
+
+## 声明环境变量类型
+
+当你在 TypeScript 代码中读取环境变量时，TypeScript 可能会提示该变量缺少类型定义，此时你需要添加相应的类型声明。
+
+比如你引用了一个 `CUSTOM_VAR` 变量，在 TypeScript 文件中会出现如下提示：
+
+```
+TS2304: Cannot find name 'CUSTOM_VAR'.
+```
+
+此时，你可以在项目中创建 `src/env.d.ts` 文件，并添加以下内容即可：
+
+```ts
+// src/env.d.ts
+declare const CUSTOM_VAR: string;
 ```
 
 ## Tree Shaking

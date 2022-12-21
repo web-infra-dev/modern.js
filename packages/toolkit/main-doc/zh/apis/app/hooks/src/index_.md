@@ -13,7 +13,7 @@ sidebar_position: 3
 
 ```js title=src/index.js
 import ReactDOM from 'react-dom/client';
-import { bootstrap } from '@edenx/runtime';
+import { bootstrap } from '@modern-js/runtime';
 
 export default (App: React.ComponentType) => {
   // do something before bootstrap...

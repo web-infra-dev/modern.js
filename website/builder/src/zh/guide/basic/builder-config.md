@@ -1,4 +1,4 @@
-# Builder 配置
+# Builder 配置项
 
 Builder 提供了丰富的配置项，以帮助使用者对构建行为进行定制。
 

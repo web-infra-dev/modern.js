@@ -105,7 +105,7 @@ Typically, the above two modes are sufficient, but when developers need to take 
 
 If the entry is the `index.[jt]sx?` convention, the Modern.js determines the build behavior based on whether the file has a default component export.
 
-For details, please refer to [customized App](/docs/guides/advanced-features/custom-app).
+For details, please refer to [customized App](/docs/guides/concept/entries#自定义-app).
 
 ## configuration
 

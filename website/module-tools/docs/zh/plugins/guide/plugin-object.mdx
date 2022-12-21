@@ -1,0 +1,82 @@
+# 插件对象
+
+Module-tools 插件是一个对象，对象包含以下属性：
+
+* `name`：插件的名称，唯一标识符。
+* `setup`：插件初始化函数，只会执行一次。setup 函数可以返回一个 [Hooks 对象]()，module-tools 会在特定的时机执行 Hooks 对象上定义的 Hook 对应的函数。
+
+例如在下面的插件代码示例中，在项目开始执行构建任务之前会触发 `beforeBuild` 函数的执行，并打印 `build start` 的 log 内容。
+
+<CH.Code>
+
+``` ts ./plugins/demo.tsx
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
+
+const MyPlugin: CliPlugin<ModuleTools> = {
+  name: 'my-plugin',
+
+  setup() {
+    return {
+      // this is hook
+      beforeBuild: () => {
+        console.info('build start');
+      },
+    };
+  },
+};
+```
+
+---
+
+``` ts ./modern.config.ts
+import { MyPlugin } from './plugins/demo';
+export default {
+  plugins: [MyPlugin()],
+}
+```
+
+</CH.Code>
+
+## 插件类型定义
+
+使用 TypeScript 时，可以引入内置的 `CliPlugin` 和 `ModuleTools` 类型，为插件提供正确的类型推导：
+
+``` ts
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
+
+const MyPlugin: CliPlugin<ModuleTools> = {
+  name: 'my-plugin',
+
+  setup() {
+    const foo = '1';
+
+    return {
+      // this is hook
+      afterBuild: () => {
+        //...
+      },
+    };
+  },
+};
+```
+
+## 插件配置项
+
+**建议将插件写成函数的形式**，使插件能通过函数入参来接收配置项：
+
+``` ts
+import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
+
+type MyPluginOptions = {
+  foo: string;
+};
+
+const MyPlugin = (options: MyPluginOptions): CliPlugin<ModuleTools> => ({
+  name: 'my-plugin',
+
+  setup() {
+    console.log(options.foo);
+  },
+});
+```
+

@@ -7,13 +7,13 @@
     "reset": "rm -rf node_modules",
     "dev": "modern dev",
     "build": "modern build",
-    "start": "modern start",
+    "serve": "modern serve",
     "test": "modern test",
     "preview": "modern deploy --mode preview",
     "deploy": "modern deploy"
   },
   "engines": {
-    "node": ">=12.17.0"
+    "node": ">=14.17.6"
   },
   "eslintIgnore": [
     "node_modules/",

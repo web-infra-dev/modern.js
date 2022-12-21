@@ -13,6 +13,17 @@ sidebar_position: 2
 ? 启用可选功能 启用 Tailwind CSS 支持
 ```
 
+在 `modern.config.ts` 中注册 Tailwind 插件:
+
+```ts title="modern.config.ts"
+import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
+// https://modernjs.dev/docs/apis/app/config
+export default defineConfig({
+  ...,
+  plugins: [..., TailwindCSSPlugin()],
+});
+```
+
 使用时在入口的根组件(如 `src/App.jsx`)添加如下代码：
 
 ```js

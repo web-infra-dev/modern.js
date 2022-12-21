@@ -3,9 +3,13 @@ const spawn = require('cross-spawn');
 const treeKill = require('tree-kill');
 const portfinder = require('portfinder');
 
-const kModernBin = path.join(
+// const kModernBin = path.join(
+//   __dirname,
+//   '../node_modules/@modern-js/core/dist/bin.js',
+// );
+const kModernAppTools = path.join(
   __dirname,
-  '../node_modules/@modern-js/core/dist/bin.js',
+  '../node_modules/@modern-js/app-tools/bin/modern.js',
 );
 
 function runModernCommand(argv, options = {}) {
@@ -17,7 +21,7 @@ function runModernCommand(argv, options = {}) {
   };
 
   return new Promise((resolve, reject) => {
-    const instance = spawn(process.execPath, [kModernBin, ...argv], {
+    const instance = spawn(process.execPath, [kModernAppTools, ...argv], {
       ...options.spawnOptions,
       cwd,
       env,
@@ -78,7 +82,7 @@ function runModernCommandDev(argv, stdOut, options = {}) {
   };
 
   return new Promise((resolve, reject) => {
-    const instance = spawn(process.execPath, [kModernBin, ...argv], {
+    const instance = spawn(process.execPath, [kModernAppTools, ...argv], {
       cwd,
       env,
     });
@@ -89,9 +93,9 @@ function runModernCommandDev(argv, stdOut, options = {}) {
       const message = data.toString();
       const bootupMarkers = {
         dev: /App running at/i,
-        start: /App running at/i,
+        serve: /App running at/i,
       };
-      if (bootupMarkers[options.modernStart ? 'start' : 'dev'].test(message)) {
+      if (bootupMarkers[options.modernServe ? 'serve' : 'dev'].test(message)) {
         if (!didResolve) {
           didResolve = true;
           resolve(stdOut ? message : instance);
@@ -160,14 +164,14 @@ function launchApp(dir, port, opts = {}, env = {}) {
   });
 }
 
-function modernStart(dir, port, opts = {}) {
-  return runModernCommandDev(['start'], undefined, {
+function modernServe(dir, port, opts = {}) {
+  return runModernCommandDev(['serve'], undefined, {
     cwd: dir,
     env: {
       PORT: port,
       NODE_ENV: 'production',
     },
-    modernStart: true,
+    modernServe: true,
     ...opts,
   });
 }
@@ -235,7 +239,7 @@ module.exports = {
   runModernCommandDev,
   modernBuild,
   modernDeploy,
-  modernStart,
+  modernServe,
   launchApp,
   killApp,
   getPort,

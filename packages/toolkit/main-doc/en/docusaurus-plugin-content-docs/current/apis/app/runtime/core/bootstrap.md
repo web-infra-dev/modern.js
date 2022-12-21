@@ -2,7 +2,7 @@
 title: bootstrap
 ---
 
-Used to start and mount App, usually without manual calls。This API is only required when using [Custom App](/docs/guides/advanced-features/custom-app).
+Used to start and mount App, usually without manual calls。This API is only required when using [Custom App](/docs/guides/concept/entries#自定义-app).
 
 ## Usage
 
@@ -41,7 +41,6 @@ type BootStrap<T = unknown> = (
 ```tsx
 import ReactDOM from 'react-dom/client'
 import { createApp, bootstrap } from '@modern-js/runtime';
-import { router, state } from '@modern-js/runtime/plugins';
 
 function App() {
   return <div>Hello Modern.js</div>;
@@ -49,7 +48,9 @@ function App() {
 
 const WrappedApp = createApp({
   // customized plugin
-  plugins: [router({}), state({})],
+  plugins: [
+    customPlugin(),
+  ],
 })(App);
 
 bootstrap(WrappedApp, 'root', undefined, ReactDOM);

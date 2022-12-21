@@ -1,5 +1,5 @@
 ---
-'@modern-js/plugin-router-legacy': major
+'@modern-js/plugin-router-v5': major
 '@modern-js/runtime': major
 '@modern-js/builder': major
 '@modern-js/builder-doc': major
@@ -38,9 +38,8 @@
 '@modern-js/mwa-generator': major
 '@modern-js/packages-generator': major
 '@modern-js/repo-generator': major
-'@modern-js/router-legacy-generator': major
+'@modern-js/router-v5-generator': major
 '@modern-js/server-generator': major
-'@modern-js/ssg-generator': major
 '@modern-js/storybook-generator': major
 '@modern-js/tailwindcss-generator': major
 '@modern-js/test-generator': major

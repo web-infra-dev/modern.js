@@ -35,4 +35,4 @@ export default defineConfig({
 });
 ```
 
-For config details, please refer to [Modern.js Builder - esbuild Plugin Configuration](https://modernjs.dev/builder/en/plugins/plugin-esbuild.html#config).
+For config details, please refer to [Modern.js Builder - Esbuild Plugin Configuration](https://modernjs.dev/builder/en/plugins/plugin-esbuild.html#config).

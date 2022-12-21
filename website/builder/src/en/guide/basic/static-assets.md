@@ -72,7 +72,7 @@ console.log(largeImage); // "/static/largeImage.6c12aba3.png"
 console.log(smallImage); // "data:image/png;base64,iVBORw0KGgo..."
 ```
 
-For a more detailed introduction to asset inlining, please refer to the [Static Asset Inlining](/guide/advanced/inline-assets.html) chapter.
+For a more detailed introduction to asset inlining, please refer to the [Static Asset Inlining](/guide/optimization/inline-assets.html) chapter.
 
 ## Output Files
 
@@ -97,6 +97,26 @@ import logo from './static/logo.png';
 
 console.log(logo); // "https://modern.com/static/logo.6c12aba3.png"
 ```
+
+## Add Type Declaration
+
+When you import static assets in TypeScript code, TypeScript may prompt that the module is missing a type definition:
+
+```
+TS2307: Cannot find module './logo.png' or its corresponding type declarations.
+```
+
+To fix this, you need to add a type declaration file for the static assets, please create a `src/global.d.ts` file, and add the corresponding type declaration. Taking png images as an example, you need to add the following declarations:
+
+```ts
+// src/global.d.ts
+declare module '*.png' {
+  const content: string;
+  export default content;
+}
+```
+
+After adding the type declaration, if the type error still exists, you can try to restart the current IDE, or adjust the directory where `global.d.ts` is located, making sure the TypeScript can correctly identify the type definition.
 
 ## Image Format
 
