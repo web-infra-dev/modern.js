@@ -104,6 +104,8 @@ export const CHAIN_ID = {
     IMAGE_COMPRESS: 'image-compress',
     /** builder-plugin-image-compress svgo-loader */
     SVGO: 'svgo',
+    /** builder-plugin-imagex */
+    IMAGEX: 'imagex',
   },
   /** Predefined plugins */
   PLUGIN: {
