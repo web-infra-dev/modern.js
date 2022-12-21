@@ -181,16 +181,7 @@ export const TASKS: TaskConfig[] = [
   {
     packageDir: 'builder/builder-shared',
     packageName: '@modern-js/builder-shared',
-    dependencies: [
-      'open',
-      'tapable',
-      {
-        name: 'webpack-5-chain',
-        externals: {
-          tapable: '../tapable',
-        },
-      },
-    ],
+    dependencies: ['open', 'webpack-5-chain'],
   },
   {
     packageDir: 'builder/builder-webpack-provider',
@@ -209,13 +200,6 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'postcss-pxtorem',
         ignoreDts: true,
-      },
-      // todo: import from 'builder-shared'?
-      {
-        name: 'webpack-5-chain',
-        externals: {
-          tapable: '../tapable',
-        },
       },
       {
         name: 'webpack-sources',

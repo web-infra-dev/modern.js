@@ -40,7 +40,7 @@ export function getDataUrlCondition(
 
 export async function stringifyConfig(config: unknown, verbose?: boolean) {
   const { default: WebpackChain } = await import(
-    '../../compiled/webpack-5-chain'
+    '@modern-js/builder-shared/webpack-5-chain'
   );
 
   // webpackChain.toString can be used as a common stringify method

@@ -22,7 +22,7 @@ async function modifyWebpackChain(
   debug('modify webpack chain');
 
   const { default: WebpackChain } = await import(
-    '../../compiled/webpack-5-chain'
+    '@modern-js/builder-shared/webpack-5-chain'
   );
   const { ensureArray } = await import('@modern-js/utils');
 
