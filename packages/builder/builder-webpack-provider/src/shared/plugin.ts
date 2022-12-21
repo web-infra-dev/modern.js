@@ -1,20 +1,20 @@
 import { BuilderPlugin } from '../types';
 import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
 
-export const applyMinimalPlugins = () =>
+export const applyMinimalPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     import('../plugins/basic').then(m => m.PluginBasic()),
     import('../plugins/entry').then(m => m.PluginEntry()),
     import('../plugins/cache').then(m => m.PluginCache()),
-    import('../plugins/target').then(m => m.PluginTarget()),
+    plugins.target(),
     import('../plugins/output').then(m => m.PluginOutput()),
-    import('../plugins/devtool').then(m => m.PluginDevtool()),
+    plugins.devtool(),
     import('../plugins/resolve').then(m => m.PluginResolve()),
   ]);
 
-export const applyBasicPlugins = () =>
+export const applyBasicPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
-    ...applyMinimalPlugins().promises,
+    ...applyMinimalPlugins(plugins).promises,
     import('../plugins/copy').then(m => m.PluginCopy()),
     import('../plugins/html').then(m => m.PluginHtml()),
     import('../plugins/image').then(m => m.PluginImage()),
@@ -29,7 +29,7 @@ export const applyBasicPlugins = () =>
 
 export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
-    ...applyMinimalPlugins().promises,
+    ...applyMinimalPlugins(plugins).promises,
     plugins.fileSize(),
     plugins.cleanOutput(),
     import('../plugins/hmr').then(m => m.PluginHMR()),
