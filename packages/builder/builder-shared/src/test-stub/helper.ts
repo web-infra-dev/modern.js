@@ -13,6 +13,7 @@ export const mockBuilderPlugins: Plugins = {
   cleanOutput: genMockPlugin('builder-plugin-clean-output'),
   startUrl: genMockPlugin('builder-plugin-start-url'),
   fileSize: genMockPlugin('builder-plugin-file-size'),
+  target: genMockPlugin('builder-plugin-target'),
   devtool: () =>
     Promise.resolve({
       name: 'builder-plugin-devtool',

@@ -6,7 +6,7 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     import('../plugins/basic').then(m => m.PluginBasic()),
     import('../plugins/entry').then(m => m.PluginEntry()),
     import('../plugins/cache').then(m => m.PluginCache()),
-    import('../plugins/target').then(m => m.PluginTarget()),
+    plugins.target(),
     import('../plugins/output').then(m => m.PluginOutput()),
     plugins.devtool(),
     import('../plugins/resolve').then(m => m.PluginResolve()),

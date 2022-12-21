@@ -34,6 +34,7 @@ export type Plugins = {
   startUrl: PluginsFn;
   fileSize: PluginsFn;
   devtool: PluginsFn;
+  target: PluginsFn;
 };
 
 /**

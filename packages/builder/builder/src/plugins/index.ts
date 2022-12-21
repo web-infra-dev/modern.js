@@ -3,4 +3,5 @@ export const plugins = {
   startUrl: () => import('./startUrl').then(m => m.PluginStartUrl()),
   fileSize: () => import('./fileSize').then(m => m.PluginFileSize()),
   devtool: () => import('./devtool').then(m => m.PluginDevtool()),
+  target: () => import('./target').then(m => m.PluginTarget()),
 };

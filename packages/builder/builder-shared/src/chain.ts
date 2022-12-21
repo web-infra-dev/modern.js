@@ -4,7 +4,16 @@ import {
   CreateAsyncHook,
   ModifyBundlerChainUtils,
   ModifyBundlerChainFn,
+  BundlerChain,
 } from './types';
+
+export async function getBundlerChain() {
+  const { default: WebpackChain } = await import('../compiled/webpack-5-chain');
+
+  const bundlerChain = new WebpackChain();
+
+  return bundlerChain as BundlerChain;
+}
 
 export async function modifyBundlerChain(
   context: BuilderContext & {
@@ -16,9 +25,7 @@ export async function modifyBundlerChain(
 ) {
   debug('modify bundler chain');
 
-  const { default: WebpackChain } = await import('../compiled/webpack-5-chain');
-
-  const bundlerChain = new WebpackChain();
+  const bundlerChain = await getBundlerChain();
 
   const [modifiedBundlerChain] =
     await context.hooks.modifyBundlerChainHook.call(bundlerChain, utils);

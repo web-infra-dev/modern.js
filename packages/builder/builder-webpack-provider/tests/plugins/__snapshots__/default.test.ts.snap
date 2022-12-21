@@ -760,9 +760,5 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     ],
   },
-  "target": [
-    "web",
-    "es5",
-  ],
 }
 `;
