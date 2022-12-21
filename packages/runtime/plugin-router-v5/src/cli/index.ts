@@ -4,28 +4,18 @@ import {
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
-import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { RouterConfig } from '../runtime/plugin';
+import type { AppTools, CliPlugin, AppUserConfig } from '@modern-js/app-tools';
+import './types';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
-interface UserConfig {
-  runtime?: {
-    router?: RouterConfig;
-  };
-}
-
-const isV5 = (config: UserConfig) =>
+const isV5 = (config: AppUserConfig) =>
+  typeof config.runtime?.router !== 'boolean' &&
   config?.runtime?.router?.mode === 'react-router-5';
 
-export default (): CliPlugin<
-  AppTools & {
-    userConfig: UserConfig;
-    normalizedConfig: Required<UserConfig>;
-  }
-> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router-v5',
   required: ['@modern-js/runtime'],
   setup: api => {
