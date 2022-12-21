@@ -11,7 +11,7 @@
 
 对应 [Jest](https://jestjs.io/docs/configuration) 的配置，当为 `Object` 类型时，可以配置 Jest 所支持的所有底层配置 。
 
-```js title=modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -25,7 +25,7 @@ export default defineConfig({
 
 值为 `Function` 类型时，默认配置作为第一个参数传入，需要返回新的 Jest 配置对象。
 
-```js title=modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -43,7 +43,7 @@ export default defineConfig({
 ## transformer
 
 - 类型：`'babel-jest' | 'ts-jest'`
-- 默认值：`babel-jest`
+- 默认值：`'babel-jest'`
 
 配置执行测试的时候对于源码的编译工具： [babel-jest](https://www.npmjs.com/package/babel-jest) 或 [ts-jest](https://github.com/kulshekhar/ts-jest)。默认使用 `babel-jest`。
 
