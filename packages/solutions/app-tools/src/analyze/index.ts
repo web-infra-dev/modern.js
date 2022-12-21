@@ -125,7 +125,7 @@ export default (): CliPlugin<AppTools> => ({
         api.setAppContext(appContext);
 
         const command = getCommand();
-        const buildCommands = ['dev', 'build', 'inspect', 'deploy'];
+        const buildCommands = ['dev', 'start', 'build', 'inspect', 'deploy'];
         if (buildCommands.includes(command)) {
           const normalizedConfig = api.useResolvedConfigContext();
           const builder = await createBuilderForModern({

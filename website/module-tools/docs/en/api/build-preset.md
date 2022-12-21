@@ -9,10 +9,12 @@ A build preset string or preset function. Provides out-of-the-box build configur
 
 The string form allows you to use the built-in presets directly
 
-```js
-export default {
+```js modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildPreset: 'npm-library',
-};
+});
 ```
 
 
@@ -26,7 +28,7 @@ About the class [NPM](https://www.npmjs.com/) Package Manager
 * [pnpm](https://pnpm.io/)
 :::
 
-```json title="package.json"
+```json package.json
 {
     "main": ". /dist/lib/index.js",
     "module": ". /dist/es/index.js",
@@ -59,9 +61,9 @@ export const buildConfig = [
 ```
 
 ### ``npm-library-with-umd'``
-Used under class [NPM](https://www.npmjs.com/) package manager, and Library supports a similar pattern to [unpkg](https://unpkg.com/). Additional ``umd`` products are provided on top of the pre-defined ``npm-library'`.
+Used under class [NPM](https://www.npmjs.com/) package manager, and Library supports a similar pattern to [unpkg](https://unpkg.com/). Additional ``umd`` products are provided on top of the pre-defined ``npm-library``.
 
-```json title="package.json"
+```json package.json
 {
     "main": ". /dist/lib/index.js",
     "module": ". /dist/es/index.js",
@@ -105,7 +107,7 @@ A generic pattern for components (libraries) used under the class [NPM](https://
 
 For style files included in the source code, the products provide the compiled product of the style and the source file of the style.
 
-```json title="package.json"
+```json package.json
 {
     "main": ". /dist/lib/index.js", // bundleless type
     "module": ". /dist/es/index.js", // bundleless type
@@ -140,8 +142,8 @@ export const buildConfig = [
 
 ### `'npm-component-with-umd'`
 
-Component (library) used under class [NPM](https://www.npmjs.com/) package manager, with support for class [unpkg](https://unpkg.com/) schema. Additional ``umd`` products are provided on top of the pre-defined ``npm-component'`.
-```json title="package.json"
+Component (library) used under class [NPM](https://www.npmjs.com/) package manager, with support for class [unpkg](https://unpkg.com/) schema. Additional ``umd`` products are provided on top of the pre-defined ``npm-component``.
+```json package.json
 {
     "main": ". /dist/lib/index.js", // bundleless type
     "module": ". /dist/es/index.js", // bundleless type
@@ -179,26 +181,30 @@ export const buildConfig = [
 ];
 ```
 
-### About the ECMAScript versions supported by the preset and `{es5.... .esnext}`
+### About the ECMAScript versions supported by the presets and `{es5.... .esnext}`
 
 
 When you want to use a `buildPreset` preset that supports other ECMAScript versions, you can directly add the supported versions to the `'npm-library'`, `'npm-library-with-umd'`, `'npm-component'`, `'npm-component-with-umd'` presets.
 
 For example, if you want the ``npm-library'` preset to support ``es2017``, you can configure it as follows.
 
-```js
-export default {
+```js modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildPreset: 'npm-library-es2017',
-};
+});
 ```
 
 ## Function
 
-The way the function is configured, you can get the preset value with the `preset` parameter and then modify the build configuration inside to customize your build configuration.
+The way the function is configured, you can get the preset value from the `preset` parameter and then modify the build configuration inside to customize your build configuration.
 The following is an example of how a function can be configured to compress a build product.
 
-```js
-export default {
+```js modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
   buildPreset({ preset }) {
     const { NPM_LIBRARY } = preset;
     return NPM_LIBRARY.map(config => {
@@ -210,5 +216,5 @@ export default {
       return config;
     });
   },
-}
+});
 ```
