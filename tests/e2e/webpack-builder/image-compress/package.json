@@ -16,6 +16,6 @@
     "typescript": "^4"
   },
   "dependencies": {
-    "react": "16"
+    "react": "^17"
   }
 }
