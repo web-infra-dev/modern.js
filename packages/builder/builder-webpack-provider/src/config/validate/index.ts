@@ -1,27 +1,13 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import sourceField from './source';
+import { configSchema } from './schema';
 
 import type Ajv from '@modern-js/utils/ajv';
-import type { JSONSchemaType, ValidateFunction } from '@modern-js/utils/ajv';
+import type { ValidateFunction } from '@modern-js/utils/ajv';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
 import _ from '@modern-js/utils/lodash';
-import type { BuilderConfig } from '../../types';
 
-export const configSchema: JSONSchemaType<BuilderConfig> = {
-  type: 'object',
-  properties: {
-    source: sourceField as any,
-    dev: { type: 'object' } as any,
-    html: { type: 'object' } as any,
-    experiments: { type: 'object' } as any,
-    output: { type: 'object' } as any,
-    performance: { type: 'object' } as any,
-    security: { type: 'object' } as any,
-    tools: { type: 'object' } as any,
-  },
-  required: [],
-};
+export { configSchema };
 
 export interface ConfigValidatorOptions {
   cachePath?: string;
@@ -33,6 +19,7 @@ export class ConfigValidator {
     options?: ConfigValidatorOptions,
   ): Promise<ConfigValidator> {
     const opt = _.assign({ schema: configSchema }, options);
+
     // import pre-compiled validate function.
     if (typeof opt.cachePath === 'string') {
       try {
@@ -41,13 +28,15 @@ export class ConfigValidator {
     }
     // fallback to compile validator in runtime.
     const { default: Ajv } = await import('@modern-js/utils/ajv');
+    const { default: ajvKeywords } = await import(
+      '@modern-js/utils/ajv-keywords'
+    );
     const validator = new ConfigValidator();
     const ajv = new Ajv({
-      allowUnionTypes: true,
-      useDefaults: true,
-      strict: true,
-      removeAdditional: true,
+      $data: true,
+      strict: false,
     });
+    ajvKeywords(ajv);
     validator.ajv = ajv;
     validator.compiled = ajv.compile(opt.schema);
     return validator;
@@ -103,7 +92,23 @@ export class ConfigValidator {
   async validate(config: any, silent = true): Promise<boolean> {
     const valid = this.compiled(config);
     if (!valid && !silent) {
-      throw new Error(this.errorMsg || 'Failed to validate config.');
+      const { default: betterAjvErrors } = await import(
+        '@modern-js/utils/better-ajv-errors'
+      );
+
+      throw new Error(
+        betterAjvErrors(
+          configSchema,
+          config,
+          this.compiled.errors?.map(e => ({
+            ...e,
+            dataPath: e.instancePath,
+          })),
+          {
+            indent: 2,
+          },
+        ),
+      );
     } else {
       return valid;
     }
