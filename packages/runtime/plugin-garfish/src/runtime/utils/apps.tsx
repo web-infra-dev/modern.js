@@ -1,9 +1,8 @@
 // The loading logic of the current component refers to react-loadable https://github.com/jamiebuilds/react-loadable
-import path from 'path';
 import React from 'react';
+import { withRouter } from '@modern-js/plugin-router-v5/runtime';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish, { interfaces } from 'garfish';
-import { withRouter } from '@modern-js/plugin-router-v5/runtime';
 // import Loadable from 'react-loadable';
 import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
@@ -15,6 +14,17 @@ export interface Provider extends interfaces.Provider {
 }
 export interface AppMap {
   [key: string]: React.FC<MicroComponentProps>;
+}
+
+export function pathJoin(...args: string[]){
+  let res = args.reduce((res,path: string)=>{
+      if (!path || typeof path !== 'string') return res;
+      if (path[0]!=='/') path = '/'+path;
+      const lastIndex = path.length-1;
+      if(path[lastIndex]==='/') path = path.substring(0, lastIndex);
+      return res + path;
+  },'');
+  return res || '/';
 }
 
 function getAppInstance(
@@ -47,7 +57,7 @@ function getAppInstance(
           '_SERVER_DATA',
         ],
         domGetter: `#${domId}`,
-        basename: path.join(options?.basename || '/', match?.path || '/'),
+        basename: pathJoin(options?.basename || '/', match?.path || '/'),
         cache: true,
         props: {
           ...appInfo.props,
