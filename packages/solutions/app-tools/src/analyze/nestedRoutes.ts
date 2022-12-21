@@ -5,14 +5,18 @@ import { JS_EXTENSIONS } from './constants';
 import { hasLoader, replaceWithAlias } from './utils';
 
 const LAYOUT_FILE = 'layout';
+const LAYOUT_LOADER_FILE = 'layout.loader';
 const PAGE_FILE = 'page';
+const PAGE_LOADER_FILE = 'page.loader';
 const LOADING_FILE = 'loading';
 const ERROR_FILE = 'error';
 const LOADER_FILE = 'loader';
 
 const conventionNames = [
   LAYOUT_FILE,
+  LAYOUT_LOADER_FILE,
   PAGE_FILE,
+  PAGE_LOADER_FILE,
   LOADING_FILE,
   ERROR_FILE,
   LOADER_FILE,
@@ -96,7 +100,11 @@ export const walk = async (
     isRoot,
   };
 
+  let pageLoaderFile = '';
+  let pageRoute = null;
+
   const items = await fs.readdir(dirname);
+
   for (const item of items) {
     const itemPath = path.join(dirname, item);
     const extname = path.extname(item);
@@ -119,13 +127,26 @@ export const walk = async (
       continue;
     }
 
+    if (itemWithoutExt === LAYOUT_LOADER_FILE) {
+      if (!route.loader) {
+        route.loader = itemPath;
+      }
+    }
+
     if (itemWithoutExt === LAYOUT_FILE) {
       route._component = replaceWithAlias(alias.basename, itemPath, alias.name);
-      route.loader = await getLoaderPath(itemPath);
+      const loaderPath = await getLoaderPath(itemPath);
+      if (loaderPath) {
+        route.loader = loaderPath;
+      }
+    }
+
+    if (itemWithoutExt === PAGE_LOADER_FILE) {
+      pageLoaderFile = itemPath;
     }
 
     if (itemWithoutExt === PAGE_FILE) {
-      const childRoute = createIndexRoute(
+      pageRoute = createIndexRoute(
         {
           _component: replaceWithAlias(alias.basename, itemPath, alias.name),
         } as NestedRoute,
@@ -133,13 +154,14 @@ export const walk = async (
         itemPath,
         entryName,
       );
-      childRoute.loader = await getLoaderPath(itemPath);
-      route.children?.push(childRoute);
+      const loaderPath = await getLoaderPath(itemPath);
+      if (loaderPath) {
+        pageRoute.loader = loaderPath;
+      } else if (pageLoaderFile) {
+        pageRoute.loader = pageLoaderFile;
+      }
+      route.children?.push(pageRoute);
     }
-
-    // if (itemWithoutExt === LOADER_FILE) {
-    //   route.loader = replaceWithAlias(alias.basename, itemPath, alias.name);
-    // }
 
     if (itemWithoutExt === LOADING_FILE) {
       route.loading = replaceWithAlias(alias.basename, itemPath, alias.name);
