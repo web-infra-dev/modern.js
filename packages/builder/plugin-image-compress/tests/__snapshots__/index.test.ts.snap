@@ -8,49 +8,37 @@ exports[`plugin/image-compress > should generate correct options 1`] = `
         "generator": {
           "filename": "static/image/[name].[contenthash:8][ext]",
         },
-        "oneOf": [
-          {
-            "test": /\\\\\\.jpeg\\$/,
-            "use": [
-              {
-                "loader": "<ROOT>/src/loader",
-                "options": {
-                  "test": /\\\\\\.jpeg\\$/,
-                  "use": "jpeg",
-                },
-              },
-            ],
-          },
-          {
-            "test": /\\\\\\.png\\$/,
-            "use": [
-              {
-                "loader": "<ROOT>/src/loader",
-                "options": {
-                  "test": /\\\\\\.png\\$/,
-                  "use": "png",
-                },
-              },
-            ],
-          },
-          {
-            "test": /\\\\\\.\\(ico\\|icon\\)\\$/,
-            "use": [
-              {
-                "loader": "<ROOT>/src/loader",
-                "options": {
-                  "test": /\\\\\\.\\(ico\\|icon\\)\\$/,
-                  "use": "ico",
-                },
-              },
-            ],
-          },
-        ],
         "parser": {
           "dataUrlCondition": [Function],
         },
         "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
         "type": "asset",
+      },
+    ],
+  },
+  "optimization": {
+    "minimize": true,
+    "minimizer": [
+      ModernJsImageMinimizerPlugin {
+        "name": "@modern-js/builder-plugin-image-compress/minimizer",
+        "options": {
+          "test": /\\\\\\.\\(jpg\\|jpeg\\)\\$/,
+          "use": "jpeg",
+        },
+      },
+      ModernJsImageMinimizerPlugin {
+        "name": "@modern-js/builder-plugin-image-compress/minimizer",
+        "options": {
+          "test": /\\\\\\.png\\$/,
+          "use": "png",
+        },
+      },
+      ModernJsImageMinimizerPlugin {
+        "name": "@modern-js/builder-plugin-image-compress/minimizer",
+        "options": {
+          "test": /\\\\\\.\\(ico\\|icon\\)\\$/,
+          "use": "ico",
+        },
       },
     ],
   },
