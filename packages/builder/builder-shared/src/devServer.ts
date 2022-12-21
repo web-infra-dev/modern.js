@@ -28,6 +28,7 @@ export const getDevServerOptions = async ({
   devConfig: ModernDevServerOptions['dev'];
 }> => {
   const { applyOptionsChain } = await import('@modern-js/utils');
+  const { merge: deepMerge } = await import('@modern-js/utils/lodash');
 
   const devConfig = applyOptionsChain(
     {
@@ -46,6 +47,8 @@ export const getDevServerOptions = async ({
       ...serverOptions.dev,
     },
     builderConfig.tools?.devServer,
+    {},
+    deepMerge,
   );
 
   const defaultConfig: ModernDevServerOptions['config'] = {

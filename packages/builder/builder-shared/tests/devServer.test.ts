@@ -1,6 +1,10 @@
 import { describe, expect, test, vi } from 'vitest';
 import webpack from 'webpack';
-import { setupServerHooks, isClientCompiler } from '../src/devServer';
+import {
+  setupServerHooks,
+  isClientCompiler,
+  getDevServerOptions,
+} from '../src/devServer';
 
 describe('test dev server', () => {
   test('should setupServerHooks correctly', () => {
@@ -76,5 +80,120 @@ describe('test dev server', () => {
         }),
       ),
     ).toBeFalsy();
+  });
+
+  test('getDevServerOptions', async () => {
+    await expect(
+      getDevServerOptions({
+        builderConfig: {},
+        serverOptions: {},
+        port: 8080,
+      }),
+    ).resolves.toMatchInlineSnapshot(`
+      {
+        "config": {
+          "bff": {},
+          "html": {},
+          "output": {
+            "assetPrefix": undefined,
+            "distPath": undefined,
+            "path": undefined,
+          },
+          "runtime": {},
+          "server": {},
+          "source": {
+            "alias": {},
+            "define": {},
+            "globalVars": {},
+          },
+          "tools": {
+            "babel": {},
+          },
+        },
+        "devConfig": {
+          "client": {
+            "port": "8080",
+          },
+          "devMiddleware": {
+            "writeToDisk": [Function],
+          },
+          "hot": true,
+          "https": undefined,
+          "liveReload": true,
+          "port": 8080,
+          "watch": true,
+        },
+      }
+    `);
+
+    await expect(
+      getDevServerOptions({
+        builderConfig: {
+          dev: {
+            hmr: false,
+            https: true,
+          },
+          output: {
+            distPath: {
+              root: 'dist',
+            },
+          },
+          tools: {
+            devServer: {
+              client: {
+                host: '',
+                path: '',
+              },
+            },
+          },
+        },
+        serverOptions: {
+          runtime: {
+            router: true,
+            state: true,
+          },
+        },
+        port: 8081,
+      }),
+    ).resolves.toMatchInlineSnapshot(`
+      {
+        "config": {
+          "bff": {},
+          "html": {},
+          "output": {
+            "assetPrefix": undefined,
+            "distPath": {
+              "root": "dist",
+            },
+            "path": "dist",
+          },
+          "runtime": {},
+          "server": {},
+          "source": {
+            "alias": {},
+            "define": {},
+            "globalVars": {},
+          },
+          "tools": {
+            "babel": {},
+          },
+        },
+        "devConfig": {
+          "client": {
+            "host": "",
+            "path": "",
+            "port": "8081",
+          },
+          "devMiddleware": {
+            "writeToDisk": [Function],
+          },
+          "hot": false,
+          "https": true,
+          "liveReload": false,
+          "port": 8081,
+          "watch": true,
+        },
+      }
+    `);
   });
 });
