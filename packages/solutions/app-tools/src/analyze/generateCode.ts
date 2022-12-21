@@ -168,9 +168,9 @@ export const generateCode = async (
 
   const hookRunners = api.useHookRunners();
 
-  const islegacy = Boolean(config?.runtime?.router?.legacy);
+  const isV5 = config?.runtime?.router?.mode === 'react-router-5';
   const { mountId } = config.html;
-  const getRoutes = islegacy ? getClientRoutesLegacy : getClientRoutes;
+  const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
 
   await Promise.all(entrypoints.map(generateEntryCode));
 
@@ -192,7 +192,7 @@ export const generateCode = async (
           });
         }
         if (entrypoint.nestedRoutesEntry) {
-          if (!islegacy) {
+          if (!isV5) {
             nestedRoute = await walk(
               entrypoint.nestedRoutesEntry,
               entrypoint.nestedRoutesEntry,

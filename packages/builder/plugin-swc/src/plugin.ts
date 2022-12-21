@@ -16,6 +16,7 @@ import { minify } from './binding';
 import { PluginSwcOptions, TransformConfig } from './config';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
+const BUILDER_SWC_DEBUG_MODE = 'BUILDER_SWC_DEBUG_MODE';
 
 /**
  * In this plugin, we do:
@@ -62,7 +63,6 @@ export const PluginSwc = (
         swc.env!.mode = polyfill;
       }
 
-      // If `targets` is not specified manually, we get `browserslist` from project.
       if (!swc.env!.coreJs) {
         swc.env!.coreJs = getCoreJsVersion(CORE_JS_PATH);
       }
@@ -99,6 +99,14 @@ export const PluginSwc = (
           .use(CHAIN_ID.USE.SWC)
           .loader(path.resolve(__dirname, './loader'))
           .options(swc);
+      }
+
+      if (isDebugMode()) {
+        const { CheckPolyfillPlugin } = await import('./checkPolyfillPlugin');
+
+        chain
+          .plugin(CHAIN_ID.PLUGIN.SwcPolyfillCheckerPlugin)
+          .use(new CheckPolyfillPlugin(swc));
       }
 
       if (
@@ -233,4 +241,8 @@ function determinePresetReact(root: string, pluginConfig: PluginSwcOptions) {
   if (runtime === 'automatic') {
     presetReact.importSource = compilerOptions.jsxImportSource;
   }
+}
+
+function isDebugMode(): boolean {
+  return process.env[BUILDER_SWC_DEBUG_MODE] !== undefined;
 }
