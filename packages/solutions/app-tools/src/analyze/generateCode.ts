@@ -168,7 +168,9 @@ export const generateCode = async (
 
   const hookRunners = api.useHookRunners();
 
-  const isV5 = config?.runtime?.router?.mode === 'react-router-5';
+  const isV5 =
+    (config?.runtime?.router as { mode?: 'react-router-5' })?.mode ===
+    'react-router-5';
   const { mountId } = config.html;
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
 
