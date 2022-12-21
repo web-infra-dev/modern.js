@@ -80,9 +80,9 @@ export async function applyPluginOptions(
   const opt = normalizeStubPluginOptions(options);
   // apply plugins
   if (opt.builtin === true || opt.builtin === 'minimal') {
-    pluginStore.addPlugins(await applyMinimalPlugins());
+    pluginStore.addPlugins(await applyMinimalPlugins(mockBuilderPlugins));
   } else if (opt.builtin === 'basic') {
-    pluginStore.addPlugins(await applyBasicPlugins());
+    pluginStore.addPlugins(await applyBasicPlugins(mockBuilderPlugins));
   } else if (opt.builtin === 'default') {
     pluginStore.addPlugins(await applyDefaultPlugins(mockBuilderPlugins));
   }

@@ -2,6 +2,7 @@ import {
   debug,
   type NodeEnv,
   type BuilderTarget,
+  modifyBundlerChain,
 } from '@modern-js/builder-shared';
 import { castArray } from '@modern-js/utils/lodash';
 import { getCompiledPath } from '../shared';
@@ -34,13 +35,18 @@ async function modifyRspackConfig(
   return modifiedConfig;
 }
 
-function getRspackConfigUtils(
-  config: RspackConfig,
-): Pick<
+type ChainUtils = Omit<
   ModifyRspackConfigUtils,
   'addRules' | 'prependPlugins' | 'appendPlugins' | 'removePlugin'
-> {
+>;
+
+function getConfigUtils(
+  config: RspackConfig,
+  chainUtils: ChainUtils,
+): ModifyRspackConfigUtils {
   return {
+    ...chainUtils,
+
     addRules(rules) {
       const ruleArr = castArray(rules);
       if (!config.module) {
@@ -76,10 +82,7 @@ function getRspackConfigUtils(
   };
 }
 
-function getConfigUtils(
-  target: BuilderTarget,
-  config: RspackConfig,
-): ModifyRspackConfigUtils {
+function getChainUtils(target: BuilderTarget): ChainUtils {
   const nodeEnv = process.env.NODE_ENV as NodeEnv;
 
   return {
@@ -89,10 +92,8 @@ function getConfigUtils(
     isServer: target === 'node',
     isWebWorker: target === 'web-worker',
     getCompiledPath,
-    ...getRspackConfigUtils(config),
   };
 }
-
 export async function generateRspackConfig({
   target,
   context,
@@ -100,12 +101,16 @@ export async function generateRspackConfig({
   target: BuilderTarget;
   context: Context;
 }) {
-  let rspackConfig = {};
+  const chainUtils = getChainUtils(target);
+  const chain = await modifyBundlerChain(context, chainUtils);
 
-  const utils = getConfigUtils(target, rspackConfig);
+  let rspackConfig = chain.toConfig() as RspackConfig;
 
-  /** not set rspack default config here, the default value is configured in the corresponding plugin */
-  rspackConfig = await modifyRspackConfig(context, rspackConfig, utils);
+  rspackConfig = await modifyRspackConfig(
+    context,
+    rspackConfig,
+    getConfigUtils(rspackConfig, chainUtils),
+  );
 
   return rspackConfig;
 }

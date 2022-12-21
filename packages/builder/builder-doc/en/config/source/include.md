@@ -19,7 +19,7 @@ export default {
 
 ### Typical Example
 
-A typical usage scenario is to compile files under node_modules, because some third-party dependencies have ES6+ syntax, which may cause them to fail to run on low-version browsers. You can solve the problem by using this config to specify the dependencies that need to be compiled. Take `query-string` as an example, you can do the following config:
+A typical usage scenario is to compile files under node_modules, because some third-party dependencies have ES6+ syntax, which may cause them to fail to run on low-version browsers. You can solve the problem by using this config to specify the dependencies that need to be compiled. Take `query-string` as an example, you can add the following config:
 
 ```js
 import path from 'path';

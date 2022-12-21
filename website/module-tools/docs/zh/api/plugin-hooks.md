@@ -64,8 +64,8 @@ export default (): CliPlugin<ModuleTools> => ({
 
   setup() {
     return {
-      beforeBuildTask(options: Options): Return {
-        return options.config;
+      beforeBuildTask(config: BaseBuildConfig): BaseBuildConfig {
+        return config;
       }
     }
   },
@@ -74,22 +74,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 参数和返回值类型：
 
-``` ts
-type Options = { options: { config: BaseBuildConfig; cliOptions: BuildCommandOptions } };
-
-export interface BuildCommandOptions {
-  config: string;
-  clear?: boolean;
-  dts?: boolean;
-  platform?: boolean | string[];
-  tsconfig: string;
-  watch?: boolean;
-}
-
-type Return = BaseBuildConfig;
-```
-
-> `BaseBuildConfig` 类型参考 [API 配置](zh/api/)
+`BaseBuildConfig` 类型参考 [API 配置](zh/api/)。
 
 ### `afterBuildTask`
 

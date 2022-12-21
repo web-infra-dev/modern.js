@@ -6,19 +6,34 @@ import {
 } from '@napi-rs/image';
 import type { Config as SvgoConfig } from 'svgo';
 
+export type ArrayOrNot<T> = T | T[];
+
 export interface WebpTransformOptions {
   quality?: number;
 }
 
-/* eslint-disable @typescript-eslint/ban-types */
 export interface CodecBaseOptions {
   jpeg: JpegCompressOptions;
   png: PngQuantOptions;
   pngLossless: PNGLosslessOptions;
-  ico: {};
+  ico: {
+    /* empty */
+  };
   svg: SvgoConfig;
 }
-/* eslint-enable */
+
+export interface BaseCompressOptions<T extends Codecs> {
+  use: T;
+  test?: ArrayOrNot<RegExp>;
+  include?: ArrayOrNot<RegExp>;
+  exclude?: ArrayOrNot<RegExp>;
+}
+
+export type FinalOptionCollection = {
+  [K in Codecs]: BaseCompressOptions<K> & CodecBaseOptions[K];
+};
+
+export type FinalOptions = FinalOptionCollection[Codecs];
 
 export interface Codec<T extends Codecs> {
   handler: (buf: Buffer, options: CodecBaseOptions[T]) => Promise<Buffer>;
@@ -27,19 +42,8 @@ export interface Codec<T extends Codecs> {
 
 export type Codecs = keyof CodecBaseOptions;
 
-export interface BaseCompressOptions<T extends Codecs> {
-  use: T;
-  test: RegExp;
-}
-
 export type OptionCollection = {
   [K in Codecs]: K | FinalOptionCollection[K];
 };
 
 export type Options = OptionCollection[Codecs];
-
-export type FinalOptionCollection = {
-  [K in Codecs]: BaseCompressOptions<K> & CodecBaseOptions[K];
-};
-
-export type FinalOptions = FinalOptionCollection[Codecs];
