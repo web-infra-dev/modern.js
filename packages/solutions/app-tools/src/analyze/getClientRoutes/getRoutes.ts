@@ -212,23 +212,31 @@ export const getClientRoutes = ({
   internalDirectory: string;
   internalDirAlias: string;
 }): (NestedRoute | PageRoute)[] => {
-  const { entry, entryName } = entrypoint;
-  if (!fs.existsSync(entry)) {
+  const { entryName, pageRoutesEntry } = entrypoint;
+  if (!pageRoutesEntry) {
+    return [];
+  }
+  if (!fs.existsSync(pageRoutesEntry)) {
     throw new Error(
-      `generate file system routes error, ${entry} directory not found.`,
+      `generate file system routes error, ${pageRoutesEntry} directory not found.`,
     );
   }
 
-  if (!(fs.existsSync(entry) && fs.statSync(entry).isDirectory())) {
+  if (
+    !(
+      fs.existsSync(pageRoutesEntry) &&
+      fs.statSync(pageRoutesEntry).isDirectory()
+    )
+  ) {
     throw new Error(
-      `generate file system routes error, ${entry} should be directory.`,
+      `generate file system routes error, ${pageRoutesEntry} should be directory.`,
     );
   }
 
   let routes: PageRoute[] = [];
 
   recursiveReadDir({
-    dir: entry,
+    dir: pageRoutesEntry,
     routes,
     basePath: '/',
     srcDirectory,
