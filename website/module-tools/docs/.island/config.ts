@@ -175,6 +175,10 @@ function getSidebar(lang: 'zh' | 'en') {
             text: getText('处理静态文件', 'Handling static files'),
             link: getLink('/guide/advance/asset'),
           },
+          {
+            text: getText('主题配置', 'theme configuration'),
+            link: getLink('/guide/advance/theme-config'),
+          },
         ]
       }
     ],
