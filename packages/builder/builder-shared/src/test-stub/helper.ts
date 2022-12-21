@@ -14,14 +14,5 @@ export const mockBuilderPlugins: Plugins = {
   startUrl: genMockPlugin('builder-plugin-start-url'),
   fileSize: genMockPlugin('builder-plugin-file-size'),
   target: genMockPlugin('builder-plugin-target'),
-  devtool: () =>
-    Promise.resolve({
-      name: 'builder-plugin-devtool',
-      setup: api => {
-        api.modifyBundlerChain((chain: any) => {
-          // test modifyBundlerChain work correctly
-          chain.devtool('cheap-module-source-map');
-        });
-      },
-    }),
+  devtool: genMockPlugin('builder-plugin-devtool'),
 };

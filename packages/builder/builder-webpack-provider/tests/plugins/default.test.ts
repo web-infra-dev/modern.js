@@ -1,5 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { createStubBuilder } from '@/stub';
+import type { BuilderPlugin } from '@/types';
 
 describe('applyDefaultPlugins', () => {
   it('should apply default plugins correctly', async () => {
@@ -14,5 +15,36 @@ describe('applyDefaultPlugins', () => {
     expect(config).toMatchSnapshot();
 
     process.env.NODE_ENV = NODE_ENV;
+  });
+});
+
+describe('bundlerApi', () => {
+  it('test modifyBundlerChain and api order', async () => {
+    const testPlugin: BuilderPlugin = {
+      name: 'builder-plugin-devtool',
+      setup: api => {
+        api.modifyBundlerChain(chain => {
+          chain.target('node');
+          chain.devtool('cheap-module-source-map');
+        });
+
+        api.modifyWebpackChain(chain => {
+          chain.devtool('hidden-source-map');
+        });
+      },
+    };
+
+    const builder = await createStubBuilder({
+      plugins: [testPlugin],
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchInlineSnapshot(`
+      {
+        "devtool": "hidden-source-map",
+        "target": "node",
+      }
+    `);
   });
 });

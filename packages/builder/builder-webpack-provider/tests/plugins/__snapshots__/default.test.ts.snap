@@ -16,7 +16,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "type": "filesystem",
   },
   "context": "<ROOT>",
-  "devtool": "cheap-module-source-map",
   "infrastructureLogging": {
     "level": "error",
   },
