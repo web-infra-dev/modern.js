@@ -29,4 +29,3 @@ export default defineConfig({
 - moduleApp: `string` Online address of the main application.
 - moduleName: `Contact` The name of the child app (needs to match the module name registered in the main app)。
 
-For detailed usage, please refer to [Micro Front-end Sub-Application](/docs/guides/topic-detail/micro-frontend/debugging)。

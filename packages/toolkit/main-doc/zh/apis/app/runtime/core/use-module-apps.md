@@ -10,16 +10,6 @@ title: useModuleApps
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 ```
 
-:::info 开启微前端
-该 API 在微前端主应用中使用，请先执行 `pnpm run new` 开启微前端功能。
-
-```bash
-pnpm run new
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
-```
-:::
-
 ## 函数签名
 
 `function useModuleApps(): Record<string, React.FC<any>>`

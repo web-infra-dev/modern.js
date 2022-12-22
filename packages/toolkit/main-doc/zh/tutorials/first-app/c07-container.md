@@ -16,9 +16,21 @@ import TabItem from '@theme/TabItem';
 Modern.js 支持在 `layout.tsx` 通过 Data Loader 获取数据，我们先数据获取这部分代码移动到 `src/routes/layout.tsx` 中：
 
 ```tsx
-import { name, internet } from "faker";
-import { useModel } from "@modern-js/runtime/model";
-import contacts from "../models/contacts";
+import { name, internet } from 'faker';
+import {
+  Outlet,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+} from '@modern-js/runtime/router';
+import { useState } from 'react';
+import { Radio, RadioChangeEvent } from 'antd';
+import { useModel } from '@modern-js/runtime/model';
+import contacts from '../models/contacts';
+import 'tailwindcss/base.css';
+import 'tailwindcss/components.css';
+import 'tailwindcss/utilities.css';
+import '../styles/utils.css';
 
 type LoaderData = {
   code: number;
@@ -36,7 +48,6 @@ export const loader = async (): Promise<LoaderData> => {
       name: firstName,
       avatar: `https://avatars.dicebear.com/api/identicon/${firstName}.svg`,
       email: internet.email(),
-      archived: false,
     };
   });
 
@@ -48,9 +59,9 @@ export const loader = async (): Promise<LoaderData> => {
 
 export default function Layout() {
   const { data } = useLoaderData() as LoaderData;
-  const [{ items }, { setItem }] = useModel(contacts);
+  const [{ items }, { setItems }] = useModel(contacts);
   if (items.length === 0) {
-    setItem(data);
+    setItems(data);
   }
 
   const navigate = useNavigate();
@@ -61,11 +72,11 @@ export default function Layout() {
 在 `src/routes/page.tsx` 中，直接使用 Model，获取数据：
 
 ```tsx
-import { Helmet } from "@modern-js/runtime/head";
-import { useModel } from "@modern-js/runtime/model";
-import { List } from "antd";
-import Item from "../components/Item";
-import contacts from "../models/contacts";
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { List } from 'antd';
+import Item from '../components/Item';
+import contacts from '../models/contacts';
 
 function Index() {
   const [{ items }, { archive }] = useModel(contacts);
@@ -77,7 +88,7 @@ function Index() {
       </Helmet>
       <List
         dataSource={items}
-        renderItem={(info) => (
+        renderItem={info => (
           <Item
             key={info.name}
             info={info}
@@ -97,11 +108,11 @@ export default Index;
 同样在 `archived/page.tsx` 中，删除原本的 `mockData` 逻辑，使用 Model 中 computed 的 `archived` 值作为数据源：
 
 ```tsx
-import { Helmet } from "@modern-js/runtime/head";
-import { useModel } from "@modern-js/runtime/model";
-import { List } from "antd";
-import Item from "../../components/Item";
-import contacts from "../../models/contacts";
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { List } from 'antd';
+import Item from '../../components/Item';
+import contacts from '../../models/contacts';
 
 function Index() {
   const [{ archived }, { archive }] = useModel(contacts);
@@ -113,7 +124,7 @@ function Index() {
       </Helmet>
       <List
         dataSource={archived}
-        renderItem={(info) => (
+        renderItem={info => (
           <Item
             key={info.name}
             info={info}
@@ -172,14 +183,18 @@ import { Helmet } from "@modern-js/runtime/head";
 import { useModel } from "@modern-js/runtime/model";
 import { List } from "antd";
 import Item from "../components/Item";
-import contacts from "../models/contacts";
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { List } from 'antd';
+import Item from '../components/Item';
+import contacts from '../models/contacts';
 
 function Contacts({
   title,
   source,
 }: {
   title: string;
-  source: "items" | "archived";
+  source: 'items' | 'archived';
 }) {
   const [state, { archive }] = useModel(contacts);
 
@@ -190,7 +205,7 @@ function Contacts({
       </Helmet>
       <List
         dataSource={state[source]}
-        renderItem={(info) => (
+        renderItem={info => (
           <Item
             key={info.name}
             info={info}
@@ -210,7 +225,7 @@ export default Contacts;
 修改 `src/routes/page.tsx` 和 `src/routes/archives/page.tsx` 的代码：
 
 ```tsx title="src/routes/page.tsx"
-import Contacts from "../containers/Contacts";
+import Contacts from '../containers/Contacts';
 
 function Index() {
   return <Contacts title="All" source="items" />;
@@ -220,7 +235,7 @@ export default Index;
 ```
 
 ```tsx title="src/routes/archives/page.tsx"
-import Contacts from "../../containers/Contacts";
+import Contacts from '../../containers/Contacts';
 
 function Index() {
   return <Contacts title="Archives" source="archived" />;

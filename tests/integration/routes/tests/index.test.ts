@@ -9,7 +9,7 @@ import {
   killApp,
   getPort,
   modernBuild,
-  modernStart,
+  modernServe,
 } from '../../../utils/modernTestUtils';
 
 declare const page: Page;
@@ -364,7 +364,7 @@ describe('build', () => {
   beforeAll(async () => {
     appPort = await getPort();
     await modernBuild(appDir);
-    app = await modernStart(appDir, appPort, {
+    app = await modernServe(appDir, appPort, {
       cwd: appDir,
     });
     page.on('pageerror', error => {

@@ -8,9 +8,9 @@ This section describes all the configuration of Module tools for building
 For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Module tools will automatically recognize the alias in `tsconfig.json`, so there is no need to configure the `alias` field additionally.
 :::
 
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     alias: {
       '@common': '. /src/common',
     },
@@ -22,9 +22,9 @@ After the above configuration is done, if `@common/Foo.tsx` is referenced in the
 
 When the value of `alias` is defined as a function, you can accept the pre-defined alias object and modify it.
 
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     alias: alias => {
       alias['@common'] = '. /src/common';
     },
@@ -34,9 +34,9 @@ export default {
 
 It is also possible to return a new object as the final result in the function, which will override the pre-defined alias object.
 
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     alias: alias => {
       return {
         '@common': '. /src/common',
@@ -64,9 +64,9 @@ Threshold for automatically inlining static resources when building, resources l
 The CDN prefix given to unlinked resources when packaging
 - type: `string`
 - default: `undefined`
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     asset: {
       publicPath: 'https://xxx/'
     }
@@ -76,8 +76,9 @@ export default {
 At this point, all static resources will be prefixed with `https://xxx/`
 
 ### svgr
-Treat svg as a React component when packaging
+Packaged to handle svg as a React component, options reference [svgr](https://react-svgr.com/docs/options/), plus support for two configuration items `include` and `exclude` to match the svg file to be handled
 - type: `boolean | Object`
+- default: `true`
 
 #### include
 Set the matching svg file
@@ -117,7 +118,7 @@ Copies the specified file or directory into the build output directory
 ``js
 
 export default {
-  build: {
+  buildConfig: {
     copy: [{ from: '. /src/assets', to: '' }],
   },
 };
@@ -130,9 +131,9 @@ Define global variables that will be injected into the code
 - default: `{}`
 
 Since the `define` function is implemented by global text replacement, you need to ensure that the global variable values are strings. A safer approach is to convert the value of each global variable to a string, using `JSON.stringify`, as follows.
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     define: {
       'VERSION': JSON.stringify('1.0'),
 
@@ -182,9 +183,9 @@ Specify the entry file for the build, in the form of an array that can specify t
 - type: `string[] | Record<string, string>`
 - default: `['src/index.ts']` in `bundle` mode, `['src']` in `bundleless` mode
 
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     input: ['src/index.ts', 'src/index2.ts'],
   },
 };
@@ -200,9 +201,9 @@ Use esbuild or terser to compress code, also pass [terserOptions](https://github
 - type: `'terser' | 'esbuild' | false | Object`
 - default: `false`
 
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     minify: {
       compress: {
         drop_console: true,
@@ -252,9 +253,9 @@ Add `Less` code to the beginning of the entry file.
 - type: `string`
 - default: `undefined`
 
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     style: {
       less: {
         additionalData: `@base-color: #c6538c;`,
@@ -270,9 +271,9 @@ Configure the implementation library used by `Less`, if not specified, the built
 - default: `undefined`
 
 Specify the implementation library for `Less` when the `Object` type is specified
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     style: {
       less: {
         implementation: require('less'),
@@ -283,9 +284,9 @@ export default {
 ```
 
 For the `string` type, specify the path to the implementation library for `Less`
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     style: {
       less: {
         implementation: require.resolve('less'),
@@ -305,9 +306,9 @@ Refer to [node-sass](https://github.com/sass/node-sass#options) for detailed con
 Add `Sass` code to the beginning of the entry file.
 - type: `string | Function`
 - default: `undefined`
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     style: {
       sass: {
         additionalData: `$base-color: #c6538c;
@@ -324,9 +325,9 @@ Configure the implementation library used by `Sass`, the built-in version used i
 - default: `undefined`
 
 Specify the implementation library for `Sass` when the `Object` type is specified
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     style: {
       sass: {
         implementation: require('sass'),
@@ -337,9 +338,9 @@ export default {
 ```
 
 For the `string` type, specify the path to the `Sass` implementation library
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     style: {
       sass: {
         implementation: require.resolve('sass'),
@@ -379,9 +380,9 @@ CSS Modules configuration
 - default: `{}`
 
 A common configuration is ``localsConvention``, which changes the class name generation rules for css modules
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     style: {
       modules: {
         localsConvention: 'camelCaseOnly',
@@ -410,7 +411,7 @@ tailwindcss related configuration
 <details>
   <summary>TailwindCSS configuration details</summary>
 
-```js
+```js modern.config.ts
   const tailwind = {
     purge: {
         enabled: options.env === 'production',
@@ -452,9 +453,9 @@ Specify global variables for external import of umd products
 - type: `Record<string, string>`
 - default: `{}`
 
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     umdGlobals: {
       react: 'React',
       'react-dom': 'ReactDOM',
@@ -472,7 +473,7 @@ Specifies the module name of the umd product
 
 ``js
 export default {
-  build: {
+  buildConfig: {
     format: 'umd',
     umdModuleName: 'myLib',
   }
@@ -485,9 +486,9 @@ At this point the umd product will go to mount on `global.myLib`
 :::
 
 Also the function form can take one parameter, which is the output path of the current package file
-```js
+```js modern.config.ts
 export default {
-  build: {
+  buildConfig: {
     format: 'umd',
     umdModuleName: (path) => {
       if (path.includes('index')) {

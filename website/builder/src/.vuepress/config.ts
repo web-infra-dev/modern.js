@@ -70,8 +70,10 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/advanced/alias'),
           getLink('/guide/advanced/define'),
+          getLink('/guide/advanced/hmr'),
           getLink('/guide/advanced/rem'),
           getLink('/guide/advanced/browserslist'),
+          getLink('/guide/advanced/browser-compatibility'),
           getLink('/guide/advanced/custom-webpack-config'),
         ],
       },

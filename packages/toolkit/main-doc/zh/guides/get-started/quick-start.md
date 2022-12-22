@@ -46,7 +46,7 @@ import DebugApp from '@site-docs/components/debug-app.md'
 可以通过配置文件来开启功能，或覆盖 Modern.js 的默认行为。例如添加如下配置，开启 SSR：
 
 ```ts
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -57,6 +57,7 @@ export default defineConfig({
   server: {
     ssr: true,
   },
+  plugins: [AppToolsPlugin()],
 });
 ```
 
@@ -108,12 +109,12 @@ info    File sizes after production build:
 
 ## 本地验证
 
-在项目中执行 `pnpm run start` 即可在本地验证构建产物是否正常运行：
+在项目中执行 `pnpm run serve` 即可在本地验证构建产物是否正常运行：
 
 ```bash
-$ pnpm run start
+$ pnpm run serve
 
-> modern start
+> modern serve
 
 Starting the modern server...
 info    App running at:
@@ -127,4 +128,6 @@ info    App running at:
 
 ## 部署
 
-本地验证完成后，可以将 `dist/` 下的产物整理成服务器需要的结构，进行部署。
+import Deploy from '@site-docs/components/deploy.md'
+
+<Deploy />

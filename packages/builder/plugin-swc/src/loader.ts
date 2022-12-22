@@ -17,30 +17,10 @@ export function createLoader() {
     if (!compiler) {
       // Only first transform will run following code
       const options = this.getOptions();
-
-      const enableSourceMap = this.sourceMap;
-
-      if (enableSourceMap) {
-        options.sourceMaps = true;
-      }
-
-      if (options.env && !options.env.targets) {
-        options.env.targets = getBrowserslist(options.cwd || process.cwd());
-      }
-
-      if (
-        !options.jsc?.transform?.react ||
-        options.jsc.transform.react.development === undefined
-      ) {
-        setReactDevMode(options, this.mode);
-      }
-
-      // disable unnecessary config searching
-      // all config should be explicitly set
-      options.swcrc = false;
-
+      normalizeLoaderOption(options, this);
       compiler = new Compiler(options);
     }
+
     const result = await compiler.transform(filename, code, map);
     resolve(null, result.code, result.map?.toString());
   };
@@ -64,4 +44,30 @@ function setReactDevMode(
 
   swc.jsc.transform.react.development = mode === 'development';
   swc.jsc.transform.react.refresh = mode === 'development';
+}
+
+export function normalizeLoaderOption(
+  options: TransformConfig,
+  ctx: LoaderContext<TransformConfig>,
+) {
+  const enableSourceMap = ctx.sourceMap;
+
+  if (enableSourceMap) {
+    options.sourceMaps = true;
+  }
+
+  if (options.env && !options.env.targets) {
+    options.env.targets = getBrowserslist(options.cwd || process.cwd());
+  }
+
+  if (
+    !options.jsc?.transform?.react ||
+    options.jsc.transform.react.development === undefined
+  ) {
+    setReactDevMode(options, ctx.mode);
+  }
+
+  // disable unnecessary config searching
+  // all config should be explicitly set
+  options.swcrc = false;
 }

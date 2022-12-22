@@ -81,7 +81,7 @@ rm src/routes/index.css
 接下来，我们修改项目中的 `modern.config.ts`，开启 SSR 能力：
 
 ```ts
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -92,6 +92,7 @@ export default defineConfig({
   server: {
     ssr: true,
   },
+  plugins: [AppToolsPlugin()],
 });
 ```
 

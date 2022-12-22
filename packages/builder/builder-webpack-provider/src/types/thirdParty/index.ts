@@ -1,4 +1,4 @@
-import type WebpackChain from '../../../compiled/webpack-5-chain';
+import type WebpackChain from '@modern-js/builder-shared/webpack-5-chain';
 import type webpack from 'webpack';
 import type { Configuration as WebpackConfig, LoaderContext } from 'webpack';
 import type TerserPlugin from 'terser-webpack-plugin';

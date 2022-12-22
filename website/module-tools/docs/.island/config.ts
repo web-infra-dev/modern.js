@@ -25,6 +25,7 @@ export default defineConfig({
       }
     }
   },
+  enableSpa: true,
   markdown: {
     rehypePlugins: [],
     remarkPlugins: [
@@ -34,7 +35,6 @@ export default defineConfig({
           theme,
           autoImport: true,
           showCopyButton: true,
-          enableSpa: true
         }
       ],
     ],
@@ -57,7 +57,7 @@ export default defineConfig({
         description: '模块工程解决方案',
         editLink: {
           pattern:
-            'https://github.com/modern-js-dev/modern.js/tree/next/website/module-tools/docs/:path',
+            'https://github.com/modern-js-dev/modern.js/tree/main/website/module-tools/docs/:path',
           text: '📝 在 GitHub 上编辑此页'
         }
       },
@@ -72,7 +72,7 @@ export default defineConfig({
         lastUpdatedText: 'Last Updated',
         editLink: {
           pattern:
-            'https://github.com/modern-js-dev/modern.js/tree/next/website/module-tools/docs/:path',
+            'https://github.com/modern-js-dev/modern.js/tree/main/website/module-tools/docs/:path',
           text: '📝 Edit this page on GitHub'
         }
       }
@@ -82,7 +82,7 @@ export default defineConfig({
       {
         icon: 'github',
         mode: 'link',
-        content: 'https://github.com/modern-js-dev/modern.js'
+        content: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/solutions/module-tools'
       },
     ],
 
@@ -175,6 +175,10 @@ function getSidebar(lang: 'zh' | 'en') {
             text: getText('处理静态文件', 'Handling static files'),
             link: getLink('/guide/advance/asset'),
           },
+          {
+            text: getText('主题配置', 'theme configuration'),
+            link: getLink('/guide/advance/theme-config'),
+          },
         ]
       }
     ],
@@ -191,10 +195,6 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/api/build-preset')
           },
           {
-            text: getText('Dev', 'Dev'),
-            link: getLink('/api/dev')
-          },
-          {
             text: getText('Testing', 'Testing'),
             link: getLink('/api/testing')
           },
@@ -208,7 +208,44 @@ function getSidebar(lang: 'zh' | 'en') {
           },
         ]
       },
-    ]
+      {
+        text: getText('Plugin API', 'Plugin API'),
+        items: [
+          {
+            text: getText('Plugin Hooks', 'Plugin Hooks'),
+            link: getLink('/api/plugin-hooks')
+          },
+        ],
+      }
+    ],
+    [getLink('/plugins/')]: [
+      {
+        text: getText('指南', 'Guide'),
+        items: [
+          {
+            text: getText('快速开始', 'Getting Started'),
+            link: getLink('/plugins/guide/getting-started')
+          },
+          {
+            text: getText('插件对象', 'Plugin Object'),
+            link: getLink('/plugins/guide/plugin-object'),
+          },
+          {
+            text: getText('Setup 函数', 'Setup Function'),
+            link: getLink('/plugins/guide/setup-function'),
+          },
+        ],
+      },
+      {
+        text: getText('插件列表', 'Plugins List'),
+        items: [
+          {
+            text: getText('总览', 'Overview'),
+            link: getLink('/plugins/official-list/overview')
+          },
+        ]
+      }
+    ],
   };
 }
 
@@ -227,17 +264,20 @@ function getNavbar(lang: 'zh' | 'en') {
       activeMatch: '/api/'
     },
     {
+      text: getText('插件', 'Plugins'),
+      link: getLink('/plugins/guide/getting-started'),
+      activeMatch: '/plugins/'
+    },
+    {
       text: `v${version}`,
       items: [
         {
           text: getText('更新日志', 'Changelog'),
-          // TODO
-          link: 'https://github.com/modern-js-dev/modern.js'
+          link: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md'
         },
         {
           text: getText('贡献指南', 'Contributing'),
-          // TODO
-          link: 'https://github.com/modern-js-dev/modern.js'
+          link: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md'
         }
       ]
     }
