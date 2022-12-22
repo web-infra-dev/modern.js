@@ -261,7 +261,7 @@ export const buildLib = async (
     throw new InternalBuildError(e, {
       target,
       format,
-      buildType: 'bundle',
+      buildType,
     });
   }
 };

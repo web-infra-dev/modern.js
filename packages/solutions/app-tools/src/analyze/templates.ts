@@ -354,9 +354,16 @@ export const fileSystemRoutes = async ({
           TEMP_LOADERS_DIR,
           `${name}.js`,
         );
-        const code = `
+        let code = '';
+        if (loader.includes('.loader.')) {
+          code = `
+          export { default as ${name} } from '${slash(loader)}'
+        `;
+        } else {
+          code = `
           export { loader as ${name} } from '${slash(loader)}'
         `;
+        }
         await fs.ensureFile(filename);
         await fs.writeFile(filename, code);
       }),
