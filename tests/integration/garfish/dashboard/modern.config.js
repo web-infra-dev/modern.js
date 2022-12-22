@@ -6,8 +6,7 @@ import { getPort } from '../../../utils/testCase';
 module.exports = defineConfig({
   runtime: {
     router: {
-      legacy: true,
-      mode: "react-router-5",
+      mode: 'react-router-5',
     },
     // state: true,
   },

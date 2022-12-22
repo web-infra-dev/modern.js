@@ -15,7 +15,7 @@ After create the project, Modern.js automatically installs dependency and create
 You can run the following command in the directory of the new project：
 pnpm run dev          # Run and debug the project according to the requirements of the development environment
 pnpm run build        # Build the project according to the requirements of the product environment
-pnpm run start        # Run the project according to the requirements of the product environment
+pnpm run serve        # Run the project according to the requirements of the product environment
 pnpm run lint         # Check and fix all codes
 pnpm run new          # Create more project elements, such as application portals
 ```

@@ -17,16 +17,9 @@ interface MicroFrontend {
 
 开发者可使用 `deploy.microFrontend` 属性来配置微前端子应用的信息。
 
-## 启用
-
-在当前应用工程根目录执行 `pnpm run new`, 并选择 **启用「微前端」功能**
-
-```bash
-$ pnpm run new
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 (Use arrow keys)
-❯ 启用「微前端」功能
-```
+:::caution 注意
+需要先通过 `pnpm run new` 启用「微前端」 功能。
+:::
 
 ## 示例
 

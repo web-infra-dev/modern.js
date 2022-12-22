@@ -1,0 +1,113 @@
+# Setup function
+
+In the [[Plugin object]](/zh/plugins/guide/plugin-object) section we know that the plug-in object contains a `setup` function that not only contains an `api` object parameter, but also returns a Hooks object.
+
+## Plugin API objects
+
+The `setup` function of the plugin will provide an `api` object parameter, and you can call some of the methods provided on this object to get information about the configuration, project context, etc.
+
+``` ts
+export default (): CliPlugin<ModuleTools> => ({
+  name: 'my-plugin',
+
+  setup(api) {
+    // Get the original configuration of the application
+    const config = api.useConfigContext();
+    // Get the application runtime context
+    const appContext = api.useAppContext();
+    // Get the final configuration after resolving
+    const resolvedConfig = api.useResolvedConfigContext();
+  },
+});
+```
+
+### `api.useAppContext`
+
+Used to get project context information.
+
+``` ts
+const useAppContext: () => IAppContext
+
+interface IAppContext {
+  appDirectory: string;
+  configFile: string | false;
+  packageName: string;
+  nodeModulesDirectory: string;
+  internalDirectory: string;
+  plugins: {
+    cli?: any;
+    server?: any;
+  }[];
+}
+```
+
+:::info
+We can see through the actual type file that there are other fields, but the only ones that make sense for the module project at the moment are the above. api object other methods are the same.
+:::
+
+### `api.useResolvedConfigContext`
+
+Used to get the final configuration after parsing.
+
+:::info
+If you need to get the build-related final configuration, you need to use the [`beforeBuild`]() Hook.
+:::
+
+``` ts
+const useResolvedConfigContext: () => NormalizedConfig
+
+interface NormalizedConfig {
+  buildConfig: PartialBuildConfig;
+  buildPreset: BuildPreset;
+  designSystem?: Record<string, any>;
+  dev: Dev;
+  plugins: PluginConfig;
+  runtime: RuntimeConfig;
+  runtimeByEntries?: RuntimeByEntriesConfig;
+  _raw: UserConfig
+}
+```
+
+### `api.useHookRunners`
+
+Used to get the executors of Hooks and trigger the execution of a specific Hook.
+
+``` ts
+import type { CliPlugin } from '@modern-js/core';
+
+export default (): CliPlugin => ({
+  name: 'my-plugin',
+
+  async setup(api) {
+    const hookRunners = api.useHookRunners();
+    // trigger the afterBuild Hook
+    await hookRunners.afterBuild();
+  },
+});
+```
+
+## Asynchronous setup
+
+The setup of a CLI plugin can be an asynchronous function that performs asynchronous logic during the initialization process.
+
+``` ts
+export default (): CliPlugin<ModuleTools> => ({
+  name: 'my-plugin',
+
+  async setup(api) {
+    await doSomething();
+  },
+});
+```
+
+## Life cycle hooks
+
+We know that the `setup` function returns a Hooks object, which can also be understood as an object with module-tools lifecycle hooks.
+
+Currently there are two main types of hooks.
+
+* build hooks: triggered only when the `build` command is executed to build the source code product.
+* `buildPlatform` hook: triggered only when the `build --platform` command is executed to generate other build products.
+* debug hooks: hooks that are triggered when running the `dev` command.
+
+See the [API documentation](/en/api/plugin-hooks) for a full list of lifecycle hooks.

@@ -4,7 +4,7 @@ import RouterLegacyPlugin from '@modern-js/plugin-router-v5';
 export default defineConfig({
   runtime: {
     router: {
-      legacy: true,
+      mode: 'react-router-5',
     },
   },
   plugins: [AppToolsPlugin(), RouterLegacyPlugin()],

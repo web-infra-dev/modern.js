@@ -10,7 +10,8 @@ module.exports = {
         patterns: [
           {
             from: './template',
-            to: './dist/js/template',
+            context: __dirname,
+            to: './js/template',
           },
         ],
       },

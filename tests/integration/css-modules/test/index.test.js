@@ -5,7 +5,7 @@ const { fs } = require('@modern-js/utils');
 const {
   modernBuild,
   getPort,
-  modernStart,
+  modernServe,
   // launchApp,
   killApp,
   clearBuildDist,
@@ -32,7 +32,7 @@ describe('Basic CSS Module Support', () => {
     await remove(join(appDir, './dist'));
     ({ code, stdout } = await modernBuild(appDir));
 
-    app = await modernStart(appDir, appPort);
+    app = await modernServe(appDir, appPort);
   });
   afterAll(async () => {
     await killApp(app);
@@ -65,7 +65,7 @@ describe('module.[less/sass] support', () => {
   beforeAll(async () => {
     await remove(join(appDir, './dist'));
     ({ code, stdout } = await modernBuild(appDir));
-    app = await modernStart(appDir, appPort);
+    app = await modernServe(appDir, appPort);
   });
   afterAll(async () => {
     await killApp(app);
@@ -113,7 +113,7 @@ describe('Global Module CSS Module Support', () => {
     ({ code, stdout } = await modernBuild(appDir, [], {
       stdout: true,
     }));
-    app = await modernStart(appDir, appPort);
+    app = await modernServe(appDir, appPort);
   });
   afterAll(async () => {
     await killApp(app);
@@ -173,7 +173,7 @@ describe('Has CSS Module in computed styles in Production', () => {
     ({ code, stdout } = await modernBuild(appDir, [], {
       stdout: true,
     }));
-    app = await modernStart(appDir, appPort);
+    app = await modernServe(appDir, appPort);
   });
   afterAll(async () => {
     await killApp(app);

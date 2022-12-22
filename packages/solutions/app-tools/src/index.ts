@@ -19,7 +19,11 @@ import { getCommand } from './utils/commands';
 import { restart } from './utils/restart';
 
 export * from './defineConfig';
+// eslint-disable-next-line import/export
 export * from './types';
+
+// eslint-disable-next-line import/export
+export type { RuntimeUserConfig } from './types/config';
 
 const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',
@@ -35,6 +39,7 @@ export const devCommand = async (
 
   const devProgram = program
     .command('dev')
+    .alias('start')
     .usage('[options]')
     .description(i18n.t(localeKeys.command.dev.describe))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
@@ -131,16 +136,16 @@ export default (): CliPlugin<AppTools> => ({
         await buildCommand(program, api);
 
         program
-          .command('start')
+          .command('serve')
           .usage('[options]')
-          .description(i18n.t(localeKeys.command.start.describe))
+          .description(i18n.t(localeKeys.command.serve.describe))
           .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
           .option(
             '-c --config <config>',
             i18n.t(localeKeys.command.shared.config),
           )
           .action(async () => {
-            const { start } = await import('./commands/start');
+            const { start } = await import('./commands/serve');
             await start(api);
           });
 
@@ -205,7 +210,7 @@ export default (): CliPlugin<AppTools> => ({
 
       async prepare() {
         const command = getCommand();
-        if (command === 'dev' || command === 'build') {
+        if (command === 'dev' || command === 'start' || command === 'build') {
           const appContext = api.useAppContext();
           await emptyDir(appContext.distDirectory);
         }

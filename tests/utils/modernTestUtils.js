@@ -93,9 +93,9 @@ function runModernCommandDev(argv, stdOut, options = {}) {
       const message = data.toString();
       const bootupMarkers = {
         dev: /App running at/i,
-        start: /App running at/i,
+        serve: /App running at/i,
       };
-      if (bootupMarkers[options.modernStart ? 'start' : 'dev'].test(message)) {
+      if (bootupMarkers[options.modernServe ? 'serve' : 'dev'].test(message)) {
         if (!didResolve) {
           didResolve = true;
           resolve(stdOut ? message : instance);
@@ -164,14 +164,14 @@ function launchApp(dir, port, opts = {}, env = {}) {
   });
 }
 
-function modernStart(dir, port, opts = {}) {
-  return runModernCommandDev(['start'], undefined, {
+function modernServe(dir, port, opts = {}) {
+  return runModernCommandDev(['serve'], undefined, {
     cwd: dir,
     env: {
       PORT: port,
       NODE_ENV: 'production',
     },
-    modernStart: true,
+    modernServe: true,
     ...opts,
   });
 }
@@ -239,7 +239,7 @@ module.exports = {
   runModernCommandDev,
   modernBuild,
   modernDeploy,
-  modernStart,
+  modernServe,
   launchApp,
   killApp,
   getPort,
