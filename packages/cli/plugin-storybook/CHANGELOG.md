@@ -1,5 +1,166 @@
 # @modern-js/plugin-storybook
 
+## 2.0.0-beta.6
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- 0bb776858a: feat: change Hooks logic
+  feat: 修改 Hooks 逻辑
+- 92f0eade39: feat:
+
+  1. core: 增加 test 函数
+  2. module plugins: 增加 `babel`, `mainField`, `target` 插件
+  3. storybook: 修改部分逻辑并且增加 tspath webpack 插件
+  4. 增加 designSystem 配置
+
+  feat:
+
+  1. core: add test method
+  2. module plugins: add `babel`, `mainField`, `target` plugin
+  3. storybook: change some logic and add tspath webpack plugin
+  4. add `designSystem` config
+
+- f0ee9120db: feat: change dev menu log
+  feat: 修改 dev 菜单展示的内容
+
+### Patch Changes
+
+- a2509bfbdb: feat: bump esbuild from 0.14.38 to 0.15.7
+
+  feat: 将 esbuild 从 0.14.38 版本升级至 0.15.7 版本
+
+- a23106a205: fix(plugin-storybook): adapt builder & remove @modern-js/webpack dependency
+
+  fix(plugin-storybook): 适配 modern/builder，并移除 @modern-js/webpack 依赖
+
+- ea7cf06257: chore: bump webpack/babel-loader/postcss-loader/tsconfig-paths
+
+  chore: 升级 webpack/babel-loader/postcss-loader/tsconfig-paths 版本
+
+- Updated dependencies [2344eb26ed]
+- Updated dependencies [a11fcf8b50]
+- Updated dependencies [c9f912ca4d]
+- Updated dependencies [95be7cc49c]
+- Updated dependencies [a93159440e]
+- Updated dependencies [e439457a51]
+- Updated dependencies [e7ce0636d1]
+- Updated dependencies [4d1545f8c0]
+- Updated dependencies [4a7693fe6b]
+- Updated dependencies [b18fa8f3ed]
+- Updated dependencies [2bc090c089]
+- Updated dependencies [ba5325731c]
+- Updated dependencies [f0abb2e82f]
+- Updated dependencies [f96a725211]
+- Updated dependencies [7879e8f711]
+- Updated dependencies [828f42f9ce]
+- Updated dependencies [060abd4553]
+- Updated dependencies [50d4675e5b]
+- Updated dependencies [309cd71a1c]
+- Updated dependencies [c7456864a8]
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [3cf9633195]
+- Updated dependencies [6604f1b8b3]
+- Updated dependencies [57077b2c64]
+- Updated dependencies [6aca875011]
+- Updated dependencies [2ff6167be0]
+- Updated dependencies [287f298990]
+- Updated dependencies [fda836fe8a]
+- Updated dependencies [423188db70]
+- Updated dependencies [fd2d652c03]
+- Updated dependencies [d6bc321747]
+- Updated dependencies [0c2d8dae31]
+- Updated dependencies [2edad29dd7]
+- Updated dependencies [3e57f2bd58]
+- Updated dependencies [fe17f51055]
+- Updated dependencies [85edee888c]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [c5798d284f]
+- Updated dependencies [dc52ee8]
+- Updated dependencies [fbf5eed5aa]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [309f08bdf4]
+- Updated dependencies [3998875791]
+- Updated dependencies [752480d]
+- Updated dependencies [a7c68832b3]
+- Updated dependencies [b827e35aba]
+- Updated dependencies [ab3924a70e]
+- Updated dependencies [425e57092d]
+- Updated dependencies [3998875791]
+- Updated dependencies [ba86b8b711]
+- Updated dependencies [e4357f1856]
+- Updated dependencies [7b7d12cf8f]
+- Updated dependencies [4369648ae2]
+- Updated dependencies [5402fdb0ca]
+- Updated dependencies [7efeed4]
+- Updated dependencies [2ae58176fe]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [df7ee2d]
+- Updated dependencies [92c0994468]
+- Updated dependencies [2cc2eb35ba]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [5d67c26cdb]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [83ac356e15]
+- Updated dependencies [18360a38d7]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [0b314e6946]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [5911154129]
+- Updated dependencies [40ed5874c6]
+- Updated dependencies [af4422d67f]
+- Updated dependencies [705adc1dae]
+- Updated dependencies [60d5378632]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [c258e34202]
+- Updated dependencies [812913ccdd]
+- Updated dependencies [7248342e4d]
+- Updated dependencies [568eab1e42]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [ae71096d45]
+- Updated dependencies [21d7521]
+- Updated dependencies [9144c21d27]
+- Updated dependencies [cd5cdd9]
+- Updated dependencies [e06b9a2ec6]
+- Updated dependencies [b710adb843]
+- Updated dependencies [a23010138d]
+- Updated dependencies [75d1b2657c]
+- Updated dependencies [18aaf42249]
+- Updated dependencies [34702d5d47]
+- Updated dependencies [fcace5b5b9]
+- Updated dependencies [3fae2d03b3]
+- Updated dependencies [ea7cf06257]
+- Updated dependencies [8a6d45f105]
+- Updated dependencies [143d8dd616]
+- Updated dependencies [bbe4c4ab64]
+- Updated dependencies [6354cfa3ae]
+- Updated dependencies [90e2879520]
+- Updated dependencies [e4558a0bc4]
+- Updated dependencies [df41d71ade]
+- Updated dependencies [f727e5c6cc]
+- Updated dependencies [5e3cecd523]
+- Updated dependencies [92de772]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [da2d1fc3c2]
+- Updated dependencies [543be9558e]
+- Updated dependencies [fd1d9fd3d3]
+- Updated dependencies [14b712da84]
+- Updated dependencies [a24f1c9058]
+  - @modern-js/runtime@2.0.0-beta.6
+  - @modern-js/builder-webpack-provider@2.0.0-beta.6
+  - @modern-js/builder-shared@2.0.0-beta.6
+  - @modern-js/utils@2.0.0-beta.6
+  - @modern-js/builder-plugin-node-polyfill@2.0.0-beta.6
+  - @modern-js/plugin-router-v5@2.0.0-beta.6
+  - @modern-js/builder@2.0.0-beta.6
+
 ## 2.0.0-beta.4
 
 ### Major Changes

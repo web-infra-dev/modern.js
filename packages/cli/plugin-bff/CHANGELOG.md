@@ -1,5 +1,57 @@
 # @modern-js/plugin-bff
 
+## 2.0.0-beta.6
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- df7ee2d: feat: runtime user config types extends
+  feat: runtime 用户配置类型扩展
+
+### Patch Changes
+
+- 8ff2cf4c71: fix: bff api loader should run before babel loader
+  fix: bff 一体化调用的 loader 应该在 babel loader 前执行
+- ea7cf06257: chore: bump webpack/babel-loader/postcss-loader/tsconfig-paths
+
+  chore: 升级 webpack/babel-loader/postcss-loader/tsconfig-paths 版本
+
+- Updated dependencies [9b915e0c10]
+- Updated dependencies [7879e8f711]
+- Updated dependencies [d4e8e6fb90]
+- Updated dependencies [6aca875011]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [2344eb26ed]
+- Updated dependencies [a2509bfbdb]
+- Updated dependencies [7b7d12cf8f]
+- Updated dependencies [7efeed4]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [a8642da58f]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [c2bb0f1745]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb843]
+- Updated dependencies [ea7cf06257]
+- Updated dependencies [bbe4c4ab64]
+- Updated dependencies [e4558a0bc4]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/server-utils@2.0.0-beta.6
+  - @modern-js/utils@2.0.0-beta.6
+  - @modern-js/bff-core@2.0.0-beta.6
+  - @modern-js/create-request@2.0.0-beta.6
+  - @modern-js/babel-compiler@2.0.0-beta.6
+
 ## 2.0.0-beta.4
 
 ### Major Changes

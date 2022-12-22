@@ -1,5 +1,17 @@
 # @modern-js/eslint-generator
 
+## 3.0.0-beta.5
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 6b6f180279: fix: generator bundle
+
+  fix: 生成器打包
+
 ## 3.0.0-beta.4
 
 ### Major Changes
