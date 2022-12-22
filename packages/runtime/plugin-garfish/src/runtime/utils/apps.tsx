@@ -26,7 +26,7 @@ export function pathJoin(...args: string[]) {
     if (nPath[0] !== '/') {
       nPath = `/${nPath}`;
     }
-    const lastIndex = path.length - 1;
+    const lastIndex = nPath.length - 1;
     if (nPath[lastIndex] === '/') {
       nPath = nPath.substring(0, lastIndex);
     }
