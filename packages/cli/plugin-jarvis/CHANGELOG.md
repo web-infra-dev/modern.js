@@ -1,5 +1,14 @@
 # @modern-js/plugin-jarvis
 
+## 1.22.2
+
+### Patch Changes
+
+- @modern-js/eslint-config@1.22.2
+- @modern-js-app/eslint-config@1.22.2
+- @modern-js/tsconfig@1.22.2
+- @modern-js/utils@1.22.2
+
 ## 1.22.1
 
 ### Patch Changes

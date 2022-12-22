@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 1.22.2
+
+### Patch Changes
+
+- 19afe45: feat: v1 release use modern-1 tag
+
+  feat: v1 发布使用 modern-1 tag
+
 ## 1.22.1
 
 ## 1.21.6
