@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@modern-js/builder-website",
-  "version": "1.22.1",
+  "version": "1.22.2",
   "main": "index.js",
   "scripts": {
     "dev": "vuepress dev src --temp .temp",

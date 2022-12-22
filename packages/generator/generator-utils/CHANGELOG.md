@@ -1,5 +1,17 @@
 # @modern-js/generator-utils
 
+## 2.4.13
+
+### Patch Changes
+
+- 19afe45: feat: v1 release use modern-1 tag
+
+  feat: v1 发布使用 modern-1 tag
+
+  - @modern-js/generator-common@2.4.13
+  - @modern-js/plugin-i18n@1.22.2
+  - @modern-js/utils@1.22.2
+
 ## 2.4.12
 
 ### Patch Changes
