@@ -22,6 +22,8 @@ export type {
   // Hook Callback Types
   ModifyWebpackChainFn,
   ModifyWebpackConfigFn,
+  ModifyWebpackChainUtils,
+  ModifyWebpackConfigUtils,
 
   // Third Party Types
   webpack,

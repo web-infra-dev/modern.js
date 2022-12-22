@@ -1,11 +1,11 @@
 import { getBrowserslist } from '@modern-js/builder-shared';
-import type { BuilderPlugin } from '../types';
+import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export const PluginTarget = (): BuilderPlugin => ({
+export const PluginTarget = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-target',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { target }) => {
+    api.modifyBundlerChain(async (chain, { target }) => {
       if (target === 'node') {
         chain.target('node');
         return;
@@ -17,7 +17,7 @@ export const PluginTarget = (): BuilderPlugin => ({
       if (browserslist) {
         chain.merge({ target: [basicTarget, 'browserslist'] });
       } else if (target === 'modern-web') {
-        chain.merge({ target: [basicTarget, 'es6'] });
+        chain.merge({ target: [basicTarget, 'es2015'] });
       } else {
         chain.merge({ target: [basicTarget, 'es5'] });
       }

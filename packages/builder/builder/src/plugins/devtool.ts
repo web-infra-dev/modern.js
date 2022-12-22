@@ -1,11 +1,13 @@
-import { isUseJsSourceMap } from '@modern-js/builder-shared';
-import type { BuilderPlugin } from '../types';
+import {
+  isUseJsSourceMap,
+  DefaultBuilderPlugin,
+} from '@modern-js/builder-shared';
 
-export const PluginDevtool = (): BuilderPlugin => ({
+export const PluginDevtool = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-devtool',
 
   setup(api) {
-    api.modifyWebpackChain((chain, { isProd }) => {
+    api.modifyBundlerChain((chain, { isProd }) => {
       const config = api.getNormalizedConfig();
 
       if (!isUseJsSourceMap(config)) {

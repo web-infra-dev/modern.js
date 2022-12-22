@@ -1,7 +1,6 @@
 import { vi, expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
 import { PluginTarget } from '@/plugins/target';
-import { createStubBuilder } from '@/stub';
 
 describe('plugins/target', () => {
   const cases = [
@@ -18,7 +17,7 @@ describe('plugins/target', () => {
     {
       target: 'modern-web',
       browserslist: null,
-      expected: { target: ['web', 'es6'] },
+      expected: { target: ['web', 'es2015'] },
     },
     {
       target: 'web',
@@ -37,13 +36,22 @@ describe('plugins/target', () => {
       .spyOn(shared, 'getBrowserslist')
       .mockResolvedValueOnce(item.browserslist);
 
-    const builder = await createStubBuilder({
-      plugins: [PluginTarget()],
-      target: item.target as any,
-    });
-    const config = await builder.unwrapWebpackConfig();
+    let modifyBundlerChainCb: any;
 
-    expect(config).toEqual(item.expected);
+    const api: any = {
+      modifyBundlerChain: (fn: any) => {
+        modifyBundlerChainCb = fn;
+      },
+      context: {},
+    };
+
+    PluginTarget().setup(api);
+
+    const chain = await shared.getBundlerChain();
+
+    await modifyBundlerChainCb(chain, { target: item.target });
+
+    expect(chain.toConfig()).toEqual(item.expected);
     $getBrowserslist.mockRestore();
   });
 });

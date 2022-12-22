@@ -63,6 +63,7 @@ export function getPluginAPI({
     onDevCompileDone: hooks.onDevCompileDoneHook.tap,
     modifyRspackConfig: hooks.modifyRspackConfigHook.tap,
     modifyBuilderConfig: hooks.modifyBuilderConfigHook.tap,
+    modifyBundlerChain: hooks.modifyBundlerChainHook.tap,
     onAfterCreateCompiler: hooks.onAfterCreateCompilerHook.tap,
     onBeforeCreateCompiler: hooks.onBeforeCreateCompilerHook.tap,
     onAfterStartDevServer: hooks.onAfterStartDevServerHook.tap,
