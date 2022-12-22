@@ -1,4 +1,7 @@
-import { createParallelWorkflow, createAsyncPipeline } from '@modern-js/plugin';
+import {
+  createParallelWorkflow,
+  createAsyncWaterfall,
+} from '@modern-js/plugin';
 import type { RegisterBuildPlatformResult } from '@modern-js/core';
 import { BuildCommandOptions } from '../types';
 import type { BuildConfig, BaseBuildConfig } from '../types/config';
@@ -10,13 +13,10 @@ import type {
 
 export const buildHooks = {
   beforeBuild: createParallelWorkflow<
-    { config: BuildConfig; options: BuildCommandOptions },
-    BuildConfig
+    { config: BuildConfig; cliOptions: BuildCommandOptions },
+    void
   >(),
-  beforeBuildTask: createAsyncPipeline<
-    { config: BaseBuildConfig; options: BuildCommandOptions },
-    BaseBuildConfig
-  >(),
+  beforeBuildTask: createAsyncWaterfall<BaseBuildConfig>(),
   afterBuildTask: createParallelWorkflow<BuildTaskResult, void>(),
   afterBuild: createParallelWorkflow<BuildResult, void>(),
   registerBuildPlatform: createParallelWorkflow<
@@ -27,9 +27,6 @@ export const buildHooks = {
     RegisterBuildPlatformResult[],
     void
   >(),
-  buildPlatform: createParallelWorkflow<
-    { platform: string },
-    Pick<RegisterBuildPlatformResult, 'build'>
-  >(),
-  afterBuildPlatform: createParallelWorkflow<void, BuildPlatformResult>(),
+  buildPlatform: createParallelWorkflow<{ platform: string }, void>(),
+  afterBuildPlatform: createParallelWorkflow<BuildPlatformResult, void>(),
 };
