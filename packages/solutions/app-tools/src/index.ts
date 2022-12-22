@@ -19,7 +19,11 @@ import { getCommand } from './utils/commands';
 import { restart } from './utils/restart';
 
 export * from './defineConfig';
+// eslint-disable-next-line import/export
 export * from './types';
+
+// eslint-disable-next-line import/export
+export type { RuntimeUserConfig } from './types/config';
 
 const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',

@@ -9,7 +9,7 @@ import { emitResolvedConfig } from '../utils/config';
 import { getCommand } from '../utils/commands';
 import { AppTools } from '../types';
 import { initialNormalizedConfig } from '../config';
-import { isRouteComponentFile } from './utils';
+import { isNestedRouteComponent, isPageComponentFile } from './utils';
 import { loaderBuilder, serverLoaderBuilder } from './Builder';
 
 const debug = createDebugger('plugin-analyze');
@@ -19,6 +19,7 @@ export default (): CliPlugin<AppTools> => ({
 
   setup: api => {
     let pagesDir: string[] = [];
+    let nestedRouteEntries: string[] = [];
     let originEntrypoints: any[] = [];
 
     return {
@@ -90,7 +91,7 @@ export default (): CliPlugin<AppTools> => ({
         };
         api.setAppContext(appContext);
 
-        const nestedRouteEntries = entrypoints
+        nestedRouteEntries = entrypoints
           .map(point => point.nestedRoutesEntry)
           .filter(Boolean) as string[];
 
@@ -213,12 +214,13 @@ export default (): CliPlugin<AppTools> => ({
 
         const absoluteFilePath = path.resolve(appDirectory, filename);
         const isRouteComponent =
-          isPageFile(absoluteFilePath) &&
-          isRouteComponentFile(absoluteFilePath);
+          isPageFile(absoluteFilePath) && isPageComponentFile(absoluteFilePath);
 
         if (
-          isRouteComponent &&
-          (eventType === 'add' || eventType === 'unlink')
+          (isRouteComponent &&
+            (eventType === 'add' || eventType === 'unlink')) ||
+          (isNestedRouteComponent(nestedRouteEntries, absoluteFilePath) &&
+            eventType === 'change')
         ) {
           const resolvedConfig = api.useResolvedConfigContext();
           const { generateCode } = await import('./generateCode');

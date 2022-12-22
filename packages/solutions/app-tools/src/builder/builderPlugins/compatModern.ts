@@ -222,6 +222,12 @@ function applyNodeCompat(
       return;
     }
 
+    if (typeof entries === 'undefined') {
+      throw new Error(
+        'No entry found, one of src/routes/layout.tsx, src/App.tsx, src/index.tsx is required',
+      );
+    }
+
     // if single entry has ssg config
     // `ssg: {}` is not allowed if multi entry
     const entryNames = Object.keys(entries);

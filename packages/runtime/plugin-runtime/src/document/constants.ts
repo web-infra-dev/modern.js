@@ -17,6 +17,9 @@ export const DOCUMENT_FILE_NAME = 'Document';
 export const DOCUMENT_SCRIPTS_PLACEHOLDER = encodeURIComponent(
   '<!-- chunk scripts placeholder -->',
 );
+export const DOCUMENT_LINKS_PLACEHOLDER = encodeURIComponent(
+  '<!-- chunk links placeholder -->',
+);
 export const DOCUMENT_NO_SCRIPTE_PLACEHOLDER =
   encodeURIComponent('<!-- no-script -->');
 export const DOCUMENT_SCRIPT_PLACEHOLDER_START = encodeURIComponent(
