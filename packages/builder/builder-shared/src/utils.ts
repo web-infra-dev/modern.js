@@ -66,3 +66,5 @@ export const isUseCssSourceMap = (config: SharedNormalizedConfig) => {
 
   return !disableSourceMap.css;
 };
+
+export * as z from './zod';
