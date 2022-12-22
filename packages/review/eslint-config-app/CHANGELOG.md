@@ -1,5 +1,28 @@
 # @modern-js-app/eslint-config
 
+## 2.0.0-beta.6
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- f680410886: feat: upgrade ESLint to 8.x version
+
+  feat: 升级 ESLint 到 8.x 版本
+
+- Updated dependencies [a7c68832b3]
+- Updated dependencies [decfcd989d]
+- Updated dependencies [7b7d12cf8f]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [fd1d9fd3d3]
+  - @modern-js/babel-preset-app@2.0.0-beta.6
+
 ## 2.0.0-beta.4
 
 ### Major Changes

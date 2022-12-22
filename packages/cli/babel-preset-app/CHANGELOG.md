@@ -1,5 +1,53 @@
 # @modern-js/babel-preset-app
 
+## 2.0.0-beta.6
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- a7c68832b3: fix: only register babel-plugin-ssr-loader-id when SSR is enabled
+
+  fix: 仅在开启 SSR 的场景下注册 babel-plugin-ssr-loader-id
+
+- decfcd989d: fix(babel-preset-app): remove useless plugin-transform-destructuring
+
+  fix(babel-preset-app): 移除多余的 plugin-transform-destructuring 插件
+
+- 7b7d12cf8f: refactor: Substract getCorejsVersion to the util package, so that swc plugin can reuse it.
+  refactor: 将 getCorejsVersion 提取到 util 包，让 swc 插件可以复用其逻辑
+- fd1d9fd3d3: fix: can not resolve core-js when compile third party packages
+
+  fix: 修复编译三方包时无法找到 core-js 的问题
+
+- Updated dependencies [27c0151e8c]
+- Updated dependencies [7879e8f711]
+- Updated dependencies [6aca875011]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [7b7d12cf8f]
+- Updated dependencies [7efeed4]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [67472ca1cc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb843]
+- Updated dependencies [ea7cf06257]
+- Updated dependencies [bbe4c4ab64]
+- Updated dependencies [e4558a0bc4]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/babel-preset-base@2.0.0-beta.6
+  - @modern-js/utils@2.0.0-beta.6
+
 ## 2.0.0-beta.4
 
 ### Major Changes
