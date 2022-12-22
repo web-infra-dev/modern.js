@@ -7,7 +7,7 @@ Returns the React components of all micro-front-end sub-applications for freely 
 ## Usage
 
 ```tsx
-import { useModuleApps } from '@modern-js/runtime/garfish';
+import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 ```
 
 :::info Turn on
