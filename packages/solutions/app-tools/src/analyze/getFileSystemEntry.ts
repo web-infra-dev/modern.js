@@ -90,6 +90,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
       }
       if (isHasNestedRoutes) {
         entrypoint.nestedRoutesEntry = path.join(dir, NESTED_ROUTES_DIR);
+        entrypoint.entry = entrypoint.nestedRoutesEntry;
       }
 
       return entrypoint;
@@ -109,9 +110,15 @@ export const getFileSystemEntry = (
   const { appDirectory } = appContext;
 
   const {
-    source: { entriesDir },
+    source: { entriesDir, disableEntryDirs },
   } = config;
 
+  let disabledDirs: string[] = [];
+  if (disableEntryDirs && Array.isArray(disableEntryDirs)) {
+    disabledDirs = disableEntryDirs?.map(dir =>
+      ensureAbsolutePath(appDirectory, dir),
+    );
+  }
   const src = ensureAbsolutePath(appDirectory, entriesDir || '');
 
   if (fs.existsSync(src)) {
@@ -123,7 +130,10 @@ export const getFileSystemEntry = (
               .readdirSync(src)
               .map(file => path.join(src, file))
               .filter(
-                file => fs.statSync(file).isDirectory() && isBundleEntry(file),
+                file =>
+                  fs.statSync(file).isDirectory() &&
+                  isBundleEntry(file) &&
+                  !disabledDirs.includes(file),
               ),
       );
     } else {

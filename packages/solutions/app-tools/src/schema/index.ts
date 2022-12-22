@@ -23,6 +23,7 @@ const source = {
   enableAsyncEntry: { type: 'boolean' },
   disableDefaultEntries: { type: 'boolean' },
   entriesDir: { type: 'string' },
+  disableEntryDirs: { type: 'array' },
   configDir: { type: 'string' },
   designSystem: { type: 'object' },
 };
