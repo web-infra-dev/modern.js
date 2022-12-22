@@ -45,10 +45,10 @@ export const routerPlugin = ({
     name: '@modern-js/plugin-router',
     setup: () => {
       return {
-        init({ context }, next){
+        init({ context }, next) {
           context.router = {
             useMatches,
-            useLocation
+            useLocation,
           };
           return next({ context });
         },
@@ -76,7 +76,7 @@ export const routerPlugin = ({
                 ? createBrowserRouter(routes, { basename: _basename })
                 : createHashRouter(routes, { basename: _basename });
 
-                return (
+              return (
                 <App {...props}>
                   <RouterProvider router={router} />
                 </App>

@@ -1,5 +1,5 @@
 // The loading logic of the current component refers to react-loadable https://github.com/jamiebuilds/react-loadable
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 // import { withRouter, useMatches } from '@modern-js/runtime/router';
 import { RuntimeReactContext } from '@modern-js/runtime';
 // eslint-disable-next-line import/no-named-as-default
@@ -17,14 +17,21 @@ export interface AppMap {
   [key: string]: React.FC<MicroComponentProps>;
 }
 
-export function pathJoin(...args: string[]){
-  let res = args.reduce((res,path: string)=>{
-      if (!path || typeof path !== 'string') return res;
-      if (path[0]!=='/') path = '/'+path;
-      const lastIndex = path.length-1;
-      if(path[lastIndex]==='/') path = path.substring(0, lastIndex);
-      return res + path;
-  },'');
+export function pathJoin(...args: string[]) {
+  const res = args.reduce((res, path: string) => {
+    let nPath = path;
+    if (!nPath || typeof nPath !== 'string') {
+      return res;
+    }
+    if (nPath[0] !== '/') {
+      nPath = `/${nPath}`;
+    }
+    const lastIndex = path.length - 1;
+    if (nPath[lastIndex] === '/') {
+      nPath = nPath.substring(0, lastIndex);
+    }
+    return res + nPath;
+  }, '');
   return res || '/';
 }
 
@@ -34,22 +41,24 @@ function getAppInstance(
   manifest?: Manifest,
 ) {
   let locationHref = '';
-  function MicroApp(props: MicroProps){
+  function MicroApp(props: MicroProps) {
     const appRef = useRef<interfaces.App | null>(null);
-    const [domId, _] = useState(generateSubAppContainerKey(appInfo));
-    const [SubModuleComponent, setSubModuleComponent] = useState<React.ComponentType<any> | undefined>();
+    const domId = generateSubAppContainerKey(appInfo);
+    const [SubModuleComponent, setSubModuleComponent] = useState<
+      React.ComponentType<any> | undefined
+    >();
     const context = useContext(RuntimeReactContext);
     const match = context?.router?.useRouteMatch?.();
-    const matchs = context?.router?.useMatches?.()
+    const matchs = context?.router?.useMatches?.();
     const location = context?.router?.useLocation?.();
     let basename = options?.basename || '/';
     if (matchs && matchs.length > 0) {
-      basename = pathJoin(basename, matchs[matchs.length - 1].pathname  || '/');
-    } else if(match) {
-      basename = pathJoin(basename, match?.path  || '/');
+      basename = pathJoin(basename, matchs[matchs.length - 1].pathname || '/');
+    } else if (match) {
+      basename = pathJoin(basename, match?.path || '/');
     }
 
-    useEffect(()=>{
+    useEffect(() => {
       if (location && locationHref !== location.pathname) {
         locationHref = location.pathname;
         const popStateEvent = new PopStateEvent('popstate');
@@ -57,9 +66,9 @@ function getAppInstance(
         dispatchEvent(popStateEvent);
         logger(`MicroApp Garfish.loadApp popstate`);
       }
-    },[location])
+    }, [location]);
 
-    useEffect(()=>{
+    useEffect(() => {
       const { setLoadingState, ...userProps } = props;
 
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
@@ -69,7 +78,7 @@ function getAppInstance(
           '_SERVER_DATA',
         ],
         domGetter: `#${domId}`,
-        basename: basename,
+        basename,
         cache: true,
         props: {
           ...appInfo.props,
@@ -115,9 +124,12 @@ function getAppInstance(
         loadAppOptions,
       });
 
-      async function renderApp(){
+      async function renderApp() {
         try {
-          const appInstance = await Garfish.loadApp(appInfo.name, loadAppOptions);
+          const appInstance = await Garfish.loadApp(
+            appInfo.name,
+            loadAppOptions,
+          );
           if (!appInstance) {
             throw new Error(
               `MicroApp Garfish.loadApp "${appInfo.name}" result is null`,
@@ -151,7 +163,7 @@ function getAppInstance(
         }
       }
       renderApp();
-      return ()=>{
+      return () => {
         if (appRef.current) {
           const { appInfo } = appRef.current;
           if (appInfo.cache) {
@@ -162,8 +174,8 @@ function getAppInstance(
             appRef.current?.unmount();
           }
         }
-      }
-    },[]);
+      };
+    }, []);
 
     return (
       <>
@@ -172,9 +184,7 @@ function getAppInstance(
     );
   }
 
-  return Loadable(MicroApp)(
-    manifest?.loadable,
-  );
+  return Loadable(MicroApp)(manifest?.loadable);
 }
 
 export function generateApps(

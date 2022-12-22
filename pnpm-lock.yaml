@@ -1893,6 +1893,7 @@ importers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
       '@modern-js/core': workspace:*
+      '@modern-js/plugin-router-v5': workspace:*
       '@modern-js/runtime': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -1930,6 +1931,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../solutions/app-tools
       '@modern-js/core': link:../../cli/core
+      '@modern-js/plugin-router-v5': link:../plugin-router-v5
       '@modern-js/runtime': link:../plugin-runtime
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build

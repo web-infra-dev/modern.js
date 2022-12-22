@@ -16,7 +16,7 @@ function Home() {
 }
 
 const App: React.FC = () => {
-  const { MApp, Dashboard } = useModuleApps();
+  const { Dashboard } = useModuleApps();
   return (
     <div>
       <div style={{ textAlign: 'center' }}>

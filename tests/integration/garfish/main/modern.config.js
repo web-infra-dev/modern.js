@@ -54,9 +54,5 @@ module.exports = defineConfig({
       // delete config.optimization?.splitChunks;
     },
   },
-  plugins: [
-    AppToolsPlugin(),
-    RouterPlugin(),
-    GarfishPlugin()
-  ]
+  plugins: [AppToolsPlugin(), RouterPlugin(), GarfishPlugin()],
 });

@@ -36,6 +36,6 @@ module.exports = defineConfig({
   plugins: [
     AppToolsPlugin(),
     // RouterPlugin(),
-    GarfishPlugin()
-  ]
+    GarfishPlugin(),
+  ],
 });
