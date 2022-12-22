@@ -7,7 +7,7 @@ import Garfish, { interfaces } from 'garfish';
 // import Loadable from 'react-loadable';
 import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
-import { Loadable } from '../loadable';
+import { Loadable, MicroProps } from '../loadable';
 
 export interface Provider extends interfaces.Provider {
   SubModuleComponent?: React.ComponentType<any>;
@@ -34,7 +34,7 @@ function getAppInstance(
   manifest?: Manifest,
 ) {
   let locationHref = '';
-  function MicroApp(props: any){
+  function MicroApp(props: MicroProps){
     const appRef = useRef<interfaces.App | null>(null);
     const [domId, _] = useState(generateSubAppContainerKey(appInfo));
     const [SubModuleComponent, setSubModuleComponent] = useState<React.ComponentType<any> | undefined>();

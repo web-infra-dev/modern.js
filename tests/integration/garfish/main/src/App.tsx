@@ -1,4 +1,4 @@
-import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
+import { useModuleApps } from '@modern-js/runtime/garfish';
 import { Switch, Route, Link } from '@modern-js/runtime/router-v5';
 // import DashboardButton from 'dashboardApp/share-button';
 import { getAppInfo } from '../../../../utils/testCase';
