@@ -1,6 +1,9 @@
 import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
-import type { ArrayOrNot, ChainedConfig } from '@modern-js/builder-shared';
-import type { DevServerOptions } from '@modern-js/types';
+import type {
+  ArrayOrNot,
+  ChainedConfig,
+  SharedToolsConfig,
+} from '@modern-js/builder-shared';
 import type {
   ModifyWebpackChainUtils,
   ModifyWebpackConfigUtils,
@@ -97,9 +100,7 @@ export type ToolsWebpackChainConfig = ArrayOrNot<
   (chain: WebpackChain, utils: ModifyWebpackChainUtils) => void
 >;
 
-export type ToolsDevServerConfig = ChainedConfig<DevServerOptions>;
-
-export interface ToolsConfig {
+export interface ToolsConfig extends SharedToolsConfig {
   /**
    * Configure the [Pug](https://pugjs.org/) template engine.
    */
@@ -129,10 +130,6 @@ export interface ToolsConfig {
    * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
    */
   tsChecker?: ToolsTSCheckerConfig;
-  /**
-   * Modify the options of DevServer.
-   */
-  devServer?: ToolsDevServerConfig;
   /**
    * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
    */

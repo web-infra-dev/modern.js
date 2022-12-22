@@ -6,25 +6,27 @@ import {
 } from '@modern-js/builder-shared';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import type { Compiler, MultiCompiler } from 'webpack';
+import type { Compiler } from '../types';
 import { getDevMiddleware } from './devMiddleware';
+
+type ServerOptions = Exclude<StartDevServerOptions['serverOptions'], undefined>;
 
 export async function createDevServer(
   options: InitConfigsOptions,
   port: number,
-  serverOptions: Exclude<StartDevServerOptions['serverOptions'], undefined>,
-  customCompiler?: Compiler | MultiCompiler,
+  serverOptions: ServerOptions,
+  customCompiler?: Compiler,
 ) {
   const { Server } = await import('@modern-js/server');
 
-  let compiler: Compiler | MultiCompiler;
+  let compiler: Compiler;
   if (customCompiler) {
     compiler = customCompiler;
   } else {
-    const { webpackConfigs } = await initConfigs(options);
+    const { rspackConfigs } = await initConfigs(options);
     compiler = await createCompiler({
       context: options.context,
-      webpackConfigs,
+      rspackConfigs,
     });
   }
 
@@ -54,5 +56,20 @@ export async function startDevServer(
   options: InitConfigsOptions,
   startDevServerOptions: StartDevServerOptions = {},
 ) {
-  return baseStartDevServer(options, createDevServer, startDevServerOptions);
+  return baseStartDevServer(
+    options,
+    (
+      options: InitConfigsOptions,
+      port: number,
+      serverOptions: ServerOptions,
+      compiler: StartDevServerOptions['compiler'],
+    ) =>
+      createDevServer(
+        options,
+        port,
+        serverOptions,
+        compiler as unknown as Compiler,
+      ),
+    startDevServerOptions,
+  );
 }
