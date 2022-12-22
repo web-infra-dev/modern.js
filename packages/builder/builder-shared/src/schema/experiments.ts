@@ -1,11 +1,13 @@
 import { SharedExperimentsConfig } from '../types';
 import { z } from '../utils';
-import { ZodType } from '../zod';
 
-export const sharedExperimentsConfigSchema: ZodType<SharedExperimentsConfig> =
-  z.partialObj({
-    lazyCompilation: z.union([
-      z.boolean(),
-      z.object({ entries: z.boolean(), imports: z.boolean() }),
-    ]),
-  });
+export const sharedExperimentsConfigSchema = z.partialObj({
+  lazyCompilation: z.union([
+    z.boolean(),
+    z.object({ entries: z.boolean(), imports: z.boolean() }),
+  ]),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _schema: z.ZodType<SharedExperimentsConfig> =
+  sharedExperimentsConfigSchema;

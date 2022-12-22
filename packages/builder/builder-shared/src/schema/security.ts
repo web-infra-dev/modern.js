@@ -10,7 +10,9 @@ export const SriOptionsSchema: ZodType<SriOptions> = z.partialObj({
   hashLoading: z.literals<SriOptions['hashLoading']>(['eager', 'lazy']),
 });
 
-export const sharedSecurityConfigSchema: ZodType<SharedSecurityConfig> =
-  z.partialObj({
-    sri: z.union([SriOptionsSchema, z.boolean()]),
-  });
+export const sharedSecurityConfigSchema = z.partialObj({
+  sri: z.union([SriOptionsSchema, z.boolean()]),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _schema: z.ZodType<SharedSecurityConfig> = sharedSecurityConfigSchema;

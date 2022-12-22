@@ -16,7 +16,7 @@ export const ProgressBarConfigSchema: ZodType<ProgressBarConfig> = z.partialObj(
   { id: z.string() },
 );
 
-export const sharedDevConfigSchema: ZodType<SharedDevConfig> = z.partialObj({
+export const sharedDevConfigSchema = z.partialObj({
   hmr: z.boolean(),
   port: z.number(),
   https: DevServerHttpsOptionsSchema,
@@ -24,3 +24,6 @@ export const sharedDevConfigSchema: ZodType<SharedDevConfig> = z.partialObj({
   assetPrefix: z.union([z.string(), z.boolean()]),
   progressBar: z.union([z.boolean(), ProgressBarConfigSchema]),
 });
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _schema: z.ZodType<SharedDevConfig> = sharedDevConfigSchema;

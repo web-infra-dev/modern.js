@@ -27,3 +27,7 @@ export const sharedPerformanceConfigSchema: ZodType<SharedPerformanceConfig> =
     profile: z.boolean(),
     printFileSize: z.boolean(),
   });
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _schema: z.ZodType<SharedPerformanceConfig> =
+  sharedPerformanceConfigSchema;

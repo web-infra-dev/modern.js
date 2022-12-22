@@ -77,34 +77,36 @@ export const SvgDefaultExportSchema: ZodType<SvgDefaultExport> = z.literals([
   'url',
 ]);
 
-export const sharedOutputConfigSchema: ZodType<SharedOutputConfig> =
-  z.partialObj({
-    distPath: DistPathConfigSchema,
-    filename: FilenameConfigSchema,
-    charset: CharsetSchema,
-    polyfill: PolyfillSchema,
-    assetsRetry: AssetsRetryOptionsSchema,
-    assetPrefix: z.string(),
-    dataUriLimit: z.union([z.number(), DataUriLimitSchema]),
-    legalComments: LegalCommentsSchema,
-    cleanDistPath: z.boolean(),
-    cssModuleLocalIdentName: z.string(),
-    disableCssExtract: z.boolean(),
-    disableMinimize: z.boolean(),
-    disableSourceMap: DisableSourceMapOptionSchema,
-    disableTsChecker: z.boolean(),
-    disableFilenameHash: z.boolean(),
-    disableInlineRuntimeChunk: z.boolean(),
-    disableCssModuleExtension: z.boolean(),
-    enableAssetManifest: z.boolean(),
-    enableAssetFallback: z.boolean(),
-    enableLatestDecorators: z.boolean(),
-    enableCssModuleTSDeclaration: z.boolean(),
-    enableInlineScripts: z.boolean(),
-    enableInlineStyles: z.boolean(),
-    overrideBrowserslist: z.union([
-      z.array(z.string()),
-      z.record(BuilderTargetSchema, z.array(z.string())),
-    ]),
-    svgDefaultExport: SvgDefaultExportSchema,
-  });
+export const sharedOutputConfigSchema = z.partialObj({
+  distPath: DistPathConfigSchema,
+  filename: FilenameConfigSchema,
+  charset: CharsetSchema,
+  polyfill: PolyfillSchema,
+  assetsRetry: AssetsRetryOptionsSchema,
+  assetPrefix: z.string(),
+  dataUriLimit: z.union([z.number(), DataUriLimitSchema]),
+  legalComments: LegalCommentsSchema,
+  cleanDistPath: z.boolean(),
+  cssModuleLocalIdentName: z.string(),
+  disableCssExtract: z.boolean(),
+  disableMinimize: z.boolean(),
+  disableSourceMap: DisableSourceMapOptionSchema,
+  disableTsChecker: z.boolean(),
+  disableFilenameHash: z.boolean(),
+  disableInlineRuntimeChunk: z.boolean(),
+  disableCssModuleExtension: z.boolean(),
+  enableAssetManifest: z.boolean(),
+  enableAssetFallback: z.boolean(),
+  enableLatestDecorators: z.boolean(),
+  enableCssModuleTSDeclaration: z.boolean(),
+  enableInlineScripts: z.boolean(),
+  enableInlineStyles: z.boolean(),
+  overrideBrowserslist: z.union([
+    z.array(z.string()),
+    z.record(BuilderTargetSchema, z.array(z.string())),
+  ]),
+  svgDefaultExport: SvgDefaultExportSchema,
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _schema: z.ZodType<SharedOutputConfig> = sharedOutputConfigSchema;

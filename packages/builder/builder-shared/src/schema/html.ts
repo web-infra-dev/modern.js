@@ -22,7 +22,7 @@ export const CrossOriginSchema: ZodType<CrossOrigin> = z.literals([
   'use-credentials',
 ]);
 
-export const sharedHtmlConfigSchema: ZodType<SharedHtmlConfig> = z.partialObj({
+export const sharedHtmlConfigSchema = z.partialObj({
   meta: MetaOptionsSchema,
   metaByEntries: z.record(MetaOptionsSchema),
   title: z.string(),
@@ -40,3 +40,6 @@ export const sharedHtmlConfigSchema: ZodType<SharedHtmlConfig> = z.partialObj({
   templateParameters: z.chained(z.record(z.unknown())),
   templateParametersByEntries: z.record(z.chained(z.record(z.unknown()))),
 });
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _schema: z.ZodType<SharedHtmlConfig> = sharedHtmlConfigSchema;
