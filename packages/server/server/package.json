@@ -30,7 +30,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern-lib new",
-    "build": "modern-lib build && node ./temp-fix-hmr.js",
+    "build": "modern-lib build",
     "dev": "modern-lib build --watch",
     "test": "jest"
   },
