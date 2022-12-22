@@ -41,7 +41,8 @@
   "dependencies": {
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "zod": "^3.17.3"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",
