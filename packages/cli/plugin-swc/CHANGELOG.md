@@ -1,5 +1,44 @@
 # @modern-js/core
 
+## 2.0.0-beta.6
+
+### Minor Changes
+
+- bbe4c4ab64: feat: add @modern-js/plugin-swc
+
+  feat: 新增 @modern-js/plugin-swc 插件
+
+### Patch Changes
+
+- Updated dependencies [c8a22763b4]
+- Updated dependencies [7879e8f711]
+- Updated dependencies [a9b38ea196]
+- Updated dependencies [6aca875011]
+- Updated dependencies [2e6031955e]
+- Updated dependencies [7b7d12cf8f]
+- Updated dependencies [7efeed4]
+- Updated dependencies [92f0eade39]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [cc971eabfc]
+- Updated dependencies [5b9049f2e9]
+- Updated dependencies [92004d1906]
+- Updated dependencies [b8bbe036c7]
+- Updated dependencies [d5a31df781]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [3bbea92b2a]
+- Updated dependencies [b710adb843]
+- Updated dependencies [1fdc05f]
+- Updated dependencies [0dd63a6909]
+- Updated dependencies [3fae2d03b3]
+- Updated dependencies [ea7cf06257]
+- Updated dependencies [bbe4c4ab64]
+- Updated dependencies [e4558a0bc4]
+- Updated dependencies [abf3421a75]
+- Updated dependencies [543be9558e]
+- Updated dependencies [14b712da84]
+  - @modern-js/builder-plugin-swc@2.0.0-beta.6
+  - @modern-js/utils@2.0.0-beta.6
+
 ## 2.0.0-beta.4
 
 ### Minor Changes
