@@ -1,11 +1,12 @@
 import { join, resolve } from 'path';
 import { fs } from '@modern-js/utils';
-import { expect, test } from '@modern-js/e2e/playwright';
+import { expect } from '@modern-js/e2e/playwright';
 import { dev, getHrefByEntryName } from '../scripts/shared';
+import { allProviderTest } from './helper';
 
 const fixtures = resolve(__dirname, '../fixtures/dev');
 
-test('default & hmr (default true)', async ({ page }) => {
+allProviderTest('default & hmr (default true)', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'hmr'),
     entry: {
@@ -21,11 +22,17 @@ test('default & hmr (default true)', async ({ page }) => {
     page.evaluate(`document.getElementById('test').innerHTML`),
   ).resolves.toBe('Hello Builder!');
 
+  await expect(
+    page.evaluate(`getComputedStyle(document.getElementById('test')).color`),
+  ).resolves.toBe('rgb(255, 0, 0)');
+
   const appPath = join(fixtures, 'hmr', 'src/App.tsx');
 
   await fs.writeFile(
     appPath,
     `import React from 'react';
+import './App.css';
+
 const App = () => <div id="test">Hello Test!</div>;
 export default App;
 `,
@@ -38,20 +45,44 @@ export default App;
     page.evaluate(`document.getElementById('test').innerHTML`),
   ).resolves.toBe('Hello Test!');
 
+  const cssPath = join(fixtures, 'hmr', 'src/App.css');
+
+  await fs.writeFile(
+    cssPath,
+    `#test {
+  color: rgb(0, 0, 255);
+}`,
+  );
+
+  // wait for hmr take effect
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  await expect(
+    page.evaluate(`getComputedStyle(document.getElementById('test')).color`),
+  ).resolves.toBe('rgb(0, 0, 255)');
+
   // restore
   await fs.writeFile(
     appPath,
     `import React from 'react';
+import './App.css';
 
 const App = () => <div id="test">Hello Builder!</div>;
 export default App;
 `,
   );
 
+  await fs.writeFile(
+    cssPath,
+    `#test {
+  color: rgb(255, 0, 0);
+}`,
+  );
+
   await builder.server.close();
 });
 
-test('dev.port & output.distPath', async ({ page }) => {
+allProviderTest('dev.port & output.distPath', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'basic'),
     entry: {
@@ -90,7 +121,7 @@ test('dev.port & output.distPath', async ({ page }) => {
   await fs.remove(join(fixtures, 'basic/dist-1'));
 });
 
-test('dev.https', async () => {
+allProviderTest('dev.https', async () => {
   const buildOpts = {
     cwd: join(fixtures, 'basic'),
     entry: {
@@ -109,7 +140,7 @@ test('dev.https', async () => {
   await builder.server.close();
 });
 
-test('tools.devServer', async ({ page }) => {
+allProviderTest('tools.devServer', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'basic'),
     entry: {
