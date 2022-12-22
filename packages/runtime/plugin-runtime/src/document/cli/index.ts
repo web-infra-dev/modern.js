@@ -11,6 +11,7 @@ import { Entrypoint } from '@modern-js/types/cli';
 import { DocumentContext } from '../DocumentContext';
 import {
   DOCUMENT_SCRIPTS_PLACEHOLDER,
+  DOCUMENT_LINKS_PLACEHOLDER,
   DOCUMENT_FILE_NAME,
   DOCUMENT_META_PLACEHOLDER,
   PLACEHOLDER_REPLACER_MAP,
@@ -178,10 +179,19 @@ export default (): CliPlugin<AppTools> => ({
           htmlWebpackPlugin.tags.bodyTags.toString(),
         ].join('');
 
+        const links = [
+          htmlWebpackPlugin.tags.headTags
+            .filter((item: any) => item.tagName === 'link')
+            .join(''),
+        ].join('');
+
         const metas = [
           templateParameters.meta,
           htmlWebpackPlugin.tags.headTags
-            .filter((item: any) => item.tagName !== 'script')
+            .filter(
+              (item: any) =>
+                item.tagName !== 'script' && item.tagName !== 'link',
+            )
             .join(''),
         ].join('');
 
@@ -204,6 +214,7 @@ export default (): CliPlugin<AppTools> => ({
           .replace(DOCUMENT_META_PLACEHOLDER, metas)
           .replace(DOCUMENT_SSR_PLACEHOLDER, HTML_SEPARATOR)
           .replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts)
+          .replace(DOCUMENT_LINKS_PLACEHOLDER, links)
           .replace(
             DOCUMENT_CHUNKSMAP_PLACEHOLDER,
             PLACEHOLDER_REPLACER_MAP[DOCUMENT_CHUNKSMAP_PLACEHOLDER],
