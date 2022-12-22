@@ -1,5 +1,5 @@
-import { Outlet, useLoaderData, useMatches } from '@modern-js/runtime/router';
-import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
+import { Outlet, useLoaderData } from '@modern-js/runtime/router';
+import { useModuleApps } from '@modern-js/runtime/garfish';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -11,7 +11,7 @@ export const loader = async () => {
 };
 
 export default function Layout() {
-  const { MApp, Dashboard } = useModuleApps();
+  const { Dashboard } = useModuleApps();
   const data = useLoaderData() as { message: string };
   // console.log('xxxxx', useMatches())
   return (

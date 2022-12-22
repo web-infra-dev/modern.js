@@ -130,7 +130,7 @@ export default defineConfig({
 
 ```tsx
 import { Link } from '@modern-js/runtime/router';
-import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
+import { useModuleApps } from '@modern-js/runtime/garfish';
 
 const App = () => {
   const { DashBoard, TableList } = useModuleApps();

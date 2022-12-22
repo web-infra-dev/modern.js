@@ -7,7 +7,7 @@ title: useModuleApps
 ## 使用姿势
 
 ```tsx
-import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
+import { useModuleApps } from '@modern-js/runtime/garfish';
 ```
 
 ## 函数签名
