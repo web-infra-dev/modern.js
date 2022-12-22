@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   createBrowserRouter,
   createHashRouter,
@@ -8,7 +8,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { Plugin, RuntimeReactContext } from '../../core';
+import { Plugin } from '../../core';
 import { renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
 
