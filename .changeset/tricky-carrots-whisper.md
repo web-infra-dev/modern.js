@@ -5,3 +5,5 @@
 ---
 
 chore(plugin-garfish): compatible react-router-v6
+
+chore(plugin-garfish): 兼容 react-router-v6
