@@ -1,9 +1,11 @@
 ---
-title: HTML 模板
+title: HTML Template
 sidebar_position: 9
 ---
 
-Modern.js 提供了 **JSX 模板**和**传统模板**两种方式用于自定义 HTML 模板。
+Modern.js 提供了 `jsx` 和 `ejs` 两种方式用于自定义 html 模板。
+
+## JSX
 
 ### 使用说明
 
@@ -21,6 +23,7 @@ import {
 #### 导出
 ```tsx
 export default Document() {}
+
 ```
 
 #### 文件位置
