@@ -99,7 +99,8 @@
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react-dom": "^18",
+      "@rspack/binding-darwin-arm64": "0.0.0-4374d9c976-20221222100038"
     }
   }
 }

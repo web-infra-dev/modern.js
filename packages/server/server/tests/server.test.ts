@@ -25,9 +25,7 @@ describe('test dev server', () => {
     try {
       createServer(null as any);
     } catch (e: any) {
-      expect((e as Error).message).toBe(
-        'can not start mserver without options',
-      );
+      expect((e as Error).message).toBe('can not start server without options');
       resolve();
     }
   });

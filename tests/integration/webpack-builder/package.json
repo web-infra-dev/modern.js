@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "pnpm build:libs && node ./scripts/dist/dev.js",
+    "dev:rspack": "pnpm build:libs && node ./scripts/dist/dev.js rspack",
     "build": "pnpm build:libs && node ./scripts/dist/build.js",
     "watch": "pnpm build:libs && node ./scripts/dist/watch.js",
     "build:libs": "cd ../../.. && pnpm prepare && cd tests/integration/webpack-builder && pnpm build:script",
