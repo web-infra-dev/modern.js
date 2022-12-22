@@ -9,7 +9,7 @@ sidebar_position: 2
 你可直接执行下面命令使用生成器插件：
 
 ```bash
-npx @modern-js/create --plugin <pluginName>
+npx @modern-js/create@modern-1 --plugin <pluginName>
 ```
 
 plugin 参数支持声明多次，代表同时使用多个生成器插件。

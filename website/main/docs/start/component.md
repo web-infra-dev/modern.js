@@ -38,7 +38,7 @@ import EnvPrepare from '@site/docs/components/env-prepare.md';
 使用 `@modern-js/create` 创建新项目，运行命令如下：
 
 ```bash
-npx @modern-js/create components-project
+npx @modern-js/create@modern-1 components-project
 ```
 
 :::info 注
@@ -460,7 +460,7 @@ export default defineConfig({
 使用 `@modern-js/create` 创建 Monorepo 项目，运行命令如下：
 
 ```bash
-npx @modern-js/create monorepo
+npx @modern-js/create@modern-1 monorepo
 ```
 
 :::info 注

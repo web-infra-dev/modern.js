@@ -32,7 +32,7 @@ import EnvPrepare from '@site/docs/components/env-prepare.md';
 使用 `@modern-js/create` 创建新项目，运行命令如下：
 
 ```bash
-npx @modern-js/create api-service-demo
+npx @modern-js/create@modern-1 api-service-demo
 ```
 
 :::info 注

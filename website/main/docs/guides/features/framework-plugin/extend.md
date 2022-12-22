@@ -13,7 +13,7 @@ sidebar_position: 4
 首先我们初始化一个空的项目文件，并添加基础依赖：
 
 ```console
-$ npx @modern-js/create modern-js-demo
+$ npx @modern-js/create@modern-1 modern-js-demo
 ```
 
 ### 创建 Hook

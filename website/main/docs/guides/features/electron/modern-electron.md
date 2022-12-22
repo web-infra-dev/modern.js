@@ -33,10 +33,10 @@ sidebar_position: 2
 ## 创建项目
 
 <details>
-  <summary>npx @modern-js/create test_modern_electron</summary>
+  <summary>npx @modern-js/create@modern-1 test_modern_electron</summary>
 
   ```bash
-    npx @modern-js/create test_modern_electron
+    npx @modern-js/create@modern-1 test_modern_electron
     npx: 1 安装成功，用时 7.108 秒
     ? 请选择你想创建的工程类型 应用
     ? 请选择开发语言 TS

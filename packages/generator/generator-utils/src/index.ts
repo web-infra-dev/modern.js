@@ -72,7 +72,7 @@ export async function getPackageVersion(
 export async function getModernVersion(
   solution: Solution,
   registry?: string,
-  distTag = 'latest',
+  distTag = 'modern-1',
 ) {
   const dep = SolutionToolsMap[solution];
   const modernVersion = await getPackageVersion(`${dep}@${distTag}`, registry);
@@ -83,7 +83,7 @@ export async function getModernPluginVersion(
   solution: Solution,
   packageName: string,
   options: { cwd?: string; registry?: string; distTag?: string } = {
-    distTag: 'latest',
+    distTag: 'modern-1',
   },
 ) {
   const { cwd = process.cwd(), registry, distTag } = options;
