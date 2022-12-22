@@ -103,7 +103,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 ```
 
-执行 `pnpm run dev` 命令之后可以看到如下构建产物:
+执行 `pnpm run dev` 命令之后可以看到如下构建产物：
 
 ```js
 if (true) {
@@ -119,7 +119,7 @@ if (true) {
 
 ### 任意命名
 
-如果需要在代码中使用任意名称的环境变量，可以在 [`source.globalVars`](/docs/configure/app/source/global-vars) 配置指定, 例如:
+如果需要在代码中使用任意名称的环境变量，可以在 [`source.globalVars`](/docs/configure/app/source/global-vars) 配置指定, 例如：
 
 ```typescript title="modern.config.ts"
 export default defineConfig({
