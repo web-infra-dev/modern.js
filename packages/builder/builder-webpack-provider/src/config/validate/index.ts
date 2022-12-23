@@ -1,4 +1,4 @@
-import { z, ZodError } from '@modern-js/builder-shared/zod';
+import { fromZodError, z, ZodError } from '@modern-js/builder-shared/zod';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
 import { BuilderConfig } from '../../types';
 
@@ -28,7 +28,7 @@ export interface ConfigValidatorOptions {
 }
 
 export const formatZodError = (error: ZodError<BuilderConfig>) => {
-  return new Error('ZodError', error);
+  return fromZodError(error);
 };
 
 export const validateBuilderConfig = async (data: unknown) => {
