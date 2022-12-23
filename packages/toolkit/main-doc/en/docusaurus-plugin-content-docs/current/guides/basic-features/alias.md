@@ -1,0 +1,67 @@
+---
+title: Alias
+sidebar_position: 8
+---
+
+Modern.js allow aliases in JS and CSS，and the following aliases are built in:
+
+```js
+{
+  '@': '<appDirectory>/src',
+  '@shared': '<appDirectory>/shared',
+}
+```
+
+:::info
+When the optional features is enable, the generator will also add built-in aliases dynamically. For example, when BFF is enabled, the `@api` alias will be added by default.
+:::
+
+For example, import the modules from the `src/common/` directory in the `src/App.tsx` file:
+
+```bash
+.
+├── common
+│   ├── styles
+│   │   └── base.css
+│   └── utils
+│       └── index.ts
+├── App.tsx
+```
+
+the code in `src/App.tsx`:
+
+```ts
+import utils from '@/src/common/utils';
+import '@/src/common/styles/base.css';
+```
+
+Modern.js also provides a way to config aliases. Adding the `@common` alias as an example. For TypeScript projects, you only need to configure `compilerOptions.paths` under the project root directory `tsconfig.json` as follows:
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@/common/*": [
+        "./src/common/*"
+      ]
+    }
+  },
+}
+```
+
+JavaScript project can config by [`source.alias`](/docs/configure/app/source/alias) in `modern.config.js`:
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  source: {
+    alias: {
+      '@common': './src/common'
+    }
+  }
+});
+```
+
+for more detail, see 【[API - source.alias](/docs/configure/app/source/alias)】。

@@ -27,7 +27,7 @@ export default defineConfig({
 请求 `http://localhost:8080/go/api` 时，会从 [http://www.example.com/](http://www.example.com/) 返回响应内容。
 
 :::info 补充信息
-配置格式可参考:【[http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)】。
+配置格式可参考：[http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)。
 :::
 
 ## 全局代理
@@ -38,7 +38,7 @@ import GlobalProxy from '@site-docs/components/global-proxy.md'
 
 ## BFF 代理
 
-通过配置 [`bff.proxy`](/docs/configure/app/bff/proxy) 可以代理 BFF API 请求到指定的服务上，和[开发环境代理](/docs/configure/app/dev/proxy)不同的是，它同样可以用在生产环境：
+通过配置 [`bff.proxy`](/docs/configure/app/bff/proxy) 可以代理 BFF API 请求到指定的服务上，上述两种代理不同，它同样可以用在生产环境：
 
 ```typescript title="modern.config.ts"
 export default defineConfig({

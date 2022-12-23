@@ -41,11 +41,7 @@ const output = {
   ssg: { typeof: ['boolean', 'object', 'function'] },
   disableNodePolyfill: { type: 'boolean' },
 };
-const dev = {
-  proxy: {
-    type: ['boolean', 'object'],
-  },
-};
+const dev = {};
 const server = {
   routes: { type: 'object' },
   publicRoutes: { type: 'object' },
