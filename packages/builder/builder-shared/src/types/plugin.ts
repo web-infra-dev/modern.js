@@ -35,6 +35,7 @@ export type Plugins = {
   fileSize: PluginsFn;
   devtool: PluginsFn;
   target: PluginsFn;
+  entry: PluginsFn;
 };
 
 /**
