@@ -21,7 +21,7 @@ import type { DeepReadonly } from '../utils';
 export interface SharedBuilderConfig {
   dev?: SharedDevConfig;
   html?: SharedHtmlConfig;
-  source?: SharedSourceConfig;
+  source?: Omit<SharedSourceConfig, 'alias'>;
   output?: SharedOutputConfig;
   security?: SharedSecurityConfig;
   performance?: Pick<SharedPerformanceConfig, 'printFileSize'>;
