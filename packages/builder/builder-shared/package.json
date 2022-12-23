@@ -20,15 +20,6 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "jsnext:modern": "./dist/index.js",
-  "exports": {
-    ".": {
-      "jsnext:source": "./src/index.ts",
-      "default": "./dist/index.js"
-    },
-    "./open": "./compiled/open/index.js",
-    "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
-    "./test-stub": "./dist/test-stub/index.js"
-  },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
@@ -37,6 +28,24 @@
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
+  },
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./open": "./compiled/open/index.js",
+    "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
+    "./test-stub": "./dist/test-stub/index.js",
+    "./zod": "./dist/exports/zod.js"
+  },
+  "typesVersions": {
+    "*": {
+      "open": ["./compiled/open/index.d.ts"],
+      "webpack-5-chain": ["./compiled/webpack-5-chain/types/index.d.ts"],
+      "test-stub": ["./dist/test-stub/index.d.ts"],
+      "zod": ["./dist/exports/zod.d.ts"]
+    }
   },
   "dependencies": {
     "@modern-js/server": "workspace:*",
@@ -62,19 +71,6 @@
       "./open": "./compiled/open/index.js",
       "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
       "./test-stub": "./dist/test-stub/index.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "open": [
-        "./compiled/open/index.d.ts"
-      ],
-      "webpack-5-chain": [
-        "./compiled/webpack-5-chain/types/index.d.ts"
-      ],
-      "test-stub": [
-        "./dist/test-stub/index.d.js"
-      ]
     }
   }
 }

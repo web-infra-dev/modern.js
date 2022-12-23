@@ -19,14 +19,13 @@ export const BuildCacheOptionsSchema: ZodType<BuildCacheOptions> = z.partialObj(
   { cacheDirectory: z.string() },
 );
 
-export const sharedPerformanceConfigSchema: ZodType<SharedPerformanceConfig> =
-  z.partialObj({
-    removeConsole: z.union([z.boolean(), z.array(ConsoleTypeSchema)]),
-    removeMomentLocale: z.boolean(),
-    buildCache: z.union([BuildCacheOptionsSchema, z.boolean()]),
-    profile: z.boolean(),
-    printFileSize: z.boolean(),
-  });
+export const sharedPerformanceConfigSchema = z.partialObj({
+  removeConsole: z.union([z.boolean(), z.array(ConsoleTypeSchema)]),
+  removeMomentLocale: z.boolean(),
+  buildCache: z.union([BuildCacheOptionsSchema, z.boolean()]),
+  profile: z.boolean(),
+  printFileSize: z.boolean(),
+});
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _schema: z.ZodType<SharedPerformanceConfig> =
