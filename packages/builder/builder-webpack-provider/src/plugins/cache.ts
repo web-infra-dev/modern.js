@@ -36,20 +36,21 @@ async function validateCache(
 function getCacheDirectory(
   { cacheDirectory }: BuildCacheOptions,
   context: BuilderContext,
+  bundlerType: string,
 ) {
   if (cacheDirectory) {
     return isAbsolute(cacheDirectory)
       ? cacheDirectory
       : join(context.rootPath, cacheDirectory);
   }
-  return join(context.cachePath, 'webpack');
+  return join(context.cachePath, bundlerType);
 }
 
 export const PluginCache = (): BuilderPlugin => ({
   name: 'builder-plugin-cache',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { target, env }) => {
+    api.modifyBundlerChain(async (chain, { target, env, bundlerType }) => {
       const { buildCache } = api.getNormalizedConfig().performance;
 
       if (buildCache === false) {
@@ -60,7 +61,11 @@ export const PluginCache = (): BuilderPlugin => ({
       const { context } = api;
       const cacheConfig = typeof buildCache === 'boolean' ? {} : buildCache;
 
-      const cacheDirectory = getCacheDirectory(cacheConfig, context);
+      const cacheDirectory = getCacheDirectory(
+        cacheConfig,
+        context,
+        bundlerType,
+      );
       const rootPackageJson = join(context.rootPath, 'package.json');
       const browserslistConfig = join(context.rootPath, '.browserslistrc');
 

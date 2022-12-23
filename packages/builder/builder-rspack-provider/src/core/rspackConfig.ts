@@ -3,6 +3,7 @@ import {
   type NodeEnv,
   type BuilderTarget,
   modifyBundlerChain,
+  BundlerConfig,
 } from '@modern-js/builder-shared';
 import { castArray } from '@modern-js/utils/lodash';
 import { getCompiledPath } from '../shared';
@@ -92,8 +93,32 @@ function getChainUtils(target: BuilderTarget): ChainUtils {
     isServer: target === 'node',
     isWebWorker: target === 'web-worker',
     getCompiledPath,
+    bundlerType: 'rspack',
   };
 }
+
+/**
+ * BundlerConfig type is similar to WebpackConfig. need convert
+ */
+const convertToRspackConfig = (config: BundlerConfig): RspackConfig => {
+  return {
+    ...config,
+    cache:
+      typeof config.cache === 'object' && config.cache.type === 'filesystem'
+        ? {
+            ...config.cache,
+            /** rspack buildDependencies type is array */
+            buildDependencies: Object.values(
+              config.cache.buildDependencies || [],
+            ).flat(),
+          }
+        : config.cache,
+    /** value is consistent. one type is string, the other one type is enum */
+    devtool: config.devtool as RspackConfig['devtool'],
+    target: config.target as RspackConfig['target'],
+  };
+};
+
 export async function generateRspackConfig({
   target,
   context,
@@ -104,7 +129,7 @@ export async function generateRspackConfig({
   const chainUtils = getChainUtils(target);
   const chain = await modifyBundlerChain(context, chainUtils);
 
-  let rspackConfig = chain.toConfig() as RspackConfig;
+  let rspackConfig = convertToRspackConfig(chain.toConfig());
 
   rspackConfig = await modifyRspackConfig(
     context,

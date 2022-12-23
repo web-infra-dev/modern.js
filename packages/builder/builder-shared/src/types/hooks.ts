@@ -35,13 +35,16 @@ export type ModifyBuilderConfigFn<BuilderConfig> = (
   config: BuilderConfig,
 ) => Promise<BuilderConfig | void> | BuilderConfig | void;
 
-export type ModifyBundlerChainUtils = {
+export type ModifyChainUtils = {
   env: NodeEnv;
   isProd: boolean;
   target: BuilderTarget;
   isServer: boolean;
   isWebWorker: boolean;
+  bundlerType: string;
 };
+
+export type ModifyBundlerChainUtils = ModifyChainUtils;
 
 /** The intersection of webpack-chain and rspack-chain */
 export type ModifyBundlerChainFn = (
