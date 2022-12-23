@@ -1,4 +1,4 @@
-import { z, ZodTypeAny, ZodRawShape, ZodOptional } from 'zod';
+import { z, ZodTypeAny, ZodRawShape } from 'zod';
 import { ChainedConfig, JSONPrimitive, JSONValue } from './types';
 
 export function arrayOrNot<T extends ZodTypeAny>(schema: T) {
@@ -35,13 +35,7 @@ export const json = () => {
 };
 
 export const partialObj = <T extends ZodRawShape>(src: T) => {
-  const ret = {} as {
-    [K in keyof T]: ZodOptional<T[K]>;
-  };
-  for (const [name, schema] of Object.entries(src)) {
-    ret[name as keyof T] = z.optional(schema) as any;
-  }
-  return z.object(ret);
+  return z.object(src).partial();
 };
 
 export type Literal = string | number | boolean | null | undefined;
