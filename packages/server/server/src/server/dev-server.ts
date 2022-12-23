@@ -49,7 +49,6 @@ export class ModernDevServer extends ModernServer {
     // create dev middleware instance
     this.devMiddleware = new DevMiddleware({
       dev: this.dev,
-      compiler: options.compiler,
       devMiddleware: options.devMiddleware,
     });
 

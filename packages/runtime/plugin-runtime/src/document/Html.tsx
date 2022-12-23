@@ -50,6 +50,7 @@ export function Html(props: { children: any[] }) {
   // deal with the component with default
   const hasSetHead = Boolean(findTargetChild('Head', children));
   const hasSetScripts = Boolean(findTargetElement('Scripts', children));
+  const hasSetLinks = Boolean(findTargetElement('Links', children));
   const hasSetBody = Boolean(findTargetChild('Body', children));
   const hasSetRoot = Boolean(findTargetElement('Root', children));
   const notMissMustChild = [
@@ -92,6 +93,7 @@ export function Html(props: { children: any[] }) {
         value={{
           hasSetHead,
           hasSetScripts,
+          hasSetLinks,
           hasSetRoot,
           hasSetBody,
           docChild: children,

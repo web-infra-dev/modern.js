@@ -1,5 +1,7 @@
-import type { ChainedConfig } from '@modern-js/builder-shared';
-import type { DevServerOptions } from '@modern-js/types';
+import type {
+  ChainedConfig,
+  SharedToolsConfig,
+} from '@modern-js/builder-shared';
 import type { Options as HTMLPluginOptions } from '@rspack/plugin-html';
 import type {
   AutoprefixerOptions,
@@ -10,7 +12,6 @@ import type {
 import type { RspackConfig } from '../rspack';
 import type { ModifyRspackConfigUtils } from '../hooks';
 
-export type ToolsDevServerConfig = ChainedConfig<DevServerOptions>;
 export type ToolsAutoprefixerConfig = ChainedConfig<AutoprefixerOptions>;
 
 export type ToolsPostCSSLoaderConfig = ChainedConfig<
@@ -40,11 +41,7 @@ export type ToolsRspackConfig = ChainedConfig<
 >;
 
 // TODO: add more configs
-export interface ToolsConfig {
-  /**
-   * Modify the options of DevServer.
-   */
-  devServer?: ToolsDevServerConfig;
+export interface ToolsConfig extends SharedToolsConfig {
   htmlPlugin?: false | ToolsHtmlPluginConfig;
   autoprefixer?: ToolsAutoprefixerConfig;
   postcss?: ToolsPostCSSLoaderConfig;

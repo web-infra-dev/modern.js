@@ -50,11 +50,15 @@ Builder 默认的 Browserslist 配置为：
 ['Chrome >= 61'];
 ```
 
-## 按需引入 Polyfill
+:::tip
+请阅读 [设置浏览器范围](/guide/advanced/browserslist.html) 章节来了解更多关于 Browserslist 的用法。
+:::
 
-在明确第三方依赖不需要额外 Polyfill 的情况下，你可以将 [output.polyfill](/zh/api/config-output.html#output-polyfill) 设置为 `usage`。
+## 按需引入 polyfill
 
-在 `usage` 模式下，Builder 会分析源代码中使用的语法，按需注入所需的 Polyfill 代码，从而减少 Polyfill 的代码量。
+在明确第三方依赖不需要额外 polyfill 的情况下，你可以将 [output.polyfill](/zh/api/config-output.html#output-polyfill) 设置为 `usage`。
+
+在 `usage` 模式下，Builder 会分析源代码中使用的语法，按需注入所需的 polyfill 代码，从而减少 polyfill 的代码量。
 
 ```js
 export default {
@@ -63,6 +67,10 @@ export default {
   },
 };
 ```
+
+:::tip
+请阅读 [浏览器兼容性](/guide/advanced/browser-compatibility.html) 章节来了解更多关于 polyfill 的用法。
+:::
 
 ## 使用图片压缩
 

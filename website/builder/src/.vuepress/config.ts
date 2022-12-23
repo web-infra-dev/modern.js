@@ -7,7 +7,8 @@ import { ThemeConfig } from 'vuepress-theme-vt';
 import markdownItInclude from 'markdown-it-include';
 import './md-include-hmr';
 
-const logo = 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/eden-x-logo.png';
+const logo =
+  'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/eden-x-logo.png';
 
 function getI18nHelper(lang: 'cn' | 'en') {
   const cn = lang === 'cn';
@@ -59,6 +60,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/basic/css-usage'),
           getLink('/guide/basic/static-assets'),
           getLink('/guide/basic/svg-assets'),
+          getLink('/guide/basic/json-files'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/css-modules'),
           getLink('/guide/basic/typescript'),
@@ -90,7 +92,10 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       {
         collapsable: false,
         title: getText('调试', 'Debug'),
-        children: [getLink('/guide/debug/inspector')],
+        children: [
+          getLink('/guide/debug/debug-mode'),
+          getLink('/guide/debug/inspector'),
+        ],
       },
       {
         collapsable: false,

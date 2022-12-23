@@ -88,7 +88,7 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
           "name": "lib-arco",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]@arco-design\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
@@ -114,11 +114,51 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
         },
-        "lib-semi": {
-          "name": "lib-semi",
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > should set split-by-experience config correctly when polyfill is off 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-antd": {
+          "name": "lib-antd",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]@ies\\\\/semi\\|@douyinfe\\\\/semi\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+        },
+        "lib-arco": {
+          "name": "lib-arco",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
+        },
+        "lib-lodash": {
+          "name": "lib-lodash",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+        },
+        "lib-react": {
+          "name": "lib-react",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+        },
+        "lib-router": {
+          "name": "lib-router",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",

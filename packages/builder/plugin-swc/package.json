@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-plugin-swc",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.6",
   "description": "SWC plugin for builder in Modern.js",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
