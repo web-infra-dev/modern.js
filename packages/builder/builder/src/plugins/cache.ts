@@ -3,8 +3,8 @@ import {
   BuildCacheOptions,
   BuilderContext,
   isFileExists,
+  DefaultBuilderPlugin,
 } from '@modern-js/builder-shared';
-import type { BuilderPlugin } from '../types';
 
 async function validateCache(
   cacheDirectory: string,
@@ -46,7 +46,7 @@ function getCacheDirectory(
   return join(context.cachePath, bundlerType);
 }
 
-export const PluginCache = (): BuilderPlugin => ({
+export const PluginCache = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-cache',
 
   setup(api) {
