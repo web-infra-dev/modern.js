@@ -41,17 +41,26 @@
   },
   "typesVersions": {
     "*": {
-      "open": ["./compiled/open/index.d.ts"],
-      "webpack-5-chain": ["./compiled/webpack-5-chain/types/index.d.ts"],
-      "test-stub": ["./dist/test-stub/index.d.ts"],
-      "zod": ["./dist/exports/zod.d.ts"]
+      "open": [
+        "./compiled/open/index.d.ts"
+      ],
+      "webpack-5-chain": [
+        "./compiled/webpack-5-chain/types/index.d.ts"
+      ],
+      "test-stub": [
+        "./dist/test-stub/index.d.ts"
+      ],
+      "zod": [
+        "./dist/exports/zod.d.ts"
+      ]
     }
   },
   "dependencies": {
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "zod": "^3.17.3"
+    "zod": "^3.20.2",
+    "zod-validation-error": "^0.3.0"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",

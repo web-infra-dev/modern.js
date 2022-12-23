@@ -49,4 +49,5 @@ export const unionLiterals = <T extends Literal[]>(
 
 export const literals = unionLiterals;
 
-export * from 'zod/lib/types';
+export * from 'zod';
+export * from 'zod-validation-error';
