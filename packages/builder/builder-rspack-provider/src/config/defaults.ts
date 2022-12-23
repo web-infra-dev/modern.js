@@ -6,7 +6,7 @@ import {
   defaultHtmlConfig,
   defaultSourceConfig,
 } from '@modern-js/builder-shared';
-import type { BuilderConfig, NormalizedSourceConfig } from '../types';
+import type { BuilderConfig } from '../types';
 
 const defineDefaultConfig = extendsType<BuilderConfig>();
 
@@ -15,8 +15,11 @@ export const createDefaultConfig = () =>
   defineDefaultConfig({
     dev: defaultDevConfig,
     html: defaultHtmlConfig,
-    /** alias type in shared is not match */
-    source: defaultSourceConfig as NormalizedSourceConfig,
+    source: {
+      ...defaultSourceConfig,
+      alias: {},
+      define: {},
+    },
     output: defaultOutputConfig,
     tools: {},
     security: {

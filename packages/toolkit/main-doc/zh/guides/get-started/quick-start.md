@@ -120,8 +120,7 @@ Starting the modern server...
 info    App running at:
 
   > Local:    http://localhost:8080/
-  > Network:  http://10.94.58.87:8080/
-  > Network:  http://10.254.68.105:8080/
+  > Network:  http://192.168.0.1:8080/
 ```
 
 在浏览器中打开 `http://localhost:8000/`，内容应该和 `pnpm run dev` 时一致。

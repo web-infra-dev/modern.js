@@ -53,7 +53,10 @@ export const buildCommand = async (
 
       debug('resolvedBuildConfig', resolvedBuildConfig);
 
-      await runner.beforeBuild({ config: resolvedBuildConfig, options });
+      await runner.beforeBuild({
+        config: resolvedBuildConfig,
+        cliOptions: options,
+      });
       const builder = await import('./builder');
       await builder.run(
         { cmdOptions: options, resolvedBuildConfig, context },
@@ -94,6 +97,13 @@ export const devCommand = async (
         .action(async (options: DevCommandOptions = {}) => {
           const { initModuleContext } = await import('./utils/context');
           const context = await initModuleContext(api);
+          const { runBuildBeforeDevTools } = await import('./dev');
+
+          await runBuildBeforeDevTools({
+            disableRunBuild: meta.disableRunBuild ?? false,
+            appDirectory: context.appDirectory,
+          });
+
           await runner.beforeDevTask(meta);
           await meta.action(options, { isTsProject: context.isTsProject });
         });

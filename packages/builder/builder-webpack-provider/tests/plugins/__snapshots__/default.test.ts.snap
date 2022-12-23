@@ -16,6 +16,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "type": "filesystem",
   },
   "context": "<ROOT>",
+  "devtool": "cheap-module-source-map",
   "infrastructureLogging": {
     "level": "error",
   },
@@ -592,7 +593,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "name": "lib-arco",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]@arco-design\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
@@ -617,12 +618,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
-        },
-        "lib-semi": {
-          "name": "lib-semi",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]@ies\\\\/semi\\|@douyinfe\\\\/semi\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -747,5 +742,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     ],
   },
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;

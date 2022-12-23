@@ -1,7 +1,5 @@
 import http from 'http';
-import webpack from 'webpack';
 import SocketServer from '../src/dev-tools/dev-middleware/socket-server';
-import DevServerPlugin from '../src/dev-tools/dev-middleware/dev-server-plugin';
 
 function getRandomPort() {
   return Math.floor(Math.random() * (8000 - 1024)) + 1024;
@@ -64,63 +62,5 @@ describe('test dev tools', () => {
     socketServer.close();
     expect(socket.state).toBe(0);
     app.close();
-  });
-
-  const getDevServerPluginOptions = () => ({
-    client: {
-      port: '8080',
-      path: '/',
-      host: '127.0.0.1',
-    },
-    devMiddleware: {
-      writeToDisk: false,
-    },
-    watch: true,
-    hot: true,
-    liveReload: true,
-  });
-
-  test('should dev server plugin work correctly with hot plugin', () => {
-    const compiler = webpack({
-      plugins: [new webpack.HotModuleReplacementPlugin()],
-    });
-    new DevServerPlugin(getDevServerPluginOptions()).apply(compiler);
-
-    const entryPluginHook = compiler.hooks.compilation.taps.filter(
-      tap => tap.name === 'EntryPlugin',
-    );
-    const hotPluginHook = compiler.hooks.compilation.taps.filter(
-      tap => tap.name === 'HotModuleReplacementPlugin',
-    );
-    expect(entryPluginHook.length).toBe(2);
-    expect(hotPluginHook.length).toBe(1);
-  });
-
-  test('should dev server plugin work correctly', () => {
-    const compiler = webpack({});
-    new DevServerPlugin(getDevServerPluginOptions()).apply(compiler);
-
-    const entryPluginHook = compiler.hooks.compilation.taps.filter(
-      tap => tap.name === 'EntryPlugin',
-    );
-    const hotPluginHook = compiler.hooks.compilation.taps.filter(
-      tap => tap.name === 'HotModuleReplacementPlugin',
-    );
-    expect(entryPluginHook.length).toBe(2);
-    expect(hotPluginHook.length).toBe(1);
-  });
-
-  test('should not inject entry when hot and liveReload is disabled', () => {
-    const compiler = webpack({});
-    new DevServerPlugin({
-      ...getDevServerPluginOptions(),
-      hot: false,
-      liveReload: false,
-    }).apply(compiler);
-
-    const entryPluginHook = compiler.hooks.compilation.taps.filter(
-      tap => tap.name === 'EntryPlugin',
-    );
-    expect(entryPluginHook.length).toBe(1);
   });
 });

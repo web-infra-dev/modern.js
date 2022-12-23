@@ -51,9 +51,14 @@ describe('test dev server middleware', () => {
     const modernServer: any = (server as any).server;
     const handler = modernServer.getRequestHandler();
 
-    expect(middlewareFn).toBeCalledWith(compiler, {
+    expect(middlewareFn).toBeCalledWith({
       writeToDisk: false,
       stats: false,
+      callbacks: {
+        onDone: expect.any(Function),
+        onInvalid: expect.any(Function),
+      },
+      hmrClientPath: expect.any(String),
     });
 
     expect(middlewareCbFn).not.toBeCalled();

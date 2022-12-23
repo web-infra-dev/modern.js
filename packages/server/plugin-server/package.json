@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.6",
   "types": "./src/cli",
   "jsnext:source": "./src/cli",
   "main": "./dist/js/node/cli.js",

@@ -57,8 +57,12 @@ export function builderRspackProvider({
         }) as any;
       },
 
-      async startDevServer() {
-        return {} as any;
+      async startDevServer(options) {
+        const { startDevServer } = await import('./core/startDevServer');
+        return startDevServer(
+          { context, pluginStore, builderOptions },
+          options,
+        );
       },
 
       async build(options) {

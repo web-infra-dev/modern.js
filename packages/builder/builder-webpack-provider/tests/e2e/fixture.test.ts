@@ -12,6 +12,7 @@ it('fixture', async () => {
   expect(Object.keys(files)).toMatchInlineSnapshot(`
     [
       "<TEMP>/<FRAGMENT>/static/js/main.js",
+      "<TEMP>/<FRAGMENT>/static/js/main.js.map",
     ]
   `);
 });

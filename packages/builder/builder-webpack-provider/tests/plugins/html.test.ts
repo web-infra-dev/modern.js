@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
+import { PluginEntry } from '@builder/plugins/entry';
 import { getTemplatePath, PluginHtml } from '@/plugins/html';
-import { PluginEntry } from '@/plugins/entry';
 import { createStubBuilder } from '@/stub';
 import type { BuilderConfig, NormalizedConfig } from '@/types';
 

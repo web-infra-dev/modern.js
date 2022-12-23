@@ -14,6 +14,8 @@ export const PluginReact = (): BuilderPlugin => ({
       setConfig(rspackConfig, 'builtins.react', {
         development: !utils.isProd,
         refresh: usingHMR,
+        // https://swc.rs/docs/configuration/compilation#jsctransformreactruntime
+        runtime: 'automatic',
       });
     });
   },

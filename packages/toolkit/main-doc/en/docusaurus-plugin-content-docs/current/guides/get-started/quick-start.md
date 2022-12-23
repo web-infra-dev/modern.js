@@ -61,8 +61,7 @@ info    Starting dev server...
 info    App running at:
 
   > Local:    http://localhost:8080/
-  > Network:  http://10.94.58.87:8080/
-  > Network:  http://10.254.68.105:8080/
+  > Network:  http://192.168.0.1:8080/
 
  Client ✔ done in 76.10ms
 ```
@@ -151,8 +150,7 @@ Starting the modern server...
 info    App running at:
 
   > Local:    http://localhost:8080/
-  > Network:  http://10.94.58.87:8080/
-  > Network:  http://10.254.68.105:8080/
+  > Network:  http://192.168.0.1:8080/
 ```
 
 Open http://localhost:8000/ in the browser and the content should be the same as when `pnpm run dev`.

@@ -4,7 +4,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
 {
   "builtins": {
     "define": {
-      "process.env.NODE_ENV": "\\"test\\"",
+      "process.env.NODE_ENV": "\\"development\\"",
     },
     "progress": {
       "prefix": "Client",
@@ -12,13 +12,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "react": {
       "development": true,
       "refresh": true,
+      "runtime": "automatic",
     },
   },
   "context": "<ROOT>",
   "devServer": {
     "hot": true,
   },
-  "entry": {},
   "infrastructureLogging": {
     "level": "error",
   },
@@ -170,13 +170,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "react": {
       "development": false,
       "refresh": false,
+      "runtime": "automatic",
     },
   },
   "context": "<ROOT>",
   "devServer": {
     "hot": false,
   },
-  "entry": {},
   "infrastructureLogging": {
     "level": "error",
   },
@@ -320,7 +320,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
 {
   "builtins": {
     "define": {
-      "process.env.NODE_ENV": "\\"test\\"",
+      "process.env.NODE_ENV": "\\"development\\"",
     },
     "progress": {
       "prefix": "Client",
@@ -328,13 +328,13 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "react": {
       "development": true,
       "refresh": true,
+      "runtime": "automatic",
     },
   },
   "context": "<ROOT>",
   "devServer": {
     "hot": true,
   },
-  "entry": {},
   "infrastructureLogging": {
     "level": "error",
   },

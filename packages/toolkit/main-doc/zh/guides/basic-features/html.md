@@ -3,9 +3,7 @@ title: HTML 模板
 sidebar_position: 9
 ---
 
-Modern.js 提供了 `jsx` 和 `ejs` 两种方式用于自定义 html 模板。推荐使用 `jsx` 语法，让写模板跟写组件一样丝滑。
-
-## jsx
+Modern.js 提供了 **JSX 模板**和**传统模板**两种方式用于自定义 HTML 模板。
 
 ### 使用说明
 
@@ -23,7 +21,6 @@ import {
 #### 导出
 ```tsx
 export default Document() {}
-
 ```
 
 #### 文件位置
@@ -181,7 +178,7 @@ export default function Document(): React.ReactElement {
 </html>
 ```
 
-## ejs
+## EJS
 
 Modern.js 同时支持了使用 `ejs` 语法编写模板，当项目中，没有编写 `Document.[j|t]sx` 文件时，将自动回退至  `ejs` HTML 模板。
 

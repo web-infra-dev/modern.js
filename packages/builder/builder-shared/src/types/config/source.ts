@@ -1,21 +1,11 @@
-import type { Alias } from '@modern-js/utils';
 import type { BuilderTarget } from '../builder';
-import type { ChainedConfig, JSONValue } from '../utils';
+import type { JSONValue } from '../utils';
 
 export type ModuleScopes = Array<string | RegExp>;
 
 export type MainFields = (string | string[])[];
 
 export interface SharedSourceConfig {
-  /**
-   * Create aliases to import or require certain modules,
-   * same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack.
-   */
-  alias?: ChainedConfig<Alias>;
-  /**
-   * Replaces variables in your code with other values or expressions at compile time.
-   */
-  define?: Record<string, any>;
   /**
    * Specify directories or modules that need additional compilation.
    * In order to maintain faster compilation speed, Builder will not compile files under node_modules through
@@ -52,7 +42,6 @@ export interface SharedSourceConfig {
 }
 
 export interface NormalizedSharedSourceConfig extends SharedSourceConfig {
-  define: Record<string, any>;
   preEntry: string[];
   globalVars: Record<string, JSONValue>;
   compileJsDataURI: boolean;
