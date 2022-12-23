@@ -1,0 +1,783 @@
+# Developing Components
+
+This chapter will describe how to develop component projects using the module engineering solution.
+
+# # Initialize the project
+
+<CH.Spotlight>
+
+``` bash Interactive questions
+npx @modern-js/create components-project
+
+? Please select the solution you want to create Module Solution
+? Package Name components-demo
+? Development Language TS
+? Package Management Tool pnpm
+```
+---
+
+It is recommended to use the `@modern-js/create` command to initialize an npm project.
+
+``` bash Interactive questions
+npx @modern-js/create components-project
+
+? Please select the solution you want to create Module Solution
+? Package Name components-demo
+? Development Language TS
+? Package Management Tool pnpm
+```
+
+---
+
+The initialized directory structure.
+
+``` bash The initialized directory structure
+.
+├── README.md
+├── node_modules/
+├── dist/
+├── modern.config.ts
+├── package.json
+├── pnpm-lock.yaml
+├── src
+│   ├── index.ts
+│   └── modern-app-env.d.ts
+└── tsconfig.json
+```
+
+---
+
+Modify the `. /src/index.ts` file suffix and content.
+
+At this point, a component project is initialized.
+
+``` tsx ./src/index.tsx
+export default () => {
+  return (
+    <div>hello world</div>
+  );
+}
+```
+</CH.Spotlight>
+
+## Debugging code with Storybook
+
+<CH.Spotlight>
+
+``` bash Terminal
+pnpm run new
+
+? Action Enable features
+? Enable features Enable Visual Testing (Storybook)
+```
+---
+
+Execute the `new` command in the project root directory to enable the Storybook feature.
+
+``` bash Terminal
+pnpm run new
+
+? Action Enable features
+? Enable features Enable Visual Testing (Storybook)
+```
+---
+
+Once successfully opened, you will see that a new dependency has been added to `package.json`. The `stories` directory and related initialization files are also created.
+
+<CH.Code>
+
+```json ./package.json focus=4:7
+{
+  "name": "components-demo",
+  "devDependencies": {
+    "@modern-js/plugin-storybook": "x.y.z",
+    "@modern-js/runtime": "x.y.z",
+    "react": "^17",
+    "react-dom": "^17"
+  }
+}
+```
+
+```bash Directory Structure
+.
+├── src
+│   ├── index.ts
+│   └── modern-app-env.d.ts
+├── stories
+│   ├── .eslintrc.js
+│   ├── index.stories.tsx
+│   └── tsconfig.json
+```
+
+</CH.Code>
+
+---
+
+After initialization, the `tsconfig.json` file in the `. /stories` directory, the `tsconfig.json` file is set by default with the `paths` configuration of the same name as the project.
+
+```json ./stories/tsconfig.json focus=5:7
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../",
+    "paths": {
+      "components-demo": ["./"],
+      "components-demo/*": ["./*"]
+    }
+  },
+  "include": ["**/*"]
+}
+```
+
+---
+
+Such a configuration allows you to introduce code in Story code directly using the name of the project.
+
+<CH.Code>
+
+``` tsx ./stories/index.stories.tsx
+import Component from 'components-demo';
+
+export const YourStory = () => <Component />;
+
+export default {
+  title: 'Your Stories',
+};
+
+```
+---
+``` tsx ./src/index.tsx
+export default () => {
+  return (
+    <div>hello world</div>
+  );
+}
+```
+
+</CH.Code>
+
+---
+
+At this point Storybook identifies the entry point for the imported code based on fields like `main`, `exports` in the project's `package.json` file.
+The location of the type file is determined by the `types` field.
+
+```json package.json
+{
+  "name": "components-demo",
+  "main": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts"
+}
+```
+
+---
+
+While importing source code for debugging is also supported, debugging using project artifacts is more reliable.
+
+Debugging with source code has a limitation: some configurations are not equivalent in Storybook and in the original build support.
+
+**This is why debugging with the product is recommended**.
+
+``` tsx ./stories/index.stories.tsx
+import Component from '../src';
+
+export const YourStory = () => <Component />;
+
+export default {
+  title: 'Your Stories',
+};
+```
+
+</CH.Spotlight>
+
+## Developing Styles
+
+Next we can add styles to the component.
+
+The following capabilities are currently supported for developing styles.
+
+* CSS/PostCSS
+* Less
+* Scss/Sass
+* Tailwind CSS
+* CSS Modules
+
+### CSS/PostCSS
+
+The module project supports PostCSS and has the following built-in postcss plugins.
+
++ [flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes)
++ [custom-properties](https://github.com/postcss/postcss-custom-properties)
++ [initial](https://github.com/maximkoretskiy/postcss-initial)
++ [page-break](https://github.com/shrpne/postcss-page-break)
++ [font-variant](https://github.com/postcss/postcss-font-variant)
++ [media-minmax](https://github.com/postcss/postcss-media-minmax)
++ [nesting](https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-nesting#readme)
+
+So we can create `.css` files in our projects and use the syntax support and capabilities provided by these plugins directly in our css files.
+
+<CH.Spotlight>
+
+
+``` css ./src/index.css
+a,
+b {
+  color: red;
+
+  /* "&" comes first */
+  & c,
+  & d {
+    color: white;
+  }
+
+  /* "&" comes later, requiring "@nest" */
+  @nest e & {
+    color: yellow;
+  }
+}
+```
+
+---
+
+Source Code.
+
+``` css ./src/index.css
+```
+
+---
+
+css product.
+
+``` css ./dist/es/index.css
+a,
+b {
+  color: red;
+}
+a c,
+b c,
+a d,
+b d {
+  color: white;
+}
+e a,
+e b {
+  color: yellow;
+}
+```
+
+</CH.Spotlight>
+
+### Less
+
+Module projects support development styles using Less.
+
+> Currently supported version is 4.1.3
+
+<CH.Spotlight>
+
+```less ./src/common.less
+@bg: black;
+@bg-light: boolean(luma(@bg) > 50%);
+
+div {
+  background: @bg;
+  color: if(@bg-light, black, white);
+}
+```
+---
+
+Source Code.
+
+```less ./src/common.less
+```
+
+---
+
+Less product.
+
+```css ./dist/es/common.css
+div {
+  background: black;
+  color: white;
+}
+```
+
+</CH.Spotlight>
+
+### Sass/Scss
+
+Module projects support developing styles using Scss/Sass.
+
+> Currently supported version is 1.54.4
+
+<CH.Spotlight>
+
+```sass ./src/common.sass
+$font-stack: Helvetica, sans-serif;
+$primary-color: #333;
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+```
+---
+
+源代码。
+
+```sass ./src/common.sass
+```
+
+---
+
+Less product.
+
+```css ./dist/es/common.css
+body {
+  font: 100% Helvetica, sans-serif;
+  color: #333;
+}
+```
+
+</CH.Spotlight>
+
+### Tailwind CSS
+
+The module project supports the development of component styles using Tailwind CSS.
+
+By default, this feature is not enabled in the module project, you need to enable it as follows.
+
+<CH.Spotlight>
+
+``` bash Terminal
+pnpm run new
+
+? Action Enable features
+? Enable features Enable Visual Testing (Storybook)
+```
+---
+
+The Tailwind CSS feature can be enabled by executing the `new` command in the project root directory.
+
+``` bash Terminal
+pnpm run new
+
+? Action Enable features
+? Enable features Enable Tailwind CSS
+```
+---
+
+Once successfully opened, you will see that a new dependency has been added to `package.json`.
+
+``` json ./package.json
+{
+  "devDependencies": {
+    "@modern-js/plugin-tailwindcss": "x.y.z"
+  }
+}
+```
+
+</CH.Spotlight>
+
+Tailwind CSS offers two ways to use it.
+
+#### HTML class
+
+<CH.Spotlight>
+
+``` tsx ./src/index.tsx
+import 'tailwindcss/utilities.css';
+
+export default () => {
+  return (
+    <div className="bg-black text-white">hello world</div>
+  );
+}
+```
+---
+
+Tailwind CSS supports adding styles to HTML tags by using class names.
+
+``` tsx ./src/index.tsx focus=5:5
+```
+---
+
+**When using HTML class names, be sure to import the Tailwind CSS equivalent css file. **
+
+``` tsx ./src/index.tsx focus=1:1
+
+```
+
+---
+
+Style product.
+
+> This is a bundle build.
+
+
+```css ./dist/es/index.css
+/* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
+.table {
+  display: table;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+*,
+::before,
+::after {
+  --tw-shadow: 0 0 #0000 ;
+}
+*,
+::before,
+::after {
+  --tw-ring-inset: var(--tw-empty, );
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgba(59, 130, 246, 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000 ;
+}
+@media (min-width: 640px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 1024px) {
+}
+@media (min-width: 1280px) {
+}
+@media (min-width: 1536px) {
+}
+
+```
+
+
+</CH.Spotlight>
+
+#### `@apply`
+
+Tailwind CSS provides the [`@apply`](https://v2.tailwindcss.com/docs/functions-and-directives#apply) directive, which allows us to inline the styles provided by Tailwind CSS into the styles we write.
+
+`@apply` can be used in CSS, Less, and Sass.
+
+``` css
+.btn {
+  @apply font-bold py-2 px-4 rounded;
+}
+```
+
+However, there are some things to keep in mind when using Less and Sass.
+
+##### Sass
+
+When using Tailwind with Sass, the presence of `!important` after `@apply` requires interpolation to get Sass to compile correctly.
+
+<CH.Spotlight>
+
+``` sass
+.alert {
+  @apply bg-red-500 !important;
+}
+```
+---
+
+It does not work properly.
+
+``` sass
+```
+---
+
+Can work properly.
+
+``` sass
+.alert {
+  @apply bg-red-500 #{!important};
+}
+```
+
+</CH.Spotlight>
+
+##### Less
+
+When using Tailwind with Less, you cannot nest Tailwind's `@screen` directive.
+
+<CH.Spotlight>
+
+``` less
+.card {
+  @apply rounded-none;
+
+  @screen sm {
+    @apply rounded-lg;
+  }
+}
+```
+---
+
+It does not work properly.
+
+``` less
+```
+---
+
+Instead, use regular media queries and the `theme()` function to reference your screen size, or simply don't nest your `@screen` directive.
+
+<CH.Code>
+
+``` less Method One
+// Use a regular media query and theme()
+.card {
+  @apply rounded-none;
+
+  @media (min-width: theme('screens.sm')) {
+    @apply rounded-lg;
+  }
+}
+```
+
+---
+
+``` less Method Two
+// Use the @screen directive at the top-level
+.card {
+  @apply rounded-none;
+
+  @media (min-width: theme('screens.sm')) {
+    @apply rounded-lg;
+  }
+}
+```
+
+</CH.Code>
+
+</CH.Spotlight>
+
+#### Recommended method
+
+**It is recommended to develop styles in the way specified by `@apply`, so that only styles inlined by directives are included in the style product. **
+
+When adding styles using HTML class names, by default Tailwind will not only add the styles corresponding to its own class name to the product, but will also have additional style code that may not affect its own styles.
+
+#### The difference between bundle and bundleless build products
+
+For the following code, there is a big difference between the bundle and bundleless modes of building products.
+
+> The so-called bundle and bundleless can be found in [[Bundle and Bundleless]](/en/guide/advance/in-depth-about-build#bundle- and-bundleless)
+
+
+``` tsx ./src/index.tsx
+import 'tailwindcss/utilities.css';
+
+export default () => {
+  return (
+    <div className="bg-black text-white">hello world11</div>
+  );
+}
+```
+
+In Bundle mode, third-party dependencies are packaged in.
+
+For styles, a separate product file is generated, and there is no code related to importing styles in the Js product file.
+
+If you need to inject styles into Js products, you can enable the [`style.inject` API](/en/api/build-config#inject).
+
+<CH.Code>
+```css ./dist/es/index.css
+/* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
+.table {
+  display: table;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+*,
+::before,
+::after {
+  --tw-shadow: 0 0 #0000 ;
+}
+*,
+::before,
+::after {
+  --tw-ring-inset: var(--tw-empty, );
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgba(59, 130, 246, 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000 ;
+}
+@media (min-width: 640px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 1024px) {
+}
+@media (min-width: 1280px) {
+}
+@media (min-width: 1536px) {
+}
+```
+---
+``` js ./dist/es/index.js
+// src/index.tsx
+import { jsx } from "react/jsx-runtime";
+var src_default = () => {
+  return /* @__PURE__ */ jsx("div", {
+    className: "bg-black text-white",
+    children: "hello world11"
+  });
+};
+export {
+  src_default as default
+};
+```
+</CH.Code>
+
+In Bundleless mode, no third-party dependencies are packaged in, and no style products are generated at this time.
+
+```js ./dist/es/index.js
+import { jsx } from "react/jsx-runtime";
+import "tailwindcss/utilities.css";
+var src_default = () => {
+  return /* @__PURE__ */ jsx("div", {
+    className: "bg-black text-white",
+    children: "hello world11"
+  });
+};
+export {
+  src_default as default
+};
+```
+
+### CSS Modules
+
+Module projects support the development of styles using CSS Modules. By default, the following files are recognized as CSS Module files.
+
+* `.module.css`
+* `.module.less`
+* `.module.scss`
+* `.module.sass`
+
+If you need to configure CSS Modules, you can check out the API at
+
+* [autoModules](en/api/build-config#automodules)
+* [modules](/en/api/build-config#modules)
+
+The following is a code example.
+
+<CH.Code>
+
+``` tsx ./src/index.tsx
+import style from './index.module.css';
+
+export default () => {
+  return (
+    <div className={style.btn}>hello world</div>
+  );
+}
+```
+
+``` css ./src/index.module.css
+.btn {
+  color: blue;
+}
+```
+</CH.Code>
+
+## Configuring build products
+
+Based on most scenarios of component project usage, **it is recommended to use the `npm-component` build preset**. This preset yields a product directory structure of
+
+```bash
+.
+├── dist
+│   ├── es
+│   ├── lib
+│   └── types
+```
+
+* `. /dist/es`: Contains bundleless products in ES modules format that support the es6 syntax.
+* `. /dist/lib`: Contains bundleless products in CommonJS format with support for es6 syntax.
+* `. /dist/types`: Contains the types file.
+
+The [`buildPreset`](/en/api/build-preset) can be configured manually if there is a requirement to use syntax support, and supports modifying the supported syntax by adding a suffix to `npm-component`.
+
+``` tsx
+export default defineConfig({
+  buildPreset: 'npm-component-es2019',
+});
+```
+
+If you have special needs for the build product directory structure, you can use the [`buildConfig` API](/en/api/build-config), which can be used by the following documentation.
+
+* [modify-output-product](/en/guide/basic/modify-output-product#build-configuration-object)
+* [in-depth-about-build](/en/guide/advance/in-depth-about-build)
+
+## Testing components
+
+For more information on how to test components, please refer to [[Test project]](/en/guide/basic/test-your-project).
+
+
+## Releasing components
+
+It is recommended to use module project to provide version publishing function, you can refer to [[Versioning and publishing]](/en/guide/basic/publish-your-project).
