@@ -40,9 +40,35 @@ import { PluginStylus } from '@modern-js/builder-plugin-stylus';
 builder.addPlugins([PluginStylus()]);
 ```
 
-## Config
+## Example
 
-After installing the plugin, you can directly import the `.styl` file into the code without adding other configs.
+After installing the plugin, you can directly import `*.styl` or `*.module.styl` files into the code without adding other configs.
+
+- `normalize.styl`:
+
+```style
+the body
+   color#000
+   font 14px Arial, sans-serif
+```
+
+- `title.module.styl`:
+
+```style
+.title
+   font-size: 14px;
+```
+
+- `index.js`:
+
+```js
+import './normalize.styl';
+import style from './title.module.styl';
+
+console.log(style.title);
+```
+
+## Config
 
 If you need to customize the compilation behavior of Stylus, you can use the following configs.
 

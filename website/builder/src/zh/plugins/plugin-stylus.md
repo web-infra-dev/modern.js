@@ -40,9 +40,35 @@ import { PluginStylus } from '@modern-js/builder-plugin-stylus';
 builder.addPlugins([PluginStylus()]);
 ```
 
-## 配置
+## 示例
 
-安装完插件后，你可以直接在代码中引入 `.styl` 文件，无须添加其他配置。
+安装完插件后，你可以直接在代码中引入 `*.styl` 或 `*.module.styl` 文件，无须添加其他配置。
+
+- `normalize.styl`:
+
+```styl
+body
+  color #000
+  font 14px Arial, sans-serif
+```
+
+- `title.module.styl`:
+
+```styl
+.title
+  font-size: 14px;
+```
+
+- `index.js`:
+
+```js
+import './normalize.styl';
+import style from './title.module.styl';
+
+console.log(style.title);
+```
+
+## 配置
 
 如果你需要自定义 Stylus 的编译行为，可以使用以下配置项。
 
