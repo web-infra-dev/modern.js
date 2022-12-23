@@ -180,6 +180,15 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/advance/theme-config'),
           },
         ]
+      },
+      {
+        text: getText('最佳实践', 'Best practices'),
+        items: [
+          {
+            text: getText('开发组件', 'Development Components'),
+            link: getLink('/guide/best-practices/components')
+          }
+        ],
       }
     ],
     [getLink('/api/')]: [
