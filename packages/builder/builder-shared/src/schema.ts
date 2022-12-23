@@ -12,12 +12,6 @@ import {
 export const sharedSourceConfigSchema: ConfigSchema<SharedSourceConfig> = {
   type: 'object',
   properties: {
-    alias: {
-      typeof: ['object', 'function'],
-    },
-    define: {
-      type: 'object',
-    },
     include: {
       type: 'array',
     },

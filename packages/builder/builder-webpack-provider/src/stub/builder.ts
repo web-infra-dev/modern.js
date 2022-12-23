@@ -7,7 +7,7 @@ import {
   type PluginStore,
 } from '@modern-js/builder-shared';
 /**
- * provider shouldn't dependency builder, so use /test-stub as placeholder
+ * provider shouldn't depend on builder, so use /test-stub as placeholder
  *
  * real import by: /tests/setup.ts
  */

@@ -21,7 +21,7 @@ import type { DeepReadonly } from '../utils';
 export interface SharedBuilderConfig {
   dev?: SharedDevConfig;
   html?: SharedHtmlConfig;
-  source?: Omit<SharedSourceConfig, 'alias'>;
+  source?: SharedSourceConfig;
   output?: SharedOutputConfig;
   security?: SharedSecurityConfig;
   performance?: Pick<SharedPerformanceConfig, 'printFileSize'>;
@@ -32,8 +32,7 @@ export interface SharedBuilderConfig {
 export type SharedNormalizedConfig = DeepReadonly<{
   dev: NormalizedSharedDevConfig;
   html: NormalizedSharedHtmlConfig;
-  // alias type incompatible between webpack and rspack
-  source: Omit<NormalizedSharedSourceConfig, 'alias'>;
+  source: NormalizedSharedSourceConfig;
   output: NormalizedSharedOutputConfig;
   performance: Pick<SharedPerformanceConfig, 'printFileSize'>;
 }>;

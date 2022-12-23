@@ -37,8 +37,6 @@ export const defaultDevConfig: NormalizedSharedDevConfig = {
 };
 
 export const defaultSourceConfig: NormalizedSharedSourceConfig = {
-  define: {},
-  alias: {},
   preEntry: [],
   globalVars: {},
   compileJsDataURI: true,
