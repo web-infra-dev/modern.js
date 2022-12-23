@@ -6,8 +6,8 @@ export const SriOptionsSchema: ZodType<SriOptions> = z.partialObj({
   hashFuncNames: z.array(z.string()).min(1) as unknown as ZodType<
     [string, ...string[]]
   >,
-  enabled: z.literals<SriOptions['enabled']>(['auto', true, false]),
-  hashLoading: z.literals<SriOptions['hashLoading']>(['eager', 'lazy']),
+  enabled: z.literals(['auto', true, false]),
+  hashLoading: z.literals(['eager', 'lazy']),
 });
 
 export const sharedSecurityConfigSchema = z.partialObj({

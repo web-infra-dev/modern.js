@@ -44,11 +44,11 @@ export const partialObj = <T extends ZodRawShape>(src: T) => {
   return z.object(ret);
 };
 
-export const unionLiterals = <
-  T extends string | number | boolean | null | undefined,
->(
-  literals: T[],
-): z.ZodType<T> => {
+export type Literal = string | number | boolean | null | undefined;
+
+export const unionLiterals = <T extends Literal[]>(
+  literals: [...T],
+): z.ZodType<T[number]> => {
   const wraps = literals.map(value => z.literal(value));
   return z.union(wraps as any);
 };
