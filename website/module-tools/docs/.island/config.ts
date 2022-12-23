@@ -17,6 +17,7 @@ function getI18nHelper(lang: 'zh' | 'en') {
 export default defineConfig({
   lang: 'en-US',
   title: 'Module tools',
+  base: '/module-tools/',
   vite: {
     // custom config for vite
     server: {
@@ -180,6 +181,15 @@ function getSidebar(lang: 'zh' | 'en') {
             link: getLink('/guide/advance/theme-config'),
           },
         ]
+      },
+      {
+        text: getText('最佳实践', 'Best practices'),
+        items: [
+          {
+            text: getText('开发组件', 'Development Components'),
+            link: getLink('/guide/best-practices/components')
+          }
+        ],
       }
     ],
     [getLink('/api/')]: [

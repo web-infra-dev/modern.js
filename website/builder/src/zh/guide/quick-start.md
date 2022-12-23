@@ -1,12 +1,44 @@
 # 快速上手
 
-## 使用 Modern.js 应用
+## 环境准备
 
-**Modern.js 应用从 2.0 版本开始，默认使用 Modern.js Builder 作为构建引擎**。
+在使用 Modern.js Builder 前，你需要安装 [Node.js](https://nodejs.org/)，并保证 Node.js 版本不低于 14.17.6，我们推荐使用 Node.js 16 的 LTS 版本。
 
-因此，如果你是一名业务开发者，那么不需要手动接入 Builder，只需要创建一个 Modern.js 2.0 项目，直接就可以使用 Builder 提供的所有能力。
+你可以通过以下命令检查当前使用的 Node.js 版本：
 
-> Tips: Modern.js 2.0 仍在开发中，尚未正式发布。
+```bash
+node -v
+# v14.20.0
+```
+
+如果你当前的环境中尚未安装 Node.js，或是安装的版本低于 14.17.6，可以通过 [nvm](https://github.com/nvm-sh/nvm) 或 [fnm](https://github.com/Schniz/fnm) 安装需要的版本。
+
+下面是通过 nvm 安装 Node.js 16 LTS 版本的例子：
+
+```bash
+# 安装 Node.js 16 的长期支持版本
+nvm install 16 --lts
+
+# 将刚安装的 Node.js 16 设置为默认版本
+nvm alias default 16
+
+# 切换到刚安装的 Node.js 16
+nvm use 16
+```
+
+:::tip nvm 和 fnm
+nvm 和 fnm 都是 Node.js 版本管理工具。相对来说，nvm 较为成熟和稳定，而 fnm 是使用 Rust 实现的，比 nvm 提供了更好的性能。
+:::
+
+## 使用 Modern.js 框架
+
+**Modern.js 框架默认使用 Modern.js Builder 作为构建引擎**。因此，如果你是一名业务开发者，那么不需要手动接入 Builder，只需要创建一个 Modern.js 项目，就可以使用 Builder 提供的所有能力。
+
+请查看 [Modern.js 框架文档](https://modernjs.dev/) 来了解 Modern.js 框架的使用方法。
+
+:::tip 关于文档
+Modern.js 框架文档和 Modern.js Builder 文档部署在两个独立的站点下。如果你在使用 Modern.js 框架的过程中遇到任何构建相关的问题，你可以随时查阅 Modern.js Builder 的文档来寻找相应的解决方案。
+:::
 
 ## 在前端框架中接入
 

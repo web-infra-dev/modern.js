@@ -61,7 +61,6 @@ export default defineConfig({
 
 * `entry`：`string`，入口文件路径。
 * `disableMount`：`boolean = false`，关闭 Modern.js 生成入口代码的行为。
-* `enableFileSystemRoutes`：`boolean = false`，是否 [使用约定式路由](/docs/apis/app/hooks/src/pages)。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -76,8 +75,7 @@ export default defineConfig({
       // 启用约定式路由
       entry_spa: {
         // 约定式路由的入口路径必须设置为目录
-        entry: './src/about',
-        enableFileSystemRoutes: true,
+        entry: './src/about'
       },
     },
   },
