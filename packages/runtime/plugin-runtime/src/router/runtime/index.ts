@@ -9,6 +9,4 @@ export { modifyRoutes } from './plugin';
 
 export * from 'react-router-dom';
 
-export * from 'react-router-dom/server';
-
 export * from './withRouter';

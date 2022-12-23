@@ -62,7 +62,6 @@ When the value is `Object`, the following properties can be configured:
 
 * `entry`：`string`，entry file path。
 * `disableMount`：`boolean = false`，turn off Modern.js generate entry code。
-* `enableFileSystemRoutes`：`boolean = false`，[Use Conventional Routing](/docs/apis/app/hooks/src/pages)。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -78,7 +77,6 @@ export default defineConfig({
       entry_spa: {
         // The entry path of a conventional route must be set to a directory
         entry: './src/about',
-        enableFileSystemRoutes: true,
       },
     },
   },

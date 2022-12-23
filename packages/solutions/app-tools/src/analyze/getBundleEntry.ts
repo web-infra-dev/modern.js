@@ -75,7 +75,11 @@ export const getBundleEntry = (
               entryName: name,
               entry: ensureAbsolutePath(appDirectory, value.entry),
               isAutoMount: !value.disableMount,
-              fileSystemRoutes: value.enableFileSystemRoutes ? {} : undefined,
+              fileSystemRoutes: fs
+                .statSync(ensureAbsolutePath(appDirectory, value.entry))
+                .isDirectory()
+                ? {}
+                : undefined,
             };
 
       if (entrypoint.fileSystemRoutes) {
