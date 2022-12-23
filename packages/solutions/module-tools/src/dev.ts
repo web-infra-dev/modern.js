@@ -30,7 +30,7 @@ export const showMenu = async (
   const choices = metas
     .map(meta => meta.menuItem)
     .filter(menuItem => typeof menuItem === 'object');
-  const question = [
+  const questions = [
     {
       name: 'choiceDevTool',
       message: menuTitle('选择调试工具'),
@@ -39,9 +39,9 @@ export const showMenu = async (
     },
   ];
 
-  const newQuestion = await runner.beforeDevMenu(question);
+  const newQuestions = await runner.beforeDevMenu(questions);
   const result: { choiceDevTool: string } = await inquirer.prompt(
-    newQuestion.length !== 0 ? newQuestion : question,
+    newQuestions.length !== 0 ? newQuestions : questions,
   );
   await runner.afterDevMenu({ result, devTools: metas });
 
