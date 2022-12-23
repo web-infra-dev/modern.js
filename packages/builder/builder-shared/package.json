@@ -70,7 +70,8 @@
       ".": "./dist/index.js",
       "./open": "./compiled/open/index.js",
       "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
-      "./test-stub": "./dist/test-stub/index.js"
+      "./test-stub": "./dist/test-stub/index.js",
+      "./zod": "./dist/exports/zod.js"
     }
   }
 }
