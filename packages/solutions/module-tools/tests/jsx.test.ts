@@ -68,21 +68,21 @@ describe('jsx is transform', () => {
   });
 
   // TODO: libuild fix
-  // it('buildType is bundleless', async () => {
-  //   const configFile = path.join(
-  //     fixtureDir,
-  //     './transform-bundleless.config.ts',
-  //   );
-  //   await runCli({
-  //     argv: ['build'],
-  //     configFile,
-  //     appDirectory: fixtureDir,
-  //   });
-  //   const distFilePath = path.join(
-  //     fixtureDir,
-  //     './dist/transform/bundleless/index.js',
-  //   );
-  //   const content = await fs.readFile(distFilePath, 'utf8');
-  //   expect(content.includes('React.createElement')).toBeTruthy();
-  // });
+  it('buildType is bundleless', async () => {
+    const configFile = path.join(
+      fixtureDir,
+      './transform-bundleless.config.ts',
+    );
+    await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
+    const distFilePath = path.join(
+      fixtureDir,
+      './dist/transform/bundleless/index.js',
+    );
+    const content = await fs.readFile(distFilePath, 'utf8');
+    expect(content.includes('React.createElement')).toBeTruthy();
+  });
 });
