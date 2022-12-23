@@ -54,9 +54,7 @@ console.log(example.hello); // 'world';
 console.log(example.foo); // { bar: 'baz' };
 ```
 
-### 类型声明
-
-## 添加类型声明
+### 添加类型声明
 
 当你在 TypeScript 代码中引用 YAML 文件时，请在项目中创建 `src/global.d.ts` 文件，并添加相应的类型声明：
 
@@ -96,7 +94,7 @@ console.log(example.hello); // 'world';
 console.log(example.foo); // { bar: 'baz' };
 ```
 
-## 添加类型声明
+### 添加类型声明
 
 当你在 TypeScript 代码中引用 TOML 文件时，请在项目中创建 `src/global.d.ts` 文件，并添加相应的类型声明：
 

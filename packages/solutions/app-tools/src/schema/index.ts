@@ -12,7 +12,6 @@ const source = {
           properties: {
             entry: { type: ['string', 'array'] },
             disableMount: { type: 'boolean' },
-            enableFileSystemRoutes: { type: 'boolean' },
           },
           additionalProperties: false,
         },
