@@ -6,7 +6,6 @@ export type Entry =
   | string
   | {
       entry: string;
-      enableFileSystemRoutes?: boolean;
       disableMount?: boolean;
     };
 

@@ -7,7 +7,6 @@ export type SourceLegacyUserConfig = {
     | string
     | {
         entry: string;
-        enableFileSystemRoutes?: boolean;
         disableMount?: boolean;
       }
   >;

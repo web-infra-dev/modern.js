@@ -1,6 +1,6 @@
 # 模块热替换
 
-模块热替换(HMR - hot module replacement)功能会在应用程序运行过程中，替换、添加或删除模块，而无需重新加载整个页面。主要是通过以下几种方式，来显著加快开发速度：
+模块热替换（HMR - hot module replacement）功能会在应用程序运行过程中，替换、添加或删除模块，而无需重新加载整个页面。主要是通过以下几种方式，来显著加快开发速度：
 
 - 保留在完全重新加载页面期间丢失的应用程序状态。
 - 只更新变更内容，以节省宝贵的开发时间。
@@ -8,8 +8,9 @@
 
 ## 启用 HMR
 
-Builder 已内置了对 HMR 的支持，开发环境下默认启用。
-可通过将 [dev.hmr](/zh/api/config-dev.html#dev-hmr) 设置为 false，关闭 HMR 能力，此时将不再提供热更新和 react-refresh 功能。
+Builder 已内置了对 HMR 的支持，在开发环境下默认启用。
+
+如果你不需要使用 HMR 能力，可以将 [dev.hmr](/zh/api/config-dev.html#dev-hmr) 设置为 false，此时将不再提供热更新和 react-refresh 功能。
 
 ```ts
 export default {
@@ -40,7 +41,7 @@ export default {
 
 ## Live reloading 和 Hot reloading 的区别
 
-- Live reloading: 修改文件之后，webpack 重新编译，并强制刷新浏览器，属于全局（整个应用）刷新，相当于 window.location.reload()；
+- Live reloading: 修改文件之后，webpack 重新编译，并强制刷新浏览器，属于全局（整个应用）刷新，相当于 `window.location.reload()`；
 - Hot reloading: 修改文件之后，webpack 重新编译对应模块，刷新时可以记住应用的状态，从而做到局部刷新，即热更新。
 
 DevServer 提供了 [hot](/zh/api/config-tools.html#hot) 和 [liveReload](/zh/api/config-tools.html#livereload) 这两个配置项来控制更新方式。当 hot 和 liveReload 同时开启时，DevServer 会优先尝试使用 hot 模式 (HMR)，如果 HMR 更新失败后，会降级到重新加载页面。

@@ -19,6 +19,25 @@ describe('plugins/splitChunks', () => {
     expect(config).toMatchSnapshot();
   });
 
+  it('should set split-by-experience config correctly when polyfill is off', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginSplitChunks()],
+      builderConfig: {
+        performance: {
+          chunkSplit: {
+            strategy: 'split-by-experience',
+          },
+        },
+        output: {
+          polyfill: 'off',
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
+
   it('should set split-by-module config', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginSplitChunks()],

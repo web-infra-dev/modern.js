@@ -2,6 +2,7 @@ import assert from 'assert';
 import {
   RUNTIME_CHUNK_NAME,
   getPackageNameFromModulePath,
+  type Polyfill,
 } from '@modern-js/builder-shared';
 
 import type { BuilderPlugin } from '../types';
@@ -35,6 +36,14 @@ interface SplitChunksContext {
    * User builder `chunkSplit` config
    */
   builderConfig: BuilderChunkSplit;
+  /**
+   * The root path of current project
+   */
+  rootPath: string;
+  /**
+   * The polyfill mode.
+   */
+  polyfill: Polyfill;
 }
 
 function getUserDefinedCacheGroups(forceSplitting: Array<RegExp>): CacheGroup {
@@ -53,20 +62,42 @@ function getUserDefinedCacheGroups(forceSplitting: Array<RegExp>): CacheGroup {
   return cacheGroups;
 }
 
-function splitByExperience(ctx: SplitChunksContext): SplitChunks {
-  const { override, userDefinedCacheGroups, defaultConfig } = ctx;
+async function splitByExperience(
+  ctx: SplitChunksContext,
+): Promise<SplitChunks> {
+  const { isPackageInstalled } = await import('@modern-js/utils');
+
+  const {
+    override,
+    polyfill,
+    rootPath,
+    defaultConfig,
+    userDefinedCacheGroups,
+  } = ctx;
   const experienceCacheGroup: CacheGroup = {};
-  const SPLIT_EXPERIENCE_LIST = {
+
+  const packageRegExps: Record<string, RegExp> = {
     react: /[\\/]react|react-dom[\\/]/,
     router: /[\\/]react-router|react-router-dom|history[\\/]/,
-    antd: /[\\/]antd[\\/]/,
-    semi: /[\\/]@ies\/semi|@douyinfe\/semi[\\/]/,
-    arco: /[\\/]@arco-design[\\/]/,
     lodash: /[\\/]lodash|lodash-es[\\/]/,
-    polyfill: /[\\/]core-js|@babel\/runtime[\\/]/,
   };
 
-  Object.entries(SPLIT_EXPERIENCE_LIST).forEach(([name, test]) => {
+  // Detect if the package is installed in current project
+  // If installed, add the package to cache group
+  if (isPackageInstalled('antd', rootPath)) {
+    packageRegExps.antd = /[\\/]antd[\\/]/;
+  }
+  if (isPackageInstalled('@arco-design/web-react', rootPath)) {
+    packageRegExps.arco = /[\\/]arco-design[\\/]/;
+  }
+  if (isPackageInstalled('@douyinfe/semi-ui', rootPath)) {
+    packageRegExps.semi = /[\\/]semi-ui[\\/]/;
+  }
+  if (polyfill === 'entry' || polyfill === 'usage') {
+    packageRegExps.polyfill = /[\\/]core-js|@babel\/runtime[\\/]/;
+  }
+
+  Object.entries(packageRegExps).forEach(([name, test]) => {
     const key = `lib-${name}`;
 
     experienceCacheGroup[key] = {
@@ -76,8 +107,10 @@ function splitByExperience(ctx: SplitChunksContext): SplitChunks {
       reuseExistingChunk: true,
     };
   });
+
   assert(defaultConfig !== false);
   assert(override !== false);
+
   return {
     ...defaultConfig,
     ...override,
@@ -171,7 +204,7 @@ function singleVendor(ctx: SplitChunksContext): SplitChunks {
 
 const SPLIT_STRATEGY_DISPATCHER: Record<
   string,
-  (ctx: SplitChunksContext) => SplitChunks
+  (ctx: SplitChunksContext) => SplitChunks | Promise<SplitChunks>
 > = {
   'split-by-experience': splitByExperience,
   'split-by-module': splitByModule,
@@ -185,7 +218,7 @@ export function PluginSplitChunks(): BuilderPlugin {
   return {
     name: 'builder-plugin-split-chunks',
     setup(api) {
-      api.modifyWebpackChain((chain, { isServer, isWebWorker }) => {
+      api.modifyWebpackChain(async (chain, { isServer, isWebWorker }) => {
         if (isServer || isWebWorker) {
           chain.optimization.splitChunks(false);
 
@@ -223,13 +256,15 @@ export function PluginSplitChunks(): BuilderPlugin {
               chunkSplit.splitChunks ?? chunkSplit.override
             : chunkSplit.override;
         // Apply different strategy
-        const splitChunksOptions = SPLIT_STRATEGY_DISPATCHER[
+        const splitChunksOptions = await SPLIT_STRATEGY_DISPATCHER[
           chunkSplit.strategy
         ]({
           defaultConfig,
           override: override || {},
           userDefinedCacheGroups,
           builderConfig: chunkSplit,
+          rootPath: api.context.rootPath,
+          polyfill: config.output.polyfill,
         });
 
         chain.optimization.splitChunks(splitChunksOptions);

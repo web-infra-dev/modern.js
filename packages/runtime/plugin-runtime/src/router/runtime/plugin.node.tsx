@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { unstable_createStaticHandler as createStaticHandler } from '@remix-run/router';
+import { createStaticHandler } from '@remix-run/router';
 import {
-  unstable_createStaticRouter as createStaticRouter,
-  unstable_StaticRouterProvider as StaticRouterProvider,
+  createStaticRouter,
+  StaticRouterProvider,
 } from 'react-router-dom/server';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { installGlobals } from '@remix-run/node';

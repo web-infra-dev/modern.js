@@ -1,15 +1,12 @@
-import { Link, Outlet } from '@modern-js/runtime/router';
-
-export const loader = async () => {
-  return {
-    message: 'from  server',
-  };
-};
+import { Link, Outlet, useLoaderData } from '@modern-js/runtime/router';
 
 export default function Layout() {
+  const data = useLoaderData() as {
+    message: string;
+  };
   return (
     <div>
-      root layout
+      {data?.message}
       <Link to="user" className="user-btn">
         /user
       </Link>

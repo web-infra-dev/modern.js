@@ -143,13 +143,10 @@ export const PluginHtml = (): BuilderPlugin => ({
 
           const plugin = new HTMLRspackPlugin(finalOptions);
 
-          // @ts-expect-error
           plugin.name = `html-${entryName}`;
 
           setConfig(rspackConfig, 'plugins', [
-            // @ts-expect-error
             ...(rspackConfig.plugins || []),
-            // @ts-expect-error
             plugin,
           ]);
         }),
