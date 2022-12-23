@@ -43,7 +43,9 @@ const BuilderChunkSplitSchema: z.ZodType<BuilderChunkSplit> = z.union([
 ]);
 
 export const performanceConfigSchema: z.ZodType<PerformanceConfig> =
-  sharedPerformanceConfigSchema.extend({
-    bundleAnalyze: z.any(),
-    chunkSplit: BuilderChunkSplitSchema,
-  });
+  sharedPerformanceConfigSchema
+    .extend({
+      bundleAnalyze: z.any(),
+      chunkSplit: BuilderChunkSplitSchema,
+    })
+    .partial();
