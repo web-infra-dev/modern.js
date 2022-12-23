@@ -39,13 +39,8 @@ export const run = async (
 
     try {
       await pMap(resolvedBuildConfig, async config => {
-        const buildConfig = await runner.beforeBuildTask(
-          {
-            config,
-            options: cmdOptions,
-          },
-          { onLast: async c => c.config },
-        );
+        const buildConfig = await runner.beforeBuildTask(config);
+
         await runBuildTask(
           {
             buildConfig,

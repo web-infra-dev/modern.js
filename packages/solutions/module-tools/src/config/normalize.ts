@@ -47,7 +47,7 @@ export const transformBuildPresetToBaseConfigs = async (
 
   // buildConfig and buildPreset is undefined
   return transformBuildConfigToBaseConfigs(
-    await addInputToPreset(presetList['base-config'], options.context),
+    await addInputToPreset(presetList['npm-library'], options.context),
     options,
   );
 };

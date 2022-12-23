@@ -6,6 +6,11 @@ import {
   type CreateBuilderOptions,
   type PluginStore,
 } from '@modern-js/builder-shared';
+/**
+ * provider shouldn't depend on builder, so use /test-stub as placeholder
+ *
+ * real import by: /tests/setup.ts
+ */
 import { mockBuilderPlugins } from '@modern-js/builder-shared/test-stub';
 import type * as playwright from '@modern-js/e2e/playwright';
 import { getTemplatePath } from '@modern-js/utils';

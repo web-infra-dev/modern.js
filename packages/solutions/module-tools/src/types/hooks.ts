@@ -18,14 +18,11 @@ export interface BuildResult {
 }
 export interface BuildPlatformResult {
   status: 'success' | 'fail';
-  message: string;
+  message: string | Error | null;
 }
 
 export type DevToolData = BaseDevToolData<DevCommandOptions>;
 
-export type PromptResult = { choiceDevTool: string | symbol } & Record<
-  string,
-  any
->;
+export type PromptResult = { choiceDevTool: string } & Record<string, any>;
 
 export type ModuleToolsHooks = typeof registerHook;

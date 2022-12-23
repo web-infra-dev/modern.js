@@ -4,7 +4,7 @@ import type Config from '../../compiled/webpack-5-chain';
 /** The intersection of webpack and rspack */
 export type BundlerConfig = {
   name?: string;
-  //   entry?: Configuration['entry'];
+  entry?: Record<string, string | string[]>;
   //   context?: Context;
   //   plugins?: PluginInstance[];
   //   module?: Module;
@@ -25,4 +25,6 @@ export type BundlerConfig = {
 export interface BundlerChain
   extends Pick<Config, 'devtool' | 'target' | 'name' | 'merge'> {
   toConfig: () => BundlerConfig;
+  /** only support add string | string[] */
+  entry: Config['entry'];
 }

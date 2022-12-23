@@ -1,11 +1,11 @@
-import type { BuilderPlugin } from '../types';
+import { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
 
-export const PluginEntry = (): BuilderPlugin => ({
+export const PluginEntry = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-entry',
 
   setup(api) {
-    api.modifyWebpackChain(async chain => {
+    api.modifyBundlerChain(async chain => {
       const { entry } = api.context;
       const { preEntry } = api.getNormalizedConfig().source;
 

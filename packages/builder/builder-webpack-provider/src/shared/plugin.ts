@@ -4,7 +4,7 @@ import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
 export const applyMinimalPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     import('../plugins/basic').then(m => m.PluginBasic()),
-    import('../plugins/entry').then(m => m.PluginEntry()),
+    plugins.entry(),
     import('../plugins/cache').then(m => m.PluginCache()),
     plugins.target(),
     import('../plugins/output').then(m => m.PluginOutput()),
