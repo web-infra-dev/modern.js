@@ -53,32 +53,30 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 函数写法和框架写法会在下一节详细介绍。
 :::
 
-以下的 `$BASENAME` 指的是 BFF 函数的[路由前缀](/docs/configure/app/bff/prefix)，可以在 `modern.config.js` 中进行配置，默认值为 `/api`。
+所有 BFF 函数生成的路由都带有统一的前缀，默认值为 `/api`。可以通过 [bff.prefix](/docs/configure/app/bff/prefix) 设置公共路由的前缀。
 
-:::info 注
-可以通过 [bff.prefix](/docs/configure/app/bff/prefix) 设置公共路由的前缀。
-:::
+下面介绍几种路由的约定。
 
 ### 默认路由
 
 以 `index.[jt]s` 命名的文件会被映射到上一层目录。
 
-* `api/index.ts` -> `$BASENAME/`
-* `api/user/index.ts` -> `$BASENAME/user`
+* `api/index.ts` -> `{prefix}/`
+* `api/user/index.ts` -> `{prefix}/user`
 
-### 嵌套路由
+### 多层路由
 
 支持解析嵌套的文件，如果创建嵌套文件夹结构，文件仍会以相同方式自动解析路由。
 
-* `api/hello.ts` -> `$BASENAME/hello`
-* `api/user/list.ts` -> `$BASENAME/user/list`
+* `api/hello.ts` -> `{prefix}/hello`
+* `api/user/list.ts` -> `{prefix}/user/list`
 
 ### 动态路由
 
 同样的，创建命名带有 `[xxx]` 的文件夹或者文件，支持动态的命名路由参数。
 
-* `api/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
-* `api/user/username/[action].ts` -> `$BASENAME/user/username/:action`
+* `api/user/[username]/info.ts` -> `{prefix}/user/:username/info`
+* `api/user/username/[action].ts` -> `{prefix}/user/username/:action`
 
 ### 白名单
 
@@ -102,7 +100,7 @@ Modern.js 的 BFF 函数需要遵循 RESTful API 标准来定义, 遵循 HTTP Me
 
 ### 函数具名导出
 
-Modern.js BFF 函数的导出名决定了函数对应接口的 Method，如`get`，`post`等。
+Modern.js BFF 函数的导出名决定了函数对应接口的 Method，如 `get`，`post` 等。
 
 例如，按照以下例子，可导出一个 GET 接口。
 
@@ -126,9 +124,9 @@ export const post = async () => {
 };
 ```
 
-* 应用工程 中支持了 9 种 Method 定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
+* 对应 HTTP Method，Modern.js 也支持了 9 种定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
 
-* 名字是大小不敏感的，就是说，如果是 `GET`，写成 `get`、`Get`、`GEt`、`GET`，都可以准确识别。而默认导出，即 `export default xxx` 则会被映射为 `Get`。
+* 名字是大小不敏感的，如果是 `GET`，写成 `get`、`Get`、`GEt`、`GET`，都可以准确识别。而默认导出，即 `export default xxx` 则会被映射为 `Get`。
 
 * 可以在一个文件中定义多个不同 Method 的函数，但如果定义多个相同 Method 的函数，则只有第一个会生效。
 
@@ -140,9 +138,7 @@ export const post = async () => {
 
 如上所述，为了满足 RESTful API 的设计标准，因此 Modern.js 中 BFF 函数需要遵循一定的入参规则。
 
-Modern.js 函数定义分为普通函数与带有 schema 的函数，这一小节先介绍普通函数。
-
-普通函数参数分为两块，分别是请求路径中的动态部分和请求选项 `RequestOption`。
+函数参数分为两块，分别是请求路径中的动态部分和请求选项 `RequestOption`。
 
 #### Dynamic Path
 
