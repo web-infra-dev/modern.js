@@ -43,7 +43,11 @@ function MyComponent() {
 
 ## React.lazy
 
-React 官方提供的组件代码分割的方式，**缺点是不支持 SSR**。
+React 官方提供的组件代码分割的方式。
+
+:::note
+React.lazy 无法在非流式渲染的 SSR 环境下工作。
+:::
 
 ```ts
 import React, { Suspense } from 'react';

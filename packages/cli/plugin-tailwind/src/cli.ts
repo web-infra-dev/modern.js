@@ -126,7 +126,7 @@ export default (
           },
         };
       },
-      beforeBuildTask({ config }) {
+      beforeBuildTask(config) {
         const modernConfig =
           api.useResolvedConfigContext() as NormalizedConfig<ModuleTools>;
         const { designSystem } = modernConfig;

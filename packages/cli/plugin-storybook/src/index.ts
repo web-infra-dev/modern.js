@@ -25,7 +25,7 @@ export default (): CliPlugin<ModuleTools> => ({
         },
       } as any;
     },
-    beforeBuildTask({ config }) {
+    beforeBuildTask(config) {
       const appContext = api.useAppContext();
       const pluginsExportsUtils = createRuntimeExportsUtils(
         appContext.internalDirectory,

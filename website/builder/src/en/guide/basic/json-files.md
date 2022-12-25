@@ -54,9 +54,7 @@ console.log(example.hello); // 'world';
 console.log(example.foo); // { bar: 'baz' };
 ```
 
-### Type declaration
-
-## Add type declaration
+### Add type declaration
 
 When you import a YAML file in your TypeScript code, please create a `src/global.d.ts` file in your project and add the corresponding type declaration:
 
@@ -96,7 +94,7 @@ console.log(example.hello); // 'world';
 console.log(example.foo); // { bar: 'baz' };
 ```
 
-## Add type declaration
+### Add type declaration
 
 When you import Toml files in TypeScript code, please create a `src/global.d.ts` file in your project and add the corresponding type declarations:
 

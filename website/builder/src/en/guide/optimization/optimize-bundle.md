@@ -50,11 +50,13 @@ For example, if you only need to be compatible with browsers above Chrome 61, yo
 ['Chrome >= 61'];
 ```
 
-## Usage Polyfill
+:::tip
+Please read the [Browserslist](/guide/advanced/browserslist.html) chapter to know more about the usage of Browserslist.
+:::
+
+## Usage polyfill
 
 When it is clear that third-party dependencies do not require additional polyfill, you can set [output.polyfill](/en/api/config-output.html#output-polyfill) to `usage`.
-
-In the case where it is clear that third-party dependencies do not require Polyfill, you can set [output.polyfill](/en/api/config-output.html#output-polyfill) to `usage`.
 
 In `usage` mode, Builder analyzes the syntax used in the source code and injects the required polyfill code on demand to reduce the size of polyfill.
 
@@ -65,6 +67,10 @@ export default {
   },
 };
 ```
+
+:::tip
+Please read the [Browser Compatibility](/guide/advanced/browser-compatibility.html) chapter to know more about the usage of Browserslist.
+:::
 
 ## Image Compression
 

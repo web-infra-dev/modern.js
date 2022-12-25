@@ -19,8 +19,18 @@ import type {
   PerformanceConfig,
 } from '../../types';
 
-const sourceConfigSchema: ConfigSchema<Omit<SourceConfig, 'moduleScopes'>> =
-  sharedSourceConfigSchema;
+const sourceConfigSchema: ConfigSchema<Omit<SourceConfig, 'moduleScopes'>> = {
+  type: 'object',
+  properties: {
+    alias: {
+      typeof: ['object', 'function'],
+    },
+    define: {
+      type: 'object',
+    },
+    ...sharedSourceConfigSchema.properties,
+  },
+};
 const devConfigSchema: ConfigSchema<DevConfig> = sharedDevConfigSchema;
 const htmlConfigSchema: ConfigSchema<HtmlConfig> = sharedHtmlConfigSchema;
 const securityConfigSchema: ConfigSchema<SecurityConfig> =
