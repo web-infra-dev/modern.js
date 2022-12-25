@@ -4,11 +4,13 @@ Builder 内置多种常用的样式资源处理方式，包括 Less / Sass 预�
 
 除此之外，Builder 也提供了多个配置项来自定义样式资源的处理规则。
 
-## 使用 Less 和 Sass
+## 使用 Less、Sass 和 Stylus
 
 Builder 内置了社区流行的 CSS 预处理器，包括 Less 和 Sass。
 
-你可以通过配置 [tools.less](/zh/api/config-tools.html#tools-less)、[tools.sass](/zh/api/config-tools.html#tools-sass) 来自定义相关 loader。
+默认情况下，你不需要对 Less 和 Sass 进行任何配置。如果你有自定义 loader 配置的需求，可以通过配置 [tools.less](/zh/api/config-tools.html#tools-less)、[tools.sass](/zh/api/config-tools.html#tools-sass) 来进行设置。
+
+你也可以在 Builder 中使用 Stylus，只需要安装 Builder 提供的 Stylus 插件即可，使用方式请参考 [Stylus 插件](/plugins/plugin-stylus.html)。
 
 ## 使用 PostCSS
 

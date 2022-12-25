@@ -104,6 +104,11 @@ declare module '*.module.less' {
   const classes: { readonly [key: string]: string };
   export default classes;
 }
+
+declare module '*.module.styl' {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
 ```
 
 如果你开启了 `disableCssModuleExtension` 配置值，还需要添加以下类型：
@@ -126,6 +131,11 @@ declare module '*.sass' {
 }
 
 declare module '*.less' {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
+
+declare module '*.styl' {
   const classes: { readonly [key: string]: string };
   export default classes;
 }
@@ -195,6 +205,7 @@ export default cssExports;
 *.module.sass.d.ts
 *.module.scss.d.ts
 *.module.less.d.ts
+*.module.styl.d.ts
 ```
 
 此外，如果生成的代码导致了 ESLint 报错，你也可以将上述配置添加到 `.eslintignore` 文件里。
