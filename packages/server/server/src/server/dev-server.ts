@@ -228,7 +228,7 @@ export class ModernDevServer extends ModernServer {
     const devHttpsOption = typeof dev === 'object' && dev.https;
     if (devHttpsOption) {
       const { genHttpsOptions } = require('../dev-tools/https');
-      const httpsOptions = await genHttpsOptions(devHttpsOption);
+      const httpsOptions = await genHttpsOptions(devHttpsOption, this.pwd);
       return createHttpsServer(httpsOptions, handler);
     } else {
       return createServer(handler);
