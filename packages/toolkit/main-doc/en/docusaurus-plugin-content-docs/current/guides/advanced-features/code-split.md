@@ -1,9 +1,9 @@
 ---
-title: 代码分割
+title: Code Split
 sidebar_position: 6
 ---
 
-代码分割是优化前端资源加载的一种常用手段，本文将介绍 Modern.js 支持的三种代码分割方式：
+Code Split is a common way to optimizing front-end resource loading. This doc will introduce three methods supported by Modern.js:
 
 - `import`
 - `React.lazy`
@@ -11,7 +11,7 @@ sidebar_position: 6
 
 ## import
 
-使用动态 `import()` 语法，`import` 接收的 JS 模块将作为一个新的打包入口被打包到单独的 JS 文件中。例如：
+use dynamic `import()`，`import` The JS modules pass to this API will be packaged into a separate JS file as a new packaging entry, for example:
 
 ```ts
 import("./math").then(math => {
@@ -19,11 +19,11 @@ import("./math").then(math => {
 });
 ```
 
-`./math` 路径对应的 JS 模块会被打包到单独的 JS 文件中。
+The JS modules corresponding to the './math' path will be packaged in a separate JS file.
 
 ## loadable
 
-使用 `loadable` API，示例如下：
+use `loadable` API，for example：
 
 ```ts
 import loadable from '@modern-js/runtime/loadable'
@@ -35,18 +35,18 @@ function MyComponent() {
 }
 ```
 
-`loadable` 更多用法请见 [loadable API](/docs/apis/app/runtime/utility/loadable)。
+For detail, see [loadable API](/docs/apis/app/runtime/utility/loadable)。
 
-:::info 注
-`loadable` 开箱即用的支持 SSR。
+:::info
+SSR is supported out of the box by `loadable`.
 :::
 
 ## React.lazy
 
-React 官方提供的组件代码分割的方式。
+The officially way provides by React to split component code.
 
 :::note
-React.lazy 无法在非流式渲染的 SSR 环境下工作。
+React.lazy will not work in a non-streaming SSR environment.
 :::
 
 ```ts
@@ -69,4 +69,4 @@ function MyComponent() {
 }
 ```
 
-`React.lazy` 更多用法请见 [React lazy](https://zh-hans.reactjs.org/docs/code-splitting.html#reactlazy)。
+For detail, see [React lazy](https://zh-hans.reactjs.org/docs/code-splitting.html#reactlazy)。
