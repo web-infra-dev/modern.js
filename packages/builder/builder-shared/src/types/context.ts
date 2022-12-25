@@ -25,4 +25,5 @@ export type BuilderContext = {
     hostname: string;
     port: number;
   };
+  bundlerType: string;
 };

@@ -56,6 +56,7 @@ describe('plugins/cache', () => {
       context: {
         rootPath: __dirname,
         cachePath: join(__dirname, 'node_modules', '.cache'),
+        bundlerType: 'webpack',
 
         ...(item.context || {}),
       },
@@ -68,7 +69,6 @@ describe('plugins/cache', () => {
     await modifyBundlerChainCb(chain, {
       target: 'web',
       env: 'development',
-      bundlerType: 'webpack',
     });
 
     expect(chain.toConfig()).toMatchSnapshot();

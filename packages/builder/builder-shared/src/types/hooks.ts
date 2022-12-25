@@ -41,7 +41,6 @@ export type ModifyChainUtils = {
   target: BuilderTarget;
   isServer: boolean;
   isWebWorker: boolean;
-  bundlerType: string;
 };
 
 export type ModifyBundlerChainUtils = ModifyChainUtils;

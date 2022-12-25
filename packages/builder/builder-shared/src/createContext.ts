@@ -14,6 +14,7 @@ import { logger } from '@modern-js/utils/logger';
 export function createContextByConfig(
   options: Required<CreateBuilderOptions>,
   outputConfig: NormalizedSharedOutputConfig,
+  bundlerType: string,
 ): BuilderContext {
   const { cwd, target, configPath, framework } = options;
   const rootPath = cwd;
@@ -30,6 +31,7 @@ export function createContextByConfig(
     distPath,
     cachePath,
     framework,
+    bundlerType,
   };
 
   if (configPath && existsSync(configPath)) {
@@ -53,6 +55,7 @@ export function createPublicContext(
     'cachePath',
     'configPath',
     'tsconfigPath',
+    'bundlerType',
   ];
 
   // Using Proxy to get the current value of context.

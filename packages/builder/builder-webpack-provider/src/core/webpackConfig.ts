@@ -96,7 +96,6 @@ async function getChainUtils(
     isProd: nodeEnv === 'production',
     isServer: target === 'node',
     isWebWorker: target === 'web-worker',
-    bundlerType: 'webpack',
     CHAIN_ID,
     getCompiledPath,
     HtmlWebpackPlugin,

@@ -93,7 +93,6 @@ function getChainUtils(target: BuilderTarget): ChainUtils {
     isServer: target === 'node',
     isWebWorker: target === 'web-worker',
     getCompiledPath,
-    bundlerType: 'rspack',
   };
 }
 
