@@ -5,10 +5,6 @@ sidebar_position: 4
 
 SSG（Static Site Generation）是一种基于数据与模板，在构建时渲染完整静态网页的技术解决方案。
 
-:::info 注
-SSG 是构建阶段的解决方案，因此仅对生产环境有效。通过 `dev` 命令运行时，表现效果与 SSR 相同。
-:::
-
 我们首先需要执行 `pnpm run new` 启用 SSG 功能：
 
 ```bash
@@ -16,7 +12,7 @@ SSG 是构建阶段的解决方案，因此仅对生产环境有效。通过 `de
 ? 启用可选功能 启用「SSG」功能
 ```
 
-执行命令后，在 `modern.config.ts` 中注册 SSG 插件:
+执行命令后，在 `modern.config.ts` 中注册 SSG 插件：
 
 ```ts title="modern.config.ts"
 import SSGPlugin from '@modern-js/plugin-ssg';
@@ -129,45 +125,3 @@ export default defineConfig({
 :::info
 以上仅介绍了单入口的情况，更多相关内容可以查看 [API 文档](/docs/configure/app/output/ssg)。
 :::
-
-### 获取数据
-
-在 SSR 中，组件可以通过 `useLoader` 同构的获取数据。在 SSG 中，Modern.js 也提供了相同的能力。
-
-调用 `useLoader` 时，在第二个参数中设置 `{ static: true }`，可以在 SSG 阶段执行数据的请求。
-
-:::info 注
-- Modern.js 目前还不支持 SSG 与 SSR 混合渲染，敬请期待。
-- 在开发阶段，不管 `useLoader` 是否配置 `{ static: true }`，函数都会在 SSR 时获取数据。
-:::
-
-修改上述 `src/App.ts` 的代码为：
-
-```tsx title="App.ts"
-import { useRuntimeContext, useLoader } from '@modern-js/runtime';
-import { Routes, Route, BrowserRouter } from '@modern-js/runtime/router';
-import { StaticRouter } from '@modern-js/runtime/router/server';
-
-const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
-
-export default () => {
-  const { context } = useRuntimeContext();
-
-  const { data } = useLoader(async () => ({
-    message: Math.random(),
-  }), { static: true });
-
-  return (
-    <Router location={context.request.pathname}>
-      <Routes>
-        <Route index element={<div>index</div>} />
-        <Route path="about" element={<div>about, {data?.message}</div>} />
-      </Routes>
-    </Router>
-  );
-};
-```
-
-执行 `pnpm run dev`，重复刷新页面，可以看到 `/foo` 页面的渲染结果不断发生变化，说明数据是在请求时获取的。
-
-重新执行 `pnpm run build` 后，执行 `pnpm run serve`，重复刷新页面，发现页面渲染结果始终保持同样的内容，数据在请求时不会再次获取，说明页面在编译时已经完成渲染。
