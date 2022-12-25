@@ -4,6 +4,7 @@ import {
   BuilderContext,
   CreateBuilderOptions,
   NormalizedSharedOutputConfig,
+  BundlerType,
 } from './types';
 import { getAbsoluteDistPath } from './fs';
 import { logger } from '@modern-js/utils/logger';
@@ -14,7 +15,7 @@ import { logger } from '@modern-js/utils/logger';
 export function createContextByConfig(
   options: Required<CreateBuilderOptions>,
   outputConfig: NormalizedSharedOutputConfig,
-  bundlerType: string,
+  bundlerType: BundlerType,
 ): BuilderContext {
   const { cwd, target, configPath, framework } = options;
   const rootPath = cwd;
