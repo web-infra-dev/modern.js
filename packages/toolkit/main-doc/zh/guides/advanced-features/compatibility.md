@@ -3,13 +3,32 @@ title: 客户端兼容性
 sidebar_position: 5
 ---
 
-## Polyfill 模式
+## Browserslist 配置
+
+Modern.js 支持在项目根目录 `package.json` 文件中的 `browserslist` 字段（或单独的 `.browserslistrc` 文件）指定项目覆盖的目标浏览器范围。该值会被 [`@babel/preset-env`](https://babeljs.io/docs/en/babel-preset-env) 和 [`autoprefixer`](https://github.com/postcss/autoprefixer) 用来确定需要转换的 JavaScript 语法特性和需要添加的 CSS 浏览器前缀。
+
+Modern.js 中默认值如下:
+
+```js
+['> 0.01%', 'not dead', 'not op_mini all']
+```
+
+可以在[这里](https://github.com/browserslist/browserslist)了解如何自定义浏览器范围。
+
+查看 Modern.js Builder 文档了解更多 [Browserlist](https://modernjs.dev/builder/zh/guide/advanced/browserslist.html) 相关内容。
+
+:::note
+Modern.js 支持配置 [output.overrideBrowserlist](/docs/configure/app/output/override-browserslist) 覆盖默认 browserlist 值。
+:::
+
+
+## Polyfill
 
 ### 编译时 Polyfill
 
 Modern.js 在编译时默认通过 [core-js](https://github.com/zloirock/core-js) 引入对应的 Polyfill 代码。
 
-默认情况下会根据项目 [Browserslist](https://github.com/browserslist/browserslist) 的设置情况引入所需的 Polyfill 代码， 这样基本不用再担心项目源码和第三方依赖的 Polyfill 问题了，但是因为包含了一些没有用到的 Polyfill 代码，所以最终的包大小可能会有所增加。
+默认情况下会根据项目 Browserslist 的设置情况引入所需的 Polyfill 代码， 这样基本不用再担心项目源码和第三方依赖的 Polyfill 问题了，但是因为包含了一些没有用到的 Polyfill 代码，所以最终的包大小可能会有所增加。
 
 :::info 注
 对于明确第三方依赖不需要 Polyfill 的场景，可以设置 [`output.polyfill`](/docs/configure/app/output/polyfill) 为 `usage`, 这样 Babel 编译时只会根据代码中使用到的语法引入 Polyfill 代码。
@@ -48,17 +67,8 @@ export default defineConfig({
 
 在 Chrome 51 下访问页面可以看到 `http://localhost:8080/__polyfill__` 返回内容如下:
 
-
 ![ua-polyfill](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ua-polyfill.png)
 
-## Browserslist 配置
-
-Modern.js 支持在项目根目录 `package.json` 文件中的 `browserslist` 字段（或单独的 `.browserslistrc` 文件）指定项目覆盖的目标浏览器范围。该值会被 [`@babel/preset-env`](https://babeljs.io/docs/en/babel-preset-env) 和 [`autoprefixer`](https://github.com/postcss/autoprefixer) 用来确定需要转换的 JavaScript 语法特性和需要添加的 CSS 浏览器前缀。
-
-Modern.js 中默认值如下:
-
-```js
-['> 0.01%', 'not dead', 'not op_mini all']
-```
-
-可以在[这里](https://github.com/browserslist/browserslist)了解如何自定义浏览器范围。
+:::caution 注意
+该功能只有在使用 Modern.js 内置的 Web Server 时才会生效。
+:::
