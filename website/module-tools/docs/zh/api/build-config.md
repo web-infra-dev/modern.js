@@ -55,7 +55,7 @@ export default defineConfig({
 ## asset
 
 ### path
-静态资源输出路径，会基于[outdir](/zh/api/build-config/#outdir)进行输出
+静态资源输出路径，会基于[outDir](/zh/api/build-config/#outDir)进行输出
 
 - type: `string`
 - default: `assets`
@@ -203,7 +203,7 @@ tsconfig文件的路径
 - default: `./tsconfig.json`
 
 ### distPath
-dts文件的输出路径,基于[outdir]('/zh/api/build-config/#outdir')进行输出
+dts文件的输出路径,基于[outDir]('/zh/api/build-config/#outDir')进行输出
 - type: `string`
 - default: `./types`
 
@@ -260,7 +260,7 @@ export default defineConfig({
 });
 ```
 
-## outdir
+## outDir
 指定构建的输出目录
 - type: `string`
 - default: `dist`

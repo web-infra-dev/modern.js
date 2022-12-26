@@ -87,7 +87,7 @@ We explain it next.
 - How to handle the output type file: the corresponding API is [`buildConfig.dts`](/en/api/build-config#dts).
 - How the sourceMap of the product is handled: the corresponding API is [`buildConfig.sourceMap`](/en/api/build-config#sourcemap).
 - The input (or source file) corresponding to the output: the corresponding API is [`buildConfig.input`](/en/api/build-config#input).
-- The directory of the output of the product: the corresponding API is [`buildConfig.outdir`](/en/api/build-config#outdir).
+- The directory of the output of the product: the corresponding API is [`buildConfig.outDir`](/en/api/build-config#outDir).
 - The source directory of the build: the corresponding API is [`buildConfig.sourceDir`](/en/api/build-config#sourcedir).
 
 **Common functions needed to build products include:**

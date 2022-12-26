@@ -49,7 +49,7 @@ export default {
 ## asset
 
 ### path
-Static resource output path, will be based on [outdir](/zh/api/build-config/#outdir)
+Static resource output path, will be based on [outDir](/zh/api/build-config/#outDir)
 
 - type: `string`
 - default: `assets`
@@ -160,7 +160,7 @@ Path to the tsconfig file
 - default: `. /tsconfig.json`
 
 ### distPath
-The output path of the dts file, based on [outdir]('/zh/api/build-config/#outdir')
+The output path of the dts file, based on [outDir]('/zh/api/build-config/#outDir')
 - type: `string`
 - default: `. /types`
 
@@ -213,7 +213,7 @@ export default {
 };
 ```
 
-## outdir
+## outDir
 Specifies the output directory of the build
 - type: `string`
 - default: `dist`

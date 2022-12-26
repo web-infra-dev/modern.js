@@ -9,7 +9,7 @@ export default defineConfig({
         react: 'React',
       },
 
-      outdir: './dist/umd',
+      outDir: './dist/umd',
     },
     {
       buildType: 'bundle',
@@ -18,7 +18,7 @@ export default defineConfig({
         react: 'React',
       },
 
-      outdir: './dist/iife',
+      outDir: './dist/iife',
     },
   ],
 });

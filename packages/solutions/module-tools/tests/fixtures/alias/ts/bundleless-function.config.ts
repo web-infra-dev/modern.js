@@ -11,7 +11,7 @@ export default defineConfig({
         };
       },
       buildType: 'bundleless',
-      outdir: './dist/bundleless/function',
+      outDir: './dist/bundleless/function',
     };
   },
 });

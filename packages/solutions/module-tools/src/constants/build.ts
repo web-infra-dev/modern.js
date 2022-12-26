@@ -11,7 +11,7 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
   target: 'esnext',
   sourceMap: false,
   copy: {},
-  outdir: './dist',
+  outDir: './dist',
   dts: Object.freeze({
     only: false,
     distPath: './',

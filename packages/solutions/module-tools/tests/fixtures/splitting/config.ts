@@ -6,6 +6,6 @@ export default defineConfig({
     input: ['./src/index.ts'],
     splitting: true,
 
-    outdir: './dist',
+    outDir: './dist',
   },
 });

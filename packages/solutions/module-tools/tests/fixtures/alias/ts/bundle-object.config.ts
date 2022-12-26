@@ -8,7 +8,7 @@ export default defineConfig({
       alias: {
         '@src': './src',
       },
-      outdir: './dist/bundle/object',
+      outDir: './dist/bundle/object',
       buildType: 'bundle',
     };
   },

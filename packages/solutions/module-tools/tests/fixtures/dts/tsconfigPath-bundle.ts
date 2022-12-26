@@ -10,6 +10,6 @@ export default defineConfig({
     dts: {
       tsconfigPath: './tsconfig-bundle.json',
     },
-    outdir: './dist/tsconfig-path/bundle',
+    outDir: './dist/tsconfig-path/bundle',
   },
 });
