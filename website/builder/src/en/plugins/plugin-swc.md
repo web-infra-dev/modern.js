@@ -18,7 +18,7 @@ npm install @modern-js/builder-plugin-swc -D
 yarn add @modern-js/builder-plugin-swc -D
 
 # pnpm
-pnpm install @modern-js/builder-plugin-swc -D
+pnpm add @modern-js/builder-plugin-swc -D
 ```
 
 ### Register
