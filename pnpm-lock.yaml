@@ -277,6 +277,29 @@ importers:
       typescript: 4.7.4
       wireit: 0.7.1
 
+  packages/builder/plugin-stylus:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/utils': workspace:*
+      '@scripts/vitest-config': workspace:*
+      stylus: 0.59.0
+      stylus-loader: 7.1.0
+      typescript: 4.7.4
+      wireit: ^0.7.1
+    dependencies:
+      '@modern-js/builder-shared': link:../builder-shared
+      '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
+      stylus: 0.59.0
+      stylus-loader: 7.1.0_stylus@0.59.0
+    devDependencies:
+      '@modern-js/builder': link:../builder
+      '@modern-js/utils': link:../../toolkit/utils
+      '@scripts/vitest-config': link:../../../scripts/vitest-config
+      typescript: 4.7.4
+      wireit: 0.7.1
+
   packages/builder/plugin-swc:
     specifiers:
       '@babel/core': ^7.20.5
@@ -3956,6 +3979,31 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.7.4
 
+  tests/e2e/webpack-builder/stylus:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-plugin-stylus': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18.0.2
+      react-dom: ^18.0.2
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder': link:../../../../packages/builder/builder
+      '@modern-js/builder-plugin-stylus': link:../../../../packages/builder/plugin-stylus
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@types/node': 14.18.21
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.3
+
   tests/e2e/webpack-builder/typescript:
     specifiers:
       '@modern-js/builder': workspace:*
@@ -5192,6 +5240,8 @@ importers:
       markdown-it: 8.4.2
       markdown-it-include: 2.0.0
       postcss: 8.4.16
+      stylus: 0.54.8
+      stylus-loader: 3.0.2
       vuepress: 1.9.5
       vuepress-plugin-redirect: 1.2.5
       vuepress-theme-vt: 0.6.3
@@ -5207,6 +5257,8 @@ importers:
       markdown-it: 8.4.2
       markdown-it-include: 2.0.0_markdown-it@8.4.2
       postcss: 8.4.16
+      stylus: 0.54.8
+      stylus-loader: 3.0.2_stylus@0.54.8
       vuepress: 1.9.5_postcss@8.4.16
       vuepress-plugin-redirect: 1.2.5
       vuepress-theme-vt: 0.6.3_markdown-it@8.4.2
@@ -5272,6 +5324,10 @@ packages:
   /7zip-bin/5.0.3:
     resolution: {integrity: sha512-GLyWIFBbGvpKPGo55JyRZAo4lVbnBiD52cKlw/0Vt+wnmKvWJkpZvsjVoaIolyBXDeAQKSicRtqFNPem9w0WYA==}
     dev: true
+
+  /@adobe/css-tools/4.0.1:
+    resolution: {integrity: sha512-+u76oB43nOHrF4DDWRLWDCtci7f3QJoEBigemIdIeTi1ODqjx6Tad9NCVnPRwewWlKkVab5PlK8DCtPTyX7S8g==}
+    dev: false
 
   /@algolia/autocomplete-core/1.7.2:
     resolution: {integrity: sha512-eclwUDC6qfApNnEfu1uWcL/rudQsn59tjEoUYZYE2JSXZrHLRjBUGMxiCoknobU2Pva8ejb0eRxpIYDtVVqdsw==}
@@ -17356,6 +17412,8 @@ packages:
       portfinder: 1.0.28
       postcss-loader: 3.0.0
       postcss-safe-parser: 4.0.2
+      stylus: 0.54.8
+      stylus-loader: 3.0.2_stylus@0.54.8
       toml: 3.0.0
       url-loader: 1.1.2_webpack@4.46.0
       vue: 2.7.13
@@ -37598,6 +37656,19 @@ packages:
       when: 3.6.4
     dev: true
 
+  /stylus-loader/7.1.0_stylus@0.59.0:
+    resolution: {integrity: sha512-gNUEjjozR+oZ8cuC/Fx4LVXqZOgDKvpW9t2hpXHcxjfPYqSjQftaGwZUK+wL9B0QJ26uS6p1EmoWHmvld1dF7g==}
+    engines: {node: '>= 14.15.0'}
+    peerDependencies:
+      stylus: '>=0.52.4'
+      webpack: ^5.0.0
+    dependencies:
+      fast-glob: 3.2.12
+      klona: 2.0.5
+      normalize-path: 3.0.0
+      stylus: 0.59.0
+    dev: false
+
   /stylus/0.54.8:
     resolution: {integrity: sha512-vr54Or4BZ7pJafo2mpf0ZcwA74rpuYCZbxrHBsH8kbcXOwSfvBFwsRfpGO5OD5fhG5HDCFW737PKaawI7OqEAg==}
     hasBin: true
@@ -37613,6 +37684,19 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /stylus/0.59.0:
+    resolution: {integrity: sha512-lQ9w/XIOH5ZHVNuNbWW8D822r+/wBSO/d6XvtyHLF7LW4KaCIDeVbvn5DF8fGCJAUCwVhVi/h6J0NUcnylUEjg==}
+    hasBin: true
+    dependencies:
+      '@adobe/css-tools': 4.0.1
+      debug: 4.3.4
+      glob: 7.2.3
+      sax: 1.2.4
+      source-map: 0.7.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /sucrase/3.29.0:
     resolution: {integrity: sha512-bZPAuGA5SdFHuzqIhTAqt9fvNEo9rESqXIG3oiKdF8K4UmkQxC4KlNL3lVyAErXp+mPvUqZ5l13qx6TrDIGf3A==}

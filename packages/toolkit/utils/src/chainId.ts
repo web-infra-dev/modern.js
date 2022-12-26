@@ -23,6 +23,8 @@ export const CHAIN_ID = {
     LESS: 'less',
     /** Rule for sass */
     SASS: 'sass',
+    /** Rule for stylus */
+    STYLUS: 'stylus',
     /** Rule for svg */
     SVG: 'svg',
     /** Rule for pug */
@@ -68,6 +70,8 @@ export const CHAIN_ID = {
     SASS: 'sass',
     /** less-loader */
     LESS: 'less',
+    /** stylus-loader */
+    STYLUS: 'stylus',
     /** url-loader */
     URL: 'url',
     /** pug-loader */

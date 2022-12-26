@@ -1,0 +1,146 @@
+// Vitest Snapshot v1
+
+exports[`plugins/stylus > should add stylus loader config correctly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.styl\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/stylus-loader/dist/cjs.js",
+            "options": {
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/stylus > should allow to configure stylus options 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.styl\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/stylus-loader/dist/cjs.js",
+            "options": {
+              "sourceMap": true,
+              "stylusOptions": {
+                "lineNumbers": false,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
