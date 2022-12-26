@@ -3205,12 +3205,13 @@ importers:
       jest: ^27
       ts-node: ^10.1.0
       typescript: ^4
-    devDependencies:
-      '@babel/runtime': 7.18.6
+    dependencies:
       '@modern-js/codesmith': 2.0.3
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
-      '@modern-js/upgrade-generator': link:../../generator/generators/upgrade-generator
       '@modern-js/utils': link:../utils
+    devDependencies:
+      '@babel/runtime': 7.18.6
+      '@modern-js/upgrade-generator': link:../../generator/generators/upgrade-generator
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
