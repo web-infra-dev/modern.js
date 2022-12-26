@@ -35,6 +35,9 @@ module.exports = defineConfig({
   },
   source: {
     enableAsyncEntry: true,
+    alias: {
+      '@modern-js/runtime/garfish': '@modern-js/plugin-garfish/runtime',
+    },
   },
   server: {
     port,
