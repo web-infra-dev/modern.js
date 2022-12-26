@@ -21,6 +21,21 @@
 
 你可以直接将 `https` 设置为 `true`，Builder 会基于 [devcert](https://github.com/davewasmer/devcert) 来自动生成 Dev Server 所需的 HTTPS 证书。
 
+使用这种方式时，你需要在当前项目中手动安装 [devcert](https://github.com/davewasmer/devcert) 依赖：
+
+```bash
+# npm
+npm install devcert@1.2.2 -D
+
+# yarn
+yarn add devcert@1.2.2 -D
+
+# pnpm
+pnpm add devcert@1.2.2 -D
+```
+
+然后配置 `dev.https` 为 `true` 即可：
+
 ```ts
 export default {
   dev: {
