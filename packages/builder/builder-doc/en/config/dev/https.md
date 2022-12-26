@@ -21,6 +21,21 @@ HTTPS:
 
 You can directly set `https` to `true`, Builder will automatically generate the HTTPS certificate based on [devcert](https://github.com/davewasmer/devcert).
 
+When using this method, you need to manually install the [devcert](https://github.com/davewasmer/devcert) dependency in your project:
+
+```bash
+# npm
+npm install devcert@1.2.2 -D
+
+#yarn
+yarn add devcert@1.2.2 -D
+
+#pnpm
+pnpm add devcert@1.2.2 -D
+```
+
+Then configure `dev.https` to `true`:
+
 ```ts
 export default {
   dev: {

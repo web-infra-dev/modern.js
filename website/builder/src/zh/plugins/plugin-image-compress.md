@@ -16,7 +16,7 @@ npm install @modern-js/builder-plugin-image-compress -D
 yarn add @modern-js/builder-plugin-image-compress -D
 
 # pnpm
-pnpm install @modern-js/builder-plugin-image-compress -D
+pnpm add @modern-js/builder-plugin-image-compress -D
 ```
 
 ### 注册插件
