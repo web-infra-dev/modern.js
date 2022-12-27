@@ -55,7 +55,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           install: false
-          start: node scripts/dev-project.js
+          start: sh scripts/dev-project.sh
           wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003/index.js'
           wait-on-timeout: 600
           working-directory: tests
