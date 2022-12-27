@@ -38,7 +38,7 @@ async function compile() {
   await compileRetryRuntime();
   // eslint-disable-next-line no-console
   console.log(
-    `Compiled assets retry runtime code. Time cost : ${(
+    `Compiled assets retry runtime code. Time cost: ${(
       performance.now() - startTime
     ).toFixed(2)}ms`,
   );
