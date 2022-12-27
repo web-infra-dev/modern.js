@@ -22,6 +22,7 @@ const getPureDesignSystemConfig = (designSystemConfig: DesignSystem) => {
 };
 
 const getTailwindConfig = (
+  tailwindVersion: '2' | '3',
   tailwindcss?: Tailwind,
   designSystem?: DesignSystem,
   option: { pureConfig?: Record<string, any> } = {},
@@ -36,9 +37,14 @@ const getTailwindConfig = (
     },
     option.pureConfig || {},
   );
-  const defaultTailwindConfig = {
-    purge: purgeConfig,
-  };
+
+  const defaultTailwindConfig =
+    tailwindVersion === '3'
+      ? { content: purgeConfig.content }
+      : {
+          purge: purgeConfig,
+        };
+
   const tailwindConfig = applyOptionsChain(
     defaultTailwindConfig,
     tailwindcss || {},
