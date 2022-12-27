@@ -2754,7 +2754,7 @@ importers:
       '@types/merge-deep': ^3.0.0
       '@types/node': ^14
       '@types/serve-static': ^1.13.10
-      axios: ^0.24.0
+      axios: ^1.2.1
       cookie: ^0.4.2
       etag: ^1.8.1
       fresh: ^0.5.2
@@ -2771,7 +2771,6 @@ importers:
     dependencies:
       '@modern-js/server-core': link:../core
       '@modern-js/utils': link:../../toolkit/utils
-      axios: 0.24.0
       cookie: 0.4.2
       etag: 1.8.1
       fresh: 0.5.2
@@ -2793,6 +2792,7 @@ importers:
       '@types/merge-deep': 3.0.0
       '@types/node': 14.18.21
       '@types/serve-static': 1.13.10
+      axios: 1.2.1
       jest: 27.5.1
       node-mocks-http: 1.11.0
       portfinder: 1.0.28
@@ -3717,7 +3717,6 @@ importers:
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/utils': workspace:*
       '@types/node': ^14
-      axios: ^0.24.0
       cross-spawn: ^7.0.3
       fs-extra: ^10.0.0
       jest: ^27.3.1
@@ -3738,7 +3737,6 @@ importers:
       '@modern-js/plugin-testing': link:../packages/runtime/plugin-testing
       '@modern-js/utils': link:../packages/toolkit/utils
       '@types/node': 14.18.21
-      axios: 0.24.0
       cross-spawn: 7.0.3
       fs-extra: 10.1.0
       jest: 27.5.1_ts-node@9.1.1
@@ -4120,13 +4118,11 @@ importers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
       '@modern-js/runtime': workspace:*
-      axios: ^0.24.0
       react: ^18
       react-dom: ^18
     dependencies:
       '@babel/runtime': 7.18.6
       '@modern-js/runtime': link:../../../packages/runtime/plugin-runtime
-      axios: 0.24.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -4145,7 +4141,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      axios: ^0.24.0
       isomorphic-fetch: ^3.0.0
       koa: ^2.13.4
       react: ^18
@@ -4169,7 +4164,6 @@ importers:
       '@types/node': 14.18.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      axios: 0.24.0
       isomorphic-fetch: 3.0.0
       ts-node: 10.8.1_ah2igguqgj6e7ik4ubgohitm4e
       tsconfig-paths: 3.14.1
@@ -4256,7 +4250,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
-      axios: ^0.24.0
       express: ^4.17.2
       react: ^18
       react-dom: ^18
@@ -4282,7 +4275,6 @@ importers:
       '@types/node': 14.18.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      axios: 0.24.0
       typescript: 4.7.4
 
   tests/integration/builder-plugins:
@@ -5150,14 +5142,14 @@ importers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
       '@modern-js/runtime': workspace:*
-      axios: ^0.24.0
+      axios: ^1.2.1
       express: ^4.17.1
       react: ^18
       react-dom: ^18
     dependencies:
       '@babel/runtime': 7.18.6
       '@modern-js/runtime': link:../../../packages/runtime/plugin-runtime
-      axios: 0.24.0
+      axios: 1.2.1
       express: 4.18.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -18904,13 +18896,6 @@ packages:
     transitivePeerDependencies:
       - debug
 
-  /axios/0.24.0:
-    resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
-    dependencies:
-      follow-redirects: 1.15.1
-    transitivePeerDependencies:
-      - debug
-
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
@@ -18931,6 +18916,15 @@ packages:
     dependencies:
       follow-redirects: 1.15.1
       form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+
+  /axios/1.2.1:
+    resolution: {integrity: sha512-I88cFiGu9ryt/tfVEi4kX2SITsvDddTajXTOFmt2uK1ZVA8LytjtdeyefdQWEf5PU8w+4SSJDoYnggflB5tW4A==}
+    dependencies:
+      follow-redirects: 1.15.1
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
 
@@ -34163,7 +34157,6 @@ packages:
 
   /proxy-from-env/1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-    dev: true
 
   /prr/1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
