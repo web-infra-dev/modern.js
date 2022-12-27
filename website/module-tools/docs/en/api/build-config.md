@@ -49,13 +49,13 @@ export default {
 ## asset
 
 ### path
-Static resource output path, will be based on [outdir](/zh/api/build-config/#outdir)
+Static resource output path, will be based on [`outdir`](/zh/api/build-config/#outdir)
 
 - type: `string`
 - default: `assets`
 
 ### limit
-Threshold for automatically inlining static resources when building, resources less than 10240 bytes will be automatically inlined into the bundle product
+Threshold for automatically inlining static resources when building, resources less than 10 KB will be automatically inlined into the bundle product
 
 - type: `number`
 - default: `10 * 1024`
@@ -115,7 +115,7 @@ The build type, `bundle` will package your code, `bundleless` will only do the c
 Copies the specified file or directory into the build output directory
 - type: `Array`
 - default: `[]`
-``js
+```js
 
 export default {
   buildConfig: {
@@ -160,7 +160,7 @@ Path to the tsconfig file
 - default: `. /tsconfig.json`
 
 ### distPath
-The output path of the dts file, based on [outdir]('/zh/api/build-config/#outdir')
+The output path of the dts file, based on [`outdir`]('/zh/api/build-config/#outdir')
 - type: `string`
 - default: `. /types`
 
@@ -402,14 +402,14 @@ You can use ``styles.boxTitle`` to access
 
 For detailed configuration see [postcss-modules](https://github.com/madyankin/postcss-modules#usage)
 
-### tailwind
+### tailwindcss
 tailwindcss related configuration
 
 - type: `Object | Function`
 - default: `see configuration details below`
 
 <details>
-  <summary>TailwindCSS configuration details</summary>
+  <summary>Tailwind CSS configuration details</summary>
 
 ```js modern.config.ts
 const tailwind = {
@@ -464,7 +464,7 @@ Specifies the module name of the umd product
 - type: `string` | `Function`
 - default: `name => name`
 
-``js
+```js
 export default {
   buildConfig: {
     format: 'umd',
