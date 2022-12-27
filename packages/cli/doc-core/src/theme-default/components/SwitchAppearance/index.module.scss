@@ -1,0 +1,15 @@
+.sun {
+  opacity: 1;
+}
+
+.moon {
+  opacity: 0;
+}
+
+:global(.dark) .sun {
+  opacity: 0;
+}
+
+:global(.dark) .moon {
+  opacity: 1;
+}

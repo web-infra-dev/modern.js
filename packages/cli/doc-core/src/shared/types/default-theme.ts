@@ -1,243 +1,214 @@
-import { HeadConfig } from '.';
-
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace DefaultTheme {
-  export interface Config {
-    /**
-     * Whether to enable dark mode.
-     * @default true
-     */
-    darkMode?: boolean;
-    /**
-     * Custom outline title in the aside component.
-     *
-     * @default 'On this page'
-     */
-    outlineTitle?: string;
-    /**
-     * Whether to show the sidebar in right position.
-     */
-    outline?: boolean;
-    /**
-     * The nav items.
-     */
-    nav?: NavItem[];
-
-    /**
-     * The sidebar items.
-     */
-    sidebar?: Sidebar;
-
-    /**
-     * Info for the edit link. If it's undefined, the edit link feature will
-     * be disabled.
-     */
-    editLink?: EditLink;
-
-    /**
-     * Set custom last updated text.
-     *
-     * @default 'Last updated'
-     */
-    lastUpdatedText?: string;
-
-    /**
-     * Set custom prev/next labels.
-     */
-    docFooter?: DocFooter;
-
-    /**
-     * The social links to be displayed at the end of the nav bar. Perfect for
-     * placing links to social services such as GitHub, Twitter, Facebook, etc.
-     */
-    socialLinks?: SocialLink[];
-
-    /**
-     * The footer configuration.
-     */
-    footer?: Footer;
-    /**
-     * The prev page text.
-     */
-    prevPageText?: string;
-    /**
-     * The next page text.
-     */
-    nextPageText?: string;
-    /**
-     * Locale config
-     */
-    locales?: Record<string, LocaleConfig>;
-    /**
-     * Whether to open the full text search
-     */
-    search?: boolean;
-    /**
-     * Whether to use back top
-     */
-    backTop?: boolean;
-  }
+export interface Config {
+  /**
+   * Whether to enable dark mode.
+   * @default true
+   */
+  darkMode?: boolean;
+  /**
+   * Custom outline title in the aside component.
+   *
+   * @default 'On this page'
+   */
+  outlineTitle?: string;
+  /**
+   * Whether to show the sidebar in right position.
+   */
+  outline?: boolean;
+  /**
+   * The nav items.
+   */
+  nav?: NavItem[];
 
   /**
-   * locale config
+   * The sidebar items.
    */
-  export interface LocaleConfig {
-    lang?: string;
-    title?: string;
-    langRoutePrefix?: string;
-    description?: string;
-    head?: HeadConfig[];
-    label: string;
-    selectText?: string;
-    nav?: NavItem[];
-    sidebar?: Sidebar;
-    outlineTitle?: string;
-    lastUpdatedText?: string;
-    editLink?: EditLink;
-    prevPageText?: string;
-    nextPageText?: string;
-  }
-  // nav -----------------------------------------------------------------------
+  sidebar?: Sidebar;
 
-  export type NavItem = NavItemWithLink | NavItemWithChildren;
+  /**
+   * Info for the edit link. If it's undefined, the edit link feature will
+   * be disabled.
+   */
+  editLink?: EditLink;
 
-  export type NavItemWithLink = {
-    text: string;
-    link: string;
-  };
+  /**
+   * Set custom last updated text.
+   *
+   * @default 'Last updated'
+   */
+  lastUpdatedText?: string;
 
-  export type NavItemChildren = {
-    text?: string;
-    items: NavItemWithLink[];
-  };
+  /**
+   * Set custom prev/next labels.
+   */
+  docFooter?: DocFooter;
 
-  export interface NavItemWithChildren {
-    text?: string;
-    items: NavItemWithLink[];
-  }
+  /**
+   * The social links to be displayed at the end of the nav bar. Perfect for
+   * placing links to social services such as GitHub, Twitter, Facebook, etc.
+   */
+  socialLinks?: SocialLink[];
 
-  // image -----------------------------------------------------------------------
-  export type Image = string | { src: string; alt?: string };
+  /**
+   * The footer configuration.
+   */
+  footer?: Footer;
+  /**
+   * The prev page text.
+   */
+  prevPageText?: string;
+  /**
+   * The next page text.
+   */
+  nextPageText?: string;
+  /**
+   * Locale config
+   */
+  locales?: LocaleConfig[];
+  /**
+   * Whether to open the full text search
+   */
+  search?: boolean;
+  /**
+   * Whether to use back top
+   */
+  backTop?: boolean;
+  /**
+   * Default language
+   */
+  defaultLang?: string;
+}
 
-  // sidebar -------------------------------------------------------------------
-  export interface Sidebar {
-    [path: string]: SidebarGroup[];
-  }
+/**
+ * locale config
+ */
+export interface LocaleConfig {
+  lang: string;
+  title?: string;
+  description?: string;
+  label?: string;
+  selectText?: string;
+  nav?: NavItem[];
+  sidebar?: Sidebar;
+  outlineTitle?: string;
+  lastUpdatedText?: string;
+  editLink?: EditLink;
+  prevPageText?: string;
+  nextPageText?: string;
+  langRoutePrefix?: string;
+}
+// nav -----------------------------------------------------------------------
 
-  export interface SidebarGroup {
-    text?: string;
-    items: SidebarItem[];
-  }
+export type NavItem = NavItemWithLink | NavItemWithChildren;
 
-  export type SidebarItem =
-    | { text: string; link: string }
-    | { text: string; link?: string; items: SidebarItem[] };
+export type NavItemWithLink = {
+  text: string;
+  link: string;
+  activeMatch?: string;
+};
 
-  // edit link -----------------------------------------------------------------
+export type NavItemChildren = {
+  text?: string;
+  items: NavItemWithLink[];
+};
 
-  export interface EditLink {
-    /**
-     * Pattern for edit link.
-     *
-     * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
-     */
-    pattern: string;
+export interface NavItemWithChildren {
+  text?: string;
+  items: NavItemWithLink[];
+}
 
-    /**
-     * Custom text for edit link.
-     *
-     * @default 'Edit this page'
-     */
-    text?: string;
-  }
+// image -----------------------------------------------------------------------
+export type Image = string | { src: string; alt?: string };
 
-  // prev-next -----------------------------------------------------------------
+// sidebar -------------------------------------------------------------------
+export interface Sidebar {
+  [path: string]: (SidebarGroup | SidebarItem)[];
+}
 
-  export interface DocFooter {
-    /**
-     * Custom label for previous page button.
-     *
-     * @default 'Previous page'
-     */
-    prev?: SidebarItem;
+export interface SidebarGroup {
+  text: string;
+  link?: string;
+  items: (SidebarItem | SidebarGroup)[];
+  collapsible?: boolean;
+  collapsed?: boolean;
+}
 
-    /**
-     * Custom label for next page button.
-     *
-     * @default 'Next page'
-     */
-    next?: SidebarItem;
-  }
+export type SidebarItem = { text: string; link: string };
 
-  // social link ---------------------------------------------------------------
+// edit link -----------------------------------------------------------------
 
-  export interface SocialLink {
-    icon: SocialLinkIcon;
-    mode: 'link' | 'text' | 'img';
-    content: string;
-  }
+export interface EditLink {
+  /**
+   * Pattern for edit link.
+   *
+   * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
+   */
+  pattern: string;
 
-  export type SocialLinkIcon =
-    | 'discord'
-    | 'facebook'
-    | 'github'
-    | 'instagram'
-    | 'linkedin'
-    | 'slack'
-    | 'twitter'
-    | 'youtube'
-    | 'weixin'
-    | 'qq'
-    | 'juejin'
-    | 'zhihu'
-    | 'bilibili'
-    | 'weibo'
-    | { svg: string };
+  /**
+   * Custom text for edit link.
+   *
+   * @default 'Edit this page'
+   */
+  text?: string;
+}
 
-  // footer --------------------------------------------------------------------
+// prev-next -----------------------------------------------------------------
 
-  export interface Footer {
-    message?: string;
-  }
+export interface DocFooter {
+  /**
+   * Custom label for previous page button.
+   *
+   * @default 'Previous page'
+   */
+  prev?: SidebarItem;
 
-  // locales -------------------------------------------------------------------
+  /**
+   * Custom label for next page button.
+   *
+   * @default 'Next page'
+   */
+  next?: SidebarItem;
+}
 
-  export interface LocaleLinks {
-    text: string;
-    items: LocaleLink[];
-  }
+// social link ---------------------------------------------------------------
 
-  export interface LocaleLink {
-    text: string;
-    link: string;
-  }
+export interface SocialLink {
+  icon: SocialLinkIcon;
+  mode: 'link' | 'text' | 'img';
+  content: string;
+}
 
-  export type BackTopOptions =
-    | boolean
-    | {
-        visibleHeight?: number;
-        duration?: number;
-        animation?: BackTopAnimation;
-      };
+export type SocialLinkIcon =
+  | 'discord'
+  | 'facebook'
+  | 'github'
+  | 'instagram'
+  | 'linkedin'
+  | 'slack'
+  | 'twitter'
+  | 'youtube'
+  | 'weixin'
+  | 'qq'
+  | 'juejin'
+  | 'zhihu'
+  | 'bilibili'
+  | 'weibo'
+  | { svg: string };
 
-  export type BackTopAnimation =
-    | 'linear'
-    | 'quadIn'
-    | 'quadOut'
-    | 'quadInOut'
-    | 'cubicIn'
-    | 'cubicOut'
-    | 'cubicInOut'
-    | 'quartIn'
-    | 'quartOut'
-    | 'quartInOut'
-    | 'quintIn'
-    | 'quintOut'
-    | 'quintInOut'
-    | 'sineIn'
-    | 'sineOut'
-    | 'sineInOut'
-    | 'bounceIn'
-    | 'bounceOut'
-    | 'bounceInOut';
+// footer --------------------------------------------------------------------
+
+export interface Footer {
+  message?: string;
+}
+
+// locales -------------------------------------------------------------------
+
+export interface LocaleLinks {
+  text: string;
+  items: LocaleLink[];
+}
+
+export interface LocaleLink {
+  text: string;
+  link: string;
 }
