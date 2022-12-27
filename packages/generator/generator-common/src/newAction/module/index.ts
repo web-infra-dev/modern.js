@@ -85,6 +85,7 @@ export const ModuleNewActionGenerators: Partial<
   Record<ActionType, Record<string, string>>
 > = {
   [ActionType.Function]: {
+    [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.Storybook]: '@modern-js/storybook-generator',
     [ActionFunction.RuntimeApi]: '@modern-js/dependence-generator',
