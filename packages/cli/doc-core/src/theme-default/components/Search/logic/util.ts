@@ -31,5 +31,5 @@ export function backTrackHeaders(
 export function normalizeContent(content: string) {
   // Do not match the content in code block
   // Do not match the frontmatter
-  return content.replace(/```[\s\S]*?```/g, '').replace(/---[\s\S]*?---/g, '');
+  return content.replace(/```(.*?)```/gms, '').replace(/---(.*?)---/gms, '');
 }
