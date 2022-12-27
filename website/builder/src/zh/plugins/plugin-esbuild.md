@@ -20,7 +20,7 @@ npm install @modern-js/builder-plugin-esbuild -D
 yarn add @modern-js/builder-plugin-esbuild -D
 
 # pnpm
-pnpm install @modern-js/builder-plugin-esbuild -D
+pnpm add @modern-js/builder-plugin-esbuild -D
 ```
 
 ### 注册插件

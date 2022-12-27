@@ -30,11 +30,23 @@ const MyPlugin = {
 };
 ```
 
-另外，在插件中，允许配置与其他插件的执行顺序，详情可以参考[插件关系](/docs/guides/topic-detail/framework-plugin/relationship)。
+另外，在插件中，允许配置与其他插件的执行顺序。详情可以参考[插件关系](/docs/guides/topic-detail/framework-plugin/relationship)。
 
 ### 插件类型
 
-使用 TypeScript 时，可以引入内置的 `CliPlugin` 类型，为插件提供正确的类型推导：
+Modern-js 支持多种工程开发，如应用工程(app-tools), 模块工程(module-tools)等。
+
+为了兼顾不同工程开发的差异和通性，Modern-js 将插件如下图进行组织:
+
+![plugin-relationship](https://lf3-static.bytednsdoc.com/obj/eden-cn/eeeh7uhbepxlpe/modern-website/plugin-relationship.jpg)
+
+从图可以看出，Modern-js 将插件大致分为两类:
+
+1. 通用插件: 插件只会包含一些基础的 Hooks
+
+2. 工程插件: 不同的工程开发会在通用插件的基础上扩展出自己的 Hooks, Config 等类型。
+
+使用 TypeScript 时，可以引入内置的 `CliPlugin` 等类型，为插件提供正确的类型推导。
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -54,19 +66,55 @@ const MyPlugin: CliPlugin = {
 };
 ```
 
-Modern.js 导出的 `Plugin` 类型支持泛型扩展。
-
-在 Modern.js 中，任意插件可以注册自己的 Hook，如果想拥有其他插件注册的 Hook 的类型，可以添加泛型：
+上述代码为通用插件，只包含一些基础的 Hooks。 Modern.js 支持通过泛型对插件的定义进行扩展：
 
 ```ts
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+
+const MyPlugin: CliPlugin<AppTools> = {
+  name: 'my-plugin',
+
+  setup() {
+    const foo = '1';
+
+    return {
+      afterBuild: () => {
+        // 在构建完成后执行逻辑
+      },
+    };
+  },
+};
+```
+
+如果仔细观察 `AppTools` 这个类型，可以发现 `AppTools` 由 3 种类型构成.
+
+```ts
+type AppTools = {
+  hooks: AppToolsHooks;
+  userConfig: AppToolsUserConfig;
+  normalizedConfig: AppToolsNormalizedConfig;
+};
+```
+
+当编写插件时，插件通过泛型扩展在不同的基础上扩展自己的 Hooks 等类型:
+
+```ts
+// 通用插件上扩展
 import type { CliPlugin } from '@modern-js/core';
 import type { MyPluginHook } from 'xxx';
 
-const MyPlugin: CliPlugin<MyPluginHook> = {};
+const MyPlugin: CliPlugin<{ hooks: MyPluginHook }> = {};
+```
+
+```ts
+// 在 @modern-js/app-tools 基础上扩展
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import type { MyPluginHook } from 'xxx';
+
+const MyPlugin: CliPlugin<AppTools & { hooks: MyPluginHook }> = {};
 ```
 
 详细说明，请参考 [扩展 Hook](/docs/guides/topic-detail/framework-plugin/extend)。
-
 
 ### 插件配置项
 
