@@ -29,11 +29,11 @@ export const checkTwinMacroExist = async (appDirectory: string) => {
       throws: false,
     })) || {};
 
-  return (
+  return Boolean(
     (typeof packageJson.dependencies === 'object' &&
       packageJson.dependencies[depName]) ||
-    (typeof packageJson.devDependencies === 'object' &&
-      packageJson.devDependencies[depName])
+      (typeof packageJson.devDependencies === 'object' &&
+        packageJson.devDependencies[depName]),
   );
 };
 

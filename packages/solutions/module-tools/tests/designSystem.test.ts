@@ -36,7 +36,7 @@ describe('`designSystem` case', () => {
     console.info(distFilePath);
     expect(fs.existsSync(distFilePath)).toBe(true);
     const content = fs.readFileSync(distFilePath, 'utf-8');
-    expect(content.includes('0, 0, 0')).toBe(true);
+    expect(content.includes('0 0 0')).toBe(true);
     expect(content).toMatchSnapshot();
   });
 
@@ -55,7 +55,7 @@ describe('`designSystem` case', () => {
     );
     expect(fs.existsSync(distFilePath)).toBe(true);
     const content = fs.readFileSync(distFilePath, 'utf-8');
-    expect(content.includes('0, 0, 0')).toBe(true);
+    expect(content.includes('0 0 0')).toBe(true);
     expect(content).toMatchSnapshot();
   });
 });

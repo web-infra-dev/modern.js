@@ -55,6 +55,15 @@ Modern.js 同时支持 Tailwind CSS v2 和 v3 版本，框架会识别项目 `pa
 - [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
 - [Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
 
+### 浏览器兼容性
+
+Tailwind CSS v2 和 v3 均不支持 IE 11 浏览器，相关背景请参考：
+
+- [Tailwind CSS v3 - Browser Support](https://tailwindcss.com/docs/browser-support)。
+- [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
+
+如果你在 IE 11 浏览器上使用 Tailwind CSS，可能会出现部分样式不可用的现象，请谨慎使用。
+
 ## Theme 配置
 
 当需要自定义 Tailwind CSS 的 [theme](https://tailwindcss.com/docs/theme) 配置的时候，可以在配置 [`source.designSystem`](/docs/configure/app/source/design-system) 中修改，例如，颜色主题中增加一个 `primary`：

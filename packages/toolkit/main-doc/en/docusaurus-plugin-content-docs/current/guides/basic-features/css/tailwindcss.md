@@ -44,6 +44,15 @@ If your project is still using Tailwind CSS v2, we recommend that you upgrade to
 - [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
 - [Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
 
+### Browser Compatibility
+
+Both Tailwind CSS v2 and v3 do not support IE 11 browsers. For background, please refer to:
+
+- [Tailwind CSS v3 - Browser Support](https://tailwindcss.com/docs/browser-support).
+- [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
+
+If you use Tailwind CSS on IE 11 browser, some styles may not be available, please pay attention.
+
 ## Theme config
 
 When you need to customize the [theme](https://tailwindcss.com/docs/theme) configuration of Tailwind CSS, you can modify it in the configuration [`source.designSystem`](/docs/configure/app/source/design-system), for example, add a color theme `primary`:
