@@ -21,11 +21,30 @@ import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
 ```
 
-You can then use the Utility Class provided by Tailwind CSS in each component.
+You can then use the Utility Class provided by Tailwind CSS in each component:
+
+```tsx
+const App = () => (
+  <div className="h-12 w-48">
+    <p className="text-xl font-medium text-black">hello world</p>
+  </div>
+);
+```
 
 ::: info Additional
 According to different needs, you can optionally import the CSS files provided by Tailwind CSS. Since the use of `@taiwind` is equivalent to directly importing CSS files, you can refer to the content in the annotate in the [`@tailwind` usage](https://tailwindcss.com/docs/functions-and-directives#tailwind) document for the purpose of the CSS files provided by Tailwind CSS.
 :::
+
+## Tailwind CSS version
+
+Modern.js supports both Tailwind CSS v2 and v3. The framework will recognize the version of `tailwindcss` in the project `package.json` and apply the corresponding configuration. By default, we install Tailwind CSS v3 for you.
+
+If your project is still using Tailwind CSS v2, we recommend that you upgrade to v3 to support JIT and other capabilities. For the differences between Tailwind CSS v2 and v3 versions, please refer to the following articles:
+
+- [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
+- [Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
+
+## Theme config
 
 When you need to customize the [theme](https://tailwindcss.com/docs/theme) configuration of Tailwind CSS, you can modify it in the configuration [`source.designSystem`](/docs/configure/app/source/design-system), for example, add a color theme `primary`:
 
