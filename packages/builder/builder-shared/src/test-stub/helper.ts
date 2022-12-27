@@ -15,4 +15,5 @@ export const mockBuilderPlugins: Plugins = {
   fileSize: genMockPlugin('builder-plugin-file-size'),
   target: genMockPlugin('builder-plugin-target'),
   devtool: genMockPlugin('builder-plugin-devtool'),
+  entry: genMockPlugin('builder-plugin-entry'),
 };

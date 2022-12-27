@@ -1,0 +1,113 @@
+# Stylus Plugin
+
+Stylus is an Expressive, dynamic and robust CSS preprocessor. This chapter introduces how to use Stylus in Builder.
+
+## Quick start
+
+### Install
+
+You can install the plugin with the following command:
+
+```bash
+# npm
+npm install @modern-js/builder-plugin-stylus -D
+
+#yarn
+yarn add @modern-js/builder-plugin-stylus -D
+
+#pnpm
+pnpm install @modern-js/builder-plugin-stylus -D
+```
+
+### Register
+
+In upper-level frameworks such as Modern.js or EdenX, you can register Stylus plugins through the `builderPlugins` config:
+
+```ts
+import { PluginStylus } from '@modern-js/builder-plugin-stylus';
+
+export default {
+  builderPlugins: [PluginStylus()],
+};
+```
+
+When you call the Builder's Node API directly, you can register Stylus plugins with the `addPlugins` method:
+
+```js
+import { PluginStylus } from '@modern-js/builder-plugin-stylus';
+
+// add the plugin to the builder instance
+builder.addPlugins([PluginStylus()]);
+```
+
+## Example
+
+After installing the plugin, you can directly import `*.styl` or `*.module.styl` files into the code without adding other configs.
+
+- `normalize.styl`:
+
+```style
+the body
+   color#000
+   font 14px Arial, sans-serif
+```
+
+- `title.module.styl`:
+
+```style
+.title
+   font-size: 14px;
+```
+
+- `index.js`:
+
+```js
+import './normalize.styl';
+import style from './title.module.styl';
+
+console.log(style.title);
+```
+
+## Config
+
+If you need to customize the compilation behavior of Stylus, you can use the following configs.
+
+### stylusOptions
+
+-Type:
+
+```ts
+type StylusOptions = {
+  use?: string[];
+  include?: string;
+  import?: string;
+  resolveURL?: boolean;
+  lineNumbers?: boolean;
+  hoistAtrules?: boolean;
+};
+```
+
+- Default: `undefined`
+
+Options passed to Stylus, please refer to the [Stylus documentation](https://stylus-lang.com/docs/js.html) for specific usage.
+
+```ts
+PluginStylus({
+  stylusOptions: {
+    lineNumbers: false,
+  },
+});
+```
+
+### sourceMap
+
+- Type: `boolean`
+- Default: `isDev`
+
+Whether to generate Source Map, enabled by default in the development environment.
+
+```ts
+PluginStylus({
+  sourceMap: false,
+});
+```

@@ -4,39 +4,32 @@ title: tools.tailwindcss
 sidebar_label: tailwindcss
 ---
 
-
-* 类型： `Object | Function`
-* 默认值：见下方配置详情。
+- 类型： `Object | Function`
+- 默认值：见下方配置详情。
 
 <details>
   <summary>TailwindCSS 配置详情</summary>
 
 ```js
-  const tailwind = {
-    purge: {
-        enabled: options.env === 'production',
-        content: [
-          './config/html/**/*.html',
-          './config/html/**/*.ejs',
-          './config/html/**/*.hbs',
-          './src/**/*',
-        ],
-        layers: ['utilities'],
-    },
-    // https://tailwindcss.com/docs/upcoming-changes
-    future: {
-      removeDeprecatedGapUtilities: false,
-      purgeLayersByDefault: true,
-      defaultLineHeights: false,
-      standardFontWeights: false,
-    },
-    theme: source.designSystem // 使用source.designSystem配置作为Tailwind CSS Theme配置
-  }
+const tailwind = {
+  content: [
+    './config/html/**/*.html',
+    './config/html/**/*.ejs',
+    './config/html/**/*.hbs',
+    './src/**/*.js',
+    './src/**/*.jsx',
+    './src/**/*.ts',
+    './src/**/*.tsx',
+    './storybook/**/*',
+  ],
+  theme: source.designSystem, // 使用source.designSystem配置作为Tailwind CSS Theme配置
+};
 ```
 
 :::tip 提示
 更多关于：<a href="https://tailwindcss.com/docs/configuration" target="_blank">TailwindCSS 配置</a>。
 :::
+
 </details>
 
 对应 [TailwindCSS](https://tailwindcss.com/docs/configuration) 的配置，值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。

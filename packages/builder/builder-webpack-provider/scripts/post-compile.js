@@ -1,17 +1,7 @@
-const { ConfigValidator } = require('../dist/config/validate');
 const path = require('path');
 const { readFile, writeFile } = require('fs/promises');
 const { transformAsync } = require('@babel/core');
 const { performance } = require('perf_hooks');
-
-async function compileAjv() {
-  const output = path.resolve(
-    __dirname,
-    '../compiled/config-validator/index.js',
-  );
-  const validator = await ConfigValidator.create();
-  await ConfigValidator.serialize(validator, output);
-}
 
 async function compileRetryRuntime() {
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
@@ -45,10 +35,10 @@ async function compileRetryRuntime() {
 
 async function compile() {
   const startTime = performance.now();
-  await Promise.all([compileAjv(), compileRetryRuntime()]);
+  await compileRetryRuntime();
   // eslint-disable-next-line no-console
   console.log(
-    `Compiled ajv and assets retry runtime code. Time cost : ${(
+    `Compiled assets retry runtime code. Time cost: ${(
       performance.now() - startTime
     ).toFixed(2)}ms`,
   );

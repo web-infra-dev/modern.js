@@ -66,6 +66,12 @@ When using lazy compilation for entries, there are some considerations:
 - Only work for multi-page applications, no work for single-page applications.
 - when you visit a page, there will be a white screen for a period of time due to waiting for the page to be compiled.
 
-:::tip Disable split chunks
+### Limitations
+
+#### Disable split chunks
+
 When you enable lazy compilation, in order to ensure the compilation results, Builder will disable split chunks in the development. This will not affect the build results in the production, but will cause a difference between the build results of the development and production.
-:::
+
+#### Use proxy
+
+Lazy Compilation relies on the local development server of webpack. When you proxy a domain name to localhost, Lazy Compilation will not work properly. Therefore, if you need to develop with proxy, please disable Lazy Compilation.

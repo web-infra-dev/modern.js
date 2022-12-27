@@ -179,7 +179,7 @@ export default () => <div>Table Page</div>;
 
 访问主应用地址 `http://localhost:8080`，效果如下：
 
-![demo](https://tosv.byted.org/obj/eden-internal/ozpmyhn_lm_hymuPild/ljhwZthlaukjlkulzlp/modernjs/micro-demo.gif)
+![demo](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/micro-demo.gif)
 
 在完成了微前端整体开发流程的体验后，你可以进一步了解如何 [开发主应用](./c03-main-app.md)
 

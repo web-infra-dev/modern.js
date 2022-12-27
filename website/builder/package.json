@@ -23,6 +23,8 @@
     "markdown-it": "8.4.2",
     "markdown-it-include": "2.0.0",
     "postcss": "8.4.16",
+    "stylus": "0.54.8",
+    "stylus-loader": "3.0.2",
     "vuepress": "1.9.5",
     "vuepress-plugin-redirect": "1.2.5",
     "vuepress-theme-vt": "0.6.3",

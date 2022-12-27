@@ -61,6 +61,7 @@ export const SVG_REGEX = /\.svg$/;
 export const CSS_REGEX = /\.css$/;
 export const LESS_REGEX = /\.less$/;
 export const SASS_REGEX = /\.s(a|c)ss$/;
+export const STYLUS_REGEX = /\.styl$/;
 export const CSS_MODULES_REGEX = /\.module\.\w+$/i;
 export const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 export const NODE_MODULES_REGEX = /node_modules/;

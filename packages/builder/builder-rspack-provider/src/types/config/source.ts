@@ -11,15 +11,12 @@ import type {
  */
 type Alias = ChainedConfig<Record<string, string>>;
 
-export type SourceConfig = Omit<SharedSourceConfig, 'Alias' | 'define'> & {
+export type SourceConfig = SharedSourceConfig & {
   alias?: Alias;
   define?: Record<string, string>;
 };
 
-export type NormalizedSourceConfig = Omit<
-  NormalizedSharedSourceConfig,
-  'Alias' | 'define'
-> & {
+export type NormalizedSourceConfig = NormalizedSharedSourceConfig & {
   alias?: Alias;
   define: Record<string, string>;
 };
