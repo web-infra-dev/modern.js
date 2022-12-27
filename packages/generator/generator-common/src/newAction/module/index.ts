@@ -9,6 +9,7 @@ import { i18n, localeKeys } from '../../locale';
 
 export const ModuleActionTypes = [ActionType.Function];
 export const ModuleActionFunctions = [
+  ActionFunction.Test,
   ActionFunction.TailwindCSS,
   ActionFunction.Storybook,
   ActionFunction.RuntimeApi,
@@ -64,6 +65,7 @@ export const ModuleActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+  [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
@@ -85,6 +87,7 @@ export const ModuleNewActionGenerators: Partial<
   Record<ActionType, Record<string, string>>
 > = {
   [ActionType.Function]: {
+    [ActionFunction.Test]: '@modern-js/module-test-generator',
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.Storybook]: '@modern-js/storybook-generator',
     [ActionFunction.RuntimeApi]: '@modern-js/dependence-generator',
@@ -97,6 +100,7 @@ export const ModuleNewActionPluginName: Partial<
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: 'TailwindCSSPlugin',
     [ActionFunction.Storybook]: 'StoryBookPlugin',
+    [ActionFunction.Test]: 'TestPlugin',
   },
 };
 
