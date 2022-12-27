@@ -10,6 +10,17 @@ describe('validateBuilderConfig', () => {
   it('should remove unknown properties', async () => {
     await expect(validateBuilderConfig({ foo: 123 })).resolves.toEqual({});
   });
+  it('should throw error when shape wrong', async () => {
+    const config = {
+      dev: { hmr: false },
+      html: { faviconByEntries: [] },
+    };
+    await expect(
+      validateBuilderConfig(config),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      '"Validation error: Expected object, received array at \\"html.faviconByEntries\\""',
+    );
+  });
   it('should validate config and cost less than 100ms', async () => {
     const config = createDefaultConfig();
     const startedAt = performance.now();
