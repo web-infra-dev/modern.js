@@ -1,12 +1,12 @@
 {
   "private": true,
-  "name": "twin-macro",
+  "name": "integration-tailwindcss-v2",
   "version": "1.0.0",
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-tailwindcss": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "twin.macro": "^3",
+    "tailwindcss": "^2",
     "react": "^18",
     "react-dom": "^18"
   }

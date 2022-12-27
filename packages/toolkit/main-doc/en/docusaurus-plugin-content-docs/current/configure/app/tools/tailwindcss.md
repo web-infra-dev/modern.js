@@ -4,38 +4,37 @@ title: tools.tailwindcss
 sidebar_label: tailwindcss
 ---
 
-* Type: `Object | Function`
-* Default: See configuration details below.
+- Type: `Object | Function`
+- Default: See configuration details below.
 
 <details>
   <summary>TailwindCSS configuration details</summary>
 
 ```js
-  const tailwind = {
-    purge: {
-        enabled: options.env === 'production',
-        content: [
-          './config/html/**/*.html',
-          './config/html/**/*.ejs',
-          './config/html/**/*.hbs',
-          './src/**/*',
-        ],
-        layers: ['utilities'],
-    },
-    // https://tailwindcss.com/docs/upcoming-changes
-    future: {
-      removeDeprecatedGapUtilities: false,
-      purgeLayersByDefault: true,
-      defaultLineHeights: false,
-      standardFontWeights: false,
-    },
-    theme: source.designSystem // Use source.design System configuration as Tailwind CSS Theme configuration
-  }
+const tailwind = {
+  content: [
+    './config/html/**/*.html',
+    './config/html/**/*.ejs',
+    './config/html/**/*.hbs',
+    './src/**/*.js',
+    './src/**/*.jsx',
+    './src/**/*.ts',
+    './src/**/*.tsx',
+    // about storybook
+    './storybook/**/*',
+    './styles/**/*.less',
+    './styles/**/*.css',
+    './styles/**/*.sass',
+    './styles/**/*.scss',
+  ],
+  theme: source.designSystem, // Use source.design System configuration as Tailwind CSS Theme configuration
+};
 ```
 
 :::tip Tips
 More about: <a href="https://tailwindcss.com/docs/configuration" target="_blank">TailwindCSS configuration</a>。
 :::
+
 </details>
 
 When the value is of type `Object`, rhe configuration corresponding to [TailwindCSS](https://tailwindcss.com/docs/configuration) is merged with the default configuration through `Object.assign`.

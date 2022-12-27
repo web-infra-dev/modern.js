@@ -22,20 +22,36 @@ module.exports = {
 };
 `;
 
-export const checkTwinMacroNotExist = async (appDirectory: string) => {
+export const checkTwinMacroExist = async (appDirectory: string) => {
   const depName = 'twin.macro';
   const packageJson =
     (await fs.readJSON(path.join(appDirectory, 'package.json'), {
       throws: false,
     })) || {};
-  if (
+
+  return (
     (typeof packageJson.dependencies === 'object' &&
       packageJson.dependencies[depName]) ||
     (typeof packageJson.devDependencies === 'object' &&
       packageJson.devDependencies[depName])
-  ) {
-    return false;
-  }
-
-  return true;
+  );
 };
+
+export function getTailwindPath(appDirectory: string) {
+  try {
+    return require.resolve('tailwindcss', { paths: [appDirectory, __dirname] });
+  } catch (err) {
+    return 'tailwindcss';
+  }
+}
+
+export function getTailwindVersion(appDirectory: string): '2' | '3' {
+  try {
+    const packageJsonPath = require.resolve('tailwindcss/package.json', {
+      paths: [appDirectory, __dirname],
+    });
+    return require(packageJsonPath).version.split('.')[0];
+  } catch (err) {
+    return '3';
+  }
+}
