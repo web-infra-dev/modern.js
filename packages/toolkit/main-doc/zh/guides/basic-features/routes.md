@@ -306,9 +306,6 @@ export default () => {
 
 :::note
 在自控式路由下，开发者如果希望在 SSR 中使用 React Router 6 中 [Loader API](https://reactrouter.com/en/main/hooks/use-loader-data#useloaderdata) 的能力会相对复杂，推荐直接使用约定式路由。Modern.js 已经为你封装好了一切。
-
-<!-- Todo 嵌套路由带来的优化可以补充下文档-->
-如果项目只想升级到 React Router 6，而不希望使用嵌套路由带来的优化，那 [useLoader](/docs/apis/app/runtime/core/use-loader) 在 SSR 下仍然可以工作。
 :::
 
 ## 其他路由方案

@@ -243,8 +243,6 @@ export default () => {
 
 :::note
 Under self-controlled routing, if developers want to use the [Loader API](https://reactrouter.com/en/main/hooks/use-loader-data#useloaderdata) capabilities in React Router 6 in SSR will be relatively complicated, it is recommended to use conventional routing directly. Modern.js has already encapsulated everything for you.
-<!-- Todo 嵌套路由带来的优化可以补充下文档-->
-If the project only wants to upgrade to React Router 6 and does not want to use the optimizations brought by nested routing, then [useLoader](/docs/apis/app/runtime/core/use-loader) will still work under SSR.
 :::
 
 ## Other
