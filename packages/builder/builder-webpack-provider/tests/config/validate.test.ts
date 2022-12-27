@@ -2,6 +2,7 @@ import { performance } from 'perf_hooks';
 import { describe, expect, it } from 'vitest';
 import { createDefaultConfig } from '@/config/defaults';
 import { validateBuilderConfig } from '@/config/validate';
+import { BuilderConfig } from '@/types';
 
 describe('validateBuilderConfig', () => {
   it('should accept empty object', async () => {
@@ -20,6 +21,26 @@ describe('validateBuilderConfig', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       '"Validation error: Expected object, received array at \\"html.faviconByEntries\\""',
     );
+  });
+  it('should accept correct chained config', async () => {
+    const config: BuilderConfig = {
+      tools: {
+        htmlPlugin: false,
+        babel: () => undefined,
+        terser: [],
+        tsChecker: (_: any) => ({}),
+      },
+    };
+    await expect(validateBuilderConfig(config)).resolves.toMatchInlineSnapshot(`
+      {
+        "tools": {
+          "babel": [Function],
+          "htmlPlugin": false,
+          "terser": [],
+          "tsChecker": [Function],
+        },
+      }
+    `);
   });
   it('should validate config and cost less than 100ms', async () => {
     const config = createDefaultConfig();
