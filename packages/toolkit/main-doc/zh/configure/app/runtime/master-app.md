@@ -13,10 +13,10 @@ sidebar_label: masterApp
 ## 示例
 
 import EnableMicroFrontend from '@site-docs/components/enable-micro-frontend.md';
-import MasterAppConfig from '@site-docs/components/micro-master-app-config.md';
+import MasterManifestAppConfig from '@site-docs/components/micro-master-manifest-config.md';
 
 <EnableMicroFrontend />
-<MasterAppConfig />
+<MasterManifestAppConfig />
 
 
 ### apps
