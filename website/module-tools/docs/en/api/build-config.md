@@ -412,25 +412,18 @@ tailwindcss related configuration
   <summary>Tailwind CSS configuration details</summary>
 
 ```js modern.config.ts
-  const tailwindcss = {
-    purge: {
-        enabled: options.env === 'production',
-        content: [
-          '. /config/html/**/*.html',
-          '. /config/html/**/*.ejs',
-          '. /config/html/**/*.hbs',
-          '. /src/**/*',
-        ],
-        layers: ['utilities'],
-    },
-    // https://tailwindcss.com/docs/upcoming-changes
-    future: {
-      removeDeprecatedGapUtilities: false,
-      purgeLayersByDefault: true,
-      defaultLineHeights: false,
-      standardFontWeights: false,
-    },
-  }
+const tailwind = {
+  content: [
+    './config/html/**/*.html',
+    './config/html/**/*.ejs',
+    './config/html/**/*.hbs',
+    './src/**/*.js',
+    './src/**/*.jsx',
+    './src/**/*.ts',
+    './src/**/*.tsx',
+    './storybook/**/*',
+  ],
+};
 ```
 
 When the value is of type `Object`, it is merged with the default configuration via `Object.assign`.

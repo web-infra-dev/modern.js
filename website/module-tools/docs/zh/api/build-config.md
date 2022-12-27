@@ -479,25 +479,18 @@ Tailwind CSS 相关配置。
   <summary>Tailwind CSS 配置详情</summary>
 
 ```js modern.config.ts
-const tailwindcss = {
-  purge: {
-      enabled: options.env === 'production',
-      content: [
-        './config/html/**/*.html',
-        './config/html/**/*.ejs',
-        './config/html/**/*.hbs',
-        './src/**/*',
-      ],
-      layers: ['utilities'],
-  },
-  // https://tailwindcss.com/docs/upcoming-changes
-  future: {
-    removeDeprecatedGapUtilities: false,
-    purgeLayersBy默认值： true,
-    defaultLineHeights: false,
-    standardFontWeights: false,
-  },
-}
+const tailwind = {
+  content: [
+    './config/html/**/*.html',
+    './config/html/**/*.ejs',
+    './config/html/**/*.hbs',
+    './src/**/*.js',
+    './src/**/*.jsx',
+    './src/**/*.ts',
+    './src/**/*.tsx',
+    './storybook/**/*',
+  ],
+};
 ```
 
 值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
