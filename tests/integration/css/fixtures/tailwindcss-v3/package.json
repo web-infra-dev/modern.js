@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "integration-tailwindcss-v3",
+  "version": "1.0.0",
+  "dependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-tailwindcss": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "tailwindcss": "^3",
+    "react": "^18",
+    "react-dom": "^18"
+  }
+}

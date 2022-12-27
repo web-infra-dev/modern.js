@@ -1,5 +1,5 @@
 import { expect, describe, it, beforeEach, afterEach } from 'vitest';
-import { PluginEntry } from '@/plugins/entry';
+import { PluginEntry } from '@builder/plugins/entry';
 import { PluginHtml } from '@/plugins/html';
 import { PluginInlineChunk } from '@/plugins/inlineChunk';
 import { createStubBuilder } from '@/stub';

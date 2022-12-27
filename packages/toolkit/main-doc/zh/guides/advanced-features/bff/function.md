@@ -13,6 +13,10 @@ Modern.js 允许在 React 组件中直接调用 `api/` 目录下满足一定条�
 
 允许通过一体化调用的函数，称为 **BFF 函数**。这里写一个最简单的 BFF 函数，创建 `api/hello.ts` 文件：
 
+:::caution
+如果是框架模式（有 `api/lambda` 目录），需要创建 `api/lambda/hello.ts`
+:::
+
 ```ts title="api/hello.ts"
 export const get = async () => 'Hello Modern.js';
 ```
@@ -41,7 +45,7 @@ Modern.js 生成器已经在 `tsconfig.json` 中配置 `@api` 别名，因此可
 
 执行 `pnpm run dev` 打开 `http://localhost:8080/` 可以看到页面已经展示了 BFF 函数返回的内容，在 Network 中可以看到页面向 `http://localhost:8080/api/hello` 发送了请求：
 
-![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/hello-modern.png)
+![Network](https://p6-piu.byteimg.com/tos-cn-i-8jisjyls3a/fd41750f8d414179a9b4ecb519919b36~tplv-8jisjyls3a-3:0:0:q75.png)
 
 ## 函数路由
 
@@ -53,32 +57,30 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 函数写法和框架写法会在下一节详细介绍。
 :::
 
-以下的 `$BASENAME` 指的是 BFF 函数的[路由前缀](/docs/configure/app/bff/prefix)，可以在 `modern.config.js` 中进行配置，默认值为 `/api`。
+所有 BFF 函数生成的路由都带有统一的前缀，默认值为 `/api`。可以通过 [bff.prefix](/docs/configure/app/bff/prefix) 设置公共路由的前缀。
 
-:::info 注
-可以通过 [bff.prefix](/docs/configure/app/bff/prefix) 设置公共路由的前缀。
-:::
+下面介绍几种路由的约定。
 
 ### 默认路由
 
 以 `index.[jt]s` 命名的文件会被映射到上一层目录。
 
-* `api/index.ts` -> `$BASENAME/`
-* `api/user/index.ts` -> `$BASENAME/user`
+* `api/index.ts` -> `{prefix}/`
+* `api/user/index.ts` -> `{prefix}/user`
 
-### 嵌套路由
+### 多层路由
 
 支持解析嵌套的文件，如果创建嵌套文件夹结构，文件仍会以相同方式自动解析路由。
 
-* `api/hello.ts` -> `$BASENAME/hello`
-* `api/user/list.ts` -> `$BASENAME/user/list`
+* `api/hello.ts` -> `{prefix}/hello`
+* `api/user/list.ts` -> `{prefix}/user/list`
 
 ### 动态路由
 
-同样的，创建命名带有 `[xxx]` 的文件夹或者文件，支持动态的命名路由参数。
+同样的，创建命名带有 `[xxx]` 的文件夹或者文件，支持动态的命名路由参数。动态路由的函数参数规则可以看 [dynamac-path](/docs/guides/advanced-features/bff/function#dynamic-path)
 
-* `api/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
-* `api/user/username/[action].ts` -> `$BASENAME/user/username/:action`
+* `api/user/[username]/info.ts` -> `{prefix}/user/:username/info`
+* `api/user/username/[action].ts` -> `{prefix}/user/username/:action`
 
 ### 白名单
 
@@ -102,7 +104,7 @@ Modern.js 的 BFF 函数需要遵循 RESTful API 标准来定义, 遵循 HTTP Me
 
 ### 函数具名导出
 
-Modern.js BFF 函数的导出名决定了函数对应接口的 Method，如`get`，`post`等。
+Modern.js BFF 函数的导出名决定了函数对应接口的 Method，如 `get`，`post` 等。
 
 例如，按照以下例子，可导出一个 GET 接口。
 
@@ -126,9 +128,9 @@ export const post = async () => {
 };
 ```
 
-* 应用工程 中支持了 9 种 Method 定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
+* 对应 HTTP Method，Modern.js 也支持了 9 种定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
 
-* 名字是大小不敏感的，就是说，如果是 `GET`，写成 `get`、`Get`、`GEt`、`GET`，都可以准确识别。而默认导出，即 `export default xxx` 则会被映射为 `Get`。
+* 名字是大小不敏感的，如果是 `GET`，写成 `get`、`Get`、`GEt`、`GET`，都可以准确识别。而默认导出，即 `export default xxx` 则会被映射为 `Get`。
 
 * 可以在一个文件中定义多个不同 Method 的函数，但如果定义多个相同 Method 的函数，则只有第一个会生效。
 
@@ -140,9 +142,7 @@ export const post = async () => {
 
 如上所述，为了满足 RESTful API 的设计标准，因此 Modern.js 中 BFF 函数需要遵循一定的入参规则。
 
-Modern.js 函数定义分为普通函数与带有 schema 的函数，这一小节先介绍普通函数。
-
-普通函数参数分为两块，分别是请求路径中的动态部分和请求选项 `RequestOption`。
+函数参数分为两块，分别是请求路径中的动态部分和请求选项 `RequestOption`。
 
 #### Dynamic Path
 
@@ -185,6 +185,24 @@ import type { RequestOption } from '@modern-js/runtime/server'
 
 export async function post(
   { query, data }: RequestOption<Record<string, string>, Record<string, string>>
+) {
+  // do somethings
+}
+```
+
+这里你也可以使用自定义类型：
+```ts title="api/lambda/hello.ts"
+import type { RequestOption } from '@modern-js/runtime/server'
+
+type IQuery = {
+  // some types
+}
+type IData = {
+  // some types
+}
+
+export async function post(
+  { query, data }: { query:IQuery, data:IData }
 ) {
   // do somethings
 }

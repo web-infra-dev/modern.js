@@ -38,11 +38,13 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
-  "devDependencies": {
-    "@babel/runtime": "^7.18.0",
-    "@modern-js/utils": "workspace:*",
+  "dependencies": {
     "@modern-js/codesmith": "2.0.3",
     "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/runtime": "^7.18.0",
     "@modern-js/upgrade-generator": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

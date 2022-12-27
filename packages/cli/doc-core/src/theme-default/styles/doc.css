@@ -1,0 +1,523 @@
+/**
+ * Headings
+ * -------------------------------------------------------------------------- */
+
+.modern-doc h1,
+.modern-doc h2,
+.modern-doc h3,
+.modern-doc h4,
+.modern-doc h5,
+.modern-doc h6 {
+  position: relative;
+  font-weight: 600;
+  outline: none;
+}
+
+.modern-doc h1::before,
+.modern-doc h2::before,
+.modern-doc h3::before,
+.modern-doc h4::before,
+.modern-doc h5::before,
+.modern-doc h6::before {
+  display: block;
+  content: '';
+  margin-top: -56px;
+  height: 56px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modern-doc h1 {
+  letter-spacing: -0.02em;
+  line-height: 40px;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.modern-doc h2 {
+  margin: 48px 0 16px;
+  /* padding-top: 24px; */
+  letter-spacing: -0.02em;
+  line-height: 32px;
+  font-size: 24px;
+}
+
+.modern-doc h3 {
+  margin: 32px 0 0;
+  letter-spacing: -0.01em;
+  line-height: 28px;
+  font-size: 20px;
+}
+
+.modern-doc .header-anchor {
+  float: left;
+  margin-left: -0.87em;
+  padding-right: 0.23em;
+  font-weight: 500;
+  opacity: 0;
+  transition: color 0.25s, opacity 0.25s;
+}
+
+.modern-doc h1:hover .header-anchor,
+.modern-doc h1 .header-anchor:focus,
+.modern-doc h2:hover .header-anchor,
+.modern-doc h2 .header-anchor:focus,
+.modern-doc h3:hover .header-anchor,
+.modern-doc h3 .header-anchor:focus,
+.modern-doc h4:hover .header-anchor,
+.modern-doc h4 .header-anchor:focus,
+.modern-doc h5:hover .header-anchor,
+.modern-doc h5 .header-anchor:focus,
+.modern-doc h6:hover .header-anchor,
+.modern-doc h6 .header-anchor:focus {
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .modern-doc h1 {
+    letter-spacing: -0.02em;
+    line-height: 40px;
+    font-size: 32px;
+  }
+}
+
+/**
+   * Paragraph and inline elements
+   * -------------------------------------------------------------------------- */
+
+.modern-doc p,
+.modern-doc summary {
+  margin: 16px 0;
+}
+
+.modern-doc p {
+  z-index: 2;
+  line-height: 28px;
+}
+
+.modern-doc blockquote {
+  margin: 16px 0;
+  border-left: 2px solid var(--modern-c-divider);
+  padding-left: 16px;
+  transition: border-color 0.5s;
+}
+
+.modern-doc blockquote > p {
+  margin: 0;
+  font-size: 16px;
+  color: var(--modern-c-text-2);
+  transition: color 0.5s;
+}
+
+.modern-doc a {
+  font-weight: 500;
+  color: var(--modern-c-brand);
+  text-decoration-style: dotted;
+  transition: color 0.25s;
+}
+
+.modern-doc a:hover {
+  color: var(--modern-c-brand-dark);
+}
+
+.modern-doc strong {
+  font-weight: 600;
+}
+
+/**
+   * Lists
+   * -------------------------------------------------------------------------- */
+
+.modern-doc ul,
+.modern-doc ol {
+  padding-left: 1.25rem;
+  margin: 16px 0;
+}
+
+.modern-doc ul {
+  list-style: disc;
+}
+
+.modern-doc ol {
+  list-style: decimal;
+}
+
+.modern-doc li + li {
+  margin-top: 8px;
+}
+
+.modern-doc li > ol,
+.modern-doc li > ul {
+  margin: 8px 0 0;
+}
+
+/**
+   * Table
+   * -------------------------------------------------------------------------- */
+
+.modern-doc table {
+  display: block;
+  border-collapse: collapse;
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+.modern-doc tr {
+  border-top: 1px solid var(--modern-c-divider);
+  transition: background-color 0.5s;
+}
+
+.modern-doc tr:nth-child(2n) {
+  background-color: var(--modern-c-bg-soft);
+}
+
+.modern-doc th,
+.modern-doc td {
+  border: 1px solid var(--modern-c-divider);
+  padding: 12px 16px;
+}
+
+.modern-doc th {
+  font-size: 16px;
+  font-weight: 600;
+  background-color: var(--modern-c-white-soft);
+}
+
+.dark .modern-doc th {
+  background-color: var(--modern-c-black);
+}
+
+/**
+   * Decorational elements
+   * -------------------------------------------------------------------------- */
+
+.modern-doc hr {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid var(--modern-c-divider-light);
+}
+
+/**
+   * Custom Block
+   * -------------------------------------------------------------------------- */
+
+.modern-doc .custom-block {
+  margin: 16px 0;
+}
+
+.modern-doc .custom-block p {
+  margin: 8px 0;
+  line-height: 24px;
+}
+
+.modern-doc .custom-block p:first-child {
+  margin: 0;
+}
+
+.modern-doc .custom-block a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: opacity 0.25s;
+}
+
+.modern-doc .custom-block a:hover {
+  opacity: 0.6;
+}
+
+.modern-doc .custom-block code {
+  font-size: var(--modern-custom-block-code-font-size);
+  font-weight: 700;
+  color: inherit;
+}
+
+.modern-doc .custom-block div[class*='language-'] {
+  margin: 8px 0;
+}
+
+.modern-doc .custom-block div[class*='language-'] code {
+  font-weight: 400;
+  background-color: transparent;
+}
+
+/**
+   * Code
+   * -------------------------------------------------------------------------- */
+
+/* inline code */
+.modern-doc :not(pre, h1, h2, h3, h4, h5, h6) > code {
+  font-size: var(--modern-code-font-size);
+}
+
+.modern-doc :not(pre, div) > code {
+  border-radius: 4px;
+  padding: 3px 6px;
+  color: var(--modern-c-text-code);
+  background-color: var(--modern-c-bg-mute);
+  transition: color 0.5s, background-color 0.5s;
+}
+
+.modern-doc h1 > code,
+.modern-doc h2 > code,
+.modern-doc h3 > code {
+  font-size: 0.9em;
+}
+
+.modern-doc a > code {
+  color: var(--modern-c-brand);
+  transition: color 0.25s;
+}
+
+.modern-doc a:hover > code {
+  color: var(--modern-c-brand-dark);
+}
+
+.modern-doc div[class*='language-'] {
+  position: relative;
+  margin: 16px -24px;
+  background-color: var(--modern-code-block-bg);
+  overflow-x: auto;
+  transition: background-color 0.5s;
+}
+
+.modern-doc .modern-code-title {
+  padding: 10px 24px;
+  font-size: var(--modern-code-font-size);
+  color: var(--modern-code-block-color);
+  border-bottom: 1px solid var(--modern-c-gray-light-2);
+  background-color: var(--modern-code-block-bg);
+  transition: background-color 0.5s;
+}
+
+@media (min-width: 640px) {
+  .modern-doc div[class*='language-'] {
+    border-radius: 8px;
+    margin: 16px 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .modern-doc li div[class*='language-'] {
+    border-radius: 8px 0 0 8px;
+  }
+}
+
+.modern-doc div[class*='language-'] + div[class*='language-'],
+.modern-doc div[class$='-api'] + div[class*='language-'],
+.modern-doc
+  div[class*='language-']
+  + div[class$='-api']
+  > div[class*='language-'] {
+  margin-top: -8px;
+}
+
+.modern-doc [class*='language-'] pre,
+.modern-doc [class*='language-'] code {
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.modern-doc [class*='language-'] pre {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 16px 0;
+  background: transparent;
+  overflow-x: auto;
+}
+
+.modern-doc [class*='language-'] code {
+  display: block;
+  padding: 0 24px;
+  width: fit-content;
+  min-width: 100%;
+  line-height: var(--modern-code-line-height);
+  font-size: var(--modern-code-font-size);
+  color: var(--modern-code-block-color);
+  transition: color 0.5s;
+}
+
+.modern-doc [class*='language-'] code .highlighted {
+  background-color: var(--modern-code-line-highlight-color);
+  transition: background-color 0.5s;
+  margin: 0 -24px;
+  padding: 0 24px;
+  width: calc(100% + 2 * 24px);
+  display: inline-block;
+}
+
+.modern-doc div[class*='language-'].line-numbers-mode {
+  padding-left: 32px;
+}
+
+.modern-doc.line-number-disable div[class*='language-'].line-numbers-mode {
+  padding-left: 0px;
+}
+
+.modern-doc .line-numbers-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  padding-top: 16px;
+  width: 36px;
+  text-align: center;
+  font-family: var(--modern-font-family-mono);
+  line-height: var(--modern-code-line-height);
+  font-size: var(--modern-code-font-size);
+  color: var(--modern-code-line-number-color);
+  transition: border-color 0.5s, color 0.5s;
+  display: flex;
+  flex-direction: column;
+}
+
+.modern-doc.line-number-disable .line-numbers-wrapper {
+  display: none;
+}
+
+.modern-doc [class*='language-'] .modern-code-content {
+  position: relative;
+}
+
+.modern-doc [class*='language-'] .modern-code-content > button.copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--modern-code-block-bg);
+  opacity: 0;
+  cursor: pointer;
+  background-image: var(--modern-icon-copy);
+  background-position: 50%;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  transform: scale(1);
+  transition: all 0.16s;
+}
+
+.modern-doc [class*='language-']:hover .modern-code-content > button.copy,
+.modern-doc [class*='language-'] .modern-code-content > button.copy:focus {
+  opacity: 1;
+}
+
+.modern-doc [class*='language-'] .modern-code-content > button.copy:hover {
+  background-color: var(--modern-code-copy-code-hover-bg);
+}
+
+.modern-doc [class*='language-'] .modern-code-content > button.copy.copied,
+.modern-doc
+  [class*='language-']
+  .modern-code-content
+  > button.copy:hover.copied {
+  border-radius: 0 4px 4px 0;
+  background-color: var(--modern-code-copy-code-hover-bg);
+  background-image: var(--modern-icon-copied);
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* .modern-doc [class*='language-'] > button.copy.copied::before,
+.modern-doc [class*='language-'] > button.copy:hover.copied::before {
+  position: relative;
+  left: -65px;
+  display: block;
+  border-radius: 4px 0 0 4px;
+  padding-top: 8px;
+  width: 64px;
+  height: 40px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--modern-code-copy-code-active-text);
+  background-color: var(--modern-code-copy-code-hover-bg);
+  white-space: nowrap;
+  content: 'Copied';
+} */
+
+.modern-doc [class*='language-'] > span.lang {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  z-index: 2;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--modern-c-text-dark-3);
+  transition: color 0.4s, opacity 0.4s;
+}
+
+.modern-doc [class*='language-']:hover > button.copy + span.lang,
+.modern-doc [class*='language-'] > button.copy:focus + span.lang {
+  opacity: 0;
+}
+
+/**
+   * Custom container
+   * -------------------------------------------------------------------------- */
+
+.modern-doc .modern-directive {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 16px 16px 8px;
+  line-height: 24px;
+  font-size: 14px;
+  margin: 16px 0;
+}
+
+.modern-doc .modern-directive .modern-directive-title {
+  font-weight: 700;
+  margin: 0;
+}
+
+.modern-doc .modern-directive .modern-directive-content p {
+  margin: 8px 0;
+}
+
+.modern-doc .modern-directive .modern-directive-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 3px;
+  background-image: var(--modern-icon-tip);
+}
+
+.modern-doc .modern-directive.tip {
+  border-color: var(--modern-custom-block-tip-border);
+  color: var(--modern-custom-block-tip-text);
+  background-color: var(--modern-custom-block-tip-bg);
+}
+
+.modern-doc .modern-directive.info {
+  border-color: var(--modern-custom-block-info-border);
+  color: var(--modern-custom-block-info-text);
+  background-color: var(--modern-custom-block-info-bg);
+}
+
+.modern-doc .modern-directive.warning {
+  border-color: var(--modern-custom-block-warning-border);
+  color: var(--modern-custom-block-warning-text);
+  background-color: var(--modern-custom-block-warning-bg);
+}
+
+.modern-doc .modern-directive.caution,
+.modern-doc .modern-directive.danger {
+  border-color: var(--modern-custom-block-danger-border);
+  color: var(--modern-custom-block-danger-text);
+  background-color: var(--modern-custom-block-danger-bg);
+}

@@ -1,0 +1,21 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "module": "ESNext",
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "rootDir": ".",
+    "lib": ["ESNext", "DOM"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@style/*": ["./styles/*"],
+      "@theme": ["./theme-default/index.ts"]
+    }
+  },
+  "include": ["src", "vitest.config.ts", "index.d.ts"],
+  "exclude": ["runtime.d.ts", "theme.d.ts", "node_modules", "dist"]
+}

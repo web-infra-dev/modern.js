@@ -4,11 +4,13 @@ Builder has built-in multiple style resource processing capabilities, including 
 
 In addition, Builder also provides multiple configs to customize the compile rules of style resources.
 
-## Using Less & Sass
+## Using Less, Sass and Stylus
 
 The Builder has built-in community popular CSS preprocessors such as Less, Sass.
 
-You can customize the loader by configuring [tools.less](/en/api/config-tools.html#tools-less) and [tools.sass](/en/api/config-tools.html#tools-sass).
+By default, you don't need to configure anything for Less and Sass. If you need to customize loader config, you can configure [tools.less](/en/api/config-tools.html#tools-less), [tools.sass](/en/api/config-tools.html#tools-sass) to set it up.
+
+You can also use Stylus in Builder, just install the Stylus plugin provided by Builder, please refer to [Stylus Plugin](/plugins/plugin-stylus.html) for usage.
 
 ## Using PostCSS
 

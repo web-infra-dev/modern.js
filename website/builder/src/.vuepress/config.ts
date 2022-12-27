@@ -158,6 +158,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/plugins/list'),
           getLink('/plugins/plugin-swc'),
+          getLink('/plugins/plugin-stylus'),
           getLink('/plugins/plugin-esbuild'),
           getLink('/plugins/plugin-node-polyfill'),
           getLink('/plugins/plugin-image-compress'),

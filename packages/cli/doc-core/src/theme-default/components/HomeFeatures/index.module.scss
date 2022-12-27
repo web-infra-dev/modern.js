@@ -1,0 +1,25 @@
+@media (min-width: 640px) {
+  .grid-2,
+  .grid-4,
+  .grid-6 {
+    width: calc(100% / 2);
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-2,
+  .grid-4 {
+    width: calc(100% / 2);
+  }
+
+  .grid-3,
+  .grid-6 {
+    width: calc(100% / 3);
+  }
+}
+
+@media (min-width: 960px) {
+  .grid-4 {
+    width: calc(100% / 3);
+  }
+}

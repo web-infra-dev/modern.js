@@ -138,7 +138,7 @@ const themeConfig = {
       },
     },
     locales: {
-      type: 'object',
+      type: 'array',
     },
   },
 };
