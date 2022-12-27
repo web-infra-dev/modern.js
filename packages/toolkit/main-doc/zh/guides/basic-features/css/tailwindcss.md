@@ -89,35 +89,4 @@ export default defineConfig({
 });
 ```
 
-## 使用 [`Twin`](https://github.com/ben-rogerson/twin.macro) 库
-
-在上一章中介绍了什么是 CSS-in-JS 以及社区常用的 CSS-in-JS 库 [styled-components](https://styled-components.com/)。这一部分将要介绍如何通过 [`Twin`](https://github.com/ben-rogerson/twin.macro) 在 CSS-in-JS 中使用 [Tailwind CSS](https://tailwindcss.com/)。使用 [`Twin`](https://github.com/ben-rogerson/twin.macro) 可以更容易在 CSS-in-JS 的代码中使用 Tailwind CSS。[`Twin`](https://github.com/ben-rogerson/twin.macro) 对于自己的描述是：
-
-> _Twin blends the magic of Tailwind with the flexibility of css-in-js_
-
-在开启「Tailwind CSS 支持」的功能后，首先需要安装 [`Twin`](https://github.com/ben-rogerson/twin.macro) 依赖:
-
-```bash
-pnpm add twin.macro -D
-```
-
-当项目安装 `twin.macro` 依赖后，Modern.js 会检测到该依赖并对内置的 `babel-plugin-macro` 增加 `twin.macro` 相关的配置。因此在安装完依赖后，无需手动配置。下面是一个简单使用 `twin.macro` 的示例：
-
-```js
-import tw from 'twin.macro';
-
-const Input = tw.input`border hover:border-black`;
-```
-
-:::tip 提示
-如果在运行过程中出现了 `MacroError: /project/App.tsx` 错误的时候，有可能是缺少 `twin.macro` 依赖导致的。
-:::
-
-更多的使用方式可以参考 `twin.macro` 的 [文档](https://github.com/ben-rogerson/twin.macro/blob/master/docs/index.md)。
-
-`twin.macro` 默认会读取项目目录下的 `tailwindcss.config.js` 文件，或者通过 `babel-plugin-macro` 上的 [`twin.config`](https://github.com/ben-rogerson/twin.macro/blob/master/docs/options.md#options) 指定的文件路径读取 Tailwind CSS 配置。不过在 Modern.js 中不需要进行这些额外配置。
-
-当在 `modern.config.ts` 文件中通过 [`source.designSystem`](/docs/configure/app/source/design-system) 和 [`tools.tailwindcss`](/docs/configure/app/tools/tailwindcss) 对 Tailwind CSS 进行配置的时候，这些配置也会对 `twin.macro` 生效。
-
-> 当为项目配置 Tailwind CSS 的时候，[`source.designSystem`](/docs/configure/app/source/design-system) 和 [`tools.tailwindcss`](/docs/configure/app/tools/tailwindcss) 这两个配置的组合等价于单独配置了一个 `tailwindcss.config.js` 文件。
-> 其中[`source.designSystem`](/docs/configure/app/source/design-system)等效于 Tailwind CSS 的 [`theme`](https://v2.tailwindcss.com/docs/configuration#theme) 配置。
+> 当你为项目配置 Tailwind CSS 的时候，[source.designSystem](/docs/configure/app/source/design-system) 和 [tools.tailwindcss](/docs/configure/app/tools/tailwindcss) 这两个配置的组合等价于单独配置了一个 `tailwindcss.config.js` 文件。其中 [source.designSystem](/docs/configure/app/source/design-system) 等效于 Tailwind CSS 的 [theme](https://v2.tailwindcss.com/docs/configuration#theme) 配置。
