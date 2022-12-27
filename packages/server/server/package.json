@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.6",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -30,7 +30,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern-lib new",
-    "build": "modern-lib build && node ./temp-fix-hmr.js",
+    "build": "modern-lib build",
     "dev": "modern-lib build --watch",
     "test": "jest"
   },
@@ -42,7 +42,6 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "connect-history-api-fallback": "^2.0.0",
-    "devcert": "^1.2.2",
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
     "ws": "^8.2.0"
@@ -65,10 +64,14 @@
     "websocket": "^1"
   },
   "peerDependencies": {
+    "devcert": "^1.0.0",
     "ts-node": "^10.1.0",
     "tsconfig-paths": ">= 3.0.0 || >= 4.0.0"
   },
   "peerDependenciesMeta": {
+    "devcert": {
+      "optional": true
+    },
     "ts-node": {
       "optional": true
     },

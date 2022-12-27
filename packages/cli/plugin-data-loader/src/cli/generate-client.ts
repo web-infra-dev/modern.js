@@ -1,6 +1,7 @@
 import path from 'path';
 
 export const generateClient = ({ mapFile }: { mapFile: string }) => {
+  delete require.cache[mapFile];
   const loadersMap: Record<string, string> = require(mapFile);
   const requestCode = Object.keys(loadersMap)
     .map(loaderId => {
@@ -26,9 +27,11 @@ export const generateClient = ({ mapFile }: { mapFile: string }) => {
     import { createRequest } from '${requestCreatorPath}';
   `;
 
-  return `
+  const generatedCode = `
     ${importCode}
     ${requestCode}
     ${exportsCode}
   `;
+
+  return generatedCode;
 };

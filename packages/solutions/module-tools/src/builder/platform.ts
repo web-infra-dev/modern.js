@@ -33,75 +33,92 @@ export const buildPlatform = async (
   }
 
   await runner.beforeBuildPlatform(platformBuilders);
-  if (options.platform === true) {
-    for (const platformBuilder of platformBuilders) {
-      const currentPlatform = Array.isArray(platformBuilder.platform)
-        ? platformBuilder.platform[0]
-        : platformBuilder.platform;
+  let errorMsg: string | Error | null = null;
+  try {
+    if (options.platform === true) {
+      for (const platformBuilder of platformBuilders) {
+        const currentPlatform = Array.isArray(platformBuilder.platform)
+          ? platformBuilder.platform[0]
+          : platformBuilder.platform;
+
+        console.info(
+          chalk.underline.rgb(...blue)(
+            `Running [${currentPlatform}] build task:`,
+          ),
+        );
+
+        await runner.buildPlatform({ platform: currentPlatform });
+        await platformBuilder.build(currentPlatform, {
+          isTsProject: context.isTsProject,
+        });
+
+        console.info(chalk.rgb(...gray)(`Done for [${currentPlatform}] task`));
+      }
+    } else if (
+      Array.isArray(options.platform) &&
+      options.platform.length === 1
+    ) {
+      const targetPlatform = options.platform[0];
+      const selectPlatformBuilder = platformBuilders.find(builder => {
+        if (Array.isArray(builder.platform)) {
+          return builder.platform.includes(targetPlatform);
+        }
+
+        return builder.platform === targetPlatform;
+      });
+
+      if (!selectPlatformBuilder) {
+        console.info(`The specified "${targetPlatform}" build does not exist`);
+        return;
+      }
 
       console.info(
-        chalk.underline.rgb(...blue)(
-          `Running [${currentPlatform}] build task:`,
-        ),
+        chalk.underline.rgb(...blue)(`Running [${targetPlatform}] build task:`),
       );
 
-      await runner.buildPlatform({ platform: currentPlatform });
-      await platformBuilder.build(currentPlatform, {
+      await runner.buildPlatform({ platform: targetPlatform });
+      await selectPlatformBuilder.build(targetPlatform, {
         isTsProject: context.isTsProject,
       });
 
-      console.info(chalk.rgb(...gray)(`Done for [${currentPlatform}] task`));
-    }
-  } else if (Array.isArray(options.platform) && options.platform.length === 1) {
-    const targetPlatform = options.platform[0];
-    const selectPlatformBuilder = platformBuilders.find(builder => {
-      if (Array.isArray(builder.platform)) {
-        return builder.platform.includes(targetPlatform);
-      }
+      console.info(chalk.rgb(...gray)(`Done for [${targetPlatform}] task`));
+    } else if (Array.isArray(options.platform) && options.platform.length > 1) {
+      for (const platform of options.platform) {
+        const foundBuilder = platformBuilders.find(builder => {
+          if (Array.isArray(builder.platform)) {
+            return builder.platform.includes(platform);
+          }
 
-      return builder.platform === targetPlatform;
-    });
+          return builder.platform === platform;
+        });
 
-    if (!selectPlatformBuilder) {
-      console.info(`The specified "${targetPlatform}" build does not exist`);
-      return;
-    }
-
-    console.info(
-      chalk.underline.rgb(...blue)(`Running [${targetPlatform}] build task:`),
-    );
-
-    await runner.buildPlatform({ platform: targetPlatform });
-    await selectPlatformBuilder.build(targetPlatform, {
-      isTsProject: context.isTsProject,
-    });
-
-    console.info(chalk.rgb(...gray)(`Done for [${targetPlatform}] task`));
-  } else if (Array.isArray(options.platform) && options.platform.length > 1) {
-    for (const platform of options.platform) {
-      const foundBuilder = platformBuilders.find(builder => {
-        if (Array.isArray(builder.platform)) {
-          return builder.platform.includes(platform);
+        if (!foundBuilder) {
+          console.info(`skip ${platform} build, because it does not exist`);
+          continue;
         }
 
-        return builder.platform === platform;
-      });
+        console.info(
+          chalk.underline.rgb(...blue)(`Running [${platform}] build task:`),
+        );
 
-      if (!foundBuilder) {
-        console.info(`skip ${platform} build, because it does not exist`);
-        continue;
+        await runner.buildPlatform({ platform });
+        await foundBuilder.build(platform, {
+          isTsProject: context.isTsProject,
+        });
+
+        console.info(chalk.rgb(...gray)(`Done for [${platform}] task`));
       }
-
-      console.info(
-        chalk.underline.rgb(...blue)(`Running [${platform}] build task:`),
-      );
-
-      await runner.buildPlatform({ platform });
-      await foundBuilder.build(platform, { isTsProject: context.isTsProject });
-
-      console.info(chalk.rgb(...gray)(`Done for [${platform}] task`));
+    }
+  } catch (e) {
+    if (e instanceof Error) {
+      errorMsg = e;
+    } else {
+      errorMsg = String(e);
     }
   }
 
-  await runner.afterBuildPlatform();
+  await runner.afterBuildPlatform({
+    status: errorMsg === null ? 'success' : 'fail',
+    message: errorMsg,
+  });
 };

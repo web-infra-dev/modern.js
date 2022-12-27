@@ -21,7 +21,11 @@ export const createDefaultConfig = () =>
       },
       tsChecker: {},
     },
-    source: defaultSourceConfig,
+    source: {
+      ...defaultSourceConfig,
+      alias: {},
+      define: {},
+    },
     output: defaultOutputConfig,
     security: { sri: false },
     experiments: {

@@ -4,9 +4,14 @@ import {
   applyDefaultBuilderOptions,
   type CreateBuilderOptions,
 } from '@modern-js/builder-shared';
-import { mockBuilderPlugins } from '@modern-js/builder-shared/test-stub';
 import { BuilderPlugin, BuilderConfig, RspackConfig } from '../src/types';
 import { builderRspackProvider } from '../src/provider';
+
+export const getBuilderPlugins = async () => {
+  const { plugins } = await import('../../builder/src/plugins');
+
+  return plugins;
+};
 
 /** Match plugin by constructor name. */
 export const matchPlugin = (config: RspackConfig, pluginName: string) => {
@@ -49,7 +54,7 @@ export async function createBuilder({
   } = await provider({
     pluginStore,
     builderOptions,
-    plugins: mockBuilderPlugins,
+    plugins: await getBuilderPlugins(),
   });
 
   if (plugins) {

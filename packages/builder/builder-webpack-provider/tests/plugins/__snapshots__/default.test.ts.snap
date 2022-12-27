@@ -1,0 +1,750 @@
+// Vitest Snapshot v1
+
+exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
+{
+  "cache": {
+    "buildDependencies": {
+      "packageJson": [
+        "<ROOT>/package.json",
+      ],
+      "tsconfig": [
+        "<ROOT>/tsconfig.json",
+      ],
+    },
+    "cacheDirectory": "<ROOT>/node_modules/.cache/webpack",
+    "name": "web-development",
+    "type": "filesystem",
+  },
+  "context": "<ROOT>",
+  "devtool": "cheap-module-source-map",
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+    "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+              "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "import-antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  {
+                    "legacy": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "helpers": true,
+                    "regenerator": true,
+                    "useESModules": true,
+                    "version": "7.18.6",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  {
+                    "displayName": true,
+                    "pure": true,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                  "styled-components",
+                ],
+              ],
+              "presets": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  {
+                    "bugfixes": true,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.26",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": false,
+                    "shippedProposals": false,
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "useBuiltIns": "entry",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "classic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                    "optimizeConstEnums": true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": [Function],
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": Infinity,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "resourceQuery": /url/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": false,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/image/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+              "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "import-antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  {
+                    "legacy": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "helpers": true,
+                    "regenerator": true,
+                    "useESModules": true,
+                    "version": "7.18.6",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  {
+                    "displayName": true,
+                    "pure": true,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                  "styled-components",
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
+                  {
+                    "skipEnvCheck": true,
+                  },
+                ],
+              ],
+              "presets": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  {
+                    "bugfixes": true,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.26",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": false,
+                    "shippedProposals": false,
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "useBuiltIns": "entry",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "classic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                    "optimizeConstEnums": true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/sass-loader",
+            "options": {
+              "implementation": "<ROOT>/compiled/sass",
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.less\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/less-loader",
+            "options": {
+              "implementation": "<ROOT>/compiled/less",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "math": "always",
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/yaml-loader",
+          },
+        ],
+      },
+    ],
+  },
+  "optimization": {
+    "minimize": false,
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-antd": {
+          "name": "lib-antd",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+        },
+        "lib-arco": {
+          "name": "lib-arco",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
+        },
+        "lib-lodash": {
+          "name": "lib-lodash",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+        },
+        "lib-polyfill": {
+          "name": "lib-polyfill",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]core-js\\|@babel\\\\/runtime\\[\\\\\\\\/\\]/,
+        },
+        "lib-react": {
+          "name": "lib-react",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+        },
+        "lib-router": {
+          "name": "lib-router",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "performance": {
+    "maxAssetSize": 1048576,
+    "maxEntrypointSize": 1048576,
+  },
+  "plugins": [
+    MiniCssExtractPlugin {
+      "_sortedModulesCache": WeakMap {},
+      "options": {
+        "chunkFilename": "static/css/async/[name].css",
+        "experimentalUseImportModule": undefined,
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+        "runtime": true,
+      },
+      "runtimeOptions": {
+        "attributes": undefined,
+        "insert": undefined,
+        "linkType": "text/css",
+      },
+    },
+    HotModuleReplacementPlugin {
+      "options": {},
+    },
+    DefinePlugin {
+      "definitions": {
+        "process.env.NODE_ENV": "\\"development\\"",
+      },
+    },
+    ProgressPlugin {
+      "compileTime": null,
+      "dependenciesCount": 10000,
+      "handler": [Function],
+      "hasErrors": false,
+      "modulesCount": 5000,
+      "name": "ProgressPlugin",
+      "percentBy": null,
+      "profile": false,
+      "showActiveModules": false,
+      "showDependencies": true,
+      "showEntries": true,
+      "showModules": true,
+    },
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            {
+              "file": "**/*.(spec|test).ts",
+            },
+            {
+              "file": "**/node_modules/**/*",
+            },
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "configFile": "<ROOT>/tsconfig.json",
+          "memoryLimit": 8192,
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
+    ReactRefreshPlugin {
+      "options": {
+        "exclude": [
+          /node_modules/,
+        ],
+        "include": /\\\\\\.\\(\\[cm\\]js\\|\\[jt\\]sx\\?\\|flow\\)\\$/i,
+        "overlay": false,
+      },
+    },
+  ],
+  "resolve": {
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+    ],
+    "plugins": [
+      TsConfigPathsPlugin {
+        "absoluteBaseUrl": "<ROOT>",
+        "compilerOptions": {
+          "baseUrl": "./",
+          "declaration": true,
+          "isolatedModules": true,
+          "jsx": "preserve",
+          "outDir": "dist",
+          "paths": {},
+          "target": "ES2019",
+        },
+        "cwd": "<ROOT>",
+        "extensions": [
+          ".ts",
+          ".tsx",
+          ".js",
+          ".jsx",
+          ".mjs",
+          ".json",
+        ],
+        "matchPath": [Function],
+        "resolved": Map {},
+      },
+    ],
+  },
+  "target": [
+    "web",
+    "es5",
+  ],
+}
+`;

@@ -7,7 +7,13 @@ const createBuilder = async () => {
   const { builderRspackProvider } = require('../dist');
 
   const builderProvider = builderRspackProvider({
-    builderConfig: {},
+    builderConfig: {
+      source: {
+        define: {
+          NAME: '"modern"',
+        },
+      },
+    },
   });
 
   const builder = await createBuilder(builderProvider, {

@@ -7,26 +7,25 @@ Modern.js 提供了快速生成 Mock 数据的功能，能够让前端独立自�
 
 ## Mock 文件
 
-约定当 `config/mock` 目录下存在 `index.[jt]s` 时，会自动开启 Mock 功能，如下:
+约定当 `config/mock` 目录下存在 `index.[jt]s` 时，会自动开启 Mock 功能，如下：
 
 ```bash
 .
 ├── config
 │   └── mock
-│       ├── a.json
-│       └── index.js
+│       └── index.ts
 ├── src
-│   └── App.jsx
-└── modern.config.js
+│   └── App.tsx
+└── modern.config.ts
 ```
 
-## Mock 文件编写
+## 编写 Mock 文件
 
-`./config/mock/index.js` 文件只需要导出一个包含所有 Mock API 的对象，对象的属性由请求配置 `method` 和 `url` 组成，对应的属性值可以为 `Object`、`Array`、`Function`:
+`config/mock/index.ts` 文件只需要导出一个包含所有 Mock API 的对象，对象的属性由请求配置 `method` 和 `url` 组成，对应的属性值可以为 `Object`、`Array`、`Function`：
 
 ```js
 module.exports = {
-  /* 属性为具体的 method 和 请求 url，值为 object 或 array作为请求的结果 */
+  /* 属性为具体的 method 和 请求 url，值为 object 或 array 作为请求的结果 */
   'GET /api/getInfo': { data: [1, 2, 3, 4] },
 
   /* method 默认为 GET */
@@ -44,7 +43,7 @@ module.exports = {
 
 ## 返回随机数据
 
-可以在 `./config/mock/index.js` 中自主引入 [Mock.js](https://github.com/nuysoft/Mock/wiki/Getting-Started) 等库生成随机数据，例如：
+可以在 `config/mock/index.js` 中自主引入 [Mock.js](https://github.com/nuysoft/Mock/wiki/Getting-Started) 等库生成随机数据，例如：
 
 ```js
 const Mock = require('mockjs');

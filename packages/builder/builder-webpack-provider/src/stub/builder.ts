@@ -6,6 +6,11 @@ import {
   type CreateBuilderOptions,
   type PluginStore,
 } from '@modern-js/builder-shared';
+/**
+ * provider shouldn't depend on builder, so use /test-stub as placeholder
+ *
+ * real import by: /tests/setup.ts
+ */
 import { mockBuilderPlugins } from '@modern-js/builder-shared/test-stub';
 import type * as playwright from '@modern-js/e2e/playwright';
 import { getTemplatePath } from '@modern-js/utils';
@@ -80,9 +85,9 @@ export async function applyPluginOptions(
   const opt = normalizeStubPluginOptions(options);
   // apply plugins
   if (opt.builtin === true || opt.builtin === 'minimal') {
-    pluginStore.addPlugins(await applyMinimalPlugins());
+    pluginStore.addPlugins(await applyMinimalPlugins(mockBuilderPlugins));
   } else if (opt.builtin === 'basic') {
-    pluginStore.addPlugins(await applyBasicPlugins());
+    pluginStore.addPlugins(await applyBasicPlugins(mockBuilderPlugins));
   } else if (opt.builtin === 'default') {
     pluginStore.addPlugins(await applyDefaultPlugins(mockBuilderPlugins));
   }

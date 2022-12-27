@@ -87,10 +87,11 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
       };
       if (isHasPages) {
         entrypoint.entry = path.join(dir, PAGES_DIR_NAME);
+        entrypoint.pageRoutesEntry = entrypoint.entry;
       }
       if (isHasNestedRoutes) {
-        entrypoint.nestedRoutesEntry = path.join(dir, NESTED_ROUTES_DIR);
-        entrypoint.entry = entrypoint.nestedRoutesEntry;
+        entrypoint.entry = path.join(dir, NESTED_ROUTES_DIR);
+        entrypoint.nestedRoutesEntry = entrypoint.entry;
       }
 
       return entrypoint;

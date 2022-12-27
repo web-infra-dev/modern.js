@@ -89,3 +89,5 @@ Inspect config succeed, open the following files to view the content:
 ```
 
 Open the generated `/dist/builder.config.js` file to see the complete content of the Builder config.
+
+For a complete introduction to debug mode, see the [Debug Mode](/guide/debug/debug-mode.html) chapter.

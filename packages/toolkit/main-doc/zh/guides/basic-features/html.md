@@ -3,86 +3,60 @@ title: HTML 模板
 sidebar_position: 9
 ---
 
-Modern.js 提供了 `jsx` 和 `ejs` 两种方式用于自定义 html 模板。推荐使用 `jsx` 语法，让写模板跟写组件一样丝滑。
+Modern.js 提供了 **JSX 模板**和**传统模板**两种方式用于自定义 HTML 模板。
 
-## jsx
+## JSX 模板
 
-### 使用说明
+Modern.js 约定，在 `src/` 目录下，或在入口目录下，可以创建 `Document.[jt]sx` 并默认导出组件。该组件的渲染结果可以作为入口的 HTML 模板。
 
-#### 引入
-```tsx
-import {
-  Html,
-  Root,
-  Head,
-  DocumentContext,
-  Body,
-} from '@modern-js/runtime/document';
-```
-
-#### 导出
-```tsx
-export default Document() {}
-
-```
-
-#### 文件位置
-
-Document 文件，默认在应用根目录下:
+例如以下目录结构：
 
 ```bash
 .
 ├── src
-│   ├── modern-app-env.d.ts
-│   ├── myapp
-│   │   └── routes
-│   │       ├── index.css
-│   │       ├── layout.tsx
-│   │       ├── Document.tsx
-│   │       └── page.tsx
-│   ├── new-entry
-│   │   └── routes
-│   │       ├── index.css
-│   │       ├── layout.tsx
-│   │       ├── Document.tsx
-│   │       └── page.tsx
-│   └── Document.tsx
-├── modern.config.ts
-├── package.json
-├── pnpm-lock.yaml
-├── README.md
-└── tsconfig.json
+│   ├── Document.tsx
+│   ├── entry-a
+│   │   ├── Document.tsx
+│   │   └── routes
+│   ├── entry-b
+│   │   └── routes
+│   └── modern-app-env.d.ts
 ```
 
-多 entry 场景构建时，优先 entry 的根目录下的 Docoument.tsx 文件。如果当前 entry 没有 Document.tsx 文件，则会查找根目录下的 Document.tsx 文件。
-如果还没有，则会 fallback 到 `html 模板` 的逻辑。
+`entry-a` 会优先使用当前入口下的 `Docoument.[jt]sx` 文件。如果当前入口没有 `Document.[jt]sx` 文件，例如 `entry-b`，则会查找根目录下的 `Document.[jt]sx` 文件。
 
-#### 子组件
+如果还没有，则会兜底到传统模板的逻辑。
 
-Document 模板共提供了 `Html`、`Root` `Head` `Body` 渲染页面的组件，以及 `DocumentContext` 等提供
-分别渲染：
-- `Html`: 提供 html 原生 dom。并计算出 `DocumentStructrueContext` 的值，将 `Html` 的结构传递给子组件，判断其它子组件是否默认渲染。
+### HTML 组件
 
-- `Body`: 渲染生成 `body` 节点。其子元素包含 `Root` 组件。支持其它元素同时作为子元素，例如页脚。
+Modern.js 提供了一些列渲染页面的组件，用来帮助开发者生成模板，可以从 `@modern-js/runtime/document` 中导出这些组件：
 
-- `Root`: 渲染的根节点 `<div id='root'></div>`。默认根节点的 `id = 'root'`。可以设置 props.rootId 来更改 id 属性。子元素，也会被渲染进 DOM 里，随着 react 渲染完成，会替换掉，一般用来实现全局 loading。
+```tsx
+import { Html, Body, Root, Head, Scripts } from '@modern-js/runtime/document';
+```
 
-- `Head`: 渲染生成 `head` 节点。会自动填充 meta 元素，以及 `Scripts` 组件。
+这些组件分别渲染：
 
-- `Scripts`: 将构建产生的 script 标签渲染到该位置。用于调整构建产物的位置，默认放在 `Head` 组件里，用于
+- `Html`：提供原生 HTML Element 的能力，并能默认渲染开发者未添加的必须的组件。`<Head>` 和 `<Body>` 是必须要存在的，其它组件可以按需选择合适的组件进行组装。
 
-`Html` 组件中，`Head` 和 `Body` 是必须要存在的，其它组件可以按需选择合适的组件进行组装。
+- `Body`：提供原生 Body Element 的能力，内部需要包含 `<Root>` 组件，也支持其它元素同时作为子元素，例如添加页脚。
 
-#### 模板参数
+- `Root`：渲染的根节点 `<div id='root'></div>`。默认根节点的 `id = 'root'`。可以设置 `props.rootId` 来更改 id 属性。可以添加子组件，也会被渲染到 HTML 模板中，当 React 渲染完成后会被覆盖，一般用来实现全局 Loading。
 
-因为是 JSX 形式，Document.tsx 里，可以比较自由的在组件内使用各种变量去赋值给各种自定义组件。
-但同时 Document 自身也提供了 `DocumentContext` context 来提供一些配置、环境参数，方便直接获取。主要以下参数：
+- `Head`：提供原生 Head Element 的能力，并会自动填充 `<meta>`，以及 `<Scripts>` 组件。
+
+- `Scripts`：构建产生的 script 内容，可用于调整构建产物的位置，默认放在 `<Head>` 组件中。
+
+### 模板参数
+
+因为是 JSX 形式，`Document.[jt]sx` 里，可以比较自由的在组件内使用各种变量去赋值给各种自定义组件。
+
+Modern.js 也提供了 `DocumentContext` 来提供一些配置、环境参数，方便直接获取。主要以下参数：
 
 - `processEnv`：提供构建时的 `process.env`
-- `config`: Modern.js 项目的配置。目前只暴露出 output 相关的配置
-- `entryName`: 当前的 entry 名。
-- `templateParams`: html 模板的参数，由 builder 提供。对应 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的 `templateParameters` 配置项最终获取到的结果。不建议使用!
-
+- `config`：Modern.js 项目的配置。目前只暴露出 output 相关的配置
+- `entryName`：当前的入口名
+- `templateParams`：HTML 模板的参数（为了兼容传统模板，不推荐使用）
 
 ### 示例
 
@@ -92,12 +66,11 @@ import {
   Html,
   Root,
   Head,
-  DocumentContext,
   Body,
+  Scripts,
+  DocumentContext
 } from '@modern-js/runtime/document';
-import Script from '@/components/Script';
 
-// 默认导出
 export default function Document(): React.ReactElement {
   // DocumentContext 提供一些构建时的参数
   const {
@@ -109,34 +82,23 @@ export default function Document(): React.ReactElement {
   return (
     <Html>
       <Head>
-        // Head 组件支持自定义子元素。包括 link, script
         <link href="https://modernjs.dev">Modern.js</link>
-        <script
-          // inline script 的脚本需要如下处理
-          dangerouslySetInnerHTML={{
-            __html: `window.b = 22`,
-          }}
-        ></script>
       </Head>
       <Body>
-        // rootId 可以更改根元素的 id
         <Root rootId="root">
-          // Root 支持子元素
           <h1 style={{ color: 'red' }}>以下为构建时传过来的参数：</h1>
           <h2> entryName：{entryName}</h2>
           <h2> title：{htmlConfig.title}</h2>
           <h2> rootId: {templateParams.mountId}</h2>
         </Root>
-        // Body 组件支持 Root 以外增加不同的组件，共同组成页面
         <h1>bottom</h1>
       </Body>
     </Html>
   );
 }
-
 ```
 
-以上文件，将会生成以下 html 文件：
+以上 JSX 组件，将会生成以下 HTML 模板：
 
 ```html
 <!DOCTYPE html>
@@ -162,7 +124,6 @@ export default function Document(): React.ReactElement {
         src="/static/js/packages_runtime_plugin-router-legacy_dist_js_treeshaking_runtime_index_js-packages_runtime_p-28f4c9.js"></script>
     <script defer src="/static/js/sub.js"></script>
     <link href="https://www.baidu.com" />
-    <script>window.b = 22</script>
 </head>
 
 <body>
@@ -177,26 +138,23 @@ export default function Document(): React.ReactElement {
     <!--<?- chunksMap.js ?>-->
     <!--<?- SSRDataScript ?>-->
 </body>
-
 </html>
 ```
 
-## ejs
+## 传统模板
 
-Modern.js 同时支持了使用 `ejs` 语法编写模板，当项目中，没有编写 `Document.[j|t]sx` 文件时，将自动回退至  `ejs` HTML 模板。
+Modern.js 也支持传统的 HTML 模板。默认情况下，Modern.js 的应用工程中会内置一份 HTML 模板，用于生成 HTML 代码。
 
-默认情况下，Modern.js 的应用工程中会内置一份 HTML 模板，用于生成 HTML 代码。
+基于传统的 HTML 模板，Modern.js 提供了 **自定义 HTML 片段**和**完全自定义 HTML 模板**两种方式来自定义模板。
 
-Modern.js 提供了**「自定义 HTML 片段」**和**「完全自定义 HTML 模板」**两种方式来自定义模板。
-
-## 自定义 HTML 片段
+### 自定义 HTML 片段
 
 在应用根目录下，创建 `config/html/` 目录，该目录下支持创建四种 HTML 片段。
 
-- `top.(html|ejs)`
-- `head.(html|ejs)`
-- `body.(html|ejs)`
-- `bottom.(html|ejs)`
+- `top.html`
+- `head.html`
+- `body.html`
+- `bottom.html`
 
 **这些片段将按位置注入到默认的 HTML 模板中。**
 
@@ -226,32 +184,35 @@ Modern.js 提供了**「自定义 HTML 片段」**和**「完全自定义 HTML �
 </html>
 ```
 
-代码片段支持 [EJS](https://ejs.co/) 语法（默认使用 [Lodash template](https://lodash.com/docs/4.17.15#template) 语法）。
+代码片段支持使用 [Lodash template](https://lodash.com/docs/4.17.15#template) 语法。
 
-例如，新增 `head.ejs` 文件，并添加一个自定义标签：
-
-```html title="config/html/head.ejs"
-<% if (process.env.NODE_ENV === 'production') { %>
-  <meta name='env' content="production">
-<% } else { %>
-  <meta name='env' content="development">
-<% } %>
-```
-
-或在 `body.html` 里插入一个外链脚本：
+例如在 `body.html` 里插入一个外链脚本：
 
 ```html title="config/html/body.html"
 <script src="//example.com/assets/a.js"></script>
 ```
 
-:::info 自定义 HTML 片段不支持修改 title 标签
-自定义 HTML 片段的实现方式是将片段与框架内置的模板进行合并，由于框架的默认模板中已经存在 title 标签，因此自定义 HTML 模板中的 title 标签无法生效，请通过 [html.title](/docs/configure/app/html/title) 来修改页面标题。
+:::info
+自定义 HTML 片段的实现方式是将片段与框架内置的模板进行合并，由于框架的默认模板中已经存在 `<title>`，因此自定义 HTML 模板中的 title 标签无法生效，请通过 [html.title](/docs/configure/app/html/title) 来修改页面标题。
+:::
+
+### 完全自定义 HTML 模板
+
+某些情况下，HTML 片段无法满足自定义需求，Modern.js 提供了完全自定义方式。
+
+:::caution 注意
+通常不建议直接覆盖默认的 HTML 模板，可能会失去一部分功能选项。即使需要替换，建议以内置模板为基础，按需修改。
+:::
+
+在 `config/html/` 目录下，创建 `index.html` 文件,该文件将替代默认的 HTML 模板。
+
+:::info 注
+内部默认 HTML 模板可以在 `node_modules/.modern-js/${entryName}/index.html` 中查看。
 :::
 
 ### 模板参数
 
 模板中使用的参数可以通过 [html.templateParameters](/docs/configure/app/html/template-parameters) 配置项来定义。
-
 
 ### 按入口设置
 
@@ -268,43 +229,7 @@ Modern.js 提供了**「自定义 HTML 片段」**和**「完全自定义 HTML �
 │           └── body.html
 └── src/
     ├── entry1/
-    │   └── App.jsx
+    │   └── routes
     └── entry2/
-        └── App.jsx
-```
-
-## 完全自定义 HTML 模板
-
-某些情况下，HTML 片段无法满足自定义需求，Modern.js 提供了完全自定义方式。
-
-:::caution 注意
-通常不建议直接覆盖默认的 HTML 模板，可能会失去一部分功能选项。即使需要替换，建议以内置模板为基础，按需修改。
-:::
-
-
-### 配置方式
-
-在 `config/html/` 目录下，创建 `index.(html|ejs)` 文件。
-
-该文件将替代默认的 HTML 模板。
-
-:::info 注
-内部默认 HTML 模板可以在 `node_modules/.modern-js/${entryName}/index.html` 中查看。
-:::
-
-如果仅需要为单一入口设置 HTML 模板，需要将 `index.(html|ejs)` 文件，放置到 `config/html/` 目录下以**入口名**命名的目录中。
-
-例如，如下设置的 HTML 模板 `index.html` 仅对入口 `entry1` 生效：
-
-```html
-.
-├── config/
-│   └── html/
-│       └── entry1
-│           └── index.html
-└── src/
-    ├── entry1/
-    │   └── App.jsx
-    └── entry2/
-        └── App.jsx
+        └── routes
 ```

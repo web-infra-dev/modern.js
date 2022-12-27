@@ -11,6 +11,7 @@ import type {
 import type { SharedSecurityConfig } from './security';
 import type { SharedPerformanceConfig } from './performance';
 import type { SharedExperimentsConfig } from './experiments';
+import type { SharedToolsConfig } from './tools';
 import type { DeepReadonly } from '../utils';
 
 /**
@@ -25,13 +26,13 @@ export interface SharedBuilderConfig {
   security?: SharedSecurityConfig;
   performance?: Pick<SharedPerformanceConfig, 'printFileSize'>;
   experiments?: SharedExperimentsConfig;
+  tools?: SharedToolsConfig;
 }
 
 export type SharedNormalizedConfig = DeepReadonly<{
   dev: NormalizedSharedDevConfig;
   html: NormalizedSharedHtmlConfig;
-  // alias type incompatible between webpack and rspack
-  source: Omit<NormalizedSharedSourceConfig, 'alias'>;
+  source: NormalizedSharedSourceConfig;
   output: NormalizedSharedOutputConfig;
   performance: Pick<SharedPerformanceConfig, 'printFileSize'>;
 }>;
@@ -43,3 +44,4 @@ export * from './source';
 export * from './security';
 export * from './performance';
 export * from './experiments';
+export * from './tools';

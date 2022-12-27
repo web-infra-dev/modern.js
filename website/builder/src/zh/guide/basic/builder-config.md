@@ -73,7 +73,7 @@ const provider = builderWebpackProvider({
 
 ## 调试配置
 
-在执行构建时，你可以添加 `DEBUG=builder` 环境变量，来开启 Builder 的调试模式。
+在执行构建时，你可以添加 `DEBUG=builder` 环境变量来开启 Builder 的调试模式。
 
 ```bash
 DEBUG=builder pnpm dev
@@ -89,3 +89,5 @@ Inspect config succeed, open following files to view the content:
 ```
 
 打开生成的 `/dist/builder.config.js` 文件，即可查看 Builder 配置的完整内容。
+
+关于调试模式的完整介绍，请查看 [开启调试模式](/guide/debug/debug-mode.html) 章节。

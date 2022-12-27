@@ -1,7 +1,7 @@
 - Type: `string | string[]`
 - Default: `undefined`
 
-Add a script before the entry file of each page. This script will be executed before the page code. It can be used to execute global logics, such as polyfill injection.
+Add a script before the entry file of each page. This script will be executed before the page code. It can be used to execute global logics, such as injecting polyfills, setting global styles, etc.
 
 #### Add a single script
 
@@ -23,9 +23,21 @@ export default {
 
 Re-run the compilation and visit any page, you can see that the code in `src/polyfill.ts` has been executed, and the `I am a polyfill` is logged in the console.
 
+#### Add global style
+
+You can also configure the global style through `source.preEntry`, this CSS code will be loaded earlier than the page code, such as introducing a `normalize.css` file:
+
+```js
+export default {
+  source: {
+    preEntry: './src/normalize.css',
+  },
+};
+```
+
 #### Add multiple scripts
 
-Multiple scripts can be added by setting `preEntry` to an array:
+You can add multiple scripts by setting `preEntry` to an array, and they will be executed in array order:
 
 ```js
 export default {

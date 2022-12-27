@@ -10,6 +10,7 @@ import {
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
 } from '@modern-js/builder-shared';
+import type { ModifyBundlerChainFn } from '@modern-js/builder-shared';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type {
   WebpackConfig,
@@ -34,6 +35,7 @@ export function initHooks() {
       createAsyncHook<OnBeforeCreateCompilerFn<WebpackConfig>>(),
     onAfterStartDevServerHook: createAsyncHook<OnAfterStartDevServerFn>(),
     onBeforeStartDevServerHook: createAsyncHook<OnBeforeStartDevServerFn>(),
+    modifyBundlerChainHook: createAsyncHook<ModifyBundlerChainFn>(),
   };
 }
 

@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
+import { PluginEntry } from '@builder/plugins/entry';
 import { PluginBabel } from '@/plugins/babel';
-import { PluginEntry } from '@/plugins/entry';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/babel', () => {
