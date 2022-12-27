@@ -59,7 +59,7 @@ function getAppInstance(
     }
 
     useEffect(() => {
-      if (location && locationHref !== location.pathname) {
+      if (location && locationHref !== location.pathname && !Garfish.running) {
         locationHref = location.pathname;
         const popStateEvent = new PopStateEvent('popstate');
         (popStateEvent as any).garfish = true;

@@ -16,7 +16,7 @@ function Home() {
 }
 
 const App: React.FC = () => {
-  const { Dashboard } = useModuleApps();
+  const { Dashboard, MApp } = useModuleApps();
   return (
     <div>
       <div style={{ textAlign: 'center' }}>
@@ -77,11 +77,12 @@ const App: React.FC = () => {
           />
         </Route> */}
       </Switch>
-      {/* <MApp
+      <MApp
         msg={'hello world'}
         loadable={{
           loading: ({ pastDelay, error }: any) => {
             if (error) {
+              console.error(error);
               return <div>error: {error?.message}</div>;
             } else if (pastDelay) {
               return <div>tablelist loading</div>;
@@ -90,7 +91,7 @@ const App: React.FC = () => {
             }
           },
         }}
-      /> */}
+      />
     </div>
   );
 };
