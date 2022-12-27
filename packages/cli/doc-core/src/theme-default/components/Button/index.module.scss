@@ -1,0 +1,63 @@
+.button {
+  display: inline-block;
+  border: 1px solid transparent;
+  text-align: center;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.25s, border-color 0.25s, background-color 0.25s;
+}
+
+.button:active {
+  transition: color 0.1s, border-color 0.1s, background-color 0.1s;
+}
+
+.button.medium {
+  border-radius: 20px;
+  padding: 0 20px;
+  line-height: 38px;
+  font-size: 14px;
+}
+
+.button.big {
+  border-radius: 24px;
+  padding: 0 24px;
+  line-height: 46px;
+  font-size: 16px;
+}
+
+.button.brand {
+  border-color: var(--modern-button-brand-border);
+  color: var(--modern-button-brand-text);
+  background-color: var(--modern-button-brand-bg);
+}
+
+.button.brand:hover {
+  opacity: 1;
+  border-color: var(--modern-button-brand-hover-border);
+  color: var(--modern-button-brand-hover-text);
+  background-color: var(--modern-button-brand-hover-bg);
+}
+
+.button.brand:active {
+  border-color: var(--modern-button-brand-active-border);
+  color: var(--modern-button-brand-active-text);
+  background-color: var(--modern-button-brand-active-bg);
+}
+
+.button.alt {
+  border-color: var(--modern-button-alt-border);
+  color: var(--modern-button-alt-text);
+  background-color: var(--modern-button-alt-bg);
+}
+
+.button.alt:hover {
+  border-color: var(--modern-button-alt-hover-border);
+  color: var(--modern-button-alt-hover-text);
+  background-color: var(--modern-button-alt-hover-bg);
+}
+
+.button.alt:active {
+  border-color: var(--modern-button-alt-active-border);
+  color: var(--modern-button-alt-active-text);
+  background-color: var(--modern-button-alt-active-bg);
+}

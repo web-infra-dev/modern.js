@@ -1,0 +1,48 @@
+.navScreen {
+  display: none;
+  position: fixed;
+  top: var(--modern-nav-height);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0 32px;
+  width: 100%;
+  background-color: var(--modern-c-bg);
+  overflow-y: auto;
+  transition: background-color 0.5s;
+  pointer-events: auto;
+  z-index: 20;
+}
+.active {
+  display: block;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 24px 0 96px;
+  max-width: 248px;
+}
+.navMenu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.navMenuItem {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 11px;
+  line-height: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--modern-c-text-1);
+  border-bottom: 1px solid var(--modern-c-divider-light);
+  transition: border-color 0.5s, color 0.25s;
+}
+.navAppearance {
+  padding-right: 0;
+}
+.socialAndAppearance {
+  border-bottom: 1px solid var(--modern-c-divider-light);
+  padding: 8px 0 7px;
+}
