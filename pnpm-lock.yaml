@@ -3183,7 +3183,6 @@ importers:
       '@types/node': ^14
       '@types/serve-static': ^1.13.10
       connect: ^3.7.0
-      get-port: ^5.1.1
       got: ^11.8.3
       playwright: ^1.25.1
       serve-static: ^1.14.1
@@ -3192,7 +3191,6 @@ importers:
       '@modern-js/utils': link:../utils
       '@playwright/test': 1.25.1
       connect: 3.7.0
-      get-port: 5.1.1
       playwright: 1.25.1
       serve-static: 1.15.0
     devDependencies:
@@ -26251,11 +26249,6 @@ packages:
     resolution: {integrity: sha512-x5UJKlgeUiNT8nyo/AcnwLnZuZNcSjSw0kogRB+Whd1fjjFq4B1hySFxSFWWSn4mIBzg3sRNUDFYc4g5gjPoLg==}
     engines: {node: '>=4'}
     dev: true
-
-  /get-port/5.1.1:
-    resolution: {integrity: sha512-g/Q1aTSDOxFpchXC4i8ZWvxA1lnPqx/JHqcpIw0/LX9T8x/GBbi6YnlN5nhaKIFkT8oFsscUKgDJYxfwfS6QsQ==}
-    engines: {node: '>=8'}
-    dev: false
 
   /get-ready/1.0.0:
     resolution: {integrity: sha512-mFXCZPJIlcYcth+N8267+mghfYN9h3EhsDa6JSnbA3Wrhh/XFpuowviFcsDeYZtKspQyWyJqfs4O6P8CHeTwzw==}
