@@ -1,0 +1,62 @@
+---
+title: autoLoadPlugins
+sidebar_position: 11
+---
+
+- Type: `boolean`
+- Default: `false`
+
+Used to configure whether Modern.js enables auto-registration of plugins.
+
+### Manual Registration Plugin
+
+By default, installing the plugin requires you to register the plugin manually in the `modern.config.ts`.
+
+```ts title="modern.config.ts"
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import I18nPlugin from '@modern-js/plugin-i18n';
+
+default export defineConfig({
+  plugins: [AppToolsPlugin(), I18nPlugin()]
+})
+
+```
+
+### Auto Registration plugin
+
+In addition to means registration, Modern.js also provides a way to automatically register plugins: set the `autoLoadPlugin` configuration item to `true`.
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+default export defineConfig({
+  autoLoadPlugins: true
+})
+```
+
+Modern.js will help you automatically register the plugin by following these steps
+
+1. Modern.js maintains an official list of plugins internally.
+
+```js
+const InternalPlugins = ['@modern-js/app-tools', '@modern-js/plugin-i18n', ...];
+```
+
+2. Modern.js will read your `package.json` and collect the dependency information.
+
+```json title="package.json"
+"dependencies": {
+  "@modern-js/plugin-i18n": "x.x.x"
+  ...
+},
+"devDependencies": {
+  "@modern-js/app-tools": "x.x.x"
+  ...
+}
+```
+
+3. Modern.js observes that when you install dependencies such as `@modern-js/plugin-i18n` and `@modern-js/app-tools`, automatic plugin registration will be imported.
+
+You can notice that this approach is relatively black-box and you are not even aware of the process of loading the plugin. We want to expose more details to the developer and be able to let the developer control the process.
+
+**Therefore we recommend you to register the plugin manually.**
