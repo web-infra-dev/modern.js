@@ -1,0 +1,339 @@
+/**
+ * Colors Base
+ *
+ * These are the pure base color presets. Most of the time, you should not be
+ * using these colors directly in the theme but rather use "Colors Theme"
+ * instead because those are "Theme (light or dark)" dependant.
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-c-white: #ffffff;
+  --modern-c-white-soft: #f9f9f9;
+  --modern-c-white-mute: #f1f1f1;
+
+  --modern-c-black: #1a1a1a;
+  --modern-c-black-pure: #000000;
+  --modern-c-black-soft: #242424;
+  --modern-c-black-mute: #2f2f2f;
+
+  --modern-c-gray: #8e8e8e;
+  --modern-c-gray-light-1: #aeaeae;
+  --modern-c-gray-light-2: #c7c7c7;
+  --modern-c-gray-light-3: #d1d1d1;
+  --modern-c-gray-light-4: #e5e5e5;
+  --modern-c-gray-light-5: #f2f2f2;
+  --modern-c-gray-dark-1: #636363;
+  --modern-c-gray-dark-2: #484848;
+  --modern-c-gray-dark-3: #3a3a3a;
+  --modern-c-gray-dark-4: #282828;
+  --modern-c-gray-dark-5: #202020;
+
+  --modern-c-divider-light-1: rgba(60, 60, 60, 0.29);
+  --modern-c-divider-light-2: rgba(60, 60, 60, 0.12);
+  --modern-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+  --modern-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+  --modern-c-indigo: #213547;
+  --modern-c-indigo-soft: #476582;
+  --modern-c-indigo-light: #aac8e4;
+  --modern-c-indigo-lighter: #c9def1;
+  --modern-c-indigo-dark: #1d2f3f;
+  --modern-c-indigo-darker: #14212e;
+
+  --modern-c-text-light-1: var(--modern-c-indigo);
+  --modern-c-text-light-2: rgba(60, 60, 60, 0.7);
+  --modern-c-text-light-3: rgba(60, 60, 60, 0.33);
+  --modern-c-text-light-4: rgba(60, 60, 60, 0.18);
+
+  --modern-c-text-dark-1: rgba(255, 255, 255, 0.87);
+  --modern-c-text-dark-2: rgba(235, 235, 235, 0.6);
+  --modern-c-text-dark-3: rgba(235, 235, 235, 0.38);
+  --modern-c-text-dark-4: rgba(235, 235, 235, 0.18);
+
+  --modern-c-green: #21b8a3;
+  --modern-c-green-light: #41c6b0;
+  --modern-c-green-lighter: #41c6b0;
+  --modern-c-green-dark: #149684;
+  --modern-c-green-darker: #149684;
+  --modern-c-green-dimm: #062521;
+  --modern-c-green-dimm-1: rgba(66, 184, 131, 0.5);
+  --modern-c-green-dimm-2: rgba(66, 184, 131, 0.25);
+  --modern-c-green-dimm-3: rgba(66, 184, 131, 0.05);
+
+  --modern-c-blue: #0095ff;
+  --modern-c-blue-light: #00aaff;
+  --modern-c-blue-lighter: #00bfff;
+  --modern-c-blue-dark: #0077ff;
+  --modern-c-blue-darker: #0055ff;
+  --modern-c-blue-dimm: rgba(100, 108, 255, 0.08);
+}
+
+/**
+ * Colors Theme
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-c-bg: var(--modern-c-white);
+  --modern-c-bg-soft: var(--modern-c-white-soft);
+  --modern-c-bg-mute: var(--modern-c-white-mute);
+  --modern-c-bg-alt: var(--modern-c-white-soft);
+
+  --modern-c-divider: var(--modern-c-divider-light-1);
+  --modern-c-divider-light: var(--modern-c-divider-light-2);
+
+  --modern-c-text-1: var(--modern-c-text-light-1);
+  --modern-c-text-2: var(--modern-c-text-light-2);
+  --modern-c-text-3: var(--modern-c-text-light-3);
+  --modern-c-text-4: var(--modern-c-text-light-4);
+
+  --modern-c-text-code: var(--modern-c-indigo-soft);
+
+  --modern-c-brand: var(--modern-c-blue);
+  --modern-c-brand-light: var(--modern-c-blue-light);
+  --modern-c-brand-lighter: var(--modern-c-blue-lighter);
+  --modern-c-brand-dark: var(--modern-c-blue-dark);
+  --modern-c-brand-darker: var(--modern-c-blue-darker);
+  --modern-c-brand-tint: rgba(127, 163, 255, 0.16);
+}
+
+.dark {
+  --modern-c-bg: var(--modern-c-black-soft);
+  --modern-c-bg-soft: var(--modern-c-black-mute);
+  --modern-c-bg-mute: var(--modern-c-gray-dark-3);
+  --modern-c-bg-alt: var(--modern-c-black);
+
+  --modern-c-divider: var(--modern-c-divider-dark-1);
+  --modern-c-divider-light: var(--modern-c-divider-dark-2);
+
+  --modern-c-divider-inverse: var(--modern-c-divider-light-1);
+  --modern-c-divider-inverse-light: var(--modern-c-divider-light-2);
+
+  --modern-c-text-1: var(--modern-c-text-dark-1);
+  --modern-c-text-2: var(--modern-c-text-dark-2);
+  --modern-c-text-3: var(--modern-c-text-dark-3);
+  --modern-c-text-4: var(--modern-c-text-dark-4);
+
+  --modern-c-text-inverse-1: var(--modern-c-text-light-1);
+  --modern-c-text-inverse-2: var(--modern-c-text-light-2);
+  --modern-c-text-inverse-3: var(--modern-c-text-light-3);
+  --modern-c-text-inverse-4: var(--modern-c-text-light-4);
+
+  --modern-c-text-code: var(--modern-c-indigo-lighter);
+}
+
+/**
+ * Typography
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-font-family-base: 'Inter var experimental', 'Inter var',
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --modern-font-family-mono: Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/**
+ * Layouts
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-layout-max-width: 1440px;
+}
+
+/**
+ * Component: Code
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-code-line-height: 1.7;
+  --modern-code-font-size: 0.875em;
+
+  --modern-code-block-color: var(--modern-c-text-dark-1);
+  --modern-code-block-bg: #292d3e;
+
+  --modern-code-line-highlight-color: rgba(0, 0, 0, 0.5);
+  --modern-code-line-number-color: var(--modern-c-text-dark-3);
+
+  --modern-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
+  --modern-code-copy-code-active-text: var(--modern-c-text-dark-2);
+}
+
+/**
+ * Icons
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-icon-copy: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 10v18H10V10h18m0-2H10a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2Z' fill='%23cccccc'/%3E%3Cpath d='M4 18H2V4a2 2 0 0 1 2-2h14v2H4Z' fill='%23cccccc'/%3E%3C/svg%3E");
+  --modern-icon-copied: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m13 24l-9-9l1.41-1.41L13 21.17L26.59 7.59L28 9L13 24z' fill='%2360c054'/%3E%3C/svg%3E");
+  --modern-icon-tip: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M512 960C264.58 960 64 759.42 64 512S264.58 64 512 64s448 200.58 448 448-200.58 448-448 448z m0-832c-212.08 0-384 171.92-384 384s171.92 384 384 384 384-171.92 384-384-171.92-384-384-384z m0 112c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z m0 160c-17.67 0-32 14.33-32 32v320c0 17.67 14.33 32 32 32 17.67 0 32-14.33 32-32V432c0-17.67-14.33-32-32-32z' fill='%2321b8a3'/%3E%3C/svg%3E");
+}
+
+.dark {
+  --modern-code-block-bg: var(--modern-c-bg-alt);
+}
+
+/**
+ * Z-indexes
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-z-index-local-nav: 10;
+  --modern-z-index-nav: 20;
+  --modern-z-index-layout-top: 30;
+  --modern-z-index-backdrop: 40;
+  --modern-z-index-sidebar: 50;
+  --modern-z-index-footer: 60;
+}
+
+/**
+ * Component: Button
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-button-brand-border: var(--modern-c-brand-light);
+  --modern-button-brand-text: var(--modern-c-text-dark-1);
+  --modern-button-brand-bg: var(--modern-c-brand);
+  --modern-button-brand-hover-border: var(--modern-c-brand-light);
+  --modern-button-brand-hover-text: var(--modern-c-text-dark-1);
+  --modern-button-brand-hover-bg: var(--modern-c-brand-light);
+  --modern-button-brand-active-border: var(--modern-c-brand-light);
+  --modern-button-brand-active-text: var(--modern-c-text-dark-1);
+  --modern-button-brand-active-bg: var(--modern-button-brand-bg);
+
+  --modern-button-alt-border: var(--modern-c-gray-light-3);
+  --modern-button-alt-text: var(--modern-c-text-light-1);
+  --modern-button-alt-bg: var(--modern-c-gray-light-5);
+  --modern-button-alt-hover-border: var(--modern-c-gray-light-3);
+  --modern-button-alt-hover-text: var(--modern-c-text-light-1);
+  --modern-button-alt-hover-bg: var(--modern-c-gray-light-4);
+  --modern-button-alt-active-border: var(--modern-c-gray-light-3);
+  --modern-button-alt-active-text: var(--modern-c-text-light-1);
+  --modern-button-alt-active-bg: var(--modern-c-gray-light-3);
+
+  --modern-button-sponsor-border: var(--modern-c-gray-light-3);
+  --modern-button-sponsor-text: var(--modern-c-text-light-2);
+  --modern-button-sponsor-bg: transparent;
+  --modern-button-sponsor-hover-border: var(--modern-c-sponsor);
+  --modern-button-sponsor-hover-text: var(--modern-c-sponsor);
+  --modern-button-sponsor-hover-bg: transparent;
+  --modern-button-sponsor-active-border: var(--modern-c-sponsor);
+  --modern-button-sponsor-active-text: var(--modern-c-sponsor);
+  --modern-button-sponsor-active-bg: transparent;
+}
+
+.dark {
+  --modern-button-brand-border: var(--modern-c-brand-light);
+  --modern-button-brand-text: var(--modern-c-text-dark-1);
+  --modern-button-brand-bg: var(--modern-c-brand-dark);
+  --modern-button-brand-hover-border: var(--modern-c-brand-lighter);
+  --modern-button-brand-hover-text: var(--modern-c-text-dark-1);
+  --modern-button-brand-hover-bg: var(--modern-c-brand);
+  --modern-button-brand-active-border: var(--modern-c-brand-lighter);
+  --modern-button-brand-active-text: var(--modern-c-text-dark-1);
+  --modern-button-brand-active-bg: var(--modern-button-brand-bg);
+
+  --modern-button-alt-border: var(--modern-c-gray-dark-2);
+  --modern-button-alt-text: var(--modern-c-text-dark-1);
+  --modern-button-alt-bg: var(--modern-c-bg-mute);
+  --modern-button-alt-hover-border: var(--modern-c-gray-dark-2);
+  --modern-button-alt-hover-text: var(--modern-c-text-dark-1);
+  --modern-button-alt-hover-bg: var(--modern-c-gray-dark-2);
+  --modern-button-alt-active-border: var(--modern-c-gray-dark-2);
+  --modern-button-alt-active-text: var(--modern-c-text-dark-1);
+  --modern-button-alt-active-bg: var(--modern-button-alt-bg);
+
+  --modern-button-sponsor-border: var(--modern-c-gray-dark-1);
+  --modern-button-sponsor-text: var(--modern-c-text-dark-2);
+}
+
+/**
+ * Component: Custom Block
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-custom-block-code-font-size: 13px;
+
+  --modern-custom-block-info-border: var(--modern-c-divider-light);
+  --modern-custom-block-info-text: var(--modern-c-text-2);
+  --modern-custom-block-info-bg: var(--modern-c-white-soft);
+  --modern-custom-block-info-code-bg: var(--modern-c-gray-light-4);
+
+  --modern-custom-block-tip-border: var(--modern-c-green-dimm-1);
+  --modern-custom-block-tip-text: var(--modern-c-green-darker);
+  --modern-custom-block-tip-bg: var(--modern-c-green-dimm-3);
+  --modern-custom-block-tip-code-bg: var(--modern-custom-block-tip-bg);
+
+  --modern-custom-block-warning-border: var(--modern-c-yellow-dimm-1);
+  --modern-custom-block-warning-text: var(--modern-c-yellow-darker);
+  --modern-custom-block-warning-bg: var(--modern-c-yellow-dimm-3);
+  --modern-custom-block-warning-code-bg: var(--modern-custom-block-warning-bg);
+
+  --modern-custom-block-danger-border: var(--modern-c-red-dimm-1);
+  --modern-custom-block-danger-text: var(--modern-c-red-darker);
+  --modern-custom-block-danger-bg: var(--modern-c-red-dimm-3);
+  --modern-custom-block-danger-code-bg: var(--modern-custom-block-danger-bg);
+}
+
+.dark {
+  --modern-custom-block-info-border: var(--modern-c-divider-light);
+  --modern-custom-block-info-bg: var(--modern-c-black-mute);
+  --modern-custom-block-info-code-bg: var(--modern-c-gray-dark-4);
+
+  --modern-custom-block-tip-border: var(--modern-c-green-dimm-2);
+  --modern-custom-block-tip-text: var(--modern-c-green-light);
+
+  --modern-custom-block-warning-border: var(--modern-c-yellow-dimm-2);
+  --modern-custom-block-warning-text: var(--modern-c-yellow-light);
+
+  --modern-custom-block-danger-border: var(--modern-c-red-dimm-2);
+  --modern-custom-block-danger-text: var(--modern-c-red-light);
+}
+
+/**
+ * Component: Nav
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-nav-height: 56px;
+}
+
+/**
+ * Component: Sidebar
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-sidebar-width: 272px;
+}
+
+/**
+ * Component: Home
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-home-hero-name-color: transparent;
+  --modern-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    var(--modern-c-brand) 30%,
+    #41d1ff
+  );
+
+  --modern-home-hero-image-background-image: none;
+  --modern-home-hero-image-filter: none;
+}
+
+/**
+ * Shadows
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --modern-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+  --modern-shadow-2: 0 3px 12px rgba(0, 0, 0, 0.07),
+    0 1px 4px rgba(0, 0, 0, 0.07);
+  --modern-shadow-3: 0 12px 32px rgba(0, 0, 0, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.08);
+  --modern-shadow-4: 0 14px 44px rgba(0, 0, 0, 0.12),
+    0 3px 9px rgba(0, 0, 0, 0.12);
+  --modern-shadow-5: 0 18px 56px rgba(0, 0, 0, 0.16),
+    0 4px 12px rgba(0, 0, 0, 0.16);
+}

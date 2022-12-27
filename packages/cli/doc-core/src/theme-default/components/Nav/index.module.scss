@@ -1,0 +1,35 @@
+@media (min-width: 960px) {
+  :global(.dark) .container {
+    background: rgba(36, 36, 36);
+  }
+}
+
+.rightNav {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .rightNav {
+    display: flex;
+    align-items: center;
+  }
+}
+.container {
+  background: rgba(255, 255, 255);
+}
+
+.container :deep(*) {
+  pointer-events: all;
+}
+
+.social-links-icon {
+  width: 20px;
+  height: 100%;
+  display: flex;
+  fill: currentColor;
+  color: var(--modern-c-text-2);
+
+  &:hover {
+    color: var(--modern-c-text-1);
+  }
+}
