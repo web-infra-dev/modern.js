@@ -31,6 +31,8 @@ import type {
 } from '../thirdParty';
 import type { NormalizedCSSExtractOptions } from '../thirdParty/css';
 
+export type FileFilterUtil = (items: ArrayOrNot<string | RegExp>) => void;
+
 export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
 
 export type ToolsMinifyCssConfig = ChainedConfig<CssMinimizerPluginOptions>;
@@ -42,10 +44,7 @@ export type ToolsBabelConfig = ChainedConfig<
 
 export type ToolsTSLoaderConfig = ChainedConfig<
   TSLoaderOptions,
-  {
-    addIncludes: (items: string | RegExp | (string | RegExp)[]) => void;
-    addExcludes: (items: string | RegExp | (string | RegExp)[]) => void;
-  }
+  { addIncludes: FileFilterUtil; addExcludes: FileFilterUtil }
 >;
 
 export type ToolsStyledComponentConfig = ChainedConfig<IStyledComponentOptions>;
@@ -62,21 +61,19 @@ export type ToolsAutoprefixerConfig = ChainedConfig<AutoprefixerOptions>;
 
 export type ToolsPostCSSLoaderConfig = ChainedConfig<
   PostCSSLoaderOptions,
-  {
-    addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void;
-  }
+  { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void }
 >;
 
 export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
 
 export type ToolsLessConfig = ChainedConfig<
   LessLoaderOptions,
-  { addExcludes: (excludes: RegExp | RegExp[]) => void }
+  { addExcludes: FileFilterUtil }
 >;
 
 export type ToolsSassConfig = ChainedConfig<
   SassLoaderOptions,
-  { addExcludes: (excludes: RegExp | RegExp[]) => void }
+  { addExcludes: FileFilterUtil }
 >;
 
 export type ToolsTSCheckerConfig = ChainedConfig<ForkTSCheckerOptions>;
