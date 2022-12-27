@@ -4,7 +4,7 @@ exports[`\`designSystem\` case buildType is bundle 1`] = `
 "/* src/index.css */
 .box {
   --tw-bg-opacity: 1;
-  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 "
 `;
@@ -12,7 +12,7 @@ exports[`\`designSystem\` case buildType is bundle 1`] = `
 exports[`\`designSystem\` case buildType is bundleless 1`] = `
 ".box {
   --tw-bg-opacity: 1;
-  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 "
 `;
