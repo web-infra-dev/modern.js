@@ -1,6 +1,6 @@
 ---
 title: pages/
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 应用使用基于文件系统路由时的入口标识。
