@@ -1,6 +1,6 @@
 # 开启调试模式
 
-为了便于排查问题，Builder 提供了调试模式，你可以在执行构建时添加 `DEBUG=builder` 环境变量，来开启 Builder 的调试模式。
+为了便于排查问题，Builder 提供了调试模式，你可以在执行构建时添加 `DEBUG=builder` 环境变量来开启 Builder 的调试模式。
 
 ```bash
 # 调试开发环境

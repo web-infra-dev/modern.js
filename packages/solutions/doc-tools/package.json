@@ -7,6 +7,17 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "jsnext:modern": "./dist/index.js",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js"
+    },
+    "./runtime": {
+      "default": "./runtime.ts"
+    },
+    "./theme": {
+      "default": "./theme.ts"
+    }
+  },
   "scripts": {
     "prepare": "modern-lib build",
     "prepublishOnly": "modern-lib build --platform",
@@ -33,6 +44,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.18.0",
+    "@modern-js/core": "workspace:*",
     "@modern-js/doc-core": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/utils": "workspace:*"
@@ -41,7 +53,6 @@
     "react": "^17"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
@@ -61,6 +72,12 @@
     "*.less",
     "*.sass",
     "*.scss"
+  ],
+  "files": [
+    "bin",
+    "dist",
+    "runtime.ts",
+    "theme.ts"
   ],
   "publishConfig": {
     "access": "public",

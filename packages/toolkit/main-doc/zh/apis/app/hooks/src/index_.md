@@ -1,6 +1,6 @@
 ---
 title: index.[tj]s
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 应用项目自定义路由入口标识。

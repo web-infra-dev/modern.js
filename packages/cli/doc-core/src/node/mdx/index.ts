@@ -4,8 +4,17 @@ import rehypeAutoLink from 'rehype-autolink-headings';
 import { Options } from '@mdx-js/loader';
 import { UserConfig } from 'shared/types/index';
 import { PluggableList } from 'unified';
+import remarkPluginFrontMatter from 'remark-frontmatter';
+import remarkPluginMDXFrontMatter from 'remark-mdx-frontmatter';
+import { getHighlighter } from 'shiki';
+import remarkDirective from 'remark-directive';
+import { remarkPluginToc } from './remarkPlugins/toc';
+import { rehypePluginPreWrapper } from './rehypePlugins/preWrapper';
+import { rehypePluginShiki } from './rehypePlugins/shiki';
+import { remarkPluginTip } from './remarkPlugins/tip';
+import { remarkPluginNormalizeLink } from './remarkPlugins/link';
 
-export function createMDXOptions(config: UserConfig): Options {
+export async function createMDXOptions(config: UserConfig): Promise<Options> {
   const {
     remarkPlugins: remarkPluginsFromConfig = [],
     rehypePlugins: rehypePluginsFromConfig = [],
@@ -19,7 +28,16 @@ export function createMDXOptions(config: UserConfig): Options {
   ) as PluggableList;
   return {
     remarkPlugins: [
+      remarkDirective,
+      remarkPluginTip,
       remarkGFM,
+      remarkPluginFrontMatter,
+      [remarkPluginMDXFrontMatter, { name: 'frontmatter' }],
+      remarkPluginToc,
+      [
+        remarkPluginNormalizeLink,
+        { base: config.doc?.base || '', defaultLang: config.doc?.lang || 'zh' },
+      ],
       ...remarkPluginsFromConfig,
       ...remarkPluginsFromPlugins,
     ],
@@ -37,6 +55,11 @@ export function createMDXOptions(config: UserConfig): Options {
             value: '#',
           },
         },
+      ],
+      rehypePluginPreWrapper,
+      [
+        rehypePluginShiki,
+        { highlighter: await getHighlighter({ theme: 'nord' }) },
       ],
       ...rehypePluginsFromConfig,
       ...rehypePluginsFromPlugins,

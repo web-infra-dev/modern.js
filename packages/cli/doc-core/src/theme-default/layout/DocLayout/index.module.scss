@@ -1,0 +1,36 @@
+@media (min-width: 960px) {
+  .content {
+    margin: 0;
+    margin-left: var(--modern-sidebar-width);
+  }
+}
+@media (max-width: 960px) {
+  .docLayout {
+    position: relative;
+  }
+  .content {
+    padding: 14px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .content {
+    padding-left: 80px;
+    padding-right: 100px;
+  }
+}
+
+.aside-container {
+  position: sticky;
+  top: 0;
+  margin-top: calc(var(--modern-nav-height) * -1 - 32px);
+  padding-top: calc(var(--modern-nav-height) + 32px);
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.aside-container::-webkit-scrollbar {
+  display: none;
+}

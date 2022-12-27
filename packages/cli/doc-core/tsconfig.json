@@ -7,12 +7,15 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "rootDir": ".",
+    "lib": ["ESNext", "DOM"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "paths": {
       "@/*": ["./*"],
-      "@style/*": ["./styles/*"]
+      "@style/*": ["./styles/*"],
+      "@theme": ["./theme-default/index.ts"]
     }
   },
-  "include": ["src", "vitest.config.ts"]
+  "include": ["src", "vitest.config.ts"],
+  "exclude": ["runtime.d.ts", "theme.d.ts"]
 }

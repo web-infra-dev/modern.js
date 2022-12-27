@@ -20,7 +20,7 @@ npm install @modern-js/builder-plugin-node-polyfill -D
 yarn add @modern-js/builder-plugin-node-polyfill -D
 
 # pnpm
-pnpm install @modern-js/builder-plugin-node-polyfill -D
+pnpm add @modern-js/builder-plugin-node-polyfill -D
 ```
 
 ### Register
