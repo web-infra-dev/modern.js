@@ -13,6 +13,10 @@ Modern.js 允许在 React 组件中直接调用 `api/` 目录下满足一定条�
 
 允许通过一体化调用的函数，称为 **BFF 函数**。这里写一个最简单的 BFF 函数，创建 `api/hello.ts` 文件：
 
+:::caution
+如果是框架模式（有 `api/lambda` 目录），需要创建 `api/lambda/hello.ts`
+:::
+
 ```ts title="api/hello.ts"
 export const get = async () => 'Hello Modern.js';
 ```
@@ -41,7 +45,7 @@ Modern.js 生成器已经在 `tsconfig.json` 中配置 `@api` 别名，因此可
 
 执行 `pnpm run dev` 打开 `http://localhost:8080/` 可以看到页面已经展示了 BFF 函数返回的内容，在 Network 中可以看到页面向 `http://localhost:8080/api/hello` 发送了请求：
 
-![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/hello-modern.png)
+![Network](https://p6-piu.byteimg.com/tos-cn-i-8jisjyls3a/fd41750f8d414179a9b4ecb519919b36~tplv-8jisjyls3a-3:0:0:q75.png)
 
 ## 函数路由
 
@@ -73,7 +77,7 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 
 ### 动态路由
 
-同样的，创建命名带有 `[xxx]` 的文件夹或者文件，支持动态的命名路由参数。
+同样的，创建命名带有 `[xxx]` 的文件夹或者文件，支持动态的命名路由参数。动态路由的函数参数规则可以看 [dynamac-path](/docs/guides/advanced-features/bff/function#dynamic-path)
 
 * `api/user/[username]/info.ts` -> `{prefix}/user/:username/info`
 * `api/user/username/[action].ts` -> `{prefix}/user/username/:action`
@@ -181,6 +185,24 @@ import type { RequestOption } from '@modern-js/runtime/server'
 
 export async function post(
   { query, data }: RequestOption<Record<string, string>, Record<string, string>>
+) {
+  // do somethings
+}
+```
+
+这里你也可以使用自定义类型：
+```ts title="api/lambda/hello.ts"
+import type { RequestOption } from '@modern-js/runtime/server'
+
+type IQuery = {
+  // some types
+}
+type IData = {
+  // some types
+}
+
+export async function post(
+  { query, data }: { query:IQuery, data:IData }
 ) {
   // do somethings
 }

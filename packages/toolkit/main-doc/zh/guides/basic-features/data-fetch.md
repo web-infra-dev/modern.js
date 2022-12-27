@@ -9,10 +9,10 @@ Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过�
 
 ## Data Loader(推荐)
 
-Modern.js 推荐使用约定式路由做路由的管理，通过 Modern.js 的[约定式（嵌套）路由](/docs/guides/basic-features/routes#约定式路由)，每个路由组件(`layout.ts` 或 `page.ts`)可以导出一个函数`loader`，该函数可以在组件渲染之前，为路由组件提供数据。
+Modern.js 推荐使用约定式路由做路由的管理，通过 Modern.js 的[约定式（嵌套）路由](/docs/guides/basic-features/routes#约定式路由)，每个路由组件(`layout.ts` 或 `page.ts`)可以导出一个函数`loader`，该函数可以在组件渲染之前执行，为路由组件提供数据。
 
 :::info
-Modern.js 旧版支持通过 [useLoader](#useloader旧版) 获取数据，这已经不是我们推荐的用法，除迁移过程外，不推荐两者混用。
+Modern.js v1 支持通过 [useLoader](#useloader旧版) 获取数据，这已经不是我们推荐的用法，除迁移过程外，不推荐两者混用。
 :::
 
 ### 基础示例
@@ -85,7 +85,7 @@ export default function UserPage() {
 
 
 `loader` 函数有两个入参：
-##### `Params`
+#### `Params`
 
 当路由文件通过 `[]` 时，会作为[动态路由](/docs/guides/basic-features/routes#动态路由)，动态路由片段会作为参数传入 loader 函数：
 
@@ -102,9 +102,9 @@ export const loader = async({ params }: LoaderArgs) => {
 
 当访问 `/user/123` 时，`loader` 函数的参数为 `{ params: { id: '123' } }`。
 
-##### `request`
+#### `request`
 
-request 是一个 [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) 实例。
+`request` 是一个 [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) 实例。
 
 一个常见的使用场景是通过 `request` 获取查询参数：
 ```tsx
@@ -181,7 +181,7 @@ const ErrorBoundary = () => {
 export default ErrorBoundary;
 ```
 
-### 获取上层组件数据
+### 获取上层组件的数据
 
 很多场景下，子组件需要获取到祖先组件 loader 中的数据，你可以通过 `useRouteLoaderData` 方便地获取到祖先组件的数据：
 ```tsx
