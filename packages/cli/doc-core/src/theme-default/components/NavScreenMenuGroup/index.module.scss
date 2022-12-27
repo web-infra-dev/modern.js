@@ -1,0 +1,41 @@
+.navScreenMenuGroup {
+  height: 39px;
+  overflow: hidden;
+  transition: border-color 0.5s;
+}
+.navScreenMenuGroup.open {
+  padding-bottom: 10px;
+  height: auto;
+}
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 4px 7px 0;
+  width: 100%;
+  line-height: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-text-1);
+  transition: color 0.25s;
+}
+
+.buttonSpan {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding-right: 4px;
+}
+.navScreenMenuGroup .items {
+  visibility: hidden;
+}
+
+.navScreenMenuGroup.open .items {
+  visibility: visible;
+}
+.down {
+  transition: all 0.5s;
+}
+.open.down {
+  transform: rotate(180deg);
+}

@@ -1,16 +1,30 @@
 declare module 'virtual-routes' {
-  interface Route {
-    path: string;
-    element: React.ReactElement;
-    filePath: string;
-    preload: () => Promise<void>;
-  }
+  export { Route } from 'node/route/RouteService';
+
   export const routes: Route[];
 }
 
 declare module 'virtual-site-data' {
-  import { UserConfig } from 'shared/types';
+  import { SiteData } from 'shared/types';
+  import ThemeConfig from 'shared/types/default-theme';
 
-  const data: UserConfig;
+  const data: SiteData<ThemeConfig>;
   export default data;
+}
+
+declare module '*.module.scss' {
+  const classes: { [key: string]: string };
+  export default classes;
+}
+
+declare module '*.svg' {
+  const content: any;
+  export default content;
+}
+
+declare module 'remark-container' {
+  import { Plugin } from 'unified';
+
+  const container: Plugin;
+  export default container;
 }
