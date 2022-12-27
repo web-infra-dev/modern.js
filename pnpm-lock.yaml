@@ -3329,11 +3329,9 @@ importers:
       lodash: ^4.17.21
       typescript: ^4
       webpack: ^5.75.0
-      zod: ^3.17.3
     dependencies:
       caniuse-lite: 1.0.30001434
       lodash: 4.17.21
-      zod: 3.17.3
     devDependencies:
       '@modern-js/types': link:../types
       '@scripts/build': link:../../../scripts/build
