@@ -1,6 +1,6 @@
 ---
 title: index.[tj]s
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 Entry identifier if App want use custom entry. In most case, [`App.[tj]sx`](/docs/apis/app/hooks/src/app) hook file can already meet our needs.
