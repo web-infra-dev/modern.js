@@ -567,12 +567,7 @@ const tailwind = {
     './src/**/*.jsx',
     './src/**/*.ts',
     './src/**/*.tsx',
-    // about storybook
     './storybook/**/*',
-    './styles/**/*.less',
-    './styles/**/*.css',
-    './styles/**/*.sass',
-    './styles/**/*.scss',
   ],
 };
 ```

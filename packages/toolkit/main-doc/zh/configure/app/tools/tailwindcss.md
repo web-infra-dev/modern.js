@@ -20,12 +20,7 @@ const tailwind = {
     './src/**/*.jsx',
     './src/**/*.ts',
     './src/**/*.tsx',
-    // about storybook
     './storybook/**/*',
-    './styles/**/*.less',
-    './styles/**/*.css',
-    './styles/**/*.sass',
-    './styles/**/*.scss',
   ],
   theme: source.designSystem, // 使用source.designSystem配置作为Tailwind CSS Theme配置
 };

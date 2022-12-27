@@ -60,10 +60,6 @@ export default (
       './src/**/*.tsx',
       // about storybook
       './storybook/**/*',
-      './styles/**/*.less',
-      './styles/**/*.css',
-      './styles/**/*.sass',
-      './styles/**/*.scss',
     ];
 
     return {
