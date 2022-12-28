@@ -2,6 +2,7 @@ import { expect, describe, it } from 'vitest';
 import { createBuilder } from '../helper';
 import { PluginCss } from '@/plugins/css';
 import { PluginLess } from '@/plugins/less';
+import { PluginSass } from '@/plugins/sass';
 
 describe('plugins/css', () => {
   it('should override browserslist of autoprefixer when using output.overrideBrowserslist config', async () => {
@@ -120,6 +121,22 @@ describe('plugins/less', () => {
             },
           },
         },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+});
+
+describe('plugins/sass', () => {
+  it('should add sass-loader', async () => {
+    const builder = await createBuilder({
+      plugins: [PluginSass()],
+      builderConfig: {
+        tools: {},
       },
     });
 
