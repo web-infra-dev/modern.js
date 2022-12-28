@@ -3,17 +3,18 @@ import type { DevCommandOptions } from './types/command';
 import type { ModuleContext } from './types/context';
 import type { DevToolData, ModuleTools } from './types';
 
-export const runBuildBeforeDevTools = async (options: {
-  disableRunBuild: boolean;
-  appDirectory: string;
-}) => {
+export const runBuildBeforeDevTools = async (
+  api: PluginAPI<ModuleTools>,
+  context: ModuleContext,
+  cliOptions: DevCommandOptions,
+  options: {
+    disableRunBuild: boolean;
+    appDirectory: string;
+  },
+) => {
   if (!options.disableRunBuild) {
-    const { execa } = await import('@modern-js/utils');
-    // because it is watch mode, so not use 'await'
-    execa('modern', ['build', '--watch'], {
-      stdio: ['inherit', 'inherit', 'inherit'],
-      cwd: options.appDirectory,
-    });
+    const { build } = await import('./build');
+    await build(api, { watch: true, tsconfig: cliOptions.tsconfig }, context);
   }
 };
 
@@ -49,7 +50,7 @@ export const showMenu = async (
     meta => meta.menuItem?.value === result.choiceDevTool,
   );
   if (currentDevTool) {
-    await runBuildBeforeDevTools({
+    await runBuildBeforeDevTools(api, context, devCmdOptions, {
       disableRunBuild: currentDevTool.disableRunBuild ?? false,
       appDirectory: context.appDirectory,
     });
@@ -86,7 +87,7 @@ export const dev = async (
     );
     const meta = metas[0];
 
-    await runBuildBeforeDevTools({
+    await runBuildBeforeDevTools(api, context, options, {
       disableRunBuild: meta.disableRunBuild ?? false,
       appDirectory: context.appDirectory,
     });
