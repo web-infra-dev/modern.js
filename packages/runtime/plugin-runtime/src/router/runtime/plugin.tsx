@@ -4,9 +4,11 @@ import {
   createHashRouter,
   RouterProvider,
   createRoutesFromElements,
+  useMatches,
+  useLocation,
 } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import type { Plugin } from '../../core';
+import { Plugin } from '../../core';
 import { renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
 
@@ -43,6 +45,13 @@ export const routerPlugin = ({
     name: '@modern-js/plugin-router',
     setup: () => {
       return {
+        init({ context }, next) {
+          context.router = {
+            useMatches,
+            useLocation,
+          };
+          return next({ context });
+        },
         hoc: ({ App }, next) => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint

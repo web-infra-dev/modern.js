@@ -9,7 +9,7 @@ export default defineConfig({
       },
       ...preset.BASE_CONFIG,
       buildType: 'bundleless',
-      outdir: './dist/bundleless/object',
+      outDir: './dist/bundleless/object',
     };
   },
 });

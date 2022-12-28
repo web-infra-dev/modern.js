@@ -1,13 +1,15 @@
 ---
 sidebar_position: 1
-title: 一体化调用
+title: 基础用法
 ---
 
-Modern.js 允许在 React 组件中直接调用 `api/` 目录下满足一定条件的函数，称为**一体化调用**。
+通过 Modern.js 开发的应用，可以在 `api/` 目录下定义接口函数，前端可以调用这些接口函数，即可发起请求，无需写前后端胶水层代码，同时保证前后端类型安全。
 
-:::note
-使用一体化调用需要先开启 BFF 功能。
-:::
+## 启用 BFF
+
+import EnableBFF from '@site-docs/components/enable-bff.md'
+
+<EnableBFF/>
 
 ## BFF 函数
 

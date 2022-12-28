@@ -4,12 +4,6 @@ declare module 'virtual-routes' {
   export const routes: Route[];
 }
 
-declare module 'virtual-static-routes' {
-  export { Route } from 'node/route/RouteService';
-
-  export const routes: Route[];
-}
-
 declare module 'virtual-site-data' {
   import { SiteData } from 'shared/types';
   import ThemeConfig from 'shared/types/default-theme';

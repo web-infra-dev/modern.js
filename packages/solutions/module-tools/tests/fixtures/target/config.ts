@@ -4,6 +4,6 @@ export default defineConfig({
   buildConfig: {
     target: 'es2021',
     buildType: 'bundle',
-    outdir: './dist/bundle',
+    outDir: './dist/bundle',
   } as any,
 });
