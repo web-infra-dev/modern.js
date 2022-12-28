@@ -67,9 +67,6 @@ export default (): CliPlugin<AppTools> => ({
           },
           source: {
             moduleScopes: [`./${API_DIR}`, /create-request/],
-            define: {
-              'process.env.PORT': JSON.stringify(process.env.PORT),
-            },
           },
         };
       },

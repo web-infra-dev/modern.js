@@ -56,7 +56,9 @@ export default defineConfig({
 ## asset
 
 ### path
-静态资源输出路径，会基于 [`outdir`](/zh/api/build-config/#outdir) 进行输出。
+
+静态资源输出路径，会基于 [outDir](/zh/api/build-config/#outDir) 进行输出。
+
 
 - 类型： `string`
 - 默认值： `assets`
@@ -205,9 +207,10 @@ TypeScript 配置文件的路径。
 - 默认值： `./tsconfig.json`
 
 ### distPath
-类型文件的输出路径，基于 [`outdir`](/zh/api/build-config/#outdir) 进行输出。
-- 类型： `string`
-- 默认值： `./types`
+
+类型文件的输出路径，基于 [outDir]('/zh/api/build-config/#outDir') 进行输出。
+- 类型: `string`
+- 默认值: `./types`
 
 ### only
 只生成类型文件，不生成 js 文件。
@@ -262,10 +265,11 @@ export default defineConfig({
 });
 ```
 
-## outdir
-指定构建的输出目录。
-- 类型： `string`
-- 默认值： `dist`
+
+## outDir
+指定构建的输出目录
+- 类型: `string`
+- 默认值: `dist`
 
 ## platform
 默认生成用于 Node.js 环境下的代码，你也可以指定为 `browser`，会生成用于浏览器环境的代码。

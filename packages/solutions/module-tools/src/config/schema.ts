@@ -115,7 +115,7 @@ const buildConfigProperties = {
     },
     else: { enum: ['esbuild', 'terser', false] },
   },
-  outdir: { type: 'string' },
+  outDir: { type: 'string' },
   platform: {
     enum: ['node', 'browser'],
   },
