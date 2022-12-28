@@ -109,7 +109,7 @@ function getDefaultConfig(
 }
 
 export async function createAction(projectDir: string, options: Options) {
-  const { debug, registry, distTag } = options;
+  const { debug, registry } = options;
   const smith = new CodeSmith({
     debug,
     registryUrl: registry,
@@ -134,8 +134,8 @@ export async function createAction(projectDir: string, options: Options) {
 
   if (process.env.CODESMITH_ENV === 'development') {
     generator = require.resolve(REPO_GENERATOR);
-  } else if (distTag) {
-    generator = `${REPO_GENERATOR}@${distTag}`;
+  } else if (config.distTag) {
+    generator = `${REPO_GENERATOR}@${config.distTag}`;
   }
 
   const task: RunnerTask = [
