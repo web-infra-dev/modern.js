@@ -93,3 +93,12 @@ export default {
   },
 };
 ```
+
+## How to determine if REM is in effect？
+
+1. CSS：Check the generated `.css` file to see if the value of the corresponding property is converted from px to rem.
+2. HTML：Open the Page Console to see if a valid value exists for `document.documentElement.style.fontSize`.
+
+## How to get the rootFontSize value that is actually in effect on the page?
+
+The actual rootFontSize in effect for the page is calculated dynamically based on the current page. It can be seen by printing `document.documentElement.style.fontSize` or obtained by `window.ROOT_FONT_SIZE`.
