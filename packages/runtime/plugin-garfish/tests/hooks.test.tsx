@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { createApp } from '@modern-js/runtime';
 import '@testing-library/jest-dom';
 
@@ -43,11 +43,11 @@ describe('plugin-garfish', () => {
 
       return <div></div>;
     };
-
-    const AppWrapper = createApp({
-      plugins: [ModernGarfishPlugin(microFrontendConfig)],
-    })(App);
-
-    render(<AppWrapper />);
+    await act(async () => {
+      const AppWrapper = createApp({
+        plugins: [ModernGarfishPlugin(microFrontendConfig)],
+      })(App);
+      render(<AppWrapper />);
+    });
   });
 });

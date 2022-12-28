@@ -7,6 +7,6 @@ export default defineConfig({
       path: './asset',
       limit: 0,
     },
-    outdir: './dist/bundle',
+    outDir: './dist/bundle',
   },
 });

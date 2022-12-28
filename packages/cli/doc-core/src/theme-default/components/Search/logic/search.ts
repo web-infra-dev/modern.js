@@ -3,7 +3,8 @@ import type { Index as SearchIndex, CreateOptions } from 'flexsearch';
 import { uniqBy } from 'lodash-es';
 import { SearchOptions } from '..';
 import { backTrackHeaders, normalizeContent } from './util';
-import { normalizeHref, getAllPages, withBase } from '@/runtime';
+import { normalizeHref, withBase } from '@/runtime';
+import { PageBasicInfo } from '@/shared/types';
 
 const THRESHOLD_CONTENT_LENGTH = 100;
 
@@ -58,41 +59,48 @@ export class PageSearcher {
 
   #langs: string[] = [];
 
-  constructor(options: SearchOptions) {
+  #pages: PageBasicInfo[];
+
+  constructor(options: SearchOptions & { pages: PageBasicInfo[] }) {
     this.#langRoutePrefix = options.langRoutePrefix;
     this.#defaultLang = options.defaultLang;
     this.#langs = options.langs;
+    this.#pages = options.pages;
   }
 
   async init(options: CreateOptions = {}) {
-    const pages = await getAllPages(route => {
+    const pages = this.#pages.filter(page => {
       // Hit the default language route
       if (this.#langRoutePrefix === '/') {
         const otherLangsWithBase = this.#langs
           .filter(lang => lang !== this.#defaultLang)
           .map(lang => withBase(lang));
         return !otherLangsWithBase.every(otherLangWithBase =>
-          route.path.startsWith(otherLangWithBase),
+          page.routePath.startsWith(otherLangWithBase),
         );
       } else {
-        return route.path.startsWith(withBase(this.#langRoutePrefix));
+        return page.routePath.startsWith(withBase(this.#langRoutePrefix));
       }
     });
     const pagesForSearch: PageDataForSearch[] = pages
       .filter(page => {
-        return !WHITE_PAGE_TYPES.includes(page.frontmatter?.pageType || '');
+        return !WHITE_PAGE_TYPES.includes(
+          (page.frontmatter?.pageType as string) || '',
+        );
       })
-      .map(page => ({
-        title:
-          page.title ??
-          page.frontmatter?.title ??
-          page.routePath.split('/').pop() ??
-          '',
-        headers: (page.toc || []).map((header: Header) => header.text),
-        content: normalizeContent(page.content || ''),
-        path: page.routePath,
-        rawHeaders: page.toc || [],
-      }));
+      .map(page => {
+        return {
+          title:
+            page.title ??
+            page.frontmatter?.title ??
+            page.routePath.split('/').pop() ??
+            '',
+          headers: (page.toc || []).map((header: Header) => header.text),
+          content: normalizeContent(page.content || ''),
+          path: page.routePath,
+          rawHeaders: page.toc || [],
+        };
+      });
     this.#headerToIdMap = pages.reduce((acc: any, page: any) => {
       (page.toc || []).forEach((header: Header) => {
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands

@@ -4,7 +4,7 @@ export default defineConfig({
   buildConfig: {
     target: 'es2021',
     buildType: 'bundle',
-    outdir: './dist/default',
+    outDir: './dist/default',
     externals: [/^react/],
     format: 'esm',
   },

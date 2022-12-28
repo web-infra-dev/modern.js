@@ -6,14 +6,14 @@ export default defineConfig({
       buildType: 'bundle',
       input: ['./src/index.ts'],
       autoExternal: false,
-      outdir: './dist/1',
+      outDir: './dist/1',
     },
     {
       buildType: 'bundle',
       input: ['./src/index.ts'],
       autoExternal: false,
       externals: ['react'],
-      outdir: './dist/2',
+      outDir: './dist/2',
     },
     {
       buildType: 'bundle',
@@ -21,12 +21,12 @@ export default defineConfig({
       autoExternal: {
         dependencies: true,
       },
-      outdir: './dist/3',
+      outDir: './dist/3',
     },
     {
       buildType: 'bundle',
       input: ['./src/index.ts'],
-      outdir: './dist/4',
+      outDir: './dist/4',
     },
     {
       buildType: 'bundle',
@@ -34,7 +34,7 @@ export default defineConfig({
       autoExternal: {
         peerDependencies: true,
       },
-      outdir: './dist/5',
+      outDir: './dist/5',
     },
   ],
 });
