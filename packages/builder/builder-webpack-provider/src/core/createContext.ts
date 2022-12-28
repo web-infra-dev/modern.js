@@ -24,6 +24,7 @@ export function createPrimaryContext(
   const context = createContextByConfig(
     options,
     builderConfig.output as NormalizedSharedOutputConfig,
+    'webpack',
   );
   const configValidatingTask = Promise.resolve();
 

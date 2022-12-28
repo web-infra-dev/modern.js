@@ -1,16 +1,11 @@
-import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
+import type { ModifyChainUtils } from '@modern-js/builder-shared';
 import type {
   RspackConfig,
   RspackRuleSet,
   RspackPluginInstance,
 } from './rspack';
 
-export type ModifyRspackConfigUtils = {
-  env: NodeEnv;
-  isProd: boolean;
-  target: BuilderTarget;
-  isServer: boolean;
-  isWebWorker: boolean;
+export type ModifyRspackConfigUtils = ModifyChainUtils & {
   getCompiledPath: (name: string) => string;
 
   addRules: (rules: RspackRuleSet | RspackRuleSet[]) => void;

@@ -2,6 +2,8 @@
 
 exports[`plugins/html > should allow to modify plugin options by tools.htmlPlugin 1`] = `
 {
+  "cache": undefined,
+  "devtool": undefined,
   "entry": {
     "main": [
       "src/main.ts",
@@ -15,11 +17,14 @@ exports[`plugins/html > should allow to modify plugin options by tools.htmlPlugi
       },
     },
   ],
+  "target": undefined,
 }
 `;
 
 exports[`plugins/html > should allow to set favicon by html.favicon option 1`] = `
 {
+  "cache": undefined,
+  "devtool": undefined,
   "entry": {
     "main": [
       "src/main.ts",
@@ -41,11 +46,14 @@ exports[`plugins/html > should allow to set favicon by html.favicon option 1`] =
       },
     },
   ],
+  "target": undefined,
 }
 `;
 
 exports[`plugins/html > should allow to set inject by html.inject option 1`] = `
 {
+  "cache": undefined,
+  "devtool": undefined,
   "entry": {
     "main": [
       "src/main.ts",
@@ -67,11 +75,14 @@ exports[`plugins/html > should allow to set inject by html.inject option 1`] = `
       },
     },
   ],
+  "target": undefined,
 }
 `;
 
 exports[`plugins/html > should enable minify in production 1`] = `
 {
+  "cache": undefined,
+  "devtool": undefined,
   "entry": {
     "main": [
       "src/main.ts",
@@ -101,11 +112,14 @@ exports[`plugins/html > should enable minify in production 1`] = `
       },
     },
   ],
+  "target": undefined,
 }
 `;
 
 exports[`plugins/html > should register html plugin correctly 1`] = `
 {
+  "cache": undefined,
+  "devtool": undefined,
   "entry": {
     "main": [
       "src/main.ts",
@@ -127,11 +141,14 @@ exports[`plugins/html > should register html plugin correctly 1`] = `
       },
     },
   ],
+  "target": undefined,
 }
 `;
 
 exports[`plugins/html > should support multi entry 1`] = `
 {
+  "cache": undefined,
+  "devtool": undefined,
   "entry": {
     "foo": [
       "src/foo.ts",
@@ -170,5 +187,6 @@ exports[`plugins/html > should support multi entry 1`] = `
       },
     },
   ],
+  "target": undefined,
 }
 `;

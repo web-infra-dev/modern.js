@@ -3,8 +3,8 @@ import {
   BuildCacheOptions,
   BuilderContext,
   isFileExists,
+  DefaultBuilderPlugin,
 } from '@modern-js/builder-shared';
-import type { BuilderPlugin } from '../types';
 
 async function validateCache(
   cacheDirectory: string,
@@ -42,14 +42,14 @@ function getCacheDirectory(
       ? cacheDirectory
       : join(context.rootPath, cacheDirectory);
   }
-  return join(context.cachePath, 'webpack');
+  return join(context.cachePath, context.bundlerType);
 }
 
-export const PluginCache = (): BuilderPlugin => ({
+export const PluginCache = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-cache',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { target, env }) => {
+    api.modifyBundlerChain(async (chain, { target, env }) => {
       const { buildCache } = api.getNormalizedConfig().performance;
 
       if (buildCache === false) {

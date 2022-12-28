@@ -36,6 +36,7 @@ export type Plugins = {
   devtool: PluginsFn;
   target: PluginsFn;
   entry: PluginsFn;
+  cache: PluginsFn;
 };
 
 /**
