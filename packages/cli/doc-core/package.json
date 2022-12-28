@@ -78,6 +78,7 @@
     "react-router-dom": "^6.4.4",
     "rehype-autolink-headings": "6.1.1",
     "rehype-slug": "^5.1.0",
+    "remark": "^14.0.2",
     "remark-admonitions": "^1.2.1",
     "remark-container": "^0.1.2",
     "remark-directive": "^2.0.1",
@@ -91,7 +92,8 @@
     "unist-util-visit": "^4.1.1",
     "unist-util-visit-children": "^2.0.1",
     "unocss": "^0.46.5",
-    "webpack-virtual-modules": "0.4.6"
+    "webpack-virtual-modules": "0.4.6",
+    "yaml-front-matter": "^4.1.1"
   },
   "peerDependencies": {
     "@modern-js/core": ">=2.0.0-beta.3",
@@ -111,6 +113,7 @@
     "@types/node": "^14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/yaml-front-matter": "^4.1.0",
     "husky": "^8",
     "lint-staged": "^11.2.6",
     "prettier": "^2.6.2",

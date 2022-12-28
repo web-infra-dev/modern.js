@@ -8,6 +8,7 @@ import type {
   BuilderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import sirv from 'sirv';
+import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { CLIENT_ENTRY, SSR_ENTRY, PACKAGE_ROOT, OUTPUT_DIR } from './constants';
 import { createMDXOptions } from './mdx';
 import { virtualModuleFactoryList } from './virtualModule';
@@ -27,9 +28,12 @@ async function createInternalBuildConfig(
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');
-  const virtualModulePlugins = await Promise.all(
-    virtualModuleFactoryList.map(factory => factory(userRoot, config, isSSR)),
-  );
+  // The order should be sync
+  const virtualModulePlugins: VirtualModulesPlugin[] = [];
+  for (const factory of virtualModuleFactoryList) {
+    virtualModulePlugins.push(await factory(userRoot, config, isSSR));
+  }
+
   const publicDir = path.join(userRoot, 'public');
   const isPublicDirExist = await fs.pathExists(publicDir);
   return {
