@@ -204,13 +204,13 @@ export class SwcWebpackPlugin {
 
     return Promise.all(
       assetsWithCache.map(async asset => {
-        const cached = await asset.cacheItem.getPromise<{
+        const cache = await asset.cacheItem.getPromise<{
           minifiedSource: InstanceType<
             typeof SourceMapSource | typeof RawSource
           >;
         }>();
 
-        let minifiedSource = cached ? cached.minifiedSource : null;
+        let minifiedSource = cache ? cache.minifiedSource : null;
 
         if (!minifiedSource) {
           const { source, map } = asset.source.sourceAndMap();
