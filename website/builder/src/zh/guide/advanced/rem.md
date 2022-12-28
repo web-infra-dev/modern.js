@@ -94,3 +94,12 @@ export default {
   },
 };
 ```
+
+## 如何判断 REM 是否生效？
+
+1. CSS：查看生成的 `.css` 文件中对应属性的值是否从 px 转换成 rem。
+2. HTML：打开页面控制台查看 `document.documentElement.style.fontSize` 是否存在有效值。
+
+## 如何获取页面实际生效的 rootFontSize 值？
+
+页面实际生效的 rootFontSize 会根据当前页面的情况动态计算。 可通过打印 `document.documentElement.style.fontSize` 查看，也可通过 `window.ROOT_FONT_SIZE` 获取。
