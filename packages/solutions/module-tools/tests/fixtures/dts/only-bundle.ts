@@ -6,6 +6,6 @@ export default defineConfig({
     dts: {
       only: true,
     },
-    outdir: './dist/only-bundle',
+    outDir: './dist/only-bundle',
   },
 });

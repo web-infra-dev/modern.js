@@ -15,10 +15,20 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "runtime": "automatic",
     },
   },
+  "cache": {
+    "buildDependencies": [
+      "<ROOT>/package.json",
+      "<ROOT>/tsconfig.json",
+    ],
+    "cacheDirectory": "<ROOT>/node_modules/.cache/rspack",
+    "name": "web-development",
+    "type": "filesystem",
+  },
   "context": "<ROOT>",
   "devServer": {
     "hot": true,
   },
+  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -155,6 +165,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": undefined,
 }
 `;
 
@@ -173,10 +184,20 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "runtime": "automatic",
     },
   },
+  "cache": {
+    "buildDependencies": [
+      "<ROOT>/package.json",
+      "<ROOT>/tsconfig.json",
+    ],
+    "cacheDirectory": "<ROOT>/node_modules/.cache/rspack",
+    "name": "web-production",
+    "type": "filesystem",
+  },
   "context": "<ROOT>",
   "devServer": {
     "hot": false,
   },
+  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -313,6 +334,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": undefined,
 }
 `;
 
@@ -331,10 +353,20 @@ exports[`tools.rspack > should match snapshot 1`] = `
       "runtime": "automatic",
     },
   },
+  "cache": {
+    "buildDependencies": [
+      "<ROOT>/package.json",
+      "<ROOT>/tsconfig.json",
+    ],
+    "cacheDirectory": "<ROOT>/node_modules/.cache/rspack",
+    "name": "web-development",
+    "type": "filesystem",
+  },
   "context": "<ROOT>",
   "devServer": {
     "hot": true,
   },
+  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -484,5 +516,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": undefined,
 }
 `;

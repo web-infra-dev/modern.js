@@ -123,7 +123,7 @@ export const buildLib = async (
     buildType,
     sourceMap,
     format,
-    outdir: distPath,
+    outDir: distPath,
     asset,
     jsx,
     input,

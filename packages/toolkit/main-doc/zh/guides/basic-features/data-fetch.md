@@ -239,6 +239,7 @@ export default function UserLayout() {
 .
 └── routes
     ├── layout.tsx
+    ├── loading.tsx
     └── user
         ├── layout.tsx
         └── page.ts

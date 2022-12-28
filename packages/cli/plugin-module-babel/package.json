@@ -21,7 +21,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/libuild-plugin-babel-preset": "0.4.0"
+    "@modern-js/libuild-plugin-babel": "0.7.1"
   },
   "devDependencies": {
     "@types/jest": "^27",

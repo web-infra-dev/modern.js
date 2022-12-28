@@ -8,7 +8,7 @@ export const runPatterns = async (
   options: {
     appDirectory: string;
     enableCopySync?: boolean;
-    outdir: string;
+    outDir: string;
     defaultContext: string;
   },
 ) => {
@@ -122,7 +122,7 @@ export const runPatterns = async (
 
     const absoluteTo = path.isAbsolute(filename)
       ? filename
-      : path.join(options.outdir, filename);
+      : path.join(options.outDir, filename);
     if (enableCopySync) {
       fs.copySync(absoluteFrom, absoluteTo);
     } else {
@@ -152,7 +152,7 @@ export const copyTask = async (
         await runPatterns(copyOption, {
           ...options,
           enableCopySync: copyConfig.options?.enableCopySync,
-          outdir: buildConfig.outdir,
+          outDir: buildConfig.outDir,
           defaultContext: buildConfig.sourceDir,
         });
       },
