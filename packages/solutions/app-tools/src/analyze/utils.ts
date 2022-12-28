@@ -90,7 +90,7 @@ export const getDefaultImports = ({
      *  entries: {
      *      main: {
      *         entry: 'src/index.tsx',
-     *         customBootstrap: 'src/bootstrap.tsx'
+     *         customBootstrap: 'src/index.tsx'
      *      }
      *  }
      * }
