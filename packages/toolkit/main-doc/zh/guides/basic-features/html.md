@@ -3,9 +3,9 @@ title: HTML 模板
 sidebar_position: 9
 ---
 
-Modern.js 提供了 **JSX 模板**和**传统模板**两种方式用于自定义 HTML 模板。
+Modern.js 提供了 **JSX 语法**和**HTML(Ejs) 语法**两种方式用于自定义 HTML 模板。
 
-## JSX 模板
+## JSX 语法
 
 Modern.js 约定，在 `src/` 目录下，或在入口目录下，可以创建 `Document.[jt]sx` 并默认导出组件。该组件的渲染结果可以作为入口的 HTML 模板。
 
@@ -141,11 +141,11 @@ export default function Document(): React.ReactElement {
 </html>
 ```
 
-## 传统模板
+## Html 语法
 
-Modern.js 也支持传统的 HTML 模板。默认情况下，Modern.js 的应用工程中会内置一份 HTML 模板，用于生成 HTML 代码。
+Modern.js 也支持 HTML 语法。默认情况下，Modern.js 的应用工程中会内置一份 HTML 模板，用于生成 HTML 代码。
 
-基于传统的 HTML 模板，Modern.js 提供了 **自定义 HTML 片段**和**完全自定义 HTML 模板**两种方式来自定义模板。
+基于 HTML 语法的模板，Modern.js 提供了 **自定义 HTML 片段**和**完全自定义 HTML 模板**两种方式来自定义模板。
 
 ### 自定义 HTML 片段
 

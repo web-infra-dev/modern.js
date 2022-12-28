@@ -1,0 +1,11 @@
+.social-links-icon {
+  width: 20px;
+  height: 100%;
+  display: flex;
+  fill: currentColor;
+  color: var(--modern-c-text-2);
+
+  &:hover {
+    color: var(--modern-c-text-1);
+  }
+}

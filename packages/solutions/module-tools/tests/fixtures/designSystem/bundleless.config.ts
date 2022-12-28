@@ -8,6 +8,6 @@ export default defineConfig({
   },
   buildConfig: {
     buildType: 'bundleless',
-    outdir: './dist/bundleless',
+    outDir: './dist/bundleless',
   },
 });

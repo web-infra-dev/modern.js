@@ -1,0 +1,39 @@
+.localNav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--modern-c-divider-light);
+  width: 100%;
+  color: var(--modern-c-text-1);
+  transition: border-color 0.5s, background-color 0.5s, color 0.5s;
+  background-color: var(--modern-c-bg);
+  padding-left: 10px;
+  .menu {
+    padding: 12px;
+    transition: color 0.5s;
+    &:hover {
+      color: var(--modern-c-text-3);
+    }
+  }
+}
+@media (min-width: 960px) {
+  .localNav {
+    display: none;
+  }
+  .backDrop {
+    display: none;
+  }
+}
+.backDrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--modern-z-index-backdrop);
+  background: rgba(0, 0, 0, 0.6);
+}

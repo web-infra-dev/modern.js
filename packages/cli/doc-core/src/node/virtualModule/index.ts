@@ -6,6 +6,7 @@ import { createSiteDataVirtualModulePlugin } from './siteData';
 type VirtualModuleFactory = (
   userRoot: string,
   config: UserConfig,
+  isSSR: boolean,
 ) => VirtualModulesPlugin | Promise<VirtualModulesPlugin>;
 
 export const virtualModuleFactoryList: VirtualModuleFactory[] = [

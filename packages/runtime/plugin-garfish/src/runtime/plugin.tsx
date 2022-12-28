@@ -115,7 +115,7 @@ export default (config: Config): Plugin => ({
             logger('GarfishProvider state', this.state);
             return (
               <GarfishProvider value={this.state}>
-                <App {...this.props} {...this.state} />
+                <App {...this.props} />
               </GarfishProvider>
             );
           }

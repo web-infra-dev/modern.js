@@ -15,5 +15,6 @@ env \
   NODE_OPTIONS=--max_old_space_size=16384 \
   TIMING=1 \
   npx eslint \
+  --quiet \
   --format codeframe \
   $(git diff --diff-filter=ACM ${TARGET_BRANCH}... --name-only | grep -E '\.(js|jsx|ts|tsx|mjs|mjsx|cjs|cjsx)$')

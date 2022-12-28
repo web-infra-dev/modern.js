@@ -7,7 +7,7 @@ export type { CliPlugin };
 export default (): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
-    const { dev } = await import('@modern-js/doc-core');
+    const { dev, build } = await import('@modern-js/doc-core');
     return {
       validateSchema: () => {
         return schema;
@@ -16,9 +16,17 @@ export default (): CliPlugin => ({
         program
           .command('dev [root]')
           .description('start dev server')
-          .action(async (root: string) => {
+          .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
-            await dev(root, config);
+            await dev(root || '', config);
+          });
+
+        program
+          .command('build [root]')
+          .description('build in production')
+          .action(async (root?: string) => {
+            const config = api.useConfigContext() as UserConfig;
+            await build(root || '', config);
           });
       },
     };

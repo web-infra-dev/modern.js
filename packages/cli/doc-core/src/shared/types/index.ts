@@ -2,12 +2,18 @@ import type { ComponentType } from 'react';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { PluginConfig } from '@modern-js/core';
 import type { PluggableList } from 'unified';
-import { DefaultTheme } from './default-theme';
+import { Config as DefaultThemeConfig } from './default-theme';
 import { DocPlugin } from './Plugin';
 
-export { DefaultTheme } from './default-theme';
+export { DefaultThemeConfig };
+export * from './default-theme';
 
 export { DocPlugin };
+
+export interface ReplaceRule {
+  search: string | RegExp;
+  replace: string;
+}
 
 export interface Header {
   id: string;
@@ -22,11 +28,15 @@ export interface SiteSiteData {
   headers: Header[];
 }
 
-export type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string];
-
-export interface DocConfig<ThemeConfig = DefaultTheme.Config> {
+export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
+  /**
+   * The root directory of the site.
+   */
+  root?: string;
+  /**
+   * Path to the logo file in nav bar.
+   */
+  logo?: string;
   /**
    * Base path of the site.
    */
@@ -36,6 +46,10 @@ export interface DocConfig<ThemeConfig = DefaultTheme.Config> {
    */
   icon?: string;
   /**
+   * Language of the site.
+   */
+  lang?: string;
+  /**
    * Title of the site.
    */
   title?: string;
@@ -43,10 +57,6 @@ export interface DocConfig<ThemeConfig = DefaultTheme.Config> {
    * Description of the site.
    */
   description?: string;
-  /**
-   * Custom head config.
-   */
-  head?: HeadConfig[];
   /**
    * Theme config.
    */
@@ -67,6 +77,14 @@ export interface DocConfig<ThemeConfig = DefaultTheme.Config> {
    * Doc plugins
    */
   plugins?: DocPlugin[];
+  /**
+   * Replace rule
+   */
+  replaceRules?: ReplaceRule[];
+  /**
+   * Output directory
+   */
+  outDir?: string;
 }
 
 export interface SiteData<ThemeConfig = unknown> {
@@ -76,9 +94,8 @@ export interface SiteData<ThemeConfig = unknown> {
   title: string;
   description: string;
   icon: string;
-  head: HeadConfig[];
   themeConfig: ThemeConfig;
-  appearance: boolean;
+  logo: string;
 }
 
 export interface Hero {
@@ -109,12 +126,12 @@ export interface PageModule<T extends ComponentType<unknown>> {
   [key: string]: unknown;
 }
 
-export type PageType = 'home' | 'doc' | 'api' | 'custom' | '404';
+export type PageType = 'home' | 'doc' | 'custom' | '404';
 
 export interface FrontMatterMeta {
   title: string;
   description: string;
-  api: boolean;
+  overview: boolean;
   pageType: PageType;
   features?: Feature[];
   hero?: Hero;
@@ -124,7 +141,7 @@ export interface FrontMatterMeta {
 }
 
 export interface PageData {
-  siteData: SiteData<DefaultTheme.Config>;
+  siteData: SiteData<DefaultThemeConfig>;
   pagePath: string;
   relativePagePath: string;
   lastUpdatedTime?: string;
@@ -177,7 +194,3 @@ export type Config =
   | UserConfig
   | Promise<UserConfig>
   | ((env: any) => UserConfig | Promise<UserConfig>);
-
-export function defineConfig(config: Config): Config {
-  return config;
-}

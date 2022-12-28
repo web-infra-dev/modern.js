@@ -3,6 +3,8 @@ sidebar_position: 3
 title: 运行时框架
 ---
 
+Modern.js 的 BFF 支持不同的运行时框架，当前 Modern.js 的 BFF 支持两种运行时框架 [Express.js](https://expressjs.com/) 和 [Koa.js](https://koajs.com/)。
+
 ## 函数写法
 
 在函数写法下，各类运行时框架仅中间件写法存在差异，其他实现基本相同。这里以 Express 为例，介绍如何在 `api/_app.ts` 中，手写一个中间件，添加权限校验：
