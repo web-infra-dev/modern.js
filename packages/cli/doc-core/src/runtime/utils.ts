@@ -26,10 +26,20 @@ export function normalizeHref(url?: string) {
   if (!url) {
     return '/';
   }
-  if (!isProduction() || url.startsWith('http')) {
-    return url.replace(/index$/, '');
+  let cleanUrl = url;
+  if (!cleanUrl.endsWith('.html')) {
+    if (cleanUrl.endsWith('/')) {
+      cleanUrl += 'index.html';
+    } else {
+      cleanUrl += '.html';
+    }
   }
-  return addLeadingSlash(url);
+
+  return addLeadingSlash(cleanUrl);
+}
+
+export function normalizeRoutePath(routePath: string) {
+  return routePath.replace(/\.html$/, '').replace(/\/index$/, '/');
 }
 
 export { addLeadingSlash, removeTrailingSlash, normalizeSlash, isProduction };
