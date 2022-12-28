@@ -10,3 +10,8 @@ declare module '@modern-js/runtime' {
     masterApp?: Config;
   }
 }
+declare module '@modern-js/app-tools' {
+  interface RuntimeUserConfig {
+    masterApp?: Config;
+  }
+}
