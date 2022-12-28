@@ -1,14 +1,8 @@
 import { CliPlugin, ModuleTools } from '@modern-js/module-tools';
-import { babelPresetPlugin } from '@modern-js/libuild-plugin-babel-preset';
+import { babelPlugin } from '@modern-js/libuild-plugin-babel';
 
-export type Options = typeof babelPresetPlugin extends (
-  arg1: infer P1,
-  arg2: infer P2,
-) => void
-  ? {
-      internalPresetOptions?: P1;
-      babelTransformOptions?: P2;
-    }
+export type Options = typeof babelPlugin extends (arg1: infer P) => void
+  ? P
   : never;
 
 export const ModulePluginBabel = (
@@ -17,12 +11,7 @@ export const ModulePluginBabel = (
   name: 'babel-plugin',
   setup: () => ({
     modifyLibuild(config) {
-      config.plugins?.unshift(
-        babelPresetPlugin(
-          options?.internalPresetOptions,
-          options?.babelTransformOptions,
-        ),
-      );
+      config.plugins?.unshift(babelPlugin(options ?? {}));
       return config;
     },
   }),

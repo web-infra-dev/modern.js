@@ -27,7 +27,7 @@ export const createDefaultConfig = () =>
     },
     performance: {
       // profile: false,
-      // buildCache: true,
+      buildCache: true,
       printFileSize: true,
       // removeConsole: false,
       // removeMomentLocale: false,
