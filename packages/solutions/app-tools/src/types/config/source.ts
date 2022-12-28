@@ -7,6 +7,7 @@ export type Entry =
   | {
       entry: string;
       disableMount?: boolean;
+      customBootstrap?: string;
     };
 
 export type Entries = Record<string, Entry>;
