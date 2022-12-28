@@ -65,7 +65,7 @@ export default defineConfig({
 });
 ```
 
-`patterns.to` 用于指定复制文件的输出路径，默认情况下它的值为 [`buildConfig.outdir`](zh/api/build-config#outdir)对应的值。因此我们按照如下方式将 `src/index.html` 复制到 `dist` 目录下：
+`patterns.to` 用于指定复制文件的输出路径，默认情况下它的值为 [`buildConfig.outDir`](zh/api/build-config#outDir)对应的值。因此我们按照如下方式将 `src/index.html` 复制到 `dist` 目录下：
 
 ``` ts
 export default defineConfig({
@@ -81,7 +81,7 @@ export default defineConfig({
 
 当我们配置了 `patterns.to` 的时候：
 
-* 如果是相对路径，则该路径会相对于 `buildConfig.outdir` 计算出复制文件输出的绝对路径。
+* 如果是相对路径，则该路径会相对于 `buildConfig.outDir` 计算出复制文件输出的绝对路径。
 * 如果是绝对路径，则会直接使用该值。
 
 最后 `patterns.globOptions` 用于配置寻找复制文件 [globby](https://github.com/sindresorhus/globby) 对象，其配置可参考：
@@ -96,7 +96,7 @@ export default defineConfig({
 export default defineConfig({
   buildConfig: [
     {
-      outdir: 'dist',
+      outDir: 'dist',
       copy: {
         patterns: [
           /**
@@ -120,7 +120,7 @@ export default defineConfig({
 export default defineConfig({
   buildConfig: [
     {
-      outdir: 'dist',
+      outDir: 'dist',
       copy: {
         patterns: [
           /**
@@ -144,7 +144,7 @@ export default defineConfig({
 export default defineConfig({
   buildConfig: [
     {
-      outdir: 'dist',
+      outDir: 'dist',
       copy: {
         patterns: [
           /**
@@ -171,7 +171,7 @@ export default defineConfig({
 export default defineConfig({
   buildConfig: [
     {
-      outdir: 'dist',
+      outDir: 'dist',
       copy: {
         patterns: [
           /**
@@ -198,7 +198,7 @@ export default defineConfig({
 export default defineConfig({
   buildConfig: [
     {
-      outdir: 'dist',
+      outDir: 'dist',
       copy: {
         patterns: [
           /**

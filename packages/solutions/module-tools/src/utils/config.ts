@@ -89,7 +89,7 @@ export const mergeDefaultBaseConfig = async (
     target: pConfig.target ?? defaultConfig.target,
     sourceMap: pConfig.sourceMap ?? defaultConfig.sourceMap,
     copy: pConfig.copy ?? cloneDeep(defaultConfig.copy),
-    outdir: pConfig.outdir ?? defaultConfig.outdir,
+    outDir: pConfig.outDir ?? defaultConfig.outDir,
     dts: await getDtsConfig(pConfig.dts, defaultConfig.dts as DTSOptions),
     jsx: pConfig.jsx ?? defaultConfig.jsx,
     input: pConfig.input ?? cloneDeep(input),

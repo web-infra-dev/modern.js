@@ -6,7 +6,7 @@ export default defineConfig({
       buildType: 'bundle',
       format: 'umd',
       umdModuleName: () => 'Demo',
-      outdir: './dist',
+      outDir: './dist',
     },
   ],
 });
