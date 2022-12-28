@@ -22,3 +22,5 @@ export type ChainedConfig<Config, Utils = unknown> = ArrayOrNot<
 export type DeepReadonly<T> = keyof T extends never
   ? T
   : { readonly [k in keyof T]: DeepReadonly<T[k]> };
+
+export type FileFilterUtil = (items: ArrayOrNot<string | RegExp>) => void;

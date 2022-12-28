@@ -1,10 +1,10 @@
-import { isUseCssSourceMap, LESS_REGEX } from '@modern-js/builder-shared';
-import _ from '@modern-js/utils/lodash';
-import type {
-  BuilderPlugin,
+import {
+  isUseCssSourceMap,
+  LESS_REGEX,
   FileFilterUtil,
-  LessLoaderOptions,
-} from '../types';
+} from '@modern-js/builder-shared';
+import _ from '@modern-js/utils/lodash';
+import type { BuilderPlugin, LessLoaderOptions } from '../types';
 
 export type LessLoaderUtils = {
   addExcludes: FileFilterUtil;

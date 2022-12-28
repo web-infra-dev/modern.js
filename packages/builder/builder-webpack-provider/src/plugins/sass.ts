@@ -1,11 +1,11 @@
 import path from 'path';
 import { pathToFileURL } from 'url';
-import { isUseCssSourceMap, SASS_REGEX } from '@modern-js/builder-shared';
-import type {
-  BuilderPlugin,
+import {
+  isUseCssSourceMap,
+  SASS_REGEX,
   FileFilterUtil,
-  SassLoaderOptions,
-} from '../types';
+} from '@modern-js/builder-shared';
+import type { BuilderPlugin, SassLoaderOptions } from '../types';
 import _ from '@modern-js/utils/lodash';
 
 /** fix issue about dart2js: https://github.com/dart-lang/sdk/issues/27979 */

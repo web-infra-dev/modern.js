@@ -1,9 +1,5 @@
-import { z } from '@modern-js/builder-shared';
-import type {
-  FileFilterUtil,
-  InspectorPluginOptions,
-  ToolsConfig,
-} from '../../types';
+import { z, FileFilterUtil } from '@modern-js/builder-shared';
+import type { InspectorPluginOptions, ToolsConfig } from '../../types';
 
 export const FileFilterUtilSchema: z.ZodType<FileFilterUtil> = z.function(
   z.tuple([z.arrayOrNot(z.union([z.string(), z.instanceof(RegExp)]))]),

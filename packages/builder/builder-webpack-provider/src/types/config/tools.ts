@@ -3,6 +3,7 @@ import type {
   ArrayOrNot,
   ChainedConfig,
   SharedToolsConfig,
+  FileFilterUtil,
 } from '@modern-js/builder-shared';
 import type {
   ModifyWebpackChainUtils,
@@ -30,8 +31,6 @@ import type {
   WebpackConfig,
 } from '../thirdParty';
 import type { NormalizedCSSExtractOptions } from '../thirdParty/css';
-
-export type FileFilterUtil = (items: ArrayOrNot<string | RegExp>) => void;
 
 export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
 
