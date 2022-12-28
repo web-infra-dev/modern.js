@@ -19,6 +19,7 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     import('../plugins/define').then(m => m.PluginDefine()),
     import('../plugins/css').then(m => m.PluginCss()),
     import('../plugins/less').then(m => m.PluginLess()),
+    import('../plugins/sass').then(m => m.PluginSass()),
   ]);
 
 export const applyDefaultPlugins = (plugins: Plugins) =>

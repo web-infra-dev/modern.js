@@ -2,6 +2,7 @@ import { expect, describe, it } from 'vitest';
 import { createBuilder } from '../helper';
 import { PluginCss } from '@/plugins/css';
 import { PluginLess } from '@/plugins/less';
+import { PluginSass } from '@/plugins/sass';
 
 describe('plugins/css', () => {
   it('should override browserslist of autoprefixer when using output.overrideBrowserslist config', async () => {
@@ -118,6 +119,58 @@ describe('plugins/less', () => {
             lessOptions: {
               javascriptEnabled: false,
             },
+          },
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should add less-loader with excludes', async () => {
+    const builder = await createBuilder({
+      plugins: [PluginLess()],
+      builderConfig: {
+        tools: {
+          less(config, { addExcludes }) {
+            addExcludes(/node_modules/);
+          },
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+});
+
+describe('plugins/sass', () => {
+  it('should add sass-loader', async () => {
+    const builder = await createBuilder({
+      plugins: [PluginSass()],
+      builderConfig: {
+        tools: {},
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should add sass-loader with excludes', async () => {
+    const builder = await createBuilder({
+      plugins: [PluginSass()],
+      builderConfig: {
+        tools: {
+          sass(config, { addExcludes }) {
+            addExcludes(/node_modules/);
           },
         },
       },

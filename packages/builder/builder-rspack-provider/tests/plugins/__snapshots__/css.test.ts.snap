@@ -63,6 +63,81 @@ exports[`plugins/less > should add less-loader 1`] = `
   "module": {
     "rules": [
       {
+        "exclude": [],
+        "name": "less",
+        "test": /\\\\\\.less\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": [Function],
+            "name": "less",
+            "options": {
+              "implementation": "<ROOT>/compiled/less",
+              "lessOptions": {
+                "javascriptEnabled": true,
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "target": undefined,
+}
+`;
+
+exports[`plugins/less > should add less-loader with excludes 1`] = `
+{
+  "cache": undefined,
+  "devtool": undefined,
+  "module": {
+    "rules": [
+      {
+        "exclude": [
+          /node_modules/,
+        ],
         "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
@@ -134,6 +209,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
   "module": {
     "rules": [
       {
+        "exclude": [],
         "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
@@ -187,6 +263,146 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
               "lessOptions": {
                 "javascriptEnabled": false,
               },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "target": undefined,
+}
+`;
+
+exports[`plugins/sass > should add sass-loader 1`] = `
+{
+  "cache": undefined,
+  "devtool": undefined,
+  "module": {
+    "rules": [
+      {
+        "exclude": [],
+        "name": "sass",
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "builtinLoader": "sass-loader",
+            "name": "sass",
+            "options": {
+              "rspackImporter": true,
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "target": undefined,
+}
+`;
+
+exports[`plugins/sass > should add sass-loader with excludes 1`] = `
+{
+  "cache": undefined,
+  "devtool": undefined,
+  "module": {
+    "rules": [
+      {
+        "exclude": [
+          /node_modules/,
+        ],
+        "name": "sass",
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "builtinLoader": "sass-loader",
+            "name": "sass",
+            "options": {
+              "rspackImporter": true,
               "sourceMap": true,
             },
           },

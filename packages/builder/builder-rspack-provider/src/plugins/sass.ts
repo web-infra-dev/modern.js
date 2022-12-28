@@ -1,38 +1,34 @@
-import type { BuilderPlugin } from '../types';
 import {
   isUseCssSourceMap,
-  LESS_REGEX,
-  setConfig,
+  SASS_REGEX,
   FileFilterUtil,
+  setConfig,
 } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
+import type { BuilderPlugin } from '../types';
 
-export function PluginLess(): BuilderPlugin {
+export function PluginSass(): BuilderPlugin {
   return {
-    name: 'builder-plugin-less',
+    name: 'builder-plugin-sass',
     setup(api) {
       api.modifyRspackConfig(async (rspackConfig, utils) => {
         const config = api.getNormalizedConfig();
         const { applyOptionsChain } = await import('@modern-js/utils');
         const { getCssLoaderUses } = await import('./css');
 
-        const getLessLoaderOptions = () => {
+        const getSassLoaderOptions = () => {
           const excludes: (RegExp | string)[] = [];
 
           const addExcludes: FileFilterUtil = items => {
             excludes.push(..._.castArray(items));
           };
 
-          const defaultLessLoaderOptions = {
-            lessOptions: {
-              javascriptEnabled: true,
-            },
-            sourceMap: isUseCssSourceMap(config),
-            implementation: utils.getCompiledPath('less'),
-          };
           const mergedOptions = applyOptionsChain(
-            defaultLessLoaderOptions,
-            config.tools.less,
+            {
+              sourceMap: isUseCssSourceMap(config),
+              rspackImporter: true,
+            },
+            config.tools.sass,
             { addExcludes },
           );
 
@@ -41,29 +37,26 @@ export function PluginLess(): BuilderPlugin {
             excludes,
           };
         };
+
         const cssLoaderUses = await getCssLoaderUses(
           config,
           api.context,
           utils,
         );
 
-        const { excludes, options } = getLessLoaderOptions();
-
-        const { default: lessLoader } = await import(
-          utils.getCompiledPath('@rspack/less-loader')
-        );
+        const { excludes, options } = getSassLoaderOptions();
 
         setConfig(rspackConfig, 'module.rules', [
           ...(rspackConfig.module?.rules || []),
           {
-            name: 'less',
-            test: LESS_REGEX,
+            name: 'sass',
+            test: SASS_REGEX,
             exclude: excludes,
             use: [
               ...cssLoaderUses,
               {
-                name: 'less',
-                loader: lessLoader,
+                name: 'sass',
+                builtinLoader: 'sass-loader',
                 options,
               },
             ],
