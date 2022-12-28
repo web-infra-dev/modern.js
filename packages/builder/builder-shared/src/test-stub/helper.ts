@@ -16,4 +16,5 @@ export const mockBuilderPlugins: Plugins = {
   target: genMockPlugin('builder-plugin-target'),
   devtool: genMockPlugin('builder-plugin-devtool'),
   entry: genMockPlugin('builder-plugin-entry'),
+  cache: genMockPlugin('builder-plugin-cache'),
 };

@@ -12,7 +12,10 @@ export const ZH_LOCALE = {
       no_clear: '不清理产物目录',
       config: '指定配置文件路径，可以为相对路径或绝对路径',
     },
-    dev: { describe: '本地开发命令' },
+    dev: {
+      describe: '本地开发命令',
+      tsconfig: '指定 tsconfig.json 文件的路径',
+    },
     new: {
       describe: '模块化工程方案中执行生成器',
       debug: '开启 Debug 模式，打印调试日志信息',

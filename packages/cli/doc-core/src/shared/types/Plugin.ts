@@ -1,5 +1,6 @@
 import { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { PluggableList } from 'unified';
+import { DocConfig } from '.';
 
 export interface DocPlugin {
   /**
@@ -29,4 +30,8 @@ export interface DocPlugin {
    * Inject global components.
    */
   globalUIComponents?: string[];
+  /**
+   * Modify doc config.
+   */
+  config: (config: DocConfig) => DocConfig | Promise<DocConfig>;
 }

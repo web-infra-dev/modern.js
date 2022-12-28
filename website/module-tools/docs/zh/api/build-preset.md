@@ -1,5 +1,5 @@
 # BuildPreset
-构建的预设字符串或者预设函数。提供开箱即用的构建配置
+构建的预设字符串或者预设函数。提供开箱即用的构建配置。
 
 - type: `string | Function`
 - default: `undefined`
@@ -7,7 +7,7 @@
 
 ## string
 
-字符串的形式可以让你直接使用内置的预设
+字符串的形式可以让你直接使用内置的预设。
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';

@@ -3,10 +3,7 @@ module.exports = {
     {
       buildType: 'bundle',
       sourceMap: false,
-      autoExternal: false,
-      alias: {
-        chalk: '@modern-js/utils/chalk',
-      },
+      autoExternal: true,
       dts: false,
     },
     {

@@ -3,9 +3,9 @@ title: HTML Template
 sidebar_position: 9
 ---
 
-Modern.js provides **JSX template** and **traditional template** for customizing HTML template.
+Modern.js provides **JSX syntax**  and **HTML(Ejs) syntax** for customizing HTML template.
 
-## JSX Template
+## JSX syntax
 
 Modern.js convention, in the `src/`, or in the entry directory, you can create `Document.[jt]sx` and export a component by default. The rendering result of this component can be used as an HTML template for the entry.
 
@@ -141,11 +141,11 @@ The above JSX component will generate the following HTML template:
 </html>
 ```
 
-## Traditional template
+## Html Synxtax
 
-Modern.js also supports traditional HTML templates. By default, an HTML template is built into Modern.js application project to generate HTML code.
+Modern.js also supports HTML syntax. By default, an HTML template is built into the Modern.js application project to generate HTML code.
 
-Based on traditional HTML templates, Modern.js provides **Custom HTML Fragments** and **Fully Custom HTML Templates** two ways to customize templates.
+Based on HTML syntax templates, Modern.js provides **Custom HTML Fragments** and **Fully Custom HTML Templates** two ways to customize templates.
 
 ### Custom HTML Fragments
 

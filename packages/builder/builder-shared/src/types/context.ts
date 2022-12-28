@@ -1,5 +1,7 @@
 import type { BuilderEntry, BuilderTarget } from './builder';
 
+export type BundlerType = 'webpack' | 'rspack';
+
 /** The public context */
 export type BuilderContext = {
   /** The entry points object. */
@@ -25,4 +27,5 @@ export type BuilderContext = {
     hostname: string;
     port: number;
   };
+  bundlerType: BundlerType;
 };

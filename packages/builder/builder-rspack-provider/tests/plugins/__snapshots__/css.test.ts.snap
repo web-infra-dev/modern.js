@@ -2,6 +2,8 @@
 
 exports[`plugins/css > should override browserslist of autoprefixer when using output.overrideBrowserslist config 1`] = `
 {
+  "cache": undefined,
+  "devtool": undefined,
   "module": {
     "rules": [
       {
@@ -50,11 +52,14 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
       },
     ],
   },
+  "target": undefined,
 }
 `;
 
 exports[`plugins/less > should add less-loader 1`] = `
 {
+  "cache": undefined,
+  "devtool": undefined,
   "module": {
     "rules": [
       {
@@ -118,11 +123,14 @@ exports[`plugins/less > should add less-loader 1`] = `
       },
     ],
   },
+  "target": undefined,
 }
 `;
 
 exports[`plugins/less > should add less-loader with tools.less 1`] = `
 {
+  "cache": undefined,
+  "devtool": undefined,
   "module": {
     "rules": [
       {
@@ -186,5 +194,6 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
       },
     ],
   },
+  "target": undefined,
 }
 `;
