@@ -8,7 +8,7 @@ export default defineConfig({
         '@src': './src',
       },
       buildType: 'bundleless',
-      outdir: './dist/bundleless/object',
+      outDir: './dist/bundleless/object',
     };
   },
 });

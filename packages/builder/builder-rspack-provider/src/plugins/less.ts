@@ -3,7 +3,9 @@ import {
   isUseCssSourceMap,
   LESS_REGEX,
   setConfig,
+  FileFilterUtil,
 } from '@modern-js/builder-shared';
+import _ from '@modern-js/utils/lodash';
 
 export function PluginLess(): BuilderPlugin {
   return {
@@ -15,28 +17,37 @@ export function PluginLess(): BuilderPlugin {
         const { getCssLoaderUses } = await import('./css');
 
         const getLessLoaderOptions = () => {
-          // todo: support addExcludes
+          const excludes: (RegExp | string)[] = [];
+
+          const addExcludes: FileFilterUtil = items => {
+            excludes.push(..._.castArray(items));
+          };
+
           const defaultLessLoaderOptions = {
-            lessOptions: { javascriptEnabled: true },
+            lessOptions: {
+              javascriptEnabled: true,
+            },
             sourceMap: isUseCssSourceMap(config),
             implementation: utils.getCompiledPath('less'),
           };
           const mergedOptions = applyOptionsChain(
             defaultLessLoaderOptions,
             config.tools.less,
-            {},
+            { addExcludes },
           );
 
-          return mergedOptions;
+          return {
+            options: mergedOptions,
+            excludes,
+          };
         };
-
         const cssLoaderUses = await getCssLoaderUses(
           config,
           api.context,
           utils,
         );
 
-        const lessLoaderOptions = getLessLoaderOptions();
+        const { excludes, options } = getLessLoaderOptions();
 
         const { default: lessLoader } = await import(
           utils.getCompiledPath('@rspack/less-loader')
@@ -47,12 +58,13 @@ export function PluginLess(): BuilderPlugin {
           {
             name: 'less',
             test: LESS_REGEX,
+            exclude: excludes,
             use: [
               ...cssLoaderUses,
               {
                 name: 'less',
                 loader: lessLoader,
-                options: lessLoaderOptions,
+                options,
               },
             ],
             type: 'css',

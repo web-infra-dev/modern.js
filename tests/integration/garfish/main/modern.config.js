@@ -1,4 +1,7 @@
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import GarfishPlugin from '@modern-js/plugin-garfish';
+import RouterPlugin from '@modern-js/plugin-router-v5';
+
 import { getPort, getPublicPath } from '../../../utils/testCase';
 
 const port = getPort('@cypress-test/garfish-main');
@@ -32,6 +35,9 @@ module.exports = defineConfig({
   },
   source: {
     enableAsyncEntry: true,
+    alias: {
+      '@modern-js/runtime/garfish': '@modern-js/plugin-garfish/runtime',
+    },
   },
   server: {
     port,
@@ -51,4 +57,5 @@ module.exports = defineConfig({
       // delete config.optimization?.splitChunks;
     },
   },
+  plugins: [AppToolsPlugin(), RouterPlugin(), GarfishPlugin()],
 });

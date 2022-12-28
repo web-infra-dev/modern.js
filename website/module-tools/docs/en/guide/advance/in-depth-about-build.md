@@ -48,7 +48,7 @@ export default defineConfig({
         input: {
             main: ['./src/index.ts'],
         },
-        outdir: './dist',
+        outDir: './dist',
     },
 });
 ```
@@ -130,7 +130,7 @@ export default defineConfig({
       tsconfigPath: './other-tsconfig.json',
       distPath: './types',
     },
-    outdir: './dist',
+    outDir: './dist',
   }
 });
 ```
@@ -145,14 +145,14 @@ export default defineConfig({
     {
       buildType: 'bundle',
       dts: false,
-      outdir: './dist',
+      outDir: './dist',
     },
     {
       buildType: 'bundleless',
       dts: {
         only: true,
       },
-      outdir: './dist/types',
+      outDir: './dist/types',
     }
   ]
 });
@@ -227,7 +227,7 @@ declare const YOUR_ADD_GLOBAL_VAR;
 
 When the `modern build` command is executed, the
 
-* Clear the products directory according to `buildConfig.outdir`.
+* Clear the products directory according to `buildConfig.outDir`.
 * Compile `js/ts` source code to generate the JS build product for Bundle/Bundleless.
 * Generate Bundle/Bundleless type files using `tsc`.
 * Handle Copy tasks.

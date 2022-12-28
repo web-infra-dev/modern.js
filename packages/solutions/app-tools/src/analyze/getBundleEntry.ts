@@ -75,6 +75,9 @@ export const getBundleEntry = (
               entryName: name,
               entry: ensureAbsolutePath(appDirectory, value.entry),
               isAutoMount: !value.disableMount,
+              customBootstrap:
+                value.customBootstrap &&
+                ensureAbsolutePath(appDirectory, value.customBootstrap),
               fileSystemRoutes: fs
                 .statSync(ensureAbsolutePath(appDirectory, value.entry))
                 .isDirectory()
@@ -102,6 +105,5 @@ export const getBundleEntry = (
     );
     found && (found.entryName = MAIN_ENTRY_NAME);
   }
-
   return defaults;
 };

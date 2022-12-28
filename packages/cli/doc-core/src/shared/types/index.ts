@@ -96,6 +96,15 @@ export interface SiteData<ThemeConfig = unknown> {
   icon: string;
   themeConfig: ThemeConfig;
   logo: string;
+  pages: PageBasicInfo[];
+}
+
+export interface PageBasicInfo {
+  routePath: string;
+  title: string;
+  toc: Header[];
+  frontmatter: Record<string, string | number>;
+  content: string;
 }
 
 export interface Hero {

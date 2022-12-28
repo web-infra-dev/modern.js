@@ -12,3 +12,18 @@ export interface LessLoaderOptions {
     | ((content: string, loaderContext: any) => string)
     | ((content: string, loaderContext: any) => Promise<string>);
 }
+
+// todo: get SassLoaderOptions from rspack
+export interface SassLoaderOptions {
+  sassOptions?: {
+    charset?: boolean;
+    indentedSyntax?: boolean;
+    indentWidth?: number;
+    includePaths?: string[];
+    quietDeps?: boolean;
+    verbose?: boolean;
+  };
+  sourceMap?: boolean;
+  additionalData?: string;
+  rspackImporter: boolean;
+}

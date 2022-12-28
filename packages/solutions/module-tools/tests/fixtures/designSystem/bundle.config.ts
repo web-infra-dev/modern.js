@@ -7,7 +7,7 @@ export default defineConfig({
     },
   },
   buildConfig: {
-    outdir: './dist/bundle',
+    outDir: './dist/bundle',
     buildType: 'bundle',
     input: ['./src/index.css'],
   },

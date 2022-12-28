@@ -6,6 +6,6 @@ export default defineConfig({
     input: ['./src/index.ts'],
     platform: 'node',
 
-    outdir: './dist/node',
+    outDir: './dist/node',
   },
 });

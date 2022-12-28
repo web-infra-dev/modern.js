@@ -1,6 +1,7 @@
 import type {
   ChainedConfig,
   SharedToolsConfig,
+  FileFilterUtil,
 } from '@modern-js/builder-shared';
 import type { Options as HTMLPluginOptions } from '@rspack/plugin-html';
 import type {
@@ -8,6 +9,7 @@ import type {
   PostCSSLoaderOptions,
   PostCSSPlugin,
   LessLoaderOptions,
+  SassLoaderOptions,
 } from '../thirdParty';
 import type { RspackConfig } from '../rspack';
 import type { ModifyRspackConfigUtils } from '../hooks';
@@ -31,13 +33,17 @@ type ToolsHtmlPluginConfig = ChainedConfig<
 
 export type ToolsLessConfig = ChainedConfig<
   LessLoaderOptions,
-  void
-  // { addExcludes: (excludes: RegExp | RegExp[]) => void }
+  { addExcludes: FileFilterUtil }
 >;
 
 export type ToolsRspackConfig = ChainedConfig<
   RspackConfig,
   ModifyRspackConfigUtils
+>;
+
+export type ToolsSassConfig = ChainedConfig<
+  SassLoaderOptions,
+  { addExcludes: FileFilterUtil }
 >;
 
 // TODO: add more configs
@@ -47,6 +53,7 @@ export interface ToolsConfig extends SharedToolsConfig {
   postcss?: ToolsPostCSSLoaderConfig;
   rspack?: ToolsRspackConfig;
   less?: ToolsLessConfig;
+  sass?: ToolsSassConfig;
 }
 
 export type NormalizedToolsConfig = ToolsConfig;

@@ -6,7 +6,13 @@ import {
   BrowserHistoryBuildOptions,
   HashHistoryBuildOptions,
 } from 'history';
-import { Router, StaticRouter, RouteProps } from 'react-router-dom';
+import {
+  Router,
+  StaticRouter,
+  RouteProps,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
 import type { Plugin } from '@modern-js/runtime';
@@ -74,6 +80,13 @@ export const routerPlugin = ({
     name: '@modern-js/plugin-router',
     setup: () => {
       return {
+        init({ context }, next) {
+          context.router = {
+            useRouteMatch,
+            useLocation,
+          };
+          return next({ context });
+        },
         hoc: ({ App }, next) => {
           const getRouteApp = () => {
             if (isBrow) {
