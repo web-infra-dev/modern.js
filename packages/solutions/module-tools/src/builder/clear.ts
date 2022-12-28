@@ -10,6 +10,6 @@ export const clearBuildConfigPaths = async (configs: BaseBuildConfig[]) => {
   const { fs } = await import('@modern-js/utils');
 
   for (const config of configs) {
-    await fs.remove(config.outdir);
+    await fs.remove(config.outDir);
   }
 };

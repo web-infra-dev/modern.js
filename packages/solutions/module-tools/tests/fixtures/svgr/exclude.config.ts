@@ -4,7 +4,7 @@ export default defineConfig({
   buildConfig: {
     target: 'es2021',
     buildType: 'bundle',
-    outdir: './dist/exclude',
+    outDir: './dist/exclude',
     asset: {
       svgr: {
         exclude: [/logo/],

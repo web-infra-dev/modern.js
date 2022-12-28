@@ -97,9 +97,9 @@ export const transformToAbsPath = async (
   const { normalizeInput } = await import('../utils/input');
   const { context } = options;
 
-  newConfig.outdir = path.isAbsolute(newConfig.outdir)
-    ? newConfig.outdir
-    : path.join(context.appDirectory, newConfig.outdir);
+  newConfig.outDir = path.isAbsolute(newConfig.outDir)
+    ? newConfig.outDir
+    : path.join(context.appDirectory, newConfig.outDir);
 
   newConfig.sourceDir = slash(
     path.resolve(context.appDirectory, baseConfig.sourceDir),
@@ -111,7 +111,7 @@ export const transformToAbsPath = async (
   // dts path
   if (newConfig.dts) {
     newConfig.dts.distPath = path.join(
-      newConfig.outdir,
+      newConfig.outDir,
       newConfig.dts.distPath,
     );
     newConfig.dts.tsconfigPath = path.join(

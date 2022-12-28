@@ -7,7 +7,7 @@ export default defineConfig({
       define: {
         VERSION: '1.0.1',
       },
-      outdir: './dist/bundle',
+      outDir: './dist/bundle',
       buildType: 'bundle',
       dts: false,
     };

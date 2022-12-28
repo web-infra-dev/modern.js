@@ -83,7 +83,7 @@ export type PartialBaseBuildConfig = {
   copy?: CopyConfig;
   asset?: Asset;
   jsx?: JSX;
-  outdir?: string;
+  outDir?: string;
   alias?: AliasOption;
   input?: Input;
   platform?: LibuildUserConfig['platform'];

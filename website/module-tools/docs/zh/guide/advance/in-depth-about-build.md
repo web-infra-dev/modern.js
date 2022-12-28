@@ -48,7 +48,7 @@ export default defineConfig({
         input: {
             main: ['./src/index.ts'],
         },
-        outdir: './dist',
+        outDir: './dist',
     },
 });
 ```
@@ -130,7 +130,7 @@ export default defineConfig({
       tsconfigPath: './other-tsconfig.json',
       distPath: './types',
     },
-    outdir: './dist',
+    outDir: './dist',
   }
 });
 ```
@@ -146,14 +146,14 @@ export default defineConfig({
     {
       buildType: 'bundle',
       dts: false,
-      outdir: './dist',
+      outDir: './dist',
     },
     {
       buildType: 'bundleless',
       dts: {
         only: true,
       },
-      outdir: './dist/types',
+      outDir: './dist/types',
     }
   ]
 });
@@ -229,7 +229,7 @@ declare const YOUR_ADD_GLOBAL_VAR;
 
 当执行 `modern build` 命令的时候，会发生
 
-* 根据 `buildConfig.outdir` 清理产物目录。
+* 根据 `buildConfig.outDir` 清理产物目录。
 * 编译 `js/ts` 源代码生成 Bundle/Bundleless 的 JS 构建产物。
 * 使用 `tsc` 生成 Bundle/Bundleless 的类型文件。
 * 处理 Copy 任务。
