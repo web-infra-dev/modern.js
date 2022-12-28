@@ -53,6 +53,7 @@ export const getDefaultImports = ({
     },
     customBootstrap && {
       specifiers: [{ local: 'customBootstrap' }],
+      initialize: 'const App = false;',
       value: normalizeToPosixPath(
         customBootstrap.replace(srcDirectory, internalSrcAlias),
       ),
@@ -81,20 +82,19 @@ export const getDefaultImports = ({
     }
 
     imports.push(route);
-  } else if (customBootstrap) {
-    const route: ImportStatement = {
-      specifiers: [{ imported: 'routes' }],
-      value: normalizeToPosixPath(
-        `${internalDirAlias}/${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME.replace(
-          '.js',
-          '',
-        )}`,
-      ),
-    };
-    route.initialize = 'const App = false;';
-
-    imports.push(route);
-  } else {
+  } else if (!customBootstrap) {
+    /**
+     * When customBootstrap is configured, it is need to use customBootstrap
+     * example:
+     * source: {
+     *  entries: {
+     *      main: {
+     *         entry: 'src/index.tsx',
+     *         customBootstrap: 'src/bootstrap.tsx'
+     *      }
+     *  }
+     * }
+     */
     imports.push({
       specifiers: [{ local: 'App' }],
       value: normalizeToPosixPath(
