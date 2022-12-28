@@ -56,6 +56,7 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern-lib new",
     "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "build:watch": "rm -rf ./dist && modern build --watch",
     "test": "jest --passWithNoTests"
   },
@@ -80,8 +81,8 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/plugin-router-v5": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-router-v5": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
