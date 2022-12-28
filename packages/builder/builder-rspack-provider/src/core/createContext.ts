@@ -22,6 +22,7 @@ export async function createContext(
   const context = createContextByConfig(
     options,
     builderConfig.output as NormalizedSharedOutputConfig,
+    'rspack',
   );
   const configValidatingTask = Promise.resolve();
   // TODO: validator

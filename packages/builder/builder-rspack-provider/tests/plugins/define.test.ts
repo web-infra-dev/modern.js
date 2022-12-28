@@ -35,6 +35,9 @@ describe('plugins/define', () => {
             "window.baz": "[null,\\"baz\\"]",
           },
         },
+        "cache": undefined,
+        "devtool": undefined,
+        "target": undefined,
       }
     `);
   });

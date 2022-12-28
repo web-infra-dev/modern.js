@@ -1,0 +1,14 @@
+.backDrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--modern-z-index-backdrop);
+  background: rgba(0, 0, 0, 0.6);
+}
+@media (min-width: 960px) {
+  .backDrop {
+    display: none;
+  }
+}

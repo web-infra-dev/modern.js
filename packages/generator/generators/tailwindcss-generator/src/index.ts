@@ -18,15 +18,15 @@ export const handleTemplateFile = async (
   appApi: AppAPI,
 ) => {
   const { dependencies, peerDependencies, devDependencies } = context.config;
-  const TailwindCSSVersion = '~2.2.19';
+  const tailwindVersion = '~3.2.4';
   if (dependencies?.tailwindcss) {
-    dependencies.tailwindcss = TailwindCSSVersion;
+    dependencies.tailwindcss = tailwindVersion;
   }
   if (peerDependencies?.tailwindcss) {
-    peerDependencies.tailwindcss = TailwindCSSVersion;
+    peerDependencies.tailwindcss = tailwindVersion;
   }
   if (devDependencies?.tailwindcss) {
-    devDependencies.tailwindcss = TailwindCSSVersion;
+    devDependencies.tailwindcss = tailwindVersion;
   }
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),

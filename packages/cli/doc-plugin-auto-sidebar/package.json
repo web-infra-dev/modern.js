@@ -1,0 +1,70 @@
+{
+  "name": "@modern-js/doc-plugin-auto-sidebar",
+  "version": "2.0.0-beta.6",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/node/index.js",
+  "jsnext:modern": "./dist/modern/node/index.js",
+  "scripts": {
+    "prepare": "modern-lib build",
+    "dev": "modern-lib dev",
+    "build": "modern-lib build",
+    "reset": "rimraf ./**/node_modules",
+    "lint": "modern-lib lint",
+    "change": "modern-lib change",
+    "bump": "modern-lib bump",
+    "pre": "modern-lib pre",
+    "change-status": "modern-lib change-status",
+    "gen-release-note": "modern-lib gen-release-note",
+    "release": "modern-lib release",
+    "new": "modern-lib new",
+    "test": "vitest run --passWithNoTests",
+    "upgrade": "modern-lib upgrade"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "peerDependencies": {
+    "@modern-js/doc-tools": ">=2.0.0-beta.4",
+    "react": ">=17"
+  },
+  "devDependencies": {
+    "@modern-js/doc-core": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "^18.11.17",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/yaml-front-matter": "^4.1.0",
+    "husky": "^8",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.6.2",
+    "typescript": "^4.8.4",
+    "vitest": "0.21.1",
+    "yaml-front-matter": "^4.1.1"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.less",
+    "*.sass",
+    "*.scss"
+  ],
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@modern-js/utils": "2.0.0-beta.4",
+    "lodash-es": "^4.17.21"
+  }
+}

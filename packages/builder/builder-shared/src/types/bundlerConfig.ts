@@ -17,13 +17,13 @@ export type BundlerConfig = {
   //   infrastructureLogging?: InfrastructureLogging;
   //   stats?: StatsOptions;
   //   snapshot?: Snapshot;
-  //   cache?: Cache;
+  cache?: Configuration['cache'];
   //   optimization?: Optimization;
   //   experiments?: RawExperiments;
 };
 
 export interface BundlerChain
-  extends Pick<Config, 'devtool' | 'target' | 'name' | 'merge'> {
+  extends Pick<Config, 'devtool' | 'target' | 'name' | 'merge' | 'cache'> {
   toConfig: () => BundlerConfig;
   /** only support add string | string[] */
   entry: Config['entry'];

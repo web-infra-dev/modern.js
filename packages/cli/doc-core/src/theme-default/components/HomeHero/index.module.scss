@@ -1,0 +1,6 @@
+.clip {
+  background: var(--modern-home-hero-name-background);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: var(--modern-home-hero-name-color);
+}

@@ -1,0 +1,22 @@
+.tab {
+  color: var(--modern-c-text-2);
+  border-bottom: 2px solid transparent;
+  box-sizing: border-box;
+  margin-right: 10px;
+  padding: 4px;
+  transition: colors 0.2s;
+  margin-bottom: -1px;
+  user-select: none;
+  transition: all 0.25s ease-in-out;
+}
+
+.not-selected:hover {
+  color: var(--modern-c-text-1);
+  border-color: var(--modern-c-gray-light-2);
+  border-radius: 2px;
+}
+
+.selected {
+  color: var(--modern-c-brand);
+  border-color: var(--modern-c-brand);
+}

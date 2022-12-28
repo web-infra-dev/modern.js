@@ -12,7 +12,10 @@ export const EN_LOCALE = {
       no_clear: 'disable auto clear dist dir',
       config: 'specify config file',
     },
-    dev: { describe: 'start dev server' },
+    dev: {
+      describe: 'start dev server',
+      tsconfig: 'Specify a path to the tsconfig.json file',
+    },
     new: {
       describe: 'generator runner for modern project',
       debug: 'using debug mode to log something',

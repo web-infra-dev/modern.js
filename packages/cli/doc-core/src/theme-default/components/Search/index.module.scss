@@ -1,0 +1,17 @@
+.searchInput {
+  width: 8.6rem;
+  transition: width 0.3s;
+}
+@media (max-width: 768px) {
+  .searchCommand {
+    display: none;
+  }
+  .searchInput {
+    width: 0;
+    padding: 0;
+  }
+  .searchInput.focus {
+    width: 8.6rem;
+    padding: 0 0.5rem;
+  }
+}
