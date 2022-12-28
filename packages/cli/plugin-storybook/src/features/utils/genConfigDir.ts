@@ -2,6 +2,7 @@ import path from 'path';
 import type { ModuleNormalizedConfig } from '@modern-js/module-tools';
 import { Import, fs, glob, logger } from '@modern-js/utils';
 import { transformSync } from 'esbuild';
+import type { PluginOptions } from '../../types';
 
 const constants: typeof import('../constants') = Import.lazy(
   '../constants',
@@ -33,6 +34,7 @@ export const getConfigDir = (appDir: string) => {
 
 export const generateConfig = async (
   appDirectory: string,
+  pluginOption: PluginOptions,
   customOptions: Partial<GenerateOptions> = {},
 ) => {
   const options = { ...defaultOptions, ...customOptions };
@@ -59,6 +61,7 @@ export const generateConfig = async (
 
   await genPreviewFile(
     appDirectory,
+    pluginOption,
     modernConfig as ModuleNormalizedConfig,
     configDir,
   );
@@ -71,6 +74,7 @@ const getUserPreviewFiles = (filename: string) =>
 
 const genPreviewFile = async (
   appDirectory: string,
+  pluginOption: PluginOptions,
   modernConfig: ModuleNormalizedConfig,
   configDir: string,
 ) => {
@@ -78,9 +82,7 @@ const genPreviewFile = async (
   const userPreviewFiles = getUserPreviewFiles(previewPath);
   const existUserPreviewFile = userPreviewFiles.length > 0;
   let previewContent = gen.generatePreview({
-    runtime: process.env.STORY_RUNTIME_PARAM
-      ? JSON.parse(process.env.STORY_RUNTIME_PARAM)
-      : (modernConfig as any).runtime,
+    runtime: pluginOption.runtimeConfig ?? (modernConfig as any).runtime,
     designToken: {},
     userPreviewPath: existUserPreviewFile ? previewPath : undefined,
   });

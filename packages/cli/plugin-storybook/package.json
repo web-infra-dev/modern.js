@@ -87,7 +87,8 @@
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^2.0.0-beta.7",
     "@modern-js/plugin-router-v5": "workspace:^2.0.0-beta.7",
-    "react": ">=18"
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "sideEffects": false,
   "modernConfig": {},

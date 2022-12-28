@@ -1,5 +1,6 @@
 import { Import, getPort } from '@modern-js/utils';
 import type { PluginAPI, ModuleTools } from '@modern-js/module-tools';
+import type { PluginOptions } from '../types';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(
@@ -28,6 +29,7 @@ export interface IRunDevOption {
 export const runDev = async (
   api: PluginAPI<ModuleTools>,
   { isTsProject = false, stories, isModuleTools = false }: IRunDevOption,
+  pluginOption: PluginOptions,
 ) => {
   const appContext = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
@@ -37,7 +39,7 @@ export const runDev = async (
     return;
   }
 
-  const configDir = await gen.generateConfig(appDirectory, {
+  const configDir = await gen.generateConfig(appDirectory, pluginOption, {
     isTsProject,
     stories,
     // TODO: 运行runtime相关功能的时候再处理
