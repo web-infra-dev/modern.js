@@ -3,34 +3,34 @@
 exports[`bff loader should work well 1`] = `
 "import { createRequest } from '/packages/server/create-request/src/node.ts';
 
-export const get = createRequest('/hello', 'GET', process.env.PORT || 3000);
+export const get = createRequest('/hello', 'GET', 3000);
 "
 `;
 
 exports[`bff loader should work well with client 1`] = `
 "import { createRequest } from '/packages/server/create-request/src/node.ts';
 
-export const get = createRequest('/hello', 'GET', process.env.PORT || 3000);
+export const get = createRequest('/hello', 'GET', 3000);
 "
 `;
 
 exports[`bff loader should work well with port 1`] = `
 "import { createRequest } from '/packages/server/create-request/src/node.ts';
 
-export const get = createRequest('/hello', 'GET', process.env.PORT || 80);
+export const get = createRequest('/hello', 'GET', 80);
 "
 `;
 
 exports[`bff loader should work well with prefix 1`] = `
 "import { createRequest } from '/packages/server/create-request/src/node.ts';
 
-export const get = createRequest('api/hello', 'GET', process.env.PORT || 3000);
+export const get = createRequest('api/hello', 'GET', 3000);
 "
 `;
 
 exports[`bff loader should work well with requestCreator 1`] = `
 "import { createRequest } from '/packages/cli/plugin-bff/tests/fixtures/requestCreator/client';
 
-export const get = createRequest('/hello', 'GET', process.env.PORT || 80);
+export const get = createRequest('/hello', 'GET', 80);
 "
 `;
