@@ -1,10 +1,7 @@
 import type { Command } from '@modern-js/utils';
-import { createDebugger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { ModuleTools } from './types';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
-
-const debug = createDebugger('module-tools');
 
 export const buildCommand = async (
   program: Command,
@@ -36,32 +33,8 @@ export const buildCommand = async (
     .action(async (options: BuildCommandOptions) => {
       const { initModuleContext } = await import('./utils/context');
       const context = await initModuleContext(api);
-      if (options.platform) {
-        const { buildPlatform } = await import('./builder/platform');
-        await buildPlatform(options, api, context);
-        return;
-      }
-
-      const runner = api.useHookRunners();
-
-      const { normalizeBuildConfig } = await import('./config/normalize');
-      const resolvedBuildConfig = await normalizeBuildConfig(
-        api,
-        context,
-        options,
-      );
-
-      debug('resolvedBuildConfig', resolvedBuildConfig);
-
-      await runner.beforeBuild({
-        config: resolvedBuildConfig,
-        cliOptions: options,
-      });
-      const builder = await import('./builder');
-      await builder.run(
-        { cmdOptions: options, resolvedBuildConfig, context },
-        api,
-      );
+      const { build } = await import('./build');
+      await build(api, options, context);
     });
 };
 
@@ -70,6 +43,7 @@ export const devCommand = async (
   api: PluginAPI<ModuleTools>,
 ) => {
   const local = await import('./locale');
+  const { defaultTsConfigPath } = await import('./constants/dts');
   const runner = api.useHookRunners();
   const devToolMetas = await runner.registerDev();
 
@@ -79,7 +53,12 @@ export const devCommand = async (
     .command('dev')
     .usage('[options]')
     .description(local.i18n.t(local.localeKeys.command.dev.describe))
-    .action(async (options: DevCommandOptions = {}) => {
+    .option(
+      '--tsconfig [tsconfig]',
+      local.i18n.t(local.localeKeys.command.dev.tsconfig),
+      defaultTsConfigPath,
+    )
+    .action(async (options: DevCommandOptions) => {
       const { initModuleContext } = await import('./utils/context');
       const context = await initModuleContext(api);
       const { dev } = await import('./dev');
@@ -92,21 +71,19 @@ export const devCommand = async (
     }
 
     for (const subCmd of meta.subCommands) {
-      devProgram
-        .command(subCmd)
-        .action(async (options: DevCommandOptions = {}) => {
-          const { initModuleContext } = await import('./utils/context');
-          const context = await initModuleContext(api);
-          const { runBuildBeforeDevTools } = await import('./dev');
+      devProgram.command(subCmd).action(async (options: DevCommandOptions) => {
+        const { initModuleContext } = await import('./utils/context');
+        const context = await initModuleContext(api);
+        const { runBuildBeforeDevTools } = await import('./dev');
 
-          await runBuildBeforeDevTools({
-            disableRunBuild: meta.disableRunBuild ?? false,
-            appDirectory: context.appDirectory,
-          });
-
-          await runner.beforeDevTask(meta);
-          await meta.action(options, { isTsProject: context.isTsProject });
+        await runBuildBeforeDevTools(api, context, options, {
+          disableRunBuild: meta.disableRunBuild ?? false,
+          appDirectory: context.appDirectory,
         });
+
+        await runner.beforeDevTask(meta);
+        await meta.action(options, { isTsProject: context.isTsProject });
+      });
     }
   }
 };

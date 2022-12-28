@@ -24,7 +24,7 @@ export interface SharedBuilderConfig {
   source?: SharedSourceConfig;
   output?: SharedOutputConfig;
   security?: SharedSecurityConfig;
-  performance?: Pick<SharedPerformanceConfig, 'printFileSize'>;
+  performance?: Pick<SharedPerformanceConfig, 'printFileSize' | 'buildCache'>;
   experiments?: SharedExperimentsConfig;
   tools?: SharedToolsConfig;
 }
@@ -34,7 +34,10 @@ export type SharedNormalizedConfig = DeepReadonly<{
   html: NormalizedSharedHtmlConfig;
   source: NormalizedSharedSourceConfig;
   output: NormalizedSharedOutputConfig;
-  performance: Pick<SharedPerformanceConfig, 'printFileSize'>;
+  performance: Pick<
+    Required<SharedPerformanceConfig>,
+    'printFileSize' | 'buildCache'
+  >;
 }>;
 
 export * from './dev';

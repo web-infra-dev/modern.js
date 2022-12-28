@@ -7,7 +7,7 @@ import {
   NormalizedSharedOutputConfig,
 } from '@modern-js/builder-shared';
 import { initHooks } from './initHooks';
-import { ConfigValidator } from '../config/validate';
+import { validateBuilderConfig } from '../config/validate';
 import { withDefaultConfig } from '../config/defaults';
 import type { Context, BuilderConfig } from '../types';
 
@@ -24,6 +24,7 @@ export function createPrimaryContext(
   const context = createContextByConfig(
     options,
     builderConfig.output as NormalizedSharedOutputConfig,
+    'webpack',
   );
   const configValidatingTask = Promise.resolve();
 
@@ -46,12 +47,8 @@ export async function createContext(
 ): Promise<Context> {
   debug('create context');
 
-  const ctx = createPrimaryContext(options, builderConfig);
-
-  ctx.configValidatingTask = ConfigValidator.create().then(validator => {
-    // interrupt build if config is invalid.
-    validator.validate(builderConfig, false);
-  });
+  const config = await validateBuilderConfig(builderConfig);
+  const ctx = createPrimaryContext(options, config);
 
   const tsconfigPath = join(ctx.rootPath, 'tsconfig.json');
   if (await isFileExists(tsconfigPath)) {
