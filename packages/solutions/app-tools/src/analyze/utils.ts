@@ -81,6 +81,19 @@ export const getDefaultImports = ({
     }
 
     imports.push(route);
+  } else if (customBootstrap) {
+    const route: ImportStatement = {
+      specifiers: [{ imported: 'routes' }],
+      value: normalizeToPosixPath(
+        `${internalDirAlias}/${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME.replace(
+          '.js',
+          '',
+        )}`,
+      ),
+    };
+    route.initialize = 'const App = false;';
+
+    imports.push(route);
   } else {
     imports.push({
       specifiers: [{ local: 'App' }],
