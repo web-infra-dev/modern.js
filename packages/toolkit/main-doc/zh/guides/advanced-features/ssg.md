@@ -19,6 +19,10 @@ import SSGPlugin from '@modern-js/plugin-ssg';
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
   ...,
+  output: {
+    ...,
+    ssg: true,
+  },
   plugins: [..., SSGPlugin()],
 });
 ```

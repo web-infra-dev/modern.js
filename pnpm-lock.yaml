@@ -1808,6 +1808,36 @@ importers:
       jest: 27.5.1
       typescript: 4.7.4
 
+  packages/generator/generators/ssg-generator:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/codesmith': 2.0.3
+      '@modern-js/codesmith-api-app': 2.0.3
+      '@modern-js/dependence-generator': workspace:*
+      '@modern-js/generator-common': workspace:*
+      '@modern-js/generator-utils': workspace:*
+      '@modern-js/plugin-i18n': workspace:*
+      '@scripts/build': workspace:*
+      '@scripts/jest-config': workspace:*
+      '@types/jest': ^27
+      '@types/node': ^14
+      jest: ^27
+      typescript: ^4
+    devDependencies:
+      '@babel/runtime': 7.18.6
+      '@modern-js/codesmith': 2.0.3
+      '@modern-js/codesmith-api-app': 2.0.3_behyblf5hoqzjgbnbcybtsc22i
+      '@modern-js/dependence-generator': link:../dependence-generator
+      '@modern-js/generator-common': link:../../generator-common
+      '@modern-js/generator-utils': link:../../generator-utils
+      '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
+      '@scripts/build': link:../../../../scripts/build
+      '@scripts/jest-config': link:../../../../scripts/jest-config
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+      jest: 27.5.1
+      typescript: 4.9.3
+
   packages/generator/generators/storybook-generator:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -13430,7 +13460,7 @@ packages:
     resolution: {integrity: sha512-IJ4X0yOakXtwkhbnNzKkaIgXe6df7u3H3FnuhI9Jqh+CdO0e/lYQlDLYiyI9cnXK8E7UAppAWP+VqAv6VX7HQg==}
     engines: {node: '>=14'}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
       playwright-core: 1.25.1
     dev: false
 
@@ -15910,7 +15940,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
 
   /@types/body-scroll-lock/3.1.0:
     resolution: {integrity: sha512-3owAC4iJub5WPqRhxd8INarF2bWeQq1yQHBgYhN0XLBJMpd5ED10RrJ3aKiAwlTyL5wK7RkBD4SZUQz2AAAMdA==}
@@ -15952,12 +15982,12 @@ packages:
     resolution: {integrity: sha512-h8QJa8xSb1WD4fpKBDcATDNGXghFj6/3GRWG6dhmRcu0RX1Ubasur2Uvx5aeEwlf0MwblEC2bMzzMQntxnw/Cw==}
     dependencies:
       '@types/express-serve-static-core': 4.17.29
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
 
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
 
   /@types/content-disposition/0.5.5:
     resolution: {integrity: sha512-v6LCdKfK6BwcqMo+wYW05rLS12S0ZO0Fl4w1h4aaZMD7bqT3gVUns6FvLJKGZHQmYn3SX55JWGpziwJRwVgutA==}
@@ -16048,7 +16078,7 @@ packages:
   /@types/etag/1.8.1:
     resolution: {integrity: sha512-bsKkeSqN7HYyYntFRAmzcwx/dKW4Wa+KVMTInANlI72PWLQmOpZu96j0OqHZGArW4VQwCmJPteQlXaUDeOB0WQ==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
     dev: true
 
   /@types/express-serve-static-core/4.17.29:
@@ -16069,7 +16099,7 @@ packages:
   /@types/finalhandler/1.1.1:
     resolution: {integrity: sha512-fT+Qs+kczrGnY9EpJpFHbdfdyKSoHUCKo3gJYbDWSSQFc18Td87AelfhMM8zqHRcP97/tk8AijV2zSUdClJK+Q==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
     dev: true
 
   /@types/findup-sync/4.0.2:
@@ -16081,7 +16111,7 @@ packages:
   /@types/formidable/1.2.5:
     resolution: {integrity: sha512-zu3mQJa4hDNubEMViSj937602XdDGzK7Q5pJ5QmLUbNxclbo9tZGt5jtwM352ssZ+pqo5V4H14TBvT/ALqQQcA==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
 
   /@types/fresh/0.5.0:
     resolution: {integrity: sha512-eGPzuyc6wZM3sSHJdF7NM2jW6B/xsB014Rqg/iDa6xY02mlfy1w/TE2sYhR8vbHxkzJOXiGo6NuIk3xk35vsgQ==}
@@ -16112,7 +16142,7 @@ packages:
   /@types/got/9.6.12:
     resolution: {integrity: sha512-X4pj/HGHbXVLqTpKjA2ahI4rV/nNBc9mGO2I/0CgAra+F2dKgMXnENv2SRpemScBzBAI4vMelIVYViQxlSE6xA==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
       '@types/tough-cookie': 4.0.2
       form-data: 2.5.1
     dev: true
@@ -16262,7 +16292,7 @@ packages:
       '@types/http-errors': 1.8.2
       '@types/keygrip': 1.0.2
       '@types/koa-compose': 3.2.5
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
     dev: true
 
   /@types/less/3.0.3:
@@ -16363,7 +16393,7 @@ packages:
   /@types/node-fetch/2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
       form-data: 3.0.1
 
   /@types/node-sass/4.11.3:
@@ -16507,7 +16537,7 @@ packages:
   /@types/recursive-readdir/2.2.0:
     resolution: {integrity: sha512-HGk753KRu2N4mWduovY4BLjYq4jTOL29gV2OfGdGxHcPSWGFkC5RRIdk+VTs5XmYd7MVAD+JwKrcb5+5Y7FOCg==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
     dev: true
 
   /@types/redux-logger/3.0.9:
@@ -16577,7 +16607,7 @@ packages:
     resolution: {integrity: sha512-nCkHGI4w7ZgAdNkrEu0bv+4xNV/XDqW+DydknebMOQwkpDGx8G+HTlj7R7ABI8i8nKxVw0wtKPi1D+lPOkh4YQ==}
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
 
   /@types/signal-exit/3.0.1:
     resolution: {integrity: sha512-OSitN9PP9E/c4tlt1Qdj3CAz5uHD9Da5rhUqlaKyQRCX1T7Zdpbk6YdeZbR2eiE2ce+NMBgVnMxGqpaPSNQDUQ==}
@@ -16586,7 +16616,7 @@ packages:
   /@types/signale/1.4.4:
     resolution: {integrity: sha512-VYy4VL64gA4uyUIYVj4tiGFF0VpdnRbJeqNENKGX42toNiTvt83rRzxdr0XK4DR3V01zPM0JQNIsL+IwWWfhsQ==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
     dev: true
 
   /@types/sinonjs__fake-timers/8.1.1:
@@ -16655,7 +16685,7 @@ packages:
   /@types/type-is/1.6.3:
     resolution: {integrity: sha512-PNs5wHaNcBgCQG5nAeeZ7OvosrEsI9O4W2jAOO9BCCg4ux9ZZvH2+0iSCOIDBiKuQsiNS8CBlmfX9f5YBQ22cA==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
 
   /@types/ua-parser-js/0.7.36:
     resolution: {integrity: sha512-N1rW+njavs70y2cApeIw1vLMYXRwfBy+7trgavGuuTfOd7j1Yh7QTRc/yqsPl6ncokt72ZXuxEU0PiCp9bSwNQ==}
@@ -16680,7 +16710,7 @@ packages:
   /@types/webpack-bundle-analyzer/4.4.1:
     resolution: {integrity: sha512-yQAj3l7bIYL+QRRlNJt6gyP+zrXZOlgaR4wsX0WY4yzZIbv41ZibREfZvuYjxY0iVtvQQlbhx0AeokkCuqUAQg==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
       tapable: 2.2.1
       webpack: 5.75.0
     transitivePeerDependencies:
@@ -16725,7 +16755,7 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
     dev: true
 
   /@types/ws/8.5.3:
@@ -22204,6 +22234,7 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -24688,6 +24719,7 @@ packages:
   /esprima/4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
     engines: {node: '>=4'}
+    hasBin: true
 
   /espurify/1.8.1:
     resolution: {integrity: sha512-ZDko6eY/o+D/gHCWyHTU85mKDgYcS4FJj7S+YD6WIInm7GQ6AnOjmcL4+buFV/JOztVLELi/7MmuGU5NHta0Mg==}
@@ -25679,7 +25711,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4_supports-color@6.1.0
+      debug: 4.3.4
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -28806,7 +28838,7 @@ packages:
       '@jest/environment': 27.5.1
       '@jest/fake-timers': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 18.0.1
+      '@types/node': 18.11.17
       jest-mock: 27.5.1
       jest-util: 27.5.1
 
@@ -31363,6 +31395,7 @@ packages:
 
   /mkdirp/0.3.0:
     resolution: {integrity: sha512-OHsdUcVAQ6pOtg5JYWpCBo9W/GySVuwvP9hueRMW7UqshC0tbfzLv8wjySTPm3tfUZ/21CE9E1pJagOA91Pxew==}
+    deprecated: Legacy versions of mkdirp are no longer supported. Please update to mkdirp 1.x. (Note that the API surface has changed to use Promises in 1.x.)
     dev: true
 
   /mkdirp/0.5.6:
@@ -37923,6 +37956,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
+    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
