@@ -58,6 +58,10 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    */
   description?: string;
   /**
+   * Head tags.
+   */
+  head?: string[];
+  /**
    * Theme config.
    */
   themeConfig?: ThemeConfig;

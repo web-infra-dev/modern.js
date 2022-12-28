@@ -46,6 +46,7 @@ export function SuggestionContent(props: {
       border-r-1=""
       table-cell=""
       p="x-3 y-2"
+      w="65%"
       hover="bg-[#f3f4f5] "
       text="#2c3e50"
       className={`border-right-none border-[#eaecef] ${

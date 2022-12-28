@@ -37,15 +37,12 @@ export async function renderPages(config: UserConfig) {
   await Promise.all(
     routes.map(async route => {
       const routePath = route.path;
-      const { appHtml, pageData } = await render(routePath);
+      const { appHtml } = await render(routePath);
+
       const html = htmlTemplate
         .replace(APP_HTML_MARKER, appHtml)
-        .replace(
-          HEAD_MARKER,
-          `<script>window.__MODERN_PAGE_DATA__ = ${JSON.stringify(
-            pageData,
-          )}</script>`,
-        );
+        .replace(HEAD_MARKER, (config.doc?.head || []).join(''));
+
       const normalizeHtmlFilePath = (path: string) => {
         const normalizedBase = normalizeSlash(config.doc?.base || '/');
 
@@ -62,6 +59,7 @@ export async function renderPages(config: UserConfig) {
   );
   // Remove ssr bundle
   await fs.remove(join(outputPath, 'ssr'));
+  await fs.remove(join(outputPath, 'html', 'main', 'index.html'));
 }
 
 export async function build(rootDir: string, config: UserConfig) {

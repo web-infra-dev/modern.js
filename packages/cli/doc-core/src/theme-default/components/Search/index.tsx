@@ -168,13 +168,13 @@ export function Search(props: SearchOptions) {
       </div>
       {focused && query && (
         <ul
-          pos="fixed sm:absolute top-12 sm:top-8 left-0"
+          pos="fixed sm:absolute top-12 sm:top-8 right--10"
           z="60"
           border-1=""
           p="2"
           list="none"
           bg="bg-default"
-          className="w-100% sm:min-w-500px sm:max-w-700px"
+          className="w-100% sm:min-w-600px sm:max-w-800px"
         >
           {/* Show the suggestions */}
           {suggestions.map((item, index) => (

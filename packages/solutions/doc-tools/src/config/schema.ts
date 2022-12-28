@@ -163,11 +163,6 @@ export const schema = [
         },
         head: {
           type: 'array',
-          items: [
-            {
-              type: 'array',
-            },
-          ],
         },
         themeConfig,
         markdown: {
