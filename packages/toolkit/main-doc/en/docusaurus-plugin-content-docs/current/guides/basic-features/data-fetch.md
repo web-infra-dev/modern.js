@@ -242,6 +242,7 @@ First, add a `loading.tsx` component to the `routes` directory in your project, 
 .
 └── routes
     ├── layout.tsx
+    ├── loading.tsx
     └── user
         ├── layout.tsx
         └── page.ts
