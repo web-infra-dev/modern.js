@@ -181,7 +181,7 @@ export class SwcWebpackPlugin {
   }
 
   async updateAssets(compilation: Compilation): Promise<void[]> {
-    const cache = compilation.getCache('SwcWebpackPlugin');
+    const cache = compilation.getCache(PLUGIN_NAME);
 
     const { SourceMapSource, RawSource } = compilation.compiler.webpack.sources;
     const assets = compilation
