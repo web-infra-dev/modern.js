@@ -129,6 +129,24 @@ describe('plugins/less', () => {
     } = await builder.inspectConfig();
     expect(bundlerConfigs[0]).toMatchSnapshot();
   });
+
+  it('should add less-loader with excludes', async () => {
+    const builder = await createBuilder({
+      plugins: [PluginLess()],
+      builderConfig: {
+        tools: {
+          less(config, { addExcludes }) {
+            addExcludes(/node_modules/);
+          },
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
 });
 
 describe('plugins/sass', () => {
@@ -137,6 +155,24 @@ describe('plugins/sass', () => {
       plugins: [PluginSass()],
       builderConfig: {
         tools: {},
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should add sass-loader with excludes', async () => {
+    const builder = await createBuilder({
+      plugins: [PluginSass()],
+      builderConfig: {
+        tools: {
+          sass(config, { addExcludes }) {
+            addExcludes(/node_modules/);
+          },
+        },
       },
     });
 
