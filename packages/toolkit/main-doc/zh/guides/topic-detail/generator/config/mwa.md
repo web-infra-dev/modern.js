@@ -34,19 +34,11 @@ New 命令的操作类型(actionType)，类型支持两种：
 
 - 新建自定义 Web Serve 源码目录(server)
 
-这两个选项还需要配置具体的配合使用，介绍如下：
+入口还需要配置具体的配合使用，介绍如下：
 
 #### name
 
 入口名称(name), 字符串类型。
-
-#### framework
-
-自定义 Web Serve 运行时框架(framework)，支持两个选项：
-
-- Express(express)
-
-- Koa(koa)
 
 ### function
 

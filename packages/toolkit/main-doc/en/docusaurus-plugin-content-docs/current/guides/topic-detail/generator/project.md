@@ -24,7 +24,7 @@ Use npx to get the latest version of `@modern-js/create` every time.
 
 Project directory name.
 
-When executing the above command, the 'projectDir` folder will be created in the current directory by default, and the initialization project will be in this folder. When this parameter is empty, the initialization project will be directly generated in the current directory.
+When executing the above command, the `projectDir` folder will be created in the current directory by default, and the initialization project will be in this folder. When this parameter is empty, the initialization project will be directly generated in the current directory.
 
 ### --version
 
@@ -104,7 +104,7 @@ For custom generator plugins, please refer to [Development Generator Plugin](/do
 
 Specifies the microgenerator.
 
-By default, `@modern-js/create` will execute the microgenerator Modern.js framework build-in. If you need to execute a customized microgenerator, and you need to use the posture of'npx @modern-js/create ', you can use this parameter directly.
+By default, `@modern-js/create` will execute the microgenerator Modern.js framework build-in. If you need to execute a customized microgenerator, and you need to use the posture of `npx @modern-js/create`, you can use this parameter directly.
 
 For custom microgenerators, please refer to [Develop Microgenerator](/docs/guides/topic-detail/generator/codesmith/introduce).
 

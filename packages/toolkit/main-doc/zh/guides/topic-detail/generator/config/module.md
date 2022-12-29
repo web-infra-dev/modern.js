@@ -34,6 +34,8 @@ New 命令的操作类型(actionType)，类型支持一种：
 
 - Tailwind CSS(tailwindcss)
 
-- Storybook(mwa_storybook)
+- Storybook(storybook)
 
 - Runtime API(runtimeApi)
+
+- 测试(test)
