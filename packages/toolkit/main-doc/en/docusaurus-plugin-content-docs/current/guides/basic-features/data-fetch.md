@@ -427,7 +427,7 @@ export default () => {
     // No real request is sent here, just a hard coding data is returned.
     // In a real project, the data obtained from the remote end should be returned.
     return {
-      name: 'modern.js',
+      name: 'Modern.js',
     };
   });
 

@@ -27,7 +27,7 @@ export default defineConfig({
 });
 ```
 
-SSG in **Conventional Routing** and **Self-control Routing** has different usage.
+SSG in **Conventional Routing** and **Self-controlled Routing** has different usage.
 
 ### Conventional Routing
 
@@ -84,7 +84,7 @@ Using **Conventional Routing**, each route will generate a HTML file. Looking at
 
 After executing `pnpm run serve` to start the project, visit the page in the Network, view the document returned by the request. The document contains the complete page content rendered by the component.
 
-### Self-control Routing
+### Self-controlled Routing
 
 **Self-controlled routing** is a custom routing through component code, which requires the application to run to obtain accurate routing information. Therefore, the SSG function cannot be used out of the box. At this time, the user needs to inform the Modern.js framework in advance which routes need to enable the SSG.
 
