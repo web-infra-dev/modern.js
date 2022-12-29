@@ -4,6 +4,7 @@ import {
   removeTrailingSlash,
   normalizeSlash,
   isProduction,
+  normalizeHref,
 } from '../shared/utils';
 
 export const getRelativePagePath = (
@@ -22,24 +23,14 @@ export const getRelativePagePath = (
   return pagePath.replace(/^\//, '');
 };
 
-export function normalizeHref(url?: string) {
-  if (!url) {
-    return '/';
-  }
-  let cleanUrl = url;
-  if (!cleanUrl.endsWith('.html')) {
-    if (cleanUrl.endsWith('/')) {
-      cleanUrl += 'index.html';
-    } else {
-      cleanUrl += '.html';
-    }
-  }
-
-  return addLeadingSlash(cleanUrl);
-}
-
 export function normalizeRoutePath(routePath: string) {
   return routePath.replace(/\.html$/, '').replace(/\/index$/, '/');
 }
 
-export { addLeadingSlash, removeTrailingSlash, normalizeSlash, isProduction };
+export {
+  addLeadingSlash,
+  removeTrailingSlash,
+  normalizeSlash,
+  isProduction,
+  normalizeHref,
+};
