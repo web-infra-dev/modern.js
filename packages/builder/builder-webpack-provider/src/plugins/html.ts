@@ -8,13 +8,17 @@ import {
   getFavicon,
   getMetaTags,
   type BuilderTarget,
+  HtmlInjectTagOptions,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
   WebpackConfig,
   HTMLPluginOptions,
   NormalizedConfig,
+  BuilderPluginAPI,
 } from '../types';
+import type { Options as HtmlTagsPluginOptions } from '../webpackPlugins/HtmlTagsPlugin';
+import assert from 'assert';
 
 // This is a minimist subset of modern.js server routes
 type RoutesInfo = {
@@ -92,10 +96,58 @@ export const isHtmlDisabled = (
   target === 'node' ||
   target === 'web-worker';
 
+export const applyInjectTags = (api: BuilderPluginAPI) => {
+  const HtmlWebpackTagsPluginModule = import(
+    '../webpackPlugins/HtmlTagsPlugin'
+  );
+  api.modifyWebpackChain(async (chain, { HtmlWebpackPlugin }) => {
+    const { HtmlTagsPlugin } = await HtmlWebpackTagsPluginModule;
+    const config = api.getNormalizedConfig();
+    const htmlFiles = api.getHTMLPaths();
+    const { tags, tagsByEntries } = config.html;
+    const entries = chain.entryPoints.entries();
+    const entryNames = entries ? Object.keys(entries) : [];
+    if (!tags && !tagsByEntries) {
+      return;
+    }
+    if (tags && (!tagsByEntries || !Object.keys(tagsByEntries).length)) {
+      const options: HtmlTagsPluginOptions = {
+        ...tags,
+        htmlWebpackPlugin: HtmlWebpackPlugin,
+      };
+      chain.plugin('html-tag').use(HtmlTagsPlugin, [options]);
+      return;
+    }
+    const optionsSet: Record<string, HtmlInjectTagOptions> = {};
+    for (const entry of entryNames) {
+      optionsSet[entry] = { children: [] };
+      const htmlFilename = htmlFiles[entry];
+      assert(
+        typeof htmlFilename === 'string',
+        `cannot get html filename of entry "${entry}.`,
+      );
+      const options: HtmlTagsPluginOptions = {
+        ...optionsSet[entry],
+        htmlWebpackPlugin: HtmlWebpackPlugin,
+        includes: [htmlFilename],
+      };
+      if (tags) {
+        Object.assign(options, tags);
+      }
+      if (tagsByEntries && entry in tagsByEntries) {
+        Object.assign(options, tagsByEntries[entry]);
+      }
+      if (options.children.length) {
+        chain.plugin(`html-tag-${entry}`).use(HtmlTagsPlugin, [options]);
+      }
+    }
+  });
+};
+
 export const PluginHtml = (): BuilderPlugin => ({
   name: 'builder-plugin-html',
 
-  setup(api) {
+  async setup(api) {
     const routesInfo: RoutesInfo[] = [];
 
     api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID, target }) => {
@@ -217,5 +269,7 @@ export const PluginHtml = (): BuilderPlugin => ({
         );
       }
     });
+
+    applyInjectTags(api);
   },
 });
