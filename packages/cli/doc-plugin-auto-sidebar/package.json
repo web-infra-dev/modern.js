@@ -34,7 +34,6 @@
     "react": ">=17"
   },
   "devDependencies": {
-    "@modern-js/doc-core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",

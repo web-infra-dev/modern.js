@@ -49,3 +49,19 @@ export const parseUrl = (
     hash,
   };
 };
+
+export function normalizeHref(url?: string) {
+  if (!url) {
+    return '/';
+  }
+  let cleanUrl = url;
+  if (!cleanUrl.endsWith('.html')) {
+    if (cleanUrl.endsWith('/')) {
+      cleanUrl += 'index.html';
+    } else {
+      cleanUrl += '.html';
+    }
+  }
+
+  return addLeadingSlash(cleanUrl);
+}
