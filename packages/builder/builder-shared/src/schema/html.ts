@@ -1,5 +1,11 @@
 import { MetaAttributes, MetaOptions } from '@modern-js/utils';
-import { CrossOrigin, ScriptInject, SharedHtmlConfig } from '../types';
+import {
+  CrossOrigin,
+  HtmlInjectTag,
+  HtmlInjectTagOptions,
+  ScriptInject,
+  SharedHtmlConfig,
+} from '../types';
 import { z } from '../utils';
 import { ZodType } from '../zod';
 
@@ -22,6 +28,31 @@ export const CrossOriginSchema: ZodType<CrossOrigin> = z.literals([
   'use-credentials',
 ]);
 
+export const HtmlInjectControlSchema = z.partialObj({
+  append: z.boolean(),
+  publicPath: z.union([
+    z.boolean(),
+    z.string(),
+    z.function(z.tuple([z.string(), z.string()]), z.string()),
+  ]),
+});
+
+export const HtmlInjectTagSchema: z.ZodType<HtmlInjectTag> =
+  HtmlInjectControlSchema.extend({
+    type: z.literals(['script', 'meta', 'link']),
+    props: z.record(
+      z.string(),
+      z.union([z.string(), z.boolean(), z.null(), z.undefined()]),
+    ),
+    children: z.string(),
+    path: z.string(),
+  });
+
+export const HtmlInjectTagOptionsSchema: z.ZodType<HtmlInjectTagOptions> =
+  HtmlInjectControlSchema.extend({
+    children: z.array(HtmlInjectTagSchema),
+  });
+
 export const sharedHtmlConfigSchema = z.partialObj({
   meta: MetaOptionsSchema,
   metaByEntries: z.record(MetaOptionsSchema),
@@ -29,6 +60,8 @@ export const sharedHtmlConfigSchema = z.partialObj({
   titleByEntries: z.record(z.string()),
   inject: ScriptInjectSchema,
   injectByEntries: z.record(ScriptInjectSchema),
+  tags: HtmlInjectTagOptionsSchema,
+  tagsByEntries: z.record(HtmlInjectTagOptionsSchema),
   favicon: z.string(),
   faviconByEntries: z.record(z.string()),
   appIcon: z.string(),
