@@ -1,5 +1,19 @@
 # @modern-js/utils
 
+## 2.0.0-beta.8
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- bbe4c4ab64: feat: add @modern-js/plugin-swc
+
+  feat: 新增 @modern-js/plugin-swc 插件
+
 ## 2.0.0-beta.7
 
 ### Major Changes

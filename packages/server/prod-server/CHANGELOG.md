@@ -1,5 +1,24 @@
 # @modern-js/prod-server
 
+## 2.0.0-beta.8
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- c9e800d39a: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+
+### Patch Changes
+
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [bbe4c4ab64]
+  - @modern-js/utils@2.0.0-beta.8
+  - @modern-js/server-core@2.0.0-beta.8
+
 ## 2.0.0-beta.7
 
 ### Major Changes

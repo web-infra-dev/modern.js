@@ -1,5 +1,16 @@
 # @modern-js/generator-common
 
+## 3.0.0-beta.7
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [dda38c9c3e]
+  - @modern-js/plugin-i18n@2.0.0-beta.8
+
 ## 3.0.0-beta.6
 
 ### Major Changes

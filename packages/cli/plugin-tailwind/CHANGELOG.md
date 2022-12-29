@@ -1,5 +1,22 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.0.0-beta.8
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [bbe4c4ab64]
+  - @modern-js/runtime@2.0.0-beta.8
+  - @modern-js/utils@2.0.0-beta.8
+
 ## 2.0.0-beta.7
 
 ### Major Changes

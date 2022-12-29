@@ -1,5 +1,17 @@
 # @modern-js/mwa-generator
 
+## 3.0.0-beta.7
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
 ## 3.0.0-beta.6
 
 ### Major Changes
