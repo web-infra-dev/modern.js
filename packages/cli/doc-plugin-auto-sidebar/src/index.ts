@@ -304,6 +304,7 @@ export function pluginAutoSidebar(options: Options) {
           .flat()
           .forEach(item => normalizeLink(item));
         locale.sidebar = sidebar;
+        debugger;
       });
 
       return docConfig;
