@@ -1,4 +1,4 @@
-import { expect, describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { PluginEntry } from '@builder/plugins/entry';
 import { getTemplatePath, PluginHtml } from '@/plugins/html';
 import { createStubBuilder } from '@/stub';
@@ -190,6 +190,58 @@ describe('plugins/html', () => {
     });
     const config = await builder.unwrapWebpackConfig();
 
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should add one tags plugin instance', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      entry: {
+        main: './src/main.ts',
+        foo: './src/foo.ts',
+      },
+      builderConfig: {
+        html: {
+          tags: {
+            children: [{ type: 'script', path: 'jq.js' }],
+          },
+          tagsByEntries: {},
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    const plugins = config.plugins?.filter(
+      p => p.name === 'modern-js::html-tags-plugin',
+    );
+    expect(plugins?.length).toBe(1);
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should add tags plugin instances for each entries', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      entry: {
+        main: './src/main.ts',
+        foo: './src/foo.ts',
+      },
+      builderConfig: {
+        html: {
+          tags: {
+            children: [{ type: 'script', path: 'jq.js' }],
+          },
+          tagsByEntries: {
+            foo: {
+              children: [{ type: 'script', path: 'foo.js' }],
+            },
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    const plugins = config.plugins?.filter(
+      p => p.name === 'modern-js::html-tags-plugin',
+    );
+    expect(plugins?.length).toBe(2);
     expect(config).toMatchSnapshot();
   });
 });
