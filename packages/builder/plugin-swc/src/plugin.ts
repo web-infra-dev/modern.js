@@ -214,7 +214,7 @@ export class SwcWebpackPlugin {
 
         if (!minifiedSource) {
           const { source, map } = asset.source.sourceAndMap();
-          const minifyResult = await minify(
+          const minifyResult = await minifyWithTimeout(
             asset.name,
             source.toString(),
             this.minifyOptions,
@@ -286,4 +286,19 @@ function determinePresetReact(root: string, pluginConfig: PluginSwcOptions) {
 
 function isDebugMode(): boolean {
   return process.env[BUILDER_SWC_DEBUG_MODE] !== undefined;
+}
+
+function minifyWithTimeout(
+  filename: string,
+  code: string,
+  config: JsMinifyOptions,
+): Promise<Output> {
+  return Promise.race([
+    minify(filename, code, config),
+    timeout<Output>(10_000),
+  ]);
+}
+
+function timeout<T>(ms: number): Promise<T> {
+  return new Promise((_resolve, reject) => setTimeout(reject, ms));
 }
