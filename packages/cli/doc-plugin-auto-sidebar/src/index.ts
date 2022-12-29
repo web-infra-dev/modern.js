@@ -55,15 +55,15 @@ interface SidebarItem {
 type Sidebar = Record<string, (SidebarGroup | SidebarItem)[]>;
 
 interface LocaleConfig {
-  sidebar: Sidebar;
+  sidebar?: Sidebar;
   lang: string;
 }
 
 interface DocConfig {
   lang?: string;
   base?: string;
-  themeConfig: {
-    locales: LocaleConfig[];
+  themeConfig?: {
+    locales?: LocaleConfig[];
   };
 }
 
