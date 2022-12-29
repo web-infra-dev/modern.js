@@ -30,7 +30,7 @@
     "dist/"
   ],
   "peerDependencies": {
-    "@modern-js/doc-tools": ">=2.0.0-beta.4",
+    "@modern-js/doc-tools": ">=2.0.0-beta.6",
     "react": ">=17"
   },
   "devDependencies": {
@@ -64,7 +64,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@modern-js/utils": "2.0.0-beta.4",
+    "@modern-js/utils": "workspace:*",
     "lodash-es": "^4.17.21"
   }
 }
