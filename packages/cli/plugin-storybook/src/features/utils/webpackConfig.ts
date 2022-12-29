@@ -18,19 +18,19 @@ const resolveStorybookWebPackConfig = (
 ) => {
   // override output
   sbWebpackConfig.output = clientWebpackConfig.output;
-  if (typeof clientWebpackConfig.output === 'object') {
-    sbWebpackConfig.output = {
-      ...clientWebpackConfig.output,
-      publicPath:
-        clientWebpackConfig.output?.publicPath === '/'
-          ? '' // Keep it consistent with the storybook
-          : clientWebpackConfig.output?.publicPath,
-    };
-  } else {
-    sbWebpackConfig.output = {
-      publicPath: '',
-    };
-  }
+  // if (typeof clientWebpackConfig.output === 'object') {
+  //   sbWebpackConfig.output = {
+  //     ...clientWebpackConfig.output,
+  //     publicPath:
+  //       clientWebpackConfig.output?.publicPath === '/'
+  //         ? '' // Keep it consistent with the storybook
+  //         : clientWebpackConfig.output?.publicPath,
+  //   };
+  // } else {
+  //   sbWebpackConfig.output = {
+  //     publicPath: '',
+  //   };
+  // }
 
   // handle module rules
   const applyModuleRules = () => {
@@ -158,7 +158,7 @@ export const getCustomWebpackConfigHandle = async ({
       ...builderConfig,
       tools: {
         ...(builderConfig as any).tools,
-        // maybe buildConfig is app-tools`s config
+        // maybe buildConfiger is app-tools`s config
         webpack: [
           (builderConfig as any).tools.webpack,
           storybookBuildConfig.webpack,

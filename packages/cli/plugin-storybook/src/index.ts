@@ -3,7 +3,7 @@ import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import { defaultStories, appToolsStories } from './constants/stores';
 import type { PluginOptions } from './types';
 
-export type { StorybookUserConfig, PluginOptions } from './types';
+export type { PluginOptions } from './types';
 
 export default (pluginOption: PluginOptions = {}): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-storybook',
@@ -20,7 +20,6 @@ export default (pluginOption: PluginOptions = {}): CliPlugin<ModuleTools> => ({
         'plugins',
       );
 
-      // TODO: Remove dependencies on @modern-js/runtime
       return {
         source: {
           alias: {

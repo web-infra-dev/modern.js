@@ -5,7 +5,6 @@ import type {
 } from '@modern-js/libuild';
 import type { Options } from '@modern-js/libuild-plugin-svgr';
 import type { ToolsConfig as WebpackBuilderToolsConfig } from '@modern-js/builder-webpack-provider';
-import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build-presets';
 import type { CopyConfig } from '../copy';
 import type {
@@ -132,6 +131,10 @@ export interface Dev {
   storybook?: StorybookBuildConfig;
 }
 
+export interface RuntimeUserConfig {
+  [name: string]: any;
+}
+
 export interface ModuleExtraConfig {
   designSystem?: Record<string, any>;
 
@@ -140,4 +143,6 @@ export interface ModuleExtraConfig {
   buildPreset?: BuildPreset;
 
   dev?: Dev;
+
+  runtime?: RuntimeUserConfig;
 }
