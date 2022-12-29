@@ -47,7 +47,7 @@ Package management tool (packageManager), the options are as follows:
 In the custom type of the generator plugin to create a project scenario, only the `packageManager` configuration is provided by default.
 :::
 
-## 其他配置
+## Other configurations
 
 ### noNeedInstall
 
