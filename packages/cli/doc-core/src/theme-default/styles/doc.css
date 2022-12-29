@@ -13,20 +13,6 @@
   outline: none;
 }
 
-.modern-doc h1::before,
-.modern-doc h2::before,
-.modern-doc h3::before,
-.modern-doc h4::before,
-.modern-doc h5::before,
-.modern-doc h6::before {
-  display: block;
-  content: '';
-  margin-top: -56px;
-  height: 56px;
-  visibility: hidden;
-  pointer-events: none;
-}
-
 .modern-doc h1 {
   letter-spacing: -0.02em;
   line-height: 40px;
