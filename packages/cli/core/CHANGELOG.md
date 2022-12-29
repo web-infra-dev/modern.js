@@ -1,5 +1,29 @@
 # @modern-js/core
 
+## 2.0.0-beta.7
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- c9e800d39a: feat: support React18 streaming SSR
+  feat: 支持 React18 流式 SSR
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+
+### Patch Changes
+
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [bbe4c4ab64]
+  - @modern-js/utils@2.0.0-beta.7
+  - @modern-js/node-bundle-require@2.0.0-beta.7
+  - @modern-js/plugin@2.0.0-beta.7
+
 ## 2.0.0-beta.6
 
 ### Major Changes
