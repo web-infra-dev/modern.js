@@ -16,7 +16,7 @@ export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
-      relative=""
+      relative="~"
       className={`${isOpen ? styles.open : ''} ${styles.navScreenMenuGroup}`}
     >
       <button
@@ -44,7 +44,7 @@ export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
                 <div className="pa-1" key={child.link} font="medium">
                   <Link href={child.link}>
                     <div>
-                      <div flex="">
+                      <div flex="~">
                         <span mr="1">{child.text}</span>
                         <Right w="11px" h="11px" text="text-3" m="t-1 r-1" />
                       </div>

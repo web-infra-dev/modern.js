@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { SidebarGroup, SidebarItem } from 'shared/types';
 import { SideBar } from '../Siderbar';
+import MenuIcon from '../../assets/menu.svg';
 import styles from './index.module.scss';
 
 interface Props {
@@ -22,9 +23,11 @@ export function SideMenu(props: Props) {
   return (
     <Fragment>
       <div className={styles.localNav}>
-        <button flex="center" onClick={openSidebar} className={styles.menu}>
-          <div text="md" mr="2" className="i-carbon:menu"></div>
-          <span text="md ">Menu</span>
+        <button flex="~ center" onClick={openSidebar} className={styles.menu}>
+          <div text="md" mr="2">
+            <MenuIcon />
+          </div>
+          <span text="sm">Menu</span>
         </button>
       </div>
       <SideBar

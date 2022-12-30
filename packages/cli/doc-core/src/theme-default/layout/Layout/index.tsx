@@ -1,4 +1,4 @@
-import 'uno.css';
+import 'windi.css';
 import '../../index.css';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
