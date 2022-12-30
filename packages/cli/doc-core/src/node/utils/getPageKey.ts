@@ -1,4 +1,4 @@
-import { removeLeadingSlash } from './normalizePath';
+import { removeLeadingSlash } from '@/shared/utils';
 
 export function getPageKey(route: string) {
   const cleanRoute = removeLeadingSlash(route);

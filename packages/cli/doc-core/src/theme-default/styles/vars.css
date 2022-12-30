@@ -66,6 +66,22 @@
   --modern-c-blue-dark: #0077ff;
   --modern-c-blue-darker: #0055ff;
   --modern-c-blue-dimm: rgba(100, 108, 255, 0.08);
+
+  --modern-c-yellow: #ffc517;
+  --modern-c-yellow-light: #fcd253;
+  --modern-c-yellow-lighter: #fcfc7c;
+  --modern-c-yellow-darker: #ad850e;
+  --modern-c-yellow-dimm-1: rgba(255, 197, 23, 0.5);
+  --modern-c-yellow-dimm-2: rgba(255, 197, 23, 0.25);
+  --modern-c-yellow-dimm-3: rgba(255, 197, 23, 0.05);
+
+  --modern-c-red: #ed3c50;
+  --modern-c-red-light: #f54e82;
+  --modern-c-red-lighter: #fd1d7c;
+  --modern-c-red-darker: #ab2131;
+  --modern-c-red-dimm-1: rgba(237, 60, 80, 0.5);
+  --modern-c-red-dimm-2: rgba(237, 60, 80, 0.25);
+  --modern-c-red-dimm-3: rgba(237, 60, 80, 0.05);
 }
 
 /**
