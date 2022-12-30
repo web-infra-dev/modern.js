@@ -64,8 +64,8 @@ export function Overview() {
   }, [overviewSidebarGroups]);
 
   return (
-    <div className="overview-index max-w-712px" m="x-auto" p="y-8 x-8">
-      <div flex="" items-center="" justify="between">
+    <div className="overview-index max-w-3/4" m="x-auto" p="y-8 x-8">
+      <div flex="~" align-items-center="~" justify="between">
         <h1>Overview</h1>
       </div>
 
@@ -75,7 +75,7 @@ export function Overview() {
           <div className={styles.overviewGroups}>
             {group.items.map(item => (
               <div className={styles.overviewGroup} key={item.link}>
-                <div flex="center">
+                <div flex="~ center">
                   <h3 style={{ marginBottom: 0 }}>
                     <Link href={normalizeHref(item.link)}>{item.text}</Link>
                   </h3>

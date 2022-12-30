@@ -12,24 +12,24 @@ export function NotFoundLayout() {
       <p text="6xl" font="semibold">
         404
       </p>
-      <h1 pt="3" text="xl" leading-5="" font="bold">
+      <h1 pt="3" text="xl" className="leading-5" font="bold">
         PAGE NOT FOUND
       </h1>
       <div
         m="t-6 x-auto b-4.5"
         w="16"
         style={{ height: '1px' }}
-        bg="divider-default"
+        bg="gray-light-1"
       />
 
       <div pt="5">
         <a
-          inline-block=""
+          inline-block="~"
           border="1px solid brand"
           rounded="2xl"
-          p="y-1 x-4"
+          p="y-2 x-4"
           text="sm brand"
-          font-medium=""
+          font-medium="~"
           transition="border-color duration-300 color duration-300"
           hover="border-color-brand-dark color-brand-dark"
           href={siteData.base}

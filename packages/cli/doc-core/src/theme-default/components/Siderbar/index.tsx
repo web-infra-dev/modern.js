@@ -4,6 +4,7 @@ import { matchRoutes, useNavigate } from 'react-router-dom';
 import { routes } from 'virtual-routes';
 import { Link } from '../Link';
 import { isActive } from '../../logic';
+import ArrowRight from '../../assets/arrow-right.svg';
 import styles from './index.module.scss';
 import { removeBase, normalizeHref } from '@/runtime';
 
@@ -88,13 +89,14 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   const { collapsed } = item as SidebarGroup;
   const collapsibleIcon = (
     <div
-      className="i-carbon-chevron-right"
       cursor-pointer="~"
       style={{
         transition: 'transform 0.2s ease-out',
         transform: collapsed ? 'rotate(0deg)' : 'rotate(90deg)',
       }}
-    ></div>
+    >
+      <ArrowRight />
+    </div>
   );
 
   const toggleCollapse: React.MouseEventHandler<HTMLDivElement> = (e): void => {
@@ -122,7 +124,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         flex="~"
         justify="between"
         items-start="~"
-        cursor-pointer="~"
+        cursor="pointer"
         className={`items-center ${
           active ? styles.menuItemActive : styles.menuItem
         }`}
@@ -233,9 +235,10 @@ export function SideBar(props: Props) {
   };
   return (
     <aside
-      className={`${styles.sidebar} ${
-        isSidebarOpen ? styles.open : ''
-      } divider-right`}
+      className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}
+      style={{
+        borderRight: '1px solid var(--modern-c-divider-light)',
+      }}
     >
       <nav mt="1">
         {sidebarData.map((item: SidebarGroup | SidebarItem, index: number) => (
