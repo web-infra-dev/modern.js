@@ -98,7 +98,7 @@
     "yaml-front-matter": "^4.1.1"
   },
   "peerDependencies": {
-    "@modern-js/core": ">=2.0.0-beta.3",
+    "@modern-js/core": "workspace:^2.0.0-beta.7",
     "react": ">=17"
   },
   "devDependencies": {
