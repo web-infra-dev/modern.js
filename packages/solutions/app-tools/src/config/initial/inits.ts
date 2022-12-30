@@ -6,6 +6,7 @@ import {
   globby,
   isModernjsMonorepo,
 } from '@modern-js/utils';
+import { getAutoInjectEnv } from '../../utils/env';
 import { AppNormalizedConfig, IAppContext } from '../../types';
 
 export function initHtmlConfig(
@@ -58,6 +59,17 @@ export function initSourceConfig(
 ) {
   config.source.include = createBuilderInclude(config, appContext);
   config.source.moduleScopes = createBuilderModuleScope(config);
+  config.source.globalVars = createBuilderGlobalVars(config, appContext);
+
+  function createBuilderGlobalVars(
+    config: AppNormalizedConfig,
+    appContext: IAppContext,
+  ) {
+    const { globalVars = {} } = config.source;
+    const publicEnv = getAutoInjectEnv(appContext);
+    return { ...globalVars, ...publicEnv };
+  }
+
   function createBuilderInclude(
     config: AppNormalizedConfig,
     appContext: IAppContext,
