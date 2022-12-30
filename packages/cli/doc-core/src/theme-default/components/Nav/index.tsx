@@ -24,7 +24,7 @@ interface NavBarTitleProps {
 
 const NavBarTitle = ({ title, langRoutePrefix, logo }: NavBarTitleProps) => {
   return (
-    <div shrink="0" className={`${styles.navBarTitle}`}>
+    <div className={`${styles.navBarTitle}`}>
       <a
         href={withBase(langRoutePrefix)}
         w="full"
@@ -36,7 +36,7 @@ const NavBarTitle = ({ title, langRoutePrefix, logo }: NavBarTitleProps) => {
         className="flex items-center"
       >
         {logo ? (
-          <img src={logo} alt="logo" id="logo" mr="4" className="w-24" />
+          <img src={logo} alt="logo" id="logo" m="r-4" className="w-24" />
         ) : (
           <span>{title}</span>
         )}
@@ -125,7 +125,7 @@ export function Nav(props: NavProps) {
     return (
       <div className={styles.rightNav}>
         {hasSearch && (
-          <div className="search" flex="sm:1" pl="sm:8">
+          <div className="search" flex="sm:1" p="sm:l-8">
             <Search
               langRoutePrefix={localeData.langRoutePrefix || ''}
               defaultLang={defaultLang}
@@ -144,16 +144,18 @@ export function Nav(props: NavProps) {
   };
   return (
     <header
-      relative="~"
       z="4"
-      fixed="md:~"
-      className="top-0 left-0 md:border-b lg:border-b"
+      className="top-0 left-0 md:border-b lg:border-b relative md:fixed"
       style={{
         borderBottom: '1px solid var(--modern-c-divider-light)',
       }}
       w="full"
     >
-      <div relative="~" p="x-6" transition="background-color duration-500">
+      <div
+        className="relative"
+        p="x-6"
+        transition="background-color duration-500"
+      >
         <div
           flex="~"
           justify="between"

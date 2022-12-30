@@ -65,7 +65,6 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
     <div flex="~ col 1" className="max-w-256px min-w-200px">
       <div className={hasOutline ? `<lg:hidden` : 'hidden'}>
         <div
-          relative="~"
           p="l-4"
           text="sm"
           font-medium="~"
@@ -73,9 +72,10 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
           style={{
             borderLeft: '1px solid var(--modern-c-divider-light)',
           }}
+          className="relative"
         >
           <div
-            absolute="~"
+            className="absolute"
             opacity="0"
             w="1px"
             h="18px"
@@ -93,7 +93,7 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
             {props.outlineTitle}
           </div>
           <nav>
-            <ul relative="~">{headers.map(renderHeader)}</ul>
+            <ul className="relative">{headers.map(renderHeader)}</ul>
           </nav>
         </div>
       </div>

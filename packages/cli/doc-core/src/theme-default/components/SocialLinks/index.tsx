@@ -26,7 +26,7 @@ export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
       nav-h="mobile sm:desktop"
       flex="~"
       align-items-center="~"
-      relative="~"
+      pos="relative"
       onMouseLeave={() => setMoreLinksVisible(false)}
     >
       <ShownLinks

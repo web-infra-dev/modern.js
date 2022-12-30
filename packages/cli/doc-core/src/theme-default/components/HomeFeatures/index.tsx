@@ -28,33 +28,31 @@ export function HomeFeature() {
         return (
           <div
             key={title}
-            rounded="md"
-            pr="0 md:4"
-            pb="4"
+            border="rounded-md"
+            p="r-0 md:r-4 b-4"
             w="full"
             className={`${gridClass ? styles[gridClass] : ''}`}
           >
             <article
               key={title}
-              rounded="xl"
               h="full"
               p="6"
               bg="soft"
-              border="~ bg-soft solid"
+              border="~ bg-soft solid rounded-xl"
             >
               <div
                 flex="~ center"
-                mb="5"
+                m="b-5"
                 w="12"
                 h="12"
                 text="3xl"
                 bg="gray-light-4 dark:bg-white"
-                rounded="md"
+                border="rounded-md"
               >
                 {icon}
               </div>
               <h2 font="bold">{title}</h2>
-              <p pt="2" text="sm text-2" font="medium" className="leading-6">
+              <p p="t-2" text="sm text-2" font="medium" className="leading-6">
                 {details}
               </p>
             </article>

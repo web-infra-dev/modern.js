@@ -85,7 +85,7 @@ export interface LocaleConfig {
   lang: string;
   title?: string;
   description?: string;
-  label?: string;
+  label: string;
   selectText?: string;
   nav?: NavItem[];
   sidebar?: Sidebar;
@@ -107,7 +107,7 @@ export type NavItemWithLink = {
 };
 
 export type NavItemChildren = {
-  text?: string;
+  text: string;
   items: NavItemWithLink[];
 };
 

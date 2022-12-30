@@ -24,7 +24,7 @@ export function SideMenu(props: Props) {
     <Fragment>
       <div className={styles.localNav}>
         <button flex="~ center" onClick={openSidebar} className={styles.menu}>
-          <div text="md" mr="2">
+          <div text="md" m="r-2">
             <MenuIcon />
           </div>
           <span text="sm">Menu</span>

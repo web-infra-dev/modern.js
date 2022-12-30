@@ -1,4 +1,4 @@
-import { DefaultTheme } from 'shared/types';
+import { NavItemWithLink } from 'shared/types';
 import { useState } from 'react';
 import Down from '../../assets/down.svg';
 import Right from '../../assets/right.svg';
@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 
 export interface NavScreenMenuGroupItem {
   text?: string | React.ReactElement;
-  items: DefaultTheme.NavItemWithLink[];
+  items: NavItemWithLink[];
   activeIndex?: number;
 }
 
@@ -16,7 +16,7 @@ export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
-      relative="~"
+      pos="relative"
       className={`${isOpen ? styles.open : ''} ${styles.navScreenMenuGroup}`}
     >
       <button
@@ -34,7 +34,7 @@ export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
             if (index === activeIndex) {
               return (
                 <div className="pa-1" key={child.link}>
-                  <span mr="1" text="brand">
+                  <span m="r-1" text="brand">
                     {child.text}
                   </span>
                 </div>
@@ -45,7 +45,7 @@ export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
                   <Link href={child.link}>
                     <div>
                       <div flex="~">
-                        <span mr="1">{child.text}</span>
+                        <span m="r-1">{child.text}</span>
                         <Right w="11px" h="11px" text="text-3" m="t-1 r-1" />
                       </div>
                     </div>

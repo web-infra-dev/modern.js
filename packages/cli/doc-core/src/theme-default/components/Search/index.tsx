@@ -117,7 +117,7 @@ export function Search(props: SearchOptions) {
     setDisableInput(false);
   }, []);
   return (
-    <div flex="~" align="items-center" relative="~" mr="2" font="semibold">
+    <div flex="~" align="items-center" pos="relative" m="r-2" font="semibold">
       <SearchSvg
         w="5"
         h="5"
@@ -155,8 +155,7 @@ export function Search(props: SearchOptions) {
         w="10"
         h="6"
         p="x-1.5"
-        rounded="md"
-        border="1px solid gray-light-3"
+        border="1px solid gray-light-3 rounded-md"
         text="xs gray-light-3"
         flex="~"
         align="items-center"
@@ -180,10 +179,9 @@ export function Search(props: SearchOptions) {
           {suggestions.map((item, index) => (
             <li
               key={item.title}
-              rounded="sm"
               cursor="pointer"
               w="full"
-              className="border-collapse"
+              className="border-collapse rounded-sm"
             >
               <a block="~" href={item.link} className="whitespace-normal">
                 <div table="~" w="full" className="border-collapse">

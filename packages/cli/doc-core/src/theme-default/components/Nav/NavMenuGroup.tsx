@@ -6,7 +6,7 @@ import Down from '../../assets/down.svg';
 import Right from '../../assets/right.svg';
 
 export interface NavMenuGroupItem {
-  text?: string | React.ReactElement;
+  text: string | React.ReactElement;
   items: NavItemWithLink[];
   activeIndex?: number;
   // When the item is transition, we need to give a react element instead of a string.
@@ -19,7 +19,7 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
   return (
     <div
       h="14"
-      relative="~"
+      className="relative"
       flex="~ center"
       onMouseLeave={() => setIsOpen(false)}
     >
@@ -32,17 +32,16 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         transition="color duration-200"
         className="nav-menu-group-button"
       >
-        <span mr="1" text="sm" font="medium">
+        <span m="r-1" text="sm" font="medium">
           {isTranslation ? <Translator w="18px" h="18px" /> : item.text}
         </span>
         <Down />
       </button>
       <div
-        absolute="~"
         pos="top-13 right-0"
         m="x-0.8"
         transition="opacity duration-300"
-        className="nav-menu-group-content"
+        className="nav-menu-group-content absolute"
         style={{
           opacity: isOpen ? 1 : 0,
           visibility: isOpen ? 'visible' : 'hidden',
@@ -52,8 +51,7 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
           p="3"
           w="full"
           h="full"
-          className="min-w-128px max-h-100vh"
-          rounded="xl"
+          className="min-w-128px max-h-100vh rounded-xl"
           bg="white"
           style={{
             boxShadow: 'var(--modern-shadow-3)',
@@ -65,8 +63,8 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
           {item.items.map((child, index) => {
             if (index === activeIndex) {
               return (
-                <div key={child.link} rounded="md" p="y-1.6 l-3">
-                  <span mr="1" text="brand">
+                <div key={child.link} className="rounded-md" p="y-1.6 l-3">
+                  <span m="r-1" text="brand">
                     {child.text}
                   </span>
                 </div>
@@ -75,9 +73,9 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
               return (
                 <div key={child.link} font="medium">
                   <Link href={child.link}>
-                    <div rounded="md" hover="bg-mute" p="y-1.6 l-3">
+                    <div className="rounded-md" hover="bg-mute" p="y-1.6 l-3">
                       <div flex="~">
-                        <span mr="1">{child.text}</span>
+                        <span m="r-1">{child.text}</span>
                         <Right w="11px" h="11px" text="text-3" m="t-1 r-1" />
                       </div>
                     </div>
