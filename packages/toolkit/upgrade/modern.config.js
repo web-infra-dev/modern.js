@@ -8,7 +8,7 @@ module.exports = {
     },
     {
       buildType: 'bundleless',
-      outdir: './dist',
+      outDir: './dist',
       dts: {
         only: true,
       },

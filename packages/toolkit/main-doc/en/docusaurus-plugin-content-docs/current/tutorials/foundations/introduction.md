@@ -1,5 +1,5 @@
 ---
-title: Modern.js Introduce
+title: Introduce
 sidebar_position: 1
 ---
 

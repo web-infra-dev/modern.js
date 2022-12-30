@@ -10,7 +10,7 @@ export default defineConfig({
           '@src': './src',
         };
       },
-      outdir: './dist/bundle/function',
+      outDir: './dist/bundle/function',
       buildType: 'bundle',
     };
   },

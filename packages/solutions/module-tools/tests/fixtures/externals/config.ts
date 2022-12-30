@@ -7,14 +7,14 @@ export default defineConfig({
       input: ['./src/index.ts'],
       externals: ['react'],
 
-      outdir: './dist/string',
+      outDir: './dist/string',
     },
     {
       buildType: 'bundle',
       input: ['./src/index.ts'],
       externals: [/react/],
 
-      outdir: './dist/regexp',
+      outDir: './dist/regexp',
     },
   ],
 });

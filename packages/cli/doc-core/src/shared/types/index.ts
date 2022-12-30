@@ -58,6 +58,10 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    */
   description?: string;
   /**
+   * Head tags.
+   */
+  head?: string[];
+  /**
    * Theme config.
    */
   themeConfig?: ThemeConfig;
@@ -96,6 +100,15 @@ export interface SiteData<ThemeConfig = unknown> {
   icon: string;
   themeConfig: ThemeConfig;
   logo: string;
+  pages: PageBasicInfo[];
+}
+
+export interface PageBasicInfo {
+  routePath: string;
+  title: string;
+  toc: Header[];
+  frontmatter: Record<string, string | number>;
+  content: string;
 }
 
 export interface Hero {

@@ -5,6 +5,7 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     import('../plugins/basic').then(m => m.PluginBasic()),
     plugins.entry(),
+    plugins.cache(),
     // todo: module import error when target is esX
     // plugins.target(),
     import('../plugins/output').then(m => m.PluginOutput()),
@@ -18,6 +19,7 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     import('../plugins/define').then(m => m.PluginDefine()),
     import('../plugins/css').then(m => m.PluginCss()),
     import('../plugins/less').then(m => m.PluginLess()),
+    import('../plugins/sass').then(m => m.PluginSass()),
   ]);
 
 export const applyDefaultPlugins = (plugins: Plugins) =>

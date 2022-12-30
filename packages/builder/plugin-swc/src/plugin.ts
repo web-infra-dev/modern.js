@@ -148,6 +148,11 @@ export class SwcWebpackPlugin {
   }
 
   apply(compiler: Compiler): void {
+    const meta = JSON.stringify({
+      name: 'swc-minify',
+      options: this.minifyOptions,
+    });
+
     compiler.hooks.compilation.tap(PLUGIN_NAME, async compilation => {
       const { Compilation } = compiler.webpack;
       const { devtool } = compilation.options;
@@ -158,6 +163,10 @@ export class SwcWebpackPlugin {
           : Boolean(devtool);
       this.minifyOptions.inlineSourcesContent =
         typeof devtool === 'string' && devtool.includes('inline');
+
+      compilation.hooks.chunkHash.tap(PLUGIN_NAME, (_, hash) =>
+        hash.update(meta),
+      );
 
       compilation.hooks.processAssets.tapPromise(
         {
@@ -172,34 +181,66 @@ export class SwcWebpackPlugin {
   }
 
   async updateAssets(compilation: Compilation): Promise<void[]> {
+    const cache = compilation.getCache(PLUGIN_NAME);
+
     const { SourceMapSource, RawSource } = compilation.compiler.webpack.sources;
     const assets = compilation
       .getAssets()
       // TODO handle css minify
       .filter(asset => !asset.info.minimized && JS_RE.test(asset.name));
 
-    return Promise.all(
-      assets.map(async asset => {
-        const { source, map } = asset.source.sourceAndMap();
-        const result = await minify(
-          asset.name,
-          source.toString(),
-          this.minifyOptions,
-        );
+    const assetsWithCache = await Promise.all(
+      assets.map(async ({ name, info, source }) => {
+        const eTag = cache.getLazyHashedEtag(source);
+        const cacheItem = cache.getItemCache(name, eTag);
+        return {
+          name,
+          info,
+          source,
+          cacheItem,
+        };
+      }),
+    );
 
-        compilation.updateAsset(
-          asset.name,
-          this.minifyOptions.sourceMap && result.map
-            ? new SourceMapSource(
-                result.code,
-                asset.name,
-                result.map,
-                source.toString(),
-                map,
-                true,
-              )
-            : new RawSource(result?.code || ''),
-        );
+    return Promise.all(
+      assetsWithCache.map(async asset => {
+        const cache = await asset.cacheItem.getPromise<{
+          minifiedSource: InstanceType<
+            typeof SourceMapSource | typeof RawSource
+          >;
+        }>();
+
+        let minifiedSource = cache ? cache.minifiedSource : null;
+
+        if (!minifiedSource) {
+          const { source, map } = asset.source.sourceAndMap();
+          const minifyResult = await minify(
+            asset.name,
+            source.toString(),
+            this.minifyOptions,
+          );
+
+          minifiedSource =
+            this.minifyOptions.sourceMap && minifyResult.map
+              ? new SourceMapSource(
+                  minifyResult.code,
+                  asset.name,
+                  minifyResult.map,
+                  source.toString(),
+                  map,
+                  true,
+                )
+              : new RawSource(minifyResult?.code || '');
+        }
+
+        await asset.cacheItem.storePromise({
+          minifiedSource,
+        });
+
+        compilation.updateAsset(asset.name, minifiedSource, {
+          ...asset.info,
+          minimized: true,
+        });
       }),
     );
   }

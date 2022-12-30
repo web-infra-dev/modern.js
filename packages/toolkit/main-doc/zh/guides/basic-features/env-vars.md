@@ -11,7 +11,7 @@ Modern.js 提供了对环境变量的支持，包含内置的环境变量和自�
 
 表示当前的执行环境，是**只读的**的环境变量，其值在不同的执行命令下具有不同的值：
 
-- `production`：执行 `modern build`、`modern preview` 命令时的默认值。
+- `production`：执行 `modern build`、`modern serve` 命令时的默认值。
 - `test`：执行 `modern test` 命令时的默认值。
 - `development`：执行 `modern dev` 命令时的默认值，同时也是其他所有情况下的默认值。
 

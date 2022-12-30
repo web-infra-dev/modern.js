@@ -34,19 +34,11 @@ Element name (element), supports two options:
 
 - Create customized server dir(server)
 
-These two options also need to be used in conjunction with the specific configuration, which is described as follows:
+The entry also need to be used in conjunction with the specific configuration, which is described as follows:
 
 #### name
 
 Entry name (name), character `string` type.
-
-#### framework
-
-Customized server runtime framework(framework)，supports two options:：
-
-- Express(express)
-
-- Koa(koa)
 
 ### function
 

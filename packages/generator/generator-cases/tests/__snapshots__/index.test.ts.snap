@@ -74,6 +74,10 @@ exports[`test generator cases test getModuleNewCases 1`] = `
 Array [
   Object {
     "actionType": "function",
+    "function": "test",
+  },
+  Object {
+    "actionType": "function",
     "function": "tailwindcss",
   },
   Object {

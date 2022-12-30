@@ -15,10 +15,20 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "runtime": "automatic",
     },
   },
+  "cache": {
+    "buildDependencies": [
+      "<ROOT>/package.json",
+      "<ROOT>/tsconfig.json",
+    ],
+    "cacheDirectory": "<ROOT>/node_modules/.cache/rspack",
+    "name": "web-development",
+    "type": "filesystem",
+  },
   "context": "<ROOT>",
   "devServer": {
     "hot": true,
   },
+  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -74,6 +84,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
+        "exclude": [],
         "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
@@ -132,6 +143,63 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           },
         ],
       },
+      {
+        "exclude": [],
+        "name": "sass",
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "builtinLoader": "sass-loader",
+            "name": "sass",
+            "options": {
+              "rspackImporter": true,
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
     ],
   },
   "output": {
@@ -155,6 +223,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": undefined,
 }
 `;
 
@@ -173,10 +242,20 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "runtime": "automatic",
     },
   },
+  "cache": {
+    "buildDependencies": [
+      "<ROOT>/package.json",
+      "<ROOT>/tsconfig.json",
+    ],
+    "cacheDirectory": "<ROOT>/node_modules/.cache/rspack",
+    "name": "web-production",
+    "type": "filesystem",
+  },
   "context": "<ROOT>",
   "devServer": {
     "hot": false,
   },
+  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -232,6 +311,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         ],
       },
       {
+        "exclude": [],
         "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
@@ -290,6 +370,63 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           },
         ],
       },
+      {
+        "exclude": [],
+        "name": "sass",
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "builtinLoader": "sass-loader",
+            "name": "sass",
+            "options": {
+              "rspackImporter": true,
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
     ],
   },
   "output": {
@@ -313,6 +450,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": undefined,
 }
 `;
 
@@ -331,10 +469,20 @@ exports[`tools.rspack > should match snapshot 1`] = `
       "runtime": "automatic",
     },
   },
+  "cache": {
+    "buildDependencies": [
+      "<ROOT>/package.json",
+      "<ROOT>/tsconfig.json",
+    ],
+    "cacheDirectory": "<ROOT>/node_modules/.cache/rspack",
+    "name": "web-development",
+    "type": "filesystem",
+  },
   "context": "<ROOT>",
   "devServer": {
     "hot": true,
   },
+  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -398,6 +546,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
+        "exclude": [],
         "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
@@ -456,6 +605,63 @@ exports[`tools.rspack > should match snapshot 1`] = `
           },
         ],
       },
+      {
+        "exclude": [],
+        "name": "sass",
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "type": "css",
+        "use": [
+          {
+            "loader": [Function],
+            "name": "postcss",
+            "options": {
+              "modules": {
+                "auto": true,
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
+              },
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "builtinLoader": "sass-loader",
+            "name": "sass",
+            "options": {
+              "rspackImporter": true,
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
     ],
   },
   "output": {
@@ -484,5 +690,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": undefined,
 }
 `;

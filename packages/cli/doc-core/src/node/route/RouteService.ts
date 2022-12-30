@@ -122,13 +122,13 @@ export class RouteService {
     return this.#routeData.find(route => route.routePath === routePath);
   }
 
-  generateRoutesCode(ssr?: boolean) {
+  generateRoutesCode(isStaticImport?: boolean) {
     return `
 import React from 'react';
 import { lazyWithPreload } from "react-lazy-with-preload";
 ${this.#routeData
   .map((route, index) => {
-    return ssr
+    return isStaticImport
       ? `import * as Route${index} from '${route.absolutePath}';`
       : `const Route${index} = lazyWithPreload(() => import(/* webpackChunkName: "${route.pageName}" */'${route.absolutePath}'))`;
   })
@@ -137,13 +137,15 @@ export const routes = [
 ${this.#routeData
   .map((route, index) => {
     // In ssr, we don't need to import component dynamically.
-    const preload = ssr
+    const preload = isStaticImport
       ? `() => Route${index}`
       : `async () => { 
         await Route${index}.preload();
         return import("${route.absolutePath}");
       }`;
-    const component = ssr ? `Route${index}.default` : `Route${index}`;
+    const component = isStaticImport
+      ? `Route${index}.default`
+      : `Route${index}`;
     /**
      * For SSR, example:
      * {

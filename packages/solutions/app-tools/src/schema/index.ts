@@ -12,6 +12,7 @@ const source = {
           properties: {
             entry: { type: ['string', 'array'] },
             disableMount: { type: 'boolean' },
+            customBootstrap: { type: 'string' },
           },
           additionalProperties: false,
         },

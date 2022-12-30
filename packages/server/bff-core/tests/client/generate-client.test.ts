@@ -38,8 +38,8 @@ describe('client', () => {
     expect(result.value)
       .toMatch(`import { createRequest } from '@modern-js/create-request';
 
-export const get = createRequest('/api/:id/origin/foo', 'GET', process.env.PORT || 3000);
-export const post = createRequest('/api/:id/origin/foo', 'POST', process.env.PORT || 3000);
+export const get = createRequest('/api/:id/origin/foo', 'GET', 3000);
+export const post = createRequest('/api/:id/origin/foo', 'POST', 3000);
 `);
   });
 
@@ -64,9 +64,9 @@ export const post = createRequest('/api/:id/origin/foo', 'POST', process.env.POR
     expect(result.value)
       .toMatch(`import { createRequest } from '@modern-js/create-request';
 
-export default createRequest('/normal/origin', 'GET', process.env.PORT || 3000);
-export const DELETE = createRequest('/normal/origin', 'DELETE', process.env.PORT || 3000);
-export const putRepo = createRequest('/put-repo', 'PUT', process.env.PORT || 3000);
+export default createRequest('/normal/origin', 'GET', 3000);
+export const DELETE = createRequest('/normal/origin', 'DELETE', 3000);
+export const putRepo = createRequest('/put-repo', 'PUT', 3000);
 `);
   });
 });

@@ -1,7 +1,12 @@
 import path from 'path';
 import { pathToFileURL } from 'url';
-import { isUseCssSourceMap, SASS_REGEX } from '@modern-js/builder-shared';
+import {
+  isUseCssSourceMap,
+  SASS_REGEX,
+  FileFilterUtil,
+} from '@modern-js/builder-shared';
 import type { BuilderPlugin, SassLoaderOptions } from '../types';
+import _ from '@modern-js/utils/lodash';
 
 /** fix issue about dart2js: https://github.com/dart-lang/sdk/issues/27979 */
 export function patchGlobalLocation() {
@@ -23,19 +28,15 @@ export function PluginSass(): BuilderPlugin {
         const { merge: deepMerge } = await import('@modern-js/utils/lodash');
 
         const getSassLoaderOptions = () => {
-          const excludes: RegExp[] = [];
+          const excludes: (RegExp | string)[] = [];
 
-          const addExcludes = (items: RegExp | RegExp[]) => {
-            if (Array.isArray(items)) {
-              excludes.push(...items);
-            } else {
-              excludes.push(items);
-            }
+          const addExcludes: FileFilterUtil = items => {
+            excludes.push(..._.castArray(items));
           };
 
           const mergedOptions = applyOptionsChain<
             SassLoaderOptions,
-            { addExcludes: (excludes: RegExp | RegExp[]) => void }
+            { addExcludes: FileFilterUtil }
           >(
             {
               sourceMap: isUseCssSourceMap(config),

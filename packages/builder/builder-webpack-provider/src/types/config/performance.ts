@@ -22,29 +22,29 @@ export type CacheGroup = webpack.Configuration extends {
   ? P
   : never;
 
-export interface BaseChunkSplit {
+export interface BaseSplitRules {
+  strategy: string;
+  forceSplitting?: Array<RegExp>;
+  override?: SplitChunks;
+}
+
+export interface BaseChunkSplit extends BaseSplitRules {
   strategy:
     | 'split-by-module'
     | 'split-by-experience'
     | 'all-in-one'
     | 'single-vendor';
-  forceSplitting?: Array<RegExp>;
-  override?: SplitChunks;
 }
 
-export interface SplitBySize {
+export interface SplitBySize extends BaseSplitRules {
   strategy: 'split-by-size';
   minSize?: number;
   maxSize?: number;
-  forceSplitting?: Array<RegExp>;
-  override?: SplitChunks;
 }
 
-export interface SplitCustom {
+export interface SplitCustom extends BaseSplitRules {
   strategy: 'custom';
   splitChunks?: SplitChunks;
-  override?: SplitChunks;
-  forceSplitting?: Array<RegExp>;
 }
 
 export type BuilderChunkSplit = BaseChunkSplit | SplitBySize | SplitCustom;
