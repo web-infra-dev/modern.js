@@ -1,6 +1,6 @@
 {
   "name": "@scripts/check-changeset",
-  "version": "1.22.2",
+  "version": "1.22.3",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",

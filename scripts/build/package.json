@@ -1,7 +1,7 @@
 {
   "name": "@scripts/build",
   "private": true,
-  "version": "1.22.2",
+  "version": "1.22.3",
   "main": "./src/index.js",
   "bin": {
     "modern": "./bin/modern.js",
