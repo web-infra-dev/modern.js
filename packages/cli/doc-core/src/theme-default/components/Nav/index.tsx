@@ -9,6 +9,7 @@ import { NavMenuGroup, NavMenuGroupItem } from './NavMenuGroup';
 import { NavMenuSingleItem } from './NavMenuSingleItem';
 import styles from './index.module.scss';
 import { usePageData, withBase } from '@/runtime';
+import { replaceLang } from '@/shared/utils';
 
 export interface NavProps {
   beforeNavTitle?: React.ReactNode;
@@ -39,7 +40,7 @@ const NavBarTitle = ({ title, langRoutePrefix, logo }: NavBarTitleProps) => {
         className="flex items-center"
       >
         {logo ? (
-          <img src={logo} alt="logo" mr="4" className="w-24" />
+          <img src={logo} alt="logo" id="logo" mr="4" className="w-24" />
         ) : (
           <span>{title}</span>
         )}
@@ -87,7 +88,7 @@ export function Nav(props: NavProps) {
     ? {
         items: localeLanguages.map(item => ({
           text: item.label,
-          link: `/${item.lang === defaultLang ? '' : item.lang}`,
+          link: replaceLang(pathname, item.lang, defaultLang, langs),
         })),
         activeIndex: localeLanguages.findIndex(
           item => item.lang === localeData.lang,

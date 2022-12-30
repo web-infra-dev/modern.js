@@ -55,7 +55,8 @@
   transition: all 0.2s;
 }
 
-.menuItem:hover {
+.menuItem:hover,
+.collapseContainer:hover {
   background-color: rgba(229, 229, 229, 0.5);
   transition: all 0.2s;
 }
