@@ -1,5 +1,57 @@
 # @modern-js/app-tools
 
+## 2.0.0-beta.7
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- bbe4c4ab64: feat: add @modern-js/plugin-swc
+
+  feat: 新增 @modern-js/plugin-swc 插件
+
+### Patch Changes
+
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- 6bda14ed71: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [d4a456659b]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [f680410886]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [bbe4c4ab64]
+  - @modern-js/core@2.0.0-beta.7
+  - @modern-js/prod-server@2.0.0-beta.7
+  - @modern-js/builder-webpack-provider@2.0.0-beta.7
+  - @modern-js/builder-plugin-node-polyfill@2.0.0-beta.7
+  - @modern-js/utils@2.0.0-beta.7
+  - @modern-js/plugin-lint@2.0.0-beta.7
+  - @modern-js/types@2.0.0-beta.7
+  - @modern-js/builder@2.0.0-beta.7
+  - @modern-js/builder-shared@2.0.0-beta.7
+  - @modern-js/builder-plugin-esbuild@2.0.0-beta.7
+  - @modern-js/plugin-data-loader@2.0.0-beta.7
+  - @modern-js/plugin-i18n@2.0.0-beta.7
+  - @modern-js/new-action@2.0.0-beta.7
+  - @modern-js/server@2.0.0-beta.7
+  - @modern-js/node-bundle-require@2.0.0-beta.7
+  - @modern-js/plugin@2.0.0-beta.7
+  - @modern-js/upgrade@2.0.0-beta.7
+
 ## 2.0.0-beta.6
 
 ### Major Changes

@@ -425,7 +425,7 @@ export default () => {
     // 这里没有发送真实的请求，只是返回了一个写死的数据。
     // 真实项目中，应该返回从远端获取的数据。
     return {
-      name: 'modern.js',
+      name: 'Modern.js',
     };
   });
 

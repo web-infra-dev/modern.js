@@ -1,5 +1,20 @@
 # @modern-js/plugin-ssg
 
+## 2.0.0-beta.7
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [bbe4c4ab64]
+  - @modern-js/utils@2.0.0-beta.7
+
 ## 2.0.0-beta.6
 
 ### Major Changes

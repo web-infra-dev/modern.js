@@ -1,6 +1,7 @@
 import { Sidebar, SidebarGroup, SidebarItem } from 'shared/types';
 import { useLocation } from 'react-router-dom';
 import { useLocaleSiteData } from './useLocaleSiteData';
+import { isEqualPath } from './utils';
 
 export function usePrevNextPage() {
   const { pathname } = useLocation();
@@ -34,7 +35,9 @@ export function usePrevNextPage() {
 
   walkThroughSidebar(sidebar);
 
-  const pageIndex = flattenTitles.findIndex(item => item.link === pathname);
+  const pageIndex = flattenTitles.findIndex(item =>
+    isEqualPath(item.link, pathname),
+  );
 
   const prevPage = flattenTitles[pageIndex - 1] || null;
   const nextPage = flattenTitles[pageIndex + 1] || null;

@@ -9,7 +9,6 @@ import {
   setRuntimeConfig,
   generateAsyncEntry,
 } from './utils';
-import './types';
 
 export type UseConfig = ReturnType<typeof useConfigContext>;
 

@@ -35,7 +35,7 @@ sidebar_label: ssg
 │               └── page.tsx
 ```
 
-在 `modern.js.config` 中做以下设置：
+在 `modern.config.js` 中做以下设置：
 
 ```js
 export default defineConfig({
@@ -72,10 +72,6 @@ export default () => {
 同样使用上面的配置，在执行 `pnpm run build` 后，只有入口路由 `/` 会生成渲染后的 HTML。
 
 ### 多入口
-
-:::note
-多入口 SSG 暂未支持，敬请期待。
-:::
 
 `output.ssg` 也可以按照入口配置，配置生效的规则同样由入口路由方式决定。
 
