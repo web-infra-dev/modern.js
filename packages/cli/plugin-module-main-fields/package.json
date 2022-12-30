@@ -30,7 +30,7 @@
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:*"
+    "@modern-js/module-tools": "workspace:^2.0.0-beta.7"
   },
   "sideEffects": false,
   "publishConfig": {

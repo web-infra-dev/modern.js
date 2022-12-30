@@ -30,7 +30,7 @@
     "dist/"
   ],
   "peerDependencies": {
-    "@modern-js/doc-tools": ">=2.0.0-beta.6",
+    "@modern-js/doc-tools": "workspace:^2.0.0-beta.7",
     "react": ">=17"
   },
   "devDependencies": {
