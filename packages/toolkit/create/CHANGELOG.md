@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 1.22.3
+
+### Patch Changes
+
+- e8f5994: fix: create tools distTag not right
+
+  fix: 修复 @modern-js/create 默认 distTag 不正确
+
 ## 1.22.2
 
 ### Patch Changes

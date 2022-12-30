@@ -1,5 +1,13 @@
 # @modern-js/webpack
 
+## 1.22.3
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@1.22.3
+- @modern-js/css-config@1.22.3
+- @modern-js/utils@1.22.3
+
 ## 1.22.2
 
 ### Patch Changes

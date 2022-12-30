@@ -1,5 +1,7 @@
 # @modern-js/ssg-generator
 
+## 2.4.14
+
 ## 2.4.13
 
 ## 2.4.12
