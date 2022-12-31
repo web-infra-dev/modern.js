@@ -70,7 +70,7 @@ export function Overview() {
       </div>
 
       {groups.map(group => (
-        <div mb="16" key={group.name}>
+        <div m="b-16" key={group.name}>
           <h2>{group.name}</h2>
           <div className={styles.overviewGroups}>
             {group.items.map(item => (
@@ -84,7 +84,7 @@ export function Overview() {
                   {item.headers?.map(header => (
                     <li
                       key={header.id}
-                      mt="first:2"
+                      m="first:t-2"
                       className={`${styles.overviewGroupLi} ${
                         styles[`level${header.depth}`]
                       }`}

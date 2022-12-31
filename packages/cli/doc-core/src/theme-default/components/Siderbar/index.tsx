@@ -69,7 +69,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
           p="y-1 x-2"
           block="~"
           text="sm"
-          rounded="sm"
+          border="rounded-sm"
           font-medium="~"
           onMouseEnter={() => props.preloadLink(item.link)}
           className={active ? styles.menuItemActive : styles.menuItem}
@@ -157,7 +157,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         }}
       >
         {(item as SidebarGroup)?.items?.map((item, index) => (
-          <div key={item.link} mb="last:0.5" ml="4">
+          <div key={item.link} m="last:b-0.5 l-4">
             <SidebarItemComp
               {...props}
               item={item}
@@ -240,7 +240,7 @@ export function SideBar(props: Props) {
         borderRight: '1px solid var(--modern-c-divider-light)',
       }}
     >
-      <nav mt="1">
+      <nav m="t-1">
         {sidebarData.map((item: SidebarGroup | SidebarItem, index: number) => (
           <SidebarItemComp
             id={String(index)}

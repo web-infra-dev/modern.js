@@ -40,7 +40,7 @@ export function Tabs({
   const defaultIndex = tabValues.findIndex(item => {
     if (typeof item === 'string') {
       return item === defaultValue;
-    } else if (typeof item === 'object' && 'value' in item) {
+    } else if (item && typeof item === 'object' && 'value' in item) {
       return item.value === defaultValue;
     }
     return false;

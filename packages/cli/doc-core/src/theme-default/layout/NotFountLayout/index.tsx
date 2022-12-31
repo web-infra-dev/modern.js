@@ -12,7 +12,7 @@ export function NotFoundLayout() {
       <p text="6xl" font="semibold">
         404
       </p>
-      <h1 pt="3" text="xl" className="leading-5" font="bold">
+      <h1 p="t-3" text="xl" className="leading-5" font="bold">
         PAGE NOT FOUND
       </h1>
       <div
@@ -22,11 +22,11 @@ export function NotFoundLayout() {
         bg="gray-light-1"
       />
 
-      <div pt="5">
+      <div p="t-5">
         <a
           inline-block="~"
           border="1px solid brand"
-          rounded="2xl"
+          className="rounded-2xl"
           p="y-2 x-4"
           text="sm brand"
           font-medium="~"

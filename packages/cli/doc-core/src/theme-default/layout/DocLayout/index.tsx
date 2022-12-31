@@ -51,7 +51,7 @@ export function DocLayout(props: DocLayoutProps) {
         />
       ) : null}
       <div flex="~ 1 shrink-0" className={`${styles.content}`}>
-        <div relative="~" className={`max-w-full md:max-w-3/4 lg:min-w-640px`}>
+        <div className={`max-w-full md:max-w-3/4 lg:min-w-640px relative`}>
           {isOverviewPage ? (
             <Overview />
           ) : (
@@ -63,7 +63,7 @@ export function DocLayout(props: DocLayoutProps) {
           {beforeDocFooter}
           <DocFooter />
         </div>
-        <div relative="~" display="none lg:block" order="2" flex="1">
+        <div className="relative" display="none lg:block" order="2" flex="1">
           <div className={styles.asideContainer}>
             <div
               flex="~ col"
