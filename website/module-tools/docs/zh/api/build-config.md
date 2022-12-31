@@ -89,7 +89,7 @@ export default defineConfig({
 ### svgr
 打包时将 svg 作为一个 React 组件处理，options 参考 [svgr](https://react-svgr.com/docs/options/)，另外还支持了 `include` 和 `exclude` 两个配置项，用于匹配需要处理的svg文件。
 - 类型： `boolean | Object`
-- 默认值： `true`
+- 默认值： `false`
 
 #### include
 设定匹配的 svg 文件

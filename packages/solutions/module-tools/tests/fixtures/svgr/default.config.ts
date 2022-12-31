@@ -7,5 +7,8 @@ export default defineConfig({
     outDir: './dist/default',
     externals: [/^react/],
     format: 'esm',
+    asset: {
+      svgr: true,
+    },
   },
 });
