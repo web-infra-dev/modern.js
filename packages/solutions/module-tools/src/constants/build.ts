@@ -11,7 +11,7 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
   target: 'esnext',
   sourceMap: false,
   copy: {},
-  outdir: './dist',
+  outDir: './dist',
   dts: Object.freeze({
     only: false,
     distPath: './',
@@ -33,7 +33,7 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     path: 'assets',
     limit: 14336,
     publicPath: '',
-    svgr: true,
+    svgr: false,
   },
   style: {
     less: {},

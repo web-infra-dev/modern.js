@@ -1,8 +1,13 @@
-import { isUseCssSourceMap, LESS_REGEX } from '@modern-js/builder-shared';
+import {
+  isUseCssSourceMap,
+  LESS_REGEX,
+  FileFilterUtil,
+} from '@modern-js/builder-shared';
+import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin, LessLoaderOptions } from '../types';
 
 export type LessLoaderUtils = {
-  addExcludes: (excludes: RegExp | RegExp[]) => void;
+  addExcludes: FileFilterUtil;
 };
 
 export function PluginLess(): BuilderPlugin {
@@ -15,14 +20,10 @@ export function PluginLess(): BuilderPlugin {
         const { applyBaseCSSRule } = await import('./css');
         const { merge: deepMerge } = await import('@modern-js/utils/lodash');
         const getLessLoaderOptions = () => {
-          const excludes: RegExp[] = [];
+          const excludes: (RegExp | string)[] = [];
 
-          const addExcludes = (items: RegExp | RegExp[]) => {
-            if (Array.isArray(items)) {
-              excludes.push(...items);
-            } else {
-              excludes.push(items);
-            }
+          const addExcludes: FileFilterUtil = items => {
+            excludes.push(..._.castArray(items));
           };
 
           const defaultLessLoaderOptions: LessLoaderOptions = {

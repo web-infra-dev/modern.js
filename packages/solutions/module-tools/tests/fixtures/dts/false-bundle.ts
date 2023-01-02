@@ -4,6 +4,6 @@ export default defineConfig({
   buildConfig: {
     buildType: 'bundle',
     dts: false,
-    outdir: './dist/false-bundle',
+    outDir: './dist/false-bundle',
   },
 });

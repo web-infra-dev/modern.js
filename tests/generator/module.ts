@@ -6,7 +6,6 @@ import { prepare } from './utils/prepare';
 import { execaWithStreamLog, usingTempDir } from './utils/tools';
 import {
   runLintProject,
-  runTestProject,
   runCreteCommand,
   runInstallAndBuildProject,
 } from './utils/command';
@@ -127,7 +126,6 @@ async function main() {
     await createAllModuleProject(repoDir, tmpDir, isLocal, isSimple);
     await runInstallAndBuildProject('module', tmpDir);
     await runLintProject('module', tmpDir);
-    await runTestProject(tmpDir);
     await runNewInModuleProject(repoDir, tmpDir, isLocal, isSimple);
   } catch (e) {
     // eslint-disable-next-line no-process-exit

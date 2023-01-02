@@ -66,9 +66,9 @@ export const generateClient = async ({
     const upperHttpMethod = httpMethod.toUpperCase();
 
     const routeName = routePath;
-    handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', process.env.PORT || ${String(
-      port,
-    )}${fetcher ? `, fetch` : ''});
+    handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', ${
+      process.env.PORT || String(port)
+    }${fetcher ? `, fetch` : ''});
 `;
   }
 

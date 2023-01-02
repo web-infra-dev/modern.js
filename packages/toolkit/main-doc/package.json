@@ -14,13 +14,13 @@
   "scripts": {
     "build": "npx ts-node ./scripts/sync.ts"
   },
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.7",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "peerDependencies": {
-    "@modern-js/builder-doc": "workspace:*"
+    "@modern-js/builder-doc": "workspace:^2.0.0-beta.7"
   },
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",

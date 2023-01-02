@@ -1,5 +1,5 @@
 # BuildPreset
-构建的预设字符串或者预设函数。提供开箱即用的构建配置
+构建的预设字符串或者预设函数。提供开箱即用的构建配置。
 
 - type: `string | Function`
 - default: `undefined`
@@ -7,7 +7,7 @@
 
 ## string
 
-字符串的形式可以让你直接使用内置的预设
+字符串的形式可以让你直接使用内置的预设。
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
@@ -42,17 +42,17 @@ export const buildConfig = [
     format: 'cjs',
     target: 'es6',
     buildType: 'bundle',
-    outdir: './lib',
+    outDir: './lib',
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundle',
-    outdir: './es',
+    outDir: './es',
   },
   {
     buildType: 'bundle',
-    outdir: './types',
+    outDir: './types',
     dts: {
       only: true,
     },
@@ -78,23 +78,23 @@ export const buildConfig = [
     format: 'cjs',
     target: 'es6',
     buildType: 'bundle',
-    outdir: './lib',
+    outDir: './lib',
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundle',
-    outdir: './es',
+    outDir: './es',
   },
   {
     format: 'umd',
     target: 'es6',
     buildType: 'bundle',
-    outdir: './umd',
+    outDir: './umd',
   },
   {
     buildType: 'bundle',
-    outdir: './types',
+    outDir: './types',
     dts: {
       only: true,
     },
@@ -122,17 +122,17 @@ export const buildConfig = [
     format: 'cjs',
     target: 'es6',
     buildType: 'bundleless',
-    outdir: './lib',
+    outDir: './lib',
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundleless',
-    outdir: './es',
+    outDir: './es',
   },
   {
     buildType: 'bundleless',
-    outdir: './types',
+    outDir: './types',
     dts: {
       only: true,
     },
@@ -157,23 +157,23 @@ export const buildConfig = [
     format: 'cjs',
     target: 'es6',
     buildType: 'bundleless',
-    outdir: './lib',
+    outDir: './lib',
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundleless',
-    outdir: './es',
+    outDir: './es',
   },
    {
     format: 'umd',
     target: 'es6',
     buildType: 'bundle',
-    outdir: './umd',
+    outDir: './umd',
   },
   {
     buildType: 'bundleless',
-    outdir: './types',
+    outDir: './types',
     dts: {
       only: true,
     },

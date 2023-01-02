@@ -1,6 +1,5 @@
 import path from 'path';
 import { createRequire } from 'module';
-import UnoCSSPlugin from '@unocss/webpack';
 import { UserConfig } from 'shared/types';
 import { BuilderInstance, mergeBuilderConfig } from '@modern-js/builder';
 import type {
@@ -8,11 +7,13 @@ import type {
   BuilderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import sirv from 'sirv';
+import VirtualModulesPlugin from 'webpack-virtual-modules';
+import WindiCSSWebpackPlugin from 'windicss-webpack-plugin';
 import { CLIENT_ENTRY, SSR_ENTRY, PACKAGE_ROOT, OUTPUT_DIR } from './constants';
 import { createMDXOptions } from './mdx';
 import { virtualModuleFactoryList } from './virtualModule';
-import unocssOptions from './unocssOptions';
 import { replacePlugin } from './plugins/replace';
+import windiConfig from './windiOptions';
 
 const require = createRequire(import.meta.url);
 
@@ -27,9 +28,12 @@ async function createInternalBuildConfig(
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');
-  const virtualModulePlugins = await Promise.all(
-    virtualModuleFactoryList.map(factory => factory(userRoot, config, isSSR)),
-  );
+  // The order should be sync
+  const virtualModulePlugins: VirtualModulesPlugin[] = [];
+  for (const factory of virtualModuleFactoryList) {
+    virtualModulePlugins.push(await factory(userRoot, config, isSSR));
+  }
+
   const publicDir = path.join(userRoot, 'public');
   const isPublicDirExist = await fs.pathExists(publicDir);
   return {
@@ -106,10 +110,13 @@ async function createInternalBuildConfig(
       },
       webpack(config) {
         config.plugins!.push(...virtualModulePlugins);
-        config.plugins!.push(UnoCSSPlugin(unocssOptions));
-        // Avoid atom css invalid because of persistent cache
+        config.plugins!.push(
+          new WindiCSSWebpackPlugin({
+            config: windiConfig,
+          }),
+        );
         config.cache = {
-          type: 'memory',
+          type: 'filesystem',
         };
         return config;
       },

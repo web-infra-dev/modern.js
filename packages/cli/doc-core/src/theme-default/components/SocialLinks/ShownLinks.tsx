@@ -1,8 +1,9 @@
-import { DefaultTheme } from 'shared/types';
+import { SocialLink } from 'shared/types';
+import ArrowDown from '../../assets/arrow-down.svg';
 import { LinkContent } from './LinkContent';
 
 interface IShownLinksProps {
-  links: DefaultTheme.SocialLink[];
+  links: SocialLink[];
   moreIconVisible?: boolean;
   mouseEnter: () => void;
 }
@@ -13,25 +14,24 @@ export const ShownLinks = (props: IShownLinksProps) => {
   return (
     <>
       <div
-        h="100%"
-        flex=""
+        h="full"
+        flex="~"
         gap="x-4"
-        items-center=""
+        align-items-center="~"
         transition="color duration-300"
       >
-        {links.map(item => (
+        {links.map((item, index) => (
           <LinkContent
-            key={item.icon}
+            key={index}
             link={item}
             popperStyle={{ top: '2.5rem' }}
           />
         ))}
       </div>
       {moreIconVisible ? (
-        <div
-          className="i-carbon-chevron-sort-down ml-1"
-          onMouseEnter={mouseEnter}
-        ></div>
+        <div className="ml-1" onMouseEnter={mouseEnter}>
+          <ArrowDown />
+        </div>
       ) : null}
     </>
   );

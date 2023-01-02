@@ -52,13 +52,3 @@ export default defineConfig({
 * 默认值：`false`
 
 是否 `external` 基础库，当设置为 `true` 时，当前子应用将会 `external`：`react`、`react-dom`，`EdenX` 主应用会自动 `setExternal` 这两个基础库，如果其他类型的框架请通过 `Garfish.setExternal` 增加 `react`、`react-dom` 依赖
-
-
-### moduleApp
-
-* 类型：`string`
-
-* 默认值：`undefined`
-
-该值可以配置子应用的名称，目前主要结合 [`dev.withMasterApp`](/docs/configure/app/dev/with-master-app) 进行测试。
-

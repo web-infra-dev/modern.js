@@ -25,35 +25,45 @@ interface Heading {
   children?: ChildNode[];
 }
 
+export const parseToc = (tree: Root) => {
+  let title = '';
+  const toc: TocItem[] = [];
+
+  visitChildren((node: Heading) => {
+    if (node.type !== 'heading' || !node.depth || !node.children) {
+      return;
+    }
+    // Collect h2 ~ h5
+    if (node.depth === 1) {
+      title = node.children[0].value;
+    }
+
+    if (node.depth > 1 && node.depth < 5) {
+      const originText = node.children
+        .map((child: ChildNode) => {
+          if (child.type === 'link') {
+            return child.children?.map(item => item.value).join('');
+          } else {
+            return child.value;
+          }
+        })
+        .join('');
+      const id = slugger.slug(originText);
+      const { depth } = node;
+      toc.push({ id, text: originText, depth });
+    }
+  })(tree);
+  return {
+    title,
+    toc,
+  };
+};
+
 export const remarkPluginToc: Plugin<[], Root> = () => {
   return (tree: Root, file) => {
-    const toc: TocItem[] = [];
-    let title = '';
     slugger.reset();
-    visitChildren((node: Heading) => {
-      if (node.type !== 'heading' || !node.depth || !node.children) {
-        return;
-      }
-      // Collect h2 ~ h5
-      if (node.depth === 1) {
-        title = node.children[0].value;
-      }
+    const { title, toc } = parseToc(tree);
 
-      if (node.depth > 1 && node.depth < 5) {
-        const originText = node.children
-          .map((child: ChildNode) => {
-            if (child.type === 'link') {
-              return child.children?.map(item => item.value).join('');
-            } else {
-              return child.value;
-            }
-          })
-          .join('');
-        const id = slugger.slug(originText);
-        const { depth } = node;
-        toc.push({ id, text: originText, depth });
-      }
-    })(tree);
     const insertedTocCode = `export const toc = ${JSON.stringify(
       toc,
       null,

@@ -14,7 +14,7 @@ The application project creation parameters are [Generator Configuration](/docs/
 
 Package name (packageName), character string type.
 
-## New 命令
+## New Command
 
 The new command configuration in the module project can be used through the `--config` parameter configuration when executing the new command, or when enabling functions in the generator plugin.
 
@@ -37,3 +37,5 @@ Optional function name (function), supports the following options:
 - Storybook(mwa_storybook)
 
 - Runtime API(runtimeApi)
+
+- Test(test)

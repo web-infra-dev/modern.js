@@ -1,4 +1,6 @@
-import { defineConfig } from '@modern-js/app-tools';
+import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import GarfishPlugin from '@modern-js/plugin-garfish';
+import RouterPlugin from '@modern-js/plugin-router-v5';
 import { getPort } from '../../../utils/testCase';
 
 module.exports = defineConfig({
@@ -36,6 +38,7 @@ module.exports = defineConfig({
       delete config.optimization?.splitChunks;
     },
   },
+  plugins: [AppToolsPlugin(), RouterPlugin(), GarfishPlugin()],
   // dev: {
   //   withMasterApp: {
   //     moduleApp: 'http://localhost:8080/',

@@ -1,4 +1,3 @@
-import path from 'path';
 import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
@@ -10,7 +9,6 @@ import {
   setRuntimeConfig,
   generateAsyncEntry,
 } from './utils';
-import './types';
 
 export type UseConfig = ReturnType<typeof useConfigContext>;
 
@@ -43,12 +41,10 @@ export function getDefaultMicroFrontedConfig(
 export default ({
   pluginName = '@modern-js/plugin-garfish',
   runtimePluginName = '@modern-js/runtime/plugins',
-  mfPackagePath = path.resolve(__dirname, '../../../../'),
 } = {}): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-garfish',
   setup: ({ useAppContext, useResolvedConfigContext, useConfigContext }) => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
-    let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
@@ -94,10 +90,6 @@ export default ({
           config.internalDirectory,
           'plugins',
         );
-        runtimeExportsUtils = createRuntimeExportsUtils(
-          config.internalDirectory,
-          'index',
-        );
 
         let disableCssExtract = useConfig.output?.disableCssExtract || false;
 
@@ -118,7 +110,7 @@ export default ({
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-              '@modern-js/runtime/garfish': mfPackagePath,
+              '@modern-js/runtime/garfish': '@modern-js/plugin-garfish/runtime',
             },
           },
           tools: {
@@ -186,9 +178,6 @@ export default ({
         const addExportStatement = `export { default as garfish, default as masterApp, hoistNonReactStatics } from '${pluginName}/runtime'`;
         logger('exportStatement', addExportStatement);
         pluginsExportsUtils.addExport(addExportStatement);
-        runtimeExportsUtils.addExport(
-          `export * from '${mfPackagePath}/runtime'`,
-        );
       },
       modifyEntryImports({ entrypoint, imports }) {
         // eslint-disable-next-line react-hooks/rules-of-hooks

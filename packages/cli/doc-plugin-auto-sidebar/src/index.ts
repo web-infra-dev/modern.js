@@ -55,15 +55,15 @@ interface SidebarItem {
 type Sidebar = Record<string, (SidebarGroup | SidebarItem)[]>;
 
 interface LocaleConfig {
-  sidebar: Sidebar;
+  sidebar?: Sidebar;
   lang: string;
 }
 
 interface DocConfig {
   lang?: string;
   base?: string;
-  themeConfig: {
-    locales: LocaleConfig[];
+  themeConfig?: {
+    locales?: LocaleConfig[];
   };
 }
 
@@ -149,6 +149,12 @@ export async function initAllCategories(
     files.forEach(file => {
       if (dirname(file.path) === category.path) {
         category.children!.push(file);
+        if (file.title === category.meta?.label) {
+          category.meta.link = {
+            type: 'doc',
+            id: extractExtension(file.path),
+          };
+        }
       }
     });
 
@@ -267,14 +273,22 @@ export function pluginAutoSidebar(options: Options) {
             );
           });
         }
-        const extractLang = (p: string) =>
-          removeLeadingSlash(p).replace(new RegExp(`^${defaultLang}`), '');
+        const withLang = (p: string) => {
+          const cleanPath = removeLeadingSlash(p);
+          if (isDefaultLang) {
+            return cleanPath.replace(new RegExp(`^${defaultLang}`), '');
+          } else if (cleanPath.startsWith(lang)) {
+            return addLeadingSlash(cleanPath);
+          } else {
+            return `/${lang}${addLeadingSlash(p)}`;
+          }
+        };
         const normalizeLink = (item: SidebarGroup | SidebarItem) => {
           if ('items' in item) {
             item.items.forEach(child => normalizeLink(child));
           }
           if (item.link) {
-            item.link = withBase(extractLang(item.link), base).replace(
+            item.link = withBase(withLang(item.link), base).replace(
               /index$/,
               '',
             );
@@ -291,6 +305,7 @@ export function pluginAutoSidebar(options: Options) {
           .forEach(item => normalizeLink(item));
         locale.sidebar = sidebar;
       });
+
       return docConfig;
     },
   };

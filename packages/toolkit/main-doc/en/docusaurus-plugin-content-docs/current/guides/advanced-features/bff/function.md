@@ -1,13 +1,15 @@
 ---
 sidebar_position: 1
-title: Integration
+title: Basic Usage
 ---
 
-Modern.js allow functions that meet certain conditions in the `api/` directory to be directly called in the React component, which is called **integration**.
+Applications developed with Modern.js can define API functions in the `api/` directory, which can be called by the front-end to send requests without writing front and back-end glue layer code, At the same time, it ensures the type safety of the front and back end
 
-:::note
-The use of integration calls requires the enable BFF first.
-:::
+## Enable BFF
+
+import EnableBFF from '@site-docs-en/components/enable-bff.md'
+
+<EnableBFF/>
 
 ## BFF Function
 
@@ -41,7 +43,9 @@ The functions import in `src/App.tsx` will be automatically converted into inter
 
 Execute `pnpm run dev`, then open `http://localhost:8080/` to see that the page has displayed the content returned by the BFF function. In Network, you can see that the page sent a request to `http://localhost:8080/api/hello`.
 
-## Function Route
+![Network](https://p6-piu.byteimg.com/tos-cn-i-8jisjyls3a/fd41750f8d414179a9b4ecb519919b36~tplv-8jisjyls3a-3:0:0:q75.png)
+
+## API Routes
 
 In Modern.js, the BFF function routing system is implemented based on the file system, and it is also a conventional routing system.
 

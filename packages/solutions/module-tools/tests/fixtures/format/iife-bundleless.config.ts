@@ -4,6 +4,6 @@ export default defineConfig({
   buildConfig: {
     buildType: 'bundleless',
     format: 'iife',
-    outdir: './dist/bundleless',
+    outDir: './dist/bundleless',
   } as any,
 });

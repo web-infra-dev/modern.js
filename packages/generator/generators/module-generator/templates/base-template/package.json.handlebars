@@ -9,7 +9,8 @@
   {{#if isTs}}
   "types": "./dist/types/index.d.ts",
   {{/if}}
-  "main": "./dist/index.js",
+  "main": "./dist/lib/index.js",
+  "module": "./dist/es/index.js",
   {{/if}}
   "scripts": {
     {{#if isPublic}}
@@ -54,28 +55,17 @@
     "dist/"
   ],
   {{/unless}}
-  "dependencies": {
-    "@babel/runtime": "^7.18.0"
-  },
-  "peerDependencies": {
-    "react": ">=17"
-  },
+  "dependencies": {},
+  "peerDependencies": {},
   "devDependencies": {
-    "react": "~18.2.0",
     "@modern-js/module-tools": "{{modernVersion}}",
-    "@modern-js/plugin-testing": "{{modernVersion}}",
     "@modern-js/tsconfig":"{{modernVersion}}",
     "rimraf": "~3.0.2",
     "lint-staged": "~13.1.0",
     "prettier": "~2.8.1",
     "husky": "~8.0.1"
   },
-  "sideEffects": [
-    "*.css",
-    "*.less",
-    "*.sass",
-    "*.scss"
-  ],
+  "sideEffects": [],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

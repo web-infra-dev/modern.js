@@ -149,6 +149,7 @@ module.exports = {
         indexPages: false,
         searchContextByPaths: ['docs/apis', 'docs/configure'],
         language: ['en', 'zh'],
+        ignoreFiles: [/docs\/components/],
       },
     ],
   ],

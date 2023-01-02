@@ -1,7 +1,7 @@
 import path from 'path';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
-import { addLeadingSlash, parseUrl } from '@/shared/utils';
+import { normalizeHref, parseUrl } from '@/shared/utils';
 
 interface LinkNode {
   type: string;
@@ -37,7 +37,7 @@ export const remarkPluginNormalizeLink: Plugin<
         if (hash) {
           url += `#${hash}`;
         }
-        url = addLeadingSlash(url).replace(new RegExp(`^/${defaultLang}`), '');
+        url = normalizeHref(url).replace(new RegExp(`^/${defaultLang}`), '');
         node.url = path.join(base, url);
       },
     );

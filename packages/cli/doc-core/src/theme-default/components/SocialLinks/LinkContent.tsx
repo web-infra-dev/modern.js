@@ -39,23 +39,22 @@ export const LinkContent = (props: ILinkContentComp) => {
       <div
         className={`${styles.socialLinksIcon}`}
         cursor="pointer"
-        relative=""
+        pos="relative"
         onMouseEnter={mouseEnterIcon}
         onMouseLeave={mouseLeavePopper}
       >
         {IconComp}
         {contentVisible ? (
           <div
-            absolute=""
             z="1"
             p="3"
             w="50"
-            pos="right-0"
-            border-1=""
-            rounded="xl"
-            bg="bg-default"
+            pos="absolute right-0"
+            border="rounded-xl"
+            bg="white"
             style={{
               boxShadow: 'var(--island-shadow-3)',
+              border: '1px solid var(--modern-c-divider-light)',
               ...popperStyle,
             }}
           >
@@ -70,24 +69,23 @@ export const LinkContent = (props: ILinkContentComp) => {
       <div
         className={`${styles.socialLinksIcon}`}
         cursor="pointer"
-        relative=""
+        pos="relative"
         onMouseEnter={mouseEnterIcon}
         onMouseLeave={mouseLeavePopper}
       >
         {IconComp}
         {contentVisible ? (
           <div
-            absolute=""
             z="1"
             p="3"
             w="50"
-            pos="right-0"
-            border-1=""
-            rounded="xl"
-            bg="bg-default"
+            pos="absolute right-0"
+            border="rounded-xl"
+            bg="white"
             className="break-all"
             style={{
-              boxShadow: 'var(--island-shadow-3)',
+              boxShadow: 'var(--modern-shadow-3)',
+
               ...popperStyle,
             }}
           >

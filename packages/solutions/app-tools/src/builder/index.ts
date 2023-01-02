@@ -10,7 +10,12 @@ import {
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import type { IAppContext } from '@modern-js/core';
-import { applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
+import {
+  applyOptionsChain,
+  isProd,
+  isSSR,
+  isUseSSRBundle,
+} from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../types';
 import {
   PluginCompatModernOptions,
@@ -28,7 +33,11 @@ export type BuilderOptions = {
 function getBuilderTargets(normalizedConfig: AppNormalizedConfig) {
   const targets: BuilderTarget[] = ['web'];
 
-  if (isUseSSRBundle(normalizedConfig)) {
+  const useNodeTarget = isProd()
+    ? isUseSSRBundle(normalizedConfig)
+    : isSSR(normalizedConfig);
+
+  if (useNodeTarget) {
     targets.push('node');
   }
 

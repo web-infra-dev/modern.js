@@ -5,6 +5,10 @@ export const exampleInfo = {
     port: 3001,
     homeTitle: 'Main Home page',
   },
+  '@cypress-test/garfish-main-router-v6': {
+    port: 4001,
+    homeTitle: 'Main Home page',
+  },
   '@cypress-test/garfish-dashboard': {
     port: 3002,
   },
