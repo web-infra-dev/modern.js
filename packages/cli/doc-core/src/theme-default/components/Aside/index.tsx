@@ -62,7 +62,7 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
   };
 
   return (
-    <div flex="~ col 1" className="max-w-256px min-w-200px">
+    <div flex="~ col" className="max-w-256px">
       <div className={hasOutline ? `<lg:hidden` : 'hidden'}>
         <div
           p="l-4"
