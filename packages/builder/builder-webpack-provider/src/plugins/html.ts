@@ -136,7 +136,7 @@ export const applyInjectTags = (api: BuilderPluginAPI) => {
 export const PluginHtml = (): BuilderPlugin => ({
   name: 'builder-plugin-html',
 
-  async setup(api) {
+  setup(api) {
     const routesInfo: RoutesInfo[] = [];
 
     api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID, target }) => {
