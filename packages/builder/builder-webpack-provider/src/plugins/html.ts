@@ -95,7 +95,7 @@ export const isHtmlDisabled = (
   target === 'web-worker';
 
 export const applyInjectTags = (api: BuilderPluginAPI) => {
-  api.modifyWebpackChain(async (chain, { HtmlWebpackPlugin }) => {
+  api.modifyWebpackChain(async (chain, { HtmlWebpackPlugin, CHAIN_ID }) => {
     const config = api.getNormalizedConfig();
     const tags = _.castArray(config.html.tags).filter(Boolean);
     const tagsByEntries = _.mapValues(config.html.tagsByEntries, tags =>
@@ -119,14 +119,18 @@ export const applyInjectTags = (api: BuilderPluginAPI) => {
     };
     // apply only one webpack plugin if `html.tagsByEntries` is empty.
     if (tags.length && !shouldByEntries) {
-      chain.plugin('html-tag').use(HtmlTagsPlugin, [sharedOptions]);
+      chain
+        .plugin(CHAIN_ID.PLUGIN.HTML_TAGS)
+        .use(HtmlTagsPlugin, [sharedOptions]);
       return;
     }
     // apply webpack plugin for each entries.
     for (const [entry, filename] of Object.entries(api.getHTMLPaths())) {
       const opts = { ...sharedOptions, includes: [filename] };
       entry in tagsByEntries && (opts.tags = tagsByEntries[entry]);
-      chain.plugin(`html-tag#${entry}`).use(HtmlTagsPlugin, [opts]);
+      chain
+        .plugin(`${CHAIN_ID.PLUGIN.HTML_TAGS}#${entry}`)
+        .use(HtmlTagsPlugin, [opts]);
     }
   });
 };
