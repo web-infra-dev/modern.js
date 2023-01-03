@@ -120,6 +120,8 @@ export const INTERNAL_MODULE_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
   // TODO: Maybe can remove it
   '@modern-js/plugin-nocode': '@modern-js/plugin-nocode/cli',
+  // legacy router (inner react-router-dom v5)
+  '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
 };
 
 /**

@@ -6,6 +6,12 @@ declare module '@modern-js/app-tools' {
   }
 }
 
+declare module '@modern-js/module-tools' {
+  interface RuntimeUserConfig {
+    state?: StateConfig | boolean;
+  }
+}
+
 declare module 'http' {
   interface ServerResponse {
     locals: Record<string, any>;

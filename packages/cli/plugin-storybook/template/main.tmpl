@@ -43,8 +43,8 @@ module.exports = {
   webpackFinal: async (config, options) => {
     // change webpack config
     const { customFinalWebpack = () => config } = options;
-    if (userMainConfig.managerWebpack) {
-      return userMainConfig.managerWebpack(customFinalWebpack(config), options);
+    if (userMainConfig.webpackFinal) {
+      return userMainConfig.webpackFinal(customFinalWebpack(config), options);
     }
     return customFinalWebpack(config);
   },
