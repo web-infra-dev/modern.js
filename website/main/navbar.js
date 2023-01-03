@@ -13,7 +13,7 @@ module.exports = {
     },
     {
       type: 'doc',
-      docId: 'guides/overview',
+      docId: 'guides/get-started/quick-start',
       position: 'left',
       label: '指南',
       category: 'guides',
@@ -28,7 +28,7 @@ module.exports = {
     },
     {
       type: 'doc',
-      docId: 'apis/app/overview',
+      docId: 'apis/app/hooks/src/app',
       activeBasePath: 'docs/apis',
       position: 'left',
       label: 'API',
