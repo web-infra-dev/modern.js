@@ -11,6 +11,7 @@ export type {
   BaseTRuntimeContext,
   TRuntimeContext,
 } from './runtime-context';
+export type { RuntimeUserConfig } from './config';
 
 export {
   createApp,
