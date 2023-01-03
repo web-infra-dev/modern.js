@@ -12,6 +12,6 @@ To ensure the quality of the code and the integrity of the project, we often nee
 
 If you have to go through all this work every time you develop a module type project, you will spend most of your development time in the beginning on these things that are not related to code implementation. If we could provide a module engineering solution that would help developers to solve the project engineering issues and allow them to focus more on code implementation, it would greatly improve the module type project development experience.
 
-![Not using engineering solution vs. using engineering solution](/why-module-solution.png)
+![Not using engineering solution vs. using engineering solution](https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/module-tools/why-module-solution.png)
 
 Modern.js, in order to make developing module type projects easier, provides a module engineering solution in order to solve the above mentioned problems and provides the main features using Module Tools. **Module-tools can be understood as a tool dedicated to the development of module type projects**.

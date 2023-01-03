@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 欢迎使用
-      link: /zh/guide/intro/welcome
+      link: /guide/intro/welcome
 
 features:
   - title: 'Esbuild: 高性能的JS Bundler'

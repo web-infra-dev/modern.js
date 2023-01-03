@@ -4,15 +4,14 @@
   "description": "docs",
   "main": "index.js",
   "scripts": {
-    "dev": "island dev docs",
-    "build": "island build docs",
-    "preview": "island start docs"
+    "dev": "modern dev",
+    "build": "modern build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "islandjs": "0.7.19",
+    "@modern-js/doc-tools": "workspace:*",
     "@code-hike/mdx": "^0.7.4",
     "shiki": "^0.11.1"
   }
