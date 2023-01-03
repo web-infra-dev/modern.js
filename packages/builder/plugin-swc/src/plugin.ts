@@ -106,7 +106,7 @@ export const PluginSwc = (
         const { CheckPolyfillPlugin } = await import('./checkPolyfillPlugin');
 
         chain
-          .plugin(CHAIN_ID.PLUGIN.SwcPolyfillCheckerPlugin)
+          .plugin(CHAIN_ID.PLUGIN.SWC_POLYFILL_CHECKER)
           .use(new CheckPolyfillPlugin(swc));
       }
 
