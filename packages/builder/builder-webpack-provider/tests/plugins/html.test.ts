@@ -202,17 +202,13 @@ describe('plugins/html', () => {
       },
       builderConfig: {
         html: {
-          tags: {
-            children: [{ type: 'script', path: 'jq.js' }],
-          },
+          tags: { tag: 'script', attrs: { src: 'jq.js' } },
           tagsByEntries: {},
         },
       },
     });
     const config = await builder.unwrapWebpackConfig();
-    const plugins = config.plugins?.filter(
-      p => p.name === 'modern-js::html-tags-plugin',
-    );
+    const plugins = config.plugins?.filter(p => p.name === 'HtmlTagsPlugin');
     expect(plugins?.length).toBe(1);
     expect(config).toMatchSnapshot();
   });
@@ -226,21 +222,15 @@ describe('plugins/html', () => {
       },
       builderConfig: {
         html: {
-          tags: {
-            children: [{ type: 'script', path: 'jq.js' }],
-          },
+          tags: [{ tag: 'script', attrs: { src: 'jq.js' } }],
           tagsByEntries: {
-            foo: {
-              children: [{ type: 'script', path: 'foo.js' }],
-            },
+            foo: [{ tag: 'script', attrs: { src: 'foo.js' } }],
           },
         },
       },
     });
     const config = await builder.unwrapWebpackConfig();
-    const plugins = config.plugins?.filter(
-      p => p.name === 'modern-js::html-tags-plugin',
-    );
+    const plugins = config.plugins?.filter(p => p.name === 'HtmlTagsPlugin');
     expect(plugins?.length).toBe(2);
     expect(config).toMatchSnapshot();
   });

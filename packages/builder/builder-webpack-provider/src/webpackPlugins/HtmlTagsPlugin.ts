@@ -67,7 +67,7 @@ const withPublicPath = (url: string, base: string) =>
 const withHash = (url: string, hash: string) => `${url}?${hash}`;
 
 export class HtmlTagsPlugin {
-  name: string = 'modern-js::html-tags-plugin';
+  readonly name: string = 'HtmlTagsPlugin';
 
   meta: Record<string, string> = { plugin: this.name };
 

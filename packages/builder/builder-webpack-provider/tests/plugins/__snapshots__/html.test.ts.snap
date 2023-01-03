@@ -42,18 +42,22 @@ exports[`plugins/html > should add one tags plugin instance 1`] = `
     HtmlTagsPlugin {
       "ctx": {
         "append": true,
-        "children": [
+        "hash": false,
+        "htmlWebpackPlugin": [Function],
+        "publicPath": true,
+        "tags": [
           {
-            "path": "jq.js",
-            "type": "script",
+            "attrs": {
+              "src": "jq.js",
+            },
+            "tag": "script",
           },
         ],
-        "hash": [Function],
-        "htmlWebpackPlugin": [Function],
-        "includes": [],
-        "publicPath": [Function],
       },
-      "name": "modern-js::html-tags-plugin",
+      "meta": {
+        "plugin": "HtmlTagsPlugin",
+      },
+      "name": "HtmlTagsPlugin",
     },
   ],
 }
@@ -101,38 +105,48 @@ exports[`plugins/html > should add tags plugin instances for each entries 1`] = 
     HtmlTagsPlugin {
       "ctx": {
         "append": true,
-        "children": [
-          {
-            "path": "jq.js",
-            "type": "script",
-          },
-        ],
-        "hash": [Function],
+        "hash": false,
         "htmlWebpackPlugin": [Function],
         "includes": [
           "html/main/index.html",
         ],
-        "publicPath": [Function],
+        "publicPath": true,
+        "tags": [
+          {
+            "attrs": {
+              "src": "jq.js",
+            },
+            "tag": "script",
+          },
+        ],
       },
-      "name": "modern-js::html-tags-plugin",
+      "meta": {
+        "plugin": "HtmlTagsPlugin",
+      },
+      "name": "HtmlTagsPlugin",
     },
     HtmlTagsPlugin {
       "ctx": {
         "append": true,
-        "children": [
-          {
-            "path": "foo.js",
-            "type": "script",
-          },
-        ],
-        "hash": [Function],
+        "hash": false,
         "htmlWebpackPlugin": [Function],
         "includes": [
           "html/foo/index.html",
         ],
-        "publicPath": [Function],
+        "publicPath": true,
+        "tags": [
+          {
+            "attrs": {
+              "src": "foo.js",
+            },
+            "tag": "script",
+          },
+        ],
       },
-      "name": "modern-js::html-tags-plugin",
+      "meta": {
+        "plugin": "HtmlTagsPlugin",
+      },
+      "name": "HtmlTagsPlugin",
     },
   ],
 }
