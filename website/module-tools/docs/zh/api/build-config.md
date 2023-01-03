@@ -208,7 +208,7 @@ TypeScript 配置文件的路径。
 
 ### distPath
 
-类型文件的输出路径，基于 [outDir]('/zh/api/build-config/#outDir') 进行输出。
+类型文件的输出路径，基于 [outDir](/zh/api/build-config/#outDir) 进行输出。
 - 类型: `string`
 - 默认值: `./types`
 
