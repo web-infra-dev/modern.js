@@ -64,7 +64,7 @@ export function NavScreen(props: Props) {
   const NavScreenAppearance = () => {
     return (
       <div
-        className={`items-center appearance pa-2 ${styles.navAppearance}`}
+        className={`align-items-center appearance pa-2 ${styles.navAppearance}`}
         flex="~"
         justify="center"
       >
@@ -77,7 +77,7 @@ export function NavScreen(props: Props) {
       <div className={styles.navMenu}>
         {menuItems.map((item, index) => {
           return (
-            <div key={index} w="100%" className={styles.navMenuItem}>
+            <div key={index} w="full" className={styles.navMenuItem}>
               {'link' in item ? (
                 <NavMenuSingleItem pathname={pathname} key={index} {...item} />
               ) : (
@@ -111,7 +111,7 @@ export function NavScreen(props: Props) {
           className={styles.socialAndAppearance}
           flex="~"
           justify="center"
-          items-center="center"
+          align-items-center="center"
         >
           {hasAppearanceSwitch && <NavScreenAppearance />}
         </div>

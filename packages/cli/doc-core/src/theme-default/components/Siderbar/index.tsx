@@ -4,6 +4,7 @@ import { matchRoutes, useNavigate } from 'react-router-dom';
 import { routes } from 'virtual-routes';
 import { Link } from '../Link';
 import { isActive } from '../../logic';
+import ArrowRight from '../../assets/arrow-right.svg';
 import styles from './index.module.scss';
 import { removeBase, normalizeHref } from '@/runtime';
 
@@ -14,7 +15,7 @@ interface Props {
   sidebarData: (SidebarGroup | SidebarItem)[];
 }
 
-const SINGLE_MENU_ITEM_HEIGHT = 32;
+const SINGLE_MENU_ITEM_HEIGHT = 28;
 const MENU_ITEM_MARGIN = 4;
 const singleItemHeight = SINGLE_MENU_ITEM_HEIGHT + MENU_ITEM_MARGIN;
 
@@ -65,10 +66,10 @@ export function SidebarItemComp(props: SidebarItemProps) {
       <Link href={normalizeHref(item.link)} className={styles.menuLink}>
         <div
           m="t-1"
-          p="y-1.5 x-2"
+          p="y-1 x-2"
           block="~"
           text="sm"
-          rounded="sm"
+          border="rounded-sm"
           font-medium="~"
           onMouseEnter={() => props.preloadLink(item.link)}
           className={active ? styles.menuItemActive : styles.menuItem}
@@ -88,16 +89,18 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   const { collapsed } = item as SidebarGroup;
   const collapsibleIcon = (
     <div
-      className="i-carbon-chevron-right"
       cursor-pointer="~"
       style={{
         transition: 'transform 0.2s ease-out',
         transform: collapsed ? 'rotate(0deg)' : 'rotate(90deg)',
       }}
-    ></div>
+    >
+      <ArrowRight />
+    </div>
   );
 
-  const toggleCollapse = (): void => {
+  const toggleCollapse: React.MouseEventHandler<HTMLDivElement> = (e): void => {
+    e.stopPropagation();
     // update collapsed state
     setSidebarData(sidebarData => {
       const newSidebarData = [...sidebarData];
@@ -113,31 +116,37 @@ export function SidebarGroupComp(props: SidebarItemProps) {
       }
       return newSidebarData;
     });
-
-    if (item.link) {
-      item.link && navigate(normalizeHref(item.link));
-    }
   };
 
   return (
     <section key={item.text} block="~">
       <div
-        m="t-1"
-        p="r-1"
         flex="~"
         justify="between"
         items-start="~"
-        cursor-pointer="~"
+        cursor="pointer"
         className={`items-center ${
           active ? styles.menuItemActive : styles.menuItem
         }`}
         onMouseEnter={() => item.link && props.preloadLink(item.link)}
-        onClick={toggleCollapse}
+        onClick={e => {
+          if (item.link) {
+            navigate(normalizeHref(item.link));
+          } else {
+            toggleCollapse(e);
+          }
+        }}
       >
-        <h2 p="y-1.5 x-2" text="sm" font="semibold">
+        <h2 p="y-1 x-2" text="sm" font="semibold">
           {item.text}
         </h2>
-        {collapsibleIcon}
+        <div
+          p="2"
+          className={styles.collapseContainer}
+          onClick={toggleCollapse}
+        >
+          {collapsibleIcon}
+        </div>
       </div>
       <div
         ref={containerRef}
@@ -148,7 +157,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         }}
       >
         {(item as SidebarGroup)?.items?.map((item, index) => (
-          <div key={item.link} mb="last:0.5" ml="4">
+          <div key={item.link} m="last:b-0.5 l-4">
             <SidebarItemComp
               {...props}
               item={item}
@@ -226,11 +235,12 @@ export function SideBar(props: Props) {
   };
   return (
     <aside
-      className={`${styles.sidebar} ${
-        isSidebarOpen ? styles.open : ''
-      } divider-right`}
+      className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}
+      style={{
+        borderRight: '1px solid var(--modern-c-divider-light)',
+      }}
     >
-      <nav>
+      <nav m="t-1">
         {sidebarData.map((item: SidebarGroup | SidebarItem, index: number) => (
           <SidebarItemComp
             id={String(index)}

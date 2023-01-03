@@ -33,7 +33,7 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     path: 'assets',
     limit: 14336,
     publicPath: '',
-    svgr: true,
+    svgr: false,
   },
   style: {
     less: {},

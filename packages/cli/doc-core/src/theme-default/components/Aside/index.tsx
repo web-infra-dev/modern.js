@@ -1,15 +1,19 @@
 import { useRef, useEffect } from 'react';
 import { Header } from 'shared/types/index';
-import { bindingAsideScroll } from '../../logic';
+import { bindingAsideScroll, scrollToTarget } from '../../logic';
 
 export function Aside(props: { headers: Header[]; outlineTitle: string }) {
   const { headers } = props;
   const hasOutline = headers.length > 0;
   // For outline text highlight
   const markerRef = useRef<HTMLDivElement>(null);
+  const baseHeaderLevel = headers[0]?.depth || 2;
 
   useEffect(() => {
     let unbinding: (() => void) | undefined;
+    if (markerRef.current) {
+      markerRef.current.style.opacity = '0';
+    }
     setTimeout(() => {
       unbinding = bindingAsideScroll();
     }, 100);
@@ -23,19 +27,32 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
     };
   }, [headers]);
 
+  // const handleHeaderClick = e => {};
+
   const renderHeader = (header: Header) => {
     return (
       <li key={header.id}>
         <a
           href={`#${header.id}`}
-          block=""
-          leading-7=""
+          block="~"
           text="text-2"
-          avoid-text-overflow=""
+          font="medium"
           hover="text-text-1"
           transition="color duration-300"
+          className="leading-7"
           style={{
-            paddingLeft: (header.depth - 2) * 12,
+            fontSize: '13px',
+            paddingLeft: (header.depth - baseHeaderLevel) * 12,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+          onClick={e => {
+            e.preventDefault();
+            const target = document.getElementById(header.id);
+            if (target) {
+              scrollToTarget(target, false);
+            }
           }}
         >
           {header.text}
@@ -45,36 +62,38 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
   };
 
   return (
-    <div flex="~ col 1">
-      <div display={`${hasOutline ? 'lg:block' : 'none'}`}>
+    <div flex="~ col" className="max-w-256px">
+      <div className={hasOutline ? `<lg:hidden` : 'hidden'}>
         <div
-          relative=""
-          divider-left=""
           p="l-4"
-          text="13px"
-          font-medium=""
+          text="sm"
+          font-medium="~"
           id="aside-container"
+          style={{
+            borderLeft: '1px solid var(--modern-c-divider-light)',
+          }}
+          className="relative"
         >
           <div
-            absolute=""
-            pos="top-33px"
+            className="absolute"
             opacity="0"
             w="1px"
             h="18px"
             bg="brand"
             ref={markerRef}
             style={{
+              top: '33px',
               left: '-1px',
               transition:
                 'top 0.25s cubic-bezier(0, 1, 0.5, 1), background-color 0.5s, opacity 0.25s',
             }}
             id="aside-marker"
           ></div>
-          <div block="~" leading-7="" text="13px" font="semibold">
+          <div block="~" className="leading-7" text="sm" font="semibold">
             {props.outlineTitle}
           </div>
           <nav>
-            <ul relative="">{headers.map(renderHeader)}</ul>
+            <ul className="relative">{headers.map(renderHeader)}</ul>
           </nav>
         </div>
       </div>
