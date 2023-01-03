@@ -40,4 +40,4 @@ It mainly contains the following features:
 
 If you are a front-end beginner, you may find these concepts a bit complicated. We provide some [JavaScript and React](/docs/tutorials/foundations/basic) learning materials, you can do some understanding of them first。
 
-If you are an experienced developer and want to know how to use Modern.js, you can try [Create your first app](/docs/tutorials/first-app/c01-start), or read [Guide](/docs/guides/overview).
+If you are an experienced developer and want to know how to use Modern.js, you can try [Create your first app](/docs/tutorials/first-app/c01-start), or read [Guide](/docs/guides/get-started/quick-start).

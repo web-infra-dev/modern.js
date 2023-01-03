@@ -134,4 +134,4 @@ export default defineConfig({
 
 ## 下一步
 
-接下来你可以通过了解[指南](/docs/guides/overview)、[配置](/docs/configure/app/usage) 等更多教程，进一步完善你的应用。
+接下来你可以通过了解[指南](/docs/guides/get-started/quick-start)、[配置](/docs/configure/app/usage) 等更多教程，进一步完善你的应用。
