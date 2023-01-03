@@ -38,8 +38,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js-app/eslint-config": "workspace:*",
-    "@modern-js/eslint-config": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "cross-spawn": "^7.0.1",
