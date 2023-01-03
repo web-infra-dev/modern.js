@@ -41,7 +41,7 @@ export function DocLayout(props: DocLayoutProps) {
     (frontmatter?.outline ?? themeConfig?.outline ?? true);
   const isOverviewPage = frontmatter?.overview ?? false;
   return (
-    <div p="t-0 b-24 sm:6" m="sm:t-14" className={styles.docLayout}>
+    <div p="t-0 b-24 md:6" m="md:t-14" className={styles.docLayout}>
       {beforeDoc}
       {hasSidebar ? (
         <SideMenu
@@ -63,17 +63,15 @@ export function DocLayout(props: DocLayoutProps) {
           {beforeDocFooter}
           <DocFooter />
         </div>
-        <div className="relative" display="none lg:block" order="2" flex="1">
+        <div className="relative" display="none lg:block">
           <div className={styles.asideContainer}>
             <div
-              flex="~ col"
-              p="l-16 b-8"
               style={{
                 minHeight: 'calc(100vh - (var(--modern-nav-height) + 32px))',
               }}
             >
               {hasAside ? (
-                <div>
+                <div m="l-16">
                   {beforeOutline}
                   <Aside headers={headers} outlineTitle={outlineTitle} />
                   {afterOutline}
