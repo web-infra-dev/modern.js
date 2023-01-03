@@ -1,9 +1,13 @@
+---
+sidebar_position: 2
+---
+
 # BuildPreset
+
 A build preset string or preset function. Provides out-of-the-box build configuration
 
 - type: `string | Function`
 - default: `undefined`
-
 
 ## string
 
@@ -17,25 +21,28 @@ export default defineConfig({
 });
 ```
 
-
 ### ``npm-library'`
+
 Library generic schema used under class [NPM](https://www.npmjs.com/) package manager, contains `esm` and `cjs` Bundle products, and includes a type file.
 
 :::info
 About the class [NPM](https://www.npmjs.com/) Package Manager
-* [npm](https://www.npmjs.com)
-* [yarn](https://yarnpkg.com/)
-* [pnpm](https://pnpm.io/)
-:::
+
+- [npm](https://www.npmjs.com)
+- [yarn](https://yarnpkg.com/)
+- [pnpm](https://pnpm.io/)
+  :::
 
 ```json package.json
 {
-    "main": ". /dist/lib/index.js",
-    "module": ". /dist/es/index.js",
-    "types": ". /dist/types/index.d.ts",
+  "main": ". /dist/lib/index.js",
+  "module": ". /dist/es/index.js",
+  "types": ". /dist/types/index.d.ts"
 }
 ```
+
 The build configuration corresponding to the preset string.
+
 ```js
 export const buildConfig = [
   {
@@ -60,8 +67,9 @@ export const buildConfig = [
 ];
 ```
 
-### ``npm-library-with-umd'``
-Used under class [NPM](https://www.npmjs.com/) package manager, and Library supports a similar pattern to [unpkg](https://unpkg.com/). Additional ``umd`` products are provided on top of the pre-defined ``npm-library``.
+### `npm-library-with-umd'`
+
+Used under class [NPM](https://www.npmjs.com/) package manager, and Library supports a similar pattern to [unpkg](https://unpkg.com/). Additional `umd` products are provided on top of the pre-defined `npm-library`.
 
 ```json package.json
 {
@@ -71,7 +79,9 @@ Used under class [NPM](https://www.npmjs.com/) package manager, and Library supp
     "unpkg": ". /dist/umd/index.js",
 };
 ```
+
 The build configuration corresponding to the preset string.
+
 ```js
 export const buildConfig = [
   {
@@ -103,7 +113,8 @@ export const buildConfig = [
 ```
 
 ### `'npm-component'`
-A generic pattern for components (libraries) used under the class [NPM](https://www.npmjs.com/) package manager. Contains both `esm` and `cjs` Bundleless products (for easy *[Tree shaking](https://developer.mozilla.org/zh-CN/docs/Glossary/Tree_shaking)* optimization), as well as including a copy of the type file.
+
+A generic pattern for components (libraries) used under the class [NPM](https://www.npmjs.com/) package manager. Contains both `esm` and `cjs` Bundleless products (for easy _[Tree shaking](https://developer.mozilla.org/zh-CN/docs/Glossary/Tree_shaking)_ optimization), as well as including a copy of the type file.
 
 For style files included in the source code, the products provide the compiled product of the style and the source file of the style.
 
@@ -114,9 +125,10 @@ For style files included in the source code, the products provide the compiled p
     "types": ". /dist/types/index.d.ts",
 };
 ```
+
 The pre-defined strings correspond to the build configuration.
 
-``` js
+```js
 export const buildConfig = [
   {
     format: 'cjs',
@@ -142,7 +154,8 @@ export const buildConfig = [
 
 ### `'npm-component-with-umd'`
 
-Component (library) used under class [NPM](https://www.npmjs.com/) package manager, with support for class [unpkg](https://unpkg.com/) schema. Additional ``umd`` products are provided on top of the pre-defined ``npm-component``.
+Component (library) used under class [NPM](https://www.npmjs.com/) package manager, with support for class [unpkg](https://unpkg.com/) schema. Additional `umd` products are provided on top of the pre-defined `npm-component`.
+
 ```json package.json
 {
     "main": ". /dist/lib/index.js", // bundleless type
@@ -151,6 +164,7 @@ Component (library) used under class [NPM](https://www.npmjs.com/) package manag
     "unpkg": ". /dist/umd/index.js",
 };
 ```
+
 ```js
 export const buildConfig = [
   {
@@ -165,7 +179,7 @@ export const buildConfig = [
     buildType: 'bundleless',
     outDir: '. /es',
   },
-   {
+  {
     format: 'umd',
     target: 'es6',
     buildType: 'bundle',
@@ -183,10 +197,9 @@ export const buildConfig = [
 
 ### About the ECMAScript versions supported by the presets and `{es5.... .esnext}`
 
-
 When you want to use a `buildPreset` preset that supports other ECMAScript versions, you can directly add the supported versions to the `'npm-library'`, `'npm-library-with-umd'`, `'npm-component'`, `'npm-component-with-umd'` presets.
 
-For example, if you want the ``npm-library'` preset to support ``es2017``, you can configure it as follows.
+For example, if you want the `` npm-library'` preset to support  ``es2017``, you can configure it as follows.
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';

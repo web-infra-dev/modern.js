@@ -11,8 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@modern-js/doc-tools": "workspace:*",
     "@code-hike/mdx": "^0.7.4",
+    "@modern-js/doc-plugin-auto-sidebar": "workspace:*",
+    "@modern-js/doc-tools": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "shiki": "^0.11.1"
   }
 }

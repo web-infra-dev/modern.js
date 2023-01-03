@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # Why module project solution
 
 You've probably all experienced it: when developing a component library or tool library from scratch, we have to consider not only how to write the code logic of the project itself, but also how to build, debug, test, format the code, and other things that have nothing to do with the code logic.

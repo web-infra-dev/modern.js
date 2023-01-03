@@ -1,13 +1,18 @@
+---
+sidebar_position: 5
+---
+
 # Testing
+
 本章描述了测试相关的配置
 :::tips
 需要先通过 `pnpm run new` 启用 单元测试 功能。
 :::
 
-
 ## jest
-* 类型： `Object | Function`
-* 默认值：`{}`
+
+- 类型： `Object | Function`
+- 默认值：`{}`
 
 对应 [Jest](https://jestjs.io/docs/configuration) 的配置，当为 `Object` 类型时，可以配置 Jest 所支持的所有底层配置 。
 
@@ -17,9 +22,9 @@ import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   testing: {
     jest: {
-      testTimeout: 10000
-    }
-  }
+      testTimeout: 10000,
+    },
+  },
 });
 ```
 
@@ -33,10 +38,10 @@ export default defineConfig({
     jest: options => {
       return {
         ...options,
-        testTimeout: 10000
-      }
-    }
-  }
+        testTimeout: 10000,
+      };
+    },
+  },
 });
 ```
 

@@ -1,3 +1,7 @@
+---
+sidebar_position: 6
+---
+
 # 主题配置
 
 模块工程通过 [`designSystem`](/zh/api/design-system) API，提供了配置主题的能力。
@@ -8,10 +12,10 @@
 
 所谓 `designToken` 在不同的样式开发环境下对应不同的东西：
 
-* tailwindcss: 以 `designSystem` 作为 tailwindcss 的 `theme` 配置。因此可以使用：
-  + tailwindcss 支持的 HTML 类名。
-  + 在 css/less/sass 下通过 `@apply` 自定义指令使用与 tailwindcss 支持的 HTML 类名同名的字符串。
-* css/less/scss: 通过 `designSystem` 生成全局的样式变量。
+- tailwindcss: 以 `designSystem` 作为 tailwindcss 的 `theme` 配置。因此可以使用：
+  - tailwindcss 支持的 HTML 类名。
+  - 在 css/less/sass 下通过 `@apply` 自定义指令使用与 tailwindcss 支持的 HTML 类名同名的字符串。
+- css/less/scss: 通过 `designSystem` 生成全局的样式变量。
 
 `designSystem` API 的数据结构借鉴了 `tailwindcss` 配置对象中的 [theme API](https://tailwindcss.com/docs/theme)，因此存在默认的一套 `designToken`。关于默认值，可以查看 [`designSystem` API](/zh/api/design-system)。
 
@@ -27,12 +31,12 @@
 
 例如在下面的配置中扩展了原有的颜色配置:
 
-``` ts ./modern.config.ts
+```ts ./modern.config.ts
 export default {
   designSystem: {
     extend: {
       colors: {
-        primary: '#1677ff'
+        primary: '#1677ff',
       },
     },
   },
@@ -43,14 +47,12 @@ export default {
 
 #### HTML 类名。
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 import 'tailwindcss/utilities.css';
 
 export default () => {
-  return (
-    <div className="bg-primary"></div>
-  );
-}
+  return <div className="bg-primary"></div>;
+};
 ```
 
 #### `@apply` 指令
@@ -59,14 +61,12 @@ export default () => {
 
 <CH.Code>
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 import './index.css';
 
 export default () => {
-  return (
-    <div className="btn-primary"></div>
-  );
-}
+  return <div className="btn-primary"></div>;
+};
 ```
 
 ```css ./src/index.css

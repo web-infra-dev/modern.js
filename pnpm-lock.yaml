@@ -5521,11 +5521,17 @@ importers:
   website/module-tools:
     specifiers:
       '@code-hike/mdx': ^0.7.4
+      '@modern-js/doc-plugin-auto-sidebar': workspace:*
       '@modern-js/doc-tools': workspace:*
+      react: ^18.2.0
+      react-dom: ^18.2.0
       shiki: ^0.11.1
     dependencies:
-      '@code-hike/mdx': 0.7.4
+      '@code-hike/mdx': 0.7.4_react@18.2.0
+      '@modern-js/doc-plugin-auto-sidebar': link:../../packages/cli/doc-plugin-auto-sidebar
       '@modern-js/doc-tools': link:../../packages/solutions/doc-tools
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
       shiki: 0.11.1
 
 packages:
@@ -8649,7 +8655,7 @@ packages:
       minimist: 1.2.6
     dev: false
 
-  /@code-hike/mdx/0.7.4:
+  /@code-hike/mdx/0.7.4_react@18.2.0:
     resolution: {integrity: sha512-MHnoSJ7wxJ2LJfJ/x+18jh6JOBCPwk1EMQRgVINj3yyejqsYgOQx2ChE+/n+n3AdP7J5RLKfQ6qm/jiNxD8+Lg==}
     peerDependencies:
       react: ^16.8.3 || ^17 || ^18
@@ -8657,6 +8663,7 @@ packages:
       hast-util-to-estree: 1.4.0
       is-plain-obj: 3.0.0
       node-fetch: 2.6.7
+      react: 18.2.0
       remark-rehype: 8.1.0
       shiki: 0.10.1
       unified: 9.2.2
@@ -20137,6 +20144,7 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -23693,7 +23701,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4_supports-color@6.1.0
+      debug: 4.3.4
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -35735,6 +35743,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
+    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
