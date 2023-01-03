@@ -3,8 +3,7 @@ import {
   getMonorepoCases,
   getMonorepoNewCases,
 } from '@modern-js/generator-cases';
-import { v4 as uuidv4 } from 'uuid';
-import { fs } from '@modern-js/utils';
+import { fs, nanoid } from '@modern-js/utils';
 import { MonorepoNewAction } from '@modern-js/new-action';
 import { prepare } from './utils/prepare';
 import { execaWithStreamLog, usingTempDir } from './utils/tools';
@@ -20,7 +19,7 @@ async function createAllMonorepoProject(
     await usingTempDir(tmpDir, async cwd => {
       const projectName = `module-${Object.values(config).join(
         '-',
-      )}-${uuidv4()}`;
+      )}-${nanoid()}`;
       await runCreteCommand(repoDir, isLocal, {
         projectName,
         cwd,

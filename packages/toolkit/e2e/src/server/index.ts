@@ -1,6 +1,6 @@
 import createServer from 'connect';
+import { getPort } from '@modern-js/utils';
 import serveStaticMiddle from './static';
-import getPort from 'get-port';
 
 export interface StaticServerOptions {
   hostname?: string;
@@ -15,7 +15,7 @@ export async function runStaticServer(
 
   server.use(serveStaticMiddle(root));
 
-  const port = await getPort({ port: options?.port });
+  const port = await getPort(options?.port || '8080');
   const hostname = options?.hostname ?? '127.0.0.1';
   server.listen(port, hostname);
 

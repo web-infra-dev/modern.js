@@ -1,7 +1,6 @@
 import path from 'path';
 import { getMWACases, getMWANewCases } from '@modern-js/generator-cases';
-import { v4 as uuidv4 } from 'uuid';
-import { fs } from '@modern-js/utils';
+import { fs, nanoid } from '@modern-js/utils';
 import { MWANewAction } from '@modern-js/new-action';
 import { prepare } from './utils/prepare';
 import { execaWithStreamLog, usingTempDir } from './utils/tools';
@@ -20,7 +19,7 @@ async function createAllMWAProject(
   const cases: any = getMWACases(isSimple ? 2 : undefined);
   for (const config of cases) {
     await usingTempDir(tmpDir, async cwd => {
-      const projectName = `mwa-${Object.values(config).join('-')}-${uuidv4()}`;
+      const projectName = `mwa-${Object.values(config).join('-')}-${nanoid()}`;
       await runCreteCommand(repoDir, isLocal, {
         projectName,
         cwd,
