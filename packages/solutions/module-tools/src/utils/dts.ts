@@ -17,12 +17,7 @@ export const generatorTsConfig = async (
   const { fs, lodash, nanoid } = await import('@modern-js/utils');
   const { dtsTempDirectory } = await import('../constants/dts');
 
-  const {
-    appDirectory,
-    sourceDir: absSourceDir,
-    distAbsPath,
-    tsconfigPath,
-  } = config;
+  const { appDirectory, sourceDir: absSourceDir, tsconfigPath } = config;
   const tempDistAbsRootPath = path.join(
     appDirectory,
     `${dtsTempDirectory}/${nanoid()}`,
@@ -57,7 +52,7 @@ export const generatorTsConfig = async (
   if (projectTsconfig.extends) {
     resetConfig.extends = projectTsconfig.extends.startsWith('.')
       ? path.join(
-          path.relative(`${distAbsPath}/tsconfig.json`, tsconfigPath),
+          path.relative(`${tempDistAbsRootPath}`, path.dirname(tsconfigPath)),
           projectTsconfig.extends,
         )
       : projectTsconfig.extends;
