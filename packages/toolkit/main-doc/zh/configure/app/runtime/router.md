@@ -15,14 +15,15 @@ import RouterLegacyTip from '@site-docs/components/router-legacy-tip.md'
 
 具体配置如下：
 
-### basename
+
+## basename
 
 * 类型： `string`
 * 默认值： ``
 
 设置客户端路由的 `basename`，通常用于应用需要部署在域名非根路径下的场景。
 
-### supportHtml5History
+## supportHtml5History
 
 * 类型： `boolean`
 * 默认值： `true`
