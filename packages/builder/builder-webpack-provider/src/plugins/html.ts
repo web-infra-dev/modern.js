@@ -8,7 +8,6 @@ import {
   getFavicon,
   getMetaTags,
   type BuilderTarget,
-  HtmlInjectTagOptions,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -18,7 +17,7 @@ import type {
   BuilderPluginAPI,
 } from '../types';
 import type { Options as HtmlTagsPluginOptions } from '../webpackPlugins/HtmlTagsPlugin';
-import assert from 'assert';
+import _ from '@modern-js/utils/lodash';
 
 // This is a minimist subset of modern.js server routes
 type RoutesInfo = {
@@ -36,7 +35,6 @@ async function getTemplateParameters(
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { mountId, templateParameters, templateParametersByEntries } =
     config.html;
-
   const meta = await getMetaTags(entryName, config);
   const title = getTitle(entryName, config);
   const templateParams =
@@ -97,49 +95,40 @@ export const isHtmlDisabled = (
   target === 'web-worker';
 
 export const applyInjectTags = (api: BuilderPluginAPI) => {
-  const HtmlWebpackTagsPluginModule = import(
-    '../webpackPlugins/HtmlTagsPlugin'
-  );
   api.modifyWebpackChain(async (chain, { HtmlWebpackPlugin }) => {
-    const { HtmlTagsPlugin } = await HtmlWebpackTagsPluginModule;
     const config = api.getNormalizedConfig();
-    const htmlFiles = api.getHTMLPaths();
-    const { tags, tagsByEntries } = config.html;
-    const entries = chain.entryPoints.entries();
-    const entryNames = entries ? Object.keys(entries) : [];
-    if (!tags && !tagsByEntries) {
+    const tags = _.castArray(config.html.tags);
+    const tagsByEntries = _.mapValues(config.html.tagsByEntries, _.castArray);
+    const shouldByEntries = _.some(tagsByEntries, 'length');
+
+    // skip if options is empty.
+    if (!tags.length && !shouldByEntries) {
       return;
     }
-    if (tags && (!tagsByEntries || !Object.keys(tagsByEntries).length)) {
-      const options: HtmlTagsPluginOptions = {
-        ...tags,
-        htmlWebpackPlugin: HtmlWebpackPlugin,
-      };
-      chain.plugin('html-tag').use(HtmlTagsPlugin, [options]);
+    // dynamic import.
+    const { HtmlTagsPlugin } = await import('../webpackPlugins/HtmlTagsPlugin');
+    // pass html plugin class.
+    const sharedOptions: HtmlTagsPluginOptions = {
+      htmlWebpackPlugin: HtmlWebpackPlugin,
+      append: true,
+      hash: false,
+      publicPath: true,
+    };
+    // apply only one webpack plugin if `html.tagsByEntries` is empty.
+    if (tags.length && !shouldByEntries) {
+      chain
+        .plugin('html-tag')
+        .use(HtmlTagsPlugin, [{ ...sharedOptions, tags }]);
       return;
     }
-    const optionsSet: Record<string, HtmlInjectTagOptions> = {};
-    for (const entry of entryNames) {
-      optionsSet[entry] = { children: [] };
-      const htmlFilename = htmlFiles[entry];
-      assert(
-        typeof htmlFilename === 'string',
-        `cannot get html filename of entry "${entry}.`,
-      );
-      const options: HtmlTagsPluginOptions = {
-        ...optionsSet[entry],
-        htmlWebpackPlugin: HtmlWebpackPlugin,
-        includes: [htmlFilename],
+    // apply webpack plugin for each entries.
+    for (const [entry, filename] of Object.entries(api.getHTMLPaths())) {
+      const opts = {
+        ...sharedOptions,
+        tags: tagsByEntries[entry],
+        includes: [filename],
       };
-      if (tags) {
-        Object.assign(options, tags);
-      }
-      if (tagsByEntries && entry in tagsByEntries) {
-        Object.assign(options, tagsByEntries[entry]);
-      }
-      if (options.children.length) {
-        chain.plugin(`html-tag-${entry}`).use(HtmlTagsPlugin, [options]);
-      }
+      chain.plugin(`html-tag#${entry}`).use(HtmlTagsPlugin, [opts]);
     }
   });
 };
