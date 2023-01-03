@@ -426,7 +426,6 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
                 "javascriptEnabled": true,
-                "math": "always",
               },
               "sourceMap": true,
             },
