@@ -23,7 +23,7 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/runtime": "workspace:*",
-    "axios": "^0.24.0",
+    "axios": "^1.2.1",
     "express": "^4.17.1",
     "react": "^18",
     "react-dom": "^18"

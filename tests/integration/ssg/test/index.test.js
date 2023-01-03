@@ -1,6 +1,6 @@
 const { join } = require('path');
 const path = require('path');
-const { fs } = require('zx');
+const { fs } = require('@modern-js/utils');
 const { modernBuild } = require('../../../utils/modernTestUtils');
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
