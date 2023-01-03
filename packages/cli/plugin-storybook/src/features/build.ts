@@ -5,6 +5,7 @@ import type {
   IAppContext,
 } from '@modern-js/module-tools';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import type { PluginOptions } from '../types';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(
@@ -38,12 +39,10 @@ const isQuiet = () => {
   return !enableProgress;
 };
 
-export const runBuild = async ({
-  appContext,
-  modernConfig,
-  stories,
-  isTsProject = false,
-}: IRunBuildOption) => {
+export const runBuild = async (
+  pluginOption: PluginOptions,
+  { appContext, modernConfig, stories, isTsProject = false }: IRunBuildOption,
+) => {
   // TODO: add some debug code
   const { appDirectory } = appContext;
   const { output: { distPath } = {} } = modernConfig as BuilderConfig;
@@ -53,7 +52,7 @@ export const runBuild = async ({
     return;
   }
 
-  const configDir = await gen.generateConfig(appDirectory, {
+  const configDir = await gen.generateConfig(appDirectory, pluginOption, {
     stories,
     modernConfig,
   });

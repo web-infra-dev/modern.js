@@ -1,8 +1,11 @@
 import { createRuntimeExportsUtils } from '@modern-js/utils';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import { defaultStories, appToolsStories } from './constants/stores';
+import type { PluginOptions } from './types';
 
-export default (): CliPlugin<ModuleTools> => ({
+export type { PluginOptions } from './types';
+
+export default (pluginOption: PluginOptions = {}): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-storybook',
   setup: api => ({
     async validateSchema() {
@@ -49,11 +52,15 @@ export default (): CliPlugin<ModuleTools> => ({
           const appContext = api.useAppContext();
           const isModuleTools = appContext.toolsType === 'module-tools';
 
-          await runDev(api, {
-            isTsProject: context.isTsProject,
-            stories: isModuleTools ? defaultStories : appToolsStories,
-            isModuleTools,
-          });
+          await runDev(
+            api,
+            {
+              isTsProject: context.isTsProject,
+              stories: isModuleTools ? defaultStories : appToolsStories,
+              isModuleTools,
+            },
+            pluginOption,
+          );
         },
       };
     },
@@ -67,7 +74,7 @@ export default (): CliPlugin<ModuleTools> => ({
           const modernConfig = api.useResolvedConfigContext();
           const isModuleTools = appContext.toolsType === 'module-tools';
 
-          await runBuild({
+          await runBuild(pluginOption, {
             stories: isModuleTools ? defaultStories : appToolsStories,
             appContext,
             modernConfig,

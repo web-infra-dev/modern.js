@@ -3,6 +3,12 @@ export const dev = {
   schema: {
     type: 'object',
     additionalProperties: false,
+    properties: {
+      webpack: { typeof: ['object', 'function'] },
+      webpackChain: { typeof: ['function'] },
+      // TODO: add runtime api
+      // runtime: { type: 'object' },
+    },
   },
 };
 
