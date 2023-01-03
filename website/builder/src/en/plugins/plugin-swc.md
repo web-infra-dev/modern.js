@@ -105,112 +105,63 @@ Some plugins ported from Babel.
 
 #### extensions.pluginImport
 
-- type
+Ported from [babel-plugin-import](https://github.com/umijs/babel-plugin-import), configurations are the same.
 
-```ts
-type PluginImportOptions = Array<{
-  fromSource: string;
-  replaceJs?: {
-    ignoreEsComponent?: string[];
-    template?: string;
-    replaceExpr?: (member: string) => string | false;
-    transformToDefaultImport?: boolean;
-  };
-  replaceCss?: {
-    ignoreStyleComponent?: string[];
-    template?: string;
-    replaceExpr?: (member: string) => string | false;
-  };
-}>;
-```
+Some configurations can be passed in functions, such as `customName`, `customStyleName`. These JavaScript functions will be called by Rust through Node-API, which will cause some performance overhead.
 
-Ported from [babel-plugin-import](https://github.com/umijs/babel-plugin-import).
+Some simple function logic can be replaced by template language. Therefore, the configuration of function items such as `customName`, `customStyleName` can also be passed in strings as templates to replace functions and improve performance.
 
-**fromSource**
-
-- Type: `string`
-
-The package that need to be transformed，eg. in `import { a } from 'foo'`, `fromSource` should be `foo`.
-
-**replaceJs.ignoreEsComponent**
-
-- Type: `string[]`
-- Default: `[]`
-
-The import specifiers which don't need to be transformed.
-
-**replaceJs.template**
-
-- Type: `string`
-- Default: `undefined`
-
-Template that represents replacement, for example:
+For example:
 
 ```ts
 import { MyButton as Btn } from 'foo';
 ```
 
-If we set:
+Apply following configurations:
 
 ```ts
 PluginSWC({
   extensions: {
     pluginImport: [
       {
-        replaceJs: {
-          template: 'foo/es/{{member}}',
-        },
+        libraryName: 'foo',
+        customName: 'foo/es/{{ member }}'
       },
     ],
   },
 });
 ```
 
-Then the code above will be replaced to code below:
+`{{ member }}` will be replaced by the imported specifier:
 
 ```ts
 import Btn from 'foo/es/MyButton';
 ```
 
-We also put some naming conversion functions, take the above example again, if we set it to:
+Template ```customName: 'foo/es/{{ member }}'``` is the same as ```customName: (member) => `foo/es/${member}` ```, but template value has no performance overhead of Node-API.
+
+The template used here is [handlebars](https://handlebarsjs.com). There are some useful builtin tools, Take the above import statement as an example:
 
 ```ts
 PluginSWC({
   extensions: {
     pluginImport: [
       {
-        replaceJs: {
-          template: 'foo/es/{{ kebabCase member }}',
-        },
+        libraryName: 'foo',
+        customName: 'foo/es/{{ kebabCase member }}',
       },
     ],
   },
 });
 ```
 
-It will be transformed to code below:
+Transformed to:
 
 ```ts
 import Btn from 'foo/es/my-button';
 ```
 
-Besides `kebabCase`, there are also `camelCase`, `snakeCase`, `upperCase`, `lowerCase`.
-
-**replaceJs.replaceExpr**
-
-- Type: `(member: string) => string`
-- Default: `undefined`
-
-This is also used to replace import specifiers. The argument is the specifier that imported. eg. `a` in `import { a as b } from 'foo'`.
-This function is called by `Rust`，and it needs to be synchronous.
-We recommend `template` instead, because call `js` function through `node-api` will cause performance issue. `node-api` invokes `js` function actually put this `js` call inside a queue, and wait for this call to be executed, so if current `js` thread is busy, then this call will block `Rust` thread for a while.
-
-**transformToDefaultImport**
-
-- Type: `boolean`
-- Default: `true`
-
-Whether transform specifier to default specifier.
+In addition to `kebabCase`, there are `cameraCase`, `snakeCase`, `upperCase` and `lowerCase` can be used as well.
 
 #### extensions.reactUtils
 

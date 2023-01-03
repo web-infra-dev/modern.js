@@ -162,7 +162,7 @@ Path to the tsconfig file
 
 ### distPath
 
-The output path of the dts file, based on [outDir]('/zh/api/build-config/#outDir')
+The output path of the dts file, based on [outDir](/zh/api/build-config/#outDir)
 
 - type: `string`
 - default: `. /types`
