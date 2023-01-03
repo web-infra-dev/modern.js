@@ -77,7 +77,7 @@ export function Nav(props: NavProps) {
   const hasSocialLinks = socialLinks.length > 0;
   const defaultLang = siteData.lang || 'zh';
   const langs = localeLanguages.map(item => item.lang || 'zh') || [];
-  const { logo } = siteData;
+  const { logo, base } = siteData;
 
   const translationMenuData = hasMultiLanguage
     ? {
@@ -105,17 +105,24 @@ export function Nav(props: NavProps) {
     return (
       <div className="menu" h="14">
         {menuItems.map(item =>
-          'link' in item ? (
-            <NavMenuSingleItem pathname={pathname} key={item.link} {...item} />
-          ) : (
+          'items' in item ? (
             <div m="x-3" last="mr-0" key={item.text}>
               <NavMenuGroup {...item} />
             </div>
+          ) : (
+            <NavMenuSingleItem
+              pathname={pathname}
+              langs={langs}
+              base={base}
+              key={item.link}
+              {...item}
+            />
           ),
         )}
       </div>
     );
   };
+
   const menuItems = localeData.nav || [];
   const hasSearch = siteData?.themeConfig?.search !== false;
 

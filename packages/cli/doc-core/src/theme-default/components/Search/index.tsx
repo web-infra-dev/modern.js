@@ -172,7 +172,7 @@ export function Search(props: SearchOptions) {
           p="2"
           list="none"
           bg="white"
-          className="w-100% sm:min-w-600px sm:max-w-800px"
+          className="w-full sm:min-w-600px sm:max-w-800px"
           style={{ border: '1px solid var(--modern-c-divider-light)' }}
         >
           {/* Show the suggestions */}
@@ -186,16 +186,16 @@ export function Search(props: SearchOptions) {
               <a block="~" href={item.link} className="whitespace-normal">
                 <div table="~" w="full" className="border-collapse">
                   <div
-                    w="35%"
                     border-left="none"
-                    table-cell="~"
+                    display="table-cell"
                     align="middle right"
                     p="1.2"
                     text="sm right [#2c3e50]"
                     font="semibold"
-                    className={`bg-[#f5f5f5] border-[#eaecef]`}
+                    className={`bg-[#f5f5f5]`}
                     style={{
-                      border: '1px solid var(--modern-c-divider-light)',
+                      borderBottom: '1px solid var(--modern-c-divider-light)',
+                      width: '35%',
                     }}
                   >
                     {item.title}
@@ -204,6 +204,7 @@ export function Search(props: SearchOptions) {
                     suggestion={item}
                     query={query}
                     isCurrent={index === currentSuggestionIndex}
+                    isFirst={index === 0}
                   />
                 </div>
               </a>
