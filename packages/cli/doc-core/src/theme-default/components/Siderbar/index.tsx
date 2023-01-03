@@ -14,7 +14,7 @@ interface Props {
   sidebarData: (SidebarGroup | SidebarItem)[];
 }
 
-const SINGLE_MENU_ITEM_HEIGHT = 32;
+const SINGLE_MENU_ITEM_HEIGHT = 28;
 const MENU_ITEM_MARGIN = 4;
 const singleItemHeight = SINGLE_MENU_ITEM_HEIGHT + MENU_ITEM_MARGIN;
 
@@ -65,7 +65,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
       <Link href={normalizeHref(item.link)} className={styles.menuLink}>
         <div
           m="t-1"
-          p="y-1.5 x-2"
+          p="y-1 x-2"
           block="~"
           text="sm"
           rounded="sm"
@@ -97,7 +97,8 @@ export function SidebarGroupComp(props: SidebarItemProps) {
     ></div>
   );
 
-  const toggleCollapse = (): void => {
+  const toggleCollapse: React.MouseEventHandler<HTMLDivElement> = (e): void => {
+    e.stopPropagation();
     // update collapsed state
     setSidebarData(sidebarData => {
       const newSidebarData = [...sidebarData];
@@ -113,17 +114,11 @@ export function SidebarGroupComp(props: SidebarItemProps) {
       }
       return newSidebarData;
     });
-
-    if (item.link) {
-      item.link && navigate(normalizeHref(item.link));
-    }
   };
 
   return (
     <section key={item.text} block="~">
       <div
-        m="t-1"
-        p="r-1"
         flex="~"
         justify="between"
         items-start="~"
@@ -132,12 +127,24 @@ export function SidebarGroupComp(props: SidebarItemProps) {
           active ? styles.menuItemActive : styles.menuItem
         }`}
         onMouseEnter={() => item.link && props.preloadLink(item.link)}
-        onClick={toggleCollapse}
+        onClick={e => {
+          if (item.link) {
+            navigate(normalizeHref(item.link));
+          } else {
+            toggleCollapse(e);
+          }
+        }}
       >
-        <h2 p="y-1.5 x-2" text="sm" font="semibold">
+        <h2 p="y-1 x-2" text="sm" font="semibold">
           {item.text}
         </h2>
-        {collapsibleIcon}
+        <div
+          p="2"
+          className={styles.collapseContainer}
+          onClick={toggleCollapse}
+        >
+          {collapsibleIcon}
+        </div>
       </div>
       <div
         ref={containerRef}
@@ -230,7 +237,7 @@ export function SideBar(props: Props) {
         isSidebarOpen ? styles.open : ''
       } divider-right`}
     >
-      <nav>
+      <nav mt="1">
         {sidebarData.map((item: SidebarGroup | SidebarItem, index: number) => (
           <SidebarItemComp
             id={String(index)}

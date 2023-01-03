@@ -1,5 +1,4 @@
 import { throttle } from 'lodash-es';
-import mediumZoom from 'medium-zoom';
 import { setupCopyCodeButton } from './copyCode';
 import { inBrowser } from '@/shared/utils';
 
@@ -159,19 +158,10 @@ export function bindingAsideScroll() {
   };
 }
 
-function bindingImagePreview() {
-  const imageList = document.querySelectorAll<HTMLImageElement>('img');
-  mediumZoom(imageList, {
-    margin: 100,
-    background: 'rgba(0, 0, 0, 0.7)',
-  });
-}
-
 export function setup() {
   if (!inBrowser()) {
     return;
   }
   bindingWindowScroll();
   setupCopyCodeButton();
-  bindingImagePreview();
 }
