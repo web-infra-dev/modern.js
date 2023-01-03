@@ -69,11 +69,11 @@ function generateRouterPlugin (basename,routerConfig) {
   return router(routerConfig);
 }
 
-function generateAppWrapperAndRootDom ({ App, props, dom }) {
+function generateAppWrapperAndRootDom ({ App, props: garfishProps, dom }) {
   let AppWrapper = App;
-  if (props) {
-    AppWrapper = function () {
-      return React.createElement(App, props);
+  if (garfishProps) {
+    AppWrapper = function (props) {
+      return React.createElement(App, { ...garfishProps, ...props });
     };
     AppWrapper = hoistNonReactStatics(AppWrapper, App);
   }
