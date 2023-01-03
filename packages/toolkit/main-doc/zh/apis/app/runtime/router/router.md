@@ -7,10 +7,6 @@ sidebar_position: 1
 基于 [react-router](https://reactrouter.com/) 的路由解决方案。
 :::
 
-:::caution 注意
-使用该 API 前，请确认没有禁用 [router 插件](/docs/configure/app/runtime/router)。
-:::
-
 ## hooks
 
 ### useNavigate
