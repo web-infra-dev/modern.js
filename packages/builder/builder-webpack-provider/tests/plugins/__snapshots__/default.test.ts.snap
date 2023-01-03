@@ -551,7 +551,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
                 "javascriptEnabled": true,
-                "math": "always",
               },
               "sourceMap": true,
             },
