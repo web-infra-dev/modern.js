@@ -6,7 +6,7 @@ sidebar_label: masterApp
 
 * 类型： `Object`
 
-:::caution 注意
+:::info
 需要先通过 `pnpm run new` 启用「微前端」 功能。
 :::
 

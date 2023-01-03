@@ -4,57 +4,32 @@ sidebar_label: masterApp
 
 # runtime.masterApp
 
-* 类型： `Object`
+* Type： `Object`
 
 :::info
 First you need to enable the "micro frontend" function using [new command](/docs/apis/app/commands/new).
 :::
 
-## `manifest`
+## Example
 
-The main application adds sub-application information.
+import EnableMicroFrontend from '@site-docs-en/components/enable-micro-frontend.md';
+import MasterManifestAppConfig from '@site-docs-en/components/micro-master-manifest-config.md';
 
-* Type: `modules: Array<{
-        name: string;
-        entry: string;
-        activeWhen?: string;
-      }> | string;`
-* Default: `null`
+<EnableMicroFrontend />
+<MasterManifestAppConfig />
 
-### `modules`
 
-When `modules` is an object type, it represents the information of the sub-application module.
+### apps
 
-- name: The name of the child application
-- entry: The entry of the child application
-- activeWhen?: The path of the child application
+When `apps` is an object, it represents the information of the child application module `Array<AppInfo>`.
 
-When  `modules` is `string`, it is a url address, and requesting this address can get the same data structure as the `modules` object format.
-
-## `LoadingComponent`
-
-* Type: `React.ComponentType | React.ElementType`
-* Default: `null`
-
-A transition animation to load when loading or switching child applications.
-
-`LoadingComponent` needs to be configured with [defineConfig](/docs/apis/app/runtime/app/define-config).
-
-```tsx
-import { defineConfig } from '@modern-js/runtime';
-
-function App() {
-  ...
+```ts
+interface AppInfo {
+  name: string;
+  entry: string;
+  activeWhen?: string | ()=> boolean;
 }
-
-defineConfig(
-  App,
-  {
-    masterApp: {
-      LoadingComponent: () => {
-        return <div>loading...</div>
-      }
-    }
-  }
-)
 ```
+
+- name: The name of the module.
+- entry: The entry of the module.

@@ -12,34 +12,34 @@ sidebar_label: state
 
 具体配置项如下：
 
-## `models`
+## models
 
 * 类型：`Array<Model>`
 * 默认值：`[]`
 
 注册提前挂载的 model 对象，这些 model 会在 Reduck store 创建完成后立即执行挂载。一般使用无需提前挂载。
 
-## `initialState`
+## initialState
 * 类型: `Object`
-* * 默认值：`{}`
+* 默认值：`{}`
 
 用于设置全局 store 的初始状态。一般用于 SSR 在 hydration 阶段初始化数据。
 
-## `immer`
+## immer
 
 * 类型：`boolean`
 * 默认值：`true`
 
 是否启用以 mutable 更新 state 的方式，默认启用，若想禁用则设置为 `false`。
 
-## `effects`
+## effects
 
 * 类型：`boolean`
 * 默认值：`true`
 
 是否启用副作用管理特性，默认启用，若想禁用则设置为 `false`。
 
-## `autoActions`
+## autoActions
 
 * 类型：`boolean`
 * 默认值：`true`
@@ -47,7 +47,7 @@ sidebar_label: state
 是否启用自动生成 actions 特性，默认启用，若想禁用则设置为 `false`。
 
 
-## `devtools`
+## devtools
 
 * 类型：`boolean | EnhancerOptions`
 * 默认值：`true`

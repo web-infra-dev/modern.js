@@ -13,16 +13,14 @@ import RouterLegacyTip from '@site-docs/components/router-legacy-tip.md'
 
 When `router` is enabled, routing management of conventional routes provided by Modern.js is supported. Based on [React Router 6](https://reactrouter.com/).
 
-## Configuration
-
-### basename
+## basename
 
 * Type: `string`
 * Default: ``
 
 The basename of the app for situations where you can't deploy to the root of the domain, but a sub directory.
 
-### supportHtml5History
+## supportHtml5History
 
 * Type: `Boolean`
 * Default: `true`
