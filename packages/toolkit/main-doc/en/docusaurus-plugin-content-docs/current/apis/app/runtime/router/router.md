@@ -7,10 +7,6 @@ sidebar_position: 1
 The router solution based on [react-router 6](https://reactrouter.com/).
 :::
 
-:::caution
-Make sure the [router plugin](/docs/configure/app/runtime/router) is opted in before using the API.
-:::
-
 ## hooks
 
 ### useNavigate

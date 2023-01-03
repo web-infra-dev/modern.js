@@ -10,14 +10,18 @@ import {
   getBrowserslistWithDefault,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import { getCoreJsVersion, readTsConfig } from '@modern-js/utils';
+import {
+  chalk,
+  getCoreJsVersion,
+  logger,
+  readTsConfig,
+} from '@modern-js/utils';
 import { JsMinifyOptions } from '@modern-js/swc-plugins';
 import { minify } from './binding';
 import { PluginSwcOptions, TransformConfig } from './config';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
 const BUILDER_SWC_DEBUG_MODE = 'BUILDER_SWC_DEBUG_MODE';
-const DISABLE_SWC_MINIFY_TIMEOUT = 'DISABLE_SWC_MINIFY_TIMEOUT';
 
 /**
  * In this plugin, we do:
@@ -295,28 +299,25 @@ function isDebugMode(): boolean {
   return process.env[BUILDER_SWC_DEBUG_MODE] !== undefined;
 }
 
-function disableTimeout(): boolean {
-  return process.env[DISABLE_SWC_MINIFY_TIMEOUT] !== undefined;
-}
-
 function minifyWithTimeout(
   filename: string,
   code: string,
   config: JsMinifyOptions,
 ): Promise<Output> {
+  const timer = setTimeout(() => {
+    logger.warn(
+      `SWC minimize has running for over 180 seconds for a single file: ${filename}\n
+It is likely that you've encountered a ${chalk.red(
+        'SWC internal bug',
+      )}, please contact us at https://github.com/modern-js-dev/modern.js/issues`,
+    );
+  }, 180_1000);
+
   const outputPromise = minify(filename, code, config);
 
-  return disableTimeout()
-    ? outputPromise
-    : Promise.race([
-        outputPromise,
-        timeout<Output>(
-          240_000,
-          `Minify cost too much time(over 240 seconds) in a single file: ${filename}, perhaps there is an error in [SWC] minify, please contact us.\nIf you still want to wait, setting env variable: DISABLE_SWC_MINIFY_TIMEOUT=1 will disable timeout checker.`,
-        ),
-      ]);
-}
+  outputPromise.finally(() => {
+    clearTimeout(timer);
+  });
 
-function timeout<T>(ms: number, msg: string): Promise<T> {
-  return new Promise((_resolve, reject) => setTimeout(() => reject(msg), ms));
+  return outputPromise;
 }

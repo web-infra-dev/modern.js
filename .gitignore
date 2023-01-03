@@ -58,3 +58,4 @@ website/**/.temp
 .wireit/
 .turbo/
 playground/
+doc_build/
