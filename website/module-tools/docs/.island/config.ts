@@ -14,10 +14,12 @@ function getI18nHelper(lang: 'zh' | 'en') {
   return { getText, getLink };
 }
 
+const isDevCommand = process.argv.includes('dev');
+
 export default defineConfig({
   lang: 'en-US',
   title: 'Module tools',
-  // base: '/module-tools/',
+  base: isDevCommand ? '' : '/module-tools/',
   vite: {
     // custom config for vite
     server: {
