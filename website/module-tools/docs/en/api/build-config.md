@@ -79,7 +79,7 @@ At this point, all static resources will be prefixed with `https://xxx/`
 ### svgr
 Packaged to handle svg as a React component, options reference [svgr](https://react-svgr.com/docs/options/), plus support for two configuration items `include` and `exclude` to match the svg file to be handled
 - type: `boolean | Object`
-- default: `true`
+- default: `false`
 
 #### include
 Set the matching svg file

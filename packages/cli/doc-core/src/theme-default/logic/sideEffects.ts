@@ -2,7 +2,26 @@ import { throttle } from 'lodash-es';
 import { setupCopyCodeButton } from './copyCode';
 import { inBrowser } from '@/shared/utils';
 
-const DEFAULT_NAV_HEIGHT = 60;
+const DEFAULT_NAV_HEIGHT = 56;
+
+export function scrollToTarget(target: HTMLElement, isSmooth: boolean) {
+  const targetPadding = parseInt(
+    window.getComputedStyle(target).paddingTop,
+    10,
+  );
+
+  const targetTop =
+    window.scrollY +
+    target.getBoundingClientRect().top -
+    DEFAULT_NAV_HEIGHT +
+    targetPadding;
+  // Only scroll smoothly in page header anchor
+  window.scrollTo({
+    left: 0,
+    top: targetTop,
+    ...(isSmooth ? { behavior: 'smooth' } : {}),
+  });
+}
 
 // Control the scroll behavior of the browser when user clicks on a link
 function bindingWindowScroll() {
@@ -17,22 +36,7 @@ function bindingWindowScroll() {
       console.warn(e);
     }
     if (target) {
-      const targetPadding = parseInt(
-        window.getComputedStyle(target).paddingTop,
-        10,
-      );
-
-      const targetTop =
-        window.scrollY +
-        target.getBoundingClientRect().top -
-        DEFAULT_NAV_HEIGHT +
-        targetPadding;
-      // Only scroll smoothly in page header anchor
-      window.scrollTo({
-        left: 0,
-        top: targetTop,
-        ...(isSmooth ? { behavior: 'smooth' } : {}),
-      });
+      scrollToTarget(target, isSmooth);
     }
   }
 
@@ -82,9 +86,10 @@ export function bindingAsideScroll() {
   const NAV_HEIGHT = 56;
   const marker = document.getElementById('aside-marker');
   const aside = document.getElementById('aside-container');
-  const links = document.querySelectorAll<HTMLAnchorElement>(
-    '.modern-doc .header-anchor',
-  );
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('.modern-doc .header-anchor'),
+  ).filter(item => item.parentElement?.tagName !== 'H1');
+
   if (!aside || !links.length) {
     return;
   }
@@ -98,7 +103,7 @@ export function bindingAsideScroll() {
     return;
   }
   // Util function to set dom ref after determining the active link
-  const activate = (links: NodeListOf<HTMLAnchorElement>, index: number) => {
+  const activate = (links: HTMLAnchorElement[], index: number) => {
     if (prevActiveLink) {
       prevActiveLink.classList.remove('aside-active');
     }
@@ -147,8 +152,7 @@ export function bindingAsideScroll() {
       }
     }
   };
-  const throttledSetLink = throttle(setActiveLink, 100);
-  requestAnimationFrame(setActiveLink);
+  const throttledSetLink = throttle(setActiveLink, 200);
 
   window.addEventListener('scroll', throttledSetLink);
 

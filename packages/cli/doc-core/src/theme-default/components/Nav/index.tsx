@@ -24,15 +24,11 @@ interface NavBarTitleProps {
 
 const NavBarTitle = ({ title, langRoutePrefix, logo }: NavBarTitleProps) => {
   return (
-    <div
-      shrink="0"
-      border="border t-0 b-1 border-solid transparent"
-      className={`${styles.navBarTitle}`}
-    >
+    <div className={`${styles.navBarTitle}`}>
       <a
         href={withBase(langRoutePrefix)}
-        w="100%"
-        h="100%"
+        w="full"
+        h="full"
         text="1rem"
         font="semibold"
         transition="opacity duration-300"
@@ -40,7 +36,7 @@ const NavBarTitle = ({ title, langRoutePrefix, logo }: NavBarTitleProps) => {
         className="flex items-center"
       >
         {logo ? (
-          <img src={logo} alt="logo" id="logo" mr="4" className="w-24" />
+          <img src={logo} alt="logo" id="logo" m="r-4" className="w-24" />
         ) : (
           <span>{title}</span>
         )}
@@ -56,12 +52,11 @@ const NavTranslations = ({
 }) => {
   return (
     <div
-      className="translation"
       flex="~"
       text="sm"
       font="bold"
-      items-center="~"
-      before="menu-item-before"
+      align="items-center"
+      className={`translation ${styles.menuItem}`}
     >
       <div m="x-1.5">
         <NavMenuGroup {...translationMenuData} isTranslation />
@@ -98,10 +93,9 @@ export function Nav(props: NavProps) {
   const NavAppearance = () => {
     return (
       <div
-        className="appearance"
-        before="menu-item-before"
+        className={`appearance ${styles.menuItem}`}
         display="none sm:flex"
-        items-center="center"
+        align-items-center="center"
       >
         <SwitchAppearance />
       </div>
@@ -109,7 +103,7 @@ export function Nav(props: NavProps) {
   };
   const NavMenu = ({ menuItems }: { menuItems: NavItem[] }) => {
     return (
-      <div className="menu">
+      <div className="menu" h="14">
         {menuItems.map(item =>
           'link' in item ? (
             <NavMenuSingleItem pathname={pathname} key={item.link} {...item} />
@@ -131,7 +125,7 @@ export function Nav(props: NavProps) {
     return (
       <div className={styles.rightNav}>
         {hasSearch && (
-          <div className="search" flex="sm:1" pl="sm:8">
+          <div className="search" flex="sm:1" p="sm:l-8">
             <Search
               langRoutePrefix={localeData.langRoutePrefix || ''}
               defaultLang={defaultLang}
@@ -150,17 +144,23 @@ export function Nav(props: NavProps) {
   };
   return (
     <header
-      relative=""
       z="4"
-      fixed="md:~"
-      className="top-0 left-0 divider-bottom md:border-b lg:border-b"
-      w="100%"
+      className="top-0 left-0 md:border-b lg:border-b relative md:fixed"
+      style={{
+        borderBottom: '1px solid var(--modern-c-divider-light)',
+      }}
+      w="full"
     >
-      <div relative="" p="x-6" transition="background-color duration-500">
+      <div
+        className="relative"
+        p="x-6"
+        transition="background-color duration-500"
+      >
         <div
-          flex=""
+          flex="~"
           justify="between"
-          m="0 auto"
+          align="items-center"
+          h="full"
           className={`${styles.container}`}
         >
           {beforeNavTitle}
@@ -174,7 +174,7 @@ export function Nav(props: NavProps) {
             className={styles.content}
             flex="~ 1"
             justify="end"
-            items-center=""
+            align-items-center="~"
           >
             {rightNav()}
             <NavHamburger

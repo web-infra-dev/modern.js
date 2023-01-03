@@ -10,17 +10,16 @@ export const HiddenLinks = (props: IHiddenLinksProps) => {
 
   return (
     <div
-      absolute=""
-      pos="top-13 right-0"
+      pos="absolute top-13 right-0"
       z="1"
       p="3"
       w="32"
-      border-1=""
-      rounded="xl"
-      bg="bg-default"
+      border="rounded-xl"
+      bg="white"
       style={{
-        boxShadow: 'var(--island-shadow-3)',
+        boxShadow: 'var(--modern-shadow-3)',
         marginRight: '-2px',
+        border: '1px solid var(--modern-c-divider-light)',
       }}
       flex="~ wrap"
       gap="4"

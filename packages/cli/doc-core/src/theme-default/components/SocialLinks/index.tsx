@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { SocialLink } from 'shared/types';
 import { ShownLinks } from './ShownLinks';
 import { HiddenLinks } from './HiddenLinks';
+import styles from './index.module.scss';
 
 export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
   const moreThanThree = socialLinks.length > 3;
@@ -21,12 +22,11 @@ export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 
   return (
     <div
-      className="social-links"
+      className={`social-links ${styles.menuItem}`}
       nav-h="mobile sm:desktop"
-      flex=""
-      items-center=""
-      before="menu-item-before"
-      relative=""
+      flex="~"
+      align-items-center="~"
+      pos="relative"
       onMouseLeave={() => setMoreLinksVisible(false)}
     >
       <ShownLinks

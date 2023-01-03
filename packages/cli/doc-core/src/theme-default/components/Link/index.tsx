@@ -1,14 +1,17 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { matchRoutes, useNavigate } from 'react-router-dom';
+import { routes } from 'virtual-routes';
+import nprogress from 'nprogress';
 import styles from './index.module.scss';
-import { withBase } from '@/runtime';
-import { inBrowser } from '@/shared/utils';
+import { normalizeRoutePath, withBase } from '@/runtime';
 
 export interface LinkProps {
   href?: string;
   children?: React.ReactNode;
   className?: string;
 }
+
+nprogress.configure({ showSpinner: false });
 
 const EXTERNAL_URL_RE = /^(https?:)?\/\//;
 
@@ -17,19 +20,34 @@ export function Link(props: LinkProps) {
   const isExternal = EXTERNAL_URL_RE.test(href);
   const target = isExternal ? '_blank' : '';
   const rel = isExternal ? 'noopener noreferrer' : undefined;
-  const pathname = inBrowser() ? window.location.pathname : '';
   const withBaseUrl = isExternal ? href : withBase(href);
+  const navigate = useNavigate();
+  const handleNavigate = async (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+    const matchedRoutes = matchRoutes(routes, normalizeRoutePath(withBaseUrl));
+    if (matchedRoutes?.length) {
+      const timer = setTimeout(() => {
+        nprogress.start();
+      }, 200);
+      await matchedRoutes[0].route.preload();
+      clearTimeout(timer);
+      nprogress.done();
+    }
+    navigate(withBaseUrl, { replace: false });
+  };
   if (!isExternal) {
     return (
-      <RouterLink
+      <a
         className={`${styles.link} ${className}`}
-        to={withBaseUrl}
         rel={rel}
         target={target}
-        state={{ from: pathname }}
+        onClick={handleNavigate}
+        cursor="pointer"
       >
         {children}
-      </RouterLink>
+      </a>
     );
   } else {
     return (

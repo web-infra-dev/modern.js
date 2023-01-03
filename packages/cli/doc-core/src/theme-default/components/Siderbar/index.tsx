@@ -4,6 +4,7 @@ import { matchRoutes, useNavigate } from 'react-router-dom';
 import { routes } from 'virtual-routes';
 import { Link } from '../Link';
 import { isActive } from '../../logic';
+import ArrowRight from '../../assets/arrow-right.svg';
 import styles from './index.module.scss';
 import { removeBase, normalizeHref } from '@/runtime';
 
@@ -68,7 +69,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
           p="y-1 x-2"
           block="~"
           text="sm"
-          rounded="sm"
+          border="rounded-sm"
           font-medium="~"
           onMouseEnter={() => props.preloadLink(item.link)}
           className={active ? styles.menuItemActive : styles.menuItem}
@@ -88,13 +89,14 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   const { collapsed } = item as SidebarGroup;
   const collapsibleIcon = (
     <div
-      className="i-carbon-chevron-right"
       cursor-pointer="~"
       style={{
         transition: 'transform 0.2s ease-out',
         transform: collapsed ? 'rotate(0deg)' : 'rotate(90deg)',
       }}
-    ></div>
+    >
+      <ArrowRight />
+    </div>
   );
 
   const toggleCollapse: React.MouseEventHandler<HTMLDivElement> = (e): void => {
@@ -122,7 +124,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         flex="~"
         justify="between"
         items-start="~"
-        cursor-pointer="~"
+        cursor="pointer"
         className={`items-center ${
           active ? styles.menuItemActive : styles.menuItem
         }`}
@@ -155,7 +157,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         }}
       >
         {(item as SidebarGroup)?.items?.map((item, index) => (
-          <div key={item.link} mb="last:0.5" ml="4">
+          <div key={item.link} m="last:b-0.5 l-4">
             <SidebarItemComp
               {...props}
               item={item}
@@ -233,11 +235,12 @@ export function SideBar(props: Props) {
   };
   return (
     <aside
-      className={`${styles.sidebar} ${
-        isSidebarOpen ? styles.open : ''
-      } divider-right`}
+      className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}
+      style={{
+        borderRight: '1px solid var(--modern-c-divider-light)',
+      }}
     >
-      <nav mt="1">
+      <nav m="t-1">
         {sidebarData.map((item: SidebarGroup | SidebarItem, index: number) => (
           <SidebarItemComp
             id={String(index)}
