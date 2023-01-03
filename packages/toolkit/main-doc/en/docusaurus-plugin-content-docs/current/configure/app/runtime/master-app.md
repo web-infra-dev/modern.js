@@ -33,3 +33,9 @@ interface AppInfo {
 
 - name: The name of the module.
 - entry: The entry of the module.
+
+### Other Config
+
+Under the `masterApp` configuration, developers can pass through the configuration items of Garfish.
+
+All supported configuration items [see here](https://garfishjs.org/api/run/#%E5%8F%82%E6%95%B0).
