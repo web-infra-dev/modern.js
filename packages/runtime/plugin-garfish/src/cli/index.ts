@@ -131,7 +131,11 @@ export default ({
               const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
-                if (resolveOptions?.server?.port && env === 'development') {
+                if (
+                  !useConfig.dev?.assetPrefix &&
+                  resolveOptions?.server?.port &&
+                  env === 'development'
+                ) {
                   chain.output.publicPath(
                     `//localhost:${resolveOptions.server.port}/`,
                   );
