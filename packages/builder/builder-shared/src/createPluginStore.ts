@@ -10,6 +10,15 @@ export function createPluginStore(): PluginStore {
   ) => {
     const { before } = options || {};
     newPlugins.forEach(newPlugin => {
+      if (typeof newPlugin !== 'object' || newPlugin === null) {
+        throw new Error(
+          `expect plugin instance is object, but got ${typeof newPlugin}.`,
+        );
+      } else if (typeof newPlugin.setup !== 'function') {
+        throw new Error(
+          `expect plugin.setup is function, but got ${typeof newPlugin}.`,
+        );
+      }
       if (plugins.find(item => item.name === newPlugin.name)) {
         logger.warn(`Plugin "${newPlugin.name}" already exists.`);
       } else if (before) {
