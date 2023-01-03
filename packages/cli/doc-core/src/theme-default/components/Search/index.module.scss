@@ -2,6 +2,16 @@
   width: 8.6rem;
   transition: width 0.3s;
 }
+
+.suggestionItem {
+  border: 1px solid var(--modern-c-divider-light);
+  border-top: 0;
+}
+
+.suggestionItemFirst {
+  border-top: 1px solid var(--modern-c-divider-light);
+}
+
 @media (max-width: 768px) {
   .searchCommand {
     display: none;

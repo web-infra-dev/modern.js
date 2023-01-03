@@ -36,31 +36,22 @@ describe('concurrent compile', async () => {
       extensions: {
         pluginImport: [
           {
-            fromSource: 'fooA',
-            replaceJs: {
-              replaceExpr(member: string) {
-                return `fooA/${member}`;
-              },
+            libraryName: 'fooA',
+            customName(member: string) {
+              return `fooA/${member.toLowerCase()}`;
             },
-            replaceCss: {},
           },
           {
-            fromSource: 'fooB',
-            replaceJs: {
-              replaceExpr(member: string) {
-                return `fooB/${member}`;
-              },
+            libraryName: 'fooB',
+            customName(member: string) {
+              return `fooB/${member.toLowerCase()}`;
             },
-            replaceCss: {},
           },
           {
-            fromSource: 'fooC',
-            replaceJs: {
-              replaceExpr(member: string) {
-                return `fooC/${member}`;
-              },
+            libraryName: 'fooC',
+            customName(member: string) {
+              return `fooC/${member.toLowerCase()}`;
             },
-            replaceCss: {},
           },
         ],
       },

@@ -15,7 +15,7 @@ const _createApp = (StoryFn: StoryFunction<JSX.Element>, options: IConfig) => {
   const AppWrapper = createApp({
     plugins: resolvePlugins(options.modernConfigRuntime),
   })(StoryFn);
-  // bootstrap(AppWrapper, 'root');
+
   return AppWrapper;
 };
 const allowedRuntimeAPI = {
@@ -42,7 +42,12 @@ export const resolvePlugins = (runtime: IConfig['modernConfigRuntime']) => {
           plugins.push(state(getStateOption(runtime.state)));
         }
       } else if (api === allowedRuntimeAPI.router) {
-        plugins.push(router(runtime.router as RouterConfig));
+        plugins.push(
+          router({
+            ...{ serverBase: ['/'] },
+            ...(runtime.router as RouterConfig),
+          }),
+        );
       }
     }
   });

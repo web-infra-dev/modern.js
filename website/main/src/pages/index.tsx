@@ -133,7 +133,7 @@ const HomepageHeader = () => (
         <Link className={styles['doc-btn']} to="/docs/guides/get-started/quick-start">
           快速开始{' '}
         </Link>
-        <Link className={styles['doc-btn']} to="/docs/guides/overview">
+        <Link className={styles['doc-btn']} to="/docs/guides/get-started/quick-start">
           文档
         </Link>
       </div>

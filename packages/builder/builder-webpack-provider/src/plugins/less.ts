@@ -28,8 +28,6 @@ export function PluginLess(): BuilderPlugin {
 
           const defaultLessLoaderOptions: LessLoaderOptions = {
             lessOptions: {
-              // Compat for antd or other component libraries which use math function to calculate the value
-              math: 'always',
               javascriptEnabled: true,
             },
             sourceMap: isUseCssSourceMap(config),

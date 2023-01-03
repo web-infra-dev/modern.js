@@ -18,19 +18,19 @@ const resolveStorybookWebPackConfig = (
 ) => {
   // override output
   sbWebpackConfig.output = clientWebpackConfig.output;
-  if (typeof clientWebpackConfig.output === 'object') {
-    sbWebpackConfig.output = {
-      ...clientWebpackConfig.output,
-      publicPath:
-        clientWebpackConfig.output?.publicPath === '/'
-          ? '' // Keep it consistent with the storybook
-          : clientWebpackConfig.output?.publicPath,
-    };
-  } else {
-    sbWebpackConfig.output = {
-      publicPath: '',
-    };
-  }
+  // if (typeof clientWebpackConfig.output === 'object') {
+  //   sbWebpackConfig.output = {
+  //     ...clientWebpackConfig.output,
+  //     publicPath:
+  //       clientWebpackConfig.output?.publicPath === '/'
+  //         ? '' // Keep it consistent with the storybook
+  //         : clientWebpackConfig.output?.publicPath,
+  //   };
+  // } else {
+  //   sbWebpackConfig.output = {
+  //     publicPath: '',
+  //   };
+  // }
 
   // handle module rules
   const applyModuleRules = () => {
@@ -144,9 +144,31 @@ export const getCustomWebpackConfigHandle = async ({
 }) => {
   const { appDirectory } = appContext;
 
+  const {
+    buildConfig: _,
+    buildPreset: __,
+    dev,
+    designSystem: ___,
+    ...builderConfig
+  } = modernConfig;
+  const storybookBuildConfig = dev?.storybook ?? {};
   const builder =
     appContext.builder ||
-    (await createWebpackBuilder(modernConfig as BuilderConfig));
+    (await createWebpackBuilder({
+      ...builderConfig,
+      tools: {
+        ...(builderConfig as any).tools,
+        // maybe buildConfiger is app-tools`s config
+        webpack: [
+          (builderConfig as any).tools.webpack,
+          storybookBuildConfig.webpack,
+        ].filter(p => Boolean(p)),
+        webpackChain: [
+          (builderConfig as any).tools.webpackChain,
+          storybookBuildConfig.webpackChain,
+        ].filter(p => Boolean(p)),
+      },
+    }));
 
   const { PluginStorybook } = await import('./builder-plugin');
 
