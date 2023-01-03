@@ -1,6 +1,6 @@
 import path from 'path';
 import assert from 'assert';
-import type { Compiler, Compilation } from 'webpack';
+import { Compiler, Compilation } from 'webpack';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import {
   mergeRegex,
@@ -17,6 +17,7 @@ import { PluginSwcOptions, TransformConfig } from './config';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
 const BUILDER_SWC_DEBUG_MODE = 'BUILDER_SWC_DEBUG_MODE';
+const DISABLE_SWC_MINIFY_TIMEOUT = 'DISABLE_SWC_MINIFY_TIMEOUT';
 
 /**
  * In this plugin, we do:
@@ -174,7 +175,13 @@ export class SwcWebpackPlugin {
           stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
         },
         async () => {
-          await this.updateAssets(compilation);
+          try {
+            await this.updateAssets(compilation);
+          } catch (e) {
+            compilation.errors.push(
+              new compiler.webpack.WebpackError(`[SWC Minify]: ${e}`),
+            );
+          }
         },
       );
     });
@@ -288,17 +295,28 @@ function isDebugMode(): boolean {
   return process.env[BUILDER_SWC_DEBUG_MODE] !== undefined;
 }
 
+function disableTimeout(): boolean {
+  return process.env[DISABLE_SWC_MINIFY_TIMEOUT] !== undefined;
+}
+
 function minifyWithTimeout(
   filename: string,
   code: string,
   config: JsMinifyOptions,
 ): Promise<Output> {
-  return Promise.race([
-    minify(filename, code, config),
-    timeout<Output>(10_000),
-  ]);
+  const outputPromise = minify(filename, code, config);
+
+  return disableTimeout()
+    ? outputPromise
+    : Promise.race([
+        outputPromise,
+        timeout<Output>(
+          240_000,
+          `Minify cost too much time(over 240 seconds) in a single file: ${filename}, perhaps there is an error in [SWC] minify, please contact us.\nIf you still want to wait, setting env variable: DISABLE_SWC_MINIFY_TIMEOUT=1 will disable timeout checker.`,
+        ),
+      ]);
 }
 
-function timeout<T>(ms: number): Promise<T> {
-  return new Promise((_resolve, reject) => setTimeout(reject, ms));
+function timeout<T>(ms: number, msg: string): Promise<T> {
+  return new Promise((_resolve, reject) => setTimeout(() => reject(msg), ms));
 }

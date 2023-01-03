@@ -104,46 +104,13 @@ type PluginConfig = {
 
 #### extensions.pluginImport
 
-- 类型
+移植自 [babel-plugin-import](https://github.com/umijs/babel-plugin-import)，配置选项保持一致。
 
-```ts
-type PluginImportOptions = Array<{
-  fromSource: string;
-  replaceJs?: {
-    ignoreEsComponent?: string[];
-    template?: string;
-    replaceExpr?: (member: string) => string | false;
-    transformToDefaultImport?: boolean;
-  };
-  replaceCss?: {
-    ignoreStyleComponent?: string[];
-    template?: string;
-    replaceExpr?: (member: string) => string | false;
-  };
-}>;
-```
+一些配置可以传入函数，例如 `customName`，`customStyleName` 等，这些 JavaScript 函数会由 Rust 通过 Node-API 调用，这种调用会造成一些性能劣化。
 
-移植自 [babel-plugin-import](https://github.com/umijs/babel-plugin-import)。
+简单的函数逻辑其实可以通过模版语言来代替，因此`customName`，`customStyleName` 等这些配置除了可以传入函数，也可以传入字符串作为模版来代替函数，提高性能。
 
-**fromSource**
-
-- 类型: `string`
-
-需要转换的包名，`import { a } from 'foo'` 中的 `foo`。
-
-**replaceJs.ignoreEsComponent**
-
-- 类型: `string[]`
-- 默认值: `[]`
-
-需要忽略掉的引入。
-
-**replaceJs.template**
-
-- 类型: `string`
-- 默认值: `undefined`
-
-用于替换的规则模版，例如对于:
+我们以下面代码为例说明:
 
 ```ts
 import { MyButton as Btn } from 'foo';
@@ -156,31 +123,31 @@ PluginSWC({
   extensions: {
     pluginImport: [
       {
-        replaceJs: {
-          template: 'foo/es/{{member}}',
-        },
+        libraryName: 'foo',
+        customName: 'foo/es/{{ member }}'
       },
     ],
   },
 });
 ```
 
-会将上面的导入语句替换成:
+其中的 `{{ member }}` 会被替换为相应的引入成员，转换后:
 
 ```ts
 import Btn from 'foo/es/MyButton';
 ```
 
-模版语句中还内置了一些辅助工具，还是以上面的导入语句为例，配置成：
+可以看出 `(member) => "foo/es/" + member` 等同于使用函数 ```(member) => `foo/es/${member}` ```，但是不会有 Node-API 的调用开销。
+
+这里使用到的模版是 [handlebars](https://handlebarsjs.com)，模版配置中还内置了一些有用的辅助工具，还是以上面的导入语句为例，配置成：
 
 ```ts
 PluginSWC({
   extensions: {
     pluginImport: [
       {
-        replaceJs: {
-          template: 'foo/es/{{ kebabCase member }}',
-        },
+        libraryName: 'foo',
+        customName: 'foo/es/{{ kebabCase member }}',
       },
     ],
   },
@@ -194,22 +161,6 @@ import Btn from 'foo/es/my-button';
 ```
 
 除了 `kebabCase` 以外还有 `camelCase`，`snakeCase`，`upperCase`，`lowerCase` 可以使用。
-模版语法是来自 [Handlebars](https://handlebarsjs.com/zh/guide/)。
-
-**replaceJs.replaceExpr**
-
-- 类型: `(member: string) => string`
-- 默认值: `undefined`
-
-用于转换导入成员，传入的参数就是引入的成员，例如 `import { a as b } from 'foo'` 中的 `a`。
-该函数会通过 `node-api` 被 `Rust` 调用，并且需要是同步函数。推荐使用上面的模版，由 `node-api` 调用 `js` 函数会将该函数放入任务队列中，等待在合适的时机执行，因此如果此时 `js` 线程任务较重可能会阻塞 `Rust` 线程的执行，造成性能的损失。
-
-**transformToDefaultImport**
-
-- 类型: `boolean`
-- 默认值: `true`
-
-是否转换成默认导入。
 
 #### extensions.reactUtils
 
