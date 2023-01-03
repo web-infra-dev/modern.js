@@ -64,7 +64,7 @@ export function Overview() {
   }, [overviewSidebarGroups]);
 
   return (
-    <div className="overview-index max-w-3/4" m="x-auto" p="y-8 x-8">
+    <div className="overview-index" m="x-auto" p="y-8 x-8">
       <div flex="~" align-items-center="~" justify="between">
         <h1>Overview</h1>
       </div>

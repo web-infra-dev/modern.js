@@ -30,8 +30,7 @@ export function HomeFeature() {
             key={title}
             border="rounded-md"
             p="r-0 md:r-4 b-4"
-            w="full"
-            className={`${gridClass ? styles[gridClass] : ''}`}
+            className={`${gridClass ? styles[gridClass] : 'w-full'}`}
           >
             <article
               key={title}

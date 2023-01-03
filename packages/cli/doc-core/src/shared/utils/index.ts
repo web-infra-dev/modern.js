@@ -32,23 +32,23 @@ export function withBase(url: string, base: string) {
 
 export function replaceLang(
   rawUrl: string,
-  lang: string,
+  targetLang: string,
   defaultLang: string,
   langs: string[],
 ) {
-  const url = normalizeSlash(rawUrl);
+  const url = addLeadingSlash(rawUrl);
   const originalLang = url.split('/')[1];
   const inDefaultLang = !langs.includes(originalLang);
   if (inDefaultLang) {
-    if (lang === defaultLang) {
+    if (targetLang === defaultLang) {
       return url;
     } else {
-      return normalizeSlash(`${lang}${url}`);
+      return addLeadingSlash(`${targetLang}${url}`);
     }
-  } else if (lang === defaultLang) {
+  } else if (targetLang === defaultLang) {
     return url.replace(`/${originalLang}`, '');
   } else {
-    return url.replace(originalLang, lang);
+    return url.replace(originalLang, targetLang);
   }
 }
 
@@ -90,4 +90,13 @@ export function normalizeHref(url?: string) {
   }
 
   return addLeadingSlash(cleanUrl);
+}
+
+export function withoutLang(path: string, langs: string[]) {
+  const langRegexp = new RegExp(`^\\/(${langs.join('|')})`);
+  return addLeadingSlash(path).replace(langRegexp, '');
+}
+
+export function withoutBase(path: string, base = '') {
+  return addLeadingSlash(path).replace(normalizeSlash(base), '');
 }
