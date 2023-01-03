@@ -97,8 +97,10 @@ export const isHtmlDisabled = (
 export const applyInjectTags = (api: BuilderPluginAPI) => {
   api.modifyWebpackChain(async (chain, { HtmlWebpackPlugin }) => {
     const config = api.getNormalizedConfig();
-    const tags = _.castArray(config.html.tags);
-    const tagsByEntries = _.mapValues(config.html.tagsByEntries, _.castArray);
+    const tags = _.castArray(config.html.tags).filter(Boolean);
+    const tagsByEntries = _.mapValues(config.html.tagsByEntries, tags =>
+      _.castArray(tags).filter(Boolean),
+    );
     const shouldByEntries = _.some(tagsByEntries, 'length');
 
     // skip if options is empty.
@@ -107,27 +109,23 @@ export const applyInjectTags = (api: BuilderPluginAPI) => {
     }
     // dynamic import.
     const { HtmlTagsPlugin } = await import('../webpackPlugins/HtmlTagsPlugin');
-    // pass html plugin class.
+    // create shared options used for entry without specified options.
     const sharedOptions: HtmlTagsPluginOptions = {
       htmlWebpackPlugin: HtmlWebpackPlugin,
       append: true,
       hash: false,
       publicPath: true,
+      tags,
     };
     // apply only one webpack plugin if `html.tagsByEntries` is empty.
     if (tags.length && !shouldByEntries) {
-      chain
-        .plugin('html-tag')
-        .use(HtmlTagsPlugin, [{ ...sharedOptions, tags }]);
+      chain.plugin('html-tag').use(HtmlTagsPlugin, [sharedOptions]);
       return;
     }
     // apply webpack plugin for each entries.
     for (const [entry, filename] of Object.entries(api.getHTMLPaths())) {
-      const opts = {
-        ...sharedOptions,
-        tags: tagsByEntries[entry],
-        includes: [filename],
-      };
+      const opts = { ...sharedOptions, includes: [filename] };
+      entry in tagsByEntries && (opts.tags = tagsByEntries[entry]);
       chain.plugin(`html-tag#${entry}`).use(HtmlTagsPlugin, [opts]);
     }
   });

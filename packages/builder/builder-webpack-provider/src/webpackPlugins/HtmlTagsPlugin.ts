@@ -5,7 +5,7 @@ import {
 } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
-import { URL } from 'url';
+import path from 'path';
 import type { Compiler } from 'webpack';
 
 export interface Options {
@@ -26,7 +26,7 @@ export type Context = Omit<Options, keyof AdditionalContext> &
   AdditionalContext;
 
 /** @see {@link https://developer.mozilla.org/en-US/docs/Glossary/Void_element} */
-export const voidTags = [
+export const VOID_TAGS = [
   'area',
   'base',
   'br',
@@ -45,7 +45,7 @@ export const voidTags = [
 ];
 
 /** @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head#see_also} */
-export const headTags = [
+export const HEAD_TAGS = [
   'title',
   'base',
   'link',
@@ -56,10 +56,15 @@ export const headTags = [
   'template',
 ];
 
-const withPublicPath = (url: string, base: string) => new URL(url, base).href;
+export const FILE_ATTRS = {
+  link: 'href',
+  script: 'src',
+};
 
-const withHash = (url: string, hash: string) =>
-  url.replace(/\.([^.]+?)$/, `.${hash}.$1`);
+const withPublicPath = (url: string, base: string) =>
+  path.posix.join(base, url);
+
+const withHash = (url: string, hash: string) => `${url}?${hash}`;
 
 export class HtmlTagsPlugin {
   name: string = 'modern-js::html-tags-plugin';
@@ -81,7 +86,7 @@ export class HtmlTagsPlugin {
   }
 
   sortTags(tag: HtmlInjectTag) {
-    const head = tag.head ?? headTags.includes(tag.tag);
+    const head = tag.head ?? HEAD_TAGS.includes(tag.tag);
     const append = tag.append ?? this.ctx.append;
     return (head ? -2 : 2) + (append ?? 0 ? 1 : -1);
   }
@@ -118,28 +123,36 @@ export class HtmlTagsPlugin {
         const fromInjectTags = (tags: HtmlInjectTag[]) => {
           const ret: HtmlWebpackPlugin.HtmlTagObject[] = [];
           for (const tag of tags) {
-            let tagName = tag.tag;
-            const optPublicPath = tag.publicPath ?? this.ctx.publicPath;
-            if (typeof optPublicPath === 'function') {
-              tagName = optPublicPath(tagName, params.publicPath);
-            } else if (typeof optPublicPath === 'string') {
-              tagName = withPublicPath(tagName, optPublicPath);
-            } else if (optPublicPath !== false) {
-              tagName = withPublicPath(tagName, params.publicPath);
-            }
-            const optHash = tag.hash ?? this.ctx.hash;
-            if (typeof optHash === 'function') {
-              tagName = optHash(tagName, compilationHash);
-            } else if (typeof optHash === 'string') {
-              tagName = withHash(tagName, optHash);
-            } else if (optHash === true) {
-              tagName = withHash(tagName, compilationHash);
+            // apply publicPath and hash to filename attr.
+            const attrs = { ...tag.attrs };
+            const filenameTag = FILE_ATTRS[tag.tag as keyof typeof FILE_ATTRS];
+            let filename = attrs[filenameTag];
+            if (typeof filename === 'string') {
+              const optPublicPath = tag.publicPath ?? this.ctx.publicPath;
+              if (typeof optPublicPath === 'function') {
+                filename = optPublicPath(filename, params.publicPath);
+              } else if (typeof optPublicPath === 'string') {
+                filename = withPublicPath(filename, optPublicPath);
+              } else if (optPublicPath !== false) {
+                filename = withPublicPath(filename, params.publicPath);
+              }
+              const optHash = tag.hash ?? this.ctx.hash;
+              if (typeof optHash === 'function') {
+                compilationHash.length &&
+                  (filename = optHash(filename, compilationHash));
+              } else if (typeof optHash === 'string') {
+                optHash.length && (filename = withHash(filename, optHash));
+              } else if (optHash === true) {
+                compilationHash.length &&
+                  (filename = withHash(filename, compilationHash));
+              }
+              attrs[filenameTag] = filename;
             }
             ret.push({
-              tagName,
-              attributes: tag.attrs || {},
+              tagName: tag.tag,
+              attributes: attrs,
               meta: this.meta,
-              voidTag: voidTags.includes(tag.tag),
+              voidTag: VOID_TAGS.includes(tag.tag),
               innerHTML: tag.children,
             });
           }
@@ -153,7 +166,11 @@ export class HtmlTagsPlugin {
           ...records,
         ];
         // apply tag handler callbacks.
-        tags = _.sortBy(tags, this.sortTags);
+        tags = _.sortBy(tags, tag => {
+          const head = tag.head ?? HEAD_TAGS.includes(tag.tag);
+          const append = tag.append ?? this.ctx.append;
+          return (head ? -2 : 2) + (append ?? 0 ? 1 : -1);
+        });
         const utils: HtmlInjectTagUtils = {
           outputName: params.outputName,
           publicPath: params.publicPath,
@@ -164,7 +181,10 @@ export class HtmlTagsPlugin {
         }
 
         // apply to html-webpack-plugin.
-        const [headTags, bodyTags] = _.partition(tags, { head: true });
+        const [headTags, bodyTags] = _.partition(
+          tags,
+          tag => tag.head ?? HEAD_TAGS.includes(tag.tag),
+        );
         params.headTags = fromInjectTags(headTags);
         params.bodyTags = fromInjectTags(bodyTags);
         return params;
