@@ -216,46 +216,44 @@ export default (): CliPlugin<AppTools> => ({
         const { srcDirectory } = appContext;
         const { fileSystemRoutes, nestedRoutesEntry } = entrypoint;
         if (fileSystemRoutes && nestedRoutesEntry) {
-          if (nestedRoutesEntry) {
-            const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
-            const rootLayoutFile = findExists(
-              ['.js', '.ts', '.jsx', '.tsx'].map(
-                ext => `${rootLayoutPath}${ext}`,
-              ),
+          const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
+          const rootLayoutFile = findExists(
+            ['.js', '.ts', '.jsx', '.tsx'].map(
+              ext => `${rootLayoutPath}${ext}`,
+            ),
+          );
+          if (rootLayoutFile) {
+            const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
+            const rootLayout = rootLayoutBuffer.toString();
+            const [, moduleExports] = await parseModule({
+              source: rootLayout.toString(),
+              filename: rootLayoutFile,
+            });
+            const hasAppConfig = moduleExports.some(
+              e => e.n === APP_CONFIG_NAME,
             );
-            if (rootLayoutFile) {
-              const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
-              const rootLayout = rootLayoutBuffer.toString();
-              const [, moduleExports] = await parseModule({
-                source: rootLayout.toString(),
-                filename: rootLayoutFile,
+            const generateLayoutPath = replaceWithAlias(
+              srcDirectory,
+              rootLayoutFile,
+              '@_modern_js_src',
+            );
+            if (hasAppConfig) {
+              imports.push({
+                value: generateLayoutPath,
+                specifiers: [{ imported: APP_CONFIG_NAME }],
               });
-              const hasAppConfig = moduleExports.some(
-                e => e.n === APP_CONFIG_NAME,
-              );
-              const generateLayoutPath = replaceWithAlias(
-                srcDirectory,
-                rootLayoutFile,
-                '@_modern_js_src',
-              );
-              if (hasAppConfig) {
-                imports.push({
-                  value: generateLayoutPath,
-                  specifiers: [{ imported: APP_CONFIG_NAME }],
-                });
-              }
+            }
 
-              const hasAppInit = moduleExports.some(
-                e => e.n === APP_INIT_EXPORTED,
-              );
-              if (hasAppInit) {
-                imports.push({
-                  value: generateLayoutPath,
-                  specifiers: [
-                    { imported: APP_INIT_EXPORTED, local: APP_INIT_IMPORTED },
-                  ],
-                });
-              }
+            const hasAppInit = moduleExports.some(
+              e => e.n === APP_INIT_EXPORTED,
+            );
+            if (hasAppInit) {
+              imports.push({
+                value: generateLayoutPath,
+                specifiers: [
+                  { imported: APP_INIT_EXPORTED, local: APP_INIT_IMPORTED },
+                ],
+              });
             }
           }
         }
