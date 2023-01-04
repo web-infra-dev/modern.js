@@ -1,5 +1,12 @@
 # @modern-js/babel-preset-module
 
+## 2.0.1
+
+### Patch Changes
+
+- @modern-js/babel-preset-lib@2.0.1
+- @modern-js/utils@2.0.1
+
 ## 2.0.0
 
 ### Major Changes
