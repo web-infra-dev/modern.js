@@ -206,5 +206,12 @@ export default defineConfig({
         },
       ],
     },
+    builderConfig: {
+      source: {
+        alias: {
+          '@components': path.join(__dirname, 'src/components'),
+        },
+      },
+    },
   },
 });

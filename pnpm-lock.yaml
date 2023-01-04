@@ -5441,12 +5441,14 @@ importers:
     specifiers:
       '@modern-js/builder-doc': workspace:*
       '@modern-js/doc-tools': workspace:*
+      '@modern-js/tsconfig': workspace:*
       '@types/node': ^14
       react: ^18.2.0
       react-dom: ^18.2.0
     devDependencies:
       '@modern-js/builder-doc': link:../../packages/builder/builder-doc
       '@modern-js/doc-tools': link:../../packages/solutions/doc-tools
+      '@modern-js/tsconfig': link:../../packages/review/tsconfig
       '@types/node': 14.18.35
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
