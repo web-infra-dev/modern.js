@@ -30,7 +30,7 @@ export interface ServerUserConfig {
   enableMicroFrontendDebug?: boolean;
   watchOptions?: WatchOptions;
   compiler?: 'babel' | 'typescript';
-  disableFrameworkExt?: boolean;
+  enableFrameworkExt?: boolean;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;
