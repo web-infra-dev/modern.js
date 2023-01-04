@@ -32,7 +32,7 @@ BUNDLE_ANALYZE=true pnpm build
 
 After adding this parameter, Builder will generate a HTML file that analyzes the bundle size, you can manually open the file in the browser and view the detail of the bundle size. When an area is larger, it indicates that its corresponding bundle size is larger.
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png)
 
 ## Adjust Browserslist
 

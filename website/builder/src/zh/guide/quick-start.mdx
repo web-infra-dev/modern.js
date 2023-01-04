@@ -120,8 +120,19 @@ await builder.build();
 
 你可能想要：
 
+import NextSteps from '@components/NextSteps';
+import Step from '@components/Step';
+
 <NextSteps>
-  <Step href="/guide/glossary.html" title="名词解释" description="了解 Builder 相关的概念"/>
-  <Step href="/guide/features.html" title="功能导航" description="了解 Builder 提供的所有功能"/>
-  <Step href="/api" title="查阅 API" description="查看详细的 API 文档"/>
+  <Step
+    href="/guide/glossary.html"
+    title="名词解释"
+    description="了解 Builder 相关的概念"
+  />
+  <Step
+    href="/guide/features.html"
+    title="功能导航"
+    description="了解 Builder 提供的所有功能"
+  />
+  <Step href="/api" title="查阅 API" description="查看详细的 API 文档" />
 </NextSteps>

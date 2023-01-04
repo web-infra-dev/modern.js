@@ -120,8 +120,23 @@ After completing the above three steps, you have learned the basic usage of Buil
 
 You may want:
 
+import NextSteps from '@components/NextSteps';
+import Step from '@components/Step';
+
 <NextSteps>
-  <Step href="/guide/glossary.html" title="Glossary" description="Learn about Builder related concepts"/>
-  <Step href="/guide/features.html" title="All Features" description="Learn all features of Builder"/>
-  <Step href="/api" title="API Reference" description="View detailed API documentation"/>
+  <Step
+    href="/guide/glossary.html"
+    title="Glossary"
+    description="Learn about Builder related concepts"
+  />
+  <Step
+    href="/guide/features.html"
+    title="All Features"
+    description="Learn all features of Builder"
+  />
+  <Step
+    href="/api"
+    title="API Reference"
+    description="View detailed API documentation"
+  />
 </NextSteps>

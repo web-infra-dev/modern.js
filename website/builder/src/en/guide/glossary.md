@@ -30,7 +30,7 @@ Builder is a out-of-box build tools. By using Builder, you can quickly gain the 
 
 The layers inside the Builder are as follows:
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-struct-10092.png" />
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-struct-10092.png)
 
 ## Builder Provider
 

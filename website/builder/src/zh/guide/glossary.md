@@ -30,7 +30,7 @@ Builder 比 Bundler 的封装程度更高，默认集成代码转换、代码压
 
 Builder 内部的分层如下：
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-struct-10092.png" />
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-struct-10092.png)
 
 ## Builder Provider
 
