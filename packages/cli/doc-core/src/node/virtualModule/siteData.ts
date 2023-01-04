@@ -2,6 +2,7 @@ import { join } from 'path';
 import { SiteData, UserConfig } from 'shared/types';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { remark } from 'remark';
+
 import yamlFront from 'yaml-front-matter';
 import type { Root } from 'hast';
 import { unified } from 'unified';
@@ -10,7 +11,8 @@ import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 import remarkDirective from 'remark-directive';
 import { parseToc } from '../mdx/remarkPlugins/toc';
-import { PACKAGE_ROOT } from '../constants';
+import { importStatementRegex, PACKAGE_ROOT } from '../constants';
+import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { routeService } from './routeData';
 
 export async function createSiteDataVirtualModulePlugin(
@@ -25,12 +27,25 @@ export async function createSiteDataVirtualModulePlugin(
     // eslint-disable-next-line no-console
     console.log('⭐️ [doc-tools] Extracting site data...');
   }
+  const replaceRules = userConfig?.replaceRules || [];
   const pages = await Promise.all(
     routeService.getRoutes().map(async route => {
       let content: string = await fs.readFile(route.absolutePath, 'utf8');
-      // eslint-disable-next-line import/no-named-as-default-member
-      const frontmatter = yamlFront.loadFront(content);
-      content = frontmatter.__content;
+      const frontmatter = {
+        // eslint-disable-next-line import/no-named-as-default-member
+        ...yamlFront.loadFront(content),
+      };
+      // 1. Replace rules for frontmatter & content
+      Object.keys(frontmatter).forEach(key => {
+        if (typeof frontmatter[key] === 'string') {
+          frontmatter[key] = applyReplaceRules(frontmatter[key], replaceRules);
+        }
+      });
+      content = applyReplaceRules(frontmatter.__content, replaceRules).replace(
+        importStatementRegex,
+        '',
+      );
+      // 2. Optimize content index
       const ast = remark.parse({ value: content });
       const { title, toc } = parseToc(ast as Root);
       const precessor = unified()
@@ -66,13 +81,13 @@ export async function createSiteDataVirtualModulePlugin(
         content,
         frontmatter: {
           ...frontmatter,
-          __content: '',
+          __content: undefined,
         },
       };
     }),
   );
   const siteData: SiteData = {
-    title: userConfig?.title || 'Doc Tools',
+    title: userConfig?.title || '',
     description: userConfig?.description || '',
     icon: userConfig?.icon || '',
     themeConfig: userConfig?.themeConfig || {},

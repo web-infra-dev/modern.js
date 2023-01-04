@@ -1,8 +1,10 @@
 import { dirname, join } from 'path';
+import { HelmetData } from 'react-helmet-async';
 import { PageData, UserConfig } from 'shared/types';
-import { normalizeSlash } from '../shared/utils';
 import { OUTPUT_DIR, APP_HTML_MARKER, HEAD_MARKER } from './constants';
 import { createModernBuilder } from './createBuilder';
+import { normalizeSlash } from '@/shared/utils';
+import type { Route } from '@/node/route/RouteService';
 
 export async function bundle(rootDir: string, config: UserConfig) {
   const [clientBuilder, ssrBuilder] = await Promise.all([
@@ -19,8 +21,11 @@ export async function bundle(rootDir: string, config: UserConfig) {
 }
 
 export interface SSRBundleExports {
-  render: (url: string) => Promise<{ appHtml: string; pageData: PageData }>;
-  routes: import('virtual-routes').Route[];
+  render: (
+    url: string,
+    helmetContext: object,
+  ) => Promise<{ appHtml: string; pageData: PageData }>;
+  routes: Route[];
 }
 
 export async function renderPages(config: UserConfig) {
@@ -39,14 +44,28 @@ export async function renderPages(config: UserConfig) {
 
   await Promise.all(
     routes.map(async route => {
+      const helmetContext: HelmetData = {
+        context: {},
+      } as HelmetData;
       const routePath = route.path;
-      const { appHtml } = await render(routePath);
+
+      const { appHtml } = await render(routePath, helmetContext.context);
+
+      const { helmet } = helmetContext.context;
 
       const html = htmlTemplate
         .replace(APP_HTML_MARKER, appHtml)
         .replace(
           HEAD_MARKER,
-          (config.doc?.head || []).concat(iconLink).join(''),
+          (config.doc?.head || [])
+            .concat(iconLink)
+            .concat([
+              helmet?.title?.toString(),
+              helmet?.meta?.toString(),
+              helmet?.link?.toString(),
+              helmet?.style?.toString(),
+            ])
+            .join(''),
         );
 
       const normalizeHtmlFilePath = (path: string) => {

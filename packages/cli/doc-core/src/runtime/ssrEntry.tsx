@@ -6,13 +6,14 @@ import { DataContext } from './hooks';
 
 export async function render(
   pagePath: string,
+  helmetContext: object,
 ): Promise<{ appHtml: string; pageData: PageData }> {
   const initialPageData = await initPageData(pagePath);
 
   const appHtml = renderToString(
     <DataContext.Provider value={{ data: initialPageData }}>
       <StaticRouter location={pagePath}>
-        <App />
+        <App helmetContext={helmetContext} />
       </StaticRouter>
     </DataContext.Provider>,
   );
