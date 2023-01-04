@@ -77,3 +77,30 @@ exports[`fileSystemRoutes generate code for legacy router 1`] = `
 ];
   
 `;
+
+exports[`renderFunction basic usage 1`] = `
+
+  const finalAppConfig = {
+    ...App.config,
+    ...typeof appConfig === 'object' ? appConfig : {},
+  }
+
+  AppWrapper = createApp({
+    plugins: [
+     
+    ]
+  })(App)
+
+
+  if(!AppWrapper.init && typeof appInit !== 'undefined') {
+    AppWrapper.init = appInit;
+  }
+
+
+  if (IS_BROWSER) {
+    bootstrap(AppWrapper, MOUNT_ID, root, ReactDOM);
+  }
+
+  return AppWrapper
+
+`;

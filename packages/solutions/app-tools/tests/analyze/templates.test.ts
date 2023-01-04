@@ -1,7 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { RouteLegacy } from '@modern-js/types/cli';
-import { fileSystemRoutes } from '../../src/analyze/templates';
+import { fileSystemRoutes, renderFunction } from '../../src/analyze/templates';
 
 jest.mock('@modern-js/utils', () => {
   const fs = {
@@ -85,6 +85,18 @@ describe('fileSystemRoutes', () => {
       internalDirectory: '',
       internalDirAlias: '@_modern_js_internal',
     });
+    expect(code).toMatchSnapshot();
+  });
+});
+
+describe('renderFunction', () => {
+  test('basic usage', () => {
+    const code = renderFunction({
+      plugins: [],
+      customBootstrap: false,
+      fileSystemRoutes: undefined,
+    });
+
     expect(code).toMatchSnapshot();
   });
 });
