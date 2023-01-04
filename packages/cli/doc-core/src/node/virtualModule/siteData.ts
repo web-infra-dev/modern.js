@@ -1,5 +1,14 @@
 import { join } from 'path';
-import { SiteData, UserConfig } from 'shared/types';
+import {
+  PageBasicInfo,
+  SiteData,
+  UserConfig,
+  DefaultThemeConfig,
+  NormalizedDefaultThemeConfig,
+  SidebarItem,
+  SidebarGroup,
+  NormalizedSidebarGroup,
+} from 'shared/types';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { remark } from 'remark';
 
@@ -14,6 +23,66 @@ import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { routeService } from './routeData';
+import { withBase } from '@/shared/utils';
+
+export function normalizeThemeConfig(
+  themeConfig: DefaultThemeConfig,
+  pages: PageBasicInfo[] = [],
+  base = '',
+): NormalizedDefaultThemeConfig {
+  // Normalize sidebar
+  const traverseSidebar = (
+    sidebar: DefaultThemeConfig['sidebar'],
+  ): NormalizedDefaultThemeConfig['sidebar'] => {
+    const normalizedSidebar: NormalizedDefaultThemeConfig['sidebar'] = {};
+    if (!sidebar) {
+      return {};
+    }
+    const normalizeSidebarItem = (
+      item: SidebarGroup | SidebarItem | string,
+    ): NormalizedSidebarGroup | SidebarItem => {
+      if (typeof item === 'object' && 'items' in item) {
+        return {
+          ...item,
+          collapsed: item.collapsed ?? false,
+          collapsible: item.collapsible ?? true,
+          items: item.items.map(subItem => {
+            return normalizeSidebarItem(subItem);
+          }),
+        };
+      }
+
+      if (typeof item === 'string') {
+        const page = pages.find(
+          page => page.routePath === withBase(item, base),
+        );
+        return {
+          text: page?.title || '',
+          link: item,
+        };
+      }
+
+      return item;
+    };
+    Object.keys(sidebar).forEach(key => {
+      const value = sidebar[key];
+      normalizedSidebar[key] = value.map(normalizeSidebarItem);
+    });
+    return normalizedSidebar;
+  };
+
+  const locales = themeConfig?.locales || [];
+  if (themeConfig.sidebar) {
+    themeConfig.sidebar = traverseSidebar(themeConfig.sidebar);
+  }
+
+  locales.forEach(locale => {
+    if (locale.sidebar) {
+      locale.sidebar = traverseSidebar(locale.sidebar);
+    }
+  });
+  return themeConfig as NormalizedDefaultThemeConfig;
+}
 
 export async function createSiteDataVirtualModulePlugin(
   userRoot: string,
@@ -90,7 +159,11 @@ export async function createSiteDataVirtualModulePlugin(
     title: userConfig?.title || '',
     description: userConfig?.description || '',
     icon: userConfig?.icon || '',
-    themeConfig: userConfig?.themeConfig || {},
+    themeConfig: normalizeThemeConfig(
+      userConfig?.themeConfig || {},
+      pages,
+      config.doc?.base,
+    ),
     base: userConfig?.base || '/',
     root: userRoot,
     lang: userConfig?.lang || 'zh',

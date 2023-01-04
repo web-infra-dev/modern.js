@@ -1,4 +1,7 @@
-import { SidebarGroup, SidebarItem } from 'shared/types/default-theme';
+import {
+  NormalizedSidebarGroup,
+  SidebarItem,
+} from 'shared/types/default-theme';
 import { useEffect, useState } from 'react';
 import { useLocaleSiteData } from './useLocaleSiteData';
 import { isEqualPath } from './utils';
@@ -7,7 +10,7 @@ import { useLocation, withBase } from '@/runtime';
 interface SidebarData {
   // The group name for the sidebar
   group: string;
-  items: (SidebarGroup | SidebarItem)[];
+  items: (NormalizedSidebarGroup | SidebarItem)[];
 }
 
 export function useSidebarData(): SidebarData {
@@ -26,7 +29,7 @@ export function useSidebarData(): SidebarData {
       }
       // Such as `/guide/getting-started`, it will return the guide groups and the group name `Introduction`
       const result = sidebar[name].find(group => {
-        const match = (item: SidebarGroup | SidebarItem): boolean => {
+        const match = (item: NormalizedSidebarGroup | SidebarItem): boolean => {
           const equalFunc = () =>
             isEqualPath(withBase(item.link), currentPathname);
           if ('items' in item) {

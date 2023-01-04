@@ -2,10 +2,13 @@ import type { ComponentType } from 'react';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { PluginConfig } from '@modern-js/core';
 import type { PluggableList } from 'unified';
-import { Config as DefaultThemeConfig } from './default-theme';
+import {
+  Config as DefaultThemeConfig,
+  NormalizedConfig as NormalizedDefaultThemeConfig,
+} from './default-theme';
 import { DocPlugin } from './Plugin';
 
-export { DefaultThemeConfig };
+export { DefaultThemeConfig, NormalizedDefaultThemeConfig };
 export * from './default-theme';
 
 export { DocPlugin };
@@ -91,7 +94,7 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
   outDir?: string;
 }
 
-export interface SiteData<ThemeConfig = unknown> {
+export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   root: string;
   base: string;
   lang: string;

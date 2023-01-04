@@ -1,6 +1,11 @@
 import { SidebarItem } from '../../shared/types/default-theme';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
-import { DocPlugin, SidebarGroup, NavItem, DocConfig } from '@/shared/types';
+import {
+  DocPlugin,
+  NormalizedSidebarGroup,
+  NavItem,
+  DocConfig,
+} from '@/shared/types';
 
 // The plugin is used to replace the text in the nav and sidebar config
 export function replacePlugin(): DocPlugin {
@@ -30,7 +35,7 @@ export function replacePlugin(): DocPlugin {
       }
       // Replace sidebar config
       const traverseSidebar = (
-        sidebarItem: SidebarGroup | SidebarItem,
+        sidebarItem: NormalizedSidebarGroup | SidebarItem,
       ): void => {
         if ('items' in sidebarItem) {
           sidebarItem.items.forEach(item => {
@@ -41,11 +46,14 @@ export function replacePlugin(): DocPlugin {
           sidebarItem.text = applyReplaceRules(sidebarItem.text, replaceRules);
         }
       };
-      (Object.values(sidebar).flat() as (SidebarGroup | SidebarItem)[]).forEach(
-        sidebarItem => {
-          traverseSidebar(sidebarItem);
-        },
-      );
+      (
+        Object.values(sidebar).flat() as (
+          | NormalizedSidebarGroup
+          | SidebarItem
+        )[]
+      ).forEach(sidebarItem => {
+        traverseSidebar(sidebarItem);
+      });
       return docConfig;
     },
   };

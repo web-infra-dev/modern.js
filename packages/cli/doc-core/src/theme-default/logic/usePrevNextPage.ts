@@ -1,4 +1,8 @@
-import { Sidebar, SidebarGroup, SidebarItem } from 'shared/types';
+import {
+  NormalizedSidebar,
+  NormalizedSidebarGroup,
+  SidebarItem,
+} from 'shared/types';
 import { useLocation } from 'react-router-dom';
 import { useLocaleSiteData } from './useLocaleSiteData';
 import { isEqualPath } from './utils';
@@ -9,8 +13,8 @@ export function usePrevNextPage() {
   const sidebar = localesData.sidebar || {};
   const flattenTitles: SidebarItem[] = [];
 
-  const walkThroughSidebar = (sidebar: Sidebar) => {
-    const walk = (sidebarItem: SidebarGroup | SidebarItem) => {
+  const walkThroughSidebar = (sidebar: NormalizedSidebar) => {
+    const walk = (sidebarItem: NormalizedSidebarGroup | SidebarItem) => {
       if ('items' in sidebarItem) {
         if (sidebarItem.link) {
           flattenTitles.push({
