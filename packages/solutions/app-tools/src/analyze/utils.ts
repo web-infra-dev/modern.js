@@ -8,6 +8,7 @@ import { parse } from 'es-module-lexer';
 import type { ImportStatement } from '../types';
 import {
   FILE_SYSTEM_ROUTES_FILE_NAME,
+  JS_EXTENSIONS,
   LOADER_EXPORT_NAME,
   NESTED_ROUTE,
 } from './constants';
@@ -53,7 +54,6 @@ export const getDefaultImports = ({
     },
     customBootstrap && {
       specifiers: [{ local: 'customBootstrap' }],
-      initialize: 'const App = false;',
       value: normalizeToPosixPath(
         customBootstrap.replace(srcDirectory, internalSrcAlias),
       ),
@@ -82,19 +82,7 @@ export const getDefaultImports = ({
     }
 
     imports.push(route);
-  } else if (!customBootstrap) {
-    /**
-     * When customBootstrap is configured, it is need to use customBootstrap
-     * example:
-     * source: {
-     *  entries: {
-     *      main: {
-     *         entry: 'src/index.tsx',
-     *         customBootstrap: 'src/index.tsx'
-     *      }
-     *  }
-     * }
-     */
+  } else {
     imports.push({
       specifiers: [{ local: 'App' }],
       value: normalizeToPosixPath(
@@ -151,7 +139,7 @@ export const parseModule = async ({
 }) => {
   let content = source;
 
-  if (filename.endsWith('.tsx') || filename.endsWith('.jsx')) {
+  if (JS_EXTENSIONS.some(ext => filename.endsWith(ext))) {
     const result = await transform(content, {
       loader: path.extname(filename).slice(1) as Loader,
       format: 'esm',

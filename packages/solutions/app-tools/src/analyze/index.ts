@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { createDebugger, fs, isApiOnly } from '@modern-js/utils';
+import { createDebugger, findExists, fs, isApiOnly } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { createBuilderForModern } from '../builder';
@@ -9,8 +9,18 @@ import { emitResolvedConfig } from '../utils/config';
 import { getCommand } from '../utils/commands';
 import { AppTools } from '../types';
 import { initialNormalizedConfig } from '../config';
-import { isNestedRouteComponent, isPageComponentFile } from './utils';
+import {
+  isNestedRouteComponent,
+  isPageComponentFile,
+  parseModule,
+  replaceWithAlias,
+} from './utils';
 import { loaderBuilder, serverLoaderBuilder } from './Builder';
+import {
+  APP_CONFIG_NAME,
+  APP_INIT_EXPORTED,
+  APP_INIT_IMPORTED,
+} from './constants';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -197,6 +207,61 @@ export default (): CliPlugin<AppTools> => ({
         const config = initialNormalizedConfig(resolved, appContext);
         return {
           resolved: config,
+        };
+      },
+
+      // This logic is not in the router plugin to avoid having to include some dependencies in the utils package
+      async modifyEntryImports({ entrypoint, imports }) {
+        const appContext = api.useAppContext();
+        const { srcDirectory } = appContext;
+        const { fileSystemRoutes, nestedRoutesEntry } = entrypoint;
+        if (fileSystemRoutes && nestedRoutesEntry) {
+          if (nestedRoutesEntry) {
+            const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
+            const rootLayoutFile = findExists(
+              ['.js', '.ts', '.jsx', '.tsx'].map(
+                ext => `${rootLayoutPath}${ext}`,
+              ),
+            );
+            if (rootLayoutFile) {
+              const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
+              const rootLayout = rootLayoutBuffer.toString();
+              const [, moduleExports] = await parseModule({
+                source: rootLayout.toString(),
+                filename: rootLayoutFile,
+              });
+              const hasAppConfig = moduleExports.some(
+                e => e.n === APP_CONFIG_NAME,
+              );
+              const generateLayoutPath = replaceWithAlias(
+                srcDirectory,
+                rootLayoutFile,
+                '@_modern_js_src',
+              );
+              if (hasAppConfig) {
+                imports.push({
+                  value: generateLayoutPath,
+                  specifiers: [{ imported: APP_CONFIG_NAME }],
+                });
+              }
+
+              const hasAppInit = moduleExports.some(
+                e => e.n === APP_INIT_EXPORTED,
+              );
+              if (hasAppInit) {
+                imports.push({
+                  value: generateLayoutPath,
+                  specifiers: [
+                    { imported: APP_INIT_EXPORTED, local: APP_INIT_IMPORTED },
+                  ],
+                });
+              }
+            }
+          }
+        }
+        return {
+          entrypoint,
+          imports,
         };
       },
 

@@ -8,7 +8,7 @@ import type {
 } from '@modern-js/types';
 import { fs, slash } from '@modern-js/utils';
 import type { RuntimePlugin } from '../types';
-import { TEMP_LOADERS_DIR } from './constants';
+import { APP_CONFIG_NAME, TEMP_LOADERS_DIR } from './constants';
 
 export const index = ({
   mountId,
@@ -48,17 +48,29 @@ export const renderFunction = ({
   plugins: RuntimePlugin[];
   customBootstrap?: string | false;
   fileSystemRoutes: Entrypoint['fileSystemRoutes'];
-}) => `
+}) => {
+  return `
+  const finalAppConfig = {
+    ...App.config,
+    ...typeof ${APP_CONFIG_NAME} !== 'undefined' && typeof ${APP_CONFIG_NAME} === 'object' ? ${APP_CONFIG_NAME} : {},
+  }
+
   AppWrapper = createApp({
     plugins: [
      ${plugins
        .map(
          ({ name, options, args }) =>
-           `${name}({...${options}, ...App?.config?.${args || name}}),`,
+           `${name}({...${options}, ...finalAppConfig?.${args || name}}),`,
        )
        .join('\n')}
     ]
   })(${fileSystemRoutes ? '' : `App`})
+
+
+  if(!AppWrapper.init && typeof appInit !== 'undefined') {
+    AppWrapper.init = appInit;
+  }
+
 
   if (IS_BROWSER) {
     ${
@@ -70,6 +82,7 @@ export const renderFunction = ({
 
   return AppWrapper
 `;
+};
 
 export const html = (partials: {
   top: string[];
