@@ -1,5 +1,20 @@
 # @modern-js/server-plugin
 
+## 2.0.0
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [ffb2ed4]
+- Updated dependencies [bbe4c4ab64]
+  - @modern-js/utils@2.0.0
+  - @modern-js/plugin@2.0.0
+
 ## 2.0.0-beta.7
 
 ### Major Changes
