@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # Setup 函数
 
 在[【插件对象】](/zh/plugins/guide/plugin-object) 部分我们知道插件对象包含了一个 `setup` 函数，该函数不仅包含了一个 `api` 对象参数，同时还可以返回一个 Hooks 对象。
@@ -6,7 +10,7 @@
 
 插件的 `setup` 函数会提供一个 `api` 对象参数，你可以调用该对象上提供的一些方法来获取到配置、项目上下文等信息。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -25,8 +29,8 @@ export default (): CliPlugin<ModuleTools> => ({
 
 用于获取项目上下文信息。
 
-``` ts
-const useAppContext: () => IAppContext
+```ts
+const useAppContext: () => IAppContext;
 
 interface IAppContext {
   appDirectory: string;
@@ -53,8 +57,8 @@ interface IAppContext {
 如果需要获取构建相关的最终配置，需要使用 [`beforeBuild`]() Hook。
 :::
 
-``` ts
-const useResolvedConfigContext: () => NormalizedConfig
+```ts
+const useResolvedConfigContext: () => NormalizedConfig;
 
 interface NormalizedConfig {
   buildConfig: PartialBuildConfig;
@@ -64,7 +68,7 @@ interface NormalizedConfig {
   plugins: PluginConfig;
   runtime: RuntimeConfig;
   runtimeByEntries?: RuntimeByEntriesConfig;
-  _raw: UserConfig
+  _raw: UserConfig;
 }
 ```
 
@@ -72,7 +76,7 @@ interface NormalizedConfig {
 
 用于获取 Hooks 的执行器，并触发特定的 Hook 执行。
 
-``` ts
+```ts
 import type { CliPlugin } from '@modern-js/core';
 
 export default (): CliPlugin => ({
@@ -90,7 +94,7 @@ export default (): CliPlugin => ({
 
 CLI 插件的 setup 可以是一个异步函数，在初始化过程中执行异步逻辑。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -106,8 +110,8 @@ export default (): CliPlugin<ModuleTools> => ({
 
 目前主要包含两类钩子：
 
-* 构建钩子：仅在执行 `build` 命令构建源码产物时触发。
-* `buildPlatform` 钩子：仅在执行 `build --platform` 命令生成其他构建产物时触发。
-* 调试钩子：运行 `dev` 命令时会触发的钩子。
+- 构建钩子：仅在执行 `build` 命令构建源码产物时触发。
+- `buildPlatform` 钩子：仅在执行 `build --platform` 命令生成其他构建产物时触发。
+- 调试钩子：运行 `dev` 命令时会触发的钩子。
 
 关于生命周期钩子的完整列表参考 [API 文档](/zh/api/plugin-hooks)。

@@ -1,15 +1,19 @@
+---
+sidebar_position: 2
+---
+
 # Plugin Object
 
 The module-tools plugin is an object, and the object contains the following properties.
 
-* `name`: The name of the plugin, a unique identifier.
-* `setup`: plugin initialization function, which will be executed only once. setup function can return a [Hooks object](), and module-tools will execute the function corresponding to the Hook defined on the Hooks object at a specific time.
+- `name`: The name of the plugin, a unique identifier.
+- `setup`: plugin initialization function, which will be executed only once. setup function can return a [Hooks object](), and module-tools will execute the function corresponding to the Hook defined on the Hooks object at a specific time.
 
 For example, in the following plugin code example, the `beforeBuild` function is triggered before the project starts the build task and the `build start` log is printed.
 
 <CH.Code>
 
-``` ts . /plugins/demo.tsx
+```ts . /plugins/demo.tsx
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
 const MyPlugin: CliPlugin<ModuleTools> = {
@@ -28,11 +32,11 @@ const MyPlugin: CliPlugin<ModuleTools> = {
 
 ---
 
-``` ts . /modern.config.ts
+```ts . /modern.config.ts
 import { MyPlugin } from '. /plugins/demo';
 export default {
   plugins: [MyPlugin()],
-}
+};
 ```
 
 </CH.Code>
@@ -41,7 +45,7 @@ export default {
 
 When using TypeScript, you can introduce the built-in `CliPlugin` and `ModuleTools` types to provide the correct type derivation for plugins: ``
 
-``` ts
+```ts
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
 const MyPlugin: CliPlugin<ModuleTools> = {
@@ -64,7 +68,7 @@ const MyPlugin: CliPlugin<ModuleTools> = {
 
 **It is recommended to write the plugin as a function**, so that the plugin can receive configuration items via function entry.
 
-``` ts
+```ts
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
 type MyPluginOptions = {
@@ -79,4 +83,3 @@ const MyPlugin = (options: MyPluginOptions): CliPlugin<ModuleTools> => ({
   },
 });
 ```
-

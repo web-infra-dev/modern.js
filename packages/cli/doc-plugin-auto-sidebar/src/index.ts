@@ -57,6 +57,7 @@ type Sidebar = Record<string, (SidebarGroup | SidebarItem)[]>;
 interface LocaleConfig {
   sidebar?: Sidebar;
   lang: string;
+  label: string;
 }
 
 interface DocConfig {
@@ -94,6 +95,7 @@ const extractExtension = (str: string) => {
 export interface Options {
   root: string;
   categories: string[];
+  collapsed?: boolean;
 }
 
 export async function initFiles(paths: string[], userRoot: string) {
@@ -214,7 +216,11 @@ export function getRootCategories(
  * The plugin is used to generate sidebar automatically.
  */
 export function pluginAutoSidebar(options: Options) {
-  const { root: userRoot, categories: rootCategories } = options;
+  const {
+    root: userRoot,
+    categories: rootCategories,
+    collapsed: userCollapsed,
+  } = options;
   const paths = sync('**/*.{md,mdx,json}', {
     cwd: userRoot,
   });
@@ -223,7 +229,11 @@ export function pluginAutoSidebar(options: Options) {
     item: Category | File,
   ): SidebarGroup | SidebarItem => {
     if ('children' in item) {
-      const { label, link, collapsed = DEFAULT_COLLAPSED } = item.meta!;
+      const {
+        label,
+        link,
+        collapsed = userCollapsed ?? DEFAULT_COLLAPSED,
+      } = item.meta!;
       return {
         text: label || '默认',
         link: link?.id,

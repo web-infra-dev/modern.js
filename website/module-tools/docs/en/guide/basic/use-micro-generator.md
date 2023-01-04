@@ -1,10 +1,14 @@
+---
+sidebar_position: 4
+---
+
 # Using the Microgenerator
 
 The Module Engineering solution provides the Microgenerator tool, which allows for the current project to.
 
-* add new directories and files
-* Modify the contents of the `package.json` file
-* Execute commands
+- add new directories and files
+- Modify the contents of the `package.json` file
+- Execute commands
 
 Thus with these capabilities, **Microgenerator can enable additional feature functionality for the project**.
 
@@ -16,8 +20,8 @@ The **Storybook feature** can be enabled when we want to debug a component or a 
 
 For more information on how to start Storybook and how to use it, check out the following link.
 
-* [`modern dev`](/en/guide/command-preview#modern-dev)
-* [using Storybook](xxx)
+- [`modern dev`](/en/guide/command-preview#modern-dev)
+- [using Storybook](xxx)
 
 ## Tailwind CSS support
 
@@ -25,8 +29,7 @@ This can be enabled when we want to add [Tailwind CSS](https://v2.tailwindcss.co
 
 For more information on how to use Tailwind CSS in your module projects, check out.
 
-* [Using Tailwind CSS](xxx)
-
+- [Using Tailwind CSS](xxx)
 
 ## Modern.js Runtime API
 

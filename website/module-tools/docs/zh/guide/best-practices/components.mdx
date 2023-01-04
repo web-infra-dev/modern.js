@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # 开发组件
 
 本章将要介绍如何使用模块工程解决方案开发组件项目。
@@ -6,7 +10,7 @@
 
 <CH.Spotlight>
 
-``` bash 交互式问题
+```bash 交互式问题
 npx @modern-js/create components-project
 
 ? 请选择你想创建的工程类型 模块
@@ -14,11 +18,12 @@ npx @modern-js/create components-project
 ? 请选择开发语言 TS
 ? 请选择包管理工具 pnpm
 ```
+
 ---
 
 推荐使用 `@modern-js/create` 命令来初始化一个 npm 项目。
 
-``` bash 交互式问题
+```bash 交互式问题
 npx @modern-js/create components-project
 
 ? 请选择你想创建的工程类型 模块
@@ -31,7 +36,7 @@ npx @modern-js/create components-project
 
 初始化的目录结构。
 
-``` bash 初始化的目录结构。
+```bash 初始化的目录结构。
 .
 ├── README.md
 ├── node_modules/
@@ -51,35 +56,36 @@ npx @modern-js/create components-project
 
 此时就初始化了一个组件项目。
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 export default () => {
-  return (
-    <div>hello world</div>
-  );
-}
+  return <div>hello world</div>;
+};
 ```
+
 </CH.Spotlight>
 
 ## 使用 Storybook 调试代码
 
 <CH.Spotlight>
 
-``` bash 终端
+```bash 终端
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 启用「Storybook」
 ```
+
 ---
 
 在项目根目录下执行 `new` 命令，可以开启 Storybook 功能。
 
-``` bash 终端
+```bash 终端
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 启用「Storybook」
 ```
+
 ---
 
 成功开启后，会看到 `package.json` 中新增了依赖。同时创建了 `stories` 目录和相关的初始化文件。
@@ -135,7 +141,7 @@ pnpm run new
 
 <CH.Code>
 
-``` tsx ./stories/index.stories.tsx
+```tsx ./stories/index.stories.tsx
 import Component from 'components-demo';
 
 export const YourStory = () => <Component />;
@@ -143,15 +149,14 @@ export const YourStory = () => <Component />;
 export default {
   title: 'Your Stories',
 };
-
 ```
+
 ---
-``` tsx ./src/index.tsx
+
+```tsx ./src/index.tsx
 export default () => {
-  return (
-    <div>hello world</div>
-  );
-}
+  return <div>hello world</div>;
+};
 ```
 
 </CH.Code>
@@ -177,7 +182,7 @@ export default () => {
 
 **因此更推荐使用产物进行调试**。
 
-``` tsx ./stories/index.stories.tsx
+```tsx ./stories/index.stories.tsx
 import Component from '../src';
 
 export const YourStory = () => <Component />;
@@ -195,30 +200,29 @@ export default {
 
 目前支持开发样式的能力有：
 
-* CSS/PostCSS
-* Less
-* Scss/Sass
-* Tailwind CSS
-* CSS Modules
+- CSS/PostCSS
+- Less
+- Scss/Sass
+- Tailwind CSS
+- CSS Modules
 
 ### CSS/PostCSS
 
 模块工程支持 PostCSS，并且内置了以下 postcss 插件：
 
-+ [flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes)
-+ [custom-properties](https://github.com/postcss/postcss-custom-properties)
-+ [initial](https://github.com/maximkoretskiy/postcss-initial)
-+ [page-break](https://github.com/shrpne/postcss-page-break)
-+ [font-variant](https://github.com/postcss/postcss-font-variant)
-+ [media-minmax](https://github.com/postcss/postcss-media-minmax)
-+ [nesting](https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-nesting#readme)
+- [flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes)
+- [custom-properties](https://github.com/postcss/postcss-custom-properties)
+- [initial](https://github.com/maximkoretskiy/postcss-initial)
+- [page-break](https://github.com/shrpne/postcss-page-break)
+- [font-variant](https://github.com/postcss/postcss-font-variant)
+- [media-minmax](https://github.com/postcss/postcss-media-minmax)
+- [nesting](https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-nesting#readme)
 
 因此我们可以在项目中创建 `.css` 文件，并且可以直接在 css 文件中使用这些插件提供的语法支持和能力。
 
 <CH.Spotlight>
 
-
-``` css ./src/index.css
+```css ./src/index.css
 a,
 b {
   color: red;
@@ -240,14 +244,15 @@ b {
 
 源代码。
 
-``` css ./src/index.css
+```css ./src/index.css
+
 ```
 
 ---
 
 css 产物。
 
-``` css ./dist/es/index.css
+```css ./dist/es/index.css
 a,
 b {
   color: red;
@@ -283,11 +288,13 @@ div {
   color: if(@bg-light, black, white);
 }
 ```
+
 ---
 
 源代码。
 
 ```less ./src/common.less
+
 ```
 
 ---
@@ -320,11 +327,13 @@ body {
   color: $primary-color;
 }
 ```
+
 ---
 
 源代码。
 
 ```sass ./src/common.sass
+
 ```
 
 ---
@@ -348,27 +357,29 @@ body {
 
 <CH.Spotlight>
 
-``` bash 终端
+```bash 终端
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 启用「Storybook」
 ```
+
 ---
 
 在项目根目录下执行 `new` 命令，可以开启 Tailwind CSS 功能。
 
-``` bash 终端
+```bash 终端
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 启用 Tailwind CSS 支持
 ```
+
 ---
 
 成功开启后，会看到 `package.json` 中新增了依赖。
 
-``` json ./package.json
+```json ./package.json
 {
   "devDependencies": {
     "@modern-js/plugin-tailwindcss": "x.y.z"
@@ -384,26 +395,27 @@ Tailwind CSS 提供了两种使用方式：
 
 <CH.Spotlight>
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 import 'tailwindcss/utilities.css';
 
 export default () => {
-  return (
-    <div className="bg-black text-white">hello world</div>
-  );
-}
+  return <div className="bg-black text-white">hello world</div>;
+};
 ```
+
 ---
 
 Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
 
-``` tsx ./src/index.tsx focus=5:5
+```tsx ./src/index.tsx focus=5:5
+
 ```
+
 ---
 
 **当使用 HTML 类名的时候，一定要注意导入 Tailwind CSS 相应的 css 文件。**
 
-``` tsx ./src/index.tsx focus=1:1
+```tsx ./src/index.tsx focus=1:1
 
 ```
 
@@ -412,7 +424,6 @@ Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
 样式产物。
 
 > 此时是 bundle 构建。
-
 
 ```css ./dist/es/index.css
 /* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
@@ -425,18 +436,20 @@ Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
   }
 }
 @keyframes ping {
-  75%, 100% {
+  75%,
+  100% {
     transform: scale(2);
     opacity: 0;
   }
 }
 @keyframes pulse {
   50% {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(-25%);
     animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
   }
@@ -456,17 +469,17 @@ Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
 *,
 ::before,
 ::after {
-  --tw-shadow: 0 0 #0000 ;
+  --tw-shadow: 0 0 #0000;
 }
 *,
 ::before,
 ::after {
-  --tw-ring-inset: var(--tw-empty, );
+  --tw-ring-inset: var(--tw-empty);
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgba(59, 130, 246, 0.5);
   --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000 ;
+  --tw-ring-shadow: 0 0 #0000;
 }
 @media (min-width: 640px) {
 }
@@ -478,9 +491,7 @@ Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
 }
 @media (min-width: 1536px) {
 }
-
 ```
-
 
 </CH.Spotlight>
 
@@ -490,7 +501,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 `@apply` 可以用于 CSS、Less、Sass 中。
 
-``` css
+```css
 .btn {
   @apply font-bold py-2 px-4 rounded;
 }
@@ -504,22 +515,25 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 <CH.Spotlight>
 
-``` sass
+```sass
 .alert {
   @apply bg-red-500 !important;
 }
 ```
+
 ---
 
 不能正常工作。
 
-``` sass
+```sass
+
 ```
+
 ---
 
 能够正常工作。
 
-``` sass
+```sass
 .alert {
   @apply bg-red-500 #{!important};
 }
@@ -533,7 +547,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 <CH.Spotlight>
 
-``` less
+```less
 .card {
   @apply rounded-none;
 
@@ -542,19 +556,22 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
   }
 }
 ```
+
 ---
 
 不能正常工作。
 
-``` less
+```less
+
 ```
+
 ---
 
 相反，使用常规的媒体查询和 `theme()` 函数来引用你的屏幕尺寸，或者干脆不要嵌套你的 `@screen` 指令。
 
 <CH.Code>
 
-``` less 方法一
+```less 方法一
 // Use a regular media query and theme()
 .card {
   @apply rounded-none;
@@ -567,7 +584,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 ---
 
-``` less 方法二
+```less 方法二
 // Use the @screen directive at the top-level
 .card {
   @apply rounded-none;
@@ -586,7 +603,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 **推荐使用 `@apply` 指定的方式开发样式，这样在样式产物中仅包含通过指令内联的样式。**
 
-当使用 HTML 类名的方式添加样式的时候，默认情况下Tailwind 不仅会将本身类名对应的样式加入产物中，同时还会有额外的样式代码存在，虽然这些代码可能不会对本身的样式产生影响。
+当使用 HTML 类名的方式添加样式的时候，默认情况下 Tailwind 不仅会将本身类名对应的样式加入产物中，同时还会有额外的样式代码存在，虽然这些代码可能不会对本身的样式产生影响。
 
 #### bundle 和 bundleless 构建产物区别
 
@@ -594,14 +611,12 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 > 所谓 bundle 和 bundleless 可以查看 [【Bundle 和 Bundleless】](/zh/guide/advance/in-depth-about-build#bundle-和-bundleless)
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 import 'tailwindcss/utilities.css';
 
 export default () => {
-  return (
-    <div className="bg-black text-white">hello world11</div>
-  );
-}
+  return <div className="bg-black text-white">hello world11</div>;
+};
 ```
 
 Bundle 模式下，会将第三方依赖打包进来。
@@ -695,52 +710,49 @@ export {
 Bundleless 模式下，并不会将第三方依赖打包进来，此时不会有样式产物生成。
 
 ```js ./dist/es/index.js
-import { jsx } from "react/jsx-runtime";
-import "tailwindcss/utilities.css";
+import { jsx } from 'react/jsx-runtime';
+import 'tailwindcss/utilities.css';
 var src_default = () => {
-  return /* @__PURE__ */ jsx("div", {
-    className: "bg-black text-white",
-    children: "hello world11"
+  return /* @__PURE__ */ jsx('div', {
+    className: 'bg-black text-white',
+    children: 'hello world11',
   });
 };
-export {
-  src_default as default
-};
+export { src_default as default };
 ```
 
 ### CSS Modules
 
 模块工程支持使用 CSS Module 开发样式。默认情况下会将以下文件识别为 CSS Module 文件：
 
-* `.module.css`
-* `.module.less`
-* `.module.scss`
-* `.module.sass`
+- `.module.css`
+- `.module.less`
+- `.module.scss`
+- `.module.sass`
 
 如果需要对 CSS Modules 进行配置，可以查看一下 API：
 
-* [autoModules](zh/api/build-config#automodules)
-* [modules](/zh/api/build-config#modules)
+- [autoModules](zh/api/build-config#automodules)
+- [modules](/zh/api/build-config#modules)
 
 下面是一个代码示例：
 
 <CH.Code>
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 import style from './index.module.css';
 
 export default () => {
-  return (
-    <div className={style.btn}>hello world</div>
-  );
-}
+  return <div className={style.btn}>hello world</div>;
+};
 ```
 
-``` css ./src/index.module.css
+```css ./src/index.module.css
 .btn {
   color: blue;
 }
 ```
+
 </CH.Code>
 
 ## 配置构建产物
@@ -755,13 +767,13 @@ export default () => {
 │   └── types
 ```
 
-* `./dist/es`: 包含了支持 es6 语法的 ES modules 格式的 bundleless 产物。
-* `./dist/lib`: 包含了支持 es6 语法的 CommonJS 格式的 bundleless 产物。
-* `./dist/types`: 包含了类型文件。
+- `./dist/es`: 包含了支持 es6 语法的 ES modules 格式的 bundleless 产物。
+- `./dist/lib`: 包含了支持 es6 语法的 CommonJS 格式的 bundleless 产物。
+- `./dist/types`: 包含了类型文件。
 
 如果对使用语法支持有要求，可以手动配置 [`buildPreset`](/zh/api/build-preset)，并且支持在 `npm-component` 基础上增加后缀的方式修改支持的语法：
 
-``` tsx
+```tsx
 export default defineConfig({
   buildPreset: 'npm-component-es2019',
 });
@@ -769,13 +781,12 @@ export default defineConfig({
 
 如果对构建产物目录结构有特殊需求，则可以使用 [`buildConfig` API](/zh/api/build-config)，可以通过以下文档来了解使用方式：
 
-* [修改输出产物](/zh/guide/basic/modify-output-product#构建配置对象)
-* [深入理解构建](/zh/guide/advance/in-depth-about-build)
+- [修改输出产物](/zh/guide/basic/modify-output-product#构建配置对象)
+- [深入理解构建](/zh/guide/advance/in-depth-about-build)
 
 ## 测试组件
 
 关于如何对组件进行测试，可以参考 [【测试项目】](/zh/guide/basic/test-your-project)。
-
 
 ## 发布组件
 

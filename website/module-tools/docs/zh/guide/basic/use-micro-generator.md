@@ -1,10 +1,14 @@
+---
+sidebar_position: 4
+---
+
 # 使用微生成器
 
 模块工程解决方案提供了微生成器工具，它可以为当前项目：
 
-* 新增目录和文件
-* 修改 `package.json` 文件内容
-* 执行命令
+- 新增目录和文件
+- 修改 `package.json` 文件内容
+- 执行命令
 
 因此通过这些能力，**微生成器可以为项目开启额外的特性功能**。
 
@@ -16,8 +20,8 @@
 
 关于如何启动 Storybook 以及如何使用 Storybook，可以查看下面的链接：
 
-* [`modern dev`](/zh/guide/command-preview#modern-dev)
-* [使用 Storybook](/zh/guide/using-storybook)
+- [`modern dev`](/zh/guide/command-preview#modern-dev)
+- [使用 Storybook](/zh/guide/using-storybook)
 
 ## Tailwind CSS 支持
 
@@ -25,8 +29,7 @@
 
 关于如何在模块工程里使用 Tailwind CSS，可以查看：
 
-* [使用 Tailwind CSS](xxx)
-
+- [使用 Tailwind CSS](xxx)
 
 ## 启动 Modern.js Runtime API
 
