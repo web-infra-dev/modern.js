@@ -11,21 +11,34 @@ Once `state` is enabled, you can use [Model](/docs/guides/topic-detail/model/qui
 
 The specific configuration items are as follows:
 
-## `immer`
+## models
+
+* Type：`Array<Model>`
+* Default：`[]`
+
+Register model objects that are mounted in advance, and these models will be mounted immediately after the Reduck store is created. Generally, there is no need to mount in advance.
+
+## initialState
+* Type: `Object`
+* Default：`{}`
+
+Used to set the initial state of the global store. Generally used for SSR to initialize data during the hydration phase.
+
+## immer
 
 * Type:`boolean`
 * Default: `true`
 
 Whether to enable to update the state with mutable, it is enabled by default, and set to `false` if you want to disable it.
 
-## `effects`
+## effects
 
 * Type:`boolean`
 * Default: `true`
 
 Whether to enable the side effect management feature, it is enabled by default, and set to `false` if you want to disable it.
 
-## `autoActions`
+## autoActions
 
 * Type:`boolean`
 * Default: `true`
@@ -33,7 +46,7 @@ Whether to enable the side effect management feature, it is enabled by default, 
 Whether to enable the auto-generated actions feature, it is enabled by default, and set to `false` if you want to disable it.
 
 
-## `devtools`
+## devtools
 
 * Type:`boolean | EnhancerOptions`
 * Default: `true`

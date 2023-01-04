@@ -1,3 +1,7 @@
+---
+sidebar_position: 7
+---
+
 # 处理静态资源文件
 
 模块工程会对代码中使用的静态资源进行处理。如果需要配置，则可以使用 [`buildConfig.asset`](/zh/api/build-config#asset) API。
@@ -6,74 +10,80 @@
 
 默认情况下，模块工程对于以下静态资源会进行处理：
 
-* `'.svg'`、`'.png'`、`'.jpg'`、`'.jpeg'`、`'.gif'`、`'.webp'`
-* `'.ttf'`、`'.otf'`、`'.woff'`、`'.woff2'`、`'.eot'`
-* `'.mp3'`、`'.mp4'`、`'.webm'`、`'.ogg'`、`'.wav'`、`'.flac'`、`'.aac'`、`'.mov'`
+- `'.svg'`、`'.png'`、`'.jpg'`、`'.jpeg'`、`'.gif'`、`'.webp'`
+- `'.ttf'`、`'.otf'`、`'.woff'`、`'.woff2'`、`'.eot'`
+- `'.mp3'`、`'.mp4'`、`'.webm'`、`'.ogg'`、`'.wav'`、`'.flac'`、`'.aac'`、`'.mov'`
 
 对于静态文件的处理，模块工程目前支持的功能有：
 
-* 设置静态资源路径为 `./assets`。
-* 对于超过 **10kb** 的文件会内联到代码中。
-* 对于 `.svg` 后缀的文件使用 [SVGR](https://react-svgr.com/)。
+- 设置静态资源路径为 `./assets`。
+- 对于超过 **10kb** 的文件会内联到代码中。
+- 对于 `.svg` 后缀的文件使用 [SVGR](https://react-svgr.com/)。
 
 让我们看下面的例子：
 
 <CH.Spotlight>
 
-``` ts ./src/asset.ts
+```ts ./src/asset.ts
 import img from './bg.png';
 //...
 ```
 
 ---
+
 项目源代码。
 
-``` ts ./src/asset.ts
+```ts ./src/asset.ts
 import img from './bg.png';
 //...
 ```
+
 ---
+
 如果 `bg.png` 的大小小于 10 kb，则此时产物目录结构和产物内容为。
 
 <CH.Code>
 
-``` bash
+```bash
 ./dist
 └── asset.js
 ```
+
 ---
 
-``` js ./dist/asset.js
-var bg_default = "data:image/png;base64,";
+```js ./dist/asset.js
+var bg_default = 'data:image/png;base64,';
 console.info(bg_default);
 ```
+
 </CH.Code>
----
 
 如果 `bg.png` 的大小大于 10 kb，则此时产物目录结构和产物内容为。
 
 <CH.Code>
 
-``` bash
+```bash
 ./dist
 ├── asset.js
 └── assets
     └── bg.13e2aba2.png
 ```
+
 ---
 
-``` js ./dist/asset.js
-var bg_default = "assets/bg.13e2aba2.png";
+```js ./dist/asset.js
+var bg_default = 'assets/bg.13e2aba2.png';
 console.info(bg_default);
 ```
+
 </CH.Code>
 
 </CH.Spotlight>
 
 当想要修改默认行为的时候，可以使用以下 API：
 
-* `asset.path`：修改静态资源文件输出路径。
-* `asset.limit`：修改内联静态资源文件的阈值。
+- `asset.path`：修改静态资源文件输出路径。
+- `asset.limit`：修改内联静态资源文件的阈值。
 
 ## 设置 CDN 前缀
 
@@ -83,21 +93,24 @@ console.info(bg_default);
 
 <CH.Spotlight>
 
-``` ts ./src/asset.ts
+```ts ./src/asset.ts
 import img from './bg.png';
 //...
 ```
 
 ---
+
 项目源代码。
 
-``` ts ./src/asset.ts
+```ts ./src/asset.ts
+
 ```
+
 ---
 
 `modern.config` 配置为。
 
-``` ts ./modern.config.ts
+```ts ./modern.config.ts
 export default defineConfig({
   buildConfig: {
     format: 'umd',
@@ -112,16 +125,20 @@ export default defineConfig({
 
 如果 `bg.png` 的大小大于 10 kb，则此时产物内容为。
 
-``` js ./dist/asset.js focus=7:7
-(function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory();
-    else if (typeof define === "function" && define.amd) define([], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory();
-})(this, function() {
-    "use strict";
-    var bg_default = "http://cdn/assets/bg.13e2aba2.png";
-    // src/asset.tsx
-    console.info(bg_default);
+```js ./dist/asset.js focus=7:7
+(function (global, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object')
+    factory();
+  else if (typeof define === 'function' && define.amd) define([], factory);
+  else if (
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self)
+  )
+    factory();
+})(this, function () {
+  'use strict';
+  var bg_default = 'http://cdn/assets/bg.13e2aba2.png';
+  // src/asset.tsx
+  console.info(bg_default);
 });
 ```
 

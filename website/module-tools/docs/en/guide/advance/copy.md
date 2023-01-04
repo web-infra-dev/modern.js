@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # Use the Copy Tools
 
 The Module Project provides the Copy utility for copying already existing individual files or entire directories into the product directory. Next we learn how to use it.
@@ -6,8 +10,8 @@ The Module Project provides the Copy utility for copying already existing indivi
 
 We can use the Copy tool via the [`buildConfig.copy`](/en/api/build-config#copy) API, which contains the following two main configurations.
 
-* [`patterns`](/en/api/build-config#copypatterns)
-* [`options`](/en/api/build-config#copyoptions)
+- [`patterns`](/en/api/build-config#copypatterns)
+- [`options`](/en/api/build-config#copyoptions)
 
 It is recommended to spend some time getting to know them before you start learning.
 
@@ -17,23 +21,24 @@ It is recommended to spend some time getting to know them before you start learn
 
 其中 `patterns.from` 用于指定要复制的文件或者目录。它接收 Glob 形式字符串或具体路径。Glob 形式字符串是指 [fast-glob pattern-syntax](https://github.com/mrmlnc/fast-glob#pattern-syntax)。因此我们可以按照如下两种方式使用它：
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     copy: {
       patterns: [
-        { from: './index.html', to: ''},
-        { from: './*.html', to: ''},
-      ]
-    }
-  }
+        { from: './index.html', to: '' },
+        { from: './*.html', to: '' },
+      ],
+    },
+  },
 });
 ```
 
 `patterns.context` 一般和 `patterns.from` 配合使用，默认情况下它的值与 [`buildConfig.sourceDir`](/zh/api/build-config#sourcedir) 相同，因此我们可以按照如下方式指定 `src/data.json` 文件为要复制的文件：
+
 > 默认情况下，`buildConfig.sourceDir` 为 `src`
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     copy: {
@@ -67,13 +72,11 @@ export default defineConfig({
 
 `patterns.to` 用于指定复制文件的输出路径，默认情况下它的值为 [`buildConfig.outDir`](zh/api/build-config#outDir)对应的值。因此我们按照如下方式将 `src/index.html` 复制到 `dist` 目录下：
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     copy: {
-      patterns: [
-        { from: './index.html', }
-      ],
+      patterns: [{ from: './index.html' }],
     },
   },
 });
@@ -81,18 +84,18 @@ export default defineConfig({
 
 当我们配置了 `patterns.to` 的时候：
 
-* 如果是相对路径，则该路径会相对于 `buildConfig.outDir` 计算出复制文件输出的绝对路径。
-* 如果是绝对路径，则会直接使用该值。
+- 如果是相对路径，则该路径会相对于 `buildConfig.outDir` 计算出复制文件输出的绝对路径。
+- 如果是绝对路径，则会直接使用该值。
 
 最后 `patterns.globOptions` 用于配置寻找复制文件 [globby](https://github.com/sindresorhus/globby) 对象，其配置可参考：
 
-* [globby.options](https://github.com/sindresorhus/globby#options)
+- [globby.options](https://github.com/sindresorhus/globby#options)
 
 ## 不同场景使用示例
 
 ### 将文件复制文件
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: [
     {
@@ -110,13 +113,13 @@ export default defineConfig({
         ],
       },
     },
-  ]
+  ],
 });
 ```
 
 ### 将文件复制到目录
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: [
     {
@@ -140,7 +143,7 @@ export default defineConfig({
 
 ### 从目录复制到目录
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: [
     {
@@ -167,7 +170,7 @@ export default defineConfig({
 
 ### 从目录到文件
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: [
     {
@@ -194,7 +197,7 @@ export default defineConfig({
 
 ### 使用 Glob
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: [
     {

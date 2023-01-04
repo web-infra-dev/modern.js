@@ -47,8 +47,8 @@ export async function createContext(
 ): Promise<Context> {
   debug('create context');
 
-  const config = await validateBuilderConfig(builderConfig);
-  const ctx = createPrimaryContext(options, config);
+  await validateBuilderConfig(builderConfig);
+  const ctx = createPrimaryContext(options, builderConfig);
 
   const tsconfigPath = join(ctx.rootPath, 'tsconfig.json');
   if (await isFileExists(tsconfigPath)) {

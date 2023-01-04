@@ -8,6 +8,7 @@ import path from 'path';
 import type { ServerRoute } from '@modern-js/types';
 import request from 'supertest';
 import { handleRequest, getPathWithoutEntry } from '../src/server';
+import { LOADER_ID_PARAM } from '../src/common/constants';
 
 describe('handleRequest', () => {
   const distDir = path.join(__dirname, './fixtures', 'server');
@@ -90,7 +91,7 @@ describe('handleRequest', () => {
       {},
     );
     const res = await request(handler).get(
-      '/three?_loader=user/profile/layout',
+      `/three?${LOADER_ID_PARAM}=user/profile/layout`,
     );
     expect(res.status).toBe(403);
   });
@@ -133,7 +134,7 @@ describe('handleRequest', () => {
     );
 
     const res = await request(handler).get(
-      '/three/user/profile?_loader=user/profile/layout',
+      `/three/user/profile?${LOADER_ID_PARAM}=user/profile/layout`,
     );
     expect(res.status).toBe(200);
     expect(
@@ -156,7 +157,9 @@ describe('handleRequest', () => {
       {},
     );
 
-    const res = await request(handler).get('/three/user?_loader=user/layout');
+    const res = await request(handler).get(
+      `/three/user?${LOADER_ID_PARAM}=user/layout`,
+    );
     expect(res.status).toBe(200);
     expect(res.headers['content-type'].includes('text/plain')).toBeTruthy();
     expect(res.text).toBe('loader1');
@@ -179,7 +182,7 @@ describe('handleRequest', () => {
       },
     );
     const res = await request(handler).get(
-      `/three/user/${id}?_loader=user/[id]/layout`,
+      `/three/user/${id}?${LOADER_ID_PARAM}=user/[id]/layout`,
     );
 
     expect(res.status).toBe(200);
@@ -204,7 +207,7 @@ describe('handleRequest', () => {
     );
 
     const res = await request(handler).get(
-      '/three/user/profile/name?_loader=user.profile.name/layout',
+      `/three/user/profile/name?${LOADER_ID_PARAM}=user.profile.name/layout`,
     );
     expect(res.status).toBe(500);
     expect(res.headers['content-type'].includes('text/plain')).toBeTruthy();

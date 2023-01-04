@@ -1,8 +1,13 @@
+---
+sidebar_position: 1
+---
+
 # Before you start
 
 ## Environment preparation
 
 In order to use the Modern.js module engineering solution, you first need [NodeJS](https://nodejs.org/zh/) engine, we recommend the latest [LTS version](https://github.com/nodejs/Release), and make sure the Node version is **>=14.17.6**. because non-stable NodeJS releases frequently have bugs. You might consider installing via [nvm-windows](https://github.com/coreybutler/nvm-windows) and [nvm](https://github.com/nvm-sh/nvm) (Mac/linux), so you can easily switch to different NodeJS versions that might be required for different projects that you work on.
+
 ## Getting Started with npm
 
 Once NodeJS is installed, not only can you access the `node` executable from the command line, but you can also execute the `npm` command.
@@ -13,9 +18,9 @@ Npm is the standard package manager for NodeJS. It started out as a tool for dow
 
 ## npm package type project
 
-So what is an npm package type project? When we execute the `npm init` command in an empty project directory, it creates a JSON file with the file name `package.json` under the current directory. During the creation process, we will need to fill in information including but not limited to the *name*, *version* *number*, *description*, etc. of the npm package, which will be found in the resulting `package.json` file as follows
+So what is an npm package type project? When we execute the `npm init` command in an empty project directory, it creates a JSON file with the file name `package.json` under the current directory. During the creation process, we will need to fill in information including but not limited to the _name_, _version_ _number_, _description_, etc. of the npm package, which will be found in the resulting `package.json` file as follows
 
-``` json
+```json
 {
   "name": "npm-demo",
   "version": "1.0.0",
@@ -41,27 +46,27 @@ When adding a third-party npm package to an initial project, we can call this pr
 
 - `"dependencies"`: a type of package that your application will need in a production environment.
 - `"devDependencies"`: another type of package that is only needed for local development and testing.
-> packages can be understood as third-party npm packages.
+  > packages can be understood as third-party npm packages.
 
 You can install the packages you need in a **production environment** by running `npm install npm-package-name` or `npm add npm-package-name`, or you can manually write the packages you need to install and the corresponding [semantic version](https://docs.npmjs.com/about-semantic-versioning) in `"dependencies"` in the `package.json` file, and run the `npm install` command to.
 
-``` json
+```json
 {
-    "name": "your-npm-project",
-    "dependencies": {
-      "npm-package-name": "0.1.0"
-    },
+  "name": "your-npm-project",
+  "dependencies": {
+    "npm-package-name": "0.1.0"
+  }
 }
 ```
 
 Similarly, you can install **only packages needed for local development and testing** by running `npm install npm-package-name --save-dev` or `npm add npm-package-name --save-dev`, or you can manually write the packages to be installed and the corresponding [semantic version](https://docs.npmjs.com/about-semantic-versioning) in `"devDependencies"` in the `package.json` file, and run the `npm install` command as follows
 
-``` json
+```json
 {
-    "name": "your-npm-project",
-    "devDependencies": {
-      "npm-package-name": "0.1.0"
-    },
+  "name": "your-npm-project",
+  "devDependencies": {
+    "npm-package-name": "0.1.0"
+  }
 }
 ```
 
@@ -92,13 +97,13 @@ These can be executed by running `npm run-script <stage>` or simply `npm run <st
 
 Name matching [pre and post commands](https://docs.npmjs.com/cli/v9/using-npm/scripts#pre--post-scripts) will also be run (e.g. `premyscript`, `myscript`, `postmyscript` ).
 
-``` json
+```json
 {
-    "scripts": {
-        "premyscript": "",
-        "myscript": "",
-        "postmyscript": "",
-    }
+  "scripts": {
+    "premyscript": "",
+    "myscript": "",
+    "postmyscript": ""
+  }
 }
 ```
 
@@ -160,14 +165,14 @@ A configuration file for Module Tools is provided in the initial module project 
 
 The contents of the initial configuration file are as follows.
 
-``` typescript
+```typescript
 // modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({});
 ```
 
-``` js
+```js
 // modern.config.js
 const { defineConfig } = require('@modern-js/module-tools');
 
@@ -176,12 +181,12 @@ module.exports = defineConfig({});
 
 **We recommend using the `defineConfig` function**, but it is not mandatory to use it. So you can also return an object directly in the configuration file: the:
 
-``` typescript
+```typescript
 // modern.config.ts
 export default {};
 ```
 
-``` js
+```js
 // modern.config.js
 module.exports = {};
 ```

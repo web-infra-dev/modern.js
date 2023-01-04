@@ -1,17 +1,21 @@
+---
+sidebar_position: 5
+---
+
 # 使用 Storybook
 
 首先如果没有看过以下内容的话，可以先花几分钟先了解一下：
 
-* [使用微生成器开启 Storybook 调试](/zh/guide/use-micro-generator#storybook-调试)
-* [`modern dev`](/zh/guide/command-preview#modern-dev)
+- [使用微生成器开启 Storybook 调试](/zh/guide/use-micro-generator#storybook-调试)
+- [`modern dev`](/zh/guide/command-preview#modern-dev)
 
 [Storybook](https://storybook.js.org/) 是一个专门用于组件调试的工具，围绕着组件开发提供了：
 
-* 丰富多样的调试能力
-* 可与一些测试工具结合使用
-* 可重复使用的文档内容
-* 可分享能力
-* 工作流程自动化
+- 丰富多样的调试能力
+- 可与一些测试工具结合使用
+- 可重复使用的文档内容
+- 可分享能力
+- 工作流程自动化
 
 因此它是一个复杂且功能强大的工具。
 
@@ -21,8 +25,8 @@
 
 在调试代码过程中需要引入组件代码，目前可以通过两种方式引入组件代码：
 
-* 引用组件产物
-* 引用组件源码
+- 引用组件产物
+- 引用组件源码
 
 我们更推荐使用第一种“**引用组件产物**”的方式。因为它几乎接近真实的使用场景，不仅可以对组件功能进行调试，同时也对构建产物的正确性进行了验证。
 
@@ -36,9 +40,9 @@
 
 ```json package.json
 {
-    "name": "foo",
-    "main": "./dist/index.js",
-    "types": "./dist/types/index.d.ts"
+  "name": "foo",
+  "main": "./dist/index.js",
+  "types": "./dist/types/index.d.ts"
 }
 ```
 
@@ -49,9 +53,9 @@
 
 ```json package.json
 {
-    "name": "foo",
-    "main": "./dist/index.js",
-    "types": "./dist/types/index.d.ts"
+  "name": "foo",
+  "main": "./dist/index.js",
+  "types": "./dist/types/index.d.ts"
 }
 ```
 
@@ -104,7 +108,7 @@ export default {
 
 对于 `pnpm` 的项目，可以按照下面的内容对 `package.json` 进行修改：
 
-``` ts focus=4:7
+```ts focus=4:7
 {
     "name": "foo",
     "main": "./dist/index.js",
@@ -114,16 +118,15 @@ export default {
     }
 }
 ```
+
 > 关于 pnpm 的 `publishConfig` 的使用，可以阅读下面这个[链接](https://pnpm.io/package_json#publishconfig)。
 
 而对于 npm 和 Yarn 的项目，则只能通过手动的方式在**开发阶段**和**发布阶段**对 `package.json` 的 `types` 的值进行修改。
-
 
 那么为什么可以直接引用产物呢？
 
 1. 在执行 `modern dev storybook` 命令之前，会自动执行 `modern build` 命令，保证项目构建产物的存在。
 2. 在 Storybook 内部增加了以项目名称作为别名的处理，保证能够**根据 `package.json` 解析出项目的产物路径**。
-
 
 ### 引用组件源码
 
@@ -154,12 +157,12 @@ Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配�
 
 关于 Storybook 各种配置文件的使用方式，可以查看下面的链接：
 
-* [Configure Storybook](https://storybook.js.org/docs/react/configure/overview)
+- [Configure Storybook](https://storybook.js.org/docs/react/configure/overview)
 
 **不过在模块项目里进行 Storybook 存在一些限制**：
 
-* 目前不能修改 Story 文件存放的位置，即无法在 `main.js` 文件里修改 `stories` 配置。
-* 目前不能修改 Webpack 和 Babel 相关的配置，即无法在 `main.js` 文件里修改 `webpackFinal` 和 `babel` 配置。
+- 目前不能修改 Story 文件存放的位置，即无法在 `main.js` 文件里修改 `stories` 配置。
+- 目前不能修改 Webpack 和 Babel 相关的配置，即无法在 `main.js` 文件里修改 `webpackFinal` 和 `babel` 配置。
 
 在未来我们会考虑这些配置是否可以允许修改，不过目前为了减少不可预知的问题暂时限制使用这些配置。
 
@@ -169,18 +172,18 @@ Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配�
 
 目前可以通过该配置对 Storybook 的 webpack 配置进行修改。
 
-* [`dev.storybook.webpack`](xxx)
+- [`dev.storybook.webpack`](xxx)
 
 ### 构建 Storybook 产物
 
 除了可以对组件或者普通的模块进行 Storybook 调试，还可以通过下面的命令来执行 Storybook 的构建任务。
 
-``` bash
+```bash
 modern build --platform storybook
 ```
 
 关于 `modern build --platform` 命令可以查看：
 
-* [`modern build`](/zh/guide/command-preview#modern-build)
+- [`modern build`](/zh/guide/command-preview#modern-build)
 
 构建完成后，可以在 `dist/storybook-static` 目录看到构建产物文件。

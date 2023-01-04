@@ -1,15 +1,20 @@
+---
+sidebar_position: 5
+---
+
 # Testing
+
 This chapter describes the test-related configuration
 :::tips
 You need to enable the unit testing feature with `pnpm run new` first.
 :::
 
-
 ## jest
-* Type: `Object | Function`
-* Default value: `{}`
 
-The configuration corresponding to [Jest](https://jestjs.io/docs/configuration), when of type ``Object``, can be configured with all the underlying configurations supported by Jest .
+- Type: `Object | Function`
+- Default value: `{}`
+
+The configuration corresponding to [Jest](https://jestjs.io/docs/configuration), when of type `Object`, can be configured with all the underlying configurations supported by Jest .
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
@@ -17,13 +22,13 @@ import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   testing: {
     jest: {
-      testTimeout: 10000
-    }
-  }
+      testTimeout: 10000,
+    },
+  },
 });
 ```
 
-When the value is of type ``Function``, the default configuration is passed as the first parameter and a new Jest configuration object needs to be returned.
+When the value is of type `Function`, the default configuration is passed as the first parameter and a new Jest configuration object needs to be returned.
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';

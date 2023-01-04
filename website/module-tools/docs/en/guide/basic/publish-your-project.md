@@ -1,26 +1,30 @@
+---
+sidebar_position: 7
+---
+
 # Versioning and Publishing
 
 An npm-type module project release process consists of two phases.
 
-* The first phase is during development, where the developer needs to provide a change file to record changes that need to be released.
-* The second phase is during release, where Module Tools can collect all the change files to update the version, update the release log, and release new packages to the [npm Registry](https://www.npmjs.com/).
+- The first phase is during development, where the developer needs to provide a change file to record changes that need to be released.
+- The second phase is during release, where Module Tools can collect all the change files to update the version, update the release log, and release new packages to the [npm Registry](https://www.npmjs.com/).
 
 ## Tracking changes
 
 **Changes need to be logged when they happen to the project**. Changes that occur in a project are typically.
 
-* New features
-* Fixes to issues
-* Configuration file changes
-* ...
+- New features
+- Fixes to issues
+- Configuration file changes
+- ...
 
 Once these changes have been made, the current changes need to be documented with the following command.
 
-* [`modern change`](/zh/guide/command-preview#modern-change)
+- [`modern change`](/zh/guide/command-preview#modern-change)
 
 Executing the `modern change` command asks the developer several questions and generates a change log based on the developer's answers. The changelog file contains the type of change and its description, and is committed to the git repository.
 
-``` bash
+```bash
 $ npx modern change
 🦋 What kind of change is this for module-example? (current version is 0.1.0) - patch
 🦋 Please enter a summary for this change (this will be in the changelogs). Submit empty line to open external editor
@@ -37,7 +41,7 @@ $ npx modern change
 
 When executed successfully, the resulting Markdown file containing the change log is saved in the project's `.changeset` directory. The contents will look like the following.
 
-``` markdown .changeset/brave-dryers-agree.md
+```markdown .changeset/brave-dryers-agree.md
 ---
 "``module-example'': patch
 ---
@@ -49,14 +53,15 @@ publish test
 
 When the project version needs to be updated, execute the following command.
 
-* [`modern bump`](/zh/guide/command-preview#modern-bump)
+- [`modern bump`](/zh/guide/command-preview#modern-bump)
 
 Executing `modern bump` will modify the version number in `package.json` based on the contents of the Markdown file in the `.changeset/` directory where the changes were recorded, and generate the `CHANGELOG.md` file. **These Markdown files are also deleted when the version update is complete, so they are "consumed "**.
 
-``` markdown CHANGELOG.md
+```markdown CHANGELOG.md
 # module
 
 ## 0.1.1
+
 ### Patch Changes
 
 - publish test
@@ -66,13 +71,13 @@ Executing `modern bump` will modify the version number in `package.json` based o
 
 To publish a project, you can execute the following command.
 
-* [`modern publish`](/zh/guide/command-preview#modern-release)
+- [`modern publish`](/zh/guide/command-preview#modern-release)
 
 The `modern release` command publishes the project to the npm Registry.
 
 The release is the `latest` version, which is also the official version. If you want to change the `dist-tag`, you can specify it with the `modern release --tag` command. For example.
 
-``` bash
+```bash
 modern release --tag beta
 ```
 
@@ -84,11 +89,11 @@ However, if you want to change the version number of the current project to a pr
 
 When a pre-release is needed before the official release, the following command is executed.
 
-* [`modern pre`](/zh/guide/command-preview#modern-pre)
+- [`modern pre`](/zh/guide/command-preview#modern-pre)
 
 First `modern pre enter <tag>` to enter pre-release mode, `<tag>` can be the same as the `tag` specified with the `modern release --tag` command when releasing the project.
 
-``` bash
+````bash
 $ npx modern pre enter next
 🦋 success Entered pre mode with tag next
 🦋 info Run `changeset version` to version packages with prerelease versions
@@ -105,7 +110,7 @@ $ npx modern bump
 🦋 warn You can then run `changeset version` again to do a normal release
 🦋 warn ----------------------------------------------------------------------
 🦋 All files have been updated. review them and commit at your leisure
-```
+````
 
 Then you can see that the updated version number in `package.json` will look like this: `0.1.2-next.0`.
 

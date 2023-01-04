@@ -1,8 +1,13 @@
+---
+sidebar_position: 1
+---
+
 # 开始之前
 
 ## 环境准备
 
 为了使用 Modern.js 模块工程解决方案，首先需要 [NodeJS](https://nodejs.org/zh/)，我们推荐最新的[长期维护版本](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.17.6**。因为非稳定的 NodeJS 时常有一些 Bug，你可以使用 [nvm-windows](https://github.com/coreybutler/nvm-windows) 和 [nvm](https://github.com/nvm-sh/nvm)（Mac/linux）安装，这样你就可以方便地切换到不同的 NodeJS 版本，这些版本可能会用于不同的项目。
+
 ## 初识 npm
 
 当 NodeJS 被安装后，你不仅可以在命令行中访问 `node` 可执行程序，同时你也可以执行 `npm` 命令。
@@ -15,7 +20,7 @@ npm 是 NodeJS 的标准软件包管理器。它一开始的用途是用于下�
 
 那么什么是 npm 包类型的项目呢？当我们在一个空的项目目录下执行 `npm init` 命令的时候，它会在当前目录下面创建一个文件名为 `package.json` 的 JSON 文件。在创建过程中，我们需要填写包括但不限于 npm 包的名称、版本号、描述等等内容，这些填写的内容都会在生成的 `package.json` 文件中找到：
 
-``` json
+```json
 {
   "name": "npm-demo",
   "version": "1.0.0",
@@ -41,27 +46,27 @@ npm Registry 是一个 [npm 包存储的地方](https://docs.npmjs.com/about-the
 
 - `"dependencies"`：一种是你的应用程序在生产环境中需要的软件包。
 - `"devDependencies"`：另一种是仅在本地开发和测试中需要的软件包。
-> 软件包可以理解为是第三方的 npm 包。
+  > 软件包可以理解为是第三方的 npm 包。
 
 你可以通过执行 `npm install npm-package-name` 或者 `npm add npm-package-name` 的方式来安装在**生产环境中需要的软件包**，或者也可以在 `package.json` 文件中手动的将需要安装的包和对应的[语义化版本](https://docs.npmjs.com/about-semantic-versioning)写在 `"dependencies"` 里，并执行 `npm install` 命令：
 
-``` json
+```json
 {
-    "name": "your-npm-project",
-    "dependencies": {
-      "npm-package-name": "0.1.0"
-    },
+  "name": "your-npm-project",
+  "dependencies": {
+    "npm-package-name": "0.1.0"
+  }
 }
 ```
 
 同理，你也可以执行 `npm install npm-package-name --save-dev` 或 `npm add npm-package-name --save-dev` 的方式来安装**仅在本地开发和测试中需要的软件包**，或者也可以在 `package.json` 文件中手动的将需要安装的包和对应的[语义化版本](https://docs.npmjs.com/about-semantic-versioning)写在 `"devDependencies"` 里，并执行 `npm install` 命令：
 
-``` json
+```json
 {
-    "name": "your-npm-project",
-    "devDependencies": {
-      "npm-package-name": "0.1.0"
-    },
+  "name": "your-npm-project",
+  "devDependencies": {
+    "npm-package-name": "0.1.0"
+  }
 }
 ```
 
@@ -92,13 +97,13 @@ npm Registry 是一个 [npm 包存储的地方](https://docs.npmjs.com/about-the
 
 名称匹配的[前置命令和后置命令](https://docs.npmjs.com/cli/v9/using-npm/scripts#pre--post-scripts)也会被运行（例如 `premyscript`、`myscript`、`postmyscript`）。
 
-``` json
+```json
 {
-    "scripts": {
-        "premyscript": "",
-        "myscript": "",
-        "postmyscript": "",
-    }
+  "scripts": {
+    "premyscript": "",
+    "myscript": "",
+    "postmyscript": ""
+  }
 }
 ```
 
@@ -160,14 +165,14 @@ npm install -g pnpm
 
 初始化的配置文件的内容如下：
 
-``` typescript
+```typescript
 // modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({});
 ```
 
-``` js
+```js
 // modern.config.js
 const { defineConfig } = require('@modern-js/module-tools');
 
@@ -176,12 +181,12 @@ module.exports = defineConfig({});
 
 **我们推荐使用 `defineConfig` 函数**，不过并不强制使用它。因此你也可以在配置文件中直接返回一个对象：
 
-``` typescript
+```typescript
 // modern.config.ts
 export default {};
 ```
 
-``` js
+```js
 // modern.config.js
 module.exports = {};
 ```

@@ -6,7 +6,7 @@ sidebar_label: masterApp
 
 * 类型： `Object`
 
-:::caution 注意
+:::info
 需要先通过 `pnpm run new` 启用「微前端」 功能。
 :::
 
@@ -39,4 +39,4 @@ interface AppInfo {
 
 在 `masterApp` 配置下，开发者可以透传 Garfish 的配置项。
 
-所有支持的配置项[点此查看](https://garfishjs.org/api/run/#%E5%8F%82%E6%95%B0)
+所有支持的配置项[点此查看](https://garfishjs.org/api/run/#%E5%8F%82%E6%95%B0)。

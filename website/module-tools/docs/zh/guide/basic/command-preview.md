@@ -1,10 +1,14 @@
+---
+sidebar_position: 2
+---
+
 # 命令预览
 
 模块工程项目可以使用的命令：
 
 ## `modern build`
 
-``` bash
+```bash
 Usage: modern build [options]
 
 构建模块命令
@@ -34,7 +38,7 @@ Options:
 
 ## `modern new`
 
-``` bash
+```bash
 Usage: modern new [options]
 
 模块化工程方案中执行生成器
@@ -59,7 +63,7 @@ Options:
 
 ## `modern dev`
 
-``` bash
+```bash
 Usage: modern dev [options]
 
 本地开发命令
@@ -71,24 +75,24 @@ Commands:
 [dev-tools-subCommand]
 ```
 
-模块工程解决方案提供了使用调试工具的能力，可以通过 `modern dev` 命令来启动。不过要注意的是，默认情况下是没有提供调试相关的插件，因此此时执行 `modern dev` 会提示： *"No dev tools found available"*。
+模块工程解决方案提供了使用调试工具的能力，可以通过 `modern dev` 命令来启动。不过要注意的是，默认情况下是没有提供调试相关的插件，因此此时执行 `modern dev` 会提示： _"No dev tools found available"_。
 
 目前官方支持的调试工具有 [Storybook](https://storybook.js.org/)，因此在你执行 `modern new` 命令开启它后，就可以执行 `modern dev` 或者 `modern dev storybook` 执行它。
 
 ## `modern test`
 
-``` bash
+```bash
 Usage: modern test [options]
 
 Options:
   -h, --help  display help for command
 ```
-`modern test` 命令会自动将 `src/tests/*.test.(js|ts|jsx|tsx)` 文件当做测试用例运行。
 
+`modern test` 命令会自动将 `src/tests/*.test.(js|ts|jsx|tsx)` 文件当做测试用例运行。
 
 ## `modern lint`
 
-``` bash
+```bash
 Usage: modern lint [options] [...files]
 
 lint and fix source files
@@ -104,7 +108,7 @@ Options:
 
 ## `modern change`
 
-``` bash
+```bash
 Usage: modern change [options]
 
 创建变更集
@@ -119,7 +123,7 @@ Options:
 
 ## `modern pre`
 
-``` bash
+```bash
 Usage: modern pre [options] <enter|exit> [tag]
 
 进入和退出预发布模式
@@ -132,7 +136,7 @@ Options:
 
 ## `modern bump`
 
-``` bash
+```bash
 Usage: modern bump [options]
 
 使用变更集自动更新发布版本和变更日志
@@ -148,7 +152,7 @@ Options:
 
 ## `modern release`
 
-``` bash
+```bash
 Usage: modern release [options]
 
 发布 npm 包
@@ -166,7 +170,7 @@ Options:
 
 ## `modern gen-release-note`
 
-``` bash
+```bash
 Usage: modern gen-release-note [options]
 
 根据当前仓库 changeset 信息生成 Release Note
@@ -185,7 +189,7 @@ Options:
 
 ## `modern upgrade`
 
-``` bash
+```bash
 Usage: modern upgrade [options]
 
 升级 Modern.js 到最新版本

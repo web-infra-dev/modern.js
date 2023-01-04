@@ -10,16 +10,6 @@ Returns the React components of all micro-front-end sub-applications for freely 
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 ```
 
-:::info Turn on
-This API is used in the main application of micro frontend, please execute `pnpm run new` to turn on the micro frontend function first.
-
-```bash
-pnpm run new
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
-```
-:::
-
 ## Function Signature
 
 `function useModuleApps(): Record<string, React.FC<any>>`
@@ -30,30 +20,13 @@ Returns the React components wrapped around each subapp.
 
 You need to configure the micro-front-end sub-application information first.
 
-```ts title=modern.config.js
-module.exports = {
-  runtime: {
-    features:{
-      masterApp: {
-        apps: [
-          {
-            name: 'Home',
-            entry: 'http://www.home.com'
-          },
-          {
-            name: 'Contact',
-            entry: 'http://www.contact.com'
-          },
-        ]
-      }
-    }
-  }
-}
-```
+import EnableMicroFrontend from '@site-docs-en/components/enable-micro-frontend.md';
+
+<EnableMicroFrontend />
 
 ```tsx title=App.tsx
 function App() {
-  const { Components: { Home, Contact } } = useModuleApps();
+  const { Home, Contact } = useModuleApps();
 
   return <div>
     Master APP
@@ -65,10 +38,68 @@ function App() {
     </Route>
   </div>;
 }
+
+defineConfig(App, {
+  masterApp: {
+    apps: [
+      {
+        // name 区分大小写，name 提供的是什么 useModuleApps 返回的就是什么
+        name: "Home",
+        entry: "http://127.0.0.1:8081/"
+      },
+      {
+          name: "Contact",
+          entry: "http://localhost:8082"
+      }
+    ]
+  }
+})
 ```
 
 Get the `Home` and `Contact` sub-application components(the same as name in the config) through `useModuleApps()`. After that, you can load the child application just like a normal React component.
 
+
+### Centralized Routing
+
+**Centralized Routing** is a way to centrally configure the activation routes of sub-applications. 我add `activeWhen` config to enable **Centralized Routing**。
+
+import MicroRuntimeConfig from '@site-docs-en/components/micro-runtime-config.md';
+
+<MicroRuntimeConfig />
+
+Then use the `useModuleApp` method to get the `MApp` component in the main application, and render the `MApp` in the main application.
+
+```tsx title=main: App.tsx
+import { useModuleApp } from '@modern-js/plugin-runtime';
+
+function App() {
+  const { MApp } = useModuleApps();
+
+  return <div>
+    <MApp />
+  </div>
+}
+
+defineConfig(App, {
+  masterApp: {
+    apps: [
+      {
+        // name is case sensitive, what name provides is what useModuleApps returns
+        name: "Dashboard",
+        activeWhen: '/dashboard',
+        entry: "http://127.0.0.1:8081/"
+      },
+      {
+        name: "TableList",
+        activeWhen: '/table',
+        entry: "http://localhost:8082"
+      }
+    ]
+  }
+})
+```
+
+After starting the application in this way, accessing the `/dashboard` route will render the `Dashboard`, and accessing the `/table` route will render the `TableList`.
 
 ## Load Animation
 
