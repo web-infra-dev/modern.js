@@ -85,12 +85,6 @@ export class HtmlTagsPlugin {
     };
   }
 
-  sortTags(tag: HtmlInjectTag) {
-    const head = tag.head ?? HEAD_TAGS.includes(tag.tag);
-    const append = tag.append ?? this.ctx.append;
-    return (head ? -2 : 2) + (append ?? 0 ? 1 : -1);
-  }
-
   apply(compiler: Compiler) {
     compiler.hooks.compilation.tap(this.name, compilation => {
       const compilationHash = compilation.hash || '';
