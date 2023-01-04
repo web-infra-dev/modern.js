@@ -1,10 +1,14 @@
+---
+sidebar_position: 3
+---
+
 # 修改输出产物
 
 ## 默认输出产物
 
 当在初始化的项目里使用 `modern build` 命令的时候，会根据 Module Tools 默认支持的配置生成相应的产物。默认支持的配置具体如下：
 
-``` typescript
+```typescript
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -20,8 +24,9 @@ export default defineConfig({
 - 产物输出根目录为项目下的 `dist` 目录，类型文件输出的目录为 `dist/types`。
 
 :::tip
+
 1. 所谓“代码语法支持到 ES6”的意思是指：产物代码所支持的语法不会超过 `ES6`。如果源码中使用语法是 `ES6` 以上的语法（例如 `ES2017`），则会被进行转换。
-:::
+   :::
 
 看到这里你可能会有以下疑问：
 
@@ -56,8 +61,8 @@ export default defineConfig({
 
 例如，如果使用预设函数的形式达到预设字符串 `"npm-library-es2017"` 同样的效果，可以按照如下的方式：
 
-``` typescript
-import { defineConfig } from "@modern-js/module-tools";
+```typescript
+import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   buildPreset({ preset }) {
@@ -69,6 +74,7 @@ export default defineConfig({
 ```
 
 在上面的代码实现中，`preset.NPM_LIBRARY` 与预设字符串 `"npm-library"` 是相对应的，它代表着 `"npm-library"` 等价的多组构建相关的配置。我们通过 `map` 方法遍历了 `NPM_LIBRARY` 这个数组，在这个数组中包含了多个 `buildConfig` 对象。我们将原本的 `buildConfig` 对象进行了浅拷贝并修改了浅拷贝后得到 `buildConfig.target`，将它指定为 `es2017`。
+
 > 关于 `preset.NPM_LIBRARY` 具体对应的值，可以通过 [BuildPreset API](/zh/api/build-config) 查看。在 `preset` 对象下不仅包含了 `NPM_LIBRARY`，还包含了其他类似的常量。
 
 那么这里的 `buildConfig` 对象是什么呢？之前提到的构建产物特点又是根据什么呢？
@@ -77,7 +83,7 @@ export default defineConfig({
 
 ## 构建配置（对象）
 
-**`buildConfig` 是一个用来描述如何编译、生成构建产物的配置对象**。在最开始提到的关于“*构建产物的特点*”，其实都是 `buildConfig` 所支持的属性。目前所支持的属性覆盖了大部分模块类型项目在构建产物时的需求，`buildConfig` 不仅包含一些产物所具备的属性，也包含了构建产物所需要的一些特性功能。接下来从分类的角度简单罗列一下：
+**`buildConfig` 是一个用来描述如何编译、生成构建产物的配置对象**。在最开始提到的关于“_构建产物的特点_”，其实都是 `buildConfig` 所支持的属性。目前所支持的属性覆盖了大部分模块类型项目在构建产物时的需求，`buildConfig` 不仅包含一些产物所具备的属性，也包含了构建产物所需要的一些特性功能。接下来从分类的角度简单罗列一下：
 
 **构建产物的基本属性包括：**
 
@@ -95,8 +101,8 @@ export default defineConfig({
 - 别名：对应的 API 是 [`buildConfig.alias`](/zh/api/build-config#alias)。
 - 静态资源处理：对应的 API 是 [`buildConfig.asset`](/zh/api/build-config#asset)。
 - 第三方依赖处理：对应的 API 有：
-  * [`buildConfig.autoExternal`](/zh/api/build-config#autoexternal)。
-  * [`buildConfig.externals`](/zh/api/build-config#externals)。
+  - [`buildConfig.autoExternal`](/zh/api/build-config#autoexternal)。
+  - [`buildConfig.externals`](/zh/api/build-config#externals)。
 - 拷贝：对应的 API 是 [`buildConfig.copy`](/zh/api/build-config#copy)。
 - 全局变量替换：对应的 API 是 [`buildConfig.define`](/zh/api/build-config#define)。
 - 指定 [JSX](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) 编译方式，对应的 API 是 [`buildConfig.jsx`](/zh/api/build-config#jsx)。
@@ -107,24 +113,25 @@ export default defineConfig({
 - 代码分割：[`buildConfig.spitting`](/zh/api/build-config#splitting)
 - 指定构建产物用于 NodeJS 环境还是浏览器环境：对应的 API 是 [`buildConfig.platform`](/zh/api/build-config#platform)。
 - umd 产物相关：
-  * 指定 umd 产物外部导入的全局变量：对应的 API 是 [`buildConfig.umdGlobals`](/zh/api/build-config#umdglobals)。
-  * 指定 umd 产物的模块名：对应的 API 是 [`buildConfig.umdModuleName`](/zh/api/build-config#umdmodulename)。
+  - 指定 umd 产物外部导入的全局变量：对应的 API 是 [`buildConfig.umdGlobals`](/zh/api/build-config#umdglobals)。
+  - 指定 umd 产物的模块名：对应的 API 是 [`buildConfig.umdModuleName`](/zh/api/build-config#umdmodulename)。
 
 除了以上分类以外，关于这些 API 的常见问题和最佳实践可以通过下面的链接来了解，敬请期待。
-* [什么是 `bundle` 和 `bundleless`?](/zh/guide/advance/in-depth-about-build#bundle-和-bundleless)
-* [`input` 与 `sourceDir` 的关系](/zh/guide/advance/in-depth-about-build#input-与-sourcedir-的关系)。
-* [产物中类型文件的多种生成方式](/zh/guide/advance/in-depth-about-build#类型文件)。
-* [`buildConfig.define` 不同场景的使用方式。](/zh/guide/advance/in-depth-about-build#buildconfigdefine-不同场景的使用方式)
-* [如何处理第三方依赖？](/zh/guide/advance/external-dependency)
-* [如何使用拷贝？](/zh/guide/advance/copy)
-* [如何构建 umd 产物？](/zh/guide/advance/build-umd#设置项目的全局变量名称)
-* [静态资源目前所支持的能力。](/zh/guide/advance/asset)
+
+- [什么是 `bundle` 和 `bundleless`?](/zh/guide/advance/in-depth-about-build#bundle-和-bundleless)
+- [`input` 与 `sourceDir` 的关系](/zh/guide/advance/in-depth-about-build#input-与-sourcedir-的关系)。
+- [产物中类型文件的多种生成方式](/zh/guide/advance/in-depth-about-build#类型文件)。
+- [`buildConfig.define` 不同场景的使用方式。](/zh/guide/advance/in-depth-about-build#buildconfigdefine-不同场景的使用方式)
+- [如何处理第三方依赖？](/zh/guide/advance/external-dependency)
+- [如何使用拷贝？](/zh/guide/advance/copy)
+- [如何构建 umd 产物？](/zh/guide/advance/build-umd#设置项目的全局变量名称)
+- [静态资源目前所支持的能力。](/zh/guide/advance/asset)
 
 ## 什么时候使用 `buildConfig`
 
 `buildConfig` 是用于修改产物的方式之一，**当与 `buildPreset` 配置同时存在的时候，只有 `buildConfig` 才会生效**。因此如果按照如下方式配置：
 
-``` typescript
+```typescript
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -135,10 +142,10 @@ export default defineConfig({
 
 那么此时就会看到如下提示：
 
-``` bash
+```bash
 因为同时出现 'buildConfig' 和 'buildPreset' 配置，因此仅 'buildConfig' 配置生效
 ```
 
 `buildPreset` 代表的一组或者多组构建相关的配置都是由 `buildConfig` 组成，**当使用 `buildPreset` 无法满足当前项目需求的时候，就可以使用 `buildConfig` 来自定义输出产物**。
 
-在使用 `buildConfig` 的过程，就是对“*获得怎样的构建产物*”的思考过程。
+在使用 `buildConfig` 的过程，就是对“_获得怎样的构建产物_”的思考过程。

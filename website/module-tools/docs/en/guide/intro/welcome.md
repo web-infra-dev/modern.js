@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # Welcome to Module Tools
 
 Module Tools is a modules engineering solution for Modern.js, as well as a core dependency. It allows developers to build, debug, and publish module type project more easily. A module type project can mostly be thought of as an npm package type project, which may be a component, component library or tool library project.

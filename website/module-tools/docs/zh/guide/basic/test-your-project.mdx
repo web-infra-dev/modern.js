@@ -1,3 +1,7 @@
+---
+sidebar_position: 6
+---
+
 # 测试项目
 
 本章将要介绍如何测试可复用模块。
@@ -6,20 +10,19 @@
 
 想要使用项目的测试功能，需要确保项目中包含以下依赖：
 
-* `"@modern-js/plugin-testing"`
+- `"@modern-js/plugin-testing"`
 
 在模块工程方案中，对于测试用例或者说编写测试的文件有如下约定：
 
-* 项目目录下的 `tests` 目录为测试用例和测试文件的目录，**不支持更改运行测试用例的目录**。
-* 默认会自动将后缀为 `.test.[tj]sx?` 的文件识别为测试文件。
-* 其他的 `.[tj]sx?` 后缀的文件被识别为普通的文件，可以用于测试的 `utils` 文件或者其他用途。
-
+- 项目目录下的 `tests` 目录为测试用例和测试文件的目录，**不支持更改运行测试用例的目录**。
+- 默认会自动将后缀为 `.test.[tj]sx?` 的文件识别为测试文件。
+- 其他的 `.[tj]sx?` 后缀的文件被识别为普通的文件，可以用于测试的 `utils` 文件或者其他用途。
 
 ## 运行测试
 
 当准备好了依赖以及了解了测试用例在哪里编写后，我们可以通过以下命令来执行测试：
 
-``` bash
+```bash
 modern test
 
 // 更新 snapshot
@@ -28,13 +31,14 @@ modern test --updateSnapshot
 
 执行之后，会看到测试的结果：
 
-![test-result](/test-result.png)
+![test-result](https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/test-result.png)
 
 ## 使用配置
 
+/obj/eden-cn/uhbfnupenuhf/test-result.png
 模块工程方案对测试提供了以下配置：
 
-* [`testing`](/zh/api/config-test)
+- [`testing`](/zh/api/config-test)
 
 可以在 `modern.config.(j|t)s` 中增加它。
 
@@ -46,7 +50,7 @@ modern test --updateSnapshot
 
 <CH.Spotlight>
 
-``` typescript ./src/index.ts
+```typescript ./src/index.ts
 export default function () {
   return 'hello world';
 }
@@ -56,7 +60,7 @@ export default function () {
 
 首先是模块的代码。
 
-``` typescript ./src/index.ts
+```typescript ./src/index.ts
 export default function () {
   return 'hello world';
 }
@@ -68,7 +72,7 @@ export default function () {
 
 其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 中定义了。
 
-``` typescript ./tests/index.test.ts
+```typescript ./tests/index.test.ts
 import main from '@/index';
 
 describe('默认值 cases', () => {
@@ -84,7 +88,7 @@ describe('默认值 cases', () => {
 
 最后我们可以执行 `modern test`。
 
-``` bash
+```bash
 pnpm test
 ## or
 yarn test
@@ -104,7 +108,7 @@ npm run test
 
 <CH.Spotlight>
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 export const default () {
   return (
     <div>This is a UI Component</div>
@@ -116,7 +120,7 @@ export const default () {
 
 首先是组件的代码。
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 export const default () {
   return (
     <div>This is a UI Component</div>
@@ -130,7 +134,7 @@ export const default () {
 
 其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 中定义了。
 
-``` tsx ./tests/index.test.tsx
+```tsx ./tests/index.test.tsx
 import { render, screen } from '@modern-js/runtime/testing';
 
 import Component from '@/index';
@@ -147,7 +151,7 @@ describe('默认值 cases', () => {
 
 最后我们可以执行 `modern test`。
 
-``` bash
+```bash
 pnpm test
 ## or
 yarn test

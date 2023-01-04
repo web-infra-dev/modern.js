@@ -1,18 +1,22 @@
+---
+sidebar_position: 5
+---
+
 # 构建 umd 产物
 
 umd 全称为 **Universal Module Definition**，这种格式的 JS 文件可以运行在多个运行环境：
 
-* 浏览器环境：基于 AMD 规范进行模块加载
-* Node.js 环境：基于 CommonJS 进行模块加载
-* 其他情况：将模块挂载在全局对象上。
+- 浏览器环境：基于 AMD 规范进行模块加载
+- Node.js 环境：基于 CommonJS 进行模块加载
+- 其他情况：将模块挂载在全局对象上。
 
 因此我们可以通过下面的方式，将项目的构建产物指定为 umd 产物：
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     format: 'umd',
-  }
+  },
 });
 ```
 
@@ -49,13 +53,13 @@ export default defineConfig({
 
 `modern.config.ts` 配置。
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     format: 'umd',
     autoExternal: false,
     externals: ['react'],
-  }
+  },
 });
 ```
 
@@ -63,8 +67,8 @@ export default defineConfig({
 
 当源码中使用了 `react` 依赖。
 
-``` tsx src/index.ts
-import React from "react";
+```tsx src/index.ts
+import React from 'react';
 console.info(React);
 ```
 
@@ -72,26 +76,30 @@ console.info(React);
 
 此时产物中不会将 `react` 代码打包到产物中。
 
-``` js dist/index.js focus=1:7
-(function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("react"));
-    else if (typeof define === "function" && define.amd) define([
-        "exports",
-        "react"
-    ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.index = {}, global.react);
-})(this, function(exports, _react) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    _react = /*#__PURE__*/ _interopRequireDefault(_react);
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
+```js dist/index.js focus=1:7
+(function (global, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object')
+    factory(exports, require('react'));
+  else if (typeof define === 'function' && define.amd)
+    define(['exports', 'react'], factory);
+  else if (
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self)
+  )
+    factory((global.index = {}), global.react);
+})(this, function (exports, _react) {
+  'use strict';
+  Object.defineProperty(exports, '__esModule', {
+    value: true,
+  });
+  _react = /*#__PURE__*/ _interopRequireDefault(_react);
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule
+      ? obj
+      : {
+          default: obj,
         };
-    }
-    console.info(_react.default);
+  }
+  console.info(_react.default);
 });
 ```
 
@@ -99,13 +107,12 @@ console.info(React);
 
 通过上面的例子我们知道，当使用 `autoExternal` 和 `externals` API 后：
 
-* 在 Node.js 环境下，可以通过 `require('react')` 获取 react 依赖。
-* 在 浏览器环境下，可以通过 `global.react` 获取 react 依赖。
+- 在 Node.js 环境下，可以通过 `require('react')` 获取 react 依赖。
+- 在 浏览器环境下，可以通过 `global.react` 获取 react 依赖。
 
 然而在浏览器环境下，获取第三方依赖的时候，**全局变量名称不一定与依赖名称完全相同**，此时就要使用 [`buildConfig.umdGlobals`](/zh/api/build-config#umdglobals) API。
 
 还是使用之前的例子，当 `react` 依赖以 `windows.React` 或者 `global.React` 全局变量的形式存在于浏览器环境下，那么此时：
-
 
 <CH.Spotlight>
 
@@ -133,14 +140,14 @@ console.info(React);
 
 `modern.config.ts` 配置。
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     format: 'umd',
     umdGlobals: {
       react: 'React',
     },
-  }
+  },
 });
 ```
 
@@ -148,8 +155,8 @@ export default defineConfig({
 
 当源码中使用了 `react` 依赖。
 
-``` tsx src/index.ts
-import React from "react";
+```tsx src/index.ts
+import React from 'react';
 console.info(React);
 ```
 
@@ -157,22 +164,26 @@ console.info(React);
 
 此时我们会看到这样的产物代码。
 
-``` js dist/index.js focus=7:12
-(function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory();
-    else if (typeof define === "function" && define.amd) define([], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory();
-})(this, function() {
-    // ...
-    // libuild:globals:react
-    var require_react = __commonJS({
-        "libuild:globals:react" (exports, module1) {
-            module1.exports = Function("return this")()["React"];
-        }
-    });
-    // src/index.ts
-    var import_react = __toESM(require_react());
-    console.info(import_react.default);
+```js dist/index.js focus=7:12
+(function (global, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object')
+    factory();
+  else if (typeof define === 'function' && define.amd) define([], factory);
+  else if (
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self)
+  )
+    factory();
+})(this, function () {
+  // ...
+  // libuild:globals:react
+  var require_react = __commonJS({
+    'libuild:globals:react'(exports, module1) {
+      module1.exports = Function('return this')()['React'];
+    },
+  });
+  // src/index.ts
+  var import_react = __toESM(require_react());
+  console.info(import_react.default);
 });
 ```
 
@@ -184,22 +195,25 @@ console.info(React);
 
 当我们将下面的代码打包成 umd 产物并运行在浏览器的时候，我们可以通过 `window.index` 来使用该模块。
 
-``` ts ./src/index.ts
+```ts ./src/index.ts
 export default () => {
   console.info('hello world');
-}
+};
 ```
 
 **默认情况下，以源码文件名称作为该模块在浏览器里全局变量的名称**。对于上面的例子，其产物内容如下：
 
-``` js ./dist/index.js focus=6:6
-(function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports);
-    else if (typeof define === "function" && define.amd) define([
-        "exports"
-    ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.index = {});
-})(this, function(exports) {
+```js ./dist/index.js focus=6:6
+(function (global, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object')
+    factory(exports);
+  else if (typeof define === 'function' && define.amd)
+    define(['exports'], factory);
+  else if (
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self)
+  )
+    factory((global.index = {}));
+})(this, function (exports) {
   //...
 });
 ```
@@ -208,25 +222,28 @@ export default () => {
 
 当使用该 API 后：
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     format: 'umd',
     umdModuleName: 'myLib',
-  }
+  },
 });
 ```
 
 此时构建产物的内容为：
 
-``` js ./dist/index.js focus=6:6
-(function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports);
-    else if (typeof define === "function" && define.amd) define([
-        "exports"
-    ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.myLib = {});
-})(this, function(exports) {
+```js ./dist/index.js focus=6:6
+(function (global, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object')
+    factory(exports);
+  else if (typeof define === 'function' && define.amd)
+    define(['exports'], factory);
+  else if (
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self)
+  )
+    factory((global.myLib = {}));
+})(this, function (exports) {
   //...
 });
 ```
