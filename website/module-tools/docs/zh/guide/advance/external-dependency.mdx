@@ -1,11 +1,15 @@
+---
+sidebar_position: 4
+---
+
 # 如何处理第三方依赖
 
 一般来说，项目所需要的第三方依赖可以通过包管理器的 `install` 命令安装，在安装第三方依赖成功后，这些第三方依赖一般会出现在项目 `package.json` 的 `dependencies` 和 `devDependencies` 下。
 
-``` json pacakge.json
+```json pacakge.json
 {
-    "dependencies": {},
-    "devDependencies": {}
+  "dependencies": {},
+  "devDependencies": {}
 }
 ```
 
@@ -21,13 +25,13 @@
 
 ```json ./v1/package.json
 {
-    "dependencies": {
-        "react": "^17"
-    },
-    // or
-    "peerDependencies": {
-        "react": "^17"
-    }
+  "dependencies": {
+    "react": "^17"
+  },
+  // or
+  "peerDependencies": {
+    "react": "^17"
+  }
 }
 ```
 
@@ -42,7 +46,7 @@
   },
   // or
   "peerDependencies": {
-      "react": "^17"
+    "react": "^17"
   }
 }
 ```
@@ -51,8 +55,8 @@
 
 当源码中使用了 `react` 依赖。
 
-``` tsx src/index.ts
-import React from "react";
+```tsx src/index.ts
+import React from 'react';
 console.info(React);
 ```
 
@@ -60,8 +64,8 @@ console.info(React);
 
 此时产物中不会将 `react` 代码打包到产物中。
 
-``` js dist/index.js
-import React from "react";
+```js dist/index.js
+import React from 'react';
 console.info(React);
 ```
 
@@ -77,45 +81,45 @@ console.info(React);
 
 在构建配置中提供了以下 API 来处理第三方依赖：
 
-* [`buildConfig.autoExternal`](/zh/api/build-config#autoexternal)
-* [`buildConfig.externals`](/zh/api/build-config#externals)
+- [`buildConfig.autoExternal`](/zh/api/build-config#autoexternal)
+- [`buildConfig.externals`](/zh/api/build-config#externals)
 
 ### 关闭默认行为
 
 当我们希望关闭对于第三方依赖的默认处理行为时候，可以通过以下方式来实现：
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     autoExternal: false,
-  }
+  },
 });
 ```
 
 这样对于 `"dependencies"` 和 `"peerDependencies"` 下面的依赖都会进行打包处理。如果只想要关闭其中某个下面的依赖处理，则可以使用
 `buildConfig.autoExternal` 的对象形式：
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     autoExternal: {
       dependencies: false,
       peerDependencies: false,
     },
-  }
+  },
 });
 ```
 
 ### 排除指定第三方依赖
 
-而除了 `buildConfig.autoExternal` API以外，`buildConfig.externals` 也可以控制哪些第三方依赖要进行处理。我们可以组合这两个
+而除了 `buildConfig.autoExternal` API 以外，`buildConfig.externals` 也可以控制哪些第三方依赖要进行处理。我们可以组合这两个
 API 对项目的依赖进行更细微的处理。
 
 例如当我们需要仅对某些依赖不进行打包处理的时候，可以按照如下方式进行配置：
 
 > 一般这种情况，可能是某些依赖不适合进行打包处理。如果遇到这种情况，则可以按照下面的方式进行处理。
 
-``` ts
+```ts
 epxort default defineConfig({
   buildConfig: {
     autoExternal: false,

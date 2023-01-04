@@ -5,13 +5,10 @@ hero:
   name: Module tools
   text: 模块工程解决方案
   tagline: 简单、强大、高性能的现代化npm包开发方案
-  image:
-    src: /island.png
-    alt: Island
   actions:
     - theme: brand
       text: 快速开始
-      link: /zh/guide/getting-started
+      link: /guide/getting-started
 
 features:
   - title: 'Libuild: 现代库构建方案'
@@ -33,3 +30,4 @@ features:
     details: 通过其插件扩展机制，你可以轻松的扩展Module tools的各项能力。
     icon: 🎨
 ---
+# index

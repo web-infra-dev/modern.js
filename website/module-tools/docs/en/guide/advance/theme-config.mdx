@@ -1,3 +1,7 @@
+---
+sidebar_position: 7
+---
+
 # Theme Configuration
 
 The module project provides the ability to configure themes through the [`designSystem`](/en/api/design-system) API.
@@ -8,11 +12,10 @@ Theme configuration is somewhat similar to the custom theme functionality in the
 
 The so-called `designToken` corresponds to different things in different style development environments.
 
-* tailwindcss: use `designSystem` as the `theme` configuration for tailwindcss. So you can use.
-  + The name of the HTML class supported by tailwindcss.
-  + `@apply` custom directive under css/less/sass to use a string with the same name as the HTML class name supported by tailwindcss.
-* css/less/scss: Generate global style variables via `designSystem`.
-
+- tailwindcss: use `designSystem` as the `theme` configuration for tailwindcss. So you can use.
+  - The name of the HTML class supported by tailwindcss.
+  - `@apply` custom directive under css/less/sass to use a string with the same name as the HTML class name supported by tailwindcss.
+- css/less/scss: Generate global style variables via `designSystem`.
 
 The data structure of the `designSystem` API is borrowed from the [theme API](https://tailwindcss.com/docs/theme) in the `tailwindcss` configuration object, so a default set of `designToken` exists. For the default values, see the [`designSystem` API](/zh/api/design-system).
 
@@ -28,12 +31,12 @@ When using tailwindcss, its [`theme`](https://v2.tailwindcss.com/docs/theme#exte
 
 For example, the following configuration extends the original color configuration:
 
-``` ts ./modern.config.ts
+```ts ./modern.config.ts
 export default {
   designSystem: {
     extend: {
       colors: {
-        primary: '#1677ff'
+        primary: '#1677ff',
       },
     },
   },
@@ -44,14 +47,12 @@ We can have two ways of using tailwindcss in our code.
 
 #### HTML Class
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 import 'tailwindcss/utilities.css';
 
 export default () => {
-  return (
-    <div className="bg-primary"></div>
-  );
-}
+  return <div className="bg-primary"></div>;
+};
 ```
 
 #### `@apply` Directives
@@ -62,17 +63,15 @@ About [`@apply`](https://tailwindcss.com/docs/functions-and-directives#apply)。
 
 <CH.Code>
 
-``` tsx ./src/index.tsx
+```tsx ./src/index.tsx
 import './index.css';
 
 export default () => {
-  return (
-    <div className="btn-primary"></div>
-  );
-}
+  return <div className="btn-primary"></div>;
+};
 ```
 
-``` css ./src/index.css
+```css ./src/index.css
 .btn-primary {
   @apply bg-primary;
 }
