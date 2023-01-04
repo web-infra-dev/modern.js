@@ -1,5 +1,33 @@
 # @modern-js/utils
 
+## 2.0.0
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Minor Changes
+
+- edd1cfb1af: feat: modernjs Access builder compiler
+  feat: modernjs 接入 builder 构建
+- bbe4c4ab64: feat: add @modern-js/plugin-swc
+
+  feat: 新增 @modern-js/plugin-swc 插件
+
+### Patch Changes
+
+- ffb2ed4: feat:
+
+  1. change storybook runtime logic
+  2. export runtime api define from runtime module
+  3. refactor defineConfig in module-tools
+
+  feat:
+
+  1. 更改 Storybook 对于 Runtime API 的处理逻辑
+  2. 从 @modern-js/runtime 导出 Runtime API 的用户配置
+  3. 重构 module-tools 的 defineConfig
+
 ## 2.0.0-beta.7
 
 ### Major Changes

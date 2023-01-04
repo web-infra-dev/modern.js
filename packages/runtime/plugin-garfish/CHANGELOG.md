@@ -1,5 +1,27 @@
 # @modern-js/plugin-garfish
 
+## 2.0.0
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 6bc7763: fix(plugin-garfish): 修复 assetPrefix 用户配置被 plugin-garfish 覆盖问题,自定义入口未正确传递节点参数
+  fix(plugin-garfish): Fix the problem that the assetPrefix user configuration is overwritten by plugin-garfish, and the custom entry does not pass the node parameters correctly
+- 81b54f9: fix: garfish wrapped app missing props
+  fix: garfish 包装过的 APP 缺少 props
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [6bda14ed71]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [ffb2ed4]
+- Updated dependencies [bbe4c4ab64]
+  - @modern-js/runtime@2.0.0
+  - @modern-js/utils@2.0.0
+
 ## 2.0.0-beta.7
 
 ### Major Changes
