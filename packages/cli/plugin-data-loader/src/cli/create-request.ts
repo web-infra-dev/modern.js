@@ -4,6 +4,7 @@
 /* eslint-disable node/no-unsupported-features/node-builtins */
 import { compile } from 'path-to-regexp';
 import { redirect } from 'react-router-dom';
+import { LOADER_ID_PARAM, DIRECT_PARAM } from '../common/constants';
 
 export const getRequestUrl = ({
   params,
@@ -20,7 +21,8 @@ export const getRequestUrl = ({
   });
   const newPathName = toPath(params);
   url.pathname = newPathName;
-  url.searchParams.append('_loader', routeId);
+  url.searchParams.append(LOADER_ID_PARAM, routeId);
+  url.searchParams.append(DIRECT_PARAM, 'true');
   return url;
 };
 
