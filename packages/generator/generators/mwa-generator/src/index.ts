@@ -158,6 +158,7 @@ export const handleTemplateFile = async (
             'devDependencies.@types/jest': '~29.2.4',
             'devDependencies.@types/node': '~16.11.7',
             'devDependencies.@types/react': '~18.0.26',
+            'devDependencies.@types/react-dom': '~18.0.10',
           },
         },
       },
