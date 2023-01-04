@@ -8,7 +8,7 @@ interface Manifest {
 
 ### getAppList?
 
-通过 `getAppList` 配置，可以自定义如何获取远程列表数据
+Through the `getAppList` configuration, you can customize how to get remote list data
 
 ```ts
 type GetAppList = ()=> Promise<Array<AppInfo>>;
