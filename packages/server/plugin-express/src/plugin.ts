@@ -136,7 +136,7 @@ export default (): ServerPlugin => ({
 
     prepareWebServer({ config }, next) {
       const userConfig = api.useConfigContext();
-      if (userConfig?.server?.disableFrameworkExt) {
+      if (!userConfig?.server?.enableFrameworkExt) {
         return next();
       }
 

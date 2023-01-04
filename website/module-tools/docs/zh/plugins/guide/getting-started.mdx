@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # 快速开始
 
 模块工程解决方案不仅提供了丰富的功能，同时也支持通过插件的方式为当前项目扩展能力。
@@ -9,22 +13,24 @@
 ```md ./project
 ./
 ├── plugins
-│   └── example.ts
+│ └── example.ts
 ├── src/
 └── modern.config.ts
 ```
+
 ---
 
 首先我们在初始化的项目下创建 `./plugins/example.ts` 文件。
 
 ```md ./project
+
 ```
 
 ---
 
 接着在 `example.ts` 文件中增加插件的代码。
 
-``` ts
+```ts
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
 export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
@@ -42,11 +48,12 @@ export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
   };
 };
 ```
+
 ---
 
 然后我们通过 [`plugins`](/zh/api/plugins) API，将刚刚写好的插件进行注册。
 
-``` ts ./modern.config.ts
+```ts ./modern.config.ts
 import { ExamplePlugin } from './plugins/example';
 export default defineConfig({
   plugins: [ExamplePlugin()],
@@ -67,13 +74,11 @@ build over
 
 通过上面这个例子，我们了解到了下面几件事：
 
-* 推荐的插件目录结构
-* 插件的初始化代码
-* 插件的注册
+- 推荐的插件目录结构
+- 插件的初始化代码
+- 插件的注册
 
 除了以上内容以外，我们还需要了解：
 
-* [插件对象、类型定义与推荐配置项](/zh/plugins/guide/plugin-object)
-* [setup 函数、`api` 对象参数、生命周期钩子](/zh/plugins/guide/setup-function)
-
-
+- [插件对象、类型定义与推荐配置项](/zh/plugins/guide/plugin-object)
+- [setup 函数、`api` 对象参数、生命周期钩子](/zh/plugins/guide/setup-function)

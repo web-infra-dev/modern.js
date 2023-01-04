@@ -1,10 +1,15 @@
+---
+sidebar_position: 3
+---
+# modify-output-product
+
 ## Modify output product
 
 ## Default output products
 
 When the `modern build` command is used in an initialized project, the products are generated according to the default configuration supported by Module Tools. The default supported configurations are as follows.
 
-``` typescript
+```typescript
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -20,8 +25,9 @@ export default defineConfig({
 - The output root directory is the `dist` directory under the project, and the output directory for type files is `dist/types`.
 
 :::tip
+
 1. By "code syntax support up to ES6", we mean that the syntax supported by the product code will not exceed `ES6`. If the source code uses syntax above `ES6` (e.g. `ES2017`), it will be converted.
-:::
+   :::
 
 You may have the following questions when you see this:
 
@@ -56,7 +62,7 @@ For example, if the output product is based on the preset string `"npm-library"`
 
 For example, if the same effect as the preset string `"npm-library-es2017"` is achieved using the preset function form, it can be done as follows:
 
-``` typescript
+```typescript
 import { defineConfig } from "@modern-js/module-tools";
 
 export default defineConfig({
@@ -69,6 +75,7 @@ export default defineConfig({
 ```
 
 In the above code implementation, `preset.NPM_LIBRARY` corresponds to the preset string `"npm-library"`, which represents the `"npm-library"` equivalent of a multi-group build-related configuration. We traverse the `NPM_LIBRARY` array, which contains multiple `buildConfig` objects, with the `map` method. We make a shallow copy of the original `buildConfig` object and modify the shallow copy to get `buildConfig.target`, specifying it as `es2017`.
+
 > The specific value of `preset.NPM_LIBRARY` can be viewed via the [BuildPreset API](/en/api/build-config). The `preset` object contains not only `NPM_LIBRARY`, but also other similar constants.
 
 So what is the `buildConfig` object here? And what are the previously mentioned build product features based on?
@@ -77,7 +84,7 @@ We explain it next.
 
 ## Build configuration (object)
 
-**`buildConfig` is a configuration object that describes how to compile and generate build products**. What was mentioned at the beginning about "*features of build products*" are actually properties supported by `buildConfig`. The currently supported properties cover the needs of most module type projects when building products. `buildConfig` not only contains some of the properties that products have, but also some of the features needed to build products. The following is a brief list from a classification point of view:
+**`buildConfig` is a configuration object that describes how to compile and generate build products**. What was mentioned at the beginning about "_features of build products_" are actually properties supported by `buildConfig`. The currently supported properties cover the needs of most module type projects when building products. `buildConfig` not only contains some of the properties that products have, but also some of the features needed to build products. The following is a brief list from a classification point of view:
 
 **The basic attributes of a build product include:**
 
@@ -95,8 +102,8 @@ We explain it next.
 - Alias: The corresponding API is [`buildConfig.alias`](/en/api/build-config#alias).
 - Static resource handling: The corresponding API is [`buildConfig.asset`](/en/api/build-config#asset).
 - Third-party dependency handling: The corresponding APIs are
-  * [`buildConfig.autoExternal`](/en/api/build-config#autoexternal).
-  * [`buildConfig.externals`](/en/api/build-config#externals).
+  - [`buildConfig.autoExternal`](/en/api/build-config#autoexternal).
+  - [`buildConfig.externals`](/en/api/build-config#externals).
 - Copy: The corresponding API is [`buildConfig.copy`](/en/api/build-config#copy).
 - Global variable substitution: the corresponding API is [`buildConfig.define`](/en/api/build-config#define).
 - Specify [JSX](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) compilation method, the corresponding API is [`buildConfig.jsx`](/en/api/build-config#jsx).
@@ -107,25 +114,25 @@ We explain it next.
 - Code splitting: [`buildConfig.splitting`](/en/api/build-config#splitting)
 - Specify whether the build product is for the NodeJS environment or the browser environment: the corresponding API is [`buildConfig.platform`](/en/api/build-config#platform).
 - umd product-related.
-  * Specifies the global variables imported externally to the umd product: the corresponding API is [`buildConfig.umdGlobals`](/en/api/build-config#umdglobals).
-  * Specify the module name of the umd product: the corresponding API is [`buildConfig.umdModuleName`](/en/api/build-config#umdmodulename).
+  - Specifies the global variables imported externally to the umd product: the corresponding API is [`buildConfig.umdGlobals`](/en/api/build-config#umdglobals).
+  - Specify the module name of the umd product: the corresponding API is [`buildConfig.umdModuleName`](/en/api/build-config#umdmodulename).
 
 In addition to the above categories, frequently asked questions and best practices about these APIs can be found at the following links.
 
-* [What are `bundle` and `bundleless`?](/en/guide/advance/in-depth-about-build#bundle-and-bundleless)
-* [The relationship between `input` and `sourceDir`](/en/guide/advance/in-depth-about-build#relationship-between-input-and-sourcedir)
-* [The multiple ways of generating type files in products](/en/guide/advance/in-depth-about-build#declaration-type-files)
-* [The use of `buildConfig.define` for different scenarios.](/en/guide/advance/in-depth-about-build#buildconfigdefine-usage-for-different-scenarios)
-* [How to handle third-party dependencies?](/en/guide/advance/external-dependency)
-* [How to use copy?](/en/guide/advance/copy)
-* [How to build umd products?](/en/guide/advance/build-umd)
-* [The capabilities currently supported by static resources.](/en/guide/advance/asset)
+- [What are `bundle` and `bundleless`?](/en/guide/advance/in-depth-about-build#bundle-and-bundleless)
+- [The relationship between `input` and `sourceDir`](/en/guide/advance/in-depth-about-build#relationship-between-input-and-sourcedir)
+- [The multiple ways of generating type files in products](/en/guide/advance/in-depth-about-build#declaration-type-files)
+- [The use of `buildConfig.define` for different scenarios.](/en/guide/advance/in-depth-about-build#buildconfigdefine-usage-for-different-scenarios)
+- [How to handle third-party dependencies?](/en/guide/advance/external-dependency)
+- [How to use copy?](/en/guide/advance/copy)
+- [How to build umd products?](/en/guide/advance/build-umd)
+- [The capabilities currently supported by static resources.](/en/guide/advance/asset)
 
 ## When to use `buildConfig`
 
 `buildConfig` is one of the ways used to modify the product, **and only `buildConfig` will take effect when configured in conjunction with `buildPreset`**. So if configured as follows.
 
-``` typescript
+```typescript
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -136,10 +143,10 @@ export default defineConfig({
 
 Then at this point you will see the following prompt.
 
-``` bash
+```bash
 Since both 'buildConfig' and 'buildPreset' are present, only the 'buildConfig' configuration will take effect
 ```
 
 The set or sets of build-related configurations represented by `buildPreset` are composed of `buildConfig`, **which can be used to customize output products** when the current project needs cannot be met using `buildPreset`.
 
-The process of using `buildConfig` is the process of thinking about "*what kind of build product to get*".
+The process of using `buildConfig` is the process of thinking about "_what kind of build product to get_".

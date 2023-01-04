@@ -1,10 +1,14 @@
+---
+sidebar_position: 2
+---
+
 # Command Preview
 
 Commands available for module engineering projects.
 
 ## `modern build`
 
-``` bash
+```bash
 Usage: modern build [options]
 
 Build module command
@@ -34,7 +38,7 @@ When executing a Storybook build, it needs to read the project's build product. 
 
 ## `modern new`
 
-``` bash
+```bash
 Usage: modern new [options]
 
 Execute the generator in a modular project scenario
@@ -59,7 +63,7 @@ You can learn more about these features in the [Using the micro generator](/zh/g
 
 ## `modern dev`
 
-``` bash
+```bash
 Usage: modern dev [options]
 
 Local development commands
@@ -71,24 +75,24 @@ Commands:
 [dev-tools-subCommand]
 ```
 
-The module engineering solution provides the ability to use debugging tools, which can be started with the `modern dev` command. Note, however, that no debugging-related plugins are provided by default, so executing `modern dev` will prompt: *"No dev tools found available "*.
+The module engineering solution provides the ability to use debugging tools, which can be started with the `modern dev` command. Note, however, that no debugging-related plugins are provided by default, so executing `modern dev` will prompt: _"No dev tools found available "_.
 
 The officially supported debugging tool is [Storybook](https://storybook.js.org/), so you can run `modern dev` or `modern dev storybook` to execute it after you run `modern new` to enable it.
 
 ## `modern test`
 
-``` bash
+```bash
 Usage: modern test [options]
 
 Options:
   -h, --help display help for command
 ```
-The `modern test` command will automatically run the `src/tests/*.test.(js|ts|jsx|tsx)` file as a test case.
 
+The `modern test` command will automatically run the `src/tests/*.test.(js|ts|jsx|tsx)` file as a test case.
 
 ## `modern lint`
 
-``` bash
+```bash
 Usage: modern lint [options] [. .files]
 
 lint and fix source files
@@ -104,7 +108,7 @@ Run [ESLint](https://eslint.org/) to check the syntax of the code. Usually, we o
 
 ## `-modern change`
 
-``` bash
+```bash
 Usage: modern change [options]
 
 Create a changeset
@@ -119,7 +123,7 @@ The `modern change` command is used to generate the required Markdown file for [
 
 ## `modern pre`
 
-``` bash
+```bash
 Usage: modern pre [options] <enter|exit> [tag]
 
 Entering and exiting pre-publishing mode
@@ -132,7 +136,7 @@ You can use the `modern pre` command to [pre-release](https://github.com/atlassi
 
 ## `modern bump`
 
-``` bash
+```bash
 Usage: modern bump [options]
 
 Use changesets to automatically update releases and changelogs
@@ -148,7 +152,7 @@ Modify the version number in `package.json` according to the Markdown file of th
 
 ## `modern release`
 
-``` bash
+```bash
 Usage: modern release [options]
 
 Release npm packages
@@ -166,7 +170,7 @@ The `-modern release` command releases the module to the [npm Registry](https://
 
 ## `modern gen-release-note`
 
-``` bash
+```bash
 Usage: modern gen-release-note [options]
 
 Generate Release Note based on current repository changeset information
@@ -180,12 +184,12 @@ Options:
 Automatically generate [Release Note](https://en.wikipedia.org/wiki/Release_notes) based on the changeset information of the current repository.
 
 :::tip{title=Note}
-needs to be executed before the ``bump`` command.
+needs to be executed before the `bump` command.
 :::
 
 ## `modern upgrade`
 
-``` bash
+```bash
 Usage: modern upgrade [options]
 
 Upgrade Modern.js to the latest version

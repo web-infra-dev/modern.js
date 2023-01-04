@@ -1,8 +1,13 @@
+---
+sidebar_position: 4
+---
+
 # Plugins
 
 本章介绍注册 module-tools 插件的配置。
 
 - type：`Array<ModuleToolsPlugin>`
+
 ```js modern.config.ts
 import { ExamplePlugin } from './plugins/example';
 export default defineConfig({

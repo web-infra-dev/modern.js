@@ -44,3 +44,9 @@ export const NESTED_ROUTE = {
   ERROR_FILE: 'error',
   LOADER_FILE: 'loader',
 };
+
+export const APP_CONFIG_NAME = 'appConfig';
+
+export const APP_INIT_EXPORTED = 'init';
+
+export const APP_INIT_IMPORTED = 'appInit';

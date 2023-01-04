@@ -1,21 +1,39 @@
 import path from 'path';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
-import { normalizeHref, parseUrl } from '@/shared/utils';
+import { addLeadingSlash, normalizeHref, parseUrl } from '@/shared/utils';
 
 interface LinkNode {
   type: string;
   url?: string;
 }
 
+export function extractLangFromFilePath(filePath: string, root: string) {
+  const relativePath = path.relative(root, filePath);
+  const [lang] = relativePath.split(path.sep);
+  return lang;
+}
+
+export function normalizeLangPrefix(
+  rawUrl: string,
+  lang: string,
+  defaultLang: string,
+) {
+  const url = addLeadingSlash(rawUrl);
+  if (url.startsWith(`/${lang}/`) || lang === defaultLang) {
+    return url;
+  }
+  return `/${lang}${url}`;
+}
+
 /**
  * Remark plugin to normalize a link href
  */
 export const remarkPluginNormalizeLink: Plugin<
-  [{ base: string; defaultLang: string }]
+  [{ base: string; defaultLang: string; root: string }]
 > =
-  ({ base, defaultLang }) =>
-  tree => {
+  ({ base, defaultLang, root }) =>
+  (tree, file) => {
     visit(
       tree,
       (node: LinkNode) => node.type === 'link',
@@ -37,7 +55,9 @@ export const remarkPluginNormalizeLink: Plugin<
         if (hash) {
           url += `#${hash}`;
         }
-        url = normalizeHref(url).replace(new RegExp(`^/${defaultLang}`), '');
+        const lang = extractLangFromFilePath(file.path, root);
+
+        url = normalizeLangPrefix(normalizeHref(url), lang, defaultLang);
         node.url = path.join(base, url);
       },
     );

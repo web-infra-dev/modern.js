@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import * as path from 'path';
 import fs from 'fs';
 import request from 'supertest';
-import { serverManager } from '@modern-js/server-core';
+import { ConfigContext, serverManager } from '@modern-js/server-core';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
 import './common';
@@ -17,6 +17,7 @@ describe('webServer', () => {
   let runner: any;
 
   beforeAll(async () => {
+    ConfigContext.set({ server: { enableFrameworkExt: true } });
     runner = await serverManager.clone().usePlugin(APIPlugin, plugin).init();
   });
 

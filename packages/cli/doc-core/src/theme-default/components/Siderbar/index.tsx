@@ -86,7 +86,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
   const active = item.link && activeMatcher(item.link);
-  const { collapsed } = item as SidebarGroup;
+  const { collapsed, collapsible = true } = item as SidebarGroup;
   const collapsibleIcon = (
     <div
       cursor-pointer="~"
@@ -133,27 +133,32 @@ export function SidebarGroupComp(props: SidebarItemProps) {
           if (item.link) {
             navigate(normalizeHref(item.link));
           } else {
-            toggleCollapse(e);
+            collapsible && toggleCollapse(e);
           }
         }}
       >
         <h2 p="y-1 x-2" text="sm" font="semibold">
           {item.text}
         </h2>
-        <div
-          p="2"
-          className={styles.collapseContainer}
-          onClick={toggleCollapse}
-        >
-          {collapsibleIcon}
-        </div>
+        {collapsible && (
+          <div
+            p="2"
+            className={styles.collapseContainer}
+            onClick={toggleCollapse}
+          >
+            {collapsibleIcon}
+          </div>
+        )}
       </div>
       <div
         ref={containerRef}
         style={{
           transition: 'height 0.2s ease-in-out',
           overflow: 'hidden',
-          height: collapsed ? '0px' : `${getHeight(item) - singleItemHeight}px`,
+          height:
+            !collapsed || !collapsible
+              ? `${getHeight(item) - singleItemHeight}px`
+              : '0px',
         }}
       >
         {(item as SidebarGroup)?.items?.map((item, index) => (

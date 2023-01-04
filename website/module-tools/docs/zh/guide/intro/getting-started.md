@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # 快速开始
 
 ## 三分钟快速上手
@@ -21,15 +25,16 @@ npm install -D @modern-js/module-tools @modern-js/plugin-testing
 
 ```json
 {
-    "scripts": {
-        "build": "modern build"
-    }
+  "scripts": {
+    "build": "modern build"
+  }
 }
 ```
 
 如果你的项目存在 `src/index.(js|jsx)` 文件或者同时存在 `src/index.(ts|tsx)` 和 `tsconfig.json` 文件，那么恭喜你可以运行直接运行 `npm run build` 来使用 Module Tools 构建你的项目了。
 
 **如果你想要看看使用了模块工程方案的真实项目，可以执行以下命令**：
+
 ```bash
 git clone https://github.com/modern-js-dev/module-tools-examples
 cd module-tools-example
@@ -46,8 +51,8 @@ pnpm dev storybook
 ## 测试
 pnpm test
 ```
-> 上面的链接对应的内容待补充
 
+> 上面的链接对应的内容待补充
 
 **如果你想要创建一个完整的模块工程项目，可以执行以下命令：**
 
@@ -63,6 +68,7 @@ npx @modern-js/create your-project-dir-name
 ? 请选择开发语言 TS
 ? 请选择包管理工具 pnpm
 ```
+
 > 项目名称为 `package.json` 中的 `"name"` 字段值。
 
 接着就会开始初始化项目的流程。在项目目录和文件生成以及依赖安装完毕后，此时就创建了一个完整的模块工程项目。

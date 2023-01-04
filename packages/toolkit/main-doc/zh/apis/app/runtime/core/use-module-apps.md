@@ -19,6 +19,7 @@ import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 ## 示例
 
 需要先配置微前端子应用信息。
+
 import EnableMicroFrontend from '@site-docs/components/enable-micro-frontend.md';
 
 <EnableMicroFrontend />
@@ -63,6 +64,7 @@ defineConfig(App, {
 
 **集中式路由** 是将子应用的激活路由集中配置的方式。我们给子应用列表信息添加 `activeWhen` 字段来启用 **集中式路由**。
 
+import MicroRuntimeConfig from '@site-docs/components/micro-runtime-config.md';
 
 <MicroRuntimeConfig />
 
