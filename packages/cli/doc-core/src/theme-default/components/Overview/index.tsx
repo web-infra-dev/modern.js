@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Header, SidebarGroup, SidebarItem } from 'shared/types';
+import { Header, NormalizedSidebarGroup, SidebarItem } from 'shared/types';
 import { useSidebarData } from '../../logic';
 import { Link } from '../Link';
 import { isEqualPath } from '../../logic/utils';
@@ -26,20 +26,20 @@ export function Overview() {
       page.routePath !== routePath,
   );
   const { items: overviewSidebarGroups } = useSidebarData() as {
-    items: (SidebarGroup | SidebarItem)[];
+    items: (NormalizedSidebarGroup | SidebarItem)[];
   };
   const groups = useMemo(() => {
     return overviewSidebarGroups
       .filter(item => 'items' in item)
       .map(sidebarGroup => ({
         name: sidebarGroup.text || '',
-        items: (sidebarGroup as SidebarGroup).items.map(
-          (item: SidebarGroup | SidebarItem) => {
+        items: (sidebarGroup as NormalizedSidebarGroup).items.map(
+          (item: NormalizedSidebarGroup | SidebarItem) => {
             const pageModule = overviewPageModules.find(m =>
               isEqualPath(m.routePath, withBase(item.link || '')),
             );
             const getChildLink = (
-              traverseItem: SidebarItem | SidebarGroup,
+              traverseItem: SidebarItem | NormalizedSidebarGroup,
             ): string => {
               if (traverseItem.link) {
                 return traverseItem.link;

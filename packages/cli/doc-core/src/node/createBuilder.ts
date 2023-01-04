@@ -145,18 +145,18 @@ export async function createModernBuilder(
   // Add post plugin
   docPlugins.push(replacePlugin());
 
+  const internalBuilderConfig = await createInternalBuildConfig(
+    userRoot,
+    config,
+    isSSR,
+  );
+
   // Process doc config by plugins
   for (const plugin of docPlugins) {
     if (typeof plugin.config === 'function') {
       config.doc = await plugin.config(config.doc || {});
     }
   }
-
-  const internalBuilderConfig = await createInternalBuildConfig(
-    userRoot,
-    config,
-    isSSR,
-  );
 
   const builderProvider = builderWebpackProvider({
     builderConfig: mergeBuilderConfig(

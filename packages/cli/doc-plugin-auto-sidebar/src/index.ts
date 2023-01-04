@@ -98,6 +98,8 @@ export interface Options {
   collapsed?: boolean;
 }
 
+const DEFAULT_POSITION = Infinity;
+
 export async function initFiles(paths: string[], userRoot: string) {
   return Promise.all(
     paths
@@ -168,8 +170,10 @@ export async function initAllCategories(
     }
 
     category.children.sort((a, b) => {
-      const positionA = a.meta?.position || a.meta?.sidebar_position || 0;
-      const positionB = b.meta?.position || b.meta?.sidebar_position || 0;
+      const positionA =
+        a.meta?.position || a.meta?.sidebar_position || DEFAULT_POSITION;
+      const positionB =
+        b.meta?.position || b.meta?.sidebar_position || DEFAULT_POSITION;
       return positionA - positionB;
     });
   });
@@ -203,8 +207,10 @@ export function getRootCategories(
     });
 
     category.children.sort((a, b) => {
-      const positionA = a.meta?.position || a.meta?.sidebar_position || 0;
-      const positionB = b.meta?.position || b.meta?.sidebar_position || 0;
+      const positionA =
+        a.meta?.position || a.meta?.sidebar_position || DEFAULT_POSITION;
+      const positionB =
+        b.meta?.position || b.meta?.sidebar_position || DEFAULT_POSITION;
       return positionA - positionB;
     });
 
