@@ -132,6 +132,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         onClick={e => {
           if (item.link) {
             navigate(normalizeHref(item.link));
+            collapsed && toggleCollapse(e);
           } else {
             collapsible && toggleCollapse(e);
           }
