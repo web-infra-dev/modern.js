@@ -16,10 +16,11 @@ export interface Header {
 
 interface PageDataForSearch {
   title: string;
-  headers: string[];
   content: string;
   path: string;
   rawHeaders: Header[];
+  headers: string[];
+  headerStr: string;
 }
 
 interface CommonMatchResult {
@@ -89,13 +90,15 @@ export class PageSearcher {
         );
       })
       .map(page => {
+        const headers = (page.toc || []).map((header: Header) => header.text);
         return {
           title:
             page.title ??
             page.frontmatter?.title ??
             page.routePath.split('/').pop() ??
             '',
-          headers: (page.toc || []).map((header: Header) => header.text),
+          headers,
+          headerStr: headers.join(' '),
           content: normalizeContent(page.content || ''),
           path: page.routePath,
           rawHeaders: page.toc || [],
@@ -116,7 +119,7 @@ export class PageSearcher {
       async: true,
       doc: {
         id: 'path',
-        field: ['title', 'headers', 'content'],
+        field: ['title', 'headerStr', 'content'],
       },
       ...options,
     };

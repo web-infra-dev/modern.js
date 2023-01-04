@@ -31,5 +31,5 @@ export function useLocaleSiteData(): NormalizedLocales {
     ...localeInfo,
     langRoutePrefix:
       localeKey === defaultLang ? withBase('/') : withBase(localeKey),
-  };
+  } as NormalizedLocales;
 }
