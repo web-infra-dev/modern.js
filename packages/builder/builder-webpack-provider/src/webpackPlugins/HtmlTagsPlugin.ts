@@ -161,9 +161,12 @@ export class HtmlTagsPlugin {
         ];
         // apply tag handler callbacks.
         tags = _.sortBy(tags, tag => {
+          let priority = 0;
           const head = tag.head ?? HEAD_TAGS.includes(tag.tag);
           const append = tag.append ?? this.ctx.append;
-          return (head ? -2 : 2) + (append ?? 0 ? 1 : -1);
+          priority += head ? -2 : 2;
+          typeof append === 'boolean' && (priority += append ? 1 : -1);
+          return priority;
         });
         const utils: HtmlInjectTagUtils = {
           outputName: params.outputName,
