@@ -14,7 +14,10 @@ import { rehypePluginShiki } from './rehypePlugins/shiki';
 import { remarkPluginTip } from './remarkPlugins/tip';
 import { remarkPluginNormalizeLink } from './remarkPlugins/link';
 
-export async function createMDXOptions(config: UserConfig): Promise<Options> {
+export async function createMDXOptions(
+  userRoot: string,
+  config: UserConfig,
+): Promise<Options> {
   const {
     remarkPlugins: remarkPluginsFromConfig = [],
     rehypePlugins: rehypePluginsFromConfig = [],
@@ -36,7 +39,11 @@ export async function createMDXOptions(config: UserConfig): Promise<Options> {
       remarkPluginToc,
       [
         remarkPluginNormalizeLink,
-        { base: config.doc?.base || '', defaultLang: config.doc?.lang || 'zh' },
+        {
+          base: config.doc?.base || '',
+          defaultLang: config.doc?.lang || 'zh',
+          root: userRoot,
+        },
       ],
       ...remarkPluginsFromConfig,
       ...remarkPluginsFromPlugins,

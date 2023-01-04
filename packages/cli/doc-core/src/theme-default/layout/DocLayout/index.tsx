@@ -31,9 +31,7 @@ export function DocLayout(props: DocLayoutProps) {
   // 2. themeConfig.locales.sidebar
   // 3. themeConfig.sidebar
   const hasSidebar =
-    frontmatter?.sidebar !== false &&
-    ((Array.isArray(sidebar) && sidebar.length > 0) ||
-      Object.keys(sidebar).length > 0);
+    frontmatter?.sidebar !== false && Object.keys(sidebar).length > 0;
   const outlineTitle =
     localesData?.outlineTitle || themeConfig?.outlineTitle || 'ON THIS PAGE';
   const hasAside =
@@ -51,7 +49,7 @@ export function DocLayout(props: DocLayoutProps) {
         />
       ) : null}
       <div flex="~ 1 shrink-0" className={`${styles.content}`}>
-        <div className={`max-w-full md:max-w-4/4 lg:min-w-640px relative`}>
+        <div className={`max-w-full md:max-w-3/4 lg:min-w-640px relative`}>
           {isOverviewPage ? (
             <Overview />
           ) : (
