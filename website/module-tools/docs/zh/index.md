@@ -2,7 +2,7 @@
 pageType: home
 
 hero:
-  name: Module tools
+  name: Modern.js tools
   text: 模块工程解决方案
   tagline: 简单、强大、高性能的现代化npm包开发方案
   actions:
