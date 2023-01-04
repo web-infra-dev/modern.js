@@ -281,6 +281,16 @@ const supportRedirectForCSR = async (errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
+const supportDefineInit = async (errors: string[], appPort: number) => {
+  await page.goto(`http://localhost:${appPort}/four/user`, {
+    waitUntil: ['networkidle0'],
+  });
+  const isBrowser = await page.evaluate(() => window.__isBrowser);
+
+  expect(isBrowser).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
 // TODO: ssr 重定向和 csr 重定向, csr loader
 describe('dev', () => {
   let app: unknown;
@@ -349,6 +359,10 @@ describe('dev', () => {
       supportRedirectForSSR(errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(errors, appPort));
+  });
+
+  describe('global configuration', () => {
+    test('support app init', async () => supportDefineInit(errors, appPort));
   });
 
   afterAll(async () => {
@@ -425,6 +439,10 @@ describe('build', () => {
       supportRedirectForSSR(errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(errors, appPort));
+  });
+
+  describe('global configuration', () => {
+    test('support app init', async () => supportDefineInit(errors, appPort));
   });
 
   afterAll(async () => {

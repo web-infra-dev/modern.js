@@ -117,7 +117,7 @@ const server = {
   enableMicroFrontendDebug: { type: 'boolean' },
   watchOptions: { type: 'object' },
   compiler: { type: 'string' },
-  disableFrameworkExt: { type: 'boolean' },
+  enableFrameworkExt: { type: 'boolean' },
 };
 
 const dev = {

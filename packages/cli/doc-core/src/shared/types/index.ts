@@ -107,7 +107,7 @@ export interface PageBasicInfo {
   routePath: string;
   title: string;
   toc: Header[];
-  frontmatter: Record<string, string | number>;
+  frontmatter: Record<string, string | number | undefined>;
   content: string;
 }
 

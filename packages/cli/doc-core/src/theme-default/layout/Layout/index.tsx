@@ -8,6 +8,7 @@ import { DocLayout, DocLayoutProps } from '../DocLayout';
 import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';
 import { usePageData, Content } from '@/runtime';
+import { useLocaleSiteData } from '@/theme-default/logic';
 
 export type LayoutProps = {
   top?: React.ReactNode;
@@ -42,9 +43,13 @@ export const Layout: React.FC<LayoutProps> = props => {
     siteData,
     pageType,
   } = usePageData();
+  const localesData = useLocaleSiteData();
+
   // Priority: front matter title > h1 title > site title
-  const title = (frontmatter?.title ?? articleTitle) || siteData?.title;
-  const description = frontmatter?.description || siteData.description;
+  const title =
+    (frontmatter?.title ?? articleTitle) || siteData.title || localesData.title;
+  const description =
+    frontmatter?.description || siteData.description || localesData.description;
   // Use doc layout by default
   const getContentLayout = () => {
     switch (pageType) {

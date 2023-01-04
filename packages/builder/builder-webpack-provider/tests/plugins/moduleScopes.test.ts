@@ -52,5 +52,18 @@ describe('applyScopeChain', () => {
     expect(
       applyScopeChain(['foo'], [[/bar/], input => [...input, 'baz'], ['qux']]),
     ).toEqual(['foo', /bar/, 'baz', 'qux']);
+
+    expect(
+      applyScopeChain(
+        ['foo'],
+        [
+          [/bar/],
+          input => {
+            input.push('baz');
+          },
+          ['qux'],
+        ],
+      ),
+    ).toEqual(['foo', /bar/, 'baz', 'qux']);
   });
 });
