@@ -1,4 +1,5 @@
 import { SidebarItem } from '../../shared/types/default-theme';
+import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { DocPlugin, SidebarGroup, NavItem, DocConfig } from '@/shared/types';
 
 // The plugin is used to replace the text in the nav and sidebar config
@@ -24,9 +25,7 @@ export function replacePlugin(): DocPlugin {
       if (nav?.length) {
         // Replace nav config
         nav.forEach(navItem => {
-          navItem.text = replaceRules.reduce((text, rule) => {
-            return text.replace(rule.search, rule.replace);
-          }, navItem.text || '');
+          navItem.text = applyReplaceRules(navItem.text, replaceRules);
         });
       }
       // Replace sidebar config
@@ -39,9 +38,7 @@ export function replacePlugin(): DocPlugin {
           });
         }
         if (sidebarItem.text) {
-          sidebarItem.text = replaceRules.reduce((text, rule) => {
-            return text.replace(rule.search, rule.replace);
-          }, sidebarItem.text || '');
+          sidebarItem.text = applyReplaceRules(sidebarItem.text, replaceRules);
         }
       };
       (Object.values(sidebar).flat() as (SidebarGroup | SidebarItem)[]).forEach(

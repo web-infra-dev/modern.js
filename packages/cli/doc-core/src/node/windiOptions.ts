@@ -29,6 +29,7 @@ export default defineConfig({
         '1/4': '25%',
         '1/2': '50%',
         '3/4': '75%',
+        '4/4': '100%',
       },
       colors: {
         brandLight: 'var(--modern-c-brand-light)',

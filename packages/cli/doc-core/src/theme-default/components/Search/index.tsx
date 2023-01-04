@@ -188,11 +188,10 @@ export function Search(props: SearchOptions) {
                   <div
                     border-left="none"
                     display="table-cell"
-                    align="middle right"
                     p="1.2"
                     text="sm right [#2c3e50]"
                     font="semibold"
-                    className={`bg-[#f5f5f5]`}
+                    className={`bg-[#f5f5f5] align-middle`}
                     style={{
                       borderBottom: '1px solid var(--modern-c-divider-light)',
                       width: '35%',
