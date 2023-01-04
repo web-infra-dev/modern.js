@@ -1,5 +1,17 @@
 # @modern-js/plugin-storybook
 
+## 2.0.1
+
+### Patch Changes
+
+- @modern-js/builder@2.0.1
+- @modern-js/builder-shared@2.0.1
+- @modern-js/builder-webpack-provider@2.0.1
+- @modern-js/builder-plugin-node-polyfill@2.0.1
+- @modern-js/plugin-router-v5@2.0.1
+- @modern-js/runtime@2.0.1
+- @modern-js/utils@2.0.1
+
 ## 2.0.0
 
 ### Major Changes

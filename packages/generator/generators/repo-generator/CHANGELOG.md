@@ -1,5 +1,7 @@
 # @modern-js/repo-generator
 
+## 3.0.1
+
 ## 3.0.0
 
 ### Major Changes

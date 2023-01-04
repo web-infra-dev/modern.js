@@ -1,5 +1,22 @@
 # @modern-js/module-tools
 
+## 2.0.1
+
+### Patch Changes
+
+- 00a2252: fix: module tools v2.0.0 bad version
+
+  fix: 修复 module tools v2.0.0 版本问题
+
+  - @modern-js/core@2.0.1
+  - @modern-js/plugin-changeset@2.0.1
+  - @modern-js/plugin-i18n@2.0.1
+  - @modern-js/plugin-lint@2.0.1
+  - @modern-js/new-action@2.0.1
+  - @modern-js/plugin@2.0.1
+  - @modern-js/upgrade@2.0.1
+  - @modern-js/utils@2.0.1
+
 ## 2.0.0
 
 ### Major Changes

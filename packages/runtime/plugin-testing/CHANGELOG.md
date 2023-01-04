@@ -1,5 +1,16 @@
 # @modern-js/plugin-testing
 
+## 2.0.1
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@2.0.1
+- @modern-js/runtime@2.0.1
+- @modern-js/prod-server@2.0.1
+- @modern-js/babel-compiler@2.0.1
+- @modern-js/plugin@2.0.1
+- @modern-js/utils@2.0.1
+
 ## 2.0.0
 
 ### Major Changes
