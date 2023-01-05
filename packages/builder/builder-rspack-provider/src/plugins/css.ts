@@ -147,7 +147,7 @@ export async function applyBaseCSSRule(
 
     rule
       .use(CHAIN_ID.USE.POSTCSS)
-      .loader('@rspack/postcss-loader')
+      .loader(require.resolve('@rspack/postcss-loader'))
       .options(postcssLoaderOptions)
       .end();
   }

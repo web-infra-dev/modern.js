@@ -39,7 +39,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -85,7 +85,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -141,7 +141,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -254,7 +254,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -300,7 +300,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -356,7 +356,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -477,7 +477,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -523,7 +523,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -579,7 +579,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,

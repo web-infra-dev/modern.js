@@ -9,7 +9,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -60,7 +60,7 @@ exports[`plugins/less > should add less-loader 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -128,7 +128,7 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -193,7 +193,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -258,7 +258,7 @@ exports[`plugins/sass > should add sass-loader 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -323,7 +323,7 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
         "type": "css",
         "use": [
           {
-            "loader": "@rspack/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
