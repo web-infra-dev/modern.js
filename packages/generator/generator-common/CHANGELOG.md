@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.0.2
+
+### Patch Changes
+
+- 4568607: fix: module test plugin dep
+
+  fix: 修复模块开启测试功能依赖提示问题
+
+  - @modern-js/plugin-i18n@2.0.2
+
 ## 3.0.1
 
 ### Patch Changes
