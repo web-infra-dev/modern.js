@@ -2,7 +2,7 @@
 sidebar_label: router
 ---
 
-import RouterLegacyTip from '@site-docs/components/router-legacy-tip.md'
+import RouterLegacyTip from '@site-docs-en/components/router-legacy-tip.md'
 
 <RouterLegacyTip />
 

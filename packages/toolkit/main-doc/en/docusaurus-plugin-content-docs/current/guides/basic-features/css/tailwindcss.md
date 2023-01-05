@@ -31,7 +31,7 @@ const App = () => (
 );
 ```
 
-::: info Additional
+:::info Additional
 According to different needs, you can optionally import the CSS files provided by Tailwind CSS. Since the use of `@taiwind` is equivalent to directly importing CSS files, you can refer to the content in the annotate in the [`@tailwind` usage](https://tailwindcss.com/docs/functions-and-directives#tailwind) document for the purpose of the CSS files provided by Tailwind CSS.
 :::
 

@@ -1,19 +1,19 @@
 ---
-title: 添加容器组件
+title: Add Container
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-上一章节中，我们初步引入**业务模型**，从 UI 组件中拆分出这部分逻辑。`page.tsx` 中不再包含 UI 无关的业务逻辑实现细节，只需要使用 Model，就能实现同样的功能。
+In the previous chapter, we initially introduced the **model** to split this part of the logic from the UI component. The `page.tsx` no longer contains UI-independent business logic implementation details, and only needs to use the Model to implement the same function.
 
-这一章节中，我们要进一步利用 Model 中实现的业务逻辑，让 `page.tsx` 和 `archived/page.tsx` 获取同一份数据。并实现 Archive 按钮，点击按钮能把联系人归档，只显示在 Archives 列表里，不显示在 All 列表里。
+In this chapter, we will further use the business logic of implementation in Model to let `page.tsx` and `archived/page.tsx` get the same data. And implementation Archive button, click the button to display the point of contact archive only in the Archives list, not in the All list.
 
-## 使用完整 Model
+## Use the full Model
 
-因为两个页面需要共用同一套状态（联系人列表数据、联系人是否被归档），都需要包含加载初始数据的逻辑，因此我们需要在更上一层完成数据获取。
+Because the two pages need to share the same set of state (point of contact tabular data, point of contact is archived or not), both need to contain the logic to load the initial data, so we need to complete the data acquisition at a higher level.
 
-Modern.js 支持在 `layout.tsx` 通过 Data Loader 获取数据，我们先数据获取这部分代码移动到 `src/routes/layout.tsx` 中：
+Modern.js support obtaining data through Data Loader in `layout.tsx`, we first move the data acquisition part of the code to `src/routes/layout.tsx`:
 
 ```tsx
 import { name, internet } from 'faker';
@@ -69,7 +69,7 @@ export default function Layout() {
 }
 ```
 
-在 `src/routes/page.tsx` 中，直接使用 Model，获取数据：
+In `src/routes/page.tsx`, use Model directly to get data:
 
 ```tsx
 import { Helmet } from '@modern-js/runtime/head';
@@ -105,7 +105,7 @@ function Index() {
 export default Index;
 ```
 
-同样在 `archived/page.tsx` 中，删除原本的 `mockData` 逻辑，使用 Model 中 computed 的 `archived` 值作为数据源：
+Also in `archived/page.tsx`, delete the original `mockData` logic and use the `archived` value computed in Model as the data source:
 
 ```tsx
 import { Helmet } from '@modern-js/runtime/head';
@@ -141,21 +141,21 @@ function Index() {
 export default Index;
 ```
 
-执行 `pnpm run dev`，访问 `http://localhost:8080/`，点击 Archive 按钮后，可以看到按钮置灰：
+Execute `pnpm run dev`, visit `http://localhost:8080/`, click the Archive button, you can see the button grey out:
 
 ![display](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c07-contacts-all.png)
 
-接下来点击顶部导航，切换到 Archives 列表，可以发现刚才 **Archive** 的联系人已经出现在列表当中：
+Next, click the top navigation and switch to the Archives list. You can find that the point of contact of **Archive** just now has appeared in the list:
 
 ![display](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c07-contacts-archives.png)
 
-## 抽离容器组件
+## Withdraw container components
 
-前面章节中，我们把项目中的业务逻辑拆分成了两个 layer，一个是**视图组件**，另一个是**业务模块**。前者负责 UI 展示、交互等，后者负责实现 UI 无关的业务逻辑，专门管理状态。
+In the previous chapters, we split the business logic in the project into two layers, one is the **view component**, and the other is the **module**. The former is responsible for UI display, interaction, etc., and the latter is responsible for the implementation of UI-independent business logic, which specializes in managing state.
 
-像 `src/routes/page.tsx` 和 `src/routes/archives/page.tsx` 这样使用了 `useModel` API 的组件，负责把 View 和 Model 这两个 layer 连接起来，类似传统 MVC 架构中 Controller 的角色，在 Modern.js 里我们沿用习惯，把它们称作**容器组件（Container）**。
+Like `src/routes/page.tsx` and `src/routes/archives/page.tsx` use the component of the `useModel` API, which is responsible for linking the two layers of View and Model, similar to the role of the Controller in the traditional MVC architecture. In the Modern.js, we follow the habit and call them **Container**.
 
-容器组件推荐放在专门的 `containers/` 目录里，我们执行以下命令，创建新的文件：
+The container component is recommended to be placed in a special `containers/` directory. We execute the following command to create a new file:
 
 <Tabs>
 <TabItem value="macOS" label="macOS" default>
@@ -176,7 +176,7 @@ ni src/containers/Contacts.tsx
 </TabItem>
 </Tabs>
 
-我们将原本两个 `page.tsx` 中公共的部分抽离出来，`src/containers/Contacts.tsx` 的代码如下：
+We extracted the common part of the original two `page.tsx`, and the code of `src/containers/Contacts.tsx` is as follows:
 
 ```tsx
 import { Helmet } from "@modern-js/runtime/head";
@@ -222,7 +222,7 @@ function Contacts({
 export default Contacts;
 ```
 
-修改 `src/routes/page.tsx` 和 `src/routes/archives/page.tsx` 的代码：
+Modify the code for `src/routes/page.tsx` and `src/routes/archives/page.tsx`:
 
 ```tsx title="src/routes/page.tsx"
 import Contacts from '../containers/Contacts';
@@ -244,7 +244,7 @@ function Index() {
 export default Index;
 ```
 
-重构完成，现在的项目结构是：
+The refactoring is complete, and the current project structure is:
 
 ```md
 .
@@ -275,9 +275,8 @@ export default Index;
 └── tsconfig.json
 ```
 
-`components/` 里的**视图组件**，都是目录形式，如 `Avatar/index.tsx`。而 `containers/` 里的**容器组件**，都是单文件形式，如 `contacts.tsx`。**这是我们推荐的一种最佳实践**。
+The **view components** in `components/` dir are in the form of directories, such as `Avatar/index.tsx`. And the **container components** in `containers/` dir are in the form of single files, such as `contacts.tsx`. **This is a best practice we recommend**.
 
-在​ [添加 UI 组件（Component）](./c02-component.md) 章节提到过，视图组件用目录形式，是因为视图组件负责实现 UI 展示和交互细节，可以演变的复杂。用目录形式，可以方便增加子文件，包括专用的资源（图片等）、专用子组件、CSS 文件等。在这个目录内部可以随意重构，只考虑最小局部。
+As mentioned in the chapter [Add UI component](./c02-component.md), the view component is in the form of a directory, because the view component is responsible for the implementation of UI display and interaction details, and can evolve in complexity. In the form of a directory, it is convenient to add sub-files, including dedicated resources (pictures, etc.), dedicated sub-components, CSS files, etc. You can reconstruct at will within this directory, considering only the smallest parts.
 
-而容器组件只负责连接，是一个胶水层，复杂的业务逻辑和实现细节都交给 View 层和 Model 层去实现。容器组件自己应该保持简单清晰，不应该包含复杂实现细节，所以不应该有内部结构。采用单文件形式不但更简洁，也能起到约束作用，提醒开发者不要把容器组件写复杂。
-
+The container component is only responsible for linkage and is a glue layer. The sophisticated business logic and implementation details are handed over to the View layer and the Model layer for implementation. The container component itself should be kept simple and clear, and should not contain complex implementation details, so there should be no internal structure. The single-file form is not only more concise, but also acts as a constraint, reminding developers not to write complicated container components.

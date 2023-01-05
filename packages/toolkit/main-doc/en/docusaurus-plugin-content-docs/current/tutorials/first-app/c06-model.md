@@ -1,22 +1,22 @@
 ---
-title: 添加业务模型（状态管理）
+title: Add Model
 ---
 
-上一章节中，我们把硬编码的 `mockData` 改成从 Data Loader 中加载。
+In the previous chapter, we changed the hardcoding `mockData` to load from Data Loader.
 
-这一章节中，我们会进一步实现项目的功能，例如实现 **Archive** 按钮的功能，把联系人归档。
+In this chapter, we will further implement the functions of the project, such as the implementation of the function of the **Archive** button to put the point of contact archive.
 
-因此会开始编写一些跟 UI 完全无关的业务逻辑，如果继续写在组件代码中，会产生越来越多的面条式代码。为此，我们引入了一种叫做 **业务模型（Model）** 的代码模块，将这些业务逻辑和 UI 解耦。
+Therefore, we will start to write some business logic that has nothing to do with the UI at all. If we continue to write in the component code, more and more noodle code will be generated. To this end, we introduced a code module called **Model** to decoupling these business logic and UI.
 
-:::info 注
-使用 Model API，需要先设置 [runtime.state](/docs/configure/app/runtime/state) 以启用状态管理插件。
+:::info note
+To use the Model API, you need to set runtime.state(/docs/configure/app/runtime/state) to enable the state management plugin.
 :::
 
-## 实现 Model
+## Model implementation
 
-创建一个完整的 Model 首先需要定义**状态（state）**，包括状态中数据的名称和初始值。
+To create a complete Model, you first need to define **state**, including the name and initial value of data in the state.
 
-我们使用 Model 来管理联系人列表的数据，因此定义如下数据状态：
+We use Model to manage the data of the point of contact list, so define the following data state:
 
 ```js
 const state = {
@@ -24,9 +24,9 @@ const state = {
 };
 ```
 
-使用 TS 语法，可以定义更完整的类型信息，比如 items 里每个对象都应该有 `name`、`email` 字段。为了实现归档功能，还需要创建 `archived` 字段保存这个联系人是否已被归档的状态。
+Using TS syntax, you can define more complete type information, such as items in each object should have a `name`, `email` field. In order to implement archive function, also need to create the `archived` field to hold the point of contact has been archived state.
 
-我们还需要一个字段用来访问所有已归档的联系人，可以定义 **computed** 类型的字段，对已有的数据做转换：
+We also need a field to access all archived points of contact. We can define a field of type **computed** to convert the existing data:
 
 ```js
 const computed = {
@@ -36,13 +36,13 @@ const computed = {
 };
 ```
 
-`computed` 类型字段的定义方式是函数，但使用时可以像普通字段一样通过 state 访问。
+Fields of type `computed` are defined as function, but can be accessed through state just like normal fields.
 
 :::info
-Modern.js 集成了 [Immer](https://immerjs.github.io/immer/)，能够像操作 JS 中常规的可变数据一样，去写这种状态转移的逻辑。
+Modern.js integrates [Immer](https://immerjs.github.io/immer/) and can write such state transfer logic just like normal mutable data in JS.
 :::
 
-实现 Archive 按钮时，我们需要一个 `archive` 函数，负责修改指定联系人的 `archived` 字段，我们把这种函数都叫作 **action**：
+When implementing the Archive button, we need an `archive` function, which is responsible for modifying the `archived` field of the specified contact. We call this function **action**:
 
 ```js
 const actions = {
@@ -55,11 +55,11 @@ const actions = {
 };
 ```
 
-action 函数是一种**纯函数**，确定的输入得到确定的输出（转移后的状态），不应该有任何副作用。
+An action function is a pure function, where a defined input gets a defined output (a shifted state) and should not have any side effects.
 
-函数的第一个参数是 Immer 提供的 Draft State，第二个参数是 action 被调用时传入的参数（后面会介绍怎么调用）。
+The first parameter of the function is the Draft State provided by Immer, and the second parameter is the parameter passed in when the action is called (more on how to call it later).
 
-我们尝试完整实现它们：
+We try to implement them completely:
 
 ```js
 const state = {
@@ -84,14 +84,14 @@ const actions = {
 };
 ```
 
-接下来我们把上面的代码连起来，放在同一个 Model 文件里。首先执行以下命令，创建新的文件目录：
+Next we connect the above code and put it in the same Model file. First execute the following command to create a new file directory:
 
 ```bash
 mkdir -p src/models/
 touch src/models/contacts.ts
 ```
 
-添加 `src/models/contacts.ts` 的内容：
+Add `src/models/contacts.ts`:
 
 ```tsx
 import { model } from '@modern-js/runtime/model';
@@ -127,13 +127,13 @@ export default model<State>('contacts').define({
 });
 ```
 
-我们把一个包含 state，action 等要素的 plain object 称作 **Model Spec**，Modern.js 提供了 [Model API](/docs/apis/app/runtime/model/model_)，可以根据 Model Spec 生成 **Model**。
+We call a plain object containing elements such as state, action, etc. as **Model Spec**, Modern.js provides [Model API](/docs/apis/app/runtime/model/model_), which can generate **Model** from Model Spec.
 
-## 使用 Model
+## Use Model
 
-现在我们直接使用这个 Model，把项目的逻辑补充起来。
+Now let's use this Model directly to complement the logic of the project.
 
-首先修改 `src/components/Item/index.tsx`，添加 **Archive 按钮**的 UI 和交互，内容如下：
+First modify `src/components/Item/index.tsx` and add the UI and interaction of the **Archive button**, the content is as follows:
 
 ```tsx
 import Avatar from '../Avatar';
@@ -181,7 +181,7 @@ const Item = ({
 export default Item;
 ```
 
-接下来，我们修改 `src/routes/page.tsx`，为 `<Item>` 组件传递更多参数：
+Next, we modify `src/routes/page.tsx` to pass more parameters to the `<Item>` component:
 
 ```tsx
 import { Helmet } from '@modern-js/runtime/head';
@@ -249,12 +249,12 @@ function Index() {
 export default Index;
 ```
 
-`useModel` 是 Modern.js 提供的 hooks API。可以在组件中提供 Model 中定义的 state，或通过 actions 调用 Model 中定义的 side effect 与 action，从而改变 Model 的 state。
+`useModel` is the hooks API provided by the Modern.js. You can provide the state defined in the Model in the component, or call the side effects and actions defined in the Model through actions to change the state of the Model.
 
-Model 是业务逻辑，是计算过程，本身不创建也不持有状态。只有在被组件用 hooks API 使用后，才在指定的地方创建状态。
+Model is business logic, a computational process that does not create or hold state itself. Only after being used by the component with the hooks API, the state is created in the specified place.
 
-执行 `pnpm run dev`，点击 **Archive 按钮**，可以看到页面 UI 发生了变化。
+Execute `pnpm run dev` and click the **Archive button** to see that the page UI has changed.
 
 :::note
-上述例子中，`useLoaderData` 其实在每次切换路由时都会执行。因为我们在 Data Loader 里使用了 fake 数据，每次返回的数据是不同的。但我们优先使用了 Model 中的数据，因此切换路由时数据没有发生改变。
+In the above example, `useLoaderData` is actually executed every time the route is switched. Because we used fake data in the Data Loader, the data returned each time is different. But we use the data in the Model first, so the data does not change when switching routes.
 :::
