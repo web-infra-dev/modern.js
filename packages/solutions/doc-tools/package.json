@@ -18,6 +18,10 @@
       "default": "./theme.ts"
     }
   },
+  "bin": {
+    "modern": "./bin/modern.js",
+    "modern-doc": "./bin/modern.js"
+  },
   "scripts": {
     "prepare": "modern-lib build",
     "prepublishOnly": "modern-lib build --platform",
