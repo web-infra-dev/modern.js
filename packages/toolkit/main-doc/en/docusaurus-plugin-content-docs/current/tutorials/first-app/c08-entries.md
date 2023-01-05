@@ -1,24 +1,24 @@
 ---
-title: 添加应用入口
+title: Add Application Entry
 ---
 
-上一个章节中，我们基本完成了联系人列表应用的开发，介绍了 Modern.js 中部分功能的用法，以及推荐的最佳实践。
+In the last chapter, we basically completed the development of the point of contact list application, introduced the usage of some functions in the Modern.js, and recommended best practices.
 
-这一章节中，我们将介绍如何为应用添加新的入口。
+In this chapter, we will describe how to add a new entry to the application.
 
-## 新建入口
+## New entry
 
-一个完整的项目可能需要多个入口，Modern.js 支持自动创建新入口，前面的章节中提到过，`pnpm run new` 可以启用可选功能。
+A complete project may require multiple entries, Modern.js supports the automatic creation of new entries, as mentioned in the previous section, `pnpm run new` can enable optional features.
 
-我们也可以通过它来创建新的工程元素，在项目根目录下执行 `pnpm run new`：
+We can also use it to create new project elements and execute `pnpm run new` in the project root directory:
 
 ```bash
-? 请选择你想要的操作 创建工程元素
-? 创建工程元素 新建「应用入口」
-? 请填写入口名称 (entry) landing-page
+? Action Create project element
+? Create project element New "entry"
+? Entry name (entry) landing-page
 ```
 
-创建完成，项目会变成这样：
+When created, the project will look like this:
 
 ```md
 .
@@ -55,44 +55,43 @@ title: 添加应用入口
 
 ```
 
-可以看到联系人列表应用的文件，都被自动重构到 `src/myapp/` 里。
+You can see that the files of the contact list application are automatically refactored into `src/myapp/`.
 
-同时新建了一个 `src/landing-page/`，里面同样有 `routes/*`（`pnpm run new` 命令只做了这些事，所以你也可以很容易的手动创建新入口或修改入口）
+At the same time, a new `src/landing-page/` is created, which also has `routes/*` (the `pnpm run new` command only does these things, so you can also easily create new entries or modify entries manually).
 
-执行 `pnpm run dev`，显示：
+Execute `pnpm run dev` to display:
 
 ![design](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c08-entries-myapp.png)
 
-访问 `http://localhost:8080/`，可以像之前一样看到应用程序。
+Access `http://localhost:8080/` to see the application as before.
 
-访问 `http://localhost:8080/landing-page`，可以看到刚创建的新入口 `landing-page` 的页面（Modern.js 自动生成的默认页面）。
+Visit `http://localhost:8080/landing-page` to see the landing-page for the new entry you just created (Modern.js automatically generated default page).
 
-Modern.js 框架的设计原则之一是【[约定优于配置（Convention over Configuration）](https://en.wikipedia.org/wiki/Convention_over_configuration)】，多数情况下可以按约定直接写代码，不需要做任何配置，这里 `src/` 中的目录结构就是一种约定：
+One of the design principles of the Modern.js framework is [[Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) ]. In most cases, you can write code directly by convention without any configuration. The directory structure in `src/` is a convention:
 
-`src/myapp/` 和 `src/landing-page/` 被自动识别为两个应用入口：myapp 和 landing-page。
+`src/myapp/` and `src/landing-page/` are automatically identified as two application portals: myapp and landing-page.
 
-其中 `src/myapp/` 的目录名跟项目名（`package.json` 里的 `name`）一致，会被认为是项目**主入口**，项目 URL 的根路径（开发环境里默认是 `http://localhost:8080/`）会自动指向主入口。
+The directory name of `src/myapp/` is the same as the project name (`name` in `package.json`), which will be considered as the main entry of the project, and the root path of the project URL (the default in the development environment is `http://localhost:8080/`) will automatically point to the main entry.
 
-其他入口的 URL，是在根路径后追加入口名，比如 `http://localhost:8080/landing-page`。
+The URL of other entries is to append the entry name after the root path, such as `http://localhost:8080/landing-page`.
 
-接下来，我们把 `src/myapp/` 重命名为 `src/contacts/`：
+Next, we rename `src/myapp/` to `src/contacts/`:
 
 ```bash
 mv src/myapp src/contacts
 ```
 
-再次执行 `pnpm run dev`，结果变成：
+Execute `pnpm run dev` again, the result becomes:
 
 ![design](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c08-entries-contacts.png)
 
-现在不再有主入口，联系人列表现在是一个普通入口，需要用 `http://localhost:8080/contacts` 访问。
+There is no longer a main entry, the point of contact list is now a normal entry that needs to be accessed with `http://localhost:8080/contacts`.
 
+## Modify the configuration by entry
 
-## 按入口修改配置
+In the Modern.js configuration file, we can write our own code to control the configuration of the project.
 
-我们可以在 Modern.js 配置文件里，自己写代码来控制项目的配置。
-
-现在，修改 `modern.config.ts` 里面添加内容：
+Now, modify the `modern.config.ts` to add something:
 
 ```typescript
 import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
@@ -114,11 +113,11 @@ export default defineConfig({
 });
 ```
 
-执行 `pnpm run dev`，再用浏览器打开 `view-source:http://localhost:8080/landing-page`，可以看到 `landing-page` 网页内容是通过 js 动态加载的，且此页面的 SSR 功能被关闭。
+Execute `pnpm run dev`, and then open `view-source: http://localhost:8080/landing-page` with the browser, you can see that the content of the `landing-page` web page is dynamically loaded through js, and the SSR function of this page is turned off.
 
-如果注释掉 `ssrByEntries` 和它的值，landing-page 的 SSR 功能就恢复开启了。
+If `ssrByEntries` and its value are annotated, the SSR function of landing-page is restored.
 
-还有一些时候，需要一些更复杂的逻辑来做设置，比如需要 JS 变量、表达式、导入模块等，例如在只在开发环境里开启 SSR：
+Other times, you need some more sophisticated logic to do the setup, such as JS variables, expressions, import modules, etc., for example, only in the development environment to enable SSR:
 
 ```js
 export default defineConfig({
@@ -130,8 +129,8 @@ export default defineConfig({
 };
 ```
 
-到底为止，我们的联系人列表应用的雏形就基本完成了 👏👏👏。
+So far, the prototype of our point of contact list application is almost complete 👏👏👏.
 
-## 下一步
+## Next step
 
-接下来你可以通过了解[指南](/docs/guides/get-started/quick-start)、[配置](/docs/configure/app/usage) 等更多教程，进一步完善你的应用。
+Then you can further refine your application by following more tutorials like [Guides](/docs/guides/get-started/quick-start), [configuration](/docs/configure/app/usage), and more.
