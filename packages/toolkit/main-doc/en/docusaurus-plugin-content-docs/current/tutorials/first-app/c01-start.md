@@ -6,7 +6,7 @@ Starting from this chapter, we will enter the practical tutorial section. In the
 
 ## Environment preparation
 
-import Prerequisites from '@site-docs/components/prerequisites.md'
+import Prerequisites from '@site-docs-en/components/prerequisites.md'
 
 <Prerequisites />
 
@@ -19,13 +19,13 @@ mkdir myapp && cd myapp
 npx @modern-js/create
 ```
 
-import InitApp from '@site-docs/components/init-app.md'
+import InitApp from '@site-docs-en/components/init-app.md'
 
 <InitApp />
 
 ## Debug Project
 
-import DebugApp from '@site-docs/components/debug-app.md'
+import DebugApp from '@site-docs-en/components/debug-app.md'
 
 <DebugApp />
 
