@@ -3,9 +3,15 @@ import { UserConfig } from 'shared/types';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { PACKAGE_ROOT } from '../constants';
 import { RouteService } from '../route/RouteService';
+import { addLeadingSlash } from '@/shared/utils';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let routeService: RouteService;
+
+export const normalizeRoutePath = (routePath: string) => {
+  const result = routePath.replace(/\.(.*)?$/, '').replace(/index$/, '');
+  return addLeadingSlash(result);
+};
 
 export async function createRouteVirtualModulePlugin(
   scanDir: string,

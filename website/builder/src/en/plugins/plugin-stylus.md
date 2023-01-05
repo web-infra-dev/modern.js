@@ -46,7 +46,7 @@ After installing the plugin, you can directly import `*.styl` or `*.module.styl`
 
 - `normalize.styl`:
 
-```style
+```styl
 the body
    color#000
    font 14px Arial, sans-serif
@@ -54,7 +54,7 @@ the body
 
 - `title.module.styl`:
 
-```style
+```styl
 .title
    font-size: 14px;
 ```

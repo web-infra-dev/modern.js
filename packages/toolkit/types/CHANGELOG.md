@@ -1,5 +1,29 @@
 # @modern-js/types
 
+## 2.0.2
+
+### Patch Changes
+
+- 39988b2: feat: advance the timing of static resource loading
+  feat: 将嵌套路由下静态资源加载时机提前
+
+## 2.0.1
+
+## 2.0.0
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- 6bda14ed71: feat: refactor router with react-router@6.4
+
+  feat: 使用 react-router@6.4 重构路由模块
+
+- 8b8e1bb571: feat: support nested routes
+  feat: 支持嵌套路由
+
 ## 2.0.0-beta.7
 
 ### Major Changes

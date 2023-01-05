@@ -1,11 +1,10 @@
-import { LocaleConfig } from 'shared/types';
+import { NormalizedLocales } from 'shared/types';
 import { useLocation } from 'react-router-dom';
 import { usePageData, withBase } from '@/runtime';
 import { normalizeSlash } from '@/shared/utils/index';
 
-export function useLocaleSiteData(): LocaleConfig {
+export function useLocaleSiteData(): NormalizedLocales {
   const pageData = usePageData();
-
   const { pathname } =
     // eslint-disable-next-line react-hooks/rules-of-hooks
     process.env.NODE_ENV === 'production' ? useLocation() : location;
@@ -18,7 +17,7 @@ export function useLocaleSiteData(): LocaleConfig {
       sidebar: themeConfig.sidebar,
       prevPageText: themeConfig.prevPageText,
       nextPageText: themeConfig.nextPageText,
-    } as LocaleConfig;
+    } as NormalizedLocales;
   }
   const localeKeys = locales.map(locale => locale.lang);
   const localeKey =
@@ -31,5 +30,5 @@ export function useLocaleSiteData(): LocaleConfig {
     ...localeInfo,
     langRoutePrefix:
       localeKey === defaultLang ? withBase('/') : withBase(localeKey),
-  };
+  } as NormalizedLocales;
 }

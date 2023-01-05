@@ -44,10 +44,10 @@ describe('asset.path', () => {
     const distDir = path.join(fixtureDir, bundleDistPath);
     const distFilePath = path.join(distDir, './index.js');
     const content = await fs.readFile(distFilePath, 'utf-8');
-    expect(content.includes('./asset/')).toBeTruthy();
+    expect(content.includes('data:image')).toBeTruthy();
 
     const pngFileDirName = path.join(distDir, './asset');
     const files = await globby(slash(`${pngFileDirName}/*.png`));
-    expect(files.length).toBe(1);
+    expect(files.length).toBe(0);
   });
 });

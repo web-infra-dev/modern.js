@@ -51,7 +51,7 @@ export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
 
 ---
 
-然后我们通过 [`plugins`](/zh/api/plugins) API，将刚刚写好的插件进行注册。
+然后我们通过 [`plugins`](/api/config/plugins) API，将刚刚写好的插件进行注册。
 
 ```ts ./modern.config.ts
 import { ExamplePlugin } from './plugins/example';
@@ -80,5 +80,5 @@ build over
 
 除了以上内容以外，我们还需要了解：
 
-- [插件对象、类型定义与推荐配置项](/zh/plugins/guide/plugin-object)
-- [setup 函数、`api` 对象参数、生命周期钩子](/zh/plugins/guide/setup-function)
+- [插件对象、类型定义与推荐配置项](/plugins/guide/plugin-object)
+- [setup 函数、`api` 对象参数、生命周期钩子](/plugins/guide/setup-function)

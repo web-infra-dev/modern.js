@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SidebarGroup, SidebarItem } from 'shared/types';
+import { NormalizedSidebarGroup, SidebarItem } from 'shared/types';
 import { matchRoutes, useNavigate } from 'react-router-dom';
 import { routes } from 'virtual-routes';
 import { Link } from '../Link';
@@ -12,7 +12,7 @@ interface Props {
   isSidebarOpen?: boolean;
   pathname: string;
   langRoutePrefix: string;
-  sidebarData: (SidebarGroup | SidebarItem)[];
+  sidebarData: (NormalizedSidebarGroup | SidebarItem)[];
 }
 
 const SINGLE_MENU_ITEM_HEIGHT = 28;
@@ -21,18 +21,18 @@ const singleItemHeight = SINGLE_MENU_ITEM_HEIGHT + MENU_ITEM_MARGIN;
 
 interface SidebarItemProps {
   id: string;
-  item: SidebarItem | SidebarGroup;
+  item: SidebarItem | NormalizedSidebarGroup;
   depth: number;
   activeMatcher: (link: string) => boolean;
   collapsed?: boolean;
   setSidebarData: React.Dispatch<
-    React.SetStateAction<(SidebarGroup | SidebarItem)[]>
+    React.SetStateAction<(NormalizedSidebarGroup | SidebarItem)[]>
   >;
   preloadLink: (link: string) => void;
 }
 
 // Notice: we must compute the height of children here, otherwise the animation of collapse will not work
-const getHeight = (item: SidebarGroup | SidebarItem): number => {
+const getHeight = (item: NormalizedSidebarGroup | SidebarItem): number => {
   if ('items' in item) {
     return item.collapsed
       ? singleItemHeight
@@ -86,7 +86,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
   const active = item.link && activeMatcher(item.link);
-  const { collapsed, collapsible = true } = item as SidebarGroup;
+  const { collapsed, collapsible = true } = item as NormalizedSidebarGroup;
   const collapsibleIcon = (
     <div
       cursor-pointer="~"
@@ -109,7 +109,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
       const root = newSidebarData[initialIndex];
       let current = root;
       for (const index of indexes) {
-        current = (current as SidebarGroup).items[index];
+        current = (current as NormalizedSidebarGroup).items[index];
       }
       if ('items' in current) {
         current.collapsed = !current.collapsed;
@@ -132,6 +132,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         onClick={e => {
           if (item.link) {
             navigate(normalizeHref(item.link));
+            collapsed && toggleCollapse(e);
           } else {
             collapsible && toggleCollapse(e);
           }
@@ -161,7 +162,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
               : '0px',
         }}
       >
-        {(item as SidebarGroup)?.items?.map((item, index) => (
+        {(item as NormalizedSidebarGroup)?.items?.map((item, index) => (
           <div key={item.link} m="last:b-0.5 l-4">
             <SidebarItemComp
               {...props}
@@ -185,14 +186,17 @@ export function SideBar(props: Props) {
     sidebarData: rawSidebarData,
   } = props;
   const [sidebarData, setSidebarData] = useState<
-    (SidebarItem | SidebarGroup)[]
+    (SidebarItem | NormalizedSidebarGroup)[]
   >(rawSidebarData.filter(Boolean).flat());
   useEffect(() => {
     // 1. Update sidebarData when pathname changes
     // 2. For current active item, expand its parent group
     // Cache, Avoid redundant calculation
-    const matchCache = new WeakMap<SidebarGroup | SidebarItem, boolean>();
-    const match = (item: SidebarGroup | SidebarItem) => {
+    const matchCache = new WeakMap<
+      NormalizedSidebarGroup | SidebarItem,
+      boolean
+    >();
+    const match = (item: NormalizedSidebarGroup | SidebarItem) => {
       if (matchCache.has(item)) {
         return matchCache.get(item);
       }
@@ -210,7 +214,7 @@ export function SideBar(props: Props) {
       matchCache.set(item, false);
       return false;
     };
-    const traverse = (item: SidebarGroup | SidebarItem) => {
+    const traverse = (item: NormalizedSidebarGroup | SidebarItem) => {
       if ('items' in item) {
         item.items.forEach(traverse);
         if (match(item)) {
@@ -246,18 +250,20 @@ export function SideBar(props: Props) {
       }}
     >
       <nav m="t-1">
-        {sidebarData.map((item: SidebarGroup | SidebarItem, index: number) => (
-          <SidebarItemComp
-            id={String(index)}
-            item={item}
-            depth={0}
-            activeMatcher={activeMatcher}
-            key={item.text}
-            collapsed={(item as SidebarGroup).collapsed ?? true}
-            setSidebarData={setSidebarData}
-            preloadLink={preloadLink}
-          />
-        ))}
+        {sidebarData.map(
+          (item: NormalizedSidebarGroup | SidebarItem, index: number) => (
+            <SidebarItemComp
+              id={String(index)}
+              item={item}
+              depth={0}
+              activeMatcher={activeMatcher}
+              key={item.text}
+              collapsed={(item as NormalizedSidebarGroup).collapsed ?? true}
+              setSidebarData={setSidebarData}
+              preloadLink={preloadLink}
+            />
+          ),
+        )}
       </nav>
     </aside>
   );

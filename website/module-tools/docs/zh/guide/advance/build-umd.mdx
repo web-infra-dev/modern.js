@@ -22,7 +22,7 @@ export default defineConfig({
 
 ## umd 产物的第三方依赖处理
 
-在 [【如何处理第三方依赖】](/zh/guide/advance/external-dependency) 章节中，我们知道可以通过 [`autoExternals`](/zh/api/build-config#autoexternal) 和 [`externals`](/zh/api/build-config#externals) API 来控制项目是否对第三方依赖打包。
+在 [【如何处理第三方依赖】](/guide/advance/external-dependency) 章节中，我们知道可以通过 [`autoExternals`](/api/config/build-config#autoexternal) 和 [`externals`](/api/config/build-config#externals) API 来控制项目是否对第三方依赖打包。
 因此在构建 umd 产物的过程中，我们也可以这样使用：
 
 <CH.Spotlight>
@@ -110,7 +110,7 @@ console.info(React);
 - 在 Node.js 环境下，可以通过 `require('react')` 获取 react 依赖。
 - 在 浏览器环境下，可以通过 `global.react` 获取 react 依赖。
 
-然而在浏览器环境下，获取第三方依赖的时候，**全局变量名称不一定与依赖名称完全相同**，此时就要使用 [`buildConfig.umdGlobals`](/zh/api/build-config#umdglobals) API。
+然而在浏览器环境下，获取第三方依赖的时候，**全局变量名称不一定与依赖名称完全相同**，此时就要使用 [`buildConfig.umdGlobals`](/api/config/build-config#umdglobals) API。
 
 还是使用之前的例子，当 `react` 依赖以 `windows.React` 或者 `global.React` 全局变量的形式存在于浏览器环境下，那么此时：
 
@@ -218,7 +218,7 @@ export default () => {
 });
 ```
 
-如果需要修改它，则需要使用 [`buildConfig.umdModuleName`](/zh/api/build-config#umdmodulename) API。
+如果需要修改它，则需要使用 [`buildConfig.umdModuleName`](/api/config/build-config#umdmodulename) API。
 
 当使用该 API 后：
 

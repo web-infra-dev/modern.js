@@ -1,5 +1,82 @@
 # @modern-js/module-tools
 
+## 2.0.2
+
+### Patch Changes
+
+- e27bbe4: update libuild version to support svgr in bundleless, and svgr only support default export
+  更新 libuild 版本以支持 svgr 能在 bundleless 下工作，同时 svgr 只支持 default export
+  - @modern-js/new-action@2.0.2
+  - @modern-js/core@2.0.2
+  - @modern-js/utils@2.0.2
+  - @modern-js/plugin-changeset@2.0.2
+  - @modern-js/plugin-i18n@2.0.2
+  - @modern-js/plugin-lint@2.0.2
+  - @modern-js/plugin@2.0.2
+  - @modern-js/upgrade@2.0.2
+
+## 2.0.1
+
+### Patch Changes
+
+- 00a2252: fix: module tools v2.0.0 bad version
+
+  fix: 修复 module tools v2.0.0 版本问题
+
+  - @modern-js/core@2.0.1
+  - @modern-js/plugin-changeset@2.0.1
+  - @modern-js/plugin-i18n@2.0.1
+  - @modern-js/plugin-lint@2.0.1
+  - @modern-js/new-action@2.0.1
+  - @modern-js/plugin@2.0.1
+  - @modern-js/upgrade@2.0.1
+  - @modern-js/utils@2.0.1
+
+## 2.0.0
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
+### Patch Changes
+
+- d4a456659b: chore: rename plugin-jarvis to plugin-lint
+
+  chore: 重命名 plugin-jarvis 为 plugin-lint
+
+- ffb2ed4: feat:
+
+  1. change storybook runtime logic
+  2. export runtime api define from runtime module
+  3. refactor defineConfig in module-tools
+
+  feat:
+
+  1. 更改 Storybook 对于 Runtime API 的处理逻辑
+  2. 从 @modern-js/runtime 导出 Runtime API 的用户配置
+  3. 重构 module-tools 的 defineConfig
+
+- 824dc45: 默认关闭 svgr 功能
+  close svgr default
+- efb69f9: fix tsconfig extends path calculation errors
+  修复 tsconfig 里 extends 路径计算错误的问题
+- Updated dependencies [c9e800d39a]
+- Updated dependencies [edd1cfb1af]
+- Updated dependencies [d4a456659b]
+- Updated dependencies [f680410886]
+- Updated dependencies [dda38c9c3e]
+- Updated dependencies [8b8e1bb571]
+- Updated dependencies [ffb2ed4]
+- Updated dependencies [bbe4c4ab64]
+  - @modern-js/core@2.0.0
+  - @modern-js/utils@2.0.0
+  - @modern-js/plugin-lint@2.0.0
+  - @modern-js/plugin-changeset@2.0.0
+  - @modern-js/plugin-i18n@2.0.0
+  - @modern-js/new-action@2.0.0
+  - @modern-js/plugin@2.0.0
+  - @modern-js/upgrade@2.0.0
+
 ## 2.0.0-beta.7
 
 ### Major Changes

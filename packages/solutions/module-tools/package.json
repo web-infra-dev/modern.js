@@ -11,7 +11,7 @@
     "module-tools",
     "lib-tools"
   ],
-  "version": "2.0.0-beta.7",
+  "version": "2.0.2",
   "bin": {
     "modern": "./bin/modern.js",
     "modern-module": "./bin/modern.js"
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "~0.7.3",
+    "@modern-js/libuild": "~0.8.0",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
@@ -53,8 +53,8 @@
     "@modern-js/utils": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-lint": "workspace:*",
-    "@modern-js/libuild-plugin-svgr": "0.6.0",
-    "@modern-js/libuild-plugin-swc": "0.6.0"
+    "@modern-js/libuild-plugin-svgr": "~0.8.0",
+    "@modern-js/libuild-plugin-swc": "~0.8.0"
   },
   "devDependencies": {
     "@modern-js/self": "workspace:@modern-js/module-tools@*",

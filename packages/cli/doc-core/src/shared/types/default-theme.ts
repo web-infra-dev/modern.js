@@ -127,7 +127,7 @@ export interface Sidebar {
 export interface SidebarGroup {
   text: string;
   link?: string;
-  items: (SidebarItem | SidebarGroup)[];
+  items: (SidebarItem | SidebarGroup | string)[];
   collapsible?: boolean;
   collapsed?: boolean;
 }
@@ -211,4 +211,22 @@ export interface LocaleLinks {
 export interface LocaleLink {
   text: string;
   link: string;
+}
+
+// normalized config ---------------------------------------------------------
+export interface NormalizedSidebarGroup extends Omit<SidebarGroup, 'items'> {
+  items: (SidebarItem | NormalizedSidebarGroup)[];
+  collapsible: boolean;
+  collapsed: boolean;
+}
+export interface NormalizedSidebar {
+  [path: string]: (NormalizedSidebarGroup | SidebarItem)[];
+}
+export interface NormalizedLocales extends Omit<LocaleConfig, 'sidebar'> {
+  sidebar: NormalizedSidebar;
+}
+
+export interface NormalizedConfig extends Omit<Config, 'locales' | 'sidebar'> {
+  locales: NormalizedLocales[];
+  sidebar: NormalizedSidebar;
 }

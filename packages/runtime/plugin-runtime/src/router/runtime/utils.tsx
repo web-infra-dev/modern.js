@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
+import type { LoaderFunction, LoaderFunctionArgs } from 'react-router-dom';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
-import { RootLayout } from './root';
 
 const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   const { children, index, id, component: Component } = nestedRoute;
@@ -12,7 +12,7 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
     caseSensitive: nestedRoute.caseSensitive,
     path: nestedRoute.path,
     id: nestedRoute.id,
-    loader: nestedRoute.loader,
+    loader: createLoader(nestedRoute),
     action: nestedRoute.action,
     hasErrorBoundary: nestedRoute.hasErrorBoundary,
     shouldRevalidate: nestedRoute.shouldRevalidate,
@@ -54,10 +54,6 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
     // and it should inherit the loading of the parent component to make the loading of the parent layout component take effect.
     // It also means when layout component is undefined, loading component in then same dir should not working.
     nestedRoute.loading = parent?.loading;
-  }
-
-  if (!parent && element) {
-    element = <RootLayout routes={[nestedRoute]}>{element}</RootLayout>;
   }
 
   if (element) {
@@ -160,4 +156,23 @@ export function standardSlash(str: string) {
   }
 
   return addr;
+}
+
+function createLoader(route: NestedRoute): LoaderFunction {
+  const { loader } = route;
+  if (loader) {
+    return (args: LoaderFunctionArgs) => {
+      if (typeof route.lazyImport === 'function') {
+        route.lazyImport();
+      }
+      return loader(args);
+    };
+  } else {
+    return () => {
+      if (typeof route.lazyImport === 'function') {
+        route.lazyImport();
+      }
+      return null;
+    };
+  }
 }

@@ -12,7 +12,8 @@ import { remarkPluginToc } from './remarkPlugins/toc';
 import { rehypePluginPreWrapper } from './rehypePlugins/preWrapper';
 import { rehypePluginShiki } from './rehypePlugins/shiki';
 import { remarkPluginTip } from './remarkPlugins/tip';
-import { remarkPluginNormalizeLink } from './remarkPlugins/link';
+import { remarkPluginNormalizeLink } from './remarkPlugins/normalizeLink';
+import { remarkCheckDeadLinks } from './remarkPlugins/checkDeadLink';
 
 export async function createMDXOptions(
   userRoot: string,
@@ -29,6 +30,7 @@ export async function createMDXOptions(
   const rehypePluginsFromPlugins = docPlugins.flatMap(
     plugin => plugin.markdown?.rehypePlugins || [],
   ) as PluggableList;
+  const defaultLang = config.doc?.lang || 'zh';
   return {
     remarkPlugins: [
       remarkDirective,
@@ -41,7 +43,13 @@ export async function createMDXOptions(
         remarkPluginNormalizeLink,
         {
           base: config.doc?.base || '',
-          defaultLang: config.doc?.lang || 'zh',
+          defaultLang,
+          root: userRoot,
+        },
+      ],
+      [
+        remarkCheckDeadLinks,
+        {
           root: userRoot,
         },
       ],

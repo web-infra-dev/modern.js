@@ -1,5 +1,14 @@
 import { join } from 'path';
-import { SiteData, UserConfig } from 'shared/types';
+import {
+  PageBasicInfo,
+  SiteData,
+  UserConfig,
+  DefaultThemeConfig,
+  NormalizedDefaultThemeConfig,
+  SidebarItem,
+  SidebarGroup,
+  NormalizedSidebarGroup,
+} from 'shared/types';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { remark } from 'remark';
 
@@ -10,10 +19,86 @@ import { htmlToText } from 'html-to-text';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 import remarkDirective from 'remark-directive';
+import { ReplaceRule } from 'shared/types/index';
 import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { routeService } from './routeData';
+import { withBase } from '@/shared/utils';
+
+export function normalizeThemeConfig(
+  themeConfig: DefaultThemeConfig,
+  pages: PageBasicInfo[] = [],
+  base = '',
+  replaceRules: ReplaceRule[],
+): NormalizedDefaultThemeConfig {
+  // Normalize sidebar
+  const normalizeSidebar = (
+    sidebar: DefaultThemeConfig['sidebar'],
+  ): NormalizedDefaultThemeConfig['sidebar'] => {
+    const normalizedSidebar: NormalizedDefaultThemeConfig['sidebar'] = {};
+    if (!sidebar) {
+      return {};
+    }
+    const normalizeSidebarItem = (
+      item: SidebarGroup | SidebarItem | string,
+    ): NormalizedSidebarGroup | SidebarItem => {
+      if (typeof item === 'object' && 'items' in item) {
+        return {
+          text: applyReplaceRules(item.text, replaceRules),
+          link: item.link,
+          collapsed: item.collapsed ?? false,
+          collapsible: item.collapsible ?? true,
+          items: item.items.map(subItem => {
+            return normalizeSidebarItem(subItem);
+          }),
+        };
+      }
+
+      if (typeof item === 'string') {
+        const page = pages.find(
+          page => page.routePath === withBase(item, base),
+        );
+        return {
+          text: applyReplaceRules(page?.title || '', replaceRules),
+          link: item,
+        };
+      }
+
+      return {
+        ...item,
+        text: applyReplaceRules(item.text, replaceRules),
+      };
+    };
+    Object.keys(sidebar).forEach(key => {
+      const value = sidebar[key];
+      normalizedSidebar[key] = value.map(normalizeSidebarItem);
+    });
+    return normalizedSidebar;
+  };
+
+  const normalizeNav = (nav: DefaultThemeConfig['nav']) => {
+    return nav?.map(navItem => {
+      return {
+        ...navItem,
+        text: applyReplaceRules(navItem.text, replaceRules),
+      };
+    });
+  };
+
+  const locales = themeConfig?.locales || [];
+  if (locales.length) {
+    locales.forEach(locale => {
+      locale.sidebar = normalizeSidebar(locale.sidebar);
+      locale.nav = normalizeNav(locale.nav);
+    });
+  } else {
+    themeConfig.sidebar = normalizeSidebar(themeConfig.sidebar);
+    themeConfig.nav = normalizeNav(themeConfig.nav);
+  }
+
+  return themeConfig as NormalizedDefaultThemeConfig;
+}
 
 export async function createSiteDataVirtualModulePlugin(
   userRoot: string,
@@ -90,7 +175,12 @@ export async function createSiteDataVirtualModulePlugin(
     title: userConfig?.title || '',
     description: userConfig?.description || '',
     icon: userConfig?.icon || '',
-    themeConfig: userConfig?.themeConfig || {},
+    themeConfig: normalizeThemeConfig(
+      userConfig?.themeConfig || {},
+      pages,
+      config.doc?.base,
+      config.doc?.replaceRules || [],
+    ),
     base: userConfig?.base || '/',
     root: userRoot,
     lang: userConfig?.lang || 'zh',
