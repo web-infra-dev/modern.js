@@ -7,6 +7,8 @@ import {
 import { castArray } from '@modern-js/utils/lodash';
 import { getCompiledPath } from '../shared';
 import type { RuleSetRule, WebpackPluginInstance } from 'webpack';
+import type WebpackChain from '@modern-js/builder-shared/webpack-5-chain';
+
 import type {
   Context,
   WebpackConfig,
@@ -17,18 +19,11 @@ import type {
 async function modifyWebpackChain(
   context: Context,
   utils: ModifyWebpackChainUtils,
-  config: WebpackConfig,
+  chain: WebpackChain,
 ) {
   debug('modify webpack chain');
 
-  const { default: WebpackChain } = await import(
-    '@modern-js/builder-shared/webpack-5-chain'
-  );
   const { ensureArray } = await import('@modern-js/utils');
-
-  const chain = new WebpackChain();
-
-  chain.merge(config);
 
   const [modifiedChain] = await context.hooks.modifyWebpackChainHook.call(
     chain,
@@ -160,7 +155,9 @@ export async function generateWebpackConfig({
   const chain = await modifyWebpackChain(
     context,
     chainUtils,
-    bundlerChain.toConfig(),
+    // module rules not support merge
+    // need a special rule merge or use bundlerChain as WebpackChain
+    bundlerChain as WebpackChain,
   );
 
   let webpackConfig = chain.toConfig();

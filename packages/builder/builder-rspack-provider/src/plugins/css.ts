@@ -2,18 +2,15 @@ import assert from 'assert';
 import {
   isLooseCssModules,
   getBrowserslistWithDefault,
-  setConfig,
   isUseCssSourceMap,
   CSS_REGEX,
   type BuilderContext,
+  BundlerChain,
+  ModifyBundlerChainUtils,
 } from '@modern-js/builder-shared';
-import type {
-  BuilderPlugin,
-  NormalizedConfig,
-  ModifyRspackConfigUtils,
-} from '../types';
+import type { BuilderPlugin, NormalizedConfig } from '../types';
 import type { AcceptedPlugin } from 'postcss';
-import { isUseCssExtract } from '../shared';
+import { isUseCssExtract, getCompiledPath } from '../shared';
 
 type CssNanoOptions = {
   configFile?: string | undefined;
@@ -32,19 +29,12 @@ export const getCssnanoDefaultOptions = (): CssNanoOptions => ({
   ],
 });
 
-export async function getCssLoaderUses(
+export async function applyBaseCSSRule(
+  rule: ReturnType<BundlerChain['module']['rule']>,
   config: NormalizedConfig,
   context: BuilderContext,
-  {
-    target,
-    isProd,
-    isServer,
-    isWebWorker,
-    getCompiledPath,
-  }: ModifyRspackConfigUtils,
+  { target, isProd, isServer, isWebWorker, CHAIN_ID }: ModifyBundlerChainUtils,
 ) {
-  const uses = [];
-
   // 1. Check user config
   const enableExtractCSS = isUseCssExtract(config, target);
   const enableSourceMap = isUseCssSourceMap(config);
@@ -155,40 +145,25 @@ export async function getCssLoaderUses(
     // todo: css module (exportOnlyLocals) required in server
     const postcssLoaderOptions = getPostcssConfig();
 
-    // @ts-expect-error
-    const { default: postcssLoader } = await import('@rspack/postcss-loader');
-    uses.push({
-      name: 'postcss',
-      loader: postcssLoader,
-      options: postcssLoaderOptions,
-    });
+    rule
+      .use(CHAIN_ID.USE.POSTCSS)
+      .loader(require.resolve('@rspack/postcss-loader'))
+      .options(postcssLoaderOptions)
+      .end();
   }
-
-  return uses;
 }
 
 export const PluginCss = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-css',
     setup(api) {
-      api.modifyRspackConfig(async (rspackConfig, utils) => {
+      api.modifyBundlerChain(async (chain, utils) => {
         const config = api.getNormalizedConfig();
 
-        const cssLoaderUses = await getCssLoaderUses(
-          config,
-          api.context,
-          utils,
-        );
+        const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
+        rule.test(CSS_REGEX).type('css');
 
-        setConfig(rspackConfig, 'module.rules', [
-          ...(rspackConfig.module?.rules || []),
-          {
-            name: 'css',
-            test: CSS_REGEX,
-            use: cssLoaderUses,
-            type: 'css',
-          },
-        ]);
+        await applyBaseCSSRule(rule, config, api.context, utils);
       });
     },
   };
