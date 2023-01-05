@@ -8,10 +8,10 @@ sidebar_position: 3
 
 ## 了解 Copy API
 
-我们可以通过 [`buildConfig.copy`](/zh/api/build-config#copy) API 来使用 Copy 工具，它包含以下两个主要配置：
+我们可以通过 [`buildConfig.copy`](/api/config/build-config#copy) API 来使用 Copy 工具，它包含以下两个主要配置：
 
-- [`patterns`](/zh/api/build-config#copypatterns)
-- [`options`](/zh/api/build-config#copyoptions)
+- [`patterns`](/api/config/build-config#copypatterns)
+- [`options`](/api/config/build-config#copyoptions)
 
 在开始学习之前可以先花一些时间了解它们。
 
@@ -34,7 +34,7 @@ export default defineConfig({
 });
 ```
 
-`patterns.context` 一般和 `patterns.from` 配合使用，默认情况下它的值与 [`buildConfig.sourceDir`](/zh/api/build-config#sourcedir) 相同，因此我们可以按照如下方式指定 `src/data.json` 文件为要复制的文件：
+`patterns.context` 一般和 `patterns.from` 配合使用，默认情况下它的值与 [`buildConfig.sourceDir`](/api/config/build-config#sourcedir) 相同，因此我们可以按照如下方式指定 `src/data.json` 文件为要复制的文件：
 
 > 默认情况下，`buildConfig.sourceDir` 为 `src`
 
@@ -70,7 +70,7 @@ export default defineConfig({
 });
 ```
 
-`patterns.to` 用于指定复制文件的输出路径，默认情况下它的值为 [`buildConfig.outDir`](zh/api/build-config#outDir)对应的值。因此我们按照如下方式将 `src/index.html` 复制到 `dist` 目录下：
+`patterns.to` 用于指定复制文件的输出路径，默认情况下它的值为 [`buildConfig.outDir`](/api/config/build-config#outDir)对应的值。因此我们按照如下方式将 `src/index.html` 复制到 `dist` 目录下：
 
 ```ts
 export default defineConfig({

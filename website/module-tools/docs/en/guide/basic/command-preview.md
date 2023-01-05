@@ -26,7 +26,7 @@ Options:
 When you want to start a project build, you can execute the `modern build` command. When using this command, we can:
 
 - When wanting to start a build in watch mode, use the `--watch` option.
-- When you want to specify the path to the TypeScript configuration file read by the project build, use `-build --tsconfig . /path/config.json` option. This option overrides all [`buildConfig`](/zh/api/build-config) configurations in [`dts.tsconfigPath`](/zh/api/build-config).
+- When you want to specify the path to the TypeScript configuration file read by the project build, use `-build --tsconfig . /path/config.json` option. This option overrides all [`buildConfig`](/api/config/build-config) configurations in [`dts.tsconfigPath`](/api/config/build-config).
 - The `-no-dts` option can be used when the DTS type file generation and type checking behavior of the project needs to be turned off. **Note: The generation of type files depends on the results of type checking. If type checking is turned off, then type files will not be generated either**.
 - The `--no-clear` option can be used when the automatic clearing of the product output directory needs to be turned off.
 
@@ -59,7 +59,7 @@ The following features can currently be enabled.
 - Tailwind CSS support
 - Modern.js Runtime API
 
-You can learn more about these features in the [Using the micro generator](/zh/guide/use-micro-generator) section.
+You can learn more about these features in the [Using the micro generator](/guide/basic/use-micro-generator) section.
 
 ## `modern dev`
 

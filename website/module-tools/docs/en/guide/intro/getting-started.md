@@ -78,6 +78,6 @@ We can start the project build directly with the `pnpm build` command, and start
 
 Choose your tutorial scenario...
 
-- I'm a beginner and need to learn [basic usage](/en/guide/before-getting-started) of Module Tools.
-- I have learned the basic usage of Module Tools and can learn [advanced usage](/en/guide/before-getting-started) of Module Tools.
+- I'm a beginner and need to learn [basic usage](/en/guide/basic/before-getting-started) of Module Tools.
+- I have learned the basic usage of Module Tools and can learn [advanced usage](/en/guide/basic/before-getting-started) of Module Tools.
 - I am the maintainer of the project and need to learn how to develop plugins for Module Tools and learn more about Module Tools Advanced.
