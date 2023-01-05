@@ -1,5 +1,30 @@
 # @modern-js/app-tools
 
+## 2.0.2
+
+### Patch Changes
+
+- 39988b2: feat: advance the timing of static resource loading
+  feat: 将嵌套路由下静态资源加载时机提前
+- Updated dependencies [39988b2]
+  - @modern-js/types@2.0.2
+  - @modern-js/new-action@2.0.2
+  - @modern-js/builder-shared@2.0.2
+  - @modern-js/builder-webpack-provider@2.0.2
+  - @modern-js/core@2.0.2
+  - @modern-js/plugin-data-loader@2.0.2
+  - @modern-js/prod-server@2.0.2
+  - @modern-js/server@2.0.2
+  - @modern-js/utils@2.0.2
+  - @modern-js/builder@2.0.2
+  - @modern-js/builder-plugin-esbuild@2.0.2
+  - @modern-js/builder-plugin-node-polyfill@2.0.2
+  - @modern-js/plugin-i18n@2.0.2
+  - @modern-js/plugin-lint@2.0.2
+  - @modern-js/node-bundle-require@2.0.2
+  - @modern-js/plugin@2.0.2
+  - @modern-js/upgrade@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes
