@@ -1,1 +1,3 @@
-export { ReactComponent } from './logo.svg';
+import logo from './logo.svg';
+
+export default logo;
