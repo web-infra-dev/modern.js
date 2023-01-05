@@ -6,6 +6,7 @@ exports[`plugins/toml > should add toml rule properly 1`] = `
     "rules": [
       {
         "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<ROOT>/compiled/toml-loader",

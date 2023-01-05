@@ -37,6 +37,8 @@ export type Plugins = {
   target: PluginsFn;
   entry: PluginsFn;
   cache: PluginsFn;
+  yaml: PluginsFn;
+  toml: PluginsFn;
 };
 
 /**
