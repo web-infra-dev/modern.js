@@ -19,6 +19,7 @@ import { htmlToText } from 'html-to-text';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 import remarkDirective from 'remark-directive';
+import { ReplaceRule } from 'shared/types/index';
 import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
@@ -29,9 +30,10 @@ export function normalizeThemeConfig(
   themeConfig: DefaultThemeConfig,
   pages: PageBasicInfo[] = [],
   base = '',
+  replaceRules: ReplaceRule[],
 ): NormalizedDefaultThemeConfig {
   // Normalize sidebar
-  const traverseSidebar = (
+  const normalizeSidebar = (
     sidebar: DefaultThemeConfig['sidebar'],
   ): NormalizedDefaultThemeConfig['sidebar'] => {
     const normalizedSidebar: NormalizedDefaultThemeConfig['sidebar'] = {};
@@ -43,7 +45,8 @@ export function normalizeThemeConfig(
     ): NormalizedSidebarGroup | SidebarItem => {
       if (typeof item === 'object' && 'items' in item) {
         return {
-          ...item,
+          text: applyReplaceRules(item.text, replaceRules),
+          link: item.link,
           collapsed: item.collapsed ?? false,
           collapsible: item.collapsible ?? true,
           items: item.items.map(subItem => {
@@ -57,12 +60,15 @@ export function normalizeThemeConfig(
           page => page.routePath === withBase(item, base),
         );
         return {
-          text: page?.title || '',
+          text: applyReplaceRules(page?.title || '', replaceRules),
           link: item,
         };
       }
 
-      return item;
+      return {
+        ...item,
+        text: applyReplaceRules(item.text, replaceRules),
+      };
     };
     Object.keys(sidebar).forEach(key => {
       const value = sidebar[key];
@@ -71,16 +77,26 @@ export function normalizeThemeConfig(
     return normalizedSidebar;
   };
 
+  const normalizeNav = (nav: DefaultThemeConfig['nav']) => {
+    return nav?.map(navItem => {
+      return {
+        ...navItem,
+        text: applyReplaceRules(navItem.text, replaceRules),
+      };
+    });
+  };
+
   const locales = themeConfig?.locales || [];
-  if (themeConfig.sidebar) {
-    themeConfig.sidebar = traverseSidebar(themeConfig.sidebar);
+  if (locales.length) {
+    locales.forEach(locale => {
+      locale.sidebar = normalizeSidebar(locale.sidebar);
+      locale.nav = normalizeNav(locale.nav);
+    });
+  } else {
+    themeConfig.sidebar = normalizeSidebar(themeConfig.sidebar);
+    themeConfig.nav = normalizeNav(themeConfig.nav);
   }
 
-  locales.forEach(locale => {
-    if (locale.sidebar) {
-      locale.sidebar = traverseSidebar(locale.sidebar);
-    }
-  });
   return themeConfig as NormalizedDefaultThemeConfig;
 }
 
@@ -163,6 +179,7 @@ export async function createSiteDataVirtualModulePlugin(
       userConfig?.themeConfig || {},
       pages,
       config.doc?.base,
+      config.doc?.replaceRules || [],
     ),
     base: userConfig?.base || '/',
     root: userRoot,

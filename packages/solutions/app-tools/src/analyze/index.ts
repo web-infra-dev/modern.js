@@ -213,7 +213,7 @@ export default (): CliPlugin<AppTools> => ({
       // This logic is not in the router plugin to avoid having to include some dependencies in the utils package
       async modifyEntryImports({ entrypoint, imports }) {
         const appContext = api.useAppContext();
-        const { srcDirectory } = appContext;
+        const { srcDirectory, internalSrcAlias } = appContext;
         const { fileSystemRoutes, nestedRoutesEntry } = entrypoint;
         if (fileSystemRoutes && nestedRoutesEntry) {
           const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
@@ -235,7 +235,7 @@ export default (): CliPlugin<AppTools> => ({
             const generateLayoutPath = replaceWithAlias(
               srcDirectory,
               rootLayoutFile,
-              '@_modern_js_src',
+              internalSrcAlias,
             );
             if (hasAppConfig) {
               imports.push({

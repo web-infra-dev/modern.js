@@ -111,7 +111,7 @@ export const isNestedRouteComponent = (
   absoluteFilePath: string,
 ) => {
   const reg = new RegExp(
-    `(${NESTED_ROUTE.LAYOUT_FILE}|${NESTED_ROUTE.PAGE_FILE}})\\.tsx?$`,
+    `(${NESTED_ROUTE.LAYOUT_FILE}|${NESTED_ROUTE.PAGE_FILE})\\.tsx?$`,
   );
   return nestedRouteEntries.some(nestedRoutesEntry => {
     if (
