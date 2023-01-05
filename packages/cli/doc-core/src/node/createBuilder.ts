@@ -28,7 +28,7 @@ async function createInternalBuildConfig(
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');
-
+  const checkDeadLinks = config.doc?.markdown?.checkDeadLinks ?? false;
   // Process doc config by plugins
   for (const plugin of docPlugins) {
     if (typeof plugin.config === 'function') {
@@ -124,7 +124,8 @@ async function createInternalBuildConfig(
           }),
         );
         config.cache = {
-          type: 'filesystem',
+          // If checkDeadLinks is true, we should use memory cache to avoid skiping mdx-loader when starting dev server again
+          type: checkDeadLinks ? 'memory' : 'filesystem',
         };
         return config;
       },
