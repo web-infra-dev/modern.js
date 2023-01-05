@@ -5,13 +5,11 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
   "module": {
     "rules": [
       {
-        "name": "css",
         "test": /\\\\\\.css\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -58,14 +56,11 @@ exports[`plugins/less > should add less-loader 1`] = `
   "module": {
     "rules": [
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -105,8 +100,7 @@ exports[`plugins/less > should add less-loader 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -130,13 +124,11 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
         "exclude": [
           /node_modules/,
         ],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -176,8 +168,7 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -198,14 +189,11 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
   "module": {
     "rules": [
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -245,8 +233,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -267,14 +254,11 @@ exports[`plugins/sass > should add sass-loader 1`] = `
   "module": {
     "rules": [
       {
-        "exclude": [],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -315,7 +299,6 @@ exports[`plugins/sass > should add sass-loader 1`] = `
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
@@ -336,13 +319,11 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
         "exclude": [
           /node_modules/,
         ],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -383,7 +364,6 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,

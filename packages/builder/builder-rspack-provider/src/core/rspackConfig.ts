@@ -11,7 +11,7 @@ import {
   omitBy,
   isUndefined,
 } from '@modern-js/utils/lodash';
-import { getCompiledPath } from '../shared';
+import { getCompiledPath, BUILTIN_LOADER } from '../shared';
 import type { Context, RspackConfig, ModifyRspackConfigUtils } from '../types';
 
 async function modifyRspackConfig(
@@ -170,6 +170,14 @@ const formatRule = (rule: BundlerRule): RspackRule => {
 
       if (!content.loader) {
         throw new Error(`loader is required in rule.use`);
+      }
+
+      if (content.loader.includes(BUILTIN_LOADER)) {
+        const { loader, ...loaderConfig } = content;
+        return {
+          ...loaderConfig,
+          builtinLoader: loader.replace(BUILTIN_LOADER, ''),
+        };
       }
 
       return {

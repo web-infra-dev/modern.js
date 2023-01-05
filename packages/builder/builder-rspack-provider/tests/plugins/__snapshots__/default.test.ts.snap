@@ -35,13 +35,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "module": {
     "rules": [
       {
-        "name": "css",
         "test": /\\\\\\.css\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -83,14 +81,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -130,8 +125,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -143,14 +137,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
-        "exclude": [],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -191,7 +182,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
@@ -260,13 +250,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "module": {
     "rules": [
       {
-        "name": "css",
         "test": /\\\\\\.css\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -308,14 +296,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         ],
       },
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -355,8 +340,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -368,14 +352,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         ],
       },
       {
-        "exclude": [],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -416,7 +397,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": false,
@@ -493,13 +473,11 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
-        "name": "css",
         "test": /\\\\\\.css\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -541,14 +519,11 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -588,8 +563,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -601,14 +575,11 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
-        "exclude": [],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "@rspack/postcss-loader",
             "options": {
               "modules": {
                 "auto": true,
@@ -649,7 +620,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
