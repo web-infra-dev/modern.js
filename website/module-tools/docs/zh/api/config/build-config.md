@@ -103,6 +103,17 @@ export default defineConfig({
 - 类型： `boolean | Object`
 - 默认值： `false`
 
+:::tip
+开启svgr后，仍然使用default export导出svg，所以你只能导入默认值。
+```js index.ts
+// true
+import logo from './logo.svg';
+
+// false
+import { ReactComponent } from './logo.svg';
+```
+:::
+
 #### include
 
 设定匹配的 svg 文件
