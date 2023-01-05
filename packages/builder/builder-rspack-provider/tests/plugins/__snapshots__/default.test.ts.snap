@@ -28,7 +28,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "devServer": {
     "hot": true,
   },
-  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -223,7 +222,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
-  "target": undefined,
 }
 `;
 
@@ -255,7 +253,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "devServer": {
     "hot": false,
   },
-  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -450,7 +447,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
-  "target": undefined,
 }
 `;
 
@@ -482,7 +478,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
   "devServer": {
     "hot": true,
   },
-  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -690,6 +685,5 @@ exports[`tools.rspack > should match snapshot 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
-  "target": undefined,
 }
 `;

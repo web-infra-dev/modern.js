@@ -95,8 +95,8 @@ describe('bundlerApi', () => {
     } = await builder.inspectConfig();
     expect(bundlerConfigs[0]).toMatchInlineSnapshot(`
       {
-        "cache": undefined,
         "devtool": "hidden-source-map",
+        "module": {},
         "target": "node",
       }
     `);
