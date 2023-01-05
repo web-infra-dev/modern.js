@@ -56,7 +56,7 @@ type Return = BuildConfig;
 
 ### `beforeBuildTask`
 
-Based on the build configuration, module tools will split the overall build into multiple sub-build tasks. The Hook will be triggered before each build subtask.
+Based on the build configuration, Module Tools will split the overall build into multiple sub-build tasks. The Hook will be triggered before each build subtask.
 
 ``` ts
 export default (): CliPlugin<ModuleTools> => ({

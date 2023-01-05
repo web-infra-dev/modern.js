@@ -2,32 +2,29 @@
 pageType: home
 
 hero:
-  name: Modern.js Module
-  text: 模块工程解决方案
-  tagline: 简单、强大、高性能的现代化npm包开发方案
+  name: Module Tools
+  text: Module engineering solutions
+  tagline: simple, powerful, high-performance modern npm package development solution
   actions:
     - theme: brand
-      text: 快速开始
-      link: /guide/getting-started
+      text: welcome
+      link: /guide/intro/welcome
 
 features:
-  - title: 'Libuild: 现代库构建方案'
-    details: 基于 Libuild 构建，构建速度极快，带给你极致的开发体验。
+  - title: 'Esbuild: The High Performance JS Bundler'
+    details: Built on Esbuild, the build is extremely fast and gives you the ultimate development experience.
     icon: 🚀
-  - title: 'Storybook: 社区流行的UI开发工具'
-    details: 集成了Storybook，你可以使用它调试UI。
+  - title: 'Storybook: The community popular UI development tool'
+    details: Integrated with Storybook, you can use it to debug UI.
     icon: 📦
-  - title: 'Island: 强大的现代化SSG方案'
-    details: 高性能的静态站点生成器。
-    icon: 🔑
   - title: 'transform + bundle'
-    details: 支持bundle和bundleless两种构建模式。
+    details: Both bundle and bundleless build modes are supported.
     icon: ✨
-  - title: '零配置'
-    details: 无需任何配置即可开发你的npm包，内置预设覆盖多种场景。
+  - title: 'zero configuration'
+    details: Develop your npm packages without any configuration, with built-in presets covering multiple scenarios.
     icon: 🛠️
-  - title: '扩展性强: 提供强大的插件机制'
-    details: 通过其插件扩展机制，你可以轻松的扩展Module tools的各项能力。
+  - title: 'Extensible: Provides a powerful plugin mechanism'
+    details: With its plugin extension mechanism, you can easily extend the capabilities of Module Tools.
     icon: 🎨
 ---
 # index
