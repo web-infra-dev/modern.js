@@ -1,23 +1,23 @@
 ---
-title: 添加 Loader
+title: Add Loader
 ---
 
-上一章节中，我们学习了如何添加客户端路由。
+In the previous chapter, we learned how to add client route.
 
-这一章节中，我们将会学习如何为**路由组件添加 Loader**。
+In this chapter, we will learn how to add **Loader** to the routing component.
 
-到目前为止，我们都是通过硬编码的方式，为组件提供数据。如果要从远端获取数据，通常情况下会使用 `useEffect` 来做。但在启用 SSR 的情况下，`useEffect` 是不会在服务端执行的，所以这种 SSR 只能渲染很有限的 UI。
+By far, we have provided data to components through hardcoding. If you want to get data from the remote, you usually use `useEffect` to do it. But when SSR is enabled, `useEffect` will not be executed at the server level, so this SSR can only render a very limited UI.
 
-Modern.js 为提供了 Data Loader 的能力，支持同构的在组件中获取数据，让 SSR 的价值最大化。
+Modern.js provides the ability of Data Loader to support homogeneous data acquisition in components to maximize the value of SSR.
 
-下面我们演示如何为路由组件添加 Data Loader，并模拟远端数据获取。我们使用 faker 来 mock 需要的数据，首先安装依赖：
+Below we demonstrate how to add Data Loader to the routing component and simulate remote data acquisition. We use faker to mock the required data, first install dependency:
 
 ```bash
 pnpm add faker@5
 pnpm add @types/faker@5 -D
 ```
 
-修改 `src/routes/page.tsx`：
+Modify `src/routes/page.tsx`:
 
 ```tsx
 import { name, internet } from 'faker';
@@ -49,10 +49,10 @@ export const loader = async (): Promise<LoaderData> => {
 ```
 
 :::note
-Data Loader 并非只为 SSR 工作。在 CSR 项目中，Data Loader 也可以避免数据获取依赖 UI 渲染，解决请求瀑布流的问题。未来，Modern.js 也会为这一特性添加更多能力，例如预获取、数据缓存等。
+Data Loader doesn't just work for SSR. In CSR projects, Data Loader can also avoid data acquisition dependency UI rendering, which solves the problem of requesting dynamic grid layout. In the future, Modern.js will also add more capabilities to this feature, such as pre-fetching, data caching, etc.
 :::
 
-Modern.js 也提供了一个叫 `useLoaderData` 的 hooks API，我们修改 `src/routes/page.tsx` 导出的组件：
+Modern.js also provides a hooks API called `useLoaderData`, we modify the exported component of `src/routes/page.tsx`:
 
 ```tsx {1,4,13}
 import { useLoaderData } from '@modern-js/runtime/router';
@@ -77,6 +77,6 @@ export default Index;
 ```
 
 <!-- Todo 重新截图，SSR 内容 -->
-重新执行 `pnpm run dev`，查看 `view-source:http://localhost:8080/`，或在 devtools 的 Network 面板里查看 HTML 请求的「 Preview 」，可以看到 SSR 渲染出来的 HTML 已经包含完整的 UI：
+Re-execute `pnpm run dev`, view `view-source: http://localhost:8080/`, or view the "Preview" of the HTML request in the Network panel of devtools, you can see that the HTML rendered by SSR already contains the complete UI:
 
 ![display6](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/11/display6.png)
