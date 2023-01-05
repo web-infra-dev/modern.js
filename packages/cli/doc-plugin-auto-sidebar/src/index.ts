@@ -208,9 +208,9 @@ export function getRootCategories(
 
     category.children.sort((a, b) => {
       const positionA =
-        a.meta?.position || a.meta?.sidebar_position || DEFAULT_POSITION;
+        a.meta?.position ?? a.meta?.sidebar_position ?? DEFAULT_POSITION;
       const positionB =
-        b.meta?.position || b.meta?.sidebar_position || DEFAULT_POSITION;
+        b.meta?.position ?? b.meta?.sidebar_position ?? DEFAULT_POSITION;
       return positionA - positionB;
     });
 
