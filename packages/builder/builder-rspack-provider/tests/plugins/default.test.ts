@@ -101,4 +101,67 @@ describe('bundlerApi', () => {
       }
     `);
   });
+
+  it('test modifyBundlerChain rule format correctly', async () => {
+    const testPlugin: BuilderPlugin = {
+      name: 'builder-plugin-devtool',
+      setup: api => {
+        api.modifyBundlerChain(chain => {
+          chain.module
+            .rule('yaml')
+            .type('javascript/auto')
+            .test(/\.ya?ml$/)
+            .use('yaml')
+            .loader('../../compiled/yaml-loader');
+        });
+      },
+    };
+
+    const builder = await createBuilder({
+      plugins: [testPlugin],
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchInlineSnapshot(`
+      {
+        "module": {
+          "rules": [
+            {
+              "test": /\\\\\\.ya\\?ml\\$/,
+              "type": "javascript/auto",
+              "use": [
+                {
+                  "loader": "../../compiled/yaml-loader",
+                },
+              ],
+            },
+          ],
+        },
+      }
+    `);
+  });
+
+  it('test modifyBundlerChain rule format error', async () => {
+    const testPlugin: BuilderPlugin = {
+      name: 'builder-plugin-devtool',
+      setup: api => {
+        api.modifyBundlerChain(chain => {
+          chain.module
+            .rule('yaml')
+            .type('javascript/auto')
+            .issuerLayer('other-layer');
+        });
+      },
+    };
+
+    const builder = await createBuilder({
+      plugins: [testPlugin],
+    });
+
+    await expect(builder.inspectConfig()).rejects.toThrow(
+      'issuerLayer is not supported in bundlerChain.rule',
+    );
+  });
 });

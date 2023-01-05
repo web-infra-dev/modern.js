@@ -5,7 +5,12 @@ import {
   modifyBundlerChain,
   BundlerConfig,
 } from '@modern-js/builder-shared';
-import { castArray, difference } from '@modern-js/utils/lodash';
+import {
+  castArray,
+  difference,
+  omitBy,
+  isUndefined,
+} from '@modern-js/utils/lodash';
 import { getCompiledPath } from '../shared';
 import type { Context, RspackConfig, ModifyRspackConfigUtils } from '../types';
 
@@ -174,45 +179,54 @@ const formatRule = (rule: BundlerRule): RspackRule => {
     });
   };
 
-  return {
-    ...rule,
-    type: rule.type as RspackRule['type'],
-    use: formatRuleUse(rule.use),
-    resource: formatConditionWithUndefined(rule.resource),
-    resourceQuery: formatConditionWithUndefined(rule.resourceQuery),
-    exclude: Array.isArray(rule.exclude)
-      ? rule.exclude.map(formatCondition)
-      : formatConditionWithUndefined(rule.exclude),
-    include: Array.isArray(rule.include)
-      ? rule.include.map(formatCondition)
-      : formatConditionWithUndefined(rule.include),
-    test: formatConditionWithUndefined(rule.test),
-  };
+  return omitBy(
+    {
+      ...rule,
+      type: rule.type as RspackRule['type'],
+      use: formatRuleUse(rule.use),
+      resource: formatConditionWithUndefined(rule.resource),
+      resourceQuery: formatConditionWithUndefined(rule.resourceQuery),
+      exclude: Array.isArray(rule.exclude)
+        ? rule.exclude.map(formatCondition)
+        : formatConditionWithUndefined(rule.exclude),
+      include: Array.isArray(rule.include)
+        ? rule.include.map(formatCondition)
+        : formatConditionWithUndefined(rule.include),
+      test: formatConditionWithUndefined(rule.test),
+    },
+    isUndefined,
+  );
 };
 
 /**
  * BundlerConfig type is similar to WebpackConfig. need convert
  */
 const convertToRspackConfig = (config: BundlerConfig): RspackConfig => {
-  return {
-    ...config,
-    module: {
-      rules: config.module?.rules?.map(formatRule),
+  return omitBy(
+    {
+      ...config,
+      module: omitBy(
+        {
+          rules: config.module?.rules?.map(formatRule),
+        },
+        isUndefined,
+      ),
+      cache:
+        typeof config.cache === 'object' && config.cache.type === 'filesystem'
+          ? {
+              ...config.cache,
+              /** rspack buildDependencies type is array */
+              buildDependencies: Object.values(
+                config.cache.buildDependencies || [],
+              ).flat(),
+            }
+          : config.cache,
+      /** value is consistent. one type is string, the other one type is enum */
+      devtool: config.devtool as RspackConfig['devtool'],
+      target: config.target as RspackConfig['target'],
     },
-    cache:
-      typeof config.cache === 'object' && config.cache.type === 'filesystem'
-        ? {
-            ...config.cache,
-            /** rspack buildDependencies type is array */
-            buildDependencies: Object.values(
-              config.cache.buildDependencies || [],
-            ).flat(),
-          }
-        : config.cache,
-    /** value is consistent. one type is string, the other one type is enum */
-    devtool: config.devtool as RspackConfig['devtool'],
-    target: config.target as RspackConfig['target'],
-  };
+    isUndefined,
+  );
 };
 
 export async function generateRspackConfig({
