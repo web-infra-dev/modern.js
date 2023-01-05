@@ -246,6 +246,7 @@ export const fileSystemRoutes = async ({
     let error: string | undefined;
     let loader: string | undefined;
     let component = '';
+    let lazyImport = null;
 
     if (route.type === 'nested') {
       if (route.loading) {
@@ -268,18 +269,22 @@ export const fileSystemRoutes = async ({
           rootLayoutCode = `import RootLayout from '${route._component}'`;
           component = `RootLayout`;
         } else if (ssrMode === 'string') {
-          component = `loadable(() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}'))`;
+          lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}')`;
+          component = `loadable(${lazyImport})`;
         } else {
           // csr and streaming
-          component = `lazy(() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}'))`;
+          lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}')`;
+          component = `lazy(${lazyImport})`;
         }
       }
     } else if (route._component) {
-      component = `loadable(() => import('${route._component}'))`;
+      lazyImport = `() => import('${route._component}')`;
+      component = `loadable(${lazyImport})`;
     }
 
     const finalRoute = {
       ...route,
+      lazyImport,
       loading,
       loader,
       error,
@@ -300,7 +305,8 @@ export const fileSystemRoutes = async ({
       routeComponentsCode += `${JSON.stringify(newRoute, null, 2)
         .replace(/"(loadable.*\))"/g, '$1')
         .replace(/"(loadableLazy.*\))"/g, '$1')
-        .replace(/"(lazy.*\))"/g, '$1')
+        .replace(/"(\(\)[^,]+)",/g, '$1,')
+        .replace(/"(lazy\(.*\))"/g, '$1')
         .replace(/"(loading_[^"])"/g, '$1')
         .replace(/"(loader_[^"])"/g, '$1')
         .replace(/"(RootLayout)"/g, '$1')

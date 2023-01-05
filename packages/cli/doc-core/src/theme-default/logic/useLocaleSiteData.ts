@@ -5,7 +5,6 @@ import { normalizeSlash } from '@/shared/utils/index';
 
 export function useLocaleSiteData(): NormalizedLocales {
   const pageData = usePageData();
-
   const { pathname } =
     // eslint-disable-next-line react-hooks/rules-of-hooks
     process.env.NODE_ENV === 'production' ? useLocation() : location;

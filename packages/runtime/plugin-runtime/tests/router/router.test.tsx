@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { fetch, Request, Response } from '@remix-run/web-fetch';
 import { createApp, createPlugin } from '../../src/core';
 import createRouterPlugin, {
@@ -201,12 +201,16 @@ describe('@modern-js/plugin-router', () => {
     })();
 
     render(<AppWrapper />);
-    expect(screen.getByText(/^App$/i)).toBeTruthy();
-    expect(screen.getByTestId('location-display').innerHTML).toEqual('/');
-    // change router
-    fireEvent.click(screen.getByTestId('go'));
-    expect(screen.getByText(/^home$/i)).toBeTruthy();
-    expect(screen.getByTestId('location-display').innerHTML).toEqual('/home');
+    await waitFor(() => {
+      expect(screen.getByText(/^App$/i)).toBeTruthy();
+      expect(screen.getByTestId('location-display').innerHTML).toEqual('/');
+    });
+    await waitFor(() => {
+      // change router
+      fireEvent.click(screen.getByTestId('go'));
+      expect(screen.getByText(/^home$/i)).toBeTruthy();
+      expect(screen.getByTestId('location-display').innerHTML).toEqual('/home');
+    });
   });
   it('DefaultNotFound', () => {
     const { container } = render(<DefaultNotFound />);
