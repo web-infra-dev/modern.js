@@ -8,10 +8,10 @@ The Module Project provides the Copy utility for copying already existing indivi
 
 ## Understanding the Copy API
 
-We can use the Copy tool via the [`buildConfig.copy`](/en/api/build-config#copy) API, which contains the following two main configurations.
+We can use the Copy tool via the [`buildConfig.copy`](/en/api/config/build-config#copy) API, which contains the following two main configurations.
 
-- [`patterns`](/en/api/build-config#copypatterns)
-- [`options`](/en/api/build-config#copyoptions)
+- [`patterns`](/en/api/config/build-config#copypatterns)
+- [`options`](/en/api/config/build-config#copyoptions)
 
 It is recommended to spend some time getting to know them before you start learning.
 
@@ -34,7 +34,7 @@ export default defineConfig({
 });
 ```
 
-`patterns.context` 一般和 `patterns.from` 配合使用，默认情况下它的值与 [`buildConfig.sourceDir`](/zh/api/build-config#sourcedir) 相同，因此我们可以按照如下方式指定 `src/data.json` 文件为要复制的文件：
+`patterns.context` 一般和 `patterns.from` 配合使用，默认情况下它的值与 [`buildConfig.sourceDir`](/api/config/build-config#sourcedir) 相同，因此我们可以按照如下方式指定 `src/data.json` 文件为要复制的文件：
 
 > 默认情况下，`buildConfig.sourceDir` 为 `src`
 
@@ -70,7 +70,7 @@ export default defineConfig({
 });
 ```
 
-`patterns.to` 用于指定复制文件的输出路径，默认情况下它的值为 [`buildConfig.outDir`](zh/api/build-config#outDir)对应的值。因此我们按照如下方式将 `src/index.html` 复制到 `dist` 目录下：
+`patterns.to` 用于指定复制文件的输出路径，默认情况下它的值为 [`buildConfig.outDir`](/api/config/build-config#outDir)对应的值。因此我们按照如下方式将 `src/index.html` 复制到 `dist` 目录下：
 
 ```ts
 export default defineConfig({

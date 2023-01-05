@@ -63,7 +63,7 @@ export default defineConfig({
 
 ### path
 
-静态资源输出路径，会基于 [outDir](/zh/api/build-config/#outDir) 进行输出。
+静态资源输出路径，会基于 [outDir](/api/config/build-config#outDir) 进行输出。
 
 - 类型： `string`
 - 默认值： `assets`
@@ -102,6 +102,17 @@ export default defineConfig({
 
 - 类型： `boolean | Object`
 - 默认值： `false`
+
+:::tip
+开启svgr后，仍然使用default export导出svg，所以你只能导入默认值。
+```js index.ts
+// true
+import logo from './logo.svg';
+
+// false
+import { ReactComponent } from './logo.svg';
+```
+:::
 
 #### include
 
@@ -236,7 +247,7 @@ TypeScript 配置文件的路径。
 
 ### distPath
 
-类型文件的输出路径，基于 [outDir](/zh/api/build-config/#outDir) 进行输出。
+类型文件的输出路径，基于 [outDir](/api/config/build-config#outDir) 进行输出。
 
 - 类型: `string`
 - 默认值: `./types`
@@ -580,7 +591,7 @@ const tailwind = {
 
 值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
 
-不允许出现 `theme` 属性，否则会构建失败, 使用 [`designSystem`](/zh/api/design-system) 作为 `Tailwind CSS Theme` 配置。
+不允许出现 `theme` 属性，否则会构建失败, 使用 [`designSystem`](/api/config/design-system) 作为 `Tailwind CSS Theme` 配置。
 
 其他的使用方式和 Tailwind CSS 一致: [快速传送门](https://tailwindcss.com/docs/configuration)。
 

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 ---
+
 # modify-output-product
 
 ## Modify output product
@@ -44,7 +45,7 @@ Then the next step is to first explain `buildPreset`.
 
 The value of a **build preset can be in the form of a string**, so a build preset of this form is called a preset string.
 
-The module engineering solution provides generic build preset strings and corresponding variants, depending on the generic scenario in which the npm package is used. All currently supported preset strings can be viewed via the [BuildPreset API](/en/api/build-config). The relationship between **generic preset strings and variants** is explained here.
+The module engineering solution provides generic build preset strings and corresponding variants, depending on the generic scenario in which the npm package is used. All currently supported preset strings can be viewed via the [BuildPreset API](/en/api/config/build-config). The relationship between **generic preset strings and variants** is explained here.
 
 Among the generic preset strings, `"npm-library"` can be used in the scenario of developing npm packages of the library type, which is suitable for most common module type projects. When `"npm-library"` is set, the output product of the project will have the following characteristics:
 
@@ -76,7 +77,7 @@ export default defineConfig({
 
 In the above code implementation, `preset.NPM_LIBRARY` corresponds to the preset string `"npm-library"`, which represents the `"npm-library"` equivalent of a multi-group build-related configuration. We traverse the `NPM_LIBRARY` array, which contains multiple `buildConfig` objects, with the `map` method. We make a shallow copy of the original `buildConfig` object and modify the shallow copy to get `buildConfig.target`, specifying it as `es2017`.
 
-> The specific value of `preset.NPM_LIBRARY` can be viewed via the [BuildPreset API](/en/api/build-config). The `preset` object contains not only `NPM_LIBRARY`, but also other similar constants.
+> The specific value of `preset.NPM_LIBRARY` can be viewed via the [BuildPreset API](/en/api/config/build-config). The `preset` object contains not only `NPM_LIBRARY`, but also other similar constants.
 
 So what is the `buildConfig` object here? And what are the previously mentioned build product features based on?
 
@@ -88,34 +89,34 @@ We explain it next.
 
 **The basic attributes of a build product include:**
 
-- Whether the product is packaged or not: the corresponding API is [`buildConfig.buildType`](/en/api/build-config#buildtype).
-- Product support for syntax: the corresponding API is [`buildConfig.target`](/en/api/build-config#target).
-- Output format: The corresponding API is [`buildConfig.format`](/en/api/build-config#format).
-- How to handle the output type file: the corresponding API is [`buildConfig.dts`](/en/api/build-config#dts).
-- How the sourceMap of the product is handled: the corresponding API is [`buildConfig.sourceMap`](/en/api/build-config#sourcemap).
-- The input (or source file) corresponding to the output: the corresponding API is [`buildConfig.input`](/en/api/build-config#input).
-- The directory of the output of the product: the corresponding API is [`buildConfig.outDir`](/en/api/build-config#outDir).
-- The source directory of the build: the corresponding API is [`buildConfig.sourceDir`](/en/api/build-config#sourcedir).
+- Whether the product is packaged or not: the corresponding API is [`buildConfig.buildType`](/en/api/config/build-config#buildtype).
+- Product support for syntax: the corresponding API is [`buildConfig.target`](/en/api/config/build-config#target).
+- Output format: The corresponding API is [`buildConfig.format`](/en/api/config/build-config#format).
+- How to handle the output type file: the corresponding API is [`buildConfig.dts`](/en/api/config/build-config#dts).
+- How the sourceMap of the product is handled: the corresponding API is [`buildConfig.sourceMap`](/en/api/config/build-config#sourcemap).
+- The input (or source file) corresponding to the output: the corresponding API is [`buildConfig.input`](/en/api/config/build-config#input).
+- The directory of the output of the product: the corresponding API is [`buildConfig.outDir`](/en/api/config/build-config#outDir).
+- The source directory of the build: the corresponding API is [`buildConfig.sourceDir`](/en/api/config/build-config#sourcedir).
 
 **Common functions needed to build products include:**
 
-- Alias: The corresponding API is [`buildConfig.alias`](/en/api/build-config#alias).
-- Static resource handling: The corresponding API is [`buildConfig.asset`](/en/api/build-config#asset).
+- Alias: The corresponding API is [`buildConfig.alias`](/en/api/config/build-config#alias).
+- Static resource handling: The corresponding API is [`buildConfig.asset`](/en/api/config/build-config#asset).
 - Third-party dependency handling: The corresponding APIs are
-  - [`buildConfig.autoExternal`](/en/api/build-config#autoexternal).
-  - [`buildConfig.externals`](/en/api/build-config#externals).
-- Copy: The corresponding API is [`buildConfig.copy`](/en/api/build-config#copy).
-- Global variable substitution: the corresponding API is [`buildConfig.define`](/en/api/build-config#define).
-- Specify [JSX](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) compilation method, the corresponding API is [`buildConfig.jsx`](/en/api/build-config#jsx).
+  - [`buildConfig.autoExternal`](/en/api/config/build-config#autoexternal).
+  - [`buildConfig.externals`](/en/api/config/build-config#externals).
+- Copy: The corresponding API is [`buildConfig.copy`](/en/api/config/build-config#copy).
+- Global variable substitution: the corresponding API is [`buildConfig.define`](/en/api/config/build-config#define).
+- Specify [JSX](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) compilation method, the corresponding API is [`buildConfig.jsx`](/en/api/config/build-config#jsx).
 
 **Some advanced properties or less frequently used functions:**
 
-- Product code compression: The corresponding API is [`buildConfig.minify`](/en/api/build-config#minify).
-- Code splitting: [`buildConfig.splitting`](/en/api/build-config#splitting)
-- Specify whether the build product is for the NodeJS environment or the browser environment: the corresponding API is [`buildConfig.platform`](/en/api/build-config#platform).
+- Product code compression: The corresponding API is [`buildConfig.minify`](/en/api/config/build-config#minify).
+- Code splitting: [`buildConfig.splitting`](/en/api/config/build-config#splitting)
+- Specify whether the build product is for the NodeJS environment or the browser environment: the corresponding API is [`buildConfig.platform`](/en/api/config/build-config#platform).
 - umd product-related.
-  - Specifies the global variables imported externally to the umd product: the corresponding API is [`buildConfig.umdGlobals`](/en/api/build-config#umdglobals).
-  - Specify the module name of the umd product: the corresponding API is [`buildConfig.umdModuleName`](/en/api/build-config#umdmodulename).
+  - Specifies the global variables imported externally to the umd product: the corresponding API is [`buildConfig.umdGlobals`](/en/api/config/build-config#umdglobals).
+  - Specify the module name of the umd product: the corresponding API is [`buildConfig.umdModuleName`](/en/api/config/build-config#umdmodulename).
 
 In addition to the above categories, frequently asked questions and best practices about these APIs can be found at the following links.
 

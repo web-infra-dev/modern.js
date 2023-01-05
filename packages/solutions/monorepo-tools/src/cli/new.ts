@@ -18,9 +18,10 @@ export const newCli = (program: Command, locale?: string) => {
       },
       [],
     )
+    .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
     .option('--dist-tag <tag>', i18n.t(localeKeys.command.new.distTag))
     .option('--registry', i18n.t(localeKeys.command.new.registry))
     .action(async options => {
-      await MonorepoNewAction({ ...options, locale });
+      await MonorepoNewAction({ ...options, locale: options.lang || locale });
     });
 };

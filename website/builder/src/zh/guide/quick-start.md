@@ -52,7 +52,7 @@ Modern.js 框架文档和 Modern.js Builder 文档部署在两个独立的站点
 - `@modern-js/builder-webpack-provider` 为 Builder 的一个 Provider，提供了基于 webpack 的构建能力。
 
 ```bash
-pnpm add @modern-js/builder@beta @modern-js/builder-webpack-provider@beta -D
+pnpm add @modern-js/builder @modern-js/builder-webpack-provider -D
 ```
 
 > 在进行版本升级时，请确保你安装的 builder 和 provider 为同一个版本。

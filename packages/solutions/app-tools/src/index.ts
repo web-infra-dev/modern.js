@@ -170,6 +170,7 @@ export default (): CliPlugin<AppTools> => ({
           .command('new')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.new.describe))
+          .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
           .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
           .option(
             '-c, --config <config>',
@@ -179,7 +180,7 @@ export default (): CliPlugin<AppTools> => ({
           .option('--registry', i18n.t(localeKeys.command.new.registry))
           .action(async (options: any) => {
             const { MWANewAction } = await import('@modern-js/new-action');
-            await MWANewAction({ ...options, locale });
+            await MWANewAction({ ...options, locale: options.lang || locale });
           });
 
         program

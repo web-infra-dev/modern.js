@@ -79,6 +79,6 @@ npx @modern-js/create your-project-dir-name
 
 选择适合你的教程：
 
-- 我是初学者，需要学习 Module Tools 的[基础使用](/zh/guide/before-getting-started)。
-- 我已经初步掌握了 Module Tools 的使用，可以学习 Module Tools 的[高级使用](/zh/guide/before-getting-started)。
+- 我是初学者，需要学习 Module Tools 的[基础使用](/guide/basic/before-getting-started)。
+- 我已经初步掌握了 Module Tools 的使用，可以学习 Module Tools 的[高级使用](/guide/basic/before-getting-started)。
 - 我是项目的维护者，需要学习如何开发 Module Tools 的插件以及了解更多关于 Module Tools 进阶的内容。

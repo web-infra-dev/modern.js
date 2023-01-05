@@ -198,6 +198,7 @@ export interface RouteOptions {
 export interface MarkdownOptions {
   remarkPlugins?: PluggableList;
   rehypePlugins?: PluggableList;
+  checkDeadLinks?: boolean;
 }
 
 export interface UserConfig {

@@ -14,7 +14,7 @@ Once NodeJS is installed, not only can you access the `node` executable from the
 
 Npm is the standard package manager for NodeJS. It started out as a tool for downloading and managing NodeJS package dependencies, but it has since evolved into a tool for front-end JavaScript.
 
-**If you already know something about usage of npm and npm packages, then you can directly see [npm package manager](/en/guide/before-getting-started#npm-package-manager) section.**
+**If you already know something about usage of npm and npm packages, then you can directly see [npm package manager](/en/guide/basic/before-getting-started#npm-package-manager) section.**
 
 ## npm package type project
 

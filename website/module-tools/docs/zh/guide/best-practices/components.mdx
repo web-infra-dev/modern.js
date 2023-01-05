@@ -609,7 +609,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 对于以下代码，在 bundle 和 bundleless 两种模式下，构建产物会有很大区别。
 
-> 所谓 bundle 和 bundleless 可以查看 [【Bundle 和 Bundleless】](/zh/guide/advance/in-depth-about-build#bundle-和-bundleless)
+> 所谓 bundle 和 bundleless 可以查看 [【Bundle 和 Bundleless】](/guide/advance/in-depth-about-build#bundle-和-bundleless)
 
 ```tsx ./src/index.tsx
 import 'tailwindcss/utilities.css';
@@ -623,7 +623,7 @@ Bundle 模式下，会将第三方依赖打包进来。
 
 对于样式则会生成一份单独的产物文件，并且在 Js 产物文件中并不会存在导入样式的相关代码。
 
-如果需要将样式注入 Js 产物中，可以开启 [`style.inject` API](/zh/api/build-config#inject)。
+如果需要将样式注入 Js 产物中，可以开启 [`style.inject` API](/api/config/build-config#inject)。
 
 <CH.Code>
 ```css ./dist/es/index.css
@@ -732,8 +732,8 @@ export { src_default as default };
 
 如果需要对 CSS Modules 进行配置，可以查看一下 API：
 
-- [autoModules](zh/api/build-config#automodules)
-- [modules](/zh/api/build-config#modules)
+- [autoModules](/api/config/build-config#automodules)
+- [modules](/api/config/build-config#modules)
 
 下面是一个代码示例：
 
@@ -771,7 +771,7 @@ export default () => {
 - `./dist/lib`: 包含了支持 es6 语法的 CommonJS 格式的 bundleless 产物。
 - `./dist/types`: 包含了类型文件。
 
-如果对使用语法支持有要求，可以手动配置 [`buildPreset`](/zh/api/build-preset)，并且支持在 `npm-component` 基础上增加后缀的方式修改支持的语法：
+如果对使用语法支持有要求，可以手动配置 [`buildPreset`](/api/config/build-preset)，并且支持在 `npm-component` 基础上增加后缀的方式修改支持的语法：
 
 ```tsx
 export default defineConfig({
@@ -779,15 +779,15 @@ export default defineConfig({
 });
 ```
 
-如果对构建产物目录结构有特殊需求，则可以使用 [`buildConfig` API](/zh/api/build-config)，可以通过以下文档来了解使用方式：
+如果对构建产物目录结构有特殊需求，则可以使用 [`buildConfig` API](/api/config/build-config)，可以通过以下文档来了解使用方式：
 
-- [修改输出产物](/zh/guide/basic/modify-output-product#构建配置对象)
-- [深入理解构建](/zh/guide/advance/in-depth-about-build)
+- [修改输出产物](/guide/basic/modify-output-product#构建配置对象)
+- [深入理解构建](/guide/advance/in-depth-about-build)
 
 ## 测试组件
 
-关于如何对组件进行测试，可以参考 [【测试项目】](/zh/guide/basic/test-your-project)。
+关于如何对组件进行测试，可以参考 [【测试项目】](/guide/basic/test-your-project)。
 
 ## 发布组件
 
-推荐使用模块工程提供版本发布功能，可以参考 [【版本管理与发布】](/zh/guide/basic/publish-your-project)。
+推荐使用模块工程提供版本发布功能，可以参考 [【版本管理与发布】](/guide/basic/publish-your-project)。

@@ -22,6 +22,7 @@ export const ZH_LOCALE = {
       config: '生成器运行默认配置(JSON 字符串)',
       distTag: '生成器使用特殊的 npm Tag 版本',
       registry: '生成器运行过程中定制 npm Registry',
+      lang: '设置 new 命令执行语言(zh 或者 en)',
     },
   },
 };

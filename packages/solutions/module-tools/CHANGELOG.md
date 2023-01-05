@@ -1,5 +1,20 @@
 # @modern-js/module-tools
 
+## 2.0.2
+
+### Patch Changes
+
+- e27bbe4: update libuild version to support svgr in bundleless, and svgr only support default export
+  更新 libuild 版本以支持 svgr 能在 bundleless 下工作，同时 svgr 只支持 default export
+  - @modern-js/new-action@2.0.2
+  - @modern-js/core@2.0.2
+  - @modern-js/utils@2.0.2
+  - @modern-js/plugin-changeset@2.0.2
+  - @modern-js/plugin-i18n@2.0.2
+  - @modern-js/plugin-lint@2.0.2
+  - @modern-js/plugin@2.0.2
+  - @modern-js/upgrade@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

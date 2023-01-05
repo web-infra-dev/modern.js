@@ -26,7 +26,7 @@ Options:
 当想要启动项目构建的时候，可以执行 `modern build` 命令。在使用这个命令的时候，我们可以：
 
 - 当想要以观察模式启动构建时，使用 `--watch` 选项。
-- 当想要指定项目编译读取的 TypeScript 配置文件的路径时，使用 `build --tsconfig ./path/config.json` 选项。使用该选项后，会覆盖所有 [`buildConfig`](/zh/api/build-config) 里 [`dts.tsconfigPath`](/zh/api/build-config) 配置。
+- 当想要指定项目编译读取的 TypeScript 配置文件的路径时，使用 `build --tsconfig ./path/config.json` 选项。使用该选项后，会覆盖所有 [`buildConfig`](/api/config/build-config) 里 [`dts.tsconfigPath`](/api/config/build-config) 配置。
 - 当需要关闭项目的 DTS 类型文件生成和类型检查行为时，可以使用 `--no-dts` 选项。**注意：类型文件的生成依赖类型检查的结果。如果关闭了类型检查，那么类型文件也不会生成**。
 - 当需要关闭自动清除产物输出目录的行为时，可以使用 `--no-clear` 选项。
 
@@ -59,7 +59,7 @@ Options:
 - Tailwind CSS 支持
 - Modern.js Runtime API
 
-关于这些功能，可以通过[【使用微生成器】](/zh/guide/use-micro-generator) 章节了解更多。
+关于这些功能，可以通过[【使用微生成器】](/guide/basic/use-micro-generator) 章节了解更多。
 
 ## `modern dev`
 

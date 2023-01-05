@@ -7,7 +7,7 @@ export type BundlerConfig = {
   entry?: Record<string, string | string[]>;
   //   context?: Context;
   //   plugins?: PluginInstance[];
-  //   module?: Module;
+  module?: Configuration['module'];
   target?: Configuration['target'];
   //   mode?: Mode;
   //   externals?: External;
@@ -27,4 +27,5 @@ export interface BundlerChain
   toConfig: () => BundlerConfig;
   /** only support add string | string[] */
   entry: Config['entry'];
+  module: Pick<Config['module'], 'rules' | 'rule'>;
 }
