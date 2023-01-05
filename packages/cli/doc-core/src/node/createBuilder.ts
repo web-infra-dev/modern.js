@@ -9,7 +9,13 @@ import type {
 import sirv from 'sirv';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import WindiCSSWebpackPlugin from 'windicss-webpack-plugin';
-import { CLIENT_ENTRY, SSR_ENTRY, PACKAGE_ROOT, OUTPUT_DIR } from './constants';
+import {
+  CLIENT_ENTRY,
+  SSR_ENTRY,
+  PACKAGE_ROOT,
+  OUTPUT_DIR,
+  isProduction,
+} from './constants';
 import { createMDXOptions } from './mdx';
 import { virtualModuleFactoryList } from './virtualModule';
 import windiConfig from './windiOptions';
@@ -44,6 +50,25 @@ async function createInternalBuildConfig(
 
   const publicDir = path.join(userRoot, 'public');
   const isPublicDirExist = await fs.pathExists(publicDir);
+
+  // Using latest browserslist in development to improve build performance
+  const browserslist = {
+    web: isProduction()
+      ? [
+          'chrome > 61',
+          'edge > 16',
+          'firefox > 60',
+          'safari > 11',
+          'ios_saf > 11',
+        ]
+      : [
+          'last 1 chrome version',
+          'last 1 firefox version',
+          'last 1 safari version',
+        ],
+    node: ['node >= 14'],
+  };
+
   return {
     html: {
       template: path.join(PACKAGE_ROOT, 'index.html'),
@@ -55,6 +80,7 @@ async function createInternalBuildConfig(
       assetPrefix: config.doc?.base || '',
       svgDefaultExport: 'component',
       disableTsChecker: true,
+      overrideBrowserslist: browserslist,
     },
     source: {
       alias: {
@@ -123,9 +149,6 @@ async function createInternalBuildConfig(
             config: windiConfig,
           }),
         );
-        config.cache = {
-          type: 'filesystem',
-        };
         return config;
       },
     },
