@@ -108,13 +108,14 @@ export const newCommand = async (program: Command) => {
       '--dist-tag <tag>',
       local.i18n.t(local.localeKeys.command.new.distTag),
     )
+    .option('--lang <lang>', local.i18n.t(local.localeKeys.command.new.lang))
     .option('--registry', local.i18n.t(local.localeKeys.command.new.registry))
     .action(async options => {
       const { ModuleNewAction } = await import('@modern-js/new-action');
       const { getLocaleLanguage } = await import('./utils/language');
       const locale = getLocaleLanguage();
 
-      await ModuleNewAction({ ...options, locale });
+      await ModuleNewAction({ ...options, locale: options.lang || locale });
     });
 };
 
