@@ -1,5 +1,16 @@
 # @modern-js/runtime
 
+## 2.0.2
+
+### Patch Changes
+
+- 39988b2: feat: advance the timing of static resource loading
+  feat: 将嵌套路由下静态资源加载时机提前
+- Updated dependencies [39988b2]
+  - @modern-js/types@2.0.2
+  - @modern-js/utils@2.0.2
+  - @modern-js/plugin@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

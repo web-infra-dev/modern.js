@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.0.2
+
+### Patch Changes
+
+- 39988b2: feat: advance the timing of static resource loading
+  feat: 将嵌套路由下静态资源加载时机提前
+
 ## 2.0.1
 
 ## 2.0.0
