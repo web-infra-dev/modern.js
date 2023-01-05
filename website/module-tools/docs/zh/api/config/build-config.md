@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # BuildConfig
 
-本章节描述了 Module tools 关于构建的所有配置
+本章节描述了 Module Tools 关于构建的所有配置
 
 ## alias
 
@@ -12,7 +12,7 @@ sidebar_position: 1
 - 默认值：`{'@': 'src',}`
 
 :::tip
-对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Module tools 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
+对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Module Tools 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
 :::
 
 ```js modern.config.ts
