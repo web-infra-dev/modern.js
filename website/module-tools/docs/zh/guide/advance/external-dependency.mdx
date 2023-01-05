@@ -15,7 +15,7 @@ sidebar_position: 4
 
 而 `"dependencies"` 下的依赖通常来说是和项目代码以及构建相关的，如果这些第三方依赖声明在 `"devDependencies"` 下，那么在生产环境下就会出现缺失依赖的问题。
 
-除了 `"dependencies"` 以外，[`"peerDependencies"`](/zh/guide/basic/before-getting-started#peerdependencies) 也可以声明在生产环境下需要的依赖，不过它更强调项目在运行环境下存在 `"peerDependencies"` 声明的这些依赖，这类似于插件这样的机制。
+除了 `"dependencies"` 以外，[`"peerDependencies"`](/guide/basic/before-getting-started#peerdependencies) 也可以声明在生产环境下需要的依赖，不过它更强调项目在运行环境下存在 `"peerDependencies"` 声明的这些依赖，这类似于插件这样的机制。
 
 ## 第三方依赖的默认处理
 
@@ -81,8 +81,8 @@ console.info(React);
 
 在构建配置中提供了以下 API 来处理第三方依赖：
 
-- [`buildConfig.autoExternal`](/zh/api/build-config#autoexternal)
-- [`buildConfig.externals`](/zh/api/build-config#externals)
+- [`buildConfig.autoExternal`](/api/config/build-config#autoexternal)
+- [`buildConfig.externals`](/api/config/build-config#externals)
 
 ### 关闭默认行为
 

@@ -14,7 +14,7 @@ sidebar_position: 1
 
 npm 是 NodeJS 的标准软件包管理器。它一开始的用途是用于下载和管理 NodeJS 包的依赖关系，但后来它逐渐变成为一个用于前端 JavaScript 的工具。
 
-**如果你已经对 npm 和 npm 包的使用方式有所了解，那么可以直接跳到[【npm 包管理器】](/zh/guide/before-getting-started#npm-包管理器)部分。**
+**如果你已经对 npm 和 npm 包的使用方式有所了解，那么可以直接跳到[【npm 包管理器】](/guide/basic/before-getting-started#npm-包管理器)部分。**
 
 ## npm 包类型项目
 

@@ -71,6 +71,7 @@ export default defineConfig({
       }),
     ],
     markdown: {
+      checkDeadLinks: true,
       remarkPlugins: [
         [
           remarkCodeHike,

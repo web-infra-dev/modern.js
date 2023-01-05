@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Theme Configuration
 
-The module project provides the ability to configure themes through the [`designSystem`](/en/api/design-system) API.
+The module project provides the ability to configure themes through the [`designSystem`](/en/api/config/design-system) API.
 
 ## Motivation and rationale
 
@@ -17,7 +17,7 @@ The so-called `designToken` corresponds to different things in different style d
   - `@apply` custom directive under css/less/sass to use a string with the same name as the HTML class name supported by tailwindcss.
 - css/less/scss: Generate global style variables via `designSystem`.
 
-The data structure of the `designSystem` API is borrowed from the [theme API](https://tailwindcss.com/docs/theme) in the `tailwindcss` configuration object, so a default set of `designToken` exists. For the default values, see the [`designSystem` API](/zh/api/design-system).
+The data structure of the `designSystem` API is borrowed from the [theme API](https://tailwindcss.com/docs/theme) in the `tailwindcss` configuration object, so a default set of `designToken` exists. For the default values, see the [`designSystem` API](/api/config/design-system).
 
 :::info
 The css/less/sass global variables are not supported yet.

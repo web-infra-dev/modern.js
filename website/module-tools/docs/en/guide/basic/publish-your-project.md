@@ -20,7 +20,7 @@ An npm-type module project release process consists of two phases.
 
 Once these changes have been made, the current changes need to be documented with the following command.
 
-- [`modern change`](/zh/guide/command-preview#modern-change)
+- [`modern change`](/guide/basic/command-preview#modern-change)
 
 Executing the `modern change` command asks the developer several questions and generates a change log based on the developer's answers. The changelog file contains the type of change and its description, and is committed to the git repository.
 
@@ -53,7 +53,7 @@ publish test
 
 When the project version needs to be updated, execute the following command.
 
-- [`modern bump`](/zh/guide/command-preview#modern-bump)
+- [`modern bump`](/guide/basic/command-preview#modern-bump)
 
 Executing `modern bump` will modify the version number in `package.json` based on the contents of the Markdown file in the `.changeset/` directory where the changes were recorded, and generate the `CHANGELOG.md` file. **These Markdown files are also deleted when the version update is complete, so they are "consumed "**.
 
@@ -71,7 +71,7 @@ Executing `modern bump` will modify the version number in `package.json` based o
 
 To publish a project, you can execute the following command.
 
-- [`modern publish`](/zh/guide/command-preview#modern-release)
+- [`modern publish`](/guide/basic/command-preview#modern-release)
 
 The `modern release` command publishes the project to the npm Registry.
 
@@ -89,7 +89,7 @@ However, if you want to change the version number of the current project to a pr
 
 When a pre-release is needed before the official release, the following command is executed.
 
-- [`modern pre`](/zh/guide/command-preview#modern-pre)
+- [`modern pre`](/guide/basic/command-preview#modern-pre)
 
 First `modern pre enter <tag>` to enter pre-release mode, `<tag>` can be the same as the `tag` specified with the `modern release --tag` command when releasing the project.
 

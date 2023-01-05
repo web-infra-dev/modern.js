@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -70,6 +70,7 @@
     "lodash-es": "^4.17.21",
     "mdast-util-mdxjs-esm": "^1.3.0",
     "nprogress": "^0.2.0",
+    "ora": "5.4.1",
     "postcss": "8.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -98,7 +99,7 @@
     "yaml-front-matter": "^4.1.1"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.0.1",
+    "@modern-js/core": "workspace:^2.0.2",
     "react": ">=17"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Setup 函数
 
-在[【插件对象】](/zh/plugins/guide/plugin-object) 部分我们知道插件对象包含了一个 `setup` 函数，该函数不仅包含了一个 `api` 对象参数，同时还可以返回一个 Hooks 对象。
+在[【插件对象】](/plugins/guide/plugin-object) 部分我们知道插件对象包含了一个 `setup` 函数，该函数不仅包含了一个 `api` 对象参数，同时还可以返回一个 Hooks 对象。
 
 ## 插件 API 对象
 
@@ -114,4 +114,4 @@ export default (): CliPlugin<ModuleTools> => ({
 - `buildPlatform` 钩子：仅在执行 `build --platform` 命令生成其他构建产物时触发。
 - 调试钩子：运行 `dev` 命令时会触发的钩子。
 
-关于生命周期钩子的完整列表参考 [API 文档](/zh/api/plugin-hooks)。
+关于生命周期钩子的完整列表参考 [API 文档](/api/plugin-api/plugin-hooks)。
