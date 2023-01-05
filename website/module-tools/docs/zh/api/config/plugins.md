@@ -15,4 +15,4 @@ export default defineConfig({
 });
 ```
 
-关于如何编写插件，可以查看[【插件编写指南】](/zh/plugins/guide/getting-started)。
+关于如何编写插件，可以查看[【插件编写指南】](/plugins/guide/getting-started)。
