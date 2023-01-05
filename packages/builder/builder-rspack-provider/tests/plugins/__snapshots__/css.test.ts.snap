@@ -2,18 +2,14 @@
 
 exports[`plugins/css > should override browserslist of autoprefixer when using output.overrideBrowserslist config 1`] = `
 {
-  "cache": undefined,
-  "devtool": undefined,
   "module": {
     "rules": [
       {
-        "name": "css",
         "test": /\\\\\\.css\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -52,25 +48,19 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
       },
     ],
   },
-  "target": undefined,
 }
 `;
 
 exports[`plugins/less > should add less-loader 1`] = `
 {
-  "cache": undefined,
-  "devtool": undefined,
   "module": {
     "rules": [
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -110,8 +100,7 @@ exports[`plugins/less > should add less-loader 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -124,27 +113,22 @@ exports[`plugins/less > should add less-loader 1`] = `
       },
     ],
   },
-  "target": undefined,
 }
 `;
 
 exports[`plugins/less > should add less-loader with excludes 1`] = `
 {
-  "cache": undefined,
-  "devtool": undefined,
   "module": {
     "rules": [
       {
         "exclude": [
           /node_modules/,
         ],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -184,8 +168,7 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -198,25 +181,19 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
       },
     ],
   },
-  "target": undefined,
 }
 `;
 
 exports[`plugins/less > should add less-loader with tools.less 1`] = `
 {
-  "cache": undefined,
-  "devtool": undefined,
   "module": {
     "rules": [
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -256,8 +233,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -270,25 +246,19 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
       },
     ],
   },
-  "target": undefined,
 }
 `;
 
 exports[`plugins/sass > should add sass-loader 1`] = `
 {
-  "cache": undefined,
-  "devtool": undefined,
   "module": {
     "rules": [
       {
-        "exclude": [],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -329,7 +299,6 @@ exports[`plugins/sass > should add sass-loader 1`] = `
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
@@ -339,27 +308,22 @@ exports[`plugins/sass > should add sass-loader 1`] = `
       },
     ],
   },
-  "target": undefined,
 }
 `;
 
 exports[`plugins/sass > should add sass-loader with excludes 1`] = `
 {
-  "cache": undefined,
-  "devtool": undefined,
   "module": {
     "rules": [
       {
         "exclude": [
           /node_modules/,
         ],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -400,7 +364,6 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
@@ -410,6 +373,5 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
       },
     ],
   },
-  "target": undefined,
 }
 `;

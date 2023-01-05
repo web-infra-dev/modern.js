@@ -2,19 +2,19 @@ import {
   isUseCssSourceMap,
   SASS_REGEX,
   FileFilterUtil,
-  setConfig,
 } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin } from '../types';
+import { BUILTIN_LOADER } from '../shared';
 
 export function PluginSass(): BuilderPlugin {
   return {
     name: 'builder-plugin-sass',
     setup(api) {
-      api.modifyRspackConfig(async (rspackConfig, utils) => {
+      api.modifyBundlerChain(async (chain, utils) => {
         const config = api.getNormalizedConfig();
         const { applyOptionsChain } = await import('@modern-js/utils');
-        const { getCssLoaderUses } = await import('./css');
+        const { applyBaseCSSRule } = await import('./css');
 
         const getSassLoaderOptions = () => {
           const excludes: (RegExp | string)[] = [];
@@ -38,31 +38,23 @@ export function PluginSass(): BuilderPlugin {
           };
         };
 
-        const cssLoaderUses = await getCssLoaderUses(
-          config,
-          api.context,
-          utils,
-        );
-
         const { excludes, options } = getSassLoaderOptions();
 
-        setConfig(rspackConfig, 'module.rules', [
-          ...(rspackConfig.module?.rules || []),
-          {
-            name: 'sass',
-            test: SASS_REGEX,
-            exclude: excludes,
-            use: [
-              ...cssLoaderUses,
-              {
-                name: 'sass',
-                builtinLoader: 'sass-loader',
-                options,
-              },
-            ],
-            type: 'css',
-          },
-        ]);
+        const rule = chain.module
+          .rule(utils.CHAIN_ID.RULE.SASS)
+          .test(SASS_REGEX)
+          .type('css');
+
+        excludes.forEach(item => {
+          rule.exclude.add(item);
+        });
+
+        await applyBaseCSSRule(rule, config, api.context, utils);
+
+        rule
+          .use(utils.CHAIN_ID.USE.SASS)
+          .loader(`${BUILTIN_LOADER}sass-loader`)
+          .options(options);
       });
     },
   };
