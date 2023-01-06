@@ -230,6 +230,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;
 
@@ -463,6 +467,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;
 
@@ -709,5 +717,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;

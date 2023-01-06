@@ -6,8 +6,7 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     import('../plugins/basic').then(m => m.PluginBasic()),
     plugins.entry(),
     plugins.cache(),
-    // todo: module import error when target is esX
-    // plugins.target(),
+    plugins.target(),
     import('../plugins/output').then(m => m.PluginOutput()),
     // todo: need rspack solve performance problem
     // plugins.devtool(),

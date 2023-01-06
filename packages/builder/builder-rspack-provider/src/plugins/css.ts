@@ -151,6 +151,10 @@ export async function applyBaseCSSRule(
       .options(postcssLoaderOptions)
       .end();
   }
+
+  // todo: rspack not support sideEffects config
+  // CSS imports should always be treated as sideEffects
+  // rule.merge({ sideEffects: true });
 }
 
 export const PluginCss = (): BuilderPlugin => {
