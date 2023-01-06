@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import path from 'path';
 import { runCli, initBeforeTest } from '../helper';
 import { CliPlugin, AppTools } from '@/types';

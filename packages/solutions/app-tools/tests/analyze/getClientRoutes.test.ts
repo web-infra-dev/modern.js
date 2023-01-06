@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import path from 'path';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { getBundleEntry } from '../../src/analyze/getBundleEntry';
