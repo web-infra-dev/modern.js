@@ -88,6 +88,7 @@
     "remark-gfm": "3.0.1",
     "remark-html": "^15.0.1",
     "remark-mdx-frontmatter": "^2.1.1",
+    "@modern-js/remark-container": "workspace:*",
     "shiki": "^0.11.1",
     "sirv": "^2.0.2",
     "source-map": "0.7.4",

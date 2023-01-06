@@ -536,6 +536,7 @@ importers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/plugin-testing': workspace:*
+      '@modern-js/remark-container': workspace:*
       '@modern-js/tsconfig': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
@@ -613,6 +614,7 @@ importers:
       '@mdx-js/loader': 2.1.5
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
+      '@modern-js/remark-container': link:../../toolkit/remark-container
       '@modern-js/utils': link:../../toolkit/utils
       acorn: 8.8.1
       autoprefixer: 10.4.13_postcss@8.4.19
@@ -3338,6 +3340,24 @@ importers:
       '@types/node': 14.18.35
       jest: 27.5.1
       typescript: 4.9.3
+
+  packages/toolkit/remark-container:
+    specifiers:
+      '@modern-js/module-tools': workspace:*
+      '@types/mdast': ^3.0.10
+      rehype-stringify: ^9.0.3
+      remark-parse: ^10.0.1
+      remark-rehype: ^10.1.0
+      unified: ^10.1.2
+      vitest: 0.21.1
+    devDependencies:
+      '@modern-js/module-tools': link:../../solutions/module-tools
+      '@types/mdast': 3.0.10
+      rehype-stringify: 9.0.3
+      remark-parse: 10.0.1
+      remark-rehype: 10.1.0
+      unified: 10.1.2
+      vitest: 0.21.1
 
   packages/toolkit/types:
     specifiers:
@@ -21813,6 +21833,7 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+    dev: true
 
   /debug/4.3.4_supports-color@8.1.1:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -25332,7 +25353,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4_supports-color@6.1.0
+      debug: 4.3.4
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -36058,6 +36079,7 @@ packages:
   /rollup/2.78.1:
     resolution: {integrity: sha512-VeeCgtGi4P+o9hIg+xz4qQpRl6R401LWEXBmxYKOV4zlF82lyhgh2hTZnheFUbANE8l2A41F458iwj2vEYaXJg==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -37693,6 +37715,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: 3.0.0
+    dev: true
 
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -39474,6 +39497,7 @@ packages:
   /uvu/0.5.6:
     resolution: {integrity: sha512-+g8ENReyr8YsOc6fv/NVJs2vFdHBnBNdfE49rshrTzDWOlUx4Gq7KOS2GD8eqhy2j+Ejq29+SbKH8yjkAqXqoA==}
     engines: {node: '>=8'}
+    hasBin: true
     dependencies:
       dequal: 2.0.3
       diff: 5.1.0
