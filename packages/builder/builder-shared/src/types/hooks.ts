@@ -1,3 +1,4 @@
+import type { ChainIdentifier } from '@modern-js/utils';
 import type { Stats, MultiStats } from './stats';
 import { NodeEnv } from './utils';
 import { BuilderTarget } from './builder';
@@ -41,6 +42,7 @@ export type ModifyChainUtils = {
   target: BuilderTarget;
   isServer: boolean;
   isWebWorker: boolean;
+  CHAIN_ID: ChainIdentifier;
 };
 
 export type ModifyBundlerChainUtils = ModifyChainUtils;

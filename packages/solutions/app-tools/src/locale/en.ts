@@ -20,6 +20,7 @@ export const EN_LOCALE = {
       config: 'set default generator config(json string)',
       distTag: `use specified tag version for it's generator`,
       registry: 'set npm registry url to run npm command',
+      lang: 'set new command language(en or zh)',
     },
     inspect: {
       env: 'specify env mode',

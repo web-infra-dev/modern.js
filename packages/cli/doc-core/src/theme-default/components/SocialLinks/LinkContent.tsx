@@ -53,7 +53,7 @@ export const LinkContent = (props: ILinkContentComp) => {
             border="rounded-xl"
             bg="white"
             style={{
-              boxShadow: 'var(--island-shadow-3)',
+              boxShadow: 'var(--modern-shadow-3)',
               border: '1px solid var(--modern-c-divider-light)',
               ...popperStyle,
             }}

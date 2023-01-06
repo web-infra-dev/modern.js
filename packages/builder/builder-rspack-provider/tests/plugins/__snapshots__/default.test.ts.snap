@@ -28,7 +28,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "devServer": {
     "hot": true,
   },
-  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -36,13 +35,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "module": {
     "rules": [
       {
-        "name": "css",
         "test": /\\\\\\.css\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -84,14 +81,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -131,8 +125,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -144,14 +137,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
-        "exclude": [],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -192,11 +182,28 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
             },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
           },
         ],
       },
@@ -223,7 +230,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
-  "target": undefined,
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;
 
@@ -255,7 +265,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "devServer": {
     "hot": false,
   },
-  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -263,13 +272,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "module": {
     "rules": [
       {
-        "name": "css",
         "test": /\\\\\\.css\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -311,14 +318,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         ],
       },
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -358,8 +362,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -371,14 +374,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         ],
       },
       {
-        "exclude": [],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -419,11 +419,28 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": false,
             },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
           },
         ],
       },
@@ -450,7 +467,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
-  "target": undefined,
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;
 
@@ -482,7 +502,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
   "devServer": {
     "hot": true,
   },
-  "devtool": undefined,
   "infrastructureLogging": {
     "level": "error",
   },
@@ -498,13 +517,11 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
-        "name": "css",
         "test": /\\\\\\.css\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -546,14 +563,11 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
-        "exclude": [],
-        "name": "less",
         "test": /\\\\\\.less\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -593,8 +607,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             },
           },
           {
-            "loader": [Function],
-            "name": "less",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -606,14 +619,11 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
-        "exclude": [],
-        "name": "sass",
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "type": "css",
         "use": [
           {
-            "loader": [Function],
-            "name": "postcss",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
               "modules": {
                 "auto": true,
@@ -654,11 +664,28 @@ exports[`tools.rspack > should match snapshot 1`] = `
           },
           {
             "builtinLoader": "sass-loader",
-            "name": "sass",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
             },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
           },
         ],
       },
@@ -690,6 +717,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
-  "target": undefined,
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;

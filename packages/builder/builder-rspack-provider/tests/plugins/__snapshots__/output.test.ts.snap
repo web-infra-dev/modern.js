@@ -2,8 +2,7 @@
 
 exports[`plugins/output > should allow to custom server directory with distPath.server 1`] = `
 {
-  "cache": undefined,
-  "devtool": undefined,
+  "module": {},
   "output": {
     "chunkFilename": "server/[name].js",
     "filename": "server/[name].js",
@@ -11,14 +10,12 @@ exports[`plugins/output > should allow to custom server directory with distPath.
     "path": "<ROOT>/dist",
     "publicPath": "/",
   },
-  "target": undefined,
 }
 `;
 
 exports[`plugins/output > should allow to use filename.js to modify filename 1`] = `
 {
-  "cache": undefined,
-  "devtool": undefined,
+  "module": {},
   "output": {
     "chunkFilename": "static/js/async/foo.js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -28,14 +25,12 @@ exports[`plugins/output > should allow to use filename.js to modify filename 1`]
     "path": "<ROOT>/dist",
     "publicPath": "/",
   },
-  "target": undefined,
 }
 `;
 
 exports[`plugins/output > should set output correctly 1`] = `
 {
-  "cache": undefined,
-  "devtool": undefined,
+  "module": {},
   "output": {
     "chunkFilename": "static/js/async/[name].js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -45,6 +40,5 @@ exports[`plugins/output > should set output correctly 1`] = `
     "path": "<ROOT>/dist",
     "publicPath": "/",
   },
-  "target": undefined,
 }
 `;

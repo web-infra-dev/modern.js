@@ -48,7 +48,6 @@ export async function renderPages(config: UserConfig) {
         context: {},
       } as HelmetData;
       const routePath = route.path;
-
       const { appHtml } = await render(routePath, helmetContext.context);
 
       const { helmet } = helmetContext.context;
