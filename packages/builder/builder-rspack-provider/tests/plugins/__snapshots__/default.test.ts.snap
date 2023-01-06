@@ -189,6 +189,24 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           },
         ],
       },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
+          },
+        ],
+      },
     ],
   },
   "output": {
@@ -401,6 +419,24 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
               "rspackImporter": true,
               "sourceMap": false,
             },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
           },
         ],
       },
@@ -624,6 +660,24 @@ exports[`tools.rspack > should match snapshot 1`] = `
               "rspackImporter": true,
               "sourceMap": true,
             },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
           },
         ],
       },
