@@ -9,6 +9,7 @@ import type {
   PackageFields,
 } from './schema/types';
 
+export type { UserConfig } from '@modern-js/core';
 export type { Platform } from './features/build/build-platform';
 export type { ITsconfig } from './utils/tsconfig';
 
@@ -37,9 +38,9 @@ export interface IPackageModeValue {
   copyDirs?: ('node' | 'treeshaking' | 'modern')[];
 }
 
-interface ToolsConfig {
-  speedy?: SpeedyConfig | ((config: SpeedyConfig) => SpeedyConfig);
-}
+type ToolsSpeedyConfig =
+  | SpeedyConfig
+  | ((config: SpeedyConfig) => SpeedyConfig);
 
 declare module '@modern-js/core' {
   interface OutputConfig {
@@ -53,9 +54,11 @@ declare module '@modern-js/core' {
     packageMode?: PackageModeType;
     packageFields?: PackageFields;
   }
-
+  interface ToolsConfig {
+    speedy?: ToolsSpeedyConfig;
+  }
   interface NormalizedToolsConfig {
-    speedy: ToolsConfig['speedy'] | Array<NonNullable<ToolsConfig['speedy']>>;
+    speedy: ToolsSpeedyConfig | Array<NonNullable<ToolsSpeedyConfig>>;
   }
   interface SourceConfig {
     jsxTransformRuntime?: 'automatic' | 'classic';
