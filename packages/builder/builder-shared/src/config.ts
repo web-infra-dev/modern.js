@@ -214,9 +214,8 @@ export function getMinify(
     return false;
   }
 
-  // these options are same as the default options of html-webpack-plugin
   return {
-    removeComments: true,
+    removeComments: false,
     useShortDoctype: true,
     keepClosingSlash: true,
     collapseWhitespace: true,
