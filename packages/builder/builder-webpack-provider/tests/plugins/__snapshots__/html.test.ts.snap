@@ -89,7 +89,7 @@ exports[`plugins/html > should enable minify in production 1`] = `
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
-          "removeComments": true,
+          "removeComments": false,
           "removeRedundantAttributes": true,
           "removeScriptTypeAttributes": true,
           "removeStyleLinkTypeAttributes": true,

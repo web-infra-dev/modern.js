@@ -152,7 +152,7 @@ export function initToolsConfig(config: AppNormalizedConfig) {
     },
   };
 
-  const { tsChecker, tsLoader, htmlPlugin } = config.tools;
+  const { tsChecker, tsLoader } = config.tools;
   config.tools.tsChecker = applyOptionsChain(defaultTsChecker, tsChecker);
   tsLoader &&
     (config.tools.tsLoader = (tsLoaderConfig, utils) => {
@@ -166,22 +166,4 @@ export function initToolsConfig(config: AppNormalizedConfig) {
         utils,
       );
     });
-  config.tools.htmlPlugin = [
-    config => ({
-      ...config,
-      minify:
-        typeof config.minify === 'object'
-          ? {
-              ...config.minify,
-              removeComments: false,
-            }
-          : config.minify,
-    }),
-    // eslint-disable-next-line no-nested-ternary
-    ...(Array.isArray(htmlPlugin)
-      ? htmlPlugin
-      : htmlPlugin
-      ? [htmlPlugin]
-      : []),
-  ];
 }
