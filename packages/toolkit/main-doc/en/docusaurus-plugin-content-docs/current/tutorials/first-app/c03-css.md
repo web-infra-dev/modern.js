@@ -1,31 +1,31 @@
 ---
-title: 添加样式
+title: Add Style
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-上一章节中，我们学习了如何使用使用三方库中的组件。
+In the previous chapter, we learned how to use components from the three-way library.
 
-这一章节中，我们将学习如何实现 UI 组件。
+In this chapter, we will learn how to implement UI components.
 
-## 使用 CSS 写 JS 组件
+## JS components using CSS
 
-首先我们希望自己控制联系人头像的展示，实现这种设计稿：
+First of all, we want to control the display of contact avatars by ourselves, and implement this design draft:
 
 ![design](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c03-css-expect.jpg)
 
-假设没有现成的组件可以实现，那就需要自己写些 CSS 了，这里我们使用 [styled-components](https://styled-components.com/)，来实现类似的需求。Modern.js 开箱即用的支持 styled-components，既不需要安装依赖，也不需要做任何配置。
+Hypothesis has no ready-made components to implement, so you need to write some CSS yourself. Here we use [styled-components] (https://styled-components.com/) to implement similar requirements. Modern.js out of the box supports styled-components, which requires neither dependency nor configuration.
 
-styled-components 通过模块化的方式，避免了传统 CSS 写法上的诸多问题。例如直接在元素的 style 属性上写样式，UI 视觉上的细节也会跟 UI 结构上的细节和业务逻辑混在一起。或是 classname 需要避免全局空间重名，需要用到命名规范的问题。
+Style-components avoids many problems of traditional CSS writing through modularization. For example, writing styles directly on the style attribute of elements, the visual details of UI will also be mixed with the details of UI structure and business logic. Or classname needs to avoid global space renaming, which requires the use of naming conventions.
 
-在 `src/routes/page.tsx` 里修改顶部的代码：
+Modify the code at the top in `src/routes/page.tsx`:
 
 ```js
 import styled from '@modern-js/runtime/styled';
 ```
 
-添加以下代码：
+Add the following code:
 
 ```js
 const Avatar = styled.img`
@@ -36,7 +36,7 @@ const Avatar = styled.img`
 `;
 ```
 
-修改 `List.Item.Meta` 的代码：
+Modify the code of `List.Item.Meta`:
 
 ```tsx
 <List.Item.Meta
@@ -46,11 +46,12 @@ const Avatar = styled.img`
 />
 ```
 
-执行 `pnpm run dev`，可以看到预期的运行结果：
+Execute `pnpm run dev` to see the expected running result:
 
 ![result](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c03-css-result1.png)
 
-接下来我们做一点重构，为了增强可读性，让代码更容易维护，可以把 Avatar 组件拆分出去。我们在终端执行以下命令，创建新的文件：
+Next we do a little refactoring. To enhance legibility and make the code easier to maintain, we can split the Avatar component. We execute the following command at the end point to create a new file:
+
 
 <Tabs>
 <TabItem value="macOS" label="macOS" default>
@@ -71,13 +72,13 @@ ni src/components/Avatar/index.tsx
 </TabItem>
 </Tabs>
 
-把 `src/routes/page.tsx` 里的 `<Avatar>` 实现删掉，修改为：
+Delete the `<Avatar>` implementation in `src/routes/page.tsx` and change it to:
 
 ```ts
 import Avatar from '../components/Avatar';
 ```
 
-`src/components/Avatar/index.tsx` 的内容，修改为：
+The content of `src/components/Avatar/index.tsx` is modified to:
 
 ```ts
 import styled from '@modern-js/runtime/styled';
@@ -92,33 +93,32 @@ const Avatar = styled.img`
 export default Avatar;
 ```
 
-执行 `pnpm run dev`，运行结果应该是一样的。
+Execute `pnpm run dev`, the result should be the same.
 
-:::info 注
-采用目录形式 `Avatar/index.tsx` 而不是单文件形式 `Avatar.tsx` 的原因是，之后可以方便的在目录内部增加子文件，包括专用的资源（图片等）、专用子组件、CSS 文件等。
+:::info note
+The reason for using the directory form `Avatar/index.tsx` instead of the single-file form `Avatar.tsx` is that you can easily add sub-files inside the directory later, including dedicated resources (pictures, etc.), dedicated sub-components, CSS files, etc.
 :::
 
+## Utility
 
-## 使用 Utility
+We have used the style-components implementation `<Avatar>` component, but the current UI is still unsatisfactory and lacks professionalism, such as the list item inhouse layout is a bit rough and misaligned in many places.
 
-我们已经使用 style-components 实现 `<Avatar>` 组件，但当前的 UI 仍然不能让人满意，缺乏专业感，例如列表项内部的布局有点粗糙，很多地方没对齐。
-
-现在，我们自己来实现一个更好的 `Item` 组件，实现这样的设计稿：
+Now, let's implement a better `Item` component ourselves, implementing a design draft like this:
 
 ![design](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/06/design2.png)
 
-这次要实现的 UI 更复杂，有内部结构，但另一方面，并没有 `<Avatar>` 组件的**很粗的亮蓝色边框**这样很特殊的 UI，都是很常规的水平垂直布局、居中、字体样式等。这种情况下，其实根本没必要写 CSS，有更高效的、跟 styled-components 互补的实现方式：**Utility Class**。
+The UI to be implemented this time is more complex and has an internal structure, but on the other hand, there is no very thick bright blue border of the `<Avatar>` component such a very special UI, which is a very conventional horizontal and vertical layout, centering, font style, etc. In this case, there is actually no need to write CSS at all. There is a more efficient implementation method that complements styled-components: **Utility Class**.
 
-Modern.js 集成了主流、轻量、通用的 Utility Class 工具库 [Tailwind CSS](https://tailwindcss.com/)。
+Modern.js integrates the mainstream, light, general-purpose Utility Class library [Tailwind CSS](https://tailwindcss.com/).
 
-执行 `pnpm run new`，进行如下选择，开启 Tailwind CSS：
+Execute `pnpm run new` and select the following to start Tailwind CSS:
 
 ```bash
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用 Tailwind CSS 支持
+? Action: Enable features
+? Enable features: Enable Tailwind CSS
 ```
 
-在 `modern.config.ts` 中注册 Tailwind 插件:
+Register the Tailwind plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
@@ -137,7 +137,7 @@ export default defineConfig({
 });
 ```
 
-在 `src/routes/page.tsx` 顶部引入 Tailwind CSS 的 css 文件，就可以开始快速实现专业的 UI：
+Import the Tailwind CSS css file at the top of `src/routes/page.tsx` to start a quick implementation of the professional UI:
 
 ```js
 import 'tailwindcss/base.css';
@@ -145,7 +145,7 @@ import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
 ```
 
-先创建 Item 组件：
+Create the Item component first:
 
 <Tabs>
 <TabItem value="macOS" label="macOS" default>
@@ -166,7 +166,7 @@ ni src/components/Item/index.tsx
 </TabItem>
 </Tabs>
 
-修改 `src/routes/page.tsx`，把 `List` 的 `render` 实现交给 `Item` 组件：
+Modify `src/routes/page.tsx` to pass the `render` implementation of `List` to `Item` component:
 
 ```js
 import { List } from 'antd';
@@ -202,9 +202,9 @@ function Index() {
 export default Index;
 ```
 
-在父容器的上使用了 [Utility Class](https://tailwindcss.com/docs/container) ，快速实现了最基本的最大宽度、居中等样式。
+Utility Class(https://tailwindcss.com/docs/container) is used on the parent container for a quick implementation of the most basic maximum width, center, and other styles.
 
-接下来实现 `src/components/Item/index.tsx`：
+Next implementation `src/components/Item/index.tsx`:
 
 ```tsx
 import Avatar from '../Avatar';
@@ -242,20 +242,19 @@ const Item = ({ info }: { info: InfoProps }) => {
 export default Item;
 ```
 
-执行 `pnpm run dev`，可以看到预期的运行结果：
+Execute `pnpm run dev` to see the expected running result:
 
 ![result](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/06/result2.png)
 
-我们只使用了少量 Utility Class，比如 [Flex](https://tailwindcss.com/docs/display/)、[Padding](https://tailwindcss.com/docs/padding/)、[Margin](https://tailwindcss.com/docs/margin/)、[Text](https://tailwindcss.com/docs/text-color/)、[Font](https://tailwindcss.com/docs/font-weight/)、[Border](https://tailwindcss.com/docs/border-width)，不写一行 CSS 就实现了符合设计稿的专业 UI。
+We only use a few Utility Classes, such as [Flex](https://tailwindcss.com/docs/display/), [Padding](https://tailwindcss.com/docs/padding/), [Margin](https://tailwindcss.com/docs/margin/), [Text](https://tailwindcss.com/docs/text-color/), [Font](https://tailwindcss.com/docs/font-weight/), [Border](https://tailwindcss.com/docs/border-width), without writing a single CSS implementation Professional UI that conforms to the design draft.
 
+## Customized Utility Class
 
-## 自定义 Utility Class
+We can also implement the new Utility Class ourselves to facilitate reuse between codes.
 
-我们也可以自己实现新的 Utility Class，方便在代码间复用。
+Utility Class itself is also a **component-oriented** technology (using different classes on a component is equivalent to setting some attributes from the base class for this component), but the classname of Utility Class is global (because it is used on arbitrary components/elements), it is very suitable for implementation with separate CSS files.
 
-Utility Class 本身也是一种**面向组件**的技术（将不同 class 用在一个组件上，等价于给这个组件设置了一些来自基类的属性），但 Utility Class 的 classname 是全局的（因为要用在任意组件/元素上），很适合用独立 CSS 文件来实现。
-
-创建一个新的 CSS 文件：
+Create a new CSS file:
 
 <Tabs>
 <TabItem value="macOS" label="macOS" default>
@@ -282,7 +281,7 @@ ni src/styles/utils.css
 import '../styles/utils.css';
 ```
 
-在 `src/routes/styles/utils.css` 里实现一个名为 `custom-text-gray` 的 Utility Class。
+A Utility Class named `custom-text-gray` is implemented in `src/routes/styles/utils.css`.
 
 ```css
 :root {
@@ -294,31 +293,31 @@ import '../styles/utils.css';
 }
 ```
 
-:::info 注
-Modern.js 集成了 [PostCSS](/docs/guides/basic-features/css/postcss)，支持现代 CSS 语法特性，比如 [custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/--*)。
+:::info note
+Modern.js integrates with [PostCSS](/docs/guides/basic-features/css/postcss) and supports modern CSS syntax features such as [custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/-- *).
 :::
 
-在 `src/routes/components/Item/index.tsx` 里使用，把：
+Use in `src/routes/components/Item/index.tsx`:
 
 ```js
 <div className="ml-4 flex-1 flex justify-between">
 ```
 
-改成：
+Change to:
 
 ```js
 <div className="ml-4 custom-text-gray flex-1 flex justify-between">
 ```
 
-执行 `pnpm run dev`，可以看到字体颜色改变了：
+Execute `pnpm run dev`, you can see that the font color has changed:
 
 ![design2](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/06/result3.png)
 
-:::info 注
-此处只是为了演示 Utility Class 用法。真实项目中，在有 Tailwind CSS 的情况下，这种 Utility Class 没什么价值，应该通过配置 Design System 的 [**theme**](https://tailwindcss.com/docs/customizing-colors) 来增加字体颜色。
+:::info note
+This is just to demonstrate Utility Class usage. In a real project, with Tailwind CSS, this Utility Class is of little value and should be added to the font color through the [**theme**](https://tailwindcss.com/docs/customizing-colors) of the configuration Design System.
 
-`utils.css` 也可以写成 `utils.scss` 或 `utils.less`，Modern.js 对 SCSS 和 Less 同样提供开箱即用的支持。
+`utils.css` can also be written as `utils.scss` or `utils.less`, Modern.js out of the box support for SCSS and Less.
 
-不过在 PostCSS 的支持下，现代 CSS 应该足以满足这些开发需求，性能相较于预处理器也更好，建议优先用 .css 文件。
+However, with the support of PostCSS, modern CSS should be sufficient to meet these development needs, and the performance is also better than that of the preprocessor. It is recommended to use `.css` files first.
 :::
 

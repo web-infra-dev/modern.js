@@ -179,6 +179,30 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
+    packageDir: 'builder/builder',
+    packageName: '@modern-js/builder',
+    dependencies: [
+      {
+        name: 'toml-loader',
+        ignoreDts: true,
+      },
+      {
+        name: 'loader-utils2',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      {
+        name: 'yaml-loader',
+        ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils2',
+        },
+      },
+    ],
+  },
+  {
     packageDir: 'builder/builder-shared',
     packageName: '@modern-js/builder-shared',
     dependencies: ['open', 'webpack-5-chain'],
@@ -404,17 +428,6 @@ export const TASKS: TaskConfig[] = [
                 'declare namespace pug',
               )}\nexport = pug;`,
           );
-        },
-      },
-      {
-        name: 'toml-loader',
-        ignoreDts: true,
-      },
-      {
-        name: 'yaml-loader',
-        ignoreDts: true,
-        externals: {
-          'loader-utils': '../loader-utils2',
         },
       },
       {

@@ -8,6 +8,7 @@ import remarkPluginFrontMatter from 'remark-frontmatter';
 import remarkPluginMDXFrontMatter from 'remark-mdx-frontmatter';
 import { getHighlighter } from 'shiki';
 import remarkDirective from 'remark-directive';
+import rehypePluginExternalLinks from 'rehype-external-links';
 import { remarkPluginToc } from './remarkPlugins/toc';
 import { rehypePluginPreWrapper } from './rehypePlugins/preWrapper';
 import { rehypePluginShiki } from './rehypePlugins/shiki';
@@ -31,6 +32,7 @@ export async function createMDXOptions(
     plugin => plugin.markdown?.rehypePlugins || [],
   ) as PluggableList;
   const defaultLang = config.doc?.lang || 'zh';
+  const enableDeadLinksCheck = config.doc?.markdown?.checkDeadLinks ?? false;
   return {
     remarkPlugins: [
       remarkDirective,
@@ -47,7 +49,7 @@ export async function createMDXOptions(
           root: userRoot,
         },
       ],
-      [
+      enableDeadLinksCheck && [
         remarkCheckDeadLinks,
         {
           root: userRoot,
@@ -55,7 +57,7 @@ export async function createMDXOptions(
       ],
       ...remarkPluginsFromConfig,
       ...remarkPluginsFromPlugins,
-    ],
+    ].filter(Boolean) as PluggableList,
     rehypePlugins: [
       rehypeSlug,
       [
@@ -75,6 +77,12 @@ export async function createMDXOptions(
       [
         rehypePluginShiki,
         { highlighter: await getHighlighter({ theme: 'nord' }) },
+      ],
+      [
+        rehypePluginExternalLinks,
+        {
+          target: '_blank',
+        },
       ],
       ...rehypePluginsFromConfig,
       ...rehypePluginsFromPlugins,

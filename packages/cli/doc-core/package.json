@@ -78,6 +78,7 @@
     "react-lazy-with-preload": "^2.2.1",
     "react-router-dom": "^6.4.4",
     "rehype-autolink-headings": "6.1.1",
+    "rehype-external-links": "^2.0.1",
     "rehype-slug": "^5.1.0",
     "remark": "^14.0.2",
     "remark-admonitions": "^1.2.1",

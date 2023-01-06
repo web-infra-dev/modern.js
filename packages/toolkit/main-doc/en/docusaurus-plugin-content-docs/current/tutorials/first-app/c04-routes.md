@@ -1,17 +1,17 @@
 ---
-title: 添加客户端路由
+title: Add Client Route
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-上一章节中，我们学习了如何为创建 UI 组件，并添加样式。
+In the previous chapter, we learned how to create UI components and add styles.
 
-这一章节中，我们将会学习如何添加**客户端路由**。
+In this chapter, we will learn how to add **Client Route**.
 
-之前我们已经为联系人列表增加了 Archive 按钮，接下来我们添加一个客户端路由 `/archives`，访问这个路由时，只显示已存档的联系人，而原有的 `/` 继续显示所有联系人。
+Previously we have added the Archive button to the point of contact list, next we add a route `/archives`, when accessing this route, only the point of contact of the saved file is displayed, while the original `/` continues to display all points of contact.
 
-新建 `src/routes/archives/page.tsx` 文件：
+Create a new `src/routes/archives/page.tsx` file:
 
 <Tabs>
 <TabItem value="macOS" label="macOS" default>
@@ -32,7 +32,7 @@ ni src/routes/archives/page.tsx
 </TabItem>
 </Tabs>
 
-添加如下代码：
+Add the following code:
 
 ```tsx title="src/archives/page.tsx"
 import { List } from 'antd';
@@ -67,7 +67,7 @@ function Index() {
 export default Index;
 ```
 
-这里使用了 [React Helmet](https://github.com/nfl/react-helmet) 的 `Helmet` 组件，在 `src/routes/page.tsx` 中也添加 Helmet 组件：
+The `Helmet` component of [React Helmet](https://github.com/nfl/react-helmet) is used here, and the Helmet component is also added in `src/routes/page.tsx`:
 
 ```tsx
 import { Helmet } from '@modern-js/runtime/head';
@@ -84,11 +84,11 @@ function Index() {
 }
 ```
 
-:::info 注
-Modern.js 默认集成了 react-helmet，也可以结合 SSR 使用，满足 SEO 需求。
+:::info note
+Modern.js integrates react-helmet by default, and can also be used in conjunction with SSR to meet SEO needs.
 :::
 
-因为现在有多个页面，都需要用到前面的 Utility Class，因此我们需要把样式文件移动到 `src/routes/layout.tsx`：
+Since there are multiple pages now, all of which need to use the previous Utility Class, we need to move the style file to `src/routes/layout.tsx`:
 
 ```tsx
 import 'tailwindcss/base.css';
@@ -97,25 +97,25 @@ import 'tailwindcss/utilities.css';
 import '../styles/utils.css';
 ```
 
-执行 `pnpm run dev`，访问 `http://localhost:8080`，可以看到完整的联系人，页面的标题是 All：
+Execute `pnpm run dev`, visit `http://localhost:8080`, you can see the full point of contact, the title of the page is All:
 
 ![display1](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-archives.png)
 
-访问 `http://localhost:8080/archives`，只会看到已存档的联系人，页面的标题是 Archives：
+Visit `http://localhost:8080/archives` and you will only see the point of contact of the saved file with the title Archives:
 
 ![display](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-all.png)
 
-查看页面 HTML 源码，可以看到两个页面的内容是一样，是在客户端针对不同 URL 渲染不同内容。
+Looking at the HTML source code of the page, you can see that the content of the two pages is the same, and different content is rendered for different URLs.
 
-**接下来我们增加一个简单的导航栏，让用户能在两个列表之间切换**。
+**Next we add a simple navigation bar that allows the user to toggle between the two lists**.
 
-打开 `src/routes/layout.tsx`，在顶部导入 Radio 组件：
+Open `src/routes/layout.tsx` and import the Radio component at the top:
 
 ```tsx
 import { Radio } from 'antd';
 ```
 
-然后将 UI 最顶部进行修改，增加一组单选框
+Then modify the top of the UI to add a set of radio group:
 
 ```tsx {4-9}
 export default function Layout() {
@@ -133,9 +133,9 @@ export default function Layout() {
 }
 ```
 
-然后我们来实现 `currentList` 和 `handleSetList`。
+Then we come to the implementation of `currentList` and `handleSetList`.
 
-引入三个 React Hook：`useState` 和 `useNavigate` 和 `useParams`，以及 Ant Design 的事件类型定义：
+Introducing three React Hooks: `useState` and `useNavigate` and `useParams`, as well as Ant Design's event type definition:
 
 ```js
 import { useState } from 'react';
@@ -143,7 +143,7 @@ import { Radio, RadioChangeEvent } from 'antd';
 import { Outlet, useLocation, useNavigate } from "@modern-js/runtime/router";
 ```
 
-最后在 Layout 组件里增加局部状态和相关逻辑：
+Finally, add local state and related logic to the Layout component:
 
 ```tsx {2-9}
 export default function Layout() {
@@ -160,10 +160,10 @@ export default function Layout() {
 }
 ```
 
-到这里就已经完成了页面导航栏实现，执行 `pnpm run dev` 查看效果：
+At this point, the page navigation bar implementation has been completed, and execute `pnpm run dev` to see the effect:
 
 ![display2](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-switch.png)
 
-点击导航栏中 Archives，可以看到单选框的选中状态和 URL 都会变化，页面没有刷新，只发生了 CSR。
+Click Archives in the navigation bar, you can see that the selected state and URL of the radio box will change, the page is not refreshed, only CSR occurs.
 
-通过 URL 访问两个页面，可以看到 HTML 内容是不同的，这是因为在 SSR 阶段页面就执行了客户端路由的逻辑，HTML 里已经包含了最终的渲染结果。
+Accessing the two pages through the URL, you can see that the HTML content is different, because the page executes the logic of  client routing in the SSR stage, and the HTML already contains the final render result.

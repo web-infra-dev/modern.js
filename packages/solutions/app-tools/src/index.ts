@@ -86,9 +86,6 @@ export const buildCommand = async (
     .action(async (options: BuildOptions) => {
       const { build } = await import('./commands/build');
       await build(api, options);
-      // force exit after build.
-      // eslint-disable-next-line no-process-exit
-      process.exit(0);
     });
 
   for (const platformBuilder of platformBuilders) {

@@ -29,5 +29,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/progress').then(m => m.PluginProgress()),
     import('../plugins/react').then(m => m.PluginReact()),
     import('../plugins/externals').then(m => m.PluginExternals()),
+    plugins.toml(),
+    plugins.yaml(),
     plugins.startUrl(),
   ]);
