@@ -37,9 +37,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .turbo
-          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-              turbo-${{ github.job }}-${{ github.ref_name }}-
+              turbo-${{ github.ref_name }}-
 
       - name: Install Dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile

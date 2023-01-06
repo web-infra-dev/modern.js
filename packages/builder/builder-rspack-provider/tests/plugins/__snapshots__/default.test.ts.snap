@@ -189,6 +189,24 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           },
         ],
       },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
+          },
+        ],
+      },
     ],
   },
   "output": {
@@ -212,6 +230,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;
 
@@ -404,6 +426,24 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           },
         ],
       },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
+          },
+        ],
+      },
     ],
   },
   "output": {
@@ -427,6 +467,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;
 
@@ -627,6 +671,24 @@ exports[`tools.rspack > should match snapshot 1`] = `
           },
         ],
       },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
+          },
+        ],
+      },
     ],
   },
   "output": {
@@ -655,5 +717,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
     ],
     "tsConfigPath": "<ROOT>/tsconfig.json",
   },
+  "target": [
+    "web",
+    "es5",
+  ],
 }
 `;

@@ -51,7 +51,7 @@ export const remarkPluginTip: Plugin<[], Root> = () => {
         {
           type: 'element',
           data: {
-            hProperties: { class: 'island-directive-content' },
+            hProperties: { class: 'modern-directive-content' },
           },
           children,
         },

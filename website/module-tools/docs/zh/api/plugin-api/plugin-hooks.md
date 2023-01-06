@@ -58,7 +58,7 @@ type Return = BuildConfig;
 
 ### `beforeBuildTask`
 
-根据构建配置，module tools 会将整体构建分成多个子构建任务。该 Hook 将会在每一个构建子任务之前触发。
+根据构建配置，Module Tools 会将整体构建分成多个子构建任务。该 Hook 将会在每一个构建子任务之前触发。
 
 ```ts
 export default (): CliPlugin<ModuleTools> => ({

@@ -29,6 +29,24 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     },
     "rules": [
       {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
+          },
+        ],
+      },
+      {
         "resolve": {
           "fullySpecified": false,
         },
@@ -554,22 +572,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               },
               "sourceMap": true,
             },
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.toml\\$/,
-        "use": [
-          {
-            "loader": "<ROOT>/compiled/toml-loader",
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.ya\\?ml\\$/,
-        "use": [
-          {
-            "loader": "<ROOT>/compiled/yaml-loader",
           },
         ],
       },

@@ -51,9 +51,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .turbo
-          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-              turbo-${{ github.job }}-${{ github.ref_name }}-
+              turbo-${{ github.ref_name }}-
 
       - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
