@@ -24,6 +24,7 @@ export interface NormalizedToolsConfig
     | 'minifyCss'
     | 'esbuild'
     | 'styledComponents'
+    | 'speedy'
   > {
   webpack: ToolsConfig['webpack'] | Array<NonNullable<ToolsConfig['webpack']>>;
   webpackChain:
