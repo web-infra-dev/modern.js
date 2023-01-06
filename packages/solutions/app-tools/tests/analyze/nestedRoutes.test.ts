@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import path from 'path';
 import { initSnapshotSerializer } from '@modern-js/utils';
 import { walk } from '../../src/analyze/nestedRoutes';

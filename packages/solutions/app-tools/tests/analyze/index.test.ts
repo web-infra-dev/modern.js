@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import * as path from 'path';
 import { manager, CliPlugin } from '@modern-js/core';
 import plugin from '../../src/analyze';

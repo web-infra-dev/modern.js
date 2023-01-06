@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import { createImportStatements } from '../../src/analyze/generateCode';
 
 describe('generate code', () => {

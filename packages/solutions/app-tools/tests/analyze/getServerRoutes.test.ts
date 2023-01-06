@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import path from 'path';
 import { IAppContext } from '@modern-js/core';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
