@@ -152,6 +152,7 @@ export async function applyBaseCSSRule(
       .end();
   }
 
+  // todo: rspack not support sideEffects config
   // CSS imports should always be treated as sideEffects
   // rule.merge({ sideEffects: true });
 }
