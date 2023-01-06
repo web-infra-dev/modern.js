@@ -44,7 +44,7 @@ npx @modern-js/create myapp
 
 ## Initialize
 
-import InitApp from '@site-docs/components/init-app.md'
+import InitApp from '@site-docs-en/components/init-app.md'
 
 <InitApp />
 

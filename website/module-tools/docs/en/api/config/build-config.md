@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # BuildConfig
 
-This section describes all the configuration of Module tools for building
+This section describes all the configuration of Module Tools for building
 
 ## alias
 
@@ -12,7 +12,7 @@ This section describes all the configuration of Module tools for building
 - default: `{'@': 'src',}`
 
 :::tip
-For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Module tools will automatically recognize the alias in `tsconfig.json`, so there is no need to configure the `alias` field additionally.
+For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Module Tools will automatically recognize the alias in `tsconfig.json`, so there is no need to configure the `alias` field additionally.
 :::
 
 ```js modern.config.ts

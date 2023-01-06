@@ -7,53 +7,9 @@
     "message": "Basic",
     "description": "The label for category 基础 in sidebar tutorialsSidebar"
   },
-  "sidebar.tutorialsSidebar.category.创建第一个应用": {
-    "message": "创建第一个应用",
-    "description": "The label for category 创建第一个应用 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.1: 手动创建应用工程": {
-    "message": "1: 手动创建应用工程",
-    "description": "The label for category 1: 手动创建应用工程 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.2: 自动创建应用工程": {
-    "message": "2: 自动创建应用工程",
-    "description": "The label for category 2: 自动创建应用工程 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.3: 确认编程环境": {
-    "message": "3: 确认编程环境",
-    "description": "The label for category 3: 确认编程环境 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.4: 写 JS 代码": {
-    "message": "4: 写 JS 代码",
-    "description": "The label for category 4: 写 JS 代码 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.5: 使用 UI 组件": {
-    "message": "5: 使用 UI 组件",
-    "description": "The label for category 5: 使用 UI 组件 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.6: 添加 UI 组件": {
-    "message": "6: 添加 UI 组件",
-    "description": "The label for category 6: 添加 UI 组件 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.7: 添加应用入口": {
-    "message": "7: 添加应用入口",
-    "description": "The label for category 7: 添加应用入口 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.8: 添加客户端路由": {
-    "message": "8: 添加客户端路由",
-    "description": "The label for category 8: 添加客户端路由 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.9: 添加 BFF": {
-    "message": "9: 添加 BFF",
-    "description": "The label for category 9: 添加 BFF in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.10: 添加业务模型": {
-    "message": "10: 添加业务模型",
-    "description": "The label for category 10: 添加业务模型 in sidebar tutorialsSidebar"
-  },
-  "sidebar.tutorialsSidebar.category.11: 添加容器组件": {
-    "message": "11: 添加容器组件",
-    "description": "The label for category 11: 添加容器组件 in sidebar tutorialsSidebar"
+  "sidebar.tutorialsSidebar.category.联系人列表应用": {
+    "message": "First App",
+    "description": "The label for category 联系人列表应用 in sidebar tutorialsSidebar"
   },
   "sidebar.guidesSidebar.category.开始": {
     "message": "Start",
