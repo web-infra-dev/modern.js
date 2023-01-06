@@ -19,7 +19,7 @@ exports[`plugins/inlineChunk > should add InlineChunkHtmlPlugin properly by defa
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
-          "removeComments": true,
+          "removeComments": false,
           "removeRedundantAttributes": true,
           "removeScriptTypeAttributes": true,
           "removeStyleLinkTypeAttributes": true,
@@ -65,7 +65,7 @@ exports[`plugins/inlineChunk > should use proper plugin options when disableInli
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
-          "removeComments": true,
+          "removeComments": false,
           "removeRedundantAttributes": true,
           "removeScriptTypeAttributes": true,
           "removeStyleLinkTypeAttributes": true,
@@ -109,7 +109,7 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
-          "removeComments": true,
+          "removeComments": false,
           "removeRedundantAttributes": true,
           "removeScriptTypeAttributes": true,
           "removeStyleLinkTypeAttributes": true,
@@ -156,7 +156,7 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
-          "removeComments": true,
+          "removeComments": false,
           "removeRedundantAttributes": true,
           "removeScriptTypeAttributes": true,
           "removeStyleLinkTypeAttributes": true,
