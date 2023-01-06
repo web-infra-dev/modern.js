@@ -17,8 +17,14 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
     setTimeout(() => {
       unbinding = bindingAsideScroll();
     }, 100);
-    if (!window.location.hash) {
+    const hash = decodeURIComponent(window.location.hash);
+    if (!hash) {
       window.scrollTo(0, 0);
+    } else {
+      const target = document.getElementById(hash.slice(1));
+      if (target) {
+        scrollToTarget(target, false);
+      }
     }
     return () => {
       if (unbinding) {

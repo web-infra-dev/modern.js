@@ -52,12 +52,13 @@ export const remarkPluginNormalizeLink: Plugin<
         if (extname === '.md' || extname === '.mdx') {
           url = url.replace(extname, '');
         }
+
+        const lang = extractLangFromFilePath(file.path, root);
+        url = normalizeLangPrefix(normalizeHref(url), lang, defaultLang);
+
         if (hash) {
           url += `#${hash}`;
         }
-        const lang = extractLangFromFilePath(file.path, root);
-
-        url = normalizeLangPrefix(normalizeHref(url), lang, defaultLang);
         node.url = path.join(base, url);
       },
     );
