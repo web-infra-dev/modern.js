@@ -218,3 +218,103 @@ p Hello #{text}!
 ```
 
 Please read the [Pug](https://pugjs.org/) documentation for details.
+
+## Injecting Tags
+
+The `html.tags` option can be configured to insert any tags into the final generated HTML product.
+
+:::warning Usage Cases
+The products of the web application will eventually be referenced directly or indirectly by HTML entries, but most of the time injecting tags directly into HTML is not preferred.
+:::
+
+All tags that need to be injected into HTML can be accessed in the template file via the variable `htmlWebpackPlugin.tags`.
+
+```html
+<html>
+  <head>
+    <%= htmlWebpackPlugin.tags.headTags %>
+  </head>
+  <body>
+    <%= htmlWebpackPlugin.tags.bodyTags %>
+  </body>
+</html>
+```
+
+The purpose of `html.tags` is to adjust these template variables and thus modify the HTML, as defined in [API References](/api/config-html.html#html-tags).
+
+### Tag Object
+
+```ts
+export default {
+  output: {
+    assetPrefix: '//example.com/'
+  },
+  html: {
+    tags: [
+      { tag: 'script', attrs: { src: 'a.js' } },
+      { tag: 'script', attrs: { src: 'b.js' }, append: false },
+      { tag: 'link', attrs: { href: 'style.css', rel: 'stylesheet' }, append: true }
+      { tag: 'link', attrs: { href: 'page.css', rel: 'stylesheet' }, publicPath: false }
+      { tag: 'script', attrs: { src: 'c.js' }, head: false },
+      { tag: 'meta', attrs: { name: 'referrer', content: 'origin' } },
+    ],
+  },
+};
+```
+
+The final insertion position of the tag is determined by the `head` and `append` options, and two elements with the same configuration will be inserted into the same area and hold their relative positions to each other.
+
+The `publicPath` configuration is enabled by default for tags, the value of `output.assetPrefix` will be stitched to the `src` property of the `script` tag that represents the path.
+
+So the HTML output built with the above configuration will look like this.
+
+```html
+<html>
+  <head>
+    <script src="//example.com/b.js"></script>
+    <link href="//example.com/style.css" rel="stylesheet">
+    <link href="page.css" rel="stylesheet">
+    <!-- some other headTags... -->
+    <script src="//example.com/a.js"></script>
+    <meta name="referrer" content="origin">
+  </head>
+  <body>
+    <!-- some other bodyTags... -->
+    <script src="//example.com/c.js"></script>
+  </body>
+</html>
+```
+
+### Tags Handler
+
+`html.tags` also accepts a callback function, which is often used to modify the list of tags or to ensure their relative position while inserting them.
+
+```typescript
+export default {
+  html: {
+    tags: [
+      tags => { tags.splice(0, 1); },
+      { tag: 'script', attrs: { src: 'a.js' }, head: false },
+      { tag: 'script', attrs: { src: 'b.js' }, append: false },
+      { tag: 'script', attrs: { src: 'c.js' } },
+      tags => [...tags, { tag: 'script', attrs: { src: 'd.js' } }],
+    ],
+  },
+};
+```
+
+And you will get:
+
+```html
+<html>
+  <head>
+    <!-- some other headTags... -->
+    <script src="//example.com/c.js"></script>
+    <script src="//example.com/d.js"></script>
+  </head>
+  <body>
+    <!-- some other bodyTags... -->
+    <script src="//example.com/a.js"></script>
+  </body>
+</html>
+```

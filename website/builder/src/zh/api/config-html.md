@@ -42,6 +42,14 @@ extractApiHeaders: [2]
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/html/metaByEntries.md)!!!
 
+## html.tags
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/tags.md)!!!
+
+## html.tagsByEntries
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/tagsByEntries.md)!!!
+
 ## html.mountId
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/html/mountId.md)!!!

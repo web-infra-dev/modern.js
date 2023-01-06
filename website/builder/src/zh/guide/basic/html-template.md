@@ -218,3 +218,103 @@ p Hello #{text}!
 ```
 
 请阅读 [Pug](https://pugjs.org/) 文档来了解完整用法。
+
+## 注入标签
+
+通过配置 `html.tags` 选项可以在最终生成的 HTML 产物中插入任意标签。
+
+:::warning 使用场景
+前端应用的产物最终都会直接或间接地被 HTML 入口引用，但大多数时候直接向 HTML 注入标签都并非首选。
+:::
+
+模版文件中可以通过 `htmlWebpackPlugin.tags` 变量来访问需要最终注入到 HTML 的所有标签：
+
+```html
+<html>
+  <head>
+    <%= htmlWebpackPlugin.tags.headTags %>
+  </head>
+  <body>
+    <%= htmlWebpackPlugin.tags.bodyTags %>
+  </body>
+</html>
+```
+
+`html.tags` 的作用就是调整这些模板变量进而修改 HTML，配置的具体定义参考 [API References](/api/config-html.html#html-tags)。
+
+### 对象形式
+
+```ts
+export default {
+  output: {
+    assetPrefix: '//example.com/'
+  },
+  html: {
+    tags: [
+      { tag: 'script', attrs: { src: 'a.js' } },
+      { tag: 'script', attrs: { src: 'b.js' }, append: false },
+      { tag: 'link', attrs: { href: 'style.css', rel: 'stylesheet' }, append: true }
+      { tag: 'link', attrs: { href: 'page.css', rel: 'stylesheet' }, publicPath: false }
+      { tag: 'script', attrs: { src: 'c.js' }, head: false },
+      { tag: 'meta', attrs: { name: 'referrer', content: 'origin' } },
+    ],
+  },
+};
+```
+
+标签最终的插入位置由 `head` 和 `append` 选项决定，两个配置相同的元素将被插入到相同区域，并且维持彼此之间的相对位置。
+
+标签默认会启用 `publicPath` 配置，即会将 `output.assetPrefix` 的值拼接到 `script` 标签的 `src` 等表示路径的属性上。
+
+所以以上配置构建出的 HTML 产物将会类似：
+
+```html
+<html>
+  <head>
+    <script src="//example.com/b.js"></script>
+    <link href="//example.com/style.css" rel="stylesheet">
+    <link href="page.css" rel="stylesheet">
+    <!-- some other headTags... -->
+    <script src="//example.com/a.js"></script>
+    <meta name="referrer" content="origin">
+  </head>
+  <body>
+    <!-- some other bodyTags... -->
+    <script src="//example.com/c.js"></script>
+  </body>
+</html>
+```
+
+### 函数形式
+
+`html.tags` 也支持传入回调函数，常用于修改标签列表或是在插入标签的同时确保其相对位置：
+
+```typescript
+export default {
+  html: {
+    tags: [
+      tags => { tags.splice(0, 1); },
+      { tag: 'script', attrs: { src: 'a.js' }, head: false },
+      { tag: 'script', attrs: { src: 'b.js' }, append: false },
+      { tag: 'script', attrs: { src: 'c.js' } },
+      tags => [...tags, { tag: 'script', attrs: { src: 'd.js' } }],
+    ],
+  },
+};
+```
+
+最终产物将会类似：
+
+```html
+<html>
+  <head>
+    <!-- some other headTags... -->
+    <script src="//example.com/c.js"></script>
+    <script src="//example.com/d.js"></script>
+  </head>
+  <body>
+    <!-- some other bodyTags... -->
+    <script src="//example.com/a.js"></script>
+  </body>
+</html>
+```
