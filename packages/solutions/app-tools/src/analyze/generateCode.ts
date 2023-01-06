@@ -40,6 +40,24 @@ import { loaderBuilder, serverLoaderBuilder } from './Builder';
 const loader: { [ext: string]: Loader } = {
   '.js': 'jsx',
   '.ts': 'tsx',
+  '.svg': 'empty',
+  '.png': 'empty',
+  '.jpg': 'empty',
+  '.jpeg': 'empty',
+  '.gif': 'empty',
+  '.webp': 'empty',
+  '.ico': 'empty',
+  '.bmp': 'empty',
+  '.apng': 'empty',
+  '.mp4': 'empty',
+  '.webm': 'empty',
+  '.ogg': 'empty',
+  '.mp3': 'empty',
+  '.wav': 'empty',
+  '.flac': 'empty',
+  '.aac': 'empty',
+  '.mov': 'empty',
+  '.css': 'empty',
 };
 const EXTERNAL_REGEXP = /^[^./]|^\.[^./]|^\.\.[^/]/;
 
