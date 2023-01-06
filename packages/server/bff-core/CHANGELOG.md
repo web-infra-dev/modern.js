@@ -1,5 +1,12 @@
 # @modern-js/bff-core
 
+## 2.0.3-next.0
+
+### Patch Changes
+
+- @modern-js/bff-runtime@2.0.3-next.0
+- @modern-js/utils@2.0.3-next.0
+
 ## 2.0.2
 
 ### Patch Changes

@@ -1,5 +1,38 @@
 # @modern-js/app-tools
 
+## 2.0.3-next.0
+
+### Patch Changes
+
+- 2ad9642: feat: new command support --lang params
+
+  feat: new 命令支持 --lang 参数
+
+- 84ee9e9: fix: can't exit process after build
+  fix: 在 build 后不退出程序
+- 5b54418: fix(builder): no longer remove comments of HTML
+
+  fix(builder): 不再默认移除 HTML 中的注释
+
+- Updated dependencies [5b54418]
+  - @modern-js/builder-shared@2.0.3-next.0
+  - @modern-js/builder-webpack-provider@2.0.3-next.0
+  - @modern-js/builder@2.0.3-next.0
+  - @modern-js/builder-plugin-esbuild@2.0.3-next.0
+  - @modern-js/core@2.0.3-next.0
+  - @modern-js/builder-plugin-node-polyfill@2.0.3-next.0
+  - @modern-js/plugin-data-loader@2.0.3-next.0
+  - @modern-js/plugin-i18n@2.0.3-next.0
+  - @modern-js/plugin-lint@2.0.3-next.0
+  - @modern-js/new-action@2.0.3-next.0
+  - @modern-js/prod-server@2.0.3-next.0
+  - @modern-js/server@2.0.3-next.0
+  - @modern-js/node-bundle-require@2.0.3-next.0
+  - @modern-js/plugin@2.0.3-next.0
+  - @modern-js/types@2.0.3-next.0
+  - @modern-js/upgrade@2.0.3-next.0
+  - @modern-js/utils@2.0.3-next.0
+
 ## 2.0.2
 
 ### Patch Changes

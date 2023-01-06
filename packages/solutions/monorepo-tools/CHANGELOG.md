@@ -1,5 +1,22 @@
 # @modern-js/monorepo-tools
 
+## 2.0.3-next.0
+
+### Patch Changes
+
+- 2ad9642: feat: new command support --lang params
+
+  feat: new 命令支持 --lang 参数
+
+  - @modern-js/core@2.0.3-next.0
+  - @modern-js/plugin-changeset@2.0.3-next.0
+  - @modern-js/plugin-i18n@2.0.3-next.0
+  - @modern-js/plugin-lint@2.0.3-next.0
+  - @modern-js/new-action@2.0.3-next.0
+  - @modern-js/plugin@2.0.3-next.0
+  - @modern-js/upgrade@2.0.3-next.0
+  - @modern-js/utils@2.0.3-next.0
+
 ## 2.0.2
 
 ### Patch Changes

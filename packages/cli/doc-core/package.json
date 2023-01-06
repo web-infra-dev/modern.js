@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.0.2",
+  "version": "2.0.3-next.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -100,7 +100,7 @@
     "yaml-front-matter": "^4.1.1"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.0.2",
+    "@modern-js/core": "workspace:^2.0.3-next.0",
     "react": ">=17"
   },
   "devDependencies": {
