@@ -80,6 +80,8 @@ async function createInternalBuildConfig(
       assetPrefix: config.doc?.base || '',
       svgDefaultExport: 'component',
       disableTsChecker: true,
+      // disable production source map, it is useless for doc site
+      disableSourceMap: isProduction(),
       overrideBrowserslist: browserslist,
     },
     source: {
