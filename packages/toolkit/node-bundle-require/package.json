@@ -46,7 +46,7 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
-    "esbuild": "0.15.7"
+    "esbuild": "0.16.14"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

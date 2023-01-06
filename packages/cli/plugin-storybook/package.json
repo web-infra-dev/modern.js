@@ -58,7 +58,7 @@
     "@storybook/core": "6.5.12",
     "@storybook/manager-webpack5": "6.5.12",
     "@storybook/react": "6.5.12",
-    "esbuild": "0.15.7",
+    "esbuild": "0.16.14",
     "findup-sync": "^4.0.0",
     "fs-extra": "^10.0.0",
     "process.argv": "^0.6.0",

@@ -87,7 +87,7 @@
     "btsm": "2.2.2",
     "cypress": "^10.1.0",
     "enhanced-resolve": "^5.9.2",
-    "esbuild": "0.15.7",
+    "esbuild": "0.16.14",
     "execa": "^5.1.1",
     "globby": "^11.0.4",
     "husky": "^8.0.0",
