@@ -8,4 +8,6 @@
 '@modern-js/builder-website': minor
 ---
 
-feat: add new option `html.tags` & `html.tagsByEntries`
+feat(builder): add new option `html.tags` & `html.tagsByEntries`
+
+feat(builder): 添加新的配置项 `html.tags` 和 `html.tagsByEntries`
