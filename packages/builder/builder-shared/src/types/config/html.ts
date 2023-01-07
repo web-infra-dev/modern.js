@@ -1,9 +1,32 @@
 import type { MetaOptions } from '@modern-js/utils';
-import type { ChainedConfig } from '../utils';
+import type { ArrayOrNot, ChainedConfig } from '../utils';
 
 export type CrossOrigin = 'anonymous' | 'use-credentials';
 
 export type ScriptInject = boolean | 'body' | 'head';
+
+export interface HtmlInjectTag {
+  tag: string;
+  attrs?: Record<string, string | boolean | null | undefined>;
+  children?: string;
+  hash?: boolean | string | ((url: string, hash: string) => string);
+  publicPath?: boolean | string | ((url: string, publicPath: string) => string);
+  append?: boolean;
+  head?: boolean;
+}
+
+export type HtmlInjectTagUtils = {
+  outputName: string;
+  publicPath: string;
+  hash: string;
+};
+
+export type HtmlInjectTagHandler = (
+  tags: HtmlInjectTag[],
+  utils: HtmlInjectTagUtils,
+) => HtmlInjectTag[] | void;
+
+export type HtmlInjectTagDescriptor = HtmlInjectTag | HtmlInjectTagHandler;
 
 export interface SharedHtmlConfig {
   /**
@@ -36,6 +59,16 @@ export interface SharedHtmlConfig {
    * `injectByEntries` will overrides the value set in `inject`.
    */
   injectByEntries?: Record<string, ScriptInject>;
+  /**
+   * Inject custom html tags into the output html files.
+   */
+  tags?: ArrayOrNot<HtmlInjectTagDescriptor>;
+  /**
+   * Inject custom html tags into the output html files.
+   * The usage is same as `inject`, and you can use the "entry name" as the key to set each page individually.
+   * `tagsByEntries` will overrides the value set in `tags`.
+   */
+  tagsByEntries?: Record<string, ArrayOrNot<HtmlInjectTagDescriptor>>;
   /**
    * Set the favicon icon for all pages.
    */

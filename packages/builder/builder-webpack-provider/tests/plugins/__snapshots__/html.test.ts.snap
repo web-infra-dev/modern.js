@@ -1,5 +1,157 @@
 // Vitest Snapshot v1
 
+exports[`plugins/html > should add one tags plugin instance 1`] = `
+{
+  "entry": {
+    "foo": [
+      "src/foo.ts",
+    ],
+    "main": [
+      "src/main.ts",
+    ],
+  },
+  "plugins": [
+    HtmlWebpackPlugin {
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": "head",
+        "minify": false,
+        "template": "<ROOT>/static/template.html",
+        "templateParameters": [Function],
+      },
+      "version": 5,
+    },
+    HtmlWebpackPlugin {
+      "userOptions": {
+        "chunks": [
+          "foo",
+        ],
+        "favicon": undefined,
+        "filename": "html/foo/index.html",
+        "inject": "head",
+        "minify": false,
+        "template": "<ROOT>/static/template.html",
+        "templateParameters": [Function],
+      },
+      "version": 5,
+    },
+    HtmlTagsPlugin {
+      "ctx": {
+        "append": true,
+        "hash": false,
+        "htmlWebpackPlugin": [Function],
+        "publicPath": true,
+        "tags": [
+          {
+            "attrs": {
+              "src": "jq.js",
+            },
+            "tag": "script",
+          },
+        ],
+      },
+      "meta": {
+        "plugin": "HtmlTagsPlugin",
+      },
+      "name": "HtmlTagsPlugin",
+    },
+  ],
+}
+`;
+
+exports[`plugins/html > should add tags plugin instances for each entries 1`] = `
+{
+  "entry": {
+    "foo": [
+      "src/foo.ts",
+    ],
+    "main": [
+      "src/main.ts",
+    ],
+  },
+  "plugins": [
+    HtmlWebpackPlugin {
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "favicon": undefined,
+        "filename": "html/main/index.html",
+        "inject": "head",
+        "minify": false,
+        "template": "<ROOT>/static/template.html",
+        "templateParameters": [Function],
+      },
+      "version": 5,
+    },
+    HtmlWebpackPlugin {
+      "userOptions": {
+        "chunks": [
+          "foo",
+        ],
+        "favicon": undefined,
+        "filename": "html/foo/index.html",
+        "inject": "head",
+        "minify": false,
+        "template": "<ROOT>/static/template.html",
+        "templateParameters": [Function],
+      },
+      "version": 5,
+    },
+    HtmlTagsPlugin {
+      "ctx": {
+        "append": true,
+        "hash": false,
+        "htmlWebpackPlugin": [Function],
+        "includes": [
+          "html/main/index.html",
+        ],
+        "publicPath": true,
+        "tags": [
+          {
+            "attrs": {
+              "src": "jq.js",
+            },
+            "tag": "script",
+          },
+        ],
+      },
+      "meta": {
+        "plugin": "HtmlTagsPlugin",
+      },
+      "name": "HtmlTagsPlugin",
+    },
+    HtmlTagsPlugin {
+      "ctx": {
+        "append": true,
+        "hash": false,
+        "htmlWebpackPlugin": [Function],
+        "includes": [
+          "html/foo/index.html",
+        ],
+        "publicPath": true,
+        "tags": [
+          {
+            "attrs": {
+              "src": "foo.js",
+            },
+            "tag": "script",
+          },
+        ],
+      },
+      "meta": {
+        "plugin": "HtmlTagsPlugin",
+      },
+      "name": "HtmlTagsPlugin",
+    },
+  ],
+}
+`;
+
 exports[`plugins/html > should allow to modify plugin options by tools.htmlPlugin 1`] = `
 {
   "entry": {

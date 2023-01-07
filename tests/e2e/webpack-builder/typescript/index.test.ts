@@ -14,7 +14,8 @@ test('should compile const enum correctly', async () => {
   });
   const files = await builder.unwrapOutputJSON();
 
-  const content = files[Object.keys(files).find(file => file.endsWith('.js'))!];
+  const content =
+    files[Object.keys(files).find(file => /main\.\w+\.js/.test(file))!];
   console.log(content);
   expect(content.includes('console.log("fish is :",0)')).toBeTruthy();
 });
