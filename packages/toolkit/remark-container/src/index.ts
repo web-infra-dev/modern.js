@@ -1,3 +1,17 @@
+/**
+ * 🚀 This plugin is used to support container directive in unified.
+ * Taking into account the compatibility of the VuePress/Docusaurus container directive, current remark plugin in unified ecosystem only supports the following syntax:
+ * ::: tip {title="xxx"}
+ * This is a tip
+ * :::
+ * But the following syntax is not supported:
+ * ::: tip xxx
+ * This is a tip
+ * :::
+ * In fact, the syntax is usually used in SSG Frameworks, such as VuePress/Docusaurus.
+ * So the plugin is used to solve the problem and support both syntaxes in above cases.
+ */
+
 import type { Plugin } from 'unified';
 import {
   Root,
@@ -18,7 +32,26 @@ export const DIRECTIVE_TYPES: string[] = [
 ];
 export const REGEX_BEGIN = /^\s*:::\s*(\w+)\s*(.*)?/;
 export const REGEX_END = /\s*:::$/;
+export const TITLE_REGEX = /{\s*title="(.+)"}\s*/;
 
+/**
+ * Construct the DOM structure of the container directive.
+ * For example:
+ *
+ * ::: tip {title="xxx"}
+ * This is a tip
+ * :::
+ *
+ * will be transformed to:
+ *
+ * <div class="modern-directive tip">
+ *   <p class="modern-directive-title">TIP</p>
+ *   <div class="modern-directive-content">
+ *     <p>This is a tip</p>
+ *   </div>
+ * </div>
+ *
+ */
 const createContainer = (
   type: string,
   title: string | undefined,
@@ -52,6 +85,12 @@ const createContainer = (
   ],
 });
 
+/**
+ * How the transformer works:
+ * 1. We get the paragraph and check if it is a container directive
+ * 2. If it is, crawl the next nodes, if there is a paragraph node, we need to check if it is the end of the container directive. If not, we need to push it to the children of the container directive node.
+ * 3. If we find the end of the container directive, we remove the visited node and insert the custom container directive node.
+ */
 function transformer(tree: Root) {
   let i = 0;
   debugger;
@@ -75,14 +114,19 @@ function transformer(tree: Root) {
       i++;
       continue;
     }
-    const [, type, title] = match;
+    const [, type, rawTitle] = match;
+    const title = rawTitle?.match(TITLE_REGEX)?.[1] || rawTitle;
     if (!DIRECTIVE_TYPES.includes(type)) {
       i++;
       continue;
     }
     // 2. If it is, we remove the paragraph and create a container directive
     const wrappedChildren: BlockContent[] = [];
-    // 2.1 The firstTextNode include `::: type title\n`, content and `:::` in the end
+    // 2.1 case: with no newline between `:::` and `:::`, for example
+    // ::: tip
+    // This is a tip
+    // :::
+    // Here the content is `::: tip\nThis is a tip\n:::`
     if (content?.endsWith(':::')) {
       wrappedChildren.push({
         type: 'paragraph',
@@ -96,7 +140,12 @@ function transformer(tree: Root) {
       const newChild = createContainer(type, title, wrappedChildren);
       tree.children.splice(i, 1, newChild as Content);
     } else {
-      // 2.2 The firstTextNode include `::: type title\n` and some other content
+      // 2.2 case: with newline before the end of container, for example:
+      // ::: tip
+      // This is a tip
+      //
+      // :::
+      // Here the content is `::: tip\nThis is a tip`
       const paragraphChild: Paragraph = {
         type: 'paragraph',
         children: [] as PhrasingContent[],
@@ -135,8 +184,14 @@ function transformer(tree: Root) {
         // We don't find the end of the container directive in current paragraph
         (wrappedChildren[0] as Paragraph).children.push(lastChildInNode);
       }
-      // 2.3 The firstTextNode include `::: type title` only
-      // We look for the next paragraph node and collect all the content until we find the end of the container directive
+      // 2.3 The final case: has newline after the start of container, for example:
+      // ::: tip
+      //
+      // This is a tip
+      // :::
+
+      // All of the above cases need to crawl the children of the container directive node.
+      // In other word, We look for the next paragraph nodes and collect all the content until we find the end of the container directive
       let j = i + 1;
       while (j < tree.children.length) {
         const currentParagraph = tree.children[j];
@@ -161,7 +216,7 @@ function transformer(tree: Root) {
           j++;
           continue;
         } else {
-          // We find the end of the container directive
+          // 3. We find the end of the container directive
           // Then create the container directive, and remove the original paragraphs
           // Finally, we insert the new container directive and break the loop
           const lastChildText = lastChild.value;

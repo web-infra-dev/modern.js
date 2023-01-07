@@ -100,4 +100,14 @@ This is a tip.
 :::`);
     expect(result.value).toMatchSnapshot();
   });
+
+  test('Use {title="xxx"} as title', () => {
+    const result = processor.processSync(`
+::: tip{title="Cutsom title"}
+
+This is a tip.
+
+:::`);
+    expect(result.value).toMatchSnapshot();
+  });
 });

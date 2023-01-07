@@ -8,6 +8,8 @@ This is a tip</p></div></div>
 <p>12312</p>"
 `;
 
+exports[`remark-container > Use {title="xxx"} as title 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">Cutsom title</p><div class=\\"modern-directive-content\\"><p>This is a tip.</p></div></div>"`;
+
 exports[`remark-container > With a new line after the start position of container 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>This is a tip</p></div></div>"`;
 
 exports[`remark-container > With block quote in container 1`] = `
