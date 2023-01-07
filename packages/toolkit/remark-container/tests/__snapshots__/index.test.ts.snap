@@ -1,0 +1,38 @@
+// Vitest Snapshot v1
+
+exports[`remark-container > Has space before type 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>This is a tip.</p></div></div>"`;
+
+exports[`remark-container > No newline 1`] = `
+"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>
+This is a tip</p></div></div>
+<p>12312</p>"
+`;
+
+exports[`remark-container > Use {title="xxx"} as title 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">Cutsom title</p><div class=\\"modern-directive-content\\"><p>This is a tip.</p></div></div>"`;
+
+exports[`remark-container > With a new line after the start position of container 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>This is a tip</p></div></div>"`;
+
+exports[`remark-container > With block quote in container 1`] = `
+"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>This is a tip with <code>code</code> and <a href=\\"xxx\\">link</a> some text</p><blockquote>
+<p>This is a quote</p>
+</blockquote></div></div>"
+`;
+
+exports[`remark-container > With code block in container 1`] = `
+"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>This is a tip with <code>code</code> and <a href=\\"xxx\\">link</a> some text</p><pre><code class=\\"language-js\\">const a = 1;
+</code></pre></div></div>"
+`;
+
+exports[`remark-container > With link, inlineCode, img, list in container 1`] = `
+"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>This is a tip with <code>code</code> and <a href=\\"xxx\\">link</a> some text</p><ul>
+<li>list 1</li>
+<li>list 2</li>
+</ul><p><img src=\\"xxx\\" alt=\\"img\\"></p></div></div>"
+`;
+
+exports[`remark-container > With new line before the end position of container 1`] = `
+"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>
+This is a tip</p></div></div>"
+`;
+
+exports[`remark-container > With new line in all case 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>This is a tip</p></div></div>"`;

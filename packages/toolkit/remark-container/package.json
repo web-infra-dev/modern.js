@@ -1,0 +1,49 @@
+{
+  "name": "@modern-js/remark-container",
+  "version": "2.0.2",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/node/index.js",
+  "author": "yangxingyuan",
+  "jsnext:modern": "./dist/modern/node/index.js",
+  "scripts": {
+    "prepare": "modern-lib build",
+    "dev": "modern-lib dev",
+    "build": "modern-lib build",
+    "reset": "rimraf ./**/node_modules",
+    "lint": "modern-lib lint",
+    "change": "modern-lib change",
+    "bump": "modern-lib bump",
+    "pre": "modern-lib pre",
+    "change-status": "modern-lib change-status",
+    "gen-release-note": "modern-lib gen-release-note",
+    "release": "modern-lib release",
+    "new": "modern-lib new",
+    "test": "vitest run --passWithNoTests",
+    "upgrade": "modern-lib upgrade"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "devDependencies": {
+    "@modern-js/module-tools": "workspace:*",
+    "@types/mdast": "^3.0.10",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "unified": "^10.1.2",
+    "vitest": "0.21.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

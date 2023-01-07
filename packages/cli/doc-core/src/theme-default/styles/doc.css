@@ -482,7 +482,8 @@
   background-image: var(--modern-icon-tip);
 }
 
-.modern-doc .modern-directive.tip {
+.modern-doc .modern-directive.tip,
+.modern-doc .modern-directive.note {
   border-color: var(--modern-custom-block-tip-border);
   color: var(--modern-custom-block-tip-text);
   background-color: var(--modern-custom-block-tip-bg);

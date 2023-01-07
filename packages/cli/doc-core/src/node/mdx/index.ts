@@ -7,12 +7,11 @@ import { PluggableList } from 'unified';
 import remarkPluginFrontMatter from 'remark-frontmatter';
 import remarkPluginMDXFrontMatter from 'remark-mdx-frontmatter';
 import { getHighlighter } from 'shiki';
-import remarkDirective from 'remark-directive';
 import rehypePluginExternalLinks from 'rehype-external-links';
+import { remarkPluginContainer } from '@modern-js/remark-container';
 import { remarkPluginToc } from './remarkPlugins/toc';
 import { rehypePluginPreWrapper } from './rehypePlugins/preWrapper';
 import { rehypePluginShiki } from './rehypePlugins/shiki';
-import { remarkPluginTip } from './remarkPlugins/tip';
 import { remarkPluginNormalizeLink } from './remarkPlugins/normalizeLink';
 import { remarkCheckDeadLinks } from './remarkPlugins/checkDeadLink';
 
@@ -35,8 +34,7 @@ export async function createMDXOptions(
   const enableDeadLinksCheck = config.doc?.markdown?.checkDeadLinks ?? false;
   return {
     remarkPlugins: [
-      remarkDirective,
-      remarkPluginTip,
+      remarkPluginContainer,
       remarkGFM,
       remarkPluginFrontMatter,
       [remarkPluginMDXFrontMatter, { name: 'frontmatter' }],
