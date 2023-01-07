@@ -123,7 +123,7 @@ export async function outputInspectConfigFiles({
 
       // if filename is conflict, add a random id to the filename.
       if (fs.existsSync(outputFilePath)) {
-        outputFilePath = outputFilePath.replace('.js', `.${nanoid()}.js`);
+        outputFilePath = outputFilePath.replace(/\.js$/, `.${nanoid(4)}.js`);
       }
 
       return {
