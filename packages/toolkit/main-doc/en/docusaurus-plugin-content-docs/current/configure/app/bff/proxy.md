@@ -4,8 +4,8 @@ sidebar_label: proxy
 
 # bff.proxy
 
-* Type: `Record<string, string>`
-* Default: `{}`
+- Type: `Record<string, string>`
+- Default: `{}`
 
 :::caution Caution
 First you need to enable the "BFF" function using [new](/docs/apis/app/commands/new) command.
@@ -17,15 +17,15 @@ BFF Proxy uses the powerful [http-proxy-middleware](https://github.com/chimurai/
 
 Add the following configuration to `modern.server-runtime.config.ts`, you can turn on the proxy:
 
-```typescript title="modern.server-runtime.config.ts"
+```ts title="modern.server-runtime.config.ts"
 import { defineConfig } from '@modern-js/app-tools/server';
 export default defineConfig({
   bff: {
     proxy: {
-      "/api": "https://cnodejs.org"
-    }
-  }
-})
+      '/api': 'https://cnodejs.org',
+    },
+  },
+});
 ```
 
 Assuming that the starting Modern.js BFF server's service address is `localhost:8080`, all requests whose path starts with `api` will be intercepted, such as requests sent to `localhost:8080/api/v1/topics` will be proxied to `https://cnodejs.org/api/v1/topics`.
@@ -57,14 +57,13 @@ In the process of project development, because web pages and interface services 
 
 There are many ways to solve cross-domain problems, and here we use `bff.proxy` to easily solve cross-domain problems.
 
-
 :::info
 In BFF proxy mode, if you do not need to write the BFF interface, the API directory can be deleted; at this time, BFF proxy will still be enabled.
 :::
 
 As shown below, in the `modern.server-runtime.config.js`, write the following configuration; we send all web pages to the same domain that request proxies starting with `/api` to another domain's service.
 
-```typescript title="modern.server-runtime.config.ts"
+```ts title="modern.server-runtime.config.ts"
 export default defineServerConfig({
   bff: {
     proxy: {

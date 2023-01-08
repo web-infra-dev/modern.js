@@ -52,7 +52,6 @@ Execute `pnpm run dev` to see the expected running result:
 
 Next we do a little refactoring. To enhance legibility and make the code easier to maintain, we can split the Avatar component. We execute the following command at the end point to create a new file:
 
-
 <Tabs>
 <TabItem value="macOS" label="macOS" default>
 
@@ -175,7 +174,7 @@ import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
 import Item from '../components/Item';
 
-const getAvatar = (users: Array<{ name: string; email: string }>) =>
+const getAvatar = (users: Array<{ name: string, email: string }>) =>
   users.map(user => ({
     ...user,
     avatar: `https://avatars.dicebear.com/v2/identicon/${user.name}.svg`,
@@ -285,7 +284,7 @@ A Utility Class named `custom-text-gray` is implemented in `src/routes/styles/ut
 
 ```css
 :root {
-  --custom-text-color:rgb(113, 128, 150);
+  --custom-text-color: rgb(113, 128, 150);
 }
 
 .custom-text-gray {
@@ -294,7 +293,7 @@ A Utility Class named `custom-text-gray` is implemented in `src/routes/styles/ut
 ```
 
 :::info note
-Modern.js integrates with [PostCSS](/docs/guides/basic-features/css/postcss) and supports modern CSS syntax features such as [custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/-- *).
+Modern.js integrates with [PostCSS](/docs/guides/basic-features/css/postcss) and supports modern CSS syntax features such as [custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
 :::
 
 Use in `src/routes/components/Item/index.tsx`:
@@ -320,4 +319,3 @@ This is just to demonstrate Utility Class usage. In a real project, with Tailwin
 
 However, with the support of PostCSS, modern CSS should be sufficient to meet these development needs, and the performance is also better than that of the preprocessor. It is recommended to use `.css` files first.
 :::
-

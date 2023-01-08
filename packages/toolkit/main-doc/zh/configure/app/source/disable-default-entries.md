@@ -3,8 +3,8 @@ title: source.disableDefaultEntries
 sidebar_label: disableDefaultEntries
 ---
 
-* 类型： `boolean`
-* 默认值： `false`
+- 类型： `boolean`
+- 默认值： `false`
 
 关闭根据项目目录结构自动识别应用构建入口的功能，默认情况下，Modern.js 会根据项目目录结构得到对应构建入口。
 
@@ -19,7 +19,7 @@ sidebar_label: disableDefaultEntries
 
 设置如下，即可关闭默认的行为：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
     disableDefaultEntries: true,

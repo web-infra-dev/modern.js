@@ -16,6 +16,7 @@ Changesets 支持配置 `commit` 为 true 时，在执行 `change` 和 `bump` �
 ## 自定义 commit 信息内容
 
 commit 信息分为两种：
+
 - 执行 `change` 命令时自动生成的 commit 信息。
 - 执行 `bump` 命令时自动生成的 commit 信息。
 
@@ -29,15 +30,15 @@ commit 信息分为两种：
 
 当前创建的 chagneset 信息
 
-```typescript
+```ts
 type Release = {
-    name: string;
-    type: VersionType;
+  name: string;
+  type: VersionType;
 };
 
 type Changeset = {
-    summary: string;
-    releases: Array<Release>;
+  summary: string;
+  releases: Array<Release>;
 };
 ```
 
@@ -55,16 +56,16 @@ commit 信息内容。
 
 `@changesets/cli/commit` 默认处理逻辑为以 `docs(changeset):` 开头，commit 信息为 changeset 的 `summary`，并根据传入的 `skipCI` 参数配置添加 [skip ci] 信息。
 
-```typescript
-type SkipCI = boolean | "add" | "version";
+```ts
+type SkipCI = boolean | 'add' | 'version';
 
 const getAddMessage = async (
   changeset: Changeset,
-  options: { skipCI?: SkipCI } | null
+  options: { skipCI?: SkipCI } | null,
 ) => {
-  const skipCI = options?.skipCI === "add" || options?.skipCI === true;
+  const skipCI = options?.skipCI === 'add' || options?.skipCI === true;
   return outdent`docs(changeset): ${changeset.summary}${
-    skipCI ? `\n\n[skip ci]\n` : ""
+    skipCI ? `\n\n[skip ci]\n` : ''
   }`;
 };
 ```
@@ -77,41 +78,41 @@ const getAddMessage = async (
 
 - releasePlan
 
-```typescript
-type VersionType = "major" | "minor" | "patch" | "none";
+```ts
+type VersionType = 'major' | 'minor' | 'patch' | 'none';
 
 type Release = {
-    name: string;
-    type: VersionType;
+  name: string;
+  type: VersionType;
 };
 
 type Changeset = {
-    id: string;
-    summary: string;
-    releases: Array<Release>;
+  id: string;
+  summary: string;
+  releases: Array<Release>;
 };
 
 type ComprehensiveRelease = {
-    name: string;
-    type: VersionType;
-    oldVersion: string;
-    newVersion: string;
-    changesets: string[];
+  name: string;
+  type: VersionType;
+  oldVersion: string;
+  newVersion: string;
+  changesets: string[];
 };
 
 type PreState = {
-    mode: "pre" | "exit"; // pre 模式当前状态
-    tag: string; // pre 的类型
-    initialVersions: {
-        [pkgName: string]: string; // 版本升级前包名及版本号信息，Map 格式
-    };
-    changesets: string[]; // 本次升级的 changeset id 列表
+  mode: 'pre' | 'exit'; // pre 模式当前状态
+  tag: string; // pre 的类型
+  initialVersions: {
+    [pkgName: string]: string; // 版本升级前包名及版本号信息，Map 格式
+  };
+  changesets: string[]; // 本次升级的 changeset id 列表
 };
 
 type ReleasePlan = {
-    changesets: Changeset[]; // 本次升级的 changeset 列表
-    releases: ComprehensiveRelease[]; // 当前升级的包信息，包含包名称、当前版本、升级后版本、升级类型等
-    preState: PreState | undefined; // 当前如果为 pre 发布，提供相关状态信息
+  changesets: Changeset[]; // 本次升级的 changeset 列表
+  releases: ComprehensiveRelease[]; // 当前升级的包信息，包含包名称、当前版本、升级后版本、升级类型等
+  preState: PreState | undefined; // 当前如果为 pre 发布，提供相关状态信息
 };
 ```
 
@@ -129,27 +130,27 @@ commit 信息内容。
 
 `@changesets/cli/commit` 默认处理逻辑为：先展示当前需要 release 的包数量，再展示 release 包的名称及新版本号，并根据传入的 `skipCI` 参数配置添加 [skip ci] 信息。
 
-```typescript
+```ts
 const getVersionMessage = async (
   releasePlan: ReleasePlan,
-  options: { skipCI?: SkipCI } | null
+  options: { skipCI?: SkipCI } | null,
 ) => {
-  const skipCI = options?.skipCI === "version" || options?.skipCI === true;
+  const skipCI = options?.skipCI === 'version' || options?.skipCI === true;
   const publishableReleases = releasePlan.releases.filter(
-    release => release.type !== "none"
+    release => release.type !== 'none',
   );
   const numPackagesReleased = publishableReleases.length;
 
   const releasesLines = publishableReleases
     .map(release => `  ${release.name}@${release.newVersion}`)
-    .join("\n");
+    .join('\n');
 
   return outdent`
     RELEASING: Releasing ${numPackagesReleased} package(s)
 
     Releases:
     ${releasesLines}
-    ${skipCI ? `\n[skip ci]\n` : ""}
+    ${skipCI ? `\n[skip ci]\n` : ''}
 `;
 };
 ```
@@ -164,14 +165,13 @@ Changesets 配置文件中 `commit` 字段，该字段用于标记是否需要�
 
 该配置还支持配置数组，数组中第一个元素为获取 commit 信息模块的模块名称或者路径，第二个元素为传入对应函数的参数值，会作为 `getAddMessage` 和 `getVersionMessage` 函数的第二个参数传入。
 
-
 ### 配置相对路径
 
 commit 配置如果为相对路径为 `.changesets` 目录下的相对路径。
 
 例如创建 .changeset/my-commit-config.js 文件，定义如下内容：
 
-```javascript title=".changeset/my-commit-config.js"
+```js title=".changeset/my-commit-config.js"
 async function getAddMessage(changeset, options) {}
 
 async function getVersionMessage(releasePlan, options) {}
@@ -199,7 +199,7 @@ commit 配置为 ./my-commit-config.js 即可:
 
 #### 使用 `npx @modern-js/create` 创建模块工程方案。
 
-``` md
+```md
 ? 请选择你想创建的工程类型 模块
 ? 请填写项目名称 custom-commit
 ? 请选择开发语言 TS
@@ -208,16 +208,16 @@ commit 配置为 ./my-commit-config.js 即可:
 
 #### 实现自定义内容。
 
-```typescript title="src/index.ts"
+```ts title="src/index.ts"
 export async function getAddMessage() {}
 
 export async function getVersionMessage() {}
-
 ```
 
 #### 将模块发布到 NPM。
 
 #### 在目标仓库根目录安装对应模块，例如 custom-commit。
+
 #### 配置 changeset 的 commit 配置为包名称。
 
 ```json title="package.json"
@@ -233,7 +233,7 @@ export async function getVersionMessage() {}
 
 #### 执行 `pnpm run new` 创建模块子项目。
 
-``` md
+```md
 ? 请选择你想创建的工程类型 模块
 ? 请填写子项目名称 custom-commit
 ? 请填写子项目目录名称 custom-commit
@@ -242,11 +242,10 @@ export async function getVersionMessage() {}
 
 #### 实现自定义内容。
 
-```typescript title="src/index.ts"
+```ts title="src/index.ts"
 export async function getAddMessage() {}
 
 export async function getVersionMessage() {}
-
 ```
 
 #### 在 Monorepo 根目录添加子项目模块依赖，例如 custom-commit。

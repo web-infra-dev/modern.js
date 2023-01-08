@@ -26,7 +26,7 @@ import parentModel from '@MasterApp/models/todoModel';
 function SubModelApp() {
   const [state, actions] = useModel(parentModel);
 
-  return <div>...</div>
+  return <div>...</div>;
 }
 ```
 
@@ -36,8 +36,5 @@ function SubModelApp() {
 
 ```ts
 // App 是主应用的入口组件，sharedModel1、sharedModel2 是需要共享的 Model。
-App.models = [
-  sharedModel1,
-  sharedModel2
-]
+App.models = [sharedModel1, sharedModel2];
 ```

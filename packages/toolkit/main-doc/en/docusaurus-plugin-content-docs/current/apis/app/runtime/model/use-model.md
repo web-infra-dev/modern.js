@@ -11,7 +11,6 @@ import ReduckTip from '@site-docs-en/components/reduck-tip.md'
 The original type of Reduck is complex. The following type definition shows the simplified type information. For the original type, see [**model**](https://github.com/modern-js-dev/reduck/blob/main/packages/store/src/model/model.ts)。
 :::
 
-
 ## Function Signature
 
 ```ts
@@ -27,13 +26,11 @@ function useModel(
 ): [state, actions, subscribe];
 ```
 
-
 ### Input
 
 - models: Array of Model objects, which can be passed in as an array type parameter, or all Models can be passed in as parameters one by one.
 - stateSelector: Optional parameters, used to filter State calculations. The first n parameters are the States corresponding to n Models, and the returned data is used as the first element of the `useModel` return value array.
 - actionSelector: Optional parameters, used to filter Action calculations. The first n parameters are the States corresponding to n Models, and the returned data is used as the second element of the `useModel` return value array.
-
 
 ### Return Value
 

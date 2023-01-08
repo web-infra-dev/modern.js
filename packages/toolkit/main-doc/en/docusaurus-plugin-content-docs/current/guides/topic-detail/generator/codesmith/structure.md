@@ -14,10 +14,11 @@ NPM package description information, including name, version, main and other fie
 
 The js file corresponding to the above main field. The file exports a generator function by default, and the function format is as follows:
 
-```typescript
-export default async (context: GeneratorContext, generator: GeneratorCore) => {
-
-};
+```ts
+export default async (
+  context: GeneratorContext,
+  generator: GeneratorCore,
+) => {};
 ```
 
 The function parameters are context and generator:
@@ -26,12 +27,12 @@ The function parameters are context and generator:
 
 Context provides context information maintained by the codesmith runtime. Its type is defined as:
 
-```typescript
+```ts
 interface GeneratorContext {
   materials: Record<string, FsMaterial>;
   config: Record<string, any>;
   data?: Record<string, any>;
-  current: { material: FsMaterial; } | null;
+  current: { material: FsMaterial } | null;
   [key: string]: any;
 }
 ```
@@ -42,8 +43,10 @@ Materials also maintains this default mapping relationship, which is used to mai
 
 For example, when you need to modify a field in the `package.json` of the current project:
 
-```typescript
-const resource = context.materials.default.get(path.join(appDir, 'package.json'))
+```ts
+const resource = context.materials.default.get(
+  path.join(appDir, 'package.json'),
+);
 ```
 
 Pass the acquired resources to the JSON API provided by codesmith to implement json operations.
@@ -54,7 +57,7 @@ The get method is provided in `FsMaterial` to get the resource file and pass the
 
 For example:
 
-```typescript
+```ts
 const resourceMap = await material.find('templates/**/*');
 ```
 
@@ -64,7 +67,7 @@ All template files in the generator that match to the `templates /**/*` rules ca
 
 Generator provides the function method of the codesmith runtime. Its type is defined as:
 
-```typescript
+```ts
 interface GeneratorCore {
     logger: Logger;
     outputPath: string;
@@ -76,7 +79,6 @@ interface GeneratorCore {
 ```
 
 The outputPath and the `materials.default` in the context point to the same directory, the outputPath is used to directly calculate the target path and operate, and the `materials.default` is used to obtain resource files.
-
 
 `runSubGenerator` provides a way to run other microgenerators in one microgenerator, which will automatically update and maintain new context information.
 

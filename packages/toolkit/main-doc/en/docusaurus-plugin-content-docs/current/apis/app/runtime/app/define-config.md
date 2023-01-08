@@ -43,7 +43,6 @@ defineConfig(App, {
 })
 ```
 
-
 1. `defineConfig` can configuring [runtime.state](/docs/configure/app/runtime/state)、[runtime.router](/docs/configure/app/runtime/router) etc.
 
 2. `defineConfig` before configuring a property, such as `router`, you need to make sure that the `modern.config.js` has been configured to enable this feature.

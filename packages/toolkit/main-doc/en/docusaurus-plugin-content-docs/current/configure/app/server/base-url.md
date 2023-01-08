@@ -4,13 +4,12 @@ sidebar_label: baseUrl
 
 # server.baseUrl
 
-* Type: `string | string[]`
-* Default: `undefined`
-
+- Type: `string | string[]`
+- Default: `undefined`
 
 Uniformly set the server-level routing prefix (often used in the case of shared domain names to distinguish traffic).
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     // 所有生成的路由前面都会自动加上前缀 `/base`

@@ -36,16 +36,16 @@ JSON 文件的文件名或者文件路径。
 
 ```ts
 api.updateJSONFile(file, {
-    name: "新名称"
-})
+  name: '新名称',
+});
 ```
 
 需更新嵌套字段：
 
 ```ts
 api.updateJSONFile(file, {
-  "dependencies.name": "新名称"
-})
+  'dependencies.name': '新名称',
+});
 ```
 
 :::warning

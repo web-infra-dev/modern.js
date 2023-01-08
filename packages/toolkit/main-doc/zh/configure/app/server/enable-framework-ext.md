@@ -1,20 +1,21 @@
 ---
 sidebar_label: enableFrameworkExt
 ---
+
 # server.enableFrameworkExt
 
-* 类型： `Boolean`
-* 默认值： `false`
+- 类型： `boolean`
+- 默认值： `false`
 
 默认情况下，开启[自定义 Web Server 功能](/docs/guides/advanced-features/web-server)后，Middleware 会使用 Modern.js 本身的语法。
 
 开启 `server.enableFrameworkExt` 可以使用其他框架扩展的语法。
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     enableFrameworkExt: true,
-  }
+  },
 });
 ```
 

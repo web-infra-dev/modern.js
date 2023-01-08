@@ -41,26 +41,22 @@ Modern.js 也提供了自定义别名的方式，以添加 `@common` 别名为�
 {
   "compilerOptions": {
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/common/*": [
-        "./src/common/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/common/*": ["./src/common/*"]
     }
-  },
+  }
 }
 ```
 
 JavaScript 项目可以在 `modern.config.js` 中配置 [`source.alias`](/docs/configure/app/source/alias)：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
     alias: {
-      '@common': './src/common'
-    }
-  }
+      '@common': './src/common',
+    },
+  },
 });
 ```
 

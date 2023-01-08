@@ -9,7 +9,6 @@ import ReduckTip from '@site-docs/components/reduck-tip.md'
 
 用于把 Model 中的 State 作为局部状态使用，效果类似 React 的 `useState`。`useLocalModel` API 形式上与 `useModel` 完全一致。具体使用请参考 [`useModel`](./use-model.md)。
 
-
 #### 示例
 
 ```tsx

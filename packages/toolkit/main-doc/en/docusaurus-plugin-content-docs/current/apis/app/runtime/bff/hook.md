@@ -16,10 +16,10 @@ import { hook } from '@modern-js/runtime/{namespace}';
 
 ```ts
 type HookOptions = {
-  addMiddleware: string | function
-}
+  addMiddleware: string | function;
+};
 
-function hook(options: HookOptions): void
+function hook(options: HookOptions): void;
 ```
 
 ### Input

@@ -46,7 +46,6 @@ pnpm run change
 ---
 
 feat: test module solution changeset
-
 ```
 
 该文件中包含了 changeset 的所有信息。
@@ -115,11 +114,10 @@ pnpm run change -- --empty
 
 如果当前变更是修改仓库的一些基础设施，比如 CI、测试等，就不需要添加 changeset 或者可以添加一个空的 changeset。
 
--  一个 pull reuqest 可以提交多个 changeset
+- 一个 pull reuqest 可以提交多个 changeset
 
 当一个 pull request 存在多个功能开发或者问题修复时，可以多次执行 `pnpm run change` 添加多个 changeset 文件，每个文件选择对应功能的包和添加变更信息即可。
 
 - 创建 changeset 时，需要选择该功能相关的所有包
 
 在 Monorepo 中创建 changeset 时，需要选中和该功能相关的所有变更包，避免出现发版时部分包未发布的情况。
-

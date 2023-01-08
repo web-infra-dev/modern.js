@@ -19,7 +19,7 @@ Options:
 需要在 bump 命令之前执行。
 :::
 
-``` markdown
+```markdown
 ## Features:
 
 [[#1160](https://github.com/modern-js-dev/modern.js/pull/1160)] export ExecaError type
@@ -27,7 +27,6 @@ Options:
 ## Bug Fix:
 
 [[#1264](https://github.com/modern-js-dev/modern.js/pull/1264)] fix: conventional router app use App.init not work
-
 ```
 
 import CommandTip from '@site-docs/components/command-tip.md'

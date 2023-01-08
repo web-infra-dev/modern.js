@@ -62,13 +62,13 @@ add component to `src/routes/page.tsx`：
 
 ```jsx title="src/routes/page.tsx"
 export default () => {
-  return  <div>Index Page</div>
-}
+  return <div>Index Page</div>;
+};
 ```
 
 SSG is also render in Node.js. So we can enable SSR in developmenet env, expose code problems in advance and verify SSG rendering effect：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     ssr: process.env.NODE_ENV === 'development',
@@ -112,14 +112,14 @@ export default () => {
 
 If we want to enable the SSG of `/about` at the same time, we can configure the `output.ssg` to tell Modern.js to enable the SSG of the specified route.
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   output: {
     ssg: {
       routes: ['/', '/about'],
     },
   },
-})
+});
 ```
 
 run `pnpm run build` and `pnpm run serve`，access `http://localhost:8080/about`. In the Preview view, you can see that the page has been rendered。
@@ -129,4 +129,3 @@ Looking at the bundle file, a new `main/about/index.html` file has been added in
 :::info
 The above only introduces the single entry, more related content can be viewed [SSG API](/docs/configure/app/output/ssg)。
 :::
-

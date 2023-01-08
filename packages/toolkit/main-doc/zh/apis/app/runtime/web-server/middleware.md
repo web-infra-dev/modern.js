@@ -15,11 +15,11 @@ title: Middleware
 ```ts
 import { Middleware } from '@modern-js/runtime/server';
 
-export const middleware: Middleware = async (context, next) => {}
+export const middleware: Middleware = async (context, next) => {};
 export const middleware: Middleware[] = [
   async (context, next) => {},
   async (context, next) => {},
-]
+];
 ```
 
 :::info 自定义 Web Server
@@ -30,6 +30,7 @@ pnpm run new
 ? 请选择你想要的操作 创建工程元素
 ? 新建「自定义 Web Server」源码目录
 ```
+
 :::
 
 ## 函数签名
@@ -69,9 +70,11 @@ type MiddlewareContext = {
   };
 };
 
-type RequestHandler = (context: Context, next: NextFunction) => Promise<void> | void;
+type RequestHandler = (
+  context: Context,
+  next: NextFunction,
+) => Promise<void> | void;
 ```
-
 
 ### 参数
 
@@ -91,7 +94,7 @@ export const Middleware = () => async (ctx, next) => {
   ctx.res.once('finish', () => {
     console.log(Date.now() - start);
   });
-}
+};
 ```
 
 ### 注入服务端工具 & 数据
@@ -104,4 +107,3 @@ export const Middleware = () => async (ctx, next) => {
   ctx.res.locals.rpc = createRpcInstance();
 });
 ```
-

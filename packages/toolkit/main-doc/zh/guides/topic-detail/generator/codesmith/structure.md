@@ -14,10 +14,11 @@ npm 包描述信息，包含 name、version、main 等字段。
 
 上述 main 字段对应的 js 文件。文件为默认导出一个生成器函数，函数格式如下：
 
-```typescript
-export default async (context: GeneratorContext, generator: GeneratorCore) => {
-
-};
+```ts
+export default async (
+  context: GeneratorContext,
+  generator: GeneratorCore,
+) => {};
 ```
 
 该函数参数为 context 和 generator：
@@ -26,12 +27,12 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
 context 提供 codesmith 运行时维护的上下文信息。其类型定义为：
 
-```typescript
+```ts
 interface GeneratorContext {
   materials: Record<string, FsMaterial>; // 资源
   config: Record<string, any>; // 用户 config 配置
   data?: Record<string, any>; // 用户 data 配置
-  current: { material: FsMaterial; } | null; //  当前生成器运行可获取的文件资源
+  current: { material: FsMaterial } | null; //  当前生成器运行可获取的文件资源
   [key: string]: any; // 其他补充字段
 }
 ```
@@ -42,8 +43,10 @@ materials 中还维护这一个 default 的映射关系，用于维护当前生�
 
 例如当需要修改当前项目的 `package.json` 中的字段:
 
-```typescript
-const resource = context.materials.default.get(path.join(appDir, 'package.json'))
+```ts
+const resource = context.materials.default.get(
+  path.join(appDir, 'package.json'),
+);
 ```
 
 将获取到的 resource 传递给 codesmith 提供的 JSON API 即可实现 json 操作。
@@ -54,7 +57,7 @@ FsMaterial 中提供了 get 方法用于获取资源文件并将资源文件传�
 
 例如：
 
-```typescript
+```ts
 const resourceMap = await material.find('templates/**/*');
 ```
 
@@ -64,7 +67,7 @@ const resourceMap = await material.find('templates/**/*');
 
 generator 提供 codesmith 运行时的函数方法。其类型定义为：
 
-```typescript
+```ts
 interface GeneratorCore {
     logger: Logger; // log 函数，支持 info、warning、debug、error、verbose、stream
     outputPath: string; // 输出文件路径

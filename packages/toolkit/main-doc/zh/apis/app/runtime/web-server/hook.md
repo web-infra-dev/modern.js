@@ -13,8 +13,8 @@ title: Hook
 ```ts
 import { AfterMatchHook, AfterRenderHook } from '@modern-js/runtime/server';
 
-export const afterMatch: AfterMatchHook = (context, next) => {}
-export const afterRender: AfterRenderHook = (context, next) => {}
+export const afterMatch: AfterMatchHook = (context, next) => {};
+export const afterRender: AfterRenderHook = (context, next) => {};
 ```
 
 :::info 自定义 Web Server
@@ -25,6 +25,7 @@ pnpm run new
 ? 请选择你想要的操作 创建工程元素
 ? 新建「自定义 Web Server」源码目录
 ```
+
 :::
 
 ## 函数签名
@@ -69,7 +70,7 @@ type AfterMatchContext = HookContext & {
     redirect: (url: string, status: number) => void;
     rewrite: (entry: string) => void;
   };
-}
+};
 
 type AfterRenderContext = {
   template: {
@@ -127,5 +128,5 @@ import type { AfterRender } from '@modern-js/runtime/server';
 
 export const afterRender: AfterRenderHook = (context, next) => {
   ctx.template.prependBody('<div>Footer</div>');
-}
+};
 ```

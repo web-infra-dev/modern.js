@@ -13,7 +13,7 @@ export default () => (
   <>
     <PreRender interval={5} />
   </>
-)
+);
 ```
 
 ## 函数签名
@@ -59,7 +59,7 @@ export default function App() {
       <PreRender interval={10} />
       <div>Hello Modern</div>
     </>
-  )
+  );
 }
 ```
 
@@ -67,10 +67,14 @@ export default function App() {
 
 ```tsx
 /* 使用 query 中的 channel 和 header 中的 language 计算缓存标识 */
-<PreRender interval={10} level={2} includes={{
-  query: ["channel"],
-  header: ["language"]
-}} />
+<PreRender
+  interval={10}
+  level={2}
+  includes={{
+    query: ['channel'],
+    header: ['language'],
+  }}
+/>
 ```
 
 下面例子展示了如何不让测试频道影响线上缓存：

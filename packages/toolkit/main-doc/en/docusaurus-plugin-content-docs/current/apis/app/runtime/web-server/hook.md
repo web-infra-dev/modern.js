@@ -13,8 +13,8 @@ For more detail, see [Extend Web Server](/docs/guides/advanced-features/web-serv
 ```ts
 import { AfterMatchHook, AfterRenderHook } from '@modern-js/runtime/server';
 
-export const afterMatch: AfterMatchHook = (context, next) => {}
-export const afterRender: AfterRenderHook = (context, next) => {}
+export const afterMatch: AfterMatchHook = (context, next) => {};
+export const afterRender: AfterRenderHook = (context, next) => {};
 ```
 
 :::info
@@ -68,7 +68,7 @@ type AfterMatchContext = HookContext & {
     redirect: (url: string, status: number) => void;
     rewrite: (entry: string) => void;
   };
-}
+};
 
 type AfterRenderContext = {
   template: {
@@ -81,7 +81,6 @@ type AfterRenderContext = {
   };
 };
 ```
-
 
 ### Input
 
@@ -127,5 +126,5 @@ import type { AfterRender } from '@modern-js/runtime/server';
 
 export const afterRender: AfterRenderHook = (context, next) => {
   ctx.template.prependBody('<div>Footer</div>');
-}
+};
 ```

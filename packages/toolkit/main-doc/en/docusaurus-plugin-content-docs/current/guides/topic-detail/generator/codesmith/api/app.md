@@ -8,13 +8,13 @@ The combination encapsulation of APIs commonly used in the development of microg
 
 ## Use
 
-```typescript
+```ts
 import { AppAPI } from '@modern-js/codesmith-api-app';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
   await appApi.runInstall();
-}
+};
 ```
 
 - Create AppAPI instance, the parameter is the generator of the microgenerator function parameter, please see the composition of the microgenerator project for details.
@@ -50,8 +50,8 @@ This function performs the following actions:
 3. Install dependencies.
 4. Commit the initial commit in a non-monorepo project (judging the condition, `isMonorepoSubProject` does not exist or is false in the config), the commit information is feat: init, and customize is supported.
 
-
 Parameter:
+
 - commitMessage?: `string`, Initialization commit message
 - installFunc?: `() => Promise<void>`. Install dependency function
 
@@ -69,31 +69,31 @@ Parameter:
 
 For example:
 
-```typescript
+```ts
 await appApi.forgeTemplate(
-    'templates/base-templates/**/*',
-    undefined,
-    resourceKey =>
-      resourceKey
-        .replace('templates/base-templates/', '')
-        .replace('.handlebars', ''),
-  );
+  'templates/base-templates/**/*',
+  undefined,
+  resourceKey =>
+    resourceKey
+      .replace('templates/base-templates/', '')
+      .replace('.handlebars', ''),
+);
 
- await appApi.forgeTemplate(
-    'templates/base-template/**/*',
-    resourceKey => !resourceKey.include('eslintrc.json'),
-    resourceKey =>
-      resourceKey
-        .replace('templates/base-template/', projectPath)
-        .replace('language', language as string)
-        .replace('.handlebars', ''),
-    {
-      name: packageName as string,
-      language,
-      isTs: language === Language.TS,
-      packageManager: getPackageManagerText(packageManager as any),
-    },
-  );
+await appApi.forgeTemplate(
+  'templates/base-template/**/*',
+  resourceKey => !resourceKey.include('eslintrc.json'),
+  resourceKey =>
+    resourceKey
+      .replace('templates/base-template/', projectPath)
+      .replace('language', language as string)
+      .replace('.handlebars', ''),
+  {
+    name: packageName as string,
+    language,
+    isTs: language === Language.TS,
+    packageManager: getPackageManagerText(packageManager as any),
+  },
+);
 ```
 
 ### showSuccessInfo
@@ -116,12 +116,12 @@ Parameter:
 
 For example:
 
-```typescript
-  await appApi.runSubGenerator(
-    getGeneratorPath('@modern-js/repo-generator', context.config.distTag),
-    undefined,
-    { ...context.config, hasPlugin: false },
-  );
+```ts
+await appApi.runSubGenerator(
+  getGeneratorPath('@modern-js/repo-generator', context.config.distTag),
+  undefined,
+  { ...context.config, hasPlugin: false },
+);
 ```
 
 ### getInputBySchema

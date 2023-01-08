@@ -27,6 +27,7 @@ sidebar_position: 1
 生成器插件的文件操作 API 将是针对这四种文件类型进行操作。
 
 其类型定义为：
+
 ```ts
 export enum FileType {
   Text = 'text',

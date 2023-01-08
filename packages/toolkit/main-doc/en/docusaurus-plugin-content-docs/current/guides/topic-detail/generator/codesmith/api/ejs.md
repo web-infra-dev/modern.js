@@ -8,7 +8,7 @@ An API wrapper for file operations using [ejs] (https://ejs.co/) in microgenerat
 
 ## Use
 
-```typescript
+```ts
 import { EjsAPI } from '@modern-js/codesmith-api-ejs';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -32,7 +32,7 @@ Render a single template file.
 
 Parameter:
 
-- templateResource: `FsResource`. Template file resource, used by  `context.materials.get(<filename>)`.
+- templateResource: `FsResource`. Template file resource, used by `context.materials.get(<filename>)`.
 - target: `string`. Target file path name.
 - parameters?: `Record<string, string>`. Render parameter.
 
@@ -47,7 +47,7 @@ Parameter:
 - target: `(globMatch: string) => string`. The target file path generation function, the parameter is `resourceKey.`
 - options?: `RenderTemplateDirOptions`. Glob Find the file configuration, the specific function viewable is here [glob] (https://www.npmjs.com/package/glob).
 
-```typescript
+```ts
 type RenderTemplateDirOptions = {
   nodir?: boolean;
   dot?: boolean;

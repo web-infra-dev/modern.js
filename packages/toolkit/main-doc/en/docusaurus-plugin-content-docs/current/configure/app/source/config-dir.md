@@ -3,8 +3,8 @@ title: source.configDir
 sidebar_label: configDir
 ---
 
-* Type: `string`
-* Default: `./config`
+- Type: `string`
+- Default: `./config`
 
 Modern.js supports placing some files in the `./config` folder to customize HTML templates, icons, static resources, etc. For details, please refer to [File Convention](/docs/apis/app/hooks/config/html).
 

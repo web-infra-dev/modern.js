@@ -9,9 +9,7 @@ title: Head
 ```tsx
 import { Helmet } from '@modern-js/runtime/head';
 
-export default () => (
-  <Helmet>...</Helmet>
-)
+export default () => <Helmet>...</Helmet>;
 ```
 
 ## 示例
@@ -28,10 +26,10 @@ function IndexPage() {
       </Helmet>
       <p>Hello Modern.js!</p>
     </div>
-  )
+  );
 }
 
-export default IndexPage
+export default IndexPage;
 ```
 
 ## 更多用法

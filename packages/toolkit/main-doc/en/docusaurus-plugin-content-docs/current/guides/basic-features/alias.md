@@ -41,26 +41,22 @@ Modern.js also provides a way to config aliases. Adding the `@common` alias as a
 {
   "compilerOptions": {
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/common/*": [
-        "./src/common/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/common/*": ["./src/common/*"]
     }
-  },
+  }
 }
 ```
 
 JavaScript project can config by [`source.alias`](/docs/configure/app/source/alias) in `modern.config.js`:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
     alias: {
-      '@common': './src/common'
-    }
-  }
+      '@common': './src/common',
+    },
+  },
 });
 ```
 

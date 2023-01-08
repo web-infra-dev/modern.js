@@ -21,11 +21,9 @@ export default (App: React.ComponentType) => {
 };
 ```
 
-
 2. 完全接管 webpack 入口:
 
 当 `src/index.[tj]sx?` 下没有默认导出函数时，该文件即为真正的 webpack 打包入口文件, 可以直接像使用 create-react-app 等脚手架一样组织代码:
-
 
 ```js title=src/index.jsx
 import React from 'react';

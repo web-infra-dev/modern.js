@@ -67,32 +67,32 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 
 以 `index.[jt]s` 命名的文件会被映射到上一层目录。
 
-* `api/index.ts` -> `{prefix}/`
-* `api/user/index.ts` -> `{prefix}/user`
+- `api/index.ts` -> `{prefix}/`
+- `api/user/index.ts` -> `{prefix}/user`
 
 ### 多层路由
 
 支持解析嵌套的文件，如果创建嵌套文件夹结构，文件仍会以相同方式自动解析路由。
 
-* `api/hello.ts` -> `{prefix}/hello`
-* `api/user/list.ts` -> `{prefix}/user/list`
+- `api/hello.ts` -> `{prefix}/hello`
+- `api/user/list.ts` -> `{prefix}/user/list`
 
 ### 动态路由
 
 同样的，创建命名带有 `[xxx]` 的文件夹或者文件，支持动态的命名路由参数。动态路由的函数参数规则可以看 [dynamac-path](/docs/guides/advanced-features/bff/function#dynamic-path)
 
-* `api/user/[username]/info.ts` -> `{prefix}/user/:username/info`
-* `api/user/username/[action].ts` -> `{prefix}/user/username/:action`
+- `api/user/[username]/info.ts` -> `{prefix}/user/:username/info`
+- `api/user/username/[action].ts` -> `{prefix}/user/username/:action`
 
 ### 白名单
 
 默认 `api/` 目录下所有文件都会当作 BFF 函数文件去解析，但以下文件不会被解析：
 
-* 命名以 `_` 开头的文件。例如：`_utils.ts`。
-* 命名以 `_` 开头的文件夹下所有文件。例如：`_utils/index.ts`、`_utils/cp.ts`。
-* 测试文件。例如：`foo.test.ts`。
-* TypeScript 类型文件。例如：`hello.d.ts`。
-* `node_module` 下的文件。
+- 命名以 `_` 开头的文件。例如：`_utils.ts`。
+- 命名以 `_` 开头的文件夹下所有文件。例如：`_utils/index.ts`、`_utils/cp.ts`。
+- 测试文件。例如：`foo.test.ts`。
+- TypeScript 类型文件。例如：`hello.d.ts`。
+- `node_module` 下的文件。
 
 ## RESTful API
 
@@ -130,11 +130,11 @@ export const post = async () => {
 };
 ```
 
-* 对应 HTTP Method，Modern.js 也支持了 9 种定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
+- 对应 HTTP Method，Modern.js 也支持了 9 种定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
 
-* 名字是大小不敏感的，如果是 `GET`，写成 `get`、`Get`、`GEt`、`GET`，都可以准确识别。而默认导出，即 `export default xxx` 则会被映射为 `Get`。
+- 名字是大小不敏感的，如果是 `GET`，写成 `get`、`Get`、`GEt`、`GET`，都可以准确识别。而默认导出，即 `export default xxx` 则会被映射为 `Get`。
 
-* 可以在一个文件中定义多个不同 Method 的函数，但如果定义多个相同 Method 的函数，则只有第一个会生效。
+- 可以在一个文件中定义多个不同 Method 的函数，但如果定义多个相同 Method 的函数，则只有第一个会生效。
 
 :::info 注
 需要注意的是，定义的函数都应该是异步的，与函数调用时类型有关，后面会提到。
@@ -153,27 +153,25 @@ export const post = async () => {
 ```ts title="api/[level]/[id].ts"
 export default async (level: number, id: number) => {
   const userData = await queryUser(level, uid);
-  return userData
-}
+  return userData;
+};
 ```
 
 在调用时直接传入动态参数：
 
 ```ts title="App.tsx"
-import { useState, useEffect } from 'react'
-import { get as getUser } from '@api/[level]/[id]'
+import { useState, useEffect } from 'react';
+import { get as getUser } from '@api/[level]/[id]';
 
 export default () => {
-  const [name, setName] = useState('')
+  const [name, setName] = useState('');
 
   useEffect(() => {
-    getUser(6, 001).then(
-      userData => setName(userData.name)
-    )
-  }, [])
+    getUser(6, 001).then(userData => setName(userData.name));
+  }, []);
 
-  return <div>{name}</div>
-}
+  return <div>{name}</div>;
+};
 ```
 
 #### RequestOption
@@ -183,29 +181,29 @@ Dynamic Path 之后的参数是包含 querystring、request body 的对象 `Requ
 在不存在动态路由的普通函数中，可以从第一个入参中获取传入的 `data` 和 `query`，例如：
 
 ```ts title="api/hello.ts"
-import type { RequestOption } from '@modern-js/runtime/server'
+import type { RequestOption } from '@modern-js/runtime/server';
 
-export async function post(
-  { query, data }: RequestOption<Record<string, string>, Record<string, string>>
-) {
+export async function post({
+  query,
+  data,
+}: RequestOption<Record<string, string>, Record<string, string>>) {
   // do somethings
 }
 ```
 
 这里你也可以使用自定义类型：
+
 ```ts title="api/lambda/hello.ts"
-import type { RequestOption } from '@modern-js/runtime/server'
+import type { RequestOption } from '@modern-js/runtime/server';
 
 type IQuery = {
   // some types
-}
+};
 type IData = {
   // some types
-}
+};
 
-export async function post(
-  { query, data }: { query:IQuery, data:IData }
-) {
+export async function post({ query, data }: { query: IQuery; data: IData }) {
   // do somethings
 }
 ```
@@ -216,7 +214,10 @@ export async function post(
 export async function post(
   sku: string,
   id: string,
-  { data, query }: RequestOption<Record<string, string>, Record<string, string>>
+  {
+    data,
+    query,
+  }: RequestOption<Record<string, string>, Record<string, string>>,
 ) {
   // do somethings
 }
@@ -225,18 +226,22 @@ export async function post(
 调用时也按照函数定义，传入对应的参数即可：
 
 ```ts title="App.tsx"
-import { post } from '@api/[sku]/[id]/item'
+import { post } from '@api/[sku]/[id]/item';
 
 export default () => {
   const addSku = () => {
-    post('0001'/* sku */, '1234' /* id */, {
-      query: { /* ... */ },
-      data: { /* ... */ },
-    })
-  }
+    post('0001' /* sku */, '1234' /* id */, {
+      query: {
+        /* ... */
+      },
+      data: {
+        /* ... */
+      },
+    });
+  };
 
-  return <div onClick={addSku}>添加 SKU</div>
-}
+  return <div onClick={addSku}>添加 SKU</div>;
+};
 ```
 
 之前提到，定义的函数都应该是异步的，是因为在前端调用时会自动转换成 HTTP 接口调用，所以为了保持类型定义与实际调用体验统一，需要在定义 BFF 函数时将它设置为异步。

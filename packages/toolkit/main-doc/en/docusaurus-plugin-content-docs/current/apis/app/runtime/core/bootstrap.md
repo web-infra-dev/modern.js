@@ -7,7 +7,7 @@ Used to start and mount App, usually without manual calls。This API is only req
 ## Usage
 
 ```ts
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
 import { bootstrap } from '@modern-js/runtime';
 
 bootstrap(App, 'root', undefined, ReactDOM);
@@ -39,7 +39,7 @@ type BootStrap<T = unknown> = (
 ## Example
 
 ```tsx
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
 import { createApp, bootstrap } from '@modern-js/runtime';
 
 function App() {
@@ -48,13 +48,10 @@ function App() {
 
 const WrappedApp = createApp({
   // customized plugin
-  plugins: [
-    customPlugin(),
-  ],
+  plugins: [customPlugin()],
 })(App);
 
 bootstrap(WrappedApp, 'root', undefined, ReactDOM);
-
 ```
 
 :::info

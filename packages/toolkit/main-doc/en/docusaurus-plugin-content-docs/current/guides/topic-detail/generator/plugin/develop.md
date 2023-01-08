@@ -41,7 +41,7 @@ Different plugin types will ask different questions. You can choose the plugin t
 After the execution of the create project command is completed, a project for developing the generator plugin will be generated accordingly, and the `meta` information will also be generated according to your selection in the `package.json`.
 
 :::info
-For generator plugin development, please refer to  `@modern-js/generator-plugin-plugin`. [Source Code](https://github.com/modern-js-dev/modern.js/tree/main/packages/generator/plugins/generator-plugin)
+For generator plugin development, please refer to `@modern-js/generator-plugin-plugin`. [Source Code](https://github.com/modern-js-dev/modern.js/tree/main/packages/generator/plugins/generator-plugin)
 :::
 
 ## Develop plugin logic
@@ -49,7 +49,6 @@ For generator plugin development, please refer to  `@modern-js/generator-plugin-
 Complete plugin logic development in `src/index.ts`.
 
 The plugin exports a function by default, the function parameter is `context`, and some methods are provided on `context` to directly operate on the current project.
-
 
 A brief introduction to the provided methods, the complete API list viewable [Generator Plugin API](/docs/guides/topic-detail/generator/plugin/api/introduce).
 
@@ -78,8 +77,8 @@ context.addInputBefore('input2', {
 Set attributes of existing problems.
 
 ```ts
-context.setInput('test', 'type', 'number')
-context.setInput('test', 'enum', [{ value: 'option1', label: '选项一' }])
+context.setInput('test', 'type', 'number');
+context.setInput('test', 'enum', [{ value: 'option1', label: '选项一' }]);
 ```
 
 ### onForged
@@ -98,14 +97,14 @@ API functions supported in `onForged` can also be found in [Generator Plugin API
 
 ```ts
 context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {
-    const { language } = input;
-    api.addFile({
-        type: FileType.Text,
-        file: `src/index.${language as string}`,
-        templateFile: `index.${language as string}.handlebars`,
-        force: true,
-    });
-})
+  const { language } = input;
+  api.addFile({
+    type: FileType.Text,
+    file: `src/index.${language as string}`,
+    templateFile: `index.${language as string}.handlebars`,
+    force: true,
+  });
+});
 ```
 
 ### afterForged

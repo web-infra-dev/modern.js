@@ -4,15 +4,12 @@ sidebar_label: baseUrl
 
 # server.baseUrl
 
-
-
-* 类型： `string | string[]`
-* 默认值： `undefined`
-
+- 类型： `string | string[]`
+- 默认值： `undefined`
 
 统一设置服务端路由前缀（常用于共享域名的情况，区分流量)。
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     // 所有生成的路由前面都会自动加上前缀 `/base`

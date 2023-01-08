@@ -8,28 +8,24 @@ The JSON API encapsulation in the microgenerator provides common JSON file opera
 
 ## Use
 
-```typescript
+```ts
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const jsonAPI = new JsonAPI(generator);
-  await jsonAPI.update(
-    context.materials.default.get('package.json'),
-    {
-      query: {},
-      update: {
-        $set: {
-          'dependencies.@modern-js/plugin-bff': `^2.0.0`,
-        },
+  await jsonAPI.update(context.materials.default.get('package.json'), {
+    query: {},
+    update: {
+      $set: {
+        'dependencies.@modern-js/plugin-bff': `^2.0.0`,
       },
     },
-  );
- }
+  });
+};
 ```
 
 - Create JsonAPI instance, the parameter is the generator of the microgenerator function parameter, please see the composition of the microgenerator project for details.
 - Just call the API on its example.
-
 
 ## API
 
@@ -38,6 +34,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 Get the JSON file content.
 
 Parameter:
+
 - resource: `FsResource`. A file resource，get by `context.materials.default.get(<filename>)`.
 
 ### extend

@@ -30,7 +30,6 @@ The onForged parameter is a callback function, and the function parameters are `
 
 A list of supported functions in `onForged` time to live, specifically viewable [File API] (/docs/guides/topic-detail/generator/plugin/api/file/introduce) and [Enable function API] (/docs/guides/topic-detail/generator/plugin/api/new/introduce).
 
-
 ### inputData
 
 Current user input, the user can be used to obtain the current input information and configuration information.

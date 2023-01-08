@@ -59,7 +59,6 @@ Modern.js 可以很方便的将单入口切换成多入口。可以在项目下�
 Modern.js 会将和 `package.json` 中 `name` 字段同名的入口作为主入口，默认路由为 `/`，其他入口默认路由为 `/{entryName}`。
 :::
 
-
 ## 入口类型
 
 不同的入口类型具有不同的编译和运行时行为。在 Modern.js 创建项目时，开发者可以手动选择创建**框架模式**或是**构建模式**的项目。完成创建后，可以看到不同模式的项目样板文件是不同的。
@@ -75,7 +74,7 @@ Modern.js 会将和 `package.json` 中 `name` 字段同名的入口作为主入�
 1. 具有 `routes/` 目录
 2. 具有 `App.[jt]sx?` 文件
 3. 具有 `index.[jt]sx?` 文件
-2. 具有 `pages/` 目录（兼容 Modern.js 1.0）
+4. 具有 `pages/` 目录（兼容 Modern.js 1.0）
 
 当 `src/` 目录满足入口特征时，Modern.js 会认为当前项目为单入口应用。
 
@@ -106,9 +105,8 @@ Modern.js 会将和 `package.json` 中 `name` 字段同名的入口作为主入�
 如果入口中存在 `index.[jt]sx` 文件，并且当文件默认导出函数时，Modern.js 还是会根据 runtime 的设置情况生成 createApp 包裹后的代码。在渲染过程中，将 createApp 包裹后的组件作为参数传递给 index 文件导出的函数，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
 
 ```tsx
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
 import { bootstrap } from '@modern-js/runtime';
-
 
 export default (App: React.ComponentType) => {
   // do something before bootstrap...
@@ -137,16 +135,16 @@ let AppWrapper = null;
 function render() {
   AppWrapper = createApp({
     // runtime 的插件参数...
-  })(App)
+  })(App);
   if (IS_BROWSER) {
     customBootstrap(AppWrapper);
   }
-  return AppWrapper
+  return AppWrapper;
 }
 
 AppWrapper = render();
 
-export default AppWrapper;;
+export default AppWrapper;
 ```
 
 ### 构建模式入口

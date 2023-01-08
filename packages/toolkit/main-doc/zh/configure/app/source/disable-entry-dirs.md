@@ -4,22 +4,22 @@ title: source.disableEntryDirs
 sidebar_label: disableEntryDirs
 ---
 
-* 类型： `string[]`
-* 默认值： `[]`
+- 类型： `string[]`
+- 默认值： `[]`
 
 默认会根据 `src` 目录识别应用入口，可通过该选项禁止某些目录被识别为应用入口。
 
 例如，当配置与目录结构如下时：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
-    disableEntryDirs: './src/one'
-  }
-})
+    disableEntryDirs: './src/one',
+  },
+});
 ```
 
-``` title="项目目录结构"
+```bash title="项目目录结构"
 └── src/
     ├── one/
     |    └── App.tsx
@@ -29,6 +29,7 @@ export default defineConfig({
 ```
 
 在未设置该配置项时，Modern.js 会根据项目目录产出两个 entry:
+
 - one
 - two
 

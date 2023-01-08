@@ -12,7 +12,6 @@ sidebar_position: 4
 以下示例命令都以 pnpm 作为包管理工具进行，如果需要使用其他包管理工具，请按需求进行替换。
 :::
 
-
 #### 执行以下命令升级预发布版本版本号：
 
 ```bash
@@ -22,6 +21,7 @@ pnpm run bump -- --canary --preid <preid>
 `preid` 为预发布版本标记，例如 `alpha`、`beta` 等，默认值为 `next`。
 
 使用 `--canary` 参数后，`bump` 命令由以下三个步骤完成：
+
 - `changeset pre enter <preid>` 进入预发布模式
 
 - `changeset version` 升级版本号
