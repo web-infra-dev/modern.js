@@ -61,7 +61,7 @@ export function DocLayout(props: DocLayoutProps) {
           {beforeDocFooter}
           <DocFooter />
         </div>
-        <div className="relative" display="none lg:block">
+        <div className="relative hidden lg:block">
           <div className={styles.asideContainer}>
             <div
               style={{

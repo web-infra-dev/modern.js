@@ -18,7 +18,7 @@ import {
 } from './constants';
 import { createMDXOptions } from './mdx';
 import { virtualModuleFactoryList } from './virtualModule';
-import windiConfig from './windiOptions';
+import createWindiConfig from './windiOptions';
 
 const require = createRequire(import.meta.url);
 
@@ -148,10 +148,11 @@ async function createInternalBuildConfig(
         config.plugins!.push(...virtualModulePlugins);
         config.plugins!.push(
           new WindiCSSWebpackPlugin({
-            config: windiConfig,
+            config: createWindiConfig(themeDir),
           }),
         );
         config.cache = {
+          ...(typeof config.cache === 'object' ? config.cache : {}),
           // If checkDeadLinks is true, we should use memory cache to avoid skiping mdx-loader when starting dev server again
           type: checkDeadLinks ? 'memory' : 'filesystem',
         };
