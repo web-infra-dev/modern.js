@@ -151,11 +151,14 @@ async function createInternalBuildConfig(
             config: createWindiConfig(themeDir),
           }),
         );
-        config.cache = {
-          ...(typeof config.cache === 'object' ? config.cache : {}),
-          // If checkDeadLinks is true, we should use memory cache to avoid skiping mdx-loader when starting dev server again
-          type: checkDeadLinks ? 'memory' : 'filesystem',
-        };
+
+        if (checkDeadLinks) {
+          config.cache = {
+            // If checkDeadLinks is true, we should use memory cache to avoid skiping mdx-loader when starting dev server again
+            type: 'memory',
+          };
+        }
+
         return config;
       },
     },

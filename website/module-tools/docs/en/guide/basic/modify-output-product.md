@@ -28,7 +28,8 @@ export default defineConfig({
 :::tip
 
 1. By "code syntax support up to ES6", we mean that the syntax supported by the product code will not exceed `ES6`. If the source code uses syntax above `ES6` (e.g. `ES2017`), it will be converted.
-   :::
+
+:::
 
 You may have the following questions when you see this:
 

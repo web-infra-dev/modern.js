@@ -31,7 +31,8 @@ About the class [NPM](https://www.npmjs.com/) Package Manager
 - [npm](https://www.npmjs.com)
 - [yarn](https://yarnpkg.com/)
 - [pnpm](https://pnpm.io/)
-  :::
+
+:::
 
 ```json package.json
 {

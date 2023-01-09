@@ -10,7 +10,8 @@ sidebar_position: 2
 如果你还不清楚 `buildConfig` 是什么，建议花一些时间通过下面的链接了解一下：
 
 - 【[修改输出产物](/guide/basic/modify-output-product)】
-  :::
+
+:::
 
 而在本章里我们将要深入理解某些构建配置的使用以及了解执行 `modern build` 命令的时候发生了什么。
 

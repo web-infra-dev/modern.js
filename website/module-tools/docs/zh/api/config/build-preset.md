@@ -31,7 +31,8 @@ export default defineConfig({
 - [npm](https://www.npmjs.com)
 - [yarn](https://yarnpkg.com/)
 - [pnpm](https://pnpm.io/)
-  :::
+
+:::
 
 ```json package.json
 {

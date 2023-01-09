@@ -71,6 +71,7 @@ npm Registry 是一个 [npm 包存储的地方](https://docs.npmjs.com/about-the
 ```
 
 **在安装或者使用第三方 npm 包的时候一定要确定它们的用途，以及通过区分它们的类型确定好它们应该放在 `"dependencies"` 还是 `"devDependencies"` 中。**
+
 :::tip
 一般来说，需要在源代码中使用到的包都属于 `dependencies` 依赖。除非你通过打包的方式将依赖的代码输出到本地，那么这种情况可以将它作为 `devDependencies` 依赖。
 :::
