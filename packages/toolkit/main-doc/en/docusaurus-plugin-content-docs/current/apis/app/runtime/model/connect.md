@@ -13,12 +13,17 @@ The original type of Reduck is complex. The following type definition shows the 
 
 `Connect` is the same as `useModel` and is the corresponding HOC-style API. It is recommended to use the Hook-style `useModel` first.
 
-
 ## Function Signature
 
 ```ts
-type SelectStateToProps = (...modelStates: State[], ownProps? :any) => PlainObject;
-type SelectActionsToProps = (...modelActions: Actions[], ownProps? :any) => PlainObject;
+type SelectStateToProps = (
+  ...modelStates: State[],
+  ownProps?: any,
+) => PlainObject;
+type SelectActionsToProps = (
+  ...modelActions: Actions[],
+  ownProps?: any,
+) => PlainObject;
 
 function connect(models: Model, options?: ConnectOptions);
 function connect(
@@ -26,7 +31,6 @@ function connect(
   options?: ConnectOptions,
 );
 ```
-
 
 ### Input
 
@@ -37,7 +41,6 @@ function connect(
   - `SelectActionsToProps`: `modelActions` is an array of the Action of the passed Model object, `ownProps` is the props received by current component. returned by `SelectActionsToProps` is passed to the props of the component. When the `SelectActionsToProps` parameter is not passed in `models`, the Action of all Models are merged and passed to the props of the component.
 
 - `options`: Optional parameter for auxiliary configuration. Currently supports setting `forwardRef`, which is used to control whether to forward the `ref` of the component. The default value is `false`, which means that the `ref` is not forwarded. Set to `{ forwardRef: true }`, which means to forward `ref`.
-
 
 ### Return Type
 

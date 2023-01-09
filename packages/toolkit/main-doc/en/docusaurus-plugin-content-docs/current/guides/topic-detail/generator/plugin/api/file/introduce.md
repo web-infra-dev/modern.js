@@ -22,7 +22,7 @@ The jsx or tsx file using the variable is a binary file, and its syntax conflict
 
 - JSON files: Files in JSON format, such as `package.json`, `tsconfig.json`.
 
-- 文Text List File: A file consisting of lines of text, such as `.gitignore`, `.editorconfig`, `.npmrc`.
+- Text List File: A file consisting of lines of text, such as `.gitignore`, `.editorconfig`, `.npmrc`.
 
 The file manipulation API for the generator plugin will operate on these four file types.
 

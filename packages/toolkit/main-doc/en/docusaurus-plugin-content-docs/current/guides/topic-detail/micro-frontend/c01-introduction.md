@@ -7,8 +7,8 @@ title: 微前端介绍
 
 它主要解决了两个问题：
 
-* 随着项目迭代应用越来越庞大，难以维护。
-* 跨团队或跨部门协作开发项目导致效率低下的问题。
+- 随着项目迭代应用越来越庞大，难以维护。
+- 跨团队或跨部门协作开发项目导致效率低下的问题。
 
 ## 微前端关键词
 
@@ -19,11 +19,10 @@ title: 微前端介绍
 
 ## 功能简介
 
-* 基于 [Garfish](https://www.garfishjs.org/guide)
-* 生成器支持微前端应用
-* 支持 React 组件式引用微前端子应用
-* 支持 loading
-* 支持主应用线上、子应用线下调试模式
+- 基于 [Garfish](https://www.garfishjs.org/guide)
+- 生成器支持微前端应用
+- 支持 React 组件式引用微前端子应用
+- 支持 loading
+- 支持主应用线上、子应用线下调试模式
 
 可以在 [体验微前端](/docs/guides/topic-detail/micro-frontend/c02-development) 一节学习如何开发微前端主子应用。
-

@@ -21,12 +21,10 @@ By default, the project will run in `localhost:8080`, you can modify the Server 
 export default defineConfig({
   server: {
     port: 8081,
-  }
-})
+  },
+});
 ```
 
 import CommandTip from '@site-docs-en/components/command-tip.md'
 
 <CommandTip />
-
-

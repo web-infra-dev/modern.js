@@ -18,13 +18,12 @@ When you use Modern.js [Conventional routing](/docs/guides/basic-features/routes
 use dynamic `import()`，`import` The JS modules pass to this API will be packaged into a separate JS file as a new packaging entry, for example:
 
 ```ts
-import("./math").then(math => {
+import('./math').then(math => {
   console.log(math.add(16, 26));
 });
 ```
 
 The JS modules corresponding to the './math' path will be packaged in a separate JS file.
-
 
 ## React.lazy
 
@@ -61,12 +60,12 @@ For detail, see [React lazy](https://reactjs.org/docs/code-splitting.html#reactl
 use `loadable` API，for example：
 
 ```ts
-import loadable from '@modern-js/runtime/loadable'
+import loadable from '@modern-js/runtime/loadable';
 
 const OtherComponent = loadable(() => import('./OtherComponent'));
 
 function MyComponent() {
-  return <OtherComponent />
+  return <OtherComponent />;
 }
 ```
 

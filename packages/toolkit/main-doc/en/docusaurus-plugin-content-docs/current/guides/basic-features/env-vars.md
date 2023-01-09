@@ -31,15 +31,16 @@ Auto inject when use `@modern-js/runtime`，Used to distinguish between SSR and 
 function App() {
   if (process.env.MODERN_TARGET === 'browser') {
     console.log(window.innerHeight);
-  };
-};
+  }
+}
 ```
 
 In the development environment, you can see that the SSR and CSR bundles as follows:
 
 ```js title="dist/bundles/main.js"
 function App() {
-  if (false) {}
+  if (false) {
+  }
 }
 ```
 
@@ -80,8 +81,8 @@ BAR=456
 
 The `.env` file follows the following loading rules:
 
-* `.env`：default.
-* `.env.{ MODERN_ENV | NODE_ENV }`：Setting environment variables for a specific environment overrides the same in `.env`.
+- `.env`：default.
+- `.env.{ MODERN_ENV | NODE_ENV }`：Setting environment variables for a specific environment overrides the same in `.env`.
 
 When you need to use different config according to the environment, you can define environment variables in the `.env` file corresponding to the environment name, and manually set the execution environment when starting the project.
 
@@ -116,14 +117,14 @@ if (true) {
 In custom HTML templates, you can also use such environment variables directly. For example, in `config/html/head.html`:
 
 ```html
-<meta name="test" content="<process.env.NODE_ENV>">
+<meta name="test" content="<process.env.NODE_ENV>" />
 ```
 
 ### Any Other Names
 
 If you need to use environment variables with any other names in your code，you can config [`source.globalVars`](/docs/configure/app/source/global-vars), for example:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
     globalVars: {
@@ -142,7 +143,6 @@ At this point, the `process.env.VERSION` in the code will be replaced with the v
 ## Use Global Replacement
 
 In addition to environment variables, Modern.js also supports replacing variables in code with other values or expressions, which can be used like distinguish development environment and production environment in code.
-
 
 For example, converts the expression `TWO` to `1 + 1`:
 

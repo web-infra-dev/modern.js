@@ -42,7 +42,6 @@ Package management tool (packageManager), the options are as follows:
 
 - Yarn(yarn)
 
-
 :::info
 In the custom type of the generator plugin to create a project scenario, only the `packageManager` configuration is provided by default.
 :::
@@ -51,56 +50,48 @@ In the custom type of the generator plugin to create a project scenario, only th
 
 ### noNeedInstall
 
-* Type: Boolean
-
-* Default: false
+- Type: `boolean`
+- Default: `false`
 
 Whether to skip the dependency installation.
 
 ### noNeedGit
 
-* Type: Boolean
-
-* Default: false
+- Type: `boolean`
+- Default: `false`
 
 Whether to skip git initialization and commit initial commit.
 
 ### successInfo
 
-* Type: String
-
-* Default: Command operation prompts for different project schemes.
+- Type: `string`
+- Default: Command operation prompts for different project schemes.
 
 Customize prompt information to create project success.
 
 ### isMonorepoSubProject
 
-* Type: Boolean
-
-* Default: false
+- Type: `boolean`
+- Default: `false`
 
 Whether it is a Monorepo subproject.
 
 ### isTest
 
-* Type: Boolean
+- Type: `boolean`
+- Default: `false`
 
-   - true: create project to `examples/`
+Works on an Application project to identify whether it is a test project.
 
-   - false: create project to `apps/`
-
-* Default: false
-
-Works on an Application (MWA) project to identify whether it is a test project.
+- `true`: create project to `examples/`
+- `false`: create project to `apps/`
 
 ### isPublic
 
-* Type: Boolean
-
-   - true: create project to `packages/`
-
-   - false: create project to `features/`
-
-* Default: false
+- Type: `boolean`
+- Default: `false`
 
 Used in the Module project to identify whether it needs to be published to npm.
+
+- `true`: create project to `packages/`
+- `false`: create project to `features/`

@@ -24,6 +24,7 @@ interface ProviderProps {
 - config：创建 Reduck Store 的配置，同 [`createApp`](./create-app.md) 的 `config` 参数。
 
 ## 示例
+
 ```tsx title="应用入口文件"
 ReactDOM.render(
   <Provider>

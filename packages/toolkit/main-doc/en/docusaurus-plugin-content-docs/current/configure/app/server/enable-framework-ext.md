@@ -1,20 +1,21 @@
 ---
 sidebar_label: enableFrameworkExt
 ---
+
 # server.enableFrameworkExt
 
-* 类型： `Boolean`
-* 默认值： `false`
+- Type: `boolean`
+- Default: `false`
 
 By default, with 【Custom Web Server](/docs/guides/advanced-features/web-server) enable, Middleware uses the syntax of the Modern.js itself.
 
 Enable `server.enableFrameworkExt` to use the syntax of framework extensions.
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     enableFrameworkExt: true,
-  }
+  },
 });
 ```
 

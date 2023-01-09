@@ -48,7 +48,7 @@ When schema type is `object`, define its subforms.
 
 ## Example
 
-```typescript
+```ts
 const schema = {
   type: 'object',
   properties: {

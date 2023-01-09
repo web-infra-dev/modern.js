@@ -2,7 +2,6 @@
 sidebar_position: 5
 ---
 
-
 ```bash
 Usage: modern release [options]
 

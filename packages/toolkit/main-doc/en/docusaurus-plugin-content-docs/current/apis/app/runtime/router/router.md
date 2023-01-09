@@ -21,7 +21,7 @@ interface NavigateFunction {
       replace?: boolean;
       state?: any;
       relative?: RelativeRoutingType;
-    }
+    },
   ): void;
   (delta: number): void;
 }
@@ -30,13 +30,13 @@ interface NavigateFunction {
 The `useNavigate` hook returns a function that lets you navigate programmatically。
 
 ```tsx
-import { useNavigate } from "@modern-js/runtime/router";
+import { useNavigate } from '@modern-js/runtime/router';
 
 export function HomeButton() {
   let navigate = useNavigate();
 
   function handleClick() {
-    navigate("/home");
+    navigate('/home');
   }
 
   return (
@@ -81,19 +81,13 @@ function App() {
 ### useParams
 
 ```ts
-declare function useParams<
-  K extends string = string
->(): Readonly<Params<K>>;
+declare function useParams<K extends string = string>(): Readonly<Params<K>>;
 ```
 
 The `useParams` hook returns an object of key/value pairs of the dynamic params from the current URL that were matched by the `<Route path>`.
 
 ```tsx
-import {
-  Routes,
-  Route,
-  useParams
-} from "@modern-js/runtime/router";
+import { Routes, Route, useParams } from '@modern-js/runtime/router';
 
 function BlogPost() {
   const { slug } = useParams();
@@ -103,10 +97,10 @@ function BlogPost() {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={ <div>home</div> } />
-      <Route path="/blog/:slug" element={ <BlogPost />}/>
+      <Route path="/" element={<div>home</div>} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
     </Routes>
-  )
+  );
 }
 ```
 
@@ -118,10 +112,7 @@ function App() {
 declare function Link(props: LinkProps): React.ReactElement;
 
 interface LinkProps
-  extends Omit<
-    React.AnchorHTMLAttributes<HTMLAnchorElement>,
-    "href"
-  > {
+  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
   replace?: boolean;
   state?: any;
   to: To;
@@ -140,35 +131,23 @@ A `<Link>` is an element that lets the user navigate to another page by clicking
 ### NavLink
 
 ```ts
-declare function NavLink(
-  props: NavLinkProps
-): React.ReactElement;
+declare function NavLink(props: NavLinkProps): React.ReactElement;
 
 interface NavLinkProps
-  extends Omit<
-    LinkProps,
-    "className" | "style" | "children"
-  > {
+  extends Omit<LinkProps, 'className' | 'style' | 'children'> {
   caseSensitive?: boolean;
   children?:
     | React.ReactNode
     | ((props: { isActive: boolean }) => React.ReactNode);
-  className?:
-    | string
-    | ((props: {
-        isActive: boolean;
-      }) => string | undefined);
+  className?: string | ((props: { isActive: boolean }) => string | undefined);
   end?: boolean;
   style?:
     | React.CSSProperties
-    | ((props: {
-        isActive: boolean;
-      }) => React.CSSProperties);
+    | ((props: { isActive: boolean }) => React.CSSProperties);
 }
 ```
 
 A `<NavLink>` is a special kind of `<Link>` that knows whether or not it is "active".
-
 
 ### Outlet
 
@@ -176,9 +155,7 @@ A `<NavLink>` is a special kind of `<Link>` that knows whether or not it is "act
 interface OutletProps {
   context?: unknown;
 }
-declare function Outlet(
-  props: OutletProps
-): React.ReactElement | null;
+declare function Outlet(props: OutletProps): React.ReactElement | null;
 ```
 
 An `<Outlet>` should be used in parent route elements to render their child route elements. This allows nested UI to show up when child routes are rendered.
@@ -201,10 +178,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Dashboard />}>
-        <Route
-          path="messages"
-          element={<DashboardMessages />}
-        />
+        <Route path="messages" element={<DashboardMessages />} />
         <Route path="tasks" element={<DashboardTasks />} />
       </Route>
     </Routes>
@@ -225,7 +199,7 @@ interface RouteObject {
   action?: ActionFunction;
   element?: React.ReactNode | null;
   errorElement?: React.ReactNode | null;
-  handle?: RouteObject["handle"];
+  handle?: RouteObject['handle'];
   shouldRevalidate?: ShouldRevalidateFunction;
 }
 ```
@@ -241,14 +215,13 @@ const router = createBrowserRouter([
     element: <Team />,
 
     // when the URL matches this segment
-    path: "teams/:teamId",
+    path: 'teams/:teamId',
 
     // with this data loaded before rendering
     loader: async ({ request, params }) => {
-      return fetch(
-        `/fake/api/teams/${params.teamId}.json`,
-        { signal: request.signal }
-      );
+      return fetch(`/fake/api/teams/${params.teamId}.json`, {
+        signal: request.signal,
+      });
     },
 
     // performing this mutation when data is submitted to it
@@ -271,21 +244,17 @@ const router = createBrowserRouter(
       element={<Team />}
       path="teams/:teamId"
       loader={async ({ params }) => {
-        return fetch(
-          `/fake/api/teams/${params.teamId}.json`
-        );
+        return fetch(`/fake/api/teams/${params.teamId}.json`);
       }}
       action={async ({ request }) => {
         return updateFakeTeam(await request.formData());
       }}
       errorElement={<ErrorBoundary />}
-    />
-  )
+    />,
+  ),
 );
 ```
 
 ## More
 
 You can access to [React Router](https://reactrouter.com/) to get the full API information.
-
-

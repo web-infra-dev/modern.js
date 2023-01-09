@@ -28,7 +28,6 @@ npx @modern-js/create myapp
 
 ## 初始化项目
 
-
 import InitApp from '@site-docs/components/init-app.md'
 
 <InitApp />
@@ -89,7 +88,7 @@ info    File sizes after production build:
   dist/static/js/async/509.fcb06e14.js      283 B        230 B
 
  Client ✔ done in 3.57s
- ```
+```
 
 构建产物默认生成到 `dist/`，目录结构如下：
 

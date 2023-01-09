@@ -9,9 +9,7 @@ Used to add html elements (such as title, meta, script, etc.) to the `<head>` el
 ```tsx
 import { Helmet } from '@modern-js/runtime/head';
 
-export default () => (
-  <Helmet>...</Helmet>
-)
+export default () => <Helmet>...</Helmet>;
 ```
 
 ## Example
@@ -28,10 +26,10 @@ function IndexPage() {
       </Helmet>
       <p>Hello Modern.js!</p>
     </div>
-  )
+  );
 }
 
-export default IndexPage
+export default IndexPage;
 ```
 
 ## More

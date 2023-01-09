@@ -11,7 +11,7 @@ sidebar_position: 1
 
 ### runtime
 
-* 类型：`Object`
+- 类型：`Object`
 
 runtime 配置方式如下：
 
@@ -25,8 +25,8 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   runtime: {
     state: true,
-    router: true
-  }
+    router: true,
+  },
 });
 ```
 
@@ -47,9 +47,9 @@ const App = () => {
 
 defineConfig(App, {
   router: {
-    supportHtml5History: false
-  }
-})
+    supportHtml5History: false,
+  },
+});
 
 export default App;
 ```
@@ -66,8 +66,8 @@ defineConfig 中只能定义 Runtime 插件的具体配置内容，确认是否�
 
 ### runtimeByEntries
 
-* 类型： `Object`
-* 默认值：无
+- 类型： `Object`
+- 默认值：无
 
 #### 说明
 
@@ -82,10 +82,11 @@ export default defineConfig({
   },
   runtimeByEntries: {
     entry1: {
-       state: true, // { state: true }
+      state: true, // { state: true }
     },
-    entry2: { // { state: false, router: true }
-       router: true,
+    entry2: {
+      // { state: false, router: true }
+      router: true,
     },
   },
 });

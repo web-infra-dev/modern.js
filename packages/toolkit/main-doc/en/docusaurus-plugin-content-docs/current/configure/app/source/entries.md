@@ -3,8 +3,8 @@ title: source.entries
 sidebar_label: entries
 ---
 
-* Type: `Object = { [ entryName: string ]: string | Object }`
-* Default: Default entry object dynamically settled according to the current project directory structure.
+- Type: `Object = { [ entryName: string ]: string | Object }`
+- Default: Default entry object dynamically settled according to the current project directory structure.
 
 For most scenarios, Modern.js automatically generated entries according to the directory structure can meet most business requirements. For details, please refer to [Entries](/docs/guides/concept/entries)。
 
@@ -44,7 +44,6 @@ With the content of the above default entry mechanism, Modern.js when analyzing 
 
 In cases where you do not want to change the directory structure (such as project migration), you can customize the entry through `source.entries`:
 
-
 ```ts title="modern.config.js"
 export default defineConfig({
   source: {
@@ -60,8 +59,8 @@ export default defineConfig({
 
 When the value is `Object`, the following properties can be configured:
 
-* `entry`：`string`，entry file path。
-* `disableMount`：`boolean = false`，turn off Modern.js generate entry code。
+- `entry`：`string`，entry file path。
+- `disableMount`：`boolean = false`，turn off Modern.js generate entry code。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -92,7 +91,6 @@ When `source.entries` is specified, the Modern.js merges the user-defined entry 
 Compare the entry path set by the custom entry with the default entry path. When the entry paths are the same, the custom entry will override the default entry.
 
 For example the following directory structure:
-
 
 ```bash
 .

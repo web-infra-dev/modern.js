@@ -3,8 +3,8 @@ title: source.entries
 sidebar_label: entries
 ---
 
-* 类型： `Object = { [ entryName: string ]: string | Object }`
-* 默认值： 根据当前项目目录结构动态结算出的默认入口对象。
+- 类型： `Object = { [ entryName: string ]: string | Object }`
+- 默认值： 根据当前项目目录结构动态结算出的默认入口对象。
 
 对于大部分场景，Modern.js 根据目录结构自动生成的入口能满足大部分业务需求。具体可参考[入口](/docs/guides/concept/entries)。
 
@@ -59,8 +59,8 @@ export default defineConfig({
 
 当值为 `Object` 时，可配置如下属性：
 
-* `entry`：`string`，入口文件路径。
-* `disableMount`：`boolean = false`，关闭 Modern.js 生成入口代码的行为。
+- `entry`：`string`，入口文件路径。
+- `disableMount`：`boolean = false`，关闭 Modern.js 生成入口代码的行为。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -75,7 +75,7 @@ export default defineConfig({
       // 启用约定式路由
       entry_spa: {
         // 约定式路由的入口路径必须设置为目录
-        entry: './src/about'
+        entry: './src/about',
       },
     },
   },
@@ -83,7 +83,6 @@ export default defineConfig({
 ```
 
 默认情况下，配置的入口等价于 `App.[jt]sx`，如果希望该入口等价于构建模式下的入口，可以将属性 `disableMount` 设置为 `true`。
-
 
 ## 自定义入口和默认入口合并
 

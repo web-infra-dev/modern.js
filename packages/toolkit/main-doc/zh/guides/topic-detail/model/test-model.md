@@ -33,6 +33,7 @@ describe('test model', () => {
   });
 });
 ```
+
 :::info 注
 这里使用的 [`createStore`](/docs/apis/app/runtime/model/create-store) 是从 `@modern-js/runtime/testing` 导入的，内部会使用 [`runtime.state`](/docs/configure/app/runtime/state) 的配置去创建 `store`。
 :::
@@ -40,4 +41,3 @@ describe('test model', () => {
 在测试用例里，我们新建一个 `store` 来挂载 `countModel`，通过 `store.use` 获取 `countModel` 的 State 和 Actions。然后调用 `add` Action 更新状态，并断言更新后的状态值。
 
 执行 `pnpm run test` 命令，触发测试用例的执行。
-

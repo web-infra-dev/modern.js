@@ -5,7 +5,7 @@ sidebar_position: 2
 
 ## Upgrade with command
 
-Modern.js provides the `upgrade` command to support projects to upgrade to the latest  version.
+Modern.js provides the `upgrade` command to support projects to upgrade to the latest version.
 
 Execute `pnpm run upgrade` in the project:
 

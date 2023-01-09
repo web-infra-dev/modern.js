@@ -10,7 +10,6 @@ Modern.js supports the customization of the provided engineering solutions by me
 
 The generator plugin is a module that can be developed directly using Modern.js module engineering solutions. Of course, Modern.js also provides the corresponding generator plugin (`@modern-js/generator-plugin-plugin`) to directly create a new generator plugin project.
 
-
 A generator plugin project directory is as follows:
 
 ```bash
@@ -44,9 +43,9 @@ The classification of the generator plugin is provided by the meta information i
 
 ```json
 {
-    "meta": {
-        "extend": "mwa" // The three engineering is mwa, module, monorepo
-    }
+  "meta": {
+    "extend": "mwa" // The three engineering is mwa, module, monorepo
+  }
 }
 ```
 
@@ -54,11 +53,11 @@ The classification of the generator plugin is provided by the meta information i
 
 ```json
 {
-    "meta": {
-        "key": "new_solution",
-        "name": "New Solution",
-        "type": "mwa" // In addition to the three major engineering solutions, the type here also supports the customize (custom) type
-    }
+  "meta": {
+    "key": "new_solution",
+    "name": "New Solution",
+    "type": "mwa" // In addition to the three major engineering solutions, the type here also supports the customize (custom) type
+  }
 }
 ```
 

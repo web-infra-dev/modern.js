@@ -21,7 +21,7 @@ interface NavigateFunction {
       replace?: boolean;
       state?: any;
       relative?: RelativeRoutingType;
-    }
+    },
   ): void;
   (delta: number): void;
 }
@@ -30,13 +30,13 @@ interface NavigateFunction {
 `useNavigate` 返回一个可以用于执行导航操作的函数。
 
 ```tsx
-import { useNavigate } from "@modern-js/runtime/router";
+import { useNavigate } from '@modern-js/runtime/router';
 
 export function HomeButton() {
   let navigate = useNavigate();
 
   function handleClick() {
-    navigate("/home");
+    navigate('/home');
   }
 
   return (
@@ -81,19 +81,13 @@ function App() {
 ### useParams
 
 ```ts
-declare function useParams<
-  K extends string = string
->(): Readonly<Params<K>>;
+declare function useParams<K extends string = string>(): Readonly<Params<K>>;
 ```
 
 `useParams` 返回一个 key/value 的键值对，表示当前匹配的路由 `<Route path>` 中的参数信息。
 
 ```tsx
-import {
-  Switch,
-  Route,
-  useParams
-} from "@modern-js/runtime/router";
+import { Switch, Route, useParams } from '@modern-js/runtime/router';
 
 function BlogPost() {
   const { slug } = useParams();
@@ -103,10 +97,10 @@ function BlogPost() {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={ <div>home</div> } />
-      <Route path="/blog/:slug" element={ <BlogPost />}/>
+      <Route path="/" element={<div>home</div>} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
     </Routes>
-  )
+  );
 }
 ```
 
@@ -118,10 +112,7 @@ function App() {
 declare function Link(props: LinkProps): React.ReactElement;
 
 interface LinkProps
-  extends Omit<
-    React.AnchorHTMLAttributes<HTMLAnchorElement>,
-    "href"
-  > {
+  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
   replace?: boolean;
   state?: any;
   to: To;
@@ -140,35 +131,23 @@ type To = string | Partial<Path>;
 ### NavLink
 
 ```ts
-declare function NavLink(
-  props: NavLinkProps
-): React.ReactElement;
+declare function NavLink(props: NavLinkProps): React.ReactElement;
 
 interface NavLinkProps
-  extends Omit<
-    LinkProps,
-    "className" | "style" | "children"
-  > {
+  extends Omit<LinkProps, 'className' | 'style' | 'children'> {
   caseSensitive?: boolean;
   children?:
     | React.ReactNode
     | ((props: { isActive: boolean }) => React.ReactNode);
-  className?:
-    | string
-    | ((props: {
-        isActive: boolean;
-      }) => string | undefined);
+  className?: string | ((props: { isActive: boolean }) => string | undefined);
   end?: boolean;
   style?:
     | React.CSSProperties
-    | ((props: {
-        isActive: boolean;
-      }) => React.CSSProperties);
+    | ((props: { isActive: boolean }) => React.CSSProperties);
 }
 ```
 
 `<NavLink>` 是一种特殊的 `<Link>`，当 `<NavLink>` 对应的链接和当前 URL 匹配时，会给 `<NavLink>` 所渲染的元素添加“激活”态样式。
-
 
 ### Outlet
 
@@ -176,9 +155,7 @@ interface NavLinkProps
 interface OutletProps {
   context?: unknown;
 }
-declare function Outlet(
-  props: OutletProps
-): React.ReactElement | null;
+declare function Outlet(props: OutletProps): React.ReactElement | null;
 ```
 
 `<Outlet>` 用于嵌套路由场景。在父路由的元素中使用，代表待渲染的子路由的元素在父组件中的位置。
@@ -201,10 +178,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Dashboard />}>
-        <Route
-          path="messages"
-          element={<DashboardMessages />}
-        />
+        <Route path="messages" element={<DashboardMessages />} />
         <Route path="tasks" element={<DashboardTasks />} />
       </Route>
     </Routes>
@@ -225,7 +199,7 @@ interface RouteObject {
   action?: ActionFunction;
   element?: React.ReactNode | null;
   errorElement?: React.ReactNode | null;
-  handle?: RouteObject["handle"];
+  handle?: RouteObject['handle'];
   shouldRevalidate?: ShouldRevalidateFunction;
 }
 ```
@@ -241,14 +215,13 @@ const router = createBrowserRouter([
     element: <Team />,
 
     // when the URL matches this segment
-    path: "teams/:teamId",
+    path: 'teams/:teamId',
 
     // with this data loaded before rendering
     loader: async ({ request, params }) => {
-      return fetch(
-        `/fake/api/teams/${params.teamId}.json`,
-        { signal: request.signal }
-      );
+      return fetch(`/fake/api/teams/${params.teamId}.json`, {
+        signal: request.signal,
+      });
     },
 
     // performing this mutation when data is submitted to it
@@ -271,20 +244,17 @@ const router = createBrowserRouter(
       element={<Team />}
       path="teams/:teamId"
       loader={async ({ params }) => {
-        return fetch(
-          `/fake/api/teams/${params.teamId}.json`
-        );
+        return fetch(`/fake/api/teams/${params.teamId}.json`);
       }}
       action={async ({ request }) => {
         return updateFakeTeam(await request.formData());
       }}
       errorElement={<ErrorBoundary />}
-    />
-  )
+    />,
+  ),
 );
 ```
 
 ## 更多 API
 
 若想要了解完整的路由 API 信息，可至 [react-router 官网](https://reactrouter.com/web/guides/start) 查看。
-

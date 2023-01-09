@@ -16,18 +16,30 @@ codesmith 还将常用的方法进行了封装，可以直接使用其提供的 
 
 GeneratorCore 是 codesmith 运行生成器的核心，维护这生成器执行过程中的上下文及运行方法。
 
-```typescript
+```ts
 class GeneratorCore {
   logger: ILogger; // 日志
   materialsManager: MaterialsManager; // 资源
   outputPath: string; // 输出路径
-  output: { // 输出方法
-    fs: (file: string | number, data: any, options?: fs.WriteFileOptions | string) => Promise<void>;
+  output: {
+    // 输出方法
+    fs: (
+      file: string | number,
+      data: any,
+      options?: fs.WriteFileOptions | string,
+    ) => Promise<void>;
   };
   _context: GeneratorContext; // 上下文信息
   addMaterial(key: string, material: FsMaterial): void; // 添加资源
-  runGenerator(generator: string, config?: Record<string, unknown>): Promise<void>; // 运行生成器
-  runSubGenerator(subGenerator: string, relativePwdPath?: string, config?: Record<string, any>): Promise<void>; // 运行子生成器
+  runGenerator(
+    generator: string,
+    config?: Record<string, unknown>,
+  ): Promise<void>; // 运行生成器
+  runSubGenerator(
+    subGenerator: string,
+    relativePwdPath?: string,
+    config?: Record<string, any>,
+  ): Promise<void>; // 运行子生成器
 }
 ```
 
@@ -35,9 +47,10 @@ class GeneratorCore {
 
 微生成器资源信息，目前只包含文件资源(fsMaterials)，通过该字段可以获取到生成器执行过程中的 template 资源，并通过 API 对其进行操作。
 
-```typescript
+```ts
 class MaterialsManager {
-  materialMap: { // 资源映射关系
+  materialMap: {
+    // 资源映射关系
     [materialUri: string]: FsMaterial;
   };
   loadLocalGenerator(generator: string): Promise<FsMaterial>; // 加载本地生成器资源(绝对路径)

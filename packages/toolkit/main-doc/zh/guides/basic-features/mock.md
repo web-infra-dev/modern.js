@@ -50,15 +50,15 @@ const Mock = require('mockjs');
 
 module.exports = {
   '/api/getInfo': Mock.mock({
-     'data|1-10': [{ name: '@cname' }]
-   }), /* => {data: [{name: "董霞"}, {name: "魏敏"},  {name: "石磊"}} */
+    'data|1-10': [{ name: '@cname' }],
+  }) /* => {data: [{name: "董霞"}, {name: "魏敏"},  {name: "石磊"}} */,
 };
 ```
 
 :::info 更多随机数据生成库
 
-* [Chancejs](https://github.com/chancejs/chancejs)
-* [Mock](https://github.com/nuysoft/Mock/wiki/Getting-Started)
+- [Chancejs](https://github.com/chancejs/chancejs)
+- [Mock](https://github.com/nuysoft/Mock/wiki/Getting-Started)
 
 :::
 

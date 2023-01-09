@@ -15,11 +15,11 @@ For more detail, see [Extend Web Server](/docs/guides/advanced-features/web-serv
 ```ts
 import { Middleware } from '@modern-js/runtime/server';
 
-export const middleware: Middleware = async (context, next) => {}
+export const middleware: Middleware = async (context, next) => {};
 export const middleware: Middleware[] = [
   async (context, next) => {},
   async (context, next) => {},
-]
+];
 ```
 
 :::info
@@ -68,9 +68,11 @@ type MiddlewareContext = {
   };
 };
 
-type RequestHandler = (context: Context, next: NextFunction) => Promise<void> | void;
+type RequestHandler = (
+  context: Context,
+  next: NextFunction,
+) => Promise<void> | void;
 ```
-
 
 ### Input
 
@@ -90,7 +92,7 @@ export const Middleware = () => async (ctx, next) => {
   ctx.res.once('finish', () => {
     console.log(Date.now() - start);
   });
-}
+};
 ```
 
 ### Inject Tools & Data
@@ -103,4 +105,3 @@ export const Middleware = () => async (ctx, next) => {
   ctx.res.locals.rpc = createRpcInstance();
 });
 ```
-

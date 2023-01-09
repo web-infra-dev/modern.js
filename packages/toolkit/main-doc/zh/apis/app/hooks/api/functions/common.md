@@ -1,5 +1,5 @@
 ---
-title: "**/_*.[tj]s, _*/**"
+title: '**/_*.[tj]s, _*/**'
 sidebar_position: 2
 ---
 

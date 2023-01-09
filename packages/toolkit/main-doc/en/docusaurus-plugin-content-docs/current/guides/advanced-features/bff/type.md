@@ -40,4 +40,3 @@ In most cases, the function writing method can cover the customization requireme
 :::note
 The directory structure of different plugin frameworks is not the same, see [Runtime Frameworks](/docs/guides/advanced-features/bff/frameworks) for details.
 :::
-

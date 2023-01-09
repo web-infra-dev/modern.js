@@ -4,23 +4,22 @@ title: source.disableEntryDirs
 sidebar_label: disableEntryDirs
 ---
 
-* Type： `string[]`
-* Default： `[]`
+- Type： `string[]`
+- Default： `[]`
 
 By default, application entries are identified based on the'src 'directory, you can disable some directories from being identified as application entries with this option.
 
 For example, when the configuration and directory structure is as follows：
 
-
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
-    disableEntryDirs: './src/one'
-  }
-})
+    disableEntryDirs: './src/one',
+  },
+});
 ```
 
-``` title="Project directory structure"
+```bash title="Project directory structure"
 └── src/
     ├── one/
     |    └── App.tsx
@@ -30,6 +29,7 @@ export default defineConfig({
 ```
 
 When this option is not set, Modern.js will generate two entries based on the project directory:
+
 - one
 - two
 

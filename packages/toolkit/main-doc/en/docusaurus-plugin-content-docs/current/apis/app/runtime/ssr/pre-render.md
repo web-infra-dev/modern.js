@@ -13,7 +13,7 @@ export default () => (
   <>
     <PreRender interval={5} />
   </>
-)
+);
 ```
 
 ## Function Signature
@@ -59,7 +59,7 @@ export default function App() {
       <PreRender interval={10} />
       <div>Hello Modern</div>
     </>
-  )
+  );
 }
 ```
 
@@ -67,10 +67,14 @@ The following example shows how to add the parameters in the query and header in
 
 ```tsx
 /* calculate cache identifier using channel in query and language in header */
-<PreRender interval={10} level={2} includes={{
-  query: ["channel"],
-  header: ["language"]
-}} />
+<PreRender
+  interval={10}
+  level={2}
+  includes={{
+    query: ['channel'],
+    header: ['language'],
+  }}
+/>
 ```
 
 The following example shows how not to let the test channel affect the online cache:

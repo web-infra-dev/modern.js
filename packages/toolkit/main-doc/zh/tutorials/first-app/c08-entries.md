@@ -20,7 +20,7 @@ title: 添加应用入口
 
 创建完成，项目会变成这样：
 
-```md
+```bash
 .
 ├── README.md
 ├── modern.config.ts
@@ -52,7 +52,6 @@ title: 添加应用入口
 │       └── styles
 │           └── utils.css
 └── tsconfig.json
-
 ```
 
 可以看到联系人列表应用的文件，都被自动重构到 `src/myapp/` 里。
@@ -87,14 +86,13 @@ mv src/myapp src/contacts
 
 现在不再有主入口，联系人列表现在是一个普通入口，需要用 `http://localhost:8080/contacts` 访问。
 
-
 ## 按入口修改配置
 
 我们可以在 Modern.js 配置文件里，自己写代码来控制项目的配置。
 
 现在，修改 `modern.config.ts` 里面添加内容：
 
-```typescript
+```ts
 import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
 

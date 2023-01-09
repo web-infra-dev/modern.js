@@ -52,7 +52,7 @@ npx @modern-js/create plugin --plugin @modern-js/generator-plugin-plugin
 
 插件默认导出一个函数，函数参数为 `context`，`context` 上提供一些方法可直接对当前项目进行操作。
 
-简单介绍一下提供的方法，完整的 API 列表可查看[生成器插件API](/docs/guides/topic-detail/generator/plugin/api/introduce)。
+简单介绍一下提供的方法，完整的 API 列表可查看[生成器插件 API](/docs/guides/topic-detail/generator/plugin/api/introduce)。
 
 ### 自定义输入
 
@@ -77,8 +77,8 @@ context.addInputBefore('input2', {
 设置已经存在问题的属性
 
 ```ts
-context.setInput('test', 'type', 'number')
-context.setInput('test', 'enum', [{ value: 'option1', label: '选项一' }])
+context.setInput('test', 'type', 'number');
+context.setInput('test', 'enum', [{ value: 'option1', label: '选项一' }]);
 ```
 
 ### onForged
@@ -93,18 +93,18 @@ context.setInput('test', 'enum', [{ value: 'option1', label: '选项一' }])
 
 当需要新的模板文件时，可直接在 `templates` 目录添加，在 `onForged` 函数中可直接对 `templates` 目录文件进行操作，比如下方的 `addFile` 中 `templateFile` 参数就为 `templates` 目录下的文件。这里不需要显示的声明 `templates`，直接写相对于 `templates` 的相对路径即可。
 
-`onForged` 中支持的 API 函数也可参考 [生成器插件API](/docs/guides/topic-detail/generator/plugin/api/hook/onForged)。
+`onForged` 中支持的 API 函数也可参考 [生成器插件 API](/docs/guides/topic-detail/generator/plugin/api/hook/onForged)。
 
 ```ts
 context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {
-    const { language } = input;
-    api.addFile({
-        type: FileType.Text,
-        file: `src/index.${language as string}`,
-        templateFile: `index.${language as string}.handlebars`,
-        force: true,
-    });
-})
+  const { language } = input;
+  api.addFile({
+    type: FileType.Text,
+    file: `src/index.${language as string}`,
+    templateFile: `index.${language as string}.handlebars`,
+    force: true,
+  });
+});
 ```
 
 ### afterForged
@@ -121,4 +121,4 @@ context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {
 
 `input` 为当前用户输入，可用于获取用户当前的输入信息及配置信息。
 
-`afterForged` 中支持的 API 函数也可参考 [生成器插件API](/docs/guides/topic-detail/generator/plugin/api/hook/afterForged)。
+`afterForged` 中支持的 API 函数也可参考 [生成器插件 API](/docs/guides/topic-detail/generator/plugin/api/hook/afterForged)。

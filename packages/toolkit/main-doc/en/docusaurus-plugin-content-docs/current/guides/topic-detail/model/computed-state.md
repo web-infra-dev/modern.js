@@ -6,7 +6,6 @@ title: 衍生状态
 一些场景中，组件需要对 Model 中的 State 进行进一步计算，才能在组件中使用，这部分逻辑可以直接写在组件内部，也可以通过 Model 的衍生状态实现。
 衍生状态定义在 Model 中的 `computed` 字段下。根据依赖的 Model 的不同、返回类型的不同，衍生状态的定义方法可以分为以下 3 种。
 
-
 ## 只依赖自身的 State
 
 衍生状态只依赖当前 Model 的 State，State 会作为第一个参数，传入衍生状态的定义函数中。
@@ -44,7 +43,6 @@ const todoModel = model('todo').define({
   },
 });
 ```
-
 
 衍生状态最终会和 Model 的 State 进行合并，因此，可以通过 Model 的 State 对象访问到衍生状态，例如，`visibleTodos` 在组件内的使用方式如下：
 

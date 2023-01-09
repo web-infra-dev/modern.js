@@ -8,5 +8,3 @@ sidebar_position: 3
 :::note
 具体示例请参考 [hook](/docs/apis/app/runtime/bff/hook)
 :::
-
-
