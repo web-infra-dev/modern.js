@@ -71,6 +71,7 @@ Similarly, you can install **only packages needed for local development and test
 ```
 
 **When installing or using third-party npm packages be sure to determine what they are for and whether they should be placed in `"dependencies"` or `"devDependencies"` by distinguishing between their types.**
+
 :::tip
 In general, packages that need to be used in source code are `dependencies` dependencies. Unless you are exporting dependent code locally via packaging, in which case it can be treated as a `devDependencies` dependency.
 :::

@@ -178,7 +178,8 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 - Use upper case for global constants
 - Customize the prefix and suffix of global constants to ensure uniqueness
-  :::
+
+:::
 
 ## dts
 
@@ -570,11 +571,13 @@ export default {
 ```
 
 At this point the umd product will go to mount on `global.myLib`
+
 :::tip
 
 - The module name of the umd product must not conflict with the global variable name.
 - Module names should not contain special characters like `-`, `@`, `/`, etc.
-  :::
+
+:::
 
 Also the function form can take one parameter, which is the output path of the current package file
 

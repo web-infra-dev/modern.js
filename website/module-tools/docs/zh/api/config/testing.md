@@ -4,8 +4,9 @@ sidebar_position: 5
 
 # Testing
 
-本章描述了测试相关的配置
-:::tips
+本章描述了测试相关的配置。
+
+:::tip
 需要先通过 `pnpm run new` 启用 单元测试 功能。
 :::
 
