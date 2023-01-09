@@ -1,6 +1,7 @@
 import {
   debug,
   isDebug,
+  mergeBuilderConfig,
   type PluginStore,
   type InspectConfigOptions,
   type CreateBuilderOptions,
@@ -15,6 +16,7 @@ async function modifyBuilderConfig(context: Context) {
   debug('modify builder config');
   const [modified] = await context.hooks.modifyBuilderConfigHook.call(
     context.config,
+    { mergeBuilderConfig },
   );
   context.config = modified;
 
