@@ -10,7 +10,8 @@ In the [Basic Usage] section, we already knew that you can modify the output pro
 If you are not sure what `buildConfig` is, it is recommended to take some time to understand it by following this link.
 
 - [[modify-output-product](/en/guide/basic/modify-output-product)]
-  :::
+
+:::
 
 In this chapter we'll dive into the use of certain build configurations and understand what happens when the `modern build` command is executed.
 

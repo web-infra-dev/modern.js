@@ -104,7 +104,8 @@ export default defineConfig({
 - 默认值： `false`
 
 :::tip
-开启svgr后，仍然使用default export导出svg，所以你只能导入默认值。
+开启 svgr 后，仍然使用 default export 导出 svg，所以你只能导入默认值。
+
 ```js index.ts
 // true
 import logo from './logo.svg';
@@ -112,6 +113,7 @@ import logo from './logo.svg';
 // false
 import { ReactComponent } from './logo.svg';
 ```
+
 :::
 
 #### include
@@ -229,7 +231,8 @@ export default defineConfig({
 
 - 全局常量使用大写
 - 自定义全局常量前缀后缀，确保独一无二
-  :::
+
+:::
 
 ## dts
 
@@ -643,11 +646,13 @@ export default defineConfig({
 ```
 
 此时 UMD 产物会去挂载到 `global.myLib` 上。
+
 :::tip
 
 - 需要遵守 UMD 规范，UMD 产物的模块名不能和全局变量名冲突
 - 模块名不能含有 `-`，`@`，`/` 等特殊字符
-  :::
+
+:::
 
 同时函数形式可以接收一个参数，为当前打包文件的输出路径
 

@@ -6,7 +6,7 @@ sidebar_position: 3
 
 本章描述了有关 designSystem 相关的配置
 
-:::tips
+:::tip
 需要先通过 `pnpm run new` 启用 Tailwind CSS 功能。
 :::
 
@@ -646,7 +646,7 @@ const designSystem = {
 };
 ```
 
-:::tips
+:::tip
 更多关于[TailwindCSS 配置](https://tailwindcss.com/docs/configuration#theme)
 :::
 

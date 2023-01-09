@@ -45,6 +45,7 @@ export function Link(props: LinkProps) {
         target={target}
         onClick={handleNavigate}
         cursor="pointer"
+        href={withBaseUrl}
       >
         {children}
       </a>

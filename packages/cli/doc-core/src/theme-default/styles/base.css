@@ -19,7 +19,6 @@ body {
   width: 100%;
   min-width: 320px;
   min-height: 100vh;
-  line-height: 24px;
   font-family: var(--modern-font-family-base);
   font-size: 16px;
   font-weight: 400;

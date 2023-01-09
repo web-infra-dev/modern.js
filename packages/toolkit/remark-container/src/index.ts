@@ -32,7 +32,7 @@ export const DIRECTIVE_TYPES: string[] = [
 ];
 export const REGEX_BEGIN = /^\s*:::\s*(\w+)\s*(.*)?/;
 export const REGEX_END = /\s*:::$/;
-export const TITLE_REGEX = /{\s*title="(.+)"}\s*/;
+export const TITLE_REGEX = /{\s*title=["']?(.+?)['"]?}\s*/;
 
 /**
  * Construct the DOM structure of the container directive.
@@ -93,7 +93,6 @@ const createContainer = (
  */
 function transformer(tree: Root) {
   let i = 0;
-  debugger;
   while (i < tree.children.length) {
     const node = tree.children[i];
     if (node.type !== 'paragraph') {

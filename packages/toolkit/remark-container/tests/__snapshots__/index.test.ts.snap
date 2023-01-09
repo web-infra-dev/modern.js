@@ -1,5 +1,10 @@
 // Vitest Snapshot v1
 
+exports[`remark-container > Has space before ::: 1`] = `
+"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">title</p><div class=\\"modern-directive-content\\"><p>
+sss</p></div></div>"
+`;
+
 exports[`remark-container > Has space before type 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>This is a tip.</p></div></div>"`;
 
 exports[`remark-container > No newline 1`] = `
@@ -9,6 +14,10 @@ This is a tip</p></div></div>
 `;
 
 exports[`remark-container > Use {title="xxx"} as title 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">Cutsom title</p><div class=\\"modern-directive-content\\"><p>This is a tip.</p></div></div>"`;
+
+exports[`remark-container > Use {title='xxx'} as title 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">Cutsom title</p><div class=\\"modern-directive-content\\"><p>This is a tip.</p></div></div>"`;
+
+exports[`remark-container > Use {title=xxx} as title 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">Cutsom title</p><div class=\\"modern-directive-content\\"><p>This is a tip.</p></div></div>"`;
 
 exports[`remark-container > With a new line after the start position of container 1`] = `"<div class=\\"modern-directive tip\\"><p class=\\"modern-directive-title\\">TIP</p><div class=\\"modern-directive-content\\"><p>This is a tip</p></div></div>"`;
 
