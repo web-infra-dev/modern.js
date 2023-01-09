@@ -3,6 +3,7 @@ import type { Stats, MultiStats } from './stats';
 import { NodeEnv, PromiseOrNot } from './utils';
 import { BuilderTarget } from './builder';
 import { BundlerChain } from './bundlerConfig';
+import { mergeBuilderConfig } from '../mergeBuilderConfig';
 
 export type OnBeforeBuildFn<BundlerConfig = unknown> = (params: {
   bundlerConfigs?: BundlerConfig[];
@@ -32,8 +33,14 @@ export type OnAfterCreateCompilerFn<Compiler = unknown> = (params: {
 
 export type OnExitFn = () => void;
 
+export type ModifyBuilderConfigUtils = {
+  /** Merge multiple builder config objects into one. */
+  mergeBuilderConfig: typeof mergeBuilderConfig;
+};
+
 export type ModifyBuilderConfigFn<BuilderConfig> = (
   config: BuilderConfig,
+  utils: ModifyBuilderConfigUtils,
 ) => PromiseOrNot<BuilderConfig | void>;
 
 export type ModifyChainUtils = {
