@@ -344,7 +344,7 @@ export default () => {
 }
 ```
 
-配合 SSR 功能时，浏览器端可以获取到 SSR 时 App.init 返回的数据，开发者可以自行判断是否要在浏览器端重新获取数据来覆盖 SSR 数据，例如：
+配合 SSR 功能时，浏览器端可以获取到 SSR 时 `init` 返回的数据，开发者可以自行判断是否要在浏览器端重新获取数据来覆盖 SSR 数据，例如：
 
 ```tsx title="src/routes/layout.tsx"
 import {
