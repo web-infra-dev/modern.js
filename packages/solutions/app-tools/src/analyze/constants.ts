@@ -45,7 +45,7 @@ export const NESTED_ROUTE = {
   LOADER_FILE: 'loader',
 };
 
-export const APP_CONFIG_NAME = 'appConfig';
+export const APP_CONFIG_NAME = 'config';
 
 export const APP_INIT_EXPORTED = 'init';
 

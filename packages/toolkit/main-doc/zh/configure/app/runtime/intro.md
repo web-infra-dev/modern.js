@@ -38,6 +38,28 @@ export default defineConfig({
 当 runtime 配置中存在函数时，只能使用该方式进行配置。
 :::
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="layout" label="约定式路由" default>
+
+```tsx title="src/routes/layout.tsx"
+import type { AppConfig } from '@modern-js/runtime';
+
+export const config = (): AppConfig => {
+  return {
+    router: {
+      supportHtml5History: false
+    }
+  }
+};
+```
+
+  </TabItem>
+
+  <TabItem value="app" label="自控路由">
+
 ```ts title="src/App.tsx"
 import { defineConfig } from '@modern-js/runtime';
 
@@ -53,6 +75,11 @@ defineConfig(App, {
 
 export default App;
 ```
+
+  </TabItem>
+</Tabs>
+
+
 
 :::info
 使用运行时配置，可以解决 Runtime 插件配置需要在运行时才能获取到具体内容问题。
