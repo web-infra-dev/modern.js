@@ -300,6 +300,13 @@ export default defineConfig({
 - 类型： `automatic | classic`
 - 默认值： `automatic`
 
+## metafile
+
+esbuild 以 JSON 格式生成有关构建的一些元数据，可以通过例如 [bundle-buddy](https://bundle-buddy.com/esbuild) 的工具可视化
+
+- type: `boolean`
+- default: `false`
+
 ## minify
 
 使用 esbuild 或者 terser 压缩代码，也可以传入 [terserOptions](https://github.com/terser/terser#minify-options)。
@@ -522,7 +529,7 @@ export default defineConfig({
 根据文件名自动启用 CSS Modules。
 
 - 类型： `boolean | RegExp`
-- 默认值： `true `
+- 默认值： `true`
 
 `true` : 为以 `.module.css` `.module.less` `.module.scss` `.module.sass` 文件名结尾的样式文件启用 CSS Modules。
 

@@ -245,6 +245,13 @@ Specify the compilation method of jsx, default support React17, automatically in
 - type: `automatic | classic`
 - default: `automatic`
 
+## metafile
+
+esbuild to produce some metadata about the build in JSON format, which can be visualized by tools such as [bundle-buddy](https://bundle-buddy.com/esbuild)
+
+- type: `boolean`
+- default: `false`
+
 ## minify
 
 Use esbuild or terser to compress code, also pass [terserOptions](https://github.com/terser/terser#minify-options)
@@ -453,7 +460,7 @@ Configure whether to insert style into js in packaged mode
 Enable CSS Modules automatically based on the filename.
 
 - type: `boolean | RegExp`
-- default: `true `
+- default: `true`
 
 `true` : Enables CSS Modules for style files ending with `.module.css` `.module.less` `.module.scss` `.module.sass` filenames
 
