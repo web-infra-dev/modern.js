@@ -12,4 +12,3 @@ Modern.js 提供了对于 Monorepo 工程方案的支持，其主要通过 `@mod
 - Monorepo 下子项目之间的联调开发
 - 发布 Monorepo 的子项目
 - 部署 Monorepo 子项目
-

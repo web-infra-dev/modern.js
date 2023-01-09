@@ -41,7 +41,6 @@ Hook 不可以使用运行时框架拓展。
 
 详细 API 可以查看 [Hook](/docs/apis/app/runtime/web-server/hook)。
 
-
 ### Middleware
 
 Middleware 可以为 Web Server 添加前置中间件，只有 SSR 请求会经过 Middleware 的处理。

@@ -34,7 +34,7 @@ Define the following code in the file:
 
 ```ts title="routes/user/page.tsx"
 import { useLoaderData } from '@modern-js/runtime/router';
-import type { ProfileData } from './page.loader.ts'
+import type { ProfileData } from './page.loader.ts';
 
 export default function UserPage() {
   const profileData = useLoaderData() as ProfileData;
@@ -43,12 +43,14 @@ export default function UserPage() {
 ```
 
 ```ts title="routes/user/page.loader.ts"
-export type ProfileData = { /*  some types */ }
+export type ProfileData = {
+  /*  some types */
+};
 
-export default async(): Promise<ProfileData> => {
+export default async (): Promise<ProfileData> => {
   const res = await fetch('https://api/user/profile');
   return await res.json();
-}
+};
 ```
 
 :::caution
@@ -77,11 +79,11 @@ When a routing file is passed through `[]`, it is passed as a [dynamic route](/d
 // routes/user/[id]/page.loader.tsx
 import { LoaderArgs } from '@modern-js/runtime/router';
 
-export default async({ params }: LoaderArgs) => {
+export default async ({ params }: LoaderArgs) => {
   const { id } = params;
   const res = await fetch(`https://api/user/${id}`);
   return res.json();
-}
+};
 ```
 
 当访问 `/user/123` 时，`loader` 函数的参数为 `{ params: { id: '123' } }`。
@@ -91,15 +93,16 @@ export default async({ params }: LoaderArgs) => {
 `request` is a [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) instance.
 
 A common usage scenario is to obtain query parameters via `request`:
+
 ```tsx
 // routes/user/[id]/page.loader.ts
 import { LoaderArgs } from '@modern-js/runtime/router';
 
-export default async({ request }: LoaderArgs) => {
+export default async ({ request }: LoaderArgs) => {
   const url = new URL(request.url);
-  const userId = url.searchParams.get("id");
+  const userId = url.searchParams.get('id');
   return queryUser(userId);
-}
+};
 ```
 
 #### Return value
@@ -107,26 +110,26 @@ export default async({ request }: LoaderArgs) => {
 The return value of the `loader` function can be anything serializable, or it can be a [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) instance：
 
 ```tsx
-const loader = async(): Promise<ProfileData> => {
+const loader = async (): Promise<ProfileData> => {
   return {
     message: 'hello world',
-  }
-}
+  };
+};
 export default loader;
 ```
 
 By default, the response `Content-type` returned by `loader` is `application/json` and `status` is 200, which you can set by customizing `Response`:
 
 ```tsx
-const loader = async(): Promise<ProfileData> => {
-  const data = {message: 'hello world'};
+const loader = async (): Promise<ProfileData> => {
+  const data = { message: 'hello world' };
   return new Response(JSON.stringify(data), {
     status: 200,
     headers: {
-      "Content-Type": "application/json; utf-8",
+      'Content-Type': 'application/json; utf-8',
     },
   });
-}
+};
 ```
 
 ### Request API
@@ -134,7 +137,7 @@ const loader = async(): Promise<ProfileData> => {
 Modern.js does a polyfill of the `fetch` API to initiate requests, which is consistent with the browser's `fetch` API, but can also be used on the server side to initiate requests, meaning that both CSRs and SSRs can use the unified `fetch` API for data fetching：
 
 ```tsx
-function loader(){
+function loader() {
   const res = await fetch('https://api/user/profile');
 }
 ```
@@ -145,9 +148,9 @@ In the `loader` function, errors can be handled by `throw error` or `throw respo
 
 ```tsx
 // routes/user/profile/page.loader.tsx
-export default async function loader(){
+export default async function loader() {
   const res = await fetch('https://api/user/profile');
-  if(!res.ok){
+  if (!res.ok) {
     throw res;
   }
   return res.json();
@@ -188,9 +191,10 @@ export default function UserLayout() {
 }
 ```
 
-`userRouteLoaderData` takes one parameter `routeId`,When using conventional routing, Modern.js will automatically generate `routeId` for you. The value of `routeId` is the path of the corresponding component relative to `src/routes`, as in the example above, the child component wants to get the data returned by the loader in `routes/user/layout.tsx`, the value of `routeId` is  `user/layout`.
+`userRouteLoaderData` takes one parameter `routeId`,When using conventional routing, Modern.js will automatically generate `routeId` for you. The value of `routeId` is the path of the corresponding component relative to `src/routes`, as in the example above, the child component wants to get the data returned by the loader in `routes/user/layout.tsx`, the value of `routeId` is `user/layout`.
 
 In a multi-entry (MPA) scenario, the value of `routeId` needs to be added to the name of the corresponding entry, and the entry name is usually the entry directory name if not specified, such as the following directory structure:
+
 ```bash
 .
 └── src
@@ -268,11 +272,9 @@ This restriction is not currently in place under CSR, but we strongly recommend 
 export default () => {
   return {
     user: {},
-    method: () => {
-
-    }
-  }
-}
+    method: () => {},
+  };
+};
 ```
 
 2. Modern.js will call the `loader` function for you, you shouldn't call it yourself in the component.
@@ -284,7 +286,7 @@ export default async () => {
   return res.json();
 };
 
-import loader from './page.loader.ts'
+import loader from './page.loader.ts';
 export default function RouteComp() {
   const data = loader();
 }
@@ -296,7 +298,7 @@ export default function RouteComp() {
 // Not allowed
 // routes/layout.tsx
 import { useLoaderData } from '@modern-js/runtime/router';
-import { ProfileData } from './page.loader.ts' // should use "import type" instead
+import { ProfileData } from './page.loader.ts'; // should use "import type" instead
 
 export const fetch = wrapFetch(fetch);
 
@@ -306,18 +308,18 @@ export default function UserPage() {
 }
 
 // routes/layout.loader.ts
-import { fetch } from './layout.tsx'  // should not be imported from the routing component
-export type ProfileData = { /*  some types */ }
+import { fetch } from './layout.tsx'; // should not be imported from the routing component
+export type ProfileData = {
+  /*  some types */
+};
 
-export default async(): Promise<ProfileData> => {
+export default async (): Promise<ProfileData> => {
   const res = await fetch('https://api/user/profile');
   return await res.json();
-}
+};
 ```
 
-
 4. When run on the server side, the `loader` functions are packaged into a single bundle, so we do not recommend using `__filename` and `__dirname` for server-side code.
-
 
 ## useLoader(Old)
 
@@ -353,7 +355,7 @@ This is because Modern.js server-side rendering, the data returned by the `useLo
 
 ```html
 <script>
-window._SSR_DATA = {};
+  window._SSR_DATA = {};
 </script>
 ```
 

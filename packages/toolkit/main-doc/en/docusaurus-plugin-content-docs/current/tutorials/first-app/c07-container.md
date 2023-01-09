@@ -179,10 +179,10 @@ ni src/containers/Contacts.tsx
 We extracted the common part of the original two `page.tsx`, and the code of `src/containers/Contacts.tsx` is as follows:
 
 ```tsx
-import { Helmet } from "@modern-js/runtime/head";
-import { useModel } from "@modern-js/runtime/model";
-import { List } from "antd";
-import Item from "../components/Item";
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { List } from 'antd';
+import Item from '../components/Item';
 import { Helmet } from '@modern-js/runtime/head';
 import { useModel } from '@modern-js/runtime/model';
 import { List } from 'antd';
@@ -246,7 +246,7 @@ export default Index;
 
 The refactoring is complete, and the current project structure is:
 
-```md
+```bash
 .
 ├── README.md
 ├── dist

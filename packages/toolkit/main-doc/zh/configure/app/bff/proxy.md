@@ -4,8 +4,8 @@ sidebar_label: proxy
 
 # bff.proxy
 
-* 类型：`Record<string, string>`
-* 默认值：`{}`
+- 类型：`Record<string, string>`
+- 默认值：`{}`
 
 :::info 补充信息
 请先在当前应用项目根目录使用【[new](/docs/apis/app/commands/new)】 启用 BFF 功能。
@@ -21,16 +21,17 @@ import { defineConfig } from '@modern-js/app-tools/server';
 export default defineConfig({
   bff: {
     proxy: {
-      "/api": "https://cnodejs.org"
-    }
-  }
-})
+      '/api': 'https://cnodejs.org',
+    },
+  },
+});
 ```
+
 假设启动的 Modern.js BFF server 的服务地址是 `localhost:8080`，所有 path 以 `api` 开头的请求都会被拦截，如发送到 `localhost:8080/api/v1/topics` 的请求会被代理到 `https://cnodejs.org/api/v1/topics`。
 
 你可以做路径的重写，如将发送到 `localhost:8080/api/topics` 的请求代理到 `https://cnodejs.org/api/v1/topics`。
 
-```typescript title="modern.server-runtime.config.ts"
+```ts title="modern.server-runtime.config.ts"
 import { defineConfig } from '@modern-js/app-tools/server';
 export default defineConfig({
   bff: {
@@ -60,7 +61,7 @@ BFF proxy 模式下，如果不需要写 BFF 的接口， API 目录可以删除
 
 如下所示，在 `modern.server-runtime.config.ts` 中，写入如下配置；我们将所有 web 页面发送到同域的以 `/api` 开头的请求代理到另一个域名的服务上。
 
-```typescript title="modern.server-runtime.config.ts"
+```ts title="modern.server-runtime.config.ts"
 export default defineServerConfig({
   bff: {
     proxy: {

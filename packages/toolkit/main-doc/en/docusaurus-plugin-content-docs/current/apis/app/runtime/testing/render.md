@@ -44,7 +44,6 @@ function render(ui: React.ReactElement<any>, options: Options): RenderResult;
   - `wrapper`: a react component that can be used to customize rendering logic.
   - `queries`: customize some own `queries`.
 
-
 ### Return Value
 
 - `{...queries}`: all available [queries](https://testing-library.com/docs/queries/about/)。
@@ -54,7 +53,6 @@ function render(ui: React.ReactElement<any>, options: Options): RenderResult;
 - `rerender`: if you want to test some scene when a rendered component is updated, you can use rerender for reality.
 - `unmount`: unmount rendered components. This API is helpful if you want to test what happens after the component is unmounted.
 - `asFragment`: return the [DocumentFragment](https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment) of rendered component. used to test the response of the DOM structure after the react event is triggered.
-
 
 ## Example
 

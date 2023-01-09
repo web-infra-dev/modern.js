@@ -4,7 +4,7 @@ sidebar_label: masterApp
 
 # runtime.masterApp
 
-* 类型： `Object`
+- 类型： `Object`
 
 :::info
 需要先通过 `pnpm run new` 启用「微前端」 功能。
@@ -17,7 +17,6 @@ import MasterManifestAppConfig from '@site-docs/components/micro-master-manifest
 
 <EnableMicroFrontend />
 <MasterManifestAppConfig />
-
 
 ### apps
 

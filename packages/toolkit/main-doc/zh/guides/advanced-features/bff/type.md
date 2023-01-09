@@ -40,4 +40,3 @@ export default hook(({ addMiddleware }) => {
 :::note
 不同插件框架写法的目录结构不一定相同，详情可见[运行时框架](/docs/guides/advanced-features/bff/frameworks)。
 :::
-

@@ -30,9 +30,9 @@ The classification of the generator plugin is provided by the meta information i
 
 ```json
 {
-    "meta": {
-        "extend": "mwa" // The three engineering is mwa, module, monorepo
-    }
+  "meta": {
+    "extend": "mwa" // The three engineering is mwa, module, monorepo
+  }
 }
 ```
 
@@ -40,11 +40,11 @@ The classification of the generator plugin is provided by the meta information i
 
 ```json
 {
-    "meta": {
-        "key": "new_solution",
-        "name": "New Solution",
-        "type": "mwa" // In addition to the three major engineering solutions, the type here also supports the customize (custom) type
-    }
+  "meta": {
+    "key": "new_solution",
+    "name": "New Solution",
+    "type": "mwa" // In addition to the three major engineering solutions, the type here also supports the customize (custom) type
+  }
 }
 ```
 

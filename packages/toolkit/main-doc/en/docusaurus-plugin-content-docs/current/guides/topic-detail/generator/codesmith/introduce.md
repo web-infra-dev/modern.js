@@ -16,7 +16,7 @@ Codesmith also encapsulates the commonly used methods, and can directly use the 
 
 GeneratorCore is the core of codesmith running generator, maintaining the context and running methods during the execution of the generator.
 
-```typescript
+```ts
 class GeneratorCore {
   logger: ILogger;
   materialsManager: MaterialsManager;
@@ -35,9 +35,10 @@ class GeneratorCore {
 
 The micro-generator resource information currently only includes file resources (fsMaterials). Through this field, the template resources in the generator execution process can be obtained and operated through the API.
 
-```typescript
+```ts
 class MaterialsManager {
-  materialMap: { // 资源映射关系
+  materialMap: {
+    // 资源映射关系
     [materialUri: string]: FsMaterial;
   };
   loadLocalGenerator(generator: string): Promise<FsMaterial>;

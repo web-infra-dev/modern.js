@@ -20,7 +20,7 @@ We can also use it to create new project elements and execute `pnpm run new` in 
 
 When created, the project will look like this:
 
-```md
+```bash
 .
 ├── README.md
 ├── modern.config.ts
@@ -52,7 +52,6 @@ When created, the project will look like this:
 │       └── styles
 │           └── utils.css
 └── tsconfig.json
-
 ```
 
 You can see that the files of the contact list application are automatically refactored into `src/myapp/`.
@@ -93,7 +92,7 @@ In the Modern.js configuration file, we can write our own code to control the co
 
 Now, modify the `modern.config.ts` to add something:
 
-```typescript
+```ts
 import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
 

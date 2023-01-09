@@ -3,8 +3,8 @@ title: source.enableAsyncEntry
 sidebar_label: enableAsyncEntry
 ---
 
-* 类型： `boolean`
-* 默认值： `false`
+- 类型： `boolean`
+- 默认值： `false`
 
 该选项用于 webpack 模块联邦 (Module Federation）场景。
 
@@ -21,7 +21,7 @@ sidebar_label: enableAsyncEntry
 
 首先，在配置文件中开启此选项：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
     enableAsyncEntry: true,

@@ -8,7 +8,7 @@ sidebar_position: 3
 
 ## 使用姿势
 
-```typescript
+```ts
 import { FsAPI } from '@modern-js/codesmith-api-fs';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -45,7 +45,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 - target: `(globMatch: string) => string` 目标文件路径生成函数，参数为 `resourceKey。`
 - options?: `RenderTemplateDirOptions` glob 查找文件配置，具体函数可查看这里 [glob](https://www.npmjs.com/package/glob)。
 
-```typescript
+```ts
 type RenderTemplateDirOptions = {
   nodir?: boolean;
   dot?: boolean;

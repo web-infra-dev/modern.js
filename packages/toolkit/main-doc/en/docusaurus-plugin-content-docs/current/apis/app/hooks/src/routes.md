@@ -7,8 +7,8 @@ The entry identifier when the application uses file system-based routing.
 
 When the project structure is of type `Routes directory entry`, the files in the `src/routes` directory are parsed to get the client-side routing configuration. See [Routing by convention](/docs/guides/basic-features/routes) for more details on usage.
 
-
 Any `layout.[tj]sx` and `page.[tj]sx` under `src/routes` will be used as a route to the application：
+
 ```bash {3}
 .
 └── routes
@@ -32,6 +32,7 @@ The directory names in the `routes` directory will be used as a mapping of the r
 ```
 
 The following two routes are produced:
+
 - `/`
 - `/user`
 
@@ -69,6 +70,7 @@ As in the example below, you can add a common layout component for all routing c
 ```
 
 You can represent child components in layout components by using `<Outlet>`:
+
 ```tsx title=routes/layout.tsx
 import { Link, Outlet, useLoaderData } from '@modern-js/runtime/router';
 
@@ -77,8 +79,8 @@ export default () => {
     <>
       <Outlet></Outlet>
     </>
-  )
-}
+  );
+};
 ```
 
 :::note

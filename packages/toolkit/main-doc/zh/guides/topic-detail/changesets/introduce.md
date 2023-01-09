@@ -22,7 +22,6 @@ Modern.js 默认创建的模块和 Monorepo 工程方案项目已经初始化完
 
 并且，Modern.js 在其对应的工程方案工具 `@modern-js/module-tools` 和 `@modern-js/monorepo-tools` 提供了 Changesets 相应的命令，无需再手动安装 Changesets 相关依赖。
 
-
 Changesets 默认配置如下：
 
 ```json title=".changeset/config.json"

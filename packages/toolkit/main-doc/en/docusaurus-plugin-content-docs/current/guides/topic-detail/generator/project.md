@@ -56,7 +56,7 @@ npx @modern-js/create --config '{"packageManager": "pnpm"}'
 
 Specific configuration information viewable [Project Configuration](/docs/guides/topic-detail/generator/config/common).
 
-###  --no-need-install
+### --no-need-install
 
 By default, `@modern-js/create` automatically installs dependency after the project is created, use this parameter to ignore the install dependency step.
 
@@ -113,6 +113,5 @@ For custom microgenerators, please refer to [Develop Microgenerator](/docs/guide
 A project is created by specifying a specific package version dependency.
 
 If you need to specify a specific package version when creating a project, you can use this parameter. This parameter will lock the package version number in the `package.json` of the project root directory by configuration `pnpm.overrides` (package management tool selects pnpm) or `resolutions`.
-
 
 The parameter value is a JSON character string.

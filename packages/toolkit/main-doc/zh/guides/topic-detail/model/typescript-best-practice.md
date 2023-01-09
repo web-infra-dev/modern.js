@@ -11,22 +11,22 @@ Reduck 对 TS 提供了良好的支持，大部分使用场景下，无需任何
 
 ```ts title="示例"
 interface State {
-  data: string
+  data: string;
 }
 
 export const foo = model<State>('foo').define({
   state: {
-    data: ''
+    data: '',
   },
   computed: {
-    withSuffix: (state) => state.data + 'suffix'
+    withSuffix: state => state.data + 'suffix',
   },
   actions: {
-    setData: (state, payload:string) => {
-      state.data = payload
-    }
-  }
-})
+    setData: (state, payload: string) => {
+      state.data = payload;
+    },
+  },
+});
 ```
 
 当为 Model 的 State 声明类型信息后，Model 的 `computed`、`actions` 都能获取正确的类型信息。事实上，上面的示例代码中，即使我们不定义 State 类型信息，也会根据 `state` 的初始值信息自动推导出 State 的类型信息。不过，仍然建议你在定义 Model 时，声明 State 的类型信息，因为根据 `state` 的初始值信息推导出的 State 类型信息可能不完整(缺少字段或字段的类型信息缺少)，而且当使用[函数类型](/docs/apis/app/runtime/model/model_#函数类型)定义 Model 时，State 的类型信息也是无法根据 `state` 的初始值信息自动推导的。
@@ -35,21 +35,20 @@ export const foo = model<State>('foo').define({
 
 当 Model 的衍生状态依赖其他 Model 时，需要手动指定其他 Model 的 State。
 
-
 ```ts title="示例"
 interface State {
-  data: string
+  data: string;
 }
 
 export const bar = model<State>('bar').define({
   state: {
-    data: ''
+    data: '',
   },
   computed: {
     // 为 fooState 指定类型
-    withFoo: [foo, (state, fooState: FooState) => state.data + fooState.data]
+    withFoo: [foo, (state, fooState: FooState) => state.data + fooState.data],
   },
-})
+});
 ```
 
 ## 获取 Model 类型信息的 Hooks
@@ -62,7 +61,7 @@ Reduck 提供了一组用于获取 Model 类型信息的工具类型：
 ```ts title="示例"
 export const foo = model<State2>('foo').define({
   // 省略
-})
+});
 
 // 获取 foo 的 State 类型
 let fooActions: GetModelActions<typeof foo>;

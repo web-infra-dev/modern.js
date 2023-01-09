@@ -4,8 +4,8 @@ sidebar_label: prefix
 
 # bff.prefix
 
-* Type: `string`
-* Default: `/api`
+- Type: `string`
+- Default: `/api`
 
 :::caution Caution
 First you need to enable the "BFF" function using [new](/docs/apis/app/commands/new) command.
@@ -22,12 +22,12 @@ The corresponding route for `api/hello.ts` access is `localhost:8080/api/hello`.
 
 This configuration option can modify the default route prefix:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   bff: {
-    prefix: '/api-demo'
-  }
-})
+    prefix: '/api-demo',
+  },
+});
 ```
 
 The corresponding `api/hello.ts` access route is `localhost:8080/api-demo/hello`.

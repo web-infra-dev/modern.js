@@ -4,8 +4,8 @@ sidebar_label: routes
 
 # server.routes
 
-* Type: `Object`
-* Default: Automatic generation of server-level routing rules based on file conventions: One routing rule is generated per file of the application,and the default route is the same as the entry name.
+- Type: `Object`
+- Default: Automatic generation of server-level routing rules based on file conventions: One routing rule is generated per file of the application,and the default route is the same as the entry name.
 
 This configuration option only applies to server-level routing, and can customize the service access configuration of the application entry.
 
@@ -13,9 +13,9 @@ This configuration option only applies to server-level routing, and can customiz
 
 The `key` of the object is the entry name of the current application, and the value can be `string | Array<string>`.
 
-When the value type is  `string`, the current value represents the name of the route to access the entry.
+When the value type is `string`, the current value represents the name of the route to access the entry.
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {
@@ -30,7 +30,7 @@ export default defineConfig({
 
 Multiple access routes can also be set for entries using the `Array<string>`:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {
@@ -60,7 +60,7 @@ After executing the `dev` command, you can see in `dist/route.json` that there a
       "entryPath": "html/page-a/index.html",
       "isSPA": true,
       "isSSR": false
-    },
+    }
   ]
 }
 ```
@@ -69,7 +69,7 @@ After executing the `dev` command, you can see in `dist/route.json` that there a
 
 The response header can be set by configuring the resHeaders of the entry:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {

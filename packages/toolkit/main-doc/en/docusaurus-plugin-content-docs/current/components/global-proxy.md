@@ -1,4 +1,3 @@
-
 Modern.js provides out-of-the-box global proxy plugin `@modern-js/plugin-proxy`, which is based on [whistle](https://github.com/avwo/whistle) and can be used to view and modify HTTP/HTTPS requests and responses, and can also be used as an HTTP proxy server.
 
 ### Set Proxy Rules

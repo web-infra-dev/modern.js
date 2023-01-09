@@ -50,7 +50,7 @@ interface State {
     pending: boolean;
     result: any;
     error: string;
-  }
+  };
 }
 ```
 
@@ -75,9 +75,10 @@ interface State {
 
 - `pending`: the default value is `"pending"`. Change the name of the `pending` field in the returned State. Usage is the same as `result`.
 
-- `error`:  the default value is `"error"`. Change the name of the `error` field in the returned State. Usage is the same as `result`.
+- `error`: the default value is `"error"`. Change the name of the `error` field in the returned State. Usage is the same as `result`.
 
 - `combineMode`: the default value is `"merge"`。get fulfilled state results. There are two ways to deal with it (The data types that can be automatically processed here are also limited to simple object or array types):
+
   - `"merge"`: the previous data is merged with the current data. the data is an array type, operation is similar to `[].concat(lastData, currentData)`. the data is an object，operation is similar to `{...lastData, ...curData}`.
   - `"replace"`: the current data directly replaces the previous data.
 
@@ -94,7 +95,6 @@ interface State {
   error: null,
 }
 ```
-
 
 ### Return Type
 

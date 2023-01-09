@@ -12,12 +12,10 @@ import ExpressPlugin from '@edenx/plugin-express';
 import BffPlugin from '@edenx/plugin-bff';
 
 export default defineConfig({
-  plugins: [
-    ExpressPlugin(),
-    BffPlugin()
-  ]
-})
+  plugins: [ExpressPlugin(), BffPlugin()],
+});
 ```
+
   </TabItem>
   <TabItem value="koa" label="Koa.js">
 
@@ -26,11 +24,9 @@ import KoaPlugin from '@edenx/plugin-koa';
 import BffPlugin from '@edenx/plugin-bff';
 
 export default defineConfig({
-  plugins: [
-    KoaPlugin(),
-    BffPlugin()
-  ]
-})
+  plugins: [KoaPlugin(), BffPlugin()],
+});
 ```
+
   </TabItem>
 </Tabs>

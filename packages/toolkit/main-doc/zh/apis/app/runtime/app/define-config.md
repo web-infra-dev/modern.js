@@ -22,7 +22,7 @@ Runtime 配置通常可以在 `modern.config.js` 的 `runtime` 空间下配置�
 ## 函数签名
 
 ```ts
-function defineConfig(Component, config): any
+function defineConfig(Component, config): any;
 ```
 
 ### 参数
@@ -43,7 +43,6 @@ defineConfig(App, {
   }
 })
 ```
-
 
 1. `defineConfig` 里可配置 [runtime.state](/docs/configure/app/runtime/state)、[runtime.router](/docs/configure/app/runtime/router) 等运行时配置。
 

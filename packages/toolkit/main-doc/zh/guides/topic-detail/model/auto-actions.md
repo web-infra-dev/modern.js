@@ -84,7 +84,6 @@ function Counter() {
 在 `countModel` 中已经自定义 `setA` 这个 Action，调用 `actions.setA()` 时，最终执行的是用户自定义的 `setA`。
 :::
 
-
 :::info 补充信息
 相关 API 的更多介绍，请参考[这里](/docs/apis/app/runtime/model/auto-actions)。
 :::

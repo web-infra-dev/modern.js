@@ -1,10 +1,11 @@
 ---
 sidebar_label: ssg
 ---
+
 # output.ssg
 
-* 类型： `boolean` | `object` | `function`
-* 默认值： `undefined`
+- Type: `boolean` | `object` | `function`
+- Default: `undefined`
 
 Enable the SSG for **Self-controlled Routing** or **Conventional Routing**.
 

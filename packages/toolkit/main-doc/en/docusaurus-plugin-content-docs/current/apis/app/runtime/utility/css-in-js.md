@@ -30,7 +30,7 @@ const TomatoButton = styled(Button)`
   background: tomato;
 `;
 
-function ButtonExample(){
+function ButtonExample() {
   return (
     <>
       <Button>I'm purple.</Button>
@@ -38,5 +38,5 @@ function ButtonExample(){
       <TomatoButton>I'm red.</TomatoButton>
     </>
   );
-};
+}
 ```
