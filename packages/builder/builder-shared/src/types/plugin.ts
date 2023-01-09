@@ -12,6 +12,7 @@ import type {
 } from './hooks';
 import { BuilderContext } from './context';
 import { SharedBuilderConfig, SharedNormalizedConfig } from './config';
+import { PromiseOrNot } from './utils';
 
 export type PluginStore = {
   readonly plugins: BuilderPlugin[];
@@ -24,7 +25,7 @@ export type PluginStore = {
 
 export type BuilderPlugin<API = any> = {
   name: string;
-  setup: (api: API) => Promise<void> | void;
+  setup: (api: API) => PromiseOrNot<void>;
 };
 
 type PluginsFn = () => Promise<BuilderPlugin>;

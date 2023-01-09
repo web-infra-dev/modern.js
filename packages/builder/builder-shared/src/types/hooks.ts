@@ -1,40 +1,40 @@
 import type { ChainIdentifier } from '@modern-js/utils';
 import type { Stats, MultiStats } from './stats';
-import { NodeEnv } from './utils';
+import { NodeEnv, PromiseOrNot } from './utils';
 import { BuilderTarget } from './builder';
 import { BundlerChain } from './bundlerConfig';
 
 export type OnBeforeBuildFn<BundlerConfig = unknown> = (params: {
   bundlerConfigs?: BundlerConfig[];
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnAfterBuildFn = (params: {
   stats?: Stats | MultiStats;
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnDevCompileDoneFn = (params: {
   isFirstCompile: boolean;
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
-export type OnBeforeStartDevServerFn = () => Promise<void> | void;
+export type OnBeforeStartDevServerFn = () => PromiseOrNot<void>;
 
 export type OnAfterStartDevServerFn = (params: {
   port: number;
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnBeforeCreateCompilerFn<BundlerConfig = unknown> = (params: {
   bundlerConfigs: BundlerConfig[];
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnAfterCreateCompilerFn<Compiler = unknown> = (params: {
   compiler: Compiler;
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnExitFn = () => void;
 
 export type ModifyBuilderConfigFn<BuilderConfig> = (
   config: BuilderConfig,
-) => Promise<BuilderConfig | void> | BuilderConfig | void;
+) => PromiseOrNot<BuilderConfig | void>;
 
 export type ModifyChainUtils = {
   env: NodeEnv;
@@ -51,7 +51,7 @@ export type ModifyBundlerChainUtils = ModifyChainUtils;
 export type ModifyBundlerChainFn = (
   chain: BundlerChain,
   utils: ModifyBundlerChainUtils,
-) => Promise<void> | void;
+) => PromiseOrNot<void>;
 
 export type CreateAsyncHook<Callback extends (...args: any[]) => any> = {
   tap: (cb: Callback) => void;
