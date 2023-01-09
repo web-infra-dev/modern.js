@@ -27,6 +27,7 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
   umdGlobals: {},
   sourceDir: './src',
   alias: {},
+  metafile: false,
   umdModuleName: name => name,
   define: {},
   asset: {

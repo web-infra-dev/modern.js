@@ -139,6 +139,7 @@ export const buildLib = async (
     externals,
     autoExternal,
     dts,
+    metafile,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
@@ -217,6 +218,7 @@ export const buildLib = async (
     splitting,
     minify,
     sourceDir,
+    metafile: metafile && buildType === 'bundle',
     globals: umdGlobals,
     external: externals,
     autoExternal,

@@ -86,6 +86,7 @@ export type PartialBaseBuildConfig = {
   outDir?: string;
   alias?: AliasOption;
   input?: Input;
+  metafile?: boolean;
   platform?: LibuildUserConfig['platform'];
   splitting?: LibuildUserConfig['splitting'];
   minify?: LibuildUserConfig['minify'];
