@@ -1,6 +1,6 @@
 import { useModuleApps } from '@modern-js/runtime/garfish';
 import { Switch, Route, Link } from '@modern-js/runtime/router-v5';
-// import DashboardButton from 'dashboardApp/share-button';
+import DashboardButton from 'dashboardApp/share-button';
 import { getAppInfo } from '../../../../utils/testCase';
 import pkg from '../package.json';
 import './App.css';
@@ -58,9 +58,9 @@ const App: React.FC = () => {
             }}
           />
         </Route>
-        {/* <Route path="/shared" exact={false}>
+        <Route path="/shared" exact={false}>
           <DashboardButton />
-        </Route> */}
+        </Route>
         {/* <Route path="/tablelist" exact={false}>
           <TableList
             loadable={{
