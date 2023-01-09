@@ -13,7 +13,7 @@ export const run = async (
   const command = process.argv[2];
 
   if (!process.env.NODE_ENV) {
-    if (['build', 'start', 'serve', 'deploy', 'release'].includes(command)) {
+    if (['build', 'serve', 'deploy', 'release'].includes(command)) {
       process.env.NODE_ENV = 'production';
     } else if (command === 'test') {
       process.env.NODE_ENV = 'test';
