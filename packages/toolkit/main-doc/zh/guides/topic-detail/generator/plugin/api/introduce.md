@@ -27,7 +27,6 @@ Modern.js 支持通过生成器插件的方式对提供的工程方案进行定�
 
 `templates` 目录为模板目录，用于存在生成器插件中需要使用的模板文件。
 
-
 ## 生成器插件分类
 
 生成器插件分为两种：
@@ -44,9 +43,9 @@ Modern.js 支持通过生成器插件的方式对提供的工程方案进行定�
 
 ```json
 {
-    "meta": {
-        "extend": "mwa"
-    }
+  "meta": {
+    "extend": "mwa"
+  }
 }
 ```
 
@@ -56,11 +55,11 @@ Modern.js 支持通过生成器插件的方式对提供的工程方案进行定�
 
 ```json
 {
-    "meta": {
-        "key": "new_solution",
-        "name": "新工程方案",
-        "type": "mwa"
-    }
+  "meta": {
+    "key": "new_solution",
+    "name": "新工程方案",
+    "type": "mwa"
+  }
 }
 ```
 

@@ -8,5 +8,3 @@ in BFF function mode，this file can add middleware before [BFF 函数](/docs/ap
 :::note
 For detail, see [hook](/docs/apis/app/runtime/bff/hook)
 :::
-
-

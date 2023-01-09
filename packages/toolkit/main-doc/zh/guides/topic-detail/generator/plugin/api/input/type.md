@@ -48,7 +48,7 @@ schema 字段联动。这里支持 Formily 的联动方式，具体可参考 [Fo
 
 ## 示例
 
-```typescript
+```ts
 const schema = {
   type: 'object',
   properties: {

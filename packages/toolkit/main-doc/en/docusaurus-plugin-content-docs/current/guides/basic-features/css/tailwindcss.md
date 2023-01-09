@@ -57,7 +57,7 @@ If you use Tailwind CSS on IE 11 browser, some styles may not be available, plea
 
 When you need to customize the [theme](https://tailwindcss.com/docs/theme) configuration of Tailwind CSS, you can modify it in the configuration [`source.designSystem`](/docs/configure/app/source/design-system), for example, add a color theme `primary`:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
     designSystem: {
@@ -73,7 +73,7 @@ export default defineConfig({
 
 When you need special configuration for Tailwind CSS other than [theme](https://tailwindcss.com/docs/theme), you can configure it in [`tools.tailwindcss`](/docs/configure/app/tools/tailwindcss), for example setting `variants`:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     tailwindcss: {

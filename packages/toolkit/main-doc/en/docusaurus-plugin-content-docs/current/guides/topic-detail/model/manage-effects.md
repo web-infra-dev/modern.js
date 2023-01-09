@@ -93,7 +93,7 @@ function Todo() {
 
 调用 `handleEffect` 会返回如下数据结构:
 
-``` ts
+```ts
 {
   pending() { // ... },
   fulfilled() { // ... },
@@ -102,7 +102,6 @@ function Todo() {
 ```
 
 这个数据结构和我们在 `actions` 下的 `load` 对象的数据结构是相同的。`handleEffect` 返回的对象，其实就是对应了 Effects 函数需要的 3 个 action。
-
 
 利用 `handleEffect`，改写 `todoModel`：
 
@@ -148,7 +147,6 @@ const todoModel = model('todo').define({
 `handleEffect` [API](/docs/apis/app/runtime/model/handle-effect)。
 :::
 
-
 Effects 函数中，也支持手动调用 Actions，例如：
 
 ```ts
@@ -190,7 +188,6 @@ const todoModel = model('todo').define((context, utils) => ({
 :::info 注
 可以使用 `use` 函数加载其它 Model（包括 Model 自身），实现 [Model 间通信](/docs/guides/topic-detail/model/model-communicate)。
 :::
-
 
 ## 副作用不影响 state
 
@@ -255,5 +252,5 @@ const handleClick = async () => {
 ```
 
 :::info 补充信息
-- [示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/effects)
+[示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/effects)
 :::

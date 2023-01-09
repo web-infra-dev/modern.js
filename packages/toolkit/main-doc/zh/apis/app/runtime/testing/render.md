@@ -44,7 +44,6 @@ function render(ui: React.ReactElement<any>, options: Options): RenderResult;
   - `wrapper`：是一个 react 组件，可用于自定义渲染逻辑。
   - `queries`：自定义一些自己的 `queries`。
 
-
 ### 返回值
 
 - `{...queries}`：所有可用的 [queries](https://testing-library.com/docs/queries/about/)。
@@ -54,7 +53,6 @@ function render(ui: React.ReactElement<any>, options: Options): RenderResult;
 - `rerender`：如果想测试一个已渲染的组件在其 props 更新时的一些场景，可以使用 rerender 来现实。
 - `unmount`：会卸载掉已渲染的组件。如果想测试组件卸载后的情况（如，绑定的事件是否在 unmount 阶段被卸载掉），那么这个 API 是很帮助的。
 - `asFragment`：返回当前渲染的组件的 [DocumentFragment](https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment) 对象。可用于测试 react 事件触发后 DOM 结构的响应。
-
 
 ## 示例
 

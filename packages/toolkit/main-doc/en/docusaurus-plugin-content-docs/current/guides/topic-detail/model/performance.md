@@ -5,7 +5,6 @@ title: 性能优化
 
 Reduck 内部已经做了大量性能优化工作，一般情况下不需要考虑性能问题。不过当对性能比较敏感、或者遇到了性能问题，可以考虑从以下 3 个方面，进行更有针对性的性能优化。
 
-
 ## Model 拆分
 
 当 `useModel` 返回 Model 对象的完整 State 时，State 任意部分的变化都会导致调用了 `useModel` 的组件重新渲染。
@@ -59,9 +58,7 @@ const barModel = model('bar').define({
     },
   },
 });
-
 ```
-
 
 ## 状态筛选
 
@@ -167,7 +164,6 @@ const barModel = model("bar").define({
 
 我们创建缓存函数 `createSelector`，仅当 `barModel` 的状态发生改变或 `fooModel` 的 `a` 状态发生改变时，才会重新计算 `combineA` 的值。
 
-
 :::info 补充信息
-- 本节完整的[示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/performance-optimization)
+本节完整的[示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/performance-optimization)
 :::

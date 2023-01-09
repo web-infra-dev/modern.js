@@ -33,7 +33,7 @@ Will eventually be compiled as:
 ```js
 <button type="button" className="button_redColor__1-RBg">
   red button
-</button>;
+</button>
 ```
 
 ## Global CSS Modules
@@ -74,7 +74,7 @@ Will eventually be compiled as:
 ```js
 <button type="button" className="button__redColor--JsFYl bg-blue">
   button
-</button>;
+</button>
 ```
 
 The final effect is as follows:

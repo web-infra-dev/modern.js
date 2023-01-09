@@ -9,11 +9,7 @@ The content wrapped by NoSSR will not be rendered at the server, nor will it be 
 ```tsx
 import { NoSSR } from '@modern-js/runtime';
 
-export default () => (
-  <NoSSR>
-    ...
-  </NoSSR>
-)
+export default () => <NoSSR>...</NoSSR>;
 ```
 
 ## Example
@@ -39,6 +35,3 @@ In CSR, it is often necessary to render different content according to the brows
 Modern.js provides complete browser side information in the SSR context, which can be used to determine the rendering result of the component on the server side.
 
 Even so, if there is too much logic in the application, or the developer wants to use the context later, or does not want some content to be rendered at the server side. developer can use the NoSSR component to exclude this part from server-side rendering.
-
-
-

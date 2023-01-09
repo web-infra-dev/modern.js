@@ -68,7 +68,7 @@ import {
   Head,
   Body,
   Scripts,
-  DocumentContext
+  DocumentContext,
 } from '@modern-js/runtime/document';
 
 export default function Document(): React.ReactElement {
@@ -103,41 +103,48 @@ export default function Document(): React.ReactElement {
 ```html
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="renderer" content="webkit">
-    <meta name="layoutmode" content="standard">
-    <meta name="imagemode" content="force">
-    <meta name="wap-font-scale" content="no">
-    <meta name="format-detection" content="telephone=no">
-    <script>...</script>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="renderer" content="webkit" />
+    <meta name="layoutmode" content="standard" />
+    <meta name="imagemode" content="force" />
+    <meta name="wap-font-scale" content="no" />
+    <meta name="format-detection" content="telephone=no" />
+    <script>
+      ...
+    </script>
     <script defer src="/static/js/lib-react.js"></script>
     <script defer src="/static/js/lib-polyfill.js"></script>
     <script defer src="/static/js/lib-router.js"></script>
-    <script defer
-        src="/static/js/vendors-node_modules_pnpm_loadable_component_5_15_2_react_18_2_0_node_modules_loadable_compon-3fb0cf.js"></script>
-    <script defer
-        src="/static/js/packages_runtime_plugin-router-legacy_dist_js_treeshaking_runtime_index_js-packages_runtime_p-28f4c9.js"></script>
+    <script
+      defer
+      src="/static/js/vendors-node_modules_pnpm_loadable_component_5_15_2_react_18_2_0_node_modules_loadable_compon-3fb0cf.js"
+    ></script>
+    <script
+      defer
+      src="/static/js/packages_runtime_plugin-router-legacy_dist_js_treeshaking_runtime_index_js-packages_runtime_p-28f4c9.js"
+    ></script>
     <script defer src="/static/js/sub.js"></script>
     <link href="https://www.baidu.com" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="root">
-        <!--<?- html ?>-->
-        <h1 style="color:red">以下为构建时传过来的参数：</h1>
-        <h2> entryName：sub</h2>
-        <h2> title：</h2>
-        <h2> rootId: root</h2>
+      <!--<?- html ?>-->
+      <h1 style="color:red">以下为构建时传过来的参数：</h1>
+      <h2>entryName：sub</h2>
+      <h2>title：</h2>
+      <h2>rootId: root</h2>
     </div>
     <h1>bottom</h1>
     <!--<?- chunksMap.js ?>-->
     <!--<?- SSRDataScript ?>-->
-</body>
+  </body>
 </html>
 ```
 
@@ -161,26 +168,27 @@ Modern.js 也支持 HTML 语法。默认情况下，Modern.js 的应用工程中
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <%= meta %>
-  <title><%= title %></title>
-  <%= topTemplate %>
+  <head>
+    <%= meta %>
+    <title><%= title %></title>
+    <%= topTemplate %>
 
-  <script>
-    window.__assetPrefix__ = '<%= assetPrefix %>';
-  </script>
-  <%= headTemplate %>
-  <!-- webpack inject css -->
-</head>
-<body>
-  <noscript>
-    We're sorry but react app doesn't work properly without JavaScript enabled. Please enable it to continue.
-  </noscript>
-  <div id="<%= mountId %>"></div>
-  <%= bodyTemplate %>
-  <!-- webpack inject js -->
-  <!--<?- bottomTemplate ?>-->
-</body>
+    <script>
+      window.__assetPrefix__ = '<%= assetPrefix %>';
+    </script>
+    <%= headTemplate %>
+    <!-- webpack inject css -->
+  </head>
+  <body>
+    <noscript>
+      We're sorry but react app doesn't work properly without JavaScript
+      enabled. Please enable it to continue.
+    </noscript>
+    <div id="<%= mountId %>"></div>
+    <%= bodyTemplate %>
+    <!-- webpack inject js -->
+    <!--<?- bottomTemplate ?>-->
+  </body>
 </html>
 ```
 
@@ -220,7 +228,7 @@ Modern.js 也支持 HTML 语法。默认情况下，Modern.js 的应用工程中
 
 例如，如下设置的 HTML 片段仅对入口 `entry1` 生效：
 
-```html
+```bash
 .
 ├── config/
 │   └── html/

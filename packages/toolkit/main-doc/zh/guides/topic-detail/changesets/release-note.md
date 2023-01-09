@@ -40,7 +40,7 @@ Modern.js 提供了 `modern gen-release-note` 命令，支持通过当前存在�
 
 初步解析 commit 获取基本信息。
 
-```typescript
+```ts
 interface Commit {
   id: string; // commit id
   type: 'feature' | 'fix'; // commit 类型，默认通过开头字符串如果为 fix，类型为 fix，其他为 feature
@@ -61,7 +61,7 @@ commitObj， 补充后完整的 commit 对象。
 
 Modern.js 的默认实现为：根据 commit 信息拆分出 Pull Request ID 和作者，加入到 commitObj 中。
 
-```typescript
+```ts
 function getReleaseInfo(commit: string, commitObj: Commit) {
   const commitRegex = /(.*)\(#(\d*)\)/;
 
@@ -103,7 +103,7 @@ function getReleaseInfo(commit: string, commitObj: Commit) {
 
 Modern.js 的默认实现为：
 
-```typescript
+```ts
 function formatSummary(summary: string, pullRequestId?: string) {
   const [firstLine, ...futureLines] = summary
     .split('\n')
@@ -157,7 +157,7 @@ custom 参数值如果为相对路径为**项目跟目录**。
 
 例如创建 `scripts/my-release-note-config.js` 文件，定义如下内容：
 
-```typescript title="scripts/my-release-note-config.js"
+```ts title="scripts/my-release-note-config.js"
 function getReleaseInfo(commit, commitObj) {
   return commitObj;
 }
@@ -168,7 +168,6 @@ module.exports = {
   getReleaseInfo,
   getReleaseNoteLine,
 };
-
 ```
 
 执行下面命令：
@@ -197,7 +196,7 @@ custom 参数值还可以使用模块工程方案进行管理，提供通用方�
 
 1. 使用 npx @modern-js/create 创建模块工程方案。
 
-``` md
+```md
 ? 请选择你想创建的工程类型 模块
 ? 请填写项目名称 custom-release-note
 ? 请选择开发语言 TS
@@ -206,11 +205,10 @@ custom 参数值还可以使用模块工程方案进行管理，提供通用方�
 
 2. 实现自定义内容。
 
-```typescript title="src/index.ts"
+```ts title="src/index.ts"
 export function getReleaseInfo() {}
 
 export function getReleaseNoteLine() {}
-
 ```
 
 3. 将模块发布到 NPM。
@@ -221,13 +219,13 @@ export function getReleaseNoteLine() {}
 pnpm run gen-release-note -- --custom custom-release-note
 ```
 
-### 使用Monorepo 工程方案
+### 使用 Monorepo 工程方案
 
 如果你当前仓库为 Monorepo 工程方案，可以直接使用模块子项目进行管理。
 
 1. 执行 `pnpm run new` 创建模块子项目
 
-``` md
+```md
 ? 请选择你想创建的工程类型 模块
 ? 请填写子项目名称 custom-release-note
 ? 请填写子项目目录名称 custom-release-note
@@ -236,11 +234,10 @@ pnpm run gen-release-note -- --custom custom-release-note
 
 2. 实现自定义内容。
 
-```typescript title="src/index.ts"
+```ts title="src/index.ts"
 export function getReleaseInfo() {}
 
 export function getReleaseNoteLine() {}
-
 ```
 
 3. 在 Monorepo 根目录添加子项目模块依赖，例如 `custom-release-note`。

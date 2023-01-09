@@ -7,7 +7,6 @@ Entry identifier if App want use custom entry. In most case, [`App.[tj]sx`](/doc
 
 When we need to add custom behavior before `bootstrap` or completely take over the webpack entry, we can place `index.[tj]s` in `src/` or entry directory. The following are discussed in two cases:
 
-
 1. add custom behavior before bootstrap
 
 Just add default export under `src/index.[tj]s`:

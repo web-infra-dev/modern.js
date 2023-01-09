@@ -4,8 +4,8 @@ title: tools.jest
 sidebar_label: jest
 ---
 
-* 类型： `Object | Function`
-* 默认值：`{}`
+- 类型： `Object | Function`
+- 默认值：`{}`
 
 :::caution 注意
 需要先通过 `pnpm run new` 启用 单元测试 功能。
@@ -17,9 +17,9 @@ sidebar_label: jest
 export default defineConfig({
   tools: {
     jest: {
-      testTimeout: 10000
-    }
-  }
+      testTimeout: 10000,
+    },
+  },
 });
 ```
 
@@ -31,9 +31,9 @@ export default defineConfig({
     jest: options => {
       return {
         ...options,
-        testTimeout: 10000
-      }
-    }
-  }
+        testTimeout: 10000,
+      };
+    },
+  },
 });
 ```

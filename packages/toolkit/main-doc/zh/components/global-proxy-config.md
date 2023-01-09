@@ -1,8 +1,7 @@
-* 类型： `string | Object`
-* 默认值： `null`
+- 类型： `string | Object`
+- 默认值： `null`
 
 配置该选项后，开发环境时会启动全局代理，类似 [Fiddler](https://www.telerik.com/fiddler), [Charles](https://www.charlesproxy.com/) 等 web 代理调试工具，可以用来查看、修改 HTTP/HTTPS 请求、响应、也可以用作代理服务器。
-
 
 :::tip 提示
 使用该选项需要提前安装 `@modern-js/plugin-proxy`。
@@ -12,22 +11,21 @@
 
 例如：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   dev: {
     proxy: {
       'https://www.baidu.com': 'https://google.com.hk',
       //可以通过 file 协议直接返回静态文件。
       'https://example.com/api': 'file://./data.json',
-    }
-  }
+    },
+  },
 });
 ```
 
 值为 `string` 时， 可以用来指定单独的代理文件，例如：
 
-
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   dev: {
     proxy: './proxy.js',
@@ -67,4 +65,3 @@ Modern.js 全局代理实现底层基于 [whistle](https://wproxy.org/whistle/),
 :::caution 注意
 https 代理自动安装证书需要获取 root 权限, 请根据提示输入密码即可。**密码仅在信任证书时使用，不会泄漏或者用于其他环节**。
 :::
-

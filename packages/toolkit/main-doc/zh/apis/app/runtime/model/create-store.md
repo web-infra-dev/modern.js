@@ -7,11 +7,9 @@ import ReduckTip from '@site-docs/components/reduck-tip.md'
 
 <ReduckTip />
 
-
 `createStore` 用于创建一个 Store 对象。Reduck 的 Store 基于 Redux 的 [Store](https://redux.js.org/api/store) 实现，用于存储应用的状态，同时提供一组用于管理状态和 Model 的方法。
 
 一般情况下，不需要使用这个 API，只有需要完全掌控 Store 的创建时，才会使用这个 API。例如，自定义一个 Store，传入 [`Provider`](./Provider.md) 组件使用。
-
 
 ## 函数签名
 
@@ -39,7 +37,7 @@ function createStore(config: StoreConfig): ReduckStore;
   - models?: 设置提前（Store 创建后）挂载到 Store 的 Model。（正常使用无需提前挂载）
   - middlewares?: 设置 Redux [中间件](https://redux.js.org/understanding/thinking-in-redux/glossary#middleware)。
   - enhancers?: 设置 Redux 的 [Store enhancer](https://redux.js.org/understanding/thinking-in-redux/glossary#store-enhancer) 。
-  - plugins?: 设置 Reduck 插件。***试验性配置，不推荐使用***。
+  - plugins?: 设置 Reduck 插件。**_试验性配置，不推荐使用_**。
 
 ### 返回值
 
@@ -49,8 +47,8 @@ Reduck Store 对象：
 - unmount：卸载 Model 对象，Model 的 State 会从 Store 中清除。
 - ReduxStore：Redux Store 对象具有的方法，[详见](https://redux.js.org/tutorials/fundamentals/part-4-store#redux-store)。
 
-
 ## 示例
+
 ```tsx
 const store = createStore();
 

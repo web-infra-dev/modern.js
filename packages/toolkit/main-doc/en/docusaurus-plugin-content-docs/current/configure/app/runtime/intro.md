@@ -11,7 +11,7 @@ This section describes the configuration of the Runtime plugin.
 
 ### runtime
 
-* Type: `Object`
+- Type: `Object`
 
 The runtime is configured as follows:
 
@@ -25,8 +25,8 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   runtime: {
     state: true,
-    router: true
-  }
+    router: true,
+  },
 });
 ```
 
@@ -47,9 +47,9 @@ const App = () => {
 
 defineConfig(App, {
   router: {
-    supportHtml5History: false
-  }
-})
+    supportHtml5History: false,
+  },
+});
 
 export default App;
 ```
@@ -66,7 +66,7 @@ defineConfig 中只能定义 Runtime 插件的具体配置内容，确认是否�
 
 ### runtimeByEntries
 
-* Type: `Object`
+- Type: `Object`
 
 #### Introduce
 
@@ -81,10 +81,11 @@ export default defineConfig({
   },
   runtimeByEntries: {
     entry1: {
-       state: true, // { state: true }
+      state: true, // { state: true }
     },
-    entry2: { // { state: false, router: true }
-       router: true,
+    entry2: {
+      // { state: false, router: true }
+      router: true,
     },
   },
 });

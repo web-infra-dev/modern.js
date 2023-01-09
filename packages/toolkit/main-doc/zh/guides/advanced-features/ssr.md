@@ -33,7 +33,7 @@ export const loader = () => {
 export default () => {
   const data = useLoaderData();
   return <div>{data.message}</div>;
-}
+};
 ```
 
 Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发体验。并且提供了优雅的降级处理，一旦 SSR 请求失败，会自动降级在浏览器端重新发起请求。
@@ -52,11 +52,7 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 
 ```tsx
 {
-  typeof window !== 'undefined' ? (
-    <div>
-      browser content
-    </div>
-  ) : null;
+  typeof window !== 'undefined' ? <div>browser content</div> : null;
 }
 ```
 
@@ -82,9 +78,7 @@ import { NoSSR } from '@modern-js/runtime/ssr';
 
 ```tsx
 <NoSSR>
-  <div>
-    client content
-  </div>
+  <div>client content</div>
 </NoSSR>
 ```
 
@@ -201,8 +195,8 @@ document.addEventListener('load', () => {
   console.log('document load');
 });
 const App = () => {
-  return <div>Hello World</div>
-}
+  return <div>Hello World</div>;
+};
 export default App;
 ```
 

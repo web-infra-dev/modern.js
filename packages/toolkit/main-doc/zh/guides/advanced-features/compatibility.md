@@ -10,7 +10,7 @@ Modern.js 支持在项目根目录 `package.json` 文件中的 `browserslist` �
 Modern.js 中默认值如下:
 
 ```js
-['> 0.01%', 'not dead', 'not op_mini all']
+['> 0.01%', 'not dead', 'not op_mini all'];
 ```
 
 可以在[这里](https://github.com/browserslist/browserslist)了解如何自定义浏览器范围。
@@ -20,7 +20,6 @@ Modern.js 中默认值如下:
 :::note
 Modern.js 支持配置 [output.overrideBrowserlist](/docs/configure/app/output/override-browserslist) 覆盖默认 browserlist 值。
 :::
-
 
 ## Polyfill
 
@@ -38,8 +37,8 @@ Modern.js 在编译时默认通过 [core-js](https://github.com/zloirock/core-js
 
 Modern.js 中还提供了基于浏览器 [UA](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/User-Agent) 信息的运行时按需 Polyfill 方案，相比于 Babel 优势如下：
 
-* 不会插入到代码中，只根据访问页面的设备，按需下发 Polyfill 代码 ，减少整体代码体积。
-* 相同浏览器会公用一份 Polyfill 代码。因此，随着项目越来越多，基于 UA 的 Polyfill 代码下发速度会越来越快，综合速度超过常规方案。
+- 不会插入到代码中，只根据访问页面的设备，按需下发 Polyfill 代码 ，减少整体代码体积。
+- 相同浏览器会公用一份 Polyfill 代码。因此，随着项目越来越多，基于 UA 的 Polyfill 代码下发速度会越来越快，综合速度超过常规方案。
 
 可以通过微生成器开启该功能：
 

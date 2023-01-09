@@ -140,7 +140,7 @@ export default function Layout() {
 ```js
 import { useState } from 'react';
 import { Radio, RadioChangeEvent } from 'antd';
-import { Outlet, useLocation, useNavigate } from "@modern-js/runtime/router";
+import { Outlet, useLocation, useNavigate } from '@modern-js/runtime/router';
 ```
 
 最后在 Layout 组件里增加局部状态和相关逻辑：

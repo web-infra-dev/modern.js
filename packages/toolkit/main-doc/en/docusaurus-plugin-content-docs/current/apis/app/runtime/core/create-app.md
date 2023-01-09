@@ -39,8 +39,6 @@ function App() {
 }
 
 export default createApp({
-  plugins: [
-    customPlugin()
-  ]
+  plugins: [customPlugin()],
 })(App);
 ```

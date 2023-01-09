@@ -1,4 +1,3 @@
-
 Modern.js 提供了开箱即用的全局代理插件 `@modern-js/plugin-proxy`，该插件底层基于 [whistle](https://github.com/avwo/whistle)，可用来查看、修改 HTTP/HTTPS 的请求和响应，也可作为 HTTP 代理服务器使用。
 
 ### 设置代理规则

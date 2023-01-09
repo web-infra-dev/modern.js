@@ -10,7 +10,7 @@ import ReduckTip from '@site-docs/components/reduck-tip.md'
 Reduck 内部默认会使用 `createApp` 创建一个全局应用，如果整个应用只需要共享一个 Store，那么是不需要使用 `createApp` 的。只有当需要在应用局部创建共享 Store 时，才需要使用 `createApp`。
 
 :::caution 注意
-- 注意 `@modern-js/runtime/model` 中导出的 `createApp` 用于管理状态，而 `@modern-js/runtime` 导出的 `createApp` 用于管理整个应用的运行时环境，两者功能不同。
+注意 `@modern-js/runtime/model` 中导出的 `createApp` 用于管理状态，而 `@modern-js/runtime` 导出的 `createApp` 用于管理整个应用的运行时环境，两者功能不同。
 :::
 
 ## 函数签名
@@ -28,8 +28,8 @@ function createApp(config: AppConfig): object;
 
 - config：`Record<string, any>`
   - StoreConfig：同 [`createStore`](./create-store.md) 的参数。
-  - devTools：默认值为true。是否开启 Redux DevTools，当为对象类型时，支持配置 Redux DevTools 的 [Options](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md)。
-  - autoActions：默认值为true。是否[自动生成 Actions](./auto-actions.md)。
+  - devTools：默认值为 true。是否开启 Redux DevTools，当为对象类型时，支持配置 Redux DevTools 的 [Options](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md)。
+  - autoActions：默认值为 true。是否[自动生成 Actions](./auto-actions.md)。
 
 ### 返回值
 

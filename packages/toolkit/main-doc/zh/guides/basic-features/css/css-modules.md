@@ -33,7 +33,7 @@ export default function Button() {
 ```js
 <button type="button" className="button_redColor__1-RBg">
   red button
-</button>;
+</button>
 ```
 
 ## 全面启用 CSS Modules
@@ -74,7 +74,7 @@ export default function Button() {
 ```js
 <button type="button" className="button__redColor--JsFYl bg-blue">
   button
-</button>;
+</button>
 ```
 
 最终效果如下：

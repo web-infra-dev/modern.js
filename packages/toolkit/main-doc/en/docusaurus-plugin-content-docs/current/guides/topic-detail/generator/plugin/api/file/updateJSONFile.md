@@ -34,19 +34,18 @@ This information is represented in Record form.
 
 For example, the name field needs to be updated:
 
-
 ```ts
 api.updateJSONFile(file, {
-    name: "new name"
-})
+  name: 'new name',
+});
 ```
 
 Nested fields need to be updated:
 
 ```ts
 api.updateJSONFile(file, {
-  "dependencies.name": "new name"
-})
+  'dependencies.name': 'new name',
+});
 ```
 
 :::warning

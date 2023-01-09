@@ -7,7 +7,7 @@ title: bootstrap
 ## 使用姿势
 
 ```ts
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
 import { bootstrap } from '@modern-js/runtime';
 
 bootstrap(App, 'root', undefined, ReactDOM);
@@ -39,7 +39,7 @@ type BootStrap<T = unknown> = (
 ## 示例
 
 ```tsx
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
 import { createApp, bootstrap } from '@modern-js/runtime';
 
 function App() {
@@ -52,7 +52,6 @@ const WrappedApp = createApp({
 })(App);
 
 bootstrap(WrappedApp, 'root', undefined, ReactDOM);
-
 ```
 
 :::info

@@ -11,9 +11,11 @@ Modern.js 中，会将子应用包裹成一个 React 组件，直接通过给 Re
 function App() {
   const { MApp } = useModuleApps();
 
-  return <div>
-    <MApp count={100} />
-  </div>;
+  return (
+    <div>
+      <MApp count={100} />
+    </div>
+  );
 }
 ```
 
@@ -33,7 +35,7 @@ function App(props) {
 ```ts
 // 子应用监听登录事件
 const App = () => {
-  const handleLogin = (userInfo) => {
+  const handleLogin = userInfo => {
     console.log(`${userInfo.name} has login`);
   };
 
@@ -46,7 +48,7 @@ const App = () => {
 };
 
 // 主应用触发监听事件
-api.getLoginInfo.then((res) => {
+api.getLoginInfo.then(res => {
   if (res.code === 0) {
     window.Garfish.channel.emit('login', res.data);
   }

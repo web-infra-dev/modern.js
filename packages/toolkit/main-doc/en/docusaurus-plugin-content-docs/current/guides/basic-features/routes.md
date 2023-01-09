@@ -15,7 +15,6 @@ With `routes/` as the agreed entry, Modern.js will automatically generate the co
 
 Modern.js supports the popular convention routing mode in the industry: **nested routing**. When using nested routing, the routing of the page corresponds the UI structure, and we will introduce this routing mode in detail.
 
-
 ```
 /user/johnny/profile                  /user/johnny/posts
 +------------------+                  +-----------------+
@@ -149,8 +148,7 @@ When a directory name begins with `__`, the corresponding directory name is not 
     └── page.tsx
 ```
 
-Modern.js will generate two routes, `/login` and `/sign`, `__auth/layout.tsx` component will be used as the layout component of `login/page.tsx` and `signup/page.tsx`, but __auth will not be used as the route path fragment.
-
+Modern.js will generate two routes, `/login` and `/sign`, `__auth/layout.tsx` component will be used as the layout component of `login/page.tsx` and `signup/page.tsx`, but `__auth` will not be used as the route path fragment.
 
 This feature is useful when you need to do separate layouts for certain types of routes, or when you want to categorize routes.
 
@@ -172,7 +170,7 @@ When accessing a route, you will get the following UI layout:
 
 ```tsx
 <RootLayout>
-   <UserProfileEdit />   // routes/user.profile.[id].edit/page.tsx
+  <UserProfileEdit /> // routes/user.profile.[id].edit/page.tsx
 </RootLayout>
 ```
 
@@ -205,6 +203,7 @@ When the component exists in a routing directory, the component render error is 
 `<ErrorBoundary>` can return the UI view when the error occurred. When the `<ErrorBoundary>` component is not declared at the current level, the error will bubble up to the higher component until it is caught or throws an error. At the same time, when a component fails, it will only affect the routed component and sub-component that caught the error. The state and view of other components are not affected and can continue to interact.
 
 <!-- Todo API 路由-->
+
 Within the `<ErrorBoundary>` component, you can use [useRouteError](/docs/apis/app/runtime/router/#useparams) to get the specific information of the error:
 
 ```tsx
@@ -253,8 +252,8 @@ By default, Modern.js turn on the built-in routing scheme, React Router.
 export default defineConfig({
   runtime: {
     router: true,
-  }
-})
+  },
+});
 ```
 
 Modern.js exposes the React Router API from the `@modern-js/runtime/router` namespace for developers to use, ensuring that developers and Modern.js use the same code. In addition, in this case, the React Router code will be packaged into JS products. If the project already has its own routing scheme, or does not need to use client routing, this feature can be turned off.
@@ -263,6 +262,6 @@ Modern.js exposes the React Router API from the `@modern-js/runtime/router` name
 export default defineConfig({
   runtime: {
     router: false,
-  }
-})
+  },
+});
 ```

@@ -1,8 +1,7 @@
-* Type: `string | Object`
-* Default: `null`
+- Type: `string | Object`
+- Default: `null`
 
 When this option is configured, the development environment will start a global proxy, similar to [Fiddler](https://www.telerik.com/fiddler), [Charles](https://www.charlesproxy.com/) and other web proxy debugging tools, which can be used to view, modify HTTP/HTTPS requests, responses, and can also be used as a proxy server.
-
 
 :::tip 提示
 Using this option requires advance installation `@modern-js/plugin-proxy`。
@@ -14,15 +13,15 @@ Using this option requires that the value of `Object` be installed in advance, t
 
 Example:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   dev: {
     proxy: {
       'https://www.baidu.com': 'https://google.com.hk',
       //可以通过 file 协议直接返回静态文件。
       'https://example.com/api': 'file://./data.json',
-    }
-  }
+    },
+  },
 });
 ```
 
@@ -30,8 +29,7 @@ export default defineConfig({
 
 When the value is `string`, it can be used to specify a separate proxy file, for example:
 
-
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   dev: {
     proxy: './proxy.js',
@@ -71,4 +69,3 @@ Access the `localhost:8899` to view the Network and configure proxy rules on the
 :::caution Caution
 The https agent automatically installs the certificate to obtain root privileges. Please enter the password as prompted. ** The password is only used when the certificate is trusted and will not be leaked or used for other links **.
 :::
-

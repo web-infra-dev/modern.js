@@ -106,12 +106,12 @@ The framework writing of Express supports defining the startup logic of API Serv
 The route defined by the BFF function will be registered after the route defined by the `app.ts` file, so here you can also intercept the route defined by the BFF function, preprocess or respond in advance.
 
 ```ts title="api/app.ts"
-import express from "express";
+import express from 'express';
 
 const app = express();
 
-app.put("/user", function (req, res) {
-  res.send("Got a PUT request at /user");
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
 });
 
 app.use(async (req, res, next) => {
@@ -133,12 +133,12 @@ Use the framework writing, when there is no `app.ts`, Modern.js will add koa-bod
 :::
 
 ```ts title=api/app.ts
-import koa from "koa";
+import koa from 'koa';
 
 const app = new Koa();
 
-app.put("/user", function (req, res) {
-  res.send("Got a PUT request at /user");
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
 });
 
 app.use(async (ctx, next) => {

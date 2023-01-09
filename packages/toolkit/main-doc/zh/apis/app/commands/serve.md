@@ -21,12 +21,10 @@ Options:
 export default defineConfig({
   server: {
     port: 8081,
-  }
-})
+  },
+});
 ```
 
 import CommandTip from '@site-docs/components/command-tip.md'
 
 <CommandTip />
-
-

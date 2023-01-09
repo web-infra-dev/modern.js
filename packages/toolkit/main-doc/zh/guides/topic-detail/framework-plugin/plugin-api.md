@@ -29,7 +29,7 @@ export default (): CliPlugin => ({
 用于获取应用原始配置。
 
 ```ts
-const useConfigContext: () => UserConfig
+const useConfigContext: () => UserConfig;
 
 interface UserConfig {
   source?: SourceConfig;
@@ -51,7 +51,7 @@ interface UserConfig {
 用于获取应用运行上下文。
 
 ```ts
-const useAppContext: () => IAppContext
+const useAppContext: () => IAppContext;
 
 interface IAppContext {
   appDirectory: string;
@@ -79,7 +79,7 @@ interface IAppContext {
 用于获取解析之后的最终配置。
 
 ```ts
-const useResolvedConfigContext: () => NormalizedConfig
+const useResolvedConfigContext: () => NormalizedConfig;
 
 interface NormalizedConfig {
   source: NormalizedSourceConfig;
@@ -91,7 +91,7 @@ interface NormalizedConfig {
   plugins: PluginConfig;
   runtime: RuntimeConfig;
   runtimeByEntries?: RuntimeByEntriesConfig;
-  _raw: UserConfig
+  _raw: UserConfig;
 }
 ```
 

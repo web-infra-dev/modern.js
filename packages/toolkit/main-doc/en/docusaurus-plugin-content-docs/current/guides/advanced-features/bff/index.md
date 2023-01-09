@@ -6,15 +6,15 @@ In the development of the concept of **front back separation**, the front-end pa
 
 The main problems it to solve include:
 
-* Aggregation, mapping, clipping, and proxying of lower-level APIs according to their own business needs.
-* Cache data for some specific scenarios to improve performance and thus improve user experience.
-* Quickly development of new products based on existing interfaces.
-* Interface with third-party systems, such as login authentication.
+- Aggregation, mapping, clipping, and proxying of lower-level APIs according to their own business needs.
+- Cache data for some specific scenarios to improve performance and thus improve user experience.
+- Quickly development of new products based on existing interfaces.
+- Interface with third-party systems, such as login authentication.
 
 Modern.js officially supported the BFF and provided the **Integrated BFF** to further strengthen the BFF's capabilities, mainly including the following capabilities:
 
-* Quick development and debugging go live, running, building, and deploying BFF code in the same project.
-* Minimal pure function call, directly import BFF function on the front end, and can be automatically converted into HTTP request when called.
-* No private protocol, follow RESTful API specification, all BFF interfaces are standardized.
-* Full TypeScript support.
-* Meet user preferences and support multi-frame extension writing.
+- Quick development and debugging go live, running, building, and deploying BFF code in the same project.
+- Minimal pure function call, directly import BFF function on the front end, and can be automatically converted into HTTP request when called.
+- No private protocol, follow RESTful API specification, all BFF interfaces are standardized.
+- Full TypeScript support.
+- Meet user preferences and support multi-frame extension writing.

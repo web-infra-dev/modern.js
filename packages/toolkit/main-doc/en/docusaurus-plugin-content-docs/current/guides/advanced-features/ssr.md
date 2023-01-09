@@ -33,7 +33,7 @@ in the component, the data returned by the `loader` function can be get data thr
 export default () => {
   const data = useLoaderData();
   return <div>{data.message}</div>;
-}
+};
 ```
 
 Modern.js break the traditional SSR development model and provide users with a user-friendly SSR development experience.
@@ -56,11 +56,7 @@ Here is an example to show the problem when SSR and CSR rendering are inconsiste
 
 ```tsx
 {
-  typeof window !== 'undefined' ? (
-    <div>
-      browser content
-    </div>
-  ) : null;
+  typeof window !== 'undefined' ? <div>browser content</div> : null;
 }
 ```
 
@@ -88,9 +84,7 @@ Outside of elements that do not require SSR, wrap with a `NoSSR` component:
 
 ```tsx
 <NoSSR>
-  <div>
-    client content
-  </div>
+  <div>client content</div>
 </NoSSR>
 ```
 
@@ -213,8 +207,8 @@ document.addEventListener('load', () => {
   console.log('document load');
 });
 const App = () => {
-  return <div>Hello World</div>
-}
+  return <div>Hello World</div>;
+};
 export default App;
 ```
 

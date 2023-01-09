@@ -63,32 +63,32 @@ Several routing conventions are described as follow.
 
 Files named `index.[jt]s` are mapped to the previous directory.
 
-* `api/index.ts` -> `{prefix}/`
-* `api/user/index.ts` -> `{prefix}/user`
+- `api/index.ts` -> `{prefix}/`
+- `api/user/index.ts` -> `{prefix}/user`
 
 ### Multi-layer Route
 
 Supports parsing nested files, if you create a nested folder structure, the files will still automatically parse routes in the same way.
 
-* `api/hello.ts` -> `{prefix}/hello`
-* `api/user/list.ts` -> `{prefix}/user/list`
+- `api/hello.ts` -> `{prefix}/hello`
+- `api/user/list.ts` -> `{prefix}/user/list`
 
 ### Dynamic Route
 
 Create folders or files named with `[xxx]` to support dynamic named routing parameters.
 
-* `api/user/[username]/info.ts` -> `{prefix}/user/:username/info`
-* `api/user/username/[action].ts` -> `{prefix}/user/username/:action`
+- `api/user/[username]/info.ts` -> `{prefix}/user/:username/info`
+- `api/user/username/[action].ts` -> `{prefix}/user/username/:action`
 
 ### Allow List
 
 By default, all files in the'api/'directory will be parsed as BFF function files, but the following files will not be parsed:
 
-* file name start with `_`, for example `_utils.ts`.
-* files in directory which name start with `_`, for example `_utils/index.ts`、`_utils/cp.ts`.
-* test files, for example `foo.test.ts`.
-* type files, for example `hello.d.ts`.
-* files in `node_module`.
+- file name start with `_`, for example `_utils.ts`.
+- files in directory which name start with `_`, for example `_utils/index.ts`、`_utils/cp.ts`.
+- test files, for example `foo.test.ts`.
+- type files, for example `hello.d.ts`.
+- files in `node_module`.
 
 ## RESTful API
 
@@ -126,11 +126,11 @@ export const post = async () => {
 };
 ```
 
-* Modern.js supports 9 definitions for HTTP Method: `GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`, can be exported using these methods as functions。
+- Modern.js supports 9 definitions for HTTP Method: `GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`, can be exported using these methods as functions。
 
-* The name is size insensitive，if `GET`，can write `get`、`Get`、`GEt`、`GET`，can be accurately identified. But default export as `export default xxx` will be map to `Get`。
+- The name is size insensitive，if `GET`，can write `get`、`Get`、`GEt`、`GET`，can be accurately identified. But default export as `export default xxx` will be map to `Get`。
 
-* Multiple functions of different Methods can be defined in one file, but if multiple functions of the same Method are defined, only the first will take effect.
+- Multiple functions of different Methods can be defined in one file, but if multiple functions of the same Method are defined, only the first will take effect.
 
 :::info
 It should be noted that the defined functions should all be asynchronous, which is related to the type when the function is called, which will be mentioned later.
@@ -149,27 +149,25 @@ Dynamic routing will be used as imported parameters in the first part of the fun
 ```ts title="api/[level]/[id].ts"
 export default async (level: number, id: number) => {
   const userData = await queryUser(level, uid);
-  return userData
-}
+  return userData;
+};
 ```
 
 Pass dynamic parameters directly when calling:
 
 ```ts title="App.tsx"
-import { useState, useEffect } from 'react'
-import { get as getUser } from '@api/[level]/[id]'
+import { useState, useEffect } from 'react';
+import { get as getUser } from '@api/[level]/[id]';
 
 export default () => {
-  const [name, setName] = useState('')
+  const [name, setName] = useState('');
 
   useEffect(() => {
-    getUser(6, 001).then(
-      userData => setName(userData.name)
-    )
-  }, [])
+    getUser(6, 001).then(userData => setName(userData.name));
+  }, []);
 
-  return <div>{name}</div>
-}
+  return <div>{name}</div>;
+};
 ```
 
 #### RequestOption
@@ -179,11 +177,12 @@ The parameter after Dynamic Path is the object `RequestOption` containing querys
 In normal functions without dynamic routing, the incoming `data` and `query` can be obtained from the first imported parameter, for example:
 
 ```ts title="api/hello.ts"
-import type { RequestOption } from '@modern-js/runtime/server'
+import type { RequestOption } from '@modern-js/runtime/server';
 
-export async function post(
-  { query, data }: RequestOption<Record<string, string>, Record<string, string>>
-) {
+export async function post({
+  query,
+  data,
+}: RequestOption<Record<string, string>, Record<string, string>>) {
   // do somethings
 }
 ```
@@ -194,7 +193,10 @@ When a function file uses dynamic routing rules, dynamic routing before the `Req
 export async function post(
   sku: string,
   id: string,
-  { data, query }: RequestOption<Record<string, string>, Record<string, string>>
+  {
+    data,
+    query,
+  }: RequestOption<Record<string, string>, Record<string, string>>,
 ) {
   // do somethings
 }
@@ -203,18 +205,22 @@ export async function post(
 Also pass in the parameters according to the function definition:
 
 ```ts title="App.tsx"
-import { post } from '@api/[sku]/[id]/item'
+import { post } from '@api/[sku]/[id]/item';
 
 export default () => {
   const addSku = () => {
-    post('0001'/* sku */, '1234' /* id */, {
-      query: { /* ... */ },
-      data: { /* ... */ },
-    })
-  }
+    post('0001' /* sku */, '1234' /* id */, {
+      query: {
+        /* ... */
+      },
+      data: {
+        /* ... */
+      },
+    });
+  };
 
-  return <div onClick={addSku}>添加 SKU</div>
-}
+  return <div onClick={addSku}>添加 SKU</div>;
+};
 ```
 
 As mentioned earlier, the defined functions should be asynchronous because they are automatically converted to HTTP interface calls when called by the front end.

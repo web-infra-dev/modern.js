@@ -96,7 +96,6 @@ Modern.js 默认开启 [自动生成 actions](./auto-actions.md)，所以 `stepM
 
 ![communicate-models](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/models-communicate.gif)
 
-
 :::info 补充信息
 - 本节完整的[示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/models-communication)。
 - 相关 API 的更多介绍，请参考：[model](/docs/apis/app/runtime/model/model_#函数类型)。
@@ -132,7 +131,6 @@ const fooModel = model('foo').define((context, utils) => {
 
 这样，我们不需要在 `loadA`、`loadB` 中重复获取 `barModel` 对象，简化了代码逻辑。
 
-
 ## Model 内通信
 
 Model 内通信，也主要分为两种场景：
@@ -140,7 +138,7 @@ Model 内通信，也主要分为两种场景：
 1. Effects 函数调用自身 Model 的 Actions 函数、或其他 Effects 函数。
 2. Actions 函数调用自身 Model 的 其他 Actions 函数。
 
-在 [副作用管理](/docs/guides/topic-detail/model/manage-effects)  一节，我们演示过 Effects 函数如何调用 Actions 函数。
+在 [副作用管理](/docs/guides/topic-detail/model/manage-effects) 一节，我们演示过 Effects 函数如何调用 Actions 函数。
 
 这里我们再来举一个例子：
 
@@ -216,4 +214,3 @@ const fooModel = model('foo').define((context, { use, onMount }) => {
 ```
 
 这样，我们也可以实现代码的简化。
-

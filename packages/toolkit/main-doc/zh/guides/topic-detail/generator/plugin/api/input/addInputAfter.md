@@ -42,7 +42,7 @@ context.addInputAfter('packageManager', {
       ],
     },
   },
-})
+});
 ```
 
 :::info
@@ -50,7 +50,7 @@ context.addInputAfter('packageManager', {
 
 1. 添加问题的 key 不能和 Modern.js 提供的项目类型自身的问题的 key 重复
 
-2. 添加问题 `addInputAfter` 的优先级高于 `addInputBefore`，当同时对一个 `key` 添加 After 问题和对其后一个key 添加 Before 问题时，After 问题会在 Before 之前。
+2. 添加问题 `addInputAfter` 的优先级高于 `addInputBefore`，当同时对一个 `key` 添加 After 问题和对其后一个 key 添加 Before 问题时，After 问题会在 Before 之前。
 
 3. 当需要在相同 `key` 前面或者后面添加多个问题时，可多次调用该方法，问题的顺序会按照调用顺序进行排列。
 :::

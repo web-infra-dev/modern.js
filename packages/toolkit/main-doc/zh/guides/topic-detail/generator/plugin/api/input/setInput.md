@@ -38,5 +38,5 @@ export interface IPluginContext {
 修改 packageName 的展示名称
 
 ```ts
-context.setInput('packageName', 'title', "展示名称");
+context.setInput('packageName', 'title', '展示名称');
 ```

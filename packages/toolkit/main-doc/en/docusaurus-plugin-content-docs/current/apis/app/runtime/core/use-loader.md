@@ -21,14 +21,14 @@ type Options = {
   skip: boolean;
   params: Record<string, any>;
   static: boolean;
-}
+};
 type ReturnData = {
   data: Record<string, any>;
   loading: boolean;
   error: Error;
   reload: (params?: Record<string, any>) => Promise<any> | undefined;
   reloading: boolean;
-}
+};
 
 function useLoader(loaderFn: LoaderFn, options: Options): ReturnData;
 ```

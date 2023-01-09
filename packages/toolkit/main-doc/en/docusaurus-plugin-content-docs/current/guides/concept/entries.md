@@ -69,11 +69,10 @@ You can change the entry directory to another directory by [source.entriesDir](/
 
 Not all first-level directories under `src/` will become project entrances. The directory where the entry is located must meet one of the following four conditions:
 
-
 1. Directory with `routes/`
 2. Has the `App.[jt]sx?` file
 3. With `index.[jt]sx?` file
-2. With `pages/` directory (compatible Modern.js 1.0)
+4. With `pages/` directory (compatible Modern.js 1.0)
 
 When the `src/` directory satisfies the entry feature, the Modern.js considers the current project to be a single entry application.
 

@@ -4,6 +4,7 @@ title: 使用 Model
 ---
 
 ## 在组件内使用
+
 ### 作为全局状态使用
 
 通过 `useModel` 可以获取 Model 的 State、Actions 等。当 Model 的 State 通过 Actions 进行修改后，任何其他使用了该 Model 的组件，都会自动重新渲染。
@@ -59,7 +60,6 @@ actions = {
 ```
 
 `useModel` 还支持对 State 和 Actions 做 selector 操作，实现对 State 和 Actions 的筛选或重命名，例如：
-
 
 ```ts
 const fooModel = model('foo').define({
@@ -172,7 +172,7 @@ function ThreeComponent() {
 
 例如，我们修改计数器应用的代码，添加一个有局部状态的计数器组件 `LocalCounter`：
 
-``` ts
+```ts
 import { useLocalModel } from '@modern-js/runtime/model';
 
 function LocalCounter() {
@@ -193,8 +193,6 @@ function LocalCounter() {
 
 完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/local-model)查看。
 
-
-
 ## 在组件外使用
 
 在实际业务场景中，有时候我们需要在 React 组件外使用 Model，例如在工具函数中访问 State、执行 Actions 等。这个时候，我们就需要使用 Store。 Store 是一个底层概念，一般情况下用户接触不到，它负责存储和管理整个应用的状态。Reduck 的 Store 基于 [Redux 的 Store](https://redux.js.org/api/store) 实现，增加了 Reduck 特有的 API，如 `use` 。
@@ -202,17 +200,21 @@ function LocalCounter() {
 首先，在组件内调用 `useStore` 获取当前应用使用的 `store` 对象，并挂载到组件外的变量上：
 
 ```ts
-let store;  // 组件外部 `store` 对象的引用
-function setStore(s) { store = s };
-function getStore() { return store };
+let store; // 组件外部 `store` 对象的引用
+function setStore(s) {
+  store = s;
+}
+function getStore() {
+  return store;
+}
 
 function Counter() {
   const [state] = useModel(countModel);
   const store = useStore();
   // 通过 useMemo 避免不必要的重复设置
-  useMemo(()=> {
-    setStore(store)
-  }, [store])
+  useMemo(() => {
+    setStore(store);
+  }, [store]);
 
   return (
     <div>
@@ -226,11 +228,11 @@ function Counter() {
 执行自增操作：
 
 ```ts
- setInterval(() => {
+setInterval(() => {
   const store = getStore();
   const [, actions] = store.use(countModel);
   actions.add();
-}, 1000)
+}, 1000);
 ```
 
 完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react)查看。

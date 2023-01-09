@@ -3,7 +3,7 @@ title: HTML Template
 sidebar_position: 9
 ---
 
-Modern.js provides **JSX syntax**  and **HTML(Ejs) syntax** for customizing HTML template.
+Modern.js provides **JSX syntax** and **HTML(Ejs) syntax** for customizing HTML template.
 
 ## JSX syntax
 
@@ -68,7 +68,7 @@ import {
   Head,
   Body,
   Scripts,
-  DocumentContext
+  DocumentContext,
 } from '@modern-js/runtime/document';
 
 export default function Document(): React.ReactElement {
@@ -103,41 +103,48 @@ The above JSX component will generate the following HTML template:
 ```html
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="renderer" content="webkit">
-    <meta name="layoutmode" content="standard">
-    <meta name="imagemode" content="force">
-    <meta name="wap-font-scale" content="no">
-    <meta name="format-detection" content="telephone=no">
-    <script>...</script>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="renderer" content="webkit" />
+    <meta name="layoutmode" content="standard" />
+    <meta name="imagemode" content="force" />
+    <meta name="wap-font-scale" content="no" />
+    <meta name="format-detection" content="telephone=no" />
+    <script>
+      ...
+    </script>
     <script defer src="/static/js/lib-react.js"></script>
     <script defer src="/static/js/lib-polyfill.js"></script>
     <script defer src="/static/js/lib-router.js"></script>
-    <script defer
-        src="/static/js/vendors-node_modules_pnpm_loadable_component_5_15_2_react_18_2_0_node_modules_loadable_compon-3fb0cf.js"></script>
-    <script defer
-        src="/static/js/packages_runtime_plugin-router-legacy_dist_js_treeshaking_runtime_index_js-packages_runtime_p-28f4c9.js"></script>
+    <script
+      defer
+      src="/static/js/vendors-node_modules_pnpm_loadable_component_5_15_2_react_18_2_0_node_modules_loadable_compon-3fb0cf.js"
+    ></script>
+    <script
+      defer
+      src="/static/js/packages_runtime_plugin-router-legacy_dist_js_treeshaking_runtime_index_js-packages_runtime_p-28f4c9.js"
+    ></script>
     <script defer src="/static/js/sub.js"></script>
     <link href="https://www.baidu.com" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="root">
-        <!--<?- html ?>-->
-        <h1 style="color:red">Some Params：</h1>
-        <h2> entryName：sub</h2>
-        <h2> title：</h2>
-        <h2> rootId: root</h2>
+      <!--<?- html ?>-->
+      <h1 style="color:red">Some Params：</h1>
+      <h2>entryName：sub</h2>
+      <h2>title：</h2>
+      <h2>rootId: root</h2>
     </div>
     <h1>bottom</h1>
     <!--<?- chunksMap.js ?>-->
     <!--<?- SSRDataScript ?>-->
-</body>
+  </body>
 </html>
 ```
 
@@ -161,26 +168,27 @@ In the application root directory, create the `config/html/` directory, which su
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <%= meta %>
-  <title><%= title %></title>
-  <%= topTemplate %>
+  <head>
+    <%= meta %>
+    <title><%= title %></title>
+    <%= topTemplate %>
 
-  <script>
-    window.__assetPrefix__ = '<%= assetPrefix %>';
-  </script>
-  <%= headTemplate %>
-  <!-- webpack inject css -->
-</head>
-<body>
-  <noscript>
-    We're sorry but react app doesn't work properly without JavaScript enabled. Please enable it to continue.
-  </noscript>
-  <div id="<%= mountId %>"></div>
-  <%= bodyTemplate %>
-  <!-- webpack inject js -->
-  <!--<?- bottomTemplate ?>-->
-</body>
+    <script>
+      window.__assetPrefix__ = '<%= assetPrefix %>';
+    </script>
+    <%= headTemplate %>
+    <!-- webpack inject css -->
+  </head>
+  <body>
+    <noscript>
+      We're sorry but react app doesn't work properly without JavaScript
+      enabled. Please enable it to continue.
+    </noscript>
+    <div id="<%= mountId %>"></div>
+    <%= bodyTemplate %>
+    <!-- webpack inject js -->
+    <!--<?- bottomTemplate ?>-->
+  </body>
 </html>
 ```
 
@@ -220,7 +228,7 @@ The fragment in the `config/html/` directory are valid for all entries in the ap
 
 For example, the following HTML fragment is only valid for `entry1`:
 
-```html
+```bash
 .
 ├── config/
 │   └── html/

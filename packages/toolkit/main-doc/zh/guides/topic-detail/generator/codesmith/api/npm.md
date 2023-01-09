@@ -8,13 +8,13 @@ sidebar_position: 7
 
 ## 使用姿势
 
-```typescript
+```ts
 import { NpmAPI } from '@modern-js/codesmith-api-npm';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const npmApi = new NpmAPI(generator);
   await npmApi.pnpmInstall();
-}
+};
 ```
 
 - 创建 NpmAPI 实例，参数为微生成器函数参数的 generator，具体介绍请看微生成器项目组成 。
@@ -35,6 +35,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 使用 yarn 安装依赖。
 
 参数：
+
 - cwd?: `string` install 命令的执行目录，默认为微生成器 `outputPath`。
 
 ### pnpmInstall
@@ -42,4 +43,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 使用 pnpm 安装依赖。
 
 参数：
+
 - cwd?: `string` install 命令的执行目录，默认为微生成器 `outputPath`。
