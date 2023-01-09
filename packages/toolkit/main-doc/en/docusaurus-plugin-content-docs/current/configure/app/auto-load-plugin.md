@@ -16,7 +16,7 @@ By default, installing the plugin requires you to register the plugin manually i
 import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 import I18nPlugin from '@modern-js/plugin-i18n';
 
-default export defineConfig({
+export default defineConfig({
   plugins: [AppToolsPlugin(), I18nPlugin()]
 })
 
@@ -29,7 +29,7 @@ In addition to means registration, Modern.js also provides a way to automaticall
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
 
-default export defineConfig({
+export default defineConfig({
   autoLoadPlugins: true
 })
 ```
