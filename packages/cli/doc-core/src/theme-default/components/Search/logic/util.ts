@@ -1,5 +1,7 @@
 import type { Header } from './search';
 
+const MAX_TITLE_LENGTH = 20;
+
 export function backTrackHeaders(
   rawHeaders: Header[],
   index: number,
@@ -32,4 +34,10 @@ export function normalizeContent(content: string) {
   // Do not match the content in code block
   // Do not match the frontmatter
   return content.replace(/```(.*?)```/gms, '').replace(/---(.*?)---/gms, '');
+}
+
+export function formatText(text: string) {
+  return text.length > MAX_TITLE_LENGTH
+    ? `${text.slice(0, MAX_TITLE_LENGTH)}...`
+    : text;
 }

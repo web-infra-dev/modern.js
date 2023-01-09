@@ -4,6 +4,7 @@ import LoadingSvg from './assets/loading.svg';
 import type { MatchResultItem, PageSearcher } from './logic/search';
 import styles from './index.module.scss';
 import { SuggestionContent } from './Suggestion';
+import { formatText } from './logic/util';
 import { usePageData } from '@/runtime';
 
 const KEY_CODE = {
@@ -197,7 +198,7 @@ export function Search(props: SearchOptions) {
                       width: '35%',
                     }}
                   >
-                    {item.title}
+                    {formatText(item.title)}
                   </div>
                   <SuggestionContent
                     suggestion={item}

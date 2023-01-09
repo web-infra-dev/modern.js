@@ -62,10 +62,12 @@
 
   --modern-c-blue: #0095ff;
   --modern-c-blue-light: #00aaff;
-  --modern-c-blue-lighter: #00bfff;
+  --modern-c-blue-lighter: #ecf4ff;
   --modern-c-blue-dark: #0077ff;
-  --modern-c-blue-darker: #0055ff;
-  --modern-c-blue-dimm: rgba(100, 108, 255, 0.08);
+  --modern-c-blue-darker: #3367af;
+  --modern-c-blue-dimm-1: rgba(0, 149, 255, 0.5);
+  --modern-c-blue-dimm-2: rgba(0, 149, 255, 0.25);
+  --modern-c-blue-dimm-3: rgba(0, 149, 255, 0.05);
 
   --modern-c-yellow: #ffc517;
   --modern-c-yellow-light: #fcd253;
@@ -269,9 +271,9 @@
 :root {
   --modern-custom-block-code-font-size: 13px;
 
-  --modern-custom-block-info-border: var(--modern-c-divider-light);
-  --modern-custom-block-info-text: var(--modern-c-text-2);
-  --modern-custom-block-info-bg: var(--modern-c-white-soft);
+  --modern-custom-block-info-border: var(--modern-c-blue-dimm-1);
+  --modern-custom-block-info-text: var(--modern-c-brand);
+  --modern-custom-block-info-bg: var(--modern-c-blue-lighter);
   --modern-custom-block-info-code-bg: var(--modern-c-gray-light-4);
 
   --modern-custom-block-tip-border: var(--modern-c-green-dimm-1);
@@ -318,7 +320,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --modern-sidebar-width: 272px;
+  --modern-sidebar-width: 300px;
 }
 
 /**

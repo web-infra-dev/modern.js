@@ -83,7 +83,7 @@ export function Nav(props: NavProps) {
     ? {
         items: localeLanguages.map(item => ({
           text: item.label,
-          link: replaceLang(pathname, item.lang, defaultLang, langs),
+          link: replaceLang(pathname, item.lang, defaultLang, langs, base),
         })),
         activeIndex: localeLanguages.findIndex(
           item => item.lang === localeData.lang,

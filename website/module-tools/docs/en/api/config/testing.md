@@ -5,7 +5,8 @@ sidebar_position: 5
 # Testing
 
 This chapter describes the test-related configuration
-:::tips
+
+:::tip
 You need to enable the unit testing feature with `pnpm run new` first.
 :::
 
