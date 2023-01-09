@@ -120,8 +120,8 @@ Modern.js 集成了主流、轻量、通用的 Utility Class 工具库 [Tailwind
 在 `modern.config.ts` 中注册 Tailwind 插件:
 
 ```ts title="modern.config.ts"
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -132,7 +132,7 @@ export default defineConfig({
   server: {
     ssr: true,
   },
-  plugins: [AppToolsPlugin(), TailwindCSSPlugin()],
+  plugins: [appTools(), tailwindcssPlugin()],
 });
 ```
 

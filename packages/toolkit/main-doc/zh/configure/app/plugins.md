@@ -43,10 +43,10 @@ Modern.js 中内置了三种不同的框架插件：
 使用 npm 上的插件，需要通过包管理器安装插件，并通过 import 引入。
 
 ```ts title="modern.config.ts"
-import MyPlugin from 'my-plugin';
+import myPlugin from 'my-plugin';
 
 export default defineConfig({
-  plugins: [MyPlugin()],
+  plugins: [myPlugin()],
 });
 ```
 
@@ -55,10 +55,10 @@ export default defineConfig({
 使用本地代码仓库中的插件，直接通过相对路径 import 引入即可。
 
 ```ts title="modern.config.ts"
-import MyPlugin from './config/plugin/MyPlugin';
+import myPlugin from './config/plugin/myPlugin';
 
 export default defineConfig({
-  plugins: [MyPlugin()],
+  plugins: [myPlugin()],
 });
 ```
 
@@ -67,11 +67,11 @@ export default defineConfig({
 如果插件提供了一些自定义的配置项，可以通过插件函数的参数传入配置。
 
 ```ts title="modern.config.ts"
-import MyPlugin from 'my-plugin';
+import myPlugin from 'my-plugin';
 
 export default defineConfig({
   plugins: [
-    MyPlugin({
+    myPlugin({
       foo: 1,
       bar: 2,
     }),

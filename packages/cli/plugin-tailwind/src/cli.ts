@@ -9,7 +9,7 @@ import {
 } from '@modern-js/utils';
 import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
-import DesignTokenPlugin from './design-token/cli';
+import designTokenPlugin from './design-token/cli';
 import { getTailwindConfig } from './tailwind';
 import {
   template,
@@ -38,7 +38,7 @@ export default (
 
   // support designSystem.supportStyledComponents
   usePlugins: [
-    DesignTokenPlugin({
+    designTokenPlugin({
       pluginName,
     }),
   ],

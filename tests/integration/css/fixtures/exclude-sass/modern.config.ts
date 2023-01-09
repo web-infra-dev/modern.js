@@ -1,4 +1,4 @@
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import appTools, { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   tools: {
@@ -9,5 +9,5 @@ export default defineConfig({
   output: {
     enableAssetFallback: true,
   },
-  plugins: [AppToolsPlugin()],
+  plugins: [appTools()],
 });

@@ -54,9 +54,9 @@ export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
 Then we register the plugin we just wrote via the [`plugins`](/en/api/config/plugins) API.
 
 ```ts . /modern.config.ts
-import { ExamplePlugin } from '. /plugins/example';
+import { examplePlugin } from '. /plugins/example';
 export default defineConfig({
-  plugins: [ExamplePlugin()],
+  plugins: [examplePlugin()],
 });
 ```
 

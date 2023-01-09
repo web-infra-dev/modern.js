@@ -19,11 +19,11 @@ Modern.js 作为以客户端为中心的开发框架，对服务端的定制能�
 执行命令后，在 `modern.config.ts` 中注册 Server 插件:
 
 ```ts title="modern.config.ts"
-import ServerPlugin from '@modern-js/plugin-server';
+import serverPlugin from '@modern-js/plugin-server';
+
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
-  ...,
-  plugins: [..., ServerPlugin()],
+  plugins: [..., serverPlugin()],
 });
 ```
 

@@ -17,11 +17,11 @@ After executing the above command, the `"test": "modern test"` command will be a
 register plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import TestPlugin from '@modern-js/plugin-testing';
+import testPlugin from '@modern-js/plugin-testing';
+
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
-  ...,
-  plugins: [..., TestPlugin()],
+  plugins: [..., testPlugin()],
 });
 ```
 

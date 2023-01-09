@@ -15,15 +15,14 @@ SSG（Static Site Generation）是一种基于数据与模板，在构建时渲�
 执行命令后，在 `modern.config.ts` 中注册 SSG 插件：
 
 ```ts title="modern.config.ts"
-import SSGPlugin from '@modern-js/plugin-ssg';
+import ssgPlugin from '@modern-js/plugin-ssg';
+
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
-  ...,
   output: {
-    ...,
     ssg: true,
   },
-  plugins: [..., SSGPlugin()],
+  plugins: [..., ssgPlugin()],
 });
 ```
 

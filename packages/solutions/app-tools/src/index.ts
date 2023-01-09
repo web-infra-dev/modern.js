@@ -1,10 +1,10 @@
 import path from 'path';
-import LintPlugin from '@modern-js/plugin-lint';
+import lintPlugin from '@modern-js/plugin-lint';
 import { cleanRequireCache, emptyDir, Import, Command } from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
-import AnalyzePlugin from './analyze';
-import InitializePlugin from './initialize';
+import analyzePlugin from './analyze';
+import initializePlugin from './initialize';
 import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
@@ -120,7 +120,7 @@ export default (): CliPlugin<AppTools> => ({
 
   registerHook: hooks,
 
-  usePlugins: [InitializePlugin(), AnalyzePlugin(), LintPlugin()],
+  usePlugins: [initializePlugin(), analyzePlugin(), lintPlugin()],
 
   setup: api => {
     const locale = getLocaleLanguage();

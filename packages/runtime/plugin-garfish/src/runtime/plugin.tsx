@@ -50,7 +50,7 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
   };
 }
 
-// export default GarfishPlugin;
+// export default garfishPlugin;
 export default (config: Config): Plugin => ({
   name: '@modern-js/garfish-plugin',
   setup: () => {

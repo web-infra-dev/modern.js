@@ -19,7 +19,7 @@ $ npx @modern-js/create modern-js-demo
 
 我们先创建一个 Hook 模型：
 
-```ts title=config/plugin/MyPlugin.ts
+```ts title=config/plugin/myPlugin.ts
 import { createWaterfall } from '@modern-js/plugin';
 
 const message = createWaterfall<string[]>();
@@ -27,7 +27,7 @@ const message = createWaterfall<string[]>();
 
 然后注册它：
 
-```ts title=config/plugin/MyPlugin.ts
+```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
 
 export default (): CliPlugin => ({
@@ -41,7 +41,7 @@ export default (): CliPlugin => ({
 
 添加 Hook 类型：
 
-```ts title=config/plugin/MyPlugin.ts
+```ts title=config/plugin/myPlugin.ts
 declare module '@modern-js/core' {
   export interface Hooks {
     message: typeof message;
@@ -53,7 +53,7 @@ declare module '@modern-js/core' {
 
 创建插件，通过 `commands` Hook 函数，添加命令处理逻辑：
 
-```ts title=config/plugin/MyPlugin.ts
+```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
 
 export default (): CliPlugin => ({
@@ -73,9 +73,9 @@ export default (): CliPlugin => ({
 });
 ```
 
-最后 `config/plugin/MyPlugin.ts` 的状态是：
+最后 `config/plugin/myPlugin.ts` 的状态是：
 
-```ts title=config/plugin/MyPlugin.ts
+```ts title=config/plugin/myPlugin.ts
 import { createWaterfall } from '@modern-js/plugin';
 import type { CliPlugin } from '@modern-js/core';
 
@@ -112,10 +112,10 @@ declare module '@modern-js/core' {
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import MyPlugin from './config/plugin/MyPlugin';
+import myPlugin from './config/plugin/myPlugin';
 
 export default defineConfig({
-  plugins: [MyPlugin()],
+  plugins: [myPlugin()],
 });
 ```
 
@@ -123,11 +123,11 @@ export default defineConfig({
 
 那这里我们添加一个：
 
-```ts title=config/plugin/OtherPlugin.ts
+```ts title=config/plugin/otherPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
 
 export default (): CliPlugin => ({
-  name: 'my-plugin',
+  name: 'other-plugin',
 
   setup(api) {
     return {
@@ -143,11 +143,11 @@ export default (): CliPlugin => ({
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import MyPlugin from './config/plugin/MyPlugin';
-import OtherPlugin from './config/plugin/OtherPlugin';
+import myPlugin from './config/plugin/myPlugin';
+import otherPlugin from './config/plugin/otherPlugin';
 
 export default defineConfig({
-  plugins: [MyPlugin(), OtherPlugin()],
+  plugins: [myPlugin(), otherPlugin()],
 });
 ```
 
