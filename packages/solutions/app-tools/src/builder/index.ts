@@ -93,7 +93,7 @@ export function createBuilderProviderConfig(
     output,
     dev: {
       ...normalizedConfig.dev,
-      port: normalizedConfig.server?.port,
+      port: appContext.port,
     },
     html: htmlConfig,
   };
