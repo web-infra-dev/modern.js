@@ -13,13 +13,12 @@ Used to configure whether Modern.js enables auto-registration of plugins.
 By default, installing the plugin requires you to register the plugin manually in the `modern.config.ts`.
 
 ```ts title="modern.config.ts"
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import I18nPlugin from '@modern-js/plugin-i18n';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import i18nPlugin from '@modern-js/plugin-i18n';
 
 export default defineConfig({
-  plugins: [AppToolsPlugin(), I18nPlugin()]
-})
-
+  plugins: [appTools(), i18nPlugin()],
+});
 ```
 
 ### Auto Registration plugin
@@ -30,8 +29,8 @@ In addition to means registration, Modern.js also provides a way to automaticall
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
-  autoLoadPlugins: true
-})
+  autoLoadPlugins: true,
+});
 ```
 
 Modern.js will help you automatically register the plugin by following these steps

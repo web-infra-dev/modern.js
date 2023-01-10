@@ -16,11 +16,11 @@ sidebar_position: 2
 在 `modern.config.ts` 中注册 Tailwind 插件:
 
 ```ts title="modern.config.ts"
-import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
+import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
+
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
-  ...,
-  plugins: [..., TailwindCSSPlugin()],
+  plugins: [..., tailwindcssPlugin()],
 });
 ```
 

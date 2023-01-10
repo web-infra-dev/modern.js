@@ -1,4 +1,4 @@
-import ModuleToolsPlugin, { defineConfig, legacyPresets } from '../src';
+import moduleTools, { defineConfig, legacyPresets } from '../src';
 
 describe('index', () => {
   it('defineConfig', () => {
@@ -6,7 +6,7 @@ describe('index', () => {
   });
 
   it('Plugin', () => {
-    expect(ModuleToolsPlugin()).toBeDefined();
+    expect(moduleTools()).toBeDefined();
   });
 
   it('legacyPresets', () => {

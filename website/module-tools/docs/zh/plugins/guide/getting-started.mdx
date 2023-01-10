@@ -54,9 +54,9 @@ export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
 然后我们通过 [`plugins`](/api/config/plugins) API，将刚刚写好的插件进行注册。
 
 ```ts ./modern.config.ts
-import { ExamplePlugin } from './plugins/example';
+import { examplePlugin } from './plugins/example';
 export default defineConfig({
-  plugins: [ExamplePlugin()],
+  plugins: [examplePlugin()],
 });
 ```
 

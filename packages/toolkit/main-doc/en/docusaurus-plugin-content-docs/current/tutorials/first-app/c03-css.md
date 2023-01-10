@@ -120,8 +120,8 @@ Execute `pnpm run new` and select the following to start Tailwind CSS:
 Register the Tailwind plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -132,7 +132,7 @@ export default defineConfig({
   server: {
     ssr: true,
   },
-  plugins: [AppToolsPlugin(), TailwindCSSPlugin()],
+  plugins: [appTools(), tailwindcssPlugin()],
 });
 ```
 

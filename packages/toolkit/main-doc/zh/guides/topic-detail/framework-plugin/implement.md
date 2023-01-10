@@ -13,7 +13,7 @@ Modern.js 插件是一个对象，对象包含以下属性：
 - `setup`: 插件初始化函数，只会执行一次。setup 函数可以返回一个 Hooks 对象，Modern.js 会在特定的时机执行这些 Hooks。
 
 ```ts
-const MyPlugin = {
+const myPlugin = {
   name: 'my-plugin',
 
   setup() {
@@ -51,7 +51,7 @@ Modern-js 支持多种工程开发，如应用工程(app-tools), 模块工程(mo
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-const MyPlugin: CliPlugin = {
+const myPlugin: CliPlugin = {
   name: 'my-plugin',
 
   setup() {
@@ -71,7 +71,7 @@ const MyPlugin: CliPlugin = {
 ```ts
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-const MyPlugin: CliPlugin<AppTools> = {
+const myPlugin: CliPlugin<AppTools> = {
   name: 'my-plugin',
 
   setup() {
@@ -103,7 +103,7 @@ type AppTools = {
 import type { CliPlugin } from '@modern-js/core';
 import type { MyPluginHook } from 'xxx';
 
-const MyPlugin: CliPlugin<{ hooks: MyPluginHook }> = {};
+const myPlugin: CliPlugin<{ hooks: MyPluginHook }> = {};
 ```
 
 ```ts
@@ -111,7 +111,7 @@ const MyPlugin: CliPlugin<{ hooks: MyPluginHook }> = {};
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import type { MyPluginHook } from 'xxx';
 
-const MyPlugin: CliPlugin<AppTools & { hooks: MyPluginHook }> = {};
+const myPlugin: CliPlugin<AppTools & { hooks: MyPluginHook }> = {};
 ```
 
 详细说明，请参考 [扩展 Hook](/docs/guides/topic-detail/framework-plugin/extend)。
@@ -127,7 +127,7 @@ type MyPluginOptions = {
   foo: string;
 };
 
-const MyPlugin = (options: MyPluginOptions): CliPlugin => ({
+const myPlugin = (options: MyPluginOptions): CliPlugin => ({
   name: 'my-plugin',
 
   setup() {
@@ -183,7 +183,7 @@ export default (): CliPlugin => ({
 
 本地插件推荐写在 `config/plugin` 目录下，并通过 `export default` 导出：
 
-```ts title=config/plugin/MyPlugin.ts
+```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
 
 export default (): CliPlugin => ({
@@ -199,10 +199,10 @@ export default (): CliPlugin => ({
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import MyPlugin from './config/plugin/MyPlugin';
+import myPlugin from './config/plugin/myPlugin';
 
 export default defineConfig({
-  plugins: [MyPlugin()],
+  plugins: [myPlugin()],
 });
 ```
 
@@ -237,10 +237,10 @@ export default (): CliPlugin => ({
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import MyPlugin from 'my-plugin';
+import myPlugin from 'my-plugin';
 
 export default defineConfig({
-  plugins: [MyPlugin()],
+  plugins: [myPlugin()],
 });
 ```
 

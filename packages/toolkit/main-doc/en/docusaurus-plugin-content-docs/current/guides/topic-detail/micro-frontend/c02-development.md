@@ -69,8 +69,8 @@ npx @modern-js/create
 接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
 
 ```js title="modern.config.ts"
-import AppToolPlugin, { defineConfig } from '@modern-js/app-tools';
-import GarfishPlugin from '@modern-js/plugin-garfish';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import garfishPlugin from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   runtime: {
@@ -80,7 +80,7 @@ export default defineConfig({
   deploy: {
     microFrontend: true,
   },
-  plugins: [AppToolPlugin(), GarfishPlugin()],
+  plugins: [appTools(), garfishPlugin()],
 });
 ```
 
@@ -107,8 +107,8 @@ npx @modern-js/create
 接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
 
 ```js title="modern.config.ts"
-import AppToolPlugin, { defineConfig } from '@modern-js/app-tools';
-import GarfishPlugin from '@modern-js/plugin-garfish';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import garfishPlugin from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   runtime: {
@@ -118,7 +118,7 @@ export default defineConfig({
   deploy: {
     microFrontend: true,
   },
-  plugins: [AppToolPlugin(), GarfishPlugin()],
+  plugins: [appTools(), garfishPlugin()],
 });
 ```
 
