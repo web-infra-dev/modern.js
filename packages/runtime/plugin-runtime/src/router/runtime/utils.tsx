@@ -6,7 +6,7 @@ import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 
 const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
-  const { children, index, id, component: Component } = nestedRoute;
+  const { children, index, id, component: Component, isRoot } = nestedRoute;
 
   const routeProps: Omit<RouteProps, 'children'> = {
     caseSensitive: nestedRoute.caseSensitive,
@@ -32,22 +32,26 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   if (Component) {
     if (parent?.loading) {
       const Loading = parent.loading;
-      element = (
-        <Suspense fallback={<Loading />}>
-          <Component />
-        </Suspense>
-      );
-    } else if (!parent?.index) {
-      // If the parent component is a layout component and you don't define a loading component,
-      // wrap suspense to avoid the parent component flashing when switching routes.
-      // For example: There is a loading component under /a, the b component should not blink when switching from /a/b/c to /a/b/d
+      if (isLoadableComponent(Component as React.ComponentType<any>)) {
+        element = <Component fallback={<Loading />} />;
+      } else {
+        element = (
+          <Suspense fallback={<Loading />}>
+            <Component />
+          </Suspense>
+        );
+      }
+    } else if (
+      isLoadableComponent(Component as React.ComponentType<any>) ||
+      isRoot
+    ) {
+      element = <Component />;
+    } else {
       element = (
         <Suspense>
           <Component />
         </Suspense>
       );
-    } else {
-      element = <Component />;
     }
   } else {
     // If the component is undefined, it means that the current component is a fake layout component,
@@ -175,4 +179,13 @@ function createLoader(route: NestedRoute): LoaderFunction {
       return null;
     };
   }
+}
+
+function isLoadableComponent(component: React.ComponentType<any>) {
+  return (
+    component &&
+    component.displayName === 'Loadable' &&
+    (component as any).preload &&
+    typeof (component as any).preload === 'function'
+  );
 }
