@@ -98,9 +98,9 @@ export const ModuleNewActionPluginName: Partial<
   Record<ActionType, Record<string, string>>
 > = {
   [ActionType.Function]: {
-    [ActionFunction.TailwindCSS]: 'TailwindCSSPlugin',
-    [ActionFunction.Storybook]: 'StoryBookPlugin',
-    [ActionFunction.Test]: 'TestPlugin',
+    [ActionFunction.TailwindCSS]: 'tailwindCSSPlugin',
+    [ActionFunction.Storybook]: 'storybookPlugin',
+    [ActionFunction.Test]: 'testPlugin',
   },
 };
 
