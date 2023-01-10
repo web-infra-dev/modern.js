@@ -1,5 +1,6 @@
 export const queryRE = /\?.*$/s;
 export const hashRE = /#.*$/s;
+export const externalLinkRE = /^(https?:)/;
 
 export const isProduction = () => process.env.NODE_ENV === 'production';
 
