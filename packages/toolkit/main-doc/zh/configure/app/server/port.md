@@ -24,7 +24,7 @@ export default defineConfig({
 - `dev.port` 仅在开发环境下生效，`server.port` 在开发环境和生产环境下均能生效。
 - 在开发环境下，`dev.port` 的优先级高于 `server.port`。
 
-当你同时设置 `dev.port` 和 `server.port` 时，`dev.port` 会在开发环境下生效，`server.port` 会在生产环境下生效。比如以下示例，在开发环境下的端口号为 `3001`，在生产环境下的端口号为 `3002`。
+当你同时设置 `dev.port` 和 `server.port` 时，`dev.port` 会在开发环境下生效，`server.port` 会在生产环境下生效。比如以下例子，在开发环境下监听的端口号为 `3001`，在生产环境下监听的端口号为 `3002`。
 
 ```ts title="modern.config.ts"
 export default defineConfig({
