@@ -33,10 +33,10 @@ Below is an example of using the Builder plugin.
 To use a plugin on npm, you need to install the plugin through the package manager and import it.
 
 ```ts title="modern.config.ts"
-import MyBuilderPlugin from 'my-builder-plugin';
+import myBuilderPlugin from 'my-builder-plugin';
 
 export default defineConfig({
-  builderPlugins: [MyBuilderPlugin()],
+  builderPlugins: [myBuilderPlugin()],
 });
 ```
 
@@ -45,10 +45,10 @@ export default defineConfig({
 Use the plugin in the local code repository, you can import it directly through the relative path import.
 
 ```ts title="modern.config.ts"
-import MyBuilderPlugin from './plugin/myBuilderPlugin';
+import myBuilderPlugin from './plugin/myBuilderPlugin';
 
 export default defineConfig({
-  builderPlugins: [MyBuilderPlugin()],
+  builderPlugins: [myBuilderPlugin()],
 });
 ```
 
@@ -57,11 +57,11 @@ export default defineConfig({
 If the plugin provides some custom configuration options, you can pass in the configuration through the parameters of the plugin function.
 
 ```ts title="modern.config.ts"
-import MyBuilderPlugin from 'my-builder-plugin';
+import myBuilderPlugin from 'my-builder-plugin';
 
 export default defineConfig({
   builderPlugins: [
-    MyBuilderPlugin({
+    myBuilderPlugin({
       foo: 1,
       bar: 2,
     }),

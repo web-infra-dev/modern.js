@@ -52,11 +52,11 @@ exec `pnpm run new` to enable this features：
 After executing the command, register the Polyfill plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import PolyfillPlugin from '@modern-js/plugin-polyfill';
+import polyfillPlugin from '@modern-js/plugin-polyfill';
+
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
-  ...,
-  plugins: [..., PolyfillPlugin()],
+  plugins: [..., polyfillPlugin()],
 });
 ```
 

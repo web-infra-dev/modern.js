@@ -45,7 +45,7 @@ import DebugApp from '@site-docs/components/debug-app.md'
 可以通过配置文件来开启功能，或覆盖 Modern.js 的默认行为。例如添加如下配置，开启 SSR：
 
 ```ts
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import appTools, { defineConfig } from '@modern-js/app-tools';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -56,7 +56,7 @@ export default defineConfig({
   server: {
     ssr: true,
   },
-  plugins: [AppToolsPlugin()],
+  plugins: [appTools()],
 });
 ```
 

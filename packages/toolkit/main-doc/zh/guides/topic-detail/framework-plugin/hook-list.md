@@ -149,10 +149,10 @@ export default (): CliPlugin => ({
 将上面这个插件添加到 `modern.config.ts` 中：
 
 ```ts title="modern.config.ts"
-import MyPlugin from './config/plugin/MyPlugin';
+import myPlugin from './config/plugin/myPlugin';
 
 export default defineConfig({
-  plugins: [MyPlugin()],
+  plugins: [myPlugin()],
 });
 ```
 

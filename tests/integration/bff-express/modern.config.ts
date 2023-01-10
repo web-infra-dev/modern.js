@@ -1,6 +1,6 @@
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import BffPlugin from '@modern-js/plugin-bff';
-import ExpressPlugin from '@modern-js/plugin-express';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import bffPlugin from '@modern-js/plugin-bff';
+import expressPlugin from '@modern-js/plugin-express';
 
 export default defineConfig({
   server: {
@@ -9,5 +9,5 @@ export default defineConfig({
   bff: {
     prefix: '/bff-api',
   },
-  plugins: [AppToolsPlugin(), BffPlugin(), ExpressPlugin()],
+  plugins: [appTools(), bffPlugin(), expressPlugin()],
 });

@@ -81,7 +81,7 @@ The page has no styles at the moment. The next chapter will expand on this secti
 Next, we modify the `modern.config.ts` in the project to enable the SSR capability:
 
 ```ts
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import appTools, { defineConfig } from '@modern-js/app-tools';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -92,7 +92,7 @@ export default defineConfig({
   server: {
     ssr: true,
   },
-  plugins: [AppToolsPlugin()],
+  plugins: [appTools()],
 });
 ```
 

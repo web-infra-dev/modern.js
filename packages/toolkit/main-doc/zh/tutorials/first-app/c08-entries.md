@@ -93,8 +93,8 @@ mv src/myapp src/contacts
 现在，修改 `modern.config.ts` 里面添加内容：
 
 ```ts
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -108,7 +108,7 @@ export default defineConfig({
       'landing-page': false,
     },
   },
-  plugins: [AppToolsPlugin(), TailwindCSSPlugin()],
+  plugins: [appTools(), tailwindcssPlugin()],
 });
 ```
 

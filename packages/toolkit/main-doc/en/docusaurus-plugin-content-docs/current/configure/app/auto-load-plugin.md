@@ -13,11 +13,11 @@ Used to configure whether Modern.js enables auto-registration of plugins.
 By default, installing the plugin requires you to register the plugin manually in the `modern.config.ts`.
 
 ```ts title="modern.config.ts"
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import appTools, { defineConfig } from '@modern-js/app-tools';
 import I18nPlugin from '@modern-js/plugin-i18n';
 
 default export defineConfig({
-  plugins: [AppToolsPlugin(), I18nPlugin()]
+  plugins: [appTools(), I18nPlugin()]
 })
 
 ```

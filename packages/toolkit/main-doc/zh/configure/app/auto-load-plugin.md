@@ -13,11 +13,11 @@ sidebar_position: 11
 默认情况下，安装插件后需要你在 `modern.config.ts` 文件中手动注册插件。
 
 ```ts title="modern.config.ts"
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import appTools, { defineConfig } from '@modern-js/app-tools';
 import I18nPlugin from '@modern-js/plugin-i18n';
 
 default export defineConfig({
-  plugins: [AppToolsPlugin(), I18nPlugin()]
+  plugins: [appTools(), I18nPlugin()]
 })
 
 ```

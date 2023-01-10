@@ -3,7 +3,7 @@ import { act, render } from '@testing-library/react';
 import { createApp } from '@modern-js/runtime';
 import '@testing-library/jest-dom';
 
-import ModernGarfishPlugin, { useModuleApps } from '../src/runtime';
+import garfishPlugin, { useModuleApps } from '../src/runtime';
 
 global.React = React;
 
@@ -45,7 +45,7 @@ describe('plugin-garfish', () => {
     };
     await act(async () => {
       const AppWrapper = createApp({
-        plugins: [ModernGarfishPlugin(microFrontendConfig)],
+        plugins: [garfishPlugin(microFrontendConfig)],
       })(App);
       render(<AppWrapper />);
     });
