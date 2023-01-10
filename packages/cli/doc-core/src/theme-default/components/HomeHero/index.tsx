@@ -69,8 +69,8 @@ export function HomeHero() {
 
         {hasImage ? (
           <div
-            w="sm:max-80"
-            h="sm:max-80"
+            w="sm:max-60"
+            h="sm:max-60"
             flex="md:center"
             m="auto"
             order="1 md:2"
