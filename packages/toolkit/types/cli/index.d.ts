@@ -57,7 +57,7 @@ export type NestedRoute = Merge<
     childIds?: string[];
     filename?: string;
     _component?: string;
-    component?: string | React.ComponentType<any>;
+    component?: string;
     lazyImport?: () => Promise<any>;
     loading?: string;
     error?: string;

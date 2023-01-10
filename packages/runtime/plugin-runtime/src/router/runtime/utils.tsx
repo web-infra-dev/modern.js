@@ -6,7 +6,8 @@ import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 
 const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
-  const { children, index, id, component: Component, isRoot } = nestedRoute;
+  const { children, index, id, component, isRoot } = nestedRoute;
+  const Component = component as unknown as React.ComponentType<any>;
 
   const routeProps: Omit<RouteProps, 'children'> = {
     caseSensitive: nestedRoute.caseSensitive,
@@ -32,7 +33,7 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   if (Component) {
     if (parent?.loading) {
       const Loading = parent.loading;
-      if (isLoadableComponent(Component as React.ComponentType<any>)) {
+      if (isLoadableComponent(Component)) {
         element = <Component fallback={<Loading />} />;
       } else {
         element = (
@@ -41,10 +42,7 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
           </Suspense>
         );
       }
-    } else if (
-      isLoadableComponent(Component as React.ComponentType<any>) ||
-      isRoot
-    ) {
+    } else if (isLoadableComponent(Component) || isRoot) {
       element = <Component />;
     } else {
       element = (
