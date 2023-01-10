@@ -7,12 +7,32 @@ sidebar_label: port
 - 类型： `number`
 - 默认值： `8080`
 
-Modern.js 在执行 `dev`, `start` 和 `serve` 命令时，会以 `8080` 为默认端口启动，通过该配置可以修改 Server 启动的端口号：
+Modern.js 在执行 `dev`, `start` 和 `serve` 命令时，会以 `8080` 为默认端口启动，并会在端口被占用时自动递增端口号。你可以通过该配置来修改 Server 启动的端口号：
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     port: 3000,
+  },
+});
+```
+
+### 与 dev.port 的区别
+
+大多数情况下，我们推荐使用 `server.port` 而不是 `dev.port` 来设置端口号，他们之间的区别如下：
+
+- `dev.port` 仅在开发环境下生效，`server.port` 在开发环境和生产环境下均能生效。
+- 在开发环境下，`dev.port` 的优先级高于 `server.port`。
+
+当你同时设置 `dev.port` 和 `server.port` 时，`dev.port` 会在开发环境下生效，`server.port` 会在生产环境下生效。比如以下示例，在开发环境下的端口号为 `3001`，在生产环境下的端口号为 `3002`。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  dev: {
+    port: 3001,
+  },
+  server: {
+    port: 3002,
   },
 });
 ```
