@@ -3,7 +3,7 @@
 
 `tools.webpack` is used to configure [webpack](https://webpack.js.org/)。
 
-> [tools.webpackChain](#tools-webpackchain) is also used to modify the webpack configuration, and the function is more powerful. It is recommended to use `tools.webpackChain` first.
+> `tools.webpackChain` is also used to modify the webpack configuration, and the function is more powerful. It is recommended to use `tools.webpackChain` first.
 
 ### Object Type
 

@@ -49,7 +49,7 @@ export default {
 
 ## 如何配置静态资源的 CDN 路径？
 
-如果需要将 JS、CSS 等静态资源上传到 CDN 使用，那么可以通过 [output.assetPrefix](docs/apis/app/config/output/asset-prefix) 配置来设置静态资源的 URL 前缀。
+如果需要将 JS、CSS 等静态资源上传到 CDN 使用，那么可以通过 [output.assetPrefix](/api/config-output.html#outputassetprefix) 配置来设置静态资源的 URL 前缀。
 
 ```js
 export default {

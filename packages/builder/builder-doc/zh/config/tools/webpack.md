@@ -3,7 +3,7 @@
 
 `tools.webpack` 选项用于配置原生的 [webpack](https://webpack.js.org/)。
 
-> [tools.webpackChain](#tools-webpackchain) 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.webpackChain`。
+> `tools.webpackChain` 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.webpackChain`。
 
 ### Object 类型
 

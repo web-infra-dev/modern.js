@@ -49,7 +49,7 @@ export default {
 
 ## How to configure CDN path for static assets?
 
-If you need to upload static assets such as JS and CSS to CDN for use, you can set the URL prefix of static assets through the [output.assetPrefix](docs/apis/app/config/output/asset-prefix) configuration.
+If you need to upload static assets such as JS and CSS to CDN for use, you can set the URL prefix of static assets through the [output.assetPrefix](/api/config-output.html#outputassetprefix) configuration.
 
 ```js
 export default {

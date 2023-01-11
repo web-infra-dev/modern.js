@@ -1,6 +1,8 @@
 import path from 'path';
 import docTools, { defineConfig, Sidebar } from '@modern-js/doc-tools';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 function getI18nHelper(lang: 'zh' | 'en') {
   const cn = lang === 'zh';
   const prefix = cn ? '' : '/en';
@@ -165,8 +167,11 @@ export default defineConfig({
   doc: {
     root: path.join(__dirname, 'src'),
     lang: 'zh',
-    base: process.env.NODE_ENV === 'production' ? '/builder/' : '/',
+    base: isProd ? '/builder/' : '/',
     title: 'Modern.js Builder',
+    markdown: {
+      checkDeadLinks: isProd,
+    },
     themeConfig: {
       footer: {
         message: 'Copyright © 2022 ByteDance.',
