@@ -1,4 +1,4 @@
-export type JSONPrimitive = string | number | boolean | null;
+export type JSONPrimitive = string | number | boolean | null | undefined;
 
 export type JSONArray = Array<JSONValue>;
 
