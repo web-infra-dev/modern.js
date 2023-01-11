@@ -1,5 +1,5 @@
 import path from 'path';
-import { defineConfig, Sidebar } from '@modern-js/doc-tools';
+import docTools, { defineConfig, Sidebar } from '@modern-js/doc-tools';
 
 function getI18nHelper(lang: 'zh' | 'en') {
   const cn = lang === 'zh';
@@ -164,11 +164,11 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
 }
 
 export default defineConfig({
-  plugins: ['@modern-js/doc-tools'],
+  plugins: [docTools()],
   doc: {
     root: path.join(__dirname, 'src'),
     lang: 'zh',
-    base: '/builder/',
+    base: process.env.NODE_ENV === 'production' ? '/builder/' : '/',
     title: 'Modern.js Builder',
     themeConfig: {
       footer: {
@@ -192,14 +192,14 @@ export default defineConfig({
           outlineTitle: '目录',
           prevPageText: '上一页',
           nextPageText: '下一页',
-          description: '一个面向现代 Web 开发场景的构建引擎',
+          description: '一个面向 Web 开发场景的构建引擎',
         },
         {
           lang: 'en',
           label: 'English',
           nav: getNavbar('en'),
           title: 'Modern.js Builder',
-          description: 'A Build Engine for Modern Web Development',
+          description: 'A Build Engine for Web Development',
         },
       ],
     },
