@@ -4,9 +4,9 @@ sidebar_label: lazyCompilation
 ---
 
 :::info BUILDER
-This configuration is Modern.js Builder configuration, more detail can see [experiments.lazyCompilation](https://modernjs.dev/builder/zh/api/config-experiments.html#experiments-lazycompilation)。
+This configuration is Modern.js Builder configuration, more detail can see [experiments.lazyCompilation](https://modernjs.dev/builder/en/api/config-experiments.html#experiments-lazycompilation)。
 :::
 
-import Main from '@modern-js/builder-doc/en/config/experiments/lazyCompilation.md'
+import Main from '@modern-js/builder-doc/docs/en/config/experiments/lazyCompilation.md'
 
 <Main />

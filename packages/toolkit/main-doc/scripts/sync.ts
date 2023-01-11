@@ -19,7 +19,7 @@ const summary = (lng: string) => {
   const fl = walk(
     path.join(
       process.cwd(),
-      `./node_modules/@modern-js/builder-doc/${lng}/config`,
+      `./node_modules/@modern-js/builder-doc/docs/${lng}/config`,
     ),
   );
   const json = fl.map(fpath => {
