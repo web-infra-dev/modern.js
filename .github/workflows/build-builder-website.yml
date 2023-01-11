@@ -30,6 +30,18 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --ignore-scripts
 
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+
+      - name: Build Dependencies
+        run: pnpm turbo run build --filter="@modern-js/builder-doc"
+
       - name: Build Website
         run: cd packages/builder/builder-doc && npm run build:doc
 
