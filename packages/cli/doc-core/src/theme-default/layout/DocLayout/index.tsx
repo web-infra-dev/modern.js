@@ -49,7 +49,7 @@ export function DocLayout(props: DocLayoutProps) {
         />
       ) : null}
       <div flex="~ 1 shrink-0" className={`${styles.content}`}>
-        <div className={`max-w-full md:max-w-3/4 lg:min-w-640px relative`}>
+        <div className={`max-w-full md:max-w-960px lg:min-w-640px relative`}>
           {isOverviewPage ? (
             <Overview />
           ) : (

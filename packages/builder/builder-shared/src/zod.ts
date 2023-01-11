@@ -23,6 +23,7 @@ export const primitive = () => {
     z.number(),
     z.boolean(),
     z.null(),
+    z.undefined(),
   ]);
   return literalSchema;
 };
