@@ -4,9 +4,9 @@ sidebar_label: startUrl
 ---
 
 :::info BUILDER
-This configuration is Modern.js Builder configuration, more detail can see [dev.startUrl](https://modernjs.dev/builder/zh/api/config-dev.html#dev-starturl)。
+This configuration is Modern.js Builder configuration, more detail can see [dev.startUrl](https://modernjs.dev/builder/en/api/config-dev.html#dev-starturl)。
 :::
 
-import Main from '@modern-js/builder-doc/en/config/dev/startUrl.md'
+import Main from '@modern-js/builder-doc/docs/en/config/dev/startUrl.md'
 
 <Main />
