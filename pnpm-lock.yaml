@@ -3,7 +3,6 @@ lockfileVersion: 5.4
 overrides:
   '@types/react': ^18
   '@types/react-dom': ^18
-  '@rspack/binding-darwin-arm64': 0.0.0-4374d9c976-20221222100038
 
 importers:
 
@@ -94,11 +93,11 @@ importers:
       '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
-      '@rspack/core': 0.0.0-4374d9c976-20221222100038
-      '@rspack/dev-client': 0.0.0-4374d9c976-20221222100038
-      '@rspack/dev-middleware': 0.0.0-4374d9c976-20221222100038
-      '@rspack/plugin-html': 0.0.0-4374d9c976-20221222100038
-      '@rspack/postcss-loader': 0.0.0-4374d9c976-20221222100038
+      '@rspack/core': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/dev-client': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/dev-middleware': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/plugin-html': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/postcss-loader': 0.0.0-23f43ba4d8-20230105084939
       '@scripts/vitest-config': workspace:*
       '@types/node': ^14
       autoprefixer: ^10.4.8
@@ -111,11 +110,11 @@ importers:
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
-      '@rspack/core': 0.0.0-4374d9c976-20221222100038
-      '@rspack/dev-client': 0.0.0-4374d9c976-20221222100038_h6llb2w54glnjeejr3g44rvtl4
-      '@rspack/dev-middleware': 0.0.0-4374d9c976-20221222100038
-      '@rspack/plugin-html': 0.0.0-4374d9c976-20221222100038
-      '@rspack/postcss-loader': 0.0.0-4374d9c976-20221222100038
+      '@rspack/core': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/dev-client': 0.0.0-23f43ba4d8-20230105084939_wbetprnqt2g7prmqnrtwhffcqu
+      '@rspack/dev-middleware': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/plugin-html': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/postcss-loader': 0.0.0-23f43ba4d8-20230105084939
       caniuse-lite: 1.0.30001434
       webpack-sources: 3.2.3
     devDependencies:
@@ -537,6 +536,7 @@ importers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/plugin-testing': workspace:*
+      '@modern-js/remark-container': workspace:*
       '@modern-js/tsconfig': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
@@ -546,6 +546,7 @@ importers:
       '@types/html-to-text': ^8.1.1
       '@types/jest': ^26.0.9
       '@types/lodash-es': ^4.17.6
+      '@types/mdast': ^3.0.10
       '@types/node': ^14
       '@types/nprogress': ^0.2.0
       '@types/react': ^18
@@ -568,6 +569,7 @@ importers:
       lodash-es: ^4.17.21
       mdast-util-mdxjs-esm: ^1.3.0
       nprogress: ^0.2.0
+      ora: 5.4.1
       postcss: 8.4.19
       prettier: ^2.6.2
       react: ^18.2.0
@@ -576,6 +578,7 @@ importers:
       react-lazy-with-preload: ^2.2.1
       react-router-dom: ^6.4.4
       rehype-autolink-headings: 6.1.1
+      rehype-external-links: ^2.0.1
       rehype-slug: ^5.1.0
       rehype-stringify: ^9.0.3
       remark: ^14.0.2
@@ -611,6 +614,7 @@ importers:
       '@mdx-js/loader': 2.1.5
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
+      '@modern-js/remark-container': link:../../toolkit/remark-container
       '@modern-js/utils': link:../../toolkit/utils
       acorn: 8.8.1
       autoprefixer: 10.4.13_postcss@8.4.19
@@ -627,6 +631,7 @@ importers:
       lodash-es: 4.17.21
       mdast-util-mdxjs-esm: 1.3.0
       nprogress: 0.2.0
+      ora: 5.4.1
       postcss: 8.4.19
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -634,6 +639,7 @@ importers:
       react-lazy-with-preload: 2.2.1
       react-router-dom: 6.6.0_biqbaboplfbrettd7655fr4n2y
       rehype-autolink-headings: 6.1.1
+      rehype-external-links: 2.0.1
       rehype-slug: 5.1.0
       remark: 14.0.2
       remark-admonitions: 1.2.1
@@ -664,6 +670,7 @@ importers:
       '@types/html-to-text': 8.1.1
       '@types/jest': 26.0.24
       '@types/lodash-es': 4.17.6
+      '@types/mdast': 3.0.10
       '@types/node': 14.18.35
       '@types/nprogress': 0.2.0
       '@types/react': 18.0.21
@@ -3090,9 +3097,9 @@ importers:
     specifiers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/libuild': ~0.7.3
-      '@modern-js/libuild-plugin-svgr': 0.6.0
-      '@modern-js/libuild-plugin-swc': 0.6.0
+      '@modern-js/libuild': ~0.8.0
+      '@modern-js/libuild-plugin-svgr': ~0.8.0
+      '@modern-js/libuild-plugin-swc': ~0.8.0
       '@modern-js/new-action': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
@@ -3115,9 +3122,9 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.7.3
-      '@modern-js/libuild-plugin-svgr': 0.6.0
-      '@modern-js/libuild-plugin-swc': 0.6.0
+      '@modern-js/libuild': 0.8.0
+      '@modern-js/libuild-plugin-svgr': 0.8.0
+      '@modern-js/libuild-plugin-swc': 0.8.0
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
@@ -3333,6 +3340,24 @@ importers:
       '@types/node': 14.18.35
       jest: 27.5.1
       typescript: 4.9.3
+
+  packages/toolkit/remark-container:
+    specifiers:
+      '@modern-js/module-tools': workspace:*
+      '@types/mdast': ^3.0.10
+      rehype-stringify: ^9.0.3
+      remark-parse: ^10.0.1
+      remark-rehype: ^10.1.0
+      unified: ^10.1.2
+      vitest: 0.21.1
+    devDependencies:
+      '@modern-js/module-tools': link:../../solutions/module-tools
+      '@types/mdast': 3.0.10
+      rehype-stringify: 9.0.3
+      remark-parse: 10.0.1
+      remark-rehype: 10.1.0
+      unified: 10.1.2
+      vitest: 0.21.1
 
   packages/toolkit/types:
     specifiers:
@@ -4000,6 +4025,29 @@ importers:
       typescript: 4.9.3
 
   tests/e2e/webpack-builder/externals:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18.0.2
+      react-dom: ^18.0.2
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder': link:../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.3
+
+  tests/e2e/webpack-builder/html-tags:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -11517,8 +11565,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-svgr/0.6.0:
-    resolution: {integrity: sha512-r5w25KDnklzd19A5sUM+jpnu+FGvyKmckLfvI+crlJYwuGjzWHmhls1N3Nex0rbLm/X4ohflfah08sBG+RoAAg==}
+  /@modern-js/libuild-plugin-svgr/0.8.0:
+    resolution: {integrity: sha512-a0DcZQNGXwzxFWQreZWRT1XtHOSed2gsZLw4vDXq9+pBLQI5BrLxB1LbnqF5O3PrPXT2Xi9dqyR2OywrIeq0Aw==}
     dependencies:
       '@svgr/core': 6.2.0
       '@svgr/plugin-jsx': 6.2.0_@svgr+core@6.2.0
@@ -11528,14 +11576,14 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-swc/0.6.0:
-    resolution: {integrity: sha512-Z4euVlrnCC9TXA/B3/jpYTyklLeuJWsngOFryXhWPlPwioD3fv+P8KBgieFtOaMdLahShv932IU81hfwmcpZag==}
+  /@modern-js/libuild-plugin-swc/0.8.0:
+    resolution: {integrity: sha512-zLM8cW2q3IHVqVYhDb41NMnZwpnSHvO23kKrZvaQrp68J1Q+xsldpHhug5nmFgEFqrxd4ra0C8q7tM1wwMyz2g==}
     dependencies:
       '@modern-js/swc-plugins': 0.0.9
     dev: false
 
-  /@modern-js/libuild/0.7.3:
-    resolution: {integrity: sha512-0mrQjp/k6RgtzQCRvjdg8jKJS8ofgpAeBQqHCP8aE6NJ8Lvx5B1erI/K15oBfUtc6UTFk3E8vXaL7eWBPSLomg==}
+  /@modern-js/libuild/0.8.0:
+    resolution: {integrity: sha512-PlkrpBn2gSGolyYme+S9QmTXcw9Rldmv8fm72AGFXOl6j8BZnHW94EWxzZc3dknbcdmQFHAa93eFA2yzli5ehA==}
     hasBin: true
     dependencies:
       '@ast-grep/napi': 0.1.13
@@ -12446,52 +12494,52 @@ packages:
       rollup: 2.79.0
     dev: true
 
-  /@rspack/binding-darwin-arm64/0.0.0-4374d9c976-20221222100038:
-    resolution: {integrity: sha512-dhDESebEBXlvRj0YylBnONHGXi9muTyerUbapeUU2JF9vcrDRof2/VNPacKRn4ei9h6220Jd/4ua59HnUnWTGw==}
+  /@rspack/binding-darwin-arm64/0.0.0-23f43ba4d8-20230105084939:
+    resolution: {integrity: sha512-PpOajVMQN4O8IiZy2jtdVLJkwwmQPuVx9gHk1nY84kJJjjJ6rz4Ea1Zd6Ba14sq8BqUaOXPahqnUbDSSxobP0Q==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-darwin-x64/0.0.0-fe93e9b903-20221222085326:
-    resolution: {integrity: sha512-seqPWOBJ4oe6KzQs1EQTzo4XSCy6C2M7o1Kn33yp7lIJzTifQpQ54GpTz5StLm3jstQPu68aYgmJkXf4Wqh4cA==}
+  /@rspack/binding-darwin-x64/0.0.0-23f43ba4d8-20230105084939:
+    resolution: {integrity: sha512-tBcTUblbo42xbNktugI+qRLIq42pkPIWOhEKWKkupXhb7/INPDgJQZFvwtrFo7pgs2PCVIRk788VoTzh5/me9Q==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-x64-gnu/0.0.0-fe93e9b903-20221222085326:
-    resolution: {integrity: sha512-hYge0BTflsYlHWLHS6+3+FyTLKNfyJi62TKULqWT4/AanvvNKxS4xQtYZVar0A1fCZzbWFkhDN6x5m7u7U2hmg==}
+  /@rspack/binding-linux-x64-gnu/0.0.0-23f43ba4d8-20230105084939:
+    resolution: {integrity: sha512-krC7n+GM08W1HMx9rkJTDJmdKAnLMxt0PPWcDGcPXBAfGoIOn+ATOmF1V9fzmDsPRyGBxk9Q31kJC/45n+ULCg==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding/0.0.0-4374d9c976-20221222100038:
-    resolution: {integrity: sha512-CkkHAy/db9fkpS5C9/S3JWjDPWueeD9fXZzAyq/XM9SdSloqEyf3D/DylOa3i1zb3+PKYgQiAMEt/ViPY5FgCg==}
+  /@rspack/binding/0.0.0-23f43ba4d8-20230105084939:
+    resolution: {integrity: sha512-8pUpG7g/V5vV9OLZ4z0yC8e9ZXV7WAQ+oQeEtKhQqw3kkx8cqce3tHRh0YG4waeXa8SoFloZ0JpZdLAT/qcMxw==}
     optionalDependencies:
-      '@rspack/binding-darwin-arm64': 0.0.0-4374d9c976-20221222100038
-      '@rspack/binding-darwin-x64': 0.0.0-fe93e9b903-20221222085326
-      '@rspack/binding-linux-x64-gnu': 0.0.0-fe93e9b903-20221222085326
+      '@rspack/binding-darwin-arm64': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/binding-darwin-x64': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/binding-linux-x64-gnu': 0.0.0-23f43ba4d8-20230105084939
     dev: false
 
-  /@rspack/core/0.0.0-4374d9c976-20221222100038:
-    resolution: {integrity: sha512-681jNURkDE4x/OAVFbg1sQXYViBi6nLl+mRBiENLd/yrmnmQVvwbIpo6s6PnKHwnJL0jOQnmfgWbYvMpO70bBg==}
+  /@rspack/core/0.0.0-23f43ba4d8-20230105084939:
+    resolution: {integrity: sha512-HhHsM4Hx1L12EEf5P5kBz3BbYpbZz+kK8eemnOWx3yU2jDxEHjstco7opJVCfFl0rhCQ2v4FBcL1K9Dd+K4Naw==}
     dependencies:
-      '@rspack/binding': 0.0.0-4374d9c976-20221222100038
-      '@rspack/dev-client': 0.0.0-4374d9c976-20221222100038_ecxtgytkqrm4rxnlqg5avjhw3m
+      '@rspack/binding': 0.0.0-23f43ba4d8-20230105084939
+      '@rspack/dev-client': 0.0.0-23f43ba4d8-20230105084939_emkweajjdbfhzr42k3ekp3ps34
       '@swc/helpers': 0.4.13
       browserslist: 4.21.4
-      chokidar: 3.5.3
       enhanced-resolve: 5.10.0
       graceful-fs: 4.2.10
       neo-async: 2.6.2
       react-refresh: 0.14.0
       schema-utils: 4.0.0
       tapable: 2.2.1
+      watchpack: 2.4.0
       webpack-sources: 3.2.3
     optionalDependencies:
       '@tmp-sass-embedded/darwin-arm64': 1.54.4
@@ -12506,13 +12554,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@rspack/dev-client/0.0.0-4374d9c976-20221222100038_ecxtgytkqrm4rxnlqg5avjhw3m:
-    resolution: {integrity: sha512-FbDle16tz+MmBLtr+lauugtaTqPr9AweaMeNvSHesr2I0pav+LOSw0n7riqp0r4+a3cAe6l1ewX9RfdoFXTNxA==}
+  /@rspack/dev-client/0.0.0-23f43ba4d8-20230105084939_emkweajjdbfhzr42k3ekp3ps34:
+    resolution: {integrity: sha512-gc95JvkdWJoOhaaihTHNwVfqJVmZonzOSB8nosVVoLMiNb6CzLhh+7Dn++ZzSfay/UqExgx7M9BxSrfh+ovtNw==}
     peerDependencies:
-      '@rspack/core': 0.0.0-4374d9c976-20221222100038
+      '@rspack/core': 0.0.0-23f43ba4d8-20230105084939
       react-refresh: '>=0.10.0 <1.0.0'
     dependencies:
-      '@rspack/core': 0.0.0-4374d9c976-20221222100038
+      '@rspack/core': 0.0.0-23f43ba4d8-20230105084939
       events: 3.3.0
       react-refresh: 0.14.0
       ws: 8.8.1
@@ -12521,13 +12569,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@rspack/dev-client/0.0.0-4374d9c976-20221222100038_h6llb2w54glnjeejr3g44rvtl4:
-    resolution: {integrity: sha512-FbDle16tz+MmBLtr+lauugtaTqPr9AweaMeNvSHesr2I0pav+LOSw0n7riqp0r4+a3cAe6l1ewX9RfdoFXTNxA==}
+  /@rspack/dev-client/0.0.0-23f43ba4d8-20230105084939_wbetprnqt2g7prmqnrtwhffcqu:
+    resolution: {integrity: sha512-gc95JvkdWJoOhaaihTHNwVfqJVmZonzOSB8nosVVoLMiNb6CzLhh+7Dn++ZzSfay/UqExgx7M9BxSrfh+ovtNw==}
     peerDependencies:
-      '@rspack/core': 0.0.0-4374d9c976-20221222100038
+      '@rspack/core': 0.0.0-23f43ba4d8-20230105084939
       react-refresh: '>=0.10.0 <1.0.0'
     dependencies:
-      '@rspack/core': 0.0.0-4374d9c976-20221222100038
+      '@rspack/core': 0.0.0-23f43ba4d8-20230105084939
       events: 3.3.0
       ws: 8.8.1
     transitivePeerDependencies:
@@ -12535,11 +12583,12 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@rspack/dev-middleware/0.0.0-4374d9c976-20221222100038:
-    resolution: {integrity: sha512-m0IO+8V+ck+37aas1TR/Cc+UGUWUeV0D53sg/0/lmkIXXwxvgYwwZXtCGGYgXqK6Bi5cPJA0ERAP1RfPiEIzyg==}
+  /@rspack/dev-middleware/0.0.0-23f43ba4d8-20230105084939:
+    resolution: {integrity: sha512-PMR6sqebwy1B7U+ghyycBjyLoUzmdudTcBIPOBW37ZN7E9/iuj4aNGWFHYzCpc000/fjYfwDjg3GtJx4OtRpcw==}
     dependencies:
-      '@rspack/core': 0.0.0-4374d9c976-20221222100038
+      '@rspack/core': 0.0.0-23f43ba4d8-20230105084939
       express: 4.18.1
+      mime-types: 2.1.35
       webpack-dev-middleware: 6.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -12559,10 +12608,10 @@ packages:
       - supports-color
     dev: false
 
-  /@rspack/plugin-html/0.0.0-4374d9c976-20221222100038:
-    resolution: {integrity: sha512-dQCUWjyRg7GZ7WrdwdjRveXL822HmGkAkxpqeS9XACZCzv2cpFKbUG/jvI5kRBm0UprHvbhzPuyu/1WY4Ocj7w==}
+  /@rspack/plugin-html/0.0.0-23f43ba4d8-20230105084939:
+    resolution: {integrity: sha512-C6KFIeG7pQezQfIGMZLdViHtyRXDzls12Zp0T1WXo1dUF0/bS5J7qVSSXzsk6yNqpacrI3WIIPuWrubysf3Nng==}
     dependencies:
-      '@rspack/core': 0.0.0-4374d9c976-20221222100038
+      '@rspack/core': 0.0.0-23f43ba4d8-20230105084939
       '@types/html-minifier-terser': 7.0.0
       html-minifier-terser: 7.0.0
       lodash.template: 4.5.0
@@ -12573,13 +12622,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@rspack/postcss-loader/0.0.0-4374d9c976-20221222100038:
-    resolution: {integrity: sha512-Uqr8+uAVzxT4vPmp9ndE2ZcJ++w2iYrBwR7SOUYkiYF7us2GF6JsY05UTTMqfgteCErGK8w2Zh5kUMB+cWpPUg==}
+  /@rspack/postcss-loader/0.0.0-23f43ba4d8-20230105084939:
+    resolution: {integrity: sha512-YhqjBn8HAwipASttNEBIfN4YU69kYWU3VZQMCZLBgPBRqSz0mEfylQ+uwqwEVsiVV5lQYZQj80y2UukhVYybJQ==}
     dependencies:
-      '@rspack/binding': 0.0.0-4374d9c976-20221222100038
-      postcss: 8.4.19
-      postcss-modules: 5.0.0_postcss@8.4.19
-      postcss-pxtorem: 6.0.0_postcss@8.4.19
+      '@rspack/binding': 0.0.0-23f43ba4d8-20230105084939
+      postcss: 8.4.20
+      postcss-modules: 5.0.0_postcss@8.4.20
+      postcss-pxtorem: 6.0.0_postcss@8.4.20
     dev: false
 
   /@rushstack/node-core-library/3.48.0:
@@ -15981,8 +16030,10 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -16714,7 +16765,7 @@ packages:
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.75.0_esbuild@0.15.7
+      webpack: 5.75.0
     dev: false
 
   /babel-loader/9.1.0_ztqwsvkb6z73luspkai6ilstpu:
@@ -24202,6 +24253,15 @@ packages:
     dependencies:
       postcss: 8.4.19
 
+  /icss-utils/5.1.0_postcss@8.4.20:
+    resolution: {integrity: sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.4.20
+    dev: false
+
   /identity-obj-proxy/3.0.0:
     resolution: {integrity: sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==}
     engines: {node: '>=4'}
@@ -24445,6 +24505,11 @@ packages:
   /is-absolute-url/3.0.3:
     resolution: {integrity: sha512-opmNIX7uFnS96NtPmhWQgQx6/NYFgsUXYMllcfzwWKUMwfo8kku1TvE6hkNcH+Q1ts5cMVrsY7j0bxXQDciu9Q==}
     engines: {node: '>=8'}
+    dev: false
+
+  /is-absolute-url/4.0.1:
+    resolution: {integrity: sha512-/51/TKE88Lmm7Gc4/8btclNXWS+g50wXhYJq8HWIBAGUBnoAdRu1aXeh364t/O7wXDAcTJDP8PNuNKWUDWie+A==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: false
 
   /is-accessor-descriptor/0.1.6:
@@ -29253,7 +29318,7 @@ packages:
     engines: {node: '>=10.0'}
     dependencies:
       camelcase-css: 2.0.1
-      postcss: 8.4.19
+      postcss: 8.4.20
     dev: false
 
   /postcss-js/4.0.0:
@@ -29434,6 +29499,15 @@ packages:
     dependencies:
       postcss: 8.4.19
 
+  /postcss-modules-extract-imports/3.0.0_postcss@8.4.20:
+    resolution: {integrity: sha512-bdHleFnP3kZ4NYDhuGlVK+CMrQ/pqUm8bx/oGL93K6gVwiclvX5x0n76fYMKuIGKzlABOy13zsvqjb0f92TEXw==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.4.20
+    dev: false
+
   /postcss-modules-local-by-default/3.0.3:
     resolution: {integrity: sha512-e3xDq+LotiGesympRlKNgaJ0PCzoUIdpH0dj47iWAui/kyTgh3CiAr1qP54uodmJhl6p9rN6BoNcdEDVJx9RDw==}
     engines: {node: '>= 6'}
@@ -29455,6 +29529,18 @@ packages:
       postcss-selector-parser: 6.0.10
       postcss-value-parser: 4.2.0
 
+  /postcss-modules-local-by-default/4.0.0_postcss@8.4.20:
+    resolution: {integrity: sha512-sT7ihtmGSF9yhm6ggikHdV0hlziDTX7oFoXtuVWeDd3hHObNkcHRo9V3yg7vCAY7cONyxJC/XXCmmiHHcvX7bQ==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      icss-utils: 5.1.0_postcss@8.4.20
+      postcss: 8.4.20
+      postcss-selector-parser: 6.0.10
+      postcss-value-parser: 4.2.0
+    dev: false
+
   /postcss-modules-scope/2.2.0:
     resolution: {integrity: sha512-YyEgsTMRpNd+HmyC7H/mh3y+MeFWevy7V1evVhJWewmMbjDHIbZbOXICC2y+m1xI1UVfIT1HMW/O04Hxyu9oXQ==}
     engines: {node: '>= 6'}
@@ -29472,6 +29558,16 @@ packages:
       postcss: 8.4.19
       postcss-selector-parser: 6.0.10
 
+  /postcss-modules-scope/3.0.0_postcss@8.4.20:
+    resolution: {integrity: sha512-hncihwFA2yPath8oZ15PZqvWGkWf+XUfQgUGamS4LqoP1anQLOsOJw0vr7J7IwLpoY9fatA2qiGUGmuZL0Iqlg==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.4.20
+      postcss-selector-parser: 6.0.10
+    dev: false
+
   /postcss-modules-values/3.0.0:
     resolution: {integrity: sha512-1//E5jCBrZ9DmRX+zCtmQtRSV6PV42Ix7Bzj9GbwJceduuf7IqP8MgeTXuRDHOWj2m0VzZD5+roFWDuU8RQjcg==}
     dependencies:
@@ -29488,7 +29584,17 @@ packages:
       icss-utils: 5.1.0_postcss@8.4.19
       postcss: 8.4.19
 
-  /postcss-modules/5.0.0_postcss@8.4.19:
+  /postcss-modules-values/4.0.0_postcss@8.4.20:
+    resolution: {integrity: sha512-RDxHkAiEGI78gS2ofyvCsu7iycRv7oqw5xMWn9iMoR0N/7mf9D50ecQqUo5BZ9Zh2vH4bCUR/ktCqbB9m8vJjQ==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      icss-utils: 5.1.0_postcss@8.4.20
+      postcss: 8.4.20
+    dev: false
+
+  /postcss-modules/5.0.0_postcss@8.4.20:
     resolution: {integrity: sha512-rGvpTDOM3//3Ysn3Xtvhzaj8ab984wKCpP02TEF559tLbUjNay3RQDpPxb7BREmfBtJm3/1WbQOZ7fSXwYLZ/w==}
     peerDependencies:
       postcss: ^8.0.0
@@ -29496,11 +29602,11 @@ packages:
       generic-names: 4.0.0
       icss-replace-symbols: 1.1.0
       lodash.camelcase: 4.3.0
-      postcss: 8.4.19
-      postcss-modules-extract-imports: 3.0.0_postcss@8.4.19
-      postcss-modules-local-by-default: 4.0.0_postcss@8.4.19
-      postcss-modules-scope: 3.0.0_postcss@8.4.19
-      postcss-modules-values: 4.0.0_postcss@8.4.19
+      postcss: 8.4.20
+      postcss-modules-extract-imports: 3.0.0_postcss@8.4.20
+      postcss-modules-local-by-default: 4.0.0_postcss@8.4.20
+      postcss-modules-scope: 3.0.0_postcss@8.4.20
+      postcss-modules-values: 4.0.0_postcss@8.4.20
       string-hash: 1.1.3
     dev: false
 
@@ -29648,6 +29754,15 @@ packages:
       postcss: ^8.0.0
     dependencies:
       postcss: 8.4.19
+    dev: true
+
+  /postcss-pxtorem/6.0.0_postcss@8.4.20:
+    resolution: {integrity: sha512-ZRXrD7MLLjLk2RNGV6UA4f5Y7gy+a/j1EqjAfp9NdcNYVjUMvg5HTYduTjSkKBkRkfqbg/iKrjMO70V4g1LZeg==}
+    peerDependencies:
+      postcss: ^8.0.0
+    dependencies:
+      postcss: 8.4.20
+    dev: false
 
   /postcss-reduce-idents/5.2.0_postcss@8.4.19:
     resolution: {integrity: sha512-BTrLjICoSB6gxbc58D5mdBK8OhXRDqud/zodYfdSi52qvDHdMwk+9kB9xsM8yJThH/sZU5A6QVSmMmaN001gIg==}
@@ -30312,7 +30427,7 @@ packages:
     dependencies:
       commander: 8.3.0
       glob: 7.2.3
-      postcss: 8.4.19
+      postcss: 8.4.20
       postcss-selector-parser: 6.0.10
     dev: false
 
@@ -31673,6 +31788,17 @@ packages:
       unist-util-visit: 4.1.1
     dev: false
 
+  /rehype-external-links/2.0.1:
+    resolution: {integrity: sha512-u2dNypma+ps12SJWlS23zvbqwNx0Hl24t0YHXSM/6FCZj/pqWETCO3WyyrvALv4JYvRtuPjhiv2Lpen15ESqbA==}
+    dependencies:
+      '@types/hast': 2.3.4
+      extend: 3.0.2
+      is-absolute-url: 4.0.1
+      space-separated-tokens: 2.0.2
+      unified: 10.1.2
+      unist-util-visit: 4.1.1
+    dev: false
+
   /rehype-parse/6.0.2:
     resolution: {integrity: sha512-0S3CpvpTAgGmnz8kiCyFLGuW5yA4OQhyNTm/nwPopZ7+PI11WnGl1TTWTGv/2hPEe/g2jRLlhVVSsoDH8waRug==}
     dependencies:
@@ -32377,7 +32503,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
@@ -35453,7 +35579,7 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.15.15
-      postcss: 8.4.19
+      postcss: 8.4.20
       resolve: 1.22.1
       rollup: 2.78.1
     optionalDependencies:
