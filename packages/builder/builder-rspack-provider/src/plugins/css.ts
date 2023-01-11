@@ -4,7 +4,7 @@ import {
   getBrowserslistWithDefault,
   isUseCssSourceMap,
   CSS_REGEX,
-  type BuilderContext,
+  type SharedBuilderContext,
   BundlerChain,
   ModifyBundlerChainUtils,
 } from '@modern-js/builder-shared';
@@ -32,7 +32,7 @@ export const getCssnanoDefaultOptions = (): CssNanoOptions => ({
 export async function applyBaseCSSRule(
   rule: ReturnType<BundlerChain['module']['rule']>,
   config: NormalizedConfig,
-  context: BuilderContext,
+  context: SharedBuilderContext,
   { target, isProd, isServer, isWebWorker, CHAIN_ID }: ModifyBundlerChainUtils,
 ) {
   // 1. Check user config

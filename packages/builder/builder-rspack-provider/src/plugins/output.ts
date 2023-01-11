@@ -3,7 +3,7 @@ import {
   addTrailingSlash,
   getDistPath,
   getFilename,
-  type BuilderContext,
+  type SharedBuilderContext,
 } from '@modern-js/builder-shared';
 import type { BuilderPlugin, NormalizedConfig } from '../types';
 import { isUseCssExtract } from '../shared';
@@ -15,7 +15,7 @@ function getPublicPath({
 }: {
   config: NormalizedConfig;
   isProd: boolean;
-  context: BuilderContext;
+  context: SharedBuilderContext;
 }) {
   const { dev, output } = config;
 
