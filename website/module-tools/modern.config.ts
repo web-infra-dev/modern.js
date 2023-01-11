@@ -57,7 +57,7 @@ export default defineConfig({
     root: path.join(__dirname, 'docs'),
     lang: 'zh',
     base: isDevCommand ? '' : '/module-tools/',
-    title: 'Module tools',
+    title: 'Module Tools',
     // The plugins for doc tools.
     plugins: [
       pluginAutoSidebar({
@@ -71,6 +71,7 @@ export default defineConfig({
       }),
     ],
     markdown: {
+      checkDeadLinks: true,
       remarkPlugins: [
         [
           remarkCodeHike,
@@ -99,7 +100,7 @@ export default defineConfig({
           lang: 'zh',
           label: '简体中文',
           nav: getNavbar('zh'),
-          title: 'Module tools',
+          title: 'Module Tools',
           outlineTitle: '目录',
           prevPageText: '上一页',
           nextPageText: '下一页',
@@ -109,7 +110,7 @@ export default defineConfig({
           lang: 'en',
           label: 'English',
           nav: getNavbar('en'),
-          title: 'Module tools',
+          title: 'Module Tools',
           description: 'Module Engineering Solutions',
         },
       ],

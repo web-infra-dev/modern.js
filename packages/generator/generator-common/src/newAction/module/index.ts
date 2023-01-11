@@ -98,9 +98,9 @@ export const ModuleNewActionPluginName: Partial<
   Record<ActionType, Record<string, string>>
 > = {
   [ActionType.Function]: {
-    [ActionFunction.TailwindCSS]: 'TailwindCSSPlugin',
-    [ActionFunction.Storybook]: 'StoryBookPlugin',
-    [ActionFunction.Test]: 'TestPlugin',
+    [ActionFunction.TailwindCSS]: 'tailwindCSSPlugin',
+    [ActionFunction.Storybook]: 'storybookPlugin',
+    [ActionFunction.Test]: 'testPlugin',
   },
 };
 
@@ -108,6 +108,7 @@ export const ModuleNewActionPluginDependence: Partial<
   Record<ActionType, Record<string, string>>
 > = {
   [ActionType.Function]: {
+    [ActionFunction.Test]: '@modern-js/plugin-testing',
     [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
     [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   },

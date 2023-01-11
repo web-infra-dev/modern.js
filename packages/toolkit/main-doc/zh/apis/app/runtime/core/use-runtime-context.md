@@ -11,7 +11,7 @@ import { useRuntimeContext } from '@modern-js/runtime';
 
 export function App() {
   const runtimeContext = useRuntimeContext();
-  return <div>Hello World</div>
+  return <div>Hello World</div>;
 }
 ```
 
@@ -27,11 +27,10 @@ type RuntimeContext = {
     cookie: string;
   };
   store: ReduckStore;
-}
+};
 
 function useRuntimeContext(): RuntimeContext;
 ```
-
 
 ### 返回值
 
@@ -54,6 +53,6 @@ function App() {
 
   const [state, actions] = store.use(fooModel);
 
-  return <div>state: {state}</div>
+  return <div>state: {state}</div>;
 }
 ```

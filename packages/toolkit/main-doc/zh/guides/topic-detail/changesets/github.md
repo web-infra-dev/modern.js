@@ -24,7 +24,6 @@ sidebar_position: 9
 
 配置完成后，该机器人将会自动 check 每个 Pull Request 是否添加了 changeset，并通过回复的方式给到提示信息。
 
-
 #### 未添加 changeset
 
 ![未添加 changeset 状态](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-bot-no-changeset.png)
@@ -69,7 +68,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@master
         with:
-        # This makes Actions fetch only one branch to release
+          # This makes Actions fetch only one branch to release
           fetch-depth: 100
 
       - name: Create Release Pull Request
@@ -82,7 +81,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}
-
 ```
 
 将 Workflow 合并到主分支后，进入 Github 仓库对应的 Action 页面，选择 Release Pull Request：
@@ -101,7 +99,6 @@ workflow 运行完成后将自动创建 `Release-${version}` 的 Pull Request，
 
 Modern.js 提供了自动创建发版 Pull Request 的 Github Action，提供基于选择的分支自动执行 release 操作，将包发布到 NPM 上。
 
-
 #### 使用
 
 在仓库中创建 `.github/workflows/release.yml` 文件，填入以下内容：
@@ -118,10 +115,10 @@ on:
         required: true
         default: 'canary'
         options:
-        - canary
-        - alpha
-        - pre
-        - latest
+          - canary
+          - alpha
+          - pre
+          - latest
       branch:
         description: 'Release Branch(confirm release branch)'
         required: true
@@ -135,7 +132,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@master
         with:
-        # This makes Actions fetch only one branch to release
+          # This makes Actions fetch only one branch to release
           fetch-depth: 1
 
       - name: Release
@@ -150,7 +147,6 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}
-
 ```
 
 配置仓库的 NPM_TOKEN:

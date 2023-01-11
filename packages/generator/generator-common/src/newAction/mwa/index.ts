@@ -192,21 +192,21 @@ export const MWANewActionPluginName: Record<
   Record<string, string>
 > = {
   [ActionType.Element]: {
-    [ActionElement.Server]: 'ServerPlugin',
+    [ActionElement.Server]: 'serverPlugin',
   },
   [ActionType.Function]: {
-    [ActionFunction.TailwindCSS]: 'TailwindCSSPlugin',
-    [ActionFunction.BFF]: 'BFFPlugin',
-    [ActionFunction.MicroFrontend]: 'GarfishPlugin',
-    [ActionFunction.Test]: 'TestPlugin',
-    [ActionFunction.Storybook]: 'StorybookPlugin',
-    [ActionFunction.SSG]: 'SSGPlugin',
-    [ActionFunction.Polyfill]: 'PolyfillPlugin',
-    [ActionFunction.Proxy]: 'ProxyPlugin',
-    [ActionFunction.SWC]: 'SWCPlugin',
+    [ActionFunction.TailwindCSS]: 'tailwindCSSPlugin',
+    [ActionFunction.BFF]: 'bffPlugin',
+    [ActionFunction.MicroFrontend]: 'garfishPlugin',
+    [ActionFunction.Test]: 'testPlugin',
+    [ActionFunction.Storybook]: 'storybookPlugin',
+    [ActionFunction.SSG]: 'ssgPlugin',
+    [ActionFunction.Polyfill]: 'polyfillPlugin',
+    [ActionFunction.Proxy]: 'proxyPlugin',
+    [ActionFunction.SWC]: 'swcPlugin',
   },
   [ActionType.Refactor]: {
-    [ActionRefactor.ReactRouter5]: 'ReactRouter5Plugin',
+    [ActionRefactor.ReactRouter5]: 'reactRouter5Plugin',
   },
 };
 
@@ -234,8 +234,8 @@ export const MWANewActionPluginDependence: Record<
 };
 
 export const BFFPluginName: Record<Framework, string> = {
-  [Framework.Express]: 'ExpressBFFPlugin',
-  [Framework.Koa]: 'KoaBFFPlugin',
+  [Framework.Express]: 'expressPlugin',
+  [Framework.Koa]: 'koaPlugin',
 };
 
 export const BFFPluginDependence: Record<Framework, string> = {

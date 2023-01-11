@@ -50,7 +50,7 @@ interface State {
     pending: boolean;
     result: any;
     error: string;
-  }
+  };
 }
 ```
 
@@ -77,7 +77,8 @@ interface State {
 
 - error： 默认值为 `"error"`。改变返回 State 中的 `error` 字段名。用法同上。
 
-- combineMode：默认值为 `"merge"`。获取 fulfilled 状态的返回数据后，对 `result` 的处理方式：merge（合并）和replace（替换）。这里能自动处理的数据类型也仅限为简单的对象或者数组类型。
+- combineMode：默认值为 `"merge"`。获取 fulfilled 状态的返回数据后，对 `result` 的处理方式：merge（合并）和 replace（替换）。这里能自动处理的数据类型也仅限为简单的对象或者数组类型。
+
   - merge：前一次的数据与当前的数据合并。数据为数组类型，内部操作类似于 `[].concat(lastData, currentData)`；数据为对象类型，内部操作类似于 `{...lastData, ...curData}`。
   - replace：当前的数据直接替换之前的数据。
 
@@ -95,11 +96,9 @@ interface State {
 }
 ```
 
-
 ### 返回值
 
 分别处理 pending、fulfilled、rejected 三种状态的 Action 组成的对象。
-
 
 :::info 更多参考
 [副作用管理](/docs/guides/topic-detail/model/manage-effects)

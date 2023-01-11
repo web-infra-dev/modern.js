@@ -9,8 +9,9 @@ sidebar_position: 1
 :::tip{title=注意}
 如果你还不清楚 `buildConfig` 是什么，建议花一些时间通过下面的链接了解一下：
 
-- 【[修改输出产物](/zh/guide/modify-output-product)】
-  :::
+- 【[修改输出产物](/guide/basic/modify-output-product)】
+
+:::
 
 而在本章里我们将要深入理解某些构建配置的使用以及了解执行 `modern build` 命令的时候发生了什么。
 
@@ -24,11 +25,11 @@ sidebar_position: 1
 
 而 Bundleless 则是指对每个源文件单独进行编译构建，但是并不将它们打包在一起。每一个产物文件都可以找到与之相对应的源码文件。**Bundleless 构建的过程，也可以理解为仅对源文件进行代码转换的过程**。
 
-在 `buildConfig` 中可以通过 [`buildConfig.buildType`](/zh/api/build-config#buildtype) 来指定当前构建任务是 Bundle 还是 Bundleless。
+在 `buildConfig` 中可以通过 [`buildConfig.buildType`](/api/config/build-config#buildtype) 来指定当前构建任务是 Bundle 还是 Bundleless。
 
 ### `input` 与 `sourceDir` 的关系
 
-[`buildConfig.input`](/zh/api/build-config#input) 用于指定读取源码的文件路径或者目录路径，其默认值在 Bundle 和 Bundleless 构建过程中有所不同：
+[`buildConfig.input`](/api/config/build-config#input) 用于指定读取源码的文件路径或者目录路径，其默认值在 Bundle 和 Bundleless 构建过程中有所不同：
 
 - 当 `buildType: 'bundle'` 的时候，`input` 默认值为 `['src/index.ts']`
 - 当 `buildType: 'bundleless'` 的时候，`input` 默认值为 `['src']`
@@ -61,7 +62,7 @@ export default defineConfig({
 
 #### `sourceDir`
 
-[`sourceDir`](/zh/api/build-config#sourcedir) 用于指定源码目录，它主要与以下两个内容有关系：
+[`sourceDir`](/api/config/build-config#sourcedir) 用于指定源码目录，它主要与以下两个内容有关系：
 
 - 类型文件生成
 - 指定构建过程中的 [`outbase`](https://esbuild.github.io/api/#outbase)
@@ -73,7 +74,7 @@ export default defineConfig({
 
 ### 类型文件
 
-[`buildConfig.dts`](/zh/api/build-config#dts) 配置主要用于类型文件的生成。
+[`buildConfig.dts`](/api/config/build-config#dts) 配置主要用于类型文件的生成。
 
 #### 关闭类型生成
 
@@ -99,7 +100,7 @@ export default defineConfig({
 
 **模块工程解决方案同时还支持对类型文件进行打包**，不过使用该功能的时候需要注意：
 
-- 一些第三方依赖存在错误的语法会导致打包过程失败。因此对于这种情况，需要手动通过 [`buildConfig.externals`](/zh/api/build-config#externals) 将这类第三方包排除。
+- 一些第三方依赖存在错误的语法会导致打包过程失败。因此对于这种情况，需要手动通过 [`buildConfig.externals`](/api/config/build-config#externals) 将这类第三方包排除。
 - 对于第三方依赖的类型文件指向的是一个 `.ts` 文件的情况，目前无法处理。比如第三方依赖的 `package.json` 中存在这样的内容： `{"types": "./src/index.ts"}`。
 
 #### 别名转换
@@ -165,7 +166,7 @@ export default defineConfig({
 
 ### `buildConfig.define` 不同场景的使用方式
 
-[`buildConfig.define`](/zh/api/build-config#define) 功能有些类似 [`webpack.DefinePlugin`](https://webpack.js.org/plugins/define-plugin/)。这里介绍几个使用场景：
+[`buildConfig.define`](/api/config/build-config#define) 功能有些类似 [`webpack.DefinePlugin`](https://webpack.js.org/plugins/define-plugin/)。这里介绍几个使用场景：
 
 #### 环境变量替换
 

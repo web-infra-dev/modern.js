@@ -7,7 +7,7 @@ title: 创建 Model
 
 通过 `model` API 创建 Model，例如，`model('foo')` 表示要创建一个名为 `foo` 的 Model，通过调用 `model('foo')` 返回的 `define` 函数，定义 Model 包含的 State、Actions 等：
 
-``` js
+```js
 import { model, useModel } from '@modern-js/runtime/model';
 
 const fooModel = model('foo').define({
@@ -31,7 +31,7 @@ const fooModel = model('foo').define({
 
 `define` 除了接收对象类型的参数，还可以接收函数类型的参数。例如：
 
-``` js
+```js
 import { model, useModel } from '@modern-js/runtime/model';
 
 const fooModel = model('foo').define((context, utils) => {
@@ -50,17 +50,14 @@ const fooModel = model('foo').define((context, utils) => {
 
 通过函数定义 Model 时，函数内部会自动传入 `context`、`utils` 2 个参数，`context` 是 Reduck 的上下文对象，可以获取到 `store` 对象，`utils` 提供了一组工具函数，方便实现 Model 通信等复杂功能需求。
 
-
 Model 支持复制。例如：
 
-``` ts
+```ts
 const barModel = fooModel('bar');
 ```
 
 barModel 是基于 fooModel 创建出一个的新的 Model 对象，类比面向对象编程语言中的概念，barModel 和 fooModel 是基于同一个类（Class）创建出的 2 个实例对象。当两个模块的状态管理逻辑相同，例如一个页面中的两个 tab 模块，使用的数据的结构和逻辑相同，区别只是从不同的接口获取数据，那么可以通过 Model 复制的方式，创建 2 个不同的 Model 对象。
 
-
 :::info 补充信息
 本节涉及的 API 的详细定义，请参考[这里](/docs/apis/app/runtime/model/model_)。
 :::
-

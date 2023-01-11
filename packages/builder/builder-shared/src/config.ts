@@ -106,8 +106,7 @@ export async function outputInspectConfigFiles({
   };
   builderOptions: Required<CreateBuilderOptions>;
 }) {
-  const { default: fs } = await import('@modern-js/utils/fs-extra');
-  const { default: chalk } = await import('@modern-js/utils/chalk');
+  const { fs, chalk, nanoid } = await import('@modern-js/utils');
   const { outputPath } = inspectOptions;
 
   const { target } = builderOptions;
@@ -118,10 +117,17 @@ export async function outputInspectConfigFiles({
       content: builderConfig,
     },
     ...bundlerConfigs.map((content, index) => {
-      const suffix = Array.isArray(target) ? target[index] : `target-${index}`;
+      const suffix = Array.isArray(target) ? target[index] : target;
       const outputFile = `${configType}.config.${suffix}.js`;
+      let outputFilePath = join(outputPath, outputFile);
+
+      // if filename is conflict, add a random id to the filename.
+      if (fs.existsSync(outputFilePath)) {
+        outputFilePath = outputFilePath.replace(/\.js$/, `.${nanoid(4)}.js`);
+      }
+
       return {
-        path: join(outputPath, outputFile),
+        path: outputFilePath,
         label: `${_.upperFirst(configType)} Config (${suffix})`,
         content,
       };
@@ -214,9 +220,8 @@ export function getMinify(
     return false;
   }
 
-  // these options are same as the default options of html-webpack-plugin
   return {
-    removeComments: true,
+    removeComments: false,
     useShortDoctype: true,
     keepClosingSlash: true,
     collapseWhitespace: true,

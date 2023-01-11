@@ -1,5 +1,5 @@
 import { Outlet, useLoaderData } from '@modern-js/runtime/router';
-import { useModuleApps } from '@modern-js/runtime/garfish';
+import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

@@ -10,7 +10,7 @@ title: 体验微前端
 
 ## 创建应用
 
-在这次的实践中，我们需要创建三个应用，分别为1个主应用，2个子应用：
+在这次的实践中，我们需要创建三个应用，分别为 1 个主应用，2 个子应用：
 
 - main 主应用
 - dashboard 子应用
@@ -46,7 +46,6 @@ import MicroRuntimeConfig from '@site-docs/components/micro-runtime-config.md';
 
 <MicroRuntimeConfig />
 
-
 ### 创建 dashboard 子应用
 
 通过命令行工具初始化项目：
@@ -66,21 +65,22 @@ npx @modern-js/create
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 启用「微前端」模式
 ```
+
 接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
 
-```javascript title="modern.config.ts"
-import AppToolPlugin, { defineConfig } from '@modern-js/app-tools';
-import GarfishPlugin from '@modern-js/plugin-garfish';
+```js title="modern.config.ts"
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import garfishPlugin from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   runtime: {
     router: true,
-    state: true
+    state: true,
   },
   deploy: {
-    microFrontend: true
+    microFrontend: true,
   },
-  plugins: [AppToolPlugin(), GarfishPlugin()],
+  plugins: [appTools(), garfishPlugin()],
 });
 ```
 
@@ -106,19 +106,19 @@ npx @modern-js/create
 
 接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
 
-```javascript title="modern.config.ts"
-import AppToolPlugin, { defineConfig } from '@modern-js/app-tools';
-import GarfishPlugin from '@modern-js/plugin-garfish';
+```js title="modern.config.ts"
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import garfishPlugin from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   runtime: {
     router: true,
-    state: true
+    state: true,
   },
   deploy: {
-    microFrontend: true
+    microFrontend: true,
   },
-  plugins: [AppToolPlugin(), GarfishPlugin()],
+  plugins: [appTools(), garfishPlugin()],
 });
 ```
 
@@ -137,13 +137,13 @@ const App = () => {
   return (
     <div>
       <div>
-        <Link to='/dashboard'>Dashboard</Link> &nbsp;
-        <Link to='/table'>Table</Link>
+        <Link to="/dashboard">Dashboard</Link> &nbsp;
+        <Link to="/table">Table</Link>
       </div>
-      <Route path='/dashboard'>
+      <Route path="/dashboard">
         <DashBoard />
       </Route>
-      <Route path='/table'>
+      <Route path="/table">
         <TableList />
       </Route>
     </div>
@@ -183,9 +183,6 @@ export default () => <div>Table Page</div>;
 
 在完成了微前端整体开发流程的体验后，你可以进一步了解如何 [开发主应用](./c03-main-app.md)
 
-
 ## 常见问题
 
 自查手册: https://www.garfishjs.org/issues/
-
-

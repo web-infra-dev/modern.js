@@ -69,6 +69,7 @@ export const mergeDefaultBaseConfig = async (
   const styleConfig = await getStyleConfig(pConfig);
   const buildType = pConfig.buildType ?? defaultConfig.buildType;
   const sourceDir = pConfig.sourceDir ?? defaultConfig.sourceDir;
+  const metafile = pConfig.metafile ?? defaultConfig.metafile;
   const input =
     buildType === 'bundle' ? await getDefaultIndexEntry(context) : [sourceDir];
   const userDefine = pConfig.define ?? {};
@@ -106,6 +107,7 @@ export const mergeDefaultBaseConfig = async (
     sourceDir,
     alias,
     define,
+    metafile,
     style: {
       ...styleConfig,
       inject: pConfig.style?.inject ?? defaultConfig.style.inject,

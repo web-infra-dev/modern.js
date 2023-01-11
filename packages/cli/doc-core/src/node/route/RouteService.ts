@@ -98,7 +98,7 @@ export class RouteService {
       routePath,
       basePath: this.#scanDir,
       absolutePath: normalizePath(absolutePath),
-      pageName: getPageKey(routePath),
+      pageName: getPageKey(fileRelativePath),
     });
   }
 
@@ -139,7 +139,7 @@ ${this.#routeData
     // In ssr, we don't need to import component dynamically.
     const preload = isStaticImport
       ? `() => Route${index}`
-      : `async () => { 
+      : `async () => {
         await Route${index}.preload();
         return import("${route.absolutePath}");
       }`;

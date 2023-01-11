@@ -28,7 +28,6 @@ npx @modern-js/create myapp
 
 ## 初始化项目
 
-
 import InitApp from '@site-docs/components/init-app.md'
 
 <InitApp />
@@ -46,7 +45,7 @@ import DebugApp from '@site-docs/components/debug-app.md'
 可以通过配置文件来开启功能，或覆盖 Modern.js 的默认行为。例如添加如下配置，开启 SSR：
 
 ```ts
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import appTools, { defineConfig } from '@modern-js/app-tools';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -57,7 +56,7 @@ export default defineConfig({
   server: {
     ssr: true,
   },
-  plugins: [AppToolsPlugin()],
+  plugins: [appTools()],
 });
 ```
 
@@ -89,7 +88,7 @@ info    File sizes after production build:
   dist/static/js/async/509.fcb06e14.js      283 B        230 B
 
  Client ✔ done in 3.57s
- ```
+```
 
 构建产物默认生成到 `dist/`，目录结构如下：
 

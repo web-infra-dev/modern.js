@@ -1,5 +1,5 @@
 ---
-title: "*.[server|node].[tj]sx"
+title: '*.[server|node].[tj]sx'
 sidebar_position: 8
 ---
 
@@ -14,12 +14,14 @@ Used in application projects to place server side code, it generally has the fol
 import { useLoaderData } from '@modern-js/runtime/router';
 import { readFile } from './utils.server';
 
-type ProfileData = { /* some type declarations */ }
+type ProfileData = {
+  /* some type declarations */
+};
 
-export const loader = async(): ProfileData => {
+export const loader = async (): ProfileData => {
   const profile = await readFile('profile.json');
   return profile;
-}
+};
 
 export default function UserPage() {
   const profileData = useLoaderData() as ProfileData;

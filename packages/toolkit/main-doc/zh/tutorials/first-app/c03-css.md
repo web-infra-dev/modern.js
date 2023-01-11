@@ -98,7 +98,6 @@ export default Avatar;
 采用目录形式 `Avatar/index.tsx` 而不是单文件形式 `Avatar.tsx` 的原因是，之后可以方便的在目录内部增加子文件，包括专用的资源（图片等）、专用子组件、CSS 文件等。
 :::
 
-
 ## 使用 Utility
 
 我们已经使用 style-components 实现 `<Avatar>` 组件，但当前的 UI 仍然不能让人满意，缺乏专业感，例如列表项内部的布局有点粗糙，很多地方没对齐。
@@ -121,8 +120,8 @@ Modern.js 集成了主流、轻量、通用的 Utility Class 工具库 [Tailwind
 在 `modern.config.ts` 中注册 Tailwind 插件:
 
 ```ts title="modern.config.ts"
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -133,7 +132,7 @@ export default defineConfig({
   server: {
     ssr: true,
   },
-  plugins: [AppToolsPlugin(), TailwindCSSPlugin()],
+  plugins: [appTools(), tailwindcssPlugin()],
 });
 ```
 
@@ -175,7 +174,7 @@ import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
 import Item from '../components/Item';
 
-const getAvatar = (users: Array<{ name: string; email: string }>) =>
+const getAvatar = (users: Array<{ name: string, email: string }>) =>
   users.map(user => ({
     ...user,
     avatar: `https://avatars.dicebear.com/v2/identicon/${user.name}.svg`,
@@ -248,7 +247,6 @@ export default Item;
 
 我们只使用了少量 Utility Class，比如 [Flex](https://tailwindcss.com/docs/display/)、[Padding](https://tailwindcss.com/docs/padding/)、[Margin](https://tailwindcss.com/docs/margin/)、[Text](https://tailwindcss.com/docs/text-color/)、[Font](https://tailwindcss.com/docs/font-weight/)、[Border](https://tailwindcss.com/docs/border-width)，不写一行 CSS 就实现了符合设计稿的专业 UI。
 
-
 ## 自定义 Utility Class
 
 我们也可以自己实现新的 Utility Class，方便在代码间复用。
@@ -286,7 +284,7 @@ import '../styles/utils.css';
 
 ```css
 :root {
-  --custom-text-color:rgb(113, 128, 150);
+  --custom-text-color: rgb(113, 128, 150);
 }
 
 .custom-text-gray {
@@ -295,7 +293,7 @@ import '../styles/utils.css';
 ```
 
 :::info 注
-Modern.js 集成了 [PostCSS](/docs/guides/basic-features/css/postcss)，支持现代 CSS 语法特性，比如 [custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/--*)。
+Modern.js 集成了 [PostCSS](/docs/guides/basic-features/css/postcss)，支持现代 CSS 语法特性，比如 [custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)。
 :::
 
 在 `src/routes/components/Item/index.tsx` 里使用，把：
@@ -321,4 +319,3 @@ Modern.js 集成了 [PostCSS](/docs/guides/basic-features/css/postcss)，支持�
 
 不过在 PostCSS 的支持下，现代 CSS 应该足以满足这些开发需求，性能相较于预处理器也更好，建议优先用 .css 文件。
 :::
-

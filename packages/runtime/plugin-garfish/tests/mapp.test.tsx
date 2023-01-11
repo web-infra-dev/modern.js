@@ -5,7 +5,7 @@ import fetchMock from 'jest-fetch-mock';
 import '@testing-library/jest-dom';
 // https://stackoverflow.com/questions/49034907/fetch-mock-does-not-mock-my-fetch
 import { Link, MemoryRouter } from '@modern-js/plugin-router-v5/runtime';
-import ModernGarfishPlugin, { useModuleApp } from '../src/runtime';
+import garfishPlugin, { useModuleApp } from '../src/runtime';
 import { useModuleApps } from '../src';
 import {
   TABLE_LIST_ESCAPE_NODE,
@@ -21,7 +21,6 @@ import {
 
 global.React = React;
 global.fetch = fetchMock as any;
-
 
 const tableListPath = 'http://garfish-mock.com/table-list';
 const userInfoPath = 'http://garfish-mock.com/user-info';
@@ -108,7 +107,7 @@ describe('plugin-garfish', () => {
     let unmount = () => {};
     await act(async () => {
       const AppWrapper = createApp({
-        plugins: [ModernGarfishPlugin(microFrontendConfig)],
+        plugins: [garfishPlugin(microFrontendConfig)],
       })(App);
       const res = render(<AppWrapper />);
       unmount = res.unmount;

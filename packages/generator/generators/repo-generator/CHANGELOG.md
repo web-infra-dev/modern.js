@@ -1,5 +1,15 @@
 # @modern-js/repo-generator
 
+## 3.0.2
+
+## 3.0.1
+
+## 3.0.0
+
+### Major Changes
+
+- dda38c9c3e: chore: v2
+
 ## 3.0.0-beta.6
 
 ### Major Changes

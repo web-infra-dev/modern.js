@@ -30,9 +30,9 @@ plugin 参数支持声明多次，代表同时使用多个生成器插件。
 
 ```json
 {
-    "meta": {
-        "extend": "mwa" // 三个工程方案分别对应 mwa、module、 monorepo
-    }
+  "meta": {
+    "extend": "mwa" // 三个工程方案分别对应 mwa、module、 monorepo
+  }
 }
 ```
 
@@ -40,11 +40,11 @@ plugin 参数支持声明多次，代表同时使用多个生成器插件。
 
 ```json
 {
-    "meta": {
-        "key": "new_solution",
-        "name": "新工程方案",
-        "type": "mwa" // 除了三大工程方案，这里类型还支持自定义(custom)类型，后面会详细介绍
-    }
+  "meta": {
+    "key": "new_solution",
+    "name": "新工程方案",
+    "type": "mwa" // 除了三大工程方案，这里类型还支持自定义(custom)类型，后面会详细介绍
+  }
 }
 ```
 

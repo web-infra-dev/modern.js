@@ -12,7 +12,7 @@ The Module Engineering solution provides the Microgenerator tool, which allows f
 
 Thus with these capabilities, **Microgenerator can enable additional feature functionality for the project**.
 
-The microgenerator can be started via [`modern new`](/zh/guide/command-preview). The current Microgenerator features supported by the Module Engineering program are:
+The microgenerator can be started via [`modern new`](/guide/basic/command-preview). The current Microgenerator features supported by the Module Engineering program are:
 
 ## Storybook
 
@@ -20,8 +20,8 @@ The **Storybook feature** can be enabled when we want to debug a component or a 
 
 For more information on how to start Storybook and how to use it, check out the following link.
 
-- [`modern dev`](/en/guide/command-preview#modern-dev)
-- [using Storybook](xxx)
+- [`modern dev`](/en/guide/basic/command-preview#modern-dev)
+- [`using Storybook`](/en/guide/basic/using-storybook)
 
 ## Tailwind CSS support
 
@@ -29,10 +29,14 @@ This can be enabled when we want to add [Tailwind CSS](https://v2.tailwindcss.co
 
 For more information on how to use Tailwind CSS in your module projects, check out.
 
-- [Using Tailwind CSS](xxx)
+<!-- 链接待补充 -->
+
+- Using Tailwind CSS
 
 ## Modern.js Runtime API
 
-**Modern.js provides [Runtime API](xxx) capabilities that can only be used in the Modern.js application project environment**. If you need to develop a component for use in a Modern.js application environment, then you can turn on this feature and the microgenerator will add the `"@modern-js/runtime"` dependency.
+<!-- 链接待补充 -->
+
+**Modern.js provides Runtime API capabilities that can only be used in the Modern.js application project environment**. If you need to develop a component for use in a Modern.js application environment, then you can turn on this feature and the microgenerator will add the `"@modern-js/runtime"` dependency.
 
 Also, the Storybook debugging tool will determine if the project needs to use the Runtime API by checking the project's dependencies and providing the same Runtime API runtime environment as the Modern.js application project.

@@ -16,7 +16,7 @@ Module-tools 插件是一个对象，对象包含以下属性：
 ```ts ./plugins/demo.tsx
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
-const MyPlugin: CliPlugin<ModuleTools> = {
+const myPlugin: CliPlugin<ModuleTools> = {
   name: 'my-plugin',
 
   setup() {
@@ -33,9 +33,9 @@ const MyPlugin: CliPlugin<ModuleTools> = {
 ---
 
 ```ts ./modern.config.ts
-import { MyPlugin } from './plugins/demo';
+import { myPlugin } from './plugins/demo';
 export default {
-  plugins: [MyPlugin()],
+  plugins: [myPlugin()],
 };
 ```
 
@@ -48,7 +48,7 @@ export default {
 ```ts
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
-const MyPlugin: CliPlugin<ModuleTools> = {
+const myPlugin: CliPlugin<ModuleTools> = {
   name: 'my-plugin',
 
   setup() {
@@ -75,7 +75,7 @@ type MyPluginOptions = {
   foo: string;
 };
 
-const MyPlugin = (options: MyPluginOptions): CliPlugin<ModuleTools> => ({
+const myPlugin = (options: MyPluginOptions): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {

@@ -26,7 +26,6 @@ Modern.js 支持了业界流行的约定式路由模式：**嵌套路由**，使
 +------------------+                  +-----------------+
 ```
 
-
 ### 路由文件约定
 
 在`routes/` 目录下，目录名会作为路由 url 的映射，Modern.js 有两个文件约定 `layout.[jt]sx` 和 `page.[jt]sx`（后面简写为 `.tsx`）。这两个文件决定了应用的布局层次，其中 `layout.tsx` 中作为布局组件，`page.tsx` 作为内容组件，是整条路由的叶子节点（一条路由有且仅有一个叶子节点，且必须以叶子节点结尾）。
@@ -42,6 +41,7 @@ Modern.js 支持了业界流行的约定式路由模式：**嵌套路由**，使
 ```
 
 会产出下面两条路由：
+
 - `/`
 - `/user`
 
@@ -91,8 +91,8 @@ export default () => {
     <>
       <Outlet></Outlet>
     </>
-  )
-}
+  );
+};
 ```
 
 :::note
@@ -122,6 +122,7 @@ export default () => {
 ```
 
 2. 当路由为 `/blog` 时，`routes/layout.tsx` 中的 `<Outlet>` 代表的是 `routes/blog/page.tsx` 中导出的组件，生成以下 UI 结构：
+
 ```tsx
 <Layout>
   <BlogPage />
@@ -165,7 +166,7 @@ export default () => {
 
 ### 无路径布局
 
-当目录名以 __ 开头时，对应的目录名不会转换为实际的路由路径，例如以下文件目录：
+当目录名以 \_\_ 开头时，对应的目录名不会转换为实际的路由路径，例如以下文件目录：
 
 ```
 .
@@ -180,7 +181,7 @@ export default () => {
     └── page.tsx
 ```
 
-Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组件会作为 `login/page.tsx` 和 `signup/page.tsx` 的布局组件，但__auth 不会作为路由路径片段。
+Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组件会作为 `login/page.tsx` 和 `signup/page.tsx` 的布局组件，但`__auth` 不会作为路由路径片段。
 
 当需要为某些类型的路由，做独立的布局，或是想要将路由做归类时，这一功能非常有用。
 
@@ -202,11 +203,11 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 
 ```tsx
 <RootLayout>
-   <UserProfileEdit />   // routes/user.profile.[id].edit/page.tsx
+  <UserProfileEdit /> // routes/user.profile.[id].edit/page.tsx
 </RootLayout>
 ```
 
-### Loading
+### (WIP)Loading
 
 `routes/` 下每一层目录中，开发者可以创建 `loading.tsx` 文件，默认导出一个 `<Loading>` 组件。
 
@@ -225,6 +226,7 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 ```
 
 当定义 `loading.tsx` 时，就相当于以下布局：
+
 ```tsx title="当路由为 / 时"
 <Layout>
   <Suspense fallback={<Loading/>}>
@@ -235,7 +237,7 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 
 ```tsx title="当路由为 /blog 时"
 <Layout>
-  <Suspense fallback={<Loading/>}>
+  <Suspense fallback={<Loading />}>
     <BlogPage />
   </Suspense>
 </Layout>
@@ -243,11 +245,12 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 
 ```tsx title="当路由为 /blog/123 时"
 <Layout>
-  <Suspense fallback={<Loading/>}>
+  <Suspense fallback={<Loading />}>
     <BlogIdPage />
   </Suspense>
 </Layout>
 ```
+
 :::info
 当目录的 layout 组件不存在时，该目录下的 loading 组件也不会生效。
 Modern.js 建议必须有根 layout 和根 loading。
@@ -256,7 +259,6 @@ Modern.js 建议必须有根 layout 和根 loading。
 当路由从 `/` 跳转到 `/blog` 时，如果 `blog/page` 组件的 JS Chunk 还未加载，则会先展示 `loading.tsx` 中导出的组件 UI。
 
 同理，当路由从 `/` 或者 `/blog` 跳转到 `/blog/123` 时，如果 `blog/[id]/page` 组件的 JS Chunk 还未加载，也会先展示 `loading.tsx` 中导出的组件 UI。
-
 
 ### 错误处理
 
@@ -267,6 +269,7 @@ Modern.js 建议必须有根 layout 和根 loading。
 `<ErrorBoundary>` 可以返回出错时的 UI 视图，当前层级未声明 `<ErrorBoundary>` 组件时，错误会向上冒泡到更上层的组件，直到被捕获或抛出错误。同时，当组件出错时，只会影响捕获到该错误的路由组件及子组件，其他组件的状态和视图不受影响，可以继续交互。
 
 <!-- Todo API 路由-->
+
 在 `<ErrorBoundary>` 组件内，可以使用 [useRouteError](/docs/apis/app/runtime/router/#useparams) 获取的错误的具体信息：
 
 ```tsx
@@ -275,11 +278,11 @@ const ErrorBoundary = () => {
   const error = useRouteError();
   return (
     <div>
-        <h1>{error.status}</h1>
-        <h2>{error.message}</h2>
+      <h1>{error.status}</h1>
+      <h2>{error.message}</h2>
     </div>
-  )
-}
+  );
+};
 export default ErrorBoundary;
 ```
 
@@ -316,8 +319,8 @@ export default () => {
 export default defineConfig({
   runtime: {
     router: true,
-  }
-})
+  },
+});
 ```
 
 Modern.js 从 `@modern-js/runtime/router` 命名空间暴露了 React Router 的 API 供开发者使用，保证开发者和 Modern.js 中使用同一份代码。另外，这种情况下，React Router 的代码会被打包到 JS 产物中。如果项目已经有自己的路由方案，或者不需要使用客户端路由，可以关闭这个功能。
@@ -326,6 +329,6 @@ Modern.js 从 `@modern-js/runtime/router` 命名空间暴露了 React Router 的
 export default defineConfig({
   runtime: {
     router: false,
-  }
-})
+  },
+});
 ```

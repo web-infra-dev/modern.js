@@ -4,7 +4,7 @@ sidebar_label: masterApp
 
 # runtime.masterApp
 
-* Type： `Object`
+- Type： `Object`
 
 :::info
 First you need to enable the "micro frontend" function using [new command](/docs/apis/app/commands/new).
@@ -17,7 +17,6 @@ import MasterManifestAppConfig from '@site-docs-en/components/micro-master-manif
 
 <EnableMicroFrontend />
 <MasterManifestAppConfig />
-
 
 ### apps
 

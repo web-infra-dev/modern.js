@@ -1,5 +1,5 @@
 ---
-title: "**/*.[tj]s"
+title: '**/*.[tj]s'
 sidebar_position: 1
 ---
 
@@ -17,23 +17,23 @@ sidebar_position: 1
 
 路由系统会将以 `index` 命名的文件会被映射到上一层目录。
 
-* `api/index.ts` -> `$BASENAME/`
-* `api/user/index.ts` -> `$BASENAME/user`
+- `api/index.ts` -> `$BASENAME/`
+- `api/user/index.ts` -> `$BASENAME/user`
 
 ### 嵌套路由
 
 路由系统也支持解析嵌套的文件，如果创建嵌套文件夹结构，文件仍会以相同方式自动解析路由。
 
-* `api/hello.ts` -> `$BASENAME/hello`
-* `api/user/list.ts` -> `$BASENAME/user/list`
+- `api/hello.ts` -> `$BASENAME/hello`
+- `api/user/list.ts` -> `$BASENAME/user/list`
 
 ### 动态路由
 
 同样的，你可以通过创建带有 `[xxx]` 的文件夹或者文件来支持动态的命名路由参数。
 
-* `api/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
-* `api/user/[username]/delete.ts` -> `$BASENAME/user/:username/delete`
-* `api/article/[id]/info.ts` -> `$BASENAME/article/:id/info`
+- `api/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
+- `api/user/[username]/delete.ts` -> `$BASENAME/user/:username/delete`
+- `api/article/[id]/info.ts` -> `$BASENAME/article/:id/info`
 
 其中的 `$BASENAME` 可以在 `modern.config.js` 中进行配置，默认值为 `/api`。
 
@@ -41,11 +41,11 @@ sidebar_position: 1
 
 默认 `api` 目录下所有文件都会当作 BFF 函数文件去解析，但同样我们也设置了白名单，这些文件不被被解析：
 
-* 命名以 `_` 开头的文件。例如：`_utils.ts`。
-* 命名以 `_` 开头的文件夹下所有文件。例如：`_utils/index.ts`、`_utils/cp.ts`。
-* 测试文件。例如：`foo.test.ts`。
-* TypeScript 类型文件。例如：`hello.d.ts`。
-* `node_module` 下的文件。
+- 命名以 `_` 开头的文件。例如：`_utils.ts`。
+- 命名以 `_` 开头的文件夹下所有文件。例如：`_utils/index.ts`、`_utils/cp.ts`。
+- 测试文件。例如：`foo.test.ts`。
+- TypeScript 类型文件。例如：`hello.d.ts`。
+- `node_module` 下的文件。
 
 ## 函数定义
 

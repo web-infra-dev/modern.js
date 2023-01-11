@@ -1,4 +1,4 @@
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
+import appTools, { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   source: {
@@ -8,5 +8,5 @@ export default defineConfig({
     },
   },
   runtime: {},
-  plugins: [AppToolsPlugin()],
+  plugins: [appTools()],
 });

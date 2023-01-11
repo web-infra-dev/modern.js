@@ -8,29 +8,25 @@ import TabItem from '@theme/TabItem';
   <TabItem value="express" label="Express.js" default>
 
 ```ts title="edenx.config.ts"
-import ExpressPlugin from '@edenx/plugin-express';
-import BffPlugin from '@edenx/plugin-bff';
+import expressPlugin from '@edenx/plugin-express';
+import bffPlugin from '@edenx/plugin-bff';
 
 export default defineConfig({
-  plugins: [
-    ExpressPlugin(),
-    BffPlugin()
-  ]
-})
+  plugins: [expressPlugin(), bffPlugin()],
+});
 ```
+
   </TabItem>
   <TabItem value="koa" label="Koa.js">
 
 ```ts title="edenx.config.ts"
-import KoaPlugin from '@edenx/plugin-koa';
-import BffPlugin from '@edenx/plugin-bff';
+import koaPlugin from '@edenx/plugin-koa';
+import bffPlugin from '@edenx/plugin-bff';
 
 export default defineConfig({
-  plugins: [
-    KoaPlugin(),
-    BffPlugin()
-  ]
-})
+  plugins: [koaPlugin(), bffPlugin()],
+});
 ```
+
   </TabItem>
 </Tabs>

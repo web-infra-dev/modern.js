@@ -459,7 +459,7 @@
 .modern-doc .modern-directive {
   border: 1px solid transparent;
   border-radius: 8px;
-  padding: 16px 16px 8px;
+  padding: 16px 20px 8px;
   line-height: 24px;
   font-size: 14px;
   margin: 16px 0;
@@ -482,7 +482,8 @@
   background-image: var(--modern-icon-tip);
 }
 
-.modern-doc .modern-directive.tip {
+.modern-doc .modern-directive.tip,
+.modern-doc .modern-directive.note {
   border-color: var(--modern-custom-block-tip-border);
   color: var(--modern-custom-block-tip-text);
   background-color: var(--modern-custom-block-tip-bg);

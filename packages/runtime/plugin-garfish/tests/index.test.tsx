@@ -12,7 +12,7 @@ import {
   useLocation,
   MemoryRouter,
 } from '@modern-js/plugin-router-v5/runtime';
-import ModernGarfishPlugin from '../src/runtime';
+import garfishPlugin from '../src/runtime';
 import { useModuleApps } from '../src';
 import {
   TABLE_LIST_ESCAPE_NODE,
@@ -138,7 +138,7 @@ describe('plugin-garfish', () => {
     let unmount = () => {};
     await act(async () => {
       const AppWrapper = createApp({
-        plugins: [ModernGarfishPlugin(microFrontendConfig)],
+        plugins: [garfishPlugin(microFrontendConfig)],
       })(App);
       const res = render(<AppWrapper />);
       unmount = res.unmount;

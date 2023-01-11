@@ -14,7 +14,10 @@ import type {
   WebpackConfig,
   HTMLPluginOptions,
   NormalizedConfig,
+  BuilderPluginAPI,
 } from '../types';
+import type { Options as HtmlTagsPluginOptions } from '../webpackPlugins/HtmlTagsPlugin';
+import _ from '@modern-js/utils/lodash';
 
 // This is a minimist subset of modern.js server routes
 type RoutesInfo = {
@@ -32,7 +35,6 @@ async function getTemplateParameters(
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { mountId, templateParameters, templateParametersByEntries } =
     config.html;
-
   const meta = await getMetaTags(entryName, config);
   const title = getTitle(entryName, config);
   const templateParams =
@@ -91,6 +93,47 @@ export const isHtmlDisabled = (
   config.tools.htmlPlugin === false ||
   target === 'node' ||
   target === 'web-worker';
+
+export const applyInjectTags = (api: BuilderPluginAPI) => {
+  api.modifyWebpackChain(async (chain, { HtmlWebpackPlugin, CHAIN_ID }) => {
+    const config = api.getNormalizedConfig();
+    const tags = _.castArray(config.html.tags).filter(Boolean);
+    const tagsByEntries = _.mapValues(config.html.tagsByEntries, tags =>
+      _.castArray(tags).filter(Boolean),
+    );
+    const shouldByEntries = _.some(tagsByEntries, 'length');
+
+    // skip if options is empty.
+    if (!tags.length && !shouldByEntries) {
+      return;
+    }
+    // dynamic import.
+    const { HtmlTagsPlugin } = await import('../webpackPlugins/HtmlTagsPlugin');
+    // create shared options used for entry without specified options.
+    const sharedOptions: HtmlTagsPluginOptions = {
+      htmlWebpackPlugin: HtmlWebpackPlugin,
+      append: true,
+      hash: false,
+      publicPath: true,
+      tags,
+    };
+    // apply only one webpack plugin if `html.tagsByEntries` is empty.
+    if (tags.length && !shouldByEntries) {
+      chain
+        .plugin(CHAIN_ID.PLUGIN.HTML_TAGS)
+        .use(HtmlTagsPlugin, [sharedOptions]);
+      return;
+    }
+    // apply webpack plugin for each entries.
+    for (const [entry, filename] of Object.entries(api.getHTMLPaths())) {
+      const opts = { ...sharedOptions, includes: [filename] };
+      entry in tagsByEntries && (opts.tags = tagsByEntries[entry]);
+      chain
+        .plugin(`${CHAIN_ID.PLUGIN.HTML_TAGS}#${entry}`)
+        .use(HtmlTagsPlugin, [opts]);
+    }
+  });
+};
 
 export const PluginHtml = (): BuilderPlugin => ({
   name: 'builder-plugin-html',
@@ -217,5 +260,7 @@ export const PluginHtml = (): BuilderPlugin => ({
         );
       }
     });
+
+    applyInjectTags(api);
   },
 });

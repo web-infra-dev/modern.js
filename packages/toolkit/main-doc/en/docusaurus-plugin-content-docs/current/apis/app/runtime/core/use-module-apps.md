@@ -28,15 +28,17 @@ import EnableMicroFrontend from '@site-docs-en/components/enable-micro-frontend.
 function App() {
   const { Home, Contact } = useModuleApps();
 
-  return <div>
-    Master APP
-    <Route exact path='/home'>
-      <Home />
-    </Route>
-    <Route exact path='/home'>
-      <Contact />
-    </Route>
-  </div>;
+  return (
+    <div>
+      Master APP
+      <Route exact path="/home">
+        <Home />
+      </Route>
+      <Route exact path="/home">
+        <Contact />
+      </Route>
+    </div>
+  );
 }
 
 defineConfig(App, {
@@ -44,24 +46,23 @@ defineConfig(App, {
     apps: [
       {
         // name 区分大小写，name 提供的是什么 useModuleApps 返回的就是什么
-        name: "Home",
-        entry: "http://127.0.0.1:8081/"
+        name: 'Home',
+        entry: 'http://127.0.0.1:8081/',
       },
       {
-          name: "Contact",
-          entry: "http://localhost:8082"
-      }
-    ]
-  }
-})
+        name: 'Contact',
+        entry: 'http://localhost:8082',
+      },
+    ],
+  },
+});
 ```
 
 Get the `Home` and `Contact` sub-application components(the same as name in the config) through `useModuleApps()`. After that, you can load the child application just like a normal React component.
 
-
 ### Centralized Routing
 
-**Centralized Routing** is a way to centrally configure the activation routes of sub-applications. 我add `activeWhen` config to enable **Centralized Routing**。
+**Centralized Routing** is a way to centrally configure the activation routes of sub-applications. Add `activeWhen` config to enable **Centralized Routing**。
 
 import MicroRuntimeConfig from '@site-docs-en/components/micro-runtime-config.md';
 
@@ -75,9 +76,11 @@ import { useModuleApp } from '@modern-js/plugin-runtime';
 function App() {
   const { MApp } = useModuleApps();
 
-  return <div>
-    <MApp />
-  </div>
+  return (
+    <div>
+      <MApp />
+    </div>
+  );
 }
 
 defineConfig(App, {
@@ -85,18 +88,18 @@ defineConfig(App, {
     apps: [
       {
         // name is case sensitive, what name provides is what useModuleApps returns
-        name: "Dashboard",
+        name: 'Dashboard',
         activeWhen: '/dashboard',
-        entry: "http://127.0.0.1:8081/"
+        entry: 'http://127.0.0.1:8081/',
       },
       {
-        name: "TableList",
+        name: 'TableList',
         activeWhen: '/table',
-        entry: "http://localhost:8082"
-      }
-    ]
-  }
-})
+        entry: 'http://localhost:8082',
+      },
+    ],
+  },
+});
 ```
 
 After starting the application in this way, accessing the `/dashboard` route will render the `Dashboard`, and accessing the `/table` route will render the `TableList`.
@@ -107,26 +110,30 @@ The transition animation of the component loading process can be customized in t
 
 ```tsx title=App.tsx
 function App() {
-  const { Components: { Home } } = useModuleApps();
+  const {
+    Components: { Home },
+  } = useModuleApps();
 
-  return <div>
-    Master APP
-    <Route exact path='/home'>
-      <Home
-        loadable={{
-          loading: ({ pastDelay, error }: any) => {
-            if (error) {
-              console.error(error);
-              return <div>error: {error?.message}</div>;
-            } else if (pastDelay) {
-              return <div>loading</div>;
-            } else {
-              return null;
-            }
-          },
-        }}
-      />
-    </Route>
-  </div>;
+  return (
+    <div>
+      Master APP
+      <Route exact path="/home">
+        <Home
+          loadable={{
+            loading: ({ pastDelay, error }: any) => {
+              if (error) {
+                console.error(error);
+                return <div>error: {error?.message}</div>;
+              } else if (pastDelay) {
+                return <div>loading</div>;
+              } else {
+                return null;
+              }
+            },
+          }}
+        />
+      </Route>
+    </div>
+  );
 }
 ```

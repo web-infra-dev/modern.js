@@ -4,8 +4,8 @@ title: tools.jest
 sidebar_label: jest
 ---
 
-* Type: `Object | Function`
-* Default: `{}`
+- Type: `Object | Function`
+- Default: `{}`
 
 :::caution Caution
 First you need to enable the "Unit Test" function using [new](/docs/apis/app/commands/new) command.
@@ -17,9 +17,9 @@ Corresponding to the configuration of [Jest](https://jestjs.io/docs/configuratio
 export default defineConfig({
   tools: {
     jest: {
-      testTimeout: 10000
-    }
-  }
+      testTimeout: 10000,
+    },
+  },
 });
 ```
 
@@ -31,9 +31,9 @@ export default defineConfig({
     jest: options => {
       return {
         ...options,
-        testTimeout: 10000
-      }
-    }
-  }
+        testTimeout: 10000,
+      };
+    },
+  },
 });
 ```

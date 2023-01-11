@@ -20,7 +20,7 @@ sidebar_position: 7
 
 当这些变化一旦完成后，需要通过以下命令来对当前的变化进行记录：
 
-- [`modern change`](/zh/guide/command-preview#modern-change)
+- [`modern change`](/guide/basic/command-preview#modern-change)
 
 执行 `modern change` 命令后会向开发者提出几个问题，并根据开发者的回答生成变更记录。变更记录文件包含了版本变化的类型和其描述，该文件会被提交到 git 仓库中。
 
@@ -53,7 +53,7 @@ publish test
 
 当需要更新项目版本的时候，执行以下命令：
 
-- [`modern bump`](/zh/guide/command-preview#modern-bump)
+- [`modern bump`](/guide/basic/command-preview#modern-bump)
 
 执行 `modern bump` 将会基于 `.changeset/` 目录下记录了变更的 Markdown 文件内容来修改 `package.json` 中的版本号，同时生成 `CHANGELOG.md` 文件。**而当版本更新完成后，这些记录变更的 Markdown 文件也会被删除，也可说这些 Markdown 文件被“消耗”掉了**。
 
@@ -71,7 +71,7 @@ publish test
 
 发布项目可以执行以下命令：
 
-- [`modern publish`](/zh/guide/command-preview#modern-release)
+- [`modern publish`](/guide/basic/command-preview#modern-release)
 
 `modern release` 命令可以将项目发布到 npm Registry。
 
@@ -89,7 +89,7 @@ modern release --tag beta
 
 当需要在正式发布之前进行预发布，则需要执行以下命令：
 
-- [`modern pre`](/zh/guide/command-preview#modern-pre)
+- [`modern pre`](/guide/basic/command-preview#modern-pre)
 
 首先 `modern pre enter <tag>` 进入预发布模式，`<tag>` 可以与发布项目的时候使用 `modern release --tag` 命令指定的 `tag` 一致。
 

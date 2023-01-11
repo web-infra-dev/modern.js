@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # BuildConfig
 
-本章节描述了 Module tools 关于构建的所有配置
+本章节描述了 Module Tools 关于构建的所有配置
 
 ## alias
 
@@ -12,7 +12,7 @@ sidebar_position: 1
 - 默认值：`{'@': 'src',}`
 
 :::tip
-对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Module tools 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
+对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Module Tools 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
 :::
 
 ```js modern.config.ts
@@ -63,7 +63,7 @@ export default defineConfig({
 
 ### path
 
-静态资源输出路径，会基于 [outDir](/zh/api/build-config/#outDir) 进行输出。
+静态资源输出路径，会基于 [outDir](/api/config/build-config#outDir) 进行输出。
 
 - 类型： `string`
 - 默认值： `assets`
@@ -102,6 +102,19 @@ export default defineConfig({
 
 - 类型： `boolean | Object`
 - 默认值： `false`
+
+:::tip
+开启 svgr 后，仍然使用 default export 导出 svg，所以你只能导入默认值。
+
+```js index.ts
+// true
+import logo from './logo.svg';
+
+// false
+import { ReactComponent } from './logo.svg';
+```
+
+:::
 
 #### include
 
@@ -218,7 +231,8 @@ export default defineConfig({
 
 - 全局常量使用大写
 - 自定义全局常量前缀后缀，确保独一无二
-  :::
+
+:::
 
 ## dts
 
@@ -236,7 +250,7 @@ TypeScript 配置文件的路径。
 
 ### distPath
 
-类型文件的输出路径，基于 [outDir](/zh/api/build-config/#outDir) 进行输出。
+类型文件的输出路径，基于 [outDir](/api/config/build-config#outDir) 进行输出。
 
 - 类型: `string`
 - 默认值: `./types`
@@ -285,6 +299,13 @@ export default defineConfig({
 
 - 类型： `automatic | classic`
 - 默认值： `automatic`
+
+## metafile
+
+esbuild 以 JSON 格式生成有关构建的一些元数据，可以通过例如 [bundle-buddy](https://bundle-buddy.com/esbuild) 的工具可视化
+
+- type: `boolean`
+- default: `false`
 
 ## minify
 
@@ -508,7 +529,7 @@ export default defineConfig({
 根据文件名自动启用 CSS Modules。
 
 - 类型： `boolean | RegExp`
-- 默认值： `true `
+- 默认值： `true`
 
 `true` : 为以 `.module.css` `.module.less` `.module.scss` `.module.sass` 文件名结尾的样式文件启用 CSS Modules。
 
@@ -580,7 +601,7 @@ const tailwind = {
 
 值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
 
-不允许出现 `theme` 属性，否则会构建失败, 使用 [`designSystem`](/zh/api/design-system) 作为 `Tailwind CSS Theme` 配置。
+不允许出现 `theme` 属性，否则会构建失败, 使用 [`designSystem`](/api/config/design-system) 作为 `Tailwind CSS Theme` 配置。
 
 其他的使用方式和 Tailwind CSS 一致: [快速传送门](https://tailwindcss.com/docs/configuration)。
 
@@ -632,11 +653,13 @@ export default defineConfig({
 ```
 
 此时 UMD 产物会去挂载到 `global.myLib` 上。
+
 :::tip
 
 - 需要遵守 UMD 规范，UMD 产物的模块名不能和全局变量名冲突
 - 模块名不能含有 `-`，`@`，`/` 等特殊字符
-  :::
+
+:::
 
 同时函数形式可以接收一个参数，为当前打包文件的输出路径
 

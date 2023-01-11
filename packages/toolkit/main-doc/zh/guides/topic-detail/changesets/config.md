@@ -89,6 +89,7 @@ sidebar_position: 5
 当执行 `bump` 命令升级版本号时，默认会自动更新仓库中使用该包的依赖声明。配置该字段为 `minor` 后，如果升级版本号为 `patch` 类型，将不会自动更新引用依赖声明。
 
 例如：
+
 ```
 pkg-a @ version 1.0.0
 pkg-b @ version 1.0.0
@@ -115,7 +116,7 @@ pkg-b @ version 1.0.0
 
 配置为数组时，第一个参数为自定义 NPM 包或者路径，第二个参数为需要传入的默认参数配置，自定义格式我们将在后续[自定义 Changelog](/docs/guides/topic-detail/changesets/changelog) 章节讲解。
 
-### ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
+### \_\_\_experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
 
 一些实验性配置。
 

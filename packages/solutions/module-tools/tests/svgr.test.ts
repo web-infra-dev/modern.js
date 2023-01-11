@@ -24,11 +24,10 @@ describe('svgr usage', () => {
       configFile,
       appDirectory: fixtureDir,
     });
-
     expect(success).toBeTruthy();
     const distFilePath = path.join(fixtureDir, './dist/default/index.js');
     const content = await fs.readFile(distFilePath, 'utf-8');
-    expect(content.includes(`SvgLogo as ReactComponent`)).toBeTruthy();
+    expect(content.includes(`jsx("svg"`)).toBeTruthy();
   });
   it('options with exclude', async () => {
     const configFile = path.join(configDir, './exclude.config.ts');
@@ -37,7 +36,9 @@ describe('svgr usage', () => {
       configFile,
       appDirectory: fixtureDir,
     });
-
-    expect(success).toBeFalsy();
+    expect(success).toBeTruthy();
+    const distFilePath = path.join(fixtureDir, './dist/exclude/index.js');
+    const content = await fs.readFile(distFilePath, 'utf-8');
+    expect(content.includes(`data:image`)).toBeTruthy();
   });
 });

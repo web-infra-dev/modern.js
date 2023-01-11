@@ -1,10 +1,10 @@
 import path from 'path';
-import LintPlugin from '@modern-js/plugin-lint';
+import lintPlugin from '@modern-js/plugin-lint';
 import { cleanRequireCache, emptyDir, Import, Command } from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
-import AnalyzePlugin from './analyze';
-import InitializePlugin from './initialize';
+import analyzePlugin from './analyze';
+import initializePlugin from './initialize';
 import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
@@ -86,9 +86,6 @@ export const buildCommand = async (
     .action(async (options: BuildOptions) => {
       const { build } = await import('./commands/build');
       await build(api, options);
-      // force exit after build.
-      // eslint-disable-next-line no-process-exit
-      process.exit(0);
     });
 
   for (const platformBuilder of platformBuilders) {
@@ -123,7 +120,7 @@ export default (): CliPlugin<AppTools> => ({
 
   registerHook: hooks,
 
-  usePlugins: [InitializePlugin(), AnalyzePlugin(), LintPlugin()],
+  usePlugins: [initializePlugin(), analyzePlugin(), lintPlugin()],
 
   setup: api => {
     const locale = getLocaleLanguage();
@@ -170,6 +167,7 @@ export default (): CliPlugin<AppTools> => ({
           .command('new')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.new.describe))
+          .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
           .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
           .option(
             '-c, --config <config>',
@@ -179,7 +177,7 @@ export default (): CliPlugin<AppTools> => ({
           .option('--registry', i18n.t(localeKeys.command.new.registry))
           .action(async (options: any) => {
             const { MWANewAction } = await import('@modern-js/new-action');
-            await MWANewAction({ ...options, locale });
+            await MWANewAction({ ...options, locale: options.lang || locale });
           });
 
         program

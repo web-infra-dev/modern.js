@@ -9,8 +9,9 @@ In the [Basic Usage] section, we already knew that you can modify the output pro
 :::tip{title=notes}
 If you are not sure what `buildConfig` is, it is recommended to take some time to understand it by following this link.
 
-- [[modify-output-product](/en/guide/modify-output-product)]
-  :::
+- [[modify-output-product](/en/guide/basic/modify-output-product)]
+
+:::
 
 In this chapter we'll dive into the use of certain build configurations and understand what happens when the `modern build` command is executed.
 
@@ -24,11 +25,11 @@ A Bundle is a package of build products, which may be a single file or multiple 
 
 Bundleless, on the other hand, means that each source file is compiled and built separately, but not packaged together. Each product file can be found with its corresponding source code file. The process of **Bundleless build can also be understood as the process of code conversion of source files only**.
 
-In `buildConfig` you can specify whether the current build task is Bundle or Bundleless by using [`buildConfig.buildType`](/en/api/build-config#buildtype).
+In `buildConfig` you can specify whether the current build task is Bundle or Bundleless by using [`buildConfig.buildType`](/en/api/config/build-config#buildtype).
 
 ### Relationship between `input` and `sourceDir`
 
-[`buildConfig.input`](/en/api/build-config#input) is used to specify the file path or directory path where the source code is read, and its default value differs between Bundle and Bundleless builds.
+[`buildConfig.input`](/en/api/config/build-config#input) is used to specify the file path or directory path where the source code is read, and its default value differs between Bundle and Bundleless builds.
 
 - When `buildType: 'bundle'`, `input` defaults to `['src/index.ts']`
 - When `buildType: 'bundleless'`, `input` defaults to `['src']`
@@ -61,7 +62,7 @@ The Bundleless build process also supports such use, but it is not recommended.
 
 #### `sourceDir`
 
-[`sourceDir`](/en/api/build-config#sourcedir) is used to specify the source code directory, which is related to both.
+[`sourceDir`](/en/api/config/build-config#sourcedir) is used to specify the source code directory, which is related to both.
 
 - type file generation
 - [`outbase`](https://esbuild.github.io/api/#outbase) for specifying the build process
@@ -73,7 +74,7 @@ In general:
 
 ### Declaration Type Files
 
-The [`buildConfig.dts`](/en/api/build-config#dts) configuration is mainly used for type file generation.
+The [`buildConfig.dts`](/en/api/config/build-config#dts) configuration is mainly used for type file generation.
 
 #### Turn off type generation
 
@@ -99,7 +100,7 @@ With `buildType: 'bundleless'`, type files are generated using the project's `ts
 
 The **module engineering solution also supports packaging of type files**, although care needs to be taken when using this feature.
 
-- Some third-party dependencies have incorrect syntax that can cause the packaging process to fail. So in this case, you need to exclude such third-party packages manually with [`buildConfig.externals`](/en/api/build-config#externals).
+- Some third-party dependencies have incorrect syntax that can cause the packaging process to fail. So in this case, you need to exclude such third-party packages manually with [`buildConfig.externals`](/en/api/config/build-config#externals).
 - It is not possible to handle the case where the type file of a third-party dependency points to a `.ts` file. For example, the `package.json` of a third-party dependency contains something like this: `{"types": ". /src/index.ts"}`.
 
 #### Alias Conversion
@@ -165,7 +166,7 @@ export default defineConfig({
 
 ### `buildConfig.define` Usage for different scenarios
 
-[`buildConfig.define`](/en/api/build-config#define) functions somewhat similar to [`webpack.DefinePlugin`](https://webpack.js.org/plugins/define-plugin/). A few usage scenarios are described here.
+[`buildConfig.define`](/en/api/config/build-config#define) functions somewhat similar to [`webpack.DefinePlugin`](https://webpack.js.org/plugins/define-plugin/). A few usage scenarios are described here.
 
 #### Environment variable replacement
 

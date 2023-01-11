@@ -9,11 +9,7 @@ title: NoSSR
 ```tsx
 import { NoSSR } from '@modern-js/runtime';
 
-export default () => (
-  <NoSSR>
-    ...
-  </NoSSR>
-)
+export default () => <NoSSR>...</NoSSR>;
 ```
 
 ## 示例

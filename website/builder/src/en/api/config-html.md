@@ -42,6 +42,14 @@ This section describes some HTML configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/metaByEntries.md)!!!
 
+## html.tags
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/tags.md)!!!
+
+## html.tagsByEntries
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/tagsByEntries.md)!!!
+
 ## html.mountId
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/mountId.md)!!!

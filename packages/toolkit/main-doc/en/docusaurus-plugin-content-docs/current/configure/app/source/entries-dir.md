@@ -3,22 +3,22 @@ title: source.entriesDir
 sidebar_label: entriesDir
 ---
 
-* Type:  `string`
-* Default: `./src`
+- Type: `string`
+- Default: `./src`
 
 By default, the application entry will be identified according to the `src` directory. You can customize the identification directory of the application entry through this option.
 
 For example, when the configuration and directory structure are as follows:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
-    entriesDir: './src/pages'
-  }
-})
+    entriesDir: './src/pages',
+  },
+});
 ```
 
-``` title="Project directory structure"
+```bash title="Project directory structure"
 .
 └── src
     └── pages

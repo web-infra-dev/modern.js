@@ -18,7 +18,7 @@ sidebar_position: 6
 使用动态 `import()` 语法，`import` 接收的 JS 模块将作为一个新的打包入口被打包到单独的 JS 文件中。例如：
 
 ```ts
-import("./math").then(math => {
+import('./math').then(math => {
   console.log(math.add(16, 26));
 });
 ```
@@ -60,12 +60,12 @@ function MyComponent() {
 使用 `loadable` API，示例如下：
 
 ```ts
-import loadable from '@modern-js/runtime/loadable'
+import loadable from '@modern-js/runtime/loadable';
 
 const OtherComponent = loadable(() => import('./OtherComponent'));
 
 function MyComponent() {
-  return <OtherComponent />
+  return <OtherComponent />;
 }
 ```
 

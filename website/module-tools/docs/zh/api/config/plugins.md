@@ -9,10 +9,10 @@ sidebar_position: 4
 - type：`Array<ModuleToolsPlugin>`
 
 ```js modern.config.ts
-import { ExamplePlugin } from './plugins/example';
+import { examplePlugin } from './plugins/example';
 export default defineConfig({
-  plugins: [ExamplePlugin()],
+  plugins: [examplePlugin()],
 });
 ```
 
-关于如何编写插件，可以查看[【插件编写指南】](/zh/plugins/guide/getting-started)。
+关于如何编写插件，可以查看[【插件编写指南】](/plugins/guide/getting-started)。

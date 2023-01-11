@@ -127,7 +127,6 @@ interface ModelDesc {
 
 Reduck 内部集成了 [immer](https://github.com/immerjs/immer)，可以直接原始的 `state`，当 Action 没有显式返回值时，Reduck 内部会返回修改过的新的 State 对象。
 
-
 #### ModelDesc.computed
 
 定义 Model 的衍生状态。衍生状态的定义支持两种类型：
@@ -141,7 +140,6 @@ interface ModelDesc {
   };
 }
 ```
-
 
 2. 依赖其他 Model 的状态
 
@@ -192,7 +190,6 @@ const fooModel = model('foo').define((context, { use }) => ({
   },
 }));
 ```
-
 
 :::info 更多参考
 [创建 Model](/docs/guides/topic-detail/model/define-model)

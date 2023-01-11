@@ -22,8 +22,8 @@ Changelog 信息主要包含以下两种信息：
 
 - changeset
 
-```typescript
-export type VersionType = "major" | "minor" | "patch" | "none";
+```ts
+export type VersionType = 'major' | 'minor' | 'patch' | 'none';
 
 export type Release = { name: string; type: VersionType };
 
@@ -47,7 +47,7 @@ Changelog 内容。
 
 `@changesets/cli/changelog` 默认处理逻辑为将 `summary` 信息按照换行符 `\n` 分割，第一样前面增加 `-` 作为列表开头，其他内容作为第一行内容的补充整理在列表下方。
 
-```typescript
+```ts
 async function getReleaseLine(changeset, type) {
   const [firstLine, ...futureLines] = changeset.summary
     .split('\n')
@@ -75,18 +75,18 @@ async function getReleaseLine(changeset, type) {
 
 - dependenciesUpdated
 
-```typescript
+```ts
 type ModCompWithPackage = {
-    name: string; // 依赖模块名称
-    type: VersionType; // 依赖模块的升级类型
-    oldVersion: string; // 依赖模块当前版本号
-    newVersion: string; // 依赖模块新版本号
-    changesets: string[]; // 关联的 changeset id 列表
-    packageJson: PackageJSON; // 依赖模块完整的 package.json 内容
-    dir: string; // 依赖模块的路径(绝对路径)
+  name: string; // 依赖模块名称
+  type: VersionType; // 依赖模块的升级类型
+  oldVersion: string; // 依赖模块当前版本号
+  newVersion: string; // 依赖模块新版本号
+  changesets: string[]; // 关联的 changeset id 列表
+  packageJson: PackageJSON; // 依赖模块完整的 package.json 内容
+  dir: string; // 依赖模块的路径(绝对路径)
 };
 
-type DependenciesUpdated = ModCompWithPackage[]
+type DependenciesUpdated = ModCompWithPackage[];
 ```
 
 #### 返回值
@@ -97,23 +97,23 @@ Changelog 内容。
 
 `@changesets/cli/changelog` 默认会使用 changesets 信息展示对应的 `Updated dependencies + commit id`，以列表形式展示。然后根据 `dependenciesUpdated` 信息展示对应的依赖包包名和新版本号，作为列表的子列表项。
 
-```typescript
+```ts
 async function getDependencyReleaseLine(changesets, dependenciesUpdated) {
-    console.log("getDependencyReleaseLine", changesets, dependenciesUpdated)
-    if (dependenciesUpdated.length === 0) return "";
+  console.log('getDependencyReleaseLine', changesets, dependenciesUpdated);
+  if (dependenciesUpdated.length === 0) return '';
 
-    const changesetLinks = changesets.map(
-      changeset =>
-        `- Updated dependencies${
-          changeset.commit ? ` [${changeset.commit}]` : ""
-        }`
-    );
+  const changesetLinks = changesets.map(
+    changeset =>
+      `- Updated dependencies${
+        changeset.commit ? ` [${changeset.commit}]` : ''
+      }`,
+  );
 
-    const updatedDepenenciesList = dependenciesUpdated.map(
-      dependency => `  - ${dependency.name}@${dependency.newVersion}`
-    );
+  const updatedDepenenciesList = dependenciesUpdated.map(
+    dependency => `  - ${dependency.name}@${dependency.newVersion}`,
+  );
 
-    return [...changesetLinks, ...updatedDepenenciesList].join("\n");
+  return [...changesetLinks, ...updatedDepenenciesList].join('\n');
 }
 ```
 
@@ -140,7 +140,7 @@ changelog 配置如果为相对路径为 `.changesets` 目录下的相对路径�
 
 例如创建 `.changeset/my-changelog-config.js` 文件，定义如下内容：
 
-```typescript title=".changeset/my-changelog-config.js"
+```ts title=".changeset/my-changelog-config.js"
 async function getReleaseLine(changeset, type) {}
 
 async function getDependencyReleaseLine(changesets, dependenciesUpdated) {}
@@ -149,7 +149,6 @@ module.exports = {
   getReleaseLine,
   getDependencyReleaseLine,
 };
-
 ```
 
 `changlog` 配置为 `./my-changelog-config.js` 即可:
@@ -167,7 +166,7 @@ module.exports = {
 
 #### 使用 `npx @modern-js/create` 创建模块工程方案。
 
-``` md
+```md
 ? 请选择你想创建的工程类型 模块
 ? 请填写项目名称 custom-changelog
 ? 请选择开发语言 TS
@@ -176,7 +175,7 @@ module.exports = {
 
 #### 实现自定义内容。
 
-```typescript title="src/index.ts"
+```ts title="src/index.ts"
 export async function getReleaseLine() {}
 
 export async function getDependencyReleaseLine() {}
@@ -201,7 +200,7 @@ export async function getDependencyReleaseLine() {}
 
 #### 执行 `pnpm run new` 创建模块子项目。
 
-``` md
+```md
 ? 请选择你想创建的工程类型 模块
 ? 请填写子项目名称 custom-changelog
 ? 请填写子项目目录名称 custom-changelog
@@ -210,7 +209,7 @@ export async function getDependencyReleaseLine() {}
 
 #### 实现自定义内容。
 
-```typescript title="src/index.ts"
+```ts title="src/index.ts"
 export async function getReleaseLine() {}
 
 export async function getDependencyReleaseLine() {}

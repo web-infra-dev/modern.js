@@ -1,5 +1,6 @@
 export const queryRE = /\?.*$/s;
 export const hashRE = /#.*$/s;
+export const externalLinkRE = /^(https?:)/;
 
 export const isProduction = () => process.env.NODE_ENV === 'production';
 
@@ -24,32 +25,29 @@ export function normalizeSlash(url: string) {
   return removeTrailingSlash(addLeadingSlash(url));
 }
 
-export function withBase(url: string, base: string) {
-  const normalizedBase = normalizeSlash(base);
-  const normalizedUrl = addLeadingSlash(url);
-  return normalizedBase ? `${normalizedBase}${normalizedUrl}` : normalizedUrl;
-}
-
 export function replaceLang(
   rawUrl: string,
   targetLang: string,
   defaultLang: string,
   langs: string[],
+  base = '',
 ) {
-  const url = addLeadingSlash(rawUrl);
+  const url = removeBase(rawUrl, base);
   const originalLang = url.split('/')[1];
   const inDefaultLang = !langs.includes(originalLang);
+  let result: string;
   if (inDefaultLang) {
     if (targetLang === defaultLang) {
-      return url;
+      result = url;
     } else {
-      return addLeadingSlash(`${targetLang}${url}`);
+      result = addLeadingSlash(`${targetLang}${url}`);
     }
   } else if (targetLang === defaultLang) {
-    return url.replace(`/${originalLang}`, '');
+    result = url.replace(`/${originalLang}`, '');
   } else {
-    return url.replace(originalLang, targetLang);
+    result = url.replace(originalLang, targetLang);
   }
+  return withBase(result, base);
 }
 
 export const omit = (obj: Record<string, unknown>, keys: string[]) => {
@@ -99,4 +97,14 @@ export function withoutLang(path: string, langs: string[]) {
 
 export function withoutBase(path: string, base = '') {
   return addLeadingSlash(path).replace(normalizeSlash(base), '');
+}
+
+export function withBase(url: string, base: string) {
+  const normalizedBase = normalizeSlash(base);
+  const normalizedUrl = addLeadingSlash(url);
+  return normalizedBase ? `${normalizedBase}${normalizedUrl}` : normalizedUrl;
+}
+
+export function removeBase(url: string, base: string) {
+  return addLeadingSlash(url).replace(normalizeSlash(base), '');
 }

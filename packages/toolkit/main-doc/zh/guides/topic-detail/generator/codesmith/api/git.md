@@ -8,13 +8,13 @@ sidebar_position: 4
 
 ## 使用姿势
 
-```typescript
+```ts
 import { GitAPI } from '@modern-js/codesmith-api-git';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const gitApi = new GitAPI(generatorCore, generatorContext);
   await gitApi.initGitRepo();
-}
+};
 ```
 
 - 创建 GitAPI 实例，参数和微生成器函数参数一致，为 context 和 generator，具体介绍请看微生成器项目组成
@@ -44,5 +44,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 执行 `git add .` 和 `git commit` 提交当前变更。
 
 参数：
+
 - commitMessage: `string` commit 信息。
 - cwd?: `string` git 命令的执行目录，默认为微生成器 `outputPath`。

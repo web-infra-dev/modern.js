@@ -19,11 +19,11 @@ Modern.js 作为以客户端为中心的开发框架，对服务端的定制能�
 执行命令后，在 `modern.config.ts` 中注册 Server 插件:
 
 ```ts title="modern.config.ts"
-import ServerPlugin from '@modern-js/plugin-server';
+import serverPlugin from '@modern-js/plugin-server';
+
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
-  ...,
-  plugins: [..., ServerPlugin()],
+  plugins: [..., serverPlugin()],
 });
 ```
 
@@ -40,7 +40,6 @@ Hook 可以控制 Web Server 对请求处理的内置逻辑，非 BFF 请求会�
 Hook 不可以使用运行时框架拓展。
 
 详细 API 可以查看 [Hook](/docs/apis/app/runtime/web-server/hook)。
-
 
 ### Middleware
 

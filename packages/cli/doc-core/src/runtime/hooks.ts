@@ -22,9 +22,12 @@ export function usePageData() {
 }
 
 export function withBase(url = '/'): string {
-  const normalizedBase = normalizeSlash(siteData.base);
   const normalizedUrl = addLeadingSlash(url);
-  return `${normalizedBase}${normalizedUrl}`;
+  const normalizedBase = normalizeSlash(siteData.base);
+  // Avoid adding base path repeatly
+  return normalizedUrl.startsWith(normalizedBase)
+    ? normalizedUrl
+    : `${normalizedBase}${normalizedUrl}`;
 }
 
 export function removeBase(url: string): string {

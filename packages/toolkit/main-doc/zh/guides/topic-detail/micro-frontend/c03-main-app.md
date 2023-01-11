@@ -15,7 +15,6 @@ import EnableMicroFrontend from '@site-docs/components/enable-micro-frontend.md'
 
 当在 `masterApp` 配置上提供了信息后，将会认为该应用为主应用，目前存在两种子应用信息的配置方式，这两种方式分别应用于不同的场景。
 
-
 ### 直接注册子应用信息
 
 可以直接通过配置注册子应用信息：
@@ -29,7 +28,6 @@ import MicroRuntimeConfig from '@site-docs/components/micro-runtime-config.md';
 
 <MicroRuntimeConfig />
 
-
 ### 自定义远程应用列表
 
 通过该函数可以拉取远程的子应用列表，并将其注册至运行时框架：
@@ -38,22 +36,22 @@ import MicroRuntimeConfig from '@site-docs/components/micro-runtime-config.md';
 defineConfig(App, {
   masterApp: {
     manifest: {
-      getAppList: async ()=> {
+      getAppList: async () => {
         // 可以从其他远程接口获取
         return [
-            {
-              name: 'DashBoard',
-              entry: 'http://127.0.0.1:8081/'
-            },
-            {
-              name: 'TableList',
-              entry: 'http://localhost:8082'
-            }
+          {
+            name: 'DashBoard',
+            entry: 'http://127.0.0.1:8081/',
+          },
+          {
+            name: 'TableList',
+            entry: 'http://localhost:8082',
+          },
         ];
       },
-    }
-  }
-})
+    },
+  },
+});
 ```
 
 ## 渲染子应用
@@ -80,28 +78,30 @@ import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 import { Route, Switch } from '@modern-js/runtime/router';
 
 function App() {
-  const { DashBoard, TableList} = useModuleApps();
+  const { DashBoard, TableList } = useModuleApps();
 
-  return <div>
-    <Route path="/dashboard">
-      <DashBoard
-        loadable={{
-          loading: ({ pastDelay, error }: any) => {
-            if (error) {
-              return <div>error: {error?.message}</div>;
-            } else if (pastDelay) {
-              return <div>loading</div>;
-            } else {
-              return null;
-            }
-          },
-        }}
-      />
-    </Route>
-    <Route path="/table">
-      <TableList />
-    </Route>
-  </div>
+  return (
+    <div>
+      <Route path="/dashboard">
+        <DashBoard
+          loadable={{
+            loading: ({ pastDelay, error }: any) => {
+              if (error) {
+                return <div>error: {error?.message}</div>;
+              } else if (pastDelay) {
+                return <div>loading</div>;
+              } else {
+                return null;
+              }
+            },
+          }}
+        />
+      </Route>
+      <Route path="/table">
+        <TableList />
+      </Route>
+    </div>
+  );
 }
 ```
 
@@ -110,7 +110,6 @@ function App() {
 ### 集中式路由
 
 **集中式路由** 是将子应用的激活路由集中配置的方式。我们给子应用列表信息添加 `activeWhen` 字段来启用 **集中式路由**。
-
 
 <MicroRuntimeConfig />
 
@@ -122,14 +121,15 @@ import { useModuleApp } from '@modern-js/plugin-runtime';
 function App() {
   const { MApp } = useModuleApps();
 
-  return <div>
-    <MApp />
-  </div>
+  return (
+    <div>
+      <MApp />
+    </div>
+  );
 }
 ```
 
 这样启动应用后，访问 `/dashboard` 路由，会渲染 `Dashboard` 子应用，访问 `/table` 路由，会渲染 `TableList` 子应用。
-
 
 ### 两种模式混用
 
@@ -137,7 +137,6 @@ function App() {
 
 - 一部分子应用作为 **子应用组件** 激活，另外一部分作为 **集中式路由** 激活。
 - 一部分子应用既可以作为 **集中式路由** 激活，也可以作为 **子应用组件** 激活。
-
 
 ### 添加 loading
 
@@ -178,7 +177,6 @@ function Loading({ error }) {
 有时 loading 组件的显示时间可能小于 200ms，这个时候会出现 loading 组件闪退的情况。许多用户研究证明，loading 闪退的情况会导致用户感知加载内容的耗时比实际耗时更长，在 loading 小于 200ms 时，不展示内容，用户会认为它更快。
 
 所以 loading 组件还提供了 `pastDelay` 参数，超过设置的延迟展示时才会为 true，可以通过 `delay` 参数设置延迟的时长
-
 
 ```tsx
 function Loading({ error, pastDelay }) {
@@ -229,7 +227,6 @@ function Loading({ error, timeOut, pastDelay }) {
 ```
 
 超时状态是关闭的，可以通过在 `loadable` 中设置 `timeout` 参数开启
-
 
 ```tsx
 

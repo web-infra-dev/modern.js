@@ -56,7 +56,7 @@ npx @modern-js/create --config '{"packageManager": "pnpm"}'
 
 具体配置信息可查看[工程方案配置](/docs/guides/topic-detail/generator/config/common)。
 
-###  --no-need-install
+### --no-need-install
 
 默认情况下，`@modern-js/create` 在创建项目完成后会自动安装依赖，使用该参数可以忽略安装依赖步骤。
 

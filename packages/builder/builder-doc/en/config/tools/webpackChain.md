@@ -265,7 +265,7 @@ export default {
   tools: {
     webpackChain: (chain, { webpack, CHAIN_ID }) => {
       // Add plugin
-      chain.plugin('define').use(webpack.DefinePlugin, [
+      chain.plugin('custom-define').use(webpack.DefinePlugin, [
         {
           'process.env': {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),

@@ -20,7 +20,6 @@ Modern.js 的状态管理解决方案，是通过内置 Reduck 实现的。在 M
 2. Reduck 也可以脱离 Modern.js 作为状态管理库[单独使用](/docs/guides/topic-detail/model/use-out-of-modernjs)。
 :::
 
-
 ## 核心概念
 
 Reduck 中的核心概念只有 4 个： Model、State、Actions、Effects。
@@ -78,7 +77,6 @@ export default countModel;
 
 在 `add` action 中，我们可以直接修改 state 的值，进行加 1 操作，而不需要把 state 作为不可变对象进行操作，这是因为 Reduck 集成了 [immer](https://github.com/immerjs/immer)，可以直接修改原 state 对象。
 
-
 接下来，我们演示如何在组件中使用 Model。
 
 新建一个组件 Counter，在组件内通过 `useModel` API 使用 `countModel`：
@@ -105,12 +103,8 @@ function Counter() {
 由于使用的案例比较简单，这里并没有严格按照 MVC 模式进行分层，组件 `Counter` 同时起到了 V 和 C 两层的作用。
 :::
 
-
-
 最终演示效果如下：
 
 ![countModel](https://lf3-static.bytednsdoc.com/obj/eden-cn/eueh7vhojuh/modern/simple-count-model.gif)
 
-
 这样，我们就完了一个简单的计数器应用。本节完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model)查看。
-

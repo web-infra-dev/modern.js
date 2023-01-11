@@ -1,6 +1,6 @@
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import GarfishPlugin from '@modern-js/plugin-garfish';
-import RouterPlugin from '@modern-js/plugin-router-v5';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import garfishPlugin from '@modern-js/plugin-garfish';
+import routerPlugin from '@modern-js/plugin-router-v5';
 
 import { getPort, getPublicPath } from '../../../utils/testCase';
 
@@ -57,5 +57,5 @@ module.exports = defineConfig({
       // delete config.optimization?.splitChunks;
     },
   },
-  plugins: [AppToolsPlugin(), RouterPlugin(), GarfishPlugin()],
+  plugins: [appTools(), routerPlugin(), garfishPlugin()],
 });

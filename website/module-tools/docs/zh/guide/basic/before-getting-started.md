@@ -14,7 +14,7 @@ sidebar_position: 1
 
 npm 是 NodeJS 的标准软件包管理器。它一开始的用途是用于下载和管理 NodeJS 包的依赖关系，但后来它逐渐变成为一个用于前端 JavaScript 的工具。
 
-**如果你已经对 npm 和 npm 包的使用方式有所了解，那么可以直接跳到[【npm 包管理器】](/zh/guide/before-getting-started#npm-包管理器)部分。**
+**如果你已经对 npm 和 npm 包的使用方式有所了解，那么可以直接跳到[【npm 包管理器】](/guide/basic/before-getting-started#npm-包管理器)部分。**
 
 ## npm 包类型项目
 
@@ -71,6 +71,7 @@ npm Registry 是一个 [npm 包存储的地方](https://docs.npmjs.com/about-the
 ```
 
 **在安装或者使用第三方 npm 包的时候一定要确定它们的用途，以及通过区分它们的类型确定好它们应该放在 `"dependencies"` 还是 `"devDependencies"` 中。**
+
 :::tip
 一般来说，需要在源代码中使用到的包都属于 `dependencies` 依赖。除非你通过打包的方式将依赖的代码输出到本地，那么这种情况可以将它作为 `devDependencies` 依赖。
 :::

@@ -22,7 +22,7 @@ export default defineConfig({
 
 ## Third-party dependency handling for umd products
 
-In the [[How to handle third-party dependencies]](/en/guide/advance/external-dependency) chapter, we know that we can control whether or not the project packages third-party dependencies via the [`autoExternals`](/en/api/build-config#autoexternal) and [`externals`](/en/api/build-config#externals) APIs.
+In the [[How to handle third-party dependencies]](/en/guide/advance/external-dependency) chapter, we know that we can control whether or not the project packages third-party dependencies via the [`autoExternals`](/en/api/config/build-config#autoexternal) and [`externals`](/en/api/config/build-config#externals) APIs.
 So when building umd products, we can also use it like this:
 
 <CH.Spotlight>
@@ -110,7 +110,7 @@ We know from the above example that when using the `autoExternal` and `externals
 - In a Node.js environment, you can get the react dependency with `require('react')`.
 - In a browser environment, you can get the react dependency via `global.react`.
 
-However, in the browser environment, when getting third-party dependencies, **global variable names are not necessarily identical to the dependency names**, so you have to use the [`buildConfig.umdGlobals`](/en/api/build-config#umdglobals) API.
+However, in the browser environment, when getting third-party dependencies, **global variable names are not necessarily identical to the dependency names**, so you have to use the [`buildConfig.umdGlobals`](/en/api/config/build-config#umdglobals) API.
 
 Again using the previous example, when the `react` dependency exists in the browser environment as a `windows.React` or `global.React` global variable, then:
 
@@ -218,7 +218,7 @@ export default () => {
 });
 ```
 
-If you need to modify it, you need to use the [`buildConfig.umdModuleName`](/en/api/build-config#umdmodulename) API.
+If you need to modify it, you need to use the [`buildConfig.umdModuleName`](/en/api/config/build-config#umdmodulename) API.
 
 When this API is used:
 

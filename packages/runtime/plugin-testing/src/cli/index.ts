@@ -15,7 +15,7 @@ import {
 import { MODERNJS_CONFIG_KEY } from '../constant';
 import type { Hooks } from '../base/hook';
 import type { UserConfig } from '../base/config';
-import TestingBffPlugin from './bff';
+import testingBffPlugin from './bff';
 import test from './test';
 
 export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
@@ -32,14 +32,14 @@ export default (): CliPlugin<{
   userConfig: UserConfig;
   normalizedConfig: Required<UserConfig>;
 }> => {
-  const BffPlugin = TestingBffPlugin();
+  const bffPlugin = testingBffPlugin();
 
   return {
     name: '@modern-js/plugin-testing',
 
-    usePlugins: [BffPlugin],
+    usePlugins: [bffPlugin],
 
-    post: [BffPlugin.name!],
+    post: [bffPlugin.name!],
 
     registerHook: testingHooks,
 

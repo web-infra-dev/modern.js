@@ -1,6 +1,6 @@
 import path from 'path';
 import { createRequire } from 'module';
-import { UserConfig } from 'shared/types';
+import { DocPlugin, UserConfig } from 'shared/types';
 import { BuilderInstance, mergeBuilderConfig } from '@modern-js/builder';
 import type {
   BuilderConfig,
@@ -9,11 +9,16 @@ import type {
 import sirv from 'sirv';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import WindiCSSWebpackPlugin from 'windicss-webpack-plugin';
-import { CLIENT_ENTRY, SSR_ENTRY, PACKAGE_ROOT, OUTPUT_DIR } from './constants';
+import {
+  CLIENT_ENTRY,
+  SSR_ENTRY,
+  PACKAGE_ROOT,
+  OUTPUT_DIR,
+  isProduction,
+} from './constants';
 import { createMDXOptions } from './mdx';
 import { virtualModuleFactoryList } from './virtualModule';
-import { replacePlugin } from './plugins/replace';
-import windiConfig from './windiOptions';
+import createWindiConfig from './windiOptions';
 
 const require = createRequire(import.meta.url);
 
@@ -21,6 +26,7 @@ async function createInternalBuildConfig(
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,
+  docPlugins: DocPlugin[],
 ): Promise<BuilderConfig> {
   const { default: fs } = await import('@modern-js/utils/fs-extra');
   const mdxOptions = await createMDXOptions(userRoot, config);
@@ -28,6 +34,14 @@ async function createInternalBuildConfig(
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');
+  const checkDeadLinks = config.doc?.markdown?.checkDeadLinks ?? false;
+  // Process doc config by plugins
+  for (const plugin of docPlugins) {
+    if (typeof plugin.config === 'function') {
+      config.doc = await plugin.config(config.doc || {});
+    }
+  }
+
   // The order should be sync
   const virtualModulePlugins: VirtualModulesPlugin[] = [];
   for (const factory of virtualModuleFactoryList) {
@@ -36,6 +50,25 @@ async function createInternalBuildConfig(
 
   const publicDir = path.join(userRoot, 'public');
   const isPublicDirExist = await fs.pathExists(publicDir);
+
+  // Using latest browserslist in development to improve build performance
+  const browserslist = {
+    web: isProduction()
+      ? [
+          'chrome > 61',
+          'edge > 16',
+          'firefox > 60',
+          'safari > 11',
+          'ios_saf > 11',
+        ]
+      : [
+          'last 1 chrome version',
+          'last 1 firefox version',
+          'last 1 safari version',
+        ],
+    node: ['node >= 14'],
+  };
+
   return {
     html: {
       template: path.join(PACKAGE_ROOT, 'index.html'),
@@ -47,6 +80,9 @@ async function createInternalBuildConfig(
       assetPrefix: config.doc?.base || '',
       svgDefaultExport: 'component',
       disableTsChecker: true,
+      // disable production source map, it is useless for doc site
+      disableSourceMap: isProduction(),
+      overrideBrowserslist: browserslist,
     },
     source: {
       alias: {
@@ -112,12 +148,17 @@ async function createInternalBuildConfig(
         config.plugins!.push(...virtualModulePlugins);
         config.plugins!.push(
           new WindiCSSWebpackPlugin({
-            config: windiConfig,
+            config: createWindiConfig(themeDir),
           }),
         );
-        config.cache = {
-          type: 'filesystem',
-        };
+
+        if (checkDeadLinks) {
+          config.cache = {
+            // If checkDeadLinks is true, we should use memory cache to avoid skiping mdx-loader when starting dev server again
+            type: 'memory',
+          };
+        }
+
         return config;
       },
     },
@@ -138,24 +179,16 @@ export async function createModernBuilder(
 
   const docPlugins = [];
 
-  // Add normal plugins
+  // Add plugins
   if (config.doc?.plugins) {
     docPlugins.push(...config.doc.plugins);
-  }
-  // Add post plugin
-  docPlugins.push(replacePlugin());
-
-  // Process doc config by plugins
-  for (const plugin of docPlugins) {
-    if (typeof plugin.config === 'function') {
-      config.doc = await plugin.config(config.doc || {});
-    }
   }
 
   const internalBuilderConfig = await createInternalBuildConfig(
     userRoot,
     config,
     isSSR,
+    docPlugins,
   );
 
   const builderProvider = builderWebpackProvider({

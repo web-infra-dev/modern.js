@@ -9,10 +9,11 @@ Reduck 基于 Redux 实现，因此可以使用 Redux [生态的库](https://red
 
 ```ts
 ReactDOM.render(
-  <Provider config={{ middlewares: [logger] }}>  // 通过 Provider 的 config 参数设置 中间件
+  <Provider config={{ middlewares: [logger] }}>
+    // 通过 Provider 的 config 参数设置 中间件
     <App />
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 ```
 

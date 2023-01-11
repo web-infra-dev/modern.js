@@ -141,7 +141,6 @@ interface ModelDesc {
 }
 ```
 
-
 2. Depends on the state of other Models
 
 ```ts

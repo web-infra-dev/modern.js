@@ -51,12 +51,12 @@ export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
 
 ---
 
-Then we register the plugin we just wrote via the [`plugins`](/en/api/plugins) API.
+Then we register the plugin we just wrote via the [`plugins`](/en/api/config/plugins) API.
 
 ```ts . /modern.config.ts
-import { ExamplePlugin } from '. /plugins/example';
+import { examplePlugin } from '. /plugins/example';
 export default defineConfig({
-  plugins: [ExamplePlugin()],
+  plugins: [examplePlugin()],
 });
 ```
 
@@ -81,4 +81,4 @@ With the above example, we learned the following things.
 In addition to the above, we also need to understand.
 
 - [plugin objects, type definitions and recommended configuration items](/en/plugins/guide/plugin-object)
-- [setup functions, `api` object parameters, lifecycle hooks](/en/plugins/guide/setup-functions)
+- [setup functions, `api` object parameters, lifecycle hooks](/en/plugins/guide/setup-function)

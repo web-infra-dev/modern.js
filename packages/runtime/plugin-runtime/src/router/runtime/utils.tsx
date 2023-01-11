@@ -1,18 +1,19 @@
 import React, { Suspense } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
+import type { LoaderFunction, LoaderFunctionArgs } from 'react-router-dom';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
-import { RootLayout } from './root';
 
 const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
-  const { children, index, id, component: Component } = nestedRoute;
+  const { children, index, id, component, isRoot } = nestedRoute;
+  const Component = component as unknown as React.ComponentType<any>;
 
   const routeProps: Omit<RouteProps, 'children'> = {
     caseSensitive: nestedRoute.caseSensitive,
     path: nestedRoute.path,
     id: nestedRoute.id,
-    loader: nestedRoute.loader,
+    loader: createLoader(nestedRoute),
     action: nestedRoute.action,
     hasErrorBoundary: nestedRoute.hasErrorBoundary,
     shouldRevalidate: nestedRoute.shouldRevalidate,
@@ -32,32 +33,29 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
   if (Component) {
     if (parent?.loading) {
       const Loading = parent.loading;
-      element = (
-        <Suspense fallback={<Loading />}>
-          <Component />
-        </Suspense>
-      );
-    } else if (!parent?.index) {
-      // If the parent component is a layout component and you don't define a loading component,
-      // wrap suspense to avoid the parent component flashing when switching routes.
-      // For example: There is a loading component under /a, the b component should not blink when switching from /a/b/c to /a/b/d
+      if (isLoadableComponent(Component)) {
+        element = <Component fallback={<Loading />} />;
+      } else {
+        element = (
+          <Suspense fallback={<Loading />}>
+            <Component />
+          </Suspense>
+        );
+      }
+    } else if (isLoadableComponent(Component) || isRoot) {
+      element = <Component />;
+    } else {
       element = (
         <Suspense>
           <Component />
         </Suspense>
       );
-    } else {
-      element = <Component />;
     }
   } else {
     // If the component is undefined, it means that the current component is a fake layout component,
     // and it should inherit the loading of the parent component to make the loading of the parent layout component take effect.
     // It also means when layout component is undefined, loading component in then same dir should not working.
     nestedRoute.loading = parent?.loading;
-  }
-
-  if (!parent && element) {
-    element = <RootLayout routes={[nestedRoute]}>{element}</RootLayout>;
   }
 
   if (element) {
@@ -160,4 +158,32 @@ export function standardSlash(str: string) {
   }
 
   return addr;
+}
+
+function createLoader(route: NestedRoute): LoaderFunction {
+  const { loader } = route;
+  if (loader) {
+    return (args: LoaderFunctionArgs) => {
+      if (typeof route.lazyImport === 'function') {
+        route.lazyImport();
+      }
+      return loader(args);
+    };
+  } else {
+    return () => {
+      if (typeof route.lazyImport === 'function') {
+        route.lazyImport();
+      }
+      return null;
+    };
+  }
+}
+
+function isLoadableComponent(component: React.ComponentType<any>) {
+  return (
+    component &&
+    component.displayName === 'Loadable' &&
+    (component as any).preload &&
+    typeof (component as any).preload === 'function'
+  );
 }

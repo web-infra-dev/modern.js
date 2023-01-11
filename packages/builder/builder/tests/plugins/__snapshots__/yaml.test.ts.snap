@@ -1,0 +1,19 @@
+// Vitest Snapshot v1
+
+exports[`plugins/yaml > should add yaml rule properly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/yaml-loader",
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

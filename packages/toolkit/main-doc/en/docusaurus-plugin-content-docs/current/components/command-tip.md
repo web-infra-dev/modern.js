@@ -15,7 +15,7 @@ If you need to pass parameters to a command, you need to put the parameters afte
 
 For example, in the following `package.json` configuration:
 
-``` json
+```json
 {
   "scripts": {
     "command": "modern command"
@@ -24,6 +24,7 @@ For example, in the following `package.json` configuration:
 ```
 
 The way to carry parameters when executing the command command is:
+
 ```bash
 pnpm run command --options
 ```
@@ -32,7 +33,7 @@ pnpm v6:
 
 In the following `package.json` configuration:
 
-``` json
+```json
 {
   "scripts": {
     "command": "modern command"

@@ -8,23 +8,20 @@ sidebar_position: 2
 
 ## 使用姿势
 
-```typescript
+```ts
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const jsonAPI = new JsonAPI(generator);
-  await jsonAPI.update(
-    context.materials.default.get('package.json'),
-    {
-      query: {},
-      update: {
-        $set: {
-          'dependencies.@modern-js/plugin-bff': `^2.0.0`,
-        },
+  await jsonAPI.update(context.materials.default.get('package.json'), {
+    query: {},
+    update: {
+      $set: {
+        'dependencies.@modern-js/plugin-bff': `^2.0.0`,
       },
     },
-  );
- }
+  });
+};
 ```
 
 - 创建 JsonAPI 实例，参数为微生成器函数参数的 generator，具体介绍请看[微生成器项目组成](/docs/guides/topic-detail/generator/codesmith/structure)。
@@ -37,6 +34,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 获取 JSON 文件内容。
 
 参数：
+
 - resource: `FsResource`，文件资源，通过 `context.materials.default.get(<filename>)` 获取。
 
 ### extend

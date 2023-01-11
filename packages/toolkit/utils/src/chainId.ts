@@ -161,6 +161,8 @@ export const CHAIN_ID = {
     HTML_ASYNC_CHUNK: 'html-async-chunk',
     /** SWC_POLYFILL_CHECKER */
     SWC_POLYFILL_CHECKER: 'swc-polyfill-checker-plugin',
+    /** HtmlTagsPlugin */
+    HTML_TAGS: 'html-tags',
   },
   /** Predefined minimizers */
   MINIMIZER: {

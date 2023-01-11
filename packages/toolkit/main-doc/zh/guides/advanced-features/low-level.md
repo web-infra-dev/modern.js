@@ -9,14 +9,12 @@ Modern.js 内部默认集成了 [Babel](https://babeljs.io/)、[TypeScript](http
 
 以配置 Webpack 为例，只需要在 `modern.config.ts` 中添加 [`tools.webpack`](/docs/configure/app/tools/webpack) 即可：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
-    webpack: config => {
-
-    }
-  }
-})
+    webpack: config => {},
+  },
+});
 ```
 
 `tools` 命名空间下的配置都可以设置为 `Object` 或者 `Function`。
@@ -29,16 +27,16 @@ export default defineConfig({
 
 目前提供的底层配置如下表：
 
-| 底层工具 | 配置   |
-| -------- | --------- |
-| DevServer | [tools.devServer](/docs/configure/app/tools/dev-server) |
-| Babel | [tools.babel](/docs/configure/app/tools/babel)|
-| styled-components | [tools.styledComponents](/docs/configure/app/tools/styled-components)|
-| PostCSS | [tools.postcss](/docs/configure/app/tools/postcss)|
-| Less | [tools.less](/docs/configure/app/tools/less) |
-| Sass | [tools.sass](/docs/configure/app/tools/sass) |
-| webpack | [tools.webpack](/docs/configure/app/tools/webpack)|
-| Minify CSS | [tools.minifyCss](/docs/configure/app/tools/minify-css)|
-| terser | [tools.terser](/docs/configure/app/tools/terser)|
-| Tailwind CSS | [tools.tailwind](/docs/configure/app/tools/tailwindcss) |
-| Autoprefixer | [tools.autoprefixer](/docs/configure/app/tools/autoprefixer) |
+| 底层工具          | 配置                                                                  |
+| ----------------- | --------------------------------------------------------------------- |
+| DevServer         | [tools.devServer](/docs/configure/app/tools/dev-server)               |
+| Babel             | [tools.babel](/docs/configure/app/tools/babel)                        |
+| styled-components | [tools.styledComponents](/docs/configure/app/tools/styled-components) |
+| PostCSS           | [tools.postcss](/docs/configure/app/tools/postcss)                    |
+| Less              | [tools.less](/docs/configure/app/tools/less)                          |
+| Sass              | [tools.sass](/docs/configure/app/tools/sass)                          |
+| webpack           | [tools.webpack](/docs/configure/app/tools/webpack)                    |
+| Minify CSS        | [tools.minifyCss](/docs/configure/app/tools/minify-css)               |
+| terser            | [tools.terser](/docs/configure/app/tools/terser)                      |
+| Tailwind CSS      | [tools.tailwind](/docs/configure/app/tools/tailwindcss)               |
+| Autoprefixer      | [tools.autoprefixer](/docs/configure/app/tools/autoprefixer)          |

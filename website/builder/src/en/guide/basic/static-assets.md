@@ -2,7 +2,7 @@
 
 Builder supports import static assets, including images, fonts, and medias.
 
-::: tip What is Static Assets
+:::tip What is Static Assets
 Static assets are files that are part of a web application and do not change, even when the application is being used. Examples of static assets include images, fonts, medias, stylesheets, and JavaScript files. These assets are typically stored on a web server or CDN, and delivered to the user's web browser when the Web application is accessed. Because they do not change, static assets can be cached by the browser, which helps to improve the performance of the Web application.
 :::
 

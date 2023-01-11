@@ -4,24 +4,24 @@
 
 目前主要包含两类生命周期钩子：
 
-* 构建钩子：仅在执行 `build` 命令构建源码产物时触发。
-* `buildPlatform` 钩子：仅在执行 `build --platform` 命令生成其他构建产物时触发。
-* 调试钩子：运行 `dev` 命令时会触发的钩子。
+- 构建钩子：仅在执行 `build` 命令构建源码产物时触发。
+- `buildPlatform` 钩子：仅在执行 `build --platform` 命令生成其他构建产物时触发。
+- 调试钩子：运行 `dev` 命令时会触发的钩子。
 
 ## 构建钩子
 
 在执行 `build` 命令的时候，会按照顺序触发以下 Hooks：
 
-* `beforeBuild`
-* `beforeBuildTask`
-* `afterBuildTask`
-* `afterBuild`
+- `beforeBuild`
+- `beforeBuildTask`
+- `afterBuildTask`
+- `afterBuild`
 
 ### `beforeBuild`
 
 执行整体构建流程之前触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -29,16 +29,18 @@ export default (): CliPlugin<ModuleTools> => ({
     return {
       beforeBuild(options: Options): Return {
         return options.config;
-      }
-    }
+      },
+    };
   },
 });
 ```
 
 参数和返回值类型：
 
-``` ts
-type Options = { options: { config: BuildConfig; cliOptions: BuildCommandOptions } };
+```ts
+type Options = {
+  options: { config: BuildConfig; cliOptions: BuildCommandOptions };
+};
 
 export interface BuildCommandOptions {
   config: string;
@@ -52,13 +54,13 @@ export interface BuildCommandOptions {
 type Return = BuildConfig;
 ```
 
-> `BuildConfig` 类型参考 [API 配置](zh/api/)
+> `BuildConfig` 类型参考 [API 配置](/api/)
 
 ### `beforeBuildTask`
 
-根据构建配置，module tools 会将整体构建分成多个子构建任务。该 Hook 将会在每一个构建子任务之前触发。
+根据构建配置，Module Tools 会将整体构建分成多个子构建任务。该 Hook 将会在每一个构建子任务之前触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -66,21 +68,21 @@ export default (): CliPlugin<ModuleTools> => ({
     return {
       beforeBuildTask(config: BaseBuildConfig): BaseBuildConfig {
         return config;
-      }
-    }
+      },
+    };
   },
 });
 ```
 
 参数和返回值类型：
 
-`BaseBuildConfig` 类型参考 [API 配置](zh/api/)。
+`BaseBuildConfig` 类型参考 [API 配置](/api/)。
 
 ### `afterBuildTask`
 
 每一个构建子任务结束之后触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -88,15 +90,15 @@ export default (): CliPlugin<ModuleTools> => ({
     return {
       afterBuildTask(options: BuildTaskResult): void {
         // ...
-      }
-    }
+      },
+    };
   },
 });
 ```
 
 参数和返回值类型：
 
-``` ts
+```ts
 export interface BuildTaskResult {
   status: 'success' | 'fail';
   message?: string;
@@ -108,7 +110,7 @@ export interface BuildTaskResult {
 
 整体构建流程结束之后触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -116,15 +118,15 @@ export default (): CliPlugin<ModuleTools> => ({
     return {
       afterBuild(options: BuildResult): void {
         // ...
-      }
-    }
+      },
+    };
   },
 });
 ```
 
 参数和返回值类型：
 
-``` ts
+```ts
 export interface BuildResult {
   status: 'success' | 'fail';
   message?: string;
@@ -142,16 +144,16 @@ module-tools 还提供了 `build --platform` 命令来执行特定的构建任�
 
 在执行 `build --platform` 后会按照以下顺序触发 Hooks：
 
-* `registerBuildPlatform`
-* `beforeBuildPlatform`
-* `buildPlatform`
-* `afterBuildPlatform`
+- `registerBuildPlatform`
+- `beforeBuildPlatform`
+- `buildPlatform`
+- `afterBuildPlatform`
 
 ### `registerBuildPlatform`
 
 获取在执行 `build --platform` 命令时候需要运行的任务信息。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -173,7 +175,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 入参和返回的参数类型：
 
-``` ts
+```ts
 export interface RegisterBuildPlatformResult {
   platform: string | string[];
   build: (
@@ -187,7 +189,7 @@ export interface RegisterBuildPlatformResult {
 
 当执行 `build --platform` 命令的时候，会触发所有已注册的构建任务。`beforeBuildPlatform` 会在执行整体的构建任务之前触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -203,7 +205,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 入参和返回的参数类型：
 
-``` ts
+```ts
 export interface RegisterBuildPlatformResult {
   platform: string | string[];
   build: (
@@ -217,7 +219,7 @@ export interface RegisterBuildPlatformResult {
 
 当执行 `build --platform` 命令的时候，会触发所有已注册的构建任务。`buildPlatform` 会在每个构建任务执行之前触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -233,7 +235,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 入参和返回的参数类型：
 
-``` ts
+```ts
 export interface Options {
   platform: string;
 }
@@ -243,7 +245,7 @@ export interface Options {
 
 当执行 `build --platform` 命令的时候，会触发所有已注册的构建任务。`afterBuildPlatform` 会在整体 platform 构建任务结束后触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -270,7 +272,6 @@ export interface BuildPlatformResult {
 }
 ```
 
-
 ## 调试钩子
 
 在执行 `dev` 命令的时候，会按照顺序触发以下 Hooks：
@@ -286,13 +287,13 @@ export interface BuildPlatformResult {
 
 注册调试工具相关的数据。主要包含：
 
-* 调试工具的名称
-* 显示在菜单列表中的项目名称以及对应的值。
-* `dev` 子命令的定义。
-* 是否在运行调试任务之前执行源码构建
-* 执行调试任务的函数。
+- 调试工具的名称
+- 显示在菜单列表中的项目名称以及对应的值。
+- `dev` 子命令的定义。
+- 是否在运行调试任务之前执行源码构建
+- 执行调试任务的函数。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -321,7 +322,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 入参和返回的参数类型：
 
-``` ts
+```ts
 export interface DevToolData {
   name: string;
   subCommands?: string[];
@@ -348,7 +349,7 @@ export interface DevToolData {
 
 在收集完所有调试工具元数据后，执行 dev 任务之前触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -364,7 +365,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 入参和返回的参数类型：
 
-``` ts
+```ts
 export interface DevToolData {
   name: string;
   subCommands?: string[];
@@ -385,7 +386,7 @@ export interface DevToolData {
 
 `beforeDevMenu` 在出现调试列表/菜单之前触发。接收 [inquirer question](https://github.com/SBoudrias/Inquirer.js#question) 作为参数。默认值为：
 
-``` ts
+```ts
 const question = [
   {
     name: 'choiceDevTool',
@@ -399,7 +400,7 @@ const question = [
 
 `afterDevMenu` 选择调试列表/菜单选项后触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -411,7 +412,7 @@ export default (): CliPlugin<ModuleTools> => ({
       },
       afterDevMenu(options: Options) {
         console.info(`choise ${options.result.choiceDevTool} dev tools`);
-      }
+      },
     };
   },
 });
@@ -419,7 +420,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 入参和返回的参数类型：
 
-``` ts
+```ts
 export type { QuestionCollection } from 'inquirer';
 
 export interface Options {
@@ -427,7 +428,7 @@ export interface Options {
   devTools: DevToolData[];
 }
 
-export type PromptResult = { choiceDevTool: string }
+export type PromptResult = { choiceDevTool: string };
 export interface DevToolData {
   name: string;
   subCommands?: string[];
@@ -448,7 +449,7 @@ export interface DevToolData {
 
 执行调试任务之前触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -464,7 +465,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 入参和返回的参数类型：
 
-``` ts
+```ts
 export interface DevToolData {
   name: string;
   subCommands?: string[];
@@ -485,7 +486,7 @@ export interface DevToolData {
 
 在中断调试任务进程时触发。
 
-``` ts
+```ts
 export default (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 

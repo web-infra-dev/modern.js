@@ -12,7 +12,7 @@ This value is used by ['@babel/preset-env'] (https://babeljs.io/docs/en/babel-pr
 The default value in Modern.js as follow:
 
 ```js
-['> 0.01%', 'not dead', 'not op_mini all']
+['> 0.01%', 'not dead', 'not op_mini all'];
 ```
 
 You can learn how to customize the browserlist [here](https://github.com/browserslist/browserslist).
@@ -22,7 +22,6 @@ See Modern.js Builder docs to learn more [Browserlist](https://modernjs.dev/buil
 :::note
 Modern.js also supports configuring [output.override Browserlist](/docs/configure/app/output/override-browserslist) to override the default browserlist value.
 :::
-
 
 ## Polyfill
 
@@ -40,8 +39,8 @@ For case where Polyfill is not required for third-party dependencies, you can se
 
 Modern.js also provides a runtime Polyfill solution based on browser [UA](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/User-Agent) information, which has the following advantages over Babel:
 
-* It will not be inserted into the code, reducing the code .
-* The same browser will share a Polyfill code. Therefore, with more and more projects, the UA-based Polyfill code will be delivered faster and faster.
+- It will not be inserted into the code, reducing the code .
+- The same browser will share a Polyfill code. Therefore, with more and more projects, the UA-based Polyfill code will be delivered faster and faster.
 
 exec `pnpm run new` to enable this features：
 
@@ -53,11 +52,11 @@ exec `pnpm run new` to enable this features：
 After executing the command, register the Polyfill plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import PolyfillPlugin from '@modern-js/plugin-polyfill';
+import polyfillPlugin from '@modern-js/plugin-polyfill';
+
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
-  ...,
-  plugins: [..., PolyfillPlugin()],
+  plugins: [..., polyfillPlugin()],
 });
 ```
 

@@ -44,7 +44,7 @@ npx @modern-js/create myapp
 
 ## Initialize
 
-import InitApp from '@site-docs/components/init-app.md'
+import InitApp from '@site-docs-en/components/init-app.md'
 
 <InitApp />
 
@@ -119,7 +119,7 @@ info    File sizes after production build:
   dist/static/js/async/509.fcb06e14.js      283 B        230 B
 
  Client ✔ done in 3.57s
- ```
+```
 
 The bundle is generated to `dist/` by default, and the directory structure is as follows:
 

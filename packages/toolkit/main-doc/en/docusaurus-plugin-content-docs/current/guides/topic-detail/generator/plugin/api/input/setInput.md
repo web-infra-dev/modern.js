@@ -38,5 +38,5 @@ For the input options provided by the Modern.js project type, only delete is tem
 Modify the display name of `packageName`:
 
 ```ts
-context.setInput('packageName', 'title', "Show title");
+context.setInput('packageName', 'title', 'Show title');
 ```

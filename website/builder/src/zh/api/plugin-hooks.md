@@ -41,10 +41,15 @@ extractApiHeaders: [2]
 - **Type**
 
 ```ts
+type ModifyWebpackChainUtils = {
+  mergeBuilderConfig: typeof mergeBuilderConfig;
+};
+
 function ModifyBuilderConfig(
   callback: (
     config: BuilderConfig,
-  ) => Promise<BuilderConfig | void> | BuilderConfig | void,
+    utils: ModifyWebpackChainUtils,
+  ) => PromiseOrNot<BuilderConfig | void>,
 ): void;
 ```
 
@@ -53,9 +58,12 @@ function ModifyBuilderConfig(
 ```ts
 export default () => ({
   setup: api => {
-    api.modifyBuilderConfig(config => {
+    api.modifyBuilderConfig((config, { mergeBuilderConfig }) => {
       config.html = config.html || {};
       config.html.title = 'Hello World!';
+      return mergeBuilderConfig(config, {
+        source: { preEntry: 'foo.js' }
+      });
     });
   },
 });

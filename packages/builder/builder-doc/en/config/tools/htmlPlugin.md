@@ -10,7 +10,7 @@ const defaultHtmlPluginOptions = {
   templateParameters, // corresponding to the html.templateParameters config
   chunks: [entryName],
   minify: {
-    removeComments: true,
+    removeComments: false,
     useShortDoctype: true,
     keepClosingSlash: true,
     collapseWhitespace: true,

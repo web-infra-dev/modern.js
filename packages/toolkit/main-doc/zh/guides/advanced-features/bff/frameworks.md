@@ -106,12 +106,12 @@ Express 的框架写法支持可在 `api/app.[tj]s` 定义 API Server 的启动�
 BFF 函数定义的路由会在 `app.ts` 文件定义的路由之后注册，所以在这里你也可以拦截 BFF 函数定义的路由，进行预处理或是提前响应。
 
 ```ts title="api/app.ts"
-import express from "express";
+import express from 'express';
 
 const app = express();
 
-app.put("/user", function (req, res) {
-  res.send("Got a PUT request at /user");
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
 });
 
 app.use(async (req, res, next) => {
@@ -133,12 +133,12 @@ BFF 函数定义的路由会在 `app.ts` 文件定义的路由之后注册，所
 :::
 
 ```ts title=api/app.ts
-import koa from "koa";
+import koa from 'koa';
 
 const app = new Koa();
 
-app.put("/user", function (req, res) {
-  res.send("Got a PUT request at /user");
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
 });
 
 app.use(async (ctx, next) => {

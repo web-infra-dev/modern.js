@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # BuildConfig
 
-This section describes all the configuration of Module tools for building
+This section describes all the configuration of Module Tools for building
 
 ## alias
 
@@ -12,7 +12,7 @@ This section describes all the configuration of Module tools for building
 - default: `{'@': 'src',}`
 
 :::tip
-For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Module tools will automatically recognize the alias in `tsconfig.json`, so there is no need to configure the `alias` field additionally.
+For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Module Tools will automatically recognize the alias in `tsconfig.json`, so there is no need to configure the `alias` field additionally.
 :::
 
 ```js modern.config.ts
@@ -57,7 +57,7 @@ export default {
 
 ### path
 
-Static resource output path, will be based on [outDir](/zh/api/build-config/#outDir)
+Static resource output path, will be based on [outDir](/api/config/build-config#outDir)
 
 - type: `string`
 - default: `assets`
@@ -178,7 +178,8 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 - Use upper case for global constants
 - Customize the prefix and suffix of global constants to ensure uniqueness
-  :::
+
+:::
 
 ## dts
 
@@ -196,7 +197,7 @@ Path to the tsconfig file
 
 ### distPath
 
-The output path of the dts file, based on [outDir](/zh/api/build-config/#outDir)
+The output path of the dts file, based on [outDir](/api/config/build-config#outDir)
 
 - type: `string`
 - default: `. /types`
@@ -243,6 +244,13 @@ Specify the compilation method of jsx, default support React17, automatically in
 
 - type: `automatic | classic`
 - default: `automatic`
+
+## metafile
+
+esbuild to produce some metadata about the build in JSON format, which can be visualized by tools such as [bundle-buddy](https://bundle-buddy.com/esbuild)
+
+- type: `boolean`
+- default: `false`
 
 ## minify
 
@@ -452,7 +460,7 @@ Configure whether to insert style into js in packaged mode
 Enable CSS Modules automatically based on the filename.
 
 - type: `boolean | RegExp`
-- default: `true `
+- default: `true`
 
 `true` : Enables CSS Modules for style files ending with `.module.css` `.module.less` `.module.scss` `.module.sass` filenames
 
@@ -522,7 +530,7 @@ When the value is of type `Object`, it is merged with the default configuration 
 
 When the value is of type `Function`, the object returned by the function is merged with the default configuration via `Object.assign`.
 
-The `theme` property is not allowed, otherwise the build will fail, using [`designSystem`](/zh/api/design-system) as the `Tailwind CSS Theme` configuration.
+The `theme` property is not allowed, otherwise the build will fail, using [`designSystem`](/api/config/design-system) as the `Tailwind CSS Theme` configuration.
 
 The rest of the usage is the same as Tailwind CSS: [Quick Portal](https://tailwindcss.com/docs/configuration).
 
@@ -570,11 +578,13 @@ export default {
 ```
 
 At this point the umd product will go to mount on `global.myLib`
+
 :::tip
 
 - The module name of the umd product must not conflict with the global variable name.
 - Module names should not contain special characters like `-`, `@`, `/`, etc.
-  :::
+
+:::
 
 Also the function form can take one parameter, which is the output path of the current package file
 

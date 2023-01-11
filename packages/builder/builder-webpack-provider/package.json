@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.0.0-beta.7",
+  "version": "2.0.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -74,7 +74,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
     "build": "tsc && node scripts/post-compile.js",
-    "dev": "tsc --watch",
+    "dev": "tsc --watch --sourceMap",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
@@ -112,7 +112,7 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.0.0-beta.7"
+    "@modern-js/e2e": "workspace:^2.0.2"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

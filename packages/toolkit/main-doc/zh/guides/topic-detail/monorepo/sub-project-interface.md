@@ -17,6 +17,7 @@ sidebar_position: 3
 执行 `pnpm run new`，并按照如下进行选择：
 
 **「应用」子项目：**
+
 ```
 ? 请选择你想创建的工程类型 应用
 ? 请填写子项目名称 app
@@ -25,6 +26,7 @@ sidebar_position: 3
 ```
 
 **「模块（内部）」子项目：**
+
 ```
 ? 请选择你想创建的工程类型 模块（内部）
 ? 请填写子项目名称 internal-lib
@@ -33,6 +35,7 @@ sidebar_position: 3
 ```
 
 **「模块」子项目：**
+
 ```
 ? 请选择你想创建的工程类型 模块
 ? 请填写子项目名称 components
@@ -49,7 +52,8 @@ sidebar_position: 3
 然后修改一下默认的代码和新增文件：
 
 **重命名 `./pakcages/components/src/index.tsx`**
-``` tsx
+
+```tsx
 import './index.css';
 
 export default function ({ text }: { text: string }) {
@@ -62,21 +66,24 @@ export default function ({ text }: { text: string }) {
 ```
 
 **新增 `./pakcages/components/src/index.css`**
-``` css
+
+```css
 .log {
   color: gray;
 }
 ```
 
 **修改 `./features/internal-lib/src/index.ts`**
-``` tsx
+
+```tsx
 export default function (text: string) {
   return text.toUpperCase();
 }
 ```
 
 **修改 `./apps/app/src/App.tsx`**
-``` tsx
+
+```tsx
 import { Switch, Route } from '@modern-js/runtime/router';
 import formatString from 'internal-lib';
 import Comp from 'components';
@@ -106,7 +113,7 @@ export default App;
 启动 `apps/app` 项目之前需要先构建（`pnpm run build`） `packages/component`。
 :::
 
-由于Modern.js 支持 pnpm 与 Yarn 的 Monorepo 工程，接下来会从这两个方面分别介绍。
+由于 Modern.js 支持 pnpm 与 Yarn 的 Monorepo 工程，接下来会从这两个方面分别介绍。
 
 ## 在使用 pnpm 的 Monorepo 中进行项目联调
 
@@ -130,7 +137,7 @@ pnpm add internal-lib -D
 
 执行成功后，在 `apps/app/package.json` 会发生如下变化：
 
-``` json
+```json
 {
   "dependencies": {
 ++  "components": "workspace:^0.1.0"
@@ -159,7 +166,7 @@ pnpm add internal-lib -D
 
 但是由于组件 `components` 是非内部模块，因此建议在 `apps/app/package.json` 中进行依赖声明：
 
-``` json
+```json
 {
   "dependencies": {
 ++  "components": "0.1.0"

@@ -1,5 +1,5 @@
 ---
-title: "**/*.test.[tj]sx?"
+title: '**/*.test.[tj]sx?'
 sidebar_position: 6
 ---
 

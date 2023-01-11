@@ -7,7 +7,6 @@ Modern.js application has a complete lifecycle, including CLI, Server Side and R
 
 Modern.js lifecycle is as follows:
 
-
 :::note
 The rectangle of the pink box represents the plugin hook provided by the Modern.js, and the light yellow base color ellipse represents the linkage point with the next stage.
 :::

@@ -179,10 +179,10 @@ ni src/containers/Contacts.tsx
 我们将原本两个 `page.tsx` 中公共的部分抽离出来，`src/containers/Contacts.tsx` 的代码如下：
 
 ```tsx
-import { Helmet } from "@modern-js/runtime/head";
-import { useModel } from "@modern-js/runtime/model";
-import { List } from "antd";
-import Item from "../components/Item";
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { List } from 'antd';
+import Item from '../components/Item';
 import { Helmet } from '@modern-js/runtime/head';
 import { useModel } from '@modern-js/runtime/model';
 import { List } from 'antd';
@@ -246,7 +246,7 @@ export default Index;
 
 重构完成，现在的项目结构是：
 
-```md
+```bash
 .
 ├── README.md
 ├── dist
@@ -277,7 +277,6 @@ export default Index;
 
 `components/` 里的**视图组件**，都是目录形式，如 `Avatar/index.tsx`。而 `containers/` 里的**容器组件**，都是单文件形式，如 `contacts.tsx`。**这是我们推荐的一种最佳实践**。
 
-在​ [添加 UI 组件（Component）](./c02-component.md) 章节提到过，视图组件用目录形式，是因为视图组件负责实现 UI 展示和交互细节，可以演变的复杂。用目录形式，可以方便增加子文件，包括专用的资源（图片等）、专用子组件、CSS 文件等。在这个目录内部可以随意重构，只考虑最小局部。
+在 ​ [添加 UI 组件（Component）](./c02-component.md) 章节提到过，视图组件用目录形式，是因为视图组件负责实现 UI 展示和交互细节，可以演变的复杂。用目录形式，可以方便增加子文件，包括专用的资源（图片等）、专用子组件、CSS 文件等。在这个目录内部可以随意重构，只考虑最小局部。
 
 而容器组件只负责连接，是一个胶水层，复杂的业务逻辑和实现细节都交给 View 层和 Model 层去实现。容器组件自己应该保持简单清晰，不应该包含复杂实现细节，所以不应该有内部结构。采用单文件形式不但更简洁，也能起到约束作用，提醒开发者不要把容器组件写复杂。
-

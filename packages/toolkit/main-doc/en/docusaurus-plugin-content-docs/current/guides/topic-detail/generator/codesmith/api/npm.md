@@ -8,19 +8,18 @@ The NPM API encapsulation in the microgenerator provides a common method for ins
 
 ## Use
 
-```typescript
+```ts
 import { NpmAPI } from '@modern-js/codesmith-api-npm';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const npmApi = new NpmAPI(generator);
   await npmApi.pnpmInstall();
-}
+};
 ```
 
 - Create NpmAPI instance, the parameter is the generator of the microgenerator function parameter, please see the composition of the microgenerator project for details.
 
 - Just call the API on its example.
-
 
 ## API
 

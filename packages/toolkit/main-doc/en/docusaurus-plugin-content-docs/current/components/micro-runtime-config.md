@@ -1,4 +1,4 @@
-```javascript title="src/App.tsx"
+```js title="src/App.tsx"
 import { defineConfig } from '@modern-js/runtime';
 
 defineConfig(App, {

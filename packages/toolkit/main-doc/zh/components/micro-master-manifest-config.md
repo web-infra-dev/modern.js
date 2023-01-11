@@ -2,7 +2,7 @@
 
 ```ts
 interface Manifest {
-  getAppList?: ()=> Array<AppInfo>
+  getAppList?: () => Array<AppInfo>;
 }
 ```
 
@@ -11,5 +11,5 @@ interface Manifest {
 通过 `getAppList` 配置，可以自定义如何获取远程列表数据
 
 ```ts
-type GetAppList = ()=> Promise<Array<AppInfo>>;
+type GetAppList = () => Promise<Array<AppInfo>>;
 ```

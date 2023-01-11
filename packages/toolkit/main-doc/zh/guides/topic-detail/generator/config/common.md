@@ -42,7 +42,6 @@ scenes 配置只能在 `@modern-js/create` 的 `--config` 参数中使用，不�
 
 - Yarn(yarn)
 
-
 :::info
 在生成器插件创建工程方案场景的自定义类型(custom)中，默认只提供了 `packageManager` 配置。
 :::
@@ -51,56 +50,48 @@ scenes 配置只能在 `@modern-js/create` 的 `--config` 参数中使用，不�
 
 ### noNeedInstall
 
-* Type: Boolean
-
-* Default: false
+- Type: `boolean`
+- Default: `false`
 
 是否跳过依赖安装。
 
 ### noNeedGit
 
-* Type: Boolean
-
-* Default: false
+- Type: `boolean`
+- Default: `false`
 
 是否跳过 git 初始化和提交初始 commit。
 
 ### successInfo
 
-* Type: String
-
-* Default: 不同工程方案的命令操作提示
+- Type: `string`
+- Default: 不同工程方案的命令操作提示
 
 自定义创建项目成功的提示信息。
 
 ### isMonorepoSubProject
 
-* Type: Boolean
-
-* Default: false
+- Type: `boolean`
+- Default: `false`
 
 是否为 Monorepo 子项目。
 
 ### isTest
 
-* Type: Boolean
+- Type: `boolean`
+- Default: `false`
 
-   - true: 创建到路径 `examples/`
+作用于应用项目，标识是否为测试项目。
 
-   - false: 创建到路径 `apps/`
-
-* Default: false
-
-作用于 `应用(MWA)` 项目，标识是否为测试项目。
+- `true`: 创建到路径 `examples/`
+- `false`: 创建到路径 `apps/`
 
 ### isPublic
 
-* Type: Boolean
+- Type: `boolean`
+- Default: `false`
 
-   - true: 创建到路径 `packages/`
+作用于模块 (Module) 项目，标识是否需要对外发布。
 
-   - false: 创建到路径 `features/`
-
-* Default: false
-
-作用于 `模块(Module)` 项目，标识是否需要对外发布。
+- `true`: 创建到路径 `packages/`
+- `false`: 创建到路径 `features/`

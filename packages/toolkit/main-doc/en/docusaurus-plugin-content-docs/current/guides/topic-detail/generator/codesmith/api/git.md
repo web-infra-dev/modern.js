@@ -8,13 +8,13 @@ The API encapsulation of git-related operations in the micro-generator provides 
 
 ## Use
 
-```typescript
+```ts
 import { GitAPI } from '@modern-js/codesmith-api-git';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const gitApi = new GitAPI(generatorCore, generatorContext);
   await gitApi.initGitRepo();
-}
+};
 ```
 
 - Create GitAPI instance, the parameter is the generator of the microgenerator function parameter, please see the composition of the microgenerator project for details.
@@ -45,5 +45,6 @@ Parameter:
 Execute `git add .` and `git commit` commit the current changes.
 
 Parameter:
+
 - commitMessage: `string`. Commit information.
 - cwd?: `string`. The execution directory of the git command, the default is microgenerator `outputPath`.

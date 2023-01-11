@@ -1,6 +1,6 @@
-```javascript title="modern.config.ts"
-import AppToolPlugin, { defineConfig } from '@modern-js/app-tools';
-import GarfishPlugin from '@modern-js/plugin-garfish';
+```js title="modern.config.ts"
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import garfishPlugin from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   runtime: {
@@ -8,6 +8,6 @@ export default defineConfig({
     state: true,
     masterApp: true,
   },
-  plugins: [AppToolPlugin(), GarfishPlugin()],
+  plugins: [appTools(), garfishPlugin()],
 });
 ```

@@ -15,7 +15,7 @@ pnpm run --filter "./packages/**" prepare
 
 例如，在如下 `package.json` 配置中：
 
-``` json
+```json
 {
   "scripts": {
     "command": "modern command"
@@ -24,6 +24,7 @@ pnpm run --filter "./packages/**" prepare
 ```
 
 执行 command 命令时携带参数方式为：
+
 ```bash
 pnpm run command --options
 ```
@@ -32,7 +33,7 @@ pnpm v6:
 
 在如下 `package.json` 配置中：
 
-``` json
+```json
 {
   "scripts": {
     "command": "modern command"

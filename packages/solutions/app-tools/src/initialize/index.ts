@@ -10,7 +10,6 @@ import {
 import {
   CliPlugin,
   AppTools,
-  IAppContext,
   AppToolsNormalizedConfig,
   AppUserConfig,
 } from '../types';
@@ -33,13 +32,15 @@ export default (): CliPlugin<AppTools> => ({
       const schemas = checkIsLegacyConfig(userConfig) ? legacySchema : schema;
       return schemas.generate();
     };
+
     return {
       config,
       validateSchema,
       async resolvedConfig({ resolved }) {
         let appContext = api.useAppContext();
         const userConfig = api.useConfigContext();
-        const port = await getDevServerPort(appContext, resolved);
+        const port = await getServerPort(resolved);
+
         appContext = {
           ...appContext,
           port,
@@ -48,7 +49,9 @@ export default (): CliPlugin<AppTools> => ({
             resolved.output.distPath?.root || 'dist',
           ),
         };
+
         api.setAppContext(appContext);
+
         const normalizedConfig = checkIsLegacyConfig(resolved)
           ? transformNormalizedConfig(resolved as any)
           : resolved;
@@ -60,7 +63,7 @@ export default (): CliPlugin<AppTools> => ({
             source: normalizedConfig.source || {},
             server: {
               ...(normalizedConfig.server || {}),
-              port: port || normalizedConfig.server?.port,
+              port,
             },
             bff: normalizedConfig.bff || {},
             dev: normalizedConfig.dev || {},
@@ -84,14 +87,12 @@ export default (): CliPlugin<AppTools> => ({
   },
 });
 
-async function getDevServerPort(
-  appContext: IAppContext,
-  resolved: AppToolsNormalizedConfig,
-) {
+async function getServerPort(config: AppToolsNormalizedConfig) {
+  const prodPort = config.server.port || 8080;
+
   if (isDev() && isDevCommand()) {
-    return (appContext.port ?? 0) > 0
-      ? appContext.port
-      : await getPort(resolved.server.port || 8080);
+    return getPort(config.dev.port || prodPort);
   }
-  return resolved.server.port;
+
+  return prodPort;
 }

@@ -4,8 +4,8 @@ sidebar_label: routes
 
 # server.routes
 
-* 类型： `Object`
-* 默认值： 根据文件约定自动生成的服务端路由规则：应用的每个入口生成一条路由规则，入口名称等于路由名称。
+- 类型： `Object`
+- 默认值： 根据文件约定自动生成的服务端路由规则：应用的每个入口生成一条路由规则，入口名称等于路由名称。
 
 该配置选项只作用于服务端路由，可以自定义应用入口的服务访问配置。
 
@@ -15,7 +15,7 @@ sidebar_label: routes
 
 当值类型为 `string` 时，当前值即表示访问该入口的路由名称。
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {
@@ -30,7 +30,7 @@ export default defineConfig({
 
 也可以通过 `Array<string>` 为入口设置多个访问路由:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {
@@ -60,7 +60,7 @@ export default defineConfig({
       "entryPath": "html/page-a/index.html",
       "isSPA": true,
       "isSSR": false
-    },
+    }
   ]
 }
 ```
@@ -69,7 +69,7 @@ export default defineConfig({
 
 可以通过配置入口的 resHeaders 设置响应头：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {

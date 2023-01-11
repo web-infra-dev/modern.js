@@ -31,7 +31,7 @@ const App = () => (
 );
 ```
 
-::: info Additional
+:::info Additional
 According to different needs, you can optionally import the CSS files provided by Tailwind CSS. Since the use of `@taiwind` is equivalent to directly importing CSS files, you can refer to the content in the annotate in the [`@tailwind` usage](https://tailwindcss.com/docs/functions-and-directives#tailwind) document for the purpose of the CSS files provided by Tailwind CSS.
 :::
 
@@ -57,7 +57,7 @@ If you use Tailwind CSS on IE 11 browser, some styles may not be available, plea
 
 When you need to customize the [theme](https://tailwindcss.com/docs/theme) configuration of Tailwind CSS, you can modify it in the configuration [`source.designSystem`](/docs/configure/app/source/design-system), for example, add a color theme `primary`:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   source: {
     designSystem: {
@@ -73,7 +73,7 @@ export default defineConfig({
 
 When you need special configuration for Tailwind CSS other than [theme](https://tailwindcss.com/docs/theme), you can configure it in [`tools.tailwindcss`](/docs/configure/app/tools/tailwindcss), for example setting `variants`:
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     tailwindcss: {

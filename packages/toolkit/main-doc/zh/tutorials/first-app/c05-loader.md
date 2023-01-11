@@ -67,7 +67,7 @@ function Index() {
       </Helmet>
       <List
         dataSource={data}
-        renderItem={(info) => <Item key={info.name} info={info} />}
+        renderItem={info => <Item key={info.name} info={info} />}
       />
     </div>
   );
@@ -77,6 +77,7 @@ export default Index;
 ```
 
 <!-- Todo 重新截图，SSR 内容 -->
+
 重新执行 `pnpm run dev`，查看 `view-source:http://localhost:8080/`，或在 devtools 的 Network 面板里查看 HTML 请求的「 Preview 」，可以看到 SSR 渲染出来的 HTML 已经包含完整的 UI：
 
 ![display6](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/11/display6.png)

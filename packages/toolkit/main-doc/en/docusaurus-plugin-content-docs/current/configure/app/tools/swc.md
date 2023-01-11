@@ -14,10 +14,21 @@ Modern.js Builder has a out-of-box plugin for SWC, power your Web application wi
 
 ## Install
 
-The `@modern-js/plugin-swc` plugin needs to be installed before use. After the installation, the SWC compilation and compression will be automatically enabled.
+The `@modern-js/plugin-swc` plugin needs to be installed before use.
 
 ```bash
 pnpm add @modern-js/plugin-swc -D
+```
+
+After the installation，please register the SWC plugin in the `modern.config.ts` file, then the SWC compilation and compression will be enabled.
+
+```ts title="modern.config.ts"
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import swcPlugin from '@modern-js/plugin-swc';
+
+export default defineConfig({
+  plugins: [appTools(), swcPlugin()],
+});
 ```
 
 ## Config

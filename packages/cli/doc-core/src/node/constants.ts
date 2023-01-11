@@ -24,13 +24,7 @@ export const SSR_ENTRY = path.join(
 
 export const OUTPUT_DIR = 'doc_build';
 
-export const DIRECTIVE_TYPES: string[] = [
-  'tip',
-  'warning',
-  'caution',
-  'danger',
-  'info',
-];
-
 export const APP_HTML_MARKER = '<!--<?- DOC_CONTENT ?>-->';
 export const HEAD_MARKER = '<!--<?- HEAD ?>-->';
+
+export const PUBLIC_DIR = 'public';

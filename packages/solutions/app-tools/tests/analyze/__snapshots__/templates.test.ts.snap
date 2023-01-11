@@ -42,14 +42,18 @@ exports[`fileSystemRoutes generate code 1`] = `
               "id": "user/[id]/page",
               "loader": loader_0,
               "type": "nested",
+              "lazyImport": () => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx'),
               "component": lazy(() => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx'))
             }
-          ]
+          ],
+          "lazyImport": null
         }
       ],
+      "lazyImport": () => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user.tsx'),
       "component": lazy(() => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user.tsx'))
     }
   ],
+  "lazyImport": () => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx'),
   "component": lazy(() => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx'))
 },
 ];

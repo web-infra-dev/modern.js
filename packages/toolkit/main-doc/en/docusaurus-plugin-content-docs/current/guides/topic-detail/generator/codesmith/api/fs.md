@@ -8,7 +8,7 @@ API wrapper for file operations in microgenerators, providing methods to render 
 
 ## Use
 
-```typescript
+```ts
 import { FsAPI } from '@modern-js/codesmith-api-fs';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -31,7 +31,7 @@ Render a single template file.
 
 Parameter:
 
-- resource: `FsResource`. Template file resource, used by  `context.materials.get(<filename>)`.
+- resource: `FsResource`. Template file resource, used by `context.materials.get(<filename>)`.
 - target: `string`. Target file path name.
 
 ### renderDir
@@ -45,7 +45,7 @@ Parameter:
 - target: `(globMatch: string) => string`. The target file path generation function, the parameter is `resourceKey.`
 - options?: `RenderTemplateDirOptions`. Glob Find the file configuration, the specific function viewable is here [glob] (https://www.npmjs.com/package/glob).
 
-```typescript
+```ts
 type RenderTemplateDirOptions = {
   nodir?: boolean;
   dot?: boolean;

@@ -8,13 +8,13 @@ sidebar_position: 1
 
 ## 使用姿势
 
-```typescript
+```ts
 import { AppAPI } from '@modern-js/codesmith-api-app';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
   await appApi.runInstall();
-}
+};
 ```
 
 - 创建 AppAPI 实例，参数和微生成器函数参数一致，为 context 和 generator，具体介绍请看[微生成器项目组成](/docs/guides/topic-detail/generator/codesmith/structure)。
@@ -51,6 +51,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 4. 在非 monorepo 项目(判断条件，config 中 `isMonorepoSubProject` 不存在或者为 false)中提交初始 commit，commit 信息为 feat: init，支持自定义。
 
 参数：
+
 - commitMessage?: `string` 初始化 commit message 信息。
 - installFunc?: `() => Promise<void>` 安装依赖函数。
 
@@ -64,35 +65,35 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 - filter?: `(resourceKey: string) => boolean` 过滤函数，参数为 templatePattern 匹配的文件路径，返回 true 表示渲染该文件，返回 false 表示不渲染该文件。
 - rename?: `(resourceKey: string) => string` 重命名函数，参数为 templatePattern 匹配的文件路径，返回新文件名。默认会替换 resourceKey 开头的 templates 目录和结尾的 .handlebars 后缀。
 - parameters?: `Record<string, any>` 渲染参数，当模板中存在 handlebars 或者 ejs 变量时，使用其传递对应变量值。
-- type?: `'handlebars' | 'ejs'`  模板文件类型，默认为 handlebars。
+- type?: `'handlebars' | 'ejs'` 模板文件类型，默认为 handlebars。
 
 例如:
 
-```typescript
+```ts
 await appApi.forgeTemplate(
-    'templates/base-templates/**/*',
-    undefined,
-    resourceKey =>
-      resourceKey
-        .replace('templates/base-templates/', '')
-        .replace('.handlebars', ''),
-  );
+  'templates/base-templates/**/*',
+  undefined,
+  resourceKey =>
+    resourceKey
+      .replace('templates/base-templates/', '')
+      .replace('.handlebars', ''),
+);
 
- await appApi.forgeTemplate(
-    'templates/base-template/**/*',
-    resourceKey => !resourceKey.include('eslintrc.json'),
-    resourceKey =>
-      resourceKey
-        .replace('templates/base-template/', projectPath)
-        .replace('language', language as string)
-        .replace('.handlebars', ''),
-    {
-      name: packageName as string,
-      language,
-      isTs: language === Language.TS,
-      packageManager: getPackageManagerText(packageManager as any),
-    },
-  );
+await appApi.forgeTemplate(
+  'templates/base-template/**/*',
+  resourceKey => !resourceKey.include('eslintrc.json'),
+  resourceKey =>
+    resourceKey
+      .replace('templates/base-template/', projectPath)
+      .replace('language', language as string)
+      .replace('.handlebars', ''),
+  {
+    name: packageName as string,
+    language,
+    isTs: language === Language.TS,
+    packageManager: getPackageManagerText(packageManager as any),
+  },
+);
 ```
 
 ### showSuccessInfo
@@ -115,12 +116,12 @@ await appApi.forgeTemplate(
 
 例如：
 
-```typescript
-  await appApi.runSubGenerator(
-    getGeneratorPath('@modern-js/repo-generator', context.config.distTag),
-    undefined,
-    { ...context.config, hasPlugin: false },
-  );
+```ts
+await appApi.runSubGenerator(
+  getGeneratorPath('@modern-js/repo-generator', context.config.distTag),
+  undefined,
+  { ...context.config, hasPlugin: false },
+);
 ```
 
 ### getInputBySchema
@@ -131,7 +132,7 @@ await appApi.forgeTemplate(
 
 - schema: `FormilySchema | Question[]` 问题列表，支持 Formily schema 和 inquirer 类型。
 - type: `'formily' | 'inquirer'` 类型，默认值为 formily。
-- configValue: `Record<string, unknown> = {}`  schema 默认值，传入该值的 schema 字段对应的问题将不再和用户交互。
+- configValue: `Record<string, unknown> = {}` schema 默认值，传入该值的 schema 字段对应的问题将不再和用户交互。
 - validateMap?: `Record<string, (input: unknown, data?: Record<string, unknown>) => { success: boolean; error?: string }>` schema 中特殊字段的验证函数。
 - initValue?: `Record<string, any>` schema 中字段的初始化值。
 
@@ -141,11 +142,10 @@ Formily Schema 类型支持方式可参考[自定义输入相关类型定义](/d
 
 通过 schema 完成用户交互输入，schema 参数值为函数，用户处理国际化问题，仅支持 Formily schema。
 
-
 参数：
 
 - schema: `config?: Record<string, any>) => FormilySchema` 获取问题列表函数，config 参数为当前生成器中的 config 配置信息。
-- configValue: `Record<string, unknown> = {}`  schema 默认值，传入该值的 schema 字段对应的问题将不再和用户交互。
+- configValue: `Record<string, unknown> = {}` schema 默认值，传入该值的 schema 字段对应的问题将不再和用户交互。
 - validateMap?: `Record<string, (input: unknown, data?: Record<string, unknown>) => { success: boolean; error?: string }>` schema 中特殊字段的验证函数。
 - initValue?: `Record<string, any>` schema 中字段的初始化值。
 
