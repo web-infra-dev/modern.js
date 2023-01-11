@@ -28,7 +28,6 @@ export function useLocaleSiteData(): NormalizedLocales {
   const localeInfo = locales.find(locale => locale.lang === localeKey)!;
   return {
     ...localeInfo,
-    langRoutePrefix:
-      localeKey === defaultLang ? withBase('/') : withBase(localeKey),
+    langRoutePrefix: localeKey === defaultLang ? '/' : localeKey,
   } as NormalizedLocales;
 }
