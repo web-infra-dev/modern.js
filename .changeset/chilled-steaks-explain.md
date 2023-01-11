@@ -1,5 +1,5 @@
 ---
-'@modern-js/builder-website': patch
+'@modern-js/builder-doc': patch
 ---
 
 fix: fix doc description
