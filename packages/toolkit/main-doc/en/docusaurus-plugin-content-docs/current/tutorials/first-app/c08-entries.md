@@ -93,8 +93,8 @@ In the Modern.js configuration file, we can write our own code to control the co
 Now, modify the `modern.config.ts` to add something:
 
 ```ts
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import TailwindCSSPlugin from '@modern-js/plugin-tailwindcss';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -108,7 +108,7 @@ export default defineConfig({
       'landing-page': false,
     },
   },
-  plugins: [AppToolsPlugin(), TailwindCSSPlugin()],
+  plugins: [appTools(), tailwindcssPlugin()],
 });
 ```
 

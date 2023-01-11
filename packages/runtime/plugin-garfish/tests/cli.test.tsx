@@ -3,15 +3,15 @@ import { manager, CliPlugin } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
 import { CHAIN_ID } from '@modern-js/utils';
 import type { AppUserConfig } from '@modern-js/app-tools';
-import GarfishPlugin, { externals } from '../src/cli';
+import garfishPlugin, { externals } from '../src/cli';
 import type { UseConfig } from '../src/cli';
 import { getRuntimeConfig, setRuntimeConfig } from '../src/cli/utils';
 
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
-    expect(GarfishPlugin().name).toBe('@modern-js/plugin-garfish');
+    expect(garfishPlugin().name).toBe('@modern-js/plugin-garfish');
 
-    const main = manager.clone().usePlugin(GarfishPlugin as CliPlugin);
+    const main = manager.clone().usePlugin(garfishPlugin as CliPlugin);
     const runner = await main.init();
     await runner.prepare();
     const configHistoryOptions: any = await runner.resolvedConfig({
@@ -118,7 +118,7 @@ describe('plugin-garfish cli', () => {
       .clone({
         useResolvedConfigContext: () => resolveConfig,
       })
-      .usePlugin(GarfishPlugin as CliPlugin);
+      .usePlugin(garfishPlugin as CliPlugin);
 
     const runner = await main.init();
     await runner.prepare();
@@ -162,7 +162,7 @@ describe('plugin-garfish cli', () => {
       .clone({
         useResolvedConfigContext: () => resolveConfig,
       })
-      .usePlugin(GarfishPlugin as CliPlugin);
+      .usePlugin(garfishPlugin as CliPlugin);
     const runner = await main.init();
     await runner.prepare();
     const config: any = await runner.config();
@@ -206,7 +206,7 @@ describe('plugin-garfish cli', () => {
         useResolvedConfigContext: () => resolveConfig as any,
         useConfigContext: () => resolveConfig,
       })
-      .usePlugin(GarfishPlugin as CliPlugin);
+      .usePlugin(garfishPlugin as CliPlugin);
 
     const runner = await main.init();
     await runner.prepare();
@@ -231,7 +231,7 @@ describe('plugin-garfish cli', () => {
         useResolvedConfigContext: () => resolveConfig as any,
         useConfigContext: () => resolveConfig,
       })
-      .usePlugin(GarfishPlugin as CliPlugin);
+      .usePlugin(garfishPlugin as CliPlugin);
     const runner = await main.init();
     await runner.prepare();
     const config = (await runner.config()) as AppUserConfig[];
@@ -246,7 +246,7 @@ describe('plugin-garfish cli', () => {
         useResolvedConfigContext: () => resolveConfig as any,
         useConfigContext: () => resolveConfig,
       })
-      .usePlugin(GarfishPlugin as CliPlugin);
+      .usePlugin(garfishPlugin as CliPlugin);
     const runner = await main.init();
     await runner.prepare();
     const config = (await runner.config()) as AppUserConfig[];

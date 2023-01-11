@@ -1,6 +1,6 @@
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-// import RouterPlugin from '@modern-js/runtime/dist/js/modern/router/cli';
-import GarfishPlugin from '@modern-js/plugin-garfish';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+// import routerPlugin from '@modern-js/runtime/dist/js/modern/router/cli';
+import garfishPlugin from '@modern-js/plugin-garfish';
 
 import { getPort, getPublicPath } from '../../../utils/testCase';
 
@@ -34,8 +34,8 @@ module.exports = defineConfig({
     port,
   },
   plugins: [
-    AppToolsPlugin(),
-    // RouterPlugin(),
-    GarfishPlugin(),
+    appTools(),
+    // routerPlugin(),
+    garfishPlugin(),
   ],
 });

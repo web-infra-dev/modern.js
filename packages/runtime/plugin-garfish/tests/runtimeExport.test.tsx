@@ -1,5 +1,5 @@
 import React from 'react';
-import GarfishPlugin from '../src/cli';
+import garfishPlugin from '../src/cli';
 import '@testing-library/jest-dom';
 
 global.React = React;
@@ -23,7 +23,7 @@ describe('plugin-garfish', () => {
   test('cli addRuntimeExports', async () => {
     const resolveConfig: any = {};
     const mfPackagePath = '@modern-js/test/plugin-garfish';
-    const plugin = GarfishPlugin({
+    const plugin = garfishPlugin({
       mfPackagePath,
     });
 

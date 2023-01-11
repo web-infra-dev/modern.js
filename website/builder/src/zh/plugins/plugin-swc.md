@@ -65,14 +65,7 @@ type PluginConfig = {
 
 对标 `@babel/preset-react`。传入的值会与默认配置进行合并。
 
-插件默认会自动根据你的 `tsconfig.json` 文件设置一些配置选项。
-
-- runtime: compilerOptions 中 `jsx` 字段。
-- importSource: compilerOptions 中 `jsxImportSource` 字段。
-- pragma: compilerOptions 中 `jsxFactory` 字段。
-- pragmaFrag: compilerOptions 中 `jsxFragmentFactory` 字段。
-
-如果没有找到 `tsconfig.json` 文件，默认配置是 `{ runtime: automatic }`。
+插件默认会自动根据你的 `react` 版本确定 `runtime` 字段，如果 `react` 版本大于 17.0.0，会设置成 `automatic`，否则设置成 `classic`。
 
 ### presetEnv
 
@@ -137,7 +130,7 @@ PluginSWC({
 import Btn from 'foo/es/MyButton';
 ```
 
-可以看出 `(member) => "foo/es/" + member` 等同于使用函数 ```(member) => `foo/es/${member}` ```，但是不会有 Node-API 的调用开销。
+可以看出配置 `customName: "foo/es/{{ member }}"` 的效果等同于配置 ```customName: (member) => `foo/es/${member}` ```，但是不会有 Node-API 的调用开销。
 
 这里使用到的模版是 [handlebars](https://handlebarsjs.com)，模版配置中还内置了一些有用的辅助工具，还是以上面的导入语句为例，配置成：
 

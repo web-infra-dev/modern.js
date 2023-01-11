@@ -9,9 +9,9 @@ This chapter describes the configuration of the registered module-tools plugin.
 - type: `Array<ModuleToolsPlugin>`
 
 ```js modern.config.ts
-import { ExamplePlugin } from '. /plugins/example';
+import { examplePlugin } from '. /plugins/example';
 export default defineConfig({
-  plugins: [ExamplePlugin()],
+  plugins: [examplePlugin()],
 });
 ```
 

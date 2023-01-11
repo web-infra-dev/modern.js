@@ -1,8 +1,8 @@
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import ServerPlugin from '@modern-js/plugin-server';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import serverPlugin from '@modern-js/plugin-server';
 
 export default defineConfig({
-  plugins: [AppToolsPlugin(), ServerPlugin()],
+  plugins: [appTools(), serverPlugin()],
   runtime: {
     router: false,
     state: false,

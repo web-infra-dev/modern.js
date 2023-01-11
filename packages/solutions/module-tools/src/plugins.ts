@@ -1,6 +1,6 @@
 import type { CliPlugin } from '@modern-js/core';
-import ChangesetPlugin from '@modern-js/plugin-changeset';
-import LintPlugin from '@modern-js/plugin-lint';
+import changesetPlugin from '@modern-js/plugin-changeset';
+import lintPlugin from '@modern-js/plugin-lint';
 
 export const getPlugins = (runningCmd: string) => {
   let plugins: CliPlugin[] = [];
@@ -10,12 +10,12 @@ export const getPlugins = (runningCmd: string) => {
       plugins = [];
       break;
     case 'lint':
-      plugins = [LintPlugin()];
+      plugins = [lintPlugin()];
       break;
     case 'change':
     case 'release':
     case 'bump':
-      plugins = [ChangesetPlugin()];
+      plugins = [changesetPlugin()];
       break;
     default:
       plugins = [];

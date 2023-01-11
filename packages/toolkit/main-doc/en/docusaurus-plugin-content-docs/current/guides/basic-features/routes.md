@@ -174,7 +174,7 @@ When accessing a route, you will get the following UI layout:
 </RootLayout>
 ```
 
-### Loading
+### (WIP)Loading
 
 In each layer directory under `routes/`, developers can create `loading.tsx` files and export a `<Loading>` component by default.
 

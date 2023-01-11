@@ -43,10 +43,10 @@ Below is an example of using the CLI plugin.
 To use the plugin on npm, you need to install the plugin through the package manager and import it.
 
 ```ts title="modern.config.ts"
-import MyPlugin from 'my-plugin';
+import myPlugin from 'my-plugin';
 
 export default defineConfig({
-  plugins: [MyPlugin()],
+  plugins: [myPlugin()],
 });
 ```
 
@@ -55,10 +55,10 @@ export default defineConfig({
 Using the plugin in the local code repository, you can import it directly through the relative path import.
 
 ```ts title="modern.config.ts"
-import MyPlugin from './config/plugin/MyPlugin';
+import myPlugin from './config/plugin/myPlugin';
 
 export default defineConfig({
-  plugins: [MyPlugin()],
+  plugins: [myPlugin()],
 });
 ```
 
@@ -67,11 +67,11 @@ export default defineConfig({
 If the plugin provides some custom configuration options, you can pass in the configuration through the parameters of the plugin function.
 
 ```ts title="modern.config.ts"
-import MyPlugin from 'my-plugin';
+import myPlugin from 'my-plugin';
 
 export default defineConfig({
   plugins: [
-    MyPlugin({
+    myPlugin({
       foo: 1,
       bar: 2,
     }),

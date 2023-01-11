@@ -10,16 +10,15 @@ sidebar_position: 11
 
 ### 手动注册插件
 
-默认情况下，安装插件后需要你在 `modern.config.ts` 文件中手动注册插件。
+默认情况下，安装插件后，你需要在 `modern.config.ts` 文件中手动注册插件。
 
 ```ts title="modern.config.ts"
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import I18nPlugin from '@modern-js/plugin-i18n';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import i18nPlugin from '@modern-js/plugin-i18n';
 
-default export defineConfig({
-  plugins: [AppToolsPlugin(), I18nPlugin()]
-})
-
+export default defineConfig({
+  plugins: [appTools(), i18nPlugin()],
+});
 ```
 
 ### 自动注册插件
@@ -29,9 +28,9 @@ default export defineConfig({
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
 
-default export defineConfig({
-  autoLoadPlugins: true
-})
+export default defineConfig({
+  autoLoadPlugins: true,
+});
 ```
 
 Modern.js 将通过以下几个步骤帮你自动注册插件

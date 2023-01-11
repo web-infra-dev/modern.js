@@ -207,7 +207,7 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 </RootLayout>
 ```
 
-### Loading
+### (WIP)Loading
 
 `routes/` 下每一层目录中，开发者可以创建 `loading.tsx` 文件，默认导出一个 `<Loading>` 组件。
 

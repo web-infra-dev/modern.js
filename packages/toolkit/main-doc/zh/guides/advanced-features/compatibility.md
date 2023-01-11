@@ -50,11 +50,11 @@ Modern.js 中还提供了基于浏览器 [UA](https://developer.mozilla.org/zh-C
 执行命令后，在 `modern.config.ts` 中注册 Polyfill 插件:
 
 ```ts title="modern.config.ts"
-import PolyfillPlugin from '@modern-js/plugin-polyfill';
+import polyfillPlugin from '@modern-js/plugin-polyfill';
+
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
-  ...,
-  plugins: [..., PolyfillPlugin()],
+  plugins: [..., polyfillPlugin()],
 });
 ```
 

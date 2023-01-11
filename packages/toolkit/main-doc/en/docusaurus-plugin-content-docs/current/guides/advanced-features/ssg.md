@@ -15,15 +15,14 @@ First need to execute `pnpm run new` to enable the SSG features:
 After execute script，register SSG plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import SSGPlugin from '@modern-js/plugin-ssg';
+import ssgPlugin from '@modern-js/plugin-ssg';
+
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
-  ...,
   output: {
-    ...,
     ssg: true,
   },
-  plugins: [..., SSGPlugin()],
+  plugins: [..., ssgPlugin()],
 });
 ```
 

@@ -1,5 +1,5 @@
-import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
-import RouterLegacyPlugin from '@modern-js/plugin-router-v5';
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import routerPlugin from '@modern-js/plugin-router-v5';
 
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
@@ -24,5 +24,5 @@ export default defineConfig({
     favicon: './static/a.icon',
   },
   output: {},
-  plugins: [AppToolsPlugin(), RouterLegacyPlugin()],
+  plugins: [appTools(), routerPlugin()],
 });
