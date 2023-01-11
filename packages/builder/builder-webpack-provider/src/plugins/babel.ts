@@ -9,7 +9,7 @@ import {
   mergeRegex,
   createVirtualModule,
   getBrowserslistWithDefault,
-  type BuilderContext,
+  type SharedBuilderContext,
 } from '@modern-js/builder-shared';
 
 import type { WebpackChain, BuilderPlugin, NormalizedConfig } from '../types';
@@ -34,7 +34,7 @@ export function applyScriptCondition({
 }: {
   rule: WebpackChain.Rule;
   config: NormalizedConfig;
-  context: BuilderContext;
+  context: SharedBuilderContext;
   includes: (string | RegExp)[];
   excludes: (string | RegExp)[];
 }) {

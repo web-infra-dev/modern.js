@@ -2,7 +2,7 @@ import type {
   SharedBuilderConfig,
   StartDevServerOptions,
   StartDevServerResult,
-  BuilderContext,
+  SharedBuilderContext,
   OnAfterStartDevServerFn,
   OnBeforeStartDevServerFn,
 } from './types';
@@ -93,7 +93,7 @@ async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {
 }
 
 /** The context used by startDevServer. */
-export type Context = BuilderContext & {
+export type Context = SharedBuilderContext & {
   hooks: {
     onBeforeStartDevServerHook: ReturnType<
       typeof createAsyncHook<OnBeforeStartDevServerFn>

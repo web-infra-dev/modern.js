@@ -1,4 +1,3 @@
-import { isAbsolute, join } from 'path';
 import { MODULE_PATH_REGEX } from './constants';
 import { removeLeadingSlash } from './utils';
 import {
@@ -7,14 +6,6 @@ import {
   SharedHtmlConfig,
   FilenameConfig,
 } from './types';
-
-export function getAbsoluteDistPath(
-  cwd: string,
-  outputConfig: NormalizedSharedOutputConfig,
-) {
-  const root = getDistPath(outputConfig, 'root');
-  return isAbsolute(root) ? root : join(cwd, root);
-}
 
 export const getDistPath = (
   outputConfig: NormalizedSharedOutputConfig,

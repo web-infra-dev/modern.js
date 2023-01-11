@@ -1,5 +1,5 @@
 import type { PluginStore, Plugins, DefaultBuilderPluginAPI } from './plugin';
-import type { BuilderContext } from './context';
+import type { SharedBuilderContext } from './context';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderMode, CreateBuilderOptions } from './builder';
 import type { Server, ModernDevServerOptions } from '@modern-js/server';
@@ -57,7 +57,7 @@ export type ProviderInstance<
 > = {
   readonly bundler: Bundler;
 
-  readonly publicContext: Readonly<BuilderContext>;
+  readonly publicContext: Readonly<SharedBuilderContext>;
 
   pluginAPI: DefaultBuilderPluginAPI<
     BuilderConfig,

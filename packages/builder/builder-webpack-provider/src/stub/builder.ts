@@ -25,7 +25,12 @@ import {
   applyDefaultPlugins,
   applyMinimalPlugins,
 } from '../shared/plugin';
-import type { BuilderConfig, BuilderPlugin, Context } from '../types';
+import type {
+  BuilderConfig,
+  BuilderContext,
+  BuilderPlugin,
+  Context,
+} from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
 import { globContentJSON, matchLoader } from './utils';
@@ -117,7 +122,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   // merge user context.
   options?.context && _.merge(context, options.context);
 
-  const publicContext = createPublicContext(context);
+  const publicContext = createPublicContext<BuilderContext>(context, ['hooks']);
   const pluginStore = createPluginStore();
 
   context.pluginAPI = getPluginAPI({ context, pluginStore });

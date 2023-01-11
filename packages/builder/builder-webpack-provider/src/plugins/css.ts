@@ -6,7 +6,7 @@ import {
   isLooseCssModules,
   getBrowserslistWithDefault,
   type BuilderTarget,
-  type BuilderContext,
+  type SharedBuilderContext,
 } from '@modern-js/builder-shared';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
@@ -63,7 +63,7 @@ export const normalizeCssLoaderOptions = (
 export async function applyBaseCSSRule(
   rule: WebpackChain.Rule,
   config: NormalizedConfig,
-  context: BuilderContext,
+  context: SharedBuilderContext,
   {
     target,
     isProd,

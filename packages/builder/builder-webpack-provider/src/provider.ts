@@ -2,12 +2,17 @@ import {
   createPublicContext,
   type BuilderProvider,
 } from '@modern-js/builder-shared';
+import type { Compiler, MultiCompiler } from 'webpack';
 import { createContext } from './core/createContext';
-import { applyDefaultPlugins } from './shared/plugin';
-import { BuilderConfig, NormalizedConfig, WebpackConfig } from './types';
 import { initConfigs } from './core/initConfigs';
 import { getPluginAPI } from './core/initPlugins';
-import type { Compiler, MultiCompiler } from 'webpack';
+import { applyDefaultPlugins } from './shared/plugin';
+import {
+  BuilderConfig,
+  BuilderContext,
+  NormalizedConfig,
+  WebpackConfig,
+} from './types';
 
 export type BuilderWebpackProvider = BuilderProvider<
   BuilderConfig,
@@ -32,7 +37,7 @@ export function builderWebpackProvider({
 
       pluginAPI,
 
-      publicContext: createPublicContext(context),
+      publicContext: createPublicContext<BuilderContext>(context, ['hooks']),
 
       async applyDefaultPlugins() {
         pluginStore.addPlugins(await applyDefaultPlugins(plugins));

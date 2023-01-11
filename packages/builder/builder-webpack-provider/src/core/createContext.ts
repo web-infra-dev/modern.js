@@ -3,13 +3,13 @@ import {
   debug,
   isFileExists,
   type CreateBuilderOptions,
-  createContextByConfig,
-  NormalizedSharedOutputConfig,
+  createSharedBuilderContext,
 } from '@modern-js/builder-shared';
 import { initHooks } from './initHooks';
 import { validateBuilderConfig } from '../config/validate';
 import { withDefaultConfig } from '../config/defaults';
 import type { Context, BuilderConfig } from '../types';
+import assert from 'assert';
 
 /**
  * Create primary context.
@@ -21,11 +21,13 @@ export function createPrimaryContext(
   userBuilderConfig: BuilderConfig,
 ): Context {
   const builderConfig = withDefaultConfig(userBuilderConfig);
-  const context = createContextByConfig(
-    options,
-    builderConfig.output as NormalizedSharedOutputConfig,
-    'webpack',
-  );
+  const distPath = builderConfig.output?.distPath?.root;
+  assert(distPath);
+  const context = createSharedBuilderContext({
+    ...options,
+    bundlerType: 'webpack',
+    distPath,
+  });
   const configValidatingTask = Promise.resolve();
 
   return {

@@ -10,7 +10,7 @@ import type {
   ModifyBuilderConfigFn,
   ModifyBundlerChainFn,
 } from './hooks';
-import { BuilderContext } from './context';
+import { SharedBuilderContext } from './context';
 import { SharedBuilderConfig, SharedNormalizedConfig } from './config';
 import { PromiseOrNot } from './utils';
 
@@ -51,7 +51,7 @@ export type DefaultBuilderPluginAPI<
   BundlerConfig = unknown,
   Compiler = unknown,
 > = {
-  context: Readonly<BuilderContext>;
+  context: Readonly<SharedBuilderContext>;
   isPluginExists: PluginStore['isPluginExists'];
 
   onExit: (fn: OnExitFn) => void;

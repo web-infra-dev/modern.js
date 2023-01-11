@@ -1,7 +1,12 @@
-import type { BuilderContext } from '@modern-js/builder-shared';
+import type { SharedBuilderContext } from '@modern-js/builder-shared';
 import type { Hooks } from '../core/initHooks';
 import type { BuilderConfig, NormalizedConfig } from './config';
 import type { BuilderPluginAPI } from './plugin';
+
+export type BuilderContext = SharedBuilderContext & {
+  /** All hooks. */
+  hooks: Readonly<Hooks>;
+};
 
 /** The inner context. */
 export type Context = BuilderContext & {

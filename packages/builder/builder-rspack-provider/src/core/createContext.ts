@@ -1,14 +1,14 @@
 import { join } from 'path';
 import {
   isFileExists,
-  createContextByConfig,
+  createSharedBuilderContext,
   type CreateBuilderOptions,
-  NormalizedSharedOutputConfig,
 } from '@modern-js/builder-shared';
 import { initHooks } from './initHooks';
 // import { ConfigValidator } from '../config/validate';
 import { withDefaultConfig } from '../config/defaults';
 import type { Context, BuilderConfig } from '../types';
+import assert from 'assert';
 
 /**
  * Generate the actual context used in the build,
@@ -19,11 +19,13 @@ export async function createContext(
   userBuilderConfig: BuilderConfig,
 ): Promise<Context> {
   const builderConfig = withDefaultConfig(userBuilderConfig);
-  const context = createContextByConfig(
-    options,
-    builderConfig.output as NormalizedSharedOutputConfig,
-    'rspack',
-  );
+  const distPath = builderConfig.output?.distPath?.root;
+  assert(distPath);
+  const context = createSharedBuilderContext({
+    ...options,
+    distPath,
+    bundlerType: 'rspack',
+  });
   const configValidatingTask = Promise.resolve();
   // TODO: validator
   // const configValidatingTask =  ConfigValidator.create().then(validator => {

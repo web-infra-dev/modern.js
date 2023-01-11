@@ -3,7 +3,7 @@ import type { BuilderEntry, BuilderTarget } from './builder';
 export type BundlerType = 'webpack' | 'rspack';
 
 /** The public context */
-export type BuilderContext = {
+export type SharedBuilderContext = {
   /** The entry points object. */
   entry: BuilderEntry;
   /** The build target type. */

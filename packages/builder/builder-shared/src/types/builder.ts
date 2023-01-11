@@ -1,4 +1,4 @@
-import type { BuilderContext } from './context';
+import type { SharedBuilderContext } from './context';
 import type { PluginStore } from './plugin';
 import type { BuilderProvider, ProviderInstance } from './provider';
 
@@ -22,7 +22,7 @@ export type CreateBuilderOptions = {
 };
 
 export type BuilderInstance<P extends BuilderProvider = BuilderProvider> = {
-  context: BuilderContext;
+  context: SharedBuilderContext;
 
   addPlugins: PluginStore['addPlugins'];
   removePlugins: PluginStore['removePlugins'];

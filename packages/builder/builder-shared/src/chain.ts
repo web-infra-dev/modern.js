@@ -1,6 +1,6 @@
 import { debug } from './logger';
 import {
-  BuilderContext,
+  SharedBuilderContext,
   CreateAsyncHook,
   ModifyBundlerChainUtils,
   ModifyBundlerChainFn,
@@ -16,7 +16,7 @@ export async function getBundlerChain() {
 }
 
 export async function modifyBundlerChain(
-  context: BuilderContext & {
+  context: SharedBuilderContext & {
     hooks: {
       modifyBundlerChainHook: CreateAsyncHook<ModifyBundlerChainFn>;
     };

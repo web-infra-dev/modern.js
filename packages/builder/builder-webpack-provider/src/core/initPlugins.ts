@@ -5,7 +5,7 @@ import {
   getHTMLPathByEntry,
   type PluginStore,
 } from '@modern-js/builder-shared';
-import type { Context, BuilderPluginAPI } from '../types';
+import type { Context, BuilderPluginAPI, BuilderContext } from '../types';
 
 export function getPluginAPI({
   context,
@@ -15,7 +15,7 @@ export function getPluginAPI({
   pluginStore: PluginStore;
 }): BuilderPluginAPI {
   const { hooks } = context;
-  const publicContext = createPublicContext(context);
+  const publicContext = createPublicContext<BuilderContext>(context, ['hooks']);
 
   const getBuilderConfig = () => {
     if (!context.normalizedConfig) {
