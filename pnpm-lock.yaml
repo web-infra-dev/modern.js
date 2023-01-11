@@ -84,7 +84,18 @@ importers:
       typescript: 4.9.3
 
   packages/builder/builder-doc:
-    specifiers: {}
+    specifiers:
+      '@modern-js/doc-tools': workspace:*
+      '@modern-js/tsconfig': workspace:*
+      '@types/node': ^14
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    devDependencies:
+      '@modern-js/doc-tools': link:../../solutions/doc-tools
+      '@modern-js/tsconfig': link:../../review/tsconfig
+      '@types/node': 14.18.35
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
 
   packages/builder/builder-rspack-provider:
     specifiers:
@@ -5486,22 +5497,6 @@ importers:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       typescript: 4.9.3
-
-  website/builder:
-    specifiers:
-      '@modern-js/builder-doc': workspace:*
-      '@modern-js/doc-tools': workspace:*
-      '@modern-js/tsconfig': workspace:*
-      '@types/node': ^14
-      react: ^18.2.0
-      react-dom: ^18.2.0
-    devDependencies:
-      '@modern-js/builder-doc': link:../../packages/builder/builder-doc
-      '@modern-js/doc-tools': link:../../packages/solutions/doc-tools
-      '@modern-js/tsconfig': link:../../packages/review/tsconfig
-      '@types/node': 14.18.35
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
 
   website/main:
     specifiers:
@@ -16765,7 +16760,7 @@ packages:
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.75.0
+      webpack: 5.75.0_esbuild@0.15.7
     dev: false
 
   /babel-loader/9.1.0_ztqwsvkb6z73luspkai6ilstpu:

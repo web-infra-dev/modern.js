@@ -130,10 +130,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
       {
         text: getText('Plugin API', 'Plugin API'),
         collapsible: false,
-        items: [
-          getLink('/api/plugin-core'),
-          getLink('/api/plugin-hooks')
-        ],
+        items: [getLink('/api/plugin-core'), getLink('/api/plugin-hooks')],
       },
     ],
     [getLink('/plugins')]: [
@@ -209,6 +206,8 @@ export default defineConfig({
           '@components': path.join(__dirname, 'src/components'),
           '@en': path.join(__dirname, 'src/en'),
           '@zh': path.join(__dirname, 'src/zh'),
+          '@shared/zh': path.join(__dirname, 'zh'),
+          '@shared/en': path.join(__dirname, 'en'),
         },
       },
     },
