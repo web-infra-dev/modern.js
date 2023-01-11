@@ -1,5 +1,5 @@
 ---
-'@modern-js/builder-shared': major
+'@modern-js/builder-shared': patch
 ---
 
 feat: accept undefined as `JSONPrimitive`
