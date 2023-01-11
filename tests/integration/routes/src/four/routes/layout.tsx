@@ -1,5 +1,5 @@
 import { Link, Outlet } from '@modern-js/runtime/router';
-import { RuntimeContext } from '@modern-js/runtime';
+import type { RuntimeContext } from '@modern-js/runtime';
 
 declare global {
   interface Window {
@@ -12,17 +12,19 @@ export const init = (context: RuntimeContext) => {
   return context;
 };
 
-// export const appConfig: AppConfig = {
-//   router: {
-//     createRoutes() {
-//       return [
-//         {
-//           path: 'yyy/xxx',
-//           element: <div>yyy/xxx</div>,
-//         },
-//       ];
+// export const config = (): AppConfig => {
+//   return {
+//     router: {
+//       createRoutes() {
+//         return [
+//           {
+//             path: 'yyy/xxx',
+//             element: <div>yyy/xxx</div>,
+//           },
+//         ];
+//       },
 //     },
-//   },
+//   }
 // };
 
 export default function Layout() {
