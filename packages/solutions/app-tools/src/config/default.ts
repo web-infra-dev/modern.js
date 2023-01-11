@@ -6,6 +6,8 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
 
   const dev: AppUserConfig['dev'] = {
     ...defaultBuilderConfig.dev,
+    // `dev.port` should not have a default value
+    // because we will use `server.port` by default
     port: undefined,
   };
   const tools: AppUserConfig['tools'] = { ...defaultBuilderConfig.tools };
