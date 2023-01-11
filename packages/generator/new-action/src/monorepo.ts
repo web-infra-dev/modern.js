@@ -20,7 +20,7 @@ const REPO_GENERATOR = '@modern-js/repo-generator';
 export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
   const {
     locale = 'zh',
-    distTag = '',
+    distTag = 'modern-1',
     debug = false,
     registry = '',
     config = '{}',

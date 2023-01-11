@@ -47,7 +47,7 @@ export async function runCreteCommand(
   return execaWithStreamLog(
     'npx',
     [
-      '@modern-js/create',
+      '@modern-js/create@modern-1',
       projectName,
       '--config',
       JSON.stringify({

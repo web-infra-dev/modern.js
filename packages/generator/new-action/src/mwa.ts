@@ -35,7 +35,7 @@ interface IMWANewActionOption {
 export const MWANewAction = async (options: IMWANewActionOption) => {
   const {
     locale = 'zh',
-    distTag = '',
+    distTag = 'modern-1',
     debug = false,
     registry = '',
     config = '{}',

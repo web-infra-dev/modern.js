@@ -35,7 +35,7 @@ interface IModuleNewActionOption {
 export const ModuleNewAction = async (options: IModuleNewActionOption) => {
   const {
     locale = 'zh',
-    distTag = '',
+    distTag = 'modern-1',
     debug = false,
     registry = '',
     config = '{}',
