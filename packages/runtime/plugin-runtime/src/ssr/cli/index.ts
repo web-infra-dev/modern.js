@@ -79,11 +79,8 @@ export default (): CliPlugin<AppTools> => ({
               }
 
               // add environment variables to determine the node/browser
-              const prefix = `${
-                appContext.metaName.split(/[-_]/)[0]
-              }_`.toUpperCase();
               const modernVars = {
-                [`process.env.${prefix}TARGET`]: JSON.stringify(
+                [`process.env.MODERN_TARGET`]: JSON.stringify(
                   isServer ? 'node' : 'browser',
                 ),
               };
