@@ -191,12 +191,12 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
     '/zh/': {
       lang: 'zh-CN',
       title: 'Modern.js Builder',
-      description: '一个面向现代 Web 开发场景的构建引擎',
+      description: '一个面向 Web 开发场景的构建引擎',
     },
     '/en/': {
       lang: 'en-US',
       title: 'Modern.js Builder',
-      description: 'A Build Engine for Modern Web Development',
+      description: 'A Build Engine for Web Development',
     },
   },
   theme: 'vt',

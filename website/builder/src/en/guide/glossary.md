@@ -43,7 +43,7 @@ Currently there are two Providers:
 
 ## Modern.js
 
-Modern web engineering system.
+Web engineering system.
 
 Modern.js is open sourced by the ByteDance Web Infra team, provides a series of best practices for modern web development, such as integrated development of frontend and backend, conventional routing, building solutions, style solutions, etc.
 
