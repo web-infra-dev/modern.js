@@ -135,6 +135,8 @@ const whiteListKeys = [
   'resourceQuery',
   'use',
   'type',
+  'parser',
+  'generator',
 ];
 
 const formatRule = (rule: BundlerRule): RspackRule => {
