@@ -44,7 +44,7 @@ export async function prepare(type: string) {
   const repoDir = path.resolve('../');
   if (isLocal) {
     process.env.CODESMITH_ENV = 'development';
-    addNewActionDevDependence(repoDir);
+    await addNewActionDevDependence(repoDir);
   }
   const tmpDir = path.join(os.tmpdir(), 'modern-generators', type);
   await fs.remove(tmpDir);
