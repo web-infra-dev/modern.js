@@ -1,7 +1,7 @@
 import { isAbsolute, join } from 'path';
 import {
   BuildCacheOptions,
-  BuilderContext,
+  SharedBuilderContext,
   isFileExists,
   DefaultBuilderPlugin,
 } from '@modern-js/builder-shared';
@@ -35,7 +35,7 @@ async function validateCache(
 
 function getCacheDirectory(
   { cacheDirectory }: BuildCacheOptions,
-  context: BuilderContext,
+  context: SharedBuilderContext,
 ) {
   if (cacheDirectory) {
     return isAbsolute(cacheDirectory)

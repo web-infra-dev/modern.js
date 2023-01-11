@@ -6,8 +6,8 @@ export type {
   BuilderEntry,
   BuilderTarget,
   BuilderPlugin,
-  BuilderContext,
   BuilderInstance,
+  SharedBuilderContext,
   CreateBuilderOptions,
   InspectConfigOptions,
 
