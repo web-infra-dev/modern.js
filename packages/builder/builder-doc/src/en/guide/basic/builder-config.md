@@ -9,7 +9,7 @@ Builder Configs are divided into the following categories:
 - [Dev Config](/api/config-dev.html): Config related to local development.
 - [Html Config](/api/config-html.html): Config related to HTML.
 - [Tools Config](/api/config-tools.html): Config related to the low-level tools.
-- [Source Config](/api/config-source.html): Config related to source code.
+- [Source Config](/api/config-source.html): Config related to source code parsing and compilation.
 - [Output Config](/api/config-output.html): Config related to output.
 - [Security Config](/api/config-security.html): Config related to security.
 - [Performance Config](/api/config-performance.html): Config related to performance.

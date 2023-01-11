@@ -9,7 +9,7 @@ Builder 中的配置可以分为以下几类：
 - [Dev Config](/api/config-dev.html)：与本地开发有关的配置。
 - [Html Config](/api/config-html.html)：与 HTML 有关的配置。
 - [Tools Config](/api/config-tools.html)：与底层工具有关的配置。
-- [Source Config](/api/config-source.html)：与源代码有关的配置。
+- [Source Config](/api/config-source.html)：与源代码解析、编译方式相关的配置。
 - [Output Config](/api/config-output.html)：与构建产物有关的配置。
 - [Security Config](/api/config-security.html)：与安全有关的配置。
 - [Performance Config](/api/config-performance.html)：与编译性能、产物性能有关的配置。
