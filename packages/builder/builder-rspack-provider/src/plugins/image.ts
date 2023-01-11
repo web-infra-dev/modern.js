@@ -48,6 +48,11 @@ export const PluginImage = (): BuilderPlugin => ({
           generator: {
             filename: join(distDir, filename),
           },
+          parser: {
+            dataUrlCondition: {
+              maxSize: 0,
+            },
+          },
         },
       ]);
     });
