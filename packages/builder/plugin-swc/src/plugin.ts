@@ -1,5 +1,4 @@
 import path from 'path';
-import assert from 'assert';
 import { Compiler, Compilation } from 'webpack';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import {
@@ -14,7 +13,7 @@ import {
   chalk,
   getCoreJsVersion,
   logger,
-  readTsConfig,
+  isBeyondReact17,
 } from '@modern-js/utils';
 import { JsMinifyOptions } from '@modern-js/swc-plugins';
 import { minify } from './binding';
@@ -27,6 +26,8 @@ const BUILDER_SWC_DEBUG_MODE = 'BUILDER_SWC_DEBUG_MODE';
  * In this plugin, we do:
  * - Remove Babel loader if exists
  * - Add our own swc loader
+ * - Remove JS minifier
+ * - Add swc minifier plugin
  */
 export const PluginSwc = (
   pluginConfig: PluginSwcOptions = {},
@@ -257,48 +258,24 @@ export class SwcWebpackPlugin {
   }
 }
 
+/**
+ * Determin react runtime mode based on react version
+ */
 function determinePresetReact(root: string, pluginConfig: PluginSwcOptions) {
-  let compilerOptions: Record<string, any>;
-  try {
-    const tsConfig = readTsConfig(root);
-    assert(typeof tsConfig === 'object');
-    assert('compilerOptions' in tsConfig);
-    ({ compilerOptions } = tsConfig);
-  } catch {
-    return;
-  }
-
   const presetReact =
     pluginConfig.presetReact || (pluginConfig.presetReact = {});
 
-  let runtime: 'classic' | 'automatic' = 'automatic';
-  if ('jsx' in compilerOptions) {
-    switch (compilerOptions.jsx) {
-      case 'react':
-        runtime = 'classic';
-        break;
-      case 'react-jsx':
-        runtime = 'automatic';
-        break;
-      default:
-    }
-    presetReact.runtime = runtime;
-  }
-
-  if (runtime === 'classic') {
-    presetReact.pragmaFrag = compilerOptions.jsxFragmentFactory;
-    presetReact.pragma = compilerOptions.jsxFactory;
-  }
-
-  if (runtime === 'automatic') {
-    presetReact.importSource = compilerOptions.jsxImportSource;
-  }
+  presetReact.runtime = isBeyondReact17(root) ? 'automatic' : 'classic';
 }
 
 function isDebugMode(): boolean {
   return process.env[BUILDER_SWC_DEBUG_MODE] !== undefined;
 }
 
+/**
+ * Currently SWC minify is not stable as we expected, there is a
+ * change that it can never ends, so add a warning if it hangs too long.
+ */
 function minifyWithTimeout(
   filename: string,
   code: string,
