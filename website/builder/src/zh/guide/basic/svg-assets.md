@@ -27,7 +27,7 @@ console.log(logoURL); // => "/static/logo.6c12aba3.png"
 
 ## 修改默认导出
 
-你可以通过 [output.svgDefaultExport](/zh/api/config-output.html#output-svgdefaultexport) 配置项来修改 SVG 文件默认导出的内容，比如把默认导出的内容设置为 React 组件：
+你可以通过 [output.svgDefaultExport](/api/config-output.html#output-svgdefaultexport) 配置项来修改 SVG 文件默认导出的内容，比如把默认导出的内容设置为 React 组件：
 
 ```ts
 export default {

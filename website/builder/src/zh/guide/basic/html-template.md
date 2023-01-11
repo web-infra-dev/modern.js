@@ -10,7 +10,7 @@ Builder 提供了一些配置项来对 HTML 模板进行设置。通过本章节
 
 比如在 Modern.js 2.0 框架中，默认会预设一份 HTML 模板，同时也支持用户自定义模板的内容。你可以阅读 [「Modern.js - HTML 模板」](https://modernjs.dev/v2/docs/guides/basic-features/html) 章节来了解相关内容。
 
-在 Builder 中，你可以使用 [html.template](/zh/api/config-html.html#html-template) 和 [html.templateByEntries](/zh/api/config-html.html#html-templatebyentries) 配置项来设置自定义的 HTML 模板文件。
+在 Builder 中，你可以使用 [html.template](/api/config-html.html#html-template) 和 [html.templateByEntries](/api/config-html.html#html-templatebyentries) 配置项来设置自定义的 HTML 模板文件。
 
 ```ts
 export default {
@@ -22,7 +22,7 @@ export default {
 
 ## 设置页面标题
 
-你可以通过 [html.title](/zh/api/config-html.html#html-title) 和 [html.titleByEntries](/zh/api/config-html.html#html-titlebyentries) 配置项来设置 HTML 的 `<title>` 标签。
+你可以通过 [html.title](/api/config-html.html#html-title) 和 [html.titleByEntries](/api/config-html.html#html-titlebyentries) 配置项来设置 HTML 的 `<title>` 标签。
 
 当你的项目中只有一个页面时，直接使用 `html.title` 设置即可：
 
@@ -51,7 +51,7 @@ export default {
 
 Builder 支持设置 [favicon](https://developer.mozilla.org/en-US/docs/Glossary/Favicon) 图标 和 iOS 系统下的 [apple-touch-icon](https://webhint.io/docs/user-guide/hints/hint-apple-touch-icons/) 图标。
 
-你可以通过 [html.favicon](/zh/api/config-html.html#html-favicon) 和 [html.faviconByEntries](/zh/api/config-html.html#html-faviconbyentries) 配置项来设置 favicon 图标。
+你可以通过 [html.favicon](/api/config-html.html#html-favicon) 和 [html.faviconByEntries](/api/config-html.html#html-faviconbyentries) 配置项来设置 favicon 图标。
 
 ```ts
 export default {
@@ -61,7 +61,7 @@ export default {
 };
 ```
 
-也可以通过 [html.appIcon](/zh/api/config-html.html#html-appicon) 配置项来设置 iOS 下的 apple-touch-icon 图标。
+也可以通过 [html.appIcon](/api/config-html.html#html-appicon) 配置项来设置 iOS 下的 apple-touch-icon 图标。
 
 ```ts
 export default {
@@ -73,7 +73,7 @@ export default {
 
 ## 设置 meta 标签
 
-你可以通过 [html.meta](/zh/api/config-html.html#html-meta) 和 [html.metaByEntries](/zh/api/config-html.html#html-metabyentries) 配置项来设置 HTML 的 `<meta>` 标签。
+你可以通过 [html.meta](/api/config-html.html#html-meta) 和 [html.metaByEntries](/api/config-html.html#html-metabyentries) 配置项来设置 HTML 的 `<meta>` 标签。
 
 比如设置 description：
 
@@ -116,7 +116,7 @@ type DefaultParameters = {
 };
 ```
 
-你也可以通过 [html.templateParameters](/zh/api/config-html.html#html-templateparameters) 和 [html.templateParametersByEntries](/zh/api/config-html.html#html-templateparametersbyentries) 配置项来传入自定义的模板参数。
+你也可以通过 [html.templateParameters](/api/config-html.html#html-templateparameters) 和 [html.templateParametersByEntries](/api/config-html.html#html-templateparametersbyentries) 配置项来传入自定义的模板参数。
 
 比如：
 
@@ -166,7 +166,7 @@ Builder 支持 [Lodash Template](https://www.lodashjs.com/docs/lodash.template)�
 
 当模板文件的后缀为 `.ejs` 时，Builder 会使用 EJS 模板引擎对模板进行编译。EJS 是一套简单的模板语言，支持直接在标签内书写简单、直白的 JavaScript 代码，并通过 JavaScript 输出最终所需的 HTML。
 
-例如，你可以先通过 [html.template](/zh/api/config-html.html#html-template) 配置项来引用一个 `.ejs` 模板文件：
+例如，你可以先通过 [html.template](/api/config-html.html#html-template) 配置项来引用一个 `.ejs` 模板文件：
 
 ```ts
 export default {
@@ -194,7 +194,7 @@ export default {
 
 当模板文件的后缀为 `.pug` 时，Builder 会使用 Pug 模板引擎对模板进行编译。Pug 是一款健壮、灵活、功能丰富的模板引擎，专门为 Node.js 平台开发。
 
-使用 Pug 模板前，需要开启 [tools.pug](/zh/api/config-tools.html#tools-pug) 配置项，并通过 [html.template](/zh/api/config-html.html#html-template) 配置项来引用一个 `.pug` 模板文件：
+使用 Pug 模板前，需要开启 [tools.pug](/api/config-tools.html#tools-pug) 配置项，并通过 [html.template](/api/config-html.html#html-template) 配置项来引用一个 `.pug` 模板文件：
 
 ```ts
 export default {

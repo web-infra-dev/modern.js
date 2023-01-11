@@ -4,7 +4,7 @@ Builder supports directly modifying webpack configuration objects, and also supp
 
 ## Modify the webpack configuration object
 
-You can use [tools.webpack](/zh/api/config-tools.html#tools-webpack) to modify the webpack configuration object.
+You can use [tools.webpack](/api/config-tools.html#tools-webpack) to modify the webpack configuration object.
 
 ```ts
 export default {
@@ -29,7 +29,7 @@ webpack-chain is a configuration modification tools that is different from modif
 
 ### tools.webpackChain config
 
-Builder provides [tools.webpackChain](/zh/api/config-tools.html#tools-webpackchain) config to modify webpack-chain.
+Builder provides [tools.webpackChain](/api/config-tools.html#tools-webpackchain) config to modify webpack-chain.
 
 The value of `tools.webpackChain` is `Function` type, which receives two parameters:
 

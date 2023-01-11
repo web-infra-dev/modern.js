@@ -38,7 +38,7 @@ export default () => {
 
 在默认情况下，只有 `*.module.css` 结尾的文件才被视为 CSS Modules 模块。
 
-如果你想将源码目录下的所有 CSS 文件当做 CSS Modules 模块进行处理，可以通过开启 [output.disableCssModuleExtension](/zh/api/config-output.html#output-disablecssmoduleextension) 来实现，比如：
+如果你想将源码目录下的所有 CSS 文件当做 CSS Modules 模块进行处理，可以通过开启 [output.disableCssModuleExtension](/api/config-output.html#output-disablecssmoduleextension) 来实现，比如：
 
 ```ts
 export default {
@@ -61,7 +61,7 @@ import styles2 from './bar.css';
 
 ## 自定义类名
 
-自定义 CSS Modules 生成的类名也是我们比较常用的功能，你可以使用 [output.cssModuleLocalIdentName](/zh/api/config-output.html#output-cssmodulelocalidentname) 来进行配置。
+自定义 CSS Modules 生成的类名也是我们比较常用的功能，你可以使用 [output.cssModuleLocalIdentName](/api/config-output.html#output-cssmodulelocalidentname) 来进行配置。
 
 ```ts
 export default {
@@ -71,7 +71,7 @@ export default {
 };
 ```
 
-如果你需要自定义 CSS Modules 的其他配置，可以通过 [tools.cssLoader](/zh/api/config-tools.html#css-loader) 进行设置。
+如果你需要自定义 CSS Modules 的其他配置，可以通过 [tools.cssLoader](/api/config-tools.html#css-loader) 进行设置。
 
 ## 添加类型声明
 
@@ -147,7 +147,7 @@ declare module '*.styl' {
 
 上述方法虽然可以解决 CSS Modules 在 TypeScript 中的类型问题，但是无法准确地提示出某个 CSS 文件导出了哪些类名。
 
-Builder 支持为 CSS Modules 生成准确的类型声明，你只需要开启 [output.enableCssModuleTSDeclaration](/zh/api/config-output.html#output-enablecssmoduletsdeclaration) 配置项，再执行构建命令，Builder 就会为项目中所有的 CSS Modules 文件生成相应的类型声明文件。
+Builder 支持为 CSS Modules 生成准确的类型声明，你只需要开启 [output.enableCssModuleTSDeclaration](/api/config-output.html#output-enablecssmoduletsdeclaration) 配置项，再执行构建命令，Builder 就会为项目中所有的 CSS Modules 文件生成相应的类型声明文件。
 
 ```ts
 export default {

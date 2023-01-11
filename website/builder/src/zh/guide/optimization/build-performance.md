@@ -5,7 +5,7 @@ Modern.js Builder 默认对构建性能进行了充分优化，但是随着业�
 本文档提供了一些可选的提速策略，**开发者可以根据实际场景选取其中的部分策略**，从而进一步提升构建速度。
 
 :::tip 📢 注意
-在[优化产物体积](/zh/guide/optimization/optimize-bundle.html)一文中介绍的策略也可以用于提升构建性能，这里不再重复介绍。
+在[优化产物体积](/guide/optimization/optimize-bundle.html)一文中介绍的策略也可以用于提升构建性能，这里不再重复介绍。
 :::
 
 ## 通用优化策略
@@ -53,7 +53,7 @@ SWC 编译产物的兼容性较好，支持注入 core-js 等 Polyfill，并且�
 
 ### 避免使用 ts-loader
 
-默认情况下，Builder 使用 Babel 编译 TS 文件，开启 [tools.tsLoader](/zh/api/config-tools.html#tools-tsloader) 选项后，会使用 `ts-loader` 编译 TS 文件。
+默认情况下，Builder 使用 Babel 编译 TS 文件，开启 [tools.tsLoader](/api/config-tools.html#tools-tsloader) 选项后，会使用 `ts-loader` 编译 TS 文件。
 
 由于 `ts-loader` 需要进行额外的语法解析和类型检查，因此会导致项目构建速度变慢，请避免使用。
 
@@ -66,7 +66,7 @@ export default {
 };
 ```
 
-详见 [tools.tsLoader 文档](/zh/api/config-tools.html#tools-tsloader)。
+详见 [tools.tsLoader 文档](/api/config-tools.html#tools-tsloader)。
 
 ## 开发环境优化策略
 
@@ -87,7 +87,7 @@ export default {
 };
 ```
 
-这是一项实验性功能，在某些场景下可能无法正确工作，请查看 [experiments.lazyCompilation](/zh/api/config-experiments.html#experiments-lazycompilation) 来了解具体用法。
+这是一项实验性功能，在某些场景下可能无法正确工作，请查看 [experiments.lazyCompilation](/api/config-experiments.html#experiments-lazycompilation) 来了解具体用法。
 
 ### 调整 Source Map 格式
 
@@ -127,7 +127,7 @@ export default {
 
 ### 调整 Browserslist 范围
 
-这项优化的原理与[「提升 Browserslist 范围」](/zh/guide/optimization/optimize-bundle.html#adjust-browserslist)类似，区别在于，我们可以为开发环境和生产环境设置不同的 browserslist，从而减少开发环境下的编译开销。
+这项优化的原理与[「提升 Browserslist 范围」](/guide/optimization/optimize-bundle.html#adjust-browserslist)类似，区别在于，我们可以为开发环境和生产环境设置不同的 browserslist，从而减少开发环境下的编译开销。
 
 比如，你可以在 `package.json` 中添加以下配置，表示在开发环境下只兼容最新的浏览器，在生产环境下兼容实际需要的浏览器：
 
@@ -162,4 +162,4 @@ export default {
 };
 ```
 
-详见 [output.disableSourceMap](/zh/api/config-output.html#output-disablesourcemap)。
+详见 [output.disableSourceMap](/api/config-output.html#output-disablesourcemap)。

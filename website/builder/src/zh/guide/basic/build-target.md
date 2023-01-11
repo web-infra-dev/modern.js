@@ -2,7 +2,7 @@
 
 Builder 支持多种构建产物类型，分别适用于不同的目标运行环境。在设置正确的产物类型后，Builder 会针对该环境优化打包结果，在构建过程中启用一些对应的插件或者配置。
 
-你可以通过 [createBuilder](/zh/api/builder-core.html#createbuilder) 方法的 `target` 参数来设置产物类型。
+你可以通过 [createBuilder](/api/builder-core.html#createbuilder) 方法的 `target` 参数来设置产物类型。
 
 ## 默认产物
 

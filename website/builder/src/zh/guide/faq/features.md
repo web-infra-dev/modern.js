@@ -2,7 +2,7 @@
 
 ## 如何配置组件库按需引入？
 
-如果需要配置组件库的按需引入，可以通过 [tools.babel](/zh/api/config-tools.html#tools-babel) 配置 [babel-plugin-import](https://github.com/umijs/babel-plugin-import) 插件。
+如果需要配置组件库的按需引入，可以通过 [tools.babel](/api/config-tools.html#tools-babel) 配置 [babel-plugin-import](https://github.com/umijs/babel-plugin-import) 插件。
 
 ```ts
 export default {
@@ -73,4 +73,4 @@ rm -rf ./node_modules/.cache
 
 在生产环境构建时，我们可以移除代码中的 `console`，从而避免开发环境的日志被输出到生产环境。
 
-Builder 默认提供了移除 console 的配置项，请查看 [performance.removeConsole](/zh/api/config-performance.html#performance-removeconsole)。
+Builder 默认提供了移除 console 的配置项，请查看 [performance.removeConsole](/api/config-performance.html#performance-removeconsole)。

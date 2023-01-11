@@ -14,7 +14,7 @@ Builder 内置了 [webpack inspector](https://github.com/modern-js-dev/webpack-i
 
 ## 启用
 
-你可以通过 [tools.inspector](/zh/api/config-tools.html#tools-inspector) 配置项来开启 webpack inspector:
+你可以通过 [tools.inspector](/api/config-tools.html#tools-inspector) 配置项来开启 webpack inspector:
 
 ```ts
 export default {

@@ -10,7 +10,7 @@
 
 Builder 已内置了对 HMR 的支持，在开发环境下默认启用。
 
-如果你不需要使用 HMR 能力，可以将 [dev.hmr](/zh/api/config-dev.html#dev-hmr) 设置为 false，此时将不再提供热更新和 react-refresh 功能。
+如果你不需要使用 HMR 能力，可以将 [dev.hmr](/api/config-dev.html#dev-hmr) 设置为 false，此时将不再提供热更新和 react-refresh 功能。
 
 ```ts
 export default {
@@ -44,7 +44,7 @@ export default {
 - Live reloading: 修改文件之后，webpack 重新编译，并强制刷新浏览器，属于全局（整个应用）刷新，相当于 `window.location.reload()`；
 - Hot reloading: 修改文件之后，webpack 重新编译对应模块，刷新时可以记住应用的状态，从而做到局部刷新，即热更新。
 
-DevServer 提供了 [hot](/zh/api/config-tools.html#hot) 和 [liveReload](/zh/api/config-tools.html#livereload) 这两个配置项来控制更新方式。当 hot 和 liveReload 同时开启时，DevServer 会优先尝试使用 hot 模式 (HMR)，如果 HMR 更新失败后，会降级到重新加载页面。
+DevServer 提供了 [hot](/api/config-tools.html#hot) 和 [liveReload](/api/config-tools.html#livereload) 这两个配置项来控制更新方式。当 hot 和 liveReload 同时开启时，DevServer 会优先尝试使用 hot 模式 (HMR)，如果 HMR 更新失败后，会降级到重新加载页面。
 
 ## 常见问题
 

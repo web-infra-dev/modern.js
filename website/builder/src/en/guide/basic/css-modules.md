@@ -71,7 +71,7 @@ export default {
 };
 ```
 
-If you need to customize other configs of CSS Modules, you can set them via [tools.cssLoader](/zh/api/config-tools.html#css-loader).
+If you need to customize other configs of CSS Modules, you can set them via [tools.cssLoader](/api/config-tools.html#css-loader).
 
 ## Add Type Declaration
 

@@ -61,7 +61,7 @@ pnpm add @modern-js/builder @modern-js/builder-webpack-provider -D
 
 创建 Builder 实例的过程分两步：
 
-首先你需要初始化 Builder Provider，并传入 `builderConfig` 配置对象。Builder 提供了丰富的配置项，允许你对构建行为进行灵活定制。此时你还不需要了解配置项的具体内容，传入一个空对象即可。你可以在 [API - 配置](/zh/api/#配置) 中找到所有可用的配置项。
+首先你需要初始化 Builder Provider，并传入 `builderConfig` 配置对象。Builder 提供了丰富的配置项，允许你对构建行为进行灵活定制。此时你还不需要了解配置项的具体内容，传入一个空对象即可。你可以在 [API - 配置](/api/#配置) 中找到所有可用的配置项。
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
@@ -84,13 +84,13 @@ const builder = await createBuilder(provider, {
 });
 ```
 
-除了上述示例中的 `entry` 选项，`createBuilder` 方法也提供了一些其他的选项，你可以在 [API - createBuilder](/zh/api/builder-core.html#createbuilder) 中进一步了解。
+除了上述示例中的 `entry` 选项，`createBuilder` 方法也提供了一些其他的选项，你可以在 [API - createBuilder](/api/builder-core.html#createbuilder) 中进一步了解。
 
 ### 3. 调用 Builder 实例方法
 
 Builder 实例提供了与构建相关的各个方法，你可以根据实际场景来进行使用。
 
-在本地开发场景，建议使用 [builder.startDevServer](/zh/api/builder-instance.html#builder-startdevserver) 方法，调用后会启动本地 Dev Server。
+在本地开发场景，建议使用 [builder.startDevServer](/api/builder-instance.html#builder-startdevserver) 方法，调用后会启动本地 Dev Server。
 
 ```ts
 await builder.startDevServer();
@@ -106,13 +106,13 @@ info    Dev server running at:
   > Network:  http://192.168.0.1:8081
 ```
 
-在生产环境部署场景，建议使用 [builder.build](/zh/api/builder-instance.html#builder-build) 方法，调用后会构建出生产环境产物。
+在生产环境部署场景，建议使用 [builder.build](/api/builder-instance.html#builder-build) 方法，调用后会构建出生产环境产物。
 
 ```ts
 await builder.build();
 ```
 
-> 关于 Builder 实例方法的更多介绍，请阅读 [Builder Instance](/zh/api/builder-instance.html) 章节。
+> 关于 Builder 实例方法的更多介绍，请阅读 [Builder Instance](/api/builder-instance.html) 章节。
 
 通过以上三个步骤，你已经了解了 Builder 基本的使用方法。接下来你可以通过 Builder 插件和 Builder 配置来对构建流程进行定制。
 

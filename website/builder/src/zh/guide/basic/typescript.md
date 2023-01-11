@@ -25,12 +25,12 @@ export default {
 };
 ```
 
-更详细配置可见 [tools.tsLoader](/zh/api/config-tools.html#tools-tsloader)。
+更详细配置可见 [tools.tsLoader](/api/config-tools.html#tools-tsloader)。
 如果开启 ts-loader，默认不会启用类型检查，只会进行转译。
 
 **SWC**
 
-如果想要更快的项目构建速度，并且项目没有依赖某些自定义的 Babel 插件，那么也可以选择 SWC 来对 JavaScript 和 TypeScript 进行转译和压缩。Builder 的 SWC 插件默认支持 TypeScript, TSX, Decorator，使用方式可见 [SWC 插件](/zh/plugins/plugin-swc.html)。
+如果想要更快的项目构建速度，并且项目没有依赖某些自定义的 Babel 插件，那么也可以选择 SWC 来对 JavaScript 和 TypeScript 进行转译和压缩。Builder 的 SWC 插件默认支持 TypeScript, TSX, Decorator，使用方式可见 [SWC 插件](/plugins/plugin-swc.html)。
 
 ### 为什么默认使用 Babel
 
@@ -50,7 +50,7 @@ export default {
 };
 ```
 
-更多配置可见 [tsChecker 配置](/zh/api/config-tools.html#tools-tschecker)。
+更多配置可见 [tsChecker 配置](/api/config-tools.html#tools-tschecker)。
 如果开启 ts-loader 并且手动配置了 `compileOnly: false`，请关闭 tsChecker，避免重复类型检查。
 
 :::tip STC

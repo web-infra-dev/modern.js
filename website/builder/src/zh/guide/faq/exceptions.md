@@ -14,7 +14,7 @@ webpack 版本问题有以下几种情况：
 2. 项目里安装的多个 npm 包都依赖了 webpack，并且它们依赖的 webpack 版本范围不同，无法匹配到同一个版本。
 3. 由于包管理器的 lock 机制，导致 lock 文件中产生了多个 webpack 版本。
 
-如果是第一种情况，建议从项目的 package.json 中移除 webpack 依赖。因为 Builder 默认封装了 webpack 相关能力，并且会在 [tools.webpack](/zh/api/config-tools.html#tools-webpack) 配置项中传入 webpack 对象。因此在大多数情况下，不建议在项目中额外安装 webpack 依赖。
+如果是第一种情况，建议从项目的 package.json 中移除 webpack 依赖。因为 Builder 默认封装了 webpack 相关能力，并且会在 [tools.webpack](/api/config-tools.html#tools-webpack) 配置项中传入 webpack 对象。因此在大多数情况下，不建议在项目中额外安装 webpack 依赖。
 
 如果是第二种情况，建议看看能否升级某个 npm 包，使其依赖的 webpack 版本范围与 Builder 保持一致。也可以通过包管理器的能力来手动统一版本，比如使用 [yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) 或 [pnpm overrides](https://pnpm.io/package_json#pnpmoverrides)。
 
@@ -28,7 +28,7 @@ webpack 版本问题有以下几种情况：
 
 默认情况下，Builder 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件。如果项目引入的 npm 包中含有 ES6+ 语法，会被打包进产物中。
 
-遇到这种情况时，可以通过 [source.include](/zh/api/config-source.html#source-include) 配置项来指定需要额外进行编译的目录或模块。
+遇到这种情况时，可以通过 [source.include](/api/config-source.html#source-include) 配置项来指定需要额外进行编译的目录或模块。
 
 ## 在 Monorepo 中引用其他模块，代码没有被正确编译？
 
@@ -36,7 +36,7 @@ webpack 版本问题有以下几种情况：
 
 通过 `source.include` 配置项，可以指定需要额外进行编译的目录或模块。
 
-详见 [source.include 用法介绍](/zh/api/config-source.html#source-include)。
+详见 [source.include 用法介绍](/api/config-source.html#source-include)。
 
 ## 编译时报错 `You may need additional loader`？
 
@@ -52,14 +52,14 @@ You may need an additional loader to handle the result of these loaders.
 
 解决方法：
 
-- 如果是引用了当前工程外部的 `.ts` 文件，或者是 node_modules 下的 `.ts` 文件，请添加 [source.include](/zh/api/config-source.html#source-include) 配置项，指定需要额外进行编译的文件。
+- 如果是引用了当前工程外部的 `.ts` 文件，或者是 node_modules 下的 `.ts` 文件，请添加 [source.include](/api/config-source.html#source-include) 配置项，指定需要额外进行编译的文件。
 - 如果是引用了 Builder 不支持的文件格式，请自行配置对应的 webpack loader 进行编译。
 
 ## 打开页面后报错，提示 exports is not defined？
 
 如果编译正常，但是打开页面后出现 `exports is not defined` 报错，通常是因为在项目中使用 babel 编译了一个 CommonJS 模块，导致 babel 出现异常。
 
-在正常情况下，Builder 是不会使用 babel 来编译 CommonJS 模块的。如果项目中使用了 [source.include]() 配置项，或使用了 [tools.babel](/zh/api/config-tools.html#tools-babel) 的 `addIncludes` 方法，则可能会把一些 CommonJS 模块加入到 babel 编译中。
+在正常情况下，Builder 是不会使用 babel 来编译 CommonJS 模块的。如果项目中使用了 [source.include]() 配置项，或使用了 [tools.babel](/api/config-tools.html#tools-babel) 的 `addIncludes` 方法，则可能会把一些 CommonJS 模块加入到 babel 编译中。
 
 该问题有两种解决方法：
 

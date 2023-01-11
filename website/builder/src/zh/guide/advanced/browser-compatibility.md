@@ -136,7 +136,7 @@ if (!String.prototype.replaceAll) {
 
 ### 降级第三方依赖
 
-当你发现某个第三方依赖的代码导致了兼容性问题时，你可以将这个依赖添加到 Builder 的 [source.include](/zh/api/config-source.html#source-include) 配置中，使 Builder 对该依赖进行额外的编译。
+当你发现某个第三方依赖的代码导致了兼容性问题时，你可以将这个依赖添加到 Builder 的 [source.include](/api/config-source.html#source-include) 配置中，使 Builder 对该依赖进行额外的编译。
 
 以 `query-string` 这个 npm 包为例，你可以做如下的配置：
 
@@ -163,7 +163,7 @@ export default {
 
 ### 降级非当前项目的代码
 
-当你引用非当前项目的代码时，如果该代码未经过编译处理，那么你也需要配置 [source.include](/zh/api/config-source.html#source-include) 来对它进行编译。
+当你引用非当前项目的代码时，如果该代码未经过编译处理，那么你也需要配置 [source.include](/api/config-source.html#source-include) 来对它进行编译。
 
 比如，你需要引用 monorepo 中 `packages` 目录下的某个模块，可以添加如下的配置：
 
@@ -190,7 +190,7 @@ export default {
 
 Builder 底层通过 babel 或 SWC 编译 JavaScript 代码，并注入 [core-js](https://github.com/zloirock/core-js)、[@babel/runtime](https://www.npmjs.com/package/@babel/runtime)、[@swc/helpers](https://www.npmjs.com/package/@swc/helpers) 等 polyfill 库。
 
-在不同的使用场景下，你可能会需要不同的 polyfill 方案。Builder 提供了 [output.polyfill](/zh/api/config-output.html#output-polyfill) 配置项来切换不同的 polyfill 方案。
+在不同的使用场景下，你可能会需要不同的 polyfill 方案。Builder 提供了 [output.polyfill](/api/config-output.html#output-polyfill) 配置项来切换不同的 polyfill 方案。
 
 ### entry 方案
 
@@ -227,7 +227,7 @@ import 'core-js/modules/es.map';
 var b = new Map();
 ```
 
-这种方式的优点是注入的 polyfill 体积更小，适合对包体积有较高要求的项目使用。缺点是 polyfill 可能注入不全，因为第三方依赖默认不会被编译和降级处理，因此第三方依赖所需的 polyfill 不会被分析到，如果需要分析某个第三方依赖，也需要将其加入到 [source.include](/zh/api/config-source.html#source-include) 配置中。
+这种方式的优点是注入的 polyfill 体积更小，适合对包体积有较高要求的项目使用。缺点是 polyfill 可能注入不全，因为第三方依赖默认不会被编译和降级处理，因此第三方依赖所需的 polyfill 不会被分析到，如果需要分析某个第三方依赖，也需要将其加入到 [source.include](/api/config-source.html#source-include) 配置中。
 
 usage 方案对应的配置为：
 
@@ -251,4 +251,4 @@ export default {
 };
 ```
 
-使用此选项时，你需要自行保证代码的兼容性，比如通过 [source.preEntry](/zh/api/config-source.html#source-preentry) 来手动引用所需的 polyfill 代码。
+使用此选项时，你需要自行保证代码的兼容性，比如通过 [source.preEntry](/api/config-source.html#source-preentry) 来手动引用所需的 polyfill 代码。

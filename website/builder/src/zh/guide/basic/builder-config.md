@@ -14,7 +14,7 @@ Builder 中的配置可以分为以下几类：
 - [Security Config](/api/config-security.html)：与安全有关的配置。
 - [Performance Config](/api/config-performance.html)：与编译性能、产物性能有关的配置。
 
-你可以在 [API Reference](/zh/api/) 页面找到所有配置项的详细说明。
+你可以在 [API Reference](/api/) 页面找到所有配置项的详细说明。
 
 ## 配置默认值
 
@@ -28,7 +28,7 @@ Builder 为每个配置项预设了一个默认值，默认值可以满足大部
 
 当你使用一个基于 Builder 的上层框架时，你可以直接通过框架的配置文件来定义 Builder 配置，上层框架会自动将相关配置透传给 Builder。
 
-比如在 Modern.js 2.0 框架中，你可以直接在 [modern.config.ts](https://modernjs.dev/docs/apis/app/config/usage) 文件里定义 Builder 的 [source.alias](/zh/api/config-source.html#source-alias) 配置：
+比如在 Modern.js 2.0 框架中，你可以直接在 [modern.config.ts](https://modernjs.dev/docs/apis/app/config/usage) 文件里定义 Builder 的 [source.alias](/api/config-source.html#source-alias) 配置：
 
 ```ts
 // modern.config.ts
@@ -63,7 +63,7 @@ const provider = builderWebpackProvider({
 });
 ```
 
-关于 Node API 的完整用法，请参考 [API - createBuilder](/zh/api/builder-core.html#createbuilder)。
+关于 Node API 的完整用法，请参考 [API - createBuilder](/api/builder-core.html#createbuilder)。
 
 ## 与框架配置的关系
 
