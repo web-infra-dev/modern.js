@@ -10,8 +10,6 @@ export type BuilderContext = SharedBuilderContext & {
 
 /** The inner context. */
 export type Context = BuilderContext & {
-  /** All hooks. */
-  hooks: Readonly<Hooks>;
   /** Current builder config. */
   config: Readonly<BuilderConfig>;
   /** The async task to validate schema of config. */

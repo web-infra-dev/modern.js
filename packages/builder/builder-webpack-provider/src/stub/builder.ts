@@ -122,7 +122,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   // merge user context.
   options?.context && _.merge(context, options.context);
 
-  const publicContext = createPublicContext<BuilderContext>(context, ['hooks']);
+  const publicContext = createPublicContext<BuilderContext>(context);
   const pluginStore = createPluginStore();
 
   context.pluginAPI = getPluginAPI({ context, pluginStore });

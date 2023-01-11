@@ -15,7 +15,7 @@ export function getPluginAPI({
   pluginStore: PluginStore;
 }): BuilderPluginAPI {
   const { hooks } = context;
-  const publicContext = createPublicContext<BuilderContext>(context, ['hooks']);
+  const publicContext = createPublicContext<BuilderContext>(context);
 
   const getBuilderConfig = () => {
     if (!context.normalizedConfig) {

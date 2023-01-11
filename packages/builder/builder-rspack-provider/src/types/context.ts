@@ -1,12 +1,15 @@
-import type { BuilderContext } from '@modern-js/builder-shared';
+import type { SharedBuilderContext } from '@modern-js/builder-shared';
 import type { Hooks } from '../core/initHooks';
 import type { BuilderConfig, NormalizedConfig } from './config';
 import type { BuilderPluginAPI } from './plugin';
 
-/** The inner context. */
-export type Context = BuilderContext & {
+export type BuilderContext = SharedBuilderContext & {
   /** All hooks. */
   hooks: Readonly<Hooks>;
+};
+
+/** The inner context. */
+export type Context = BuilderContext & {
   /** Current builder config. */
   config: Readonly<BuilderConfig>;
   /** The async task to validate schema of config. */

@@ -31,6 +31,7 @@ export function createSharedBuilderContext(
     srcPath,
     rootPath,
     cachePath,
+    hooks: {},
   };
 
   if (configPath && existsSync(configPath)) {
@@ -59,7 +60,7 @@ export type PublicContextKey = typeof PUBLIC_CONTEXT_KEYS[number];
 
 export const createPublicContext = <T extends SharedBuilderContext>(
   context: Record<string, unknown>,
-  additionalKeys?: (keyof T)[],
+  additionalKeys?: [...(keyof T)[]],
 ): T => {
   const exposedKeys: any[] = [...PUBLIC_CONTEXT_KEYS];
   additionalKeys && exposedKeys.push(...additionalKeys);
@@ -71,7 +72,7 @@ export const createPublicContext = <T extends SharedBuilderContext>(
   }
 
   // Using Proxy to get the current value of context.
-  return new Proxy(context, {
+  return new Proxy(context as T, {
     get(target, prop: keyof SharedBuilderContext) {
       if (exposedKeys.includes(prop)) {
         return target[prop];
@@ -84,5 +85,5 @@ export const createPublicContext = <T extends SharedBuilderContext>(
       );
       return true;
     },
-  }) as any;
+  });
 };

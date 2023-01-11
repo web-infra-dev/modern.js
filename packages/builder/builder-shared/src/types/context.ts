@@ -28,4 +28,5 @@ export type SharedBuilderContext = {
     port: number;
   };
   bundlerType: BundlerType;
+  hooks: unknown;
 };

@@ -7,12 +7,7 @@ import { createContext } from './core/createContext';
 import { initConfigs } from './core/initConfigs';
 import { getPluginAPI } from './core/initPlugins';
 import { applyDefaultPlugins } from './shared/plugin';
-import {
-  BuilderConfig,
-  BuilderContext,
-  NormalizedConfig,
-  WebpackConfig,
-} from './types';
+import { BuilderConfig, NormalizedConfig, WebpackConfig } from './types';
 
 export type BuilderWebpackProvider = BuilderProvider<
   BuilderConfig,
@@ -37,7 +32,7 @@ export function builderWebpackProvider({
 
       pluginAPI,
 
-      publicContext: createPublicContext<BuilderContext>(context, ['hooks']),
+      publicContext: createPublicContext(context),
 
       async applyDefaultPlugins() {
         pluginStore.addPlugins(await applyDefaultPlugins(plugins));
