@@ -51,7 +51,7 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
           p="3"
           w="full"
           h="full"
-          className="min-w-128px max-h-100vh rounded-xl"
+          className="min-w-128px max-h-100vh rounded-xl whitespace-nowrap"
           bg="white"
           style={{
             boxShadow: 'var(--modern-shadow-3)',
@@ -73,10 +73,22 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
               return (
                 <div key={child.link} font="medium">
                   <Link href={child.link}>
-                    <div className="rounded-md" hover="bg-mute" p="y-1.6 l-3">
+                    <div
+                      className="rounded-md"
+                      hover="bg-mute"
+                      p="y-1.6 l-3 r-6"
+                    >
                       <div flex="~">
-                        <span m="r-1">{child.text}</span>
-                        <Right w="11px" h="11px" text="text-3" m="t-1 r-1" />
+                        <span m="r-1">
+                          {child.text}
+                          <Right
+                            w="11px"
+                            h="11px"
+                            text="text-3"
+                            m="t-1 r-1 l-1"
+                            className="inline-block align-text-top"
+                          />
+                        </span>
                       </div>
                     </div>
                   </Link>
