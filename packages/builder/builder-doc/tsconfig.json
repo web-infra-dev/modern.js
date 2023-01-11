@@ -3,5 +3,5 @@
   "compilerOptions": {
     "jsx": "preserve"
   },
-  "include": ["src", "modern.config.ts"]
+  "include": ["docs", "modern.config.ts"]
 }

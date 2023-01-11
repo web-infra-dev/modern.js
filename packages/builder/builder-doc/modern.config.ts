@@ -165,7 +165,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
 export default defineConfig({
   plugins: [docTools()],
   doc: {
-    root: path.join(__dirname, 'src'),
+    root: path.join(__dirname, 'docs'),
     lang: 'zh',
     base: isProd ? '/builder/' : '/',
     title: 'Modern.js Builder',
@@ -209,11 +209,9 @@ export default defineConfig({
     builderConfig: {
       source: {
         alias: {
-          '@components': path.join(__dirname, 'src/components'),
-          '@en': path.join(__dirname, 'src/en'),
-          '@zh': path.join(__dirname, 'src/zh'),
-          '@shared/zh': path.join(__dirname, 'zh'),
-          '@shared/en': path.join(__dirname, 'en'),
+          '@components': path.join(__dirname, 'docs/components'),
+          '@en': path.join(__dirname, 'docs/en'),
+          '@zh': path.join(__dirname, 'docs/zh'),
         },
       },
     },
