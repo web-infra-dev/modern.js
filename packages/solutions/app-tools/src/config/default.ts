@@ -4,7 +4,10 @@ import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
 export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
   const defaultBuilderConfig = createDefaultBuilderConfig();
 
-  const dev: AppUserConfig['dev'] = { ...defaultBuilderConfig.dev };
+  const dev: AppUserConfig['dev'] = {
+    ...defaultBuilderConfig.dev,
+    port: undefined,
+  };
   const tools: AppUserConfig['tools'] = { ...defaultBuilderConfig.tools };
   const output: AppUserConfig['output'] = {
     ...defaultBuilderConfig.output,
