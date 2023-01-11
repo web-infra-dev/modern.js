@@ -16,6 +16,8 @@ export type Language = 'en' | 'zh';
 const createMarkdown = (summary: Summary, lng: Language) => {
   const { name, dirname } = summary;
 
+  const langPrefix = lng === 'zh' ? '' : `/${lng}`;
+
   return `---
 title: ${dirname}.${name}
 sidebar_label: ${name}
@@ -24,10 +26,10 @@ sidebar_label: ${name}
 :::info BUILDER
 ${
   tip[lng]
-} [${dirname}.${name}](https://modernjs.dev/builder/zh/api/config-${dirname}.html#${dirname}-${name.toLowerCase()})。
+} [${dirname}.${name}](https://modernjs.dev/builder${langPrefix}/api/config-${dirname}.html#${dirname}-${name.toLowerCase()})。
 :::
 
-import Main from '@modern-js/builder-doc/${lng}/config/${dirname}/${name}.md'
+import Main from '@modern-js/builder-doc/docs/${lng}/config/${dirname}/${name}.md'
 
 <Main />
 `;

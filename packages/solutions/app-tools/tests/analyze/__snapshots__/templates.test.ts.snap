@@ -86,7 +86,7 @@ exports[`renderFunction basic usage 1`] = `
 
   const finalAppConfig = {
     ...App.config,
-    ...typeof appConfig === 'object' ? appConfig : {},
+    ...typeof config === 'function' ? config() : {},
   }
 
   AppWrapper = createApp({

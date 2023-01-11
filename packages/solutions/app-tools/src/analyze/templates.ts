@@ -52,7 +52,7 @@ export const renderFunction = ({
   return `
   const finalAppConfig = {
     ...App.config,
-    ...typeof ${APP_CONFIG_NAME} === 'object' ? ${APP_CONFIG_NAME} : {},
+    ...typeof ${APP_CONFIG_NAME} === 'function' ? ${APP_CONFIG_NAME}() : {},
   }
 
   AppWrapper = createApp({
