@@ -2,7 +2,7 @@
 '@modern-js/builder-plugin-swc': patch
 '@modern-js/babel-preset-app': patch
 '@modern-js/utils': patch
-'@modern-js/builder-website': patch
+'@modern-js/builder-doc': patch
 ---
 
 fix: Disable detect tsconfig.json
