@@ -1,5 +1,29 @@
 # @modern-js/monorepo-tools
 
+## 2.1.0
+
+### Patch Changes
+
+- 2ad9642: feat: new command support --lang params
+
+  feat: new 命令支持 --lang 参数
+
+- 6562578: chore: optimize the capitalization of plugin names
+
+  chore: 规范引用插件时的命名格式，统一使用 camelCase 代替 PascalCase
+
+- Updated dependencies [837620c]
+- Updated dependencies [bafa52e]
+- Updated dependencies [8a9482c]
+  - @modern-js/utils@2.1.0
+  - @modern-js/core@2.1.0
+  - @modern-js/plugin-changeset@2.1.0
+  - @modern-js/plugin-i18n@2.1.0
+  - @modern-js/plugin-lint@2.1.0
+  - @modern-js/new-action@2.1.0
+  - @modern-js/upgrade@2.1.0
+  - @modern-js/plugin@2.1.0
+
 ## 2.0.2
 
 ### Patch Changes

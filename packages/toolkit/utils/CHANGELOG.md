@@ -1,5 +1,18 @@
 # @modern-js/utils
 
+## 2.1.0
+
+### Minor Changes
+
+- 8a9482c: feat(builder): add new option `html.tags` & `html.tagsByEntries`
+
+  feat(builder): 添加新的配置项 `html.tags` 和 `html.tagsByEntries`
+
+### Patch Changes
+
+- 837620c: fix: Disable detect tsconfig.json
+  fix: 禁用探测 tsconfig.json
+
 ## 2.0.2
 
 ## 2.0.1

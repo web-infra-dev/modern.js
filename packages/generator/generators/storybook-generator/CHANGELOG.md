@@ -1,5 +1,13 @@
 # @modern-js/storybook-generator
 
+## 3.0.3
+
+### Patch Changes
+
+- 0e5a7dc: fix: storybook template update tsconfig not work
+
+  fix: 修复 storybook 生成器模板更新 tsconfig 不成功
+
 ## 3.0.2
 
 ## 3.0.1

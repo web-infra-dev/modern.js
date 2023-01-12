@@ -1,5 +1,18 @@
 # @modern-js/server
 
+## 2.1.0
+
+### Patch Changes
+
+- 3d0fb38: fix: remove the prebundle for data loader
+  fix: 移除 data loader 的预打包
+- Updated dependencies [837620c]
+- Updated dependencies [8a9482c]
+  - @modern-js/utils@2.1.0
+  - @modern-js/prod-server@2.1.0
+  - @modern-js/server-utils@2.1.0
+  - @modern-js/types@2.1.0
+
 ## 2.0.2
 
 ### Patch Changes
