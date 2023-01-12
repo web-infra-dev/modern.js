@@ -142,6 +142,7 @@ export const getCustomWebpackConfigHandle = async ({
   configDir: string;
   modernConfig: ModuleNormalizedConfig;
 }) => {
+  const { mergeBuilderConfig } = await import('@modern-js/builder');
   const { appDirectory } = appContext;
 
   const {
@@ -151,24 +152,18 @@ export const getCustomWebpackConfigHandle = async ({
     designSystem: ___,
     ...builderConfig
   } = modernConfig;
+
   const storybookBuildConfig = dev?.storybook ?? {};
   const builder =
     appContext.builder ||
-    (await createWebpackBuilder({
-      ...builderConfig,
-      tools: {
-        ...(builderConfig as any).tools,
-        // maybe buildConfiger is app-tools`s config
-        webpack: [
-          (builderConfig as any).tools.webpack,
-          storybookBuildConfig.webpack,
-        ].filter(p => Boolean(p)),
-        webpackChain: [
-          (builderConfig as any).tools.webpackChain,
-          storybookBuildConfig.webpackChain,
-        ].filter(p => Boolean(p)),
-      },
-    }));
+    (await createWebpackBuilder(
+      mergeBuilderConfig(builderConfig, {
+        tools: {
+          webpack: storybookBuildConfig.webpack,
+          webpackChain: storybookBuildConfig.webpackChain,
+        },
+      } as any) as BuilderConfig,
+    ));
 
   const { PluginStorybook } = await import('./builder-plugin');
 
