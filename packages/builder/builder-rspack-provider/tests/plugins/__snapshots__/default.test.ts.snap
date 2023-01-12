@@ -37,6 +37,36 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "rules": [
       {
         "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
           "filename": "static/image/[name].[contenthash:8][ext]",
         },
         "parser": {
@@ -63,6 +93,36 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
         "resourceQuery": /\\(__inline=false\\|url\\)/,
         "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
         "type": "asset",
       },
       {
@@ -305,6 +365,36 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "rules": [
       {
         "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
           "filename": "static/image/[name].[contenthash:8][ext]",
         },
         "parser": {
@@ -331,6 +421,36 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         },
         "resourceQuery": /\\(__inline=false\\|url\\)/,
         "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
         "type": "asset",
       },
       {
@@ -581,6 +701,36 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
       {
         "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
           "filename": "static/image/[name].[contenthash:8][ext]",
         },
         "parser": {
@@ -607,6 +757,36 @@ exports[`tools.rspack > should match snapshot 1`] = `
         },
         "resourceQuery": /\\(__inline=false\\|url\\)/,
         "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
         "type": "asset",
       },
       {

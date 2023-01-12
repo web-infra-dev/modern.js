@@ -1,22 +1,24 @@
 import { join } from 'path';
 import {
   getRegExpForExts,
-  IMAGE_EXTENSIONS,
+  MEDIA_EXTENSIONS,
   getDistPath,
   getFilename,
 } from '@modern-js/builder-shared';
-import type { BuilderPlugin } from '../types';
 import { chainStaticAssetRule } from '../shared';
+import type { BuilderPlugin } from '../types';
 
-export const PluginImage = (): BuilderPlugin => ({
-  name: 'builder-plugin-image',
+export const PluginMedia = (): BuilderPlugin => ({
+  name: 'builder-plugin-media',
 
   setup(api) {
     api.modifyBundlerChain((chain, { isProd }) => {
       const config = api.getNormalizedConfig();
-      const regExp = getRegExpForExts(IMAGE_EXTENSIONS);
-      const distDir = getDistPath(config.output, 'image');
-      const filename = getFilename(config.output, 'image', isProd);
+      const regExp = getRegExpForExts(MEDIA_EXTENSIONS);
+
+      const distDir = getDistPath(config.output, 'media');
+      const filename = getFilename(config.output, 'media', isProd);
+
       const maxSize = config.output.dataUriLimit.image;
 
       chainStaticAssetRule({
@@ -24,7 +26,7 @@ export const PluginImage = (): BuilderPlugin => ({
         regExp,
         maxSize,
         filename: join(distDir, filename),
-        assetType: 'svg',
+        assetType: 'media',
       });
     });
   },
