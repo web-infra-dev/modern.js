@@ -109,7 +109,7 @@
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-    "@modern-js/types": "^2.0.2",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/body-scroll-lock": "^3.1.0",
     "@types/fs-extra": "^9.0.13",
