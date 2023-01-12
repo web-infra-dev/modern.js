@@ -164,7 +164,8 @@
     "react-side-effect": "^2.1.1",
     "redux-logger": "^3.0.6",
     "serialize-javascript": "^6.0.0",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "esbuild": "0.15.7"
   },
   "peerDependencies": {
     "react": ">=17",
