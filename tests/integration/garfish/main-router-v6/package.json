@@ -1,5 +1,5 @@
 {
-  "name": "@cypress-test/garfish-main",
+  "name": "@cypress-test/garfish-main-router-v6",
   "private": true,
   "version": "0.1.0",
   "scripts": {
