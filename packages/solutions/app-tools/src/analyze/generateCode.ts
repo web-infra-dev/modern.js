@@ -1,10 +1,5 @@
 import path from 'path';
-import {
-  fs,
-  getEntryOptions,
-  LOADER_ROUTES_DIR,
-  logger,
-} from '@modern-js/utils';
+import { fs, getEntryOptions, logger } from '@modern-js/utils';
 import {
   IAppContext,
   PluginAPI,
@@ -17,31 +12,21 @@ import type {
   RouteLegacy,
   PageRoute,
 } from '@modern-js/types';
-import type { Loader } from 'esbuild';
 import {
   AppNormalizedConfig,
   AppTools,
   ImportSpecifier,
   ImportStatement,
 } from '../types';
-import { isDevCommand } from '../utils/commands';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
 import {
   FILE_SYSTEM_ROUTES_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
   ENTRY_BOOTSTRAP_FILE_NAME,
-  TEMP_LOADERS_DIR,
 } from './constants';
-import { getDefaultImports } from './utils';
+import { getDefaultImports, getServerLoadersFile } from './utils';
 import { walk } from './nestedRoutes';
-import { loaderBuilder, serverLoaderBuilder } from './Builder';
-
-const loader: { [ext: string]: Loader } = {
-  '.js': 'jsx',
-  '.ts': 'tsx',
-};
-const EXTERNAL_REGEXP = /^[^./]|^\.[^./]|^\.\.[^/]/;
 
 const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
   let defaults = '';
@@ -104,53 +89,6 @@ export const createImportStatements = (
     .join('\n');
 };
 
-const buildLoader = async (entry: string, outfile: string) => {
-  await loaderBuilder.build({
-    format: 'esm',
-    platform: 'browser',
-    target: 'esnext',
-    loader,
-    watch: isDevCommand() && {},
-    bundle: true,
-    logLevel: 'error',
-    entryPoints: [entry],
-    outfile,
-    plugins: [
-      {
-        name: 'make-all-packages-external',
-        setup(build) {
-          // https://github.com/evanw/esbuild/issues/619#issuecomment-751995294
-          build.onResolve({ filter: EXTERNAL_REGEXP }, args => {
-            let external = true;
-            // FIXME: windows external entrypoint
-            if (args.kind === 'entry-point') {
-              external = false;
-            }
-            return {
-              path: args.path,
-              external,
-            };
-          });
-        },
-      },
-    ],
-  });
-};
-
-const buildServerLoader = async (entry: string, outfile: string) => {
-  await serverLoaderBuilder.build({
-    format: 'cjs',
-    platform: 'node',
-    target: 'esnext',
-    loader,
-    watch: isDevCommand() && {},
-    bundle: true,
-    logLevel: 'error',
-    entryPoints: [entry],
-    outfile,
-  });
-};
-
 export const generateCode = async (
   appContext: IAppContext,
   config: AppNormalizedConfig,
@@ -159,7 +97,6 @@ export const generateCode = async (
 ) => {
   const {
     internalDirectory,
-    distDirectory,
     srcDirectory,
     internalDirAlias,
     internalSrcAlias,
@@ -255,54 +192,22 @@ export const generateCode = async (
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
             internalDirectory,
-            internalDirAlias,
           }),
         });
 
         // extract nested router loaders
         if (entrypoint.nestedRoutesEntry) {
-          const routesServerFile = path.join(
+          const routesServerFile = getServerLoadersFile(
             internalDirectory,
             entryName,
-            'route-server-loaders.js',
-          );
-          const outputRoutesServerFile = path.join(
-            distDirectory,
-            LOADER_ROUTES_DIR,
-            entryName,
-            'index.js',
           );
 
           const code = templates.routesForServer({
             routes: routes as (NestedRoute | PageRoute)[],
-            internalDirectory,
-            entryName,
           });
 
           await fs.ensureFile(routesServerFile);
           await fs.writeFile(routesServerFile, code);
-
-          const loaderEntryFile = path.join(
-            internalDirectory,
-            entryName,
-            TEMP_LOADERS_DIR,
-            'entry.js',
-          );
-
-          const loaderIndexFile = path.join(
-            internalDirectory,
-            entryName,
-            TEMP_LOADERS_DIR,
-            'index.js',
-          );
-
-          if (await fs.pathExists(loaderEntryFile)) {
-            await buildLoader(loaderEntryFile, loaderIndexFile);
-          }
-
-          if (await fs.pathExists(routesServerFile)) {
-            await buildServerLoader(routesServerFile, outputRoutesServerFile);
-          }
         }
 
         fs.outputFileSync(

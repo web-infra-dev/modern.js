@@ -11,9 +11,9 @@ exports[`fileSystemRoutes generate code 1`] = `
 
     import error_0 from '@_modern_js_src/routes/error.tsx';
 
-    
-    import { loader_0,loader_1 } from "@_modern_js_internal/main/__loaders__/index.js"
-  
+    import loader_0 from "@_modern_js_src/routes/user/[id]/page.tsx";
+import loader_1 from "@_modern_js_src/routes/layout.loader.tsx";
+
     
     export const routes = [
   {
@@ -25,7 +25,7 @@ exports[`fileSystemRoutes generate code 1`] = `
     {
       "path": "user",
       "error": error_0,
-      "_component": "@_modern_js_src/routes/user.tsx",
+      "_component": "@_modern_js_src/routes/user/layout.tsx",
       "loading": loading_0,
       "id": "user/layout",
       "type": "nested",
@@ -49,8 +49,8 @@ exports[`fileSystemRoutes generate code 1`] = `
           "lazyImport": null
         }
       ],
-      "lazyImport": () => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user.tsx'),
-      "component": lazy(() => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user.tsx'))
+      "lazyImport": () => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx'),
+      "component": lazy(() => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx'))
     }
   ],
   "lazyImport": () => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx'),

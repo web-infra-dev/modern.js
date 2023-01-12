@@ -121,20 +121,10 @@ export const html = (partials: {
 
 export const routesForServer = ({
   routes,
-  internalDirectory,
-  entryName,
 }: {
   routes: (NestedRoute | PageRoute)[];
-  internalDirectory: string;
-  entryName: string;
 }) => {
   const loaders: string[] = [];
-  const loaderIndexFile = path.join(
-    internalDirectory,
-    entryName,
-    TEMP_LOADERS_DIR,
-    'index.js',
-  );
   const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
     let children: Route['children'];
     if ('children' in route && route.children) {
@@ -174,10 +164,11 @@ export const routesForServer = ({
   routesCode += `\n];`;
   let importLoadersCode = '';
   if (loaders.length > 0) {
-    importLoadersCode = `
-    import { ${loaders.map(
-      (loader, index) => `loader_${index}`,
-    )} } from "${slash(loaderIndexFile)}"`;
+    importLoadersCode = loaders
+      .map((loader, index) => {
+        return `import loader_${index} from "${slash(loader)}"`;
+      })
+      .join('\n');
   }
 
   return `
@@ -192,25 +183,24 @@ export const fileSystemRoutes = async ({
   nestedRoutesEntry,
   entryName,
   internalDirectory,
-  internalDirAlias,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
   ssrMode: 'string' | 'stream' | false;
   nestedRoutesEntry?: string;
   entryName: string;
   internalDirectory: string;
-  internalDirAlias: string;
 }) => {
   const loadings: string[] = [];
   const errors: string[] = [];
   const loaders: string[] = [];
-  const loadersMap: Record<string, string> = {};
-  const loadersIndexFile = path.join(
-    internalDirAlias,
-    entryName,
-    TEMP_LOADERS_DIR,
-    'index.js',
-  );
+  const loadersMap: Record<
+    string,
+    {
+      routeId: string;
+      filePath: string;
+      inline: boolean;
+    }
+  > = {};
 
   const loadersMapFile = path.join(
     internalDirectory,
@@ -224,13 +214,23 @@ export const fileSystemRoutes = async ({
     import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   `;
   let rootLayoutCode = ``;
-  let dataLoaderPath = '';
   let componentLoaderPath = '';
-  if (ssrMode) {
-    dataLoaderPath = require.resolve(`@modern-js/plugin-data-loader/loader`);
-    if (nestedRoutesEntry) {
-      dataLoaderPath = `${dataLoaderPath}?routesDir=${nestedRoutesEntry}&mapFile=${loadersMapFile}!`;
+  const getDataLoaderPath = (loaderId: string) => {
+    if (!ssrMode) {
+      return '';
     }
+    let dataLoaderPath = require.resolve(
+      `@modern-js/plugin-data-loader/loader`,
+    );
+    if (nestedRoutesEntry) {
+      dataLoaderPath = `${slash(dataLoaderPath)}?mapFile=${slash(
+        loadersMapFile,
+      )}&loaderId=${loaderId}!`;
+    }
+    return dataLoaderPath;
+  };
+
+  if (ssrMode) {
     componentLoaderPath = `${path.join(
       __dirname,
       '../builder/loaders/routerLoader',
@@ -261,7 +261,11 @@ export const fileSystemRoutes = async ({
         loaders.push(route.loader);
         const loaderId = loaders.length - 1;
         loader = `loader_${loaderId}`;
-        loadersMap[loader] = route.id!;
+        loadersMap[loader] = {
+          routeId: route.id!,
+          filePath: route.loader,
+          inline: false,
+        };
       }
 
       if (route._component) {
@@ -340,54 +344,20 @@ export const fileSystemRoutes = async ({
 
   let importLoadersCode = '';
 
-  if (loaders.length > 0) {
-    importLoadersCode = `
-    import { ${loaders.map(
-      (loader, index) => `loader_${index}`,
-    )} } from "${slash(dataLoaderPath)}${slash(loadersIndexFile)}"
-  `;
-
-    const loaderEntryCode = loaders
-      .map((loader, index) => {
-        return `export * from './loader_${index}.js';`;
-      })
-      .join('\n');
-
-    const loaderEntryFile = path.join(
-      internalDirectory,
-      entryName,
-      TEMP_LOADERS_DIR,
-      'entry.js',
-    );
-
-    await fs.ensureFile(loaderEntryFile);
-    await fs.writeFile(loaderEntryFile, loaderEntryCode);
-    await fs.writeJSON(loadersMapFile, loadersMap);
-
-    await Promise.all(
-      loaders.map(async (loader, index) => {
-        const name = `loader_${index}`;
-        const filename = path.join(
-          internalDirectory,
-          entryName,
-          TEMP_LOADERS_DIR,
-          `${name}.js`,
-        );
-        let code = '';
-        if (loader.includes('.loader.')) {
-          code = `
-          export { default as ${name} } from '${slash(loader)}'
-        `;
-        } else {
-          code = `
-          export { loader as ${name} } from '${slash(loader)}'
-        `;
-        }
-        await fs.ensureFile(filename);
-        await fs.writeFile(filename, code);
-      }),
-    );
+  for (const [key, loaderInfo] of Object.entries(loadersMap)) {
+    if (loaderInfo.inline) {
+      importLoadersCode += `import { loader as ${key} } from "${getDataLoaderPath(
+        key,
+      )}${loaderInfo.filePath}";\n`;
+    } else {
+      importLoadersCode += `import ${key} from "${getDataLoaderPath(key)}${
+        loaderInfo.filePath
+      }";\n`;
+    }
   }
+
+  await fs.ensureFile(loadersMapFile);
+  await fs.writeJSON(loadersMapFile, loadersMap);
 
   return `
     ${importLazyCode}

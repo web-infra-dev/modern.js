@@ -53,11 +53,11 @@ describe('fileSystemRoutes', () => {
           {
             path: 'user',
             error: '@_modern_js_src/routes/error.tsx',
-            _component: '@_modern_js_src/routes/user.tsx',
+            _component: '@_modern_js_src/routes/user/layout.tsx',
             loading: '@_modern_js_src/routes/loading.tsx',
             id: 'user/layout',
             type: 'nested' as const,
-            loader: '@_modern_js_src/routes/user.tsx',
+            loader: '@_modern_js_src/routes/layout.loader.tsx',
             children: [
               {
                 path: ':id',
