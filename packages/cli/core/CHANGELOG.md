@@ -1,5 +1,19 @@
 # @modern-js/core
 
+## 2.1.0
+
+### Patch Changes
+
+- bafa52e: fix(core): incorrect NODE_ENV when run start command
+
+  fix(core): 修复运行 start 命令时 NODE_ENV 设置错误的问题
+
+- Updated dependencies [837620c]
+- Updated dependencies [8a9482c]
+  - @modern-js/utils@2.1.0
+  - @modern-js/node-bundle-require@2.1.0
+  - @modern-js/plugin@2.1.0
+
 ## 2.0.2
 
 ### Patch Changes
