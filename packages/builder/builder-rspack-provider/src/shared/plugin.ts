@@ -8,12 +8,14 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     plugins.cache(),
     plugins.target(),
     import('../plugins/output').then(m => m.PluginOutput()),
-    // todo: need rspack solve performance problem
-    // plugins.devtool(),
+    plugins.devtool(),
     import('../plugins/resolve').then(m => m.PluginResolve()),
     plugins.fileSize(),
     // should before the html plugin
     plugins.cleanOutput(),
+    import('../plugins/font').then(m => m.PluginFont()),
+    import('../plugins/image').then(m => m.PluginImage()),
+    import('../plugins/media').then(m => m.PluginMedia()),
     import('../plugins/html').then(m => m.PluginHtml()),
     import('../plugins/define').then(m => m.PluginDefine()),
     import('../plugins/css').then(m => m.PluginCss()),

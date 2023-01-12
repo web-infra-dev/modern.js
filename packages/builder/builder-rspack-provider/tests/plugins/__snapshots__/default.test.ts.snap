@@ -28,12 +28,103 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "devServer": {
     "hot": true,
   },
+  "devtool": "cheap-module-source-map",
   "infrastructureLogging": {
     "level": "error",
   },
   "mode": "development",
   "module": {
     "rules": [
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/image/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/image/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
+      },
       {
         "test": /\\\\\\.css\\$/,
         "type": "css",
@@ -265,12 +356,103 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "devServer": {
     "hot": false,
   },
+  "devtool": "hidden-source-map",
   "infrastructureLogging": {
     "level": "error",
   },
   "mode": "production",
   "module": {
     "rules": [
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/image/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/image/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
+      },
       {
         "test": /\\\\\\.css\\$/,
         "type": "css",
@@ -502,6 +684,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
   "devServer": {
     "hot": true,
   },
+  "devtool": "cheap-module-source-map",
   "infrastructureLogging": {
     "level": "error",
   },
@@ -515,6 +698,96 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "builtinLoader": "sass-loader",
           },
         ],
+      },
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/font/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/image/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/image/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "type": "asset",
       },
       {
         "test": /\\\\\\.css\\$/,
