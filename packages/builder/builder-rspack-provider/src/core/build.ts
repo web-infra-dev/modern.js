@@ -22,7 +22,7 @@ export interface RspackBuildError extends Error {
  */
 export const rspackBuild: BuildExecuter = async compiler => {
   return new Promise((resolve, reject) => {
-    compiler.run((err: any, stats: Stats) => {
+    compiler.run((err: any, stats?: Stats) => {
       // When using run or watch, call close and wait for it to finish before calling run or watch again.
       // Concurrent compilations will corrupt the output files.
       compiler.close(() => {
