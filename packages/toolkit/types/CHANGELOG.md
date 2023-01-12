@@ -1,5 +1,7 @@
 # @modern-js/types
 
+## 2.1.0
+
 ## 2.0.2
 
 ### Patch Changes
