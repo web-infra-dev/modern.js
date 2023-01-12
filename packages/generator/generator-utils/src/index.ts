@@ -87,9 +87,9 @@ export async function getModernPluginVersion(
   },
 ) {
   const { cwd = process.cwd(), registry, distTag } = options;
-  const getLatetPluginVersion = async () => {
+  const getLatetPluginVersion = async (pluginVersion?: string) => {
     const version = await getPackageVersion(
-      `${packageName}@${distTag || 'latest'}`,
+      `${packageName}@${pluginVersion || 'latest'}`,
       registry,
     );
     return version;
@@ -115,14 +115,14 @@ export async function getModernPluginVersion(
 
     const modernVersion = pkgInfo.version;
     if (typeof modernVersion !== 'string') {
-      return getLatetPluginVersion();
+      return getLatetPluginVersion(distTag);
     }
     if (semver.lt(modernVersion, '1.15.0')) {
-      return getLatetPluginVersion();
+      return getLatetPluginVersion(distTag);
     }
     return getAvailableVersion(packageName, modernVersion, registry);
   }
-  return getLatetPluginVersion();
+  return getLatetPluginVersion(distTag);
 }
 
 export function getPackageManagerText(packageManager: 'pnpm' | 'yarn' | 'npm') {

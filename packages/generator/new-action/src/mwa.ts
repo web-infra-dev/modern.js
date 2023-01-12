@@ -35,7 +35,7 @@ interface IMWANewActionOption {
 export const MWANewAction = async (options: IMWANewActionOption) => {
   const {
     locale = 'zh',
-    distTag = '',
+    distTag = 'modern-1',
     debug = false,
     registry = '',
     config = '{}',
@@ -104,6 +104,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry,
       distTag,
+      cwd,
     });
   };
 
@@ -118,6 +119,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
       locale: (UserConfig.locale as string) || locale,
       packageManager:
         UserConfig.packageManager || (await getPackageManager(cwd)),
+      distTag,
     },
     {
       devDependencies: devDependency

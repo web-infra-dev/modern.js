@@ -35,7 +35,7 @@ interface IModuleNewActionOption {
 export const ModuleNewAction = async (options: IModuleNewActionOption) => {
   const {
     locale = 'zh',
-    distTag = '',
+    distTag = 'modern-1',
     debug = false,
     registry = '',
     config = '{}',
@@ -121,6 +121,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     return getModernPluginVersion(Solution.Module, packageName, {
       registry,
       distTag,
+      cwd,
     });
   };
 
@@ -131,6 +132,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
       locale: (UserConfig.locale as string) || locale,
       packageManager:
         UserConfig.packageManager || (await getPackageManager(cwd)),
+      distTag,
     },
     {
       devDependencies: devDependency
