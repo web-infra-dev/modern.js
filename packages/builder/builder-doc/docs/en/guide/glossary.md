@@ -41,14 +41,14 @@ Currently there are two Providers:
 - `@modern-js/builder-webpack-provider`: Based on webpack.
 - `@modern-js/builder-rspack-provider`: Based on rspack.
 
-## Modern.js
+## {MODERN_JS}
 
 Web engineering system.
 
-Modern.js is open sourced by the ByteDance Web Infra team, provides a series of best practices for modern web development, such as integrated development of frontend and backend, conventional routing, building solutions, style solutions, etc.
+{MODERN_JS} is open sourced by the ByteDance Web Infra team, provides a series of best practices for modern web development, such as integrated development of frontend and backend, conventional routing, building solutions, style solutions, etc.
 
-[Modern.js Website](https://modernjs.dev/).
+[{MODERN_JS} Repository]({https://github.com/modern-js-dev/modern.js}).
 
 ## EdenX
 
-ByteDance's internal web engineering system, implemented based on Modern.js.
+ByteDance's internal web engineering system, implemented based on {MODERN_JS}.

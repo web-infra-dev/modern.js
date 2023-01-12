@@ -21,7 +21,7 @@ pnpm add @modern-js/builder-plugin-image-compress -D
 
 ### Register
 
-In upper-level frameworks such as Modern.js or EdenX, you can register image compress plugins through the `builderPlugins` config:
+In upper-level frameworks such as {MODERN_JS} or EdenX, you can register image compress plugins through the `builderPlugins` config:
 
 ```ts
 import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';

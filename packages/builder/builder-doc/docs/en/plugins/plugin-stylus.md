@@ -21,7 +21,7 @@ pnpm install @modern-js/builder-plugin-stylus -D
 
 ### Register
 
-In upper-level frameworks such as Modern.js or EdenX, you can register Stylus plugins through the `builderPlugins` config:
+In upper-level frameworks such as {MODERN_JS} or EdenX, you can register Stylus plugins through the `builderPlugins` config:
 
 ```ts
 import { PluginStylus } from '@modern-js/builder-plugin-stylus';
