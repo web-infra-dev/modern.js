@@ -2,16 +2,9 @@ import * as path from 'path';
 import { fs, getRouteId } from '@modern-js/utils';
 import type { NestedRoute } from '@modern-js/types';
 import { JS_EXTENSIONS, NESTED_ROUTE } from './constants';
-import { hasLoader, replaceWithAlias } from './utils';
+import { replaceWithAlias } from './utils';
 
 const conventionNames = Object.values(NESTED_ROUTE);
-
-const getLoaderPath = async (filename: string) => {
-  if (await hasLoader(filename)) {
-    return filename;
-  }
-  return undefined;
-};
 
 const replaceDynamicPath = (routePath: string) => {
   return routePath.replace(/\[(.*?)\]/g, ':$1');
@@ -119,10 +112,6 @@ export const walk = async (
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_FILE) {
       route._component = replaceWithAlias(alias.basename, itemPath, alias.name);
-      const loaderPath = await getLoaderPath(itemPath);
-      if (loaderPath) {
-        route.loader = loaderPath;
-      }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_LOADER_FILE) {
@@ -138,10 +127,8 @@ export const walk = async (
         itemPath,
         entryName,
       );
-      const loaderPath = await getLoaderPath(itemPath);
-      if (loaderPath) {
-        pageRoute.loader = loaderPath;
-      } else if (pageLoaderFile) {
+
+      if (pageLoaderFile) {
         pageRoute.loader = pageLoaderFile;
       }
       route.children?.push(pageRoute);

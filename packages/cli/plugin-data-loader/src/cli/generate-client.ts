@@ -1,23 +1,23 @@
 import path from 'path';
 
-export const generateClient = ({ mapFile }: { mapFile: string }) => {
+export const generateClient = ({
+  mapFile,
+  loaderId,
+}: {
+  mapFile: string;
+  loaderId?: string;
+}) => {
   delete require.cache[mapFile];
-  const loadersMap: Record<string, string> = require(mapFile);
-  const requestCode = Object.keys(loadersMap)
-    .map(loaderId => {
-      const routeId = loadersMap[loaderId];
-      return `
-      const ${loaderId} = createRequest('${routeId}');
-    `;
-    })
-    .join('');
-
-  let exportsCode = `export {`;
-  for (const loader of Object.keys(loadersMap)) {
-    exportsCode += `${loader},`;
-  }
-  exportsCode += '}';
-
+  const loadersMap: Record<
+    string,
+    {
+      routeId: string;
+      filePath: string;
+      inline: boolean;
+    }
+  > = require(mapFile);
+  let requestCode = ``;
+  let exportsCode = ``;
   const requestCreatorPath = path
     .join(__dirname, './create-request')
     .replace('/node/cli/', '/treeshaking/cli/')
@@ -26,6 +26,30 @@ export const generateClient = ({ mapFile }: { mapFile: string }) => {
   const importCode = `
     import { createRequest } from '${requestCreatorPath}';
   `;
+
+  if (!loaderId) {
+    requestCode = Object.keys(loadersMap)
+      .map(loaderId => {
+        const { routeId } = loadersMap[loaderId];
+        return `
+      const ${loaderId} = createRequest('${routeId}');
+    `;
+      })
+      .join('');
+
+    exportsCode = `export {`;
+    for (const loader of Object.keys(loadersMap)) {
+      exportsCode += `${loader},`;
+    }
+    exportsCode += '}';
+  } else {
+    const loader = loadersMap[loaderId];
+    requestCode = `
+      const loader = createRequest('${loader.routeId}');
+    `;
+
+    exportsCode = `export default loader;`;
+  }
 
   const generatedCode = `
     ${importCode}

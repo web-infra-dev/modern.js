@@ -4,9 +4,9 @@ sidebar_label: postcss
 ---
 
 :::info BUILDER
-该配置为 Modern.js Builder 配置，详细信息可参考 [tools.postcss](https://modernjs.dev/builder/zh/api/config-tools.html#tools-postcss)。
+该配置为 Modern.js Builder 配置，详细信息可参考 [tools.postcss](https://modernjs.dev/builder/api/config-tools.html#tools-postcss)。
 :::
 
-import Main from '@modern-js/builder-doc/zh/config/tools/postcss.md'
+import Main from '@modern-js/builder-doc/docs/zh/config/tools/postcss.md'
 
 <Main />

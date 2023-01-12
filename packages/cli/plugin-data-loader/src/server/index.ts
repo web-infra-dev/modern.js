@@ -12,7 +12,7 @@ import {
   LoaderFunction,
   LoaderFunctionArgs,
 } from 'react-router-dom';
-import { LOADER_ROUTES_DIR, MAIN_ENTRY_NAME } from '@modern-js/utils';
+import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import { LOADER_ID_PARAM } from '../common/constants';
 
 type LoaderContext = {
@@ -209,8 +209,8 @@ export const handleRequest = async ({
 
   const routesPath = path.join(
     distDir,
-    LOADER_ROUTES_DIR,
-    entry.entryName || MAIN_ENTRY_NAME,
+    SERVER_BUNDLE_DIRECTORY,
+    `${entry.entryName || MAIN_ENTRY_NAME}-server-loaders`,
   );
   const { routes } = await import(routesPath);
 

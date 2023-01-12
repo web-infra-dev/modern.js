@@ -93,9 +93,11 @@ const handleTemplateFile = async (
       {
         query: {},
         update: {
-          'compilerOptions.paths': {
-            [`${pkg.name}`]: ['.'],
-            [`${pkg.name}/*`]: ['./*'],
+          $set: {
+            'compilerOptions.paths': {
+              [`${pkg.name}`]: ['.'],
+              [`${pkg.name}/*`]: ['./*'],
+            },
           },
         },
       },

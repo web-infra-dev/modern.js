@@ -1,5 +1,16 @@
 # @modern-js/babel-preset-app
 
+## 2.1.0
+
+### Patch Changes
+
+- 837620c: fix: Disable detect tsconfig.json
+  fix: 禁用探测 tsconfig.json
+- Updated dependencies [837620c]
+- Updated dependencies [8a9482c]
+  - @modern-js/utils@2.1.0
+  - @modern-js/babel-preset-base@2.1.0
+
 ## 2.0.2
 
 ### Patch Changes

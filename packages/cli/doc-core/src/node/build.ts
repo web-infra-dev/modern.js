@@ -3,6 +3,7 @@ import { HelmetData } from 'react-helmet-async';
 import { PageData, UserConfig } from 'shared/types';
 import { OUTPUT_DIR, APP_HTML_MARKER, HEAD_MARKER } from './constants';
 import { createModernBuilder } from './createBuilder';
+import { writeSearchIndex } from './searchIndex';
 import { normalizeSlash } from '@/shared/utils';
 import type { Route } from '@/node/route/RouteService';
 
@@ -18,6 +19,7 @@ export async function bundle(rootDir: string, config: UserConfig) {
     }),
   ]);
   await Promise.all([clientBuilder.build(), ssrBuilder.build()]);
+  await writeSearchIndex(rootDir, config);
 }
 
 export interface SSRBundleExports {
