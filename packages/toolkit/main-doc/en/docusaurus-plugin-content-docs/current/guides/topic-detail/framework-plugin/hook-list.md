@@ -127,7 +127,7 @@ export default (): CliPlugin => ({
 - Execution Phase：After the prepare process
 - Hook model：AsyncWorkflow
 - type：`AsyncWorkflow<void, void>`
-- Usagec：
+- Usage：
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
