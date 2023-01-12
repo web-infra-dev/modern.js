@@ -19,6 +19,10 @@ function stringifyConfig(config: Record<string, any>): string {
         return content;
       }
 
+      if (value instanceof RegExp) {
+        return value.toString();
+      }
+
       return value;
     },
     2,
