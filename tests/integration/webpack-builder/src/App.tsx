@@ -1,7 +1,7 @@
 import './App.css';
 import stylesForSass from './App.module.scss';
 import stylesForLess from './App.module.less';
-import img from './assets/icon.png?url';
+import img from './assets/icon.png';
 import './App.global.less';
 
 const App = () => (
