@@ -549,6 +549,7 @@ importers:
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/remark-container': workspace:*
       '@modern-js/tsconfig': workspace:*
+      '@modern-js/types': ^2.0.2
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@types/body-scroll-lock': ^3.1.0
@@ -674,6 +675,7 @@ importers:
       '@modern-js/core': link:../core
       '@modern-js/plugin-testing': link:../../runtime/plugin-testing
       '@modern-js/tsconfig': link:../../review/tsconfig
+      '@modern-js/types': 2.0.2
       '@scripts/build': link:../../../scripts/build
       '@types/body-scroll-lock': 3.1.0
       '@types/fs-extra': 9.0.13
@@ -11861,6 +11863,10 @@ packages:
       '@modern-js/swc-plugins-win32-x64-msvc': 0.0.9
     dev: false
 
+  /@modern-js/types/2.0.2:
+    resolution: {integrity: sha512-kU+Flky/CnqMg/cBcHCsp49QYiHfx/c4JeZvwgIQqCuevoZbNyAlEZIJgcht0HHxpMEaJxmISAJdVg8FBQ8ibg==}
+    dev: true
+
   /@modern-js/utils/1.21.5:
     resolution: {integrity: sha512-mZ3uwLNge37FAiwvLAn33nNRt5cC/LDHVMjVw4VR1jaS/eSaKShJbHn/WdQyyFexZHZzPbZewPGtY2z94378zw==}
     dependencies:
@@ -16025,10 +16031,8 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -16760,7 +16764,7 @@ packages:
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.75.0
+      webpack: 5.75.0_esbuild@0.15.7
     dev: false
 
   /babel-loader/9.1.0_ztqwsvkb6z73luspkai6ilstpu:
@@ -32498,7 +32502,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
