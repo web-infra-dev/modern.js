@@ -1,5 +1,18 @@
 # @modern-js/new-action
 
+## 1.22.4
+
+### Patch Changes
+
+- 08e3aab: fix: module solution new command install plugin version
+
+  fix: 修复模块工程方案 new 命令安装插件版本
+
+- Updated dependencies [08e3aab]
+  - @modern-js/generator-utils@2.4.15
+  - @modern-js/generator-common@2.4.15
+  - @modern-js/utils@1.22.4
+
 ## 1.22.3
 
 ### Patch Changes

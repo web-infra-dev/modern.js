@@ -1,5 +1,13 @@
 # @modern-js/plugin-nest
 
+## 1.22.4
+
+### Patch Changes
+
+- @modern-js/bff-core@1.22.4
+- @modern-js/bff-runtime@1.22.4
+- @modern-js/utils@1.22.4
+
 ## 1.22.3
 
 ### Patch Changes

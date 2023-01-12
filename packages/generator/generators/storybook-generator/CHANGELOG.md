@@ -1,5 +1,13 @@
 # @modern-js/storybook-generator
 
+## 2.4.15
+
+### Patch Changes
+
+- 08e3aab: fix: module solution new command install plugin version
+
+  fix: 修复模块工程方案 new 命令安装插件版本
+
 ## 2.4.14
 
 ## 2.4.13
