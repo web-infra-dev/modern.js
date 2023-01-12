@@ -29,7 +29,8 @@ const cases = [
     config: {
       output: {
         dataUriLimit: {
-          image: Infinity,
+          // rspack not support Infinity
+          image: 5 * 1024,
         },
       },
     },
