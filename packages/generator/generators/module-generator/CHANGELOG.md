@@ -1,5 +1,15 @@
 # @modern-js/module-generator
 
+## 3.0.3
+
+### Patch Changes
+
+- 30f29ad: update module ts-template
+  更新模块的 ts 模板
+- 6562578: chore: optimize the capitalization of plugin names
+
+  chore: 规范引用插件时的命名格式，统一使用 camelCase 代替 PascalCase
+
 ## 3.0.2
 
 ## 3.0.1

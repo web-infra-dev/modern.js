@@ -1,5 +1,28 @@
 # @modern-js/plugin-storybook
 
+## 2.1.0
+
+### Patch Changes
+
+- 2ff7e98: fix: fix webpack builder config
+  fix: 修复 webpack builder 配置
+- Updated dependencies [f3237db]
+- Updated dependencies [837620c]
+- Updated dependencies [3ad26c2]
+- Updated dependencies [776cc27]
+- Updated dependencies [5b54418]
+- Updated dependencies [35d3e84]
+- Updated dependencies [ccbac43]
+- Updated dependencies [8a9482c]
+- Updated dependencies [679296d]
+  - @modern-js/runtime@2.1.0
+  - @modern-js/utils@2.1.0
+  - @modern-js/builder-shared@2.1.0
+  - @modern-js/builder-webpack-provider@2.1.0
+  - @modern-js/plugin-router-v5@2.1.0
+  - @modern-js/builder@2.1.0
+  - @modern-js/builder-plugin-node-polyfill@2.1.0
+
 ## 2.0.2
 
 ### Patch Changes

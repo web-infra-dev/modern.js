@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 2.1.0
+
+### Patch Changes
+
+- f3237db: fix: loadable component should not be wrapped in suspense
+  fix: loadable component 不应该被 suspense 包裹
+- 776cc27: chore: hard code MODER_TARGET
+  chore: 硬编码 MODER_TARGET
+- 35d3e84: fix: add missing esbuild
+  fix: 添加缺失的 esbuild
+- Updated dependencies [837620c]
+- Updated dependencies [8a9482c]
+  - @modern-js/utils@2.1.0
+  - @modern-js/plugin@2.1.0
+  - @modern-js/types@2.1.0
+
 ## 2.0.2
 
 ### Patch Changes
