@@ -549,7 +549,7 @@ importers:
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/remark-container': workspace:*
       '@modern-js/tsconfig': workspace:*
-      '@modern-js/types': ^2.0.2
+      '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@types/body-scroll-lock': ^3.1.0
@@ -675,7 +675,7 @@ importers:
       '@modern-js/core': link:../core
       '@modern-js/plugin-testing': link:../../runtime/plugin-testing
       '@modern-js/tsconfig': link:../../review/tsconfig
-      '@modern-js/types': 2.0.2
+      '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@types/body-scroll-lock': 3.1.0
       '@types/fs-extra': 9.0.13
@@ -11864,10 +11864,6 @@ packages:
       '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.9
       '@modern-js/swc-plugins-win32-x64-msvc': 0.0.9
     dev: false
-
-  /@modern-js/types/2.0.2:
-    resolution: {integrity: sha512-kU+Flky/CnqMg/cBcHCsp49QYiHfx/c4JeZvwgIQqCuevoZbNyAlEZIJgcht0HHxpMEaJxmISAJdVg8FBQ8ibg==}
-    dev: true
 
   /@modern-js/utils/1.21.5:
     resolution: {integrity: sha512-mZ3uwLNge37FAiwvLAn33nNRt5cC/LDHVMjVw4VR1jaS/eSaKShJbHn/WdQyyFexZHZzPbZewPGtY2z94378zw==}
