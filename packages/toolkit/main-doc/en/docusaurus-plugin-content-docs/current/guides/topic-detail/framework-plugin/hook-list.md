@@ -121,6 +121,28 @@ export default (): CliPlugin => ({
 });
 ```
 
+### `afterPrepare`
+
+- function：Running tasks after the prepare process
+- Execution Phase：After the prepare process
+- Hook model：AsyncWorkflow
+- type：`AsyncWorkflow<void, void>`
+- Usagec：
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export default (): CliPlugin => ({
+  setup(api) {
+    return {
+      afterPrepare: () => {
+        // do something
+      },
+    };
+  },
+});
+```
+
 ### `commands`
 
 - 功能：为 command 添加新的命令
