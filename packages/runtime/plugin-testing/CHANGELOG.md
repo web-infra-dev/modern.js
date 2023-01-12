@@ -1,5 +1,17 @@
 # @modern-js/plugin-testing
 
+## 1.22.4
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@1.22.4
+- @modern-js/webpack@1.22.4
+- @modern-js/runtime@1.22.4
+- @modern-js/prod-server@1.22.4
+- @modern-js/babel-compiler@1.22.4
+- @modern-js/plugin@1.22.4
+- @modern-js/utils@1.22.4
+
 ## 1.22.3
 
 ### Patch Changes

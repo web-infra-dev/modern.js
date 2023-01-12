@@ -1,5 +1,7 @@
 # @modern-js/electron-independence-generator
 
+## 2.4.15
+
 ## 2.4.14
 
 ## 2.4.13

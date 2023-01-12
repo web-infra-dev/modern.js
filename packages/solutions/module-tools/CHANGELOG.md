@@ -1,5 +1,25 @@
 # @modern-js/module-tools
 
+## 1.22.4
+
+### Patch Changes
+
+- f1f3f7e: export type UserConfig and fix type ToolsConfig
+  导出 UserConfig 类型并且修复 ToolsConfig 类型
+- Updated dependencies [08e3aab]
+  - @modern-js/new-action@1.22.4
+  - @modern-js/babel-preset-module@1.22.4
+  - @modern-js/core@1.22.4
+  - @modern-js/css-config@1.22.4
+  - @modern-js/plugin-changeset@1.22.4
+  - @modern-js/plugin-i18n@1.22.4
+  - @modern-js/plugin-jarvis@1.22.4
+  - @modern-js/babel-compiler@1.22.4
+  - @modern-js/style-compiler@1.22.4
+  - @modern-js/plugin@1.22.4
+  - @modern-js/upgrade@1.22.4
+  - @modern-js/utils@1.22.4
+
 ## 1.22.3
 
 ### Patch Changes

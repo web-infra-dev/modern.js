@@ -1,5 +1,12 @@
 # @modern-js/plugin-less
 
+## 1.22.4
+
+### Patch Changes
+
+- @modern-js/css-config@1.22.4
+- @modern-js/utils@1.22.4
+
 ## 1.22.3
 
 ### Patch Changes
