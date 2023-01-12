@@ -348,11 +348,11 @@ export const fileSystemRoutes = async ({
     if (loaderInfo.inline) {
       importLoadersCode += `import { loader as ${key} } from "${getDataLoaderPath(
         key,
-      )}${loaderInfo.filePath}";\n`;
+      )}${slash(loaderInfo.filePath)}";\n`;
     } else {
-      importLoadersCode += `import ${key} from "${getDataLoaderPath(key)}${
-        loaderInfo.filePath
-      }";\n`;
+      importLoadersCode += `import ${key} from "${getDataLoaderPath(
+        key,
+      )}${slash(loaderInfo.filePath)}";\n`;
     }
   }
 
