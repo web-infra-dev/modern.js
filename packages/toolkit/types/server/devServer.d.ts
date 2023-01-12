@@ -22,6 +22,7 @@ export type DevServerOptions = {
     path?: string;
     port?: string;
     host?: string;
+    protocol?: string;
   };
   devMiddleware?: {
     writeToDisk: boolean | ((filename: string) => boolean);
