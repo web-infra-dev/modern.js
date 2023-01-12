@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.2",
+  "version": "2.1.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
@@ -79,7 +79,7 @@
     "react-loadable": "^5.5.0"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.0.2"
+    "@modern-js/runtime": "workspace:^2.1.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

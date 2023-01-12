@@ -2,6 +2,8 @@ export const queryRE = /\?.*$/s;
 export const hashRE = /#.*$/s;
 export const externalLinkRE = /^(https?:)/;
 
+export const SEARCH_INDEX_JSON = 'search_index.json';
+
 export const isProduction = () => process.env.NODE_ENV === 'production';
 
 export const cleanUrl = (url: string): string =>

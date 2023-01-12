@@ -16,23 +16,6 @@ function readPackage(pkg, _context) {
     pkg.dependencies['esbuild'] = '0.15.7';
   }
 
-  // vuepress v1 still depend on webpack v4
-  if (pkg.name === 'vue-server-renderer') {
-    pkg.peerDependencies = {
-      ...pkg.peerDependencies,
-      webpack: '^4',
-    };
-  }
-
-  // vuepress depend on legacy stylus
-  if (pkg.name === '@vuepress/core') {
-    pkg.dependencies = {
-      ...pkg.dependencies,
-      stylus: '0.54.8',
-      'stylus-loader': '3.0.2',
-    };
-  }
-
   if (pkg.name === 'hast-util-from-html' && pkg.version.startsWith('1.')) {
     pkg.dependencies = {
       ...pkg.dependencies,

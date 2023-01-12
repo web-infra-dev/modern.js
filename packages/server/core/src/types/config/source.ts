@@ -1,7 +1,7 @@
 import type { Alias } from '@modern-js/utils';
 import type { ChainedConfig } from './share';
 
-type JSONPrimitive = string | number | boolean | null;
+type JSONPrimitive = string | number | boolean | null | undefined;
 
 type JSONArray = Array<JSONValue>;
 

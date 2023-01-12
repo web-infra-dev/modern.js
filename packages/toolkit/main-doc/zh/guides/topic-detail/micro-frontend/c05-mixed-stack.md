@@ -5,7 +5,7 @@ title: 混合技术栈
 
 Modern.js 微前端方案是基于 [Garfish](https://garfishjs.org/) 封装的，提供了一些更开箱即用的使用方式。
 
-当你的主应用和子应用不全是 Modern.js 应用的时候，可以参考这片文档。
+当你的主应用和子应用不全是 Modern.js 应用的时候，可以参考这篇文档。
 
 1. 子应用是 **Modern.js**，主应用使用的原生 Garfish 微前端。
 2. 主应用是 **Modern.js**，子应用有的是其它技术栈。

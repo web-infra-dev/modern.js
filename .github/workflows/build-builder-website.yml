@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
     paths:
-      - 'website/builder/**'
       - 'packages/builder/builder-doc/**'
 
   # Allows you to run this workflow manually from the Actions tab
@@ -31,13 +30,25 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --ignore-scripts
 
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+
+      - name: Build Dependencies
+        run: pnpm turbo run build --filter="@modern-js/builder-doc"
+
       - name: Build Website
-        run: cd website/builder && npm run build
+        run: cd packages/builder/builder-doc && npm run build:doc
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages
-          folder: website/builder/src/.vuepress/dist
+          folder: packages/builder/builder-doc/doc_build
           target-folder: builder
           clean: true

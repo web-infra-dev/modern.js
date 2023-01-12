@@ -31,6 +31,7 @@
     font-size: 18px;
     margin-bottom: 1em;
     transition: color 0.5s;
+    font-weight: 600;
   }
 
   h3 > a {
@@ -84,16 +85,18 @@
 .overview-groups a {
   font-size: 15px;
   font-weight: 500;
-  line-height: 2;
+  line-height: 1.6;
+  margin-top: 8px;
   color: var(--modern-c-text-code);
   transition: color 0.5s;
+  word-break: break-all;
 }
 
 .overview-group-li {
   position: relative;
 
   &.level-2 {
-    padding-left: 1rem;
+    padding-left: 1px;
 
     &:before {
       left: -0.25rem;
@@ -101,17 +104,6 @@
   }
 }
 
-.overview-group-li:before {
-  content: '';
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: rgba(60, 60, 60, 0.33);
-  transition: background-color 0.5s;
-  left: -1.25rem;
-  top: 0.9rem;
-}
 :global(.dark) overview-groups a {
   font-weight: 400;
 }
@@ -120,7 +112,7 @@
   break-inside: avoid;
   margin-bottom: 28px;
   background-color: var(--modern-c-bg-soft);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 28px 32px;
   transition: background-color 0.5s;
 }
