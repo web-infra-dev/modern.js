@@ -45,9 +45,17 @@ export const Layout: React.FC<LayoutProps> = props => {
   } = usePageData();
   const localesData = useLocaleSiteData();
 
-  // Priority: front matter title > h1 title > site title
-  const title =
-    (frontmatter?.title ?? articleTitle) || siteData.title || localesData.title;
+  // Priority: front matter title > h1 title
+  let title = frontmatter?.title ?? articleTitle;
+  const mainTitle = siteData.title || localesData.title;
+
+  if (title) {
+    // append main title as a suffix
+    title = `${title} - ${mainTitle}`;
+  } else {
+    title = mainTitle;
+  }
+
   const description =
     frontmatter?.description || siteData.description || localesData.description;
   // Use doc layout by default

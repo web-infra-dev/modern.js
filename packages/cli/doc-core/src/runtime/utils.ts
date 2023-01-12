@@ -1,3 +1,4 @@
+import siteData from 'virtual-site-data';
 import {
   cleanUrl,
   addLeadingSlash,
@@ -5,6 +6,8 @@ import {
   normalizeSlash,
   isProduction,
   normalizeHref,
+  withBase as rawWithBase,
+  removeBase as rawRemoveBase,
 } from '../shared/utils';
 
 export const getRelativePagePath = (
@@ -25,6 +28,14 @@ export const getRelativePagePath = (
 
 export function normalizeRoutePath(routePath: string) {
   return routePath.replace(/\.html$/, '').replace(/\/index$/, '/');
+}
+
+export function withBase(url = '/'): string {
+  return rawWithBase(url, siteData.base);
+}
+
+export function removeBase(url: string): string {
+  return rawRemoveBase(url, siteData.base);
 }
 
 export {

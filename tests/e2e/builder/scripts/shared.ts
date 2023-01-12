@@ -38,6 +38,9 @@ async function getRspackBuilderProvider(builderConfig: RspackBuilderConfig) {
   return builderProvider;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
+
 export const createBuilder = async (
   builderOptions: CreateBuilderOptions,
   builderConfig: BuilderConfig | RspackBuilderConfig = {},
@@ -78,10 +81,13 @@ export async function build(
 
   const { distPath } = builder.context;
 
-  const { port } = runServer ? await runStaticServer(distPath) : { port: 0 };
+  const { port, close } = runServer
+    ? await runStaticServer(distPath)
+    : { port: 0, close: noop };
+
   const clean = async () => await fs.remove(distPath);
 
-  return { distPath, port, clean };
+  return { distPath, port, clean, close };
 }
 
 export async function stubBuild(
