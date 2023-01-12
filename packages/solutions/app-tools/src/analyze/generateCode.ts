@@ -196,7 +196,7 @@ export const generateCode = async (
         });
 
         // extract nested router loaders
-        if (entrypoint.nestedRoutesEntry) {
+        if (entrypoint.nestedRoutesEntry && mode) {
           const routesServerFile = getServerLoadersFile(
             internalDirectory,
             entryName,

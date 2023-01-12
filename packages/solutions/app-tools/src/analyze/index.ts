@@ -3,8 +3,8 @@ import {
   createDebugger,
   findExists,
   fs,
+  getEntryOptions,
   isApiOnly,
-  isUseSSRBundle,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
@@ -209,16 +209,20 @@ export default (): CliPlugin<AppTools> => ({
       config() {
         return {
           tools: {
-            webpackChain: chain => {
+            webpackChain: (chain, { name }) => {
               const appContext = api.useAppContext();
               const resolvedConfig = api.useResolvedConfigContext();
-              const { entrypoints, internalDirectory } = appContext;
+              const { entrypoints, internalDirectory, packageName } =
+                appContext;
               entrypoints.forEach(entrypoint => {
                 const { entryName } = entrypoint;
-                if (
-                  entrypoint.nestedRoutesEntry &&
-                  isUseSSRBundle(resolvedConfig)
-                ) {
+                const ssr = getEntryOptions(
+                  entryName,
+                  resolvedConfig.server.ssr,
+                  resolvedConfig.server.ssrByEntries,
+                  packageName,
+                );
+                if (entrypoint.nestedRoutesEntry && ssr && name === 'server') {
                   const serverLoadersFile = getServerLoadersFile(
                     internalDirectory,
                     entryName,
