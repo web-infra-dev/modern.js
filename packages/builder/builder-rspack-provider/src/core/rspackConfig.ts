@@ -135,6 +135,8 @@ const whiteListKeys = [
   'resourceQuery',
   'use',
   'type',
+  'parser',
+  'generator',
 ];
 
 const formatRule = (rule: BundlerRule): RspackRule => {
@@ -153,6 +155,10 @@ const formatRule = (rule: BundlerRule): RspackRule => {
   }
 
   const formatRuleUse = (use: typeof rule['use']) => {
+    if (!use) {
+      return undefined;
+    }
+
     if (!Array.isArray(use)) {
       throw new Error(`only support array in rule.use`);
     }

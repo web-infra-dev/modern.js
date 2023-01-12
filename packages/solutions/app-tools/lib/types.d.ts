@@ -98,8 +98,12 @@ declare module '*.svg?inline' {
     React.SVGProps<SVGSVGElement>
   >;
 
-  const src: string;
-  export default src;
+  /**
+   * The default export type depends on the svgDefaultExport config,
+   * it can be a string or a ReactComponent
+   * */
+  const content: any;
+  export default content;
 }
 
 declare module '*.bmp?url' {

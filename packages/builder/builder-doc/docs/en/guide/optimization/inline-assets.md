@@ -17,7 +17,7 @@ export default {
   output: {
     dataUriLimit: {
       image: 5000,
-      media: Infinite,
+      media: 0,
     },
   },
 };
