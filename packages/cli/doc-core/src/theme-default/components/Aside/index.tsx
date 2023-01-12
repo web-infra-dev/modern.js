@@ -42,7 +42,6 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
           href={`#${header.id}`}
           block="~"
           text="text-2"
-          font="medium"
           hover="text-text-1"
           transition="color duration-300"
           className="leading-7"
