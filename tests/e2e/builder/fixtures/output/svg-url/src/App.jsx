@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 // eslint-disable-next-line no-unused-vars
-import svgImg, { ReactComponent as Logo } from './app.svg';
+import { ReactComponent as Logo } from './app.svg';
+import svgImg from './app.svg?url';
 import './App.css';
 
 function App() {
