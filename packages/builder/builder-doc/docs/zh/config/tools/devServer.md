@@ -55,6 +55,8 @@ export default {
 
 ```ts
 {
+    /** 指定协议名称 */
+    protocol?: string;
     /** 事件流路径 */
     path?: string;
     /** 指定监听请求的端口号 */
