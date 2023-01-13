@@ -30,7 +30,3 @@ Time:        0.994 s, estimated 1 s
 :::info 注
 `src` 和 `api` 目录下面 `*.test.(js|ts)` 都会默认识别为测试用例。
 :::
-
-import CommandTip from '@site-docs/components/command-tip.md'
-
-<CommandTip />

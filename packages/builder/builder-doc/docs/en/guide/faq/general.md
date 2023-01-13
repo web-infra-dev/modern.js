@@ -2,15 +2,15 @@
 
 ## The relationship between Modern.js Builder and Modern.js?
 
-The building abilities of Modern.js 2.0 are based on Modern.js Builder.
+The building abilities of Modern.js are based on Modern.js Builder.
 
-When developing Modern.js 2.0, we designed Builder as an independent module, and clearly divided the responsibilities of Builder and Modern.js. Therefore, Builder can be used independently of the Modern.js framework and be applied to other frameworks or scenarios.
+When developing Modern.js, we designed Builder as an independent module, and clearly divided the responsibilities of Builder and Modern.js. Therefore, Builder can be used independently of the Modern.js framework and be applied to other frameworks or scenarios.
 
 ## Can Builder be used to build libraries or UI components?
 
 Builder focuses on solving web application building scenarios. We do not recommend that you use Builder to build libraries or UI components.
 
-If you need to build a library or UI components, it is recommended to use the [Modern.js module tools](https://modernjs.dev/docs/start/library).
+If you need to build a library or UI components, it is recommended to use the [Modern.js Module Tools](https://modernjs.dev/module-tools/en).
 
 ## Will Builder support Turbopack?
 
