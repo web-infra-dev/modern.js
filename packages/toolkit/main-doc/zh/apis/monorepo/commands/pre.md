@@ -11,10 +11,6 @@ Options:
   -h, --help  display help for command
 ```
 
-import CommandTip from '@site-docs/components/command-tip.md'
-
-<CommandTip />
-
 可以使用 `modern pre` 命令在正式发布前[预发布](https://github.com/atlassian/changesets/blob/main/docs/prereleases.md)一个版本。
 
 首先 `modern pre enter <tag>` 进入预发布模式:

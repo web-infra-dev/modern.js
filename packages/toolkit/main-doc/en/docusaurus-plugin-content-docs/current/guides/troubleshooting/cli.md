@@ -1,4 +1,11 @@
-:::tip 提示
+---
+sidebar_position: 2
+---
+
+# CLI FAQ
+
+### Can't pass command line arguments correctly when using pnpm?
+
 The pnpm v6 and pnpm v7 versions do not use the same posture when executing commands. The following should be noted:
 
 pnpm v7：
@@ -54,4 +61,3 @@ Summary:
 ** When using pnpm v7, if you pass arguments to pnpm, you need to put the arguments before the command **
 
 ** When using pnpm v6, if the parameter passed to pnpm, you do not need to add `--`; if the parameter passed is for script use, you need to add `--` character string **.
-:::
