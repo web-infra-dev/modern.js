@@ -213,6 +213,9 @@ export default defineConfig({
           '@en': path.join(__dirname, 'docs/en'),
           '@zh': path.join(__dirname, 'docs/zh'),
         },
+        globalVars: {
+          MODERN_JS: 'Modern.js',
+        },
       },
     },
   },
