@@ -12,10 +12,6 @@ Options:
   -h, --help         display help for command
 ```
 
-import CommandTip from '@site-docs/components/command-tip.md'
-
-<CommandTip />
-
 对指定的项目进行部署，会通过指定项目分析其依赖的 Monorepo 下的子项目。
 
 在执行命令之后，会首先生成 `output` 目录，在目录当中包含了指定部署的项目以及其依赖的子项目，形成一个最小集合的 Monorepo。

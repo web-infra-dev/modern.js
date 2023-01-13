@@ -30,7 +30,3 @@ info    App running at:
   > Local:    http://localhost:8080/
   > Network:  http://192.168.0.1:8080/
 ```
-
-import CommandTip from '@site-docs-en/components/command-tip.md'
-
-<CommandTip />

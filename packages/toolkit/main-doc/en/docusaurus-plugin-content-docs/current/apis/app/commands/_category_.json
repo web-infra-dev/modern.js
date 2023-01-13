@@ -1,6 +1,6 @@
 {
   "label": "Commands",
-  "position": 3,
+  "position": 0,
   "link": {
     "type": "doc",
     "id": "apis/app/commands/index"

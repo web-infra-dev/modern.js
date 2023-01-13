@@ -16,7 +16,3 @@ Options:
 Run ESLint to check the syntax of the code. Normally, only the part of the code modified by this commit needs to be checked by `lint-staged` during the `git commit` phase.
 
 - `--no-fix` close auto fix by lint.
-
-import CommandTip from '@site-docs-en/components/command-tip.md'
-
-<CommandTip />
