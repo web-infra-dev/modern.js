@@ -167,7 +167,7 @@ export default defineConfig({
   doc: {
     root: path.join(__dirname, 'docs'),
     lang: 'zh',
-    base: '/builder/',
+    base: isProd ? '/builder/' : '/',
     title: 'Modern.js Builder',
     markdown: {
       checkDeadLinks: isProd,
@@ -217,9 +217,6 @@ export default defineConfig({
           MODERN_JS: 'Modern.js',
         },
       },
-      dev: {
-        startUrl: 'http://localhost:8080/builder/'
-      }
     },
   },
 });
