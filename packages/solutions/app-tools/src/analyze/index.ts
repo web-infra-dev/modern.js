@@ -5,6 +5,7 @@ import {
   fs,
   getEntryOptions,
   isApiOnly,
+  minimist,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
@@ -12,7 +13,8 @@ import { createBuilderForModern } from '../builder';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
-import { getCommand } from '../utils/commands';
+import { getCommand, isDevCommand } from '../utils/commands';
+import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools } from '../types';
 import { initialNormalizedConfig } from '../config';
 import {
@@ -84,7 +86,6 @@ export default (): CliPlugin<AppTools> => ({
         ]);
 
         const entrypoints = getBundleEntry(appContext, resolvedConfig);
-        const defaultChecked = entrypoints.map(point => point.entryName);
 
         debug(`entrypoints: %o`, entrypoints);
 
@@ -130,10 +131,19 @@ export default (): CliPlugin<AppTools> => ({
 
         debug(`add Define Types`);
 
+        let checkedEntries = entrypoints.map(point => point.entryName);
+        if (isDevCommand()) {
+          const { entry } = minimist(process.argv.slice(2));
+          checkedEntries = await getSelectedEntries(
+            typeof entry === 'string' ? entry.split(',') : entry,
+            entrypoints,
+          );
+        }
+
         appContext = {
           ...appContext,
           entrypoints,
-          checkedEntries: defaultChecked,
+          checkedEntries,
           apiOnly,
           serverRoutes: routes,
           htmlTemplates,

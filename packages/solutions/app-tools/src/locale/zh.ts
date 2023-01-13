@@ -8,6 +8,8 @@ export const ZH_LOCALE = {
       describe: '本地开发命令',
       entry: '指定入口，编译特定的页面',
       apiOnly: '仅启动 API 接口服务',
+      selectEntry: '请选择需要构建的入口',
+      requireEntry: '请至少选择一个入口',
     },
     build: {
       describe: '构建应用命令',
