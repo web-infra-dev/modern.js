@@ -20,6 +20,13 @@ describe('test shared utils', () => {
     expect(withBase('/guide/', '')).toBe('/guide/');
   });
 
+  test('mutiple withBase', () => {
+    const base = '/my-base/';
+    const firstResult = withBase('/guide/', base);
+    const secondResult = withBase(firstResult, base);
+    expect(secondResult).toBe('/my-base/guide/');
+  });
+
   test('withoutBase', () => {
     expect(withoutBase('/zh/guide/', '/zh/')).toBe('/guide/');
     expect(withoutBase('/guide/', '/')).toBe('/guide/');
