@@ -101,10 +101,13 @@ export function withoutBase(path: string, base = '') {
   return addLeadingSlash(path).replace(normalizeSlash(base), '');
 }
 
-export function withBase(url: string, base: string) {
-  const normalizedBase = normalizeSlash(base);
+export function withBase(url = '/', base = ''): string {
   const normalizedUrl = addLeadingSlash(url);
-  return normalizedBase ? `${normalizedBase}${normalizedUrl}` : normalizedUrl;
+  const normalizedBase = normalizeSlash(base);
+  // Avoid adding base path repeatly
+  return normalizedUrl.startsWith(normalizedBase)
+    ? normalizedUrl
+    : `${normalizedBase}${normalizedUrl}`;
 }
 
 export function removeBase(url: string, base: string) {
