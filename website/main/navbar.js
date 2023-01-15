@@ -28,7 +28,7 @@ module.exports = {
     },
     {
       type: 'doc',
-      docId: 'apis/app/hooks/src/app',
+      docId: 'apis/app/commands/dev',
       activeBasePath: 'docs/apis',
       position: 'left',
       label: 'API',

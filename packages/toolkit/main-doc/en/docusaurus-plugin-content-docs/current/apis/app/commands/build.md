@@ -36,9 +36,3 @@ Open the above HTML file in the browser, you can see the tile diagram of the pac
 <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
 
 > this features based on [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer).
-
-## Command Arguments
-
-import CommandTip from '@site-docs-en/components/command-tip.md'
-
-<CommandTip />

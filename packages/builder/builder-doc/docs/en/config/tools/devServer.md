@@ -55,6 +55,8 @@ export default {
 
 ```ts
 {
+    /** Specify a protocol to use */
+    protocol?: string;
     /** The path which the middleware is serving the event stream on */
     path?: string;
     /** Specify a port number to listen for requests on */

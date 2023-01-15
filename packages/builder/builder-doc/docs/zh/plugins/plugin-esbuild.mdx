@@ -25,7 +25,7 @@ pnpm add @modern-js/builder-plugin-esbuild -D
 
 ### 注册插件
 
-在 Modern.js / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 esbuild 插件：
+在 {MODERN_JS} / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 esbuild 插件：
 
 ```ts
 import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';

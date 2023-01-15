@@ -1,6 +1,6 @@
 import { Button } from '../Button';
 import styles from './index.module.scss';
-import { normalizeHref, withBase, usePageData } from '@/runtime';
+import { normalizeHref, usePageData } from '@/runtime';
 
 const DEFAULT_HERO = {
   name: 'modern',
@@ -59,7 +59,7 @@ export function HomeHero() {
                 <Button
                   type="a"
                   text={action.text}
-                  href={normalizeHref(withBase(action.link))}
+                  href={normalizeHref(action.link)}
                   theme={action.theme}
                 />
               </div>

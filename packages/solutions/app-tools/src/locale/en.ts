@@ -8,6 +8,8 @@ export const EN_LOCALE = {
       describe: 'start dev server',
       entry: 'compiler by entry',
       apiOnly: 'start api server only',
+      selectEntry: 'Please select the entry that needs to be built',
+      requireEntry: 'You must choose at least one entry',
     },
     build: {
       describe: 'build application',

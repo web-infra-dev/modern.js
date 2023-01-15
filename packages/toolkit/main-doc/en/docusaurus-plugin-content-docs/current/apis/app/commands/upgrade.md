@@ -15,7 +15,3 @@ Options:
 ```
 
 Execute the command `npx modern upgrade` in the project, by default, dependencies in the `package.json` are updated to the latest version.
-
-:::info
-the command is available in `@modern-js/app-tools` version >= 1.17.0, previous versions can be upgraded with `npx @modern-js/upgrade`.
-:::
