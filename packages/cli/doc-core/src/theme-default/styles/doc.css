@@ -34,6 +34,12 @@
   font-size: 20px;
 }
 
+.modern-doc h4 {
+  margin: 24px 0 0;
+  line-height: 24px;
+  font-size: 16px;
+}
+
 .modern-doc .header-anchor {
   float: left;
   margin-left: -0.87em;

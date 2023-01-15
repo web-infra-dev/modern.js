@@ -6,7 +6,7 @@ import Down from '../../assets/down.svg';
 import Right from '../../assets/right.svg';
 
 export interface NavMenuGroupItem {
-  text: string | React.ReactElement;
+  text?: string | React.ReactElement;
   items: NavItemWithLink[];
   activeIndex?: number;
   // When the item is transition, we need to give a react element instead of a string.
