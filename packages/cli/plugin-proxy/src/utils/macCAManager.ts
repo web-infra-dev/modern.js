@@ -31,7 +31,7 @@ export const isRootCAExists = () => {
   return false;
 };
 
-export const generateRootCA = () =>
+export const generateRootCA = (port: number) =>
   new Promise((resolve, reject) => {
     if (fs.existsSync(defaultRootCA)) {
       fs.removeSync(defaultRootCA);
@@ -41,7 +41,7 @@ export const generateRootCA = () =>
     const stream = fs.createWriteStream(defaultRootCA);
 
     http
-      .get('http://localhost:8899/cgi-bin/rootca', response => {
+      .get(`http://localhost:${port}/cgi-bin/rootca`, response => {
         response.pipe(stream);
         stream
           .on('finish', () => {

@@ -40,7 +40,7 @@ export default class WhistleProxy {
   async installRootCA() {
     try {
       if (!isRootCAExists()) {
-        await generateRootCA();
+        await generateRootCA(this.port);
         trustRootCA();
       }
     } catch (err) {
