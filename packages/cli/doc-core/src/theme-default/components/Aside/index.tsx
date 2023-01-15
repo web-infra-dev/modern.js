@@ -54,6 +54,7 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
           }}
           onClick={e => {
             e.preventDefault();
+            window.location.hash = header.id;
             const target = document.getElementById(header.id);
             if (target) {
               scrollToTarget(target, false);
@@ -67,7 +68,7 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
   };
 
   return (
-    <div flex="~ col" className="max-w-256px">
+    <div flex="~ col">
       <div className={hasOutline ? `<lg:hidden` : 'hidden'}>
         <div
           p="l-4"
