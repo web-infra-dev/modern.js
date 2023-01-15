@@ -252,12 +252,7 @@ export function SideBar(props: Props) {
     }
   };
   return (
-    <aside
-      className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}
-      style={{
-        borderRight: '1px solid var(--modern-c-divider-light)',
-      }}
-    >
+    <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
       <nav m="t-1">
         {sidebarData.map(
           (item: NormalizedSidebarGroup | SidebarItem, index: number) => (
