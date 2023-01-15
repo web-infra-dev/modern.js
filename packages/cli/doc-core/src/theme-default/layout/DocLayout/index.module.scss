@@ -38,7 +38,7 @@
 
   .content {
     margin-left: var(--modern-sidebar-width);
-    width: calc(1440px - var(--modern-sidebar-width));
+    width: calc(960px - var(--modern-sidebar-width));
     padding: 16px;
     :global(.modern-doc) {
       padding-right: 64px;

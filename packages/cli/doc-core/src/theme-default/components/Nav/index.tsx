@@ -157,11 +157,7 @@ export function Nav(props: NavProps) {
         zIndex: 'var(--modern-z-index-nav)',
       }}
     >
-      <div
-        className={styles.navContainer}
-        p="x-6"
-        transition="background-color duration-500"
-      >
+      <div className={styles.navContainer} p="x-6">
         <div
           flex="~"
           justify="between"
