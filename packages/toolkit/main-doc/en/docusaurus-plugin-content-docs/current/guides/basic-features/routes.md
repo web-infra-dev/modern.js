@@ -321,7 +321,7 @@ export default () => {
 ```
 
 :::note
-Modern.js has a series of resource loading and rendering optimizations by default for convention-based routing, and it is recommended that developers use convention-based routing.
+Modern.js has a series of resource loading and rendering optimizations to the default convention-based routing, and provides out-of-the-box SSR capabilities,  when using self-directed routing, need to be packaged by the developer, and it is recommended that developers use convention-based routing.
 :::
 
 ## Other
