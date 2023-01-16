@@ -4,6 +4,7 @@ import { visit } from 'unist-util-visit';
 import fs from '@modern-js/utils/fs-extra';
 import type { Root } from 'mdast';
 import type { MdxjsEsm } from 'mdast-util-mdxjs-esm';
+import Slugger from 'github-slugger';
 import {
   addLeadingSlash,
   normalizeHref,
@@ -11,6 +12,8 @@ import {
   externalLinkRE,
 } from '@/shared/utils';
 import { PUBLIC_DIR } from '@/node/constants';
+
+const slugger = new Slugger();
 
 interface LinkNode {
   type: string;
@@ -79,15 +82,22 @@ export const remarkPluginNormalizeLink: Plugin<
       tree,
       (node: LinkNode) => node.type === 'link',
       (node: LinkNode) => {
-        if (
-          !node.url ||
-          node.url.startsWith('http') ||
-          node.url.startsWith('#')
-        ) {
+        if (!node.url) {
           return;
         }
+
+        if (node.url.startsWith('#')) {
+          node.url = `#${slugger.slug(node.url.slice(1))}`;
+        }
+
         // eslint-disable-next-line prefer-const
         let { url, hash } = parseUrl(node.url);
+
+        if (externalLinkRE.test(url)) {
+          node.url = url + (hash ? `#${slugger.slug(hash)}` : '');
+          return;
+        }
+
         const extname = path.extname(url);
 
         if (extname === '.md' || extname === '.mdx') {
@@ -98,7 +108,7 @@ export const remarkPluginNormalizeLink: Plugin<
         url = normalizeLangPrefix(normalizeHref(url), lang, defaultLang);
 
         if (hash) {
-          url += `#${hash}`;
+          url += `#${slugger.slug(hash)}`;
         }
         node.url = path.join(base, url);
       },
