@@ -374,25 +374,23 @@ export const init = (context: RuntimeContext) => {
 
 以 `src/App.tsx` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发，例如：
 
-```tsx
-import { Route, Routes, BrowserRouter } from '@modern-js/runtime/router';
-import { StaticRouter } from '@modern-js/runtime/router/server';
+```ts title="src/App.tsx"
+import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
-const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
 export default () => {
   return (
-    <Router location={context.request.pathname}>
+    <BrowserRouter>
       <Routes>
         <Route index element={<div>index</div>} />
         <Route path="about" element={<div>about</div>} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 };
 ```
 
 :::note
-在自控式路由下，开发者如果希望在 SSR 中使用 React Router 6 中 [Loader API](https://reactrouter.com/en/main/hooks/use-loader-data#useloaderdata) 的能力会相对复杂，推荐直接使用约定式路由。Modern.js 已经为你封装好了一切。
+Modern.js 默认对约定式路由做了一系列资源加载及渲染上的优化，并且提供了开箱即用的 SSR 能力，而这些能力，在使用自控路由时，都需要开发者自行封装，推荐开发者使用约定式路由。
 :::
 
 ## 其他路由方案

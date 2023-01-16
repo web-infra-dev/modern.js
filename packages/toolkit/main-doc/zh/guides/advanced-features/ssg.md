@@ -89,25 +89,9 @@ export default defineConfig({
 
 例如有以下代码，包含多条路由，设置 `output.ssg` 为 `true` 时，默认只会渲染入口路由即 `/`：
 
-```tsx title="src/App.tsx"
-import { useRuntimeContext } from '@modern-js/runtime';
-import { Routes, Route, BrowserRouter } from '@modern-js/runtime/router';
-import { StaticRouter } from '@modern-js/runtime/router/server';
+import SelfRouteExample from '@site-docs/components/self-route-example.md';
 
-const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
-
-export default () => {
-  const { context } = useRuntimeContext();
-  return (
-    <Router location={context.request.pathname}>
-      <Routes>
-        <Route index element={<div>index</div>} />
-        <Route path="about" element={<div>about</div>} />
-      </Routes>
-    </Router>
-  );
-};
-```
+<SelfRouteExample />
 
 如果我们希望同时开启 `/about` 的 SSG 功能，可以配置 `output.ssg`，告知 Modern.js 开启指定路由的 SSG 功能。
 
