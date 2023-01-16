@@ -91,7 +91,7 @@ The content of `api.context` is exactly the same as `builder.context`, please re
 - **Example**
 
 ```ts
-const PluginFoo = () => ({
+const builderPluginFoo = () => ({
    setup(api) {
      console.log(api.context.distPath);
    }
@@ -107,7 +107,7 @@ import GetBuilderConfig from '@en/shared/getBuilderConfig.md';
 - **Example**
 
 ```ts
-const PluginFoo = () => ({
+const builderPluginFoo = () => ({
    setup(api) {
      const config = api.getBuilderConfig();
      console.log(config.html?.title);
@@ -124,7 +124,7 @@ import GetNormalizedConfig from '@en/shared/getNormalizedConfig.md';
 - **Example**
 
 ```ts
-const PluginFoo = () => ({
+const builderPluginFoo = () => ({
    setup(api) {
      const config = api.getNormalizedConfig();
      console.log(config.html.title);
@@ -157,7 +157,7 @@ import GetHTMLPaths from '@en/shared/getHTMLPaths.md';
 - **Example**
 
 ```ts
-const PluginFoo = () => ({
+const builderPluginFoo = () => ({
    setup(api) {
      api.modifyWebpackChain(() => {
        const htmlPaths = api.getHTMLPaths();

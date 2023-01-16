@@ -17,7 +17,7 @@ Builder 底层支持 webpack 和 rspack 等 bundler，并提供统一的 Node.js
 
 ## 开发插件
 
-插件提供类似 `(options?: PluginOptions) => BuilderPlugin` 的函数作为入口。
+插件提供类似 `(options?: PluginOptions) => BuilderPlugin` 的函数作为入口，建议将插件函数命名为 `builderPluginXXX`。
 
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
@@ -26,7 +26,7 @@ export interface PluginFooOptions {
   message?: string;
 }
 
-export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
+export const builderPluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
   name: 'plugin-foo',
   setup(api) {
     api.onExit(() => {
@@ -37,7 +37,7 @@ export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
 });
 
 builder.addPlugins([
-  PluginFoo({ message: 'some other message.' })
+  builderPluginFoo({ message: 'some other message.' })
 ]);
 ```
 

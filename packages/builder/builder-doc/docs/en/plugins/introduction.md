@@ -17,7 +17,7 @@ provided by the Builder, but can also be built with lots of other parts.
 
 ## Write a plugin
 
-Plugin module should export an entry function just like `(options?: PluginOptions) => BuilderPlugin`:
+Plugin module should export an entry function just like `(options?: PluginOptions) => BuilderPlugin`, It is recommended to name plugin functions `builderPluginXXX`.
 
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
@@ -26,7 +26,7 @@ export interface PluginFooOptions {
   message?: string;
 }
 
-export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
+export const builderPluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
   name: 'plugin-foo',
   setup(api) {
     api.onExit(() => {
@@ -36,7 +36,7 @@ export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
   }
 });
 
-builder.addPlugins([PluginFoo('some other message.')]);
+builder.addPlugins([builderPluginFoo('some other message.')]);
 ```
 
 The function usually **takes an options object** and **returns the plugin instance**, which manages state through closures.

@@ -29,7 +29,7 @@ const BUILDER_SWC_DEBUG_MODE = 'BUILDER_SWC_DEBUG_MODE';
  * - Remove JS minifier
  * - Add swc minifier plugin
  */
-export const PluginSwc = (
+export const builderPluginSwc = (
   pluginConfig: PluginSwcOptions = {},
 ): BuilderPlugin => ({
   name: PLUGIN_NAME,
@@ -134,6 +134,11 @@ export const PluginSwc = (
     });
   },
 });
+
+/**
+ * @deprecated Using builderPluginSwc instead.
+ */
+export const PluginSwc = builderPluginSwc;
 
 export interface Output {
   code: string;
