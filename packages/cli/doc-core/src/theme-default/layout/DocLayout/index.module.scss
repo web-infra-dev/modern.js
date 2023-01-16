@@ -32,17 +32,18 @@
 
 @media (min-width: 960px) {
   .docLayout {
-    width: 960px;
-    margin-left: calc((100vw - 960px) / 2);
+    width: 100%;
   }
 
   .content {
     margin-left: var(--modern-sidebar-width);
-    width: calc(960px - var(--modern-sidebar-width));
-    padding: 16px;
+    width: calc(100vw - var(--modern-sidebar-width));
+    padding: 16px 48px;
     :global(.modern-doc) {
-      padding-right: 64px;
-      width: calc(960px - var(--modern-sidebar-width) - 32px);
+      padding-right: 48px;
+      width: calc(
+        100vw - var(--modern-sidebar-width) - var(--modern-aside-width)
+      );
     }
   }
 
