@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
-import { PluginSvg } from '@/plugins/svg';
+import { builderPluginSvg } from '@/plugins/svg';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/svg', () => {
   it('export default url', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSvg()],
+      plugins: [builderPluginSvg()],
     });
     const config = await builder.unwrapWebpackConfig();
 
@@ -14,7 +14,7 @@ describe('plugins/svg', () => {
 
   it('export default Component', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSvg()],
+      plugins: [builderPluginSvg()],
       builderConfig: {
         output: {
           svgDefaultExport: 'component',
@@ -28,7 +28,7 @@ describe('plugins/svg', () => {
 
   it('should allow using output.dataUriLimit.svg to custom data uri limit', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSvg()],
+      plugins: [builderPluginSvg()],
       builderConfig: {
         output: {
           dataUriLimit: {
@@ -44,7 +44,7 @@ describe('plugins/svg', () => {
 
   it('should allow to use distPath.svg to modify dist path', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSvg()],
+      plugins: [builderPluginSvg()],
       builderConfig: {
         output: {
           distPath: {
@@ -60,7 +60,7 @@ describe('plugins/svg', () => {
 
   it('should allow to use filename.svg to modify filename', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSvg()],
+      plugins: [builderPluginSvg()],
       builderConfig: {
         output: {
           filename: {

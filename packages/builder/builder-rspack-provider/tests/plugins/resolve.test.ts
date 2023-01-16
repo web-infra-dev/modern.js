@@ -1,6 +1,6 @@
 import { expect, describe, it, vi } from 'vitest';
 import * as builderShared from '@modern-js/builder-shared';
-import { PluginResolve } from '../../src/plugins/resolve';
+import { builderPluginResolve } from '../../src/plugins/resolve';
 import { createBuilder } from '../helper';
 
 describe('plugins/resolve', () => {
@@ -10,7 +10,7 @@ describe('plugins/resolve', () => {
     );
 
     const builder = await createBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
     });
 
     const {
@@ -32,7 +32,7 @@ describe('plugins/resolve', () => {
     );
 
     const builder = await createBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
     });
 
     const {
@@ -52,7 +52,7 @@ describe('plugins/resolve', () => {
 
   it('should allow to use source.alias to config alias', async () => {
     const builder = await createBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
       builderConfig: {
         source: {
           alias: {
@@ -72,7 +72,7 @@ describe('plugins/resolve', () => {
 
   it('should support source.alias to be a function', async () => {
     const builder = await createBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
       builderConfig: {
         source: {
           alias() {
@@ -96,7 +96,7 @@ describe('plugins/resolve', () => {
     const mainFieldsOption = ['main', 'test', 'browser', ['module', 'exports']];
 
     const builder = await createBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
       builderConfig: {
         source: {
           resolveMainFields: mainFieldsOption,
@@ -123,7 +123,7 @@ describe('plugins/resolve', () => {
     };
 
     const builder = await createBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
       builderConfig: {
         source: {
           resolveMainFields: mainFieldsOption,

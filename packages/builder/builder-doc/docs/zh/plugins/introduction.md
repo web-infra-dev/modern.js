@@ -8,16 +8,11 @@ Builder 提供了一套轻量强大的插件系统，用以实现自身的大多
 - 修改或编译文件
 - 部署产物
 
-Builder 底层支持 webpack 和 rspack 等 bundler，并提供统一的 Node.js API 来抹平插件开发的差异，
-进而接入不同的上层框架、降低用户对底层 bundler 切换的感知。
-
-**用户可能无法在上层框架中直接使用 Builder 插件**。因为这些框架（如 modern.js）只复用了 Builder 提供的构建能力，
-针对其应用场景还会添加许多额外设计。
-<!-- TODO: 例如对于 modern.js 来说应当这样使用... -->
+Builder 底层支持 webpack 和 rspack 等 bundler，并提供统一的 Node.js API 来抹平插件开发的差异，进而接入不同的上层框架、降低用户对底层 bundler 切换的感知。
 
 ## 开发插件
 
-插件提供类似 `(options?: PluginOptions) => BuilderPlugin` 的函数作为入口。
+插件提供类似 `(options?: PluginOptions) => BuilderPlugin` 的函数作为入口，建议将插件函数命名为 `builderPluginXXX`。
 
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
@@ -26,7 +21,7 @@ export interface PluginFooOptions {
   message?: string;
 }
 
-export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
+export const builderPluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
   name: 'plugin-foo',
   setup(api) {
     api.onExit(() => {
@@ -37,7 +32,7 @@ export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
 });
 
 builder.addPlugins([
-  PluginFoo({ message: 'some other message.' })
+  builderPluginFoo({ message: 'some other message.' })
 ]);
 ```
 
@@ -72,7 +67,7 @@ Builder 不会接管底层 Bundler 的生命周期，相关生命周期钩子的
 整套流程可以通过这个简单的插件体现：
 
 ```ts
-export const PluginUploadDist = (): BuilderPlugin => ({
+export const builderPluginUploadDist = (): BuilderPlugin => ({
   name: 'plugin-upload-dist',
   setup(api) {
     api.modifyBuilderConfig(config => {
@@ -154,7 +149,7 @@ Loader 可以读取和处理不同类型的文件模块，具体参考 [concepts
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
-export const PluginTypeScriptExt = (): BuilderPlugin => ({
+export const builderPluginTypeScriptExt = (): BuilderPlugin => ({
   name: 'builder-typescript-ext',
   setup(api) {
     api.modifyWebpackChain(async chain => {
@@ -172,7 +167,7 @@ export const PluginTypeScriptExt = (): BuilderPlugin => ({
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
-export const PluginAdminPanel = (): BuilderPlugin => ({
+export const builderPluginAdminPanel = (): BuilderPlugin => ({
   name: 'builder-admin-panel',
   setup(api) {
     api.modifyWebpackChain(async chain => {
@@ -192,7 +187,7 @@ export const PluginAdminPanel = (): BuilderPlugin => ({
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import type { Options } from '@modern-js/inspector-webpack-plugin';
 
-export const PluginInspector = (options?: Options): BuilderPlugin => ({
+export const builderPluginInspector = (options?: Options): BuilderPlugin => ({
   name: 'builder-plugin-inspector',
   setup(api) {
     api.modifyWebpackChain(async chain => {

@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { PluginCss } from '@/plugins/css';
-import { PluginLess } from '@/plugins/less';
-import { PluginSass } from '@/plugins/sass';
-import { PluginRem } from '@/plugins/rem';
+import { builderPluginCss } from '@/plugins/css';
+import { builderPluginLess } from '@/plugins/less';
+import { builderPluginSass } from '@/plugins/sass';
+import { builderPluginRem } from '@/plugins/rem';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/rem', () => {
   it('should not run rem plugin without config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss(), PluginRem()],
+      plugins: [builderPluginCss(), builderPluginRem()],
       builderConfig: {},
     });
 
@@ -18,7 +18,7 @@ describe('plugins/rem', () => {
 
   it('should not run rem plugin when false', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss(), PluginRem()],
+      plugins: [builderPluginCss(), builderPluginRem()],
       builderConfig: {
         output: {
           convertToRem: false,
@@ -32,7 +32,12 @@ describe('plugins/rem', () => {
 
   it('should run rem plugin with default config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss(), PluginLess(), PluginSass(), PluginRem()],
+      plugins: [
+        builderPluginCss(),
+        builderPluginLess(),
+        builderPluginSass(),
+        builderPluginRem(),
+      ],
       builderConfig: {
         output: {
           convertToRem: true,
@@ -48,7 +53,7 @@ describe('plugins/rem', () => {
 
   it('should not run htmlPlugin with enableRuntime is false', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss(), PluginRem()],
+      plugins: [builderPluginCss(), builderPluginRem()],
       builderConfig: {
         output: {
           convertToRem: {
@@ -66,7 +71,7 @@ describe('plugins/rem', () => {
 
   it('should run rem plugin with custom config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss(), PluginRem()],
+      plugins: [builderPluginCss(), builderPluginRem()],
       builderConfig: {
         output: {
           convertToRem: {
@@ -85,7 +90,7 @@ describe('plugins/rem', () => {
 
   it('should not run rem plugin when target is node', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss(), PluginRem()],
+      plugins: [builderPluginCss(), builderPluginRem()],
       builderConfig: {
         output: {
           convertToRem: true,
@@ -101,7 +106,7 @@ describe('plugins/rem', () => {
 
   it('should not run rem plugin when target is web-worker', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss(), PluginRem()],
+      plugins: [builderPluginCss(), builderPluginRem()],
       builderConfig: {
         output: {
           convertToRem: true,

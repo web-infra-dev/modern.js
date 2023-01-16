@@ -17,7 +17,7 @@ function applyProfile({
 /**
  * Apply some configs of builder performance
  */
-export const PluginPerformance = (): BuilderPlugin => ({
+export const builderPluginPerformance = (): BuilderPlugin => ({
   name: 'builder-plugin-performance',
 
   setup(api) {

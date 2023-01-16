@@ -8,7 +8,7 @@ import {
 import { getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
-export const PluginImage = (): BuilderPlugin => ({
+export const builderPluginImage = (): BuilderPlugin => ({
   name: 'builder-plugin-image',
 
   setup(api) {

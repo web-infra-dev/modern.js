@@ -7,7 +7,7 @@ import {
 import _ from '@modern-js/utils/lodash';
 import { getCompiledPath } from '../shared';
 
-export function PluginLess(): BuilderPlugin {
+export function builderPluginLess(): BuilderPlugin {
   return {
     name: 'builder-plugin-less',
     setup(api) {

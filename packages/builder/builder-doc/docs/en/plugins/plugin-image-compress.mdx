@@ -24,20 +24,20 @@ pnpm add @modern-js/builder-plugin-image-compress -D
 In upper-level frameworks such as {MODERN_JS} or EdenX, you can register image compress plugins through the `builderPlugins` config:
 
 ```ts
-import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
+import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-compress';
 
 export default {
-  builderPlugins: [PluginImageCompress()],
+  builderPlugins: [builderPluginImageCompress()],
 };
 ```
 
 If you are using the Builder's Node API, you can register image compress plugins through the `addPlugins` method:
 
 ```js
-import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
+import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-compress';
 
 // add the plugin to the builder instance
-builder.addPlugins([PluginImageCompress()]);
+builder.addPlugins([builderPluginImageCompress()]);
 ```
 
 ## Config
@@ -48,18 +48,18 @@ Or use the object format configuration and specify the compressor in the `use` f
 By default, the plugin will enable `jpeg`, `png`, `ico` image compressors, which are equivalent to the following two examples:
 
 ```js
-PluginImageCompress(['jpeg', 'png', 'ico']);
+builderPluginImageCompress(['jpeg', 'png', 'ico']);
 ```
 
 ```js
-PluginImageCompress([{ use: 'jpeg' }, { use: 'png' }, { use: 'ico' }]);
+builderPluginImageCompress([{ use: 'jpeg' }, { use: 'png' }, { use: 'ico' }]);
 ```
 
 The default configuration can be overridden by specifying a configuration item.
 For example, to allow the jpeg compressor to recognize new extension name and to set the quality of the png compressor.
 
 ```js
-PluginImageCompress([
+builderPluginImageCompress([
   { use: 'jpeg', test: /\.(jpg|jpeg|jpe)$/ },
   { use: 'png', minQuality: 50 },
   'ico',
@@ -70,7 +70,7 @@ The default `png` compressor is lossy.
 If you want to replace it with a lossless compressor, you can use the following configuration.
 
 ```js
-PluginImageCompress(['jpeg', 'pngLossless', 'ico']);
+builderPluginImageCompress(['jpeg', 'pngLossless', 'ico']);
 ```
 
 The list of configuration items will eventually be converted to the corresponding bundler loader configuration, so compressors follow the same bottom-to-top matching rule.
@@ -78,7 +78,7 @@ The list of configuration items will eventually be converted to the correspondin
 For example, the `png` compressor will take precedence over the `pngLossless` compressor for the following configuration:
 
 ```js
-PluginImageCompress(['jpeg', 'pngLossless', 'ico', 'png']);
+builderPluginImageCompress(['jpeg', 'pngLossless', 'ico', 'png']);
 ```
 
 For more information on compressors, please visit [@napi-rs/image](https://image.napi.rs/docs).

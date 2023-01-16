@@ -1,7 +1,7 @@
 import { setConfig, TARGET_ID_MAP } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
-export const PluginProgress = (): BuilderPlugin => ({
+export const builderPluginProgress = (): BuilderPlugin => ({
   name: 'builder-plugin-progress',
   setup(api) {
     api.modifyRspackConfig(async (rspackConfig, { target }) => {

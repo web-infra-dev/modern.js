@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createStubBuilder } from '@/stub';
-import { PluginDefine } from '@/plugins/define';
+import { builderPluginDefine } from '@/plugins/define';
 
 describe('plugins/define', () => {
   it('should match snapshot', async () => {
@@ -18,7 +18,7 @@ describe('plugins/define', () => {
       cov: () => process.stdout.write('cov'),
     };
     const builder = await createStubBuilder({
-      plugins: [PluginDefine()],
+      plugins: [builderPluginDefine()],
       builderConfig: { source: { globalVars, define } },
     });
     expect(await builder.unwrapWebpackConfig()).toMatchInlineSnapshot(`

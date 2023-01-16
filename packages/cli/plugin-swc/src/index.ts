@@ -1,6 +1,6 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils';
-import { PluginSwc } from '@modern-js/builder-plugin-swc';
+import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-swc',
@@ -14,7 +14,7 @@ export default (): CliPlugin<AppTools> => ({
       const context = api.useAppContext();
       if (context.builder) {
         const config = api.useResolvedConfigContext();
-        context.builder.addPlugins([PluginSwc(config.tools.swc)]);
+        context.builder.addPlugins([builderPluginSwc(config.tools.swc)]);
       }
     },
   }),

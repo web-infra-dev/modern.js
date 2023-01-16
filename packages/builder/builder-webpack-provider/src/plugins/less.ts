@@ -10,7 +10,7 @@ export type LessLoaderUtils = {
   addExcludes: FileFilterUtil;
 };
 
-export function PluginLess(): BuilderPlugin {
+export function builderPluginLess(): BuilderPlugin {
   return {
     name: 'builder-plugin-less',
     setup(api) {

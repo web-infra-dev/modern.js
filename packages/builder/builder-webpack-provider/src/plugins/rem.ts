@@ -6,7 +6,7 @@ const defaultOptions: RemOptions = {
   rootFontSize: 50,
 };
 
-export const PluginRem = (): BuilderPlugin => ({
+export const builderPluginRem = (): BuilderPlugin => ({
   name: 'builder-plugin-rem',
 
   setup(api) {
