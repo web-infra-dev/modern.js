@@ -310,7 +310,7 @@ import SelfRouteExample from '@site-docs/components/self-route-example.md';
 <SelfRouteExample />
 
 :::note
-Under self-controlled routing, if developers want to use the [Loader API](https://reactrouter.com/en/main/hooks/use-loader-data#useloaderdata) capabilities in React Router 6 in SSR will be relatively complicated, it is recommended to use conventional routing directly. Modern.js has already encapsulated everything for you.
+Modern.js has a series of resource loading and rendering optimizations by default for convention-based routing, and it is recommended that developers use convention-based routing.
 :::
 
 ## Other
