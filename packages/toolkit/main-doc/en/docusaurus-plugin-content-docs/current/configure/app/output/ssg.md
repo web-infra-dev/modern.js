@@ -97,8 +97,6 @@ As mentioned above, **Self-Controlled Routing** only enables SSG configuration f
 
 Set specific routes in `output.ssg` can tell Modern.js to enable the SSG of these client side routes. For example, the content of the above `src/App.tsx` file is:
 
-import SelfRouteExample from '@site-docs/components/self-route-example.md';
-
 <SelfRouteExample />
 
 

@@ -161,5 +161,11 @@ export const walk = async (
     delete finalRoute.path;
   }
 
+  route.children = route.children?.filter(childRoute => childRoute);
+
+  if (route.children && route.children.length === 0 && !route.index) {
+    return null;
+  }
+
   return finalRoute;
 };
