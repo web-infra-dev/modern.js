@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { PluginTsChecker } from '@/plugins/tsChecker';
+import { builderPluginTsChecker } from '@/plugins/tsChecker';
 import { createStubBuilder } from '@/stub';
 import type { Context } from '@/types';
 
@@ -10,7 +10,7 @@ describe('plugins/tsChecker', () => {
 
   it('should disable ts-checker when output.disableTsChecker is true', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginTsChecker()],
+      plugins: [builderPluginTsChecker()],
       context,
       builderConfig: {
         output: {
@@ -26,7 +26,7 @@ describe('plugins/tsChecker', () => {
 
   it('should enable tsChecker plugin by default', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginTsChecker()],
+      plugins: [builderPluginTsChecker()],
       context,
       builderConfig: {
         tools: {},
@@ -40,7 +40,7 @@ describe('plugins/tsChecker', () => {
 
   it('should enable tsChecker plugin when tools.tsChecker is empty object', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginTsChecker()],
+      plugins: [builderPluginTsChecker()],
       context,
       builderConfig: {
         tools: {
@@ -56,7 +56,7 @@ describe('plugins/tsChecker', () => {
 
   it('should allow to modify the config of tsChecker plugin', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginTsChecker()],
+      plugins: [builderPluginTsChecker()],
       context,
       builderConfig: {
         tools: {
@@ -72,7 +72,7 @@ describe('plugins/tsChecker', () => {
 
   it('should only apply one tsChecker plugin when there is multiple targets', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginTsChecker()],
+      plugins: [builderPluginTsChecker()],
       context,
       target: ['web', 'node'],
     });

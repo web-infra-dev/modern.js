@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createBuilder } from '../helper';
-import { PluginDefine } from '@/plugins/define';
+import { builderPluginDefine } from '@/plugins/define';
 
 describe('plugins/define', () => {
   it('should match snapshot', async () => {
@@ -17,7 +17,7 @@ describe('plugins/define', () => {
       NAME: JSON.stringify('Jack'),
     };
     const builder = await createBuilder({
-      plugins: [PluginDefine()],
+      plugins: [builderPluginDefine()],
       builderConfig: { source: { globalVars, define } },
     });
     const {

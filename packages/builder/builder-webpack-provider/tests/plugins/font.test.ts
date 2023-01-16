@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
-import { PluginFont } from '@/plugins/font';
+import { builderPluginFont } from '@/plugins/font';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/font', () => {
   it('should add font rules correctly', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginFont()],
+      plugins: [builderPluginFont()],
     });
 
     const config = await builder.unwrapWebpackConfig();
@@ -14,7 +14,7 @@ describe('plugins/font', () => {
 
   it('should allow to use distPath.font to modify dist path', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginFont()],
+      plugins: [builderPluginFont()],
       builderConfig: {
         output: {
           distPath: {
@@ -30,7 +30,7 @@ describe('plugins/font', () => {
 
   it('should allow to use distPath.font to be empty string', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginFont()],
+      plugins: [builderPluginFont()],
       builderConfig: {
         output: {
           distPath: {
@@ -46,7 +46,7 @@ describe('plugins/font', () => {
 
   it('should allow to use filename.font to modify filename', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginFont()],
+      plugins: [builderPluginFont()],
       builderConfig: {
         output: {
           filename: {

@@ -67,7 +67,7 @@ Builder 不会接管底层 Bundler 的生命周期，相关生命周期钩子的
 整套流程可以通过这个简单的插件体现：
 
 ```ts
-export const PluginUploadDist = (): BuilderPlugin => ({
+export const builderPluginUploadDist = (): BuilderPlugin => ({
   name: 'plugin-upload-dist',
   setup(api) {
     api.modifyBuilderConfig(config => {
@@ -149,7 +149,7 @@ Loader 可以读取和处理不同类型的文件模块，具体参考 [concepts
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
-export const PluginTypeScriptExt = (): BuilderPlugin => ({
+export const builderPluginTypeScriptExt = (): BuilderPlugin => ({
   name: 'builder-typescript-ext',
   setup(api) {
     api.modifyWebpackChain(async chain => {
@@ -167,7 +167,7 @@ export const PluginTypeScriptExt = (): BuilderPlugin => ({
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
-export const PluginAdminPanel = (): BuilderPlugin => ({
+export const builderPluginAdminPanel = (): BuilderPlugin => ({
   name: 'builder-admin-panel',
   setup(api) {
     api.modifyWebpackChain(async chain => {
@@ -187,7 +187,7 @@ export const PluginAdminPanel = (): BuilderPlugin => ({
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import type { Options } from '@modern-js/inspector-webpack-plugin';
 
-export const PluginInspector = (options?: Options): BuilderPlugin => ({
+export const builderPluginInspector = (options?: Options): BuilderPlugin => ({
   name: 'builder-plugin-inspector',
   setup(api) {
     api.modifyWebpackChain(async chain => {

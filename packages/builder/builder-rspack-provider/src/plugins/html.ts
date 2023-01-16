@@ -74,7 +74,7 @@ export const isHtmlDisabled = (
   target === 'node' ||
   target === 'web-worker';
 
-export const PluginHtml = (): BuilderPlugin => ({
+export const builderPluginHtml = (): BuilderPlugin => ({
   name: 'builder-plugin-html',
 
   setup(api) {

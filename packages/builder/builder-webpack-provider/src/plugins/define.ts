@@ -1,7 +1,7 @@
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin, SourceConfig } from '../types';
 
-export const PluginDefine = (): BuilderPlugin => ({
+export const builderPluginDefine = (): BuilderPlugin => ({
   name: 'builder-plugin-define',
 
   async setup(api) {

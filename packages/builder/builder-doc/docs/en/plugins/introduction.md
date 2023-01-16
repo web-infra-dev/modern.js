@@ -66,7 +66,7 @@ But sometimes you may need to read and change the public config of the Builder. 
 Refer to this tiny example:
 
 ```ts
-export const PluginUploadDist = (): BuilderPlugin => ({
+export const builderPluginUploadDist = (): BuilderPlugin => ({
   name: 'plugin-upload-dist',
   setup(api) {
     api.modifyBuilderConfig(config => {
@@ -152,7 +152,7 @@ The webpack loaders can be used to load and transform various file types. For mo
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
-export const PluginTypeScriptExt = (): BuilderPlugin => ({
+export const builderPluginTypeScriptExt = (): BuilderPlugin => ({
   name: 'builder-typescript-ext',
   setup(api) {
     api.modifyWebpackChain(async chain => {
@@ -170,7 +170,7 @@ export const PluginTypeScriptExt = (): BuilderPlugin => ({
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
-export const PluginAdminPanel = (): BuilderPlugin => ({
+export const builderPluginAdminPanel = (): BuilderPlugin => ({
   name: 'builder-admin-panel',
   setup(api) {
     api.modifyWebpackChain(async chain => {
@@ -190,7 +190,7 @@ Integrate existing webpack plugins to migrate your applications:
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import type { Options } from '@modern-js/inspector-webpack-plugin';
 
-export const PluginInspector = (options?: Options): BuilderPlugin => ({
+export const builderPluginInspector = (options?: Options): BuilderPlugin => ({
   name: 'builder-plugin-inspector',
   setup(api) {
     api.modifyWebpackChain(async chain => {

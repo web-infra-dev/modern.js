@@ -1,12 +1,12 @@
 import { expect, describe, it } from 'vitest';
-import { PluginEntry } from '@builder/plugins/entry';
-import { PluginHtml } from '../../src/plugins/html';
+import { builderPluginEntry } from '@builder/plugins/entry';
+import { builderPluginHtml } from '../../src/plugins/html';
 import { createBuilder, matchPlugin } from '../helper';
 
 describe('plugins/html', () => {
   it('should register html plugin correctly', async () => {
     const builder = await createBuilder({
-      plugins: [PluginEntry(), PluginHtml()],
+      plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
         main: './src/main.ts',
       },
@@ -21,7 +21,7 @@ describe('plugins/html', () => {
 
   it('should register crossorigin plugin when using html.crossorigin', async () => {
     const builder = await createBuilder({
-      plugins: [PluginEntry(), PluginHtml()],
+      plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
         main: './src/main.ts',
       },
@@ -43,7 +43,7 @@ describe('plugins/html', () => {
 
   it('should register appIcon plugin when using html.appIcon', async () => {
     const builder = await createBuilder({
-      plugins: [PluginEntry(), PluginHtml()],
+      plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
         main: './src/main.ts',
       },
@@ -63,7 +63,7 @@ describe('plugins/html', () => {
 
   it('should allow to set favicon by html.favicon option', async () => {
     const builder = await createBuilder({
-      plugins: [PluginEntry(), PluginHtml()],
+      plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
         main: './src/main.ts',
       },
@@ -82,7 +82,7 @@ describe('plugins/html', () => {
 
   it('should allow to set inject by html.inject option', async () => {
     const builder = await createBuilder({
-      plugins: [PluginEntry(), PluginHtml()],
+      plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
         main: './src/main.ts',
       },
@@ -104,7 +104,7 @@ describe('plugins/html', () => {
     process.env.NODE_ENV = 'production';
 
     const builder = await createBuilder({
-      plugins: [PluginEntry(), PluginHtml()],
+      plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
         main: './src/main.ts',
       },
@@ -120,7 +120,7 @@ describe('plugins/html', () => {
 
   it('should allow to modify plugin options by tools.htmlPlugin', async () => {
     const builder = await createBuilder({
-      plugins: [PluginEntry(), PluginHtml()],
+      plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
         main: './src/main.ts',
       },
@@ -144,7 +144,7 @@ describe('plugins/html', () => {
 
   it('should support multi entry', async () => {
     const builder = await createBuilder({
-      plugins: [PluginEntry(), PluginHtml()],
+      plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
         main: './src/main.ts',
         foo: './src/foo.ts',
@@ -166,7 +166,7 @@ describe('plugins/html', () => {
 
   it('should allow to disable html plugin', async () => {
     const builder = await createBuilder({
-      plugins: [PluginEntry(), PluginHtml()],
+      plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
         main: './src/main.ts',
       },
