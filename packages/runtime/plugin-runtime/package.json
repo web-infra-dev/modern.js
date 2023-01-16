@@ -78,9 +78,9 @@
       "default": "./dist/js/treeshaking/router/index.js"
     },
     "./router/server": {
-      "jsnext:source": "./src/router/server.ts",
-      "node": "./dist/js/node/router/server.js",
-      "default": "./dist/js/treeshaking/router/server.js"
+      "jsnext:source": "./src/router/runtime/server.ts",
+      "node": "./dist/js/node/router/runtime/server.js",
+      "default": "./dist/js/treeshaking/router/runtime/server.js"
     }
   },
   "typesVersions": {
