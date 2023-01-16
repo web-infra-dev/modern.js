@@ -1,11 +1,16 @@
-import { inquirer } from '@modern-js/utils';
+import { chalk, inquirer } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types';
+import { i18n, localeKeys } from '../locale';
 
-export const getSpecifiedEntries = async (
+/**
+ * Allow user to select entrypoints to build.
+ */
+export const getSelectedEntries = async (
   entry: string[] | boolean,
   entrypoints: Entrypoint[],
 ): Promise<string[]> => {
   const entryNames = entrypoints.map(e => e.entryName);
+
   if (!entry) {
     return entryNames;
   }
@@ -16,12 +21,11 @@ export const getSpecifiedEntries = async (
         type: 'checkbox',
         name: 'selected',
         choices: entryNames,
-        message: '请选择需要构建的入口',
+        message: i18n.t(localeKeys.command.dev.selectEntry),
         validate(answer: string[]) {
           if (answer.length < 1) {
-            return 'You must choose at least one topping.';
+            return i18n.t(localeKeys.command.dev.requireEntry);
           }
-
           return true;
         },
       },
@@ -33,9 +37,9 @@ export const getSpecifiedEntries = async (
   entry.forEach(name => {
     if (!entryNames.includes(name)) {
       throw new Error(
-        `can not found entry ${name}, compiler entry should in ${entryNames.join(
-          ', ',
-        )}`,
+        `Can not found entry ${chalk.yellow(
+          name,
+        )}, the entry should be one of ${chalk.yellow(entryNames.join(', '))}`,
       );
     }
   });

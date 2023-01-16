@@ -151,18 +151,13 @@ export function Nav(props: NavProps) {
   };
   return (
     <header
-      z="4"
-      className="top-0 left-0 md:border-b lg:border-b relative md:fixed"
+      className={`top-0 left-0 relative md:fixed w-full`}
       style={{
         borderBottom: '1px solid var(--modern-c-divider-light)',
+        zIndex: 'var(--modern-z-index-nav)',
       }}
-      w="full"
     >
-      <div
-        className="relative"
-        p="x-6"
-        transition="background-color duration-500"
-      >
+      <div className={styles.navContainer} p="x-6">
         <div
           flex="~"
           justify="between"

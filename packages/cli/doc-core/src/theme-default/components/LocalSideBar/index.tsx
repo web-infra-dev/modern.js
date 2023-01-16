@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { SidebarGroup, SidebarItem } from 'shared/types';
+import { NormalizedSidebarGroup, SidebarItem } from 'shared/types';
 import { SideBar } from '../Siderbar';
 import MenuIcon from '../../assets/menu.svg';
 import styles from './index.module.scss';
@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 interface Props {
   pathname: string;
   langRoutePrefix: string;
-  sidebarData: (SidebarGroup | SidebarItem)[];
+  sidebarData: (NormalizedSidebarGroup | SidebarItem)[];
 }
 
 export function SideMenu(props: Props) {

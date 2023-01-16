@@ -1,10 +1,11 @@
 import { Server } from '@modern-js/server';
+import { chalk } from '@modern-js/utils';
 import {
   closeServer,
   createServer,
   getServer,
 } from '../src/utils/createServer';
-import { getSpecifiedEntries } from '../src/utils/getSpecifiedEntries';
+import { getSelectedEntries } from '../src/utils/getSelectedEntries';
 import { safeReplacer } from '../src/utils/config';
 
 jest.mock('@modern-js/utils', () => ({
@@ -21,7 +22,7 @@ jest.mock('@modern-js/utils', () => ({
 
 describe('test app-tools utils', () => {
   it('should return all entryNames correctly', async () => {
-    const checked = await getSpecifiedEntries(false, [
+    const checked = await getSelectedEntries(false, [
       { entryName: 'a' },
       { entryName: 'b' },
     ] as any);
@@ -30,7 +31,7 @@ describe('test app-tools utils', () => {
   });
 
   it('should return spec entry', async () => {
-    const checked = await getSpecifiedEntries(['a'], [
+    const checked = await getSelectedEntries(['a'], [
       { entryName: 'a' },
       { entryName: 'b' },
     ] as any);
@@ -39,7 +40,7 @@ describe('test app-tools utils', () => {
   });
 
   it('should return select entry', async () => {
-    const checked = await getSpecifiedEntries(true, [
+    const checked = await getSelectedEntries(true, [
       { entryName: 'a' },
       { entryName: 'b' },
     ] as any);
@@ -48,11 +49,13 @@ describe('test app-tools utils', () => {
   });
 
   it('should get error if entry not allow', resolve => {
-    getSpecifiedEntries(['c'], [
+    getSelectedEntries(['c'], [
       { entryName: 'a' },
       { entryName: 'b' },
     ] as any).catch(e => {
-      expect((e as Error).message).toMatch('can not found entry c');
+      expect((e as Error).message).toMatch(
+        `Can not found entry ${chalk.yellow('c')}`,
+      );
       resolve();
     });
   });

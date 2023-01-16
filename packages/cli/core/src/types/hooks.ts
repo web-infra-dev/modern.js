@@ -27,6 +27,7 @@ export type BaseHooks<
   }>;
   validateSchema: ParallelWorkflow<void>;
   prepare: AsyncWorkflow<void, void>;
+  afterPrepare: AsyncWorkflow<void, void>;
   commands: AsyncWorkflow<{ program: Command }, void>;
   beforeExit: AsyncWorkflow<void, void>;
   addRuntimeExports: AsyncWaterfall<void>;
