@@ -8,7 +8,6 @@ import {
 } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
-import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
 import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
@@ -25,24 +24,8 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
   normalizedConfig = { ...normalizedConfig, cliOptions: options };
   ResolvedConfigContext.set(normalizedConfig);
 
-  const {
-    appDirectory,
-    distDirectory,
-    port,
-    apiOnly,
-    entrypoints,
-    serverConfigFile,
-  } = appContext;
-  const checkedEntries = await getSpecifiedEntries(
-    options.entry || false,
-    entrypoints,
-  );
-
-  api.setAppContext({
-    ...appContext,
-    checkedEntries,
-  });
-  appContext.checkedEntries = checkedEntries;
+  const { appDirectory, distDirectory, port, apiOnly, serverConfigFile } =
+    appContext;
 
   await buildServerConfig({
     appDirectory,

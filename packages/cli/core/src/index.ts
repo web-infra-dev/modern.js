@@ -182,6 +182,8 @@ const createCli = () => {
 
     await hooksRunner.prepare();
 
+    await hooksRunner.afterPrepare();
+
     return {
       resolved,
       appContext: useAppContext(),

@@ -25,7 +25,7 @@ pnpm add @modern-js/builder-plugin-esbuild -D
 
 ### Register
 
-In upper-level frameworks such as Modern.js or EdenX, you can register esbuild plugins through the `builderPlugins` config:
+In upper-level frameworks such as {MODERN_JS} or EdenX, you can register esbuild plugins through the `builderPlugins` config:
 
 ```ts
 import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';

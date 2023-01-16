@@ -19,6 +19,7 @@ const baseHooks: BaseHooks<{}> = {
   resolvedConfig: createAsyncWaterfall(),
   validateSchema: createParallelWorkflow(),
   prepare: createAsyncWorkflow(),
+  afterPrepare: createAsyncWorkflow(),
   commands: createAsyncWorkflow(),
   beforeExit: createAsyncWorkflow(),
   addRuntimeExports: createAsyncWaterfall(),

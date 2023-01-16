@@ -39,7 +39,7 @@ export function DocLayout(props: DocLayoutProps) {
     (frontmatter?.outline ?? themeConfig?.outline ?? true);
   const isOverviewPage = frontmatter?.overview ?? false;
   return (
-    <div p="t-0 b-24 md:6" m="md:t-14" className={styles.docLayout}>
+    <div p="t-0" m="md:t-14" className={styles.docLayout}>
       {beforeDoc}
       {hasSidebar ? (
         <SideMenu
@@ -48,8 +48,8 @@ export function DocLayout(props: DocLayoutProps) {
           sidebarData={sidebarData}
         />
       ) : null}
-      <div flex="~ 1 shrink-0" className={`${styles.content}`}>
-        <div className={`max-w-full md:max-w-960px lg:min-w-640px relative`}>
+      <div flex="~ shrink-0" className={`${styles.content}`}>
+        <div w="full">
           {isOverviewPage ? (
             <Overview />
           ) : (
@@ -57,27 +57,24 @@ export function DocLayout(props: DocLayoutProps) {
               <Content />
             </div>
           )}
-
           {beforeDocFooter}
           <DocFooter />
         </div>
-        <div className="relative hidden lg:block">
-          <div className={styles.asideContainer}>
-            <div
-              style={{
-                minHeight: 'calc(100vh - (var(--modern-nav-height) + 32px))',
-              }}
-            >
-              {hasAside ? (
-                <div m="l-16">
-                  {beforeOutline}
-                  <Aside headers={headers} outlineTitle={outlineTitle} />
-                  {afterOutline}
-                </div>
-              ) : null}
+
+        {hasAside ? (
+          <div
+            className={styles.asideContainer}
+            style={{
+              minHeight: 'calc(100vh - (var(--modern-nav-height) + 32px))',
+            }}
+          >
+            <div>
+              {beforeOutline}
+              <Aside headers={headers} outlineTitle={outlineTitle} />
+              {afterOutline}
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
       {afterDoc}
     </div>

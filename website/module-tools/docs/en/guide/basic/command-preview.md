@@ -204,5 +204,3 @@ Options:
 The `modern upgrade` command is used to upgrade the project Modern.js related dependencies to the latest version.
 
 Executing the command `npx modern upgrade` in the project root directory will update the Modern.js dependencies in `package.json` of the currently executing project to the latest version by default.
-
-command is provided in `@modern-js/module-tools` version **>= 1.17.0**, previous versions can be upgraded using `npx @modern-js/upgrade`.

@@ -1,24 +1,14 @@
-@media (min-width: 960px) {
-  :global(.dark) .container {
-    background: rgba(36, 36, 36);
-  }
+.navContainer {
+  max-width: 1440px;
+  margin: auto;
+  background: rgba(255, 255, 255);
 }
 
 .rightNav {
   display: none;
 }
 
-@media (min-width: 768px) {
-  .rightNav {
-    display: flex;
-    align-items: center;
-  }
-}
-.container {
-  background: rgba(255, 255, 255);
-}
-
-.container :deep(*) {
+.navContainer :deep(*) {
   pointer-events: all;
 }
 
@@ -41,4 +31,17 @@
   height: 24px;
   background-color: var(--modern-c-divider-light);
   content: ' ';
+}
+
+@media (min-width: 768px) {
+  .rightNav {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (min-width: 960px) {
+  :global(.dark) .navContainer {
+    background: rgba(36, 36, 36);
+  }
 }

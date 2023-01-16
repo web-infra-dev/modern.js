@@ -21,7 +21,7 @@ pnpm install @modern-js/builder-plugin-stylus -D
 
 ### 注册插件
 
-在 Modern.js / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 Stylus 插件：
+在 {MODERN_JS} / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 Stylus 插件：
 
 ```ts
 import { PluginStylus } from '@modern-js/builder-plugin-stylus';

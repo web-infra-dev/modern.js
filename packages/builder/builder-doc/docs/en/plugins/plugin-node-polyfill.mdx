@@ -25,7 +25,7 @@ pnpm add @modern-js/builder-plugin-node-polyfill -D
 
 ### Register
 
-In upper-level frameworks such as Modern.js or EdenX, you can register node polyfill plugins through the `builderPlugins` config:
+In upper-level frameworks such as {MODERN_JS} or EdenX, you can register node polyfill plugins through the `builderPlugins` config:
 
 ```ts
 import { PluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';

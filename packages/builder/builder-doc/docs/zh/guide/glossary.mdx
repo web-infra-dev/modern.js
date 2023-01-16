@@ -41,14 +41,14 @@ Builder Provider 是 Builder 的组成部分之一，Provider 基于特定 bundl
 - `@modern-js/builder-webpack-provider`：底层基于 webpack 来实现。
 - `@modern-js/builder-rspack-provider`：底层基于 rspack 来实现。
 
-## Modern.js
+## {MODERN_JS}
 
 Web 工程方案。
 
-Modern.js 由字节跳动 Web Infra 团队开源，提供了一系列 Web 开发的最佳工程实践，如前后端一体化、约定式路由、构建方案、样式方案等。
+{MODERN_JS} 由字节跳动 Web Infra 团队开源，提供了一系列 Web 开发的最佳工程实践，如前后端一体化、约定式路由、构建方案、样式方案等。
 
-[Modern.js 官网地址](https://modernjs.dev/)。
+- [{MODERN_JS} 代码仓库](https://github.com/modern-js-dev/modern.js)。
 
 ## EdenX
 
-字节跳动内部的 Web 工程方案，基于 Modern.js 实现。
+字节跳动内部的 Web 工程方案，基于 {MODERN_JS} 实现。

@@ -24,7 +24,3 @@ export default defineConfig({
   },
 });
 ```
-
-import CommandTip from '@site-docs-en/components/command-tip.md'
-
-<CommandTip />

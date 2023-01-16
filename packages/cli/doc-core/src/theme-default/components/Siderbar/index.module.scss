@@ -19,6 +19,7 @@
 :global(.dark) .sidebar {
   box-shadow: var(--modern-shadow-1);
 }
+
 .sidebar.open {
   opacity: 1;
   visibility: visible;
@@ -28,13 +29,13 @@
 
 @media (min-width: 960px) {
   .sidebar {
-    z-index: 1;
-    margin-top: var(--modern-nav-height);
+    z-index: 0;
+    margin-top: calc(var(--modern-nav-height));
     padding-bottom: 128px;
-    width: var(--modern-sidebar-width);
     opacity: 1;
     visibility: visible;
     box-shadow: none;
+    width: var(--modern-sidebar-width);
     transform: translateX(0);
   }
 }
@@ -43,6 +44,7 @@
   .sidebar {
     padding-left: 16px;
     width: var(--modern-sidebar-width);
+    margin-left: calc((100vw - 1440px) / 2);
   }
 }
 

@@ -21,7 +21,7 @@ pnpm add @modern-js/builder-plugin-image-compress -D
 
 ### 注册插件
 
-在 Modern.js / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 Image Compress 插件：
+在 {MODERN_JS} / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 Image Compress 插件：
 
 ```ts
 import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
