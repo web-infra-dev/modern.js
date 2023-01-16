@@ -305,9 +305,20 @@ export const config = (): AppConfig => {
 
 With `src/App.tsx` as the agreed entry, Modern.js will not do additional operations with multiple routes, developers can use the React Router 6 API for development by themselves, for example:
 
-import SelfRouteExample from '@site-docs/components/self-route-example.md';
+```ts title="src/App.tsx"
+import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
-<SelfRouteExample />
+export default () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<div>index</div>} />
+        <Route path="about" element={<div>about</div>} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+```
 
 :::note
 Modern.js has a series of resource loading and rendering optimizations by default for convention-based routing, and it is recommended that developers use convention-based routing.

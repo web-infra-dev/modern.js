@@ -374,9 +374,20 @@ export const init = (context: RuntimeContext) => {
 
 以 `src/App.tsx` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发，例如：
 
-import SelfRouteExample from '@site-docs/components/self-route-example.md';
+```ts title="src/App.tsx"
+import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
-<SelfRouteExample />
+export default () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<div>index</div>} />
+        <Route path="about" element={<div>about</div>} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+```
 
 :::note
 Modern.js 默认对约定式路由做了一系列资源加载及渲染上的优化，推荐开发者使用约定式路由。
