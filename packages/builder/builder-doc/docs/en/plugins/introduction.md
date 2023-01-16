@@ -8,12 +8,7 @@ Developing plugins to change the Builder's behavior and introduce extra features
 - Modify and compile file modules.
 - Deploy your application.
 
-Builder can use webpack or rspack as bundler, expose unified Node.js API,
-and integrate into different frameworks. Users can painlessly switch between bundlers.
-
-**But users can't use Builder plugins directly in frameworks.**
-Because these frameworks (e.g. modern.js) not only reuse the compiling features
-provided by the Builder, but can also be built with lots of other parts.
+Builder can use webpack or rspack as bundler, expose unified Node.js API, and integrate into different frameworks. Users can painlessly switch between bundlers.
 
 ## Write a plugin
 
