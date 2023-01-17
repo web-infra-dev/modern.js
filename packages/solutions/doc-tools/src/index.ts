@@ -1,8 +1,8 @@
 import type { CliPlugin } from '@modern-js/core';
-import type { UserConfig, Sidebar } from '@modern-js/doc-core';
+import type { UserConfig, Sidebar, NavItem } from '@modern-js/doc-core';
 import { schema } from './config/schema';
 
-export type { CliPlugin, Sidebar };
+export type { CliPlugin, Sidebar, NavItem, UserConfig };
 
 export default (): CliPlugin => ({
   name: '@modern-js/doc-tools',
