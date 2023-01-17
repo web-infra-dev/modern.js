@@ -1,6 +1,9 @@
 import _ from '@modern-js/utils/lodash';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
+export const replacePlaceholder = (url: string, port: number) =>
+  url.replace(/<port>/g, String(port));
+
 export function builderPluginStartUrl(): DefaultBuilderPlugin {
   return {
     name: 'builder-plugin-start-url',
@@ -34,7 +37,7 @@ export function builderPluginStartUrl(): DefaultBuilderPlugin {
         } else {
           urls.push(
             ..._.castArray(startUrl).map(item =>
-              item.replace(/<port>/g, String(port)),
+              replacePlaceholder(item, port),
             ),
           );
         }
