@@ -167,7 +167,7 @@ export default defineConfig({
   doc: {
     root: path.join(__dirname, 'docs'),
     lang: 'zh',
-    base: isProd ? '/builder/' : '/',
+    base: '/builder/',
     title: 'Modern.js Builder',
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     markdown: {
@@ -217,6 +217,9 @@ export default defineConfig({
         globalVars: {
           MODERN_JS: 'Modern.js',
         },
+      },
+      dev: {
+        startUrl: 'http://localhost:<port>/builder/',
       },
     },
   },

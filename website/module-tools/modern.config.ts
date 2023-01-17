@@ -56,7 +56,7 @@ export default defineConfig({
   doc: {
     root: path.join(__dirname, 'docs'),
     lang: 'zh',
-    base: isDevCommand ? '' : '/module-tools/',
+    base: '/module-tools/',
     title: 'Module Tools',
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     // The plugins for doc tools.
@@ -115,6 +115,11 @@ export default defineConfig({
           description: 'Module Engineering Solutions',
         },
       ],
+    },
+  },
+  builderConfig: {
+    dev: {
+      startUrl: 'http://localhost:<port>/module-tools/',
     },
   },
 });
