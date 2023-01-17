@@ -4,11 +4,11 @@ import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 /**
  * Usage:
  *
- *   const { PluginNodePolyfill } = await import('@modern-js/builder-plugin-node-polyfill');
+ *   const { builderPluginNodePolyfill } = await import('@modern-js/builder-plugin-node-polyfill');
  *
- *   builder.addPlugins([ PluginNodePolyfill() ]);
+ *   builder.addPlugins([ builderPluginNodePolyfill() ]);
  */
-export function PluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
+export function builderPluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
   return {
     name: 'builder-plugin-node-polyfill',
 
@@ -47,3 +47,8 @@ export function PluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
     },
   };
 }
+
+/**
+ * @deprecated Using builderPluginNodePolyfill instead.
+ */
+export const PluginNodePolyfill = builderPluginNodePolyfill;

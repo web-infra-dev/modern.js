@@ -28,20 +28,20 @@ pnpm add @modern-js/builder-plugin-node-polyfill -D
 In upper-level frameworks such as {MODERN_JS} or EdenX, you can register node polyfill plugins through the `builderPlugins` config:
 
 ```ts
-import { PluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
+import { builderPluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
 
 export default {
-  builderPlugins: [PluginNodePolyfill()],
+  builderPlugins: [builderPluginNodePolyfill()],
 };
 ```
 
 If you are using the Builder's Node API, you can register node polyfill plugins through the `addPlugins` method:
 
 ```js
-import { PluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
+import { builderPluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
 
 // add the plugin to the builder instance
-builder.addPlugins([PluginNodePolyfill()]);
+builder.addPlugins([builderPluginNodePolyfill()]);
 ```
 
 ## Node Polyfills

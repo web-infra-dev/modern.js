@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
 import { CHAIN_ID } from '@modern-js/utils';
-import { PluginToml } from '@/plugins/toml';
+import { builderPluginToml } from '@/plugins/toml';
 
 describe('plugins/toml', () => {
   it('should add toml rule properly', async () => {
@@ -13,7 +13,7 @@ describe('plugins/toml', () => {
       },
     };
 
-    PluginToml().setup(api);
+    builderPluginToml().setup(api);
 
     const chain = await shared.getBundlerChain();
 

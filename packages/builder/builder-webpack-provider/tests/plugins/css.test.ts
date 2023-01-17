@@ -1,14 +1,14 @@
 import { expect, describe, it } from 'vitest';
-import { PluginCss, normalizeCssLoaderOptions } from '@/plugins/css';
-import { PluginSass } from '@/plugins/sass';
-import { PluginLess } from '@/plugins/less';
+import { builderPluginCss, normalizeCssLoaderOptions } from '@/plugins/css';
+import { builderPluginSass } from '@/plugins/sass';
+import { builderPluginLess } from '@/plugins/less';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/css', () => {
   // skipped because this case time out in CI env
   it.skip('should set css config with style-loader', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {
         tools: {
           styleLoader: {},
@@ -26,7 +26,7 @@ describe('plugins/css', () => {
   // skipped because this case time out in CI env
   it.skip('should set css config with mini-css-extract-plugin', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {},
     });
 
@@ -40,7 +40,7 @@ describe('plugins/css', () => {
 
   it('should add sass-loader', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSass()],
+      plugins: [builderPluginSass()],
       builderConfig: {
         tools: {
           sass: {},
@@ -58,7 +58,7 @@ describe('plugins/css', () => {
 
   it('should add less-loader', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginLess()],
+      plugins: [builderPluginLess()],
       builderConfig: {
         tools: {
           less: {},
@@ -76,7 +76,7 @@ describe('plugins/css', () => {
 
   it('should override browserslist of autoprefixer when using output.overrideBrowserslist config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {
         output: {
           overrideBrowserslist: ['Chrome 80'],
@@ -91,7 +91,7 @@ describe('plugins/css', () => {
   it('should not apply mini-css-extract-plugin when target is node', async () => {
     const builder = await createStubBuilder({
       target: ['node'],
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {},
     });
 
@@ -106,7 +106,7 @@ describe('plugins/css', () => {
   it('should not apply mini-css-extract-plugin when target is web-worker', async () => {
     const builder = await createStubBuilder({
       target: ['web-worker'],
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {},
     });
 
@@ -121,7 +121,7 @@ describe('plugins/css', () => {
   it('should not apply style-loader when target is node', async () => {
     const builder = await createStubBuilder({
       target: ['node'],
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {
         tools: {
           styleLoader: {},
@@ -140,7 +140,7 @@ describe('plugins/css', () => {
   it('should not apply style-loader when target is web-worker', async () => {
     const builder = await createStubBuilder({
       target: ['web-worker'],
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {
         tools: {
           styleLoader: {},
@@ -158,7 +158,7 @@ describe('plugins/css', () => {
 
   it('should allow to disable extract css plugin', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {
         output: {
           disableCssExtract: true,
@@ -176,7 +176,7 @@ describe('plugins/css', () => {
 
   it('should not apply postcss-loader when target is node', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       target: 'node',
     });
 
@@ -187,7 +187,7 @@ describe('plugins/css', () => {
 
   it('should disable source map when output.disableSourceMap is true', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {
         output: {
           disableSourceMap: true,
@@ -202,7 +202,7 @@ describe('plugins/css', () => {
 
   it('should disable source map when output.disableSourceMap is css: true', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {
         output: {
           disableSourceMap: {
@@ -222,7 +222,7 @@ describe('plugins/css', () => {
     process.env.NODE_ENV = 'production';
 
     const builder = await createStubBuilder({
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
     });
 
     const config = await builder.unwrapWebpackConfig();
@@ -234,7 +234,7 @@ describe('plugins/css', () => {
 
   it('should allow to custom cssModuleLocalIdentName', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss()],
+      plugins: [builderPluginCss()],
       builderConfig: {
         output: {
           cssModuleLocalIdentName: '[hash:base64]',

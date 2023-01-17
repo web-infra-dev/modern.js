@@ -1,6 +1,6 @@
 import type { BuilderPlugin } from '../types';
 
-export const PluginTsChecker = (): BuilderPlugin => {
+export const builderPluginTsChecker = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-ts-checker',
 

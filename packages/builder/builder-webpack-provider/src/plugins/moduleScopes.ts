@@ -24,7 +24,7 @@ export const applyScopeChain = (
   return options(defaults) || defaults;
 };
 
-export const PluginModuleScopes = (): BuilderPlugin => ({
+export const builderPluginModuleScopes = (): BuilderPlugin => ({
   name: 'builder-plugin-module-scopes',
 
   setup(api) {

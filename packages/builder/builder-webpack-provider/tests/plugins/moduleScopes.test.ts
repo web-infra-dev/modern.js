@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import {
-  PluginModuleScopes,
+  builderPluginModuleScopes,
   isPrimitiveScope,
   applyScopeChain,
 } from '@/plugins/moduleScopes';
@@ -9,7 +9,7 @@ import { createStubBuilder } from '@/stub';
 describe('plugins/moduleScopes', () => {
   it('should set entry correctly', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginModuleScopes()],
+      plugins: [builderPluginModuleScopes()],
       builderConfig: {
         source: {
           moduleScopes: ['./src/foo.ts', './src/bar.ts'],

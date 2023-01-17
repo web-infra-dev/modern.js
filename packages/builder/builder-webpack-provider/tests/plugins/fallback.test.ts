@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { PluginFallback } from '@/plugins/fallback';
+import { builderPluginFallback } from '@/plugins/fallback';
 import { BuilderPlugin } from '@/types';
 import { createStubBuilder } from '@/stub';
 
@@ -35,7 +35,7 @@ describe('plugins/fallback', () => {
 
   it('should convert fallback rule correctly', async () => {
     const builder = await createStubBuilder({
-      plugins: [testPlugin, PluginFallback()],
+      plugins: [testPlugin, builderPluginFallback()],
       builderConfig: {
         output: {
           enableAssetFallback: true,
@@ -49,7 +49,7 @@ describe('plugins/fallback', () => {
 
   it('should not convert fallback rule when output.enableAssetFallback is not enabled', async () => {
     const builder = await createStubBuilder({
-      plugins: [testPlugin, PluginFallback()],
+      plugins: [testPlugin, builderPluginFallback()],
     });
     const config = await builder.unwrapWebpackConfig();
 

@@ -125,7 +125,7 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
   logger.log('');
 }
 
-export const PluginFileSize = (): DefaultBuilderPlugin => ({
+export const builderPluginFileSize = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-file-size',
 
   setup(api) {

@@ -168,11 +168,11 @@ export const getCustomWebpackConfigHandle = async ({
   const { PluginStorybook } = await import('./builder-plugin');
 
   if (!builder.isPluginExists('builder-plugin-node-polyfill')) {
-    const { PluginNodePolyfill } = await import(
+    const { builderPluginNodePolyfill } = await import(
       '@modern-js/builder-plugin-node-polyfill'
     );
 
-    builder.addPlugins([PluginNodePolyfill()]);
+    builder.addPlugins([builderPluginNodePolyfill()]);
   }
 
   builder.addPlugins([PluginStorybook({ appDirectory, configDir })]);

@@ -8,7 +8,7 @@ import {
 import { getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
-export const PluginFont = (): BuilderPlugin => ({
+export const builderPluginFont = (): BuilderPlugin => ({
   name: 'builder-plugin-font',
 
   setup(api) {

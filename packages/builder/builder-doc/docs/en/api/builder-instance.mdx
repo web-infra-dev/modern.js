@@ -310,13 +310,13 @@ function AddPlugins(
 - **Example**
 
 ```ts
-builder.addPlugins([PluginFoo(), PluginBar()]);
+builder.addPlugins([builderPluginFoo(), builderPluginBar()]);
 
 // Insert before the bar plugin
-builder.addPlugins([PluginFoo()], { before: 'bar' });
+builder.addPlugins([builderPluginFoo()], { before: 'bar' });
 
 // Insert after the bar plugin
-builder.addPlugins([PluginFoo()], { after: 'bar' });
+builder.addPlugins([builderPluginFoo()], { after: 'bar' });
 ```
 
 ## builder.removePlugins
@@ -335,7 +335,7 @@ function RemovePlugins(pluginNames: string[]): void;
 
 ```ts
 // add plugin
-const pluginFoo = PluginFoo();
+const pluginFoo = builderPluginFoo();
 builder.addPlugins(pluginFoo);
 
 // remove plugin
@@ -351,9 +351,9 @@ import IsPluginExists from '@en/shared/isPluginExists.md';
 - **Example**
 
 ```ts
-builder.addPlugins([PluginFoo()]);
+builder.addPlugins([builderPluginFoo()]);
 
-builder.isPluginExists(PluginFoo().name); // true
+builder.isPluginExists(builderPluginFoo().name); // true
 ```
 
 ## builder.inspectConfig

@@ -8,16 +8,11 @@ Developing plugins to change the Builder's behavior and introduce extra features
 - Modify and compile file modules.
 - Deploy your application.
 
-Builder can use webpack or rspack as bundler, expose unified Node.js API,
-and integrate into different frameworks. Users can painlessly switch between bundlers.
-
-**But users can't use Builder plugins directly in frameworks.**
-Because these frameworks (e.g. modern.js) not only reuse the compiling features
-provided by the Builder, but can also be built with lots of other parts.
+Builder can use webpack or rspack as bundler, expose unified Node.js API, and integrate into different frameworks. Users can painlessly switch between bundlers.
 
 ## Write a plugin
 
-Plugin module should export an entry function just like `(options?: PluginOptions) => BuilderPlugin`:
+Plugin module should export an entry function just like `(options?: PluginOptions) => BuilderPlugin`, It is recommended to name plugin functions `builderPluginXXX`.
 
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
@@ -26,7 +21,7 @@ export interface PluginFooOptions {
   message?: string;
 }
 
-export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
+export const builderPluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
   name: 'plugin-foo',
   setup(api) {
     api.onExit(() => {
@@ -36,7 +31,7 @@ export const PluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
   }
 });
 
-builder.addPlugins([PluginFoo('some other message.')]);
+builder.addPlugins([builderPluginFoo('some other message.')]);
 ```
 
 The function usually **takes an options object** and **returns the plugin instance**, which manages state through closures.
@@ -71,7 +66,7 @@ But sometimes you may need to read and change the public config of the Builder. 
 Refer to this tiny example:
 
 ```ts
-export const PluginUploadDist = (): BuilderPlugin => ({
+export const builderPluginUploadDist = (): BuilderPlugin => ({
   name: 'plugin-upload-dist',
   setup(api) {
     api.modifyBuilderConfig(config => {
@@ -157,7 +152,7 @@ The webpack loaders can be used to load and transform various file types. For mo
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
-export const PluginTypeScriptExt = (): BuilderPlugin => ({
+export const builderPluginTypeScriptExt = (): BuilderPlugin => ({
   name: 'builder-typescript-ext',
   setup(api) {
     api.modifyWebpackChain(async chain => {
@@ -175,7 +170,7 @@ export const PluginTypeScriptExt = (): BuilderPlugin => ({
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 
-export const PluginAdminPanel = (): BuilderPlugin => ({
+export const builderPluginAdminPanel = (): BuilderPlugin => ({
   name: 'builder-admin-panel',
   setup(api) {
     api.modifyWebpackChain(async chain => {
@@ -195,7 +190,7 @@ Integrate existing webpack plugins to migrate your applications:
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import type { Options } from '@modern-js/inspector-webpack-plugin';
 
-export const PluginInspector = (options?: Options): BuilderPlugin => ({
+export const builderPluginInspector = (options?: Options): BuilderPlugin => ({
   name: 'builder-plugin-inspector',
   setup(api) {
     api.modifyWebpackChain(async chain => {

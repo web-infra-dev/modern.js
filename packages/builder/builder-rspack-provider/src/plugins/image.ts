@@ -8,7 +8,7 @@ import {
 import type { BuilderPlugin } from '../types';
 import { chainStaticAssetRule } from '../shared';
 
-export const PluginImage = (): BuilderPlugin => ({
+export const builderPluginImage = (): BuilderPlugin => ({
   name: 'builder-plugin-image',
 
   setup(api) {

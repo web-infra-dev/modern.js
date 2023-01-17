@@ -26,20 +26,20 @@ pnpm add @modern-js/builder-plugin-swc -D
 在 {MODERN_JS} / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 SWC 插件：
 
 ```ts
-import { PluginSwc } from '@modern-js/builder-plugin-swc';
+import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 
 export default {
-  builderPlugins: [PluginSwc()],
+  builderPlugins: [builderPluginSwc()],
 };
 ```
 
 当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 SWC 插件：
 
 ```js
-import { PluginSwc } from '@modern-js/builder-plugin-swc';
+import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 
 // 往 builder 实例上添加插件
-builder.addPlugins([PluginSwc()]);
+builder.addPlugins([builderPluginSwc()]);
 ```
 
 That's it !

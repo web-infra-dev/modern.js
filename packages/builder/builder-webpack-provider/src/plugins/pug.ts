@@ -1,7 +1,7 @@
 import path from 'path';
 import type { BuilderPlugin } from '../types';
 
-export const PluginPug = (): BuilderPlugin => ({
+export const builderPluginPug = (): BuilderPlugin => ({
   name: 'builder-plugin-pug',
 
   setup(api) {

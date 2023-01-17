@@ -187,7 +187,7 @@ export default ({
           logger('exportStatement', addExportStatement);
           pluginsExportsUtils.addExport(addExportStatement);
         }
-        const otherExportStatement = `export { hoistNonReactStatics } from '${pluginName}/deps'`;
+        const otherExportStatement = `export { hoistNonReactStatics } from '@modern-js/plugin-garfish/deps'`;
         logger('otherExportStatement', otherExportStatement);
         pluginsExportsUtils.addExport(otherExportStatement);
       },

@@ -50,25 +50,9 @@ export default defineConfig({
 
 而例如下面的**自控式路由**：
 
-```tsx title="App.tsx"
-import { useRuntimeContext } from '@modern-js/runtime';
-import { Routes, Route, BrowserRouter } from '@modern-js/runtime/router';
-import { StaticRouter } from '@modern-js/runtime/router/server';
+import SelfRouteExample from '@site-docs/components/self-route-example.md';
 
-const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
-
-export default () => {
-  const { context } = useRuntimeContext();
-  return (
-    <Router location={context.request.pathname}>
-      <Routes>
-        <Route index element={<div>index</div>} />
-        <Route path="about" element={<div>about</div>} />
-      </Routes>
-    </Router>
-  );
-};
-```
+<SelfRouteExample />
 
 同样使用上面的配置，在执行 `pnpm run build` 后，只有入口路由 `/` 会生成渲染后的 HTML。
 
@@ -113,25 +97,8 @@ export default defineConfig({
 
 可以在 `output.ssg` 中设置具体的路由，告知 Modern.js 开启这些客户端路由的 SSG 功能。例如上述 `src/App.tsx` 的文件内容为：
 
-```tsx title="src/App.tsx"
-import { useRuntimeContext } from '@modern-js/runtime';
-import { Routes, Route, BrowserRouter } from '@modern-js/runtime/router';
-import { StaticRouter } from '@modern-js/runtime/router/server';
 
-const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
-
-export default () => {
-  const { context } = useRuntimeContext();
-  return (
-    <Router location={context.request.pathname}>
-      <Routes>
-        <Route index element={<div>index</div>} />
-        <Route path="about" element={<div>about</div>} />
-      </Routes>
-    </Router>
-  );
-};
-```
+<SelfRouteExample />
 
 在 `modern.config.js` 中这样设置后，`/about` 路由也会开启 SSG 功能：
 
