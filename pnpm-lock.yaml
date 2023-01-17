@@ -3608,7 +3608,7 @@ importers:
       import-lazy: 4.0.0
       inquirer: 8.2.2
       js-yaml: 4.1.0
-      json5: 2.2.0
+      json5: 2.2.3
       less: 4.1.3
       less-loader: 11.0.0
       loader-utils2: npm:loader-utils@2.0.4
@@ -3753,7 +3753,7 @@ importers:
       import-lazy: 4.0.0
       inquirer: 8.2.2
       js-yaml: 4.1.0
-      json5: 2.2.0
+      json5: 2.2.3
       less: 4.1.3
       less-loader: 11.0.0_less@4.1.3+webpack@5.75.0
       loader-utils2: /loader-utils/2.0.4
@@ -4963,6 +4963,31 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.9.3
 
+  tests/integration/garfish/dashboard-router-v6:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-garfish': workspace:*
+      '@modern-js/plugin-router-v5': workspace:*
+      '@modern-js/runtime': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      '@modern-js/plugin-garfish': link:../../../../packages/runtime/plugin-garfish
+      '@modern-js/plugin-router-v5': link:../../../../packages/runtime/plugin-router-v5
+      '@modern-js/runtime': link:../../../../packages/runtime/plugin-runtime
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../packages/solutions/app-tools
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.3
+
   tests/integration/garfish/main:
     specifiers:
       '@modern-js/app-tools': workspace:*
@@ -5896,7 +5921,7 @@ packages:
       convert-source-map: 1.8.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
-      json5: 2.2.1
+      json5: 2.2.3
       lodash: 4.17.21
       resolve: 1.22.1
       semver: 5.7.1
@@ -5921,7 +5946,7 @@ packages:
       convert-source-map: 1.8.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
-      json5: 2.2.1
+      json5: 2.2.3
       semver: 6.3.0
       source-map: 0.5.7
     transitivePeerDependencies:
@@ -5945,7 +5970,7 @@ packages:
       convert-source-map: 1.8.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
-      json5: 2.2.1
+      json5: 2.2.3
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -5968,7 +5993,7 @@ packages:
       convert-source-map: 1.8.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
-      json5: 2.2.1
+      json5: 2.2.3
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -13503,7 +13528,7 @@ packages:
       glob: 7.2.3
       handlebars: 4.7.7
       interpret: 2.2.0
-      json5: 2.2.1
+      json5: 2.2.3
       lazy-universal-dotenv: 3.0.1
       picomatch: 2.3.1
       pkg-dir: 5.0.0
@@ -20234,7 +20259,7 @@ packages:
       dot-prop: 4.2.1
       enquirer: 2.3.6
       globby: 11.1.0
-      json5: 2.2.1
+      json5: 2.2.3
       mkdirp: 0.5.6
       ts-node: 7.0.1
       tslib: 2.4.0
@@ -21030,7 +21055,7 @@ packages:
     dependencies:
       esbuild: 0.14.54
       joycon: 3.1.1
-      json5: 2.2.1
+      json5: 2.2.3
       loader-utils: 2.0.4
       tapable: 2.2.1
       webpack: 5.75.0
@@ -26113,16 +26138,13 @@ packages:
     dependencies:
       minimist: 1.2.6
 
-  /json5/2.2.0:
-    resolution: {integrity: sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==}
-    engines: {node: '>=6'}
-    hasBin: true
-    dependencies:
-      minimist: 1.2.6
-    dev: true
-
   /json5/2.2.1:
     resolution: {integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==}
+    engines: {node: '>=6'}
+    hasBin: true
+
+  /json5/2.2.3:
+    resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
 
@@ -26644,7 +26666,7 @@ packages:
     dependencies:
       big.js: 5.2.2
       emojis-list: 3.0.0
-      json5: 2.2.1
+      json5: 2.2.3
 
   /loader-utils/3.2.0:
     resolution: {integrity: sha512-HVl9ZqccQihZ7JM85dco1MvO9G+ONvxoGa9rkhzFsneGLKSUg1gJf9bWzhRhcvm2qChhWpebQhP44qxjKIUCaQ==}
@@ -31561,7 +31583,7 @@ packages:
       dotenv: 8.6.0
       dotenv-expand: 5.1.0
       js-yaml: 3.14.1
-      json5: 2.2.1
+      json5: 2.2.3
       lazy-val: 1.0.5
     dev: true
 
@@ -34677,7 +34699,7 @@ packages:
     resolution: {integrity: sha512-VgPrtLKpRgEAJsMj5Q/I/mXouC6A/7eJ/X4Nuk6o0cRPwBtznYxTCU4FodbexbzH9somBPEXYi0ZkUViUpJ21Q==}
     engines: {node: '>=6'}
     dependencies:
-      json5: 2.2.1
+      json5: 2.2.3
       minimist: 1.2.6
       strip-bom: 3.0.0
 
@@ -36463,7 +36485,7 @@ packages:
       hagent: 0.9.0
       hparser: 0.4.0
       iconv-lite: 0.4.24
-      json5: 2.2.1
+      json5: 2.2.3
       lru-cache: 4.1.5
       mime: 1.6.0
       multer2: 1.1.0

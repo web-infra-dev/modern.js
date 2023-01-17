@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
-import { PluginMedia } from '@/plugins/media';
+import { builderPluginMedia } from '@/plugins/media';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/media', () => {
   it('should add media rules correctly', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginMedia()],
+      plugins: [builderPluginMedia()],
     });
     const config = await builder.unwrapWebpackConfig();
 
@@ -14,7 +14,7 @@ describe('plugins/media', () => {
 
   it('should allow to use distPath.media to modify dist path', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginMedia()],
+      plugins: [builderPluginMedia()],
       builderConfig: {
         output: {
           distPath: {
@@ -30,7 +30,7 @@ describe('plugins/media', () => {
 
   it('should allow to use distPath.media to be empty string', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginMedia()],
+      plugins: [builderPluginMedia()],
       builderConfig: {
         output: {
           distPath: {
@@ -46,7 +46,7 @@ describe('plugins/media', () => {
 
   it('should allow to use filename.media to modify filename', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginMedia()],
+      plugins: [builderPluginMedia()],
       builderConfig: {
         output: {
           filename: {

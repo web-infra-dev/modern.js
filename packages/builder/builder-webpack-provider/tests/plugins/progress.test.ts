@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { createStubBuilder } from '@/stub';
-import { PluginProgress } from '@/plugins/progress';
+import { builderPluginProgress } from '@/plugins/progress';
 import { createFriendlyPercentage } from '@/webpackPlugins/ProgressPlugin/helpers';
 
 describe('plugins/progress', () => {
   it('should register webpackbar by default', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginProgress()],
+      plugins: [builderPluginProgress()],
     });
 
     const matched = await builder.matchWebpackPlugin('ProgressPlugin');
@@ -15,7 +15,7 @@ describe('plugins/progress', () => {
 
   it('should not register webpackbar if dev.progressBar is false', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginProgress()],
+      plugins: [builderPluginProgress()],
       builderConfig: {
         dev: {
           progressBar: false,

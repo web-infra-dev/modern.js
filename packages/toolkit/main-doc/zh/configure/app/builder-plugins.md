@@ -10,7 +10,7 @@ sidebar_position: 10
 
 Modern.js Builder 是 Modern.js 底层的构建引擎，请阅读 [构建能力](/docs/guides/basic-features/builder) 了解相关背景。
 
-如果你想了解 Builder 插件的编写方式，可以参考 [Modern.js Builder - 插件系统](https://modernjs.dev/builder/zh/plugins/introduction.html)。
+如果你想了解 Builder 插件的编写方式，可以参考 [Modern.js Builder - 插件系统](https://modernjs.dev/builder/plugins/introduction.html)。
 
 ## 注意事项
 

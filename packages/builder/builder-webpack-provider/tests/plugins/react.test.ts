@@ -1,13 +1,13 @@
 import { expect, describe, it } from 'vitest';
-import { PluginReact } from '@/plugins/react';
-import { PluginBabel } from '@/plugins/babel';
-import { PluginTsLoader } from '@/plugins/tsLoader';
+import { builderPluginReact } from '@/plugins/react';
+import { builderPluginBabel } from '@/plugins/babel';
+import { builderPluginTsLoader } from '@/plugins/tsLoader';
 import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/react', () => {
   it('should work with babel-loader', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel(), PluginReact()],
+      plugins: [builderPluginBabel(), builderPluginReact()],
       builderConfig: {
         tools: {
           tsChecker: false,
@@ -21,7 +21,7 @@ describe('plugins/react', () => {
 
   it('should work with ts-loader', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginTsLoader(), PluginReact()],
+      plugins: [builderPluginTsLoader(), builderPluginReact()],
       builderConfig: {
         tools: {
           tsLoader: {},
@@ -35,7 +35,7 @@ describe('plugins/react', () => {
 
   it('should not apply react refresh when dev.hmr is false', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginReact()],
+      plugins: [builderPluginReact()],
       builderConfig: {
         dev: {
           hmr: false,
@@ -48,7 +48,7 @@ describe('plugins/react', () => {
 
   it('should not apply react refresh when target is node', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginReact()],
+      plugins: [builderPluginReact()],
       target: 'node',
     });
 
@@ -57,7 +57,7 @@ describe('plugins/react', () => {
 
   it('should not apply react refresh when target is web-worker', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginReact()],
+      plugins: [builderPluginReact()],
       target: 'web-worker',
     });
 

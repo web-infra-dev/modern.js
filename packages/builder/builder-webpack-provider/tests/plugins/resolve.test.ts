@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
-import { PluginResolve } from '@/plugins/resolve';
+import { builderPluginResolve } from '@/plugins/resolve';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/resolve', () => {
   it('should apply default extensions correctly', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
     });
     const config = await builder.unwrapWebpackConfig();
     expect(config.resolve?.extensions).toEqual([
@@ -20,7 +20,7 @@ describe('plugins/resolve', () => {
 
   it('should allow to use source.alias to config webpack alias', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
       builderConfig: {
         source: {
           alias: {
@@ -38,7 +38,7 @@ describe('plugins/resolve', () => {
 
   it('should support source.alias to be a function', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
       builderConfig: {
         source: {
           alias() {
@@ -58,7 +58,7 @@ describe('plugins/resolve', () => {
 
   it('should disable resolve.fullySpecified by default', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
       builderConfig: {
         source: {
           compileJsDataURI: true,
@@ -74,7 +74,7 @@ describe('plugins/resolve', () => {
     const mainFieldsOption = ['main', 'test', 'browser', ['module', 'exports']];
 
     const builder = await createStubBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
       builderConfig: {
         source: {
           resolveMainFields: mainFieldsOption,
@@ -93,7 +93,7 @@ describe('plugins/resolve', () => {
     };
 
     const builder = await createStubBuilder({
-      plugins: [PluginResolve()],
+      plugins: [builderPluginResolve()],
       builderConfig: {
         source: {
           resolveMainFields: mainFieldsOption,

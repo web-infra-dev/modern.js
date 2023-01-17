@@ -9,7 +9,7 @@ import {
 } from '@modern-js/utils';
 import type { ErrorObject } from '@modern-js/utils/ajv';
 import { InternalPlugins } from '@modern-js/types';
-import { initCommandsMap } from './utils/commander';
+import { initCommandsMap, createFileWatcher } from './utils';
 import { loadPlugins, TransformPlugin } from './loadPlugins';
 import {
   AppContext,
@@ -20,8 +20,7 @@ import {
 } from './context';
 import { loadEnv } from './loadEnv';
 import { manager } from './manager';
-import type { CliHooksRunner } from './types/hooks';
-import type { ToolsType } from './types';
+import type { ToolsType, CliHooksRunner } from './types';
 import { createResolveConfig, createLoadedConfig } from './config';
 
 export * from './types';
@@ -191,9 +190,12 @@ const createCli = () => {
   };
 
   async function run(options?: CoreOptions) {
-    await init(options);
+    const { appContext } = await init(options);
 
     await hooksRunner.commands({ program });
+
+    await createFileWatcher(appContext, hooksRunner);
+
     program.parse(process.argv);
   }
 

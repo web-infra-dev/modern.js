@@ -15,10 +15,10 @@ Modern.js 中默认值如下:
 
 可以在[这里](https://github.com/browserslist/browserslist)了解如何自定义浏览器范围。
 
-查看 Modern.js Builder 文档了解更多 [Browserlist](https://modernjs.dev/builder/zh/guide/advanced/browserslist.html) 相关内容。
+查看 Modern.js Builder 文档了解更多 [Browserslist](https://modernjs.dev/builder/guide/advanced/browserslist.html) 相关内容。
 
 :::note
-Modern.js 支持配置 [output.overrideBrowserlist](/docs/configure/app/output/override-browserslist) 覆盖默认 browserlist 值。
+Modern.js 支持配置 [output.overrideBrowserslist](/docs/configure/app/output/override-browserslist) 覆盖默认 browserslist 值。
 :::
 
 ## Polyfill

@@ -1,12 +1,12 @@
 import { expect, describe, it } from 'vitest';
-import { PluginEntry } from '@builder/plugins/entry';
-import { PluginBabel } from '@/plugins/babel';
+import { builderPluginEntry } from '@builder/plugins/entry';
+import { builderPluginBabel } from '@/plugins/babel';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/babel', () => {
   it('should set babel-loader', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel()],
+      plugins: [builderPluginBabel()],
       builderConfig: {
         output: {
           polyfill: 'entry',
@@ -23,7 +23,7 @@ describe('plugins/babel', () => {
 
   it('should set include/exclude', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel()],
+      plugins: [builderPluginBabel()],
       builderConfig: {
         tools: {
           babel(options, { addIncludes, addExcludes }) {
@@ -41,7 +41,7 @@ describe('plugins/babel', () => {
 
   it('should apply exclude condition when using source.exclude', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel()],
+      plugins: [builderPluginBabel()],
       builderConfig: {
         source: {
           exclude: ['src/foo/**/*.js'],
@@ -55,7 +55,7 @@ describe('plugins/babel', () => {
 
   it('should add core-js-entry when output.polyfill is entry', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginEntry(), PluginBabel()],
+      plugins: [builderPluginEntry(), builderPluginBabel()],
       builderConfig: {
         output: {
           polyfill: 'entry',
@@ -71,7 +71,7 @@ describe('plugins/babel', () => {
 
   it('should not add core-js-entry when output.polyfill is usage', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginEntry(), PluginBabel()],
+      plugins: [builderPluginEntry(), builderPluginBabel()],
       builderConfig: {
         output: {
           polyfill: 'usage',
@@ -87,7 +87,7 @@ describe('plugins/babel', () => {
 
   it('should override targets of babel-preset-env when using output.overrideBrowserslist config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel()],
+      plugins: [builderPluginBabel()],
       builderConfig: {
         output: {
           overrideBrowserslist: ['Chrome 80'],
@@ -101,7 +101,7 @@ describe('plugins/babel', () => {
 
   it('should add rule to compile Data URI when enable source.compileJsDataURI', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel()],
+      plugins: [builderPluginBabel()],
       builderConfig: {
         source: {
           compileJsDataURI: true,
@@ -115,7 +115,7 @@ describe('plugins/babel', () => {
 
   it('should adjust jsescOption config when charset is utf8', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel()],
+      plugins: [builderPluginBabel()],
       builderConfig: {
         output: {
           charset: 'utf8',
@@ -131,7 +131,7 @@ describe('plugins/babel', () => {
 
   it('should adjust browserslist when target is node', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel()],
+      plugins: [builderPluginBabel()],
       target: 'node',
     });
     const config = await builder.unwrapWebpackConfig();

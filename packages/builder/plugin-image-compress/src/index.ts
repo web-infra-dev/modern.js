@@ -7,7 +7,9 @@ export type PluginImageCompressOptions = Options[];
 export const DEFAULT_OPTIONS: Codecs[] = ['jpeg', 'png', 'ico'];
 
 /** Options enable by default: {@link DEFAULT_OPTIONS} */
-export const PluginImageCompress = (...options: Options[]): BuilderPlugin => ({
+export const builderPluginImageCompress = (
+  ...options: Options[]
+): BuilderPlugin => ({
   name: 'builder-plugin-image-compress',
   setup(api) {
     const optsWithDefault = options.length ? options : DEFAULT_OPTIONS;
@@ -25,3 +27,8 @@ export const PluginImageCompress = (...options: Options[]): BuilderPlugin => ({
     });
   },
 });
+
+/**
+ * @deprecated Using builderPluginImageCompress instead.
+ */
+export const PluginImageCompress = builderPluginImageCompress;

@@ -77,10 +77,10 @@ export default {
 在一般的前端项目中，图片资源的体积往往是项目产物体积的大头，因此如果能尽可能精简图片的体积，那么将会对项目的打包产物体积起到明显的优化效果。你可以在 Builder 中注册插件来启用图片压缩功能:
 
 ```js
-import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
+import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-compress';
 
 // 往 builder 实例上添加插件
-builder.addPlugins([PluginImageCompress()]);
+builder.addPlugins([builderPluginImageCompress()]);
 ```
 
 详见 [Image Compress 插件](/plugins/plugin-image-compress)。

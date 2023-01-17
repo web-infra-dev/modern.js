@@ -1,6 +1,6 @@
 import type { BuilderPlugin } from '../types';
 
-export const PluginLazyCompilation = (): BuilderPlugin => ({
+export const builderPluginLazyCompilation = (): BuilderPlugin => ({
   name: 'builder-plugin-lazy-compilation',
 
   setup(api) {

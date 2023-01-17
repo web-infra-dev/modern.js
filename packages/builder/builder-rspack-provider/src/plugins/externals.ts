@@ -1,6 +1,6 @@
 import { BuilderPlugin } from '../types';
 
-export function PluginExternals(): BuilderPlugin {
+export function builderPluginExternals(): BuilderPlugin {
   return {
     name: 'builder-plugin-externals',
     setup(api) {

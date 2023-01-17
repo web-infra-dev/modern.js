@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { PluginPerformance } from '@/plugins/performance';
+import { builderPluginPerformance } from '@/plugins/performance';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/performance', () => {
@@ -10,7 +10,7 @@ describe('plugins/performance', () => {
     expect(config1.profile).toBeFalsy();
 
     const builder2 = await createStubBuilder({
-      plugins: [PluginPerformance()],
+      plugins: [builderPluginPerformance()],
       builderConfig: {
         performance: {
           profile: false,
@@ -23,7 +23,7 @@ describe('plugins/performance', () => {
 
   it('should capture timing information for each module', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginPerformance()],
+      plugins: [builderPluginPerformance()],
       builderConfig: {
         performance: {
           profile: true,

@@ -1,6 +1,6 @@
 import type { BuilderPlugin } from '../types';
 
-export const PluginMoment = (): BuilderPlugin => ({
+export const builderPluginMoment = (): BuilderPlugin => ({
   name: 'builder-plugin-moment',
 
   setup(api) {

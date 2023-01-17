@@ -1,0 +1,33 @@
+{
+  "name": "@cypress-test/garfish-dashboard-router-v6",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "start": "modern start",
+    "new": "modern new",
+    "lint": "modern lint"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-garfish": "workspace:*",
+    "@modern-js/plugin-router-v5": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "typescript": "^4",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/node": "^14"
+  }
+}

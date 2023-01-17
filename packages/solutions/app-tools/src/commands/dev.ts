@@ -1,5 +1,4 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { createFileWatcher } from '../utils/createFileWatcher';
 import { printInstructions } from '../utils/printInstructions';
 import {
   setServer,
@@ -79,10 +78,4 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
     });
     setServer(server);
   }
-
-  await createFileWatcher(
-    appContext,
-    normalizedConfig.source.configDir,
-    hookRunners,
-  );
 };

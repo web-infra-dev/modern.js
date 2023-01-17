@@ -1,7 +1,7 @@
 import { BuilderPlugin } from '../types';
 import { isHtmlDisabled } from './html';
 
-export function PluginAssetsRetry(): BuilderPlugin {
+export function builderPluginAssetsRetry(): BuilderPlugin {
   return {
     name: 'builder-plugin-assets-retry',
     setup(api) {

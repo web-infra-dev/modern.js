@@ -12,7 +12,7 @@ enum ModuleKind {
   ESNext = 99,
 }
 
-export const PluginTsLoader = (): BuilderPlugin => {
+export const builderPluginTsLoader = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-ts-loader',
     setup(api) {

@@ -24,20 +24,20 @@ pnpm install @modern-js/builder-plugin-stylus -D
 在 {MODERN_JS} / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 Stylus 插件：
 
 ```ts
-import { PluginStylus } from '@modern-js/builder-plugin-stylus';
+import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
 
 export default {
-  builderPlugins: [PluginStylus()],
+  builderPlugins: [builderPluginStylus()],
 };
 ```
 
 当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 Stylus 插件：
 
 ```js
-import { PluginStylus } from '@modern-js/builder-plugin-stylus';
+import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
 
 // 往 builder 实例上添加插件
-builder.addPlugins([PluginStylus()]);
+builder.addPlugins([builderPluginStylus()]);
 ```
 
 ## 示例
@@ -92,7 +92,7 @@ type StylusOptions = {
 传递给 Stylus 的选项，请查阅 [Stylus 文档](https://stylus-lang.com/docs/js.html) 来了解具体用法。
 
 ```ts
-PluginStylus({
+builderPluginStylus({
   stylusOptions: {
     lineNumbers: false,
   },
@@ -107,7 +107,7 @@ PluginStylus({
 是否生成 Source Map，默认在开发环境下启用。
 
 ```ts
-PluginStylus({
+builderPluginStylus({
   sourceMap: false,
 });
 ```

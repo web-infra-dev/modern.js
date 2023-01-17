@@ -120,7 +120,7 @@ async function applyCSSMinimizer(
     .end();
 }
 
-export const PluginMinimize = (): BuilderPlugin => ({
+export const builderPluginMinimize = (): BuilderPlugin => ({
   name: 'builder-plugin-minimize',
 
   setup(api) {
