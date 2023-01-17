@@ -34,6 +34,7 @@ export const createFileWatcher = async (
         '**/*.stories.(js|jsx|ts|tsx)',
       ],
     });
+
     watcher.on('change', changed => {
       const lastHash = hashMap.get(changed);
       const currentHash = md5(
@@ -45,6 +46,7 @@ export const createFileWatcher = async (
         hooksRunner.fileChange({ filename: changed, eventType: 'change' });
       }
     });
+
     watcher.on('add', name => {
       debug(`add file: %s`, name);
       const currentHash = md5(
@@ -53,6 +55,7 @@ export const createFileWatcher = async (
       hashMap.set(name, currentHash);
       hooksRunner.fileChange({ filename: name, eventType: 'add' });
     });
+
     watcher.on('unlink', name => {
       debug(`remove file: %s`, name);
       if (hashMap.has(name)) {
@@ -60,6 +63,7 @@ export const createFileWatcher = async (
       }
       hooksRunner.fileChange({ filename: name, eventType: 'unlink' });
     });
+
     watcher.on('error', err => {
       throw err;
     });
