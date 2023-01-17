@@ -1,5 +1,6 @@
 import _ from '@modern-js/utils/lodash';
-import type { BuilderPlugin, RemOptions, PxToRemOptions } from '../types';
+import type { BuilderPlugin } from '../types';
+import type { RemOptions, PxToRemOptions } from '@modern-js/builder-shared';
 
 const defaultOptions: RemOptions = {
   enableRuntime: true,
