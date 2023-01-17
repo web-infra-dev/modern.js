@@ -8,6 +8,13 @@ import {
 import { toPath } from '../../utils';
 import { ModernRoute, ModernRouteInterface } from './route';
 
+const removeHtmlSuffix = (url: string) => {
+  if (url.endsWith('.html')) {
+    return url.slice(0, -5);
+  }
+  return url;
+};
+
 // eslint-disable-next-line no-useless-escape
 const regCharsDetector = /[^a-zA-Z\-_0-9\/\.]/;
 export class RouteMatcher {
@@ -64,19 +71,19 @@ export class RouteMatcher {
         ? requestUrl.slice(0, -1)
         : requestUrl;
 
-    if (urlWithoutSlash.endsWith('.html')) {
-      urlWithoutSlash = urlWithoutSlash.slice(0, -5);
-    }
+    urlWithoutSlash = removeHtmlSuffix(urlWithoutSlash);
 
     if (this.urlMatcher) {
       return Boolean(this.urlMatcher(urlWithoutSlash));
     } else {
-      if (urlWithoutSlash.startsWith(this.urlPath)) {
+      const urlPath = removeHtmlSuffix(this.urlPath);
+
+      if (urlWithoutSlash.startsWith(urlPath)) {
         // avoid /abcd match /a
         if (
-          this.urlPath !== '/' &&
-          urlWithoutSlash.length > this.urlPath.length &&
-          !urlWithoutSlash.startsWith(`${this.urlPath}/`)
+          urlPath !== '/' &&
+          urlWithoutSlash.length > urlPath.length &&
+          !urlWithoutSlash.startsWith(`${urlPath}/`)
         ) {
           return false;
         }
