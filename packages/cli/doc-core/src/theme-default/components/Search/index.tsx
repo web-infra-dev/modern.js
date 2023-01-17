@@ -176,7 +176,7 @@ export function Search(props: SearchOptions) {
           {/* Show the suggestions */}
           {suggestions.map((item, index) => (
             <li
-              key={item.title}
+              key={item.link}
               cursor="pointer"
               w="full"
               className="border-collapse rounded-sm"

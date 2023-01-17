@@ -93,10 +93,17 @@ const resolveStorybookWebPackConfig = (
 
   if (fs.existsSync(tsconfigPath)) {
     sbWebpackConfig.resolve = sbWebpackConfig.resolve || {};
+    const originalPlugins = sbWebpackConfig.resolve.plugins || [];
+
     sbWebpackConfig.resolve.plugins = [
-      ...(sbWebpackConfig.resolve.plugins || []),
+      // remove project/tsconfig.json`s tsconfigpaths-plugin
+      ...originalPlugins.filter(
+        p => p?.constructor.name !== 'TsConfigPathsPlugin',
+      ),
       new TsconfigPathsPlugin({
         configFile: path.join(appDirectory, 'stories/tsconfig.json'),
+        mainFields: ['browser', 'module', 'main'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.json'],
       }),
     ];
   }
