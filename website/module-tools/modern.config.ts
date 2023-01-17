@@ -1,5 +1,5 @@
 import path from 'path';
-import { defineConfig } from '@modern-js/doc-tools';
+import docTools, { defineConfig, NavItem } from '@modern-js/doc-tools';
 import { remarkCodeHike } from '@code-hike/mdx';
 import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
 
@@ -16,7 +16,7 @@ function getI18nHelper(lang: 'zh' | 'en') {
   return { getText, getLink };
 }
 
-function getNavbar(lang: 'zh' | 'en') {
+function getNavbar(lang: 'zh' | 'en'): NavItem[] {
   const { getLink, getText } = getI18nHelper(lang);
 
   return [
@@ -52,12 +52,13 @@ function getNavbar(lang: 'zh' | 'en') {
 }
 
 export default defineConfig({
-  plugins: ['@modern-js/doc-tools'],
+  plugins: [docTools()],
   doc: {
     root: path.join(__dirname, 'docs'),
     lang: 'zh',
     base: isDevCommand ? '' : '/module-tools/',
     title: 'Module Tools',
+    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     // The plugins for doc tools.
     plugins: [
       pluginAutoSidebar({
@@ -85,7 +86,7 @@ export default defineConfig({
     },
     themeConfig: {
       footer: {
-        message: 'Copyright © 2022 ByteDance.',
+        message: 'Copyright © 2023 ByteDance.',
       },
       socialLinks: [
         {
