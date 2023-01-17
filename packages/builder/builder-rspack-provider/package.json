@@ -39,6 +39,7 @@
     "@rspack/dev-middleware": "0.0.0-fbc6ab3-20230111072332",
     "@rspack/plugin-html": "0.0.0-fbc6ab3-20230111072332",
     "@rspack/postcss-loader": "0.0.0-fbc6ab3-20230111072332",
+    "@svgr/webpack": "6.5.1",
     "caniuse-lite": "^1.0.30001332",
     "webpack-sources": "^3.2.3"
   },

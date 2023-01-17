@@ -17,19 +17,21 @@ export const chainStaticAssetRule = ({
   maxSize,
   filename,
   assetType,
+  issuer,
 }: {
   chain: BundlerChain;
   regExp: RegExp;
   maxSize: number;
   filename: string;
   assetType: string;
+  issuer?: any;
 }) => {
   // todo: not support oneOf yet. should use oneOf and Specified CHAIN_ID refactor
   // rspack not support dataUrlCondition function
   // should use the last matching type if it is matched with multiple module type
   // default: when size < dataUrlCondition.maxSize will inline
   chain.module
-    .rule(`${assetType}-default`)
+    .rule(`${assetType}-asset-default`)
     .test(regExp)
     .type('asset')
     .parser({
@@ -40,25 +42,28 @@ export const chainStaticAssetRule = ({
     .set('generator', {
       filename,
     })
+    .set('issuer', issuer)
     .end();
 
   // forceInline: "foo.png?inline" or "foo.png?__inline",
   chain.module
-    .rule(`${assetType}-inline`)
+    .rule(`${assetType}-asset-inline`)
     .test(regExp)
     .type('asset/inline')
     .resourceQuery(/inline/)
+    .set('issuer', issuer)
     .end();
 
   // forceNoInline: "foo.png?__inline=false" or "foo.png?url",
   chain.module
-    .rule(`${assetType}-url`)
+    .rule(`${assetType}-asset-url`)
     .test(regExp)
     .type('asset')
     .resourceQuery(/(__inline=false|url)/)
     .set('generator', {
       filename,
     })
+    .set('issuer', issuer)
     .parser({
       dataUrlCondition: {
         maxSize: 0,

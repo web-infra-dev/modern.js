@@ -16,6 +16,7 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     import('../plugins/font').then(m => m.builderPluginFont()),
     import('../plugins/image').then(m => m.builderPluginImage()),
     import('../plugins/media').then(m => m.builderPluginMedia()),
+    import('../plugins/svg').then(m => m.PluginSvg()),
     import('../plugins/html').then(m => m.builderPluginHtml()),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/css').then(m => m.builderPluginCss()),

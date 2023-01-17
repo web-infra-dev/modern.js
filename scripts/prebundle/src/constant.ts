@@ -512,6 +512,43 @@ export const TASKS: TaskConfig[] = [
           less: '../less',
         },
       },
+      {
+        name: 'schema-utils3',
+        ignoreDts: true,
+      },
+      {
+        name: 'loader-utils2',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      {
+        name: 'url-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': '../schema-utils3',
+          'loader-utils': '../loader-utils2',
+          'mime-types': '@modern-js/utils/mime-types',
+        },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.js'), content => {
+            // using prebunled file-loader
+            return content.replace(
+              '"file-loader"',
+              'require.resolve("../file-loader")',
+            );
+          });
+        },
+      },
+      {
+        name: 'file-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': '../schema-utils3',
+          'loader-utils': '../loader-utils2',
+        },
+      },
     ],
   },
   {
