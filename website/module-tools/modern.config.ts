@@ -56,7 +56,7 @@ export default defineConfig({
   doc: {
     root: path.join(__dirname, 'docs'),
     lang: 'zh',
-    base: isDevCommand ? '' : '/module-tools/',
+    base: '/module-tools/',
     title: 'Module Tools',
     // The plugins for doc tools.
     plugins: [
@@ -114,6 +114,11 @@ export default defineConfig({
           description: 'Module Engineering Solutions',
         },
       ],
+    },
+  },
+  builderConfig: {
+    dev: {
+      startUrl: 'http://localhost:<port>/module-tools/',
     },
   },
 });
