@@ -2,7 +2,6 @@ import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin } from '../types';
 import {
   RemOptions,
-  PxToRemOptions,
   AutoSetRootFontSizePlugin,
 } from '@modern-js/builder-shared';
 
@@ -15,7 +14,7 @@ export const builderPluginRem = (): BuilderPlugin => ({
   name: 'builder-plugin-rem',
 
   setup(api) {
-    api.modifyWebpackChain(
+    api.modifyBundlerChain(
       async (chain, { CHAIN_ID, isServer, isWebWorker }) => {
         const {
           output: { convertToRem },
@@ -31,29 +30,13 @@ export const builderPluginRem = (): BuilderPlugin => ({
         };
 
         // handle css
-        const { default: PxToRemPlugin } = (await import(
-          '../../compiled/postcss-pxtorem'
-        )) as {
-          default: (_opts: PxToRemOptions) => any;
-        };
-
-        const { default: HtmlWebpackPlugin } = await import(
-          'html-webpack-plugin'
-        );
-
         const applyRules = [
           CHAIN_ID.RULE.CSS,
           CHAIN_ID.RULE.LESS,
           CHAIN_ID.RULE.SASS,
-          CHAIN_ID.RULE.STYLUS,
+          // CHAIN_ID.RULE.STYLUS,
         ];
-        const getPxToRemPlugin = () =>
-          PxToRemPlugin({
-            rootValue: userOptions.rootFontSize,
-            unitPrecision: 5,
-            propList: ['*'],
-            ..._.cloneDeep(userOptions.pxtorem || {}),
-          });
+
         // Deep copy options to prevent unexpected behavior.
         applyRules.forEach(name => {
           chain.module.rules.has(name) &&
@@ -62,12 +45,11 @@ export const builderPluginRem = (): BuilderPlugin => ({
               .use(CHAIN_ID.USE.POSTCSS)
               .tap((options = {}) => ({
                 ...options,
-                postcssOptions: {
-                  ...(options.postcssOptions || {}),
-                  plugins: [
-                    ...(options.postcssOptions?.plugins || []),
-                    getPxToRemPlugin(),
-                  ],
+                pxToRem: {
+                  rootValue: userOptions.rootFontSize,
+                  unitPrecision: 5,
+                  propList: ['*'],
+                  ..._.cloneDeep(userOptions.pxtorem || {}),
                 },
               }));
         });
@@ -77,6 +59,10 @@ export const builderPluginRem = (): BuilderPlugin => ({
           return;
         }
 
+        const { default: HTMLRspackPlugin } = await import(
+          '@rspack/plugin-html'
+        );
+
         const entries = Object.keys(chain.entryPoints.entries() || {});
 
         chain
@@ -84,7 +70,7 @@ export const builderPluginRem = (): BuilderPlugin => ({
           .use(AutoSetRootFontSizePlugin, [
             userOptions,
             entries,
-            HtmlWebpackPlugin,
+            HTMLRspackPlugin as any,
           ]);
       },
     );
