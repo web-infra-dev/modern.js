@@ -6,7 +6,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-tailwindcss": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "postcss": "8.4.1",
+    "postcss": "8.4.21",
     "tailwindcss": "^2",
     "react": "^18",
     "react-dom": "^18"
