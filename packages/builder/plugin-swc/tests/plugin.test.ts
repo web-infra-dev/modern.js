@@ -1,8 +1,8 @@
 import * as path from 'path';
 import { expect, describe, it } from 'vitest';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
-import { PluginSwc } from '../src';
-import { PluginBabel } from '@modern-js/builder-webpack-provider/plugins/babel';
+import { builderPluginSwc } from '../src';
+import { builderPluginBabel } from '@modern-js/builder-webpack-provider/plugins/babel';
 import { createSnapshotSerializer } from '@scripts/vitest-config';
 
 expect.addSnapshotSerializer(
@@ -14,7 +14,7 @@ expect.addSnapshotSerializer(
 describe('plugins/swc', () => {
   it('should set swc-loader', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel(), PluginSwc()],
+      plugins: [builderPluginBabel(), builderPluginSwc()],
       builderConfig: {},
     });
     const config = await builder.unwrapWebpackConfig();
@@ -25,7 +25,7 @@ describe('plugins/swc', () => {
   it('should set swc minimizer in production', async () => {
     process.env.NODE_ENV = 'production';
     const builder = await createStubBuilder({
-      plugins: [PluginBabel(), PluginSwc()],
+      plugins: [builderPluginBabel(), builderPluginSwc()],
       builderConfig: {},
     });
     const config = await builder.unwrapWebpackConfig();
@@ -38,8 +38,8 @@ describe('plugins/swc', () => {
     process.env.NODE_ENV = 'production';
     const builder = await createStubBuilder({
       plugins: [
-        PluginBabel(),
-        PluginSwc({
+        builderPluginBabel(),
+        builderPluginSwc({
           jsMinify: false,
         }),
       ],
@@ -51,7 +51,7 @@ describe('plugins/swc', () => {
 
   it('should apply source.include and source.exclude correctly', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBabel(), PluginSwc()],
+      plugins: [builderPluginBabel(), builderPluginSwc()],
       builderConfig: {
         source: {
           include: [/foo/],

@@ -16,7 +16,7 @@ export function patchGlobalLocation() {
   global.location.href ||= href;
 }
 
-export function PluginSass(): BuilderPlugin {
+export function builderPluginSass(): BuilderPlugin {
   return {
     name: 'builder-plugin-sass',
     setup(api) {

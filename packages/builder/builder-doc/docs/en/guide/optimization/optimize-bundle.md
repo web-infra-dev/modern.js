@@ -77,10 +77,10 @@ Please read the [Browser Compatibility](/guide/advanced/browser-compatibility.ht
 In general front-end projects, the size of image often accounts for a large proportion of the total bundle size of the project.So if the image size can be reduced as much as possible, it will have a significant optimization effect on the project bundle size. You can enable image compression by registering a plugin in the Builder:
 
 ```js
-import { PluginImageCompress } from '@modern-js/builder-plugin-image-compress';
+import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-compress';
 
 // Add the plugin to the Builder
-builder.addPlugins([PluginImageCompress()]);
+builder.addPlugins([builderPluginImageCompress()]);
 ```
 
 See details in [plugin-image-compress](/en/plugins/plugin-image-compress)。

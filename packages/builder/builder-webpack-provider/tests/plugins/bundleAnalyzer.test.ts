@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
-import { PluginBundleAnalyzer } from '@/plugins/bundleAnalyzer';
+import { builderPluginBundleAnalyzer } from '@/plugins/bundleAnalyzer';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/bundleAnalyze', () => {
   it('should add bundle analyze plugin', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBundleAnalyzer()],
+      plugins: [builderPluginBundleAnalyzer()],
       builderConfig: {
         performance: {
           bundleAnalyze: {

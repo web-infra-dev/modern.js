@@ -1,22 +1,12 @@
-import { defineConfig } from '@modern-js/module-tools';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
-  output: {
-    buildConfig: {
-      buildType: 'bundle',
-      sourceMap: false,
-      bundleOptions: {
-        skipDeps: false,
-      },
+  buildConfig: {
+    autoExternal: false,
+    alias: {
+      chalk: '@modern-js/utils/chalk',
     },
+    dts: false,
   },
-  tools: {
-    speedy: {
-      resolve: {
-        alias: {
-          chalk: '@modern-js/utils/chalk',
-        },
-      },
-    },
-  },
+  plugins: [moduleTools()],
 });

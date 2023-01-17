@@ -1,7 +1,7 @@
 import { expect, describe, it, beforeEach, afterEach } from 'vitest';
-import { PluginEntry } from '@builder/plugins/entry';
-import { PluginHtml } from '@/plugins/html';
-import { PluginInlineChunk } from '@/plugins/inlineChunk';
+import { builderPluginEntry } from '@builder/plugins/entry';
+import { builderPluginHtml } from '@/plugins/html';
+import { builderPluginInlineChunk } from '@/plugins/inlineChunk';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/inlineChunk', () => {
@@ -15,7 +15,11 @@ describe('plugins/inlineChunk', () => {
 
   it('should add InlineChunkHtmlPlugin properly by default', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      plugins: [
+        builderPluginEntry(),
+        builderPluginHtml(),
+        builderPluginInlineChunk(),
+      ],
       entry: {
         main: './src/main.ts',
       },
@@ -27,7 +31,11 @@ describe('plugins/inlineChunk', () => {
 
   it('should use proper plugin options when enableInlineScripts is true', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      plugins: [
+        builderPluginEntry(),
+        builderPluginHtml(),
+        builderPluginInlineChunk(),
+      ],
       entry: {
         main: './src/main.ts',
       },
@@ -44,7 +52,11 @@ describe('plugins/inlineChunk', () => {
 
   it('should use proper plugin options when enableInlineStyles is true', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      plugins: [
+        builderPluginEntry(),
+        builderPluginHtml(),
+        builderPluginInlineChunk(),
+      ],
       entry: {
         main: './src/main.ts',
       },
@@ -61,7 +73,11 @@ describe('plugins/inlineChunk', () => {
 
   it('should use proper plugin options when disableInlineRuntimeChunk is true', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      plugins: [
+        builderPluginEntry(),
+        builderPluginHtml(),
+        builderPluginInlineChunk(),
+      ],
       entry: {
         main: './src/main.ts',
       },
@@ -78,7 +94,11 @@ describe('plugins/inlineChunk', () => {
 
   it('should not apply InlineChunkHtmlPlugin when target is node', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      plugins: [
+        builderPluginEntry(),
+        builderPluginHtml(),
+        builderPluginInlineChunk(),
+      ],
       entry: {
         main: './src/main.ts',
       },
@@ -92,7 +112,11 @@ describe('plugins/inlineChunk', () => {
 
   it('should not apply InlineChunkHtmlPlugin when target is web-worker', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      plugins: [
+        builderPluginEntry(),
+        builderPluginHtml(),
+        builderPluginInlineChunk(),
+      ],
       entry: {
         main: './src/main.ts',
       },
@@ -107,7 +131,11 @@ describe('plugins/inlineChunk', () => {
   it('should not apply InlineChunkHtmlPlugin in development mode', async () => {
     process.env.NODE_ENV = 'development';
     const builder = await createStubBuilder({
-      plugins: [PluginEntry(), PluginHtml(), PluginInlineChunk()],
+      plugins: [
+        builderPluginEntry(),
+        builderPluginHtml(),
+        builderPluginInlineChunk(),
+      ],
       entry: {
         main: './src/main.ts',
       },

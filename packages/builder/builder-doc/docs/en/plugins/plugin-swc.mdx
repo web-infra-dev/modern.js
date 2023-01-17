@@ -26,20 +26,20 @@ pnpm add @modern-js/builder-plugin-swc -D
 In upper-level frameworks such as {MODERN_JS} or EdenX, you can register SWC plugin through the `builderPlugins` config:
 
 ```ts
-import { PluginSwc } from '@modern-js/builder-plugin-swc';
+import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 
 export default {
-  builderPlugins: [PluginSwc()],
+  builderPlugins: [builderPluginSwc()],
 };
 ```
 
 If you are using the Builder's Node API, you can register SWC plugin through the `addPlugins` method:
 
 ```js
-import { PluginSwc } from '@modern-js/builder-plugin-swc';
+import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 
 // add the plugin to the builder instance
-builder.addPlugins([PluginSwc()]);
+builder.addPlugins([builderPluginSwc()]);
 ```
 
 That's it !

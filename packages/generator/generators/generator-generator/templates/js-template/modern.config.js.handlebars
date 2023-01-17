@@ -1,3 +1,5 @@
+import moduleTools from '@modern-js/module-tools';
+
 module.exports = {
   buildConfig: {
     autoExternal: false,
@@ -6,4 +8,5 @@ module.exports = {
     },
     dts: false,
   },
+  plugins: [moduleTools()],
 };

@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
-import { PluginImage } from '@/plugins/image';
+import { builderPluginImage } from '@/plugins/image';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/image', () => {
   it('should add image rules correctly', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginImage()],
+      plugins: [builderPluginImage()],
     });
     const config = await builder.unwrapWebpackConfig();
 
@@ -14,7 +14,7 @@ describe('plugins/image', () => {
 
   it('should allow to use distPath.image to modify dist path', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginImage()],
+      plugins: [builderPluginImage()],
       builderConfig: {
         output: {
           distPath: {
@@ -30,7 +30,7 @@ describe('plugins/image', () => {
 
   it('should allow to use distPath.image to be empty string', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginImage()],
+      plugins: [builderPluginImage()],
       builderConfig: {
         output: {
           distPath: {
@@ -46,7 +46,7 @@ describe('plugins/image', () => {
 
   it('should allow to use filename.image to modify filename', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginImage()],
+      plugins: [builderPluginImage()],
       builderConfig: {
         output: {
           filename: {

@@ -58,7 +58,7 @@ const generatorDts = async (config: BundlelessGeneratorDtsConfig) => {
   const { getTscBinPath } = await import('../../utils/dts');
   const { tsconfigPath, appDirectory, watch = false } = config;
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
-  const result = await generatorTsConfig(userTsconfig, config);
+  const result = await generatorTsConfig(config);
 
   const tscBinFile = await getTscBinPath(appDirectory);
 

@@ -1,7 +1,7 @@
 import _ from '@modern-js/utils/lodash';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export function PluginStartUrl(): DefaultBuilderPlugin {
+export function builderPluginStartUrl(): DefaultBuilderPlugin {
   return {
     name: 'builder-plugin-start-url',
     async setup(api) {

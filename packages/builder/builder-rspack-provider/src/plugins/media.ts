@@ -8,7 +8,7 @@ import {
 import { chainStaticAssetRule } from '../shared';
 import type { BuilderPlugin } from '../types';
 
-export const PluginMedia = (): BuilderPlugin => ({
+export const builderPluginMedia = (): BuilderPlugin => ({
   name: 'builder-plugin-media',
 
   setup(api) {
