@@ -2,6 +2,6 @@
 
 exports[`plugin-garfish cli addRuntimeExports 1`] = `
 Array [
-  "export { default as garfish, default as masterApp, hoistNonReactStatics } from '@modern-js/plugin-garfish/runtime'",
+  "export { hoistNonReactStatics } from '@modern-js/plugin-garfish/deps'",
 ]
 `;

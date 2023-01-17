@@ -15,12 +15,12 @@ The default value in Modern.js as follow:
 ['> 0.01%', 'not dead', 'not op_mini all'];
 ```
 
-You can learn how to customize the browserlist [here](https://github.com/browserslist/browserslist).
+You can learn how to customize the browserslist [here](https://github.com/browserslist/browserslist).
 
-See Modern.js Builder docs to learn more [Browserlist](https://modernjs.dev/builder/zh/guide/advanced/browserslist.html) info.
+See Modern.js Builder docs to learn more [Browserslist](https://modernjs.dev/builder/en/guide/advanced/browserslist.html) info.
 
 :::note
-Modern.js also supports configuring [output.override Browserlist](/docs/configure/app/output/override-browserslist) to override the default browserlist value.
+Modern.js also supports configuring [output.override Browserslist](/docs/configure/app/output/override-browserslist) to override the default browserslist value.
 :::
 
 ## Polyfill
