@@ -1,6 +1,6 @@
 import type { CopyPluginOptions, BuilderPlugin } from '../types';
 
-export const PluginCopy = (): BuilderPlugin => ({
+export const builderPluginCopy = (): BuilderPlugin => ({
   name: 'builder-plugin-copy',
 
   setup(api) {

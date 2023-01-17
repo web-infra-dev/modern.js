@@ -45,7 +45,7 @@ function getCacheDirectory(
   return join(context.cachePath, context.bundlerType);
 }
 
-export const PluginCache = (): DefaultBuilderPlugin => ({
+export const builderPluginCache = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-cache',
 
   setup(api) {

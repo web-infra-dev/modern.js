@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
-import { PluginCache } from '@/plugins/cache';
+import { builderPluginCache } from '@/plugins/cache';
 
 describe('plugins/cache', () => {
   const cases = [
@@ -62,7 +62,7 @@ describe('plugins/cache', () => {
       },
     };
 
-    PluginCache().setup(api);
+    builderPluginCache().setup(api);
 
     const chain = await shared.getBundlerChain();
 

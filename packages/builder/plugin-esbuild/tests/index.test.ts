@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
-import { PluginEsbuild } from '../src';
+import { builderPluginEsbuild } from '../src';
 
 describe('plugins/esbuild', () => {
   it('should set esbuild-loader', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginEsbuild()],
+      plugins: [builderPluginEsbuild()],
       builderConfig: {},
     });
     const config = await builder.unwrapWebpackConfig();
@@ -16,7 +16,7 @@ describe('plugins/esbuild', () => {
   it('should set esbuild minimizer in production', async () => {
     process.env.NODE_ENV = 'production';
     const builder = await createStubBuilder({
-      plugins: [PluginEsbuild()],
+      plugins: [builderPluginEsbuild()],
       builderConfig: {},
     });
     const config = await builder.unwrapWebpackConfig();

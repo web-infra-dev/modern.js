@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
 import { CHAIN_ID } from '@modern-js/utils';
-import { PluginYaml } from '@/plugins/yaml';
+import { builderPluginYaml } from '@/plugins/yaml';
 
 describe('plugins/yaml', () => {
   it('should add yaml rule properly', async () => {
@@ -13,7 +13,7 @@ describe('plugins/yaml', () => {
       },
     };
 
-    PluginYaml().setup(api);
+    builderPluginYaml().setup(api);
 
     const chain = await shared.getBundlerChain();
 

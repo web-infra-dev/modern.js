@@ -24,20 +24,20 @@ pnpm install @modern-js/builder-plugin-stylus -D
 In upper-level frameworks such as {MODERN_JS} or EdenX, you can register Stylus plugins through the `builderPlugins` config:
 
 ```ts
-import { PluginStylus } from '@modern-js/builder-plugin-stylus';
+import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
 
 export default {
-  builderPlugins: [PluginStylus()],
+  builderPlugins: [builderPluginStylus()],
 };
 ```
 
 When you call the Builder's Node API directly, you can register Stylus plugins with the `addPlugins` method:
 
 ```js
-import { PluginStylus } from '@modern-js/builder-plugin-stylus';
+import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
 
 // add the plugin to the builder instance
-builder.addPlugins([PluginStylus()]);
+builder.addPlugins([builderPluginStylus()]);
 ```
 
 ## Example
@@ -92,7 +92,7 @@ type StylusOptions = {
 Options passed to Stylus, please refer to the [Stylus documentation](https://stylus-lang.com/docs/js.html) for specific usage.
 
 ```ts
-PluginStylus({
+builderPluginStylus({
   stylusOptions: {
     lineNumbers: false,
   },
@@ -107,7 +107,7 @@ PluginStylus({
 Whether to generate Source Map, enabled by default in the development environment.
 
 ```ts
-PluginStylus({
+builderPluginStylus({
   sourceMap: false,
 });
 ```

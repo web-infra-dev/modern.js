@@ -157,7 +157,7 @@ export async function applyBaseCSSRule(
   // rule.merge({ sideEffects: true });
 }
 
-export const PluginCss = (): BuilderPlugin => {
+export const builderPluginCss = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-css',
     setup(api) {

@@ -52,7 +52,7 @@ export function applyScriptCondition({
   });
 }
 
-export const PluginBabel = (): BuilderPlugin => ({
+export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
   setup(api) {
     api.modifyWebpackChain(

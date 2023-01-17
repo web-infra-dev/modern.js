@@ -10,7 +10,7 @@ export const isUsingHMR = (
   { isProd, target }: ModifyRspackConfigUtils,
 ) => !isProd && target !== 'node' && target !== 'web-worker' && config.dev.hmr;
 
-export const PluginHMR = (): BuilderPlugin => ({
+export const builderPluginHMR = (): BuilderPlugin => ({
   name: 'builder-plugin-hmr',
 
   setup(api) {

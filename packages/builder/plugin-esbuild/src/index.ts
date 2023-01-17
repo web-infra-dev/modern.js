@@ -11,7 +11,7 @@ export interface PluginEsbuildOptions {
   minimize?: false | MinifyPluginOptions;
 }
 
-export function PluginEsbuild(
+export function builderPluginEsbuild(
   userOptions: PluginEsbuildOptions = {},
 ): BuilderPlugin<BuilderPluginAPI> {
   return {
@@ -95,3 +95,8 @@ export function PluginEsbuild(
     },
   };
 }
+
+/**
+ * @deprecated Using builderPluginEsbuild instead.
+ */
+export const PluginEsbuild = builderPluginEsbuild;

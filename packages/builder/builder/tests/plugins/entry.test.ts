@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
-import { PluginEntry } from '@/plugins/entry';
+import { builderPluginEntry } from '@/plugins/entry';
 
 describe('plugins/entry', () => {
   const cases = [
@@ -63,7 +63,7 @@ describe('plugins/entry', () => {
       },
     };
 
-    PluginEntry().setup(api);
+    builderPluginEntry().setup(api);
 
     const chain = await shared.getBundlerChain();
 

@@ -28,20 +28,20 @@ pnpm add @modern-js/builder-plugin-esbuild -D
 在 {MODERN_JS} / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 esbuild 插件：
 
 ```ts
-import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
+import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
 
 export default {
-  builderPlugins: [PluginEsbuild()],
+  builderPlugins: [builderPluginEsbuild()],
 };
 ```
 
 当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 esbuild 插件：
 
 ```js
-import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
+import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
 
 // 往 builder 实例上添加插件
-builder.addPlugins([PluginEsbuild()]);
+builder.addPlugins([builderPluginEsbuild()]);
 ```
 
 ## 配置
@@ -85,7 +85,7 @@ target 支持设置为以下环境：
 - safari
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   loader: {
     target: 'chrome61',
   },
@@ -97,7 +97,7 @@ PluginEsbuild({
 将 `loader` 设置为 `false` 来关闭 esbuild 代码转译，此时 Builder 会继续使用 Babel 来进行代码转译。
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   loader: false,
 });
 ```
@@ -128,7 +128,7 @@ const defaultOptions = {
 通过 `target` 选项来修改代码压缩的目标环境。
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   minimize: {
     target: 'chrome61',
   },
@@ -140,7 +140,7 @@ PluginEsbuild({
 将 `minimize` 设置为 `false` 来关闭 esbuild 代码压缩，此时 Builder 会继续使用 Terser 进行代码压缩。
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   minimize: false,
 });
 ```
@@ -156,7 +156,7 @@ PluginEsbuild({
 你可以通过如下的配置指定目标语法版本:
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   loader: {
     target: 'es2015',
   },
@@ -172,7 +172,7 @@ PluginEsbuild({
 你可以通过如下的配置指定目标语法版本:
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   minimize: {
     target: 'es2015',
   },

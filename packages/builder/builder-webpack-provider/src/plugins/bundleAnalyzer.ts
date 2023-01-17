@@ -1,6 +1,6 @@
 import { BuilderPlugin } from '../types';
 
-export function PluginBundleAnalyzer(): BuilderPlugin {
+export function builderPluginBundleAnalyzer(): BuilderPlugin {
   return {
     name: 'builder-plugin-bundle-analyzer',
     setup(api) {

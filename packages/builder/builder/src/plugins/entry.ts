@@ -1,7 +1,7 @@
 import { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
 
-export const PluginEntry = (): DefaultBuilderPlugin => ({
+export const builderPluginEntry = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-entry',
 
   setup(api) {

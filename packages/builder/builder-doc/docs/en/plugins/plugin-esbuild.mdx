@@ -28,20 +28,20 @@ pnpm add @modern-js/builder-plugin-esbuild -D
 In upper-level frameworks such as {MODERN_JS} or EdenX, you can register esbuild plugins through the `builderPlugins` config:
 
 ```ts
-import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
+import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
 
 export default {
-  builderPlugins: [PluginEsbuild()],
+  builderPlugins: [builderPluginEsbuild()],
 };
 ```
 
 If you are using the Builder's Node API, you can register esbuild plugins through the `addPlugins` method:
 
 ```js
-import { PluginEsbuild } from '@modern-js/builder-plugin-esbuild';
+import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
 
 // add the plugin to the builder instance
-builder.addPlugins([PluginEsbuild()]);
+builder.addPlugins([builderPluginEsbuild()]);
 ```
 
 ## Config
@@ -85,7 +85,7 @@ target supports setting to the following environments:
 - safari
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   loader: {
     target: 'chrome61',
   },
@@ -97,7 +97,7 @@ PluginEsbuild({
 Set `loader` to `false` to disable esbuild transformation, and Builder will continue to use Babel to transform the code.
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   loader: false,
 });
 ```
@@ -128,7 +128,7 @@ If you want to modify the options, you can check the [esbuild-loader documentati
 Use the `target` option to set the target environment for minification.
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   minimize: {
     target: 'chrome61',
   },
@@ -140,7 +140,7 @@ PluginEsbuild({
 Set `minimize` to `false` to disable esbuild minification, and Builder will continue to use Terser to minify the code.
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   minimize: false,
 });
 ```
@@ -156,7 +156,7 @@ As a compiler (i.e. `loader` capability), esbuild usually supports at least ES20
 You can specify the target syntax version by following config:
 
 ```ts
-PluginEsbuild({
+builderPluginEsbuild({
   loader: {
     target: 'es2015',
   },
@@ -172,7 +172,7 @@ Therefore, for projects that need to be compatible with ES5 and below syntax in 
 You can specify the target syntax version by following config:
 
 ```js
-PluginEsbuild({
+builderPluginEsbuild({
   minimize: {
     target: 'es2015',
   },

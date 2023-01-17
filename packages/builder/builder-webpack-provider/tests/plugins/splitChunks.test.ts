@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
-import { PluginSplitChunks } from '@/plugins/splitChunks';
+import { builderPluginSplitChunks } from '@/plugins/splitChunks';
 import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/splitChunks', () => {
   it('should set split-by-experience config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSplitChunks()],
+      plugins: [builderPluginSplitChunks()],
       builderConfig: {
         performance: {
           chunkSplit: {
@@ -21,7 +21,7 @@ describe('plugins/splitChunks', () => {
 
   it('should set split-by-experience config correctly when polyfill is off', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSplitChunks()],
+      plugins: [builderPluginSplitChunks()],
       builderConfig: {
         performance: {
           chunkSplit: {
@@ -40,7 +40,7 @@ describe('plugins/splitChunks', () => {
 
   it('should set split-by-module config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSplitChunks()],
+      plugins: [builderPluginSplitChunks()],
       builderConfig: {
         performance: {
           chunkSplit: {
@@ -55,7 +55,7 @@ describe('plugins/splitChunks', () => {
 
   it('should set single-vendor config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSplitChunks()],
+      plugins: [builderPluginSplitChunks()],
       builderConfig: {
         performance: {
           chunkSplit: {
@@ -70,7 +70,7 @@ describe('plugins/splitChunks', () => {
 
   it('should set single-size config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSplitChunks()],
+      plugins: [builderPluginSplitChunks()],
       builderConfig: {
         performance: {
           chunkSplit: {
@@ -87,7 +87,7 @@ describe('plugins/splitChunks', () => {
 
   it('should set all-in-one config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSplitChunks()],
+      plugins: [builderPluginSplitChunks()],
       builderConfig: {
         performance: {
           chunkSplit: {
@@ -102,7 +102,7 @@ describe('plugins/splitChunks', () => {
 
   it('should set custom config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSplitChunks()],
+      plugins: [builderPluginSplitChunks()],
       builderConfig: {
         performance: {
           chunkSplit: {
@@ -121,7 +121,7 @@ describe('plugins/splitChunks', () => {
 
   it('should not split chunks when target is not', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginSplitChunks()],
+      plugins: [builderPluginSplitChunks()],
       target: 'node',
     });
     const config = await builder.unwrapWebpackConfig();

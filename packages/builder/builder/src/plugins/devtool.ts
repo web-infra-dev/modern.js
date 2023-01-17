@@ -3,7 +3,7 @@ import {
   DefaultBuilderPlugin,
 } from '@modern-js/builder-shared';
 
-export const PluginDevtool = (): DefaultBuilderPlugin => ({
+export const builderPluginDevtool = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-devtool',
 
   setup(api) {
