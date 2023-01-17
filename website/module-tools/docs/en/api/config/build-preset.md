@@ -200,7 +200,7 @@ export const buildConfig = [
 
 When you want to use a `buildPreset` preset that supports other ECMAScript versions, you can directly add the supported versions to the `'npm-library'`, `'npm-library-with-umd'`, `'npm-component'`, `'npm-component-with-umd'` presets.
 
-For example, if you want the `` npm-library'` preset to support  ``es2017``, you can configure it as follows.
+For example, if you want the `'npm-library'` preset to support  `'es2017'`, you can configure it as follows.
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
