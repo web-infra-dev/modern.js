@@ -29,8 +29,8 @@ export const hooks: AppToolsHooks = {
   beforeDeploy: createAsyncWorkflow(),
   afterDeploy: createAsyncWorkflow(),
 
-  watchFiles: createParallelWorkflow(),
-  fileChange: createAsyncWorkflow(),
+  // watchFiles: createParallelWorkflow(),
+  // fileChange: createAsyncWorkflow(),
   beforeRestart: createAsyncWorkflow(),
 
   registerDev: createParallelWorkflow<void, DevToolData>(),

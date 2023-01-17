@@ -1,16 +1,9 @@
 import * as path from 'path';
 import { fs, wait } from '@modern-js/utils';
-import type { IAppContext } from '@modern-js/core';
-import { DEFAULT_SERVER_CONFIG } from '@modern-js/utils/constants';
-import {
-  addServerConfigToDeps,
-  createFileWatcher,
-} from '../../src/utils/createFileWatcher';
-
-jest.useRealTimers();
+import { createFileWatcher } from '../src/utils';
+import { IAppContext } from '../src';
 
 const mockAppDirectory = path.join(__dirname, './fixtures/index-test');
-const mockConfigDir = './config';
 const mockSrcDirectory = path.join(mockAppDirectory, './src');
 
 describe('createFileWatcher', () => {
@@ -21,10 +14,11 @@ describe('createFileWatcher', () => {
     }
   });
 
-  xtest('will trigger add event', async () => {
+  it('will trigger add event', async () => {
     let triggeredType = '';
     let triggeredFile = '';
     const appContext: IAppContext = {
+      appDirectory: '',
       distDirectory: '',
       packageName: '',
       serverConfigFile: '',
@@ -44,7 +38,6 @@ describe('createFileWatcher', () => {
 
     const watcher = await createFileWatcher(
       appContext as any,
-      mockConfigDir,
       hooksRunner as any,
     );
     await wait(100);
@@ -64,17 +57,5 @@ describe('createFileWatcher', () => {
     expect(file.includes(triggeredFile)).toBeTruthy();
 
     watcher?.close();
-  });
-});
-
-describe('addServerConfigToDeps', () => {
-  it('should add server config to deps', async () => {
-    const appDirectory = path.join(__dirname, '../fixtures/utils');
-    const deps: string[] = [];
-    await addServerConfigToDeps(deps, appDirectory, DEFAULT_SERVER_CONFIG);
-    expect(deps.length).toBe(1);
-    expect(deps[0]).toBe(
-      path.join(appDirectory, `${DEFAULT_SERVER_CONFIG}.js`),
-    );
   });
 });
