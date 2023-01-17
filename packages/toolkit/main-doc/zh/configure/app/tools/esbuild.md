@@ -35,4 +35,4 @@ export default defineConfig({
 });
 ```
 
-完整配置项请参考 [Modern.js Builder - esbuild 插件配置](https://modernjs.dev/builder/zh/plugins/plugin-esbuild.html#%E9%85%8D%E7%BD%AE)。
+完整配置项请参考 [Modern.js Builder - esbuild 插件配置](https://modernjs.dev/builder/plugins/plugin-esbuild.html#%E9%85%8D%E7%BD%AE)。
