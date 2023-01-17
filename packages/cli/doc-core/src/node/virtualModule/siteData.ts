@@ -17,7 +17,7 @@ import { unified } from 'unified';
 import { htmlToText } from 'html-to-text';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
-import remarkDirective from 'remark-directive';
+import { remarkPluginContainer } from '@modern-js/remark-container';
 import { ReplaceRule } from 'shared/types/index';
 import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
@@ -134,7 +134,7 @@ export async function createSiteDataVirtualModulePlugin(
       const { title, toc } = parseToc(ast as Root);
       const precessor = unified()
         .use(remarkParse)
-        .use(remarkDirective)
+        .use(remarkPluginContainer)
         .use(remarkHtml);
       const html = await precessor.process(content);
       content = htmlToText(String(html), {
