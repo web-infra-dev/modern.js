@@ -37,7 +37,7 @@ export type BundlerConfig = {
 export interface BundlerChain
   extends Pick<
     Config,
-    'devtool' | 'target' | 'name' | 'merge' | 'cache' | 'plugin'
+    'devtool' | 'target' | 'name' | 'merge' | 'cache' | 'plugin' | 'entryPoints'
   > {
   toConfig: () => BundlerConfig;
   /** only support add string | string[] */
