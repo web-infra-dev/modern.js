@@ -4963,6 +4963,31 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.9.3
 
+  tests/integration/garfish/dashboard-router-v6:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-garfish': workspace:*
+      '@modern-js/plugin-router-v5': workspace:*
+      '@modern-js/runtime': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      '@modern-js/plugin-garfish': link:../../../../packages/runtime/plugin-garfish
+      '@modern-js/plugin-router-v5': link:../../../../packages/runtime/plugin-router-v5
+      '@modern-js/runtime': link:../../../../packages/runtime/plugin-runtime
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../packages/solutions/app-tools
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.3
+
   tests/integration/garfish/main:
     specifiers:
       '@modern-js/app-tools': workspace:*
@@ -16796,7 +16821,7 @@ packages:
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.75.0
+      webpack: 5.75.0_esbuild@0.15.7
     dev: false
 
   /babel-loader/9.1.0_ztqwsvkb6z73luspkai6ilstpu:
