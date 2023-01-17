@@ -92,11 +92,6 @@ export type AppToolsHooks = {
   beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
 
-  // watchFiles: ParallelWorkflow<void>;
-  // fileChange: AsyncWorkflow<
-  //   { filename: string; eventType: 'add' | 'change' | 'unlink' },
-  //   void
-  // >;
   beforeRestart: AsyncWorkflow<void, void>;
 
   registerDev: ParallelWorkflow<void, DevToolData>;
