@@ -164,7 +164,7 @@ console.info(React);
 
 此时我们会看到这样的产物代码。
 
-```js dist/index.js focus=7:12
+```js dist/index.js focus=12:18
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory();
@@ -203,7 +203,7 @@ export default () => {
 
 **默认情况下，以源码文件名称作为该模块在浏览器里全局变量的名称**。对于上面的例子，其产物内容如下：
 
-```js ./dist/index.js focus=6:6
+```js ./dist/index.js focus=9:9
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports);
@@ -233,7 +233,7 @@ export default defineConfig({
 
 此时构建产物的内容为：
 
-```js ./dist/index.js focus=6:6
+```js ./dist/index.js focus=9:9
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports);

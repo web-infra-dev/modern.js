@@ -55,6 +55,7 @@ Options:
 
 目前可以开启的功能有：
 
+- Test 测试
 - Storybook 调试
 - Tailwind CSS 支持
 - Modern.js Runtime API
@@ -88,6 +89,7 @@ Options:
   -h, --help  display help for command
 ```
 
+需要先执行 `modern new` 开启测试功能，然后才可以执行 `modern test` 命令。
 `modern test` 命令会自动将 `src/tests/*.test.(js|ts|jsx|tsx)` 文件当做测试用例运行。
 
 ## `modern lint`

@@ -6,7 +6,7 @@ sidebar_position: 3
 
 ## 三分钟快速上手
 
-想要实际体验 Module Tools？首先需要安装 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.17.6**。
+想要实际体验 Module Tools？首先需要安装 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.18.0**。
 
 然后在你的项目里安装以下依赖：
 

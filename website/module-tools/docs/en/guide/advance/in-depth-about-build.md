@@ -35,7 +35,7 @@ In `buildConfig` you can specify whether the current build task is Bundle or Bun
 - When `buildType: 'bundleless'`, `input` defaults to `['src']`
   > In fact, at `buildType: 'bundle'`, the build tool detects the existence of a file matching the name rule `src/index.(j|t)sx?` and uses it as an entry file.
 
-:::warn{title=notes}
+:::warning{title=notes}
 It is recommended that you do not specify multiple source file directories during a Bundleless build, as unintended results may occur. Bundleless builds with multiple source directories are currently in an unstable stage.
 :::
 
@@ -45,7 +45,7 @@ We know from the defaults: **Bundle builds can generally specify a file path as 
 
 In addition to setting `input` to an array, you can also set it to an object during the Bundle build process. **By using the object form, we can modify the name of the file that the build product outputs**. So for the following example, `. /src/index.ts` corresponds to the path of the build product file as `. /dist/main.js`.
 
-```tsx modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -80,7 +80,7 @@ The [`buildConfig.dts`](/en/api/config/build-config#dts) configuration is mainly
 
 Type generation is turned on by default, if you need to turn it off, you can configure it as follows:
 
-```ts ./modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -107,7 +107,7 @@ The **module engineering solution also supports packaging of type files**, altho
 
 During the Bundleless build process, if an alias appears in the source code, e.g.
 
-```ts ./src/index.ts
+```js ./src/index.ts
 import utils from '@common/utils';
 ```
 
@@ -124,7 +124,7 @@ However, there are some cases that cannot be handled at this time.
 
 General usage:
 
-```ts
+```js
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -142,7 +142,7 @@ export default defineConfig({
 
 For the use of `dts.only`:
 
-```ts
+```js
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -170,7 +170,7 @@ export default defineConfig({
 
 #### Environment variable replacement
 
-```ts
+```js
 import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   buildConfig: {
@@ -183,21 +183,21 @@ export default defineConfig({
 
 With the above configuration, we can put the following code.
 
-```
+```js
 // pre-compiler code
 console.log(process.env.VERSION);
 ```
 
 When executing `VERSION=1.0.0 modern build`, the conversion is:
 
-```
+```js
 // compiled code
 console.log('1.0.0');
 ```
 
 #### Global variable replacement
 
-```ts
+```js
 import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   buildConfig: {
@@ -210,14 +210,14 @@ export default defineConfig({
 
 With the above configuration, we can put the following code.
 
-```
+```js
 // pre-compile code
 console.log(VERSION);
 ```
 
 Convert to:
 
-```
+```js
 // post-compile code
 console.log('1.0.0');
 ```

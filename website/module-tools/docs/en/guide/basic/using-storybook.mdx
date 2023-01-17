@@ -150,8 +150,6 @@ Not only is it impossible to verify that the component product is correct using 
 
 ## Configure Storybook
 
-### Configuration file
-
 Storybook is officially configured for projects through a folder called `.storybook`, which contains various configuration files. **In a module project scenario, Storybook configuration files can be added to the `config/storybook` directory of the project.**
 
 For more information on how to use the various Storybook configuration files, see the following links:
@@ -165,17 +163,7 @@ For more information on how to use the various Storybook configuration files, se
 
 In the future we will consider whether these configurations can be allowed to be modified, but for now we are limiting their use to reduce unpredictable issues.
 
-### `dev.storybook`
-
-In addition to the configuration file, the module engineering solution also provides a `dev.storybook` configuration item in the `modern.config.(j|t)s` project configuration file.
-
-The webpack configuration of Storybook can be modified via this configuration.
-
-{/* 链接待补充 */}
-
-- `dev.storybook.webpack`
-
-### Building Storybook Products
+## Building Storybook Products
 
 In addition to Storybook debugging of components or common modules, you can also perform Storybook build tasks with the following commands.
 
