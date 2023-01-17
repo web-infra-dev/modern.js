@@ -15,8 +15,10 @@ export function builderPluginStartUrl(): DefaultBuilderPlugin {
         if (!isFirstCompile || !port) {
           return;
         }
+
         const config = api.getNormalizedConfig();
-        const { startUrl } = config.dev;
+        const { https, startUrl } = config.dev;
+
         if (!startUrl) {
           return;
         }
@@ -25,12 +27,18 @@ export function builderPluginStartUrl(): DefaultBuilderPlugin {
           '@modern-js/builder-shared/open'
         );
         const urls: string[] = [];
+
         if (startUrl === true) {
-          const protocol = config.dev.https ? 'https' : 'http';
+          const protocol = https ? 'https' : 'http';
           urls.push(`${protocol}://localhost:${port}`);
         } else {
-          urls.push(..._.castArray(startUrl));
+          urls.push(
+            ..._.castArray(startUrl).map(item =>
+              item.replace(/<port>/g, String(port)),
+            ),
+          );
         }
+
         for (const url of urls) {
           await open(url);
         }
