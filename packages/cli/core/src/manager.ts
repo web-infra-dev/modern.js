@@ -21,6 +21,8 @@ const baseHooks: BaseHooks<{}> = {
   prepare: createAsyncWorkflow(),
   afterPrepare: createAsyncWorkflow(),
   commands: createAsyncWorkflow(),
+  watchFiles: createParallelWorkflow(),
+  fileChange: createAsyncWorkflow(),
   beforeExit: createAsyncWorkflow(),
   addRuntimeExports: createAsyncWaterfall(),
 };

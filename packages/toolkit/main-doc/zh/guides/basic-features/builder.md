@@ -37,10 +37,10 @@ export default defineConfig({
 });
 ```
 
-关于构建配置的详细说明，请参考 [「Modern.js Builder - Builder 配置」](https://modernjs.dev/builder/zh/guide/basic/builder-config.html)。
+关于构建配置的详细说明，请参考 [「Modern.js Builder - Builder 配置」](https://modernjs.dev/builder/guide/basic/builder-config.html)。
 
 ## 构建能力
 
 Modern.js Builder 提供了丰富的构建能力，包括 JavaScript 编译、CSS 编译、静态资源处理、代码热更新、代码压缩、TS 类型检查等几十种能力。
 
-我们推荐你阅读 [「Modern.js Builder - 功能导航」](https://modernjs.dev/builder/zh/guide/features.html) 来了解 Modern.js Builder 提供的所有构建能力。
+我们推荐你阅读 [「Modern.js Builder - 功能导航」](https://modernjs.dev/builder/guide/features.html) 来了解 Modern.js Builder 提供的所有构建能力。

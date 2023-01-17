@@ -19,4 +19,4 @@ export default defineConfig({
 });
 ```
 
-该配置项基于 Modern.js Builder 的 Node Polyfill 插件实现，你可以阅读 [Modern.js Builder - Node Polyfill 插件](https://modernjs.dev/builder/zh/plugins/plugin-node-polyfill.html) 文档来了解详细信息。
+该配置项基于 Modern.js Builder 的 Node Polyfill 插件实现，你可以阅读 [Modern.js Builder - Node Polyfill 插件](https://modernjs.dev/builder/plugins/plugin-node-polyfill.html) 文档来了解详细信息。
