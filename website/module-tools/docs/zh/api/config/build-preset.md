@@ -200,7 +200,7 @@ export const buildConfig = [
 
 当想要使用支持其他 ECMAScript 版本的 `buildPreset` 预设的时候，可以直接在 `'npm-library'`、`'npm-library-with-umd'`、`'npm-component'`、`'npm-component-with-umd'` 这些预设值后面增加想要支持的版本。
 
-例如希望 `'npm-library'` 预设支持 `es2017`，则可以按照如下方式配置：
+例如希望 `'npm-library'` 预设支持 `'es2017'`，则可以按照如下方式配置：
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';

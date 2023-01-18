@@ -20,7 +20,7 @@ export default defineConfig({
 **默认生成产物具有以下特点**：
 
 - 会生成[CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules)和[ESM](https://nodejs.org/api/esm.html#modules-ecmascript-modules)两份产物。
-- 代码语法支持到 `ES2017` ,更高级的语法将会被转换。
+- 代码语法支持到 `ES6` ,更高级的语法将会被转换。
 - 所有的代码经过打包变成了一个文件，即进行了 **bundle** 处理。
 - 产物输出根目录为项目下的 `dist` 目录，类型文件输出的目录为 `dist/types`。
 
@@ -43,8 +43,8 @@ export default defineConfig({
 
 在通用的预设字符串中，`"npm-library"` 可以用于在开发库类型的 npm 包的场景下使用，它适合大多数普通的模块类型项目。当设置 `"npm-library"` 的时候，项目的输出产物会有以下特点：
 
-- 在 `dist/lib` 目录下会得到代码格式为 `cjs`、语法支持到 `es2017` 且经过打包处理后的产物。
-- 在 `dist/es` 目录下会得到代码格式为 `esm`、语法支持为 `es2017` 且经过打包处理后的产物。
+- 在 `dist/lib` 目录下会得到代码格式为 `cjs`、语法支持到 `es6` 且经过打包处理后的产物。
+- 在 `dist/es` 目录下会得到代码格式为 `esm`、语法支持为 `es6` 且经过打包处理后的产物。
 - 在 `dist/types` 目录下会得到类型文件。如果不是 TypeScript 项目，则没有该目录。
 
 而预设字符串 `"npm-library"` 对应的变体则是在原本产物的基础上修改了**代码语法支持**这一特点，同时在字符串命名上也变为了 `"npm-library-[es5 | es2016...es2020 | esnext]"` 这样的形式。
