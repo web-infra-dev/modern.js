@@ -35,7 +35,7 @@ sidebar_position: 1
 - 当 `buildType: 'bundleless'` 的时候，`input` 默认值为 `['src']`
   > 实际上，在 `buildType: 'bundle'` 的时候，构建工具会检测是否存在符合 `src/index.(j|t)sx?` 这个名称规则的文件，并将其作为入口文件。
 
-:::warn{title=注意}
+:::warning {title=注意}
 建议不要在 Bundleless 构建过程中指定多个源码文件目录，可能出现不符合预期的结果。目前多个源码目录的 Bundleless 构建还处于不稳定阶段。
 :::
 
@@ -45,7 +45,7 @@ sidebar_position: 1
 
 在 Bundle 构建过程中，除了将 `input` 设置为一个数组，也可以将它设置为一个对象。**通过使用对象的形式，我们可以修改构建产物输出的文件名称**。那么对于下面的例子，`./src/index.ts` 对应的构建产物文件路径为 `./dist/main.js`。
 
-```tsx modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -80,7 +80,7 @@ export default defineConfig({
 
 默认情况下类型生成功能是开启的，如果需要关闭的话，可以按照如下配置：
 
-```ts ./modern.config.ts
+```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -107,7 +107,7 @@ export default defineConfig({
 
 在 Bundleless 构建过程中，如果源代码中出现了别名，例如：
 
-```ts ./src/index.ts
+```js ./src/index.ts
 import utils from '@common/utils';
 ```
 
@@ -124,7 +124,7 @@ import utils from '@common/utils';
 
 一般使用方式：
 
-```ts
+```js
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -142,7 +142,7 @@ export default defineConfig({
 
 使用 `dts.only` 的情况：
 
-```ts
+```js
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -170,7 +170,7 @@ export default defineConfig({
 
 #### 环境变量替换
 
-```ts
+```js
 import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   buildConfig: {
@@ -183,21 +183,21 @@ export default defineConfig({
 
 通过上面的配置，我们就可以将下面这段代码：
 
-```
+```js
 // 编译前代码
 console.log(process.env.VERSION);
 ```
 
 在执行 `VERSION=1.0.0 modern build` 的时候，转换为：
 
-```
+```js
 // 编译后代码
 console.log('1.0.0');
 ```
 
 #### 全局变量替换
 
-```ts
+```js
 import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   buildConfig: {
@@ -210,14 +210,14 @@ export default defineConfig({
 
 通过上面的配置，我们就可以将下面这段代码：
 
-```
+```js
 // 编译前代码
 console.log(VERSION);
 ```
 
 转换为：
 
-```
+```js
 // 编译后代码
 console.log('1.0.0');
 ```

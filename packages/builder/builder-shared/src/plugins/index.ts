@@ -1,0 +1,1 @@
+export { AutoSetRootFontSizePlugin } from './AutoSetRootFontSizePlugin';

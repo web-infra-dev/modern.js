@@ -1,7 +1,10 @@
 import _ from '@modern-js/utils/lodash';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export function PluginStartUrl(): DefaultBuilderPlugin {
+export const replacePlaceholder = (url: string, port: number) =>
+  url.replace(/<port>/g, String(port));
+
+export function builderPluginStartUrl(): DefaultBuilderPlugin {
   return {
     name: 'builder-plugin-start-url',
     async setup(api) {
@@ -15,8 +18,10 @@ export function PluginStartUrl(): DefaultBuilderPlugin {
         if (!isFirstCompile || !port) {
           return;
         }
+
         const config = api.getNormalizedConfig();
-        const { startUrl } = config.dev;
+        const { https, startUrl } = config.dev;
+
         if (!startUrl) {
           return;
         }
@@ -25,12 +30,18 @@ export function PluginStartUrl(): DefaultBuilderPlugin {
           '@modern-js/builder-shared/open'
         );
         const urls: string[] = [];
+
         if (startUrl === true) {
-          const protocol = config.dev.https ? 'https' : 'http';
+          const protocol = https ? 'https' : 'http';
           urls.push(`${protocol}://localhost:${port}`);
         } else {
-          urls.push(..._.castArray(startUrl));
+          urls.push(
+            ..._.castArray(startUrl).map(item =>
+              replacePlaceholder(item, port),
+            ),
+          );
         }
+
         for (const url of urls) {
           await open(url);
         }

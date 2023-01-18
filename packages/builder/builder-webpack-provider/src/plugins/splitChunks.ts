@@ -214,7 +214,7 @@ const SPLIT_STRATEGY_DISPATCHER: Record<
   'single-vendor': singleVendor,
 };
 
-export function PluginSplitChunks(): BuilderPlugin {
+export function builderPluginSplitChunks(): BuilderPlugin {
   return {
     name: 'builder-plugin-split-chunks',
     setup(api) {

@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
-import { PluginOutput } from '@/plugins/output';
+import { builderPluginOutput } from '@/plugins/output';
 import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/output', () => {
   it('should set output correctly', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginOutput()],
+      plugins: [builderPluginOutput()],
     });
 
     const config = await builder.unwrapWebpackConfig();
@@ -14,7 +14,7 @@ describe('plugins/output', () => {
 
   it('should allow to custom server directory with distPath.server', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginOutput()],
+      plugins: [builderPluginOutput()],
       target: ['node'],
       builderConfig: {
         output: {
@@ -31,7 +31,7 @@ describe('plugins/output', () => {
 
   it('should allow to use filename.js to modify filename', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginOutput()],
+      plugins: [builderPluginOutput()],
       builderConfig: {
         output: {
           filename: {

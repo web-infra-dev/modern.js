@@ -1,12 +1,17 @@
 import _ from '@modern-js/utils/lodash';
-import type { BuilderPlugin, RemOptions, PxToRemOptions } from '../types';
+import type { BuilderPlugin } from '../types';
+import {
+  RemOptions,
+  PxToRemOptions,
+  AutoSetRootFontSizePlugin,
+} from '@modern-js/builder-shared';
 
 const defaultOptions: RemOptions = {
   enableRuntime: true,
   rootFontSize: 50,
 };
 
-export const PluginRem = (): BuilderPlugin => ({
+export const builderPluginRem = (): BuilderPlugin => ({
   name: 'builder-plugin-rem',
 
   setup(api) {
@@ -31,6 +36,10 @@ export const PluginRem = (): BuilderPlugin => ({
         )) as {
           default: (_opts: PxToRemOptions) => any;
         };
+
+        const { default: HtmlWebpackPlugin } = await import(
+          'html-webpack-plugin'
+        );
 
         const applyRules = [
           CHAIN_ID.RULE.CSS,
@@ -68,15 +77,15 @@ export const PluginRem = (): BuilderPlugin => ({
           return;
         }
 
-        const { AutoSetRootFontSizePlugin } = await import(
-          '../webpackPlugins/AutoSetRootFontSizePlugin'
-        );
-
         const entries = Object.keys(chain.entryPoints.entries() || {});
 
         chain
           .plugin(CHAIN_ID.PLUGIN.AUTO_SET_ROOT_SIZE)
-          .use(AutoSetRootFontSizePlugin, [userOptions, entries]);
+          .use(AutoSetRootFontSizePlugin, [
+            userOptions,
+            entries,
+            HtmlWebpackPlugin,
+          ]);
       },
     );
   },

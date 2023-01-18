@@ -33,6 +33,22 @@ describe('test route', () => {
       expect(matcher.matchUrlPath('/home')).toBeFalsy();
       expect(matcher.matchUrlPath('/home.html')).toBeFalsy();
     });
+
+    test('should matcher work correctly with static routes', () => {
+      const routeSpec = {
+        urlPath: '/static.html',
+        isSPA: true,
+        isSSR: false,
+        entryPath: 'public/static.html',
+      };
+      const matcher = new RouteMatcher(routeSpec);
+      matcher.generate('');
+      expect(matcher.matchUrlPath('/static')).toBeTruthy();
+      expect(matcher.matchUrlPath('/static.html')).toBeTruthy();
+      expect(matcher.matchUrlPath('/static_html')).toBeFalsy();
+      expect(matcher.matchUrlPath('/static_2')).toBeFalsy();
+      expect(matcher.matchUrlPath('/static_2.html')).toBeFalsy();
+    });
   });
 
   describe('test route manager', () => {

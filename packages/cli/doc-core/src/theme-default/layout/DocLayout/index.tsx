@@ -55,10 +55,12 @@ export function DocLayout(props: DocLayoutProps) {
           ) : (
             <div className="modern-doc">
               <Content />
+              <div>
+                {beforeDocFooter}
+                <DocFooter />
+              </div>
             </div>
           )}
-          {beforeDocFooter}
-          <DocFooter />
         </div>
 
         {hasAside ? (

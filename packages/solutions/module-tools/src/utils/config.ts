@@ -4,7 +4,8 @@ import type {
   PartialBuildConfig,
   PartialBaseBuildConfig,
   DTSOptions,
-} from '../types/config';
+  ModuleLegacyUserConfig,
+} from '../types';
 
 export const validPartialBuildConfig = (config: PartialBuildConfig) => {
   if (Array.isArray(config)) {
@@ -140,3 +141,7 @@ export const getDtsConfig = async (
 
   return userDTS;
 };
+
+export const isLegacyUserConfig = (config: {
+  legacy?: boolean;
+}): config is ModuleLegacyUserConfig => Boolean(config.legacy);

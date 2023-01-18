@@ -1,6 +1,6 @@
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export const PluginCleanOutput = (): DefaultBuilderPlugin => ({
+export const builderPluginCleanOutput = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-clean-output',
 
   setup(api) {

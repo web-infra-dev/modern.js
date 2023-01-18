@@ -1,5 +1,6 @@
 import moduleTools from '@modern-js/module-tools';
 
-module.exports = {
+export default {
   plugins: [moduleTools()],
+  buildPreset: 'npm-library',
 };

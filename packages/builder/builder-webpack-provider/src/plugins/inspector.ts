@@ -3,7 +3,7 @@ import type { BuilderPlugin } from '../types';
 /**
  * Provide webpack inspector.
  */
-export const PluginInspector = (): BuilderPlugin => ({
+export const builderPluginInspector = (): BuilderPlugin => ({
   name: 'builder-plugin-inspector',
 
   setup(api) {

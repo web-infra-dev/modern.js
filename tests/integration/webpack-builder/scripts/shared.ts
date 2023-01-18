@@ -55,13 +55,15 @@ export const createBuilder = async () => {
   });
 
   if (process.env.ESBUILD) {
-    const { PluginEsbuild } = await import('@modern-js/builder-plugin-esbuild');
-    builder.addPlugins([PluginEsbuild()]);
+    const { builderPluginEsbuild } = await import(
+      '@modern-js/builder-plugin-esbuild'
+    );
+    builder.addPlugins([builderPluginEsbuild()]);
   }
 
   if (process.env.SWC) {
-    const { PluginSwc } = await import('@modern-js/builder-plugin-swc');
-    builder.addPlugins([PluginSwc()]);
+    const { builderPluginSwc } = await import('@modern-js/builder-plugin-swc');
+    builder.addPlugins([builderPluginSwc()]);
   }
 
   return builder;

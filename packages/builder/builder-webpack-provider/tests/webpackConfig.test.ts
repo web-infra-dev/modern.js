@@ -1,11 +1,11 @@
 import { expect, describe, it } from 'vitest';
-import { PluginBasic } from '@/plugins/basic';
+import { builderPluginBasic } from '@/plugins/basic';
 import { createStubBuilder } from '@/stub';
 
 describe('webpackConfig', () => {
   it('should allow tools.webpack to return config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBasic()],
+      plugins: [builderPluginBasic()],
       builderConfig: {
         tools: {
           webpack(config) {
@@ -24,7 +24,7 @@ describe('webpackConfig', () => {
 
   it('should allow tools.webpack to modify config object', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBasic()],
+      plugins: [builderPluginBasic()],
       builderConfig: {
         tools: {
           webpack(config) {
@@ -40,7 +40,7 @@ describe('webpackConfig', () => {
 
   it('should allow tools.webpack to be an object', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBasic()],
+      plugins: [builderPluginBasic()],
       builderConfig: {
         tools: {
           webpack: {
@@ -56,7 +56,7 @@ describe('webpackConfig', () => {
 
   it('should allow tools.webpack to be an array', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBasic()],
+      plugins: [builderPluginBasic()],
       builderConfig: {
         tools: {
           webpack: [
@@ -77,7 +77,7 @@ describe('webpackConfig', () => {
 
   it('should allow to use tools.webpackChain to modify config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBasic()],
+      plugins: [builderPluginBasic()],
       builderConfig: {
         tools: {
           webpackChain(chain) {
@@ -93,7 +93,7 @@ describe('webpackConfig', () => {
 
   it('should allow tools.webpackChain to be an array', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginBasic()],
+      plugins: [builderPluginBasic()],
       builderConfig: {
         tools: {
           webpackChain: [

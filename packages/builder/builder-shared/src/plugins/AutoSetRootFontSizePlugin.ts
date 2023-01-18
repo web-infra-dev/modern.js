@@ -1,7 +1,7 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { logger } from '@modern-js/builder-shared';
+import type HtmlWebpackPlugin from 'html-webpack-plugin';
+import { RemOptions } from '../types';
+import { logger } from '../logger';
 import type { Compiler, WebpackPluginInstance } from 'webpack';
-import type { RemOptions } from '../types';
 
 type AutoSetRootFontSizeOptions = Omit<
   RemOptions,
@@ -21,17 +21,15 @@ export async function getRootPixelCode(
     return `<script type="text/javascript">${code}</script>`;
   }
 
-  const { default: TerserPlugin } = await import('terser-webpack-plugin');
+  const { minify } = await import('terser');
 
-  const { code: minifiedRuntimeCode } = await TerserPlugin.terserMinify(
+  const { code: minifiedRuntimeCode } = await minify(
     {
       RootPixelCode: code,
     },
-    undefined,
     {
       ecma: 5,
     },
-    undefined,
   );
 
   return `<script type="text/javascript">${minifiedRuntimeCode}</script>`;
@@ -55,9 +53,16 @@ export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
 
   webpackEntries: Array<string>;
 
-  constructor(options: RemOptions, entries: Array<string>) {
+  HtmlPlugin: typeof HtmlWebpackPlugin;
+
+  constructor(
+    options: RemOptions,
+    entries: Array<string>,
+    HtmlPlugin: typeof HtmlWebpackPlugin,
+  ) {
     this.options = { ...DEFAULT_OPTIONS, ...(options || {}) };
     this.webpackEntries = entries;
+    this.HtmlPlugin = HtmlPlugin;
   }
 
   apply(complier: Compiler) {
@@ -66,7 +71,7 @@ export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
     let rootPixelCode: string | undefined;
 
     complier.hooks.compilation.tap(this.name, compilation => {
-      HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapPromise(
+      this.HtmlPlugin.getHooks(compilation).beforeEmit.tapPromise(
         this.name,
         async htmlPluginData => {
           const isExclude = this.options.excludeEntries.find((item: string) => {

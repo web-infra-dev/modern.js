@@ -1,5 +1,5 @@
 import path from 'path';
-import docTools, { defineConfig, Sidebar } from '@modern-js/doc-tools';
+import docTools, { defineConfig, Sidebar, NavItem } from '@modern-js/doc-tools';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -11,7 +11,7 @@ function getI18nHelper(lang: 'zh' | 'en') {
   return { getText, getLink };
 }
 
-function getNavbar(lang: 'zh' | 'en') {
+function getNavbar(lang: 'zh' | 'en'): NavItem[] {
   const { getLink, getText } = getI18nHelper(lang);
   return [
     {
@@ -167,14 +167,15 @@ export default defineConfig({
   doc: {
     root: path.join(__dirname, 'docs'),
     lang: 'zh',
-    base: isProd ? '/builder/' : '/',
+    base: '/builder/',
     title: 'Modern.js Builder',
+    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     markdown: {
       checkDeadLinks: isProd,
     },
     themeConfig: {
       footer: {
-        message: 'Copyright © 2022 ByteDance.',
+        message: 'Copyright © 2023 ByteDance.',
       },
       socialLinks: [
         {
@@ -216,6 +217,9 @@ export default defineConfig({
         globalVars: {
           MODERN_JS: 'Modern.js',
         },
+      },
+      dev: {
+        startUrl: 'http://localhost:<port>/builder/',
       },
     },
   },

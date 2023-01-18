@@ -7,7 +7,7 @@ import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin } from '../types';
 import { BUILTIN_LOADER } from '../shared';
 
-export function PluginSass(): BuilderPlugin {
+export function builderPluginSass(): BuilderPlugin {
   return {
     name: 'builder-plugin-sass',
     setup(api) {

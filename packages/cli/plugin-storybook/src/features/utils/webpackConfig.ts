@@ -93,10 +93,17 @@ const resolveStorybookWebPackConfig = (
 
   if (fs.existsSync(tsconfigPath)) {
     sbWebpackConfig.resolve = sbWebpackConfig.resolve || {};
+    const originalPlugins = sbWebpackConfig.resolve.plugins || [];
+
     sbWebpackConfig.resolve.plugins = [
-      ...(sbWebpackConfig.resolve.plugins || []),
+      // remove project/tsconfig.json`s tsconfigpaths-plugin
+      ...originalPlugins.filter(
+        p => p?.constructor.name !== 'TsConfigPathsPlugin',
+      ),
       new TsconfigPathsPlugin({
         configFile: path.join(appDirectory, 'stories/tsconfig.json'),
+        mainFields: ['browser', 'module', 'main'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.json'],
       }),
     ];
   }
@@ -168,11 +175,11 @@ export const getCustomWebpackConfigHandle = async ({
   const { PluginStorybook } = await import('./builder-plugin');
 
   if (!builder.isPluginExists('builder-plugin-node-polyfill')) {
-    const { PluginNodePolyfill } = await import(
+    const { builderPluginNodePolyfill } = await import(
       '@modern-js/builder-plugin-node-polyfill'
     );
 
-    builder.addPlugins([PluginNodePolyfill()]);
+    builder.addPlugins([builderPluginNodePolyfill()]);
   }
 
   builder.addPlugins([PluginStorybook({ appDirectory, configDir })]);

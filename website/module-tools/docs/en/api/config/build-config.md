@@ -8,7 +8,7 @@ This section describes all the configuration of Module Tools for building
 
 ## alias
 
-- type: `Record<string, string | string[]> | Function`
+- type: `Record<string, string> | Function`
 - default: `{'@': 'src',}`
 
 :::tip
@@ -539,7 +539,7 @@ The rest of the usage is the same as Tailwind CSS: [Quick Portal](https://tailwi
 Specify the target environment for the build
 
 - type: `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
-- default: `'es2015'`
+- default: `'es6'`
 
 ## umdGlobals
 
