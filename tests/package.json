@@ -20,11 +20,11 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
+    "@modern-js/generator-cases": "workspace:*",
+    "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin-polyfill": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/generator-cases": "workspace:*",
-    "@modern-js/new-action": "workspace:*",
     "@types/node": "^14",
     "cross-spawn": "^7.0.3",
     "fs-extra": "^10.0.0",
