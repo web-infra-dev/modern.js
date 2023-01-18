@@ -1,10 +1,10 @@
 {
-  "name": "my-website",
+  "name": "@modern-js/main-doc-website",
   "version": "2.1.0",
   "private": true,
   "scripts": {
     "dev": "modern dev",
-    "build": "modern build"
+    "build:doc": "modern build"
   },
   "dependencies": {
     "@modern-js/main-doc": "workspace:*",
