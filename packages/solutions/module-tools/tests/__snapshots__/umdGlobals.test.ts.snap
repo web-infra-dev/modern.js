@@ -30,6 +30,26 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, \\"default\\", { value: mod, enumerable: true }) : target,
     mod
   ));
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
 
   // libuild:globals:react
   var require_react = __commonJS({
@@ -52,10 +72,10 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
 
   // src/index.js
   var import_react = __toESM(require_react());
-  var debug = async (str) => {
-    const { addPrefix: addPrefix2 } = await Promise.resolve().then(() => (init_common(), common_exports));
+  var debug = (str) => __async(void 0, null, function* () {
+    const { addPrefix: addPrefix2 } = yield Promise.resolve().then(() => (init_common(), common_exports));
     addPrefix2(\\"DEBUG:\\", \`\${import_react.default.version}/\${str}\`);
-  };
+  });
 })();
 "
 `;
@@ -109,6 +129,26 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
             value: mod,
             enumerable: true
         }) : target, mod));
+    var __async = (__this, __arguments, generator)=>{
+        return new Promise((resolve, reject)=>{
+            var fulfilled = (value)=>{
+                try {
+                    step(generator.next(value));
+                } catch (e) {
+                    reject(e);
+                }
+            };
+            var rejected = (value)=>{
+                try {
+                    step(generator.throw(value));
+                } catch (e) {
+                    reject(e);
+                }
+            };
+            var step = (x)=>x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+            step((generator = generator.apply(__this, __arguments)).next());
+        });
+    };
     // libuild:globals:react
     var require_react = __commonJS({
         \\"libuild:globals:react\\" (exports, module1) {
@@ -128,10 +168,10 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     });
     // src/index.js
     var import_react = __toESM(require_react());
-    var debug = async (str)=>{
-        const { addPrefix: addPrefix2  } = await Promise.resolve().then(()=>(init_common(), common_exports));
-        addPrefix2(\\"DEBUG:\\", \`\${import_react.default.version}/\${str}\`);
-    };
+    var debug = (str)=>__async(void 0, null, function*() {
+            const { addPrefix: addPrefix2  } = yield Promise.resolve().then(()=>(init_common(), common_exports));
+            addPrefix2(\\"DEBUG:\\", \`\${import_react.default.version}/\${str}\`);
+        });
 });
 "
 `;

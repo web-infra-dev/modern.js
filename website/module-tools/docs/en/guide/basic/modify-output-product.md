@@ -20,7 +20,7 @@ export default defineConfig({
 **The default generation product has the following characteristics**.
 
 - will generate [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules) and [ESM](https://nodejs.org/api/esm.html#modules- ecmascript-modules).
-- The code syntax is supported up to `ES2017` , and more advanced syntax will be converted.
+- The code syntax is supported up to `ES6` , and more advanced syntax will be converted.
 - All code is packaged into one file, i.e. **bundle** processing is performed.
 - The output root directory is the `dist` directory under the project, and the type file output directory is `dist/types`.
 
@@ -43,8 +43,8 @@ The module engineering solution provides generic build preset strings and corres
 
 Among the generic preset strings, `"npm-library"` can be used in the scenario of developing npm packages of the library type, which is suitable for most common module type projects. When `"npm-library"` is set, the output product of the project will have the following characteristics.
 
-- In the `dist/lib` directory you will get code formatted as `cjs`, syntax supported up to `es2017` and packaged.
-- In the `dist/es` directory, you get code in the format `esm`, with syntax support up to `es2017` and after packaging.
+- In the `dist/lib` directory you will get code formatted as `cjs`, syntax supported up to `es6` and packaged.
+- In the `dist/es` directory, you get code in the format `esm`, with syntax support up to `es6` and after packaging.
 - In the `dist/types` directory, you get the type files. If it is not a TypeScript project, there is no such directory.
 
 The default string `"npm-library"` is a variant of the original product with a modified **code syntax support** feature and a string naming change to `"npm-library-[es5 | es2016.... . es2020 | esnext]"`.
