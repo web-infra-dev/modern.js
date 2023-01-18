@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## Environment preparation
 
-In order to use the Modern.js module engineering solution, you first need [NodeJS](https://nodejs.org/zh/) engine, we recommend the latest [LTS version](https://github.com/nodejs/Release), and make sure the Node version is **>=14.17.6**. because non-stable NodeJS releases frequently have bugs. You might consider installing via [nvm-windows](https://github.com/coreybutler/nvm-windows) and [nvm](https://github.com/nvm-sh/nvm) (Mac/linux), so you can easily switch to different NodeJS versions that might be required for different projects that you work on.
+In order to use the Modern.js module engineering solution, you first need [NodeJS](https://nodejs.org/zh/) engine, we recommend the latest [LTS version](https://github.com/nodejs/Release), and make sure the Node version is **>=14.18.0**. because non-stable NodeJS releases frequently have bugs. You might consider installing via [nvm-windows](https://github.com/coreybutler/nvm-windows) and [nvm](https://github.com/nvm-sh/nvm) (Mac/linux), so you can easily switch to different NodeJS versions that might be required for different projects that you work on.
 
 ## Getting Started with npm
 
@@ -162,25 +162,31 @@ npm install -g pnpm
 
 ## Module Tools configuration file
 
-A configuration file for Module Tools is provided in the initial module project directory -- `modern.config.(j|t)s`. By default, no configuration is required, so the `modern.config` configuration file is not required to exist.
+The Module Tools configuration file - `modern.config.(j|t)s` - is provided in the project directory of the module project created with `@modern-js/create`. However, the `modern.config` configuration file is not required to exist.
 
-The contents of the initial configuration file are as follows.
+By default, the contents of the generated configuration file are as follows.
 
 ```typescript
 // modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
-export default defineConfig({});
+export default defineConfig({
+  plugins: [moduleTools()],
+  buildPreset: 'npm-library',
+});
 ```
 
 ```js
 // modern.config.js
-const { defineConfig } = require('@modern-js/module-tools');
+import moduleTools from '@modern-js/module-tools';
 
-module.exports = defineConfig({});
+export default {
+  plugins: [moduleTools()],
+  buildPreset: 'npm-library',
+};
 ```
 
-**We recommend using the `defineConfig` function**, but it is not mandatory to use it. So you can also return an object directly in the configuration file: the:
+**We recommend using the `defineConfig` function**, but it is not mandatory to use it. So you can also return an object directly in the config file: the
 
 ```typescript
 // modern.config.ts
@@ -189,5 +195,5 @@ export default {};
 
 ```js
 // modern.config.js
-module.exports = {};
+export default {};
 ```

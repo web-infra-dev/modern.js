@@ -9,25 +9,20 @@ sidebar_position: 3
 当在初始化的项目里使用 `modern build` 命令的时候，会根据 Module Tools 默认支持的配置生成相应的产物。默认支持的配置具体如下：
 
 ```typescript
-import { defineConfig } from '@modern-js/module-tools';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
-  buildPreset: 'base-config',
+  plugins: [moduleTools()],
+  buildPreset: 'npm-library',
 });
 ```
 
 **默认生成产物具有以下特点**：
 
-- 代码格式为 [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules)，或者简称为 `cjs`。
-- 代码语法支持到 `ES6`。
+- 会生成[CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules)和[ESM](https://nodejs.org/api/esm.html#modules-ecmascript-modules)两份产物。
+- 代码语法支持到 `ES6` ,更高级的语法将会被转换。
 - 所有的代码经过打包变成了一个文件，即进行了 **bundle** 处理。
 - 产物输出根目录为项目下的 `dist` 目录，类型文件输出的目录为 `dist/types`。
-
-:::tip
-
-1. 所谓“代码语法支持到 ES6”的意思是指：产物代码所支持的语法不会超过 `ES6`。如果源码中使用语法是 `ES6` 以上的语法（例如 `ES2017`），则会被进行转换。
-
-:::
 
 看到这里你可能会有以下疑问：
 
@@ -44,7 +39,7 @@ export default defineConfig({
 
 **构建预设的值可以是字符串形式**，因此这样形式的构建预设叫做预设字符串。
 
-模块工程解决方案根据 npm 包使用的通用场景，提供了通用的构建预设字符串以及相应的变体。目前支持的所有预设字符串可以通过 [BuildPreset API](/api/config/build-config) 查看。这里讲解一下关于**通用的预设字符串与变体之间的关系**。
+模块工程解决方案根据 npm 包使用的通用场景，提供了通用的构建预设字符串以及相应的变体。目前支持的所有预设字符串可以通过 [BuildPreset API](/api/config/build-preset) 查看。这里讲解一下关于**通用的预设字符串与变体之间的关系**。
 
 在通用的预设字符串中，`"npm-library"` 可以用于在开发库类型的 npm 包的场景下使用，它适合大多数普通的模块类型项目。当设置 `"npm-library"` 的时候，项目的输出产物会有以下特点：
 
@@ -54,13 +49,13 @@ export default defineConfig({
 
 而预设字符串 `"npm-library"` 对应的变体则是在原本产物的基础上修改了**代码语法支持**这一特点，同时在字符串命名上也变为了 `"npm-library-[es5 | es2016...es2020 | esnext]"` 这样的形式。
 
-例如，如果在预设字符串 `"npm-library"` 对应的输出产物基础上，让产物代码支持的语法变为 `es2017` 的话，那么只需要将 `"npm-library"` 改变为 `"npm-library-es2017"` 就可以了。
+例如，如果在预设字符串 `"npm-library"` 对应的输出产物基础上，让产物代码支持的语法变为 `es5` 的话，那么只需要将 `"npm-library"` 改变为 `"npm-library-es5"` 就可以了。
 
 ### 构建预设的函数形式
 
 **除了字符串形式以外，构建预设的值也可以是函数形式，在函数中可以打印或者修改某个预设值对应的具体配置**。
 
-例如，如果使用预设函数的形式达到预设字符串 `"npm-library-es2017"` 同样的效果，可以按照如下的方式：
+例如，如果使用预设函数的形式达到预设字符串 `"npm-library-es5"` 同样的效果，可以按照如下的方式：
 
 ```typescript
 import { defineConfig } from '@modern-js/module-tools';
@@ -68,15 +63,15 @@ import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   buildPreset({ preset }) {
     return preset.NPM_LIBRARY.map(config => {
-      return { ...config, target: 'es2017' };
+      return { ...config, target: 'es5' };
     });
   },
 });
 ```
 
-在上面的代码实现中，`preset.NPM_LIBRARY` 与预设字符串 `"npm-library"` 是相对应的，它代表着 `"npm-library"` 等价的多组构建相关的配置。我们通过 `map` 方法遍历了 `NPM_LIBRARY` 这个数组，在这个数组中包含了多个 `buildConfig` 对象。我们将原本的 `buildConfig` 对象进行了浅拷贝并修改了浅拷贝后得到 `buildConfig.target`，将它指定为 `es2017`。
+在上面的代码实现中，`preset.NPM_LIBRARY` 与预设字符串 `"npm-library"` 是相对应的，它代表着 `"npm-library"` 等价的多组构建相关的配置。我们通过 `map` 方法遍历了 `NPM_LIBRARY` 这个数组，在这个数组中包含了多个 `buildConfig` 对象。我们将原本的 `buildConfig` 对象进行了浅拷贝并修改了浅拷贝后得到 `buildConfig.target`，将它指定为 `es5`。
 
-> 关于 `preset.NPM_LIBRARY` 具体对应的值，可以通过 [BuildPreset API](/api/config/build-config) 查看。在 `preset` 对象下不仅包含了 `NPM_LIBRARY`，还包含了其他类似的常量。
+> 关于 `preset.NPM_LIBRARY` 具体对应的值，可以通过 [BuildPreset API](/api/config/build-preset) 查看。在 `preset` 对象下不仅包含了 `NPM_LIBRARY`，还包含了其他类似的常量。
 
 那么这里的 `buildConfig` 对象是什么呢？之前提到的构建产物特点又是根据什么呢？
 
@@ -117,7 +112,7 @@ export default defineConfig({
   - 指定 umd 产物外部导入的全局变量：对应的 API 是 [`buildConfig.umdGlobals`](/api/config/build-config#umdglobals)。
   - 指定 umd 产物的模块名：对应的 API 是 [`buildConfig.umdModuleName`](/api/config/build-config#umdmodulename)。
 
-除了以上分类以外，关于这些 API 的常见问题和最佳实践可以通过下面的链接来了解，敬请期待。
+除了以上分类以外，关于这些 API 的常见问题和最佳实践可以通过下面的链接来了解
 
 - [什么是 `bundle` 和 `bundleless`?](/guide/advance/in-depth-about-build#bundle-和-bundleless)
 - [`input` 与 `sourceDir` 的关系](/guide/advance/in-depth-about-build#input-与-sourcedir-的关系)。
@@ -136,8 +131,10 @@ export default defineConfig({
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
-  buildConfig: [{}],
-  buildPreset: 'base-config',
+  buildConfig: {
+    format: 'umd',
+  },
+  buildPreset: 'npm-library',
 });
 ```
 
@@ -149,4 +146,4 @@ export default defineConfig({
 
 `buildPreset` 代表的一组或者多组构建相关的配置都是由 `buildConfig` 组成，**当使用 `buildPreset` 无法满足当前项目需求的时候，就可以使用 `buildConfig` 来自定义输出产物**。
 
-在使用 `buildConfig` 的过程，就是对“_获得怎样的构建产物_”的思考过程。
+在使用 `buildConfig` 的过程，就是对**获得怎样的构建产物**的思考过程。

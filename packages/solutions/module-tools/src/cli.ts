@@ -31,8 +31,12 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
   };
 
   const validateSchema = async () => {
-    const { schema } = await import('./config/schema');
-    return schema;
+    const { schema, legacySchema } = await import('./config/schema');
+    const { isLegacyUserConfig } = await import('./utils/config');
+    const userConfig = api.useConfigContext();
+    return isLegacyUserConfig(userConfig as { legacy?: boolean })
+      ? legacySchema
+      : schema;
   };
 
   return {

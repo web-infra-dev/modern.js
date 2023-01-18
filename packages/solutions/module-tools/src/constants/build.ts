@@ -8,7 +8,7 @@ export const buildFailText = chalk.red('Build Failed:');
 export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
   buildType: 'bundle',
   format: 'cjs',
-  target: 'esnext',
+  target: 'es6',
   sourceMap: false,
   copy: {},
   outDir: './dist',

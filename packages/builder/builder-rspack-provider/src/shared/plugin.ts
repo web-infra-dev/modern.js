@@ -26,6 +26,7 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
 export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     ...applyMinimalPlugins(plugins).promises,
+    import('../plugins/rem').then(m => m.builderPluginRem()),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
     import('../plugins/react').then(m => m.builderPluginReact()),

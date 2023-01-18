@@ -8,7 +8,7 @@ sidebar_position: 1
 
 ## alias
 
-- 类型：`Record<string, string | string[]> | Function`
+- 类型：`Record<string, string> | Function`
 - 默认值：`{'@': 'src',}`
 
 :::tip
@@ -610,7 +610,7 @@ const tailwind = {
 指定构建的目标环境
 
 - 类型： `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
-- 默认值： `'es2015'`
+- 默认值： `'es6'`
 
 ## umdGlobals
 

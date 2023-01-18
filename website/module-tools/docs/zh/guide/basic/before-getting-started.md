@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## 环境准备
 
-为了使用 Modern.js 模块工程解决方案，首先需要 [NodeJS](https://nodejs.org/zh/)，我们推荐最新的[长期维护版本](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.17.6**。因为非稳定的 NodeJS 时常有一些 Bug，你可以使用 [nvm-windows](https://github.com/coreybutler/nvm-windows) 和 [nvm](https://github.com/nvm-sh/nvm)（Mac/linux）安装，这样你就可以方便地切换到不同的 NodeJS 版本，这些版本可能会用于不同的项目。
+为了使用 Modern.js 模块工程解决方案，首先需要 [NodeJS](https://nodejs.org/zh/)，我们推荐最新的[长期维护版本](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.18.0**。因为非稳定的 NodeJS 时常有一些 Bug，你可以使用 [nvm-windows](https://github.com/coreybutler/nvm-windows) 和 [nvm](https://github.com/nvm-sh/nvm)（Mac/linux）安装，这样你就可以方便地切换到不同的 NodeJS 版本，这些版本可能会用于不同的项目。
 
 ## 初识 npm
 
@@ -162,22 +162,28 @@ npm install -g pnpm
 
 ## Module Tools 配置文件
 
-初始化的模块工程项目目录下提供了 Module Tools 的配置文件 —— `modern.config.(j|t)s`。默认情况下，不需要做任何配置，因此 `modern.config` 配置文件不是必须存在的。
+通过`@modern-js/create`创建的模块工程项目目录下提供了 Module Tools 的配置文件 —— `modern.config.(j|t)s`。但 `modern.config` 配置文件不是必须存在的。
 
-初始化的配置文件的内容如下：
+默认情况下，生成的配置文件的内容如下：
 
 ```typescript
 // modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
-export default defineConfig({});
+export default defineConfig({
+  plugins: [moduleTools()],
+  buildPreset: 'npm-library',
+});
 ```
 
 ```js
 // modern.config.js
-const { defineConfig } = require('@modern-js/module-tools');
+import moduleTools from '@modern-js/module-tools';
 
-module.exports = defineConfig({});
+export default {
+  plugins: [moduleTools()],
+  buildPreset: 'npm-library',
+};
 ```
 
 **我们推荐使用 `defineConfig` 函数**，不过并不强制使用它。因此你也可以在配置文件中直接返回一个对象：
@@ -189,5 +195,5 @@ export default {};
 
 ```js
 // modern.config.js
-module.exports = {};
+export default {};
 ```

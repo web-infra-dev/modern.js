@@ -1,6 +1,7 @@
 ---
 title: Add Model
 ---
+
 # Add Model
 
 In the previous chapter, we changed the hardcoding `mockData` to load from Data Loader.
@@ -10,7 +11,17 @@ In this chapter, we will further implement the functions of the project, such as
 Therefore, we will start to write some business logic that has nothing to do with the UI at all. If we continue to write in the component code, more and more noodle code will be generated. To this end, we introduced a code module called **Model** to decoupling these business logic and UI.
 
 :::info note
-To use the Model API, you need to set runtime.state(/docs/configure/app/runtime/state) to enable the state management plugin.
+To use the Model API, you need to opt in [runtime.state](/docs/configure/app/runtime/state):
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  runtime: {
+    state: true,
+  },
+});
+```
 
 :::
 
