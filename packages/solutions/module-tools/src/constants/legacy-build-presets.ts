@@ -153,9 +153,14 @@ export const nodeJsPreset: PartialBuildConfig = [
 ];
 
 export const legacyPresets = {
+  'universal-js': universalJsPreset,
   UNIVERSAL_JS: universalJsPreset,
+  'universal-js-lite': universalJsLitePreset,
   UNIVERSAL_JS_LITE: universalJsLitePreset,
+  'browser-js': browserJsPreset,
   BROWSER_JS: browserJsPreset,
+  'browser-js-lite': browserJsLitePreset,
   BROWSER_JS_LITE: browserJsLitePreset,
+  'node-js': nodeJsPreset,
   NODE_JS: nodeJsPreset,
 };

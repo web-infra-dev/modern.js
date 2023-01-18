@@ -25,6 +25,7 @@
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",
     "ts-node": "^10",
+    "typescript": "^4",
     "fs-extra": "^10",
     "@types/node": "^16",
     "@types/fs-extra": "^9"
