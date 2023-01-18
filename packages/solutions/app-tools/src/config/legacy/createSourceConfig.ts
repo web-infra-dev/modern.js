@@ -2,7 +2,7 @@ import { AppLegacyNormalizedConfig, AppNormalizedConfig } from '../../types';
 
 export function createSourceConfig(
   config: AppLegacyNormalizedConfig,
-): AppNormalizedConfig['source'] {
+): AppNormalizedConfig<'webpack'>['source'] {
   const {
     alias,
     envVars,

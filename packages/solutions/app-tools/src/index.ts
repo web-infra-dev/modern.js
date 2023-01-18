@@ -110,7 +110,16 @@ export const buildCommand = async (
   }
 };
 
-export default (): CliPlugin<AppTools> => ({
+interface AppToolsOptions {
+  /** Specify the use what kind of bundler to compiler, default: `webpack` */
+  bundler?: 'experiment-rspack' | 'webpack';
+}
+
+export default (
+  options: AppToolsOptions = {
+    bundler: 'webpack',
+  },
+): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
 
   post: [
@@ -126,7 +135,15 @@ export default (): CliPlugin<AppTools> => ({
 
   registerHook: hooks,
 
-  usePlugins: [initializePlugin(), analyzePlugin(), lintPlugin()],
+  usePlugins: [
+    initializePlugin({
+      bundler: options?.bundler === 'experiment-rspack' ? 'rspack' : 'webpack',
+    }),
+    analyzePlugin({
+      bundler: options?.bundler === 'experiment-rspack' ? 'rspack' : 'webpack',
+    }),
+    lintPlugin(),
+  ],
 
   setup: api => {
     const locale = getLocaleLanguage();

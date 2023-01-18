@@ -1,7 +1,10 @@
 import { createDefaultConfig as createDefaultBuilderConfig } from '@modern-js/builder-webpack-provider';
-import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
+import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '@/types';
 
-export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
+export function createDefaultConfig(
+  appContext: IAppContext,
+  bundler: 'webpack' | 'rspack',
+): AppUserConfig<'webpack'> | AppUserConfig<'rspack'> {
   const defaultBuilderConfig = createDefaultBuilderConfig();
 
   const dev: AppUserConfig['dev'] = {
@@ -10,13 +13,15 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
     // because we will use `server.port` by default
     port: undefined,
   };
-  const tools: AppUserConfig['tools'] = { ...defaultBuilderConfig.tools };
+
   const output: AppUserConfig['output'] = {
     ...defaultBuilderConfig.output,
     disableNodePolyfill: true,
   };
 
-  const source: AppUserConfig['source'] = {
+  const source: AppUserConfig['source'] & {
+    alias: Record<string, string>;
+  } = {
     ...defaultBuilderConfig.source,
     entries: undefined,
     enableAsyncEntry: false,
@@ -55,6 +60,13 @@ export function createDefaultConfig(appContext: IAppContext): AppUserConfig {
     baseUrl: '/',
     port: 8080,
   };
+
+  const tools =
+    bundler === 'webpack'
+      ? {
+          ...defaultBuilderConfig.tools,
+        }
+      : undefined;
 
   return {
     source,

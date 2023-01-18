@@ -17,10 +17,10 @@ import type {
   SSGMultiEntryOptions,
   ServerUserConfig,
   AppNormalizedConfig,
-} from '../../types';
+} from '../../../types';
 import { BottomTemplatePlugin } from '../webpackPlugins/htmlBottomTemplate';
 import { HtmlAsyncChunkPlugin } from '../webpackPlugins/htmlAsyncChunkPlugin';
-import { createCopyPattern } from '../share';
+import { BuilderOptions, createCopyPattern } from '../../shared';
 import RouterPlugin from '../webpackPlugins/routerPlugin';
 
 type Parameter<T extends (arg: any) => void> = Parameters<T>[0];
@@ -52,13 +52,12 @@ export type PluginCompatModernOptions = FnParameter<
  * Provides default configuration consistent with modern.js v1
  */
 export const PluginCompatModern = (
-  appContext: IAppContext,
-  modernConfig: AppNormalizedConfig,
-  options?: PluginCompatModernOptions,
+  options: BuilderOptions<'webpack'>,
 ): BuilderPlugin<BuilderPluginAPI> => ({
   name: 'builder-plugin-compat-modern',
 
   setup(api) {
+    const { normalizedConfig: modernConfig, appContext } = options;
     api.modifyBuilderConfig(config => {
       if (isStreamingSSR(modernConfig)) {
         return mergeBuilderConfig(config, {
@@ -81,6 +80,7 @@ export const PluginCompatModern = (
         chain.name('client');
       }
 
+      // compat modern-js v1
       chain.resolve.modules
         .add('node_modules')
         .add(join(api.context.rootPath, 'node_modules'));

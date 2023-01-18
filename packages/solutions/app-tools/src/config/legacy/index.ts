@@ -1,12 +1,17 @@
-import { AppLegacyNormalizedConfig, AppNormalizedConfig } from '../../types';
 import { createToolsConfig } from './createToolsConfig';
 import { createSourceConfig } from './createSourceConfig';
 import { createOutputConfig } from './createOutputConfig';
 import { createHtmlConfig } from './createHtmlConfig';
+import type {
+  AppLegacyNormalizedConfig,
+  AppLegacyUserConfig,
+  AppNormalizedConfig,
+  AppUserConfig,
+} from '@/types';
 
 export function transformNormalizedConfig(
   config: AppLegacyNormalizedConfig,
-): AppNormalizedConfig {
+): AppNormalizedConfig<'webpack'> {
   const html = createHtmlConfig(config);
   const output = createOutputConfig(config);
   const source = createSourceConfig(config);
@@ -45,4 +50,10 @@ export function transformNormalizedConfig(
       removeMomentLocale: true,
     },
   };
+}
+
+export function checkIsLegacyConfig(
+  config: AppLegacyUserConfig | AppUserConfig,
+): config is AppLegacyUserConfig {
+  return Boolean((config as AppLegacyUserConfig).legacy);
 }

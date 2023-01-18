@@ -2,7 +2,7 @@ import { AppLegacyNormalizedConfig, AppNormalizedConfig } from '../../types';
 
 export function createOutputConfig(
   config: Readonly<AppLegacyNormalizedConfig>,
-): AppNormalizedConfig['output'] {
+): AppNormalizedConfig<'webpack'>['output'] {
   const {
     assetPrefix,
     copy,

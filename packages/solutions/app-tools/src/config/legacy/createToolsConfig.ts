@@ -2,7 +2,7 @@ import { AppLegacyNormalizedConfig, AppNormalizedConfig } from '../../types';
 
 export function createToolsConfig(
   config: AppLegacyNormalizedConfig,
-): AppNormalizedConfig['tools'] {
+): AppNormalizedConfig<'webpack'>['tools'] {
   const {
     autoprefixer,
     babel,

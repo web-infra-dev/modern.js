@@ -75,6 +75,7 @@
     "@modern-js/builder-plugin-node-polyfill": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/node-bundle-require": "workspace:*",
@@ -101,6 +102,14 @@
     "jest": "^27",
     "typescript": "^4",
     "webpack": "^5.75.0"
+  },
+  "peerDependencies": {
+    "@modern-js/builder-rspack-provider": "workspace:*"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/builder-rspack-provider": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "publishConfig": {

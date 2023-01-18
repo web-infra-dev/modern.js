@@ -22,7 +22,7 @@ export const start = async (api: PluginAPI<AppTools>) => {
 
   const app = await server({
     pwd: appDirectory,
-    config: userConfig,
+    config: userConfig as any,
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
     apiOnly,

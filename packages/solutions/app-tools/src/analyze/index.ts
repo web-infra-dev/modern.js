@@ -11,7 +11,10 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import { createBuilderForModern } from '../builder';
+import {
+  createRspackBuilderForModern,
+  createWebpackBuilderForModern,
+} from '../builder';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
@@ -32,7 +35,11 @@ import {
 
 const debug = createDebugger('plugin-analyze');
 
-export default (): CliPlugin<AppTools> => ({
+export default ({
+  bundler,
+}: {
+  bundler: 'webpack' | 'rspack';
+}): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-analyze',
 
   setup: api => {
@@ -155,53 +162,51 @@ export default (): CliPlugin<AppTools> => ({
         const buildCommands = ['dev', 'start', 'build', 'inspect', 'deploy'];
         if (buildCommands.includes(command)) {
           const normalizedConfig = api.useResolvedConfigContext();
+          const createBuilderForModern =
+            bundler === 'webpack'
+              ? createWebpackBuilderForModern
+              : createRspackBuilderForModern;
           const builder = await createBuilderForModern({
             normalizedConfig: normalizedConfig as any,
             appContext,
-            compatPluginConfig: {
-              async onBeforeBuild({ bundlerConfigs }) {
-                const hookRunners = api.useHookRunners();
-                await generateRoutes(appContext);
-                await hookRunners.beforeBuild({ bundlerConfigs });
-              },
+            async onBeforeBuild({ bundlerConfigs }) {
+              const hookRunners = api.useHookRunners();
+              await generateRoutes(appContext);
+              await hookRunners.beforeBuild({ bundlerConfigs });
+            },
 
-              async onAfterBuild({ stats }) {
-                const hookRunners = api.useHookRunners();
-                await hookRunners.afterBuild({ stats });
-                await emitResolvedConfig(
-                  appContext.appDirectory,
-                  normalizedConfig,
-                );
-              },
+            async onAfterBuild({ stats }) {
+              const hookRunners = api.useHookRunners();
+              await hookRunners.afterBuild({ stats });
+              await emitResolvedConfig(
+                appContext.appDirectory,
+                normalizedConfig,
+              );
+            },
 
-              async onDevCompileDone({ isFirstCompile }) {
-                const hookRunners = api.useHookRunners();
-                if (process.stdout.isTTY || isFirstCompile) {
-                  hookRunners.afterDev();
+            async onDevCompileDone({ isFirstCompile }) {
+              const hookRunners = api.useHookRunners();
+              if (process.stdout.isTTY || isFirstCompile) {
+                hookRunners.afterDev();
 
-                  if (isFirstCompile) {
-                    printInstructions(
-                      hookRunners,
-                      appContext,
-                      normalizedConfig,
-                    );
-                  }
+                if (isFirstCompile) {
+                  printInstructions(hookRunners, appContext, normalizedConfig);
                 }
-              },
+              }
+            },
 
-              async onBeforeCreateCompiler({ bundlerConfigs }) {
-                const hookRunners = api.useHookRunners();
-                // run modernjs framework `beforeCreateCompiler` hook
-                await hookRunners.beforeCreateCompiler({
-                  bundlerConfigs,
-                });
-              },
+            async onBeforeCreateCompiler({ bundlerConfigs }) {
+              const hookRunners = api.useHookRunners();
+              // run modernjs framework `beforeCreateCompiler` hook
+              await hookRunners.beforeCreateCompiler({
+                bundlerConfigs,
+              });
+            },
 
-              async onAfterCreateCompiler({ compiler }) {
-                const hookRunners = api.useHookRunners();
-                // run modernjs framework afterCreateCompiler hooks
-                await hookRunners.afterCreateCompiler({ compiler });
-              },
+            async onAfterCreateCompiler({ compiler }) {
+              const hookRunners = api.useHookRunners();
+              // run modernjs framework afterCreateCompiler hooks
+              await hookRunners.afterCreateCompiler({ compiler });
             },
           });
 
@@ -220,7 +225,7 @@ export default (): CliPlugin<AppTools> => ({
       config() {
         return {
           tools: {
-            webpackChain: (chain, { name }) => {
+            webpackChain: (chain: any, { name }: any) => {
               const appContext = api.useAppContext();
               const resolvedConfig = api.useResolvedConfigContext();
               const { entrypoints, internalDirectory, packageName } =
@@ -245,12 +250,12 @@ export default (): CliPlugin<AppTools> => ({
               });
             },
           },
-        };
+        } as any;
       },
 
       resolvedConfig({ resolved }) {
         const appContext = api.useAppContext();
-        const config = initialNormalizedConfig(resolved, appContext);
+        const config = initialNormalizedConfig(resolved, appContext, bundler);
         return {
           resolved: config,
         };

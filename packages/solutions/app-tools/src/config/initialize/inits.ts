@@ -53,13 +53,18 @@ export function initHtmlConfig(
     return favicon || defaultFavicon || undefined;
   }
 }
+
 export function initSourceConfig(
   config: AppNormalizedConfig,
   appContext: IAppContext,
+  bundler: 'webpack' | 'rspack',
 ) {
   config.source.include = createBuilderInclude(config, appContext);
-  config.source.moduleScopes = createBuilderModuleScope(config);
   config.source.globalVars = createBuilderGlobalVars(config, appContext);
+  if (bundler === 'webpack') {
+    (config as AppNormalizedConfig<'webpack'>).source.moduleScopes =
+      createBuilderModuleScope(config as AppNormalizedConfig<'webpack'>);
+  }
 
   function createBuilderGlobalVars(
     config: AppNormalizedConfig,
@@ -107,7 +112,7 @@ export function initSourceConfig(
     return transformInclude;
   }
 
-  function createBuilderModuleScope(config: AppNormalizedConfig) {
+  function createBuilderModuleScope(config: AppNormalizedConfig<'webpack'>) {
     const { moduleScopes } = config.source;
     if (moduleScopes) {
       let builderModuleScope: any[] = [];
@@ -141,7 +146,8 @@ export function initSourceConfig(
     }
   }
 }
-export function initToolsConfig(config: AppNormalizedConfig) {
+
+export function initToolsConfig(config: AppNormalizedConfig<'webpack'>) {
   const defaultTsChecker = {
     issue: {
       include: [{ file: '**/src/**/*' }],

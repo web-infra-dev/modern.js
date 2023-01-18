@@ -2,7 +2,7 @@ import { AppLegacyNormalizedConfig, AppNormalizedConfig } from '../../types';
 
 export function createHtmlConfig(
   config: Readonly<AppLegacyNormalizedConfig>,
-): AppNormalizedConfig['html'] {
+): AppNormalizedConfig<'webpack'>['html'] {
   const {
     disableHtmlFolder,
     favicon,
