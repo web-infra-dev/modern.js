@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from '@docusaurus/Link';
+import { withBase } from '@modern-js/doc-tools/runtime';
 import styles from './index.module.css';
 
 export interface FlowCardProps {
@@ -18,7 +18,7 @@ const FlowCard: React.FC<FlowCardProps> = ({
   href,
   direction,
 }) => (
-  <Link className={styles.card} style={cardStyle} to={href}>
+  <a className={styles.card} style={cardStyle} href={withBase(href)}>
     <span className={styles.title} style={{ marginBottom: '16px' }}>
       {title}
     </span>
@@ -37,7 +37,7 @@ const FlowCard: React.FC<FlowCardProps> = ({
       />
     )}
     {img && <img className={styles.icon} src={img} alt="img" />}
-  </Link>
+  </a>
 );
 
 export default FlowCard;

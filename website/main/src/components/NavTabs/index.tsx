@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from '@docusaurus/Link';
+import { withBase } from '@modern-js/doc-tools/runtime';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import styles from './index.module.css';
 
@@ -14,9 +14,9 @@ export interface INavTabs {
 const NavTabs: React.FC<INavTabs> = ({ tabs }) => {
   const renderedTabs = tabs.map(({ tabName, href }) => (
     <SwiperSlide key={tabName} className={styles.tab}>
-      <Link to={href} style={{ textDecoration: 'none' }}>
+      <a href={withBase(href)} style={{ textDecoration: 'none' }}>
         {tabName}
-      </Link>
+      </a>
     </SwiperSlide>
   ));
 

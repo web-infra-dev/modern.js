@@ -1,0 +1,73 @@
+---
+title: builderPlugins (构建插件)
+sidebar_position: 10
+---
+# builderPlugins (构建插件)
+
+- 类型：`BuilderPlugin[]`
+- 默认值：`[]`
+
+用于配置 Modern.js Builder 构建插件。
+
+Modern.js Builder 是 Modern.js 底层的构建引擎，请阅读 [构建能力](/guides/basic-features/builder) 了解相关背景。
+
+如果你想了解 Builder 插件的编写方式，可以参考 [Modern.js Builder - 插件系统](https://modernjs.dev/builder/plugins/introduction.html)。
+
+## 注意事项
+
+该选项**用于配置 Modern.js Builder 构建插件**，如果你需要配置其他类型的插件，请选择对应的配置方式：
+
+- 配置 Modern.js 框架插件，请使用 [plugins](docs/configure/app/plugins) 配置项。
+- 配置 webpack 插件，请使用 [tools.webpack](/configure/app/tools/webpack) 或 [tools.webpackChain](/configure/app/tools/webpack-chain) 配置项。
+- 配置 Babel 插件，请使用 [tools.babel](/configure/app/tools/babel) 配置项。
+
+## 何时使用
+
+大部分场景下，我们推荐你使用 Modern.js 框架插件，框架插件可以通过 [plugins](docs/configure/app/plugins) 字段进行注册。因为框架插件提供的 API 更丰富、能力更强，而 Builder 插件提供的 API 只能用于构建场景。
+
+当你需要引用一些现有的 Builder 插件（并且在 Modern.js 中没有相关能力），或是在不同的框架之间复用 Builder 插件时，你可以使用 `builderPlugins` 字段进行注册。
+
+## 示例
+
+下面是 Builder 插件的使用示例。
+
+### 使用 npm 上的插件
+
+使用 npm 上的插件，需要通过包管理器安装插件，并通过 import 引入。
+
+```ts title="modern.config.ts"
+import myBuilderPlugin from 'my-builder-plugin';
+
+export default defineConfig({
+  builderPlugins: [myBuilderPlugin()],
+});
+```
+
+### 使用本地插件
+
+使用本地代码仓库中的插件，直接通过相对路径 import 引入即可。
+
+```ts title="modern.config.ts"
+import myBuilderPlugin from './plugin/myBuilderPlugin';
+
+export default defineConfig({
+  builderPlugins: [myBuilderPlugin()],
+});
+```
+
+### 插件配置项
+
+如果插件提供了一些自定义的配置项，可以通过插件函数的参数传入配置。
+
+```ts title="modern.config.ts"
+import myBuilderPlugin from 'my-builder-plugin';
+
+export default defineConfig({
+  builderPlugins: [
+    myBuilderPlugin({
+      foo: 1,
+      bar: 2,
+    }),
+  ],
+});
+```

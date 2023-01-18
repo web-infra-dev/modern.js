@@ -1,0 +1,264 @@
+---
+title: Add Model
+---
+# Add Model
+
+In the previous chapter, we changed the hardcoding `mockData` to load from Data Loader.
+
+In this chapter, we will further implement the functions of the project, such as the implementation of the function of the **Archive** button to put the point of contact archive.
+
+Therefore, we will start to write some business logic that has nothing to do with the UI at all. If we continue to write in the component code, more and more noodle code will be generated. To this end, we introduced a code module called **Model** to decoupling these business logic and UI.
+
+:::info note
+To use the Model API, you need to set runtime.state(/docs/configure/app/runtime/state) to enable the state management plugin.
+
+:::
+
+## Model implementation
+
+To create a complete Model, you first need to define **state**, including the name and initial value of data in the state.
+
+We use Model to manage the data of the point of contact list, so define the following data state:
+
+```js
+const state = {
+  items: [],
+};
+```
+
+Using TS syntax, you can define more complete type information, such as items in each object should have a `name`, `email` field. In order to implement archive function, also need to create the `archived` field to hold the point of contact has been archived state.
+
+We also need a field to access all archived points of contact. We can define a field of type **computed** to convert the existing data:
+
+```js
+const computed = {
+  archived: ({ items }) => {
+    return items.filter(item => item.archived);
+  },
+};
+```
+
+Fields of type `computed` are defined as function, but can be accessed through state just like normal fields.
+
+:::info
+Modern.js integrates [Immer](https://immerjs.github.io/immer/) and can write such state transfer logic just like normal mutable data in JS.
+
+:::
+
+When implementing the Archive button, we need an `archive` function, which is responsible for modifying the `archived` field of the specified contact. We call this function **action**:
+
+```js
+const actions = {
+  archive(draft, payload) {
+    const target = draft.items.find(item => item.email === payload);
+    if (target) {
+      target.archived = true;
+    }
+  },
+};
+```
+
+An action function is a pure function, where a defined input gets a defined output (a shifted state) and should not have any side effects.
+
+The first parameter of the function is the Draft State provided by Immer, and the second parameter is the parameter passed in when the action is called (more on how to call it later).
+
+We try to implement them completely:
+
+```js
+const state = {
+  items: [],
+  pending: false,
+  error: null,
+};
+
+const computed = {
+  archived: ({ items }) => {
+    return items.filter(item => item.archived);
+  },
+};
+
+const actions = {
+  archive(draft, payload) {
+    const target = draft.items.find(item => item.email === payload);
+    if (target) {
+      target.archived = true;
+    }
+  },
+};
+```
+
+Next we connect the above code and put it in the same Model file. First execute the following command to create a new file directory:
+
+```bash
+mkdir -p src/models/
+touch src/models/contacts.ts
+```
+
+Add `src/models/contacts.ts`:
+
+```tsx
+import { model } from '@modern-js/runtime/model';
+
+type State = {
+  items: {
+    avatar: string;
+    name: string;
+    email: string;
+    archived?: boolean;
+  }[];
+  pending: boolean;
+  error: null | Error;
+};
+
+export default model<State>('contacts').define({
+  state: {
+    items: [],
+    pending: false,
+    error: null,
+  },
+  computed: {
+    archived: ({ items }: State) => items.filter(item => item.archived),
+  },
+  actions: {
+    archive(draft, payload) {
+      const target = draft.items.find(item => item.email === payload)!;
+      if (target) {
+        target.archived = true;
+      }
+    },
+  },
+});
+```
+
+We call a plain object containing elements such as state, action, etc. as **Model Spec**, Modern.js provides [Model API](/apis/app/runtime/model/model_), which can generate **Model** from Model Spec.
+
+## Use Model
+
+Now let's use this Model directly to complement the logic of the project.
+
+First modify `src/components/Item/index.tsx` and add the UI and interaction of the **Archive button**, the content is as follows:
+
+```tsx
+import Avatar from '../Avatar';
+
+type InfoProps = {
+  avatar: string;
+  name: string;
+  email: string;
+  archived?: boolean;
+};
+
+const Item = ({
+  info,
+  onArchive,
+}: {
+  info: InfoProps;
+  onArchive?: () => void;
+}) => {
+  const { avatar, name, email, archived } = info;
+  return (
+    <div className="flex p-4 items-center border-gray-200 border-b">
+      <Avatar src={avatar} />
+      <div className="ml-4 custom-text-gray flex-1 flex justify-between">
+        <div className="flex-1">
+          <p>{name}</p>
+          <p>{email}</p>
+        </div>
+        <button
+          type="button"
+          disabled={archived}
+          onClick={onArchive}
+          className={`text-white font-bold py-2 px-4 rounded-full ${
+            archived
+              ? 'bg-gray-400 cursor-default'
+              : 'bg-blue-500 hover:bg-blue-700'
+          }`}
+        >
+          {archived ? 'Archived' : 'Archive'}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Item;
+```
+
+Next, we modify `src/routes/page.tsx` to pass more parameters to the `<Item>` component:
+
+```tsx
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { useLoaderData } from '@modern-js/runtime/router';
+import { List } from 'antd';
+import { name, internet } from 'faker';
+import Item from '../components/Item';
+import contacts from '../models/contacts';
+
+type LoaderData = {
+  code: number;
+  data: {
+    name: string;
+    avatar: string;
+    email: string;
+  }[];
+};
+
+export const loader = async (): Promise<LoaderData> => {
+  const data = new Array(20).fill(0).map(() => {
+    const firstName = name.firstName();
+    return {
+      name: firstName,
+      avatar: `https://avatars.dicebear.com/api/identicon/${firstName}.svg`,
+      email: internet.email(),
+      archived: false,
+    };
+  });
+
+  return {
+    code: 200,
+    data,
+  };
+};
+
+function Index() {
+  const { data } = useLoaderData() as LoaderData;
+  const [{ items }, { archive, setItems }] = useModel(contacts);
+  if (items.length === 0) {
+    setItems(data);
+  }
+
+  return (
+    <div className="container lg mx-auto">
+      <Helmet>
+        <title>All</title>
+      </Helmet>
+      <List
+        dataSource={items}
+        renderItem={info => (
+          <Item
+            key={info.name}
+            info={info}
+            onArchive={() => {
+              archive(info.email);
+            }}
+          />
+        )}
+      />
+    </div>
+  );
+}
+
+export default Index;
+```
+
+`useModel` is the hooks API provided by the Modern.js. You can provide the state defined in the Model in the component, or call the side effects and actions defined in the Model through actions to change the state of the Model.
+
+Model is business logic, a computational process that does not create or hold state itself. Only after being used by the component with the hooks API, the state is created in the specified place.
+
+Execute `pnpm run dev` and click the **Archive button** to see that the page UI has changed.
+
+:::note
+In the above example, `useLoaderData` is actually executed every time the route is switched. Because we used fake data in the Data Loader, the data returned each time is different. But we use the data in the Model first, so the data does not change when switching routes.
+
+:::
