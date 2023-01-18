@@ -14,9 +14,13 @@ sidebar_position: 4
 
 可以通过 [`modern new`](/guide/basic/command-preview) 启动微生成器。目前模块工程方案支持的微生成器功能有：
 
+## Test 测试
+
+当我们想要对一些模块进行测试的时候，可以启用 test 测试功能。启动该功能后，**会在项目目录下创建 `tests` 目录以及相关文件，在 package.json 中新增 `"@modern-js/plugin-testing"` 依赖**。
+
 ## Storybook 调试
 
-当我们想要对组件或者普通模块进行调试的时候，可以启用 **Storybook 调试功能**。启动该功能后，**会在项目目录下创建 `stories` 目录以及相关文件，在 package.json 中新增 `"@modern-js/plugin-storybook"` 依赖**。
+当我们想要对组件或者普通模块进行调试的时候，可以启用 Storybook 调试功能。启动该功能后，**会在项目目录下创建 `stories` 目录以及相关文件，在 package.json 中新增 `"@modern-js/plugin-storybook"` 依赖**。
 
 关于如何启动 Storybook 以及如何使用 Storybook，可以查看下面的链接：
 

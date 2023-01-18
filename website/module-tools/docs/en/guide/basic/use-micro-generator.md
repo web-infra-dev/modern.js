@@ -14,6 +14,10 @@ Thus with these capabilities, **Microgenerator can enable additional feature fun
 
 The microgenerator can be started via [`modern new`](/guide/basic/command-preview). The current Microgenerator features supported by the Module Engineering program are:
 
+## Test
+
+When we want to test some modules, we can enable the test test feature. When this feature is enabled, **a `tests` directory and related files will be created in the project directory, and a new `"@modern-js/plugin-testing"` dependency will be added to package.json**.
+
 ## Storybook
 
 The **Storybook feature** can be enabled when we want to debug a component or a common module. When this feature is enabled, **the `stories` directory and related files are created in the project directory, and a new `"@modern-js/plugin-storybook"` dependency is added to package.json**.

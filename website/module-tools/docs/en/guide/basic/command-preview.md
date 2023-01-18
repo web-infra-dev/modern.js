@@ -55,6 +55,7 @@ The `modern new` command is used to start the microgenerator functionality, whic
 
 The following features can currently be enabled.
 
+- Testing support
 - Storybook debugging
 - Tailwind CSS support
 - Modern.js Runtime API
@@ -88,6 +89,7 @@ Options:
   -h, --help display help for command
 ```
 
+You need to execute `modern new` to turn on the test function before you can execute the `modern test` command.
 The `modern test` command will automatically run the `src/tests/*.test.(js|ts|jsx|tsx)` file as a test case.
 
 ## `modern lint`
