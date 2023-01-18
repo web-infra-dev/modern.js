@@ -1,5 +1,18 @@
 # @modern-js/builder-plugin-swc
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 16bdc0a: chore: adjust builder plugin name
+
+  chore: 调整 builder 插件命名格式
+
+- Updated dependencies [f2f8a83]
+- Updated dependencies [49eff0c]
+  - @modern-js/builder-shared@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+
 ## 2.1.0
 
 ### Patch Changes

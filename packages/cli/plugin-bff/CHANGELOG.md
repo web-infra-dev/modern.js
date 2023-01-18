@@ -1,5 +1,20 @@
 # @modern-js/plugin-bff
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- cb12ee7: chore: remove some unused deps, bump postcss version
+
+  chore: 移除未使用的依赖, 升级 postcss 版本
+
+- Updated dependencies [cb12ee7]
+- Updated dependencies [49eff0c]
+  - @modern-js/server-utils@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/bff-core@3.0.0-next.0
+  - @modern-js/create-request@3.0.0-next.0
+
 ## 2.1.0
 
 ### Patch Changes

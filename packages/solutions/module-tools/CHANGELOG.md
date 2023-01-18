@@ -1,5 +1,37 @@
 # @modern-js/module-tools
 
+## 3.0.0-next.0
+
+### Minor Changes
+
+- 481cd56: feat: add legacyDefineConfig function
+  feat: 添加 legacyDefeinConfig 函数
+
+### Patch Changes
+
+- cb12ee7: chore: remove some unused deps, bump postcss version
+
+  chore: 移除未使用的依赖, 升级 postcss 版本
+
+- 8b7b39e: not use 'npm-library' preset by default
+  默认不会使用 'npm-library' 预设
+- ff10e87: fix: Using extends to solve the tsconfig configuration path conversion problem
+  fix: 使用 extends 解决 tsconfig 配置路径转换的问题
+- bff9de6: fix: Fix the failure to resolve the path correctly when running Storybook
+  fix: 修复运行 Storybook 时候无法正确解析路径
+- Updated dependencies [cb12ee7]
+- Updated dependencies [49eff0c]
+- Updated dependencies [360a259]
+- Updated dependencies [12ef50f]
+  - @modern-js/core@3.0.0-next.0
+  - @modern-js/plugin-changeset@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/plugin-lint@3.0.0-next.0
+  - @modern-js/plugin-i18n@3.0.0-next.0
+  - @modern-js/new-action@3.0.0-next.0
+  - @modern-js/upgrade@3.0.0-next.0
+  - @modern-js/plugin@3.0.0-next.0
+
 ## 2.1.0
 
 ### Patch Changes

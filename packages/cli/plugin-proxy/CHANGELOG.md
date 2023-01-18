@@ -1,5 +1,16 @@
 # @modern-js/plugin-proxy
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 965fb00: fix: plugin-proxy rootca request port error
+
+  fix: 修复插件代理 rootca 请求端口错误
+
+- Updated dependencies [49eff0c]
+  - @modern-js/utils@3.0.0-next.0
+
 ## 2.1.0
 
 ### Patch Changes

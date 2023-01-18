@@ -1,5 +1,13 @@
 # @modern-js/generator-generator
 
+## 3.0.4-next.0
+
+### Patch Changes
+
+- 78b5111: fix: micro generator template
+
+  fix: 修复微生成器模板
+
 ## 3.0.3
 
 ## 3.0.2

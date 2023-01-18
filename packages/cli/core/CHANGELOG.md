@@ -1,5 +1,25 @@
 # @modern-js/core
 
+## 3.0.0-next.0
+
+### Minor Changes
+
+- 12ef50f: feat: `modern-js/core` can watch files change
+  feat: `modern-js/core` 可以监听文件变化
+
+### Patch Changes
+
+- cb12ee7: chore: remove some unused deps, bump postcss version
+
+  chore: 移除未使用的依赖, 升级 postcss 版本
+
+- 360a259: fix: `@modern-js/core` add `afterPrepare` hook
+  fix: `@modern-js/core` 新增 `afterPrepare` hook
+- Updated dependencies [49eff0c]
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/node-bundle-require@3.0.0-next.0
+  - @modern-js/plugin@3.0.0-next.0
+
 ## 2.1.0
 
 ### Patch Changes

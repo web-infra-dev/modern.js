@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.1.0",
+  "version": "3.0.0-next.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -73,7 +73,7 @@
   },
   "peerDependencies": {
     "tailwindcss": ">= 2.0.0 || >= 3.0.0",
-    "@modern-js/runtime": "workspace:^2.1.0"
+    "@modern-js/runtime": "workspace:^3.0.0-next.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

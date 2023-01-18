@@ -1,5 +1,20 @@
 # @modern-js/plugin-garfish
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- cb12ee7: chore: remove some unused deps, bump postcss version
+
+  chore: 移除未使用的依赖, 升级 postcss 版本
+
+- 142efe3: fix(plugin-garfish): fix sub app import garfish runtime
+  fix(plugin-garfish): 修复微前端子应用引入了 Garfish Runtime
+- Updated dependencies [49eff0c]
+- Updated dependencies [f7a1c1f]
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/runtime@3.0.0-next.0
+
 ## 2.1.0
 
 ### Patch Changes

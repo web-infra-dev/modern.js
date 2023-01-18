@@ -1,5 +1,20 @@
 # @modern-js/builder-shared
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- f2f8a83: chore: reuse rem AutoSetRootFontSizePlugin between rspack-provider and webpack-provider
+
+  chore: 在 rspack-provider 和 webpack-provider 间复用 rem AutoSetRootFontSizePlugin
+
+- Updated dependencies [49eff0c]
+- Updated dependencies [9fc6de9]
+- Updated dependencies [19bb384]
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/server@3.0.0-next.0
+  - @modern-js/types@3.0.0-next.0
+
 ## 2.1.0
 
 ### Minor Changes

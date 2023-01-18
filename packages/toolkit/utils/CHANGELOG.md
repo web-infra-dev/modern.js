@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 49eff0c: fix(utils): bump json5 to fix security issue
+
+  fix(utils): 升级 json5 以修复安全问题
+
 ## 2.1.0
 
 ### Minor Changes

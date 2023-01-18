@@ -1,5 +1,29 @@
 # @modern-js/plugin-storybook
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 16bdc0a: chore: adjust builder plugin name
+
+  chore: 调整 builder 插件命名格式
+
+- bff9de6: fix: Fix the failure to resolve the path correctly when running Storybook
+  fix: 修复运行 Storybook 时候无法正确解析路径
+- Updated dependencies [f2f8a83]
+- Updated dependencies [cb12ee7]
+- Updated dependencies [49eff0c]
+- Updated dependencies [f7a1c1f]
+- Updated dependencies [d82b621]
+- Updated dependencies [16bdc0a]
+  - @modern-js/builder-shared@3.0.0-next.0
+  - @modern-js/builder-webpack-provider@3.0.0-next.0
+  - @modern-js/plugin-router-v5@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/runtime@3.0.0-next.0
+  - @modern-js/builder@3.0.0-next.0
+  - @modern-js/builder-plugin-node-polyfill@3.0.0-next.0
+
 ## 2.1.0
 
 ### Patch Changes

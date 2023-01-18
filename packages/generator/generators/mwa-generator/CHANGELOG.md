@@ -1,5 +1,13 @@
 # @modern-js/mwa-generator
 
+## 3.0.4-next.0
+
+### Patch Changes
+
+- e2f102f: feat: generator template upgrade node version to 16
+
+  feat: 生成器模板升级 node 版本到 16
+
 ## 3.0.3
 
 ### Patch Changes
