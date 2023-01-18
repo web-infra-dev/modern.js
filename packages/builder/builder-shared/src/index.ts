@@ -17,3 +17,4 @@ export * from './format';
 export * from './devServer';
 export * from './chain';
 export * from './schema';
+export * from './plugins';
