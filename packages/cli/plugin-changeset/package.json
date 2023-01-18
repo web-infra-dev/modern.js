@@ -44,7 +44,6 @@
     "@changesets/read": "^0.5.5",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "execa": "^5.1.1",
     "resolve-from": "^5.0.0"
   },
   "devDependencies": {
