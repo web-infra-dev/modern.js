@@ -4,9 +4,9 @@ sidebar_label: port
 ---
 
 :::info BUILDER
-This configuration is Modern.js Builder configuration, more detail can see [dev.port](https://modernjs.dev/builder/zh/api/config-dev.html#dev-port)。
+This configuration is Modern.js Builder configuration, more detail can see [dev.port](https://modernjs.dev/builder/en/api/config-dev.html#dev-port)。
 :::
 
-import Main from '@modern-js/builder-doc/en/config/dev/port.md'
+import Main from '@modern-js/builder-doc/docs/en/config/dev/port.md'
 
 <Main />

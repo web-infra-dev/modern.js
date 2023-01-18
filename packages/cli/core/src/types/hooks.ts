@@ -27,6 +27,12 @@ export type BaseHooks<
   }>;
   validateSchema: ParallelWorkflow<void>;
   prepare: AsyncWorkflow<void, void>;
+  afterPrepare: AsyncWorkflow<void, void>;
+  watchFiles: ParallelWorkflow<void>;
+  fileChange: AsyncWorkflow<
+    { filename: string; eventType: 'add' | 'change' | 'unlink' },
+    void
+  >;
   commands: AsyncWorkflow<{ program: Command }, void>;
   beforeExit: AsyncWorkflow<void, void>;
   addRuntimeExports: AsyncWaterfall<void>;

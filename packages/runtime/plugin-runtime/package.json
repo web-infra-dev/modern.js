@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.2",
+  "version": "2.1.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -78,9 +78,9 @@
       "default": "./dist/js/treeshaking/router/index.js"
     },
     "./router/server": {
-      "jsnext:source": "./src/router/server.ts",
-      "node": "./dist/js/node/router/server.js",
-      "default": "./dist/js/treeshaking/router/server.js"
+      "jsnext:source": "./src/router/runtime/server.ts",
+      "node": "./dist/js/node/router/runtime/server.js",
+      "default": "./dist/js/treeshaking/router/runtime/server.js"
     }
   },
   "typesVersions": {
@@ -164,7 +164,8 @@
     "react-side-effect": "^2.1.1",
     "redux-logger": "^3.0.6",
     "serialize-javascript": "^6.0.0",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "esbuild": "0.15.7"
   },
   "peerDependencies": {
     "react": ">=17",

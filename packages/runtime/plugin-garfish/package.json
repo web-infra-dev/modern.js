@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.0.2",
+  "version": "2.1.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
@@ -24,6 +24,9 @@
       ],
       "runtime": [
         "./dist/types/runtime/index.d.ts"
+      ],
+      "deps": [
+        "./dist/types/deps/index.d.ts"
       ],
       "types": [
         "./type.d.ts"
@@ -42,6 +45,11 @@
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
+    },
+    "./deps": {
+      "jsnext:source": "./src/deps/index.ts",
+      "node": "./dist/js/node/deps/index.js",
+      "default": "./dist/js/treeshaking/deps/index.js"
     },
     "./runtime": {
       "node": {
@@ -71,7 +79,7 @@
     "react-loadable": "^5.5.0"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.0.2"
+    "@modern-js/runtime": "workspace:^2.1.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

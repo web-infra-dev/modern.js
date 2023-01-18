@@ -1,6 +1,6 @@
 import type { BuilderPlugin } from '../types';
 
-export const PluginManifest = (): BuilderPlugin => ({
+export const builderPluginManifest = (): BuilderPlugin => ({
   name: 'builder-plugin-manifest',
 
   setup(api) {

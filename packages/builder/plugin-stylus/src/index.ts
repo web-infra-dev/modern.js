@@ -18,7 +18,7 @@ type StylusLoaderOptions = {
 
 export type PluginStylusOptions = StylusLoaderOptions;
 
-export function PluginStylus(
+export function builderPluginStylus(
   options?: PluginStylusOptions,
 ): BuilderPlugin<BuilderPluginAPI> {
   return {
@@ -57,3 +57,8 @@ export function PluginStylus(
     },
   };
 }
+
+/**
+ * @deprecated Using builderPluginStylus instead.
+ */
+export const PluginStylus = builderPluginStylus;

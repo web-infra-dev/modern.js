@@ -179,9 +179,17 @@ export default ({
         };
       },
       addRuntimeExports() {
-        const addExportStatement = `export { default as garfish, default as masterApp, hoistNonReactStatics } from '${pluginName}/runtime'`;
-        logger('exportStatement', addExportStatement);
-        pluginsExportsUtils.addExport(addExportStatement);
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const config = useResolvedConfigContext();
+        const { masterApp } = getRuntimeConfig(config);
+        if (masterApp) {
+          const addExportStatement = `export { default as garfish, default as masterApp } from '${pluginName}/runtime'`;
+          logger('exportStatement', addExportStatement);
+          pluginsExportsUtils.addExport(addExportStatement);
+        }
+        const otherExportStatement = `export { hoistNonReactStatics } from '@modern-js/plugin-garfish/deps'`;
+        logger('otherExportStatement', otherExportStatement);
+        pluginsExportsUtils.addExport(otherExportStatement);
       },
       modifyEntryImports({ entrypoint, imports }) {
         // eslint-disable-next-line react-hooks/rules-of-hooks

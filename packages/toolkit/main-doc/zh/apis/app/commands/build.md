@@ -36,9 +36,3 @@ File sizes after production build:
 <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
 
 > 该功能基于 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) 实现。
-
-## 命令行参数
-
-import CommandTip from '@site-docs/components/command-tip.md'
-
-<CommandTip />

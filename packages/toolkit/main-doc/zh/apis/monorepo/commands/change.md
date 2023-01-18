@@ -53,7 +53,3 @@ $ npx modern change
 
 test publish
 ```
-
-import CommandTip from '@site-docs/components/command-tip.md'
-
-<CommandTip />

@@ -93,10 +93,17 @@ const resolveStorybookWebPackConfig = (
 
   if (fs.existsSync(tsconfigPath)) {
     sbWebpackConfig.resolve = sbWebpackConfig.resolve || {};
+    const originalPlugins = sbWebpackConfig.resolve.plugins || [];
+
     sbWebpackConfig.resolve.plugins = [
-      ...(sbWebpackConfig.resolve.plugins || []),
+      // remove project/tsconfig.json`s tsconfigpaths-plugin
+      ...originalPlugins.filter(
+        p => p?.constructor.name !== 'TsConfigPathsPlugin',
+      ),
       new TsconfigPathsPlugin({
         configFile: path.join(appDirectory, 'stories/tsconfig.json'),
+        mainFields: ['browser', 'module', 'main'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.json'],
       }),
     ];
   }
@@ -142,6 +149,7 @@ export const getCustomWebpackConfigHandle = async ({
   configDir: string;
   modernConfig: ModuleNormalizedConfig;
 }) => {
+  const { mergeBuilderConfig } = await import('@modern-js/builder');
   const { appDirectory } = appContext;
 
   const {
@@ -151,33 +159,27 @@ export const getCustomWebpackConfigHandle = async ({
     designSystem: ___,
     ...builderConfig
   } = modernConfig;
+
   const storybookBuildConfig = dev?.storybook ?? {};
   const builder =
     appContext.builder ||
-    (await createWebpackBuilder({
-      ...builderConfig,
-      tools: {
-        ...(builderConfig as any).tools,
-        // maybe buildConfiger is app-tools`s config
-        webpack: [
-          (builderConfig as any).tools.webpack,
-          storybookBuildConfig.webpack,
-        ].filter(p => Boolean(p)),
-        webpackChain: [
-          (builderConfig as any).tools.webpackChain,
-          storybookBuildConfig.webpackChain,
-        ].filter(p => Boolean(p)),
-      },
-    }));
+    (await createWebpackBuilder(
+      mergeBuilderConfig(builderConfig, {
+        tools: {
+          webpack: storybookBuildConfig.webpack,
+          webpackChain: storybookBuildConfig.webpackChain,
+        },
+      } as any) as BuilderConfig,
+    ));
 
   const { PluginStorybook } = await import('./builder-plugin');
 
   if (!builder.isPluginExists('builder-plugin-node-polyfill')) {
-    const { PluginNodePolyfill } = await import(
+    const { builderPluginNodePolyfill } = await import(
       '@modern-js/builder-plugin-node-polyfill'
     );
 
-    builder.addPlugins([PluginNodePolyfill()]);
+    builder.addPlugins([builderPluginNodePolyfill()]);
   }
 
   builder.addPlugins([PluginStorybook({ appDirectory, configDir })]);

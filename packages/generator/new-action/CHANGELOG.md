@@ -1,5 +1,16 @@
 # @modern-js/new-action
 
+## 2.1.0
+
+### Patch Changes
+
+- Updated dependencies [837620c]
+- Updated dependencies [4181b2d]
+- Updated dependencies [8a9482c]
+  - @modern-js/utils@2.1.0
+  - @modern-js/generator-common@3.0.3
+  - @modern-js/generator-utils@3.0.3
+
 ## 2.0.2
 
 ### Patch Changes

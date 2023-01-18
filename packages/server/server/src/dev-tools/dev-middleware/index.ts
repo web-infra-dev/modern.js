@@ -17,13 +17,14 @@ const noop = () => {
 };
 
 function getHMRClientPath(client: DevServerOptions['client']) {
+  const protocol = client?.protocol ? `&protocol=${client.protocol}` : '';
   const host = client?.host ? `&host=${client.host}` : '';
   const path = client?.path ? `&path=${client.path}` : '';
   const port = client?.port ? `&port=${client.port}` : '';
 
   const clientEntry = `${require.resolve(
     './hmr-client',
-  )}?${host}${path}${port}`;
+  )}?${host}${path}${port}${protocol}`;
 
   return clientEntry;
 }

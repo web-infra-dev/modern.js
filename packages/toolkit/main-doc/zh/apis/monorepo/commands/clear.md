@@ -12,10 +12,6 @@ Options:
   -h, --help               display help for command
 ```
 
-import CommandTip from '@site-docs/components/command-tip.md'
-
-<CommandTip />
-
 默认对 Monorepo 以及 Monorepo 子项目的 `node_modules` 进行清理。
 
 可以通过参数 `--remove-dirs` 来指定要删除的目录，例如执行：

@@ -6,6 +6,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { useLocaleSiteData } from './useLocaleSiteData';
 import { isEqualPath } from './utils';
+import { withBase } from '@/runtime';
 
 export function usePrevNextPage() {
   const { pathname } = useLocation();
@@ -40,7 +41,7 @@ export function usePrevNextPage() {
   walkThroughSidebar(sidebar);
 
   const pageIndex = flattenTitles.findIndex(item =>
-    isEqualPath(item.link, pathname),
+    isEqualPath(withBase(item.link), pathname),
   );
 
   const prevPage = flattenTitles[pageIndex - 1] || null;

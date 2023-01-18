@@ -17,6 +17,7 @@ import type {
 } from './utils/types';
 import { getCommand } from './utils/commands';
 import { restart } from './utils/restart';
+import { generateWatchFiles } from './utils/generateWatchFiles';
 
 export * from './defineConfig';
 // eslint-disable-next-line import/export
@@ -212,6 +213,12 @@ export default (): CliPlugin<AppTools> => ({
           const appContext = api.useAppContext();
           await emptyDir(appContext.distDirectory);
         }
+      },
+
+      async watchFiles() {
+        const appContext = api.useAppContext();
+        const config = api.useResolvedConfigContext();
+        return generateWatchFiles(appContext, config.source.configDir);
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart

@@ -17,7 +17,7 @@ export async function runStaticServer(
 
   const port = await getPort(options?.port || '8080');
   const hostname = options?.hostname ?? '127.0.0.1';
-  server.listen(port, hostname);
+  const listener = server.listen(port, hostname);
 
-  return { port, hostname };
+  return { port, hostname, close: () => listener.close() };
 }

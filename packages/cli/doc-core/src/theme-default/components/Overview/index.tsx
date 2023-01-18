@@ -75,8 +75,8 @@ export function Overview() {
           <div className={styles.overviewGroups}>
             {group.items.map(item => (
               <div className={styles.overviewGroup} key={item.link}>
-                <div flex="~ center">
-                  <h3 style={{ marginBottom: 0 }}>
+                <div flex="~">
+                  <h3 style={{ marginBottom: 8 }}>
                     <Link href={normalizeHref(item.link)}>{item.text}</Link>
                   </h3>
                 </div>

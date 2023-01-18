@@ -8,7 +8,7 @@ import {
 import type { BuilderPlugin } from '../types';
 import type { RuleSetRule } from 'webpack';
 
-export const PluginFallback = (): BuilderPlugin => ({
+export const builderPluginFallback = (): BuilderPlugin => ({
   name: 'builder-plugin-fallback',
 
   setup(api) {

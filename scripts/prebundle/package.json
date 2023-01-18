@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.0.2",
+  "version": "2.1.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -96,7 +96,7 @@
     "import-lazy": "4.0.0",
     "inquirer": "8.2.2",
     "js-yaml": "4.1.0",
-    "json5": "2.2.0",
+    "json5": "2.2.3",
     "less": "4.1.3",
     "less-loader": "11.0.0",
     "loader-utils2": "npm:loader-utils@2.0.4",

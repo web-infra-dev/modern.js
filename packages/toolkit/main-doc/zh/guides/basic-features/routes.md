@@ -286,29 +286,111 @@ const ErrorBoundary = () => {
 export default ErrorBoundary;
 ```
 
+### 运行时配置
+
+在每个根 `Layout` 组件中(`routes/layout.ts`)，可以动态地定义应用运行时配置：
+
+```ts title="src/routes/layout.tsx"
+// 定义运行时配置
+import type { AppConfig } from '@modern-js/runtime';
+
+export const config = (): AppConfig => {
+  return {
+    router: {
+      supportHtml5History: false
+    }
+  }
+};
+```
+
+### 渲染前的钩子
+
+在有些场景下，需要在应用渲染前做一些操作，可以在 `routes/layout.tsx` 中定义 `init` 钩子，`init` 在客户端和服务端均会执行，基本使用示例如下：
+
+```ts title="src/routes/layout.tsx"
+import type { RuntimeContext } from '@modern-js/runtime';
+
+export const init = (context: RuntimeContext) => {
+  // do something
+};
+```
+
+通过 `init` 钩子可以挂载一些全局的数据，在应用的其他地方可以访问 `runtimeContext` 变量：
+
+:::note
+该功能在应用需要页面前置的数据、自定义数据注入或是框架迁移（如 Next.js）时会非常有用。
+:::
+
+```ts title="src/routes/layout.tsx"
+import {
+  RuntimeContext,
+} from '@modern-js/runtime';
+
+export const init = (context: RuntimeContext) => {
+  return {
+    message: 'Hello World',
+  }
+}
+```
+
+```tsx title="src/routes/page.tsx"
+import { useRuntimeContext } from '@modern-js/runtime';
+
+export default () => {
+  const { context } = useRuntimeContext();
+  const { message } = context.getInitData();
+
+  return <div>{message}</div>;
+}
+```
+
+配合 SSR 功能时，浏览器端可以获取到 SSR 时 `init` 返回的数据，开发者可以自行判断是否要在浏览器端重新获取数据来覆盖 SSR 数据，例如：
+
+```tsx title="src/routes/layout.tsx"
+import {
+  RuntimeContext,
+} from '@modern-js/runtime';
+
+export const init = (context: RuntimeContext) => {
+  if (process.env.JUPITER_TARGET === 'node') {
+    return {
+      message: 'Hello World By Server',
+    }
+  } else {
+    const { context } = runtimeContext;
+    const data = context.getInitData();
+    // 如果没有获取到期望的数据
+    if (!data.message) {
+      return {
+        message: 'Hello World By Client'
+      }
+    }
+  }
+}
+```
+
+
 ## 自控式路由
 
 以 `src/App.tsx` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发，例如：
 
-```tsx
-import { Route, Routes, BrowserRouter } from '@modern-js/runtime/router';
-import { StaticRouter } from '@modern-js/runtime/router/server';
+```ts title="src/App.tsx"
+import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
-const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
 export default () => {
   return (
-    <Router location={context.request.pathname}>
+    <BrowserRouter>
       <Routes>
         <Route index element={<div>index</div>} />
         <Route path="about" element={<div>about</div>} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 };
 ```
 
 :::note
-在自控式路由下，开发者如果希望在 SSR 中使用 React Router 6 中 [Loader API](https://reactrouter.com/en/main/hooks/use-loader-data#useloaderdata) 的能力会相对复杂，推荐直接使用约定式路由。Modern.js 已经为你封装好了一切。
+Modern.js 默认对约定式路由做了一系列资源加载及渲染上的优化，并且提供了开箱即用的 SSR 能力，而这些能力，在使用自控路由时，都需要开发者自行封装，推荐开发者使用约定式路由。
 :::
 
 ## 其他路由方案

@@ -5,7 +5,6 @@ import type { MatchResultItem, PageSearcher } from './logic/search';
 import styles from './index.module.scss';
 import { SuggestionContent } from './Suggestion';
 import { formatText } from './logic/util';
-import { usePageData } from '@/runtime';
 
 const KEY_CODE = {
   ARROW_UP: 'ArrowUp',
@@ -31,7 +30,6 @@ export function Search(props: SearchOptions) {
   const initPageSearcherPromiseRef = useRef<Promise<void>>();
   const [disableInput, setDisableInput] = useState(true);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const { siteData } = usePageData();
   // initializing or searching
   const showLoading = !initialized || searching;
   // 1. page searcher has been initialized and finish searching
@@ -46,7 +44,6 @@ export function Search(props: SearchOptions) {
         defaultLang,
         langs,
         langRoutePrefix,
-        pages: siteData.pages,
       });
       await psRef.current.init();
       setInitialized(true);
@@ -179,7 +176,7 @@ export function Search(props: SearchOptions) {
           {/* Show the suggestions */}
           {suggestions.map((item, index) => (
             <li
-              key={item.title}
+              key={item.link}
               cursor="pointer"
               w="full"
               className="border-collapse rounded-sm"

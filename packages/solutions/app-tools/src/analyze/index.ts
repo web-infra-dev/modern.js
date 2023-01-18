@@ -1,21 +1,28 @@
 import * as path from 'path';
-import { createDebugger, findExists, fs, isApiOnly } from '@modern-js/utils';
+import {
+  createDebugger,
+  findExists,
+  fs,
+  getEntryOptions,
+  isApiOnly,
+  minimist,
+} from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { createBuilderForModern } from '../builder';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
-import { getCommand } from '../utils/commands';
+import { getCommand, isDevCommand } from '../utils/commands';
+import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools } from '../types';
 import { initialNormalizedConfig } from '../config';
 import {
-  isNestedRouteComponent,
+  getServerLoadersFile,
   isPageComponentFile,
   parseModule,
   replaceWithAlias,
 } from './utils';
-import { loaderBuilder, serverLoaderBuilder } from './Builder';
 import {
   APP_CONFIG_NAME,
   APP_INIT_EXPORTED,
@@ -79,7 +86,6 @@ export default (): CliPlugin<AppTools> => ({
         ]);
 
         const entrypoints = getBundleEntry(appContext, resolvedConfig);
-        const defaultChecked = entrypoints.map(point => point.entryName);
 
         debug(`entrypoints: %o`, entrypoints);
 
@@ -125,10 +131,19 @@ export default (): CliPlugin<AppTools> => ({
 
         debug(`add Define Types`);
 
+        let checkedEntries = entrypoints.map(point => point.entryName);
+        if (isDevCommand()) {
+          const { entry } = minimist(process.argv.slice(2));
+          checkedEntries = await getSelectedEntries(
+            typeof entry === 'string' ? entry.split(',') : entry,
+            entrypoints,
+          );
+        }
+
         appContext = {
           ...appContext,
           entrypoints,
-          checkedEntries: defaultChecked,
+          checkedEntries,
           apiOnly,
           serverRoutes: routes,
           htmlTemplates,
@@ -201,6 +216,36 @@ export default (): CliPlugin<AppTools> => ({
       watchFiles() {
         return pagesDir;
       },
+      config() {
+        return {
+          tools: {
+            webpackChain: (chain, { name }) => {
+              const appContext = api.useAppContext();
+              const resolvedConfig = api.useResolvedConfigContext();
+              const { entrypoints, internalDirectory, packageName } =
+                appContext;
+              entrypoints.forEach(entrypoint => {
+                const { entryName } = entrypoint;
+                const ssr = getEntryOptions(
+                  entryName,
+                  resolvedConfig.server.ssr,
+                  resolvedConfig.server.ssrByEntries,
+                  packageName,
+                );
+                if (entrypoint.nestedRoutesEntry && ssr && name === 'server') {
+                  const serverLoadersFile = getServerLoadersFile(
+                    internalDirectory,
+                    entryName,
+                  );
+                  chain
+                    .entry(`${entryName}-server-loaders`)
+                    .add(serverLoadersFile);
+                }
+              });
+            },
+          },
+        };
+      },
 
       resolvedConfig({ resolved }) {
         const appContext = api.useAppContext();
@@ -247,6 +292,7 @@ export default (): CliPlugin<AppTools> => ({
             const hasAppInit = moduleExports.some(
               e => e.n === APP_INIT_EXPORTED,
             );
+
             if (hasAppInit) {
               imports.push({
                 value: generateLayoutPath,
@@ -263,11 +309,6 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
 
-      async beforeRestart() {
-        serverLoaderBuilder.stop();
-        loaderBuilder.stop();
-      },
-
       async fileChange(e) {
         const appContext = api.useAppContext();
         const { appDirectory } = appContext;
@@ -280,10 +321,8 @@ export default (): CliPlugin<AppTools> => ({
           isPageFile(absoluteFilePath) && isPageComponentFile(absoluteFilePath);
 
         if (
-          (isRouteComponent &&
-            (eventType === 'add' || eventType === 'unlink')) ||
-          (isNestedRouteComponent(nestedRouteEntries, absoluteFilePath) &&
-            eventType === 'change')
+          isRouteComponent &&
+          (eventType === 'add' || eventType === 'unlink')
         ) {
           const resolvedConfig = api.useResolvedConfigContext();
           const { generateCode } = await import('./generateCode');

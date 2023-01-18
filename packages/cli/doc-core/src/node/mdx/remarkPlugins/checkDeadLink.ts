@@ -2,7 +2,7 @@ import path from 'path';
 import { visit } from 'unist-util-visit';
 import ora from 'ora';
 import type { Plugin } from 'unified';
-import { isProduction } from '../../../shared/utils';
+import { isProduction } from '@/shared/utils';
 import {
   normalizeRoutePath,
   routeService,

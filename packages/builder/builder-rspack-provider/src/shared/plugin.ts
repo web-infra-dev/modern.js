@@ -3,31 +3,33 @@ import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
 
 export const applyMinimalPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
-    import('../plugins/basic').then(m => m.PluginBasic()),
+    import('../plugins/basic').then(m => m.builderPluginBasic()),
     plugins.entry(),
     plugins.cache(),
     plugins.target(),
-    import('../plugins/output').then(m => m.PluginOutput()),
-    // todo: need rspack solve performance problem
-    // plugins.devtool(),
-    import('../plugins/resolve').then(m => m.PluginResolve()),
+    import('../plugins/output').then(m => m.builderPluginOutput()),
+    plugins.devtool(),
+    import('../plugins/resolve').then(m => m.builderPluginResolve()),
     plugins.fileSize(),
     // should before the html plugin
     plugins.cleanOutput(),
-    import('../plugins/html').then(m => m.PluginHtml()),
-    import('../plugins/define').then(m => m.PluginDefine()),
-    import('../plugins/css').then(m => m.PluginCss()),
-    import('../plugins/less').then(m => m.PluginLess()),
-    import('../plugins/sass').then(m => m.PluginSass()),
+    import('../plugins/font').then(m => m.builderPluginFont()),
+    import('../plugins/image').then(m => m.builderPluginImage()),
+    import('../plugins/media').then(m => m.builderPluginMedia()),
+    import('../plugins/html').then(m => m.builderPluginHtml()),
+    import('../plugins/define').then(m => m.builderPluginDefine()),
+    import('../plugins/css').then(m => m.builderPluginCss()),
+    import('../plugins/less').then(m => m.builderPluginLess()),
+    import('../plugins/sass').then(m => m.builderPluginSass()),
   ]);
 
 export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     ...applyMinimalPlugins(plugins).promises,
-    import('../plugins/hmr').then(m => m.PluginHMR()),
-    import('../plugins/progress').then(m => m.PluginProgress()),
-    import('../plugins/react').then(m => m.PluginReact()),
-    import('../plugins/externals').then(m => m.PluginExternals()),
+    import('../plugins/hmr').then(m => m.builderPluginHMR()),
+    import('../plugins/progress').then(m => m.builderPluginProgress()),
+    import('../plugins/react').then(m => m.builderPluginReact()),
+    import('../plugins/externals').then(m => m.builderPluginExternals()),
     plugins.toml(),
     plugins.yaml(),
     plugins.startUrl(),

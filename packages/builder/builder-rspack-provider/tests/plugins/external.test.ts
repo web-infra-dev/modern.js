@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { createBuilder } from '../helper';
-import { PluginExternals } from '@/plugins/externals';
+import { builderPluginExternals } from '@/plugins/externals';
 
 describe('plugins/external', () => {
   it('should add external config', async () => {
     const builder = await createBuilder({
-      plugins: [PluginExternals()],
+      plugins: [builderPluginExternals()],
       builderConfig: {
         output: {
           externals: {

@@ -9,6 +9,7 @@ import type {
 import sirv from 'sirv';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import WindiCSSWebpackPlugin from 'windicss-webpack-plugin';
+import { removeTrailingSlash } from '../shared/utils';
 import {
   CLIENT_ENTRY,
   SSR_ENTRY,
@@ -19,6 +20,7 @@ import {
 import { createMDXOptions } from './mdx';
 import { virtualModuleFactoryList } from './virtualModule';
 import createWindiConfig from './windiOptions';
+import { serveSearchIndexMiddleware } from './searchIndex';
 
 const require = createRequire(import.meta.url);
 
@@ -50,6 +52,7 @@ async function createInternalBuildConfig(
 
   const publicDir = path.join(userRoot, 'public');
   const isPublicDirExist = await fs.pathExists(publicDir);
+  const assetPrefix = config.doc?.builderConfig?.output?.assetPrefix || '';
 
   // Using latest browserslist in development to improve build performance
   const browserslist = {
@@ -77,7 +80,6 @@ async function createInternalBuildConfig(
       distPath: {
         root: config.doc?.outDir ?? OUTPUT_DIR,
       },
-      assetPrefix: config.doc?.base || '',
       svgDefaultExport: 'component',
       disableTsChecker: true,
       // disable production source map, it is useless for doc site
@@ -94,6 +96,11 @@ async function createInternalBuildConfig(
         '@theme': themeDir,
       },
       include: [PACKAGE_ROOT],
+      define: {
+        __ASSET_PREFIX__: JSON.stringify(
+          isProduction() ? removeTrailingSlash(assetPrefix) : '',
+        ),
+      },
     },
     tools: {
       babel(options, { modifyPresetReactOptions }) {
@@ -104,15 +111,14 @@ async function createInternalBuildConfig(
       },
       devServer: {
         // Serve static files
-        after: [...(isPublicDirExist ? [sirv(publicDir)] : [])],
+        after: [
+          ...(isPublicDirExist ? [sirv(publicDir)] : []),
+          serveSearchIndexMiddleware(config),
+        ],
         historyApiFallback: true,
       },
       cssExtract: {},
       webpackChain(chain, { CHAIN_ID, isProd }) {
-        const [loader, options] = chain.module
-          .rule(CHAIN_ID.RULE.JS)
-          .use(CHAIN_ID.USE.BABEL)
-          .values();
         chain.module
           .rule('MDX')
           .test(/\.mdx?$/)
@@ -121,10 +127,6 @@ async function createInternalBuildConfig(
           .options({
             multiple: config.doc?.replaceRules || [],
           })
-          .end()
-          .use('babel-loader')
-          .loader(loader as unknown as string)
-          .options(options)
           .end()
           .use('mdx-loader')
           .loader(require.resolve('@mdx-js/loader'))
@@ -142,7 +144,7 @@ async function createInternalBuildConfig(
           });
         }
 
-        chain.resolve.extensions.merge(['.ts', '.tsx', '.mdx', '.md']);
+        chain.resolve.extensions.merge(['.mdx', '.md', '.ts', '.tsx']);
       },
       webpack(config) {
         config.plugins!.push(...virtualModulePlugins);

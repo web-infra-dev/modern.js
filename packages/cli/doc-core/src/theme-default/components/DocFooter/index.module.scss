@@ -10,14 +10,15 @@
     padding-left: 16px;
   }
 }
-@media (min-width: 768px) {
-  .prev {
-    width: 50%;
-  }
-  .next {
-    width: 50%;
-  }
+
+.prev {
+  width: 100%;
 }
+
+.next {
+  width: 100%;
+}
+
 .pager-link {
   display: block;
   border: 1px solid var(--modern-c-divider-light);

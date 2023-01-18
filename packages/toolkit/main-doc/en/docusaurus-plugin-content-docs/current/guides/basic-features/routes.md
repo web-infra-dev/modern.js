@@ -219,29 +219,109 @@ export default const ErrorBoundary = () => {
 }
 ```
 
+### Hooks before rendering
+
+In some scenarios where you need to do some operations before the application renders, you can define `init` hooks in `routes/layout.tsx`. `init` will be executed on both the client and server side, the basic usage example is as follows:
+
+```ts title="src/routes/layout.tsx"
+import type { RuntimeContext } from '@modern-js/runtime';
+
+export const init = (context: RuntimeContext) => {
+  // do something
+};
+```
+
+The `init` hook allows you to mount some global data and access the `runtimeContext` variable from elsewhere in the application:
+
+:::note
+This feature is useful when the application requires pre-page data, custom data injection or framework migration (e.g. Next.js)
+:::
+
+```ts title="src/routes/layout.tsx"
+import {
+  RuntimeContext,
+} from '@modern-js/runtime';
+
+export const init = (context: RuntimeContext) => {
+  return {
+    message: 'Hello World',
+  }
+}
+```
+
+```tsx title="src/routes/page.tsx"
+import { useRuntimeContext } from '@modern-js/runtime';
+
+export default () => {
+  const { context } = useRuntimeContext();
+  const { message } = context.getInitData();
+
+  return <div>{message}</div>;
+}
+```
+
+When working with SSR, the browser side can get the data returned by `init` during SSR, and the developer can decide whether to retrieve the data on the browser side to overwrite the SSR data, for example:
+
+```tsx title="src/routes/layout.tsx"
+import {
+  RuntimeContext,
+} from '@modern-js/runtime';
+
+export const init = (context: RuntimeContext) => {
+  if (process.env.JUPITER_TARGET === 'node') {
+    return {
+      message: 'Hello World By Server',
+    }
+  } else {
+    const { context } = runtimeContext;
+    const data = context.getInitData();
+    // 如果没有获取到期望的数据
+    if (!data.message) {
+      return {
+        message: 'Hello World By Client'
+      }
+    }
+  }
+}
+```
+
+### Runtime Configuration
+
+In each root `Layout` component (`routes/layout.ts`), the application runtime configuration can be dynamically defined:
+
+```ts title="src/routes/layout.tsx"
+import type { AppConfig } from '@modern-js/runtime';
+
+export const config = (): AppConfig => {
+  return {
+    router: {
+      supportHtml5History: false
+    }
+  }
+};
+```
+
 ## Self-controlled routing
 
 With `src/App.tsx` as the agreed entry, Modern.js will not do additional operations with multiple routes, developers can use the React Router 6 API for development by themselves, for example:
 
-```tsx
-import { Route, Routes, BrowserRouter } from '@modern-js/runtime/router';
-import { StaticRouter } from '@modern-js/runtime/router/server';
+```ts title="src/App.tsx"
+import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
-const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
 export default () => {
   return (
-    <Router location={context.request.pathname}>
+    <BrowserRouter>
       <Routes>
         <Route index element={<div>index</div>} />
         <Route path="about" element={<div>about</div>} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 };
 ```
 
 :::note
-Under self-controlled routing, if developers want to use the [Loader API](https://reactrouter.com/en/main/hooks/use-loader-data#useloaderdata) capabilities in React Router 6 in SSR will be relatively complicated, it is recommended to use conventional routing directly. Modern.js has already encapsulated everything for you.
+Modern.js has a series of resource loading and rendering optimizations to the default convention-based routing, and provides out-of-the-box SSR capabilities,  when using self-directed routing, need to be packaged by the developer, and it is recommended that developers use convention-based routing.
 :::
 
 ## Other

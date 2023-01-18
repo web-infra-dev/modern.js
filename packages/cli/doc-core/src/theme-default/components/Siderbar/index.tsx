@@ -68,7 +68,6 @@ export function SidebarItemComp(props: SidebarItemProps) {
           m="t-1"
           p="y-1 x-2"
           block="~"
-          text="sm"
           border="rounded-sm"
           font-medium="~"
           onMouseEnter={() => props.preloadLink(item.link)}
@@ -124,14 +123,19 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   };
 
   return (
-    <section key={item.text} block="~">
+    <section key={item.text} block="~" className="mt-1">
       <div
         flex="~"
         justify="between"
         items-start="~"
-        cursor="pointer"
+        cursor={collapsible ? 'pointer' : 'none'}
         className={`items-center ${
-          active ? styles.menuItemActive : styles.menuItem
+          // eslint-disable-next-line no-nested-ternary
+          active
+            ? styles.menuItemActive
+            : collapsible
+            ? styles.menuItem
+            : styles.menuItemStatic
         }`}
         onMouseEnter={() => item.link && props.preloadLink(item.link)}
         onClick={e => {
@@ -248,12 +252,7 @@ export function SideBar(props: Props) {
     }
   };
   return (
-    <aside
-      className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}
-      style={{
-        borderRight: '1px solid var(--modern-c-divider-light)',
-      }}
-    >
+    <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
       <nav m="t-1">
         {sidebarData.map(
           (item: NormalizedSidebarGroup | SidebarItem, index: number) => (

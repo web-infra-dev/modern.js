@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   z-index: var(--modern-z-index-sidebar);
-  padding: 0 12px 96px 16px;
+  padding: 12px 12px 96px 16px;
   width: calc(100vw - 64px);
   max-width: 320px;
   background-color: var(--modern-c-bg);
@@ -19,6 +19,7 @@
 :global(.dark) .sidebar {
   box-shadow: var(--modern-shadow-1);
 }
+
 .sidebar.open {
   opacity: 1;
   visibility: visible;
@@ -28,13 +29,13 @@
 
 @media (min-width: 960px) {
   .sidebar {
-    z-index: 1;
-    margin-top: var(--modern-nav-height);
+    z-index: 0;
+    margin-top: calc(var(--modern-nav-height));
     padding-bottom: 128px;
-    width: var(--modern-sidebar-width);
     opacity: 1;
     visibility: visible;
     box-shadow: none;
+    width: var(--modern-sidebar-width);
     transform: translateX(0);
   }
 }
@@ -43,6 +44,7 @@
   .sidebar {
     padding-left: 16px;
     width: var(--modern-sidebar-width);
+    margin-left: calc((100vw - 1440px) / 2);
   }
 }
 
@@ -57,11 +59,19 @@
 
 .menuItem:hover,
 .collapseContainer:hover {
-  background-color: rgba(229, 229, 229, 0.5);
+  background-color: rgba(229, 229, 229, 0.4);
   transition: all 0.2s;
 }
 
-.menuItem {
+.menuItem,
+.menuItemStatic,
+.menuItemActive {
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.menuItem,
+.menuItemStatic {
   color: var(--modern-c-text-2);
   transition: all 0.2s;
 }

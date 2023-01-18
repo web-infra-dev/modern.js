@@ -1,5 +1,18 @@
 # @modern-js/core
 
+## 2.1.0
+
+### Patch Changes
+
+- 6562578: chore: optimize the capitalization of plugin names
+
+  chore: 规范引用插件时的命名格式，统一使用 camelCase 代替 PascalCase
+
+- Updated dependencies [837620c]
+- Updated dependencies [8a9482c]
+  - @modern-js/builder-plugin-swc@2.1.0
+  - @modern-js/utils@2.1.0
+
 ## 2.0.2
 
 ### Patch Changes

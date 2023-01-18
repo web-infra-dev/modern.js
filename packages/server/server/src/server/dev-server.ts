@@ -3,7 +3,7 @@ import path from 'path';
 import { createServer as createHttpsServer } from 'https';
 import {
   API_DIR,
-  LOADER_ROUTES_DIR,
+  SERVER_BUNDLE_DIRECTORY,
   SERVER_DIR,
   SHARED_DIR,
 } from '@modern-js/utils';
@@ -320,7 +320,7 @@ export class ModernDevServer extends ModernServer {
       `${SERVER_DIR}/**/*`,
       `${API_DIR}/**`,
       `${SHARED_DIR}/**/*`,
-      `${distDir}/${LOADER_ROUTES_DIR}/**`,
+      `${distDir}/${SERVER_BUNDLE_DIRECTORY}/*-server-loaders.js`,
     ];
 
     const watchOptions = mergeWatchOptions(this.conf.server?.watchOptions);

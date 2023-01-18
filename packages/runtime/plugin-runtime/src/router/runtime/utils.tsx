@@ -46,7 +46,7 @@ const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
       element = <Component />;
     } else {
       element = (
-        <Suspense>
+        <Suspense fallback={null}>
           <Component />
         </Suspense>
       );

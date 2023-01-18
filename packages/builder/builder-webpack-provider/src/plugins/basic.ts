@@ -3,7 +3,7 @@ import type { BuilderPlugin } from '../types';
 /**
  * Provide some basic configs of webpack
  */
-export const PluginBasic = (): BuilderPlugin => ({
+export const builderPluginBasic = (): BuilderPlugin => ({
   name: 'builder-plugin-basic',
 
   setup(api) {

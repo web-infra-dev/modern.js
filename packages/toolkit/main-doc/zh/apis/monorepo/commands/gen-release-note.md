@@ -28,7 +28,3 @@ Options:
 
 [[#1264](https://github.com/modern-js-dev/modern.js/pull/1264)] fix: conventional router app use App.init not work
 ```
-
-import CommandTip from '@site-docs/components/command-tip.md'
-
-<CommandTip />

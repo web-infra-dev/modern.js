@@ -1,4 +1,4 @@
-import { join } from 'path';
+import path, { join } from 'path';
 import {
   PageBasicInfo,
   SiteData,
@@ -11,17 +11,16 @@ import {
 } from 'shared/types';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { remark } from 'remark';
-
 import yamlFront from 'yaml-front-matter';
 import type { Root } from 'hast';
 import { unified } from 'unified';
 import { htmlToText } from 'html-to-text';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
-import remarkDirective from 'remark-directive';
+import { remarkPluginContainer } from '@modern-js/remark-container';
 import { ReplaceRule } from 'shared/types/index';
 import { parseToc } from '../mdx/remarkPlugins/toc';
-import { importStatementRegex, PACKAGE_ROOT } from '../constants';
+import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { routeService } from './routeData';
 import { withBase } from '@/shared/utils';
@@ -114,7 +113,7 @@ export async function createSiteDataVirtualModulePlugin(
   }
   const replaceRules = userConfig?.replaceRules || [];
   const pages = await Promise.all(
-    routeService.getRoutes().map(async route => {
+    routeService.getRoutes().map(async (route, index) => {
       let content: string = await fs.readFile(route.absolutePath, 'utf8');
       const frontmatter = {
         // eslint-disable-next-line import/no-named-as-default-member
@@ -135,7 +134,7 @@ export async function createSiteDataVirtualModulePlugin(
       const { title, toc } = parseToc(ast as Root);
       const precessor = unified()
         .use(remarkParse)
-        .use(remarkDirective)
+        .use(remarkPluginContainer)
         .use(remarkHtml);
       const html = await precessor.process(content);
       content = htmlToText(String(html), {
@@ -159,6 +158,7 @@ export async function createSiteDataVirtualModulePlugin(
         },
       });
       return {
+        id: index,
         title: frontmatter.title || title,
         routePath: route.routePath,
         toc,
@@ -187,6 +187,11 @@ export async function createSiteDataVirtualModulePlugin(
     logo: userConfig?.logo || '',
     pages,
   };
+  await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
+  await fs.writeFile(
+    path.join(userRoot, PUBLIC_DIR, 'search_index.json'),
+    JSON.stringify(pages),
+  );
   const plugin = new VirtualModulesPlugin({
     [entryPath]: `export default ${JSON.stringify(siteData)}`,
   });

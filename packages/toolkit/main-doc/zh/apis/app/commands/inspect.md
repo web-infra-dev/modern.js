@@ -13,7 +13,7 @@ Options:
   -h, --help            显示命令帮助
 ```
 
-`modern inspect` 命令，用于查看项目的 [Modern.js Builder 配置](https://modernjs.dev/builder/zh/guide/basic/builder-config.html) 以及 webpack 配置。
+`modern inspect` 命令，用于查看项目的 [Modern.js Builder 配置](https://modernjs.dev/builder/guide/basic/builder-config.html) 以及 webpack 配置。
 
 在项目根目录下执行命令 `npx modern inspect` 后，会在项目的 `dist` 目录生成以下文件：
 

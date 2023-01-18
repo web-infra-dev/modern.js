@@ -11,10 +11,9 @@ import type {
 } from '../types';
 
 export const generatorTsConfig = async (
-  projectTsconfig: ITsconfig,
   config: BundlelessGeneratorDtsConfig,
 ) => {
-  const { fs, lodash, nanoid } = await import('@modern-js/utils');
+  const { fs, nanoid } = await import('@modern-js/utils');
   const { dtsTempDirectory } = await import('../constants/dts');
 
   const { appDirectory, sourceDir: absSourceDir, tsconfigPath } = config;
@@ -22,64 +21,36 @@ export const generatorTsConfig = async (
     appDirectory,
     `${dtsTempDirectory}/${nanoid()}`,
   );
-  const tempDistAbsSrcPath = path.join(
+  const tempDistAbsOurDir = path.join(
     tempDistAbsRootPath,
     path.relative(appDirectory, absSourceDir),
   );
 
-  const rootDir = path.relative(tempDistAbsRootPath, appDirectory);
-  const baseUrl = projectTsconfig.compilerOptions?.baseUrl
-    ? path.join(appDirectory, projectTsconfig.compilerOptions?.baseUrl)
-    : appDirectory;
-  // if include = ['src'], final include should be ['../src']
-  const include = [path.relative(tempDistAbsRootPath, absSourceDir)];
-
-  const resetConfig: ITsconfig = {
-    compilerOptions: {
-      ...projectTsconfig?.compilerOptions,
-      rootDir,
-      baseUrl,
-      // Ensure that .d.ts files are created by tsc, but not .js files
-      declaration: true,
-      emitDeclarationOnly: true,
-      outDir: tempDistAbsRootPath,
-    },
-    include,
-    exclude: projectTsconfig.exclude ?? [],
-  };
-
-  // extends: '../tsconfig.json'
-  if (projectTsconfig.extends) {
-    resetConfig.extends = projectTsconfig.extends.startsWith('.')
-      ? path.join(
-          path.relative(`${tempDistAbsRootPath}`, path.dirname(tsconfigPath)),
-          projectTsconfig.extends,
-        )
-      : projectTsconfig.extends;
-  }
-
-  const recommendOption = {
-    // Ensure that Babel can safely transpile files in the TypeScript project
-    compilerOptions: {
-      isolatedModules: true,
-    },
-  };
-
   const tempTsconfigPath = path.join(tempDistAbsRootPath, `tsconfig.json`);
   fs.ensureFileSync(tempTsconfigPath);
 
-  const deepMerge = lodash.merge;
-  fs.writeJSONSync(
-    tempTsconfigPath,
-    deepMerge(
-      recommendOption,
-      projectTsconfig,
-      // 此处是必须要覆盖用户默认配置
-      resetConfig,
-    ),
+  const extendsPath = path.join(
+    path.relative(path.dirname(tempTsconfigPath), path.dirname(tsconfigPath)),
+    path.basename(tempTsconfigPath),
   );
 
-  return { tempTsconfigPath, tempDistAbsRootPath, tempDistAbsSrcPath };
+  const resetConfig: ITsconfig = {
+    extends: extendsPath,
+    compilerOptions: {
+      // Ensure that .d.ts files are created by tsc, but not .js files
+      declaration: true,
+      emitDeclarationOnly: true,
+      outDir: tempDistAbsOurDir,
+    },
+  };
+
+  fs.writeJSONSync(tempTsconfigPath, resetConfig);
+
+  return {
+    tempTsconfigPath,
+    tempDistAbsRootPath,
+    tempDistAbsSrcPath: tempDistAbsOurDir,
+  };
 };
 
 export const getTscBinPath = async (appDirectory: string) => {

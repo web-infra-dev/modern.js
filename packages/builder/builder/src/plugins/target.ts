@@ -1,7 +1,7 @@
 import { getBrowserslist } from '@modern-js/builder-shared';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export const PluginTarget = (): DefaultBuilderPlugin => ({
+export const builderPluginTarget = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-target',
 
   setup(api) {

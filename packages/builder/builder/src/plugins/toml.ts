@@ -1,7 +1,7 @@
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 import path from 'path';
 
-export const PluginToml = (): DefaultBuilderPlugin => ({
+export const builderPluginToml = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-toml',
 
   setup(api) {

@@ -15,10 +15,6 @@ Options:
   -h, --help             display help for command
 ```
 
-import CommandTip from '@site-docs/components/command-tip.md'
-
-<CommandTip />
-
 `modern new` 命令在 monorepo 中可以用来添加应用工程和可复用的模块：
 
 ```bash

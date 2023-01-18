@@ -89,25 +89,9 @@ After executing `pnpm run serve` to start the project, visit the page in the Net
 
 For example, there is the following code, which contains multiple routes. When setting `output.ssg` to `true`, only the entry route '/' will be rendered by default:
 
-```tsx title="src/App.tsx"
-import { useRuntimeContext } from '@modern-js/runtime';
-import { Routes, Route, BrowserRouter } from '@modern-js/runtime/router';
-import { StaticRouter } from '@modern-js/runtime/router/server';
+import SelfRouteExample from '@site-docs/components/self-route-example.md';
 
-const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter;
-
-export default () => {
-  const { context } = useRuntimeContext();
-  return (
-    <Router location={context.request.pathname}>
-      <Routes>
-        <Route index element={<div>index</div>} />
-        <Route path="about" element={<div>about</div>} />
-      </Routes>
-    </Router>
-  );
-};
-```
+<SelfRouteExample />
 
 If we want to enable the SSG of `/about` at the same time, we can configure the `output.ssg` to tell Modern.js to enable the SSG of the specified route.
 

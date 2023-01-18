@@ -105,7 +105,7 @@ function applyMainFields({
   }
 }
 
-export const PluginResolve = (): BuilderPlugin => ({
+export const builderPluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
 
   setup(api) {

@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.0.3
+
+### Patch Changes
+
+- 4181b2d: chore: optimize the capitalization of new command plugin names
+
+  chore: 优化 new 命令提示的插件名称格式
+
+  - @modern-js/plugin-i18n@2.1.0
+
 ## 3.0.2
 
 ### Patch Changes

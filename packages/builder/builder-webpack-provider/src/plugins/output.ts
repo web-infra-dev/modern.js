@@ -37,7 +37,7 @@ function getPublicPath({
   return addTrailingSlash(publicPath);
 }
 
-export const PluginOutput = (): BuilderPlugin => ({
+export const builderPluginOutput = (): BuilderPlugin => ({
   name: 'builder-plugin-output',
 
   setup(api) {

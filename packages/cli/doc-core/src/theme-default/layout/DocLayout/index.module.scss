@@ -1,27 +1,6 @@
-@media (min-width: 960px) {
-  .content {
-    margin: 0;
-    margin-left: var(--modern-sidebar-width);
-  }
-}
-@media (max-width: 960px) {
-  .docLayout {
-    position: relative;
-  }
-  .content {
-    padding: 14px;
-  }
-}
-
-@media (min-width: 1440px) {
-  .content {
-    padding-left: 80px;
-    padding-right: 100px;
-  }
-}
-
 .aside-container {
   position: sticky;
+  display: none;
   top: 0;
   margin-top: calc(var(--modern-nav-height) * -1 - 32px);
   padding-top: calc(var(--modern-nav-height) + 32px);
@@ -29,8 +8,65 @@
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: none;
+  width: 0;
 }
 
 .aside-container::-webkit-scrollbar {
   display: none;
+}
+
+@media (min-width: 768px) {
+  .aside-container {
+    display: block;
+  }
+}
+
+@media (max-width: 960px) {
+  .docLayout {
+    position: relative;
+  }
+  .content {
+    margin: 12px;
+  }
+}
+
+@media (min-width: 960px) {
+  .docLayout {
+    width: 100%;
+  }
+
+  .content {
+    margin-left: var(--modern-sidebar-width);
+    width: calc(100vw - var(--modern-sidebar-width));
+    padding: 16px 48px;
+    :global(.modern-doc) {
+      padding-right: 48px;
+      width: calc(
+        100vw - var(--modern-sidebar-width) - var(--modern-aside-width)
+      );
+    }
+  }
+
+  .aside-container {
+    width: var(--modern-aside-width);
+  }
+}
+
+@media (min-width: 1440px) {
+  .docLayout {
+    width: 1440px;
+    margin-left: calc((100vw - 1440px) / 2);
+  }
+
+  .content {
+    margin-left: var(--modern-sidebar-width);
+    width: calc(1440px - var(--modern-sidebar-width));
+    padding: 16px 64px;
+    :global(.modern-doc) {
+      padding-right: 64px;
+      width: calc(
+        1440px - var(--modern-sidebar-width) - var(--modern-aside-width) - 128px
+      );
+    }
+  }
 }
