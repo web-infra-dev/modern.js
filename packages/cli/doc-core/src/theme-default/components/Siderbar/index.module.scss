@@ -59,7 +59,7 @@
 
 .menuItem:hover,
 .collapseContainer:hover {
-  background-color: rgba(229, 229, 229, 0.4);
+  background-color: var(--modern-c-black-mute);
   transition: all 0.2s;
 }
 
