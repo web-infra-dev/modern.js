@@ -5,27 +5,17 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
   "module": {
     "rules": [
       {
-        "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "css",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
-          },
-          {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
-              "importLoaders": 1,
               "modules": {
                 "auto": true,
-                "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
               },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/postcss-loader",
-            "options": {
               "postcssOptions": {
                 "plugins": [
                   [Function],
@@ -53,13 +43,14 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  {
-                    "AtRule": [Function],
-                    "Declaration": [Function],
-                    "Once": [Function],
-                    "postcssPlugin": "postcss-pxtorem",
-                  },
                 ],
+              },
+              "pxToRem": {
+                "propList": [
+                  "*",
+                ],
+                "rootValue": 50,
+                "unitPrecision": 5,
               },
               "sourceMap": true,
             },
@@ -76,27 +67,17 @@ exports[`plugins/rem > should not run rem plugin when false 1`] = `
   "module": {
     "rules": [
       {
-        "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "css",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
-          },
-          {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
-              "importLoaders": 1,
               "modules": {
                 "auto": true,
-                "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
               },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/postcss-loader",
-            "options": {
               "postcssOptions": {
                 "plugins": [
                   [Function],
@@ -141,27 +122,17 @@ exports[`plugins/rem > should not run rem plugin without config 1`] = `
   "module": {
     "rules": [
       {
-        "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "css",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
-          },
-          {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
-              "importLoaders": 1,
               "modules": {
                 "auto": true,
-                "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
               },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/postcss-loader",
-            "options": {
               "postcssOptions": {
                 "plugins": [
                   [Function],
@@ -206,27 +177,17 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
   "module": {
     "rules": [
       {
-        "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "css",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
-          },
-          {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
-              "importLoaders": 1,
               "modules": {
                 "auto": true,
-                "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
               },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/postcss-loader",
-            "options": {
               "postcssOptions": {
                 "plugins": [
                   [Function],
@@ -254,13 +215,14 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  {
-                    "AtRule": [Function],
-                    "Declaration": [Function],
-                    "Once": [Function],
-                    "postcssPlugin": "postcss-pxtorem",
-                  },
                 ],
+              },
+              "pxToRem": {
+                "propList": [
+                  "font-size",
+                ],
+                "rootValue": 30,
+                "unitPrecision": 5,
               },
               "sourceMap": true,
             },
@@ -300,27 +262,17 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
   "module": {
     "rules": [
       {
-        "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "css",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
-          },
-          {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
-              "importLoaders": 1,
               "modules": {
                 "auto": true,
-                "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
               },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/postcss-loader",
-            "options": {
               "postcssOptions": {
                 "plugins": [
                   [Function],
@@ -348,13 +300,14 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  {
-                    "AtRule": [Function],
-                    "Declaration": [Function],
-                    "Once": [Function],
-                    "postcssPlugin": "postcss-pxtorem",
-                  },
                 ],
+              },
+              "pxToRem": {
+                "propList": [
+                  "*",
+                ],
+                "rootValue": 50,
+                "unitPrecision": 5,
               },
               "sourceMap": true,
             },
@@ -362,27 +315,17 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
         ],
       },
       {
-        "sideEffects": true,
         "test": /\\\\\\.less\\$/,
+        "type": "css",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
-          },
-          {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
-              "importLoaders": 1,
               "modules": {
                 "auto": true,
-                "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
               },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/postcss-loader",
-            "options": {
               "postcssOptions": {
                 "plugins": [
                   [Function],
@@ -410,19 +353,20 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  {
-                    "AtRule": [Function],
-                    "Declaration": [Function],
-                    "Once": [Function],
-                    "postcssPlugin": "postcss-pxtorem",
-                  },
                 ],
+              },
+              "pxToRem": {
+                "propList": [
+                  "*",
+                ],
+                "rootValue": 50,
+                "unitPrecision": 5,
               },
               "sourceMap": true,
             },
           },
           {
-            "loader": "<ROOT>/compiled/less-loader",
+            "loader": "<ROOT>/compiled/@rspack/less-loader",
             "options": {
               "implementation": "<ROOT>/compiled/less",
               "lessOptions": {
@@ -434,27 +378,17 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
         ],
       },
       {
-        "sideEffects": true,
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "type": "css",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
-          },
-          {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
             "options": {
-              "importLoaders": 1,
               "modules": {
                 "auto": true,
-                "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
+                "localsConvention": "camelCase",
               },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/postcss-loader",
-            "options": {
               "postcssOptions": {
                 "plugins": [
                   [Function],
@@ -482,21 +416,22 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  {
-                    "AtRule": [Function],
-                    "Declaration": [Function],
-                    "Once": [Function],
-                    "postcssPlugin": "postcss-pxtorem",
-                  },
                 ],
+              },
+              "pxToRem": {
+                "propList": [
+                  "*",
+                ],
+                "rootValue": 50,
+                "unitPrecision": 5,
               },
               "sourceMap": true,
             },
           },
           {
-            "loader": "<ROOT>/compiled/sass-loader",
+            "builtinLoader": "sass-loader",
             "options": {
-              "implementation": "<ROOT>/compiled/sass",
+              "rspackImporter": true,
               "sourceMap": true,
             },
           },

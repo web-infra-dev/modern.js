@@ -3,7 +3,7 @@ import {
   getRootPixelCode,
   genJSTemplate,
   DEFAULT_OPTIONS,
-} from '@/webpackPlugins/AutoSetRootFontSizePlugin';
+} from '../../src/plugins/AutoSetRootFontSizePlugin';
 
 const customOptions = {
   ...DEFAULT_OPTIONS,
