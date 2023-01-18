@@ -8,8 +8,18 @@ title: 添加业务模型（状态管理）
 
 因此会开始编写一些跟 UI 完全无关的业务逻辑，如果继续写在组件代码中，会产生越来越多的面条式代码。为此，我们引入了一种叫做 **业务模型（Model）** 的代码模块，将这些业务逻辑和 UI 解耦。
 
-:::info 注
-使用 Model API，需要先设置 [runtime.state](/docs/configure/app/runtime/state) 以启用状态管理插件。
+:::info 注意
+使用状态管理相关 API，需要先启用配置项 [runtime.state](/docs/configure/app/runtime/state)：
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools'
+
+export default defineConfig({
+  runtime: {
+    state: true
+  }
+})
+```
 :::
 
 ## 实现 Model
