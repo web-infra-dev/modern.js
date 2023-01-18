@@ -2,6 +2,7 @@ import path from 'path';
 import type { PluginAPI } from '@modern-js/core';
 import type {
   ModuleUserConfig,
+  ModuleLegacyUserConfig,
   BaseBuildConfig,
   BuildPreset,
   PartialBuildConfig,
@@ -140,7 +141,16 @@ export const normalizeBuildConfig = async (
   context: ModuleContext,
   buildCmdOptions: BuildCommandOptions,
 ): Promise<BaseBuildConfig[]> => {
-  const config = api.useResolvedConfigContext() as unknown as ModuleUserConfig;
+  const { isLegacyUserConfig } = await import('../utils/config');
+  let config = api.useConfigContext() as unknown as ModuleUserConfig;
+
+  if (isLegacyUserConfig(config as { legacy?: boolean })) {
+    const { createUserConfigFromLegacy } = await import(
+      './transform-legacy-config'
+    );
+    config = await createUserConfigFromLegacy(config as ModuleLegacyUserConfig);
+  }
+
   const { buildConfig, buildPreset } = config;
 
   await checkConfig(config);
