@@ -8,7 +8,7 @@ sidebar_position: 1
 
 ## alias
 
-- 类型：`Record<string, string | string[]> | Function`
+- 类型：`Record<string, string> | Function`
 - 默认值：`{'@': 'src',}`
 
 :::tip

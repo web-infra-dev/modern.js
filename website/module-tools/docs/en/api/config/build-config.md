@@ -8,7 +8,7 @@ This section describes all the configuration of Module Tools for building
 
 ## alias
 
-- type: `Record<string, string | string[]> | Function`
+- type: `Record<string, string> | Function`
 - default: `{'@': 'src',}`
 
 :::tip
