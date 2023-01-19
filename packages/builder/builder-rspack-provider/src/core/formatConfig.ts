@@ -3,10 +3,10 @@ import type { BundlerConfig } from '@modern-js/builder-shared';
 import { difference, omitBy, isUndefined } from '@modern-js/utils/lodash';
 import { BUILTIN_LOADER } from '../shared';
 
-const formatCondition = (data: any): string | RegExp => {
+const formatCondition = (data: any, typeName: string): string | RegExp => {
   if (!(data instanceof RegExp || typeof data === 'string')) {
     throw new Error(
-      `type(${typeof data}) not support yet, only support string or RegExp`,
+      `${typeName} only support string or RegExp, but found ${typeof data}`,
     );
   }
   return data;
@@ -14,11 +14,12 @@ const formatCondition = (data: any): string | RegExp => {
 
 const formatConditionWithUndefined = (
   data: any,
+  typeName: string,
 ): string | RegExp | undefined => {
   if (typeof data === 'undefined') {
     return data;
   }
-  return formatCondition(data);
+  return formatCondition(data, typeName);
 };
 
 type RspackRule = NonNullable<NonNullable<RspackConfig['module']>['rules']>[0];
@@ -98,15 +99,18 @@ export const formatRule = (rule: BundlerRule): RspackRule => {
       ...rule,
       type: rule.type as RspackRule['type'],
       use: formatRuleUse(rule.use),
-      resource: formatConditionWithUndefined(rule.resource),
-      resourceQuery: formatConditionWithUndefined(rule.resourceQuery),
+      resource: formatConditionWithUndefined(rule.resource, 'resource'),
+      resourceQuery: formatConditionWithUndefined(
+        rule.resourceQuery,
+        'resourceQuery',
+      ),
       exclude: Array.isArray(rule.exclude)
-        ? rule.exclude.map(formatCondition)
-        : formatConditionWithUndefined(rule.exclude),
+        ? rule.exclude.map(e => formatCondition(e, 'exclude'))
+        : formatConditionWithUndefined(rule.exclude, 'exclude'),
       include: Array.isArray(rule.include)
-        ? rule.include.map(formatCondition)
-        : formatConditionWithUndefined(rule.include),
-      test: formatConditionWithUndefined(rule.test),
+        ? rule.include.map(i => formatCondition(i, 'include'))
+        : formatConditionWithUndefined(rule.include, 'include'),
+      test: formatConditionWithUndefined(rule.test, 'test'),
     },
     isUndefined,
   );
@@ -126,7 +130,9 @@ const formatSplitSize = (data: any, typeName: string): number | undefined => {
   }
   if (!(typeof data === 'number')) {
     throw new Error(
-      `${typeName} only support number, but found ${typeof data}: ${data}`,
+      `${typeName} only support number, but found ${typeof data}: ${JSON.stringify(
+        data,
+      )}`,
     );
   }
 
