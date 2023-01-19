@@ -43,15 +43,8 @@ const hyphenate = function (str: string) {
 const configPath = 'configure/app';
 const getBaseDir = (lng: Language) => {
   const cwd = process.cwd();
-  const baseDir =
-    lng === 'zh'
-      ? path.join(cwd, lng, configPath)
-      : path.join(
-          cwd,
-          lng,
-          'docusaurus-plugin-content-docs/current',
-          configPath,
-        );
+  const baseDir = path.join(cwd, lng, configPath);
+
   return baseDir;
 };
 
@@ -61,7 +54,7 @@ export const gen = (jsonMap: Record<Language, Summary[]>) => {
     const json = jsonMap[lng as Language];
     json.forEach(summary => {
       const mdDir = path.join(baseDir, summary.dirname);
-      const mdPath = path.join(mdDir, `${hyphenate(summary.name)}.md`);
+      const mdPath = path.join(mdDir, `${hyphenate(summary.name)}.mdx`);
       if (!fs.existsSync(mdDir)) {
         fs.mkdirpSync(mdDir);
       }
