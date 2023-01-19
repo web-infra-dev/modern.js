@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.2.0
+
+### Patch Changes
+
+- 19bb384: fix: when a child route does not exist, an empty layout should not be created
+  fix: 子路由不存在时，不应该创建空的 layout
+
 ## 2.1.0
 
 ## 2.0.2

@@ -1,17 +1,17 @@
 import styles from './index.module.scss';
 import { usePageData } from '@/runtime';
 
+const PRESET_COUNT = [2, 3, 4];
+
 const getGridClass = (count?: number): string => {
   if (!count) {
     return '';
-  } else if (count === 2) {
-    return 'grid2';
-  } else if (count === 3) {
-    return 'grid3';
+  } else if (PRESET_COUNT.includes(count)) {
+    return `grid-${12 / count}`;
   } else if (count % 3 === 0) {
-    return 'grid4';
+    return 'grid-4';
   } else if (count % 2 === 0) {
-    return 'grid6';
+    return 'grid-6';
   }
   return '';
 };

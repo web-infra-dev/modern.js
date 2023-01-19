@@ -1,0 +1,44 @@
+---
+title: upload/
+sidebar_position: 4
+---
+# upload/
+
+Static resource files in any format can be placed in the `upload/`.
+
+## Description
+
+In the development environment, the static resource files in this directory will be hosted in the '/upload' path. After building the application product, the files in this directory will be copied to the dist path.
+
+This file convention is mainly used for developers to use plugins to upload static resource files to the CDN.
+
+## Scene
+
+For example, the SDK used by the project such as `google-analysis.js` (usually requires http caching).
+
+Images, font files, generic CSS, etc.
+
+## Compression
+
+If the file is a `.js` file, it will be automatically compressed when the production environment is built.
+
+If the file ends with `.min.js`, it will not compression.
+
+## More Usage
+
+Whether in [custom HTML](/guides/basic-features/html), or in any HTML file under ['config/public/'](/apis/app/hooks/config/public), you can directly use the HTML tag to refer to the resources in the `config/upload/`:
+
+```html
+<script src="/upload/index.js"></script>
+```
+
+if [`output.assetPrefix`](/configure/app/output/asset-prefix) is configured，add this prefix directly using template syntax:
+
+```html
+<script src="<%=assetPrefix %>/upload/index.js"></script>
+```
+
+:::info
+Modern.js does not support the use files under `upload/` in `config/public/*.css` via URL.
+
+:::

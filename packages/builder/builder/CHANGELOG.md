@@ -1,5 +1,22 @@
 # @modern-js/builder
 
+## 2.2.0
+
+### Patch Changes
+
+- d82b621: feat(builder): support port placeholder in dev.startUrl config
+
+  feat(builder): 支持在 dev.startUrl 配置项中使用端口号占位符
+
+- 16bdc0a: chore: adjust builder plugin name
+
+  chore: 调整 builder 插件命名格式
+
+- Updated dependencies [f2f8a83]
+- Updated dependencies [49eff0c]
+  - @modern-js/builder-shared@2.2.0
+  - @modern-js/utils@2.2.0
+
 ## 2.1.0
 
 ### Patch Changes

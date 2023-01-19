@@ -3,5 +3,11 @@
   "compilerOptions": {
     "jsx": "preserve"
   },
-  "include": ["./src", "./navbar.js", "./sidebar.js", "./scripts"]
+  "include": [
+    "./navbar.js",
+    "./sidebar.js",
+    "./scripts",
+    "./modern.config.ts",
+    "./src"
+  ]
 }

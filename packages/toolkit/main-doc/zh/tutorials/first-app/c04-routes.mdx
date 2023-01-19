@@ -1,0 +1,170 @@
+---
+title: 添加客户端路由
+---
+# 添加客户端路由
+
+import { Tabs, Tab as TabItem } from "@theme";
+
+上一章节中，我们学习了如何为创建 UI 组件，并添加样式。
+
+这一章节中，我们将会学习如何添加**客户端路由**。
+
+之前我们已经为联系人列表增加了 Archive 按钮，接下来我们添加一个客户端路由 `/archives`，访问这个路由时，只显示已存档的联系人，而原有的 `/` 继续显示所有联系人。
+
+新建 `src/routes/archives/page.tsx` 文件：
+
+<Tabs>
+<TabItem value="macOS" label="macOS" default>
+
+```bash
+mkdir -p src/routes/archives
+touch src/routes/archives/page.tsx
+```
+
+</TabItem>
+<TabItem value="Windows" label="Windows">
+
+```powershell
+mkdir -p src/routes/archives
+ni src/routes/archives/page.tsx
+```
+
+</TabItem>
+</Tabs>
+
+添加如下代码：
+
+```tsx title="src/archives/page.tsx"
+import { List } from 'antd';
+import { Helmet } from '@modern-js/runtime/head';
+import Item from '../../components/Item';
+
+const getAvatar = (users: Array<{ name: string; email: string }>) =>
+  users.map(user => ({
+    ...user,
+    avatar: `https://avatars.dicebear.com/v2/identicon/${user.name}.svg`,
+  }));
+
+const getMockArchivedData = () =>
+  getAvatar([
+    { name: 'Thomas', email: 'w.kccip@bllmfbgv.dm' },
+    { name: 'Chow', email: 'f.lfqljnlk@ywoefljhc.af' },
+  ]);
+function Index() {
+  return (
+    <div className="container lg mx-auto">
+      <Helmet>
+        <title>Archives</title>
+      </Helmet>
+      <List
+        dataSource={getMockArchivedData()}
+        renderItem={info => <Item key={info.name} info={info} />}
+      />
+    </div>
+  );
+}
+
+export default Index;
+```
+
+这里使用了 [React Helmet](https://github.com/nfl/react-helmet) 的 `Helmet` 组件，在 `src/routes/page.tsx` 中也添加 Helmet 组件：
+
+```tsx
+import { Helmet } from '@modern-js/runtime/head';
+
+function Index() {
+  return (
+    <div className="container lg mx-auto">
+      <Helmet>
+        <title>All</title>
+      </Helmet>
+      ...
+    </div>
+  );
+}
+```
+
+:::info 注
+Modern.js 默认集成了 react-helmet，也可以结合 SSR 使用，满足 SEO 需求。
+
+:::
+
+因为现在有多个页面，都需要用到前面的 Utility Class，因此我们需要把样式文件移动到 `src/routes/layout.tsx`：
+
+```tsx
+import 'tailwindcss/base.css';
+import 'tailwindcss/components.css';
+import 'tailwindcss/utilities.css';
+import '../styles/utils.css';
+```
+
+执行 `pnpm run dev`，访问 `http://localhost:8080`，可以看到完整的联系人，页面的标题是 All：
+
+![display1](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-archives.png)
+
+访问 `http://localhost:8080/archives`，只会看到已存档的联系人，页面的标题是 Archives：
+
+![display](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-all.png)
+
+查看页面 HTML 源码，可以看到两个页面的内容是一样，是在客户端针对不同 URL 渲染不同内容。
+
+**接下来我们增加一个简单的导航栏，让用户能在两个列表之间切换**。
+
+打开 `src/routes/layout.tsx`，在顶部导入 Radio 组件：
+
+```tsx
+import { Radio } from 'antd';
+```
+
+然后将 UI 最顶部进行修改，增加一组单选框
+
+```tsx {4-9}
+export default function Layout() {
+  return (
+    <div>
+      <div className="h-16 p-2 flex items-center justify-center">
+        <Radio.Group onChange={handleSetList} value={currentList}>
+          <Radio value="/">All</Radio>
+          <Radio value="/archives">Archives</Radio>
+        </Radio.Group>
+      </div>
+      <Outlet />
+    </div>
+  );
+}
+```
+
+然后我们来实现 `currentList` 和 `handleSetList`。
+
+引入三个 React Hook：`useState` 和 `useNavigate` 和 `useParams`，以及 Ant Design 的事件类型定义：
+
+```js
+import { useState } from 'react';
+import { Radio, RadioChangeEvent } from 'antd';
+import { Outlet, useLocation, useNavigate } from '@modern-js/runtime/router';
+```
+
+最后在 Layout 组件里增加局部状态和相关逻辑：
+
+```tsx {2-9}
+export default function Layout() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [currentList, setList] = useState(location.pathname || '/');
+  const handleSetList = (e: RadioChangeEvent) => {
+    const { value } = e.target;
+    setList(value);
+    navigate(value);
+  };
+  return (
+  ...
+}
+```
+
+到这里就已经完成了页面导航栏实现，执行 `pnpm run dev` 查看效果：
+
+![display2](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c04-switch.png)
+
+点击导航栏中 Archives，可以看到单选框的选中状态和 URL 都会变化，页面没有刷新，只发生了 CSR。
+
+通过 URL 访问两个页面，可以看到 HTML 内容是不同的，这是因为在 SSR 阶段页面就执行了客户端路由的逻辑，HTML 里已经包含了最终的渲染结果。

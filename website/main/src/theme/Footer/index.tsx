@@ -10,43 +10,35 @@
 
 import React, { useState } from 'react';
 import clsx from 'clsx';
-
-import Link from '@docusaurus/Link';
-import { FooterLinkItem, useThemeConfig } from '@docusaurus/theme-common';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import isInternalUrl from '@docusaurus/isInternalUrl';
+import {
+  withBase,
+  usePageData,
+  normalizeHref,
+} from '@modern-js/doc-tools/runtime';
 import styles from './styles.module.css';
 
-function FooterLink({
-  to,
-  href,
-  label,
-  prependBaseUrlToHref,
-  ...props
-}: FooterLinkItem) {
-  const toUrl = useBaseUrl(to);
-  const normalizedHref = useBaseUrl(href, { forcePrependBaseUrl: true });
+const isExternalUrl = url => {
+  return url.startsWith('http://') || url.startsWith('https://');
+};
+
+function FooterLink({ to, href, label, prependBaseUrlToHref, ...props }: any) {
+  const toUrl = withBase(to);
+  const normalizedHref = normalizeHref(href);
 
   return (
-    <Link
+    <a
       className="footer__link-item"
       {...(href
         ? {
             href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
-            to: toUrl,
+            href: toUrl,
           })}
       {...props}
     >
-      {href && !isInternalUrl(href) ? (
-        <span>
-          {label}
-        </span>
-      ) : (
-        label
-      )}
-    </Link>
+      {href && isExternalUrl(href) ? <span>{label}</span> : label}
+    </a>
   );
 }
 
@@ -67,7 +59,6 @@ function FooterItem(props) {
   if (props.html) {
     return (
       <li
-        className="footer__item"
         dangerouslySetInnerHTML={{
           __html: props.html,
         }}
@@ -112,7 +103,7 @@ function FooterItem(props) {
     }
   }
   return (
-    <li className="footer__item">
+    <li className="my-1 hover:text-[var(--modern-c-brand)] transition-colors">
       <FooterLink {...props} />
     </li>
   );
@@ -148,9 +139,11 @@ const renderFooterItems = items => {
 };
 
 function Footer(): JSX.Element | null {
-  const { footer } = useThemeConfig();
+  const { siteData } = usePageData();
 
-  const { links = [], logo = {} } = footer || {};
+  const { footer } = siteData.themeConfig || {};
+
+  const { links = [] } = footer || {};
   if (!footer) {
     return null;
   }
@@ -161,20 +154,20 @@ function Footer(): JSX.Element | null {
         'footer--dark': footer.style === 'dark',
       })}
     >
-      <div className="container">
+      <div className="w-full">
         {links && links.length > 0 && (
-          <div className="row footer__links">
+          <div className="m-4 flex justify-around">
             {links.map((linkItem, i) => (
-              <div key={i} className="col footer__col">
+              <div key={i}>
                 {linkItem.title != null ? (
-                  <div className="footer__title">{linkItem.title}</div>
+                  <div className="text-[var(--modern-c-brand)] my-2 font-semibold">
+                    {linkItem.title}
+                  </div>
                 ) : null}
                 {linkItem.items != null &&
                 Array.isArray(linkItem.items) &&
                 linkItem.items.length > 0 ? (
-                  <ul className="footer__items">
-                    {renderFooterItems(linkItem.items)}
-                  </ul>
+                  <ul>{renderFooterItems(linkItem.items)}</ul>
                 ) : null}
               </div>
             ))}
