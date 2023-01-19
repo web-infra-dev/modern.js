@@ -185,7 +185,6 @@ export async function createSiteDataVirtualModulePlugin(
     root: userRoot,
     lang: userConfig?.lang || 'zh',
     logo: userConfig?.logo || '',
-    pages,
   };
   await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
   await fs.writeFile(
