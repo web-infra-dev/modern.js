@@ -1,5 +1,17 @@
 # @modern-js/runtime
 
+## 2.2.0
+
+### Patch Changes
+
+- f7a1c1f: fix: fix the router/server export
+  fix: 修复 router/server 的导出
+- Updated dependencies [49eff0c]
+- Updated dependencies [19bb384]
+  - @modern-js/utils@2.2.0
+  - @modern-js/types@2.2.0
+  - @modern-js/plugin@2.2.0
+
 ## 2.1.0
 
 ### Patch Changes
