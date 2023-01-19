@@ -147,7 +147,7 @@ const HomepageHeader = () => (
   </div>
 );
 
-const renderFlowCards = cards => {
+const FlowCards = props => {
   const isWeb = window.innerWidth > 1100;
   const flowLineImg = isWeb
     ? 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/flow-line-line.png'
@@ -155,7 +155,7 @@ const renderFlowCards = cards => {
   let top1 = 53;
   let top2 = 120;
   const distance = 530;
-  const renderedWebCards = cards.map((card, cardIndex) => {
+  const renderedWebCards = props.cards.map((card, cardIndex) => {
     if (cardIndex % 2 !== 0) {
       const top = top2;
       top2 += distance;
@@ -195,7 +195,7 @@ const renderFlowCards = cards => {
     }
   });
 
-  const renderedMobileCards = cards.map((card, cardIndex) => {
+  const renderedMobileCards = props.cards.map((card, cardIndex) => {
     const left = 53;
     const top = 10;
     // const distance = cardIndex * 60;
@@ -286,7 +286,9 @@ export default function Home() {
         </Featurelayout>
         <Featurelayout>
           <SecondaryTitle seqNum={++count}>提供 Web 开发全流程</SecondaryTitle>
-          <NoSSR>{renderFlowCards(flowCards)}</NoSSR>
+          <NoSSR>
+            <FlowCards cards={flowCards} />
+          </NoSSR>
         </Featurelayout>
         <QuickStartCard />
         <Footer />
