@@ -31,9 +31,9 @@ export const createDefaultConfig = () =>
       printFileSize: true,
       // removeConsole: false,
       // removeMomentLocale: false,
-      // chunkSplit: {
-      //   strategy: 'split-by-experience',
-      // },
+      chunkSplit: {
+        strategy: 'split-by-experience',
+      },
     },
   });
 
