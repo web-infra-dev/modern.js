@@ -12,7 +12,9 @@ describe('plugins/splitChunks', () => {
             strategy: 'split-by-experience',
           },
         },
-        output: {},
+        output: {
+          polyfill: 'entry',
+        },
       },
     },
     {
@@ -36,7 +38,9 @@ describe('plugins/splitChunks', () => {
             strategy: 'split-by-module',
           },
         },
-        output: {},
+        output: {
+          polyfill: 'entry',
+        },
       },
     },
     {
@@ -47,7 +51,9 @@ describe('plugins/splitChunks', () => {
             strategy: 'single-vendor',
           },
         },
-        output: {},
+        output: {
+          polyfill: 'entry',
+        },
       },
     },
     {
@@ -60,7 +66,9 @@ describe('plugins/splitChunks', () => {
             maxSize: 5000,
           },
         },
-        output: {},
+        output: {
+          polyfill: 'entry',
+        },
       },
     },
     {
@@ -71,7 +79,9 @@ describe('plugins/splitChunks', () => {
             strategy: 'all-in-one',
           },
         },
-        output: {},
+        output: {
+          polyfill: 'entry',
+        },
       },
     },
     {
@@ -86,7 +96,9 @@ describe('plugins/splitChunks', () => {
             },
           },
         },
-        output: {},
+        output: {
+          polyfill: 'entry',
+        },
       },
     },
     {
@@ -109,7 +121,9 @@ describe('plugins/splitChunks', () => {
               strategy: 'split-by-experience',
             },
           },
-          output: {},
+          output: {
+            polyfill: 'entry',
+          },
         },
       context: {
         rootPath: __dirname,

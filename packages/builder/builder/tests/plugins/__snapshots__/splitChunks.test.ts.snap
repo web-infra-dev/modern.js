@@ -96,6 +96,12 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
         },
+        "lib-polyfill": {
+          "name": "lib-polyfill",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]core-js\\|@babel\\\\/runtime\\[\\\\\\\\/\\]/,
+        },
         "lib-react": {
           "name": "lib-react",
           "priority": 0,
