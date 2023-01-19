@@ -6,7 +6,43 @@ import { webpackOnlyTest, allProviderTest } from './helper';
 
 const fixtures = resolve(__dirname, '../fixtures/output');
 
-webpackOnlyTest.describe('output configure multi', () => {
+allProviderTest('externals', async ({ page }) => {
+  const buildOpts = {
+    cwd: join(fixtures, 'externals'),
+    entry: {
+      main: join(fixtures, 'externals/src/index.js'),
+    },
+  };
+
+  const builder = await build(buildOpts, {
+    output: {
+      externals: {
+        aaa: 'aa',
+      },
+    },
+    source: {
+      preEntry: './src/ex.js',
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  await expect(
+    page.evaluate(`document.getElementById('test').innerHTML`),
+  ).resolves.toBe('Hello Builder!');
+
+  await expect(
+    page.evaluate(`document.getElementById('test-external').innerHTML`),
+  ).resolves.toBe('1');
+
+  const externalVar = await page.evaluate(`window.aa`);
+
+  expect(externalVar).toBeDefined();
+
+  builder.close();
+});
+
+allProviderTest.describe('output configure multi', () => {
   const distFilePath = join(fixtures, 'rem/dist-1/test.json');
 
   let builder: Awaited<ReturnType<typeof build>>;
@@ -39,6 +75,7 @@ webpackOnlyTest.describe('output configure multi', () => {
   });
 
   test.afterAll(async () => {
+    builder.close();
     await builder.clean();
   });
 
@@ -62,7 +99,7 @@ webpackOnlyTest.describe('output configure multi', () => {
     expect(fs.existsSync(distFilePath)).toBeFalsy();
   });
 
-  test('copy', async () => {
+  webpackOnlyTest('copy', async () => {
     expect(fs.existsSync(join(fixtures, 'rem/dist-1/icon.png'))).toBeTruthy();
   });
 
@@ -75,7 +112,7 @@ webpackOnlyTest.describe('output configure multi', () => {
   });
 });
 
-webpackOnlyTest('rem enable', async ({ page }) => {
+allProviderTest('rem enable', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'rem'),
     entry: {
@@ -116,9 +153,11 @@ webpackOnlyTest('rem enable', async ({ page }) => {
       `window.getComputedStyle(document.getElementById('description')).fontSize`,
     ),
   ).resolves.toBe('20.48px');
+
+  builder.close();
 });
 
-webpackOnlyTest('cleanDistPath disable', async () => {
+allProviderTest('cleanDistPath disable', async () => {
   const buildOpts = {
     cwd: join(fixtures, 'rem'),
     entry: {
@@ -136,45 +175,13 @@ webpackOnlyTest('cleanDistPath disable', async () => {
   }`,
   );
 
-  await build(buildOpts, {
+  const builder = await build(buildOpts, {
     output: {
       cleanDistPath: false,
     },
   });
 
   expect(fs.existsSync(distFilePath)).toBeTruthy();
-});
 
-allProviderTest('externals', async ({ page }) => {
-  const buildOpts = {
-    cwd: join(fixtures, 'externals'),
-    entry: {
-      main: join(fixtures, 'externals/src/index.js'),
-    },
-  };
-
-  const builder = await build(buildOpts, {
-    output: {
-      externals: {
-        aaa: 'aa',
-      },
-    },
-    source: {
-      preEntry: './src/ex.js',
-    },
-  });
-
-  await page.goto(getHrefByEntryName('main', builder.port));
-
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
-
-  await expect(
-    page.evaluate(`document.getElementById('test-external').innerHTML`),
-  ).resolves.toBe('1');
-
-  const externalVar = await page.evaluate(`window.aa`);
-
-  expect(externalVar).toBeDefined();
+  builder.close();
 });

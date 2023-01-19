@@ -19,7 +19,7 @@ sidebar_position: 5
 
 因此它是一个复杂且功能强大的工具。
 
-模块工程解决方案集成了 Storybook，因此你几乎可以按照 Storybook 官方文档的内容进行使用。不过依然有一些地方需要注意，接下来讲解一下：
+模块工程解决方案集成了 Storybook ,因此你几乎可以按照 Storybook 官方文档的内容进行使用。不过依然有一些地方需要注意，接下来讲解一下：
 
 ## 调试代码
 
@@ -72,17 +72,18 @@ export const content = 'hello world';
 确保在 `stories/tsconfig.json` 中设置了指向项目根目录的 `paths` 配置。
 `paths` 的 `key` 与项目名称相同。
 
-```json stories/tsconfig.json focus=7:9
+```json stories/tsconfig.json focus=5:7
 {
   "extends": "../tsconfig.json",
-  "include": ["./"],
   "compilerOptions": {
-    "jsx": "preserve",
-    "baseUrl": ".",
+    "baseUrl": "../",
     "paths": {
-      "foo": ["../"]
+      "foo": ["."]
     }
-  }
+  },
+  "include": [
+    "**/*"
+  ]
 }
 ```
 
@@ -151,8 +152,6 @@ export default {
 
 ## 配置 Storybook
 
-### 配置文件
-
 Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配置，其中包含各种配置文件。**在模块工程方案中，可以在项目的 `config/storybook` 目录下增加 Storybook 配置文件。**
 
 关于 Storybook 各种配置文件的使用方式，可以查看下面的链接：
@@ -166,17 +165,8 @@ Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配�
 
 在未来我们会考虑这些配置是否可以允许修改，不过目前为了减少不可预知的问题暂时限制使用这些配置。
 
-### `dev.storybook`
 
-除了配置文件以外，模块工程方案还在 `modern.config.(j|t)s` 项目配置文件里提供了 `dev.storybook` 配置项。
-
-目前可以通过该配置对 Storybook 的 webpack 配置进行修改。
-
-{/* 链接待补充 */}
-
-- `dev.storybook.webpack`
-
-### 构建 Storybook 产物
+## 构建 Storybook 产物
 
 除了可以对组件或者普通的模块进行 Storybook 调试，还可以通过下面的命令来执行 Storybook 的构建任务。
 

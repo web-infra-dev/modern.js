@@ -92,6 +92,10 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    * Output directory
    */
   outDir?: string;
+  /**
+   * Custom theme directory
+   */
+  themeDir?: string;
 }
 
 export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {

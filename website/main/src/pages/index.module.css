@@ -4,7 +4,8 @@
  */
 .heroBanner {
   display: flex;
-  padding-left: 18%;
+  margin-top: 40px;
+  padding-left: 16%;
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
@@ -21,7 +22,7 @@
 
 .logo {
   width: 539px;
-  margin-top: 60px;
+  margin-top: 130px;
 }
 
 .title {
@@ -30,7 +31,7 @@
   font-weight: bold;
   font-size: 4rem;
   color: #fff;
-  margin-top: 21px;
+  margin-top: 50px;
 }
 
 .buttons {
@@ -84,7 +85,7 @@
   border-radius: 39px;
   margin-left: 32px;
   cursor: pointer;
-  color: var(--ifm-color-primary);
+  color: #4ecaff;
   transition: all 0.3s ease;
 }
 
@@ -244,4 +245,8 @@
     height: auto;
     overflow: visible;
   }
+}
+
+:global(.modern-doc-logo) {
+  width: auto !important;
 }

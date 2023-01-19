@@ -10,6 +10,12 @@ beforeAll(() => {
       addExitListener: jest.fn(() => 'mocked'),
     };
   });
+  jest.mock('../src/build.ts', () => {
+    return {
+      __esModule: true,
+      build: jest.fn(() => 'mocked'),
+    };
+  });
 });
 
 const fixtureDir = path.join(__dirname, './fixtures/dev');

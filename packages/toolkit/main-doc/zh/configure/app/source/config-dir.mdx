@@ -1,0 +1,24 @@
+---
+title: source.configDir
+sidebar_label: configDir
+---
+# configDir
+
+- 类型： `string`
+- 默认值： `./config`
+
+Modern.js 支持在 `./config` 文件夹下放置一些文件自定义 HTML 模板、图标、静态资源等，具体可参考[文件约定](/apis/app/hooks/config/html)。
+
+通过该选项可以自定义配置文件的目录。
+
+例如，将资源文件目录调整为 `resources` 目录：
+
+```js title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    configDir: './resources',
+  },
+});
+```
