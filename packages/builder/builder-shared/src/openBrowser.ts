@@ -8,6 +8,7 @@
  */
 import { execSync } from 'child_process';
 import open from '../compiled/open';
+import { logger } from './logger';
 
 const supportedChromiumBrowsers = [
   'Google Chrome Canary',
@@ -39,11 +40,13 @@ export async function openBrowser(url: string): Promise<boolean> {
           )}" "${openedBrowser}"`,
           {
             stdio: 'ignore',
+            cwd: __dirname,
           },
         );
         return true;
       }
     } catch (err) {
+      logger.error(JSON.stringify(err));
       return false;
     }
   }
@@ -54,6 +57,7 @@ export async function openBrowser(url: string): Promise<boolean> {
     await open(url);
     return true;
   } catch (err) {
+    logger.error(JSON.stringify(err));
     return false;
   }
 }
