@@ -57,14 +57,18 @@
   transition: all 0.2s;
 }
 
-.menuItem:hover,
-.collapseContainer:hover {
+.menuItem:hover {
   background-color: var(--modern-c-bg-mute);
   transition: all 0.2s;
 }
 
-:global(.dark) .menuItem:hover,
 .collapseContainer:hover {
+  background-color: rgba(229, 229, 229, 0.4);
+  transition: all 0.2s;
+}
+
+:global(.dark) .menuItem:hover,
+:global(.dark) .collapseContainer:hover {
   background-color: var(--modern-c-black-mute);
   transition: all 0.2s;
 }
