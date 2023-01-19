@@ -26,9 +26,6 @@ export function builderPluginStartUrl(): DefaultBuilderPlugin {
           return;
         }
 
-        const { default: open } = await import(
-          '@modern-js/builder-shared/open'
-        );
         const urls: string[] = [];
 
         if (startUrl === true) {
@@ -42,8 +39,10 @@ export function builderPluginStartUrl(): DefaultBuilderPlugin {
           );
         }
 
+        const { openBrowser } = await import('@modern-js/builder-shared');
+
         for (const url of urls) {
-          await open(url);
+          await openBrowser(url);
         }
       });
     },

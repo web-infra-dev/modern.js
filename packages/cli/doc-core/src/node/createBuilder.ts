@@ -32,7 +32,8 @@ async function createInternalBuildConfig(
 ): Promise<BuilderConfig> {
   const { default: fs } = await import('@modern-js/utils/fs-extra');
   const mdxOptions = await createMDXOptions(userRoot, config);
-  const CUSTOM_THEME_DIR = path.join(process.cwd(), 'theme');
+  const CUSTOM_THEME_DIR =
+    config.doc?.themeDir ?? path.join(process.cwd(), 'theme');
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');

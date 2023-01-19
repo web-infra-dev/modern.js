@@ -77,7 +77,12 @@ export class RouteService {
       .sync([`**/*.{${this.#extensions.join(',')}}`, ...this.#include], {
         cwd: this.#scanDir,
         absolute: true,
-        ignore: [...this.#exclude],
+        ignore: [
+          ...this.#exclude,
+          '**/node_modules/**',
+          '**/.eslintrc.js',
+          '**/.turbo/**',
+        ],
       })
       .sort();
     files.forEach(file => this.addRoute(file));

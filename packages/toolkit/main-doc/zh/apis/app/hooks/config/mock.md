@@ -1,6 +1,0 @@
----
-title: mock/
-sidebar_position: 5
----
-
-项目根目录下存在 `config/mock/index.js` 时，在开发环节自动开启 Mock 服务。

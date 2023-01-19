@@ -1,0 +1,245 @@
+---
+sidebar_position: 3
+title: 开发主应用
+---
+# 开发主应用
+
+在上一章 [体验微前端](./c02-development.md) 通过一个示例演示了如何创建和配置微前端子应用，通过本章你可以进一步了解如何开发主应用，以及它的常见配置。
+
+在通过 `@modern-js/create` 命令创建应用工程后，可以在项目中执行 `pnpm run new`（实际执行了 `modern new` 命令），在选择了「微前端」模式后，会安装微前端依赖依赖，只需手动注册插件即可。
+
+import EnableMicroFrontend from "@site-docs/components/enable-micro-frontend";
+
+<EnableMicroFrontend />
+
+## 注册子应用信息
+
+当在 `masterApp` 配置上提供了信息后，将会认为该应用为主应用，目前存在两种子应用信息的配置方式，这两种方式分别应用于不同的场景。
+
+### 直接注册子应用信息
+
+可以直接通过配置注册子应用信息：
+
+:::tip 提示
+可以通过 API [defineConfig](/apis/app/runtime/app/define-config) 在运行时进行配置。
+当参数为函数时无法被序列化到产物代码，所以在涉及到函数之类的配置时请通过 defineConfig 来进行配置
+
+:::
+
+import MicroRuntimeConfig from "@site-docs/components/micro-runtime-config";
+
+<MicroRuntimeConfig />
+
+### 自定义远程应用列表
+
+通过该函数可以拉取远程的子应用列表，并将其注册至运行时框架：
+
+```ts title="App.tsx"
+defineConfig(App, {
+  masterApp: {
+    manifest: {
+      getAppList: async () => {
+        // 可以从其他远程接口获取
+        return [
+          {
+            name: 'DashBoard',
+            entry: 'http://127.0.0.1:8081/',
+          },
+          {
+            name: 'TableList',
+            entry: 'http://localhost:8082',
+          },
+        ];
+      },
+    },
+  },
+});
+```
+
+## 渲染子应用
+
+在微前端中分为两种加载子应用的方式：
+
+1. **子应用组件** 获取到每个子应用的组件，之后就可以像使用普通的 `React` 组件一样渲染微前端的子应用。
+2. **集中式路由** 通过集中式的路由配置，自动根据当前页面 `pathname` 激活渲染对应的子应用。
+
+### 子应用组件
+
+开发者使用 `useModuleApps` 方法可以获取到各个子应用的组件。
+
+再通过 `router` 组件的结合运用，开发者可以自控式的根据不同的路由渲染不同的子应用。
+
+假设我们的子应用列表配置如下：
+
+<EnableMicroFrontend />
+
+编辑主应用 `App.tsx` 文件如下：
+
+```tsx title=主应用：App.tsx
+import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
+import { Route, Switch } from '@modern-js/runtime/router';
+
+function App() {
+  const { DashBoard, TableList } = useModuleApps();
+
+  return (
+    <div>
+      <Route path="/dashboard">
+        <DashBoard
+          loadable={{
+            loading: ({ pastDelay, error }: any) => {
+              if (error) {
+                return <div>error: {error?.message}</div>;
+              } else if (pastDelay) {
+                return <div>loading</div>;
+              } else {
+                return null;
+              }
+            },
+          }}
+        />
+      </Route>
+      <Route path="/table">
+        <TableList />
+      </Route>
+    </div>
+  );
+}
+```
+
+这里通过 `Route` 组件自定义了 **DashBoard** 的激活路由为 **/dashboard**， **TableList** 的激活路由为 **/table**。
+
+### 集中式路由
+
+**集中式路由** 是将子应用的激活路由集中配置的方式。我们给子应用列表信息添加 `activeWhen` 字段来启用 **集中式路由**。
+
+<MicroRuntimeConfig />
+
+然后在主应用中使用 `useModuleApp` 方法获取 `MApp` 组件, 并在主应用渲染 `MApp`。
+
+```tsx title=主应用：App.tsx
+import { useModuleApp } from '@modern-js/plugin-runtime';
+
+function App() {
+  const { MApp } = useModuleApps();
+
+  return (
+    <div>
+      <MApp />
+    </div>
+  );
+}
+```
+
+这样启动应用后，访问 `/dashboard` 路由，会渲染 `Dashboard` 子应用，访问 `/table` 路由，会渲染 `TableList` 子应用。
+
+### 两种模式混用
+
+当然 **子应用组件** 和 **集中式路由** 是可以混合使用的。
+
+- 一部分子应用作为 **子应用组件** 激活，另外一部分作为 **集中式路由** 激活。
+- 一部分子应用既可以作为 **集中式路由** 激活，也可以作为 **子应用组件** 激活。
+
+### 添加 loading
+
+通过配置 `loadable` 配置，可以为「集中式路由」、「子应用」添加 loading 组件，并可以考虑错误、超时、闪烁等情况的出现，从而为用户提供更好的用户体验。该功能的设计与实现参考至 [react-loadable](https://github.com/jamiebuilds/react-loadable)，基本功能较为相似。
+
+```tsx
+function Loading() {
+  return <div>Loading...</div>;
+}
+
+function App(){
+  return <>
+    <DashBoard
+      loadable={{
+        loading: Loading,
+      }}
+    />
+  <>
+}
+```
+
+#### 增加错误状态
+
+当微前端子应用加载失败或渲染失败时，`loading component` 将会接收 `error` 参数（若没有错误时 error 是 null）
+
+```tsx
+function Loading({ error }) {
+  if (error) {
+    return <div>Error msg {error?.message}</div>;
+  } else {
+    return <div>Loading...</div>;
+  }
+}
+```
+
+#### 避免 loading 闪退
+
+有时 loading 组件的显示时间可能小于 200ms，这个时候会出现 loading 组件闪退的情况。许多用户研究证明，loading 闪退的情况会导致用户感知加载内容的耗时比实际耗时更长，在 loading 小于 200ms 时，不展示内容，用户会认为它更快。
+
+所以 loading 组件还提供了 `pastDelay` 参数，超过设置的延迟展示时才会为 true，可以通过 `delay` 参数设置延迟的时长
+
+```tsx
+function Loading({ error, pastDelay }) {
+  if (error) {
+    return <div>Error! {error?.message}</div>;
+  } else if (pastDelay) {
+    return <div>Loading...</div>;
+  } else {
+    return null;
+  }
+}
+```
+
+`delay` 的默认值为 `200ms`，可以通过 `loadable` 中的 `delay` 来设置延迟展示的时间
+
+```tsx
+
+function App(){
+  return <>
+    <DashBoard
+      loadable={{
+        loading: Loading,
+        delay: 300 // 0.3 seconds
+      }}
+    />
+  <>
+}
+```
+
+#### 增加超时状态
+
+有时因为网络的原因，从而导致微前端子应用加载失败，从而导致一直展示 loading 的状态，这对于用户而言非常糟糕，因为他们不知道合适才会获得具体的响应，他们是否需要刷新页面，通过增加超时状态可以很好的解决该问题。
+
+loading 组件在超时时会获得 `timeOut` 参数，当微前端应用加载超时时将会获得 `timeOut` 属性值为 true
+
+```tsx
+function Loading({ error, timeOut, pastDelay }) {
+  if (error) {
+    return <div>Error! {error?.message}</div>;
+  } else if (timeOut) {
+    return <div>Loading timed out, please refresh the page... </div>;
+  } else if (pastDelay) {
+    return <div>Loading...</div>;
+  } else {
+    return null;
+  }
+}
+```
+
+超时状态是关闭的，可以通过在 `loadable` 中设置 `timeout` 参数开启
+
+```tsx
+
+function App(){
+  return <>
+    <DashBoard
+      loadable={{
+        loading: Loading,
+        timeOut: 10000 // 10s
+      }}
+    />
+  <>
+}
+```

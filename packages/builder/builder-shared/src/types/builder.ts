@@ -54,5 +54,6 @@ export type BuilderInstance<P extends BuilderProvider = BuilderProvider> = {
   onAfterStartDevServer: Awaited<
     ReturnType<P>
   >['pluginAPI']['onAfterStartDevServer'];
+  onDevCompileDone: Awaited<ReturnType<P>>['pluginAPI']['onDevCompileDone'];
   onExit: Awaited<ReturnType<P>>['pluginAPI']['onExit'];
 };

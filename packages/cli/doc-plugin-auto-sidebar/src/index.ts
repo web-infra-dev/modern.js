@@ -66,6 +66,9 @@ interface DocConfig {
   themeConfig?: {
     locales?: LocaleConfig[];
   };
+  route?: {
+    exclude?: string[];
+  };
 }
 
 const addLeadingSlash = (str: string) =>
@@ -135,7 +138,7 @@ export async function initAllCategories(
 ) {
   const categories: Category[] = await Promise.all(
     paths
-      .filter(file => file.endsWith('.json'))
+      .filter(file => file.endsWith('_category_.json'))
       .map(async file => {
         const meta = (await readJSON(
           path.join(userRoot, file),
@@ -227,9 +230,6 @@ export function pluginAutoSidebar(options: Options) {
     categories: rootCategories,
     collapsed: userCollapsed,
   } = options;
-  const paths = sync('**/*.{md,mdx,json}', {
-    cwd: userRoot,
-  });
 
   const createSidebarItem = (
     item: Category | File,
@@ -257,6 +257,16 @@ export function pluginAutoSidebar(options: Options) {
   return {
     name: '@modern-js/doc-plugin-auto',
     async config(docConfig: DocConfig) {
+      const ignoreList = docConfig.route?.exclude || [];
+      const paths = sync('**/*.{md,mdx,json}', {
+        cwd: userRoot,
+        ignore: [
+          '**/node_modules/**',
+          '**/dist/**',
+          '.eslintrc.js',
+          ...ignoreList,
+        ],
+      });
       docConfig.themeConfig = docConfig.themeConfig || {};
       const defaultLang = docConfig.lang || 'zh';
       const base = docConfig.base || '/';

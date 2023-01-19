@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from '@docusaurus/Link';
 import Masonry from 'react-masonry-component';
 
 import './index.css';
@@ -42,13 +41,13 @@ const OverviewNavCard: React.FC<IOverviewNavCard> = ({
         // 这里需要把 baseUrl 移除掉，否则多区域会报错
         return (
           <li key={item.label}>
-            <Link to={href.replace(/^.+\/doc/, '/doc')}>{item.label}</Link>
+            <a href={href.replace(/^.+\/doc/, '/doc')}>{item.label}</a>
           </li>
         );
       })}
       {!items && type === 'link' && (
         <li key={label}>
-          <Link to={categoryHref}>{label}</Link>
+          <a href={categoryHref}>{label}</a>
         </li>
       )}
     </ul>

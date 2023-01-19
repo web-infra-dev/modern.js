@@ -271,6 +271,7 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
   },
   "plugins": [
     AutoSetRootFontSizePlugin {
+      "HtmlPlugin": [Function],
       "name": "AutoSetRootFontSizePlugin",
       "options": {
         "enableRuntime": true,
@@ -505,6 +506,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
   },
   "plugins": [
     AutoSetRootFontSizePlugin {
+      "HtmlPlugin": [Function],
       "name": "AutoSetRootFontSizePlugin",
       "options": {
         "enableRuntime": true,

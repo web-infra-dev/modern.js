@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from '@docusaurus/Link';
+import { withBase } from '@modern-js/doc-tools/runtime';
 import styles from './index.module.css';
 
 export interface ICardProps {
@@ -9,14 +9,18 @@ export interface ICardProps {
 }
 
 const ListCard: React.FC<ICardProps> = ({ desc, icon: Icon, href }) => (
-  <Link className={styles.card} to={href} style={{ textDecoration: 'none' }}>
+  <a
+    className={styles.card}
+    href={withBase(href)}
+    style={{ textDecoration: 'none' }}
+  >
     {typeof Icon === 'function' ? (
       <Icon className={styles.icon} />
     ) : (
       <img src={Icon} className={styles.icon} />
     )}
     <span className={styles.desc}>{desc}</span>
-  </Link>
+  </a>
 );
 
 export default ListCard;

@@ -1,0 +1,80 @@
+---
+title: Code Split
+sidebar_position: 6
+---
+# Code Split
+
+Code Split is a common way to optimizing front-end resource loading. This doc will introduce three methods supported by Modern.js:
+
+:::info
+When you use Modern.js [Conventional routing](/guides/basic-features/routes#conventional-routing), by default it will do code splitting based on routing components, wrapping `Suspense` components, no need to do code splitting by yourself.
+
+:::
+
+- `import`
+- `React.lazy`
+- `loadable`
+
+## import
+
+use dynamic `import()`，`import` The JS modules pass to this API will be packaged into a separate JS file as a new packaging entry, for example:
+
+```ts
+import('./math').then(math => {
+  console.log(math.add(16, 26));
+});
+```
+
+The JS modules corresponding to the './math' path will be packaged in a separate JS file.
+
+## React.lazy
+
+The officially way provides by React to split component code.
+
+:::caution
+SSR is not supported in React 17 and below, and it is recommended that SSR applications for React 17 use loadable.
+
+:::
+
+```ts
+import React, { Suspense } from 'react';
+
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+const AnotherComponent = React.lazy(() => import('./AnotherComponent'));
+
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <section>
+          <OtherComponent />
+          <AnotherComponent />
+        </section>
+      </Suspense>
+    </div>
+  );
+}
+```
+
+For detail, see [React lazy](https://reactjs.org/docs/code-splitting.html#reactlazy)。
+
+## loadable
+
+use `loadable` API，for example：
+
+```ts
+import loadable from '@modern-js/runtime/loadable';
+
+const OtherComponent = loadable(() => import('./OtherComponent'));
+
+function MyComponent() {
+  return <OtherComponent />;
+}
+```
+
+For detail, see [loadable API](/apis/app/runtime/utility/loadable)。
+
+:::info
+SSR is supported out of the box by `loadable`.
+
+:::
