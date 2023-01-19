@@ -1,5 +1,18 @@
 # @modern-js/server-utils
 
+## 2.2.0
+
+### Patch Changes
+
+- cb12ee7: chore: remove some unused deps, bump postcss version
+
+  chore: 移除未使用的依赖, 升级 postcss 版本
+
+- Updated dependencies [49eff0c]
+  - @modern-js/utils@2.2.0
+  - @modern-js/babel-preset-lib@2.2.0
+  - @modern-js/babel-compiler@2.2.0
+
 ## 2.1.0
 
 ### Patch Changes
