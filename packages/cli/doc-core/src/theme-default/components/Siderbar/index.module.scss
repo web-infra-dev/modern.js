@@ -64,7 +64,7 @@
 }
 
 :global(.dark) .menuItem:hover,
-.collapseContainer:hover {
+:global(.dark) .collapseContainer:hover {
   background-color: var(--modern-c-black-mute);
   transition: all 0.2s;
 }
