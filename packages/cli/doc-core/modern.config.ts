@@ -1,5 +1,4 @@
 // https://modernjs.dev/docs/apis/module/config
-// TODO: Add `defineConfig` after @modern-js/module-tools restore the function
 export default {
   testing: {
     transformer: 'ts-jest',
@@ -7,6 +6,7 @@ export default {
   buildConfig: {
     buildType: 'bundle',
     format: 'esm',
+    target: 'es2020',
     sourceMap: true,
   },
 };
