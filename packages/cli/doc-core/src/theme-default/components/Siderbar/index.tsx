@@ -19,6 +19,12 @@ const SINGLE_MENU_ITEM_HEIGHT = 28;
 const MENU_ITEM_MARGIN = 4;
 const singleItemHeight = SINGLE_MENU_ITEM_HEIGHT + MENU_ITEM_MARGIN;
 
+const textEllipsisStyle = {
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+} as const;
+
 interface SidebarItemProps {
   id: string;
   item: SidebarItem | NormalizedSidebarGroup;
@@ -72,11 +78,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
           font-medium="~"
           onMouseEnter={() => props.preloadLink(item.link)}
           className={active ? styles.menuItemActive : styles.menuItem}
-          style={{
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
+          style={textEllipsisStyle}
         >
           {item.text}
         </div>
@@ -147,7 +149,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
           }
         }}
       >
-        <h2 p="y-1 x-2" text="sm" font="semibold">
+        <h2 p="y-1 x-2" text="sm" font="semibold" style={textEllipsisStyle}>
           {item.text}
         </h2>
         {collapsible && (
