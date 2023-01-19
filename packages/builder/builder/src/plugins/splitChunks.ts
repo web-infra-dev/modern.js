@@ -135,6 +135,7 @@ function splitByModule(ctx: SplitChunksContext): SplitChunks {
       vendors: {
         priority: -10,
         test: /[\\/]node_modules[\\/]/,
+        // todo: not support in rspack
         name(module: { context: string | null }): string | false {
           return getPackageNameFromModulePath(module.context!);
         },
