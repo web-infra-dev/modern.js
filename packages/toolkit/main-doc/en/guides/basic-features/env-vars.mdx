@@ -1,0 +1,170 @@
+---
+title: Environment Variable
+sidebar_position: 7
+---
+# Environment Variable
+
+Modern.js provides support for environment variables, including built-in environment variables and custom environment variables.
+
+## Built-in Environment
+
+### NODE_ENV
+
+The current execution environment and is a **read-only** environment variable whose have different values under different execution commands:
+
+- `production`：the default value when exec `modern build` or `modern serve`.
+- `test`：the default value when exec `modern test`.
+- `development`：the default value when exec `modern dev`, alse the default value of other case.
+
+### MODERN_ENV
+
+Set the current execution environment manually. In addition to the values in the NODE_ENV, custom environment names are supported here, such as `staging`, `boe`, etc.
+
+:::tip
+MODERN_ENV priority is higher than NODE_ENV.
+
+:::
+
+### MODERN_TARGET
+
+Auto inject when use `@modern-js/runtime`，Used to distinguish between SSR and CSR environments. Developers can judge by themselves in the code, and dead code will be removed by default when building.
+
+```ts title="App.tsx"
+function App() {
+  if (process.env.MODERN_TARGET === 'browser') {
+    console.log(window.innerHeight);
+  }
+}
+```
+
+In the development environment, you can see that the SSR and CSR bundles as follows:
+
+```js title="dist/bundles/main.js"
+function App() {
+  if (false) {
+  }
+}
+```
+
+```js title="dist/static/main.js"
+function App() {
+  if (true) {
+    console.log(window.innerHeight);
+  }
+}
+```
+
+:::note
+In a production environment, dead code is removed, such as the `if` statement above.
+
+:::
+
+This can provide different products for different client sides to ensure that the bundle size is minimized. It can also be convenient to deal with some side effects in the code in different environments.
+
+## Custom Environment Variables
+
+Custom environment variables can be specified in both `shell` and `.env` files.
+
+### Specify via `shell`
+
+Add custom environment variables before the command:
+
+```shell
+REACT_APP_FOO=123 BAR=456 pnpm run dev
+```
+
+### Specify via `.env` file
+
+Create a `.env` file in the project root and add custom environment variables, which are added to the Node.js process by default, for example:
+
+```bash
+REACT_APP_FOO=123
+BAR=456
+```
+
+The `.env` file follows the following loading rules:
+
+- `.env`：default.
+- `.env.{ MODERN_ENV | NODE_ENV }`：Setting environment variables for a specific environment overrides the same in `.env`.
+
+When you need to use different config according to the environment, you can define environment variables in the `.env` file corresponding to the environment name, and manually set the execution environment when starting the project.
+
+For example, when starting a project with the following command，the `.env` and `.env.staging` will load:
+
+```shell
+MODERN_ENV=staging pnpm run dev
+```
+
+## Using Environment Variables
+
+### Convention Names
+
+`NODE_ENV` can be used directly in front-end code. In addition, custom environment variables starting with `MODERN_` can also be used directly in code.
+
+For Example:
+
+```js
+if (process.env.NODE_ENV === 'development') {
+  // do something
+}
+```
+
+After executing the `pnpm run dev`, you can see the following bundle:
+
+```js
+if (true) {
+  // do something
+}
+```
+
+In custom HTML templates, you can also use such environment variables directly. For example, in `config/html/head.html`:
+
+```html
+<meta name="test" content="<process.env.NODE_ENV>" />
+```
+
+### Any Other Names
+
+If you need to use environment variables with any other names in your code，you can config [`source.globalVars`](/configure/app/source/global-vars), for example:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  source: {
+    globalVars: {
+      'process.env.VERSION': process.env.VERSION,
+    }.
+  },
+});
+```
+
+At this point, the `process.env.VERSION` in the code will be replaced with the value of `VERSION` in the environment variables.
+
+:::note
+`source.globalVars` also supports replacing other expressions or strings with specified values, not limited to environment variables.
+
+:::
+
+## Use Global Replacement
+
+In addition to environment variables, Modern.js also supports replacing variables in code with other values or expressions, which can be used like distinguish development environment and production environment in code.
+
+For example, converts the expression `TWO` to `1 + 1`:
+
+```ts
+export default {
+  source: {
+    define: {
+      TWO: '1 + 1',
+    },
+  },
+};
+```
+
+```ts
+const foo = TWO;
+
+// ⬇️ Turn into being...
+const foo = 1 + 1;
+```
+
+In most cases, `source.globalVars` is already sufficient to replace variables. But the values passed in by `source.globalVars` will be serialized by JSON by default. So it cannot be replaced like `1 + 1` in the example above，at this time, we need use [`source.define`](/configure/app/source/define)。

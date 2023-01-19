@@ -3,7 +3,7 @@
 ### Installation
 
 ```
-$ pnpm run setup
+pnpm i
 ```
 
 ### Local Development

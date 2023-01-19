@@ -1,7 +1,6 @@
-.navContainer {
+.container {
   max-width: 1440px;
   margin: auto;
-  background: rgba(255, 255, 255);
 }
 
 .rightNav {
@@ -10,6 +9,10 @@
 
 .navContainer :deep(*) {
   pointer-events: all;
+}
+
+.navContainer {
+  background: #fff;
 }
 
 .social-links-icon {
@@ -41,7 +44,7 @@
 }
 
 @media (min-width: 960px) {
-  :global(.dark) .navContainer {
+  :global(.dark .modern-doc-nav) {
     background: rgba(36, 36, 36);
   }
 }

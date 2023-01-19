@@ -1,13 +1,13 @@
 import React, { ComponentType, SVGProps } from 'react';
-import Link from '@docusaurus/Link';
 import cl from 'classnames';
+import { withBase } from '@modern-js/doc-tools/runtime';
 import styles from './index.module.css';
 
 export interface ContentCardProps {
   title: string;
   desc?: string;
   img: string | ComponentType<SVGProps<SVGSVGElement>>;
-  href?: string;
+  href: string;
   isSwiper?: boolean;
 }
 
@@ -18,8 +18,8 @@ const ContentCard: React.FC<ContentCardProps> = ({
   isSwiper = false,
   href,
 }) => (
-  <Link
-    to={href}
+  <a
+    href={withBase(href)}
     style={{ textDecoration: 'none' }}
     className={cl(styles.card, { [`${styles.swiperCard}`]: isSwiper })}
   >
@@ -36,7 +36,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
     )}
     <span className={styles.title}>{title}</span>
     <span className={styles.desc}>{desc}</span>
-  </Link>
+  </a>
 );
 
 export default ContentCard;
