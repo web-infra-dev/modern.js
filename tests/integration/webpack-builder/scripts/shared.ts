@@ -26,21 +26,6 @@ export const createBuilder = async () => {
   const builderProvider = provider({
     builderConfig: {
       tools: {
-        rspack: config => {
-          config.optimization = {
-            ...(config.optimization || {}),
-            splitChunks: {
-              chunks: 'all',
-              cacheGroups: {
-                vendors: {
-                  name: 'vendors',
-                  test: /node_modules/,
-                  enforce: true,
-                },
-              },
-            },
-          };
-        },
         // inspector: {},
       },
     },
