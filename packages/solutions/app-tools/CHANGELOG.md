@@ -1,5 +1,52 @@
 # @modern-js/app-tools
 
+## 2.2.0
+
+### Minor Changes
+
+- 12ef50f: feat: `modern-js/core` can watch files change
+  feat: `modern-js/core` 可以监听文件变化
+
+### Patch Changes
+
+- 64ade69: fix(app-tools): dev --entry not work
+
+  fix(app-tools): 修复 dev --entry 参数不生效的问题
+
+- 16bdc0a: chore: adjust builder plugin name
+
+  chore: 调整 builder 插件命名格式
+
+- 19bb384: fix: when a child route does not exist, an empty layout should not be created
+  fix: 子路由不存在时，不应该创建空的 layout
+- Updated dependencies [f2f8a83]
+- Updated dependencies [cb12ee7]
+- Updated dependencies [49eff0c]
+- Updated dependencies [2d3e3df]
+- Updated dependencies [360a259]
+- Updated dependencies [9fc6de9]
+- Updated dependencies [d82b621]
+- Updated dependencies [16bdc0a]
+- Updated dependencies [12ef50f]
+- Updated dependencies [19bb384]
+  - @modern-js/builder-shared@2.2.0
+  - @modern-js/builder-webpack-provider@2.2.0
+  - @modern-js/core@2.2.0
+  - @modern-js/plugin-data-loader@2.2.0
+  - @modern-js/utils@2.2.0
+  - @modern-js/prod-server@2.2.0
+  - @modern-js/server@2.2.0
+  - @modern-js/builder@2.2.0
+  - @modern-js/builder-plugin-esbuild@2.2.0
+  - @modern-js/builder-plugin-node-polyfill@2.2.0
+  - @modern-js/types@2.2.0
+  - @modern-js/plugin-lint@2.2.0
+  - @modern-js/plugin-i18n@2.2.0
+  - @modern-js/new-action@2.2.0
+  - @modern-js/node-bundle-require@2.2.0
+  - @modern-js/upgrade@2.2.0
+  - @modern-js/plugin@2.2.0
+
 ## 2.1.0
 
 ### Patch Changes
