@@ -1,4 +1,4 @@
-- Type:
+- **Type:**
 
 ```ts
 type DisableSourceMap =
@@ -9,7 +9,7 @@ type DisableSourceMap =
     };
 ```
 
-- Default:
+- **Default:**
 
 ```ts
 const defaultDisableSourceMap = {

@@ -1,5 +1,5 @@
-- Type: `Record<string, JSONValue>`
-- Default:
+- **Type:** `Record<string, JSONValue>`
+- **Default:**
 
 ```ts
 const defaultGlobalVars = {

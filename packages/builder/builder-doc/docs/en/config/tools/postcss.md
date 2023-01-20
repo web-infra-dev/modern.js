@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default:
+- **Type:** `Object | Function`
+- **Default:**
 
 ```js
 const defaultOptions = {
@@ -92,7 +92,7 @@ export default {
 
 #### addPlugins
 
-- Type: `(plugins: PostCSSPlugin | PostCSSPlugin[]) => void`
+- **Type:** `(plugins: PostCSSPlugin | PostCSSPlugin[]) => void`
 
 For adding additional PostCSS plugins, You can pass in a single PostCSS plugin, or an array of PostCSS plugins.
 

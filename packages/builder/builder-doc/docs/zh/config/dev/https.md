@@ -1,5 +1,5 @@
-- Type: `boolean | { key: string; cert: string }`
-- Default: `false`
+- **Type:** `boolean | { key: string; cert: string }`
+- **Default:** `false`
 
 配置该选项后，可以开启 Dev Server 对 HTTPS 的支持，同时会禁用 HTTP 服务器。
 

@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 移除生产环境的构建产物名称中的 hash 值。
 

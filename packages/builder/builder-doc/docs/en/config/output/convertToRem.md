@@ -1,5 +1,5 @@
-- Type: `boolean | object`
-- Default: `false`
+- **Type:** `boolean | object`
+- **Default:** `false`
 
 By setting `output.convertToRem`, the Builder can do the following things:
 

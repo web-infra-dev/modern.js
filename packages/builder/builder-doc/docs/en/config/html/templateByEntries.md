@@ -1,5 +1,5 @@
-- Type: `Object`
-- Default: `undefined`
+- **Type:** `Object`
+- **Default:** `undefined`
 
 Set different template file for different pages.
 

@@ -1,5 +1,5 @@
-- Type: `string`
-- Default: `undefined`
+- **Type:** `string`
+- **Default:** `undefined`
 
 配置 HTML 页面的 title 标签，例如：
 

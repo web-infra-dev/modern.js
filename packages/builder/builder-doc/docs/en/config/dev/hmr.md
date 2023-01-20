@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 Whether to enable Hot Module Replacement.
 

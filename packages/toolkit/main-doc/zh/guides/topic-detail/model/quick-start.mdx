@@ -16,7 +16,7 @@ Reduck 在 MVC 模式中，扮演 M(Model) 的角色，React UI Component 对应
 
 Modern.js 的状态管理解决方案，是通过内置 Reduck 实现的。在 Modern.js 中使用 Reduck，不仅免去了手动集成的环节，而且所有 Reduck API 都可以从 Modern.js 的 Runtime 包中直接导入使用，具有更好的一致性体验。
 
-:::info 注
+:::info
 1. Modern.js 中使用 Reduck API，需要先设置 [runtime.state](/configure/app/runtime/state) 以启用状态管理插件。
 2. Reduck 也可以脱离 Modern.js 作为状态管理库[单独使用](/guides/topic-detail/model/use-out-of-modernjs)。
 
@@ -101,7 +101,7 @@ function Counter() {
 
 `useModel` 获取 `countModel` 的 `state` 和 `actions`，组件展示当前计算器的值，点击 `add` 按钮，计数器自增 1。
 
-:::info 注
+:::info
 由于使用的案例比较简单，这里并没有严格按照 MVC 模式进行分层，组件 `Counter` 同时起到了 V 和 C 两层的作用。
 
 :::

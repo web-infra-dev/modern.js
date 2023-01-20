@@ -1,5 +1,5 @@
-- Type: `Record<string, ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>>`
-- Default: `undefined`
+- **Type:** `Record<string, ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>>`
+- **Default:** `undefined`
 
 用于在多页面的场景下，为不同的页面注入不同的标签。
 

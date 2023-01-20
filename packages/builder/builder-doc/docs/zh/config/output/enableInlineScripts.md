@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 用来控制生产环境中是否用 `<script>` 标签将产物中的 script 文件（.js 文件）inline 到 HTML 中。
 

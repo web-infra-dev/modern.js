@@ -1,5 +1,5 @@
-- Type: `string`
-- Default: `undefined`
+- **Type:** `string`
+- **Default:** `undefined`
 
 Set the file path of the app icon, can be set as a relative path relative to the project root directory, or as an absolute path to the file. Setting it as a CDN URL is not currently supported.
 

@@ -1,5 +1,5 @@
-- Type: `boolean | string`
-- Default: `'/'`
+- **Type:** `boolean | string`
+- **Default:** `'/'`
 
 设置开发环境下的静态资源 URL 前缀，对应 webpack 的 [output.publicPath](https://webpack.js.org/guides/public-path/) 配置。
 

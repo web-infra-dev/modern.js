@@ -1,5 +1,5 @@
-- Type: `Record<string, unknown>`
-- Default: `{}`
+- **Type:** `Record<string, unknown>`
+- **Default:** `{}`
 
 Replaces variables in your code with other values or expressions at compile time. This can be useful for allowing different behavior between development builds and production builds.
 

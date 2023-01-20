@@ -1,5 +1,5 @@
-- Type: `Object`
-- Default: `{}`
+- **Type:** `Object`
+- **Default:** `{}`
 
 通过 `tools.devServer` 可以修改开发环境服务器的配置。
 
@@ -7,8 +7,8 @@
 
 #### after
 
-- Type: `Array`
-- Default: `[]`
+- **Type:** `Array`
+- **Default:** `[]`
 
 添加自定义中间件，在所有开发环境中间件后执行。
 
@@ -29,8 +29,8 @@ export default {
 
 #### before
 
-- Type: `Array`
-- Default: `[]`
+- **Type:** `Array`
+- **Default:** `[]`
 
 添加自定义中间件，在所有开发环境中间件前执行。
 
@@ -51,7 +51,7 @@ export default {
 
 #### client
 
-- Type:
+- **Type:**
 
 ```ts
 {
@@ -66,7 +66,7 @@ export default {
 }
 ```
 
-- Default:
+- **Default:**
 
 ```js
 {
@@ -80,7 +80,7 @@ export default {
 
 #### devMiddleware
 
-- Type:
+- **Type:**
 
 ```js
 {
@@ -88,7 +88,7 @@ export default {
 }
 ```
 
-- Default:
+- **Default:**
 
 ```js
 {
@@ -100,8 +100,8 @@ devMiddleware 配置项。当前配置是 [webpack-dev-middleware](https://githu
 
 #### headers
 
-- Type: `Record<string, string>`
-- Default: `undefined`
+- **Type:** `Record<string, string>`
+- **Default:** `undefined`
 
 设置自定义响应头。
 
@@ -119,8 +119,8 @@ export default {
 
 #### historyApiFallback
 
-- Type: `boolean | ConnectHistoryApiFallbackOptions`
-- Default: `false`
+- **Type:** `boolean | ConnectHistoryApiFallbackOptions`
+- **Default:** `false`
 
 在需要对一些 404 响应或其他请求提供替代页面的场景，可通过 `devServer.historyApiFallback` 进行设置：
 
@@ -138,15 +138,15 @@ export default {
 
 #### hot
 
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 是否开启 [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) 热更新能力。
 
 #### https
 
-- Type: `boolean | { key: string; cert: string }`
-- Default: `false`
+- **Type:** `boolean | { key: string; cert: string }`
+- **Default:** `false`
 
 默认情况下，DevServer 会启用 HTTP 服务器。通过设置 `devServer.https` 为 `true` 将开启对 HTTPS 的支持，同时会禁用 HTTP 服务器。
 
@@ -167,14 +167,14 @@ export default {
 
 #### liveReload
 
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 默认情况下，当监听到文件变化时，DevServer 将会刷新页面（为使 liveReload 能够生效，`devServer.hot` 配置项应当禁用）。通过设置 `devServer.liveReload` 为 `false` 可以关闭该行为。
 
 #### setupMiddlewares
 
-- Type:
+- **Type:**
 
 ```js
 Array<
@@ -193,7 +193,7 @@ Array<
 >;
 ```
 
-- Default: `undefined`
+- **Default:** `undefined`
 
 提供执行自定义函数和应用自定义中间件的能力。
 
@@ -242,8 +242,8 @@ export default {
 
 #### proxy
 
-- Type: `Record<string, string> | Record<string, ProxyDetail>`
-- Default: `undefined`
+- **Type:** `Record<string, string> | Record<string, ProxyDetail>`
+- **Default:** `undefined`
 
 代理请求到指定的服务上。
 
@@ -348,7 +348,7 @@ export default {
 
 #### watch
 
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 是否监听 `mock/`、`server/`、`api/` 等目录的文件变化。

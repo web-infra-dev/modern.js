@@ -1,5 +1,5 @@
-- Type: `ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>`
-- Default: `undefined`
+- **Type:** `ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>`
+- **Default:** `undefined`
 
 添加和修改最终注入到 HTML 页面的标签。
 
@@ -94,7 +94,7 @@ export default {
   html: {
     tags: [
       tags => { tags.splice(0, 1); },
-      /* ^? 
+      /* ^?
        *   { tag: 'script', attrs: { src: 'b.js' } },
        *   ... some other headTags
        *   { tag: 'script', attrs: { src: 'c.js' } },
@@ -105,7 +105,7 @@ export default {
       { tag: 'script', attrs: { src: 'b.js' }, append: false },
       { tag: 'script', attrs: { src: 'c.js' } },
       tags => [...tags, { tag: 'script', attrs: { src: 'd.js' } }],
-      /* ^? 
+      /* ^?
        *   ... some other headTags
        *   { tag: 'script', attrs: { src: 'c.js' } },
        *   ... some other bodyTags

@@ -4,8 +4,8 @@ sidebar_label: proxy
 
 # bff.proxy
 
-- 类型：`Record<string, string>`
-- 默认值：`{}`
+- **Type:** `Record<string, string>`
+- **Default:** `{}`
 
 :::info 补充信息
 请先在当前应用项目根目录使用【[new](/apis/app/commands/new)】 启用 BFF 功能。
@@ -56,7 +56,7 @@ export default defineConfig({
 在项目开发过程中，因为 web 页面和接口服务不是部署在同一个域名下，常常会遇到跨域问题。
 解决跨域问题的方式有很多，在这里我们使用 `bff.proxy` 可以轻松解决跨域问题。
 
-:::info 注
+:::info
 BFF proxy 模式下，如果不需要写 BFF 的接口， API 目录可以删除；此时 BFF proxy 仍会开启。
 
 :::

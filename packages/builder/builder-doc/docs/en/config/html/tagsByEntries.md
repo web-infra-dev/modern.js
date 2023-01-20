@@ -1,5 +1,5 @@
-- Type: `Record<string, ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>>`
-- Default: `undefined`
+- **Type:** `Record<string, ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>>`
+- **Default:** `undefined`
 
 Used for multiple entry applications, injecting different tags for each entry.
 

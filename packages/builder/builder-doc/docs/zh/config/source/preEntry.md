@@ -1,5 +1,5 @@
-- Type: `string | string[]`
-- Default: `undefined`
+- **Type:** `string | string[]`
+- **Default:** `undefined`
 
 在每个页面的入口文件前添加一段代码，这段代码会早于页面的代码执行，因此可以用于执行一些全局的代码逻辑，比如注入 polyfill、设置全局样式等。
 

@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default:
+- **Type:** `Object | Function`
+- **Default:**
 
 ```js
 const defaultOptions = {
@@ -45,7 +45,7 @@ export default {
 
 #### addExcludes
 
-- Type: `(excludes: RegExp | RegExp[]) => void`
+- **Type:** `(excludes: RegExp | RegExp[]) => void`
 
 用来指定 `sass-loader` 不编译哪些文件，你可以传入一个或多个正则表达式来匹配 sass 文件的路径。例如：
 

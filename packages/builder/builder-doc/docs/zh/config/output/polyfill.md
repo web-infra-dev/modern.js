@@ -1,5 +1,5 @@
-- Type: `'entry' | 'usage' | 'ua' | 'off'`
-- Default: `'entry'`
+- **Type:** `'entry' | 'usage' | 'ua' | 'off'`
+- **Default:** `'entry'`
 
 通过 `output.polyfill` 你可以配置 Polyfill 的注入方式。
 

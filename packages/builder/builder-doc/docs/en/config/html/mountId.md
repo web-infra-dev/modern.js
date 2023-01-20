@@ -1,5 +1,5 @@
-- Type: `string`
-- Default: `'root'`
+- **Type:** `string`
+- **Default:** `'root'`
 
 By default, the `root` element is included in the HTML template for component mounting, and the element id can be modified through `mountId`.
 

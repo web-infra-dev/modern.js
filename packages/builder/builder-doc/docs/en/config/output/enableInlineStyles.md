@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 Whether to inline output style files (.css files) into HTML with `<style>` tags in production mode.
 

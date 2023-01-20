@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 是否在生产环境构建后输出所有静态资源文件的体积。
 

@@ -1,5 +1,5 @@
-- Type: `string`
-- Default: `'root'`
+- **Type:** `string`
+- **Default:** `'root'`
 
 默认情况下，HTML 模板中包含了 `root` 节点用于组件挂载，通过 `mountId` 可以修改该节点的 id。
 

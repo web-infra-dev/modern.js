@@ -1,5 +1,5 @@
-- Type: `'entry' | 'usage' | 'ua' | 'off'`
-- Default: `'entry'`
+- **Type:** `'entry' | 'usage' | 'ua' | 'off'`
+- **Default:** `'entry'`
 
 Via `output.polyfill` you can configure how the polyfill is injected.
 

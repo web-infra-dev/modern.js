@@ -31,7 +31,7 @@ Modern.js 在编译时默认通过 [core-js](https://github.com/zloirock/core-js
 
 默认情况下会根据项目 Browserslist 的设置情况引入所需的 Polyfill 代码， 这样基本不用再担心项目源码和第三方依赖的 Polyfill 问题了，但是因为包含了一些没有用到的 Polyfill 代码，所以最终的包大小可能会有所增加。
 
-:::info 注
+:::info
 对于明确第三方依赖不需要 Polyfill 的场景，可以设置 [`output.polyfill`](/configure/app/output/polyfill) 为 `usage`, 这样 Babel 编译时只会根据代码中使用到的语法引入 Polyfill 代码。
 
 :::

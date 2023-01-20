@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default:
+- **Type:** `Object | Function`
+- **Default:**
 
 ```ts
 type DefaultParameters = {

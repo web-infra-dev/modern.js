@@ -48,7 +48,7 @@ Now you can use SWC transformation and minification in your project.
 
 ## Config
 
-- Type: `PluginConfig`
+- **Type:** `PluginConfig`
 
 ```ts
 type PluginConfig = {
@@ -61,7 +61,7 @@ type PluginConfig = {
 
 ### presetReact
 
-- Type: [presetReact](https://swc.rs/docs/configuration/compilation#jsctransformreact) in SWC.
+- **Type:** [presetReact](https://swc.rs/docs/configuration/compilation#jsctransformreact) in SWC.
 
 Ported from `@babel/preset-react`. The value you passed will be merged with default option.
 
@@ -69,7 +69,7 @@ By default, the plugin will set `runtime` field based on your `react` version, i
 
 ### presetEnv
 
-- Type: [presetEnv](https://swc.rs/docs/configuration/supported-browsers#options) in SWC.
+- **Type:** [presetEnv](https://swc.rs/docs/configuration/supported-browsers#options) in SWC.
 
 Ported from `@babel/preset-env`. The value you passed will be merged with default option.
 
@@ -84,7 +84,7 @@ Default option is:
 
 ### jsMinify
 
-- Type: `boolean` or [compress configuration](https://terser.org/docs/api-reference.html#compress-options).
+- **Type:** `boolean` or [compress configuration](https://terser.org/docs/api-reference.html#compress-options).
 
 Default option is: `{ compress: {}, mangle: true }`.
 
@@ -92,7 +92,7 @@ If set it to `false`, then SWC minification will be disabled, if set it to `true
 
 ### extensions
 
-- Type: `Object`
+- **Type:** `Object`
 
 Some plugins ported from Babel.
 
@@ -158,7 +158,7 @@ In addition to `kebabCase`, there are `cameraCase`, `snakeCase`, `upperCase` and
 
 #### extensions.reactUtils
 
-- Type: `Object`
+- **Type:** `Object`
 
 ```ts
 type ReactUtilsOptions = {
@@ -178,20 +178,20 @@ Some little help utils for `React`.
 
 **reactUtils.autoImportReact**
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 Automatically import `React` as global variable, eg: `import React from 'react'`.
 Mostly used for generated `React.createElement`.
 
 **reactUtils.removeEffect**
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 Remove `useEffect` call.
 
 **reactUtils.removePropTypes**
 
-- Type:
+- **Type:**
 
 ```ts
 type RemovePropTypesOptions = {
@@ -207,8 +207,8 @@ Remove `React` runtime type checking. This is ported from [@babel/plugin-react-t
 
 #### extensions.lodash
 
-- Type: `{ cwd?: string; ids?: string;}`
-- Default: `{ cwd: process.cwd(), ids: [] }`
+- **Type:** `{ cwd?: string; ids?: string;}`
+- **Default:** `{ cwd: process.cwd(), ids: [] }`
 
 Ported from [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash).
 

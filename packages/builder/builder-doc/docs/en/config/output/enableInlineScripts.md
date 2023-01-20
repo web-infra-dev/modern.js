@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 Whether to inline output scripts files (.js files) into HTML with `<script>` tags in production mode.
 

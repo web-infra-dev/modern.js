@@ -1,5 +1,5 @@
-- Type: `number`
-- Default: `8080`
+- **Type:** `number`
+- **Default:** `8080`
 
 Specify a port number for Dev Server to listen.
 

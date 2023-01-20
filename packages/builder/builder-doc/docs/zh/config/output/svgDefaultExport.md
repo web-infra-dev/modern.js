@@ -1,5 +1,5 @@
-- Type: `url` | `component`
-- Default: `url`
+- **Type:** `url` | `component`
+- **Default:** `url`
 
 `output.svgDefaultExport` 可以用来配置 SVG 文件的默认导出。
 

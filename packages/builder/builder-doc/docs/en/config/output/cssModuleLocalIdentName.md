@@ -1,5 +1,5 @@
-- Type: `string`
-- Default:
+- **Type:** `string`
+- **Default:**
 
 ```ts
 // isProd indicates that the production build

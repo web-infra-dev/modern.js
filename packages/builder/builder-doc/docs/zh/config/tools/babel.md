@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default: `undefined`
+- **Type:** `Object | Function`
+- **Default:** `undefined`
 
 通过 `tools.babel` 可以修改 [babel-loader](https://github.com/babel/babel-loader) 的配置项。
 
@@ -55,7 +55,7 @@ export default {
 
 #### addPlugins
 
-- Type: `(plugins: BabelPlugin[]) => void`
+- **Type:** `(plugins: BabelPlugin[]) => void`
 
 添加若干个 Babel 插件。
 
@@ -80,7 +80,7 @@ export default {
 
 #### addPresets
 
-- Type: `(presets: BabelPlugin[]) => void`
+- **Type:** `(presets: BabelPlugin[]) => void`
 
 添加若干个 Babel 预设配置 (大多数情况下不需要增加预设)。
 
@@ -96,7 +96,7 @@ export default {
 
 #### removePlugins
 
-- Type: `(plugins: string | string[]) => void`
+- **Type:** `(plugins: string | string[]) => void`
 
 移除 Babel 插件，传入需要移除的插件名称即可，你可以传入单个字符串，也可以传入一个字符串数组。
 
@@ -112,7 +112,7 @@ export default {
 
 #### removePresets
 
-- Type: `(presets: string | string[]) => void`
+- **Type:** `(presets: string | string[]) => void`
 
 移除 Babel 预设配置，传入需要移除的预设名称即可，你可以传入单个字符串，也可以传入一个字符串数组。
 
@@ -128,7 +128,7 @@ export default {
 
 #### addIncludes
 
-- Type: `(includes: string | RegExp | (string | RegExp)[]) => void`
+- **Type:** `(includes: string | RegExp | (string | RegExp)[]) => void`
 
 默认情况下 Babel 只会编译 src 目录下的业务代码，使用 `addIncludes` 你可以指定 Babel 编译 node_modules 下的一些文件。比如:
 
@@ -162,7 +162,7 @@ Builder 提供了比 `addIncludes` 更通用的 [source.include](https://modernj
 
 #### addExcludes
 
-- Type: `(excludes: string | RegExp | (string | RegExp)[]) => void`
+- **Type:** `(excludes: string | RegExp | (string | RegExp)[]) => void`
 
 和 `addIncludes` 相反，指定 Babel 编译时排除某些文件。
 
@@ -180,7 +180,7 @@ export default {
 
 #### modifyPresetEnvOptions
 
-- Type: `(options: PresetEnvOptions) => void`
+- **Type:** `(options: PresetEnvOptions) => void`
 
 修改 [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) 的配置项，传入的配置会与默认配置进行浅层合并，比如:
 
@@ -200,7 +200,7 @@ export default {
 
 #### modifyPresetReactOptions
 
-- Type: `(options: PresetReactOptions) => void`
+- **Type:** `(options: PresetReactOptions) => void`
 
 修改 [@babel/preset-react](https://babeljs.io/docs/en/babel-preset-react) 的配置项，传入的配置会与默认配置进行浅层合并，比如:
 

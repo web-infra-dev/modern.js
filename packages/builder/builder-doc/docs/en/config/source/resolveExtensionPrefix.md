@@ -1,5 +1,5 @@
-- Type: `string | Record<BuilderTarget, string>`
-- Default: `undefined`
+- **Type:** `string | Record<BuilderTarget, string>`
+- **Default:** `undefined`
 
 Add a prefix to [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolveextensions).
 

@@ -1,4 +1,4 @@
-- Type: `Object | undefined`
+- **Type:** `Object | undefined`
 
 你有两种方式开启 `webpack-bundle-analyzer` 来分析构建产物的体积:
 

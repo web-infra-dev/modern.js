@@ -1,5 +1,5 @@
-- Type: `string[] | Record<BuilderTarget, string[]>`
-- Default: `undefined`
+- **Type:** `string[] | Record<BuilderTarget, string[]>`
+- **Default:** `undefined`
 
 指定项目兼容的目标浏览器范围。该值会被 [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) 和 [autoprefixer](https://github.com/postcss/autoprefixer) 用来确定需要转换的 JavaScript 语法特性和需要添加的 CSS 浏览器前缀。
 

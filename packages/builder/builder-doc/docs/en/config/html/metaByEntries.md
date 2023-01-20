@@ -1,5 +1,5 @@
-- Type: `Record<string, Meta>`
-- Default: `undefined`
+- **Type:** `Record<string, Meta>`
+- **Default:** `undefined`
 
 Set different meta tags for different pages.
 

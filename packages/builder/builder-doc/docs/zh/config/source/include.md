@@ -1,5 +1,5 @@
-- Type: `Array<string | RegExp>`
-- Default: `[]`
+- **Type:** `Array<string | RegExp>`
+- **Default:** `[]`
 
 出于编译性能的考虑，默认情况下，Builder 不会编译 node_modules 下的 JavaScript/TypeScript 文件，也不会编译当前工程目录外部的 JavaScript/TypeScript 文件。
 

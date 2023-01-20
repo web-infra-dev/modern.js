@@ -1,5 +1,5 @@
-- Type: `Record<string, string>`
-- Default: `undefined`
+- **Type:** `Record<string, string>`
+- **Default:** `undefined`
 
 Set different title for different pages.
 

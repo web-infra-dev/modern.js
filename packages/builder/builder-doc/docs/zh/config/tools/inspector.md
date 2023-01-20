@@ -1,5 +1,5 @@
-- Type: `Object | Function | undefined`
-- Default: `undefined`
+- **Type:** `Object | Function | undefined`
+- **Default:** `undefined`
 
 你可以通过 `tools.inspector` 开启或者配置 webpack 调试工具 [webpack inspector](https://github.com/modern-js-dev/webpack-inspector)。
 

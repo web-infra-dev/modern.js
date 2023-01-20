@@ -1,5 +1,5 @@
-- Type: `number`
-- Default: `8080`
+- **Type:** `number`
+- **Default:** `8080`
 
 设置 Dev Server 监听的端口号。
 

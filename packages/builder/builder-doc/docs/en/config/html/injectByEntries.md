@@ -1,5 +1,5 @@
-- Type: `Record<string, boolean | string>`
-- Default: `undefined`
+- **Type:** `Record<string, boolean | string>`
+- **Default:** `undefined`
 
 Set different script tag inject positions for different pages.
 

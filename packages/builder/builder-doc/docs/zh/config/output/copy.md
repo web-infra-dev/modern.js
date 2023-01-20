@@ -1,5 +1,5 @@
-- Type: `CopyPluginOptions | CopyPluginOptions['patterns']`
-- Default: `undefined`
+- **Type:** `CopyPluginOptions | CopyPluginOptions['patterns']`
+- **Default:** `undefined`
 
 将指定的文件或目录拷贝到构建输出目录中。
 

@@ -1,5 +1,5 @@
-- Type: `Object | Function | undefined`
-- Default:
+- **Type:** `Object | Function | undefined`
+- **Default:**
 
 ```js
 const defaultOptions = {

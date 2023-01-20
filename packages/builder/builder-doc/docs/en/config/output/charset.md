@@ -1,5 +1,5 @@
-- Type: `'ascii' | 'utf8'`
-- Default: `'ascii'`
+- **Type:** `'ascii' | 'utf8'`
+- **Default:** `'ascii'`
 
 By default, Builder's output is ASCII-only and will escape all non-ASCII characters.
 

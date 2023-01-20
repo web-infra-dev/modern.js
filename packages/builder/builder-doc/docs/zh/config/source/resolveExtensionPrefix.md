@@ -1,5 +1,5 @@
-- Type: `string | Record<BuilderTarget, string>`
-- Default: `undefined`
+- **Type:** `string | Record<BuilderTarget, string>`
+- **Default:** `undefined`
 
 用于为 [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolveextensions) 添加统一的前缀。
 

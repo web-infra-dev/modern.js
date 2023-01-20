@@ -1,5 +1,5 @@
-- Type: `Object` | `Function` | `undefined`
-- Default: `undefined`
+- **Type:** `Object` | `Function` | `undefined`
+- **Default:** `undefined`
 
 `tools.webpack` 选项用于配置原生的 [webpack](https://webpack.js.org/)。
 
@@ -44,7 +44,7 @@ export default {
 
 #### env
 
-- Type: `'development' | 'production' | 'test'`
+- **Type:** `'development' | 'production' | 'test'`
 
 通过 env 参数可以判断当前环境为 development、production 还是 test。比如：
 
@@ -63,7 +63,7 @@ export default {
 
 #### isProd
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 通过 isProd 参数可以判断当前环境是否为 production。比如：
 
@@ -82,7 +82,7 @@ export default {
 
 #### target
 
-- Type: `'web' | 'node' | 'modern-web' | 'web-worker'`
+- **Type:** `'web' | 'node' | 'modern-web' | 'web-worker'`
 
 通过 target 参数可以判断当前构建的目标运行时环境。比如：
 
@@ -101,7 +101,7 @@ export default {
 
 #### isServer
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 判断当前构建的目标运行时环境是否为 `node`，等价于 `target === 'node'`。
 
@@ -120,7 +120,7 @@ export default {
 
 #### isWebWorker
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 判断当前构建的目标运行时环境是否为 `web-worker`，等价于 `target === 'web-worker'`。
 
@@ -139,7 +139,7 @@ export default {
 
 #### webpack
 
-- Type: `typeof import('webpack')`
+- **Type:** `typeof import('webpack')`
 
 通过这个参数你可以拿到 webpack 实例。比如：
 
@@ -156,7 +156,7 @@ export default {
 
 ### HtmlWebpackPlugin
 
-- Type: `typeof import('html-webpack-plugin')`
+- **Type:** `typeof import('html-webpack-plugin')`
 
 通过这个参数你可以拿到 HtmlWebpackPlugin 实例。
 
@@ -172,7 +172,7 @@ export default {
 
 ### addRules
 
-- Type: `(rules: RuleSetRule | RuleSetRule[]) => void`
+- **Type:** `(rules: RuleSetRule | RuleSetRule[]) => void`
 
 添加额外的 [webpack rules](https://webpack.js.org/configuration/module/#modulerules)。
 
@@ -206,7 +206,7 @@ export default {
 
 ### prependPlugins
 
-- Type: `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+- **Type:** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
 
 在内部 webpack 插件数组头部添加额外的插件，数组头部的插件会优先执行。
 
@@ -230,7 +230,7 @@ export default {
 
 ### appendPlugins
 
-- Type: `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+- **Type:** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
 
 在内部 webpack 插件数组尾部添加额外的插件，数组尾部的插件会在最后执行。
 
@@ -254,7 +254,7 @@ export default {
 
 ### removePlugin
 
-- Type: `(name: string) => void`
+- **Type:** `(name: string) => void`
 
 删除内部的 webpack 插件，参数为该插件的 `constructor.name`。
 

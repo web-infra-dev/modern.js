@@ -4,8 +4,8 @@ sidebar_label: microFrontend
 
 # deploy.microFrontend
 
-- 类型：`object`
-- 默认值：`{ enableHtmlEntry: true, externalBasicLibrary: false }`
+- **Type:** `object`
+- **Default:** `{ enableHtmlEntry: true, externalBasicLibrary: false }`
 
 ```ts
 interface MicroFrontend {
@@ -38,9 +38,9 @@ export default defineConfig({
 
 ### enableHtmlEntry
 
-- 类型：`boolean`
+- **Type:** `boolean`
 
-- 默认值：`true`
+- **Default:** `true`
 
 是否启用 html 入口的功能，默认为 `true`，将子应用构建成 `HTML` 模式，Garfish 支持了 `html` 入口，可以开启开选项，体验对应功能，为 HTML 入口时直接将子应用 entry 指向子应用的 html 即可。
 
@@ -48,8 +48,8 @@ export default defineConfig({
 
 ### externalBasicLibrary
 
-- 类型：`boolean`
+- **Type:** `boolean`
 
-- 默认值：`false`
+- **Default:** `false`
 
 是否 `external` 基础库，当设置为 `true` 时，当前子应用将会 `external`：`react`、`react-dom`，`EdenX` 主应用会自动 `setExternal` 这两个基础库，如果其他类型的框架请通过 `Garfish.setExternal` 增加 `react`、`react-dom` 依赖

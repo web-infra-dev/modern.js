@@ -1,5 +1,5 @@
-- Type: `boolean | { key: string; cert: string }`
-- Default: `false`
+- **Type:** `boolean | { key: string; cert: string }`
+- **Default:** `false`
 
 After configuring this option, you can enable HTTPS Dev Server, and disabling the HTTP Dev Server.
 

@@ -1,4 +1,4 @@
-- Type:
+- **Type:**
 
 ```ts
 type Fields = (string | string[])[];
@@ -6,7 +6,7 @@ type Fields = (string | string[])[];
 type ResolveMainFields = Fields | Record<BuilderTarget, Fields>;
 ```
 
-- Default: `undefined`
+- **Default:** `undefined`
 
 This config will determine which field of `package.json` you use to import the `npm` module. Same as the [resolve.mainFields](https://webpack.js.org/configuration/resolve/#resolvemainfields) config of webpack.
 

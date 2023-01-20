@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 Controls whether to the inline the [runtime chunk](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) to HTML.
 

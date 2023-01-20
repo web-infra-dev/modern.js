@@ -1,5 +1,5 @@
-- Type: `true | Object | Function | undefined`
-- Default: `false`
+- **Type:** `true | Object | Function | undefined`
+- **Default:** `false`
 
 配置 [Pug](https://pugjs.org/) 模板引擎。
 

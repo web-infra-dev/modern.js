@@ -1,5 +1,5 @@
-- Type: `'head' | 'body'| 'true' | false`
-- Default: `'head'`
+- **Type:** `'head' | 'body'| 'true' | false`
+- **Default:** `'head'`
 
 修改构建产物中 `<script>` 标签在 HTML 中的插入位置。
 

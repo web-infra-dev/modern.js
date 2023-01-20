@@ -1,5 +1,5 @@
-- Type: `'head' | 'body' | 'true' | false`
-- Default: `'head'`
+- **Type:** `'head' | 'body' | 'true' | false`
+- **Default:** `'head'`
 
 Set the inject position of the `<script>` tag.
 

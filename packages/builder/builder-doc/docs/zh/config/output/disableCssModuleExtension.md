@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 是否将源码目录下的所有样式文件当做 CSS Modules 模块进行处理。
 

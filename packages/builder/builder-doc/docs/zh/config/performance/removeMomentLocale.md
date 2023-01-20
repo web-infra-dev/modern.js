@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 是否移除 [moment.js](https://momentjs.com/) 的语言包文件。
 

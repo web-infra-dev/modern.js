@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 Remove the folder of the HTML files. When this option is enabled, the generated HTML file path will change from `[name]/index.html` to `[name].html`.
 

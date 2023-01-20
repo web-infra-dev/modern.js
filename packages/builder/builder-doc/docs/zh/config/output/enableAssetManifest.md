@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 是否生成 manifest 文件，该文件包含所有构建产物的信息。
 

@@ -1,5 +1,5 @@
-- Type: `Record<string, JSONValue>`
-- Default:
+- **Type:** `Record<string, JSONValue>`
+- **Default:**
 
 ```ts
 // Builder 会自动添加环境变量 `process.env.NODE_ENV` 作为默认值，因此你不需要手动添加它。

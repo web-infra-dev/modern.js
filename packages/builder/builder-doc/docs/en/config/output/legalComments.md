@@ -1,5 +1,5 @@
-- Type : `'linked' | 'inline' | 'none'`
-- Default: `'linked'`
+- **Type:** `'linked' | 'inline' | 'none'`
+- **Default:** `'linked'`
 
 Configure how to handle the legal comment.
 

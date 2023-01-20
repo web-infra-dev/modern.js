@@ -1,5 +1,5 @@
-- Type: `Record<string, unknown>`
-- Default: `{}`
+- **Type:** `Record<string, unknown>`
+- **Default:** `{}`
 
 构建时将代码中的变量替换成其它值或者表达式，可以用于在代码逻辑中区分开发环境与生产环境等场景。
 

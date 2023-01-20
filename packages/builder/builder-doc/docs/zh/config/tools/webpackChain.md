@@ -1,5 +1,5 @@
-- Type: `Function | undefined`
-- Default: `undefined`
+- **Type:** `Function | undefined`
+- **Default:** `undefined`
 
 你可以通过 `tools.webpackChain` 来修改默认的 webpack 配置，值为 `Function` 类型，接收两个参数：
 
@@ -14,7 +14,7 @@
 
 #### env
 
-- Type: `'development' | 'production' | 'test'`
+- **Type:** `'development' | 'production' | 'test'`
 
 通过 env 参数可以判断当前环境为 development、production 还是 test。比如：
 
@@ -32,7 +32,7 @@ export default {
 
 #### isProd
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 通过 isProd 参数可以判断当前环境是否为 production。比如：
 
@@ -50,7 +50,7 @@ export default {
 
 #### target
 
-- Type: `'web' | 'node' | 'modern-web' | 'web-worker'`
+- **Type:** `'web' | 'node' | 'modern-web' | 'web-worker'`
 
 通过 target 参数可以判断当前构建的目标运行时环境。比如：
 
@@ -68,7 +68,7 @@ export default {
 
 #### isServer
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 判断当前构建的目标运行时环境是否为 `node`，等价于 `target === 'node'`。
 
@@ -86,7 +86,7 @@ export default {
 
 #### isWebWorker
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 判断当前构建的目标运行时环境是否为 `web-worker`，等价于 `target === 'web-worker'`。
 
@@ -104,7 +104,7 @@ export default {
 
 #### webpack
 
-- Type: `typeof import('webpack')`
+- **Type:** `typeof import('webpack')`
 
 通过这个参数你可以拿到 webpack 实例。比如：
 
@@ -120,7 +120,7 @@ export default {
 
 ### HtmlWebpackPlugin
 
-- Type: `typeof import('html-webpack-plugin')`
+- **Type:** `typeof import('html-webpack-plugin')`
 
 通过这个参数你可以拿到 HtmlWebpackPlugin 实例。
 

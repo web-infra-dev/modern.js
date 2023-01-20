@@ -24,7 +24,7 @@ sidebar_label: ${name}
 
 # ${dirname}.${name}
 
-:::info BUILDER
+:::tip
 ${
   tip[lng]
 } [${dirname}.${name}](https://modernjs.dev/builder${langPrefix}/api/config-${dirname}.html#${dirname}-${name.toLowerCase()})。

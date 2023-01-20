@@ -1,5 +1,5 @@
-- Type: `Record<string, false | string | Record<string, string | boolean>>`
-- Default: `undefined`
+- **Type:** `Record<string, false | string | Record<string, string | boolean>>`
+- **Default:** `undefined`
 
 配置 HTML 页面的 `<meta>` 标签。
 

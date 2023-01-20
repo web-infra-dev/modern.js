@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default:
+- **Type:** `Object | Function`
+- **Default:**
 
 ```js
 const defaultOptions = {
@@ -92,7 +92,7 @@ export default {
 
 #### addPlugins
 
-- Type: `(plugins: PostCSSPlugin | PostCSSPlugin[]) => void`
+- **Type:** `(plugins: PostCSSPlugin | PostCSSPlugin[]) => void`
 
 用于添加额外的 PostCSS 插件，你可以传入单个 PostCSS 插件，也可以传入 PostCSS 插件数组。
 

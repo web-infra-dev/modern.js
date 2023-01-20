@@ -1,5 +1,5 @@
-- Type: `boolean | ConsoleType[]`
-- Default: `false`
+- **Type:** `boolean | ConsoleType[]`
+- **Default:** `false`
 
 Whether to remove `console.xx` in production build.
 
