@@ -1,4 +1,4 @@
-name: Release
+name: Test
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ on:
 
 jobs:
   release:
-    name: Release
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -30,12 +30,12 @@ jobs:
           fetch-depth: 1
 
       - name: Release
-        uses: modern-js-dev/actions@main
+        uses: modern-js-dev/actions@feat-test
         with:
           # this expects you to have a script called release which does a build for your packages and calls changeset publish
           version: ${{ github.event.inputs.version }}
           branch: ${{ github.event.inputs.branch }}
-          type: 'release'
+          type: 'test'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
