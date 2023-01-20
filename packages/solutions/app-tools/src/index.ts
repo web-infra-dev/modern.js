@@ -1,6 +1,12 @@
 import path from 'path';
 import lintPlugin from '@modern-js/plugin-lint';
-import { cleanRequireCache, emptyDir, Import, Command } from '@modern-js/utils';
+import {
+  cleanRequireCache,
+  emptyDir,
+  Import,
+  Command,
+  getCommand,
+} from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
 import analyzePlugin from './analyze';
@@ -15,7 +21,6 @@ import type {
   DeployOptions,
   InspectOptions,
 } from './utils/types';
-import { getCommand } from './utils/commands';
 import { restart } from './utils/restart';
 import { generateWatchFiles } from './utils/generateWatchFiles';
 
