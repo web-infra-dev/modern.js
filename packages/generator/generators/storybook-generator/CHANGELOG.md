@@ -1,5 +1,7 @@
 # @modern-js/storybook-generator
 
+## 2.4.16
+
 ## 2.4.15
 
 ### Patch Changes
