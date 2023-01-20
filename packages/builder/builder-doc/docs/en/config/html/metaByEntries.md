@@ -7,7 +7,7 @@ The usage is same as `meta`, and you can use the "entry name" as the key to set 
 
 `metaByEntries` will overrides the value set in `meta`.
 
-#### Example
+### Example
 
 ```js
 export default {

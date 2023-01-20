@@ -47,7 +47,7 @@ export default {
 };
 ```
 
-#### Example
+### Example
 
 Add the following config to use:
 

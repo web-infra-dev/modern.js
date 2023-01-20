@@ -5,7 +5,7 @@ Set the file path of the app icon, can be set as a relative path relative to the
 
 After config this option, the icon will be automatically copied to the dist directory during the compilation, and the corresponding `link` tag will be added to the HTML.
 
-#### Example
+### Example
 
 Set as a relative path:
 

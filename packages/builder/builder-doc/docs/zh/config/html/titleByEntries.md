@@ -7,7 +7,7 @@
 
 `titleByEntries` 的优先级高于 `title`，因此会覆盖 `title` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

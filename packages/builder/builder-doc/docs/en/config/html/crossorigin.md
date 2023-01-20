@@ -5,7 +5,7 @@ Set the [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attribut
 
 When true is passed, it is automatically set to `crossorigin="anonymous"`.
 
-#### Example
+### Example
 
 ```js
 export default {

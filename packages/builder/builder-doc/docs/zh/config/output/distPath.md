@@ -44,7 +44,7 @@ const defaultDistPath = {
 - `media`：表示视频等媒体资源的输出目录。
 - `server`: 表示服务端产物的输出目录，仅在 target 为 `node` 时有效。
 
-#### 示例
+### 示例
 
 以 JavaScript 文件为例，会输出到 `distPath.root` + `distPath.js` 目录，即为 `dist/static/js`。
 

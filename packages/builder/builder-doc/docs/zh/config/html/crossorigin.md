@@ -5,7 +5,7 @@
 
 传入 true 时，会自动设置为 `crossorigin="anonymous"`。
 
-#### 示例
+### 示例
 
 ```js
 export default {

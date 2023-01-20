@@ -7,7 +7,7 @@
 
 `templateParametersByEntries` 的优先级高于 `templateParameters`，因此会覆盖 `templateParameters` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

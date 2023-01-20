@@ -14,7 +14,7 @@ info    File sizes after production build:
   dist/html/main/index.html                1.64 kB      874 B
 ```
 
-#### Example
+### Example
 
 Disable the logs:
 

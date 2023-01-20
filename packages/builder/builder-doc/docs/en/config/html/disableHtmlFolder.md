@@ -3,7 +3,7 @@
 
 Remove the folder of the HTML files. When this option is enabled, the generated HTML file path will change from `[name]/index.html` to `[name].html`.
 
-#### Example
+### Example
 
 By default, the structure of HTML files in the `dist` directory is:
 

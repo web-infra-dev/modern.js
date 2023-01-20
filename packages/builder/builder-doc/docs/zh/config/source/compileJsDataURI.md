@@ -11,7 +11,7 @@ import x from 'data:text/javascript,export default 1;';
 import 'data:text/javascript;charset=utf-8;base64,Y29uc29sZS5sb2coJ2lubGluZSAxJyk7';
 ```
 
-#### 示例
+### 示例
 
 添加以下配置来关闭：
 

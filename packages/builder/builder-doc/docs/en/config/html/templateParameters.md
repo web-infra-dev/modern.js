@@ -50,7 +50,7 @@ export default {
 };
 ```
 
-#### Example
+### Example
 
 To use the `foo` parameter in the HTML template, you can add the following config:
 

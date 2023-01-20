@@ -9,7 +9,7 @@
 
 设置后，项目的 JavaScript、CSS、图片等静态资源的 URL 都会加上 `output.assetPrefix` 作为前缀：
 
-#### 示例
+### 示例
 
 ```js
 export default {

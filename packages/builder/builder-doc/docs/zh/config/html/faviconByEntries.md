@@ -7,7 +7,7 @@
 
 `faviconByEntries` 的优先级高于 `favicon`，因此会覆盖 `favicon` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

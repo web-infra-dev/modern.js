@@ -9,7 +9,7 @@ By default, the `root` element is included in the HTML template for component mo
 </body>
 ```
 
-#### Example
+### Example
 
 Set the `id` to `app`:
 

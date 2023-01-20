@@ -3,7 +3,7 @@
 
 Restrict importing paths. After configuring this option, all source files can only import code from the specific paths, and import code from other paths is not allowed.
 
-#### Example
+### Example
 
 First, we configure `moduleScopes` to only include the `src` directory:
 

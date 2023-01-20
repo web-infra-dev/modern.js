@@ -5,7 +5,7 @@ Set the favicon icon path for all pages, can be set as a relative path relative 
 
 After config this option, the favicon will be automatically copied to the dist directory during the compilation, and the corresponding `link` tag will be added to the HTML.
 
-#### Example
+### Example
 
 Set as a relative path:
 

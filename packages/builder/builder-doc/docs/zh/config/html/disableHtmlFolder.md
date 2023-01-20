@@ -3,7 +3,7 @@
 
 移除 HTML 产物对应的文件夹。开启该选项后，生成的 HTML 文件目录会从 `[name]/index.html` 变为 `[name].html`。
 
-#### 示例
+### 示例
 
 默认情况下，HTML 产物在 `dist` 目录下的结构为：
 

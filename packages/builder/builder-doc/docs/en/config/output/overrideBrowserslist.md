@@ -17,7 +17,7 @@ If there is no `browserslist` configs defined in the project, nor `overrideBrows
 ['> 0.01%', 'not dead', 'not op_mini all'];
 ```
 
-#### Example
+### Example
 
 An example compatible with mobile scenarios:
 

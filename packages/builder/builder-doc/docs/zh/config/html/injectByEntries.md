@@ -7,7 +7,7 @@
 
 `injectByEntries` 的优先级高于 `inject`，因此会覆盖 `inject` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

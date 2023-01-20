@@ -3,7 +3,7 @@
 
 是否生成 CSS Modules 的 TypeScript 声明文件。
 
-#### Example
+### Example
 
 启用 CSS Module TypeScript 声明，比如：
 

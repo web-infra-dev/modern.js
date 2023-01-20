@@ -5,7 +5,7 @@
 
 详情请见: [webpack 外部扩展 (Externals)](https://webpack.docschina.org/configuration/externals/)
 
-#### 示例
+### 示例
 
 将 `react-dom` 依赖从构建产物中剔除。为了在运行时获取这个模块, `react-dom` 的值将全局检索 `ReactDOM` 变量。
 

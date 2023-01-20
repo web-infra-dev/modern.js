@@ -33,7 +33,7 @@ const defaultDatUriLimit = {
 - `image`：表示非 SVG 图片的体积阈值。
 - `media`：表示视频等媒体资源的体积阈值。
 
-#### 示例
+### 示例
 
 修改图片资源的阈值为 5000 Bytes，设置视频资源不内联：
 

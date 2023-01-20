@@ -57,7 +57,7 @@ export default {
 | useRootFontSizeBeyondMax | `boolean`  | `false`                                                                                                                                 | 超过 maxRootFontSize 时，是否使用 rootFontSize                                            |
 | pxtorem                  | `object`   | <ul><li>rootValue。默认与 rootFontSize 相同 </li><li>unitPrecision: 5。精确位数 </li><li>propList: ['*']。支持转换的 CSS 属性</li></ul> | [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem#options) 插件属性               |
 
-#### 示例
+### 示例
 
 ```js
 export default {

@@ -9,7 +9,7 @@ This config is only used in the production environment. In the development envir
 
 After setting, the URLs of JavaScript, CSS and other static files will be prefixed with `output.assetPrefix`:
 
-#### Example
+### Example
 
 ```js
 export default {

@@ -7,7 +7,7 @@
 
 `templateByEntries` 的优先级高于 `template`，因此会覆盖 `template` 设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

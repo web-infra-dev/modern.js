@@ -1,15 +1,11 @@
 ---
-title: tools.tailwindcss
-
 sidebar_label: tailwindcss
 ---
-# tailwindcss
+
+# tools.tailwindcss
 
 - 类型： `Object | Function`
-- 默认值：见下方配置详情。
-
-<details>
-  <summary>TailwindCSS 配置详情</summary>
+- 默认值：
 
 ```js
 const tailwind = {
@@ -23,21 +19,19 @@ const tailwind = {
     './src/**/*.tsx',
     './storybook/**/*',
   ],
-  theme: source.designSystem, // 使用source.designSystem配置作为Tailwind CSS Theme配置
+  // 使用 source.designSystem 配置作为 Tailwind CSS Theme 配置
+  theme: source.designSystem,
 };
 ```
 
-:::tip 提示
-更多关于：<a href="https://tailwindcss.com/docs/configuration" target="_blank">TailwindCSS 配置</a>。
+对应 [TailwindCSS](https://tailwindcss.com/docs/configuration) 的配置。
 
-:::
+当值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
 
-</details>
+当值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
 
-对应 [TailwindCSS](https://tailwindcss.com/docs/configuration) 的配置，值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
+### 限制
 
-值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
-
-不允许出现 `theme` 属性，否则会构建失败。 Modern.js 使用 [`source.designSystem`](/configure/app/source/design-system) 作为 `Tailwind CSS Theme` 配置。
+注意，该配置中不允许使用 `theme` 配置项，否则会构建失败。在 Modern.js 中，请使用 [source.designSystem](/configure/app/source/design-system) 作为 `Tailwind CSS Theme` 配置。
 
 其他的使用方式和 Tailwind CSS 一致: [快速传送门](https://tailwindcss.com/docs/configuration)。

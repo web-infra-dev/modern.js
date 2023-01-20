@@ -3,7 +3,7 @@
 
 Whether to generate a TypeScript declaration file for CSS modules.
 
-#### Example
+### Example
 
 Enable CSS module TypeScript declaration:
 

@@ -12,7 +12,7 @@ Each key passed into options is an identifier or multiple identifiers joined wit
 
 For more information please visit [https://webpack.js.org/plugins/define-plugin/](https://webpack.js.org/plugins/define-plugin/).
 
-#### Example
+### Example
 
 ```js
 export default {

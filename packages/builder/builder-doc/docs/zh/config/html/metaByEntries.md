@@ -7,7 +7,7 @@
 
 `metaByEntries` 的优先级高于 `meta`，因此会覆盖 `meta` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

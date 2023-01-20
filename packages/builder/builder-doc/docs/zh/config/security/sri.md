@@ -22,7 +22,7 @@ type SRIOptions = {
 
 关于 SRI 的更多内容，可以查看 [Subresource Integrity - MDN](https://developer.mozilla.org/zh-CN/docs/Web/Security/Subresource_Integrity)。
 
-#### 示例
+### 示例
 
 默认情况下，不会开启 `SRI`，当开启之后它的默认配置如下：
 

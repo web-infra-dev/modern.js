@@ -7,7 +7,7 @@
 
 `tagsByEntries` 的优先级高于 `tags`，因此会覆盖 `tags` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

@@ -3,7 +3,7 @@
 
 Whether capture timing information for each module, same as the [profile](https://webpack.js.org/configuration/other-options/#profile) config of webpack.
 
-#### Example
+### Example
 
 ```js
 export default {

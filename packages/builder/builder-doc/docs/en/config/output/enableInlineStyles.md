@@ -5,7 +5,7 @@ Whether to inline output style files (.css files) into HTML with `<style>` tags 
 
 Note that, with this option on, the style files will no longer be written in dist directory, they will only exist inside the HTML file instead.
 
-#### Example
+### Example
 
 By default, we have following output files:
 
