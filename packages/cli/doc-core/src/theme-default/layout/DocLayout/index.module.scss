@@ -38,7 +38,8 @@
   .content {
     margin-left: var(--modern-sidebar-width);
     width: calc(100vw - var(--modern-sidebar-width));
-    padding: 16px 48px;
+    padding: 48px;
+
     :global(.modern-doc) {
       padding-right: 48px;
       width: calc(
