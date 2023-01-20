@@ -1,11 +1,12 @@
-import { sharedPerformanceConfigSchema, z } from '@modern-js/builder-shared';
-import type {
+import {
+  sharedPerformanceConfigSchema,
+  z,
   BaseChunkSplit,
   BuilderChunkSplit,
-  PerformanceConfig,
   SplitBySize,
   SplitCustom,
-} from '../../types';
+} from '@modern-js/builder-shared';
+import type { PerformanceConfig } from '../../types';
 
 const BaseSplitRulesSchema = z.object({
   strategy: z.string(),

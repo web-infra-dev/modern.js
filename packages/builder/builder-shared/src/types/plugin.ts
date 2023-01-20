@@ -40,6 +40,7 @@ export type Plugins = {
   cache: PluginsFn;
   yaml: PluginsFn;
   toml: PluginsFn;
+  splitChunks: PluginsFn;
 };
 
 /**

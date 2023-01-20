@@ -3,15 +3,11 @@ import {
   RUNTIME_CHUNK_NAME,
   getPackageNameFromModulePath,
   type Polyfill,
-} from '@modern-js/builder-shared';
-
-import type { BuilderPlugin } from '../types';
-import type {
+  DefaultBuilderPlugin,
   BuilderChunkSplit,
   SplitChunks,
   CacheGroup,
-} from '../types/config/performance';
-import type { Module } from 'webpack';
+} from '@modern-js/builder-shared';
 
 // We expose the three-layer to specify webpack chunk-split ability:
 // 1. By strategy.There some best practice integrated in our internal strategy.
@@ -139,7 +135,8 @@ function splitByModule(ctx: SplitChunksContext): SplitChunks {
       vendors: {
         priority: -10,
         test: /[\\/]node_modules[\\/]/,
-        name(module: Module): string | false {
+        // todo: not support in rspack
+        name(module: { context: string | null }): string | false {
           return getPackageNameFromModulePath(module.context!);
         },
       },
@@ -214,16 +211,18 @@ const SPLIT_STRATEGY_DISPATCHER: Record<
   'single-vendor': singleVendor,
 };
 
-export function builderPluginSplitChunks(): BuilderPlugin {
+export function builderPluginSplitChunks(): DefaultBuilderPlugin {
   return {
     name: 'builder-plugin-split-chunks',
     setup(api) {
-      api.modifyWebpackChain(async (chain, { isServer, isWebWorker }) => {
+      api.modifyBundlerChain(async (chain, { isServer, isWebWorker }) => {
         if (isServer || isWebWorker) {
           chain.optimization.splitChunks(false);
 
           // web worker does not support dynamic imports, dynamicImportMode need set to eager
           if (isWebWorker) {
+            // todo: not support in rspack
+            // @ts-expect-error
             chain.module.parser.merge({
               javascript: {
                 dynamicImportMode: 'eager',

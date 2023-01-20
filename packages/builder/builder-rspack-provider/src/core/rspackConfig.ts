@@ -5,14 +5,10 @@ import {
   modifyBundlerChain,
   BundlerConfig,
 } from '@modern-js/builder-shared';
-import {
-  castArray,
-  difference,
-  omitBy,
-  isUndefined,
-} from '@modern-js/utils/lodash';
-import { getCompiledPath, BUILTIN_LOADER } from '../shared';
+import { castArray, omitBy, isUndefined } from '@modern-js/utils/lodash';
+import { getCompiledPath } from '../shared';
 import type { Context, RspackConfig, ModifyRspackConfigUtils } from '../types';
+import { formatRule, formatSplitChunks } from './formatConfig';
 
 async function modifyRspackConfig(
   context: Context,
@@ -103,115 +99,6 @@ async function getChainUtils(target: BuilderTarget): Promise<ChainUtils> {
   };
 }
 
-const formatCondition = (data: any): string | RegExp => {
-  if (!(data instanceof RegExp || typeof data === 'string')) {
-    throw new Error(
-      `type(${typeof data}) not support yet, only support string or RegExp`,
-    );
-  }
-  return data;
-};
-
-const formatConditionWithUndefined = (
-  data: any,
-): string | RegExp | undefined => {
-  if (typeof data === 'undefined') {
-    return data;
-  }
-  return formatCondition(data);
-};
-
-type RspackRule = NonNullable<NonNullable<RspackConfig['module']>['rules']>[0];
-
-type BundlerRule = NonNullable<
-  NonNullable<BundlerConfig['module']>['rules']
->[0];
-
-const whiteListKeys = [
-  'test',
-  'include',
-  'exclude',
-  'resource',
-  'resourceQuery',
-  'use',
-  'type',
-  'parser',
-  'generator',
-];
-
-const formatRule = (rule: BundlerRule): RspackRule => {
-  if (rule === '...') {
-    throw new Error(`${rule} not supported in bundlerChain.rule`);
-  }
-
-  const ruleKeys = Object.keys(rule);
-
-  const usedBlackList = difference(ruleKeys, whiteListKeys);
-
-  if (usedBlackList.length) {
-    throw new Error(
-      `${usedBlackList.join(',')} is not supported in bundlerChain.rule`,
-    );
-  }
-
-  const formatRuleUse = (use: typeof rule['use']) => {
-    if (!use) {
-      return undefined;
-    }
-
-    if (!Array.isArray(use)) {
-      throw new Error(`only support array in rule.use`);
-    }
-
-    return use.map(content => {
-      if (typeof content === 'function') {
-        throw new Error(`only support array or string in rule.use`);
-      }
-
-      if (typeof content === 'string') {
-        return {
-          loader: content,
-        };
-      }
-
-      if (!content.loader) {
-        throw new Error(`loader is required in rule.use`);
-      }
-
-      if (content.loader.includes(BUILTIN_LOADER)) {
-        const { loader, ...loaderConfig } = content;
-        return {
-          ...loaderConfig,
-          builtinLoader: loader.replace(BUILTIN_LOADER, ''),
-        };
-      }
-
-      return {
-        ...content,
-        loader: content.loader,
-      };
-    });
-  };
-
-  return omitBy(
-    {
-      ...rule,
-      type: rule.type as RspackRule['type'],
-      use: formatRuleUse(rule.use),
-      resource: formatConditionWithUndefined(rule.resource),
-      resourceQuery: formatConditionWithUndefined(rule.resourceQuery),
-      exclude: Array.isArray(rule.exclude)
-        ? rule.exclude.map(formatCondition)
-        : formatConditionWithUndefined(rule.exclude),
-      include: Array.isArray(rule.include)
-        ? rule.include.map(formatCondition)
-        : formatConditionWithUndefined(rule.include),
-      test: formatConditionWithUndefined(rule.test),
-    },
-    isUndefined,
-  );
-};
-
 /**
  * BundlerConfig type is similar to WebpackConfig. need convert
  */
@@ -219,6 +106,13 @@ const convertToRspackConfig = (config: BundlerConfig): RspackConfig => {
   return omitBy(
     {
       ...config,
+      plugins: config.plugins as RspackConfig['plugins'],
+      optimization: config.optimization
+        ? {
+            splitChunks: formatSplitChunks(config.optimization?.splitChunks),
+            runtimeChunk: config.optimization?.runtimeChunk,
+          }
+        : undefined,
       module: omitBy(
         {
           rules: config.module?.rules?.map(formatRule),

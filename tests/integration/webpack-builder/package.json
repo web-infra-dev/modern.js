@@ -6,6 +6,7 @@
     "dev": "pnpm build:libs && node ./scripts/dist/dev.js",
     "dev:rspack": "pnpm build:libs && node ./scripts/dist/dev.js rspack",
     "build": "pnpm build:libs && node ./scripts/dist/build.js",
+    "build:rspack": "pnpm build:libs && node ./scripts/dist/build.js rspack",
     "watch": "pnpm build:libs && node ./scripts/dist/watch.js",
     "build:libs": "cd ../../.. && pnpm prepare && cd tests/integration/webpack-builder && pnpm build:script",
     "build:script": "swc ./scripts -d scripts/dist",
@@ -13,8 +14,8 @@
   },
   "dependencies": {
     "@modern-js/builder": "workspace:*",
-    "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-plugin-esbuild": "workspace:*",
+    "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@swc/cli": "^0.1.57",
