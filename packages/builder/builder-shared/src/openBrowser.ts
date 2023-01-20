@@ -7,6 +7,7 @@
  * https://github.com/facebook/create-react-app/blob/master/LICENSE
  */
 import { execSync } from 'child_process';
+import { join } from 'path';
 import open from '../compiled/open';
 import { logger } from './logger';
 
@@ -32,6 +33,7 @@ export async function openBrowser(url: string): Promise<boolean> {
     try {
       const ps = execSync('ps cax').toString();
       const openedBrowser = supportedChromiumBrowsers.find(b => ps.includes(b));
+
       if (openedBrowser) {
         // Try to reuse existing tab with AppleScript
         execSync(
@@ -40,13 +42,16 @@ export async function openBrowser(url: string): Promise<boolean> {
           )}" "${openedBrowser}"`,
           {
             stdio: 'ignore',
-            cwd: __dirname,
+            cwd: join(__dirname, '../static'),
           },
         );
         return true;
       }
     } catch (err) {
-      logger.error(JSON.stringify(err));
+      logger.error(
+        'Failed to open start URL with apple script:',
+        JSON.stringify(err),
+      );
       return false;
     }
   }
@@ -57,7 +62,7 @@ export async function openBrowser(url: string): Promise<boolean> {
     await open(url);
     return true;
   } catch (err) {
-    logger.error(JSON.stringify(err));
+    logger.error('Failed to open start URL:', JSON.stringify(err));
     return false;
   }
 }
