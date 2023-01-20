@@ -1,6 +1,6 @@
 在执行生产环境构建后调用，你可以通过 `stats` 参数获取到构建结果信息。
 
-- **Type**
+- **类型**
 
 ```ts
 function OnAfterBuild(

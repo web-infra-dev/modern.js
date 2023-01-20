@@ -1,5 +1,5 @@
-- **Type:** `Record<string, string | string[]> | Function`
-- **Default:** `undefined`
+- **类型：** `Record<string, string | string[]> | Function`
+- **默认值：** `undefined`
 
 设置文件引用的别名，对应 webpack 的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) 配置。
 

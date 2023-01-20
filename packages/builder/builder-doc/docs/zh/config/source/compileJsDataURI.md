@@ -1,5 +1,5 @@
-- **Type:** `boolean`
-- **Default:** `true`
+- **类型：** `boolean`
+- **默认值：** `true`
 
 对于使用 Data URI 引入的 JavaScript 代码，是否采用 babel 进行编译。
 

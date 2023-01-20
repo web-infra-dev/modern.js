@@ -1,5 +1,5 @@
-- **Type:** `Object | Function`
-- **Default:** `{}`
+- **类型：** `Object | Function`
+- **默认值：** `{}`
 
 通过 `tools.styleLoader` 可以设置 [style-loader](https://github.com/webpack-contrib/style-loader) 的配置项。
 

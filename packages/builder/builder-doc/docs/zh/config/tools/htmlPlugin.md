@@ -1,5 +1,5 @@
-- **Type:** `false | Object | Function`
-- **Default:**
+- **类型：** `false | Object | Function`
+- **默认值：**
 
 ```js
 const defaultHtmlPluginOptions = {

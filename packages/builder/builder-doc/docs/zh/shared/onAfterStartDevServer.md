@@ -1,6 +1,6 @@
 在启动开发服务器后调用，你可以通过 `port` 参数获得开发服务器监听的端口号。
 
-- **Type**
+- **类型**
 
 ```ts
 function OnAfterStartDevServer(

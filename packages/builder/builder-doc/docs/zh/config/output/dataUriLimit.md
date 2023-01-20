@@ -1,4 +1,4 @@
-- **Type**
+- **类型**
 
 ```ts
 type DataUriLimitConfig = {
@@ -9,7 +9,7 @@ type DataUriLimitConfig = {
 };
 ```
 
-- **Default**
+- **默认值**
 
 ```js
 const defaultDatUriLimit = {

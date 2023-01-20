@@ -1,5 +1,5 @@
-- **Type:** `boolean | ConsoleType[]`
-- **Default:** `false`
+- **类型：** `boolean | ConsoleType[]`
+- **默认值：** `false`
 
 在生产环境构建时，是否自动移除代码中的 `console.xx`。
 

@@ -1,5 +1,5 @@
-- **Type:** `boolean | 'anonymous' | 'use-credentials'`
-- **Default:** `false`
+- **类型：** `boolean | 'anonymous' | 'use-credentials'`
+- **默认值：** `false`
 
 用于设置 `<script>` 标签的 [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin) 属性。
 

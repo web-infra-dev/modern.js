@@ -1,4 +1,4 @@
-- **Type:**
+- **类型：**
 
 ```ts
 type ProgressBar =
@@ -8,7 +8,7 @@ type ProgressBar =
     };
 ```
 
-- **Default:** `true`
+- **默认值：** `true`
 
 是否在编译过程中展示进度条。
 

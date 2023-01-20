@@ -1,5 +1,5 @@
-- **Type:** `ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>`
-- **Default:** `undefined`
+- **类型：** `ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>`
+- **默认值：** `undefined`
 
 添加和修改最终注入到 HTML 页面的标签。
 

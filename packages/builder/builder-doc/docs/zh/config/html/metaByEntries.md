@@ -1,5 +1,5 @@
-- **Type:** `Record<string, Meta>`
-- **Default:** `undefined`
+- **类型：** `Record<string, Meta>`
+- **默认值：** `undefined`
 
 用于在多页面的场景下，为不同的页面设置不同的 meta 标签。
 

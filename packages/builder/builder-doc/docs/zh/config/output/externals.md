@@ -1,5 +1,5 @@
-- **Type:** `string | object | function | RegExp`
-- **Default:** `undefined`
+- **类型：** `string | object | function | RegExp`
+- **默认值：** `undefined`
 
 在构建时，防止将代码中某些 `import` 的依赖包打包到 bundle 中，而是在运行时再去从外部获取这些依赖。
 

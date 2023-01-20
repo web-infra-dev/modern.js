@@ -38,7 +38,7 @@ extractApiHeaders: [2]
 
 修改传递给 Builder 的配置项，你可以直接修改传入的 config 对象，也可以返回一个新的对象来替换传入的对象。
 
-- **Type**
+- **类型**
 
 ```ts
 type ModifyWebpackChainUtils = {
@@ -73,7 +73,7 @@ export default () => ({
 
 通过 webpack chain 来修改 webpack 配置。该方法仅在使用 webpack provider 时调用。
 
-- **Type**
+- **类型**
 
 ```ts
 type ModifyWebpackChainUtils = {
@@ -116,7 +116,7 @@ export default () => ({
 
 该方法的调用时机晚于 `modifyWebpackChain` 钩子。
 
-- **Type**
+- **类型**
 
 ```ts
 type ModifyWebpackConfigUtils = {
@@ -165,7 +165,7 @@ export default () => ({
 
 修改最终的 rspack 配置对象，你可以直接修改传入的 config 对象，也可以返回一个新的对象来替换传入的对象。该方法仅在使用 rspack provider 时调用。
 
-- **Type**
+- **类型**
 
 ```ts
 type ModifyRspackConfigUtils = {

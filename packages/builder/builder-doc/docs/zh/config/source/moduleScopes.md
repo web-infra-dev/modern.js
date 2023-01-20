@@ -1,5 +1,5 @@
-- **Type:** `Array<string | Regexp> | Function`
-- **Default:** `undefined`
+- **类型：** `Array<string | Regexp> | Function`
+- **默认值：** `undefined`
 
 限制源代码的引用路径。配置该选项后，所有源文件只能从约定的目录下引用代码，从其他目录引用代码会产生对应的报错提示。
 

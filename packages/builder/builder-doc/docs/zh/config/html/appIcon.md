@@ -1,5 +1,5 @@
-- **Type:** `string`
-- **Default:** `undefined`
+- **类型：** `string`
+- **默认值：** `undefined`
 
 设置 app icon 的文件路径，可以设置为相对于项目根目录的相对路径，也可以设置为文件的绝对路径。暂不支持设置为 CDN URL。
 

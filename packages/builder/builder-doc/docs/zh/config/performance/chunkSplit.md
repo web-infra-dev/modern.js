@@ -1,5 +1,5 @@
-- **Type:** `Object`
-- **Default:** `{ strategy: 'split-by-experience' }`
+- **类型：** `Object`
+- **默认值：** `{ strategy: 'split-by-experience' }`
 
 `performance.chunkSplit` 用于配置 Builder 的拆包策略。配置项的类型 `ChunkSplit` 如下:
 
@@ -57,8 +57,8 @@ Builder 默认采用 `split-by-experience` 策略，具体来说，以下的 NPM
 
 ### chunkSplit.minSize
 
-- **Type:** `number`
-- **Default:** `10000`
+- **类型：** `number`
+- **默认值：** `10000`
 
 当 `performance.chunkSplit.strategy` 为 `split-by-size` 时，可以通过 `performance.chunkSplit.minSize` 配置项来指定 chunk 的最小大小，单位为字节。默认值为 10000。比如:
 
@@ -75,8 +75,8 @@ export default {
 
 ### chunkSplit.maxSize
 
-- **Type:** `number`
-- **Default:** `Infinity`
+- **类型：** `number`
+- **默认值：** `Infinity`
 
 当 `performance.chunkSplit.strategy` 为 `split-by-size` 时，可以通过 `performance.chunkSplit.maxSize` 配置项来指定 chunk 的最大大小，单位为字节。默认值为 `Infinity`。比如:
 
@@ -93,8 +93,8 @@ export default {
 
 ### chunkSplit.forceSplitting
 
-- **Type:** `Array<RegExp>`
-- **Default:** `[]`
+- **类型：** `Array<RegExp>`
+- **默认值：** `[]`
 
 通过 `performance.chunkSplit.forceSplitting` 配置项可以指定强制拆包的 NPM 包。比如:
 

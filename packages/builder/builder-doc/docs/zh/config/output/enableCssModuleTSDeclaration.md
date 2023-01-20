@@ -1,5 +1,5 @@
-- **Type:** `boolean`
-- **Default:** `false`
+- **类型：** `boolean`
+- **默认值：** `false`
 
 是否生成 CSS Modules 的 TypeScript 声明文件。
 

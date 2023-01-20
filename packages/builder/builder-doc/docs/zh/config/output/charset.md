@@ -1,5 +1,5 @@
-- **Type:** `'ascii' | 'utf8'`
-- **Default:** `'ascii'`
+- **类型：** `'ascii' | 'utf8'`
+- **默认值：** `'ascii'`
 
 默认情况下，Builder 的产物内容是纯 ASCII 的，并且会转义所有非 ASCII 字符。
 

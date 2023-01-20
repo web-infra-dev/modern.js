@@ -1,5 +1,5 @@
-- **Type:** `boolean | object`
-- **Default:** `false`
+- **类型：** `boolean | object`
+- **默认值：** `false`
 
 通过设置 `output.convertToRem`，Builder 可进行如下处理：
 

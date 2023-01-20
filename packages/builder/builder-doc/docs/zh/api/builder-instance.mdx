@@ -14,7 +14,7 @@ extractApiHeaders: [2]
 
 构建入口对象，对应调用 `createBuilder` 时传入的 `entry` 选项。
 
-- **Type**
+- **类型**
 
 ```ts
 type BuilderEntry = Record<string, string | string[]>;
@@ -24,7 +24,7 @@ type BuilderEntry = Record<string, string | string[]>;
 
 构建产物类型，对应调用 `createBuilder` 时传入的 `target` 选项。
 
-- **Type**
+- **类型**
 
 ```ts
 type BuilderTarget = 'web' | 'node' | 'modern-web' | 'web-worker';
@@ -38,7 +38,7 @@ type Context = {
 
 当前执行构建的根路径，对应调用 `createBuilder` 时传入的 `cwd` 选项。
 
-- **Type**
+- **类型**
 
 ```ts
 type RootPath = string;
@@ -48,7 +48,7 @@ type RootPath = string;
 
 src 目录的绝对路径。
 
-- **Type**
+- **类型**
 
 ```ts
 type SrcPath = string;
@@ -58,7 +58,7 @@ type SrcPath = string;
 
 构建产物输出目录的绝对路径，对应 `BuilderConfig` 中的 `output.distPath.root` 配置项。
 
-- **Type**
+- **类型**
 
 ```ts
 type DistPath = string;
@@ -68,7 +68,7 @@ type DistPath = string;
 
 构建过程中生成的缓存文件所在的绝对路径。
 
-- **Type**
+- **类型**
 
 ```ts
 type CachePath = string;
@@ -78,7 +78,7 @@ type CachePath = string;
 
 框架配置文件的绝对路径，对应调用 `createBuilder` 时传入的 `configPath` 选项。
 
-- **Type**
+- **类型**
 
 ```ts
 type ConfigPath = string | undefined;
@@ -88,7 +88,7 @@ type ConfigPath = string | undefined;
 
 tsconfig.json 文件的绝对路径，若项目中不存在 tsconfig.json 文件，则为 `undefined`。
 
-- **Type**
+- **类型**
 
 ```ts
 type TsconfigPath = string | undefined;
@@ -98,7 +98,7 @@ type TsconfigPath = string | undefined;
 
 框架的英文名称，唯一标识符，默认值为 `'modern.js'`。
 
-- **Type**
+- **类型**
 
 ```ts
 type Framework = string | undefined;
@@ -108,7 +108,7 @@ type Framework = string | undefined;
 
 Dev Server 相关信息，包含了当前 Dev Server 的 hostname 和端口号。
 
-- **Type**
+- **类型**
 
 ```ts
 type DevServer = {
@@ -121,7 +121,7 @@ type DevServer = {
 
 调用 build 方法时，会执行一次生产环境构建。
 
-- **Type**
+- **类型**
 
 ```ts
 type BuildOptions = {
@@ -177,7 +177,7 @@ await builder.build({
 
 启动本地 Dev Server，基于 Modern.js Dev Server 实现。
 
-- **Type**
+- **类型**
 
 ```ts
 type StartDevServerOptions = {
@@ -276,7 +276,7 @@ await builder.startDevServer({
 
 当 `createBuilder` 的 `target` 选项包含一个值时，返回值为 `Compiler`；当 `target` 包含多个值时，返回值为 `MultiCompiler`。
 
-- **Type**
+- **类型**
 
 ```ts
 function CreateCompiler(): Promise<Compiler | MultiCompiler>;
@@ -296,7 +296,7 @@ const compiler = await builder.createCompiler();
 
 该方法需要在开始编译前调用，如果在开始编译之后调用，则不会影响编译结果。
 
-- **Type**
+- **类型**
 
 ```ts
 type AddPluginsOptions = { before?: string } | { after?: string };
@@ -325,7 +325,7 @@ builder.addPlugins([builderPluginFoo()], { after: 'bar' });
 
 该方法需要在开始编译前调用，如果在开始编译之后调用，则不会影响编译结果。
 
-- **Type**
+- **类型**
 
 ```ts
 function RemovePlugins(pluginNames: string[]): void;
@@ -360,7 +360,7 @@ builder.isPluginExists(builderPluginFoo().name); // true
 
 查看 Builder 内部最终生成的 builder 配置和 bundler 配置。
 
-- **Type**
+- **类型**
 
 ```ts
 type InspectConfigOptions = {

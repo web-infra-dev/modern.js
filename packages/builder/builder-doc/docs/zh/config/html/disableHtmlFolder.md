@@ -1,5 +1,5 @@
-- **Type:** `boolean`
-- **Default:** `false`
+- **类型：** `boolean`
+- **默认值：** `false`
 
 移除 HTML 产物对应的文件夹。开启该选项后，生成的 HTML 文件目录会从 `[name]/index.html` 变为 `[name].html`。
 

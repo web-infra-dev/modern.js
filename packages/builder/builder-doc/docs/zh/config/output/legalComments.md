@@ -1,5 +1,5 @@
-- **Type:** `'linked' | 'inline' | 'none'`
-- **Default:** `'linked'`
+- **类型：** `'linked' | 'inline' | 'none'`
+- **默认值：** `'linked'`
 
 配置 legal comment 的处理方式。
 
