@@ -59,7 +59,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     ),
     plugins.toml(),
     plugins.yaml(),
-    import('../plugins/splitChunks').then(m => m.builderPluginSplitChunks()),
+    plugins.splitChunks(),
     import('../plugins/inspector').then(m => m.builderPluginInspector()),
     import('../plugins/sri').then(m => m.builderPluginSRI()),
     plugins.startUrl?.(),

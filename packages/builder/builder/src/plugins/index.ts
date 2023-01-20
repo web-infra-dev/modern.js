@@ -9,4 +9,6 @@ export const plugins = {
   cache: () => import('./cache').then(m => m.builderPluginCache()),
   yaml: () => import('./yaml').then(m => m.builderPluginYaml()),
   toml: () => import('./toml').then(m => m.builderPluginToml()),
+  splitChunks: () =>
+    import('./splitChunks').then(m => m.builderPluginSplitChunks()),
 };

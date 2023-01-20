@@ -33,5 +33,6 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/externals').then(m => m.builderPluginExternals()),
     plugins.toml(),
     plugins.yaml(),
+    plugins.splitChunks(),
     plugins.startUrl(),
   ]);

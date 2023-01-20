@@ -13,6 +13,16 @@ interface BundlerPluginInstance {
   }) => void;
 }
 
+type SplitChunks = Configuration extends {
+  optimization?: {
+    splitChunks?: infer P;
+  };
+}
+  ? P
+  : never;
+
+type WebpackOptimization = NonNullable<Configuration['optimization']>;
+
 /** The intersection of webpack and rspack */
 export type BundlerConfig = {
   name?: string;
@@ -30,7 +40,10 @@ export type BundlerConfig = {
   //   stats?: StatsOptions;
   //   snapshot?: Snapshot;
   cache?: Configuration['cache'];
-  //   optimization?: Optimization;
+  optimization?: {
+    splitChunks: SplitChunks;
+    runtimeChunk?: WebpackOptimization['runtimeChunk'];
+  };
   //   experiments?: RawExperiments;
 };
 
@@ -40,6 +53,7 @@ export interface BundlerChain
     'devtool' | 'target' | 'name' | 'merge' | 'cache' | 'plugin' | 'entryPoints'
   > {
   toConfig: () => BundlerConfig;
+  optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
   /** only support add string | string[] */
   entry: Config['entry'];
   module: Pick<Config['module'], 'rules' | 'rule'>;
