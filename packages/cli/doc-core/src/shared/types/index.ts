@@ -107,7 +107,6 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   icon: string;
   themeConfig: ThemeConfig;
   logo: string;
-  pages: PageBasicInfo[];
 }
 
 export interface PageBasicInfo {
