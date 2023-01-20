@@ -27,7 +27,7 @@ test('should emit progress log in non-TTY environment', async () => {
     infoMsgs.some(message => message.includes('[Client] compile progress')),
   ).toBeTruthy();
   expect(
-    successMsgs.some(message => message.includes('[Client] compile done')),
+    successMsgs.some(message => message.includes('[Client] compile succeed')),
   ).toBeTruthy();
 
   process.stdout.isTTY = true;

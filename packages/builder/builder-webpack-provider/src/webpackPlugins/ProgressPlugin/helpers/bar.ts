@@ -8,13 +8,13 @@ const defaultOption: Props = {
   current: 0,
   color: 'green',
   bgColor: 'gray',
-  char: '█',
+  char: '■',
   width: 25,
   buildIcon: '◯',
   finishIcon: '✔',
-  finishInfo: 'done',
+  finishInfo: 'Succeed',
   errorIcon: '✖',
-  errorInfo: 'fail',
+  errorInfo: 'Compile Failed',
   message: '',
   done: false,
   spaceWidth: 1,
@@ -65,7 +65,7 @@ export const renderBar = (option: Partial<Props>) => {
   };
   const space = ' '.repeat(spaceWidth);
   const percent = clamp(Math.floor((current / total) * 100), 0, 100);
-  const fc = Reflect.get(chalk, color);
+  const fc = hasErrors ? chalk.bold.red : Reflect.get(chalk, color);
   const bc = Reflect.get(chalk, bgColor);
   const idStr = id ? fc(padding(id, maxIdLen)) : '';
   const { columns = FULL_WIDTH } = process.stdout;
@@ -73,14 +73,16 @@ export const renderBar = (option: Partial<Props>) => {
   if (done) {
     const info = hasErrors ? errorInfo : finishInfo;
     const icon = hasErrors ? errorIcon : finishIcon;
-    const message = chalk.gray(
-      compileTime ? `${info} in ${compileTime}` : info,
+    const message = fc(
+      compileTime && !hasErrors ? `${info} in ${compileTime}` : info,
     );
+
     if (columns >= MIDDLE_WIDTH) {
       return [idStr, fc(`${icon}${space}${message}`)].join('');
     }
     return [idStr, fc(`${message}`)].join('');
   }
+
   const msgStr = Reflect.get(
     chalk,
     messageColor,

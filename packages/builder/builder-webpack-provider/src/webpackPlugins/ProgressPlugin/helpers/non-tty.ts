@@ -26,7 +26,7 @@ export function createNonTTYLogger() {
       if (hasErrors) {
         logger.error(`[${id}] compile failed in ${compileTime}`);
       } else {
-        logger.success(`[${id}] compile done in ${compileTime}`);
+        logger.success(`[${id}] compile succeed in ${compileTime}`);
       }
     }
     // print progress when percentage increased by more than 10%
