@@ -1,4 +1,5 @@
 export * from './compiled';
+export * from './commands';
 export * from './format';
 export * from './FileSizeReporter';
 export * from './printBuildError';

@@ -1,6 +1,10 @@
-import { ensureAbsolutePath, getPort, isDev } from '@modern-js/utils';
+import {
+  ensureAbsolutePath,
+  getPort,
+  isDev,
+  isDevCommand,
+} from '@modern-js/utils';
 import { legacySchema, schema } from '../schema';
-import { isDevCommand } from '../utils/commands';
 import { transformNormalizedConfig } from '../config/initial/transformNormalizedConfig';
 import {
   checkIsLegacyConfig,

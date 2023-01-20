@@ -7,11 +7,19 @@ const mockAppDirectory = path.join(__dirname, './fixtures/index-test');
 const mockSrcDirectory = path.join(mockAppDirectory, './src');
 
 describe('createFileWatcher', () => {
+  const argv = process.argv.slice(0);
+
+  beforeEach(() => {
+    // mock dev command
+    process.argv[2] = 'dev';
+  });
+
   afterAll(() => {
     const file = path.join(mockSrcDirectory, './index.ts');
     if (fs.existsSync(file)) {
       fs.unlinkSync(file);
     }
+    process.argv = argv;
   });
 
   it('will trigger add event', async () => {

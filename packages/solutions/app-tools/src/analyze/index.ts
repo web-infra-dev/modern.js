@@ -6,6 +6,8 @@ import {
   getEntryOptions,
   isApiOnly,
   minimist,
+  getCommand,
+  isDevCommand,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
@@ -13,7 +15,6 @@ import { createBuilderForModern } from '../builder';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
-import { getCommand, isDevCommand } from '../utils/commands';
 import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools } from '../types';
 import { initialNormalizedConfig } from '../config';
