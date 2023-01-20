@@ -1,5 +1,5 @@
-- Type: `Object`
-- Default: `undefined`
+- **类型：** `Object`
+- **默认值：** `undefined`
 
 用于在多页面的场景下，为不同的页面设置不同的 HTML 模板。
 
@@ -7,7 +7,7 @@
 
 `templateByEntries` 的优先级高于 `template`，因此会覆盖 `template` 设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

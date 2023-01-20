@@ -1,5 +1,5 @@
-- Type: `Object` | `Function` | `undefined`
-- Default: `undefined`
+- **Type:** `Object` | `Function` | `undefined`
+- **Default:** `undefined`
 
 `tools.webpack` is used to configure [webpack](https://webpack.js.org/)。
 
@@ -44,7 +44,7 @@ The second parameter of this function is an object that contains some informatio
 
 #### env
 
-- Type: `'development' | 'production' | 'test'`
+- **Type:** `'development' | 'production' | 'test'`
 
 The `env` parameter can be used to determine whether the current environment is development, production or test. For example:
 
@@ -63,7 +63,7 @@ export default {
 
 #### isProd
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 The `isProd` parameter can be used to determine whether the current environment is production. For example:
 
@@ -82,7 +82,7 @@ export default {
 
 #### target
 
-- Type: `'web' | 'node' | 'modern-web' | 'web-worker'`
+- **Type:** `'web' | 'node' | 'modern-web' | 'web-worker'`
 
 The `target` parameter can be used to determine the current target. For example:
 
@@ -101,7 +101,7 @@ export default {
 
 #### isServer
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 Determines whether the target environment is `node`, equivalent to `target === 'node'`.
 
@@ -120,7 +120,7 @@ export default {
 
 #### isWebWorker
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 Determines whether the target environment is `web-worker`, equivalent to `target === 'web-worker'`.
 
@@ -139,7 +139,7 @@ export default {
 
 #### webpack
 
-- Type: `typeof import('webpack')`
+- **Type:** `typeof import('webpack')`
 
 The webpack instance. For example:
 
@@ -156,7 +156,7 @@ export default {
 
 ### HtmlWebpackPlugin
 
-- Type: `typeof import('html-webpack-plugin')`
+- **Type:** `typeof import('html-webpack-plugin')`
 
 The HtmlWebpackPlugin instance:
 
@@ -172,7 +172,7 @@ export default {
 
 ### addRules
 
-- Type: `(rules: RuleSetRule | RuleSetRule[]) => void`
+- **Type:** `(rules: RuleSetRule | RuleSetRule[]) => void`
 
 Add additional [webpack rules](https://webpack.js.org/configuration/module/#modulerules).
 
@@ -206,7 +206,7 @@ export default {
 
 ### prependPlugins
 
-- Type: `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+- **Type:** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
 
 Add additional plugins to the head of the internal webpack plugins array, and the plugin will be executed first.
 
@@ -230,7 +230,7 @@ export default {
 
 ### appendPlugins
 
-- Type: `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+- **Type:** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
 
 Add additional plugins at the end of the internal webpack plugins array, the plugin will be executed last.
 
@@ -254,7 +254,7 @@ export default {
 
 ### removePlugin
 
-- Type: `(name: string) => void`
+- **Type:** `(name: string) => void`
 
 Remove the internal webpack plugin, the parameter is the `constructor.name` of the plugin.
 

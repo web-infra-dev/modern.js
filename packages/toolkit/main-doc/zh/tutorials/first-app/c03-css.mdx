@@ -94,7 +94,7 @@ export default Avatar;
 
 执行 `pnpm run dev`，运行结果应该是一样的。
 
-:::info 注
+:::info
 采用目录形式 `Avatar/index.tsx` 而不是单文件形式 `Avatar.tsx` 的原因是，之后可以方便的在目录内部增加子文件，包括专用的资源（图片等）、专用子组件、CSS 文件等。
 
 :::
@@ -293,7 +293,7 @@ import '../styles/utils.css';
 }
 ```
 
-:::info 注
+:::info
 Modern.js 集成了 [PostCSS](/guides/basic-features/css/postcss)，支持现代 CSS 语法特性，比如 [custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)。
 
 :::
@@ -314,7 +314,7 @@ Modern.js 集成了 [PostCSS](/guides/basic-features/css/postcss)，支持现代
 
 ![design2](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/06/result3.png)
 
-:::info 注
+:::info
 此处只是为了演示 Utility Class 用法。真实项目中，在有 Tailwind CSS 的情况下，这种 Utility Class 没什么价值，应该通过配置 Design System 的 [**theme**](https://tailwindcss.com/docs/customizing-colors) 来增加字体颜色。
 
 `utils.css` 也可以写成 `utils.scss` 或 `utils.less`，Modern.js 对 SCSS 和 Less 同样提供开箱即用的支持。

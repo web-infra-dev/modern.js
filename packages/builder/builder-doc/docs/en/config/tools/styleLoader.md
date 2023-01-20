@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default: `{}`
+- **Type:** `Object | Function`
+- **Default:** `{}`
 
 The config of [style-loader](https://github.com/webpack-contrib/style-loader) can be set through `tools.styleLoader`.
 

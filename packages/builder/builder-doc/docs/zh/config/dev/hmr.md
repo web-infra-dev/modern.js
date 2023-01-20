@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `true`
+- **类型：** `boolean`
+- **默认值：** `true`
 
 是否开启 Hot Module Replacement 热更新能力。
 

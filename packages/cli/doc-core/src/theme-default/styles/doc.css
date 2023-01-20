@@ -283,7 +283,7 @@
 @media (min-width: 640px) {
   .modern-doc div[class*='language-'] {
     border-radius: 8px;
-    margin: 16px 0;
+    margin: 24px 0;
   }
 }
 
@@ -468,7 +468,7 @@
   padding: 16px 20px 8px;
   line-height: 24px;
   font-size: 14px;
-  margin: 16px 0;
+  margin: 24px 0;
 }
 
 .modern-doc .modern-directive .modern-directive-title {

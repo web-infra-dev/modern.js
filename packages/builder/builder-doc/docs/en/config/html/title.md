@@ -1,5 +1,5 @@
-- Type: `string`
-- Default: `undefined`
+- **Type:** `string`
+- **Default:** `undefined`
 
 Set the title tag of the HTML page, for example:
 

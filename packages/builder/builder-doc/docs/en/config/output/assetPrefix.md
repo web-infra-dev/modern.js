@@ -1,5 +1,5 @@
-- Type: `boolean | string`
-- Default: `'/'`
+- **Type:** `boolean | string`
+- **Default:** `'/'`
 
 When using CDN in the production environment, you can use this option to set the URL prefix of static assets, similar to the [output.publicPath](https://webpack.js.org/guides/public-path/) config of webpack.
 
@@ -9,7 +9,7 @@ This config is only used in the production environment. In the development envir
 
 After setting, the URLs of JavaScript, CSS and other static files will be prefixed with `output.assetPrefix`:
 
-#### Example
+### Example
 
 ```js
 export default {

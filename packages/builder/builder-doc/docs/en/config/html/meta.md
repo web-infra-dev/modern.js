@@ -1,5 +1,5 @@
-- Type: `Record<string, false | string | Record<string, string | boolean>>`
-- Default: `undefined`
+- **Type:** `Record<string, false | string | Record<string, string | boolean>>`
+- **Default:** `undefined`
 
 Configure the `<meta>` tag of the HTML.
 

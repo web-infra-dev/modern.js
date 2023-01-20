@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **类型：** `boolean`
+- **默认值：** `false`
 
 是否禁用生产环境下的代码压缩。
 

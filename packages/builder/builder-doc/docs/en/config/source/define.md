@@ -1,5 +1,5 @@
-- Type: `Record<string, unknown>`
-- Default: `{}`
+- **Type:** `Record<string, unknown>`
+- **Default:** `{}`
 
 Replaces variables in your code with other values or expressions at compile time. This can be useful for allowing different behavior between development builds and production builds.
 
@@ -12,7 +12,7 @@ Each key passed into options is an identifier or multiple identifiers joined wit
 
 For more information please visit [https://webpack.js.org/plugins/define-plugin/](https://webpack.js.org/plugins/define-plugin/).
 
-#### Example
+### Example
 
 ```js
 export default {

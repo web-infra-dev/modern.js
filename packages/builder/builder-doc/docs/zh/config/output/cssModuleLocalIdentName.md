@@ -1,5 +1,5 @@
-- Type: `string`
-- Default:
+- **类型：** `string`
+- **默认值：**
 
 ```ts
 // isProd 表示生产环境构建

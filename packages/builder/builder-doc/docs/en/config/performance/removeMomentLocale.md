@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 Whether to remove the locales of [moment.js](https://momentjs.com/).
 

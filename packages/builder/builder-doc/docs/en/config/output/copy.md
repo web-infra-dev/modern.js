@@ -1,5 +1,5 @@
-- Type: `CopyPluginOptions | CopyPluginOptions['patterns']`
-- Default: `undefined`
+- **Type:** `CopyPluginOptions | CopyPluginOptions['patterns']`
+- **Default:** `undefined`
 
 Copies the specified file or directory to the dist directory.
 

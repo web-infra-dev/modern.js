@@ -1,5 +1,5 @@
-- Type: `Array<string | RegExp>`
-- Default: `[]`
+- **类型：** `Array<string | RegExp>`
+- **默认值：** `[]`
 
 指定不需要编译的 JavaScript/TypeScript 文件。用法与 webpack 中的 [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude) 一致，支持传入字符串或正则表达式来匹配模块的路径。
 

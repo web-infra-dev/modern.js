@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default:
+- **类型：** `Object | Function`
+- **默认值：**
 
 ```ts
 type DefaultParameters = {
@@ -50,7 +50,7 @@ export default {
 };
 ```
 
-#### 示例
+### 示例
 
 如果需要在 HTML 模板中使用 `foo` 参数，可以添加如下设置：
 

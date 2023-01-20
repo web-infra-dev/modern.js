@@ -1,5 +1,5 @@
-- Type: `Record<string, string>`
-- Default: `undefined`
+- **Type:** `Record<string, string>`
+- **Default:** `undefined`
 
 Set different favicon for different pages.
 
@@ -7,7 +7,7 @@ The usage is same as `favicon`, and you can use the "entry name" as the key to s
 
 `faviconByEntries` will overrides the value set in `favicon`.
 
-#### Example
+### Example
 
 ```js
 export default {

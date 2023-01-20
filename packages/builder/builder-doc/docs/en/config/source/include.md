@@ -1,5 +1,5 @@
-- Type: `Array<string | RegExp>`
-- Default: `[]`
+- **Type:** `Array<string | RegExp>`
+- **Default:** `[]`
 
 In order to maintain faster compilation speed, Builder will not compile JavaScript/TypeScript files under node_modules through `babel-loader` or `ts-loader` by default, as will as the JavaScript/TypeScript files outside the current project directory.
 

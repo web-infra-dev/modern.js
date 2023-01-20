@@ -2,7 +2,7 @@
 
 该方法会返回一个对象，对象的 key 为 entry 名称，value 为 HTML 文件在产物目录下的相对路径。
 
-- **Type**
+- **类型**
 
 ```ts
 function GetHTMLPaths(): Record<string, string>;

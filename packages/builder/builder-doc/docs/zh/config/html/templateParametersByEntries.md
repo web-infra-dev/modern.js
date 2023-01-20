@@ -1,5 +1,5 @@
-- Type: `Object`
-- Default: `undefined`
+- **类型：** `Object`
+- **默认值：** `undefined`
 
 用于在多页面的场景下，为不同的页面设置不同的模板参数。
 
@@ -7,7 +7,7 @@
 
 `templateParametersByEntries` 的优先级高于 `templateParameters`，因此会覆盖 `templateParameters` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

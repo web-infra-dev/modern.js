@@ -1,5 +1,5 @@
-- Type: `string[] | Record<BuilderTarget, string[]`
-- Default: `undefined`
+- **Type:** `string[] | Record<BuilderTarget, string[]`
+- **Default:** `undefined`
 
 Specifies the range of target browsers that the project is compatible with. This value will be used by [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) and [autoprefixer](https://github.com/postcss/autoprefixer) to identify the JavaScript syntax that need to be transformed and the CSS browser prefixes that need to be added.
 
@@ -17,7 +17,7 @@ If there is no `browserslist` configs defined in the project, nor `overrideBrows
 ['> 0.01%', 'not dead', 'not op_mini all'];
 ```
 
-#### Example
+### Example
 
 An example compatible with mobile scenarios:
 

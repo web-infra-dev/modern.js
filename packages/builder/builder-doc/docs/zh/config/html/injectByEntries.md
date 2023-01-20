@@ -1,5 +1,5 @@
-- Type: `Record<string, boolean | string>`
-- Default: `undefined`
+- **类型：** `Record<string, boolean | string>`
+- **默认值：** `undefined`
 
 用于在多页面的场景下，为不同的页面设置不同的 script 标签插入位置。
 
@@ -7,7 +7,7 @@
 
 `injectByEntries` 的优先级高于 `inject`，因此会覆盖 `inject` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

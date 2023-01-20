@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs-extra';
 
 const tip: Record<string, string> = {
-  zh: '该配置为 Modern.js Builder 配置，详细信息可参考',
-  en: 'This configuration is Modern.js Builder configuration, more detail can see',
+  zh: '该配置由 Modern.js Builder 提供，更多信息可参考',
+  en: 'This config is provided by Modern.js Builder, more detail can see',
 };
 
 export type Summary = {
@@ -19,11 +19,12 @@ const createMarkdown = (summary: Summary, lng: Language) => {
   const langPrefix = lng === 'zh' ? '' : `/${lng}`;
 
   return `---
-title: ${dirname}.${name}
 sidebar_label: ${name}
 ---
 
-:::info BUILDER
+# ${dirname}.${name}
+
+:::tip
 ${
   tip[lng]
 } [${dirname}.${name}](https://modernjs.dev/builder${langPrefix}/api/config-${dirname}.html#${dirname}-${name.toLowerCase()})。

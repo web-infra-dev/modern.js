@@ -11,12 +11,11 @@ Modern.js 中有两种配置，一个是编译时配置，一个是服务端运�
 - `package.json` 文件
 - 根路径下的 `modern.config.t(j)s` 文件
 
-:::warning 注意
-同一个配置不支持同时在 `package.json` 中和 `modern.config.t(j)s` 中配置。推荐在 `modern.config.t(j)s` 中进行配置。
-
+:::info意
+不支持同时在 package.json 中和 modern.config.ts 中配置同一个配置项，推荐优先在 modern.config.ts 中进行配置。如果 Modern.js 检测到重复配置导致的冲突，将会抛出警告。
 :::
 
-服务端运行时配置可以在根路径下的 `modern.server-runtime.config.t(j)s` 自定义配置选项。
+服务端运行时配置可以在根路径下的 `modern.server-runtime.config.t(j)s` 中自定义配置选项。
 
 ## 在配置文件中配置
 

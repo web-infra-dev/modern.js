@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default:
+- **Type:** `Object | Function`
+- **Default:**
 
 ```js
 const defaultOptions = {
@@ -47,7 +47,7 @@ export default {
 
 #### addExcludes
 
-- Type: `(excludes: RegExp | RegExp[]) => void`
+- **Type:** `(excludes: RegExp | RegExp[]) => void`
 
 Used to specify which files `sass-loader` does not compile, You can pass in one or more regular expressions to match the path of sass files, for example:
 

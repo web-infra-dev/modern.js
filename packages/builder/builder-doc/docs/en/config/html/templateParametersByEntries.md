@@ -1,5 +1,5 @@
-- Type: `Object`
-- Default: `undefined`
+- **Type:** `Object`
+- **Default:** `undefined`
 
 Set different template parameters for different pages.
 
@@ -7,7 +7,7 @@ The usage is same as `templateParameters`, and you can use the "entry name" as t
 
 `templateParametersByEntries` will overrides the value set in `templateParameters`.
 
-#### Example
+### Example
 
 ```js
 export default {

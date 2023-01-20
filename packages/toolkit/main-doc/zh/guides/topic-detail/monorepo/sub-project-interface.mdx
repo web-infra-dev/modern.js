@@ -109,7 +109,7 @@ export default App;
 
 到此为止我们创建了一个可以被发布到外部的组件项目、一个转换字符串的内部模块项目以及一个使用组件和内部模块的应用项目，如果直接运行应用项目还暂时无法正常使用。接下来将要介绍如何让它们能够互相联调使用，成功的使应用子项目 `apps/app` 正常运行。
 
-:::info 注
+:::info
 启动 `apps/app` 项目之前需要先构建（`pnpm run build`） `packages/component`。
 
 :::
@@ -130,7 +130,7 @@ pnpm add components
 pnpm add internal-lib -D
 ```
 
-:::info 注
+:::info
 注意这里将 internal-lib 作为 `apps/app` 项目的开发依赖，因为在构建环境会被打包到构建产物中。
 
 :::

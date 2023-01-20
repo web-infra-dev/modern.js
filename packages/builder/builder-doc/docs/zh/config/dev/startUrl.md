@@ -1,5 +1,5 @@
-- Type: `boolean | string | string[] | undefined`
-- Default: `undefined`
+- **类型：** `boolean | string | string[] | undefined`
+- **默认值：** `undefined`
 
 `dev.startUrl` 用于设置 Dev Server 启动时自动在浏览器中打开的页面 URL。
 

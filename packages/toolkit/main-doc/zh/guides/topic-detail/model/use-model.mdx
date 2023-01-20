@@ -111,7 +111,7 @@ const [state, actions] = useModel(
 
 通过 `useStaticModel` 获取 Model ，将 Model 中的状态作为静态状态使用。可以保证组件每次访问到的 Model 的 State 都是最新值，但是 Model 的 State 的变化，并不会引起当前组件的重新渲染。
 
-:::info 注
+:::info
 `useStaticModel` 的使用方式和 `useModel` 完全一致。
 
 :::
@@ -169,7 +169,7 @@ function ThreeComponent() {
 
 通过 `useLocalModel` 获取 Model ，将 Model 中的状态作为局部状态使用。此时 Model State 的变化，只会引起当前组件的重新渲染，但是不会引起其他使用了该 Model 的组件重新渲染。效果和通过 React 的 `useState` 管理状态类似，但是可以将状态的管理逻辑从组件中解耦，统一收敛到 Model 层。
 
-:::info 注
+:::info
 `useLocalModel` 的使用方式和 `useModel` 完全一致。
 
 :::
@@ -241,7 +241,7 @@ setInterval(() => {
 
 完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react)查看。
 
-:::info 注
+:::info
 如果是通过 [`createStore`](/apis/app/runtime/model/create-store) 手动创建的 Store 对象，无需通过 `useStore` 在组件内获取，即可直接使用。
 
 :::

@@ -1,5 +1,5 @@
-- Type: `boolean | string | string[] | undefined`
-- Default: `undefined`
+- **Type:** `boolean | string | string[] | undefined`
+- **Default:** `undefined`
 
 `dev.startUrl` is used to set the URL of the page that automatically opens in the browser when Dev Server starts.
 

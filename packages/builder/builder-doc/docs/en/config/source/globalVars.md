@@ -1,5 +1,5 @@
-- Type: `Record<string, JSONValue>`
-- Default:
+- **Type:** `Record<string, JSONValue>`
+- **Default:**
 
 ```ts
 const defaultGlobalVars = {
@@ -47,7 +47,7 @@ export default {
 };
 ```
 
-#### Example
+### Example
 
 Add the following config to use:
 

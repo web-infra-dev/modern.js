@@ -1,5 +1,5 @@
-- Type: `boolean | string`
-- Default: `'/'`
+- **Type:** `boolean | string`
+- **Default:** `'/'`
 
 Set the URL prefix of static assets in the development environment, similar to the [output.publicPath](https://webpack.js.org/guides/public-path/) config of webpack.
 
