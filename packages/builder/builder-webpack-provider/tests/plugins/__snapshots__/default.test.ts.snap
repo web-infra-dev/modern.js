@@ -674,6 +674,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
+      "showRecompileLog": true,
     },
     ForkTsCheckerWebpackPlugin {
       "options": {
