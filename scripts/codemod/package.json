@@ -1,7 +1,7 @@
 {
   "name": "@scripts/codemod",
   "private": true,
-  "version": "1.22.4",
+  "version": "1.22.5",
   "scripts": {
     "build": "modern build"
   },

@@ -1,5 +1,19 @@
 # @modern-js/server
 
+## 1.22.5
+
+### Patch Changes
+
+- 727ab43: chore(devServer): make hmr client protocol configurable
+
+  chore(devServer): 支持配置 hmr client protocol
+
+- Updated dependencies [cc2d4fc]
+  - @modern-js/prod-server@1.22.5
+  - @modern-js/server-utils@1.22.5
+  - @modern-js/types@1.22.5
+  - @modern-js/utils@1.22.5
+
 ## 1.22.4
 
 ### Patch Changes
