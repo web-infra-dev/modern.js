@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import { logger } from '@modern-js/utils/logger';
 import { bus, createFriendlyPercentage } from './helpers';
 import prettyTime from '../../../compiled/pretty-time';
 import { createNonTTYLogger } from './helpers/non-tty';
@@ -8,6 +9,7 @@ export interface ProgressOptions
   extends Omit<Partial<Props>, 'message' | 'total' | 'current' | 'done'> {
   id?: string;
   clearOnDone?: boolean;
+  showRecompileLog?: boolean;
 }
 
 export class ProgressPlugin extends webpack.ProgressPlugin {
@@ -17,8 +19,14 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
 
   compileTime: string | null = null;
 
+  showRecompileLog: boolean;
+
   constructor(options: ProgressOptions) {
-    const { id = 'Modern', clearOnDone = false } = options;
+    const {
+      id = 'Modern',
+      clearOnDone = false,
+      showRecompileLog = false,
+    } = options;
 
     const nonTTYLogger = createNonTTYLogger();
     const friendlyPercentage = createFriendlyPercentage();
@@ -62,16 +70,24 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
         }
       },
     });
+
+    this.showRecompileLog = showRecompileLog;
   }
 
   apply(compiler: webpack.Compiler): void {
     super.apply(compiler);
 
     let startTime: [number, number] | null = null;
+    let isReCompile = false;
 
     compiler.hooks.compile.tap(this.name, () => {
+      if (isReCompile && this.showRecompileLog) {
+        logger.info(`Recompiling...\n`);
+      }
+
       this.compileTime = null;
       startTime = process.hrtime();
+      isReCompile = true;
     });
 
     compiler.hooks.done.tap(this.name, stat => {
