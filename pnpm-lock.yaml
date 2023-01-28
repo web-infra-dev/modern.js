@@ -2101,6 +2101,7 @@ importers:
       '@types/node': ^14
       '@types/react-loadable': ^5.5.6
       '@types/testing-library__jest-dom': ^5.14.3
+      change: ^0.0.0
       debug: ^4.3.2
       garfish: ^1.8.1
       hoist-non-react-statics: ^3.3.2
@@ -2117,6 +2118,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@types/debug': 4.1.7
       '@types/react-loadable': 5.5.6
+      change: 0.0.0
       debug: 4.3.4
       garfish: 1.8.1
       hoist-non-react-statics: 3.3.2
@@ -14583,8 +14585,10 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -16244,6 +16248,10 @@ packages:
   /chan/0.6.1:
     resolution: {integrity: sha512-/TdBP2UhbBmw7qnqkzo9Mk4rzvwRv4dlNPXFerqWy90T8oBspKagJNZxrDbExKHhx9uXXHjo3f9mHgs9iKO3nQ==}
     dev: true
+
+  /change/0.0.0:
+    resolution: {integrity: sha512-uwls3M+xfdh1fvgsPC23+NPjB80LeAZwNhZex3txyva2yZIv/6XXkK0yd44ZKKodRFFH0OGLljBr8VmQVxQCdQ==}
+    dev: false
 
   /char-regex/1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
@@ -30256,7 +30264,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
