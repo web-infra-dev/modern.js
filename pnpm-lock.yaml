@@ -2101,7 +2101,6 @@ importers:
       '@types/node': ^14
       '@types/react-loadable': ^5.5.6
       '@types/testing-library__jest-dom': ^5.14.3
-      change: ^0.0.0
       debug: ^4.3.2
       garfish: ^1.8.1
       hoist-non-react-statics: ^3.3.2
@@ -2118,7 +2117,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@types/debug': 4.1.7
       '@types/react-loadable': 5.5.6
-      change: 0.0.0
       debug: 4.3.4
       garfish: 1.8.1
       hoist-non-react-statics: 3.3.2
@@ -16248,10 +16246,6 @@ packages:
   /chan/0.6.1:
     resolution: {integrity: sha512-/TdBP2UhbBmw7qnqkzo9Mk4rzvwRv4dlNPXFerqWy90T8oBspKagJNZxrDbExKHhx9uXXHjo3f9mHgs9iKO3nQ==}
     dev: true
-
-  /change/0.0.0:
-    resolution: {integrity: sha512-uwls3M+xfdh1fvgsPC23+NPjB80LeAZwNhZex3txyva2yZIv/6XXkK0yd44ZKKodRFFH0OGLljBr8VmQVxQCdQ==}
-    dev: false
 
   /char-regex/1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
