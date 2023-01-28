@@ -88,8 +88,8 @@ export const builderPluginAdapterModern = <B extends Bundler>(
       }
 
       // apply node compat
-      if (target === 'node') {
-        applyNodeCompat(chain, normalizedConfig, isProd);
+      if (target === 'node' || target === 'web-worker') {
+        applyNodeCompat(target, chain, normalizedConfig, isProd);
       }
 
       if (isHtmlEnabled(builderConfig, target)) {
@@ -218,15 +218,15 @@ function applyAsyncChunkHtmlPlugin({
 }
 
 /**
- * compat some config, if target is `node`
+ * compat some config, if target is `node` or `worker`
  */
 function applyNodeCompat(
+  target: 'node' | 'web-worker',
   chain: BundlerChain,
   modernConfig: AppNormalizedConfig<'shared'>,
   isProd: boolean,
 ) {
-  // apply node resolve extensions
-  for (const ext of [
+  let exts = [
     '.node.js',
     '.node.jsx',
     '.node.ts',
@@ -235,7 +235,12 @@ function applyNodeCompat(
     '.server.ts',
     '.server.ts',
     '.server.tsx',
-  ]) {
+  ];
+  if (target === 'web-worker') {
+    exts = ['.worker.js', '.worker.jsx', '.worker.ts', '.worker.tsx', ...exts];
+  }
+  // apply node resolve extensions
+  for (const ext of exts) {
     chain.resolve.extensions.prepend(ext);
   }
 
