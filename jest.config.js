@@ -30,6 +30,9 @@ module.exports = {
   resolver: '<rootDir>/jest.resolver.js',
   rootDir: __dirname,
   testTimeout: 15 * 1000,
+  transformIgnorePatterns: [
+    '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
+  ],
   testMatch: [
     '<rootDir>/packages/**/src/**/*.test.[jt]s?(x)',
     '<rootDir>/packages/**/tests/**/*.test.[jt]s?(x)',

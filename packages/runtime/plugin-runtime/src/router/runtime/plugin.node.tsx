@@ -146,3 +146,7 @@ export const routerPlugin = ({
     },
   };
 };
+
+export const modifyRoutes = () => {
+  // empty
+};

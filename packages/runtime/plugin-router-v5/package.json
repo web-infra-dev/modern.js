@@ -24,7 +24,6 @@
     },
     "./runtime": {
       "jsnext:source": "./src/runtime/index.ts",
-      "node": "./dist/js/node/runtime/index.js",
       "default": "./dist/js/treeshaking/runtime/index.js"
     },
     "./cli": {

@@ -48,15 +48,10 @@
     },
     "./deps": {
       "jsnext:source": "./src/deps/index.ts",
-      "node": "./dist/js/node/deps/index.js",
       "default": "./dist/js/treeshaking/deps/index.js"
     },
     "./runtime": {
-      "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
-      },
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/js/treeshaking/runtime/index.js"
     }
   },

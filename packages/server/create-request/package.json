@@ -24,11 +24,7 @@
   ],
   "exports": {
     ".": {
-      "node": {
-        "jsnext:source": "./src/node.ts",
-        "import": "./dist/js/modern/node.js",
-        "require": "./dist/js/node/node.js"
-      },
+      "node": "./dist/js/treeshaking/node.js",
       "default": "./dist/js/treeshaking/browser.js"
     },
     "./client": {
