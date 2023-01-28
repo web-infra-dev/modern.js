@@ -69,7 +69,10 @@ export const isSSR = (config: any): boolean => {
 };
 
 export const isUseSSRBundle = (config: any): boolean => {
-  const { output } = config;
+  const { output, server } = config;
+  if (server.worker) {
+    return false;
+  }
   if (output?.ssg) {
     return true;
   }
@@ -84,9 +87,9 @@ export const isUseSSRBundle = (config: any): boolean => {
  * @returns Whether to use worker deploy.
  */
 export const isWorker = (config: any): boolean => {
-  const { server } = config;
+  const { output, server } = config;
 
-  if (server?.worker) {
+  if (server?.worker && (output?.ssg || isSSR(config))) {
     return true;
   }
 
