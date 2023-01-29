@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Header, NormalizedSidebarGroup, SidebarItem } from 'shared/types';
+import { routes } from 'virtual-routes';
 import { useSidebarData } from '../../logic';
 import { Link } from '../Link';
 import { isEqualPath } from '../../logic/utils';
@@ -18,12 +19,11 @@ interface Group {
 }
 
 export function Overview() {
-  const { siteData, routePath } = usePageData();
-  const { pages } = siteData;
-  const overviewPageModules = pages.filter(
-    page =>
-      page.routePath.startsWith(routePath.replace(/overview$/, '')) &&
-      page.routePath !== routePath,
+  const { routePath } = usePageData();
+  const overviewRoutes = routes.filter(
+    route =>
+      route.path.startsWith(routePath.replace(/overview$/, '')) &&
+      route.path !== routePath,
   );
   const { items: overviewSidebarGroups } = useSidebarData() as {
     items: (NormalizedSidebarGroup | SidebarItem)[];
@@ -35,8 +35,8 @@ export function Overview() {
         name: sidebarGroup.text || '',
         items: (sidebarGroup as NormalizedSidebarGroup).items.map(
           (item: NormalizedSidebarGroup | SidebarItem) => {
-            const pageModule = overviewPageModules.find(m =>
-              isEqualPath(m.routePath, withBase(item.link || '')),
+            const pageModule = overviewRoutes.find(m =>
+              isEqualPath(m.path, withBase(item.link || '')),
             );
             const getChildLink = (
               traverseItem: SidebarItem | NormalizedSidebarGroup,
