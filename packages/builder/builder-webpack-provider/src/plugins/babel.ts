@@ -14,8 +14,11 @@ import {
 
 import type { WebpackChain, BuilderPlugin, NormalizedConfig } from '../types';
 
-const enableCoreJsEntry = (config: NormalizedConfig, isServer: boolean) =>
-  config.output.polyfill === 'entry' && !isServer;
+const enableCoreJsEntry = (
+  config: NormalizedConfig,
+  isServer: boolean,
+  isWebWorker: boolean,
+) => config.output.polyfill === 'entry' && !isServer && !isWebWorker;
 
 export const getUseBuiltIns = (config: NormalizedConfig) => {
   const { polyfill } = config.output;
@@ -58,7 +61,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
     api.modifyWebpackChain(
       async (
         chain,
-        { CHAIN_ID, getCompiledPath, target, isProd, isServer },
+        { CHAIN_ID, getCompiledPath, target, isProd, isServer, isWebWorker },
       ) => {
         const { applyOptionsChain, isUseSSRBundle } = await import(
           '@modern-js/utils'
@@ -115,10 +118,11 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             configFile: false,
             compact: isProd,
             ...getBabelConfig({
-              target: isServer ? 'server' : 'client',
+              target: isServer || isWebWorker ? 'server' : 'client',
               appDirectory,
               useLegacyDecorators: !config.output.enableLatestDecorators,
-              useBuiltIns: isServer ? false : getUseBuiltIns(config),
+              useBuiltIns:
+                isServer || isWebWorker ? false : getUseBuiltIns(config),
               chain: createBabelChain(),
               styledComponents: styledComponentsOptions,
               userBabelConfig: config.tools.babel,
@@ -179,7 +183,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             .options(babelOptions);
         }
 
-        addCoreJsEntry({ chain, config, isServer });
+        addCoreJsEntry({ chain, config, isServer, isWebWorker });
       },
     );
   },
@@ -190,12 +194,14 @@ export function addCoreJsEntry({
   chain,
   config,
   isServer,
+  isWebWorker,
 }: {
   chain: WebpackChain;
   config: NormalizedConfig;
   isServer: boolean;
+  isWebWorker: boolean;
 }) {
-  if (enableCoreJsEntry(config, isServer)) {
+  if (enableCoreJsEntry(config, isServer, isWebWorker)) {
     const entryPoints = Object.keys(chain.entryPoints.entries() || {});
     const coreJsEntry = createVirtualModule('import "core-js";');
 

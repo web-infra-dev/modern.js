@@ -8,7 +8,7 @@ import { DEFAULT_PORT } from '../constants';
 import { addTrailingSlash } from '../utils';
 
 export function applyBuilderOutputPlugin(api: SharedBuilderPluginAPI) {
-  api.modifyBundlerChain(async (chain, { isProd, isServer }) => {
+  api.modifyBundlerChain(async (chain, { isProd, isServer, isWebWorker }) => {
     const config = api.getNormalizedConfig();
     const jsPath = getDistPath(config.output, 'js');
 
@@ -34,7 +34,7 @@ export function applyBuilderOutputPlugin(api: SharedBuilderPluginAPI) {
       // which will be used as default when experiments.futureDefaults is enabled.
       .hashFunction('xxhash64');
 
-    if (isServer) {
+    if (isServer || isWebWorker) {
       const serverPath = getDistPath(config.output, 'server');
       const filename = `${serverPath}/[name].js`;
 

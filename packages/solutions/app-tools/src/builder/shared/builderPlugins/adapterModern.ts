@@ -81,6 +81,8 @@ export const builderPluginAdapterModern = <B extends Bundler>(
       // set bundler config name
       if (target === 'node') {
         chain.name('server');
+      } else if (target === 'web-worker') {
+        chain.name('worker');
       } else if (target === 'modern-web') {
         chain.name('modern');
       } else {
@@ -108,7 +110,7 @@ export const builderPluginAdapterModern = <B extends Bundler>(
         });
       }
 
-      if (target !== 'node') {
+      if (target !== 'node' && target !== 'web-worker') {
         const bareServerModuleReg = /\.(server|node)\.[tj]sx?$/;
         chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(bareServerModuleReg);
         chain.module

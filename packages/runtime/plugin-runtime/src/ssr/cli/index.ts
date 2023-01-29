@@ -62,7 +62,10 @@ export default (): CliPlugin<AppTools> => ({
             },
           },
           tools: {
-            webpackChain: (chain, { name, isServer, CHAIN_ID }) => {
+            webpackChain: (
+              chain,
+              { name, isServer, isWebWorker, CHAIN_ID },
+            ) => {
               const userConfig = api.useResolvedConfigContext();
 
               if (
@@ -82,7 +85,7 @@ export default (): CliPlugin<AppTools> => ({
               // add environment variables to determine the node/browser
               const modernVars = {
                 [`process.env.MODERN_TARGET`]: JSON.stringify(
-                  isServer ? 'node' : 'browser',
+                  isServer || isWebWorker ? 'node' : 'browser',
                 ),
               };
               chain.plugin(CHAIN_ID.PLUGIN.DEFINE).tap(args => {
