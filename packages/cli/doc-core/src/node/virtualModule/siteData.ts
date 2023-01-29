@@ -195,6 +195,7 @@ export async function createSiteDataVirtualModulePlugin(
       pages: pages.map(({ routePath, toc }) => ({
         routePath,
         toc,
+<<<<<<< HEAD
       })),
     };
     await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
@@ -204,6 +205,41 @@ export async function createSiteDataVirtualModulePlugin(
     );
   }
 
+=======
+        // Stripped frontmatter content
+        content,
+        frontmatter: {
+          ...frontmatter,
+          __content: undefined,
+        },
+      };
+    }),
+  );
+  const siteData: SiteData = {
+    title: userConfig?.title || '',
+    description: userConfig?.description || '',
+    icon: userConfig?.icon || '',
+    themeConfig: normalizeThemeConfig(
+      userConfig?.themeConfig || {},
+      pages,
+      config.doc?.base,
+      config.doc?.replaceRules || [],
+    ),
+    base: userConfig?.base || '/',
+    root: userRoot,
+    lang: userConfig?.lang || 'zh',
+    logo: userConfig?.logo || '',
+    pages: pages.map(({ routePath, toc }) => ({
+      routePath,
+      toc,
+    })),
+  };
+  await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
+  await fs.writeFile(
+    path.join(userRoot, PUBLIC_DIR, 'search_index.json'),
+    JSON.stringify(pages),
+  );
+>>>>>>> 1a98f72261 (fix: toc not work in overview page)
   const plugin = new VirtualModulesPlugin({
     [entryPath]: `export default ${JSON.stringify(siteData)}`,
   });
