@@ -8,7 +8,21 @@ sidebar_position: 6
 
 ## 先决条件和约定
 
-想要使用项目的测试功能，需要确保项目中包含依赖：`"@modern-js/plugin-testing"` ,可以通过[modern new](/guide/basic/command-preview#modern-new)来完成。
+想要使用项目的测试功能，需要确保项目中包含依赖：`"@modern-js/plugin-testing"`，以及按照类似下面的内容进行配置：
+
+``` ts
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import testPlugin from '@modern-js/plugin-testing';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    testPlugin(),
+  ],
+});
+```
+
+可以通过执行 [`modern new`](/guide/basic/command-preview#modern-new) 命令来开启测试功能。
 
 在模块工程方案中，对于测试用例或者说编写测试的文件有如下约定：
 
@@ -18,7 +32,7 @@ sidebar_position: 6
 
 ## 运行测试
 
-当准备好了依赖以及了解了测试用例在哪里编写后，我们可以通过以下命令来执行测试：
+当准备好了依赖、增加了相关配置以及了解了测试用例在哪里编写后，我们可以通过以下命令来执行测试：
 
 ```bash
 modern test
@@ -33,7 +47,6 @@ modern test --updateSnapshot
 
 ## 使用配置
 
-/obj/eden-cn/uhbfnupenuhf/test-result.png
 模块工程方案对测试提供了以下配置：
 
 - [`testing`](/api/config/testing)
@@ -68,7 +81,7 @@ export default function () {
 
 然后在测试文件中，我们可以这样。
 
-其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 中定义了。
+其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。
 
 ```typescript ./tests/index.test.ts
 import main from '@/index';
@@ -132,7 +145,7 @@ export const default () {
 
 然后在测试文件中，我们可以这样。
 
-其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 中定义了。
+其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。
 
 ```tsx ./tests/index.test.tsx
 import { render, screen } from '@modern-js/runtime/testing';
