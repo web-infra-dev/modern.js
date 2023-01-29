@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Header, NormalizedSidebarGroup, SidebarItem } from 'shared/types';
+import { routes } from 'virtual-routes';
 import { useSidebarData } from '../../logic';
 import { Link } from '../Link';
 import { isEqualPath } from '../../logic/utils';
@@ -18,12 +19,20 @@ interface Group {
 }
 
 export function Overview() {
+<<<<<<< HEAD
   const { routePath, siteData } = usePageData();
   const { pages } = siteData;
   const overviewModules = pages.filter(
     page =>
       page.routePath.startsWith(routePath.replace(/overview$/, '')) &&
       page.routePath !== routePath,
+=======
+  const { routePath } = usePageData();
+  const overviewRoutes = routes.filter(
+    route =>
+      route.path.startsWith(routePath.replace(/overview$/, '')) &&
+      route.path !== routePath,
+>>>>>>> 1627c4b123 (fix: overview error)
   );
   const { items: overviewSidebarGroups } = useSidebarData() as {
     items: (NormalizedSidebarGroup | SidebarItem)[];
@@ -35,8 +44,13 @@ export function Overview() {
         name: sidebarGroup.text || '',
         items: (sidebarGroup as NormalizedSidebarGroup).items.map(
           (item: NormalizedSidebarGroup | SidebarItem) => {
+<<<<<<< HEAD
             const pageModule = overviewModules.find(m =>
               isEqualPath(m.routePath, withBase(item.link || '')),
+=======
+            const pageModule = overviewRoutes.find(m =>
+              isEqualPath(m.path, withBase(item.link || '')),
+>>>>>>> 1627c4b123 (fix: overview error)
             );
             const getChildLink = (
               traverseItem: SidebarItem | NormalizedSidebarGroup,
