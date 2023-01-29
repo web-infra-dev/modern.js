@@ -23,6 +23,7 @@ export interface Header {
   text: string;
   depth: number;
 }
+
 export interface SiteSiteData {
   title: string;
   description: string;
@@ -107,6 +108,10 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   icon: string;
   themeConfig: ThemeConfig;
   logo: string;
+  pages: {
+    routePath: string;
+    toc: Header[];
+  }[];
 }
 
 export interface PageBasicInfo {
