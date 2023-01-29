@@ -16,7 +16,7 @@ interface RouteAssets {
   };
 }
 
-export default class RouterPlugin {
+export class RouterPlugin {
   apply(compiler: Compiler) {
     const { target } = compiler.options;
     if (

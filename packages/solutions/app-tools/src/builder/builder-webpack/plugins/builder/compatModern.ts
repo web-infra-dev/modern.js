@@ -12,16 +12,18 @@ import type {
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 import { getEntryOptions, ChainIdentifier } from '@modern-js/utils';
+import { BuilderOptions, createCopyPattern } from '../../../shared';
+import {
+  HtmlAsyncChunkPlugin,
+  BottomTemplatePlugin,
+  RouterPlugin,
+} from '../webpack';
 import type {
   IAppContext,
   SSGMultiEntryOptions,
   ServerUserConfig,
   AppNormalizedConfig,
-} from '../../../types';
-import { BottomTemplatePlugin } from '../webpackPlugins/htmlBottomTemplate';
-import { HtmlAsyncChunkPlugin } from '../webpackPlugins/htmlAsyncChunkPlugin';
-import { BuilderOptions, createCopyPattern } from '../../shared';
-import RouterPlugin from '../webpackPlugins/routerPlugin';
+} from '@/types';
 
 type Parameter<T extends (arg: any) => void> = Parameters<T>[0];
 type FnParameter<

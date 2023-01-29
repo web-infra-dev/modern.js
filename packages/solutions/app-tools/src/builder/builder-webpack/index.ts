@@ -7,7 +7,7 @@ import type { IAppContext } from '@modern-js/core';
 import { applyOptionsChain } from '@modern-js/utils';
 import { BuilderOptions, createCopyPattern } from '../shared';
 import { generateBuilder } from '../generator';
-import { PluginCompatModern } from './builderPlugins/compatModern';
+import { PluginCompatModern } from './plugins/builder/compatModern';
 import type { AppNormalizedConfig } from '@/types';
 
 export function createWebpackBuilderForModern(

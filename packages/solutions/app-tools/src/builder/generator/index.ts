@@ -10,7 +10,7 @@ import { getBuilderTargets } from './getBuilderTargets';
 import { createBuilderOptions } from './createBuilderOptions';
 import { Bundler } from '@/types';
 
-export type GenerateProvider = (o: { builderConfig: any }) => BuilderProvider;
+export type GenerateProvider = (c: { builderConfig: any }) => BuilderProvider;
 
 export async function generateBuilder<B extends Bundler>(
   options: BuilderOptions<B>,
@@ -22,6 +22,7 @@ export async function generateBuilder<B extends Bundler>(
 ) {
   const { normalizedConfig, appContext } = options;
   const { modifyBuilderConfig, modifyBuilderInstance } = utils;
+
   // create provider
   const builderConfig = createBuilderProviderConfig<B>(
     normalizedConfig,
