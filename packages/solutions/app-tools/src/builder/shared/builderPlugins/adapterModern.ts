@@ -228,7 +228,7 @@ function applyNodeCompat(
   modernConfig: AppNormalizedConfig<'shared'>,
   isProd: boolean,
 ) {
-  const exts = [
+  const nodeExts = [
     '.node.js',
     '.node.jsx',
     '.node.ts',
@@ -238,12 +238,21 @@ function applyNodeCompat(
     '.server.ts',
     '.server.tsx',
   ];
-  if (target === 'web-worker') {
-    exts.unshift('.worker.js', '.worker.jsx', '.worker.ts', '.worker.tsx');
-  }
+  const webWorkerExts = [
+    '.worker.js',
+    '.worker.jsx',
+    '.worker.ts',
+    '.worker.tsx',
+  ];
   // apply node resolve extensions
-  for (const ext of exts) {
+  for (const ext of nodeExts) {
     chain.resolve.extensions.prepend(ext);
+  }
+
+  if (target === 'web-worker') {
+    for (const ext of webWorkerExts) {
+      chain.resolve.extensions.prepend(ext);
+    }
   }
 
   // apply filterEntriesBySSRConfig
