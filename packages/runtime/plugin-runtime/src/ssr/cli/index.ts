@@ -14,6 +14,7 @@ import type {
   CliPlugin,
   AppTools,
 } from '@modern-js/app-tools';
+import type { RouterConfig } from '../../router';
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
@@ -134,7 +135,9 @@ export default (): CliPlugin<AppTools> => ({
             userConfig.runtimeByEntries,
             packageName,
           );
-          if (runtimeConfig?.router?.mode === 'react-router-5') {
+          if (
+            (runtimeConfig?.router as RouterConfig)?.mode === 'react-router-5'
+          ) {
             throw new Error(
               `router v5 plugin doesn't support streaming SSR, check your config 'runtime.router'`,
             );
