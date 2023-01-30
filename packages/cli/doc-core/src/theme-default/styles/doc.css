@@ -491,6 +491,7 @@
 .modern-doc .modern-directive code {
   color: inherit;
   font-weight: bold;
+  font-size: 13px;
 }
 
 .modern-doc .modern-directive.tip,
