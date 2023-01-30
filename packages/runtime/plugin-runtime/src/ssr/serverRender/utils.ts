@@ -1,4 +1,4 @@
-import { ChunkExtractor } from '@loadable/server';
+import type { ChunkExtractor } from '@loadable/server';
 
 export function getLoadableScripts(extractor: ChunkExtractor) {
   const check = (scripts: string) =>

@@ -55,6 +55,7 @@
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
       "node": "./dist/js/treeshaking/ssr/index.node.js",
+      "worker": "./dist/js/treeshaking/ssr/index.node.js",
       "default": "./dist/js/treeshaking/ssr/index.js"
     },
     "./model": {
