@@ -8,11 +8,13 @@
   border-top: 0;
 }
 
-.suggestionItem:hover {
+.suggestionItem:hover,
+.suggestionItem.focus {
   background: var(--modern-c-white-mute);
 }
 
-:global(.dark) .suggestionItem:hover {
+:global(.dark) .suggestionItem:hover,
+.suggestionItem.focus {
   background: var(--modern-c-black-mute);
 }
 

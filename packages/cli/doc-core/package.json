@@ -101,7 +101,6 @@
     "react": ">=17"
   },
   "devDependencies": {
-    "@mdx-js/loader": "^2.1.5",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
