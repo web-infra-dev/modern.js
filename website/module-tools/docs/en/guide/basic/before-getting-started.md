@@ -176,24 +176,14 @@ export default defineConfig({
 });
 ```
 
-```js
-// modern.config.js
+**We recommend using the `defineConfig` function**, but it is not mandatory to use it. So you can also return an object directly in the config file: the
+
+``` ts
+// modern.config.ts
 import moduleTools from '@modern-js/module-tools';
 
 export default {
   plugins: [moduleTools()],
   buildPreset: 'npm-library',
 };
-```
-
-**We recommend using the `defineConfig` function**, but it is not mandatory to use it. So you can also return an object directly in the config file: the
-
-```typescript
-// modern.config.ts
-export default {};
-```
-
-```js
-// modern.config.js
-export default {};
 ```

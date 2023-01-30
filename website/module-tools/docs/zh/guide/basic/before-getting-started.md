@@ -176,24 +176,14 @@ export default defineConfig({
 });
 ```
 
-```js
-// modern.config.js
+**我们推荐使用 `defineConfig` 函数**，不过并不强制使用它。因此你也可以在配置文件中直接返回一个对象：
+
+```ts
+// modern.config.ts
 import moduleTools from '@modern-js/module-tools';
 
 export default {
   plugins: [moduleTools()],
   buildPreset: 'npm-library',
 };
-```
-
-**我们推荐使用 `defineConfig` 函数**，不过并不强制使用它。因此你也可以在配置文件中直接返回一个对象：
-
-```typescript
-// modern.config.ts
-export default {};
-```
-
-```js
-// modern.config.js
-export default {};
 ```
