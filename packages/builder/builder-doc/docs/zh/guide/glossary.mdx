@@ -2,13 +2,13 @@
 
 ## Bundler
 
-指 `webpack`、`turbopack`、`rspack` 等模块打包工具。
+指 `webpack`、`Rspack` 等模块打包工具。
 
 打包工具的主要目标是将 JavaScript、CSS 等文件打包在一起，打包后的文件可以在浏览器、Node.js 等环境中使用。当 Bundler 处理 Web 应用时，它会构建一个依赖关系图，其中包含应用需要的各个模块，然后将所有模块打包成一个或多个 bundle。
 
 ## Rspack
 
-字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现，并对社区常用的构建能力做了开箱即用的支持。从长期来看，rspack 会对齐 webpack 的主要 API，兼容主流的 webpack loader 与 plugin 生态，以保证开发者可以平滑地从 webpack 迁移到 rspack。
+字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现，并对社区常用的构建能力做了开箱即用的支持。从长期来看，Rspack 会对齐 webpack 的主要 API，兼容主流的 webpack loader 与 plugin 生态，以保证开发者可以平滑地从 webpack 迁移到 Rspack。
 
 Rspack 通过以下方式来提升编译性能：
 
@@ -39,7 +39,7 @@ Builder Provider 是 Builder 的组成部分之一，Provider 基于特定 bundl
 目前 Builder 提供了两个 Provider：
 
 - `@modern-js/builder-webpack-provider`：底层基于 webpack 来实现。
-- `@modern-js/builder-rspack-provider`：底层基于 rspack 来实现。
+- `@modern-js/builder-rspack-provider`：底层基于 Rspack 来实现。
 
 ## {MODERN_JS}
 

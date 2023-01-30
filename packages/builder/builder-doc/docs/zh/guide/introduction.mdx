@@ -10,8 +10,6 @@ Modern.js Builder 是**一个面向 Web 开发场景的构建引擎**。
 
 近年来，前端工具链的发展趋势是使用 Rust 等编程语言重新实现 —— 以获得更好的性能表现。社区中出现 [SWC](https://swc.rs/)、[esbuild](https://github.com/evanw/esbuild)、[Turbopack](https://turbo.build/pack) 等高性能工具，并且应用领域在逐步扩宽。但这些 Rust 工具与 JavaScript 工具之间存在较多差异，包括功能不完整、配置不一致等，导致使用者需要承担一定的迁移成本。
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/rust-tools-11175.png" />
-
 前端工具链 Rust 化的进程还会持续较长一段时间，**Modern.js Builder 期望能帮助开发者更好地过渡到 Rust 工具**。不管是 JavaScript 工具，还是 Rust 工具，甚至是 webpack 等底层 bundler，在 Modern.js Builder 中都是可替换的零部件。你可以通过开启配置或启用插件的方式，对这些零部件进行渐进式替换，Modern.js Builder 会抹平其中的主要差异，帮助使用者进行低成本迁移。
 
 ## 定位
@@ -40,15 +38,9 @@ Modern.js Builder (简称 Builder) 的定位是**服务于上层框架的构建�
 
 默认情况下，Builder 使用 webpack 5 作为打包工具，尽管 webpack 的编译速度不是很理想，但它依然是社区中功能最完整、生态最丰富的打包工具。Builder 在 webpack 的基础上，集成了 [babel](https://github.com/babel/babel)、[postcss](https://github.com/postcss/postcss)、[terser](https://github.com/terser/terser) 等工具进行代码转义和压缩。Builder 也支持替换部分编译能力为原生工具来提升编译速度，比如将 babel/terser 替换为 [swc](https://github.com/swc-project/swc) 或 [esbuild](https://github.com/evanw/esbuild)。
 
-除了 webpack 打包，Builder 也正在对接**字节跳动 Web Infra 团队自研的 Rust Bundler —— rspack**，以提供更快的编译速度。
+除了 webpack 打包，Builder 也正在对接**字节跳动 Web Infra 团队自研的 Rust Bundler —— Rspack**，以提供更快的编译速度。
 
-目前，Builder 基于 webpack 的构建已经成熟可用，基于 rspack 的构建仍在开发过程中，敬请期待。
-
-:::tip 关于 Turbopack
-尽管 Builder 已经在对接 rspack，对于 webpack 的继任者 —— [Turbopack](https://turbo.build/pack)，我们也会持续关注它后续的发展情况。
-
-目前 Turbopack 仅支持在 Next.js 中使用，当 Turbopack 支持独立使用，并且完成度和社区生态达到一定水平时，我们会考虑进行接入。
-:::
+目前，Builder 基于 webpack 的构建已经成熟可用，基于 Rspack 的构建仍在开发过程中，敬请期待。
 
 ### 深度优化构建产物
 
@@ -75,7 +67,7 @@ Builder 已发布的 npm 包有：
 | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- | ---------------------- |
 | [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                             | ![](https://img.shields.io/npm/v/@modern-js/builder?style=flat-square)                       | Builder 核心包         |
 | [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)           | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider?style=flat-square)      | 提供 webpack 构建能力  |
-| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)             | ![](https://img.shields.io/npm/v/@modern-js/builder-rspack-provider?style=flat-square)       | 提供 rspack 构建能力   |
+| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)             | ![](https://img.shields.io/npm/v/@modern-js/builder-rspack-provider?style=flat-square)       | 提供 Rspack 构建能力   |
 | [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                       | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc?style=flat-square)            | SWC 插件               |
 | [@modern-js/builder-plugin-stylus](https://www.npmjs.com/package/@modern-js/builder-plugin-stylus)                 | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-stylus?style=flat-square)         | Stylus 插件            |
 | [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)               | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild?style=flat-square)        | Esbuild 插件           |
