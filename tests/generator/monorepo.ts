@@ -25,6 +25,15 @@ async function createAllMonorepoProject(
         cwd,
         config,
       });
+      const pkgJSON = fs.readJSONSync(
+        path.join(cwd, projectName, 'package.json'),
+      );
+      pkgJSON.engines = {
+        node: process.env.NODE_VERSION,
+      };
+      fs.writeJSONSync(path.join(cwd, projectName, 'package.json'), pkgJSON, {
+        spaces: 2,
+      });
     });
   }
 }

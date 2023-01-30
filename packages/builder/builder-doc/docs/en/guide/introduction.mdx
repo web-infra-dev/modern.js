@@ -10,8 +10,6 @@ In order to reduce the complexity and make it easier to build a project, we abst
 
 In recent years, the trend in front-end toolchain has been to re-implement them with native programming languages like Rust for better performance. Some high-performance tools have created, such as [SWC](https://swc.rs/), [esbuild](https://github.com/evanw/esbuild), [Turbopack](https://turbo.build/pack), etc., and their use is gradually expanding. However, there are many differences between these Rust tools and JavaScript tools, including functional differences, configuration inconsistencies, which make it difficult for users to migrate.
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/rust-tools-11175.png" />
-
 The Rust process of the front-end toolchain will continue for a long time, **Modern.js Builder is expected to help developers better transition to Rust tools**. Whether it's JavaScript tools, Rust tools, or even low-level bundlers like webpack, they're all replaceable components in Modern.js Builder. You can incrementally replace these components by turning on configuration or enabling plugins, and Modern.js Builder will smooth out the major differences and help users migrate.
 
 ## Position
@@ -40,13 +38,9 @@ Currently, the following front-end frameworks are already using Builder:
 
 By default, Builder uses webpack 5 as the bundler. Although the compilation speed of webpack is not ideal, it is still the most mature and ecological bundler in the community. Based on webpack, Builder integrates [babel](https://github.com/babel/babel), [postcss](https://github.com/postcss/postcss), [terser](https://github.com/terser/terser) and other tools to transform or minify codes. Builder also supports replacing some compile tools with native tools to improve compilation speed, such as replacing babel/terser with [swc](https://github.com/swc-project/swc) or [esbuild](https://github.com/evanw/esbuild).
 
-At the same time, We are integrating rspack to improve compilation speed, rspack is a Rust Bundler developed by ByteDance.
+At the same time, We are integrating Rspack to improve compilation speed, Rspack is a Rust Bundler developed by ByteDance.
 
-At present, the webpack provider is stable for production, and the rspack provider is still under development.
-
-:::tip About Turbopack
-[Turbopack](https://turbo.build/pack) is the rust-powered successor to webpack, we will continue to pay attention to it. At present, Turbopack only supports use in Next.js. When Turbopack can be used independently, and the completion and community ecology reach a certain level, we will consider supporting it for sure.
-:::
+At present, the webpack provider is stable for production, and the Rspack provider is still under development.
 
 ### Deep optimization
 
@@ -73,7 +67,7 @@ Below is the npm package published by Builder.
 | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- | --------------------------------- |
 | [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                             | ![](https://img.shields.io/npm/v/@modern-js/builder?style=flat-square)                       | Core package of Builder           |
 | [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)           | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider?style=flat-square)      | Provides webpack build ability    |
-| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)             | ![](https://img.shields.io/npm/v/@modern-js/builder-rspack-provider?style=flat-square)       | Provides rspack build ability     |
+| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)             | ![](https://img.shields.io/npm/v/@modern-js/builder-rspack-provider?style=flat-square)       | Provides Rspack build ability     |
 | [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                       | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc?style=flat-square)            | SWC Plugin                        |
 | [@modern-js/builder-plugin-stylus](https://www.npmjs.com/package/@modern-js/builder-plugin-stylus)                 | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-stylus?style=flat-square)         | Stylus Plugin                     |
 | [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)               | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild?style=flat-square)        | Esbuild Plugin                    |

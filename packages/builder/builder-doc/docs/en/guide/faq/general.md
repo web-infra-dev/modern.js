@@ -14,9 +14,7 @@ If you need to build a library or UI components, it is recommended to use the [M
 
 ## Will Builder support Turbopack?
 
-[Turbopack](https://turbo.build/pack) is the rust-powered successor to webpack, we will continue to pay attention to it.
-
-At present, Turbopack only supports use in Next.js. When Turbopack can be used independently, and the completion and community ecology reach a certain level, we will consider supporting it for sure.
+Builder is already supporting Rspack, and currently Turbopack supports use in Next.js, so there is no plan for Builder to support [Turbopack](https://turbo.build/pack).
 
 ## Will Builder support Vite?
 

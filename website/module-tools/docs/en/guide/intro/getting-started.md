@@ -6,22 +6,32 @@ sidebar_position: 3
 
 ## 3 minute demo
 
-Want to experience Module Tools in action? The only prerequisite you need is [Node.js LTS](https://github.com/nodejs/Release) and make sure your Node version is **>= 14.17.6**.
+Want to experience Module Tools in action? The only prerequisite you need is [Node.js LTS](https://github.com/nodejs/Release) and make sure your Node version is **>= 14.18.0**.We recommend using the LTS version of Node.js 16.
 
 From your shell, install the following dependencies in your project.
 
 - `@modern-js/module-tools`
-- `@modern-js/plugin-testing`
+- `"typescript"` (omitted if not a TypeScript project)
 
 > If it's a TypeScript project, add the `"typescript"` dependency.
 
 ```bash
-npm install -D @modern-js/module-tools @modern-js/plugin-testing
+npm install -D @modern-js/module-tools typescript
 ```
 
 > For projects that use pnpm or the Yarn package manager, just replace npm. **pnpm is recommended**.
 
-Then add the command `"build": "modern build"` to your project's `package.json` file.
+Next, create the `modern.config.(t|j)s` file in the root of the project.
+
+``` ts
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+    plugins: [moduleTools()],
+})
+```
+
+Finally, add the command `"build": "modern build"` to the project's `package.json` file.
 
 ```json
 {
@@ -33,11 +43,11 @@ Then add the command `"build": "modern build"` to your project's `package.json` 
 
 If your project has a `src/index.(js|jsx)` file or both `src/index.(ts|tsx)` and `tsconfig.json` files, then congratulations you can run the `npm run build` command directly to build your project with Module Tools.
 
-**If you want to see real projects that use the module engineering solution, you can execute the following command**.
+**If you want to see the complete project using the modular engineering scheme, you can execute the following command**.
 
 ```bash
 git clone https://github.com/modern-js-dev/module-tools-examples
-cd module-tools-example
+cd module-tools-example/base
 
 ## Execute the build.
 pnpm build
@@ -49,7 +59,6 @@ pnpm build --watch
 pnpm dev storybook
 
 ## Test
-pnpm test
 pnpm test
 ```
 
