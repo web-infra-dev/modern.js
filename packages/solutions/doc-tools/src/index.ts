@@ -1,5 +1,6 @@
 import type { CliPlugin } from '@modern-js/core';
 import type { UserConfig, Sidebar, NavItem } from '@modern-js/doc-core';
+import chalk from '@modern-js/utils/chalk';
 import { schema } from './config/schema';
 
 export type { CliPlugin, Sidebar, NavItem, UserConfig };
@@ -30,6 +31,12 @@ export default (): CliPlugin => ({
           eventType === 'change' &&
           server
         ) {
+          // eslint-disable-next-line no-console
+          console.log(
+            `${chalk.green(
+              MODERN_CONFIG_FILE,
+            )} has changed, dev server will restart...\n`,
+          );
           // Config file HMR in devepment mode
           await server.close();
           await restartServer!();
