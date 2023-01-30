@@ -31,6 +31,9 @@ async function createAllMWAProject(
       pkgJSON.modernConfig = {
         autoLoadPlugins: true,
       };
+      pkgJSON.engines = {
+        node: process.env.NODE_VERSION,
+      };
       fs.writeJSONSync(path.join(cwd, projectName, 'package.json'), pkgJSON, {
         spaces: 2,
       });
