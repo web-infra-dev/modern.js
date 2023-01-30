@@ -18,9 +18,9 @@ interface Group {
 }
 
 export function Overview() {
-  const { siteData, routePath } = usePageData();
+  const { routePath, siteData } = usePageData();
   const { pages } = siteData;
-  const overviewPageModules = pages.filter(
+  const overviewModules = pages.filter(
     page =>
       page.routePath.startsWith(routePath.replace(/overview$/, '')) &&
       page.routePath !== routePath,
@@ -35,7 +35,7 @@ export function Overview() {
         name: sidebarGroup.text || '',
         items: (sidebarGroup as NormalizedSidebarGroup).items.map(
           (item: NormalizedSidebarGroup | SidebarItem) => {
-            const pageModule = overviewPageModules.find(m =>
+            const pageModule = overviewModules.find(m =>
               isEqualPath(m.routePath, withBase(item.link || '')),
             );
             const getChildLink = (

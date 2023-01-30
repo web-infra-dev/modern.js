@@ -40,7 +40,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
     return (
       <SidebarGroupComp
         id={id}
-        key={id}
+        key={`${item.text}-${id}`}
         item={item}
         depth={depth}
         activeMatcher={activeMatcher}
@@ -77,7 +77,6 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   const innerRef = useRef<HTMLDivElement>(null);
   const initialRender = useRef(true);
   const initialState = useRef((item as NormalizedSidebarGroup).collapsed);
-
   const active = item.link && activeMatcher(item.link);
   const { collapsed, collapsible = true } = item as NormalizedSidebarGroup;
   const collapsibleIcon = (

@@ -9,13 +9,14 @@ export const builderPluginDefine = (): BuilderPlugin => ({
       const config = api.getNormalizedConfig();
 
       const builtinVars: NonNullable<SourceConfig['globalVars']> = {
-        'process.env.NODE_ENV': process.env.NODE_ENV || 'development',
+        'process.env.NODE_ENV': process.env.NODE_ENV,
       };
 
       // Serialize global vars. User can customize value of `builtinVars`.
       const globalVars = { ...builtinVars, ...config.source.globalVars };
-      const serializedVars = _.mapValues(globalVars, value =>
-        JSON.stringify(value),
+      const serializedVars = _.mapValues(
+        globalVars,
+        value => JSON.stringify(value) ?? 'undefined',
       );
       // Macro defines.
       const defineExprs = config.source.define;
