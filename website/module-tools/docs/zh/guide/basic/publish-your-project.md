@@ -6,8 +6,8 @@ sidebar_position: 7
 
 一个 npm 类型的模块项目发布流程包含了两个阶段：
 
-- 第一阶段是在开发期间，开发者需要提供一个变更文件来记录需要发布的变动；
-- 第二阶段是在发布期间，Module Tools 可以收集所有的变更文件来更新版本、更新发布日志，并发布新的包到 [npm Registry](https://www.npmjs.com/) 上。
+- 第一阶段是在开发期间，开发者需要提供变更文件，该文件记录了在发布期间需要的变更内容；
+- 第二阶段是在发布期间，Module Tools 会收集所有的变更文件来更新版本、更新发布日志，并发布新的包到 [npm Registry](https://www.npmjs.com/) 上。
 
 ## 跟踪变更
 
@@ -18,7 +18,7 @@ sidebar_position: 7
 - 配置文件修改
 - ...
 
-当这些变化一旦完成后，需要通过以下命令来对当前的变化进行记录：
+当这些任务一旦开发完成后，需要通过以下命令来对当前的变化进行记录：
 
 - [`modern change`](/guide/basic/command-preview#modern-change)
 
@@ -71,7 +71,7 @@ publish test
 
 发布项目可以执行以下命令：
 
-- [`modern publish`](/guide/basic/command-preview#modern-release)
+- [`modern release`](/guide/basic/command-preview#modern-release)
 
 `modern release` 命令可以将项目发布到 npm Registry。
 

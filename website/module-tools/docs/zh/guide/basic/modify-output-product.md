@@ -58,9 +58,10 @@ export default defineConfig({
 例如，如果使用预设函数的形式达到预设字符串 `"npm-library-es5"` 同样的效果，可以按照如下的方式：
 
 ```typescript
-import { defineConfig } from '@modern-js/module-tools';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
+  plugins: [moduleTools()],
   buildPreset({ preset }) {
     return preset.NPM_LIBRARY.map(config => {
       return { ...config, target: 'es5' };
@@ -69,9 +70,10 @@ export default defineConfig({
 });
 ```
 
-在上面的代码实现中，`preset.NPM_LIBRARY` 与预设字符串 `"npm-library"` 是相对应的，它代表着 `"npm-library"` 等价的多组构建相关的配置。我们通过 `map` 方法遍历了 `NPM_LIBRARY` 这个数组，在这个数组中包含了多个 `buildConfig` 对象。我们将原本的 `buildConfig` 对象进行了浅拷贝并修改了浅拷贝后得到 `buildConfig.target`，将它指定为 `es5`。
+在上面的代码实现中，`preset.NPM_LIBRARY` 与预设字符串 `"npm-library"` 是相对应的，它代表着 `"npm-library"` 等价的多组构建相关的配置。我们通过 `map` 方法遍历了 `NPM_LIBRARY` 这个数组，在这个数组中包含了多个 `buildConfig` 对象。我们将原本的 `buildConfig` 对象进行了浅拷贝，并修改了浅拷贝后 `target` 的值，将它指定为 `es5`。
 
 > 关于 `preset.NPM_LIBRARY` 具体对应的值，可以通过 [BuildPreset API](/api/config/build-preset) 查看。在 `preset` 对象下不仅包含了 `NPM_LIBRARY`，还包含了其他类似的常量。
+> 我们不仅可以使用 `preset.NPM_LIBRARY` 来获取 `"npm-library"` 对应的构建配置，也可以使用 `preset['npm-library']` 这样的方式。
 
 那么这里的 `buildConfig` 对象是什么呢？之前提到的构建产物特点又是根据什么呢？
 
@@ -112,7 +114,7 @@ export default defineConfig({
   - 指定 umd 产物外部导入的全局变量：对应的 API 是 [`buildConfig.umdGlobals`](/api/config/build-config#umdglobals)。
   - 指定 umd 产物的模块名：对应的 API 是 [`buildConfig.umdModuleName`](/api/config/build-config#umdmodulename)。
 
-除了以上分类以外，关于这些 API 的常见问题和最佳实践可以通过下面的链接来了解
+除了以上分类以外，关于这些 API 的常见问题和最佳实践可以通过下面的链接来了解：
 
 - [什么是 `bundle` 和 `bundleless`?](/guide/advance/in-depth-about-build#bundle-和-bundleless)
 - [`input` 与 `sourceDir` 的关系](/guide/advance/in-depth-about-build#input-与-sourcedir-的关系)。
