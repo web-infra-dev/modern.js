@@ -283,6 +283,7 @@ export const bootstrap: BootStrap = async (
         if (ssrContext) {
           ssrContext.res.statusCode = status;
           ssrContext.res.setHeader('Location', redirectUrl);
+          ssrContext.redirection = ssrContext.redirection || {};
           ssrContext.redirection.status = status;
           ssrContext.redirection.url = redirectUrl;
         }
