@@ -35,6 +35,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
     import('../plugins/svg').then(m => m.builderPluginSvg()),
     import('../plugins/pug').then(m => m.builderPluginPug()),
+    import('../plugins/checkSyntax').then(m => m.builderPluginCheckSyntax()),
     import('../plugins/copy').then(m => m.builderPluginCopy()),
     import('../plugins/font').then(m => m.builderPluginFont()),
     import('../plugins/html').then(m => m.builderPluginHtml()),
