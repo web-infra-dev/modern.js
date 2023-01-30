@@ -13,7 +13,7 @@ This section describes the lifetime hooks provided by Builder plugin.
 - `modifyBuilderConfig`: Modify raw config of Builder.
 - `modifyWebpackChain`: Modify webpack-chain.
 - `modifyWebpackConfig`: Modify raw config of webpack.
-- `modifyRspackConfig`: Modify raw config of rspack.
+- `modifyRspackConfig`: Modify raw config of Rspack.
 - `onBeforeCreateCompiler`: Called before creating compiler instance.
 - `onAfterCreateCompiler`: Called after the compiler object is created, but before the build is executed.
 
@@ -163,7 +163,7 @@ export default () => ({
 
 ### modifyRspackConfig
 
-To modify the final rspack config object, you can directly modify the config object, or return a new object to replace the previous object. This method is only called when using rspack provider.
+To modify the final Rspack config object, you can directly modify the config object, or return a new object to replace the previous object. This method is only called when using rspack provider.
 
 - **Type**
 
