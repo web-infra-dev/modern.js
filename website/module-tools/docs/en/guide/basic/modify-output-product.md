@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 ---
+# modify-output-product
 
 ## Modify the output product
 
@@ -58,9 +59,10 @@ For example, if the output product is based on the preset string `"npm-library"`
 For example, to achieve the same effect as the preset string ``npm-library-es5"` using the form of a preset function, you can do the following.
 
 ```typescript
-import { defineConfig } from '@modern-js/module-tools';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
+  plugins: [moduleTools()],
   buildPreset({ preset }) {
     return preset.NPM_LIBRARY.map(config => {
       return { ... .config, target: 'es5' }
@@ -69,9 +71,11 @@ export default defineConfig({
 });
 ```
 
-In the above code implementation, `preset.NPM_LIBRARY` corresponds to the preset string `"npm-library"`, which represents the `"npm-library"` equivalent of a multi-group build-related configuration. We traverse the `NPM_LIBRARY` array, which contains multiple `buildConfig` objects, with the `map` method. We make a shallow copy of the original `buildConfig` object and modify the shallow copy to get `buildConfig.target`, specifying it as `es5`.
+In the above code implementation, `preset.NPM_LIBRARY` corresponds to the preset string `"npm-library"`, which represents the equivalent of `"npm-library"` for multiple sets of build-related configurations. We traverse the `NPM_LIBRARY` array, which contains multiple `buildConfig` objects, using the `map` method. We made a shallow copy of the original `buildConfig` object and modified the value of the `target` after the shallow copy, specifying it as `es5`.
+
 
 > NPM_LIBRARY`, you can check it with [BuildPreset API](/api/config/build-preset). The`preset`object contains not only`NPM_LIBRARY`, but also other similar constants.
+> We can not only use `preset.NPM_LIBRARY` to get the build configuration corresponding to `"npm-library"`, but also `preset['npm-library']` in this way.
 
 So what is the `buildConfig` object here? What is the basis for the build product feature mentioned before?
 

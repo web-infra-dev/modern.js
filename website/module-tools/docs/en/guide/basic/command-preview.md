@@ -33,7 +33,7 @@ When you want to start a project build, you can execute the `modern build` comma
 In addition to the above, module projects also support `platform` build mode, which can be used to perform build tasks for other tools. For example, it is currently officially supported to start a Storybook build task to generate Storybook products by executing the `modern build --platform` or `modern build --platform storybook` commands after installing the `@modern-js/plugin-storybook` plugin.
 
 :::tip{title=Note}
-When executing a Storybook build, it needs to read the project's build product. So **when running the `modern build --platform` command to start a Storybook build, run `modern build` once to ensure that the source build product exists**.
+When executing a Storybook build, it may need to read the project's build product. So **when the `modern build --platform` command is executed to start a Storybook build, the `modern build --watch` program is automatically executed first to ensure the existence of the source build product**.
 :::
 
 ## `modern new`
