@@ -1,11 +1,12 @@
 import type { CliPlugin } from '@modern-js/core';
 import type { UserConfig, Sidebar, NavItem } from '@modern-js/doc-core';
+import { logger } from '@modern-js/utils/logger';
 import chalk from '@modern-js/utils/chalk';
 import { schema } from './config/schema';
 
 export type { CliPlugin, Sidebar, NavItem, UserConfig };
 
-const MODERN_CONFIG_FILE = 'modern.config.ts';
+const MODERN_CONFIG_FILES = ['modern.config.ts', 'modern.config.js'];
 
 interface ServerInstance {
   close: () => Promise<void>;
@@ -26,15 +27,13 @@ export default (): CliPlugin => ({
         return [config.configFile];
       },
       async fileChange({ filename, eventType }) {
-        if (
-          filename.endsWith(MODERN_CONFIG_FILE) &&
-          eventType === 'change' &&
-          server
-        ) {
-          // eslint-disable-next-line no-console
-          console.log(
+        const isConfigFile = MODERN_CONFIG_FILES.some(configFileName =>
+          filename.endsWith(configFileName),
+        );
+        if (isConfigFile && eventType === 'change' && server) {
+          logger.info(
             `${chalk.green(
-              MODERN_CONFIG_FILE,
+              filename,
             )} has changed, dev server will restart...\n`,
           );
           // Config file HMR in devepment mode
