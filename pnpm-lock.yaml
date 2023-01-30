@@ -1486,32 +1486,6 @@ importers:
       jest: 27.5.1
       typescript: 4.9.3
 
-  packages/generator/generators/eslint-generator:
-    specifiers:
-      '@babel/runtime': ^7.18.0
-      '@modern-js/codesmith': 2.0.3
-      '@modern-js/codesmith-api-app': 2.0.3
-      '@modern-js/generator-common': workspace:*
-      '@modern-js/generator-utils': workspace:*
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@types/jest': ^27
-      '@types/node': ^14
-      jest: ^27
-      typescript: ^4
-    devDependencies:
-      '@babel/runtime': 7.18.6
-      '@modern-js/codesmith': 2.0.3
-      '@modern-js/codesmith-api-app': 2.0.3_behyblf5hoqzjgbnbcybtsc22i
-      '@modern-js/generator-common': link:../../generator-common
-      '@modern-js/generator-utils': link:../../generator-utils
-      '@scripts/build': link:../../../../scripts/build
-      '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 27.5.2
-      '@types/node': 14.18.35
-      jest: 27.5.1
-      typescript: 4.9.3
-
   packages/generator/generators/generator-generator:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -1851,7 +1825,6 @@ importers:
       '@modern-js/codesmith-api-app': 2.0.3
       '@modern-js/codesmith-api-json': 2.0.3
       '@modern-js/dependence-generator': workspace:*
-      '@modern-js/eslint-generator': workspace:*
       '@modern-js/generator-common': workspace:*
       '@modern-js/generator-utils': workspace:*
       '@modern-js/plugin-i18n': workspace:*
@@ -1867,7 +1840,6 @@ importers:
       '@modern-js/codesmith-api-app': 2.0.3_behyblf5hoqzjgbnbcybtsc22i
       '@modern-js/codesmith-api-json': 2.0.3
       '@modern-js/dependence-generator': link:../dependence-generator
-      '@modern-js/eslint-generator': link:../eslint-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
@@ -3064,7 +3036,6 @@ importers:
       '@types/jest': ^26.0.9
       '@types/node': ^14
       '@types/react': ^18
-      chokidar: 3.5.3
       husky: ^8
       lint-staged: ^11.2.6
       prettier: ^2.6.2
@@ -3076,7 +3047,6 @@ importers:
       '@modern-js/core': link:../../cli/core
       '@modern-js/doc-core': link:../../cli/doc-core
       '@modern-js/utils': link:../../toolkit/utils
-      chokidar: 3.5.3
     devDependencies:
       '@modern-js/plugin-testing': link:../../runtime/plugin-testing
       '@modern-js/tsconfig': link:../../review/tsconfig
