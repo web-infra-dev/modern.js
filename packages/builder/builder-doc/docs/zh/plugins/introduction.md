@@ -8,7 +8,7 @@ Builder 提供了一套轻量强大的插件系统，用以实现自身的大多
 - 修改或编译文件
 - 部署产物
 
-Builder 底层支持 webpack 和 rspack 等 bundler，并提供统一的 Node.js API 来抹平插件开发的差异，进而接入不同的上层框架、降低用户对底层 bundler 切换的感知。
+Builder 底层支持 webpack 和 Rspack 等 bundler，并提供统一的 Node.js API 来抹平插件开发的差异，进而接入不同的上层框架、降低用户对底层 bundler 切换的感知。
 
 ## 开发插件
 
