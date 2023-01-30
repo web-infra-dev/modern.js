@@ -191,8 +191,11 @@ importers:
       '@svgr/webpack': 6.5.1
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
+      '@types/caniuse-lite': ^1.0.1
       '@types/node': ^14
+      acorn: ^8.8.1
       caniuse-lite: ^1.0.30001434
+      cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 4.2.2
       cssnano: ^5.1.12
       fork-ts-checker-webpack-plugin: 7.2.13
@@ -200,6 +203,7 @@ importers:
       mini-css-extract-plugin: 2.7.0
       postcss: 8.4.21
       react-refresh: 0.14.0
+      source-map: ^0.7.4
       style-loader: 3.3.1
       terser-webpack-plugin: 5.3.6
       ts-loader: 9.4.1
@@ -214,7 +218,9 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.9_xsftmjzvfioxqs4ify53ibh7ay
       '@svgr/webpack': 6.5.1
+      acorn: 8.8.1
       caniuse-lite: 1.0.30001434
+      cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 4.2.2_webpack@5.75.0
       cssnano: 5.1.12_postcss@8.4.21
       fork-ts-checker-webpack-plugin: 7.2.13_vfotqvx6lgcbf3upbs6hgaza4q
@@ -222,6 +228,7 @@ importers:
       mini-css-extract-plugin: 2.7.0_webpack@5.75.0
       postcss: 8.4.21
       react-refresh: 0.14.0
+      source-map: 0.7.4
       style-loader: 3.3.1_webpack@5.75.0
       terser-webpack-plugin: 5.3.6_webpack@5.75.0
       ts-loader: 9.4.1_vfotqvx6lgcbf3upbs6hgaza4q
@@ -233,6 +240,7 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.20
       '@types/babel__preset-env': 7.9.2
+      '@types/caniuse-lite': 1.0.1
       '@types/node': 14.18.35
       typescript: 4.9.3
 
@@ -13226,6 +13234,10 @@ packages:
       '@types/node': 18.11.17
       '@types/responselike': 1.0.0
 
+  /@types/caniuse-lite/1.0.1:
+    resolution: {integrity: sha512-enW8d/vdojHAhr1C/0BqsNkhz/0ik2WCuAJIp9EClP+mHkR8xXBJ2OGeXHZ6cPqDjVKvWBRe9tY/Nr9r4yQSuA==}
+    dev: true
+
   /@types/chai-subset/1.3.3:
     resolution: {integrity: sha512-frBecisrNGz+F4T6bcc+NLeolfiojh5FxW2klu669+8BARtyQv2C/GkNW6FUodVe4BroGMP/wER/YDGc7rEllw==}
     dependencies:
@@ -16279,6 +16291,30 @@ packages:
     resolution: {integrity: sha512-Pj779qHxV2tuapviy1bSZNEL1maXr13bPYpsvSDB68HlYcYuhlDrmGd63i0JHMCLKzc7rUSNIrpdJlhVlNwrxA==}
     engines: {node: '>= 0.8.0'}
     dev: true
+
+  /cheerio-select/2.1.0:
+    resolution: {integrity: sha512-9v9kG0LvzrlcungtnJtpGNxY+fzECQKhK4EGJX2vByejiMX84MFNQw4UxPJl3bFbTMw+Dfs37XaIkCwTZfLh4g==}
+    dependencies:
+      boolbase: 1.0.0
+      css-select: 5.1.0
+      css-what: 6.1.0
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.0.1
+    dev: false
+
+  /cheerio/1.0.0-rc.12:
+    resolution: {integrity: sha512-VqR8m68vM46BNnuZ5NtnGBKIE/DfN0cRIzg9n40EIq9NOv90ayxLBXA8fXC5gquFRGJSTRqBq25Jt2ECLR431Q==}
+    engines: {node: '>= 6'}
+    dependencies:
+      cheerio-select: 2.1.0
+      dom-serializer: 2.0.0
+      domhandler: 5.0.3
+      domutils: 3.0.1
+      htmlparser2: 8.0.1
+      parse5: 7.1.1
+      parse5-htmlparser2-tree-adapter: 7.0.0
+    dev: false
 
   /chokidar/2.1.8:
     resolution: {integrity: sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==}
@@ -26546,6 +26582,13 @@ packages:
   /parse-passwd/1.0.0:
     resolution: {integrity: sha512-1Y1A//QUXEZK7YKz+rD9WydcE1+EuPr6ZBgKecAB8tmoW6UFv0NREVJe1p+jRxtThkcbbKkfwIbWJe/IeE6m2Q==}
     engines: {node: '>=0.10.0'}
+
+  /parse5-htmlparser2-tree-adapter/7.0.0:
+    resolution: {integrity: sha512-B77tOZrqqfUfnVcOrUvfdLbz4pu4RopLD/4vmu3HUPswwTA8OH0EMW9BlWR2B0RCoiZRAHEUu7IxeP1Pd1UU+g==}
+    dependencies:
+      domhandler: 5.0.3
+      parse5: 7.1.1
+    dev: false
 
   /parse5/6.0.1:
     resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==}

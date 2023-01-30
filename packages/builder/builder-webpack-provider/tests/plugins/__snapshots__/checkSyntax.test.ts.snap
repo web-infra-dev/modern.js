@@ -1,0 +1,17 @@
+// Vitest Snapshot v1
+
+exports[`plugins/checkSyntax > should set WebpackCheckSyntax plugin 1`] = `
+{
+  "plugins": [
+    CheckSyntaxPlugin {
+      "ecmaVersion": 5,
+      "errors": [],
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  ],
+}
+`;
