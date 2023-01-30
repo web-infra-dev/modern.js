@@ -1,7 +1,7 @@
 import { run } from '@modern-js/utils/ssr';
 import { ServerRenderOptions } from '../types';
 import { PreRender } from '../../react/prerender';
-// import { time } from '../utils';
+import { time } from '../time';
 import SSREntry from './entry';
 
 export const render = ({
@@ -17,14 +17,14 @@ export const render = ({
       App,
       config,
     });
-    // entry.metrics.emitCounter('app.visit.count', 1);
+    entry.metrics.emitCounter('app.visit.count', 1);
 
-    // const end = time();
+    const end = time();
     const html = await entry.renderToHtml(context);
-    // const cost = end();
+    const cost = end();
 
-    // entry.logger.info('App Render Total cost = %d ms', cost);
-    // entry.metrics.emitTimer('app.render.cost', cost);
+    entry.logger.info('App Render Total cost = %d ms', cost);
+    entry.metrics.emitTimer('app.render.cost', cost);
 
     const cacheConfig = PreRender.config();
     if (cacheConfig) {

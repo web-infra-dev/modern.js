@@ -1,7 +1,7 @@
 import { createElement } from 'react';
 import { run } from '@modern-js/utils/ssr';
 import { PreRender } from '../../react/prerender';
-// import { time } from '../utils';
+import { time } from '../time';
 import { ServerRenderOptions } from '../types';
 import renderToPipe from './renderToPipe';
 
@@ -14,7 +14,7 @@ export const render = ({ App, context }: ServerRenderOptions) => {
     );
   }
   return run(ssrContext.request.headers, async () => {
-    // const end = time();
+    const end = time();
     const rootElement = createElement(App, {
       context: Object.assign(context || {}, {
         ssr: true,
@@ -31,9 +31,9 @@ export const render = ({ App, context }: ServerRenderOptions) => {
       },
       onAllReady() {
         // calculate streaming ssr cost
-        // const cost = end();
-        // ssrContext.logger.debug('App Render To HTML cost = %d ms', cost);
-        // ssrContext.metrics.emitTimer('app.render.html.cost', cost);
+        const cost = end();
+        ssrContext.logger.debug('App Render To HTML cost = %d ms', cost);
+        ssrContext.metrics.emitTimer('app.render.html.cost', cost);
       },
     });
     return pipe;

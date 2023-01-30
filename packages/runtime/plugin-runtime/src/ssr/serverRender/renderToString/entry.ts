@@ -10,7 +10,7 @@ import {
   ModernSSRReactComponent,
   SSRPluginConfig,
 } from '../types';
-// import { time } from '../utils';
+import { time } from '../time';
 // import prefetch from '../../prefetch';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
@@ -152,7 +152,7 @@ export default class Entry {
 
   private renderToString(context: RuntimeContext): string {
     let html = '';
-    // const end = time();
+    const end = time();
     const { ssrContext } = context;
 
     try {
@@ -173,13 +173,13 @@ export default class Entry {
         (jsx: React.ReactElement) => ReactDomServer.renderToString(jsx),
       ]);
 
-      // const cost = end();
-      // this.logger.debug('App Render To HTML cost = %d ms', cost);
-      // this.metrics.emitTimer('app.render.html.cost', cost);
+      const cost = end();
+      this.logger.debug('App Render To HTML cost = %d ms', cost);
+      this.metrics.emitTimer('app.render.html.cost', cost);
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
       this.logger.error('App Render To HTML', e as Error);
-      // this.metrics.emitCounter('app.render.html.error', 1);
+      this.metrics.emitCounter('app.render.html.error', 1);
     }
 
     return html;

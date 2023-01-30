@@ -1,4 +1,6 @@
+import { Logger, LoggerInterface } from './libs/logger';
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
+import { metrics as defaultMetrics } from './libs/metrics';
 
 export type Context = Record<string, any>;
 
@@ -43,6 +45,12 @@ export const createHandler = (manifest: Manifest) => {
       req: ctx.request,
       res: ctx.response,
       params: ctx.params || params || {},
+      logger:
+        ctx.logger ||
+        (new Logger({
+          level: 'warn',
+        }) as Logger & LoggerInterface),
+      metrics: ctx.metrics || defaultMetrics,
     });
     ctx.status = 200;
   };
