@@ -3064,6 +3064,7 @@ importers:
       '@types/jest': ^26.0.9
       '@types/node': ^14
       '@types/react': ^18
+      chokidar: 3.5.3
       husky: ^8
       lint-staged: ^11.2.6
       prettier: ^2.6.2
@@ -3075,6 +3076,7 @@ importers:
       '@modern-js/core': link:../../cli/core
       '@modern-js/doc-core': link:../../cli/doc-core
       '@modern-js/utils': link:../../toolkit/utils
+      chokidar: 3.5.3
     devDependencies:
       '@modern-js/plugin-testing': link:../../runtime/plugin-testing
       '@modern-js/tsconfig': link:../../review/tsconfig
