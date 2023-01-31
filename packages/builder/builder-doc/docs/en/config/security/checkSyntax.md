@@ -1,4 +1,4 @@
-- **Type**:
+- **Type:**
 
 ```ts
 type CheckSyntax =
@@ -8,7 +8,7 @@ type CheckSyntax =
     };
 ```
 
-- **Default**: `false`
+- **Default:** `false`
 
 Analyzes the build output files for the presence of high-level syntax that is incompatible with the current browserslist. If present, the details will be printed in the terminal.
 
