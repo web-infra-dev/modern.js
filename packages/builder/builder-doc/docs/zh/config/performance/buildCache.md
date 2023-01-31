@@ -1,4 +1,4 @@
-- **类型**
+- **类型：**
 
 ```ts
 type BuildCacheConfig =
@@ -11,7 +11,7 @@ type BuildCacheConfig =
   | boolean;
 ```
 
-- **默认值**:
+- **默认值：**
 
 ```js
 const defaultBuildCacheConfig = {

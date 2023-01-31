@@ -19,10 +19,11 @@ Server runtime configuration can be configured in the `modern.server-runtime.con
 
 ## Configure in the configuration file
 
-Modern.js configuration files are defined in the root path of the project, and both `.js` and `.ts` formats are supported:
+Modern.js configuration files are defined in the root path of the project, and supports `.js`, `.ts` and `.mjs` formats:
 
 - `modern.config.js`
 - `modern.config.ts`
+- `modern.config.mjs`
 
 ### modern.config.js
 
@@ -50,7 +51,7 @@ export default {
 };
 ```
 
-### modern.config.ts
+### modern.config.ts (recommended)
 
 We recommend using configuration files in `.ts` format, which provides friendly TypeScript type hints to help you avoid configuration errors.
 

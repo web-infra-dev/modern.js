@@ -173,7 +173,7 @@ async function extractPageData(
   );
 }
 
-export async function createSiteDataVirtualModulePlugin(
+export async function siteDataVMPlugin(
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,

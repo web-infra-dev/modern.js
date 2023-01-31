@@ -1,4 +1,4 @@
-- **Type**
+- **Type:**
 
 ```ts
 type BuildCacheConfig =
@@ -11,7 +11,7 @@ type BuildCacheConfig =
   | boolean;
 ```
 
-- **Default**:
+- **Default:**
 
 ```js
 const defaultBuildCacheConfig = {

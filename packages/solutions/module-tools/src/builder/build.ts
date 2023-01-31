@@ -152,9 +152,9 @@ export const buildLib = async (
   const { es5Plugin, umdPlugin, transformPlugin } = await import(
     '@modern-js/libuild-plugin-swc'
   );
-  const plugins = target === 'es5' ? [es5Plugin()] : [];
-  if (format === 'umd') {
-    plugins.push(umdPlugin(umdModuleName));
+  const plugins = format === 'umd' ? [umdPlugin(umdModuleName)] : [];
+  if (target === 'es5') {
+    plugins.push(es5Plugin());
   }
   const { getProjectTsconfig } = await import('./dts/tsc');
   const tsconfigPath = dts

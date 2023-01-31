@@ -97,6 +97,10 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    * Custom theme directory
    */
   themeDir?: string;
+  /**
+   * Global components
+   */
+  globalUIComponents?: string[];
 }
 
 export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
