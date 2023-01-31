@@ -4,7 +4,7 @@ import type {
   RemOptions,
 } from '@modern-js/builder-shared';
 
-export type OutputConfig = SharedOutputConfig & {
+export type OutputConfig = Omit<SharedOutputConfig, 'legalComments'> & {
   /**
    * Copies the specified file or directory to the dist directory.
    * TODO: not support yet
