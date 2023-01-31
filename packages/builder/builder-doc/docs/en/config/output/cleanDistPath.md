@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 Whether to clean all files in the dist path before starting compilation.
 

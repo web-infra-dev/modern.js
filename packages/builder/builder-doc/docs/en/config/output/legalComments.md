@@ -1,5 +1,5 @@
-- Type : `'linked' | 'inline' | 'none'`
-- Default: `'linked'`
+- **Type:** `'linked' | 'inline' | 'none'`
+- **Default:** `'linked'`
 
 Configure how to handle the legal comment.
 
@@ -11,7 +11,7 @@ This behavior can be configured by using one of the following options:
 - `inline`: Preserve all legal comments in original position.
 - `none`: Remove all legal comments.
 
-#### Example
+### Example
 
 Remove all legal comments:
 

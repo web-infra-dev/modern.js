@@ -1,11 +1,11 @@
-- Type: `string | Record<BuilderTarget, string>`
-- Default: `undefined`
+- **类型：** `string | Record<BuilderTarget, string>`
+- **默认值：** `undefined`
 
 用于为 [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolveextensions) 添加统一的前缀。
 
 如果多个文件拥有相同的名称，但具有不同的文件后缀，Builder 会根据 extensions 数组的顺序进行识别，解析数组中第一个被识别的文件，并跳过其余文件。
 
-#### 示例
+### 示例
 
 下面是配置 `.web` 前缀的例子。
 

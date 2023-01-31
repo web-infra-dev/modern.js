@@ -167,7 +167,7 @@
   --modern-code-font-size: 0.875em;
 
   --modern-code-block-color: var(--modern-c-text-dark-1);
-  --modern-code-block-bg: #292d3e;
+  --modern-code-block-bg: rgb(46, 52, 64);
 
   --modern-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --modern-code-line-number-color: var(--modern-c-text-dark-3);
@@ -184,10 +184,6 @@
   --modern-icon-copy: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 10v18H10V10h18m0-2H10a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2Z' fill='%23cccccc'/%3E%3Cpath d='M4 18H2V4a2 2 0 0 1 2-2h14v2H4Z' fill='%23cccccc'/%3E%3C/svg%3E");
   --modern-icon-copied: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m13 24l-9-9l1.41-1.41L13 21.17L26.59 7.59L28 9L13 24z' fill='%2360c054'/%3E%3C/svg%3E");
   --modern-icon-tip: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M512 960C264.58 960 64 759.42 64 512S264.58 64 512 64s448 200.58 448 448-200.58 448-448 448z m0-832c-212.08 0-384 171.92-384 384s171.92 384 384 384 384-171.92 384-384-171.92-384-384-384z m0 112c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z m0 160c-17.67 0-32 14.33-32 32v320c0 17.67 14.33 32 32 32 17.67 0 32-14.33 32-32V432c0-17.67-14.33-32-32-32z' fill='%2321b8a3'/%3E%3C/svg%3E");
-}
-
-.dark {
-  --modern-code-block-bg: var(--modern-c-bg-alt);
 }
 
 /**
@@ -273,8 +269,8 @@
 
   --modern-custom-block-info-border: var(--modern-c-blue-dimm-1);
   --modern-custom-block-info-text: var(--modern-c-brand);
-  --modern-custom-block-info-bg: var(--modern-c-blue-lighter);
-  --modern-custom-block-info-code-bg: var(--modern-c-gray-light-4);
+  --modern-custom-block-info-bg: var(--modern-c-blue-dimm-3);
+  --modern-custom-block-info-code-bg: var(--modern-custom-block-info-bg);
 
   --modern-custom-block-tip-border: var(--modern-c-green-dimm-1);
   --modern-custom-block-tip-text: var(--modern-c-green-darker);

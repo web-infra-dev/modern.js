@@ -1,5 +1,5 @@
-- Type: `Record<string, string | string[]> | Function`
-- Default: `undefined`
+- **Type:** `Record<string, string | string[]> | Function`
+- **Default:** `undefined`
 
 Create aliases to import or require certain modules, same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack.
 

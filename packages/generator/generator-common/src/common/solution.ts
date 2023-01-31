@@ -150,4 +150,3 @@ export const SubSolutionGenerator: Record<SubSolution, string> = {
 export const ChangesetGenerator = '@modern-js/changeset-generator';
 export const DependenceGenerator = '@modern-js/dependence-generator';
 export const EntryGenerator = '@modern-js/entry-generator';
-export const EslintGenerator = '@modern-js/eslint-generator';

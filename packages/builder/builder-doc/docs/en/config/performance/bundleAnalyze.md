@@ -1,4 +1,4 @@
-- Type: `Object | undefined`
+- **Type:** `Object | undefined`
 
 You have two ways to enable `webpack-bundle-analyzer` to analyze the size of output files:
 

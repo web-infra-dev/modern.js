@@ -1,9 +1,9 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 If this option is enabled, all unrecognized files will be emitted to the dist directory; otherwise, an exception will be thrown.
 
-#### Example
+### Example
 
 Enable the config:
 

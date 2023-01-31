@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default
+- **类型：** `Object | Function`
+- **默认值**
 
 ```js
 {

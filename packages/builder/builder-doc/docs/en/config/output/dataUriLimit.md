@@ -33,7 +33,7 @@ Detail:
 - `image`: The threshold of non-SVG images.
 - `media`: The threshold of media assets such as videos.
 
-#### Example
+### Example
 
 Set the threshold of images to 5000 Bytes, and set media assets not to be inlined:
 

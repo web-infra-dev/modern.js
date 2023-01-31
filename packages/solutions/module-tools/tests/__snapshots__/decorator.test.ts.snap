@@ -40,7 +40,6 @@ function enhancer(name) {
   };
 }
 var Person = class {
-  version;
   constructor() {
     this.version = \\"1.0.0\\";
   }

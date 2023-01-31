@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.1.0",
+  "version": "2.2.0",
   "types": "./src/cli",
   "jsnext:source": "./src/cli",
   "main": "./dist/js/node/cli.js",
@@ -51,7 +51,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*"
   },

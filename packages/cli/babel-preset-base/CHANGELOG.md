@@ -1,5 +1,16 @@
 # @modern-js/babel-preset-base
 
+## 2.2.0
+
+### Patch Changes
+
+- 1b273d2: feat(babel-plugin-base): compatible with antd v5
+
+  feat(babel-plugin-base): 适配 antd v5，不再注册 babel-plugin-import
+
+- Updated dependencies [49eff0c]
+  - @modern-js/utils@2.2.0
+
 ## 2.1.0
 
 ### Patch Changes

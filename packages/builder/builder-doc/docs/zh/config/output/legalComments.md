@@ -1,5 +1,5 @@
-- Type : `'linked' | 'inline' | 'none'`
-- Default: `'linked'`
+- **类型：** `'linked' | 'inline' | 'none'`
+- **默认值：** `'linked'`
 
 配置 legal comment 的处理方式。
 
@@ -11,7 +11,7 @@ legal comment 是 JS 或 CSS 文件中的一些特殊注释，这些注释包含
 - `inline`：保留所有 legal comments。
 - `none`：移除所有 legal comments。
 
-#### 示例
+### 示例
 
 移除所有 legal comments。
 

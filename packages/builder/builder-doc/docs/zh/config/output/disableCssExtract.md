@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **类型：** `boolean`
+- **默认值：** `false`
 
 是否禁用 CSS 提取逻辑，并将 CSS 文件内联到 JS 文件中。
 

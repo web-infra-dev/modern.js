@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.1.0",
+  "version": "2.2.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -68,12 +68,12 @@
     "tailwindcss": "^3.2.4",
     "jest": "^27",
     "react": "^18",
-    "postcss": "^8.4.14",
+    "postcss": "8.4.21",
     "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
     "tailwindcss": ">= 2.0.0 || >= 3.0.0",
-    "@modern-js/runtime": "workspace:^2.1.0"
+    "@modern-js/runtime": "workspace:^2.2.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

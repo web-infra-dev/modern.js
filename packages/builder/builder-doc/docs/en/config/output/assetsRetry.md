@@ -1,4 +1,4 @@
-- Type: `Object`
+- **Type:** `Object`
 
 `output.assetsRetry` is used to configure the retry of assets.The type of `AssetsRetryOptions` is as follows:
 
@@ -39,8 +39,8 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 
 ### assetsRetry.max
 
-- Type: `number`
-- Default: `3`
+- **Type:** `number`
+- **Default:** `3`
 
 The maximum number of retries for a single asset. For example:
 
@@ -56,8 +56,8 @@ export default {
 
 ### assetsRetry.domain
 
-- Type: `string[]`
-- Default: `[]`
+- **Type:** `string[]`
+- **Default:** `[]`
 
 The domain of the asset to be retried. For example:
 
@@ -73,8 +73,8 @@ export default {
 
 ### assetsRetry.type
 
-- Type: `string[]`
-- Default: `['script', 'link', 'img']`
+- **Type:** `string[]`
+- **Default:** `['script', 'link', 'img']`
 
 The type of the asset to be retried. For example:
 
@@ -90,8 +90,8 @@ export default {
 
 ### assetsRetry.test
 
-- Type: `string | ((url: string) => boolean) | undefined`
-- Default: `undefined`
+- **Type:** `string | ((url: string) => boolean) | undefined`
+- **Default:** `undefined`
 
 The test function of the asset to be retried. For example:
 
@@ -107,8 +107,8 @@ export default {
 
 ### assetsRetry.crossOrigin
 
-- Type: `undefined | boolean`
-- Default: false
+- **Type:** `undefined | boolean`
+- **Default:** false
 
 Whether to add the `crossOrigin` attribute to the asset to be retried. For example:
 
@@ -124,7 +124,7 @@ export default {
 
 ### assetsRetry.onRetry
 
-- Type: `undefined | (options: AssetsRetryHookContext) => void`
+- **Type:** `undefined | (options: AssetsRetryHookContext) => void`
 
 The callback function when the asset is being retried. For example:
 
@@ -144,7 +144,7 @@ export default {
 
 ### assetsRetry.onSuccess
 
-- Type: `undefined | (options: AssetsRetryHookContext) => void`
+- **Type:** `undefined | (options: AssetsRetryHookContext) => void`
 
 The callback function when the asset is successfully retried. For example:
 
@@ -164,7 +164,7 @@ export default {
 
 ### assetsRetry.onFail
 
-- Type: `undefined | (options: AssetsRetryHookContext) => void`
+- **Type:** `undefined | (options: AssetsRetryHookContext) => void`
 
 The callback function when the asset is failed to be retried. For example:
 

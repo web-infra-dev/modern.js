@@ -1,0 +1,74 @@
+- **Type:** `string | Object`
+- **Default:** `null`
+
+When this option is configured, the development environment will start a global proxy, similar to [Fiddler](https://www.telerik.com/fiddler), [Charles](https://www.charlesproxy.com/) and other web proxy debugging tools, which can be used to view, modify HTTP/HTTPS requests, responses, and can also be used as a proxy server.
+
+:::tip 提示
+Using this option requires advance installation `@modern-js/plugin-proxy`。
+
+:::
+
+### Object
+
+Using this option requires that the value of `Object` be installed in advance, the `key` of the object corresponds to the matching `pattern`, and the `value` of the object corresponds to the matching `target`.
+
+Example:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  dev: {
+    proxy: {
+      'https://www.baidu.com': 'https://google.com.hk',
+      //可以通过 file 协议直接返回静态文件。
+      'https://example.com/api': 'file://./data.json',
+    },
+  },
+});
+```
+
+### String
+
+When the value is `string`, it can be used to specify a separate proxy file, for example:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  dev: {
+    proxy: './proxy.js',
+  },
+});
+```
+
+```js title="proxy.js"
+module.exports = {
+  name: 'my-app',
+  rules: `
+    ^example.com:8080/api/***   http://localhost:3001/api/$
+  `,
+};
+```
+
+:::info
+Modern.js global proxy implementation is based on [whistle](https://wproxy.org/whistle/), for more matching patterns, please refer to: [Matching Patterns](https://wproxy.org/whistle/pattern.html)
+
+:::
+
+Execute `dev`, when the prompt is as follows, the proxy server starts successfully:
+
+```bash
+  App running at:
+
+  Local:    http://localhost:8080/
+  Network:  http://192.168.0.1:8080/
+
+ℹ  info      Starting the proxy server.....
+✔  success   Proxy Server start on localhost:8899
+```
+
+Access the `localhost:8899` to view the Network and configure proxy rules on the UI interface:
+
+![proxy UI](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/dev-proxy.png)
+
+:::caution Caution
+The https agent automatically installs the certificate to obtain root privileges. Please enter the password as prompted. ** The password is only used when the certificate is trusted and will not be leaked or used for other links **.
+
+:::

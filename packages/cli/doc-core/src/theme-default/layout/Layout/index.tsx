@@ -4,6 +4,7 @@ import '../../index.css';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Theme, { Nav } from '@theme';
+import globalComponents from 'virtual-global-components';
 import { DocLayout, DocLayoutProps } from '../DocLayout';
 import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';
@@ -73,7 +74,6 @@ export const Layout: React.FC<LayoutProps> = props => {
         return <DocLayout {...docProps} />;
     }
   };
-
   return (
     <div style={{ height: '100%' }}>
       <Helmet>
@@ -84,6 +84,14 @@ export const Layout: React.FC<LayoutProps> = props => {
       <Nav beforeNavTitle={beforeNavTitle} afterNavTitle={afterNavTitle} />
       <section>{getContentLayout()}</section>
       {bottom}
+      {
+        // Global UI
+        globalComponents.map((Component, index) => (
+          // The component order is stable
+          // eslint-disable-next-line react/no-array-index-key
+          <Component key={index} />
+        ))
+      }
     </div>
   );
 };

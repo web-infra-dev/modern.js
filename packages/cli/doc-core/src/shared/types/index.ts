@@ -23,6 +23,7 @@ export interface Header {
   text: string;
   depth: number;
 }
+
 export interface SiteSiteData {
   title: string;
   description: string;
@@ -92,6 +93,14 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    * Output directory
    */
   outDir?: string;
+  /**
+   * Custom theme directory
+   */
+  themeDir?: string;
+  /**
+   * Global components
+   */
+  globalUIComponents?: string[];
 }
 
 export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
@@ -103,7 +112,10 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   icon: string;
   themeConfig: ThemeConfig;
   logo: string;
-  pages: PageBasicInfo[];
+  pages: {
+    routePath: string;
+    toc: Header[];
+  }[];
 }
 
 export interface PageBasicInfo {

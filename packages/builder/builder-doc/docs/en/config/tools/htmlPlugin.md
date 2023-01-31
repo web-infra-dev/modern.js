@@ -1,5 +1,5 @@
-- Type: `false | Object | Function`
-- Default:
+- **Type:** `false | Object | Function`
+- **Default:**
 
 ```js
 const defaultHtmlPluginOptions = {

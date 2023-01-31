@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { builderPluginSplitChunks } from '@/plugins/splitChunks';
+import { builderPluginSplitChunks } from '@builder/plugins/splitChunks';
 import { builderPluginLazyCompilation } from '@/plugins/lazyCompilation';
 import { createStubBuilder } from '@/stub/builder';
 

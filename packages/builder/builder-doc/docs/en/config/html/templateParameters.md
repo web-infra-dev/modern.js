@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default:
+- **Type:** `Object | Function`
+- **Default:**
 
 ```ts
 type DefaultParameters = {
@@ -50,7 +50,7 @@ export default {
 };
 ```
 
-#### Example
+### Example
 
 To use the `foo` parameter in the HTML template, you can add the following config:
 

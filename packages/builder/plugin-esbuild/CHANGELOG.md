@@ -1,5 +1,16 @@
 # @modern-js/builder-plugin-esbuild
 
+## 2.2.0
+
+### Patch Changes
+
+- 16bdc0a: chore: adjust builder plugin name
+
+  chore: 调整 builder 插件命名格式
+
+- Updated dependencies [f2f8a83]
+  - @modern-js/builder-shared@2.2.0
+
 ## 2.1.0
 
 ### Patch Changes

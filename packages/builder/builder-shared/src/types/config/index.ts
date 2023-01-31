@@ -36,7 +36,7 @@ export type SharedNormalizedConfig = DeepReadonly<{
   output: NormalizedSharedOutputConfig;
   performance: Pick<
     Required<SharedPerformanceConfig>,
-    'printFileSize' | 'buildCache'
+    'printFileSize' | 'buildCache' | 'chunkSplit'
   >;
 }>;
 

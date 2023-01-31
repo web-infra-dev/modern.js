@@ -164,7 +164,7 @@ console.info(React);
 
 At this point we will see the product code like this.
 
-```js dist/index.js focus=7:12
+```js dist/index.js focus=12:18
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory();
@@ -203,7 +203,7 @@ export default () => {
 
 ** By default, the name of the source file is used as the name of the module's global variable in the browser. **For the above example, the product would read as follows:
 
-```js ./dist/index.js focus=6:6
+```js ./dist/index.js focus=9:9
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports);
@@ -233,7 +233,7 @@ export default defineConfig({
 
 The construction products at this point are:
 
-```js ./dist/index.js focus=6:6
+```js ./dist/index.js focus=9:9
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports);

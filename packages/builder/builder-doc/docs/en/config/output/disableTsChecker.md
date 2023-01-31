@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 Whether to disable TypeScript type checker during compilation.
 

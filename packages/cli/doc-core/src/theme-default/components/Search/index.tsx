@@ -176,7 +176,7 @@ export function Search(props: SearchOptions) {
           {/* Show the suggestions */}
           {suggestions.map((item, index) => (
             <li
-              key={item.title}
+              key={item.link}
               cursor="pointer"
               w="full"
               className="border-collapse rounded-sm"
@@ -187,9 +187,9 @@ export function Search(props: SearchOptions) {
                     border-left="none"
                     display="table-cell"
                     p="1.2"
-                    text="sm right [#2c3e50]"
+                    text="sm right"
                     font="semibold"
-                    className={`bg-[#f5f5f5] align-middle`}
+                    className={`align-middle`}
                     style={{
                       borderBottom: '1px solid var(--modern-c-divider-light)',
                       width: '35%',

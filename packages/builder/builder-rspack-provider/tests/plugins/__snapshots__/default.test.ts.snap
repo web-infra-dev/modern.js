@@ -6,6 +6,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
     },
+    "minify": false,
     "progress": {
       "prefix": "Client",
     },
@@ -300,6 +301,60 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     ],
   },
+  "optimization": {
+    "minimize": false,
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-antd": {
+          "name": "lib-antd",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+        },
+        "lib-arco": {
+          "name": "lib-arco",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
+        },
+        "lib-lodash": {
+          "name": "lib-lodash",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+        },
+        "lib-polyfill": {
+          "name": "lib-polyfill",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]core-js\\|@babel\\\\/runtime\\[\\\\\\\\/\\]/,
+        },
+        "lib-react": {
+          "name": "lib-react",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+        },
+        "lib-router": {
+          "name": "lib-router",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+      "maxAsyncSize": undefined,
+      "maxInitialSize": undefined,
+      "maxSize": undefined,
+      "minRemainingSize": undefined,
+      "minSize": undefined,
+      "minSizeReduction": undefined,
+    },
+  },
   "output": {
     "chunkFilename": "static/js/async/[name].js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -334,6 +389,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "define": {
       "process.env.NODE_ENV": "\\"production\\"",
     },
+    "minify": {},
     "progress": {
       "prefix": "Client",
     },
@@ -628,6 +684,60 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
     ],
   },
+  "optimization": {
+    "minimize": true,
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-antd": {
+          "name": "lib-antd",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+        },
+        "lib-arco": {
+          "name": "lib-arco",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
+        },
+        "lib-lodash": {
+          "name": "lib-lodash",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+        },
+        "lib-polyfill": {
+          "name": "lib-polyfill",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]core-js\\|@babel\\\\/runtime\\[\\\\\\\\/\\]/,
+        },
+        "lib-react": {
+          "name": "lib-react",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+        },
+        "lib-router": {
+          "name": "lib-router",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+      "maxAsyncSize": undefined,
+      "maxInitialSize": undefined,
+      "maxSize": undefined,
+      "minRemainingSize": undefined,
+      "minSize": undefined,
+      "minSizeReduction": undefined,
+    },
+  },
   "output": {
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
     "cssChunkFilename": "static/css/async/[name].[contenthash:8].css",
@@ -662,6 +772,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
     },
+    "minify": false,
     "progress": {
       "prefix": "Client",
     },
@@ -963,6 +1074,60 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
     ],
+  },
+  "optimization": {
+    "minimize": false,
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-antd": {
+          "name": "lib-antd",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+        },
+        "lib-arco": {
+          "name": "lib-arco",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
+        },
+        "lib-lodash": {
+          "name": "lib-lodash",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+        },
+        "lib-polyfill": {
+          "name": "lib-polyfill",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]core-js\\|@babel\\\\/runtime\\[\\\\\\\\/\\]/,
+        },
+        "lib-react": {
+          "name": "lib-react",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+        },
+        "lib-router": {
+          "name": "lib-router",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+      "maxAsyncSize": undefined,
+      "maxInitialSize": undefined,
+      "maxSize": undefined,
+      "minRemainingSize": undefined,
+      "minSize": undefined,
+      "minSizeReduction": undefined,
+    },
   },
   "output": {
     "chunkFilename": "static/js/async/[name].js",

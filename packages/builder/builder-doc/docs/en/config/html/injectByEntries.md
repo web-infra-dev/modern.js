@@ -1,5 +1,5 @@
-- Type: `Record<string, boolean | string>`
-- Default: `undefined`
+- **Type:** `Record<string, boolean | string>`
+- **Default:** `undefined`
 
 Set different script tag inject positions for different pages.
 
@@ -7,7 +7,7 @@ The usage is same as `inject`, and you can use the "entry name" as the key to se
 
 `injectByEntries` will overrides the value set in `inject`.
 
-#### Example
+### Example
 
 ```js
 export default {

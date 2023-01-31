@@ -1,4 +1,4 @@
-- Type:
+- **Type:**
 
 ```ts
 type ProgressBar =
@@ -8,7 +8,7 @@ type ProgressBar =
     };
 ```
 
-- Default: `true`
+- **Default:** `true`
 
 Whether to display progress bar during compilation.
 

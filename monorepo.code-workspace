@@ -237,10 +237,6 @@
       "path": "packages/generator/generators/entry-generator"
     },
     {
-      "name": "@modern-js/eslint-generator",
-      "path": "packages/generator/generators/eslint-generator"
-    },
-    {
       "name": "@modern-js/generator-generator",
       "path": "packages/generator/generators/generator-generator"
     },

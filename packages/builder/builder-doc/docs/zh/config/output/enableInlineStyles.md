@@ -1,11 +1,11 @@
-- Type: `boolean`
-- Default: `false`
+- **类型：** `boolean`
+- **默认值：** `false`
 
 用来控制生产环境中是否用 `<style>` 标签将产物中的 style 文件（.css 文件）inline 到 HTML 中。
 
 注意，如果开启了这个选项，那么 style 文件将不会被写入产物目录中，而只会以 inline 样式的形式存在于 HTML 文件中。
 
-#### 示例
+### 示例
 
 默认情况下，我们有这样的产物文件：
 

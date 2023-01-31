@@ -1,9 +1,9 @@
-- Type: `boolean`
-- Default: `false`
+- **Type:** `boolean`
+- **Default:** `false`
 
 Whether to generate a TypeScript declaration file for CSS modules.
 
-#### Example
+### Example
 
 Enable CSS module TypeScript declaration:
 

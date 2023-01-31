@@ -8,6 +8,16 @@
   border-top: 0;
 }
 
+.suggestionItem:hover,
+.suggestionItem.focus {
+  background: var(--modern-c-white-mute);
+}
+
+:global(.dark) .suggestionItem:hover,
+.suggestionItem.focus {
+  background: var(--modern-c-black-mute);
+}
+
 .suggestionItemFirst {
   border-top: 1px solid var(--modern-c-divider-light);
 }

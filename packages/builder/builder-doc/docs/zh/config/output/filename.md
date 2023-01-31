@@ -1,4 +1,4 @@
-- **Type**
+- **类型**
 
 ```ts
 type FilenameConfig = {
@@ -11,7 +11,7 @@ type FilenameConfig = {
 };
 ```
 
-- **Default**
+- **默认值**
 
 ```js
 // 开发环境
@@ -48,7 +48,7 @@ const prodDefaultFilename = {
 - `image`：表示非 SVG 图片的名称。
 - `media`：表示视频等媒体资源的名称。
 
-#### 示例
+### 示例
 
 修改 JavaScript 文件的名称为 `[name]_script.js`：
 

@@ -1,5 +1,5 @@
-- Type: `true | Object | Function | undefined`
-- Default: `false`
+- **Type:** `true | Object | Function | undefined`
+- **Default:** `false`
 
 Configure the [Pug](https://pugjs.org/) template engine.
 

@@ -33,7 +33,7 @@ Options:
 除了以上，模块工程还支持 `platform` 构建模式，可以用于执行其他工具的构建任务。例如，目前官方支持在安装了 `@modern-js/plugin-storybook` 插件后，可以通过执行 `modern build --platform` 或者 `modern build --platform storybook` 命令启动 Storybook 构建任务生成 Storybook 产物。
 
 :::tip{title=注意}
-在执行 Storybook 构建的时候，它需要读取项目的构建产物。因此**在执行 `modern build --platform` 命令启动 Storybook 构建的时候，要先执行一次 `modern build` 确保源码构建产物的存在**。
+在执行 Storybook 构建的时候，它可能需要读取项目的构建产物。因此**在执行 `modern build --platform` 命令启动 Storybook 构建的时候，会自动先执行 `modern build --watch` 程序确保源码构建产物的存在**。
 :::
 
 ## `modern new`
@@ -55,6 +55,7 @@ Options:
 
 目前可以开启的功能有：
 
+- Test 测试
 - Storybook 调试
 - Tailwind CSS 支持
 - Modern.js Runtime API
@@ -88,7 +89,8 @@ Options:
   -h, --help  display help for command
 ```
 
-`modern test` 命令会自动将 `src/tests/*.test.(js|ts|jsx|tsx)` 文件当做测试用例运行。
+需要先执行 `modern new` 开启测试功能，然后才可以执行 `modern test` 命令。
+`modern test` 命令会自动将 `tests/*.test.(js|ts|jsx|tsx)` 文件当做测试用例运行。
 
 ## `modern lint`
 

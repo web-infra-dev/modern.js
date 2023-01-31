@@ -1,11 +1,11 @@
-- Type: `boolean | 'anonymous' | 'use-credentials'`
-- Default: `false`
+- **Type:** `boolean | 'anonymous' | 'use-credentials'`
+- **Default:** `false`
 
 Set the [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin) attribute of the `<script>` tag.
 
 When true is passed, it is automatically set to `crossorigin="anonymous"`.
 
-#### Example
+### Example
 
 ```js
 export default {

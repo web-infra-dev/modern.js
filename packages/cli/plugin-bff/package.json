@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.1.0",
+  "version": "2.2.0",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/js/node/cli.js",
@@ -58,7 +58,6 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
-    "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/bff-core": "workspace:*",
     "@modern-js/create-request": "workspace:*",
     "@modern-js/server-utils": "workspace:*",

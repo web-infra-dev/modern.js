@@ -1,5 +1,5 @@
-- Type: `Function | undefined`
-- Default: `undefined`
+- **Type:** `Function | undefined`
+- **Default:** `undefined`
 
 You can modify the webpack configuration by configuring `tools.webpackChain` which is type of `Function`. The function receives two parameters, the first is the original webpack chain object, and the second is an object containing some utils.
 
@@ -11,7 +11,7 @@ Compared with `tools.webpack`, **webpack-chain not only supports chained calls, 
 
 #### env
 
-- Type: `'development' | 'production' | 'test'`
+- **Type:** `'development' | 'production' | 'test'`
 
 The `env` parameter can be used to determine whether the current environment is development, production or test. For example:
 
@@ -29,7 +29,7 @@ export default {
 
 #### isProd
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 The `isProd` parameter can be used to determine whether the current environment is production. For example:
 
@@ -47,7 +47,7 @@ export default {
 
 #### target
 
-- Type: `'web' | 'node' | 'modern-web' | 'web-worker'`
+- **Type:** `'web' | 'node' | 'modern-web' | 'web-worker'`
 
 The `target` parameter can be used to determine the current environment. For example:
 
@@ -65,7 +65,7 @@ export default {
 
 #### isServer
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 Determines whether the target environment is `node`, equivalent to `target === 'node'`.
 
@@ -83,7 +83,7 @@ export default {
 
 #### isWebWorker
 
-- Type: `boolean`
+- **Type:** `boolean`
 
 Determines whether the target environment is `web-worker`, equivalent to `target === 'web-worker'`.
 
@@ -101,7 +101,7 @@ export default {
 
 #### webpack
 
-- Type: `typeof import('webpack')`
+- **Type:** `typeof import('webpack')`
 
 The webpack instance. For example:
 
@@ -117,7 +117,7 @@ export default {
 
 ### HtmlWebpackPlugin
 
-- Type: `typeof import('html-webpack-plugin')`
+- **Type:** `typeof import('html-webpack-plugin')`
 
 The HtmlWebpackPlugin instance:
 

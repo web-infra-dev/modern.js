@@ -1,5 +1,5 @@
-- Type: `boolean | object`
-- Default: `false`
+- **Type:** `boolean | object`
+- **Default:** `false`
 
 By setting `output.convertToRem`, the Builder can do the following things:
 
@@ -57,7 +57,7 @@ options:
 | useRootFontSizeBeyondMax | `boolean`  | `false`                                                                                                              | Whether to use rootFontSize when large than maxRootFontSize                                                                 |
 | pxtorem                  | `object`   | <ul><li>rootValue (Default is the same as rootFontSize) </li><li>unitPrecision: 5 </li><li>propList: ['*']</li></ul> | [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem#options) options                                                  |
 
-#### Example
+### Example
 
 ```js
 export default {

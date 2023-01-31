@@ -4,7 +4,7 @@
 
 推荐优先使用该方法获取配置。
 
-- **Type**
+- **类型**
 
 ```ts
 function GetNormalizedConfig(): Readonly<NormalizedConfig>;

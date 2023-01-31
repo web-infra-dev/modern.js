@@ -180,4 +180,12 @@ export const buildPreset = {
   },
 };
 
-export const schema = [buildConfig, buildPreset];
+export const legacy = {
+  target: 'legacy',
+  schema: {
+    type: 'boolean',
+  },
+};
+
+export const schema = [buildConfig, buildPreset, legacy];
+export { legacySchema } from './legacy-schema';

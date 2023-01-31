@@ -29,11 +29,11 @@ export const createDefaultConfig = () =>
       // profile: false,
       buildCache: true,
       printFileSize: true,
-      // removeConsole: false,
+      removeConsole: false,
       // removeMomentLocale: false,
-      // chunkSplit: {
-      //   strategy: 'split-by-experience',
-      // },
+      chunkSplit: {
+        strategy: 'split-by-experience',
+      },
     },
   });
 

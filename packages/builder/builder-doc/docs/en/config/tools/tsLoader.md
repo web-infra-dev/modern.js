@@ -1,5 +1,5 @@
-- Type： `Object | Function | undefined`
-- Default:`undefined`
+- **Type:** `Object | Function | undefined`
+- **Default:** `undefined`
 
 `ts-loader` is not enabled by default in the project. When `tools.tsLoader` is not undefined, builder will use ts-loader instead of babel-loader to compile TypeScript code.
 

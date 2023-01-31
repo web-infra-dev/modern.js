@@ -1,11 +1,11 @@
-- Type: `string | Record<BuilderTarget, string>`
-- Default: `undefined`
+- **Type:** `string | Record<BuilderTarget, string>`
+- **Default:** `undefined`
 
 Add a prefix to [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolveextensions).
 
 If multiple files share the same name but have different extensions, Builder will resolve the one with the extension listed first in the array and skip the rest.
 
-#### Example
+### Example
 
 ```js
 export default {

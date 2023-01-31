@@ -1,4 +1,4 @@
-- Type:
+- **类型：**
 
 ```ts
 type DisableSourceMap =
@@ -9,7 +9,7 @@ type DisableSourceMap =
     };
 ```
 
-- Default:
+- **默认值：**
 
 ```ts
 const defaultDisableSourceMap = {

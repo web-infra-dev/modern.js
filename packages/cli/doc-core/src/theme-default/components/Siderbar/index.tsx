@@ -15,9 +15,11 @@ interface Props {
   sidebarData: (NormalizedSidebarGroup | SidebarItem)[];
 }
 
-const SINGLE_MENU_ITEM_HEIGHT = 28;
-const MENU_ITEM_MARGIN = 4;
-const singleItemHeight = SINGLE_MENU_ITEM_HEIGHT + MENU_ITEM_MARGIN;
+const textEllipsisStyle = {
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+} as const;
 
 interface SidebarItemProps {
   id: string;
@@ -31,20 +33,6 @@ interface SidebarItemProps {
   preloadLink: (link: string) => void;
 }
 
-// Notice: we must compute the height of children here, otherwise the animation of collapse will not work
-const getHeight = (item: NormalizedSidebarGroup | SidebarItem): number => {
-  if ('items' in item) {
-    return item.collapsed
-      ? singleItemHeight
-      : singleItemHeight +
-          item.items.reduce((acc, item) => {
-            return acc + getHeight(item);
-          }, 0);
-  } else {
-    return singleItemHeight;
-  }
-};
-
 export function SidebarItemComp(props: SidebarItemProps) {
   const { item, depth = 0, activeMatcher, id, setSidebarData } = props;
   const active = item.link && activeMatcher(item.link);
@@ -52,7 +40,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
     return (
       <SidebarGroupComp
         id={id}
-        key={item.text}
+        key={`${item.text}-${id}`}
         item={item}
         depth={depth}
         activeMatcher={activeMatcher}
@@ -72,11 +60,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
           font-medium="~"
           onMouseEnter={() => props.preloadLink(item.link)}
           className={active ? styles.menuItemActive : styles.menuItem}
-          style={{
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
+          style={textEllipsisStyle}
         >
           {item.text}
         </div>
@@ -89,6 +73,10 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   const { item, depth = 0, activeMatcher, id, setSidebarData } = props;
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
+  const transitionRef = useRef<any>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const initialRender = useRef(true);
+  const initialState = useRef((item as NormalizedSidebarGroup).collapsed);
   const active = item.link && activeMatcher(item.link);
   const { collapsed, collapsible = true } = item as NormalizedSidebarGroup;
   const collapsibleIcon = (
@@ -102,6 +90,50 @@ export function SidebarGroupComp(props: SidebarItemProps) {
       <ArrowRight />
     </div>
   );
+
+  useEffect(() => {
+    if (initialRender.current) {
+      return;
+    }
+
+    if (!containerRef.current || !innerRef.current) {
+      return;
+    }
+
+    if (transitionRef.current) {
+      clearTimeout(transitionRef.current);
+    }
+
+    const container = containerRef.current;
+    const inner = innerRef.current;
+    // We should add the margin-top(4px) of first item in list, which is a part of the height of the container
+    const contentHeight = inner.clientHeight + 4;
+    if (collapsed) {
+      container.style.maxHeight = `${contentHeight}px`;
+      container.style.transitionDuration = '0.5s';
+      inner.style.opacity = '0';
+
+      transitionRef.current = setTimeout(() => {
+        if (containerRef.current) {
+          containerRef.current.style.maxHeight = '0px';
+        }
+      }, 0);
+    } else {
+      container.style.maxHeight = `${contentHeight}px`;
+      container.style.transitionDuration = '0.3s';
+      inner.style.opacity = '1';
+
+      transitionRef.current = setTimeout(() => {
+        if (containerRef.current) {
+          containerRef.current.style.removeProperty('max-height');
+        }
+      }, 300);
+    }
+  }, [collapsed]);
+
+  useEffect(() => {
+    initialRender.current = false;
+  }, []);
 
   const toggleCollapse: React.MouseEventHandler<HTMLDivElement> = (e): void => {
     e.stopPropagation();
@@ -123,7 +155,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   };
 
   return (
-    <section key={item.text} block="~" className="mt-1">
+    <section key={id} block="~" className="mt-1">
       <div
         flex="~"
         justify="between"
@@ -147,7 +179,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
           }
         }}
       >
-        <h2 p="y-1 x-2" text="sm" font="semibold">
+        <h2 p="y-1 x-2 h-8" text="sm" font="semibold" style={textEllipsisStyle}>
           {item.text}
         </h2>
         {collapsible && (
@@ -162,26 +194,32 @@ export function SidebarGroupComp(props: SidebarItemProps) {
       </div>
       <div
         ref={containerRef}
+        className="transition-all duration-300 ease-in-out"
         style={{
-          transition: 'height 0.2s ease-in-out',
           overflow: 'hidden',
-          height:
-            !collapsed || !collapsible
-              ? `${getHeight(item) - singleItemHeight}px`
-              : '0px',
+          maxHeight: initialState.current ? 0 : undefined,
         }}
       >
-        {(item as NormalizedSidebarGroup)?.items?.map((item, index) => (
-          <div key={item.link} m="last:b-0.5 l-4">
-            <SidebarItemComp
-              {...props}
-              item={item}
-              depth={depth + 1}
-              id={`${id}-${index}`}
-              preloadLink={props.preloadLink}
-            />
-          </div>
-        ))}
+        <div
+          ref={innerRef}
+          className="transition-opacity duration-500 ease-in-out"
+          style={{
+            opacity: initialState.current ? 0 : 1,
+          }}
+        >
+          {(item as NormalizedSidebarGroup)?.items?.map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <div key={index} m="l-4">
+              <SidebarItemComp
+                {...props}
+                item={item}
+                depth={depth + 1}
+                id={`${id}-${index}`}
+                preloadLink={props.preloadLink}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -261,7 +299,9 @@ export function SideBar(props: Props) {
               item={item}
               depth={0}
               activeMatcher={activeMatcher}
-              key={item.text}
+              // The siderbarData is stable, so it's safe to use index as key
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
               collapsed={(item as NormalizedSidebarGroup).collapsed ?? true}
               setSidebarData={setSidebarData}
               preloadLink={preloadLink}

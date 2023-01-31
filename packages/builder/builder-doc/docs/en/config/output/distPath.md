@@ -44,7 +44,7 @@ Detail:
 - `media`: The output directory of media assets, such as videos.
 - `server`: The output directory of server bundles when target is `node`.
 
-#### Example
+### Example
 
 The JavaScript files will be output to the `distPath.root` + `distPath.js` directory, which is `dist/static/js`.
 

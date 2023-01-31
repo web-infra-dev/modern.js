@@ -4,7 +4,7 @@ import garfishPlugin from '@modern-js/plugin-garfish';
 
 import { getPort } from '../../../utils/testCase';
 
-const port = getPort('@cypress-test/garfish-main-router-v6');
+const port = getPort('@cypress-test/garfish-dashboard-router-v6');
 
 module.exports = defineConfig({
   runtime: {

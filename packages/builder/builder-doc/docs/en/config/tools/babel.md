@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default: `undefined`
+- **Type:** `Object | Function`
+- **Default:** `undefined`
 
 By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
@@ -55,7 +55,7 @@ When `tools.babel` is a Function, the tool functions available for the second pa
 
 #### addPlugins
 
-- Type: `(plugins: BabelPlugin[]) => void`
+- **Type:** `(plugins: BabelPlugin[]) => void`
 
 Add some Babel plugins. For example:
 
@@ -80,7 +80,7 @@ export default {
 
 #### addPresets
 
-- Type: `(presets: BabelPlugin[]) => void`
+- **Type:** `(presets: BabelPlugin[]) => void`
 
 Add Babel preset configuration. (No need to add presets in most cases)
 
@@ -96,7 +96,7 @@ export default {
 
 #### removePlugins
 
-- Type: `(plugins: string | string[]) => void`
+- **Type:** `(plugins: string | string[]) => void`
 
 To remove the Babel plugin, just pass in the name of the plugin to be removed, you can pass in a single string or an array of strings.
 
@@ -112,7 +112,7 @@ export default {
 
 #### removePresets
 
-- Type: `(presets: string | string[]) => void`
+- **Type:** `(presets: string | string[]) => void`
 
 To remove the Babel preset configuration, pass in the name of the preset to be removed, you can pass in a single string or an array of strings.
 
@@ -128,7 +128,7 @@ export default {
 
 #### addIncludes
 
-- Type: `(includes: string | RegExp | (string | RegExp)[]) => void`
+- **Type:** `(includes: string | RegExp | (string | RegExp)[]) => void`
 
 By default, Babel will only compile the application code in the src directory. With `addIncludes` you can specify that Babel compile some files in node_modules. For example:
 
@@ -162,7 +162,7 @@ Builder provides a more general [source.include](https://modernjs.dev/builder/en
 
 #### addExcludes
 
-- Type: `(excludes: string | RegExp | (string | RegExp)[]) => void`
+- **Type:** `(excludes: string | RegExp | (string | RegExp)[]) => void`
 
 Contrary to `addIncludes`, specifies that certain files are excluded from Babel's compilation.
 
@@ -180,7 +180,7 @@ export default {
 
 #### modifyPresetEnvOptions
 
-- Type: `(options: PresetEnvOptions) => void`
+- **Type:** `(options: PresetEnvOptions) => void`
 
 Modify the configuration of [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env), the configuration you pass in will be shallowly merged with default config. For example:
 
@@ -200,7 +200,7 @@ export default {
 
 #### modifyPresetReactOptions
 
-- Type: `(options: PresetReactOptions) => void`
+- **Type:** `(options: PresetReactOptions) => void`
 
 Modify the configuration of [@babel/preset-react](https://babeljs.io/docs/en/babel-preset-react), the configuration you pass in will be shallowly merged with default config. For example:
 

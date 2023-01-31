@@ -1,5 +1,5 @@
-- Type: `Record<string, string>`
-- Default: `undefined`
+- **类型：** `Record<string, string>`
+- **默认值：** `undefined`
 
 用于在多页面的场景下，为不同的页面设置不同的 favicon。
 
@@ -7,7 +7,7 @@
 
 `faviconByEntries` 的优先级高于 `favicon`，因此会覆盖 `favicon` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {

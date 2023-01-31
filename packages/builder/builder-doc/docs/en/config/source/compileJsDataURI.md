@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 Whether to compile JavaScript code imported via Data URI.
 
@@ -11,7 +11,7 @@ import x from 'data:text/javascript,export default 1;';
 import 'data:text/javascript;charset=utf-8;base64,Y29uc29sZS5sb2coJ2lubGluZSAxJyk7';
 ```
 
-#### Example
+### Example
 
 Add the following config to disable:
 

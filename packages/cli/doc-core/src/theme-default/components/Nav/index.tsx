@@ -36,7 +36,13 @@ const NavBarTitle = ({ title, langRoutePrefix, logo }: NavBarTitleProps) => {
         className="flex items-center"
       >
         {logo ? (
-          <img src={logo} alt="logo" id="logo" m="r-4" className="w-24" />
+          <img
+            src={logo}
+            alt="logo"
+            id="logo"
+            m="r-4"
+            className="w-24 modern-doc-logo"
+          />
         ) : (
           <span>{title}</span>
         )}
@@ -93,7 +99,7 @@ export function Nav(props: NavProps) {
   const NavAppearance = () => {
     return (
       <div
-        className={`appearance ${styles.menuItem}`}
+        className={`${styles.menuItem} modern-doc-appearance`}
         display="none sm:flex"
         align-items-center="center"
       >
@@ -157,7 +163,7 @@ export function Nav(props: NavProps) {
         zIndex: 'var(--modern-z-index-nav)',
       }}
     >
-      <div className={styles.navContainer} p="x-6">
+      <div className={`${styles.navContainer} modern-doc-nav`} p="x-6">
         <div
           flex="~"
           justify="between"

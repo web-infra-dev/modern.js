@@ -20,7 +20,7 @@ module.exports = defineConfig({
       apps: [
         {
           name: 'Dashboard',
-          entry: 'http://localhost:4001/',
+          entry: getPublicPath('@cypress-test/garfish-dashboard'),
         },
         {
           name: 'TableList',

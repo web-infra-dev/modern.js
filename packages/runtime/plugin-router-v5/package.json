@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.1.0",
+  "version": "2.2.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/js/node/cli/index.js",
@@ -24,7 +24,6 @@
     },
     "./runtime": {
       "jsnext:source": "./src/runtime/index.ts",
-      "node": "./dist/js/node/runtime/index.js",
       "default": "./dist/js/treeshaking/runtime/index.js"
     },
     "./cli": {
@@ -58,7 +57,6 @@
   "dependencies": {
     "history": "^4.7.9",
     "react-router-dom": "^5.1.2",
-    "@modern-js/plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "hoist-non-react-statics": "^3.3.2",

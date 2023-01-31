@@ -22,7 +22,7 @@ For script tags, the result is to refuse to execute the code; for CSS links, the
 
 For more on subresource integrity, see [Subresource Integrity - MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity).
 
-#### Example
+### Example
 
 By default, `SRI` is not turned on, and when it is, its default configuration is as follows:
 

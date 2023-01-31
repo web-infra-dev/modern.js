@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-plugin-auto-sidebar",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -30,14 +30,13 @@
     "dist/"
   ],
   "peerDependencies": {
-    "@modern-js/doc-tools": "workspace:^2.1.0",
+    "@modern-js/doc-tools": "workspace:^2.2.0",
     "react": ">=17"
   },
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.11.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -63,7 +62,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*",
-    "lodash-es": "^4.17.21"
+    "@modern-js/utils": "workspace:*"
   }
 }

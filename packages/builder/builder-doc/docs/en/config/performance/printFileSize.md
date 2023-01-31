@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 Whether to print the file sizes after production build.
 
@@ -14,7 +14,7 @@ info    File sizes after production build:
   dist/html/main/index.html                1.64 kB      874 B
 ```
 
-#### Example
+### Example
 
 Disable the logs:
 

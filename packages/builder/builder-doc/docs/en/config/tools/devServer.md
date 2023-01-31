@@ -1,5 +1,5 @@
-- Type: `Object`
-- Default: `{}`
+- **Type:** `Object`
+- **Default:** `{}`
 
 The config of DevServer can be modified through `tools.devServer`.
 
@@ -7,8 +7,8 @@ The config of DevServer can be modified through `tools.devServer`.
 
 #### after
 
-- Type: `Array`
-- Default: `[]`
+- **Type:** `Array`
+- **Default:** `[]`
 
 Provides the ability to execute custom middleware after all other middleware internally within the server.
 
@@ -29,8 +29,8 @@ export default {
 
 #### before
 
-- Type: `Array`
-- Default: `[]`
+- **Type:** `Array`
+- **Default:** `[]`
 
 Provides the ability to execute custom middleware prior to all other middleware internally within the server.
 
@@ -51,7 +51,7 @@ export default {
 
 #### client
 
-- Type:
+- **Type:**
 
 ```ts
 {
@@ -66,7 +66,7 @@ export default {
 }
 ```
 
-- Default:
+- **Default:**
 
 ```js
 {
@@ -80,7 +80,7 @@ The config of hmr client.
 
 #### devMiddleware
 
-- Type:
+- **Type:**
 
 ```js
 {
@@ -88,7 +88,7 @@ The config of hmr client.
 }
 ```
 
-- Default:
+- **Default:**
 
 ```js
 {
@@ -100,8 +100,8 @@ The config of devMiddleware. Current options is the subset of [webpack-dev-middl
 
 #### headers
 
-- Type: `Record<string, string>`
-- Default: `undefined`
+- **Type:** `Record<string, string>`
+- **Default:** `undefined`
 
 Adds headers to all responses.
 
@@ -119,8 +119,8 @@ export default {
 
 #### historyApiFallback
 
-- Type: `boolean | ConnectHistoryApiFallbackOptions`
-- Default: `false`
+- **Type:** `boolean | ConnectHistoryApiFallbackOptions`
+- **Default:** `false`
 
 The index.html page will likely have to be served in place of any 404 responses. Enable `devServer.historyApiFallback` by setting it to `true`:
 
@@ -138,15 +138,15 @@ For more options and information, see the [connect-history-api-fallback](https:/
 
 #### hot
 
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 Enable [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) feature.
 
 #### https
 
-- Type: `boolean | { key: string; cert: string }`
-- Default: `false`
+- **Type:** `boolean | { key: string; cert: string }`
+- **Default:** `false`
 
 By default, DevServer will be served over HTTP. It can optionally be served over HTTPS by setting `devServer.https` to `true`, and will disable the HTTP server.
 
@@ -167,14 +167,14 @@ export default {
 
 #### liveReload
 
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 By default, the DevServer will reload/refresh the page when file changes are detected（`devServer.hot` option must be disabled in order for liveReload to take effect）. Disable `devServer.liveReload` by setting it to `false`.
 
 #### setupMiddlewares
 
-- Type:
+- **Type:**
 
 ```js
 Array<
@@ -193,7 +193,7 @@ Array<
 >;
 ```
 
-- Default: `undefined`
+- **Default:** `undefined`
 
 Provides the ability to execute a custom function and apply custom middlewares.
 
@@ -242,8 +242,8 @@ export default {
 
 #### proxy
 
-- Type: `Record<string, string> | Record<string, ProxyDetail>`
-- Default: `undefined`
+- **Type:** `Record<string, string> | Record<string, ProxyDetail>`
+- **Default:** `undefined`
 
 Proxying some URLs.
 
@@ -348,7 +348,7 @@ export default {
 
 #### watch
 
-- Type: `boolean`
-- Default: `true`
+- **Type:** `boolean`
+- **Default:** `true`
 
 Whether to watch files change in directories such as `mock/`, `server/`, `api/`.

@@ -32,16 +32,28 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --ignore-scripts
 
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+
       - name: Build Main Doc
         run: cd packages/toolkit/main-doc && npm run build && cd ../../../
 
+      - name: Build Dependencies
+        run: pnpm turbo run build --filter="@modern-js/main-doc-website"
+
       - name: Build Website
-        run: cd website/main && npm run build
+        run: cd website/main && npm run build:doc
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages
-          folder: website/main/build
+          folder: website/main/doc_build
           target-folder: v2
           clean: true

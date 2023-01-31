@@ -1,11 +1,11 @@
-- Type: `boolean | 'anonymous' | 'use-credentials'`
-- Default: `false`
+- **类型：** `boolean | 'anonymous' | 'use-credentials'`
+- **默认值：** `false`
 
 用于设置 `<script>` 标签的 [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin) 属性。
 
 传入 true 时，会自动设置为 `crossorigin="anonymous"`。
 
-#### 示例
+### 示例
 
 ```js
 export default {

@@ -1,5 +1,5 @@
-- Type: `boolean`
-- Default: `true`
+- **类型：** `boolean`
+- **默认值：** `true`
 
 是否在生产环境构建后输出所有静态资源文件的体积。
 
@@ -14,7 +14,7 @@ info    File sizes after production build:
   dist/html/main/index.html                1.64 kB      874 B
 ```
 
-#### 示例
+### 示例
 
 禁用相关日志：
 

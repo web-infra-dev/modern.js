@@ -19,16 +19,16 @@ sidebar_position: 5
 
 因此它是一个复杂且功能强大的工具。
 
-模块工程解决方案集成了 Storybook，因此你几乎可以按照 Storybook 官方文档的内容进行使用。不过依然有一些地方需要注意，接下来讲解一下：
+模块工程解决方案集成了 Storybook，因此你几乎可以按照 Storybook 官方文档的内容进行使用。不过依然有一些地方需要注意，接下来讲解一下。
 
 ## 调试代码
 
-在调试代码过程中需要引入组件代码，目前可以通过两种方式引入组件代码：
+在调试代码过程中需要引入项目代码，目前可以通过两种方式引入项目代码：
 
-- 引用组件产物
-- 引用组件源码
+- 引用项目产物
+- 引用项目源码
 
-我们更推荐使用第一种“**引用组件产物**”的方式。因为它几乎接近真实的使用场景，不仅可以对组件功能进行调试，同时也对构建产物的正确性进行了验证。
+我们更推荐使用第一种“**引用项目产物**”的方式。因为它更接近真实的使用场景，不仅可以对组件功能进行调试，同时也对构建产物的正确性进行了验证。
 
 接下来我们分别讲一下这两种方式具体如何使用。
 
@@ -49,7 +49,7 @@ sidebar_position: 5
 ---
 
 确保 `package.json` 的 `main` 和 `types`
-的值为真实的路径。
+的值为正确的产物路径。
 
 ```json package.json
 {
@@ -70,19 +70,21 @@ export const content = 'hello world';
 ---
 
 确保在 `stories/tsconfig.json` 中设置了指向项目根目录的 `paths` 配置。
-`paths` 的 `key` 与项目名称相同。
+`paths` 的 `key` 与项目名称相同，这样在编译过程中以及在代码中不会出现问题。
 
-```json stories/tsconfig.json focus=7:9
+```json stories/tsconfig.json focus=5:7
 {
   "extends": "../tsconfig.json",
-  "include": ["./"],
   "compilerOptions": {
-    "jsx": "preserve",
-    "baseUrl": ".",
+    "baseUrl": "../",
     "paths": {
-      "foo": ["../"]
+      "foo": ["."],
+      "foo/*": ["./*"]
     }
-  }
+  },
+  "include": [
+    "**/*"
+  ]
 }
 ```
 
@@ -104,7 +106,8 @@ export default {
 
 </CH.Spotlight>
 
-如果在开发过程中，遇到无法实时获得类型定义的情况，此时：
+:::info
+在开发过程中，可能会遇到无法实时获得类型定义的情况。因为只有当保存代码后，产物目录下的类型文件才会更新。此时：
 
 对于 `pnpm` 的项目，可以按照下面的内容对 `package.json` 进行修改：
 
@@ -122,11 +125,12 @@ export default {
 > 关于 pnpm 的 `publishConfig` 的使用，可以阅读下面这个[链接](https://pnpm.io/package_json#publishconfig)。
 
 而对于 npm 和 Yarn 的项目，则只能通过手动的方式在**开发阶段**和**发布阶段**对 `package.json` 的 `types` 的值进行修改。
+:::
 
 那么为什么可以直接引用产物呢？
 
 1. 在执行 `modern dev storybook` 命令之前，会自动执行 `modern build` 命令，保证项目构建产物的存在。
-2. 在 Storybook 内部增加了以项目名称作为别名的处理，保证能够**根据 `package.json` 解析出项目的产物路径**。
+2. 在 Storybook 内部增加了针对 `tsconfig.json` 文件或者以项目名称作为别名的处理，保证能够**根据 `package.json` 解析出项目的产物路径**。
 
 ### 引用组件源码
 
@@ -151,8 +155,6 @@ export default {
 
 ## 配置 Storybook
 
-### 配置文件
-
 Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配置，其中包含各种配置文件。**在模块工程方案中，可以在项目的 `config/storybook` 目录下增加 Storybook 配置文件。**
 
 关于 Storybook 各种配置文件的使用方式，可以查看下面的链接：
@@ -166,17 +168,8 @@ Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配�
 
 在未来我们会考虑这些配置是否可以允许修改，不过目前为了减少不可预知的问题暂时限制使用这些配置。
 
-### `dev.storybook`
 
-除了配置文件以外，模块工程方案还在 `modern.config.(j|t)s` 项目配置文件里提供了 `dev.storybook` 配置项。
-
-目前可以通过该配置对 Storybook 的 webpack 配置进行修改。
-
-{/* 链接待补充 */}
-
-- `dev.storybook.webpack`
-
-### 构建 Storybook 产物
+## 构建 Storybook 产物
 
 除了可以对组件或者普通的模块进行 Storybook 调试，还可以通过下面的命令来执行 Storybook 的构建任务。
 

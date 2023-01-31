@@ -48,7 +48,7 @@ Detail:
 - `image`: The name of a non-SVG image.
 - `media`: The name of a media asset, such as a video.
 
-#### Example
+### Example
 
 Set the name of the JavaScript file to `[name]_script.js`:
 

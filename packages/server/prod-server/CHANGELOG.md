@@ -1,5 +1,17 @@
 # @modern-js/prod-server
 
+## 2.2.0
+
+### Patch Changes
+
+- 2d3e3df: fix(prod-server): failed to match html inside config/public directory
+
+  fix(prod-server): 修复无法正确匹配 config/public 目录下的 HTML 文件 URL 的问题
+
+- Updated dependencies [49eff0c]
+  - @modern-js/utils@2.2.0
+  - @modern-js/server-core@2.2.0
+
 ## 2.1.0
 
 ### Patch Changes

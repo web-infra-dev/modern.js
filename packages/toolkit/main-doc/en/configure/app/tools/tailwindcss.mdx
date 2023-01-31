@@ -1,0 +1,35 @@
+---
+sidebar_label: tailwindcss
+---
+
+# tools.tailwindcss
+
+- **Type:** `Object | Function`
+- **Default:**
+
+```js
+const tailwind = {
+  content: [
+    './config/html/**/*.html',
+    './config/html/**/*.ejs',
+    './config/html/**/*.hbs',
+    './src/**/*.js',
+    './src/**/*.jsx',
+    './src/**/*.ts',
+    './src/**/*.tsx',
+    './storybook/**/*',
+  ],
+  // Use source.design System config as Tailwind CSS theme config
+  theme: source.designSystem,
+};
+```
+
+When the value is of type `Object`, rhe configuration corresponding to [TailwindCSS](https://tailwindcss.com/docs/configuration) is merged with the default configuration through `Object.assign`.
+
+When the value is of type `Function`, the object returned by the function is merged with the default configuration by `Object.assign`.
+
+### Limitations
+
+The `theme` attribute is not allowed, otherwise the build will fail. Modern.js use [source.designSystem](/configure/app/source/design-system) as the Tailwind CSS Theme configuration.
+
+Other uses are consistent with [Tailwind CSS](https://tailwindcss.com/docs/configuration)。

@@ -6,22 +6,30 @@ sidebar_position: 3
 
 ## 三分钟快速上手
 
-想要实际体验 Module Tools？首先需要安装 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.17.6**。
+想要实际体验 Module Tools？首先需要安装 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.18.0**。我们推荐使用 Node.js 16 的 LTS 版本。
 
 然后在你的项目里安装以下依赖：
 
-- `@modern-js/module-tools`
-- `@modern-js/plugin-testing`
-
-> 如果是一个 TypeScript 项目，则需要增加 `"typescript"` 依赖。
+- `"@modern-js/module-tools"`
+- `"typescript"`（如果不是 TypeScript 项目，则省略）
 
 ```bash
-npm install -D @modern-js/module-tools @modern-js/plugin-testing
+npm install -D @modern-js/module-tools typescript
 ```
 
 > 对于使用 pnpm 或者 Yarn 包管理器的项目，只需要替换 npm 就可以了。**推荐使用 pnpm**。
 
-接着在项目的 `package.json` 文件里增加命令 `"build": "modern build"`：
+接着在项目的根目录下创建 `modern.config.(t|j)s` 文件：
+
+``` ts
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+    plugins: [moduleTools()],
+})
+```
+
+最后在项目的 `package.json` 文件里增加命令 `"build": "modern build"`：
 
 ```json
 {
@@ -33,11 +41,11 @@ npm install -D @modern-js/module-tools @modern-js/plugin-testing
 
 如果你的项目存在 `src/index.(js|jsx)` 文件或者同时存在 `src/index.(ts|tsx)` 和 `tsconfig.json` 文件，那么恭喜你可以运行直接运行 `npm run build` 来使用 Module Tools 构建你的项目了。
 
-**如果你想要看看使用了模块工程方案的真实项目，可以执行以下命令**：
+**如果你想要看看使用了模块工程方案的完整项目，可以执行以下命令**：
 
 ```bash
 git clone https://github.com/modern-js-dev/module-tools-examples
-cd module-tools-example
+cd module-tools-example/base
 
 ## 执行构建：
 pnpm build
@@ -51,8 +59,6 @@ pnpm dev storybook
 ## 测试
 pnpm test
 ```
-
-> 上面的链接对应的内容待补充
 
 **如果你想要创建一个完整的模块工程项目，可以执行以下命令：**
 

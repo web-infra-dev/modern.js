@@ -168,7 +168,6 @@ export const componentUmdPresetWithTarget = targets.reduce((ret, target) => {
 }, {} as Record<`npm-component-with-umd-${Target}`, PartialBuildConfig>);
 
 export const presetList = {
-  'base-config': basePresetConfig,
   ...libraryPreset,
   ...libraryPresetWithTarget,
   ...libraryUmdPreset,
@@ -181,8 +180,13 @@ export const presetList = {
 
 export const BuildInPreset = {
   BASE_CONFIG: basePresetConfig,
+  'base-config': basePresetConfig,
   NPM_LIBRARY: npmLibraryPresetConfig,
+  'npm-library': npmLibraryPresetConfig,
   NPM_LIBRARY_WITH_UMD: npmLibraryWithUmdPresetConfig,
+  'npm-library-with-umd': npmLibraryWithUmdPresetConfig,
   NPM_COMPONENT: npmComponentPresetConfig,
+  'npm-component': npmComponentPresetConfig,
   NPM_COMPONENT_WITH_UMD: npmComponentWithUmdPresetConfig,
+  'npm-component-with-umd': npmComponentWithUmdPresetConfig,
 };

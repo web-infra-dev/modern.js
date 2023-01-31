@@ -1,5 +1,5 @@
 import type { PluginAPI } from '@modern-js/core';
-import type { DevCommandOptions } from './types/command';
+import type { DevCommandOptions, BuildCommandOptions } from './types/command';
 import type { ModuleContext } from './types/context';
 import type { DevToolData, ModuleTools } from './types';
 
@@ -14,7 +14,13 @@ export const runBuildBeforeDevTools = async (
 ) => {
   if (!options.disableRunBuild) {
     const { build } = await import('./build');
-    await build(api, { watch: true, tsconfig: cliOptions.tsconfig }, context);
+    const defaultCmdOptions: BuildCommandOptions = {
+      watch: true,
+      tsconfig: cliOptions.tsconfig,
+      dts: true,
+      clear: true,
+    };
+    build(api, defaultCmdOptions, context);
   }
 };
 

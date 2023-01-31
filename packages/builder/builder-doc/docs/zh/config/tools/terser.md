@@ -1,5 +1,5 @@
-- Type: `Object | Function | undefined`
-- Default:
+- **类型：** `Object | Function | undefined`
+- **默认值：**
 
 ```js
 const defaultTerserOptions = {

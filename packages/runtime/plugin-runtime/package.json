@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.1.0",
+  "version": "2.2.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -22,25 +22,19 @@
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
-      "node": {
-        "jsnext:source": "./src/index.ts",
-        "default": "./dist/js/node/index.js"
-      },
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/js/treeshaking/index.js"
     },
     "./loadable": {
       "jsnext:source": "./src/exports/loadable.ts",
-      "node": "./dist/js/node/exports/loadable.js",
       "default": "./dist/js/treeshaking/exports/loadable.js"
     },
     "./head": {
       "jsnext:source": "./src/exports/head.ts",
-      "node": "./dist/js/node/exports/head.js",
       "default": "./dist/js/treeshaking/exports/head.js"
     },
     "./styled": {
       "jsnext:source": "./src/exports/styled.ts",
-      "node": "./dist/js/node/exports/styled.js",
       "default": "./dist/js/treeshaking/exports/styled.js"
     },
     "./server": {
@@ -60,12 +54,11 @@
     },
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
-      "node": "./dist/js/node/ssr/index",
+      "node": "./dist/js/treeshaking/ssr/index.node.js",
       "default": "./dist/js/treeshaking/ssr/index.js"
     },
     "./model": {
       "jsnext:source": "./src/state/index.ts",
-      "node": "./dist/js/node/state/index.js",
       "default": "./dist/js/treeshaking/state/index.js"
     },
     "./cli": {
@@ -74,12 +67,10 @@
     },
     "./router": {
       "jsnext:source": "./src/router/index.ts",
-      "node": "./dist/js/node/router/index.js",
       "default": "./dist/js/treeshaking/router/index.js"
     },
     "./router/server": {
       "jsnext:source": "./src/router/runtime/server.ts",
-      "node": "./dist/js/node/router/runtime/server.js",
       "default": "./dist/js/treeshaking/router/runtime/server.js"
     }
   },

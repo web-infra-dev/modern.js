@@ -1,9 +1,9 @@
-- Type: `boolean`
-- Default: `false`
+- **类型：** `boolean`
+- **默认值：** `false`
 
 是否生成 manifest 文件，该文件包含所有构建产物的信息。
 
-#### 示例
+### 示例
 
 添加以下配置来开启：
 

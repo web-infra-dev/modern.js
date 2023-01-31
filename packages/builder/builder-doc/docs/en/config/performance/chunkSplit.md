@@ -1,5 +1,5 @@
-- Type: `Object`
-- Default: `{ strategy: 'split-by-experience' }`
+- **Type:** `Object`
+- **Default:** `{ strategy: 'split-by-experience' }`
 
 `performance.chunkSplit` is used to configure the chunk splitting strategy. The type of `ChunkSplit` is as follows:
 
@@ -57,8 +57,8 @@ If you want to use other splitting strategies, you can specify it via `performan
 
 ### chunkSplit.minSize
 
-- Type: `number`
-- Default: `10000`
+- **Type:** `number`
+- **Default:** `10000`
 
 When `performance.chunkSplit.strategy` is `split-by-size`, you can specify the minimum size of a chunk via `performance.chunkSplit.minSize`, the unit is bytes. The default value is `10000`. For example:
 
@@ -75,8 +75,8 @@ export default {
 
 ### chunkSplit.maxSize
 
-- Type: `number`
-- Default: `Infinity`
+- **Type:** `number`
+- **Default:** `Infinity`
 
 When `performance.chunkSplit.strategy` is `split-by-size`, you can specify the maximum size of a chunk via `performance.chunkSplit.maxSize`, the unit is bytes. The default value is `Infinity`. For example:
 
@@ -93,8 +93,8 @@ export default {
 
 ### chunkSplit.forceSplitting
 
-- Type: `Array<RegExp>`
-- Default: `[]`
+- **Type:** `Array<RegExp>`
+- **Default:** `[]`
 
 Via `performance.chunkSplit.forceSplitting`, you can specify the NPM packages that need to be forced to split. For example:
 

@@ -1,5 +1,5 @@
-- Type: `Object | Function`
-- Default: `undefined`
+- **类型：** `Object | Function`
+- **默认值：** `undefined`
 
 通过 `tools.cssLoader` 可以修改 [css-loader](https://github.com/webpack-contrib/css-loader) 的配置项。默认配置如下:
 

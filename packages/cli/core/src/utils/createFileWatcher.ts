@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import * as path from 'path';
 import * as fs from 'fs';
-import { isDev, isTest, createDebugger, chokidar } from '@modern-js/utils';
+import { createDebugger, chokidar, isDevCommand } from '@modern-js/utils';
 import type { CliHooksRunner, IAppContext } from '../types';
 
 const debug = createDebugger('watch-files');
@@ -17,7 +17,7 @@ export const createFileWatcher = async (
   // eslint-disable-next-line consistent-return
 ) => {
   // only add fs watcher on dev mode.
-  if (isDev() || isTest()) {
+  if (isDevCommand()) {
     const { appDirectory } = appContext;
     const extraFiles = await hooksRunner.watchFiles();
     const watched = extraFiles.filter(Boolean);

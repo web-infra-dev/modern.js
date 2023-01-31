@@ -1,5 +1,5 @@
-- Type: `Record<string, ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>>`
-- Default: `undefined`
+- **类型：** `Record<string, ArrayOrNot<HtmlInjectTag | HtmlInjectTagHandler>>`
+- **默认值：** `undefined`
 
 用于在多页面的场景下，为不同的页面注入不同的标签。
 
@@ -7,7 +7,7 @@
 
 `tagsByEntries` 的优先级高于 `tags`，因此会覆盖 `tags` 中设置的值。
 
-#### 示例
+### 示例
 
 ```js
 export default {
