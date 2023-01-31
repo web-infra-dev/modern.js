@@ -115,9 +115,9 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         items: [
           getLink('/api/config-source'),
           getLink('/api/config-html'),
+          getLink('/api/config-security'),
           getLink('/api/config-dev'),
           getLink('/api/config-output'),
-          getLink('/api/config-security'),
           getLink('/api/config-tools'),
           getLink('/api/config-performance'),
           getLink('/api/config-experiments'),
