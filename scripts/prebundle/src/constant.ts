@@ -1,6 +1,6 @@
 import { basename, join } from 'path';
 import glob from 'fast-glob';
-import { copyFileSync, copySync } from 'fs-extra';
+import { copyFileSync, copySync, moveSync } from 'fs-extra';
 import { replaceFileContent } from './helper';
 import type { TaskConfig } from './types';
 
@@ -145,10 +145,21 @@ export const TASKS: TaskConfig[] = [
             return `${content}\n${addExports}`;
           });
         },
+        afterBundle(task) {
+          // Fix dts-packer failed to handle uri-js type
+          moveSync(
+            join(task.distPath, 'uri-js/dist/es5/uri.all.d.ts'),
+            join(task.distPath, 'uri-js.d.ts'),
+          );
+        },
         emitFiles: [
           {
             path: 'codegen.js',
             content: `module.exports = require('./').codegen;`,
+          },
+          {
+            path: 'types/vocabularies/errors.d.ts',
+            content: 'export type DefinedError = any;',
           },
         ],
       },
