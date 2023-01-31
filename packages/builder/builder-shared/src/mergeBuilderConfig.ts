@@ -11,7 +11,7 @@ export const mergeBuilderConfig = <T>(...configs: T[]): T =>
         return undefined;
       }
 
-      // target maybe array，should not merge source & target
+      // source maybe array，should not merge source & target
       if (key === 'removeConsole') {
         return source ?? target;
       }
