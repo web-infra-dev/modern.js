@@ -17,14 +17,17 @@ function getNavbar(lang: 'zh' | 'en'): NavItem[] {
     {
       text: getText('指南', 'Guide'),
       link: getLink('/guide/introduction'),
+      activeMatch: '/guide/',
     },
     {
       text: 'API',
       link: getLink('/api/'),
+      activeMatch: '/api/',
     },
     {
       text: getText('插件', 'Plugins'),
       link: getLink('/plugins/introduction'),
+      activeMatch: '/plugins/',
     },
   ];
 }
