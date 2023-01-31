@@ -2,6 +2,7 @@ import type { CliPlugin } from '@modern-js/core';
 import type { UserConfig, Sidebar, NavItem } from '@modern-js/doc-core';
 import { logger } from '@modern-js/utils/logger';
 import chalk from '@modern-js/utils/chalk';
+import { cli } from '@modern-js/core';
 import { schema } from './config/schema';
 
 export type { CliPlugin, Sidebar, NavItem, UserConfig };
@@ -17,7 +18,7 @@ export default (): CliPlugin => ({
   setup: async api => {
     const { dev, build } = await import('@modern-js/doc-core');
     let server: ServerInstance | undefined;
-    let restartServer: (() => Promise<void>) | undefined;
+    let startServer: ((isFirst?: boolean) => Promise<void>) | undefined;
     return {
       validateSchema: () => {
         return schema;
@@ -38,7 +39,7 @@ export default (): CliPlugin => ({
           );
           // Config file HMR in devepment mode
           await server.close();
-          await restartServer!();
+          await startServer!();
         }
       },
       commands({ program }) {
@@ -46,11 +47,18 @@ export default (): CliPlugin => ({
           .command('dev [root]')
           .description('start dev server')
           .action(async (root?: string) => {
-            restartServer = async () => {
+            startServer = async (isFristStart = false) => {
+              if (!isFristStart) {
+                try {
+                  await cli.init(cli.getPrevInitOptions());
+                } catch (err) {
+                  console.error(err);
+                }
+              }
               const config = api.useConfigContext() as UserConfig;
               server = await dev(root || '', config);
             };
-            await restartServer();
+            await startServer(true);
           });
 
         program
