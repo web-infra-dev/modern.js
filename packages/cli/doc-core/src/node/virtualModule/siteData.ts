@@ -101,7 +101,7 @@ export function normalizeThemeConfig(
   return themeConfig as NormalizedDefaultThemeConfig;
 }
 
-export async function createSiteDataVirtualModulePlugin(
+export async function siteDataVMPlugin(
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,
