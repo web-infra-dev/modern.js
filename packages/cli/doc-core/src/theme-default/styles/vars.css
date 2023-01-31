@@ -269,8 +269,8 @@
 
   --modern-custom-block-info-border: var(--modern-c-blue-dimm-1);
   --modern-custom-block-info-text: var(--modern-c-brand);
-  --modern-custom-block-info-bg: var(--modern-c-blue-lighter);
-  --modern-custom-block-info-code-bg: var(--modern-c-gray-light-4);
+  --modern-custom-block-info-bg: var(--modern-c-blue-dimm-3);
+  --modern-custom-block-info-code-bg: var(--modern-custom-block-info-bg);
 
   --modern-custom-block-tip-border: var(--modern-c-green-dimm-1);
   --modern-custom-block-tip-text: var(--modern-c-green-darker);

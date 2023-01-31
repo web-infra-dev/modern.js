@@ -10,7 +10,9 @@ export async function writeSearchIndex(rootDir: string, config: UserConfig) {
   const cwd = process.cwd();
   const source = join(userRoot, PUBLIC_DIR, SEARCH_INDEX_JSON);
   const target = join(cwd, OUTPUT_DIR, 'static', SEARCH_INDEX_JSON);
-  await fs.move(source, target, { overwrite: true });
+  if (await fs.pathExists(source)) {
+    await fs.move(source, target, { overwrite: true });
+  }
 }
 
 export function serveSearchIndexMiddleware(config: UserConfig): RequestHandler {

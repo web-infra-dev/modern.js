@@ -1,5 +1,4 @@
 import { fromZodError, z, ZodError } from '@modern-js/builder-shared/zod';
-import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
 import { BuilderConfig } from '../../types';
 
 import { devConfigSchema } from './dev';
@@ -21,11 +20,6 @@ export const configSchema: z.ZodType<BuilderConfig> = z.partialObj({
   security: securityConfigSchema,
   tools: toolsConfigSchema,
 });
-
-export interface ConfigValidatorOptions {
-  cachePath?: string;
-  schema?: SomeJSONSchema;
-}
 
 export const formatZodError = (error: ZodError<BuilderConfig>) => {
   return fromZodError(error);
