@@ -54,7 +54,7 @@ export const SHARED_DIR = 'shared';
  */
 export const CONFIG_CACHE_DIR = './node_modules/.cache/node-bundle-require';
 
-export const CONFIG_FILE_EXTENSIONS = ['.js', '.ts', '.ejs', '.mjs'];
+export const CONFIG_FILE_EXTENSIONS = ['.js', '.ts', '.mjs'];
 
 /**
  * Serialized config path
