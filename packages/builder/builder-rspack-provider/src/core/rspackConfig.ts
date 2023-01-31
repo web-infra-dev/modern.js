@@ -106,6 +106,8 @@ const convertToRspackConfig = (config: BundlerConfig): RspackConfig => {
   return omitBy(
     {
       ...config,
+      resolve: config.resolve as RspackConfig['resolve'],
+      output: config.output as RspackConfig['output'],
       plugins: config.plugins as RspackConfig['plugins'],
       optimization: config.optimization
         ? {

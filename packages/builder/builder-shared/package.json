@@ -79,8 +79,7 @@
     "html-webpack-plugin": "5.5.0",
     "terser": "^5.14.1",
     "typescript": "^4",
-    "webpack": "^5.75.0",
-     "@rspack/core": "0.0.0-aa5517a-20230116030713"
+    "webpack": "^5.75.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

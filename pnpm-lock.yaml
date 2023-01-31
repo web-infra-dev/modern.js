@@ -148,7 +148,6 @@ importers:
       '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
-      '@rspack/core': 0.0.0-aa5517a-20230116030713
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
@@ -167,7 +166,6 @@ importers:
       zod-validation-error: 0.3.0_zod@3.20.2
     devDependencies:
       '@babel/core': 7.18.0
-      '@rspack/core': 0.0.0-aa5517a-20230116030713
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.20
       '@types/babel__preset-env': 7.9.2
@@ -11084,6 +11082,7 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-darwin-x64/0.0.0-aa5517a-20230116030713:
@@ -11091,6 +11090,7 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-linux-x64-gnu/0.0.0-aa5517a-20230116030713:
@@ -11098,6 +11098,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-win32-x64-msvc/0.0.0-aa5517a-20230116030713:
@@ -11105,6 +11106,7 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding/0.0.0-aa5517a-20230116030713:
@@ -11114,6 +11116,7 @@ packages:
       '@rspack/binding-darwin-x64': 0.0.0-aa5517a-20230116030713
       '@rspack/binding-linux-x64-gnu': 0.0.0-aa5517a-20230116030713
       '@rspack/binding-win32-x64-msvc': 0.0.0-aa5517a-20230116030713
+    dev: false
 
   /@rspack/core/0.0.0-aa5517a-20230116030713:
     resolution: {integrity: sha512-9LA6N5Ix5xG71b0Upeq+1MQ05F+lDj6qSFphyBqYttCX1MUQSSZ0zUbp5Tw4n77AE9Ebi5vkvoc7dQb8iTCrkg==}
@@ -11141,6 +11144,7 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    dev: false
 
   /@rspack/dev-client/0.0.0-aa5517a-20230116030713_bpdwhabfqpg5otjktk2knhruqu:
     resolution: {integrity: sha512-hxZWtPT6OKUSwVLzO5rUR+EzR0raDayX5N2Q9Ovh4teYstEDAzcIWul39cxIcNnXkM5PFxAKji9aPs6kxZpvLQ==}
@@ -11169,6 +11173,7 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    dev: false
 
   /@rspack/dev-middleware/0.0.0-aa5517a-20230116030713:
     resolution: {integrity: sha512-8w3wUowJ/ycOeWPLEgGvMt3a+zsbUbL80C2WApsBlnrwHCra8ZFdQkshCsVaKFR//BM6uSv+AmTm8Mz923izsQ==}
@@ -12988,6 +12993,7 @@ packages:
     resolution: {integrity: sha512-WOoZMSqpmUgL72xOeaWcU9IG7C6t5Wh1e8NGpSyBvmN5BSCXleK4/PLS6Oko1i/Lvn/yGYOv62bxlfsDvmRurg==}
     dependencies:
       tslib: 2.4.0
+    dev: false
 
   /@swc/jest/0.2.22_@swc+core@1.3.18:
     resolution: {integrity: sha512-PIUIk9IdB1oAVfF9zNIfYoMBoEhahrrSvyryFANas7swC1cF0L5HR0f9X4qfet46oyCHCBtNcSpN0XJEOFIKlw==}
@@ -13080,6 +13086,7 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@tmp-sass-embedded/darwin-x64/1.54.4:
@@ -13088,6 +13095,7 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@tmp-sass-embedded/linux-arm64/1.54.4:
@@ -13096,6 +13104,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@tmp-sass-embedded/linux-ia32/1.54.4:
@@ -13104,6 +13113,7 @@ packages:
     cpu: [ia32]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@tmp-sass-embedded/linux-x64/1.54.4:
@@ -13112,6 +13122,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@tmp-sass-embedded/win32-ia32/1.54.4:
@@ -13120,6 +13131,7 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@tmp-sass-embedded/win32-x64/1.54.4:
@@ -13128,6 +13140,7 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@tootallnate/once/1.1.2:
@@ -29232,6 +29245,7 @@ packages:
   /react-refresh/0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
     engines: {node: '>=0.10.0'}
+    dev: false
 
   /react-router-dom/5.3.3_react@18.2.0:
     resolution: {integrity: sha512-Ov0tGPMBgqmbu5CDmN++tv2HQ9HlWDuWIIqn4b88gjlAN5IHI+4ZUZRcpz9Hl0azFIwihbLDYw1OiHGRo7ZIng==}
@@ -33949,6 +33963,7 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dev: false
 
   /wt/1.2.0:
     resolution: {integrity: sha512-nJttxFyxnIvWBWYcy7Px4XkXbRoEe77by66d0FDof266Mv00vVBNcUGa00rL1+0DdsXG75LG1rwBnBfUa2bNLA==}

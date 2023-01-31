@@ -1,5 +1,4 @@
 import type { Configuration } from 'webpack';
-import type { RspackOptions as RsConfiguration } from '@rspack/core';
 import type Config from '../../compiled/webpack-5-chain';
 
 interface BundlerPluginInstance {
@@ -26,8 +25,31 @@ type WebpackOptimization = NonNullable<Configuration['optimization']>;
 type WebpackResolve = NonNullable<Configuration['resolve']>;
 type WebpackOutput = NonNullable<Configuration['output']>;
 
-type RspackResolve = NonNullable<RsConfiguration['resolve']>;
-type RspackOutput = NonNullable<RsConfiguration['output']>;
+// fork from the @rspack/core
+type RspackResolve = {
+  preferRelative?: boolean;
+  extensions?: string[];
+  mainFiles?: string[];
+  mainFields?: string[];
+  browserField?: boolean;
+  conditionNames?: string[];
+  alias?: Record<string, string>;
+  tsConfigPath?: string;
+};
+
+// fork from the @rspack/core
+type RspackOutput = {
+  path?: string;
+  publicPath?: string;
+  assetModuleFilename?: string;
+  filename?: string;
+  chunkFilename?: string;
+  uniqueName?: string;
+  hashFunction?: string;
+  cssFilename?: string;
+  cssChunkFilename?: string;
+  library?: string;
+};
 
 type Overlap<
   T extends Record<string, any>,
