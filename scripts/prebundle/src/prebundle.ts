@@ -162,9 +162,9 @@ export async function prebundle(task: ParsedTask) {
   emitDts(task);
   emitLicense(task);
   emitPackageJson(task);
-  emitExtraFiles(task);
   removeSourceMap(task);
   renameDistFolder(task);
+  emitExtraFiles(task);
 
   if (task.afterBundle) {
     await task.afterBundle(task);
