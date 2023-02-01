@@ -12,7 +12,7 @@ import {
   loadConfig,
   getConfigFilePath,
   LOCAL_CONFIG_FILE_NAME,
-} from '../load-configs';
+} from '../loadConfig';
 import { mergeConfig } from '../utils';
 
 /**

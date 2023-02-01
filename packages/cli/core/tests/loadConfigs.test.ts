@@ -3,7 +3,7 @@ import {
   loadConfig,
   getDependencies,
   getConfigFilePath,
-} from '../src/load-configs';
+} from '../src/loadConfig';
 
 // globby needs setImmediate
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -19,7 +19,10 @@ describe('load user config file', () => {
   test(`should support ts config file`, async () => {
     const fixturePath = path.resolve(__dirname, './fixtures/config/ts');
 
-    const userConfig = await loadConfig<any>(path.join(fixturePath));
+    const userConfig = await loadConfig<any>(
+      fixturePath,
+      getConfigFilePath(fixturePath),
+    );
 
     expect(userConfig).not.toBe(null);
 
@@ -35,7 +38,10 @@ describe('load user config file', () => {
   test(`should support cjs config file`, async () => {
     const fixturePath = path.resolve(__dirname, './fixtures/config/cjs');
 
-    const userConfig = await loadConfig<any>(path.join(fixturePath));
+    const userConfig = await loadConfig<any>(
+      fixturePath,
+      getConfigFilePath(fixturePath),
+    );
 
     const { config } = userConfig;
 
@@ -47,7 +53,10 @@ describe('load user config file', () => {
   test(`should support es6+ syntax`, async () => {
     const fixturePath = path.resolve(__dirname, './fixtures/config/es');
 
-    const userConfig = await loadConfig<any>(path.join(fixturePath));
+    const userConfig = await loadConfig<any>(
+      fixturePath,
+      getConfigFilePath(fixturePath),
+    );
 
     const { config, pkgConfig } = userConfig;
 
@@ -76,8 +85,8 @@ describe('load user config file', () => {
   test(`should support specify package.json config property name`, async () => {
     const fixturePath = path.resolve(__dirname, './fixtures/config/file-param');
     const customUserConfig = await loadConfig<any>(
-      path.join(fixturePath),
-      undefined,
+      fixturePath,
+      getConfigFilePath(fixturePath),
       'aConfig',
     );
     const { pkgConfig: customPkgConfig } = customUserConfig;
@@ -87,7 +96,10 @@ describe('load user config file', () => {
     expect(customPkgConfig).toHaveProperty('hasAConfig');
     expect(customPkgConfig).not.toHaveProperty('hasModernConfig');
 
-    const defaultUserConfig = await loadConfig<any>(path.join(fixturePath));
+    const defaultUserConfig = await loadConfig<any>(
+      fixturePath,
+      getConfigFilePath(fixturePath),
+    );
     const { pkgConfig: defaultPkgConfig } = defaultUserConfig;
 
     expect(defaultPkgConfig).toBeTruthy();
@@ -98,7 +110,10 @@ describe('load user config file', () => {
   test(`have no config file found`, async () => {
     const fixturePath = path.resolve(__dirname, './fixtures/config/no-config');
 
-    const userConfig = await loadConfig<any>(path.join(fixturePath));
+    const userConfig = await loadConfig<any>(
+      fixturePath,
+      getConfigFilePath(fixturePath),
+    );
 
     expect(userConfig.path).toBe(false);
     expect(userConfig.config).toBeUndefined();
