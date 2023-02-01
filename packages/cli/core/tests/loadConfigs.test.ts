@@ -3,7 +3,7 @@ import {
   loadConfig,
   getDependencies,
   getConfigFilePath,
-} from '../src/loadConfig';
+} from '../src/config/loadConfig';
 
 // globby needs setImmediate
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

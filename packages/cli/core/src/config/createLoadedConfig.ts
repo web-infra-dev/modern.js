@@ -8,12 +8,12 @@ import {
   CONFIG_FILE_EXTENSIONS,
 } from '@modern-js/utils';
 import { LoadedConfig, UserConfig, ConfigParams } from '../types';
+import { mergeConfig } from '../utils';
 import {
   loadConfig,
   getConfigFilePath,
   LOCAL_CONFIG_FILE_NAME,
-} from '../loadConfig';
-import { mergeConfig } from '../utils';
+} from './loadConfig';
 
 /**
  * Assign the pkg config into the user config.
