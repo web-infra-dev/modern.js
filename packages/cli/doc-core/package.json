@@ -144,7 +144,8 @@
     "src/shared",
     "index.html",
     "runtime.d.ts",
-    "theme.d.ts"
+    "theme.d.ts",
+    "tsconfig.json"
   ],
   "publishConfig": {
     "access": "public",
