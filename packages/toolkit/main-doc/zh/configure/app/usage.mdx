@@ -19,10 +19,11 @@ Modern.js 中有两种配置，一个是编译时配置，一个是服务端运�
 
 ## 在配置文件中配置
 
-Modern.js 的配置文件定义在项目的根目录下，同时支持 `.js` 和 `.ts` 两种格式：
+Modern.js 的配置文件定义在项目的根目录下，支持 `.js`, `.ts` 和 `.mjs` 格式：
 
 - `modern.config.js`
 - `modern.config.ts`
+- `modern.config.mjs`
 
 ### modern.config.js
 
@@ -50,7 +51,7 @@ export default {
 };
 ```
 
-### modern.config.ts
+### modern.config.ts（推荐）
 
 我们推荐使用 .ts 格式的配置文件，它提供了友好的 TypeScript 类型提示，从而帮助你避免配置中的错误。
 

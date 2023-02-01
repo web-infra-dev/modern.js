@@ -17,14 +17,17 @@ function getNavbar(lang: 'zh' | 'en'): NavItem[] {
     {
       text: getText('指南', 'Guide'),
       link: getLink('/guide/introduction'),
+      activeMatch: '/guide/',
     },
     {
       text: 'API',
       link: getLink('/api/'),
+      activeMatch: '/api/',
     },
     {
       text: getText('插件', 'Plugins'),
       link: getLink('/plugins/introduction'),
+      activeMatch: '/plugins/',
     },
   ];
 }
@@ -112,9 +115,9 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         items: [
           getLink('/api/config-source'),
           getLink('/api/config-html'),
+          getLink('/api/config-security'),
           getLink('/api/config-dev'),
           getLink('/api/config-output'),
-          getLink('/api/config-security'),
           getLink('/api/config-tools'),
           getLink('/api/config-performance'),
           getLink('/api/config-experiments'),

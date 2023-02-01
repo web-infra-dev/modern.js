@@ -13,7 +13,7 @@ export const normalizeRoutePath = (routePath: string) => {
   return addLeadingSlash(result);
 };
 
-export async function createRouteVirtualModulePlugin(
+export async function routeVMPlugin(
   scanDir: string,
   config: UserConfig,
   isSSR: boolean,

@@ -1,7 +1,5 @@
 import path, { join } from 'path';
 import {
-  PageBasicInfo,
-  SiteData,
   UserConfig,
   DefaultThemeConfig,
   NormalizedDefaultThemeConfig,
@@ -18,16 +16,28 @@ import { htmlToText } from 'html-to-text';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 import { remarkPluginContainer } from '@modern-js/remark-container';
-import { ReplaceRule } from 'shared/types/index';
+import { ReplaceRule, Header } from 'shared/types/index';
+import fs from '@modern-js/utils/fs-extra';
 import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { routeService } from './routeData';
 import { withBase } from '@/shared/utils';
 
+interface PageIndexData {
+  id: number;
+  title: string;
+  routePath: string;
+  toc: Header[];
+  content: string;
+  frontmatter: Record<string, unknown>;
+}
+
+let pages: PageIndexData[] | undefined;
+
 export function normalizeThemeConfig(
   themeConfig: DefaultThemeConfig,
-  pages: PageBasicInfo[] = [],
+  pages: PageIndexData[] = [],
   base = '',
   replaceRules: ReplaceRule[],
 ): NormalizedDefaultThemeConfig {
@@ -99,20 +109,10 @@ export function normalizeThemeConfig(
   return themeConfig as NormalizedDefaultThemeConfig;
 }
 
-export async function createSiteDataVirtualModulePlugin(
-  userRoot: string,
-  config: UserConfig,
-  isSSR: boolean,
-) {
-  const entryPath = join(PACKAGE_ROOT, 'node_modules', 'virtual-site-data');
-  const { default: fs } = await import('@modern-js/utils/fs-extra');
-  const userConfig = config.doc;
-  if (!isSSR) {
-    // eslint-disable-next-line no-console
-    console.log('⭐️ [doc-tools] Extracting site data...');
-  }
-  const replaceRules = userConfig?.replaceRules || [];
-  const pages = await Promise.all(
+async function extractPageData(
+  replaceRules: ReplaceRule[],
+): Promise<PageIndexData[]> {
+  return Promise.all(
     routeService.getRoutes().map(async (route, index) => {
       let content: string = await fs.readFile(route.absolutePath, 'utf8');
       const frontmatter = {
@@ -171,7 +171,25 @@ export async function createSiteDataVirtualModulePlugin(
       };
     }),
   );
-  const siteData: SiteData = {
+}
+
+export async function siteDataVMPlugin(
+  userRoot: string,
+  config: UserConfig,
+  isSSR: boolean,
+) {
+  const entryPath = join(PACKAGE_ROOT, 'node_modules', 'virtual-site-data');
+  const userConfig = config.doc;
+  // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
+  if (!isSSR) {
+    // eslint-disable-next-line no-console
+    console.log('⭐️ [doc-tools] Extracting site data...');
+  }
+  const replaceRules = userConfig?.replaceRules || [];
+  if (!pages) {
+    pages = await extractPageData(replaceRules);
+  }
+  const siteData = {
     title: userConfig?.title || '',
     description: userConfig?.description || '',
     icon: userConfig?.icon || '',
@@ -185,12 +203,17 @@ export async function createSiteDataVirtualModulePlugin(
     root: userRoot,
     lang: userConfig?.lang || 'zh',
     logo: userConfig?.logo || '',
+    pages: pages.map(({ routePath, toc }) => ({
+      routePath,
+      toc,
+    })),
   };
   await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
   await fs.writeFile(
     path.join(userRoot, PUBLIC_DIR, 'search_index.json'),
     JSON.stringify(pages),
   );
+
   const plugin = new VirtualModulesPlugin({
     [entryPath]: `export default ${JSON.stringify(siteData)}`,
   });

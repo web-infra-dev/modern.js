@@ -1,14 +1,16 @@
-- **类型**:
+- **类型：**
 
 ```ts
-type SRIOptions = {
-  hashFuncNames?: []string;
-  enabled?: "auto" | true | false;
-  hashLoading?: "eager" | "lazy";
-} | boolean;
+type SRIOptions =
+  | {
+      hashFuncNames?: string[];
+      enabled?: 'auto' | boolean;
+      hashLoading?: 'eager' | 'lazy';
+    }
+  | boolean;
 ```
 
-- **默认值**: `undefined`
+- **默认值：** `undefined`
 
 为 HTML 所引入的子资源添加完整性属性 —— `integrity`，使浏览器能够验证引入资源的完整性，以此防止下载的资源被篡改。
 

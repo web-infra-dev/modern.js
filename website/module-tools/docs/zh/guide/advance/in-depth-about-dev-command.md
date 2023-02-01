@@ -4,27 +4,74 @@ sidebar_position: 2
 
 # 深入理解 dev 命令
 
-在【基础使用】的部分，我们已经知道可以通过 `buildConfig` 配置对项目的输出产物进行修改。`buildConfig` 不仅描述了产物的一些特性，同时还为构建产物提供了一些功能。
+模块工程提供的 `dev` 命令主要用于代码的调试。
 
-:::tip{title=注意}
-如果你还不清楚 `buildConfig` 是什么，建议花一些时间通过下面的链接了解一下：
+## 命令运行的整体流程
 
-- 【[修改输出产物](/guide/basic/modify-output-product)】
+1. 当执行 `dev` 命令的时候，Module Tools 开始寻找是否存在可以执行的调试工具或者任务。调试工具或者任务就是类似 Storybook 这样的 Module Tools 调试工具插件。
+2. 当发现存在一个调试工具的时候，则会立即执行它。
+3. 当发现多个调试工具的时候，则显示调试工具列表菜单。可以通过选择某个调试工具对应的名称选项启动它。
+4. 当没有发现调试工具的时候，则告诉用户没有可用的调试工具。
 
-:::
+我们除了可以执行 `dev` 命令以外，也可以通过 `dev [调试工具名称]` 的方式来直接启动调试工具或者任务。
 
-而在本章里我们将要深入理解某些构建配置的使用以及了解执行 `modern build` 命令的时候发生了什么。
+在执行 `dev` 命令的时候，调试工具可以选择是否在启动之前执行代码构建的监听模式，例如 Storybook 调试工具就开启了该功能。
 
-## 深入理解 `buildConfig`
+## Storybook
 
-### Bundle 和 Bundleless
+Storybook 是目前模块工程官方提供的 Module Tools 调试工具插件。
 
-那么首先我们来理解一下 Bundle 和 Bundleless。
+上面我们说到 Storybook 在启动之前会执行监听模式的源码构建任务，因此在终端里你会看到 Storybook 和源码构建的日志信息同时出现。并且在更新源码后会触发构建产物的变化，当构建产物变化的时候也会触发 Storybook 热更新。
 
-所谓 Bundle 是指对构建产物进行打包，构建产物可能是一个文件，也有可能是基于一定的[代码拆分策略](https://esbuild.github.io/api/#splitting)得到的多个文件。
+## 扩展 dev 命令
 
-而 Bundleless 则是指对每个源文件进行编译构建，但是并不将它们打包在一起。每一个产物文件都可以找到与之相对应的源码文件。
+如果需要扩展 dev 命令或者说提供自己的 Module Tools 调试工具插件，那么你需要先了解以下内容：
 
-### input 与 sourceDir 的关系
+* [开发插件](plugins/guide/getting-started)
+* [调试工具插件 API](/api/plugin-api/plugin-hooks#调试钩子)
 
-## 构建过程
+一般来说，实现一个什么都不做的调试工具，其实现代码以及相关配置如下：
+
+``` ts do-nothing.ts
+export default (): CliPlugin<ModuleTools> => ({
+  name: 'do-nothing',
+  setup() {
+    return {
+      registerDev() {
+        return {
+          // 调试工具名称
+          name: 'do-nothing',
+          // 菜单显示内容
+          menuItem: {
+            name: 'DoNothing',
+            value: 'do-nothing',
+          },
+          // 定义的 dev 子命令
+          subCommands: ['donothing', 'dn'],
+          async action() {
+            // dev logic
+            console.info('Run build --watch, and do nothing.');
+          },
+        };
+      },
+    };
+  },
+});
+```
+
+如果需要使用该调试工具插件，则需要在配置文件中增加它：
+
+``` ts
+import doNothingPlugin from './plugins/do-nothing';
+
+export default defineConfig({
+  plugins: [
+    //..
+    doNothingPlugin()
+  ],
+});
+```
+
+此时我们执行 `dev` 或者 `dev do-nothing` 命令的时候，就可以执行它了。在执行后，它会先执行监听模式的源码构建任务，并紧接着打印日志信息。
+
+对于目前官方支持的调试工具和第三方支持的调试工具，可以在[插件列表](plugins/official-list/overview)中查看。

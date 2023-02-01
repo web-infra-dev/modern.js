@@ -2,13 +2,13 @@
 
 ## Bundler
 
-Refers to module bundlers such as `webpack`, `turbopack` and `rspack`.
+Refers to module bundlers such as `webpack`, `Rspack`.
 
 The main goal of bundlers is to bundle JavaScript, CSS and other files together, and the bundled files can be used in the browser, Node.js or other environments. When bundler processes the Web application, it builds a dependency graph and then combines every module into one or more bundles.
 
 ## Rspack
 
-A Rust Bundler developed by the ByteDance Web Infra team. The core architecture of rspack is aligned with the implementation of webpack, and provides out-of-the-box support for commonly used build features. In the long run, rspack will align the main APIs of webpack and be compatible with the mainstream webpack loaders and plugins to ensure that developers can smoothly migrate from webpack to rspack.
+A Rust Bundler developed by the ByteDance Web Infra team. The core architecture of Rspack is aligned with the implementation of webpack, and provides out-of-the-box support for commonly used build features. In the long run, Rspack will align the main APIs of webpack and be compatible with the mainstream webpack loaders and plugins to ensure that developers can smoothly migrate from webpack to Rspack.
 
 Rspack optimizes compilation performance by:
 
@@ -39,7 +39,7 @@ Builder Provider is a part of Builder. Providers implements corresponding build 
 Currently there are two Providers:
 
 - `@modern-js/builder-webpack-provider`: Based on webpack.
-- `@modern-js/builder-rspack-provider`: Based on rspack.
+- `@modern-js/builder-rspack-provider`: Based on Rspack.
 
 ## {MODERN_JS}
 

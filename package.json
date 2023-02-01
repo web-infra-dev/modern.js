@@ -98,7 +98,13 @@
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react-dom": "^18",
+      "@modern-js-reduck/plugin-auto-actions": "0.0.0-canary-20230118100540",
+      "@modern-js-reduck/plugin-devtools": "0.0.0-canary-20230118100540",
+      "@modern-js-reduck/plugin-effects": "0.0.0-canary-20230118100540",
+      "@modern-js-reduck/plugin-immutable": "0.0.0-canary-20230118100540",
+      "@modern-js-reduck/react": "0.0.0-canary-20230118100540",
+      "@modern-js-reduck/store": "0.0.0-canary-20230118100540"
     }
   }
 }

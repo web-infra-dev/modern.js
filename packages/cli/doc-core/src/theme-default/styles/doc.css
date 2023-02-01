@@ -488,11 +488,22 @@
   background-image: var(--modern-icon-tip);
 }
 
+.modern-doc .modern-directive code {
+  color: inherit;
+  font-weight: bold;
+  font-size: 13px;
+}
+
 .modern-doc .modern-directive.tip,
 .modern-doc .modern-directive.note {
   border-color: var(--modern-custom-block-tip-border);
   color: var(--modern-custom-block-tip-text);
   background-color: var(--modern-custom-block-tip-bg);
+}
+
+.modern-doc .modern-directive.tip code,
+.modern-doc .modern-directive.note code {
+  background-color: var(--modern-custom-block-tip-code-bg);
 }
 
 .modern-doc .modern-directive.info {
@@ -501,10 +512,18 @@
   background-color: var(--modern-custom-block-info-bg);
 }
 
+.modern-doc .modern-directive.info code {
+  background-color: var(--modern-custom-block-info-code-bg);
+}
+
 .modern-doc .modern-directive.warning {
   border-color: var(--modern-custom-block-warning-border);
   color: var(--modern-custom-block-warning-text);
   background-color: var(--modern-custom-block-warning-bg);
+}
+
+.modern-doc .modern-directive.warning code {
+  background-color: var(--modern-custom-block-warning-code-bg);
 }
 
 .modern-doc .modern-directive.caution,
@@ -512,4 +531,9 @@
   border-color: var(--modern-custom-block-danger-border);
   color: var(--modern-custom-block-danger-text);
   background-color: var(--modern-custom-block-danger-bg);
+}
+
+.modern-doc .modern-directive.caution code,
+.modern-doc .modern-directive.danger code {
+  background-color: var(--modern-custom-block-danger-code-bg);
 }

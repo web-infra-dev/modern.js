@@ -46,7 +46,7 @@ export function SuggestionContent(props: {
       table-cell="~"
       p="x-3 y-2"
       text="#2c3e50"
-      className={`${props.isCurrent ? 'bg-[#f3f4f5]' : 'bg-white'} ${
+      className={`${props.isCurrent ? styles.focus : 'bg-white'} ${
         styles.suggestionItem
       } ${props.isFirst ? styles.suggestionItemFirst : ''}`}
       transition="bg duration-200"

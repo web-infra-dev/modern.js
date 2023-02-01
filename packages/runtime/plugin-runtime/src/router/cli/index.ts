@@ -9,13 +9,14 @@ import type {
   AppTools,
   AppNormalizedConfig,
 } from '@modern-js/app-tools';
+import type { RouterConfig } from '../runtime';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
 const isV5 = (config: AppNormalizedConfig) =>
-  config?.runtime?.router?.mode === 'react-router-5';
+  (config?.runtime?.router as RouterConfig)?.mode === 'react-router-5';
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',

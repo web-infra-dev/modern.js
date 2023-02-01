@@ -1,7 +1,8 @@
 import type { UserConfig } from 'shared/types/index';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
-import { createRouteVirtualModulePlugin } from './routeData';
-import { createSiteDataVirtualModulePlugin } from './siteData';
+import { routeVMPlugin } from './routeData';
+import { siteDataVMPlugin } from './siteData';
+import { globalUIComponentsVMPlugin } from './globalUIComponents';
 
 type VirtualModuleFactory = (
   userRoot: string,
@@ -10,6 +11,7 @@ type VirtualModuleFactory = (
 ) => VirtualModulesPlugin | Promise<VirtualModulesPlugin>;
 
 export const virtualModuleFactoryList: VirtualModuleFactory[] = [
-  createRouteVirtualModulePlugin,
-  createSiteDataVirtualModulePlugin,
+  routeVMPlugin,
+  siteDataVMPlugin,
+  globalUIComponentsVMPlugin,
 ];

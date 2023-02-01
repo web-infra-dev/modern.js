@@ -1,17 +1,10 @@
 import type { Plugin } from 'unified';
 import { visitChildren } from 'unist-util-visit-children';
 import { parse } from 'acorn';
-import Slugger from 'github-slugger';
+import { slug } from 'github-slugger';
 import type { Root } from 'hast';
 import type { MdxjsEsm, Program } from 'mdast-util-mdxjs-esm';
-
-const slugger = new Slugger();
-
-interface TocItem {
-  id: string;
-  text: string;
-  depth: number;
-}
+import { Header } from '@/shared/types';
 
 interface ChildNode {
   type: 'link' | 'text' | 'inlineCode';
@@ -27,7 +20,7 @@ interface Heading {
 
 export const parseToc = (tree: Root) => {
   let title = '';
-  const toc: TocItem[] = [];
+  const toc: Header[] = [];
 
   visitChildren((node: Heading) => {
     if (node.type !== 'heading' || !node.depth || !node.children) {
@@ -48,7 +41,8 @@ export const parseToc = (tree: Root) => {
           }
         })
         .join('');
-      const id = slugger.slug(originText);
+      const id = slug(originText);
+
       const { depth } = node;
       toc.push({ id, text: originText, depth });
     }
@@ -61,7 +55,6 @@ export const parseToc = (tree: Root) => {
 
 export const remarkPluginToc: Plugin<[], Root> = () => {
   return (tree: Root, file) => {
-    slugger.reset();
     const { title, toc } = parseToc(tree);
 
     const insertedTocCode = `export const toc = ${JSON.stringify(
