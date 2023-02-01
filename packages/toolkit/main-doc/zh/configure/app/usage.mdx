@@ -8,14 +8,14 @@ Modern.js 中有两种配置，一个是编译时配置，一个是服务端运�
 
 编译时配置可以在两个位置进行配置：
 
+- 根路径下的 `modern.config.(ts|js|mjs)` 文件
 - `package.json` 文件
-- 根路径下的 `modern.config.t(j)s` 文件
 
-:::info意
+:::info
 不支持同时在 package.json 中和 modern.config.ts 中配置同一个配置项，推荐优先在 modern.config.ts 中进行配置。如果 Modern.js 检测到重复配置导致的冲突，将会抛出警告。
 :::
 
-服务端运行时配置可以在根路径下的 `modern.server-runtime.config.t(j)s` 中自定义配置选项。
+服务端运行时配置可以在根路径下的 `modern.server-runtime.config.(ts|js|mjs)` 中自定义配置选项。
 
 ## 在配置文件中配置
 
@@ -87,7 +87,53 @@ export default defineConfig({
 
 由于 JSON 文件格式的限制，`package.json` 中只能定义数字、字符串、布尔值、数组等简单类型的值，当我们需要设置函数类型的值时，建议在 Modern.js 配置文件中进行设置。
 
-## 注意事项
+### 注意事项
 
 - 不建议同时使用 `package.json` 和 `modern.config.js` 进行配置。如果同时使用了两者并出现配置冲突，Modern.js 会在命令行进行提示。
 - `@modern-js/runtime` 导出了同名的 [defineConfig](/apis/app/runtime/app/define-config) API，请注意区分。
+
+## 本地调试配置
+
+为了便于本地调试配置，Modern.js 支持在项目根目录下创建 `modern.config.local.(ts|js|mjs)` 文件，用于覆盖 `modern.config.(ts|js|mjs)` 中的配置选项。
+
+### 示例
+
+比如，项目的 `modern.config.ts` 中配置了端口号为 `3000`:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+});
+```
+
+如果你在本地调试时需要将端口号修改为 `3001`，但是又不希望修改当前项目的 `modern.config.ts` 文件，那么可以创建一个 `modern.config.local.ts` 文件，并添加以下配置：
+
+```ts title="modern.config.local.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    port: 3001,
+  },
+});
+```
+
+`modern.config.local.ts` 文件中的配置会与 `modern.config.ts` 中的配置进行深层合并，并覆盖 `modern.config.ts` 中的配置选项，因此 `server.port` 会被覆盖为 `3001`。
+
+### 注意事项
+
+在使用 `modern.config.local.ts` 时，请注意以下事项：
+
+- `modern.config.local.ts` 文件仅会在执行 `modern dev` 或 `modern start` 命令时被加载，当执行 `modern build` 时不会被加载。
+- `modern.config.local.ts` 文件的优先级不仅高于 `modern.config.ts`，也高于 `package.json` 中的 `modernConfig` 字段。
+- 由于 `modern.config.local.ts` 仅在本地调试时使用，因此不建议将其提交到代码仓库中，请确保项目的 `.gitignore` 文件中包含 `modern.config.local.ts` 等文件。
+
+```bash title=".gitingore"
+modern.config.local.ts
+modern.config.local.js
+modern.config.local.mjs
+```

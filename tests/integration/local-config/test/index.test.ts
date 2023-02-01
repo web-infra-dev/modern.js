@@ -28,4 +28,15 @@ describe('local config', () => {
       existsSync(path.join(appDir, 'dist/foo/html/main/index.html')),
     ).toBeTruthy();
   });
+
+  it(`should load local config in function format correctly`, async () => {
+    const appDir = path.resolve(fixtures, 'local-config-function');
+    const app = await launchApp(appDir);
+
+    expect(
+      existsSync(path.join(appDir, 'dist/bar/html/main/index.html')),
+    ).toBeTruthy();
+
+    killApp(app);
+  });
 });

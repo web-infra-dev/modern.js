@@ -5176,6 +5176,19 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
 
+  tests/integration/local-config/fixtures/local-config-function:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@babel/runtime': 7.20.7
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
   tests/integration/mwa-app:
     specifiers:
       '@modern-js/app-tools': workspace:*
@@ -11383,7 +11396,7 @@ packages:
       memoizerific: 1.11.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       ts-dedent: 2.2.0
       util-deprecate: 1.0.2
     dev: false
@@ -11461,7 +11474,7 @@ packages:
       lodash: 4.17.21
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       remark-external-links: 8.0.0
       remark-slug: 6.1.0
       ts-dedent: 2.2.0
@@ -11635,7 +11648,7 @@ packages:
       global: 4.4.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       ts-dedent: 2.2.0
     dev: false
 
@@ -11686,7 +11699,7 @@ packages:
       core-js: 3.26.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
     dev: false
 
   /@storybook/addon-viewport/6.5.12_biqbaboplfbrettd7655fr4n2y:
@@ -11712,7 +11725,7 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
     dev: false
 
   /@storybook/addons/6.5.12_biqbaboplfbrettd7655fr4n2y:
@@ -11755,7 +11768,7 @@ packages:
       memoizerific: 1.11.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       store2: 2.13.2
       telejson: 6.0.8
       ts-dedent: 2.2.0
@@ -11944,7 +11957,7 @@ packages:
       qs: 6.11.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       store2: 2.13.2
       synchronous-promise: 2.0.15
       ts-dedent: 2.2.0
@@ -11971,7 +11984,7 @@ packages:
       qs: 6.11.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       util-deprecate: 1.0.2
     dev: false
 
@@ -12004,7 +12017,7 @@ packages:
       qs: 6.11.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       ts-dedent: 2.2.0
       typescript: 4.9.3
       unfetch: 4.2.0
@@ -12041,7 +12054,7 @@ packages:
       qs: 6.11.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       ts-dedent: 2.2.0
       typescript: 4.9.3
       unfetch: 4.2.0
@@ -12180,7 +12193,7 @@ packages:
       prompts: 2.4.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       serve-favicon: 2.5.0
       slash: 3.0.0
       telejson: 6.0.8
@@ -12282,7 +12295,7 @@ packages:
       core-js: 3.26.0
       doctrine: 3.0.0
       lodash: 4.17.21
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
     transitivePeerDependencies:
       - react
       - react-dom
@@ -12458,7 +12471,7 @@ packages:
       qs: 6.11.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       synchronous-promise: 2.0.15
       ts-dedent: 2.2.0
       unfetch: 4.2.0
@@ -12587,7 +12600,7 @@ packages:
       qs: 6.11.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
 
   /@storybook/semver/7.3.2:
     resolution: {integrity: sha512-SWeszlsiPsMI0Ps0jVNtH64cI5c0UF3f7KgjVKJoNP30crQ6wUSddY2hsdeczZXEKVJGEn50Q60flcGsQGIcrg==}
@@ -12614,7 +12627,7 @@ packages:
       prettier: 2.3.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
     dev: false
 
   /@storybook/store/6.5.12_biqbaboplfbrettd7655fr4n2y:
@@ -12634,7 +12647,7 @@ packages:
       memoizerific: 1.11.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       slash: 3.0.0
       stable: 0.1.8
       synchronous-promise: 2.0.15
@@ -12680,7 +12693,7 @@ packages:
       memoizerific: 1.11.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
 
   /@storybook/ui/6.5.12_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-P7+ARI5NvaEYkrbIciT/UMgy3kxMt4WCtHMXss2T01UMCIWh1Ws4BJaDNqtQSpKuwjjS4eqZL3aQWhlUpYAUEg==}
@@ -12702,7 +12715,7 @@ packages:
       qs: 6.11.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
       resolve-from: 5.0.0
     dev: false
 
