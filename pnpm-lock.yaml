@@ -3074,9 +3074,9 @@ importers:
     specifiers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/libuild': ~0.8.0
-      '@modern-js/libuild-plugin-svgr': ~0.8.0
-      '@modern-js/libuild-plugin-swc': ~0.8.0
+      '@modern-js/libuild': ~0.9.0
+      '@modern-js/libuild-plugin-svgr': ~0.9.0
+      '@modern-js/libuild-plugin-swc': ~0.9.0
       '@modern-js/new-action': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
@@ -3099,9 +3099,9 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.8.0
-      '@modern-js/libuild-plugin-svgr': 0.8.0
-      '@modern-js/libuild-plugin-swc': 0.8.0
+      '@modern-js/libuild': 0.9.0
+      '@modern-js/libuild-plugin-svgr': 0.9.0
+      '@modern-js/libuild-plugin-swc': 0.9.0
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
@@ -10225,8 +10225,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-svgr/0.8.0:
-    resolution: {integrity: sha512-a0DcZQNGXwzxFWQreZWRT1XtHOSed2gsZLw4vDXq9+pBLQI5BrLxB1LbnqF5O3PrPXT2Xi9dqyR2OywrIeq0Aw==}
+  /@modern-js/libuild-plugin-svgr/0.9.0:
+    resolution: {integrity: sha512-O6CiJ6nbuHtsIBYbxs8fDDGwkS2tyi6woPDVwTwT3jIu+xLEDr2NUYB2tyvGYCTFjC7/3EloGL8rzCU0wc24Qg==}
     dependencies:
       '@svgr/core': 6.2.0
       '@svgr/plugin-jsx': 6.2.0_@svgr+core@6.2.0
@@ -10236,14 +10236,14 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-swc/0.8.0:
-    resolution: {integrity: sha512-zLM8cW2q3IHVqVYhDb41NMnZwpnSHvO23kKrZvaQrp68J1Q+xsldpHhug5nmFgEFqrxd4ra0C8q7tM1wwMyz2g==}
+  /@modern-js/libuild-plugin-swc/0.9.0:
+    resolution: {integrity: sha512-Vl0JZrq5/SSuHH061yNGlH+rROWXN05VuJSvbdnotG4fx5pbHoHeeoajezC/H5xDlvEvSx3wXugxbplVhE5W7g==}
     dependencies:
       '@modern-js/swc-plugins': 0.0.9
     dev: false
 
-  /@modern-js/libuild/0.8.0:
-    resolution: {integrity: sha512-PlkrpBn2gSGolyYme+S9QmTXcw9Rldmv8fm72AGFXOl6j8BZnHW94EWxzZc3dknbcdmQFHAa93eFA2yzli5ehA==}
+  /@modern-js/libuild/0.9.0:
+    resolution: {integrity: sha512-BGCqkJvJYQ6k4QGD/lmDoqiJRHo/PHbtliQzgDhn+GdMliloodPza32Y6+LcT0VLouzU/m5EyDQsnwYI7XXdIQ==}
     hasBin: true
     dependencies:
       '@ast-grep/napi': 0.1.13
