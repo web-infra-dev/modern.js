@@ -6,8 +6,6 @@ import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
 const theme = require('shiki/themes/nord.json');
 const { version } = require('./package.json');
 
-const isDevCommand = process.env.NODE_ENV !== 'production';
-
 function getI18nHelper(lang: 'zh' | 'en') {
   const cn = lang === 'zh';
   const prefix = cn ? '' : '/en';
@@ -116,10 +114,10 @@ export default defineConfig({
         },
       ],
     },
-  },
-  builderConfig: {
-    dev: {
-      startUrl: 'http://localhost:<port>/module-tools/',
+    builderConfig: {
+      dev: {
+        startUrl: 'http://localhost:<port>/module-tools/',
+      },
     },
   },
 });
