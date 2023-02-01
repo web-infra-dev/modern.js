@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: ['@modern-js'],
-  ignorePatterns: ['runtime.d.ts', 'theme.d.ts'],
+  ignorePatterns: ['runtime.ts', 'theme.ts'],
   rules: {
     '@typescript-eslint/no-non-null-assertion': 'off',
   },

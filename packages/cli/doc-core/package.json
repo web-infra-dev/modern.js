@@ -15,12 +15,10 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json",
     "./theme": {
-      "types": "./theme.d.ts",
-      "default": "./src/theme-default/index.ts"
+      "default": "./theme.ts"
     },
     "./runtime": {
-      "type": "./runtime.d.ts",
-      "default": "./src/runtime/index.ts"
+      "default": "./runtime.ts"
     }
   },
   "scripts": {
@@ -143,8 +141,8 @@
     "src/theme-default",
     "src/shared",
     "index.html",
-    "runtime.d.ts",
-    "theme.d.ts",
+    "runtime.ts",
+    "theme.ts",
     "tsconfig.json"
   ],
   "publishConfig": {
