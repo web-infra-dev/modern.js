@@ -6,6 +6,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
     },
+    "minify": false,
     "progress": {
       "prefix": "Client",
     },
@@ -301,6 +302,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ],
   },
   "optimization": {
+    "minimize": false,
     "runtimeChunk": {
       "name": "builder-runtime",
     },
@@ -387,6 +389,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "define": {
       "process.env.NODE_ENV": "\\"production\\"",
     },
+    "minify": {},
     "progress": {
       "prefix": "Client",
     },
@@ -682,6 +685,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     ],
   },
   "optimization": {
+    "minimize": true,
     "runtimeChunk": {
       "name": "builder-runtime",
     },
@@ -768,6 +772,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
     },
+    "minify": false,
     "progress": {
       "prefix": "Client",
     },
@@ -1071,6 +1076,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     ],
   },
   "optimization": {
+    "minimize": false,
     "runtimeChunk": {
       "name": "builder-runtime",
     },

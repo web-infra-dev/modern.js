@@ -97,6 +97,10 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    * Custom theme directory
    */
   themeDir?: string;
+  /**
+   * Global components
+   */
+  globalUIComponents?: string[];
 }
 
 export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
@@ -153,10 +157,10 @@ export interface PageModule<T extends ComponentType<unknown>> {
 export type PageType = 'home' | 'doc' | 'custom' | '404';
 
 export interface FrontMatterMeta {
-  title: string;
-  description: string;
-  overview: boolean;
-  pageType: PageType;
+  title?: string;
+  description?: string;
+  overview?: boolean;
+  pageType?: PageType;
   features?: Feature[];
   hero?: Hero;
   sidebar?: boolean;

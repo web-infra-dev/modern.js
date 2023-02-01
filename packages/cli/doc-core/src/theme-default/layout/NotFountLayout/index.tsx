@@ -13,6 +13,7 @@ export function NotFoundLayout() {
   ) {
     const redirectUrl = location.pathname.replace(`/${defaultLang}/`, '/');
     window.location.replace(redirectUrl);
+    return <></>;
   } else {
     // The 404 page content
     return (

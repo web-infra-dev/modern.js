@@ -12,6 +12,13 @@ declare module 'virtual-site-data' {
   export default data;
 }
 
+declare module 'virtual-global-components' {
+  import { ComponentType } from 'react';
+
+  const components: ComponentType[];
+  export default components;
+}
+
 declare module '*.module.scss' {
   const classes: { [key: string]: string };
   export default classes;

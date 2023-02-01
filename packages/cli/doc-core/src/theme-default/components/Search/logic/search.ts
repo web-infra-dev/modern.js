@@ -87,8 +87,10 @@ export class PageSearcher {
 
     const pagesForSearch: PageDataForSearch[] = pages
       .filter(page => {
-        return !WHITE_PAGE_TYPES.includes(
-          (page.frontmatter?.pageType as string) || '',
+        return (
+          !WHITE_PAGE_TYPES.includes(
+            (page.frontmatter?.pageType as string) || '',
+          ) && page.title.length > 0
         );
       })
       .map(page => {
