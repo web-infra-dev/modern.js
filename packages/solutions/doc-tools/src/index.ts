@@ -1,11 +1,16 @@
 import type { CliPlugin } from '@modern-js/core';
-import type { UserConfig, Sidebar, NavItem } from '@modern-js/doc-core';
+import type {
+  UserConfig,
+  Sidebar,
+  NavItem,
+  DocPlugin,
+} from '@modern-js/doc-core';
 import { logger } from '@modern-js/utils/logger';
 import chalk from '@modern-js/utils/chalk';
 import { cli } from '@modern-js/core';
 import { schema } from './config/schema';
 
-export type { CliPlugin, Sidebar, NavItem, UserConfig };
+export type { CliPlugin, Sidebar, NavItem, UserConfig, DocPlugin };
 
 const MODERN_CONFIG_FILES = ['modern.config.ts', 'modern.config.js'];
 
