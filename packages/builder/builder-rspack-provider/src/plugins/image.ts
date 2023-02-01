@@ -24,7 +24,7 @@ export const builderPluginImage = (): BuilderPlugin => ({
         regExp,
         maxSize,
         filename: join(distDir, filename),
-        assetType: 'svg',
+        assetType: 'image',
       });
     });
   },

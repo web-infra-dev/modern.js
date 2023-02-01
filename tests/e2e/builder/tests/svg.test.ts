@@ -90,3 +90,48 @@ allProviderTest('svg (url)', async ({ page }) => {
 
   builder.close();
 });
+
+// It's an old bug when use svgr in css and external react.
+allProviderTest('svg (external react)', async ({ page }) => {
+  const buildOpts = {
+    cwd: join(fixtures, 'svg-external-react'),
+    entry: {
+      main: join(fixtures, 'svg-external-react', 'src/index.js'),
+    },
+  };
+
+  const builder = await build(buildOpts, {
+    output: {
+      externals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+      },
+    },
+    html: {
+      template: './static/index.html',
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  // test svgr（namedExport）
+  await expect(
+    page.evaluate(`document.getElementById('test-svg').tagName === 'svg'`),
+  ).resolves.toBeTruthy();
+
+  // test svg asset
+  await expect(
+    page.evaluate(
+      `document.getElementById('test-img').src.startsWith('data:image/svg')`,
+    ),
+  ).resolves.toBeTruthy();
+
+  // test svg asset in css
+  await expect(
+    page.evaluate(
+      `getComputedStyle(document.getElementById('test-css')).backgroundImage.includes('url("data:image/svg')`,
+    ),
+  ).resolves.toBeTruthy();
+
+  builder.close();
+});
