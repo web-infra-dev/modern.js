@@ -16,6 +16,50 @@ describe('applyDefaultPlugins', () => {
 
     process.env.NODE_ENV = NODE_ENV;
   });
+
+  it('should apply default plugins correctly when production', async () => {
+    const { NODE_ENV } = process.env;
+    process.env.NODE_ENV = 'production';
+    const builder = await createStubBuilder({
+      plugins: 'default',
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+
+    process.env.NODE_ENV = NODE_ENV;
+  });
+
+  it('should apply default plugins correctly when target web worker', async () => {
+    const { NODE_ENV } = process.env;
+    process.env.NODE_ENV = 'production';
+    const builder = await createStubBuilder({
+      plugins: 'default',
+      target: ['web-worker'],
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+
+    process.env.NODE_ENV = NODE_ENV;
+  });
+
+  it('should apply default plugins correctly when target node', async () => {
+    const { NODE_ENV } = process.env;
+    process.env.NODE_ENV = 'production';
+    const builder = await createStubBuilder({
+      plugins: 'default',
+      target: ['node'],
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+
+    process.env.NODE_ENV = NODE_ENV;
+  });
 });
 
 describe('bundlerApi', () => {
