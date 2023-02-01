@@ -40,7 +40,7 @@ jobs:
             turbo-${{ github.ref_name }}-
 
       - name: Build Website
-        run: pnpm turbo run build --filter="@modern-js/module-tools-docs"
+        run: pnpm turbo run build:doc --filter="@modern-js/module-tools-docs"
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.5
