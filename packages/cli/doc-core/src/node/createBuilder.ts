@@ -95,6 +95,7 @@ async function createInternalBuildConfig(
         '@': path.join(PACKAGE_ROOT, 'src'),
         '@/runtime': path.join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts'),
         '@theme': themeDir,
+        '@modern-js/doc-core': PACKAGE_ROOT,
       },
       include: [PACKAGE_ROOT],
       define: {
