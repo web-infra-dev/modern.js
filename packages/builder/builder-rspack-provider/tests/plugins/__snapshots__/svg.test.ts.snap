@@ -1,0 +1,514 @@
+// Vitest Snapshot v1
+
+exports[`plugins/svg > export default Component 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+            "options": {
+              "svgo": false,
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /url/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": false,
+              "name": "static/svg/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": Infinity,
+              "name": "static/svg/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "generator": {
+          "filename": "static/svg/[name].[contenthash:8].svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+      {
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/svg/[name].[contenthash:8].svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/svg > export default url 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+            "options": {
+              "svgo": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": 10000,
+              "name": "static/svg/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /url/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": false,
+              "name": "static/svg/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": Infinity,
+              "name": "static/svg/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "generator": {
+          "filename": "static/svg/[name].[contenthash:8].svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+      {
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/svg/[name].[contenthash:8].svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/svg > should allow to use distPath.svg to modify dist path 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+            "options": {
+              "svgo": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": 10000,
+              "name": "foo/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /url/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": false,
+              "name": "foo/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": Infinity,
+              "name": "foo/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "generator": {
+          "filename": "foo/[name].[contenthash:8].svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+      {
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "foo/[name].[contenthash:8].svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/svg > should allow to use filename.svg to modify filename 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+            "options": {
+              "svgo": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": 10000,
+              "name": "static/svg/foo.svg",
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /url/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": false,
+              "name": "static/svg/foo.svg",
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": Infinity,
+              "name": "static/svg/foo.svg",
+            },
+          },
+        ],
+      },
+      {
+        "generator": {
+          "filename": "static/svg/foo.svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 10000,
+          },
+        },
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+      {
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/svg/foo.svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data uri limit 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+            "options": {
+              "svgo": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": 666,
+              "name": "static/svg/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /url/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": false,
+              "name": "static/svg/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/url-loader",
+            "options": {
+              "limit": Infinity,
+              "name": "static/svg/[name].[contenthash:8].svg",
+            },
+          },
+        ],
+      },
+      {
+        "generator": {
+          "filename": "static/svg/[name].[contenthash:8].svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 666,
+          },
+        },
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+      {
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset/inline",
+      },
+      {
+        "generator": {
+          "filename": "static/svg/[name].[contenthash:8].svg",
+        },
+        "issuer": {
+          "not": [
+            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+          ],
+        },
+        "parser": {
+          "dataUrlCondition": {
+            "maxSize": 0,
+          },
+        },
+        "resourceQuery": /\\(__inline=false\\|url\\)/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;

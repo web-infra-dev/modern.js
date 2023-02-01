@@ -167,7 +167,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           {
             "loader": "<ROOT>/compiled/url-loader",
             "options": {
-              "limit": 4294967295,
+              "limit": Infinity,
               "name": "static/svg/[name].[contenthash:8].svg",
             },
           },
@@ -645,7 +645,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           {
             "loader": "<ROOT>/compiled/url-loader",
             "options": {
-              "limit": 4294967295,
+              "limit": Infinity,
               "name": "static/svg/[name].[contenthash:8].svg",
             },
           },
@@ -1131,7 +1131,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
           {
             "loader": "<ROOT>/compiled/url-loader",
             "options": {
-              "limit": 4294967295,
+              "limit": Infinity,
               "name": "static/svg/[name].[contenthash:8].svg",
             },
           },

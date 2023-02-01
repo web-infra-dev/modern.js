@@ -9,7 +9,7 @@ import {
 import { getCompiledPath, chainStaticAssetRule } from '../shared';
 import type { BuilderPlugin } from '../types';
 
-export const PluginSvg = (): BuilderPlugin => {
+export const builderPluginSvg = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-svg',
     setup(api) {
