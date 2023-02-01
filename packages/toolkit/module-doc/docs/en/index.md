@@ -14,17 +14,20 @@ features:
   - title: 'Esbuild: The High Performance JS Bundler'
     details: Built on Esbuild, the build is extremely fast and gives you the ultimate development experience.
     icon: 🚀
-  - title: 'Storybook: The community popular UI development tool'
-    details: Integrated with Storybook, you can use it to debug UI.
-    icon: 📦
-  - title: 'transform + bundle'
+  - title: 'Two build modes'
     details: Both bundle and bundleless build modes are supported.
     icon: ✨
-  - title: 'zero configuration'
-    details: Develop your npm packages without any configuration, with built-in presets covering multiple scenarios.
+  - title: 'Out of the box'
+    details: Develop your npm packages without too much configuration, with built-in presets covering a wide range of scenarios.
     icon: 🛠️
   - title: 'Extensible: Provides a powerful plugin mechanism'
     details: With its plugin extension mechanism, you can easily extend the capabilities of Module Tools.
     icon: 🎨
+  - title: 'Storybook: The community popular UI development tool'
+    details: Integrated with Storybook, you can use it to debug UI.
+    icon: 📦
+  - title: 'Jest: Delightful Testing Framework'
+    details: Jest integration makes it easier to test code。
+    icon: 📐
 ---
 # index

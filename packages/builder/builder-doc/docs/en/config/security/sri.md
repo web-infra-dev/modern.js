@@ -1,14 +1,16 @@
-- **Type**:
+- **Type:**
 
 ```ts
-type SRIOptions = {
-  hashFuncNames?: []string;
-  enabled?: "auto" | true | false;
-  hashLoading?: "eager" | "lazy";
-} | boolean;
+type SRIOptions =
+  | {
+      hashFuncNames?: string[];
+      enabled?: 'auto' | boolean;
+      hashLoading?: 'eager' | 'lazy';
+    }
+  | boolean;
 ```
 
-- **Default**: `undefined`
+- **Default:** `undefined`
 
 Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
 

@@ -24,16 +24,21 @@ export function printErrors(errors: SyntaxError[]) {
     code: error.source.code,
   }));
 
-  const logest = Math.max(...Object.keys(errs[0]).map(err => err.length));
-  logger.error('The errors of the syntax after production build:\n');
+  const longest = Math.max(...Object.keys(errs[0]).map(err => err.length));
+  logger.error(
+    '[Syntax Checker] Find some syntax errors after production build:\n',
+  );
 
   errs.forEach((err, index) => {
     console.info(`${chalk.red(`  ERROR#${index + 1}`)}:`);
-    printMain(err, logest);
+    printMain(err, longest);
   });
 
   throw new Error(
-    'Due to the existence of the target environment does not support the syntax, the program is now exit.',
+    `[Syntax Checker] The current build fails due to an incompatible syntax, which can be fixed in the following ways:
+
+  - If you want to downgrade the syntax, you can compile the corresponding module through the \`source.include\` config.
+  - If you don't want to downgrade the syntax, you can adjust the project's browserslist to match the syntax.`,
   );
 }
 

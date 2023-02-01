@@ -55,7 +55,6 @@ function bindingWindowScroll() {
             pathname === currentUrl.pathname &&
             search === currentUrl.search &&
             hash &&
-            hash !== currentUrl.hash &&
             link.classList.contains('header-anchor')
           ) {
             e.preventDefault();
