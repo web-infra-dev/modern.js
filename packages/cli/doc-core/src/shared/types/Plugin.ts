@@ -33,5 +33,5 @@ export interface DocPlugin {
   /**
    * Modify doc config.
    */
-  config: (config: DocConfig) => DocConfig | Promise<DocConfig>;
+  config?: (config: DocConfig) => DocConfig | Promise<DocConfig>;
 }
