@@ -74,15 +74,21 @@ export const devCommand = async (
       devProgram.command(subCmd).action(async (options: DevCommandOptions) => {
         const { initModuleContext } = await import('./utils/context');
         const context = await initModuleContext(api);
-        const { runBuildBeforeDevTools } = await import('./dev');
 
-        await runBuildBeforeDevTools(api, context, options, {
-          disableRunBuild: meta.disableRunBuild ?? false,
-          appDirectory: context.appDirectory,
-        });
+        // TODO: watch build
+        // const { ensureFirstBuild, watchBuild } = await import('./dev');
+        // await ensureFirstBuild(api, context, options, {
+        //   disableRunBuild: meta.disableRunBuild ?? false,
+        //   appDirectory: context.appDirectory,
+        // });
 
         await runner.beforeDevTask(meta);
         await meta.action(options, { isTsProject: context.isTsProject });
+        // TODO: watch build
+        // await watchBuild(api, context, options, {
+        //   disableRunBuild: meta.disableRunBuild ?? false,
+        //   appDirectory: context.appDirectory,
+        // });
       });
     }
   }

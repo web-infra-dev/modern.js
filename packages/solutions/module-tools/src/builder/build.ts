@@ -76,7 +76,7 @@ export const buildInJsProject = async (
 
 export const generatorDts = async (
   config: BaseBuildConfig,
-  api: PluginAPI,
+  api: PluginAPI<ModuleTools>,
   options: {
     watch: boolean;
     dts: DTSOptions;
@@ -91,7 +91,7 @@ export const generatorDts = async (
     const { getFinalExternals } = await import('../utils/builder');
     const finalExternals = await getFinalExternals(config, { appDirectory });
 
-    await runRollup({
+    await runRollup(api, {
       distDir: distPath,
       watch,
       externals: finalExternals,
@@ -99,7 +99,7 @@ export const generatorDts = async (
       tsconfigPath,
     });
   } else {
-    await runTsc({
+    await runTsc(api, {
       appDirectory,
       alias,
       distAbsPath: distPath,
@@ -185,7 +185,7 @@ export const buildLib = async (
   const { watchPlugin, externalPlugin } = await import(
     '../utils/libuild-plugins'
   );
-  plugins.push(watchPlugin(config));
+  plugins.push(watchPlugin(api, config));
   plugins.push(externalPlugin(config, { appDirectory }));
 
   const buildConfig: CLIConfig = {
