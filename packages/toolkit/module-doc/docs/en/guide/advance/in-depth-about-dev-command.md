@@ -15,15 +15,6 @@ The `dev` command provided by the module project is mainly used for debugging th
 
 In addition to the `dev` command, you can also start a debugging tool or task directly by using the `dev [debug tool name]` option.
 
-When executing the `dev` command, the debugging tool can choose whether or not to perform a listening mode for code builds before starting, for example the Storybook debugging tool has this feature enabled.
-
-
-## Storybook
-
-
-Storybook is currently the official Module Tools debugging tool plugin provided by Module Works.
-
-As we mentioned above, Storybook performs the source build task in listening mode before it is started, so you will see log messages for both Storybook and the source build in the terminal. Changes to the build product are also triggered when the source code is updated, and Storybook hot updates are triggered when the build product changes.
 
 ## Extending the dev command
 
