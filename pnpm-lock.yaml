@@ -3278,6 +3278,22 @@ importers:
       ts-node: 10.8.1_oy4yt2gcvp64b4l532pr2mkrdy
       typescript: 4.9.3
 
+  packages/toolkit/module-doc:
+    specifiers:
+      '@code-hike/mdx': ^0.7.4
+      '@modern-js/doc-plugin-auto-sidebar': workspace:*
+      '@modern-js/doc-tools': workspace:*
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      shiki: ^0.11.1
+    dependencies:
+      '@code-hike/mdx': 0.7.4_react@18.2.0
+      '@modern-js/doc-plugin-auto-sidebar': link:../../cli/doc-plugin-auto-sidebar
+      '@modern-js/doc-tools': link:../../solutions/doc-tools
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      shiki: 0.11.1
+
   packages/toolkit/node-bundle-require:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -5596,22 +5612,6 @@ importers:
       swiper: 7.4.1
     devDependencies:
       typescript: 4.9.3
-
-  website/module-tools:
-    specifiers:
-      '@code-hike/mdx': ^0.7.4
-      '@modern-js/doc-plugin-auto-sidebar': workspace:*
-      '@modern-js/doc-tools': workspace:*
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      shiki: ^0.11.1
-    dependencies:
-      '@code-hike/mdx': 0.7.4_react@18.2.0
-      '@modern-js/doc-plugin-auto-sidebar': link:../../packages/cli/doc-plugin-auto-sidebar
-      '@modern-js/doc-tools': link:../../packages/solutions/doc-tools
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      shiki: 0.11.1
 
 packages:
 
