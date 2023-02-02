@@ -1,5 +1,21 @@
 # @modern-js/utils
 
+## 2.3.0
+
+### Patch Changes
+
+- fd5a3ed: fix: failed to exit new command
+
+  fix: 修复 new 命令执行完成后未退出进程的问题
+
+- 6ca1c0b: fix: .ejs is not a valid config file extension
+
+  fix: 修复配置文件使用 .ejs 作为后缀的问题
+
+- 89b6739: fix(utils): fix pre-bundled ajv types
+
+  fix(utils): 修复预打包后的 ajv 中的类型问题
+
 ## 2.2.0
 
 ### Patch Changes

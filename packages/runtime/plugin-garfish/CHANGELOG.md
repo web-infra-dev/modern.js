@@ -1,5 +1,20 @@
 # @modern-js/plugin-garfish
 
+## 2.3.0
+
+### Patch Changes
+
+- f7e90a9: fix: use pluginName instead of a steady name
+  修复 garfish 插件导出名称固定导致依赖找不到的问题
+- b4dd017: feat: runtime package use treeshaking production for ssr bundle
+  feat: runtime 包使用 treeshaking 产物作为 ssr bundle 打包入口
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+- Updated dependencies [b4dd017]
+  - @modern-js/utils@2.3.0
+  - @modern-js/runtime@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes

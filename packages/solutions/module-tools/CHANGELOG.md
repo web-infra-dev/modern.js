@@ -1,5 +1,35 @@
 # @modern-js/module-tools
 
+## 2.3.0
+
+### Minor Changes
+
+- 7736171: feat: add watch hooks
+  feat: 添加 watch hooks
+- 7736171: feat: Remove the listening mode build task before Storybook starts
+  feat: 在 Storybook 启动之前,移除监听模式的构建任务
+
+### Patch Changes
+
+- cdb8cd5: update libuild version
+  升级 libuild 版本
+- 7ad838e: fix umd code can not support es5 target
+  修复 umd 的代码不能被转换成 es5 的问题
+- Updated dependencies [65f1322]
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [7b2cdcb]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+- Updated dependencies [7736171]
+  - @modern-js/core@2.3.0
+  - @modern-js/utils@2.3.0
+  - @modern-js/plugin-changeset@2.3.0
+  - @modern-js/plugin-lint@2.3.0
+  - @modern-js/plugin-i18n@2.3.0
+  - @modern-js/new-action@2.3.0
+  - @modern-js/upgrade@2.3.0
+  - @modern-js/plugin@2.3.0
+
 ## 2.2.0
 
 ### Minor Changes
