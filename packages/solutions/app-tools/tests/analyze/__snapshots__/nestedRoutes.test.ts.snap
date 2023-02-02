@@ -54,6 +54,12 @@ Object {
       "_component": "@_modern_js_src/user/layout.tsx",
       "children": Array [
         Object {
+          "_component": "@_modern_js_src/user/$.tsx",
+          "id": "user/$",
+          "path": "*",
+          "type": "nested",
+        },
+        Object {
           "children": Array [
             Object {
               "_component": "@_modern_js_src/user/[id]/page.tsx",
