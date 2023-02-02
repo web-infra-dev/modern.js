@@ -46,6 +46,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages
-          folder: toolkit/module-doc/doc_build
+          folder: packages/toolkit/module-doc/doc_build
           target-folder: module-tools
           clean: true
