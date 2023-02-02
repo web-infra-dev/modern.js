@@ -69,6 +69,69 @@ export default defineConfig({
 });
 ```
 
+### Export Configuration Function
+
+Modern.js supports exporting a function in the configuration file, and you can dynamically compute the configuration in the function and return it to Modern.js.
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig(({ env, command }) => ({
+  source: {
+    alias: {
+      '@foo': env === 'development' ? './src/foo.dev.ts' : './src/foo.prod.ts',
+    },
+  },
+}));
+```
+
+This function takes the following parameters:
+
+- `env`: same as the value of `process.env.NODE_ENV`.
+  - When running `modern dev` or `modern start`, the value of `env` is `development`.
+  - When running `modern build` or `modern serve`, the value of `env` is `production`.
+  - When running `modern test`, the value of `env` is `test`.
+- `command`: corresponds to the currently running command, such as `dev`, `start`, `build`, `serve`.
+
+### Export Async Function
+
+Modern.js also supports exporting an asynchronous function in the configuration file, you can perform some asynchronous operations in the function:
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig(async ({ env, command }) => {
+  const result = await someAsyncFunction();
+
+  return {
+    html: {
+      title: result,
+    },
+  };
+});
+```
+
+### Specify the Configuration File
+
+You can specify the name of the configuration file using the `--config` option.
+
+For example, if you need to use the `modern.prod.config.js` file when running build, you can add the following scripts to `package.json`:
+
+```json title="package.json"
+{
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build --config modern.prod.config.js"
+  }
+}
+```
+
+You can also abbreviate the `--config` option to `-c`:
+
+```bash
+$ modern build -c modern.prod.config.js
+```
+
 ## Configure in package.json (not recommended)
 
 In addition to configuration files, configuration options can also be set the `modernConfig` field in the `package.json`, such as:

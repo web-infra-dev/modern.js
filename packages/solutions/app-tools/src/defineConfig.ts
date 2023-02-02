@@ -1,6 +1,7 @@
-import { AppUserConfig, AppLegacyUserConfig } from './types';
+import type { UserConfigExport } from '@modern-js/core';
+import type { AppUserConfig, AppLegacyUserConfig } from './types';
 
-export const defineConfig = (config: AppUserConfig) => config;
+export const defineConfig = (config: UserConfigExport<AppUserConfig>) => config;
 
 /**
  * @deprecated

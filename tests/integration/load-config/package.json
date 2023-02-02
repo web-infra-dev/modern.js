@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "integration-local-config",
+  "name": "integration-load-config",
   "version": "1.0.0",
   "dependencies": {
     "@types/jest": "^27",
