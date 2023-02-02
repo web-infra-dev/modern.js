@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-builder-website:
+  build-module-tools-website:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,8 +39,11 @@ jobs:
           restore-keys: |
             turbo-${{ github.ref_name }}-
 
+      - name: Build Dependencies
+        run: pnpm turbo run build --filter="@modern-js/module-tools-docs"
+
       - name: Build Website
-        run: pnpm turbo run build:doc --filter="@modern-js/module-tools-docs"
+        run: cd packages/toolkit/module-doc && npm run build:doc
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.5
