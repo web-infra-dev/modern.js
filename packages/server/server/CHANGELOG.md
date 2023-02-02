@@ -1,5 +1,21 @@
 # @modern-js/server
 
+## 2.3.0
+
+### Patch Changes
+
+- ff48fc2: fix(server): hmr protocol set error
+
+  fix(server): 修复 hmr protocol 配置错误问题
+
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+  - @modern-js/utils@2.3.0
+  - @modern-js/prod-server@2.3.0
+  - @modern-js/server-utils@2.3.0
+  - @modern-js/types@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes

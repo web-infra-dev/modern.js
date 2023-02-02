@@ -1,5 +1,47 @@
 # @modern-js/app-tools
 
+## 2.3.0
+
+### Patch Changes
+
+- fd5a3ed: fix: failed to exit new command
+
+  fix: 修复 new 命令执行完成后未退出进程的问题
+
+- Updated dependencies [65f1322]
+- Updated dependencies [7cd8185]
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [362c9a8]
+- Updated dependencies [67ba34a]
+- Updated dependencies [2ad9fdf]
+- Updated dependencies [7b2cdcb]
+- Updated dependencies [1b0dd35]
+- Updated dependencies [f9a26fe]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+- Updated dependencies [01e4a27]
+- Updated dependencies [7736171]
+- Updated dependencies [ff48fc2]
+- Updated dependencies [b6c2eb8]
+- Updated dependencies [3cdf48e]
+  - @modern-js/core@2.3.0
+  - @modern-js/builder@2.3.0
+  - @modern-js/builder-webpack-provider@2.3.0
+  - @modern-js/utils@2.3.0
+  - @modern-js/builder-shared@2.3.0
+  - @modern-js/server@2.3.0
+  - @modern-js/plugin-data-loader@2.3.0
+  - @modern-js/plugin-lint@2.3.0
+  - @modern-js/builder-plugin-esbuild@2.3.0
+  - @modern-js/builder-plugin-node-polyfill@2.3.0
+  - @modern-js/plugin-i18n@2.3.0
+  - @modern-js/new-action@2.3.0
+  - @modern-js/prod-server@2.3.0
+  - @modern-js/node-bundle-require@2.3.0
+  - @modern-js/upgrade@2.3.0
+  - @modern-js/plugin@2.3.0
+  - @modern-js/types@2.3.0
+
 ## 2.2.0
 
 ### Minor Changes
