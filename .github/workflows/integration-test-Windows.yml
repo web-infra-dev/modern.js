@@ -2,7 +2,7 @@ name: Integration Test(Windows)
 
 concurrency:
   group: windows-integration-test-${{ github.head_ref }}
-  cancel-in-progress: true
+  # cancel-in-progress: true
 
 # Controls when the action will run.
 on:
