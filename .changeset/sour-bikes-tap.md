@@ -3,6 +3,8 @@
 '@modern-js/core': patch
 '@modern-js/plugin-garfish': patch
 '@modern-js/app-tools': patch
+'@modern-js/doc-tools': patch
+'@modern-js/module-tools': patch
 '@modern-js/main-doc': patch
 '@modern-js/utils': patch
 ---
