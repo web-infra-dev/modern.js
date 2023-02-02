@@ -8,14 +8,14 @@ There are two configurations in the Modern.js, a compile configuration and a ser
 
 The compile configuration can be configured in two places:
 
+- `modern.config.(ts|js|mjs)` file in the root path
 - `package.json` file
-- `modern.config.t(j)s` file in the root path
 
-:::info Warning
+:::info
 Configurations in both package.json and modern.config.ts file are not supported for the same configuration. Configuration in modern.config.ts is recommended.
 :::
 
-Server runtime configuration can be configured in the `modern.server-runtime.config.t(j)s` file in the root path.
+Server runtime configuration can be configured in the `modern.server-runtime.config.(ts|js|mjs)` file in the root path.
 
 ## Configure in the configuration file
 
@@ -87,7 +87,53 @@ In addition to configuration files, configuration options can also be set the `m
 
 Due to the limitation of the JSON file format, only simple types such as numbers, strings, boolean values, arrays, etc. can be defined in `package.json`. When we need to set the value of the function type, it is recommended to set it in the Modern.js configuration file.
 
-## Note
+### Note
 
 - It is not recommended to use both `package.json` and `modern.config.t[j]s` for configuration. If both are used and a configuration conflict occurs, Modern.js will prompt error on the command line.
 - `@modern-js/runtime` exports the [defineConfig](/apis/app/runtime/app/define-config) API of the same name, please pay attention to the distinction.
+
+## Debug configuration locally
+
+To facilitate local debugging configuration locally, Modern.js supports creating `modern.config.local.(ts|js|mjs)` files in the root directory of the project to override `modern.config.(ts|js|mjs)` configurations.
+
+### Example
+
+For example, the port number is configured as `3000` in `modern.config.ts`:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+});
+```
+
+If you need to change the port number to `3001` to debugging locally, but you don't want to change the `modern.config.ts` file of the current project, you can create a `modern.config.local.ts` file and add the following configuration:
+
+```ts title="modern.config.local.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    port: 3001,
+  },
+});
+```
+
+The configuration in the `modern.config.local.ts` file will be deep merged with the configuration in `modern.config.ts` and override the configurations in `modern.config.ts`, so `server.port` will be is overridden by `3001`.
+
+### Note
+
+When using `modern.config.local.ts`, please note the following:
+
+- The `modern.config.local.ts` file is only loaded when running `modern dev` or `modern start` commands, and will not be loaded when running `modern build`.
+- The `modern.config.local.ts` file overrides not only over `modern.config.ts`, but also the `modernConfig` field in `package.json`.
+- As `modern.config.local.ts` is only used for local debugging, it is not recommended to commit it to the repository, please ensure that the project's `.gitignore` file contains `modern.config.local.ts`.
+
+```bash title=".gitingore"
+modern.config.local.ts
+modern.config.local.js
+modern.config.local.mjs
+```
