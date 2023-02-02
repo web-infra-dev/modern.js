@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.2.0",
+  "version": "2.3.0",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.2.0",
+    "@modern-js/module-tools": "workspace:^2.3.0",
     "core-js-pure": "^3.25.0"
   },
   "dependencies": {

@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.0.5
+
+### Patch Changes
+
+- 61c1ce5: feat: optimize storybook eslint generator
+
+  feat: 优化 storybook 中 eslint 生成器配置
+
+  - @modern-js/plugin-i18n@2.3.0
+
 ## 3.0.4
 
 ### Patch Changes
