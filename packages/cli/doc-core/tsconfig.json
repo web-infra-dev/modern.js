@@ -17,5 +17,5 @@
     }
   },
   "include": ["src", "vitest.config.ts"],
-  "exclude": ["runtime.d.ts", "theme.d.ts"]
+  "exclude": ["runtime.ts", "theme.ts"]
 }
