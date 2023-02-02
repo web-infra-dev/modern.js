@@ -1,5 +1,28 @@
 # @modern-js/builder
 
+## 2.3.0
+
+### Minor Changes
+
+- f9a26fe: fix(@modern-js/builder-shared): openBrowser add openChrome.applescript script
+
+  fix(@modern-js/builder-shared): openBrowser 添加 openChrome.applescript 脚本
+
+### Patch Changes
+
+- 7cd8185: chore: reuse splitChunks plugin between rspack-provider and webpack-provider
+
+  chore: 在 rspack-provider 和 webpack-provider 间复用 splitChunks plugin
+
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [67ba34a]
+- Updated dependencies [2ad9fdf]
+- Updated dependencies [f9a26fe]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+  - @modern-js/utils@2.3.0
+  - @modern-js/builder-shared@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes
