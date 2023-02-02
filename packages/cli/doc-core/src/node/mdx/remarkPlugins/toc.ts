@@ -1,7 +1,7 @@
 import type { Plugin } from 'unified';
 import { visitChildren } from 'unist-util-visit-children';
 import { parse } from 'acorn';
-import { slug } from 'github-slugger';
+import Slugger from 'github-slugger';
 import type { Root } from 'hast';
 import type { MdxjsEsm, Program } from 'mdast-util-mdxjs-esm';
 import { Header } from '@/shared/types';
@@ -21,7 +21,7 @@ interface Heading {
 export const parseToc = (tree: Root) => {
   let title = '';
   const toc: Header[] = [];
-
+  const slugger = new Slugger();
   visitChildren((node: Heading) => {
     if (node.type !== 'heading' || !node.depth || !node.children) {
       return;
@@ -41,7 +41,7 @@ export const parseToc = (tree: Root) => {
           }
         })
         .join('');
-      const id = slug(originText);
+      const id = slugger.slug(originText);
 
       const { depth } = node;
       toc.push({ id, text: originText, depth });
