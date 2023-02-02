@@ -25,7 +25,7 @@ export default (): CliPlugin<AppTools> => ({
     let routerExportsUtils: any;
 
     return {
-      config() {
+      config(): any {
         const appContext = api.useAppContext();
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,

@@ -1,5 +1,5 @@
+import type { AppNormalizedConfig, IAppContext } from '../../types';
 import { initHtmlConfig, initSourceConfig, initToolsConfig } from './inits';
-import type { AppNormalizedConfig, IAppContext } from '@/types';
 
 export function initialNormalizedConfig(
   config: AppNormalizedConfig,

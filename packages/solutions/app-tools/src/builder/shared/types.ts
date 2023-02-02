@@ -1,6 +1,7 @@
-import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
+import type { BuilderPluginAPI as WebpackBuilderPluginAPI } from '@modern-js/builder-webpack-provider';
+import type { BuilderPluginAPI as RspackBuilderPluginAPI } from '@modern-js/builder-rspack-provider';
 import { BuilderInstance } from '@modern-js/builder-shared';
-import { AppNormalizedConfig, Bundler, IAppContext } from '@/types';
+import { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 
 type Parameter<T extends (arg: any) => void> = Parameters<T>[0];
 type FnParameter<
@@ -11,10 +12,10 @@ type FnParameter<
   [P in keyof T]: Parameter<T[P]>;
 };
 
-type BuilderPluginCallbacks = FnParameter<
+type BuilderPluginCallbacks<B extends Bundler> = FnParameter<
   Partial<
     Pick<
-      BuilderPluginAPI,
+      B extends 'rspack' ? RspackBuilderPluginAPI : WebpackBuilderPluginAPI,
       | 'onAfterBuild'
       | 'onAfterCreateCompiler'
       | 'onAfterStartDevServer'
@@ -30,7 +31,7 @@ type BuilderPluginCallbacks = FnParameter<
 export type BuilderOptions<B extends Bundler> = {
   normalizedConfig: AppNormalizedConfig<B>;
   appContext: IAppContext;
-} & BuilderPluginCallbacks;
+} & BuilderPluginCallbacks<B>;
 
 export type ModifyBuilderConfig<B extends Bundler> = (
   config: AppNormalizedConfig<B>,

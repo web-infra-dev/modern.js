@@ -1,13 +1,9 @@
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RsBuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { SharedSourceConfig as BuilderSharedSourceConfig } from '@modern-js/builder-shared';
-import { UnwrapBuilderConfig } from '../utils';
 
-export type BuilderSourceConfig = UnwrapBuilderConfig<BuilderConfig, 'source'>;
-export type RsBuilderSourceConfig = UnwrapBuilderConfig<
-  RsBuilderConfig,
-  'source'
->;
+export type BuilderSourceConfig = NonNullable<BuilderConfig['source']>;
+export type RsBuilderSourceConfig = NonNullable<RsBuilderConfig['source']>;
 
 export type Entry =
   | string

@@ -10,6 +10,10 @@ export function createRspackBuilderForModern(
     modifyBuilderInstance(builder) {
       applyBuilderPlugins(builder, options);
     },
+    modifyBuilderConfig(config) {
+      // We need to do this in the app-tools prepare hook because some files will be generated into the dist directory in the analyze process
+      config.output.cleanDistPath = false;
+    },
   });
 }
 

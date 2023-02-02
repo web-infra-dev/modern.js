@@ -7,8 +7,8 @@ import type { IAppContext } from '@modern-js/core';
 import { applyOptionsChain } from '@modern-js/utils';
 import { BuilderOptions, createCopyPattern } from '../shared';
 import { generateBuilder } from '../generator';
-import { PluginCompatModern } from './plugins/builder/compatModern';
-import type { AppNormalizedConfig } from '@/types';
+import type { AppNormalizedConfig } from '../../types';
+import { PluginCompatModern } from './builderPlugins/compatModern';
 
 export function createWebpackBuilderForModern(
   options: BuilderOptions<'webpack'>,
@@ -46,9 +46,7 @@ function modifyOutputConfig(
   }
 }
 
-/**
- * register builder Plugin by condition
- */
+/** register builder Plugin by condition */
 async function applyBuilderPlugins(
   builder: BuilderInstance,
   options: BuilderOptions<'webpack'>,

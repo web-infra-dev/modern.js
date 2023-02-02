@@ -51,7 +51,7 @@ const getDocumenByEntryName = function (
   return docFile || undefined;
 };
 
-export default (): CliPlugin<AppTools> => ({
+export default (): CliPlugin<AppTools<'webpack'>> => ({
   name: '@modern-js/plugin-document',
   pre: ['@modern-js/plugin-analyze'],
   setup: async api => {

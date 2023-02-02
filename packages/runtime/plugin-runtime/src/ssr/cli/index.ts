@@ -18,7 +18,9 @@ import type { RouterConfig } from '../../router';
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
-const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
+const hasStringSSREntry = (
+  userConfig: AppNormalizedConfig<'webpack'>,
+): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
@@ -39,7 +41,7 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   return false;
 };
 
-export default (): CliPlugin<AppTools> => ({
+export default (): CliPlugin<AppTools<'webpack'>> => ({
   name: '@modern-js/plugin-ssr',
   required: ['@modern-js/runtime'],
   setup: api => {

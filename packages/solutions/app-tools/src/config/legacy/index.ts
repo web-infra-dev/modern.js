@@ -1,13 +1,13 @@
-import { createToolsConfig } from './createToolsConfig';
-import { createSourceConfig } from './createSourceConfig';
-import { createOutputConfig } from './createOutputConfig';
-import { createHtmlConfig } from './createHtmlConfig';
 import type {
   AppLegacyNormalizedConfig,
   AppLegacyUserConfig,
   AppNormalizedConfig,
   AppUserConfig,
-} from '@/types';
+} from '../../types';
+import { createToolsConfig } from './createToolsConfig';
+import { createSourceConfig } from './createSourceConfig';
+import { createOutputConfig } from './createOutputConfig';
+import { createHtmlConfig } from './createHtmlConfig';
 
 export function transformNormalizedConfig(
   config: AppLegacyNormalizedConfig,

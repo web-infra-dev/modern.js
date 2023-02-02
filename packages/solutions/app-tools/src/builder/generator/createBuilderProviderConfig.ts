@@ -1,4 +1,4 @@
-import type { AppNormalizedConfig, Bundler, IAppContext } from '@/types';
+import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 
 export function createBuilderProviderConfig<B extends Bundler>(
   resolveConfig: AppNormalizedConfig,

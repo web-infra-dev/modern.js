@@ -7,7 +7,7 @@ import type { AppTools } from '@modern-js/app-tools';
 
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 
-export default (): CliPlugin<AppTools> => ({
+export default (): CliPlugin<AppTools<'webpack'>> => ({
   name: '@modern-js/plugin-server',
 
   setup: api => ({

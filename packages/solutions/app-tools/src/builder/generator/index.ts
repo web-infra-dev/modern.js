@@ -5,13 +5,19 @@ import {
   ModifyBuilderConfig,
   ModifyBuilderInstance,
 } from '../shared';
+import { Bundler } from '../../types';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
 import { getBuilderTargets } from './getBuilderTargets';
 import { createBuilderOptions } from './createBuilderOptions';
-import { Bundler } from '@/types';
 
 export type GenerateProvider = (c: { builderConfig: any }) => BuilderProvider;
 
+/**
+ * @param options BuilderOptions
+ * @param generateProvider GenerateProvider
+ * @param utils - ModifyBuilderConfig, ModifyBuilderInstance
+ * @returns BuilderInstance
+ */
 export async function generateBuilder<B extends Bundler>(
   options: BuilderOptions<B>,
   generateProvider: GenerateProvider,

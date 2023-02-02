@@ -1,7 +1,7 @@
 import path from 'path';
 import { WebpackChain } from '@modern-js/builder-webpack-provider';
 import { removeTailSlash } from '@modern-js/utils';
-import { AppNormalizedConfig, IAppContext } from '@/types';
+import { AppNormalizedConfig, IAppContext } from '../../types';
 
 export function createCopyPattern(
   appContext: IAppContext,

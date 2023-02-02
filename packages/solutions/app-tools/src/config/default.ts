@@ -1,5 +1,5 @@
 import { createDefaultConfig as createDefaultBuilderConfig } from '@modern-js/builder-webpack-provider';
-import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '@/types';
+import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
 
 export function createDefaultConfig(
   appContext: IAppContext,
