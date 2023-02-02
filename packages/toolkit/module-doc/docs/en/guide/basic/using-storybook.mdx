@@ -28,7 +28,7 @@ The project code needs to be introduced during the debugging process and can cur
 - Use of project products
 - Using the project source code
 
-We prefer to use the first "**use project product**" approach. This is because it is closer to a real-life usage scenario and not only allows you to debug the functionality of the component, but also to verify the correctness of the build product.
+We recommend using the first "**referenced project product**" approach. Because it is closer to the real usage scenario, not only can we debug the component functionality, but also verify the correctness of the build product. However, we can also refer to the source code when testing the project functionality and refer to the project package name when verifying the project product.
 
 Next, we will talk about how to use each of these two methods.
 
@@ -88,7 +88,7 @@ The `key` of `paths` is the same as the project name.
 
 ---
 
-Finally, it is referenced directly in the Story code by the project name.
+Referenced directly in Story code by the project name.
 
 ```tsx stories/index.stories.tsx focus=1:1
 import { content } from 'foo';
@@ -101,6 +101,26 @@ export default {
   title: 'Your Stories',
 };
 ```
+
+---
+
+Finally, when executing the command, first start the source build in listening mode and then start Storybook debugging.
+
+<CH.Code>
+
+``` bash terminal-1
+## Source Code Build
+modern build --watch
+```
+
+---
+
+``` bash terminal-2
+## Storybook Debug
+modern dev storybook
+```
+
+</CH.Code>
 
 </CH.Spotlight>
 
@@ -125,8 +145,8 @@ For npm and Yarn projects, the values of `types` of `package.json` can only be c
 
 So why is it possible to reference the product directly?
 
-1. the `modern build` command is executed automatically before the `modern dev storybook` command, ensuring the existence of the project build product.
-2. The project name is added as an alias inside Storybook to ensure that the path to the project's product can be parsed **according to `package.json`**.
+1. execute `modern build --watch` command before executing `modern dev storybook` command to ensure the existence of project build products.
+2. Add processing logic inside Storybook to ensure that the project's product paths can be parsed **according to `package.json`, based on the `compilerOptions.paths` configuration in the `tsconfig.json` file or (in JS projects) directly with the project name as an alias**.
 
 ### Referencing component source code
 
@@ -144,9 +164,11 @@ export default {
 };
 ```
 
-So why is the source code approach not recommended?
-
+:::tip{title='why is the source code approach not recommended'}
 Not only is it impossible to verify that the component product is correct using the component source code, **but also some of the configurations supported by the module project for building the product cannot be fully translated into Storybook internal configuration**. If some of the configurations cannot be converted to each other, there will be unintended results during Storybook debugging.
+
+Module Tools is based on Esbuild, while Storybook is based on Webpack, and Esbuild's configuration is not fully compatible with Webpack.
+:::
 
 ## Configure Storybook
 

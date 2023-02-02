@@ -9,6 +9,8 @@ import type {
   BuildTaskResult,
   BuildResult,
   BuildPlatformResult,
+  WatchDtsHookContext,
+  WatchJsHookContext,
 } from '../types/hooks';
 
 export const buildHooks = {
@@ -29,4 +31,9 @@ export const buildHooks = {
   >(),
   buildPlatform: createParallelWorkflow<{ platform: string }, void>(),
   afterBuildPlatform: createParallelWorkflow<BuildPlatformResult, void>(),
+};
+
+export const buildWatchHooks = {
+  buildWatchJs: createParallelWorkflow<WatchJsHookContext, void>(),
+  buildWatchDts: createParallelWorkflow<WatchDtsHookContext, void>(),
 };

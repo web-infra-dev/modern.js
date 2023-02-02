@@ -63,7 +63,8 @@ export interface DevToolData<DevOptions = any> {
     name: string;
     value: string;
   };
-  disableRunBuild?: boolean;
+  // TODO: build watch
+  // disableRunBuild?: boolean;
   action: (
     options: DevOptions,
     context: { isTsProject?: boolean },

@@ -28,7 +28,7 @@ sidebar_position: 5
 - 引用项目产物
 - 引用项目源码
 
-我们更推荐使用第一种“**引用项目产物**”的方式。因为它更接近真实的使用场景，不仅可以对组件功能进行调试，同时也对构建产物的正确性进行了验证。
+我们推荐使用第一种“**引用项目产物**”的方式。因为它更接近真实的使用场景，不仅可以对组件功能进行调试，同时也对构建产物的正确性进行了验证。不过我们也可以在测试项目功能的时候引用源码，在验证项目产物的时候引用项目的包名。
 
 接下来我们分别讲一下这两种方式具体如何使用。
 
@@ -90,7 +90,7 @@ export const content = 'hello world';
 
 ---
 
-最后在 Story 代码中直接以项目名称的方式引用。
+在 Story 代码中直接以项目名称的方式引用。
 
 ```tsx stories/index.stories.tsx focus=1:1
 import { content } from 'foo';
@@ -103,6 +103,26 @@ export default {
   title: 'Your Stories',
 };
 ```
+
+---
+
+最后在执行命令的时候，先启动监听模式的源码构建，然后启动 Storybook 调试。
+
+<CH.Code>
+
+``` bash terminal-1
+## 源码构建
+modern build --watch
+```
+
+---
+
+``` bash terminal-2
+## Storybook 调试
+modern dev storybook
+```
+
+</CH.Code>
 
 </CH.Spotlight>
 
@@ -129,8 +149,8 @@ export default {
 
 那么为什么可以直接引用产物呢？
 
-1. 在执行 `modern dev storybook` 命令之前，会自动执行 `modern build` 命令，保证项目构建产物的存在。
-2. 在 Storybook 内部增加了针对 `tsconfig.json` 文件或者以项目名称作为别名的处理，保证能够**根据 `package.json` 解析出项目的产物路径**。
+1. 在执行 `modern dev storybook` 命令之前，执行 `modern build --watch` 命令，保证项目构建产物的存在。
+2. 在 Storybook 内部增加了根据 `tsconfig.json` 文件的 `compilerOptions.paths` 配置或者（在 JS 项目中）直接以项目名称作为别名的处理逻辑，保证能够**根据 `package.json` 解析出项目的产物路径**。
 
 ### 引用组件源码
 
@@ -148,10 +168,13 @@ export default {
 };
 ```
 
-那么为什么不推荐使用源码的方式呢？
 
+:::tip{title='为什么不推荐使用源码的方式?'}
 不仅仅是因为使用组件源码无法验证组件产物是否正确，**同时模块工程对于构建产物支持的一些配置无法完全转换为 Storybook
 内部的配置**。如果某些配置无法进行相互转换的话，就会在 Storybook 调试过程中出现不符合预期的结果。
+
+Module Tools 是基于 Esbuild 实现的，而 Storybook 是基于 Webpack 实现的。Esbuild 的配置无法与 Webpack 完全兼容。
+:::
 
 ## 配置 Storybook
 
