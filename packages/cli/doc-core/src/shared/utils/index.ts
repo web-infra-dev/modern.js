@@ -1,5 +1,5 @@
-export const queryRE = /\?.*$/s;
-export const hashRE = /#.*$/s;
+export const QUERY_REGEXP = /\?.*$/s;
+export const HASH_REGEXP = /#.*$/s;
 export const MDX_REGEXP = /\.mdx?$/;
 export const externalLinkRE = /^(https?:)/;
 
@@ -8,7 +8,7 @@ export const SEARCH_INDEX_JSON = 'search_index.json';
 export const isProduction = () => process.env.NODE_ENV === 'production';
 
 export const cleanUrl = (url: string): string =>
-  url.replace(hashRE, '').replace(queryRE, '');
+  url.replace(HASH_REGEXP, '').replace(QUERY_REGEXP, '');
 
 export const inBrowser = () => typeof window !== 'undefined';
 
