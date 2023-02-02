@@ -1,5 +1,7 @@
 # @modern-js/module-generator
 
+## 2.4.17
+
 ## 2.4.16
 
 ## 2.4.15

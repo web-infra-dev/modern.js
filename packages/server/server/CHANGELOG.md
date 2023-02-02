@@ -1,5 +1,18 @@
 # @modern-js/server
 
+## 1.22.6
+
+### Patch Changes
+
+- 9c27f06: fix(server): hmr protocol set error
+
+  fix(server): 修复 hmr protocol 配置错误问题
+
+  - @modern-js/prod-server@1.22.6
+  - @modern-js/server-utils@1.22.6
+  - @modern-js/types@1.22.6
+  - @modern-js/utils@1.22.6
+
 ## 1.22.5
 
 ### Patch Changes

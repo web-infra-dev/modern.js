@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/website",
-  "version": "1.22.5",
+  "version": "1.22.6",
   "private": true,
   "scripts": {
     "setup": "npm run reset && pnpm install",
