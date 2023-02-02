@@ -57,10 +57,10 @@ Here are all the main features supported by Modern.js Builder.
 
 ## React
 
-| Features               | Description                                   | Links                                                                                                                                                          |
-| ---------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| React Refresh          | Support React Refresh by default              | <ul><li>[Hot Module Replacement](/guide/advanced/hmr.html)</li><li>[dev.hmr](/en/api/config-dev.html#dev-hmr)</li></ul>                                        |
-| SVG to React component | Support to import SVG as component by default | <ul><li>[Import SVG Assets](/guide/basic/svg-assets.html)</li><li>[output.svgDefaultExport](/en/api/config-output.html#output-svgdefaultexport)</li></li></ul> |
+| Features               | Description                                   | Links                                                                                                                                                     |
+| ---------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| React Refresh          | Support React Refresh by default              | <ul><li>[Hot Module Replacement](/guide/advanced/hmr.html)</li><li>[dev.hmr](/en/api/config-dev.html#dev-hmr)</li></ul>                                   |
+| SVG to React component | Support to import SVG as component by default | <ul><li>[Import SVG Assets](/guide/basic/svg-assets.html)</li><li>[output.svgDefaultExport](/en/api/config-output.html#output-svgdefaultexport)</li></ul> |
 
 ## Static Assets
 
