@@ -1,5 +1,13 @@
 # @modern-js/storybook-generator
 
+## 3.0.5
+
+### Patch Changes
+
+- 61c1ce5: feat: optimize storybook eslint generator
+
+  feat: 优化 storybook 中 eslint 生成器配置
+
 ## 3.0.4
 
 ## 3.0.3

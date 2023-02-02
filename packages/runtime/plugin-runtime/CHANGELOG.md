@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.3.0
+
+### Patch Changes
+
+- b4dd017: feat: runtime package use treeshaking production for ssr bundle
+  feat: runtime 包使用 treeshaking 产物作为 ssr bundle 打包入口
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+  - @modern-js/utils@2.3.0
+  - @modern-js/plugin@2.3.0
+  - @modern-js/types@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes

@@ -1,5 +1,31 @@
 # @modern-js/builder-shared
 
+## 2.3.0
+
+### Minor Changes
+
+- f9a26fe: fix(@modern-js/builder-shared): openBrowser add openChrome.applescript script
+
+  fix(@modern-js/builder-shared): openBrowser 添加 openChrome.applescript 脚本
+
+### Patch Changes
+
+- 67ba34a: chore(builder): remove unused ajv schema types
+
+  chore(builder): 移除过时的 ajv 相关类型
+
+- 2ad9fdf: fix(builder-shared): failed to open start URL in macOS
+
+  fix(builder-shared): 修复在 macOS 上打开 start URL 失败的问题
+
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+- Updated dependencies [ff48fc2]
+  - @modern-js/utils@2.3.0
+  - @modern-js/server@2.3.0
+  - @modern-js/types@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes
