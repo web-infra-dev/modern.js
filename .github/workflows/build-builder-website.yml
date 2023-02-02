@@ -43,7 +43,7 @@ jobs:
         run: pnpm turbo run build --filter="@modern-js/builder-doc"
 
       - name: Build Website
-        run: cd packages/builder/builder-doc && npm run build:doc
+        run: pnpm --filter @modern-js/builder-doc run build:doc
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.5
