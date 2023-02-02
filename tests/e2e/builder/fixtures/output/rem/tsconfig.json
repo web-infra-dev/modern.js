@@ -4,7 +4,10 @@
     "declaration": false,
     "jsx": "react-jsx",
     "baseUrl": "./",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "paths": {
+      "@scripts/*": ["../../../scripts/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }

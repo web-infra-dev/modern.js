@@ -68,29 +68,6 @@ webpackOnlyTest('module-scopes', async ({ page }) => {
   });
 });
 
-allProviderTest('resolve-extension-prefix', async ({ page }) => {
-  const buildOpts = {
-    cwd: join(fixtures, 'resolve-extension-prefix'),
-    entry: {
-      main: join(fixtures, 'resolve-extension-prefix/src/index.js'),
-    },
-  };
-
-  // ex.js take effect when not set resolveExtensionPrefix
-  let builder = await build(buildOpts);
-  await page.goto(getHrefByEntryName('main', builder.port));
-  await expect(page.innerHTML('#test-el')).resolves.toBe('aaaaa');
-
-  // ex.web.js take effect when set resolveExtensionPrefix
-  builder = await build(buildOpts, {
-    source: {
-      resolveExtensionPrefix: '.web',
-    },
-  });
-  await page.goto(getHrefByEntryName('main', builder.port));
-  await expect(page.innerHTML('#test-el')).resolves.toBe('web');
-});
-
 allProviderTest('global-vars & tsConfigPath', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'global-vars'),

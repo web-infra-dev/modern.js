@@ -50,7 +50,7 @@ export const createBuilder = async (
   const builderProvider =
     process.env.PROVIDE_TYPE === 'rspack'
       ? await getRspackBuilderProvider(builderConfig as RspackBuilderConfig)
-      : await getWebpackBuilderProvider(builderConfig);
+      : await getWebpackBuilderProvider(builderConfig as BuilderConfig);
 
   const builder = await createBuilder(builderProvider, builderOptions);
 
