@@ -1,5 +1,5 @@
 ---
-'@modern-js/app-tools': patch
+'@modern-js/app-tools': minor
 ---
 
 feat: support catch-all routing

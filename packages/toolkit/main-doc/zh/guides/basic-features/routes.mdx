@@ -168,6 +168,33 @@ export default () => {
 
 在 loader 中，params 会作为 [loader](/guides/basic-features/data-fetch#loader-函数) 的入参，通过 `params.xxx` 可以获取。
 
+### 通配路由
+
+如果在 routes 目录下创建 `$.tsx` 文件，该文件会作为通配路由组件，当没有匹配的路由时，会渲染该路由组件。
+
+:::note
+`$.tsx` 可以认为是一种特殊的 `page` 路由组件，当前目录下有 `layout` 组件时，`$.tsx`，会作为 `layout` 的子组件渲染。
+:::
+
+例如以下目录结构：
+```
+└── routes
+    ├── $.tsx
+    ├── blog
+    │   └── page.tsx
+    └── page.tsx
+```
+
+当访问任何匹配不到的路径时，都会渲染 `routes/$.tsx` 组件，同样，`$.tsx` 中可以使用 [useParams](/apis/app/runtime/router/#useparams) 捕获 url 的剩余部分。
+```ts title="$.tsx"
+import { useParams } from '@modern-js/runtime/router';
+// 当 path 是 `/aaa/bbb` 时
+const params = useParams();
+params['*']  // => 'aaa/bbb'
+```
+
+`$.tsx` 可以加入到 `routes` 目录下的任意目录中，一个常见的使用示例是添加 `routes/$.tsx` 文件去定制任意层级的 404 页面。
+
 ### 无路径布局
 
 当目录名以 \_\_ 开头时，对应的目录名不会转换为实际的路由路径，例如以下文件目录：

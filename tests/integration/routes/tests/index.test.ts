@@ -421,6 +421,8 @@ describe('build', () => {
 
     test('dynamic path', async () => supportDynamaicPaths(errors, appPort));
 
+    test('support catch all', async () => supportCatchAll(errors, appPort));
+
     test('no layout dir', async () => supportNoLayoutDir(errors, appPort));
 
     test('pathless layout', async () => supportPathLessLayout(errors, appPort));

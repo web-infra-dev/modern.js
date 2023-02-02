@@ -79,6 +79,8 @@ export const walk = async (
 
   let pageLoaderFile = '';
   let pageRoute = null;
+  let splatLoaderFile = '';
+  let splatRoute = null;
 
   const items = await fs.readdir(dirname);
 
@@ -134,8 +136,12 @@ export const walk = async (
       route.children?.push(pageRoute);
     }
 
+    if (itemWithoutExt === NESTED_ROUTE.SPLATE_LOADER_FILE) {
+      splatLoaderFile = itemPath;
+    }
+
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_FILE) {
-      const splatRoute = createRoute(
+      splatRoute = createRoute(
         {
           _component: replaceWithAlias(alias.basename, itemPath, alias.name),
           path: '*',
@@ -144,6 +150,10 @@ export const walk = async (
         itemPath,
         entryName,
       );
+
+      if (splatLoaderFile) {
+        splatRoute.loader = splatLoaderFile;
+      }
       route.children?.push(splatRoute);
     }
 
