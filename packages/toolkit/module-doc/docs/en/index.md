@@ -7,8 +7,11 @@ hero:
   tagline: simple, powerful, high-performance modern npm package development solution
   actions:
     - theme: brand
-      text: welcome
-      link: /guide/intro/welcome
+      text: Welcome
+      link: /en/guide/intro/welcome
+    - theme: alt
+      text: Quick Start
+      link: /en/guide/intro/getting-started
 
 features:
   - title: 'Esbuild: The High Performance JS Bundler'
