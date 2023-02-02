@@ -7,10 +7,11 @@ export const builderPluginDefine = (): BuilderPlugin => ({
 
   async setup(api) {
     api.modifyRspackConfig(async rspackConfig => {
+      const { getNodeEnv } = await import('@modern-js/utils');
       const config = api.getNormalizedConfig();
 
       const builtinVars: NonNullable<SourceConfig['globalVars']> = {
-        'process.env.NODE_ENV': process.env.NODE_ENV || 'development',
+        'process.env.NODE_ENV': getNodeEnv(),
       };
 
       // Serialize global vars. User can customize value of `builtinVars`.
