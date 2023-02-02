@@ -17,6 +17,8 @@ const debug = createDebugger('load-config');
 
 export const CONFIG_FILE_NAME = 'modern.config';
 
+export const LOCAL_CONFIG_FILE_NAME = 'modern.config.local';
+
 export const PACKAGE_JSON_CONFIG_NAME = 'modernConfig';
 
 /**
@@ -131,12 +133,12 @@ export const getConfigFilePath = (appDirectory: string, filePath?: string) => {
 /**
  * Parse and load user config file, support extensions like .ts, mjs, js, ejs.
  * @param appDirectory - App root directory, from which start search user config file.
- * @param filePath - Specific absolute config file path.
+ * @param configFile - Specific absolute config file path.
  * @returns Object contain config file path, user config object and dependency files used by config file.
  */
 export const loadConfig = async <T>(
   appDirectory: string,
-  filePath?: string,
+  configFile: string | false,
   packageJsonConfig?: string,
 ): Promise<{
   path: string | false;
@@ -144,7 +146,6 @@ export const loadConfig = async <T>(
   dependencies?: string[];
   pkgConfig?: T;
 }> => {
-  const configFile = getConfigFilePath(appDirectory, filePath);
   const pkgConfig = getPackageConfig<T>(appDirectory, packageJsonConfig);
 
   let config: T | undefined;
@@ -159,9 +160,6 @@ export const loadConfig = async <T>(
     const mod = await bundleRequireWithCatch(configFile, { appDirectory });
 
     config = mod.default || mod;
-
-    // TODO: get deps.
-    // dependencies = dependencies.concat(getDependencies(configFile));
   }
 
   return {

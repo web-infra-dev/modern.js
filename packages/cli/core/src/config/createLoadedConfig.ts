@@ -1,7 +1,19 @@
+import path from 'path';
 import { mergeWith } from '@modern-js/utils/lodash';
-import { isPlainObject } from '@modern-js/utils';
+import {
+  fs,
+  findExists,
+  isDevCommand,
+  isPlainObject,
+  CONFIG_FILE_EXTENSIONS,
+} from '@modern-js/utils';
 import { LoadedConfig, UserConfig, ConfigParams } from '../types';
-import { loadConfig } from '../load-configs';
+import { mergeConfig } from '../utils';
+import {
+  loadConfig,
+  getConfigFilePath,
+  LOCAL_CONFIG_FILE_NAME,
+} from './loadConfig';
 
 /**
  * Assign the pkg config into the user config.
@@ -20,26 +32,84 @@ export const assignPkgConfig = (
     return undefined;
   });
 
+/**
+ * A modern config can export a function or an object
+ * If it's a function, it will be called and return a config object
+ */
+async function getConfigObject(config?: ConfigParams) {
+  if (typeof config === 'function') {
+    return (await config(0)) || {};
+  }
+  return config || {};
+}
+
+async function loadLocalConfig(
+  appDirectory: string,
+  configFile: string | false,
+) {
+  let localConfigFile: string | false = false;
+
+  if (typeof configFile === 'string') {
+    for (const ext of CONFIG_FILE_EXTENSIONS) {
+      if (configFile.endsWith(ext)) {
+        const replacedPath = configFile.replace(ext, `.local${ext}`);
+        if (fs.existsSync(replacedPath)) {
+          localConfigFile = replacedPath;
+        }
+      }
+    }
+  } else {
+    localConfigFile = findExists(
+      CONFIG_FILE_EXTENSIONS.map(extension =>
+        path.resolve(appDirectory, `${LOCAL_CONFIG_FILE_NAME}${extension}`),
+      ),
+    );
+  }
+
+  if (localConfigFile) {
+    const loaded = await loadConfig<ConfigParams>(
+      appDirectory,
+      localConfigFile,
+    );
+    return getConfigObject(loaded.config);
+  }
+
+  return null;
+}
+
 export async function createLoadedConfig(
   appDirectory: string,
   filePath?: string,
   packageJsonConfig?: string,
   // eslint-disable-next-line @typescript-eslint/ban-types
 ): Promise<LoadedConfig<{}>> {
+  const configFile = getConfigFilePath(appDirectory, filePath);
+
   const loaded = await loadConfig<ConfigParams>(
     appDirectory,
-    filePath,
+    configFile,
     packageJsonConfig,
   );
 
-  const config = !loaded
-    ? {}
-    : await (typeof loaded.config === 'function'
-        ? loaded.config(0)
-        : loaded.config);
+  const config = await getConfigObject(loaded.config);
+  let mergedConfig = config;
+
+  if (loaded.pkgConfig) {
+    mergedConfig = assignPkgConfig(config, loaded?.pkgConfig);
+  }
+
+  // Only load local config when running dev command
+  if (isDevCommand()) {
+    const localConfig = await loadLocalConfig(appDirectory, configFile);
+
+    // The priority of local config is higher than the user config and pkg config
+    if (localConfig) {
+      mergedConfig = mergeConfig([mergedConfig, localConfig]);
+    }
+  }
 
   return {
-    config: assignPkgConfig(config, loaded?.pkgConfig),
+    config: mergedConfig,
     filePath: loaded.path,
     dependencies: loaded.dependencies || [],
     pkgConfig: loaded.pkgConfig || {},

@@ -78,6 +78,15 @@ describe('merge config', () => {
         },
       },
     });
+
+    expect(
+      mergeConfig([
+        { source: { envVars: ['a', 'b'] } },
+        { source: { envVars: undefined } },
+      ]),
+    ).toEqual({
+      source: { envVars: ['a', 'b'] },
+    });
   });
 
   test(`should keep single function value`, () => {

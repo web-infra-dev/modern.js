@@ -1,3 +1,4 @@
+import { ensureArray } from '@modern-js/utils';
 import { mergeWith, isFunction } from '@modern-js/utils/lodash';
 import { UserConfig, NormalizedConfig } from '../types';
 
@@ -15,13 +16,17 @@ export const mergeConfig = <ExtendConfig extends Record<string, any>>(
       return mergeWith({}, target ?? {}, source ?? {});
     }
 
-    if (Array.isArray(target)) {
-      if (Array.isArray(source)) {
-        return [...target, ...source];
-      } else {
-        return source !== undefined ? [...target, source] : target;
+    if (Array.isArray(target) || Array.isArray(source)) {
+      if (target === undefined) {
+        return source;
       }
-    } else if (isFunction(target) || isFunction(source)) {
+      if (source === undefined) {
+        return target;
+      }
+      return [...ensureArray(target), ...ensureArray(source)];
+    }
+
+    if (isFunction(target) || isFunction(source)) {
       if (source === undefined) {
         return target;
       }
