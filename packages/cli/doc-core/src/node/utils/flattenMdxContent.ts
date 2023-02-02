@@ -4,6 +4,7 @@ import type { Resolver } from 'enhanced-resolve';
 import fs from '@modern-js/utils/fs-extra';
 import { createProcessor } from '@mdx-js/mdx';
 import { Root } from 'hast';
+import { MDX_REGEXP } from '@/shared/utils';
 
 const { CachedInputFileSystem, ResolverFactory } = enhancedResolve;
 export const IMPORT_FROM_REGEX = /import\s+(.*)from\s+['"](.*)['"];?/;
@@ -80,7 +81,7 @@ export async function flattenMdxContent(
     } catch (e) {
       continue;
     }
-    if (/\.mdx?$/.test(absoluteImportPath)) {
+    if (MDX_REGEXP.test(absoluteImportPath)) {
       // replace import statement with the content of the imported file
       const importedContent = await fs.readFile(absoluteImportPath, 'utf-8');
       result = result
