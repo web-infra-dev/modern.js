@@ -134,6 +134,19 @@ export const walk = async (
       route.children?.push(pageRoute);
     }
 
+    if (itemWithoutExt === NESTED_ROUTE.SPLATE_FILE) {
+      const splatRoute = createRoute(
+        {
+          _component: replaceWithAlias(alias.basename, itemPath, alias.name),
+          path: '*',
+        },
+        rootDir,
+        itemPath,
+        entryName,
+      );
+      route.children?.push(splatRoute);
+    }
+
     if (itemWithoutExt === NESTED_ROUTE.LOADING_FILE) {
       route.loading = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
