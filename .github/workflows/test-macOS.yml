@@ -49,8 +49,9 @@ jobs:
         run: pnpm run test:ut
 
       - name: Collect coverage
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3.1.1
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage
           fail_ci_if_error: true
           override_branch: main
