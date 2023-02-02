@@ -7,7 +7,6 @@ import type {
   BuilderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import sirv from 'sirv';
-import VirtualModulesPlugin from 'webpack-virtual-modules';
 import WindiCSSWebpackPlugin from 'windicss-webpack-plugin';
 import { removeTrailingSlash } from '../shared/utils';
 import {
@@ -18,7 +17,7 @@ import {
   isProduction,
 } from './constants';
 import { createMDXOptions } from './mdx';
-import { virtualModuleFactoryList } from './virtualModule';
+import { builderDocVMPlugin } from './virtualModule';
 import createWindiConfig from './windiOptions';
 import { serveSearchIndexMiddleware } from './searchIndex';
 
@@ -43,12 +42,6 @@ async function createInternalBuildConfig(
     if (typeof plugin.config === 'function') {
       config.doc = await plugin.config(config.doc || {});
     }
-  }
-
-  // The order should be sync
-  const virtualModulePlugins: VirtualModulesPlugin[] = [];
-  for (const factory of virtualModuleFactoryList) {
-    virtualModulePlugins.push(await factory(userRoot, config, isSSR));
   }
 
   const publicDir = path.join(userRoot, 'public');
@@ -148,22 +141,21 @@ async function createInternalBuildConfig(
 
         chain.resolve.extensions.merge(['.mdx', '.md', '.ts', '.tsx']);
       },
-      webpack(config) {
-        config.plugins!.push(...virtualModulePlugins);
-        config.plugins!.push(
+      webpack(webpackConfig) {
+        webpackConfig.plugins!.push(
           new WindiCSSWebpackPlugin({
             config: createWindiConfig(themeDir),
           }),
         );
 
         if (checkDeadLinks) {
-          config.cache = {
+          webpackConfig.cache = {
             // If checkDeadLinks is true, we should use memory cache to avoid skiping mdx-loader when starting dev server again
             type: 'memory',
           };
         }
 
-        return config;
+        return webpackConfig;
       },
     },
   };
@@ -210,6 +202,8 @@ export async function createModernBuilder(
       main: isSSR ? SSR_ENTRY : CLIENT_ENTRY,
     },
   });
+
+  builder.addPlugins([builderDocVMPlugin(userRoot, config, isSSR)]);
 
   return builder;
 }
