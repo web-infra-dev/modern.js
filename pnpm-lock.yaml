@@ -557,7 +557,8 @@ importers:
       '@babel/runtime': 7.18.0
       '@headlessui/react': ^1.7.7
       '@loadable/component': 5.15.2
-      '@mdx-js/loader': 2.1.5
+      '@mdx-js/loader': 2.2.1
+      '@mdx-js/mdx': 2.2.1
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
@@ -583,6 +584,7 @@ importers:
       autoprefixer: 10.4.13
       body-scroll-lock: 4.0.0-beta.0
       copy-to-clipboard: ^3.3.3
+      enhanced-resolve: 5.12.0
       flexsearch: 0.6.32
       fs-extra: 10.1.0
       github-slugger: ^2.0.0
@@ -634,7 +636,8 @@ importers:
       '@babel/runtime': 7.18.0
       '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
       '@loadable/component': 5.15.2_react@18.2.0
-      '@mdx-js/loader': 2.1.5
+      '@mdx-js/loader': 2.2.1
+      '@mdx-js/mdx': 2.2.1
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
       '@modern-js/remark-container': link:../../toolkit/remark-container
@@ -643,6 +646,7 @@ importers:
       autoprefixer: 10.4.13_postcss@8.4.21
       body-scroll-lock: 4.0.0-beta.0
       copy-to-clipboard: 3.3.3
+      enhanced-resolve: 5.12.0
       flexsearch: 0.6.32
       fs-extra: 10.1.0
       github-slugger: 2.0.0
@@ -663,16 +667,20 @@ importers:
       rehype-autolink-headings: 6.1.1
       rehype-external-links: 2.0.1
       rehype-slug: 5.1.0
+      rehype-stringify: 9.0.3
       remark: 14.0.2
       remark-directive: 2.0.1
       remark-frontmatter: 4.0.1
       remark-gfm: 3.0.1
       remark-html: 15.0.1
       remark-mdx-frontmatter: 2.1.1
+      remark-parse: 10.0.1
+      remark-rehype: 10.1.0
       shiki: 0.11.1
       sirv: 2.0.2
       source-map: 0.7.4
       string-replace-loader: 3.1.0
+      unified: 10.1.2
       unist-util-visit: 4.1.1
       unist-util-visit-children: 2.0.1
       webpack-virtual-modules: 0.4.6
@@ -700,12 +708,8 @@ importers:
       husky: 8.0.1
       lint-staged: 11.2.6
       prettier: 2.7.1
-      rehype-stringify: 9.0.3
-      remark-parse: 10.0.1
-      remark-rehype: 10.1.0
       rimraf: 3.0.2
       typescript: 4.9.3
-      unified: 10.1.2
       vite: 4.0.4_@types+node@14.18.35
       vitest: 0.21.1
 
@@ -9996,12 +10000,12 @@ packages:
       read-yaml-file: 1.1.0
     dev: false
 
-  /@mdx-js/loader/2.1.5:
-    resolution: {integrity: sha512-oXjfTa/iAcMmW8DdQ+hQFodPCLqw5VKT2yoZkLwrZfPVVpUgKrI+5/ZePYq328xxtAUStZmR3ed0PWJrwd5Pkg==}
+  /@mdx-js/loader/2.2.1:
+    resolution: {integrity: sha512-J4E8A5H+xtk4otZiEZ5AXl61Tj04Avm5MqLQazITdI3+puVXVnTTuZUKM1oNHTtfDIfOl0uMt+o/Ij+x6Fvf+g==}
     peerDependencies:
       webpack: '>=4'
     dependencies:
-      '@mdx-js/mdx': 2.1.3
+      '@mdx-js/mdx': 2.2.1
       source-map: 0.7.4
     transitivePeerDependencies:
       - supports-color
@@ -10033,8 +10037,8 @@ packages:
       - supports-color
     dev: false
 
-  /@mdx-js/mdx/2.1.3:
-    resolution: {integrity: sha512-ahbb47HJIJ4xnifaL06tDJiSyLEy1EhFAStO7RZIm3GTa7yGW3NGhZaj+GUCveFgl5oI54pY4BgiLmYm97y+zg==}
+  /@mdx-js/mdx/2.2.1:
+    resolution: {integrity: sha512-hZ3ex7exYLJn6FfReq8yTvA6TE53uW9UHJQM9IlSauOuS55J9y8RtA7W+dzp6Yrzr00/U1sd7q+Wf61q6SfiTQ==}
     dependencies:
       '@types/estree-jsx': 1.0.0
       '@types/mdx': 2.0.3
@@ -29856,7 +29860,6 @@ packages:
       '@types/hast': 2.3.4
       hast-util-to-html: 8.0.3
       unified: 10.1.2
-    dev: true
 
   /relateurl/0.2.7:
     resolution: {integrity: sha512-G08Dxvm4iDN3MLM0EsP62EDV9IuhXPR6blNz6Utcp7zyV3tr4HVNINt6MpaRWbxoOHT3Q7YN2P+jaHX8vUbgog==}
