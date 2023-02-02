@@ -69,6 +69,69 @@ export default defineConfig({
 });
 ```
 
+### 导出配置函数
+
+Modern.js 支持在配置文件中导出一个函数，你可以在函数中动态计算配置，并返回给 Modern.js。
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig(({ env, command }) => ({
+  source: {
+    alias: {
+      '@foo': env === 'development' ? './src/foo.dev.ts' : './src/foo.prod.ts',
+    },
+  },
+}));
+```
+
+该函数接受以下入参：
+
+- `env`：对应 `process.env.NODE_ENV` 的值。
+  - 当运行 `modern dev` 或 `modern start` 时，`env` 的值为 `development`。
+  - 当运行 `modern build` 或 `modern serve` 时，`env` 的值为 `production`。
+  - 当运行 `modern test` 时，`env` 的值为 `test`。
+- `command`: 对应当前运行的命令，如 `dev`、`start`、`build`、`serve`。
+
+### 导出异步函数
+
+Modern.js 也支持在配置文件中导出一个异步函数，你可以在函数中进行一些异步操作：
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig(async ({ env, command }) => {
+  const result = await someAsyncFunction();
+
+  return {
+    html: {
+      title: result,
+    },
+  };
+});
+```
+
+### 指定配置文件
+
+Modern.js 命令行支持通过 `--config` 选项来指定配置文件的名称。
+
+例如，你需要在执行 build 命令时使用 `modern.prod.config.ts` 文件，可以在 `package.json` 中添加如下配置：
+
+```json title="package.json"
+{
+  "scripts": {
+    "dev": "modern modern",
+    "build": "modern build --config modern.prod.config.ts"
+  }
+}
+```
+
+你也可以将 `--config` 选项缩写为 `-c`：
+
+```bash
+$ modern build -c modern.prod.config.js
+```
+
 ## 在 package.json 中配置（不推荐）
 
 除了配置文件外，也可以在 `package.json` 中的 `modernConfig` 字段下设置配置选项，如：
