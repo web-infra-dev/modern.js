@@ -77,9 +77,11 @@ export class PageSearcher {
         const otherLangsWithBase = this.#langs
           .filter(lang => lang !== this.#defaultLang)
           .map(lang => withBase(lang));
-        return !otherLangsWithBase.every(otherLangWithBase =>
-          page.routePath.startsWith(otherLangWithBase),
-        );
+        return otherLangsWithBase.length === 0
+          ? true
+          : !otherLangsWithBase.every(otherLangWithBase =>
+              page.routePath.startsWith(otherLangWithBase),
+            );
       } else {
         return page.routePath.startsWith(withBase(this.#langRoutePrefix));
       }
