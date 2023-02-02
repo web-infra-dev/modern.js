@@ -1,5 +1,10 @@
 import type { ChildProcess } from 'child_process';
-import type { BundlelessGeneratorDtsConfig, ITsconfig } from '../../types';
+import type {
+  BundlelessGeneratorDtsConfig,
+  ITsconfig,
+  PluginAPI,
+  ModuleTools,
+} from '../../types';
 
 export const getProjectTsconfig = async (
   tsconfigPath: string,
@@ -51,7 +56,10 @@ const resolveLog = async (
   });
 };
 
-const generatorDts = async (config: BundlelessGeneratorDtsConfig) => {
+const generatorDts = async (
+  api: PluginAPI<ModuleTools>,
+  config: BundlelessGeneratorDtsConfig,
+) => {
   const { execa } = await import('@modern-js/utils');
   const { InternalDTSError } = await import('../../error');
   const { generatorTsConfig } = await import('../../utils/dts');
@@ -80,11 +88,13 @@ const generatorDts = async (config: BundlelessGeneratorDtsConfig) => {
     },
   );
 
+  const runner = api.useHookRunners();
   resolveLog(childProgress, {
     watch,
     watchFn: async () => {
       const { resolveAlias } = await import('../../utils/dts');
       await resolveAlias(config, { ...result, userTsconfig });
+      runner.buildWatchDts({ buildType: 'bundleless' });
     },
   });
 
@@ -101,8 +111,11 @@ const generatorDts = async (config: BundlelessGeneratorDtsConfig) => {
   return { ...result, userTsconfig };
 };
 
-export const runTsc = async (config: BundlelessGeneratorDtsConfig) => {
+export const runTsc = async (
+  api: PluginAPI<ModuleTools>,
+  config: BundlelessGeneratorDtsConfig,
+) => {
   const { resolveAlias } = await import('../../utils/dts');
-  const result = await generatorDts(config);
+  const result = await generatorDts(api, config);
   await resolveAlias(config, result);
 };

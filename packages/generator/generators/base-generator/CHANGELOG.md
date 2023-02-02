@@ -1,5 +1,13 @@
 # @modern-js/base-generator
 
+## 3.0.5
+
+### Patch Changes
+
+- 7b2cdcb: feat(core): support read modern.config.local.ts
+
+  feat(core): 支持读取 modern.config.local.ts 文件
+
 ## 3.0.4
 
 ## 3.0.3

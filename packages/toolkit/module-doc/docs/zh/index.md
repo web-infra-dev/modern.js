@@ -9,6 +9,9 @@ hero:
     - theme: brand
       text: 欢迎使用
       link: /guide/intro/welcome
+    - theme: alt
+      text: 快速上手
+      link: /guide/intro/getting-started
 
 features:
   - title: 'Esbuild: 高性能的 JS Bundler'

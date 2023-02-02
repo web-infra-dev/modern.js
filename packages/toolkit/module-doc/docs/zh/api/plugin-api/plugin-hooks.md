@@ -330,8 +330,6 @@ export interface DevToolData {
     name: string;
     value: string;
   };
-  // 在 dev 命令执行之前，是否关闭源码构建
-  disableRunBuild?: boolean;
   action: (
     options: { port?: string },
     context: { isTsProject?: boolean },
@@ -339,11 +337,11 @@ export interface DevToolData {
 }
 ```
 
-:::tip{title='关于 disableRunBuild 配置'}
+<!-- :::tip{title='关于 disableRunBuild 配置'}
 在调试项目的时候，如果仅需要对代码功能进行调试的话，也许可以设置 `disableRunBuild: true` 来关闭对于源码执行（监听模式下的）构建任务。
 
 目前支持的 Storybook 调试支持将源码产物作为调试对象，因此在 Storybook 插件中 `disableRunBuild: false`。
-:::
+::: -->
 
 ### `beforeDev`
 
@@ -373,8 +371,6 @@ export interface DevToolData {
     name: string;
     value: string;
   };
-  // 在 dev 命令执行之前，是否关闭源码构建
-  disableRunBuild?: boolean;
   action: (
     options: { port?: string },
     context: { isTsProject?: boolean },
@@ -436,8 +432,6 @@ export interface DevToolData {
     name: string;
     value: string;
   };
-  // 在 dev 命令执行之前，是否关闭源码构建
-  disableRunBuild?: boolean;
   action: (
     options: { port?: string },
     context: { isTsProject?: boolean },
@@ -473,8 +467,6 @@ export interface DevToolData {
     name: string;
     value: string;
   };
-  // 在 dev 命令执行之前，是否关闭源码构建
-  disableRunBuild?: boolean;
   action: (
     options: { port?: string },
     context: { isTsProject?: boolean },

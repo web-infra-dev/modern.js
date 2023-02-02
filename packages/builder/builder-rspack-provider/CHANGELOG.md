@@ -1,5 +1,30 @@
 # @modern-js/builder-rspack-provider
 
+## 2.3.0
+
+### Patch Changes
+
+- 7cd8185: chore: reuse splitChunks plugin between rspack-provider and webpack-provider
+
+  chore: 在 rspack-provider 和 webpack-provider 间复用 splitChunks plugin
+
+- 4dfe1bf: feat(rspack-builder): add rspack minimize plugin
+
+  feat(rspack-builder): 添加 rspack minimize 插件
+
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [67ba34a]
+- Updated dependencies [2ad9fdf]
+- Updated dependencies [f9a26fe]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+- Updated dependencies [ff48fc2]
+  - @modern-js/utils@2.3.0
+  - @modern-js/builder-shared@2.3.0
+  - @modern-js/server@2.3.0
+  - @modern-js/e2e@2.3.0
+  - @modern-js/types@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes

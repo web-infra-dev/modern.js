@@ -14,12 +14,20 @@ describe('rollup', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+  const apiMock = {
+    useHookRunners: jest.fn(() => {
+      return {
+        buildWatchDts: jest.fn(),
+      };
+    }),
+  };
+
   it('watch', async () => {
     const fixtureDir = path.join(__dirname, './fixtures/rollup/base');
     const distDir = path.join(fixtureDir, 'dist');
     const tsconfigPath = path.join(fixtureDir, 'tsconfig.json');
     const input = [path.join(fixtureDir, 'src/index.ts')];
-    const watcher = (await runRollup({
+    const watcher = (await runRollup(apiMock as any, {
       distDir,
       tsconfigPath,
       input,
@@ -55,7 +63,7 @@ describe('rollup', () => {
       };
     });
     try {
-      await runRollup({
+      await runRollup(apiMock as any, {
         distDir,
         tsconfigPath,
         input,
