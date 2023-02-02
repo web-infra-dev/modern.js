@@ -634,8 +634,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "publicPath": "/",
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
   "plugins": [
     MiniCssExtractPlugin {
@@ -1433,8 +1433,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     "publicPath": "/",
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
   "plugins": [
     MiniCssExtractPlugin {
@@ -2083,8 +2083,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "publicPath": "/",
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 30000000,
+    "maxEntrypointSize": 30000000,
   },
   "plugins": [
     DefinePlugin {
@@ -2707,8 +2707,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "publicPath": "/",
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 30000000,
+    "maxEntrypointSize": 30000000,
   },
   "plugins": [
     DefinePlugin {
