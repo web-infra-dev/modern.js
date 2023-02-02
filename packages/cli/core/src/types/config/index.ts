@@ -89,7 +89,11 @@ export type LoadedConfig<
   jsConfig: UserConfig<Extends>;
 };
 
-export type ConfigParams =
+export type ConfigParams = {
+  env: string;
+  command: string;
+};
+
+export type UserConfigExport =
   | UserConfig
-  | Promise<UserConfig>
-  | ((env: any) => UserConfig | Promise<UserConfig>);
+  | ((env: ConfigParams) => UserConfig | Promise<UserConfig>);

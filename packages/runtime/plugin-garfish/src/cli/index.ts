@@ -119,14 +119,7 @@ export default ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            webpackChain: (
-              chain,
-              {
-                webpack,
-                env = process.env.NODE_ENV || 'development',
-                CHAIN_ID,
-              },
-            ) => {
+            webpackChain: (chain, { webpack, env, CHAIN_ID }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
