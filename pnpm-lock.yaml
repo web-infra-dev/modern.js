@@ -5155,7 +5155,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
 
-  tests/integration/local-config:
+  tests/integration/load-config:
     specifiers:
       '@types/jest': ^27
       '@types/node': ^14
@@ -5163,7 +5163,7 @@ importers:
       '@types/jest': 27.5.2
       '@types/node': 14.18.35
 
-  tests/integration/local-config/fixtures/basic-local-config:
+  tests/integration/load-config/fixtures/async-config-function:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
@@ -5176,7 +5176,33 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
 
-  tests/integration/local-config/fixtures/local-config-function:
+  tests/integration/load-config/fixtures/basic-local-config:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@babel/runtime': 7.20.7
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
+  tests/integration/load-config/fixtures/config-function-params:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/app-tools': workspace:*
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@babel/runtime': 7.20.7
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
+  tests/integration/load-config/fixtures/local-config-function:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/app-tools': workspace:*
