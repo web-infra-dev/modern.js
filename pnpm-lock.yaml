@@ -557,7 +557,8 @@ importers:
       '@babel/runtime': 7.18.0
       '@headlessui/react': ^1.7.7
       '@loadable/component': 5.15.2
-      '@mdx-js/loader': 2.1.5
+      '@mdx-js/loader': 2.2.1
+      '@mdx-js/mdx': 2.2.1
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
@@ -634,7 +635,8 @@ importers:
       '@babel/runtime': 7.18.0
       '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
       '@loadable/component': 5.15.2_react@18.2.0
-      '@mdx-js/loader': 2.1.5
+      '@mdx-js/loader': 2.2.1
+      '@mdx-js/mdx': 2.2.1
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-webpack-provider': link:../../builder/builder-webpack-provider
       '@modern-js/remark-container': link:../../toolkit/remark-container
@@ -9996,8 +9998,8 @@ packages:
       read-yaml-file: 1.1.0
     dev: false
 
-  /@mdx-js/loader/2.1.5:
-    resolution: {integrity: sha512-oXjfTa/iAcMmW8DdQ+hQFodPCLqw5VKT2yoZkLwrZfPVVpUgKrI+5/ZePYq328xxtAUStZmR3ed0PWJrwd5Pkg==}
+  /@mdx-js/loader/2.2.1:
+    resolution: {integrity: sha512-J4E8A5H+xtk4otZiEZ5AXl61Tj04Avm5MqLQazITdI3+puVXVnTTuZUKM1oNHTtfDIfOl0uMt+o/Ij+x6Fvf+g==}
     peerDependencies:
       webpack: '>=4'
     dependencies:

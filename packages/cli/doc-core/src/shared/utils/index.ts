@@ -1,5 +1,6 @@
 export const queryRE = /\?.*$/s;
 export const hashRE = /#.*$/s;
+export const MDX_REGEXP = /\.mdx?$/;
 export const externalLinkRE = /^(https?:)/;
 
 export const SEARCH_INDEX_JSON = 'search_index.json';

@@ -23,7 +23,7 @@ import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { routeService } from './routeData';
-import { withBase } from '@/shared/utils';
+import { MDX_REGEXP, withBase } from '@/shared/utils';
 
 interface PageIndexData {
   id: number;
@@ -117,79 +117,72 @@ async function extractPageData(
   return Promise.all(
     routeService
       .getRoutes()
-      .filter(route => /\.mdx?$/.test(route.absolutePath))
+      .filter(route => MDX_REGEXP.test(route.absolutePath))
       .map(async (route, index) => {
-        try {
-          let content: string = await fs.readFile(route.absolutePath, 'utf8');
-          const frontmatter = {
-            // eslint-disable-next-line import/no-named-as-default-member
-            ...yamlFront.loadFront(content),
-          };
-          // 1. Replace rules for frontmatter & content
-          Object.keys(frontmatter).forEach(key => {
-            if (typeof frontmatter[key] === 'string') {
-              frontmatter[key] = applyReplaceRules(
-                frontmatter[key],
-                replaceRules,
-              );
-            }
-          });
-          const flattenContent = await flattenMdxContent(
-            frontmatter.__content,
-            route.absolutePath,
-            alias,
-          );
+        let content: string = await fs.readFile(route.absolutePath, 'utf8');
+        const frontmatter = {
+          // eslint-disable-next-line import/no-named-as-default-member
+          ...yamlFront.loadFront(content),
+        };
+        // 1. Replace rules for frontmatter & content
+        Object.keys(frontmatter).forEach(key => {
+          if (typeof frontmatter[key] === 'string') {
+            frontmatter[key] = applyReplaceRules(
+              frontmatter[key],
+              replaceRules,
+            );
+          }
+        });
+        const flattenContent = await flattenMdxContent(
+          frontmatter.__content,
+          route.absolutePath,
+          alias,
+        );
 
-          content = applyReplaceRules(flattenContent, replaceRules).replace(
-            importStatementRegex,
-            '',
-          );
-          // 2. Optimize content index
-          const ast = remark.parse({ value: content });
-          const { title, toc } = parseToc(ast as Root);
-          const precessor = unified()
-            .use(remarkParse)
-            .use(remarkPluginContainer)
-            .use(remarkHtml);
-          const html = await precessor.process(content);
-          content = htmlToText(String(html), {
-            wordwrap: 80,
-            selectors: [
-              {
-                selector: 'a',
-                options: {
-                  ignoreHref: true,
-                },
+        content = applyReplaceRules(flattenContent, replaceRules).replace(
+          importStatementRegex,
+          '',
+        );
+        // 2. Optimize content index
+        const ast = remark.parse({ value: content });
+        const { title, toc } = parseToc(ast as Root);
+        const precessor = unified()
+          .use(remarkParse)
+          .use(remarkPluginContainer)
+          .use(remarkHtml);
+        const html = await precessor.process(content);
+        content = htmlToText(String(html), {
+          wordwrap: 80,
+          selectors: [
+            {
+              selector: 'a',
+              options: {
+                ignoreHref: true,
               },
-              {
-                selector: 'img',
-                format: 'skip',
-              },
-            ],
-            uppercaseHeadings: false,
-            tables: true,
-            longWordSplit: {
-              forceWrapOnLimit: true,
             },
-          });
-          return {
-            id: index,
-            title: frontmatter.title || title,
-            routePath: route.routePath,
-            toc,
-            // Stripped frontmatter content
-            content,
-            frontmatter: {
-              ...frontmatter,
-              __content: undefined,
+            {
+              selector: 'img',
+              format: 'skip',
             },
-          };
-        } catch (e) {
-          console.error(
-            `⚠️ [doc-tools] Extract page data failed:\nfilePath: ${route.absolutePath}\nerror: ${e}`,
-          );
-          throw e;
-        }
+          ],
+          uppercaseHeadings: false,
+          tables: true,
+          longWordSplit: {
+            forceWrapOnLimit: true,
+          },
+        });
+        return {
+          id: index,
+          title: frontmatter.title || title,
+          routePath: route.routePath,
+          toc,
+          // Stripped frontmatter content
+          content,
+          frontmatter: {
+            ...frontmatter,
+            __content: undefined,
+          },
+        };
       }),
   );
 }

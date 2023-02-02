@@ -54,8 +54,13 @@ export async function flattenMdxContent(
   alias: Record<string, string | string[]>,
 ): Promise<string> {
   let result = content;
-  // parse all import statement
-  const ast = processor.parse(content) as Root;
+  let ast: Root;
+  try {
+    ast = processor.parse(content) as Root;
+  } catch (e) {
+    // Fallback: if mdx parse failed, just return the content
+    return content;
+  }
   const importNodes = ast.children.filter(node => node.type === 'mdxjsEsm');
   for (const importNode of importNodes) {
     const importStatement = (importNode as { value: string }).value;
