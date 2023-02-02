@@ -1,6 +1,4 @@
-import type { ConfigParams } from '@modern-js/core';
+import type { UserConfigExport } from '@modern-js/core';
 import type { Config } from '@modern-js/doc-core';
 
-export const defineConfig = (
-  config: Config | ((params: ConfigParams) => Promise<Config> | Config),
-) => config;
+export const defineConfig = (config: UserConfigExport<Config>) => config;

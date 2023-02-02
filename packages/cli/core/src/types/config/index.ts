@@ -94,6 +94,6 @@ export type ConfigParams = {
   command: string;
 };
 
-export type UserConfigExport =
-  | UserConfig
-  | ((env: ConfigParams) => UserConfig | Promise<UserConfig>);
+export type UserConfigExport<Config = UserConfig> =
+  | Config
+  | ((env: ConfigParams) => Config | Promise<Config>);
