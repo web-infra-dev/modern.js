@@ -54,6 +54,13 @@ Object {
       "_component": "@_modern_js_src/user/layout.tsx",
       "children": Array [
         Object {
+          "_component": "@_modern_js_src/user/$.tsx",
+          "id": "user/$",
+          "loader": "/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/user/$.loader.ts",
+          "path": "*",
+          "type": "nested",
+        },
+        Object {
           "children": Array [
             Object {
               "_component": "@_modern_js_src/user/[id]/page.tsx",
