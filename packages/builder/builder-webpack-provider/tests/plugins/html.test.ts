@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { builderPluginEntry } from '@builder/plugins/entry';
-import { getTemplatePath, builderPluginHtml } from '@/plugins/html';
+import { builderPluginHtml } from '@/plugins/html';
 import { createStubBuilder } from '@/stub';
-import type { BuilderConfig, NormalizedConfig } from '@/types';
 
 describe('plugins/html', () => {
   it('should register html plugin correctly', async () => {
@@ -163,15 +162,6 @@ describe('plugins/html', () => {
     });
 
     expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
-  });
-
-  it.each<[string, string, BuilderConfig['html']]>([
-    ['main', 'foo', { template: 'foo' }],
-    ['main', 'foo', { templateByEntries: { main: 'foo' } }],
-    ['other', 'bar', { template: 'bar', templateByEntries: { main: 'foo' } }],
-  ])(`should get template path for %s`, async (entry, expected, html) => {
-    const templatePath = getTemplatePath(entry, { html } as NormalizedConfig);
-    expect(templatePath).toEqual(expected);
   });
 
   it('should support multi entry', async () => {
