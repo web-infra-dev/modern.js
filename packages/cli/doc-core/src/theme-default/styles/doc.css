@@ -273,11 +273,9 @@
 }
 
 .modern-doc .modern-code-title {
-  padding: 10px 24px;
+  padding: 12px 16px;
   font-size: var(--modern-code-font-size);
-  color: var(--modern-code-block-color);
-  border-bottom: 1px solid var(--modern-c-gray-light-2);
-  background-color: var(--modern-code-block-bg);
+  background-color: var(--modern-code-title-bg);
   transition: background-color 0.5s;
 }
 
@@ -323,19 +321,19 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  padding: 16px 0;
   background: transparent;
   overflow-x: auto;
 }
 
 .modern-doc [class*='language-'] code {
   display: block;
-  padding: 0 24px;
+  padding: 12px 16px;
   width: fit-content;
   min-width: 100%;
   line-height: var(--modern-code-line-height);
   font-size: var(--modern-code-font-size);
   color: var(--modern-code-block-color);
+  background-color: var(--modern-code-block-bg);
   transition: color 0.5s;
 }
 
@@ -384,15 +382,15 @@
 
 .modern-doc [class*='language-'] .modern-code-content > button.copy {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 12px;
+  right: 12px;
   z-index: 3;
   display: block;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   background-color: var(--modern-code-block-bg);
   opacity: 0;
   cursor: pointer;
@@ -400,7 +398,6 @@
   background-position: 50%;
   background-size: 20px;
   background-repeat: no-repeat;
-  transform: scale(1);
   transition: all 0.16s;
 }
 
@@ -419,7 +416,6 @@
   .modern-code-content
   > button.copy:hover.copied {
   border-radius: 0 4px 4px 0;
-  background-color: var(--modern-code-copy-code-hover-bg);
   background-image: var(--modern-icon-copied);
   transform: scale(1);
   opacity: 1;
@@ -537,4 +533,10 @@
 .modern-doc .modern-directive.caution code,
 .modern-doc .modern-directive.danger code {
   background-color: var(--modern-custom-block-danger-code-bg);
+}
+
+.aside-active,
+.aside-active:hover {
+  color: var(--modern-c-brand-dark);
+  font-weight: bold;
 }

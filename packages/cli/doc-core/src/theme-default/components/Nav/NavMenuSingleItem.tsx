@@ -20,7 +20,7 @@ export function NavMenuSingleItem(item: NavItemWithLink & Props) {
       text="sm"
       font="medium"
       m="x-3"
-      className={`${isActive ? 'text-brand' : ''}`}
+      className={`${isActive ? 'text-brand-dark' : ''}`}
     >
       <Link href={normalizeHref(item.link)}>{item.text}</Link>
     </div>

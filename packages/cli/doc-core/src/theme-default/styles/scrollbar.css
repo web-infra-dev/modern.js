@@ -1,0 +1,24 @@
+.modern-scrollbar {
+  scrollbar-gutter: stable;
+  /* The size of scroll bar */
+  &::-webkit-scrollbar {
+    width: 12px;
+    height: 8px;
+    transition: all 0.3s;
+  }
+  /* The track of scrooll bar */
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* The thumb of scroll bar */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    background-color: var(--modern-c-text-4);
+    background-clip: content-box;
+  }
+}
