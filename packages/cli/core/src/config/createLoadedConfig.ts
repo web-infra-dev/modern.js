@@ -2,12 +2,14 @@ import path from 'path';
 import { mergeWith } from '@modern-js/utils/lodash';
 import {
   fs,
+  getCommand,
+  getNodeEnv,
   findExists,
   isDevCommand,
   isPlainObject,
   CONFIG_FILE_EXTENSIONS,
 } from '@modern-js/utils';
-import { LoadedConfig, UserConfig, ConfigParams } from '../types';
+import { LoadedConfig, UserConfig, UserConfigExport } from '../types';
 import { mergeConfig } from '../utils';
 import {
   loadConfig,
@@ -20,7 +22,7 @@ import {
  */
 export const assignPkgConfig = (
   userConfig: UserConfig = {},
-  pkgConfig: ConfigParams = {},
+  pkgConfig: UserConfig = {},
 ): UserConfig =>
   mergeWith({}, userConfig, pkgConfig, (objValue, srcValue) => {
     // mergeWith can not merge object with symbol, but plugins object contains symbol,
@@ -36,9 +38,9 @@ export const assignPkgConfig = (
  * A modern config can export a function or an object
  * If it's a function, it will be called and return a config object
  */
-async function getConfigObject(config?: ConfigParams) {
+async function getConfigObject(config?: UserConfigExport) {
   if (typeof config === 'function') {
-    return (await config(0)) || {};
+    return (await config({ env: getNodeEnv(), command: getCommand() })) || {};
   }
   return config || {};
 }
@@ -67,7 +69,7 @@ async function loadLocalConfig(
   }
 
   if (localConfigFile) {
-    const loaded = await loadConfig<ConfigParams>(
+    const loaded = await loadConfig<UserConfigExport>(
       appDirectory,
       localConfigFile,
     );
@@ -85,7 +87,7 @@ export async function createLoadedConfig(
 ): Promise<LoadedConfig<{}>> {
   const configFile = getConfigFilePath(appDirectory, filePath);
 
-  const loaded = await loadConfig<ConfigParams>(
+  const loaded = await loadConfig<UserConfigExport>(
     appDirectory,
     configFile,
     packageJsonConfig,

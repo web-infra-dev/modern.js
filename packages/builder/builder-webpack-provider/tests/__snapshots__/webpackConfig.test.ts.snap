@@ -31,8 +31,8 @@ exports[`webpackConfig > should allow to use tools.webpackChain to modify config
     },
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
 }
 `;
@@ -53,8 +53,8 @@ exports[`webpackConfig > should allow tools.webpack to be an array 1`] = `
     },
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
 }
 `;
@@ -75,8 +75,8 @@ exports[`webpackConfig > should allow tools.webpack to be an object 1`] = `
     },
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
 }
 `;
@@ -97,8 +97,8 @@ exports[`webpackConfig > should allow tools.webpack to modify config object 1`] 
     },
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
 }
 `;
@@ -119,8 +119,8 @@ exports[`webpackConfig > should allow tools.webpack to return config 1`] = `
     },
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
 }
 `;
@@ -141,8 +141,8 @@ exports[`webpackConfig > should allow tools.webpackChain to be an array 1`] = `
     },
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
 }
 `;
