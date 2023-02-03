@@ -38,6 +38,7 @@ export type SharedNormalizedConfig = DeepReadonly<{
     Required<SharedPerformanceConfig>,
     'printFileSize' | 'buildCache' | 'chunkSplit'
   >;
+  tools: SharedToolsConfig;
 }>;
 
 export * from './dev';

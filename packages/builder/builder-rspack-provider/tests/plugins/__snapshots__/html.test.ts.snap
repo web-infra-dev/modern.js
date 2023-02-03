@@ -10,7 +10,7 @@ exports[`plugins/html > should allow to modify plugin options by tools.htmlPlugi
   "module": {},
   "plugins": [
     HtmlRspackPlugin {
-      "name": "html-main",
+      "name": "HtmlRspackPlugin",
       "userOptions": {
         "inject": true,
       },
@@ -29,7 +29,7 @@ exports[`plugins/html > should allow to set favicon by html.favicon option 1`] =
   "module": {},
   "plugins": [
     HtmlRspackPlugin {
-      "name": "html-main",
+      "name": "HtmlRspackPlugin",
       "userOptions": {
         "chunks": [
           "main",
@@ -38,7 +38,7 @@ exports[`plugins/html > should allow to set favicon by html.favicon option 1`] =
         "filename": "html/main/index.html",
         "inject": "head",
         "minify": false,
-        "template": "<ROOT>/static/template.html",
+        "template": "<WORKSPACE>/packages/builder/builder-shared/static/template.html",
         "templateParameters": [Function],
       },
     },
@@ -56,7 +56,7 @@ exports[`plugins/html > should allow to set inject by html.inject option 1`] = `
   "module": {},
   "plugins": [
     HtmlRspackPlugin {
-      "name": "html-main",
+      "name": "HtmlRspackPlugin",
       "userOptions": {
         "chunks": [
           "main",
@@ -65,7 +65,7 @@ exports[`plugins/html > should allow to set inject by html.inject option 1`] = `
         "filename": "html/main/index.html",
         "inject": "body",
         "minify": false,
-        "template": "<ROOT>/static/template.html",
+        "template": "<WORKSPACE>/packages/builder/builder-shared/static/template.html",
         "templateParameters": [Function],
       },
     },
@@ -83,7 +83,7 @@ exports[`plugins/html > should enable minify in production 1`] = `
   "module": {},
   "plugins": [
     HtmlRspackPlugin {
-      "name": "html-main",
+      "name": "HtmlRspackPlugin",
       "userOptions": {
         "chunks": [
           "main",
@@ -100,7 +100,7 @@ exports[`plugins/html > should enable minify in production 1`] = `
           "removeStyleLinkTypeAttributes": true,
           "useShortDoctype": true,
         },
-        "template": "<ROOT>/static/template.html",
+        "template": "<WORKSPACE>/packages/builder/builder-shared/static/template.html",
         "templateParameters": [Function],
       },
     },
@@ -118,7 +118,7 @@ exports[`plugins/html > should register html plugin correctly 1`] = `
   "module": {},
   "plugins": [
     HtmlRspackPlugin {
-      "name": "html-main",
+      "name": "HtmlRspackPlugin",
       "userOptions": {
         "chunks": [
           "main",
@@ -127,7 +127,7 @@ exports[`plugins/html > should register html plugin correctly 1`] = `
         "filename": "html/main/index.html",
         "inject": "head",
         "minify": false,
-        "template": "<ROOT>/static/template.html",
+        "template": "<WORKSPACE>/packages/builder/builder-shared/static/template.html",
         "templateParameters": [Function],
       },
     },
@@ -148,7 +148,7 @@ exports[`plugins/html > should support multi entry 1`] = `
   "module": {},
   "plugins": [
     HtmlRspackPlugin {
-      "name": "html-main",
+      "name": "HtmlRspackPlugin",
       "userOptions": {
         "chunks": [
           "main",
@@ -162,7 +162,7 @@ exports[`plugins/html > should support multi entry 1`] = `
       },
     },
     HtmlRspackPlugin {
-      "name": "html-foo",
+      "name": "HtmlRspackPlugin",
       "userOptions": {
         "chunks": [
           "foo",
