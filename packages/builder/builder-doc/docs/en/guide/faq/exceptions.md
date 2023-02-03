@@ -14,7 +14,7 @@ The webpack version problem has the following situations:
 2. Multiple npm packages installed in the project all depend on webpack, and the webpack version ranges they depend on are different and cannot match the same version.
 3. Due to the lock mechanism of the package manager, multiple webpack versions are generated in the lock file.
 
-In the first case, it is recommended to remove the webpack dependency from the project's package.json. Because Builder encapsulates webpack-related capabilities by default, and will pass in the webpack object in the [tools.webpack](/en/api/config-tools.html#tools-webpack) configuration item. Therefore, in most cases, it is not recommended to install additional webpack dependencies in the project.
+In the first case, it is recommended to remove the webpack dependency from the project's package.json. Because Builder encapsulates webpack-related capabilities by default, and will pass in the webpack object in the [tools.webpack](/en/api/config-tools.html#toolswebpack) configuration item. Therefore, in most cases, it is not recommended to install additional webpack dependencies in the project.
 
 In the second case, it is recommended to see if you can upgrade an npm package so that its dependent webpack version range is consistent with the Builder. It is also possible to manually unify versions through the ability of the package manager, e.g. using [yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) or [pnpm overrides](https ://pnpm.io/package_json#pnpmoverrides).
 
@@ -28,7 +28,7 @@ Deleting the lock file will automatically upgrade the dependency version in the 
 
 By default, Builder will not compile files under `node_modules` through `babel-loader` or `ts-loader`. If the npm package introduced by the project contains ES6+ syntax, it will be packaged into the product.
 
-When this happens, you can specify directories or modules that need to be compiled additionally through the [source.include](/en/api/config-source.html#source-include) configuration item.
+When this happens, you can specify directories or modules that need to be compiled additionally through the [source.include](/en/api/config-source.html#sourceinclude) configuration item.
 
 ## Failed import other modules in Monorepo?
 
@@ -36,7 +36,7 @@ For the sake of compilation performance, by default, Builder will not compile fi
 
 Through the `source.include` configuration item, you can specify directories or modules that require additional compilation.
 
-For details, see [source.include usage introduction](/en/api/config-source.html#source-include).
+For details, see [source.include usage introduction](/en/api/config-source.html#sourceinclude).
 
 ## Compile error `You may need additional loader`?
 
@@ -52,14 +52,14 @@ You may need an additional loader to handle the result of these loaders.
 
 Solution:
 
-- If the `.ts` file outside the current project is referenced, or the `.ts` file under node_modules, please add the [source.include](/en/api/config-source.html#source-include) configuration Items that specify files that require additional compilation.
+- If the `.ts` file outside the current project is referenced, or the `.ts` file under node_modules, please add the [source.include](/en/api/config-source.html#sourceinclude) configuration Items that specify files that require additional compilation.
 - If you refer to a file format that is not supported by Builder, please configure the corresponding webpack loader for compilation.
 
 ## Find `exports is not defined` runtime error?
 
 If the compilation is succeed, but the `exports is not defined` error appears after opening the page, it is usually because a CommonJS module is compiled by babel.
 
-Under normal circumstances, Builder will not use babel to compile CommonJS modules. If the [source.include](/en/api/config-source.html#source-include) configuration item is used in the project, or the [tools.babel](/en/api/config-tools.html#tools -babel) `addIncludes` method, some CommonJS modules may be added to the babel compilation.
+Under normal circumstances, Builder will not use babel to compile CommonJS modules. If the [source.include](/en/api/config-source.html#sourceinclude) configuration item is used in the project, or the [tools.babel](/en/api/config-tools.html#tools -babel) `addIncludes` method, some CommonJS modules may be added to the babel compilation.
 
 There are two workarounds for this problem:
 

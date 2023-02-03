@@ -10,7 +10,7 @@ Builder 默认会自动内联体积小于 10KB 的静态资源，但有时候你
 
 默认情况下，当图片、字体、媒体等类型的文件体积小于阈值（默认为 10KB）时，Builder 会将资源进行内联处理，资源内联后，会被转换成一个 Base64 编码的字符串，不再会发送独立的 HTTP 请求。当文件体积大于或等于该阈值时，则会被作为单独的资源文件，通过独立的 HTTP 请求来加载。
 
-自动内联的体积阈值可以通过 [output.dataUriLimit](/api/config-output.html#output-dataurilimit) 配置项修改。例如，修改图片资源的阈值为 5000 字节，设置视频资源不内联：
+自动内联的体积阈值可以通过 [output.dataUriLimit](/api/config-output.html#outputdataurilimit) 配置项修改。例如，修改图片资源的阈值为 5000 字节，设置视频资源不内联：
 
 ```ts
 export default {
@@ -97,7 +97,7 @@ import img from './foo.png?__inline=false';
 
 除了将静态资源文件内联到 JS 文件里，Builder 也支持将 JS 文件内联到 HTML 文件中。
 
-只需要开启 [output.enableInlineScripts](/api/config-output.html#output-enableinlinescripts) 配置项，构建生成的 JS 文件将不会被写入产物目录下，而是会直接内联到对应的 HTML 文件中。
+只需要开启 [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts) 配置项，构建生成的 JS 文件将不会被写入产物目录下，而是会直接内联到对应的 HTML 文件中。
 
 ```ts
 export default {
@@ -115,7 +115,7 @@ export default {
 
 你也可以将 CSS 文件内联到 HTML 文件中。
 
-只需要开启 [output.enableInlineStyles](/api/config-output.html#output-enableinlinestyles) 配置项，构建生成的 CSS 文件将不会被写入产物目录下，而是会直接内联到对应的 HTML 文件中。
+只需要开启 [output.enableInlineStyles](/api/config-output.html#outputenableinlinestyles) 配置项，构建生成的 CSS 文件将不会被写入产物目录下，而是会直接内联到对应的 HTML 文件中。
 
 ```ts
 export default {

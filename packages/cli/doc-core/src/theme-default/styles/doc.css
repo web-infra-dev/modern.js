@@ -150,12 +150,14 @@
 .modern-doc table {
   display: block;
   border-collapse: collapse;
+  font-size: 15px;
   margin: 20px 0;
   overflow-x: auto;
+  line-height: 28px;
 }
 
 .modern-doc tr {
-  border-top: 1px solid var(--modern-c-divider);
+  border-top: 1px solid var(--modern-c-divider-light);
   transition: background-color 0.5s;
 }
 
@@ -165,7 +167,7 @@
 
 .modern-doc th,
 .modern-doc td {
-  border: 1px solid var(--modern-c-divider);
+  border: 1px solid var(--modern-c-divider-light);
   padding: 12px 16px;
 }
 

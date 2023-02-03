@@ -10,7 +10,7 @@ Hot Module Replacement (HMR) exchanges, adds, or removes modules while an applic
 
 Builder has built-in support for HMR. By default, HMR is enabled in development.
 
-By setting [dev.hmr](/en/api/config-dev.html#dev-hmr) to false, HMR can be disabled, which the HMR and react-refresh will no longer work.
+By setting [dev.hmr](/en/api/config-dev.html#devhmr) to false, HMR can be disabled, which the HMR and react-refresh will no longer work.
 
 ```ts
 export default {

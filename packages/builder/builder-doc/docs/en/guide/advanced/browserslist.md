@@ -48,7 +48,7 @@ not dead
 
 ### Use output.overrideBrowserslist config
 
-In addition to the above standard usage, Builder also provides [output.overrideBrowserslist](/en/api/config-output.html#output-overridebrowserslist) config, which can also set the value of Browserslist.
+In addition to the above standard usage, Builder also provides [output.overrideBrowserslist](/en/api/config-output.html#outputoverridebrowserslist) config, which can also set the value of Browserslist.
 
 ```ts
 export default {
