@@ -34,7 +34,7 @@ After code minification, `if (false) { ... }` will be recognized as invalid code
 
 # Using define config
 
-By configuring the [source.define](/en/api/config-source.html#source-define), you can replace expressions with other expressions or values in compile time.
+By configuring the [source.define](/en/api/config-source.html#sourcedefine), you can replace expressions with other expressions or values in compile time.
 
 `Define` looks like macro definitions in other programming languages. But JavaScript has powerful runtime capabilities, so you don't need to use it as a complicated code generator. You can use it to pass simple data, such as environment variables, from compile time to runtime. Almost there, it can be used to work with Builder to shake trees.
 
@@ -58,7 +58,7 @@ Note that the value provided here must be a JSON string, e.g. `process.env.NODE_
 
 Similarly `{ foo: "bar" }` should be converted to `"{\"foo\":\"bar\"}"`, which if passed directly into the original object would mean replacing the expression `process.env.NODE_ENV.foo` with the identifier `bar`.
 
-For more about `source.define`, just refer to [API References](/api/config-source.html#source-define)。
+For more about `source.define`, just refer to [API References](/api/config-source.html#sourcedefine)。
 
 :::tip
 The environment variable `NODE_ENV` shown in the example above is already injected by the Builder, and you usually do not need to configure it manually.
@@ -66,7 +66,7 @@ The environment variable `NODE_ENV` shown in the example above is already inject
 
 ## Setup Environment Variables
 
-You may often need to set environment variables, in which case you can instead use the [source.globalVars](/en/api/config-source.html#source-globalvars) configuration to simplify configuration. It is a syntax sugar of `source.define`, the only difference is that `source.globalVars` will automatically stringify the value, which makes it easier to set the value of global variables and avoid writing a lot of `JSON.stringify(...)` stuffs.
+You may often need to set environment variables, in which case you can instead use the [source.globalVars](/en/api/config-source.html#sourceglobalvars) configuration to simplify configuration. It is a syntax sugar of `source.define`, the only difference is that `source.globalVars` will automatically stringify the value, which makes it easier to set the value of global variables and avoid writing a lot of `JSON.stringify(...)` stuffs.
 
 ```js
 export default {

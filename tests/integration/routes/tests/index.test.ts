@@ -291,7 +291,17 @@ const supportDefineInit = async (errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
-// TODO: ssr 重定向和 csr 重定向, csr loader
+const supportCatchAll = async (errors: string[], appPort: number) => {
+  await page.goto(`http://localhost:${appPort}/three/user/1234/1234`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el.textContent, rootElm);
+  expect(text.includes('root layout')).toBeTruthy();
+  expect(text.includes('catch all')).toBeTruthy();
+  expect(errors.length).toEqual(0);
+};
+
 describe('dev', () => {
   let app: unknown;
   let appPort: number;
@@ -326,6 +336,8 @@ describe('dev', () => {
     test('basic usage', async () => supportNestedRoutes(errors, appPort));
 
     test('dynamic path', async () => supportDynamaicPaths(errors, appPort));
+
+    test('support catch all', async () => supportCatchAll(errors, appPort));
 
     test('no layout dir', async () => supportNoLayoutDir(errors, appPort));
 
@@ -408,6 +420,8 @@ describe('build', () => {
     test('basic usage', async () => supportNestedRoutes(errors, appPort));
 
     test('dynamic path', async () => supportDynamaicPaths(errors, appPort));
+
+    test('support catch all', async () => supportCatchAll(errors, appPort));
 
     test('no layout dir', async () => supportNoLayoutDir(errors, appPort));
 

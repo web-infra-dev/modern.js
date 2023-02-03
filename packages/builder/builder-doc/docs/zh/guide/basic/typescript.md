@@ -25,7 +25,7 @@ export default {
 };
 ```
 
-更详细配置可见 [tools.tsLoader](/api/config-tools.html#tools-tsloader)。
+更详细配置可见 [tools.tsLoader](/api/config-tools.html#toolstsloader)。
 如果开启 ts-loader，默认不会启用类型检查，只会进行转译。
 
 **SWC**
@@ -50,7 +50,7 @@ export default {
 };
 ```
 
-更多配置可见 [tsChecker 配置](/api/config-tools.html#tools-tschecker)。
+更多配置可见 [tsChecker 配置](/api/config-tools.html#toolstschecker)。
 如果开启 ts-loader 并且手动配置了 `compileOnly: false`，请关闭 tsChecker，避免重复类型检查。
 
 :::tip STC

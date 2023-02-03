@@ -254,11 +254,11 @@ In the second case, the Treeshaking method does not guarantee that the code is c
 For example, the import of `fs-extra` in the code, when it is directly referenced to the component, will cause the CSR to load an error. You can create `.ts` and `.node.ts` files of the same name as a layer of proxy:
 
 ```ts title="compat.ts"
-export { readFileSync } from 'fs-extra';
+export const readFileSync: any = () => {};
 ```
 
 ```ts title="compat.node.ts"
-export const readFileSync: any = () => {};
+export { readFileSync } from 'fs-extra';
 ```
 
 use `./compat` directly into the file. At this time, files with the `.node.ts` suffix will be used first in the SSR environment, and files with the `.ts` suffix will be used in the CSR environment.

@@ -1566,7 +1566,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "type": "filesystem",
   },
   "context": "<ROOT>",
-  "devtool": "hidden-source-map",
+  "devtool": "source-map",
   "infrastructureLogging": {
     "level": "error",
   },
