@@ -37,6 +37,7 @@ async function createInternalBuildConfig(
     ? CUSTOM_THEME_DIR
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');
   const checkDeadLinks = config.doc?.markdown?.checkDeadLinks ?? false;
+  const base = config.doc?.base ?? '';
   // Process doc config by plugins
   for (const plugin of docPlugins) {
     if (typeof plugin.config === 'function') {
@@ -46,7 +47,12 @@ async function createInternalBuildConfig(
 
   const publicDir = path.join(userRoot, 'public');
   const isPublicDirExist = await fs.pathExists(publicDir);
-  const assetPrefix = config.doc?.builderConfig?.output?.assetPrefix || '';
+  // In production, we need to add assetPrefix in asset path
+  const assetPrefix = isProduction()
+    ? removeTrailingSlash(
+        config.doc?.builderConfig?.output?.assetPrefix ?? base,
+      )
+    : '';
 
   // Using latest browserslist in development to improve build performance
   const browserslist = {
@@ -79,6 +85,7 @@ async function createInternalBuildConfig(
       // disable production source map, it is useless for doc site
       disableSourceMap: isProduction(),
       overrideBrowserslist: browserslist,
+      assetPrefix,
     },
     source: {
       alias: {
@@ -92,9 +99,7 @@ async function createInternalBuildConfig(
       },
       include: [PACKAGE_ROOT],
       define: {
-        __ASSET_PREFIX__: JSON.stringify(
-          isProduction() ? removeTrailingSlash(assetPrefix) : '',
-        ),
+        __ASSET_PREFIX__: JSON.stringify(assetPrefix),
       },
     },
     tools: {
