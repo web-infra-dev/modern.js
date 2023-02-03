@@ -5,6 +5,13 @@ exports[`plugins/svg > export default Component 1`] = `
   "module": {
     "rules": [
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
         "use": [
@@ -17,6 +24,13 @@ exports[`plugins/svg > export default Component 1`] = `
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /url/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -31,6 +45,13 @@ exports[`plugins/svg > export default Component 1`] = `
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /inline/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -102,6 +123,13 @@ exports[`plugins/svg > export default url 1`] = `
   "module": {
     "rules": [
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
         "use": [
@@ -121,6 +149,13 @@ exports[`plugins/svg > export default url 1`] = `
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /url/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -135,6 +170,13 @@ exports[`plugins/svg > export default url 1`] = `
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /inline/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -206,6 +248,13 @@ exports[`plugins/svg > should allow to use distPath.svg to modify dist path 1`] 
   "module": {
     "rules": [
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
         "use": [
@@ -225,6 +274,13 @@ exports[`plugins/svg > should allow to use distPath.svg to modify dist path 1`] 
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /url/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -239,6 +295,13 @@ exports[`plugins/svg > should allow to use distPath.svg to modify dist path 1`] 
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /inline/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -310,6 +373,13 @@ exports[`plugins/svg > should allow to use filename.svg to modify filename 1`] =
   "module": {
     "rules": [
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
         "use": [
@@ -329,6 +399,13 @@ exports[`plugins/svg > should allow to use filename.svg to modify filename 1`] =
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /url/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -343,6 +420,13 @@ exports[`plugins/svg > should allow to use filename.svg to modify filename 1`] =
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /inline/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -414,6 +498,13 @@ exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data
   "module": {
     "rules": [
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
         "use": [
@@ -433,6 +524,13 @@ exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /url/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -447,6 +545,13 @@ exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /inline/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",

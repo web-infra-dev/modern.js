@@ -127,6 +127,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "type": "asset",
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
         "use": [
@@ -146,6 +153,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /url/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -160,6 +174,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /inline/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -605,6 +626,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "type": "asset",
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
         "use": [
@@ -624,6 +652,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /url/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -638,6 +673,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /inline/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -1091,6 +1133,13 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "type": "asset",
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
         "use": [
@@ -1110,6 +1159,13 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /url/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",
@@ -1124,6 +1180,13 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
+        "issuer": {
+          "not": [
+            /\\\\\\.css\\$/,
+            /\\\\\\.less\\$/,
+            /\\\\\\.s\\(a\\|c\\)ss\\$/,
+          ],
+        },
         "resourceQuery": /inline/,
         "test": /\\\\\\.svg\\$/,
         "type": "javascript/auto",

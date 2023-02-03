@@ -3,6 +3,9 @@ import {
   JS_REGEX,
   TS_REGEX,
   SVG_REGEX,
+  CSS_REGEX,
+  LESS_REGEX,
+  SASS_REGEX,
   getDistPath,
   getFilename,
 } from '@modern-js/builder-shared';
@@ -29,6 +32,10 @@ export const builderPluginSvg = (): BuilderPlugin => {
           .rule(`${assetType}-react`)
           .test(SVG_REGEX)
           .type('javascript/auto')
+          // todo: use oneof or use issuer.and(JS_REGEX, TS_REGEX)
+          .set('issuer', {
+            not: [CSS_REGEX, LESS_REGEX, SASS_REGEX],
+          })
           .use(CHAIN_ID.USE.SVGR)
           .loader(require.resolve('@svgr/webpack'))
           .options({ svgo: false })
@@ -48,6 +55,10 @@ export const builderPluginSvg = (): BuilderPlugin => {
           .test(SVG_REGEX)
           .type('javascript/auto')
           .resourceQuery(/url/)
+          // todo: use oneof or use issuer.and(JS_REGEX, TS_REGEX)
+          .set('issuer', {
+            not: [CSS_REGEX, LESS_REGEX, SASS_REGEX],
+          })
           .use(CHAIN_ID.USE.URL)
           .loader(getCompiledPath('url-loader'))
           .options({
@@ -60,6 +71,10 @@ export const builderPluginSvg = (): BuilderPlugin => {
           .test(SVG_REGEX)
           .type('javascript/auto')
           .resourceQuery(/inline/)
+          // todo: use oneof or use issuer.and(JS_REGEX, TS_REGEX)
+          .set('issuer', {
+            not: [CSS_REGEX, LESS_REGEX, SASS_REGEX],
+          })
           .use(CHAIN_ID.USE.URL)
           .loader(getCompiledPath('url-loader'))
           .options({
