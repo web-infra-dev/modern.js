@@ -17,7 +17,7 @@ function renderToPipe(
       let renderToPipeableStream;
       try {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
-        renderToPipeableStream = require('react-dom/server');
+        ({ renderToPipeableStream } = require('react-dom/server'));
       } catch (e) {}
 
       const { pipe } = renderToPipeableStream(rootElement, {
