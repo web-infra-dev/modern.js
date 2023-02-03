@@ -1,8 +1,5 @@
 import { Transform, Writable } from 'stream';
-import {
-  RenderToPipeableStreamOptions,
-  renderToPipeableStream,
-} from 'react-dom/server';
+import type { RenderToPipeableStreamOptions } from 'react-dom/server';
 import { RenderLevel, RuntimeContext } from '../types';
 import { getTemplates } from './template';
 
@@ -17,6 +14,11 @@ function renderToPipe(
   const { ssrContext } = context;
   const forUserPipe: Pipe<Writable> = stream => {
     return new Promise(resolve => {
+      let renderToPipeableStream;
+      try {
+        renderToPipeableStream = require('react-dom/server');
+      } catch (e) {}
+
       const { pipe } = renderToPipeableStream(rootElement, {
         ...options,
         onShellReady() {
@@ -47,7 +49,7 @@ function renderToPipe(
 
           resolve(pipe(injectableTransform).pipe(stream));
         },
-        onShellError(error) {
+        onShellError(error: unknown) {
           // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
           ssrContext!.metrics.emitCounter(
             'app.render.streaming.shell.error',
@@ -61,7 +63,7 @@ function renderToPipe(
           resolve(fallbackHtml);
           options?.onShellError?.(error);
         },
-        onError(error) {
+        onError(error: unknown) {
           ssrContext!.logger.error(
             'An error occurs during streaming SSR',
             error as Error,
