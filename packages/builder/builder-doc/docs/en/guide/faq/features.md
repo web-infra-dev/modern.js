@@ -2,7 +2,7 @@
 
 ## How to import UI Component library on demand?
 
-If you need to configure the on-demand import of component libraries, you can configure [babel-plugin-import](https://github.com/ through [tools.babel](/en/api/config-tools.html#tools-babel) umijs/babel-plugin-import) plugin.
+If you need to configure the on-demand import of component libraries, you can configure [babel-plugin-import](https://github.com/ through [tools.babel](/en/api/config-tools.html#toolsbabel) umijs/babel-plugin-import) plugin.
 
 ```ts
 export default {
@@ -73,4 +73,4 @@ rm -rf ./node_modules/.cache
 
 When the production environment is built, we can remove the `console` from the code, so as to avoid the log of the development environment being output to the production environment.
 
-Builder provides a configuration item to remove console by default, please see [performance.removeConsole](/en/api/config-performance.html#performance-removeconsole).
+Builder provides a configuration item to remove console by default, please see [performance.removeConsole](/en/api/config-performance.html#performanceremoveconsole).

@@ -4,7 +4,7 @@ Builder 支持直接修改 webpack 配置对象，也支持通过 webpack-chain 
 
 ## 修改 webpack 配置对象
 
-你可以使用 [tools.webpack](/api/config-tools.html#tools-webpack) 来修改 webpack 配置对象。
+你可以使用 [tools.webpack](/api/config-tools.html#toolswebpack) 来修改 webpack 配置对象。
 
 ```ts
 export default {
@@ -29,7 +29,7 @@ webpack-chain 是区别于直接修改 webpack 配置的另一种配置修改方
 
 ### tools.webpackChain 配置项
 
-Builder 提供了 [tools.webpackChain](/api/config-tools.html#tools-webpackchain) 配置项来修改 webpack-chain。
+Builder 提供了 [tools.webpackChain](/api/config-tools.html#toolswebpackchain) 配置项来修改 webpack-chain。
 
 `tools.webpackChain` 的值为 `Function` 类型，接收两个参数：
 

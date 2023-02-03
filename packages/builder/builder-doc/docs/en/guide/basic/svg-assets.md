@@ -27,7 +27,7 @@ console.log(logoURL); // => "/static/logo.6c12aba3.png"
 
 ## Modify the Default Export
 
-You can modify the default export of SVG files through the [output.svgDefaultExport](/en/api/config-output.html#output-svgdefaultexport) config. For example, set the default export as a React component:
+You can modify the default export of SVG files through the [output.svgDefaultExport](/en/api/config-output.html#outputsvgdefaultexport) config. For example, set the default export as a React component:
 
 ```ts
 export default {

@@ -6,12 +6,12 @@
 
 在 Builder 中，你有两种方式可以设置路径别名:
 
-- 通过 [source.alias](/api/config-source.html#source-alias) 配置。
+- 通过 [source.alias](/api/config-source.html#sourcealias) 配置。
 - 通过 `tsconfig.json` 中的 `paths` 配置。
 
 ## 通过 `source.alias` 配置
 
-[source.alias](/api/config-source.html#source-alias) 对应 webpack 原生的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) 配置，你可以通过对象或者函数的方式进行配置。
+[source.alias](/api/config-source.html#sourcealias) 对应 webpack 原生的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) 配置，你可以通过对象或者函数的方式进行配置。
 
 首先你可以通过对象的方式进行配置，比如：
 
