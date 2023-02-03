@@ -5,7 +5,8 @@
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve",
-    "inspect": "modern inspect"
+    "inspect": "modern inspect",
+    "deploy": "modern deploy"
   },
   "dependencies": {
     "react": "~18.2.0",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-worker": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js-app/eslint-config": "workspace:*",
