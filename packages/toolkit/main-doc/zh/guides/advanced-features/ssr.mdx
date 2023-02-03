@@ -242,11 +242,11 @@ if (process.env.MODERN_TARGET === 'browser') {
 例如在代码中引入了 `fs-extra`，这时候直接引用到组件中，会造成 CSR 加载报错。可以创建同名的 `.ts` 和 `.node.ts` 文件做一层代理：
 
 ```ts title="compat.ts"
-export { readFileSync } from 'fs-extra';
+export const readFileSync: any = () => {};
 ```
 
 ```ts title="compat.node.ts"
-export const readFileSync: any = () => {};
+export { readFileSync } from 'fs-extra';
 ```
 
 在文件中直接引入 `./compat`，此时 SSR 环境下会优先使用 `.node.ts` 后缀的文件，CSR 环境下会使用 `.ts` 后缀的文件。
