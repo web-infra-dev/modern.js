@@ -6,6 +6,7 @@ import {
   globby,
   nanoid,
   slash,
+  deleteRequireCache,
 } from '@modern-js/utils';
 import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
@@ -16,6 +17,7 @@ import {
   checkTwinMacroExist,
   getTailwindPath,
   getTailwindVersion,
+  getTwinMacroMajorVersion,
 } from './utils';
 
 const supportCssInJsLibrary = 'styled-components';
@@ -116,13 +118,32 @@ export default (
 
             babel(_, { addPlugins }) {
               if (haveTwinMacro) {
+                // twin.macro >= v3.0.0 support config object
+                // twin.macro < v3.0.0 only support config path
+                // https://github.com/ben-rogerson/twin.macro/releases/tag/3.0.0
+                const twinMajorVersion = getTwinMacroMajorVersion(appDirectory);
+                const supportConfigObject =
+                  twinMajorVersion && twinMajorVersion >= 3;
+
+                let twinConfig: string | Record<string, any> =
+                  internalTwConfigPath;
+
+                if (supportConfigObject) {
+                  twinConfig = require(internalTwConfigPath);
+
+                  // Webpack will check require history for persistent cache.
+                  // If webpack can not resolve the file, the previous cache pack will become invalid.
+                  // The config file is temporary, so we should clear the require history to avoid breaking the webpack cache.
+                  deleteRequireCache(internalTwConfigPath);
+                }
+
                 addPlugins([
                   [
                     require.resolve('babel-plugin-macros'),
                     {
                       twin: {
                         preset: supportCssInJsLibrary,
-                        config: internalTwConfigPath,
+                        config: twinConfig,
                       },
                     },
                   ],

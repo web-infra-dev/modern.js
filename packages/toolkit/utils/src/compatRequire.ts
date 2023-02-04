@@ -44,3 +44,12 @@ export const cleanRequireCache = (filelist: string[]) => {
     delete require.cache[filepath];
   });
 };
+
+export function deleteRequireCache(path: string) {
+  if (require.cache[path]) {
+    delete require.cache[path];
+  }
+  if (module.children) {
+    module.children = module.children.filter(item => item.filename !== path);
+  }
+}

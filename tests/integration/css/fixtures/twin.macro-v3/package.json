@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "twin-macro",
+  "name": "twin-macro-v3",
   "version": "1.0.0",
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
