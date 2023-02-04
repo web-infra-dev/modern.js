@@ -20,6 +20,10 @@ export type Manifest = {
   routes: ModernRouteInterface[];
 };
 
+export const handleUrl = (url: string) => {
+  return url.replace(/^https?:\/\/.*?\//gi, '/');
+};
+
 export const createHandler = (manifest: Manifest) => {
   const routeMgr = new RouteMatchManager();
   const { pages, routes } = manifest;
