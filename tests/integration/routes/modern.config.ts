@@ -1,7 +1,7 @@
 import appTools, { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
-  plugins: [appTools()],
+  plugins: [appTools({ bundler: 'experiment-rspack' })],
   runtime: {
     router: true,
     state: false,
@@ -11,14 +11,9 @@ export default defineConfig({
       router: false,
     },
   },
-  server: {
-    ssr: {
-      mode: 'stream',
-    },
-    ssrByEntries: {
-      one: false,
-      two: false,
-      four: false,
+  performance: {
+    chunkSplit: {
+      strategy: 'all-in-one',
     },
   },
 });

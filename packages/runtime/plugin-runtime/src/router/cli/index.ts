@@ -27,7 +27,7 @@ export default (): CliPlugin<AppTools> => ({
     let pluginsExportsUtils: any;
 
     return {
-      config() {
+      config(): any {
         const appContext = api.useAppContext();
 
         pluginsExportsUtils = createRuntimeExportsUtils(

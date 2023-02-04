@@ -11,7 +11,7 @@ export default (): CliPlugin<AppTools> => ({
     const { useAppContext } = api;
     const runtimeModulePath = path.resolve(__dirname, '../runtime');
     return {
-      config() {
+      config(): any {
         const appContext = useAppContext();
         const { appDirectory } = appContext;
         bffExportsUtils = createRuntimeExportsUtils(
