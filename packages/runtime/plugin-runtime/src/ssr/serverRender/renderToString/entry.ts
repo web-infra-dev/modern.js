@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import serialize from 'serialize-javascript';
-// import ReactHelmet, { HelmetData } from 'react-helmet';
+import ReactHelmet, { HelmetData } from 'react-helmet';
 // import { html } from '@modern-js/app-tools/src/analyze/templates';
-// import helmetReplace from '../helmet';
+import helmetReplace from '../helmet';
 import {
   RenderLevel,
   RuntimeContext,
@@ -125,10 +125,9 @@ export default class Entry {
       }
     }
 
-    // const helmetData: HelmetData = ReactHelmet.renderStatic();
+    const helmetData: HelmetData = ReactHelmet.renderStatic();
 
-    // return helmetData ? helmetReplace(html, helmetData) : html;
-    return html;
+    return helmetData ? helmetReplace(html, helmetData) : html;
   }
 
   // private async prefetch(context: RuntimeContext) {

@@ -47,10 +47,10 @@ export default (): CliPlugin<AppTools> => ({
           }) => {
             importStr += `import { serverRender as ${route.entryName}ServerRender } from "${route.bundle}";\n`;
             pageStr += `"${route.urlPath}": {
-              entryName: "${route.entryName}",
-              template: "${route.entryPath}",
-              serverRender: ${route.entryName}ServerRender,
-            },`;
+      entryName: "${route.entryName}",
+      template: "${route.entryPath}",
+      serverRender: ${route.entryName}ServerRender,
+    },`;
             routeArr.push({
               entryName: route.entryName,
               isSSR: route.isSSR,

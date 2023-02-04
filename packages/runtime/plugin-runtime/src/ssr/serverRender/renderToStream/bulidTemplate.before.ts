@@ -1,6 +1,6 @@
-// import ReactHelmet, { HelmetData } from 'react-helmet';
+import ReactHelmet, { HelmetData } from 'react-helmet';
 import { matchRoutes } from 'react-router-dom';
-// import helmetReplace from '../helmet';
+import helmetReplace from '../helmet';
 import { RuntimeContext } from '../types';
 import {
   HEAD_REG_EXP,
@@ -14,11 +14,10 @@ const CSS_CHUNKS_PLACEHOLDER = '<!--<?- chunksMap.css ?>-->';
 function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
   const callbacks: BuildTemplateCb[] = [
     headTemplate => {
-      // const helmetData: HelmetData = ReactHelmet.renderStatic();
-      // return helmetData
-      //   ? helmetReplace(headTemplate, helmetData)
-      //   : headTemplate;
-      return headTemplate;
+      const helmetData: HelmetData = ReactHelmet.renderStatic();
+      return helmetData
+        ? helmetReplace(headTemplate, helmetData)
+        : headTemplate;
     },
     // @TODO: prefetch scripts of lazy component
     injectCss,
