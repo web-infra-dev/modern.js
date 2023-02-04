@@ -125,7 +125,7 @@ export default (
                 const supportConfigObject =
                   twinMajorVersion && twinMajorVersion >= 3;
 
-                let twinConfig: string | Record<string, any> =
+                let twinConfig: string | Record<string, unknown> =
                   internalTwConfigPath;
 
                 if (supportConfigObject) {
