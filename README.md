@@ -1,4 +1,3 @@
-
 <p align="center">
   <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="300" alt="Modern.js Logo" /></a>
 </p>
@@ -10,14 +9,12 @@
   </a>
 </p>
 <p align="center">
-  The meta-framework suite designed from scratch for frontend-focused modern web development
+  A Progressive React Framework for modern Web development.
 </p>
 
 # Introduction
 
 > The doc site ([modernjs.dev](https://modernjs.dev)) and articles are only available in Chinese for now, we are planning to add English versions soon.
-
-- [Modern.js: Hello, World!](https://zhuanlan.zhihu.com/p/426707646)
 
 ## Getting Started
 
@@ -29,17 +26,16 @@
 
 - [Contributing Guide](https://github.com/modern-js-dev/modern.js/blob/main/CONTRIBUTING.md)
 
-
 ## Credits
 
 Some implementation of Modern.js are modified from existing projects, such as create-react-app, vite, wmr and jest. Thanks for them.
 
-* Testing: Run jest by node.js API, some code modified from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
+- Testing: Run jest by node.js API, some code modified from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
 
-* esbuild-webpack-plugin: modified from [esbuild-webpack-plugin](https://github.com/sorrycc/esbuild-webpack-plugin) and support webpack 5.
+- esbuild-webpack-plugin: modified from [esbuild-webpack-plugin](https://github.com/sorrycc/esbuild-webpack-plugin) and support webpack 5.
 
-* Webpack messages formatter and module scopes plugin: modified from [react-dev-utils](https://github.com/facebook/create-react-app/tree/main/packages/react-dev-utils) and refactored to TypeScript.
+- Webpack messages formatter and module scopes plugin: modified from [react-dev-utils](https://github.com/facebook/create-react-app/tree/main/packages/react-dev-utils) and refactored to TypeScript.
 
-* bundle-require: modified from [bundle-require](https://github.com/egoist/bundle-require).
+- bundle-require: modified from [bundle-require](https://github.com/egoist/bundle-require).
 
-* farrow-pipeline: modified from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
+- farrow-pipeline: modified from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
