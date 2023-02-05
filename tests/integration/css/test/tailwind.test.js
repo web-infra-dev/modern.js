@@ -15,8 +15,26 @@ afterAll(() => {
 });
 
 describe('use twin.macro', () => {
-  it(`should show style by use tailwindcss theme`, async () => {
-    const appDir = resolve(fixtures, 'twin.macro');
+  it(`should show style by use tailwindcss theme when use twin.macro v2`, async () => {
+    const appDir = resolve(fixtures, 'twin.macro-v2');
+
+    const port = await getPort();
+
+    const app = await launchApp(appDir, port);
+
+    await page.goto(`http://localhost:${port}`);
+
+    const textColor = await page.$eval('p', p =>
+      window.getComputedStyle(p).getPropertyValue('color'),
+    );
+
+    expect(textColor).toBe('rgb(255, 0, 0)');
+
+    await killApp(app);
+  });
+
+  it(`should show style by use tailwindcss theme when use twin.macro v3`, async () => {
+    const appDir = resolve(fixtures, 'twin.macro-v3');
 
     const port = await getPort();
 

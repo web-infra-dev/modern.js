@@ -54,10 +54,9 @@ export function SidebarItemComp(props: SidebarItemProps) {
       <Link href={normalizeHref(item.link)} className={styles.menuLink}>
         <div
           m="t-1"
-          p="y-1 x-2"
+          p="y-1.5 x-2"
           block="~"
-          border="rounded-sm"
-          font-medium="~"
+          border="rounded-md"
           onMouseEnter={() => props.preloadLink(item.link)}
           className={active ? styles.menuItemActive : styles.menuItem}
           style={textEllipsisStyle}
@@ -290,25 +289,31 @@ export function SideBar(props: Props) {
     }
   };
   return (
-    <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
-      <nav m="t-1">
-        {sidebarData.map(
-          (item: NormalizedSidebarGroup | SidebarItem, index: number) => (
-            <SidebarItemComp
-              id={String(index)}
-              item={item}
-              depth={0}
-              activeMatcher={activeMatcher}
-              // The siderbarData is stable, so it's safe to use index as key
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              collapsed={(item as NormalizedSidebarGroup).collapsed ?? true}
-              setSidebarData={setSidebarData}
-              preloadLink={preloadLink}
-            />
-          ),
-        )}
-      </nav>
+    <aside
+      className={`modern-scrollbar ${styles.sidebar} ${
+        isSidebarOpen ? styles.open : ''
+      }`}
+    >
+      <div m="t-1">
+        <nav>
+          {sidebarData.map(
+            (item: NormalizedSidebarGroup | SidebarItem, index: number) => (
+              <SidebarItemComp
+                id={String(index)}
+                item={item}
+                depth={0}
+                activeMatcher={activeMatcher}
+                // The siderbarData is stable, so it's safe to use index as key
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                collapsed={(item as NormalizedSidebarGroup).collapsed ?? true}
+                setSidebarData={setSidebarData}
+                preloadLink={preloadLink}
+              />
+            ),
+          )}
+        </nav>
+      </div>
     </aside>
   );
 }

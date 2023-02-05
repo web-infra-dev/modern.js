@@ -14,6 +14,9 @@
   overflow-y: auto;
   transform: translateX(-100%);
   transition: opacity 0.5s, transform 0.25s ease;
+  mask-image: linear-gradient(transparent, #000 20px),
+    linear-gradient(270deg, #000 10px, transparent 0);
+  --webkit-mask-image: linear-gradient(270deg, #000 10px, transparent 0);
 }
 
 :global(.dark) .sidebar {
@@ -89,4 +92,5 @@
 .menuItemActive {
   background-color: var(--modern-c-brand-tint);
   color: var(--modern-c-brand);
+  font-weight: bolder;
 }

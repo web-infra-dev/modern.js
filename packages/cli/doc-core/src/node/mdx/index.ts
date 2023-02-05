@@ -74,7 +74,9 @@ export async function createMDXOptions(
       rehypePluginPreWrapper,
       [
         rehypePluginShiki,
-        { highlighter: await getHighlighter({ theme: 'nord' }) },
+        {
+          highlighter: await getHighlighter({ theme: 'css-variables' }),
+        },
       ],
       [
         rehypePluginExternalLinks,

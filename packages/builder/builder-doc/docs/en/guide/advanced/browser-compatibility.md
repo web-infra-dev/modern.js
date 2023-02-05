@@ -136,7 +136,7 @@ The code of the current project will be downgraded by default, so you don't need
 
 ### Downgrade third-party dependencies
 
-When you find that a third-party dependencies causes compatibility issues, you can add this dependency to Builder's [source.include](/en/api/config-source.html#source-include) config, Make Builder do extra compilation for this dependency.
+When you find that a third-party dependencies causes compatibility issues, you can add this dependency to Builder's [source.include](/en/api/config-source.html#sourceinclude) config, Make Builder do extra compilation for this dependency.
 
 Taking the npm package `query-string` as an example, you can add the following config:
 
@@ -163,7 +163,7 @@ Note that this config will only compile the code of `query-string` itself, not t
 
 ### Downgrade the code out of the current project
 
-When you import the code out of the current project, if the code has not been compiled, then you also need to configure [source.include](/en/api/config-source.html#source-include) to it to compile.
+When you import the code out of the current project, if the code has not been compiled, then you also need to configure [source.include](/en/api/config-source.html#sourceinclude) to it to compile.
 
 For example, if you need to reference a module under the `packages` directory in the monorepo, you can add the following config:
 
@@ -190,7 +190,7 @@ export default {
 
 Builder compiles JavaScript code through babel or SWC, and injects polyfill libraries like [core-js](https://github.com/zloirock/core-js), [@babel/runtime](https://www.npmjs.com/package/@babel/runtime) and [@swc/helpers](https://www.npmjs.com/package/@swc/helpers).
 
-In different usage scenarios, you may need different polyfill solutions. Builder provides [output.polyfill](/en/api/config-output.html#output-polyfill) config to switch between different polyfill modes.
+In different usage scenarios, you may need different polyfill solutions. Builder provides [output.polyfill](/en/api/config-output.html#outputpolyfill) config to switch between different polyfill modes.
 
 ### entry mode
 
@@ -227,7 +227,7 @@ import 'core-js/modules/es.map';
 var b = new Map();
 ```
 
-The advantage of this method is that the size of the injected polyfill is smaller, which is suitable for projects with higher requirements on bundle size. The disadvantage is that polyfill may not be fully injected, because third-party dependencies will not be compiled and downgraded by default, so the polyfill required by third-party dependencies will not be analyzed. If you need to analyze a third-party dependency, you also need to add it to [source.include](/en/api/config-source.html#source-include) config.
+The advantage of this method is that the size of the injected polyfill is smaller, which is suitable for projects with higher requirements on bundle size. The disadvantage is that polyfill may not be fully injected, because third-party dependencies will not be compiled and downgraded by default, so the polyfill required by third-party dependencies will not be analyzed. If you need to analyze a third-party dependency, you also need to add it to [source.include](/en/api/config-source.html#sourceinclude) config.
 
 The config of usage mode is:
 
@@ -251,4 +251,4 @@ export default {
 };
 ```
 
-When using this config, you need to ensure compatibility by yourself, such as manually import the required polyfill code through [source.preEntry](/en/api/config-source.html#source-preentry).
+When using this config, you need to ensure compatibility by yourself, such as manually import the required polyfill code through [source.preEntry](/en/api/config-source.html#sourcepreentry).

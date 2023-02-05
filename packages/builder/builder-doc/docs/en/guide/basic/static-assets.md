@@ -78,8 +78,8 @@ For a more detailed introduction to asset inlining, please refer to the [Static 
 
 When static assets are imported, they will be output to the dist directory. You can:
 
-- Modify the output filename through [output.filename](/en/api/config-output.html#output-filename).
-- Modify the output path through [output.distPath](/en/api/config-output.html#output-distpath).
+- Modify the output filename through [output.filename](/en/api/config-output.html#outputfilename).
+- Modify the output path through [output.distPath](/en/api/config-output.html#outputdistpath).
 
 Please read [Output Files](/guide/basic/output-files.html) for details.
 
@@ -87,8 +87,8 @@ Please read [Output Files](/guide/basic/output-files.html) for details.
 
 The URL returned after importing a asset will automatically include the path prefix:
 
-- In development, using [dev.assetPrefix](/en/api/config-dev.html#dev-assetprefix) to set the path prefix.
-- In production, using [output.assetPrefix](/en/api/config-output.html#output-assetprefix) to set the path prefix.
+- In development, using [dev.assetPrefix](/en/api/config-dev.html#devassetprefix) to set the path prefix.
+- In production, using [output.assetPrefix](/en/api/config-output.html#outputassetprefix) to set the path prefix.
 
 For example, you can set `output.assetPrefix` to `https://modern.com`:
 

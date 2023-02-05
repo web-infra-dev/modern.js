@@ -19,15 +19,10 @@ export function setupCopyCodeButton() {
       const isCopied = copy(text);
 
       if (isCopied) {
-        el.style.transform = 'scale(0.33)';
         el.classList.add('copied');
-        setTimeout(() => {
-          el.style.transform = 'scale(1)';
-        }, 160);
         clearTimeout(timeoutIdMap.get(el));
         const timeoutId = setTimeout(() => {
           el.classList.remove('copied');
-          el.style.transform = 'scale(1)';
           el.blur();
           timeoutIdMap.delete(el);
         }, 2000);

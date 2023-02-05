@@ -157,7 +157,7 @@ export default {
 将 `sourceType` 设置为 `unambiguous` 可能会产生一些其他影响，请参考 [Babel 官方文档](https://babeljs.io/docs/en/options#sourcetype)。
 
 :::tip
-Builder 提供了比 `addIncludes` 更通用的 [source.include](https://modernjs.dev/builder/api/config-source.html#source-include) 配置项，推荐优先使用该配置项。
+Builder 提供了比 `addIncludes` 更通用的 [source.include](https://modernjs.dev/builder/api/config-source.html#sourceinclude) 配置项，推荐优先使用该配置项。
 :::
 
 #### addExcludes

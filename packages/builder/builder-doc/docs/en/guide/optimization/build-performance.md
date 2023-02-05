@@ -53,7 +53,7 @@ The SWC compiled outputs has better compatibility, supports polyfills such as co
 
 ### Avoid using ts-loader
 
-By default, Builder uses Babel to compile TS files. After enabling the [tools.tsLoader](/en/api/config-tools.html#tools-tsloader) option, `ts-loader` will be used to compile TS files.
+By default, Builder uses Babel to compile TS files. After enabling the [tools.tsLoader](/en/api/config-tools.html#toolstsloader) option, `ts-loader` will be used to compile TS files.
 
 Please avoid using `ts-loader` because it requires additional parsing and type checking, which will slow down the build.
 
@@ -66,7 +66,7 @@ export default {
 };
 ```
 
-See the [tools.tsLoader documentation](/en/api/config-tools.html#tools-tsloader) for details.
+See the [tools.tsLoader documentation](/en/api/config-tools.html#toolstsloader) for details.
 
 ## Development optimization strategies
 
@@ -162,4 +162,4 @@ export default {
 };
 ```
 
-See [output.disableSourceMap](/en/api/config-output.html#output-disablesourcemap) for details.
+See [output.disableSourceMap](/en/api/config-output.html#outputdisablesourcemap) for details.
