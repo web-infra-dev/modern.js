@@ -1,4 +1,4 @@
-# Your MWA
+# Your App
 
 ## Prerequisites
 
