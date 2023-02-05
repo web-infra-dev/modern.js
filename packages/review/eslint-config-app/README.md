@@ -9,7 +9,7 @@
   </a>
 </p>
 <p align="center">
-  A Progressive React Framework for modern Web development.
+  A progressive React framework for modern web development.
 </p>
 
 # Introduction

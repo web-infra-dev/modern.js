@@ -79,7 +79,7 @@ export default defineConfig({
           lang: 'zh',
           title: 'Modern.js - 现代 Web 工程体系',
           description:
-            'A Progressive React Framework for modern Web development.',
+            'A progressive React framework for modern web development.',
           nav: getNavbar('zh'),
           label: '简体中文',
         },
@@ -87,7 +87,7 @@ export default defineConfig({
           lang: 'en',
           title: 'Modern.js - Modern Web Engine',
           description:
-            'A Progressive React Framework for modern Web development.',
+            'A progressive React framework for modern web development.',
           nav: getNavbar('en'),
           label: 'English',
         },
