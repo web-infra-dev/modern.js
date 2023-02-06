@@ -1,6 +1,7 @@
 import path from 'path';
 import {
   fs,
+  chalk,
   getPackageVersion,
   getModernPluginVersion,
   isTsProject,
@@ -259,20 +260,43 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     } else {
       const appDir = context.materials.default.basePath;
       const configFile = await getModernConfigFile(appDir);
-      appApi.showSuccessInfo(
-        i18n.t(
-          configFile.endsWith('ts')
-            ? localeKeys.successTs
-            : localeKeys.successJS,
-          {
-            configFile,
-            pluginName: context.config.pluginName,
-            pluginDependence: context.config.pluginDependence,
-            bffPluginName: context.config.bffPluginName,
-            bffPluginDependence: context.config.bffPluginDependence,
-          },
+      const isTS = configFile.endsWith('ts');
+      const {
+        pluginName,
+        bffPluginName,
+        pluginDependence,
+        bffPluginDependence,
+      } = context.config;
+      console.info(
+        chalk.green(`\n[INFO]`),
+        `${i18n.t(localeKeys.success)}`,
+        chalk.yellow.bold(`${configFile}`),
+        ':',
+        '\n',
+      );
+      console.info(
+        chalk.yellow.bold(`import ${pluginName} from '${pluginDependence}';`),
+      );
+      console.info(
+        chalk.yellow.bold(
+          `import ${bffPluginName} from '${bffPluginDependence}';`,
         ),
       );
+      if (isTS) {
+        console.info(`
+export default defineConfig({
+  ...,
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}(), ${bffPluginName}()`)}],
+});
+`);
+      } else {
+        console.info(`
+module.exports = {
+  ...,
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}(), ${bffPluginName}()`)}],
+};
+`);
+      }
     }
   }
 

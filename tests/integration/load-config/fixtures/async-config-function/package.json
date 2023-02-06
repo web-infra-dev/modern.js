@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "integration-config-function-params",
+  "name": "integration-config-async-config-test",
   "version": "1.0.0",
   "scripts": {
     "build": "modern build"

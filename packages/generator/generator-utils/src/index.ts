@@ -21,6 +21,7 @@ export {
   fs,
   semver,
   execa,
+  chalk,
   readTsConfigByFile,
   getPackageManager,
   canUseNpm,
