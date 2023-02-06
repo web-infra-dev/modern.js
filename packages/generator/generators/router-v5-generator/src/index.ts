@@ -65,6 +65,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const { locale } = context.config;
   commonI18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
+  i18n.changeLanguage(locale);
 
   if (!(await appApi.checkEnvironment())) {
     // eslint-disable-next-line no-process-exit
@@ -123,7 +124,11 @@ module.exports = {
 };
 `);
       }
-      console.info(i18n.t(localeKeys.successTooltip));
+      console.info(
+        `${i18n.t(localeKeys.successTooltip)} ${chalk.yellow.bold(
+          `@modern-js/runtime/router-v5`,
+        )} ${i18n.t(localeKeys.successTooltipSuffix)}`,
+      );
     }
   }
   generator.logger.debug(`forge @modern-js/router-v5-generator succeed `);
