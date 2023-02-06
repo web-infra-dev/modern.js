@@ -134,7 +134,8 @@
     "*.css",
     "*.less",
     "*.sass",
-    "*.scss"
+    "*.scss",
+    "**/virtual-global-styles.js"
   ],
   "files": [
     "bin",

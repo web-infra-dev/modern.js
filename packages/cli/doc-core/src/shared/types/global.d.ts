@@ -19,6 +19,8 @@ declare module 'virtual-global-components' {
   export default components;
 }
 
+declare module 'virtual-global-styles';
+
 declare module '*.module.scss' {
   const classes: { [key: string]: string };
   export default classes;
