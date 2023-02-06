@@ -88,7 +88,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
       const { pluginName, pluginDependence } = context.config;
       console.info(
         chalk.green(`\n[INFO]`),
-        `${i18n.t(isTS ? localeKeys.successTs : localeKeys.successJS)}`,
+        `${i18n.t(localeKeys.success)}`,
         chalk.yellow.bold(`${configFile}`),
         ':',
         '\n',
