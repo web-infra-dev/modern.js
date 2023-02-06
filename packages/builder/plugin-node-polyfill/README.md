@@ -10,7 +10,7 @@
   </a>
 </p>
 <p align="center">
-  A Universal Build Engine for Modern Web Development
+  A Build Engine for web development.
 </p>
 
 # @modern-js/builder-plugin-node-polyfill
