@@ -2,7 +2,7 @@ import inner from '@rspack/dev-middleware';
 import type { ModernDevServerOptions } from '@modern-js/server';
 import { setupServerHooks, isClientCompiler } from '@modern-js/builder-shared';
 
-import type { Compiler } from '@rspack/core';
+import type { Compiler, MultiCompiler } from '@rspack/core';
 
 type DevMiddlewareOptions = ModernDevServerOptions['devMiddleware'];
 
@@ -35,14 +35,23 @@ function applyHMREntry(compiler: Compiler, clientPath: string) {
 }
 
 export const getDevMiddleware: (
-  compiler: Compiler,
+  compiler: Compiler | MultiCompiler,
 ) => NonNullable<DevMiddlewareOptions> = compiler => options => {
   const { hmrClientPath, callbacks, ...restOptions } = options;
 
-  hmrClientPath && applyHMREntry(compiler, hmrClientPath);
+  if ((compiler as MultiCompiler).compilers) {
+    (compiler as MultiCompiler).compilers.forEach(compiler => {
+      hmrClientPath && applyHMREntry(compiler, hmrClientPath);
 
-  // register hooks for each compilation, update socket stats if recompiled
-  setupServerHooks(compiler, callbacks);
+      // register hooks for each compilation, update socket stats if recompiled
+      setupServerHooks(compiler, callbacks);
+    });
+  } else {
+    hmrClientPath && applyHMREntry(compiler as Compiler, hmrClientPath);
+
+    // register hooks for each compilation, update socket stats if recompiled
+    setupServerHooks(compiler as Compiler, callbacks);
+  }
 
   // @ts-expect-error
   return inner(compiler, restOptions);

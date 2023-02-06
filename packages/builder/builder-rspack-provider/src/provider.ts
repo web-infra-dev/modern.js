@@ -11,13 +11,14 @@ import type {
   RspackConfig,
   BuilderConfig,
   NormalizedConfig,
+  MultiCompiler,
 } from './types';
 
 export type BuilderRspackProvider = BuilderProvider<
   BuilderConfig,
   RspackConfig,
   NormalizedConfig,
-  Compiler
+  Compiler | MultiCompiler
 >;
 
 export function builderRspackProvider({

@@ -13,6 +13,7 @@ import {
 } from '@modern-js/builder-shared';
 import type {
   Compiler,
+  MultiCompiler,
   RspackConfig,
   BuilderConfig,
   ModifyRspackConfigFn,
@@ -33,7 +34,7 @@ export function initHooks() {
     modifyBuilderConfigHook:
       createAsyncHook<ModifyBuilderConfigFn<BuilderConfig>>(),
     onAfterCreateCompilerHook:
-      createAsyncHook<OnAfterCreateCompilerFn<Compiler>>(),
+      createAsyncHook<OnAfterCreateCompilerFn<Compiler | MultiCompiler>>(),
     onBeforeCreateCompilerHook:
       createAsyncHook<OnBeforeCreateCompilerFn<RspackConfig>>(),
 

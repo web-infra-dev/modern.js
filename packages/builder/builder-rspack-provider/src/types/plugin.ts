@@ -4,14 +4,14 @@ import type {
 } from '@modern-js/builder-shared';
 import type { BuilderConfig, NormalizedConfig } from './config';
 import type { ModifyRspackConfigFn } from './hooks';
-import type { Compiler, RspackConfig } from './rspack';
+import type { Compiler, MultiCompiler, RspackConfig } from './rspack';
 
 export interface BuilderPluginAPI
   extends DefaultBuilderPluginAPI<
     BuilderConfig,
     NormalizedConfig,
     RspackConfig,
-    Compiler
+    Compiler | MultiCompiler
   > {
   modifyRspackConfig: (fn: ModifyRspackConfigFn) => void;
 }

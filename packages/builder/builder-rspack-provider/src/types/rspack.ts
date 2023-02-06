@@ -1,6 +1,6 @@
-import type { Compiler, RspackOptions } from '@rspack/core';
+import type { Compiler, RspackOptions, MultiCompiler } from '@rspack/core';
 
-export { Compiler };
+export { Compiler, MultiCompiler };
 
 export type RspackBuiltinsConfig = Omit<
   NonNullable<RspackOptions['builtins']>,
