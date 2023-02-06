@@ -1,4 +1,4 @@
-import { SharedDevConfig, FileFilterUtil } from '../types';
+import { SharedToolsConfig, FileFilterUtil } from '../types';
 import { DevServerHttpsOptionsSchema } from './dev';
 import { z } from '../utils';
 
@@ -7,7 +7,7 @@ export const FileFilterUtilSchema: z.ZodType<FileFilterUtil> = z.function(
   z.void(),
 );
 
-export const sharedDevServerConfigSchema = z.partialObj({
+const sharedDevServerConfigSchema = z.partialObj({
   after: z.array(z.function()),
   before: z.array(z.function()),
   client: z.partialObj({
@@ -32,5 +32,9 @@ export const sharedDevServerConfigSchema = z.partialObj({
   watch: z.boolean(),
 });
 
+export const sharedToolsConfigSchema = z.partialObj({
+  devServer: sharedDevServerConfigSchema,
+});
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _schema: z.ZodType<SharedDevConfig> = sharedDevServerConfigSchema;
+const _schema: z.ZodType<SharedToolsConfig> = sharedToolsConfigSchema;
