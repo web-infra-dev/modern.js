@@ -90,7 +90,7 @@ export const manifest = {
             name: pkg.name,
             version: pkg.version,
             dependencies: {
-              '@modern-js/prod-server': '0.0.0-next-20230203070739', // TODO
+              '@modern-js/prod-server': '0.0.0-next-20230206081248', // TODO
               wrangler: '^2.9.0',
             },
             resolutions: pkg.resolutions || {},
