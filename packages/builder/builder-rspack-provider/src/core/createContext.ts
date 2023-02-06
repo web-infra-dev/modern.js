@@ -6,7 +6,7 @@ import {
   NormalizedSharedOutputConfig,
 } from '@modern-js/builder-shared';
 import { initHooks } from './initHooks';
-// import { ConfigValidator } from '../config/validate';
+import { validateBuilderConfig } from '../config/validate';
 import { withDefaultConfig } from '../config/defaults';
 import type { Context, BuilderConfig } from '../types';
 
@@ -25,11 +25,8 @@ export async function createContext(
     'rspack',
   );
   const configValidatingTask = Promise.resolve();
-  // TODO: validator
-  // const configValidatingTask =  ConfigValidator.create().then(validator => {
-  //   // interrupt build if config is invalid.
-  //   validator.validate(builderConfig, false);
-  // });
+
+  await validateBuilderConfig(builderConfig);
 
   const tsconfigPath = join(context.rootPath, 'tsconfig.json');
 
