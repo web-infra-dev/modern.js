@@ -1,5 +1,5 @@
 import type { webpack } from '@modern-js/builder-webpack-provider';
-import type { rspack } from '@modern-js/builder-rspack-provider';
+import type { Rspack } from '@modern-js/builder-rspack-provider';
 import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 
 export class BottomTemplatePlugin {
@@ -16,7 +16,7 @@ export class BottomTemplatePlugin {
     this.name = 'bottom-template';
   }
 
-  apply(compiler: rspack.Compiler | webpack.Compiler) {
+  apply(compiler: Rspack.Compiler | webpack.Compiler) {
     compiler.hooks.compilation.tap(this.name, compilation => {
       this.htmlWebpackPlugin
         .getHooks(compilation as any)

@@ -13,5 +13,5 @@ export type {
   BuilderPluginAPI,
 
   // Rspack
-  rspack,
+  Rspack,
 } from './types';

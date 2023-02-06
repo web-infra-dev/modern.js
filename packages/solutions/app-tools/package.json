@@ -75,7 +75,6 @@
     "@modern-js/builder-plugin-node-polyfill": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
-    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/node-bundle-require": "workspace:*",
@@ -93,6 +92,7 @@
   },
   "devDependencies": {
     "@modern-js/builder-plugin-swc": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

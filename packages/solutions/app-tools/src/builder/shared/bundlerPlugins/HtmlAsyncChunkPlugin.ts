@@ -1,5 +1,5 @@
 import type { webpack } from '@modern-js/builder-webpack-provider';
-import type { rspack } from '@modern-js/builder-rspack-provider';
+import type { Rspack } from '@modern-js/builder-rspack-provider';
 import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 
 export class HtmlAsyncChunkPlugin {
@@ -12,7 +12,7 @@ export class HtmlAsyncChunkPlugin {
     this.htmlWebpackPlugin = htmlWebpackPlugin;
   }
 
-  apply(compiler: webpack.Compiler | rspack.Compiler) {
+  apply(compiler: webpack.Compiler | Rspack.Compiler) {
     compiler.hooks.compilation.tap(this.name, compilation => {
       const hooks = this.htmlWebpackPlugin.getHooks(compilation as any);
 

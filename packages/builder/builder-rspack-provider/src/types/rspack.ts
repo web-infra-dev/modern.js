@@ -1,9 +1,9 @@
-import type * as rspack from '@rspack/core';
+import type * as Rspack from '@rspack/core';
 
-type Compiler = rspack.Compiler;
-type RspackOptions = rspack.RspackOptions;
+type Compiler = Rspack.Compiler;
+type RspackOptions = Rspack.RspackOptions;
 
-export type { Compiler, rspack };
+export type { Compiler, Rspack };
 
 export type RspackBuiltinsConfig = Omit<
   NonNullable<RspackOptions['builtins']>,
