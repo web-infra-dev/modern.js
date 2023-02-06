@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import ReactHelmet, { HelmetData } from 'react-helmet';
-// import { html } from '@modern-js/app-tools/src/analyze/templates';
 import helmetReplace from '../helmet';
 import {
   RenderLevel,
@@ -11,7 +10,7 @@ import {
   SSRPluginConfig,
 } from '../types';
 import { time } from '../time';
-// import prefetch from '../../prefetch';
+import prefetch from '../../prefetch';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
 import { reduce } from './reduce';
@@ -98,10 +97,10 @@ export default class Entry {
       return '';
     }
 
-    // const prefetchData = await this.prefetch(context);
-    // if (ssrContext.redirection.url) {
-    //   return '';
-    // }
+    const prefetchData = await this.prefetch(context);
+    if (ssrContext.redirection?.url) {
+      return '';
+    }
 
     if (this.result.renderLevel >= RenderLevel.SERVER_PREFETCH) {
       this.result.html = this.renderToString(context);
@@ -111,15 +110,15 @@ export default class Entry {
     }
 
     let html = '';
-    // const templateData = buildTemplateData(
-    //   ssrContext,
-    //   prefetchData,
-    //   this.result.renderLevel,
-    // );
-    // const SSRData = this.getSSRDataScript(templateData);
+    const templateData = buildTemplateData(
+      ssrContext,
+      prefetchData,
+      this.result.renderLevel,
+    );
+    const SSRData = this.getSSRDataScript(templateData);
     for (const fragment of this.fragments) {
       if (fragment.isVariable && fragment.content === 'SSRDataScript') {
-        // html += fragment.getValue(SSRData);
+        html += fragment.getValue(SSRData);
       } else {
         html += fragment.getValue(this.result);
       }
@@ -130,24 +129,24 @@ export default class Entry {
     return helmetData ? helmetReplace(html, helmetData) : html;
   }
 
-  // private async prefetch(context: RuntimeContext) {
-  //   let prefetchData;
-  //   const end = time();
+  private async prefetch(context: RuntimeContext) {
+    let prefetchData;
+    const end = time();
 
-  //   try {
-  //     prefetchData = await prefetch(this.App, context);
-  //     this.result.renderLevel = RenderLevel.SERVER_PREFETCH;
-  //     const prefetchCost = end();
-  //     this.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);
-  //     this.metrics.emitTimer('app.prefetch.cost', prefetchCost);
-  //   } catch (e) {
-  //     this.result.renderLevel = RenderLevel.CLIENT_RENDER;
-  //     this.logger.error('App Prefetch Render', e as Error);
-  //     this.metrics.emitCounter('app.prefetch.render.error', 1);
-  //   }
+    try {
+      prefetchData = await prefetch(this.App, context);
+      this.result.renderLevel = RenderLevel.SERVER_PREFETCH;
+      const prefetchCost = end();
+      this.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);
+      this.metrics.emitTimer('app.prefetch.cost', prefetchCost);
+    } catch (e) {
+      this.result.renderLevel = RenderLevel.CLIENT_RENDER;
+      this.logger.error('App Prefetch Render', e as Error);
+      this.metrics.emitCounter('app.prefetch.render.error', 1);
+    }
 
-  //   return prefetchData || {};
-  // }
+    return prefetchData || {};
+  }
 
   private renderToString(context: RuntimeContext): string {
     let html = '';
