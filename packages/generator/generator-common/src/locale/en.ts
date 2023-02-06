@@ -1,7 +1,7 @@
 export const EN_LOCALE = {
   solution: {
     self: 'Please select the solution you want to create',
-    mwa: 'MWA Solution',
+    mwa: 'Web App Solution',
     module: 'Module Solution',
     monorepo: 'Monorepo Solution',
     custom: 'Custom Solution',
@@ -12,10 +12,10 @@ export const EN_LOCALE = {
   },
   sub_solution: {
     self: 'Please select the solution you want to create',
-    mwa: 'MWA Solution',
-    mwa_test: 'MWA Solution(Test)',
+    mwa: 'Web App Solution',
+    mwa_test: 'Web App Solution (Test)',
     module: 'Module Solution',
-    inner_module: 'Module Solution(Inner)',
+    inner_module: 'Module Solution (Inner)',
     monorepo: 'Monorepo Solution',
   },
   action: {

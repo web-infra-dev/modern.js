@@ -1,3 +1,4 @@
+import path from 'path';
 import remarkGFM from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutoLink from 'rehype-autolink-headings';
@@ -6,9 +7,10 @@ import { UserConfig } from 'shared/types/index';
 import { PluggableList } from 'unified';
 import remarkPluginFrontMatter from 'remark-frontmatter';
 import remarkPluginMDXFrontMatter from 'remark-mdx-frontmatter';
-import { getHighlighter } from 'shiki';
+import { getHighlighter, loadTheme } from 'shiki';
 import rehypePluginExternalLinks from 'rehype-external-links';
 import { remarkPluginContainer } from '@modern-js/remark-container';
+import { PACKAGE_ROOT } from '../constants';
 import { remarkPluginToc } from './remarkPlugins/toc';
 import { rehypePluginPreWrapper } from './rehypePlugins/preWrapper';
 import { rehypePluginShiki } from './rehypePlugins/shiki';
@@ -75,7 +77,9 @@ export async function createMDXOptions(
       [
         rehypePluginShiki,
         {
-          highlighter: await getHighlighter({ theme: 'css-variables' }),
+          highlighter: await getHighlighter({
+            theme: await loadTheme(path.join(PACKAGE_ROOT, 'shiki-theme.json')),
+          }),
         },
       ],
       [
