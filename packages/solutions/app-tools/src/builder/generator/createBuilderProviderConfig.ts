@@ -3,7 +3,7 @@ import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 export function createBuilderProviderConfig<B extends Bundler>(
   resolveConfig: AppNormalizedConfig,
   appContext: IAppContext,
-  modifyConfig?: (config: AppNormalizedConfig<B>) => void,
+  modifyBuilderConfig?: (config: AppNormalizedConfig<B>) => void,
 ): AppNormalizedConfig<B> {
   const htmlConfig = { ...resolveConfig.html };
   if (!htmlConfig.template) {
@@ -20,7 +20,7 @@ export function createBuilderProviderConfig<B extends Bundler>(
     },
     html: htmlConfig,
   };
-  modifyConfig?.(config as AppNormalizedConfig<B>);
+  modifyBuilderConfig?.(config as AppNormalizedConfig<B>);
 
   return config as AppNormalizedConfig<B>;
 }
