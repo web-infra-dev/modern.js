@@ -101,6 +101,10 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    * Global components
    */
   globalUIComponents?: string[];
+  /**
+   * Global styles, is a Absolute path
+   */
+  globalStyles?: string;
 }
 
 export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {

@@ -1,6 +1,7 @@
 import 'windi.css';
 import 'nprogress/nprogress.css';
 import '../../index.css';
+import 'virtual-global-styles';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Theme, { Nav } from '@theme';
