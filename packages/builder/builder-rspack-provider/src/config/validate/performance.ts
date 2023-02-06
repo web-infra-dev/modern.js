@@ -12,7 +12,6 @@ import type { PerformanceConfig } from '../../types';
 const BaseChunkSplitSchema: z.ZodType<BaseChunkSplit> =
   BaseSplitRulesSchema.extend({
     strategy: z.literals([
-      'split-by-module',
       'split-by-experience',
       'all-in-one',
       'single-vendor',
@@ -30,7 +29,6 @@ const BuilderChunkSplitSchema: z.ZodType<BuilderChunkSplit> = z.union([
 export const performanceConfigSchema: z.ZodType<PerformanceConfig> =
   sharedPerformanceConfigSchema
     .extend({
-      bundleAnalyze: z.any(),
       chunkSplit: BuilderChunkSplitSchema,
     })
     .partial();

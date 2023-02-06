@@ -1,10 +1,9 @@
-import { z, FileFilterUtil } from '@modern-js/builder-shared';
+import {
+  z,
+  FileFilterUtilSchema,
+  sharedDevServerConfigSchema,
+} from '@modern-js/builder-shared';
 import type { InspectorPluginOptions, ToolsConfig } from '../../types';
-
-export const FileFilterUtilSchema: z.ZodType<FileFilterUtil> = z.function(
-  z.tuple([z.arrayOrNot(z.union([z.string(), z.instanceof(RegExp)]))]),
-  z.void(),
-);
 
 export const InspectorPluginOptionsScheme: z.ZodType<InspectorPluginOptions> =
   z.partialObj({
@@ -13,6 +12,7 @@ export const InspectorPluginOptionsScheme: z.ZodType<InspectorPluginOptions> =
   });
 
 export const toolsConfigSchema: z.ZodType<ToolsConfig> = z.partialObj({
+  devServer: sharedDevServerConfigSchema,
   pug: z.union([z.literal(true), z.chained(z.any())]),
   sass: z.chained(z.any(), z.object({ addExcludes: FileFilterUtilSchema })),
   less: z.chained(z.any(), z.object({ addExcludes: FileFilterUtilSchema })),
