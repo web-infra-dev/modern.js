@@ -11,8 +11,8 @@ export const InspectorPluginOptionsScheme: z.ZodType<InspectorPluginOptions> =
     ignorePattern: z.union([z.instanceof(RegExp), z.null()]),
   });
 
-export const toolsConfigSchema: z.ZodType<ToolsConfig> =
-  sharedToolsConfigSchema.extend({
+export const toolsConfigSchema: z.ZodType<ToolsConfig> = sharedToolsConfigSchema
+  .extend({
     pug: z.union([z.literal(true), z.chained(z.any())]),
     sass: z.chained(z.any(), z.object({ addExcludes: FileFilterUtilSchema })),
     less: z.chained(z.any(), z.object({ addExcludes: FileFilterUtilSchema })),
@@ -43,4 +43,5 @@ export const toolsConfigSchema: z.ZodType<ToolsConfig> =
     webpack: z.chained(z.any(), z.any()),
     webpackChain: z.arrayOrNot(z.function()),
     inspector: z.chained(InspectorPluginOptionsScheme),
-  });
+  })
+  .partial();
