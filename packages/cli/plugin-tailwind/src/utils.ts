@@ -22,8 +22,9 @@ module.exports = {
 };
 `;
 
+const TWIN_MACRO_NAME = 'twin.macro';
+
 export const checkTwinMacroExist = async (appDirectory: string) => {
-  const depName = 'twin.macro';
   const packageJson =
     (await fs.readJSON(path.join(appDirectory, 'package.json'), {
       throws: false,
@@ -31,10 +32,22 @@ export const checkTwinMacroExist = async (appDirectory: string) => {
 
   return Boolean(
     (typeof packageJson.dependencies === 'object' &&
-      packageJson.dependencies[depName]) ||
+      packageJson.dependencies[TWIN_MACRO_NAME]) ||
       (typeof packageJson.devDependencies === 'object' &&
-        packageJson.devDependencies[depName]),
+        packageJson.devDependencies[TWIN_MACRO_NAME]),
   );
+};
+
+export const getTwinMacroMajorVersion = (appDirectory: string) => {
+  try {
+    const pkgJsonPath = require.resolve(`${TWIN_MACRO_NAME}/package.json`, {
+      paths: [appDirectory],
+    });
+    const { version } = require(pkgJsonPath);
+    return Number(version.split('.')[0]);
+  } catch (err) {
+    return null;
+  }
 };
 
 export function getTailwindPath(appDirectory: string) {

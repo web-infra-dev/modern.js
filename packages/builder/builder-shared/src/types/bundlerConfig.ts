@@ -22,6 +22,31 @@ type SplitChunks = Configuration extends {
   : never;
 
 type WebpackOptimization = NonNullable<Configuration['optimization']>;
+type WebpackOutput = NonNullable<Configuration['output']>;
+
+// fork from the @rspack/core
+type RspackOutput = {
+  path?: string;
+  publicPath?: string;
+  assetModuleFilename?: string;
+  filename?: string;
+  chunkFilename?: string;
+  uniqueName?: string;
+  hashFunction?: string;
+  cssFilename?: string;
+  cssChunkFilename?: string;
+  library?: string;
+};
+
+type Overlap<
+  T extends Record<string, any>,
+  E extends Record<string, any>,
+  Key extends Extract<keyof T, keyof E> = Extract<keyof T, keyof E>,
+> = {
+  [key in Key]: Extract<E[key], T[key]>;
+};
+
+type Output = Overlap<WebpackOutput, RspackOutput>;
 
 /** The intersection of webpack and rspack */
 export type BundlerConfig = {
@@ -33,7 +58,7 @@ export type BundlerConfig = {
   target?: Configuration['target'];
   //   mode?: Mode;
   //   externals?: External;
-  //   output?: Output;
+  output?: Output;
   //   resolve?: Resolve;
   devtool?: Configuration['devtool'];
   //   infrastructureLogging?: InfrastructureLogging;
@@ -54,6 +79,14 @@ export interface BundlerChain
   > {
   toConfig: () => BundlerConfig;
   optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
+  output: Pick<
+    Config['output'],
+    | Extract<
+        Extract<keyof WebpackOutput, keyof RspackOutput>,
+        keyof Config['output']
+      >
+    | 'get'
+  >;
   /** only support add string | string[] */
   entry: Config['entry'];
   module: Pick<Config['module'], 'rules' | 'rule'>;

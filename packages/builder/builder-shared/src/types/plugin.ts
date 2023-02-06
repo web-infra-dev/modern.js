@@ -76,6 +76,9 @@ export type DefaultBuilderPluginAPI<
   modifyBundlerChain: (fn: ModifyBundlerChainFn) => void;
 };
 
-export type DefaultBuilderPlugin = BuilderPlugin<
-  DefaultBuilderPluginAPI<SharedBuilderConfig, SharedNormalizedConfig>
+export type SharedBuilderPluginAPI = DefaultBuilderPluginAPI<
+  SharedBuilderConfig,
+  SharedNormalizedConfig
 >;
+
+export type DefaultBuilderPlugin = BuilderPlugin<SharedBuilderPluginAPI>;

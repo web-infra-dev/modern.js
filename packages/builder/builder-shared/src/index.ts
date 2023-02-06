@@ -19,3 +19,4 @@ export * from './chain';
 export * from './schema';
 export * from './plugins';
 export * from './openBrowser';
+export * from './apply';
