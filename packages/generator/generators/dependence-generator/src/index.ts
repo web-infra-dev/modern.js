@@ -3,7 +3,7 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { i18n as commonI18n } from '@modern-js/generator-common';
-import { fs, getModernConfigFile } from '@modern-js/generator-utils';
+import { fs, chalk, getModernConfigFile } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 export const handleTemplateFile = async (
@@ -94,18 +94,33 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     } else {
       const appDir = context.materials.default.basePath;
       const configFile = await getModernConfigFile(appDir);
-      appApi.showSuccessInfo(
-        i18n.t(
-          configFile.endsWith('ts')
-            ? localeKeys.successTs
-            : localeKeys.successJS,
-          {
-            configFile,
-            pluginName: context.config.pluginName,
-            pluginDependence: context.config.pluginDependence,
-          },
-        ),
+      const isTS = configFile.endsWith('ts');
+      const { pluginName, pluginDependence } = context.config;
+      console.info(
+        chalk.green(`\n[INFO]`),
+        `${i18n.t(isTS ? localeKeys.successTs : localeKeys.successJS)}`,
+        chalk.yellow.bold(`${configFile}`),
+        ':',
+        '\n',
       );
+      console.info(
+        chalk.yellow.bold(`import ${pluginName} from '${pluginDependence}';`),
+      );
+      if (isTS) {
+        console.info(`
+export default defineConfig({
+  ...,
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}()`)}],
+});
+`);
+      } else {
+        console.info(`
+module.exports = {
+  ...,
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}()`)}],
+};
+`);
+      }
     }
   }
 
