@@ -1,8 +1,21 @@
 import path from 'path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { fs, isWorker, ROUTE_SPEC_FILE } from '@modern-js/utils';
-import { MANIFEST_FILE, WORKER_SERVER, WORKER_SERVER_ENTRY } from './constants';
+import {
+  fs,
+  getPackageManager,
+  isWorker,
+  ROUTE_SPEC_FILE,
+} from '@modern-js/utils';
+import {
+  LOCK_FILE,
+  MANIFEST_FILE,
+  PKG_FILE,
+  WORKER_SERVER,
+  WORKER_SERVER_ENTRY,
+  WRANGLER_FILE,
+} from './constants';
 import { worker } from './code';
+import { copyfile } from './utils';
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-worker',
@@ -12,8 +25,6 @@ export default (): CliPlugin<AppTools> => ({
         const { appDirectory, distDirectory } = ctx.useAppContext();
 
         const configContext = ctx.useResolvedConfigContext();
-
-        console.info(appDirectory, distDirectory, configContext);
 
         if (!isWorker(configContext)) {
           return;
@@ -45,7 +56,7 @@ export default (): CliPlugin<AppTools> => ({
             bundle: string;
             isSSR: boolean;
           }) => {
-            importStr += `import { serverRender as ${route.entryName}ServerRender } from "${route.bundle}";\n`;
+            importStr += `import { serverRender as ${route.entryName}ServerRender } from "../${route.bundle}";\n`;
             pageStr += `"${route.urlPath}": {
       entryName: "${route.entryName}",
       template: "${route.entryPath}",
@@ -66,10 +77,39 @@ export const manifest = {
   pages: {
     ${pageStr}
   },
-  routes: ${JSON.stringify(routeArr, null, '  ')}
+  routes: ${JSON.stringify(routeArr, null, '   ')}
 }
         `;
         fs.writeFileSync(path.join(workServerDir, MANIFEST_FILE), manifest);
+        // package.json
+        const pkg = fs.readJSONSync(path.join(appDirectory, PKG_FILE));
+        await fs.writeJSON(
+          path.join(distDirectory, PKG_FILE),
+          {
+            // 使用 lerna + yarn 时，如果包没有 name 和 version，依赖不会安装
+            name: pkg.name,
+            version: pkg.version,
+            dependencies: {
+              '@modern-js/prod-server': '0.0.0-next-20230203070739', // TODO
+              wrangler: '^2.9.0',
+            },
+            resolutions: pkg.resolutions || {},
+            pnpm: pkg.pnpm || {},
+          },
+          { spaces: 2 },
+        );
+        // copy lockfile
+        const manager = await getPackageManager(appDirectory);
+        const lockfile = LOCK_FILE[manager];
+        copyfile(distDirectory, appDirectory, [lockfile]);
+        // wrangler.toml
+        fs.writeFileSync(
+          path.join(distDirectory, WRANGLER_FILE),
+          `name = "${pkg.name}"
+main = "${path.join(WORKER_SERVER, WORKER_SERVER_ENTRY)}"
+compatibility_date = "${new Date()}"
+        `,
+        );
       },
     };
   },
