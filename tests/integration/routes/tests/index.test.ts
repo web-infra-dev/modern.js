@@ -292,7 +292,7 @@ const supportDefineInit = async (errors: string[], appPort: number) => {
 };
 
 const supportCatchAll = async (errors: string[], appPort: number) => {
-  await page.goto(`http://localhost:${appPort}/three/user/1234/1234`, {
+  await page.goto(`http://localhost:${appPort}/four/test`, {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
@@ -350,6 +350,7 @@ describe('dev', () => {
 
     // FIXME: skip the test
     test.skip('support handle loader error', async () =>
+      // eslint-disable-next-line max-lines
       supportHandleLoaderError(errors, appPort));
   });
 
