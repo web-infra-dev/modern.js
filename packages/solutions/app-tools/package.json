@@ -104,7 +104,7 @@
     "webpack": "^5.75.0"
   },
   "peerDependencies": {
-    "@modern-js/builder-rspack-provider": "workspace:*"
+    "@modern-js/builder-rspack-provider": "workspace:^2.3.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/builder-rspack-provider": {
