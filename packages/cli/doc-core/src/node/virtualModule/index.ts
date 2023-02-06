@@ -4,6 +4,7 @@ import { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import { routeVMPlugin } from './routeData';
 import { siteDataVMPlugin } from './siteData';
 import { globalUIComponentsVMPlugin } from './globalUIComponents';
+import { globalStylesVMPlugin } from './globalStyles';
 
 type VirtualModuleFactory = (
   userRoot: string,
@@ -16,6 +17,7 @@ export const virtualModuleFactoryList: VirtualModuleFactory[] = [
   routeVMPlugin,
   siteDataVMPlugin,
   globalUIComponentsVMPlugin,
+  globalStylesVMPlugin,
 ];
 
 export function builderDocVMPlugin(
