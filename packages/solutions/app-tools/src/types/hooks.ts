@@ -14,6 +14,7 @@ import type {
 } from '@modern-js/types';
 import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
 import type { Stats, MultiStats } from '@modern-js/builder-shared';
+import type { Rspack } from '@modern-js/builder-rspack-provider';
 
 export interface ImportSpecifier {
   local?: string;
@@ -76,16 +77,16 @@ export type AppToolsHooks = {
   beforeDev: AsyncWorkflow<void, unknown>;
   afterDev: AsyncWorkflow<void, unknown>;
   beforeCreateCompiler: AsyncWorkflow<
-    { bundlerConfigs: webpack.Configuration[] },
+    { bundlerConfigs: webpack.Configuration[] | Rspack.Configuration[] },
     unknown
   >;
   afterCreateCompiler: AsyncWorkflow<
-    { compiler?: webpack.Compiler | webpack.MultiCompiler },
+    { compiler?: webpack.Compiler | webpack.MultiCompiler | Rspack.Compiler },
     unknown
   >;
   beforePrintInstructions: AsyncWaterfall<{ instructions: string }>;
   beforeBuild: AsyncWorkflow<
-    { bundlerConfigs?: webpack.Configuration[] },
+    { bundlerConfigs?: webpack.Configuration[] | Rspack.Configuration[] },
     unknown
   >;
   afterBuild: AsyncWorkflow<{ stats?: Stats | MultiStats }, unknown>;

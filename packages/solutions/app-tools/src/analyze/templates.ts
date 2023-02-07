@@ -214,7 +214,6 @@ export const fileSystemRoutes = async ({
     import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   `;
   let rootLayoutCode = ``;
-  let componentLoaderPath = '';
   const getDataLoaderPath = (loaderId: string) => {
     if (!ssrMode) {
       return '';
@@ -229,13 +228,6 @@ export const fileSystemRoutes = async ({
     }
     return dataLoaderPath;
   };
-
-  if (ssrMode) {
-    componentLoaderPath = `${path.join(
-      __dirname,
-      '../builder/loaders/routerLoader',
-    )}!`;
-  }
 
   const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
     let children: Route['children'];
@@ -273,11 +265,11 @@ export const fileSystemRoutes = async ({
           rootLayoutCode = `import RootLayout from '${route._component}'`;
           component = `RootLayout`;
         } else if (ssrMode === 'string') {
-          lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}')`;
+          lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}')`;
           component = `loadable(${lazyImport})`;
         } else {
           // csr and streaming
-          lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${componentLoaderPath}${route._component}')`;
+          lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}')`;
           component = `lazy(${lazyImport})`;
         }
       }

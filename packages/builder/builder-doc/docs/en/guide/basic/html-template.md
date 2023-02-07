@@ -8,7 +8,7 @@ Builder provides some configs to set the HTML template. Through this chapter, yo
 
 HTML templates are usually predefined by the upper framework.
 
-For example, in the Modern.js framework, the HTML template is preset by default, and users can also customize the content of the template. You can read the ["Modern.js - HTML Templates"](https://modernjs.dev/v2/docs/guides/basic-features/html) chapter to learn about it.
+For example, in the Modern.js framework, the HTML template is preset by default, and users can also customize the content of the template. You can read the ["Modern.js - HTML Templates"](https://modernjs.dev/docs/guides/basic-features/html) chapter to learn about it.
 
 In Builder, you can use [html.template](/en/api/config-html.html#htmltemplate) and [html.templateByEntries](/en/api/config-html.html#htmltemplatebyentries) configs to define the path to the custom HTML template.
 

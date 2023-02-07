@@ -3,10 +3,11 @@
 
 ```js
 {
-  pure: true,
   displayName: true,
   // `isSSR` is true in SSR build
   ssr: isSSR,
+  // `pure` is enabled in production to reduce bundle size
+  pure: isProd,
   transpileTemplateLiterals: true,
 }
 ```

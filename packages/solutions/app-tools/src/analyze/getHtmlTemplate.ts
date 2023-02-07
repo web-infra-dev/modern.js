@@ -46,13 +46,13 @@ const findPartials = (
 // generate html template for
 export const getHtmlTemplate = async (
   entrypoints: Entrypoint[],
-  api: PluginAPI<AppTools>,
+  api: PluginAPI<AppTools<'shared'>>,
   {
     appContext,
     config,
   }: {
     appContext: IAppContext;
-    config: AppNormalizedConfig;
+    config: AppNormalizedConfig<'shared'>;
   },
 ) => {
   const { appDirectory, internalDirectory } = appContext;

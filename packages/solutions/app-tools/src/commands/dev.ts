@@ -11,7 +11,10 @@ import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
 import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
-export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
+export const dev = async (
+  api: PluginAPI<AppTools<'shared'>>,
+  options: DevOptions,
+) => {
   if (options.analyze) {
     // Builder will read this env var to enable bundle analyzer
     process.env.BUNDLE_ANALYZE = 'true';
@@ -62,7 +65,7 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
 
   if (apiOnly) {
     const app = await createServer({
-      ...serverOptions,
+      ...(serverOptions as any),
       compiler: null,
     });
     app.listen(port, async (err: Error) => {
@@ -74,7 +77,7 @@ export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
   } else {
     const { server } = await appContext.builder!.startDevServer({
       printURLs: false,
-      serverOptions,
+      serverOptions: serverOptions as any,
     });
     setServer(server);
   }
