@@ -1,0 +1,14 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "isolatedModules": true,
+    "paths": {
+      "@modern-js/module-tools": ["../../solutions/module-tools/src"]
+    },
+    "moduleResolution": "nodenext"
+  },
+  "include": ["src"]
+}

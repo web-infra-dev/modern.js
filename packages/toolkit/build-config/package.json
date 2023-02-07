@@ -1,0 +1,11 @@
+{
+  "name": "@modern-js/build-config",
+  "private": true,
+  "description": "A Progressive React Framework for modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "version": "2.3.0",
+  "main": "./src/index.ts"
+}
