@@ -21,6 +21,21 @@ export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-worker',
   setup: ctx => {
     return {
+      async config() {
+        const configContext = ctx.useResolvedConfigContext();
+
+        if (!isWorker(configContext)) {
+          return {};
+        }
+
+        return {
+          tools: {
+            webpack: {
+              externalsPresets: { node: true },
+            },
+          },
+        };
+      },
       async beforeDeploy() {
         const { appDirectory, distDirectory } = ctx.useAppContext();
 
@@ -107,7 +122,7 @@ export const manifest = {
           path.join(distDirectory, WRANGLER_FILE),
           `name = "${pkg.name}"
 main = "${path.join(WORKER_SERVER, WORKER_SERVER_ENTRY)}"
-compatibility_date = "${new Date()}"
+compatibility_date = "${new Date().toISOString().substring(0, 10)}"
         `,
         );
       },
