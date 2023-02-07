@@ -55,5 +55,11 @@ jobs:
         with:
           branch: gh-pages
           folder: website/main/doc_build
-          target-folder: v2
           clean: true
+          clean-exclude: |
+            v1/*
+            v1/**/*
+            builder/*
+            builder/**/*
+            module-tools/*
+            module-tools/**/*

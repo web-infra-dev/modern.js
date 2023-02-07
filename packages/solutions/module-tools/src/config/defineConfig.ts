@@ -1,6 +1,7 @@
+import type { UserConfigExport } from '@modern-js/core';
 import type { ModuleConfigParams, ModuleLegacyUserConfig } from '../types';
 
-export const defineConfig = (config: ModuleConfigParams): ModuleConfigParams =>
+export const defineConfig = (config: UserConfigExport<ModuleConfigParams>) =>
   config;
 
 /**

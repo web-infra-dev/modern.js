@@ -38,7 +38,7 @@ const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
 
 export const devCommand = async (
   program: Command,
-  api: PluginAPI<AppTools>,
+  api: PluginAPI<AppTools<'shared'>>,
 ) => {
   const runner = api.useHookRunners();
   const devToolMetas = await runner.registerDev();
@@ -78,7 +78,7 @@ export const devCommand = async (
 
 export const buildCommand = async (
   program: Command,
-  api: PluginAPI<AppTools>,
+  api: PluginAPI<AppTools<'shared'>>,
 ) => {
   const runner = api.useHookRunners();
   const platformBuilders = await runner.registerBuildPlatform();
@@ -110,7 +110,16 @@ export const buildCommand = async (
   }
 };
 
-export default (): CliPlugin<AppTools> => ({
+interface AppToolsOptions {
+  /** Specify the use what kind of bundler to compiler, default: `webpack` */
+  bundler?: 'experimental-rspack' | 'webpack';
+}
+
+export default (
+  options: AppToolsOptions = {
+    bundler: 'webpack',
+  },
+): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/app-tools',
 
   post: [
@@ -126,7 +135,17 @@ export default (): CliPlugin<AppTools> => ({
 
   registerHook: hooks,
 
-  usePlugins: [initializePlugin(), analyzePlugin(), lintPlugin()],
+  usePlugins: [
+    initializePlugin({
+      bundler:
+        options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
+    }),
+    analyzePlugin({
+      bundler:
+        options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
+    }),
+    lintPlugin(),
+  ],
 
   setup: api => {
     const locale = getLocaleLanguage();

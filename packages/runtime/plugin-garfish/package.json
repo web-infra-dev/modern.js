@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-garfish",
-  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.2.0",
+  "version": "2.3.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
@@ -74,7 +74,7 @@
     "react-loadable": "^5.5.0"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.2.0"
+    "@modern-js/runtime": "workspace:^2.3.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

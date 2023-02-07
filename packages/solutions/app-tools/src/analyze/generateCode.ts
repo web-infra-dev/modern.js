@@ -91,9 +91,9 @@ export const createImportStatements = (
 
 export const generateCode = async (
   appContext: IAppContext,
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<'shared'>,
   entrypoints: Entrypoint[],
-  api: PluginAPI<AppTools>,
+  api: PluginAPI<AppTools<'shared'>>,
 ) => {
   const {
     internalDirectory,

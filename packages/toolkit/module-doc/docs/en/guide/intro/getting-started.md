@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Quick start
+# Quick Start
 
 ## 3 minute demo
 

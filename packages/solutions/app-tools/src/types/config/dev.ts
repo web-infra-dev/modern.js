@@ -1,6 +1,6 @@
-import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import type { SharedBuilderConfig } from '@modern-js/builder-shared';
 
-type BuilderDevConfig = Required<BuilderConfig>['dev'];
+type BuilderDevConfig = Required<SharedBuilderConfig>['dev'];
 
 export type DevProxyOptions = string | Record<string, string>;
 
@@ -12,5 +12,3 @@ export interface DevUserConfig extends BuilderDevConfig {
    */
   proxy?: string | Record<string, string>;
 }
-
-export type DevNormalizedConfig = DevUserConfig;

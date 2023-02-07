@@ -3,7 +3,7 @@
 // TODO: enable eslint
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import { NoSSR, withBase } from '@modern-js/doc-tools/runtime';
+import { NoSSR, useLocation, withBase } from '@modern-js/doc-tools/runtime';
 import UnitySVG from '@site/static/img/features/unity.svg';
 import DynamicSVG from '@site/static/img/features/dynamic.svg';
 import APISVG from '@site/static/img/features/api.svg';
@@ -257,6 +257,8 @@ function initPageStyle() {
       appearanceDom.style.display = 'none';
     }
     return () => {
+      document.documentElement.classList.remove('dark');
+
       if (navDom) {
         navDom.style.backgroundColor = '';
       }
@@ -270,12 +272,13 @@ function initPageStyle() {
 export default function Home() {
   const bestPraticeCards = renderContentCards(bestPractice);
   let count = 0;
+  const { pathname } = useLocation();
   useEffect(() => {
     const restore = initPageStyle();
     return () => {
       restore?.();
     };
-  });
+  }, [pathname]);
   return (
     <div>
       <HomepageHeader />

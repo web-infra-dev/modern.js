@@ -1,6 +1,6 @@
 import { DevToolData as BaseDevToolData } from '@modern-js/core';
 import { registerHook } from '../hooks';
-import type { BaseBuildConfig, BuildConfig } from './config';
+import type { BaseBuildConfig, BuildConfig, BuildType } from './config';
 import type { DevCommandOptions, BuildCommandOptions } from './command';
 
 export interface BuildTaskResult {
@@ -26,3 +26,11 @@ export type DevToolData = BaseDevToolData<DevCommandOptions>;
 export type PromptResult = { choiceDevTool: string } & Record<string, any>;
 
 export type ModuleToolsHooks = typeof registerHook;
+
+export interface WatchJsHookContext {
+  buildConfig: BaseBuildConfig;
+}
+
+export interface WatchDtsHookContext {
+  buildType: BuildType;
+}

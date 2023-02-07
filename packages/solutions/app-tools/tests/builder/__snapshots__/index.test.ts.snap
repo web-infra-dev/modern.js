@@ -10,7 +10,12 @@ Object {
   },
   "output": Object {
     "assetPrefix": "/x",
-    "cleanDistPath": false,
+    "copy": Array [
+      Object {
+        "from": "xxx",
+        "to": "yyy",
+      },
+    ],
   },
   "performance": Object {},
   "source": Object {},

@@ -1,5 +1,8 @@
-import { pick, RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
-import { isHtmlDisabled } from './html';
+import {
+  pick,
+  RUNTIME_CHUNK_NAME,
+  isHtmlDisabled,
+} from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
 export const builderPluginInlineChunk = (): BuilderPlugin => ({

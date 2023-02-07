@@ -1,28 +1,42 @@
 import type { PluginAPI } from '@modern-js/core';
-import type { DevCommandOptions, BuildCommandOptions } from './types/command';
+import type { DevCommandOptions } from './types/command';
 import type { ModuleContext } from './types/context';
 import type { DevToolData, ModuleTools } from './types';
 
-export const runBuildBeforeDevTools = async (
-  api: PluginAPI<ModuleTools>,
-  context: ModuleContext,
-  cliOptions: DevCommandOptions,
-  options: {
-    disableRunBuild: boolean;
-    appDirectory: string;
-  },
-) => {
-  if (!options.disableRunBuild) {
-    const { build } = await import('./build');
-    const defaultCmdOptions: BuildCommandOptions = {
-      watch: true,
-      tsconfig: cliOptions.tsconfig,
-      dts: true,
-      clear: true,
-    };
-    build(api, defaultCmdOptions, context);
-  }
-};
+// TODO: watch build
+// export const ensureFirstBuild = async (
+//   api: PluginAPI<ModuleTools>,
+//   context: ModuleContext,
+//   cliOptions: DevCommandOptions,
+//   options: {
+//     watch?: boolean;
+//     disableRunBuild: boolean;
+//     appDirectory: string;
+//   },
+// ) => {
+//   if (!options.disableRunBuild) {
+//     const { build } = await import('./build');
+//     const defaultCmdOptions: BuildCommandOptions = {
+//       tsconfig: cliOptions.tsconfig,
+//       watch: options.watch ?? false,
+//       dts: true,
+//       clear: true,
+//     };
+//     await build(api, defaultCmdOptions, context);
+//   }
+// };
+
+// export const watchBuild = async (
+//   api: PluginAPI<ModuleTools>,
+//   context: ModuleContext,
+//   cliOptions: DevCommandOptions,
+//   options: {
+//     disableRunBuild: boolean;
+//     appDirectory: string;
+//   },
+// ) => {
+//   await ensureFirstBuild(api, context, cliOptions, { ...options, watch: true });
+// };
 
 export const showMenu = async (
   metas: DevToolData[],
@@ -56,15 +70,22 @@ export const showMenu = async (
     meta => meta.menuItem?.value === result.choiceDevTool,
   );
   if (currentDevTool) {
-    await runBuildBeforeDevTools(api, context, devCmdOptions, {
-      disableRunBuild: currentDevTool.disableRunBuild ?? false,
-      appDirectory: context.appDirectory,
-    });
+    // TODO: watch build
+    // await ensureFirstBuild(api, context, devCmdOptions, {
+    //   disableRunBuild: currentDevTool.disableRunBuild ?? false,
+    //   appDirectory: context.appDirectory,
+    // });
 
     await runner.beforeDevTask(currentDevTool);
     await currentDevTool.action(devCmdOptions, {
       isTsProject: context.isTsProject,
     });
+
+    // TODO: watch build
+    // await watchBuild(api, context, devCmdOptions, {
+    //   disableRunBuild: currentDevTool.disableRunBuild ?? false,
+    //   appDirectory: context.appDirectory,
+    // });
   }
 };
 
@@ -75,7 +96,7 @@ export const dev = async (
   context: ModuleContext,
 ) => {
   const { chalk } = await import('@modern-js/utils');
-  const { purple } = await import('./constants/colors');
+  const { green } = await import('./constants/colors');
   if (metas.length === 0) {
     console.info('No dev tools found available');
     // eslint-disable-next-line no-process-exit
@@ -85,7 +106,7 @@ export const dev = async (
   const runner = api.useHookRunners();
   if (metas.length === 1) {
     console.info(
-      chalk.rgb(...purple)(
+      chalk.rgb(...green)(
         `Only one dev tooling is currently detected as available, run it directly [${
           metas[0].menuItem?.name ?? metas[0].name
         }]`,
@@ -93,13 +114,19 @@ export const dev = async (
     );
     const meta = metas[0];
 
-    await runBuildBeforeDevTools(api, context, options, {
-      disableRunBuild: meta.disableRunBuild ?? false,
-      appDirectory: context.appDirectory,
-    });
+    // TODO: watch build
+    // await ensureFirstBuild(api, context, options, {
+    //   disableRunBuild: meta.disableRunBuild ?? false,
+    //   appDirectory: context.appDirectory,
+    // });
 
     await runner.beforeDevTask(meta);
     await meta.action(options, { isTsProject: context.isTsProject });
+    // TODO: watch build
+    // await watchBuild(api, context, options, {
+    //   disableRunBuild: meta.disableRunBuild ?? false,
+    //   appDirectory: context.appDirectory,
+    // });
   } else if (metas.length > 1) {
     await showMenu(metas, options, api, context);
   }

@@ -14,7 +14,7 @@ In order to make performance analysis, error investigation and loader developmen
 
 ## Enable
 
-You can enable webpack inspector through [tools.inspector](/en/api/config-tools.html#tools-inspector) config:
+You can enable webpack inspector through [tools.inspector](/en/api/config-tools.html#toolsinspector) config:
 
 ```ts
 export default {

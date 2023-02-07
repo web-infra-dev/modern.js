@@ -1,4 +1,3 @@
-
 <p align="center">
   <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="300" alt="Modern.js Logo" /></a>
 </p>
@@ -10,14 +9,12 @@
   </a>
 </p>
 <p align="center">
-  The meta-framework suite designed from scratch for frontend-focused modern web development
+  A Progressive React Framework for modern web development.
 </p>
 
 # Introduction
 
 > The doc site ([modernjs.dev](https://modernjs.dev)) and articles are only available in Chinese for now, we are planning to add English versions soon.
-
-- [Modern.js: Hello, World!](https://zhuanlan.zhihu.com/p/426707646)
 
 ## Getting Started
 

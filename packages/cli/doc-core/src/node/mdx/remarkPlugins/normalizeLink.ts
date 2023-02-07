@@ -4,7 +4,7 @@ import { visit } from 'unist-util-visit';
 import fs from '@modern-js/utils/fs-extra';
 import type { Root } from 'mdast';
 import type { MdxjsEsm } from 'mdast-util-mdxjs-esm';
-import { slug } from 'github-slugger';
+import Slugger from 'github-slugger';
 import {
   addLeadingSlash,
   normalizeHref,
@@ -76,6 +76,7 @@ export const remarkPluginNormalizeLink: Plugin<
   ({ base, defaultLang, root }) =>
   (tree, file) => {
     const images: MdxjsEsm[] = [];
+    const slugger = new Slugger();
     visit(
       tree,
       (node: LinkNode) => node.type === 'link',
@@ -84,7 +85,7 @@ export const remarkPluginNormalizeLink: Plugin<
           return;
         }
         if (node.url.startsWith('#')) {
-          node.url = `#${slug(node.url.slice(1))}`;
+          node.url = `#${slugger.slug(node.url.slice(1))}`;
           return;
         }
 
@@ -92,7 +93,7 @@ export const remarkPluginNormalizeLink: Plugin<
         let { url, hash } = parseUrl(node.url);
 
         if (externalLinkRE.test(url)) {
-          node.url = url + (hash ? `#${slug(hash)}` : '');
+          node.url = url + (hash ? `#${slugger.slug(hash)}` : '');
           return;
         }
 
@@ -106,7 +107,7 @@ export const remarkPluginNormalizeLink: Plugin<
         url = normalizeLangPrefix(normalizeHref(url), lang, defaultLang);
 
         if (hash) {
-          url += `#${slug(hash)}`;
+          url += `#${slugger.slug(hash)}`;
         }
         node.url = path.join(base, url);
       },

@@ -24,7 +24,7 @@ npx yarn-deduplicate && yarn
 
 It is recommended to using lightweight libraries in your project, such as replacing [moment](https://momentjs.com/) with [day.js](https://day.js.org/).
 
-If you want to find out the large libraries in the project, you can add the [BUNDLE_ANALYZE=true](/en/api/config-performance.html#performance-bundleanalyze) environment variable when building:
+If you want to find out the large libraries in the project, you can add the [BUNDLE_ANALYZE=true](/en/api/config-performance.html#performancebundleanalyze) environment variable when building:
 
 ```bash
 BUNDLE_ANALYZE=true pnpm build
@@ -56,7 +56,7 @@ Please read the [Browserslist](/guide/advanced/browserslist.html) chapter to kno
 
 ## Usage polyfill
 
-When it is clear that third-party dependencies do not require additional polyfill, you can set [output.polyfill](/en/api/config-output.html#output-polyfill) to `usage`.
+When it is clear that third-party dependencies do not require additional polyfill, you can set [output.polyfill](/en/api/config-output.html#outputpolyfill) to `usage`.
 
 In `usage` mode, Builder analyzes the syntax used in the source code and injects the required polyfill code on demand to reduce the size of polyfill.
 

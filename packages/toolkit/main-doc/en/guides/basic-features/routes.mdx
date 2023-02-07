@@ -134,6 +134,34 @@ The `routes/[id]/page.tsx` file is converted to the `/:id` route. Except for the
 
 In component, you can get the corresponding named parameters through [useParams](/apis/app/runtime/router/#useparams).
 
+### Catch all routing
+
+If a `$.tsx` file is created in the routes directory, this file will act as a wildcard route component that will be rendered when there is no matching route.
+
+:::note
+`$.tsx` can be thought of as a special `page` routing component that renders `$.tsx` as a child of `layout` when there is a `layout` component in the current directory.
+:::
+
+For example, the following directory structure:
+
+```
+└── routes
+    ├── $.tsx
+    ├── blog
+    │   └── page.tsx
+    └── page.tsx
+```
+
+The `routes/$.tsx` component is rendered when accessing any path that does not match, and again, the remainder of the url can be captured in `$.tsx` using [useParams](/apis/app/runtime/router/#useparams).
+
+```ts title="$.tsx"
+import { useParams } from '@modern-js/runtime/router';
+// When the path is `/aaa/bbb`
+const params = useParams();
+params['*']  // => 'aaa/bbb'
+```
+
+
 ### Layout with No Path
 
 When a directory name begins with `__`, the corresponding directory name is not converted to the actual routing path, such as the following file directory:

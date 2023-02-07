@@ -1,2 +1,3 @@
-export { createDefaultConfig, createLegacyDefaultConfig } from './default';
-export { initialNormalizedConfig, checkIsLegacyConfig } from './initial';
+export * from './legacy';
+export * from './initialize';
+export * from './default';

@@ -6,7 +6,6 @@ import {
   getMonorepoPackages,
   canUseNpm,
   canUsePnpm,
-  canUseYarn,
 } from '@modern-js/utils';
 import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import { GeneratorContext } from '@modern-js/codesmith';
@@ -22,6 +21,7 @@ export {
   fs,
   semver,
   execa,
+  chalk,
   readTsConfigByFile,
   getPackageManager,
   canUseNpm,
@@ -46,15 +46,6 @@ export async function getPackageVersion(
       args.push(`--registry=${registry}`);
     }
     const result = await execa('pnpm', args);
-    spinner.stop();
-    return stripAnsi(result.stdout);
-  }
-  if (await canUseYarn()) {
-    const args = ['info', packageName, 'version', '--silent'];
-    if (registry) {
-      args.push(`--registry=${registry}`);
-    }
-    const result = await execa('yarn', args);
     spinner.stop();
     return stripAnsi(result.stdout);
   }

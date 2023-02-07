@@ -116,7 +116,7 @@ const applyRouteOptions = (
 const collectHtmlRoutes = (
   entrypoints: Entrypoint[],
   appContext: IAppContext,
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<'shared'>,
 ): ServerRoute[] => {
   const {
     html: { disableHtmlFolder },
@@ -186,7 +186,7 @@ const collectHtmlRoutes = (
  */
 const collectStaticRoutes = (
   appContext: IAppContext,
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<'shared'>,
 ): ServerRoute[] => {
   const { appDirectory } = appContext;
   const {
@@ -223,7 +223,7 @@ export const getServerRoutes = (
     config,
   }: {
     appContext: IAppContext;
-    config: AppNormalizedConfig;
+    config: AppNormalizedConfig<'shared'>;
   },
 ): ServerRoute[] => [
   ...collectHtmlRoutes(entrypoints, appContext, config),

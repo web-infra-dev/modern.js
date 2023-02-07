@@ -117,7 +117,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
                   {
                     "displayName": true,
-                    "pure": true,
+                    "pure": false,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
                   },
@@ -331,7 +331,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
                   {
                     "displayName": true,
-                    "pure": true,
+                    "pure": false,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
                   },
@@ -634,8 +634,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "publicPath": "/",
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
   "plugins": [
     MiniCssExtractPlugin {
@@ -1433,8 +1433,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     "publicPath": "/",
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
   },
   "plugins": [
     MiniCssExtractPlugin {
@@ -1566,7 +1566,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "type": "filesystem",
   },
   "context": "<ROOT>",
-  "devtool": "hidden-source-map",
+  "devtool": "source-map",
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2083,8 +2083,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "publicPath": "/",
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 30000000,
+    "maxEntrypointSize": 30000000,
   },
   "plugins": [
     DefinePlugin {
@@ -2707,8 +2707,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "publicPath": "/",
   },
   "performance": {
-    "maxAssetSize": 1048576,
-    "maxEntrypointSize": 1048576,
+    "maxAssetSize": 30000000,
+    "maxEntrypointSize": 30000000,
   },
   "plugins": [
     DefinePlugin {

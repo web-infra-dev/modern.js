@@ -3,16 +3,11 @@ import {
   z,
   BaseChunkSplit,
   BuilderChunkSplit,
-  SplitBySize,
-  SplitCustom,
+  BaseSplitRulesSchema,
+  SplitBySizeSchema,
+  SplitCustomSchema,
 } from '@modern-js/builder-shared';
 import type { PerformanceConfig } from '../../types';
-
-const BaseSplitRulesSchema = z.object({
-  strategy: z.string(),
-  forceSplitting: z.array(z.instanceof(RegExp)).optional(),
-  override: z.any().optional(),
-});
 
 const BaseChunkSplitSchema: z.ZodType<BaseChunkSplit> =
   BaseSplitRulesSchema.extend({
@@ -25,17 +20,6 @@ const BaseChunkSplitSchema: z.ZodType<BaseChunkSplit> =
     forceSplitting: z.array(z.instanceof(RegExp)).optional(),
     override: z.any().optional(),
   });
-
-const SplitBySizeSchema: z.ZodType<SplitBySize> = BaseSplitRulesSchema.extend({
-  strategy: z.literal('split-by-size'),
-  minSize: z.number().optional(),
-  maxSize: z.number().optional(),
-});
-
-const SplitCustomSchema: z.ZodType<SplitCustom> = BaseSplitRulesSchema.extend({
-  strategy: z.literal('custom'),
-  splitChunks: z.any().optional(),
-});
 
 const BuilderChunkSplitSchema: z.ZodType<BuilderChunkSplit> = z.union([
   BaseChunkSplitSchema,

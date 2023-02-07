@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/app-tools",
-  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.2.0",
+  "version": "2.3.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -92,6 +92,7 @@
   },
   "devDependencies": {
     "@modern-js/builder-plugin-swc": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
@@ -101,6 +102,14 @@
     "jest": "^27",
     "typescript": "^4",
     "webpack": "^5.75.0"
+  },
+  "peerDependencies": {
+    "@modern-js/builder-rspack-provider": "workspace:^2.3.0"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/builder-rspack-provider": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "publishConfig": {

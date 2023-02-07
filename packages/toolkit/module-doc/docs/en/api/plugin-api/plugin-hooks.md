@@ -328,8 +328,6 @@ export interface DevToolData {
     name: string;
     value: string;
   };
-  // Whether to disable the source build before the dev command is executed
-  disableRunBuild?: boolean;
   action: (
     options: { port?: string },
     context: { isTsProject?: boolean },
@@ -337,11 +335,11 @@ export interface DevToolData {
 }
 ```
 
-:::tip{title='About disableRunBuild configuration'}
+<!-- :::tip{title='About disableRunBuild configuration'}
 When dev a project, it may be possible to set `disableRunBuild: true` to disable build tasks for source execution (in listening mode) if you only need to dev code functionality.
 
 The currently supported Storybook dev supports using source code products as dev objects, so `disableRunBuild: false` in the Storybook plugin.
-:::
+::: -->
 
 ### `beforeDev`
 
@@ -371,8 +369,6 @@ export interface DevToolData {
     name: string;
     value: string;
   };
-  // Whether to disable the source build before the dev command is executed
-  disableRunBuild?: boolean;
   action: (
     options: { port?: string },
     context: { isTsProject?: boolean },
@@ -434,8 +430,6 @@ export interface DevToolData {
     name: string;
     value: string;
   };
-  // Whether to disable the source build before the dev command is executed
-  disableRunBuild?: boolean;
   action: (
     options: { port?: string },
     context: { isTsProject?: boolean },
@@ -471,8 +465,6 @@ export interface DevToolData {
     name: string;
     value: string;
   };
-  // Whether to disable the source build before the dev command is executed
-  disableRunBuild?: boolean;
   action: (
     options: { port?: string },
     context: { isTsProject?: boolean },

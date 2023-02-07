@@ -16,6 +16,7 @@ import {
   checkTwinMacroExist,
   getTailwindPath,
   getTailwindVersion,
+  getTwinMacroMajorVersion,
 } from './utils';
 
 const supportCssInJsLibrary = 'styled-components';
@@ -64,23 +65,29 @@ export default (
 
     return {
       prepare() {
-        if (!haveTwinMacro) {
-          return;
-        }
+        if (haveTwinMacro) {
+          // twin.macro >= v3.0.0 support config object
+          // twin.macro < v3.0.0 only support config path
+          // https://github.com/ben-rogerson/twin.macro/releases/tag/3.0.0
+          const twinMajorVersion = getTwinMacroMajorVersion(appDirectory);
+          const useConfigPath = twinMajorVersion && twinMajorVersion < 3;
 
-        internalTwConfigPath = getRandomTwConfigFileName(internalDirectory);
-        const globPattern = slash(
-          path.join(appDirectory, CONFIG_CACHE_DIR, '*.cjs'),
-        );
-        const files = globby.sync(globPattern, {
-          absolute: true,
-        });
-        if (files.length > 0) {
-          fs.writeFileSync(
-            internalTwConfigPath,
-            template(files[files.length - 1]),
-            'utf-8',
-          );
+          if (useConfigPath) {
+            internalTwConfigPath = getRandomTwConfigFileName(internalDirectory);
+            const globPattern = slash(
+              path.join(appDirectory, CONFIG_CACHE_DIR, '*.cjs'),
+            );
+            const files = globby.sync(globPattern, {
+              absolute: true,
+            });
+            if (files.length > 0) {
+              fs.writeFileSync(
+                internalTwConfigPath,
+                template(files[files.length - 1]),
+                'utf-8',
+              );
+            }
+          }
         }
       },
 
@@ -89,22 +96,30 @@ export default (
       },
 
       config() {
+        let tailwindConfig: Record<string, any>;
+
+        const initTailwindConfig = () => {
+          if (!tailwindConfig) {
+            const modernConfig = api.useResolvedConfigContext();
+            tailwindConfig = getTailwindConfig(
+              tailwindVersion,
+              modernConfig?.tools?.tailwindcss,
+              modernConfig?.source?.designSystem,
+              {
+                pureConfig: {
+                  content: defaultContent,
+                },
+              },
+            );
+          }
+        };
+
         return {
           tools: {
             // TODO: Add interface about postcss config
             // TODO: In module project, also is called, but should not be called.
             postcss: (config: Record<string, any>) => {
-              const modernConfig = api.useResolvedConfigContext();
-              const tailwindConfig = getTailwindConfig(
-                tailwindVersion,
-                modernConfig?.tools?.tailwindcss,
-                modernConfig?.source?.designSystem,
-                {
-                  pureConfig: {
-                    content: defaultContent,
-                  },
-                },
-              );
+              initTailwindConfig();
 
               const tailwindPlugin = require(tailwindPath)(tailwindConfig);
               if (Array.isArray(config.postcssOptions.plugins)) {
@@ -116,13 +131,14 @@ export default (
 
             babel(_, { addPlugins }) {
               if (haveTwinMacro) {
+                initTailwindConfig();
                 addPlugins([
                   [
                     require.resolve('babel-plugin-macros'),
                     {
                       twin: {
                         preset: supportCssInJsLibrary,
-                        config: internalTwConfigPath,
+                        config: internalTwConfigPath || tailwindConfig,
                       },
                     },
                   ],

@@ -24,7 +24,7 @@ npx yarn-deduplicate && yarn
 
 建议将项目中体积较大的三方库替换为更轻量的库，比如将 [moment](https://momentjs.com/) 替换为 [day.js](https://day.js.org/)。
 
-如果你需要找出项目中体积较大的三方库，可以在执行构建时添加 [BUNDLE_ANALYZE=true](/api/config-performance.html#performance-bundleanalyze) 环境变量：
+如果你需要找出项目中体积较大的三方库，可以在执行构建时添加 [BUNDLE_ANALYZE=true](/api/config-performance.html#performancebundleanalyze) 环境变量：
 
 ```bash
 BUNDLE_ANALYZE=true pnpm build
@@ -56,7 +56,7 @@ Builder 默认的 Browserslist 配置为：
 
 ## 按需引入 polyfill
 
-在明确第三方依赖不需要额外 polyfill 的情况下，你可以将 [output.polyfill](/api/config-output.html#output-polyfill) 设置为 `usage`。
+在明确第三方依赖不需要额外 polyfill 的情况下，你可以将 [output.polyfill](/api/config-output.html#outputpolyfill) 设置为 `usage`。
 
 在 `usage` 模式下，Builder 会分析源代码中使用的语法，按需注入所需的 polyfill 代码，从而减少 polyfill 的代码量。
 
