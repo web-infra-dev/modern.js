@@ -2806,9 +2806,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                 ],
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
-                    "libraryDirectory": "es",
+                    "libraryDirectory": "lib",
                     "libraryName": "antd",
                     "style": true,
                   },
@@ -2827,7 +2830,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
-                    "helpers": true,
+                    "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
                     "version": "7.18.6",
@@ -2866,11 +2869,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "bugfixes": true,
-                    "corejs": {
-                      "proposals": true,
-                      "version": "3.26",
-                    },
+                    "bugfixes": false,
+                    "corejs": undefined,
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
@@ -2881,7 +2881,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                       "not dead",
                       "not op_mini all",
                     ],
-                    "useBuiltIns": "entry",
+                    "useBuiltIns": false,
                   },
                 ],
                 [
@@ -2932,9 +2932,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                 ],
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
-                    "libraryDirectory": "es",
+                    "libraryDirectory": "lib",
                     "libraryName": "antd",
                     "style": true,
                   },
@@ -2953,7 +2956,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
-                    "helpers": true,
+                    "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
                     "version": "7.18.6",
@@ -2992,11 +2995,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "bugfixes": true,
-                    "corejs": {
-                      "proposals": true,
-                      "version": "3.26",
-                    },
+                    "bugfixes": false,
+                    "corejs": undefined,
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
@@ -3007,7 +3007,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                       "not dead",
                       "not op_mini all",
                     ],
-                    "useBuiltIns": "entry",
+                    "useBuiltIns": false,
                   },
                 ],
                 [
@@ -3083,9 +3083,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "splitChunks": false,
   },
   "output": {
-    "chunkFilename": "static/js/async/[name].[contenthash:8].js",
-    "filename": "static/js/[name].[contenthash:8].js",
+    "chunkFilename": "bundles/[name].js",
+    "filename": "bundles/[name].js",
     "hashFunction": "xxhash64",
+    "libraryTarget": "commonjs2",
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
