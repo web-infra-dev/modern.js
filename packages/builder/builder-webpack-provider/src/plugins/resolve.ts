@@ -1,6 +1,6 @@
 import type { BuilderPlugin, NormalizedConfig, WebpackChain } from '../types';
 import { applyBuilderResolvePlugin } from '@modern-js/builder-shared';
-import { ChainIdentifier } from '@modern-js/utils/chain-id';
+import type { ChainIdentifier } from '@modern-js/utils/chain-id';
 
 // compatible with legacy packages with type="module"
 // https://github.com/webpack/webpack/issues/11467
@@ -24,29 +24,54 @@ function applyFullySpecified({
       .resolve.set('fullySpecified', false);
   }
 }
+
+async function applyTsProject({
+  chain,
+  CHAIN_ID,
+  cwd,
+  extensions,
+}: {
+  chain: WebpackChain;
+  CHAIN_ID: ChainIdentifier;
+  cwd: string;
+  extensions: string[];
+}) {
+  const { TsConfigPathsPlugin } = await import(
+    '../webpackPlugins/TsConfigPathsPlugin'
+  );
+
+  chain.resolve
+    .plugin(CHAIN_ID.RESOLVE_PLUGIN.TS_CONFIG_PATHS)
+    .use(TsConfigPathsPlugin, [
+      {
+        cwd,
+        extensions,
+      },
+    ]);
+}
+
 export const builderPluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
 
   setup(api) {
-    applyBuilderResolvePlugin(api, async ({ chain, CHAIN_ID, extensions }) => {
-      const { TsConfigPathsPlugin } = await import(
-        '../webpackPlugins/TsConfigPathsPlugin'
-      );
+    applyBuilderResolvePlugin(api);
 
-      (chain as unknown as WebpackChain).resolve
-        .plugin(CHAIN_ID.RESOLVE_PLUGIN.TS_CONFIG_PATHS)
-        .use(TsConfigPathsPlugin, [
-          {
-            cwd: api.context.rootPath,
-            extensions,
-          },
-        ]);
-    });
-
-    api.modifyWebpackChain((chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       const config = api.getNormalizedConfig();
+      const isTsProject = Boolean(api.context.tsconfigPath);
 
       applyFullySpecified({ chain, config, CHAIN_ID });
+
+      if (!isTsProject) {
+        return;
+      }
+
+      await applyTsProject({
+        chain,
+        CHAIN_ID,
+        cwd: api.context.rootPath,
+        extensions: chain.resolve.extensions.values(),
+      });
     });
   },
 });

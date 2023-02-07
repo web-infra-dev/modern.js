@@ -7,20 +7,12 @@ import {
   SharedBuilderPluginAPI,
   SharedNormalizedConfig,
 } from '../types';
-import type { ChainIdentifier } from '@modern-js/utils/chain-id';
 
-export function applyBuilderResolvePlugin(
-  api: SharedBuilderPluginAPI,
-  applyTsProject?: <CHAIN>(o: {
-    extensions: string[];
-    CHAIN_ID: ChainIdentifier;
-    chain: CHAIN;
-  }) => void | Promise<void>,
-) {
-  api.modifyBundlerChain(async (chain, { target, CHAIN_ID }) => {
+export function applyBuilderResolvePlugin(api: SharedBuilderPluginAPI) {
+  api.modifyBundlerChain(async (chain, { target }) => {
     const config = api.getNormalizedConfig();
     const isTsProject = Boolean(api.context.tsconfigPath);
-    const extensions = applyExtensions({
+    applyExtensions({
       chain,
       config,
       target,
@@ -37,15 +29,6 @@ export function applyBuilderResolvePlugin(
       chain,
       config,
       target,
-    });
-
-    if (!isTsProject) {
-      return;
-    }
-    await applyTsProject?.({
-      chain,
-      CHAIN_ID,
-      extensions,
     });
   });
 }
@@ -67,11 +50,7 @@ function applyExtensions({
     resolveExtensionPrefix: config.source.resolveExtensionPrefix,
   });
 
-  for (const extension of extensions) {
-    chain.resolve.extensions.add(extension);
-  }
-
-  return extensions;
+  chain.resolve.extensions.merge(extensions);
 }
 
 async function applyAlias({
