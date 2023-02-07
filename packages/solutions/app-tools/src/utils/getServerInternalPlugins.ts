@@ -1,6 +1,8 @@
 import { AppTools, PluginAPI } from '../types';
 
-export async function getServerInternalPlugins(api: PluginAPI<AppTools>) {
+export async function getServerInternalPlugins(
+  api: PluginAPI<AppTools<'shared'>>,
+) {
   const hookRunners = api.useHookRunners();
   const { plugins: serverPlugins } = await hookRunners.collectServerPlugins({
     plugins: [],

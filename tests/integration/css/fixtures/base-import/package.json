@@ -2,6 +2,9 @@
   "private": true,
   "name": "base-import",
   "version": "1.0.0",
+  "scripts": {
+    "dev": "modern dev"
+  },
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",

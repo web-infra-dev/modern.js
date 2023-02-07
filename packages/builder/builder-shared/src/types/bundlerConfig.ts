@@ -22,7 +22,20 @@ type SplitChunks = Configuration extends {
   : never;
 
 type WebpackOptimization = NonNullable<Configuration['optimization']>;
+type WebpackResolve = NonNullable<Configuration['resolve']>;
 type WebpackOutput = NonNullable<Configuration['output']>;
+
+// fork from the @rspack/core
+type RspackResolve = {
+  preferRelative?: boolean;
+  extensions?: string[];
+  mainFiles?: string[];
+  mainFields?: string[];
+  browserField?: boolean;
+  conditionNames?: string[];
+  alias?: Record<string, string>;
+  tsConfigPath?: string;
+};
 
 // fork from the @rspack/core
 type RspackOutput = {
@@ -46,6 +59,7 @@ type Overlap<
   [key in Key]: Extract<E[key], T[key]>;
 };
 
+type Resolve = Overlap<WebpackResolve, RspackResolve>;
 type Output = Overlap<WebpackOutput, RspackOutput>;
 
 /** The intersection of webpack and rspack */
@@ -59,7 +73,7 @@ export type BundlerConfig = {
   //   mode?: Mode;
   //   externals?: External;
   output?: Output;
-  //   resolve?: Resolve;
+  resolve?: Resolve;
   devtool?: Configuration['devtool'];
   //   infrastructureLogging?: InfrastructureLogging;
   //   stats?: StatsOptions;
@@ -79,6 +93,13 @@ export interface BundlerChain
   > {
   toConfig: () => BundlerConfig;
   optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
+  resolve: Pick<
+    Config['resolve'],
+    Extract<
+      Extract<keyof WebpackResolve, keyof RspackResolve>,
+      keyof Config['resolve']
+    >
+  >;
   output: Pick<
     Config['output'],
     | Extract<

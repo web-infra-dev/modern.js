@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, ROUTE_MINIFEST_FILE } from '@modern-js/utils';
-import RouterPlugin from '../../src/builder/webpackPlugins/routerPlugin';
+import { RouterPlugin } from '../../src/builder/builder-webpack/webpackPlugins/RouterPlugin';
 import { compiler } from './compiler';
 
 describe('webpack-router-plugin', () => {

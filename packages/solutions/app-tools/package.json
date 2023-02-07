@@ -92,6 +92,7 @@
   },
   "devDependencies": {
     "@modern-js/builder-plugin-swc": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
@@ -101,6 +102,14 @@
     "jest": "^27",
     "typescript": "^4",
     "webpack": "^5.75.0"
+  },
+  "peerDependencies": {
+    "@modern-js/builder-rspack-provider": "workspace:^2.3.0"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/builder-rspack-provider": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "publishConfig": {
