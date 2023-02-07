@@ -1,12 +1,14 @@
 const navbar = require('./navbar');
 
+const baseUrl = '/v1/';
+
 // @ts-check
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Modern.js - 现代 Web 工程体系',
   tagline: 'Modernjs are cool',
-  url: 'https://modernjs.dev/',
-  baseUrl: '/',
+  url: 'https://modernjs.dev/v1/',
+  baseUrl,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -198,7 +200,7 @@ module.exports = {
               publicPath:
                 process.env.NODE_ENV !== 'development'
                   ? `//lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/`
-                  : '/',
+                  : baseUrl,
             },
             resolveLoader: {
               alias: {
