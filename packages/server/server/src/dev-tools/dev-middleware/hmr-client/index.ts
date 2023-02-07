@@ -29,7 +29,7 @@ const connection = new WebSocket(socketUrl);
 
 connection.onopen = function () {
   if (typeof console !== 'undefined' && typeof console.debug === 'function') {
-    // Make users aware that the HMR is connected successfully.
+    // Notify users that the HMR has successfully connected.
     console.debug('[HMR] connected.');
   }
 };
