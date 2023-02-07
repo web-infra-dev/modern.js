@@ -1,4 +1,4 @@
-name: Build Main Website
+name: Build Main Website (v1)
 
 on:
   push:
