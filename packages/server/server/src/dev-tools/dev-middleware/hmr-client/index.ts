@@ -4,6 +4,7 @@
  *
  * Tips: this package will be bundled and running in the browser, do not import from the entry of @modern-js/utils.
  */
+/* eslint-disable no-console */
 import stripAnsi from '@modern-js/utils/strip-ansi';
 import { formatWebpackMessages } from '@modern-js/utils/format';
 import type webpack from 'webpack';
@@ -26,14 +27,19 @@ const socketUrl = createSocketUrl(__resourceQuery);
 
 const connection = new WebSocket(socketUrl);
 
+connection.onopen = function () {
+  if (typeof console !== 'undefined' && typeof console.debug === 'function') {
+    // Make users aware that the HMR is connected successfully.
+    console.debug('[HMR] connected.');
+  }
+};
+
 // Unlike WebpackDevServer client, we won't try to reconnect
 // to avoid spamming the console. Disconnect usually happens
 // when developer stops the server.
 connection.onclose = function () {
   if (typeof console !== 'undefined' && typeof console.info === 'function') {
-    console.info(
-      'The development server has disconnected.\nRefresh the page if necessary.',
-    );
+    console.debug('[HMR] disconnected. Refresh the page if necessary.');
   }
 };
 
@@ -44,10 +50,10 @@ let hasCompileErrors = false;
 
 function clearOutdatedErrors() {
   // Clean up outdated compile errors, if any.
-  // eslint-disable-next-line node/no-unsupported-features/node-builtins, no-console
+  // eslint-disable-next-line node/no-unsupported-features/node-builtins
   if (typeof console !== 'undefined' && typeof console.clear === 'function') {
     if (hasCompileErrors) {
-      // eslint-disable-next-line node/no-unsupported-features/node-builtins, no-console
+      // eslint-disable-next-line node/no-unsupported-features/node-builtins
       console.clear();
     }
   }
@@ -212,3 +218,5 @@ function tryApplyUpdates() {
     );
   }
 }
+
+/* eslint-enable no-console */
