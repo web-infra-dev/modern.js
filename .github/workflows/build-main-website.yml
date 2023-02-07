@@ -1,4 +1,4 @@
-name: Build Main Website
+name: Build Main Website (v1)
 
 on:
   push:
@@ -38,7 +38,5 @@ jobs:
         with:
           branch: gh-pages
           folder: website/main/dist
+          target-folder: v1
           clean: true
-          clean-exclude: |
-            builder/**/*
-            v2/**/*

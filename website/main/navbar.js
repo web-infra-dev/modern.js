@@ -50,6 +50,12 @@ module.exports = {
     },
     { to: '/blog', label: '博客', position: 'left', category: 'blog' },
     {
+      type: 'docsVersionDropdown',
+      position: 'right',
+      dropdownItemsAfter: [{ to: 'https://modernjs.dev', label: 'v2' }],
+      dropdownActiveClassDisabled: true,
+    },
+    {
       href: 'https://github.com/modern-js-dev/modern.js',
       position: 'right',
       className: 'header-github-link',
