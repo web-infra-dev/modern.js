@@ -83,7 +83,8 @@ describe('plugins/resolve', () => {
     });
     const config = await builder.unwrapWebpackConfig();
 
-    expect(config.resolve?.mainFields).toEqual(mainFieldsOption);
+    const mainFieldsResult = ['main', 'test', 'browser', 'module', 'exports'];
+    expect(config.resolve?.mainFields).toEqual(mainFieldsResult);
   });
 
   it('should support custom webpack resolve.mainFields by target', async () => {
