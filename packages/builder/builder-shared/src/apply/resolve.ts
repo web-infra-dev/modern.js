@@ -134,15 +134,19 @@ function applyMainFields({
   const mainFields = Array.isArray(resolveMainFields)
     ? resolveMainFields
     : resolveMainFields[target];
+
   if (mainFields) {
-    mainFields.forEach(mainField => {
-      if (Array.isArray(mainField)) {
-        for (const item of mainField) {
-          chain.resolve.mainFields.add(item);
+    mainFields
+      .reduce((result: string[], fields) => {
+        if (Array.isArray(fields)) {
+          result.push(...fields);
+        } else {
+          result.push(fields);
         }
-      } else {
-        chain.resolve.mainFields.add(mainField);
-      }
-    });
+        return result;
+      }, [] as string[])
+      .forEach(field => {
+        chain.resolve.mainFields.add(field);
+      });
   }
 }
