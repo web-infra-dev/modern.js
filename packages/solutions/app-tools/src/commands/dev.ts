@@ -11,7 +11,10 @@ import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
 import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
-export const dev = async (api: PluginAPI<AppTools>, options: DevOptions) => {
+export const dev = async (
+  api: PluginAPI<AppTools<'shared'>>,
+  options: DevOptions,
+) => {
   if (options.analyze) {
     // Builder will read this env var to enable bundle analyzer
     process.env.BUNDLE_ANALYZE = 'true';

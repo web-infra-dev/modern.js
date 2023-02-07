@@ -1,7 +1,7 @@
 import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 
 export function createBuilderProviderConfig<B extends Bundler>(
-  resolveConfig: AppNormalizedConfig,
+  resolveConfig: AppNormalizedConfig<B>,
   appContext: IAppContext,
   modifyBuilderConfig?: (config: AppNormalizedConfig<B>) => void,
 ): AppNormalizedConfig<B> {

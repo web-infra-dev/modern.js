@@ -41,7 +41,7 @@ export function getDefaultMicroFrontedConfig(
 export default ({
   pluginName = '@modern-js/plugin-garfish',
   runtimePluginName = '@modern-js/runtime/plugins',
-} = {}): CliPlugin<AppTools<'webpack'>> => ({
+} = {}): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-garfish',
   setup: ({ useAppContext, useResolvedConfigContext, useConfigContext }) => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;

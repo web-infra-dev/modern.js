@@ -30,7 +30,7 @@ import type {
 type BuilderConfig = RspackBuilderConfig | WebpackBuilderConfig;
 type NormalizedConfig = RspackNormalizedConfig | WebpackNormalizedConfig;
 
-const isStreamingSSR = (userConfig: AppNormalizedConfig): boolean => {
+const isStreamingSSR = (userConfig: AppNormalizedConfig<'shared'>): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
@@ -160,7 +160,7 @@ function applyBottomHtmlPlugin({
 }: {
   api: BuilderPluginAPI;
   chain: BundlerChain;
-  modernConfig: AppNormalizedConfig;
+  modernConfig: AppNormalizedConfig<'shared'>;
   appContext: IAppContext;
   CHAIN_ID: ChainIdentifier;
 }) {
@@ -207,7 +207,7 @@ function applyAsyncChunkHtmlPlugin({
   CHAIN_ID,
 }: {
   chain: BundlerChain;
-  modernConfig: AppNormalizedConfig;
+  modernConfig: AppNormalizedConfig<'shared'>;
   CHAIN_ID: ChainIdentifier;
 }) {
   if (isStreamingSSR(modernConfig)) {
@@ -222,7 +222,7 @@ function applyAsyncChunkHtmlPlugin({
  */
 function applyNodeCompat(
   chain: BundlerChain,
-  modernConfig: AppNormalizedConfig,
+  modernConfig: AppNormalizedConfig<'shared'>,
   isProd: boolean,
 ) {
   // apply node resolve extensions

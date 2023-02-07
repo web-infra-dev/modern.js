@@ -5,7 +5,7 @@ export type UnwrapBuilderConfig<
   Key extends keyof Config,
 > = Required<Config>[Key];
 
-export type Bundler = 'rspack' | 'webpack' | undefined;
+export type Bundler = 'rspack' | 'webpack' | 'shared';
 
 export type FromConfig<
   B extends Bundler,
@@ -17,7 +17,7 @@ export type FromConfig<
   Rspack = {},
   Webpack = {},
   Shared = {},
-> = B extends undefined
+> = B extends 'shared'
   ? Config['shared']
   : B extends 'rspack'
   ? Config['rspack']

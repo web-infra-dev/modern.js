@@ -39,7 +39,7 @@ export default ({
   bundler,
 }: {
   bundler: 'webpack' | 'rspack';
-}): CliPlugin<AppTools> => ({
+}): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-analyze',
 
   setup: api => {

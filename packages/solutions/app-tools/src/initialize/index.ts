@@ -23,7 +23,7 @@ export default ({
   bundler,
 }: {
   bundler: 'rspack' | 'webpack';
-}): CliPlugin<AppTools> => ({
+}): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-initialize',
 
   setup(api) {

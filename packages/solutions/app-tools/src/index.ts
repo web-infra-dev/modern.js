@@ -38,7 +38,7 @@ const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
 
 export const devCommand = async (
   program: Command,
-  api: PluginAPI<AppTools>,
+  api: PluginAPI<AppTools<'shared'>>,
 ) => {
   const runner = api.useHookRunners();
   const devToolMetas = await runner.registerDev();
@@ -78,7 +78,7 @@ export const devCommand = async (
 
 export const buildCommand = async (
   program: Command,
-  api: PluginAPI<AppTools>,
+  api: PluginAPI<AppTools<'shared'>>,
 ) => {
   const runner = api.useHookRunners();
   const platformBuilders = await runner.registerBuildPlatform();
@@ -119,7 +119,7 @@ export default (
   options: AppToolsOptions = {
     bundler: 'webpack',
   },
-): CliPlugin<AppTools> => ({
+): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/app-tools',
 
   post: [

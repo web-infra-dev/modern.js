@@ -10,7 +10,7 @@ import { getAutoInjectEnv } from '../../utils/env';
 import { AppNormalizedConfig, IAppContext } from '../../types';
 
 export function initHtmlConfig(
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<'shared'>,
   appContext: IAppContext,
 ) {
   const ICON_EXTENSIONS = ['png', 'jpg', 'jpeg', 'svg', 'ico'];
@@ -20,7 +20,7 @@ export function initHtmlConfig(
   return config.html;
 
   function createBuilderAppIcon(
-    config: AppNormalizedConfig,
+    config: AppNormalizedConfig<'shared'>,
     appContext: IAppContext,
   ) {
     const { configDir } = config.source;
@@ -36,7 +36,7 @@ export function initHtmlConfig(
     return typeof appIcon === 'string' ? appIcon : undefined;
   }
   function createBuilderFavicon(
-    config: AppNormalizedConfig,
+    config: AppNormalizedConfig<'shared'>,
     appContext: IAppContext,
   ) {
     const { configDir } = config.source;
@@ -55,19 +55,19 @@ export function initHtmlConfig(
 }
 
 export function initSourceConfig(
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<'shared'>,
   appContext: IAppContext,
   bundler: 'webpack' | 'rspack',
 ) {
   config.source.include = createBuilderInclude(config, appContext);
   config.source.globalVars = createBuilderGlobalVars(config, appContext);
   if (bundler === 'webpack') {
-    (config as AppNormalizedConfig<'webpack'>).source.moduleScopes =
-      createBuilderModuleScope(config as AppNormalizedConfig<'webpack'>);
+    (config as AppNormalizedConfig).source.moduleScopes =
+      createBuilderModuleScope(config as AppNormalizedConfig);
   }
 
   function createBuilderGlobalVars(
-    config: AppNormalizedConfig,
+    config: AppNormalizedConfig<'shared'>,
     appContext: IAppContext,
   ) {
     const { globalVars = {} } = config.source;
@@ -76,7 +76,7 @@ export function initSourceConfig(
   }
 
   function createBuilderInclude(
-    config: AppNormalizedConfig,
+    config: AppNormalizedConfig<'shared'>,
     appContext: IAppContext,
   ) {
     const { include } = config.source;

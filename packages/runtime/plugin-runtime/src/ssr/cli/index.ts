@@ -41,7 +41,7 @@ const hasStringSSREntry = (
   return false;
 };
 
-export default (): CliPlugin<AppTools<'webpack'>> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssr',
   required: ['@modern-js/runtime'],
   setup: api => {

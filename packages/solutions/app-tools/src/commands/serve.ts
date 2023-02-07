@@ -6,7 +6,7 @@ import type { AppTools } from '../types';
 import { injectDataLoaderPlugin } from '../utils/createServer';
 import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
-export const start = async (api: PluginAPI<AppTools>) => {
+export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const appContext = api.useAppContext();
   const userConfig = api.useResolvedConfigContext();
   const hookRunners = api.useHookRunners();

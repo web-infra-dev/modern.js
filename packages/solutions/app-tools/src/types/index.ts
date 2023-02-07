@@ -32,7 +32,7 @@ export type {
   UserConfig,
 } from '@modern-js/core';
 
-export type AppTools<B extends Bundler = undefined> = {
+export type AppTools<B extends Bundler = 'webpack'> = {
   hooks: AppToolsHooks;
   userConfig: FromConfig<
     B,
@@ -58,11 +58,11 @@ export type LegacyAppTools = {
   normalizedConfig: AppToolsLegacyNormalizedConfig;
 };
 
-export type AppNormalizedConfig<B extends Bundler = undefined> =
+export type AppNormalizedConfig<B extends Bundler = 'webpack'> =
   NormalizedConfig<AppTools<B>>;
 export type AppLegacyNormalizedConfig = NormalizedConfig<LegacyAppTools>;
 
-export type AppUserConfig<B extends Bundler = undefined> = UserConfig<
+export type AppUserConfig<B extends Bundler = 'webpack'> = UserConfig<
   AppTools<B>
 >;
 export type AppLegacyUserConfig = UserConfig<LegacyAppTools>;
