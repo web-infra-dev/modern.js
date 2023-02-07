@@ -42,7 +42,7 @@ Please read the [Contributing Guide](https://github.com/modern-js-dev/modern.js/
 
 ## Credits
 
-Some implementation of Modern.js are modified from existing projects, such as [create-react-app](https://github.com/facebook/create-react-app), [jest](https://github.com/facebook/jest) and [bundle-require](https://github.com/egoist/bundle-require). Thanks for them.
+Some implementations of Modern.js are modified from existing projects, such as [create-react-app](https://github.com/facebook/create-react-app), [jest](https://github.com/facebook/jest) and [bundle-require](https://github.com/egoist/bundle-require). Thanks for them.
 
 - `@modern-js/bundle-require`: is modified from [bundle-require](https://github.com/egoist/bundle-require).
 - `@modern-js/plugin`: some implementations are references from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
