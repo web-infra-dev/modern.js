@@ -6,5 +6,5 @@ module.exports = {
       require.resolve('./tests/tsconfig.json'),
     ],
   },
-  ignorePatterns: ['types.d.ts'],
+  ignorePatterns: ['types.d.ts', 'compiled/'],
 };
