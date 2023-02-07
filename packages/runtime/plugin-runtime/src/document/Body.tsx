@@ -4,11 +4,11 @@ import {
   DOCUMENT_CHUNKSMAP_PLACEHOLDER,
   DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
 } from './constants';
-import { DocumentStructrueContext } from './DocumentStructrueContext';
+import { DocumentStructureContext } from './DocumentStructureContext';
 import { DefaultRoot } from './Root';
 
 export function Body(props: { children?: any }) {
-  const { hasSetRoot } = useContext(DocumentStructrueContext);
+  const { hasSetRoot } = useContext(DocumentStructureContext);
   const { children } = props;
   return (
     <body>
