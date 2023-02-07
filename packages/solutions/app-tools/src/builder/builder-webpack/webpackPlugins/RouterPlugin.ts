@@ -80,7 +80,9 @@ export class RouterPlugin {
           };
           const injectedContent = `
             ;(function(){
-              window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest)};
+              if (typeof window !== 'undefined') {
+                window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest)};
+              }
             })();
           `;
 

@@ -1,7 +1,7 @@
 import plugin from '../../src/ssr';
 import cliPlugin from '../../src/ssr/cli';
 import { formatClient, isCrossOrigin, formatServer } from '../../src/ssr/utils';
-import { time } from '../../src/ssr/serverRender/utils';
+import { time } from '../../src/ssr/serverRender/time';
 
 describe('plugin-ssr', () => {
   it('default', () => {

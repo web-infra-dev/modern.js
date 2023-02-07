@@ -44,7 +44,7 @@ export function createFetchHeaders(
 ): Headers {
   const headers = new Headers();
 
-  for (const [key, values] of Object.entries(requestHeaders)) {
+  for (const [key, values] of Object.entries(requestHeaders || {})) {
     if (values) {
       if (Array.isArray(values)) {
         for (const value of values) {
