@@ -270,7 +270,7 @@ export function SideBar(props: Props) {
     };
     sidebarData.forEach(traverse);
     setSidebarData(rawSidebarData.filter(Boolean).flat());
-  }, [props.sidebarData]);
+  }, [props.sidebarData, pathname]);
 
   const removeLangPrefix = (path: string) => {
     return path.replace(langRoutePrefix, '');
