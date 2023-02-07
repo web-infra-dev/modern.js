@@ -1,4 +1,7 @@
-import { BuilderProvider } from '@modern-js/builder-shared';
+import type {
+  BuilderProvider,
+  BuilderInstance,
+} from '@modern-js/builder-shared';
 import { createBuilder } from '@modern-js/builder';
 import {
   BuilderOptions,
@@ -21,13 +24,13 @@ export type GenerateProvider = (c: { builderConfig: any }) => BuilderProvider;
 export async function generateBuilder<B extends Bundler>(
   options: BuilderOptions<B>,
   generateProvider: GenerateProvider,
-  utils: {
+  utils?: {
     modifyBuilderConfig?: ModifyBuilderConfig<B>;
     modifyBuilderInstance?: ModifyBuilderInstance;
   },
 ) {
   const { normalizedConfig, appContext } = options;
-  const { modifyBuilderConfig, modifyBuilderInstance } = utils;
+  const { modifyBuilderConfig, modifyBuilderInstance } = utils || {};
 
   // create provider
   const builderConfig = createBuilderProviderConfig<B>(
@@ -44,7 +47,19 @@ export async function generateBuilder<B extends Bundler>(
   const builderOptions = createBuilderOptions(target, appContext);
   const builder = await createBuilder(provider, builderOptions);
 
+  await applyBuilderPlugins(builder, options);
+
   await modifyBuilderInstance?.(builder);
 
   return builder;
+}
+
+async function applyBuilderPlugins<B extends Bundler>(
+  builder: BuilderInstance,
+  options: BuilderOptions<B>,
+) {
+  const { builderPluginAdapterModern } = await import(
+    '../shared/builderPlugins/adapterModern'
+  );
+  builder.addPlugins([builderPluginAdapterModern(options)]);
 }

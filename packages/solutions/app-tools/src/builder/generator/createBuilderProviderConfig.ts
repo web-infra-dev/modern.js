@@ -19,7 +19,13 @@ export function createBuilderProviderConfig<B extends Bundler>(
       port: appContext.port,
     },
     html: htmlConfig,
+    output: {
+      ...resolveConfig.output,
+      // We need to do this in the app-tools prepare hook because some files will be generated into the dist directory in the analyze process
+      cleanDistPath: false,
+    },
   };
+
   modifyBuilderConfig?.(config as AppNormalizedConfig<B>);
 
   return config as AppNormalizedConfig<B>;
