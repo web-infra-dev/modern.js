@@ -4,9 +4,9 @@ on:
   pull_request:
     branches: [main]
     paths-ignore:
-      - '.changeset'
-      - '.vscode'
-      - '.github'
+      - '.changeset/**'
+      - '.vscode/**'
+      - '.github/**'
       - 'packages/toolkit/main-doc/**'
       - 'packages/toolkit/module-doc/**'
       - 'packages/builder/builder-doc/**'
