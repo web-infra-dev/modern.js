@@ -1,16 +1,13 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "declaration": true,
+    "declaration": false,
     "esModuleInterop": true,
     "allowJs": true,
     "jsx": "preserve",
     "baseUrl": "./",
     "skipLibCheck": true,
-    "isolatedModules": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "isolatedModules": true
   },
   "include": ["src", "lib/types.d.ts"]
 }

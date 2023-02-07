@@ -18,9 +18,7 @@ import type { RouterConfig } from '../../router';
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
-const hasStringSSREntry = (
-  userConfig: AppNormalizedConfig<'webpack'>,
-): boolean => {
+const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
