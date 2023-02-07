@@ -1,11 +1,16 @@
 name: Type Check
 
 on:
-  push:
-    branches: [main]
-
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '.changeset'
+      - '.vscode'
+      - '.github'
+      - 'packages/toolkit/main-doc/**'
+      - 'packages/toolkit/module-doc/**'
+      - 'packages/builder/builder-doc/**'
+      - 'website/**'
 
   workflow_dispatch:
 
@@ -35,23 +40,14 @@ jobs:
       - name: Install Pnpm
         run: npm install -g pnpm@7
 
-      - name: Check docs only change
-        run: echo ::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')
-        id: docs-change
-
-      - run: echo ${{steps.docs-change.outputs.DOCS_CHANGE}}
-
       - name: Setup Node.js ${{ matrix.node-version }}
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
       - name: Install Dependencies
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm install --ignore-scripts --frozen-lockfile
 
       - name: Type Check
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm run prepare
