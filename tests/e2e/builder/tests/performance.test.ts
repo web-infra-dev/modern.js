@@ -48,7 +48,7 @@ test.describe('performance configure multi', () => {
 test('removeConsole', async () => {
   const builder = await stubBuild(
     {
-      cwd: fixtures,
+      cwd: join(fixtures, 'removeConsole'),
       entry: {
         main: join(fixtures, 'removeConsole/src/index.js'),
       },
