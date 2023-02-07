@@ -57,6 +57,9 @@ jobs:
           folder: website/main/doc_build
           clean: true
           clean-exclude: |
+            v1/*
             v1/**/*
+            builder/*
             builder/**/*
+            module-tools/*
             module-tools/**/*
