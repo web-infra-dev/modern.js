@@ -10,7 +10,11 @@ async function handleRequest(request) {
   };
   const handler = createHandler(manifest);
   await handler(context);
-  return new Response(context.body);
+  return new Response(context.body, {
+    headers: {
+      'content-type': 'text/html;charset=UTF-8',
+    },
+  });
 }
 
 addEventListener("fetch", (event) => {

@@ -21,21 +21,15 @@ export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-worker',
   setup: ctx => {
     return {
-      async config() {
-        const configContext = ctx.useResolvedConfigContext();
-
-        if (!isWorker(configContext)) {
-          return {};
-        }
-
-        return {
-          tools: {
-            webpack: {
-              externalsPresets: { node: true },
-            },
-          },
-        };
-      },
+      // async config() {
+      //   return {
+      //     tools: {
+      //       webpack: {
+      //         externalsPresets: { node: true },
+      //       },
+      //     },
+      //   };
+      // },
       async beforeDeploy() {
         const { appDirectory, distDirectory } = ctx.useAppContext();
 
@@ -72,9 +66,10 @@ export default (): CliPlugin<AppTools> => ({
             isSSR: boolean;
           }) => {
             importStr += `import { serverRender as ${route.entryName}ServerRender } from "../${route.bundle}";\n`;
+            importStr += `import ${route.entryName}template from "../${route.entryPath}";\n`;
             pageStr += `"${route.urlPath}": {
       entryName: "${route.entryName}",
-      template: "${route.entryPath}",
+      template: ${route.entryName}template,
       serverRender: ${route.entryName}ServerRender,
     },`;
             routeArr.push({

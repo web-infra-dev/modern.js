@@ -41,6 +41,7 @@ export const createHandler = (manifest: Manifest) => {
     ctx.request.params ??= ctx.params;
     const params = pageMatch.parseURLParams(ctx.url);
     ctx.body = await page.serverRender({
+      entryName: page.entryName,
       template: page.template,
       query: ctx.query,
       request: ctx.request,
