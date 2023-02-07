@@ -14,6 +14,8 @@
   <img src="https://img.shields.io/npm/l/@modern-js/core?style=flat-square&color=00a8f0" alt="License" />
 </p>
 
+English | [简体中文](./README.zh-CN.md)
+
 ## Getting Started
 
 Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.
@@ -34,16 +36,19 @@ The following solutions are available within the Modern.js ecosystem:
 
 ## Contributing
 
+> New contributors welcome!
+
 Please read the [Contributing Guide](https://github.com/modern-js-dev/modern.js/blob/main/CONTRIBUTING.md).
 
 ## Credits
 
 Some implementation of Modern.js are modified from existing projects, such as [create-react-app](https://github.com/facebook/create-react-app), [jest](https://github.com/facebook/jest) and [bundle-require](https://github.com/egoist/bundle-require). Thanks for them.
 
-- Webpack message formatter and module scopes plugin: modified from [react-dev-utils](https://github.com/facebook/create-react-app/tree/main/packages/react-dev-utils) and refactored to TypeScript.
-- bundle-require: modified from [bundle-require](https://github.com/egoist/bundle-require).
-- farrow-pipeline: modified from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
-- Testing: Running jest through node.js API, some code modified from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
+- `@modern-js/bundle-require`: is modified from [bundle-require](https://github.com/egoist/bundle-require).
+- `@modern-js/plugin`: some implementations are references from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
+- `@modern-js/builder`: some implementations are references from [create-react-app](https://github.com/facebook/create-react-app).
+- `@modern-js/plugin-testing`: some implementations are references from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
+- `@modern-js/doc-tools`: some styles are are references from [vitepress](https://github.com/vuejs/vitepress).
 
 ## License
 
