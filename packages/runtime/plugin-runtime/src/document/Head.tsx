@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useContext } from 'react';
-import { DocumentStructrueContext } from './DocumentStructrueContext';
+import { DocumentStructureContext } from './DocumentStructureContext';
 import { Scripts } from './Scripts';
 import { Links } from './Links';
 import { DOCUMENT_META_PLACEHOLDER } from './constants';
 
 export function Head(props: { children?: any }) {
-  const { hasSetScripts, hasSetLinks } = useContext(DocumentStructrueContext);
+  const { hasSetScripts, hasSetLinks } = useContext(DocumentStructureContext);
   const { children } = props;
   // todo: verify the children
   return (
