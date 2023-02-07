@@ -7,7 +7,7 @@ const baseUrl = '/v1/';
 module.exports = {
   title: 'Modern.js - 现代 Web 工程体系',
   tagline: 'Modernjs are cool',
-  url: 'https://modernjs.dev/v1/',
+  url: 'https://modernjs.dev/',
   baseUrl,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
