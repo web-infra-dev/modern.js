@@ -67,9 +67,6 @@ describe('dev', () => {
       supportDefineInit(errors, appPort, page));
   });
 
-  describe('support base sass', () =>
-    supportEmitCssFile(path.resolve(__dirname, '../')));
-
   afterAll(async () => {
     await killApp(app);
   });
@@ -90,6 +87,9 @@ describe('build', () => {
       errors.push(error.message);
     });
   });
+
+  describe('support base sass', () =>
+    supportEmitCssFile(path.resolve(__dirname, '../')));
 
   describe('self control route', () => {
     test('should render correctly', async () =>
