@@ -9,6 +9,11 @@ on:
   # Triggers the workflow on pull request events but only for the main branch
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'packages/toolkit/main-doc/**'
+      - 'packages/toolkit/module-doc/**'
+      - 'packages/builder/builder-doc/**'
+      - 'website/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
