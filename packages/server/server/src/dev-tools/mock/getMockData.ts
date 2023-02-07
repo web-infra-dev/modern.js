@@ -1,5 +1,4 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { compatRequire } from '@modern-js/utils';
 import { match } from 'path-to-regexp';
 import type { ModernServerContext, NextFunction } from '@modern-js/types';
 
@@ -51,7 +50,7 @@ const createStaticDataHandler =
   };
 
 const allowTypes = ['object', 'function'];
-const normalizeConfig = (mockConfig: MockConfig) =>
+export default (mockConfig: MockConfig) =>
   Object.keys(mockConfig).reduce((acc, key) => {
     const handler = mockConfig[key];
     const type = typeof handler;
@@ -96,18 +95,6 @@ const parseKey = (key: string) => {
     path: key,
   };
 };
-
-export default (filepath: string) => {
-  const mockModule = compatRequire(filepath);
-
-  if (!mockModule) {
-    throw new Error(`Mock file ${filepath} parsed failed!`);
-  }
-
-  const data = normalizeConfig(mockModule);
-  return data;
-};
-
 export const getMatched = (
   context: ModernServerContext,
   mockApiList: MockApi[],
