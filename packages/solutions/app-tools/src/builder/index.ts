@@ -1,2 +1,11 @@
-export { createWebpackBuilderForModern } from './builder-webpack';
-export { createRspackBuilderForModern } from './builder-rspack';
+export async function createBuilderForModernGenerator(
+  bundler: 'webpack' | 'rspack',
+) {
+  if (bundler === 'webpack') {
+    const { createWebpackBuilderForModern } = await import('./builder-webpack');
+    return createWebpackBuilderForModern;
+  }
+
+  const { createRspackBuilderForModern } = await import('./builder-rspack');
+  return createRspackBuilderForModern;
+}

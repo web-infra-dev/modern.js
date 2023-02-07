@@ -11,16 +11,13 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import {
-  createRspackBuilderForModern,
-  createWebpackBuilderForModern,
-} from '../builder';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
 import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools } from '../types';
 import { initialNormalizedConfig } from '../config';
+import { createBuilderForModernGenerator } from '../builder';
 import {
   getServerLoadersFile,
   isPageComponentFile,
@@ -162,10 +159,9 @@ export default ({
         const buildCommands = ['dev', 'start', 'build', 'inspect', 'deploy'];
         if (buildCommands.includes(command)) {
           const normalizedConfig = api.useResolvedConfigContext();
-          const createBuilderForModern =
-            bundler === 'webpack'
-              ? createWebpackBuilderForModern
-              : createRspackBuilderForModern;
+          const createBuilderForModern = await createBuilderForModernGenerator(
+            bundler,
+          );
           const builder = await createBuilderForModern({
             normalizedConfig: normalizedConfig as any,
             appContext,
