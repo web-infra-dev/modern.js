@@ -14,40 +14,31 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "jsnext:modern": "./dist/index.js",
   "exports": {
     ".": {
-      "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/index.js",
-        "require": "./dist/index.js"
-      },
+      "types": "./src/index.ts",
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
     "./bin": {
+      "types": "./src/bin.ts",
       "jsnext:source": "./src/bin.ts",
       "default": "./dist/bin.js"
     },
     "./runBin": {
+      "types": "./src/runBin.ts",
       "jsnext:source": "./src/runBin.ts",
       "default": "./dist/runBin.js"
     },
     "./types": {
+      "types": "./src/types/index.ts",
+      "jsnext:source": "./src/types/index.ts",
       "default": "./dist/types/index.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "config": [
-        "./dist/config/types/index.d.ts"
-      ],
-      "types": [
-        "./dist/types/index.d.ts"
-      ],
-      "runBin": [
-        "./dist/runBin.d.ts"
-      ]
+    },
+    "./config": {
+      "types": "./src/types/config/index.ts",
+      "jsnext:source": "./src/types/config/index.ts",
+      "default": "./dist/types/config/index.js"
     }
   },
   "scripts": {
@@ -64,8 +55,9 @@
   },
   "devDependencies": {
     "@jest/types": "^27.0.6",
-    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/babel-preset-app": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
@@ -88,6 +80,33 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/index.d.ts"
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "jsnext:source": "./src/index.ts",
+        "default": "./dist/index.js"
+      },
+      "./bin": {
+        "types": "./dist/bin.d.ts",
+        "jsnext:source": "./src/bin.ts",
+        "default": "./dist/bin.js"
+      },
+      "./runBin": {
+        "types": "./dist/runBin.d.ts",
+        "jsnext:source": "./src/runBin.ts",
+        "default": "./dist/runBin.js"
+      },
+      "./types": {
+        "types": "./dist/types/index.d.ts",
+        "jsnext:source": "./src/types/index.ts",
+        "default": "./dist/types/index.js"
+      },
+      "./config": {
+        "types": "./dist/types/config/index.d.ts",
+        "jsnext:source": "./src/types/config/index.ts",
+        "default": "./dist/types/config/index.js"
+      }
+    }
   }
 }

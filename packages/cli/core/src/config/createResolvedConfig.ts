@@ -6,6 +6,7 @@ import {
 } from '@modern-js/utils';
 import type { ErrorObject } from '@modern-js/utils/ajv';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils/constants';
+import Ajv from '@modern-js/utils/ajv';
 import { patchSchema } from '../schema/patchSchema';
 import type {
   UserConfig,
@@ -59,7 +60,7 @@ export const createResolveConfig = async (
     error: ErrorObject,
   ) => void | Promise<void> = showAdditionalPropertiesError,
 ): Promise<NormalizedConfig> => {
-  const { default: Ajv } = await import('@modern-js/utils/ajv');
+  // const { default: Ajv } = await import('@modern-js/utils/ajv');
   const { default: ajvKeywords } = await import(
     '@modern-js/utils/ajv-keywords'
   );

@@ -24,7 +24,9 @@ export const nodeBuildConfig: PartialBaseBuildConfig[] = [
   },
 ];
 
-export const extendNodeBuildConfig = (extendConfig: PartialBaseBuildConfig) => {
+export const extendNodeBuildConfig = (
+  extendConfig: PartialBaseBuildConfig,
+): PartialBaseBuildConfig[] => {
   return nodeBuildConfig.map(config => {
     return {
       ...config,
@@ -66,7 +68,7 @@ export const universalBuildConfig: PartialBaseBuildConfig[] = [
 
 export const extendUniversalBuildConfig = (
   extendConfig: PartialBaseBuildConfig,
-) => {
+): PartialBaseBuildConfig[] => {
   return nodeBuildConfig.map(config => {
     return {
       ...config,

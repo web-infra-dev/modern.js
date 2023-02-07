@@ -21,45 +21,112 @@
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
+      "types": "./src/index.ts",
       "default": "./dist/index.js"
     },
     "./ssr": {
       "jsnext:source": "./src/ssr.ts",
+      "types": "./src/ssr.ts",
       "default": "./dist/ssr.js"
     },
     "./format": {
       "jsnext:source": "./src/format.ts",
+      "types": "./src/format.ts",
       "default": "./dist/format.js"
     },
     "./logger": {
       "jsnext:source": "./src/logger.ts",
+      "types": "./src/logger.ts",
       "default": "./dist/logger.js"
     },
     "./constants": {
       "jsnext:source": "./src/constants.ts",
+      "types": "./src/constants.ts",
       "default": "./dist/constants.js"
     },
-    "./ajv": "./compiled/ajv/index.js",
-    "./glob": "./compiled/glob/index.js",
-    "./chalk": "./compiled/chalk/index.js",
-    "./json5": "./compiled/json5/index.js",
-    "./semver": "./compiled/semver/index.js",
-    "./lodash": "./compiled/lodash/index.js",
-    "./globby": "./compiled/globby/index.js",
-    "./fs-extra": "./compiled/fs-extra/index.js",
-    "./fast-glob": "./compiled/fast-glob/index.js",
-    "./gzip-size": "./compiled/gzip-size/index.js",
-    "./mime-types": "./compiled/mime-types/index.js",
-    "./strip-ansi": "./compiled/strip-ansi/index.js",
-    "./ajv-keywords": "./compiled/ajv-keywords/index.js",
-    "./browserslist": "./compiled/browserslist/index.js",
-    "./webpack-chain": "./compiled/webpack-chain/index.js",
-    "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
-    "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
-    "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
     "./chain-id": {
       "jsnext:source": "./src/chainId.ts",
+      "types": "./src/chainId.ts",
       "default": "./dist/chainId.js"
+    },
+    "./ajv": {
+      "types": "./compiled/ajv/types/ajv.d.ts",
+      "default": "./compiled/ajv/index.js"
+    },
+    "./ajv/json-schema": {
+      "types": "./compiled/ajv/types/types/json-schema.d.ts"
+    },
+    "./commander": {
+      "types": "./compiled/commander/typings/index.d.ts",
+      "default": "./compiled/commander/index.js"
+    },
+    "./glob": {
+      "types": "./compiled/glob/index.d.ts",
+      "default": "./compiled/glob/index.js"
+    },
+    "./chalk": {
+      "types": "./compiled/chalk/index.d.ts",
+      "default": "./compiled/chalk/index.js"
+    },
+    "./json5": {
+      "types": "./compiled/json5/index.d.ts",
+      "default": "./compiled/json5/index.js"
+    },
+    "./semver": {
+      "types": "./compiled/semver/index.d.ts",
+      "default": "./compiled/semver/index.js"
+    },
+    "./lodash": {
+      "types": "./compiled/lodash/index.d.ts",
+      "default": "./compiled/lodash/index.js"
+    },
+    "./globby": {
+      "types": "./compiled/globby/index.d.ts",
+      "default": "./compiled/globby/index.js"
+    },
+    "./fs-extra": {
+      "types": "./compiled/fs-extra/index.d.ts",
+      "default": "./compiled/fs-extra/index.js"
+    },
+    "./fast-glob": {
+      "types": "./compiled/fast-glob/index.d.ts",
+      "default": "./compiled/fast-glob/index.js"
+    },
+    "./gzip-size": {
+      "types": "./compiled/gzip-size/index.d.ts",
+      "default": "./compiled/gzip-size/index.js"
+    },
+    "./mime-types": {
+      "types": "./compiled/mime-types/index.d.ts",
+      "default": "./compiled/mime-types/index.js"
+    },
+    "./strip-ansi": {
+      "types": "./compiled/strip-ansi/index.d.ts",
+      "default": "./compiled/strip-ansi/index.js"
+    },
+    "./ajv-keywords": {
+      "types": "./compiled/ajv-keywords/index.d.ts",
+      "default": "./compiled/ajv-keywords/index.js"
+    },
+    "./browserslist": {
+      "types": "./compiled/browserslist/index.d.ts",
+      "default": "./compiled/browserslist/index.js"
+    },
+    "./webpack-chain": {
+      "types": "./compiled/webpack-chain/types/index.d.ts",
+      "default": "./compiled/webpack-chain/index.js"
+    },
+    "./tsconfig-paths": {
+      "types": "./compiled/tsconfig-paths/lib/index.d.ts",
+      "default": "./compiled/tsconfig-paths/index.js"
+    },
+    "./better-ajv-errors": {
+      "types": "./compiled/better-ajv-errors/index.d.ts",
+      "default": "./compiled/better-ajv-errors/index.js"
+    },
+    "./webpack-dev-middleware": {
+      "types": "./compiled/webpack-dev-middleware/types/index.d.ts",
+      "default": "./compiled/webpack-dev-middleware/index.js"
     }
   },
   "publishConfig": {
@@ -67,30 +134,115 @@
     "access": "public",
     "types": "./dist/index.d.ts",
     "exports": {
-      ".": "./dist/index.js",
-      "./ssr": "./dist/ssr.js",
-      "./format": "./dist/format.js",
-      "./logger": "./dist/logger.js",
-      "./constants": "./dist/constants.js",
-      "./ajv": "./compiled/ajv/index.js",
-      "./glob": "./compiled/glob/index.js",
-      "./chalk": "./compiled/chalk/index.js",
-      "./json5": "./compiled/json5/index.js",
-      "./semver": "./compiled/semver/index.js",
-      "./lodash": "./compiled/lodash/index.js",
-      "./globby": "./compiled/globby/index.js",
-      "./fs-extra": "./compiled/fs-extra/index.js",
-      "./fast-glob": "./compiled/fast-glob/index.js",
-      "./gzip-size": "./compiled/gzip-size/index.js",
-      "./mime-types": "./compiled/mime-types/index.js",
-      "./strip-ansi": "./compiled/strip-ansi/index.js",
-      "./ajv-keywords": "./compiled/ajv-keywords/index.js",
-      "./browserslist": "./compiled/browserslist/index.js",
-      "./webpack-chain": "./compiled/webpack-chain/index.js",
-      "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
-      "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
-      "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
-      "./chain-id": "./dist/chainId.js"
+      ".": {
+        "jsnext:source": "./src/index.ts",
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./ssr": {
+        "jsnext:source": "./src/ssr.ts",
+        "types": "./dist/ssr.d.ts",
+        "default": "./dist/ssr.js"
+      },
+      "./format": {
+        "jsnext:source": "./src/format.ts",
+        "types": "./dist/format.d.ts",
+        "default": "./dist/format.js"
+      },
+      "./logger": {
+        "jsnext:source": "./src/logger.ts",
+        "types": "./dist/logger.d.ts",
+        "default": "./dist/logger.js"
+      },
+      "./constants": {
+        "jsnext:source": "./src/constants.ts",
+        "types": "./dist/constants.d.ts",
+        "default": "./dist/constants.js"
+      },
+      "./chain-id": {
+        "jsnext:source": "./src/chainId.ts",
+        "types": "./dist/chainId.d.ts",
+        "default": "./dist/chainId.js"
+      },
+      "./ajv": {
+        "types": "./compiled/ajv/types/ajv.d.ts",
+        "default": "./compiled/ajv/index.js"
+      },
+      "./ajv/json-schema": {
+        "types": "./compiled/ajv/types/types/json-schema.d.ts"
+      },
+      "./commander": {
+        "types": "./compiled/commander/typings/index.d.ts",
+        "default": "./compiled/commander/index.js"
+      },
+      "./glob": {
+        "types": "./compiled/glob/index.d.ts",
+        "default": "./compiled/glob/index.js"
+      },
+      "./chalk": {
+        "types": "./compiled/chalk/index.d.ts",
+        "default": "./compiled/chalk/index.js"
+      },
+      "./json5": {
+        "types": "./compiled/json5/index.d.ts",
+        "default": "./compiled/json5/index.js"
+      },
+      "./semver": {
+        "types": "./compiled/semver/index.d.ts",
+        "default": "./compiled/semver/index.js"
+      },
+      "./lodash": {
+        "types": "./compiled/lodash/index.d.ts",
+        "default": "./compiled/lodash/index.js"
+      },
+      "./globby": {
+        "types": "./compiled/globby/index.d.ts",
+        "default": "./compiled/globby/index.js"
+      },
+      "./fs-extra": {
+        "types": "./compiled/fs-extra/index.d.ts",
+        "default": "./compiled/fs-extra/index.js"
+      },
+      "./fast-glob": {
+        "types": "./compiled/fast-glob/index.d.ts",
+        "default": "./compiled/fast-glob/index.js"
+      },
+      "./gzip-size": {
+        "types": "./compiled/gzip-size/index.d.ts",
+        "default": "./compiled/gzip-size/index.js"
+      },
+      "./mime-types": {
+        "types": "./compiled/mime-types/index.d.ts",
+        "default": "./compiled/mime-types/index.js"
+      },
+      "./strip-ansi": {
+        "types": "./compiled/strip-ansi/index.d.ts",
+        "default": "./compiled/strip-ansi/index.js"
+      },
+      "./ajv-keywords": {
+        "types": "./compiled/ajv-keywords/index.d.ts",
+        "default": "./compiled/ajv-keywords/index.js"
+      },
+      "./browserslist": {
+        "types": "./compiled/browserslist/index.d.ts",
+        "default": "./compiled/browserslist/index.js"
+      },
+      "./webpack-chain": {
+        "types": "./compiled/webpack-chain/types/index.d.ts",
+        "default": "./compiled/webpack-chain/index.js"
+      },
+      "./tsconfig-paths": {
+        "types": "./compiled/tsconfig-paths/lib/index.d.ts",
+        "default": "./compiled/tsconfig-paths/index.js"
+      },
+      "./better-ajv-errors": {
+        "types": "./compiled/better-ajv-errors/index.d.ts",
+        "default": "./compiled/better-ajv-errors/index.js"
+      },
+      "./webpack-dev-middleware": {
+        "types": "./compiled/webpack-dev-middleware/types/index.d.ts",
+        "default": "./compiled/webpack-dev-middleware/index.js"
+      }
     }
   },
   "typesVersions": {

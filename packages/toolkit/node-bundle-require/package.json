@@ -14,28 +14,27 @@
   ],
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./dist/cjs/index.js",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/js/node/index.js"
+      "types": "./src/index.ts",
+      "default": "./dist/cjs/index.js"
     },
-    "./bundle": "./dist/js/node/bundle.js"
-  },
-  "typesVersions": {
-    "*": {
-      ".": [
-        "./dist/types/index.d.ts"
-      ],
-      "bundle": [
-        "./dist/types/bundle.d.ts"
-      ]
-    }
+    "./bundle": {
+      "node": {
+        "jsnext:source": "./src/bundle.ts",
+        "import": "./dist/esm/bundle.js",
+        "require": "./dist/cjs/bundle.js"
+      },
+      "types": "./src/bundle.ts",
+      "default": "./dist/cjs/bundle.js"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
@@ -49,6 +48,7 @@
     "esbuild": "0.15.7"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
@@ -60,6 +60,27 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      ".": {
+        "node": {
+          "jsnext:source": "./src/index.ts",
+          "import": "./dist/esm/index.js",
+          "require": "./dist/cjs/index.js"
+        },
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "./bundle": {
+        "node": {
+          "jsnext:source": "./src/bundle.ts",
+          "import": "./dist/esm/bundle.js",
+          "require": "./dist/cjs/bundle.js"
+        },
+        "types": "./dist/types/bundle.d.ts",
+        "default": "./dist/cjs/bundle.js"
+      },
+      "./package.json": "./package.json"
+    }
   }
 }

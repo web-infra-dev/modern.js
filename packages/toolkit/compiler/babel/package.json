@@ -14,21 +14,20 @@
   "version": "2.3.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./dist/cjs/index.js",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "types": "./src/index.ts",
+      "default": "./dist/cjs/index.js"
     }
   },
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
@@ -41,24 +40,31 @@
   "devDependencies": {
     "@babel/plugin-transform-classes": "^7.18.0",
     "@babel/preset-typescript": "^7.17.12",
+    "@modern-js/build-config": "workspace:*",
     "@types/babel__core": "^7.1.15",
     "@types/glob": "^7.1.4",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "typescript": "^4",
     "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*"
+    "typescript": "^4"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      ".": {
+        "node": {
+          "jsnext:source": "./src/index.ts",
+          "import": "./dist/esm/index.js",
+          "require": "./dist/cjs/index.js"
+        },
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
   }
 }

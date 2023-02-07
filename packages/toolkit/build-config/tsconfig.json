@@ -1,14 +1,12 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "declaration": false,
+    "declaration": true,
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "paths": {
-      "@modern-js/module-tools": ["../../solutions/module-tools/src"]
-    },
-    "moduleResolution": "nodenext"
+    "outDir": "./dist",
+    "preserveSymlinks": true
   },
   "include": ["src"]
 }
