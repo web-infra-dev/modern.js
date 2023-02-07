@@ -3622,7 +3622,7 @@ importers:
       pug: 3.0.2
       recursive-readdir: 2.2.2
       rollup: 2.79.0
-      rollup-plugin-dts: 4.2.3
+      rollup-plugin-dts: 5.1.1
       sass: 1.54.4
       sass-loader: 13.0.2
       schema-utils3: npm:schema-utils@3.1.1
@@ -3766,7 +3766,7 @@ importers:
       pug: 3.0.2
       recursive-readdir: 2.2.2
       rollup: 2.79.0
-      rollup-plugin-dts: 4.2.3_46xkcftpwaildd5rxnylqnqjma
+      rollup-plugin-dts: 5.1.1_46xkcftpwaildd5rxnylqnqjma
       sass: 1.54.4
       sass-loader: 13.0.2_sass@1.54.4+webpack@5.75.0
       schema-utils3: /schema-utils/3.1.1
@@ -14712,10 +14712,8 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -24923,7 +24921,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.14
-    dev: false
 
   /make-dir/2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
@@ -30342,14 +30339,14 @@ packages:
     resolution: {integrity: sha512-fJhQQI5tLrQvYIYFpOnFinzv9dwmR7hRnUz1XqP3OJ1jIweTNOd6aTO4jwQSgcBSFUB+/KHJxuGneime+FdzOw==}
     dev: true
 
-  /rollup-plugin-dts/4.2.3_46xkcftpwaildd5rxnylqnqjma:
-    resolution: {integrity: sha512-jlcpItqM2efqfIiKzDB/IKOS9E9fDvbkJSGw5GtK/PqPGS9eC3R3JKyw2VvpTktZA+TNgJRMu1NTv244aTUzzQ==}
-    engines: {node: '>=v12.22.12'}
+  /rollup-plugin-dts/5.1.1_46xkcftpwaildd5rxnylqnqjma:
+    resolution: {integrity: sha512-zpgo52XmnLg8w4k3MScinFHZK1+ro6r7uVe34fJ0Ee8AM45FvgvTuvfWWaRgIpA4pQ1BHJuu2ospncZhkcJVeA==}
+    engines: {node: '>=v14'}
     peerDependencies:
-      rollup: ^2.55
+      rollup: ^3.0.0
       typescript: ^4.1
     dependencies:
-      magic-string: 0.26.7
+      magic-string: 0.27.0
       rollup: 2.79.0
       typescript: 4.9.3
     optionalDependencies:
@@ -30571,7 +30568,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
