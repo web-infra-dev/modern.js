@@ -13,6 +13,7 @@ export type Routes = Record<string, Route>;
 export type SSR =
   | boolean
   | {
+      forceCSR?: boolean;
       mode?: 'string' | 'stream';
     };
 

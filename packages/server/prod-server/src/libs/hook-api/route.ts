@@ -5,10 +5,13 @@ export class RouteAPI {
 
   public url: string;
 
+  public forceCSR: boolean;
+
   constructor(entryName: string) {
     this.current = entryName;
     this.status = 200;
     this.url = '';
+    this.forceCSR = false;
   }
 
   public redirect(url: string, status = 302) {
@@ -22,5 +25,9 @@ export class RouteAPI {
 
   public use(entryName: string) {
     this.rewrite(entryName);
+  }
+
+  public downgrade() {
+    this.forceCSR = true;
   }
 }

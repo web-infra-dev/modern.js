@@ -185,9 +185,12 @@ export class ModernServer implements ModernServerInterface {
       this.conf.output,
     );
 
+    const ssrConfig = this.conf.server.ssr;
+    const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
     this.routeRenderHandler = createRenderHandler({
       distDir,
       staticGenerate,
+      forceCSR,
     });
 
     await this.setupBeforeProdMiddleware();
