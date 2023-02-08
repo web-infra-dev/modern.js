@@ -13,7 +13,7 @@ export function builderPluginBundleAnalyzer(): DefaultBuilderPlugin {
           return;
         }
         const { default: BundleAnalyzer } = await import(
-          '../../compiled/webpack-bundle-analyzer'
+          '@modern-js/builder-shared/webpack-bundle-analyzer'
         );
         chain
           .plugin(CHAIN_ID.PLUGIN.BUNDLE_ANALYZER)
