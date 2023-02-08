@@ -23,6 +23,7 @@ export const DEFAULT_BROWSERSLIST = {
 export const ROOT_DIST_DIR = 'dist';
 export const HTML_DIST_DIR = 'html';
 export const SERVER_DIST_DIR = 'bundles';
+export const SERVER_WORKER_DIST_DIR = 'worker';
 export const JS_DIST_DIR = 'static/js';
 export const CSS_DIST_DIR = 'static/css';
 export const SVG_DIST_DIR = 'static/svg';

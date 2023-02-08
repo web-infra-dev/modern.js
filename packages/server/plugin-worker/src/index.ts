@@ -60,15 +60,19 @@ export default (): CliPlugin<AppTools> => ({
             urlPath: string;
             entryName: string;
             entryPath: string;
-            bundle: string;
+            worker: string;
             isSSR: boolean;
           }) => {
-            importStr += `import { serverRender as ${route.entryName}ServerRender } from "../${route.bundle}";\n`;
+            if (route.isSSR) {
+              importStr += `import { serverRender as ${route.entryName}ServerRender } from "../${route.worker}";\n`;
+            }
             importStr += `import ${route.entryName}template from "../${route.entryPath}";\n`;
             pageStr += `"${route.urlPath}": {
       entryName: "${route.entryName}",
       template: ${route.entryName}template,
-      serverRender: ${route.entryName}ServerRender,
+      serverRender: ${
+        route.isSSR ? `${route.entryName}ServerRender` : undefined
+      },
     },`;
             routeArr.push({
               entryName: route.entryName,

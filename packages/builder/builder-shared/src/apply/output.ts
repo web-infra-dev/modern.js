@@ -35,9 +35,19 @@ export function applyBuilderOutputPlugin(api: SharedBuilderPluginAPI) {
         // which will be used as default when experiments.futureDefaults is enabled.
         .hashFunction('xxhash64');
 
-      if (isServer || isServerWorker) {
+      if (isServer) {
         const serverPath = getDistPath(config.output, 'server');
         const filename = `${serverPath}/[name].js`;
+
+        chain.output
+          .filename(filename)
+          .chunkFilename(filename)
+          .libraryTarget('commonjs2');
+      }
+
+      if (isServerWorker) {
+        const workerPath = getDistPath(config.output, 'worker');
+        const filename = `${workerPath}/[name].js`;
 
         chain.output
           .filename(filename)

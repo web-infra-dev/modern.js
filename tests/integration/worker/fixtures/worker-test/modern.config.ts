@@ -6,7 +6,9 @@ export default defineConfig({
     disableMinimize: true,
   },
   server: {
-    ssr: true,
+    ssrByEntries: {
+      main: true,
+    },
     worker: true,
   },
   plugins: [appTools(), workPlugin()],
