@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-type DocumentStructrueContextProps = {
+type DocumentStructureContextProps = {
   hasSetHead?: boolean;
   hasSetScripts?: boolean;
   hasSetLinks?: boolean;
@@ -9,8 +9,8 @@ type DocumentStructrueContextProps = {
   docChild?: ReactNode;
 };
 
-export const DocumentStructrueContext =
-  React.createContext<DocumentStructrueContextProps>({
+export const DocumentStructureContext =
+  React.createContext<DocumentStructureContextProps>({
     hasSetHead: false,
     hasSetScripts: false,
     hasSetBody: false,
