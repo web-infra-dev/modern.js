@@ -248,7 +248,6 @@
   padding: 3px 6px;
   color: var(--modern-c-text-code);
   background-color: var(--modern-c-bg-mute);
-  transition: color 0.5s, background-color 0.5s;
 }
 
 .modern-doc h1 > code,
