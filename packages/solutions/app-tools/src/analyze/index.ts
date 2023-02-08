@@ -17,7 +17,7 @@ import { emitResolvedConfig } from '../utils/config';
 import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools } from '../types';
 import { initialNormalizedConfig } from '../config';
-import { createBuilderForModernGenerator } from '../builder';
+import { createBuilderGenerator } from '../builder';
 import {
   getServerLoadersFile,
   isPageComponentFile,
@@ -159,9 +159,7 @@ export default ({
         const buildCommands = ['dev', 'start', 'build', 'inspect', 'deploy'];
         if (buildCommands.includes(command)) {
           const normalizedConfig = api.useResolvedConfigContext();
-          const createBuilderForModern = await createBuilderForModernGenerator(
-            bundler,
-          );
+          const createBuilderForModern = await createBuilderGenerator(bundler);
           const builder = await createBuilderForModern({
             normalizedConfig: normalizedConfig as any,
             appContext,
