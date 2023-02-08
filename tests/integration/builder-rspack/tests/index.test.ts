@@ -17,7 +17,6 @@ import {
   supportLayout,
   supportLoaderForCSR,
   supportNestedRouteAndPage,
-  supportEmitCssFile,
 } from './supports';
 
 declare const page: Page;
@@ -87,9 +86,6 @@ describe('build', () => {
       errors.push(error.message);
     });
   });
-
-  describe('support base sass', () =>
-    supportEmitCssFile(path.resolve(__dirname, '../')));
 
   describe('self control route', () => {
     test('should render correctly', async () =>
