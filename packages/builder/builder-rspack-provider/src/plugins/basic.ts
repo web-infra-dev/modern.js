@@ -24,8 +24,10 @@ export const builderPluginBasic = (): BuilderPlugin => ({
       // chain.performance.maxEntrypointSize(1024 * 1024);
 
       // // This will be futureDefaults in webpack 6
-      // chain.module.parser.set('javascript', {
-      //   exportsPresence: 'error',
+      // chain.module.parser.merge({
+      //   javascript: {
+      //     exportsPresence: 'error',
+      //   },
       // });
     });
   },

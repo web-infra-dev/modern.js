@@ -1,5 +1,24 @@
 # @modern-js/monorepo-tools
 
+## 2.3.0
+
+### Patch Changes
+
+- Updated dependencies [65f1322]
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [7b2cdcb]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+- Updated dependencies [7736171]
+  - @modern-js/core@2.3.0
+  - @modern-js/utils@2.3.0
+  - @modern-js/plugin-changeset@2.3.0
+  - @modern-js/plugin-lint@2.3.0
+  - @modern-js/plugin-i18n@2.3.0
+  - @modern-js/new-action@2.3.0
+  - @modern-js/upgrade@2.3.0
+  - @modern-js/plugin@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes

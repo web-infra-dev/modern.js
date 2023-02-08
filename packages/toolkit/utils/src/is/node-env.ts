@@ -1,8 +1,13 @@
-export const isDev = (): boolean => process.env.NODE_ENV === 'development';
+/**
+ * Get the current NODE_ENV, or default to 'development' if not set.
+ */
+export const getNodeEnv = (): string => process.env.NODE_ENV || 'development';
 
-export const isProd = (): boolean => process.env.NODE_ENV === 'production';
+export const isDev = (): boolean => getNodeEnv() === 'development';
 
-export const isTest = () => process.env.NODE_ENV === 'test';
+export const isProd = (): boolean => getNodeEnv() === 'production';
+
+export const isTest = () => getNodeEnv() === 'test';
 
 // Variable used for enabling profiling in Production.
 export const isProdProfile = () =>

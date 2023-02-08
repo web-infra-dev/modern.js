@@ -5,7 +5,12 @@ import type {
   Plugin,
   RollupWatcher,
 } from '../../../compiled/rollup';
-import type { BaseBuildConfig, Input } from '../../types';
+import type {
+  BaseBuildConfig,
+  Input,
+  PluginAPI,
+  ModuleTools,
+} from '../../types';
 
 export type { RollupWatcher };
 
@@ -17,17 +22,14 @@ type Config = {
   watch: boolean;
 };
 
-export const runRollup = async ({
-  distDir,
-  tsconfigPath,
-  externals,
-  input,
-  watch,
-}: Config) => {
+export const runRollup = async (
+  api: PluginAPI<ModuleTools>,
+  { distDir, tsconfigPath, externals, input, watch }: Config,
+) => {
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
     load(id) {
-      if (!/\.(js|jsx|ts|tsx|json)$/.test(id)) {
+      if (!/\.(js|jsx|ts|tsx|json|cts|mts)$/.test(id)) {
         return '';
       }
       return null;
@@ -62,6 +64,8 @@ export const runRollup = async ({
         compilerOptions: {
           declarationMap: false,
           skipLibCheck: true,
+          // https://github.com/Swatinem/rollup-plugin-dts/issues/143,
+          // but it will cause error when bundle ts which import another ts file.
           preserveSymlinks: false,
           ...options,
           // isAbsolute
@@ -92,6 +96,7 @@ export const runRollup = async ({
     const { SectionTitleStatus, BundleDtsLogPrefix } = await import(
       '../../constants/log'
     );
+    const runner = api.useHookRunners();
     const watcher = watch({
       ...inputConfig,
       plugins: inputConfig.plugins,
@@ -108,6 +113,7 @@ export const runRollup = async ({
             SectionTitleStatus.Success,
           ),
         );
+        runner.buildWatchDts({ buildType: 'bundle' });
       } else if (event.code === 'ERROR') {
         // this is dts rollup plugin bug, error not complete message
       }

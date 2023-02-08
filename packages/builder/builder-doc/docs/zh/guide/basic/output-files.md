@@ -40,11 +40,11 @@ dist
 
 Builder 提供了多个配置项来修改产物目录和产物名称，你可以：
 
-- 通过 [output.filename](/api/config-output.html#output-filename) 来修改产物的文件名。
-- 通过 [output.distPath](/api/config-output.html#output-distpath) 来修改产物的输出路径。
-- 通过 [output.legalComments](/api/config-output.html#output-legalcomments) 来修改 License 文件的生成方式。
-- 通过 [output.disableSourceMap](/api/config-output.html#output-disablesourcemap) 来移除 Source Map 文件。
-- 通过 [html.disableHtmlFolder](/api/config-html.html#html-disablehtmlfolder) 移除 HTML 产物对应的文件夹。
+- 通过 [output.filename](/api/config-output.html#outputfilename) 来修改产物的文件名。
+- 通过 [output.distPath](/api/config-output.html#outputdistpath) 来修改产物的输出路径。
+- 通过 [output.legalComments](/api/config-output.html#outputlegalcomments) 来修改 License 文件的生成方式。
+- 通过 [output.disableSourceMap](/api/config-output.html#outputdisablesourcemap) 来移除 Source Map 文件。
+- 通过 [html.disableHtmlFolder](/api/config-html.html#htmldisablehtmlfolder) 移除 HTML 产物对应的文件夹。
 
 ## 静态资源
 
@@ -66,7 +66,7 @@ dist
         └── qux.[hash].mp4
 ```
 
-你可以通过 [output.distPath](/api/config-output.html#output-distpath) 配置项将这些静态资源统一输入到单个目录下，比如输出到 `assets` 目录：
+你可以通过 [output.distPath](/api/config-output.html#outputdistpath) 配置项将这些静态资源统一输入到单个目录下，比如输出到 `assets` 目录：
 
 ```ts
 export default {
@@ -106,7 +106,7 @@ dist
 
 Node.js 产物通常只包含 JS 文件，不包含 HTML、CSS 等文件。此外，Node 产物的 JS 文件名称也不会自动生成哈希值。
 
-你可以通过 [output.distPath.server](/api/config-output.html#output-distpath) 配置项来修改 Node 产物的输出路径。
+你可以通过 [output.distPath.server](/api/config-output.html#outputdistpath) 配置项来修改 Node 产物的输出路径。
 
 比如，将 Node.js 产物输出到 `server` 目录：
 

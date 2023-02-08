@@ -7,8 +7,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "skipLibCheck": true,
-    "isolatedModules": true,
-    "paths": {}
+    "isolatedModules": true
   },
   "include": ["src", "lib/types.d.ts"]
 }

@@ -1,5 +1,56 @@
 # @modern-js/builder-webpack-provider
 
+## 2.3.0
+
+### Minor Changes
+
+- f9a26fe: fix(@modern-js/builder-shared): openBrowser add openChrome.applescript script
+
+  fix(@modern-js/builder-shared): openBrowser 添加 openChrome.applescript 脚本
+
+- b6c2eb8: feat: add builder check syntax plugin
+  feat: 新增 builder 兼容语法检测插件
+
+### Patch Changes
+
+- 7cd8185: chore: reuse splitChunks plugin between rspack-provider and webpack-provider
+
+  chore: 在 rspack-provider 和 webpack-provider 间复用 splitChunks plugin
+
+- 362c9a8: feat(builder): improve succeed and failed progress log
+
+  feat(builder): 优化编译成功或失败时的进度条效果
+
+- 67ba34a: chore(builder): remove unused ajv schema types
+
+  chore(builder): 移除过时的 ajv 相关类型
+
+- 1b0dd35: feat: plugin define accept `undefined`
+
+  feat: define 插件的选项允许接受 `undefined`
+
+- 01e4a27: feat(builder): improve error logs of syntax checker
+
+  feat(builder): 优化 syntax 检查的错误日志
+
+- 3cdf48e: fix(builder): should not emit async chunk when target is web-worker
+
+  fix(builder): 修复 target 为 web-worker 时产物中出现 async chunk 的问题
+
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [67ba34a]
+- Updated dependencies [2ad9fdf]
+- Updated dependencies [f9a26fe]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+- Updated dependencies [ff48fc2]
+  - @modern-js/utils@2.3.0
+  - @modern-js/builder-shared@2.3.0
+  - @modern-js/server@2.3.0
+  - @modern-js/babel-preset-app@2.3.0
+  - @modern-js/e2e@2.3.0
+  - @modern-js/types@2.3.0
+
 ## 2.2.0
 
 ### Patch Changes

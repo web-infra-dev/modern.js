@@ -1,6 +1,9 @@
-import { AppUserConfig, AppLegacyUserConfig } from './types';
+import type { UserConfigExport } from '@modern-js/core';
+import type { AppLegacyUserConfig, AppUserConfig } from './types';
 
-export const defineConfig = (config: AppUserConfig) => config;
+export const defineConfig = <B extends 'rspack' | 'webpack' = 'webpack'>(
+  config: UserConfigExport<AppUserConfig<B>>,
+) => config;
 
 /**
  * @deprecated

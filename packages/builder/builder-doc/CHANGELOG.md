@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.3.0
+
+### Patch Changes
+
+- 01e4a27: feat(builder): improve error logs of syntax checker
+
+  feat(builder): 优化 syntax 检查的错误日志
+
 ## 2.2.0
 
 ### Patch Changes

@@ -1,5 +1,7 @@
 # @modern-js/entry-generator
 
+## 3.0.5
+
 ## 3.0.4
 
 ## 3.0.3
@@ -100,7 +102,7 @@
 
 - c30fa94: fix: entry generator template
 
-  fix: 调整 MWA 项目入口模板
+  fix: 调整 App 项目入口模板
 
 ## 2.4.5
 

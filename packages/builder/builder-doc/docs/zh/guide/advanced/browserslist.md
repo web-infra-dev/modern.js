@@ -48,7 +48,7 @@ not dead
 
 ### 使用 output.overrideBrowserslist 配置
 
-除了上述的标准用法，Builder 还提供了 [output.overrideBrowserslist](/api/config-output.html#output-overridebrowserslist) 配置项，同样可以设置 Browserslist 的值。
+除了上述的标准用法，Builder 还提供了 [output.overrideBrowserslist](/api/config-output.html#outputoverridebrowserslist) 配置项，同样可以设置 Browserslist 的值。
 
 ```ts
 export default {

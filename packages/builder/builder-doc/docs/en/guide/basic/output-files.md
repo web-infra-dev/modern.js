@@ -40,11 +40,11 @@ In the filename, `[name]` represents the entry name corresponding to this file, 
 
 Builder provides some configs to modify the directory or filename, you can:
 
-- Modify the filename through [output.filename](/en/api/config-output.html#output-filename).
-- Modify the output path of through [output.distPath](/en/api/config-output.html#output-distpath).
-- Modify the license file through [output.legalComments](/en/api/config-output.html#output-legalcomments).
-- Remove Source Map file through [output.disableSourceMap](/en/api/config-output.html#output-disablesourcemap).
-- Remove the folder corresponding to the HTML files through [html.disableHtmlFolder](/en/api/config-html.html#html-disablehtmlfolder).
+- Modify the filename through [output.filename](/en/api/config-output.html#outputfilename).
+- Modify the output path of through [output.distPath](/en/api/config-output.html#outputdistpath).
+- Modify the license file through [output.legalComments](/en/api/config-output.html#outputlegalcomments).
+- Remove Source Map file through [output.disableSourceMap](/en/api/config-output.html#outputdisablesourcemap).
+- Remove the folder corresponding to the HTML files through [html.disableHtmlFolder](/en/api/config-html.html#htmldisablehtmlfolder).
 
 ## Static Assets
 
@@ -66,7 +66,7 @@ dist
         └── qux.[hash].mp4
 ```
 
-You can use the [output.distPath](/en/api/config-output.html#output-distpath) config to uniformly input these static assets into a directory, for example, output to the `assets` directory:
+You can use the [output.distPath](/en/api/config-output.html#outputdistpath) config to uniformly input these static assets into a directory, for example, output to the `assets` directory:
 
 ```ts
 export default {
@@ -106,7 +106,7 @@ dist
 
 Node.js files usually only contain JS files, no HTML or CSS. Also, JS file names will not contain hash.
 
-You can modify the output path of Node.js files through the [output.distPath.server](/en/api/config-output.html#output-distpath) config.
+You can modify the output path of Node.js files through the [output.distPath.server](/en/api/config-output.html#outputdistpath) config.
 
 For example, output Node.js files to the `server` directory:
 

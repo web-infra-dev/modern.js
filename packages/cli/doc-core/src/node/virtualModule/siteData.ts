@@ -1,7 +1,5 @@
 import path, { join } from 'path';
 import {
-  PageBasicInfo,
-  SiteData,
   UserConfig,
   DefaultThemeConfig,
   NormalizedDefaultThemeConfig,
@@ -18,18 +16,29 @@ import { htmlToText } from 'html-to-text';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 import { remarkPluginContainer } from '@modern-js/remark-container';
-import { ReplaceRule } from 'shared/types/index';
+import { ReplaceRule, Header } from 'shared/types/index';
+import fs from '@modern-js/utils/fs-extra';
 import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
+import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { routeService } from './routeData';
-import { withBase } from '@/shared/utils';
+import { MDX_REGEXP, withBase } from '@/shared/utils';
 
-let siteData: SiteData | undefined;
+interface PageIndexData {
+  id: number;
+  title: string;
+  routePath: string;
+  toc: Header[];
+  content: string;
+  frontmatter: Record<string, unknown>;
+}
+
+let pages: PageIndexData[] | undefined;
 
 export function normalizeThemeConfig(
   themeConfig: DefaultThemeConfig,
-  pages: PageBasicInfo[] = [],
+  pages: PageIndexData[] = [],
   base = '',
   replaceRules: ReplaceRule[],
 ): NormalizedDefaultThemeConfig {
@@ -101,23 +110,15 @@ export function normalizeThemeConfig(
   return themeConfig as NormalizedDefaultThemeConfig;
 }
 
-export async function siteDataVMPlugin(
-  userRoot: string,
-  config: UserConfig,
-  isSSR: boolean,
-) {
-  const entryPath = join(PACKAGE_ROOT, 'node_modules', 'virtual-site-data');
-  const { default: fs } = await import('@modern-js/utils/fs-extra');
-  const userConfig = config.doc;
-  // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
-  if (!siteData) {
-    if (!isSSR) {
-      // eslint-disable-next-line no-console
-      console.log('⭐️ [doc-tools] Extracting site data...');
-    }
-    const replaceRules = userConfig?.replaceRules || [];
-    const pages = await Promise.all(
-      routeService.getRoutes().map(async (route, index) => {
+async function extractPageData(
+  replaceRules: ReplaceRule[],
+  alias: Record<string, string | string[]>,
+): Promise<PageIndexData[]> {
+  return Promise.all(
+    routeService
+      .getRoutes()
+      .filter(route => MDX_REGEXP.test(route.absolutePath))
+      .map(async (route, index) => {
         let content: string = await fs.readFile(route.absolutePath, 'utf8');
         const frontmatter = {
           // eslint-disable-next-line import/no-named-as-default-member
@@ -132,10 +133,16 @@ export async function siteDataVMPlugin(
             );
           }
         });
-        content = applyReplaceRules(
+        const flattenContent = await flattenMdxContent(
           frontmatter.__content,
-          replaceRules,
-        ).replace(importStatementRegex, '');
+          route.absolutePath,
+          alias,
+        );
+
+        content = applyReplaceRules(flattenContent, replaceRules).replace(
+          importStatementRegex,
+          '',
+        );
         // 2. Optimize content index
         const ast = remark.parse({ value: content });
         const { title, toc } = parseToc(ast as Root);
@@ -177,32 +184,50 @@ export async function siteDataVMPlugin(
           },
         };
       }),
-    );
-    siteData = {
-      title: userConfig?.title || '',
-      description: userConfig?.description || '',
-      icon: userConfig?.icon || '',
-      themeConfig: normalizeThemeConfig(
-        userConfig?.themeConfig || {},
-        pages,
-        config.doc?.base,
-        config.doc?.replaceRules || [],
-      ),
-      base: userConfig?.base || '/',
-      root: userRoot,
-      lang: userConfig?.lang || 'zh',
-      logo: userConfig?.logo || '',
-      pages: pages.map(({ routePath, toc }) => ({
-        routePath,
-        toc,
-      })),
-    };
-    await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
-    await fs.writeFile(
-      path.join(userRoot, PUBLIC_DIR, 'search_index.json'),
-      JSON.stringify(pages),
-    );
+  );
+}
+
+export async function siteDataVMPlugin(
+  userRoot: string,
+  config: UserConfig,
+  isSSR: boolean,
+  alias: Record<string, string | string[]>,
+) {
+  const entryPath = join(PACKAGE_ROOT, 'node_modules', 'virtual-site-data');
+  const userConfig = config.doc;
+  // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
+  if (!isSSR) {
+    // eslint-disable-next-line no-console
+    console.log('⭐️ [doc-tools] Extracting site data...');
   }
+  const replaceRules = userConfig?.replaceRules || [];
+  if (!pages) {
+    pages = await extractPageData(replaceRules, alias);
+  }
+  const siteData = {
+    title: userConfig?.title || '',
+    description: userConfig?.description || '',
+    icon: userConfig?.icon || '',
+    themeConfig: normalizeThemeConfig(
+      userConfig?.themeConfig || {},
+      pages,
+      config.doc?.base,
+      config.doc?.replaceRules || [],
+    ),
+    base: userConfig?.base || '/',
+    root: userRoot,
+    lang: userConfig?.lang || 'zh',
+    logo: userConfig?.logo || '',
+    pages: pages.map(({ routePath, toc }) => ({
+      routePath,
+      toc,
+    })),
+  };
+  await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
+  await fs.writeFile(
+    path.join(userRoot, PUBLIC_DIR, 'search_index.json'),
+    JSON.stringify(pages),
+  );
 
   const plugin = new VirtualModulesPlugin({
     [entryPath]: `export default ${JSON.stringify(siteData)}`,

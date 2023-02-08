@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/generator-cases",
-  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.4",
+  "version": "3.0.5",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",

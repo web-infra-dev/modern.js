@@ -130,7 +130,7 @@ PluginSWC({
 import Btn from 'foo/es/MyButton';
 ```
 
-可以看出配置 `customName: "foo/es/{{ member }}"` 的效果等同于配置 ```customName: (member) => `foo/es/${member}` ```，但是不会有 Node-API 的调用开销。
+可以看出配置 ```customName: "foo/es/{{ member }}"``` 的效果等同于配置 ```customName: (member) => `foo/es/${member}` ```，但是不会有 Node-API 的调用开销。
 
 这里使用到的模版是 [handlebars](https://handlebarsjs.com)，模版配置中还内置了一些有用的辅助工具，还是以上面的导入语句为例，配置成：
 
@@ -211,6 +211,54 @@ type RemovePropTypesOptions = {
 - 默认值: `{ cwd: process.cwd(), ids: [] }`
 
 移植自 [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash)。
+
+#### extensions.styledComponent
+
+- 类型:
+
+```ts
+boolean | {
+  displayName?: boolean; // 默认开发模式开启, 生产模式关闭,
+  ssr?: boolean; // 默认开启
+  fileName?: boolean; // 默认开启
+  topLevelImportPaths?: string[]; // 默认空
+  meaninglessFileNames?: string[]; // 默认为 ["index"].
+  cssProp?: boolean; // 默认开启
+  namespace?: string; // 默认空
+};
+```
+
+由 Next.js 团队移植自 [styled-component](https://github.com/styled-components/babel-plugin-styled-components)。
+
+#### extensions.emotion
+
+- 类型:
+
+```ts
+boolean | {
+  sourceMap?: boolean, // 默认开启
+  autoLabel?: 'never' | 'dev-only' | 'always', // 默认 'dev-only'
+  // 默认 '[local]'.
+  // 允许的值为: `[local]` `[filename]` 以及 `[dirname]`
+  // 只有当 autoLabel 设置成 'dev-only' 或者 'always' 才会生效.
+  // 该配置允许你定义结果标签的格式，该格式的组成是字符串以及可以由方括号包裹字符串作为变量
+  // 例如对于 "my-classname--[local]"，其中的 [local] 会被替换成相应的变量
+  labelFormat?: string,
+  // 默认值 undefined.
+  // 该配置允许让编译器知道哪一个引入需要进行转换，所以如果你重导出了 emotion
+  // 的导出，你仍然可以使用该插件进行转换
+  importMap?: {
+    [packageName: string]: {
+      [exportName: string]: {
+        canonicalImport?: [string, string],
+        styledBaseImport?: [string, string],
+      }
+    }
+  },
+},
+```
+
+由 Next.js 团队移植自 [@emotion/babel-plugin](https://www.npmjs.com/package/@emotion/babel-plugin)。
 
 ## 限制
 

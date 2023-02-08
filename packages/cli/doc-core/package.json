@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -15,12 +15,10 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json",
     "./theme": {
-      "types": "./theme.d.ts",
-      "default": "./src/theme-default/index.ts"
+      "default": "./theme.ts"
     },
     "./runtime": {
-      "type": "./runtime.d.ts",
-      "default": "./src/runtime/index.ts"
+      "default": "./runtime.ts"
     }
   },
   "scripts": {
@@ -50,7 +48,8 @@
     "@babel/runtime": "7.18.0",
     "@headlessui/react": "^1.7.7",
     "@loadable/component": "5.15.2",
-    "@mdx-js/loader": "2.1.5",
+    "@mdx-js/loader": "2.2.1",
+    "@mdx-js/mdx": "2.2.1",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/remark-container": "workspace:*",
@@ -94,10 +93,15 @@
     "webpack-virtual-modules": "0.4.6",
     "windicss": "^3.5.6",
     "windicss-webpack-plugin": "^1.7.7",
-    "yaml-front-matter": "^4.1.1"
+    "yaml-front-matter": "^4.1.1",
+    "unified": "^10.1.2",
+    "enhanced-resolve": "5.12.0",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.2.0",
+    "@modern-js/core": "workspace:^2.3.0",
     "react": ">=17"
   },
   "devDependencies": {
@@ -121,12 +125,8 @@
     "husky": "^8",
     "lint-staged": "^11.2.6",
     "prettier": "^2.6.2",
-    "rehype-stringify": "^9.0.3",
-    "remark-parse": "^10.0.1",
-    "remark-rehype": "^10.1.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.8.4",
-    "unified": "^10.1.2",
     "vite": "^4.0.4",
     "vitest": "0.21.1"
   },
@@ -134,7 +134,8 @@
     "*.css",
     "*.less",
     "*.sass",
-    "*.scss"
+    "*.scss",
+    "**/virtual-global-styles.js"
   ],
   "files": [
     "bin",
@@ -143,8 +144,10 @@
     "src/theme-default",
     "src/shared",
     "index.html",
-    "runtime.d.ts",
-    "theme.d.ts"
+    "runtime.ts",
+    "theme.ts",
+    "shiki-theme.json",
+    "tsconfig.json"
   ],
   "publishConfig": {
     "access": "public",

@@ -25,7 +25,6 @@ const defaultOption: Props = {
   hasErrors: false,
   compileTime: null,
 };
-const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
 
 const padding = (id: string, maxLen: number) => {
   const left = Math.floor((maxLen - id.length) / 2);
@@ -33,11 +32,15 @@ const padding = (id: string, maxLen: number) => {
   return ' '.repeat(left) + id + ' '.repeat(right);
 };
 
-export const FULL_WIDTH = 70; // 全部显示
-export const MIDDLE_WIDTH = 40; // 去除文件信息
-export const SMALL_WIDTH = 15; // 去除进度条+去除文件信息
+export const FULL_WIDTH = 70; // display all info
+export const MIDDLE_WIDTH = 40; // remove message info
+export const SMALL_WIDTH = 15; // remove bar and message info
 
 export const renderBar = (option: Partial<Props>) => {
+  const mergedOptions = {
+    ...defaultOption,
+    ...option,
+  };
   const {
     total,
     done,
@@ -55,32 +58,36 @@ export const renderBar = (option: Partial<Props>) => {
     messageWidth,
     spaceWidth,
     messageColor,
-    id,
     maxIdLen,
     hasErrors,
     compileTime,
-  } = {
-    ...defaultOption,
-    ...option,
-  };
+  } = mergedOptions;
+
   const space = ' '.repeat(spaceWidth);
   const percent = clamp(Math.floor((current / total) * 100), 0, 100);
-  const fc = hasErrors ? chalk.bold.red : Reflect.get(chalk, color);
-  const bc = Reflect.get(chalk, bgColor);
-  const idStr = id ? fc(padding(id, maxIdLen)) : '';
-  const { columns = FULL_WIDTH } = process.stdout;
+
+  // colors
+  const barColor = Reflect.get(chalk, color);
+  const backgroundColor = Reflect.get(chalk, bgColor);
+  const doneColor = hasErrors ? chalk.bold.red : Reflect.get(chalk, color);
+  const idColor = done ? doneColor : barColor;
+
+  const id = mergedOptions.id
+    ? idColor(padding(mergedOptions.id, maxIdLen))
+    : '';
+  const { columns: terminalWidth = FULL_WIDTH } = process.stdout;
 
   if (done) {
     const info = hasErrors ? errorInfo : finishInfo;
     const icon = hasErrors ? errorIcon : finishIcon;
-    const message = fc(
+    const message = doneColor(
       compileTime && !hasErrors ? `${info} in ${compileTime}` : info,
     );
 
-    if (columns >= MIDDLE_WIDTH) {
-      return [idStr, fc(`${icon}${space}${message}`)].join('');
+    if (terminalWidth >= MIDDLE_WIDTH) {
+      return [id, doneColor(`${icon}${space}${message}`)].join('');
     }
-    return [idStr, fc(`${message}`)].join('');
+    return [id, doneColor(`${message}`)].join('');
   }
 
   const msgStr = Reflect.get(
@@ -90,12 +97,15 @@ export const renderBar = (option: Partial<Props>) => {
 
   const left = clamp(Math.floor((percent * width) / 100), 0, width);
   const right = clamp(width - left, 0, width);
-  const barStr = `${fc(char.repeat(left))}${bc(char.repeat(right))}`;
+  const barStr = `${barColor(char.repeat(left))}${backgroundColor(
+    char.repeat(right),
+  )}`;
   const percentStr = `${percent.toString().padStart(3)}%`;
-  if (columns >= FULL_WIDTH) {
+
+  if (terminalWidth >= FULL_WIDTH) {
     return [
-      idStr,
-      fc(buildIcon),
+      id,
+      barColor(buildIcon),
       space,
       barStr,
       space,
@@ -105,14 +115,9 @@ export const renderBar = (option: Partial<Props>) => {
     ].join('');
   }
 
-  if (columns >= MIDDLE_WIDTH) {
-    return [idStr, fc(buildIcon), space, barStr, space, percentStr].join('');
+  if (terminalWidth >= MIDDLE_WIDTH) {
+    return [id, barColor(buildIcon), space, barStr, space, percentStr].join('');
   }
 
-  if (columns >= SMALL_WIDTH) {
-    return [idStr, fc(buildIcon), space, percentStr].join('');
-  }
-
-  const frameStr = fc(frames[current % frames.length]);
-  return [idStr, fc(buildIcon), space, frameStr].join('');
+  return [id, barColor(buildIcon), space, percentStr].join('');
 };

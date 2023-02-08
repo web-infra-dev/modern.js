@@ -1,13 +1,26 @@
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import type { BuilderConfig as RsBuilderConfig } from '@modern-js/builder-rspack-provider';
+import type { SharedOutputConfig as BuilderSharedOutputConfig } from '@modern-js/builder-shared';
+import { UnwrapBuilderConfig } from '../utils';
 
-export type BuilderOutputConfig = Required<BuilderConfig>['output'];
+export type BuilderOutputConfig = UnwrapBuilderConfig<BuilderConfig, 'output'>;
+export type RsBuilderOutputConfig = UnwrapBuilderConfig<
+  RsBuilderConfig,
+  'output'
+>;
 
-export interface OutputUserConfig extends BuilderOutputConfig {
+export interface SharedOutputConfig extends BuilderSharedOutputConfig {
   ssg?: SSGConfig;
   disableNodePolyfill?: boolean;
 }
 
-export type OutputNormalizedConfig = OutputUserConfig;
+export interface OutputUserConfig
+  extends BuilderOutputConfig,
+    SharedOutputConfig {}
+
+export interface RsOutputUserConfig
+  extends RsBuilderOutputConfig,
+    SharedOutputConfig {}
 
 export type SSGRouteOptions =
   | string

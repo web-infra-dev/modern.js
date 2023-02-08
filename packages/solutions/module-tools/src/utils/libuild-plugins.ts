@@ -1,7 +1,10 @@
 import type { LibuildPlugin } from '@modern-js/libuild';
-import type { BaseBuildConfig } from '../types';
+import type { BaseBuildConfig, PluginAPI, ModuleTools } from '../types';
 
-export const watchPlugin = (config: BaseBuildConfig): LibuildPlugin => {
+export const watchPlugin = (
+  api: PluginAPI<ModuleTools>,
+  config: BaseBuildConfig,
+): LibuildPlugin => {
   return {
     name: 'watch-plugin',
     apply(compiler) {
@@ -14,6 +17,8 @@ export const watchPlugin = (config: BaseBuildConfig): LibuildPlugin => {
         console.info(
           await watchSectionTitle(titleText, SectionTitleStatus.Log),
         );
+        const runner = api.useHookRunners();
+        runner.buildWatchJs({ buildConfig: config });
       });
     },
   };

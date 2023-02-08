@@ -1,7 +1,7 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { getModernConfigFile } from '@modern-js/generator-utils';
+import { chalk, getModernConfigFile } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,
@@ -19,7 +19,7 @@ const getGeneratorPath = (generator: string, distTag: string) => {
 
 const handleTemplateFile = async (
   context: GeneratorContext,
-  generator: GeneratorCore,
+  _generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
   await appApi.runSubGenerator(
@@ -57,18 +57,41 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     } else {
       const appDir = context.materials.default.basePath;
       const configFile = await getModernConfigFile(appDir);
-      appApi.showSuccessInfo(
-        i18n.t(
-          configFile.endsWith('ts')
-            ? localeKeys.successTs
-            : localeKeys.successJS,
-          {
-            configFile,
-            pluginName: context.config.pluginName,
-            pluginDependence: context.config.pluginDependence,
-          },
-        ),
+      const isTS = configFile.endsWith('ts');
+      const { pluginName, pluginDependence } = context.config;
+      console.info(
+        chalk.green(`\n[INFO]`),
+        `${i18n.t(localeKeys.success)}`,
+        chalk.yellow.bold(`${configFile}`),
+        ':',
+        '\n',
       );
+      console.info(
+        chalk.yellow.bold(`import ${pluginName} from '${pluginDependence}';`),
+      );
+      if (isTS) {
+        console.info(`
+export default defineConfig({
+  ...,
+  output: {
+    ...,
+    ${chalk.yellow.bold(`ssg: true`)},
+  },
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}()`)}],
+});
+`);
+      } else {
+        console.info(`
+module.exports = {
+  ...,
+  output: {
+    ...,
+    ${chalk.yellow.bold(`ssg: true`)},
+  },
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}()`)}],
+};
+`);
+      }
     }
   }
   generator.logger.debug(`forge @modern-js/ssg-generator succeed `);

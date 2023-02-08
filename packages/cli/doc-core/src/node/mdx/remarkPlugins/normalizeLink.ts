@@ -13,8 +13,6 @@ import {
 } from '@/shared/utils';
 import { PUBLIC_DIR } from '@/node/constants';
 
-const slugger = new Slugger();
-
 interface LinkNode {
   type: string;
   url?: string;
@@ -78,6 +76,7 @@ export const remarkPluginNormalizeLink: Plugin<
   ({ base, defaultLang, root }) =>
   (tree, file) => {
     const images: MdxjsEsm[] = [];
+    const slugger = new Slugger();
     visit(
       tree,
       (node: LinkNode) => node.type === 'link',
@@ -85,9 +84,9 @@ export const remarkPluginNormalizeLink: Plugin<
         if (!node.url) {
           return;
         }
-
         if (node.url.startsWith('#')) {
           node.url = `#${slugger.slug(node.url.slice(1))}`;
+          return;
         }
 
         // eslint-disable-next-line prefer-const

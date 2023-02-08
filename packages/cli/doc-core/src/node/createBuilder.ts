@@ -7,7 +7,6 @@ import type {
   BuilderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import sirv from 'sirv';
-import VirtualModulesPlugin from 'webpack-virtual-modules';
 import WindiCSSWebpackPlugin from 'windicss-webpack-plugin';
 import { removeTrailingSlash } from '../shared/utils';
 import {
@@ -18,7 +17,7 @@ import {
   isProduction,
 } from './constants';
 import { createMDXOptions } from './mdx';
-import { virtualModuleFactoryList } from './virtualModule';
+import { builderDocVMPlugin } from './virtualModule';
 import createWindiConfig from './windiOptions';
 import { serveSearchIndexMiddleware } from './searchIndex';
 
@@ -38,6 +37,7 @@ async function createInternalBuildConfig(
     ? CUSTOM_THEME_DIR
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');
   const checkDeadLinks = config.doc?.markdown?.checkDeadLinks ?? false;
+  const base = config.doc?.base ?? '';
   // Process doc config by plugins
   for (const plugin of docPlugins) {
     if (typeof plugin.config === 'function') {
@@ -45,15 +45,14 @@ async function createInternalBuildConfig(
     }
   }
 
-  // The order should be sync
-  const virtualModulePlugins: VirtualModulesPlugin[] = [];
-  for (const factory of virtualModuleFactoryList) {
-    virtualModulePlugins.push(await factory(userRoot, config, isSSR));
-  }
-
   const publicDir = path.join(userRoot, 'public');
   const isPublicDirExist = await fs.pathExists(publicDir);
-  const assetPrefix = config.doc?.builderConfig?.output?.assetPrefix || '';
+  // In production, we need to add assetPrefix in asset path
+  const assetPrefix = isProduction()
+    ? removeTrailingSlash(
+        config.doc?.builderConfig?.output?.assetPrefix ?? base,
+      )
+    : '';
 
   // Using latest browserslist in development to improve build performance
   const browserslist = {
@@ -86,6 +85,7 @@ async function createInternalBuildConfig(
       // disable production source map, it is useless for doc site
       disableSourceMap: isProduction(),
       overrideBrowserslist: browserslist,
+      assetPrefix,
     },
     source: {
       alias: {
@@ -95,12 +95,11 @@ async function createInternalBuildConfig(
         '@': path.join(PACKAGE_ROOT, 'src'),
         '@/runtime': path.join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts'),
         '@theme': themeDir,
+        '@modern-js/doc-core': PACKAGE_ROOT,
       },
       include: [PACKAGE_ROOT],
       define: {
-        __ASSET_PREFIX__: JSON.stringify(
-          isProduction() ? removeTrailingSlash(assetPrefix) : '',
-        ),
+        __ASSET_PREFIX__: JSON.stringify(assetPrefix),
       },
     },
     tools: {
@@ -147,22 +146,21 @@ async function createInternalBuildConfig(
 
         chain.resolve.extensions.merge(['.mdx', '.md', '.ts', '.tsx']);
       },
-      webpack(config) {
-        config.plugins!.push(...virtualModulePlugins);
-        config.plugins!.push(
+      webpack(webpackConfig) {
+        webpackConfig.plugins!.push(
           new WindiCSSWebpackPlugin({
             config: createWindiConfig(themeDir),
           }),
         );
 
         if (checkDeadLinks) {
-          config.cache = {
+          webpackConfig.cache = {
             // If checkDeadLinks is true, we should use memory cache to avoid skiping mdx-loader when starting dev server again
             type: 'memory',
           };
         }
 
-        return config;
+        return webpackConfig;
       },
     },
   };
@@ -209,6 +207,8 @@ export async function createModernBuilder(
       main: isSSR ? SSR_ENTRY : CLIENT_ENTRY,
     },
   });
+
+  builder.addPlugins([builderDocVMPlugin(userRoot, config, isSSR)]);
 
   return builder;
 }

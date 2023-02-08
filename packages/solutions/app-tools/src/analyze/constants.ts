@@ -43,6 +43,8 @@ export const NESTED_ROUTE = {
   LOADING_FILE: 'loading',
   ERROR_FILE: 'error',
   LOADER_FILE: 'loader',
+  SPLATE_FILE: '$',
+  SPLATE_LOADER_FILE: '$.loader',
 };
 
 export const APP_CONFIG_NAME = 'config';

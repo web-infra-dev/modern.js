@@ -1,5 +1,30 @@
 # @modern-js/core
 
+## 2.3.0
+
+### Patch Changes
+
+- 65f1322: fix(core): merge array config correctly
+
+  fix(core): 修复合并配置中的数组时出现错误的问题
+
+- fd5a3ed: fix: failed to exit new command
+
+  fix: 修复 new 命令执行完成后未退出进程的问题
+
+- 7b2cdcb: feat(core): support read modern.config.local.ts
+
+  feat(core): 支持读取 modern.config.local.ts 文件
+
+- 7736171: fix: remove disableRunBuild
+  fix: 移除 disableRunBuild
+- Updated dependencies [fd5a3ed]
+- Updated dependencies [6ca1c0b]
+- Updated dependencies [89b6739]
+  - @modern-js/utils@2.3.0
+  - @modern-js/node-bundle-require@2.3.0
+  - @modern-js/plugin@2.3.0
+
 ## 2.2.0
 
 ### Minor Changes

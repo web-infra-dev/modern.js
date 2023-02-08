@@ -78,8 +78,8 @@ console.log(smallImage); // "data:image/png;base64,iVBORw0KGgo..."
 
 当静态资源被引用后，会自动被输出到构建产物的目录下，你可以：
 
-- 通过 [output.filename](/api/config-output.html#output-filename) 来修改产物的文件名。
-- 通过 [output.distPath](/api/config-output.html#output-distpath) 来修改产物的输出路径。
+- 通过 [output.filename](/api/config-output.html#outputfilename) 来修改产物的文件名。
+- 通过 [output.distPath](/api/config-output.html#outputdistpath) 来修改产物的输出路径。
 
 请阅读 [构建产物目录](/guide/basic/output-files.html) 来了解更多细节。
 
@@ -87,8 +87,8 @@ console.log(smallImage); // "data:image/png;base64,iVBORw0KGgo..."
 
 引用静态资源后返回的 URL 中会自动包含路径前缀：
 
-- 在开发环境下，通过 [dev.assetPrefix](/api/config-dev.html#dev-assetprefix) 设置路径前缀。
-- 在生产环境下，通过 [output.assetPrefix](/api/config-output.html#output-assetprefix) 设置路径前缀。
+- 在开发环境下，通过 [dev.assetPrefix](/api/config-dev.html#devassetprefix) 设置路径前缀。
+- 在生产环境下，通过 [output.assetPrefix](/api/config-output.html#outputassetprefix) 设置路径前缀。
 
 比如将 `output.assetPrefix` 设置为 `https://modern.com`：
 

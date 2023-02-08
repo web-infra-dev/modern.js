@@ -90,7 +90,7 @@ export const safeReplacer = () => {
 
 export const emitResolvedConfig = async (
   appDirectory: string,
-  resolvedConfig: AppNormalizedConfig,
+  resolvedConfig: AppNormalizedConfig<'shared'>,
 ) => {
   const outputPath = path.join(
     appDirectory,

@@ -1,0 +1,21 @@
+{
+  "name": "@modern-js/module-tools-docs",
+  "version": "2.3.0",
+  "description": "docs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "modern dev",
+    "build:doc": "modern build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@code-hike/mdx": "^0.7.4",
+    "@modern-js/doc-plugin-auto-sidebar": "workspace:*",
+    "@modern-js/doc-tools": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "shiki": "^0.11.1"
+  }
+}

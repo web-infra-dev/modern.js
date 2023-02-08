@@ -1,6 +1,6 @@
 import { mergeConfig } from '../src/utils/mergeConfig';
 import { assignPkgConfig } from '../src/config';
-import { UserConfig, ConfigParams } from '../src/types';
+import { UserConfig, UserConfigExport } from '../src/types';
 
 describe('merge config', () => {
   test('should replace property deeply', () => {
@@ -78,6 +78,15 @@ describe('merge config', () => {
         },
       },
     });
+
+    expect(
+      mergeConfig([
+        { source: { envVars: ['a', 'b'] } },
+        { source: { envVars: undefined } },
+      ]),
+    ).toEqual({
+      source: { envVars: ['a', 'b'] },
+    });
   });
 
   test(`should keep single function value`, () => {
@@ -122,7 +131,7 @@ describe('assign pkg config', () => {
           runtime: {
             router: true,
           },
-        } as ConfigParams,
+        } as UserConfigExport,
       ),
     ).toMatchSnapshot();
   });
@@ -139,7 +148,7 @@ describe('assign pkg config', () => {
           runtime: {
             router: true,
           },
-        } as ConfigParams,
+        } as UserConfigExport,
       ),
     ).toMatchSnapshot();
   });

@@ -3,7 +3,7 @@ pageType: home
 
 hero:
   name: Modern.js Builder
-  tagline: A Build Engine for Web Development
+  tagline: A Build Engine for web development.
   actions:
     - theme: brand
       text: Introduction

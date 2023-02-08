@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-plugin-swc",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "SWC plugin for builder in Modern.js",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
@@ -61,7 +61,7 @@
     "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.17.12",
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.0.12",
+    "@modern-js/swc-plugins": "0.0.16",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.4.12",
     "core-js": "^3.26.0"

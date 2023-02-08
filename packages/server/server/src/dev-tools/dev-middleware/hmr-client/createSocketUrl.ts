@@ -52,7 +52,7 @@ function getSocketUrl(urlParts: ParsedSearch, location: Location) {
   const { host, port, path, protocol } = urlParts;
 
   return formatURL({
-    protocol: protocol || location.protocol === 'https:' ? 'wss' : 'ws',
+    protocol: protocol || (location.protocol === 'https:' ? 'wss' : 'ws'),
     hostname: host || location.hostname,
     port: port || location.port,
     pathname: path || HMR_SOCK_PATH,
