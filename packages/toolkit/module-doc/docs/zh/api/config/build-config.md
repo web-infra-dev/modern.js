@@ -342,6 +342,44 @@ export default defineConfig({
 - 类型： `'browser' | 'node'`
 - 默认值： `node`
 
+## sideEffects
+
+配置模块的副作用
+
+- 类型： `RegExg[] | (filePath: string, isExternal: boolean) => boolean | boolean`
+- 默认值： `undefined`
+
+通常情况下，我们通过 package.json 的 sideEffects 字段来配置模块的副作用，但是在某些情况下，例如我们引用了一个三方包的样式文件
+
+```js
+import 'other-package/dist/index.css'
+```
+
+但是这个三方包的 package.json 里并没有将样式文件配置到 sideEffects 里
+
+```json other-package/package.json
+{
+  "sideEffects": ["dist/index.js"]
+}
+```
+
+这时候就可以使用这个配置项，支持正则和函数形式
+
+```js modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+export default defineConfig({
+  buildConfig: {
+    sideEffects: [/\.css$/],
+    // or
+    // sideEffects: (filePath, isExternal) => /\.css$/.test(filePath),
+  },
+});
+```
+
+:::tip
+添加此配置后，打包时将不会再读取 package.json 里的 sideEffects 字段
+:::
+
 ## sourceDir
 
 指定构建的源码目录,默认为 `src`，用于在 `bundleless` 构建时基于源码目录结构生成对应的产物目录。

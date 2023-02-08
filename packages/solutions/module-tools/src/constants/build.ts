@@ -45,4 +45,5 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     autoModules: true,
     modules: {},
   },
+  sideEffects: undefined,
 });
