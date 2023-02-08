@@ -53,7 +53,16 @@ function getAppInstance(
     const location = context?.router?.useLocation?.();
     let basename = options?.basename || '/';
     if (matchs && matchs.length > 0) {
-      basename = pathJoin(basename, matchs[matchs.length - 1].pathname || '/');
+      const matchItem = {
+        ...matchs[matchs.length - 1],
+      };
+      for (const key in matchItem.params) {
+        matchItem.pathname = matchItem.pathname.replace(
+          `/${matchItem.params[key]}`,
+          '',
+        );
+      }
+      basename = pathJoin(basename, matchItem.pathname || '/');
     } else if (match) {
       basename = pathJoin(basename, match?.path || '/');
     }
