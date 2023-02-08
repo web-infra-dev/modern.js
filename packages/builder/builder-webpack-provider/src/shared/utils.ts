@@ -33,17 +33,3 @@ export function getDataUrlCondition(
     return source.length <= config.output.dataUriLimit[type];
   };
 }
-
-export async function stringifyConfig(config: unknown, verbose?: boolean) {
-  const { default: WebpackChain } = await import(
-    '@modern-js/builder-shared/webpack-5-chain'
-  );
-
-  // webpackChain.toString can be used as a common stringify method
-  const stringify = WebpackChain.toString as (
-    config: unknown,
-    options: { verbose?: boolean },
-  ) => string;
-
-  return stringify(config as any, { verbose });
-}
