@@ -25,20 +25,24 @@ export interface WebpackBuildError extends Error {
 export const webpackBuild: BuildExecuter = async compiler => {
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
-      // When using run or watch, call close and wait for it to finish before calling run or watch again.
-      // Concurrent compilations will corrupt the output files.
-      compiler.close(closeErr => {
-        closeErr && logger.error(closeErr);
-        if (err || !stats || stats.hasErrors()) {
-          const buildError: WebpackBuildError =
-            err || new Error('webpack build failed!');
-          buildError.stats = stats;
-          reject(buildError);
-        } else {
+      if (err || stats?.hasErrors()) {
+        const buildError: WebpackBuildError =
+          err || new Error('webpack build failed!');
+        buildError.stats = stats;
+        reject(buildError);
+      }
+      // If there is a compilation error, the close method should not be called.
+      // Otherwise bundler may generate an invalid cache.
+      else {
+        // When using run or watch, call close and wait for it to finish before calling run or watch again.
+        // Concurrent compilations will corrupt the output files.
+        compiler.close(closeErr => {
+          closeErr && logger.error(closeErr);
+
           // Assert type of stats must align to compiler.
           resolve({ stats: stats as any });
-        }
-      });
+        });
+      }
     });
   });
 };
