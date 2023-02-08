@@ -58,7 +58,7 @@ function getAppInstance(
       };
       for (const key in matchItem.params) {
         matchItem.pathname = matchItem.pathname.replace(
-          `/${matchItem.params[key]}`,
+          new RegExp(`/${matchItem.params[key]}$`),
           '',
         );
       }
