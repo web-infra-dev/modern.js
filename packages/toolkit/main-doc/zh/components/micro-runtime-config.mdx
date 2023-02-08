@@ -3,16 +3,15 @@ import { defineConfig } from '@modern-js/runtime';
 
 defineConfig(App, {
   masterApp: {
-    apps: [
-      {
-        name: 'DashBoard',
-        entry: 'http://127.0.0.1:8081/',
-      },
-      {
-        name: 'TableList',
-        entry: 'http://localhost:8082',
-      },
-    ],
+    apps: [{
+      name: 'SubConvention',
+      entry: 'http://localhost:3002',
+      // activeWhen: '/SubConvention'
+    }, {
+      name: 'SubCustom',
+      entry: 'http://localhost:3003'
+      // activeWhen: '/SubConvention'
+    }]
   },
 });
 ```
