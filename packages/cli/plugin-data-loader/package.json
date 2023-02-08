@@ -47,9 +47,9 @@
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
-    "@remix-run/node": "^1.9.0",
+    "@remix-run/node": "^1.12.0",
     "path-to-regexp": "^6.2.0",
-    "react-router-dom": "^6.6.0"
+    "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
