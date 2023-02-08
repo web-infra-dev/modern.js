@@ -292,7 +292,7 @@ const supportDefineInit = async (errors: string[], appPort: number) => {
 };
 
 const supportCatchAll = async (errors: string[], appPort: number) => {
-  await page.goto(`http://localhost:${appPort}/four/test`, {
+  await page.goto(`http://localhost:${appPort}/four/user/1234/1234`, {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
