@@ -1,4 +1,5 @@
 import type webpack from 'webpack';
+import type { BundleAnalyzerPlugin } from '../../../compiled/webpack-bundle-analyzer';
 
 export type ConsoleType = 'log' | 'info' | 'warn' | 'error' | 'table' | 'group';
 
@@ -14,18 +15,9 @@ export interface SharedPerformanceConfig {
    */
   removeConsole?: boolean | ConsoleType[];
   /**
-   * Whether to remove the locales of [moment.js](https://momentjs.com/).
-   */
-  removeMomentLocale?: boolean;
-  /**
    * Controls the Builder's caching behavior during the build process.
    */
   buildCache?: BuildCacheOptions | boolean;
-  /**
-   * Whether capture timing information for each module,
-   * same as the [profile](https://webpack.js.org/configuration/other-options/#profile) config of webpack.
-   */
-  profile?: boolean;
   /**
    * Whether to print the file sizes after production build.
    */
@@ -34,6 +26,18 @@ export interface SharedPerformanceConfig {
    * Configure the chunk splitting strategy.
    */
   chunkSplit?: BuilderChunkSplit;
+
+  /**
+   * Analyze the size of output files.
+   */
+  bundleAnalyze?: BundleAnalyzerPlugin.Options;
+}
+
+export interface NormalizedSharedPerformanceConfig
+  extends SharedPerformanceConfig {
+  printFileSize: boolean;
+  buildCache: BuildCacheOptions | boolean;
+  chunkSplit: BuilderChunkSplit;
 }
 
 export type SplitChunks = webpack.Configuration extends {

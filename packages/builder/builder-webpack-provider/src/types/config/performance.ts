@@ -1,12 +1,21 @@
-import type { SharedPerformanceConfig } from '@modern-js/builder-shared';
-import type { BundleAnalyzerPlugin } from '../../../compiled/webpack-bundle-analyzer';
+import type {
+  SharedPerformanceConfig,
+  NormalizedSharedPerformanceConfig,
+} from '@modern-js/builder-shared';
 
-export interface PerformanceConfig extends SharedPerformanceConfig {
+export type PerformanceConfig = SharedPerformanceConfig & {
   /**
-   * Analyze the size of output files.
+   * Whether to remove the locales of [moment.js](https://momentjs.com/).
    */
-  bundleAnalyze?: BundleAnalyzerPlugin.Options;
-}
+  removeMomentLocale?: boolean;
+  /**
+   * Whether capture timing information for each module,
+   * same as the [profile](https://webpack.js.org/configuration/other-options/#profile) config of webpack.
+   */
+  profile?: boolean;
+};
 
-export type NormalizedPerformanceConfig = PerformanceConfig &
-  Required<SharedPerformanceConfig>;
+export type NormalizedPerformanceConfig = Required<
+  Pick<PerformanceConfig, 'removeMomentLocale' | 'profile'>
+> &
+  NormalizedSharedPerformanceConfig;
