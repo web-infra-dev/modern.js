@@ -11,4 +11,6 @@ export const plugins = {
   toml: () => import('./toml').then(m => m.builderPluginToml()),
   splitChunks: () =>
     import('./splitChunks').then(m => m.builderPluginSplitChunks()),
+  bundleAnalyzer: () =>
+    import('./bundleAnalyzer').then(m => m.builderPluginBundleAnalyzer()),
 };
