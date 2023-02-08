@@ -7,7 +7,12 @@ import type {
 export const isUsingHMR = (
   config: NormalizedConfig,
   { isProd, target }: ModifyWebpackChainUtils,
-) => !isProd && target !== 'node' && target !== 'web-worker' && config.dev.hmr;
+) =>
+  !isProd &&
+  target !== 'node' &&
+  target !== 'web-worker' &&
+  target !== 'server-worker' &&
+  config.dev.hmr;
 
 export const builderPluginHMR = (): BuilderPlugin => ({
   name: 'builder-plugin-hmr',

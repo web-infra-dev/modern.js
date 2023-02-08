@@ -3,7 +3,7 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   fs,
   getPackageManager,
-  isWorker,
+  isServerWorker,
   ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import {
@@ -21,21 +21,19 @@ export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-worker',
   setup: ctx => {
     return {
-      // async config() {
-      //   return {
-      //     tools: {
-      //       webpack: {
-      //         externalsPresets: { node: true },
-      //       },
-      //     },
-      //   };
-      // },
+      async config() {
+        return {
+          output: {
+            disableNodePolyfill: false,
+          },
+        };
+      },
       async beforeDeploy() {
         const { appDirectory, distDirectory } = ctx.useAppContext();
 
         const configContext = ctx.useResolvedConfigContext();
 
-        if (!isWorker(configContext)) {
+        if (!isServerWorker(configContext)) {
           return;
         }
         const workServerDir = path.join(distDirectory, WORKER_SERVER);

@@ -215,66 +215,68 @@ export function builderPluginSplitChunks(): DefaultBuilderPlugin {
   return {
     name: 'builder-plugin-split-chunks',
     setup(api) {
-      api.modifyBundlerChain(async (chain, { isServer, isWebWorker }) => {
-        if (isServer || isWebWorker) {
-          chain.optimization.splitChunks(false);
+      api.modifyBundlerChain(
+        async (chain, { isServer, isWebWorker, isServerWorker }) => {
+          if (isServer || isWebWorker || isServerWorker) {
+            chain.optimization.splitChunks(false);
 
-          // web worker does not support dynamic imports, dynamicImportMode need set to eager
-          if (isWebWorker) {
-            // todo: not support in rspack
-            // @ts-expect-error
-            chain.module.parser.merge({
-              javascript: {
-                dynamicImportMode: 'eager',
-              },
-            });
+            // web worker does not support dynamic imports, dynamicImportMode need set to eager
+            if (isWebWorker) {
+              // todo: not support in rspack
+              // @ts-expect-error
+              chain.module.parser.merge({
+                javascript: {
+                  dynamicImportMode: 'eager',
+                },
+              });
+            }
+
+            return;
           }
 
-          return;
-        }
-
-        const config = api.getNormalizedConfig();
-        const defaultConfig: SplitChunks = {
-          // Optimize both `initial` and `async` chunks
-          chunks: 'all',
-          // When chunk size >= 50000 bytes, split it into separate chunk
-          enforceSizeThreshold: 50000,
-          cacheGroups: {},
-        };
-        const { chunkSplit } = config.performance;
-        let userDefinedCacheGroups = {};
-        if (chunkSplit.forceSplitting) {
-          userDefinedCacheGroups = getUserDefinedCacheGroups(
-            chunkSplit.forceSplitting,
-          );
-        }
-        // Patch the override config difference between the `custom` strategy and other strategy.
-        const override =
-          chunkSplit.strategy === 'custom'
-            ? // `chunkSplit.splitChunks` compat for Eden
-              chunkSplit.splitChunks ?? chunkSplit.override
-            : chunkSplit.override;
-        // Apply different strategy
-        const splitChunksOptions = await SPLIT_STRATEGY_DISPATCHER[
-          chunkSplit.strategy
-        ]({
-          defaultConfig,
-          override: override || {},
-          userDefinedCacheGroups,
-          builderConfig: chunkSplit,
-          rootPath: api.context.rootPath,
-          polyfill: config.output.polyfill,
-        });
-
-        chain.optimization.splitChunks(splitChunksOptions);
-
-        // should not extract runtime chunk when strategy is `all-in-one`
-        if (chunkSplit.strategy !== 'all-in-one') {
-          chain.optimization.runtimeChunk({
-            name: RUNTIME_CHUNK_NAME,
+          const config = api.getNormalizedConfig();
+          const defaultConfig: SplitChunks = {
+            // Optimize both `initial` and `async` chunks
+            chunks: 'all',
+            // When chunk size >= 50000 bytes, split it into separate chunk
+            enforceSizeThreshold: 50000,
+            cacheGroups: {},
+          };
+          const { chunkSplit } = config.performance;
+          let userDefinedCacheGroups = {};
+          if (chunkSplit.forceSplitting) {
+            userDefinedCacheGroups = getUserDefinedCacheGroups(
+              chunkSplit.forceSplitting,
+            );
+          }
+          // Patch the override config difference between the `custom` strategy and other strategy.
+          const override =
+            chunkSplit.strategy === 'custom'
+              ? // `chunkSplit.splitChunks` compat for Eden
+                chunkSplit.splitChunks ?? chunkSplit.override
+              : chunkSplit.override;
+          // Apply different strategy
+          const splitChunksOptions = await SPLIT_STRATEGY_DISPATCHER[
+            chunkSplit.strategy
+          ]({
+            defaultConfig,
+            override: override || {},
+            userDefinedCacheGroups,
+            builderConfig: chunkSplit,
+            rootPath: api.context.rootPath,
+            polyfill: config.output.polyfill,
           });
-        }
-      });
+
+          chain.optimization.splitChunks(splitChunksOptions);
+
+          // should not extract runtime chunk when strategy is `all-in-one`
+          if (chunkSplit.strategy !== 'all-in-one') {
+            chain.optimization.runtimeChunk({
+              name: RUNTIME_CHUNK_NAME,
+            });
+          }
+        },
+      );
     },
   };
 }

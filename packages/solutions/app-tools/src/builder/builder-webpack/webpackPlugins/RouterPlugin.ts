@@ -26,6 +26,13 @@ export class RouterPlugin {
       return;
     }
 
+    if (
+      target === 'server-worker' ||
+      (Array.isArray(target) && target.includes('server-worker'))
+    ) {
+      return;
+    }
+
     const { webpack } = compiler;
     const { Compilation, sources } = webpack;
     const { RawSource } = sources;
@@ -80,9 +87,7 @@ export class RouterPlugin {
           };
           const injectedContent = `
             ;(function(){
-              if (typeof window !== 'undefined') {
-                window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest)};
-              }
+              window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest)};
             })();
           `;
 

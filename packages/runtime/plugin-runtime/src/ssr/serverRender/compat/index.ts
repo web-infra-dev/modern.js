@@ -1,1 +1,0 @@
-export { EOL } from 'os';

@@ -13,41 +13,39 @@ export function builderPluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
     name: 'builder-plugin-node-polyfill',
 
     async setup(api) {
-      api.modifyWebpackChain(
-        async (chain, { CHAIN_ID, isServer, isWebWorker, webpack }) => {
-          // it had not need `node polyfill`, if the target is 'node'(server runtime).
-          if (isServer || isWebWorker) {
-            return;
+      api.modifyWebpackChain(async (chain, { CHAIN_ID, isServer, webpack }) => {
+        // it had not need `node polyfill`, if the target is 'node'(server runtime).
+        if (isServer) {
+          return;
+        }
+
+        const { default: nodeLibsBrowser } = await import(
+          // @ts-expect-error
+          'node-libs-browser'
+        );
+
+        chain
+          .plugin(CHAIN_ID.PLUGIN.NODE_POLYFILL_PROVIDE)
+          .use(webpack.ProvidePlugin, [
+            {
+              Buffer: [nodeLibsBrowser.buffer, 'Buffer'],
+              process: [nodeLibsBrowser.process],
+            },
+          ]);
+
+        const fallback = Object.keys(nodeLibsBrowser).reduce<
+          Record<string, string | false>
+        >((previous, name) => {
+          if (nodeLibsBrowser[name]) {
+            previous[name] = nodeLibsBrowser[name];
+          } else {
+            previous[name] = false;
           }
+          return previous;
+        }, {});
 
-          const { default: nodeLibsBrowser } = await import(
-            // @ts-expect-error
-            'node-libs-browser'
-          );
-
-          chain
-            .plugin(CHAIN_ID.PLUGIN.NODE_POLYFILL_PROVIDE)
-            .use(webpack.ProvidePlugin, [
-              {
-                Buffer: [nodeLibsBrowser.buffer, 'Buffer'],
-                process: [nodeLibsBrowser.process],
-              },
-            ]);
-
-          const fallback = Object.keys(nodeLibsBrowser).reduce<
-            Record<string, string | false>
-          >((previous, name) => {
-            if (nodeLibsBrowser[name]) {
-              previous[name] = nodeLibsBrowser[name];
-            } else {
-              previous[name] = false;
-            }
-            return previous;
-          }, {});
-
-          chain.resolve.fallback.merge(fallback);
-        },
-      );
+        chain.resolve.fallback.merge(fallback);
+      });
     },
   };
 }

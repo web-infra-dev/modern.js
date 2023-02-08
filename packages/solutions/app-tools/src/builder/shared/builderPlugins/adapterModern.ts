@@ -81,6 +81,8 @@ export const builderPluginAdapterModern = <B extends Bundler>(
       // set bundler config name
       if (target === 'node') {
         chain.name('server');
+      } else if (target === 'server-worker') {
+        chain.name('server worker');
       } else if (target === 'web-worker') {
         chain.name('worker');
       } else if (target === 'modern-web') {
@@ -90,7 +92,7 @@ export const builderPluginAdapterModern = <B extends Bundler>(
       }
 
       // apply node compat
-      if (target === 'node' || target === 'web-worker') {
+      if (target === 'node' || target === 'server-worker') {
         applyNodeCompat(target, chain, normalizedConfig, isProd);
       }
 
@@ -110,7 +112,11 @@ export const builderPluginAdapterModern = <B extends Bundler>(
         });
       }
 
-      if (target !== 'node' && target !== 'web-worker') {
+      if (
+        target !== 'node' &&
+        target !== 'web-worker' &&
+        target !== 'server-worker'
+      ) {
         const bareServerModuleReg = /\.(server|node)\.[tj]sx?$/;
         chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(bareServerModuleReg);
         chain.module
@@ -127,6 +133,7 @@ export const builderPluginAdapterModern = <B extends Bundler>(
       return (
         config.tools?.htmlPlugin !== false &&
         target !== 'node' &&
+        target !== 'server-worker' &&
         target !== 'web-worker'
       );
     }
@@ -223,7 +230,7 @@ function applyAsyncChunkHtmlPlugin({
  * compat some config, if target is `node` or `worker`
  */
 function applyNodeCompat(
-  target: 'node' | 'web-worker',
+  target: 'node' | 'server-worker',
   chain: BundlerChain,
   modernConfig: AppNormalizedConfig<'shared'>,
   isProd: boolean,
@@ -249,7 +256,7 @@ function applyNodeCompat(
     chain.resolve.extensions.prepend(ext);
   }
 
-  if (target === 'web-worker') {
+  if (target === 'server-worker') {
     for (const ext of webWorkerExts) {
       chain.resolve.extensions.prepend(ext);
     }
