@@ -11,6 +11,7 @@ import { cleanUrl, omit } from '@/shared/utils';
 
 export async function initPageData(routePath: string): Promise<PageData> {
   const matched = matchRoutes(routes, routePath)!;
+
   if (matched) {
     // Preload route component
     const matchedRoute = matched[0].route;
@@ -28,6 +29,7 @@ export async function initPageData(routePath: string): Promise<PageData> {
       ...omit(mod, ['default']),
       pageType: mod?.frontmatter?.pageType || 'doc',
       routePath,
+      lang: matchedRoute.lang,
     } as PageData;
   } else {
     // 404 Page
@@ -37,6 +39,7 @@ export async function initPageData(routePath: string): Promise<PageData> {
       relativePagePath: '',
       pageType: '404',
       routePath: '/404',
+      lang: siteData.lang || '',
     };
   }
 }

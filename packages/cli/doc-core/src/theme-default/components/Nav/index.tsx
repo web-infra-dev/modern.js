@@ -138,20 +138,18 @@ export function Nav(props: NavProps) {
     return (
       <div className={styles.rightNav}>
         {hasSearch && (
-          <div className="search" flex="sm:1" p="sm:l-8">
-            <Search
-              langRoutePrefix={localeData.langRoutePrefix || ''}
-              defaultLang={defaultLang}
-              langs={langs}
-            />
+          <div flex="~ sm:1" items="center" p="sm:l-4 sm:r-2">
+            <Search />
           </div>
         )}
         <NavMenu menuItems={menuItems} />
-        {hasMultiLanguage && (
-          <NavTranslations translationMenuData={translationMenuData!} />
-        )}
-        {hasAppearanceSwitch && <NavAppearance />}
-        {hasSocialLinks && <SocialLinks socialLinks={socialLinks} />}
+        <div className="flex-center flex-row">
+          {hasMultiLanguage && (
+            <NavTranslations translationMenuData={translationMenuData!} />
+          )}
+          {hasAppearanceSwitch && <NavAppearance />}
+          {hasSocialLinks && <SocialLinks socialLinks={socialLinks} />}
+        </div>
       </div>
     );
   };
@@ -185,11 +183,15 @@ export function Nav(props: NavProps) {
             align-items-center="~"
           >
             {rightNav()}
-            <NavHamburger
-              localeData={localeData}
-              siteData={siteData}
-              pathname={pathname}
-            />
+
+            <div className={styles.mobileNavMenu}>
+              <NavHamburger
+                localeData={localeData}
+                siteData={siteData}
+                pathname={pathname}
+              />
+              <Search />
+            </div>
           </div>
         </div>
       </div>
