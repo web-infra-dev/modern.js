@@ -5,9 +5,19 @@ import garfishPlugin from '@modern-js/plugin-garfish';
 export default defineConfig({
   runtime: {
     router: true,
-    state: true,
-    masterApp: true,
+    masterApp: {
+      apps: [{
+        name: 'SubConvention',
+        entry: 'http://localhost:3002',
+        // activeWhen: '/SubConvention'
+      }, {
+        name: 'SubCustom',
+        entry: 'http://localhost:3003'
+        // activeWhen: '/SubConvention'
+      }]
+    },
   },
   plugins: [appTools(), garfishPlugin()],
 });
+
 ```
