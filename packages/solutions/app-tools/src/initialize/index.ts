@@ -5,20 +5,25 @@ import {
   isDevCommand,
 } from '@modern-js/utils';
 import { legacySchema, schema } from '../schema';
-import { transformNormalizedConfig } from '../config/initial/transformNormalizedConfig';
 import {
   checkIsLegacyConfig,
   createDefaultConfig,
   createLegacyDefaultConfig,
+  transformNormalizedConfig,
 } from '../config';
-import {
+import type {
   CliPlugin,
   AppTools,
   AppToolsNormalizedConfig,
   AppUserConfig,
+  AppNormalizedConfig,
 } from '../types';
 
-export default (): CliPlugin<AppTools> => ({
+export default ({
+  bundler,
+}: {
+  bundler: 'rspack' | 'webpack';
+}): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-initialize',
 
   setup(api) {
@@ -28,7 +33,7 @@ export default (): CliPlugin<AppTools> => ({
 
       return checkIsLegacyConfig(userConfig)
         ? (createLegacyDefaultConfig(appContext) as unknown as AppUserConfig)
-        : createDefaultConfig(appContext);
+        : createDefaultConfig(appContext, bundler);
     };
 
     const validateSchema = () => {
@@ -60,36 +65,51 @@ export default (): CliPlugin<AppTools> => ({
           ? transformNormalizedConfig(resolved as any)
           : resolved;
 
-        return {
-          resolved: {
-            // FIXME: the userConfig mayby legacy userConfig
-            _raw: userConfig,
-            source: normalizedConfig.source || {},
-            server: {
-              ...(normalizedConfig.server || {}),
-              port,
-            },
-            bff: normalizedConfig.bff || {},
-            dev: normalizedConfig.dev || {},
-            html: normalizedConfig.html || {},
-            output: normalizedConfig.output || {},
-            security: normalizedConfig.security || {},
-            tools: normalizedConfig.tools || {},
-            testing: normalizedConfig.testing || {},
-            plugins: normalizedConfig.plugins || [],
-            builderPlugins: normalizedConfig.builderPlugins || [],
-            runtime: normalizedConfig.runtime || {},
-            runtimeByEntries: normalizedConfig.runtimeByEntries || {},
-            deploy: normalizedConfig.deploy || {},
-            performance: normalizedConfig.performance || {},
-            experiments: normalizedConfig.experiments || {},
-            autoLoadPlugins: normalizedConfig.autoLoadPlugins || false,
-          },
+        resolved._raw = userConfig;
+        resolved.server = {
+          ...(normalizedConfig.server || {}),
+          port,
         };
+        resolved.autoLoadPlugins = normalizedConfig.autoLoadPlugins || false;
+        stabilizeConfig(resolved, normalizedConfig, [
+          'source',
+          'bff',
+          'dev',
+          'html',
+          'output',
+          'tools',
+          'testing',
+          'plugins',
+          'builderPlugins',
+          'runtime',
+          'runtimeByEntries',
+          'deploy',
+          'performance',
+        ]);
+
+        if (bundler === 'webpack') {
+          (resolved as AppNormalizedConfig<'webpack'>).security =
+            (normalizedConfig as AppNormalizedConfig<'webpack'>).security || {};
+          (resolved as AppNormalizedConfig<'webpack'>).experiments = (
+            normalizedConfig as AppNormalizedConfig<'webpack'>
+          ).experiments;
+        }
+
+        return { resolved };
       },
     };
   },
 });
+
+function stabilizeConfig<C extends Record<string, any>>(
+  resolve: any,
+  config: C,
+  keys: Array<keyof C>,
+) {
+  keys.forEach(key => {
+    resolve[key] = config[key] || {};
+  });
+}
 
 async function getServerPort(config: AppToolsNormalizedConfig) {
   const prodPort = config.server.port || 8080;

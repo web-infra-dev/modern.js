@@ -6,7 +6,7 @@ import type { BuildOptions } from '../utils/types';
 import type { AppTools } from '../types';
 
 export const build = async (
-  api: PluginAPI<AppTools>,
+  api: PluginAPI<AppTools<'shared'>>,
   options?: BuildOptions,
 ) => {
   if (options?.analyze) {

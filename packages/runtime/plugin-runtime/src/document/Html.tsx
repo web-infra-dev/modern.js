@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { ReactElement } from 'react';
 import { Body } from './Body';
-import { DocumentStructrueContext } from './DocumentStructrueContext';
+import { DocumentStructureContext } from './DocumentStructureContext';
 import { Head } from './Head';
 
 /**
@@ -89,7 +89,7 @@ export function Html(props: { children: any[] }) {
 
   return (
     <html>
-      <DocumentStructrueContext.Provider
+      <DocumentStructureContext.Provider
         value={{
           hasSetHead,
           hasSetScripts,
@@ -102,7 +102,7 @@ export function Html(props: { children: any[] }) {
         {!hasSetHead && <Head />}
         {!hasSetBody && <Body />}
         {children}
-      </DocumentStructrueContext.Provider>
+      </DocumentStructureContext.Provider>
     </html>
   );
 }

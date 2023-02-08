@@ -29,7 +29,7 @@ export const runRollup = async (
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
     load(id) {
-      if (!/\.(js|jsx|ts|tsx|json)$/.test(id)) {
+      if (!/\.(js|jsx|ts|tsx|json|cts|mts)$/.test(id)) {
         return '';
       }
       return null;
@@ -64,6 +64,8 @@ export const runRollup = async (
         compilerOptions: {
           declarationMap: false,
           skipLibCheck: true,
+          // https://github.com/Swatinem/rollup-plugin-dts/issues/143,
+          // but it will cause error when bundle ts which import another ts file.
           preserveSymlinks: false,
           ...options,
           // isAbsolute

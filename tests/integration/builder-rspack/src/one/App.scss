@@ -1,0 +1,13 @@
+.description {
+  font-size: 18px;
+  color: rgb(207, 92, 215);
+}
+
+
+$width: 10px;
+$height: $width + 10px;
+
+#header {
+  width: $width;
+  height: $height;
+}

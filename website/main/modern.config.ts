@@ -1,5 +1,5 @@
 import path from 'path';
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import docTools, { defineConfig, type NavItem } from '@modern-js/doc-tools';
 import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
 
 const rootCategories = [
@@ -10,10 +10,11 @@ const rootCategories = [
   'blog',
 ];
 
-const docPath = path.join(__dirname, '../../packages/toolkit/main-doc');
-const isProd = process.env.NODE_ENV !== 'development';
+const { version } = require('./package.json');
 
-const getNavbar = (lang: string) => {
+const docPath = path.join(__dirname, '../../packages/toolkit/main-doc');
+
+const getNavbar = (lang: string): NavItem[] => {
   const cn = lang === 'zh';
   const prefix = cn ? '' : '/en';
   const getLink = (str: string) => `${prefix}${str}`;
@@ -34,17 +35,25 @@ const getNavbar = (lang: string) => {
       link: getLink('/configure/app/usage'),
       activeMatch: '/configure/app',
     },
-
     {
       text: getText('API', 'API'),
       link: getLink('/apis/app/commands/dev'),
       activeMatch: '/apis/',
     },
-
+    // TODO enabled after we write the v2 release blog
+    // {
+    //   text: getText('博客', 'Blog'),
+    //   link: getLink('/blog/index'),
+    //   activeMatch: '/blog/',
+    // },
     {
-      text: getText('博客', 'Blog'),
-      link: getLink('/blog/index'),
-      activeMatch: '/blog/',
+      text: `v${version}`,
+      items: [
+        {
+          text: 'v1',
+          link: 'https://modernjs.dev/v1/',
+        },
+      ],
     },
   ];
 };
@@ -52,7 +61,7 @@ const getNavbar = (lang: string) => {
 export default defineConfig({
   doc: {
     root: docPath,
-    base: isProd ? '/v2/' : '',
+    base: '/',
     logo: 'https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/assets/images/images/modernjs-logo.svg',
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/favicon.ico',
     lang: 'zh',
@@ -183,10 +192,8 @@ export default defineConfig({
         svgDefaultExport: 'component',
         dataUriLimit: 0,
       },
-      tools: {
-        // experiments: {
-        //   lazyCompilation: true,
-        // },
+      dev: {
+        startUrl: true,
       },
       source: {
         alias: {

@@ -366,7 +366,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "publicPath": "/",
   },
   "resolve": {
-    "alias": {},
     "extensions": [
       ".ts",
       ".tsx",
@@ -750,7 +749,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "publicPath": "/",
   },
   "resolve": {
-    "alias": {},
     "extensions": [
       ".ts",
       ".tsx",
@@ -1147,7 +1145,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
     },
   ],
   "resolve": {
-    "alias": {},
     "extensions": [
       ".ts",
       ".tsx",

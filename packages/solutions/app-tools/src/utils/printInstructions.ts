@@ -3,9 +3,9 @@ import type { IAppContext, CliHooksRunner } from '@modern-js/core';
 import type { AppNormalizedConfig, AppTools } from '../types';
 
 export const printInstructions = async (
-  hookRunners: CliHooksRunner<AppTools>,
+  hookRunners: CliHooksRunner<AppTools<'shared'>>,
   appContext: IAppContext,
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<'shared'>,
 ) => {
   const message = prettyInstructions(appContext, config);
 
