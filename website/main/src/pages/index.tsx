@@ -3,7 +3,7 @@
 // TODO: enable eslint
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import { NoSSR, useLocation, withBase } from '@modern-js/doc-tools/runtime';
+import { useLocation } from '@modern-js/doc-tools/runtime';
 import UnitySVG from '@site/static/img/features/unity.svg';
 import DynamicSVG from '@site/static/img/features/dynamic.svg';
 import APISVG from '@site/static/img/features/api.svg';
@@ -13,13 +13,12 @@ import FrameWorkConfigSVG from '@site/static/img/features/framework-config.svg';
 import TestSVG from '@site/static/img/features/test.svg';
 import EditorSVG from '@site/static/img/features/editor.svg';
 import QuickStartCard from '../components/QuickStartCard';
-import FlowCard from '../components/FlowCard';
 import ContentCard from '../components/ContentCard';
 import SecondaryTitle from '../components/SecondaryTitle';
 import { Featurelayout } from '../components/FeatureLayout';
 import Footer from '../theme/Footer';
-import styles from './index.module.css';
-import 'swiper/css';
+import styles from './index.module.scss';
+import { useI18n, useUrl } from '../i18n';
 
 const bestPractice = [
   {
@@ -109,123 +108,37 @@ const flowCards = [
   },
 ];
 
-const HomepageHeader = () => (
-  <div className={styles['homepage-header']}>
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <img
-        src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/modern-logo.svg?url"
-        className={styles.logo}
-      />
-      <h1 className={styles.title}>现代 Web 工程体系</h1>
-      <div className={styles.buttons}>
-        <a
-          href={withBase('/tutorials/foundations/introduction')}
-          className={styles.start}
-        >
-          介绍{' '}
-          <img
-            width="20"
-            height="20"
-            className={styles['start-arrow']}
-            src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/right-arrow.svg?url"
-          />
-        </a>
-        <a
-          href={withBase('/guides/get-started/quick-start')}
-          className={styles['doc-btn']}
-        >
-          快速开始
-        </a>
-        <a
-          href={withBase('/guides/get-started/quick-start')}
-          className={styles['doc-btn']}
-        >
-          文档
-        </a>
-      </div>
-    </header>
-  </div>
-);
-
-const FlowCards = props => {
-  const isWeb = window.innerWidth > 1100;
-  const flowLineImg = isWeb
-    ? 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/flow-line-line.png'
-    : 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/flow-line-mobile.png';
-  let top1 = 53;
-  let top2 = 120;
-  const distance = 530;
-  const renderedWebCards = props.cards.map((card, cardIndex) => {
-    if (cardIndex % 2 !== 0) {
-      const top = top2;
-      top2 += distance;
-      return (
-        <FlowCard
-          key={cardIndex}
-          cardStyle={{
-            right: 0,
-            top: `${card.top}px`,
-            textDecoration: 'none',
-          }}
-          direction="left"
-          title={card.title}
-          desc={card.desc}
-          img={card.img}
-          href={card.href}
-        />
-      );
-    } else {
-      const top = top1;
-      top1 += distance;
-      return (
-        <FlowCard
-          key={cardIndex}
-          cardStyle={{
-            left: 0,
-            top: `${card.top}px`,
-            textDecoration: 'none',
-          }}
-          direction="right"
-          title={card.title}
-          desc={card.desc}
-          img={card.img}
-          href={card.href}
-        />
-      );
-    }
-  });
-
-  const renderedMobileCards = props.cards.map((card, cardIndex) => {
-    const left = 53;
-    const top = 10;
-    // const distance = cardIndex * 60;
-    const distance = cardIndex * 65;
-    return (
-      <FlowCard
-        cardStyle={{
-          top: `calc(${top}px + ${distance}vw)`,
-          // left: `${left}px`,
-        }}
-        key={cardIndex}
-        title={card.title}
-        desc={card.desc}
-        img={card.img}
-      />
-    );
-  });
+const HomepageHeader = () => {
+  const t = useI18n();
   return (
-    <div className={styles.flowContainer}>
-      {isWeb && (
-        <img
-          className={`${styles.flowLine} ${isWeb ? '' : styles.flowLineMobile}`}
-          src={flowLineImg}
-          style={{
-            width: '1px',
-          }}
-          alt="flow line"
-        />
-      )}
-      {isWeb ? renderedWebCards : renderedMobileCards}
+    <div className={styles.header}>
+      <header className={clsx('hero hero--primary', styles.heroBanner)}>
+        <h1 className={styles.title}>
+          <div>Building</div>
+          <div>Modern Web Application</div>
+          <div>Without Limits</div>
+        </h1>
+        <div className={styles.buttons}>
+          <a
+            href={useUrl('/tutorials/foundations/introduction')}
+            className={styles.leftButton}
+          >
+            {t('introduction')}
+            <img
+              width="20"
+              height="20"
+              className={styles['start-arrow']}
+              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/right-arrow.svg?url"
+            />
+          </a>
+          <a
+            href={useUrl('/guides/get-started/quick-start')}
+            className={styles.rightButton}
+          >
+            {t('quickStart')}
+          </a>
+        </div>
+      </header>
     </div>
   );
 };
@@ -286,12 +199,6 @@ export default function Home() {
         <Featurelayout>
           <SecondaryTitle seqNum={++count}>极致的开发者体验</SecondaryTitle>
           <div className={styles.cardContainer}>{bestPraticeCards}</div>
-        </Featurelayout>
-        <Featurelayout>
-          <SecondaryTitle seqNum={++count}>提供 Web 开发全流程</SecondaryTitle>
-          <NoSSR>
-            <FlowCards cards={flowCards} />
-          </NoSSR>
         </Featurelayout>
         <QuickStartCard />
         <Footer />

@@ -86,7 +86,7 @@ export default defineConfig({
       locales: [
         {
           lang: 'zh',
-          title: 'Modern.js - 现代 Web 工程体系',
+          title: 'Modern.js',
           description:
             'A Progressive React Framework for modern web development.',
           nav: getNavbar('zh'),
@@ -94,7 +94,7 @@ export default defineConfig({
         },
         {
           lang: 'en',
-          title: 'Modern.js - Modern Web Engine',
+          title: 'Modern.js',
           description:
             'A Progressive React Framework for modern web development.',
           nav: getNavbar('en'),
@@ -188,7 +188,6 @@ export default defineConfig({
     builderConfig: {
       output: {
         disableTsChecker: true,
-        disableMinimize: true,
         svgDefaultExport: 'component',
         dataUriLimit: 0,
       },

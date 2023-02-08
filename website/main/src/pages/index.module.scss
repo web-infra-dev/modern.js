@@ -2,84 +2,92 @@
  * CSS files with the .module.css suffix will be treated as CSS modules
  * and scoped locally.
  */
+
+/* === Header Start === */
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: #000;
+  background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/bg.png);
+  background-size: cover;
+  background-position: center bottom;
+  background-origin: border-box;
+  height: 100vh;
+  min-height: 700px;
+  max-height: 900px;
+}
+
 .heroBanner {
   display: flex;
-  margin-top: 40px;
-  padding-left: 16%;
+  width: 80vw;
+  max-width: 1200px;
+  margin-top: 56px;
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
-  background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/bg.png);
-  background-size: cover;
-  background-position: center bottom;
   box-sizing: border-box;
-  height: 691px;
-  background-origin: border-box;
   align-items: flex-start;
-  background-color: #000;
-}
-
-.logo {
-  width: 539px;
-  margin-top: 130px;
+  padding-top: 15vh;
 }
 
 .title {
-  font-family: Noto Sans SC;
   font-style: normal;
   font-weight: bold;
-  font-size: 4rem;
-  color: #fff;
-  margin-top: 50px;
+  font-size: 3.6rem;
+  line-height: 1.6;
+  width: 680px;
+  background: -webkit-linear-gradient(
+    320deg,
+    hsl(198deg 100% 75%) 30%,
+    hsl(198deg 100% 55%)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .buttons {
   display: flex;
   justify-content: center;
-  margin-top: 87px;
+  margin-top: 8vh;
 }
 
-.start:hover,
-.doc-btn:hover {
-  text-decoration: none;
+.leftButton,
+.rightButton {
+  width: 168px;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
-.start:hover {
-  transition: opacity 0.3s ease;
-  opacity: 1;
-  color: #000;
-}
-
-.start {
+.leftButton {
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 48px;
   height: 48px;
   background: linear-gradient(274.85deg, #4ecaff 3%, #64cfde 97.17%);
-  box-shadow: 0px 1px 39px rgba(133, 250, 202, 0.34);
+  box-shadow: 0px 1px 8px rgba(133, 250, 202, 0.34);
   border-radius: 39px;
   color: #000000;
-  width: 147px;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 0.9;
   transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+    color: #000;
+  }
 }
 
-.doc-btn:hover {
-  color: rgba(132, 218, 255, 1);
-  border: 1px solid #84daff;
-  transition: all 0.3s ease;
-}
-
-.doc-btn {
+.rightButton {
   display: flex;
-  width: 130px;
   height: 49px;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.07);
+  background: #0d0d0d;
   border: 1px solid #4ecaff;
   box-sizing: border-box;
   border-radius: 39px;
@@ -87,7 +95,55 @@
   cursor: pointer;
   color: #4ecaff;
   transition: all 0.3s ease;
+
+  &:hover {
+    color: rgba(132, 218, 255, 1);
+    border: 1px solid #84daff;
+  }
 }
+
+@media (max-width: 1600px) {
+  .logo {
+    width: 420px;
+  }
+
+  .title {
+    font-size: 3.2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/banner-mobile-bg.png);
+  }
+  .heroBanner {
+    align-items: center;
+  }
+  .title {
+    font-size: 7vw;
+    text-align: center;
+  }
+  .buttons {
+    width: 65%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+  }
+  .leftButton,
+  .rightButton {
+    width: 100%;
+  }
+  .rightButton {
+    margin-left: 0;
+    margin-top: 32px;
+  }
+  .singleImg {
+    max-width: 100%;
+  }
+}
+
+/* === Header End === */
 
 .section-title {
   margin-top: 2rem;
@@ -100,26 +156,9 @@
   color: transparent;
 }
 
-.swiper-container {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.swiper-container::-webkit-scrollbar {
-  display: none;
-}
-
-.swiper {
-  width: 1240px;
-  margin-top: 16px;
-  margin-bottom: 28px;
-  overflow-x: hidden;
-}
-
 .cardContainer {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-between; */
   margin-top: 16px;
   margin-left: -16px;
 }
@@ -182,58 +221,11 @@
 }
 
 @media screen and (max-width: 700px) {
-  .swiper {
-    /* width: calc(52vw * 4 + 17px); */
-    width: 100%;
-    margin-top: 8px;
-    margin-bottom: 14px;
-  }
   .section-title {
     font-size: 1rem;
     font-size: 4vw;
     margin-top: 1rem;
     margin-bottom: 1rem;
-  }
-  .singleImg {
-    max-width: 100%;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .swiper {
-    /* width: calc(52vw * 4 + 17px); */
-    width: 100%;
-    margin-top: 8px;
-    margin-bottom: 14px;
-  }
-}
-
-@media screen and (max-width: 966px) {
-  .heroBanner {
-    padding: 2rem;
-    align-items: center;
-    background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/banner-mobile-bg.png);
-  }
-  .buttons {
-    width: 65%;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 30px;
-  }
-  .start,
-  .doc-btn {
-    width: 100%;
-  }
-  .doc-btn {
-    margin-left: 0;
-    margin-top: 42px;
-  }
-  .logo {
-    width: 70vw;
-  }
-  .title {
-    font-size: 8vw;
   }
   .singleImg {
     max-width: 100%;

@@ -5704,7 +5704,6 @@ importers:
       react: ^18
       react-dom: ^18
       react-masonry-component: ^6.3.0
-      swiper: ^7.0.9
       typescript: ^4
     dependencies:
       '@modern-js/builder-doc': link:../../packages/builder/builder-doc
@@ -5716,7 +5715,6 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-masonry-component: 6.3.0_react@18.2.0
-      swiper: 7.4.1
     devDependencies:
       typescript: 4.9.3
 
@@ -14712,8 +14710,10 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -18258,12 +18258,6 @@ packages:
 
   /dom-walk/0.1.2:
     resolution: {integrity: sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==}
-
-  /dom7/4.0.4:
-    resolution: {integrity: sha512-DSSgBzQ4rJWQp1u6o+3FVwMNnT5bzQbMb+o31TjYYeRi05uAcpF8koxdfzeoe5ElzPmua7W7N28YJhF7iEKqIw==}
-    dependencies:
-      ssr-window: 4.0.2
-    dev: false
 
   /domain-browser/1.2.0:
     resolution: {integrity: sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==}
@@ -30568,7 +30562,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
@@ -31194,10 +31188,6 @@ packages:
       tweetnacl: 0.14.5
     dev: true
 
-  /ssr-window/4.0.2:
-    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
-    dev: false
-
   /ssri/6.0.2:
     resolution: {integrity: sha512-cepbSq/neFK7xB6A50KHN0xHDotYzq58wWCa5LeWqnPrHG8GzfEjO/4O8kpmcGW+oaxkvhEJCWgbgNk4/ZV93Q==}
     dependencies:
@@ -31753,15 +31743,6 @@ packages:
       css-tree: 2.2.1
       csso: 5.0.5
       picocolors: 1.0.0
-    dev: false
-
-  /swiper/7.4.1:
-    resolution: {integrity: sha512-dhbL4tpYFvHug1J7GnKElfTi6EYhlZy/vNZRhHkWFyUsWZ1Vovipxj3la5gqllMogygXJMe3zvVv+f6eppvWiA==}
-    engines: {node: '>= 4.7.0'}
-    requiresBuild: true
-    dependencies:
-      dom7: 4.0.4
-      ssr-window: 4.0.2
     dev: false
 
   /symbol-tree/3.2.4:

@@ -11,10 +11,10 @@
     "@modern-js/doc-tools": "workspace:*",
     "@modern-js/doc-plugin-auto-sidebar": "workspace:*",
     "@modern-js/builder-doc": "workspace:*",
+    "@types/node": "^14",
     "classnames": "^2",
     "react-masonry-component": "^6.3.0",
     "clsx": "^1.2.1",
-    "swiper": "^7.0.9",
     "react": "^18",
     "react-dom": "^18"
   },
