@@ -51,6 +51,7 @@
 .searchHits {
   max-height: calc(100vh - 230px);
   overflow: scroll;
+  padding-right: 2px;
   .groupTitle {
     position: sticky;
     top: 0;
@@ -116,12 +117,13 @@
 .suggestItem {
   list-style: none;
   box-sizing: border-box;
-  margin-top: 10px;
+  margin: 5px 2px;
+  box-shadow: 0 1px 3px 0 #d4d9e1;
+
   & > a {
     background-color: var(--modern-c-white);
     border-radius: 4px;
     padding-left: 12px;
-    box-shadow: var(--modern-shadow-2);
     color: var(--modern-c-black-soft);
     display: flex;
     width: 100%;
