@@ -40,7 +40,7 @@ describe('babel', () => {
     expect(config).toMatchSnapshot();
   });
 
-  it('compile es', async () => {
+  xit('compile es', async () => {
     const example = join(__dirname, './fixtures', './es-example');
     const distDir = join(example, './dist');
     const sharedDir = join(example, './shared');

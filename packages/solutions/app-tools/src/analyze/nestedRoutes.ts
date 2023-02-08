@@ -166,7 +166,7 @@ export const walk = async (
     }
   }
 
-  const finalRoute = createRoute(
+  let finalRoute = createRoute(
     route,
     rootDir,
     path.join(dirname, `${NESTED_ROUTE.LAYOUT_FILE}.ts`),
@@ -188,6 +188,28 @@ export const walk = async (
 
   if (route.children && route.children.length === 0 && !route.index) {
     return null;
+  }
+
+  /**
+   * Make sure access /user, which renders the user/$.tsx component
+   * - routes
+   *  - user
+   *    - $.tsx
+   *  - layout.tsx
+   */
+  if (
+    finalRoute.children &&
+    finalRoute.children.length === 1 &&
+    !finalRoute._component
+  ) {
+    const childRoute = finalRoute.children[0];
+    if (childRoute.path === '*') {
+      const path = `${finalRoute.path || ''}/${childRoute.path || ''}`;
+      finalRoute = {
+        ...childRoute,
+        path,
+      };
+    }
   }
 
   return finalRoute;
