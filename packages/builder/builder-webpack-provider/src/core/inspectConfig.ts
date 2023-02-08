@@ -1,9 +1,9 @@
 import { join, isAbsolute } from 'path';
-import { stringifyConfig } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import {
   InspectConfigOptions,
   outputInspectConfigFiles,
+  stringifyConfig,
 } from '@modern-js/builder-shared';
 import type { WebpackConfig } from '../types';
 
