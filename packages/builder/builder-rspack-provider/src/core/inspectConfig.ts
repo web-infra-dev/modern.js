@@ -3,31 +3,9 @@ import { initConfigs, InitConfigsOptions } from './initConfigs';
 import {
   InspectConfigOptions,
   outputInspectConfigFiles,
+  stringifyConfig,
 } from '@modern-js/builder-shared';
 import type { RspackConfig } from '../types';
-
-function stringifyConfig(config: Record<string, any>): string {
-  return JSON.stringify(
-    config,
-    (_key, value: Record<string, any> | any) => {
-      // shorten long functions
-      if (typeof value === 'function') {
-        const content = value.toString();
-        if (content.length > 100) {
-          return `function ${value.name}() { /* omitted long function */ }`;
-        }
-        return content;
-      }
-
-      if (value instanceof RegExp) {
-        return value.toString();
-      }
-
-      return value;
-    },
-    2,
-  );
-}
 
 export async function inspectConfig({
   context,
@@ -55,9 +33,14 @@ export async function inspectConfig({
       })
     ).rspackConfigs;
 
-  const rawBuilderConfig = stringifyConfig(context.config);
+  const rawBuilderConfig = await stringifyConfig(
+    context.config,
+    inspectOptions.verbose,
+  );
   const rawBundlerConfigs = await Promise.all(
-    rspackConfigs.map(config => stringifyConfig(config)),
+    rspackConfigs.map(config =>
+      stringifyConfig(config, inspectOptions.verbose),
+    ),
   );
 
   let outputPath = inspectOptions.outputPath || context.distPath;

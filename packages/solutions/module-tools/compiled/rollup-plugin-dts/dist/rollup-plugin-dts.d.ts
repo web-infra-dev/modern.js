@@ -15,6 +15,10 @@ interface Options {
      * `baseUrl` and `paths` properties, you can pass in `compilerOptions`.
      */
     compilerOptions?: ts.CompilerOptions;
+    /**
+     * Path to tsconfig.json, by default, will try to load 'tsconfig.json'
+     */
+    tsconfig?: string;
 }
 declare const plugin: PluginImpl<Options>;
 
