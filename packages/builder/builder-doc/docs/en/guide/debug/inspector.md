@@ -2,7 +2,7 @@
 
 Builder has a built-in [webpack inspector](https://github.com/modern-js-dev/webpack-inspector) to debug webpack.
 
-## Introduce
+## Introduction
 
 The internal workflow of webpack is relatively black box, when using webpack, we often encounter the following problems:
 

@@ -29,10 +29,10 @@
 
 Modern.js 生态提供了以下解决方案：
 
-- 🦄 [Modern.js Module](https://modernjs.dev/module-tools): 简单、强大、高性能的现代化 npm 包开发方案。
-- 🐧 [Modern.js Builder](https://modernjs.dev/builder): 一个面向 Web 开发场景的构建引擎。
+- 🦄 [Modern.js Module](https://modernjs.dev/module-tools): 简单、高性能的现代 npm 包开发方案。
+- 🐧 [Modern.js Builder](https://modernjs.dev/builder): 面向 Web 开发场景的构建引擎。
 - 🐟 [Garfish](https://github.com/modern-js-dev/garfish): 一站式微前端解决方案。
-- 🐈 [Reduck](https://github.com/modern-js-dev/reduck): 一个基于 Redux 的状态管理库。
+- 🐈 [Reduck](https://github.com/modern-js-dev/reduck): 基于 Redux 的状态管理库。
 
 ## 参与贡献
 
