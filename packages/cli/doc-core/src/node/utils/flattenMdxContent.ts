@@ -7,7 +7,6 @@ import { Root } from 'hast';
 import { MDX_REGEXP } from '@/shared/utils';
 
 const { CachedInputFileSystem, ResolverFactory } = enhancedResolve;
-export const IMPORT_FROM_REGEX = /import\s+(.*)from\s+['"](.*)['"];?/g;
 let resolver: Resolver;
 const processor = createProcessor();
 
