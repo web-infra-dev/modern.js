@@ -57,8 +57,8 @@ export const addRollupChunk = (
 };
 
 export const addDtsFiles = async (distDir: string, appDirectory: string) => {
-  const { fastGlob } = await import('@modern-js/utils');
-  const files = await fastGlob(`${distDir}**/*.d.ts`, {
+  const { fastGlob, slash } = await import('@modern-js/utils');
+  const files = await fastGlob(`${slash(distDir)}**/*.d.ts`, {
     stats: true,
   });
   bundlelessFiles.push(
