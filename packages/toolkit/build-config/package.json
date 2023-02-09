@@ -5,7 +5,7 @@
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
   "license": "MIT",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
   "scripts": {

@@ -52,7 +52,7 @@ export const universalBuildConfig: PartialBaseBuildConfig[] = [
   },
   {
     buildType: 'bundleless',
-    format: 'cjs',
+    format: 'esm',
     target: 'es2019',
     dts: false,
     outDir: './dist/esm-node',
