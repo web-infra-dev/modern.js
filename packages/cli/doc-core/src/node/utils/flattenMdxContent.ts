@@ -72,7 +72,9 @@ export async function flattenMdxContent(
     .filter(node => node.type === 'ImportDeclaration');
 
   for (const importNode of importNodes) {
-    // importNode.data?.estree.
+    // import Comp from './a';
+    // id: Comp
+    // importPath: './a'
     const id = importNode.specifiers[0].local.name;
     const importPath = importNode.source.value;
 
