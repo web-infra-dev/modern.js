@@ -82,7 +82,7 @@ export const builderPluginAdapterModern = <B extends Bundler>(
       if (target === 'node') {
         chain.name('server');
       } else if (target === 'service-worker') {
-        chain.name('server worker');
+        chain.name('service-worker');
       } else if (target === 'web-worker') {
         chain.name('worker');
       } else if (target === 'modern-web') {
