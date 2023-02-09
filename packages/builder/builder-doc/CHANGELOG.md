@@ -1,5 +1,21 @@
 # @modern-js/builder-doc
 
+## 2.4.0
+
+### Patch Changes
+
+- dfdd35a: docs: make v2 docs as default
+
+  docs: 将 Modern.js v2 文档作为默认文档
+
+- e787a45: feat: Add config to enable legacy decorator and 2 css-in-js plugins, update swc version
+
+  feat: 以及 2 个 css-in-js 插件，升级 swc 版本
+
+- ddc326a: feat: flatten mdx content
+
+  feat: 对 mdx 的内容进行扁平化
+
 ## 2.3.0
 
 ### Patch Changes
