@@ -34,7 +34,7 @@
     }
   },
   "main": "./dist/js/node/cli/index.js",
-  "module": "./dist/js/treeshaking/runtime/index.js",
+  "module": "./dist/esm/runtime/index.js",
   "exports": {
     "./types": "./type.d.ts",
     ".": {
@@ -47,11 +47,11 @@
     },
     "./deps": {
       "jsnext:source": "./src/deps/index.ts",
-      "default": "./dist/js/treeshaking/deps/index.js"
+      "default": "./dist/esm/deps/index.js"
     },
     "./runtime": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/js/treeshaking/runtime/index.js"
+      "default": "./dist/esm/runtime/index.js"
     }
   },
   "scripts": {

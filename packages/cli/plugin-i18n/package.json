@@ -15,7 +15,7 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
+  "module": "./dist/esm/index.js",
   "typesVersions": {
     "*": {
       "language-detector": [
@@ -30,7 +30,7 @@
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/esm/index.js"
     },
     "./language-detector": {
       "node": {
@@ -38,7 +38,7 @@
         "import": "./dist/js/modern/language-detector.js",
         "require": "./dist/js/node/language-detector.js"
       },
-      "default": "./dist/js/treeshaking/language-detector.js"
+      "default": "./dist/esm/language-detector.js"
     }
   },
   "scripts": {
@@ -71,14 +71,14 @@
           "import": "./dist/js/modern/index.js",
           "require": "./dist/js/node/index.js"
         },
-        "default": "./dist/js/treeshaking/index.js"
+        "default": "./dist/esm/index.js"
       },
       "./language-detector": {
         "node": {
           "import": "./dist/js/modern/language-detector.js",
           "require": "./dist/js/node/language-detector.js"
         },
-        "default": "./dist/js/treeshaking/language-detector.js"
+        "default": "./dist/esm/language-detector.js"
       }
     }
   }
