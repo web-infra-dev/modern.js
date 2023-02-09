@@ -66,7 +66,13 @@ export function createFetchHeaders(
 
   return headers;
 }
-
+/**
+ * This function is copy from source found in https://github.com/remix-run/react-router
+ *
+ * MIT Licensed
+ * Copyright (c) React Training 2015-2019 Copyright (c) Remix Software 2020-2022
+ * https://github.com/remix-run/react-router/blob/main/LICENSE.md
+ */
 function serializeErrors(
   errors: StaticHandlerContext['errors'],
 ): StaticHandlerContext['errors'] {
