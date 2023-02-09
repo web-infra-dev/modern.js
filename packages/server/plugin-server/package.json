@@ -14,19 +14,19 @@
   "version": "2.4.0",
   "types": "./src/cli",
   "jsnext:source": "./src/cli",
-  "main": "./dist/js/node/cli.js",
+  "main": "./dist/cjs/cli.js",
   "exports": {
     ".": {
       "jsnext:source": "./src/cli.ts",
-      "default": "./dist/js/node/cli.js"
+      "default": "./dist/cjs/cli.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli.ts",
-      "default": "./dist/js/node/cli.js"
+      "default": "./dist/cjs/cli.js"
     },
     "./server": {
       "jsnext:source": "./src/server.ts",
-      "default": "./dist/js/node/server.js"
+      "default": "./dist/cjs/server.js"
     }
   },
   "scripts": {

@@ -14,7 +14,7 @@
   "version": "2.4.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
-  "main": "./dist/js/node/cli/index.js",
+  "main": "./dist/cjs/cli/index.js",
   "module": "./dist/esm/cli/index.js",
   "exports": {
     "./types": {
@@ -27,13 +27,13 @@
     },
     ".": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
       "jsnext:source": "./src/runtime-testing/index.ts",
       "node": {
         "import": "./dist/js/modern/runtime-testing/index.js",
-        "require": "./dist/js/node/runtime-testing/index.js"
+        "require": "./dist/cjs/runtime-testing/index.js"
       },
       "default": "./dist/esm/runtime-testing/index.js"
     },
@@ -41,21 +41,21 @@
       "jsnext:source": "./src/runtime-testing/base.ts",
       "node": {
         "import": "./dist/js/modern/runtime-testing/base.js",
-        "require": "./dist/js/node/runtime-testing/base.js"
+        "require": "./dist/cjs/runtime-testing/base.js"
       },
       "default": "./dist/esm/runtime-testing/base.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./bff-cli": {
       "jsnext:source": "./src/cli/bff/index.ts",
-      "default": "./dist/js/node/cli/bff/index.js"
+      "default": "./dist/cjs/cli/bff/index.js"
     },
     "./base": {
       "jsnext:source": "./src/base/index.ts",
-      "default": "./dist/js/node/base/index.js"
+      "default": "./dist/cjs/base/index.js"
     }
   },
   "typesVersions": {

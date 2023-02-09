@@ -17,7 +17,7 @@
   },
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
+  "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
@@ -38,17 +38,17 @@
     },
     "./server": {
       "jsnext:source": "./src/exports/server.ts",
-      "node": "./dist/js/node/exports/server.js",
+      "node": "./dist/cjs/exports/server.js",
       "default": "./dist/esm/exports/server.js"
     },
     "./document": {
       "jsnext:source": "./src/document/index.ts",
-      "node": "./dist/js/node/document/index.js",
+      "node": "./dist/cjs/document/index.js",
       "default": "./dist/esm/document/index.js"
     },
     "./document/cli": {
       "jsnext:source": "./src/document/cli/index.ts",
-      "node": "./dist/js/node/document/cli/index.js",
+      "node": "./dist/cjs/document/cli/index.js",
       "default": "./dist/esm/document/cli/index.js"
     },
     "./ssr": {
@@ -63,7 +63,7 @@
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./router": {
       "jsnext:source": "./src/router/index.ts",

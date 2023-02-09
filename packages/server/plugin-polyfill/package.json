@@ -14,30 +14,30 @@
   "version": "2.4.0",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
-  "main": "./dist/js/node/cli.js",
+  "main": "./dist/cjs/cli.js",
   "module": "./dist/esm/cli.js",
   "exports": {
     ".": {
       "jsnext:source": "./src/cli.ts",
       "node": {
-        "import": "./dist/js/node/cli.js",
-        "require": "./dist/js/node/cli.js"
+        "import": "./dist/cjs/cli.js",
+        "require": "./dist/cjs/cli.js"
       },
-      "default": "./dist/js/node/cli.js"
+      "default": "./dist/cjs/cli.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli.ts",
       "node": {
-        "import": "./dist/js/node/cli.js",
-        "require": "./dist/js/node/cli.js"
+        "import": "./dist/cjs/cli.js",
+        "require": "./dist/cjs/cli.js"
       },
-      "default": "./dist/js/node/cli.js"
+      "default": "./dist/cjs/cli.js"
     },
     "./server": {
       "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
     }

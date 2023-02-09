@@ -14,7 +14,7 @@
   "version": "2.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
+  "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "browser": "./dist/esm/browser.js",
   "files": [
@@ -36,11 +36,11 @@
     },
     "./server": {
       "jsnext:source": "./src/node.ts",
-      "default": "./dist/js/node/node.js"
+      "default": "./dist/cjs/node.js"
     },
     "./hook": {
       "jsnext:source": "./src/hook.ts",
-      "default": "./dist/js/node/hook.js"
+      "default": "./dist/cjs/hook.js"
     }
   },
   "typesVersions": {
