@@ -12,7 +12,7 @@ export const builderPluginFont = (): BuilderPlugin => ({
   name: 'builder-plugin-font',
 
   setup(api) {
-    api.modifyBundlerChain((chain, { isProd }) => {
+    api.modifyBundlerChain((chain, { isProd, CHAIN_ID }) => {
       const config = api.getNormalizedConfig();
       const regExp = getRegExpForExts(FONT_EXTENSIONS);
       const distDir = getDistPath(config.output, 'font');
@@ -20,9 +20,10 @@ export const builderPluginFont = (): BuilderPlugin => ({
 
       const maxSize = config.output.dataUriLimit.image;
 
+      const rule = chain.module.rule(CHAIN_ID.RULE.FONT).test(regExp);
+
       chainStaticAssetRule({
-        chain,
-        regExp,
+        rule,
         maxSize,
         filename: join(distDir, filename),
         assetType: 'font',

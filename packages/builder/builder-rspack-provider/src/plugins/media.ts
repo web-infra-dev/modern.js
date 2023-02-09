@@ -12,7 +12,7 @@ export const builderPluginMedia = (): BuilderPlugin => ({
   name: 'builder-plugin-media',
 
   setup(api) {
-    api.modifyBundlerChain((chain, { isProd }) => {
+    api.modifyBundlerChain((chain, { isProd, CHAIN_ID }) => {
       const config = api.getNormalizedConfig();
       const regExp = getRegExpForExts(MEDIA_EXTENSIONS);
 
@@ -21,9 +21,10 @@ export const builderPluginMedia = (): BuilderPlugin => ({
 
       const maxSize = config.output.dataUriLimit.image;
 
+      const rule = chain.module.rule(CHAIN_ID.RULE.MEDIA).test(regExp);
+
       chainStaticAssetRule({
-        chain,
-        regExp,
+        rule,
         maxSize,
         filename: join(distDir, filename),
         assetType: 'media',
