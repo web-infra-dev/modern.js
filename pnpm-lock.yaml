@@ -3080,9 +3080,9 @@ importers:
     specifiers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/libuild': ~0.9.0
-      '@modern-js/libuild-plugin-svgr': ~0.9.0
-      '@modern-js/libuild-plugin-swc': ~0.9.0
+      '@modern-js/libuild': ~0.10.0
+      '@modern-js/libuild-plugin-svgr': ~0.10.0
+      '@modern-js/libuild-plugin-swc': ~0.10.0
       '@modern-js/new-action': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
@@ -3105,9 +3105,9 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.9.0
-      '@modern-js/libuild-plugin-svgr': 0.9.0
-      '@modern-js/libuild-plugin-swc': 0.9.0
+      '@modern-js/libuild': 0.10.0
+      '@modern-js/libuild-plugin-svgr': 0.10.0
+      '@modern-js/libuild-plugin-swc': 0.10.0
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
@@ -10332,8 +10332,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-svgr/0.9.0:
-    resolution: {integrity: sha512-O6CiJ6nbuHtsIBYbxs8fDDGwkS2tyi6woPDVwTwT3jIu+xLEDr2NUYB2tyvGYCTFjC7/3EloGL8rzCU0wc24Qg==}
+  /@modern-js/libuild-plugin-svgr/0.10.0:
+    resolution: {integrity: sha512-unvJ+2SyJuaZE6iSChxc5A1UTzgDJ2B5sQaT2IbBpJJp1tfvGSU8VqWno6F4NtXiUn1SlGXSxHLM5K+ux35XFw==}
     dependencies:
       '@svgr/core': 6.2.0
       '@svgr/plugin-jsx': 6.2.0_@svgr+core@6.2.0
@@ -10343,14 +10343,14 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-swc/0.9.0:
-    resolution: {integrity: sha512-Vl0JZrq5/SSuHH061yNGlH+rROWXN05VuJSvbdnotG4fx5pbHoHeeoajezC/H5xDlvEvSx3wXugxbplVhE5W7g==}
+  /@modern-js/libuild-plugin-swc/0.10.0:
+    resolution: {integrity: sha512-5Ie2wuEKNkKNDq4kMD4JfVrIYPGGMm+ES2Yi/z42J6Lu6+IC2uo31D3cbu+FCYflGESnHaVDO7C4WAUJKBJdTg==}
     dependencies:
-      '@modern-js/swc-plugins': 0.0.9
+      '@modern-js/swc-plugins': 0.0.12
     dev: false
 
-  /@modern-js/libuild/0.9.0:
-    resolution: {integrity: sha512-BGCqkJvJYQ6k4QGD/lmDoqiJRHo/PHbtliQzgDhn+GdMliloodPza32Y6+LcT0VLouzU/m5EyDQsnwYI7XXdIQ==}
+  /@modern-js/libuild/0.10.0:
+    resolution: {integrity: sha512-tRrrwdrnfM7vjXWZ/6K8GXk/+YqPBN4A/8IM1XhdaKVYcPVdvR1Z7HwKpmCx1Lj5/d9zzrObv483JrtGXWywdQ==}
     hasBin: true
     dependencies:
       '@ast-grep/napi': 0.1.13
@@ -10421,6 +10421,15 @@ packages:
       - supports-color
     dev: false
 
+  /@modern-js/swc-plugins-darwin-arm64/0.0.12:
+    resolution: {integrity: sha512-r5hgWWvi/BveW86LAPtHEL9UIrexqNy7/wE+BRJaa6UIJWW/MEXjgiuE/4efEUdQU1w6EzkIrjKg53ob6Grltg==}
+    engines: {node: '>= 14'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /@modern-js/swc-plugins-darwin-arm64/0.0.16:
     resolution: {integrity: sha512-9sEmraLuoHsq1bb8Mv2M+RemY9L6J0B3GqiXvQOYbB6V45zlWmucA24CqM82uM9WThdajZ0D8x/Ny/QBbKzRag==}
     engines: {node: '>=14.12'}
@@ -10430,10 +10439,10 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-darwin-arm64/0.0.9:
-    resolution: {integrity: sha512-NCkV4GLeqHWCn3kL5fY6k4ioIR0swpm8i49hmUSw0YR6N9WkVhWG9c1CkmX82ipmpv4oZ7uE+S3MlJ7Xalp61Q==}
-    engines: {node: '>= 14'}
-    cpu: [arm64]
+  /@modern-js/swc-plugins-darwin-x64/0.0.12:
+    resolution: {integrity: sha512-O62m3Tfgbt/+gwnwfgEsrfHORhb59n67wz+2AlNKr6cye515doberlLyDRJ6nIUZzmW60CVAugu78dNi3dzZqg==}
+    engines: {node: '>= 14.18'}
+    cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
@@ -10448,11 +10457,11 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-darwin-x64/0.0.9:
-    resolution: {integrity: sha512-FllFqHAgw3eBAhR3kZ7QIne0SJTHPyVDrPXo3BMtVQvRsDlo7Ekl1I5XlNbMhKlre1eOHazrYjF3pM0QeXP1+g==}
+  /@modern-js/swc-plugins-linux-arm-gnueabihf/0.0.12:
+    resolution: {integrity: sha512-8k9SBEaRegwNEs2Z4kvvFwbXdRCDljFrKz2g078686oMl39K+cIMDrKCxqwDqQ+3gNGm1PzzcXk10JNZea108A==}
     engines: {node: '>= 14.18'}
-    cpu: [x64]
-    os: [darwin]
+    cpu: [arm]
+    os: [linux]
     requiresBuild: true
     dev: false
     optional: true
@@ -10466,10 +10475,10 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm-gnueabihf/0.0.9:
-    resolution: {integrity: sha512-gaHFvEx4IJaAcKRgaGYWn/2XoaRciz8E2i/OmNMrZ0UcBQjtQW+0hD+55/VuwXDNIx9GJ9csZnBLOnRhpvYgFA==}
+  /@modern-js/swc-plugins-linux-arm64-gnu/0.0.12:
+    resolution: {integrity: sha512-2qptOqIhBoWTmKdUpRWGqYiR4xnDR1KiOFpyraVIr+7CcjRe8aLt/lJ/b8ZDu3xgZNhoIjaZFkCNvib+iXKEeQ==}
     engines: {node: '>= 14.18'}
-    cpu: [arm]
+    cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
@@ -10484,8 +10493,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-gnu/0.0.9:
-    resolution: {integrity: sha512-xOaBQVBKxwjv29pBudWVjWtBysgbGGJ74rDL1u4EyOFpKszusXrN6cJ1KHND6wZrsGlkqTuoOOjsKAA0AqxvQQ==}
+  /@modern-js/swc-plugins-linux-arm64-musl/0.0.12:
+    resolution: {integrity: sha512-uvPQTsqU0myNpO6mCJXXpu26G+WPP9sNCGZljH9nZmogPpylBxLqBU+iV0OdEVwB9MRCJCK3Ei/pCN/404q/Iw==}
     engines: {node: '>= 14.18'}
     cpu: [arm64]
     os: [linux]
@@ -10502,10 +10511,10 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-musl/0.0.9:
-    resolution: {integrity: sha512-PT0t6pqBOkmeGnwJLQX4vq5649+YSgmUA1awQkO6GBEwkwzteL3JTsAeq7H+WMfIQvLRud8/IVt3jBW/gKdhtw==}
+  /@modern-js/swc-plugins-linux-x64-gnu/0.0.12:
+    resolution: {integrity: sha512-hBhO40/FTGCKi1jD7NDF/Y2pDL/rq3jhCDvbK9D9yKwyMpl1LapqKToaizmwOFv74qhpdYcjE/zoGSrnASo6vQ==}
     engines: {node: '>= 14.18'}
-    cpu: [arm64]
+    cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
@@ -10520,8 +10529,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-gnu/0.0.9:
-    resolution: {integrity: sha512-52kOAQeN2iK4oNQS6PO9dv13BNoyWaoa3JT3DV5gdGmyrXq98Jhlb7/unFKlKXoyNOxsQh55ypu6rwWGeXH0bQ==}
+  /@modern-js/swc-plugins-linux-x64-musl/0.0.12:
+    resolution: {integrity: sha512-9klbezChI1E68YCRvL6KGjtpNcRzcBZ0DBGpexSEScXb95K5++lx+lHYKWp5E7H5fimRej/YSywceaz76YlEPA==}
     engines: {node: '>= 14.18'}
     cpu: [x64]
     os: [linux]
@@ -10538,11 +10547,11 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-musl/0.0.9:
-    resolution: {integrity: sha512-WpChZNeC0xUHSkt2lLglujUCs42oKnBZOUh/cqBCM9VtV0pPmVdRryfA43NCiiDu2vVKOcFhHNeyV38/zjiLFg==}
+  /@modern-js/swc-plugins-win32-arm64-msvc/0.0.12:
+    resolution: {integrity: sha512-932Qco0V7SW8ZO7eBV77KtzeLKfAiaSQ+lrwIwZe7Ek4Yfp0s3whXIyBgkL82C1sPrS8JwTfiFlE2z5vTG686g==}
     engines: {node: '>= 14.18'}
-    cpu: [x64]
-    os: [linux]
+    cpu: [arm64]
+    os: [win32]
     requiresBuild: true
     dev: false
     optional: true
@@ -10556,19 +10565,19 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-arm64-msvc/0.0.9:
-    resolution: {integrity: sha512-Yf0fhMGnP9jKjUhqdvB+hrEM/UMZBesRmo0ssA/iMq5yixN00BKoW6evyUWzicH6HlR88prwpdp8tLLoYeb3IA==}
+  /@modern-js/swc-plugins-win32-ia32-msvc/0.0.12:
+    resolution: {integrity: sha512-CgJChQRkrRKqdga4Yzf1Qo8du/e3eHRSw4XX9p7CGqw3gAkMzQF/WpcBCiLfcBiGADgqI/4IeuD5I4y8bsILSw==}
     engines: {node: '>= 14.18'}
-    cpu: [arm64]
+    cpu: [ia32]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-ia32-msvc/0.0.9:
-    resolution: {integrity: sha512-XlGqhXdrak2N7Gv0glQp4wwVC8mzaqsVM+4aHRm8Fvd4PeNIJdBPB8VLuKrkDl6s60tMV82Dbq8UPBkKUtSxdw==}
+  /@modern-js/swc-plugins-win32-x64-msvc/0.0.12:
+    resolution: {integrity: sha512-fZwl86/dIzWIFuu2d9mKEOvYIhpeyjxWn52TAEe4rlIF4vidgyAqpNV7XSxwmBuN6By99O7Vy+vh+NtnOspXeQ==}
     engines: {node: '>= 14.18'}
-    cpu: [ia32]
+    cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: false
@@ -10583,14 +10592,21 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-x64-msvc/0.0.9:
-    resolution: {integrity: sha512-LMGp5jV8Xbh2Zy8OzvDuuAP0Jxhz+fyZEZzcQSa2fdcFz+3SrVsN4djVlMFw5del9rIawNIm3HcB8xXzaValNA==}
-    engines: {node: '>= 14.18'}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
+  /@modern-js/swc-plugins/0.0.12:
+    resolution: {integrity: sha512-vuADzYwdGdog5QN7yi3ngQcpvn34X0Ho9IXe1AQoyWCNIoXAglbuzu43zE8Qt/HJZ7+a9DDb7yfjSLst4G0BQg==}
+    engines: {node: '>=14.18.0'}
+    optionalDependencies:
+      '@modern-js/swc-plugins-darwin-arm64': 0.0.12
+      '@modern-js/swc-plugins-darwin-x64': 0.0.12
+      '@modern-js/swc-plugins-linux-arm-gnueabihf': 0.0.12
+      '@modern-js/swc-plugins-linux-arm64-gnu': 0.0.12
+      '@modern-js/swc-plugins-linux-arm64-musl': 0.0.12
+      '@modern-js/swc-plugins-linux-x64-gnu': 0.0.12
+      '@modern-js/swc-plugins-linux-x64-musl': 0.0.12
+      '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.12
+      '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.12
+      '@modern-js/swc-plugins-win32-x64-msvc': 0.0.12
     dev: false
-    optional: true
 
   /@modern-js/swc-plugins/0.0.16:
     resolution: {integrity: sha512-Q46rgnhn6DTySWgr4D3LjobXVVecl2JqD8MSEJswJxSE/tej0ZCoSDhWuxG/IwYGUE7ISNyaxr4xpliD37MQaA==}
@@ -10605,22 +10621,6 @@ packages:
       '@modern-js/swc-plugins-linux-x64-musl': 0.0.16
       '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.16
       '@modern-js/swc-plugins-win32-x64-msvc': 0.0.16
-    dev: false
-
-  /@modern-js/swc-plugins/0.0.9:
-    resolution: {integrity: sha512-XpDh4VdCoSL7KTQyFGDHMDqveaNwiQoUvVrUHjDm6mXbqandViX8atglxRFmb3rpGBSASkewu1NfCCfnpy6ezQ==}
-    engines: {node: '>=14.18.0'}
-    optionalDependencies:
-      '@modern-js/swc-plugins-darwin-arm64': 0.0.9
-      '@modern-js/swc-plugins-darwin-x64': 0.0.9
-      '@modern-js/swc-plugins-linux-arm-gnueabihf': 0.0.9
-      '@modern-js/swc-plugins-linux-arm64-gnu': 0.0.9
-      '@modern-js/swc-plugins-linux-arm64-musl': 0.0.9
-      '@modern-js/swc-plugins-linux-x64-gnu': 0.0.9
-      '@modern-js/swc-plugins-linux-x64-musl': 0.0.9
-      '@modern-js/swc-plugins-win32-arm64-msvc': 0.0.9
-      '@modern-js/swc-plugins-win32-ia32-msvc': 0.0.9
-      '@modern-js/swc-plugins-win32-x64-msvc': 0.0.9
     dev: false
 
   /@modern-js/utils/1.21.5:
