@@ -5753,10 +5753,10 @@ importers:
 
   tests/integration/worker/fixtures/worker-test/dist:
     specifiers:
-      '@modern-js/prod-server': 0.0.0-next-20230208120929
+      '@modern-js/prod-server': 0.0.0-next-20230209112307
       wrangler: ^2.9.0
     dependencies:
-      '@modern-js/prod-server': 0.0.0-next-20230208120929
+      '@modern-js/prod-server': 0.0.0-next-20230209112307
       wrangler: 2.9.1
 
   website/main:
@@ -10833,8 +10833,8 @@ packages:
       '@modern-js/utils': 1.21.5
     dev: true
 
-  /@modern-js/plugin/0.0.0-next-20230208120929:
-    resolution: {integrity: sha512-LYGPL+D0vhF8k6QqAVJQSo3/F9ilENpKGAe33986m28jyhGzThkjq+tYUfsZWg7SP9M4wT/NH8zmaVZKhjjLPw==}
+  /@modern-js/plugin/0.0.0-next-20230209112307:
+    resolution: {integrity: sha512-nN7EFkwX7o83YmgpuOonbcw5SiXe5N4v3VUsM84QQxQuE5t4oiLGdv5BvwCw3TXIpSzacVGVvj/sIeJOM6zeEQ==}
     dependencies:
       '@babel/runtime': 7.20.7
     dev: false
@@ -10890,11 +10890,11 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/prod-server/0.0.0-next-20230208120929:
-    resolution: {integrity: sha512-WXpqIQt/Sk5M/1FdHi/nJ7dUdsY7nMtinrWqW3uyg1v//XcEhSHzR1gKM8McTNKIrYl8ZRE7bJf8qMD31yQ90g==}
+  /@modern-js/prod-server/0.0.0-next-20230209112307:
+    resolution: {integrity: sha512-gQAz/Vs7TGPcMRhOQ+SN6YXhgwoMd3t3jo9ANfDlS02yhvdDUw5Z4FEdo50yFsuxjQH0oqFQhLaqjRzXx/unUA==}
     dependencies:
-      '@modern-js/server-core': 0.0.0-next-20230208120929
-      '@modern-js/utils': 0.0.0-next-20230208120929
+      '@modern-js/server-core': 0.0.0-next-20230209112307
+      '@modern-js/utils': 0.0.0-next-20230209112307
       cookie: 0.4.2
       etag: 1.8.1
       fresh: 0.5.2
@@ -10910,11 +10910,11 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/server-core/0.0.0-next-20230208120929:
-    resolution: {integrity: sha512-pYVnrHoL7vgyuE+NcRu9I5zPTplgTseo4RqWJnKB+sFiAp533g73plGwG+7MENkfJZIkxiLAFJi4qb4/hHTCdQ==}
+  /@modern-js/server-core/0.0.0-next-20230209112307:
+    resolution: {integrity: sha512-2XbLsWJdTusGo56eawW16EKjk+H+qg9D5WKD+Z9rhZNff+ispJLu9MIeJo9Q6ZpZT1glGvmdlfaJoSMWzp6n/Q==}
     dependencies:
-      '@modern-js/plugin': 0.0.0-next-20230208120929
-      '@modern-js/utils': 0.0.0-next-20230208120929
+      '@modern-js/plugin': 0.0.0-next-20230209112307
+      '@modern-js/utils': 0.0.0-next-20230209112307
     dev: false
 
   /@modern-js/swc-plugins-darwin-arm64/0.0.12:
@@ -11119,8 +11119,8 @@ packages:
       '@modern-js/swc-plugins-win32-x64-msvc': 0.0.16
     dev: false
 
-  /@modern-js/utils/0.0.0-next-20230208120929:
-    resolution: {integrity: sha512-FXbqeGkw/Ph+peec6YzsOh6+V8wx1IMxsLYgvb8XbESv/VBcxJx9Q+nsFSx4SX9IUMAOSv3d2Utlx7N/ZZlRDw==}
+  /@modern-js/utils/0.0.0-next-20230209112307:
+    resolution: {integrity: sha512-V9nr0L5YEpJ1k7WuTtl7vTu22rB589awS1qQteqVZr/luMxv9yilnZuGOIGuF3wg//6RNO9tNuoiCixSKaVOOQ==}
     dependencies:
       caniuse-lite: 1.0.30001434
       lodash: 4.17.21
