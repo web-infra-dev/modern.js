@@ -33,17 +33,17 @@
       ]
     }
   },
-  "main": "./dist/js/node/cli/index.js",
+  "main": "./dist/cjs/cli/index.js",
   "module": "./dist/esm/runtime/index.js",
   "exports": {
     "./types": "./type.d.ts",
     ".": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./deps": {
       "jsnext:source": "./src/deps/index.ts",

@@ -14,23 +14,23 @@
   "version": "2.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli",
-  "main": "./dist/js/node/cli/index.js",
+  "main": "./dist/cjs/cli/index.js",
   "module": "./dist/esm/cli/index.js",
   "exports": {
     "./types": "./types.d.ts",
     ".": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./server": {
       "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
     }

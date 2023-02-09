@@ -1,1 +1,1 @@
-module.exports = require('./dist/js/node/cli');
+module.exports = require('./dist/cjs/cli');

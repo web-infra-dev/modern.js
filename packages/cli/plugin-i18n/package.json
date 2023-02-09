@@ -14,7 +14,7 @@
   "version": "2.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
+  "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "typesVersions": {
     "*": {
@@ -28,7 +28,7 @@
       "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
     },
@@ -36,7 +36,7 @@
       "node": {
         "jsnext:source": "./src/language-detector.ts",
         "import": "./dist/js/modern/language-detector.js",
-        "require": "./dist/js/node/language-detector.js"
+        "require": "./dist/cjs/language-detector.js"
       },
       "default": "./dist/esm/language-detector.js"
     }
@@ -69,14 +69,14 @@
       ".": {
         "node": {
           "import": "./dist/js/modern/index.js",
-          "require": "./dist/js/node/index.js"
+          "require": "./dist/cjs/index.js"
         },
         "default": "./dist/esm/index.js"
       },
       "./language-detector": {
         "node": {
           "import": "./dist/js/modern/language-detector.js",
-          "require": "./dist/js/node/language-detector.js"
+          "require": "./dist/cjs/language-detector.js"
         },
         "default": "./dist/esm/language-detector.js"
       }
