@@ -4,6 +4,8 @@ import HeaderSvg from './assets/header.svg';
 import TitleSvg from './assets/title.svg';
 import { MatchResultItem } from './logic/search';
 import styles from './index.module.scss';
+import { removeDomain } from './logic/util';
+import { isProduction } from '@/runtime';
 
 const ICON_MAP = {
   title: TitleSvg,
@@ -16,14 +18,20 @@ export function SuggestItem({
   closeSearch,
   isCurrent,
   setCurrentSuggestionIndex,
+  inCurrentDocIndex,
 }: {
   suggestion: MatchResultItem;
   closeSearch: () => void;
   isCurrent: boolean;
   setCurrentSuggestionIndex: () => void;
+  inCurrentDocIndex: boolean;
 }) {
   const HitIcon = ICON_MAP[suggestion.type];
   const { query } = suggestion;
+  const link =
+    inCurrentDocIndex && !isProduction()
+      ? removeDomain(suggestion.link)
+      : suggestion.link;
   const renderHeaderMatch = () => {
     if (suggestion.type === 'header' || suggestion.type === 'title') {
       const { header, highlightIndex } = suggestion;
@@ -90,11 +98,12 @@ export function SuggestItem({
       onMouseEnter={setCurrentSuggestionIndex}
     >
       <a
-        href={suggestion.link}
+        href={link}
         onClick={e => {
           closeSearch();
           e.stopPropagation();
         }}
+        target={inCurrentDocIndex ? '_self' : '_blank'}
       >
         <div className={styles.suggestItemContainer}>
           <div className={styles.hitIcon}>

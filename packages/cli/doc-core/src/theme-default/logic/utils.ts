@@ -20,3 +20,7 @@ export function isActive(
     );
   }
 }
+
+export function isExternalHref(href: string) {
+  return /^https?:\/\//.test(href);
+}

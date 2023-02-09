@@ -6,6 +6,15 @@ export interface SearchQuery {
   limit: number;
 }
 
+export interface NormalizedSearchResultItem {
+  hits: PageIndexInfo[];
+  index: string;
+}
+
+export type NormalizedSearchResult = NormalizedSearchResultItem[];
+
+export const LOCAL_INDEX = 'LOCAL_INDEX';
+
 /**
  * Implement universal behavior of different search engine
  */
@@ -20,7 +29,7 @@ export abstract class Provider {
   /**
    * Search the pages according to the query
    */
-  search(_query: SearchQuery): Promise<PageIndexInfo[]> {
+  search(_query: SearchQuery): Promise<NormalizedSearchResult> {
     throw new Error('Not implemented');
   }
 }

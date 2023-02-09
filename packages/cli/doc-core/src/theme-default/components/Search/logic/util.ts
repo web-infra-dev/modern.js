@@ -42,3 +42,7 @@ export function normalizeTextCase(text: string) {
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
 }
+
+export function removeDomain(url: string) {
+  return url.replace(/https?:\/\/[^/]+/, '');
+}

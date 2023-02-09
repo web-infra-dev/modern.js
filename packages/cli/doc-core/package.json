@@ -98,7 +98,8 @@
     "enhanced-resolve": "5.12.0",
     "rehype-stringify": "^9.0.3",
     "remark-parse": "^10.0.1",
-    "remark-rehype": "^10.1.0"
+    "remark-rehype": "^10.1.0",
+    "node-fetch": "3.3.0"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^2.3.0",
