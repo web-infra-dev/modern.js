@@ -112,3 +112,5 @@ export interface BundlerChain
   entry: Config['entry'];
   module: Pick<Config['module'], 'rules' | 'rule'>;
 }
+
+export type BundlerChainRule = Config.Rule;
