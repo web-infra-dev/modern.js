@@ -171,7 +171,7 @@ export const routerPlugin = ({
                   />
                   <script
                     suppressHydrationWarning
-                    nonce="the-nonce"
+                    id="the-nonce"
                     dangerouslySetInnerHTML={{ __html: hydrateScript }}
                   />
                 </App>
