@@ -37,210 +37,194 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "module": {
     "rules": [
       {
-        "generator": {
-          "filename": "static/font/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
-          },
-        },
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/font/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
-          },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "generator": {
-          "filename": "static/image/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
-          },
-        },
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/image/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
-          },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "generator": {
-          "filename": "static/media/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
-          },
-        },
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/media/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
-          },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "issuer": {
-          "not": [
-            /\\\\\\.css\\$/,
-            /\\\\\\.less\\$/,
-            /\\\\\\.s\\(a\\|c\\)ss\\$/,
-          ],
-        },
-        "test": /\\\\\\.svg\\$/,
-        "type": "javascript/auto",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
-            "options": {
-              "svgo": false,
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
           },
           {
-            "loader": "<ROOT>/compiled/url-loader",
-            "options": {
-              "limit": 10000,
-              "name": "static/svg/[name].[contenthash:8].svg",
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
-        "issuer": {
-          "not": [
-            /\\\\\\.css\\$/,
-            /\\\\\\.less\\$/,
-            /\\\\\\.s\\(a\\|c\\)ss\\$/,
-          ],
-        },
-        "resourceQuery": /url/,
-        "test": /\\\\\\.svg\\$/,
-        "type": "javascript/auto",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<ROOT>/compiled/url-loader",
-            "options": {
-              "limit": false,
-              "name": "static/svg/[name].[contenthash:8].svg",
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
       },
       {
-        "issuer": {
-          "not": [
-            /\\\\\\.css\\$/,
-            /\\\\\\.less\\$/,
-            /\\\\\\.s\\(a\\|c\\)ss\\$/,
-          ],
-        },
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.svg\\$/,
-        "type": "javascript/auto",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<ROOT>/compiled/url-loader",
-            "options": {
-              "limit": Infinity,
-              "name": "static/svg/[name].[contenthash:8].svg",
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
-        "generator": {
-          "filename": "static/svg/[name].[contenthash:8].svg",
-        },
-        "issuer": {
-          "not": [
-            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-          ],
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
           },
-        },
-        "test": /\\\\\\.svg\\$/,
-        "type": "asset",
-      },
-      {
-        "issuer": {
-          "not": [
-            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-          ],
-        },
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.svg\\$/,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/svg/[name].[contenthash:8].svg",
-        },
-        "issuer": {
-          "not": [
-            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-          ],
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
+          {
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
           },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": Infinity,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "resourceQuery": /url/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": false,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.svg\\$/,
-        "type": "asset",
       },
       {
         "test": /\\\\\\.css\\$/,
@@ -536,210 +520,194 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "module": {
     "rules": [
       {
-        "generator": {
-          "filename": "static/font/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
-          },
-        },
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/font/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
-          },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "generator": {
-          "filename": "static/image/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
-          },
-        },
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/image/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
-          },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "generator": {
-          "filename": "static/media/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
-          },
-        },
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/media/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
-          },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "issuer": {
-          "not": [
-            /\\\\\\.css\\$/,
-            /\\\\\\.less\\$/,
-            /\\\\\\.s\\(a\\|c\\)ss\\$/,
-          ],
-        },
-        "test": /\\\\\\.svg\\$/,
-        "type": "javascript/auto",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
-            "options": {
-              "svgo": false,
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
           },
           {
-            "loader": "<ROOT>/compiled/url-loader",
-            "options": {
-              "limit": 10000,
-              "name": "static/svg/[name].[contenthash:8].svg",
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
-        "issuer": {
-          "not": [
-            /\\\\\\.css\\$/,
-            /\\\\\\.less\\$/,
-            /\\\\\\.s\\(a\\|c\\)ss\\$/,
-          ],
-        },
-        "resourceQuery": /url/,
-        "test": /\\\\\\.svg\\$/,
-        "type": "javascript/auto",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<ROOT>/compiled/url-loader",
-            "options": {
-              "limit": false,
-              "name": "static/svg/[name].[contenthash:8].svg",
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
       },
       {
-        "issuer": {
-          "not": [
-            /\\\\\\.css\\$/,
-            /\\\\\\.less\\$/,
-            /\\\\\\.s\\(a\\|c\\)ss\\$/,
-          ],
-        },
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.svg\\$/,
-        "type": "javascript/auto",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<ROOT>/compiled/url-loader",
-            "options": {
-              "limit": Infinity,
-              "name": "static/svg/[name].[contenthash:8].svg",
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
-        "generator": {
-          "filename": "static/svg/[name].[contenthash:8].svg",
-        },
-        "issuer": {
-          "not": [
-            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-          ],
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
           },
-        },
-        "test": /\\\\\\.svg\\$/,
-        "type": "asset",
-      },
-      {
-        "issuer": {
-          "not": [
-            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-          ],
-        },
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.svg\\$/,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/svg/[name].[contenthash:8].svg",
-        },
-        "issuer": {
-          "not": [
-            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-          ],
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
+          {
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
           },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": Infinity,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "resourceQuery": /url/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": false,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.svg\\$/,
-        "type": "asset",
       },
       {
         "test": /\\\\\\.css\\$/,
@@ -1043,210 +1011,194 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
-        "generator": {
-          "filename": "static/font/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
-          },
-        },
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/font/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
-          },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "generator": {
-          "filename": "static/image/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
-          },
-        },
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/image/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
-          },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "generator": {
-          "filename": "static/media/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
-          },
-        },
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/media/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
-          },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
-        "type": "asset",
-      },
-      {
-        "issuer": {
-          "not": [
-            /\\\\\\.css\\$/,
-            /\\\\\\.less\\$/,
-            /\\\\\\.s\\(a\\|c\\)ss\\$/,
-          ],
-        },
-        "test": /\\\\\\.svg\\$/,
-        "type": "javascript/auto",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
-            "options": {
-              "svgo": false,
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
           },
           {
-            "loader": "<ROOT>/compiled/url-loader",
-            "options": {
-              "limit": 10000,
-              "name": "static/svg/[name].[contenthash:8].svg",
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
-        "issuer": {
-          "not": [
-            /\\\\\\.css\\$/,
-            /\\\\\\.less\\$/,
-            /\\\\\\.s\\(a\\|c\\)ss\\$/,
-          ],
-        },
-        "resourceQuery": /url/,
-        "test": /\\\\\\.svg\\$/,
-        "type": "javascript/auto",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<ROOT>/compiled/url-loader",
-            "options": {
-              "limit": false,
-              "name": "static/svg/[name].[contenthash:8].svg",
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
       },
       {
-        "issuer": {
-          "not": [
-            /\\\\\\.css\\$/,
-            /\\\\\\.less\\$/,
-            /\\\\\\.s\\(a\\|c\\)ss\\$/,
-          ],
-        },
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.svg\\$/,
-        "type": "javascript/auto",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<ROOT>/compiled/url-loader",
-            "options": {
-              "limit": Infinity,
-              "name": "static/svg/[name].[contenthash:8].svg",
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
             },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
-        "generator": {
-          "filename": "static/svg/[name].[contenthash:8].svg",
-        },
-        "issuer": {
-          "not": [
-            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-          ],
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 10000,
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
           },
-        },
-        "test": /\\\\\\.svg\\$/,
-        "type": "asset",
-      },
-      {
-        "issuer": {
-          "not": [
-            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-          ],
-        },
-        "resourceQuery": /inline/,
-        "test": /\\\\\\.svg\\$/,
-        "type": "asset/inline",
-      },
-      {
-        "generator": {
-          "filename": "static/svg/[name].[contenthash:8].svg",
-        },
-        "issuer": {
-          "not": [
-            /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-            /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-          ],
-        },
-        "parser": {
-          "dataUrlCondition": {
-            "maxSize": 0,
+          {
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
           },
-        },
-        "resourceQuery": /\\(__inline=false\\|url\\)/,
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": Infinity,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "resourceQuery": /url/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": false,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.svg\\$/,
-        "type": "asset",
       },
       {
         "test": /\\\\\\.css\\$/,

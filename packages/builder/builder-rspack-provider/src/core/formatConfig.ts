@@ -38,6 +38,7 @@ const whiteListKeys = [
   'parser',
   'generator',
   'issuer',
+  'oneOf',
 ];
 
 export const formatRule = (rule: BundlerRule): RspackRule => {

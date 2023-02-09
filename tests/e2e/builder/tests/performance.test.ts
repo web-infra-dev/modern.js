@@ -1,10 +1,11 @@
 import { join, resolve } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { stubBuild } from '../scripts/shared';
+import { webpackOnlyTest } from './helper';
 
 const fixtures = resolve(__dirname, '../fixtures/performance');
 
-test.describe('performance configure multi', () => {
+webpackOnlyTest.describe('performance configure multi', () => {
   let files: Record<string, string>;
   const basicFixtures = resolve(__dirname, '../fixtures/performance/basic');
 

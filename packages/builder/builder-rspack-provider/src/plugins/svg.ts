@@ -3,9 +3,6 @@ import {
   JS_REGEX,
   TS_REGEX,
   SVG_REGEX,
-  CSS_REGEX,
-  LESS_REGEX,
-  SASS_REGEX,
   getDistPath,
   getFilename,
 } from '@modern-js/builder-shared';
@@ -27,15 +24,44 @@ export const builderPluginSvg = (): BuilderPlugin => {
 
         const maxSize = config.output.dataUriLimit.svg;
 
+        const rule = chain.module.rule(CHAIN_ID.RULE.SVG).test(SVG_REGEX);
+
+        chainStaticAssetRule({
+          rule,
+          maxSize,
+          filename: join(distDir, filename),
+          assetType,
+          issuer: {
+            not: [JS_REGEX, TS_REGEX],
+          },
+        });
+
         // handle svgr in js/ts
-        chain.module
-          .rule(`${assetType}-react`)
-          .test(SVG_REGEX)
+        rule
+          .oneOf(CHAIN_ID.ONE_OF.SVG_INLINE)
           .type('javascript/auto')
-          // todo: use oneof or use issuer.and(JS_REGEX, TS_REGEX)
-          .set('issuer', {
-            not: [CSS_REGEX, LESS_REGEX, SASS_REGEX],
-          })
+          .resourceQuery(/inline/)
+          .use(CHAIN_ID.USE.URL)
+          .loader(getCompiledPath('url-loader'))
+          .options({
+            limit: Infinity,
+            name: outputName,
+          });
+
+        rule
+          .oneOf(CHAIN_ID.ONE_OF.SVG_URL)
+          .type('javascript/auto')
+          .resourceQuery(/url/)
+          .use(CHAIN_ID.USE.URL)
+          .loader(getCompiledPath('url-loader'))
+          .options({
+            limit: false,
+            name: outputName,
+          });
+
+        rule
+          .oneOf(CHAIN_ID.ONE_OF.SVG)
+          .type('javascript/auto')
           .use(CHAIN_ID.USE.SVGR)
           .loader(require.resolve('@svgr/webpack'))
           .options({ svgo: false })
@@ -49,49 +75,6 @@ export const builderPluginSvg = (): BuilderPlugin => {
                 name: outputName,
               }),
           );
-
-        chain.module
-          .rule(`${assetType}-url`)
-          .test(SVG_REGEX)
-          .type('javascript/auto')
-          .resourceQuery(/url/)
-          // todo: use oneof or use issuer.and(JS_REGEX, TS_REGEX)
-          .set('issuer', {
-            not: [CSS_REGEX, LESS_REGEX, SASS_REGEX],
-          })
-          .use(CHAIN_ID.USE.URL)
-          .loader(getCompiledPath('url-loader'))
-          .options({
-            limit: false,
-            name: outputName,
-          });
-
-        chain.module
-          .rule(`${assetType}-inline`)
-          .test(SVG_REGEX)
-          .type('javascript/auto')
-          .resourceQuery(/inline/)
-          // todo: use oneof or use issuer.and(JS_REGEX, TS_REGEX)
-          .set('issuer', {
-            not: [CSS_REGEX, LESS_REGEX, SASS_REGEX],
-          })
-          .use(CHAIN_ID.USE.URL)
-          .loader(getCompiledPath('url-loader'))
-          .options({
-            limit: Infinity,
-            name: outputName,
-          });
-
-        chainStaticAssetRule({
-          chain,
-          regExp: SVG_REGEX,
-          maxSize,
-          filename: join(distDir, filename),
-          assetType,
-          issuer: {
-            not: [JS_REGEX, TS_REGEX],
-          },
-        });
       });
     },
   };
