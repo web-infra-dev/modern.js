@@ -2,6 +2,8 @@ export const EN_US = {
   slogan: 'A Progressive React Framework for modern web development',
   introduction: 'Introduction',
   quickStart: 'Quick Start',
+
+  // Features
   features: 'Features',
   feature1: 'Rust Bundler',
   featureDesc1: 'Easily switch to Rspack bundler with faster build speed.',
@@ -17,4 +19,11 @@ export const EN_US = {
   feature6: 'Easy to Configure',
   featureDesc6:
     'Launch with zero configuration, then everything is configurable.',
+
+  // Ecosystem
+  ecosystem: 'Ecosystem',
+  ecosystemDesc1: 'A powerful solution for npm package development.',
+  ecosystemDesc2: 'A Build Engine for web development.',
+  ecosystemDesc3: 'A powerful micro front-end framework.',
+  ecosystemDesc4: 'A redux-based state management library.',
 } as const;

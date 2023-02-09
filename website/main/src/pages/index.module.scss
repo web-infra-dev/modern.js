@@ -41,9 +41,9 @@
 
 .titleGradient {
   background: -webkit-linear-gradient(
-    320deg,
-    hsl(198deg 100% 70%) 30%,
-    hsl(198deg 100% 60%)
+    305deg,
+    hsl(166deg 77% 53%) 10%,
+    hsl(198deg, 100%, 60%)
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -63,6 +63,11 @@
   &:hover {
     text-decoration: none;
   }
+}
+
+.startArrow {
+  margin-left: 8px;
+  margin-top: 1px;
 }
 
 .leftButton {
@@ -123,7 +128,7 @@
     align-items: center;
   }
   .title {
-    font-size: 7vw;
+    font-size: 10vw;
     text-align: center;
   }
   .buttons {
@@ -148,34 +153,14 @@
 
 /* === Header End === */
 
-.section-title {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  margin: 1rem 0;
-  font-size: 2rem;
-  background: linear-gradient(91.82deg, #60dee8 -1.68%, #dca1e7 20.54%);
-  background-repeat: repeat;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
 .cardContainer {
   display: flex;
   flex-wrap: wrap;
   margin-top: 16px;
-  margin-left: -16px;
 }
 
 .homepage-main {
-  padding: 1px 0;
-  background-color: #000;
-  background-image: url('https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/main-bg.png');
-  background-repeat: no-repeat;
-  background-position: center 900px;
-}
-
-.start-arrow {
-  margin-left: 8px;
+  background-color: #0d0d0d;
 }
 
 .flowContainer {

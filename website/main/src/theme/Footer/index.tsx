@@ -139,21 +139,79 @@ const renderFooterItems = items => {
 };
 
 function Footer(): JSX.Element | null {
-  const { siteData } = usePageData();
-
-  const { footer } = siteData.themeConfig || {};
-
-  const { links = [] } = footer || {};
-  if (!footer) {
-    return null;
-  }
+  const links = [
+    {
+      title: '使用指南',
+      items: [
+        {
+          label: '快速上手',
+          to: '/guides/get-started/quick-start',
+        },
+        {
+          label: '基础功能',
+          to: '/guides/basic-features/',
+        },
+        {
+          label: '进阶功能',
+          to: '/guides/advanced-features/',
+        },
+      ],
+    },
+    {
+      title: 'API 资料',
+      items: [
+        {
+          label: '命令',
+          to: '/apis/app/commands/',
+        },
+        {
+          label: '运行时',
+          to: '/apis/app/runtime/',
+        },
+        {
+          label: '文件约定',
+          to: '/apis/app/hooks/',
+        },
+        {
+          label: '配置选项',
+          to: '/configure/app/usage',
+        },
+      ],
+    },
+    {
+      title: '关注我们',
+      items: [
+        {
+          icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/weixin.png',
+          qrcode:
+            'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/weixin-qrcode.jpeg',
+          to: '/weixin',
+          label: '微信',
+        },
+        {
+          icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/bilibili.png',
+          to: 'https://space.bilibili.com/1195398938',
+          label: 'bilibili',
+        },
+        {
+          icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/feishu.png',
+          qrcode:
+            'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/feishu-qrcode-0914.png',
+          to: 'Feishu',
+          label: '飞书',
+        },
+        {
+          icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/github.png',
+          qrcode: '',
+          to: 'https://github.com/modern-js-dev/modern.js',
+          label: 'GitHub',
+        },
+      ],
+    },
+  ];
 
   return (
-    <footer
-      className={clsx('footer', {
-        'footer--dark': footer.style === 'dark',
-      })}
-    >
+    <footer className={clsx(['footer', 'footer--dark'])}>
       <div className="w-full">
         {links && links.length > 0 && (
           <div className="m-4 flex justify-around">

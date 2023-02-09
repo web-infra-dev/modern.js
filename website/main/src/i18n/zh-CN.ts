@@ -5,6 +5,8 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   introduction: '介绍',
   quickStart: '快速上手',
   features: '特性',
+
+  // Features
   feature1: 'Rust 构建',
   featureDesc1: '轻松切换到 Rspack 构建工具，编译飞快。',
   feature2: '一体化开发',
@@ -17,4 +19,11 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   featureDesc5: 'CSS Modules、CSS-in-JS、TailwindCSS，任你挑选。',
   feature6: '易于配置',
   featureDesc6: '以零配置启动，然后一切皆可配置。',
+
+  // Ecosystem
+  ecosystem: '生态',
+  ecosystemDesc1: '简单、高性能的现代 npm 包开发方案。',
+  ecosystemDesc2: '面向 Web 开发场景的构建引擎。',
+  ecosystemDesc3: '一站式微前端解决方案。',
+  ecosystemDesc4: '基于 Redux 的状态管理库。',
 };

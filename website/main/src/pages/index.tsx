@@ -1,18 +1,11 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { useLocation } from '@modern-js/doc-tools/runtime';
-import UnitySVG from '@site/static/img/features/unity.svg';
-import DynamicSVG from '@site/static/img/features/dynamic.svg';
-import APISVG from '@site/static/img/features/api.svg';
-import HTMLSVG from '@site/static/img/features/html.svg';
-import CssFileSVG from '@site/static/img/features/css-file.svg';
-import FrameWorkConfigSVG from '@site/static/img/features/framework-config.svg';
-import QuickStartCard from '../components/QuickStartCard';
 import ContentCard from '../components/ContentCard';
 import SecondaryTitle from '../components/SecondaryTitle';
 import { FeatureLayout } from '../components/FeatureLayout';
 import Footer from '../theme/Footer';
-import { useI18n, useUrl } from '../i18n';
+import { useI18n, useLang, useUrl } from '../i18n';
 import styles from './index.module.scss';
 
 const HomepageHeader = () => {
@@ -34,7 +27,7 @@ const HomepageHeader = () => {
             <img
               width="20"
               height="20"
-              className={styles['start-arrow']}
+              className={styles.startArrow}
               src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/right-arrow.svg?url"
             />
           </a>
@@ -80,59 +73,65 @@ function initPageStyle() {
 }
 
 export default function Home() {
-  let count = 0;
-
   const t = useI18n();
   const { pathname } = useLocation();
 
-  const bestPractice = [
+  const features = [
     {
       title: t('feature1'),
-      img: FrameWorkConfigSVG,
       href: useUrl('/guides/basic-features/builder'),
       desc: t('featureDesc1'),
     },
     {
-      img: UnitySVG,
       title: t('feature2'),
       href: useUrl('/guides/advanced-features/bff/index'),
       desc: t('featureDesc2'),
     },
     {
       title: t('feature3'),
-      img: CssFileSVG,
       href: useUrl('/guides/basic-features/routes'),
       desc: t('featureDesc3'),
     },
     {
       title: t('feature4'),
-      img: DynamicSVG,
       href: useUrl('/guides/advanced-features/ssr'),
       desc: t('featureDesc4'),
     },
     {
       title: t('feature5'),
-      img: HTMLSVG,
       href: useUrl('/guides/basic-features/css/css-in-js'),
       desc: t('featureDesc5'),
     },
     {
       title: t('feature6'),
-      img: APISVG,
       href: useUrl('/configure/app/usage'),
       desc: t('featureDesc6'),
     },
   ];
 
-  const bestPracticeCards = bestPractice.map((card, cardIndex) => (
-    <ContentCard
-      key={cardIndex}
-      title={card.title}
-      desc={card.desc}
-      img={card.img}
-      href={card.href}
-    />
-  ));
+  const lang = useLang();
+  const ecosystem = [
+    {
+      title: 'Modern.js Module',
+      href: `https://modernjs.dev/module-tools${lang === 'en' ? '/en' : ''}`,
+      desc: t('ecosystemDesc1'),
+    },
+    {
+      title: 'Modern.js Builder',
+      href: `https://modernjs.dev/builder${lang === 'en' ? '/en' : ''}`,
+      desc: t('ecosystemDesc2'),
+    },
+    {
+      title: 'Garfish',
+      href: 'https://github.com/modern-js-dev/garfish',
+      desc: t('ecosystemDesc3'),
+    },
+    {
+      title: 'Reduck',
+      href: 'https://github.com/modern-js-dev/reduck',
+      desc: t('ecosystemDesc4'),
+    },
+  ];
 
   useEffect(() => {
     const restore = initPageStyle();
@@ -146,10 +145,32 @@ export default function Home() {
       <HomepageHeader />
       <main className={styles['homepage-main']}>
         <FeatureLayout>
-          <SecondaryTitle seqNum={++count}>{t('features')}</SecondaryTitle>
-          <div className={styles.cardContainer}>{bestPracticeCards}</div>
+          <SecondaryTitle>{t('features')}</SecondaryTitle>
+          <div className={styles.cardContainer}>
+            {features.map((card, cardIndex) => (
+              <ContentCard
+                key={cardIndex}
+                title={card.title}
+                desc={card.desc}
+                href={card.href}
+              />
+            ))}
+          </div>
         </FeatureLayout>
-        <QuickStartCard />
+
+        <FeatureLayout>
+          <SecondaryTitle>{t('ecosystem')}</SecondaryTitle>
+          <div className={styles.cardContainer}>
+            {ecosystem.map((card, cardIndex) => (
+              <ContentCard
+                key={cardIndex}
+                title={card.title}
+                desc={card.desc}
+                href={card.href}
+              />
+            ))}
+          </div>
+        </FeatureLayout>
         <Footer />
       </main>
     </div>
