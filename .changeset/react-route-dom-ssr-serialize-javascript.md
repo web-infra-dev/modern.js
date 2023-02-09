@@ -2,7 +2,6 @@
 '@modern-js/runtime': patch
 ---
 
-chore: 修改了react-router-dom ssr 的时候，当数据中含有`script`标签导致报错的问题
+chore: serialize react-router-dom ssr data, avoid the syntax conflict with HTML. Such as when json data contains `</script>` will be stringify to `\u003c/script\u003e`
 
-如图
-![image](https://user-images.githubusercontent.com/42915133/217639241-01bdde3b-74dd-46da-8340-4cab8cb3915b.png)
+chore: 序列化react-router-dom ssr 的数据，避免html标签语义冲突。例如当json数据中包含`</script>`的时候会被转换成`\u003c/script\u003e`
