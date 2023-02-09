@@ -51,7 +51,7 @@ describe('formatConfig', () => {
         test: /\.toml$/,
         use: [
           {
-            loader: 'builtin!toml-loader',
+            loader: 'builtin:toml-loader',
           },
         ],
       }),
@@ -60,7 +60,7 @@ describe('formatConfig', () => {
       test: /\.toml$/,
       use: [
         {
-          builtinLoader: 'toml-loader',
+          loader: 'builtin:toml-loader',
         },
       ],
     });

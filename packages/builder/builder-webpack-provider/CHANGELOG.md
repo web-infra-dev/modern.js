@@ -1,5 +1,50 @@
 # @modern-js/builder-webpack-provider
 
+## 2.4.0
+
+### Minor Changes
+
+- a5572b8: feat: more plugin rebase in `builder-shared`
+  feat: 更多 plugin 下沉到 `builder-shared`
+
+### Patch Changes
+
+- 637f16b: fix(builder): incorrect progress bar color when compile failed
+
+  fix(builder): 修复编译错误时进度条颜色错误的问题
+
+- 6f83037: fix: change the builder resolve plugin
+  fix: 修复 builder resolve 插件
+- 014d06b: feat: reuse bundleAnalyzer plugin, support performance.bundleAnalyze config in rspack-provider
+
+  feat: 复用 bundleAnalyzer 插件，在 rspack-provider 中支持 performance.bundleAnalyze 配置项
+
+- b3f2a7e: fix(builder): increase size limit when target is node
+
+  fix(builder): 修复 target 为 node 时体积限制过小的问题
+
+- 67b5a42: perf(builder): improve styled-components compile speed
+
+  perf(builder): 优化 styled-components 编译速度
+
+- 48b036e: fix(builder): should not generate cache when build failed
+
+  fix(builder): 修复构建失败时会生成无效编译缓存的问题
+
+- Updated dependencies [d19484c]
+- Updated dependencies [6f83037]
+- Updated dependencies [014d06b]
+- Updated dependencies [98a2733]
+- Updated dependencies [a5572b8]
+- Updated dependencies [a914be8]
+- Updated dependencies [8c2db5f]
+  - @modern-js/server@2.4.0
+  - @modern-js/builder-shared@2.4.0
+  - @modern-js/utils@2.4.0
+  - @modern-js/babel-preset-app@2.4.0
+  - @modern-js/e2e@2.4.0
+  - @modern-js/types@2.4.0
+
 ## 2.3.0
 
 ### Minor Changes
