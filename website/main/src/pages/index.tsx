@@ -14,9 +14,8 @@ const HomepageHeader = () => {
     <div className={styles.header}>
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <h1 className={styles.title}>
-          <div>{t('firstSlogan1')}</div>
-          <div className={styles.titleGradient}>{t('firstSlogan2')}</div>
-          <div>{t('firstSlogan3')}</div>
+          <div>Inspire Creativity in</div>
+          <div className={styles.titleGradient}>Modern Web Development</div>
         </h1>
         <div className={styles.buttons}>
           <a
