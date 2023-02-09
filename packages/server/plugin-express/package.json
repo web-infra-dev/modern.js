@@ -15,7 +15,7 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli",
   "main": "./dist/js/node/cli/index.js",
-  "module": "./dist/js/treeshaking/cli/index.js",
+  "module": "./dist/esm/cli/index.js",
   "exports": {
     "./types": "./types.d.ts",
     ".": {
@@ -32,7 +32,7 @@
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/esm/index.js"
     }
   },
   "scripts": {

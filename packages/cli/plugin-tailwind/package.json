@@ -15,7 +15,7 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
+  "module": "./dist/esm/index.js",
   "exports": {
     ".": {
       "node": {
@@ -31,7 +31,7 @@
     "./runtime-design-token": {
       "jsnext:source": "./src/design-token/index.js",
       "node": "./dist/js/node/design-token/index.js",
-      "default": "./dist/js/treeshaking/design-token/index.js"
+      "default": "./dist/esm/design-token/index.js"
     }
   },
   "typesVersions": {

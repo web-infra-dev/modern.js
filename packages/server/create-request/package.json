@@ -15,20 +15,20 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "browser": "./dist/js/treeshaking/browser.js",
+  "module": "./dist/esm/index.js",
+  "browser": "./dist/esm/browser.js",
   "files": [
     "dist",
     "hook.d.ts"
   ],
   "exports": {
     ".": {
-      "node": "./dist/js/treeshaking/node.js",
-      "default": "./dist/js/treeshaking/browser.js"
+      "node": "./dist/esm/node.js",
+      "default": "./dist/esm/browser.js"
     },
     "./client": {
       "jsnext:source": "./src/browser.ts",
-      "default": "./dist/js/treeshaking/browser.js"
+      "default": "./dist/esm/browser.js"
     },
     "./modern": {
       "jsnext:source": "./src/browser.ts",

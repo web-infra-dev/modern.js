@@ -15,7 +15,7 @@
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/js/node/cli/index.js",
-  "module": "./dist/js/treeshaking/cli/index.js",
+  "module": "./dist/esm/cli/index.js",
   "exports": {
     "./types": {
       "jsnext:source": "./types/index.d.ts",
@@ -35,7 +35,7 @@
         "import": "./dist/js/modern/runtime-testing/index.js",
         "require": "./dist/js/node/runtime-testing/index.js"
       },
-      "default": "./dist/js/treeshaking/runtime-testing/index.js"
+      "default": "./dist/esm/runtime-testing/index.js"
     },
     "./runtime-base": {
       "jsnext:source": "./src/runtime-testing/base.ts",
@@ -43,7 +43,7 @@
         "import": "./dist/js/modern/runtime-testing/base.js",
         "require": "./dist/js/node/runtime-testing/base.js"
       },
-      "default": "./dist/js/treeshaking/runtime-testing/base.js"
+      "default": "./dist/esm/runtime-testing/base.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
