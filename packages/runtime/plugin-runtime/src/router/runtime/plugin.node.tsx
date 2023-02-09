@@ -168,14 +168,8 @@ export const routerPlugin = ({
                 <App {...props}>
                   <StaticRouterProvider
                     router={router}
-                    context={routerContext}
+                    context={routerContext!}
                     hydrate={false}
-                  />
-                  <script
-                    suppressHydrationWarning
-                    id="the-nonce"
-                    // eslint-disable-next-line react/no-danger
-                    dangerouslySetInnerHTML={{ __html: hydrateScript }}
                   />
                 </App>
               );

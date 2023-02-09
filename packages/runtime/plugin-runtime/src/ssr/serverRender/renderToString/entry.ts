@@ -11,6 +11,7 @@ import {
 } from '../types';
 import { time } from '../time';
 import prefetch from '../../prefetch';
+import { RouterSSRData } from '../../../core/types';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
 import { reduce } from './reduce';
@@ -26,6 +27,7 @@ type EntryOptions = {
 const buildTemplateData = (
   context: SSRServerContext,
   data: Record<string, any>,
+  routerData: RouterSSRData,
   renderLevel: RenderLevel,
 ) => {
   const { request, enableUnsafeCtx } = context;
@@ -35,6 +37,7 @@ const buildTemplateData = (
 
   return {
     data,
+    routerData,
     context: {
       request: {
         params: request.params,
@@ -112,10 +115,17 @@ export default class Entry {
       return '';
     }
 
+    const { routerContext } = context;
+    const routerData = routerContext ?? {
+      loaderData: routerContext!.loaderData,
+      // @TODO: add errors
+    };
+
     let html = '';
     const templateData = buildTemplateData(
       ssrContext,
       prefetchData,
+      routerData,
       this.result.renderLevel,
     );
     const SSRData = this.getSSRDataScript(templateData);
