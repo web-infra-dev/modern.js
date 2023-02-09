@@ -4,11 +4,11 @@ import {
   MEDIA_EXTENSIONS,
   getDistPath,
   getFilename,
+  chainStaticAssetRule,
 } from '@modern-js/builder-shared';
-import { chainStaticAssetRule } from '../shared';
-import type { BuilderPlugin } from '../types';
+import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export const builderPluginMedia = (): BuilderPlugin => ({
+export const builderPluginMedia = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-media',
 
   setup(api) {

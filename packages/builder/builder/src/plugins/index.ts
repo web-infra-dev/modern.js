@@ -13,4 +13,7 @@ export const plugins = {
     import('./splitChunks').then(m => m.builderPluginSplitChunks()),
   bundleAnalyzer: () =>
     import('./bundleAnalyzer').then(m => m.builderPluginBundleAnalyzer()),
+  font: () => import('./font').then(m => m.builderPluginFont()),
+  image: () => import('./image').then(m => m.builderPluginImage()),
+  media: () => import('./media').then(m => m.builderPluginMedia()),
 };

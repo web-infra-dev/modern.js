@@ -4,11 +4,11 @@ import {
   IMAGE_EXTENSIONS,
   getDistPath,
   getFilename,
+  chainStaticAssetRule,
 } from '@modern-js/builder-shared';
-import type { BuilderPlugin } from '../types';
-import { chainStaticAssetRule } from '../shared';
+import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export const builderPluginImage = (): BuilderPlugin => ({
+export const builderPluginImage = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-image',
 
   setup(api) {

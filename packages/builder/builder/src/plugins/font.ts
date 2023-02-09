@@ -4,11 +4,11 @@ import {
   FONT_EXTENSIONS,
   getDistPath,
   getFilename,
+  chainStaticAssetRule,
 } from '@modern-js/builder-shared';
-import { chainStaticAssetRule } from '../shared';
-import type { BuilderPlugin } from '../types';
+import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export const builderPluginFont = (): BuilderPlugin => ({
+export const builderPluginFont = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-font',
 
   setup(api) {
