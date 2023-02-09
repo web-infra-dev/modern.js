@@ -7,6 +7,7 @@ import {
   getBrowserslistWithDefault,
   type BuilderTarget,
   type BuilderContext,
+  ModifyChainUtils,
 } from '@modern-js/builder-shared';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
@@ -16,7 +17,6 @@ import type {
   CSSLoaderOptions,
   NormalizedConfig,
   StyleLoaderOptions,
-  ModifyWebpackChainUtils,
 } from '../types';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { getCssnanoDefaultOptions } from './minimize';
@@ -71,7 +71,7 @@ export async function applyBaseCSSRule(
     CHAIN_ID,
     isWebWorker,
     getCompiledPath,
-  }: ModifyWebpackChainUtils,
+  }: ModifyChainUtils,
 ) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
@@ -238,7 +238,7 @@ export const builderPluginCss = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-css',
     setup(api) {
-      api.modifyWebpackChain(async (chain, utils) => {
+      api.modifyBundlerChain(async (chain, utils) => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
         const config = api.getNormalizedConfig();
         rule.test(CSS_REGEX);

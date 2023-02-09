@@ -6,8 +6,6 @@ import type {
 } from './rspack';
 
 export type ModifyRspackConfigUtils = ModifyChainUtils & {
-  getCompiledPath: (name: string) => string;
-
   addRules: (rules: RspackRuleSet | RspackRuleSet[]) => void;
   prependPlugins: (
     plugins: RspackPluginInstance | RspackPluginInstance[],
