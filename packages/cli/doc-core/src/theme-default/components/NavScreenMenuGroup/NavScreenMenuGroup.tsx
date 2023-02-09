@@ -41,7 +41,7 @@ export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
               );
             } else {
               return (
-                <div className="pa-1" key={child.link} font="medium">
+                <div className="py-1" key={child.link} font="medium">
                   <Link href={child.link}>
                     <div>
                       <div flex="~">

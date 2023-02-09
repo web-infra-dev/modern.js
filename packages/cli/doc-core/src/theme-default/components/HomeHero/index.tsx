@@ -17,21 +17,21 @@ export function HomeHero() {
   return (
     <div
       m="auto"
-      p="t-12 x-6 b-12 sm:t-0 sm:x-8 sm:x-16 md:t-20 md:x-16 md:b-28"
+      p="t-12 x-6 b-12 sm:t-0 sm:x-8 sm:x-16 md:t-20 md:x-16 md:b-16"
     >
       <div className="max-w-1152px" m="auto" flex="~ col md:row">
         <div
-          m="auto md:0"
           order="2 md:1"
-          text="center md:left"
-          flex="~ col lt-sm:c"
-          className="max-w-592px"
+          flex="~ col"
+          className={`max-w-592px ${
+            hasImage ? 'm-0 text-left' : 'm-auto text-center'
+          }`}
         >
           <h1
             font="bold"
             text="3xl sm:5xl md:6xl"
             m="auto md:0"
-            p="b-3"
+            p="md:b-3 lg:b-5"
             className="max-w-392px sm:max-w-576px"
           >
             <span className={styles.clip}>{hero.name}</span>
@@ -40,6 +40,7 @@ export function HomeHero() {
             m="x-auto md:0"
             text="3xl sm:5xl md:6xl"
             font="bold"
+            p="b-2"
             className="max-w-392px sm:max-w-576px"
           >
             {hero.text}
@@ -53,7 +54,12 @@ export function HomeHero() {
           >
             {hero.tagline}
           </p>
-          <div flex="~ wrap" justify="center md:start" m="-1.5" p="t-8">
+          <div
+            flex="~ wrap"
+            className={`${hasImage ? 'justify-start' : 'justify-center gap-3'}`}
+            m="-1.5"
+            p="t-8"
+          >
             {hero.actions.map(action => (
               <div p="1" flex="shrink-0" key={action.link}>
                 <Button

@@ -216,7 +216,17 @@ export const TASKS: TaskConfig[] = [
   {
     packageDir: 'builder/builder-shared',
     packageName: '@modern-js/builder-shared',
-    dependencies: ['open', 'webpack-5-chain'],
+    dependencies: [
+      'open',
+      'webpack-5-chain',
+      {
+        name: 'webpack-bundle-analyzer',
+        externals: {
+          chalk: '@modern-js/utils/chalk',
+          'gzip-size': '@modern-js/utils/gzip-size',
+        },
+      },
+    ],
   },
   {
     packageDir: 'builder/builder-webpack-provider',
@@ -415,13 +425,6 @@ export const TASKS: TaskConfig[] = [
         externals: {
           'schema-utils': '../schema-utils3',
           'loader-utils': '../loader-utils2',
-        },
-      },
-      {
-        name: 'webpack-bundle-analyzer',
-        externals: {
-          chalk: '@modern-js/utils/chalk',
-          'gzip-size': '@modern-js/utils/gzip-size',
         },
       },
       {
