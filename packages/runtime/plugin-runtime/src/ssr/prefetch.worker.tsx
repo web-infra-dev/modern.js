@@ -1,4 +1,5 @@
 import { renderToStaticMarkup } from 'react-dom/server';
+import { ChunkExtractor } from '@loadable/server';
 import { RuntimeContext } from '../core';
 
 // todo: SSRContext
@@ -7,8 +8,17 @@ const prefetch = async (
   context: RuntimeContext,
 ) => {
   const { ssrContext } = context;
+  const { loadableStats } = ssrContext!;
 
-  renderToStaticMarkup(<App context={context} />);
+  if (loadableStats) {
+    const extractor = new ChunkExtractor({
+      stats: loadableStats,
+      entrypoints: [ssrContext!.entryName].filter(Boolean),
+    });
+    renderToStaticMarkup(extractor.collectChunks(<App context={context} />));
+  } else {
+    renderToStaticMarkup(<App context={context} />);
+  }
 
   if (!context.loaderManager.hasPendingLoaders()) {
     return {

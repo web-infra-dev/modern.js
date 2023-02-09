@@ -27,8 +27,8 @@ export class RouterPlugin {
     }
 
     if (
-      target === 'server-worker' ||
-      (Array.isArray(target) && target.includes('server-worker'))
+      target === 'webworker' ||
+      (Array.isArray(target) && target.includes('webworker'))
     ) {
       return;
     }
