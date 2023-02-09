@@ -4,12 +4,11 @@ import {
   getDistPath,
   getFilename,
   chainStaticAssetRule,
-  FilenameConfig,
 } from '@modern-js/builder-shared';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
 export const builderAssetPlugin = (
-  assetType: keyof FilenameConfig,
+  assetType: 'image' | 'media' | 'font',
   exts: string[],
 ): DefaultBuilderPlugin => ({
   name: `builder-plugin-${assetType}`,
@@ -21,7 +20,7 @@ export const builderAssetPlugin = (
       const distDir = getDistPath(config.output, assetType);
       const filename = getFilename(config.output, assetType, isProd);
 
-      const maxSize = config.output.dataUriLimit.image;
+      const maxSize = config.output.dataUriLimit[assetType];
 
       const rule = chain.module.rule(assetType).test(regExp);
 
