@@ -10,7 +10,7 @@ export const builderPluginTarget = (): DefaultBuilderPlugin => ({
         chain.target('node');
         return;
       }
-      if (target === 'server-worker') {
+      if (target === 'service-worker') {
         chain.target('webworker');
         return;
       }

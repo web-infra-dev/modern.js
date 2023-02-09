@@ -12,7 +12,7 @@ export const isUsingHMR = (
   !isProd &&
   target !== 'node' &&
   target !== 'web-worker' &&
-  target !== 'server-worker' &&
+  target !== 'service-worker' &&
   config.dev.hmr;
 
 export const builderPluginHMR = (): BuilderPlugin => ({

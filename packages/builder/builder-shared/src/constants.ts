@@ -9,7 +9,7 @@ export const DEFAULT_BROWSERSLIST = {
   web: ['> 0.01%', 'not dead', 'not op_mini all'],
   node: ['node >= 14'],
   'web-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
-  'server-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
+  'service-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
   'modern-web': [
     'chrome > 61',
     'edge > 16',
@@ -75,7 +75,7 @@ export const RUNTIME_CHUNK_NAME = 'builder-runtime';
 export const TARGET_ID_MAP: Record<BuilderTarget, string> = {
   web: 'Client',
   node: 'Server',
-  'server-worker': 'Server Worker',
+  'service-worker': 'Server Worker',
   'modern-web': 'Modern',
   'web-worker': 'Web Worker',
 };

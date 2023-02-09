@@ -7,7 +7,7 @@ export type BuilderTarget =
   | 'node'
   | 'modern-web'
   | 'web-worker'
-  | 'server-worker';
+  | 'service-worker';
 
 export type BuilderEntry = Record<string, string | string[]>;
 

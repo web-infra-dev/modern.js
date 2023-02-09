@@ -23,7 +23,7 @@ export function getBuilderTargets(
   const useWorkerTarget = isProd() ? isServerWorker(normalizedConfig) : false;
 
   if (useWorkerTarget) {
-    targets.push('server-worker');
+    targets.push('service-worker');
   }
 
   return targets;

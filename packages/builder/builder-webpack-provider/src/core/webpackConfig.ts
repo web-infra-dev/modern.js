@@ -81,7 +81,7 @@ async function getChainUtils(
     node: 'server',
     'modern-web': 'modern',
     'web-worker': 'web-worker',
-    'server-worker': 'server-worker',
+    'service-worker': 'service-worker',
   };
 
   return {
@@ -91,7 +91,7 @@ async function getChainUtils(
     webpack,
     isProd: nodeEnv === 'production',
     isServer: target === 'node',
-    isServerWorker: target === 'server-worker',
+    isServerWorker: target === 'service-worker',
     isWebWorker: target === 'web-worker',
     CHAIN_ID,
     getCompiledPath,

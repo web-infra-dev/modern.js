@@ -226,9 +226,9 @@ export const isClientCompiler = (compiler: {
 
   if (target) {
     if (Array.isArray(target)) {
-      return !target.includes('server-worker');
+      return !target.includes('service-worker');
     }
-    return target !== 'server-worker';
+    return target !== 'service-worker';
   }
 
   return compiler.name === 'client';
