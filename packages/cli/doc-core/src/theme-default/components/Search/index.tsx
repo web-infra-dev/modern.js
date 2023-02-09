@@ -162,7 +162,7 @@ export function Search() {
           >
             {result.others.map(item => (
               <Tab key={item.index}>
-                {renderSearchResultItem(item.items, false, item.index)}
+                {renderSearchResultItem(item.items, false)}
               </Tab>
             ))}
           </Tabs>
