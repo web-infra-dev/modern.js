@@ -11,6 +11,7 @@ export interface RouteMeta {
   basePath: string;
   absolutePath: string;
   pageName: string;
+  lang: string;
 }
 
 export interface Route {
@@ -18,6 +19,7 @@ export interface Route {
   element: React.ReactElement;
   filePath: string;
   preload: () => Promise<PageModule<ComponentType<unknown>>>;
+  lang: string;
 }
 
 export interface RouteOptions {
@@ -51,6 +53,8 @@ export class RouteService {
 
   #defaultLang: string;
 
+  #langs: string[];
+
   #routeData: RouteMeta[] = [];
 
   #extensions: string[] = [];
@@ -67,7 +71,9 @@ export class RouteService {
     this.#extensions = routeOptions.extensions || DEFAULT_PAGE_EXTENSIONS;
     this.#include = routeOptions.include || [];
     this.#exclude = routeOptions.exclude || [];
-    this.#defaultLang = userConfig.doc?.lang || 'zh';
+    this.#defaultLang = userConfig.doc?.lang || '';
+    this.#langs =
+      userConfig.doc?.themeConfig?.locales?.map(locale => locale.lang) || [];
     this.#base = userConfig.doc?.base || '';
   }
 
@@ -92,6 +98,9 @@ export class RouteService {
     const fileRelativePath = normalizePath(
       path.relative(this.#scanDir, filePath),
     );
+    const lang =
+      this.#langs.find(lang => fileRelativePath.startsWith(lang)) ||
+      this.#defaultLang;
     const routePath = normalizeRoutePath(
       fileRelativePath,
       this.#defaultLang,
@@ -104,6 +113,7 @@ export class RouteService {
       basePath: this.#scanDir,
       absolutePath: normalizePath(absolutePath),
       pageName: getPageKey(fileRelativePath),
+      lang,
     });
   }
 
@@ -168,7 +178,7 @@ ${this.#routeData
      *   filePath: '/Users/xxx/xxx/index.md'
      * }
      */
-    return `{ path: '${route.routePath}', element: React.createElement(${component}), filePath: '${route.absolutePath}', preload: ${preload} }`;
+    return `{ path: '${route.routePath}', element: React.createElement(${component}), filePath: '${route.absolutePath}', preload: ${preload}, lang: '${route.lang}' }`;
   })
   .join(',\n')}
 ];

@@ -54,8 +54,8 @@ export const parseToc = (tree: Root) => {
 };
 
 export const remarkPluginToc: Plugin<[], Root> = () => {
-  return (tree: Root, file) => {
-    const { title, toc } = parseToc(tree);
+  return (tree: Root) => {
+    const { toc, title } = parseToc(tree);
 
     const insertedTocCode = `export const toc = ${JSON.stringify(
       toc,
@@ -100,45 +100,6 @@ export const remarkPluginToc: Plugin<[], Root> = () => {
                         type: 'Literal',
                         value: title,
                         raw: `\`${title}\``,
-                      },
-                    },
-                  ],
-                },
-                specifiers: [],
-              },
-            ],
-          },
-        },
-      } as MdxjsEsm);
-    }
-
-    if (file.value) {
-      const normalizedValue = JSON.stringify(file.value);
-      const insertedContent = `export const content = ${normalizedValue}`;
-      tree.children.push({
-        type: 'mdxjsEsm',
-        value: insertedContent,
-        data: {
-          estree: {
-            type: 'Program',
-            sourceType: 'module',
-            body: [
-              {
-                type: 'ExportNamedDeclaration',
-                declaration: {
-                  type: 'VariableDeclaration',
-                  kind: 'const',
-                  declarations: [
-                    {
-                      type: 'VariableDeclarator',
-                      id: {
-                        type: 'Identifier',
-                        name: 'content',
-                      },
-                      init: {
-                        type: 'Literal',
-                        value: normalizedValue,
-                        raw: JSON.stringify(normalizedValue),
                       },
                     },
                   ],
