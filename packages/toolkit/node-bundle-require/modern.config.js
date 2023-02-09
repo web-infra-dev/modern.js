@@ -1,5 +1,5 @@
-const { legacyPresets } = require('@scripts/build');
+const { nodeBuildConfig } = require('@modern-js/build-config');
 
 module.exports = {
-  buildConfig: legacyPresets.NODE_JS,
+  buildConfig: nodeBuildConfig,
 };
