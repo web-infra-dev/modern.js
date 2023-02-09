@@ -1,0 +1,11 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "paths": {}
+  },
+  "include": ["src"]
+}

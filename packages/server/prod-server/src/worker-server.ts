@@ -1,4 +1,6 @@
+import { Logger, LoggerInterface } from './libs/logger';
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
+import { metrics as defaultMetrics } from './libs/metrics';
 
 export type Context = Record<string, any>;
 
@@ -12,10 +14,14 @@ export type Manifest = {
     {
       entryName: string;
       template: string;
-      serverRender: (ctx: Record<string, any>) => Promise<string>;
+      serverRender?: (ctx: Record<string, any>) => Promise<string>;
     }
   >;
   routes: ModernRouteInterface[];
+};
+
+export const handleUrl = (url: string) => {
+  return url.replace(/^https?:\/\/.*?\//gi, '/');
 };
 
 export const createHandler = (manifest: Manifest) => {
@@ -34,16 +40,47 @@ export const createHandler = (manifest: Manifest) => {
     ctx.request.pathname ??= ctx.pathname;
     ctx.request.params ??= ctx.params;
     const params = pageMatch.parseURLParams(ctx.url);
-    ctx.body = await page.serverRender({
-      template: page.template,
-      query: ctx.query,
-      request: ctx.request,
-      response: ctx.response,
-      pathname: ctx.pathname,
-      req: ctx.request,
-      res: ctx.response,
-      params: ctx.params || params || {},
-    });
-    ctx.status = 200;
+    if (page.serverRender) {
+      try {
+        ctx.body = await page.serverRender({
+          entryName: page.entryName,
+          template: page.template,
+          query: ctx.query,
+          request: ctx.request,
+          response: ctx.response,
+          pathname: ctx.pathname,
+          req: ctx.request,
+          res: ctx.response,
+          params: ctx.params || params || {},
+          logger:
+            ctx.logger ||
+            (new Logger({
+              level: 'warn',
+            }) as Logger & LoggerInterface),
+          metrics: ctx.metrics || defaultMetrics,
+          loadableStats: ctx.loadableStats,
+          routeManifest: ctx.routeManifest,
+        });
+        ctx.status = 200;
+        return;
+      } catch (e) {
+        if (page.template) {
+          ctx.body = page.template;
+          ctx.status = 200;
+          return;
+        } else {
+          ctx.body = '404: not found';
+          ctx.status = 404;
+          return;
+        }
+      }
+    }
+    if (page.template) {
+      ctx.body = page.template;
+      ctx.status = 200;
+      return;
+    }
+    ctx.body = '404: not found';
+    ctx.status = 404;
   };
 };

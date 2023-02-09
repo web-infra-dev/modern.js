@@ -48,6 +48,7 @@ export type ModifyChainUtils = {
   isProd: boolean;
   target: BuilderTarget;
   isServer: boolean;
+  isServiceWorker: boolean;
   isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
   getCompiledPath: (name: string) => string;

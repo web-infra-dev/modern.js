@@ -26,6 +26,11 @@ export const LAUNCH_EDITOR_ENDPOINT = '/__open-stack-frame-in-editor';
 export const SERVER_BUNDLE_DIRECTORY = 'bundles';
 
 /**
+ * server side bundles directory, which relative to dist.
+ */
+export const SERVER_WORKER_BUNDLE_DIRECTORY = 'worker';
+
+/**
  * entry name pattern used for ajv pattern properties.
  */
 export const ENTRY_NAME_PATTERN = '^[a-zA-Z0-9_-]+$';

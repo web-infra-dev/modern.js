@@ -1,0 +1,27 @@
+{
+  "name": "worker-test",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve",
+    "inspect": "modern inspect",
+    "deploy": "modern deploy"
+  },
+  "dependencies": {
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0",
+    "@modern-js/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-worker": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/eslint-config": "workspace:*",
+    "@modern-js-app/eslint-config": "workspace:*",
+    "@types/node": "~16.11.7",
+    "@types/react": "~18.0.26",
+    "@types/react-dom": "~18.0.10",
+    "typescript": "~4.9.4"
+  }
+}

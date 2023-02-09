@@ -9,6 +9,7 @@ import {
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
   SERVER_DIST_DIR,
+  SERVER_WORKER_DIST_DIR,
   DEFAULT_MOUNT_ID,
   DEFAULT_DATA_URL_SIZE,
 } from './constants';
@@ -61,6 +62,7 @@ export const defaultOutputConfig: NormalizedSharedOutputConfig = {
     image: IMAGE_DIST_DIR,
     media: MEDIA_DIST_DIR,
     server: SERVER_DIST_DIR,
+    worker: SERVER_WORKER_DIST_DIR,
   },
   filename: {},
   charset: 'ascii',
