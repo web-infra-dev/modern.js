@@ -139,8 +139,6 @@ export type SidebarItem = { text: string; link: string };
 export interface EditLink {
   /**
    * Pattern for edit link.
-   *
-   * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
    */
   pattern: string;
 
@@ -157,15 +155,11 @@ export interface EditLink {
 export interface DocFooter {
   /**
    * Custom label for previous page button.
-   *
-   * @default 'Previous page'
    */
   prev?: SidebarItem;
 
   /**
    * Custom label for next page button.
-   *
-   * @default 'Next page'
    */
   next?: SidebarItem;
 }

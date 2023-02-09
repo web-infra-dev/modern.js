@@ -1,3 +1,11 @@
+@media (max-width: 640px) {
+  .grid-2,
+  .grid-4,
+  .grid-6 {
+    width: calc(100%);
+  }
+}
+
 @media (min-width: 640px) {
   .grid-2,
   .grid-4,

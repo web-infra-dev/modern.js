@@ -29,32 +29,34 @@ export function HomeFeature() {
           <div
             key={title}
             border="rounded-md"
-            p="r-0 md:r-4 b-4"
+            p="b-4 lg:l-0"
             className={`${gridClass ? styles[gridClass] : 'w-full'}`}
           >
-            <article
-              key={title}
-              h="full"
-              p="6"
-              bg="soft"
-              border="~ bg-soft solid rounded-xl"
-            >
-              <div
-                flex="~ center"
-                m="b-5"
-                w="12"
-                h="12"
-                text="3xl"
-                bg="gray-light-4 dark:bg-white"
-                border="rounded-md"
+            <div p="2" h="52">
+              <article
+                key={title}
+                h="full"
+                p="6"
+                bg="soft"
+                border="~ bg-soft solid rounded-xl"
               >
-                {icon}
-              </div>
-              <h2 font="bold">{title}</h2>
-              <p p="t-2" text="sm text-2" font="medium" className="leading-6">
-                {details}
-              </p>
-            </article>
+                <div
+                  flex="~ center"
+                  m="b-5"
+                  w="12"
+                  h="12"
+                  text="3xl"
+                  bg="gray-light-4 dark:bg-white"
+                  border="rounded-md"
+                >
+                  {icon}
+                </div>
+                <h2 font="bold">{title}</h2>
+                <p p="t-2" text="sm text-2" font="medium" className="leading-6">
+                  {details}
+                </p>
+              </article>
+            </div>
           </div>
         );
       })}

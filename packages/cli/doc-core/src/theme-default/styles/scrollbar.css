@@ -21,4 +21,8 @@
     background-color: var(--modern-c-text-4);
     background-clip: content-box;
   }
+
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 }
