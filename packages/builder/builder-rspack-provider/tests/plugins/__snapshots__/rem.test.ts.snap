@@ -429,7 +429,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             },
           },
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
