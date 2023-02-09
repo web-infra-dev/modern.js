@@ -197,7 +197,7 @@ describe('bundlerApi', () => {
               "type": "javascript/auto",
               "use": [
                 {
-                  "builtinLoader": "yaml-loader",
+                  "loader": "builtin:yaml-loader",
                 },
               ],
             },
