@@ -63,6 +63,7 @@
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",

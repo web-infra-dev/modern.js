@@ -39,6 +39,7 @@
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/babel-preset-app": "workspace:*",
     "@scripts/build": "workspace:*",

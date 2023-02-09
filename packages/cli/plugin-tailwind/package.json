@@ -55,6 +55,7 @@
     "hoist-non-react-statics": "^3.3.2"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",

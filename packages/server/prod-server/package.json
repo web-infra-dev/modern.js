@@ -65,6 +65,7 @@
     "serve-static": "^1.14.1"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/jest-config": "workspace:*",

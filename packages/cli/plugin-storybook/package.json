@@ -65,6 +65,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",

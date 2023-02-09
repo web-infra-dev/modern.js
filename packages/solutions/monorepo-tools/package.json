@@ -55,6 +55,7 @@
     "p-map": "^4.0.0"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
