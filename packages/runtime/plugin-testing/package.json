@@ -32,7 +32,7 @@
     "./runtime": {
       "jsnext:source": "./src/runtime-testing/index.ts",
       "node": {
-        "import": "./dist/js/modern/runtime-testing/index.js",
+        "import": "./dist/esm-node/runtime-testing/index.js",
         "require": "./dist/cjs/runtime-testing/index.js"
       },
       "default": "./dist/esm/runtime-testing/index.js"
@@ -40,7 +40,7 @@
     "./runtime-base": {
       "jsnext:source": "./src/runtime-testing/base.ts",
       "node": {
-        "import": "./dist/js/modern/runtime-testing/base.js",
+        "import": "./dist/esm-node/runtime-testing/base.js",
         "require": "./dist/cjs/runtime-testing/base.js"
       },
       "default": "./dist/esm/runtime-testing/base.js"

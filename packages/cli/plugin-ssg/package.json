@@ -30,7 +30,7 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
+        "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
@@ -38,14 +38,14 @@
     "./cli": {
       "jsnext:source": "./src/index.ts",
       "node": {
-        "import": "./dist/js/modern/index.js",
+        "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
     },
     "./types": {
       "node": {
-        "import": "./dist/js/modern/types.js",
+        "import": "./dist/esm-node/types.js",
         "require": "./dist/cjs/types.js",
         "types": "./dist/types/types.d.ts"
       },

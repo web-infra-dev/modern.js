@@ -32,7 +32,7 @@
     },
     "./modern": {
       "jsnext:source": "./src/browser.ts",
-      "default": "./dist/js/modern/browser.js"
+      "default": "./dist/esm-node/browser.js"
     },
     "./server": {
       "jsnext:source": "./src/node.ts",

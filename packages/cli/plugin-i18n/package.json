@@ -27,7 +27,7 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
+        "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
@@ -35,7 +35,7 @@
     "./language-detector": {
       "node": {
         "jsnext:source": "./src/language-detector.ts",
-        "import": "./dist/js/modern/language-detector.js",
+        "import": "./dist/esm-node/language-detector.js",
         "require": "./dist/cjs/language-detector.js"
       },
       "default": "./dist/esm/language-detector.js"
@@ -68,14 +68,14 @@
     "exports": {
       ".": {
         "node": {
-          "import": "./dist/js/modern/index.js",
+          "import": "./dist/esm-node/index.js",
           "require": "./dist/cjs/index.js"
         },
         "default": "./dist/esm/index.js"
       },
       "./language-detector": {
         "node": {
-          "import": "./dist/js/modern/language-detector.js",
+          "import": "./dist/esm-node/language-detector.js",
           "require": "./dist/cjs/language-detector.js"
         },
         "default": "./dist/esm/language-detector.js"
