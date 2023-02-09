@@ -1,31 +1,26 @@
-```js title="App.tsx"
+```js title="src/App.tsx"
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 
 import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements, BrowserRouter, Link, Outlet } from '@modern-js/runtime/router';
 
 const AppLayout = () => (
   <>
-    <div><Link to={'/SubConvention'}>加载约定式路由子应用</Link></div>
-    <div><Link to={'/SubCustom'}>加载自控式路由子应用</Link></div>
+    <div><Link to={'/table'}>加载约定式路由子应用</Link></div>
+    <div><Link to={'/dashboard'}>加载自控式路由子应用</Link></div>
     <div><Link to={'/'}>卸载子应用</Link></div>
     <Outlet />
   </>
 )
 
 export default () => {
-  const { apps, MApp } = useModuleApps();
+  const { apps, MApp, Table, Dashboard } = useModuleApps();
 
   // 使用的不是 MApp 组件，需要使用 createBrowserRouter 来创建路由
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<AppLayout />}>
-        {apps.map(app => {
-          const { Component } = app;
-          // 模糊匹配，path 需要写成类似 abc/* 的模式
-          return (
-            <Route key={app.name} path={`${app.name}/*`} element={<Component />} />
-          )
-        })}
+        <Route key={'table'} path={'table/*'} element={<Table />} />
+        <Route key={'dashboard'} path={'dashboard/*'} element={<Dashboard />} />
       </Route>
     )
   );

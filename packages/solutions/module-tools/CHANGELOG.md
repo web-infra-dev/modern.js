@@ -1,5 +1,28 @@
 # @modern-js/module-tools
 
+## 2.4.0
+
+### Patch Changes
+
+- 72f837e: update rollup-plugin-dts version, support cts and mts file
+  更新 rollup-plugin-dts 版本，支持 cts 和 mts 文件
+- 76e15dc: feat: change dev log color
+  feat: 修改 dev 展示的内容颜色
+- 8c2db5f: feat(core): improve support for exporting a function in config file
+
+  feat(core): 完善对配置文件中导出函数的支持
+
+- Updated dependencies [98a2733]
+- Updated dependencies [8c2db5f]
+  - @modern-js/utils@2.4.0
+  - @modern-js/core@2.4.0
+  - @modern-js/new-action@2.4.0
+  - @modern-js/plugin-changeset@2.4.0
+  - @modern-js/plugin-i18n@2.4.0
+  - @modern-js/plugin-lint@2.4.0
+  - @modern-js/upgrade@2.4.0
+  - @modern-js/plugin@2.4.0
+
 ## 2.3.0
 
 ### Minor Changes

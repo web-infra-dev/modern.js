@@ -5,9 +5,13 @@ import { DefaultNotFound } from './DefaultNotFound';
 import { RouterConfig } from './plugin';
 
 export function renderRoutes(
-  routesConfig: RouterConfig['routesConfig'],
+  routesConfig?: RouterConfig['routesConfig'],
   extraProps: any = {},
 ) {
+  if (!routesConfig) {
+    return null;
+  }
+
   const Layout = ({ Component, ...props }: any) => {
     const GlobalLayout = routesConfig?.globalApp;
 

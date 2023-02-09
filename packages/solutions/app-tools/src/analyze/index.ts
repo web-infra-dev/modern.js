@@ -15,7 +15,7 @@ import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
 import { getSelectedEntries } from '../utils/getSelectedEntries';
-import { AppTools } from '../types';
+import { AppTools, webpack } from '../types';
 import { initialNormalizedConfig } from '../config';
 import { createBuilderGenerator } from '../builder';
 import {
@@ -166,7 +166,10 @@ export default ({
             async onBeforeBuild({ bundlerConfigs }) {
               const hookRunners = api.useHookRunners();
               await generateRoutes(appContext);
-              await hookRunners.beforeBuild({ bundlerConfigs });
+              await hookRunners.beforeBuild({
+                bundlerConfigs:
+                  bundlerConfigs as unknown as webpack.Configuration[],
+              });
             },
 
             async onAfterBuild({ stats }) {
@@ -193,14 +196,19 @@ export default ({
               const hookRunners = api.useHookRunners();
               // run modernjs framework `beforeCreateCompiler` hook
               await hookRunners.beforeCreateCompiler({
-                bundlerConfigs,
+                bundlerConfigs:
+                  bundlerConfigs as unknown as webpack.Configuration[],
               });
             },
 
             async onAfterCreateCompiler({ compiler }) {
               const hookRunners = api.useHookRunners();
               // run modernjs framework afterCreateCompiler hooks
-              await hookRunners.afterCreateCompiler({ compiler });
+              await hookRunners.afterCreateCompiler({
+                compiler: compiler as unknown as
+                  | webpack.Compiler
+                  | webpack.MultiCompiler,
+              });
             },
           });
 

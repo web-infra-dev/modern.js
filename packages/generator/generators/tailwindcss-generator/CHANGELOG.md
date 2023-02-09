@@ -1,5 +1,7 @@
 # @modern-js/tailwindcss-generator
 
+## 3.0.6
+
 ## 3.0.5
 
 ## 3.0.4
