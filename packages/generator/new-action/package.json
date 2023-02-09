@@ -19,7 +19,7 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
+        "import": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/cjs/index.js"

@@ -20,7 +20,7 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
+        "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
@@ -28,7 +28,7 @@
     "./worker": {
       "node": {
         "jsnext:source": "./src/worker-server.ts",
-        "import": "./dist/js/modern/worker-server.js",
+        "import": "./dist/esm-node/worker-server.js",
         "require": "./dist/cjs/worker-server.js"
       },
       "default": "./dist/esm/worker-server.js"
