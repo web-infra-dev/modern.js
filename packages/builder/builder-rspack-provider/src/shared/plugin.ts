@@ -37,4 +37,5 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.yaml(),
     plugins.splitChunks(),
     plugins.startUrl(),
+    plugins.bundleAnalyzer(),
   ]);

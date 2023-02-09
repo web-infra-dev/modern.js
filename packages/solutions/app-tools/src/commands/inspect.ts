@@ -5,7 +5,7 @@ import type { InspectOptions } from '../utils/types';
 import type { AppTools } from '../types';
 
 export const inspect = async (
-  api: PluginAPI<AppTools>,
+  api: PluginAPI<AppTools<'shared'>>,
   options: InspectOptions,
 ) => {
   const appContext = api.useAppContext();

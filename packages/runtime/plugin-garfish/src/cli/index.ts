@@ -58,6 +58,14 @@ export default ({
           },
         };
         if (masterApp) {
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const useConfig = useConfigContext();
+          const baseUrl = useConfig?.server?.baseUrl;
+          if (Array.isArray(baseUrl)) {
+            throw new Error(
+              'Now Micro-Front-End mode dose not support multiple baseUrl, you can set it as a string',
+            );
+          }
           // basename does not exist use router's basename
           setRuntimeConfig(
             nConfig.resolved,
@@ -66,7 +74,10 @@ export default ({
               typeof masterApp === 'object' ? { ...masterApp } : {},
               {
                 basename:
-                  router?.historyOptions?.basename || router?.basename || '/',
+                  baseUrl ||
+                  router?.historyOptions?.basename ||
+                  router?.basename ||
+                  '/',
               },
             ),
           );
@@ -119,14 +130,7 @@ export default ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            webpackChain: (
-              chain,
-              {
-                webpack,
-                env = process.env.NODE_ENV || 'development',
-                CHAIN_ID,
-              },
-            ) => {
+            webpackChain: (chain, { webpack, env, CHAIN_ID }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {

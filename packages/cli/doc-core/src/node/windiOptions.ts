@@ -41,9 +41,9 @@ export default (themeDir: string) =>
           '4/4': '100%',
         },
         colors: {
-          brandLight: 'var(--modern-c-brand-light)',
-          brandDark: 'var(--modern-c-brand-dark)',
           brand: 'var(--modern-c-brand)',
+          'brand-light': 'var(--modern-c-brand-light)',
+          'brand-dark': 'var(--modern-c-brand-dark)',
           text: {
             1: 'var(--modern-c-text-1)',
             2: 'var(--modern-c-text-2)',

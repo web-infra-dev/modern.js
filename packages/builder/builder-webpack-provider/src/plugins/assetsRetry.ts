@@ -1,5 +1,5 @@
 import { BuilderPlugin } from '../types';
-import { isHtmlDisabled } from './html';
+import { isHtmlDisabled } from '@modern-js/builder-shared';
 
 export function builderPluginAssetsRetry(): BuilderPlugin {
   return {

@@ -20,6 +20,12 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "jsnext:modern": "./dist/index.js",
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
@@ -34,11 +40,11 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/core": "0.0.0-239fa38b6-20230203022652",
-    "@rspack/dev-client": "0.0.0-239fa38b6-20230203022652",
-    "@rspack/dev-middleware": "0.0.0-239fa38b6-20230203022652",
-    "@rspack/plugin-html": "0.0.0-239fa38b6-20230203022652",
-    "@rspack/postcss-loader": "0.0.0-239fa38b6-20230203022652",
+    "@rspack/core": "0.0.0-292350d-20230208103346",
+    "@rspack/dev-client": "0.0.0-292350d-20230208103346",
+    "@rspack/dev-middleware": "0.0.0-292350d-20230208103346",
+    "@rspack/plugin-html": "0.0.0-292350d-20230208103346",
+    "@rspack/postcss-loader": "0.0.0-292350d-20230208103346",
     "@svgr/webpack": "6.5.1",
     "caniuse-lite": "^1.0.30001332",
     "webpack-sources": "^3.2.3"

@@ -23,19 +23,22 @@ export interface RspackBuildError extends Error {
 export const rspackBuild: BuildExecuter = async compiler => {
   return new Promise((resolve, reject) => {
     compiler.run((err: any, stats?: Stats) => {
-      // When using run or watch, call close and wait for it to finish before calling run or watch again.
-      // Concurrent compilations will corrupt the output files.
-      compiler.close(() => {
-        if (err || !stats || stats.hasErrors()) {
-          const buildError: RspackBuildError =
-            err || new Error('Rspack build failed!');
-          buildError.stats = stats;
-          reject(buildError);
-        } else {
+      if (err || !stats?.hasErrors()) {
+        const buildError: RspackBuildError =
+          err || new Error('Rspack build failed!');
+        buildError.stats = stats;
+        reject(buildError);
+      }
+      // If there is a compilation error, the close method should not be called.
+      // Otherwise the bundler may generate an invalid cache.
+      else {
+        // When using run or watch, call close and wait for it to finish before calling run or watch again.
+        // Concurrent compilations will corrupt the output files.
+        compiler.close(() => {
           // Assert type of stats must align to compiler.
           resolve({ stats });
-        }
-      });
+        });
+      }
     });
   });
 };

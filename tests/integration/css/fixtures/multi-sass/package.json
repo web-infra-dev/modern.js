@@ -2,6 +2,10 @@
   "private": true,
   "name": "multi-sass",
   "version": "1.0.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build"
+  },
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",

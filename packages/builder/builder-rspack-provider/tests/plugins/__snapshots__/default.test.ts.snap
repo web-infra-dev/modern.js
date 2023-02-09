@@ -389,7 +389,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
@@ -478,10 +478,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/dist",
+    "pathinfo": false,
     "publicPath": "/",
   },
   "resolve": {
-    "alias": {},
     "extensions": [
       ".ts",
       ".tsx",
@@ -888,7 +888,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             },
           },
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
             "options": {
               "rspackImporter": true,
               "sourceMap": false,
@@ -977,10 +977,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/dist",
+    "pathinfo": false,
     "publicPath": "/",
   },
   "resolve": {
-    "alias": {},
     "extensions": [
       ".ts",
       ".tsx",
@@ -1395,7 +1395,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             },
           },
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
@@ -1484,6 +1484,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/dist",
+    "pathinfo": false,
     "publicPath": "/",
   },
   "plugins": [
@@ -1492,7 +1493,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
     },
   ],
   "resolve": {
-    "alias": {},
     "extensions": [
       ".ts",
       ".tsx",

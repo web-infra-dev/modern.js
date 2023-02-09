@@ -6,6 +6,7 @@ import {
   SidebarItem,
   SidebarGroup,
   NormalizedSidebarGroup,
+  PageIndexInfo,
 } from 'shared/types';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { remark } from 'remark';
@@ -16,28 +17,20 @@ import { htmlToText } from 'html-to-text';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 import { remarkPluginContainer } from '@modern-js/remark-container';
-import { ReplaceRule, Header } from 'shared/types/index';
+import { ReplaceRule } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
 import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
+import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { routeService } from './routeData';
-import { withBase } from '@/shared/utils';
+import { MDX_REGEXP, withBase } from '@/shared/utils';
 
-interface PageIndexData {
-  id: number;
-  title: string;
-  routePath: string;
-  toc: Header[];
-  content: string;
-  frontmatter: Record<string, unknown>;
-}
-
-let pages: PageIndexData[] | undefined;
+let pages: PageIndexInfo[] | undefined;
 
 export function normalizeThemeConfig(
   themeConfig: DefaultThemeConfig,
-  pages: PageIndexData[] = [],
+  pages: PageIndexInfo[] = [],
   base = '',
   replaceRules: ReplaceRule[],
 ): NormalizedDefaultThemeConfig {
@@ -111,65 +104,89 @@ export function normalizeThemeConfig(
 
 async function extractPageData(
   replaceRules: ReplaceRule[],
-): Promise<PageIndexData[]> {
+  alias: Record<string, string | string[]>,
+  domain: string,
+): Promise<(PageIndexInfo | null)[]> {
   return Promise.all(
-    routeService.getRoutes().map(async (route, index) => {
-      let content: string = await fs.readFile(route.absolutePath, 'utf8');
-      const frontmatter = {
-        // eslint-disable-next-line import/no-named-as-default-member
-        ...yamlFront.loadFront(content),
-      };
-      // 1. Replace rules for frontmatter & content
-      Object.keys(frontmatter).forEach(key => {
-        if (typeof frontmatter[key] === 'string') {
-          frontmatter[key] = applyReplaceRules(frontmatter[key], replaceRules);
+    routeService
+      .getRoutes()
+      .filter(route => MDX_REGEXP.test(route.absolutePath))
+      .map(async (route, index) => {
+        let content: string = await fs.readFile(route.absolutePath, 'utf8');
+        const frontmatter = {
+          // eslint-disable-next-line import/no-named-as-default-member
+          ...yamlFront.loadFront(content),
+        };
+        if (frontmatter.pageType === 'home') {
+          return null;
         }
-      });
-      content = applyReplaceRules(frontmatter.__content, replaceRules).replace(
-        importStatementRegex,
-        '',
-      );
-      // 2. Optimize content index
-      const ast = remark.parse({ value: content });
-      const { title, toc } = parseToc(ast as Root);
-      const precessor = unified()
-        .use(remarkParse)
-        .use(remarkPluginContainer)
-        .use(remarkHtml);
-      const html = await precessor.process(content);
-      content = htmlToText(String(html), {
-        wordwrap: 80,
-        selectors: [
-          {
-            selector: 'a',
-            options: {
-              ignoreHref: true,
+        // 1. Replace rules for frontmatter & content
+        Object.keys(frontmatter).forEach(key => {
+          if (typeof frontmatter[key] === 'string') {
+            frontmatter[key] = applyReplaceRules(
+              frontmatter[key],
+              replaceRules,
+            );
+          }
+        });
+        const flattenContent = await flattenMdxContent(
+          frontmatter.__content,
+          route.absolutePath,
+          alias,
+        );
+
+        content = applyReplaceRules(flattenContent, replaceRules).replace(
+          importStatementRegex,
+          '',
+        );
+        // 2. Optimize content index
+        const ast = remark.parse({ value: content });
+        const { title, toc } = parseToc(ast as Root);
+        const precessor = unified()
+          .use(remarkParse)
+          .use(remarkPluginContainer)
+          .use(remarkHtml);
+        const html = await precessor.process(content);
+        content = htmlToText(String(html), {
+          wordwrap: 80,
+          selectors: [
+            {
+              selector: 'a',
+              options: {
+                ignoreHref: true,
+              },
             },
+            {
+              selector: 'img',
+              format: 'skip',
+            },
+            ...['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].map(tag => ({
+              selector: tag,
+              options: {
+                uppercase: false,
+              },
+            })),
+          ],
+          tables: true,
+          longWordSplit: {
+            forceWrapOnLimit: true,
           },
-          {
-            selector: 'img',
-            format: 'skip',
+        });
+        return {
+          id: index,
+          title: frontmatter.title || title,
+          routePath: route.routePath,
+          lang: route.lang,
+          toc,
+          domain,
+          // Stripped frontmatter content
+          content,
+          frontmatter: {
+            ...frontmatter,
+            __content: undefined,
           },
-        ],
-        uppercaseHeadings: false,
-        tables: true,
-        longWordSplit: {
-          forceWrapOnLimit: true,
-        },
-      });
-      return {
-        id: index,
-        title: frontmatter.title || title,
-        routePath: route.routePath,
-        toc,
-        // Stripped frontmatter content
-        content,
-        frontmatter: {
-          ...frontmatter,
-          __content: undefined,
-        },
-      };
-    }),
+        };
+      }),
   );
 }
 
@@ -177,6 +194,7 @@ export async function siteDataVMPlugin(
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,
+  alias: Record<string, string | string[]>,
 ) {
   const entryPath = join(PACKAGE_ROOT, 'node_modules', 'virtual-site-data');
   const userConfig = config.doc;
@@ -186,8 +204,14 @@ export async function siteDataVMPlugin(
     console.log('⭐️ [doc-tools] Extracting site data...');
   }
   const replaceRules = userConfig?.replaceRules || [];
+  const domain =
+    userConfig?.search?.mode === 'remote'
+      ? userConfig?.search.domain ?? ''
+      : '';
   if (!pages) {
-    pages = await extractPageData(replaceRules);
+    pages = (await extractPageData(replaceRules, alias, domain)).filter(
+      Boolean,
+    ) as PageIndexInfo[];
   }
   const siteData = {
     title: userConfig?.title || '',
@@ -203,6 +227,7 @@ export async function siteDataVMPlugin(
     root: userRoot,
     lang: userConfig?.lang || 'zh',
     logo: userConfig?.logo || '',
+    search: userConfig?.search || { mode: 'local' },
     pages: pages.map(({ routePath, toc }) => ({
       routePath,
       toc,

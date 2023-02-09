@@ -18,3 +18,9 @@
   background-color: var(--modern-c-divider-light);
   content: ' ';
 }
+
+@media (max-width: 768px) {
+  .menu-item:before {
+    display: none;
+  }
+}

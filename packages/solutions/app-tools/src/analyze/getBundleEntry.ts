@@ -44,7 +44,7 @@ const ifAlreadyExists = (
 
 export const getBundleEntry = (
   appContext: IAppContext,
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<'shared'>,
 ) => {
   const { appDirectory, packageName } = appContext;
   const {

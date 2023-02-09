@@ -157,7 +157,7 @@ export default {
 Setting `sourceType` to `unambiguous` may have some other effects, please refer to [Babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
 
 :::tip
-Builder provides a more general [source.include](https://modernjs.dev/builder/en/api/config-source.html#source-include) config than `addIncludes`, and it is recommended to use this configuration item first.
+Builder provides a more general [source.include](https://modernjs.dev/builder/en/api/config-source.html#sourceinclude) config than `addIncludes`, and it is recommended to use this configuration item first.
 :::
 
 #### addExcludes

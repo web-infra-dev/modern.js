@@ -79,6 +79,8 @@ export const walk = async (
 
   let pageLoaderFile = '';
   let pageRoute = null;
+  let splatLoaderFile = '';
+  let splatRoute = null;
 
   const items = await fs.readdir(dirname);
 
@@ -134,6 +136,27 @@ export const walk = async (
       route.children?.push(pageRoute);
     }
 
+    if (itemWithoutExt === NESTED_ROUTE.SPLATE_LOADER_FILE) {
+      splatLoaderFile = itemPath;
+    }
+
+    if (itemWithoutExt === NESTED_ROUTE.SPLATE_FILE) {
+      splatRoute = createRoute(
+        {
+          _component: replaceWithAlias(alias.basename, itemPath, alias.name),
+          path: '*',
+        },
+        rootDir,
+        itemPath,
+        entryName,
+      );
+
+      if (splatLoaderFile) {
+        splatRoute.loader = splatLoaderFile;
+      }
+      route.children?.push(splatRoute);
+    }
+
     if (itemWithoutExt === NESTED_ROUTE.LOADING_FILE) {
       route.loading = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
@@ -143,7 +166,7 @@ export const walk = async (
     }
   }
 
-  const finalRoute = createRoute(
+  let finalRoute = createRoute(
     route,
     rootDir,
     path.join(dirname, `${NESTED_ROUTE.LAYOUT_FILE}.ts`),
@@ -165,6 +188,28 @@ export const walk = async (
 
   if (route.children && route.children.length === 0 && !route.index) {
     return null;
+  }
+
+  /**
+   * Make sure access /user, which renders the user/$.tsx component
+   * - routes
+   *  - user
+   *    - $.tsx
+   *  - layout.tsx
+   */
+  if (
+    finalRoute.children &&
+    finalRoute.children.length === 1 &&
+    !finalRoute._component
+  ) {
+    const childRoute = finalRoute.children[0];
+    if (childRoute.path === '*') {
+      const path = `${finalRoute.path || ''}/${childRoute.path || ''}`;
+      finalRoute = {
+        ...childRoute,
+        path,
+      };
+    }
   }
 
   return finalRoute;

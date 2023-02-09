@@ -1,8 +1,6 @@
 import type { BuilderTarget } from '@modern-js/builder-shared';
-import {
-  createBuilderOptions,
-  createBuilderProviderConfig,
-} from '../../src/builder';
+import { createBuilderProviderConfig } from '../../src/builder/generator/createBuilderProviderConfig';
+import { createBuilderOptions } from '../../src/builder/generator/createBuilderOptions';
 
 describe('create builder Options', () => {
   it('test create builder Options', () => {
@@ -62,7 +60,7 @@ describe('create builder provider config', () => {
       config as any,
       appContext as any,
     );
-    delete builderConfig.output?.copy;
+    // delete builderConfig.output?.copy;
 
     expect(builderConfig).toMatchSnapshot();
   });

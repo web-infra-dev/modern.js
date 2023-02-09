@@ -7,5 +7,3 @@ export interface MicroFrontend {
 export interface DeployUserConfig {
   microFrontend?: boolean | MicroFrontend;
 }
-
-export type DeployNormalizedConfig = DeployUserConfig;

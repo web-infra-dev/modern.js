@@ -53,7 +53,7 @@ SWC 编译产物的兼容性较好，支持注入 core-js 等 Polyfill，并且�
 
 ### 避免使用 ts-loader
 
-默认情况下，Builder 使用 Babel 编译 TS 文件，开启 [tools.tsLoader](/api/config-tools.html#tools-tsloader) 选项后，会使用 `ts-loader` 编译 TS 文件。
+默认情况下，Builder 使用 Babel 编译 TS 文件，开启 [tools.tsLoader](/api/config-tools.html#toolstsloader) 选项后，会使用 `ts-loader` 编译 TS 文件。
 
 由于 `ts-loader` 需要进行额外的语法解析和类型检查，因此会导致项目构建速度变慢，请避免使用。
 
@@ -66,7 +66,7 @@ export default {
 };
 ```
 
-详见 [tools.tsLoader 文档](/api/config-tools.html#tools-tsloader)。
+详见 [tools.tsLoader 文档](/api/config-tools.html#toolstsloader)。
 
 ## 开发环境优化策略
 
@@ -162,4 +162,4 @@ export default {
 };
 ```
 
-详见 [output.disableSourceMap](/api/config-output.html#output-disablesourcemap)。
+详见 [output.disableSourceMap](/api/config-output.html#outputdisablesourcemap)。

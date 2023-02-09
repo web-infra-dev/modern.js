@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { Header } from 'shared/types/index';
 import { bindingAsideScroll, scrollToTarget } from '../../logic';
+import './index.module.scss';
 
 export function Aside(props: { headers: Header[]; outlineTitle: string }) {
   const { headers } = props;

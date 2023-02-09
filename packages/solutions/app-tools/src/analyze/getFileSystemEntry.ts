@@ -106,7 +106,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
 
 export const getFileSystemEntry = (
   appContext: IAppContext,
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<'shared'>,
 ): Entrypoint[] => {
   const { appDirectory } = appContext;
 

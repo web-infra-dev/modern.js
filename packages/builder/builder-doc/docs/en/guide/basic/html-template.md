@@ -8,9 +8,9 @@ Builder provides some configs to set the HTML template. Through this chapter, yo
 
 HTML templates are usually predefined by the upper framework.
 
-For example, in the Modern.js framework, the HTML template is preset by default, and users can also customize the content of the template. You can read the ["Modern.js - HTML Templates"](https://modernjs.dev/v2/docs/guides/basic-features/html) chapter to learn about it.
+For example, in the Modern.js framework, the HTML template is preset by default, and users can also customize the content of the template. You can read the ["Modern.js - HTML Templates"](https://modernjs.dev/docs/guides/basic-features/html) chapter to learn about it.
 
-In Builder, you can use [html.template](/en/api/config-html.html#html-template) and [html.templateByEntries](/en/api/config-html.html#html-templatebyentries) configs to define the path to the custom HTML template.
+In Builder, you can use [html.template](/en/api/config-html.html#htmltemplate) and [html.templateByEntries](/en/api/config-html.html#htmltemplatebyentries) configs to define the path to the custom HTML template.
 
 ```ts
 export default {
@@ -22,7 +22,7 @@ export default {
 
 ## Set Page Title
 
-You can set the HTML `<title>` tag through the [html.title](/en/api/config-html.html#html-title) and [html.titleByEntries](/en/api/config-html.html#html-titlebyentries) configs.
+You can set the HTML `<title>` tag through the [html.title](/en/api/config-html.html#htmltitle) and [html.titleByEntries](/en/api/config-html.html#htmltitlebyentries) configs.
 
 When there is only one page in your project, just use the `html.title` setting directly:
 
@@ -51,7 +51,7 @@ export default {
 
 Builder supports setting [favicon](https://developer.mozilla.org/en-US/docs/Glossary/Favicon) icon and [apple-touch-icon](https://webhint.io/docs/user-guide/hints/hint-apple-touch-icons/) icon.
 
-You can set the favicon through the [html.favicon](/en/api/config-html.html#html-favicon) and [html.faviconByEntries](/en/api/config-html.html#html-faviconbyentries) configs.
+You can set the favicon through the [html.favicon](/en/api/config-html.html#htmlfavicon) and [html.faviconByEntries](/en/api/config-html.html#htmlfaviconbyentries) configs.
 
 ```ts
 export default {
@@ -61,7 +61,7 @@ export default {
 };
 ```
 
-You can also set the apple-touch-icon under iOS through the [html.appIcon](/en/api/config-html.html#html-appicon) config.
+You can also set the apple-touch-icon under iOS through the [html.appIcon](/en/api/config-html.html#htmlappicon) config.
 
 ```ts
 export default {
@@ -73,7 +73,7 @@ export default {
 
 ## Set Meta Tags
 
-You can set the meta tags through the [html.meta](/en/api/config-html.html#html-meta) and [html.metaByEntries](/en/api/config-html.html#html-metabyentries) configs.
+You can set the meta tags through the [html.meta](/en/api/config-html.html#htmlmeta) and [html.metaByEntries](/en/api/config-html.html#htmlmetabyentries) configs.
 
 For example to setting description:
 
@@ -116,7 +116,7 @@ type DefaultParameters = {
 };
 ```
 
-You can also use the [html.templateParameters](/en/api/config-html.html#html-templateparameters) and [html.templateParametersByEntries](/en/api/config-html.html#html-templateparametersbyentries) configs to pass in custom template parameters.
+You can also use the [html.templateParameters](/en/api/config-html.html#htmltemplateparameters) and [html.templateParametersByEntries](/en/api/config-html.html#htmltemplateparametersbyentries) configs to pass in custom template parameters.
 
 For example:
 
@@ -166,7 +166,7 @@ Please read the [Lodash Template](https://www.lodashjs.com/docs/lodash.template)
 
 When the suffix of the template is `.ejs`, Builder will use the EJS template engine to compile it. EJS is a simple templating language that lets you generate HTML markup with plain JavaScript.
 
-For example, you can first refer to a `.ejs` template through the [html.template](/en/api/config-html.html#html-template) config:
+For example, you can first refer to a `.ejs` template through the [html.template](/en/api/config-html.html#htmltemplate) config:
 
 ```ts
 export default {
@@ -194,7 +194,7 @@ Please read the [EJS](https://ejs.co/) documentation for details.
 
 When the suffix of the template is `.pug`, Builder will use the Pug template engine to compile it. Pug is a robust, elegant, feature rich template engine for Node.js.
 
-Before using the Pug template, you need to enable the [tools.pug](/en/api/config-tools.html#tools-pug) config, and define the [html.template](/en/api/config-html.html#html-template) config to reference a `.pug` template:
+Before using the Pug template, you need to enable the [tools.pug](/en/api/config-tools.html#toolspug) config, and define the [html.template](/en/api/config-html.html#htmltemplate) config to reference a `.pug` template:
 
 ```ts
 export default {
@@ -240,7 +240,7 @@ All tags that need to be injected into HTML can be accessed in the template file
 </html>
 ```
 
-The purpose of `html.tags` is to adjust these template variables and thus modify the HTML, as defined in [API References](/api/config-html.html#html-tags).
+The purpose of `html.tags` is to adjust these template variables and thus modify the HTML, as defined in [API References](/api/config-html.html#htmltags).
 
 ### Tag Object
 

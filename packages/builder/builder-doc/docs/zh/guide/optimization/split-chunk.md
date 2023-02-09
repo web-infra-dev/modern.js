@@ -6,7 +6,7 @@
 
 ## 拆包策略
 
-> Builder 的拆包配置集中在 [performance.chunkSplit](/api/config-performance.html#performance-chunksplit) 中。
+> Builder 的拆包配置集中在 [performance.chunkSplit](/api/config-performance.html#performancechunksplit) 中。
 
 Builder 中包括如下的拆包策略：
 

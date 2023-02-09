@@ -115,7 +115,7 @@
 }
 
 .dark {
-  --modern-c-bg: var(--modern-c-black-soft);
+  --modern-c-bg: var(--modern-c-black-pure);
   --modern-c-bg-soft: var(--modern-c-black-mute);
   --modern-c-bg-mute: var(--modern-c-gray-dark-3);
   --modern-c-bg-alt: var(--modern-c-black);
@@ -166,14 +166,23 @@
   --modern-code-line-height: 1.7;
   --modern-code-font-size: 0.875em;
 
-  --modern-code-block-color: var(--modern-c-text-dark-1);
-  --modern-code-block-bg: rgb(46, 52, 64);
+  --modern-code-block-color: rgb(46, 52, 64);
+  --modern-code-title-bg: rgba(0, 99, 199, 0.05);
+  --modern-code-block-bg: #f6f8fa;
 
   --modern-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --modern-code-line-number-color: var(--modern-c-text-dark-3);
 
   --modern-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
   --modern-code-copy-code-active-text: var(--modern-c-text-dark-2);
+}
+
+.dark {
+  --modern-code-block-color: rgb(229, 231, 235);
+  --modern-code-block-bg: var(--modern-c-black-soft);
+  --modern-code-title-bg: var(--modern-c-black);
+  --modern-code-line-highlight-color: rgba(255, 255, 255, 0.5);
+  --modern-code-line-number-color: var(--modern-c-text-light-3);
 }
 
 /**
@@ -263,7 +272,6 @@
 /**
  * Component: Custom Block
  * -------------------------------------------------------------------------- */
-
 :root {
   --modern-custom-block-code-font-size: 13px;
 
@@ -348,8 +356,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --modern-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04),
-    0 1px 2px rgba(0, 0, 0, 0.06);
+  --modern-shadow-1: 0 1px 4px rgba(0, 0, 0, 0.02), 0 1px 0 rgba(0, 0, 0, 0.06);
   --modern-shadow-2: 0 3px 12px rgba(0, 0, 0, 0.07),
     0 1px 4px rgba(0, 0, 0, 0.07);
   --modern-shadow-3: 0 12px 32px rgba(0, 0, 0, 0.1),
@@ -358,4 +365,36 @@
     0 3px 9px rgba(0, 0, 0, 0.12);
   --modern-shadow-5: 0 18px 56px rgba(0, 0, 0, 0.16),
     0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+/**
+ * Custom shiki code block theme
+ * reference: https://github.com/shikijs/shiki/blob/main/docs/themes.md
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --shiki-color-text: #414141;
+  --shiki-color-background: transparent;
+  --shiki-token-constant: #1976d2;
+  --shiki-token-string: #31a94d;
+  --shiki-token-comment: rgb(182, 180, 180);
+  --shiki-token-keyword: #cf2727;
+  --shiki-token-parameter: #f59403;
+  --shiki-token-function: #7041c8;
+  --shiki-token-string-expression: #218438;
+  --shiki-token-punctuation: #242323;
+  --shiki-token-link: #22863a;
+}
+
+.dark {
+  --shiki-color-text: #cac7c7;
+  --shiki-token-constant: #6fb0fa;
+  --shiki-token-string: #f9a86e;
+  --shiki-token-comment: #6a727b;
+  --shiki-token-keyword: #f47481;
+  --shiki-token-parameter: #ff9800;
+  --shiki-token-function: #ae8eeb;
+  --shiki-token-string-expression: #4fb74d;
+  --shiki-token-punctuation: #bbbbbb;
+  --shiki-token-link: #f9a76d;
 }

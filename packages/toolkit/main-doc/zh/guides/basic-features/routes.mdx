@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 # 路由
 
-Modern.js 内置了对 [React Router 6](https://reactrouter.com/en/main) 的**部分**支持，并提供了多种类型的路由模式。根据不同[入口](/guides/concept/entries)类型，将路由分为三种模式，分别是**约定式路由**，**自控式路由**和**其他路由方案**。
+Modern.js 的路由基于 [React Router 6](https://reactrouter.com/en/main)，并提供了多种类型的路由模式。根据不同[入口](/docs/guides/concept/entries)类型，将路由分为三种模式，分别是**约定式路由**，**自控式路由**和**其他路由方案**。
 
 :::note
 本小节提到的路由，都是客户端路由，即 SPA 路由。
@@ -167,6 +167,33 @@ export default () => {
 在组件中，可以通过 [useParams](/apis/app/runtime/router/#useparams) 获取对应命名的参数。
 
 在 loader 中，params 会作为 [loader](/guides/basic-features/data-fetch#loader-函数) 的入参，通过 `params.xxx` 可以获取。
+
+### 通配路由
+
+如果在 routes 目录下创建 `$.tsx` 文件，该文件会作为通配路由组件，当没有匹配的路由时，会渲染该路由组件。
+
+:::note
+`$.tsx` 可以认为是一种特殊的 `page` 路由组件，当前目录下有 `layout` 组件时，`$.tsx`，会作为 `layout` 的子组件渲染。
+:::
+
+例如以下目录结构：
+```
+└── routes
+    ├── $.tsx
+    ├── blog
+    │   └── page.tsx
+    └── page.tsx
+```
+
+当访问任何匹配不到的路径时，都会渲染 `routes/$.tsx` 组件，同样，`$.tsx` 中可以使用 [useParams](/apis/app/runtime/router/#useparams) 捕获 url 的剩余部分。
+```ts title="$.tsx"
+import { useParams } from '@modern-js/runtime/router';
+// 当 path 是 `/aaa/bbb` 时
+const params = useParams();
+params['*']  // => 'aaa/bbb'
+```
+
+`$.tsx` 可以加入到 `routes` 目录下的任意目录中，一个常见的使用示例是添加 `routes/$.tsx` 文件去定制任意层级的 404 页面。
 
 ### 无路径布局
 

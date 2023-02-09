@@ -10,7 +10,7 @@
 
 Builder 已内置了对 HMR 的支持，在开发环境下默认启用。
 
-如果你不需要使用 HMR 能力，可以将 [dev.hmr](/api/config-dev.html#dev-hmr) 设置为 false，此时将不再提供热更新和 react-refresh 功能。
+如果你不需要使用 HMR 能力，可以将 [dev.hmr](/api/config-dev.html#devhmr) 设置为 false，此时将不再提供热更新和 react-refresh 功能。
 
 ```ts
 export default {

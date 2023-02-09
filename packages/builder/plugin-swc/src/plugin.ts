@@ -293,7 +293,7 @@ It is likely that you've encountered a ${chalk.red(
         'SWC internal bug',
       )}, please contact us at https://github.com/modern-js-dev/modern.js/issues`,
     );
-  }, 180_1000);
+  }, 180_000);
 
   const outputPromise = minify(filename, code, config);
 

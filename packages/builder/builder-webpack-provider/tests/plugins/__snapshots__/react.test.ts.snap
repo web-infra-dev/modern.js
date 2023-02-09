@@ -74,7 +74,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
                   {
                     "displayName": true,
-                    "pure": true,
+                    "pure": false,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
                   },
@@ -198,7 +198,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
                   {
                     "displayName": true,
-                    "pure": true,
+                    "pure": false,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
                   },

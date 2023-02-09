@@ -9,7 +9,10 @@ import type {
   NormalizedSharedSourceConfig,
 } from './source';
 import type { SharedSecurityConfig } from './security';
-import type { SharedPerformanceConfig } from './performance';
+import type {
+  SharedPerformanceConfig,
+  NormalizedSharedPerformanceConfig,
+} from './performance';
 import type { SharedExperimentsConfig } from './experiments';
 import type { SharedToolsConfig } from './tools';
 import type { DeepReadonly } from '../utils';
@@ -34,10 +37,8 @@ export type SharedNormalizedConfig = DeepReadonly<{
   html: NormalizedSharedHtmlConfig;
   source: NormalizedSharedSourceConfig;
   output: NormalizedSharedOutputConfig;
-  performance: Pick<
-    Required<SharedPerformanceConfig>,
-    'printFileSize' | 'buildCache' | 'chunkSplit'
-  >;
+  performance: NormalizedSharedPerformanceConfig;
+  tools: SharedToolsConfig;
 }>;
 
 export * from './dev';
