@@ -25,16 +25,8 @@ export const createBuilder = async () => {
 
   const builderProvider = provider({
     builderConfig: {
-      performance: {
-        chunkSplit: {
-          strategy: 'all-in-one',
-        },
-      },
       tools: {
-        rspack: config => {
-          config.builtins = config.builtins || {};
-          config.builtins.noEmitAssets = false;
-        },
+        // inspector: {},
       },
     },
   });

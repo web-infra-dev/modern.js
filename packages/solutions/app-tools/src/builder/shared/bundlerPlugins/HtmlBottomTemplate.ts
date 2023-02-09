@@ -19,7 +19,7 @@ export class BottomTemplatePlugin {
   apply(compiler: Rspack.Compiler | webpack.Compiler) {
     compiler.hooks.compilation.tap(this.name, compilation => {
       this.htmlWebpackPlugin
-        .getHooks(compilation)
+        .getHooks(compilation as any)
         .beforeEmit.tap(this.name, data => {
           if (!data.plugin.options?.__internal__) {
             return data;

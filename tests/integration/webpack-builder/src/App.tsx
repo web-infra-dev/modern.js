@@ -2,21 +2,12 @@ import './App.css';
 import stylesForSass from './App.module.scss';
 import stylesForLess from './App.module.less';
 import img from './assets/icon.png';
-import svgImg, { ReactComponent as Logo } from './assets/app.svg';
 import './App.global.less';
-
-console.log('svgImg', svgImg);
-
-console.log('Logo', Logo);
 
 const App = () => (
   <div className="container">
     <main>
       <img id="img" src={img} />
-      <Logo id="test-svg" />
-      <img id="test-img" src={svgImg} />
-      <div id="test-css" />
-      <div id="test-css-png" />
       <p className={stylesForSass.header}>header</p>
       <p className={stylesForLess.title}>title</p>
       <div className="logo">

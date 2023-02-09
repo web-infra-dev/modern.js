@@ -26,12 +26,14 @@ export const builderPluginSvg = (): BuilderPlugin => {
 
         const rule = chain.module.rule(CHAIN_ID.RULE.SVG).test(SVG_REGEX);
 
+        // If we import SVG from a CSS file, it will be processed as assets.
         chainStaticAssetRule({
           rule,
           maxSize,
           filename: join(distDir, filename),
           assetType,
           issuer: {
+            // The issuer option ensures that SVGR will only apply if the SVG is imported from a JS file.
             not: [JS_REGEX, TS_REGEX],
           },
         });
