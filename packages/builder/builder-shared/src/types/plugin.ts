@@ -41,6 +41,7 @@ export type Plugins = {
   yaml: PluginsFn;
   toml: PluginsFn;
   splitChunks: PluginsFn;
+  bundleAnalyzer: PluginsFn;
 };
 
 /**

@@ -104,6 +104,7 @@ export const mergeDefaultBaseConfig = async (
       ...pConfig.umdGlobals,
     },
     umdModuleName: pConfig.umdModuleName ?? defaultConfig.umdModuleName,
+    sideEffects: pConfig.sideEffects ?? defaultConfig.sideEffects,
     externals: pConfig.externals ?? defaultConfig.externals,
     sourceDir,
     alias,

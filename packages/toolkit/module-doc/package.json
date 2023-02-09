@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools-docs",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "docs",
   "main": "index.js",
   "scripts": {

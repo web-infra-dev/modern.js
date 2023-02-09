@@ -1,5 +1,20 @@
 # @modern-js/server
 
+## 2.4.0
+
+### Patch Changes
+
+- d19484c: feat(hmr-client): add HMR connected log
+
+  feat(hmr-client): add HMR 连接成功的日志
+
+- Updated dependencies [98a2733]
+- Updated dependencies [8c2db5f]
+  - @modern-js/utils@2.4.0
+  - @modern-js/prod-server@2.4.0
+  - @modern-js/server-utils@2.4.0
+  - @modern-js/types@2.4.0
+
 ## 2.3.0
 
 ### Patch Changes
