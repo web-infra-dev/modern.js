@@ -285,6 +285,44 @@ Generates code for the node environment by default, you can also specify `browse
 - type: `'browser' | 'node'`
 - default: `node`
 
+## sideEffects
+
+Module sideEffects
+
+- Type: `RegExg[] | (filePath: string, isExternal: boolean) => boolean | boolean`
+- Default value: `undefined`
+
+Normally, we configure the module's side effects via the sideEffects field in package.json, but in some cases, such as when we reference a three-party package style file
+
+```js
+import 'other-package/dist/index.css'
+```
+
+But the package.json of this three-party package does not have the style file configured in the sideEffects
+
+```json other-package/package.json
+{
+  "sideEffects": ["dist/index.js"]
+}
+```
+
+This is the time to use this configuration item, which supports regular and functional forms
+
+```js modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+export default defineConfig({
+  buildConfig: {
+    sideEffects: [/\.css$/],
+    // or
+    // sideEffects: (filePath, isExternal) => /\.css$/.test(filePath),
+  },
+});
+```
+
+:::tip
+After adding this configuration, the sideEffects field in package.json will no longer be read when packaging
+:::
+
 ## sourceDir
 
 Specify the source directory of the build, default is `src`, which is used to generate the corresponding product directory based on the source directory structure when building `bundleless`.

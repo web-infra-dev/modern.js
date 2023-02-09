@@ -1,6 +1,7 @@
 import { join, resolve } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '../scripts/shared';
+import { webpackOnlyTest } from './helper';
 
 const fixtures = resolve(__dirname, '../fixtures');
 
@@ -29,7 +30,7 @@ test('postcss plugins overwrite', async ({ page }) => {
   ).resolves.toBe('title');
 });
 
-test('webpackChain plugin', async ({ page }) => {
+webpackOnlyTest('webpackChain plugin', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'source/global-vars'),
     entry: {
@@ -55,7 +56,7 @@ test('webpackChain plugin', async ({ page }) => {
   ).resolves.toBe('aaaaa');
 });
 
-test('pug', async ({ page }) => {
+webpackOnlyTest('pug', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'tools/pug'),
     entry: {

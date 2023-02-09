@@ -140,6 +140,7 @@ export const buildLib = async (
     autoExternal,
     dts,
     metafile,
+    sideEffects,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
@@ -223,9 +224,9 @@ export const buildLib = async (
     external: externals,
     autoExternal,
     bundle: buildType === 'bundle',
+    sideEffects,
     // outbase for [dir]/[name]
     outbase: sourceDir,
-    logLevel: 'error',
     esbuildOptions: (options: any) => ({
       ...options,
       supported: {
@@ -238,7 +239,7 @@ export const buildLib = async (
 
   try {
     const { Libuilder } = await import('@modern-js/libuild');
-
+    const { addOutputChunk } = await import('../utils/print');
     const runner = api.useHookRunners();
     const modifiedBuildConfig = await runner.modifyLibuild(buildConfig, {
       onLast: c => c,
@@ -246,6 +247,7 @@ export const buildLib = async (
 
     const builder = await Libuilder.create(modifiedBuildConfig);
     await builder.build();
+    addOutputChunk(builder.outputChunk, root, buildType === 'bundle');
 
     if (watch) {
       const { watchSectionTitle } = await import('../utils/log');

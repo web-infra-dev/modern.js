@@ -1,7 +1,6 @@
 import type { RspackConfig } from '../types';
 import type { BundlerConfig } from '@modern-js/builder-shared';
 import { difference, omitBy, isUndefined } from '@modern-js/utils/lodash';
-import { BUILTIN_LOADER } from '../shared';
 
 const formatCondition = (data: any, typeName: string): string | RegExp => {
   if (!(data instanceof RegExp || typeof data === 'string')) {
@@ -38,6 +37,8 @@ const whiteListKeys = [
   'type',
   'parser',
   'generator',
+  'issuer',
+  'oneOf',
 ];
 
 export const formatRule = (rule: BundlerRule): RspackRule => {
@@ -77,14 +78,6 @@ export const formatRule = (rule: BundlerRule): RspackRule => {
 
       if (!content.loader) {
         throw new Error(`loader is required in rule.use`);
-      }
-
-      if (content.loader.includes(BUILTIN_LOADER)) {
-        const { loader, ...loaderConfig } = content;
-        return {
-          ...loaderConfig,
-          builtinLoader: loader.replace(BUILTIN_LOADER, ''),
-        };
       }
 
       return {

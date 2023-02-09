@@ -42,6 +42,10 @@ export type Plugins = {
   toml: PluginsFn;
   splitChunks: PluginsFn;
   bundleAnalyzer: PluginsFn;
+  font: PluginsFn;
+  media: PluginsFn;
+  image: PluginsFn;
+  svg: PluginsFn;
 };
 
 /**

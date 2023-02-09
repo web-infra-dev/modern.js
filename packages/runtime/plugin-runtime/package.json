@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.3.0",
+  "version": "2.4.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -55,6 +55,7 @@
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
       "node": "./dist/js/treeshaking/ssr/index.node.js",
+      "worker": "./dist/js/treeshaking/ssr/index.node.js",
       "default": "./dist/js/treeshaking/ssr/index.js"
     },
     "./model": {

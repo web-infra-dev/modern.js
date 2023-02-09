@@ -14,7 +14,7 @@ export function builderPluginLess(): BuilderPlugin {
   return {
     name: 'builder-plugin-less',
     setup(api) {
-      api.modifyWebpackChain(async (chain, utils) => {
+      api.modifyBundlerChain(async (chain, utils) => {
         const config = api.getNormalizedConfig();
         const { applyOptionsChain } = await import('@modern-js/utils');
         const { applyBaseCSSRule } = await import('./css');

@@ -10,6 +10,10 @@ export const builderPluginTarget = (): DefaultBuilderPlugin => ({
         chain.target('node');
         return;
       }
+      if (target === 'service-worker') {
+        chain.target('webworker');
+        return;
+      }
 
       const browserslist = await getBrowserslist(api.context.rootPath);
       const basicTarget = target === 'web-worker' ? 'webworker' : 'web';

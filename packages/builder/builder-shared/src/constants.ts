@@ -9,6 +9,7 @@ export const DEFAULT_BROWSERSLIST = {
   web: ['> 0.01%', 'not dead', 'not op_mini all'],
   node: ['node >= 14'],
   'web-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
+  'service-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
   'modern-web': [
     'chrome > 61',
     'edge > 16',
@@ -22,6 +23,7 @@ export const DEFAULT_BROWSERSLIST = {
 export const ROOT_DIST_DIR = 'dist';
 export const HTML_DIST_DIR = 'html';
 export const SERVER_DIST_DIR = 'bundles';
+export const SERVER_WORKER_DIST_DIR = 'worker';
 export const JS_DIST_DIR = 'static/js';
 export const CSS_DIST_DIR = 'static/css';
 export const SVG_DIST_DIR = 'static/svg';
@@ -73,6 +75,7 @@ export const RUNTIME_CHUNK_NAME = 'builder-runtime';
 export const TARGET_ID_MAP: Record<BuilderTarget, string> = {
   web: 'Client',
   node: 'Server',
+  'service-worker': 'Server Worker',
   'modern-web': 'Modern',
   'web-worker': 'Web Worker',
 };

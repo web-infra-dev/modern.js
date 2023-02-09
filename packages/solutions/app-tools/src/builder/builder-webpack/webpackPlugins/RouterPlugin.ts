@@ -26,6 +26,13 @@ export class RouterPlugin {
       return;
     }
 
+    if (
+      target === 'webworker' ||
+      (Array.isArray(target) && target.includes('webworker'))
+    ) {
+      return;
+    }
+
     const { webpack } = compiler;
     const { Compilation, sources } = webpack;
     const { RawSource } = sources;

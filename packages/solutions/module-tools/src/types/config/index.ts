@@ -64,8 +64,9 @@ export type AliasOption =
 
 export type BaseBuildConfig = Omit<
   Required<PartialBaseBuildConfig>,
-  'dts' | 'style' | 'alias'
+  'dts' | 'style' | 'alias' | 'sideEffects'
 > & {
+  sideEffects: LibuildUserConfig['sideEffects'];
   dts: false | DTSOptions;
   style: Omit<Required<LibuildStyle>, 'cleanCss'> & {
     tailwindCss: TailwindCSSConfig;
@@ -96,6 +97,7 @@ export type PartialBaseBuildConfig = {
   umdModuleName?: ((chunkName: string) => string) | string | undefined;
   define?: LibuildUserConfig['define'];
   style?: StyleConfig;
+  sideEffects?: LibuildUserConfig['sideEffects'];
 };
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];
