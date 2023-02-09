@@ -1,7 +1,14 @@
 export const EN_US = {
-  slogan: 'A Progressive React Framework for modern web development',
   introduction: 'Introduction',
   quickStart: 'Quick Start',
+
+  // Slogans
+  slogan: 'A Progressive React Framework for modern web development',
+  firstSlogan1: 'Build',
+  firstSlogan2: 'Modern Web Application',
+  firstSlogan3: 'Without Limits',
+  secondSlogan1: 'Enjoy the development experience.',
+  secondSlogan2: 'Make innovation happen faster.',
 
   // Features
   features: 'Features',

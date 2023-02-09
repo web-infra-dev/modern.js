@@ -1,10 +1,17 @@
 import { EN_US } from './en-US';
 
 export const ZH_CN: Record<keyof typeof EN_US, string> = {
-  slogan: '基于 React 的渐进式现代 Web 开发框架',
   introduction: '介绍',
   quickStart: '快速上手',
   features: '特性',
+
+  // Slogans
+  slogan: '基于 React 的渐进式现代 Web 开发框架',
+  firstSlogan1: '打造',
+  firstSlogan2: '现代 Web 应用工程',
+  firstSlogan3: '无所受限',
+  secondSlogan1: '享受愉悦的开发体验，',
+  secondSlogan2: '让创新更快发生。',
 
   // Features
   feature1: 'Rust 构建',

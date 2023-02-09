@@ -14,9 +14,9 @@ const HomepageHeader = () => {
     <div className={styles.header}>
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <h1 className={styles.title}>
-          <div>Building</div>
-          <div className={styles.titleGradient}>Modern Web Application</div>
-          <div>Without Limits</div>
+          <div>{t('firstSlogan1')}</div>
+          <div className={styles.titleGradient}>{t('firstSlogan2')}</div>
+          <div>{t('firstSlogan3')}</div>
         </h1>
         <div className={styles.buttons}>
           <a
@@ -156,6 +156,16 @@ export default function Home() {
               />
             ))}
           </div>
+        </FeatureLayout>
+
+        <FeatureLayout>
+          <h1
+            className={clsx([styles.title, styles.titleGradient])}
+            style={{ textAlign: 'left', marginBottom: 32 }}
+          >
+            <div>{t('secondSlogan1')}</div>
+            <div>{t('secondSlogan2')}</div>
+          </h1>
         </FeatureLayout>
 
         <FeatureLayout>

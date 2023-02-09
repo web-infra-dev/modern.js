@@ -128,7 +128,7 @@
     align-items: center;
   }
   .title {
-    font-size: 10vw;
+    font-size: 7vw;
     text-align: center;
   }
   .buttons {
@@ -148,6 +148,12 @@
   }
   .singleImg {
     max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .title {
+    font-size: 9vw;
   }
 }
 
