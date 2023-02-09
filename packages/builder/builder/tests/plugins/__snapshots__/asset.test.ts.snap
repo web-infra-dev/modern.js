@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`plugins/image > should add image rules correctly 1`] = `
+exports[`plugins/asset(image) > should add image rules correctly 1`] = `
 {
   "module": {
     "rules": [
@@ -41,7 +41,7 @@ exports[`plugins/image > should add image rules correctly 1`] = `
 }
 `;
 
-exports[`plugins/image > should allow to use distPath.image to be empty string 1`] = `
+exports[`plugins/asset(image) > should allow to use distPath.image to be empty string 1`] = `
 {
   "module": {
     "rules": [
@@ -82,7 +82,7 @@ exports[`plugins/image > should allow to use distPath.image to be empty string 1
 }
 `;
 
-exports[`plugins/image > should allow to use distPath.image to modify dist path 1`] = `
+exports[`plugins/asset(image) > should allow to use distPath.image to modify dist path 1`] = `
 {
   "module": {
     "rules": [
@@ -123,7 +123,7 @@ exports[`plugins/image > should allow to use distPath.image to modify dist path 
 }
 `;
 
-exports[`plugins/image > should allow to use filename.image to modify filename 1`] = `
+exports[`plugins/asset(image) > should allow to use filename.image to modify filename 1`] = `
 {
   "module": {
     "rules": [

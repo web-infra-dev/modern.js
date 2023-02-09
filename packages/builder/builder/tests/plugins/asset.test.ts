@@ -1,8 +1,8 @@
 import { expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
-import { builderPluginImage } from '@/plugins/image';
+import { builderAssetPlugin } from '@/plugins/asset';
 
-describe('plugins/image', () => {
+describe('plugins/asset(image)', () => {
   const cases = [
     {
       name: 'should add image rules correctly',
@@ -59,7 +59,7 @@ describe('plugins/image', () => {
       },
     };
 
-    builderPluginImage().setup(api);
+    builderAssetPlugin('image', shared.IMAGE_EXTENSIONS).setup(api);
 
     const chain = await shared.getBundlerChain();
 
