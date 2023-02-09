@@ -50,6 +50,7 @@ export type ModifyChainUtils = {
   isServer: boolean;
   isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
+  getCompiledPath: (name: string) => string;
 };
 
 export type ModifyBundlerChainUtils = ModifyChainUtils;

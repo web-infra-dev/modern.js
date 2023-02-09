@@ -5,7 +5,6 @@ import {
   FileFilterUtil,
 } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
-import { getCompiledPath } from '../shared';
 
 export function builderPluginLess(): BuilderPlugin {
   return {
@@ -28,7 +27,7 @@ export function builderPluginLess(): BuilderPlugin {
               javascriptEnabled: true,
             },
             sourceMap: isUseCssSourceMap(config),
-            implementation: getCompiledPath('less'),
+            implementation: utils.getCompiledPath('less'),
           };
           const mergedOptions = applyOptionsChain(
             defaultLessLoaderOptions,
@@ -59,7 +58,7 @@ export function builderPluginLess(): BuilderPlugin {
 
         rule
           .use(utils.CHAIN_ID.USE.LESS)
-          .loader(getCompiledPath('@rspack/less-loader'))
+          .loader(utils.getCompiledPath('@rspack/less-loader'))
           .options(options);
       });
     },

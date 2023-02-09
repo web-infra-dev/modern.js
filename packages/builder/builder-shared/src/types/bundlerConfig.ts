@@ -24,6 +24,9 @@ type SplitChunks = Configuration extends {
 type WebpackOptimization = NonNullable<Configuration['optimization']>;
 type WebpackResolve = NonNullable<Configuration['resolve']>;
 type WebpackOutput = NonNullable<Configuration['output']>;
+type WebpackInfrastructureLogging = NonNullable<
+  Configuration['infrastructureLogging']
+>;
 
 // fork from the @rspack/core
 type RspackResolve = {
@@ -51,6 +54,18 @@ type RspackOutput = {
   library?: string;
 };
 
+// fork from the @rspack/core
+type FilterTypes = FilterItemTypes[] | FilterItemTypes;
+type FilterItemTypes = RegExp | string | ((value: string) => boolean);
+export interface RspackInfrastructureLogging {
+  appendOnly?: boolean;
+  colors?: boolean;
+  console?: Console;
+  debug?: boolean | FilterTypes;
+  level?: 'none' | 'error' | 'warn' | 'info' | 'log' | 'verbose';
+  stream?: NodeJS.WritableStream;
+}
+
 type Overlap<
   T extends Record<string, any>,
   E extends Record<string, any>,
@@ -61,21 +76,25 @@ type Overlap<
 
 type Resolve = Overlap<WebpackResolve, RspackResolve>;
 type Output = Overlap<WebpackOutput, RspackOutput>;
+type InfrastructureLogging = Overlap<
+  WebpackInfrastructureLogging,
+  RspackInfrastructureLogging
+>;
 
 /** The intersection of webpack and rspack */
 export type BundlerConfig = {
   name?: string;
   entry?: Record<string, string | string[]>;
-  //   context?: Context;
+  context?: Configuration['context'];
   plugins?: BundlerPluginInstance[];
   module?: Configuration['module'];
   target?: Configuration['target'];
-  //   mode?: Mode;
+  mode?: Configuration['mode'];
   //   externals?: External;
   output?: Output;
   resolve?: Resolve;
   devtool?: Configuration['devtool'];
-  //   infrastructureLogging?: InfrastructureLogging;
+  infrastructureLogging?: InfrastructureLogging;
   //   stats?: StatsOptions;
   //   snapshot?: Snapshot;
   cache?: Configuration['cache'];
@@ -89,7 +108,15 @@ export type BundlerConfig = {
 export interface BundlerChain
   extends Pick<
     Config,
-    'devtool' | 'target' | 'name' | 'merge' | 'cache' | 'plugin' | 'entryPoints'
+    | 'devtool'
+    | 'target'
+    | 'name'
+    | 'merge'
+    | 'cache'
+    | 'plugin'
+    | 'entryPoints'
+    | 'mode'
+    | 'context'
   > {
   toConfig: () => BundlerConfig;
   optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
@@ -107,6 +134,16 @@ export interface BundlerChain
         keyof Config['output']
       >
     | 'get'
+  >;
+  infrastructureLogging: Pick<
+    Config['infrastructureLogging'],
+    Extract<
+      Extract<
+        keyof WebpackInfrastructureLogging,
+        keyof RspackInfrastructureLogging
+      >,
+      keyof Config['infrastructureLogging']
+    >
   >;
   /** only support add string | string[] */
   entry: Config['entry'];
