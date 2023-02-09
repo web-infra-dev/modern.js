@@ -6,7 +6,6 @@
   "main": "./dist/index.js",
   "type": "module",
   "module": "./dist/node/index.js",
-  "jsnext:modern": "./dist/modern/node/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

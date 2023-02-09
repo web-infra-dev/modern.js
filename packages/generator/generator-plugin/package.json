@@ -5,7 +5,6 @@
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern-lib dev",
