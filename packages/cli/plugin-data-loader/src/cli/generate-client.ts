@@ -20,7 +20,7 @@ export const generateClient = ({
   let exportsCode = ``;
   const requestCreatorPath = path
     .join(__dirname, './create-request')
-    .replace('/node/cli/', '/treeshaking/cli/')
+    .replace('/cjs/cli/', '/esm-node/cli/')
     .replace(/\\/g, '/');
 
   const importCode = `
