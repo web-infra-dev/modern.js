@@ -30,7 +30,8 @@ webpackOnlyTest.describe('performance configure multi', () => {
     files = await builder.unwrapOutputJSON();
   });
 
-  test('bundleAnalyze', async () => {
+  // todo: fix unwrapOutputJSON
+  test.skip('bundleAnalyze', async () => {
     const filePaths = Object.keys(files).filter(file =>
       file.endsWith('report-web.html'),
     );
