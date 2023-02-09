@@ -37,7 +37,8 @@
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@svgr/webpack": "6.5.1"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",

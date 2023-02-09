@@ -24,4 +24,5 @@ export const mockBuilderPlugins: Plugins = {
   font: genMockPlugin('builder-plugin-font'),
   media: genMockPlugin('builder-plugin-media'),
   image: genMockPlugin('builder-plugin-image'),
+  svg: genMockPlugin('builder-plugin-svg'),
 };

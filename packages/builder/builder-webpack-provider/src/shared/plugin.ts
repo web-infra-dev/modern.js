@@ -33,7 +33,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.fileSize?.(),
     plugins.cleanOutput?.(),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
-    import('../plugins/svg').then(m => m.builderPluginSvg()),
+    plugins.svg(),
     import('../plugins/pug').then(m => m.builderPluginPug()),
     import('../plugins/checkSyntax').then(m => m.builderPluginCheckSyntax()),
     import('../plugins/copy').then(m => m.builderPluginCopy()),

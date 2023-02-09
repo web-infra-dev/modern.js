@@ -15,6 +15,7 @@ export const plugins = {
   cache: () => import('./cache').then(m => m.builderPluginCache()),
   yaml: () => import('./yaml').then(m => m.builderPluginYaml()),
   toml: () => import('./toml').then(m => m.builderPluginToml()),
+  svg: () => import('./svg').then(m => m.builderPluginSvg()),
   splitChunks: () =>
     import('./splitChunks').then(m => m.builderPluginSplitChunks()),
   bundleAnalyzer: () =>
