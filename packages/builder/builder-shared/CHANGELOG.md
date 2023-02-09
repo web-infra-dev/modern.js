@@ -1,5 +1,29 @@
 # @modern-js/builder-shared
 
+## 2.4.0
+
+### Minor Changes
+
+- a5572b8: feat: more plugin rebase in `builder-shared`
+  feat: 更多 plugin 下沉到 `builder-shared`
+- a914be8: feat: modern-js support rspack bundler
+  feat: modern-js 支持 rspack 构建工具
+
+### Patch Changes
+
+- 6f83037: fix: change the builder resolve plugin
+  fix: 修复 builder resolve 插件
+- 014d06b: feat: reuse bundleAnalyzer plugin, support performance.bundleAnalyze config in rspack-provider
+
+  feat: 复用 bundleAnalyzer 插件，在 rspack-provider 中支持 performance.bundleAnalyze 配置项
+
+- Updated dependencies [d19484c]
+- Updated dependencies [98a2733]
+- Updated dependencies [8c2db5f]
+  - @modern-js/server@2.4.0
+  - @modern-js/utils@2.4.0
+  - @modern-js/types@2.4.0
+
 ## 2.3.0
 
 ### Minor Changes

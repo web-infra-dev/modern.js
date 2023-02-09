@@ -1,5 +1,19 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.4.0
+
+### Patch Changes
+
+- 98a2733: fix(tailwind): fix webpack cache not work when using twin.macro
+
+  fix(tailwind): 修复使用 twin.macro 时 webpack 缓存不生效的问题
+
+- Updated dependencies [98a2733]
+- Updated dependencies [9e907ec]
+- Updated dependencies [8c2db5f]
+  - @modern-js/utils@2.4.0
+  - @modern-js/runtime@2.4.0
+
 ## 2.3.0
 
 ### Patch Changes

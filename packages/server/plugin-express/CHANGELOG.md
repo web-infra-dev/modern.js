@@ -1,5 +1,16 @@
 # @modern-js/plugin-express
 
+## 2.4.0
+
+### Patch Changes
+
+- Updated dependencies [98a2733]
+- Updated dependencies [8c2db5f]
+  - @modern-js/utils@2.4.0
+  - @modern-js/bff-core@2.4.0
+  - @modern-js/bff-runtime@2.4.0
+  - @modern-js/types@2.4.0
+
 ## 2.3.0
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @modern-js/generator-utils
 
+## 3.0.6
+
+### Patch Changes
+
+- 1023fbb: feat: new command tooitip support code highlight
+
+  feat: new 命令提示支持代码高亮
+
+- Updated dependencies [98a2733]
+- Updated dependencies [b4e01e7]
+- Updated dependencies [8c2db5f]
+  - @modern-js/utils@2.4.0
+  - @modern-js/generator-common@3.0.6
+  - @modern-js/plugin-i18n@2.4.0
+
 ## 3.0.5
 
 ### Patch Changes
