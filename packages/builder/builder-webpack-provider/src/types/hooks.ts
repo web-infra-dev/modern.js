@@ -8,7 +8,6 @@ export type ModifyWebpackChainUtils = ModifyChainUtils & {
   name: string;
   webpack: typeof import('webpack');
   CHAIN_ID: ChainIdentifier;
-  getCompiledPath: (name: string) => string;
   HtmlWebpackPlugin: typeof import('html-webpack-plugin');
 };
 
