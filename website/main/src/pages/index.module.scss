@@ -36,11 +36,14 @@
   font-weight: bold;
   font-size: 3.6rem;
   line-height: 1.6;
-  width: 680px;
+  color: hsl(198deg 100% 90%);
+}
+
+.titleGradient {
   background: -webkit-linear-gradient(
     320deg,
-    hsl(198deg 100% 75%) 30%,
-    hsl(198deg 100% 55%)
+    hsl(198deg 100% 70%) 30%,
+    hsl(198deg 100% 60%)
   );
   background-clip: text;
   -webkit-background-clip: text;

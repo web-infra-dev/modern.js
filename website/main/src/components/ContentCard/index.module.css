@@ -10,7 +10,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-sizing: border-box;
   border-radius: 8px;
-  width: calc(25% - 16px);
+  width: calc(33% - 16px);
   margin-left: 16px;
   height: 257px;
   cursor: pointer;

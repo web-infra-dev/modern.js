@@ -5699,6 +5699,7 @@ importers:
       '@modern-js/doc-plugin-auto-sidebar': workspace:*
       '@modern-js/doc-tools': workspace:*
       '@modern-js/main-doc': workspace:*
+      '@types/node': ^14
       classnames: ^2
       clsx: ^1.2.1
       react: ^18
@@ -5710,6 +5711,7 @@ importers:
       '@modern-js/doc-plugin-auto-sidebar': link:../../packages/cli/doc-plugin-auto-sidebar
       '@modern-js/doc-tools': link:../../packages/solutions/doc-tools
       '@modern-js/main-doc': link:../../packages/toolkit/main-doc
+      '@types/node': 14.18.35
       classnames: 2.3.1
       clsx: 1.2.1
       react: 18.2.0
