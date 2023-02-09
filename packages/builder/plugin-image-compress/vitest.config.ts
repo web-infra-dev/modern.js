@@ -7,6 +7,7 @@ const config = defineConfig({
     alias: {
       '~': path.resolve(__dirname),
       '@': path.resolve(__dirname, 'src'),
+      '@builder': path.resolve(__dirname, '../builder/src'),
     }
   },
   test: {
