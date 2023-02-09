@@ -349,13 +349,13 @@ export default defineConfig({
 - 类型： `RegExg[] | (filePath: string, isExternal: boolean) => boolean | boolean`
 - 默认值： `undefined`
 
-通常情况下，我们通过 package.json 的 sideEffects 字段来配置模块的副作用，但是在某些情况下，例如我们引用了一个三方包的样式文件
+通常情况下，我们通过 package.json 的 `"sideEffects"` 字段来配置模块的副作用，但是在某些情况下，例如我们引用了一个三方包的样式文件。
 
 ```js
 import 'other-package/dist/index.css'
 ```
 
-但是这个三方包的 package.json 里并没有将样式文件配置到 sideEffects 里
+但是这个三方包的 package.json 里并没有将样式文件配置到 `"sideEffects"` 里。
 
 ```json other-package/package.json
 {
@@ -363,7 +363,7 @@ import 'other-package/dist/index.css'
 }
 ```
 
-这时候就可以使用这个配置项，支持正则和函数形式
+这时候就可以使用这个配置项，支持正则和函数形式。
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
@@ -377,7 +377,7 @@ export default defineConfig({
 ```
 
 :::tip
-添加此配置后，打包时将不会再读取 package.json 里的 sideEffects 字段
+添加此配置后，打包时将不会再读取 package.json 里的 `"sideEffects"` 字段。
 :::
 
 ## sourceDir
@@ -657,7 +657,7 @@ const tailwind = {
 - 类型： `Record<string, string>`
 - 默认值： `{}`
 
-```js modern.config.ts
+```ts modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
