@@ -140,6 +140,7 @@ export const buildLib = async (
     autoExternal,
     dts,
     metafile,
+    sideEffects,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
@@ -223,9 +224,9 @@ export const buildLib = async (
     external: externals,
     autoExternal,
     bundle: buildType === 'bundle',
+    sideEffects,
     // outbase for [dir]/[name]
     outbase: sourceDir,
-    logLevel: 'error',
     esbuildOptions: (options: any) => ({
       ...options,
       supported: {

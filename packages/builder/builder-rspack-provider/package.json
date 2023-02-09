@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.3.0",
+  "version": "2.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -40,11 +40,11 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/core": "0.0.0-de7ad8d-20230131040550",
-    "@rspack/dev-client": "0.0.0-de7ad8d-20230131040550",
-    "@rspack/dev-middleware": "0.0.0-de7ad8d-20230131040550",
-    "@rspack/plugin-html": "0.0.0-de7ad8d-20230131040550",
-    "@rspack/postcss-loader": "0.0.0-de7ad8d-20230131040550",
+    "@rspack/core": "0.0.0-292350d-20230208103346",
+    "@rspack/dev-client": "0.0.0-292350d-20230208103346",
+    "@rspack/dev-middleware": "0.0.0-292350d-20230208103346",
+    "@rspack/plugin-html": "0.0.0-292350d-20230208103346",
+    "@rspack/postcss-loader": "0.0.0-292350d-20230208103346",
     "caniuse-lite": "^1.0.30001332",
     "webpack-sources": "^3.2.3"
   },
@@ -57,7 +57,7 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.3.0"
+    "@modern-js/e2e": "workspace:^2.4.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

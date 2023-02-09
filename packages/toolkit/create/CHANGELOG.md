@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 2.4.0
+
+### Patch Changes
+
+- b4e01e7: chore: rename MWA to Web App
+
+  chore: 将 MWA 重命名为 Web App
+
 ## 2.3.0
 
 ## 2.2.0

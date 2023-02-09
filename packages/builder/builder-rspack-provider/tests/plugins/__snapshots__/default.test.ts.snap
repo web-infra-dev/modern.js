@@ -273,7 +273,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
@@ -656,7 +656,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             },
           },
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
             "options": {
               "rspackImporter": true,
               "sourceMap": false,
@@ -1047,7 +1047,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             },
           },
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,

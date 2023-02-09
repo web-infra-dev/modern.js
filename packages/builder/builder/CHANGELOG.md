@@ -1,5 +1,24 @@
 # @modern-js/builder
 
+## 2.4.0
+
+### Patch Changes
+
+- 014d06b: feat: reuse bundleAnalyzer plugin, support performance.bundleAnalyze config in rspack-provider
+
+  feat: 复用 bundleAnalyzer 插件，在 rspack-provider 中支持 performance.bundleAnalyze 配置项
+
+- 91db54e: feat: use 'devtool: source-map' for ssr webpack bundle
+  feat: 使用 'devtool: source-map' 作为 ssr 构建时的默认配置
+- Updated dependencies [6f83037]
+- Updated dependencies [014d06b]
+- Updated dependencies [98a2733]
+- Updated dependencies [a5572b8]
+- Updated dependencies [a914be8]
+- Updated dependencies [8c2db5f]
+  - @modern-js/builder-shared@2.4.0
+  - @modern-js/utils@2.4.0
+
 ## 2.3.0
 
 ### Minor Changes

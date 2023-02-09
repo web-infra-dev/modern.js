@@ -1,5 +1,25 @@
 # @modern-js/plugin-garfish
 
+## 2.4.0
+
+### Patch Changes
+
+- b55f8c6: fix(garfish): load microApp can not match it's route
+  fix(garfish): server.baseUrl is in preference to router.basename
+
+  修复微前端模式下约定式路由和自控式路由子应用无法正确加载问题
+  修复 basename 优先级问题 server.baseUrl 高于 router.basename
+
+- 8c2db5f: feat(core): improve support for exporting a function in config file
+
+  feat(core): 完善对配置文件中导出函数的支持
+
+- Updated dependencies [98a2733]
+- Updated dependencies [9e907ec]
+- Updated dependencies [8c2db5f]
+  - @modern-js/utils@2.4.0
+  - @modern-js/runtime@2.4.0
+
 ## 2.3.0
 
 ### Patch Changes

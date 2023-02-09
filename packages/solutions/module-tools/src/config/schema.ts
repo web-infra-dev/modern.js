@@ -148,6 +148,22 @@ const buildConfigProperties = {
       },
     ],
   },
+  sideEffects: {
+    anyOf: [
+      {
+        type: 'array',
+        items: {
+          instanceof: 'RegExp',
+        },
+      },
+      {
+        type: 'boolean',
+      },
+      {
+        instanceof: 'Function',
+      },
+    ],
+  },
 };
 export const buildConfig = {
   target: 'buildConfig',
