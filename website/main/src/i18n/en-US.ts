@@ -33,4 +33,23 @@ export const EN_US = {
   ecosystemDesc2: 'A Build Engine for web development.',
   ecosystemDesc3: 'A powerful micro front-end framework.',
   ecosystemDesc4: 'A redux-based state management library.',
+
+  // Footer
+  guide: 'Guide',
+  topic: 'Topic',
+  help: 'Help',
+  coreConcept: 'Core Concept',
+  basicFeatures: 'Basic Features',
+  advancedFeatures: 'Advanced Features',
+  configuration: 'Configuration',
+  command: 'Command',
+  runtime: 'Runtime',
+  conventions: 'Conventions',
+  microFrontend: 'Micro Frontend',
+  stateManagement: 'State Management',
+  pluginSystem: 'Plugin System',
+  projectGenerator: 'Project Generator',
+  githubDiscussion: 'Github Discussion',
+  larkGroup: 'Lark Group',
+  changelog: 'Changelog',
 } as const;

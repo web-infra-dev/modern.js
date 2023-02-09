@@ -8,7 +8,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   // Slogans
   slogan: '基于 React 的渐进式现代 Web 开发框架',
   firstSlogan1: '打造',
-  firstSlogan2: '现代 Web 应用工程',
+  firstSlogan2: '现代 Web Application',
   firstSlogan3: '无所受限',
   secondSlogan1: '享受愉悦的开发体验，',
   secondSlogan2: '让创新更快发生。',
@@ -33,4 +33,23 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   ecosystemDesc2: '面向 Web 开发场景的构建引擎。',
   ecosystemDesc3: '一站式微前端解决方案。',
   ecosystemDesc4: '基于 Redux 的状态管理库。',
+
+  // Footer
+  guide: '指南',
+  topic: '专题',
+  help: '帮助',
+  coreConcept: '核心概念',
+  basicFeatures: '基础功能',
+  advancedFeatures: '进阶功能',
+  configuration: '配置',
+  command: '命令',
+  runtime: '运行时',
+  conventions: '目录约定',
+  microFrontend: '微前端',
+  stateManagement: '状态管理',
+  pluginSystem: '插件系统',
+  projectGenerator: '项目生成器',
+  githubDiscussion: 'Github 讨论区',
+  larkGroup: '飞书交流群',
+  changelog: '更新日志',
 };
