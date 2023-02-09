@@ -6,6 +6,8 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "paths": {}
+    "paths": {
+      "@builder/*": ["../../builder/src/*"]
+    }
   }
 }

@@ -15,6 +15,8 @@ import { Bundler, FromConfig } from './utils';
 export * from './hooks';
 export * from './config';
 export * from './legacyConfig';
+export type { webpack } from '@modern-js/builder-webpack-provider';
+export type { Rspack } from '@modern-js/builder-rspack-provider';
 export type { Bundler } from './utils';
 export type {
   ServerUserConfig,
@@ -33,7 +35,7 @@ export type {
 } from '@modern-js/core';
 
 export type AppTools<B extends Bundler = 'webpack'> = {
-  hooks: AppToolsHooks;
+  hooks: AppToolsHooks<B>;
   userConfig: FromConfig<
     B,
     {

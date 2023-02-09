@@ -13,9 +13,9 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     plugins.fileSize(),
     // should before the html plugin
     plugins.cleanOutput(),
-    import('../plugins/font').then(m => m.builderPluginFont()),
-    import('../plugins/image').then(m => m.builderPluginImage()),
-    import('../plugins/media').then(m => m.builderPluginMedia()),
+    plugins.font(),
+    plugins.image(),
+    plugins.media(),
     import('../plugins/html').then(m => m.builderPluginHtml()),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/css').then(m => m.builderPluginCss()),

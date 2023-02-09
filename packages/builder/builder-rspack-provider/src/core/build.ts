@@ -9,7 +9,7 @@ import {
 import type { Compiler, RspackConfig } from '../types';
 
 // TODO: support MultiCompiler MultiStats
-export type BuildExecuter = (compiler: Compiler) => Promise<{ stats: Stats }>;
+export type BuildExecuter = (compiler: Compiler) => Promise<{ stats?: Stats }>;
 // (compiler: MultiCompiler): Promise<{ stats: MultiStats }>;
 // (compiler: Compiler | MultiCompiler): Promise<{ stats: Stats | MultiStats }>;
 
@@ -23,7 +23,7 @@ export interface RspackBuildError extends Error {
 export const rspackBuild: BuildExecuter = async compiler => {
   return new Promise((resolve, reject) => {
     compiler.run((err: any, stats?: Stats) => {
-      if (err || !stats?.hasErrors()) {
+      if (err || stats?.hasErrors()) {
         const buildError: RspackBuildError =
           err || new Error('Rspack build failed!');
         buildError.stats = stats;
