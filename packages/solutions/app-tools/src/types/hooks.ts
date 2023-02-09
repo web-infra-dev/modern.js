@@ -15,7 +15,7 @@ import type {
 import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
 import type { Stats, MultiStats } from '@modern-js/builder-shared';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
-import { Bundler } from '../../dist/types/types/utils';
+import { Bundler } from './utils';
 
 export interface ImportSpecifier {
   local?: string;
@@ -79,7 +79,7 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   afterDev: AsyncWorkflow<void, unknown>;
   beforeCreateCompiler: AsyncWorkflow<
     {
-      bundlerConfigs: B extends 'rspack'
+      bundlerConfigs?: B extends 'rspack'
         ? Rspack.Configuration[]
         : webpack.Configuration[];
     },
@@ -96,7 +96,7 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   beforePrintInstructions: AsyncWaterfall<{ instructions: string }>;
   beforeBuild: AsyncWorkflow<
     {
-      bundlerConfigs: B extends 'rspack'
+      bundlerConfigs?: B extends 'rspack'
         ? Rspack.Configuration[]
         : webpack.Configuration[];
     },
