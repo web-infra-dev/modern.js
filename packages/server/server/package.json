@@ -46,6 +46,7 @@
     "ws": "^8.2.0"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

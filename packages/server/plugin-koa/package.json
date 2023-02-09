@@ -66,6 +66,7 @@
     "type-is": "^1.6.18"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/app-tools": "workspace:*",

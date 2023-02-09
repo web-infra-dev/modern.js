@@ -46,6 +46,7 @@
     "resolve-from": "^5.0.0"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/jest": "^27",

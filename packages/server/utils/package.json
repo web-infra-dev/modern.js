@@ -47,6 +47,7 @@
     "babel-plugin-transform-typescript-metadata": "^0.3.2"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

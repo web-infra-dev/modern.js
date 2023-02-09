@@ -82,6 +82,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-router-v5": "workspace:*",

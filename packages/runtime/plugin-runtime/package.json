@@ -176,6 +176,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@remix-run/web-fetch": "^4.1.3",

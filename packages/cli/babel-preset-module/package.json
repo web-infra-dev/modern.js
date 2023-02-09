@@ -43,6 +43,7 @@
     "@modern-js/babel-preset-lib": "workspace:*"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^27",
     "@types/node": "^14",
