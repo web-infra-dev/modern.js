@@ -58,6 +58,8 @@ export const createHandler = (manifest: Manifest) => {
               level: 'warn',
             }) as Logger & LoggerInterface),
           metrics: ctx.metrics || defaultMetrics,
+          loadableStats: ctx.loadableStats,
+          routeManifest: ctx.routeManifest,
         });
         ctx.status = 200;
         return;
