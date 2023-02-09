@@ -76,10 +76,12 @@ export function createFetchHeaders(
 function serializeErrors(
   errors: StaticHandlerContext['errors'],
 ): StaticHandlerContext['errors'] {
-  if (!errors) return null;
-  let entries = Object.entries(errors);
-  let serialized: StaticHandlerContext['errors'] = {};
-  for (let [key, val] of entries) {
+  if (!errors) {
+    return null;
+  }
+  const entries = Object.entries(errors);
+  const serialized: StaticHandlerContext['errors'] = {};
+  for (const [key, val] of entries) {
     // Hey you!  If you change this, please change the corresponding logic in
     // deserializeErrors in react-router-dom/index.tsx :)
     if (isRouteErrorResponse(val)) {
@@ -172,6 +174,7 @@ export const routerPlugin = ({
                   <script
                     suppressHydrationWarning
                     id="the-nonce"
+                    // eslint-disable-next-line react/no-danger
                     dangerouslySetInnerHTML={{ __html: hydrateScript }}
                   />
                 </App>
