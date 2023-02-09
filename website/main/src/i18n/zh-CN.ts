@@ -8,7 +8,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   // Slogans
   slogan: '基于 React 的渐进式现代 Web 开发框架',
   firstSlogan1: '打造',
-  firstSlogan2: '现代 Web Application',
+  firstSlogan2: '现代 Web 应用',
   firstSlogan3: '无所受限',
   secondSlogan1: '享受愉悦的开发体验，',
   secondSlogan2: '让创新更快发生。',
