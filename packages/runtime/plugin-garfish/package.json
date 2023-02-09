@@ -35,7 +35,6 @@
   },
   "main": "./dist/js/node/cli/index.js",
   "module": "./dist/js/treeshaking/runtime/index.js",
-  "jsnext:modern": "./dist/js/modern/cli/index.js",
   "exports": {
     "./types": "./type.d.ts",
     ".": {

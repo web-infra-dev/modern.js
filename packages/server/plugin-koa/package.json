@@ -16,7 +16,6 @@
   "types": "./src/cli",
   "main": "./dist/js/node/cli/index.js",
   "module": "./dist/js/treeshaking/cli/index.js",
-  "jsnext:modern": "./dist/js/modern/cli/index.js",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern-lib new",

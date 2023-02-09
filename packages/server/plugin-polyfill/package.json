@@ -16,7 +16,6 @@
   "types": "./src/cli.ts",
   "main": "./dist/js/node/cli.js",
   "module": "./dist/js/treeshaking/cli.js",
-  "jsnext:modern": "./dist/js/modern/cli.js",
   "exports": {
     ".": {
       "jsnext:source": "./src/cli.ts",
