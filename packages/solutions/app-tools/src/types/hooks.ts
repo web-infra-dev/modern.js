@@ -15,6 +15,7 @@ import type {
 import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
 import type { Stats, MultiStats } from '@modern-js/builder-shared';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
+import { Bundler } from '../../dist/types/types/utils';
 
 export interface ImportSpecifier {
   local?: string;
@@ -32,7 +33,7 @@ export interface RuntimePlugin {
   options: string;
   args?: string;
 }
-export type AppToolsHooks = {
+export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   modifyEntryExport: AsyncWaterfall<{
     entrypoint: Entrypoint;
     exportStatement: string;
@@ -77,16 +78,28 @@ export type AppToolsHooks = {
   beforeDev: AsyncWorkflow<void, unknown>;
   afterDev: AsyncWorkflow<void, unknown>;
   beforeCreateCompiler: AsyncWorkflow<
-    { bundlerConfigs: webpack.Configuration[] | Rspack.Configuration[] },
+    {
+      bundlerConfigs: B extends 'rspack'
+        ? Rspack.Configuration[]
+        : webpack.Configuration[];
+    },
     unknown
   >;
   afterCreateCompiler: AsyncWorkflow<
-    { compiler?: webpack.Compiler | webpack.MultiCompiler | Rspack.Compiler },
+    {
+      compiler?: B extends 'rspack'
+        ? Rspack.Compiler
+        : webpack.Compiler | webpack.MultiCompiler;
+    },
     unknown
   >;
   beforePrintInstructions: AsyncWaterfall<{ instructions: string }>;
   beforeBuild: AsyncWorkflow<
-    { bundlerConfigs?: webpack.Configuration[] | Rspack.Configuration[] },
+    {
+      bundlerConfigs: B extends 'rspack'
+        ? Rspack.Configuration[]
+        : webpack.Configuration[];
+    },
     unknown
   >;
   afterBuild: AsyncWorkflow<{ stats?: Stats | MultiStats }, unknown>;
