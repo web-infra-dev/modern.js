@@ -190,7 +190,6 @@ importers:
       '@modern-js/utils': workspace:*
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.9
       '@scripts/vitest-config': workspace:*
-      '@svgr/webpack': 6.5.1
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
       '@types/caniuse-lite': ^1.0.1
@@ -219,7 +218,6 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.9_xsftmjzvfioxqs4ify53ibh7ay
-      '@svgr/webpack': 6.5.1
       acorn: 8.8.1
       caniuse-lite: 1.0.30001434
       cheerio: 1.0.0-rc.12
