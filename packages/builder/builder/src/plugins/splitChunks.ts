@@ -216,8 +216,8 @@ export function builderPluginSplitChunks(): DefaultBuilderPlugin {
     name: 'builder-plugin-split-chunks',
     setup(api) {
       api.modifyBundlerChain(
-        async (chain, { isServer, isWebWorker, isServerWorker }) => {
-          if (isServer || isWebWorker || isServerWorker) {
+        async (chain, { isServer, isWebWorker, isServiceWorker }) => {
+          if (isServer || isWebWorker || isServiceWorker) {
             chain.optimization.splitChunks(false);
 
             // web worker does not support dynamic imports, dynamicImportMode need set to eager

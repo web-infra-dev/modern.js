@@ -1,7 +1,7 @@
 import type { BuilderTarget } from '@modern-js/builder-shared';
 import {
   isProd,
-  isServerWorker,
+  isServiceWorker,
   isSSR,
   isUseSSRBundle,
 } from '@modern-js/utils';
@@ -20,7 +20,7 @@ export function getBuilderTargets(
     targets.push('node');
   }
 
-  const useWorkerTarget = isProd() ? isServerWorker(normalizedConfig) : false;
+  const useWorkerTarget = isProd() ? isServiceWorker(normalizedConfig) : false;
 
   if (useWorkerTarget) {
     targets.push('service-worker');

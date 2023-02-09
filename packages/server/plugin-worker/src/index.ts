@@ -3,7 +3,7 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   fs,
   getPackageManager,
-  isServerWorker,
+  isServiceWorker,
   ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import {
@@ -33,7 +33,7 @@ export default (): CliPlugin<AppTools> => ({
 
         const configContext = ctx.useResolvedConfigContext();
 
-        if (!isServerWorker(configContext)) {
+        if (!isServiceWorker(configContext)) {
           return;
         }
         const workServerDir = path.join(distDirectory, WORKER_SERVER);

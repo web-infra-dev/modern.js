@@ -93,7 +93,7 @@ async function getChainUtils(target: BuilderTarget): Promise<ChainUtils> {
     target,
     isProd: nodeEnv === 'production',
     isServer: target === 'node',
-    isServerWorker: target === 'service-worker',
+    isServiceWorker: target === 'service-worker',
     isWebWorker: target === 'web-worker',
     getCompiledPath,
     CHAIN_ID,

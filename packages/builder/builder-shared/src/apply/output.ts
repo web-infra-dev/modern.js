@@ -9,7 +9,7 @@ import { addTrailingSlash } from '../utils';
 
 export function applyBuilderOutputPlugin(api: SharedBuilderPluginAPI) {
   api.modifyBundlerChain(
-    async (chain, { isProd, isServer, isServerWorker }) => {
+    async (chain, { isProd, isServer, isServiceWorker }) => {
       const config = api.getNormalizedConfig();
       const jsPath = getDistPath(config.output, 'js');
 
@@ -45,7 +45,7 @@ export function applyBuilderOutputPlugin(api: SharedBuilderPluginAPI) {
           .libraryTarget('commonjs2');
       }
 
-      if (isServerWorker) {
+      if (isServiceWorker) {
         const workerPath = getDistPath(config.output, 'worker');
         const filename = `${workerPath}/[name].js`;
 
