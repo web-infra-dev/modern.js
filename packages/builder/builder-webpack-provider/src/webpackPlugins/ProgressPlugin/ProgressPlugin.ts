@@ -81,8 +81,11 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
     let isReCompile = false;
 
     compiler.hooks.compile.tap(this.name, () => {
-      if (isReCompile && this.showRecompileLog) {
-        logger.info(`Recompiling...\n`);
+      // If it is a recompile and there are compilation errors,
+      // print a recompile log so that users can know that the recompile
+      // is triggered and the above error log is outdated.
+      if (isReCompile && this.showRecompileLog && this.hasErrors) {
+        logger.info(`Start recompile...\n`);
       }
 
       this.compileTime = null;
