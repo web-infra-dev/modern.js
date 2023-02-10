@@ -100,10 +100,6 @@ export default function Footer() {
           label: t('githubDiscussion'),
           to: 'https://github.com/modern-js-dev/modern.js/discussions',
         },
-        {
-          label: t('larkGroup'),
-          href: 'https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=efcr453d-ce04-4342-b7eb-f098d05f8241',
-        },
       ],
     },
   ];
