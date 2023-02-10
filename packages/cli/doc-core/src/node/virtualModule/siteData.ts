@@ -19,6 +19,7 @@ import remarkHtml from 'remark-html';
 import { remarkPluginContainer } from '@modern-js/remark-container';
 import { ReplaceRule } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
+import { logger } from '@modern-js/utils/logger';
 import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
@@ -207,8 +208,7 @@ export async function siteDataVMPlugin(
   const userConfig = config.doc;
   // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
   if (!isSSR) {
-    // eslint-disable-next-line no-console
-    console.log('⭐️ [doc-tools] Extracting site data...');
+    logger.info('[doc-tools] Extracting site data...');
   }
   const replaceRules = userConfig?.replaceRules || [];
   const domain =
