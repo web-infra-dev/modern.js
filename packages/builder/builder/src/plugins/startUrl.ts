@@ -4,6 +4,8 @@ import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 export const replacePlaceholder = (url: string, port: number) =>
   url.replace(/<port>/g, String(port));
 
+const openedURLs: string[] = [];
+
 export function builderPluginStartUrl(): DefaultBuilderPlugin {
   return {
     name: 'builder-plugin-start-url',
@@ -42,7 +44,14 @@ export function builderPluginStartUrl(): DefaultBuilderPlugin {
         const { openBrowser } = await import('@modern-js/builder-shared');
 
         for (const url of urls) {
-          await openBrowser(url);
+          /**
+           * If a URL has been opened in current process, we will not open it again.
+           * It can prevent opening the same URL multiple times.
+           */
+          if (!openedURLs.includes(url)) {
+            await openBrowser(url);
+            openedURLs.push(url);
+          }
         }
       });
     },
