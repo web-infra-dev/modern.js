@@ -31,6 +31,6 @@ describe('test status code page', () => {
   it('should router redirect correctly ', async () => {
     const response = await page.goto(`http://localhost:${port}/redirect`);
     const text = await response.text();
-    expect(text).toMatch('现代 Web 工程体系');
+    expect(text).toMatch('基于 React 的渐进式现代 Web 开发框架');
   });
 });
