@@ -37,6 +37,7 @@ export type SharedNormalizedConfig = DeepReadonly<{
   html: NormalizedSharedHtmlConfig;
   source: NormalizedSharedSourceConfig;
   output: NormalizedSharedOutputConfig;
+  security?: SharedSecurityConfig;
   performance: NormalizedSharedPerformanceConfig;
   tools: SharedToolsConfig;
 }>;

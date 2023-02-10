@@ -1,11 +1,13 @@
-import FlexSearch from 'flexsearch';
-import type { Index as SearchIndex, CreateOptions } from 'flexsearch';
 import { uniqBy } from 'lodash-es';
-import { SearchOptions } from '..';
-import { backTrackHeaders, normalizeContent } from './util';
-import { normalizeHref, withBase } from '@/runtime';
-import { PageBasicInfo } from '@/shared/types';
-import { SEARCH_INDEX_JSON } from '@/shared/utils';
+import { LOCAL_INDEX, NormalizedSearchResultItem, Provider } from './Provider';
+import { backTrackHeaders, normalizeTextCase } from './util';
+import { LocalProvider } from './providers/LocalProvider';
+import { RemoteProvider } from './providers/RemoteProvider';
+import { normalizeHref } from '@/runtime';
+import {
+  PageIndexInfo,
+  SearchOptions as UserSearchConfig,
+} from '@/shared/types';
 
 const THRESHOLD_CONTENT_LENGTH = 100;
 
@@ -15,199 +17,163 @@ export interface Header {
   depth: number;
 }
 
-interface PageDataForSearch {
-  title: string;
-  content: string;
-  path: string;
-  rawHeaders: Header[];
-  headers: string[];
-  headerStr: string;
-}
-
 interface CommonMatchResult {
   title: string;
   header: string;
   link: string;
+  query: string;
+  highlightIndex: number;
+  group: string;
+}
+
+interface TitleMatch extends CommonMatchResult {
+  type: 'title';
 }
 
 interface HeaderMatch extends CommonMatchResult {
   type: 'header';
-  headerHighlightIndex: number;
 }
 
 interface ContentMatch extends CommonMatchResult {
   type: 'content';
   statement: string;
-  statementHighlightIndex: number;
 }
 
-export type MatchResultItem = HeaderMatch | ContentMatch;
+export type MatchResultItem = TitleMatch | HeaderMatch | ContentMatch;
 
-const cjkRegex =
-  /[\u3131-\u314e|\u314f-\u3163|\uac00-\ud7a3]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]|[\u3041-\u3096]|[\u30A1-\u30FA]/giu;
+export interface MatchResult {
+  current: MatchResultItem[];
+  others: {
+    index: string;
+    items: MatchResultItem[];
+  }[];
+}
 
-const WHITE_PAGE_TYPES = ['home', 'api', '404', 'custom'];
+export type SearchOptions = UserSearchConfig & {
+  currentLang: string;
+  extractGroupName: (path: string) => string;
+};
 
 export class PageSearcher {
-  #index?: SearchIndex<PageDataForSearch[]>;
+  #options: SearchOptions;
 
-  #cjkIndex?: SearchIndex<PageDataForSearch[]>;
+  #indexName: string = LOCAL_INDEX;
 
-  #headerToIdMap: Record<string, string> = {};
-
-  #langRoutePrefix: string;
-
-  #defaultLang: string;
-
-  #langs: string[] = [];
-
-  #pages?: PageBasicInfo[];
+  #provider?: Provider;
 
   constructor(options: SearchOptions) {
-    this.#langRoutePrefix = options.langRoutePrefix;
-    this.#defaultLang = options.defaultLang;
-    this.#langs = options.langs;
+    this.#options = options;
+    switch (options.mode) {
+      case 'remote':
+        this.#provider = new RemoteProvider();
+        this.#indexName = options.indexName;
+        break;
+      default:
+        this.#provider = new LocalProvider();
+        break;
+    }
   }
 
-  async init(options: CreateOptions = {}) {
-    this.#pages = await this.#getPages();
-    const pages = this.#pages.filter(page => {
-      // Hit the default language route
-      if (this.#langRoutePrefix === '/') {
-        const otherLangsWithBase = this.#langs
-          .filter(lang => lang !== this.#defaultLang)
-          .map(lang => withBase(lang));
-        return otherLangsWithBase.length === 0
-          ? true
-          : !otherLangsWithBase.every(otherLangWithBase =>
-              page.routePath.startsWith(otherLangWithBase),
-            );
-      } else {
-        return page.routePath.startsWith(withBase(this.#langRoutePrefix));
-      }
-    });
+  async init() {
+    await this.#provider?.init(this.#options);
+  }
 
-    const pagesForSearch: PageDataForSearch[] = pages
-      .filter(page => {
-        return (
-          !WHITE_PAGE_TYPES.includes(
-            (page.frontmatter?.pageType as string) || '',
-          ) && page.title.length > 0
-        );
-      })
-      .map(page => {
-        const headers = (page.toc || []).map((header: Header) => header.text);
-        return {
-          title:
-            page.title ??
-            page.frontmatter?.title ??
-            page.routePath.split('/').pop() ??
-            '',
-          headers,
-          headerStr: headers.join(' '),
-          content: normalizeContent(page.content || ''),
-          path: page.routePath,
-          rawHeaders: page.toc || [],
-        };
-      });
-    this.#headerToIdMap = pages.reduce((acc: any, page: any) => {
-      (page.toc || []).forEach((header: Header) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        acc[page.routePath + header.text] = header.id;
-      });
-      return acc;
-    }, {} as Record<string, string>);
-
-    const createOptions: CreateOptions = {
-      encode: 'simple',
-      tokenize: 'forward',
-      split: /\W+/,
-      async: true,
-      doc: {
-        id: 'path',
-        field: ['title', 'headerStr', 'content'],
-      },
-      ...options,
+  async match(keyword: string, limit = 7) {
+    const searchResult = await this.#provider?.search({ keyword, limit });
+    const normaizedKeyWord = normalizeTextCase(keyword);
+    const currentIndexInfo = searchResult?.find(res =>
+      this.#isCurrentIndex(res.index),
+    ) || {
+      index: LOCAL_INDEX,
+      hits: [],
     };
-    // Init Search Indexes
-    // English Index
-    this.#index = FlexSearch.create(createOptions);
-    // CJK: Chinese, Japanese, Korean
-    this.#cjkIndex = FlexSearch.create({
-      ...createOptions,
-      encode: false,
-      tokenize(str: string) {
-        const cjkWords: string[] = [];
-        let m: RegExpExecArray | null = null;
-        do {
-          m = cjkRegex.exec(str);
-          if (m) {
-            cjkWords.push(m[0]);
-          }
-        } while (m);
-        return cjkWords;
-      },
-    });
-    this.#index.add(pagesForSearch);
-    this.#cjkIndex.add(pagesForSearch);
+
+    const matchResult: MatchResult = {
+      current: this.#matchResultItem(normaizedKeyWord, currentIndexInfo),
+      others: (
+        searchResult?.filter(res => !this.#isCurrentIndex(res.index)) || []
+      ).map(res => ({
+        index: res.index,
+        items: this.#matchResultItem(normaizedKeyWord, res),
+      })),
+    };
+
+    return matchResult;
   }
 
-  async match(query: string, limit = 7) {
-    const searchResult = await Promise.all([
-      this.#index?.search({
-        query,
-        limit,
-      }),
-      this.#cjkIndex?.search(query, limit),
-    ]);
-    const flattenSearchResult = searchResult
-      .flat(2)
-      .filter(Boolean) as PageDataForSearch[];
+  #matchResultItem(
+    normaizedKeyWord: string,
+    resultItem: NormalizedSearchResultItem,
+  ) {
     const matchedResult: MatchResultItem[] = [];
-    flattenSearchResult.forEach(item => {
+    resultItem?.hits.forEach(item => {
+      // Title Match
+      this.#matchTitle(item, normaizedKeyWord, matchedResult);
       // Header match
-      const matchedHeader = this.#matchHeader(item, query, matchedResult);
+      const matchedHeader = this.#matchHeader(
+        item,
+        normaizedKeyWord,
+        matchedResult,
+      );
       // If we have matched header, we don't need to match content
       // Because the header is already in the content
       if (matchedHeader) {
         return;
       }
       // Content match
-      this.#matchContent(item, query, matchedResult);
+      this.#matchContent(item, normaizedKeyWord, matchedResult);
     });
     const res = uniqBy(matchedResult, 'link');
     return res;
   }
 
-  async #getPages(): Promise<PageBasicInfo[]> {
-    const result = await fetch(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error __ASSET_PREFIX__ is injected by webpack
-      `${__ASSET_PREFIX__}/static/${SEARCH_INDEX_JSON}`,
-    );
-    return result.json();
-  }
-
-  #matchHeader(
-    item: PageDataForSearch,
+  #matchTitle(
+    item: PageIndexInfo,
     query: string,
     matchedResult: MatchResultItem[],
   ): boolean {
-    const { headers, rawHeaders } = item;
-    for (const [index, header] of headers.entries()) {
-      if (header.includes(query)) {
-        const headerAnchor = this.#headerToIdMap[item.path + header];
-        // Find the all parent headers (except h1)
+    const { title } = item;
+    const normalizedTitle = normalizeTextCase(title);
+    if (normalizedTitle.includes(query)) {
+      matchedResult.push({
+        type: 'title',
+        title,
+        header: title,
+        link: `${item.domain}${normalizeHref(item.routePath)}`,
+        query,
+        highlightIndex: normalizedTitle.indexOf(query),
+        group: this.#options.extractGroupName(item.routePath),
+      });
+      return true;
+    }
+    return false;
+  }
+
+  #matchHeader(
+    item: PageIndexInfo,
+    query: string,
+    matchedResult: MatchResultItem[],
+  ): boolean {
+    const { toc, domain = '', title } = item;
+    for (const [index, header] of toc.entries()) {
+      const normalizedHeader = normalizeTextCase(header.text);
+      if (normalizedHeader.includes(query)) {
+        // Find the all parent headers
         // So we can show the full path of the header in search result
         // e.g. header2 > header3 > header4
-        const headerGroup = backTrackHeaders(rawHeaders, index);
+        const headerGroup = backTrackHeaders(toc, index);
         const headerStr = headerGroup.map(item => item.text).join(' > ');
+        const headerMatchIndex = normalizeTextCase(headerStr).indexOf(query);
+        const titlePrefix = `${title} > `;
+
         matchedResult.push({
           type: 'header',
           title: item.title,
-          header: headerStr,
-          headerHighlightIndex: headerStr.indexOf(query),
-          link: `${normalizeHref(item.path)}#${headerAnchor}`,
+          header: `${titlePrefix}${headerStr}`,
+          highlightIndex: titlePrefix.length + Number(headerMatchIndex),
+          link: `${domain}${normalizeHref(item.routePath)}#${header.id}`,
+          query,
+          group: this.#options.extractGroupName(item.routePath),
         });
         return true;
       }
@@ -216,18 +182,21 @@ export class PageSearcher {
   }
 
   #matchContent(
-    item: PageDataForSearch,
+    item: PageIndexInfo,
     query: string,
     matchedResult: MatchResultItem[],
   ) {
-    const { content, headers } = item;
-    const queryIndex = content.indexOf(query);
+    const { content, toc, domain } = item;
+    const normalizedContent = normalizeTextCase(content);
+    const queryIndex = normalizedContent.indexOf(query);
     if (queryIndex === -1) {
       return;
     }
-    const headersIndex = headers.map(h => content.indexOf(h));
+    const headersIndex = toc.map(h =>
+      normalizedContent.indexOf(normalizeTextCase(h.text)),
+    );
     const currentHeaderIndex = headersIndex.findIndex((hIndex, position) => {
-      if (position < headers.length - 1) {
+      if (position < toc.length - 1) {
         const next = headersIndex[position + 1];
         if (hIndex <= queryIndex && next >= queryIndex) {
           return true;
@@ -237,7 +206,7 @@ export class PageSearcher {
       }
       return false;
     });
-    const currentHeader = headers[currentHeaderIndex] ?? item.title;
+    const currentHeader = toc[currentHeaderIndex] ?? item.title;
 
     let statementStartIndex = content.slice(0, queryIndex).lastIndexOf('\n');
     statementStartIndex = statementStartIndex === -1 ? 0 : statementStartIndex;
@@ -249,10 +218,12 @@ export class PageSearcher {
     matchedResult.push({
       type: 'content',
       title: item.title,
-      header: currentHeader,
+      header: currentHeader.text,
       statement,
-      statementHighlightIndex: statement.indexOf(query),
-      link: `${normalizeHref(item.path)}#${currentHeader}`,
+      highlightIndex: normalizeTextCase(statement).indexOf(query),
+      link: `${domain}${normalizeHref(item.routePath)}#${currentHeader.id}`,
+      query,
+      group: this.#options.extractGroupName(item.routePath),
     });
   }
 
@@ -277,5 +248,9 @@ export class PageSearcher {
       )}...`;
     }
     return prefix + query + suffix;
+  }
+
+  #isCurrentIndex(index: string) {
+    return index === this.#indexName || index === LOCAL_INDEX;
   }
 }

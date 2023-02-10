@@ -1,5 +1,13 @@
 # @modern-js/entry-generator
 
+## 3.0.6
+
+### Patch Changes
+
+- b4e01e7: chore: rename MWA to Web App
+
+  chore: 将 MWA 重命名为 Web App
+
 ## 3.0.5
 
 ## 3.0.4

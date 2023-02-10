@@ -9,7 +9,7 @@
     "build:rspack": "pnpm build:libs && node ./scripts/dist/build.js rspack",
     "watch": "pnpm build:libs && node ./scripts/dist/watch.js",
     "build:libs": "cd ../../.. && pnpm prepare && cd tests/integration/webpack-builder && pnpm build:script",
-    "build:script": "swc ./scripts -d scripts/dist",
+    "build:script": "rm -rf scripts/dist && swc ./scripts -d scripts/dist",
     "inspect": "pnpm build:libs && node ./scripts/dist/inspect.js"
   },
   "dependencies": {

@@ -114,3 +114,7 @@ export function withBase(url = '/', base = ''): string {
 export function removeBase(url: string, base: string) {
   return addLeadingSlash(url).replace(normalizeSlash(base), '');
 }
+
+export function withoutHash(url: string) {
+  return url.split('#')[0];
+}

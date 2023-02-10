@@ -9,6 +9,7 @@ import {
   SERVER_BUNDLE_DIRECTORY,
   MAIN_ENTRY_NAME,
   removeTailSlash,
+  SERVER_WORKER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
 import type { AppNormalizedConfig } from '../types';
@@ -121,7 +122,7 @@ const collectHtmlRoutes = (
   const {
     html: { disableHtmlFolder },
     output: { distPath: { html: htmlPath } = {} },
-    server: { baseUrl, routes, ssr, ssrByEntries },
+    server: { baseUrl, routes, ssr, ssrByEntries, worker },
   } = config;
 
   const { packageName } = appContext;
@@ -135,6 +136,7 @@ const collectHtmlRoutes = (
         packageName,
       );
       const isSSR = Boolean(entryOptions);
+      const isWorker = Boolean(worker);
       const { resHeaders } = routes?.[entryName] || ({} as any);
 
       let route: ServerRoute | ServerRoute[] = {
@@ -150,6 +152,9 @@ const collectHtmlRoutes = (
         isSPA: true,
         isSSR,
         responseHeaders: resHeaders,
+        worker: isWorker
+          ? `${SERVER_WORKER_BUNDLE_DIRECTORY}/${entryName}.js`
+          : undefined,
         bundle: isSSR
           ? `${SERVER_BUNDLE_DIRECTORY}/${entryName}.js`
           : undefined,

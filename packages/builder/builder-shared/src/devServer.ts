@@ -224,5 +224,12 @@ export const isClientCompiler = (compiler: {
     return target !== 'node';
   }
 
+  if (target) {
+    if (Array.isArray(target)) {
+      return !target.includes('service-worker');
+    }
+    return target !== 'service-worker';
+  }
+
   return compiler.name === 'client';
 };

@@ -1,5 +1,61 @@
 # @modern-js/app-tools
 
+## 2.4.0
+
+### Minor Changes
+
+- e84d16b: feat: support catch-all routing
+  feat: 支持通配路由
+- a914be8: feat: modern-js support rspack bundler
+  feat: modern-js 支持 rspack 构建工具
+
+### Patch Changes
+
+- 6f83037: fix: change the builder resolve plugin
+  fix: 修复 builder resolve 插件
+- b4e01e7: chore: rename MWA to Web App
+
+  chore: 将 MWA 重命名为 Web App
+
+- 8c2db5f: feat(core): improve support for exporting a function in config file
+
+  feat(core): 完善对配置文件中导出函数的支持
+
+- 3144625: fix: sub root route should be matched by a splat route
+  fix: 子根路由应该被通配路由匹配
+- c53a0ff: fix: lazy import `rspack-provider`
+  fix: 懒加载 `rspack-provider`
+- Updated dependencies [d19484c]
+- Updated dependencies [637f16b]
+- Updated dependencies [6f83037]
+- Updated dependencies [014d06b]
+- Updated dependencies [98a2733]
+- Updated dependencies [b3f2a7e]
+- Updated dependencies [a5572b8]
+- Updated dependencies [91db54e]
+- Updated dependencies [a914be8]
+- Updated dependencies [67b5a42]
+- Updated dependencies [48b036e]
+- Updated dependencies [8c2db5f]
+  - @modern-js/server@2.4.0
+  - @modern-js/builder-webpack-provider@2.4.0
+  - @modern-js/builder-rspack-provider@2.4.0
+  - @modern-js/builder-shared@2.4.0
+  - @modern-js/builder@2.4.0
+  - @modern-js/node-bundle-require@2.4.0
+  - @modern-js/utils@2.4.0
+  - @modern-js/core@2.4.0
+  - @modern-js/builder-plugin-esbuild@2.4.0
+  - @modern-js/builder-plugin-node-polyfill@2.4.0
+  - @modern-js/new-action@2.4.0
+  - @modern-js/plugin-data-loader@2.4.0
+  - @modern-js/plugin-i18n@2.4.0
+  - @modern-js/plugin-lint@2.4.0
+  - @modern-js/prod-server@2.4.0
+  - @modern-js/upgrade@2.4.0
+  - @modern-js/plugin@2.4.0
+  - @modern-js/types@2.4.0
+
 ## 2.3.0
 
 ### Patch Changes

@@ -1,85 +1,72 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useEffect, useRef, useState } from 'react';
+import { groupBy, debounce } from 'lodash-es';
+import { getSidebarGroupData } from '../../logic/useSidebarData';
+import { useLocaleSiteData } from '../../logic/useLocaleSiteData';
+import { Tabs, Tab } from '../Tabs';
+import styles from './index.module.scss';
 import SearchSvg from './assets/search.svg';
 import LoadingSvg from './assets/loading.svg';
-import type { MatchResultItem, PageSearcher } from './logic/search';
-import styles from './index.module.scss';
-import { SuggestionContent } from './Suggestion';
-import { formatText } from './logic/util';
+import CloseSvg from './assets/close.svg';
+import { MatchResult, MatchResultItem, PageSearcher } from './logic/search';
+import { SuggestItem } from './SuggestItem';
+import { removeDomain } from './logic/util';
+import { isProduction, usePageData } from '@/runtime';
 
 const KEY_CODE = {
   ARROW_UP: 'ArrowUp',
   ARROW_DOWN: 'ArrowDown',
   ENTER: 'Enter',
   SEARCH: 'KeyK',
+  ESC: 'Escape',
 };
 
-export interface SearchOptions {
-  langRoutePrefix: string;
-  defaultLang: string;
-  langs: string[];
-}
+const RECOMMEND_WORD: Record<string, string> = {
+  zh: '其它站点推荐结果',
+  en: 'Other Site Search Results',
+};
 
-export function Search(props: SearchOptions) {
+export function Search() {
   const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState<MatchResultItem[]>([]);
-  const [initialized, setInitialized] = useState(false);
-  const [searching, setSearching] = useState(false);
+  const [searchResult, setSearchResult] = useState<MatchResult>({
+    current: [],
+    others: [],
+  });
   const [focused, setFocused] = useState(false);
-  const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(-1);
-  const psRef = useRef<PageSearcher>();
-  const initPageSearcherPromiseRef = useRef<Promise<void>>();
-  const [disableInput, setDisableInput] = useState(true);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-  // initializing or searching
-  const showLoading = !initialized || searching;
-  // 1. page searcher has been initialized and finish searching
-  // 2. result is empty
-  const showNotFound = !showLoading && suggestions.length === 0;
-  // eslint-disable-next-line consistent-return
-  const initPageSearcher = useCallback(async () => {
-    if (!psRef.current) {
-      const { PageSearcher } = await import('./logic/search');
-      const { defaultLang, langs, langRoutePrefix } = props;
-      psRef.current = new PageSearcher({
-        defaultLang,
-        langs,
-        langRoutePrefix,
-      });
-      await psRef.current.init();
-      setInitialized(true);
-    } else {
-      return Promise.resolve();
-    }
-  }, [props.langRoutePrefix]);
+  const [searching, setSearching] = useState(false);
+  const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(0);
+  const pageSearcherRef = useRef<PageSearcher | null>(null);
+  const { siteData, lang } = usePageData();
+  const { sidebar } = useLocaleSiteData();
+  const { search } = siteData;
 
-  const onQueryChanged = useCallback(
-    async (e: ChangeEvent<HTMLInputElement>) => {
-      const newQuery = e.target.value;
-      setQuery(newQuery);
-      initPageSearcherPromiseRef.current =
-        initPageSearcherPromiseRef.current || initPageSearcher();
-      await initPageSearcherPromiseRef.current;
-      setSearching(true);
-      const matched = await psRef.current!.match(newQuery);
-      setSearching(false);
-      setSuggestions(matched);
-    },
-    [initPageSearcher],
-  );
+  const suggestions = [
+    ...searchResult.current,
+    ...searchResult.others.map(item => item.items),
+  ].flat();
+
+  // We need to extract the group name by the link so that we can divide the search result into different groups.
+  const extractGroupName = (link: string) =>
+    getSidebarGroupData(sidebar, link).group;
+
+  async function initPageSearcher() {
+    const pageSearcher = new PageSearcher({
+      ...search,
+      currentLang: lang,
+      extractGroupName,
+    });
+    pageSearcherRef.current = pageSearcher;
+    await pageSearcherRef.current.init();
+  }
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       switch (e.code) {
         case KEY_CODE.SEARCH:
-          if ((e.ctrlKey || e.metaKey) && searchInputRef.current) {
+          if (e.ctrlKey || e.metaKey) {
             e.preventDefault();
-            if (!focused) {
-              setFocused(true);
-              searchInputRef.current.focus();
-            } else {
-              setFocused(false);
-              searchInputRef.current.blur();
-            }
+            setFocused(!focused);
           }
           break;
         case KEY_CODE.ARROW_DOWN:
@@ -98,8 +85,20 @@ export function Search(props: SearchOptions) {
         case KEY_CODE.ENTER:
           if (currentSuggestionIndex >= 0) {
             const suggestion = suggestions[currentSuggestionIndex];
-            window.location.href = suggestion.link;
+            const isCurrent =
+              currentSuggestionIndex < searchResult.current.length;
+            if (isCurrent) {
+              window.location.href = isProduction()
+                ? suggestion.link
+                : removeDomain(suggestion.link);
+              setFocused(false);
+            } else {
+              window.open(suggestion.link);
+            }
           }
+          break;
+        case KEY_CODE.ESC:
+          setFocused(false);
           break;
         default:
           break;
@@ -109,124 +108,198 @@ export function Search(props: SearchOptions) {
     return () => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [currentSuggestionIndex, focused, suggestions]);
+  }, [
+    setCurrentSuggestionIndex,
+    setFocused,
+    suggestions,
+    currentSuggestionIndex,
+  ]);
 
   useEffect(() => {
-    setDisableInput(false);
-  }, []);
-  return (
-    <div flex="~" align="items-center" pos="relative" m="r-2" font="semibold">
-      <SearchSvg
-        w="5"
-        h="5"
-        fill="currentColor"
-        onClick={() => {
-          setFocused(true);
-          searchInputRef.current?.focus();
-        }}
-      />
-      <input
-        disabled={disableInput}
-        cursor="text focus:auto"
-        placeholder="Search"
-        height="8"
-        border="none"
-        type="text"
-        text="sm"
-        p="t-0 r-2 b-0 l-2"
-        transition="all duration-200 ease"
-        className={`rounded-sm ${styles.searchInput} ${
-          focused ? styles.focus : ''
-        }`}
-        aria-label="Search"
-        autoComplete="off"
-        onChange={onQueryChanged}
-        onBlur={() => setTimeout(() => setFocused(false), 200)}
-        onFocus={() => {
-          setFocused(true);
-          initPageSearcherPromiseRef.current = initPageSearcher();
-        }}
-        ref={searchInputRef}
-      />
-      <div
-        m="r-3"
-        w="10"
-        h="6"
-        p="x-1.5"
-        border="1px solid gray-light-3 rounded-md"
-        text="xs gray-light-3"
-        flex="~"
-        align="items-center"
-        justify="around"
-        className={`${styles.searchCommand}`}
-      >
-        <span>⌘</span>
-        <span>K</span>
+    if (focused) {
+      setSearchResult({ current: [], others: [] });
+      if (!pageSearcherRef.current) {
+        initPageSearcher();
+      }
+    }
+  }, [focused]);
+
+  useEffect(() => {
+    initPageSearcher();
+    // init pageSearcher again when lang changed
+  }, [lang]);
+
+  const onQueryChanged = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+    setSearching(true);
+    const matched = await pageSearcherRef.current?.match(newQuery);
+    setSearching(false);
+    setSearchResult(matched || { current: [], others: [] });
+  };
+
+  const normalizeSuggestions = (suggestions: MatchResultItem[]) =>
+    groupBy(suggestions, 'group');
+
+  // accumulateIndex is used to calculate the index of the suggestion in the whole list.
+  let accumulateIndex = -1;
+
+  const renderSearchResult = (result: MatchResult) => {
+    const hasOtherResult =
+      searchResult.others.map(item => item.items).flat().length > 0;
+    return (
+      <div>
+        {/* current index */}
+        {renderSearchResultItem(result.current)}
+        {/* other indexes */}
+        {hasOtherResult && (
+          <h2 className={styles.groupTitle}>{RECOMMEND_WORD[lang]}</h2>
+        )}
+        <div style={{ marginTop: '-12px' }}>
+          <Tabs
+            values={result.others.map(item => item.index)}
+            tabContainerClassName={styles.tabClassName}
+          >
+            {result.others.map(item => (
+              <Tab key={item.index}>
+                {renderSearchResultItem(item.items, false)}
+              </Tab>
+            ))}
+          </Tabs>
+        </div>
       </div>
-      {focused && query && (
-        <ul
-          pos="fixed sm:absolute top-12 sm:top-8 right--10"
-          z="60"
-          p="2"
-          list="none"
-          bg="white"
-          className="w-full sm:min-w-600px sm:max-w-800px"
-          style={{ border: '1px solid var(--modern-c-divider-light)' }}
-        >
-          {/* Show the suggestions */}
-          {suggestions.map((item, index) => (
-            <li
-              key={item.link}
-              cursor="pointer"
-              w="full"
-              className="border-collapse rounded-sm"
+    );
+  };
+
+  const renderSearchResultItem = (
+    suggestionList: MatchResultItem[],
+    isCurrent = true,
+  ) => {
+    // if no result, show no result
+    if (suggestionList.length === 0) {
+      return (
+        <div flex="~ center" className="mt-4">
+          <div p="2" font="bold" text="md #2c3e50">
+            No results found
+          </div>
+        </div>
+      );
+    }
+    const normalizedSuggestions = normalizeSuggestions(suggestionList);
+    return (
+      <ul className={styles.suggestList}>
+        {Object.keys(normalizedSuggestions).map(group => {
+          const groupSuggestions = normalizedSuggestions[group] || [];
+          return (
+            <li key={group}>
+              {isCurrent && <h2 className={styles.groupTitle}>{group}</h2>}
+              <ul>
+                {groupSuggestions.map(suggestion => {
+                  accumulateIndex++;
+                  const suggestionIndex = accumulateIndex;
+                  return (
+                    <SuggestItem
+                      key={suggestion.link}
+                      suggestion={suggestion}
+                      isCurrent={suggestionIndex === currentSuggestionIndex}
+                      setCurrentSuggestionIndex={() => {
+                        setCurrentSuggestionIndex(suggestionIndex);
+                      }}
+                      closeSearch={() => setFocused(false)}
+                      inCurrentDocIndex={
+                        suggestionIndex < searchResult.current.length
+                      }
+                    />
+                  );
+                })}
+              </ul>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
+
+  return (
+    <>
+      <div className={styles.navSearchButton} onClick={() => setFocused(true)}>
+        <button>
+          <SearchSvg width="18" hight="18" />
+          <p className={styles.searchWord}>Search</p>
+          <div>
+            <span>⌘</span>
+            <span>K</span>
+          </div>
+        </button>
+      </div>
+      <div
+        className={styles.mobileNavSearchButton}
+        onClick={() => setFocused(true)}
+      >
+        <SearchSvg />
+      </div>
+      {focused &&
+        createPortal(
+          <div className={styles.mask} onClick={() => setFocused(false)}>
+            <div
+              className={`${styles.modal}`}
+              onClick={e => {
+                setFocused(true);
+                e.stopPropagation();
+              }}
             >
-              <a block="~" href={item.link} className="whitespace-normal">
-                <div table="~" w="full" className="border-collapse">
-                  <div
-                    border-left="none"
-                    display="table-cell"
-                    p="1.2"
-                    text="sm right"
-                    font="semibold"
-                    className={`align-middle`}
-                    style={{
-                      borderBottom: '1px solid var(--modern-c-divider-light)',
-                      width: '35%',
-                    }}
-                  >
-                    {formatText(item.title)}
-                  </div>
-                  <SuggestionContent
-                    suggestion={item}
-                    query={query}
-                    isCurrent={index === currentSuggestionIndex}
-                    isFirst={index === 0}
+              <div className="flex items-center">
+                <div className={styles.inputForm}>
+                  <label>
+                    <SearchSvg />
+                  </label>
+                  <input
+                    className={styles.input}
+                    ref={searchInputRef}
+                    placeholder="Search Docs"
+                    aria-label="Search"
+                    autoComplete="off"
+                    autoFocus
+                    onChange={debounce(onQueryChanged, 150)}
                   />
+                  <label>
+                    <CloseSvg
+                      className={styles.close}
+                      onClick={() => {
+                        if (searchInputRef.current) {
+                          searchInputRef.current.value = '';
+                        }
+                      }}
+                    />
+                  </label>
                 </div>
-              </a>
-            </li>
-          ))}
-          {/* Show the not found info */}
-          {showNotFound && (
-            <li flex="~ center">
-              <div p="2" text="sm #2c3e50">
-                No results found
+                <h2
+                  className="text-brand ml-2 sm:hidden cursor-pointer"
+                  onClick={e => {
+                    e.stopPropagation();
+                    setFocused(false);
+                  }}
+                >
+                  Cancel
+                </h2>
               </div>
-            </li>
-          )}
-          {/* Show the loading info */}
-          {showLoading && (
-            <li flex="~ center">
-              <div p="2" text="sm">
-                <LoadingSvg />
-              </div>
-            </li>
-          )}
-        </ul>
-      )}
-    </div>
+
+              {query && suggestions.length ? (
+                <div className={`${styles.searchHits}  modern-scrollbar`}>
+                  {renderSearchResult(searchResult)}
+                </div>
+              ) : null}
+              {searching && (
+                <div flex="~ center">
+                  <div p="2" text="sm">
+                    <LoadingSvg />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>,
+          document.getElementById('search-container')!,
+        )}
+    </>
   );
 }
-
-export default Search;

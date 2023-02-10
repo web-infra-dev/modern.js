@@ -105,6 +105,10 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    * Global styles, is a Absolute path
    */
   globalStyles?: string;
+  /**
+   * Search options
+   */
+  search?: SearchOptions;
 }
 
 export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
@@ -120,16 +124,19 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
     routePath: string;
     toc: Header[];
   }[];
+  search: SearchOptions;
 }
 
-export interface PageBasicInfo {
-  routePath: string;
+export interface PageIndexInfo {
+  id: number;
   title: string;
+  routePath: string;
   toc: Header[];
-  frontmatter: Record<string, string | number | undefined>;
   content: string;
+  frontmatter: Record<string, unknown>;
+  lang: string;
+  domain: string;
 }
-
 export interface Hero {
   name: string;
   text: string;
@@ -184,6 +191,7 @@ export interface PageData {
   toc?: Header[];
   routePath: string;
   content?: string;
+  lang: string;
   subModules?: PageModule<ComponentType<unknown>>[];
 }
 
@@ -210,6 +218,20 @@ export interface RouteOptions {
    */
   exclude?: string[];
 }
+
+export type LocalSearchOptions = {
+  mode: 'local';
+};
+
+export type RemoteSearchOptions = {
+  mode: 'remote';
+  apiUrl: string;
+  domain?: string;
+  indexName: string;
+  searchIndexes?: string[];
+};
+
+export type SearchOptions = LocalSearchOptions | RemoteSearchOptions;
 
 export interface MarkdownOptions {
   remarkPlugins?: PluggableList;

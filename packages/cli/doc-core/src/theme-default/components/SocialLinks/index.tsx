@@ -22,10 +22,7 @@ export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 
   return (
     <div
-      className={`social-links ${styles.menuItem}`}
-      nav-h="mobile sm:desktop"
-      flex="~"
-      align-items-center="~"
+      className={`social-links ${styles.menuItem} flex-center`}
       pos="relative"
       onMouseLeave={() => setMoreLinksVisible(false)}
     >

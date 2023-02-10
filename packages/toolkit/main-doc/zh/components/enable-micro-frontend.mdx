@@ -5,9 +5,19 @@ import garfishPlugin from '@modern-js/plugin-garfish';
 export default defineConfig({
   runtime: {
     router: true,
-    state: true,
-    masterApp: true,
+    masterApp: {
+      apps: [{
+        name: 'Table',
+        entry: 'http://localhost:8081',
+        // activeWhen: '/table'
+      }, {
+        name: 'Dashboard',
+        entry: 'http://localhost:8082'
+        // activeWhen: '/dashboard'
+      }]
+    },
   },
   plugins: [appTools(), garfishPlugin()],
 });
+
 ```

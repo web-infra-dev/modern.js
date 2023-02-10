@@ -9,7 +9,7 @@ import {
   ModernSSRReactComponent,
   SSRPluginConfig,
 } from '../types';
-import { time } from '../utils';
+import { time } from '../time';
 import prefetch from '../../prefetch';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
@@ -93,19 +93,19 @@ export default class Entry {
   public async renderToHtml(context: RuntimeContext): Promise<string> {
     const ssrContext = context.ssrContext!;
 
-    if (ssrContext.redirection.url) {
+    if (ssrContext.redirection?.url) {
       return '';
     }
 
     const prefetchData = await this.prefetch(context);
-    if (ssrContext.redirection.url) {
+    if (ssrContext.redirection?.url) {
       return '';
     }
 
     if (this.result.renderLevel >= RenderLevel.SERVER_PREFETCH) {
       this.result.html = this.renderToString(context);
     }
-    if (ssrContext.redirection.url) {
+    if (ssrContext.redirection?.url) {
       return '';
     }
 
