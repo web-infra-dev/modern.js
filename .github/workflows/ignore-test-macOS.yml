@@ -1,0 +1,10 @@
+name: Unit Test(macOS)
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  ut-mac:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No  required"'

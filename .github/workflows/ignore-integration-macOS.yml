@@ -1,0 +1,10 @@
+name: Integration Test(macOS)
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  integration-test-mac:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No  required"'

@@ -1,0 +1,10 @@
+name: Unit Test(Windows)
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  ut-windows:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No  required"'
