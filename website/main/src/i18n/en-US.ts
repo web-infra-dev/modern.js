@@ -47,6 +47,5 @@ export const EN_US = {
   pluginSystem: 'Plugin System',
   projectGenerator: 'Project Generator',
   githubDiscussion: 'Github Discussion',
-  larkGroup: 'Lark Group',
   changelog: 'Changelog',
 } as const;
