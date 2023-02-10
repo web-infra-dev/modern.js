@@ -34,4 +34,12 @@ export interface DocPlugin {
    * Modify doc config.
    */
   config?: (config: DocConfig) => DocConfig | Promise<DocConfig>;
+  /**
+   * Callback before build
+   */
+  beforeBuild?: (config: DocConfig) => Promise<void>;
+  /**
+   * Callback after build
+   */
+  afterBuild?: () => Promise<void>;
 }

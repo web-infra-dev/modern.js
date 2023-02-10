@@ -88,7 +88,47 @@ export async function renderPages(config: UserConfig) {
   await fs.remove(join(outputPath, 'html', 'main', 'index.html'));
 }
 
+export async function modifyConfig(config: UserConfig) {
+  const docPlugins = [];
+
+  // Add plugins
+  if (config.doc?.plugins) {
+    docPlugins.push(...config.doc.plugins);
+  }
+
+  // Modify doc config
+  for (const plugin of docPlugins) {
+    if (typeof plugin.config === 'function') {
+      config.doc = await plugin.config(config.doc || {});
+    }
+  }
+
+  return config;
+}
+
+export async function beforeBuild(config: UserConfig) {
+  // beforeBuild hooks
+  for (const plugin of config.doc?.plugins || []) {
+    if (typeof plugin.beforeBuild === 'function') {
+      await plugin.beforeBuild(config.doc || {});
+    }
+  }
+}
+
+export async function afterBuild(config: UserConfig) {
+  // afterBuild hooks
+  for (const plugin of config.doc?.plugins || []) {
+    if (typeof plugin.afterBuild === 'function') {
+      await plugin.afterBuild();
+    }
+  }
+}
+
 export async function build(rootDir: string, config: UserConfig) {
-  await bundle(rootDir, config);
-  await renderPages(config);
+  const modifiedConfig = await modifyConfig(config);
+
+  await beforeBuild(modifiedConfig);
+  await bundle(rootDir, modifiedConfig);
+  await renderPages(modifiedConfig);
+  await afterBuild(modifiedConfig);
 }
