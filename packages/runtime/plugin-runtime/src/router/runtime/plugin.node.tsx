@@ -11,7 +11,10 @@ import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
 import type { RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
-import './fetch';
+import { installGlobals } from './fetch';
+
+// Polyfill Web Fetch API
+installGlobals();
 
 // TODO: polish
 function createFetchRequest(req: SSRServerContext['request']): Request {
