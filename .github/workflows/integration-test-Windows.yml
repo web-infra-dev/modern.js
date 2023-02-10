@@ -9,14 +9,6 @@ on:
   # Triggers the workflow on pull request events but only for the main branch
   push:
     branches: [main]
-    paths-ignore:
-      - '.changeset/**'
-      - '.vscode/**'
-      - '.github/**'
-      - 'packages/toolkit/main-doc/**'
-      - 'packages/toolkit/module-doc/**'
-      - 'packages/builder/builder-doc/**'
-      - 'website/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -46,7 +38,14 @@ jobs:
       - name: Install Pnpm
         run: npm install -g pnpm@7
 
+      - name: Check docs only change
+        run: echo "::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')"
+        id: docs-change
+
+      - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
+
       - name: Setup Node.js ${{ matrix.node-version }}
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -63,13 +62,17 @@ jobs:
 
 
       - name: Install Dependencies
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm install --ignore-scripts --frozen-lockfile
 
       - name: Prepare
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm run prepare
 
       - name: Install Puppeteer
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..
 
       - name: Test
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: cd ./tests && pnpm run test
