@@ -1,5 +1,12 @@
 # @modern-js/node-bundle-require
 
+## 2.4.1-beta.0
+
+### Patch Changes
+
+- Updated dependencies [11c053b]
+  - @modern-js/utils@2.4.1-beta.0
+
 ## 2.4.0
 
 ### Patch Changes

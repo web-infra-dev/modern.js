@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 2.4.1-beta.0
+
+### Patch Changes
+
+- 7a25271: feat: support NoSSR component fallback UI
+  feat: 支持 NoSSR 组件 fallback UI
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
+- a0f2ab1: fix: ssg new Headers() error
+
+  fix: 修复 ssg 渲染是 new Headers() 报错问题
+
+- Updated dependencies [11c053b]
+  - @modern-js/utils@2.4.1-beta.0
+
 ## 2.4.0
 
 ### Patch Changes

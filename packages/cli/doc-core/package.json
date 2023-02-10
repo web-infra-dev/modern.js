@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.4.0",
+  "version": "2.4.1-beta.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -102,7 +102,7 @@
     "node-fetch": "3.3.0"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.4.0",
+    "@modern-js/core": "workspace:^2.4.1-beta.0",
     "react": ">=17"
   },
   "devDependencies": {

@@ -1,5 +1,36 @@
 # @modern-js/app-tools
 
+## 3.0.0-beta.0
+
+### Patch Changes
+
+- 840142c: fix: the `@modern-js/app-tools` hooks should set `webpack` as default type.
+  fix: `@modern-js/app-tools` hooks 应该将 'webpack' 设置为默认类型
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
+- Updated dependencies [c4c10e7]
+- Updated dependencies [84c21f9]
+- Updated dependencies [11c053b]
+- Updated dependencies [28e7dc6]
+  - @modern-js/builder@2.4.1-beta.0
+  - @modern-js/builder-rspack-provider@2.5.0-beta.0
+  - @modern-js/builder-shared@2.5.0-beta.0
+  - @modern-js/builder-webpack-provider@2.5.0-beta.0
+  - @modern-js/builder-plugin-node-polyfill@2.4.1-beta.0
+  - @modern-js/prod-server@2.4.1-beta.0
+  - @modern-js/utils@2.4.1-beta.0
+  - @modern-js/builder-plugin-esbuild@2.4.1-beta.0
+  - @modern-js/core@2.4.1-beta.0
+  - @modern-js/plugin-data-loader@2.4.1-beta.0
+  - @modern-js/server@2.4.1-beta.0
+  - @modern-js/plugin-i18n@2.4.1-beta.0
+  - @modern-js/plugin-lint@2.4.1-beta.0
+  - @modern-js/new-action@2.4.1-beta.0
+  - @modern-js/node-bundle-require@2.4.1-beta.0
+  - @modern-js/upgrade@2.4.1-beta.0
+
 ## 2.4.0
 
 ### Minor Changes
