@@ -25,20 +25,31 @@ import EnableMicroFrontend from "@site-docs/components/enable-micro-frontend";
 
 <EnableMicroFrontend />
 
+这里演示主应用为自控式路由的场景，全部场景参考 [体验微前端](/guides/topic-detail/micro-frontend/c02-development.html)
 ```tsx title=App.tsx
 function App() {
-  const { Home, Contact } = useModuleApps();
+  const { apps, MApp, Table, Dashboard } = useModuleApps();
+
+  // 使用的不是 MApp 组件，需要使用 createBrowserRouter 来创建路由
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<AppLayout />}>
+        <Route key={'table'} path={'table/*'} element={<Table />} />
+        <Route key={'dashboard'} path={'dashboard/*'} element={<Dashboard />} />
+      </Route>
+    )
+  );
 
   return (
-    <div>
-      Master APP
-      <Route exact path="/home">
-        <Home />
-      </Route>
-      <Route exact path="/home">
-        <Contact />
-      </Route>
-    </div>
+    // 方法一：使用 MApp 自动根据配置的 activeWhen 参数加载子应用(本项目配置在 modern.config.ts 中)
+    // <BrowserRouter>
+    //   <MApp />
+    // </BrowserRouter>
+
+    // 方法二：手动写 Route 组件方式加载子应用，方便于需要鉴权等需要前置操作的场景
+    <>
+      <RouterProvider router={router} />
+    </>
   );
 }
 
@@ -47,11 +58,11 @@ defineConfig(App, {
     apps: [
       {
         // name 区分大小写，name 提供的是什么 useModuleApps 返回的就是什么
-        name: 'Home',
+        name: 'Table',
         entry: 'http://127.0.0.1:8081/',
       },
       {
-        name: 'Contact',
+        name: 'Dashboard',
         entry: 'http://localhost:8082',
       },
     ],
@@ -59,7 +70,7 @@ defineConfig(App, {
 });
 ```
 
-通过 `useModuleApps()` 获取到 `Home` 和 `Contact` 子应用组件（名称和配置里的 `name` 字段对应），之后就可以像使用普通的 React 组件一样去加载子应用。
+通过 `useModuleApps()` 获取到 `Table` 和 `Dashboard` 子应用组件（名称和配置里的 `name` 字段对应），之后就可以像使用普通的 React 组件一样去加载子应用。
 
 ### 集中式路由
 
@@ -89,13 +100,13 @@ defineConfig(App, {
     apps: [
       {
         // name 区分大小写，name 提供的是什么 useModuleApps 返回的就是什么
-        name: 'Dashboard',
-        activeWhen: '/dashboard',
+        name: 'Table',
+        activeWhen: '/table',
         entry: 'http://127.0.0.1:8081/',
       },
       {
-        name: 'TableList',
-        activeWhen: '/table',
+        name: 'Dashboard',
+        activeWhen: '/dashboard',
         entry: 'http://localhost:8082',
       },
     ],
@@ -103,36 +114,66 @@ defineConfig(App, {
 });
 ```
 
-这样启动应用后，访问 `/dashboard` 路由，会渲染 `Dashboard` 子应用，访问 `/table` 路由，会渲染 `TableList` 子应用。
+这样启动应用后，访问 `/dashboard` 路由，会渲染 `Dashboard` 子应用，访问 `/table` 路由，会渲染 `Table` 子应用。
 
 ## 加载动画
 
 可以通过以下方式，自定义组件加载过程的过渡动画。
 
-```tsx title=App.tsx
-function App() {
-  const { Home } = useModuleApps();
+```js title="App.tsx"
+import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
+
+import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements, BrowserRouter, Link, Outlet } from '@modern-js/runtime/router';
+
+const AppLayout = () => (
+  <>
+    <div><Link to={'/table'}>加载约定式路由子应用</Link></div>
+    <div><Link to={'/dashboard'}>加载自控式路由子应用</Link></div>
+    <div><Link to={'/'}>卸载子应用</Link></div>
+    <Outlet />
+  </>
+)
+
+export default () => {
+  const { apps } = useModuleApps();
+
+  // 使用的不是 MApp 组件，需要使用 createBrowserRouter 来创建路由
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<AppLayout />}>
+        {apps.map(app => {
+          const { Component } = app;
+          // 模糊匹配，path 需要写成类似 abc/* 的模式
+          return (
+            <Route
+              key={app.name}
+              path={`${app.name.toLowerCase()}/*`}
+              element={
+              <Component
+                loadable={{
+                  loading: ({ pastDelay, error }: any) => {
+                    if (error) {
+                      return <div>error: {error?.message}</div>;
+                    } else if (pastDelay) {
+                      return <div>loading</div>;
+                    } else {
+                      return null;
+                    }
+                  },
+                }}
+              />
+              }
+            />
+          )
+        })}
+      </Route>
+    )
+  );
 
   return (
-    <div>
-      Master APP
-      <Route exact path="/home">
-        <Home
-          loadable={{
-            loading: ({ pastDelay, error }: any) => {
-              if (error) {
-                console.error(error);
-                return <div>error: {error?.message}</div>;
-              } else if (pastDelay) {
-                return <div>loading</div>;
-              } else {
-                return null;
-              }
-            },
-          }}
-        />
-      </Route>
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
-}
+};
 ```

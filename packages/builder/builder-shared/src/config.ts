@@ -9,6 +9,7 @@ import {
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
   SERVER_DIST_DIR,
+  SERVER_WORKER_DIST_DIR,
   DEFAULT_MOUNT_ID,
   DEFAULT_DATA_URL_SIZE,
 } from './constants';
@@ -21,6 +22,7 @@ import type {
   NormalizedSharedOutputConfig,
   NormalizedSharedSourceConfig,
   NormalizedSharedHtmlConfig,
+  BundlerChainRule,
 } from './types';
 import { logger } from './logger';
 import { join } from 'path';
@@ -60,6 +62,7 @@ export const defaultOutputConfig: NormalizedSharedOutputConfig = {
     image: IMAGE_DIST_DIR,
     media: MEDIA_DIST_DIR,
     server: SERVER_DIST_DIR,
+    worker: SERVER_WORKER_DIST_DIR,
   },
   filename: {},
   charset: 'ascii',
@@ -286,3 +289,54 @@ export async function stringifyConfig(config: unknown, verbose?: boolean) {
 
   return stringify(config as any, { verbose });
 }
+
+export const chainStaticAssetRule = ({
+  rule,
+  maxSize,
+  filename,
+  assetType,
+  issuer,
+}: {
+  rule: BundlerChainRule;
+  maxSize: number;
+  filename: string;
+  assetType: string;
+  issuer?: any;
+}) => {
+  // rspack not support dataUrlCondition function
+  // forceNoInline: "foo.png?__inline=false" or "foo.png?url",
+  rule
+    .oneOf(`${assetType}-asset-url`)
+    .type('asset')
+    .resourceQuery(/(__inline=false|url)/)
+    .set('generator', {
+      filename,
+    })
+    .set('issuer', issuer)
+    .parser({
+      dataUrlCondition: {
+        maxSize: 0,
+      },
+    });
+
+  // forceInline: "foo.png?inline" or "foo.png?__inline",
+  rule
+    .oneOf(`${assetType}-asset-inline`)
+    .type('asset/inline')
+    .resourceQuery(/inline/)
+    .set('issuer', issuer);
+
+  // default: when size < dataUrlCondition.maxSize will inline
+  rule
+    .oneOf(`${assetType}-asset`)
+    .type('asset')
+    .parser({
+      dataUrlCondition: {
+        maxSize,
+      },
+    })
+    .set('generator', {
+      filename,
+    })
+    .set('issuer', issuer);
+};

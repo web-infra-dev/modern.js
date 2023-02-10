@@ -1,5 +1,13 @@
 # @modern-js/dependence-generator
 
+## 3.0.6
+
+### Patch Changes
+
+- 1023fbb: feat: new command tooitip support code highlight
+
+  feat: new 命令提示支持代码高亮
+
 ## 3.0.5
 
 ## 3.0.4

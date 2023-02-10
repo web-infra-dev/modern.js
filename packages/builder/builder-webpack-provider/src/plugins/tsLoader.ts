@@ -3,15 +3,6 @@ import _ from '@modern-js/utils/lodash';
 import { BuilderPlugin } from '../types';
 import { applyScriptCondition, getUseBuiltIns } from './babel';
 
-// Declare `ScriptTarget` and `ModuleKind` manually to avoid high cost of typescript import
-enum ScriptTarget {
-  ESNext = 99,
-}
-
-enum ModuleKind {
-  ESNext = 99,
-}
-
 export const builderPluginTsLoader = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-ts-loader',
@@ -50,11 +41,12 @@ export const builderPluginTsLoader = (): BuilderPlugin => {
           },
         };
         const { applyOptionsChain } = await import('@modern-js/utils');
+        // @ts-expect-error ts-loader has incorrect types for compilerOptions
         const tsLoaderOptions = applyOptionsChain(
           {
             compilerOptions: {
-              target: ScriptTarget.ESNext,
-              module: ModuleKind.ESNext,
+              target: 'esnext',
+              module: 'esnext',
             },
             transpileOnly: true,
             allowTsInNodeModules: true,

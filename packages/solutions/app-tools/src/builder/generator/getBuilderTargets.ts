@@ -1,5 +1,10 @@
 import type { BuilderTarget } from '@modern-js/builder-shared';
-import { isProd, isSSR, isUseSSRBundle } from '@modern-js/utils';
+import {
+  isProd,
+  isServiceWorker,
+  isSSR,
+  isUseSSRBundle,
+} from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
 
 export function getBuilderTargets(
@@ -13,6 +18,12 @@ export function getBuilderTargets(
 
   if (useNodeTarget) {
     targets.push('node');
+  }
+
+  const useWorkerTarget = isProd() ? isServiceWorker(normalizedConfig) : false;
+
+  if (useWorkerTarget) {
+    targets.push('service-worker');
   }
 
   return targets;

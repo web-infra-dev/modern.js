@@ -2,7 +2,12 @@ import type { BuilderContext } from './context';
 import type { PluginStore } from './plugin';
 import type { BuilderProvider, ProviderInstance } from './provider';
 
-export type BuilderTarget = 'web' | 'node' | 'modern-web' | 'web-worker';
+export type BuilderTarget =
+  | 'web'
+  | 'node'
+  | 'modern-web'
+  | 'web-worker'
+  | 'service-worker';
 
 export type BuilderEntry = Record<string, string | string[]>;
 

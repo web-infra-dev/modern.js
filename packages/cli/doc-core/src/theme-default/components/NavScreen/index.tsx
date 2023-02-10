@@ -32,7 +32,7 @@ const NavScreenTranslations = ({
       font="bold"
       justify="center"
     >
-      <div m="x-1.5">
+      <div m="x-1.5 y-1">
         <NavScreenMenuGroup {...translationMenuData} />
       </div>
     </div>
@@ -65,11 +65,7 @@ export function NavScreen(props: Props) {
     : null;
   const NavScreenAppearance = () => {
     return (
-      <div
-        className={`align-items-center appearance pa-2 ${styles.navAppearance}`}
-        flex="~"
-        justify="center"
-      >
+      <div className={`mt-2 ${styles.navAppearance}`} flex="~" justify="center">
         <SwitchAppearance />
       </div>
     );
@@ -115,18 +111,13 @@ export function NavScreen(props: Props) {
     >
       <div className={styles.container}>
         <NavScreenMenu menuItems={menuItems} />
-        <div
-          className={styles.socialAndAppearance}
-          flex="~"
-          justify="center"
-          align-items-center="center"
-        >
+        <div className="flex-center flex-col">
           {hasAppearanceSwitch && <NavScreenAppearance />}
+          {hasMultiLanguage && (
+            <NavScreenTranslations translationMenuData={translationMenuData!} />
+          )}
+          {hasSocialLinks && <SocialLinks socialLinks={socialLinks} />}
         </div>
-        {hasMultiLanguage && (
-          <NavScreenTranslations translationMenuData={translationMenuData!} />
-        )}
-        {hasSocialLinks && <SocialLinks socialLinks={socialLinks} />}
       </div>
     </div>
   );

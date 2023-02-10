@@ -5,14 +5,36 @@ exports[`plugin/image-compress > should generate correct options 1`] = `
   "module": {
     "rules": [
       {
-        "generator": {
-          "filename": "static/image/[name].[contenthash:8][ext]",
-        },
-        "parser": {
-          "dataUrlCondition": [Function],
-        },
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
         "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
-        "type": "asset",
       },
     ],
   },

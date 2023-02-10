@@ -1,5 +1,17 @@
 # @modern-js/runtime
 
+## 2.4.0
+
+### Patch Changes
+
+- 9e907ec: chore: catch react-dom/server require for react 17
+  chore: 捕获引入 react-dom/server 的逻辑，避免在 react 17 下报错
+- Updated dependencies [98a2733]
+- Updated dependencies [8c2db5f]
+  - @modern-js/utils@2.4.0
+  - @modern-js/plugin@2.4.0
+  - @modern-js/types@2.4.0
+
 ## 2.3.0
 
 ### Patch Changes

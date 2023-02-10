@@ -32,6 +32,7 @@ export interface ServerUserConfig {
   watchOptions?: WatchOptions;
   compiler?: 'babel' | 'typescript';
   enableFrameworkExt?: boolean;
+  worker?: boolean;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;
