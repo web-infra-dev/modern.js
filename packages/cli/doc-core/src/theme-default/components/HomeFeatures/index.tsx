@@ -22,7 +22,12 @@ export function HomeFeature() {
   const gridClass = getGridClass(features?.length);
 
   return (
-    <div className="max-w-1152px" m="auto" flex="~ wrap" justify="between">
+    <div
+      className="max-w-1152px overflow-hidden"
+      m="auto"
+      flex="~ wrap"
+      justify="between"
+    >
       {features?.map(feature => {
         const { icon, title, details } = feature;
         return (
@@ -32,7 +37,7 @@ export function HomeFeature() {
             p="b-4 lg:l-0"
             className={`${gridClass ? styles[gridClass] : 'w-full'}`}
           >
-            <div p="2" h="52">
+            <div p="1" className="h-full">
               <article
                 key={title}
                 h="full"
