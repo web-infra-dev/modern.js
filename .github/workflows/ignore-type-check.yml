@@ -14,5 +14,9 @@ on:
 jobs:
   type-check:
     runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest]
     steps:
       - run: 'echo "No required"'

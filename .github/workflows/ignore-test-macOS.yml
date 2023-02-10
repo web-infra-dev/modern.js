@@ -19,5 +19,9 @@ on:
 jobs:
   ut-mac:
     runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [macos-latest] # macos-latest
     steps:
       - run: 'echo "No required"'

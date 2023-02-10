@@ -19,5 +19,9 @@ on:
 jobs:
   ut-windows:
     runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [windows-latest] # windows-latest
     steps:
       - run: 'echo "No required"'
