@@ -15,6 +15,9 @@ const DOCS_FOLDERS = [
   '.github',
   '.vscode',
   'website',
+  'packages/toolkit/main-doc',
+  'packages/toolkit/module-doc',
+  'packages/builder/builder-doc',
   'scripts/skip-docs-change.js',
 ];
 

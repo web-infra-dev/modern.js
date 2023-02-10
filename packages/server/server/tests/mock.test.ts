@@ -1,4 +1,5 @@
 import path from 'path';
+import { compatRequire } from '@modern-js/utils';
 import { createMockHandler } from '../src/dev-tools/mock';
 import getMockData, { getMatched } from '../src/dev-tools/mock/getMockData';
 import { noop } from './helper';
@@ -37,7 +38,7 @@ describe('test dev tools', () => {
       });
     });
 
-    it('should not return middleware if mock api exist', async () => {
+    it('should not return middleware if mock api not exist', async () => {
       const middleware = createMockHandler({ pwd: path.join(pwd, 'exist') });
 
       expect(middleware).not.toBeNull();
@@ -57,8 +58,42 @@ describe('test dev tools', () => {
       expect(response).toBeUndefined();
     });
 
+    it('should not return middleware if mock disable', async () => {
+      const middleware = createMockHandler({
+        pwd: path.join(pwd, 'disable'),
+      });
+
+      expect(middleware).toBeNull();
+    });
+
+    it('should not return response if mock disable runtime', async () => {
+      const middleware = createMockHandler({
+        pwd: path.join(pwd, 'disable-runtime'),
+      });
+
+      expect(middleware).not.toBeNull();
+
+      let response: any;
+      const context: any = {
+        path: '/api/getInfo',
+        method: 'get',
+        res: {
+          setHeader: noop,
+          end: (data: any) => {
+            response = JSON.parse(data);
+          },
+        },
+      };
+      await middleware?.(context, noop);
+      expect(response).toBeUndefined();
+    });
+
     it('should get api list correctly', resolve => {
-      const apiList = getMockData(path.join(pwd, 'exist/config/mock/index.ts'));
+      const { default: mockModule } = compatRequire(
+        path.join(pwd, 'exist/config/mock/index.ts'),
+        false,
+      );
+      const apiList = getMockData(mockModule);
       expect(apiList.length).toBe(3);
 
       const pathList = apiList.map(api => api.path);

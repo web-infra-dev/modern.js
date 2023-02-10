@@ -77,3 +77,23 @@ module.exports = {
   },
 };
 ```
+
+## 按需使用 Mock 服务
+
+`config/mock/index.ts` 下还可以到处 `config` 对象，更精细的控制 Mock 服务。
+
+```ts
+type MockConfig = {
+  enable: ((req: IncomingMessage, res: ServerResponse) => boolean) | boolean;
+};
+
+export const config = {
+  enable: false
+}
+```
+
+目前仅支持 `enable` 配置，开发者可以通过该配置控制是否执行 Mock。
+
+:::note
+修改 `config` 后无需重启服务，即刻生效。
+:::
