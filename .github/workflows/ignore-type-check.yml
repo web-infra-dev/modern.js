@@ -2,9 +2,17 @@ name: Type Check
 on:
   pull_request:
     branches: [main]
+    paths:
+      - '.changeset/**'
+      - '.vscode/**'
+      - '.github/**'
+      - 'packages/toolkit/main-doc/**'
+      - 'packages/toolkit/module-doc/**'
+      - 'packages/builder/builder-doc/**'
+      - 'website/**'
 
 jobs:
   type-check:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
-      - run: 'echo "No  required"'
+      - run: 'echo "No required"'

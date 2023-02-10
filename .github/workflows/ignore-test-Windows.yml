@@ -1,10 +1,23 @@
 name: Unit Test(Windows)
+
+concurrency:
+  group: windows-test-${{ github.head_ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     branches: [main]
+    paths:
+      - '.changeset/**'
+      - '.vscode/**'
+      - '.github/**'
+      - 'packages/toolkit/main-doc/**'
+      - 'packages/toolkit/module-doc/**'
+      - 'packages/builder/builder-doc/**'
+      - 'website/**'
 
 jobs:
   ut-windows:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
-      - run: 'echo "No  required"'
+      - run: 'echo "No required"'
