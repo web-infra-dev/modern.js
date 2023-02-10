@@ -41,13 +41,13 @@ defineConfig(App, {
       getAppList: async () => {
         // 可以从其他远程接口获取
         return [{
-          name: 'SubConvention',
-          entry: 'http://localhost:3002',
-          // activeWhen: '/SubConvention'
+          name: 'Table',
+          entry: 'http://localhost:8001',
+          // activeWhen: '/table'
         }, {
-          name: 'SubCustom',
-          entry: 'http://localhost:3003'
-          // activeWhen: '/SubConvention'
+          name: 'Dashboard',
+          entry: 'http://localhost:8002'
+          // activeWhen: '/dashboard'
         }];
       },
     },
@@ -81,8 +81,8 @@ import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements, B
 
 const AppLayout = () => (
   <>
-    <div><Link to={'/SubConvention'}>加载约定式路由子应用</Link></div>
-    <div><Link to={'/SubCustom'}>加载自控式路由子应用</Link></div>
+    <div><Link to={'/table'}>加载约定式路由子应用</Link></div>
+    <div><Link to={'/dashboard'}>加载自控式路由子应用</Link></div>
     <div><Link to={'/'}>卸载子应用</Link></div>
     <Outlet />
   </>
@@ -101,7 +101,7 @@ export default () => {
           return (
             <Route
               key={app.name}
-              path={`${app.name}/*`}
+              path={`${app.name.toLowerCase()}/*`}
               element={
               <Component
                 loadable={{
@@ -138,7 +138,7 @@ export default () => {
 };
 ```
 
-这里通过 `Route` 组件自定义了 **SubConvention** 的激活路由为 **/SubConvention**， **SubCustom** 的激活路由为 **/SubCustom**。
+这里通过 `Route` 组件自定义了 **Table** 的激活路由为 **/table**， **Dashboard** 的激活路由为 **/dashboard**。
 
 ### 集中式路由
 
@@ -162,7 +162,7 @@ function App() {
 }
 ```
 
-这样启动应用后，访问 `/SubCustom` 路由，会渲染 `SubCustom` 子应用，访问 `/SubConvention` 路由，会渲染 `SubConvention` 子应用。
+这样启动应用后，访问 `/table` 路由，会渲染 `Table` 子应用，访问 `/dashboard` 路由，会渲染 `Dashboard` 子应用。
 
 ### 两种模式混用
 
@@ -182,7 +182,7 @@ function Loading() {
 
 function App(){
   return <>
-    <SubCustom
+    <Table
       loadable={{
         loading: Loading,
       }}
@@ -229,7 +229,7 @@ function Loading({ error, pastDelay }) {
 
 function App(){
   return <>
-    <SubCustom
+    <Table
       loadable={{
         loading: Loading,
         delay: 300 // 0.3 seconds
@@ -265,7 +265,7 @@ function Loading({ error, timeOut, pastDelay }) {
 
 function App(){
   return <>
-    <SubCustom
+    <Table
       loadable={{
         loading: Loading,
         timeOut: 10000 // 10s
