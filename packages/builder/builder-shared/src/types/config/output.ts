@@ -19,6 +19,8 @@ export type DistPathConfig = {
   media?: string;
   /** The output directory of server bundles when target is `node`. */
   server?: string;
+  /** The output directory of server bundles when target is `service-worker`. */
+  worker?: string;
 };
 
 export type FilenameConfig = {

@@ -1,15 +1,17 @@
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
-import { groupBy } from 'lodash-es';
+import { groupBy, debounce } from 'lodash-es';
 import { getSidebarGroupData } from '../../logic/useSidebarData';
 import { useLocaleSiteData } from '../../logic/useLocaleSiteData';
+import { Tabs, Tab } from '../Tabs';
 import styles from './index.module.scss';
 import SearchSvg from './assets/search.svg';
 import LoadingSvg from './assets/loading.svg';
 import CloseSvg from './assets/close.svg';
-import { MatchResultItem, PageSearcher } from './logic/search';
+import { MatchResult, MatchResultItem, PageSearcher } from './logic/search';
 import { SuggestItem } from './SuggestItem';
-import { usePageData } from '@/runtime';
+import { removeDomain } from './logic/util';
+import { isProduction, usePageData } from '@/runtime';
 
 const KEY_CODE = {
   ARROW_UP: 'ArrowUp',
@@ -19,9 +21,17 @@ const KEY_CODE = {
   ESC: 'Escape',
 };
 
+const RECOMMEND_WORD: Record<string, string> = {
+  zh: '其它站点推荐结果',
+  en: 'Other Site Search Results',
+};
+
 export function Search() {
   const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState<MatchResultItem[]>([]);
+  const [searchResult, setSearchResult] = useState<MatchResult>({
+    current: [],
+    others: [],
+  });
   const [focused, setFocused] = useState(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const [searching, setSearching] = useState(false);
@@ -30,6 +40,11 @@ export function Search() {
   const { siteData, lang } = usePageData();
   const { sidebar } = useLocaleSiteData();
   const { search } = siteData;
+
+  const suggestions = [
+    ...searchResult.current,
+    ...searchResult.others.map(item => item.items),
+  ].flat();
 
   // We need to extract the group name by the link so that we can divide the search result into different groups.
   const extractGroupName = (link: string) =>
@@ -70,8 +85,16 @@ export function Search() {
         case KEY_CODE.ENTER:
           if (currentSuggestionIndex >= 0) {
             const suggestion = suggestions[currentSuggestionIndex];
-            window.location.href = suggestion.link;
-            setFocused(false);
+            const isCurrent =
+              currentSuggestionIndex < searchResult.current.length;
+            if (isCurrent) {
+              window.location.href = isProduction()
+                ? suggestion.link
+                : removeDomain(suggestion.link);
+              setFocused(false);
+            } else {
+              window.open(suggestion.link);
+            }
           }
           break;
         case KEY_CODE.ESC:
@@ -85,11 +108,19 @@ export function Search() {
     return () => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  });
+  }, [
+    setCurrentSuggestionIndex,
+    setFocused,
+    suggestions,
+    currentSuggestionIndex,
+  ]);
 
   useEffect(() => {
-    if (focused && !pageSearcherRef.current) {
-      initPageSearcher();
+    if (focused) {
+      setSearchResult({ current: [], others: [] });
+      if (!pageSearcherRef.current) {
+        initPageSearcher();
+      }
     }
   }, [focused]);
 
@@ -104,25 +135,64 @@ export function Search() {
     setSearching(true);
     const matched = await pageSearcherRef.current?.match(newQuery);
     setSearching(false);
-    setSuggestions(matched || []);
+    setSearchResult(matched || { current: [], others: [] });
   };
-
-  const showNotFound = query && !searching && suggestions.length === 0;
 
   const normalizeSuggestions = (suggestions: MatchResultItem[]) =>
     groupBy(suggestions, 'group');
 
-  const renderSearchResult = () => {
-    const normalizedSuggestions = normalizeSuggestions(suggestions);
-    // accumulateIndex is used to calculate the index of the suggestion in the whole list.
-    let accumulateIndex = -1;
+  // accumulateIndex is used to calculate the index of the suggestion in the whole list.
+  let accumulateIndex = -1;
+
+  const renderSearchResult = (result: MatchResult) => {
+    const hasOtherResult =
+      searchResult.others.map(item => item.items).flat().length > 0;
+    return (
+      <div>
+        {/* current index */}
+        {renderSearchResultItem(result.current)}
+        {/* other indexes */}
+        {hasOtherResult && (
+          <h2 className={styles.groupTitle}>{RECOMMEND_WORD[lang]}</h2>
+        )}
+        <div style={{ marginTop: '-12px' }}>
+          <Tabs
+            values={result.others.map(item => item.index)}
+            tabContainerClassName={styles.tabClassName}
+          >
+            {result.others.map(item => (
+              <Tab key={item.index}>
+                {renderSearchResultItem(item.items, false)}
+              </Tab>
+            ))}
+          </Tabs>
+        </div>
+      </div>
+    );
+  };
+
+  const renderSearchResultItem = (
+    suggestionList: MatchResultItem[],
+    isCurrent = true,
+  ) => {
+    // if no result, show no result
+    if (suggestionList.length === 0) {
+      return (
+        <div flex="~ center" className="mt-4">
+          <div p="2" font="bold" text="md #2c3e50">
+            No results found
+          </div>
+        </div>
+      );
+    }
+    const normalizedSuggestions = normalizeSuggestions(suggestionList);
     return (
       <ul className={styles.suggestList}>
         {Object.keys(normalizedSuggestions).map(group => {
-          const groupSuggestions = normalizedSuggestions[group];
+          const groupSuggestions = normalizedSuggestions[group] || [];
           return (
             <li key={group}>
-              <h2 className={styles.groupTitle}>{group}</h2>
+              {isCurrent && <h2 className={styles.groupTitle}>{group}</h2>}
               <ul>
                 {groupSuggestions.map(suggestion => {
                   accumulateIndex++;
@@ -132,10 +202,13 @@ export function Search() {
                       key={suggestion.link}
                       suggestion={suggestion}
                       isCurrent={suggestionIndex === currentSuggestionIndex}
-                      setCurrentSuggestionIndex={() =>
-                        setCurrentSuggestionIndex(suggestionIndex)
-                      }
+                      setCurrentSuggestionIndex={() => {
+                        setCurrentSuggestionIndex(suggestionIndex);
+                      }}
                       closeSearch={() => setFocused(false)}
+                      inCurrentDocIndex={
+                        suggestionIndex < searchResult.current.length
+                      }
                     />
                   );
                 })}
@@ -187,7 +260,7 @@ export function Search() {
                     aria-label="Search"
                     autoComplete="off"
                     autoFocus
-                    onChange={onQueryChanged}
+                    onChange={debounce(onQueryChanged, 150)}
                   />
                   <label>
                     <CloseSvg
@@ -213,20 +286,13 @@ export function Search() {
 
               {query && suggestions.length ? (
                 <div className={`${styles.searchHits}  modern-scrollbar`}>
-                  {renderSearchResult()}
+                  {renderSearchResult(searchResult)}
                 </div>
               ) : null}
               {searching && (
                 <div flex="~ center">
                   <div p="2" text="sm">
                     <LoadingSvg />
-                  </div>
-                </div>
-              )}
-              {showNotFound && (
-                <div flex="~ center" className="mt-4">
-                  <div p="2" font="bold" text="md #2c3e50">
-                    No results found for &quot;{query}&quot;
                   </div>
                 </div>
               )}

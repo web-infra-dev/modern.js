@@ -116,6 +116,8 @@ export const runTsc = async (
   config: BundlelessGeneratorDtsConfig,
 ) => {
   const { resolveAlias } = await import('../../utils/dts');
+  const { addDtsFiles } = await import('../../utils/print');
   const result = await generatorDts(api, config);
   await resolveAlias(config, result);
+  await addDtsFiles(config.distAbsPath, config.appDirectory);
 };

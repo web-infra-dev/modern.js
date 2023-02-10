@@ -27,11 +27,13 @@ export function Tabs({
   defaultValue,
   onChange,
   children,
+  tabContainerClassName,
 }: {
   values: ReactNode[] | ReadonlyArray<ReactNode> | TabItem[];
   defaultValue?: string;
   onChange?: (index: number) => void;
   children: ReactNode;
+  tabContainerClassName?: string;
 }): ReactElement {
   let tabValues = values || [];
   if (tabValues.length === 0) {
@@ -47,7 +49,7 @@ export function Tabs({
   });
   return (
     <HeadlessTab.Group defaultIndex={defaultIndex} onChange={onChange}>
-      <div>
+      <div className={tabContainerClassName || ''}>
         <HeadlessTab.List className="mt-4 flex w-max min-w-full border-b border-gray-200">
           {tabValues.map((item, index) => {
             const disabled = Boolean(

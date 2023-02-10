@@ -43,8 +43,8 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {
-                "module": 99,
-                "target": 99,
+                "module": "esnext",
+                "target": "esnext",
               },
               "transpileOnly": true,
             },
@@ -95,8 +95,8 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {
-                "module": 99,
-                "target": 99,
+                "module": "esnext",
+                "target": "esnext",
               },
               "transpileOnly": true,
             },

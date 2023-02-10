@@ -1,0 +1,238 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+/* === Header Start === */
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: #000;
+  background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/homepage-bg-0209.png);
+  background-size: cover;
+  background-position: center bottom;
+  background-origin: border-box;
+  height: 100vh;
+  min-height: 700px;
+  max-height: 900px;
+}
+
+.heroBanner {
+  display: flex;
+  width: 80vw;
+  max-width: 1200px;
+  margin-top: 56px;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  align-items: flex-start;
+  padding-top: 20vh;
+}
+
+.title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 3.4rem;
+  line-height: 1.6;
+  color: hsl(198deg 100% 90%);
+}
+
+.titleGradient {
+  background: -webkit-linear-gradient(
+    305deg,
+    hsl(166deg 77% 53%) 10%,
+    hsl(198deg, 100%, 60%)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 8vh;
+}
+
+.leftButton,
+.rightButton {
+  width: 168px;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.startArrow {
+  margin-left: 8px;
+  margin-top: 1px;
+}
+
+.leftButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 48px;
+  height: 48px;
+  background: linear-gradient(274.85deg, #4ecaff 3%, #64cfde 97.17%);
+  box-shadow: 0px 1px 8px rgba(133, 250, 202, 0.34);
+  border-radius: 39px;
+  color: #000000;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+    color: #000;
+  }
+}
+
+.rightButton {
+  display: flex;
+  height: 49px;
+  justify-content: center;
+  align-items: center;
+  background: #0d0d0d;
+  border: 1px solid #4ecaff;
+  box-sizing: border-box;
+  border-radius: 39px;
+  margin-left: 32px;
+  cursor: pointer;
+  color: #4ecaff;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: rgba(132, 218, 255, 1);
+    border: 1px solid #84daff;
+  }
+}
+
+@media (max-width: 1600px) {
+  .logo {
+    width: 420px;
+  }
+
+  .title {
+    font-size: 3.1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/homepage-mobile-bg-0209.png);
+  }
+  .heroBanner {
+    align-items: center;
+  }
+  .title {
+    font-size: 7vw;
+    text-align: center;
+  }
+  .buttons {
+    width: 65%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+  }
+  .leftButton,
+  .rightButton {
+    width: 100%;
+  }
+  .rightButton {
+    margin-left: 0;
+    margin-top: 32px;
+  }
+  .singleImg {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .title {
+    font-size: 9vw;
+  }
+}
+
+/* === Header End === */
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.homepage-main {
+  background-color: #0d0d0d;
+}
+
+.flowContainer {
+  position: relative;
+  width: 1021px;
+  max-width: 100%;
+  margin: 0 auto;
+  height: 1261px;
+  overflow-y: hidden;
+}
+
+.flowLine {
+  position: absolute;
+  width: 95px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.flowLineMobile {
+  left: 30px;
+  width: 37.5px;
+}
+
+.singleImgWrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 48px;
+  border: 1px solid #6f6f6f;
+  border-radius: 8px;
+}
+
+.singleImg {
+  max-width: 910px;
+  object-fit: contain;
+}
+
+.singleImgCard {
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.singleImgCard:hover {
+  background: rgba(78, 202, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+@media screen and (max-width: 700px) {
+  .section-title {
+    font-size: 1rem;
+    font-size: 4vw;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .singleImg {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .flowContainer {
+    height: auto;
+    overflow: visible;
+  }
+}
+
+:global(.modern-doc-logo) {
+  width: auto !important;
+}

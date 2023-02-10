@@ -81,6 +81,10 @@ export const builderPluginAdapterModern = <B extends Bundler>(
       // set bundler config name
       if (target === 'node') {
         chain.name('server');
+      } else if (target === 'service-worker') {
+        chain.name('service-worker');
+      } else if (target === 'web-worker') {
+        chain.name('worker');
       } else if (target === 'modern-web') {
         chain.name('modern');
       } else {
@@ -88,8 +92,8 @@ export const builderPluginAdapterModern = <B extends Bundler>(
       }
 
       // apply node compat
-      if (target === 'node') {
-        applyNodeCompat(chain, normalizedConfig, isProd);
+      if (target === 'node' || target === 'service-worker') {
+        applyNodeCompat(target, chain, normalizedConfig, isProd);
       }
 
       if (isHtmlEnabled(builderConfig, target)) {
@@ -108,7 +112,11 @@ export const builderPluginAdapterModern = <B extends Bundler>(
         });
       }
 
-      if (target !== 'node') {
+      if (
+        target !== 'node' &&
+        target !== 'web-worker' &&
+        target !== 'service-worker'
+      ) {
         const bareServerModuleReg = /\.(server|node)\.[tj]sx?$/;
         chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(bareServerModuleReg);
         chain.module
@@ -125,6 +133,7 @@ export const builderPluginAdapterModern = <B extends Bundler>(
       return (
         config.tools?.htmlPlugin !== false &&
         target !== 'node' &&
+        target !== 'service-worker' &&
         target !== 'web-worker'
       );
     }
@@ -218,15 +227,15 @@ function applyAsyncChunkHtmlPlugin({
 }
 
 /**
- * compat some config, if target is `node`
+ * compat some config, if target is `node` or `worker`
  */
 function applyNodeCompat(
+  target: 'node' | 'service-worker',
   chain: BundlerChain,
   modernConfig: AppNormalizedConfig<'shared'>,
   isProd: boolean,
 ) {
-  // apply node resolve extensions
-  for (const ext of [
+  const nodeExts = [
     '.node.js',
     '.node.jsx',
     '.node.ts',
@@ -235,8 +244,22 @@ function applyNodeCompat(
     '.server.ts',
     '.server.ts',
     '.server.tsx',
-  ]) {
+  ];
+  const webWorkerExts = [
+    '.worker.js',
+    '.worker.jsx',
+    '.worker.ts',
+    '.worker.tsx',
+  ];
+  // apply node resolve extensions
+  for (const ext of nodeExts) {
     chain.resolve.extensions.prepend(ext);
+  }
+
+  if (target === 'service-worker') {
+    for (const ext of webWorkerExts) {
+      chain.resolve.extensions.prepend(ext);
+    }
   }
 
   // apply filterEntriesBySSRConfig

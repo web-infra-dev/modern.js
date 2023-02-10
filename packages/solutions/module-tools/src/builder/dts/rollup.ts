@@ -122,8 +122,11 @@ export const runRollup = async (
   } else {
     try {
       const { rollup } = await import('../../../compiled/rollup');
+      const { addRollupChunk } = await import('../../utils/print');
       const bundle = await rollup(inputConfig);
-      await bundle.write(outputConfig);
+      const rollupOutput = await bundle.write(outputConfig);
+      const { appDirectory } = api.useAppContext();
+      addRollupChunk(rollupOutput, appDirectory, outputConfig.dir!);
       return bundle;
     } catch (e) {
       if (e instanceof Error) {

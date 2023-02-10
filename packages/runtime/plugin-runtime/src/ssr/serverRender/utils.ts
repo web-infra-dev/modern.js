@@ -1,4 +1,4 @@
-import { ChunkExtractor } from '@loadable/server';
+import type { ChunkExtractor } from '@loadable/server';
 
 export function getLoadableScripts(extractor: ChunkExtractor) {
   const check = (scripts: string) =>
@@ -19,16 +19,3 @@ export function getLoadableScripts(extractor: ChunkExtractor) {
       .join('')
   );
 }
-
-const getLatency = (hrtime: [number, number]) => {
-  const [s, ns] = process.hrtime(hrtime);
-  return s * 1e3 + ns / 1e6;
-};
-
-export const time = () => {
-  const hrtime = process.hrtime();
-
-  return () => {
-    return getLatency(hrtime);
-  };
-};

@@ -7,7 +7,6 @@ import { Root } from 'hast';
 import { MDX_REGEXP } from '@/shared/utils';
 
 const { CachedInputFileSystem, ResolverFactory } = enhancedResolve;
-export const IMPORT_FROM_REGEX = /import\s+(.*)from\s+['"](.*)['"];?/;
 let resolver: Resolver;
 const processor = createProcessor();
 
@@ -55,6 +54,7 @@ export async function flattenMdxContent(
   alias: Record<string, string | string[]>,
 ): Promise<string> {
   let result = content;
+
   let ast: Root;
   try {
     ast = processor.parse(content) as Root;
@@ -62,14 +62,21 @@ export async function flattenMdxContent(
     // Fallback: if mdx parse failed, just return the content
     return content;
   }
-  const importNodes = ast.children.filter(node => node.type === 'mdxjsEsm');
+  const importNodes = ast.children
+    .filter(node => node.type === 'mdxjsEsm')
+    .map(node => {
+      result = result.replace((node as { value: string }).value, '');
+      return (node.data?.estree as any)?.body || [];
+    })
+    .flat()
+    .filter(node => node.type === 'ImportDeclaration');
+
   for (const importNode of importNodes) {
-    const importStatement = (importNode as { value: string }).value;
-    const match = importStatement.match(IMPORT_FROM_REGEX);
-    if (!match) {
-      continue;
-    }
-    const [rawImportStatement, id, importPath] = match;
+    // import Comp from './a';
+    // id: Comp
+    // importPath: './a'
+    const id = importNode.specifiers[0].local.name;
+    const importPath = importNode.source.value;
 
     let absoluteImportPath: string;
     try {
@@ -83,14 +90,14 @@ export async function flattenMdxContent(
     }
     if (MDX_REGEXP.test(absoluteImportPath)) {
       // replace import statement with the content of the imported file
-      const importedContent = await fs.readFile(absoluteImportPath, 'utf-8');
-      result = result
-        .replace(rawImportStatement, '')
-        .replace(
-          new RegExp(`<${id}\\s*/>`),
-          await flattenMdxContent(importedContent, absoluteImportPath, alias),
-        );
+      const importedContent = fs.readFileSync(absoluteImportPath, 'utf-8');
+
+      result = result.replace(
+        new RegExp(`<${id}\\s*/>`),
+        await flattenMdxContent(importedContent, absoluteImportPath, alias),
+      );
     }
   }
+
   return result;
 }

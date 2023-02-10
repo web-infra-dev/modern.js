@@ -1,7 +1,7 @@
 import { run } from '@modern-js/utils/ssr';
 import { ServerRenderOptions } from '../types';
 import { PreRender } from '../../react/prerender';
-import { time } from '../utils';
+import { time } from '../time';
 import SSREntry from './entry';
 
 export const render = ({

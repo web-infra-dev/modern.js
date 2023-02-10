@@ -24,8 +24,14 @@ export class RemoteProvider implements Provider {
       keyword,
       limit: limit.toString(),
       searchIndexes: searchIndexes?.join(',') || '',
+      lang: this.#options.currentLang,
     });
-    const result = fetch(`${apiUrl}?${urlParams})`);
-    return (await result).json();
+    try {
+      const result = await fetch(`${apiUrl}?${urlParams}`);
+      return result.json();
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
   }
 }

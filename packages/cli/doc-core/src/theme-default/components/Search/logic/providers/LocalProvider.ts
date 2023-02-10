@@ -6,7 +6,7 @@
 import type { CreateOptions, Index as SearchIndex } from 'flexsearch';
 import FlexSearch from 'flexsearch';
 import { SearchOptions } from '../search';
-import { Provider, SearchQuery } from '../Provider';
+import { LOCAL_INDEX, Provider, SearchQuery } from '../Provider';
 import { normalizeTextCase } from '../util';
 import { SEARCH_INDEX_JSON } from '@/shared/utils';
 import { PageIndexInfo } from '@/shared/types';
@@ -94,6 +94,11 @@ export class LocalProvider implements Provider {
       .flat(2)
       .filter(Boolean) as PageIndexInfo[];
 
-    return flattenSearchResult;
+    return [
+      {
+        index: LOCAL_INDEX,
+        hits: flattenSearchResult,
+      },
+    ];
   }
 }

@@ -10,16 +10,13 @@ import {
   StaticRouterProvider,
 } from 'react-router-dom/server';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { installGlobals } from '@remix-run/node';
 import { createRoutesFromElements } from 'react-router-dom';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
 import type { RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
-
-// Polyfill Web Fetch API
-installGlobals();
+import './fetch';
 
 // TODO: polish
 function createFetchRequest(req: SSRServerContext['request']): Request {
@@ -52,7 +49,7 @@ export function createFetchHeaders(
 ): Headers {
   const headers = new Headers();
 
-  for (const [key, values] of Object.entries(requestHeaders)) {
+  for (const [key, values] of Object.entries(requestHeaders || {})) {
     if (values) {
       if (Array.isArray(values)) {
         for (const value of values) {
