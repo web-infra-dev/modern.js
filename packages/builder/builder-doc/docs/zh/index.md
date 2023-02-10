@@ -3,7 +3,7 @@ pageType: home
 
 hero:
   name: Modern.js Builder
-  tagline: 一个面向 Web 开发场景的构建引擎
+  tagline: 面向 Web 开发场景的构建引擎
   actions:
     - theme: brand
       text: 介绍

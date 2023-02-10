@@ -47,6 +47,5 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   pluginSystem: '插件系统',
   projectGenerator: '项目生成器',
   githubDiscussion: 'Github 讨论区',
-  larkGroup: '飞书交流群',
   changelog: '更新日志',
 };

@@ -77,3 +77,23 @@ export default {
   },
 };
 ```
+
+## Use Mock On Demand
+
+Under the `config/mock/index.ts`, you can also export the `config` to control the Mock service.
+
+```ts
+type MockConfig = {
+  enable: ((req: IncomingMessage, res: ServerResponse) => boolean) | boolean;
+};
+
+export const config = {
+  enable: false
+}
+```
+
+Currently only the `enable` configuration is supported, through which developers can control whether to execute Mock.
+
+:::note
+After modifying `config`, there is no need to restart the service, which will take effect immediately.
+:::

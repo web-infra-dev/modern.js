@@ -9,14 +9,8 @@ on:
   # Triggers the workflow on pull request events but only for the main branch
   pull_request:
     branches: [main]
-    paths-ignore:
-      - '.changeset/**'
-      - '.vscode/**'
-      - '.github/**'
-      - 'packages/toolkit/main-doc/**'
-      - 'packages/toolkit/module-doc/**'
-      - 'packages/builder/builder-doc/**'
-      - 'website/**'
+
+  merge_group:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,19 +35,29 @@ jobs:
       - name: Install Pnpm
         run: npm install -g pnpm@7
 
+      - name: Check docs only change
+        run: echo "::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')"
+        id: docs-change
+
+      - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
+
       - name: Setup Node.js ${{ matrix.node-version }}
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
       - name: Install Dependencies
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm install --ignore-scripts
 
       - name: Test
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm run test:ut
 
       - name: Collect coverage
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         uses: codecov/codecov-action@v3.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

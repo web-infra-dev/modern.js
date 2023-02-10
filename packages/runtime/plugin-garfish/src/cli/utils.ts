@@ -99,8 +99,8 @@ export const makeRenderFunction = (code: string) => {
         'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',
       )
       .replace(
-        `customBootstrap(AppWrapper)`,
-        'customBootstrap(AppWrapper, mountNode)',
+        `customBootstrap(AppWrapper`,
+        'customBootstrap(AppWrapper, mountNode',
       )
   );
 };
