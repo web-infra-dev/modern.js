@@ -36,7 +36,6 @@ export function HomeFeature() {
             border="rounded-md"
             p="b-4 lg:l-0"
             className={`${gridClass ? styles[gridClass] : 'w-full'}`}
-            style={{ display: '1' }}
           >
             <div p="1" className="h-full">
               <article
