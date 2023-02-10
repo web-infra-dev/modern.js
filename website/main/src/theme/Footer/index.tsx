@@ -109,7 +109,7 @@ export default function Footer() {
       <div className={styles.linkTitle}>{linkItem.title}</div>
       <ul className={styles.items}>
         {linkItem.items.map((item, key) => (
-          <li key={item.href || item.to || key} className={styles.link}>
+          <li key={item.to || key} className={styles.link}>
             <FooterLink {...item} />
           </li>
         ))}
