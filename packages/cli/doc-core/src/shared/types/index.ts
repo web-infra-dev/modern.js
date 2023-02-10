@@ -108,7 +108,7 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
   /**
    * Search options
    */
-  search: SearchOptions;
+  search?: SearchOptions;
 }
 
 export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {

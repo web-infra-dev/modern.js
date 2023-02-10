@@ -142,6 +142,9 @@ async function extractPageData(
         // 2. Optimize content index
         const ast = remark.parse({ value: content });
         const { title, toc } = parseToc(ast as Root);
+        if (!title?.length && !frontmatter.title?.length) {
+          return null;
+        }
         const precessor = unified()
           .use(remarkParse)
           .use(remarkPluginContainer)
@@ -172,6 +175,10 @@ async function extractPageData(
             forceWrapOnLimit: true,
           },
         });
+        if (content.startsWith(title)) {
+          // Remove the title from the content
+          content = content.slice(title.length);
+        }
         return {
           id: index,
           title: frontmatter.title || title,

@@ -1,5 +1,5 @@
 import { uniqBy } from 'lodash-es';
-import { Provider } from './Provider';
+import { LOCAL_INDEX, NormalizedSearchResultItem, Provider } from './Provider';
 import { backTrackHeaders, normalizeTextCase } from './util';
 import { LocalProvider } from './providers/LocalProvider';
 import { RemoteProvider } from './providers/RemoteProvider';
@@ -41,6 +41,14 @@ interface ContentMatch extends CommonMatchResult {
 
 export type MatchResultItem = TitleMatch | HeaderMatch | ContentMatch;
 
+export interface MatchResult {
+  current: MatchResultItem[];
+  others: {
+    index: string;
+    items: MatchResultItem[];
+  }[];
+}
+
 export type SearchOptions = UserSearchConfig & {
   currentLang: string;
   extractGroupName: (path: string) => string;
@@ -49,6 +57,8 @@ export type SearchOptions = UserSearchConfig & {
 export class PageSearcher {
   #options: SearchOptions;
 
+  #indexName: string = LOCAL_INDEX;
+
   #provider?: Provider;
 
   constructor(options: SearchOptions) {
@@ -56,6 +66,7 @@ export class PageSearcher {
     switch (options.mode) {
       case 'remote':
         this.#provider = new RemoteProvider();
+        this.#indexName = options.indexName;
         break;
       default:
         this.#provider = new LocalProvider();
@@ -69,9 +80,33 @@ export class PageSearcher {
 
   async match(keyword: string, limit = 7) {
     const searchResult = await this.#provider?.search({ keyword, limit });
-    const matchedResult: MatchResultItem[] = [];
     const normaizedKeyWord = normalizeTextCase(keyword);
-    searchResult?.forEach(item => {
+    const currentIndexInfo = searchResult?.find(res =>
+      this.#isCurrentIndex(res.index),
+    ) || {
+      index: LOCAL_INDEX,
+      hits: [],
+    };
+
+    const matchResult: MatchResult = {
+      current: this.#matchResultItem(normaizedKeyWord, currentIndexInfo),
+      others: (
+        searchResult?.filter(res => !this.#isCurrentIndex(res.index)) || []
+      ).map(res => ({
+        index: res.index,
+        items: this.#matchResultItem(normaizedKeyWord, res),
+      })),
+    };
+
+    return matchResult;
+  }
+
+  #matchResultItem(
+    normaizedKeyWord: string,
+    resultItem: NormalizedSearchResultItem,
+  ) {
+    const matchedResult: MatchResultItem[] = [];
+    resultItem?.hits.forEach(item => {
       // Title Match
       this.#matchTitle(item, normaizedKeyWord, matchedResult);
       // Header match
@@ -213,5 +248,9 @@ export class PageSearcher {
       )}...`;
     }
     return prefix + query + suffix;
+  }
+
+  #isCurrentIndex(index: string) {
+    return index === this.#indexName || index === LOCAL_INDEX;
   }
 }

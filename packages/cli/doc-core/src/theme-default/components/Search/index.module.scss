@@ -185,6 +185,13 @@
   }
 }
 
+.tabClassName {
+  position: sticky;
+  top: 36px;
+  background-color: var(--modern-c-bg-alt);
+  padding-bottom: 6px;
+}
+
 .mobileNavSearchButton {
   display: none;
   align-items: center;
