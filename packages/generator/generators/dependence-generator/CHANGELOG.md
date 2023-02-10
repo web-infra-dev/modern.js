@@ -1,5 +1,7 @@
 # @modern-js/dependence-generator
 
+## 3.0.7-beta.0
+
 ## 3.0.6
 
 ### Patch Changes

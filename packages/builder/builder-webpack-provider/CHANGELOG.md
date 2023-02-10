@@ -1,5 +1,32 @@
 # @modern-js/builder-webpack-provider
 
+## 3.0.0-beta.0
+
+### Minor Changes
+
+- 28e7dc6: feat: more use bunlder chain to modify bundler config
+  feat: 更多的使用 `bunlder chain` 去修改 bunlder 配置
+
+### Patch Changes
+
+- c4c10e7: refactor: refactor rules for static assets processing with rule.oneOf, reuse svg/font/image/media plugin
+
+  refactor: 使用 oneOf 重构静态资源处理规则 & 复用 svg / font / media / img 插件
+
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
+- Updated dependencies [c4c10e7]
+- Updated dependencies [11c053b]
+- Updated dependencies [28e7dc6]
+  - @modern-js/builder-shared@3.0.0-beta.0
+  - @modern-js/utils@3.0.0-beta.0
+  - @modern-js/server@3.0.0-beta.0
+  - @modern-js/babel-preset-app@3.0.0-beta.0
+  - @modern-js/e2e@3.0.0-beta.0
+  - @modern-js/types@3.0.0-beta.0
+
 ## 2.4.0
 
 ### Minor Changes

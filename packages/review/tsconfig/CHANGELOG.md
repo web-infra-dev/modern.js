@@ -1,5 +1,7 @@
 # @modern-js/tsconfig
 
+## 3.0.0-beta.0
+
 ## 2.4.0
 
 ## 2.3.0

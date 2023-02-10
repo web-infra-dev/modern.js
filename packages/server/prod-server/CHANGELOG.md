@@ -1,5 +1,17 @@
 # @modern-js/prod-server
 
+## 3.0.0-beta.0
+
+### Patch Changes
+
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
+- Updated dependencies [11c053b]
+  - @modern-js/server-core@3.0.0-beta.0
+  - @modern-js/utils@3.0.0-beta.0
+
 ## 2.4.0
 
 ### Patch Changes
