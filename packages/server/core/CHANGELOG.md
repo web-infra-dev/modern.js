@@ -1,5 +1,17 @@
 # @modern-js/server-plugin
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
+- Updated dependencies [11c053b]
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/plugin@3.0.0-next.0
+
 ## 2.4.0
 
 ### Patch Changes

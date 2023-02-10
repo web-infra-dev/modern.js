@@ -1,5 +1,13 @@
 # @modern-js/builder-plugin-node-polyfill
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
 ## 2.4.0
 
 ## 2.3.0

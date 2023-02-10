@@ -1,5 +1,19 @@
 # @modern-js/builder
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- c4c10e7: refactor: refactor rules for static assets processing with rule.oneOf, reuse svg/font/image/media plugin
+
+  refactor: 使用 oneOf 重构静态资源处理规则 & 复用 svg / font / media / img 插件
+
+- Updated dependencies [c4c10e7]
+- Updated dependencies [11c053b]
+- Updated dependencies [28e7dc6]
+  - @modern-js/builder-shared@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+
 ## 2.4.0
 
 ### Patch Changes
