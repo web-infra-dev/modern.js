@@ -21,7 +21,7 @@ interface ServerInstance {
 export default (): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
-    const { dev, build } = await import('@modern-js/doc-core');
+    const { dev, build, serve } = await import('@modern-js/doc-core');
     let server: ServerInstance | undefined;
     let startServer: ((isFirst?: boolean) => Promise<void>) | undefined;
     return {
@@ -72,6 +72,16 @@ export default (): CliPlugin => ({
           .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
             await build(root || '', config);
+          });
+
+        program
+          .command('preview [root]')
+          .description('preview in production')
+          .option('--port [port]', 'port number')
+          .option('--host [host]', 'hostname')
+          .action(async (root?: string) => {
+            const config = api.useConfigContext() as UserConfig;
+            await serve(root || '', config);
           });
       },
     };
