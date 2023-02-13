@@ -61,7 +61,7 @@ export type RouterConfig = Partial<HistoryConfig> & {
     globalApp?: React.ComponentType<any>;
     routes?: SingleRouteConfig[];
   };
-  createRoutes?: () => JSX.Element;
+  createRoutes?: () => React.ComponentType<any> | null;
   history?: History;
   serverBase?: string[];
 };
@@ -108,11 +108,11 @@ export const routerPlugin = ({
 
               return (props: any) => (
                 <Router history={history}>
-                  <App {...props}>
-                    {createRoutes
-                      ? createRoutes()
-                      : renderRoutes(routesConfig, props)}
-                  </App>
+                  {createRoutes ? (
+                    <App {...props} Component={createRoutes()} />
+                  ) : (
+                    <App {...props}>{renderRoutes(routesConfig, props)}</App>
+                  )}
                 </Router>
               );
             }
@@ -133,11 +133,11 @@ export const routerPlugin = ({
                   location={location}
                   context={routerContext}
                 >
-                  <App {...props}>
-                    {createRoutes
-                      ? createRoutes()
-                      : renderRoutes(routesConfig, props)}
-                  </App>
+                  {createRoutes ? (
+                    <App {...props} Component={createRoutes()} />
+                  ) : (
+                    <App {...props}>{renderRoutes(routesConfig, props)}</App>
+                  )}
                 </StaticRouter>
               );
             };
