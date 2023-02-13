@@ -61,6 +61,7 @@ export const enableRegister = (
     });
     tsNode.register({
       project: tsconfigPath,
+      scope: true,
       // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
       files: true,
       transpileOnly: true,
