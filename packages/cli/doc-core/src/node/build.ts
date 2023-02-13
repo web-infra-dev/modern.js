@@ -1,9 +1,10 @@
 import { dirname, join } from 'path';
 import { HelmetData } from 'react-helmet-async';
-import { PageData, UserConfig, DocPlugin } from 'shared/types';
+import { PageData, UserConfig } from 'shared/types';
 import { OUTPUT_DIR, APP_HTML_MARKER, HEAD_MARKER } from './constants';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
+import { modifyConfig, beforeBuild, afterBuild } from './hooks';
 import { normalizeSlash } from '@/shared/utils';
 import type { Route } from '@/node/route/RouteService';
 
@@ -88,50 +89,24 @@ export async function renderPages(config: UserConfig) {
   await fs.remove(join(outputPath, 'html', 'main', 'index.html'));
 }
 
-/**
- * Modify doc config
- * @param config
- * @param plugins
- * @returns doc config
- */
-export async function modifyConfig(config: UserConfig, plugins: DocPlugin[]) {
-  for (const plugin of plugins) {
-    if (typeof plugin.config === 'function') {
-      config.doc = await plugin.config(config.doc || {});
-    }
-  }
-
-  return config;
-}
-
-export async function beforeBuild(config: UserConfig, plugins: DocPlugin[]) {
-  // beforeBuild hooks
-  return await Promise.all(
-    plugins
-      .filter(plugin => typeof plugin.beforeBuild === 'function')
-      .map(plugin => {
-        return plugin.beforeBuild!(config.doc || {});
-      }),
-  );
-}
-
-export async function afterBuild(config: UserConfig, plugins: DocPlugin[]) {
-  // afterBuild hooks
-  return await Promise.all(
-    plugins
-      .filter(plugin => typeof plugin.afterBuild === 'function')
-      .map(plugin => {
-        return plugin.afterBuild!(config.doc || {});
-      }),
-  );
-}
-
 export async function build(rootDir: string, config: UserConfig) {
   const docPlugins = [...(config.doc?.plugins ?? [])];
-  const modifiedConfig = await modifyConfig(config, docPlugins);
+  const isProd = true;
+  const modifiedConfig = await modifyConfig({
+    config,
+    docPlugins,
+  });
 
-  await beforeBuild(modifiedConfig, docPlugins);
+  await beforeBuild({
+    config: modifiedConfig,
+    docPlugins,
+    isProd,
+  });
   await bundle(rootDir, modifiedConfig);
   await renderPages(modifiedConfig);
-  await afterBuild(modifiedConfig, docPlugins);
+  await afterBuild({
+    config: modifiedConfig,
+    docPlugins,
+    isProd,
+  });
 }

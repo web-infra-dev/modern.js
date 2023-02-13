@@ -37,9 +37,9 @@ export interface DocPlugin {
   /**
    * Callback before build
    */
-  beforeBuild?: (config: DocConfig) => Promise<void>;
+  beforeBuild?: (config: DocConfig, isProd: boolean) => Promise<void>;
   /**
    * Callback after build
    */
-  afterBuild?: (config: DocConfig) => Promise<void>;
+  afterBuild?: (config: DocConfig, isProd: boolean) => Promise<void>;
 }
