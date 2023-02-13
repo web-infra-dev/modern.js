@@ -157,7 +157,8 @@ export const isHtmlDisabled = (
 ) =>
   (config.tools as { htmlPlugin: boolean }).htmlPlugin === false ||
   target === 'node' ||
-  target === 'web-worker';
+  target === 'web-worker' ||
+  target === 'service-worker';
 
 async function getChunks(entryName: string, entryValue: string | string[]) {
   const { isPlainObject } = await import('@modern-js/utils');
