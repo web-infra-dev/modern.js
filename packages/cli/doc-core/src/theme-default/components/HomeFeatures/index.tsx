@@ -43,7 +43,7 @@ export function HomeFeature() {
                 h="full"
                 p="6"
                 bg="soft"
-                border="~ bg-soft solid rounded-xl"
+                border="~ bg-soft rounded-xl dark:transparent"
               >
                 <div
                   flex="~ center"
