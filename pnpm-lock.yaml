@@ -120,7 +120,7 @@ importers:
       '@scripts/vitest-config': workspace:*
       '@types/node': ^14
       autoprefixer: ^10.4.8
-      caniuse-lite: ^1.0.30001332
+      caniuse-lite: ^1.0.30001451
       postcss: 8.4.21
       typescript: ^4
       webpack-sources: ^3.2.3
@@ -134,7 +134,7 @@ importers:
       '@rspack/dev-middleware': 0.0.0-3e414439-20230209031527
       '@rspack/plugin-html': 0.0.0-3e414439-20230209031527
       '@rspack/postcss-loader': 0.0.0-3e414439-20230209031527
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       webpack-sources: 3.2.3
     devDependencies:
       '@modern-js/e2e': link:../../toolkit/e2e
@@ -195,7 +195,7 @@ importers:
       '@types/caniuse-lite': ^1.0.1
       '@types/node': ^14
       acorn: ^8.8.1
-      caniuse-lite: ^1.0.30001434
+      caniuse-lite: ^1.0.30001451
       cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 4.2.2
       cssnano: ^5.1.12
@@ -219,7 +219,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.9_xsftmjzvfioxqs4ify53ibh7ay
       acorn: 8.8.1
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 4.2.2_webpack@5.75.0
       cssnano: 5.1.12_postcss@8.4.21
@@ -3457,13 +3457,13 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      caniuse-lite: ^1.0.30001332
+      caniuse-lite: ^1.0.30001451
       jest: ^27
       lodash: ^4.17.21
       typescript: ^4
       webpack: ^5.75.0
     dependencies:
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       lodash: 4.17.21
     devDependencies:
       '@modern-js/types': link:../types
@@ -10745,7 +10745,7 @@ packages:
   /@modern-js/utils/1.21.5:
     resolution: {integrity: sha512-mZ3uwLNge37FAiwvLAn33nNRt5cC/LDHVMjVw4VR1jaS/eSaKShJbHn/WdQyyFexZHZzPbZewPGtY2z94378zw==}
     dependencies:
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       lodash: 4.17.21
 
   /@mrmlnc/readdir-enhanced/2.2.1:
@@ -15399,7 +15399,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.4
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -15414,7 +15414,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.4
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -15427,7 +15427,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.4
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       picocolors: 0.2.1
@@ -16169,7 +16169,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       electron-to-chromium: 1.4.284
       escalade: 3.1.1
       node-releases: 2.0.6
@@ -16181,7 +16181,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       electron-to-chromium: 1.4.284
       node-releases: 2.0.6
       update-browserslist-db: 1.0.10_browserslist@4.21.4
@@ -16463,12 +16463,12 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.21.4
-      caniuse-lite: 1.0.30001434
+      caniuse-lite: 1.0.30001451
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
-  /caniuse-lite/1.0.30001434:
-    resolution: {integrity: sha512-aOBHrLmTQw//WFa2rcF1If9fa3ypkC1wzqqiKHgfdrXTWcU8C4gKVZT77eQAPWN1APys3+uQ0Df07rKauXGEYA==}
+  /caniuse-lite/1.0.30001451:
+    resolution: {integrity: sha512-XY7UbUpGRatZzoRft//5xOa69/1iGJRBlrieH6QYrkKLIFn3m7OVEJ81dSrKoy2BnKsdbX5cLrOispZNYo9v2w==}
 
   /capture-exit/2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==}
