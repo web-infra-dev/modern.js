@@ -138,5 +138,8 @@ export const generateAsyncEntry = (code: string) => {
         return exports.provider.apply(null, args);
       };
       ${transformCode}
+      if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
+        __GARFISH_EXPORTS__.provider = provider;
+      }
     `;
 };
