@@ -11,9 +11,11 @@ import * as ssr from './ssr';
 export const createRenderHandler = ({
   distDir,
   staticGenerate,
+  forceCSR,
 }: {
   distDir: string;
   staticGenerate: boolean;
+  forceCSR?: boolean;
 }) =>
   async function render({
     ctx,
@@ -48,7 +50,8 @@ export const createRenderHandler = ({
     }
 
     // handles ssr first
-    if (route.isSSR) {
+    const useCSR = forceCSR && ctx.query.csr;
+    if (route.isSSR && !useCSR) {
       try {
         const result = await ssr.render(
           ctx,
