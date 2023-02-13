@@ -48,7 +48,6 @@ async function modifyWebpackConfig(
 ) {
   debug('modify webpack config');
   const { applyOptionsChain } = await import('@modern-js/utils');
-  const { merge } = await import('../../compiled/webpack-merge');
 
   let [modifiedConfig] = await context.hooks.modifyWebpackConfigHook.call(
     webpackConfig,
@@ -60,7 +59,7 @@ async function modifyWebpackConfig(
       modifiedConfig,
       context.config.tools.webpack,
       utils,
-      merge,
+      utils.mergeConfig,
     );
   }
 
@@ -99,12 +98,16 @@ async function getChainUtils(
   };
 }
 
-function getConfigUtils(
+async function getConfigUtils(
   config: WebpackConfig,
   chainUtils: ModifyWebpackChainUtils,
-): ModifyWebpackConfigUtils {
+): Promise<ModifyWebpackConfigUtils> {
+  const { merge } = await import('../../compiled/webpack-merge');
+
   return {
     ...chainUtils,
+
+    mergeConfig: merge,
 
     addRules(rules: RuleSetRule | RuleSetRule[]) {
       const ruleArr = castArray(rules);
@@ -167,7 +170,7 @@ export async function generateWebpackConfig({
   webpackConfig = await modifyWebpackConfig(
     context,
     webpackConfig,
-    getConfigUtils(webpackConfig, chainUtils),
+    await getConfigUtils(webpackConfig, chainUtils),
   );
 
   return webpackConfig;

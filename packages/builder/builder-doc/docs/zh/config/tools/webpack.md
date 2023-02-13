@@ -7,7 +7,7 @@
 
 ### Object 类型
 
-你可以配置为一个对象，这个对象将会和原始的 webpack 配置通过 `webpack-merge` 进行合并。比如：
+你可以配置为一个对象，这个对象将会和原始的 webpack 配置通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 进行合并。比如：
 
 ```js
 export default {
@@ -265,6 +265,24 @@ export default {
   tools: {
     webpack: (config, { removePlugin }) => {
       removePlugin('ForkTsCheckerWebpackPlugin');
+    },
+  },
+};
+```
+
+### mergeConfig
+
+- **类型：** `(...configs: WebpackConfig[]) => WebpackConfig`
+
+用于合并多份 webpack 配置，等价于 [webpack-merge](https://github.com/survivejs/webpack-merge)。
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { mergeConfig }) => {
+      return mergeConfig(config, {
+        devtool: 'eval',
+      });
     },
   },
 };
