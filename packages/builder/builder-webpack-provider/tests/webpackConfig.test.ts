@@ -75,6 +75,24 @@ describe('webpackConfig', () => {
     expect(config).toMatchSnapshot();
   });
 
+  it('should provide mergeConfig util in tools.webpack function', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginBasic()],
+      builderConfig: {
+        tools: {
+          webpack: (config, { mergeConfig }) => {
+            return mergeConfig(config, {
+              devtool: 'eval',
+            });
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
+
   it('should allow to use tools.webpackChain to modify config', async () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginBasic()],

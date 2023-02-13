@@ -20,6 +20,7 @@ export type ModifyWebpackConfigUtils = ModifyWebpackChainUtils & {
     plugins: WebpackPluginInstance | WebpackPluginInstance[],
   ) => void;
   removePlugin: (pluginName: string) => void;
+  mergeConfig: typeof import('../../compiled/webpack-merge').merge;
 };
 
 export type ModifyWebpackChainFn = (

@@ -146,3 +146,25 @@ exports[`webpackConfig > should allow tools.webpackChain to be an array 1`] = `
   },
 }
 `;
+
+exports[`webpackConfig > should provide mergeConfig util in tools.webpack function 1`] = `
+{
+  "context": "<ROOT>",
+  "devtool": "eval",
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+  },
+  "performance": {
+    "maxAssetSize": 3000000,
+    "maxEntrypointSize": 3000000,
+  },
+}
+`;
