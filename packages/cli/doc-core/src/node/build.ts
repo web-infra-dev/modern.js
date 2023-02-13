@@ -1,6 +1,6 @@
 import { dirname, join } from 'path';
 import { HelmetData } from 'react-helmet-async';
-import { PageData, UserConfig } from 'shared/types';
+import { PageData, UserConfig, DocPlugin } from 'shared/types';
 import { OUTPUT_DIR, APP_HTML_MARKER, HEAD_MARKER } from './constants';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
@@ -88,16 +88,14 @@ export async function renderPages(config: UserConfig) {
   await fs.remove(join(outputPath, 'html', 'main', 'index.html'));
 }
 
-export async function modifyConfig(config: UserConfig) {
-  const docPlugins = [];
-
-  // Add plugins
-  if (config.doc?.plugins) {
-    docPlugins.push(...config.doc.plugins);
-  }
-
-  // Modify doc config
-  for (const plugin of docPlugins) {
+/**
+ * Modify doc config
+ * @param config
+ * @param plugins
+ * @returns doc config
+ */
+export async function modifyConfig(config: UserConfig, plugins: DocPlugin[]) {
+  for (const plugin of plugins) {
     if (typeof plugin.config === 'function') {
       config.doc = await plugin.config(config.doc || {});
     }
@@ -106,29 +104,34 @@ export async function modifyConfig(config: UserConfig) {
   return config;
 }
 
-export async function beforeBuild(config: UserConfig) {
+export async function beforeBuild(config: UserConfig, plugins: DocPlugin[]) {
   // beforeBuild hooks
-  for (const plugin of config.doc?.plugins || []) {
-    if (typeof plugin.beforeBuild === 'function') {
-      await plugin.beforeBuild(config.doc || {});
-    }
-  }
+  return await Promise.all(
+    plugins
+      .filter(plugin => typeof plugin.beforeBuild === 'function')
+      .map(plugin => {
+        return plugin.beforeBuild!(config.doc || {});
+      }),
+  );
 }
 
-export async function afterBuild(config: UserConfig) {
+export async function afterBuild(config: UserConfig, plugins: DocPlugin[]) {
   // afterBuild hooks
-  for (const plugin of config.doc?.plugins || []) {
-    if (typeof plugin.afterBuild === 'function') {
-      await plugin.afterBuild();
-    }
-  }
+  return await Promise.all(
+    plugins
+      .filter(plugin => typeof plugin.afterBuild === 'function')
+      .map(plugin => {
+        return plugin.afterBuild!(config.doc || {});
+      }),
+  );
 }
 
 export async function build(rootDir: string, config: UserConfig) {
-  const modifiedConfig = await modifyConfig(config);
+  const docPlugins = [...(config.doc?.plugins ?? [])];
+  const modifiedConfig = await modifyConfig(config, docPlugins);
 
-  await beforeBuild(modifiedConfig);
+  await beforeBuild(modifiedConfig, docPlugins);
   await bundle(rootDir, modifiedConfig);
   await renderPages(modifiedConfig);
-  await afterBuild(modifiedConfig);
+  await afterBuild(modifiedConfig, docPlugins);
 }

@@ -41,5 +41,5 @@ export interface DocPlugin {
   /**
    * Callback after build
    */
-  afterBuild?: () => Promise<void>;
+  afterBuild?: (config: DocConfig) => Promise<void>;
 }
