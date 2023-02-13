@@ -52,7 +52,7 @@ export function HomeFeature() {
                   h="12"
                   text="3xl"
                   bg="gray-light-4 dark:bg-white"
-                  border="~ bg-soft rounded-md"
+                  border="rounded-md"
                 >
                   {icon}
                 </div>
