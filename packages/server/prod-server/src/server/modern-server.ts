@@ -244,8 +244,8 @@ export class ModernServer implements ModernServerInterface {
   }
 
   public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
-    req.logger = this.logger;
-    req.metrics = this.metrics;
+    req.logger = req.logger || this.logger;
+    req.metrics = req.metrics || this.metrics;
     const context = createContext(req, res);
     const matched = this.router.match(url || context.path);
     if (!matched) {
@@ -375,6 +375,7 @@ export class ModernServer implements ModernServerInterface {
         pwd: workDir,
         config: extension,
         prefix: Array.isArray(prefix) ? prefix[0] : prefix,
+        render: this.render.bind(this),
       },
       { onLast: () => null as any },
     );
@@ -423,8 +424,9 @@ export class ModernServer implements ModernServerInterface {
 
     bundles.forEach(bundle => {
       const filepath = path.join(distDir, bundle as string);
-      // if error, just throw and let process die
-      require(filepath);
+      if (fs.existsSync(filepath)) {
+        require(filepath);
+      }
     });
   }
 
@@ -647,8 +649,8 @@ export class ModernServer implements ModernServerInterface {
     },
   ) {
     res.statusCode = 200;
-    req.logger = this.logger;
-    req.metrics = this.metrics;
+    req.logger = req.logger || this.logger;
+    req.metrics = req.metrics || this.metrics;
     let context: ModernServerContext;
     try {
       context = this.createContext(req, res);

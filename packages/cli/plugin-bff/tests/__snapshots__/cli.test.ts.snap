@@ -48,3 +48,22 @@ Array [
   ],
 ]
 `;
+
+exports[`bff cli plugin schema 2`] = `
+Object {
+  "routes": Array [
+    Object {
+      "entryPath": "",
+      "isApi": true,
+      "urlPath": "/",
+    },
+    Object {
+      "entryPath": "",
+      "isApi": true,
+      "isSPA": false,
+      "isSSR": false,
+      "urlPath": "/api",
+    },
+  ],
+}
+`;
