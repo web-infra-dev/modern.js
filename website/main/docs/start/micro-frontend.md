@@ -290,30 +290,30 @@ export default TableList;
 
 ![demo](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/micro-frontend-demo.gif)
 
-## 微前端子应用模式
+## Modern.js 微前端和直接使用 Garfish 的区别
 
-上面的调试演示需要在本地分别启动主应用、和子应用，作为独立负责大型项目中一个子应用开发的团队/个人来说，需要在本地启动庞大的主应用，以及可能需要启动其它相关子应用进行调试，使得开发体验降低。
+使用纯 Garfish API 开发微前端应用时 
+- 主应用：
+  - 安装 Garfish 依赖并使用 Garfish.run 注册子应用 [参考](https://www.garfishjs.org/api/run)
+  - 提供一个常驻的 DOM 节点供子应用挂载 [参考](https://www.garfishjs.org/api/registerApp#domgetter)
+- 子应用：
+  - 导出 provider [参考](https://www.garfishjs.org/guide/start#2%E5%AF%BC%E5%87%BA-provider-%E5%87%BD%E6%95%B0)
+  - 设置应用的 basename [参考](https://www.garfishjs.org/guide/start#3-%E8%AE%BE%E7%BD%AE%E5%BA%94%E7%94%A8%E8%B7%AF%E7%94%B1-basename)
 
-Modern.js 中支持使用线上的主应用来调试本地子应用，首选需要配置主应用开启调试模式：
-
-```js title="modern.config.js"
-export default defineConfig({
-  runtime: {
-    // ...
-  },
-  server: {
-    enableMicroFrontendDebug: true,
-  },
-});
-```
-
-配置 `server.enableMicroFrontendDebug` 为 `true` 开启线上调试模式。
-
-假设主应用线上域名为 `http://master.example.com`，当前 `TableList` 服务启动在 `http://localhost:8082`
-
-访问 `http://master.example.com?__debug__micro-frontend-module-name=TableList&__debug__micro-frontend-module-entry=http://localhost:8082`，在跳转到 `/table` 路由的时候，将会加载本地的子应用资源。
-
-除了通过 Query 的方式传递子应用调试信息，Modern.js 也支持 Mock Header 的方式，更多信息请看 [微前端子应用调试](/docs/guides/features/micro-frontend/debugging)
+区别于直接使用 Garfish 运行时 API 开发微前端项目，Modern.js 的微前端方案更加开箱即用。
+使用 pnpm new 启用微前端模式后会自动在 Modern.js 应用中集成 Garfish 插件，在 Garfish
+插件的加持下，你只需要
+- 主应用：
+  - 配置 runtime.masterApp.apps 参数注册子应用
+  - 使用 useModuleApps API 获取子应用实例并在组件中完成渲染
+- 子应用：
+  - 配置 deploy.microFrontend 
+  
+所以插件中为你做了如下事情
+  - 帮助你通过 Garfish 运行时 API 自动注册子应用（主应用）
+  - useModulesApps 函数的返回值提供了一个常驻的 DOM 节点供子应用挂载（主应用）
+  - 帮助你正确导出了 provider（子应用）
+  - 帮助你正确设置了 basename 给 Modern.js 运行时提供 Router 实例，如果是手动引入的 react-router-dom 那么需要从 App.tsx 的 props 中获取 basename 手动传递给引入的 Router 实例（子应用）
 
 ## 部署
 
