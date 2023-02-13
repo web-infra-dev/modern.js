@@ -1,6 +1,7 @@
 import path, { join, resolve } from 'path';
 import fs from '@modern-js/utils/fs-extra';
 import chalk from '@modern-js/utils/chalk';
+import { logger } from '@modern-js/utils/logger';
 import { RequestHandler } from '@modern-js/types';
 import fetch from 'node-fetch';
 import { isProduction, OUTPUT_DIR, PUBLIC_DIR } from './constants';
@@ -23,15 +24,14 @@ export async function writeSearchIndex(rootDir: string, config: UserConfig) {
           body: indexData,
           headers: { 'Content-Type': 'application/json' },
         });
-        // eslint-disable-next-line no-console
-        console.log(
+
+        logger.info(
           chalk.green(
             `[doc-tools] Search index uploaded to ${apiUrl}, indexName: ${indexName}`,
           ),
         );
       } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(
+        logger.info(
           chalk.red(
             `[doc-tools] Upload search index \`${indexName}\` failed:\n ${e}`,
           ),

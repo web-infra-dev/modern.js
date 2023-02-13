@@ -36,15 +36,18 @@ export function HomeHero() {
           >
             <span className={styles.clip}>{hero.name}</span>
           </h1>
-          <p
-            m="x-auto md:0"
-            text="3xl sm:5xl md:6xl"
-            font="bold"
-            p="b-2"
-            className="max-w-392px sm:max-w-576px"
-          >
-            {hero.text}
-          </p>
+          {hero.text?.length && (
+            <p
+              m="x-auto md:0"
+              text="3xl sm:5xl md:6xl"
+              font="bold"
+              p="b-2"
+              className="max-w-392px sm:max-w-576px"
+            >
+              {hero.text}
+            </p>
+          )}
+
           <p
             p="t-4"
             m="auto md:0"

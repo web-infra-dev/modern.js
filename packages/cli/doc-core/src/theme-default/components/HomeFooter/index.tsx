@@ -5,6 +5,7 @@ export function Footer() {
   const { message } = siteData.themeConfig.footer || {};
   return (
     <footer
+      m="t-12"
       p="y-8 x-6 sm:8"
       bg="white"
       pos="relative"
