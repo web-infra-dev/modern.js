@@ -4,6 +4,7 @@ import { PageData, UserConfig } from 'shared/types';
 import { OUTPUT_DIR, APP_HTML_MARKER, HEAD_MARKER } from './constants';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
+import { modifyConfig, beforeBuild, afterBuild } from './hooks';
 import { normalizeSlash } from '@/shared/utils';
 import type { Route } from '@/node/route/RouteService';
 
@@ -89,6 +90,23 @@ export async function renderPages(config: UserConfig) {
 }
 
 export async function build(rootDir: string, config: UserConfig) {
-  await bundle(rootDir, config);
-  await renderPages(config);
+  const docPlugins = [...(config.doc?.plugins ?? [])];
+  const isProd = true;
+  const modifiedConfig = await modifyConfig({
+    config,
+    docPlugins,
+  });
+
+  await beforeBuild({
+    config: modifiedConfig,
+    docPlugins,
+    isProd,
+  });
+  await bundle(rootDir, modifiedConfig);
+  await renderPages(modifiedConfig);
+  await afterBuild({
+    config: modifiedConfig,
+    docPlugins,
+    isProd,
+  });
 }

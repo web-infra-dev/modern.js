@@ -20,7 +20,7 @@ export default {
 };
 ```
 
-## Port placeholder
+### Port placeholder
 
 Since the port number may change, you can use the `<port>` placeholder to refer to the current port number, and Builder will automatically replace the placeholder with the actual listening port number.
 
