@@ -43,7 +43,7 @@ export function HomeFeature() {
                 h="full"
                 p="6"
                 bg="soft"
-                border="~ bg-soft solid rounded-xl"
+                border="~ bg-soft rounded-xl dark:transparent"
               >
                 <div
                   flex="~ center"
@@ -52,7 +52,7 @@ export function HomeFeature() {
                   h="12"
                   text="3xl"
                   bg="gray-light-4 dark:bg-white"
-                  border="rounded-md"
+                  border="~ bg-soft rounded-md"
                 >
                   {icon}
                 </div>

@@ -17,6 +17,11 @@ interface Group {
   items: GroupItem[];
 }
 
+// The sidebar data include two types: sidebar item and sidebar group.
+// In overpage page, we select all the related sidebar groups and show the groups in the page.
+// In the meantime, some sidebar items also should be shown in the page, we collect them in the group named 'Others' and show them in the page.
+const DEFAULT_GROUP = 'Others';
+
 export function Overview() {
   const { routePath, siteData } = usePageData();
   const { pages } = siteData;
@@ -28,39 +33,49 @@ export function Overview() {
   const { items: overviewSidebarGroups } = useSidebarData() as {
     items: (NormalizedSidebarGroup | SidebarItem)[];
   };
+  function normalizeSidebarItem(item: NormalizedSidebarGroup | SidebarItem) {
+    const pageModule = overviewModules.find(m =>
+      isEqualPath(m.routePath, withBase(item.link || '')),
+    );
+    const getChildLink = (
+      traverseItem: SidebarItem | NormalizedSidebarGroup,
+    ): string => {
+      if (traverseItem.link) {
+        return traverseItem.link;
+      }
+      if ('items' in traverseItem) {
+        return getChildLink(traverseItem.items[0]);
+      }
+      return '';
+    };
+    const link = getChildLink(item);
+    return {
+      ...item,
+      link,
+      headers:
+        (pageModule?.toc as Header[])?.filter(header => header.depth === 2) ||
+        [],
+    };
+  }
   const groups = useMemo(() => {
-    return overviewSidebarGroups
+    const group = overviewSidebarGroups
       .filter(item => 'items' in item)
       .map(sidebarGroup => ({
         name: sidebarGroup.text || '',
         items: (sidebarGroup as NormalizedSidebarGroup).items.map(
-          (item: NormalizedSidebarGroup | SidebarItem) => {
-            const pageModule = overviewModules.find(m =>
-              isEqualPath(m.routePath, withBase(item.link || '')),
-            );
-            const getChildLink = (
-              traverseItem: SidebarItem | NormalizedSidebarGroup,
-            ): string => {
-              if (traverseItem.link) {
-                return traverseItem.link;
-              }
-              if ('items' in traverseItem) {
-                return getChildLink(traverseItem.items[0]);
-              }
-              return '';
-            };
-            const link = getChildLink(item);
-            return {
-              ...item,
-              link,
-              headers:
-                (pageModule?.toc as Header[])?.filter(
-                  header => header.depth === 2,
-                ) || [],
-            };
-          },
+          normalizeSidebarItem,
         ),
       })) as Group[];
+    const singleLinks = overviewSidebarGroups.filter(
+      item => !('items' in item),
+    );
+    return [
+      ...group,
+      {
+        name: DEFAULT_GROUP,
+        items: singleLinks.map(normalizeSidebarItem),
+      },
+    ];
   }, [overviewSidebarGroups]);
 
   return (
@@ -71,7 +86,13 @@ export function Overview() {
 
       {groups.map(group => (
         <div m="b-16" key={group.name}>
-          <h2>{group.name}</h2>
+          {/* If there is no sidebar group, we show the sidebar items directly and hide the group name */}
+          {group.name === DEFAULT_GROUP && groups.length === 1 ? (
+            <h2 style={{ paddingTop: 0 }}></h2>
+          ) : (
+            <h2>{group.name}</h2>
+          )}
+
           <div className={styles.overviewGroups}>
             {group.items.map(item => (
               <div className={styles.overviewGroup} key={item.link}>

@@ -137,7 +137,7 @@ async function createInternalBuildConfig(
           });
         }
 
-        chain.resolve.extensions.merge(['.mdx', '.md', '.ts', '.tsx']);
+        chain.resolve.extensions.prepend('.md').prepend('.mdx');
       },
       webpack(webpackConfig) {
         webpackConfig.plugins!.push(
