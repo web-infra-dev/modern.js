@@ -68,6 +68,10 @@ pnpm test
 npx @modern-js/create your-project-dir-name
 ```
 
+:::info
+Execute `npx @modern-js/create -h` for more command line arguments
+:::
+
 Next, in the issue interaction, follow the options below.
 
 ```bash
@@ -88,5 +92,5 @@ We can start the project build directly with the `pnpm build` command, and start
 Choose your tutorial scenario...
 
 - I'm a beginner and need to learn [basic usage](/en/guide/basic/before-getting-started) of Module Tools.
-- I have learned the basic usage of Module Tools and can learn [advanced usage](/en/guide/basic/before-getting-started) of Module Tools.
-- I am the maintainer of the project and need to learn how to develop plugins for Module Tools and learn more about Module Tools Advanced.
+- I have learned the basic usage of Module Tools and can learn [advanced usage](/en/guide/advance/in-depth-about-build) of Module Tools.
+- I need to expand my project capabilities and need to learn how to develop [plugins](/en/plugins/guide/getting-started) for Module Tools.
