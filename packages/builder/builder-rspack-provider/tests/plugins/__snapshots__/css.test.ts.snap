@@ -21,10 +21,6 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
                   [Function],
                   [Function],
                   [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                   {
                     "browsers": [
                       "Chrome 80",

@@ -2,12 +2,13 @@ import path from 'path';
 import assert from 'assert';
 import {
   CSS_REGEX,
+  getCssSupport,
+  ModifyChainUtils,
   isUseCssSourceMap,
   isLooseCssModules,
   getBrowserslistWithDefault,
   type BuilderTarget,
   type BuilderContext,
-  ModifyChainUtils,
 } from '@modern-js/builder-shared';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
@@ -95,16 +96,22 @@ export async function applyBaseCSSRule(
 
     const enableCssMinify = !enableExtractCSS && isProd;
 
+    const cssSupport = getCssSupport(browserslist);
+
     const mergedConfig = applyOptionsChain(
       {
         postcssOptions: {
           plugins: [
             require(getCompiledPath('postcss-flexbugs-fixes')),
-            require(getCompiledPath('postcss-custom-properties')),
-            require(getCompiledPath('postcss-initial')),
-            require(getCompiledPath('postcss-page-break')),
-            require(getCompiledPath('postcss-font-variant')),
-            require(getCompiledPath('postcss-media-minmax')),
+            !cssSupport.customProperties &&
+              require(getCompiledPath('postcss-custom-properties')),
+            !cssSupport.initial && require(getCompiledPath('postcss-initial')),
+            !cssSupport.pageBreak &&
+              require(getCompiledPath('postcss-page-break')),
+            !cssSupport.fontVariant &&
+              require(getCompiledPath('postcss-font-variant')),
+            !cssSupport.mediaMinmax &&
+              require(getCompiledPath('postcss-media-minmax')),
             require(getCompiledPath('postcss-nesting')),
             require(getCompiledPath('autoprefixer'))(
               applyOptionsChain(
