@@ -32,7 +32,7 @@ export async function getBrowserslistWithDefault(
     if (Array.isArray(overrideBrowserslist)) {
       return overrideBrowserslist;
     }
-    return overrideBrowserslist[target];
+    return overrideBrowserslist[target] || DEFAULT_BROWSERSLIST[target];
   }
 
   const result = await getBrowserslist(path);
