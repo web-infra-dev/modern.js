@@ -130,41 +130,27 @@ export default {
 
 - **类型：** `(includes: string | RegExp | (string | RegExp)[]) => void`
 
-默认情况下 Babel 只会编译 src 目录下的业务代码，使用 `addIncludes` 你可以指定 Babel 编译 node_modules 下的一些文件。比如:
+默认情况下 Babel 只会编译 src 目录下的业务代码，使用 `addIncludes` 你可以指定 Babel 编译 node_modules 下的一些文件。比如编译 `query-string` 依赖：
 
 ```js
 export default {
   tools: {
     babel(config, { addIncludes }) {
-      addIncludes('node_modules/xxx-components');
+      addIncludes(/\/query-string\//);
     },
   },
 };
 ```
-
-注意，Babel 默认无法编译 CommonJS 模块，当你使用 `addIncludes` 来编译 CommonJS 模块时，需要将 Babel 的 `sourceType` 配置设置为 `unambiguous`：
-
-```ts
-export default {
-  tools: {
-    babel(config) {
-      config.sourceType = 'unambiguous';
-    },
-  },
-};
-```
-
-将 `sourceType` 设置为 `unambiguous` 可能会产生一些其他影响，请参考 [Babel 官方文档](https://babeljs.io/docs/en/options#sourcetype)。
 
 :::tip
-Builder 提供了比 `addIncludes` 更通用的 [source.include](https://modernjs.dev/builder/api/config-source.html#sourceinclude) 配置项，推荐优先使用该配置项。
+`addIncludes` 函数的用法与 `source.include` 配置项基本一致，请查看 [source.include 文档](/api/config-source.html#sourceinclude) 来查看更详细的用法说明。也可以直接使用 `source.include` 来代替 `addIncludes` 函数。
 :::
 
 #### addExcludes
 
 - **类型：** `(excludes: string | RegExp | (string | RegExp)[]) => void`
 
-和 `addIncludes` 相反，指定 Babel 编译时排除某些文件。
+`addExcludes` 和 `addIncludes` 的用处相反，指定 Babel 编译时排除某些文件。
 
 比如不编译 `src/example` 目录下的文件:
 
@@ -177,6 +163,10 @@ export default {
   },
 };
 ```
+
+:::tip
+`addExcludes` 函数的用法与 `source.exclude` 配置项基本一致，请查看 [source.exclude 文档](/api/config-source.html#sourceexclude) 来查看更详细的用法说明。也可以直接使用 `source.exclude` 来代替 `addExcludes` 函数。
+:::
 
 #### modifyPresetEnvOptions
 

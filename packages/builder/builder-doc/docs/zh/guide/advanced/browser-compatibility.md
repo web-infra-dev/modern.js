@@ -145,21 +145,12 @@ import path from 'path';
 
 export default {
   source: {
-    include: [
-      // 方法一:
-      // 先通过 require.resolve 来获取模块的路径
-      // 再通过 path.dirname 来指向对应的目录
-      path.dirname(require.resolve('query-string')),
-      // 方法二:
-      // 通过正则表达式进行匹配
-      // 所有包含 `/query-string/` 的路径都会被匹配到
-      /\/query-string\//,
-    ],
+    include: [/\/query-string\//],
   },
 };
 ```
 
-注意，该配置只会编译 `query-string` 自身的代码，不会编译 `query-string` 的子依赖。如果需要编译 `query-string` 的子依赖，则需要将对应的 npm 包也加入到 `source.include` 中。
+请查看 [source.include](/api/config-source.html#sourceinclude) 文档来查看更详细的用法说明。
 
 ### 降级非当前项目的代码
 

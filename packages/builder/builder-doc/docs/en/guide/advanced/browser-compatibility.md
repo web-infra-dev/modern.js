@@ -145,21 +145,12 @@ import path from 'path';
 
 export default {
   source: {
-    include: [
-      // Method 1:
-      // First get the path of the module by require.resolve
-      // Then pass path.dirname to point to the corresponding directory
-      path.dirname(require.resolve('query-string')),
-      // Method 2:
-      // Match by regular expression
-      // All paths containing `/query-string/` will be matched
-      /\/query-string\//,
-    ],
+    include: [/\/query-string\//],
   },
 };
 ```
 
-Note that this config will only compile the code of `query-string` itself, not the sub-dependencies of `query-string`. If you need to compile a sub-dependency of `query-string`, you need to add the corresponding npm package to `source.include`.
+Please refer to [source.include](/api/config-source.html#sourceinclude) document for detailed usage guide.
 
 ### Downgrade the code out of the current project
 
