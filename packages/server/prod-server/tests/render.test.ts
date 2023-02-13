@@ -136,6 +136,45 @@ describe('test render function', () => {
     expect(renderResult!.contentType).toMatch('text/html; charset=utf-8');
   });
 
+  test('should entry render fn forceCSR work correctly', async () => {
+    const render = createRenderHandler({
+      distDir: path.join(__dirname, 'fixtures', 'ssr'),
+      staticGenerate: false,
+      forceCSR: true,
+    });
+    const renderResult = await render({
+      ctx: {
+        params: {},
+        pathname: '/foo',
+        host: 'localhost:8080',
+        query: {},
+        url: 'localhost:8080/foo',
+        cookieMap: {},
+        headers: {},
+        res: {
+          setHeader: () => false,
+        },
+        error: () => false,
+        resHasHandled: () => false,
+      } as any,
+      route: {
+        urlPath: '/foo',
+        bundle: 'bundle-error.js',
+        entryPath: 'tpl.html',
+        entryName: 'foo',
+        isSSR: true,
+        isSPA: true,
+      } as any,
+      runner: {
+        extendSSRContext: () => {
+          // empty
+        },
+      } as any,
+    });
+    expect(renderResult!.content.toString()).toMatch('csr');
+    expect(renderResult!.contentType).toMatch('text/html; charset=utf-8');
+  });
+
   test('should entry render fn fallback work correctly', async () => {
     const render = createRenderHandler({
       distDir: path.join(__dirname, 'fixtures', 'ssr'),
