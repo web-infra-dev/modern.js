@@ -86,7 +86,7 @@ export const makeRenderFunction = (code: string) => {
   const inGarfishToRender = `
   const { basename, props, dom, appName } = typeof arguments[0] === 'object' && arguments[0] || {};
   if (!canContinueRender({ dom, appName })) return null;
-  let { AppWrapper, mountNode } = generateAppWrapperAndRootDom({App, props, dom});
+  let { AppWrapper, mountNode } = generateAppWrapperAndRootDom({App, props: {...props, basename}, dom});
   `;
   return (
     inGarfishToRender +
