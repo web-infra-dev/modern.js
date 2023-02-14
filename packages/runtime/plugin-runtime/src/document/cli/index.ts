@@ -35,7 +35,7 @@ const getDocumenByEntryName = function (
 ): string | undefined {
   const entryDir = entrypoints.find(
     item => item.entryName === entryName,
-  )?.absoluteEntryDir;
+  )?.entryDir;
 
   const entryDirs = DOC_EXT.map(
     item => `${entryDir}${path.sep}${DOCUMENT_FILE_NAME}.${item}`,

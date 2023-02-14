@@ -8,6 +8,7 @@ export type { Config as JestConfigTypes } from '@jest/types';
 export interface Entrypoint {
   entryName: string;
   entry: string;
+  entryDir: string;
   nestedRoutesEntry?: string;
   pageRoutesEntry?: string;
   isAutoMount?: boolean;
