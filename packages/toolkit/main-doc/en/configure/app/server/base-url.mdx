@@ -12,11 +12,11 @@ Uniformly set the server-level routing prefix (often used in the case of shared 
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
-    // 所有生成的路由前面都会自动加上前缀 `/base`
-    // 生成的服务端路由文件路径：dist/route.json
+    // All generated routes are automatically prefixed with `/base`
+    // Path to the generated server-side route file: dist/route.json
     baseUrl: '/base'
 
-    // 多 baseUrl
+    // Multiple baseUrl
     baseUrl: ['/base-new', '/base-old']
   }
 })
