@@ -3,7 +3,7 @@ export const HASH_REGEXP = /#.*$/s;
 export const MDX_REGEXP = /\.mdx?$/;
 export const externalLinkRE = /^(https?:)/;
 
-export const SEARCH_INDEX_JSON = 'search_index.json';
+export const SEARCH_INDEX_NAME = 'search_index';
 
 export const isProduction = () => process.env.NODE_ENV === 'production';
 
