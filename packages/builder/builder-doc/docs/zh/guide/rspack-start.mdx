@@ -1,0 +1,158 @@
+# 使用 Rspack
+
+## 启用 Rspack
+
+### 在 Modern.js 框架中启用
+
+Modern.js 框架默认使用 Webpack Builder 作为构建引擎。如果希望启用 Rspack Builder 作为构建引擎，我们推荐通过 [Modern.js 生成器](https://modernjs.dev/apis/app/commands/new.html#%E5%90%AF%E7%94%A8%E5%8F%AF%E9%80%89%E5%8A%9F%E8%83%BD) 方式启用。
+
+当然，你也可以通过下面的步骤来手动接入:
+
+1. 安装 Builder（builder 版本号需要与 modern.js 版本号保持一致）。
+
+```
+pnpm add @modern-js/builder-rspack-provider@2.4.0 -D
+```
+
+通过 package.json 或 lock 文件，确认 modern.js 版本号:
+
+```
+// package.json
+  "devDependencies": {
+    "@modern-js/app-tools": "2.4.0",
+    "@modern-js/eslint-config": "2.4.0",
+```
+
+
+2. 声明使用
+
+```
+// modern.config.ts
+import appTools, { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
+  plugins: [
+    appTools({
+      bundler: 'experimental-rspack',
+    }),
+  ],
+});
+```
+
+### 在前端框架中接入
+
+在前端框架中接入 Rspack Builder 和 [接入 Webpack Builder](/guide/quick-start.html#在前端框架中接入) 方式类似，只需要把依赖从 `@modern-js/builder-webpack-provider` 改为 `@modern-js/builder-rspack-provider` 即可。
+
+```ts
+import { createBuilder } from '@modern-js/builder';
+import { builderRspackProvider } from '@modern-js/builder-rspack-provider';
+
+const provider = builderRspackProvider({
+  builderConfig: {
+    // some configs
+  },
+});
+```
+
+
+## 从 webpack 迁移到 Rspack
+
+Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较低成本进行迁移。但由于各个打包工具的能力不同，部分差异仍需用户了解。
+
+### 配置差异
+目前，Builder 内超过 65% 的配置项已经适配了 Rspack。Builder 所做的工作包括不限于：
+- 对 webpack 插件进行验证及封装。如 @svgr/webpack、webpack-bundle-analyzer 等;
+- 对 rspack 内置能力进行封装，如 css、minify 等;
+
+#### Source Config
+> Builder 中与源代码解析、编译方式相关的配置。
+
+不支持的配置项及能力包括：
+- [source.moduleScopes](/api/config-source.html#sourcemodulescopes)
+
+#### Html Config
+> Builder 中与 HTML 有关的配置。
+
+所有 html 下的配置项及能力在 rspack 内均可使用。
+
+#### Security Config
+>  Builder 中与安全有关的配置。
+
+所有 security 下的配置项及能力均不支持在 rspack 内使用。
+
+#### Dev Config
+> Builder 中与本地开发有关的配置。
+
+所有 dev 下的配置项及能力在 rspack 内均可使用。
+
+#### Output Config
+> Builder 中与构建产物有关的配置。
+
+不支持的配置项及能力包括：
+- [output.assetsRetry](/api/config-output.html#outputassetsretry)
+- [output.disableCssExtract](/api/config-output.html#outputdisablecssextract)
+- [output.enableAssetManifest](/api/config-output.html#outputenableassetmanifest)
+- [output.enableAssetFallback](/api/config-output.html#outputenableassetfallback)
+- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
+- [output.legalComments](/api/config-output.html#outputlegalcomments)
+- inlineChunk 能力
+  - [output.disableInlineRuntimeChunk](/api/config-output.html#outputdisableinlineruntimechunk)
+  - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
+  - [output.enableInlineStyles](/api/config-output.html#outputenableinlinestyles)
+- tsChecker 能力
+  - [output.disableTsChecker](/api/config-output.html#outputdisabletschecker)
+
+#### Experiments Config
+> Builder 中的一些实验性配置，实验性配置可以开启 Builder 中尚未稳定的功能。
+
+所有 experiments 下的配置项及能力不支持在 rspack 内使用。
+
+#### Performance Config
+> Builder 中与性能有关的配置。
+
+不支持的配置项及能力包括：
+- [performance.profile](/api/config-performance.html#performanceprofile)
+- [performance.removeMomentLocale](/api/config-performance.html#performanceremovemomentlocale)
+- [performance.buildCache](/api/config-performance.html#performancebuildcache)
+
+##### Tools Config
+> Builder 中与底层工具有关的配置。
+
+不支持的配置项包括：
+  - [tools.terser](/api/config-tools.html#toolsterser)
+  - [tools.babel](/api/config-tools.html#toolsbabel)
+  - [tools.cssExtract](/api/config-tools.html#toolscssextract)
+  - [tools.cssLoader](/api/config-tools.html#toolscssloader)
+  - [tools.inspector](/api/config-tools.html#toolsinspector)
+  - [tools.minifyCss](/api/config-tools.html#toolsminifycss)
+  - [tools.pug](/api/config-tools.html#toolspug)
+  - [tools.styleLoader](/api/config-tools.html#toolsstyleloader)
+  - [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
+  - [tools.tsLoader](/api/config-tools.html#toolstsloader)
+  - [tools.tsChecker](/api/config-tools.html#toolstschecker)
+  - [tools.webpack](/api/config-tools.html#toolswebpack)
+  - [tools.webpackChain](/api/config-tools.html#toolswebpackchain)
+
+
+:::tip
+除上述配置外，一些已支持的配置可能存在能力差异，请参考各配置 API 获取具体差异信息。
+:::
+
+
+### 修改 Rspack 配置
+你可以使用 tools.rspack 来修改 rspack 配置对象，对 rspack 配置进行更灵活的操作。
+
+```ts
+export default {
+  tools: {
+    rspack: (config, { env }) => {
+      if (env === 'development') {
+        config.devtool = 'cheap-module-eval-source-map';
+      }
+      return config;
+    },
+  },
+};
+```
+
+关于 Rspack 的详细配置信息，请参考 [Rspack 官网](https://www.rspack.org/)。
