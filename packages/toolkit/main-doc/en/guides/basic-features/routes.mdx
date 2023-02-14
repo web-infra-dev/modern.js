@@ -307,7 +307,7 @@ export const init = (context: RuntimeContext) => {
   } else {
     const { context } = runtimeContext;
     const data = context.getInitData();
-    // 如果没有获取到期望的数据
+    // If do not get the expected data
     if (!data.message) {
       return {
         message: 'Hello World By Client'
