@@ -34,12 +34,12 @@ let pages: PageIndexInfo[] | undefined;
 // The `indexHash` will be generated before webpack build so we can wrap it with virtual module in webpack to ensure that client runtime can access it.The process will be like this:
 // | ........................ process ........................... |
 //
-// Input -> | Compute index | -> Webpack Build ->- Output -> | Append index file to output dir |
+// Input -> | Compute index | -> Webpack build ->- Output -> | Append index file to output dir |
 
 // However, if we generate the search index at internal webpack build process in the future, like this:
 // | ........................ process ........................... |
 //
-// Input ->- Webpack Build ->- Output ->- | Write Index to output dir |
+// Input ->- Webpack build ->- Output ->- | Write Index file to output dir |
 //                 |
 //          +---------------+
 //          | Compute index |
