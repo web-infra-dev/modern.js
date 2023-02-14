@@ -30,7 +30,7 @@ describe('plugin runtime cli', () => {
         entrypoints: [
           {
             entryName: 'main',
-            absoluteEntryDir: path.join(__dirname, './feature'),
+            entryDir: path.join(__dirname, './feature'),
           },
         ],
       })),
