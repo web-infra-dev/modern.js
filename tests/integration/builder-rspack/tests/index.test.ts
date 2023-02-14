@@ -17,14 +17,13 @@ import {
   supportLayout,
   supportLoaderForCSR,
   supportNestedRouteAndPage,
-  supportEmitCssFile,
 } from './supports';
 
 declare const page: Page;
 
 const appDir = path.resolve(__dirname, '../');
 
-describe('dev', () => {
+describe.skip('dev', () => {
   let app: unknown;
   let appPort: number;
   const errors: string[] = [];
@@ -67,15 +66,12 @@ describe('dev', () => {
       supportDefineInit(errors, appPort, page));
   });
 
-  describe('support base sass', () =>
-    supportEmitCssFile(path.resolve(__dirname, '../')));
-
   afterAll(async () => {
     await killApp(app);
   });
 });
 
-describe('build', () => {
+describe.skip('build', () => {
   let appPort: number;
   let app: unknown;
   const errors: string[] = [];

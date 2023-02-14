@@ -59,7 +59,11 @@ export function SidebarItemComp(props: SidebarItemProps) {
           border="rounded-md"
           onMouseEnter={() => props.preloadLink(item.link)}
           className={active ? styles.menuItemActive : styles.menuItem}
-          style={textEllipsisStyle}
+          style={{
+            ...textEllipsisStyle,
+            // The first level menu item will have the same font size as the sidebar group
+            fontSize: depth === 0 ? '14px' : '13px',
+          }}
         >
           {item.text}
         </div>

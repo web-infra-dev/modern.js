@@ -29,7 +29,7 @@ export const runRollup = async (
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
     load(id) {
-      if (!/\.(js|jsx|ts|tsx|json)$/.test(id)) {
+      if (!/\.(js|jsx|ts|tsx|json|cts|mts)$/.test(id)) {
         return '';
       }
       return null;
@@ -64,6 +64,8 @@ export const runRollup = async (
         compilerOptions: {
           declarationMap: false,
           skipLibCheck: true,
+          // https://github.com/Swatinem/rollup-plugin-dts/issues/143,
+          // but it will cause error when bundle ts which import another ts file.
           preserveSymlinks: false,
           ...options,
           // isAbsolute
@@ -120,8 +122,11 @@ export const runRollup = async (
   } else {
     try {
       const { rollup } = await import('../../../compiled/rollup');
+      const { addRollupChunk } = await import('../../utils/print');
       const bundle = await rollup(inputConfig);
-      await bundle.write(outputConfig);
+      const rollupOutput = await bundle.write(outputConfig);
+      const { appDirectory } = api.useAppContext();
+      addRollupChunk(rollupOutput, appDirectory, outputConfig.dir!);
       return bundle;
     } catch (e) {
       if (e instanceof Error) {

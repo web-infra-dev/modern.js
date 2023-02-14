@@ -12,7 +12,7 @@
 }
 
 .navContainer {
-  background: #fff;
+  background: var(--modern-c-bg);
 }
 
 .social-links-icon {
@@ -36,10 +36,22 @@
   content: ' ';
 }
 
+@media (max-width: 768px) {
+  .menu-item:before {
+    display: none;
+  }
+  .mobileNavMenu {
+    display: flex;
+  }
+}
+
 @media (min-width: 768px) {
   .rightNav {
     display: flex;
     align-items: center;
+  }
+  .mobileNavMenu {
+    display: none;
   }
 }
 

@@ -6,8 +6,6 @@ import type {
 } from './rspack';
 
 export type ModifyRspackConfigUtils = ModifyChainUtils & {
-  getCompiledPath: (name: string) => string;
-
   addRules: (rules: RspackRuleSet | RspackRuleSet[]) => void;
   prependPlugins: (
     plugins: RspackPluginInstance | RspackPluginInstance[],
@@ -16,6 +14,7 @@ export type ModifyRspackConfigUtils = ModifyChainUtils & {
     plugins: RspackPluginInstance | RspackPluginInstance[],
   ) => void;
   removePlugin: (pluginName: string) => void;
+  mergeConfig: typeof import('../../compiled/webpack-merge').merge;
 };
 
 export type ModifyRspackConfigFn = (

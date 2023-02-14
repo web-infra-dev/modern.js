@@ -136,28 +136,14 @@ By default, Babel will only compile the application code in the src directory. W
 export default {
   tools: {
     babel(config, { addIncludes }) {
-      addIncludes('node_modules/xxx-components');
+      addIncludes(/\/query-string\//);
     },
   },
 };
 ```
-
-Note that Babel cannot compile CommonJS modules by default. When you use `source.include` to compile CommonJS modules, you need to set Babel's `sourceType` config to `unambiguous`:
-
-```ts
-export default {
-  tools: {
-    babel(config) {
-      config.sourceType = 'unambiguous';
-    },
-  },
-};
-```
-
-Setting `sourceType` to `unambiguous` may have some other effects, please refer to [Babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
 
 :::tip
-Builder provides a more general [source.include](https://modernjs.dev/builder/en/api/config-source.html#sourceinclude) config than `addIncludes`, and it is recommended to use this configuration item first.
+The usage of the `addIncludes` function is basically the same as the `source.include` config, please see the [source.include documentation](/api/config-source.html#sourceinclude) for a more detailed usage. You can also use `source.include` directly instead of the `addIncludes` function.
 :::
 
 #### addExcludes
@@ -177,6 +163,10 @@ export default {
   },
 };
 ```
+
+:::tip
+The usage of the `addExcludes` function is basically the same as the `source.exclude` config, please see the [source.exclude documentation](/api/config-source.html#sourceexclude) for a more detailed usage. You can also use `source.exclude` directly instead of the `addExcludes` function.
+:::
 
 #### modifyPresetEnvOptions
 

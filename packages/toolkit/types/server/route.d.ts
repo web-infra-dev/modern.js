@@ -11,6 +11,8 @@ export interface ServerRoute {
   isSSR?: boolean;
   // if route is api service
   isApi?: boolean;
+  // worker js bundle for ssr page
+  worker?: string;
   // ssr js bundle for ssr page
   bundle?: string;
   // response header for routes

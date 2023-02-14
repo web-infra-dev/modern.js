@@ -1,5 +1,22 @@
 # @modern-js/builder-plugin-swc
 
+## 2.4.0
+
+### Patch Changes
+
+- e787a45: feat: Add config to enable legacy decorator and 2 css-in-js plugins, update swc version
+
+  feat: 以及 2 个 css-in-js 插件，升级 swc 版本
+
+- Updated dependencies [6f83037]
+- Updated dependencies [014d06b]
+- Updated dependencies [98a2733]
+- Updated dependencies [a5572b8]
+- Updated dependencies [a914be8]
+- Updated dependencies [8c2db5f]
+  - @modern-js/builder-shared@2.4.0
+  - @modern-js/utils@2.4.0
+
 ## 2.3.0
 
 ### Patch Changes

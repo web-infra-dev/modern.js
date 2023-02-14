@@ -49,6 +49,8 @@ export const renderFunction = ({
   customBootstrap?: string | false;
   fileSystemRoutes: Entrypoint['fileSystemRoutes'];
 }) => {
+  const bootstrap = 'bootstrap(AppWrapper, MOUNT_ID, root, ReactDOM)';
+
   return `
   const finalAppConfig = {
     ...App.config,
@@ -75,8 +77,8 @@ export const renderFunction = ({
   if (IS_BROWSER) {
     ${
       customBootstrap
-        ? `customBootstrap(AppWrapper);`
-        : `bootstrap(AppWrapper, MOUNT_ID, root, ReactDOM);`
+        ? `customBootstrap(AppWrapper, () => ${bootstrap});`
+        : `${bootstrap};`
     }
   }
 

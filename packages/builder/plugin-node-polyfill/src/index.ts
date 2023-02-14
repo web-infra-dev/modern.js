@@ -19,8 +19,10 @@ export function builderPluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
           return;
         }
 
-        // @ts-expect-error
-        const { default: nodeLibsBrowser } = await import('node-libs-browser');
+        const { default: nodeLibsBrowser } = await import(
+          // @ts-expect-error
+          'node-libs-browser'
+        );
 
         chain
           .plugin(CHAIN_ID.PLUGIN.NODE_POLYFILL_PROVIDE)

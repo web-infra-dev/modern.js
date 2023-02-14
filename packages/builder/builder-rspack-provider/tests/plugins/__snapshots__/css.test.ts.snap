@@ -21,10 +21,6 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
                   [Function],
                   [Function],
                   [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                   {
                     "browsers": [
                       "Chrome 80",
@@ -298,7 +294,7 @@ exports[`plugins/sass > should add sass-loader 1`] = `
             },
           },
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,
@@ -363,7 +359,7 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
             },
           },
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
             "options": {
               "rspackImporter": true,
               "sourceMap": true,

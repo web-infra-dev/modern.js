@@ -1,6 +1,6 @@
 import path from 'path';
 import { createRequire } from 'module';
-import { DocPlugin, UserConfig } from 'shared/types';
+import { UserConfig } from 'shared/types';
 import { BuilderInstance, mergeBuilderConfig } from '@modern-js/builder';
 import type {
   BuilderConfig,
@@ -26,8 +26,7 @@ const require = createRequire(import.meta.url);
 async function createInternalBuildConfig(
   userRoot: string,
   config: UserConfig,
-  isSSR: boolean,
-  docPlugins: DocPlugin[],
+  _isSSR: boolean,
 ): Promise<BuilderConfig> {
   const { default: fs } = await import('@modern-js/utils/fs-extra');
   const mdxOptions = await createMDXOptions(userRoot, config);
@@ -38,12 +37,6 @@ async function createInternalBuildConfig(
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');
   const checkDeadLinks = config.doc?.markdown?.checkDeadLinks ?? false;
   const base = config.doc?.base ?? '';
-  // Process doc config by plugins
-  for (const plugin of docPlugins) {
-    if (typeof plugin.config === 'function') {
-      config.doc = await plugin.config(config.doc || {});
-    }
-  }
 
   const publicDir = path.join(userRoot, 'public');
   const isPublicDirExist = await fs.pathExists(publicDir);
@@ -144,7 +137,7 @@ async function createInternalBuildConfig(
           });
         }
 
-        chain.resolve.extensions.merge(['.mdx', '.md', '.ts', '.tsx']);
+        chain.resolve.extensions.prepend('.md').prepend('.mdx');
       },
       webpack(webpackConfig) {
         webpackConfig.plugins!.push(
@@ -178,18 +171,10 @@ export async function createModernBuilder(
     '@modern-js/builder-webpack-provider'
   );
 
-  const docPlugins = [];
-
-  // Add plugins
-  if (config.doc?.plugins) {
-    docPlugins.push(...config.doc.plugins);
-  }
-
   const internalBuilderConfig = await createInternalBuildConfig(
     userRoot,
     config,
     isSSR,
-    docPlugins,
   );
 
   const builderProvider = builderWebpackProvider({

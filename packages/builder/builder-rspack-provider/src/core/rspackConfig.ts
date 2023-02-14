@@ -1,14 +1,15 @@
 import {
   debug,
+  BundlerConfig,
+  modifyBundlerChain,
   type NodeEnv,
   type BuilderTarget,
-  modifyBundlerChain,
-  BundlerConfig,
+  type ModifyChainUtils,
 } from '@modern-js/builder-shared';
 import { castArray, omitBy, isUndefined } from '@modern-js/utils/lodash';
 import { getCompiledPath } from '../shared';
-import type { Context, RspackConfig, ModifyRspackConfigUtils } from '../types';
 import { formatRule, formatSplitChunks } from './formatConfig';
+import type { Context, RspackConfig, ModifyRspackConfigUtils } from '../types';
 
 async function modifyRspackConfig(
   context: Context,
@@ -23,13 +24,12 @@ async function modifyRspackConfig(
 
   if (context.config.tools?.rspack) {
     const { applyOptionsChain } = await import('@modern-js/utils');
-    const { merge } = await import('../../compiled/webpack-merge');
 
     modifiedConfig = applyOptionsChain(
       modifiedConfig,
       context.config.tools.rspack,
       utils,
-      merge,
+      utils.mergeConfig,
     );
   }
 
@@ -37,17 +37,16 @@ async function modifyRspackConfig(
   return modifiedConfig;
 }
 
-type ChainUtils = Omit<
-  ModifyRspackConfigUtils,
-  'addRules' | 'prependPlugins' | 'appendPlugins' | 'removePlugin'
->;
-
-function getConfigUtils(
+async function getConfigUtils(
   config: RspackConfig,
-  chainUtils: ChainUtils,
-): ModifyRspackConfigUtils {
+  chainUtils: ModifyChainUtils,
+): Promise<ModifyRspackConfigUtils> {
+  const { merge } = await import('../../compiled/webpack-merge');
+
   return {
     ...chainUtils,
+
+    mergeConfig: merge,
 
     addRules(rules) {
       const ruleArr = castArray(rules);
@@ -84,7 +83,7 @@ function getConfigUtils(
   };
 }
 
-async function getChainUtils(target: BuilderTarget): Promise<ChainUtils> {
+async function getChainUtils(target: BuilderTarget): Promise<ModifyChainUtils> {
   const nodeEnv = process.env.NODE_ENV as NodeEnv;
   const { CHAIN_ID } = await import('@modern-js/utils');
 
@@ -93,6 +92,7 @@ async function getChainUtils(target: BuilderTarget): Promise<ChainUtils> {
     target,
     isProd: nodeEnv === 'production',
     isServer: target === 'node',
+    isServiceWorker: target === 'service-worker',
     isWebWorker: target === 'web-worker',
     getCompiledPath,
     CHAIN_ID,
@@ -152,7 +152,7 @@ export async function generateRspackConfig({
   rspackConfig = await modifyRspackConfig(
     context,
     rspackConfig,
-    getConfigUtils(rspackConfig, chainUtils),
+    await getConfigUtils(rspackConfig, chainUtils),
   );
 
   return rspackConfig;

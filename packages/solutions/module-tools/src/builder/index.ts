@@ -21,10 +21,7 @@ export const run = async (
   let totalDuration = 0;
 
   if (resolvedBuildConfig.length !== 0) {
-    const { buildSuccessText } = await import('../constants/log');
     totalDuration = Date.now();
-    // eslint-disable-next-line no-console
-    !cmdOptions.watch && console.time(buildSuccessText);
 
     const { runBuildTask } = await import('./build');
     const { default: pMap } = await import('../../compiled/p-map');
@@ -51,8 +48,6 @@ export const run = async (
         );
         await runner.afterBuildTask({ status: 'success', config });
       });
-      // eslint-disable-next-line no-console
-      !cmdOptions.watch && console.timeEnd(buildSuccessText);
     } catch (e) {
       const { isInternalError, ModuleBuildError } = await import('../error');
       if (isInternalError(e)) {
@@ -62,6 +57,11 @@ export const run = async (
       }
     }
     totalDuration = Date.now() - totalDuration;
+    if (!cmdOptions.watch) {
+      const { printFileSize, printSucceed } = await import('../utils/print');
+      printSucceed(totalDuration);
+      printFileSize();
+    }
   } else {
     console.warn(
       chalk.yellow(

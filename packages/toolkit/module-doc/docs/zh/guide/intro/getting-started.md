@@ -66,6 +66,10 @@ pnpm test
 npx @modern-js/create your-project-dir-name
 ```
 
+:::info
+执行 `npx @modern-js/create -h` 查看更多命令行参数
+:::
+
 接着在问题交互中，按照如下选择：
 
 ```bash
@@ -86,5 +90,5 @@ npx @modern-js/create your-project-dir-name
 选择适合你的教程：
 
 - 我是初学者，需要学习 Module Tools 的[基础使用](/guide/basic/before-getting-started)。
-- 我已经初步掌握了 Module Tools 的使用，可以学习 Module Tools 的[高级使用](/guide/basic/before-getting-started)。
-- 我是项目的维护者，需要学习如何开发 Module Tools 的插件以及了解更多关于 Module Tools 进阶的内容。
+- 我已经初步掌握了 Module Tools 的使用，可以学习 Module Tools 的[进阶指南](/guide/advance/in-depth-about-build)。
+- 我需要扩展项目能力，需要学习如何开发 Module Tools 的[插件](/plugins/guide/getting-started)。

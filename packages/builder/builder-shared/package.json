@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.3.0",
+  "version": "2.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -35,6 +35,7 @@
       "default": "./dist/index.js"
     },
     "./open": "./compiled/open/index.js",
+    "./webpack-bundle-analyzer": "./compiled/webpack-bundle-analyzer/index.js",
     "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
     "./test-stub": {
       "jsnext:source": "./src/test-stub/index.ts",
@@ -49,6 +50,9 @@
     "*": {
       "open": [
         "./compiled/open/index.d.ts"
+      ],
+      "webpack-bundle-analyzer": [
+        "./compiled/webpack-bundle-analyzer/index.d.ts"
       ],
       "webpack-5-chain": [
         "./compiled/webpack-5-chain/types/index.d.ts"
@@ -88,6 +92,7 @@
     "exports": {
       ".": "./dist/index.js",
       "./open": "./compiled/open/index.js",
+      "./webpack-bundle-analyzer": "./compiled/webpack-bundle-analyzer/index.js",
       "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
       "./test-stub": "./dist/test-stub/index.js",
       "./zod": "./dist/exports/zod.js"

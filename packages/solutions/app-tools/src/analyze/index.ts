@@ -11,16 +11,13 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import {
-  createRspackBuilderForModern,
-  createWebpackBuilderForModern,
-} from '../builder';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
 import { getSelectedEntries } from '../utils/getSelectedEntries';
-import { AppTools } from '../types';
+import { AppTools, webpack } from '../types';
 import { initialNormalizedConfig } from '../config';
+import { createBuilderGenerator } from '../builder';
 import {
   getServerLoadersFile,
   isPageComponentFile,
@@ -162,17 +159,17 @@ export default ({
         const buildCommands = ['dev', 'start', 'build', 'inspect', 'deploy'];
         if (buildCommands.includes(command)) {
           const normalizedConfig = api.useResolvedConfigContext();
-          const createBuilderForModern =
-            bundler === 'webpack'
-              ? createWebpackBuilderForModern
-              : createRspackBuilderForModern;
+          const createBuilderForModern = await createBuilderGenerator(bundler);
           const builder = await createBuilderForModern({
             normalizedConfig: normalizedConfig as any,
             appContext,
             async onBeforeBuild({ bundlerConfigs }) {
               const hookRunners = api.useHookRunners();
               await generateRoutes(appContext);
-              await hookRunners.beforeBuild({ bundlerConfigs });
+              await hookRunners.beforeBuild({
+                bundlerConfigs:
+                  bundlerConfigs as unknown as webpack.Configuration[],
+              });
             },
 
             async onAfterBuild({ stats }) {
@@ -199,14 +196,19 @@ export default ({
               const hookRunners = api.useHookRunners();
               // run modernjs framework `beforeCreateCompiler` hook
               await hookRunners.beforeCreateCompiler({
-                bundlerConfigs,
+                bundlerConfigs:
+                  bundlerConfigs as unknown as webpack.Configuration[],
               });
             },
 
             async onAfterCreateCompiler({ compiler }) {
               const hookRunners = api.useHookRunners();
               // run modernjs framework afterCreateCompiler hooks
-              await hookRunners.afterCreateCompiler({ compiler });
+              await hookRunners.afterCreateCompiler({
+                compiler: compiler as unknown as
+                  | webpack.Compiler
+                  | webpack.MultiCompiler,
+              });
             },
           });
 

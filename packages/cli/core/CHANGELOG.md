@@ -1,5 +1,19 @@
 # @modern-js/core
 
+## 2.4.0
+
+### Patch Changes
+
+- 8c2db5f: feat(core): improve support for exporting a function in config file
+
+  feat(core): 完善对配置文件中导出函数的支持
+
+- Updated dependencies [98a2733]
+- Updated dependencies [8c2db5f]
+  - @modern-js/node-bundle-require@2.4.0
+  - @modern-js/utils@2.4.0
+  - @modern-js/plugin@2.4.0
+
 ## 2.3.0
 
 ### Patch Changes

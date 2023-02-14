@@ -1,0 +1,49 @@
+.footer {
+  margin-top: 6vh;
+  display: flex;
+  justify-content: center;
+  padding: 10vh 0;
+}
+
+.logo {
+  width: 240px;
+  margin-bottom: 48px;
+}
+
+.wrapper {
+  width: 80vw;
+  max-width: 1200px;
+}
+
+.linksWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.linkTitle {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.linkWrapper {
+  margin-bottom: 24px;
+}
+
+.link {
+  line-height: 32px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
+
+  &:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+}
+
+@media (max-width: 768px) {
+  .linkWrapper {
+    width: 50%;
+  }
+}

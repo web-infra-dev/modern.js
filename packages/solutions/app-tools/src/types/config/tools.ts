@@ -11,7 +11,7 @@ export type BuilderToolsConfig = UnwrapBuilderConfig<BuilderConfig, 'tools'> & {
 };
 export type RsBuilderToolsConfig = UnwrapBuilderConfig<
   RsBuilderConfig,
-  'source'
+  'tools'
 >;
 /**
  * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.

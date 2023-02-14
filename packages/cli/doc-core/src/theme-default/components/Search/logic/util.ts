@@ -30,14 +30,19 @@ export function backTrackHeaders(
   return res;
 }
 
-export function normalizeContent(content: string) {
-  // Do not match the content in code block
-  // Do not match the frontmatter
-  return content.replace(/```(.*?)```/gms, '').replace(/---(.*?)---/gms, '');
-}
-
 export function formatText(text: string) {
   return text.length > MAX_TITLE_LENGTH
     ? `${text.slice(0, MAX_TITLE_LENGTH)}...`
     : text;
+}
+
+export function normalizeTextCase(text: string) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+export function removeDomain(url: string) {
+  return url.replace(/https?:\/\/[^/]+/, '');
 }

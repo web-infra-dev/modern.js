@@ -1,0 +1,72 @@
+{
+  "name": "@modern-js/plugin-worker",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.3.0",
+  "types": "./src",
+  "jsnext:source": "./src/index.ts",
+  "main": "./dist/js/node/index.js",
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/js/node/index.js"
+    },
+    "./cli": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/js/node/index.js"
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm && modern build --platform",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
+    "new": "modern-lib new",
+    "test": "jest --passWithNoTests"
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "cli": [
+        "./dist/types/index.d.ts"
+      ]
+    }
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/server-utils": "workspace:*",
+    "@modern-js/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "typescript": "^4",
+    "@types/jest": "^27",
+    "@types/node": "^14",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.less",
+    "*.sass",
+    "*.scss"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "types": "./dist/types/index.d.ts"
+  }
+}

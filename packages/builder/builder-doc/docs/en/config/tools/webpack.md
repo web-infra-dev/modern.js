@@ -7,7 +7,7 @@
 
 ### Object Type
 
-You can configure it as an object, which will be merged with the original webpack configuration through `webpack-merge`. For example:
+You can configure it as an object, which will be merged with the original webpack configuration through [webpack-merge](https://github.com/survivejs/webpack-merge). For example:
 
 ```js
 export default {
@@ -265,6 +265,24 @@ export default {
   tools: {
     webpack: (config, { removePlugin }) => {
       removePlugin('ForkTsCheckerWebpackPlugin');
+    },
+  },
+};
+```
+
+### mergeConfig
+
+- **类型：** `(...configs: WebpackConfig[]) => WebpackConfig`
+
+Used to merge multiple webpack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge)。
+
+```ts
+export default {
+  tools: {
+    webpack: (config, { mergeConfig }) => {
+      return mergeConfig(config, {
+        devtool: 'eval',
+      });
     },
   },
 };

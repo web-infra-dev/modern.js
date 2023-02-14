@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.3.0",
+  "version": "2.4.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -123,7 +123,7 @@
     "pug": "3.0.2",
     "recursive-readdir": "2.2.2",
     "rollup": "2.79.0",
-    "rollup-plugin-dts": "4.2.3",
+    "rollup-plugin-dts": "5.1.1",
     "sass": "1.54.4",
     "sass-loader": "13.0.2",
     "schema-utils3": "npm:schema-utils@3.1.1",

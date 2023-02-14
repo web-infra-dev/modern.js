@@ -11,6 +11,7 @@ export interface RouteMeta {
   basePath: string;
   absolutePath: string;
   pageName: string;
+  lang: string;
 }
 
 export interface Route {
@@ -18,6 +19,7 @@ export interface Route {
   element: React.ReactElement;
   filePath: string;
   preload: () => Promise<PageModule<ComponentType<unknown>>>;
+  lang: string;
 }
 
 export interface RouteOptions {
@@ -51,7 +53,9 @@ export class RouteService {
 
   #defaultLang: string;
 
-  #routeData: RouteMeta[] = [];
+  #langs: string[];
+
+  #routeData: Map<string, RouteMeta> = new Map();
 
   #extensions: string[] = [];
 
@@ -67,7 +71,9 @@ export class RouteService {
     this.#extensions = routeOptions.extensions || DEFAULT_PAGE_EXTENSIONS;
     this.#include = routeOptions.include || [];
     this.#exclude = routeOptions.exclude || [];
-    this.#defaultLang = userConfig.doc?.lang || 'zh';
+    this.#defaultLang = userConfig.doc?.lang || '';
+    this.#langs =
+      userConfig.doc?.themeConfig?.locales?.map(locale => locale.lang) || [];
     this.#base = userConfig.doc?.base || '';
   }
 
@@ -92,6 +98,9 @@ export class RouteService {
     const fileRelativePath = normalizePath(
       path.relative(this.#scanDir, filePath),
     );
+    const lang =
+      this.#langs.find(lang => fileRelativePath.startsWith(lang)) ||
+      this.#defaultLang;
     const routePath = normalizeRoutePath(
       fileRelativePath,
       this.#defaultLang,
@@ -99,12 +108,32 @@ export class RouteService {
     );
     const absolutePath = path.join(this.#scanDir, fileRelativePath);
 
-    this.#routeData.push({
+    const routeInfo = {
       routePath,
       basePath: this.#scanDir,
       absolutePath: normalizePath(absolutePath),
       pageName: getPageKey(fileRelativePath),
-    });
+      lang,
+    };
+
+    if (this.#routeData.has(routePath)) {
+      // apply the one with the extension listed first in the array and skip the rest.
+      const preRouteExtIndex = this.#extensions.indexOf(
+        path.extname(this.#routeData.get(routePath)!.absolutePath).slice(1),
+      );
+      const currRouteExtIndex = this.#extensions.indexOf(
+        path.extname(absolutePath).slice(1),
+      );
+
+      if (
+        currRouteExtIndex !== -1 &&
+        (currRouteExtIndex < preRouteExtIndex || preRouteExtIndex === -1)
+      ) {
+        this.#routeData.set(routePath, routeInfo);
+      }
+    } else {
+      this.#routeData.set(routePath, routeInfo);
+    }
   }
 
   removeRoute(filePath: string) {
@@ -114,24 +143,22 @@ export class RouteService {
       this.#defaultLang,
       this.#base,
     );
-    this.#routeData = this.#routeData.filter(
-      route => route.routePath !== routePath,
-    );
+    this.#routeData.delete(routePath);
   }
 
   getRoutes() {
-    return this.#routeData;
+    return Array.from(this.#routeData.values());
   }
 
   isExistRoute(routePath: string) {
-    return this.#routeData.find(route => route.routePath === routePath);
+    return this.#routeData.get(routePath);
   }
 
   generateRoutesCode(isStaticImport?: boolean) {
     return `
 import React from 'react';
 import { lazyWithPreload } from "react-lazy-with-preload";
-${this.#routeData
+${this.getRoutes()
   .map((route, index) => {
     return isStaticImport
       ? `import * as Route${index} from '${route.absolutePath}';`
@@ -139,7 +166,7 @@ ${this.#routeData
   })
   .join('\n')}
 export const routes = [
-${this.#routeData
+${this.getRoutes()
   .map((route, index) => {
     // In ssr, we don't need to import component dynamically.
     const preload = isStaticImport
@@ -168,7 +195,7 @@ ${this.#routeData
      *   filePath: '/Users/xxx/xxx/index.md'
      * }
      */
-    return `{ path: '${route.routePath}', element: React.createElement(${component}), filePath: '${route.absolutePath}', preload: ${preload} }`;
+    return `{ path: '${route.routePath}', element: React.createElement(${component}), filePath: '${route.absolutePath}', preload: ${preload}, lang: '${route.lang}' }`;
   })
   .join(',\n')}
 ];

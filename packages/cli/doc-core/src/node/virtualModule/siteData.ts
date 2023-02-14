@@ -6,6 +6,7 @@ import {
   SidebarItem,
   SidebarGroup,
   NormalizedSidebarGroup,
+  PageIndexInfo,
 } from 'shared/types';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { remark } from 'remark';
@@ -16,8 +17,9 @@ import { htmlToText } from 'html-to-text';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 import { remarkPluginContainer } from '@modern-js/remark-container';
-import { ReplaceRule, Header } from 'shared/types/index';
+import { ReplaceRule } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
+import { logger } from '@modern-js/utils/logger';
 import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
@@ -25,20 +27,11 @@ import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { routeService } from './routeData';
 import { MDX_REGEXP, withBase } from '@/shared/utils';
 
-interface PageIndexData {
-  id: number;
-  title: string;
-  routePath: string;
-  toc: Header[];
-  content: string;
-  frontmatter: Record<string, unknown>;
-}
-
-let pages: PageIndexData[] | undefined;
+let pages: PageIndexInfo[] | undefined;
 
 export function normalizeThemeConfig(
   themeConfig: DefaultThemeConfig,
-  pages: PageIndexData[] = [],
+  pages: PageIndexInfo[] = [],
   base = '',
   replaceRules: ReplaceRule[],
 ): NormalizedDefaultThemeConfig {
@@ -113,7 +106,8 @@ export function normalizeThemeConfig(
 async function extractPageData(
   replaceRules: ReplaceRule[],
   alias: Record<string, string | string[]>,
-): Promise<PageIndexData[]> {
+  domain: string,
+): Promise<(PageIndexInfo | null)[]> {
   return Promise.all(
     routeService
       .getRoutes()
@@ -124,6 +118,9 @@ async function extractPageData(
           // eslint-disable-next-line import/no-named-as-default-member
           ...yamlFront.loadFront(content),
         };
+        if (frontmatter.pageType === 'home') {
+          return null;
+        }
         // 1. Replace rules for frontmatter & content
         Object.keys(frontmatter).forEach(key => {
           if (typeof frontmatter[key] === 'string') {
@@ -146,6 +143,9 @@ async function extractPageData(
         // 2. Optimize content index
         const ast = remark.parse({ value: content });
         const { title, toc } = parseToc(ast as Root);
+        if (!title?.length && !frontmatter.title?.length) {
+          return null;
+        }
         const precessor = unified()
           .use(remarkParse)
           .use(remarkPluginContainer)
@@ -164,18 +164,29 @@ async function extractPageData(
               selector: 'img',
               format: 'skip',
             },
+            ...['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].map(tag => ({
+              selector: tag,
+              options: {
+                uppercase: false,
+              },
+            })),
           ],
-          uppercaseHeadings: false,
           tables: true,
           longWordSplit: {
             forceWrapOnLimit: true,
           },
         });
+        if (content.startsWith(title)) {
+          // Remove the title from the content
+          content = content.slice(title.length);
+        }
         return {
           id: index,
           title: frontmatter.title || title,
           routePath: route.routePath,
+          lang: route.lang,
           toc,
+          domain,
           // Stripped frontmatter content
           content,
           frontmatter: {
@@ -197,12 +208,17 @@ export async function siteDataVMPlugin(
   const userConfig = config.doc;
   // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
   if (!isSSR) {
-    // eslint-disable-next-line no-console
-    console.log('⭐️ [doc-tools] Extracting site data...');
+    logger.info('[doc-tools] Extracting site data...');
   }
   const replaceRules = userConfig?.replaceRules || [];
+  const domain =
+    userConfig?.search?.mode === 'remote'
+      ? userConfig?.search.domain ?? ''
+      : '';
   if (!pages) {
-    pages = await extractPageData(replaceRules, alias);
+    pages = (await extractPageData(replaceRules, alias, domain)).filter(
+      Boolean,
+    ) as PageIndexInfo[];
   }
   const siteData = {
     title: userConfig?.title || '',
@@ -218,6 +234,7 @@ export async function siteDataVMPlugin(
     root: userRoot,
     lang: userConfig?.lang || 'zh',
     logo: userConfig?.logo || '',
+    search: userConfig?.search || { mode: 'local' },
     pages: pages.map(({ routePath, toc }) => ({
       routePath,
       toc,

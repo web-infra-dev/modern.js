@@ -13,6 +13,7 @@ export type Routes = Record<string, Route>;
 export type SSR =
   | boolean
   | {
+      forceCSR?: boolean;
       mode?: 'string' | 'stream';
     };
 
@@ -31,6 +32,7 @@ export interface ServerUserConfig {
   watchOptions?: WatchOptions;
   compiler?: 'babel' | 'typescript';
   enableFrameworkExt?: boolean;
+  worker?: boolean;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;

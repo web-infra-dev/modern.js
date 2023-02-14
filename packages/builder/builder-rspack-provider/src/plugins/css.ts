@@ -7,6 +7,7 @@ import {
   type BuilderContext,
   BundlerChain,
   ModifyBundlerChainUtils,
+  getCssSupport,
 } from '@modern-js/builder-shared';
 import type { BuilderPlugin, NormalizedConfig } from '../types';
 import type { AcceptedPlugin } from 'postcss';
@@ -77,16 +78,22 @@ export async function applyBaseCSSRule(
     };
     const enableCssMinify = !enableExtractCSS && isProd;
 
+    const cssSupport = getCssSupport(browserslist);
+
     const mergedConfig = applyOptionsChain(
       {
         postcssOptions: {
           plugins: [
             require(getCompiledPath('postcss-flexbugs-fixes')),
-            require(getCompiledPath('postcss-custom-properties')),
-            require(getCompiledPath('postcss-initial')),
-            require(getCompiledPath('postcss-page-break')),
-            require(getCompiledPath('postcss-font-variant')),
-            require(getCompiledPath('postcss-media-minmax')),
+            !cssSupport.customProperties &&
+              require(getCompiledPath('postcss-custom-properties')),
+            !cssSupport.initial && require(getCompiledPath('postcss-initial')),
+            !cssSupport.pageBreak &&
+              require(getCompiledPath('postcss-page-break')),
+            !cssSupport.fontVariant &&
+              require(getCompiledPath('postcss-font-variant')),
+            !cssSupport.mediaMinmax &&
+              require(getCompiledPath('postcss-media-minmax')),
             require(getCompiledPath('postcss-nesting')),
             require(getCompiledPath('autoprefixer'))(
               applyOptionsChain(

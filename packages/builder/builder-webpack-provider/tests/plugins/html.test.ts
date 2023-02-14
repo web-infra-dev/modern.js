@@ -39,6 +39,17 @@ describe('plugins/html', () => {
     expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
   });
 
+  it('should not register html plugin when target is service-worker', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginEntry(), builderPluginHtml()],
+      target: 'service-worker',
+      entry: {
+        main: './src/main.ts',
+      },
+    });
+    expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
+  });
+
   it('should register crossorigin plugin when using html.crossorigin', async () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginEntry(), builderPluginHtml()],

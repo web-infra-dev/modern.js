@@ -61,6 +61,13 @@ export async function dev(
   builderOptions: CreateBuilderOptions,
   config: BuilderConfig = {},
 ) {
+  if (!config.dev?.port) {
+    config.dev = {
+      ...(config.dev || {}),
+      port: Math.ceil(Math.random() * 10000) + 10000,
+    };
+  }
+
   const builder = await createBuilder(builderOptions, config);
   return builder.startDevServer();
 }
@@ -81,8 +88,13 @@ export async function build(
 
   const { distPath } = builder.context;
 
+  // make devPort random to avoid port conflict
+  const devPort = config.dev?.port || Math.ceil(Math.random() * 10000) + 10000;
+
   const { port, close } = runServer
-    ? await runStaticServer(distPath)
+    ? await runStaticServer(distPath, {
+        port: devPort,
+      })
     : { port: 0, close: noop };
 
   const clean = async () => await fs.remove(distPath);

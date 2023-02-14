@@ -2,6 +2,8 @@ import path from 'path';
 import assert from 'assert';
 import {
   CSS_REGEX,
+  getCssSupport,
+  ModifyChainUtils,
   isUseCssSourceMap,
   isLooseCssModules,
   getBrowserslistWithDefault,
@@ -16,7 +18,6 @@ import type {
   CSSLoaderOptions,
   NormalizedConfig,
   StyleLoaderOptions,
-  ModifyWebpackChainUtils,
 } from '../types';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { getCssnanoDefaultOptions } from './minimize';
@@ -71,7 +72,7 @@ export async function applyBaseCSSRule(
     CHAIN_ID,
     isWebWorker,
     getCompiledPath,
-  }: ModifyWebpackChainUtils,
+  }: ModifyChainUtils,
 ) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
@@ -95,16 +96,22 @@ export async function applyBaseCSSRule(
 
     const enableCssMinify = !enableExtractCSS && isProd;
 
+    const cssSupport = getCssSupport(browserslist);
+
     const mergedConfig = applyOptionsChain(
       {
         postcssOptions: {
           plugins: [
             require(getCompiledPath('postcss-flexbugs-fixes')),
-            require(getCompiledPath('postcss-custom-properties')),
-            require(getCompiledPath('postcss-initial')),
-            require(getCompiledPath('postcss-page-break')),
-            require(getCompiledPath('postcss-font-variant')),
-            require(getCompiledPath('postcss-media-minmax')),
+            !cssSupport.customProperties &&
+              require(getCompiledPath('postcss-custom-properties')),
+            !cssSupport.initial && require(getCompiledPath('postcss-initial')),
+            !cssSupport.pageBreak &&
+              require(getCompiledPath('postcss-page-break')),
+            !cssSupport.fontVariant &&
+              require(getCompiledPath('postcss-font-variant')),
+            !cssSupport.mediaMinmax &&
+              require(getCompiledPath('postcss-media-minmax')),
             require(getCompiledPath('postcss-nesting')),
             require(getCompiledPath('autoprefixer'))(
               applyOptionsChain(
@@ -238,7 +245,7 @@ export const builderPluginCss = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-css',
     setup(api) {
-      api.modifyWebpackChain(async (chain, utils) => {
+      api.modifyBundlerChain(async (chain, utils) => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
         const config = api.getNormalizedConfig();
         rule.test(CSS_REGEX);

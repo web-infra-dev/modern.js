@@ -86,7 +86,7 @@ export const makeRenderFunction = (code: string) => {
   const inGarfishToRender = `
   const { basename, props, dom, appName } = typeof arguments[0] === 'object' && arguments[0] || {};
   if (!canContinueRender({ dom, appName })) return null;
-  let { AppWrapper, mountNode } = generateAppWrapperAndRootDom({App, props, dom});
+  let { AppWrapper, mountNode } = generateAppWrapperAndRootDom({App, props: {...props, basename}, dom});
   `;
   return (
     inGarfishToRender +
@@ -99,8 +99,8 @@ export const makeRenderFunction = (code: string) => {
         'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',
       )
       .replace(
-        `customBootstrap(AppWrapper)`,
-        'customBootstrap(AppWrapper, mountNode)',
+        `customBootstrap(AppWrapper`,
+        'customBootstrap(AppWrapper, mountNode',
       )
   );
 };
@@ -142,5 +142,8 @@ export const generateAsyncEntry = (code: string) => {
         return exports.provider.apply(null, args);
       };
       ${transformCode}
+      if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
+        __GARFISH_EXPORTS__.provider = provider;
+      }
     `;
 };

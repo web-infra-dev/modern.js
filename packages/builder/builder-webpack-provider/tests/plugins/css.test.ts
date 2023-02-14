@@ -248,6 +248,20 @@ describe('plugins/css', () => {
       '"localIdentName":"[hash:base64]"',
     );
   });
+
+  it('should remove some postcss plugins based on browserslist', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginCss()],
+      builderConfig: {
+        output: {
+          overrideBrowserslist: ['Chrome 100'],
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });
 
 describe('normalizeCssLoaderOptions', () => {

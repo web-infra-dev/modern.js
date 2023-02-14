@@ -62,10 +62,6 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
                   [Function],
                   [Function],
                   [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                   {
                     "browsers": [
                       "Chrome 80",
@@ -75,6 +71,63 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
                       "flexbox": "no-2009",
                       "overrideBrowserslist": [
                         "Chrome 80",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/css > should remove some postcss plugins based on browserslist 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<ROOT>/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "Chrome 100",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "Chrome 100",
                       ],
                     },
                     "postcssPlugin": "autoprefixer",

@@ -61,6 +61,7 @@ export type RouterConfig = Partial<HistoryConfig> & {
     globalApp?: React.ComponentType<any>;
     routes?: SingleRouteConfig[];
   };
+  createRoutes?: () => React.ComponentType<any> | null;
   history?: History;
   serverBase?: string[];
 };
@@ -70,6 +71,7 @@ export const routerPlugin = ({
   history: customHistory,
   supportHtml5History = true,
   routesConfig,
+  createRoutes,
   historyOptions = {},
 }: RouterConfig): Plugin => {
   const isBrow = isBrowser();
@@ -106,9 +108,11 @@ export const routerPlugin = ({
 
               return (props: any) => (
                 <Router history={history}>
-                  <App {...props}>
-                    {routesConfig ? renderRoutes(routesConfig, props) : null}
-                  </App>
+                  {createRoutes ? (
+                    <App {...props} Component={createRoutes()} />
+                  ) : (
+                    <App {...props}>{renderRoutes(routesConfig, props)}</App>
+                  )}
                 </Router>
               );
             }
@@ -129,9 +133,11 @@ export const routerPlugin = ({
                   location={location}
                   context={routerContext}
                 >
-                  <App {...props}>
-                    {routesConfig ? renderRoutes(routesConfig, props) : null}
-                  </App>
+                  {createRoutes ? (
+                    <App {...props} Component={createRoutes()} />
+                  ) : (
+                    <App {...props}>{renderRoutes(routesConfig, props)}</App>
+                  )}
                 </StaticRouter>
               );
             };

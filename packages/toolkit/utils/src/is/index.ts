@@ -77,6 +77,22 @@ export const isUseSSRBundle = (config: any): boolean => {
   return isSSR(config);
 };
 
+/**
+ * Is Worker project
+ *
+ * @param config - User config.
+ * @returns Whether to use worker deploy.
+ */
+export const isServiceWorker = (config: any): boolean => {
+  const { output, server } = config;
+
+  if (server?.worker && (output?.ssg || isSSR(config))) {
+    return true;
+  }
+
+  return false;
+};
+
 export const isFastRefresh = () =>
   isDev() && process.env.FAST_REFRESH !== 'false';
 

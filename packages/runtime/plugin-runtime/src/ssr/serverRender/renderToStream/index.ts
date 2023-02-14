@@ -1,7 +1,7 @@
 import { createElement } from 'react';
 import { run } from '@modern-js/utils/ssr';
 import { PreRender } from '../../react/prerender';
-import { time } from '../utils';
+import { time } from '../time';
 import { ServerRenderOptions } from '../types';
 import renderToPipe from './renderToPipe';
 

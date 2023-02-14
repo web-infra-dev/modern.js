@@ -20,4 +20,9 @@ export const mockBuilderPlugins: Plugins = {
   yaml: genMockPlugin('builder-plugin-yaml'),
   toml: genMockPlugin('builder-plugin-toml'),
   splitChunks: genMockPlugin('builder-plugin-split-chunks'),
+  bundleAnalyzer: genMockPlugin('builder-plugin-bundle-analyzer'),
+  font: genMockPlugin('builder-plugin-font'),
+  media: genMockPlugin('builder-plugin-media'),
+  image: genMockPlugin('builder-plugin-image'),
+  svg: genMockPlugin('builder-plugin-svg'),
 };

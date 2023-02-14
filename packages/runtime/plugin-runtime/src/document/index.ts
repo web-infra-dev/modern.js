@@ -1,6 +1,6 @@
 export * from './Html';
 export * from './DocumentContext';
-export * from './DocumentStructrueContext';
+export * from './DocumentStructureContext';
 export * from './Head';
 export * from './Body';
 export * from './Root';
