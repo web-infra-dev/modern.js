@@ -12,6 +12,11 @@ declare module 'virtual-site-data' {
   export default data;
 }
 
+declare module 'virtual-search-index-hash' {
+  const hash: string;
+  export default hash;
+}
+
 declare module 'virtual-global-components' {
   import { ComponentType } from 'react';
 
