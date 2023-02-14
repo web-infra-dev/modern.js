@@ -70,7 +70,7 @@ function initPageStyle() {
       }
 
       if (appearanceDom) {
-        appearanceDom.style.display = 'block';
+        appearanceDom.style.display = 'flex';
       }
     };
   }
