@@ -1,7 +1,13 @@
 import { dirname, join } from 'path';
 import { HelmetData } from 'react-helmet-async';
 import { PageData, UserConfig } from 'shared/types';
-import { OUTPUT_DIR, APP_HTML_MARKER, HEAD_MARKER } from './constants';
+import {
+  OUTPUT_DIR,
+  APP_HTML_MARKER,
+  HEAD_MARKER,
+  HTML_START_TAG,
+  BODY_START_TAG,
+} from './constants';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
 import { modifyConfig, beforeBuild, afterBuild } from './hooks';
@@ -55,7 +61,7 @@ export async function renderPages(config: UserConfig) {
 
       const { helmet } = helmetContext.context;
 
-      const html = htmlTemplate
+      let html = htmlTemplate
         .replace(APP_HTML_MARKER, appHtml)
         .replace(
           HEAD_MARKER,
@@ -69,6 +75,19 @@ export async function renderPages(config: UserConfig) {
             ])
             .join(''),
         );
+      if (helmet?.htmlAttributes) {
+        html = html.replace(
+          HTML_START_TAG,
+          `${HTML_START_TAG} ${helmet?.htmlAttributes?.toString()}`,
+        );
+      }
+
+      if (helmet?.bodyAttributes) {
+        html = html.replace(
+          BODY_START_TAG,
+          `${BODY_START_TAG} ${helmet?.bodyAttributes?.toString()}`,
+        );
+      }
 
       const normalizeHtmlFilePath = (path: string) => {
         const normalizedBase = normalizeSlash(config.doc?.base || '/');

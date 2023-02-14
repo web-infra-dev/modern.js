@@ -26,5 +26,7 @@ export const OUTPUT_DIR = 'doc_build';
 
 export const APP_HTML_MARKER = '<!--<?- DOC_CONTENT ?>-->';
 export const HEAD_MARKER = '<!--<?- HEAD ?>-->';
+export const HTML_START_TAG = '<html';
+export const BODY_START_TAG = '<body';
 
 export const PUBLIC_DIR = 'public';

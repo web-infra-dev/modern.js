@@ -14,7 +14,8 @@
   ],
   "scripts": {
     "dev": "modern dev",
-    "build:doc": "modern build"
+    "build:doc": "modern build",
+    "preview": "modern preview"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

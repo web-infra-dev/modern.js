@@ -125,7 +125,7 @@ export function Search() {
   }, [focused]);
 
   useEffect(() => {
-    initPageSearcher();
+    focused && initPageSearcher();
     // init pageSearcher again when lang changed
   }, [lang]);
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import { useLocation } from '@modern-js/doc-tools/runtime';
+import { useLocation, Helmet } from '@modern-js/doc-tools/runtime';
 import ContentCard from '../components/ContentCard';
 import SecondaryTitle from '../components/SecondaryTitle';
 import { FeatureLayout } from '../components/FeatureLayout';
@@ -45,26 +45,32 @@ const HomepageHeader = () => {
 function initPageStyle() {
   if (typeof window !== 'undefined') {
     document.documentElement.classList.add('dark');
-    const navDom = document.querySelector(
-      '.dark .modern-doc-nav',
-    ) as HTMLDivElement;
-    const appearanceDom = document.querySelector(
-      '.modern-doc-appearance',
-    ) as HTMLDivElement;
-    if (navDom) {
-      navDom.style.backgroundColor = '#000';
-    }
-    if (appearanceDom) {
-      appearanceDom.style.display = 'none';
-    }
+    let navDom: HTMLDivElement;
+    let appearanceDom: HTMLDivElement;
+    requestAnimationFrame(() => {
+      navDom = document.querySelector(
+        '.dark .modern-doc-nav',
+      ) as HTMLDivElement;
+      appearanceDom = document.querySelector(
+        '.modern-doc-appearance',
+      ) as HTMLDivElement;
+      if (navDom) {
+        navDom.style.backgroundColor = '#000';
+      }
+      if (appearanceDom) {
+        appearanceDom.style.display = 'none';
+      }
+    });
+
     return () => {
       document.documentElement.classList.remove('dark');
 
       if (navDom) {
         navDom.style.backgroundColor = '';
       }
+
       if (appearanceDom) {
-        appearanceDom.style.display = 'block';
+        appearanceDom.style.display = 'flex';
       }
     };
   }
@@ -141,6 +147,9 @@ export default function Home() {
 
   return (
     <div>
+      <Helmet>
+        <html className="dark"></html>
+      </Helmet>
       <HomepageHeader />
       <main className={styles['homepage-main']}>
         <FeatureLayout>
