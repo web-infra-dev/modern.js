@@ -5,11 +5,12 @@
 
 import type { CreateOptions, Index as SearchIndex } from 'flexsearch';
 import FlexSearch from 'flexsearch';
+import searchIndexHash from 'virtual-search-index-hash';
 import { SearchOptions } from '../search';
 import { LOCAL_INDEX, Provider, SearchQuery } from '../Provider';
 import { normalizeTextCase } from '../util';
-import { SEARCH_INDEX_JSON } from '@/shared/utils';
 import { PageIndexInfo } from '@/shared/types';
+import { SEARCH_INDEX_NAME } from '@/shared/utils';
 
 interface PageIndexForFlexSearch extends PageIndexInfo {
   normalizedContent: string;
@@ -29,7 +30,7 @@ export class LocalProvider implements Provider {
     const result = await fetch(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error __ASSET_PREFIX__ is injected by webpack
-      `${__ASSET_PREFIX__}/static/${SEARCH_INDEX_JSON}`,
+      `${__ASSET_PREFIX__}/static/${SEARCH_INDEX_NAME}.${searchIndexHash}.json`,
     );
     return result.json();
   }

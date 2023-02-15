@@ -36,16 +36,24 @@ function renderToPipe(
       });
       const reader: ReadableStreamDefaultReader = readableOriginal.getReader();
       const injectableStream = new ReadableStream({
-        async start(controller) {
-          const { value } = await reader.read();
-          if (isShellStream) {
-            controller.enqueue(encodeForWebStream(shellBefore));
-            controller.enqueue(value);
-            controller.enqueue(encodeForWebStream(shellAfter));
-            isShellStream = false;
-          } else {
-            controller.enqueue(value);
+        start(controller) {
+          async function push() {
+            const { done, value } = await reader.read();
+            if (done) {
+              controller.close();
+              return;
+            }
+            if (isShellStream) {
+              controller.enqueue(encodeForWebStream(shellBefore));
+              controller.enqueue(value);
+              controller.enqueue(encodeForWebStream(shellAfter));
+              isShellStream = false;
+            } else {
+              controller.enqueue(value);
+            }
+            push();
           }
+          push();
         },
       });
       return readableOriginal(injectableStream).readableOriginal(stream);
