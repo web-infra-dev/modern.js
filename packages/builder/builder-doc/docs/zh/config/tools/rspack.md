@@ -1,19 +1,17 @@
 - **类型：** `Object` | `Function` | `undefined`
 - **默认值：** `undefined`
-- **打包工具：** `仅支持 webpack`
+- **打包工具：** `仅支持 Rspack`
 
-`tools.webpack` 选项用于配置原生的 [webpack](https://webpack.js.org/)。
-
-> `tools.webpackChain` 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.webpackChain`。
+`tools.rspack` 选项用于配置原生的 [Rspack](https://www.rspack.org/)。
 
 ### Object 类型
 
-你可以配置为一个对象，这个对象将会和原始的 webpack 配置通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 进行合并。比如：
+你可以配置为一个对象，这个对象将会和原始的 Rspack 配置通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 进行合并。比如：
 
 ```js
 export default {
   tools: {
-    webpack: {
+    rspack: {
       resolve: {
         alias: {
           '@util': 'src/util',
@@ -26,12 +24,12 @@ export default {
 
 ### Function 类型
 
-你也可以配置为一个函数，这个函数接收一个参数，即原始的 webpack 配置，你可以对这个配置进行修改，然后返回一个新的配置。比如：
+你也可以配置为一个函数，这个函数接收一个参数，即原始的 Rspack 配置，你可以对这个配置进行修改，然后返回一个新的配置。比如：
 
 ```js
 export default {
   tools: {
-    webpack: config => {
+    rspack: config => {
       config.resolve.alias['@util'] = 'src/util';
       return config;
     },
@@ -52,7 +50,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { env }) => {
+    rspack: (config, { env }) => {
       if (env === 'development') {
         config.devtool = 'cheap-module-eval-source-map';
       }
@@ -71,7 +69,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { isProd }) => {
+    rspack: (config, { isProd }) => {
       if (isProd) {
         config.devtool = 'source-map';
       }
@@ -90,7 +88,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { target }) => {
+    rspack: (config, { target }) => {
       if (target === 'node') {
         // ...
       }
@@ -109,7 +107,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { isServer }) => {
+    rspack: (config, { isServer }) => {
       if (isServer) {
         // ...
       }
@@ -128,7 +126,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: (config, { isWebWorker }) => {
+    rspack: (config, { isWebWorker }) => {
       if (isWebWorker) {
         // ...
       }
@@ -138,51 +136,18 @@ export default {
 };
 ```
 
-#### webpack
-
-- **类型：** `typeof import('webpack')`
-
-通过这个参数你可以拿到 webpack 实例。比如：
-
-```js
-export default {
-  tools: {
-    webpack: (config, { webpack }) => {
-      config.plugins.push(new webpack.ProgressPlugin());
-      return config;
-    },
-  },
-};
-```
-
-### HtmlWebpackPlugin
-
-- **类型：** `typeof import('html-webpack-plugin')`
-
-通过这个参数你可以拿到 HtmlWebpackPlugin 实例。
-
-```js
-export default {
-  tools: {
-    webpackChain: (chain, { HtmlWebpackPlugin }) => {
-      console.log(HtmlWebpackPlugin);
-    },
-  },
-};
-```
-
 ### addRules
 
 - **类型：** `(rules: RuleSetRule | RuleSetRule[]) => void`
 
-添加额外的 [webpack rules](https://webpack.js.org/configuration/module/#modulerules)。
+添加额外的 [Rspack rules](https://www.rspack.org/config/module.html#modulerules)。
 
 示例：
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { addRules }) => {
+    rspack: (config, { addRules }) => {
       // 添加单条规则
       addRules({
         test: /\.foo/,
@@ -207,19 +172,17 @@ export default {
 
 ### prependPlugins
 
-- **类型：** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+- **类型：** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
-在内部 webpack 插件数组头部添加额外的插件，数组头部的插件会优先执行。
+在内部 Rspack 插件数组头部添加额外的插件，数组头部的插件会优先执行。
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { prependPlugins, webpack }) => {
+    rspack: (config, { prependPlugins }) => {
       // 添加单个插件
       prependPlugins(
-        new webpack.BannerPlugin({
-          banner: 'hello world!',
-        }),
+        new PluginA(),
       );
 
       // 以数组形式添加多个插件
@@ -231,19 +194,17 @@ export default {
 
 ### appendPlugins
 
-- **类型：** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+- **类型：** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
-在内部 webpack 插件数组尾部添加额外的插件，数组尾部的插件会在最后执行。
+在内部 Rspack 插件数组尾部添加额外的插件，数组尾部的插件会在最后执行。
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { appendPlugins, webpack }) => {
+    rspack: (config, { appendPlugins }) => {
       // 添加单个插件
       appendPlugins([
-        new webpack.BannerPlugin({
-          banner: 'hello world!',
-        }),
+        new PluginA(),
       ]);
 
       // 以数组形式添加多个插件
@@ -257,15 +218,15 @@ export default {
 
 - **类型：** `(name: string) => void`
 
-删除内部的 webpack 插件，参数为该插件的 `constructor.name`。
+删除内部的 Rspack 插件，参数为该插件的 `constructor.name`。
 
-例如，删除内部的 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin)：
+例如，删除内部的 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)：
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { removePlugin }) => {
-      removePlugin('ForkTsCheckerWebpackPlugin');
+    rspack: (config, { removePlugin }) => {
+      removePlugin('BundleAnalyzerPlugin');
     },
   },
 };
@@ -273,14 +234,14 @@ export default {
 
 ### mergeConfig
 
-- **类型：** `(...configs: WebpackConfig[]) => WebpackConfig`
+- **类型：** `(...configs: RspackConfig[]) => RspackConfig`
 
-用于合并多份 webpack 配置，等价于 [webpack-merge](https://github.com/survivejs/webpack-merge)。
+用于合并多份 Rspack 配置，等价于 [webpack-merge](https://github.com/survivejs/webpack-merge)。
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { mergeConfig }) => {
+    rspack: (config, { mergeConfig }) => {
       return mergeConfig(config, {
         devtool: 'eval',
       });

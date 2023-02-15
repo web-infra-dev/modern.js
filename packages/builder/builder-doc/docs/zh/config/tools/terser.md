@@ -10,6 +10,7 @@ const defaultTerserOptions = {
   },
 };
 ```
+- **打包工具：** `仅支持 webpack`
 
 在生产环境构建时，Builder 会通过 [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) 对 JavaScript 代码进行压缩优化。可以通过 `tools.terser` 修改 [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) 的配置。
 

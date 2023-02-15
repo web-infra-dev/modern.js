@@ -1,5 +1,6 @@
 - **类型：** `true | Object | Function | undefined`
 - **默认值：** `false`
+- **打包工具：** `仅支持 webpack`
 
 配置 [Pug](https://pugjs.org/) 模板引擎。
 

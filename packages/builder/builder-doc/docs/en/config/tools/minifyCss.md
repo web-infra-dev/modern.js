@@ -13,6 +13,7 @@ const defaultOptions = {
   },
 };
 ```
+- **Bundler:** `only support webpack`
 
 When building for production, Builder will minimize the CSS code through [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin). The config of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) can be modified via `tools.minifyCss`.
 

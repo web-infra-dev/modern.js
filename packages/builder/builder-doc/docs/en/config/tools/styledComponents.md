@@ -11,6 +11,7 @@
   transpileTemplateLiterals: true,
 }
 ```
+- **Bundler:** `only support webpack`
 
 `tools.styledComponents` config is corresponding to [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components).
 

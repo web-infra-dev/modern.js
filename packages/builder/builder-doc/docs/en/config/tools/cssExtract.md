@@ -15,6 +15,7 @@ const defaultOptions = {
   },
 };
 ```
+- **Bundler:** `only support webpack`
 
 The config of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) can be modified through `tools.cssExtract`.
 

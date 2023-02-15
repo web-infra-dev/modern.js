@@ -1,5 +1,6 @@
 - **Type:** `Object | Function | undefined`
 - **Default:** `undefined`
+- **Bundler:** `only support webpack`
 
 You can enable or configure the [webpack inspector](https://github.com/modern-js-dev/webpack-inspector) through `tools.inspector`.
 
