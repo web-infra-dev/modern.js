@@ -21,14 +21,14 @@ const getNavbar = (lang: string): NavItem[] => {
   const getText = (cnText: string, enText: string) => (cn ? cnText : enText);
   return [
     {
+      text: getText('指南', 'Guide'),
+      link: getLink('/guides/get-started/introduction'),
+      activeMatch: '/guides/',
+    },
+    {
       text: getText('教程', 'Tutorials'),
       link: getLink('/tutorials/foundations/introduction'),
       activeMatch: '/tutorials/',
-    },
-    {
-      text: getText('指南', 'Guide'),
-      link: getLink('/guides/get-started/quick-start'),
-      activeMatch: '/guides/',
     },
     {
       text: getText('配置', 'Configure'),
