@@ -20,7 +20,6 @@ register plugin in `modern.config.ts`:
 ```ts title="modern.config.ts"
 import testPlugin from '@modern-js/plugin-testing';
 
-// https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
   plugins: [..., testPlugin()],
 });
@@ -28,7 +27,7 @@ export default defineConfig({
 
 ## Test file
 
-Modern.js default recognized test file paths are: `<rootDir>/src/**/*.test.[jt]s?(x)` and `<rootDir>/tests/**/*.test.[jt]s?(x)`。
+Modern.js default recognized test file paths are: `<rootDir>/src/**/*.test.[jt]s?(x)` and `<rootDir>/tests/**/*.test.[jt]s?(x)`.
 
 If you need to customize the test directory, you can configure it with [tools.jest](/configure/app/tools/jest).
 
@@ -40,7 +39,7 @@ Modern.js test support [testing-library](https://testing-library.com/docs/). API
 import { render, screen } from '@modern-js/runtime/testing';
 ```
 
-Other Modern.js supported testing APIs can be found [here](/apis/app/runtime/testing/cleanup)。
+Other Modern.js supported testing APIs can be found [here](/apis/app/runtime/testing/cleanup).
 
 ## transform
 

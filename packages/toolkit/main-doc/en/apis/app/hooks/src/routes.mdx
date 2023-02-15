@@ -52,7 +52,7 @@ If the directory name of the route file is named with `[]`, the generated route 
 
 The `routes/[id]/page.tsx` file will be converted to a `/:id` route. All `/xxx` will match that route, except for the `/blog` route, which can be matched exactly.
 
-In the component, you can get the corresponding parameters by [useParams](/apis/app/runtime/router/#useparams).
+In the component, you can get the corresponding parameters by [useParams](/apis/app/runtime/router/router#useparams).
 
 In the loader, params will be used as input to [loader](/guides/basic-features/data-fetch#loader-function), and the corresponding parameters can be retrieved through the property `params`.
 

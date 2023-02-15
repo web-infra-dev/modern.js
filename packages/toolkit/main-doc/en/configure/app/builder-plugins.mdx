@@ -9,19 +9,19 @@ sidebar_position: 10
 
 Used to configure the Modern.js Builder plugin.
 
-Modern.js Builder is the build engine of Modern.js, please read [Builder](/guides/basic-features/builder) for background. If you want to know how to write Builder plugins, you can refer to [Modern.js Builder - Introduce to Plugin](https://modernjs.dev/builder/en/plugins/introduction.html).
+Modern.js Builder is the build engine of Modern.js, please read [Builder](/guides/concept/builder) for background. If you want to know how to write Builder plugins, you can refer to [Modern.js Builder - Introduce to Plugin](https://modernjs.dev/builder/en/plugins/introduction.html).
 
 ## Precautions
 
 This option **is used to configure the Modern.js Builder plugins**. If you need to configure other types of plugins, please select the corresponding configs:
 
-- Use [plugins](docs/configure/app/builder-plugins) to configure Modern.js framework plugins.
+- Use [plugins](/configure/app/builder-plugins) to configure Modern.js framework plugins.
 - Use [tools.webpack](/configure/app/tools/webpack) or [tools.webpackChain](/configure/app/tools/webpack-chain) to configure webpack plugins.
 - Use [tools.babel](/configure/app/tools/babel) to configure babel plugins.
 
 ## When to use
 
-In most scenarios, we recommend you to use the Modern.js framework plugin, which can be registered through the [plugins](docs/configure/app/plugins) config. Because the API provided by the framework plugin is richer and more capable, while the API provided by the Builder plugin can only be used to build scenes.
+In most scenarios, we recommend you to use the Modern.js framework plugin, which can be registered through the [plugins](/configure/app/plugins) config. Because the API provided by the framework plugin is richer and more capable, while the API provided by the Builder plugin can only be used to build scenes.
 
 When you need to reference some existing Builder plugins (and there is no related capability in Modern.js), or reuse Builder plugins between different frameworks, you can use the `builderPlugins` field to register them.
 
