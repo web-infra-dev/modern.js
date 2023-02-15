@@ -19,7 +19,12 @@ export function HomeHero() {
       m="auto"
       p="t-12 x-6 b-12 sm:t-0 sm:x-8 sm:x-16 md:t-20 md:x-16 md:b-16"
     >
-      <div className={styles.mask}></div>
+      <div
+        className={styles.mask}
+        style={{
+          left: hasImage ? '70%' : '50%',
+        }}
+      ></div>
       <div className="max-w-1152px" m="auto" flex="~ col md:row">
         <div
           order="2 md:1"
