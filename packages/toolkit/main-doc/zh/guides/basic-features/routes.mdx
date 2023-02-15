@@ -329,8 +329,15 @@ import type { AppConfig } from '@modern-js/runtime';
 export const config = (): AppConfig => {
   return {
     router: {
-      supportHtml5History: false
-    }
+      createRoutes() {
+        return [
+          {
+            path: 'edenx',
+            element: <div>edenx</div>,
+          },
+        ];
+      },
+    },
   }
 };
 ```

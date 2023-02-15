@@ -28,6 +28,7 @@ const defaultOptions = {
   },
 },
 ```
+- **打包工具：** `仅支持 webpack`
 
 默认情况下，Builder 会开启 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 进行类型检查。你可以通过 `output.disableTsChecker` 配置项来关闭类型检查。
 

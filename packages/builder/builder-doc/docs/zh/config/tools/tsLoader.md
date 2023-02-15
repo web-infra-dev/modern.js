@@ -1,5 +1,6 @@
 - **类型：** `Object | Function | undefined`
 - **默认值：** `undefined`
+- **打包工具：** `仅支持 webpack`
 
 项目中默认不开启 ts-loader，当 `tools.tsLoader` 不为 undefined 则表示开启 ts-loader，同时禁用 babel-loader 对 TypeScript 的编译。
 

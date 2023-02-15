@@ -1,19 +1,17 @@
 - **Type:** `Object` | `Function` | `undefined`
 - **Default:** `undefined`
-- **Bundler:** `only support webpack`
+- **Bundler:** `only support Rspack`
 
-`tools.webpack` is used to configure [webpack](https://webpack.js.org/)。
-
-> `tools.webpackChain` is also used to modify the webpack configuration, and the function is more powerful. It is recommended to use `tools.webpackChain` first.
+`tools.rspack` is used to configure [Rspack](https://www.rspack.org/).
 
 ### Object Type
 
-You can configure it as an object, which will be merged with the original webpack configuration through [webpack-merge](https://github.com/survivejs/webpack-merge). For example:
+You can configure it as an object, which will be merged with the original Rspack configuration through [webpack-merge](https://github.com/survivejs/webpack-merge). For example:
 
 ```js
 export default {
   tools: {
-    webpack: {
+    rspack: {
       resolve: {
         alias: {
           '@util': 'src/util',
@@ -26,12 +24,12 @@ export default {
 
 ### Function Type
 
-You can also configure it as a function, which accepts one parameter, the original webpack configuration, you can modify this configuration, and then return a new configuration. For example:
+You can also configure it as a function, which accepts one parameter, the original Rspack configuration, you can modify this configuration, and then return a new configuration. For example:
 
 ```js
 export default {
   tools: {
-    webpack: config => {
+    rspack: config => {
       config.resolve.alias['@util'] = 'src/util';
       return config;
     },
@@ -52,7 +50,7 @@ The `env` parameter can be used to determine whether the current environment is 
 ```js
 export default {
   tools: {
-    webpack: (config, { env }) => {
+    rspack: (config, { env }) => {
       if (env === 'development') {
         config.devtool = 'cheap-module-eval-source-map';
       }
@@ -71,7 +69,7 @@ The `isProd` parameter can be used to determine whether the current environment 
 ```js
 export default {
   tools: {
-    webpack: (config, { isProd }) => {
+    rspack: (config, { isProd }) => {
       if (isProd) {
         config.devtool = 'source-map';
       }
@@ -90,7 +88,7 @@ The `target` parameter can be used to determine the current target. For example:
 ```js
 export default {
   tools: {
-    webpack: (config, { target }) => {
+    rspack: (config, { target }) => {
       if (target === 'node') {
         // ...
       }
@@ -109,7 +107,7 @@ Determines whether the target environment is `node`, equivalent to `target === '
 ```js
 export default {
   tools: {
-    webpack: (config, { isServer }) => {
+    rspack: (config, { isServer }) => {
       if (isServer) {
         // ...
       }
@@ -128,7 +126,7 @@ Determines whether the target environment is `web-worker`, equivalent to `target
 ```js
 export default {
   tools: {
-    webpack: (config, { isWebWorker }) => {
+    rspack: (config, { isWebWorker }) => {
       if (isWebWorker) {
         // ...
       }
@@ -138,51 +136,18 @@ export default {
 };
 ```
 
-#### webpack
-
-- **Type:** `typeof import('webpack')`
-
-The webpack instance. For example:
-
-```js
-export default {
-  tools: {
-    webpack: (config, { webpack }) => {
-      config.plugins.push(new webpack.ProgressPlugin());
-      return config;
-    },
-  },
-};
-```
-
-### HtmlWebpackPlugin
-
-- **Type:** `typeof import('html-webpack-plugin')`
-
-The HtmlWebpackPlugin instance:
-
-```js
-export default {
-  tools: {
-    webpackChain: (chain, { HtmlWebpackPlugin }) => {
-      console.log(HtmlWebpackPlugin);
-    },
-  },
-};
-```
-
 ### addRules
 
 - **Type:** `(rules: RuleSetRule | RuleSetRule[]) => void`
 
-Add additional [webpack rules](https://webpack.js.org/configuration/module/#modulerules).
+Add additional [Rspack rules](https://www.rspack.org/config/module.html#modulerules).
 
 For example:
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { addRules }) => {
+    rspack: (config, { addRules }) => {
       // add a single rule
       addRules({
         test: /\.foo/,
@@ -207,19 +172,17 @@ export default {
 
 ### prependPlugins
 
-- **Type:** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+- **Type:** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
-Add additional plugins to the head of the internal webpack plugins array, and the plugin will be executed first.
+Add additional plugins to the head of the internal Rspack plugins array, and the plugin will be executed first.
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { prependPlugins, webpack }) => {
+    rspack: (config, { prependPlugins }) => {
       // add a single plugin
       prependPlugins(
-        new webpack.BannerPlugin({
-          banner: 'hello world!',
-        }),
+        new PluginA(),
       );
 
       // Add multiple plugins
@@ -231,19 +194,17 @@ export default {
 
 ### appendPlugins
 
-- **Type:** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+- **Type:** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
-Add additional plugins at the end of the internal webpack plugins array, the plugin will be executed last.
+Add additional plugins at the end of the internal Rspack plugins array, the plugin will be executed last.
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { appendPlugins, webpack }) => {
+    rspack: (config, { appendPlugins }) => {
       // add a single plugin
       appendPlugins([
-        new webpack.BannerPlugin({
-          banner: 'hello world!',
-        }),
+        new PluginA(),
       ]);
 
       // Add multiple plugins
@@ -257,15 +218,15 @@ export default {
 
 - **Type:** `(name: string) => void`
 
-Remove the internal webpack plugin, the parameter is the `constructor.name` of the plugin.
+Remove the internal Rspack plugin, the parameter is the `constructor.name` of the plugin.
 
-For example, remove the internal [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin):
+For example, remove the internal [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer):
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { removePlugin }) => {
-      removePlugin('ForkTsCheckerWebpackPlugin');
+    rspack: (config, { removePlugin }) => {
+      removePlugin('BundleAnalyzerPlugin');
     },
   },
 };
@@ -273,14 +234,14 @@ export default {
 
 ### mergeConfig
 
-- **Type:** `(...configs: WebpackConfig[]) => WebpackConfig`
+- **Type:** `(...configs: RspackConfig[]) => RspackConfig`
 
-Used to merge multiple webpack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge)。
+Used to merge multiple Rspack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge)。
 
 ```ts
 export default {
   tools: {
-    webpack: (config, { mergeConfig }) => {
+    rspack: (config, { mergeConfig }) => {
       return mergeConfig(config, {
         devtool: 'eval',
       });

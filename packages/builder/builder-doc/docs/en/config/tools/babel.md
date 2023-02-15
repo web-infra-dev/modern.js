@@ -1,5 +1,6 @@
 - **Type:** `Object | Function`
 - **Default:** `undefined`
+- **Bundler:** `only support webpack`
 
 By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 

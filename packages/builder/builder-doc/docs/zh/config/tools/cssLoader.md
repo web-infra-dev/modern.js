@@ -18,6 +18,7 @@
   sourceMap: isDev,
 }
 ```
+- **打包工具：** `仅支持 webpack`
 
 ### Object 类型
 

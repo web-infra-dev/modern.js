@@ -18,6 +18,7 @@ const defaultBuildCacheConfig = {
   cacheDirectory: './node_modules/.cache/webpack',
 };
 ```
+- **Bundler:** `only support webpack`
 
 Controls the Builder's caching behavior during the build process.
 

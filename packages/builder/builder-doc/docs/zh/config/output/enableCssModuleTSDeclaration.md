@@ -1,5 +1,6 @@
 - **类型：** `boolean`
 - **默认值：** `false`
+- **打包工具：** `仅支持 webpack`
 
 是否生成 CSS Modules 的 TypeScript 声明文件。
 

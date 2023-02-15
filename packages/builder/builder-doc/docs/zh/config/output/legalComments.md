@@ -1,5 +1,6 @@
 - **类型：** `'linked' | 'inline' | 'none'`
 - **默认值：** `'linked'`
+- **打包工具：** `仅支持 webpack`
 
 配置 legal comment 的处理方式。
 

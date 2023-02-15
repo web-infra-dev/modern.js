@@ -1,5 +1,6 @@
 - **类型：** `Object | Function | undefined`
 - **默认值：** `undefined`
+- **打包工具：** `仅支持 webpack`
 
 你可以通过 `tools.inspector` 开启或者配置 webpack 调试工具 [webpack inspector](https://github.com/modern-js-dev/webpack-inspector)。
 

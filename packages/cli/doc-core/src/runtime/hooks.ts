@@ -18,3 +18,8 @@ export function usePageData() {
   const ctx = useContext(DataContext);
   return ctx.data;
 }
+
+export function useLang(): string {
+  const ctx = useContext(DataContext);
+  return ctx.data.lang;
+}
