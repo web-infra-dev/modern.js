@@ -26,7 +26,7 @@ import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { createHash } from '../utils';
 import { routeService } from './routeData';
-import { MDX_REGEXP, withBase } from '@/shared/utils';
+import { MDX_REGEXP, SEARCH_INDEX_NAME, withBase } from '@/shared/utils';
 
 let pages: PageIndexInfo[] | undefined;
 
@@ -273,7 +273,7 @@ export async function siteDataVMPlugin(
   const stringfiedIndex = JSON.stringify(pages);
   indexHash = createHash(stringfiedIndex);
   await fs.writeFile(
-    path.join(userRoot, PUBLIC_DIR, `search_index.${indexHash}.json`),
+    path.join(userRoot, PUBLIC_DIR, `${SEARCH_INDEX_NAME}.${indexHash}.json`),
     stringfiedIndex,
   );
 
