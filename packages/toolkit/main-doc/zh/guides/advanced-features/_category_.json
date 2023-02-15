@@ -1,9 +1,5 @@
 {
   "label": "进阶功能",
-  "position": 4,
-  "collapsed": true,
-  "link": {
-    "type": "doc",
-    "id": "guides/advanced-features/index"
-  }
+  "position": 6,
+  "collapsed": false
 }

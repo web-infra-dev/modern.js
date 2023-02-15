@@ -84,7 +84,7 @@ export default function Home() {
   const features = [
     {
       title: t('feature1'),
-      href: useUrl('/guides/basic-features/builder'),
+      href: useUrl('/guides/concept/builder'),
       desc: t('featureDesc1'),
     },
     {
@@ -104,7 +104,7 @@ export default function Home() {
     },
     {
       title: t('feature5'),
-      href: useUrl('/guides/basic-features/css/css-in-js'),
+      href: useUrl('/guides/css/css-in-js'),
       desc: t('featureDesc5'),
     },
     {
