@@ -92,6 +92,19 @@ export default (): CliPlugin<AppTools> => ({
           // FIXME: })) as IAppContext[`serverRoutes`];
         })) as ServerRoute[];
 
+        if (bff?.enableHandleWeb) {
+          return {
+            routes: (
+              routes.map(route => {
+                return {
+                  ...route,
+                  isApi: true,
+                };
+              }) as ServerRoute[]
+            ).concat(apiServerRoutes),
+          };
+        }
+
         return { routes: routes.concat(apiServerRoutes) };
       },
 
