@@ -1,5 +1,6 @@
 - **Type:** `'linked' | 'inline' | 'none'`
 - **Default:** `'linked'`
+- **Bundler:** `only support webpack`
 
 Configure how to handle the legal comment.
 

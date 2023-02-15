@@ -1,5 +1,6 @@
 - **类型：** `Function | undefined`
 - **默认值：** `undefined`
+- **打包工具：** `仅支持 webpack`
 
 你可以通过 `tools.webpackChain` 来修改默认的 webpack 配置，值为 `Function` 类型，接收两个参数：
 

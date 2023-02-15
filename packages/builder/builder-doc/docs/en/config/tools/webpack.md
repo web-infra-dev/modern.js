@@ -1,5 +1,6 @@
 - **Type:** `Object` | `Function` | `undefined`
 - **Default:** `undefined`
+- **Bundler:** `only support webpack`
 
 `tools.webpack` is used to configure [webpack](https://webpack.js.org/)。
 

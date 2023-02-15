@@ -1,5 +1,6 @@
 - **类型：** `Object | Function`
 - **默认值：** `undefined`
+- **打包工具：** `仅支持 webpack`
 
 通过 `tools.babel` 可以修改 [babel-loader](https://github.com/babel/babel-loader) 的配置项。
 

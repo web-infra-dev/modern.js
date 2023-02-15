@@ -12,6 +12,7 @@ type LazyCompilationOptions =
 ```
 
 - **默认值：** `false`
+- **打包工具：** `仅支持 webpack`
 
 用于开启延迟编译（即按需编译）的能力。当开启此配置项时，Builder 会进行延迟编译，提升项目的编译启动速度。
 

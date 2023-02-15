@@ -1,5 +1,6 @@
 - **Type:** `boolean`
 - **Default:** `false`
+- **Bundler:** `only support webpack`
 
 Whether to generate a TypeScript declaration file for CSS modules.
 
