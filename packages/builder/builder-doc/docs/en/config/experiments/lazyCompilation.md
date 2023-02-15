@@ -12,6 +12,7 @@ type LazyCompilationOptions =
 ```
 
 - **Default:** `false`
+- **Bundler:** `only support webpack`
 
 Used to enable the lazy compilation (i.e. compile on demand). When this config is enabled, Builder will compile entrypoints and dynamic imports only when they are used. It will improve the compilation startup time of the project.
 

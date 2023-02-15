@@ -36,6 +36,7 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
   onFail: () => {},
 };
 ```
+- **打包工具：** `仅支持 webpack`
 
 ### assetsRetry.max
 

@@ -1,5 +1,6 @@
 - **Type:** `Function | undefined`
 - **Default:** `undefined`
+- **Bundler:** `only support webpack`
 
 You can modify the webpack configuration by configuring `tools.webpackChain` which is type of `Function`. The function receives two parameters, the first is the original webpack chain object, and the second is an object containing some utils.
 

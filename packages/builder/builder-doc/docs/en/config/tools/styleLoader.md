@@ -1,5 +1,6 @@
 - **Type:** `Object | Function`
 - **Default:** `{}`
+- **Bundler:** `only support webpack`
 
 The config of [style-loader](https://github.com/webpack-contrib/style-loader) can be set through `tools.styleLoader`.
 

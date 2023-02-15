@@ -18,6 +18,7 @@ const defaultBuildCacheConfig = {
   cacheDirectory: './node_modules/.cache/webpack',
 };
 ```
+- **打包工具：** `仅支持 webpack`
 
 控制 Builder 在构建过程中的缓存行为。
 

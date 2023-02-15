@@ -11,6 +11,7 @@ type SRIOptions =
 ```
 
 - **默认值：** `undefined`
+- **打包工具：** `仅支持 webpack`
 
 为 HTML 所引入的子资源添加完整性属性 —— `integrity`，使浏览器能够验证引入资源的完整性，以此防止下载的资源被篡改。
 

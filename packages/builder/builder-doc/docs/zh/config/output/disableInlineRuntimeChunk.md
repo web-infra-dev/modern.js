@@ -1,5 +1,6 @@
 - **类型：** `boolean`
 - **默认值：** `false`
+- **打包工具：** `仅支持 webpack`
 
 用于控制是否内联 [runtimeChunk](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) 到 HTML 中。
 

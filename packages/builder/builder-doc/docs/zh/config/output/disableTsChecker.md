@@ -1,5 +1,6 @@
 - **类型：** `boolean`
 - **默认值：** `false`
+- **打包工具：** `仅支持 webpack`
 
 是否禁用编译过程中的 TypeScript 类型检查。
 

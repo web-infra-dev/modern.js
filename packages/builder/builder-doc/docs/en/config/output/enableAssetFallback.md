@@ -1,5 +1,6 @@
 - **Type:** `boolean`
 - **Default:** `false`
+- **Bundler:** `only support webpack`
 
 If this option is enabled, all unrecognized files will be emitted to the dist directory; otherwise, an exception will be thrown.
 

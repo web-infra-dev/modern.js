@@ -1,5 +1,6 @@
 - **类型：** `Object` | `Function` | `undefined`
 - **默认值：** `undefined`
+- **打包工具：** `仅支持 webpack`
 
 `tools.webpack` 选项用于配置原生的 [webpack](https://webpack.js.org/)。
 

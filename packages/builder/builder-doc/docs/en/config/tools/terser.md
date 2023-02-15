@@ -10,6 +10,7 @@ const defaultTerserOptions = {
   },
 };
 ```
+- **Bundler:** `only support webpack`
 
 When building for production, Builder will minimize the JavaScript code through [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin). The config of [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) can be modified via `tools.terser`.
 
