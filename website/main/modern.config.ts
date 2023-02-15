@@ -10,8 +10,6 @@ const rootCategories = [
   'blog',
 ];
 
-const isProd = process.env.NODE_ENV === 'production';
-
 const { version } = require('./package.json');
 
 const docPath = path.join(__dirname, '../../packages/toolkit/main-doc');
@@ -68,9 +66,6 @@ export default defineConfig({
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/favicon.ico',
     lang: 'zh',
     themeDir: path.join(__dirname, 'src'),
-    markdown: {
-      checkDeadLinks: isProd,
-    },
     head: [
       `
           <script>
