@@ -2,6 +2,7 @@
 title: 数据获取
 sidebar_position: 3
 ---
+
 # 数据获取
 
 Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过这些 API，在 CSR 和 SSR 环境同构的进行开发。
@@ -220,38 +221,46 @@ export default function UserLayout() {
 
 :::
 
+创建 `user/layout.loader.ts`，并添加以下代码：
+
+```ts title="routes/user/layout.loader.ts"
+import { defer } from "@edenx/runtime/router"
+
+const loader = () =>
+defer({
+  userInfo: new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          age: 1,
+          name: 'user layout'
+        })
+      }, 1000)
+    })
+  })
+
+export default loader;
+```
+
 在 `user/layout.tsx` 中添加以下代码：
 
 ```tsx title="routes/user/layout.tsx"
-import {
-  Await,
-  defer,
-  useLoaderData,
-  Outlet
-} from '@modern-js/runtime/router';
-
-export const loader = () => {
-  return defer({
-    // fetchUserInfo 是一个异步函数，返回用户信息
-    userInfo: fetchUserInfo(),
-  })
-}
+import { Await, defer, useLoaderData, Outlet } from '@modern-js/runtime/router';
 
 export default function UserLayout() {
-  const { userInfo } = useLoaderData() as {userInfo: Promise<UserInfo>};
+  const { userInfo } = useLoaderData() as { userInfo: Promise<UserInfo> };
   return (
     <div>
-      <React.Suspense
-        fallback={<p>Loading...</p>}
-      >
-        <Await resolve={userInfo} children={userInfo => (
-          <div>
-            <span>{userInfo.name}</span>
-            <span>{userInfo.age}</span>
-            <Outlet>
-          </div>
-        )}>
-        </Await>
+      <React.Suspense fallback={<p>Loading...</p>}>
+        <Await
+          resolve={userInfo}
+          children={userInfo => (
+            <div>
+              <span>{userInfo.name}</span>
+              <span>{userInfo.age}</span>
+              <Outlet />
+            </div>
+          )}
+        ></Await>
       </React.Suspense>
     </div>
   );
@@ -265,7 +274,7 @@ defer 的具体用法请查看 [defer](https://reactrouter.com/en/main/guides/de
 
 :::
 
-{/* TODO 缓存相关  */}
+{/* TODO 缓存相关 */}
 
 ### 错误用法
 

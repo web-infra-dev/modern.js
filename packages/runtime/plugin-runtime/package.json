@@ -23,55 +23,67 @@
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/js/treeshaking/index.js"
     },
     "./loadable": {
       "jsnext:source": "./src/exports/loadable.ts",
+      "types": "./dist/types/exports/loadable.d.ts",
       "default": "./dist/js/treeshaking/exports/loadable.js"
     },
     "./head": {
       "jsnext:source": "./src/exports/head.ts",
+      "types": "./dist/types/exports/head.d.ts",
       "default": "./dist/js/treeshaking/exports/head.js"
     },
     "./styled": {
       "jsnext:source": "./src/exports/styled.ts",
+      "types": "./dist/types/exports/styled.d.ts",
       "default": "./dist/js/treeshaking/exports/styled.js"
     },
     "./server": {
       "jsnext:source": "./src/exports/server.ts",
       "node": "./dist/js/node/exports/server.js",
+      "types": "./dist/types/exports/server.d.ts",
       "default": "./dist/js/treeshaking/exports/server.js"
     },
     "./document": {
       "jsnext:source": "./src/document/index.ts",
       "node": "./dist/js/node/document/index.js",
+      "types": "./dist/types/document/index.d.ts",
       "default": "./dist/js/treeshaking/document/index.js"
     },
     "./document/cli": {
       "jsnext:source": "./src/document/cli/index.ts",
       "node": "./dist/js/node/document/cli/index.js",
+      "types": "./dist/types/document/index.d.ts",
       "default": "./dist/js/treeshaking/document/cli/index.js"
     },
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
       "node": "./dist/js/treeshaking/ssr/index.node.js",
       "worker": "./dist/js/treeshaking/ssr/index.node.js",
+      "types": "./dist/types/ssr/index.d.ts",
       "default": "./dist/js/treeshaking/ssr/index.js"
     },
     "./model": {
       "jsnext:source": "./src/state/index.ts",
+      "types": "./dist/types/model.d.ts",
       "default": "./dist/js/treeshaking/state/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
+      "types": "./dist/types/cli/index.d.ts",
       "default": "./dist/js/node/cli/index.js"
     },
     "./router": {
       "jsnext:source": "./src/router/index.ts",
+      "types": "./dist/types/router/index.d.ts",
       "default": "./dist/js/treeshaking/router/index.js"
     },
     "./router/server": {
       "jsnext:source": "./src/router/runtime/server.ts",
+      "types": "./dist/types/router/runtime/server.d.ts",
       "default": "./dist/js/treeshaking/router/runtime/server.js"
     }
   },

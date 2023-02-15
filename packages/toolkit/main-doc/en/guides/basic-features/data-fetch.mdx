@@ -220,6 +220,26 @@ Currently, only CSR is supported, so stay tuned for Streaming SSR.
 
 :::
 
+Add the following code to `user/layout.loader.ts`:
+
+```ts title="routes/user/layout.loader.ts"
+import { defer } from "@edenx/runtime/router"
+
+const loader = () =>
+defer({
+  userInfo: new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          age: 1,
+          name: 'user layout'
+        })
+      }, 1000)
+    })
+  })
+
+export default loader;
+```
+
 Add the following code to `user/layout.tsx`:
 
 ```tsx title="routes/user/layout.tsx"
@@ -229,13 +249,6 @@ import {
   useLoaderData,
   Outlet
 } from '@modern-js/runtime/router';
-
-export const loader = () => {
-  return defer({
-    // fetchUserInfo 是一个异步函数，返回用户信息
-    userInfo: fetchUserInfo(),
-  })
-}
 
 export default function UserLayout() {
   const { userInfo } = useLoaderData() as {userInfo: Promise<UserInfo>};
