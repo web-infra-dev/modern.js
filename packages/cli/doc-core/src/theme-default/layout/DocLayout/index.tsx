@@ -1,4 +1,6 @@
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import mediumZoom from 'medium-zoom';
 import { Aside } from '../../components/Aside';
 import { DocFooter } from '../../components/DocFooter';
 import { useLocaleSiteData, useSidebarData } from '../../logic';
@@ -38,6 +40,12 @@ export function DocLayout(props: DocLayoutProps) {
     headers.length > 0 &&
     (frontmatter?.outline ?? themeConfig?.outline ?? true);
   const isOverviewPage = frontmatter?.overview ?? false;
+
+  useEffect(() => {
+    const images = document.querySelectorAll('.modern-doc img');
+    mediumZoom(images);
+  }, [pathname]);
+
   return (
     <div p="t-0" m="md:t-14" className={styles.docLayout}>
       {beforeDoc}
