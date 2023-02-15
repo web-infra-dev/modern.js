@@ -2,7 +2,7 @@
 - **Default:** `undefined`
 - **Bundler:** `only support Rspack`
 
-`tools.rspack` is used to configure [Rspack](https://www.rspack.org/)。
+`tools.rspack` is used to configure [Rspack](https://www.rspack.org/).
 
 ### Object Type
 
@@ -201,7 +201,7 @@ Add additional plugins at the end of the internal Rspack plugins array, the plug
 ```ts
 export default {
   tools: {
-    webpack: (config, { appendPlugins }) => {
+    rspack: (config, { appendPlugins }) => {
       // add a single plugin
       appendPlugins([
         new PluginA(),
@@ -218,7 +218,7 @@ export default {
 
 - **Type:** `(name: string) => void`
 
-Remove the internal webpack plugin, the parameter is the `constructor.name` of the plugin.
+Remove the internal Rspack plugin, the parameter is the `constructor.name` of the plugin.
 
 For example, remove the internal [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer):
 
