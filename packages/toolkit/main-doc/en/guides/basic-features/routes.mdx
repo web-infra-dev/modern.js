@@ -295,12 +295,10 @@ export default () => {
 When working with SSR, the browser side can get the data returned by `init` during SSR, and the developer can decide whether to retrieve the data on the browser side to overwrite the SSR data, for example:
 
 ```tsx title="src/routes/layout.tsx"
-import {
-  RuntimeContext,
-} from '@modern-js/runtime';
+import { RuntimeContext } from '@modern-js/runtime';
 
 export const init = (context: RuntimeContext) => {
-  if (process.env.JUPITER_TARGET === 'node') {
+  if (process.env.MODERN_TARGET === 'node') {
     return {
       message: 'Hello World By Server',
     }
