@@ -103,7 +103,8 @@
     "webpack-virtual-modules": "0.4.6",
     "windicss": "^3.5.6",
     "windicss-webpack-plugin": "^1.7.7",
-    "yaml-front-matter": "^4.1.1"
+    "yaml-front-matter": "^4.1.1",
+    "medium-zoom": "1.0.8"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^2.4.0",

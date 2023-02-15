@@ -229,3 +229,9 @@ button select {
   width: 100%;
   height: 2px;
 }
+
+/* https://github.com/francoischalifour/medium-zoom#debugging */
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: 999;
+}
