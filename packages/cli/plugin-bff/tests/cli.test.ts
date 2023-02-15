@@ -1,7 +1,15 @@
 import path from 'path';
-import { manager, AppContext, CliPlugin } from '@modern-js/core';
+import {
+  manager,
+  AppContext,
+  CliPlugin,
+  ToRunners,
+  createAsyncWaterfall,
+  ResolvedConfigContext,
+} from '@modern-js/core';
 import Chain from 'webpack-chain';
 import { CHAIN_ID } from '@modern-js/utils';
+import type { AppToolsHooks } from '@modern-js/app-tools';
 import plugin from '../src/cli';
 import './helper';
 
@@ -10,6 +18,30 @@ describe('bff cli plugin', () => {
     const main = manager.clone().usePlugin(plugin as CliPlugin);
     const runner = await main.init();
     const result = await runner.validateSchema();
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('routes', async () => {
+    const main = manager.clone().usePlugin(plugin as CliPlugin);
+    main.registerHook({
+      modifyServerRoutes: createAsyncWaterfall(),
+    } as any);
+    const runner: ToRunners<AppToolsHooks> = (await main.init()) as any;
+    ResolvedConfigContext.set({
+      bff: {
+        enableHandleWeb: true,
+      },
+    } as any);
+    const result = await runner.modifyServerRoutes({
+      routes: [
+        {
+          urlPath: '/',
+          entryPath: '',
+          isApi: false,
+        },
+      ],
+    });
 
     expect(result).toMatchSnapshot();
   });

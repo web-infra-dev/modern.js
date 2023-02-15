@@ -16,6 +16,25 @@ Array [
 ]
 `;
 
+exports[`bff cli plugin routes 1`] = `
+Object {
+  "routes": Array [
+    Object {
+      "entryPath": "",
+      "isApi": true,
+      "urlPath": "/",
+    },
+    Object {
+      "entryPath": "",
+      "isApi": true,
+      "isSPA": false,
+      "isSSR": false,
+      "urlPath": "/api",
+    },
+  ],
+}
+`;
+
 exports[`bff cli plugin schema 1`] = `
 Array [
   Array [
