@@ -165,8 +165,6 @@ export function setup() {
   if (!inBrowser()) {
     return;
   }
-  setTimeout(() => {
-    bindingWindowScroll();
-    setupCopyCodeButton();
-  });
+  bindingWindowScroll();
+  setupCopyCodeButton();
 }
