@@ -29,19 +29,19 @@ function createApp(config: AppConfig): object;
 ### Input
 
 - `config`
-  - `StoreConfig`: the same as [`createStore`](./create-store.md) params.
+  - `StoreConfig`: the same as [`createStore`](./create-store.mdx) params.
   - `devTools`: the default value is `true`. when it is an object type，configuring [Options](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md) of Redux DevTools.
-  - `autoActions`: the default value is `true`.if [auto generate Actions](./auto-actions.md).
+  - `autoActions`: the default value is `true`.if [auto generate Actions](./auto-actions.mdx).
 
 ### Return Value
 
 Reduck App, consists of the following properties:
 
-- `Provider`: inject shared Store into locally component tree, same as [`Provider`](./Provider.md).
-- `useModel`: get the Model mounted by the app's local Store, same as [`useModel`](./use-model.md).
-- `useStaticModel`: get the Model mounted by the app's local Store. same as [`useStaticModel`](./use-static-model.md).
-- `useLocalModel`: get the Model mounted by the app's local Store. same as [`useLocalModel`](./use-local-model.md).
-- `useStore`: get the Store used locally by the app. same as [`useStore`](./use-store.md).
+- `Provider`: inject shared Store into locally component tree, same as [`Provider`](./Provider.mdx).
+- `useModel`: get the Model mounted by the app's local Store, same as [`useModel`](./use-model.mdx).
+- `useStaticModel`: get the Model mounted by the app's local Store. same as [`useStaticModel`](./use-static-model.mdx).
+- `useLocalModel`: get the Model mounted by the app's local Store. same as [`useLocalModel`](./use-local-model.mdx).
+- `useStore`: get the Store used locally by the app. same as [`useStore`](./use-store.mdx).
 
 ## Example
 

@@ -10,7 +10,7 @@ import ReduckTip from "@site-docs-en/components/reduck-tip"
 
 `createStore` is used to create a Store. Reduck’s Store based on Redux's [Store](https://redux.js.org/api/store) implementatio. Used to store the state of the application and managing the state and Model.
 
-In general, this API is only used when you need to have full control over the creation of the Store. For example, to customize a Store, pass in the ['Provider'](./Provider.md) component to use.
+In general, this API is only used when you need to have full control over the creation of the Store. For example, to customize a Store, pass in the ['Provider'](./Provider.mdx) component to use.
 
 ## Function Signature
 
@@ -44,7 +44,7 @@ function createStore(config?: StoreConfig): ReduckStore;
 
 Reduck Store:
 
-- `use`: mount and fetch Model objects dynamically. Usage is the same as ['useModel'](./use-model.md), but can be used outside of React components.
+- `use`: mount and fetch Model objects dynamically. Usage is the same as ['useModel'](./use-model.mdx), but can be used outside of React components.
 - `unmount`: unmount the Model object, and the Model State is cleared from the Store.
 - `ReduxStore`: [Redux Store API](https://redux.js.org/tutorials/fundamentals/part-4-store#redux-store).
 
