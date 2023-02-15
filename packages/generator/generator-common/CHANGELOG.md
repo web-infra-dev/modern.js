@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 2.4.18
+
+### Patch Changes
+
+- 6a2a902: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+  - @modern-js/plugin-i18n@1.22.7
+
 ## 2.4.17
 
 ### Patch Changes
