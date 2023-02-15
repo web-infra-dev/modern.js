@@ -21,8 +21,12 @@ export function createLoader() {
       compiler = new Compiler(options);
     }
 
-    const result = await compiler.transform(filename, code, map);
-    resolve(null, result.code, result.map?.toString());
+    try {
+      const result = await compiler.transform(filename, code, map);
+      resolve(null, result.code, result.map?.toString());
+    } catch (err) {
+      resolve(err as Error);
+    }
   };
 }
 

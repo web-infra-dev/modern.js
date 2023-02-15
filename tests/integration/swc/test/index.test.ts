@@ -1,6 +1,10 @@
 import path from 'path';
 import { readdirSync, readFileSync } from 'fs';
-import { modernBuild } from '../../../utils/modernTestUtils';
+import type { ChildProcess } from 'child_process';
+import {
+  modernBuild,
+  runModernCommandDev,
+} from '../../../utils/modernTestUtils';
 
 const fixtures = path.resolve(__dirname, '../fixtures');
 
@@ -22,5 +26,21 @@ describe('swc minify', () => {
     expect(
       readFileSync(path.resolve(appDir, `dist/static/js/${mainFile}`), 'utf8'),
     ).toContain('children:"helloworld"');
+  });
+
+  it('should not exit unexpectly when transform failed', async () => {
+    const appDir = path.resolve(fixtures, 'transform-fail');
+
+    const cp: ChildProcess = await runModernCommandDev(['dev'], false, {
+      cwd: appDir,
+      env: {
+        NODE_ENV: 'development',
+      },
+    });
+
+    expect(cp).toBeDefined();
+    expect(cp.exitCode).toBe(null);
+
+    cp.kill('SIGTERM');
   });
 });
