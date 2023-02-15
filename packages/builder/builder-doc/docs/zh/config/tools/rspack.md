@@ -236,7 +236,7 @@ export default {
 
 - **类型：** `(...configs: RspackConfig[]) => RspackConfig`
 
-用于合并多份 rspack 配置，等价于 [webpack-merge](https://github.com/survivejs/webpack-merge)。
+用于合并多份 Rspack 配置，等价于 [webpack-merge](https://github.com/survivejs/webpack-merge)。
 
 ```ts
 export default {

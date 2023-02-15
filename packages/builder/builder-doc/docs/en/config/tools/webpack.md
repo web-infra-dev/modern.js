@@ -272,7 +272,7 @@ export default {
 
 ### mergeConfig
 
-- **类型：** `(...configs: WebpackConfig[]) => WebpackConfig`
+- **Type:** `(...configs: WebpackConfig[]) => WebpackConfig`
 
 Used to merge multiple webpack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge)。
 
