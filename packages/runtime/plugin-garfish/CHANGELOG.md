@@ -1,5 +1,16 @@
 # @modern-js/plugin-garfish
 
+## 1.22.7
+
+### Patch Changes
+
+- 7e959f9: fix(garfish): pass basename as props to root component
+  传递 basename 给子应用根组件
+- efae5b5: fix: avoid do not get provider when in micro-frontend mode
+  避免微前端模式下 provider 获取不到
+  - @modern-js/runtime@1.22.7
+  - @modern-js/utils@1.22.7
+
 ## 1.22.6
 
 ### Patch Changes
