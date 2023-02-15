@@ -157,8 +157,8 @@ export function Nav(props: NavProps) {
     <header
       className={`top-0 left-0 relative md:fixed w-full`}
       style={{
-        borderBottom: '1px solid var(--modern-c-divider-light)',
         zIndex: 'var(--modern-z-index-nav)',
+        backdropFilter: 'saturate(50%) blur(20px)',
       }}
     >
       <div className={`${styles.navContainer} modern-doc-nav`} p="x-6">

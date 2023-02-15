@@ -19,6 +19,7 @@ export function HomeHero() {
       m="auto"
       p="t-12 x-6 b-12 sm:t-0 sm:x-8 sm:x-16 md:t-20 md:x-16 md:b-16"
     >
+      <div className={styles.mask}></div>
       <div className="max-w-1152px" m="auto" flex="~ col md:row">
         <div
           order="2 md:1"
@@ -33,6 +34,7 @@ export function HomeHero() {
             m="auto md:0"
             p="md:b-3 lg:b-5"
             className="max-w-392px sm:max-w-576px"
+            z="10"
           >
             <span className={styles.clip}>{hero.name}</span>
           </h1>
@@ -43,6 +45,7 @@ export function HomeHero() {
               font="bold"
               p="b-2"
               className="max-w-392px sm:max-w-576px"
+              z="10"
             >
               {hero.text}
             </p>
@@ -54,6 +57,7 @@ export function HomeHero() {
             text="sm sm:xl md:2xl text-2"
             font="medium"
             className="whitespace-pre-wrap max-w-392px sm:max-w-576px"
+            z="10"
           >
             {hero.tagline}
           </p>
@@ -62,6 +66,7 @@ export function HomeHero() {
             className={`${hasImage ? 'justify-start' : 'justify-center gap-3'}`}
             m="-1.5"
             p="t-8"
+            z="10"
           >
             {hero.actions.map(action => (
               <div p="1" flex="shrink-0" key={action.link}>

@@ -37,26 +37,22 @@ export function HomeFeature() {
             p="b-4 lg:l-0"
             className={`${gridClass ? styles[gridClass] : 'w-full'}`}
           >
-            <div p="1" className="h-full">
+            <div p="2" className="h-full">
               <article
                 key={title}
                 h="full"
-                p="6"
-                bg="soft"
-                border="~ bg-soft rounded-xl dark:transparent"
+                p="8"
+                style={{
+                  background: 'var(--modern-home-feature-bg)',
+                }}
+                border="~ bg-soft rounded-4xl dark:transparent"
               >
-                <div
-                  flex="~ center"
-                  m="b-5"
-                  w="12"
-                  h="12"
-                  text="3xl"
-                  bg="gray-light-4 dark:bg-white"
-                  border="rounded-md"
-                >
-                  {icon}
+                <div className="flex-center">
+                  <div className="w-12 h-12 text-3xl text-center">{icon}</div>
                 </div>
-                <h2 font="bold">{title}</h2>
+                <h2 font="bold" text="center">
+                  {title}
+                </h2>
                 <p p="t-2" text="sm text-2" font="medium" className="leading-6">
                   {details}
                 </p>
