@@ -67,8 +67,8 @@
 @media (min-width: 768px) {
   .modern-doc h1 {
     letter-spacing: -0.02em;
-    line-height: 40px;
-    font-size: 32px;
+    line-height: 1.4;
+    font-size: 36px;
   }
 }
 
