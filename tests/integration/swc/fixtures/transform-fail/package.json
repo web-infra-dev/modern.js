@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "swc-minify-js",
+  "name": "transform-fail",
   "version": "1.0.0",
   "dependencies": {
     "react": "^18",
