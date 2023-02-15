@@ -62,15 +62,13 @@ export default (): CliPlugin<AppTools> => ({
             },
           },
           tools: {
-            webpackChain: (
-              chain,
-              { name, isServer, isServiceWorker, CHAIN_ID },
-            ) => {
+            webpackChain: (chain, { isServer, isServiceWorker, CHAIN_ID }) => {
               const userConfig = api.useResolvedConfigContext();
 
               if (
                 isUseSSRBundle(userConfig) &&
-                name !== 'server' &&
+                !isServer &&
+                !isServiceWorker &&
                 hasStringSSREntry(userConfig)
               ) {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
