@@ -132,7 +132,7 @@ With a file directory named `[]`, the generated route will be used as a dynamic 
 
 The `routes/[id]/page.tsx` file is converted to the `/:id` route. Except for the `/blog` route that exactly matches, all other `/xxx` will match this route.
 
-In component, you can get the corresponding named parameters through [useParams](/apis/app/runtime/router/#useparams).
+In component, you can get the corresponding named parameters through [useParams](/apis/app/runtime/router/router#useparams).
 
 ### Catch all routing
 
@@ -152,7 +152,7 @@ For example, the following directory structure:
     └── page.tsx
 ```
 
-The `routes/$.tsx` component is rendered when accessing any path that does not match, and again, the remainder of the url can be captured in `$.tsx` using [useParams](/apis/app/runtime/router/#useparams).
+The `routes/$.tsx` component is rendered when accessing any path that does not match, and again, the remainder of the url can be captured in `$.tsx` using [useParams](/apis/app/runtime/router/router#useparams).
 
 ```ts title="$.tsx"
 import { useParams } from '@modern-js/runtime/router';
@@ -235,7 +235,7 @@ When the component exists in a routing directory, the component render error is 
 
 {/* Todo API 路由 */}
 
-Within the `<ErrorBoundary>` component, you can use [useRouteError](/apis/app/runtime/router/#useparams) to get the specific information of the error:
+Within the `<ErrorBoundary>` component, you can use [useRouteError](/apis/app/runtime/router/router#useparams) to get the specific information of the error:
 
 ```tsx
 import { useRouteError } from '@modern-js/runtime/router';
