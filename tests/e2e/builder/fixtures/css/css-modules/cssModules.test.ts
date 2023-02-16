@@ -2,7 +2,6 @@ import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 
-// todo: css modules 输出类名在 webpack 和 rspack 里不一致
 test('should compile CSS modules correctly', async () => {
   const builder = await build({
     cwd: __dirname,
