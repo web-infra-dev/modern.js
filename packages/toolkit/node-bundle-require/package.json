@@ -48,7 +48,6 @@
     "esbuild": "0.15.7"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",

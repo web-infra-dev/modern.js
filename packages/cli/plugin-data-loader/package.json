@@ -52,7 +52,6 @@
     "react-router-dom": "^6.6.0"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",

@@ -57,7 +57,6 @@
     "ua-parser-js": "^0.7.28"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
