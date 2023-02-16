@@ -66,6 +66,9 @@ export default defineConfig({
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/favicon.ico',
     lang: 'zh',
     themeDir: path.join(__dirname, 'src'),
+    markdown: {
+      checkDeadLinks: process.env.NODE_ENV === 'production',
+    },
     head: [
       `
           <script>
