@@ -17,7 +17,7 @@
     "setup": "npm run reset && pnpm install",
     "reset": "npx rimraf ./**/node_modules",
     "test": "npm run test:ut",
-    "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=2",
+    "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=2 && pnpm run test:vitest",
     "test:e2e": "cd tests && npm run test",
     "test:vitest": "node scripts/vitest-run-all.js",
     "fast-lint": "sh -x ./fast-lint.sh",
