@@ -17,7 +17,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  ut-mac:
+  ut-builder-mac:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
