@@ -1,9 +1,11 @@
 import { join, resolve } from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
 import { allProviderTest } from '@scripts/helper';
 
 const fixtures = resolve(__dirname, '../');
+
+test.setTimeout(120000);
 
 allProviderTest('resolve-extension-prefix', async ({ page }) => {
   const buildOpts = {

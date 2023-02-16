@@ -118,6 +118,7 @@ export async function build(
     close,
     unwrapOutputJSON,
     providerType: process.env.PROVIDE_TYPE || 'webpack',
+    instance: builder,
   };
 }
 

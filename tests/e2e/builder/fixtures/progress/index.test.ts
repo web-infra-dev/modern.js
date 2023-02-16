@@ -1,9 +1,10 @@
 import path from 'path';
-import { expect, test } from '@modern-js/e2e/playwright';
-import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
+import { expect } from '@modern-js/e2e/playwright';
+import { webpackOnlyTest } from '@scripts/helper';
+import { build } from '@scripts/shared';
 import { logger } from '@modern-js/utils';
 
-test('should emit progress log in non-TTY environment', async () => {
+webpackOnlyTest('should emit progress log in non-TTY environment', async () => {
   process.stdout.isTTY = false;
 
   const { info, success } = logger;
@@ -17,11 +18,10 @@ test('should emit progress log in non-TTY environment', async () => {
     successMsgs.push(message);
   };
 
-  const builder = await createStubBuilder({
-    webpack: true,
-    entry: { index: path.resolve('./src/index.js') },
+  await build({
+    cwd: __dirname,
+    entry: { index: path.resolve(__dirname, './src/index.js') },
   });
-  await builder.build();
 
   expect(
     infoMsgs.some(message => message.includes('[Client] compile progress')),
