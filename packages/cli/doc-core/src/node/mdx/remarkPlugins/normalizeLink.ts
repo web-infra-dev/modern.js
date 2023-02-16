@@ -63,9 +63,17 @@ export function normalizeLangPrefix(
     return rawUrl;
   }
   const url = addLeadingSlash(rawUrl);
-  if (url.startsWith(`/${lang}/`) || lang === defaultLang) {
+  const hasLangPrefix = url.startsWith(`/${lang}/`);
+
+  // If the url has a default lang prefix, then remove the lang prefix
+  if (hasLangPrefix && lang === defaultLang) {
+    return url.replace(`/${lang}`, '');
+  }
+
+  if (hasLangPrefix || lang === defaultLang) {
     return url;
   }
+
   return `/${lang}${url}`;
 }
 

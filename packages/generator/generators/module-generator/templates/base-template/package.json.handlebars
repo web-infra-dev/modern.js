@@ -23,6 +23,7 @@
     "dev": "modern dev",
     {{#if isPublic}}
     "build": "modern build",
+    "build:watch": "modern build -w",
     {{/if}}
     {{#unless isMonorepoSubProject}}
     "reset": "rimraf ./**/node_modules",
@@ -35,7 +36,6 @@
     "release": "modern release",
     {{/unless}}
     "new": "modern new",
-    "test": "modern test",
     "upgrade": "modern upgrade"
   },
   {{#unless isMonorepoSubProject}}
