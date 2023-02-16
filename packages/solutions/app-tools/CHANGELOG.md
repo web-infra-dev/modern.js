@@ -1,5 +1,64 @@
 # @modern-js/app-tools
 
+## 2.5.0
+
+### Patch Changes
+
+- 89ca6cc: refactor: merge build-config into scripts/build
+
+  refactor: 把 build-config 合并进 scripts/build
+
+- 7cb8bb4: fix: use a more correctly params to cal document file
+
+  fix: 使用更准确的参数去获取 docuemnt 文件
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- 97cc2d0: feat: pass origin bootstrap function to custom render
+  feat: 自定义渲染中传入原始 bootstrap 函数
+- 840142c: fix: the `@modern-js/app-tools` hooks should set `webpack` as default type.
+  fix: `@modern-js/app-tools` hooks 应该将 'webpack' 设置为默认类型
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
+- Updated dependencies [58a9918]
+- Updated dependencies [89ca6cc]
+- Updated dependencies [7cb8bb4]
+- Updated dependencies [442204a]
+- Updated dependencies [bb4e712]
+- Updated dependencies [6fca567]
+- Updated dependencies [30614fa]
+- Updated dependencies [038a23b]
+- Updated dependencies [c4c10e7]
+- Updated dependencies [84c21f9]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [11c053b]
+- Updated dependencies [577084d]
+- Updated dependencies [f0b3d8c]
+- Updated dependencies [c5ea222]
+- Updated dependencies [28e7dc6]
+- Updated dependencies [40230b3]
+- Updated dependencies [169c58b]
+  - @modern-js/builder-shared@2.5.0
+  - @modern-js/plugin-data-loader@2.5.0
+  - @modern-js/plugin-i18n@2.5.0
+  - @modern-js/plugin-lint@2.5.0
+  - @modern-js/new-action@2.5.0
+  - @modern-js/prod-server@2.5.0
+  - @modern-js/server@2.5.0
+  - @modern-js/node-bundle-require@2.5.0
+  - @modern-js/plugin@2.5.0
+  - @modern-js/types@2.5.0
+  - @modern-js/builder@2.5.0
+  - @modern-js/builder-rspack-provider@2.5.0
+  - @modern-js/builder-webpack-provider@2.5.0
+  - @modern-js/builder-plugin-esbuild@2.5.0
+  - @modern-js/builder-plugin-node-polyfill@2.5.0
+  - @modern-js/core@2.5.0
+  - @modern-js/utils@2.5.0
+  - @modern-js/upgrade@2.5.0
+
 ## 2.4.0
 
 ### Minor Changes

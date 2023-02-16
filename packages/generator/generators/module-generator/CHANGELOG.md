@@ -1,5 +1,15 @@
 # @modern-js/module-generator
 
+## 3.0.7
+
+### Patch Changes
+
+- 893a758: fix: add build:watch and remove test scripts
+  fix: 新增 build:watch 和移除 test 脚本
+- 577084d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
 ## 3.0.6
 
 ## 3.0.5

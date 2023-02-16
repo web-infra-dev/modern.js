@@ -1,5 +1,19 @@
 # @modern-js/utils
 
+## 2.5.0
+
+### Patch Changes
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- 1b0ce87: chore: bump caniuse-lite to latest version
+
+  chore: 升级 caniuse-lite 到最新版
+
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
 ## 2.4.0
 
 ### Patch Changes

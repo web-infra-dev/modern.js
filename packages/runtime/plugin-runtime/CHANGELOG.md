@@ -1,5 +1,44 @@
 # @modern-js/runtime
 
+## 2.5.0
+
+### Patch Changes
+
+- 89ca6cc: refactor: merge build-config into scripts/build
+
+  refactor: 把 build-config 合并进 scripts/build
+
+- 7cb8bb4: fix: use a more correctly params to cal document file
+
+  fix: 使用更准确的参数去获取 docuemnt 文件
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- 7a25271: feat: support NoSSR component fallback UI
+  feat: 支持 NoSSR 组件 fallback UI
+- 8871bb8: fix: add types field for @modern-js/runtime
+  fix: 为 @modern0js/runtime 添加 types 字段
+- 0d75c27: chore: serialize react-router-dom ssr data, avoid the syntax conflict with HTML. Such as when json data contains `</script>` will be stringify to `\u003c/script\u003e`
+
+  chore: 序列化 react-router-dom ssr 的数据，避免 html 标签语义冲突。例如当 json 数据中包含`</script>`的时候会被转换成`\u003c/script\u003e`
+
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
+- a0f2ab1: fix: ssg new Headers() error
+
+  fix: 修复 ssg 渲染是 new Headers() 报错问题
+
+- Updated dependencies [89ca6cc]
+- Updated dependencies [7cb8bb4]
+- Updated dependencies [30614fa]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [11c053b]
+  - @modern-js/plugin@2.5.0
+  - @modern-js/types@2.5.0
+  - @modern-js/utils@2.5.0
+
 ## 2.4.0
 
 ### Patch Changes
