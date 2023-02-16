@@ -56,11 +56,11 @@ export default function Footer() {
         },
         {
           label: t('runtime'),
-          to: useUrl('/apis/app/runtime/'),
+          to: useUrl('/apis/app/runtime/core/bootstrap'),
         },
         {
           label: t('conventions'),
-          to: useUrl('/apis/app/hooks/'),
+          to: useUrl('apis/app/hooks/src/app'),
         },
       ],
     },
