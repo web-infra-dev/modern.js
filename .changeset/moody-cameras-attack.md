@@ -50,7 +50,6 @@
 '@modern-js/app-tools': patch
 '@modern-js/doc-tools': patch
 '@modern-js/monorepo-tools': patch
-'@modern-js/build-config': patch
 '@modern-js/babel-compiler': patch
 '@modern-js/node-bundle-require': patch
 '@modern-js/plugin': patch
