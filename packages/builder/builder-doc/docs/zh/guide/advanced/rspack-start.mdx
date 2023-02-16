@@ -1,6 +1,6 @@
 # 使用 Rspack
 
-[Rspack](https://www.rspack.org/) 是字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现。目前 Rspack Provider 已适配并验证了 Builder 内超过 65% 的配置能力。
+[Rspack](https://www.rspack.org/) 是字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现。目前 Rspack Provider 已适配并验证了 Builder 内大部分配置能力。
 
 通过将打包工具切换成 Rspack，可体验更快的编译速度。
 
@@ -20,17 +20,15 @@ pnpm add @modern-js/builder-rspack-provider@2.4.0 -D
 
 通过 package.json 或 lock 文件，确认 modern.js 版本号:
 
-```json
-// package.json
+```json title=package.json
   "devDependencies": {
-    "@modern-js/app-tools": "2.4.0",
-    "@modern-js/eslint-config": "2.4.0",
+    "@modern-js/app-tools": "2.4.0"
+  }
 ```
 
 2. 声明使用
 
-```
-// modern.config.ts
+```ts title=modern.config.ts
 import appTools, { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig<'rspack'>({
@@ -46,7 +44,7 @@ export default defineConfig<'rspack'>({
 
 在前端框架中接入 Rspack Provider 和 [接入 Webpack Provider](/guide/quick-start.html#在前端框架中接入) 方式类似，只需要把依赖从 `@modern-js/builder-webpack-provider` 改为 `@modern-js/builder-rspack-provider` 即可。
 
-```ts
+```ts title=modern.config.ts
 import { createBuilder } from '@modern-js/builder';
 import { builderRspackProvider } from '@modern-js/builder-rspack-provider';
 
@@ -63,7 +61,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 ### 配置差异
 
-目前，Builder 内超过 65% 的配置项已经适配了 Rspack。Builder 所做的工作包括不限于：
+目前，Builder 内大部分的配置项已经适配了 Rspack。Builder 所做的工作包括不限于：
 
 - 对 webpack 插件进行验证及封装。如 @svgr/webpack、webpack-bundle-analyzer 等;
 - 对 Rspack 内置能力进行封装，如 css、minify 等;

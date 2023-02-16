@@ -1,6 +1,6 @@
 # Rspack Start
 
-[Rspack](https://www.rspack.org/) is a Rust bundler developed by ByteDance Web Infra team, with core architecture aligned with webpack's implementation. Currently, Rspack Provider has adapted and validated over 65% of the configuration capabilities in Builder.
+[Rspack](https://www.rspack.org/) is a Rust bundler developed by ByteDance Web Infra team, with core architecture aligned with webpack's implementation. Currently, Rspack Provider has adapted and validated most of the configuration capabilities in Builder.
 
 Switching to Rspack as the bundler can provide a faster compilation speed.
 
@@ -20,17 +20,15 @@ pnpm add @modern-js/builder-rspack-provider@2.4.0 -D
 
 Confirm the modern.js version via package.json or lock file:
 
-```json
-// package.json
+```json title=package.json
   "devDependencies": {
-    "@modern-js/app-tools": "2.4.0",
-    "@modern-js/eslint-config": "2.4.0",
+    "@modern-js/app-tools": "2.4.0"
+  }
 ```
 
 2. Add statement of use
 
-```
-// modern.config.ts
+```ts title=modern.config.ts
 import appTools, { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig<'rspack'>({
@@ -46,7 +44,7 @@ export default defineConfig<'rspack'>({
 
 Integrating Rspack Provider into a frontend framework is similar to integrating Webpack Provider. You only need to change the dependency from `@modern-js/builder-webpack-provider` to `@modern-js/builder-rspack-provider`.
 
-```ts
+```ts title=modern.config.ts
 import { createBuilder } from '@modern-js/builder';
 import { builderRspackProvider } from '@modern-js/builder-rspack-provider';
 
@@ -63,7 +61,7 @@ Builder aims to eliminate the main differences between different bundlers and he
 
 ### Configuration differences
 
-Currently, over 65% of configuration options in Builder have been adapted for Rspack.
+Currently, most of configuration options in Builder have been adapted for Rspack.
 Throughout this process, Builder's work includes but is not limited to:
 - Validating and encapsulating webpack plugins such as `@svgr/webpack` and `webpack-bundle-analyzer`;
 - Encapsulating Rspack built-in features such as `css` and `minify`.
