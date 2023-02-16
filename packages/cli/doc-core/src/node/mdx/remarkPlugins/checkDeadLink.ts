@@ -2,7 +2,7 @@ import path from 'path';
 import { visit } from 'unist-util-visit';
 import ora from 'ora';
 import type { Plugin } from 'unified';
-import { isProduction } from '@/shared/utils';
+import { isProduction, withBase } from '@/shared/utils';
 import {
   normalizeRoutePath,
   routeService,
@@ -10,6 +10,7 @@ import {
 
 export interface DeadLinkCheckOptions {
   root: string;
+  base: string;
 }
 
 /**
@@ -18,7 +19,7 @@ export interface DeadLinkCheckOptions {
 export const remarkCheckDeadLinks: Plugin<
   DeadLinkCheckOptions[]
 > = checkLink => {
-  const { root = process.cwd() } = checkLink;
+  const { root, base } = checkLink;
 
   return (tree, vfile) => {
     const internalLinks = new Set<string>();
@@ -43,12 +44,15 @@ export const remarkCheckDeadLinks: Plugin<
 
     const errorInfos: string[] = [];
     internalLinks.forEach(link => {
-      if (!routeService.isExistRoute(link)) {
+      let normalizedRoute = link;
+      const relativePath = path.relative(root, vfile.path);
+      // Handle relative path
+      if (link.startsWith('.')) {
+        normalizedRoute = path.join(relativePath, link);
+      }
+      if (!routeService.isExistRoute(withBase(normalizedRoute, base))) {
         errorInfos.push(
-          `Internal link to ${link} is dead, check it in ${path.relative(
-            root,
-            vfile.path,
-          )}`,
+          `Internal link to ${link} is dead, check it in ${relativePath}`,
         );
       }
     });
