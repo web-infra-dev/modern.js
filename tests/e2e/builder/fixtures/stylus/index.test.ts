@@ -1,12 +1,14 @@
 import path from 'path';
-import { expect, test } from '@modern-js/e2e/playwright';
-import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
+import { expect } from '@modern-js/e2e/playwright';
+import { webpackOnlyTest } from '@scripts/helper';
+import { build } from '@scripts/shared';
+
 import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
 
-test('should compile stylus correctly', async () => {
-  const builder = await createStubBuilder({
-    webpack: true,
-    entry: { index: path.resolve('./src/index.js') },
+webpackOnlyTest('should compile stylus correctly', async () => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: { index: path.resolve(__dirname, './src/index.js') },
     plugins: [builderPluginStylus()],
   });
   const files = await builder.unwrapOutputJSON();

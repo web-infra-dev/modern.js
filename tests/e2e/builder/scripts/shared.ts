@@ -75,6 +75,7 @@ export async function dev(
 export async function build(
   builderOptions: CreateBuilderOptions & {
     builderConfig?: BuilderConfig;
+    plugins?: any[];
   },
   config: BuilderConfig = builderOptions.builderConfig || {},
   runServer = true,
@@ -88,6 +89,10 @@ export async function build(
   const builder = await createBuilder(builderOptions, config);
 
   builder.removePlugins(['builder-plugin-file-size']);
+
+  if (builderOptions.plugins) {
+    builder.addPlugins(builderOptions.plugins);
+  }
 
   const [{ runStaticServer, globContentJSON }] = await Promise.all([
     import('@modern-js/e2e'),
