@@ -6,7 +6,10 @@
     "baseUrl": "./",
     "isolatedModules": true,
     "outDir": "./dist",
-    "preserveSymlinks": true
+    "skipLibCheck": true,
+    "paths": {
+      "@modern-js/module-tools": ["../../solutions/module-tools"]
+    }
   },
   "include": ["src"]
 }

@@ -13,7 +13,6 @@
     "prepare": "tsc"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "2.3.0",
     "typescript": "^4"
   },
   "publishConfig": {
