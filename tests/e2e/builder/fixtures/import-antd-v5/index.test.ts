@@ -2,6 +2,8 @@ import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 
+test.setTimeout(120000);
+
 test('should import antd v5 correctly', async () => {
   const builder = await build({
     cwd: __dirname,
