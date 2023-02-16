@@ -14,20 +14,19 @@
   "version": "2.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./dist/cjs/index.js",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/js/node/index.js"
+      "default": "./dist/cjs/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/js/node/index.js"
+      "default": "./dist/cjs/index.js"
     },
     "./types": {
       "jsnext:source": "./lib/types.d.ts",
@@ -35,7 +34,7 @@
     },
     "./server": {
       "jsnext:source": "./src/exports/server.ts",
-      "default": "./dist/js/node/exports/server.js"
+      "default": "./dist/cjs/exports/server.js"
     }
   },
   "engines": {
@@ -91,6 +90,7 @@
     "esbuild": "0.15.7"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/server-core": "workspace:*",

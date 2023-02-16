@@ -33,26 +33,25 @@
       ]
     }
   },
-  "main": "./dist/js/node/cli/index.js",
-  "module": "./dist/js/treeshaking/runtime/index.js",
-  "jsnext:modern": "./dist/js/modern/cli/index.js",
+  "main": "./dist/cjs/cli/index.js",
+  "module": "./dist/esm/runtime/index.js",
   "exports": {
     "./types": "./type.d.ts",
     ".": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./deps": {
       "jsnext:source": "./src/deps/index.ts",
-      "default": "./dist/js/treeshaking/deps/index.js"
+      "default": "./dist/esm/deps/index.js"
     },
     "./runtime": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/js/treeshaking/runtime/index.js"
+      "default": "./dist/esm/runtime/index.js"
     }
   },
   "scripts": {
@@ -83,6 +82,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-router-v5": "workspace:*",
