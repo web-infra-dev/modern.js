@@ -64,6 +64,9 @@ export const getBundleEntry = (
           ? {
               entryName: name,
               entry: ensureAbsolutePath(appDirectory, value),
+              absoluteEntryDir: path.dirname(
+                ensureAbsolutePath(appDirectory, value),
+              ),
               isAutoMount: true,
               fileSystemRoutes: fs
                 .statSync(ensureAbsolutePath(appDirectory, value))
@@ -74,6 +77,9 @@ export const getBundleEntry = (
           : {
               entryName: name,
               entry: ensureAbsolutePath(appDirectory, value.entry),
+              absoluteEntryDir: path.dirname(
+                ensureAbsolutePath(appDirectory, value.entry),
+              ),
               isAutoMount: !value.disableMount,
               customBootstrap:
                 value.customBootstrap &&
