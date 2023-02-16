@@ -9,8 +9,8 @@ Static Site Generation is a solution for rendering complete static web pages at 
 First need to execute `pnpm run new` to enable the SSG features:
 
 ```bash
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「SSG」功能
+? Action Enable features
+? Enable features Enable SSG
 ```
 
 After execute script，register SSG plugin in `modern.config.ts`:
@@ -18,7 +18,6 @@ After execute script，register SSG plugin in `modern.config.ts`:
 ```ts title="modern.config.ts"
 import ssgPlugin from '@modern-js/plugin-ssg';
 
-// https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
   output: {
     ssg: true,
@@ -107,11 +106,11 @@ export default defineConfig({
 });
 ```
 
-run `pnpm run build` and `pnpm run serve`，access `http://localhost:8080/about`. In the Preview view, you can see that the page has been rendered。
+run `pnpm run build` and `pnpm run serve`，access `http://localhost:8080/about`. In the Preview view, you can see that the page has been rendered.
 
 Looking at the bundle file, a new `main/about/index.html` file has been added in the `dist/` directory.
 
 :::info
-The above only introduces the single entry, more related content can be viewed [SSG API](/configure/app/output/ssg)。
+The above only introduces the single entry, more related content can be viewed [SSG API](/configure/app/output/ssg).
 
 :::

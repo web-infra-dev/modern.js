@@ -3,7 +3,7 @@ import { matchRoutes, useLocation } from 'react-router-dom';
 import { routes } from 'virtual-routes';
 import { HelmetProvider } from 'react-helmet-async';
 import { useContext, useLayoutEffect } from 'react';
-import Theme from '../theme-default';
+import Theme from '@theme';
 import { getRelativePagePath, normalizeRoutePath } from './utils';
 import { DataContext } from './hooks';
 import { PageData } from '@/shared/types';

@@ -20,7 +20,11 @@ if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
   // When user preference is auto,the modern theme will change with the system user's operating system theme.
   // eslint-disable-next-line prefer-destructuring
   classList = document.documentElement.classList;
-  updateAppearance();
+
+  // If the html element has a dark class, it means that the user has manually set the theme to dark.
+  if (!classList.contains('dark')) {
+    updateAppearance();
+  }
 }
 
 export const getToggle = () => {

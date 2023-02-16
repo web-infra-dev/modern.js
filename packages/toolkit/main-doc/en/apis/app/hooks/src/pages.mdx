@@ -107,16 +107,16 @@ For example the following directory structure:
     └── index.js
 ```
 
-- access `/`, the `Component` is `pages/index.js`。
-- access `/a`, the `Component` is `pages/a/index.js`。
-- access `/a/b`, the `Component` is `pages/a/b/index.js`。
+- access `/`, the `Component` is `pages/index.js`.
+- access `/a`, the `Component` is `pages/a/index.js`.
+- access `/a/b`, the `Component` is `pages/a/b/index.js`.
 
 :::tip Advantages
 
 - preserve the state of the global layout when the page changes.
 - add global css.
 - handle ComponentDidCatch error
-- use `defineConfig`(/docs/apis/app/runtime/app/define-config) dynamic configuration runtime.
+- use [defineConfig](/apis/app/runtime/app/define-config) dynamic configuration runtime.
 
 :::
 
@@ -149,8 +149,8 @@ export default ALayout;
 
 The Component props is the specific route, for example
 
-- access `/a`, the `Component` is `pages/a/index.js`。
-- 访问 `/a/b`, the `Component` is `pages/a/b/index.js`。
+- access `/a`, the `Component` is `pages/a/index.js`.
+- 访问 `/a/b`, the `Component` is `pages/a/b/index.js`.
 
 In this way, you can use `pages/a/_layout.js` to display the routing common layout in the `a` directory.
 
@@ -179,4 +179,4 @@ the generated route is configured is as:
 ]
 ```
 
-All unmatched routes will match to `pages/404.[tj]s`。
+All unmatched routes will match to `pages/404.[tj]s`.

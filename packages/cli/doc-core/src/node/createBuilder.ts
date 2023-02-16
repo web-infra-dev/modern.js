@@ -73,6 +73,7 @@ async function createInternalBuildConfig(
       distPath: {
         root: config.doc?.outDir ?? OUTPUT_DIR,
       },
+      polyfill: 'usage',
       svgDefaultExport: 'component',
       disableTsChecker: true,
       // disable production source map, it is useless for doc site

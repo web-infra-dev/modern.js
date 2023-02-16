@@ -18,7 +18,6 @@ body {
   margin: 0;
   width: 100%;
   min-width: 320px;
-  min-height: 100vh;
   font-family: var(--modern-font-family-base);
   font-size: 16px;
   font-weight: 400;
@@ -228,4 +227,10 @@ button select {
   left: 0;
   width: 100%;
   height: 2px;
+}
+
+/* https://github.com/francoischalifour/medium-zoom#debugging */
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: 999;
 }

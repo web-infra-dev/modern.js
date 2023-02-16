@@ -52,7 +52,7 @@ sidebar_position: 2
 
 `routes/[id]/page.tsx` 文件会转为 `/:id` 路由。除了可以确切匹配的 `/blog` 路由，其他所有 `/xxx` 都会匹配到该路由。
 
-在组件中，可以通过 [useParams](/apis/app/runtime/router/#useparams) 获取对应命名的参数。
+在组件中，可以通过 [useParams](/apis/app/runtime/router/router#useparams) 获取对应命名的参数。
 
 在 loader 中，params 会作为 [loader](/guides/basic-features/data-fetch#loader-函数) 的入参，通过 `params` 的属性可以获取到对应的参数。
 

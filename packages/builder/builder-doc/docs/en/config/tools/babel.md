@@ -1,5 +1,6 @@
 - **Type:** `Object | Function`
 - **Default:** `undefined`
+- **Bundler:** `only support webpack`
 
 By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
@@ -143,7 +144,7 @@ export default {
 ```
 
 :::tip
-The usage of the `addIncludes` function is basically the same as the `source.include` config, please see the [source.include documentation](/api/config-source.html#sourceinclude) for a more detailed usage. You can also use `source.include` directly instead of the `addIncludes` function.
+The usage of the `addIncludes` function is basically the same as the `source.include` config, please see the [source.include documentation](https://modernjs.dev/builder/api/config-source.html#sourceinclude) for a more detailed usage. You can also use `source.include` directly instead of the `addIncludes` function.
 :::
 
 #### addExcludes
@@ -165,7 +166,7 @@ export default {
 ```
 
 :::tip
-The usage of the `addExcludes` function is basically the same as the `source.exclude` config, please see the [source.exclude documentation](/api/config-source.html#sourceexclude) for a more detailed usage. You can also use `source.exclude` directly instead of the `addExcludes` function.
+The usage of the `addExcludes` function is basically the same as the `source.exclude` config, please see the [source.exclude documentation](https://modernjs.dev/builder/api/config-source.html#sourceexclude) for a more detailed usage. You can also use `source.exclude` directly instead of the `addExcludes` function.
 :::
 
 #### modifyPresetEnvOptions

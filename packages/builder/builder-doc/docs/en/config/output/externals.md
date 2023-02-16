@@ -6,6 +6,10 @@ At build time, prevent some `import` dependencies from being packed into bundles
 
 For more information, please see: [webpack Externals](https://webpack.js.org/configuration/externals/)
 
+:::tip
+When using Rspack as Bundler, only the `Record<string, string>` type is supported.
+:::
+
 ### Example
 
 Exclude the `react-dom` dependency from the build product. To get this module at runtime, the value of `react-dom` will globally retrieve the `ReactDOM` variable.

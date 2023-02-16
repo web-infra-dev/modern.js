@@ -24,10 +24,34 @@ import { parseToc } from '../mdx/remarkPlugins/toc';
 import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { flattenMdxContent } from '../utils/flattenMdxContent';
+import { createHash } from '../utils';
 import { routeService } from './routeData';
-import { MDX_REGEXP, withBase } from '@/shared/utils';
+import { MDX_REGEXP, SEARCH_INDEX_NAME, withBase } from '@/shared/utils';
 
 let pages: PageIndexInfo[] | undefined;
+
+// The concern about future architecture:
+// The `indexHash` will be generated before webpack build so we can wrap it with virtual module in webpack to ensure that client runtime can access it.The process will be like this:
+// | ........................ process ........................... |
+//
+// Input -> | Compute index | -> Webpack build ->- Output -> | Append index file to output dir |
+
+// However, if we generate the search index at internal webpack build process in the future, like this:
+// | ........................ process ........................... |
+//
+// Input ->- Webpack build ->- Output ->- | Write Index file to output dir |
+//                 |
+//          +---------------+
+//          | Compute index |
+//          +---------------+
+// In this way, we can compute index in a custom mdx loader instead of `@mdx-js/loader` and reuse the ast info of mdx files and cache all the compile result of unified processor.In other words, we won't need to compile mdx files twice for search index generation.
+
+// Then there will be a problem: how can we let the client runtime access the `indexHash`?
+// As far as I know, we can only do something after the webpack build process becuase the index hash is generated within webpack build process.There are two ways to do this:
+// 1. insert window.__INDEX_HASH__ = 'xxx' into the html template manually
+// 2. replace the `__INDEX_HASH__` placeholder in the html template with the real index hash after webpack build
+// eslint-disable-next-line import/no-mutable-exports
+export let indexHash = '';
 
 export function normalizeThemeConfig(
   themeConfig: DefaultThemeConfig,
@@ -205,6 +229,11 @@ export async function siteDataVMPlugin(
   alias: Record<string, string | string[]>,
 ) {
   const entryPath = join(PACKAGE_ROOT, 'node_modules', 'virtual-site-data');
+  const searchIndexHashPath = join(
+    PACKAGE_ROOT,
+    'node_modules',
+    'virtual-search-index-hash',
+  );
   const userConfig = config.doc;
   // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
   if (!isSSR) {
@@ -232,7 +261,7 @@ export async function siteDataVMPlugin(
     ),
     base: userConfig?.base || '/',
     root: userRoot,
-    lang: userConfig?.lang || 'zh',
+    lang: userConfig?.lang || '',
     logo: userConfig?.logo || '',
     search: userConfig?.search || { mode: 'local' },
     pages: pages.map(({ routePath, toc }) => ({
@@ -241,13 +270,16 @@ export async function siteDataVMPlugin(
     })),
   };
   await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
+  const stringfiedIndex = JSON.stringify(pages);
+  indexHash = createHash(stringfiedIndex);
   await fs.writeFile(
-    path.join(userRoot, PUBLIC_DIR, 'search_index.json'),
-    JSON.stringify(pages),
+    path.join(userRoot, PUBLIC_DIR, `${SEARCH_INDEX_NAME}.${indexHash}.json`),
+    stringfiedIndex,
   );
 
   const plugin = new VirtualModulesPlugin({
     [entryPath]: `export default ${JSON.stringify(siteData)}`,
+    [searchIndexHashPath]: `export default ${JSON.stringify(indexHash)}`,
   });
   return plugin;
 }

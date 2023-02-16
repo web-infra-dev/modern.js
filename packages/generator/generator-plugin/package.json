@@ -3,9 +3,8 @@
   "version": "3.0.6",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern-lib dev",
@@ -15,11 +14,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/codesmith": "2.0.3",
-    "@modern-js/codesmith-api-git": "2.0.3",
-    "@modern-js/codesmith-api-json": "2.0.3",
-    "@modern-js/codesmith-api-npm": "2.0.3",
-    "@modern-js/codesmith-formily": "2.0.3",
+    "@modern-js/codesmith": "2.0.4",
+    "@modern-js/codesmith-api-git": "2.0.4",
+    "@modern-js/codesmith-api-json": "2.0.4",
+    "@modern-js/codesmith-api-npm": "2.0.4",
+    "@modern-js/codesmith-formily": "2.0.4",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/new-action": "workspace:*",
@@ -28,6 +27,7 @@
     "handlebars": "^4.7.7"
   },
   "devDependencies": {
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/plugin-lint": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

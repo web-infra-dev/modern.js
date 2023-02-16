@@ -1,4 +1,5 @@
-import { fromZodError, z, ZodError } from '@modern-js/builder-shared/zod';
+import { z } from '@modern-js/builder-shared/zod';
+import { validateBuilderConfig as validateConfig } from '@modern-js/builder-shared';
 import { BuilderConfig } from '../../types';
 
 import { devConfigSchema } from './dev';
@@ -17,14 +18,6 @@ export const configSchema: z.ZodType<BuilderConfig> = z.partialObj({
   tools: toolsConfigSchema,
 });
 
-export const formatZodError = (error: ZodError<BuilderConfig>) => {
-  return fromZodError(error);
-};
-
 export const validateBuilderConfig = async (data: unknown) => {
-  const parsed = await configSchema.safeParseAsync(data);
-  if (!parsed.success) {
-    throw formatZodError(parsed.error);
-  }
-  return parsed.data;
+  return validateConfig(configSchema, data);
 };

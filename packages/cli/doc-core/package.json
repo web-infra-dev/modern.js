@@ -1,12 +1,16 @@
 {
   "name": "@modern-js/doc-core",
   "version": "2.4.0",
+  "description": "The Documentation Framework of Modern.js.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "type": "module",
   "module": "./dist/node/index.js",
-  "jsnext:modern": "./dist/modern/node/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -103,7 +107,8 @@
     "webpack-virtual-modules": "0.4.6",
     "windicss": "^3.5.6",
     "windicss-webpack-plugin": "^1.7.7",
-    "yaml-front-matter": "^4.1.1"
+    "yaml-front-matter": "^4.1.1",
+    "medium-zoom": "1.0.8"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^2.4.0",

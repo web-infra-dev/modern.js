@@ -1,15 +1,17 @@
 {
   "name": "@modern-js/module-tools-docs",
+  "description": "Shared documentation of Modern.js Module Tools",
+  "homepage": "https://modernjs.dev/module-tools",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
   "version": "2.4.0",
-  "description": "docs",
   "main": "index.js",
   "scripts": {
     "dev": "modern dev",
-    "build:doc": "modern build"
+    "build:doc": "modern build",
+    "preview": "modern preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@code-hike/mdx": "^0.7.4",
     "@modern-js/doc-plugin-auto-sidebar": "workspace:*",

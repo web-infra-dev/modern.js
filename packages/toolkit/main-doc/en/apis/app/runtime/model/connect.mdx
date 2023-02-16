@@ -9,7 +9,7 @@ import ReduckTip from "@site-docs-en/components/reduck-tip"
 <ReduckTip />
 
 :::tip
-The original type of Reduck is complex. The following type definition shows the simplified type information. For the original type, see [**connect**](https://github.com/modern-js-dev/reduck/blob/main/packages/react/src/connect.ts)。
+The original type of Reduck is complex. The following type definition shows the simplified type information. For the original type, see [**connect**](https://github.com/modern-js-dev/reduck/blob/main/packages/react/src/connect.ts).
 
 :::
 
@@ -82,11 +82,11 @@ const modelB = model('modelB').define({
 });
 
 function Test(props) {
-  props.incA(); // call modelA 的 action
-  props.incB(); // call modelB 的 action
+  props.incA(); // call modelA's action
+  props.incB(); // call modelB's action
 
-  props.a; // get modelA 的 state: a
-  props.b; // get modelB 的 state: b
+  props.a; // get modelA's state: a
+  props.b; // get modelB's state: b
 }
 
 export default connect([modelA, modelB])(Test);

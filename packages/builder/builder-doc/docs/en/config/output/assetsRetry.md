@@ -36,6 +36,7 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
   onFail: () => {},
 };
 ```
+- **Bundler:** `only support webpack`
 
 ### assetsRetry.max
 
