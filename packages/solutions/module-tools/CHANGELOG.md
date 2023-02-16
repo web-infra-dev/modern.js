@@ -1,5 +1,34 @@
 # @modern-js/module-tools
 
+## 2.5.0
+
+### Minor Changes
+
+- 0bbc91a: support sideEffects config and change log level to info
+  支持 sideEffects 配置并将日志级别改为 info
+
+### Patch Changes
+
+- 59172e9: feat: report size and info after build
+  feat: 构建后报告文件大小和信息
+- 138a6b5: chore: update README and description of module-tools packages
+
+  chore: 更新 module-tools 相关包的 README 和 description
+
+- Updated dependencies [89ca6cc]
+- Updated dependencies [30614fa]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [11c053b]
+- Updated dependencies [577084d]
+  - @modern-js/plugin-changeset@2.5.0
+  - @modern-js/plugin-i18n@2.5.0
+  - @modern-js/plugin-lint@2.5.0
+  - @modern-js/new-action@2.5.0
+  - @modern-js/plugin@2.5.0
+  - @modern-js/core@2.5.0
+  - @modern-js/utils@2.5.0
+  - @modern-js/upgrade@2.5.0
+
 ## 2.4.0
 
 ### Patch Changes

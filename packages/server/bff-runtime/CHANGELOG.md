@@ -1,5 +1,16 @@
 # @modern-js/bff-runtime
 
+## 2.5.0
+
+### Patch Changes
+
+- 89ca6cc: refactor: merge build-config into scripts/build
+
+  refactor: 把 build-config 合并进 scripts/build
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+
 ## 2.4.0
 
 ## 2.3.0
