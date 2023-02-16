@@ -10,8 +10,8 @@
 ```bash
 /dist
 └── html
-    └── main
-        └── index.html
+    └── main
+        └── index.html
 ```
 
 开启 `html.disableHtmlFolder` 配置:
@@ -29,7 +29,7 @@ export default {
 ```bash
 /dist
 └── html
-    └── main.html
+    └── main.html
 ```
 
 > 如果需要设置 HTML 文件在 dist 目录中的路径，请使用 `output.distPath.html` 配置。

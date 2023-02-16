@@ -10,8 +10,8 @@ By default, the structure of HTML files in the `dist` directory is:
 ```bash
 /dist
 └── html
-    └── main
-        └── index.html
+    └── main
+        └── index.html
 ```
 
 Enable the `html.disableHtmlFolder` config:
@@ -29,7 +29,7 @@ After recompiling, the directory structure of the HTML files in dist is:
 ```bash
 /dist
 └── html
-    └── main.html
+    └── main.html
 ```
 
 > If you want to set the path of the HTML files, use the `output.distPath.html` config.
