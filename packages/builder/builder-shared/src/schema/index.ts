@@ -1,5 +1,5 @@
 import { fromZodError, z, ZodError } from '../zod';
-import { logger } from '../logger';
+import chalk from '@modern-js/utils/chalk';
 
 export * from './source';
 export * from './dev';
@@ -13,7 +13,7 @@ export * from './tools';
 export const formatZodError = (error: ZodError<unknown>) => {
   return fromZodError(error, {
     issueSeparator: '\n* ',
-    prefix: 'builder config validation error:',
+    prefix: `${chalk.red('Builder config validation error')}:`,
     prefixSeparator: '\n* ',
   });
 };
@@ -26,10 +26,13 @@ export const validateBuilderConfig = async (
   if (!parsed.success) {
     const err = formatZodError(parsed.error);
     // only print message & details, error stack is useless
-    logger.error(err.message);
-    logger.error(`error detail:\n${JSON.stringify(err.details, null, 2)}`);
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
+    const message = `${err.message}\nError detail:\n${JSON.stringify(
+      err.details,
+      null,
+      2,
+    )}`;
+
+    throw new Error(message);
   }
   return parsed.data;
 };
