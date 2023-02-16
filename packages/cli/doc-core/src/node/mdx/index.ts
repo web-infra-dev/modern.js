@@ -32,7 +32,7 @@ export async function createMDXOptions(
   const rehypePluginsFromPlugins = docPlugins.flatMap(
     plugin => plugin.markdown?.rehypePlugins || [],
   ) as PluggableList;
-  const defaultLang = config.doc?.lang || 'zh';
+  const defaultLang = config.doc?.lang || '';
   const enableDeadLinksCheck = config.doc?.markdown?.checkDeadLinks ?? false;
   return {
     remarkPlugins: [
@@ -53,6 +53,7 @@ export async function createMDXOptions(
         remarkCheckDeadLinks,
         {
           root: userRoot,
+          base: config.doc?.base || '',
         },
       ],
       ...remarkPluginsFromConfig,

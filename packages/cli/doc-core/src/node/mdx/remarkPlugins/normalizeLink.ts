@@ -47,9 +47,8 @@ const getASTNodeImport = (name: string, from: string) =>
     },
   } as MdxjsEsm);
 
-export function extractLangFromFilePath(filePath: string, root: string) {
-  const relativePath = path.relative(root, filePath);
-  const [lang] = relativePath.split(path.sep);
+export function extractLangFromFilePath(filePath: string) {
+  const [lang] = filePath.split(path.sep);
   return lang;
 }
 
@@ -58,6 +57,11 @@ export function normalizeLangPrefix(
   lang: string,
   defaultLang: string,
 ) {
+  // If the doc needs i18n, then the defaultLang must be not empty
+  // So if the defaultLang is empty, we can ignore the lang prefix
+  if (!defaultLang) {
+    return rawUrl;
+  }
   const url = addLeadingSlash(rawUrl);
   if (url.startsWith(`/${lang}/`) || lang === defaultLang) {
     return url;
@@ -101,7 +105,12 @@ export const remarkPluginNormalizeLink: Plugin<
           url = url.replace(extname, '');
         }
 
-        const lang = extractLangFromFilePath(file.path, root);
+        const relativePath = path.relative(root, file.path);
+        if (url.startsWith('.')) {
+          url = path.join(path.dirname(relativePath), url);
+        }
+
+        const lang = extractLangFromFilePath(relativePath);
         url = normalizeLangPrefix(normalizeHref(url), lang, defaultLang);
 
         if (hash) {
