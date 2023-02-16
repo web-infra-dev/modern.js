@@ -1,8 +1,9 @@
 import path from 'path';
 import { existsSync } from 'fs';
-import { manager } from '@modern-js/core';
+import { IAppContext, manager } from '@modern-js/core';
 
-import plugin from '../../src/document/cli';
+import { getBundleEntry } from '../../../../solutions/app-tools/src/analyze/getBundleEntry';
+import plugin, { getDocumenByEntryName } from '../../src/document/cli';
 
 describe('plugin runtime cli', () => {
   const main = manager.clone().usePlugin(plugin);
@@ -75,5 +76,28 @@ describe('plugin runtime cli', () => {
     expect(
       existsSync(path.join(__dirname, './feature/document/_main.html.js')),
     ).toBeTruthy();
+  });
+  it('when user config set empty entries and disableDefaultEntries true, should get the ', () => {
+    const entries = getBundleEntry(
+      {
+        internalDirectory: path.join(__dirname, './feature'),
+        appDirectory: path.join(__dirname, './feature'),
+      } as IAppContext,
+      {
+        source: {
+          disableDefaultEntries: true,
+        },
+      } as any,
+    );
+    // 空 entries 且不要扫描时
+    expect(entries.length).toEqual(0);
+    const documentFile = getDocumenByEntryName(
+      [],
+      'main',
+      path.join(__dirname, './feature'),
+    );
+    expect(documentFile).toEqual(
+      `${path.join(__dirname, './feature')}/src/Document.tsx`,
+    );
   });
 });

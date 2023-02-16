@@ -28,7 +28,7 @@ const debug = createDebugger('html_genarate');
 
 // get the entry document file,
 // if not exist, fallback to src/
-const getDocumenByEntryName = function (
+export const getDocumenByEntryName = function (
   entrypoints: Entrypoint[],
   entryName: string,
   fallbackDir?: string,
