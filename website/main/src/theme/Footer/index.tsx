@@ -52,7 +52,7 @@ export default function Footer() {
         },
         {
           label: t('command'),
-          to: useUrl('/apis/app/commands/'),
+          to: useUrl('/apis/app/commands'),
         },
         {
           label: t('runtime'),
