@@ -90,7 +90,6 @@
     "esbuild": "0.15.7"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/server-core": "workspace:*",

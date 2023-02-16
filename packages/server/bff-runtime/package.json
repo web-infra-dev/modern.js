@@ -39,7 +39,6 @@
     "farrow-schema": "^1.10.8"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",

@@ -76,7 +76,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
