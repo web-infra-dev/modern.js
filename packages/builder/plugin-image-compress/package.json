@@ -20,7 +20,6 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
     "dev": "tsc --watch --sourceMap",

@@ -17,7 +17,11 @@ export const builderPluginTsLoader = (): BuilderPlugin => {
         const babelLoaderOptions = {
           presets: [
             [
-              require.resolve('@modern-js/babel-preset-app'),
+              // When running test, using the package name,
+              // Otherwise vitest will failed to resolve the preset
+              process.env.NODE_ENV === 'test'
+                ? '@modern-js/babel-preset-app'
+                : require.resolve('@modern-js/babel-preset-app'),
               {
                 appDirectory: rootPath,
                 target: 'client',

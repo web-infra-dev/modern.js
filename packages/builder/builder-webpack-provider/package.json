@@ -41,7 +41,7 @@
       "default": "./dist/plugins/*.js"
     },
     "./webpack/lib/ModuleFilenameHelpers.js": {
-      "default": "./dist/exports/ModuleFilenameHelpers.js"
+      "default": "./static/ModuleFilenameHelpers.js"
     },
     "./package.json": {
       "default": "./package.json"
