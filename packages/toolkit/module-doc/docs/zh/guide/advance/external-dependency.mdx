@@ -71,18 +71,10 @@ console.info(React);
 
 </CH.Spotlight>
 
-## 打包第三方依赖
 
-不过也有一些情况希望将这些第三方依赖打包到产物。将第三方依赖打包到产物的好处是：**减少下载第三方依赖所花费的时间**。
-
-这种处理第三方依赖的方式一般在开发命令行工具中比较常见，这可以提升命令行工具的加载速度，给使用者带来更好的使用体验。
-
-那么如何在模块工程中开启对于第三方依赖的打包处理呢？
-
-在构建配置中提供了以下 API 来处理第三方依赖：
+如果想要修改默认的处理方式，可以通过下面的 API 进行修改：
 
 - [`buildConfig.autoExternal`](/api/config/build-config#autoexternal)
-- [`buildConfig.externals`](/api/config/build-config#externals)
 
 ### 关闭默认行为
 
@@ -110,9 +102,61 @@ export default defineConfig({
 });
 ```
 
+## 打包第三方依赖
+
+不过也有一些情况希望将这些第三方依赖打包到产物。将第三方依赖打包到产物的好处是：**减少下载第三方依赖所花费的时间**。这种处理第三方依赖的方式一般在开发命令行工具中比较常见，这可以提升命令行工具的加载速度，给使用者带来更好的使用体验。
+
+那么如何在模块工程中开启对于第三方依赖的打包处理呢？
+
+**当希望打包某些依赖的时候，一般来说会将这些依赖声明在 package.json 的 `"devDependencies"` 中**。此时在构建过程中，会**允许**声明在 `"devDependencies"` 中的依赖打包到产物中。
+
+<CH.Spotlight>
+
+```json ./v1/package.json
+{
+  "devDependencies": {
+    "react": "^17"
+  }
+}
+```
+
+---
+
+如果项目需要打包 `react` 依赖。
+
+```json ./v1/package.json
+```
+
+---
+
+当源码中使用了 `react` 依赖。
+
+```tsx src/index.ts
+import React from 'react';
+console.info(React);
+```
+
+---
+
+此时产物中会将 `react` 代码打包到产物中。
+
+```js dist/index.js
+// ...
+var import_react = __toESM(require_react());
+function src_default() {
+  console.info(import_react.default);
+}
+```
+
+</CH.Spotlight>
+
+不过在实际的开发场景中，可能会遇到某个第三方依赖无法处理的情况，此时可以使用以下 API 对它们进行 **external** 处理。
+
+- [`buildConfig.externals`](/api/config/build-config#externals)
+
 ### 排除指定第三方依赖
 
-而除了 `buildConfig.autoExternal` API 以外，`buildConfig.externals` 也可以控制哪些第三方依赖要进行处理。我们可以组合这两个
+在上面我们提到了 `buildConfig.autoExternal` API 的用途，同时 `buildConfig.externals` 也可以控制哪些第三方依赖要进行处理。因此我们可以组合这两个
 API 对项目的依赖进行更细微的处理。
 
 例如当我们需要仅对某些依赖不进行打包处理的时候，可以按照如下方式进行配置：
