@@ -1,0 +1,297 @@
+---
+sidebar_position: 1
+---
+
+# Commands
+
+Modern.js has some built-in commands that can help you quickly start a development server, build production environment code, and more.
+
+Through this chapter, you can learn about the built-in commands of Modern.js and how to use them.
+
+## modern dev
+
+The `modern dev` command is used to start a local development server and compile the source code in the development environment.
+
+```bash
+Usage: modern dev [options]
+
+Options:
+  -e --entry <entry>    compiler by entry
+  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -h, --help            show command help
+  --analyze             analyze the bundle and view size of each module
+  --api-only            only start API service
+```
+
+After running `modern dev`, Modern.js will watch source file changes and apply hot module replacement.
+
+```bash
+$ modern dev
+
+info    Starting dev server...
+info    App running at:
+
+  > Local:    http://localhost:8080/
+  > Network:  http://192.168.0.1:8080/
+```
+
+### Compile Partial Pages
+
+In multi-page (MPA) projects, the `--entry` option can be added to specify one or more pages to compile. In this way, only part of the code in the project will be compiled, and the dev startup speed will be faster.
+
+For example, execute `modern dev --entry`, the entry selector will be displayed in the command line interface:
+
+```bash
+$ modern dev --entry
+
+? Please select the entry that needs to be built
+❯ ◯ foo
+  ◯ bar
+  ◯ baz
+```
+
+For example, if you select the `foo` entry, only the code related to the `foo` entry will be compiled, and the code of other pages will not be compiled.
+
+### Specify the page by parameter
+
+You can also specify the page name through parameters after `--entry`, and the names of multiple pages can be separated by commas.
+
+```bash
+# Compile foo page
+modern dev --entry foo
+
+# Compile foo and bar pages
+modern dev --entry foo,bar
+```
+
+## modern start
+
+`modern start` is an alias of `modern dev` command, the usage of the two are exactly the same.
+
+## modern build
+
+The `modern build` command will build a production-ready product in the `dist/` directory by default. You can specify the output directory by modifying the configuration [`output.distPath`](/configure/app/output/dist-path).
+
+```bash
+Usage: modern build [options]
+
+Options:
+  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -h, --help            show command help
+  --analyze             analyze the bundle and view size of each module
+```
+
+### Analyze Bundle
+
+execute `npx modern build --analyze` command，can produce an HTML file that analyzes the volume of the bundle while packaging the production code:
+
+```
+Bundle Analyzer saved report to /example/dist/report.html
+File sizes after production build:
+
+  122.35 KB  dist/static/js/885.1d4fbe5a.js
+  2.3 KB     dist/static/js/main.4b8e8d64.js
+  761 B      dist/static/js/runtime-main.edb7cf35.js
+  645 B      dist/static/css/main.0dd3ecc1.css
+```
+
+Open the above HTML file in the browser, you can see the tile diagram of the packaged product, and perform package volume analysis and optimization:
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
+
+> this features based on [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer).
+
+## modern new
+
+The `modern new` command is used to enable features in an existing project.
+
+For example, add application entry, enable some optional features such as Tailwind CSS, micro frontend, etc.
+
+```bash
+Usage: modern new [options]
+
+Options:
+  -d, --debug            using debug mode to log something (default: false)
+  -c, --config <config>  set default generator config(json string)
+  --dist-tag <tag>       use specified tag version for its generator
+  --registry             set npm registry url to run npm command
+  -h, --help             show command help
+```
+
+### Add Entry
+
+In the project, execute the `new` command to add entries as follows:
+
+```bash
+$ npx modern new
+? Action Create project element
+? Create project element New "entry"
+? Entry name entry
+```
+
+### Enable Features
+
+In the project, execute the `new` command to enable features as follows:
+
+```bash
+$ npx modern new
+? Action Enable features
+? Enable features (Use arrow keys)
+❯ Enable Tailwind CSS
+  Enable BFF
+  Enable SSG
+  Enable Micro Frontend
+  Enable Unit Test / Integration Test
+  Enable Visual Testing (Storybook)
+```
+
+:::tip
+The `--config` parameter needs to use a JSON string.
+
+pnpm does not support the use of JSON strings as parameter values currently. Use `npm new` to turn on.【[Relate Issue](https://github.com/pnpm/pnpm/issues/3876)】
+:::
+
+## modern serve
+
+Usually use the `modern serve` command to enable project run in the production environment, and you need to execute the [`build'](/apis/app/commands#modern-build) command in advance to build the outputs.
+
+```bash
+Usage: modern serve [options]
+
+Options:
+  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -h, --help            show command help
+  --api-only            only run API service
+```
+
+By default, the project will run in `localhost:8080`, you can modify the Server port number with `server.port`:
+
+```js
+export default defineConfig({
+  server: {
+    port: 8081,
+  },
+});
+```
+
+## modern upgrade
+
+Execute the command `npx modern upgrade` in the project, by default, dependencies in the `package.json` are updated to the latest version.
+
+```
+Usage: modern upgrade [options]
+
+Options:
+  --registry <registry>  specify npm registry (default: "")
+  -d,--debug             using debug mode to log something (default: false)
+  --cwd <cwd>            app directory (default: "")
+  -h, --help             show command help
+```
+
+## modern inspect
+
+The `modern inspect` command is used to view the [Modern.js Builder config](https://modernjs.dev/builder/en/guide/basic/builder-config.html) and webpack config of the project.
+
+```
+Usage: modern inspect [options]
+
+Options:
+  --env <env>           view the configuration in the target environment (default: "development")
+  --output <output>     Specify the path to output in the dist (default: "/")
+  --verbose             Show the full function in the result
+  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -h, --help            show command help
+```
+
+After executing the command `npx modern inspect` in the project root directory, the following files will be generated in the `dist` directory of the project:
+
+- `builder.config.js`: The Modern.js Builder config to use at build time.
+- `webpack.config.web.js`: The webpack config used by to use at build time.
+
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+```
+
+### Configuration Env
+
+By default, the inspect command will output the development configs, you can use the `--env production` option to output the production configs:
+
+```bash
+modern inspect --env production
+```
+
+### Verbose content
+
+By default, the inspect command will omit the function content in the config object, you can use the `--verbose` option to output the full content of the function:
+
+```bash
+modern inspect --verbose
+```
+
+### SSR Configuration
+
+If the project has enabled SSR, an additional `webpack.config.node.js` file will be generated in the `dist/`, corresponding to the webpack configuration at SSR build time.
+
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+  - Webpack Config (node): /root/my-project/dist/webpack.config.node.js
+```
+
+## modern lint
+
+Run ESLint to check the syntax of the code.
+
+```bash
+Usage: modern lint [options] [...files]
+
+Options:
+  --no-fix    disable auto fix source file
+  -h, --help  display help for command
+```
+
+Normally, only the part of the code modified by this commit needs to be checked by `lint-staged` during the `git commit` phase.
+
+- `--no-fix` close auto fix by lint.
+
+## modern test
+
+`modern test` command will automatically run the test cases.
+
+```bash
+Usage: modern test [options]
+
+Options:
+  -h, --help  show command help
+```
+
+:::tip
+`modern test` command need to execute the `new` command in advance to enable the `unit test/integration test`.
+:::
+
+The effect is as follows:
+
+```bash
+$ npx modern test
+ PASS  src/tests/index.test.ts
+  The add method
+    ✓ should work fine. (2ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        0.994 s, estimated 1 s
+```
+
+:::info
+Files match `*.test.(js|ts)` in `api/` or `src/` folders will be recognized as test cases by default.
+:::
