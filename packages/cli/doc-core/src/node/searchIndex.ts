@@ -1,10 +1,10 @@
-import path, { join, resolve } from 'path';
+import path, { join } from 'path';
 import fs from '@modern-js/utils/fs-extra';
 import chalk from '@modern-js/utils/chalk';
 import { logger } from '@modern-js/utils/logger';
 import { RequestHandler } from '@modern-js/types';
 import fetch from 'node-fetch';
-import { isProduction, OUTPUT_DIR, PUBLIC_DIR } from './constants';
+import { isProduction, OUTPUT_DIR, TEMP_DIR } from './constants';
 import { indexHash } from './virtualModule/siteData';
 import { UserConfig } from '@/shared/types';
 import { addLeadingSlash, SEARCH_INDEX_NAME } from '@/shared/utils';
@@ -13,11 +13,10 @@ export function getSearchIndexFilename(indexHash: string) {
   return `${SEARCH_INDEX_NAME}.${indexHash}.json`;
 }
 
-export async function writeSearchIndex(rootDir: string, config: UserConfig) {
-  const userRoot = resolve(rootDir || config.doc?.root || process.cwd());
+export async function writeSearchIndex(config: UserConfig) {
   const cwd = process.cwd();
   const searchIndexFile = getSearchIndexFilename(indexHash);
-  const source = join(userRoot, PUBLIC_DIR, searchIndexFile);
+  const source = join(TEMP_DIR, searchIndexFile);
   const target = join(cwd, OUTPUT_DIR, 'static', searchIndexFile);
   if (await fs.pathExists(source)) {
     await fs.move(source, target, { overwrite: true });
