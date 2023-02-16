@@ -27,7 +27,9 @@ sidebar_label: ${name}
 :::tip
 ${
   tip[lng]
-} [${dirname}.${name}](https://modernjs.dev/builder${langPrefix}/api/config-${dirname}.html#${dirname}${name.toLowerCase()})。
+} [${dirname}.${name}](https://modernjs.dev/builder${langPrefix}/api/config-${dirname}.html#${dirname}${name.toLowerCase()})${
+    lng === 'en' ? '.' : '。'
+  }
 :::
 
 import Main from '@modern-js/builder-doc/docs/${lng}/config/${dirname}/${name}.md'

@@ -1,3 +1,4 @@
+import path from 'path';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import { defaultStories, appToolsStories } from './constants/stores';
@@ -37,6 +38,19 @@ export default (pluginOption: PluginOptions = {}): CliPlugin<ModuleTools> => ({
       config.alias['@modern-js/runtime/plugins'] =
         pluginsExportsUtils.getPath();
       return config;
+    },
+
+    beforeBuild: async () => {
+      const { fs } = await import('@modern-js/utils');
+      const { STORYBOOK_DIST_DIR_NAME } = await import('./features/constants');
+      const { appDirectory } = api.useAppContext();
+      const storybookDistPath = path.join(
+        appDirectory,
+        'dist',
+        STORYBOOK_DIST_DIR_NAME,
+      );
+      // If the path does not exist, `fs.remove` silently does nothing.
+      await fs.remove(storybookDistPath);
     },
 
     registerDev() {
