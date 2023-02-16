@@ -30,3 +30,4 @@ export const HTML_START_TAG = '<html';
 export const BODY_START_TAG = '<body';
 
 export const PUBLIC_DIR = 'public';
+export const TEMP_DIR = path.join(process.cwd(), 'node_modules', '.modern-doc');

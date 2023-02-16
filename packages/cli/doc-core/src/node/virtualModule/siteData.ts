@@ -21,7 +21,12 @@ import { ReplaceRule } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
 import { logger } from '@modern-js/utils/logger';
 import { parseToc } from '../mdx/remarkPlugins/toc';
-import { importStatementRegex, PACKAGE_ROOT, PUBLIC_DIR } from '../constants';
+import {
+  importStatementRegex,
+  PACKAGE_ROOT,
+  PUBLIC_DIR,
+  TEMP_DIR,
+} from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { createHash } from '../utils';
@@ -272,8 +277,9 @@ export async function siteDataVMPlugin(
   await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
   const stringfiedIndex = JSON.stringify(pages);
   indexHash = createHash(stringfiedIndex);
+  await fs.ensureDir(TEMP_DIR);
   await fs.writeFile(
-    path.join(userRoot, PUBLIC_DIR, `${SEARCH_INDEX_NAME}.${indexHash}.json`),
+    path.join(TEMP_DIR, `${SEARCH_INDEX_NAME}.${indexHash}.json`),
     stringfiedIndex,
   );
 
