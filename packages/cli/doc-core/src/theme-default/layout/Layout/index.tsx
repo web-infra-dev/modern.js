@@ -51,7 +51,7 @@ export const Layout: React.FC<LayoutProps> = props => {
   let title = frontmatter?.title ?? articleTitle;
   const mainTitle = siteData.title || localesData.title;
 
-  if (title) {
+  if (title && pageType === 'doc') {
     // append main title as a suffix
     title = `${title} - ${mainTitle}`;
   } else {
