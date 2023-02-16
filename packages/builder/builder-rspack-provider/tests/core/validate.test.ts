@@ -19,7 +19,23 @@ describe('validateBuilderConfig', () => {
     await expect(
       validateBuilderConfig(config),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      '"Validation error: Expected object, received array at \\"html.faviconByEntries\\""',
+      `
+      "[31mBuilder config validation error[39m:
+      * Expected object, received array at \\"html.faviconByEntries\\"
+      Error detail:
+      [
+        {
+          \\"code\\": \\"invalid_type\\",
+          \\"expected\\": \\"object\\",
+          \\"received\\": \\"array\\",
+          \\"path\\": [
+            \\"html\\",
+            \\"faviconByEntries\\"
+          ],
+          \\"message\\": \\"Expected object, received array\\"
+        }
+      ]"
+    `,
     );
   });
   it('should accept correct chained config', async () => {
