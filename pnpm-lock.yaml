@@ -4001,6 +4001,54 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.9.3
 
+  tests/e2e/builder/fixtures/asset-fallback:
+    specifiers:
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/fixtures/cache:
+    specifiers:
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@modern-js/utils': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@modern-js/utils': link:../../../../../packages/toolkit/utils
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
   tests/e2e/builder/fixtures/css/css-modules:
     specifiers:
       '@modern-js/builder': workspace:*
@@ -4083,6 +4131,52 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.9.5
 
+  tests/e2e/builder/fixtures/ignore-css:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18.0.2
+      react-dom: ^18.0.2
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/fixtures/image-compress:
+    specifiers:
+      '@modern-js/builder-plugin-image-compress': workspace:*
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^17
+      typescript: ^4
+    dependencies:
+      react: 17.0.2
+    devDependencies:
+      '@modern-js/builder-plugin-image-compress': link:../../../../../packages/builder/plugin-image-compress
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
   tests/e2e/builder/fixtures/import-antd-v4:
     specifiers:
       '@modern-js/builder': workspace:*
@@ -4133,7 +4227,7 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.9.5
 
-  tests/e2e/webpack-builder/asset-fallback:
+  tests/e2e/builder/fixtures/inline-chunk:
     specifiers:
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4148,13 +4242,86 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
+
+  tests/e2e/builder/fixtures/inspect-config:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18.0.2
+      react-dom: ^18.0.2
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/fixtures/progress:
+    specifiers:
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@modern-js/utils': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@modern-js/utils': link:../../../../../packages/toolkit/utils
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/fixtures/stylus:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-plugin-stylus': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18.0.2
+      react-dom: ^18.0.2
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-plugin-stylus': link:../../../../../packages/builder/plugin-stylus
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
 
   tests/e2e/webpack-builder/basic:
     specifiers:
@@ -4172,31 +4339,6 @@ importers:
     devDependencies:
       '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
-  tests/e2e/webpack-builder/cache:
-    specifiers:
-      '@modern-js/builder-shared': workspace:*
-      '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/e2e': workspace:*
-      '@modern-js/utils': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^18
-      react-dom: ^18
-      typescript: ^4
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@modern-js/utils': link:../../../../packages/toolkit/utils
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -4225,148 +4367,6 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.9.3
 
-  tests/e2e/webpack-builder/ignore-css:
-    specifiers:
-      '@modern-js/builder': workspace:*
-      '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/e2e': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^18.0.2
-      react-dom: ^18.0.2
-      typescript: ^4
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
-  tests/e2e/webpack-builder/image-compress:
-    specifiers:
-      '@modern-js/builder-plugin-image-compress': workspace:*
-      '@modern-js/builder-shared': workspace:*
-      '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/e2e': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^17
-      typescript: ^4
-    dependencies:
-      react: 17.0.2
-    devDependencies:
-      '@modern-js/builder-plugin-image-compress': link:../../../../packages/builder/plugin-image-compress
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
-  tests/e2e/webpack-builder/inline-chunk:
-    specifiers:
-      '@modern-js/builder-shared': workspace:*
-      '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/e2e': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^18
-      react-dom: ^18
-      typescript: ^4
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
-  tests/e2e/webpack-builder/inspect-config:
-    specifiers:
-      '@modern-js/builder': workspace:*
-      '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/e2e': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^18.0.2
-      react-dom: ^18.0.2
-      typescript: ^4
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
-  tests/e2e/webpack-builder/progress:
-    specifiers:
-      '@modern-js/builder-shared': workspace:*
-      '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/e2e': workspace:*
-      '@modern-js/utils': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^18
-      react-dom: ^18
-      typescript: ^4
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@modern-js/utils': link:../../../../packages/toolkit/utils
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
-  tests/e2e/webpack-builder/stylus:
-    specifiers:
-      '@modern-js/builder': workspace:*
-      '@modern-js/builder-plugin-stylus': workspace:*
-      '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/e2e': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^18.0.2
-      react-dom: ^18.0.2
-      typescript: ^4
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-plugin-stylus': link:../../../../packages/builder/plugin-stylus
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
   tests/e2e/webpack-builder/ts-loader:
     specifiers:
       '@modern-js/builder': workspace:*
@@ -4388,7 +4388,7 @@ importers:
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
   tests/e2e/webpack-builder/typescript:
     specifiers:

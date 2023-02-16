@@ -4,5 +4,6 @@ import(
   /* webpackChunkName: "foo" */
   './foo'
 ).then(({ foo }) => {
-  window.answer = 'another ' + foo();
+  // eslint-disable-next-line no-undef
+  window.answer = `another ${foo()}`;
 });
