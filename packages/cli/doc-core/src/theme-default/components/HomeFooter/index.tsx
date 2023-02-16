@@ -7,9 +7,9 @@ export function Footer() {
     <footer
       m="t-12"
       p="y-8 x-6 sm:8"
-      bg="white"
-      pos="relative"
+      w="full"
       border="t-1 b-0 solid divider-light"
+      className="absolute bottom-0"
     >
       <div m="auto" w="full" text="center">
         {message && (
