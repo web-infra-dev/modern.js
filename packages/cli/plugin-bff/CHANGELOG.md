@@ -1,5 +1,26 @@
 # @modern-js/plugin-bff
 
+## 2.5.0
+
+### Patch Changes
+
+- 89ca6cc: refactor: merge build-config into scripts/build
+
+  refactor: 把 build-config 合并进 scripts/build
+
+- 6fca567: feat: support bff handle complete server, include page render
+  feat: 支持 bff 处理整个服务，包括页面渲染
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- Updated dependencies [89ca6cc]
+- Updated dependencies [30614fa]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [11c053b]
+  - @modern-js/bff-core@2.5.0
+  - @modern-js/create-request@2.5.0
+  - @modern-js/server-utils@2.5.0
+  - @modern-js/utils@2.5.0
+
 ## 2.4.0
 
 ### Patch Changes

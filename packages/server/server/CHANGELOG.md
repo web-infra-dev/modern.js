@@ -1,5 +1,33 @@
 # @modern-js/server
 
+## 2.5.0
+
+### Patch Changes
+
+- 89ca6cc: refactor: merge build-config into scripts/build
+
+  refactor: 把 build-config 合并进 scripts/build
+
+- bb4e712: feat: support export config filed in mock file
+  feat: 支持从 mock 文件中导出 config
+- 6fca567: feat: support bff handle complete server, include page render
+  feat: 支持 bff 处理整个服务，包括页面渲染
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- f0b3d8c: fix: ts-node should compile scopeDir only
+  fix: ts-node 应该只编译 scopeDir 的文件
+- Updated dependencies [89ca6cc]
+- Updated dependencies [7cb8bb4]
+- Updated dependencies [6fca567]
+- Updated dependencies [30614fa]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [11c053b]
+- Updated dependencies [169c58b]
+  - @modern-js/prod-server@2.5.0
+  - @modern-js/server-utils@2.5.0
+  - @modern-js/types@2.5.0
+  - @modern-js/utils@2.5.0
+
 ## 2.4.0
 
 ### Patch Changes
