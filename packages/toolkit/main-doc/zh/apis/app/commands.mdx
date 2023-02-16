@@ -1,0 +1,299 @@
+---
+sidebar_position: 1
+---
+
+# 命令
+
+Modern.js 内置了一些命令，可以帮助你快速启动开发服务器、构建生产环境代码等。
+
+通过本章节，你可以了解到 Modern.js 内置的命令有哪些，以及如何使用这些命令。
+
+## modern dev
+
+`modern dev` 命令用于启动一个本地开发服务器，对源代码进行开发环境编译。
+
+```bash
+Usage: modern dev [options]
+
+Options:
+  -e --entry <entry>    指定入口，只编译特定的页面
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  -h, --help            显示命令帮助
+  --analyze             分析构建产物体积，查看各个模块打包后的大小
+  --api-only            仅启动 API 接口服务
+```
+
+运行 `modern dev` 后，Modern.js 会监听源文件变化并进行模块热更新。
+
+```bash
+$ modern dev
+
+info    Starting dev server...
+info    App running at:
+
+  > Local:    http://localhost:8080/
+  > Network:  http://192.168.0.1:8080/
+```
+
+### 编译部分页面
+
+在多页面（MPA）项目中，可以添加 `--entry` 参数来指定编译其中的一个或多个页面。这样可以只编译项目中的部分代码，从而提升 dev 启动速度。
+
+比如执行 `modern dev --entry`，在命令行界面中会展示入口选择框：
+
+```bash
+$ modern dev --entry
+
+? 请选择需要构建的入口
+❯ ◯ foo
+  ◯ bar
+  ◯ baz
+```
+
+比如选择 `foo` 入口，那么只有 `foo` 入口相关的代码会进行编译，其他页面的代码将不会参与构建。
+
+### 通过参数指定页面
+
+你也可以在 `--entry` 后面通过参数来指定页面名称，多个页面的名称使用逗号分隔。
+
+```bash
+# 编译 foo 页面
+modern dev --entry foo
+
+# 编译 foo 和 bar 页面
+modern dev --entry foo,bar
+```
+
+## modern start
+
+`modern start` 是 `modern dev` 命令的别名，两者的功能和用法完全一致。
+
+## modern build
+
+`modern build` 命令默认会在 `dist/` 目录下构建出可用于生产环境的产物。你可以通过修改配置 [`output.distPath`](/configure/app/output/dist-path) 指定产物的输出目录。
+
+```bash
+Usage: modern build [options]
+
+Options:
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  -h, --help  显示命令帮助
+  --analyze   分析构建产物体积，查看各个模块打包后的大小
+```
+
+### 分析构建产物体积
+
+执行 `npx modern build --analyze` 命令，可以在打包生产环境代码的同时，产出一个分析构建产物体积的 HTML 文件：
+
+```
+Bundle Analyzer saved report to /example/dist/report.html
+File sizes after production build:
+
+  122.35 KB  dist/static/js/885.1d4fbe5a.js
+  2.3 KB     dist/static/js/main.4b8e8d64.js
+  761 B      dist/static/js/runtime-main.edb7cf35.js
+  645 B      dist/static/css/main.0dd3ecc1.css
+```
+
+手动在浏览器中打开上述 HTML 文件，可以看到打包产物的瓦片图，并进行包体积分析和优化：
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
+
+> 该功能基于 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) 实现。
+
+## modern new
+
+`modern new` 命令用于在已有项目中添加项目元素。
+
+比如添加应用入口、启用启用一些可选功能如 Tailwind CSS、微前端开发模式等。
+
+```bash
+Usage: modern new [options]
+
+Options:
+  -d, --debug            开启 Debug 模式，打印调试日志信息 (default: false)
+  -c, --config <config>  生成器运行默认配置(JSON 字符串)
+  --dist-tag <tag>       生成器使用特殊的 npm Tag 版本
+  --registry             生成器运行过程中定制 npm Registry
+  -h, --help             显示命令帮助
+```
+
+### 添加入口
+
+在应用工程中，执行 `new` 命令添加入口如下：
+
+```bash
+$ npx modern new
+? 请选择你想要的操作 创建工程元素
+? 创建工程元素 新建「应用入口」
+? 请填写入口名称 entry
+```
+
+### 启用可选功能
+
+在应用工程中，执行 `new` 命令启用可选能力如下：
+
+```bash
+$ npx modern new
+? 请选择你想要的操作 启用可选功能
+? 启用可选功能 (Use arrow keys)
+❯ 启用 Tailwind CSS 支持
+  启用「BFF」功能
+  启用「微前端」模式
+  启用「单元测试 / 集成测试」功能
+  启用「Visual Testing (Storybook)」模式
+```
+
+:::tip
+`--config` 参数对应参数值需要使用 JSON 字符串。
+
+pnpm 暂不支持使用 JSON 字符串作为参数值，可使用 `npm new` 开启相关功能。【[相关 Issue](https://github.com/pnpm/pnpm/issues/3876)】
+
+:::
+
+## modern serve
+
+`modern serve` 命令用于在生产环境下启用应用工程, 注意需要提前执行 [`build`](/apis/app/commands#modern-build) 命令构建出对应产物。
+
+```bash
+Usage: modern serve [options]
+
+Options:
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  -h, --help            显示命令帮助
+  --api-only            仅启动 API 接口服务
+```
+
+默认情况下，应用将会在 `localhost:8080` 启动，可以通过 `server.port` 修改 Server 端口号：
+
+```js
+export default defineConfig({
+  server: {
+    port: 8081,
+  },
+});
+```
+
+## modern upgrade
+
+在项目根目录下执行命令 `npx modern upgrade`，会默认将当前执行命令项目的 `package.json` 中的 Modern.js 相关依赖更新至最新版本。
+
+```
+Usage: modern upgrade [options]
+
+Options:
+  --registry <registry>  定制 npm registry (default: "")
+  -d,--debug             开启 Debug 模式，打印调试日志信息 (default: false)
+  --cwd <cwd>            项目路径 (default: "")
+  -h, --help             display help for command
+```
+
+## modern inspect
+
+`modern inspect` 命令用于查看项目的 [Modern.js Builder 配置](https://modernjs.dev/builder/guide/basic/builder-config.html) 以及 webpack 配置。
+
+```
+Usage: modern inspect [options]
+
+Options:
+  --env <env>           查看指定环境下的配置 (default: "development")
+  --output <output>     指定在 dist 目录下输出的路径 (default: "/")
+  --verbose             在结果中展示函数的完整内容
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  -h, --help            显示命令帮助
+```
+
+在项目根目录下执行命令 `npx modern inspect` 后，会在项目的 `dist` 目录生成以下文件：
+
+- `builder.config.js`: 表示在构建时使用的 Modern.js Builder 配置。
+- `webpack.config.web.js`: 表示在构建时使用的 webpack 配置。
+
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+```
+
+### 指定环境
+
+默认情况下，inspect 命令会输出开发环境的配置，你可以添加 `--env production` 选项来输出生产环境的配置：
+
+```bash
+modern inspect --env production
+```
+
+### 完整内容
+
+默认情况下，inspect 命令会省略配置对象中的函数内容，你可以添加 `--verbose` 选项来输出函数的完整内容：
+
+```bash
+modern inspect --verbose
+```
+
+### SSR 构建配置
+
+如果项目开启了 SSR 能力，则在 `dist` 目录会另外生成一份 `webpack.config.node.js` 文件，对应 SSR 构建时的 webpack 配置。
+
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+  - Webpack Config (node): /root/my-project/dist/webpack.config.node.js
+```
+
+## modern lint
+
+运行 `ESLint` 进行代码语法检查。
+
+```bash
+Usage: modern lint [options] [...files]
+
+lint and fix source files
+
+Options:
+  --no-fix    disable auto fix source file
+  -h, --help  display help for command
+```
+
+通常情况下，我们只需要在 `git commit` 阶段通过 `lint-staged` 检查本次提交修改的部分代码。
+
+- 设置 `--no-fix` 参数后可以关闭自动修复 lint 错误代码的能力。
+
+## modern test
+
+`modern test` 命令会自动运行项目下的测试用例。
+
+```bash
+Usage: modern test [options]
+
+Options:
+  -h, --help  显示命令帮助
+```
+
+:::tip
+在使用 `modern test` 命令前，需要先通过 [`new`](/apis/app/commands#modern-new) 命令启用「单元测试 / 集成测试」功能。
+:::
+
+效果如下：
+
+```bash
+$ npx modern test
+ PASS  src/tests/index.test.ts
+  The add method
+    ✓ should work fine. (2ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        0.994 s, estimated 1 s
+```
+
+:::info
+`src` 和 `api` 目录下面的 `*.test.(js|ts)` 文件都会被识别为测试用例。
+:::
