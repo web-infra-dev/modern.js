@@ -4,6 +4,9 @@
 '@modern-js/plugin-module-polyfill': patch
 '@modern-js/plugin-module-target': patch
 '@modern-js/module-tools': patch
+'@modern-js/module-tools': patch
+'@modern-js/main-doc': patch
+'@modern-js/module-tools-docs': patch
 ---
 
 chore: update README and description of module-tools packages
