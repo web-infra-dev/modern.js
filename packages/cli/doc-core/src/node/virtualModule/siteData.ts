@@ -261,7 +261,7 @@ export async function siteDataVMPlugin(
     ),
     base: userConfig?.base || '/',
     root: userRoot,
-    lang: userConfig?.lang || 'zh',
+    lang: userConfig?.lang || '',
     logo: userConfig?.logo || '',
     search: userConfig?.search || { mode: 'local' },
     pages: pages.map(({ routePath, toc }) => ({
