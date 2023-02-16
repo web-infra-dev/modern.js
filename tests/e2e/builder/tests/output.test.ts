@@ -68,7 +68,7 @@ allProviderTest('cleanDistPath disable', async () => {
     },
   };
 
-  const distFilePath = join(fixtures, 'rem/dist/test.json');
+  const distFilePath = join(fixtures, 'rem/dist-2/test.json');
 
   await fs.mkdir(dirname(distFilePath), { recursive: true });
   await fs.writeFile(
@@ -80,6 +80,9 @@ allProviderTest('cleanDistPath disable', async () => {
 
   const builder = await build(buildOpts, {
     output: {
+      distPath: {
+        root: 'dist-2',
+      },
       cleanDistPath: false,
     },
   });
@@ -87,4 +90,5 @@ allProviderTest('cleanDistPath disable', async () => {
   expect(fs.existsSync(distFilePath)).toBeTruthy();
 
   builder.close();
+  builder.clean();
 });

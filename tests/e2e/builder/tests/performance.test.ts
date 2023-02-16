@@ -1,16 +1,16 @@
 import { join, resolve } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { stubBuild } from '../scripts/shared';
-import { webpackOnlyTest } from './helper';
+import { build } from '../scripts/shared';
+import { allProviderTest } from './helper';
 
 const fixtures = resolve(__dirname, '../fixtures/performance');
 
-webpackOnlyTest.describe('performance configure multi', () => {
+allProviderTest.describe('performance configure multi', () => {
   let files: Record<string, string>;
   const basicFixtures = resolve(__dirname, '../fixtures/performance/basic');
 
   test.beforeAll(async () => {
-    const builder = await stubBuild(
+    const builder = await build(
       {
         cwd: basicFixtures,
         entry: {
@@ -30,8 +30,7 @@ webpackOnlyTest.describe('performance configure multi', () => {
     files = await builder.unwrapOutputJSON();
   });
 
-  // todo: fix unwrapOutputJSON
-  test.skip('bundleAnalyze', async () => {
+  test('bundleAnalyze', async () => {
     const filePaths = Object.keys(files).filter(file =>
       file.endsWith('report-web.html'),
     );
@@ -47,8 +46,8 @@ webpackOnlyTest.describe('performance configure multi', () => {
   });
 });
 
-test('removeConsole', async () => {
-  const builder = await stubBuild(
+allProviderTest('removeConsole', async () => {
+  const builder = await build(
     {
       cwd: join(fixtures, 'removeConsole'),
       entry: {

@@ -81,7 +81,7 @@ export async function build(
 
   builder.removePlugins(['builder-plugin-file-size']);
 
-  const [{ runStaticServer }] = await Promise.all([
+  const [{ runStaticServer, globContentJSON }] = await Promise.all([
     import('@modern-js/e2e'),
     builder.build(),
   ]);
@@ -99,7 +99,11 @@ export async function build(
 
   const clean = async () => await fs.remove(distPath);
 
-  return { distPath, port, clean, close };
+  const unwrapOutputJSON = async (maxSize = 4096) => {
+    return globContentJSON(distPath, { absolute: true, maxSize });
+  };
+
+  return { distPath, port, clean, close, unwrapOutputJSON };
 }
 
 export async function stubBuild(
