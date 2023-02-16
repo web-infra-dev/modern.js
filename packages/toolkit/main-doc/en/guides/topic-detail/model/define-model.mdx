@@ -23,7 +23,7 @@ const fooModel = model('foo').define({
 });
 ```
 
-:::info 注
+:::info
 - Model 中的 Action 中不能包含有副作用的逻辑，如请求 HTTP 接口，访问 localStorage 等。
 - `setValue` 内部直接修改了入参 State，看起来是违反了纯函数的定义，实际上 Reduck 内部使用 [immer](https://github.com/immerjs/immer) 来修改不可变对象，保证了这种写法不会影响对象的不可变性，所以 `setValue` 仍然是一个纯函数。当然，你也可以直接在 Action 中返回一个新对象，不过这样的写法会更加复杂一些。
 

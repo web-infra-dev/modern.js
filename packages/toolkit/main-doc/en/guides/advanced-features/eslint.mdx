@@ -43,7 +43,7 @@ pnpm run lint:error
 /* eslint-enable filenames/match-exported */
 ```
 
-:::info 注
+:::info
 在 VS Code 编辑器里输入 eslint，会自动出现关于 "eslint-disable" 的提示框，选择提示选项生成对应注释对。
 
 :::
@@ -74,7 +74,7 @@ pnpm run lint:error
 
 Modern.js 的应用工程、模块工程，源代码目录里都会默认有这个配置文件，是针对 Universal JS 代码设计的。
 
-:::info 注
+:::info
 Universal JS 代码是既能浏览器端也能在服务器端运行的代码。
 
 :::
@@ -106,7 +106,7 @@ module.exports = {
 };
 ```
 
-:::tip 提示
+:::tip
 注意：没有必要使用 `extends` 字段，会自动继承父目录的配置。
 
 :::
@@ -129,7 +129,7 @@ module.exports = {
 
 做完这些操作之后，在业务项目的 `./node_modules` 目录里，这个插件应该只存在一份，并且升级到了你指定的版本。
 
-:::tip 提示
+:::tip
 - Major 版本就是主版本号。更多信息，请阅读【[Semantic Versioning](https://semver.org/#summary)】。
 - 所有被 Modern.js 封装的上游项目（比如 ESLint、[ESLint 插件](https://eslint.org/docs/user-guide/configuring/plugins#plugins)、[React Router](https://reactrouter.com/) 等），也都可以这样升级。
 - Modern.js 也会在每次发版中尽量及时的升级这些上游依赖。

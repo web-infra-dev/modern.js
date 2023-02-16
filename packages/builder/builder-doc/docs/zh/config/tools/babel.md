@@ -144,7 +144,7 @@ export default {
 ```
 
 :::tip
-`addIncludes` 函数的用法与 `source.include` 配置项基本一致，请查看 [source.include 文档](/api/config-source.html#sourceinclude) 来查看更详细的用法说明。也可以直接使用 `source.include` 来代替 `addIncludes` 函数。
+`addIncludes` 函数的用法与 `source.include` 配置项基本一致，请查看 [source.include 文档](https://modernjs.dev/builder/api/config-source.html#sourceinclude) 来查看更详细的用法说明。也可以直接使用 `source.include` 来代替 `addIncludes` 函数。
 :::
 
 #### addExcludes
@@ -166,7 +166,7 @@ export default {
 ```
 
 :::tip
-`addExcludes` 函数的用法与 `source.exclude` 配置项基本一致，请查看 [source.exclude 文档](/api/config-source.html#sourceexclude) 来查看更详细的用法说明。也可以直接使用 `source.exclude` 来代替 `addExcludes` 函数。
+`addExcludes` 函数的用法与 `source.exclude` 配置项基本一致，请查看 [source.exclude 文档](https://modernjs.dev/builder/api/config-source.html#sourceexclude) 来查看更详细的用法说明。也可以直接使用 `source.exclude` 来代替 `addExcludes` 函数。
 :::
 
 #### modifyPresetEnvOptions
