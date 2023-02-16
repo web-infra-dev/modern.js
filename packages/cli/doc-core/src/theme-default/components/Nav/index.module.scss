@@ -55,4 +55,20 @@
   :global(.dark .modern-doc-nav) {
     background: rgba(36, 36, 36);
   }
+
+  .mask {
+    position: absolute;
+    right: 0;
+    bottom: -30px;
+    width: calc(100vw - var(--modern-sidebar-width) - 48px);
+    height: 30px;
+  }
+
+  .mask::before {
+    display: block;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(var(--modern-c-bg), transparent 60%);
+    content: '';
+  }
 }

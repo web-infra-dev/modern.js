@@ -42,7 +42,6 @@
     "whistle": "^2.7.18"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
     "typescript": "^4",

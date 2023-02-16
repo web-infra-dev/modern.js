@@ -1,10 +1,11 @@
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 export const isProduction = () => process.env.NODE_ENV === 'production';
 
 export const importStatementRegex = /import\s+(.*?)\s+from\s+['"](.*?)['"];?/gm;
 
-const dirname = path.dirname(new URL(import.meta.url).pathname);
+const dirname = path.dirname(fileURLToPath(new URL(import.meta.url)));
 
 export const PACKAGE_ROOT = path.join(dirname, '..');
 

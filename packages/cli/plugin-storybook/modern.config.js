@@ -1,4 +1,4 @@
-const { universalBuildConfig } = require('@modern-js/build-config');
+const { universalBuildConfig } = require('@scripts/build');
 
 module.exports = {
   buildConfig: [

@@ -70,7 +70,6 @@
     "query-string": "^7.1.1"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",

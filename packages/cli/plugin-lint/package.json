@@ -46,7 +46,6 @@
     "lint-staged": "^11.2.3"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

@@ -55,7 +55,6 @@
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
