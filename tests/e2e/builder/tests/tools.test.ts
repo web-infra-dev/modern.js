@@ -1,7 +1,7 @@
 import { join, resolve } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '../scripts/shared';
-import { webpackOnlyTest } from './helper';
+import { webpackOnlyTest } from '../scripts/helper';
 
 const fixtures = resolve(__dirname, '../fixtures');
 

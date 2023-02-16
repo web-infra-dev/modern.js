@@ -2,7 +2,7 @@ import { join, resolve, dirname } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
 import { build } from '../scripts/shared';
-import { webpackOnlyTest, allProviderTest } from './helper';
+import { webpackOnlyTest, allProviderTest } from '../scripts/helper';
 
 const fixtures = resolve(__dirname, '../fixtures/output');
 

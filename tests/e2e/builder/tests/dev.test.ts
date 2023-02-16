@@ -2,7 +2,7 @@ import { join, resolve } from 'path';
 import { fs } from '@modern-js/utils';
 import { expect } from '@modern-js/e2e/playwright';
 import { dev, getHrefByEntryName } from '../scripts/shared';
-import { allProviderTest } from './helper';
+import { allProviderTest } from '../scripts/helper';
 
 const fixtures = resolve(__dirname, '../fixtures/dev');
 
