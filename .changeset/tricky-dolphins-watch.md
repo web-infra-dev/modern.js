@@ -1,9 +1,9 @@
 ---
+'@modern-js/builder-doc': patch
 '@modern-js/plugin-module-babel': patch
 '@modern-js/plugin-module-main-fields': patch
 '@modern-js/plugin-module-polyfill': patch
 '@modern-js/plugin-module-target': patch
-'@modern-js/module-tools': patch
 '@modern-js/module-tools': patch
 '@modern-js/main-doc': patch
 '@modern-js/module-tools-docs': patch
