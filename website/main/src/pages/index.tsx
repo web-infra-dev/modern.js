@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import { useLocation, Helmet } from '@modern-js/doc-tools/runtime';
+import { useLang, useLocation, Helmet } from '@modern-js/doc-tools/runtime';
 import ContentCard from '../components/ContentCard';
 import SecondaryTitle from '../components/SecondaryTitle';
 import { FeatureLayout } from '../components/FeatureLayout';
 import Footer from '../theme/Footer';
-import { useI18n, useLang, useUrl } from '../i18n';
+import { useI18n, useUrl } from '../i18n';
 import styles from './index.module.scss';
 
 const HomepageHeader = () => {
@@ -19,7 +19,7 @@ const HomepageHeader = () => {
         </h1>
         <div className={styles.buttons}>
           <a
-            href={useUrl('/tutorials/foundations/introduction')}
+            href={useUrl('/guides/get-started/introduction')}
             className={styles.leftButton}
           >
             {t('introduction')}
@@ -84,7 +84,7 @@ export default function Home() {
   const features = [
     {
       title: t('feature1'),
-      href: useUrl('/guides/basic-features/builder'),
+      href: useUrl('/guides/concept/builder'),
       desc: t('featureDesc1'),
     },
     {
@@ -104,7 +104,7 @@ export default function Home() {
     },
     {
       title: t('feature5'),
-      href: useUrl('/guides/basic-features/css/css-in-js'),
+      href: useUrl('/guides/css/css-in-js'),
       desc: t('featureDesc5'),
     },
     {

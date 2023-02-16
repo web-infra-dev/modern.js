@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 # 路由
 
-Modern.js 的路由基于 [React Router 6](https://reactrouter.com/en/main)，并提供了多种类型的路由模式。根据不同[入口](/docs/guides/concept/entries)类型，将路由分为三种模式，分别是**约定式路由**，**自控式路由**和**其他路由方案**。
+Modern.js 的路由基于 [React Router 6](https://reactrouter.com/en/main)，并提供了多种类型的路由模式。根据不同 [入口](/guides/concept/entries) 类型，将路由分为三种模式，分别是**约定式路由**，**自控式路由**和**其他路由方案**。
 
 :::note
 本小节提到的路由，都是客户端路由，即 SPA 路由。
@@ -164,7 +164,7 @@ export default () => {
 
 `routes/[id]/page.tsx` 文件会转为 `/:id` 路由。除了可以确切匹配的 `/blog` 路由，其他所有 `/xxx` 都会匹配到该路由。
 
-在组件中，可以通过 [useParams](/apis/app/runtime/router/#useparams) 获取对应命名的参数。
+在组件中，可以通过 [useParams](/apis/app/runtime/router/router#useparams) 获取对应命名的参数。
 
 在 loader 中，params 会作为 [loader](/guides/basic-features/data-fetch#loader-函数) 的入参，通过 `params.xxx` 可以获取。
 
@@ -185,7 +185,7 @@ export default () => {
     └── page.tsx
 ```
 
-当访问任何匹配不到的路径时，都会渲染 `routes/$.tsx` 组件，同样，`$.tsx` 中可以使用 [useParams](/apis/app/runtime/router/#useparams) 捕获 url 的剩余部分。
+当访问任何匹配不到的路径时，都会渲染 `routes/$.tsx` 组件，同样，`$.tsx` 中可以使用 [useParams](/apis/app/runtime/router/router#useparams) 捕获 url 的剩余部分。
 ```ts title="$.tsx"
 import { useParams } from '@modern-js/runtime/router';
 // 当 path 是 `/aaa/bbb` 时
@@ -302,7 +302,7 @@ Modern.js 建议必须有根 layout 和根 loading。
 
 {/* Todo API 路由 */}
 
-在 `<ErrorBoundary>` 组件内，可以使用 [useRouteError](/apis/app/runtime/router/#useparams) 获取的错误的具体信息：
+在 `<ErrorBoundary>` 组件内，可以使用 [useRouteError](/apis/app/runtime/router/router#useparams) 获取的错误的具体信息：
 
 ```tsx
 import { useRouteError } from '@modern-js/runtime/router';
@@ -387,12 +387,10 @@ export default () => {
 配合 SSR 功能时，浏览器端可以获取到 SSR 时 `init` 返回的数据，开发者可以自行判断是否要在浏览器端重新获取数据来覆盖 SSR 数据，例如：
 
 ```tsx title="src/routes/layout.tsx"
-import {
-  RuntimeContext,
-} from '@modern-js/runtime';
+import { RuntimeContext } from '@modern-js/runtime';
 
 export const init = (context: RuntimeContext) => {
-  if (process.env.JUPITER_TARGET === 'node') {
+  if (process.env.MODERN_TARGET === 'node') {
     return {
       message: 'Hello World By Server',
     }

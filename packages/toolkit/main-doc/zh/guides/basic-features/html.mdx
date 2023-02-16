@@ -2,9 +2,10 @@
 title: HTML 模板
 sidebar_position: 9
 ---
+
 # HTML 模板
 
-Modern.js 提供了 **JSX 语法**和**HTML(Ejs) 语法**两种方式用于自定义 HTML 模板。
+Modern.js 提供了 **JSX 语法**和 **HTML(EJS) 语法**两种方式用于自定义 HTML 模板。
 
 ## JSX 语法
 
@@ -14,14 +15,14 @@ Modern.js 约定，在 `src/` 目录下，或在入口目录下，可以创建 `
 
 ```bash
 .
-├── src
-│   ├── Document.tsx
-│   ├── entry-a
-│   │   ├── Document.tsx
-│   │   └── routes
-│   ├── entry-b
-│   │   └── routes
-│   └── modern-app-env.d.ts
+└── src
+    ├── Document.tsx
+    ├── entry-a
+    │   ├── Document.tsx
+    │   └── routes
+    ├── entry-b
+    │    └── routes
+    └── modern-app-env.d.ts
 ```
 
 `entry-a` 会优先使用当前入口下的 `Docoument.[jt]sx` 文件。如果当前入口没有 `Document.[jt]sx` 文件，例如 `entry-b`，则会查找根目录下的 `Document.[jt]sx` 文件。

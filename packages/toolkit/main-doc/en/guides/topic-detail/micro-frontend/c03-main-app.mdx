@@ -4,7 +4,7 @@ title: 开发主应用
 ---
 # 开发主应用
 
-在上一章 [体验微前端](/guides/topic-detail/micro-frontend/c02-development.md) 通过一个示例演示了如何创建和配置微前端子应用，通过本章你可以进一步了解如何开发主应用，以及它的常见配置。
+在上一章 [体验微前端](/guides/topic-detail/micro-frontend/c02-development) 通过一个示例演示了如何创建和配置微前端子应用，通过本章你可以进一步了解如何开发主应用，以及它的常见配置。
 
 在通过 `@modern-js/create` 命令创建应用工程后，可以在项目中执行 `pnpm run new`（实际执行了 `modern new` 命令），在选择了「微前端」模式后，会安装微前端依赖依赖，只需手动注册插件即可。
 
@@ -20,7 +20,7 @@ import EnableMicroFrontend from "@site-docs/components/enable-micro-frontend";
 
 可以直接通过配置注册子应用信息：
 
-:::tip 提示
+:::tip
 可以通过 API [defineConfig](/apis/app/runtime/app/define-config) 在运行时进行配置。
 当参数为函数时无法被序列化到产物代码，所以在涉及到函数之类的配置时请通过 defineConfig 来进行配置
 

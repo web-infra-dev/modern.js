@@ -21,8 +21,8 @@ import type {
   ISAppContext,
   ServerRoute,
 } from '@modern-js/types';
-import type { Options } from 'http-proxy-middleware';
-import type { ServerOptions, UserConfig } from './types/config';
+
+import type { BffUserConfig, ServerOptions, UserConfig } from './types/config';
 
 // collect all middleware register in server plugins
 const gather = createParallelWorkflow<{
@@ -67,6 +67,11 @@ export type APIServerStartInput = {
   config?: {
     middleware?: Array<any>;
   };
+  render?: (
+    req: IncomingMessage,
+    res: ServerResponse,
+    url?: string,
+  ) => Promise<string | null>;
 };
 
 type Change = {
@@ -77,6 +82,8 @@ type Change = {
 const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 
 const onApiChange = createWaterfall<Change[]>();
+
+const repack = createWaterfall();
 
 const beforeDevServer = createParallelWorkflow<ServerOptions, any>();
 
@@ -181,6 +188,7 @@ const serverHooks = {
   preparebeforeRouteHandler,
   prepareWebServer,
   prepareApiServer,
+  repack,
   onApiChange,
   beforeDevServer,
   setupCompiler,
@@ -228,9 +236,7 @@ export type ServerPlugin = PluginOptions<
 >;
 
 export type ServerConfig = {
-  bff?: Partial<{
-    proxy: Record<string, Options>;
-  }>;
+  bff?: BffUserConfig;
   plugins?: ServerPlugin[];
 };
 

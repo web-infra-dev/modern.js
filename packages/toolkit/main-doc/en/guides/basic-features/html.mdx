@@ -4,7 +4,7 @@ sidebar_position: 9
 ---
 # HTML Template
 
-Modern.js provides **JSX syntax** and **HTML(Ejs) syntax** for customizing HTML template.
+Modern.js provides **JSX syntax** and **HTML(EJS) syntax** for customizing HTML template.
 
 ## JSX syntax
 
@@ -14,14 +14,14 @@ For example the following directory structure:
 
 ```bash
 .
-├── src
-│   ├── Document.tsx
-│   ├── entry-a
-│   │   ├── Document.tsx
-│   │   └── routes
-│   ├── entry-b
-│   │   └── routes
-│   └── modern-app-env.d.ts
+└── src
+    ├── Document.tsx
+    ├── entry-a
+    │   ├── Document.tsx
+    │   └── routes
+    ├── entry-b
+    │    └── routes
+    └── modern-app-env.d.ts
 ```
 
 `entry-a` will take precedence over the `Docoument.[jt]sx` file under the current entry. If the current entry does not have a `Document.[jt]sx` file, such as `entry-b`, it will look for the `Document.[jt]sx` file in the root directory.
@@ -42,7 +42,7 @@ These components are rendered:
 
 - `Body`：Provide the ability of native Body Element, which needs to contain the `<Root>` component internally, and also supports other elements as child elements at the same time, such as adding footers.
 
-- `Root`：React root element `<div id='root'></div>`。the default element id is `id = 'root'`, can set `props.rootId` to change the id。Child components can be added, and will also be rendered into HTML templates, which will be overwritten when React rendering is complete, generally used to implement global Loading.
+- `Root`：React root element `<div id='root'></div>`. the default element id is `id = 'root'`, can set `props.rootId` to change the id.Child components can be added, and will also be rendered into HTML templates, which will be overwritten when React rendering is complete, generally used to implement global Loading.
 
 - `Head`：Provides native Head Element capabilities and automatically populates `<meta>`, as well as the `<Scripts>` component.
 
@@ -193,7 +193,7 @@ In the application root directory, create the `config/html/` directory, which su
 </html>
 ```
 
-HTML Fragments support the use [Lodash template](https://lodash.com/docs/4.17.15#template)。
+HTML Fragments support the use [Lodash template](https://lodash.com/docs/4.17.15#template).
 
 For example, insert a script in `body.html`:
 

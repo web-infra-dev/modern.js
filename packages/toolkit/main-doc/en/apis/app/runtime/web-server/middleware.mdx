@@ -8,7 +8,7 @@ Used to extend Modern.js built-in Web Server, only SSR requests are handled by t
 Unlike [Hook](/apis/app/runtime/web-server/hook), middleware can be extended using the framework plugin.
 
 :::note
-For more detail, see [Extend Web Server](/guides/advanced-features/web-server)。
+For more detail, see [Extend Web Server](/guides/advanced-features/web-server).
 
 :::
 
@@ -82,8 +82,8 @@ type RequestHandler = (
 - `context`: Middleware context.
   - `response`: provides a series of methods to process the response.
   - `request`: provides a series of methods to get request info.
-  - `source`: provides Node.js native `req` and `res` object。
-- `next`: call next listener（not affect the server process, only current hook）。
+  - `source`: provides Node.js native `req` and `res` object.
+- `next`: call next listener（not affect the server process, only current hook）.
 
 ## Example
 

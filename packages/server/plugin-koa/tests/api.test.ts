@@ -1,5 +1,5 @@
 import path from 'path';
-import { serverManager } from '@modern-js/server-core';
+import { ConfigContext, serverManager } from '@modern-js/server-core';
 import request from 'supertest';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
@@ -15,10 +15,22 @@ describe('support Api function', () => {
       .clone()
       .usePlugin(APIPlugin, plugin)
       .init();
+    ConfigContext.set({
+      bff: {
+        enableHandleWeb: true,
+      },
+    });
 
     apiHandler = await runner.prepareApiServer({
       pwd,
       prefix,
+      render: async req => {
+        if (req.url === '/render-page') {
+          return 'Hello Modern Render';
+        } else {
+          return null;
+        }
+      },
     });
   });
 
@@ -66,5 +78,11 @@ describe('support Api function', () => {
     const res = await request(apiHandler).get(`${prefix}/user`);
     expect(res.status).toBe(302);
     expect(res.redirect).toBe(true);
+  });
+
+  test('should support render web', async () => {
+    const res = await request(apiHandler).get(`/render-page`);
+    expect(res.status).toBe(200);
+    expect(res.text).toBe('Hello Modern Render');
   });
 });
