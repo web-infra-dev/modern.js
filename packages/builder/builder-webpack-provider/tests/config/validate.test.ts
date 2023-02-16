@@ -1,5 +1,5 @@
 import { performance } from 'perf_hooks';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, vi, it } from 'vitest';
 import { createDefaultConfig } from '@/config/defaults';
 import { validateBuilderConfig } from '@/config/validate';
 import { BuilderConfig } from '@/types';
@@ -12,6 +12,12 @@ describe('validateBuilderConfig', () => {
     await expect(validateBuilderConfig({ foo: 123 })).resolves.toEqual({});
   });
   it('should throw error when shape wrong', async () => {
+    vi.mock('@modern-js/utils/chalk', () => {
+      return {
+        default: { red: (msg: string) => msg },
+      };
+    });
+
     const config = {
       dev: { hmr: false },
       html: { faviconByEntries: [] },
@@ -20,7 +26,7 @@ describe('validateBuilderConfig', () => {
       validateBuilderConfig(config),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `
-      "[31mBuilder config validation error[39m:
+      "Builder config validation error:
       * Expected object, received array at \\"html.faviconByEntries\\"
       Error detail:
       [
