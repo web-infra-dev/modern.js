@@ -41,7 +41,6 @@
     "babel-plugin-transform-inline-environment-variables": "^0.4.3"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^27",
     "@types/node": "^14",
