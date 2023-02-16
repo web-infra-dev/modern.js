@@ -42,10 +42,8 @@ export function HomeFeature() {
                 key={title}
                 h="full"
                 p="8"
-                style={{
-                  background: 'var(--modern-home-feature-bg)',
-                }}
-                border="~ bg-soft rounded-4xl dark:transparent"
+                className={styles.featureCard}
+                border="rounded-4xl transparent"
               >
                 <div className="flex-center">
                   <div className="w-12 h-12 text-3xl text-center">{icon}</div>

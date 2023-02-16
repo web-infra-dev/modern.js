@@ -340,12 +340,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --modern-home-bg: linear-gradient(
-    to bottom,
-    #ffffff 10%,
-    #f9f9f9 30%,
-    #ededed
-  );
+  --modern-home-bg: #var(--modern-c-bg-white);
   --modern-home-hero-name-color: transparent;
   --modern-home-hero-name-background: -webkit-linear-gradient(
     120deg,
@@ -354,12 +349,14 @@
   );
   --modern-home-hero-image-background-image: none;
   --modern-home-hero-image-filter: none;
-  --modern-home-feature-bg: linear-gradient(to bottom, #ededed, #f9f9f9);
+  --modern-home-feature-bg: var(--modern-c-bg-soft);
+  --modern-home-feature-hover-bg: linear-gradient(to bottom, #ededed, #f9f9f9);
 }
 
 .dark {
   --modern-home-bg: var(--modern-c-black);
   --modern-home-feature-bg: var(--modern-c-black-mute);
+  --modern-home-feature-hover-bg: var(--modern-c-black-mute);
 }
 
 /**

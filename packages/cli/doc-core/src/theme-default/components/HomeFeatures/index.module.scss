@@ -37,3 +37,11 @@
     width: calc(100% / 2);
   }
 }
+
+.featureCard {
+  background: var(--modern-home-feature-bg);
+}
+
+.featureCard:hover {
+  background: var(--modern-home-feature-hover-bg);
+}
