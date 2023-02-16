@@ -27,7 +27,6 @@
     "handlebars": "^4.7.7"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/plugin-lint": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
