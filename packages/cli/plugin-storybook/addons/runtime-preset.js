@@ -1,7 +1,7 @@
 function config(entry = []) {
   return [
     ...entry,
-    require.resolve('../dist/js/node/runtime-addon/preset/preview'),
+    require.resolve('../dist/cjs/runtime-addon/preset/preview'),
   ];
 }
 

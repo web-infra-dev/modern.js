@@ -16,7 +16,6 @@
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "jsnext:modern": "./dist/index.js",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     ".": {
@@ -172,8 +171,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "tsc --watch",
-    "build": "tsc",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
