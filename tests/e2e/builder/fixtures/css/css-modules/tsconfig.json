@@ -7,8 +7,9 @@
     "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"],
-      "@shared/*": ["./shared/*"]
+      "@shared/*": ["./shared/*"],
+      "@scripts/*": ["../../../scripts/*"]
     }
   },
-  "include": ["src", "*.test.ts"]
+  "include": ["src", "*.test.ts", "cssModules.test.tss"]
 }

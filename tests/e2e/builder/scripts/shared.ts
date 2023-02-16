@@ -73,10 +73,18 @@ export async function dev(
 }
 
 export async function build(
-  builderOptions: CreateBuilderOptions,
-  config: BuilderConfig = {},
+  builderOptions: CreateBuilderOptions & {
+    builderConfig?: BuilderConfig;
+  },
+  config: BuilderConfig = builderOptions.builderConfig || {},
   runServer = true,
 ) {
+  if (!config.performance?.buildCache) {
+    config.performance = {
+      ...(config.performance || {}),
+      buildCache: false,
+    };
+  }
   const builder = await createBuilder(builderOptions, config);
 
   builder.removePlugins(['builder-plugin-file-size']);
@@ -103,7 +111,14 @@ export async function build(
     return globContentJSON(distPath, { absolute: true, maxSize });
   };
 
-  return { distPath, port, clean, close, unwrapOutputJSON };
+  return {
+    distPath,
+    port,
+    clean,
+    close,
+    unwrapOutputJSON,
+    providerType: process.env.PROVIDE_TYPE || 'webpack',
+  };
 }
 
 export async function stubBuild(

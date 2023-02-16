@@ -1,11 +1,11 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
+import { build } from '@scripts/shared';
 
 test('should emit app icon to dist path', async () => {
-  const builder = await createStubBuilder({
-    webpack: true,
-    entry: { index: path.resolve('./src/index.js') },
+  const builder = await build({
+    cwd: __dirname,
+    entry: { index: path.resolve(__dirname, './src/index.js') },
     builderConfig: {
       html: {
         appIcon: './src/icon.png',
@@ -27,9 +27,9 @@ test('should emit app icon to dist path', async () => {
 });
 
 test('should apply asset prefix to app icon URL', async () => {
-  const builder = await createStubBuilder({
-    webpack: true,
-    entry: { index: path.resolve('./src/index.js') },
+  const builder = await build({
+    cwd: __dirname,
+    entry: { index: path.resolve(__dirname, './src/index.js') },
     builderConfig: {
       html: {
         appIcon: './src/icon.png',
