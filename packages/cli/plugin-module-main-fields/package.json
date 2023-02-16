@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-main-fields",
-  "description": "Simple, powerful, high-performance modern npm package development solution.",
+  "description": "The main fields plugin of Modern.js Module Tools.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
