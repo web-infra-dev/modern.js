@@ -14,6 +14,7 @@ const defaultOptions = {
   },
 };
 ```
+- **打包工具：** `仅支持 webpack`
 
 通过 `tools.cssExtract` 可以更改 [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) 的配置。
 

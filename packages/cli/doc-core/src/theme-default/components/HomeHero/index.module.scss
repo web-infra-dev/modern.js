@@ -4,3 +4,26 @@
   background-clip: text;
   -webkit-text-fill-color: var(--modern-home-hero-name-color);
 }
+
+.mask {
+  position: absolute;
+  background-image: conic-gradient(
+    from 180deg at 50% 50%,
+    #2a8af6 0deg,
+    180deg,
+    #42d392 1turn
+  );
+  width: 500px;
+  height: 500px;
+  borderradius: 100%;
+  mixblendmode: normal;
+  filter: blur(80px);
+  opacity: 0.05;
+  top: -100px;
+  transform: translateX(-50%);
+  zindex: 0;
+}
+
+:global(.dark) .mask {
+  opacity: 0.15;
+}

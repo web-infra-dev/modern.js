@@ -51,7 +51,7 @@ export const Layout: React.FC<LayoutProps> = props => {
   let title = frontmatter?.title ?? articleTitle;
   const mainTitle = siteData.title || localesData.title;
 
-  if (title) {
+  if (title && pageType === 'doc') {
     // append main title as a suffix
     title = `${title} - ${mainTitle}`;
   } else {
@@ -76,7 +76,7 @@ export const Layout: React.FC<LayoutProps> = props => {
     }
   };
   return (
-    <div style={{ height: '100%' }}>
+    <div>
       <Helmet>
         {title ? <title>{title}</title> : null}
         {description ? <meta name="description" content={description} /> : null}

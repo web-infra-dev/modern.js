@@ -19,7 +19,7 @@ export function usePageData() {
   return ctx.data;
 }
 
-export function useLang() {
+export function useLang(): string {
   const ctx = useContext(DataContext);
   return ctx.data.lang;
 }

@@ -3,8 +3,8 @@
 
 When this option is configured, the development environment will start a global proxy, similar to [Fiddler](https://www.telerik.com/fiddler), [Charles](https://www.charlesproxy.com/) and other web proxy debugging tools, which can be used to view, modify HTTP/HTTPS requests, responses, and can also be used as a proxy server.
 
-:::tip 提示
-Using this option requires advance installation `@modern-js/plugin-proxy`。
+:::tip
+Using this option requires advance installation `@modern-js/plugin-proxy`.
 
 :::
 
@@ -19,7 +19,7 @@ export default defineConfig({
   dev: {
     proxy: {
       'https://www.baidu.com': 'https://google.com.hk',
-      //可以通过 file 协议直接返回静态文件。
+      // Static files can be returned directly via the file protocol
       'https://example.com/api': 'file://./data.json',
     },
   },

@@ -1,5 +1,6 @@
 - **类型：** `boolean`
 - **默认值：** `false`
+- **打包工具：** `仅支持 webpack`
 
 是否捕获每个模块的耗时信息，对应 webpack 的 [profile](https://webpack.js.org/configuration/other-options/#profile) 配置。
 

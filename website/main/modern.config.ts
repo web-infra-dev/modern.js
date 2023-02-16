@@ -21,14 +21,14 @@ const getNavbar = (lang: string): NavItem[] => {
   const getText = (cnText: string, enText: string) => (cn ? cnText : enText);
   return [
     {
+      text: getText('指南', 'Guide'),
+      link: getLink('/guides/get-started/introduction'),
+      activeMatch: '/guides/',
+    },
+    {
       text: getText('教程', 'Tutorials'),
       link: getLink('/tutorials/foundations/introduction'),
       activeMatch: '/tutorials/',
-    },
-    {
-      text: getText('指南', 'Guide'),
-      link: getLink('/guides/get-started/quick-start'),
-      activeMatch: '/guides/',
     },
     {
       text: getText('配置', 'Configure'),
@@ -66,6 +66,9 @@ export default defineConfig({
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/favicon.ico',
     lang: 'zh',
     themeDir: path.join(__dirname, 'src'),
+    markdown: {
+      checkDeadLinks: process.env.NODE_ENV === 'production',
+    },
     head: [
       `
           <script>

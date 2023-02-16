@@ -29,19 +29,19 @@ function createApp(config: AppConfig): object;
 ### 参数
 
 - config：`Record<string, any>`
-  - StoreConfig：同 [`createStore`](./create-store.md) 的参数。
+  - StoreConfig：同 [`createStore`](./create-store.mdx) 的参数。
   - devTools：默认值为 true。是否开启 Redux DevTools，当为对象类型时，支持配置 Redux DevTools 的 [Options](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md)。
-  - autoActions：默认值为 true。是否[自动生成 Actions](./auto-actions.md)。
+  - autoActions：默认值为 true。是否[自动生成 Actions](./auto-actions.mdx)。
 
 ### 返回值
 
 Reduck App，有以下属性组成：
 
-- Provider：为应用局部的组件树注入共享 Store 的组件。用法同 [`Provider`](./Provider.md)。
-- useModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useModel`](./use-model.md)。
-- useStaticModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useStaticModel`](./use-static-model.md)。
-- useLocalModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useLocalModel`](./use-local-model.md)。
-- useStore：获取应用局部使用的 Store 对象。用法同 [`useStore`](./use-store.md)。
+- Provider：为应用局部的组件树注入共享 Store 的组件。用法同 [`Provider`](./Provider.mdx)。
+- useModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useModel`](./use-model.mdx)。
+- useStaticModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useStaticModel`](./use-static-model.mdx)。
+- useLocalModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useLocalModel`](./use-local-model.mdx)。
+- useStore：获取应用局部使用的 Store 对象。用法同 [`useStore`](./use-store.mdx)。
 
 ## 示例
 

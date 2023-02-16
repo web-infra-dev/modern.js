@@ -6,6 +6,7 @@ import { normalizeRoutePath } from './utils';
 export const Content = () => {
   const { pathname } = useLocation();
   const matched = matchRoutes(routes, normalizeRoutePath(pathname));
+
   if (!matched) {
     return <div></div>;
   }

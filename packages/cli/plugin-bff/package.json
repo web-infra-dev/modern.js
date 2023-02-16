@@ -14,25 +14,24 @@
   "version": "2.4.0",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
-  "main": "./dist/js/node/cli.js",
-  "module": "./dist/js/treeshaking/cli.js",
-  "jsnext:modern": "./dist/js/modern/cli.js",
+  "main": "./dist/cjs/cli.js",
+  "module": "./dist/esm/cli.js",
   "exports": {
     ".": {
       "jsnext:source": "./src/cli.ts",
-      "default": "./dist/js/node/cli.js"
+      "default": "./dist/cjs/cli.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli.ts",
-      "default": "./dist/js/node/cli.js"
+      "default": "./dist/cjs/cli.js"
     },
     "./server": {
       "jsnext:source": "./src/server.ts",
-      "default": "./dist/js/node/server.js"
+      "default": "./dist/cjs/server.js"
     },
     "./loader": {
       "jsnext:source": "./src/loader.ts",
-      "default": "./dist/js/node/loader.js"
+      "default": "./dist/cjs/loader.js"
     }
   },
   "typesVersions": {

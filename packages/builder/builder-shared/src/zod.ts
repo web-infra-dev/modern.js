@@ -1,20 +1,24 @@
-import { z, ZodTypeAny, ZodRawShape } from 'zod';
+import { z, ZodTypeAny, ZodRawShape, RawCreateParams } from 'zod';
 import { ChainedConfig, JSONPrimitive, JSONValue } from './types';
 
-export function arrayOrNot<T extends ZodTypeAny>(schema: T) {
-  return z.union([z.array(schema), schema]);
+export function arrayOrNot<T extends ZodTypeAny>(
+  schema: T,
+  params?: RawCreateParams,
+) {
+  return z.union([z.array(schema), schema], params);
 }
 
 export function chained<Config, Utils = unknown>(
   config: z.ZodType<Config>,
   utils?: z.ZodType<Utils>,
+  params?: RawCreateParams,
 ): z.ZodType<ChainedConfig<Config, Utils>> {
   const ret = z.union([config, z.void()]);
   const fn = utils
     ? z.function(z.tuple([config, utils]), ret)
     : z.function(z.tuple([config]), ret);
   const combined = z.union([config, fn]);
-  return arrayOrNot(combined) as any;
+  return arrayOrNot(combined, params) as any;
 }
 
 export const primitive = () => {

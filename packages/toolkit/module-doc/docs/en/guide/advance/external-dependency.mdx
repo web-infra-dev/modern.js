@@ -71,18 +71,9 @@ console.info(React);
 
 </CH.Spotlight>
 
-## Packaging third-party dependencies
+If you want to modify the default processing, you can use the following API.
 
-However there are cases where you want to package these third-party dependencies into the product. The benefits of packaging third-party dependencies into the product are: **Reducing the time spent downloading third-party dependencies**.
-
-This way of handling third-party dependencies is generally more common in developing command-line tools, which can improve the loading speed of command-line tools and give users a better experience.
-
-So how do you enable the packaging of third-party dependencies in your module project?
-
-The following APIs are provided in the build configuration to handle third-party dependencies:
-
-- [`buildConfig.autoExternal`](/en/api/config/build-config#autoexternal)
-- [`buildConfig.externals`](/en/api/config/build-config#externals)
+- [`buildConfig.autoExternal`](/api/config/build-config#autoexternal)
 
 ### Turn off default behavior
 
@@ -110,9 +101,61 @@ export default defineConfig({
 });
 ```
 
+## Packaging third-party dependencies
+
+However there are cases where you want to package these third-party dependencies into the product. The benefits of packaging third-party dependencies into the product are:**Less time spent downloading third-party dependencies**. This way of handling third-party dependencies is generally more common in developing command-line tools, which can improve the loading speed of command-line tools and give users a better experience.
+
+So how do you enable the packaging of third-party dependencies in the module project?
+
+**When we want to package certain dependencies, we generally declare them in `"devDependencies"` in package.json**. In this case, the dependencies declared in `"devDependencies"` are **allowed** to be packaged in the product during the build process.
+
+<CH.Spotlight>
+
+```json ./v1/package.json
+{
+  "devDependencies": {
+    "react": "^17"
+  }
+}
+```
+
+---
+
+If the project needs to package `react` dependencies.
+
+```json ./v1/package.json
+```
+
+---
+
+When a `react` dependency is used in the source code.
+
+```tsx src/index.ts
+import React from 'react';
+console.info(React);
+```
+
+---
+
+The `react` code will be packaged into the product at this point.
+
+```js dist/index.js
+// ...
+var import_react = __toESM(require_react());
+function src_default() {
+  console.info(import_react.default);
+}
+```
+
+</CH.Spotlight>
+
+However, in a real build scenario, you may encounter a third-party dependency that cannot be handled, so you can use the following API to **external** them.
+
+- [`buildConfig.externals`](/en/api/config/build-config#externals)
+
 ### Exclude specified third-party dependencies
 
-And in addition to the `buildConfig.autoExternal` API, `buildConfig.externals` can also control which third-party dependencies are to be handled. We can combine these two
+We mentioned above the use of the `buildConfig.autoExternal` API, while `buildConfig.externals` can also control which third-party dependencies to handle. So we can combine these two
 APIs to handle the project's dependencies in a more granular way.
 
 For example, when we need to leave only certain dependencies unpacked, we can configure it as follows.

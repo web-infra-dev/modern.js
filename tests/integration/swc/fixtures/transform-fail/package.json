@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "transform-fail",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-swc": "workspace:*"
+  }
+}

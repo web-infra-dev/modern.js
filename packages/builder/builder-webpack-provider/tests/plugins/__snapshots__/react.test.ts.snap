@@ -297,7 +297,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
               ],
               "presets": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/js/node/index.js",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/cjs/index.js",
                   {
                     "appDirectory": "<ROOT>",
                     "target": "client",

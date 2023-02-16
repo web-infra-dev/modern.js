@@ -14,15 +14,15 @@
   "version": "2.3.0",
   "types": "./src",
   "jsnext:source": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
+  "main": "./dist/cjs/index.js",
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/js/node/index.js"
+      "default": "./dist/cjs/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/js/node/index.js"
+      "default": "./dist/cjs/index.js"
     }
   },
   "scripts": {

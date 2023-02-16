@@ -14,21 +14,20 @@
   "version": "2.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/runtime/index.js",
-  "jsnext:modern": "./dist/js/modern/runtime/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/runtime/index.js",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "import": "./dist/esm-node/index.js",
+        "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/esm/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/js/node/index.js"
+      "default": "./dist/cjs/index.js"
     },
     "./addons/runtime-preset": {
       "jsnext:source": "./addons/runtime-preset.js",

@@ -76,7 +76,7 @@ pipeline.run(5); // 6
 
 上面的例子就是以 Pipeline 为例描述的，这里就不赘述了，在 Pipeline 这个大类中，提供了两个小类：Sync 和 Async，顾名思义，它们的区别就是管理的函数的类型是 Sync 的还是 Async 的。
 
-:::info 注
+:::info
 当 Pipeline 中没有函数或者所有函数都调用了 `next` 函数，则就需要在运行的时候提供：
 
 ```ts

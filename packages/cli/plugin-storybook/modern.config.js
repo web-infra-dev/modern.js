@@ -1,8 +1,8 @@
-const { legacyPresets } = require('@scripts/build');
+const { universalBuildConfig } = require('@scripts/build');
 
 module.exports = {
   buildConfig: [
-    ...legacyPresets.UNIVERSAL_JS,
+    ...universalBuildConfig,
     {
       input: [],
       dts: false,

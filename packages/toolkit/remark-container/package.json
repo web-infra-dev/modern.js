@@ -6,7 +6,6 @@
   "main": "./dist/index.js",
   "module": "./dist/node/index.js",
   "author": "yangxingyuan",
-  "jsnext:modern": "./dist/modern/node/index.js",
   "scripts": {
     "prepare": "modern-lib build",
     "dev": "modern-lib dev",

@@ -340,15 +340,23 @@
  * -------------------------------------------------------------------------- */
 
 :root {
+  --modern-home-bg: #var(--modern-c-bg-white);
   --modern-home-hero-name-color: transparent;
   --modern-home-hero-name-background: -webkit-linear-gradient(
     120deg,
     var(--modern-c-brand) 30%,
-    #41d1ff
+    #42d392
   );
-
   --modern-home-hero-image-background-image: none;
   --modern-home-hero-image-filter: none;
+  --modern-home-feature-bg: var(--modern-c-bg-soft);
+  --modern-home-feature-hover-bg: linear-gradient(to bottom, #ededed, #f9f9f9);
+}
+
+.dark {
+  --modern-home-bg: var(--modern-c-black);
+  --modern-home-feature-bg: var(--modern-c-black-mute);
+  --modern-home-feature-hover-bg: var(--modern-c-black-mute);
 }
 
 /**

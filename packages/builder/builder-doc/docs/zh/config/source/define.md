@@ -12,6 +12,10 @@
 
 更多细节参考 [https://webpack.js.org/plugins/define-plugin/](https://webpack.js.org/plugins/define-plugin/)。
 
+:::tip
+在使用 Rspack 作为打包工具时，只支持 `Record<string, string>` 类型。
+:::
+
 ### 示例
 
 ```js

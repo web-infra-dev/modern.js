@@ -17,62 +17,73 @@
   },
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/js/treeshaking/index.js"
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/esm/index.js"
     },
     "./loadable": {
       "jsnext:source": "./src/exports/loadable.ts",
-      "default": "./dist/js/treeshaking/exports/loadable.js"
+      "types": "./dist/types/exports/loadable.d.ts",
+      "default": "./dist/esm/exports/loadable.js"
     },
     "./head": {
       "jsnext:source": "./src/exports/head.ts",
-      "default": "./dist/js/treeshaking/exports/head.js"
+      "types": "./dist/types/exports/head.d.ts",
+      "default": "./dist/esm/exports/head.js"
     },
     "./styled": {
       "jsnext:source": "./src/exports/styled.ts",
-      "default": "./dist/js/treeshaking/exports/styled.js"
+      "types": "./dist/types/exports/styled.d.ts",
+      "default": "./dist/esm/exports/styled.js"
     },
     "./server": {
       "jsnext:source": "./src/exports/server.ts",
-      "node": "./dist/js/node/exports/server.js",
-      "default": "./dist/js/treeshaking/exports/server.js"
+      "node": "./dist/cjs/exports/server.js",
+      "types": "./dist/types/exports/server.d.ts",
+      "default": "./dist/esm/exports/server.js"
     },
     "./document": {
       "jsnext:source": "./src/document/index.ts",
-      "node": "./dist/js/node/document/index.js",
-      "default": "./dist/js/treeshaking/document/index.js"
+      "node": "./dist/cjs/document/index.js",
+      "types": "./dist/types/document/index.d.ts",
+      "default": "./dist/esm/document/index.js"
     },
     "./document/cli": {
       "jsnext:source": "./src/document/cli/index.ts",
-      "node": "./dist/js/node/document/cli/index.js",
-      "default": "./dist/js/treeshaking/document/cli/index.js"
+      "node": "./dist/cjs/document/cli/index.js",
+      "types": "./dist/types/document/index.d.ts",
+      "default": "./dist/esm/document/cli/index.js"
     },
     "./ssr": {
       "jsnext:source": "./src/ssr/index.ts",
-      "node": "./dist/js/treeshaking/ssr/index.node.js",
-      "worker": "./dist/js/treeshaking/ssr/index.node.js",
-      "default": "./dist/js/treeshaking/ssr/index.js"
+      "node": "./dist/esm/ssr/index.node.js",
+      "worker": "./dist/esm/ssr/index.node.js",
+      "types": "./dist/types/ssr/index.d.ts",
+      "default": "./dist/esm/ssr/index.js"
     },
     "./model": {
       "jsnext:source": "./src/state/index.ts",
-      "default": "./dist/js/treeshaking/state/index.js"
+      "types": "./dist/types/model.d.ts",
+      "default": "./dist/esm/state/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "types": "./dist/types/cli/index.d.ts",
+      "default": "./dist/cjs/cli/index.js"
     },
     "./router": {
       "jsnext:source": "./src/router/index.ts",
-      "default": "./dist/js/treeshaking/router/index.js"
+      "types": "./dist/types/router/index.d.ts",
+      "default": "./dist/esm/router/index.js"
     },
     "./router/server": {
       "jsnext:source": "./src/router/runtime/server.ts",
-      "default": "./dist/js/treeshaking/router/runtime/server.js"
+      "types": "./dist/types/router/runtime/server.d.ts",
+      "default": "./dist/esm/router/runtime/server.js"
     }
   },
   "typesVersions": {

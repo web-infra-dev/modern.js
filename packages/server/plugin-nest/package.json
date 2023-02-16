@@ -15,7 +15,6 @@
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "jsnext:modern": "./dist/index.js",
   "exports": {
     "./types": "./types.d.ts",
     ".": {

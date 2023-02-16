@@ -14,21 +14,20 @@
   "version": "2.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli/index.ts",
-  "main": "./dist/js/node/cli/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/cli/index.js",
+  "main": "./dist/cjs/cli/index.js",
+  "module": "./dist/esm/index.js",
   "exports": {
     ".": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
       "jsnext:source": "./src/runtime/index.ts",
-      "default": "./dist/js/treeshaking/runtime/index.js"
+      "default": "./dist/esm/runtime/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     }
   },
   "typesVersions": {

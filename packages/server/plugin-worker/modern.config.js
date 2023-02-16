@@ -1,5 +1,5 @@
-const { legacyPresets } = require('@scripts/build');
+const { nodeBuildConfig } = require('@scripts/build');
 
 module.exports = {
-  buildConfig: legacyPresets.UNIVERSAL_JS,
+  buildConfig: nodeBuildConfig,
 };
