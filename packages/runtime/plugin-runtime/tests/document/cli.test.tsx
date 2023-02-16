@@ -89,15 +89,16 @@ describe('plugin runtime cli', () => {
         },
       } as any,
     );
-    // 空 entries 且不要扫描时
+    // empty entries
     expect(entries.length).toEqual(0);
     const documentFile = getDocumenByEntryName(
       [],
       'main',
       path.join(__dirname, './feature'),
     );
+    // get the default /src/Document.tsx file
     expect(documentFile).toEqual(
-      `${path.join(__dirname, './feature')}/src/Document.tsx`,
+      `${path.join(__dirname, './feature', './src/Document.tsx')}`,
     );
   });
 });
