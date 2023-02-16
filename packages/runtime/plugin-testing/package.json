@@ -14,9 +14,8 @@
   "version": "2.4.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
-  "main": "./dist/js/node/cli/index.js",
-  "module": "./dist/js/treeshaking/cli/index.js",
-  "jsnext:modern": "./dist/js/modern/cli/index.js",
+  "main": "./dist/cjs/cli/index.js",
+  "module": "./dist/esm/cli/index.js",
   "exports": {
     "./types": {
       "jsnext:source": "./types/index.d.ts",
@@ -28,35 +27,35 @@
     },
     ".": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
       "jsnext:source": "./src/runtime-testing/index.ts",
       "node": {
-        "import": "./dist/js/modern/runtime-testing/index.js",
-        "require": "./dist/js/node/runtime-testing/index.js"
+        "import": "./dist/esm-node/runtime-testing/index.js",
+        "require": "./dist/cjs/runtime-testing/index.js"
       },
-      "default": "./dist/js/treeshaking/runtime-testing/index.js"
+      "default": "./dist/esm/runtime-testing/index.js"
     },
     "./runtime-base": {
       "jsnext:source": "./src/runtime-testing/base.ts",
       "node": {
-        "import": "./dist/js/modern/runtime-testing/base.js",
-        "require": "./dist/js/node/runtime-testing/base.js"
+        "import": "./dist/esm-node/runtime-testing/base.js",
+        "require": "./dist/cjs/runtime-testing/base.js"
       },
-      "default": "./dist/js/treeshaking/runtime-testing/base.js"
+      "default": "./dist/esm/runtime-testing/base.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/js/node/cli/index.js"
+      "default": "./dist/cjs/cli/index.js"
     },
     "./bff-cli": {
       "jsnext:source": "./src/cli/bff/index.ts",
-      "default": "./dist/js/node/cli/bff/index.js"
+      "default": "./dist/cjs/cli/bff/index.js"
     },
     "./base": {
       "jsnext:source": "./src/base/index.ts",
-      "default": "./dist/js/node/base/index.js"
+      "default": "./dist/cjs/base/index.js"
     }
   },
   "typesVersions": {
@@ -103,6 +102,7 @@
     "@modern-js-reduck/plugin-immutable": "^1.0.1",
     "@modern-js-reduck/store": "^1.0.3",
     "@modern-js/babel-compiler": "workspace:*",
+    "@modern-js/build-config": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/plugin": "workspace:*",
