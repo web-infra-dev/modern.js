@@ -1,0 +1,60 @@
+name: Unit Test - Builder (Windows)
+
+concurrency:
+  group: windows-test-${{ github.head_ref }}
+  cancel-in-progress: true
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on pull request events but only for the main branch
+  pull_request:
+    branches: [main]
+
+  merge_group:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  ut-windows:
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [windows-latest] # windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Git config
+        shell: bash
+        run: |
+          git config --system core.longpaths true
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
+
+      - name: Check docs only change
+        run: echo "::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')"
+        id: docs-change
+
+      - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run: pnpm install --ignore-scripts
+
+      - name: Test
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run: pnpm run test:vitest
