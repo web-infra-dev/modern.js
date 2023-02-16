@@ -1,44 +1,26 @@
-# Your Package
+<p align="center">
+  <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="300" alt="Modern.js Logo" /></a>
+</p>
 
-## Prerequisites
+<h1 align="center">Modern.js Doc</h1>
 
-1. [Node.js LTS](https://github.com/nodejs/Release)
-    * [Automatically call nvm use](https://github.com/nvm-sh/nvm#deeper-shell-integration)
+<p align="center">
+ The Documentation Framework of Modern.js.
+</p>
 
-## Get Started
+## Getting Started
 
-按开发环境的要求，运行和调试项目
+Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.
 
-运行和调试组件
+## Documentation
 
-```
-pnpm run dev
-```
+- [English Documentation](https://modernjs.dev/en/)
+- [中文文档](https://modernjs.dev)
 
-运行测试用例
+## Contributing
 
-```
-pnpm run test
-```
+Please read the [Contributing Guide](https://github.com/modern-js-dev/modern.js/blob/main/CONTRIBUTING.md).
 
-按照社区规范和最佳实践，生成构建产物
+## License
 
-```
-pnpm run build
-```
-
-继续创建更多项目要素
-
-```
-pnpm run new
-```
-
-其他
-
-```
-pnpm run lint         # 检查和修复所有代码
-pnpm run change       # 添加 changeset，用于发版时生成 changelog
-pnpm run bump         # 生成发版相关的修改，比如更新版本号、生成 changelog
-pnpm run release      # 根据 bump 自动修改和人工修改的发版要求，发布项目
-
-```
+Modern.js is [MIT licensed](https://github.com/modern-js-dev/modern.js/blob/main/LICENSE).
