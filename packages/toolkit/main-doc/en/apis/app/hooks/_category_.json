@@ -1,8 +1,5 @@
 {
   "label": "Convention",
   "position": 1,
-  "link": {
-    "type": "doc",
-    "id": "apis/app/hooks/index"
-  }
+  "collapsed": false
 }

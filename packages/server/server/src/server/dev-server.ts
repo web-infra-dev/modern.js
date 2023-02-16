@@ -214,6 +214,8 @@ export class ModernDevServer extends ModernServer {
     // reset static file
     this.reader.updateFile();
 
+    this.runner.repack();
+
     super.onRepack(options);
   }
 

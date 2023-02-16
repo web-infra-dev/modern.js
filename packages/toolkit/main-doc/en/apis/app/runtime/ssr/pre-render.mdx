@@ -36,7 +36,7 @@ function PreRender(props: Props): React.Component
 ### Input
 
 - `interval`: set the time the cache keep fresh，seconds. During this time, the cache will be used directly and not invoke asynchronous rendering.
-- `staleLimit`: sets the time when the cache is completely expired，seconds。During this time, The cache can be returned and asynchronous rendering will be invoke, otherwise must wait for the re-rendered result.
+- `staleLimit`: sets the time when the cache is completely expired，seconds.During this time, The cache can be returned and asynchronous rendering will be invoke, otherwise must wait for the re-rendered result.
 - `level`: sets the calculation rule level for the cache identity, usually used with `includes` and `matches`. The default value is `0`.
 
 ```bash

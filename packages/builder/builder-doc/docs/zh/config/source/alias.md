@@ -7,6 +7,10 @@
 对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) 即可，Builder 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
 :::
 
+:::tip
+在使用 Rspack 作为打包工具时，只支持 `Record<string, string> | Function` 类型。
+:::
+
 #### Object 类型
 
 `alias` 的值可以定义为 Object 类型，其中的相对路径会自动被 Builder 转换为绝对路径。

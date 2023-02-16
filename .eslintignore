@@ -1,1 +1,2 @@
 packages/runtime/plugin-garfish/tests/**
+tests/integration/swc/fixtures/transform-fail/src/App.jsx

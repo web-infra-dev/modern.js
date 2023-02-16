@@ -93,11 +93,10 @@ In the Modern.js configuration file, we can write our own code to control the co
 
 Now, modify the `modern.config.ts` to add something:
 
-```ts
+```ts title="modern.config.ts"
 import appTools, { defineConfig } from '@modern-js/app-tools';
 import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
 
-// https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
   runtime: {
     router: true,

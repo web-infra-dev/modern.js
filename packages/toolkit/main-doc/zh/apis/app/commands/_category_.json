@@ -1,8 +1,5 @@
 {
   "label": "命令",
   "position": 0,
-  "link": {
-    "type": "doc",
-    "id": "apis/app/commands/index"
-  }
+  "collapsed": false
 }

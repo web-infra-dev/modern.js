@@ -19,6 +19,7 @@ export const APIPlugin = createPlugin(api => ({
       apiHandlerInfos,
       apiMode,
     });
+
     return next(props);
   },
 }));

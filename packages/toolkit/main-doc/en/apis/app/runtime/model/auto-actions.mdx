@@ -19,7 +19,7 @@ can use [`runtime.state.autoActions`](/configure/app/runtime/state#autoactions) 
 
 ### Basic Data Type
 
-State type in `string`、`number`、`boolean`、`null`，generate `setState` Action。
+State type in `string`、`number`、`boolean`、`null`，generate `setState` Action.
 
 ```tsx title="example"
 const fooModel = model('foo').define({
@@ -93,7 +93,7 @@ function App() {
 
 ### PlainObject
 
-State type is PlainObject，base on the names contained in State，generate `set${key}`(Camel-Case) Actions。
+State type is PlainObject，base on the names contained in State，generate `set${key}`(Camel-Case) Actions.
 
 ```tsx title="example"
 const fooModel = model('foo').define({
