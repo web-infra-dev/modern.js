@@ -26,11 +26,10 @@ const SHELL = process.env.SHELL || true;
       stdio: 'inherit',
     });
 
-    await Promise.all(
-      directories.map(cwd =>
-        execa('pnpm run test', { shell: SHELL, stdio: 'inherit', cwd }),
-      ),
-    );
+    for (const cwd of directories) {
+      const cmd = 'pnpm run test';
+      await execa(cmd, { shell: SHELL, stdio: 'inherit', cwd });
+    }
   } catch (err) {
     console.error(err);
     // eslint-disable-next-line no-process-exit
