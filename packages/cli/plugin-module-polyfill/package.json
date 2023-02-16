@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/plugin-module-polyfill",
-  "description": "A Progressive React Framework for modern web development.",
-  "homepage": "https://modernjs.dev",
+  "description": "Simple, powerful, high-performance modern npm package development solution.",
+  "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": "modern-js-dev/modern.js",
   "license": "MIT",
