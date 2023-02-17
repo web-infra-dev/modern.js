@@ -109,6 +109,10 @@ export type BuildPreset =
   | keyof typeof presetList
   | ((options: {
       preset: typeof BuildInPreset;
+      extendPreset: (
+        extendPresetName: keyof typeof BuildInPreset,
+        extendBuildConfig: PartialBaseBuildConfig,
+      ) => PartialBuildConfig;
     }) => PartialBuildConfig | Promise<PartialBuildConfig>);
 
 export interface StyleConfig {

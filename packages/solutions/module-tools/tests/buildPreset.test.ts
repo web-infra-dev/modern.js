@@ -61,6 +61,33 @@ describe('`buildPreset` case', () => {
     ).toBeTruthy();
   });
 
+  it('use extendPreset', async () => {
+    const appDirectory = path.join(fixtureDir, './function');
+    const configFile = path.join(fixtureDir, './extend-preset.config.ts');
+
+    const ret = await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory,
+    });
+    expect(ret.success).toBeTruthy();
+
+    const distPath = path.join(appDirectory, 'dist');
+    expect(
+      await fs.pathExists(path.join(distPath, './esm/index.js')),
+    ).toBeTruthy();
+    expect(
+      await fs.pathExists(path.join(distPath, './cjs/index.js')),
+    ).toBeTruthy();
+
+    expect(
+      await fs.readFile(path.join(distPath, './esm/utils.js'), 'utf-8'),
+    ).toContain('test');
+    expect(
+      await fs.readFile(path.join(distPath, './cjs/utils.js'), 'utf-8'),
+    ).toContain('test');
+  });
+
   it('error1', async () => {
     const appDirectory = path.join(fixtureDir, './error1');
     const configFile = path.join(fixtureDir, './error-1.config.ts');

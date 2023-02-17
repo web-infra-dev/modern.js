@@ -25,7 +25,31 @@ export const transformBuildPresetToBaseConfigs = async (
   const { addInputToPreset } = await import('../utils/input');
 
   if (typeof preset === 'function') {
-    const partialBuildConfig = await preset({ preset: BuildInPreset });
+    const extendPreset = (
+      presetName: keyof typeof BuildInPreset,
+      extendConfig: PartialBaseBuildConfig,
+    ) => {
+      const originalBuildConfig = BuildInPreset[presetName];
+      if (Array.isArray(originalBuildConfig)) {
+        return originalBuildConfig.map(config => {
+          return {
+            ...config,
+            ...extendConfig,
+          };
+        });
+      } else if (originalBuildConfig) {
+        return {
+          ...originalBuildConfig,
+          ...extendConfig,
+        };
+      }
+
+      return extendConfig;
+    };
+    const partialBuildConfig = await preset({
+      preset: BuildInPreset,
+      extendPreset,
+    });
 
     if (!partialBuildConfig) {
       throw new Error(

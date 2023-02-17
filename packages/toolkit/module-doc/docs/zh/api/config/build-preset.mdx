@@ -232,3 +232,82 @@ export default defineConfig({
   },
 });
 ```
+
+### 函数参数
+
+`buildPreset` 的函数形式包含了一个对象形式的函数参数。该对象包含以下字段：
+
+* `preset`
+* `extendPreset`
+
+#### `preset`
+
+类型：**Object**
+
+包含了所有可用的构建预设对应的构建配置。可以通过 `buildPreset` 所支持的字符串来使用构建配置，也可以使用这些字符串的下划线命令的方式。下面是两种方式的使用示例：
+
+
+<CH.Spotlight>
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildPreset({ preset }) {
+    return preset['npm-library'];
+  },
+});
+```
+---
+
+使用 `buildPreset` 所支持的字符串。
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildPreset({ preset }) {
+    return preset['npm-library'];
+  },
+});
+```
+
+---
+
+使用 `buildPreset` 所支持的字符串的下划线命名方式。
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildPreset({ preset }) {
+    return preset.NPM_LIBRARY;
+  },
+});
+```
+
+</CH.Spotlight>
+
+#### `extendPreset`
+
+类型：`Function`
+
+用于扩展某个 `buildPreset` 的工具函数，可以修改 `buildPreset` 对应的构建配置。
+
+> 底层使用类似 `{...oldBuildConfig, ...extendBuildConfig}` 方式进行处理。
+
+例如在 `'npm-library'` 构建预设的基础上增加 `define` 配置：
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildPreset({ extendPreset }) {
+    return extendPreset('npm-library', {
+      define: {
+        VERSION: '1.0.1',
+      },
+    });
+  },
+});
+```
