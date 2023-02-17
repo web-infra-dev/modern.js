@@ -11,7 +11,7 @@ module.exports = {
           {
             from: './template',
             context: __dirname,
-            to: './js/template',
+            to: './template',
           },
         ],
       },
