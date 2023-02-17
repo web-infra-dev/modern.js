@@ -1,5 +1,31 @@
 # @modern-js/plugin-garfish
 
+## 2.5.0
+
+### Patch Changes
+
+- 89ca6cc: refactor: merge build-config into scripts/build
+
+  refactor: 把 build-config 合并进 scripts/build
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- 97cc2d0: feat: pass origin bootstrap function to custom render
+  feat: 自定义渲染中传入原始 bootstrap 函数
+- b139eab: fix: avoid do not get provider when in micro-frontend mode
+  避免微前端模式下 provider 获取不到
+- Updated dependencies [89ca6cc]
+- Updated dependencies [7cb8bb4]
+- Updated dependencies [30614fa]
+- Updated dependencies [7a25271]
+- Updated dependencies [8871bb8]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [0d75c27]
+- Updated dependencies [11c053b]
+- Updated dependencies [a0f2ab1]
+  - @modern-js/runtime@2.5.0
+  - @modern-js/utils@2.5.0
+
 ## 2.4.0
 
 ### Patch Changes

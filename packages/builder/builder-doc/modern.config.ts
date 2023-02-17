@@ -67,6 +67,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         collapsible: false,
         text: getText('进阶', 'Advanced'),
         items: [
+          getLink('/guide/advanced/rspack-start'),
           getLink('/guide/advanced/alias'),
           getLink('/guide/advanced/define'),
           getLink('/guide/advanced/hmr'),

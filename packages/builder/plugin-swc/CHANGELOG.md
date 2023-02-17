@@ -1,5 +1,23 @@
 # @modern-js/builder-plugin-swc
 
+## 2.5.0
+
+### Patch Changes
+
+- b18a544: fix(builder-plugin-swc): properly handle transform error in loader
+
+  fix(builder-plugin-swc): 处理 loader 中的编译异常
+
+- Updated dependencies [58a9918]
+- Updated dependencies [30614fa]
+- Updated dependencies [c4c10e7]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [11c053b]
+- Updated dependencies [28e7dc6]
+- Updated dependencies [40230b3]
+  - @modern-js/builder-shared@2.5.0
+  - @modern-js/utils@2.5.0
+
 ## 2.4.0
 
 ### Patch Changes

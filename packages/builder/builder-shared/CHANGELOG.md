@@ -1,5 +1,44 @@
 # @modern-js/builder-shared
 
+## 2.5.0
+
+### Minor Changes
+
+- 28e7dc6: feat: more use bunlder chain to modify bundler config
+  feat: 更多的使用 `bunlder chain` 去修改 bunlder 配置
+
+### Patch Changes
+
+- 58a9918: fix(builder): should not generate HTML for service-worker target
+
+  fix(builder): 修复 target 为 service-worker 时会生成 HTML 的问题
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- c4c10e7: refactor: refactor rules for static assets processing with rule.oneOf, reuse svg/font/image/media plugin
+
+  refactor: 使用 oneOf 重构静态资源处理规则 & 复用 svg / font / media / img 插件
+
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
+- 40230b3: feat(builder): enable postcss plugins based on browserslist
+
+  feat(builder): 基于 browserslist 来启用需要的 postcss 插件
+
+- Updated dependencies [89ca6cc]
+- Updated dependencies [7cb8bb4]
+- Updated dependencies [bb4e712]
+- Updated dependencies [6fca567]
+- Updated dependencies [30614fa]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [11c053b]
+- Updated dependencies [f0b3d8c]
+  - @modern-js/server@2.5.0
+  - @modern-js/types@2.5.0
+  - @modern-js/utils@2.5.0
+
 ## 2.4.0
 
 ### Minor Changes

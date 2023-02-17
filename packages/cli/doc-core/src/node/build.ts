@@ -16,18 +16,21 @@ import { normalizeSlash } from '@/shared/utils';
 import type { Route } from '@/node/route/RouteService';
 
 export async function bundle(rootDir: string, config: UserConfig) {
-  const [clientBuilder, ssrBuilder] = await Promise.all([
-    createModernBuilder(rootDir, config, false),
-    createModernBuilder(rootDir, config, true, {
-      output: {
-        distPath: {
-          root: `${config.doc?.outDir ?? OUTPUT_DIR}/ssr`,
+  try {
+    const [clientBuilder, ssrBuilder] = await Promise.all([
+      createModernBuilder(rootDir, config, false),
+      createModernBuilder(rootDir, config, true, {
+        output: {
+          distPath: {
+            root: `${config.doc?.outDir ?? OUTPUT_DIR}/ssr`,
+          },
         },
-      },
-    }),
-  ]);
-  await Promise.all([clientBuilder.build(), ssrBuilder.build()]);
-  await writeSearchIndex(rootDir, config);
+      }),
+    ]);
+    await Promise.all([clientBuilder.build(), ssrBuilder.build()]);
+  } finally {
+    await writeSearchIndex(config);
+  }
 }
 
 export interface SSRBundleExports {

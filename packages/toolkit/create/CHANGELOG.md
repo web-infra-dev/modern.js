@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 2.5.0
+
+### Patch Changes
+
+- 577084d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
 ## 2.4.0
 
 ### Patch Changes

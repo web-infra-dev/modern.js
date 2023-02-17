@@ -66,7 +66,7 @@ Also using the above configuration, after executing `pnpm run build`, only the e
 ```bash
 .
 ├── src
-│   ├── entryA
+│   ├── entryA
 │   │   └── routes
 │   │       ├── layout.tsx
 │   │       ├── page.tsx
@@ -75,8 +75,8 @@ Also using the above configuration, after executing `pnpm run build`, only the e
 │   │           ├── page.tsx
 │   │           └── profile
 │   │               └── page.tsx
-│   └── entryB
-│       └── App.tsx
+│   └── entryB
+│       └── App.tsx
 ```
 
 By default, all entryA entrances are rendered at build time after setting `output.ssg` to `true`. You can configure `false` to cancel the default behavior of the specified entries. For example, to cancel the rendering of the `entryA` at build time:

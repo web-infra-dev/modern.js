@@ -28,7 +28,7 @@ import {
 import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
-import { globContentJSON, matchLoader } from './utils';
+import { matchLoader } from './utils';
 import { getPluginAPI } from '../core/initPlugins';
 
 export interface OptionsPluginsItem {
@@ -191,6 +191,9 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
       throw new Error('`isRelative` is not supported for multiple paths.');
     }
     await build();
+
+    const { globContentJSON } = await import('@modern-js/e2e');
+
     return globContentJSON(paths, { absolute: !isRelative, maxSize });
   };
 

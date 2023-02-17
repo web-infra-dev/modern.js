@@ -7,8 +7,9 @@
     "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"],
-      "@shared/*": ["./shared/*"]
+      "@shared/*": ["./shared/*"],
+      "@scripts/*": ["./scripts/*"]
     }
   },
-  "include": ["src", "scripts", "tests", "fixtures"]
+  "include": ["src", "scripts", "cases"]
 }

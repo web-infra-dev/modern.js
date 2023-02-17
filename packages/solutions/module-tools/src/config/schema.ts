@@ -26,6 +26,8 @@ export const presets = [
   ].reduce<string[]>((ret, crt) => {
     return [...ret, ...targets.map(t => `${crt}-${t}`)];
   }, []),
+  'modern-js-node',
+  'modern-js-universal',
 ];
 const buildConfigProperties = {
   alias: {

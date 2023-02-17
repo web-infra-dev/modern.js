@@ -1,5 +1,15 @@
 # @modern-js/builder-plugin-node-polyfill
 
+## 2.5.0
+
+### Patch Changes
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
 ## 2.4.0
 
 ## 2.3.0

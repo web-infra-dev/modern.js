@@ -167,6 +167,61 @@ export const componentUmdPresetWithTarget = targets.reduce((ret, target) => {
   return ret;
 }, {} as Record<`npm-component-with-umd-${Target}`, PartialBuildConfig>);
 
+export const nodeBuildConfig: PartialBaseBuildConfig[] = [
+  {
+    buildType: 'bundleless',
+    format: 'cjs',
+    target: 'es2019',
+    dts: false,
+    outDir: './dist/cjs',
+  },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es2019',
+    dts: false,
+    outDir: './dist/esm',
+  },
+  {
+    buildType: 'bundleless',
+    dts: {
+      only: true,
+    },
+    outDir: './dist/types',
+  },
+];
+
+export const universalBuildConfig: PartialBaseBuildConfig[] = [
+  {
+    buildType: 'bundleless',
+    format: 'cjs',
+    target: 'es2019',
+    dts: false,
+    outDir: './dist/cjs',
+  },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es5',
+    dts: false,
+    outDir: './dist/esm',
+  },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es2019',
+    dts: false,
+    outDir: './dist/esm-node',
+  },
+  {
+    buildType: 'bundleless',
+    dts: {
+      only: true,
+    },
+    outDir: './dist/types',
+  },
+];
+
 export const presetList = {
   ...libraryPreset,
   ...libraryPresetWithTarget,
@@ -176,6 +231,8 @@ export const presetList = {
   ...componentPresetWithTarget,
   ...componentUmdPreset,
   ...componentUmdPresetWithTarget,
+  'modern-js-node': nodeBuildConfig,
+  'modern-js-universal': universalBuildConfig,
 };
 
 export const BuildInPreset = {
@@ -189,4 +246,6 @@ export const BuildInPreset = {
   'npm-component': npmComponentPresetConfig,
   NPM_COMPONENT_WITH_UMD: npmComponentWithUmdPresetConfig,
   'npm-component-with-umd': npmComponentWithUmdPresetConfig,
+  'modern-js-node': nodeBuildConfig,
+  'modern-js-universal': universalBuildConfig,
 };

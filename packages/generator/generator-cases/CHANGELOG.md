@@ -1,5 +1,20 @@
 # @modern-js/generator-cases
 
+## 3.0.7
+
+### Patch Changes
+
+- 89ca6cc: refactor: merge build-config into scripts/build
+
+  refactor: 把 build-config 合并进 scripts/build
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- Updated dependencies [89ca6cc]
+- Updated dependencies [30614fa]
+- Updated dependencies [577084d]
+  - @modern-js/generator-common@3.0.7
+
 ## 3.0.6
 
 ### Patch Changes
