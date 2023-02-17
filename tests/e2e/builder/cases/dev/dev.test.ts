@@ -39,7 +39,7 @@ export default App;
   );
 
   // wait for hmr take effect
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   await expect(
     page.evaluate(`document.getElementById('test').innerHTML`),
@@ -55,7 +55,7 @@ export default App;
   );
 
   // wait for hmr take effect
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   await expect(
     page.evaluate(`getComputedStyle(document.getElementById('test')).color`),

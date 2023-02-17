@@ -17,6 +17,6 @@ webpackOnlyTest('should compile const enum correctly', async () => {
 
   const content =
     files[Object.keys(files).find(file => /index\.\w+\.js/.test(file))!];
-  console.log(content);
+
   expect(content.includes('console.log("fish is :",0)')).toBeTruthy();
 });

@@ -30,7 +30,7 @@ webpackOnlyTest('inline runtime chunk by default', async () => {
     },
     false,
   );
-  const files = await builder.unwrapOutputJSON();
+  const files = await builder.unwrapOutputJSON(false);
 
   // no builder-runtime file in output
   expect(
@@ -71,7 +71,7 @@ webpackOnlyTest(
       },
       false,
     );
-    const files = await builder.unwrapOutputJSON();
+    const files = await builder.unwrapOutputJSON(false);
 
     // no builder-runtime file in output
     expect(
@@ -109,7 +109,7 @@ webpackOnlyTest('inline all scripts and emit all source maps', async () => {
     },
     false,
   );
-  const files = await builder.unwrapOutputJSON();
+  const files = await builder.unwrapOutputJSON(false);
 
   // no entry chunks or runtime chunks in output
   expect(

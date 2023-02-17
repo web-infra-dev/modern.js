@@ -13,7 +13,7 @@ test('should import antd v4 correctly', async () => {
     undefined,
     false,
   );
-  const files = await builder.unwrapOutputJSON(Infinity);
+  const files = await builder.unwrapOutputJSON();
   expect(
     Object.keys(files).find(file => file.includes('lib-antd')),
   ).toBeTruthy();

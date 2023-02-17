@@ -112,8 +112,12 @@ export async function build(
 
   const clean = async () => await fs.remove(distPath);
 
-  const unwrapOutputJSON = async (maxSize = 4096) => {
-    return globContentJSON(distPath, { absolute: true, maxSize });
+  const unwrapOutputJSON = async (ignoreMap = true, maxSize = 4096) => {
+    return globContentJSON(distPath, {
+      absolute: true,
+      maxSize,
+      ignore: ignoreMap ? [join(distPath, '/**/*.map')] : [],
+    });
   };
 
   return {

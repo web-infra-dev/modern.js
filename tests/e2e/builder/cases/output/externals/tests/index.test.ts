@@ -38,28 +38,34 @@ allProviderTest('externals', async ({ page }) => {
 
   expect(externalVar).toBeDefined();
 
+  builder.clean();
   builder.close();
 });
 
 allProviderTest(
   'should not external dependencies when target is web worker',
   async () => {
-    const builder = await build({
-      cwd: fixtures,
-      target: 'web-worker',
-      entry: { index: resolve(fixtures, './src/index.js') },
-      builderConfig: {
+    const builder = await build(
+      {
+        cwd: fixtures,
+        target: 'web-worker',
+        entry: { index: resolve(fixtures, './src/index.js') },
+      },
+      {
         output: {
           externals: {
             react: 'MyReact',
           },
         },
       },
-    });
+      false,
+    );
     const files = await builder.unwrapOutputJSON();
 
     const content =
       files[Object.keys(files).find(file => file.endsWith('.js'))!];
     expect(content.includes('MyReact')).toBeFalsy();
+
+    builder.clean();
   },
 );
