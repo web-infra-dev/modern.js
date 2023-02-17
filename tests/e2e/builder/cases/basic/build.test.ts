@@ -1,8 +1,6 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
-import { PluginEntry } from '@modern-js/builder-webpack-provider/plugins/entry';
-import { PluginHtml } from '@modern-js/builder-webpack-provider/plugins/html';
+import { build, getHrefByEntryName } from '@scripts/shared';
 
 test('basic', async ({ page }) => {
   // TODO: serve dist files from memfs directly (instead of output files to disk first).
@@ -14,16 +12,12 @@ test('basic', async ({ page }) => {
   // TODO: snapshot of dom tree.
   // TODO: assert console output.
   // TODO: docs.
-  const builder = await createStubBuilder({
-    webpack: 'in-memory',
-    plugins: {
-      builtin: false,
-      additional: [PluginEntry(), PluginHtml()],
-    },
-    entry: { index: path.resolve('./src/index.js') },
+  const builder = await build({
+    cwd: __dirname,
+    entry: { index: path.resolve(__dirname, './src/index.js') },
   });
-  const { homeUrl } = await builder.buildAndServe();
-  await page.goto(homeUrl.href);
+
+  await page.goto(getHrefByEntryName('index', builder.port));
   expect(await page.evaluate('window.answer')).toBe(42);
   await page.evaluate('document.write(window.answer)');
   expect(await page.screenshot()).toMatchSnapshot();

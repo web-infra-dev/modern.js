@@ -17,6 +17,6 @@ webpackOnlyTest(
       './node_modules/.cache/webpack/buildDependencies.json',
     );
     const buildDependencies = await fs.readJSON(configFile);
-    expect(Object.keys(buildDependencies)).toEqual(['packageJson', 'config']);
+    expect(Object.keys(buildDependencies)).toEqual(['packageJson', 'tsconfig']);
   },
 );
