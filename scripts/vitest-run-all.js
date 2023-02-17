@@ -13,15 +13,18 @@ const SHELL = process.env.SHELL || true;
   });
   const directories = configs.map(config => path.dirname(config));
 
-  const pnpmFilters = directories
-    .map(dir => `--filter "{${dir}}..."`)
+  const pnpmFilters = ['@scripts/vitest-config', '@modern-js/e2e']
+    .map(dir => `--filter "${dir}..."`)
     .join(' ');
-  const buildCmd = `pnpm run ${pnpmFilters} build`;
+  const buildCmd = `pnpm ${pnpmFilters} run build`;
   // eslint-disable-next-line no-console
   console.log('>', buildCmd);
 
   try {
-    await execa(buildCmd, { shell: SHELL, stdio: 'inherit' });
+    await execa(buildCmd, {
+      shell: SHELL,
+      stdio: 'inherit',
+    });
 
     for (const cwd of directories) {
       const cmd = 'pnpm run test';

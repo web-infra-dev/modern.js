@@ -1,5 +1,33 @@
 # @modern-js/plugin-testing
 
+## 2.5.0
+
+### Patch Changes
+
+- 89ca6cc: refactor: merge build-config into scripts/build
+
+  refactor: 把 build-config 合并进 scripts/build
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- Updated dependencies [89ca6cc]
+- Updated dependencies [7cb8bb4]
+- Updated dependencies [6fca567]
+- Updated dependencies [30614fa]
+- Updated dependencies [7a25271]
+- Updated dependencies [8871bb8]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [0d75c27]
+- Updated dependencies [11c053b]
+- Updated dependencies [169c58b]
+- Updated dependencies [a0f2ab1]
+  - @modern-js/babel-preset-app@2.5.0
+  - @modern-js/runtime@2.5.0
+  - @modern-js/prod-server@2.5.0
+  - @modern-js/babel-compiler@2.5.0
+  - @modern-js/plugin@2.5.0
+  - @modern-js/utils@2.5.0
+
 ## 2.4.0
 
 ### Patch Changes

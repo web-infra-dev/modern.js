@@ -37,7 +37,7 @@ const getNavbar = (lang: string): NavItem[] => {
     },
     {
       text: getText('API', 'API'),
-      link: getLink('/apis/app/commands/dev'),
+      link: getLink('/apis/app/commands'),
       activeMatch: '/apis/',
     },
     // TODO enabled after we write the v2 release blog

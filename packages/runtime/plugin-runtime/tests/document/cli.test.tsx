@@ -35,7 +35,6 @@ describe('plugin runtime cli', () => {
           },
         ],
       })),
-      useResolvedConfigContext: jest.fn(),
     };
     const cloned = manager.clone(mockAPI);
     cloned.usePlugin(plugin);

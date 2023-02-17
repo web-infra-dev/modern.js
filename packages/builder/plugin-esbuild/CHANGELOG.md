@@ -1,5 +1,19 @@
 # @modern-js/builder-plugin-esbuild
 
+## 2.5.0
+
+### Patch Changes
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- Updated dependencies [58a9918]
+- Updated dependencies [30614fa]
+- Updated dependencies [c4c10e7]
+- Updated dependencies [11c053b]
+- Updated dependencies [28e7dc6]
+- Updated dependencies [40230b3]
+  - @modern-js/builder-shared@2.5.0
+
 ## 2.4.0
 
 ### Patch Changes

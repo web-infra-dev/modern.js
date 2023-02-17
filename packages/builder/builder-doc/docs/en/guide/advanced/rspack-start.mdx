@@ -1,0 +1,171 @@
+# Rspack Start
+
+[Rspack](https://www.rspack.org/) is a Rust bundler developed by ByteDance Web Infra team, with core architecture aligned with webpack's implementation. Currently, Rspack Provider has adapted and validated most of the configuration capabilities in Builder.
+
+Switching to Rspack as the bundler can provide a faster compilation speed.
+
+## Enable Rspack
+
+### Enable in Modern.js framework
+
+We recommend enabling Rspack as the bundler for Modern.js framework through the [Modern.js generator](https://modernjs.dev/en/apis/app/commands/new.html#enable-features) if you prefer it over the default Webpack bundler.
+
+Of course, you can also access it manually by following the steps below:
+
+1. Install Rspack Provider（The version needs to be the same as the modern.js version).
+
+```
+pnpm add @modern-js/builder-rspack-provider@2.4.0 -D
+```
+
+Confirm the modern.js version via package.json or lock file:
+
+```json title=package.json
+  "devDependencies": {
+    "@modern-js/app-tools": "2.4.0"
+  }
+```
+
+2. Add statement of use
+
+```ts title=modern.config.ts
+import appTools, { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
+  plugins: [
+    appTools({
+      bundler: 'experimental-rspack',
+    }),
+  ],
+});
+```
+
+### Use Builder in a front-end framework
+
+Integrating Rspack Provider into a frontend framework is similar to integrating Webpack Provider. You only need to change the dependency from `@modern-js/builder-webpack-provider` to `@modern-js/builder-rspack-provider`.
+
+```ts title=modern.config.ts
+import { createBuilder } from '@modern-js/builder';
+import { builderRspackProvider } from '@modern-js/builder-rspack-provider';
+
+const provider = builderRspackProvider({
+  builderConfig: {
+    // some configs
+  },
+});
+```
+
+## Migrating from webpack to Rspack
+
+Builder aims to eliminate the main differences between different bundlers and help users migrate at a lower cost. However, due to the different capabilities of each bundler, users still need to be aware of some differences.
+
+### Configuration differences
+
+Currently, most of configuration options in Builder have been adapted for Rspack.
+Throughout this process, Builder's work includes but is not limited to:
+- Validating and encapsulating webpack plugins such as `@svgr/webpack` and `webpack-bundle-analyzer`;
+- Encapsulating Rspack built-in features such as `css` and `minify`.
+
+#### Source Config
+
+> Source code parsing and compilation related configurations in Builder.
+
+Unsupported configurations and capabilities include:
+
+- [source.moduleScopes](/api/config-source.html#sourcemodulescopes)
+
+#### Html Config
+
+> HTML related configurations in Builder.
+
+All configurations and capabilities under html are available within Rspack.
+
+#### Security Config
+
+> Security related configurations in Builder.
+
+All configurations and capabilities under security are **not supported** for use within Rspack.
+
+#### Dev Config
+
+> Dev related configurations in Builder.
+
+All configurations and capabilities under dev are available within Rspack.
+
+#### Output Config
+
+> Output related configurations in Builder.
+
+Unsupported configurations and capabilities include:
+
+- [output.assetsRetry](/api/config-output.html#outputassetsretry)
+- [output.disableCssExtract](/api/config-output.html#outputdisablecssextract)
+- [output.enableAssetManifest](/api/config-output.html#outputenableassetmanifest)
+- [output.enableAssetFallback](/api/config-output.html#outputenableassetfallback)
+- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
+- [output.legalComments](/api/config-output.html#outputlegalcomments)
+- inlineChunk 能力
+  - [output.disableInlineRuntimeChunk](/api/config-output.html#outputdisableinlineruntimechunk)
+  - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
+  - [output.enableInlineStyles](/api/config-output.html#outputenableinlinestyles)
+- tsChecker 能力
+  - [output.disableTsChecker](/api/config-output.html#outputdisabletschecker)
+
+#### Experiments Config
+
+> Experimental related configurations in the Builder
+
+All configurations and capabilities under experiments are **not supported** for use within Rspack.
+
+#### Performance Config
+
+> Performance related configurations in Builder.
+
+Unsupported configurations and capabilities include:
+
+- [performance.profile](/api/config-performance.html#performanceprofile)
+- [performance.removeMomentLocale](/api/config-performance.html#performanceremovemomentlocale)
+- [performance.buildCache](/api/config-performance.html#performancebuildcache)
+
+##### Tools Config
+
+> Low-level tools configurations in Builder.
+
+Unsupported configurations and capabilities include:
+
+- [tools.terser](/api/config-tools.html#toolsterser)
+- [tools.babel](/api/config-tools.html#toolsbabel)
+- [tools.cssExtract](/api/config-tools.html#toolscssextract)
+- [tools.cssLoader](/api/config-tools.html#toolscssloader)
+- [tools.inspector](/api/config-tools.html#toolsinspector)
+- [tools.minifyCss](/api/config-tools.html#toolsminifycss)
+- [tools.pug](/api/config-tools.html#toolspug)
+- [tools.styleLoader](/api/config-tools.html#toolsstyleloader)
+- [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
+- [tools.tsLoader](/api/config-tools.html#toolstsloader)
+- [tools.tsChecker](/api/config-tools.html#toolstschecker)
+- [tools.webpack](/api/config-tools.html#toolswebpack)
+- [tools.webpackChain](/api/config-tools.html#toolswebpackchain)
+
+:::tip
+In addition to the above configurations, some of the supported configurations may have differences in their capabilities. For specific differences in configurations, please refer to the corresponding API for each configuration.
+:::
+
+### Modify the Rspack configuration object
+
+You can use [tools.rspack](/api/config-tools.html#toolsrspack) to modify the Rspack configuration object.
+
+```ts
+export default {
+  tools: {
+    rspack: (config, { env }) => {
+      if (env === 'development') {
+        config.devtool = 'cheap-module-eval-source-map';
+      }
+      return config;
+    },
+  },
+};
+```
+
+More information about Rspack, please refer to the [Rspack website](https://www.rspack.org/).
