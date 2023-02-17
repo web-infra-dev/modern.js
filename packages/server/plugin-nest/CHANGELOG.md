@@ -1,5 +1,19 @@
 # @modern-js/plugin-nest
 
+## 2.5.0
+
+### Patch Changes
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- Updated dependencies [89ca6cc]
+- Updated dependencies [30614fa]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [11c053b]
+  - @modern-js/bff-core@2.5.0
+  - @modern-js/bff-runtime@2.5.0
+  - @modern-js/utils@2.5.0
+
 ## 2.4.0
 
 ### Patch Changes

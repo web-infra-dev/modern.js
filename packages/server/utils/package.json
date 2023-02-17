@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.4.0",
+  "version": "2.5.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -47,7 +47,6 @@
     "babel-plugin-transform-typescript-metadata": "^0.3.2"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

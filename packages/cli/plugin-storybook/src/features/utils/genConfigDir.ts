@@ -121,7 +121,7 @@ const checkMainFile = async (storybookUserConfigPath: string) => {
   const dir = path.resolve(storybookUserConfigPath, 'main.js');
   const exist = await fs.pathExists(dir);
   if (exist) {
-    const userMainConfig = require(dir);
+    const { default: userMainConfig } = await import(dir);
     const keys = Object.keys(userMainConfig);
     const errorKeys = keys.filter(key => blacklist.includes(key));
     // TODO 确定这里的判断逻辑

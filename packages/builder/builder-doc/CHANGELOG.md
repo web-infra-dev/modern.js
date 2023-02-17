@@ -1,5 +1,17 @@
 # @modern-js/builder-doc
 
+## 2.5.0
+
+### Patch Changes
+
+- c5ea222: feat(builder): support mergeConfig util in tools.webpack
+
+  feat(builder): 支持在 tools.webpack 中使用 mergeConfig 工具函数
+
+- 138a6b5: chore: update README and description of module-tools packages
+
+  chore: 更新 module-tools 相关包的 README 和 description
+
 ## 2.4.0
 
 ### Patch Changes

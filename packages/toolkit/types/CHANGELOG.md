@@ -1,5 +1,13 @@
 # @modern-js/types
 
+## 2.5.0
+
+### Patch Changes
+
+- 7cb8bb4: fix: use a more correctly params to cal document file
+
+  fix: 使用更准确的参数去获取 docuemnt 文件
+
 ## 2.4.0
 
 ## 2.3.0

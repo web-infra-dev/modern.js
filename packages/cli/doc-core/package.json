@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -111,7 +111,7 @@
     "medium-zoom": "1.0.8"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.4.0",
+    "@modern-js/core": "workspace:^2.5.0",
     "react": ">=17"
   },
   "devDependencies": {

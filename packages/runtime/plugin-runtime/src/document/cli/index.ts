@@ -92,7 +92,7 @@ export default (): CliPlugin<AppTools> => ({
 
       return async ({ htmlWebpackPlugin }: { [option: string]: any }) => {
         const documentParams = getDocParams({
-          config: api.useConfigContext(),
+          config: api.useResolvedConfigContext(),
           entryName,
           templateParameters,
         });

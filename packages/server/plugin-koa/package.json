@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.4.0",
+  "version": "2.5.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli",
   "main": "./dist/cjs/cli/index.js",
@@ -66,7 +66,6 @@
     "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/app-tools": "workspace:*",

@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.4.0",
+  "version": "2.5.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -90,7 +90,6 @@
     "esbuild": "0.15.7"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/server-core": "workspace:*",
@@ -104,7 +103,7 @@
     "webpack": "^5.75.0"
   },
   "peerDependencies": {
-    "@modern-js/builder-rspack-provider": "workspace:^2.4.0"
+    "@modern-js/builder-rspack-provider": "workspace:^2.5.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/builder-rspack-provider": {

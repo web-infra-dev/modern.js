@@ -10,7 +10,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.4.0",
+  "version": "2.5.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -43,7 +43,6 @@
     "@modern-js/babel-preset-lib": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^27",
     "@types/node": "^14",

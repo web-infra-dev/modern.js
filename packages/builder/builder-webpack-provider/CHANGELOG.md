@@ -1,5 +1,57 @@
 # @modern-js/builder-webpack-provider
 
+## 2.5.0
+
+### Minor Changes
+
+- 28e7dc6: feat: more use bunlder chain to modify bundler config
+  feat: 更多的使用 `bunlder chain` 去修改 bunlder 配置
+
+### Patch Changes
+
+- 30614fa: chore: modify package.json entry fields and build config
+  chore: 更改 package.json entry 字段以及构建配置
+- 038a23b: feat(builder): reduce recompile logs
+  feat(builder): 减少 recompile 日志数量
+- c4c10e7: refactor: refactor rules for static assets processing with rule.oneOf, reuse svg/font/image/media plugin
+
+  refactor: 使用 oneOf 重构静态资源处理规则 & 复用 svg / font / media / img 插件
+
+- 1b0ce87: chore: bump caniuse-lite to latest version
+
+  chore: 升级 caniuse-lite 到最新版
+
+- 11c053b: feat: ssr support deploy worker
+
+  feat: ssr 支持边缘部署
+
+- c5ea222: feat(builder): support mergeConfig util in tools.webpack
+
+  feat(builder): 支持在 tools.webpack 中使用 mergeConfig 工具函数
+
+- 40230b3: feat(builder): enable postcss plugins based on browserslist
+
+  feat(builder): 基于 browserslist 来启用需要的 postcss 插件
+
+- Updated dependencies [58a9918]
+- Updated dependencies [89ca6cc]
+- Updated dependencies [7cb8bb4]
+- Updated dependencies [bb4e712]
+- Updated dependencies [6fca567]
+- Updated dependencies [30614fa]
+- Updated dependencies [c4c10e7]
+- Updated dependencies [1b0ce87]
+- Updated dependencies [11c053b]
+- Updated dependencies [f0b3d8c]
+- Updated dependencies [28e7dc6]
+- Updated dependencies [40230b3]
+  - @modern-js/builder-shared@2.5.0
+  - @modern-js/babel-preset-app@2.5.0
+  - @modern-js/server@2.5.0
+  - @modern-js/types@2.5.0
+  - @modern-js/utils@2.5.0
+  - @modern-js/e2e@2.5.0
+
 ## 2.4.0
 
 ### Minor Changes

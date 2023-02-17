@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.4.0",
+  "version": "2.5.0",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
@@ -57,7 +57,6 @@
     "ua-parser-js": "^0.7.28"
   },
   "devDependencies": {
-    "@modern-js/build-config": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
