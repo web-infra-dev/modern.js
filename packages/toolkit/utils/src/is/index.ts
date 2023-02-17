@@ -97,7 +97,7 @@ export const isFastRefresh = () =>
   isDev() && process.env.FAST_REFRESH !== 'false';
 
 export const isRouterV5 = (config: {
-  runtime?: { router?: { mode?: string } };
+  runtime?: { router?: { mode?: string } | boolean };
 }) =>
   typeof config.runtime?.router !== 'boolean' &&
   config?.runtime?.router?.mode === 'react-router-5';
