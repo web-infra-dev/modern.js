@@ -13,6 +13,6 @@ webpackOnlyTest(
         entry: { index: path.resolve(__dirname, './src/index.js') },
         plugins: [builderPluginImageCompress()],
       }),
-    ).rejects.toBeDefined();
+    ).resolves.toBeDefined();
   },
 );
