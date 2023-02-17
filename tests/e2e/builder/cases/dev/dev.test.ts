@@ -7,10 +7,11 @@ import { allProviderTest } from '@scripts/helper';
 const fixtures = __dirname;
 
 allProviderTest('default & hmr (default true)', async ({ page }) => {
+  fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src'));
   const buildOpts = {
     cwd: join(fixtures, 'hmr'),
     entry: {
-      main: join(fixtures, 'hmr', 'src/index.ts'),
+      main: join(fixtures, 'hmr', 'test-src/index.ts'),
     },
   };
 
@@ -26,7 +27,7 @@ allProviderTest('default & hmr (default true)', async ({ page }) => {
     page.evaluate(`getComputedStyle(document.getElementById('test')).color`),
   ).resolves.toBe('rgb(255, 0, 0)');
 
-  const appPath = join(fixtures, 'hmr', 'src/App.tsx');
+  const appPath = join(fixtures, 'hmr', 'test-src/App.tsx');
 
   await fs.writeFile(
     appPath,
@@ -45,7 +46,7 @@ export default App;
     page.evaluate(`document.getElementById('test').innerHTML`),
   ).resolves.toBe('Hello Test!');
 
-  const cssPath = join(fixtures, 'hmr', 'src/App.css');
+  const cssPath = join(fixtures, 'hmr', 'test-src/App.css');
 
   await fs.writeFile(
     cssPath,
