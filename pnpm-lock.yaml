@@ -3931,43 +3931,7 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.9.3
 
-  tests/e2e/builder/fixtures/dev/basic:
-    specifiers:
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      devcert: 1.2.2
-      react: ^17.0.1
-      react-dom: ^17.0.1
-      typescript: ^4
-    dependencies:
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-    devDependencies:
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      devcert: 1.2.2
-      typescript: 4.9.3
-
-  tests/e2e/builder/fixtures/dev/hmr:
-    specifiers:
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^17.0.1
-      react-dom: ^17.0.1
-      typescript: ^4
-    dependencies:
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-    devDependencies:
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
-  tests/e2e/webpack-builder/app-icon:
+  tests/e2e/builder/cases/asset-fallback:
     specifiers:
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -3982,38 +3946,15 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/asset-fallback:
-    specifiers:
-      '@modern-js/builder-shared': workspace:*
-      '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/e2e': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^18
-      react-dom: ^18
-      typescript: ^4
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
-  tests/e2e/webpack-builder/basic:
+  tests/e2e/builder/cases/basic:
     specifiers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/e2e': workspace:*
@@ -4027,14 +3968,14 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/cache:
+  tests/e2e/builder/cases/cache:
     specifiers:
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4050,16 +3991,16 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@modern-js/utils': link:../../../../packages/toolkit/utils
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@modern-js/utils': link:../../../../../packages/toolkit/utils
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/css-modules:
+  tests/e2e/builder/cases/css/css-modules:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4074,15 +4015,51 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder': link:../../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/externals:
+  tests/e2e/builder/cases/dev/basic:
+    specifiers:
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      devcert: 1.2.2
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      devcert: 1.2.2
+      typescript: 4.9.5
+
+  tests/e2e/builder/cases/dev/hmr:
+    specifiers:
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/cases/html-tags:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4097,15 +4074,38 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/html-tags:
+  tests/e2e/builder/cases/html/app-icon:
+    specifiers:
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder-shared': link:../../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/cases/ignore-css:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4120,38 +4120,15 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/ignore-css:
-    specifiers:
-      '@modern-js/builder': workspace:*
-      '@modern-js/builder-webpack-provider': workspace:*
-      '@modern-js/e2e': workspace:*
-      '@types/node': ^14
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      react: ^18.0.2
-      react-dom: ^18.0.2
-      typescript: ^4
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@types/node': 14.18.35
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      typescript: 4.9.3
-
-  tests/e2e/webpack-builder/image-compress:
+  tests/e2e/builder/cases/image-compress:
     specifiers:
       '@modern-js/builder-plugin-image-compress': workspace:*
       '@modern-js/builder-shared': workspace:*
@@ -4165,16 +4142,16 @@ importers:
     dependencies:
       react: 17.0.2
     devDependencies:
-      '@modern-js/builder-plugin-image-compress': link:../../../../packages/builder/plugin-image-compress
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder-plugin-image-compress': link:../../../../../packages/builder/plugin-image-compress
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/import-antd-v4:
+  tests/e2e/builder/cases/import-antd-v4:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4191,15 +4168,15 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/import-antd-v5:
+  tests/e2e/builder/cases/import-antd-v5:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4216,15 +4193,15 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/inline-chunk:
+  tests/e2e/builder/cases/inline-chunk:
     specifiers:
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4239,15 +4216,15 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/inspect-config:
+  tests/e2e/builder/cases/inspect-config:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4262,15 +4239,15 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/progress:
+  tests/e2e/builder/cases/progress:
     specifiers:
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4286,16 +4263,16 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@modern-js/utils': link:../../../../packages/toolkit/utils
+      '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@modern-js/utils': link:../../../../../packages/toolkit/utils
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/stylus:
+  tests/e2e/builder/cases/stylus:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-plugin-stylus': workspace:*
@@ -4311,16 +4288,16 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-plugin-stylus': link:../../../../packages/builder/plugin-stylus
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-plugin-stylus': link:../../../../../packages/builder/plugin-stylus
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/ts-loader:
+  tests/e2e/builder/cases/ts-loader:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4335,15 +4312,15 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
-  tests/e2e/webpack-builder/typescript:
+  tests/e2e/builder/cases/typescript:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
@@ -4358,13 +4335,13 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@modern-js/builder': link:../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
-      typescript: 4.9.3
+      typescript: 4.9.5
 
   tests/integration/alias-set:
     specifiers:
@@ -5903,7 +5880,7 @@ packages:
       '@babel/runtime': 7.20.7
       '@emotion/hash': 0.8.0
       '@emotion/unitless': 0.7.5
-      classnames: 2.3.1
+      classnames: 2.3.2
       csstype: 3.1.0
       rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -5925,8 +5902,8 @@ packages:
       '@ant-design/colors': 6.0.0
       '@ant-design/icons-svg': 4.2.1
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -5941,7 +5918,7 @@ packages:
       '@ant-design/colors': 7.0.0
       '@ant-design/icons-svg': 4.2.1
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -5953,7 +5930,7 @@ packages:
       react: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       json2mq: 0.2.0
       lodash: 4.17.21
       react: 18.2.0
@@ -5966,7 +5943,7 @@ packages:
       react: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       json2mq: 0.2.0
       react: 18.2.0
       resize-observer-polyfill: 1.5.1
@@ -15025,7 +15002,7 @@ packages:
       '@ant-design/react-slick': 0.29.2_react@18.2.0
       '@babel/runtime': 7.20.7
       '@ctrl/tinycolor': 3.4.1
-      classnames: 2.3.1
+      classnames: 2.3.2
       copy-to-clipboard: 3.3.3
       lodash: 4.17.21
       memoize-one: 6.0.0
@@ -15042,7 +15019,7 @@ packages:
       rc-input-number: 7.3.4_biqbaboplfbrettd7655fr4n2y
       rc-mentions: 1.8.0_biqbaboplfbrettd7655fr4n2y
       rc-menu: 9.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-motion: 2.6.0_biqbaboplfbrettd7655fr4n2y
+      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-notification: 4.6.0_biqbaboplfbrettd7655fr4n2y
       rc-pagination: 3.1.17_biqbaboplfbrettd7655fr4n2y
       rc-picker: 2.6.10_biqbaboplfbrettd7655fr4n2y
@@ -15060,9 +15037,9 @@ packages:
       rc-tooltip: 5.1.1_biqbaboplfbrettd7655fr4n2y
       rc-tree: 5.6.5_biqbaboplfbrettd7655fr4n2y
       rc-tree-select: 5.4.0_biqbaboplfbrettd7655fr4n2y
-      rc-trigger: 5.3.1_biqbaboplfbrettd7655fr4n2y
+      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
       rc-upload: 4.3.4_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       scroll-into-view-if-needed: 2.2.29
@@ -15082,7 +15059,7 @@ packages:
       '@ctrl/tinycolor': 3.4.1
       '@rc-component/mutate-observer': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@rc-component/tour': 1.1.0_biqbaboplfbrettd7655fr4n2y
-      classnames: 2.3.1
+      classnames: 2.3.2
       copy-to-clipboard: 3.3.3
       dayjs: 1.11.3
       qrcode.react: 3.1.0_react@18.2.0
@@ -28659,10 +28636,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.7
       array-tree-filter: 2.1.0
-      classnames: 2.3.1
+      classnames: 2.3.2
       rc-select: 14.1.8_biqbaboplfbrettd7655fr4n2y
       rc-tree: 5.6.5_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -28675,7 +28652,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.7
       array-tree-filter: 2.1.0
-      classnames: 2.3.1
+      classnames: 2.3.2
       rc-select: 14.2.0_biqbaboplfbrettd7655fr4n2y
       rc-tree: 5.7.2_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
@@ -28702,9 +28679,9 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-motion: 2.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       shallowequal: 1.1.0
@@ -28732,9 +28709,9 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-motion: 2.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -28761,8 +28738,8 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -28805,7 +28782,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.7
       async-validator: 4.2.5
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -28847,9 +28824,9 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       rc-dialog: 8.9.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -28861,8 +28838,8 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -28888,8 +28865,8 @@ packages:
       react-dom: '>=16.0.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -28930,11 +28907,11 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       rc-menu: 9.6.0_biqbaboplfbrettd7655fr4n2y
       rc-textarea: 0.3.7_biqbaboplfbrettd7655fr4n2y
-      rc-trigger: 5.3.1_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -28946,11 +28923,11 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-motion: 2.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-overflow: 1.2.6_biqbaboplfbrettd7655fr4n2y
-      rc-trigger: 5.3.1_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
+      rc-overflow: 1.2.8_biqbaboplfbrettd7655fr4n2y
+      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       shallowequal: 1.1.0
@@ -28971,19 +28948,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       shallowequal: 1.1.0
-    dev: false
-
-  /rc-motion/2.6.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-1MDWA9+i174CZ0SIDenSYm2Wb9YbRkrexjZWR0CUFu7D6f23E8Y0KsTgk9NGOLJsGak5ELZK/Y5lOlf5wQdzbw==}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /rc-motion/2.6.3_biqbaboplfbrettd7655fr4n2y:
@@ -29007,9 +28971,9 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-motion: 2.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29024,20 +28988,6 @@ packages:
       '@babel/runtime': 7.20.7
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /rc-overflow/1.2.6_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-YqbocgzuQxfq2wZy72vdAgrgzzEuM/5d4gF9TBEodCpXPbUeXGrUXNm1J6G1MSkCU2N0ePIgCEu5qD/0Ldi63Q==}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.20.7
-      classnames: 2.3.2
-      rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -29064,7 +29014,7 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29089,12 +29039,12 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       date-fns: 2.29.3
       dayjs: 1.11.3
       moment: 2.29.3
-      rc-trigger: 5.3.1_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       shallowequal: 1.1.0
@@ -29134,8 +29084,8 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29203,12 +29153,12 @@ packages:
       react-dom: '*'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-motion: 2.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-overflow: 1.2.6_biqbaboplfbrettd7655fr4n2y
-      rc-trigger: 5.3.1_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
-      rc-virtual-list: 3.4.8_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
+      rc-overflow: 1.2.8_biqbaboplfbrettd7655fr4n2y
+      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
+      rc-virtual-list: 3.4.13_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29223,7 +29173,7 @@ packages:
       '@babel/runtime': 7.20.7
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
-      rc-overflow: 1.2.6_biqbaboplfbrettd7655fr4n2y
+      rc-overflow: 1.2.8_biqbaboplfbrettd7655fr4n2y
       rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       rc-virtual-list: 3.4.13_biqbaboplfbrettd7655fr4n2y
@@ -29255,8 +29205,8 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29282,8 +29232,8 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29309,9 +29259,9 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       shallowequal: 1.1.0
@@ -29341,11 +29291,11 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       rc-dropdown: 4.0.1_biqbaboplfbrettd7655fr4n2y
       rc-menu: 9.6.0_biqbaboplfbrettd7655fr4n2y
       rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29375,9 +29325,9 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       shallowequal: 1.1.0
@@ -29405,7 +29355,7 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      rc-trigger: 5.3.1_biqbaboplfbrettd7655fr4n2y
+      rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29430,10 +29380,10 @@ packages:
       react-dom: '*'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
+      classnames: 2.3.2
       rc-select: 14.1.8_biqbaboplfbrettd7655fr4n2y
       rc-tree: 5.6.5_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29461,10 +29411,10 @@ packages:
       react-dom: '*'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-motion: 2.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
-      rc-virtual-list: 3.4.8_biqbaboplfbrettd7655fr4n2y
+      classnames: 2.3.2
+      rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
+      rc-virtual-list: 3.4.13_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29480,23 +29430,7 @@ packages:
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
-      rc-virtual-list: 3.4.8_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /rc-trigger/5.3.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-5gaFbDkYSefZ14j2AdzucXzlWgU2ri5uEjkHvsf1ynRhdJbKxNOnw4PBZ9+FVULNGFiDzzlVF8RJnR9P/xrnKQ==}
-    engines: {node: '>=8.x'}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.20.7
-      classnames: 2.3.1
-      rc-align: 4.0.12_biqbaboplfbrettd7655fr4n2y
-      rc-motion: 2.6.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.22.5_biqbaboplfbrettd7655fr4n2y
+      rc-virtual-list: 3.4.13_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -29530,19 +29464,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /rc-util/5.22.5_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-awD2TGMGU97OZftT2R3JwrHWjR8k/xIwqjwcivPskciweUdgXE7QsyXkBKVSBHXS+c17AWWMDWuKWsJSheQy8g==}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.20.7
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-is: 16.13.1
-      shallowequal: 1.1.0
-    dev: false
-
   /rc-util/5.27.1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-PsjHA+f+KBCz+YTZxrl3ukJU5RoNKoe3KSNMh0xGiISbR67NaM9E9BiMjCwxa3AcCUOg/rZ+V0ZKLSimAA+e3w==}
     peerDependencies:
@@ -29563,20 +29484,6 @@ packages:
       react-dom: '*'
     dependencies:
       '@babel/runtime': 7.20.7
-      classnames: 2.3.2
-      rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /rc-virtual-list/3.4.8_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-qSN+Rv4i/E7RCTvTMr1uZo7f3crJJg/5DekoCagydo9zsXrxj07zsFSxqizqW+ldGA16lwa8So/bIbV9Ofjddg==}
-    engines: {node: '>=8.x'}
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    dependencies:
       classnames: 2.3.2
       rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
