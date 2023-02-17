@@ -11,5 +11,5 @@
       "@scripts/*": ["./scripts/*"]
     }
   },
-  "include": ["src", "scripts", "tests", "fixtures"]
+  "include": ["src", "scripts", "cases"]
 }

@@ -1,9 +1,9 @@
-import { join, resolve } from 'path';
+import { join } from 'path';
 import { expect } from '@modern-js/e2e/playwright';
-import { build, getHrefByEntryName } from '../scripts/shared';
-import { allProviderTest } from '../scripts/helper';
+import { build, getHrefByEntryName } from '@scripts/shared';
+import { allProviderTest } from '@scripts/helper';
 
-const fixtures = resolve(__dirname, '../fixtures/output');
+const fixtures = __dirname;
 
 const cases = [
   {

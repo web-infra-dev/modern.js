@@ -1,9 +1,9 @@
-import { join, resolve } from 'path';
+import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '../scripts/shared';
 import { webpackOnlyTest } from '../scripts/helper';
 
-const fixtures = resolve(__dirname, '../fixtures');
+const fixtures = __dirname;
 
 test('postcss plugins overwrite', async ({ page }) => {
   const buildOpts = {

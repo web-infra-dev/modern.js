@@ -9,11 +9,27 @@ const isRuntimeChunkInHtml = (html: string): boolean =>
     html.match(new RegExp(`static/js/${RUNTIME_CHUNK_NAME}\\.(.+)\\.js\\.map`)),
   );
 
+// use source-map for easy to test. By default, builder use hidden-source-map
+const toolsConfig = {
+  webpack: (config: any) => {
+    config.devtool = 'source-map';
+  },
+  rspack: (config: any) => {
+    config.devtool = 'source-map';
+  },
+};
+
 webpackOnlyTest('inline runtime chunk by default', async () => {
-  const builder = await build({
-    cwd: __dirname,
-    entry: { index: path.resolve(__dirname, './src/index.js') },
-  });
+  const builder = await build(
+    {
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+    },
+    {
+      tools: toolsConfig,
+    },
+    false,
+  );
   const files = await builder.unwrapOutputJSON();
 
   // no builder-runtime file in output
@@ -42,13 +58,19 @@ webpackOnlyTest('inline runtime chunk by default', async () => {
 webpackOnlyTest(
   'inline runtime chunk by default with multiple entries',
   async () => {
-    const builder = await build({
-      cwd: __dirname,
-      entry: {
-        index: path.resolve(__dirname, './src/index.js'),
-        another: path.resolve(__dirname, './src/another.js'),
+    const builder = await build(
+      {
+        cwd: __dirname,
+        entry: {
+          index: path.resolve(__dirname, './src/index.js'),
+          another: path.resolve(__dirname, './src/another.js'),
+        },
       },
-    });
+      {
+        tools: toolsConfig,
+      },
+      false,
+    );
     const files = await builder.unwrapOutputJSON();
 
     // no builder-runtime file in output
@@ -71,18 +93,22 @@ webpackOnlyTest(
 );
 
 webpackOnlyTest('inline all scripts and emit all source maps', async () => {
-  const builder = await build({
-    cwd: __dirname,
-    entry: {
-      index: path.resolve(__dirname, './src/index.js'),
-      another: path.resolve(__dirname, './src/another.js'),
+  const builder = await build(
+    {
+      cwd: __dirname,
+      entry: {
+        index: path.resolve(__dirname, './src/index.js'),
+        another: path.resolve(__dirname, './src/another.js'),
+      },
     },
-    builderConfig: {
+    {
       output: {
         enableInlineScripts: true,
       },
+      tools: toolsConfig,
     },
-  });
+    false,
+  );
   const files = await builder.unwrapOutputJSON();
 
   // no entry chunks or runtime chunks in output

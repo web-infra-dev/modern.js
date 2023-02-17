@@ -1,13 +1,13 @@
 import { join, resolve } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { build } from '../scripts/shared';
-import { allProviderTest } from '../scripts/helper';
+import { build } from '@scripts/shared';
+import { allProviderTest } from '@scripts/helper';
 
-const fixtures = resolve(__dirname, '../fixtures/performance');
+const fixtures = __dirname;
 
 allProviderTest.describe('performance configure multi', () => {
   let files: Record<string, string>;
-  const basicFixtures = resolve(__dirname, '../fixtures/performance/basic');
+  const basicFixtures = resolve(__dirname, 'basic');
 
   test.beforeAll(async () => {
     const builder = await build(

@@ -1,10 +1,10 @@
-import { join, resolve, dirname } from 'path';
+import { join, dirname } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
-import { build } from '../scripts/shared';
-import { webpackOnlyTest, allProviderTest } from '../scripts/helper';
+import { build } from '@scripts/shared';
+import { webpackOnlyTest, allProviderTest } from '@scripts/helper';
 
-const fixtures = resolve(__dirname, '../fixtures/output');
+const fixtures = __dirname;
 
 allProviderTest.describe('output configure multi', () => {
   const distFilePath = join(fixtures, 'rem/dist-1/test.json');

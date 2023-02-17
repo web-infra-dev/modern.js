@@ -1,10 +1,10 @@
-import { join, resolve } from 'path';
+import { join } from 'path';
 import { fs } from '@modern-js/utils';
 import { expect } from '@modern-js/e2e/playwright';
-import { dev, getHrefByEntryName } from '../scripts/shared';
-import { allProviderTest } from '../scripts/helper';
+import { dev, getHrefByEntryName } from '@scripts/shared';
+import { allProviderTest } from '@scripts/helper';
 
-const fixtures = resolve(__dirname, '../fixtures/dev');
+const fixtures = __dirname;
 
 allProviderTest('default & hmr (default true)', async ({ page }) => {
   const buildOpts = {

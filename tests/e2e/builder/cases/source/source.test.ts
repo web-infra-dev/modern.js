@@ -1,9 +1,9 @@
-import { join, resolve } from 'path';
+import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { build, getHrefByEntryName } from '../scripts/shared';
-import { allProviderTest } from '../scripts/helper';
+import { build, getHrefByEntryName } from '@scripts/shared';
+import { allProviderTest } from '@scripts/helper';
 
-const fixtures = resolve(__dirname, '../fixtures/source');
+const fixtures = __dirname;
 
 test.describe('source configure multi', () => {
   let builder: Awaited<ReturnType<typeof build>>;
