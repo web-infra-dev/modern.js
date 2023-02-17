@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { findExists, ensureAbsolutePath } from '@modern-js/utils';
+import { findExists, ensureAbsolutePath, isRouterV5 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { AppNormalizedConfig, IAppContext } from '../types';
 import { isDefaultExportFunction } from './isDefaultExportFunction';

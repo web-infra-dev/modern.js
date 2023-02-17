@@ -96,6 +96,12 @@ export const isServiceWorker = (config: any): boolean => {
 export const isFastRefresh = () =>
   isDev() && process.env.FAST_REFRESH !== 'false';
 
+export const isRouterV5 = (config: {
+  runtime?: { router?: { mode?: string } };
+}) =>
+  typeof config.runtime?.router !== 'boolean' &&
+  config?.runtime?.router?.mode === 'react-router-5';
+
 export * from './node-env';
 export * from './platform';
 export * from './type';
