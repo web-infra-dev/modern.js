@@ -8,8 +8,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"],
-      "@scripts/*": ["./scripts/*"]
+      "@scripts/*": ["../../scripts/*"]
     }
   },
-  "include": ["src", "scripts", "cases"]
+  "include": ["src", "*.test.ts", "index.test.ts"]
 }

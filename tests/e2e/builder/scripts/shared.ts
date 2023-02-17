@@ -73,15 +73,28 @@ export async function dev(
 }
 
 export async function build(
-  builderOptions: CreateBuilderOptions,
-  config: BuilderConfig = {},
+  builderOptions: CreateBuilderOptions & {
+    builderConfig?: BuilderConfig;
+    plugins?: any[];
+  },
+  config: BuilderConfig = builderOptions.builderConfig || {},
   runServer = true,
 ) {
+  if (!config.performance?.buildCache) {
+    config.performance = {
+      ...(config.performance || {}),
+      buildCache: false,
+    };
+  }
   const builder = await createBuilder(builderOptions, config);
 
   builder.removePlugins(['builder-plugin-file-size']);
 
-  const [{ runStaticServer }] = await Promise.all([
+  if (builderOptions.plugins) {
+    builder.addPlugins(builderOptions.plugins);
+  }
+
+  const [{ runStaticServer, globContentJSON }] = await Promise.all([
     import('@modern-js/e2e'),
     builder.build(),
   ]);
@@ -99,7 +112,23 @@ export async function build(
 
   const clean = async () => await fs.remove(distPath);
 
-  return { distPath, port, clean, close };
+  const unwrapOutputJSON = async (ignoreMap = true, maxSize = 4096) => {
+    return globContentJSON(distPath, {
+      absolute: true,
+      maxSize,
+      ignore: ignoreMap ? [join(distPath, '/**/*.map')] : [],
+    });
+  };
+
+  return {
+    distPath,
+    port,
+    clean,
+    close,
+    unwrapOutputJSON,
+    providerType: process.env.PROVIDE_TYPE || 'webpack',
+    instance: builder,
+  };
 }
 
 export async function stubBuild(
