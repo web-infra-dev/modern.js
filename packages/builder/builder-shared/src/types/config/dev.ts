@@ -1,4 +1,5 @@
 import type { DevServerHttpsOptions } from '@modern-js/types';
+import type { ArrayOrNot } from '../utils';
 
 export type ProgressBarConfig = {
   id?: string;
@@ -23,6 +24,11 @@ export interface SharedDevConfig {
    */
   startUrl?: boolean | string | string[];
   /**
+   * Used to execute a callback function before opening the `startUrl`.
+   * This config needs to be used together with `dev.startUrl`.
+   */
+  beforeStartUrl?: ArrayOrNot<() => Promise<void> | void>;
+  /**
    * Set the URL prefix of static resources in the development environment,
    * similar to the [output.publicPath](https://webpack.js.org/guides/public-path/) config of webpack.
    */
@@ -33,4 +39,5 @@ export interface SharedDevConfig {
   progressBar?: boolean | ProgressBarConfig;
 }
 
-export type NormalizedSharedDevConfig = Required<SharedDevConfig>;
+export type NormalizedSharedDevConfig = SharedDevConfig &
+  Required<Omit<SharedDevConfig, 'beforeStartUrl'>>;

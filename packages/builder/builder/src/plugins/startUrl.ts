@@ -22,7 +22,7 @@ export function builderPluginStartUrl(): DefaultBuilderPlugin {
         }
 
         const config = api.getNormalizedConfig();
-        const { https, startUrl } = config.dev;
+        const { https, startUrl, beforeStartUrl } = config.dev;
 
         if (!startUrl) {
           return;
@@ -41,17 +41,28 @@ export function builderPluginStartUrl(): DefaultBuilderPlugin {
           );
         }
 
+        const { ensureArray } = await import('@modern-js/utils');
         const { openBrowser } = await import('@modern-js/builder-shared');
 
-        for (const url of urls) {
-          /**
-           * If a URL has been opened in current process, we will not open it again.
-           * It can prevent opening the same URL multiple times.
-           */
-          if (!openedURLs.includes(url)) {
-            await openBrowser(url);
-            openedURLs.push(url);
+        const openUrls = () => {
+          for (const url of urls) {
+            /**
+             * If a URL has been opened in current process, we will not open it again.
+             * It can prevent opening the same URL multiple times.
+             */
+            if (!openedURLs.includes(url)) {
+              openBrowser(url);
+              openedURLs.push(url);
+            }
           }
+        };
+
+        if (beforeStartUrl) {
+          Promise.all(ensureArray(beforeStartUrl).map(fn => fn())).then(
+            openUrls,
+          );
+        } else {
+          openUrls();
         }
       });
     },
