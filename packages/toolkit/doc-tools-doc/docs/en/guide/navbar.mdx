@@ -1,0 +1,133 @@
+# Navbar
+
+The navbar is very important to a website. It allows users to quickly jump between different pages of the website, and also allows users to quickly find some important information of the website.
+
+## Custom Navigation Menu
+
+You can add a custom navigation menu in `themeConfig.nav`, configured as an array, as follows:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      nav: [],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+The nav bar is configured as an array, and each item in the array is a `NavItem` object, which has the following types:
+
+```ts
+export type NavItem = NavItemWithLink | NavItemWithChildren;
+```
+
+That is, each navbar element ( `NavItem` ) can be a link ( `NavItemWithLink` ), or a navbar group containing child elements ( `NavItemWithChildren` ).
+
+### NavItemWithLink
+
+```ts
+export interface NavItemWithLink {
+  text: string;
+  link: string;
+  activeMatch?: string;
+}
+```
+
+The meanings of the attributes are as follows:
+
+-`text` - Navbar text -`link` - Navbar link -`activeMatch` - activation rule for navbar links
+
+`activeMatch` is used to match the current route, when the route matches the `activeMatch` rule, the nav item will be highlighted.
+
+> By default, `activeMatch` is the `link` attribute of NavItem.
+
+### NavItemWithChildren
+
+```ts
+export interface NavItemWithChildren {
+  text: string;
+  items: NavItem[];
+}
+```
+
+The meanings of the attributes are as follows:
+
+-`text` - Navbar text -`items` - subnavbar elements
+
+### Example
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      nav: [
+        {
+          text: 'Home',
+          link: '/',
+        },
+        {
+          text: 'Links',
+          items: [
+            {
+              text: 'Github',
+              link: 'http://github.com/',
+            },
+            {
+              text: 'Twitter',
+              link: 'http://twitter.com/',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## Light/Dark Mode
+
+By default, the navbar will have a toggle button for `Light/Dark` mode, you can disable it with the following config:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      darkMode: false,
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## Related Links
+
+Social Links to the Site. For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      socialLinks: [
+        {
+          icon: 'github',
+          link: 'github.com/modern-js-dev/modern.js',
+        },
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+For more configurations, please refer to [links](/en/api/config-theme#sociallinks).

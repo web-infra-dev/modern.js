@@ -73,7 +73,7 @@ const NavTranslations = ({
 
 export function Nav(props: NavProps) {
   const { beforeNavTitle, afterNavTitle } = props;
-  const { siteData } = usePageData();
+  const { siteData, lang } = usePageData();
   const { pathname } = useLocation();
   const hasAppearanceSwitch = siteData.themeConfig.darkMode !== false;
   const localeData = useLocaleSiteData();
@@ -91,9 +91,7 @@ export function Nav(props: NavProps) {
           text: item.label,
           link: replaceLang(pathname, item.lang, defaultLang, langs, base),
         })),
-        activeIndex: localeLanguages.findIndex(
-          item => item.lang === localeData.lang,
-        ),
+        activeIndex: localeLanguages.findIndex(item => lang === item.lang),
       }
     : null;
   const NavAppearance = () => {

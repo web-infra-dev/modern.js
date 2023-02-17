@@ -1,0 +1,148 @@
+# 国际化
+
+在 Modern.js Doc 中实现文档的国际化，你需要做三件事情:
+
+- 1. 配置默认语言。
+- 2. 配置 `doc.themeConfig.locales`。
+- 3. 新建不同的语言版本的文档。
+
+## 配置默认语言
+
+在 `modern.config.ts`中，你可以通过 `doc.lang` 配置文档的默认语言，如下例子所示:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    lang: 'zh',
+  },
+  plugins: [docTools()],
+});
+```
+
+这很重要，因为对于默认语言下的路由，框架会去掉语言前缀，比如 `/zh/guide/getting-started` 会被转换为 `/guide/getting-started`。
+
+## 配置 `doc.themeConfig.locales`
+
+在 `modern.config.ts`中，你可以通过 `doc.themeConfig.locales` 配置文档的多语言版本，如下例子所示:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      // locales 为一个对象数组
+      locales: [
+        {
+          lang: 'en',
+          // 导航栏切换语言的标签
+          label: 'English',
+          title: 'Modern.js',
+          description: 'Modern.js 文档框架',
+        },
+        {
+          lang: 'zh',
+          // 导航栏切换语言的标签
+          label: '简体中文',
+          title: 'Modern.js',
+          description: 'Modern.js Doc',
+        },
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+在这个例子中，我们对不同语言的文档进行了标题、描述、导航栏语言标签的配置。当然，一般情况下我们还需要进行其它信息的配置，比如 `sidebar`、`nav` 等。下面我们以 `nav` 为例来看看如何配置。
+
+首先我们新建一个工具函数，用于根据语言返回不同的文本和链接:
+
+```ts title="modern.config.ts"
+// 新增工具函数，返回 getText 和 getLink 方法
+function getI18nHelper(lang: 'zh' | 'en') {
+  const isZh = lang === 'zh';
+  // 我们默认语言是中文，所以这里的 prefix 为 ''，如果默认语言是英文，那么 prefix 为 '/en'
+  const prefix = isZh ? '' : '/en';
+  const getLink = (str: string) => `${prefix}${str}`;
+  const getText = (zhText: string, enText: string) => (isZh ? zhText : enText);
+  return { getText, getLink };
+}
+```
+
+然后基于工具函数来组装 `nav` 配置:
+
+```ts title="modern.config.ts"
+function getNavbar(lang: 'zh' | 'en'): NavItem[] {
+  const { getLink, getText } = getI18nHelper(lang);
+
+  return [
+    {
+      text: getText('指南', 'Guide'),
+      link: getLink('/guide/getting-started'),
+      activeMatch: '/guide/',
+    },
+    {
+      text: getText('API', 'API'),
+      link: getLink('/api/'),
+      activeMatch: '/api/',
+    },
+  ];
+}
+```
+
+最后在 `locales` 配置中使用:
+
+```diff title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      locales: [
+        {
+          lang: 'en',
+          // 导航栏切换语言的标签
+          label: 'English',
+          title: 'Modern.js',
+          description: 'Modern.js 文档框架',
++          nav: getNavbar('en'),
+        },
+        {
+          lang: 'zh',
+          // 导航栏切换语言的标签
+          label: '简体中文',
+          title: 'Modern.js',
+          description: 'Modern.js Doc',
++          nav: getNavbar('zh'),
+        },
+      ]
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+对于其它的国际化参数配置，请参考[API 类型](/api/config-theme#locales)。
+
+## 新建不同的语言版本的文档
+
+在做好上面的配置后，我们就可以开始新建不同语言版本的文档了，非常简单，我们只需要在文档根目录下新建如下的结构即可：
+
+```bash
+docs
+├── en
+│   ├── api
+│   │   └── index.md
+│   └── guide
+│       └── getting-started.md
+└── zh
+    ├── api
+    │   └── index.md
+    └── guide
+        └── getting-started.md
+```
+
+可以看到，我们把不同语言的文档放在了 `docs` 目录下的 `en` 和 `zh` 目录中，这样就可以方便地区分不同语言的文档了。

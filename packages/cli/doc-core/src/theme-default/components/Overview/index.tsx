@@ -62,19 +62,23 @@ export function Overview() {
       .filter(item => 'items' in item)
       .map(sidebarGroup => ({
         name: sidebarGroup.text || '',
-        items: (sidebarGroup as NormalizedSidebarGroup).items.map(
-          normalizeSidebarItem,
-        ),
+        items: (sidebarGroup as NormalizedSidebarGroup).items
+          .map(normalizeSidebarItem)
+          .filter(Boolean),
       })) as Group[];
     const singleLinks = overviewSidebarGroups.filter(
-      item => !('items' in item),
+      item => !('items' in item) && !isEqualPath(item.link || '', routePath),
     );
     return [
       ...group,
-      {
-        name: DEFAULT_GROUP,
-        items: singleLinks.map(normalizeSidebarItem),
-      },
+      ...(singleLinks.length > 0
+        ? [
+            {
+              name: DEFAULT_GROUP,
+              items: singleLinks.map(normalizeSidebarItem),
+            },
+          ]
+        : []),
     ];
   }, [overviewSidebarGroups]);
 

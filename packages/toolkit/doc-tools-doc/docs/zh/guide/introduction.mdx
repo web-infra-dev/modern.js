@@ -1,0 +1,53 @@
+# 介绍
+
+## 定位
+
+Modern.js Doc 是一个面向文档站场景的前端框架，它的目标是给开发者提供一个简单、高效、可扩展的文档站解决方案。
+
+该文档框架的初衷是给公司内部的技术产品提供文档站搭建的解决方案，并满足内部的一些特殊需求，如跨站点搜索服务等。而对于常见的文档站搭建需求，我们也做了比较完整的支持，比如支持多语言、全文搜索、自定义主题等等。
+
+同时，框架基于 [Modern.js Builder](https://modernjs.dev/builder/) 来进行项目构建，内置多种构建优化策略，提供良好的开发体验，并在不久的将来通过 Modern.js Builder 接入下一代构建引擎 Rspack。
+
+## 功能特性
+
+### 支持 MDX 渲染
+
+Modern.js Doc 基于 [MDX](https://mdxjs.com/) 来进行 Markdown 语法的扩展，支持在 Markdown 中使用 React 组件，同时支持在 Markdown 中使用 JSX 语法，语法上更加灵活。
+
+语法详情请参考 [MDX 开发](/guide/use-mdx) 小节。
+
+### 支持全文搜索
+
+基于开源 FlexSearch 搜索引擎，提供开箱即用的文档搜索能力。
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/edenx-doc/Xnip2023-02-16_21-17-46.jpg" />
+
+### 支持国际化(I18n)
+
+内置国际化支持，支持多语言切换，且支持多语言内容搜索。
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/edenx-doc/Xnip2023-02-16_21-31-46.jpg" />
+
+### 代码块高亮
+
+基于 [Shiki](https://github.com/shikijs/shiki) 来进行编译时代码着色，支持多种代码语言高亮。如:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    root: path.join(__dirname, 'docs'),
+  },
+  plugins: [docTools()],
+});
+```
+
+### 支持自定义主题
+
+支持自定义主题，可以通过配置文件来进行主题的定制，详情请参考 [主题定制](/advanced/custom-theme)。
+
+### 支持插件机制
+
+内部设计了插件系统，你可以通过自定义插件来扩展 Modern.js Doc 的功能，详情请参考 [插件机制](/advance/plugin)。

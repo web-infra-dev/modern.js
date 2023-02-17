@@ -1,0 +1,117 @@
+# Front Matter Config
+
+## title
+
+- Type: `string`
+
+The title of the page. By default, the page's h1 heading will be used as the title of the HTML document. But if you want to use a different title, you can use Front Matter to specify the title of the page. For example:
+
+```md
+---
+title: My Home Page
+---
+```
+
+## description
+
+- Type: `string`
+
+A custom description for the page. For example:
+
+```md
+---
+description: This is my custom description for this page.
+---
+```
+
+## pageType
+
+- Type: `'home' | 'doc' | 'custom' | '404'`
+- Default: `'doc'`
+
+The type of page. By default, the page type is `doc`. But if you want to use a different page type, you can specify the page type with something preceding `pageType`. For example:
+
+```md
+---
+pageType: home
+---
+```
+
+## hero
+
+- Type: `Object`
+
+The hero config for the home page. It has the following types:
+
+```ts
+export interface Hero {
+  name: string;
+  text: string;
+  tagline: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
+  actions: {
+    text: string;
+    link: string;
+    theme: 'brand' | 'alt';
+  }[];
+}
+```
+
+For example, you can use the following Front Matter to specify a page's hero config:
+
+```md
+---
+pageType: home
+
+hero:
+  name: Modern.js Doc
+  text: A documentation solution
+  tagline: A modern documentation development technology stack
+  actions:
+    - theme: brand
+      text: Introduction
+      link: /en/guide/introduction
+    - theme: alt
+      text: Quick Start
+      link: /en/guide/getting-started
+---
+```
+
+## features
+
+- Type: `Array`
+- Default: `[]`
+
+features config of the `home` page. It has the following types:
+
+```ts
+export interface Feature {
+  title: string;
+  details: string;
+  icon: string;
+}
+
+export type Features = Feature[];
+```
+
+For example, you could use the following to specify the features configuration for the `home` page:
+
+```md
+---
+pageType: home
+
+features:
+  - title: 'MDX Support'
+    details: MDX is a powerful way to write content. You can use React components in Markdown.
+    icon: 📦
+  - title: 'Feature Rich'
+    details: Out of box support for i18n, full-text search etc.
+    icon: 🎨
+  - title: 'Customizable'
+    details: You can customize the theme ui and the build process.
+    icon: 🚀
+---
+```

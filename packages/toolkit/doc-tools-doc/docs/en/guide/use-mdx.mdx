@@ -1,0 +1,136 @@
+# Use MDX
+
+Modern.js Doc supports [MDX](https://mdxjs.com/), a powerful way to develop content.
+
+## Markdown
+
+MDX is a superset of Markdown, which means you can write Markdown files as usual. For example:
+
+```md
+# Hello World
+```
+
+## Use Component
+
+When you want to use React components in Markdown files, you should name your files with `.mdx` extension. For example:
+
+```mdx
+// docs/index.mdx
+import { CustomComponent } from './custom';
+
+# Hello World
+
+<CustomComponent />
+```
+
+## Front Matter
+
+You can add Front Matter at the beginning of your Markdown file, which is a YAML-formatted object that defines some metadata. For example:
+
+```mdx
+---
+title: Hello World
+---
+```
+
+> Note: By default, Modern.js Doc uses h1 headings as html headings.
+
+You can also access properties defined in Front Matter in the body, for example:
+
+```mdx
+---
+title: Hello World
+---
+
+# {frontmatter.title}
+```
+
+The previously defined properties will be passed to the component as `frontmatter` properties. So the final output will be:
+
+```html
+<h1>Hello World</h1>
+```
+
+## Custom Container
+
+You can use the `:::` syntax to create custom containers and support custom titles. For example:
+
+**Input:**
+
+```markdown
+:::tip
+This is a `block` of type `tip`
+:::
+
+:::info
+This is a `block` of type `info`
+:::
+
+:::warning
+This is a `block` of type `warning`
+:::
+
+:::danger
+This is a `block` of type `danger`
+:::
+
+:::tip Custom Title
+This is a `block` of `Custom Title`
+:::
+
+:::tip{title="Custom Title"}
+This is a `block` of `Custom Title`
+:::
+```
+
+**Output:**
+
+:::tip
+This is a `block` of type `tip`
+:::
+
+:::info
+This is a `block` of type `info`
+:::
+
+:::warning
+This is a `block` of type `warning`
+:::
+
+:::danger
+This is a `block` of type `danger`
+:::
+
+:::tip Custom Title
+This is a `block` of `Custom Title`
+:::
+
+:::tip{title="Custom Title"}
+This is a `block` of `Custom Title`
+:::
+
+## Code Block
+
+You can use the \`\`\` syntax to create code blocks and support custom titles. For example:
+
+**Input:**
+
+````md
+```js
+console.log('Hello World');
+```
+
+```js title="hello.js"
+console.log('Hello World');
+```
+````
+
+**Output:**
+
+```js
+console.log('Hello World');
+```
+
+```js title="hello.js"
+console.log('Hello World');
+```

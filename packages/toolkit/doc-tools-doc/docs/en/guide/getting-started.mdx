@@ -1,0 +1,99 @@
+# Quick Start
+
+## 1. Initialize the project
+
+First, you can create a new directory with the following command:
+
+```bash
+mkdir modern-doc-app && cd modern-doc-app
+```
+
+Execute `npm init -y` to initialize a project. You can install Modern.js Doc using npm, yarn or pnpm:
+
+import { Tabs, Tab } from '@theme';
+
+<Tabs values={[{ label: 'npm' }, { label: 'yarn' }, { label: 'pnpm' }]}>
+  <Tab>
+
+```sh
+npm install @modern-js/doc-tools -D
+```
+
+  </Tab>
+
+<Tab>
+
+```sh
+yarn add @modern-js/doc-tools -D
+```
+
+</Tab>
+
+<Tab>
+
+```sh
+pnpm install @modern-js/doc-tools -D
+```
+
+</Tab>
+
+</Tabs>
+
+Then create the file with the following command
+
+```bash
+mkdir docs && echo '# Hello World' > docs/index.md
+```
+
+在`package.json`中加上如下的脚本: => Add the following script to `package.json`:
+
+```json
+{
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "preview": "modern preview"
+  }
+}
+```
+
+Then initialize a configuration file `modern.config.ts`:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    root: path.join(__dirname, 'docs'),
+  },
+  plugins: [docTools()],
+});
+```
+
+## 2. Start Dev Server
+
+Start the local development service with the following command:
+
+```bash
+npm run dev
+```
+
+## 3. Build in Production
+
+Build the production bundle with the following command
+:
+
+```bash
+npm run build
+```
+
+By default, Modern.js Doc will set `doc_build` as the output directory.
+
+## 4. 本地预览产物
+
+Start the local preview service with the following command:
+
+```bash
+npm run preview
+```

@@ -1,0 +1,69 @@
+# Internal Components
+
+## NoSSR
+
+Used to skip the ssr for some components.For example
+
+```tsx
+import { NoSSR } from '@modern-js/doc-tools/runtime';
+
+const Component = () => {
+  return (
+    <NoSSR>
+      <div>The content here will only be rendered on the client side</div>
+    </NoSSR>
+  );
+};
+```
+
+## Tab/Tabs
+
+You can directly use the Tab/Tabs component in the document to achieve the effect of tab switching. for example:
+
+```mdx title="index.mdx"
+import { Tab, Tabs } from '@modern-js/doc-tools/theme';
+
+<Tabs>
+  <Tab label="Tab 1">Tab 1 content</Tab>
+  <Tab label="Tab 2">Tab 2 content</Tab>
+</Tabs>
+```
+
+import { Tab, Tabs } from '@theme';
+
+<Tabs>
+  <Tab label="1" value="1">
+    Tab 1 content
+  </Tab>
+  <Tab label="2" value="2">
+    Tab 2 content
+  </Tab>
+</Tabs>
+
+:::info Note
+In order to make it easier for you to use these components, the `@modern-js/doc-tools/theme` package has been aliased inside the framework, so you can directly use `@theme` to import these components.
+:::
+
+The props type of the Tabs component is as follows:
+
+```ts
+interface TabsProps {
+  children: React.ReactNode;
+  defaultValue?: string;
+}
+```
+
+`defaultValue`` is used to set the tab item selected by default. This value will be compared with the value field of the Tab component props, and if they are equal, the tab will be selected.
+
+The props types of the Tab component are as follows:
+
+```ts
+interface TabProps {
+  label: string;
+  // Used to identify the current tab, if not passed, the default label will be used
+  value?: string;
+  children: React.ReactNode;
+}
+```
+
+The `value` field is used to identify the current tab, if not passed, the default label will be used.

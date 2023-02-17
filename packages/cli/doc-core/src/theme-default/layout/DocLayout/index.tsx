@@ -26,6 +26,7 @@ export function DocLayout(props: DocLayoutProps) {
   const localesData = useLocaleSiteData();
   const sidebar = localesData.sidebar || [];
   const { pathname } = useLocation();
+
   const { items: sidebarData } = useSidebarData();
   const langRoutePrefix = normalizeSlash(localesData.langRoutePrefix || '');
   // siderbar Priority

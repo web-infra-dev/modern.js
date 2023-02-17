@@ -1,0 +1,117 @@
+# Front Matter 配置
+
+## title
+
+- Type: `string`
+
+页面的标题。默认情况下，页面的 h1 标题将用作 HTML 文档的标题。但是如果你想使用不同的标题，你可以使用 Front Matter 来指定页面的标题。例如：
+
+```md
+---
+title: 我的主页
+---
+```
+
+## description
+
+- Type: `string`
+
+页面的自定义描述。例如：
+
+```md
+---
+description: 这是我的主页
+---
+```
+
+## pageType
+
+- Type: `'home' | 'doc' | 'custom' | '404'`
+- Default: `'doc'`
+
+页面的类型。默认情况下，页面类型为`doc`。但是如果你想使用不同的页面类型，你可以使用`pageType`前面的东西来指定页面类型。例如：
+
+```md
+---
+pageType: home
+---
+```
+
+## hero
+
+- Type: `Object`
+
+`home` 页面的 hero 配置。它有以下类型：
+
+```ts
+export interface Hero {
+  name: string;
+  text: string;
+  tagline: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
+  actions: {
+    text: string;
+    link: string;
+    theme: 'brand' | 'alt';
+  }[];
+}
+```
+
+例如，你可以使用以下 Front Matter 来指定页面的 hero config：
+
+```md
+---
+pageType: home
+
+hero:
+  name: Modern.js Doc
+  text: 文档工程解决方案
+  tagline: 现代化文档开发技术栈
+  actions:
+    - theme: brand
+      text: 介绍
+      link: /zh/guide/introduction
+    - theme: alt
+      text: 快速开始
+      link: /zh/guide/getting-started
+---
+```
+
+## features
+
+- Type: `Array`
+- Default: `[]`
+
+`home` 页面的功能配置。它有以下类型：
+
+```ts
+export interface Feature {
+  title: string;
+  details: string;
+  icon: string;
+}
+
+export type Features = Feature[];
+```
+
+例如，你可以使用以下内容来指定 `home` 页面的 features 配置：
+
+```md
+---
+pageType: home
+
+features:
+  - title: 'MDX: 使用灵活语法编写内容'
+    details: MDX 是一种强大的内容编写方式，你可以在 Markdown 中使用 React 组件。
+    icon: 📦
+  - title: '功能丰富: 一站式解决方案'
+    details: 对全文搜索、国际化等常见功能可以做到开箱即用。
+    icon: 🎨
+  - title: '扩展性强: 提供多种自定义能力'
+    details: 通过其扩展机制，你可以轻松的扩展主题 UI 和构建能力。
+    icon: 🚀
+---
+```

@@ -37,16 +37,21 @@ export function Tabs({
 }): ReactElement {
   let tabValues = values || [];
   if (tabValues.length === 0) {
-    tabValues = (children as ReactElement[]).map(child => child.props);
+    tabValues = (children as ReactElement[]).map(child => ({
+      label: child.props?.label,
+      value: child.props?.value || child.props?.label,
+    }));
   }
-  const defaultIndex = tabValues.findIndex(item => {
-    if (typeof item === 'string') {
-      return item === defaultValue;
-    } else if (item && typeof item === 'object' && 'value' in item) {
-      return item.value === defaultValue;
-    }
-    return false;
-  });
+  const defaultIndex = defaultValue
+    ? tabValues.findIndex(item => {
+        if (typeof item === 'string') {
+          return item === defaultValue;
+        } else if (item && typeof item === 'object' && 'value' in item) {
+          return item.value === defaultValue;
+        }
+        return false;
+      })
+    : 0;
   return (
     <HeadlessTab.Group defaultIndex={defaultIndex} onChange={onChange}>
       <div className={tabContainerClassName || ''}>

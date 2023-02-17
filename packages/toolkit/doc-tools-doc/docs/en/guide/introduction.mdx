@@ -1,0 +1,53 @@
+# Introduction
+
+## Position
+
+Modern.js Doc is a front-end framework for document site scenarios, and its goal is to provide developers with a simple, efficient, and scalable document site solution.
+
+The original intention of this document framework is to provide a ducument solution for the company's internal technical products, and to meet some special internal needs, such as cross-site search services. However, for common document site building needs, we have also provided relatively complete support, such as support for i18n, full-text search, custom themes, and so on.
+
+At the same time, the framework is based on [Modern.js Builder](https://modernjs.dev/builder/), with a variety of built-in optimization strategies to provide better DX.In the near future, we can access to Rust-based bundler **Rspack** through Modern.js Builder.
+
+## Features
+
+### Support MDX
+
+Modern.js Doc is based on [MDX](https://mdxjs.com/) to extend the Markdown syntax.It supports the use of React components in Markdown, and supports the use of JSX syntax in Markdown, which is more flexible in syntax.
+
+Please refer to the syntax details in [Use MDX](/en/guide/use-mdx)
+
+### Support Full-Text Search
+
+Based on the [FlexSearch](https://github.com/nextapps-de/flexsearch) search engine, it provides out-of-the-box document search capabilities.
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/edenx-doc/Xnip2023-02-16_21-17-46.jpg" />
+
+### Support I18n
+
+Built-in i18n support, supports multi-language switching, and supports multi-language content search.
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/edenx-doc/Xnip2023-02-16_21-31-46.jpg" />
+
+### Code Block Syntax Highlighting
+
+Based on [Shiki](https://github.com/shikijs/shiki) for compile-time code coloring, it supports multiple code language highlighting. For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    root: path.join(__dirname, 'docs'),
+  },
+  plugins: [docTools()],
+});
+```
+
+### Support Custom Theme
+
+Supports custom themes, which can be customized through configuration files, please refer to [Theme Customization](/en/advanced/custom-theme) for details.
+
+### Support Plugin System
+
+You can extend the abilities of Modern.js Doc through custom plugins. For details, please refer to [Plugin Mechanism](/en/advanced/plugin-system).
