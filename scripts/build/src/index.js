@@ -1,3 +1,4 @@
+// reference '../../../packages/solutions/module-tools/src/constants/build-presets.ts'
 /**
  * @typedef {import('../../../packages/solutions/module-tools').PartialBaseBuildConfig} PartialBaseBuildConfig
  */
