@@ -26,7 +26,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
             "options": {
               "presets": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/cjs/index.js",
+                  "@modern-js/babel-preset-app",
                   {
                     "appDirectory": "<ROOT>",
                     "target": "client",
@@ -78,7 +78,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
             "options": {
               "presets": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/cjs/index.js",
+                  "@modern-js/babel-preset-app",
                   {
                     "appDirectory": "<ROOT>",
                     "target": "client",
