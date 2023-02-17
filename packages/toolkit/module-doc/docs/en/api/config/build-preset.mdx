@@ -213,6 +213,7 @@ export default defineConfig({
 ## Function
 
 The way the function is configured, you can get the preset value from the `preset` parameter and then modify the build configuration inside to customize your build configuration.
+
 The following is an example of how a function can be configured to compress a build product.
 
 ```js modern.config.ts
@@ -232,3 +233,82 @@ export default defineConfig({
   },
 });
 ```
+
+### Function Parameters
+
+The function form of `buildPreset` contains a function parameter in the form of an object. The object contains the following fields.
+
+* `preset`
+* `extendPreset`
+
+#### `preset`
+
+Type: **Object**
+
+Contains the build configurations corresponding to all available build presets. Build configurations can be used by means of the strings supported by `buildPreset` or by means of underscore commands for those strings. The following are examples of the use of both approaches.
+
+<CH.Spotlight>
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildPreset({ preset }) {
+    return preset['npm-library'];
+  },
+});
+```
+---
+
+Use the strings supported by `buildPreset`.
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildPreset({ preset }) {
+    return preset['npm-library'];
+  },
+});
+```
+
+---
+
+Use the underscore naming convention for strings supported by `buildPreset`.
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildPreset({ preset }) {
+    return preset.NPM_LIBRARY;
+  },
+});
+```
+
+</CH.Spotlight>
+
+#### `extendPreset`
+
+Type: `Function`
+
+Tool function for extending a `buildPreset` to modify the build configuration corresponding to the `buildPreset`.
+
+> The base uses something like `{...oldBuildConfig, ...extendBuildConfig}` approach to processing.
+
+For example, adding the `define` configuration to the `'npm-library'` build preset.
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildPreset({ extendPreset }) {
+    return extendPreset('npm-library', {
+      define: {
+        VERSION: '1.0.1',
+      },
+    });
+  },
+});
+```
+
