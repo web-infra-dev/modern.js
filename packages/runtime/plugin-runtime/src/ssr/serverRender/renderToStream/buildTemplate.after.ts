@@ -1,5 +1,5 @@
 import type { StaticHandlerContext } from '@remix-run/router';
-import serialize from 'serialize-javascript';
+import { serializeJson } from '@modern-js/utils/serialize';
 import { RenderLevel, SSRServerContext } from '../types';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
 
@@ -20,20 +20,12 @@ export function buildShellAfterTemplate(
     return template.replace('<!--<?- SSRDataScript ?>-->', ssrDataScript);
 
     function buildSSRDataScript() {
-      const {
-        ssrContext,
-        renderLevel,
-        routerContext: { loaderData },
-      } = options;
+      const { ssrContext, renderLevel } = options;
       const { request, enableUnsafeCtx } = ssrContext;
       const unsafeContext = {
         headers: request.headers,
       };
       const SSRData = {
-        routerData: {
-          loaderData,
-          // @TODO: add errors
-        },
         context: {
           request: {
             params: request.params,
@@ -47,9 +39,7 @@ export function buildShellAfterTemplate(
         renderLevel,
       };
       return `
-      <script>window._SSR_DATA = ${serialize(SSRData, {
-        isJSON: true,
-      })}</script>
+      <script>window._SSR_DATA = ${serializeJson(SSRData)}</script>
       `;
     }
   }

@@ -5,7 +5,8 @@
     "declaration": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "jsx": "react-jsx"
   },
   "include": ["src"]
 }

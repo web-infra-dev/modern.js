@@ -71,7 +71,7 @@ export const routerPlugin = ({
                 select(location.pathname);
               const _basename =
                 baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
-              const hydrationData = window._SSR_DATA?.routerData;
+              const hydrationData = window._ROUTER_DATA;
 
               const router = supportHtml5History
                 ? createBrowserRouter(routes, {

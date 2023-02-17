@@ -168,7 +168,6 @@
     "react-router-dom": "^6.8.1",
     "react-side-effect": "^2.1.1",
     "redux-logger": "^3.0.6",
-    "serialize-javascript": "^6.0.0",
     "styled-components": "^5.3.1"
   },
   "peerDependencies": {
@@ -190,7 +189,6 @@
     "@types/loadable__webpack-plugin": "^5.7.3",
     "@types/node": "^14",
     "@types/react-side-effect": "^1.1.1",
-    "@types/serialize-javascript": "^5.0.1",
     "jest": "^27",
     "react": "^18",
     "react-dom": "^18",

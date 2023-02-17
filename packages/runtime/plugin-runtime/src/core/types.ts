@@ -4,6 +4,7 @@ import type { LoaderResult } from './loader/loaderManager';
 declare global {
   interface Window {
     _SSR_DATA?: SSRContainer;
+    _ROUTER_DATA?: RouterSSRData;
   }
 }
 
@@ -20,5 +21,4 @@ export interface RouterSSRData {
 
 export interface SSRContainer {
   data?: SSRData; // string ssr data
-  routerData?: RouterSSRData; // react router ssr data
 }

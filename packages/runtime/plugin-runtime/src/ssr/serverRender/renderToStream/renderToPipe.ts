@@ -1,16 +1,24 @@
 import { Transform, Writable } from 'stream';
 import type { RenderToPipeableStreamOptions } from 'react-dom/server';
 import { RenderLevel, RuntimeContext } from '../types';
+import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { getTemplates } from './template';
 
 export type Pipe<T extends Writable> = (output: T) => Promise<T | string>;
+
+enum ShellChunkStatus {
+  IDLE = 0,
+  START = 1,
+  FINIESH = 2,
+}
 
 function renderToPipe(
   rootElement: React.ReactElement,
   context: RuntimeContext,
   options?: RenderToPipeableStreamOptions,
 ) {
-  let isShellStream = true;
+  let shellChunkStatus = ShellChunkStatus.IDLE;
+
   const { ssrContext } = context;
   const forUserPipe: Pipe<Writable> = stream => {
     return new Promise(resolve => {
@@ -31,9 +39,29 @@ function renderToPipe(
           const injectableTransform = new Transform({
             transform(chunk, _encoding, callback) {
               try {
-                if (isShellStream) {
-                  this.push(joinChunk(shellBefore, chunk, shellAfter));
-                  isShellStream = false;
+                if (shellChunkStatus !== ShellChunkStatus.FINIESH) {
+                  let concatedChunk = chunk.toString();
+                  if (shellChunkStatus === ShellChunkStatus.IDLE) {
+                    concatedChunk = `${shellBefore}${concatedChunk}`;
+                    shellChunkStatus = ShellChunkStatus.START;
+                  }
+                  /**
+                   * The shell content of App may be splitted by multiple chunks to transform,
+                   * if any node value's size is larger than the React limitation, refer to:
+                   * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
+                   * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
+                   */
+                  if (
+                    shellChunkStatus === ShellChunkStatus.START &&
+                    concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)
+                  ) {
+                    concatedChunk = concatedChunk.replace(
+                      ESCAPED_SHELL_STREAM_END_MARK,
+                      shellAfter,
+                    );
+                    shellChunkStatus = ShellChunkStatus.FINIESH;
+                  }
+                  this.push(concatedChunk);
                 } else {
                   this.push(chunk);
                 }
@@ -77,14 +105,6 @@ function renderToPipe(
   };
 
   return forUserPipe;
-
-  function joinChunk<Chunk extends { toString: () => string }>(
-    before = '',
-    chunk: Chunk,
-    after = '',
-  ) {
-    return `${before}${chunk.toString()}${after}`;
-  }
 }
 
 export default renderToPipe;

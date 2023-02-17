@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
-import serialize from 'serialize-javascript';
+import { serializeJson } from '@modern-js/utils/serialize';
 import ReactHelmet, { HelmetData } from 'react-helmet';
 import helmetReplace from '../helmet';
 import {
@@ -199,9 +199,7 @@ export default class Entry {
   private getSSRDataScript(templateData: ReturnType<typeof buildTemplateData>) {
     return {
       SSRDataScript: `
-        <script>window._SSR_DATA = ${serialize(templateData, {
-          isJSON: true,
-        })}</script>
+        <script>window._SSR_DATA = ${serializeJson(templateData)}</script>
       `,
     };
   }

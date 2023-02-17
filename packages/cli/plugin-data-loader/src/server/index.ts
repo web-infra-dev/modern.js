@@ -8,16 +8,18 @@ import {
   Response as NodeResponse,
 } from '@remix-run/node';
 import {
-  matchRoutes,
-  LoaderFunction,
-  LoaderFunctionArgs,
-} from 'react-router-dom';
-import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
+  MAIN_ENTRY_NAME,
+  SERVER_BUNDLE_DIRECTORY,
+  transformNestedRoutes,
+} from '@modern-js/utils';
+import {
+  createStaticHandler,
+  ErrorResponse,
+  UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
+  type UNSAFE_DeferredData as DeferredData,
+} from '@remix-run/router';
 import { LOADER_ID_PARAM } from '../common/constants';
-
-type LoaderContext = {
-  [key: string]: unknown;
-};
+import { createDeferredReadableStream } from './response';
 
 export type ServerContext = Pick<
   ModernServerContext,
@@ -35,19 +37,12 @@ export type ServerContext = Pick<
   | 'query'
 >;
 
-type JsonFunction = <T>(
-  data: T,
-  init?: ResponseInit,
-) => NodeResponse & {
-  json: () => Promise<T>;
-};
-
 // Polyfill Web Fetch API
 installGlobals();
 
 const redirectStatusCodes = new Set([301, 302, 303, 307, 308]);
-export function isRedirectResponse(response: NodeResponse): boolean {
-  return redirectStatusCodes.has(response.status);
+export function isRedirectResponse(status: number): boolean {
+  return redirectStatusCodes.has(status);
 }
 
 export function isResponse(value: any): value is NodeResponse {
@@ -60,67 +55,16 @@ export function isResponse(value: any): value is NodeResponse {
   );
 }
 
-const json: JsonFunction = (data, init = {}) => {
-  const responseInit = typeof init === 'number' ? { status: init } : init;
+function convertModernRedirectResponse(headers: Headers) {
+  const newHeaders = new Headers(headers);
+  newHeaders.set('X-Modernjs-Redirect', headers.get('Location')!);
+  newHeaders.delete('Location');
 
-  const headers = new Headers(responseInit.headers);
-  if (!headers.has('Content-Type')) {
-    headers.set('Content-Type', 'application/json; charset=utf-8');
-  }
-
-  return new NodeResponse(JSON.stringify(data), {
-    ...responseInit,
-    headers,
+  return new NodeResponse(null, {
+    status: 204,
+    headers: newHeaders,
   });
-};
-
-// TODO: 添加 context
-const callRouteLoader = async ({
-  routeId,
-  loader,
-  params,
-  request,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadContext,
-}: {
-  request: Request;
-  routeId: string;
-  loader?: LoaderFunction;
-  params: LoaderFunctionArgs['params'];
-  loadContext: LoaderContext;
-}) => {
-  if (!loader) {
-    throw new Error(
-      `You made a ${request.method} request to ${request.url} but did not provide ` +
-        `a default component or \`loader\` for route "${routeId}", ` +
-        `so there is no way to handle the request.`,
-    );
-  }
-
-  let result;
-
-  try {
-    result = await loader({
-      request,
-      params,
-    });
-  } catch (error) {
-    if (!isResponse(error)) {
-      throw error;
-    }
-
-    result = error;
-  }
-
-  if (result === undefined) {
-    throw new Error(
-      `You defined a loader for route "${routeId}" but didn't return ` +
-        `anything from your \`loader\` function. Please return a value or \`null\`.`,
-    );
-  }
-
-  return isResponse(result) ? result : json(result);
-};
+}
 
 const createLoaderHeaders = (
   requestHeaders: IncomingMessage['headers'],
@@ -144,7 +88,7 @@ const createLoaderHeaders = (
 
 const createLoaderRequest = (context: ServerContext) => {
   const origin = `${context.protocol}://${context.host}`;
-  // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
+  // eslint-disable-next-line node/prefer-global/url
   const url = new URL(context.url, origin);
 
   const controller = new AbortController();
@@ -176,13 +120,6 @@ const sendLoaderResponse = async (
   }
 };
 
-export const getPathWithoutEntry = (pathname: string, entryPath: string) => {
-  if (entryPath === '/') {
-    return pathname;
-  }
-  return pathname.replace(entryPath, '');
-};
-
 const matchEntry = (pathname: string, entries: ServerRoute[]) => {
   return entries.find(entry => pathname.startsWith(entry.urlPath));
 };
@@ -197,7 +134,7 @@ export const handleRequest = async ({
   distDir: string;
 }) => {
   const { method, query } = context;
-  const routeId = query[LOADER_ID_PARAM];
+  const routeId = query[LOADER_ID_PARAM] as string;
   if (!routeId || method.toLowerCase() !== 'get') {
     return;
   }
@@ -218,48 +155,50 @@ export const handleRequest = async ({
     return;
   }
 
+  const dataRoutes = transformNestedRoutes(routes);
+  const staticHandler = createStaticHandler(dataRoutes, {
+    basename: entry.urlPath,
+  });
+
   const { res } = context;
-
-  const pathname = getPathWithoutEntry(context.path, entry.urlPath);
-  const matches = matchRoutes(routes, pathname);
-
-  if (!matches) {
-    res.statusCode = 403;
-    res.end(`Route ${pathname} was not matched`);
-    return;
-  }
-
-  const match = matches?.find(match => match.route.id === routeId);
-
-  if (!match) {
-    res.statusCode = 403;
-    res.end(`Route ${routeId} does not match URL ${context.path}`);
-    return;
-  }
 
   const request = createLoaderRequest(context);
   let response;
 
   try {
-    response = await callRouteLoader({
-      loader: match.route.loader,
-      routeId: match.route.id!,
-      params: match.params,
-      request,
-      loadContext: {},
+    response = await staticHandler.queryRoute(request, {
+      routeId,
+      requestContext: context,
     });
-    if (isRedirectResponse(response)) {
-      const headers = new Headers(response.headers);
-      headers.set('X-Modernjs-Redirect', headers.get('Location')!);
-      headers.delete('Location');
 
-      response = new NodeResponse(null, {
-        status: 204,
-        headers,
-      });
+    if (isResponse(response) && isRedirectResponse(response.status)) {
+      response = convertModernRedirectResponse(response.headers);
+    } else if (DEFERRED_SYMBOL in response) {
+      const deferredData = response[DEFERRED_SYMBOL] as DeferredData;
+      const body = createDeferredReadableStream(deferredData, request.signal);
+      const init = deferredData.init || {};
+      if (init.status && isRedirectResponse(init.status)) {
+        if (!init.headers) {
+          throw new Error('redirect response includes no headers');
+        }
+        response = convertModernRedirectResponse(new Headers(init.headers));
+      } else {
+        const headers = new Headers(init.headers);
+        headers.set('Content-Type', 'text/modernjs-deferred');
+        init.headers = headers;
+        response = new NodeResponse(body, init);
+      }
+    } else {
+      response = isResponse(response)
+        ? response
+        : new NodeResponse(JSON.stringify(response), {
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+            },
+          });
     }
   } catch (error) {
-    const message = String(error);
+    const message = error instanceof ErrorResponse ? error.data : String(error);
     response = new NodeResponse(message, {
       status: 500,
       headers: {
