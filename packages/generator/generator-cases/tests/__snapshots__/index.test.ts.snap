@@ -3,33 +3,75 @@
 exports[`test generator cases test getMWACases 1`] = `
 Array [
   Object {
-    "language": "js",
-    "packageManager": "yarn",
+    "buildTools": "webpack",
+    "language": "ts",
+    "packageManager": "npm",
     "solution": "mwa",
   },
   Object {
+    "buildTools": "webpack",
     "language": "js",
     "packageManager": "npm",
     "solution": "mwa",
   },
   Object {
-    "language": "ts",
+    "buildTools": "webpack",
+    "language": "js",
     "packageManager": "yarn",
     "solution": "mwa",
   },
   Object {
+    "buildTools": "rspack",
     "language": "ts",
-    "packageManager": "pnpm",
+    "packageManager": "npm",
     "solution": "mwa",
   },
   Object {
+    "buildTools": "webpack",
     "language": "js",
     "packageManager": "pnpm",
     "solution": "mwa",
   },
   Object {
+    "buildTools": "rspack",
     "language": "ts",
+    "packageManager": "yarn",
+    "solution": "mwa",
+  },
+  Object {
+    "buildTools": "rspack",
+    "language": "js",
     "packageManager": "npm",
+    "solution": "mwa",
+  },
+  Object {
+    "buildTools": "webpack",
+    "language": "ts",
+    "packageManager": "pnpm",
+    "solution": "mwa",
+  },
+  Object {
+    "buildTools": "rspack",
+    "language": "ts",
+    "packageManager": "pnpm",
+    "solution": "mwa",
+  },
+  Object {
+    "buildTools": "rspack",
+    "language": "js",
+    "packageManager": "pnpm",
+    "solution": "mwa",
+  },
+  Object {
+    "buildTools": "webpack",
+    "language": "ts",
+    "packageManager": "yarn",
+    "solution": "mwa",
+  },
+  Object {
+    "buildTools": "rspack",
+    "language": "js",
+    "packageManager": "yarn",
     "solution": "mwa",
   },
 ]
