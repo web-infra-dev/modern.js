@@ -10,6 +10,8 @@ import {
   Language,
   EntryGenerator,
   PackagesGenerator,
+  BuildTools,
+  RspackGenerator,
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -199,12 +201,25 @@ export const handleTemplateFile = async (
     });
   }
 
-  const { packagesInfo } = context.config;
+  const { packagesInfo, buildTools } = context.config;
   if (packagesInfo && Object.keys(packagesInfo).length > 0) {
     await appApi.runSubGenerator(
       getGeneratorPath(PackagesGenerator, context.config.distTag),
       undefined,
       context.config,
+    );
+  }
+
+  if (buildTools === BuildTools.Rspack) {
+    await appApi.runSubGenerator(
+      getGeneratorPath(RspackGenerator, context.config.distTag),
+      undefined,
+      {
+        ...context.config,
+        isNewProject: true,
+        isSubGenerator: true,
+        modernVersion,
+      },
     );
   }
 

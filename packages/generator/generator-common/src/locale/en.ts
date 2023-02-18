@@ -36,6 +36,7 @@ export const EN_LOCALE = {
       polyfill: 'Enable UA-based Polyfill Feature',
       proxy: 'Enable Global Proxy',
       swc: 'Enable SWC Compile',
+      rspack: 'Enable rspack build',
     },
     element: {
       self: 'Create project element',
@@ -86,5 +87,10 @@ export const EN_LOCALE = {
       func: 'Function',
       framework: 'Framework',
     },
+  },
+  buildTools: {
+    self: 'Build Tools',
+    webpack: 'webpack',
+    rspack: 'rspack',
   },
 };
