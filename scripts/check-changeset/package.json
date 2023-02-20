@@ -8,7 +8,8 @@
     "start": "tsx ./src/index.ts"
   },
   "dependencies": {
-    "@changesets/read": "^0.5.5"
+    "@changesets/read": "^0.5.5",
+    "@manypkg/get-packages": "^1.1.3"
   },
   "devDependencies": {
     "tsx": "^3.7.1",
