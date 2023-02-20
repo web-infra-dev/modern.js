@@ -52,6 +52,8 @@ export type ModifyChainUtils = {
   isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
   getCompiledPath: (name: string) => string;
+  // todo: html plugin type declare
+  HtmlPlugin: any;
 };
 
 export type ModifyBundlerChainUtils = ModifyChainUtils;

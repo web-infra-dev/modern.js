@@ -95,6 +95,7 @@ async function getChainUtils(
     CHAIN_ID,
     getCompiledPath,
     HtmlWebpackPlugin,
+    HtmlPlugin: HtmlWebpackPlugin,
   };
 }
 

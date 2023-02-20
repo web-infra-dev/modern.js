@@ -41,9 +41,9 @@ exports[`plugins/html > should add one tags plugin instance 1`] = `
     },
     HtmlTagsPlugin {
       "ctx": {
+        "HtmlPlugin": [Function],
         "append": true,
         "hash": false,
-        "htmlWebpackPlugin": [Function],
         "publicPath": true,
         "tags": [
           {
@@ -104,9 +104,9 @@ exports[`plugins/html > should add tags plugin instances for each entries 1`] = 
     },
     HtmlTagsPlugin {
       "ctx": {
+        "HtmlPlugin": [Function],
         "append": true,
         "hash": false,
-        "htmlWebpackPlugin": [Function],
         "includes": [
           "html/main/index.html",
         ],
@@ -127,9 +127,9 @@ exports[`plugins/html > should add tags plugin instances for each entries 1`] = 
     },
     HtmlTagsPlugin {
       "ctx": {
+        "HtmlPlugin": [Function],
         "append": true,
         "hash": false,
-        "htmlWebpackPlugin": [Function],
         "includes": [
           "html/foo/index.html",
         ],
