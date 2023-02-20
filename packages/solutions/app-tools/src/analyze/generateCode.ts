@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, getEntryOptions, logger } from '@modern-js/utils';
+import { fs, getEntryOptions, isRouterV5, logger } from '@modern-js/utils';
 import {
   IAppContext,
   PluginAPI,
@@ -105,10 +105,7 @@ export const generateCode = async (
 
   const hookRunners = api.useHookRunners();
 
-  const isV5 =
-    typeof config.runtime?.router !== 'boolean' &&
-    (config?.runtime?.router as { mode?: 'react-router-5' })?.mode ===
-      'react-router-5';
+  const isV5 = isRouterV5(config);
   const { mountId } = config.html;
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
 
@@ -131,24 +128,18 @@ export const generateCode = async (
             internalDirAlias,
           });
         }
-        if (entrypoint.nestedRoutesEntry) {
-          if (!isV5) {
-            nestedRoute = await walk(
-              entrypoint.nestedRoutesEntry,
-              entrypoint.nestedRoutesEntry,
-              {
-                name: internalSrcAlias,
-                basename: srcDirectory,
-              },
-              entrypoint.entryName,
-            );
-            if (nestedRoute) {
-              (initialRoutes as Route[]).unshift(nestedRoute);
-            }
-          } else {
-            logger.error('Nested routes is not supported in legacy mode.');
-            // eslint-disable-next-line no-process-exit
-            process.exit(1);
+        if (!isV5 && entrypoint.nestedRoutesEntry) {
+          nestedRoute = await walk(
+            entrypoint.nestedRoutesEntry,
+            entrypoint.nestedRoutesEntry,
+            {
+              name: internalSrcAlias,
+              basename: srcDirectory,
+            },
+            entrypoint.entryName,
+          );
+          if (nestedRoute) {
+            (initialRoutes as Route[]).unshift(nestedRoute);
           }
         }
 
