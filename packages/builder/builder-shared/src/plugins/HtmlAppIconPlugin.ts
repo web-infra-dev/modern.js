@@ -1,26 +1,30 @@
 import fs from 'fs';
 import path from 'path';
-import HtmlPlugin from '@rspack/plugin-html';
-import { Compiler } from '../types';
-// @ts-expect-error
+import type HtmlWebpackPlugin from 'html-webpack-plugin';
+import type { Compiler, Compilation } from 'webpack';
 import { RawSource } from 'webpack-sources';
+import { COMPILATION_PROCESS_STAGE } from './util';
 
 type AppIconOptions = {
   distDir: string;
   iconPath: string;
+  HtmlPlugin: typeof HtmlWebpackPlugin;
 };
 
 export class HtmlAppIconPlugin {
   readonly name: string;
 
+  readonly distDir: string;
+
   readonly iconPath: string;
 
-  readonly distDir: string;
+  readonly HtmlPlugin: typeof HtmlWebpackPlugin;
 
   constructor(options: AppIconOptions) {
     this.name = 'HtmlAppIconPlugin';
     this.distDir = options.distDir;
     this.iconPath = options.iconPath;
+    this.HtmlPlugin = options.HtmlPlugin;
   }
 
   apply(compiler: Compiler) {
@@ -36,8 +40,8 @@ export class HtmlAppIconPlugin {
     );
 
     // add html asset tags
-    compiler.hooks.compilation.tap(this.name, compilation => {
-      HtmlPlugin.getHooks(compilation).alterAssetTagGroups.tap(
+    compiler.hooks.compilation.tap(this.name, (compilation: Compilation) => {
+      this.HtmlPlugin.getHooks(compilation).alterAssetTagGroups.tap(
         this.name,
         data => {
           const { publicPath } = compiler.options.output;
@@ -59,16 +63,20 @@ export class HtmlAppIconPlugin {
     });
 
     // copy icon to dist
-    compiler.hooks.thisCompilation.tap(this.name, compilation => {
-      const source = fs.readFileSync(this.iconPath);
-
-      // todo: should import RawSource from rspack
-      compilation.emitAsset(iconRelativePath, new RawSource(source), {
-        minimized: false,
-        development: false,
-        hotModuleReplacement: false,
-        related: {},
-      });
-    });
+    compiler.hooks.thisCompilation.tap(
+      this.name,
+      (compilation: Compilation) => {
+        compilation.hooks.processAssets.tap(
+          {
+            name: this.name,
+            stage: COMPILATION_PROCESS_STAGE.PROCESS_ASSETS_STAGE_PRE_PROCESS,
+          },
+          assets => {
+            const source = fs.readFileSync(this.iconPath);
+            assets[iconRelativePath] = new RawSource(source, false);
+          },
+        );
+      },
+    );
   }
 }

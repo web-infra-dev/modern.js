@@ -71,7 +71,8 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "zod": "^3.20.2",
-    "zod-validation-error": "^0.3.0"
+    "zod-validation-error": "^0.3.0",
+    "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",

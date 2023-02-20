@@ -1,9 +1,10 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import type { CrossOrigin } from '@modern-js/builder-shared';
+import type HtmlWebpackPlugin from 'html-webpack-plugin';
+import type { CrossOrigin } from '../types';
 import type { Compiler, WebpackPluginInstance } from 'webpack';
 
 type CrossOriginOptions = {
   crossOrigin: CrossOrigin;
+  HtmlPlugin: typeof HtmlWebpackPlugin;
 };
 
 export class HtmlCrossOriginPlugin implements WebpackPluginInstance {
@@ -11,10 +12,13 @@ export class HtmlCrossOriginPlugin implements WebpackPluginInstance {
 
   readonly crossOrigin: CrossOrigin;
 
+  readonly HtmlPlugin: typeof HtmlWebpackPlugin;
+
   constructor(options: CrossOriginOptions) {
     const { crossOrigin } = options;
     this.name = 'HtmlCrossOriginPlugin';
     this.crossOrigin = crossOrigin;
+    this.HtmlPlugin = options.HtmlPlugin;
   }
 
   apply(compiler: Compiler): void {
@@ -23,7 +27,7 @@ export class HtmlCrossOriginPlugin implements WebpackPluginInstance {
     }
 
     compiler.hooks.compilation.tap(this.name, compilation => {
-      HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tapPromise(
+      this.HtmlPlugin.getHooks(compilation).alterAssetTags.tapPromise(
         this.name,
         async alterAssetTags => {
           const {
