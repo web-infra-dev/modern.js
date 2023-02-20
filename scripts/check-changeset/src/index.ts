@@ -1,5 +1,6 @@
 import path from 'path';
 import readChangesets from '@changesets/read';
+import { getPackages } from '@manypkg/get-packages';
 
 async function run() {
   const cwd = process.cwd();
@@ -7,15 +8,19 @@ async function run() {
   if (title?.includes('[SKIP CHANGESET]')) {
     return;
   }
-  const changesets = await readChangesets(
-    path.join(cwd, '../../'),
-    process.env.BASE_BRANCH,
-  );
+  const repoDir = path.join(cwd, '../../');
+  const { packages } = await getPackages(repoDir);
+  const changesets = await readChangesets(repoDir, process.env.BASE_BRANCH);
   for (const changeset of changesets) {
     const { id, releases, summary } = changeset;
     releases.forEach(release => {
       if (release.type === 'major') {
-        throw Error(`packages ${release.name} not allow bump major version`);
+        throw Error(
+          `packages ${release.name} not allow bump major version in ${id}.md file`,
+        );
+      }
+      if (!packages.find(pkg => pkg.packageJson.name === release.name)) {
+        throw Error(`package ${release.name} is not found in ${id}.md file`);
       }
     });
     if (summary.split('\n').filter(v => v).length < 2) {
