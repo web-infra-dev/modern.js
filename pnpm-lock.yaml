@@ -211,6 +211,7 @@ importers:
       typescript: ^4
       webpack: ^5.75.0
     dependencies:
+      '@babel/core': 7.18.0
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/inspector-webpack-plugin': 1.0.5
@@ -234,7 +235,6 @@ importers:
       ts-loader: 9.4.1_vfotqvx6lgcbf3upbs6hgaza4q
       webpack: 5.75.0
     devDependencies:
-      '@babel/core': 7.18.0
       '@babel/preset-env': 7.18.0_@babel+core@7.18.0
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
@@ -6180,7 +6180,6 @@ packages:
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@babel/core/7.20.5:
     resolution: {integrity: sha512-UdOWmk4pNWTm/4DlPUl/Pt4Gz4rcEMb7CY0Y3eJl5Yz1vI8ZJGmHWaVE55LoxRjdpx0z259GE9U5STA9atUinQ==}
@@ -6303,7 +6302,6 @@ packages:
       '@babel/helper-validator-option': 7.18.6
       browserslist: 4.21.4
       semver: 6.3.0
-    dev: true
 
   /@babel/helper-compilation-targets/7.20.0_@babel+core@7.20.5:
     resolution: {integrity: sha512-0jp//vDGp9e8hZzBc6N/KwA5ZK3Wsm/pfm4CrY7vzegkVxc65SgSn6wYOnwHe9Js9HRQ1YTCKLGPzDtaS3RoLQ==}
