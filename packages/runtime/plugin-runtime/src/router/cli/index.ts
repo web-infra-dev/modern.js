@@ -2,21 +2,14 @@ import {
   getEntryOptions,
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
+  isRouterV5 as isV5,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
-import type {
-  CliPlugin,
-  AppTools,
-  AppNormalizedConfig,
-} from '@modern-js/app-tools';
-import type { RouterConfig } from '../runtime';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
-
-const isV5 = (config: AppNormalizedConfig) =>
-  (config?.runtime?.router as RouterConfig)?.mode === 'react-router-5';
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
