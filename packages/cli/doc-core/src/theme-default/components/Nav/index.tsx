@@ -73,7 +73,7 @@ const NavTranslations = ({
 
 export function Nav(props: NavProps) {
   const { beforeNavTitle, afterNavTitle } = props;
-  const { siteData } = usePageData();
+  const { siteData, lang, pageType } = usePageData();
   const { pathname } = useLocation();
   const hasAppearanceSwitch = siteData.themeConfig.darkMode !== false;
   const localeData = useLocaleSiteData();
@@ -91,9 +91,7 @@ export function Nav(props: NavProps) {
           text: item.label,
           link: replaceLang(pathname, item.lang, defaultLang, langs, base),
         })),
-        activeIndex: localeLanguages.findIndex(
-          item => item.lang === localeData.lang,
-        ),
+        activeIndex: localeLanguages.findIndex(item => lang === item.lang),
       }
     : null;
   const NavAppearance = () => {
@@ -161,7 +159,10 @@ export function Nav(props: NavProps) {
         background: 'var(--modern-c-bg)',
       }}
     >
-      <div className={styles.mask}></div>
+      <div
+        className={`${styles.mask}
+          ${pageType === 'doc' ? styles.docPage : ''}`}
+      ></div>
       <div className={`${styles.navContainer} modern-doc-nav`} p="x-6">
         <div
           flex="~"

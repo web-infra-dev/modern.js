@@ -1,16 +1,13 @@
 import { NormalizedLocales } from 'shared/types';
-import { useLocation } from 'react-router-dom';
-import { usePageData, withBase } from '@/runtime';
-import { normalizeSlash } from '@/shared/utils/index';
+import { usePageData } from '@/runtime';
 
 export function useLocaleSiteData(): NormalizedLocales {
   const pageData = usePageData();
-  const { pathname } =
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    process.env.NODE_ENV === 'production' ? useLocation() : location;
+  const { lang } = pageData;
   const themeConfig = pageData?.siteData?.themeConfig ?? {};
-  const defaultLang = pageData.siteData.lang ?? 'zh';
+  const defaultLang = pageData.siteData.lang ?? '';
   const locales = themeConfig?.locales;
+
   if (!locales || locales.length === 0) {
     return {
       nav: themeConfig.nav,
@@ -19,15 +16,9 @@ export function useLocaleSiteData(): NormalizedLocales {
       nextPageText: themeConfig.nextPageText,
     } as NormalizedLocales;
   }
-  const localeKeys = locales.map(locale => locale.lang);
-  const localeKey =
-    localeKeys.find(locale => {
-      const normalizedLocalePrefix = withBase(normalizeSlash(locale));
-      return pathname.startsWith(normalizedLocalePrefix);
-    }) || localeKeys[0];
-  const localeInfo = locales.find(locale => locale.lang === localeKey)!;
+  const localeInfo = locales.find(locale => locale.lang === lang)!;
   return {
     ...localeInfo,
-    langRoutePrefix: localeKey === defaultLang ? '/' : localeKey,
+    langRoutePrefix: lang === defaultLang ? '/' : lang,
   } as NormalizedLocales;
 }

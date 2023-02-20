@@ -1,0 +1,54 @@
+name: Build Doc Tools Website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'toolkit/doc-tools-doc/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-doc-tools-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 25
+
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --ignore-scripts
+
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+
+      - name: Build Dependencies
+        run: pnpm turbo run build --filter="@modern-js/doc-tools-doc"
+
+      - name: Build Website
+        run: pnpm --filter @modern-js/doc-tools-doc run build:doc
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: packages/toolkit/doc-tools-doc/doc_build
+          target-folder: doc-tools
+          clean: true

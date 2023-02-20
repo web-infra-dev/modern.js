@@ -61,12 +61,13 @@ export function useSidebarData(): SidebarData {
   const localeData = useLocaleSiteData();
   const sidebar = localeData.sidebar ?? {};
   const { pathname } = useLocation();
-
   const [sidebarData, setSidebarData] = useState<SidebarData>(
     getSidebarGroupData(sidebar, pathname),
   );
   useEffect(() => {
-    setSidebarData(getSidebarGroupData(sidebar, pathname));
-  }, [location.pathname]);
+    const newSidebarData = getSidebarGroupData(sidebar, pathname);
+    setSidebarData(newSidebarData);
+  }, [pathname, sidebar]);
+
   return sidebarData;
 }

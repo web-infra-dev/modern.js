@@ -1,0 +1,90 @@
+# Build Config
+
+## builderConfig
+
+Customize Modern.js Builder configuration, see [official website configuration](https://modernjs.dev/builder/api/index.html) for details.
+
+## markdown
+
+- Type: `Object`
+
+Configure MDX-related compilation abilities.
+
+### markdown.remarkPlugins
+
+- Type: `Array`
+- Default: `[]`
+
+Configure the remark plugins. for example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    markdown: {
+      remarkPlugins: [
+        [
+          require('remark-autolink-headings'),
+          {
+            behavior: 'wrap',
+          },
+        ],
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+### markdown.rehypePlugins
+
+- Type: `Array`
+
+Configure the rehype plugin. for example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    markdown: {
+      rehypePlugins: [
+        [
+          require('rehype-autolink-headings'),
+          {
+            behavior: 'wrap',
+          },
+        ],
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+### markdown.checkDeadLinks
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to check for dead links. for example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    markdown: {
+      checkDeadLinks: true,
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+After enabling this config, the framework will check the links in the document based on the conventional routing table. If there is an unreachable link, the build will throw an error and exit.
+
+:::warning
+However, we do not recommend using this feature during the development environment, because it will disable the physical cache of the build tool webpack, resulting in slower project startup.
+:::

@@ -1,0 +1,67 @@
+# 预览页
+
+## 效果
+
+Modern.js Doc 内置一套预览页，效果如下:
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/edenx-doc/Xnip2023-02-17_16-55-07.jpg" />
+
+## 如何开启？
+
+生成预览页需要如下两步:
+
+### 1. 新建目录，配置 frontmatter
+
+比如新建如下的目录和文件:
+
+```bash
+├── docs
+│   ├── index.md
+│   ├── api
+│   │   ├── index.md
+│   │   ├── preview1.md
+│   │   └── preview2.md
+// ...
+```
+
+我们在 `api/index.md` 中添加如下内容:
+
+```md
+---
+overview: true
+---
+```
+
+### 2. 配置 `sidebar`
+
+配置预览页面的结构会基于 sidebar 的配置来生成，比如我们添加如下的 sidebar 配置:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      sidebar: {
+        '/api/': [
+          {
+            text: 'Group1',
+            items: [
+              // 注意: 需要提前创建好文档
+              '/api/foo',
+              '/api/bar',
+            ],
+          },
+          {
+            text: 'Group2',
+            items: ['/api/xxx', '/api/yyy'],
+          },
+        ],
+      },
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+框架会摘取所有 api 目录下的文件以及其中的 h1、h2 标题，并根据 sidebar 配置中的分组信息生成预览页。

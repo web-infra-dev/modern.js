@@ -1,0 +1,386 @@
+# Theme Config
+
+Theme config is located under `themeConfig` in the `doc` param. For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      // ...
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## nav
+
+- Type: `Array`
+- Default: `[]`
+
+The `nav` configuration is an array of `NavItem` with the following types:
+
+```ts
+interface NavItem {
+  // Navbar text
+  text: string;
+  // Navbar link
+  link: '/';
+  // Activation rules for navbar links
+  activeMatch: '^/$|^/';
+}
+```
+
+`activeMatch` is used to match the current route, when the route matches the `activeMatch` rule, the nav item will be highlighted. By default, `activeMatch` is the `link` of the nav item.
+
+For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      nav: [
+        {
+          text: 'Home',
+          link: '/',
+        },
+        {
+          text: 'Guide',
+          link: '/guide/',
+        },
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+当然 `nav` 数组中也可以配置多级菜单，类型如下:
+
+```ts
+interface NavGroup {
+  // 导航栏文本
+  text: string;
+  // 子菜单
+  items: NavItem[];
+}
+```
+
+For example the following configuration:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      nav: [
+        {
+          text: 'Home',
+          link: '/',
+        },
+        {
+          text: 'Guide',
+          items: [
+            {
+              text: 'Getting Started',
+              link: '/guide/getting-started',
+            },
+            {
+              text: 'Advanced',
+              link: '/guide/advanced',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## sidebar
+
+- Type: `Object`
+
+The sidebar of the website. The config is an object with the following types:
+
+```ts
+// The key is the path of SidebarGroup
+// value is an array of SidebarGroup
+type Sidebar = Record<string, SidebarGroup[]>;
+
+interface SidebarGroup {
+  text: string;
+  items: SidebarItem[];
+  collapsable?: boolean;
+  collapsed?: boolean;
+}
+
+// An object can be filled in, or a string can be filled in
+// When filling in a string, it will be converted into an object internally, the string will be used as a link, and the text value will automatically take the title of the corresponding document
+type SidebarItem =
+  | {
+      // sidebar text
+      text: string;
+      // sidebar link
+      link: string;
+    }
+  | string;
+```
+
+For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      sidebar: {
+        '/guide/': [
+          {
+            text: 'Getting Started',
+            items: [
+              // Fill in an object
+              {
+                text: 'Introduction',
+                link: '/guide/getting-started/introduction',
+              },
+              {
+                text: 'Installation',
+                link: '/guide/getting-started/installation',
+              },
+            ],
+          },
+          {
+            text: 'Advanced',
+            items: [
+              // Fill in the link string directly
+              '/guide/advanced/customization',
+              '/guide/advanced/markdown',
+            ],
+          },
+        ],
+      },
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## footer
+
+- Type: `Object`
+- Default: `{}`
+
+The footer of the home page.
+
+The `footer` config is an object of `Footer`, which has the following types:
+
+```ts
+export interface Footer {
+  message?: string;
+  copyright?: string;
+}
+```
+
+For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      footer: {
+        message: 'This is a footer',
+      },
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## outlineTitle
+
+- Type: `string`
+- Default: 'ON THIS PAGE'
+
+Configure the title of the outline in the outline panel.
+
+For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      outlineTitle: 'Outline',
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## prevPageText
+
+- Type: `string`
+- Default: `Previous Page`
+
+The text of the previous page. for example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      prevPageText: 'Previous Page',
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## socialLinks
+
+- Type: `Array`
+- Default: `[]`
+
+You can add related links through the following config, such as `github` links, `twitter` links, etc.
+Related links support three modes: `link mode` `text mode` `image mode`, for example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      socialLinks: [
+        {
+          icon: 'github',
+          mode: 'link',
+          content: 'https://github.com/sanyuan0704/island.js',
+        },
+        {
+          icon: 'wechat',
+          mode: 'text',
+          content: 'wechat: xxx',
+        },
+        {
+          icon: 'qq',
+          mode: 'img',
+          content: '/qrcode.png',
+        },
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+- When in `link` mode, click the icon to jump to the link.
+- When in `text` mode, when the mouse moves over the icon, a pop-up box will be displayed, and the content of the pop-up box is the entered text
+- When in the `img` mode, moving the mouse over the icon will display a bullet box, and the content of the bullet box is the specified picture. It should be noted that the picture needs to be placed in the `public` directory.
+
+Related links support the following types of images, which can be selected through the icon attribute:
+
+```ts
+export type SocialLinkIcon =
+  | 'discord'
+  | 'facebook'
+  | 'github'
+  | 'instagram'
+  | 'linkedin'
+  | 'slack'
+  | 'twitter'
+  | 'youtube'
+  | 'weixin'
+  | 'qq'
+  | 'juejin'
+  | 'zhihu'
+  | 'bilibili'
+  | 'weibo'
+  | { svg: string };
+```
+
+If you need to customize the icon, you can pass in an object with `svg attribute`, and the value of svg is the content of the custom icon, for example:
+
+```js
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      socialLinks: [
+        {
+          icon: {
+            svg: '<svg>xxx</svg>',
+          },
+          mode: 'link',
+          content: 'https://github.com/',
+        },
+      ],
+    },
+  }
+  plugins: [docTools()],·
+});
+```
+
+## nextPageText
+
+- Type: `string`
+- Default: `Next Page`
+
+Text for the next page. for example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      nextPageText: 'Next Page',
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## locales
+
+- Type: `Array<LocaleConfig>`
+- Default: `undefined`
+
+I18n config. This config is an array, and every item of it is `LocaleConfig`, and the types are as follows:
+
+```ts
+export interface LocaleConfig {
+  // language name
+  lang?: string;
+  // HTML title, takes precedence over `themeConfig.title
+  title?: string;
+  // HTML description, takes precedence over `themeConfig.description`
+  description?: string;
+  // Display text for the corresponding language
+  label: string;
+  // Navbar config, takes precedence over `themeConfig.nav
+  nav?: NavItem[];
+  // Sidebar config, takes precedence over `themeConfig.sidebar`
+  sidebar?: Sidebar;
+  // Right outline title
+  outlineTitle?: string;
+  // Previous text
+  prevPageText?: string;
+  // Next page text
+  nextPageText?: string;
+}
+```
+
+`LocaleConfig` contains many of the same configuration items as the theme config, but the former will have a higher priority.

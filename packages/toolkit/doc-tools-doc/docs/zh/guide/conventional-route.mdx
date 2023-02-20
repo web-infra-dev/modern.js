@@ -1,0 +1,60 @@
+# 约定式路由
+
+## 什么是约定式路由
+
+Modern.js Doc 使用的是文件系统路由，页面的文件路径会简单的映射为路由路径，这样会让整个项目的路由非常直观。
+
+例如，如果在 `docs` 目录中有一个名为 `foo.md` 的文件，则该文件的路由路径将是 `/foo`。
+
+## 映射规则
+
+Modern.js Doc 会自动扫描根目录和所有子目录，并将文件路径映射到路由路径。例如，如果你有以下的文件结构：
+
+```bash
+docs
+├── foo
+│   └── bar.md
+└── foo.md
+```
+
+那么 `bar.md` 的路由路径会是 `/foo/bar`，`foo.md` 的路由路径会是 `/foo`。
+
+具体映射规则如下：
+
+| 文件路径        | 路由路径   |
+| --------------- | ---------- |
+| `index.md`      | `/`        |
+| `/foo.md`       | `/foo`     |
+| `/foo/bar.md`   | `/foo/bar` |
+| `/zoo/index.md` | `/zoo`     |
+
+## 自定义行为
+
+如果要自定义路由行为，可以使用配置文件中的 `route` 字段。例如：
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  route: {
+    // These files will be excluded from the routing (support glob pattern)
+    exclude: ['custom.tsx', 'component/**/*']
+    // These files will be included in the routing (support glob pattern)
+    include: ['other-dir/**/*'],
+  }
+});
+```
+
+## 最佳实践
+
+我们推荐你将文档文件放在 `docs` 目录下，这样可以让你的项目更加清晰。而对于非文档内容，比如自定义组件、工具函数等，可以放到 `docs` 目录之外进行维护。比如：
+
+```bash
+docs
+└── foo.mdx
+src
+├── components
+│   └── CustomComponent.tsx
+└── utils
+    └── utils.ts
+```
