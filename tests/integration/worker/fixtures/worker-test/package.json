@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "worker-test",
   "version": "0.0.0",
   "scripts": {

@@ -11,7 +11,6 @@
   "main": "./dist/index.js",
   "module": "./dist/node/index.js",
   "scripts": {
-    "prepare": "modern-lib build",
     "dev": "modern-lib dev",
     "build": "modern-lib build",
     "reset": "rimraf ./**/node_modules",
