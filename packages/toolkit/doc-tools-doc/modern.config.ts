@@ -9,6 +9,8 @@ function getI18nHelper(lang: 'zh' | 'en') {
   return { getText, getLink };
 }
 
+const isProd = () => process.env.NODE_ENV === 'production';
+
 export default defineConfig({
   plugins: [docTools()],
   doc: {
@@ -16,6 +18,7 @@ export default defineConfig({
     title: 'Modern.js Doc',
     description: 'A modern web framework for building document site',
     lang: 'zh',
+    base: isProd() ? '/doc-tools/' : '/',
     builderConfig: {
       dev: {
         startUrl: false,
