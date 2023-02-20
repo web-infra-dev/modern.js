@@ -1,16 +1,21 @@
 import path from 'path';
 import readChangesets from '@changesets/read';
-import { getPackages } from '@manypkg/get-packages';
+import { getPackages, Package } from '@manypkg/get-packages';
 
-async function run() {
-  const cwd = process.cwd();
-  const title = process.env.PULL_REQUEST_TITLE;
-  if (title?.includes('[SKIP CHANGESET]')) {
-    return;
-  }
-  const repoDir = path.join(cwd, '../../');
-  const { packages } = await getPackages(repoDir);
-  const changesets = await readChangesets(repoDir, process.env.BASE_BRANCH);
+type VersionType = 'major' | 'minor' | 'patch' | 'none';
+type Release = {
+  name: string;
+  type: VersionType;
+};
+type Changeset = {
+  summary: string;
+  releases: Array<Release>;
+};
+type NewChangeset = Changeset & {
+  id: string;
+};
+
+function checkChangeset(packages: Package[], changesets: NewChangeset[]) {
   for (const changeset of changesets) {
     const { id, releases, summary } = changeset;
     releases.forEach(release => {
@@ -29,6 +34,36 @@ async function run() {
       );
     }
   }
+}
+
+function validatePackagePeerDependencies(packages: Package[]) {
+  packages.forEach(({ packageJson }) => {
+    const { peerDependencies = {} } = packageJson;
+    Object.keys(peerDependencies).forEach(dep => {
+      const depPkg = packages.find(pkg => pkg.packageJson.name === dep);
+      if (depPkg) {
+        if (
+          peerDependencies[dep] !== `workspace:^${depPkg.packageJson.version}`
+        ) {
+          throw Error(
+            `${packageJson.name}'s peerDependencies ${dep} version is not right, expect "workspace:^${depPkg.packageJson.version}"`,
+          );
+        }
+      }
+    });
+  });
+}
+async function run() {
+  const cwd = process.cwd();
+  const title = process.env.PULL_REQUEST_TITLE;
+  if (title?.includes('[SKIP CHANGESET]')) {
+    return;
+  }
+  const repoDir = path.join(cwd, '../../');
+  const { packages } = await getPackages(repoDir);
+  const changesets = await readChangesets(repoDir, process.env.BASE_BRANCH);
+  checkChangeset(packages, changesets);
+  validatePackagePeerDependencies(packages);
 }
 
 run().catch(e => {
