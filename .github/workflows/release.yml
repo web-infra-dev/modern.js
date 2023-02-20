@@ -29,6 +29,15 @@ jobs:
         # This makes Actions fetch only one branch to release
           fetch-depth: 1
 
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+              turbo-${{ github.ref_name }}-
+
       - name: Release
         uses: modern-js-dev/actions@main
         with:
