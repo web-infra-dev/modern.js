@@ -30,7 +30,7 @@
     }
   },
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm && modern build --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "dev": "modern-lib build --watch",
     "build": "modern-lib build",
     "new": "modern-lib new",
