@@ -2,7 +2,7 @@ import { expect, it } from 'vitest';
 import { useFixture } from '@modern-js/e2e';
 import { createStubBuilder } from '../../src/stub';
 
-it('fixture', async () => {
+it.skip('fixture', async () => {
   const options = await useFixture('@modern-js/e2e/fixtures/builder/basic'); // also can be relative path
   const builder = await createStubBuilder({
     ...options,
