@@ -26,8 +26,7 @@
     "modern-doc": "./bin/modern.js"
   },
   "scripts": {
-    "prepare": "modern-lib build",
-    "prepublishOnly": "modern-lib build --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "dev": "modern-lib dev",
     "build": "modern-lib build",
     "reset": "rimraf ./**/node_modules",
