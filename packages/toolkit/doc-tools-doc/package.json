@@ -16,7 +16,7 @@
     "build:doc": "modern build",
     "preview": "modern preview"
   },
-  "version": "2.4.0",
+  "version": "2.5.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

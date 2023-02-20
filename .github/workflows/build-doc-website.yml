@@ -1,4 +1,4 @@
-name: Build Module Tools Website
+name: Build Doc Tools Website
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-module-tools-website:
+  build-doc-tools-website:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -50,5 +50,5 @@ jobs:
         with:
           branch: gh-pages
           folder: packages/toolkit/doc-tools-doc/doc_build
-          target-folder: module-tools
+          target-folder: doc-tools
           clean: true
