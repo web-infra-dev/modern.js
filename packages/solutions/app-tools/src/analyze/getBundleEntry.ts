@@ -4,6 +4,7 @@ import {
   fs,
   findExists,
   MAIN_ENTRY_NAME,
+  isRouterV5,
 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { AppNormalizedConfig, IAppContext } from '../types';
@@ -91,7 +92,7 @@ export const getBundleEntry = (
                 : undefined,
             };
 
-      if (entrypoint.fileSystemRoutes) {
+      if (entrypoint.fileSystemRoutes && isRouterV5(config)) {
         entrypoint.nestedRoutesEntry = entrypoint.entry;
       }
       if (!ifAlreadyExists(defaults, entrypoint)) {
