@@ -1,6 +1,7 @@
 import path from 'path';
 import {
   isFileExists,
+  isHtmlDisabled,
   getDistPath,
   getMinify,
   getTitle,
@@ -9,7 +10,6 @@ import {
   getMetaTags,
 } from '@modern-js/builder-shared';
 import type {
-  BuilderTarget,
   DefaultBuilderPlugin,
   SharedNormalizedConfig,
   SharedBuilderPluginAPI,
@@ -84,14 +84,6 @@ async function getChunks(entryName: string, entryValue: string | string[]) {
 
   return [...dependOn, entryName];
 }
-
-export const isHtmlDisabled = (
-  config: SharedNormalizedConfig,
-  target: BuilderTarget,
-) =>
-  (config.tools as { htmlPlugin: boolean }).htmlPlugin === false ||
-  target === 'node' ||
-  target === 'web-worker';
 
 export const applyInjectTags = (api: SharedBuilderPluginAPI) => {
   api.modifyBundlerChain(async (chain, { HtmlPlugin, CHAIN_ID }) => {

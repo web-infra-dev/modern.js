@@ -123,7 +123,6 @@ importers:
       caniuse-lite: ^1.0.30001451
       postcss: 8.4.21
       typescript: ^4
-      webpack-sources: ^3.2.3
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/server': link:../../server/server
@@ -135,7 +134,6 @@ importers:
       '@rspack/plugin-html': 0.0.0-3e414439-20230209031527
       '@rspack/postcss-loader': 0.0.0-3e414439-20230209031527
       caniuse-lite: 1.0.30001451
-      webpack-sources: 3.2.3
     devDependencies:
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
@@ -158,12 +156,14 @@ importers:
       terser: ^5.14.1
       typescript: ^4
       webpack: ^5.75.0
+      webpack-sources: ^3.2.3
       zod: ^3.20.2
       zod-validation-error: ^0.3.0
     dependencies:
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
+      webpack-sources: 3.2.3
       zod: 3.20.2
       zod-validation-error: 0.3.0_zod@3.20.2
     devDependencies:

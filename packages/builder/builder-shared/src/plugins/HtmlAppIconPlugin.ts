@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { Compiler, Compilation } from 'webpack';
+// @ts-expect-error
 import { RawSource } from 'webpack-sources';
 import { COMPILATION_PROCESS_STAGE } from './util';
 
