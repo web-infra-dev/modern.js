@@ -6,6 +6,11 @@ export enum Framework {
   Koa = 'koa',
 }
 
+export enum BuildTools {
+  Webpack = 'webpack',
+  Rspack = 'rspack',
+}
+
 export const getFrameworkSchema = (
   _extra: Record<string, any> = {},
 ): Schema => {
@@ -15,6 +20,19 @@ export const getFrameworkSchema = (
     enum: Object.values(Framework).map(framework => ({
       value: framework,
       label: i18n.t(localeKeys.framework[framework]),
+    })),
+  };
+};
+
+export const getBuildToolsSchema = (
+  _extra: Record<string, any> = {},
+): Schema => {
+  return {
+    type: 'string',
+    title: i18n.t(localeKeys.buildTools.self),
+    enum: Object.values(BuildTools).map(tool => ({
+      value: tool,
+      label: i18n.t(localeKeys.buildTools[tool]),
     })),
   };
 };

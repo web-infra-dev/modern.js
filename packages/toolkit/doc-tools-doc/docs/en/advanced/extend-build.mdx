@@ -1,0 +1,47 @@
+# Build Extension
+
+## Modern.js Builder
+
+Modern.js Doc builds projects based on [Modern.js Builder](https://edenx.bytedance.net/), you can use `builderConfig` to customize the build config. For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    builderConfig: {
+      dev: {
+        startUrl: false,
+      },
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## MDX Compilation
+
+The compilation of MDX in the framework is based on [unified](https://github.com/unifiedjs/unified), and you can add related compilation plugins through `markdown` configuration. for example
+:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    markdown: {
+      remarkPlugins: [
+        [
+          require('remark-autolink-headings'),
+          {
+            behavior: 'wrap',
+          },
+        ],
+      ],
+      rehypePlugins: [require('rehype-slug')],
+    },
+  },
+  plugins: [docTools()],
+});
+```

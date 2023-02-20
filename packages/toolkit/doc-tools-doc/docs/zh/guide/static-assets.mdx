@@ -1,0 +1,50 @@
+# 静态资源处理
+
+你可以在 `markdown`（或 `mdx`）文件中导入静态资源。相对路径和绝对路径都是支持的，例如，如果在 markdown 同级目录有一张图片，你可以像这样引用它：
+
+```mdx
+![](./demo.png)
+```
+
+当然，在 `.mdx` 文件中你也可以直接使用 img 标签：
+
+```mdx
+<img src="./demo.png" />
+```
+
+Modern.js Doc 将会根据 `.mdx` 文件路径和图片路径，自动找到图片并响应给浏览器。
+
+另一方面，也可以使用绝对路径导入静态资源。这样，Modern.js Doc 将会在`项目根目录`下的 `public` 文件夹中寻找资源。
+
+> 项目根目录，即 modern.config.ts 中 `doc.root` 字段指定的目录。
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+export default defineConfig({
+  doc: {
+    root: path.join(__dirname, 'docs'),
+  },
+});
+```
+
+例如，如果根目录是 `docs` 并且目录结构如下
+
+```bash
+docs
+├── public
+│   └── demo.png
+├── index.mdx
+```
+
+在如上的 `index.mdx` 文件中，你可以像这样引用 `demo.png`：
+
+```mdx
+![](./public/demo.png)
+```
+
+或者用绝对路径来引用：
+
+```mdx
+![](/demo.png)
+```

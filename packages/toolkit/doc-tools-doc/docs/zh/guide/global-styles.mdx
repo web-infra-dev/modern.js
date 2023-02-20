@@ -1,0 +1,32 @@
+# 自定义全局样式
+
+某些场景下，你可能需要在主题 UI 的基础上添加一些全局样式，框架提供了一个配置项 `globalStyles` 来实现这个功能。
+
+## 使用方法
+
+在 `modern.config.ts` 中添加以下配置：
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    globalStyles: [path.join(__dirname, 'styles/index.css')],
+  },
+  plugins: [docTools()],
+});
+```
+
+然后可以添加以下代码：
+
+```css
+/* styles/index.css */
+:root {
+  --modern-c-brand: #f00;
+}
+```
+
+这样框架会自动搜集所有的全局样式并合并到最终的样式文件中。
+
+> 如果想了解更多内部的全局样式，可以查看[vars.css](https://github.com/modern-js-dev/modern.js/blob/main/packages/cli/doc-core/src/theme-default/styles/vars.css) 以及 [doc.css](https://github.com/modern-js-dev/modern.js/blob/main/packages/cli/doc-core/src/theme-default/styles/doc.css)。

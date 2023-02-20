@@ -60,8 +60,12 @@
     position: absolute;
     right: 0;
     bottom: -30px;
-    width: calc(100vw - var(--modern-sidebar-width) - 48px);
+    width: 100vw;
     height: 30px;
+    &.docPage {
+      // Avoid influent the sidebar
+      width: calc(100vw - var(--modern-sidebar-width) - 48px);
+    }
   }
 
   .mask::before {

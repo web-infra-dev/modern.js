@@ -1,0 +1,147 @@
+# I18n
+
+To implement i18n in Modern.js Doc, you need to do three things:
+
+- 1. Configure the default language.
+- 2. Configure `doc.themeConfig.locales`。
+- 3. Create documents in different language version.
+
+## Configure Default Language
+
+In `modern.config.ts`, you can configure the default language of the document via `doc.lang`, as shown in the following example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    lang: 'zh',
+  },
+  plugins: [docTools()],
+});
+```
+
+This is important, because for routes in the default language, the framework will remove the language prefix, such as `/zh/guide/getting-started` will be converted to `/guide/getting-started`.
+
+## Configure `doc.themeConfig.locales`
+
+In `modern.config.ts`, you can configure the multiple version of the document via `doc.themeConfig.locales`, as shown in the following example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      // locales is an array of object
+      locales: [
+        {
+          lang: 'en',
+          // Labels for switching languages ​​in the navbar
+          label: 'English',
+          title: 'Modern.js',
+          description: 'Modern.js 文档框架',
+        },
+        {
+          lang: 'zh',
+          // Labels for switching languages ​​in the navbar
+          label: '简体中文',
+          title: 'Modern.js',
+          description: 'Modern.js Doc',
+        },
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+In this example, we configure the title, description, and navbar language labels for documents in different languages. Of course, in general, we also need to configure other information, such as `sidebar`, `nav`, etc. Let's take `nav` as an example to see how to configure it.
+
+First, we create a new util function to return different text and links according to the language:
+:
+
+```ts title="modern.config.ts"
+// Added util functions, return getText and getLink methods
+function getI18nHelper(lang: 'zh' | 'en') {
+  const isZh = lang === 'zh';
+  // Currently the default language is Chinese, so the prefix here is '', if the default language is English, then the prefix is ​​'/en'
+  const prefix = isZh ? '' : '/en';
+  const getLink = (str: string) => `${prefix}${str}`;
+  const getText = (zhText: string, enText: string) => (isZh ? zhText : enText);
+  return { getText, getLink };
+}
+```
+
+Then write the `nav` configuration based on the util function:
+
+```ts title="modern.config.ts"
+function getNavbar(lang: 'zh' | 'en'): NavItem[] {
+  const { getLink, getText } = getI18nHelper(lang);
+
+  return [
+    {
+      text: getText('指南', 'Guide'),
+      link: getLink('/guide/getting-started'),
+      activeMatch: '/guide/',
+    },
+    {
+      text: getText('API', 'API'),
+      link: getLink('/api/'),
+      activeMatch: '/api/',
+    },
+  ];
+}
+```
+
+Finally used in `locales` config:
+
+```diff title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      locales: [
+        {
+          lang: 'en',
+          label: 'English',
+          title: 'Modern.js',
+          description: 'Modern.js 文档框架',
++          nav: getNavbar('en'),
+        },
+        {
+          lang: 'zh',
+          label: '简体中文',
+          title: 'Modern.js',
+          description: 'Modern.js Doc',
++          nav: getNavbar('zh'),
+        },
+      ]
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+For other i18n parameters, please refer to [API type](/api/config-theme#locales).
+
+## Create Documents
+
+Now we can start to create documents in different language versions. It is very simple. We only need to create the following structure in the document root directory:
+
+```bash
+docs
+├── en
+│   ├── api
+│   │   └── index.md
+│   └── guide
+│       └── getting-started.md
+└── zh
+    ├── api
+    │   └── index.md
+    └── guide
+        └── getting-started.md
+```
+
+As you can see, we put documents in different languages ​​in the `en` and `zh` directories under the `docs` directory, so that we can easily distinguish documents in different languages.
