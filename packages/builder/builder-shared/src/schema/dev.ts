@@ -21,6 +21,9 @@ export const sharedDevConfigSchema = z.partialObj({
   port: z.number(),
   https: DevServerHttpsOptionsSchema,
   startUrl: z.union([z.boolean(), z.string(), z.array(z.string())]),
+  beforeStartUrl: z.arrayOrNot(
+    z.function().returns(z.union([z.void(), z.promise(z.void())])),
+  ),
   assetPrefix: z.union([z.string(), z.boolean()]),
   progressBar: z.union([z.boolean(), ProgressBarConfigSchema]),
 });
