@@ -1,0 +1,111 @@
+# 基础配置
+
+## base
+
+- Type: `string`
+- Default: `/`
+
+部署基准路径。比如，如果你计划将你的站点部署到 `https://foo.github.io/bar/`，那么你应该将 `base` 设置为 `"/bar/"`：
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    base: '/bar/',
+  },
+  plugins: [docTools()],
+});
+```
+
+## title
+
+- Type: `string`
+- Default: `"Island"`
+
+站点标题。这个参数将被用作 HTML 页面的标题。例如：
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    title: '我的站点',
+  },
+  plugins: [docTools()],
+});
+```
+
+## description
+
+- Type: `string`
+- Default: `""`
+
+站点描述。这将用作 HTML 页面的描述。例如：
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    description: '我的站点描述',
+  },
+  plugins: [docTools()],
+});
+```
+
+## icon
+
+- Type: `string`
+- Default: `""`
+
+站点图标。这个路径将用作 HTML 页面的图标路径。例如：
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    icon: '/favicon.ico',
+  },
+  plugins: [docTools()],
+});
+```
+
+框架会在 `public` 目录中找到你的图标，当然你也可以设置成一个 CDN 地址。
+
+## darkMode
+
+- Type: `boolean`
+- Default: `true`
+
+是否出现暗黑模式/白天模式切换按钮。比如：
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    darkMode: true,
+  },
+  plugins: [docTools()],
+});
+```
+
+## outDir
+
+- Type: `string`
+- Default: `doc_build`
+
+自定义构建站点的输出目录。比如:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    outDir: 'doc_build',
+  },
+  plugins: [docTools()],
+});
+```

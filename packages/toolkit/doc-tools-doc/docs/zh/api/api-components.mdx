@@ -1,0 +1,69 @@
+# 内置组件
+
+## NoSSR
+
+用于在服务端渲染时不渲染某些组件。使用方法如下：
+
+```tsx
+import { NoSSR } from '@modern-js/doc-tools/runtime';
+
+const Component = () => {
+  return (
+    <NoSSR>
+      <div>这里的内容只会在客户端渲染</div>
+    </NoSSR>
+  );
+};
+```
+
+## Tab/Tabs
+
+你可以在文档中直接使用 Tab/Tabs 组件来实现 tab 切换的效果。比如
+
+```mdx title="index.mdx"
+import { Tab, Tabs } from '@modern-js/doc-tools/theme';
+
+<Tabs>
+  <Tab label="Tab 1">Tab 1 content</Tab>
+  <Tab label="Tab 2">Tab 2 content</Tab>
+</Tabs>
+```
+
+import { Tab, Tabs } from '@theme';
+
+<Tabs>
+  <Tab label="1" value="1">
+    Tab 1 content
+  </Tab>
+  <Tab label="2" value="2">
+    Tab 2 content
+  </Tab>
+</Tabs>
+
+:::info 提醒
+为了让你更方便地使用这些组件，框架内部对于 `@modern-js/doc-tools/theme` 这个包做了 alias 处理，所以你可以直接使用 `@theme` 来引入这些组件。
+:::
+
+其中 Tabs 组件的 props 类型如下:
+
+```ts
+interface TabsProps {
+  children: React.ReactNode;
+  defaultValue?: string;
+}
+```
+
+defaultValue 用于设置默认选中的 tab 项，这个值会和 Tab 组件的 value 字段做比较，如果相等则选中该 tab。
+
+Tab 组件的 props 类型如下:
+
+```ts
+interface TabProps {
+  label: string;
+  // 用于标识当前 tab，如果不传则默认使用 label
+  value?: string;
+  children: React.ReactNode;
+}
+```
+
+其中的 `value` 字段用于标识当前 tab，如果不传则默认使用 label。

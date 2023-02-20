@@ -1,0 +1,46 @@
+# 构建能力扩展
+
+## Modern.js Builder
+
+Modern.js Doc 基于 [Modern.js Builder](https://edenx.bytedance.net/) 来进行项目构建，你可以使用 `builderConfig` 来自定义构建配置。比如:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    builderConfig: {
+      dev: {
+        startUrl: false,
+      },
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## MDX 编译插件
+
+在框架中 MDX 的编译基于 [unified](https://github.com/unifiedjs/unified) 完成，你可以通过 `markdown` 配置来添加相关的编译插件。比如
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    markdown: {
+      remarkPlugins: [
+        [
+          require('remark-autolink-headings'),
+          {
+            behavior: 'wrap',
+          },
+        ],
+      ],
+      rehypePlugins: [require('rehype-slug')],
+    },
+  },
+  plugins: [docTools()],
+});
+```

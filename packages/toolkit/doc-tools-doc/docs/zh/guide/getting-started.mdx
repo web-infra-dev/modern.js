@@ -1,0 +1,102 @@
+# 快速开始
+
+## 1. 初始化项目
+
+首先，你可以通过以下命令创建一个新目录：
+
+```bash
+mkdir modern-doc-app && cd modern-doc-app
+```
+
+执行 `npm init -y` 来初始化一个项目。你可以使用 npm、yarn 或 pnpm 安装 Modern.js Doc:
+
+import { Tabs, Tab } from '@theme';
+
+<Tabs values={[{ label: 'npm' }, { label: 'yarn' }, { label: 'pnpm' }]}>
+  <Tab>
+
+```sh
+npm install @modern-js/doc-tools -D
+```
+
+  </Tab>
+
+<Tab>
+
+```sh
+yarn add @modern-js/doc-tools -D
+```
+
+</Tab>
+
+<Tab>
+
+```sh
+pnpm install @modern-js/doc-tools -D
+```
+
+</Tab>
+
+</Tabs>
+
+然后通过如下命令创建文件:
+
+```bash
+mkdir docs && echo '# Hello World' > docs/index.md
+```
+
+在`package.json`中加上如下的脚本:
+
+```json
+{
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "preview": "modern preview"
+  }
+}
+```
+
+然后初始化一个配置文件 `modern.config.ts`:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    root: path.join(__dirname, 'docs'),
+  },
+  plugins: [docTools()],
+});
+```
+
+## 2. 启动 Dev Server
+
+通过如下命令启动本地开发服务:
+
+```bash
+npm run dev
+```
+
+这样 Modern.js Doc 将启动开发服务。
+
+## 3. 生产环境构建
+
+通过如下命令构建生产环境的产物:
+
+```bash
+npm run build
+```
+
+默认情况下，Modern.js Doc 将会把产物打包到 `doc_build` 目录。
+
+## 4. 本地预览产物
+
+通过如下命令启动本地预览服务:
+
+```bash
+npm run preview
+```
+
+这样 Modern.js Doc 将启动产物预览服务。

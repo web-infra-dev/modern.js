@@ -1,0 +1,43 @@
+# Runtime API
+
+Modern.js Doc 暴露一些运行时 API，方便你做一些自定义的逻辑。
+
+## usePageData
+
+获取当前页面的数据，返回值为一个对象，包含了当前页面的所有数据。
+
+```js
+import { usePageData } from '@modern-js/doc-tools/runtime';
+
+function MyComponent() {
+  const pageData = usePageData();
+  return <div>{pageData.title}</div>;
+}
+```
+
+## useLang
+
+获取当前语言，返回值为一个字符串，即当前语言。
+
+```js
+import { useLang } from '@modern-js/doc-tools/runtime';
+
+function MyComponent() {
+  const lang = useLang();
+  // lang === 'zh-CN'
+  return <div>{lang}</div>;
+}
+```
+
+## 路由 Hook
+
+框架内部使用并重导出了 `react-router-dom` 的所有 API，你可以这样来使用:
+
+```ts
+import { useLocation } from '@modern-js/doc-tools/runtime';
+
+function MyComponent() {
+  const location = useLocation();
+  return <div>{location.pathname}</div>;
+}
+```

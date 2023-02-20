@@ -1,0 +1,48 @@
+# Static Assets
+
+You can import static assets in `markdown` (or `mdx`) files. Both relative and absolute paths are supported. For example, if you have an image in the same directory as markdown, you can reference it like this:
+
+```mdx
+![](./demo.png)
+```
+
+Of course, you can also directly use the img tag in `.mdx` files:
+
+```mdx
+<img src="./demo.png" />
+```
+
+Modern.js Doc will automatically find the image and respond to the browser according to the `.mdx` file path and image path.
+
+On the other hand, static resources can also be imported using absolute paths. In this way, Modern.js Doc will look for resources in the `public` folder under the root directory of the project, which is the directory specified by the `doc.root` field in `modern.config.ts`.
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+export default defineConfig({
+  doc: {
+    root: path.join(__dirname, 'docs'),
+  },
+});
+```
+
+For example, if the root directory is `docs` and the directory structure is as follows:
+
+```bash
+docs
+├── public
+│   └── demo.png
+├── index.mdx
+```
+
+In the `index.mdx` file above, you can reference `demo.png` like this:
+
+```mdx
+![](./public/demo.png)
+```
+
+Or refer to it with an absolute path:
+
+```mdx
+![](/demo.png)
+```

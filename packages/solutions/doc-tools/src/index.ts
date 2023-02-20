@@ -18,6 +18,8 @@ interface ServerInstance {
   close: () => Promise<void>;
 }
 
+const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js'];
+
 export default (): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
@@ -29,14 +31,27 @@ export default (): CliPlugin => ({
         return schema;
       },
       watchFiles() {
-        const config = api.useAppContext();
-        return [config.configFile];
+        const { configFile } = api.useAppContext();
+        const config = api.useConfigContext() as UserConfig & {
+          configFile: string;
+        };
+        // Concern: if the doc root is set by cli, we cannot get the root parms in `watchFiles` hook, so we can only get the root from config file.
+        return [configFile, config.doc?.root].filter(Boolean);
       },
       async fileChange({ filename, eventType }) {
         const isConfigFile = MODERN_CONFIG_FILES.some(configFileName =>
           filename.endsWith(configFileName),
         );
-        if (isConfigFile && eventType === 'change' && server) {
+        const isWatchFileType = WATCH_FILE_TYPES.some(type =>
+          filename.endsWith(type),
+        );
+        if (
+          ((isConfigFile && eventType === 'change') ||
+            eventType === 'add' ||
+            eventType === 'unlink') &&
+          server &&
+          isWatchFileType
+        ) {
           logger.info(
             `${chalk.green(
               filename,
@@ -61,6 +76,7 @@ export default (): CliPlugin => ({
                 }
               }
               const config = api.useConfigContext() as UserConfig;
+
               server = await dev(root || '', config);
             };
             await startServer(true);
