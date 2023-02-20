@@ -41,7 +41,7 @@ jobs:
       - name: Turbo Cache
         id: turbo-cache
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: .turbo
           key: turbo-${{ github.ref_name }}-${{ github.sha }}
