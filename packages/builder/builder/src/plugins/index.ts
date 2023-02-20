@@ -5,7 +5,7 @@ import {
 } from '@modern-js/builder-shared';
 
 export const plugins = {
-  html: () => import('./html').then(m => m.builderPluginHtml),
+  html: () => import('./html').then(m => m.builderPluginHtml()),
   cleanOutput: () =>
     import('./cleanOutput').then(m => m.builderPluginCleanOutput()),
   startUrl: () => import('./startUrl').then(m => m.builderPluginStartUrl()),

@@ -1,6 +1,6 @@
 import { expect, describe, it, beforeEach, afterEach } from 'vitest';
 import { builderPluginEntry } from '@builder/plugins/entry';
-import { builderPluginHtml } from '@/plugins/html';
+import { builderPluginHtml } from '@builder/plugins/html';
 import { builderPluginInlineChunk } from '@/plugins/inlineChunk';
 import { createStubBuilder } from '@/stub';
 
