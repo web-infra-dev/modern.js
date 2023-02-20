@@ -59,5 +59,7 @@ jobs:
             v1/**/*
             builder/*
             builder/**/*
+            doc-tools/*
+            doc-tools/**/*
             module-tools/*
             module-tools/**/*
