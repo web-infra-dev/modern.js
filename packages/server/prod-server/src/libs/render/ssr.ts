@@ -22,11 +22,19 @@ export const render = async (
     template: string;
     entryName: string;
     staticGenerate: boolean;
+    enableUnsafeCtx?: boolean;
   },
   runner: ServerHookRunner,
 ): Promise<RenderResult> => {
-  const { urlPath, bundle, distDir, template, entryName, staticGenerate } =
-    renderOptions;
+  const {
+    urlPath,
+    bundle,
+    distDir,
+    template,
+    entryName,
+    staticGenerate,
+    enableUnsafeCtx = false,
+  } = renderOptions;
   const bundleJS = path.join(distDir, bundle);
   const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
   const loadableStats = fs.existsSync(loadableUri) ? require(loadableUri) : '';
@@ -43,7 +51,6 @@ export const render = async (
       host: ctx.host,
       query: ctx.query as Record<string, string>,
       url: ctx.href,
-      cookieMap: cookie.parse(ctx.headers.cookie || ''),
       headers: ctx.headers,
     },
     response: {
@@ -65,6 +72,7 @@ export const render = async (
     metrics: undefined!,
     req: ctx.req,
     res: ctx.res,
+    enableUnsafeCtx,
   };
   context.logger = createLogger(context, ctx.logger);
   context.metrics = createMetrics(context, ctx.metrics);

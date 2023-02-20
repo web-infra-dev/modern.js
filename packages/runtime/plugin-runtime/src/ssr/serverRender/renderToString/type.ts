@@ -11,6 +11,7 @@ export type SSRServerContext = BaseSSRServerContext & {
   request: BaseSSRServerContext['request'] & {
     userAgent: string;
     cookie: string;
+    cookieMap: Record<string, string>;
   };
 };
 

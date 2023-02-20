@@ -1,4 +1,5 @@
 import { BaseSSRServerContext } from '@modern-js/types';
+import cookieTool from 'cookie';
 import { SSRServerContext } from './serverRender/types';
 
 export const isReact18 = () => process.env.IS_REACT18 === 'true';
@@ -14,6 +15,7 @@ export const formatServer = (
 
   return {
     cookie,
+    cookieMap: cookieTool.parse(cookie || '') || {},
     userAgent,
     referer,
     ...request,
@@ -41,8 +43,8 @@ export const formatClient = (
     host: request.host || location.host,
     pathname: request.pathname || location.pathname,
     headers: request.headers || {},
-    cookieMap: request.cookieMap || {},
-    cookie: request.headers?.cookie || document.cookie,
+    cookieMap: cookieTool.parse(document.cookie || '') || {},
+    cookie: document.cookie || '',
     userAgent: request.headers?.['user-agent'] || navigator.userAgent,
     referer: request.referer || document.referrer,
     query: request.query || getQuery(),

@@ -2259,6 +2259,7 @@ importers:
       '@scripts/jest-config': workspace:*
       '@testing-library/react': ^13.4.0
       '@testing-library/react-hooks': ^8.0.1
+      '@types/cookie': 0.5.1
       '@types/invariant': ^2.2.30
       '@types/jest': ^27
       '@types/loadable__component': ^5.13.4
@@ -2269,6 +2270,7 @@ importers:
       '@types/redux-logger': ^3.0.9
       '@types/serialize-javascript': ^5.0.1
       '@types/styled-components': ^5.1.14
+      cookie: 0.5.0
       esbuild: 0.15.7
       hoist-non-react-statics: ^3.3.2
       invariant: ^2.2.4
@@ -2307,6 +2309,7 @@ importers:
       '@types/react-helmet': 6.1.5
       '@types/redux-logger': 3.0.9
       '@types/styled-components': 5.1.25
+      cookie: 0.5.0
       esbuild: 0.15.7
       hoist-non-react-statics: 3.3.2
       invariant: 2.2.4
@@ -2326,6 +2329,7 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
       '@testing-library/react-hooks': 8.0.1_biqbaboplfbrettd7655fr4n2y
+      '@types/cookie': 0.5.1
       '@types/invariant': 2.2.35
       '@types/jest': 27.5.2
       '@types/loadable__webpack-plugin': 5.7.3
@@ -13630,6 +13634,10 @@ packages:
 
   /@types/cookie/0.4.1:
     resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
+
+  /@types/cookie/0.5.1:
+    resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
+    dev: true
 
   /@types/cookiejar/2.1.2:
     resolution: {integrity: sha512-t73xJJrvdTjXrn4jLS9VSGRbz0nUY3cl2DMGDU48lKl+HR9dbbjW2A9r3g40VA++mQpy6uuHg33gy7du2BKpog==}

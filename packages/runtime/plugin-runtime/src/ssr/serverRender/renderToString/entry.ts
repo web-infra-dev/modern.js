@@ -28,7 +28,11 @@ const buildTemplateData = (
   data: Record<string, any>,
   renderLevel: RenderLevel,
 ) => {
-  const { request } = context;
+  const { request, enableUnsafeCtx } = context;
+  const unsafeContext = {
+    headers: request.headers,
+  };
+
   return {
     data,
     context: {
@@ -38,8 +42,7 @@ const buildTemplateData = (
         pathname: request.pathname,
         host: request.host,
         url: request.url,
-        headers: request.headers,
-        cookieMap: request.cookieMap,
+        ...(enableUnsafeCtx ? unsafeContext : {}),
       },
     },
     renderLevel,
