@@ -83,7 +83,6 @@ export function bindingAsideScroll() {
       document.documentElement.scrollHeight
     );
   }
-  const NAV_HEIGHT = 56;
   const marker = document.getElementById('aside-marker');
   const aside = document.getElementById('aside-container');
   const links = Array.from(
@@ -132,7 +131,7 @@ export function bindingAsideScroll() {
         const nextAnchor = links[i + 1];
         const scrollTop = Math.ceil(window.scrollY);
         const currentAnchorTop =
-          currentAnchor.parentElement!.offsetTop - NAV_HEIGHT;
+          currentAnchor.parentElement!.offsetTop - DEFAULT_NAV_HEIGHT;
         if ((i === 0 && scrollTop < currentAnchorTop) || scrollTop === 0) {
           activate(links, 0);
           break;
@@ -143,7 +142,8 @@ export function bindingAsideScroll() {
           break;
         }
 
-        const nextAnchorTop = nextAnchor.parentElement!.offsetTop - NAV_HEIGHT;
+        const nextAnchorTop =
+          nextAnchor.parentElement!.offsetTop - DEFAULT_NAV_HEIGHT;
 
         if (scrollTop >= currentAnchorTop && scrollTop < nextAnchorTop) {
           activate(links, i);

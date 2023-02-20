@@ -1,0 +1,67 @@
+# Overview Page
+
+## Effect
+
+Modern.js Doc has a built-in preview page, the effect is as follows:
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/edenx-doc/Xnip2023-02-17_16-55-07.jpg" />
+
+## How to use
+
+Generating the preview page requires the following two steps:
+
+### 1. Create a new directory and configure frontmatter
+
+For example, create the following directories and files
+
+```bash
+├── docs
+│   ├── index.md
+│   ├── api
+│   │   ├── index.md
+│   │   ├── preview1.md
+│   │   └── preview2.md
+// ...
+```
+
+We add the following to `api/index.md`:
+
+```md
+---
+overview: true
+---
+```
+
+### 2. Configure `sidebar`
+
+The structure of the overview page will be generated based on the config of the sidebar. For example, we add the following sidebar config:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      sidebar: {
+        '/api/': [
+          {
+            text: 'Group1',
+            items: [
+              // Note: Documents need to be created in advance
+              '/api/foo',
+              '/api/bar',
+            ],
+          },
+          {
+            text: 'Group2',
+            items: ['/api/xxx', '/api/yyy'],
+          },
+        ],
+      },
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+The framework will extract all the files under the api directory and the h1 and h2 titles in them, and generate a overview page according to the group info in the sidebar config.

@@ -1,0 +1,136 @@
+# 使用 MDX
+
+Modern.js Doc 支持 [MDX](https://mdxjs.com/)，这是一种功能强大的内容开发方式。
+
+## Markdown
+
+MDX 是 Markdown 的超集，这意味着你可以像往常一样编写 Markdown 文件。例如：
+
+```md
+# Hello World
+```
+
+## 使用组件
+
+当你想在 Markdown 文件中使用 React 组件时，你应该使用 `.mdx` 扩展名来命名你的文件。例如：
+
+```mdx
+// docs/index.mdx
+import { CustomComponent } from './custom';
+
+# Hello World
+
+<CustomComponent />
+```
+
+## Front Matter
+
+你可以在 Markdown 文件的开头添加 Front Matter，它是一个 YAML 格式的对象，用于定义一些元数据。例如：
+
+```mdx
+---
+title: Hello World
+---
+```
+
+> 注意：默认情况下，Modern.js Doc 使用 h1 标题作为 html 的标题。
+
+你还可以在正文中访问 Front Mattter 中定义的属性，例如：
+
+```mdx
+---
+title: Hello World
+---
+
+# {frontmatter.title}
+```
+
+前面定义的属性将作为 `frontmatter` 属性传递给组件。所以最终输出将是：
+
+```html
+<h1>Hello World</h1>
+```
+
+## 自定义容器
+
+你可以使用 `:::` 语法来创建自定义容器，且支持自定义标题。例如：
+
+**输入：**
+
+```markdown
+:::tip
+这是一个`tip`类型的`block`
+:::
+
+:::info
+这是一个`info`类型的`block`
+:::
+
+:::warning
+这是一个`warning`类型的`block`
+:::
+
+:::danger
+这是一个`danger`类型的`block`
+:::
+
+:::tip 自定义标题
+自定义标题的 `block`
+:::
+
+:::tip{title=自定义标题}
+自定义标题的 `block`
+:::
+```
+
+**输出：**
+
+:::tip
+这是一个 `tip` 类型的 `block`
+:::
+
+:::info
+这是一个 `info` 类型的 `block`
+:::
+
+:::warning
+这是一个 `warning` 类型的 `block`
+:::
+
+:::danger
+这是一个 `danger` 类型的 `block`
+:::
+
+:::tip 自定义标题
+自定义标题的 `block`
+:::
+
+:::tip{title="自定义标题"}
+自定义标题的 `block`
+:::
+
+## 代码块
+
+你可以使用 \`\`\` 语法来创建代码块，且支持自定义标题。例如：
+
+**输入:**
+
+````md
+```js
+console.log('Hello World');
+```
+
+```js title="hello.js"
+console.log('Hello World');
+```
+````
+
+**输出:**
+
+```js
+console.log('Hello World');
+```
+
+```js title="hello.js"
+console.log('Hello World');
+```

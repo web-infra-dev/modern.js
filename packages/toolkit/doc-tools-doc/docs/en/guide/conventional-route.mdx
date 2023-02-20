@@ -1,0 +1,61 @@
+# Conventional Route
+
+## What is it?
+
+Modern.js Doc uses file system routing, and the file path of the page is simply mapped to the routing path, which makes the routing of the entire project very intuitive.
+
+For example, if there is a file named `foo.md` in the `docs` directory, the routing path for that file will be `/foo`.
+
+## Mapping Rules
+
+Modern.js Doc automatically scans the root directory and all subdirectories, and maps file paths to route paths. For example, if you have the following file structure:
+
+```bash
+docs
+├── foo
+│   └── bar.md
+└── foo.md
+```
+
+Then `bar.md` will be routed to `/foo/bar`, and `foo.md` will be routed to `/foo`.
+
+The specific mapping rules are as follows:
+
+| file path | route path
+|
+| --------------- | ---------- |
+| `index.md` | `/` |
+| `/foo.md` | `/foo` |
+| `/foo/bar.md` | `/foo/bar` |
+| `/zoo/index.md` | `/zoo` |
+
+## Custom Behavior
+
+If you want to customize the routing behavior, you can use the `route` field in the configuration file. For example:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  route: {
+    // These files will be excluded from the routing (support glob pattern)
+    exclude: ['custom.tsx', 'component/**/*']
+    // These files will be included in the routing (support glob pattern)
+    include: ['other-dir/**/*'],
+  }
+});
+```
+
+## Best Practices
+
+We recommend that you place documentation files in the `docs` directory to make your project more clear. For non-documentation content, such as custom components, util functions, etc., they can be maintained outside the `docs` directory. For example:
+
+```bash
+docs
+└── foo.mdx
+src
+├── components
+│   └── CustomComponent.tsx
+└── utils
+    └── utils.ts
+```
