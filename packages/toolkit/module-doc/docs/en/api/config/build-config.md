@@ -493,6 +493,36 @@ Configure whether to insert style into js in packaged mode
 - type: `boolean`
 - default: `false`
 
+After opening inject, you will see an extra piece of style code in the js file. For example, if you write `import '. /index.scss'`，you will see the following code.
+
+```js dist/index.js
+// node_modules/.pnpm/style-inject@0.3.0/node_modules/style-inject/dist/style-inject.es.js
+function styleInject(css, ref) {
+  // ...
+}
+var style_inject_es_default = styleInject;
+
+// src/index.scss
+var css_248z = ".body {\n color: black;\n}";
+style_inject_es_default(css_248z);
+
+```
+
+:::tip {title="Note"}
+
+With `inject` turned on, you need to pay attention to the following points.
+
+- `@import` in the css file will not be processed. So if you have `@import` in your css file, then you need to bring in the css file manually in js (less,scss files don't need it because they will be preprocessed).
+- The impact of `sideEffects` needs to be considered, by default our builder will consider it as a side effect, if the `sideEffects` field set in your project or in the package.json of the three-way package and it does not contain this css file, then you will get a warning
+
+```
+[LIBUILD:ESBUILD_WARN] Ignoring this import because "src/index.scss" was marked as having no side effects by plugin "libuild:adapter"
+```
+
+This can be fixed by configuring [sideEffects](#sideeffects) in this case.
+
+:::
+
 ### autoModules
 
 Enable CSS Modules automatically based on the filename.
@@ -620,7 +650,7 @@ At this point the umd product will go to mount on `global.myLib`
 :::tip
 
 - The module name of the umd product must not conflict with the global variable name.
-- Module names should not contain special characters like `-`, `@`, `/`, etc.
+- Module names will be converted to camelCase, e.g. `my-lib` will be converted to `myLib`, refer to [toIdentifier](https://github.com/babel/babel/blob/main/packages/babel-types/src/converters/toIdentifier.ts).
 
 :::
 
