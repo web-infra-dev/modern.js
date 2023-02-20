@@ -295,7 +295,7 @@ Module sideEffects
 Normally, we configure the module's side effects via the sideEffects field in package.json, but in some cases, such as when we reference a three-party package style file
 
 ```js
-import 'other-package/dist/index.css'
+import 'other-package/dist/index.css';
 ```
 
 But the package.json of this three-party package does not have the style file configured in the sideEffects
@@ -503,9 +503,8 @@ function styleInject(css, ref) {
 var style_inject_es_default = styleInject;
 
 // src/index.scss
-var css_248z = ".body {\n color: black;\n}";
+var css_248z = '.body {\n color: black;\n}';
 style_inject_es_default(css_248z);
-
 ```
 
 :::tip {title="Note"}

@@ -352,7 +352,7 @@ export default defineConfig({
 通常情况下，我们通过 package.json 的 `"sideEffects"` 字段来配置模块的副作用，但是在某些情况下，例如我们引用了一个三方包的样式文件。
 
 ```js
-import 'other-package/dist/index.css'
+import 'other-package/dist/index.css';
 ```
 
 但是这个三方包的 package.json 里并没有将样式文件配置到 `"sideEffects"` 里。
@@ -562,7 +562,7 @@ export default defineConfig({
 - 类型： `boolean`
 - 默认值： `false`
 
-开启inject后，你会看到打包后的 js 文件中会多出一段 style 的代码。例如你在源码里写了`import './index.scss'`，那么你会看到以下代码。
+开启 inject 后，你会看到打包后的 js 文件中会多出一段 style 的代码。例如你在源码里写了`import './index.scss'`，那么你会看到以下代码。
 
 ```js dist/index.js
 // node_modules/.pnpm/style-inject@0.3.0/node_modules/style-inject/dist/style-inject.es.js
@@ -574,15 +574,14 @@ var style_inject_es_default = styleInject;
 // src/index.scss
 var css_248z = ".body {\n  color: black;\n}";
 style_inject_es_default(css_248z);
-
 ```
 
 :::tip {title="注意"}
 
 开启了 `inject` 后，你需要注意以下几点：
 
-- css文件中的 `@import` 不会被处理。因此如果你的css文件中有 `@import` ，那么你需要在js中手动引入css文件(less,scss文件不需要，因为它们会有预处理)。
-- 需要考虑 `sideEffects`的影响，默认情况下我们的构建器会认为它是有副作用的，如果你的项目中或者三方包的 package.json 设置了 `sideEffects` 字段并且没有包含此css文件，那么你将会得到一个警告
+- css 文件中的 `@import` 不会被处理。因此如果你的 css 文件中有 `@import` ，那么你需要在 js 中手动引入 css 文件(less,scss 文件不需要，因为它们会有预处理)。
+- 需要考虑 `sideEffects`的影响，默认情况下我们的构建器会认为它是有副作用的，如果你的项目中或者三方包的 package.json 设置了 `sideEffects` 字段并且没有包含此 css 文件，那么你将会得到一个警告
 
 ```
 [LIBUILD:ESBUILD_WARN] Ignoring this import because "src/index.scss" was marked as having no side effects by plugin "libuild:adapter"
