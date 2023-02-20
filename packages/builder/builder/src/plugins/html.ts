@@ -8,6 +8,7 @@ import {
   getInject,
   getFavicon,
   getMetaTags,
+  getTemplatePath,
 } from '@modern-js/builder-shared';
 import type {
   DefaultBuilderPlugin,
@@ -59,18 +60,6 @@ async function getTemplateParameters(
     };
     return applyOptionsChain(defaultOptions, templateParams);
   };
-}
-
-export function getTemplatePath(
-  entryName: string,
-  config: SharedNormalizedConfig,
-) {
-  const DEFAULT_TEMPLATE = path.resolve(
-    __dirname,
-    '../../static/template.html',
-  );
-  const { template = DEFAULT_TEMPLATE, templateByEntries = {} } = config.html;
-  return templateByEntries[entryName] || template;
 }
 
 async function getChunks(entryName: string, entryValue: string | string[]) {
