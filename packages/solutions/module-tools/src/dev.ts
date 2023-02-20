@@ -97,13 +97,18 @@ export const dev = async (
 ) => {
   const { chalk } = await import('@modern-js/utils');
   const { green } = await import('./constants/colors');
+  const runner = api.useHookRunners();
   if (metas.length === 0) {
-    console.info('No dev tools found available');
+    const local = await import('./locale');
+    const noDevToolsLog = await runner.noDevTools(
+      local.i18n.t(local.localeKeys.log.dev.noDevtools),
+    );
+
+    console.info(noDevToolsLog);
     // eslint-disable-next-line no-process-exit
     process.exit(0);
   }
 
-  const runner = api.useHookRunners();
   if (metas.length === 1) {
     console.info(
       chalk.rgb(...green)(

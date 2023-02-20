@@ -15,4 +15,6 @@ export const devHooks = {
   >(),
   beforeDevTask: createParallelWorkflow<DevToolData, void>(),
   afterDev: createParallelWorkflow<void, void>(),
+  // Special and rarely used hooks
+  noDevTools: createAsyncWaterfall<string>(),
 };
