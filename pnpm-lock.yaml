@@ -3538,10 +3538,12 @@ importers:
   scripts/check-changeset:
     specifiers:
       '@changesets/read': ^0.5.5
+      '@manypkg/get-packages': ^1.1.3
       '@types/node': ^18.0.1
       tsx: ^3.7.1
     dependencies:
       '@changesets/read': 0.5.5
+      '@manypkg/get-packages': 1.1.3
     devDependencies:
       '@types/node': 18.11.17
       tsx: 3.7.1
