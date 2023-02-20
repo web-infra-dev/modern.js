@@ -133,6 +133,7 @@ export const getScenesSchema = (extra: Record<string, any> = {}): Schema => {
 
 export const BaseGenerator = '@modern-js/base-generator';
 export const PackagesGenerator = '@modern-js/packages-generator';
+export const RspackGenerator = '@modern-js/rspack-generator';
 
 export const SolutionGenerator: Record<Solution, string> = {
   [Solution.MWA]: '@modern-js/mwa-generator',
