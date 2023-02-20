@@ -15,6 +15,9 @@ export default async function loader(
   if (target === 'node') {
     return source;
   }
+  if (target === 'webworker') {
+    return source;
+  }
   const options = this.getOptions();
   const code = generateClient({
     mapFile: options.mapFile,
