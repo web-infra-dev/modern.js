@@ -6,7 +6,7 @@
 详情请见: [webpack 外部扩展 (Externals)](https://webpack.docschina.org/configuration/externals/)
 
 :::tip
-在使用 Rspack 作为打包工具时，只支持 `Record<string, string>` 类型。
+在使用 rspack 作为打包工具时，只支持 `Record<string, string>` 类型。
 :::
 
 ### 示例

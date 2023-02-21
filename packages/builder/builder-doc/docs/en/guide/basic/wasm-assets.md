@@ -3,7 +3,7 @@
 Builder supports import WebAssembly assets in code.
 
 :::tip
-If you are using Rspack as the bundler, import Wasm assets is not supported yet.
+If you are using rspack as the bundler, import Wasm assets is not supported yet.
 :::
 
 ## Import
