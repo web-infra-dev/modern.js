@@ -29,7 +29,7 @@ export function HomeHero() {
         <div
           order="2 md:1"
           flex="~ col"
-          className={`max-w-592px ${
+          className={`max-w-592px sm:max-w-768px ${
             hasImage ? 'm-0 text-left' : 'm-auto text-center'
           }`}
         >
@@ -49,7 +49,6 @@ export function HomeHero() {
               text="3xl sm:5xl md:6xl"
               font="bold"
               p="b-2"
-              className="max-w-392px sm:max-w-576px"
               z="10"
             >
               {hero.text}
