@@ -10,7 +10,7 @@ export const EN_US = {
   // Features
   features: 'Features',
   feature1: 'Rust Bundler',
-  featureDesc1: 'Easily switch to Rspack bundler with faster build speed.',
+  featureDesc1: 'Easily switch to rspack bundler with faster build speed.',
   feature2: 'Integrated BFF',
   featureDesc2:
     'Develop BFF code in the same project, enjoy simple function calls.',

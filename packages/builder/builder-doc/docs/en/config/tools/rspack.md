@@ -6,7 +6,7 @@
 
 ### Object Type
 
-You can configure it as an object, which will be merged with the original Rspack configuration through [webpack-merge](https://github.com/survivejs/webpack-merge). For example:
+You can configure it as an object, which will be merged with the original rspack configuration through [webpack-merge](https://github.com/survivejs/webpack-merge). For example:
 
 ```js
 export default {
@@ -24,7 +24,7 @@ export default {
 
 ### Function Type
 
-You can also configure it as a function, which accepts one parameter, the original Rspack configuration, you can modify this configuration, and then return a new configuration. For example:
+You can also configure it as a function, which accepts one parameter, the original rspack configuration, you can modify this configuration, and then return a new configuration. For example:
 
 ```js
 export default {
@@ -174,7 +174,7 @@ export default {
 
 - **Type:** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
-Add additional plugins to the head of the internal Rspack plugins array, and the plugin will be executed first.
+Add additional plugins to the head of the internal rspack plugins array, and the plugin will be executed first.
 
 ```ts
 export default {
@@ -196,7 +196,7 @@ export default {
 
 - **Type:** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
-Add additional plugins at the end of the internal Rspack plugins array, the plugin will be executed last.
+Add additional plugins at the end of the internal rspack plugins array, the plugin will be executed last.
 
 ```ts
 export default {
@@ -218,7 +218,7 @@ export default {
 
 - **Type:** `(name: string) => void`
 
-Remove the internal Rspack plugin, the parameter is the `constructor.name` of the plugin.
+Remove the internal rspack plugin, the parameter is the `constructor.name` of the plugin.
 
 For example, remove the internal [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer):
 
@@ -236,7 +236,7 @@ export default {
 
 - **Type:** `(...configs: RspackConfig[]) => RspackConfig`
 
-Used to merge multiple Rspack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge)。
+Used to merge multiple rspack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge)。
 
 ```ts
 export default {

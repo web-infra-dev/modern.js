@@ -3,7 +3,7 @@
 Builder 支持在代码引用 WebAssembly 资源。
 
 :::tip
-在使用 Rspack 作为打包工具时，暂时不支持引用 Wasm 资源。
+在使用 rspack 作为打包工具时，暂时不支持引用 Wasm 资源。
 :::
 
 ## 引用方式
