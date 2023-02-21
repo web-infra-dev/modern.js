@@ -93,23 +93,7 @@ export const manifest = {
 }
         `;
         fs.writeFileSync(path.join(workServerDir, MANIFEST_FILE), manifest);
-        // package.json
         const pkg = fs.readJSONSync(path.join(appDirectory, PKG_FILE));
-        await fs.writeJSON(
-          path.join(distDirectory, PKG_FILE),
-          {
-            // 使用 lerna + yarn 时，如果包没有 name 和 version，依赖不会安装
-            name: pkg.name,
-            version: pkg.version,
-            dependencies: {
-              '@modern-js/prod-server': '0.0.0-next-20230209112307', // TODO
-              wrangler: '^2.9.0',
-            },
-            resolutions: pkg.resolutions || {},
-            pnpm: pkg.pnpm || {},
-          },
-          { spaces: 2 },
-        );
         // copy lockfile
         const manager = await getPackageManager(appDirectory);
         const lockfile = LOCK_FILE[manager];
