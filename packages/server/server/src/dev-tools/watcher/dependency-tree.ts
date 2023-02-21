@@ -87,7 +87,12 @@ export class DependencyTree {
     return (
       !path ||
       Boolean(
-        this.ignore.find(rule => minimatch.match([path], rule).length > 0),
+        this.ignore.find(
+          rule =>
+            minimatch.match([path], rule, {
+              dot: true,
+            }).length > 0,
+        ),
       )
     );
   }

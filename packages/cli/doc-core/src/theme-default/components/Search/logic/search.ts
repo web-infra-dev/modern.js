@@ -64,7 +64,6 @@ export class PageSearcher {
 
   constructor(options: SearchOptions) {
     this.#options = options;
-    // Avoid ts compiler error
     switch (options.mode) {
       case 'remote':
         this.#provider = new RemoteProvider();
