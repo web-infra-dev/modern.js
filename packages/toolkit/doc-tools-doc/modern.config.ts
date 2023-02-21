@@ -3,7 +3,7 @@ import docTools, { defineConfig, NavItem, Sidebar } from '@modern-js/doc-tools';
 
 function getI18nHelper(lang: 'zh' | 'en') {
   const isZh = lang === 'zh';
-  const prefix = isZh ? '' : '/en';
+  const prefix = isZh ? '/zh' : '';
   const getLink = (str: string) => `${prefix}${str}`;
   const getText = (zhText: string, enText: string) => (isZh ? zhText : enText);
   return { getText, getLink };
@@ -17,7 +17,8 @@ export default defineConfig({
     root: path.join(__dirname, 'docs'),
     title: 'Modern.js Doc',
     description: 'A modern web framework for building document site',
-    lang: 'zh',
+    // 默认英文
+    lang: 'en',
     base: isProd() ? '/doc-tools/' : '/',
     builderConfig: {
       dev: {
@@ -82,7 +83,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/guide/doc-page'),
           getLink('/guide/overview-page'),
           getLink('/guide/i18n'),
-          getLink('/guide/search'),
+          getLink('/guide/components'),
         ],
       },
       {
