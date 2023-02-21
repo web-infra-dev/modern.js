@@ -4,3 +4,5 @@
 ---
 
 feat: support search index label
+
+feat: 支持搜索索引标签名
