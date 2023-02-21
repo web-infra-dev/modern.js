@@ -71,7 +71,7 @@ export default () => ({
 
 ### modifyWebpackChain
 
-Modify the webpack config through the webpack chain. This method is only called when using webpack provider.
+Modify the webpack config through the webpack chain. This method is only called when using webpack-provider.
 
 - **Type**
 
@@ -112,7 +112,7 @@ export default () => ({
 
 ### modifyWebpackConfig
 
-To modify the final webpack config object, you can directly modify the config object, or return a new object to replace the previous object. This method is only called when using webpack provider.
+To modify the final webpack config object, you can directly modify the config object, or return a new object to replace the previous object. This method is only called when using webpack-provider.
 
 This method is called later than the `modifyWebpackChain` hook.
 
@@ -163,7 +163,7 @@ export default () => ({
 
 ### modifyRspackConfig
 
-To modify the final Rspack config object, you can directly modify the config object, or return a new object to replace the previous object. This method is only called when using rspack provider.
+To modify the final rspack config object, you can directly modify the config object, or return a new object to replace the previous object. This method is only called when using rspack-provider.
 
 - **Type**
 

@@ -8,7 +8,7 @@ For TypeScript projects, you only need to configure [compilerOptions.paths](http
 :::
 
 :::tip
-When using Rspack as Bundler, only the `Record<string, string> | Function` type is supported.
+When using rspack as Bundler, only the `Record<string, string> | Function` type is supported.
 :::
 
 #### Object Type

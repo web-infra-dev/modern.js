@@ -8,7 +8,7 @@
 :::
 
 :::tip
-在使用 Rspack 作为打包工具时，只支持 `Record<string, string> | Function` 类型。
+在使用 rspack 作为打包工具时，只支持 `Record<string, string> | Function` 类型。
 :::
 
 #### Object 类型
