@@ -1,5 +1,5 @@
 /* eslint-disable react/no-danger */
-import { TrackedPromise } from '@remix-run/router';
+import { TrackedPromise } from '@modern-js/utils/remix-router';
 import { Suspense, useEffect, useRef, useMemo, useContext } from 'react';
 import {
   Await,
@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { serializeJson } from '@modern-js/utils/serialize';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
+import { serializeErrors } from './utils';
 
 /**
  * setup promises for deferred data
@@ -68,11 +69,16 @@ const DeferredDataScripts = () => {
 
   // No need to memo since DeferredDataScripts only renders in server side,
   // here we memo it in case DeferredDataScripts renders in client side one day.
-  const deferredScripts: [string, JSX.Element[]] = useMemo(() => {
-    const activeDeferreds = staticContext?.activeDeferreds || [];
+  const deferredScripts: [string, JSX.Element[]] | null = useMemo(() => {
+    if (!staticContext) {
+      return null;
+    }
+
+    const activeDeferreds = staticContext.activeDeferreds || [];
 
     const _ROUTER_DATA = {
-      loaderData: staticContext?.loaderData,
+      loaderData: staticContext.loaderData,
+      errors: serializeErrors(staticContext.errors),
     };
 
     let initialScripts = [
@@ -137,6 +143,10 @@ const DeferredDataScripts = () => {
 
     return [initialScripts, deferredDataScripts];
   }, []);
+
+  if (!deferredScripts) {
+    return null;
+  }
 
   return (
     <>

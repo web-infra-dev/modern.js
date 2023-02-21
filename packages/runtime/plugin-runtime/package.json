@@ -155,7 +155,6 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@remix-run/node": "^1.12.0",
-    "@remix-run/router": "^1.3.2",
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "@types/redux-logger": "^3.0.9",

@@ -8,7 +8,7 @@
 import {
   UNSAFE_DeferredData as DeferredData,
   AbortedDeferredError,
-} from '@remix-run/router';
+} from '@modern-js/utils/remix-router';
 
 const DEFERRED_VALUE_PLACEHOLDER_PREFIX = '__deferred_promise:';
 export async function parseDeferredReadableStream(

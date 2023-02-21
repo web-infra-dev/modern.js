@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import { serializeJson } from '@modern-js/utils/serialize';
 import ReactHelmet, { HelmetData } from 'react-helmet';
+import { serializeErrors } from '../../../router/runtime/utils';
 import helmetReplace from '../helmet';
 import {
   RenderLevel,
@@ -11,7 +12,6 @@ import {
 } from '../types';
 import { time } from '../time';
 import prefetch from '../../prefetch';
-import { RouterSSRData } from '../../../core/types';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
 import { reduce } from './reduce';
@@ -27,7 +27,6 @@ type EntryOptions = {
 const buildTemplateData = (
   context: SSRServerContext,
   data: Record<string, any>,
-  routerData: RouterSSRData,
   renderLevel: RenderLevel,
 ) => {
   const { request, enableUnsafeCtx } = context;
@@ -37,7 +36,6 @@ const buildTemplateData = (
 
   return {
     data,
-    routerData,
     context: {
       request: {
         params: request.params,
@@ -116,19 +114,20 @@ export default class Entry {
     }
 
     const { routerContext } = context;
-    const routerData = routerContext ?? {
-      loaderData: routerContext!.loaderData,
-      // @TODO: add errors
-    };
+    const routerData = routerContext
+      ? {
+          loaderData: routerContext.loaderData,
+          errors: serializeErrors(routerContext.errors),
+        }
+      : undefined;
 
     let html = '';
     const templateData = buildTemplateData(
       ssrContext,
       prefetchData,
-      routerData,
       this.result.renderLevel,
     );
-    const SSRData = this.getSSRDataScript(templateData);
+    const SSRData = this.getSSRDataScript(templateData, routerData);
     for (const fragment of this.fragments) {
       if (fragment.isVariable && fragment.content === 'SSRDataScript') {
         html += fragment.getValue(SSRData);
@@ -196,11 +195,20 @@ export default class Entry {
     return html;
   }
 
-  private getSSRDataScript(templateData: ReturnType<typeof buildTemplateData>) {
+  private getSSRDataScript(
+    templateData: ReturnType<typeof buildTemplateData>,
+    routerData?: Record<string, any>,
+  ) {
+    let ssrDataScripts = `<script>window._SSR_DATA = ${serializeJson(
+      templateData,
+    )}</script>`;
+    if (routerData) {
+      ssrDataScripts += `\n<script>window._ROUTER_DATA = ${serializeJson(
+        routerData,
+      )}</script>`;
+    }
     return {
-      SSRDataScript: `
-        <script>window._SSR_DATA = ${serializeJson(templateData)}</script>
-      `,
+      SSRDataScript: ssrDataScripts,
     };
   }
 }

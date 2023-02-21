@@ -1,4 +1,3 @@
-import type { RouteData } from '@remix-run/router/dist/utils';
 import type { LoaderResult } from './loader/loaderManager';
 
 declare global {
@@ -13,10 +12,12 @@ export interface SSRData {
   initialData?: Record<string, unknown>;
   storeState?: any;
 }
-
+export interface RouteData {
+  [routeId: string]: any;
+}
 export interface RouterSSRData {
   loaderData: RouteData;
-  //   errors: RouteData | null;
+  errors: RouteData | null;
 }
 
 export interface SSRContainer {

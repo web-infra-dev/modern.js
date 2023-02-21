@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { createStaticHandler } from '@remix-run/router';
+import { createStaticHandler } from '@modern-js/utils/remix-router';
 import {
   createStaticRouter,
   StaticRouterProvider,

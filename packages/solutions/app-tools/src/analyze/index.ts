@@ -11,6 +11,7 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
+import { createVirtualModule } from '@modern-js/builder-shared';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
@@ -241,13 +242,19 @@ export default ({
                   packageName,
                 );
                 if (entrypoint.nestedRoutesEntry && ssr && name === 'server') {
+                  const serverLoaderRuntime = require.resolve(
+                    '@modern-js/plugin-data-loader/runtime',
+                  );
                   const serverLoadersFile = getServerLoadersFile(
                     internalDirectory,
                     entryName,
                   );
+                  const combinedModule = createVirtualModule(
+                    `export * from ${serverLoaderRuntime}; export * from ${serverLoadersFile}`,
+                  );
                   chain
                     .entry(`${entryName}-server-loaders`)
-                    .add(serverLoadersFile);
+                    .add(combinedModule);
                 }
               });
             },

@@ -25,7 +25,7 @@ export const renderNestedRoute = (
   nestedRoute: NestedRoute,
   options: {
     parent?: NestedRoute;
-    DeferredDataComponent?: () => JSX.Element;
+    DeferredDataComponent?: () => JSX.Element | null;
   } = {},
 ) => {
   const { children, index, id, component, isRoot } = nestedRoute;

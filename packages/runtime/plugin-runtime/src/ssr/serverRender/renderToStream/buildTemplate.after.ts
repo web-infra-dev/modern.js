@@ -1,4 +1,4 @@
-import type { StaticHandlerContext } from '@remix-run/router';
+import type { StaticHandlerContext } from '@modern-js/utils/remix-router';
 import { serializeJson } from '@modern-js/utils/serialize';
 import { RenderLevel, SSRServerContext } from '../types';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';

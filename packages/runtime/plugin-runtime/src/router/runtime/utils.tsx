@@ -2,6 +2,12 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import { renderNestedRoute } from '@modern-js/utils/nestedRoutes';
+import {
+  ErrorResponse,
+  isRouteErrorResponse,
+  type Router,
+  type StaticHandlerContext,
+} from '@modern-js/utils/remix-router';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
@@ -89,4 +95,67 @@ export function standardSlash(str: string) {
   }
 
   return addr;
+}
+
+/**
+ * forked from https://github.com/remix-run/remix/blob/main/packages/remix-server-runtime/errors.ts
+ * license at https://github.com/remix-run/remix/blob/main/LICENSE.md
+ */
+export function serializeErrors(
+  errors: StaticHandlerContext['errors'],
+): StaticHandlerContext['errors'] {
+  if (!errors) {
+    return null;
+  }
+  const entries = Object.entries(errors);
+  const serialized: StaticHandlerContext['errors'] = {};
+  for (const [key, val] of entries) {
+    // Hey you!  If you change this, please change the corresponding logic in
+    // deserializeErrors
+    if (isRouteErrorResponse(val)) {
+      serialized[key] = { ...val, __type: 'RouteErrorResponse' };
+    } else if (val instanceof Error) {
+      serialized[key] = {
+        message: val.message,
+        stack: val.stack,
+        __type: 'Error',
+      };
+    } else {
+      serialized[key] = val;
+    }
+  }
+  return serialized;
+}
+
+/**
+ * forked from https://github.com/remix-run/remix/blob/main/packages/remix-react/errors.ts
+ * license at https://github.com/remix-run/remix/blob/main/LICENSE.md
+ */
+export function deserializeErrors(
+  errors: Router['state']['errors'],
+): Router['state']['errors'] {
+  if (!errors) {
+    return null;
+  }
+  const entries = Object.entries(errors);
+  const serialized: Router['state']['errors'] = {};
+  for (const [key, val] of entries) {
+    // Hey you!  If you change this, please change the corresponding logic in
+    // serializeErrors
+    if (val && val.__type === 'RouteErrorResponse') {
+      serialized[key] = new ErrorResponse(
+        val.status,
+        val.statusText,
+        val.data,
+        val.internal === true,
+      );
+    } else if (val && val.__type === 'Error') {
+      const error = new Error(val.message);
+      error.stack = val.stack;
+      serialized[key] = error;
+    } else {
+      serialized[key] = val;
+    }
+  }
+  return serialized;
 }
