@@ -19,7 +19,10 @@ export function buildShellAfterTemplate(
 
     function buildSSRDataScript() {
       const { ssrContext, renderLevel } = options;
-      const { request } = ssrContext;
+      const { request, enableUnsafeCtx } = ssrContext;
+      const unsafeContext = {
+        headers: request.headers,
+      };
       const SSRData = {
         context: {
           request: {
@@ -28,8 +31,7 @@ export function buildShellAfterTemplate(
             pathname: request.pathname,
             host: request.host,
             url: request.url,
-            headers: request.headers,
-            cookieMap: request.cookieMap,
+            ...(enableUnsafeCtx ? unsafeContext : {}),
           },
         },
         renderLevel,

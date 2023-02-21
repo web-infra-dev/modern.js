@@ -58,7 +58,6 @@ export type BaseSSRServerContext = {
     query: Record<string, string>;
     headers: IncomingHttpHeaders;
     host: string;
-    cookieMap: Record<string, any>;
     [propsName: string]: any;
   };
   response: {
@@ -89,6 +88,8 @@ export type BaseSSRServerContext = {
     ) => void;
   };
   cacheConfig?: any;
+
+  enableUnsafeCtx?: boolean;
 
   req: ModernServerContext['req'];
 
