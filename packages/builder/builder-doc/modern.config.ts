@@ -58,6 +58,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/guide/basic/static-assets'),
           getLink('/guide/basic/svg-assets'),
           getLink('/guide/basic/json-files'),
+          getLink('/guide/basic/wasm-files'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/css-modules'),
           getLink('/guide/basic/typescript'),
