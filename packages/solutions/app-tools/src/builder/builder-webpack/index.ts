@@ -4,11 +4,9 @@ import {
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import type { IAppContext } from '@modern-js/core';
-import { applyOptionsChain } from '@modern-js/utils';
 import { BuilderOptions, createCopyPattern } from '../shared';
 import { generateBuilder } from '../generator';
 import type { AppNormalizedConfig } from '../../types';
-import { checkIsLegacyConfig } from '../../config';
 import { builderPluginCompatModern } from './builderPlugins/compatModern';
 
 export function createWebpackBuilderForModern(
@@ -63,17 +61,7 @@ async function applyBuilderPlugins(
     const { builderPluginEsbuild } = await import(
       '@modern-js/builder-plugin-esbuild'
     );
-
-    if (checkIsLegacyConfig(normalizedConfig)) {
-      builder.addPlugins([
-        builderPluginEsbuild({
-          loader: false,
-          minimize: applyOptionsChain<any, any>({}, esbuildOptions),
-        }),
-      ]);
-    } else {
-      builder.addPlugins([builderPluginEsbuild(esbuildOptions)]);
-    }
+    builder.addPlugins([builderPluginEsbuild(esbuildOptions)]);
   }
 
   builder.addPlugins([builderPluginCompatModern(options)]);

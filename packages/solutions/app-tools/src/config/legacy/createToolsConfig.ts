@@ -39,6 +39,9 @@ export function createToolsConfig(
     devServer,
     tailwindcss,
     jest,
-    esbuild,
+    esbuild: {
+      loader: false,
+      minimize: esbuild,
+    },
   };
 }
