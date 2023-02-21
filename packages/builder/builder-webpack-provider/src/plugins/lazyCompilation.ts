@@ -19,6 +19,7 @@ export const builderPluginLazyCompilation = (): BuilderPlugin => ({
       chain.optimization.splitChunks(false);
 
       chain.experiments({
+        ...chain.get('experiments'),
         lazyCompilation: config.experiments.lazyCompilation,
       });
     });

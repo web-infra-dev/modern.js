@@ -13,6 +13,8 @@ export type DistPathConfig = {
   font?: string;
   /** The output directory of HTML files. */
   html?: string;
+  /** The output directory of Wasm files. */
+  wasm?: string;
   /** The output directory of non-SVG images. */
   image?: string;
   /** The output directory of media resources, such as videos. */
