@@ -8,7 +8,8 @@ import { applyOptionsChain } from '@modern-js/utils';
 import { BuilderOptions, createCopyPattern } from '../shared';
 import { generateBuilder } from '../generator';
 import type { AppNormalizedConfig } from '../../types';
-import { PluginCompatModern } from './builderPlugins/compatModern';
+import { checkIsLegacyConfig } from '../../config';
+import { builderPluginCompatModern } from './builderPlugins/compatModern';
 
 export function createWebpackBuilderForModern(
   options: BuilderOptions<'webpack'>,
@@ -51,22 +52,29 @@ async function applyBuilderPlugins(
 ) {
   const { normalizedConfig } = options;
   if (!normalizedConfig.output.disableNodePolyfill) {
-    const { PluginNodePolyfill } = await import(
+    const { builderPluginNodePolyfill } = await import(
       '@modern-js/builder-plugin-node-polyfill'
     );
-    builder.addPlugins([PluginNodePolyfill()]);
+    builder.addPlugins([builderPluginNodePolyfill()]);
   }
 
   if (normalizedConfig.tools.esbuild) {
     const { esbuild: esbuildOptions } = normalizedConfig.tools;
-    const { PluginEsbuild } = await import('@modern-js/builder-plugin-esbuild');
-    builder.addPlugins([
-      PluginEsbuild({
-        loader: false,
-        minimize: applyOptionsChain<any, any>({}, esbuildOptions),
-      }),
-    ]);
+    const { builderPluginEsbuild } = await import(
+      '@modern-js/builder-plugin-esbuild'
+    );
+
+    if (checkIsLegacyConfig(normalizedConfig)) {
+      builder.addPlugins([
+        builderPluginEsbuild({
+          loader: false,
+          minimize: applyOptionsChain<any, any>({}, esbuildOptions),
+        }),
+      ]);
+    } else {
+      builder.addPlugins([builderPluginEsbuild(esbuildOptions)]);
+    }
   }
 
-  builder.addPlugins([PluginCompatModern(options)]);
+  builder.addPlugins([builderPluginCompatModern(options)]);
 }

@@ -69,6 +69,22 @@ This config is used to enable JavaScript/TypeScript transformation, which will r
 
 If you want to modify the options, you can check the [esbuild-loader documentation](https://github.com/privatenumber/esbuild-loader#loader).
 
+#### Set JSX Format
+
+When using esbuild for transformation, esbuild will read the `compilerOptions.jsx` field in `tsconfig.json` to determine which JSX syntax to use.
+
+Therefore, you need to set the correct JSX syntax in `tsconfig.json`.
+
+For example, React projects need to set `compilerOptions.jsx` to `react-jsx`:
+
+```json
+{
+   "compilerOptions": {
+     "jsx": "react-jsx"
+   }
+}
+```
+
 #### Set the target environment
 
 Use the `target` option to set the target environment for transformation. `target` can be set directly to the JavaScript language version, such as `es6`, `es2020`; it can also be set to several target environments, each target environment is an environment name followed by a version number, such as `['chrome58', 'edge16' ,'firefox57']`. For a detailed introduction of the `target` option, please refer to [esbuild - target](https://esbuild.github.io/api/#target).
