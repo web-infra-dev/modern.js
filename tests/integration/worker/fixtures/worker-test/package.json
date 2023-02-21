@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/prod-server": "workspace:*",
     "@modern-js/plugin-worker": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",

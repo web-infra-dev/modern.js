@@ -45,7 +45,9 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/server-utils": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@modern-js/prod-server": "workspace:*",
+    "wrangler": "^2.9.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
