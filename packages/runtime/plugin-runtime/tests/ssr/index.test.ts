@@ -32,10 +32,15 @@ describe('plugin-ssr', () => {
       cookieMap: {},
     };
 
+    Object.defineProperty(document, 'cookie', {
+      get() {
+        return 'header-cookie-client';
+      },
+    });
     expect(formatClient(request)).toEqual({
       ...request,
       referer: '',
-      cookie: 'header-cookie',
+      cookie: 'header-cookie-client',
       url: 'http://localhost/',
       userAgent: `Mozilla/5.0 (${process.platform}) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/16.7.0`,
     });
