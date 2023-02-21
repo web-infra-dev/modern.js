@@ -42,3 +42,13 @@ export default {
   },
 };
 ```
+
+## Add Type Declaration
+
+When you import a Wasm file in TypeScript code, you usually need to add the corresponding type declaration.
+
+For example, the `add.wasm` file exports an `add()` method, then you can create an `add.wasm.d.ts` file in the same directory and add the corresponding type declaration:
+
+```ts title="add.wasm.d.ts"
+export const add = (num1: number, num2: number) => number;
+```

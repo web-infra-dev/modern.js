@@ -42,3 +42,13 @@ export default {
   },
 };
 ```
+
+## 添加类型声明
+
+当你在 TypeScript 代码中引用 Wasm 文件时，通常需要添加相应的类型声明。
+
+比如 `add.wasm` 文件导出了 `add()` 方法，那么你可以在同级目录下创建一个 `add.wasm.d.ts` 文件，并添加相应的类型声明：
+
+```ts title="add.wasm.d.ts"
+export const add = (num1: number, num2: number) => number;
+```
