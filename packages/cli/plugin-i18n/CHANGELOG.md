@@ -1,5 +1,12 @@
 # @modern-js/plugin-i18n
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- Updated dependencies [7915ab3]
+  - @modern-js/utils@3.0.0-next.0
+
 ## 2.5.0
 
 ### Patch Changes

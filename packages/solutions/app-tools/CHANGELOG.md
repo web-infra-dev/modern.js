@@ -1,5 +1,36 @@
 # @modern-js/app-tools
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 7915ab3: fix: should not assign nestedRoutesEntry to entrypoint if use v5 router
+  fix: 使用 v5 路由的时候，不应该在 entrypoint 上挂载 nestedRoutesEntry 属性
+- Updated dependencies [671477d]
+- Updated dependencies [b92d6db]
+- Updated dependencies [d638438]
+- Updated dependencies [107f674]
+- Updated dependencies [7915ab3]
+- Updated dependencies [1c76d0e]
+  - @modern-js/builder-webpack-provider@3.0.0-next.0
+  - @modern-js/builder-shared@3.0.0-next.0
+  - @modern-js/plugin-data-loader@3.0.0-next.0
+  - @modern-js/builder@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/builder-plugin-esbuild@3.0.0-next.0
+  - @modern-js/builder-plugin-node-polyfill@3.0.0-next.0
+  - @modern-js/builder-rspack-provider@3.0.0-next.0
+  - @modern-js/core@3.0.0-next.0
+  - @modern-js/new-action@3.0.0-next.0
+  - @modern-js/plugin-i18n@3.0.0-next.0
+  - @modern-js/plugin-lint@3.0.0-next.0
+  - @modern-js/prod-server@3.0.0-next.0
+  - @modern-js/server@3.0.0-next.0
+  - @modern-js/node-bundle-require@3.0.0-next.0
+  - @modern-js/upgrade@3.0.0-next.0
+  - @modern-js/plugin@3.0.0-next.0
+  - @modern-js/types@3.0.0-next.0
+
 ## 2.5.0
 
 ### Patch Changes

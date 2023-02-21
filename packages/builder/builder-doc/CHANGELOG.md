@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 107f674: feat(builder): add dev.beforeStartUrl config
+
+  feat(builder): 新增 dev.beforeStartUrl 配置项
+
 ## 2.5.0
 
 ### Patch Changes

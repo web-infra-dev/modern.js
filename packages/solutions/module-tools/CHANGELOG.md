@@ -1,5 +1,26 @@
 # @modern-js/module-tools
 
+## 3.0.0-next.0
+
+### Minor Changes
+
+- c1918f5: feat(module-tools): add new Buildpreset and `extendPreset` function
+  feat(module-tools): 新增新的 buildPreset 以及 extendPreset 函数
+- 44e7b10: feat: add noDevTools hook. fix dev log content and add add chinese and english content
+  feat: 增加 noDevTools hook. 修复 dev 的日志内容, 增加中英内容
+
+### Patch Changes
+
+- Updated dependencies [7915ab3]
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/core@3.0.0-next.0
+  - @modern-js/new-action@3.0.0-next.0
+  - @modern-js/plugin-changeset@3.0.0-next.0
+  - @modern-js/plugin-i18n@3.0.0-next.0
+  - @modern-js/plugin-lint@3.0.0-next.0
+  - @modern-js/upgrade@3.0.0-next.0
+  - @modern-js/plugin@3.0.0-next.0
+
 ## 2.5.0
 
 ### Minor Changes

@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 671477d: chore(CI): make CI faster
+
+  chore(CI): 提升 CI 执行速度
+
+- 7915ab3: fix: should not assign nestedRoutesEntry to entrypoint if use v5 router
+  fix: 使用 v5 路由的时候，不应该在 entrypoint 上挂载 nestedRoutesEntry 属性
+- 1906d7b: fix: document param output get undefined in default template
+  fix: 修复 Document param 中 output 参数取值问题
+- Updated dependencies [7915ab3]
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/plugin@3.0.0-next.0
+  - @modern-js/types@3.0.0-next.0
+
 ## 2.5.0
 
 ### Patch Changes

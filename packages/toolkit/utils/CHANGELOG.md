@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 7915ab3: fix: should not assign nestedRoutesEntry to entrypoint if use v5 router
+  fix: 使用 v5 路由的时候，不应该在 entrypoint 上挂载 nestedRoutesEntry 属性
+
 ## 2.5.0
 
 ### Patch Changes

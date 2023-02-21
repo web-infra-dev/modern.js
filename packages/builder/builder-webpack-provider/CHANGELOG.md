@@ -1,5 +1,25 @@
 # @modern-js/builder-webpack-provider
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 671477d: chore(CI): make CI faster
+
+  chore(CI): 提升 CI 执行速度
+
+- 1c76d0e: fix: adjust @babel/core to dependencies instead of devDependencies.
+  fix: 调整 `@babel/core` 为 `dependencies` 而不是 `devDependencies`.
+- Updated dependencies [b92d6db]
+- Updated dependencies [107f674]
+- Updated dependencies [7915ab3]
+  - @modern-js/builder-shared@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/babel-preset-app@3.0.0-next.0
+  - @modern-js/server@3.0.0-next.0
+  - @modern-js/e2e@3.0.0-next.0
+  - @modern-js/types@3.0.0-next.0
+
 ## 2.5.0
 
 ### Minor Changes
