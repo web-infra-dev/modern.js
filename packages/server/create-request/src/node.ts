@@ -99,6 +99,10 @@ export const createRequest: RequestCreator = (
 
     const fetcher = realRequest || originFetch;
 
+    if (method.toLowerCase() === 'get') {
+      body = undefined;
+    }
+
     return fetcher(url, { method, body, headers });
   };
 
