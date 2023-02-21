@@ -99,6 +99,9 @@ export const createRequest: RequestCreator = (
       }
     }
 
+    if (method.toLowerCase() === 'get') {
+      body = undefined;
+    }
     return fetcher(finalURL, {
       method,
       body,
