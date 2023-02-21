@@ -3,15 +3,15 @@ pageType: home
 
 hero:
   name: Modern.js Doc
-  text: A documentation solution
+  text: Document site solution
   tagline: A modern documentation development technology stack
   actions:
     - theme: brand
       text: Introduction
-      link: /en/guide/introduction
+      link: /guide/introduction
     - theme: alt
       text: Quick Start
-      link: /en/guide/getting-started
+      link: /guide/getting-started
 
 features:
   - title: 'MDX Support'
