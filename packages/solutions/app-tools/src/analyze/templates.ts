@@ -338,6 +338,7 @@ export const fileSystemRoutes = async ({
 
   let importLoadersCode = '';
 
+  // eslint-disable-next-line max-lines
   for (const [key, loaderInfo] of Object.entries(loadersMap)) {
     if (loaderInfo.inline) {
       importLoadersCode += `import { loader as ${key} } from "${getDataLoaderPath(
