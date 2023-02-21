@@ -17,6 +17,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   },
   "context": "<ROOT>",
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -728,6 +731,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "performance": {
     "maxAssetSize": 3000000,
@@ -864,6 +868,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
   },
   "context": "<ROOT>",
   "devtool": "hidden-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1623,6 +1630,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "performance": {
     "maxAssetSize": 3000000,
@@ -1759,6 +1767,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   },
   "context": "<ROOT>",
   "devtool": "source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2369,6 +2380,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "performance": {
     "maxAssetSize": 30000000,
@@ -2475,6 +2487,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   },
   "context": "<ROOT>",
   "devtool": "hidden-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -3089,6 +3104,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "performance": {
     "maxAssetSize": 30000000,
