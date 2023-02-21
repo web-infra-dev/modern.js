@@ -15,7 +15,7 @@
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "dev": "mdn build --watch",
     "build": "mdn build",
     "test": "jest --passWithNoTests"

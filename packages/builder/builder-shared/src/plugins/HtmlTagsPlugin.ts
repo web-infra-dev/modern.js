@@ -2,27 +2,27 @@ import {
   HtmlInjectTag,
   HtmlInjectTagDescriptor,
   HtmlInjectTagUtils,
-} from '@modern-js/builder-shared';
+} from '../types';
 import _ from '@modern-js/utils/lodash';
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import type { Compiler } from 'webpack';
 
-export interface Options {
+export interface HtmlTagsPluginOptions {
   hash?: HtmlInjectTag['hash'];
   publicPath?: HtmlInjectTag['publicPath'];
   append?: HtmlInjectTag['append'];
-  htmlWebpackPlugin?: string | typeof HtmlWebpackPlugin;
   includes?: string[];
   tags?: HtmlInjectTagDescriptor[];
+  HtmlPlugin: typeof HtmlWebpackPlugin;
 }
 
 export interface AdditionalContext {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  htmlWebpackPlugin: Extract<Options['htmlWebpackPlugin'], Function>;
+  HtmlPlugin: Extract<HtmlTagsPluginOptions['HtmlPlugin'], Function>;
 }
 
-export type Context = Omit<Options, keyof AdditionalContext> &
+export type Context = Omit<HtmlTagsPluginOptions, keyof AdditionalContext> &
   AdditionalContext;
 
 /** @see {@link https://developer.mozilla.org/en-US/docs/Glossary/Void_element} */
@@ -73,22 +73,17 @@ export class HtmlTagsPlugin {
 
   ctx: Context;
 
-  constructor(opts: Options = {}) {
-    const htmlWebpackPlugin =
-      typeof opts.htmlWebpackPlugin === 'function'
-        ? opts.htmlWebpackPlugin
-        : require(opts.htmlWebpackPlugin || 'html-webpack-plugin');
+  constructor(opts: HtmlTagsPluginOptions) {
     this.ctx = {
       append: true,
       ...opts,
-      htmlWebpackPlugin,
     };
   }
 
   apply(compiler: Compiler) {
     compiler.hooks.compilation.tap(this.name, compilation => {
       const compilationHash = compilation.hash || '';
-      const hooks = this.ctx.htmlWebpackPlugin.getHooks(compilation);
+      const hooks = this.ctx.HtmlPlugin.getHooks(compilation);
       hooks.alterAssetTagGroups.tap(this.name, params => {
         // skip unmatched file and empty tag list.
         const includesCurrentFile =

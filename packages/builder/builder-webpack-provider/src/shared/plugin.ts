@@ -16,7 +16,7 @@ export const applyBasicPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     ...applyMinimalPlugins(plugins).promises,
     import('../plugins/copy').then(m => m.builderPluginCopy()),
-    import('../plugins/html').then(m => m.builderPluginHtml()),
+    plugins.html(),
     plugins.image(),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/tsLoader').then(m => m.builderPluginTsLoader()),
@@ -40,7 +40,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.font(),
     plugins.image(),
     plugins.media(),
-    import('../plugins/html').then(m => m.builderPluginHtml()),
+    plugins.html(),
     import('../plugins/moment').then(m => m.builderPluginMoment()),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),

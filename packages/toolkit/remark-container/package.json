@@ -7,7 +7,6 @@
   "module": "./dist/node/index.js",
   "author": "yangxingyuan",
   "scripts": {
-    "prepare": "modern-lib build",
     "dev": "modern-lib dev",
     "build": "modern-lib build",
     "reset": "rimraf ./**/node_modules",

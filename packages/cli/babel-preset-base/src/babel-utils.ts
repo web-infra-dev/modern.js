@@ -1,5 +1,5 @@
 import { sep, isAbsolute } from 'path';
-import { ensureArray } from '@modern-js/utils';
+import { ensureArray, normalizeToPosixPath } from '@modern-js/utils';
 import type { TransformOptions, PluginItem, PluginOptions } from '@babel/core';
 import { BabelConfigUtils, PresetEnvOptions, PresetReactOptions } from './type';
 
@@ -83,14 +83,20 @@ const modifyPresetOptions = <T>(
   presets.forEach((preset: PluginItem, index) => {
     // 1. ['@babel/preset-env', ...]
     if (Array.isArray(preset)) {
-      if (typeof preset[0] === 'string' && preset[0].includes(presetName)) {
+      if (
+        typeof preset[0] === 'string' &&
+        normalizeToPosixPath(preset[0]).includes(presetName)
+      ) {
         preset[1] = {
           ...(preset[1] || {}),
           ...options,
           // `options` is specific to different presets
         } as unknown as PluginOptions;
       }
-    } else if (typeof preset === 'string' && preset.includes(presetName)) {
+    } else if (
+      typeof preset === 'string' &&
+      normalizeToPosixPath(preset).includes(presetName)
+    ) {
       // 2. '@babel/preset-env'
       presets[index] = [preset, options];
     }

@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { builderPluginEntry } from '@builder/plugins/entry';
-import { builderPluginHtml } from '../../src/plugins/html';
+import { builderPluginHtml } from '@builder/plugins/html';
 import { createBuilder, matchPlugin } from '../helper';
 
 describe('plugins/html', () => {

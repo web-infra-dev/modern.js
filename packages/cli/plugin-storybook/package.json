@@ -36,7 +36,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests",

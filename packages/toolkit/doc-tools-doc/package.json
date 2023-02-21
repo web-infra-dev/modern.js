@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "modern dev",
     "build:doc": "modern build",
-    "preview": "modern preview"
+    "preview": "cross-env NODE_ENV=production modern preview"
   },
   "version": "2.5.0",
   "publishConfig": {

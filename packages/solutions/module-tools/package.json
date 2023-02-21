@@ -36,7 +36,7 @@
     }
   },
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
     "test": "jest",

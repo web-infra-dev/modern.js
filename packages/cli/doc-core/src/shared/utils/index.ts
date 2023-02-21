@@ -65,14 +65,11 @@ export const parseUrl = (
   url: string,
 ): {
   url: string;
-  query: string;
   hash: string;
 } => {
   const [withoutHash, hash = ''] = url.split('#');
-  const [cleanedUrl, query = ''] = withoutHash.split('?');
   return {
-    url: cleanedUrl,
-    query,
+    url: withoutHash,
     hash,
   };
 };
