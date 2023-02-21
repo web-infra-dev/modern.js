@@ -4,6 +4,7 @@ import { build, getHrefByEntryName } from '@scripts/shared';
 
 // eslint-disable-next-line no-empty-pattern
 test.beforeEach(async ({}, testInfo) => {
+  // remove platform suffix
   testInfo.snapshotSuffix = '';
 });
 
