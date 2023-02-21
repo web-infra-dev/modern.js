@@ -10,8 +10,9 @@ import LoadingSvg from './assets/loading.svg';
 import CloseSvg from './assets/close.svg';
 import { MatchResult, MatchResultItem, PageSearcher } from './logic/search';
 import { SuggestItem } from './SuggestItem';
-import { removeDomain } from './logic/util';
+import { normalizeSearchIndexes, removeDomain } from './logic/util';
 import { isProduction, usePageData } from '@/runtime';
+import { SearchOptions } from '@/shared/types';
 
 const KEY_CODE = {
   ARROW_UP: 'ArrowUp',
@@ -51,6 +52,9 @@ export function Search() {
     getSidebarGroupData(sidebar, link).group;
 
   async function initPageSearcher() {
+    if (search === false) {
+      return;
+    }
     const pageSearcher = new PageSearcher({
       ...search,
       currentLang: lang,
@@ -144,9 +148,22 @@ export function Search() {
   // accumulateIndex is used to calculate the index of the suggestion in the whole list.
   let accumulateIndex = -1;
 
-  const renderSearchResult = (result: MatchResult) => {
+  const renderSearchResult = (
+    result: MatchResult,
+    searchOptions: SearchOptions,
+  ) => {
     const hasOtherResult =
       searchResult.others.map(item => item.items).flat().length > 0;
+
+    const tabValues = result.others.map(item => {
+      if (!searchOptions || searchOptions.mode !== 'remote') {
+        return item;
+      }
+      const indexItem = normalizeSearchIndexes(
+        searchOptions.searchIndexes || [],
+      ).find(indexInfo => indexInfo.value === item.index);
+      return indexItem!.label;
+    }) as string[];
     return (
       <div>
         {/* current index */}
@@ -156,10 +173,7 @@ export function Search() {
           <h2 className={styles.groupTitle}>{RECOMMEND_WORD[lang]}</h2>
         )}
         <div style={{ marginTop: '-12px' }}>
-          <Tabs
-            values={result.others.map(item => item.index)}
-            tabContainerClassName={styles.tabClassName}
-          >
+          <Tabs values={tabValues} tabContainerClassName={styles.tabClassName}>
             {result.others.map(item => (
               <Tab key={item.index}>
                 {renderSearchResultItem(item.items, false)}
@@ -286,7 +300,7 @@ export function Search() {
 
               {query && suggestions.length ? (
                 <div className={`${styles.searchHits}  modern-scrollbar`}>
-                  {renderSearchResult(searchResult)}
+                  {renderSearchResult(searchResult, search)}
                 </div>
               ) : null}
               {searching && (

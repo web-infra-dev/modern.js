@@ -64,6 +64,7 @@ export function normalizeThemeConfig(
   base = '',
   replaceRules: ReplaceRule[],
 ): NormalizedDefaultThemeConfig {
+  // In following code, we will normalize the theme config reference to the pages data extracted from mdx files
   // Normalize sidebar
   const normalizeSidebar = (
     sidebar: DefaultThemeConfig['sidebar'],
@@ -136,6 +137,7 @@ async function extractPageData(
   replaceRules: ReplaceRule[],
   alias: Record<string, string | string[]>,
   domain: string,
+  disableSearch: boolean,
 ): Promise<(PageIndexInfo | null)[]> {
   return Promise.all(
     routeService
@@ -175,6 +177,21 @@ async function extractPageData(
         if (!title?.length && !frontmatter.title?.length) {
           return null;
         }
+
+        // If disable search, we don't need to generate search index
+        if (disableSearch) {
+          return {
+            id: index,
+            title: frontmatter.title || title,
+            routePath: route.routePath,
+            domain: '',
+            content: '',
+            frontmatter: {},
+            lang: route.lang,
+            toc,
+          };
+        }
+
         const precessor = unified()
           .use(remarkParse)
           .use(remarkPluginContainer)
@@ -240,20 +257,27 @@ export async function siteDataVMPlugin(
     'virtual-search-index-hash',
   );
   const userConfig = config.doc;
-  // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
-  if (!isSSR) {
-    logger.info('[doc-tools] Extracting site data...');
-  }
   const replaceRules = userConfig?.replaceRules || [];
-  const domain =
-    userConfig?.search?.mode === 'remote'
-      ? userConfig?.search.domain ?? ''
-      : '';
+
   if (!pages) {
-    pages = (await extractPageData(replaceRules, alias, domain)).filter(
-      Boolean,
-    ) as PageIndexInfo[];
+    // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
+    if (!isSSR) {
+      logger.info('[doc-tools] Extracting site data...');
+    }
+    const domain =
+      userConfig?.search && userConfig?.search?.mode === 'remote'
+        ? userConfig?.search.domain ?? ''
+        : '';
+    pages = (
+      await extractPageData(
+        replaceRules,
+        alias,
+        domain,
+        userConfig?.search === false,
+      )
+    ).filter(Boolean) as PageIndexInfo[];
   }
+
   const siteData = {
     title: userConfig?.title || '',
     description: userConfig?.description || '',
@@ -268,7 +292,7 @@ export async function siteDataVMPlugin(
     root: userRoot,
     lang: userConfig?.lang || '',
     logo: userConfig?.logo || '',
-    search: userConfig?.search || { mode: 'local' },
+    search: userConfig?.search ?? { mode: 'local' },
     pages: pages.map(({ routePath, toc }) => ({
       routePath,
       toc,
