@@ -20,4 +20,9 @@ test('basic', async ({ page }) => {
   await page.goto(getHrefByEntryName('index', builder.port));
   expect(await page.evaluate('window.answer')).toBe(42);
   await page.evaluate('document.write(window.answer)');
+  expect(
+    await page.screenshot({
+      path: path.resolve(__dirname, 'screenshot.png'),
+    }),
+  ).toMatchSnapshot();
 });
