@@ -20,8 +20,8 @@ sidebar_position: 3
 
 Modern.js 中提供了 Data Loader，方便开发者在 SSR、CSR 下同构的获取数据。每个路由模块，如 `layout.tsx` 和 `page.tsx` 都可以定义自己的 Data Loader：
 
-```ts title="src/routes/page.tsx"
-export const loader = () => {
+```ts title="src/routes/page.loader.ts"
+export default () => {
   return {
     message: 'Hello World',
   };
@@ -31,6 +31,7 @@ export const loader = () => {
 在组件中可以通过 Hooks API 的方式获取 `loader` 函数返回的数据：
 
 ```tsx
+import { useLoaderData } from '@modern-js/runtime/router'
 export default () => {
   const data = useLoaderData();
   return <div>{data.message}</div>;
