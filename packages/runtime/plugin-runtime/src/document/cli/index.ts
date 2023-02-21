@@ -1,8 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
-import React from 'react';
-import ReactDomServer from 'react-dom/server';
 import { build } from 'esbuild';
 import type { AppUserConfig, CliPlugin, AppTools } from '@modern-js/app-tools';
 import { createDebugger, findExists, fs } from '@modern-js/utils';
@@ -163,6 +161,10 @@ export default (): CliPlugin<AppTools> => ({
         delete require.cache[require.resolve(htmlOutputFile)];
         // eslint-disable-next-line import/no-dynamic-require
         const Document = (await require(htmlOutputFile)).default;
+
+        const React = await import('react');
+        const ReactDomServer = await import('react-dom/server');
+
         const HTMLElement = React.createElement(
           DocumentContext.Provider,
           { value: documentParams },
