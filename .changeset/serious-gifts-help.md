@@ -1,7 +1,7 @@
 ---
-'@modern-js/builder-doc': patch
-'@modern-js/builder-shared': patch
-'@modern-js/builder-webpack-provider': patch
+'@modern-js/builder-doc': minor
+'@modern-js/builder-shared': minor
+'@modern-js/builder-webpack-provider': minor
 ---
 
 feat(builder): support import .wasm assets
