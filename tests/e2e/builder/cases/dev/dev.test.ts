@@ -6,8 +6,7 @@ import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-// not stable in CI
-test.skip('default & hmr (default true)', async ({ page }) => {
+test('default & hmr (default true)', async ({ page }) => {
   fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src'));
   const buildOpts = {
     cwd: join(fixtures, 'hmr'),
@@ -16,7 +15,16 @@ test.skip('default & hmr (default true)', async ({ page }) => {
     },
   };
 
-  const builder = await dev(buildOpts);
+  const builder = await dev(buildOpts, {
+    tools: {
+      devServer: {
+        client: {
+          host: '',
+          port: '',
+        },
+      },
+    },
+  });
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
