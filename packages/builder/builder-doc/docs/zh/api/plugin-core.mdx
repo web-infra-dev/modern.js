@@ -42,11 +42,11 @@ export default (): BuilderPlugin => ({
 
 关于生命周期钩子的完整介绍，请阅读 [Plugin Hooks](/api/plugin-hooks.html) 章节。
 
-在使用 webpack provider 或 rspack provider 时，`BuilderPluginAPI` 的类型定义有一定不同，你可以根据插件的使用场景来引入对应的类型。
+在使用 webpack-provider 或 rspack-provider 时，`BuilderPluginAPI` 的类型定义有一定不同，你可以根据插件的使用场景来引入对应的类型。
 
-### 适用于 webpack provider 的插件
+### 适用于 webpack-provider 的插件
 
-开发适用于 webpack provider 的插件时，请从 `@modern-js/builder-webpack-provider` 中引入 `BuilderPluginAPI`。
+开发适用于 webpack-provider 的插件时，请从 `@modern-js/builder-webpack-provider` 中引入 `BuilderPluginAPI`。
 
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder';
@@ -63,9 +63,9 @@ export default (): BuilderPlugin<BuilderPluginAPI> => ({
 });
 ```
 
-### 适用于 rspack provider 的插件
+### 适用于 rspack-provider 的插件
 
-开发适用于 rspack provider 的插件时，请从 `@modern-js/builder-rspack-provider` 中引入 `BuilderPluginAPI`。
+开发适用于 rspack-provider 的插件时，请从 `@modern-js/builder-rspack-provider` 中引入 `BuilderPluginAPI`。
 
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder';

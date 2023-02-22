@@ -56,7 +56,7 @@ Builder use `split-by-experience` strategy by default, in which the following np
 If you want to use other splitting strategies, you can specify it via `performance.chunkSplit.strategy`.
 
 :::tip
-The `split-by-module` policy is not supported when using Rspack as Bundler.
+The `split-by-module` policy is not supported when using rspack as the bundler.
 :::
 
 ### chunkSplit.minSize

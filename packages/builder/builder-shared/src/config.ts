@@ -6,6 +6,7 @@ import {
   CSS_DIST_DIR,
   SVG_DIST_DIR,
   FONT_DIST_DIR,
+  WASM_DIST_DIR,
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
   SERVER_DIST_DIR,
@@ -36,6 +37,7 @@ export const defaultDevConfig: NormalizedSharedDevConfig = {
   assetPrefix: '/',
   startUrl: false,
   progressBar: true,
+  host: 'localhost',
 };
 
 export const defaultSourceConfig: NormalizedSharedSourceConfig = {
@@ -59,6 +61,7 @@ export const defaultOutputConfig: NormalizedSharedOutputConfig = {
     svg: SVG_DIST_DIR,
     font: FONT_DIST_DIR,
     html: HTML_DIST_DIR,
+    wasm: WASM_DIST_DIR,
     image: IMAGE_DIST_DIR,
     media: MEDIA_DIST_DIR,
     server: SERVER_DIST_DIR,

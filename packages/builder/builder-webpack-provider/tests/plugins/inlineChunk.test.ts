@@ -10,7 +10,7 @@ describe('plugins/inlineChunk', () => {
   });
 
   afterEach(() => {
-    process.env.NODE_ENV = '';
+    process.env.NODE_ENV = 'test';
   });
 
   it('should add InlineChunkHtmlPlugin properly by default', async () => {

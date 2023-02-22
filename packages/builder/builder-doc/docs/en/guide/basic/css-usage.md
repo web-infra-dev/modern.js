@@ -29,8 +29,41 @@ export default {
 };
 ```
 
-By default, we have enabled [autoprefixer](https://github.com/postcss/autoprefixer) to add vendor prefixes to CSS rules.
-If you want to configure the target browser, you can use [output.overrideBrowserslist](/en/api/config-output.html#outputoverridebrowserslist) config.
+### Builtin PostCSS plugins
+
+Builder has some builtin PostCSS plugins, which will perform the following transformations on CSS:
+
+- [autoprefixer](https://github.com/postcss/autoprefixer): we have enabled [autoprefixer](https://github.com/postcss/autoprefixer) to add vendor prefixes to CSS rules. If you want to configure the target browser, you can use [output.overrideBrowserslist](/en/api/config-output.html#outputoverridebrowserslist) config.
+- [postcss-nesting](https://www.npmjs.com/package/postcss-nested): Provide [CSS Nesting](https://drafts.csswg.org/css-nesting-1/) support, you can Use nested writing in CSS, such as:
+
+```css
+.my-table {
+  & td {
+    text-align: center;
+
+    &.c {
+      text-transform: uppercase;
+    }
+  }
+}
+```
+
+- [postcss-flexbugs-fixes](https://www.npmjs.com/package/postcss-flexbugs-fixes): Used to fix known [Flex Bugs](https://github.com/philipwalton/flexbugs).
+- [postcss-initial](https://www.npmjs.com/package/postcss-initial): Enabled only when it needs to be compatible with legacy browsers, providing the [`initial` attribute value](https://developer.mozilla.org/en-US/docs/Web/CSS/initial_value) compatible.
+- [postcss-page-break](https://www.npmjs.com/package/postcss-page-break): Enabled only when compatibility with legacy browsers is required, providing support for [`break-` attribute](https://developer.mozilla.org/en-US/docs/Web/CSS/break-after).
+- [postcss-font-variant](https://www.npmjs.com/package/postcss-font-variant): Enabled only when compatibility with legacy browsers is required, providing support for [`font-variant`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant).
+- [postcss-media-minmax](https://www.npmjs.com/package/postcss-media-minmax): Enabled only when compatibility with legacy browsers is required, providing support for [Media Query Ranges](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries#syntax_improvements_in_level_4) compatibility.
+- [postcss-custom-properties](https://www.npmjs.com/package/postcss-custom-properties): Only enabled when compatibility with legacy browsers is required, providing support for [Custom Properties](https://www.w3.org/TR/css-variables-1/), you can define and use custom variables in CSS, such as:
+
+```css
+:root {
+  --main-bg-color: pink;
+}
+
+body {
+  background-color: var(--main-bg-color);
+}
+```
 
 ## Using CSS Modules
 
@@ -70,16 +103,14 @@ You can directly import CSS files in node_modules.
 
 - Import in a component:
 
-```ts
-// src/App.tsx
+```ts title="src/App.tsx"
 // Import the Arco Design style:
 import '@arco-design/web-react/dist/css/arco.css';
 ```
 
 - Import in a style file:
 
-```css
-/* src/App.css */
+```css title="src/App.css"
 /* reference normalize.css */
 /* https://github.com/necolas/normalize.css */
 @import 'normalize.css';

@@ -127,7 +127,7 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   search: SearchOptions;
 }
 
-export interface PageIndexInfo {
+export type PageIndexInfo = {
   id: number;
   title: string;
   routePath: string;
@@ -136,7 +136,7 @@ export interface PageIndexInfo {
   frontmatter: Record<string, unknown>;
   lang: string;
   domain: string;
-}
+};
 export interface Hero {
   name: string;
   text: string;
@@ -223,15 +223,22 @@ export type LocalSearchOptions = {
   mode: 'local';
 };
 
+export type RemoteSearchIndexInfo =
+  | string
+  | {
+      value: string;
+      label: string;
+    };
+
 export type RemoteSearchOptions = {
   mode: 'remote';
   apiUrl: string;
   domain?: string;
   indexName: string;
-  searchIndexes?: string[];
+  searchIndexes?: RemoteSearchIndexInfo[];
 };
 
-export type SearchOptions = LocalSearchOptions | RemoteSearchOptions;
+export type SearchOptions = LocalSearchOptions | RemoteSearchOptions | false;
 
 export interface MarkdownOptions {
   remarkPlugins?: PluggableList;

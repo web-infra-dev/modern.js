@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "esbuild-minify-js",
+  "name": "legacy-esbuild-minify-js",
   "version": "1.0.0",
   "dependencies": {
     "react": "^18",

@@ -56,7 +56,7 @@ Builder 默认采用 `split-by-experience` 策略，具体来说，以下的 NPM
 如果你想使用其他拆包策略，可以通过 `performance.chunkSplit.strategy` 配置项来指定。
 
 :::tip
-在使用 Rspack 作为打包工具时，不支持采用 `split-by-module` 策略。
+在使用 rspack 作为打包工具时，不支持采用 `split-by-module` 策略。
 :::
 
 ### chunkSplit.minSize

@@ -14,6 +14,9 @@ export function getSearchIndexFilename(indexHash: string) {
 }
 
 export async function writeSearchIndex(config: UserConfig) {
+  if (config.doc?.search === false) {
+    return;
+  }
   const cwd = process.cwd();
   const searchIndexFile = getSearchIndexFilename(indexHash);
   const source = join(TEMP_DIR, searchIndexFile);

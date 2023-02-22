@@ -78,6 +78,7 @@ export async function renderPages(config: UserConfig) {
               helmet?.meta?.toString(),
               helmet?.link?.toString(),
               helmet?.style?.toString(),
+              helmet?.script?.toString(),
             ])
             .join(''),
         );

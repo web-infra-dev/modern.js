@@ -5,35 +5,10 @@ import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import { BuilderOptions, createCopyPattern } from '../../shared';
 import { RouterPlugin } from '../webpackPlugins';
 
-type Parameter<T extends (arg: any) => void> = Parameters<T>[0];
-type FnParameter<
-  T extends {
-    [p: string]: (arg: any) => void;
-  },
-> = {
-  [P in keyof T]: Parameter<T[P]>;
-};
-
-export type PluginCompatModernOptions = FnParameter<
-  Partial<
-    Pick<
-      BuilderPluginAPI,
-      | 'onAfterBuild'
-      | 'onAfterCreateCompiler'
-      | 'onAfterStartDevServer'
-      | 'onBeforeBuild'
-      | 'onBeforeCreateCompiler'
-      | 'onBeforeStartDevServer'
-      | 'onDevCompileDone'
-      | 'onExit'
-    >
-  >
->;
-
 /**
  * Provides default configuration consistent with modern.js v1
  */
-export const PluginCompatModern = (
+export const builderPluginCompatModern = (
   options: BuilderOptions<'webpack'>,
 ): BuilderPlugin<BuilderPluginAPI> => ({
   name: 'builder-plugin-compat-modern',
