@@ -10,7 +10,7 @@ export async function applyJSMinimizer(
   rspackConfig: RspackConfig,
   config: NormalizedConfig,
 ) {
-  const options: RspackBuiltinsConfig['minify'] = {};
+  const options: RspackBuiltinsConfig['minifyOptions'] = {};
 
   const { removeConsole } = config.performance;
 
