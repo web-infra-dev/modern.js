@@ -8,7 +8,7 @@ const App = () => (
   <div className="container">
     <main>
       <img id="img" src={img} />
-      <p className={stylesForSass.header}>header</p>
+      <p className={stylesForSass.header}>header11</p>
       <p className={stylesForLess.title}>title</p>
       <div className="logo">
         <img
