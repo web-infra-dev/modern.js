@@ -19,8 +19,9 @@ export async function writeSearchIndex(config: UserConfig) {
   }
   const cwd = process.cwd();
   const searchIndexFile = getSearchIndexFilename(indexHash);
+  const outDir = config.doc?.outDir ?? join(cwd, OUTPUT_DIR);
   const source = join(TEMP_DIR, searchIndexFile);
-  const target = join(cwd, OUTPUT_DIR, 'static', searchIndexFile);
+  const target = join(outDir, 'static', searchIndexFile);
   if (await fs.pathExists(source)) {
     await fs.move(source, target, { overwrite: true });
     if (isProduction() && config.doc?.search?.mode === 'remote') {
