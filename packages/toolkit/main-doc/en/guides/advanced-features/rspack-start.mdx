@@ -1,0 +1,69 @@
+---
+title: Rspack start
+sidebar_position: 12
+---
+
+# Rspack start
+
+[Rspack](https://www.rspack.org/) is a Rust Bundler developed by the ByteDance Web Infra team. The core architecture of Rspack is aligned with the implementation of webpack, and provides out-of-the-box support for commonly used build features.
+
+Rspack optimizes compilation performance by:
+
+- Highly LTO optimized Native code.
+- Take full advantage of multi-core, and the entire compilation process is fully optimized for multi-threading.
+- On-demand compilation based on request (Lazy Compilation), reducing the number of modules per compilation to improve the speed of cold start.
+
+## Initializing an rspack project
+
+The Modern.js generator provides an interactive question-and-answer interface to initialize a project based on the results. To create an rspack project, simply select the **rspack** build tool by running:
+
+```bash
+$ npx @modern-js/create myapp
+? Please select the solution you want to create: Web App Solution
+? Development Language: TS
+? Package Management Tool: pnpm
+? Build Tools: rspack
+```
+
+After the project is created, you can experience the project by running `pnpm run dev`. For more project information, please refer to [Quick Start](/guides/get-started/quick-start.html).
+
+:::tip
+When using rspack as the bundler, the following features are currently not supported:
+
+- Server-side rendering (SSR)
+- Static Site Generation (SSG)
+- Micro Frontend.
+- Storybook debugging.
+
+:::
+
+## Migrating from webpack to rspack
+
+You can enable rspack build by running `pnpm run new`:
+
+```bash
+$ pnpm run new
+? Action： Enable features
+? Enable features： Enable rspack Build
+```
+
+After executing the command, enable the rspack build in `modern.config.ts`:
+
+```ts title=modern.config.ts
+import appTools, { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
+  runtime: {
+    router: true,
+  },
+  plugins: [
+    appTools({
+      bundler: 'experimental-rspack',
+    }),
+  ],
+});
+```
+
+:::tip
+Migrating from webpack to rspack may have some differences in build and configuration capabilities. For more details, please refer to [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack)
+:::

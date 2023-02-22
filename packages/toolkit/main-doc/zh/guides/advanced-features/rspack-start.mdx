@@ -1,0 +1,69 @@
+---
+title: 使用 rspack
+sidebar_position: 12
+---
+
+# 使用 rspack
+
+[Rspack](https://www.rspack.org/) 是字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现，并对社区常用的构建能力做了开箱即用的支持。
+
+Rspack 通过以下方式来提升编译性能：
+
+- 高度 LTO 优化的 Native code。
+- 充分利用多核优势，整个编译过程充分进行多线程优化。
+- 基于请求的按需编译（Lazy Compilation），减小每次编译的模块数目，以提升冷启动的速度。
+
+## 初始化 rspack 项目
+
+Modern.js 生成器会提供一个可交互的问答界面，根据结果初始化项目，只需将构建工具选择为**rspack**，即可创建一个 rspack 项目:
+
+```bash
+$ npx @modern-js/create myapp
+? 请选择你想创建的工程类型 应用
+? 请选择开发语言 TS
+? 请选择包管理工具 pnpm
+? 请选择构建工具 rspack
+```
+
+项目创建完成后。在项目中执行 `pnpm run dev` 即可体验项目。更多项目信息可参考[快速上手](/guides/get-started/quick-start.html)。
+
+:::tip
+使用 rspack 作为打包工具时，以下功能暂不支持使用:
+
+- 服务端渲染（SSR）
+- 静态站点生成（SSG）
+- 微前端（Micro Frontend）
+- Storybook 调试
+
+:::
+
+## 从 webpack 迁移至 rspack
+
+通过执行 `pnpm run new` 可启用 rspack 构建：
+
+```bash
+$ pnpm run new
+? 请选择你想要的操作 启用可选功能
+? 启用可选功能 启用「rspack 构建」
+```
+
+执行命令后，在 modern.config.ts 中开启 rspack 构建：
+
+```ts title=modern.config.ts
+import appTools, { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
+  runtime: {
+    router: true,
+  },
+  plugins: [
+    appTools({
+      bundler: 'experimental-rspack',
+    }),
+  ],
+});
+```
+
+:::tip
+从 webpack 迁移至 rspack，会有一些构建和配置能力上的差异，详情可参考：[配置差异](https://modernjs.dev/builder/guide/advanced/rspack-start.html#从-webpack-迁移到-rspack)
+:::
