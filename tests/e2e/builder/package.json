@@ -3,7 +3,7 @@
   "name": "@e2e/builder",
   "version": "0.1.0",
   "scripts": {
-    "test": "pnpm run test:webpack app-icon",
+    "test": "pnpm run test:webpack && pnpm run test:rspack",
     "test:webpack": "playwright test",
     "test:rspack": "PROVIDE_TYPE=rspack playwright test"
   },
