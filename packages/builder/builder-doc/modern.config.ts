@@ -215,7 +215,7 @@ export default defineConfig({
     builderConfig: {
       source: {
         alias: {
-          '@components': path.join(__dirname, 'docs/components'),
+          '@components': path.join(__dirname, 'src/components'),
           '@en': path.join(__dirname, 'docs/en'),
           '@zh': path.join(__dirname, 'docs/zh'),
         },
