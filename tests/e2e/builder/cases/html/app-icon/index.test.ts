@@ -41,6 +41,12 @@ test('should apply asset prefix to app icon URL', async () => {
   });
   const files = await builder.unwrapOutputJSON();
 
+  const {
+    origin: { bundlerConfigs },
+  } = await builder.instance.inspectConfig();
+
+  expect(bundlerConfigs[0].output.publicPath).toBe('https://www.example.com/');
+
   const html =
     files[Object.keys(files).find(file => file.endsWith('index.html'))!];
 
