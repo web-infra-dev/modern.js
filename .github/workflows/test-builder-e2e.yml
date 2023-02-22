@@ -1,5 +1,8 @@
 name: E2E Test (Builder)
 
+concurrency:
+  cancel-in-progress: true
+
 # todo: should remove push & pull_request before merge
 on:
   push:
