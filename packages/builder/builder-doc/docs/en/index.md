@@ -13,13 +13,22 @@ hero:
       link: /en/guide/quick-start.html
 
 features:
-  - title: Out of the box
-    details: Based on the practical experience of ByteDance, provide useful features for web development by default.
-    icon: 📦
-  - title: Deep optimization
-    details: Built-in multiple split chunk strategies, automatically optimize static assets, ensure performance of production app.
+  - title: Rust Bundler
+    details: Easily switch to rspack bundler with faster build speed.
     icon: 🚀
-  - title: Extensible
-    details: Provides rich configuration items and a flexible plugin system to support in-depth customization of all features.
+  - title: Deep optimization
+    details: Automatically optimize static resources, ensure the performance of production app.
+    icon: 🍭
+  - title: Out of the box
+    details: Base on the best practice at ByteDance, various capabilities are out-of-the-box.
+    icon: 📦
+  - title: Easy to Configure
+    details: Launch with zero configuration, then everything is configurable.
+    icon: 📖
+  - title: Pluggable
+    details: Comes with a lightweight plugin system to meet your customization needs.
+    icon: 🎨
+  - title: Multiple Outputs
+    details: Supports building output for Node.js, Web Workers, and other environments.
     icon: ✨
 ---
