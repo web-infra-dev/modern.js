@@ -29,6 +29,7 @@ import { logger } from './logger';
 import { join } from 'path';
 
 import _ from '@modern-js/utils/lodash';
+import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 
 export const defaultDevConfig: NormalizedSharedDevConfig = {
   hmr: true,
@@ -37,7 +38,7 @@ export const defaultDevConfig: NormalizedSharedDevConfig = {
   assetPrefix: '/',
   startUrl: false,
   progressBar: true,
-  host: 'localhost',
+  host: DEFAULT_DEV_HOST,
 };
 
 export const defaultSourceConfig: NormalizedSharedSourceConfig = {
