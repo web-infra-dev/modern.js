@@ -16,5 +16,6 @@ describe.skip('plugins/checkSyntax', () => {
 
     const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
+    process.env.NODE_ENV = 'test';
   });
 });

@@ -55,13 +55,13 @@ const provider = builderRspackProvider({
 });
 ```
 
-## Migrating from webpack to Rspack
+## Migrating from webpack to rspack
 
 Builder aims to eliminate the main differences between different bundlers and help users migrate at a lower cost. However, due to the different capabilities of each bundler, users still need to be aware of some differences.
 
 ### Configuration differences
 
-Currently, most of configuration options in Builder have been adapted for Rspack.
+Currently, most of configuration options in Builder have been adapted for rspack.
 Throughout this process, Builder's work includes but is not limited to:
 - Validating and encapsulating webpack plugins such as `@svgr/webpack` and `webpack-bundle-analyzer`;
 - Encapsulating rspack built-in features such as `css` and `minify`.
@@ -78,19 +78,19 @@ Unsupported configurations and capabilities include:
 
 > HTML related configurations in Builder.
 
-All configurations and capabilities under html are available within Rspack.
+All configurations and capabilities under html are available within rspack.
 
 #### Security Config
 
 > Security related configurations in Builder.
 
-All configurations and capabilities under security are **not supported** for use within Rspack.
+All configurations and capabilities under security are **not supported** for use within rspack.
 
 #### Dev Config
 
 > Dev related configurations in Builder.
 
-All configurations and capabilities under dev are available within Rspack.
+All configurations and capabilities under dev are available within rspack.
 
 #### Output Config
 
@@ -115,7 +115,7 @@ Unsupported configurations and capabilities include:
 
 > Experimental related configurations in the Builder
 
-All configurations and capabilities under experiments are **not supported** for use within Rspack.
+All configurations and capabilities under experiments are **not supported** for use within rspack.
 
 #### Performance Config
 

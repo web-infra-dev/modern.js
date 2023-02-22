@@ -131,6 +131,8 @@ export const CHAIN_ID = {
     INSPECTOR: 'inspector',
     /** AppIconPlugin */
     APP_ICON: 'app-icon',
+    /** FaviconUrlPlugin */
+    FAVICON_URL: 'favicon-url',
     /** LoadableWebpackPlugin */
     LOADABLE: 'loadable',
     /** WebpackManifestPlugin */

@@ -1,7 +1,11 @@
 - **类型：** `string`
 - **默认值：** `undefined`
 
-设置页面的 favicon 图标路径，可以设置为相对于项目根目录的相对路径，也可以设置为文件的绝对路径。暂不支持设置为 CDN URL。
+设置页面的 favicon 图标，可以设置为：
+
+- URL 地址。
+- 文件的绝对路径。
+- 相对于项目根目录的相对路径。
 
 配置该选项后，在编译过程中会自动将图标拷贝至 dist 目录下，并在 HTML 中添加相应的 `link` 标签。
 
@@ -25,6 +29,18 @@ import path from 'path';
 export default {
   html: {
     favicon: path.resolve(__dirname, './src/assets/icon.png'),
+  },
+};
+```
+
+设置为 URL：
+
+```js
+import path from 'path';
+
+export default {
+  html: {
+    favicon: 'https://foo.com/favicon.ico',
   },
 };
 ```
