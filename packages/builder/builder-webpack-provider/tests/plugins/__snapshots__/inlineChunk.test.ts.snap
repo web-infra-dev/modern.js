@@ -13,7 +13,6 @@ exports[`plugins/inlineChunk > should add InlineChunkHtmlPlugin properly by defa
         "chunks": [
           "main",
         ],
-        "favicon": undefined,
         "filename": "html/main/index.html",
         "inject": "head",
         "minify": {
@@ -59,7 +58,6 @@ exports[`plugins/inlineChunk > should use proper plugin options when disableInli
         "chunks": [
           "main",
         ],
-        "favicon": undefined,
         "filename": "html/main/index.html",
         "inject": "head",
         "minify": {
@@ -103,7 +101,6 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         "chunks": [
           "main",
         ],
-        "favicon": undefined,
         "filename": "html/main/index.html",
         "inject": "head",
         "minify": {
@@ -150,7 +147,6 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         "chunks": [
           "main",
         ],
-        "favicon": undefined,
         "filename": "html/main/index.html",
         "inject": "head",
         "minify": {

@@ -61,7 +61,6 @@ exports[`plugins/html > should allow to set inject by html.inject option 1`] = `
         "chunks": [
           "main",
         ],
-        "favicon": undefined,
         "filename": "html/main/index.html",
         "inject": "body",
         "minify": false,
@@ -88,7 +87,6 @@ exports[`plugins/html > should enable minify in production 1`] = `
         "chunks": [
           "main",
         ],
-        "favicon": undefined,
         "filename": "html/main/index.html",
         "inject": "head",
         "minify": {
@@ -123,7 +121,6 @@ exports[`plugins/html > should register html plugin correctly 1`] = `
         "chunks": [
           "main",
         ],
-        "favicon": undefined,
         "filename": "html/main/index.html",
         "inject": "head",
         "minify": false,
@@ -153,7 +150,6 @@ exports[`plugins/html > should support multi entry 1`] = `
         "chunks": [
           "main",
         ],
-        "favicon": undefined,
         "filename": "html/main/index.html",
         "inject": "head",
         "minify": false,
@@ -167,7 +163,6 @@ exports[`plugins/html > should support multi entry 1`] = `
         "chunks": [
           "foo",
         ],
-        "favicon": undefined,
         "filename": "html/foo/index.html",
         "inject": "head",
         "minify": false,
