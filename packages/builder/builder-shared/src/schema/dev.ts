@@ -19,6 +19,7 @@ export const ProgressBarConfigSchema: ZodType<ProgressBarConfig> = z.partialObj(
 export const sharedDevConfigSchema = z.partialObj({
   hmr: z.boolean(),
   port: z.number(),
+  host: z.string(),
   https: DevServerHttpsOptionsSchema,
   startUrl: z.union([z.boolean(), z.string(), z.array(z.string())]),
   beforeStartUrl: z.arrayOrNot(
