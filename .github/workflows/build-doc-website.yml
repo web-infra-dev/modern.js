@@ -6,6 +6,10 @@ on:
     paths:
       - 'toolkit/doc-tools-doc/**'
 
+  pull_request:
+    paths:
+      - 'toolkit/doc-tools-doc/**'
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -46,6 +50,8 @@ jobs:
         run: pnpm --filter @modern-js/doc-tools-doc run build:doc
 
       - name: Deploy 🚀
+        # Only deploy website in main branch
+        if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages

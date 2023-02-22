@@ -8,6 +8,12 @@ on:
       - 'packages/builder/builder-doc/**'
       - 'packages/toolkit/main-doc/**'
 
+  pull_request:
+    paths:
+      - 'website/main/**'
+      - 'packages/builder/builder-doc/**'
+      - 'packages/toolkit/main-doc/**'
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -49,6 +55,8 @@ jobs:
         run: cd website/main && npm run build:doc
 
       - name: Deploy 🚀
+        # Only deploy website in main branch
+        if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages
