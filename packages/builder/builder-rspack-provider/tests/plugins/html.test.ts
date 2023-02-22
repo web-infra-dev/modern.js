@@ -80,7 +80,7 @@ describe('plugins/html', () => {
     expect(bundlerConfigs[0]).toMatchSnapshot();
   });
 
-  it('should register faviconUrl plugin when html.favicon is an URL', async () => {
+  it('should register faviconUrl plugin when html.favicon is a URL', async () => {
     const builder = await createBuilder({
       plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {

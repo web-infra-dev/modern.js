@@ -103,7 +103,7 @@ describe('plugins/html', () => {
     expect(config).toMatchSnapshot();
   });
 
-  it('should register faviconUrl plugin when html.favicon is an URL', async () => {
+  it('should register faviconUrl plugin when html.favicon is a URL', async () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginEntry(), builderPluginHtml()],
       entry: {
