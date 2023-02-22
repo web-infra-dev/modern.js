@@ -156,12 +156,10 @@ export async function startDevServer<
 
   return new Promise<StartDevServerResult>(resolve => {
     server.listen(
-      host === 'localhost'
-        ? port
-        : {
-            host,
-            port,
-          },
+      {
+        host,
+        port,
+      },
       async (err: Error) => {
         if (err) {
           throw err;
