@@ -85,6 +85,10 @@ export const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
  * directory name for loader routes
  */
 export const LOADER_ROUTES_DIR = `loader-routes`;
+/**
+ * default host for dev
+ */
+export const DEFAULT_DEV_HOST = '0.0.0.0';
 
 /**
  * Internal app-tools plugins that work as soon as they are installed.
