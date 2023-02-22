@@ -1,6 +1,7 @@
 name: E2E Test (Builder)
 
 concurrency:
+  group: builder-test-${{ github.head_ref }}
   cancel-in-progress: true
 
 # todo: should remove push & pull_request before merge
