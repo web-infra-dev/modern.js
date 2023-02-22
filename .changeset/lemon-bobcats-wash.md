@@ -3,3 +3,5 @@
 ---
 
 fix: out dir
+
+fix: outDir 不生效
