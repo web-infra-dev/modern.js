@@ -27,6 +27,8 @@ test('should emit app icon to dist path', async () => {
 });
 
 test('should apply asset prefix to app icon URL', async () => {
+  process.env.NODE_ENV = 'production';
+
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
