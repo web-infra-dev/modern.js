@@ -1,8 +1,8 @@
 name: Type Check
 
 on:
-  pull_request:
-    branches: [main]
+  # pull_request:
+  #   branches: [main]
 
   merge_group:
 
