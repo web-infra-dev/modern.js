@@ -29,7 +29,41 @@ export default {
 };
 ```
 
-在默认情况下，我们开启了 [autoprefixer](https://github.com/postcss/autoprefixer) 来自动补齐 CSS 的浏览器前缀。如果你需要配置目标浏览器，可使用 [output.overrideBrowserslist](/api/config-output.html#outputoverridebrowserslist) 进行配置。
+### 内置 PostCSS 插件
+
+Builder 内置了一些 PostCSS 插件，会对 CSS 进行以下转换：
+
+- [autoprefixer](https://github.com/postcss/autoprefixer)：在默认情况下，我们开启了 autoprefixer 来自动补齐 CSS 的浏览器前缀。如果你需要配置目标浏览器，可使用 [output.overrideBrowserslist](/api/config-output.html#outputoverridebrowserslist) 进行配置。
+- [postcss-nesting](https://www.npmjs.com/package/postcss-nested)：提供 [CSS Nesting](https://drafts.csswg.org/css-nesting-1/) 支持，可以在 CSS 中使用嵌套写法，如：
+
+```css
+.my-table {
+  & td {
+    text-align: center;
+
+    &.c {
+      text-transform: uppercase;
+    }
+  }
+}
+```
+
+- [postcss-flexbugs-fixes](https://www.npmjs.com/package/postcss-flexbugs-fixes)：用于修复已知的 [Flex Bugs](https://github.com/philipwalton/flexbugs)。
+- [postcss-initial](https://www.npmjs.com/package/postcss-initial)：仅在需要兼容低版本浏览器时启用，提供对 [`initial` 属性值](https://developer.mozilla.org/en-US/docs/Web/CSS/initial_value) 的兼容。
+- [postcss-page-break](https://www.npmjs.com/package/postcss-page-break)：仅在需要兼容低版本浏览器时启用，提供对 [`break-` 属性](https://developer.mozilla.org/en-US/docs/Web/CSS/break-after) 的兼容。
+- [postcss-font-variant](https://www.npmjs.com/package/postcss-font-variant)：仅在需要兼容低版本浏览器时启用，提供对 [`font-variant`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant) 的兼容。
+- [postcss-media-minmax](https://www.npmjs.com/package/postcss-media-minmax)：仅在需要兼容低版本浏览器时启用，提供对 [Media Query Ranges](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries#syntax_improvements_in_level_4) 的兼容。
+- [postcss-custom-properties](https://www.npmjs.com/package/postcss-custom-properties)：仅在需要兼容低版本浏览器时启用，提供对 [Custom Properties](https://www.w3.org/TR/css-variables-1/) 的兼容，你可以在 CSS 中定义和使用自定义变量，如：
+
+```css
+:root {
+  --main-bg-color: pink;
+}
+
+body {
+  background-color: var(--main-bg-color);
+}
+```
 
 ## 使用 CSS Modules
 
@@ -69,16 +103,14 @@ export default {
 
 - 在组件中引用：
 
-```ts
-// src/App.tsx
+```ts title="src/App.tsx"
 // 引用 Arco Design 样式：
 import '@arco-design/web-react/dist/css/arco.css';
 ```
 
 - 在样式文件中引用：
 
-```css
-/* src/App.css */
+```css title="src/App.css"
 /* 引用 normalize.css */
 /* https://github.com/necolas/normalize.css */
 @import 'normalize.css';
