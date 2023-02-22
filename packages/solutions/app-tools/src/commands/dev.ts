@@ -1,4 +1,5 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 import { printInstructions } from '../utils/printInstructions';
 import {
   setServer,
@@ -70,7 +71,7 @@ export const dev = async (
       compiler: null,
     });
 
-    const host = normalizedConfig.dev?.host || 'localhost';
+    const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
     app.listen(
       {
