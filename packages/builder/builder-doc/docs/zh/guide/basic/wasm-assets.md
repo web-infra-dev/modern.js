@@ -2,7 +2,11 @@
 
 Builder 支持在代码引用 WebAssembly 资源。
 
-:::tip
+:::tip 什么是 WebAssembly
+WebAssembly（缩写为 wasm）是一种可移植、高性能的字节码格式，被设计用来在现代 Web 浏览器中执行 CPU 密集型计算任务，为 Web 平台带来了接近本地编译代码的性能和可靠性。
+:::
+
+:::info
 在使用 rspack 作为打包工具时，暂时不支持引用 Wasm 资源。
 :::
 

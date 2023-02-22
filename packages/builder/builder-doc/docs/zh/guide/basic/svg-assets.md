@@ -10,8 +10,7 @@ SVG 是 Scalable Vector Graphics 的缩写，意为可伸缩矢量图形。SVG �
 
 在 JS 文件中引用 SVG 资源时，如果你具名导入 `ReactComponent` 对象，Builder 会调用 [SVGR](https://react-svgr.com/)，将 SVG 图片转换为一个 React 组件。
 
-```tsx
-// src/component/Logo.tsx
+```tsx title="src/component/Logo.tsx"
 import { ReactComponent as Logo } from './static/logo.svg';
 
 export default () => <Logo />;
@@ -19,7 +18,7 @@ export default () => <Logo />;
 
 如果你使用默认导入，那么 SVG 会被当做普通的静态资源来处理，你会得到一个 URL 字符串：
 
-```tsx
+```tsx title="src/component/Logo.tsx"
 import logoURL from './static/logo.svg';
 
 console.log(logoURL); // => "/static/logo.6c12aba3.png"
@@ -39,8 +38,7 @@ export default {
 
 此时再使用默认导入，你会得到一个 React 组件，而不是 URL：
 
-```tsx
-// src/component/Logo.tsx
+```tsx title="src/component/Logo.tsx"
 import Logo from './static/logo.svg';
 
 export default () => <Logo />;

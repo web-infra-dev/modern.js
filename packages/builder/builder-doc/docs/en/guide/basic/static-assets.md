@@ -108,8 +108,7 @@ TS2307: Cannot find module './logo.png' or its corresponding type declarations.
 
 To fix this, you need to add a type declaration file for the static assets, please create a `src/global.d.ts` file, and add the corresponding type declaration. Taking png images as an example, you need to add the following declarations:
 
-```ts
-// src/global.d.ts
+```ts title="src/global.d.ts"
 declare module '*.png' {
   const content: string;
   export default content;

@@ -107,8 +107,7 @@ TS2304: Cannot find name 'CUSTOM_VAR'.
 
 To fix this, you can create a `src/env.d.ts` file in your project and add the following content:
 
-```ts
-// src/env.d.ts
+```ts title="src/env.d.ts"
 declare const CUSTOM_VAR: string;
 ```
 
