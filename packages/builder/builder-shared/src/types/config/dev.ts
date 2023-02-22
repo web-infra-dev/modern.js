@@ -40,7 +40,7 @@ export interface SharedDevConfig {
   /**
    * Used to set the host of Dev Server.
    */
-  host: string;
+  host?: string;
 }
 
 export type NormalizedSharedDevConfig = SharedDevConfig &
