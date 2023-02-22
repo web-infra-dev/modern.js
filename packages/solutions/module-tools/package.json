@@ -39,8 +39,8 @@
     "prepublishOnly": "only-allow-pnpm",
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
-    "test": "jest --env ./jest-env.js",
-    "test:update": "jest --updateSnapshot --env ./jest-env.js",
+    "test": "jest",
+    "test:update": "jest --updateSnapshot",
     "new": "modern-lib new"
   },
   "dependencies": {
@@ -66,7 +66,6 @@
     "@types/node": "^14",
     "fs-extra": "10.1.0",
     "jest": "^27",
-    "jest-environment-node": "^27.2.2",
     "path-browserify": "1.0.1",
     "postcss": "8.4.6",
     "postcss-alias": "2.0.0",

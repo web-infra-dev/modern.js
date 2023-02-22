@@ -82,7 +82,6 @@ export const runRollup = async (
           // Ensure we can parse the latest code
           target: ts.ScriptTarget.ESNext,
         },
-        tsconfig: tsconfigPath,
       }),
     ].filter(Boolean),
   };
