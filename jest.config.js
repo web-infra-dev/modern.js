@@ -26,7 +26,7 @@ module.exports = {
   },
   moduleNameMapper: {},
   globals: {},
-  testEnvironment: 'jsdom',
+  testEnvironment: './jest-env.js',
   resolver: '<rootDir>/jest.resolver.js',
   rootDir: __dirname,
   testTimeout: 15 * 1000,
