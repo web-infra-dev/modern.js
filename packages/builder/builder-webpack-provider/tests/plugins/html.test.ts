@@ -103,6 +103,24 @@ describe('plugins/html', () => {
     expect(config).toMatchSnapshot();
   });
 
+  it('should register faviconUrl plugin when html.favicon is a URL', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginEntry(), builderPluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        html: {
+          favicon: 'https://www.foo.com/favicon.ico',
+        },
+      },
+    });
+
+    expect(
+      await builder.matchWebpackPlugin('HtmlFaviconUrlPlugin'),
+    ).toBeTruthy();
+  });
+
   it('should allow to set inject by html.inject option', async () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginEntry(), builderPluginHtml()],

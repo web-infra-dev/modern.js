@@ -292,6 +292,22 @@ Modern.js 建议必须有根 layout 和根 loading。
 
 同理，当路由从 `/` 或者 `/blog` 跳转到 `/blog/123` 时，如果 `blog/[id]/page` 组件的 JS Chunk 还未加载，也会先展示 `loading.tsx` 中导出的组件 UI。
 
+### 路由重定向
+
+可以通过创建 [`data loader`](/guides/basic-features/data-fetch) 文件做路由的重定向，如有文件 `routes/user/page.tsx`，想对这个文件对应的路由做重定向，可以创建 `routes/user/page.loader.ts` 文件：
+
+```ts title="routes/user/page.loader.ts"
+import { redirect } from "@edenx/runtime/router"
+
+export default () => {
+  const user = await getUser();
+  if(!user){
+    return redirect('/login');
+  }
+  return null;
+}
+```
+
 ### 错误处理
 
 `routes/` 下每一层目录中，开发者同样可以定义一个 `error.tsx` 文件，默认导出一个 `<ErrorBoundary>` 组件。

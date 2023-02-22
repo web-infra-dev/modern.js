@@ -1,18 +1,18 @@
 # Rspack Start
 
-[Rspack](https://www.rspack.org/) is a Rust bundler developed by ByteDance Web Infra team, with core architecture aligned with webpack's implementation. Currently, Rspack Provider has adapted and validated most of the configuration capabilities in Builder.
+[Rspack](https://www.rspack.org/) is a Rust bundler developed by ByteDance Web Infra team, with core architecture aligned with webpack's implementation. Currently, rspack-provider has adapted and validated most of the configuration capabilities in Builder.
 
-Switching to Rspack as the bundler can provide a faster compilation speed.
+Switching to rspack as the bundler can provide a faster compilation speed.
 
 ## Enable Rspack
 
 ### Enable in Modern.js framework
 
-We recommend enabling Rspack as the bundler for Modern.js framework through the [Modern.js generator](https://modernjs.dev/en/apis/app/commands/new.html#enable-features) if you prefer it over the default Webpack bundler.
+We recommend enabling rspack as the bundler for Modern.js framework through the [Modern.js generator](https://modernjs.dev/en/apis/app/commands/new.html#enable-features) if you prefer it over the default Webpack bundler.
 
 Of course, you can also access it manually by following the steps below:
 
-1. Install Rspack Provider（The version needs to be the same as the modern.js version).
+1. Install rspack-provider（The version needs to be the same as the modern.js version).
 
 ```
 pnpm add @modern-js/builder-rspack-provider@2.4.0 -D
@@ -42,7 +42,7 @@ export default defineConfig<'rspack'>({
 
 ### Use Builder in a front-end framework
 
-Integrating Rspack Provider into a frontend framework is similar to integrating Webpack Provider. You only need to change the dependency from `@modern-js/builder-webpack-provider` to `@modern-js/builder-rspack-provider`.
+Integrating rspack-provider into a frontend framework is similar to integrating webpack-provider. You only need to change the dependency from `@modern-js/builder-webpack-provider` to `@modern-js/builder-rspack-provider`.
 
 ```ts title=modern.config.ts
 import { createBuilder } from '@modern-js/builder';
@@ -55,16 +55,16 @@ const provider = builderRspackProvider({
 });
 ```
 
-## Migrating from webpack to Rspack
+## Migrating from webpack to rspack
 
 Builder aims to eliminate the main differences between different bundlers and help users migrate at a lower cost. However, due to the different capabilities of each bundler, users still need to be aware of some differences.
 
 ### Configuration differences
 
-Currently, most of configuration options in Builder have been adapted for Rspack.
+Currently, most of configuration options in Builder have been adapted for rspack.
 Throughout this process, Builder's work includes but is not limited to:
 - Validating and encapsulating webpack plugins such as `@svgr/webpack` and `webpack-bundle-analyzer`;
-- Encapsulating Rspack built-in features such as `css` and `minify`.
+- Encapsulating rspack built-in features such as `css` and `minify`.
 
 #### Source Config
 
@@ -78,19 +78,19 @@ Unsupported configurations and capabilities include:
 
 > HTML related configurations in Builder.
 
-All configurations and capabilities under html are available within Rspack.
+All configurations and capabilities under html are available within rspack.
 
 #### Security Config
 
 > Security related configurations in Builder.
 
-All configurations and capabilities under security are **not supported** for use within Rspack.
+All configurations and capabilities under security are **not supported** for use within rspack.
 
 #### Dev Config
 
 > Dev related configurations in Builder.
 
-All configurations and capabilities under dev are available within Rspack.
+All configurations and capabilities under dev are available within rspack.
 
 #### Output Config
 
@@ -115,7 +115,7 @@ Unsupported configurations and capabilities include:
 
 > Experimental related configurations in the Builder
 
-All configurations and capabilities under experiments are **not supported** for use within Rspack.
+All configurations and capabilities under experiments are **not supported** for use within rspack.
 
 #### Performance Config
 
@@ -151,9 +151,9 @@ Unsupported configurations and capabilities include:
 In addition to the above configurations, some of the supported configurations may have differences in their capabilities. For specific differences in configurations, please refer to the corresponding API for each configuration.
 :::
 
-### Modify the Rspack configuration object
+### Modify the Rspack Configuration Object
 
-You can use [tools.rspack](/api/config-tools.html#toolsrspack) to modify the Rspack configuration object.
+You can use [tools.rspack](/api/config-tools.html#toolsrspack) to modify the rspack configuration object.
 
 ```ts
 export default {

@@ -28,6 +28,7 @@ export const JS_DIST_DIR = 'static/js';
 export const CSS_DIST_DIR = 'static/css';
 export const SVG_DIST_DIR = 'static/svg';
 export const FONT_DIST_DIR = 'static/font';
+export const WASM_DIST_DIR = 'static/wasm';
 export const IMAGE_DIST_DIR = 'static/image';
 export const MEDIA_DIST_DIR = 'static/media';
 

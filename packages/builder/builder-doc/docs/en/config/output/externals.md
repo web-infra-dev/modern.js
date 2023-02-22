@@ -7,7 +7,7 @@ At build time, prevent some `import` dependencies from being packed into bundles
 For more information, please see: [webpack Externals](https://webpack.js.org/configuration/externals/)
 
 :::tip
-When using Rspack as Bundler, only the `Record<string, string>` type is supported.
+When using rspack as the bundler, only the `Record<string, string>` type is supported.
 :::
 
 ### Example

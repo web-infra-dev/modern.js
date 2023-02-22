@@ -15,7 +15,7 @@ Builder 专注于解决 Web 应用构建场景，我们不推荐你使用 Builde
 
 ## Builder 是否会接入 Turbopack？
 
-Builder 已经在对接 Rspack，并且目前 Turbopack 仅支持在 Next.js 中使用，因此 Builder 暂时没有接入 [Turbopack](https://turbo.build/pack) 的计划。
+Builder 已经在对接 rspack，并且目前 Turbopack 仅支持在 Next.js 中使用，因此 Builder 暂时没有接入 [Turbopack](https://turbo.build/pack) 的计划。
 
 ## Builder 是否会接入 Vite？
 

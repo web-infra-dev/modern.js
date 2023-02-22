@@ -37,6 +37,10 @@ export interface SharedDevConfig {
    * Whether to display progress bar during compilation.
    */
   progressBar?: boolean | ProgressBarConfig;
+  /**
+   * Used to set the host of Dev Server.
+   */
+  host?: string;
 }
 
 export type NormalizedSharedDevConfig = SharedDevConfig &
