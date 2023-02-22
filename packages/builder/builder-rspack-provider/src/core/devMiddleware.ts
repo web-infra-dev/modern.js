@@ -30,7 +30,10 @@ function applyHMREntry(compiler: Compiler, clientPath: string) {
   const entires = [...hotRuntimeEntires, clientPath];
 
   for (const key in compiler.options.entry) {
-    compiler.options.entry[key].import.unshift(...entires);
+    compiler.options.entry[key].import = [
+      ...entires,
+      ...(compiler.options.entry[key].import || []),
+    ];
   }
 }
 

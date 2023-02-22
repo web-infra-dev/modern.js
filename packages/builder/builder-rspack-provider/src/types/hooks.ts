@@ -1,12 +1,8 @@
 import type { ModifyChainUtils } from '@modern-js/builder-shared';
-import type {
-  RspackConfig,
-  RspackRuleSet,
-  RspackPluginInstance,
-} from './rspack';
+import type { RspackConfig, RspackRule, RspackPluginInstance } from './rspack';
 
 export type ModifyRspackConfigUtils = ModifyChainUtils & {
-  addRules: (rules: RspackRuleSet | RspackRuleSet[]) => void;
+  addRules: (rules: RspackRule | RspackRule[]) => void;
   prependPlugins: (
     plugins: RspackPluginInstance | RspackPluginInstance[],
   ) => void;

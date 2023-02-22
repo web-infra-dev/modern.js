@@ -20,9 +20,11 @@ export interface RspackConfig extends RspackOptions {
 /** T[] => T */
 type GetElementType<T extends any[]> = T extends (infer U)[] ? U : never;
 
-export type RspackRuleSet = GetElementType<
+export type RspackRule = GetElementType<
   NonNullable<NonNullable<RspackConfig['module']>['rules']>
 >;
+
+export type RuleSetRule = Rspack.RuleSetRule;
 
 export type RspackPluginInstance = GetElementType<
   NonNullable<RspackConfig['plugins']>
