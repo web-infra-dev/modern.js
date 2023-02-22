@@ -12,6 +12,7 @@ import { logger, debug } from './logger';
 import { DEFAULT_PORT } from './constants';
 import { createAsyncHook } from './createHook';
 import { Compiler } from 'webpack';
+import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 
 type ServerOptions = Exclude<StartDevServerOptions['serverOptions'], undefined>;
 
@@ -139,7 +140,7 @@ export async function startDevServer<
     strictPort,
   });
 
-  const host = serverOptions?.dev?.host || 'localhost';
+  const host = serverOptions?.dev?.host || DEFAULT_DEV_HOST;
 
   options.context.devServer = {
     hostname: host,
