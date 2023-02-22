@@ -21,7 +21,7 @@ export async function applyJSMinimizer(
     options.pureFuncs = pureFuncs;
   }
 
-  setConfig(rspackConfig, 'builtins.minify', options);
+  setConfig(rspackConfig, 'builtins.minifyOptions', options);
 }
 
 export const builderPluginMinimize = (): BuilderPlugin => ({
@@ -37,8 +37,6 @@ export const builderPluginMinimize = (): BuilderPlugin => ({
 
       if (isMinimize) {
         await applyJSMinimizer(rspackConfig, config);
-      } else {
-        setConfig(rspackConfig, 'builtins.minify', false);
       }
     });
   },

@@ -6,7 +6,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
     },
-    "minify": false,
     "progress": {
       "prefix": "Client",
     },
@@ -485,7 +484,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "define": {
       "process.env.NODE_ENV": "\\"production\\"",
     },
-    "minify": {},
+    "minifyOptions": {},
     "progress": {
       "prefix": "Client",
     },
@@ -964,7 +963,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
     },
-    "minify": false,
     "progress": {
       "prefix": "Client",
     },
