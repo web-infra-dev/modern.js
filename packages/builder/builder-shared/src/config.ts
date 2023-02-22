@@ -37,6 +37,7 @@ export const defaultDevConfig: NormalizedSharedDevConfig = {
   assetPrefix: '/',
   startUrl: false,
   progressBar: true,
+  host: 'localhost',
 };
 
 export const defaultSourceConfig: NormalizedSharedSourceConfig = {
