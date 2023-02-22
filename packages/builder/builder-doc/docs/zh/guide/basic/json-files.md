@@ -8,15 +8,14 @@ Builder 支持在代码中引用 JSON 文件，也支持引用 [YAML](https://ya
 
 ### 示例
 
-```json
-// example.json
+```json title="example.json"
 {
   "name": "foo",
   "items": [1, 2]
 }
 ```
 
-```js
+```js title="index.js"
 import example from './example.json';
 
 console.log(example.name); // 'foo';
@@ -39,8 +38,7 @@ YAML 是一种数据序列化语言，通常用于编写配置文件。
 
 ### 示例
 
-```yaml
-# example.yaml
+```yaml title="example.yaml"
 ---
 hello: world
 foo:
@@ -58,8 +56,7 @@ console.log(example.foo); // { bar: 'baz' };
 
 当你在 TypeScript 代码中引用 YAML 文件时，请在项目中创建 `src/global.d.ts` 文件，并添加相应的类型声明：
 
-```ts
-// src/global.d.ts
+```ts title="src/global.d.ts"
 declare module '*.yaml' {
   const content: Record<string, any>;
   export default content;
@@ -79,8 +76,7 @@ TOML 是一种语义明显、易于阅读的配置文件格式。
 
 ### 示例
 
-```toml
-# example.toml
+```toml title="example.toml"
 hello = "world"
 
 [foo]
@@ -98,8 +94,7 @@ console.log(example.foo); // { bar: 'baz' };
 
 当你在 TypeScript 代码中引用 TOML 文件时，请在项目中创建 `src/global.d.ts` 文件，并添加相应的类型声明：
 
-```ts
-// src/global.d.ts
+```ts title="src/global.d.ts"
 declare module '*.toml' {
   const content: Record<string, any>;
   export default content;
