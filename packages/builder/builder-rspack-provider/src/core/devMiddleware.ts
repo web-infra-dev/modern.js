@@ -47,5 +47,6 @@ export const getDevMiddleware: (
   // register hooks for each compilation, update socket stats if recompiled
   setupServerHooks(compiler, callbacks);
 
+  // @ts-expect-error
   return inner(compiler, restOptions);
 };
