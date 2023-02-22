@@ -1,4 +1,5 @@
 import type { Header } from './search';
+import { RemoteSearchIndexInfo } from '@/shared/types';
 
 const MAX_TITLE_LENGTH = 20;
 
@@ -46,3 +47,16 @@ export function normalizeTextCase(text: string) {
 export function removeDomain(url: string) {
   return url.replace(/https?:\/\/[^/]+/, '');
 }
+
+export const normalizeSearchIndexes = (
+  items: RemoteSearchIndexInfo[],
+): { value: string; label: string }[] => {
+  return items.map(item =>
+    typeof item === 'string'
+      ? {
+          value: item,
+          label: item,
+        }
+      : item,
+  );
+};

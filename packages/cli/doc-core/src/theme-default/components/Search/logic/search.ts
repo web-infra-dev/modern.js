@@ -5,8 +5,9 @@ import { LocalProvider } from './providers/LocalProvider';
 import { RemoteProvider } from './providers/RemoteProvider';
 import { normalizeHref } from '@/runtime';
 import {
+  LocalSearchOptions,
   PageIndexInfo,
-  SearchOptions as UserSearchConfig,
+  RemoteSearchOptions,
 } from '@/shared/types';
 
 const THRESHOLD_CONTENT_LENGTH = 100;
@@ -49,7 +50,7 @@ export interface MatchResult {
   }[];
 }
 
-export type SearchOptions = UserSearchConfig & {
+export type SearchOptions = (LocalSearchOptions | RemoteSearchOptions) & {
   currentLang: string;
   extractGroupName: (path: string) => string;
 };
