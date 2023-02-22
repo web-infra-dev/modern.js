@@ -80,6 +80,28 @@ describe('plugins/html', () => {
     expect(bundlerConfigs[0]).toMatchSnapshot();
   });
 
+  it('should register faviconUrl plugin when html.favicon is a URL', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginEntry(), builderPluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        html: {
+          favicon: 'https://www.foo.com/favicon.ico',
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(
+      matchPlugin(bundlerConfigs[0], 'HtmlFaviconUrlPlugin'),
+    ).toBeDefined();
+  });
+
   it('should allow to set inject by html.inject option', async () => {
     const builder = await createBuilder({
       plugins: [builderPluginEntry(), builderPluginHtml()],

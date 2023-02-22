@@ -9,6 +9,7 @@ import {
   getFavicon,
   getMetaTags,
   getTemplatePath,
+  type FaviconUrls,
 } from '@modern-js/builder-shared';
 import type {
   DefaultBuilderPlugin,
@@ -73,6 +74,9 @@ async function getChunks(entryName: string, entryValue: string | string[]) {
 
   return [...dependOn, entryName];
 }
+
+// Determine if the string is a favicon url
+const isFaviconUrl = (str: string) => str.startsWith('http');
 
 export const applyInjectTags = (api: SharedBuilderPluginAPI) => {
   api.modifyBundlerChain(async (chain, { HtmlPlugin, CHAIN_ID }) => {
@@ -142,6 +146,7 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
         const entries = chain.entryPoints.entries() || {};
         const entryNames = Object.keys(entries);
         const htmlPaths = api.getHTMLPaths();
+        const faviconUrls: FaviconUrls = [];
 
         await Promise.all(
           entryNames.map(async (entryName, index) => {
@@ -161,11 +166,22 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
               chunks,
               inject,
               minify,
-              favicon,
               filename,
               template,
               templateParameters,
             };
+
+            if (favicon) {
+              if (isFaviconUrl(favicon)) {
+                faviconUrls.push({
+                  filename,
+                  url: favicon,
+                });
+              } else {
+                // HTMLWebpackPlugin only support favicon file path
+                pluginOptions.favicon = favicon;
+              }
+            }
 
             const finalOptions = applyOptionsChain(
               pluginOptions,
@@ -209,6 +225,16 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
             // todo: not support in rspack
             // @ts-expect-error
             chain.output.crossOriginLoading(formattedCrossorigin);
+          }
+
+          if (faviconUrls.length) {
+            const { HtmlFaviconUrlPlugin } = await import(
+              '@modern-js/builder-shared'
+            );
+
+            chain
+              .plugin(CHAIN_ID.PLUGIN.FAVICON_URL)
+              .use(HtmlFaviconUrlPlugin, [{ faviconUrls, HtmlPlugin }]);
           }
 
           if (appIcon) {
