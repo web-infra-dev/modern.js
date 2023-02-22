@@ -4,13 +4,9 @@ concurrency:
   group: builder-test-${{ github.head_ref }}
   cancel-in-progress: true
 
-# todo: should remove push & pull_request before merge
 on:
   push:
-    branches: [main, next]
-
-  pull_request:
-    branches: [main, next]
+    branches: [main]
 
   workflow_dispatch:
 
