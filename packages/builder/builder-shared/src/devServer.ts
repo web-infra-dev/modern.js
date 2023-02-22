@@ -139,8 +139,10 @@ export async function startDevServer<
     strictPort,
   });
 
+  const host = serverOptions?.dev?.host || 'localhost';
+
   options.context.devServer = {
-    hostname: 'localhost',
+    hostname: host,
     port,
   };
 
@@ -152,28 +154,34 @@ export async function startDevServer<
   await server.init();
 
   return new Promise<StartDevServerResult>(resolve => {
-    server.listen(port, async (err: Error) => {
-      if (err) {
-        throw err;
-      }
-
-      debug('listen dev server done');
-
-      const { getAddressUrls } = await import('@modern-js/utils');
-      const protocol = builderConfig.dev?.https ? 'https' : 'http';
-      const urls = getAddressUrls(protocol, port);
-
-      if (printURLs) {
-        await printDevServerURLs(urls);
-      }
-
-      await options.context.hooks.onAfterStartDevServerHook.call({ port });
-      resolve({
+    server.listen(
+      {
+        host,
         port,
-        urls: urls.map(item => item.url),
-        server,
-      });
-    });
+      },
+      async (err: Error) => {
+        if (err) {
+          throw err;
+        }
+
+        debug('listen dev server done');
+
+        const { getAddressUrls } = await import('@modern-js/utils');
+        const protocol = builderConfig.dev?.https ? 'https' : 'http';
+        const urls = getAddressUrls(protocol, port);
+
+        if (printURLs) {
+          await printDevServerURLs(urls);
+        }
+
+        await options.context.hooks.onAfterStartDevServerHook.call({ port });
+        resolve({
+          port,
+          urls: urls.map(item => item.url),
+          server,
+        });
+      },
+    );
   });
 }
 
