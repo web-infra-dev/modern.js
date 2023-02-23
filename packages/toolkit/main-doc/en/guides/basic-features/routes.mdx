@@ -225,6 +225,22 @@ When the component exists in the routing directory, all routing switches under t
 
 When a route jumps from `/` to `/blog`, if the JS Chunk of the `<Blog>` component is not loaded, the component UI exported in `loading.tsx` will be displayed first. But when jumping from `/blog` to `/blog/20220101`, it will not be displayed.
 
+### Redirect
+
+You can redirect routes by creating a [`data loader`](/guides/basic-features/data-fetch) file, Suppose you have the file `routes/user/page.tsx` and you want to redirect the route corresponding to this file, you can create the file `routes/user/page.loader.ts`:
+
+```ts title="routes/user/page.loader.ts"
+import { redirect } from "@edenx/runtime/router"
+
+export default () => {
+  const user = await getUser();
+  if(!user){
+    return redirect('/login');
+  }
+  return null;
+}
+```
+
 ### ErrorBoundary
 
 In each layer directory under `routes/`, the developer can also define a `error.tsx` file, and export a `<ErrorBoundary>` component by default.

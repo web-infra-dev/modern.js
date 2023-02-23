@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.5.0",
+  "version": "2.6.0",
   "types": "./src",
   "jsnext:source": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -46,8 +46,7 @@
     "@babel/runtime": "^7.18.0",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/prod-server": "workspace:*",
-    "wrangler": "^2.9.0"
+    "@modern-js/prod-server": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

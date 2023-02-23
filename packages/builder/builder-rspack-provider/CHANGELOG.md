@@ -1,5 +1,30 @@
 # @modern-js/builder-rspack-provider
 
+## 2.6.0
+
+### Patch Changes
+
+- 0fe658a: feat(builder): support passing URL to html.favicon
+
+  feat(builder): 支持在 html.favicon 中直接传入 URL
+
+- Updated dependencies [b92d6db]
+- Updated dependencies [ba6db6e]
+- Updated dependencies [ba6db6e]
+- Updated dependencies [e1f799e]
+- Updated dependencies [107f674]
+- Updated dependencies [7915ab3]
+- Updated dependencies [03d7f7d]
+- Updated dependencies [fae9d1b]
+- Updated dependencies [49fa0b1]
+- Updated dependencies [0fe658a]
+- Updated dependencies [62930b9]
+  - @modern-js/builder-shared@2.6.0
+  - @modern-js/server@2.6.0
+  - @modern-js/utils@2.6.0
+  - @modern-js/types@2.6.0
+  - @modern-js/e2e@2.6.0
+
 ## 2.5.0
 
 ### Minor Changes

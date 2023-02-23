@@ -1,5 +1,32 @@
 # @modern-js/plugin-storybook
 
+## 2.6.0
+
+### Patch Changes
+
+- 77887d8: fix(storybook): remove `require` and fix dist/template path
+  fix(storybook): 移除 require 代码以及修复 dist/template 的路径问题
+- Updated dependencies [671477d]
+- Updated dependencies [b92d6db]
+- Updated dependencies [e1f799e]
+- Updated dependencies [107f674]
+- Updated dependencies [7915ab3]
+- Updated dependencies [03d7f7d]
+- Updated dependencies [1c76d0e]
+- Updated dependencies [fae9d1b]
+- Updated dependencies [a909ad1]
+- Updated dependencies [49fa0b1]
+- Updated dependencies [0fe658a]
+- Updated dependencies [1906d7b]
+- Updated dependencies [62930b9]
+  - @modern-js/builder-webpack-provider@2.6.0
+  - @modern-js/runtime@2.6.0
+  - @modern-js/builder-shared@2.6.0
+  - @modern-js/utils@2.6.0
+  - @modern-js/builder@2.6.0
+  - @modern-js/plugin-router-v5@2.6.0
+  - @modern-js/builder-plugin-node-polyfill@2.6.0
+
 ## 2.5.0
 
 ### Patch Changes
