@@ -81,9 +81,9 @@ When a routing file is passed through `[]`, it is passed as a [dynamic route](/g
 
 ```tsx
 // routes/user/[id]/page.loader.tsx
-import { LoaderArgs } from '@modern-js/runtime/router';
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
 
-export default async ({ params }: LoaderArgs) => {
+export default async ({ params }: LoaderFunctionArgs) => {
   const { id } = params;
   const res = await fetch(`https://api/user/${id}`);
   return res.json();
@@ -100,9 +100,9 @@ A common usage scenario is to obtain query parameters via `request`:
 
 ```tsx
 // routes/user/[id]/page.loader.ts
-import { LoaderArgs } from '@modern-js/runtime/router';
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
 
-export default async ({ request }: LoaderArgs) => {
+export default async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const userId = url.searchParams.get('id');
   return queryUser(userId);

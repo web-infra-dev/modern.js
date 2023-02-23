@@ -67,6 +67,7 @@ async function createInternalBuildConfig(
 
   return {
     html: {
+      favicon: config.doc?.icon,
       template: path.join(PACKAGE_ROOT, 'index.html'),
     },
     output: {

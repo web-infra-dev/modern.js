@@ -6,6 +6,7 @@ import {
 import { getDistPath, getFilename } from '../fs';
 import { DEFAULT_PORT } from '../constants';
 import { addTrailingSlash } from '../utils';
+import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 
 export function applyBuilderOutputPlugin(api: SharedBuilderPluginAPI) {
   api.modifyBundlerChain(
@@ -78,7 +79,7 @@ function getPublicPath({
   } else if (typeof dev.assetPrefix === 'string') {
     publicPath = dev.assetPrefix;
   } else if (dev.assetPrefix === true) {
-    const hostname = context.devServer?.hostname || 'localhost';
+    const hostname = context.devServer?.hostname || DEFAULT_DEV_HOST;
     const port = context.devServer?.port || DEFAULT_PORT;
     publicPath = `//${hostname}:${port}/`;
   }

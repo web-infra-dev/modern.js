@@ -1,4 +1,5 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 import { printInstructions } from '../utils/printInstructions';
 import {
   setServer,
@@ -55,6 +56,7 @@ export const dev = async (
     dev: {
       port,
       https: normalizedConfig.dev.https,
+      host: normalizedConfig.dev.host,
       ...normalizedConfig.tools?.devServer,
     },
     pwd: appDirectory,
@@ -68,12 +70,21 @@ export const dev = async (
       ...(serverOptions as any),
       compiler: null,
     });
-    app.listen(port, async (err: Error) => {
-      if (err) {
-        throw err;
-      }
-      printInstructions(hookRunners, appContext, normalizedConfig);
-    });
+
+    const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
+
+    app.listen(
+      {
+        port,
+        host,
+      },
+      async (err: Error) => {
+        if (err) {
+          throw err;
+        }
+        printInstructions(hookRunners, appContext, normalizedConfig);
+      },
+    );
   } else {
     const { server } = await appContext.builder!.startDevServer({
       printURLs: false,

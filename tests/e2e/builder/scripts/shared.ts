@@ -57,10 +57,8 @@ export const createBuilder = async (
   return builder;
 };
 
-export async function dev(
-  builderOptions: CreateBuilderOptions,
-  config: BuilderConfig = {},
-) {
+const updateConfigForTest = (config: BuilderConfig) => {
+  // make devPort random to avoid port conflict
   if (!config.dev?.port) {
     config.dev = {
       ...(config.dev || {}),
@@ -68,8 +66,26 @@ export async function dev(
     };
   }
 
+  config.dev!.progressBar = config.dev!.progressBar || false;
+
+  if (!config.performance?.buildCache) {
+    config.performance = {
+      ...(config.performance || {}),
+      buildCache: false,
+    };
+  }
+};
+
+export async function dev(
+  builderOptions: CreateBuilderOptions,
+  config: BuilderConfig = {},
+) {
+  updateConfigForTest(config);
+
   const builder = await createBuilder(builderOptions, config);
-  return builder.startDevServer();
+  return builder.startDevServer({
+    printURLs: false,
+  });
 }
 
 export async function build(
@@ -80,12 +96,8 @@ export async function build(
   config: BuilderConfig = builderOptions.builderConfig || {},
   runServer = true,
 ) {
-  if (!config.performance?.buildCache) {
-    config.performance = {
-      ...(config.performance || {}),
-      buildCache: false,
-    };
-  }
+  updateConfigForTest(config);
+
   const builder = await createBuilder(builderOptions, config);
 
   builder.removePlugins(['builder-plugin-file-size']);
@@ -101,12 +113,9 @@ export async function build(
 
   const { distPath } = builder.context;
 
-  // make devPort random to avoid port conflict
-  const devPort = config.dev?.port || Math.ceil(Math.random() * 10000) + 10000;
-
   const { port, close } = runServer
     ? await runStaticServer(distPath, {
-        port: devPort,
+        port: config.dev!.port,
       })
     : { port: 0, close: noop };
 

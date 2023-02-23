@@ -108,8 +108,7 @@ TS2307: Cannot find module './logo.png' or its corresponding type declarations.
 
 此时你需要为静态资源添加类型声明文件，请在项目中创建 `src/global.d.ts` 文件，并添加相应的类型声明。以 png 图片为例，需要添加以下声明：
 
-```ts
-// src/global.d.ts
+```ts title="src/global.d.ts"
 declare module '*.png' {
   const content: string;
   export default content;

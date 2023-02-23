@@ -2,13 +2,13 @@
 
 [Rspack](https://www.rspack.org/) 是字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现。目前 rspack-provider 已适配并验证了 Builder 内大部分配置能力。
 
-通过将打包工具切换成 Rspack，可体验更快的编译速度。
+通过将打包工具切换成 rspack，可体验更快的编译速度。
 
 ## 启用 Rspack
 
 ### 在 Modern.js 框架中启用
 
-Modern.js 框架默认使用 Webpack 作为打包工具。如果希望启用 rspack 作为打包工具，我们推荐通过 [Modern.js 生成器](https://modernjs.dev/apis/app/commands/new.html#启用可选功能) 方式启用。
+Modern.js 框架默认使用 webpack 作为打包工具。如果希望启用 rspack 作为打包工具，我们推荐通过 [Modern.js 生成器](https://modernjs.dev/apis/app/commands/new.html#启用可选功能) 方式启用。
 
 当然，你也可以通过下面的步骤来手动接入:
 
@@ -55,13 +55,13 @@ const provider = builderRspackProvider({
 });
 ```
 
-## 从 webpack 迁移到 Rspack
+## 从 webpack 迁移到 rspack
 
 Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较低成本进行迁移。但由于各个打包工具的能力不同，部分差异仍需用户了解。
 
 ### 配置差异
 
-目前，Builder 内大部分的配置项已经适配了 Rspack。Builder 所做的工作包括不限于：
+目前，Builder 内大部分的配置项已经适配了 rspack。Builder 所做的工作包括不限于：
 
 - 对 webpack 插件进行验证及封装。如 @svgr/webpack、webpack-bundle-analyzer 等;
 - 对 rspack 内置能力进行封装，如 css、minify 等;

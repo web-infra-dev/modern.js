@@ -1,4 +1,5 @@
-const APPEARANCE_KEY = 'modern-theme-appearance';
+import { APPEARANCE_KEY } from '@/shared/utils';
+
 let classList: DOMTokenList;
 // Determine if the theme mode of the user's operating system is dark
 let userPreference: string;
@@ -20,11 +21,6 @@ if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
   // When user preference is auto,the modern theme will change with the system user's operating system theme.
   // eslint-disable-next-line prefer-destructuring
   classList = document.documentElement.classList;
-
-  // If the html element has a dark class, it means that the user has manually set the theme to dark.
-  if (!classList.contains('dark')) {
-    updateAppearance();
-  }
 }
 
 export const getToggle = () => {
