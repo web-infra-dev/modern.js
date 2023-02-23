@@ -52,7 +52,7 @@ export interface NavItemWithLink {
 ```ts
 export interface NavItemWithChildren {
   text: string;
-  items: NavItem[];
+  items: (NavItemWithLink | NavItemWithChildren)[];
 }
 ```
 
@@ -84,6 +84,20 @@ export default defineConfig({
             {
               text: 'Twitter',
               link: 'http://twitter.com/',
+            },
+            // 也可以是一个导航栏组
+            {
+              text: 'Group',
+              items: [
+                {
+                  text: 'Personal',
+                  link: 'http://xxx.com/',
+                },
+                {
+                  text: 'Company',
+                  link: 'http://xxx.com/',
+                },
+              ],
             },
           ],
         },

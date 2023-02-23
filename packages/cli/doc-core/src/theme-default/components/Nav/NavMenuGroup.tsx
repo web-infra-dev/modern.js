@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavItemWithLink } from 'shared/types';
+import { NavItemWithChildren, NavItemWithLink } from 'shared/types';
 import { Link } from '../Link';
 import Translator from '../../assets/translator.svg';
 import Down from '../../assets/down.svg';
@@ -7,15 +7,64 @@ import Right from '../../assets/right.svg';
 
 export interface NavMenuGroupItem {
   text?: string | React.ReactElement;
-  items: NavItemWithLink[];
-  activeIndex?: number;
+  items: (NavItemWithLink | NavItemWithChildren)[];
+  activeValue?: string;
   // When the item is transition, we need to give a react element instead of a string.
   isTranslation?: boolean;
 }
 
+function ActiveGroupItem({ item }: { item: NavItemWithLink }) {
+  return (
+    <div key={item.link} className="rounded-md" p="y-1.6 l-3">
+      <span m="r-1" text="brand">
+        {item.text}
+      </span>
+    </div>
+  );
+}
+
+function NormalGroupItem({ item }: { item: NavItemWithLink }) {
+  return (
+    <div key={item.link} font="medium">
+      <Link href={item.link}>
+        <div className="rounded-md" hover="bg-mute" p="y-1.6 l-3 r-6">
+          <div flex="~">
+            <span m="r-1">
+              {item.text}
+              <Right
+                w="11px"
+                h="11px"
+                text="text-3"
+                m="t-1 r-1 l-1"
+                className="inline-block align-text-top"
+              />
+            </span>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+}
+
 export function NavMenuGroup(item: NavMenuGroupItem) {
-  const { activeIndex, isTranslation } = item;
+  const { activeValue, isTranslation, items: groupItems } = item;
   const [isOpen, setIsOpen] = useState(false);
+  const renderLinkItem = (item: NavItemWithLink) => {
+    if (activeValue === item.text) {
+      return <ActiveGroupItem key={item.link} item={item} />;
+    }
+    return <NormalGroupItem key={item.link} item={item} />;
+  };
+  const renderGroup = (item: NavItemWithChildren) => {
+    return (
+      <div>
+        <p className="font-bold text-gray-400 my-1 not:first:border">
+          {item.text}
+        </p>
+        {item.items.map(renderLinkItem)}
+      </div>
+    );
+  };
   return (
     <div
       h="14"
@@ -48,11 +97,7 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         }}
       >
         <div
-          p="3"
-          w="full"
-          h="full"
-          className="min-w-128px max-h-100vh rounded-xl whitespace-nowrap"
-          bg="white"
+          className="p-3 w-full h-full min-w-128px max-h-100vh rounded-xl whitespace-nowrap bg-white"
           style={{
             boxShadow: 'var(--modern-shadow-3)',
             marginRight: '-1.5rem',
@@ -60,41 +105,13 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
             border: '1px solid var(--modern-c-divider-light)',
           }}
         >
-          {item.items.map((child, index) => {
-            if (index === activeIndex) {
-              return (
-                <div key={child.link} className="rounded-md" p="y-1.6 l-3">
-                  <span m="r-1" text="brand">
-                    {child.text}
-                  </span>
-                </div>
-              );
-            } else {
-              return (
-                <div key={child.link} font="medium">
-                  <Link href={child.link}>
-                    <div
-                      className="rounded-md"
-                      hover="bg-mute"
-                      p="y-1.6 l-3 r-6"
-                    >
-                      <div flex="~">
-                        <span m="r-1">
-                          {child.text}
-                          <Right
-                            w="11px"
-                            h="11px"
-                            text="text-3"
-                            m="t-1 r-1 l-1"
-                            className="inline-block align-text-top"
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              );
-            }
+          {/* The item could be a link or a sub group */}
+          {groupItems.map(item => {
+            return (
+              <div key={item.text}>
+                {'link' in item ? renderLinkItem(item) : renderGroup(item)}
+              </div>
+            );
           })}
         </div>
       </div>
