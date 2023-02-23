@@ -52,7 +52,7 @@ describe('tools.rspack', () => {
               test: /\.test$/,
               use: [
                 {
-                  builtinLoader: 'sass-loader',
+                  loader: 'builtin:sass-loader',
                 },
               ],
             });
@@ -142,28 +142,6 @@ describe('bundlerApi', () => {
         },
       }
     `);
-  });
-
-  it('test modifyBundlerChain rule format error', async () => {
-    const testPlugin: BuilderPlugin = {
-      name: 'builder-plugin-devtool',
-      setup: api => {
-        api.modifyBundlerChain(chain => {
-          chain.module
-            .rule('yaml')
-            .type('javascript/auto')
-            .issuerLayer('other-layer');
-        });
-      },
-    };
-
-    const builder = await createBuilder({
-      plugins: [testPlugin],
-    });
-
-    await expect(builder.inspectConfig()).rejects.toThrow(
-      'issuerLayer is not supported in bundlerChain.rule',
-    );
   });
 
   it('test modifyBundlerChain use builtinLoader', async () => {

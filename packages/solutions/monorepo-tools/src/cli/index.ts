@@ -1,6 +1,6 @@
 export * from './new';
 export * from './deploy';
 export * from './build';
-export * from './build-watch';
+export * from './buildWatch';
 export * from './clear';
 export * from './install';

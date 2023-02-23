@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "worker-test",
   "version": "0.0.0",
   "scripts": {
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/prod-server": "workspace:*",
     "@modern-js/plugin-worker": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",

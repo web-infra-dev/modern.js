@@ -11,11 +11,11 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.5.0",
+  "version": "2.6.0",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "dev": "mdn build --watch",
     "build": "mdn build",
     "test": "jest --passWithNoTests"
@@ -33,7 +33,7 @@
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.5.0"
+    "@modern-js/module-tools": "workspace:^2.6.0"
   },
   "sideEffects": false,
   "publishConfig": {

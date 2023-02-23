@@ -1,12 +1,11 @@
 import path from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 
 const isHtmlMatch = (html: string, pattern: RegExp): boolean =>
   Boolean(html.match(pattern));
 
-webpackOnlyTest('should inject tags', async () => {
+test('should inject tags', async () => {
   const builder = await build(
     {
       cwd: __dirname,

@@ -1,6 +1,6 @@
 import { usePageData } from '@/runtime';
 
-export function Footer() {
+export function HomeFooter() {
   const { siteData } = usePageData();
   const { message } = siteData.themeConfig.footer || {};
   return (

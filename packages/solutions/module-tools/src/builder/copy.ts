@@ -18,23 +18,24 @@ export const runPatterns = async (
   );
   const { appDirectory, enableCopySync = false } = options;
   const { from, globOptions = {} } = pattern;
+  const targetPattern: CopyPattern = { ...pattern };
   const normalizedFrom = path.normalize(from);
   const defaultAbsContext = options.defaultContext;
 
   // when context is relative path
   if (typeof pattern.context === 'string') {
-    pattern.context = path.isAbsolute(pattern.context)
+    targetPattern.context = path.isAbsolute(pattern.context)
       ? pattern.context
       : path.join(appDirectory, pattern.context);
   } else {
-    pattern.context = defaultAbsContext;
+    targetPattern.context = defaultAbsContext;
   }
 
   let absoluteFrom;
   if (path.isAbsolute(normalizedFrom)) {
     absoluteFrom = normalizedFrom;
   } else {
-    absoluteFrom = path.resolve(pattern.context, normalizedFrom);
+    absoluteFrom = path.resolve(targetPattern.context, normalizedFrom);
   }
 
   let stats;
@@ -61,7 +62,7 @@ export const runPatterns = async (
 
   switch (fromType) {
     case 'dir':
-      pattern.context = absoluteFrom;
+      targetPattern.context = absoluteFrom;
       glob = path.posix.join(
         fastGlob.escapePath(normalizePath(path.resolve(absoluteFrom))),
         '**/*',
@@ -73,7 +74,7 @@ export const runPatterns = async (
       }
       break;
     case 'file':
-      pattern.context = path.dirname(absoluteFrom);
+      targetPattern.context = path.dirname(absoluteFrom);
       glob = fastGlob.escapePath(normalizePath(path.resolve(absoluteFrom)));
 
       if (typeof globOptions.dot === 'undefined') {
@@ -86,7 +87,9 @@ export const runPatterns = async (
         ? from
         : path.posix.join(
             fastGlob.escapePath(
-              normalizePath(path.resolve(pattern.context ?? appDirectory)),
+              normalizePath(
+                path.resolve(targetPattern.context ?? appDirectory),
+              ),
             ),
             from,
           );
@@ -95,8 +98,8 @@ export const runPatterns = async (
 
   const globEntries = await globby(glob, {
     ...{ followSymbolicLinks: true },
-    ...(pattern.globOptions || {}),
-    cwd: pattern.context,
+    ...(targetPattern.globOptions || {}),
+    cwd: targetPattern.context,
     objectMode: true,
   });
   const { default: pMap } = await import('../../compiled/p-map');
@@ -106,15 +109,15 @@ export const runPatterns = async (
     }
 
     const from = globEntry.path;
-    const absoluteFrom = path.resolve(pattern.context!, from);
+    const absoluteFrom = path.resolve(targetPattern.context!, from);
     const to = path.normalize(
-      typeof pattern.to !== 'undefined' ? pattern.to : '',
+      typeof targetPattern.to !== 'undefined' ? targetPattern.to : '',
     );
     const toType =
       path.extname(to) === '' || to.slice(-1) === path.sep ? 'dir' : 'file';
 
     const relativeFrom = path.relative(
-      pattern.context ?? defaultAbsContext,
+      targetPattern.context ?? defaultAbsContext,
       absoluteFrom,
     );
 

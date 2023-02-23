@@ -9,10 +9,10 @@ import {
 } from '@modern-js/utils';
 import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import { GeneratorContext } from '@modern-js/codesmith';
-import { stripAnsi } from './utils/strip-ansi';
+import { stripAnsi } from './utils/stripAnsi';
 import { i18n, localeKeys } from './locale';
 import { getAvailableVersion } from './utils/package';
-import { fileExist } from './utils/fs-exist';
+import { fileExist } from './utils/fsExist';
 
 export * from './utils';
 

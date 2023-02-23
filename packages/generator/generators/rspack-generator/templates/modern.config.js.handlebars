@@ -1,0 +1,13 @@
+import appTools from '@modern-js/app-tools';
+
+// https://modernjs.dev/docs/apis/app/config
+module.exports = {
+  runtime: {
+    router: true,
+  },
+  plugins: [
+    appTools({
+      bundler: 'experimental-rspack',
+    }),
+  ],
+};

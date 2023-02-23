@@ -11,13 +11,13 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.5.0",
+  "version": "2.6.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli",
   "main": "./dist/cjs/cli/index.js",
   "module": "./dist/esm/cli/index.js",
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
     "dev": "modern-lib build --watch",
     "build": "modern-lib build",

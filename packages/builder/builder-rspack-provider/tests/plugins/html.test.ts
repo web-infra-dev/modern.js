@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { builderPluginEntry } from '@builder/plugins/entry';
-import { builderPluginHtml } from '../../src/plugins/html';
+import { builderPluginHtml } from '@builder/plugins/html';
 import { createBuilder, matchPlugin } from '../helper';
 
 describe('plugins/html', () => {
@@ -78,6 +78,28 @@ describe('plugins/html', () => {
     } = await builder.inspectConfig();
 
     expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should register faviconUrl plugin when html.favicon is a URL', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginEntry(), builderPluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        html: {
+          favicon: 'https://www.foo.com/favicon.ico',
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(
+      matchPlugin(bundlerConfigs[0], 'HtmlFaviconUrlPlugin'),
+    ).toBeDefined();
   });
 
   it('should allow to set inject by html.inject option', async () => {

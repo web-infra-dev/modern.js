@@ -3,18 +3,6 @@ import { formatRule, formatSplitChunks } from '@/core/formatConfig';
 
 describe('formatConfig', () => {
   it('should throw error when rule item not support', async () => {
-    expect(() => formatRule('...')).toThrowError(
-      '... not supported in bundlerChain.rule',
-    );
-
-    expect(() =>
-      formatRule({
-        type: 'javascript/auto',
-        test: /\.toml$/,
-        scheme: 'data',
-      }),
-    ).toThrowError('scheme is not supported in bundlerChain.rule');
-
     expect(() =>
       formatRule({
         type: 'javascript/auto',
@@ -25,6 +13,8 @@ describe('formatConfig', () => {
   });
 
   it('should convert bundler rule to rspack rule', async () => {
+    expect(formatRule('...')).toBe('...');
+
     expect(
       formatRule({
         type: 'javascript/auto',
@@ -79,7 +69,7 @@ describe('formatConfig', () => {
     expect(() =>
       formatSplitChunks({
         chunks: 'all',
-        maxSize: {
+        minSize: {
           aa: 1000,
         },
         cacheGroups: {
@@ -90,7 +80,7 @@ describe('formatConfig', () => {
         },
       }),
     ).toThrowError(
-      'maxSize only support number, but found object: {"aa":1000}',
+      'minSize only support number, but found object: {"aa":1000}',
     );
   });
 

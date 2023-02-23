@@ -1,6 +1,6 @@
-import type { RspackConfig } from '../types';
+import type { RspackConfig, RspackRule } from '../types';
 import type { BundlerConfig } from '@modern-js/builder-shared';
-import { difference, omitBy, isUndefined } from '@modern-js/utils/lodash';
+import { omitBy, isUndefined } from '@modern-js/utils/lodash';
 
 const formatCondition = (data: any, typeName: string): string | RegExp => {
   if (!(data instanceof RegExp || typeof data === 'string')) {
@@ -21,39 +21,13 @@ const formatConditionWithUndefined = (
   return formatCondition(data, typeName);
 };
 
-type RspackRule = NonNullable<NonNullable<RspackConfig['module']>['rules']>[0];
-
 type BundlerRule = NonNullable<
   NonNullable<BundlerConfig['module']>['rules']
 >[0];
 
-const whiteListKeys = [
-  'test',
-  'include',
-  'exclude',
-  'resource',
-  'resourceQuery',
-  'use',
-  'type',
-  'parser',
-  'generator',
-  'issuer',
-  'oneOf',
-];
-
 export const formatRule = (rule: BundlerRule): RspackRule => {
   if (rule === '...') {
-    throw new Error(`${rule} not supported in bundlerChain.rule`);
-  }
-
-  const ruleKeys = Object.keys(rule);
-
-  const usedBlackList = difference(ruleKeys, whiteListKeys);
-
-  if (usedBlackList.length) {
-    throw new Error(
-      `${usedBlackList.join(',')} is not supported in bundlerChain.rule`,
-    );
+    return rule;
   }
 
   const formatRuleUse = (use: typeof rule['use']) => {
@@ -90,7 +64,6 @@ export const formatRule = (rule: BundlerRule): RspackRule => {
   return omitBy(
     {
       ...rule,
-      type: rule.type as RspackRule['type'],
       use: formatRuleUse(rule.use),
       resource: formatConditionWithUndefined(rule.resource, 'resource'),
       resourceQuery: formatConditionWithUndefined(
@@ -160,21 +133,13 @@ export const formatSplitChunks = (
 
   return {
     ...splitChunks,
-    minSizeReduction: formatSplitSize(
-      splitChunks.minSizeReduction,
-      'minSizeReduction',
-    ),
     minRemainingSize: formatSplitSize(
       splitChunks.minRemainingSize,
       'minRemainingSize',
     ),
-    maxSize: formatSplitSize(splitChunks.maxSize, 'maxSize'),
+    // todo: not support in rspack
+    // maxSize: formatSplitSize(splitChunks.maxSize, 'maxSize'),
     minSize: formatSplitSize(splitChunks.minSize, 'minSize'),
-    maxInitialSize: formatSplitSize(
-      splitChunks.maxInitialSize,
-      'maxInitialSize',
-    ),
-    maxAsyncSize: formatSplitSize(splitChunks.maxAsyncSize, 'maxAsyncSize'),
     enforceSizeThreshold: formatSplitSize(
       splitChunks.enforceSizeThreshold,
       'enforceSizeThreshold',

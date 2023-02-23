@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.5.0",
+  "version": "2.6.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -131,7 +131,7 @@
   },
   "scripts": {
     "dev": "modern-lib build --watch",
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
     "build": "modern-lib build",
     "test": "jest"
@@ -140,6 +140,7 @@
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@babel/types": "^7.18.0",
+    "cookie": "0.5.0",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/component": "^5.15.0",
     "@loadable/server": "^5.15.1",
@@ -175,6 +176,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
+    "@types/cookie": "0.5.1",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",

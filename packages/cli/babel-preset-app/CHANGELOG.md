@@ -1,5 +1,16 @@
 # @modern-js/babel-preset-app
 
+## 2.6.0
+
+### Patch Changes
+
+- Updated dependencies [44f1adc]
+- Updated dependencies [e1f799e]
+- Updated dependencies [7915ab3]
+- Updated dependencies [0fe658a]
+  - @modern-js/babel-preset-base@2.6.0
+  - @modern-js/utils@2.6.0
+
 ## 2.5.0
 
 ### Patch Changes
@@ -473,7 +484,7 @@
 ### Patch Changes
 
 - 63c354ad5: fix normalizeToPosixPath utils function args would be null
-- 12fc5ac88: feat: improve babel-plugin-lock-corejs-version performance
+- 12fc5ac88: feat: improve babelPluginLockCorejsVersion performance
 - 97bb6adb9: fix: utils.addIncludes is not a function
 - Updated dependencies [63c354ad5]
 - Updated dependencies [073e9ad78]

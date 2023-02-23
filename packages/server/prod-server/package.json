@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.5.0",
+  "version": "2.6.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -27,11 +27,11 @@
     },
     "./worker": {
       "node": {
-        "jsnext:source": "./src/worker-server.ts",
-        "import": "./dist/esm-node/worker-server.js",
-        "require": "./dist/cjs/worker-server.js"
+        "jsnext:source": "./src/workerServer.ts",
+        "import": "./dist/esm-node/workerServer.js",
+        "require": "./dist/cjs/workerServer.js"
       },
-      "default": "./dist/esm/worker-server.js"
+      "default": "./dist/esm/workerServer.js"
     }
   },
   "typesVersions": {
@@ -40,12 +40,12 @@
         "./dist/types/index.d.ts"
       ],
       "worker": [
-        "./dist/types/worker-server.d.ts"
+        "./dist/types/workerServer.d.ts"
       ]
     }
   },
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",

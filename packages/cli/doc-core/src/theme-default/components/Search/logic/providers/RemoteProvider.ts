@@ -23,7 +23,12 @@ export class RemoteProvider implements Provider {
     const urlParams = buildQueryString({
       keyword,
       limit: limit.toString(),
-      searchIndexes: searchIndexes?.join(',') || '',
+      searchIndexes:
+        searchIndexes
+          ?.map(indexInfo =>
+            typeof indexInfo === 'string' ? indexInfo : indexInfo.value,
+          )
+          .join(',') || '',
       lang: this.#options.currentLang,
     });
     try {

@@ -14,7 +14,7 @@ export const compiler = (entryFile: string, target: string) => {
     module: {
       rules: [
         {
-          test: /create-request/,
+          test: /createRequest/,
           use: {
             loader: path.resolve(__dirname, './mock-ts-loader.ts'),
           },

@@ -25,7 +25,7 @@ export const buildCommand = async (
       local.i18n.t(local.localeKeys.command.build.platform),
     )
     .option('--no-dts', local.i18n.t(local.localeKeys.command.build.dts))
-    .option('--no-clear', local.i18n.t(local.localeKeys.command.build.no_clear))
+    .option('--no-clear', local.i18n.t(local.localeKeys.command.build.noClear))
     .option(
       '-c --config <config>',
       local.i18n.t(local.localeKeys.command.build.config),

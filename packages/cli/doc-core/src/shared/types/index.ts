@@ -5,11 +5,11 @@ import type { PluggableList } from 'unified';
 import {
   Config as DefaultThemeConfig,
   NormalizedConfig as NormalizedDefaultThemeConfig,
-} from './default-theme';
+} from './defaultTheme';
 import { DocPlugin } from './Plugin';
 
 export { DefaultThemeConfig, NormalizedDefaultThemeConfig };
-export * from './default-theme';
+export * from './defaultTheme';
 
 export { DocPlugin };
 
@@ -127,7 +127,7 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   search: SearchOptions;
 }
 
-export interface PageIndexInfo {
+export type PageIndexInfo = {
   id: number;
   title: string;
   routePath: string;
@@ -136,7 +136,7 @@ export interface PageIndexInfo {
   frontmatter: Record<string, unknown>;
   lang: string;
   domain: string;
-}
+};
 export interface Hero {
   name: string;
   text: string;
@@ -156,6 +156,7 @@ export interface Feature {
   icon: string;
   title: string;
   details: string;
+  link?: string;
 }
 
 export interface PageModule<T extends ComponentType<unknown>> {
@@ -223,15 +224,22 @@ export type LocalSearchOptions = {
   mode: 'local';
 };
 
+export type RemoteSearchIndexInfo =
+  | string
+  | {
+      value: string;
+      label: string;
+    };
+
 export type RemoteSearchOptions = {
   mode: 'remote';
   apiUrl: string;
   domain?: string;
   indexName: string;
-  searchIndexes?: string[];
+  searchIndexes?: RemoteSearchIndexInfo[];
 };
 
-export type SearchOptions = LocalSearchOptions | RemoteSearchOptions;
+export type SearchOptions = LocalSearchOptions | RemoteSearchOptions | false;
 
 export interface MarkdownOptions {
   remarkPlugins?: PluggableList;

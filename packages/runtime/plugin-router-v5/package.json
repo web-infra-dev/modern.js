@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.5.0",
+  "version": "2.6.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/cjs/cli/index.js",
@@ -48,7 +48,7 @@
   },
   "scripts": {
     "dev": "modern-lib build --watch",
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"

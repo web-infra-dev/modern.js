@@ -51,22 +51,18 @@ describe('test shared utils', () => {
   test('parseUrl', () => {
     expect(parseUrl('/guide/')).toEqual({
       url: '/guide/',
-      query: '',
       hash: '',
     });
     expect(parseUrl('/guide/?a=1')).toEqual({
-      url: '/guide/',
-      query: 'a=1',
+      url: '/guide/?a=1',
       hash: '',
     });
     expect(parseUrl('/guide/#a=1')).toEqual({
       url: '/guide/',
-      query: '',
       hash: 'a=1',
     });
     expect(parseUrl('/guide/?a=1#b=2')).toEqual({
-      url: '/guide/',
-      query: 'a=1',
+      url: '/guide/?a=1',
       hash: 'b=2',
     });
   });

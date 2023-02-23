@@ -1,6 +1,6 @@
+import { HomeFooter } from '@theme';
 import { HomeHero } from '../../components/HomeHero';
 import { HomeFeature } from '../../components/HomeFeatures';
-import { Footer } from '../../components/HomeFooter';
 
 export interface HomeLayoutProps {
   beforeHero?: React.ReactNode;
@@ -28,7 +28,7 @@ export function HomeLayout(props: HomeLayoutProps) {
         <HomeFeature />
         {afterFeatures}
       </div>
-      <Footer />
+      <HomeFooter />
     </div>
   );
 }

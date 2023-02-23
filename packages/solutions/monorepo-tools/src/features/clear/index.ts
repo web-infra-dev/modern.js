@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { logger } from '@modern-js/utils';
 import { FileSystem } from '@rushstack/node-core-library';
-import { IProjectNode } from '../../projects/get-projects';
+import { IProjectNode } from '../../projects/getProjects';
 
 export interface IClearConfig {
   rootPath: string;

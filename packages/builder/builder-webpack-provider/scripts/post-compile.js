@@ -6,10 +6,10 @@ const { performance } = require('perf_hooks');
 async function compileRetryRuntime() {
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
   const runtimeCode = await readFile(
-    path.join(__dirname, '../dist/runtime/assets-retry.js'),
+    path.join(__dirname, '../dist/runtime/assetsRetry.js'),
     'utf8',
   );
-  const distPath = path.join(__dirname, '../compiled/assets-retry.js');
+  const distPath = path.join(__dirname, '../compiled/assetsRetry.js');
   const { code } = await transformAsync(runtimeCode, {
     presets: [
       [

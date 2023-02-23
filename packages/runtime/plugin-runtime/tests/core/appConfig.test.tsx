@@ -1,4 +1,4 @@
-import { defineConfig, getConfig } from '../../src/core/app-config';
+import { defineConfig, getConfig } from '../../src/core/appConfig';
 
 describe('defineConfig & getConfig', () => {
   it('default', async () => {

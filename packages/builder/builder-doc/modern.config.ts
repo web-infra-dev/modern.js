@@ -58,6 +58,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/guide/basic/static-assets'),
           getLink('/guide/basic/svg-assets'),
           getLink('/guide/basic/json-files'),
+          getLink('/guide/basic/wasm-assets'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/css-modules'),
           getLink('/guide/basic/typescript'),
@@ -214,7 +215,7 @@ export default defineConfig({
     builderConfig: {
       source: {
         alias: {
-          '@components': path.join(__dirname, 'docs/components'),
+          '@components': path.join(__dirname, 'src/components'),
           '@en': path.join(__dirname, 'docs/en'),
           '@zh': path.join(__dirname, 'docs/zh'),
         },

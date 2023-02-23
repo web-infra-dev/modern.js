@@ -21,6 +21,7 @@ async function addNewActionDevDependence(repoCwd: string) {
     '@modern-js/storybook-generator': 'workspace:*',
     '@modern-js/ssg-generator': 'workspace:*',
     '@modern-js/module-test-generator': 'workspace:*',
+    '@modern-js/rspack-generator': 'workspace:*',
   };
   await fs.writeFile(
     actionPath,

@@ -17,6 +17,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   },
   "context": "<ROOT>",
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -446,7 +449,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
@@ -566,7 +569,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
@@ -728,6 +731,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "performance": {
     "maxAssetSize": 3000000,
@@ -864,6 +868,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
   },
   "context": "<ROOT>",
   "devtool": "hidden-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1293,7 +1300,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
@@ -1419,7 +1426,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
@@ -1623,6 +1630,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "performance": {
     "maxAssetSize": 3000000,
@@ -1759,6 +1767,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   },
   "context": "<ROOT>",
   "devtool": "source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2086,7 +2097,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -2210,7 +2221,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -2369,6 +2380,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "performance": {
     "maxAssetSize": 30000000,
@@ -2475,6 +2487,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   },
   "context": "<ROOT>",
   "devtool": "hidden-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2803,7 +2818,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
@@ -2929,7 +2944,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
@@ -3089,6 +3104,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "performance": {
     "maxAssetSize": 30000000,

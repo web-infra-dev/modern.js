@@ -2,6 +2,7 @@ export const QUERY_REGEXP = /\?.*$/s;
 export const HASH_REGEXP = /#.*$/s;
 export const MDX_REGEXP = /\.mdx?$/;
 export const externalLinkRE = /^(https?:)/;
+export const APPEARANCE_KEY = 'modern-theme-appearance';
 
 export const SEARCH_INDEX_NAME = 'search_index';
 
@@ -65,14 +66,11 @@ export const parseUrl = (
   url: string,
 ): {
   url: string;
-  query: string;
   hash: string;
 } => {
   const [withoutHash, hash = ''] = url.split('#');
-  const [cleanedUrl, query = ''] = withoutHash.split('?');
   return {
-    url: cleanedUrl,
-    query,
+    url: withoutHash,
     hash,
   };
 };
