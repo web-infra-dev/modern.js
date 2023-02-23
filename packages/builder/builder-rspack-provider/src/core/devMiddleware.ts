@@ -56,5 +56,6 @@ export const getDevMiddleware: (
     setupServerHooks(compiler as Compiler, callbacks);
   }
 
+  // @ts-expect-error
   return inner(compiler, restOptions);
 };
