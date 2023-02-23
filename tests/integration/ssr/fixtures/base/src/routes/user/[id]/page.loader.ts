@@ -1,7 +1,7 @@
-import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+import { json, LoaderFunctionArgs } from '@modern-js/runtime/router';
 import type { User } from './page';
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export default async ({ params }: LoaderFunctionArgs) => {
   const userId = params.id;
 
   const user = new Promise<User>(resolve => {
@@ -13,5 +13,5 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     }, 200);
   });
 
-  return await user;
+  return json(await user);
 };

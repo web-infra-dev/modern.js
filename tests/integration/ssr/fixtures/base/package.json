@@ -1,5 +1,5 @@
 {
-  "name": "ssr-streaming-test",
+  "name": "ssr-base-test",
   "version": "0.1.0",
   "private": true,
   "scripts": {

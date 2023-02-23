@@ -1,5 +1,4 @@
-import { Await, useLoaderData } from '@modern-js/runtime/router';
-import { Suspense } from 'react';
+import { useLoaderData } from '@modern-js/runtime/router';
 
 export interface User {
   name: string;
@@ -12,8 +11,8 @@ const Page = () => {
   return (
     <div>
       user info:
-      <div>
-        {user.name}-${user.age}
+      <div id="data">
+        {user.name}-{user.age}
       </div>
     </div>
   );

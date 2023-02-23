@@ -1,5 +1,4 @@
-import { Await, useAsyncError, useLoaderData } from '@modern-js/runtime/router';
-import { Suspense } from 'react';
+import { useLoaderData } from '@modern-js/runtime/router';
 
 export default function Page() {
   const data = useLoaderData();
@@ -7,18 +6,7 @@ export default function Page() {
   return (
     <div>
       Error page
-      <Suspense fallback={<div>loading ...</div>}>
-        <Await resolve={data} errorElement={<ErrorElement />}>
-          {data => {
-            return <div>never shown</div>;
-          }}
-        </Await>
-      </Suspense>
+      <div>never shown</div>;
     </div>
   );
-}
-
-function ErrorElement() {
-  const error = useAsyncError() as Error;
-  return <p>Something went wrong! {error.message}</p>;
 }

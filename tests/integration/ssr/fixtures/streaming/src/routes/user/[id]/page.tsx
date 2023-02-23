@@ -6,19 +6,22 @@ export interface User {
   age: number;
 }
 
+interface Data {
+  data: User;
+}
+
 const Page = () => {
-  const data = useLoaderData() as User;
+  const data = useLoaderData() as Data;
 
   return (
     <div>
       user info:
-      <Suspense fallback={<div>loading user data ...</div>}>
-        <Await resolve={data}>
-          {data => {
-            const { user } = data;
+      <Suspense fallback={<div id="loading">loading user data ...</div>}>
+        <Await resolve={data.data}>
+          {(user: User) => {
             return (
-              <div>
-                {user.name}-${user.age}
+              <div id="data">
+                {user.name}-{user.age}
               </div>
             );
           }}

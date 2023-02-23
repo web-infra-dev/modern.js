@@ -1,4 +1,4 @@
-export const loader = () => {
+export default async () => {
   const data = new Promise((resolve, reject) => {
     setTimeout(() => {
       reject(new Error('error occurs'));
