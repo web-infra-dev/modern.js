@@ -98,7 +98,10 @@ export interface LocaleConfig {
 }
 // nav -----------------------------------------------------------------------
 
-export type NavItem = NavItemWithLink | NavItemWithChildren;
+export type NavItem =
+  | NavItemWithLink
+  | NavItemWithChildren
+  | (NavItemWithLink | NavItemWithChildren)[];
 
 export type NavItemWithLink = {
   text: string;
