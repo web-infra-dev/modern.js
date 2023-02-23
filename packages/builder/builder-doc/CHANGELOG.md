@@ -1,5 +1,23 @@
 # @modern-js/builder-doc
 
+## 3.0.0-next.0
+
+### Minor Changes
+
+- fae9d1b: feat(builder): support import .wasm assets
+
+  feat(builder): 支持引用 .wasm 资源
+
+### Patch Changes
+
+- 88f7b34: fix(app-tools): incorrect tools.esbuild config
+
+  fix(app-tools): 修复 tools.esbuild 格式与文档不一致的问题
+
+- 107f674: feat(builder): add dev.beforeStartUrl config
+
+  feat(builder): 新增 dev.beforeStartUrl 配置项
+
 ## 2.5.0
 
 ### Patch Changes

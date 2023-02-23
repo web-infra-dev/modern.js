@@ -1,5 +1,55 @@
 # @modern-js/app-tools
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 88f7b34: fix(app-tools): incorrect tools.esbuild config
+
+  fix(app-tools): 修复 tools.esbuild 格式与文档不一致的问题
+
+- e1f799e: fix: use 0.0.0.0 instead of localhost as the default dev host
+  fix: 使用 0.0.0.0 代替 localhost 作为默认的 dev host
+- 7915ab3: fix: should not assign nestedRoutesEntry to entrypoint if use v5 router
+  fix: 使用 v5 路由的时候，不应该在 entrypoint 上挂载 nestedRoutesEntry 属性
+- 08cb975: feat: optimize worker build
+
+  feat: 优化 worker 构建
+
+- Updated dependencies [671477d]
+- Updated dependencies [b92d6db]
+- Updated dependencies [36164a2]
+- Updated dependencies [d638438]
+- Updated dependencies [ba6db6e]
+- Updated dependencies [ba6db6e]
+- Updated dependencies [e1f799e]
+- Updated dependencies [107f674]
+- Updated dependencies [7915ab3]
+- Updated dependencies [03d7f7d]
+- Updated dependencies [1c76d0e]
+- Updated dependencies [fae9d1b]
+- Updated dependencies [49fa0b1]
+- Updated dependencies [0fe658a]
+- Updated dependencies [62930b9]
+  - @modern-js/builder-webpack-provider@3.0.0-next.0
+  - @modern-js/builder-shared@3.0.0-next.0
+  - @modern-js/prod-server@3.0.0-next.0
+  - @modern-js/plugin-data-loader@3.0.0-next.0
+  - @modern-js/server@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/builder@3.0.0-next.0
+  - @modern-js/types@3.0.0-next.0
+  - @modern-js/builder-rspack-provider@3.0.0-next.0
+  - @modern-js/builder-plugin-esbuild@3.0.0-next.0
+  - @modern-js/builder-plugin-node-polyfill@3.0.0-next.0
+  - @modern-js/core@3.0.0-next.0
+  - @modern-js/plugin-i18n@3.0.0-next.0
+  - @modern-js/plugin-lint@3.0.0-next.0
+  - @modern-js/new-action@3.0.0-next.0
+  - @modern-js/node-bundle-require@3.0.0-next.0
+  - @modern-js/upgrade@3.0.0-next.0
+  - @modern-js/plugin@3.0.0-next.0
+
 ## 2.5.0
 
 ### Patch Changes

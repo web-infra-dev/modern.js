@@ -1,5 +1,19 @@
 # @modern-js/prod-server
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 36164a2: fix: env.PORT should be respected when using listenOptions
+  fix: 当使用 listenOptions 时，env.PORT 应该被支持
+- 49fa0b1: fix: remove header info from SSR ctx to avoid security issues, reserved a switch
+  fix: 移除 SSR 上下文中的 header 信息，避免造成安全问题，预留一个字段开启
+- Updated dependencies [e1f799e]
+- Updated dependencies [7915ab3]
+- Updated dependencies [0fe658a]
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/server-core@3.0.0-next.0
+
 ## 2.5.0
 
 ### Patch Changes

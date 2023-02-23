@@ -1,5 +1,28 @@
 # @modern-js/builder
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 107f674: feat(builder): add dev.beforeStartUrl config
+
+  feat(builder): 新增 dev.beforeStartUrl 配置项
+
+- 0fe658a: feat(builder): support passing URL to html.favicon
+
+  feat(builder): 支持在 html.favicon 中直接传入 URL
+
+- Updated dependencies [b92d6db]
+- Updated dependencies [e1f799e]
+- Updated dependencies [107f674]
+- Updated dependencies [7915ab3]
+- Updated dependencies [03d7f7d]
+- Updated dependencies [fae9d1b]
+- Updated dependencies [0fe658a]
+- Updated dependencies [62930b9]
+  - @modern-js/builder-shared@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+
 ## 2.5.0
 
 ### Patch Changes

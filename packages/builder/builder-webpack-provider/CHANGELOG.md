@@ -1,5 +1,43 @@
 # @modern-js/builder-webpack-provider
 
+## 3.0.0-next.0
+
+### Minor Changes
+
+- fae9d1b: feat(builder): support import .wasm assets
+
+  feat(builder): 支持引用 .wasm 资源
+
+### Patch Changes
+
+- 671477d: chore(CI): make CI faster
+
+  chore(CI): 提升 CI 执行速度
+
+- 1c76d0e: fix: adjust @babel/core to dependencies instead of devDependencies.
+  fix: 调整 `@babel/core` 为 `dependencies` 而不是 `devDependencies`.
+- 0fe658a: feat(builder): support passing URL to html.favicon
+
+  feat(builder): 支持在 html.favicon 中直接传入 URL
+
+- Updated dependencies [b92d6db]
+- Updated dependencies [ba6db6e]
+- Updated dependencies [ba6db6e]
+- Updated dependencies [e1f799e]
+- Updated dependencies [107f674]
+- Updated dependencies [7915ab3]
+- Updated dependencies [03d7f7d]
+- Updated dependencies [fae9d1b]
+- Updated dependencies [49fa0b1]
+- Updated dependencies [0fe658a]
+- Updated dependencies [62930b9]
+  - @modern-js/builder-shared@3.0.0-next.0
+  - @modern-js/server@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/types@3.0.0-next.0
+  - @modern-js/babel-preset-app@3.0.0-next.0
+  - @modern-js/e2e@3.0.0-next.0
+
 ## 2.5.0
 
 ### Minor Changes

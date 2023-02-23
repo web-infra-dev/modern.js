@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.0.8-next.0
+
+### Patch Changes
+
+- b2ea17b: feat: create web app support select build tools (webpack or rspack)
+
+  feat: 创建 Web App 支持选择构建工具 (webpack 或 rspack)
+
+  - @modern-js/plugin-i18n@3.0.0-next.0
+
 ## 3.0.7
 
 ### Patch Changes

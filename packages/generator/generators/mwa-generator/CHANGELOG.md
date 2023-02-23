@@ -1,5 +1,13 @@
 # @modern-js/mwa-generator
 
+## 3.0.8-next.0
+
+### Patch Changes
+
+- b2ea17b: feat: create web app support select build tools (webpack or rspack)
+
+  feat: 创建 Web App 支持选择构建工具 (webpack 或 rspack)
+
 ## 3.0.7
 
 ### Patch Changes

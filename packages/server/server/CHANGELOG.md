@@ -1,5 +1,24 @@
 # @modern-js/server
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- ba6db6e: fix: filter data when http method is get
+  fix: 过滤 get 请求的 data
+- ba6db6e: fix: the dependency tree should be able to filter out node_modules files containing dot
+  fix: 依赖树应该能够过滤掉包含"."的 node_modules 文件
+- Updated dependencies [36164a2]
+- Updated dependencies [e1f799e]
+- Updated dependencies [7915ab3]
+- Updated dependencies [49fa0b1]
+- Updated dependencies [0fe658a]
+- Updated dependencies [62930b9]
+  - @modern-js/prod-server@3.0.0-next.0
+  - @modern-js/utils@3.0.0-next.0
+  - @modern-js/types@3.0.0-next.0
+  - @modern-js/server-utils@3.0.0-next.0
+
 ## 2.5.0
 
 ### Patch Changes

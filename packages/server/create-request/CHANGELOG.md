@@ -1,5 +1,16 @@
 # @modern-js/create-request
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- ba6db6e: fix: filter data when http method is get
+  fix: 过滤 get 请求的 data
+- Updated dependencies [e1f799e]
+- Updated dependencies [7915ab3]
+- Updated dependencies [0fe658a]
+  - @modern-js/utils@3.0.0-next.0
+
 ## 2.5.0
 
 ### Patch Changes

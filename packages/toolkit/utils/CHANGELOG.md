@@ -1,5 +1,17 @@
 # @modern-js/utils
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- e1f799e: fix: use 0.0.0.0 instead of localhost as the default dev host
+  fix: 使用 0.0.0.0 代替 localhost 作为默认的 dev host
+- 7915ab3: fix: should not assign nestedRoutesEntry to entrypoint if use v5 router
+  fix: 使用 v5 路由的时候，不应该在 entrypoint 上挂载 nestedRoutesEntry 属性
+- 0fe658a: feat(builder): support passing URL to html.favicon
+
+  feat(builder): 支持在 html.favicon 中直接传入 URL
+
 ## 2.5.0
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @modern-js/babel-preset-base
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 44f1adc: fix: windows path compat in modifyPresetOptions
+
+  fix: 在 modifyPresetOptions 方法中兼容 windows 路径
+
+- Updated dependencies [e1f799e]
+- Updated dependencies [7915ab3]
+- Updated dependencies [0fe658a]
+  - @modern-js/utils@3.0.0-next.0
+
 ## 2.5.0
 
 ### Patch Changes

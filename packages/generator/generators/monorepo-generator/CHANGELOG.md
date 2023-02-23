@@ -1,5 +1,7 @@
 # @modern-js/monorepo-generator
 
+## 3.0.8-next.0
+
 ## 3.0.7
 
 ### Patch Changes
