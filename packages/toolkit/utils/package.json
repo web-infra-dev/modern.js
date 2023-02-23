@@ -47,7 +47,7 @@
       "default": "./dist/nestedRoutes.js"
     },
     "./remix-router": {
-      "jsnext:source": "./src/remix-router.tsx",
+      "jsnext:source": "./src/remix-router.ts",
       "default": "./dist/remix-router.js"
     },
     "./ajv": "./compiled/ajv/index.js",
