@@ -3,15 +3,18 @@ import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 
 test('should emit local favicon to dist path', async () => {
-  const builder = await build({
-    cwd: __dirname,
-    entry: { index: path.resolve(__dirname, './src/index.js') },
-    builderConfig: {
+  const builder = await build(
+    {
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+    },
+    {
       html: {
         favicon: './src/icon.png',
       },
     },
-  });
+    false,
+  );
   const files = await builder.unwrapOutputJSON();
 
   expect(
@@ -25,10 +28,12 @@ test('should emit local favicon to dist path', async () => {
 });
 
 test('should apply asset prefix to favicon URL', async () => {
-  const builder = await build({
-    cwd: __dirname,
-    entry: { index: path.resolve(__dirname, './src/index.js') },
-    builderConfig: {
+  const builder = await build(
+    {
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+    },
+    {
       html: {
         favicon: './src/icon.png',
       },
@@ -36,7 +41,8 @@ test('should apply asset prefix to favicon URL', async () => {
         assetPrefix: 'https://www.example.com',
       },
     },
-  });
+    false,
+  );
   const files = await builder.unwrapOutputJSON();
 
   const html =
@@ -48,15 +54,18 @@ test('should apply asset prefix to favicon URL', async () => {
 });
 
 test('should allow favicon to be a CDN URL', async () => {
-  const builder = await build({
-    cwd: __dirname,
-    entry: { index: path.resolve(__dirname, './src/index.js') },
-    builderConfig: {
+  const builder = await build(
+    {
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+    },
+    {
       html: {
         favicon: 'https://foo.com/icon.png',
       },
     },
-  });
+    false,
+  );
   const files = await builder.unwrapOutputJSON();
 
   const html =
