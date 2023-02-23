@@ -172,7 +172,7 @@ export const getCustomWebpackConfigHandle = async ({
       } as any) as BuilderConfig,
     ));
 
-  const { PluginStorybook } = await import('./builder-plugin');
+  const { builderPluginStorybook } = await import('./builderPlugin');
 
   if (!builder.isPluginExists('builder-plugin-node-polyfill')) {
     const { builderPluginNodePolyfill } = await import(
@@ -182,7 +182,7 @@ export const getCustomWebpackConfigHandle = async ({
     builder.addPlugins([builderPluginNodePolyfill()]);
   }
 
-  builder.addPlugins([PluginStorybook({ appDirectory, configDir })]);
+  builder.addPlugins([builderPluginStorybook({ appDirectory, configDir })]);
 
   const [config] = await builder.initConfigs();
 

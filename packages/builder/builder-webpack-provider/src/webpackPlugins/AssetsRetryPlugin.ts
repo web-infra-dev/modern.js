@@ -22,7 +22,7 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
           const { default: serialize } = await import(
             '../../compiled/serialize-javascript'
           );
-          const runtimeFilePath = getCompiledPath('assets-retry.js');
+          const runtimeFilePath = getCompiledPath('assetsRetry.js');
           const runtimeCode = await fs.readFile(runtimeFilePath, 'utf-8');
 
           data.headTags.unshift({
