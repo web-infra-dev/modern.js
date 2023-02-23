@@ -61,7 +61,7 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         <p className="font-bold text-gray-400 my-1 not:first:border">
           {item.text}
         </p>
-        {item.items.map(renderLinkItem)}
+        {(item.items as NavItemWithLink[]).map(renderLinkItem)}
       </div>
     );
   };

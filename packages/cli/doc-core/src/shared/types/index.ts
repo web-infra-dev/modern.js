@@ -40,7 +40,7 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
   /**
    * Path to the logo file in nav bar.
    */
-  logo?: string;
+  logo?: string | { dark: string; light: string };
   /**
    * Base path of the site.
    */
@@ -119,7 +119,7 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   description: string;
   icon: string;
   themeConfig: ThemeConfig;
-  logo: string;
+  logo: string | { dark: string; light: string };
   pages: {
     routePath: string;
     toc: Header[];
