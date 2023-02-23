@@ -1,1 +1,1 @@
-export * from './generate-client';
+export * from './generateClient';

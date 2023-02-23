@@ -184,7 +184,7 @@ export const buildLib = async (
 
   // adapt module tools
   const { watchPlugin, externalPlugin } = await import(
-    '../utils/libuild-plugins'
+    '../utils/libuildPlugins'
   );
   plugins.push(watchPlugin(api, config));
   plugins.push(externalPlugin(config, { appDirectory }));

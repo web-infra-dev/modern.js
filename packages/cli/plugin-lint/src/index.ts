@@ -1,6 +1,6 @@
 import type { CliPlugin } from '@modern-js/core';
 import lint from './lint';
-import preCommit from './pre-commit';
+import preCommit from './preCommit';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-lint',

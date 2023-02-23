@@ -6,7 +6,7 @@ declare module 'virtual-routes' {
 
 declare module 'virtual-site-data' {
   import { SiteData } from 'shared/types';
-  import ThemeConfig from 'shared/types/default-theme';
+  import ThemeConfig from 'shared/types/defaultTheme';
 
   const data: SiteData<ThemeConfig>;
   export default data;

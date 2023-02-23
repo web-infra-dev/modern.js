@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import { AGGRED_DIR } from '@modern-js/prod-server';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
 import Watcher from '../src/dev-tools/watcher';
-import { ModernDevServer } from '../src/server/dev-server';
+import { ModernDevServer } from '../src/server/devServer';
 import createServer, { Server } from '../src';
 
 function getDefaultConfig() {

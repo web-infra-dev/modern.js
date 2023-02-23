@@ -1,7 +1,7 @@
 import type { PluginAPI } from '@modern-js/core';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { runBuildWatchTask } from '../features/dev';
-import { getProjects } from '../projects/get-projects';
+import { getProjects } from '../projects/getProjects';
 import { initDAG } from '../dag';
 
 export interface IBuildWatchCommandOption {

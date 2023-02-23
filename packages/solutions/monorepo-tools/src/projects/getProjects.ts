@@ -4,11 +4,11 @@ import { getMonorepoBaseData } from '../parse-config/monorepo';
 import {
   getProjectsByPackageConfig,
   syncGetProjectsByPackageConfig,
-} from './get-projects-by-packages-config';
+} from './getProjectsByPackagesConfig';
 import {
   getProjectsByWorkspaceFile,
   syncGetProjectsByWorkspaceFile,
-} from './get-projects-by-workspace-file';
+} from './getProjectsByWorkspaceFile';
 
 export interface IFindSubProjectConfig {
   packagesMatchs?:

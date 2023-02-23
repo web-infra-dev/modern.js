@@ -5,5 +5,5 @@ require("core-js/modules/es.object.to-string.js");
 var a = require("foo");
 console.log(a);
 Promise.resolve().then(function() {
-    return /*#__PURE__*/ _interopRequireWildcard(require("other"));
-});
+    return _interopRequireWildcard(require("other"));
+}) /*#__PURE__*/ ;

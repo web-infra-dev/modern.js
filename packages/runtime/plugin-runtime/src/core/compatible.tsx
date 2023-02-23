@@ -7,7 +7,7 @@ import {
   RuntimeReactContext,
   RuntimeContext,
   TRuntimeContext,
-} from '../runtime-context';
+} from '../runtimeContext';
 import { Plugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 
