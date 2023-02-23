@@ -22,15 +22,15 @@ export function HomeHero() {
       <div
         className={styles.mask}
         style={{
-          left: hasImage ? '70%' : '50%',
+          left: hasImage ? '75%' : '50%',
         }}
       ></div>
       <div className="max-w-1152px" m="auto" flex="~ col md:row">
         <div
           order="2 md:1"
           flex="~ col"
-          className={`max-w-592px sm:max-w-768px ${
-            hasImage ? 'm-0 text-left' : 'm-auto text-center'
+          className={`max-w-592px sm:max-w-768px text-center ${
+            hasImage ? 'm-0 sm:text-left' : 'm-auto'
           }`}
         >
           <h1
@@ -50,6 +50,9 @@ export function HomeHero() {
               font="bold"
               p="b-2"
               z="10"
+              className={`max-w-392px ${
+                hasImage ? 'sm:max-w-576px' : 'sm:max-w-768px'
+              }`}
             >
               {hero.text}
             </p>
@@ -67,7 +70,9 @@ export function HomeHero() {
           </p>
           <div
             flex="~ wrap"
-            className={`${hasImage ? 'justify-start' : 'justify-center gap-3'}`}
+            className={`justify-center ${
+              hasImage ? 'sm:justify-start' : 'gap-3'
+            } `}
             m="-1.5"
             p="t-8"
             z="10"
@@ -93,6 +98,7 @@ export function HomeHero() {
             m="auto"
             order="1 md:2"
             display="flex sm:flex md:none lg:flex"
+            className="modern-doc-home-hero-image"
           >
             <img src={hero.image?.src} alt={hero.image?.alt} />
           </div>

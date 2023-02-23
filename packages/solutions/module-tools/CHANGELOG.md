@@ -1,5 +1,34 @@
 # @modern-js/module-tools
 
+## 2.6.0
+
+### Minor Changes
+
+- c1918f5: feat(module-tools): add new Buildpreset and `extendPreset` function
+  feat(module-tools): 新增新的 buildPreset 以及 extendPreset 函数
+- 9d1905a: feat: support to handle files add and unlink in watch mode
+  feat: 支持在 watch 模式下处理文件的新增和删除
+- 44e7b10: feat: add noDevTools hook. fix dev log content and add add chinese and english content
+  feat: 增加 noDevTools hook. 修复 dev 的日志内容, 增加中英内容
+
+### Patch Changes
+
+- 5f66bc5: fix(module-tools): fix copy context error path
+  fix(module-tools): 修复 copy context 错误路径的问题
+- f0e41e7: fix: set composite false in bundle dts
+  fix: 打包 d.ts 时设置 composite 为 false
+- Updated dependencies [e1f799e]
+- Updated dependencies [7915ab3]
+- Updated dependencies [0fe658a]
+  - @modern-js/utils@2.6.0
+  - @modern-js/core@2.6.0
+  - @modern-js/plugin-changeset@2.6.0
+  - @modern-js/plugin-i18n@2.6.0
+  - @modern-js/plugin-lint@2.6.0
+  - @modern-js/new-action@2.6.0
+  - @modern-js/upgrade@2.6.0
+  - @modern-js/plugin@2.6.0
+
 ## 2.5.0
 
 ### Minor Changes

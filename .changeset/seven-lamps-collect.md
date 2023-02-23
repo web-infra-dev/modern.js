@@ -3,6 +3,6 @@
 '@modern-js/doc-tools-doc': patch
 ---
 
-fix: query miss
+feat: nav sub menu group
 
-fix: 链接中的 query 丢失
+feat: 支持导航栏子菜单分组

@@ -1,5 +1,32 @@
 # @modern-js/runtime
 
+## 2.6.0
+
+### Patch Changes
+
+- 671477d: chore(CI): make CI faster
+
+  chore(CI): 提升 CI 执行速度
+
+- 7915ab3: fix: should not assign nestedRoutesEntry to entrypoint if use v5 router
+  fix: 使用 v5 路由的时候，不应该在 entrypoint 上挂载 nestedRoutesEntry 属性
+- a909ad1: feat: revert worker use async_hooks
+
+  feat: 还原 worker 使用 async_hooks 代码
+
+- 49fa0b1: fix: remove header info from SSR ctx to avoid security issues, reserved a switch
+  fix: 移除 SSR 上下文中的 header 信息，避免造成安全问题，预留一个字段开启
+- 1906d7b: fix: document param output get undefined in default template
+  fix: 修复 Document param 中 output 参数取值问题
+- Updated dependencies [e1f799e]
+- Updated dependencies [7915ab3]
+- Updated dependencies [49fa0b1]
+- Updated dependencies [0fe658a]
+- Updated dependencies [62930b9]
+  - @modern-js/utils@2.6.0
+  - @modern-js/types@2.6.0
+  - @modern-js/plugin@2.6.0
+
 ## 2.5.0
 
 ### Patch Changes

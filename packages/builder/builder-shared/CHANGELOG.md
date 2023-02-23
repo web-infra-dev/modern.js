@@ -1,5 +1,46 @@
 # @modern-js/builder-shared
 
+## 2.6.0
+
+### Minor Changes
+
+- fae9d1b: feat(builder): support import .wasm assets
+
+  feat(builder): 支持引用 .wasm 资源
+
+### Patch Changes
+
+- b92d6db: fix(builder): missing dev.beforeStartUrl schema validation
+
+  fix(builder): 修复 dev.beforeStartUrl 缺少 schema 校验的问题
+
+- e1f799e: fix: use 0.0.0.0 instead of localhost as the default dev host
+  fix: 使用 0.0.0.0 代替 localhost 作为默认的 dev host
+- 107f674: feat(builder): add dev.beforeStartUrl config
+
+  feat(builder): 新增 dev.beforeStartUrl 配置项
+
+- 03d7f7d: fix(builder): fix missing dev.host schema validation
+
+  fix(builder): 修复 dev.host 缺少 schema 校验的问题
+
+- 0fe658a: feat(builder): support passing URL to html.favicon
+
+  feat(builder): 支持在 html.favicon 中直接传入 URL
+
+- 62930b9: fix: support configure host for devServer
+  fix: 支持配置 devServer 的 host
+- Updated dependencies [ba6db6e]
+- Updated dependencies [ba6db6e]
+- Updated dependencies [e1f799e]
+- Updated dependencies [7915ab3]
+- Updated dependencies [49fa0b1]
+- Updated dependencies [0fe658a]
+- Updated dependencies [62930b9]
+  - @modern-js/server@2.6.0
+  - @modern-js/utils@2.6.0
+  - @modern-js/types@2.6.0
+
 ## 2.5.0
 
 ### Minor Changes

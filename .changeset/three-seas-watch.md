@@ -3,6 +3,6 @@
 '@modern-js/doc-tools-doc': patch
 ---
 
-feat: support search index label
+fix: dark mode
 
-feat: 支持搜索索引标签名
+fix: 暗黑模式下闪烁

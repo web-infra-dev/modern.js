@@ -29,12 +29,11 @@ export function HomeFeature() {
       justify="between"
     >
       {features?.map(feature => {
-        const { icon, title, details } = feature;
+        const { icon, title, details, link } = feature;
         return (
           <div
             key={title}
-            border="rounded-md"
-            p="b-4 lg:l-0"
+            border="rounded-md hover:var(--modern-c-brand)"
             className={`${gridClass ? styles[gridClass] : 'w-full'}`}
           >
             <div p="2" className="h-full">
@@ -44,6 +43,14 @@ export function HomeFeature() {
                 p="8"
                 className={styles.featureCard}
                 border="rounded-4xl transparent"
+                style={{
+                  cursor: link ? 'pointer' : 'auto',
+                }}
+                onClick={() => {
+                  if (link) {
+                    window.location.href = link;
+                  }
+                }}
               >
                 <div className="flex-center">
                   <div className="w-12 h-12 text-3xl text-center">{icon}</div>

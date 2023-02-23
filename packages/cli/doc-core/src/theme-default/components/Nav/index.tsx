@@ -91,7 +91,7 @@ export function Nav(props: NavProps) {
           text: item.label,
           link: replaceLang(pathname, item.lang, defaultLang, langs, base),
         })),
-        activeIndex: localeLanguages.findIndex(item => lang === item.lang),
+        activeValue: localeLanguages.find(item => lang === item.lang)!.label,
       }
     : null;
   const NavAppearance = () => {
@@ -107,10 +107,13 @@ export function Nav(props: NavProps) {
   const NavMenu = ({ menuItems }: { menuItems: NavItem[] }) => {
     return (
       <div className="menu" h="14">
-        {menuItems.map(item =>
-          'items' in item ? (
-            <div m="x-3" last="mr-0" key={item.text}>
-              <NavMenuGroup {...item} />
+        {menuItems.map(item => {
+          return 'items' in item || Array.isArray(item) ? (
+            <div m="x-3" last="mr-0">
+              <NavMenuGroup
+                {...item}
+                items={'items' in item ? item.items : item}
+              />
             </div>
           ) : (
             <NavMenuSingleItem
@@ -120,8 +123,8 @@ export function Nav(props: NavProps) {
               key={item.link}
               {...item}
             />
-          ),
-        )}
+          );
+        })}
       </div>
     );
   };
@@ -130,7 +133,6 @@ export function Nav(props: NavProps) {
   const hasSearch = siteData?.themeConfig?.search !== false;
 
   const title = localeData.title ?? siteData.title;
-
   const rightNav = () => {
     return (
       <div className={styles.rightNav}>
