@@ -250,7 +250,7 @@ export default ({
                     entryName,
                   );
                   const combinedModule = createVirtualModule(
-                    `export * from ${serverLoaderRuntime}; export * from ${serverLoadersFile}`,
+                    `export * from "${serverLoaderRuntime}"; export * from "${serverLoadersFile}"`,
                   );
                   chain
                     .entry(`${entryName}-server-loaders`)
