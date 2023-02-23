@@ -74,6 +74,42 @@ export default defineConfig({
 
 框架会在 `public` 目录中找到你的图标，当然你也可以设置成一个 CDN 地址。
 
+## logo
+
+- Type: `string | { dark: string; light: string }`
+- Default: `""`
+
+站点 logo。这个路径将用作导航栏左上角的 logo 路径。例如：
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    logo: '/logo.png',
+  },
+  plugins: [docTools()],
+});
+```
+
+框架会在 `public` 目录中找到你的图标，当然你也可以设置成一个 CDN 地址。
+
+当然你可以针对浅色/暗黑模式设置不同的 logo：
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    logo: {
+      dark: '/logo-dark.png',
+      light: '/logo-light.png',
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
 ## darkMode
 
 - Type: `boolean`

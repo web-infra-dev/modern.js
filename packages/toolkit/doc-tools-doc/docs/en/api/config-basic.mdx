@@ -74,6 +74,42 @@ export default defineConfig({
 
 The framework will find your icon in the `public` directory, of course you can also set it to a CDN address.
 
+## logo
+
+- Type: `string | { dark: string; light: string }`
+- Default: `""`
+
+Site logo. This path will be used as the logo path in the upper left corner of the navbar. For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    logo: '/logo.png',
+  },
+  plugins: [docTools()],
+});
+```
+
+The framework will find your icon in the `public` directory, you can also set it to a CDN address.
+
+Of course you can set different logos for dark/light mode:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    logo: {
+      dark: '/logo-dark.png',
+      light: '/logo-light.png',
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
 ## darkMode
 
 - Type: `boolean`
