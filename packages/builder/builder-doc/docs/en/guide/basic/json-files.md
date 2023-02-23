@@ -8,15 +8,14 @@ You can import JSON files directly in JavaScript files.
 
 ### Example
 
-```json
-// example.json
+```json title="example.json"
 {
   "name": "foo",
   "items": [1, 2]
 }
 ```
 
-```js
+```js title="index.js"
 import example from './example.json';
 
 console.log(example.name); // 'foo';
@@ -39,8 +38,7 @@ You can directly import `.yaml` or `.yml` files in JavaScript and they will be a
 
 ### Example
 
-```yaml
-# example.yaml
+```yaml title="example.yaml"
 ---
 hello: world
 foo:
@@ -58,8 +56,7 @@ console.log(example.foo); // { bar: 'baz' };
 
 When you import a YAML file in your TypeScript code, please create a `src/global.d.ts` file in your project and add the corresponding type declaration:
 
-```ts
-// src/global.d.ts
+```ts title="src/global.d.ts"
 declare module '*.yaml' {
   const content: Record<string, any>;
   export default content;
@@ -79,8 +76,7 @@ You can directly import `.toml` files in JavaScript and it will be automatically
 
 ### Example
 
-```toml
-# example.toml
+```toml title="example.toml"
 hello = "world"
 
 [foo]
@@ -98,8 +94,7 @@ console.log(example.foo); // { bar: 'baz' };
 
 When you import Toml files in TypeScript code, please create a `src/global.d.ts` file in your project and add the corresponding type declarations:
 
-```ts
-// src/global.d.ts
+```ts title="src/global.d.ts"
 declare module '*.toml' {
   const content: Record<string, any>;
   export default content;

@@ -34,7 +34,11 @@ nvm 和 fnm 都是 Node.js 版本管理工具。相对来说，nvm 较为成熟�
 
 **Modern.js 框架默认使用 Modern.js Builder 作为构建引擎**。因此，如果你是一名业务开发者，那么不需要手动接入 Builder，只需要创建一个 Modern.js 项目，就可以使用 Builder 提供的所有能力。
 
-请查看 [Modern.js 框架文档](https://modernjs.dev/) 来了解 Modern.js 框架的使用方法。
+```bash
+npx @modern-js/create my-app
+```
+
+请阅读 [Modern.js - 介绍](https://modernjs.dev/guides/get-started/introduction.html) 和 [Modern.js - 快速上手](https://modernjs.dev/guides/get-started/quick-start.html) 来了解 Modern.js 框架的使用方法。
 
 :::tip 关于文档
 Modern.js 框架文档和 Modern.js Builder 文档部署在两个独立的站点下。如果你在使用 Modern.js 框架的过程中遇到任何构建相关的问题，你可以随时查阅 Modern.js Builder 的文档来寻找相应的解决方案。
@@ -134,5 +138,9 @@ import Step from '@components/Step';
     title="功能导航"
     description="了解 Builder 提供的所有功能"
   />
-  <Step href="/api/index.html" title="查阅 API" description="查看详细的 API 文档" />
+  <Step
+    href="/api/index.html"
+    title="查阅 API"
+    description="查看详细的 API 文档"
+  />
 </NextSteps>

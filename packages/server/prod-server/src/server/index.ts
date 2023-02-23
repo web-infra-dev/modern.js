@@ -170,6 +170,9 @@ export class Server {
     };
 
     if (typeof options === 'object') {
+      if (process.env.PORT) {
+        Object.assign(options, { port: process.env.PORT });
+      }
       this.app.listen(options, callback);
     } else {
       this.app.listen(process.env.PORT || options || 8080, callback);

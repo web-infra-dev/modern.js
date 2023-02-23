@@ -68,6 +68,8 @@ export const runRollup = async (
           // but it will cause error when bundle ts which import another ts file.
           preserveSymlinks: false,
           ...options,
+          // https://github.com/Swatinem/rollup-plugin-dts/issues/127
+          composite: false,
           // isAbsolute
           baseUrl,
           // Ensure ".d.ts" modules are generated
@@ -82,6 +84,7 @@ export const runRollup = async (
           // Ensure we can parse the latest code
           target: ts.ScriptTarget.ESNext,
         },
+        tsconfig: tsconfigPath,
       }),
     ].filter(Boolean),
   };
