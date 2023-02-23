@@ -1,5 +1,14 @@
 # @modern-js/types
 
+## 2.6.0
+
+### Patch Changes
+
+- 49fa0b1: fix: remove header info from SSR ctx to avoid security issues, reserved a switch
+  fix: 移除 SSR 上下文中的 header 信息，避免造成安全问题，预留一个字段开启
+- 62930b9: fix: support configure host for devServer
+  fix: 支持配置 devServer 的 host
+
 ## 2.5.0
 
 ### Patch Changes
