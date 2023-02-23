@@ -2,4 +2,6 @@
 '@modern-js/doc-core': patch
 ---
 
-fix: logo dark mode
+feat: logo dark mode
+
+feat: 支持深色模式 logo
