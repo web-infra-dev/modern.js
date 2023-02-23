@@ -1,5 +1,6 @@
 import path from 'path';
 import { readFileSync } from 'fs';
+import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
 const fixtures = path.resolve(__dirname, '../fixtures');
@@ -14,7 +15,7 @@ describe('asset prefix', () => {
       path.join(appDir, 'dist/html/main/index.html'),
       'utf-8',
     );
-    expect(HTML.includes('//localhost:3333/static/js/')).toBeTruthy();
+    expect(HTML.includes(`//${DEFAULT_DEV_HOST}:3333/static/js/`)).toBeTruthy();
 
     killApp(app);
   });

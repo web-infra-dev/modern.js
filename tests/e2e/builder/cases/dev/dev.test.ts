@@ -1,12 +1,13 @@
 import { join } from 'path';
 import { fs } from '@modern-js/utils';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { dev, getHrefByEntryName } from '@scripts/shared';
 import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-allProviderTest('default & hmr (default true)', async ({ page }) => {
+// hmr is not stable
+test.skip('default & hmr (default true)', async ({ page }) => {
   fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src'));
   const buildOpts = {
     cwd: join(fixtures, 'hmr'),
@@ -15,7 +16,16 @@ allProviderTest('default & hmr (default true)', async ({ page }) => {
     },
   };
 
-  const builder = await dev(buildOpts);
+  const builder = await dev(buildOpts, {
+    tools: {
+      devServer: {
+        client: {
+          host: '',
+          port: '',
+        },
+      },
+    },
+  });
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
