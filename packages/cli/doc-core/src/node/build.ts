@@ -12,8 +12,21 @@ import {
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
 import { modifyConfig, beforeBuild, afterBuild } from './hooks';
-import { normalizeSlash } from '@/shared/utils';
+import { APPEARANCE_KEY, normalizeSlash } from '@/shared/utils';
 import type { Route } from '@/node/route/RouteService';
+
+// In the first render, the theme will be set according to the user's system theme
+const CHECK_DARK_LIGHT_SCRIPT = `
+<script id="check-dark-light">
+;(() => {
+  const saved = localStorage.getItem('${APPEARANCE_KEY}')
+  const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  if (!saved || saved === 'auto' ? prefereDark : saved === 'dark') {
+    document.documentElement.classList.add('dark')
+  }
+})()
+</script>
+`;
 
 export async function bundle(rootDir: string, config: UserConfig) {
   try {
@@ -75,6 +88,7 @@ export async function renderPages(config: UserConfig) {
               helmet?.link?.toString(),
               helmet?.style?.toString(),
               helmet?.script?.toString(),
+              CHECK_DARK_LIGHT_SCRIPT,
             ])
             .join(''),
         );

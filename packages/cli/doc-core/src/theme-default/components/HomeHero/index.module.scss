@@ -9,7 +9,7 @@
   position: absolute;
   background-image: conic-gradient(
     from 180deg at 50% 50%,
-    #2a8af6 0deg,
+    var(--modern-c-brand) 0deg,
     180deg,
     #42d392 1turn
   );
