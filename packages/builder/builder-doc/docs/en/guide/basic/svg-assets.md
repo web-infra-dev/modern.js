@@ -10,8 +10,7 @@ SVG stands for Scalable Vector Graphics. It is a type of image format that uses 
 
 When import an SVG in a JS file, if you import `ReactComponent`, Builder will call [SVGR](https://react-svgr.com/) to convert the SVG into a React component.
 
-```tsx
-// src/component/Logo.tsx
+```tsx title="src/component/Logo.tsx"
 import { ReactComponent as Logo } from './static/logo.svg';
 
 export default () => <Logo />;
@@ -19,7 +18,7 @@ export default () => <Logo />;
 
 If you use the default import, then the SVG will be treated as a normal static asset and you will get a URL:
 
-```tsx
+```tsx title="src/component/Logo.tsx"
 import logoURL from './static/logo.svg';
 
 console.log(logoURL); // => "/static/logo.6c12aba3.png"
@@ -39,8 +38,7 @@ export default {
 
 Then import the SVG, you'll get a React component instead of a URL:
 
-```tsx
-// src/component/Logo.tsx
+```tsx title="src/component/Logo.tsx"
 import Logo from './static/logo.svg';
 
 export default () => <Logo />;

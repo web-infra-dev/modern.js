@@ -1,7 +1,11 @@
 - **Type:** `string`
 - **Default:** `undefined`
 
-Set the favicon icon path for all pages, can be set as a relative path relative to the project root directory, or as an absolute path to the file. Setting it as a CDN URL is not currently supported.
+Set the favicon icon path for all pages, can be set as:
+
+- a URL.
+- an absolute path to the file.
+- a relative path relative to the project root directory.
 
 After config this option, the favicon will be automatically copied to the dist directory during the compilation, and the corresponding `link` tag will be added to the HTML.
 
@@ -25,6 +29,18 @@ import path from 'path';
 export default {
   html: {
     favicon: path.resolve(__dirname, './src/assets/icon.png'),
+  },
+};
+```
+
+Set to a URL：
+
+```js
+import path from 'path';
+
+export default {
+  html: {
+    favicon: 'https://foo.com/favicon.ico',
   },
 };
 ```

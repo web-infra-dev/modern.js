@@ -98,7 +98,6 @@ export function Nav(props: NavProps) {
     return (
       <div
         className={`${styles.menuItem} modern-doc-appearance`}
-        display="none sm:flex"
         align-items-center="center"
       >
         <SwitchAppearance />

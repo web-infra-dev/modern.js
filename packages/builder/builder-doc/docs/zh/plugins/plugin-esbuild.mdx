@@ -69,6 +69,22 @@ const defaultOptions = {
 
 如果你需要修改转译参数，可以查看 [esbuild-loader 文档](https://github.com/privatenumber/esbuild-loader#loader)。
 
+#### 设置 JSX 格式
+
+在使用 esbuild 进行代码转译时，esbuild 默认会读取 `tsconfig.json` 中的 `compilerOptions.jsx` 字段，来决定使用哪种 JSX 语法。
+
+因此，你需要在 `tsconfig.json` 中设置正确的 JSX 语法。
+
+比如 React 项目，需要将 `compilerOptions.jsx` 设置为 `react-jsx`：
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  }
+}
+```
+
 #### 修改目标环境
 
 通过 `target` 选项来修改代码转译的目标环境。`target` 可以直接设置为 JavaScript 语言版本，比如 `es6`，`es2020`；也可以设置为若干个目标环境，每个目标环境都是一个环境名称后跟一个版本号，比如 `['chrome58', 'edge16' ,'firefox57']`。`target` 字段的详细介绍可以参考 [esbuild - target](https://esbuild.github.io/api/#target)。

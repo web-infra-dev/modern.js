@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import { useLang, useLocation, Helmet } from '@modern-js/doc-tools/runtime';
+import { useLang, Helmet } from '@modern-js/doc-tools/runtime';
 import ContentCard from '../components/ContentCard';
 import SecondaryTitle from '../components/SecondaryTitle';
 import { FeatureLayout } from '../components/FeatureLayout';
@@ -42,44 +41,8 @@ const HomepageHeader = () => {
   );
 };
 
-function initPageStyle() {
-  if (typeof window !== 'undefined') {
-    document.documentElement.classList.add('dark');
-    let navDom: HTMLDivElement;
-    let appearanceDom: HTMLDivElement;
-    requestAnimationFrame(() => {
-      navDom = document.querySelector(
-        '.dark .modern-doc-nav',
-      ) as HTMLDivElement;
-      appearanceDom = document.querySelector(
-        '.modern-doc-appearance',
-      ) as HTMLDivElement;
-      if (navDom) {
-        navDom.style.backgroundColor = '#000';
-      }
-      if (appearanceDom) {
-        appearanceDom.style.display = 'none';
-      }
-    });
-
-    return () => {
-      document.documentElement.classList.remove('dark');
-
-      if (navDom) {
-        navDom.style.backgroundColor = '';
-      }
-
-      if (appearanceDom) {
-        appearanceDom.style.display = 'flex';
-      }
-    };
-  }
-  return undefined;
-}
-
 export default function Home() {
   const t = useI18n();
-  const { pathname } = useLocation();
 
   const features = [
     {
@@ -137,13 +100,6 @@ export default function Home() {
       desc: t('ecosystemDesc4'),
     },
   ];
-
-  useEffect(() => {
-    const restore = initPageStyle();
-    return () => {
-      restore?.();
-    };
-  }, [pathname]);
 
   return (
     <div>

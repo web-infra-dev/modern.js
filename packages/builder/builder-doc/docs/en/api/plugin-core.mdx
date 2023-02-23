@@ -42,11 +42,11 @@ The type of plugin API. The plugin API provides the context info, utility functi
 
 For a complete introduction to lifecycle hooks, please read the [Plugin Hooks](/api/plugin-hooks.html) chapter.
 
-When using webpack provider or rspack provider, the type definition of `BuilderPluginAPI` is somewhat different, and you can introduce the corresponding type according to the usage scenario of the plugin.
+When using webpack-provider or rspack-provider, the type definition of `BuilderPluginAPI` is somewhat different, and you can introduce the corresponding type according to the usage scenario of the plugin.
 
-### Plugin for webpack provider
+### Plugin for webpack-provider
 
-When developing plugins for webpack provider, please import `BuilderPluginAPI` from `@modern-js/builder-webpack-provider`.
+When developing plugins for webpack-provider, please import `BuilderPluginAPI` from `@modern-js/builder-webpack-provider`.
 
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder';
@@ -63,9 +63,9 @@ export default (): BuilderPlugin<BuilderPluginAPI> => ({
 });
 ```
 
-### Plugins for rspack provider
+### Plugins for rspack-provider
 
-When developing plugins for rspack provider, please import `BuilderPluginAPI` from `@modern-js/builder-rspack-provider`.
+When developing plugins for rspack-provider, please import `BuilderPluginAPI` from `@modern-js/builder-rspack-provider`.
 
 ```ts
 import type { BuilderPlugin } from '@modern-js/builder';
