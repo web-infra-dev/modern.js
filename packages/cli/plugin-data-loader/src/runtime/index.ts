@@ -16,6 +16,7 @@ import {
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
 } from '@modern-js/utils/remix-router';
+import { isPlainObject } from '@modern-js/utils/lodash';
 import { LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';
 
@@ -53,9 +54,15 @@ export function isResponse(value: any): value is NodeResponse {
   );
 }
 
-function convertModernRedirectResponse(headers: Headers) {
+function convertModernRedirectResponse(headers: Headers, basename: string) {
   const newHeaders = new Headers(headers);
-  newHeaders.set('X-Modernjs-Redirect', headers.get('Location')!);
+  let redirectUrl = headers.get('Location')!;
+
+  // let client loader handle basename
+  if (basename !== '/') {
+    redirectUrl = redirectUrl.replace(basename, '');
+  }
+  newHeaders.set('X-Modernjs-Redirect', redirectUrl);
   newHeaders.delete('Location');
 
   return new NodeResponse(null, {
@@ -144,9 +151,10 @@ export const handleRequest = async ({
     throw new Error('CSR data loader request only support http GET method');
   }
 
+  const basename = entry.urlPath;
   const dataRoutes = transformNestedRoutes(routes);
   const staticHandler = createStaticHandler(dataRoutes, {
-    basename: entry.urlPath,
+    basename,
   });
 
   const { res } = context;
@@ -161,8 +169,8 @@ export const handleRequest = async ({
     });
 
     if (isResponse(response) && isRedirectResponse(response.status)) {
-      response = convertModernRedirectResponse(response.headers);
-    } else if (DEFERRED_SYMBOL in response) {
+      response = convertModernRedirectResponse(response.headers, basename);
+    } else if (isPlainObject(response) && DEFERRED_SYMBOL in response) {
       const deferredData = response[DEFERRED_SYMBOL] as DeferredData;
       const body = createDeferredReadableStream(deferredData, request.signal);
       const init = deferredData.init || {};
@@ -170,7 +178,10 @@ export const handleRequest = async ({
         if (!init.headers) {
           throw new Error('redirect response includes no headers');
         }
-        response = convertModernRedirectResponse(new Headers(init.headers));
+        response = convertModernRedirectResponse(
+          new Headers(init.headers),
+          basename,
+        );
       } else {
         const headers = new Headers(init.headers);
         headers.set('Content-Type', 'text/modernjs-deferred');
