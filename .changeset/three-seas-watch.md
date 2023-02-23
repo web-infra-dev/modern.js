@@ -3,6 +3,6 @@
 '@modern-js/doc-tools-doc': patch
 ---
 
-fix: query miss
+fix: dark mode
 
-fix: 链接中的 query 丢失
+fix: 暗黑模式下闪烁
