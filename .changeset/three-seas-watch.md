@@ -4,3 +4,5 @@
 ---
 
 fix: dark mode
+
+fix: 暗黑模式下闪烁
