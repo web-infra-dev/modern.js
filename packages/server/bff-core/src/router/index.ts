@@ -55,8 +55,9 @@ export class ApiRouter {
     this.apiDir = apiDir;
     this.httpMethodDecider = httpMethodDecider;
     this.apiMode = this.getExactApiMode(apiDir, lambdaDir);
-    this.lambdaDir = lambdaDir || this.getExactLambdaDir(this.apiDir);
+    this.lambdaDir = this.getExactLambdaDir(this.apiDir, lambdaDir);
     this.existLambdaDir = fs.existsSync(this.lambdaDir);
+    debug(`apiDir:`, this.apiDir, `lambdaDir:`, this.lambdaDir);
   }
 
   public isExistLambda() {
@@ -72,13 +73,10 @@ export class ApiRouter {
   }
 
   public isApiFile(filename: string) {
-    if (this.existLambdaDir) {
-      return false;
+    if (this.apiFiles.includes(filename)) {
+      return true;
     }
-    if (!this.apiFiles.includes(filename)) {
-      return false;
-    }
-    return true;
+    return false;
   }
 
   public getSingleModuleHandlers(filename: string) {
@@ -255,17 +253,15 @@ export class ApiRouter {
   private createExistChecker = (base: string) => (target: string) =>
     fs.pathExistsSync(path.resolve(base, target));
 
-  private getExactLambdaDir = (apiDir: string): string => {
-    if (this.lambdaDir) {
-      return this.lambdaDir;
+  private getExactLambdaDir = (
+    apiDir: string,
+    originLambdaDir?: string,
+  ): string => {
+    if (this.apiMode === APIMode.FUNCTION) {
+      return apiDir;
     }
 
-    const lambdaDir =
-      this.apiMode === APIMode.FARMEWORK
-        ? path.join(apiDir, FRAMEWORK_MODE_LAMBDA_DIR)
-        : apiDir;
-
-    return lambdaDir;
+    return originLambdaDir || path.join(apiDir, FRAMEWORK_MODE_LAMBDA_DIR);
   };
 
   private getModuleInfos(filenames: string[]): ModuleInfo[] {
