@@ -11,9 +11,6 @@ export const builderPluginReact = (): BuilderPlugin => ({
 
       const usingHMR = isUsingHMR(config, utils);
 
-      // fix rspack bug temp
-      setConfig(rspackConfig, 'builtins.treeShaking', false);
-
       setConfig(rspackConfig, 'builtins.react', {
         development: !utils.isProd,
         refresh: usingHMR,
