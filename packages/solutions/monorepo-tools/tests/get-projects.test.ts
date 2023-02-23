@@ -2,7 +2,7 @@ import path from 'path';
 import {
   getProjectsByWorkspaceFile,
   syncGetProjectsByWorkspaceFile,
-} from '../src/projects/get-projects-by-workspace-file';
+} from '../src/projects/getProjectsByWorkspaceFile';
 
 const root = path.join(__dirname, './fixtures/mono-1');
 
