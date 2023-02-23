@@ -47,7 +47,7 @@ function renderToPipe(
                   }
                   /**
                    * The shell content of App may be splitted by multiple chunks to transform,
-                   * if any node value's size is larger than the React limitation, refer to:
+                   * when any node value's size is larger than the React limitation, refer to:
                    * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
                    * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
                    */
