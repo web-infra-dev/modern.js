@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { generateClient } from '../../src/client/generate-client';
+import { generateClient } from '../../src/client/generateClient';
 
 const PWD = path.resolve(__dirname, '../fixtures/function');
 
@@ -17,7 +17,7 @@ describe('client', () => {
     );
   });
 
-  test('generate-client should works correctly', async () => {
+  test('generateClient should works correctly', async () => {
     const prefix = '/api';
     const port = 3000;
     const resourcePath = path.resolve(
@@ -43,7 +43,7 @@ export const post = createRequest('/api/:id/origin/foo', 'POST', 3000);
 `);
   });
 
-  test('generate-client should support operator', async () => {
+  test('generateClient should support operator', async () => {
     const prefix = '/';
     const port = 3000;
     const resourcePath = path.resolve(

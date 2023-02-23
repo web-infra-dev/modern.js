@@ -5,7 +5,7 @@ import Watcher, {
   getWatchedFiles,
   mergeWatchOptions,
 } from '../src/dev-tools/watcher';
-import { StatsCache } from '../src/dev-tools/watcher/stats-cache';
+import { StatsCache } from '../src/dev-tools/watcher/statsCache';
 
 jest.useRealTimers();
 

@@ -1,8 +1,8 @@
 import { execa, logger } from '@modern-js/utils';
-import type { IProjectNode } from '../../projects/get-projects';
+import type { IProjectNode } from '../../projects/getProjects';
 import { errorLog } from '../../log/error';
 import * as timeLog from '../../log/time';
-import type { MultitasksLogger } from '../../log/multi-tasks-log';
+import type { MultitasksLogger } from '../../log/multiTasksLog';
 import { defaultBuildWatchCmds, BuildWatchCmdsType } from './cmds';
 import type { IBuildWatchConfig } from '.';
 

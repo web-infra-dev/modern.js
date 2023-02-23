@@ -11,5 +11,5 @@
       "@server/*": ["./server/*"]
     }
   },
-  "include": ["src", "shared", "server", "config", "api", "modern-app.env.d.ts"]
+  "include": ["src", "shared", "server", "config", "api", "modern-app-env.d.ts"]
 }

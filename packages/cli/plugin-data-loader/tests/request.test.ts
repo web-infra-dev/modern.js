@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import 'isomorphic-fetch';
-import { getRequestUrl } from '../src/cli/create-request';
+import { getRequestUrl } from '../src/cli/createRequest';
 import { DIRECT_PARAM, LOADER_ID_PARAM } from '../src/common/constants';
 
 describe('getRequestUrl', () => {

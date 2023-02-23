@@ -391,7 +391,7 @@ export const createConfigByPackageMode = async (
 ): Promise<ModuleUserConfig> => {
   const finalConfig = await commonTransformAndLog(legacyUserConfig);
 
-  const { legacyPresets } = await import('../constants/legacy-build-presets');
+  const { legacyPresets } = await import('../constants/legacyBuildPresets');
   const packageMode = legacyUserConfig.output!.packageMode!;
   const buildConfigs = legacyPresets[packageMode];
 
@@ -421,7 +421,7 @@ export const createConfigByDefault = async (
 ): Promise<ModuleUserConfig> => {
   const finalConfig = await commonTransformAndLog(legacyUserConfig);
 
-  const { legacyPresets } = await import('../constants/legacy-build-presets');
+  const { legacyPresets } = await import('../constants/legacyBuildPresets');
   const buildConfigs = legacyPresets['universal-js'];
 
   for (const buildConfig of buildConfigs) {

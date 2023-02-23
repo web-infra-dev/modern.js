@@ -1,2 +1,2 @@
-export * from './strip-ansi';
+export * from './stripAnsi';
 export * from './package';

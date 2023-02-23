@@ -5,7 +5,7 @@ import { ModernServerContext, NextFunction } from '@modern-js/types';
 import httpMocks from 'node-mocks-http';
 import portfinder from 'portfinder';
 import createServer, { Server } from '../src';
-import { ModernServer } from '../src/server/modern-server';
+import { ModernServer } from '../src/server/modernServer';
 import { createContext } from '../src/libs/context';
 
 function getDefaultConfig() {

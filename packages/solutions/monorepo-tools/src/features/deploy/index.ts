@@ -15,7 +15,7 @@ import {
 import { WORKSPACE_FILE } from '../../constants';
 import { IPnpmWorkSpace } from '../../type';
 import { DagOperator } from '../../dag/operator';
-import { IProjectNode } from '../../projects/get-projects';
+import { IProjectNode } from '../../projects/getProjects';
 import { PackageManagerType } from '../../parse-config';
 
 interface IDeployConfig {

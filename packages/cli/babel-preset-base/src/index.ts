@@ -4,7 +4,7 @@ import { createBabelChain } from './babel-chain';
 import { getPresetChain } from './presets';
 import { getPluginsChain } from './plugins';
 import { BabelConfig, BabelConfigUtils, IStyledComponentOptions } from './type';
-import { getBabelUtils } from './babel-utils';
+import { getBabelUtils } from './babelUtils';
 
 export * from './babel-chain';
 

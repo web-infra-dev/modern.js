@@ -5,7 +5,7 @@ import {
   DevMiddlewareAPI,
   DevMiddleware as CustomDevMiddleware,
 } from '../../types';
-import SocketServer from './socket-server';
+import SocketServer from './socketServer';
 
 type Options = {
   dev: DevServerOptions;

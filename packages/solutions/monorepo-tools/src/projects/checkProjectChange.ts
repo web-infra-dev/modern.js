@@ -3,7 +3,7 @@ import { FileSystem, JsonFile, Sort } from '@rushstack/node-core-library';
 import { getGitHashForFiles } from '@rushstack/package-deps-hash';
 import { globby } from '@modern-js/utils';
 import md5 from 'md5';
-import { IProjectNode } from './get-projects';
+import { IProjectNode } from './getProjects';
 
 export const PROJECT_CONTENT_FILE_NAME = 'project-content.json';
 export const MONOREPO_GIT_FILE_NAME = 'monorepo-git.json';

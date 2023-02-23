@@ -6,7 +6,7 @@ import httpMocks from 'node-mocks-http';
 import portfinder from 'portfinder';
 import axios from 'axios';
 import { createContext } from '../src/libs/context';
-import { createStaticFileHandler } from '../src/libs/serve-file';
+import { createStaticFileHandler } from '../src/libs/serveFile';
 import { createProxyHandler } from '../src/libs/proxy';
 
 describe('test middleware create factory', () => {

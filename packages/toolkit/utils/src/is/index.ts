@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { createDebugger } from '../debug';
-import { isDev } from './node-env';
+import { isDev } from './nodeEnv';
 
 const debug = createDebugger('judge-depExists');
 /**
@@ -102,6 +102,6 @@ export const isRouterV5 = (config: {
   typeof config.runtime?.router !== 'boolean' &&
   config?.runtime?.router?.mode === 'react-router-5';
 
-export * from './node-env';
+export * from './nodeEnv';
 export * from './platform';
 export * from './type';

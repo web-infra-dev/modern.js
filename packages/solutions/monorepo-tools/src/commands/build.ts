@@ -1,9 +1,8 @@
 import type { PluginAPI } from '@modern-js/core';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { runBuildTask, runAllBuildTask } from '../features/build';
-import { getProjects } from '../projects/get-projects';
+import { getProjects } from '../projects/getProjects';
 import { initDAG } from '../dag';
-// import { clearProjectsMemoryFile } from './projects/clear-memory-files';
 
 export interface IBuildCommandOption {
   self?: boolean;

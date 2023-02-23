@@ -3,8 +3,8 @@ import { logger, getAliasConfig, fs } from '@modern-js/utils';
 import type { Program } from 'typescript';
 import ts from 'typescript';
 import type { CompileFunc } from '../../common';
-import { TypescriptLoader } from './typescript-loader';
-import { tsconfigPathsBeforeHookFactory } from './tsconfig-paths-plugin';
+import { TypescriptLoader } from './typescriptLoader';
+import { tsconfigPathsBeforeHookFactory } from './tsconfigPathsPlugin';
 
 const readTsConfigByFile = (tsConfigFile: string) => {
   const parsedCmd = ts.getParsedCommandLineOfConfigFile(

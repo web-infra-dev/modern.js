@@ -1,5 +1,5 @@
 import http from 'http';
-import SocketServer from '../src/dev-tools/dev-middleware/socket-server';
+import SocketServer from '../src/dev-tools/dev-middleware/socketServer';
 
 function getRandomPort() {
   return Math.floor(Math.random() * (8000 - 1024)) + 1024;

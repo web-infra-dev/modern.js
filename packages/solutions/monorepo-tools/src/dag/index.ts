@@ -1,4 +1,4 @@
-import { IProjectNode } from '../projects/get-projects';
+import { IProjectNode } from '../projects/getProjects';
 import { create } from './create';
 import { DagOperator } from './operator';
 

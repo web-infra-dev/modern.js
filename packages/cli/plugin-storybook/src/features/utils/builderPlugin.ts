@@ -3,7 +3,7 @@ import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
 import type { RuleSetRule, RuleSetUseItem } from 'webpack';
 import { mergeBuilderConfig } from '@modern-js/builder-shared';
 
-export const PluginStorybook = ({
+export const builderPluginStorybook = ({
   configDir,
   appDirectory,
 }: {

@@ -14,6 +14,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "refresh": true,
       "runtime": "automatic",
     },
+    "treeShaking": false,
   },
   "cache": {
     "buildDependencies": [
@@ -493,6 +494,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "refresh": false,
       "runtime": "automatic",
     },
+    "treeShaking": false,
   },
   "cache": {
     "buildDependencies": [
@@ -971,6 +973,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
       "refresh": true,
       "runtime": "automatic",
     },
+    "treeShaking": false,
   },
   "cache": {
     "buildDependencies": [

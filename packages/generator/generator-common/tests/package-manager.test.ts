@@ -8,7 +8,7 @@ import {
   GeneratorCore,
   MaterialsManager,
 } from '@modern-js/codesmith';
-import { getPackageManagerSchema } from '../src/common/package-manager';
+import { getPackageManagerSchema } from '../src/common/packageManager';
 
 describe('test package manager schema', () => {
   it('get input', async () => {

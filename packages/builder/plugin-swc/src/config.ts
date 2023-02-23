@@ -41,6 +41,9 @@ function getDefaultSwcConfig(): TransformConfig {
           runtime: 'automatic',
         },
       },
+      // Avoid the webpack magic comment to be removed
+      // https://github.com/swc-project/swc/issues/6403
+      preserveAllComments: true,
     },
     minify: false, // for loader, we don't need to minify, we do minification using plugin
     sourceMaps: true,

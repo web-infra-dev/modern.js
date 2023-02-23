@@ -19,7 +19,7 @@ export const generateClient = ({
   let requestCode = ``;
   let exportsCode = ``;
   const requestCreatorPath = path
-    .join(__dirname, './create-request')
+    .join(__dirname, './createRequest')
     .replace('/cjs/cli/', '/esm/cli/')
     .replace(/\\/g, '/');
 
