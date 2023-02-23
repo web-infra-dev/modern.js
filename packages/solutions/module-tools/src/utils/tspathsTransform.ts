@@ -3,7 +3,7 @@ import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import { fs } from '@modern-js/utils';
 import * as parser from '../../compiled/@babel/parser';
 import generator from '../../compiled/@babel/generator';
-import * as t from '../../compiled/@babel/types/lib/index-legacy';
+import * as t from '../../compiled/@babel/types';
 import traverse, { NodePath } from '../../compiled/@babel/traverse';
 import { dtsAliasExts } from '../constants/file';
 // import { defaultTransformedFunctions } from '../constants/dts';
