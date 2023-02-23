@@ -18,10 +18,17 @@ webpackOnlyTest('should emit progress log in non-TTY environment', async () => {
     successMsgs.push(message);
   };
 
-  await build({
-    cwd: __dirname,
-    entry: { index: path.resolve(__dirname, './src/index.js') },
-  });
+  await build(
+    {
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+    },
+    {
+      dev: {
+        progressBar: true,
+      },
+    },
+  );
 
   expect(
     infoMsgs.some(message => message.includes('[Client] compile progress')),
