@@ -6,7 +6,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
     },
-    "minify": false,
     "progress": {
       "prefix": "Client",
     },
@@ -15,6 +14,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "refresh": true,
       "runtime": "automatic",
     },
+    "treeShaking": false,
   },
   "cache": {
     "buildDependencies": [
@@ -447,12 +447,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
-      "maxAsyncSize": undefined,
-      "maxInitialSize": undefined,
-      "maxSize": undefined,
       "minRemainingSize": undefined,
       "minSize": undefined,
-      "minSizeReduction": undefined,
     },
   },
   "output": {
@@ -489,7 +485,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "define": {
       "process.env.NODE_ENV": "\\"production\\"",
     },
-    "minify": {},
+    "minifyOptions": {},
     "progress": {
       "prefix": "Client",
     },
@@ -498,6 +494,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "refresh": false,
       "runtime": "automatic",
     },
+    "treeShaking": false,
   },
   "cache": {
     "buildDependencies": [
@@ -930,12 +927,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
-      "maxAsyncSize": undefined,
-      "maxInitialSize": undefined,
-      "maxSize": undefined,
       "minRemainingSize": undefined,
       "minSize": undefined,
-      "minSizeReduction": undefined,
     },
   },
   "output": {
@@ -972,7 +965,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
     },
-    "minify": false,
     "progress": {
       "prefix": "Client",
     },
@@ -981,6 +973,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
       "refresh": true,
       "runtime": "automatic",
     },
+    "treeShaking": false,
   },
   "cache": {
     "buildDependencies": [
@@ -1006,7 +999,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "test": /\\\\\\.test\\$/,
         "use": [
           {
-            "builtinLoader": "sass-loader",
+            "loader": "builtin:sass-loader",
           },
         ],
       },
@@ -1421,12 +1414,8 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
-      "maxAsyncSize": undefined,
-      "maxInitialSize": undefined,
-      "maxSize": undefined,
       "minRemainingSize": undefined,
       "minSize": undefined,
-      "minSizeReduction": undefined,
     },
   },
   "output": {

@@ -23,7 +23,7 @@ declare const page: Page;
 
 const appDir = path.resolve(__dirname, '../');
 
-describe.skip('dev', () => {
+describe('dev', () => {
   let app: unknown;
   let appPort: number;
   const errors: string[] = [];
@@ -71,7 +71,7 @@ describe.skip('dev', () => {
   });
 });
 
-describe.skip('build', () => {
+describe('build', () => {
   let appPort: number;
   let app: unknown;
   const errors: string[] = [];

@@ -15,7 +15,7 @@ describe('plugins/minimize', () => {
     } = await builder.inspectConfig();
 
     expect(bundlerConfigs[0].optimization?.minimize).toEqual(false);
-    expect(bundlerConfigs[0].builtins?.minify).toEqual(false);
+    expect(bundlerConfigs[0].builtins?.minifyOptions).toBeUndefined();
 
     process.env.NODE_ENV = 'test';
   });
@@ -33,7 +33,7 @@ describe('plugins/minimize', () => {
 
     expect(bundlerConfigs[0].optimization?.minimize).toEqual(true);
 
-    expect(bundlerConfigs[0].builtins?.minify).toEqual({});
+    expect(bundlerConfigs[0].builtins?.minifyOptions).toEqual({});
 
     process.env.NODE_ENV = 'test';
   });
@@ -75,7 +75,7 @@ describe('plugins/minimize', () => {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
 
-    expect(bundlerConfigs[0].builtins?.minify).toEqual({
+    expect(bundlerConfigs[0].builtins?.minifyOptions).toEqual({
       dropConsole: true,
     });
 
@@ -98,7 +98,7 @@ describe('plugins/minimize', () => {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
 
-    expect(bundlerConfigs[0].builtins?.minify).toEqual({
+    expect(bundlerConfigs[0].builtins?.minifyOptions).toEqual({
       pureFuncs: ['console.log', 'console.warn'],
     });
 
