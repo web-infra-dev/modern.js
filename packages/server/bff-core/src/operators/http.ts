@@ -22,8 +22,8 @@ const validateInput = async <Schema extends z.ZodType>(
   try {
     return await schema.parseAsync(input);
   } catch (error) {
-    const { z: zod } = require('zod');
-    if (error instanceof (zod as typeof z).ZodError) {
+    const { z: zod } = await import('zod');
+    if (error instanceof zod.ZodError) {
       throw new ValidationError(400, error.message);
     }
     throw error;
