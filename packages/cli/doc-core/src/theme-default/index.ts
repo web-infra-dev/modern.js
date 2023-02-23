@@ -7,8 +7,9 @@ import { Search } from './components/Search';
 import { Tab, Tabs } from './components/Tabs';
 import { Button } from './components/Button';
 import { Link } from './components/Link';
+import { HomeFooter } from './components/HomeFooter';
 
-export { Nav, Search, Tab, Tabs, Button, Link };
+export { Nav, Search, Tab, Tabs, Button, Link, HomeFooter };
 
 export default {
   Layout,
