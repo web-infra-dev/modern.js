@@ -43,7 +43,7 @@ export interface SSRBundleExports {
 
 export async function renderPages(config: UserConfig) {
   const cwd = process.cwd();
-  const outputPath = join(cwd, OUTPUT_DIR);
+  const outputPath = config.doc?.outDir ?? join(cwd, OUTPUT_DIR);
   const ssrBundlePath = join(outputPath, 'ssr', 'bundles', 'main.js');
   const { default: fs } = await import('@modern-js/utils/fs-extra');
   const { default: ssrExports } = await import(
