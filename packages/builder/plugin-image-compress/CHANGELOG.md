@@ -1,5 +1,18 @@
 # @modern-js/builder-plugin-image-compress
 
+## 2.6.0
+
+### Patch Changes
+
+- 671477d: chore(CI): make CI faster
+
+  chore(CI): 提升 CI 执行速度
+
+- Updated dependencies [e1f799e]
+- Updated dependencies [7915ab3]
+- Updated dependencies [0fe658a]
+  - @modern-js/utils@2.6.0
+
 ## 2.5.0
 
 ### Patch Changes
