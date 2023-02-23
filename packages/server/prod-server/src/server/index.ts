@@ -33,7 +33,7 @@ import {
   requireConfig,
 } from '../libs/loadConfig';
 import { debug } from '../utils';
-import { createProdServer } from './modern-server-split';
+import { createProdServer } from './modernServerSplit';
 
 export class Server {
   public options: ModernServerOptions;

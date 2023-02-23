@@ -20,7 +20,7 @@ export const transformBuildPresetToBaseConfigs = async (
   preset?: BuildPreset,
 ): Promise<BaseBuildConfig[]> => {
   const { BuildInPreset, presetList } = await import(
-    '../constants/build-presets'
+    '../constants/buildPresets'
   );
   const { addInputToPreset } = await import('../utils/input');
 
@@ -167,7 +167,7 @@ export const normalizeBuildConfig = async (
 
   if (isLegacyUserConfig(config as { legacy?: boolean })) {
     const { createUserConfigFromLegacy } = await import(
-      './transform-legacy-config'
+      './transformLegacyConfig'
     );
     config = await createUserConfigFromLegacy(config as ModuleLegacyUserConfig);
   }

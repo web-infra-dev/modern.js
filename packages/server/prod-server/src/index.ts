@@ -3,7 +3,7 @@ import { Server } from './server';
 
 export { Server };
 export type { ServerConfig } from '@modern-js/server-core';
-export { ModernServer } from './server/modern-server';
+export { ModernServer } from './server/modernServer';
 export { createProxyHandler } from './libs/proxy';
 export * from './type';
 export * from './constants';

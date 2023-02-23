@@ -7,7 +7,7 @@ import { WORKSPACE_FILE } from '../constants';
 import {
   getProjectsByPackageConfig,
   syncGetProjectsByPackageConfig,
-} from './get-projects-by-packages-config';
+} from './getProjectsByPackagesConfig';
 
 export const getProjectsByWorkspaceFile = async (
   rootPath: string,

@@ -1,8 +1,8 @@
 import pMap from 'p-map';
-import { IProjectNode } from '../projects/get-projects';
+import { IProjectNode } from '../projects/getProjects';
 import { errorLog } from '../log/error';
 import { TaskRunner, TaskFunType } from './task';
-import { EdgeManager } from './edge-manager';
+import { EdgeManager } from './edgeManager';
 import { recursiveGetDependency, sortProjects } from './utils';
 
 export type Task = (

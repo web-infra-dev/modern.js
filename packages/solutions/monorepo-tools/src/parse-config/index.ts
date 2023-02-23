@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { JsonFile } from '@rushstack/node-core-library';
-import type { IFindSubProjectConfig } from '../projects/get-projects';
+import type { IFindSubProjectConfig } from '../projects/getProjects';
 import { getMonorepoBaseData } from './monorepo';
 
 const defaultConfig: IFindSubProjectConfig = {
