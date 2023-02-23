@@ -473,7 +473,7 @@
 ### Patch Changes
 
 - 63c354ad5: fix normalizeToPosixPath utils function args would be null
-- 12fc5ac88: feat: improve babel-plugin-lock-corejs-version performance
+- 12fc5ac88: feat: improve babelPluginLockCorejsVersion performance
 - 97bb6adb9: fix: utils.addIncludes is not a function
 - Updated dependencies [63c354ad5]
 - Updated dependencies [073e9ad78]

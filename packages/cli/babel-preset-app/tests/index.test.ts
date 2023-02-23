@@ -13,7 +13,7 @@ describe('babel-preset-app', () => {
     expect(Object.keys(babelOptions)).toEqual(['presets', 'plugins']);
 
     expect(babelOptions.plugins).toContainEqual([
-      path.join(__dirname, '../src/built-in/babel-plugin-lock-corejs-version'),
+      path.join(__dirname, '../src/babelPluginLockCorejsVersion'),
     ]);
     expect(cache).toBeCalledWith(true);
   });

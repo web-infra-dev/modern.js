@@ -5,7 +5,7 @@ export const getBuildInPlugins = (opts: BuiltInOptsType) => {
   const chain = createBabelChain();
   chain
     .plugin('@modern-js/babel-plugin-import-path')
-    .use(require.resolve('./import-path'), [opts]);
+    .use(require.resolve('./importPath'), [opts]);
 
   return chain;
 };

@@ -106,8 +106,8 @@ export const genCommon = (options: Options): BabelChain => {
   });
 
   chain
-    .plugin('built-in/babel-plugin-lock-corejs-version')
-    .use(join(__dirname, './built-in/babel-plugin-lock-corejs-version'));
+    .plugin('babelPluginLockCorejsVersion')
+    .use(join(__dirname, './babelPluginLockCorejsVersion'));
 
   return chain.merge(baseConfigChain);
 };
