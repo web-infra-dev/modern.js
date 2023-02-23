@@ -13,7 +13,7 @@ export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
     return {
       server: async ({ App, context }) => {
         const html = await render({
-          context: context!,
+          context,
           App: App as ModernSSRReactComponent,
           config,
         });
@@ -24,6 +24,7 @@ export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
           context.ssrContext!;
 
         context.ssrContext!.request = formatServer(request);
+        context.ssrContext!.mode = config.mode;
         return next({ context });
       },
       pickContext: ({ context, pickedContext }, next) => {

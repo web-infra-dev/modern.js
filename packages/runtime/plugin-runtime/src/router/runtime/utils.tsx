@@ -8,13 +8,20 @@ import {
   type Router,
   type StaticHandlerContext,
 } from '@modern-js/utils/remix-router';
+import { SSRMode } from '../../common';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
 
 export function getRouteComponents(
   routes: (NestedRoute | PageRoute)[],
-  globalApp?: React.ComponentType<any>,
+  {
+    globalApp,
+    ssrMode,
+  }: {
+    globalApp?: React.ComponentType<any>;
+    ssrMode?: `${SSRMode}`;
+  },
 ) {
   const Layout = ({ Component, ...props }: any) => {
     const GlobalLayout = globalApp;
@@ -28,7 +35,8 @@ export function getRouteComponents(
   for (const route of routes) {
     if (route.type === 'nested') {
       const routeElement = renderNestedRoute(route, {
-        DeferredDataComponent: DeferredDataScripts,
+        DeferredDataComponent:
+          ssrMode === SSRMode.STREAM ? DeferredDataScripts : undefined,
       });
       routeElements.push(routeElement);
     } else {
@@ -46,7 +54,10 @@ export function getRouteComponents(
   return routeElements;
 }
 
-export function renderRoutes(routesConfig: RouterConfig['routesConfig']) {
+export function renderRoutes(
+  routesConfig: RouterConfig['routesConfig'],
+  ssrMode?: `${SSRMode}`,
+) {
   if (!routesConfig) {
     return null;
   }
@@ -54,7 +65,7 @@ export function renderRoutes(routesConfig: RouterConfig['routesConfig']) {
   if (!routes) {
     return null;
   }
-  const routeElements = getRouteComponents(routes, globalApp);
+  const routeElements = getRouteComponents(routes, { globalApp, ssrMode });
   return routeElements;
 }
 

@@ -78,15 +78,14 @@ export const routerPlugin = ({
             return next({ context });
           }
 
-          const { request }: { request: SSRServerContext['request'] } =
-            context.ssrContext!;
+          const { request, mode: ssrMode } = context.ssrContext!;
           const baseUrl = request.baseUrl as string;
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
           const routes = createRoutes
             ? createRoutes()
-            : createRoutesFromElements(renderRoutes(routesConfig));
+            : createRoutesFromElements(renderRoutes(routesConfig, ssrMode));
 
           const { query } = createStaticHandler(routes, {
             basename: _basename,

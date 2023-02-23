@@ -94,6 +94,8 @@ export type BaseSSRServerContext = {
   req: ModernServerContext['req'];
 
   res: ModernServerContext['res'];
+
+  mode?: 'string' | 'stream'; // ssr type
 };
 export interface ISAppContext {
   appDirectory: string;
