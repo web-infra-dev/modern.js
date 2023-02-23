@@ -3,7 +3,7 @@
 exports[`data loader basic usage 1`] = `
 "
     
-    import { createRequest } from '/packages/cli/plugin-data-loader/src/cli/create-request';
+    import { createRequest } from '/packages/cli/plugin-data-loader/src/cli/createRequest';
   
     
       const loader_0 = createRequest('main_user/profile/page');

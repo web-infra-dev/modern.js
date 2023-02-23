@@ -5,7 +5,7 @@ import type {
 } from '@modern-js/libuild';
 import type { Options } from '@modern-js/libuild-plugin-svgr';
 import type { ToolsConfig as WebpackBuilderToolsConfig } from '@modern-js/builder-webpack-provider';
-import { BuildInPreset, presetList } from '../../constants/build-presets';
+import { BuildInPreset, presetList } from '../../constants/buildPresets';
 import type { CopyConfig } from '../copy';
 import type {
   LessConfig,

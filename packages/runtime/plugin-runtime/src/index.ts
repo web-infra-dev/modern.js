@@ -10,7 +10,7 @@ export type {
   RuntimeContext,
   BaseTRuntimeContext,
   TRuntimeContext,
-} from './runtime-context';
+} from './runtimeContext';
 export type { RuntimeUserConfig } from './config';
 
 export {

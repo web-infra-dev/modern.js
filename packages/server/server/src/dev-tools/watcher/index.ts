@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs, chokidar, FSWatcher, WatchOptions } from '@modern-js/utils';
-import { DependencyTree } from './dependency-tree';
-import { StatsCache } from './stats-cache';
+import { DependencyTree } from './dependencyTree';
+import { StatsCache } from './statsCache';
 
 export type WatchEvent = 'add' | 'change' | 'unlink';
 

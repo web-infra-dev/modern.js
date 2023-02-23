@@ -31,7 +31,7 @@ import { createRenderHandler } from '../libs/render';
 import {
   createStaticFileHandler,
   faviconFallbackHandler,
-} from '../libs/serve-file';
+} from '../libs/serveFile';
 import {
   createErrorDocument,
   createMiddlewareCollecter,

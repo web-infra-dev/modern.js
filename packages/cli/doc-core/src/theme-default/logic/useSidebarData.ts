@@ -2,7 +2,7 @@ import {
   NormalizedSidebarGroup,
   SidebarItem,
   NormalizedSidebar,
-} from 'shared/types/default-theme';
+} from 'shared/types/defaultTheme';
 import { useEffect, useState } from 'react';
 import { useLocaleSiteData } from './useLocaleSiteData';
 import { isEqualPath } from './utils';

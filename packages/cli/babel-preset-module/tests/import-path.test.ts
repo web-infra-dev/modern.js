@@ -6,7 +6,7 @@ import importPath, {
   isNotJsLikeFile,
   isShouldSkip,
   isStyleFile,
-} from '../src/built-in/import-path';
+} from '../src/built-in/importPath';
 
 describe('getImportFileDistPath', () => {
   const currentFileName = path.join(

@@ -206,4 +206,4 @@ export const legacy = {
 };
 
 export const schema = [buildConfig, buildPreset, legacy];
-export { legacySchema } from './legacy-schema';
+export { legacySchema } from './legacySchema';

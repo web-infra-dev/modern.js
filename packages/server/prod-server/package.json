@@ -27,11 +27,11 @@
     },
     "./worker": {
       "node": {
-        "jsnext:source": "./src/worker-server.ts",
-        "import": "./dist/esm-node/worker-server.js",
-        "require": "./dist/cjs/worker-server.js"
+        "jsnext:source": "./src/workerServer.ts",
+        "import": "./dist/esm-node/workerServer.js",
+        "require": "./dist/cjs/workerServer.js"
       },
-      "default": "./dist/esm/worker-server.js"
+      "default": "./dist/esm/workerServer.js"
     }
   },
   "typesVersions": {
@@ -40,7 +40,7 @@
         "./dist/types/index.d.ts"
       ],
       "worker": [
-        "./dist/types/worker-server.d.ts"
+        "./dist/types/workerServer.d.ts"
       ]
     }
   },

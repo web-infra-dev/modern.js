@@ -1,6 +1,6 @@
 import { Server, ModernServerOptions } from '@modern-js/prod-server';
 import type { ModernDevServerOptions } from '../types';
-import { ModernDevServer } from './dev-server';
+import { ModernDevServer } from './devServer';
 
 const createDevServer = (options: ModernServerOptions) => {
   return new ModernDevServer(options as ModernDevServerOptions);

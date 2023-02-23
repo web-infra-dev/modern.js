@@ -5,11 +5,11 @@ import type { PluggableList } from 'unified';
 import {
   Config as DefaultThemeConfig,
   NormalizedConfig as NormalizedDefaultThemeConfig,
-} from './default-theme';
+} from './defaultTheme';
 import { DocPlugin } from './Plugin';
 
 export { DefaultThemeConfig, NormalizedDefaultThemeConfig };
-export * from './default-theme';
+export * from './defaultTheme';
 
 export { DocPlugin };
 

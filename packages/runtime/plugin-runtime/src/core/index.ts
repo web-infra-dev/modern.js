@@ -2,13 +2,13 @@ export { createPlugin, createRuntime, runtime, registerInit } from './plugin';
 
 export type { Plugin } from './plugin';
 
-export { defineConfig, getConfig } from './app-config';
+export { defineConfig, getConfig } from './appConfig';
 
 // compatible
 export * from './compatible';
 
-export type { TRuntimeContext, RuntimeContext } from '../runtime-context';
-export { RuntimeReactContext, ServerRouterContext } from '../runtime-context';
+export type { TRuntimeContext, RuntimeContext } from '../runtimeContext';
+export { RuntimeReactContext, ServerRouterContext } from '../runtimeContext';
 export * from './loader';
 
 export * from '@modern-js/plugin';

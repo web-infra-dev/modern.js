@@ -39,6 +39,6 @@ export * from './chainId';
 export * from './version';
 export * from './plugin';
 export * from './routes';
-export * from './test-utils';
+export * from './testUtils';
 export * from './getCoreJsVersion';
 export * from './react';
