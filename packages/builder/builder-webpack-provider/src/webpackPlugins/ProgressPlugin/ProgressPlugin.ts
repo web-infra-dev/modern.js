@@ -2,7 +2,7 @@ import webpack from 'webpack';
 import { logger } from '@modern-js/utils/logger';
 import { bus, createFriendlyPercentage } from './helpers';
 import prettyTime from '../../../compiled/pretty-time';
-import { createNonTTYLogger } from './helpers/non-tty';
+import { createNonTTYLogger } from './helpers/nonTty';
 import type { Props } from './helpers/type';
 
 export interface ProgressOptions
