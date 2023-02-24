@@ -3,7 +3,11 @@
 import { compile } from 'path-to-regexp';
 import { redirect } from 'react-router-dom';
 import { type UNSAFE_DeferredData as DeferredData } from '@modern-js/utils/remix-router';
-import { LOADER_ID_PARAM, DIRECT_PARAM } from '../common/constants';
+import {
+  LOADER_ID_PARAM,
+  DIRECT_PARAM,
+  CONTENT_TYPE_DEFERRED,
+} from '../common/constants';
 import { parseDeferredReadableStream } from './data';
 
 export const getRequestUrl = ({
@@ -37,7 +41,7 @@ const handleRedirectResponse = (res: Response) => {
 
 const handleDeferredResponse = async (res: Response) => {
   if (
-    res.headers.get('Content-Type')?.match(/text\/modernjs-deferred/) &&
+    res.headers.get('Content-Type')?.match(CONTENT_TYPE_DEFERRED) &&
     res.body
   ) {
     return await parseDeferredReadableStream(res.body);

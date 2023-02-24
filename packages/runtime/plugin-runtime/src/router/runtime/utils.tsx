@@ -1,6 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import type { NestedRoute, PageRoute } from '@modern-js/types';
+import {
+  type NestedRoute,
+  type PageRoute,
+  type SSRMode,
+} from '@modern-js/types';
 import { renderNestedRoute } from '@modern-js/utils/nestedRoutes';
 import {
   ErrorResponse,
@@ -8,7 +12,6 @@ import {
   type Router,
   type StaticHandlerContext,
 } from '@modern-js/utils/remix-router';
-import { SSRMode } from '../../common';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
@@ -20,7 +23,7 @@ export function getRouteComponents(
     ssrMode,
   }: {
     globalApp?: React.ComponentType<any>;
-    ssrMode?: `${SSRMode}`;
+    ssrMode?: SSRMode;
   },
 ) {
   const Layout = ({ Component, ...props }: any) => {
@@ -36,7 +39,7 @@ export function getRouteComponents(
     if (route.type === 'nested') {
       const routeElement = renderNestedRoute(route, {
         DeferredDataComponent:
-          ssrMode === SSRMode.STREAM ? DeferredDataScripts : undefined,
+          ssrMode === 'stream' ? DeferredDataScripts : undefined,
       });
       routeElements.push(routeElement);
     } else {
@@ -56,7 +59,7 @@ export function getRouteComponents(
 
 export function renderRoutes(
   routesConfig: RouterConfig['routesConfig'],
-  ssrMode?: `${SSRMode}`,
+  ssrMode?: SSRMode,
 ) {
   if (!routesConfig) {
     return null;

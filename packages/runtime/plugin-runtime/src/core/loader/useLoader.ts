@@ -7,7 +7,7 @@ import {
   useEffect,
 } from 'react';
 import invariant from 'invariant';
-import { RuntimeReactContext } from '../../runtime-context';
+import { RuntimeReactContext } from '../../runtimeContext';
 import { Loader, LoaderStatus } from './loaderManager';
 
 type LoaderFn<P = any, T = any> = (context: any, params: P) => Promise<T>;

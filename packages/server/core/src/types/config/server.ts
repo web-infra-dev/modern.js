@@ -1,3 +1,4 @@
+import type { SSRMode } from '@modern-js/types';
 import type { WatchOptions } from '@modern-js/utils';
 
 type Route =
@@ -14,7 +15,7 @@ export type SSR =
   | boolean
   | {
       forceCSR?: boolean;
-      mode?: 'string' | 'stream';
+      mode?: SSRMode;
     };
 
 export type SSRByEntries = Record<string, SSR>;

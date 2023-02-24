@@ -17,7 +17,7 @@ import {
   type UNSAFE_DeferredData as DeferredData,
 } from '@modern-js/utils/remix-router';
 import { isPlainObject } from '@modern-js/utils/lodash';
-import { LOADER_ID_PARAM } from '../common/constants';
+import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';
 
 export type ServerContext = Pick<
@@ -184,7 +184,7 @@ export const handleRequest = async ({
         );
       } else {
         const headers = new Headers(init.headers);
-        headers.set('Content-Type', 'text/modernjs-deferred');
+        headers.set('Content-Type', CONTENT_TYPE_DEFERRED);
         init.headers = headers;
         response = new NodeResponse(body, init);
       }
