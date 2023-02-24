@@ -1,5 +1,5 @@
 import path from 'path';
-import { Compiler, Compilation } from 'webpack';
+import type { Compiler, Compilation } from 'webpack';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import {
   mergeRegex,
@@ -8,6 +8,7 @@ import {
   BuilderPlugin,
   getBrowserslistWithDefault,
   logger,
+  isUsingHMR,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
 import { chalk, getCoreJsVersion, isBeyondReact17 } from '@modern-js/utils';
@@ -35,8 +36,10 @@ export const builderPluginSwc = (
     const SWC_HELPERS_PATH = require.resolve('@swc/helpers/package.json');
 
     // Find if babel & ts loader exists
-    api.modifyWebpackChain(async (chain, { env, target, CHAIN_ID }) => {
-      const { isProd } = await import('@modern-js/utils');
+    api.modifyWebpackChain(async (chain, utils) => {
+      const { target, CHAIN_ID, isProd } = utils;
+
+      const config = api.getNormalizedConfig();
       const { rootPath } = api.context;
 
       chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
@@ -49,10 +52,7 @@ export const builderPluginSwc = (
         jsc: {
           transform: {
             react: {
-              refresh:
-                env === 'development' &&
-                builderConfig.dev.hmr &&
-                !['node', 'web-worker', 'service-worker'].includes(target),
+              refresh: isUsingHMR(config, utils),
             },
           },
         },
@@ -131,7 +131,7 @@ export const builderPluginSwc = (
       }
 
       if (
-        isProd() &&
+        isProd &&
         !builderConfig.output.disableMinimize &&
         pluginConfig.jsMinify !== false
       ) {
