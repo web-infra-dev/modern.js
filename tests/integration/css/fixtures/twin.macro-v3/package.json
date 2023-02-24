@@ -7,6 +7,7 @@
     "@modern-js/plugin-tailwindcss": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "postcss": "8.4.21",
+    "tailwindcss": "^3",
     "twin.macro": "^3",
     "react": "^18",
     "react-dom": "^18"
