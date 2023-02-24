@@ -42,6 +42,7 @@ const createRoute = (
   };
 };
 
+// eslint-disable-next-line complexity
 export const walk = async (
   dirname: string,
   rootDir: string,
