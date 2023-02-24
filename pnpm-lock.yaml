@@ -356,12 +356,12 @@ importers:
       '@babel/preset-env': 7.20.2_@babel+core@7.20.5
       '@babel/preset-react': 7.18.6_@babel+core@7.20.5
       '@babel/preset-typescript': 7.18.6_@babel+core@7.20.5
-      '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/swc-plugins': 0.0.16
       '@modern-js/utils': link:../../toolkit/utils
       '@swc/helpers': 0.4.12
       core-js: 3.26.0
     devDependencies:
+      '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.20
