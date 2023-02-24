@@ -6,7 +6,7 @@
   "bin": {
     "modern-lib": "./bin/modern.js",
     "mdn": "./bin/modern.js",
-    "only-allow-pnpm": "./bin/only-allow-pnpm.js"
+    "only-allow-pnpm": "./bin/onlyAllowPnpm.js"
   },
   "devDependencies": {
     "btsm": "2.2.2",

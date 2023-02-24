@@ -35,12 +35,15 @@ importers:
       enhanced-resolve: ^5.9.2
       esbuild: 0.15.7
       execa: ^5.1.1
+      fast-glob: ^3.2.12
       globby: ^11.0.4
       husky: ^8.0.0
       jest: ^27.5.1
       jest-environment-jsdom: ^27.2.2
       turbo: ^1.6.3
       vitest: 0.21.1
+    dependencies:
+      fast-glob: 3.2.12
     devDependencies:
       '@babel/core': 7.20.5
       '@babel/plugin-transform-modules-commonjs': 7.19.6_@babel+core@7.20.5

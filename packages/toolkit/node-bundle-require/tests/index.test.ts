@@ -41,14 +41,14 @@ describe('bundleRequire', () => {
 
   test('should bundle ts files inside node_modules correctly', async () => {
     const result = await bundleRequire(
-      path.join(__dirname, './fixture/input-import-ts.ts'),
+      path.join(__dirname, './fixture/inputImportTs.ts'),
     );
     expect(result.default).toEqual({ bar: 1 });
   });
 
   test('should bundle esm package correctly', async () => {
     const result = await bundleRequire(
-      path.join(__dirname, './fixture/input-import-esm.ts'),
+      path.join(__dirname, './fixture/inputImportEsm.ts'),
     );
 
     expect(result.default).toEqual({ bar: 1 });
