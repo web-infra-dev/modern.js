@@ -46,8 +46,9 @@ function setReactDevMode(
     swc.jsc.transform.react = {};
   }
 
-  swc.jsc.transform.react.development = mode === 'development';
-  swc.jsc.transform.react.refresh = mode === 'development';
+  const { react } = swc.jsc.transform;
+  react.development = react.development ?? mode === 'development';
+  react.refresh = react.refresh ?? mode === 'development';
 }
 
 export function normalizeLoaderOption(
