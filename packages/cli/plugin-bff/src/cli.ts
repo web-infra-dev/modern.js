@@ -28,27 +28,25 @@ export default (): CliPlugin<AppTools> => ({
         return {
           tools: {
             webpackChain: (chain, { name, CHAIN_ID }) => {
-              const { port, apiDirectory, lambdaDirectory } =
-                api.useAppContext();
+              const { appDirectory, port } = api.useAppContext();
               const modernConfig = api.useResolvedConfigContext();
               const { bff } = modernConfig || {};
               const prefix = bff?.prefix || DEFAULT_API_PREFIX;
-              const httpMethodDecider = bff?.httpMethodDecider;
 
-              chain.resolve.alias.set('@api', apiDirectory);
+              const rootDir = path.resolve(appDirectory, API_DIR);
+
+              chain.resolve.alias.set('@api', rootDir);
 
               const apiRouter = new ApiRouter({
-                apiDir: apiDirectory,
-                lambdaDir: lambdaDirectory,
+                apiDir: rootDir,
                 prefix,
-                httpMethodDecider,
               });
 
               const lambdaDir = apiRouter.getLambdaDir();
               const existLambda = apiRouter.isExistLambda();
 
               const apiRegexp = new RegExp(
-                normalizeOutputPath(`${apiDirectory}${path.sep}.*(.[tj]s)$`),
+                normalizeOutputPath(`${rootDir}${path.sep}.*(.[tj]s)$`),
               );
 
               chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(apiRegexp);
@@ -59,12 +57,11 @@ export default (): CliPlugin<AppTools> => ({
                 .loader(require.resolve('./loader').replace(/\\/g, '/'))
                 .options({
                   prefix,
-                  apiDir: apiDirectory,
+                  apiDir: rootDir,
                   lambdaDir,
                   existLambda,
                   port,
                   target: name,
-                  httpMethodDecider,
                 });
             },
           },
@@ -92,6 +89,7 @@ export default (): CliPlugin<AppTools> => ({
           entryPath: '',
           isSPA: false,
           isSSR: false,
+          // FIXME: })) as IAppContext[`serverRoutes`];
         })) as ServerRoute[];
 
         if (bff?.enableHandleWeb) {
@@ -130,14 +128,12 @@ export default (): CliPlugin<AppTools> => ({
         if (unRegisterResolveRuntimePath) {
           unRegisterResolveRuntimePath();
         }
-        const { appDirectory, distDirectory, apiDirectory, sharedDirectory } =
-          api.useAppContext();
+        const { appDirectory, distDirectory } = api.useAppContext();
         const modernConfig = api.useResolvedConfigContext();
 
         const distDir = path.resolve(distDirectory);
-        const apiDir = apiDirectory || path.resolve(appDirectory, API_DIR);
-        const sharedDir =
-          sharedDirectory || path.resolve(appDirectory, SHARED_DIR);
+        const apiDir = path.resolve(appDirectory, API_DIR);
+        const sharedDir = path.resolve(appDirectory, SHARED_DIR);
         const tsconfigPath = path.resolve(appDirectory, TS_CONFIG_FILENAME);
 
         const sourceDirs = [];
