@@ -3,7 +3,7 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- * modified from https://github.com/vercel/next.js/blob/canary/skip-docs-change.js
+ * modified from https://github.com/vercel/next.js/blob/canary/skipDocsChange.js
  */
 const { promisify } = require('util');
 const { exec: execOrig, spawn } = require('child_process');
@@ -18,7 +18,7 @@ const DOCS_FOLDERS = [
   'packages/toolkit/main-doc',
   'packages/toolkit/module-doc',
   'packages/builder/builder-doc',
-  'scripts/skip-docs-change.js',
+  'scripts/skipDocsChange.js',
 ];
 
 async function main() {

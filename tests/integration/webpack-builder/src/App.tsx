@@ -30,14 +30,6 @@ const App = () => (
         <a href="https://modernjs.dev/docs/apis" className="card">
           <h2>API Reference </h2>
         </a>
-        <a
-          href="https://modernjs.dev/coming-soon"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="card"
-        >
-          <h2>Community </h2>
-        </a>
       </div>
     </main>
     <footer className="footer">
