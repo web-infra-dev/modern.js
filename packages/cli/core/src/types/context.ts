@@ -24,8 +24,6 @@ export interface IAppContext {
   toolsType?: ToolsType;
   packageName: string;
   srcDirectory: string;
-  apiDirectory: string;
-  lambdaDirectory: string;
   sharedDirectory: string;
   nodeModulesDirectory: string;
   internalDirectory: string;

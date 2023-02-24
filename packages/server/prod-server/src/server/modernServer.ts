@@ -62,6 +62,7 @@ type ModernServerAsyncHandler = (
   next: NextFunction,
 ) => Promise<void>;
 
+const API_DIR = './api';
 const SERVER_DIR = './server';
 
 export class ModernServer implements ModernServerInterface {
@@ -334,6 +335,7 @@ export class ModernServer implements ModernServerInterface {
     await runner.gather(collector);
     const { api: pluginAPIExt, web: pluginWebExt } = getMiddlewares();
 
+    const apiDir = path.join(workDir, API_DIR);
     const serverDir = path.join(workDir, SERVER_DIR);
 
     // get api or web server handler from server-framework plugin
@@ -342,7 +344,7 @@ export class ModernServer implements ModernServerInterface {
       this.frameWebHandler = await this.prepareWebHandler(webExtension);
     }
 
-    if (!onlyWeb) {
+    if (fs.existsSync(apiDir) && !onlyWeb) {
       const apiExtension = mergeExtension(pluginAPIExt);
       this.frameAPIHandler = await this.prepareAPIHandler(apiExtension);
     }
@@ -373,7 +375,6 @@ export class ModernServer implements ModernServerInterface {
         pwd: workDir,
         config: extension,
         prefix: Array.isArray(prefix) ? prefix[0] : prefix,
-        httpMethodDecider: bff?.httpMethodDecider,
         render: this.render.bind(this),
       },
       { onLast: () => null as any },

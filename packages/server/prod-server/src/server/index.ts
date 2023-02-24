@@ -235,18 +235,15 @@ export class Server {
 
   private initAppContext(): ISAppContext {
     const { options } = this;
-    const { pwd: appDirectory, plugins = [], config, appContext } = options;
+    const { pwd: appDirectory, plugins = [], config } = options;
     const serverPlugins = plugins.map(p => ({
       server: p,
     }));
 
     return {
       appDirectory,
-      apiDirectory: appContext?.apiDirectory,
-      lambdaDirectory: appContext?.lambdaDirectory,
-      sharedDirectory:
-        appContext?.sharedDirectory || path.resolve(appDirectory, SHARED_DIR),
       distDirectory: path.join(appDirectory, config.output.path || 'dist'),
+      sharedDirectory: path.resolve(appDirectory, SHARED_DIR),
       plugins: serverPlugins,
     };
   }

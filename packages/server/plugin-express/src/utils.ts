@@ -1,18 +1,15 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable consistent-return */
 import 'reflect-metadata';
 import {
   HttpMethod,
   httpMethods,
   isWithMetaHandler,
-  isInputParamsDeciderHandler,
   ResponseMeta,
   HttpMetadata,
   ResponseMetaType,
   ValidationError,
 } from '@modern-js/bff-core';
 import type { APIHandlerInfo } from '@modern-js/bff-core';
-import { isSchemaHandler } from '@modern-js/bff-runtime';
+import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import type { Request, Response, NextFunction } from 'express';
 import typeIs from 'type-is';
 import formidable from 'formidable';
@@ -63,12 +60,13 @@ export const createRouteHandler = (handler: Handler) => {
         }
         const result = await handler(input);
         if (result && typeof result === 'object') {
+          // eslint-disable-next-line consistent-return
           return res.json(result);
         }
       } catch (error) {
         if (error instanceof ValidationError) {
           res.status((error as any).status);
-
+          // eslint-disable-next-line consistent-return
           return res.json({
             message: error.message,
           });
@@ -83,44 +81,31 @@ export const createRouteHandler = (handler: Handler) => {
         } else {
           res.status(500);
         }
-
+        // eslint-disable-next-line consistent-return
         return res.json(result.message);
       } else {
         res.status(200);
-
+        // eslint-disable-next-line consistent-return
         return res.json(result.value);
       }
-    } else if (isInputParamsDeciderHandler(handler)) {
-      try {
-        const args = input?.data?.args || [];
-        const body = await handler(...args);
-        if (typeof body !== 'undefined') {
-          // we can't currently use res.send to handle object here
-          // because the send function is not provided by express
-          // it is assigned first in the packages/server/prod-server/src/libs/context/context.ts
-          if (typeof body === 'object') {
-            return res.json(body);
-          }
-          return res.send(body);
-        }
-      } catch (e) {
-        return next(e);
-      }
     } else {
-      const args = Object.values(input.params).concat(input);
+      const args = Object.values(input.params as any).concat(input);
 
       try {
         const body = await handler(...args);
 
         // this should never happen
         if (res.headersSent) {
+          // eslint-disable-next-line consistent-return
           return await Promise.resolve();
         }
 
         if (typeof body !== 'undefined') {
+          // eslint-disable-next-line consistent-return
           return res.json(body);
         }
       } catch (e) {
+        // eslint-disable-next-line consistent-return
         return next(e);
       }
     }
@@ -138,7 +123,7 @@ export const isNormalMethod = (
   httpMethod: HttpMethod,
 ): httpMethod is HttpMethod => httpMethods.includes(httpMethod);
 
-const getInputFromRequest = async (request: Request) => {
+const getInputFromRequest = async (request: Request): Promise<InputType> => {
   const draft: Record<string, any> = {
     params: request.params,
     query: request.query,
@@ -156,7 +141,7 @@ const getInputFromRequest = async (request: Request) => {
     draft.body = request.body;
   }
 
-  return draft;
+  return draft as any;
 };
 
 const resolveFormData = (request: Request): Promise<Record<string, any>> => {
