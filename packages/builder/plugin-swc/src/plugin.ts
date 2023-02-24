@@ -7,14 +7,10 @@ import {
   TS_REGEX,
   BuilderPlugin,
   getBrowserslistWithDefault,
+  logger,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import {
-  chalk,
-  getCoreJsVersion,
-  logger,
-  isBeyondReact17,
-} from '@modern-js/utils';
+import { chalk, getCoreJsVersion, isBeyondReact17 } from '@modern-js/utils';
 import { JsMinifyOptions } from '@modern-js/swc-plugins';
 import { minify } from './binding';
 import { PluginSwcOptions, TransformConfig } from './config';
@@ -80,6 +76,13 @@ export const builderPluginSwc = (
           builderConfig,
           target,
         );
+      }
+
+      /**
+       * SWC can't use latestDecorator in TypeScript file for now
+       */
+      if (builderConfig.output.enableLatestDecorators) {
+        logger.warn('Cannot use latestDecorator in SWC compiler.');
       }
 
       const { extensions } = swc;
