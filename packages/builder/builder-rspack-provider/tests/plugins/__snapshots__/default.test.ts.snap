@@ -10,8 +10,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "localsConvention": "camelCase",
       },
     },
+    "decorator": {
+      "legacy": true,
+    },
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
     },
     "progress": {
       "prefix": "Client",
@@ -638,10 +649,21 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "localsConvention": "camelCase",
       },
     },
+    "decorator": {
+      "legacy": true,
+    },
     "define": {
       "process.env.NODE_ENV": "\\"production\\"",
     },
     "minifyOptions": {},
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
     "progress": {
       "prefix": "Client",
     },
@@ -1267,8 +1289,19 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "localsConvention": "camelCase",
       },
     },
+    "decorator": {
+      "legacy": true,
+    },
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
     },
     "progress": {
       "prefix": "Client",
