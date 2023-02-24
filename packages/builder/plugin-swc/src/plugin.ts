@@ -39,7 +39,7 @@ export const builderPluginSwc = (
     const SWC_HELPERS_PATH = require.resolve('@swc/helpers/package.json');
 
     // Find if babel & ts loader exists
-    api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { env, target, CHAIN_ID }) => {
       const { isProd } = await import('@modern-js/utils');
       const { rootPath } = api.context;
 
@@ -50,14 +50,23 @@ export const builderPluginSwc = (
       determinePresetReact(rootPath, pluginConfig);
 
       const swc: TransformConfig = {
-        jsc: { transform: {} },
+        jsc: {
+          transform: {
+            react: {
+              refresh: env === 'development' && builderConfig.dev.hmr,
+            },
+          },
+        },
         env: pluginConfig.presetEnv || {},
         extensions: {},
         cwd: rootPath,
       };
 
       if (pluginConfig.presetReact) {
-        swc.jsc!.transform!.react = pluginConfig.presetReact;
+        swc.jsc!.transform!.react = {
+          ...swc.jsc!.transform!.react,
+          ...pluginConfig.presetReact,
+        };
       }
 
       const { polyfill } = builderConfig.output;

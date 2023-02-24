@@ -43,6 +43,7 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
               "jsc": {
                 "transform": {
                   "react": {
+                    "refresh": false,
                     "runtime": "classic",
                   },
                 },
@@ -81,6 +82,7 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
               "jsc": {
                 "transform": {
                   "react": {
+                    "refresh": false,
                     "runtime": "classic",
                   },
                 },
@@ -91,6 +93,47 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
       },
     ],
   },
+}
+`;
+
+exports[`plugins/swc > should disable react refresh when dev.hmr is false 1`] = `
+{
+  "rules": [
+    {
+      "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+      "use": [
+        {
+          "loader": "<ROOT>/src/loader",
+          "options": {
+            "cwd": "<ROOT>",
+            "env": {
+              "coreJs": "3.26",
+              "mode": "entry",
+              "targets": [
+                "> 0.01%",
+                "not dead",
+                "not op_mini all",
+              ],
+            },
+            "extensions": {
+              "lockCorejsVersion": {
+                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+              },
+            },
+            "jsc": {
+              "transform": {
+                "react": {
+                  "refresh": false,
+                  "runtime": "classic",
+                },
+              },
+            },
+          },
+        },
+      ],
+    },
+  ],
 }
 `;
 
@@ -146,6 +189,7 @@ exports[`plugins/swc > should set swc-loader 1`] = `
               "jsc": {
                 "transform": {
                   "react": {
+                    "refresh": false,
                     "runtime": "classic",
                   },
                 },
@@ -184,6 +228,7 @@ exports[`plugins/swc > should set swc-loader 1`] = `
               "jsc": {
                 "transform": {
                   "react": {
+                    "refresh": false,
                     "runtime": "classic",
                   },
                 },
