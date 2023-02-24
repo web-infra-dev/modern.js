@@ -3,6 +3,7 @@ const execa = require('execa');
 const globby = require('globby');
 
 const SHELL = process.env.SHELL || true;
+const restArgv = process.argv.slice(2);
 
 (async () => {
   const configs = await globby('**/vitest.config.ts', {
@@ -27,8 +28,8 @@ const SHELL = process.env.SHELL || true;
     });
 
     for (const cwd of directories) {
-      const cmd = 'pnpm run test';
-      await execa(cmd, { shell: SHELL, stdio: 'inherit', cwd });
+      const args = ['run', 'test', ...restArgv];
+      await execa('pnpm', args, { shell: SHELL, stdio: 'inherit', cwd });
     }
   } catch (err) {
     console.error(err);

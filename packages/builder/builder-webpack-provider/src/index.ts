@@ -35,7 +35,6 @@ export type {
   SassLoaderOptions,
   HTMLPluginOptions,
   StyleLoaderOptions,
-  AutoprefixerOptions,
   TerserPluginOptions,
   PostCSSLoaderOptions,
 } from './types';

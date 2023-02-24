@@ -124,7 +124,6 @@ importers:
       '@rspack/postcss-loader': 0.0.0-3753f5fd2-20230223121636
       '@scripts/vitest-config': workspace:*
       '@types/node': ^14
-      autoprefixer: ^10.4.8
       caniuse-lite: ^1.0.30001451
       postcss: 8.4.21
       typescript: ^4
@@ -143,7 +142,6 @@ importers:
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/node': 14.18.35
-      autoprefixer: 10.4.13_postcss@8.4.21
       postcss: 8.4.21
       typescript: 4.9.3
 
@@ -522,7 +520,7 @@ importers:
       '@types/jest': ^27
       '@types/less': ^3.0.3
       '@types/node': ^14
-      autoprefixer: ^10.3.1
+      autoprefixer: 10.4.13
       btsm: 2.2.2
       html-webpack-plugin: 5.5.0
       jest: ^27
@@ -3662,7 +3660,7 @@ importers:
       ajv: 8.11.0
       ajv-keywords: 5.1.0
       ansi-escapes: 4.3.2
-      autoprefixer: 10.4.7
+      autoprefixer: 10.4.13
       babel-loader: 9.1.0
       babel-plugin-dynamic-import-node: 2.3.3
       babel-plugin-import: 1.13.5
@@ -3808,7 +3806,7 @@ importers:
       ajv: 8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
       ansi-escapes: 4.3.2
-      autoprefixer: 10.4.7_postcss@8.4.21
+      autoprefixer: 10.4.13_postcss@8.4.21
       babel-loader: 9.1.0_ztqwsvkb6z73luspkai6ilstpu
       babel-plugin-dynamic-import-node: 2.3.3
       babel-plugin-import: 1.13.5
@@ -5090,6 +5088,7 @@ importers:
       postcss: 8.4.21
       react: ^18
       react-dom: ^18
+      tailwindcss: ^3
       twin.macro: ^3
     dependencies:
       '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
@@ -5098,7 +5097,8 @@ importers:
       postcss: 8.4.21
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      twin.macro: 3.1.0
+      tailwindcss: 3.2.4_postcss@8.4.21
+      twin.macro: 3.1.0_tailwindcss@3.2.4
 
   tests/integration/custom-render:
     specifiers:
@@ -5917,7 +5917,6 @@ importers:
       clsx: ^1.2.1
       react: ^18
       react-dom: ^18
-      react-masonry-component: ^6.3.0
       typescript: ^4
     dependencies:
       '@modern-js/builder-doc': link:../../packages/builder/builder-doc
@@ -5929,7 +5928,6 @@ importers:
       clsx: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-masonry-component: 6.3.0_react@18.2.0
     devDependencies:
       typescript: 4.9.3
 
@@ -15767,27 +15765,11 @@ packages:
       postcss: 8.4.21
       postcss-value-parser: 4.2.0
 
-  /autoprefixer/10.4.7_postcss@8.4.21:
-    resolution: {integrity: sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA==}
-    engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      browserslist: 4.21.4
-      caniuse-lite: 1.0.30001451
-      fraction.js: 4.2.0
-      normalize-range: 0.1.2
-      picocolors: 1.0.0
-      postcss: 8.4.21
-      postcss-value-parser: 4.2.0
-    dev: true
-
   /autoprefixer/9.8.8:
     resolution: {integrity: sha512-eM9d/swFopRt5gdJ7jrpCwgvEMIayITpojhkkSMRsFHYuH5bkSQ4p/9qTEHtmNudUZh22Tehu7I6CxAW0IXTKA==}
     hasBin: true
     dependencies:
-      browserslist: 4.21.4
+      browserslist: 4.20.2
       caniuse-lite: 1.0.30001451
       normalize-range: 0.1.2
       num2fraction: 1.2.2
@@ -16267,10 +16249,6 @@ packages:
     resolution: {integrity: sha512-qzxS7/bW/LSiKZzdZw3isPjiVmzXbJLM3ImZZ62WMR3oJQAyqy094Nnb0TA2ZZm65xB7nu0acfTQ99z7wwCDCw==}
     dev: false
 
-  /batch-processor/1.0.0:
-    resolution: {integrity: sha512-xoLQD8gmmR32MeuBHgH0Tzd5PuSZx71ZsbhVxOCRbgktZEPe4SQy7s9Z50uPp0F/f7iw2XmkHN2xkgbMfckMDA==}
-    dev: false
-
   /batch/0.6.1:
     resolution: {integrity: sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==}
     dev: false
@@ -16535,7 +16513,6 @@ packages:
       escalade: 3.1.1
       node-releases: 2.0.6
       picocolors: 1.0.0
-    dev: true
 
   /browserslist/4.21.4:
     resolution: {integrity: sha512-CBHJJdDmgjl3daYjN5Cp5kbTf1mUhZoS+beLklHIvkOWscs83YAhLlF3Wsh/lciQYAcbBJgTOD44VtG31ZM4Hw==}
@@ -16823,7 +16800,7 @@ packages:
   /caniuse-api/3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
-      browserslist: 4.21.4
+      browserslist: 4.20.2
       caniuse-lite: 1.0.30001451
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
@@ -17784,13 +17761,6 @@ packages:
       sha.js: 2.4.11
     dev: false
 
-  /create-react-class/15.7.0:
-    resolution: {integrity: sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-    dev: false
-
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
@@ -18539,10 +18509,6 @@ packages:
       minimalistic-assert: 1.0.1
     dev: false
 
-  /desandro-matches-selector/2.0.2:
-    resolution: {integrity: sha512-+1q0nXhdzg1IpIJdMKalUwvvskeKnYyEe3shPRwedNcWtnhEKT3ZxvFjzywHDeGcKViIxTCAoOYQWP1qD7VNyg==}
-    dev: false
-
   /destroy/1.2.0:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
@@ -19239,12 +19205,6 @@ packages:
 
   /electron-to-chromium/1.4.284:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
-
-  /element-resize-detector/1.2.4:
-    resolution: {integrity: sha512-Fl5Ftk6WwXE0wqCgNoseKWndjzZlDCwuPTcoVZfCP9R3EHQF8qUtr3YUPNETegRBOKqQKPW3n4kiIWngGi8tKg==}
-    dependencies:
-      batch-processor: 1.0.0
-    dev: false
 
   /elliptic/6.5.4:
     resolution: {integrity: sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==}
@@ -20772,10 +20732,6 @@ packages:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
 
-  /ev-emitter/1.1.1:
-    resolution: {integrity: sha512-ipiDYhdQSCZ4hSbX4rMW+XzNKMD1prg/sTvoVmSLkuQ1MVlwjJQQA+sW8tMYR3BLUr9KjodFV4pvzunvRhd33Q==}
-    dev: false
-
   /event-source-polyfill/1.0.26:
     resolution: {integrity: sha512-IwDLs9fUTcGAyacHBeS53T8wcEkDyDn0UP4tfQqJ4wQP8AyH0mszuQf2ULTylnpI0sMquzJ4usrNV7+uztwI9A==}
     dev: false
@@ -21442,12 +21398,6 @@ packages:
       resolve-dir: 1.0.1
     dev: false
 
-  /fizzy-ui-utils/2.0.7:
-    resolution: {integrity: sha512-CZXDVXQ1If3/r8s0T+v+qVeMshhfcuq0rqIFgJnrtd+Bu8GmDmqMjntjUePypVtjHXKJ6V4sw9zeyox34n9aCg==}
-    dependencies:
-      desandro-matches-selector: 2.0.2
-    dev: false
-
   /flat-cache/3.0.4:
     resolution: {integrity: sha512-dm9s5Pw7Jc0GvMYbshN6zchCA9RgQlzzEZX3vylR9IqFfS8XciblUXOKfW6SiuJ0e13eDYZoZV5wdrev7P3Nwg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -21947,10 +21897,6 @@ packages:
     dependencies:
       is-type-of: 1.2.1
     dev: true
-
-  /get-size/2.0.3:
-    resolution: {integrity: sha512-lXNzT/h/dTjTxRbm9BXb+SGxxzkm97h/PCIKtlN/CBCxxmkkIVV21udumMS93MuVTDX583gqc94v3RjuHmI+2Q==}
-    dev: false
 
   /get-stdin/4.0.1:
     resolution: {integrity: sha512-F5aQMywwJ2n85s4hJPTT9RPxGmubonuB10MNYo17/xph174n2MIR33HRguhzVag10O/npM7SPk73LMZNP+FaWw==}
@@ -23029,12 +22975,6 @@ packages:
     hasBin: true
     requiresBuild: true
     optional: true
-
-  /imagesloaded/4.1.4:
-    resolution: {integrity: sha512-ltiBVcYpc/TYTF5nolkMNsnREHW+ICvfQ3Yla2Sgr71YFwQ86bDwV9hgpFhFtrGPuwEx5+LqOHIrdXBdoWwwsA==}
-    dependencies:
-      ev-emitter: 1.1.1
-    dev: false
 
   /immer/9.0.15:
     resolution: {integrity: sha512-2eB/sswms9AEUSkOm4SbV5Y7Vmt/bKRwByd52jfLkW4OLYeaTP3EEiJ9agqU0O/tq6Dk62Zfj+TJSqfm1rLVGQ==}
@@ -25550,13 +25490,6 @@ packages:
     resolution: {integrity: sha512-y8j3a5/DkJCmS5x4dMCQL+OR0+2EAq3DOtio1COSHsmW2BGXnNCK3v12hJt1LrUz5iZH5g0LmuYOjDdI+czghA==}
     dev: false
 
-  /masonry-layout/4.2.2:
-    resolution: {integrity: sha512-iGtAlrpHNyxaR19CvKC3npnEcAwszXoyJiI8ARV2ePi7fmYhIud25MHK8Zx4P0LCC4d3TNO9+rFa1KoK1OEOaA==}
-    dependencies:
-      get-size: 2.0.3
-      outlayer: 2.1.1
-    dev: false
-
   /matcher/1.1.1:
     resolution: {integrity: sha512-+BmqxWIubKTRKNWx/ahnCkk3mG8m7OturVlqq6HiojGJTd5hVYbgZm6WzcYPCoB+KBT4Vd6R7WSRG2OADNaCjg==}
     engines: {node: '>=4'}
@@ -27211,14 +27144,6 @@ packages:
 
   /outdent/0.5.0:
     resolution: {integrity: sha512-/jHxFIzoMXdqPzTaCpFzAAWhpkSjZPF4Vsn6jAfNpmbH/ymsmd7Qc6VE9BGn0L6YMj6uwpQLxCECpus4ukKS9Q==}
-    dev: false
-
-  /outlayer/2.1.1:
-    resolution: {integrity: sha512-+GplXsCQ3VrbGujAeHEzP9SXsBmJxzn/YdDSQZL0xqBmAWBmortu2Y9Gwdp9J0bgDQ8/YNIPMoBM13nTwZfAhw==}
-    dependencies:
-      ev-emitter: 1.1.1
-      fizzy-ui-utils: 2.0.7
-      get-size: 2.0.3
     dev: false
 
   /p-all/2.1.0:
@@ -30035,20 +29960,6 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-masonry-component/6.3.0_react@18.2.0:
-    resolution: {integrity: sha512-4ZI78nxMfCpU5yQiS6Rup07Ju++YzcOGAyvbMcl2GfpZTw8GRwT548lkKr0PJarNicRV1qE2D/NiT26UPg1T7A==}
-    peerDependencies:
-      react: ^0.14.0 || ^15.0.0-0 || ^16.0.0-0 || ^17.0.0
-    dependencies:
-      create-react-class: 15.7.0
-      element-resize-detector: 1.2.4
-      imagesloaded: 4.1.4
-      lodash: 4.17.21
-      masonry-layout: 4.2.2
-      prop-types: 15.8.1
-      react: 18.2.0
-    dev: false
-
   /react-refresh/0.11.0:
     resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==}
     engines: {node: '>=0.10.0'}
@@ -32108,7 +32019,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.21.4
+      browserslist: 4.20.2
       postcss: 8.4.21
       postcss-selector-parser: 6.0.10
 
@@ -33342,7 +33253,7 @@ packages:
       - ts-node
     dev: false
 
-  /twin.macro/3.1.0:
+  /twin.macro/3.1.0_tailwindcss@3.2.4:
     resolution: {integrity: sha512-7DSR/xdvSaAqhTM4JptBgI+1IzXQR5v+2hp0CDMmHMjlm44IBEewU8MeqPlXmFgQI06zpLyJMaKRbJu96drAJw==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
@@ -33354,6 +33265,7 @@ packages:
       lodash.get: 4.4.2
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
+      tailwindcss: 3.2.4_postcss@8.4.21
     dev: false
 
   /type-check/0.3.2:
