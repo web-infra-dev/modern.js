@@ -50,15 +50,12 @@ export default (): ServerPlugin => ({
         });
       },
       prepareApiServer(props, next) {
-        const { pwd, prefix, httpMethodDecider } = props;
+        const { pwd, prefix } = props;
         const apiDir = path.resolve(pwd, API_DIR);
         const appContext = api.useAppContext();
-        const { apiDirectory, lambdaDirectory } = appContext;
         const apiRouter = new ApiRouter({
-          apiDir: (apiDirectory as string) || apiDir,
-          lambdaDir: lambdaDirectory as string,
+          apiDir,
           prefix,
-          httpMethodDecider,
         });
         const apiMode = apiRouter.getApiMode();
         const apiHandlerInfos = apiRouter.getApiHandlers();

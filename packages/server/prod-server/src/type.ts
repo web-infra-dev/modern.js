@@ -33,14 +33,7 @@ export type ModernServerOptions = {
   ssrOnly?: boolean;
   webOnly?: boolean;
   runMode?: string;
-  appContext?: {
-    appDirectory?: string;
-    sharedDirectory: string;
-    apiDirectory: string;
-    lambdaDirectory: string;
-  };
-  serverConfigFile?: string;
-  proxyTarget?: any;
+  [propName: string]: any;
 };
 
 export type RenderResult = {
