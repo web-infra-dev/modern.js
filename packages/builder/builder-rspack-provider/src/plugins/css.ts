@@ -187,6 +187,7 @@ export const applyCSSModuleRule = (
           type: 'css/module',
         },
         {
+          ...rest,
           test: NODE_MODULES_REGEX,
           type: 'css',
         },
