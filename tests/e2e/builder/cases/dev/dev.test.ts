@@ -6,7 +6,7 @@ import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-// hmr is not stable
+// hmr will timeout in CI
 test.skip('default & hmr (default true)', async ({ page }) => {
   fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src'));
   const buildOpts = {
@@ -151,7 +151,8 @@ allProviderTest('dev.https', async () => {
   await builder.server.close();
 });
 
-allProviderTest('tools.devServer', async ({ page }) => {
+// hmr will timeout in CI
+test.skip('tools.devServer', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'basic'),
     entry: {

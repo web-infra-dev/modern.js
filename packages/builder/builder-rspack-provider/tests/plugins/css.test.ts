@@ -78,7 +78,7 @@ describe('plugins/css', () => {
       plugins: [builderPluginCss()],
       builderConfig: {
         output: {
-          cssModuleLocalIdentName: '[hash:base64]',
+          cssModuleLocalIdentName: '[hash]',
         },
       },
     });
@@ -88,7 +88,7 @@ describe('plugins/css', () => {
     } = await builder.inspectConfig();
 
     expect(JSON.stringify(bundlerConfigs[0])).toContain(
-      '"generateScopedName":"[hash:base64]"',
+      '"localIdentName":"[hash]"',
     );
   });
 });
