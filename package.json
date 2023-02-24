@@ -18,7 +18,7 @@
     "reset": "npx rimraf ./**/node_modules",
     "test": "npm run test:ut",
     "test:jest": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=2",
-    "test:vitest": "node scripts/vitest-run-all.js",
+    "test:vitest": "node scripts/vitestRunAll.js",
     "test:ut": "pnpm run test:jest && pnpm run test:vitest",
     "test:ut:update": "pnpm run test:jest -u && pnpm run test:vitest -u",
     "test:e2e": "cd tests && npm run test",
@@ -109,5 +109,8 @@
       "@modern-js-reduck/react": "0.0.0-canary-20230118100540",
       "@modern-js-reduck/store": "0.0.0-canary-20230118100540"
     }
+  },
+  "dependencies": {
+    "fast-glob": "^3.2.12"
   }
 }

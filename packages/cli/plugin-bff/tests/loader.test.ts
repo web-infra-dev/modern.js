@@ -82,7 +82,7 @@ describe('bff loader', () => {
   });
 
   // TODO: 暂时有问题，先屏蔽这个测试
-  xit('should work well with fetcher', async () => {
+  it.skip('should work well with fetcher', async () => {
     const stats = await compiler(filepath, {
       apiDir,
       lambdaDir: apiDir,
@@ -91,7 +91,7 @@ describe('bff loader', () => {
       port: 80,
       target: 'client',
       fetcher: path
-        .resolve(__dirname, './fixtures/test-fetcher')
+        .resolve(__dirname, './fixtures/testFetcher')
         .replace(/\\/g, '/'),
     });
     const output = stats?.toJson({ source: true }).modules?.[0].source;

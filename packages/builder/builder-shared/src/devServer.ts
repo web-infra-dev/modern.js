@@ -45,7 +45,7 @@ export const getDevServerOptions = async ({
       },
       https: builderConfig.dev?.https,
       // merge devServerOptions from serverOptions
-      ...serverOptions.dev,
+      ...(serverOptions.dev as Exclude<typeof serverOptions.dev, boolean>),
     },
     builderConfig.tools?.devServer,
     {},
@@ -140,7 +140,10 @@ export async function startDevServer<
     strictPort,
   });
 
-  const host = serverOptions?.dev?.host || DEFAULT_DEV_HOST;
+  const host =
+    typeof serverOptions?.dev === 'object' && serverOptions?.dev?.host
+      ? serverOptions?.dev?.host
+      : DEFAULT_DEV_HOST;
 
   options.context.devServer = {
     hostname: host,

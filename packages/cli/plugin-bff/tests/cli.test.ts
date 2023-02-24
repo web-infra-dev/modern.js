@@ -60,7 +60,8 @@ describe('bff cli plugin', () => {
     const [{ tools }]: any = await runner.config();
     const chain = new Chain();
     AppContext.set({
-      appDirectory: './fixtures/function',
+      appDirectory: path.resolve('./fixtures/function'),
+      apiDirectory: path.resolve('./fixtures/function/api'),
       port: 3000,
     } as any);
     tools.webpackChain(chain, { CHAIN_ID });

@@ -29,16 +29,13 @@ export function HomeHero() {
         <div
           order="2 md:1"
           flex="~ col"
-          className={`max-w-592px sm:max-w-768px text-center ${
-            hasImage ? 'm-0 sm:text-left' : 'm-auto'
-          }`}
+          className={`justify-center text-center max-w-592px sm:max-w-768px m-auto`}
         >
           <h1
             font="bold"
-            text="3xl sm:5xl md:6xl"
+            text="3xl sm:6xl md:7xl"
             m="auto md:0"
             p="md:b-3 lg:b-5"
-            className="max-w-392px sm:max-w-576px"
             z="10"
           >
             <span className={styles.clip}>{hero.name}</span>
@@ -47,12 +44,10 @@ export function HomeHero() {
             <p
               m="x-auto md:0"
               text="3xl sm:5xl md:6xl"
-              font="bold"
-              p="b-2"
-              z="10"
-              className={`max-w-392px ${
+              className={`pb-2 font-bold z-10 max-w-392px ${
                 hasImage ? 'sm:max-w-576px' : 'sm:max-w-768px'
               }`}
+              style={{ lineHeight: '1.15' }}
             >
               {hero.text}
             </p>
@@ -63,16 +58,14 @@ export function HomeHero() {
             m="auto md:0"
             text="sm sm:xl md:2xl text-2"
             font="medium"
-            className="whitespace-pre-wrap max-w-392px sm:max-w-576px"
+            className="whitespace-pre-wrap"
             z="10"
           >
             {hero.tagline}
           </p>
           <div
             flex="~ wrap"
-            className={`justify-center ${
-              hasImage ? 'sm:justify-start' : 'gap-3'
-            } `}
+            className="justify-center gap-3"
             m="-1.5"
             p="t-8"
             z="10"

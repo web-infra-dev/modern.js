@@ -7,14 +7,10 @@ import {
   TS_REGEX,
   BuilderPlugin,
   getBrowserslistWithDefault,
+  logger,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import {
-  chalk,
-  getCoreJsVersion,
-  logger,
-  isBeyondReact17,
-} from '@modern-js/utils';
+import { chalk, getCoreJsVersion, isBeyondReact17 } from '@modern-js/utils';
 import { JsMinifyOptions } from '@modern-js/swc-plugins';
 import { minify } from './binding';
 import { PluginSwcOptions, TransformConfig } from './config';
@@ -39,7 +35,7 @@ export const builderPluginSwc = (
     const SWC_HELPERS_PATH = require.resolve('@swc/helpers/package.json');
 
     // Find if babel & ts loader exists
-    api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { env, target, CHAIN_ID }) => {
       const { isProd } = await import('@modern-js/utils');
       const { rootPath } = api.context;
 
@@ -50,14 +46,23 @@ export const builderPluginSwc = (
       determinePresetReact(rootPath, pluginConfig);
 
       const swc: TransformConfig = {
-        jsc: { transform: {} },
+        jsc: {
+          transform: {
+            react: {
+              refresh: env === 'development' && builderConfig.dev.hmr,
+            },
+          },
+        },
         env: pluginConfig.presetEnv || {},
         extensions: {},
         cwd: rootPath,
       };
 
       if (pluginConfig.presetReact) {
-        swc.jsc!.transform!.react = pluginConfig.presetReact;
+        swc.jsc!.transform!.react = {
+          ...swc.jsc!.transform!.react,
+          ...pluginConfig.presetReact,
+        };
       }
 
       const { polyfill } = builderConfig.output;
@@ -80,6 +85,13 @@ export const builderPluginSwc = (
           builderConfig,
           target,
         );
+      }
+
+      /**
+       * SWC can't use latestDecorator in TypeScript file for now
+       */
+      if (builderConfig.output.enableLatestDecorators) {
+        logger.warn('Cannot use latestDecorator in SWC compiler.');
       }
 
       const { extensions } = swc;

@@ -3,9 +3,9 @@ import glob from 'fast-glob';
 import logger from 'consola';
 import fs from 'fs-extra';
 import { ROOT } from './utils';
-import { lintExportsField } from './rules/lint-exports-field';
-import { lintWorkspaceProtocol } from './rules/lint-workspace-protocol';
-import { noCyclicWorkspaceDependencies } from './rules/no-cyclic-workspace-dependencies';
+import { lintExportsField } from './rules/lintExportsField';
+import { lintWorkspaceProtocol } from './rules/lintWorkspaceProtocol';
+import { noCyclicWorkspaceDependencies } from './rules/noCyclicWorkspaceDependencies';
 
 export type PackageJSON = {
   path: string;

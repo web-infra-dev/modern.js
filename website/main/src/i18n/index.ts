@@ -1,6 +1,6 @@
 import { withBase, useLang } from '@modern-js/doc-tools/runtime';
-import { EN_US } from './en-US';
-import { ZH_CN } from './zh-CN';
+import { EN_US } from './enUS';
+import { ZH_CN } from './zhCN';
 
 const translations = {
   en: EN_US,

@@ -1,10 +1,12 @@
 import { NavItem } from 'shared/types';
 import { useLocation } from 'react-router-dom';
 import { Search } from '@theme';
+import { useState } from 'react';
 import { useLocaleSiteData } from '../../logic';
 import { SwitchAppearance } from '../SwitchAppearance';
 import { NavHamburger } from '../NavHambmger';
 import { SocialLinks } from '../SocialLinks';
+import { getToggle, isDarkMode } from '../../logic/useAppearance';
 import { NavMenuGroup, NavMenuGroupItem } from './NavMenuGroup';
 import { NavMenuSingleItem } from './NavMenuSingleItem';
 import styles from './index.module.scss';
@@ -20,6 +22,15 @@ interface NavBarTitleProps {
   title: string;
   langRoutePrefix: string;
   logo?: string;
+}
+
+function getLogoUrl(rawLogo: string | { dark: string; light: string }) {
+  // If logo is a string, use it directly
+  if (typeof rawLogo === 'string') {
+    return rawLogo;
+  }
+  // If logo is an object, use dark/light mode logo
+  return isDarkMode() ? rawLogo.dark : rawLogo.light;
 }
 
 const NavBarTitle = ({ title, langRoutePrefix, logo }: NavBarTitleProps) => {
@@ -74,6 +85,8 @@ const NavTranslations = ({
 export function Nav(props: NavProps) {
   const { beforeNavTitle, afterNavTitle } = props;
   const { siteData, lang, pageType } = usePageData();
+  const { logo: rawLogo, base } = siteData;
+  const [logo, setLogo] = useState(getLogoUrl(rawLogo));
   const { pathname } = useLocation();
   const hasAppearanceSwitch = siteData.themeConfig.darkMode !== false;
   const localeData = useLocaleSiteData();
@@ -83,7 +96,7 @@ export function Nav(props: NavProps) {
   const hasSocialLinks = socialLinks.length > 0;
   const defaultLang = siteData.lang || 'zh';
   const langs = localeLanguages.map(item => item.lang || 'zh') || [];
-  const { logo, base } = siteData;
+  const toggleAppearance = getToggle();
 
   const translationMenuData = hasMultiLanguage
     ? {
@@ -100,10 +113,16 @@ export function Nav(props: NavProps) {
         className={`${styles.menuItem} modern-doc-appearance`}
         align-items-center="center"
       >
-        <SwitchAppearance />
+        <SwitchAppearance
+          onClick={() => {
+            toggleAppearance();
+            setLogo(getLogoUrl(rawLogo));
+          }}
+        />
       </div>
     );
   };
+
   const NavMenu = ({ menuItems }: { menuItems: NavItem[] }) => {
     return (
       <div className="menu" h="14">
@@ -133,6 +152,7 @@ export function Nav(props: NavProps) {
   const hasSearch = siteData?.themeConfig?.search !== false;
 
   const title = localeData.title ?? siteData.title;
+
   const rightNav = () => {
     return (
       <div className={styles.rightNav}>

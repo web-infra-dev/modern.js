@@ -16,8 +16,7 @@ export async function createCompiler({
   const { rspack } = await import('@rspack/core');
   const { isDev } = await import('@modern-js/utils');
 
-  // todo: support multiple compiler
-  const compiler = rspack(rspackConfigs[0]);
+  const compiler = rspack(rspackConfigs);
 
   let isFirstCompile = true;
 

@@ -20,6 +20,7 @@ import type {
   MiddlewareContext,
   ISAppContext,
   ServerRoute,
+  HttpMethodDecider,
 } from '@modern-js/types';
 
 import type { BffUserConfig, ServerOptions, UserConfig } from './types/config';
@@ -64,6 +65,7 @@ const prepareWebServer = createAsyncPipeline<WebServerStartInput, WebAdapter>();
 export type APIServerStartInput = {
   pwd: string;
   prefix?: string;
+  httpMethodDecider?: HttpMethodDecider;
   config?: {
     middleware?: Array<any>;
   };

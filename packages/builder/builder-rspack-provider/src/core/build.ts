@@ -6,12 +6,13 @@ import {
   Stats,
   MultiStats,
 } from '@modern-js/builder-shared';
-import type { Compiler, RspackConfig } from '../types';
+import type { Compiler, MultiCompiler, RspackConfig } from '../types';
 
-// TODO: support MultiCompiler MultiStats
-export type BuildExecuter = (compiler: Compiler) => Promise<{ stats?: Stats }>;
-// (compiler: MultiCompiler): Promise<{ stats: MultiStats }>;
-// (compiler: Compiler | MultiCompiler): Promise<{ stats: Stats | MultiStats }>;
+export type BuildExecuter = {
+  (compiler: Compiler): Promise<{ stats?: Stats }>;
+  (compiler: MultiCompiler): Promise<{ stats?: MultiStats }>;
+  (compiler: Compiler | MultiCompiler): Promise<{ stats?: Stats | MultiStats }>;
+};
 
 export interface RspackBuildError extends Error {
   stats?: Stats | MultiStats;
@@ -36,7 +37,7 @@ export const rspackBuild: BuildExecuter = async compiler => {
         // Concurrent compilations will corrupt the output files.
         compiler.close(() => {
           // Assert type of stats must align to compiler.
-          resolve({ stats });
+          resolve({ stats: stats as any });
         });
       }
     });
@@ -54,12 +55,11 @@ export const build = async (
 
   const { context } = initOptions;
 
-  let compiler: Compiler;
+  let compiler: Compiler | MultiCompiler;
   let bundlerConfigs: RspackConfig[] | undefined;
 
   if (customCompiler) {
-    // TODO: support MultiCompiler
-    compiler = customCompiler as any as Compiler;
+    compiler = customCompiler as any;
   } else {
     const { rspackConfigs } = await initConfigs(initOptions);
     compiler = await createCompiler({

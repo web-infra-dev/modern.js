@@ -159,7 +159,7 @@ describe('test render function', () => {
       } as any,
       route: {
         urlPath: '/foo',
-        bundle: 'bundle-error.js',
+        bundle: 'bundleError.js',
         entryPath: 'tpl.html',
         entryName: 'foo',
         isSSR: true,
@@ -197,7 +197,7 @@ describe('test render function', () => {
       } as any,
       route: {
         urlPath: '/foo',
-        bundle: 'bundle-error.js',
+        bundle: 'bundleError.js',
         entryPath: 'tpl.html',
         entryName: 'foo',
         isSSR: true,

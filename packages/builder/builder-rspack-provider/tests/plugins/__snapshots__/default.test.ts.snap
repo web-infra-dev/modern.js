@@ -3,8 +3,19 @@
 exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
 {
   "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
     },
     "progress": {
       "prefix": "Client",
@@ -14,7 +25,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "refresh": true,
       "runtime": "automatic",
     },
-    "treeShaking": false,
   },
   "cache": {
     "buildDependencies": [
@@ -482,10 +492,21 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
 exports[`applyDefaultPlugins > should apply default plugins correctly when prod 1`] = `
 {
   "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
     "define": {
       "process.env.NODE_ENV": "\\"production\\"",
     },
     "minifyOptions": {},
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
     "progress": {
       "prefix": "Client",
     },
@@ -494,7 +515,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "refresh": false,
       "runtime": "automatic",
     },
-    "treeShaking": false,
   },
   "cache": {
     "buildDependencies": [
@@ -962,8 +982,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
 exports[`tools.rspack > should match snapshot 1`] = `
 {
   "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
     "define": {
       "process.env.NODE_ENV": "\\"development\\"",
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
     },
     "progress": {
       "prefix": "Client",
@@ -973,7 +1004,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
       "refresh": true,
       "runtime": "automatic",
     },
-    "treeShaking": false,
   },
   "cache": {
     "buildDependencies": [

@@ -63,4 +63,20 @@ describe('plugins/swc', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should disable react refresh when dev.hmr is false', async () => {
+    process.env.NODE_ENV = 'development';
+    const builder = await createStubBuilder({
+      plugins: [builderPluginSwc()],
+      builderConfig: {
+        dev: {
+          hmr: false,
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config.module).toMatchSnapshot();
+
+    process.env.NODE_ENV = 'test';
+  });
 });
