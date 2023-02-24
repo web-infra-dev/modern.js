@@ -1,6 +1,5 @@
 import type { BuilderPlugin } from '../types';
-import { setConfig } from '@modern-js/builder-shared';
-import { isUsingHMR } from './hmr';
+import { setConfig, isUsingHMR } from '@modern-js/builder-shared';
 
 export const builderPluginReact = (): BuilderPlugin => ({
   name: 'builder-plugin-react',

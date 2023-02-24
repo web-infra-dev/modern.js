@@ -79,4 +79,20 @@ describe('plugins/swc', () => {
 
     process.env.NODE_ENV = 'test';
   });
+
+  it('should disable react refresh when target is not web', async () => {
+    process.env.NODE_ENV = 'development';
+
+    const builder = await createStubBuilder({
+      plugins: [builderPluginSwc()],
+      target: ['modern-web', 'node', 'service-worker', 'web', 'web-worker'],
+    });
+    const configs = await builder.unwrapWebpackConfigs();
+
+    for (const config of configs) {
+      expect(config.module).toMatchSnapshot();
+    }
+
+    process.env.NODE_ENV = 'test';
+  });
 });

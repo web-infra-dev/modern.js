@@ -1,18 +1,5 @@
-import type {
-  BuilderPlugin,
-  NormalizedConfig,
-  ModifyWebpackChainUtils,
-} from '../types';
-
-export const isUsingHMR = (
-  config: NormalizedConfig,
-  { isProd, target }: ModifyWebpackChainUtils,
-) =>
-  !isProd &&
-  target !== 'node' &&
-  target !== 'web-worker' &&
-  target !== 'service-worker' &&
-  config.dev.hmr;
+import type { BuilderPlugin } from '../types';
+import { isUsingHMR } from '@modern-js/builder-shared';
 
 export const builderPluginHMR = (): BuilderPlugin => ({
   name: 'builder-plugin-hmr',
