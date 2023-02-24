@@ -1,6 +1,21 @@
-import { expect, describe, it } from 'vitest';
+import { expect, describe, it, test } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
-import { builderPluginSplitChunks } from '@/plugins/splitChunks';
+import {
+  builderPluginSplitChunks,
+  createDependenciesRegExp,
+} from '@/plugins/splitChunks';
+
+test('createDependenciesRegExp', () => {
+  const cases = {
+    'react,react-dom,history':
+      /[\\/]node_modules[\\/](react|react-dom|history)[\\/]/,
+    '@babel/runtime': /[\\/]node_modules[\\/](@babel\/runtime)[\\/]/,
+  };
+  for (const [deps, expected] of Object.entries(cases)) {
+    const actual = createDependenciesRegExp(...deps.split(','));
+    expect(actual).toEqual(expected);
+  }
+});
 
 describe('plugins/splitChunks', () => {
   const cases = [

@@ -58,6 +58,10 @@ function getUserDefinedCacheGroups(forceSplitting: Array<RegExp>): CacheGroup {
   return cacheGroups;
 }
 
+/** Expect to match path just like "./node_modules/react-router/" */
+export const createDependenciesRegExp = (...dependencies: string[]) =>
+  new RegExp(`[\\\\/]node_modules[\\\\/](${dependencies.join('|')})[\\\\/]`);
+
 async function splitByExperience(
   ctx: SplitChunksContext,
 ): Promise<SplitChunks> {
@@ -73,24 +77,31 @@ async function splitByExperience(
   const experienceCacheGroup: CacheGroup = {};
 
   const packageRegExps: Record<string, RegExp> = {
-    react: /[\\/]react|react-dom[\\/]/,
-    router: /[\\/]react-router|react-router-dom|history[\\/]/,
-    lodash: /[\\/]lodash|lodash-es[\\/]/,
+    react: createDependenciesRegExp('react', 'react-dom'),
+    router: createDependenciesRegExp(
+      'react-router',
+      'react-router-dom',
+      'history',
+    ),
+    lodash: createDependenciesRegExp('lodash', 'lodash-es'),
   };
 
   // Detect if the package is installed in current project
   // If installed, add the package to cache group
   if (isPackageInstalled('antd', rootPath)) {
-    packageRegExps.antd = /[\\/]antd[\\/]/;
+    packageRegExps.antd = createDependenciesRegExp('antd');
   }
   if (isPackageInstalled('@arco-design/web-react', rootPath)) {
-    packageRegExps.arco = /[\\/]arco-design[\\/]/;
+    packageRegExps.arco = createDependenciesRegExp('arco-design');
   }
   if (isPackageInstalled('@douyinfe/semi-ui', rootPath)) {
-    packageRegExps.semi = /[\\/]semi-ui[\\/]/;
+    packageRegExps.semi = createDependenciesRegExp('semi-ui');
   }
   if (polyfill === 'entry' || polyfill === 'usage') {
-    packageRegExps.polyfill = /[\\/]core-js|@babel\/runtime[\\/]/;
+    packageRegExps.polyfill = createDependenciesRegExp(
+      'core-js',
+      '@babel/runtime',
+    );
   }
 
   Object.entries(packageRegExps).forEach(([name, test]) => {
