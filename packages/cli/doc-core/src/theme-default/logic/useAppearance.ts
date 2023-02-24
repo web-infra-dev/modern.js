@@ -23,6 +23,8 @@ if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
   classList = document.documentElement.classList;
 }
 
+export const isDarkMode = () => classList.contains('dark');
+
 export const getToggle = () => {
   if (typeof window !== 'undefined') {
     window.addEventListener('storage', updateAppearance);
