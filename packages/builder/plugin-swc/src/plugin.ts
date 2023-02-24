@@ -49,7 +49,10 @@ export const builderPluginSwc = (
         jsc: {
           transform: {
             react: {
-              refresh: env === 'development' && builderConfig.dev.hmr,
+              refresh:
+                env === 'development' &&
+                builderConfig.dev.hmr &&
+                !['node', 'web-worker', 'service-worker'].includes(target),
             },
           },
         },
