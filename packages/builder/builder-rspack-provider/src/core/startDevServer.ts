@@ -6,7 +6,7 @@ import {
 } from '@modern-js/builder-shared';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import type { Compiler } from '../types';
+import type { Compiler, MultiCompiler } from '../types';
 import { getDevMiddleware } from './devMiddleware';
 
 type ServerOptions = Exclude<StartDevServerOptions['serverOptions'], undefined>;
@@ -15,11 +15,11 @@ export async function createDevServer(
   options: InitConfigsOptions,
   port: number,
   serverOptions: ServerOptions,
-  customCompiler?: Compiler,
+  customCompiler?: Compiler | MultiCompiler,
 ) {
   const { Server } = await import('@modern-js/server');
 
-  let compiler: Compiler;
+  let compiler: Compiler | MultiCompiler;
   if (customCompiler) {
     compiler = customCompiler;
   } else {
