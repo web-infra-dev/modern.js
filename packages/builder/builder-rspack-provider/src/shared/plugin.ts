@@ -32,6 +32,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
     import('../plugins/react').then(m => m.builderPluginReact()),
+    import('../plugins/swc').then(m => m.builderPluginSwc()),
     import('../plugins/externals').then(m => m.builderPluginExternals()),
     plugins.toml(),
     plugins.yaml(),
