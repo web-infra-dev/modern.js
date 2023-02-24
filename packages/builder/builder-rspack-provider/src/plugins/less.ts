@@ -61,6 +61,19 @@ export function builderPluginLess(): BuilderPlugin {
           .loader(utils.getCompiledPath('@rspack/less-loader'))
           .options(options);
       });
+
+      api.modifyRspackConfig(async rspackConfig => {
+        const { applyCSSModuleRule } = await import('./css');
+        const config = api.getNormalizedConfig();
+
+        const rules = rspackConfig.module?.rules;
+
+        applyCSSModuleRule(
+          rules,
+          LESS_REGEX,
+          config.output.disableCssModuleExtension,
+        );
+      });
     },
   };
 }
