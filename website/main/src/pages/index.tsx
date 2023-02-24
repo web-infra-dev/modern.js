@@ -3,7 +3,7 @@ import { useLang, Helmet } from '@modern-js/doc-tools/runtime';
 import ContentCard from '../components/ContentCard';
 import SecondaryTitle from '../components/SecondaryTitle';
 import { FeatureLayout } from '../components/FeatureLayout';
-import Footer from '../theme/Footer';
+import Footer from '../components/Footer';
 import { useI18n, useUrl } from '../i18n';
 import styles from './index.module.scss';
 

@@ -26,7 +26,7 @@ module.exports = {
   },
   moduleNameMapper: {},
   globals: {},
-  testEnvironment: './jest-env.js',
+  testEnvironment: './jestEnv.js',
   resolver: '<rootDir>/jest.resolver.js',
   rootDir: __dirname,
   testTimeout: 15 * 1000,

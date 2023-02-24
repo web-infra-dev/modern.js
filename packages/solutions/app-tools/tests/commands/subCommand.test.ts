@@ -7,7 +7,7 @@ const devAction = jest.fn();
 
 const fixtureDir = path.join(__dirname, '../fixtures/subcommand');
 
-const mockPluginPath = path.join(fixtureDir, 'mock-plugin');
+const mockPluginPath = path.join(fixtureDir, 'mockPlugin');
 
 const mockPlugin: () => CliPlugin<AppTools> = () => ({
   name: '@modern-js/plugin-test-storybook',

@@ -1,4 +1,4 @@
-import { EN_US } from './en-US';
+import { EN_US } from './enUS';
 
 export const ZH_CN: Record<keyof typeof EN_US, string> = {
   introduction: '介绍',

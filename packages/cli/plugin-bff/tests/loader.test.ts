@@ -91,7 +91,7 @@ describe('bff loader', () => {
       port: 80,
       target: 'client',
       fetcher: path
-        .resolve(__dirname, './fixtures/test-fetcher')
+        .resolve(__dirname, './fixtures/testFetcher')
         .replace(/\\/g, '/'),
     });
     const output = stats?.toJson({ source: true }).modules?.[0].source;
