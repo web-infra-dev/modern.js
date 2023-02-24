@@ -50,7 +50,6 @@
     "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
-    "autoprefixer": "^10.4.8",
     "postcss": "8.4.21",
     "typescript": "^4"
   },

@@ -1,11 +1,10 @@
 import type {
   ChainedConfig,
-  SharedToolsConfig,
   FileFilterUtil,
+  SharedToolsConfig,
 } from '@modern-js/builder-shared';
 import type { Options as HTMLPluginOptions } from '@rspack/plugin-html';
 import type {
-  AutoprefixerOptions,
   PostCSSLoaderOptions,
   PostCSSPlugin,
   LessLoaderOptions,
@@ -13,8 +12,6 @@ import type {
 } from '../thirdParty';
 import type { RspackConfig } from '../rspack';
 import type { ModifyRspackConfigUtils } from '../hooks';
-
-export type ToolsAutoprefixerConfig = ChainedConfig<AutoprefixerOptions>;
 
 export type ToolsPostCSSLoaderConfig = ChainedConfig<
   PostCSSLoaderOptions,
@@ -49,7 +46,6 @@ export type ToolsSassConfig = ChainedConfig<
 // TODO: add more configs
 export interface ToolsConfig extends SharedToolsConfig {
   htmlPlugin?: false | ToolsHtmlPluginConfig;
-  autoprefixer?: ToolsAutoprefixerConfig;
   postcss?: ToolsPostCSSLoaderConfig;
   rspack?: ToolsRspackConfig;
   less?: ToolsLessConfig;

@@ -63,7 +63,7 @@
     "ajv": "8.11.0",
     "ajv-keywords": "5.1.0",
     "ansi-escapes": "4.3.2",
-    "autoprefixer": "10.4.7",
+    "autoprefixer": "10.4.13",
     "babel-loader": "9.1.0",
     "babel-plugin-dynamic-import-node": "2.3.3",
     "babel-plugin-import": "1.13.5",
