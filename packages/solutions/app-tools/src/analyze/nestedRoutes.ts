@@ -72,7 +72,7 @@ export const walk = async (
   routePath = replaceDynamicPath(routePath);
 
   const route: Partial<NestedRoute> = {
-    path: routePath,
+    path: routePath?.replace(/\$$/, '?'),
     children: [],
     isRoot,
   };
