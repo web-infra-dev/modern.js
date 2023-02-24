@@ -32,15 +32,11 @@ describe('client', () => {
       resourcePath,
       source,
       apiDir: PWD,
+      lambdaDir: path.join(PWD, './lambda'),
       requireResolve: ((input: any) => input) as any,
     });
     expect(result.isOk).toBeTruthy();
-    expect(result.value)
-      .toMatch(`import { createRequest } from '@modern-js/create-request';
-
-export const get = createRequest('/api/:id/origin/foo', 'GET', 3000);
-export const post = createRequest('/api/:id/origin/foo', 'POST', 3000);
-`);
+    expect(result.value).toMatchSnapshot();
   });
 
   test('generateClient should support operator', async () => {
@@ -58,15 +54,10 @@ export const post = createRequest('/api/:id/origin/foo', 'POST', 3000);
       resourcePath,
       source,
       apiDir: PWD,
+      lambdaDir: path.join(PWD, './lambda'),
       requireResolve: ((input: any) => input) as any,
     });
     expect(result.isOk).toBeTruthy();
-    expect(result.value)
-      .toMatch(`import { createRequest } from '@modern-js/create-request';
-
-export default createRequest('/normal/origin', 'GET', 3000);
-export const DELETE = createRequest('/normal/origin', 'DELETE', 3000);
-export const putRepo = createRequest('/put-repo', 'PUT', 3000);
-`);
+    expect(result.value).toMatchSnapshot();
   });
 });

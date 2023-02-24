@@ -16,7 +16,7 @@ export type GenClientOptions = {
   fetcher?: string;
   target?: string;
   requireResolve?: typeof require.resolve;
-  httpMethodDecider: HttpMethodDecider;
+  httpMethodDecider?: HttpMethodDecider;
 };
 
 export const DEFAULT_CLIENT_REQUEST_CREATOR = '@modern-js/create-request';
@@ -75,7 +75,9 @@ export const generateClient = async ({
     const routeName = routePath;
     handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', ${
       process.env.PORT || String(port)
-    }, '${httpMethodDecider}', ${fetcher ? `, fetch` : ''});
+    }, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ${
+      fetcher ? `, fetch` : ''
+    });
 `;
   }
 

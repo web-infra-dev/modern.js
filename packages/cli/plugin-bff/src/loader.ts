@@ -12,7 +12,7 @@ export type APILoaderOptions = {
   fetcher?: string;
   requestCreator?: string;
   target: string;
-  httpMethodDecider: HttpMethodDecider;
+  httpMethodDecider?: HttpMethodDecider;
 };
 
 async function loader(this: LoaderContext<APILoaderOptions>, source: string) {

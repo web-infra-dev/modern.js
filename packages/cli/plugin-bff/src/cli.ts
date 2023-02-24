@@ -33,7 +33,7 @@ export default (): CliPlugin<AppTools> => ({
               const modernConfig = api.useResolvedConfigContext();
               const { bff } = modernConfig || {};
               const prefix = bff?.prefix || DEFAULT_API_PREFIX;
-              const { httpMethodDecider } = bff;
+              const httpMethodDecider = bff?.httpMethodDecider;
 
               chain.resolve.alias.set('@api', apiDirectory);
 
@@ -92,7 +92,6 @@ export default (): CliPlugin<AppTools> => ({
           entryPath: '',
           isSPA: false,
           isSSR: false,
-          // FIXME: })) as IAppContext[`serverRoutes`];
         })) as ServerRoute[];
 
         if (bff?.enableHandleWeb) {
