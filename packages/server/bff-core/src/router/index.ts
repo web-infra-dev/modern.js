@@ -53,8 +53,8 @@ export class ApiRouter {
 
     this.prefix = this.initPrefix(prefix);
     this.apiDir = apiDir;
-    this.apiMode = this.getExactApiMode(apiDir);
     this.httpMethodDecider = httpMethodDecider;
+    this.apiMode = this.getExactApiMode(apiDir, lambdaDir);
     this.lambdaDir = lambdaDir || this.getExactLambdaDir(this.apiDir);
     this.existLambdaDir = fs.existsSync(this.lambdaDir);
   }
@@ -237,9 +237,11 @@ export class ApiRouter {
     }
   }
 
-  private getExactApiMode = (apiDir: string): APIMode => {
+  private getExactApiMode = (apiDir: string, lambdaDir?: string): APIMode => {
     const exist = this.createExistChecker(apiDir);
-    const existLambdaDir = exist(FRAMEWORK_MODE_LAMBDA_DIR);
+    const existLambdaDir =
+      (lambdaDir && fs.pathExistsSync(lambdaDir)) ||
+      exist(FRAMEWORK_MODE_LAMBDA_DIR);
     const existAppDir = exist(FRAMEWORK_MODE_APP_DIR);
     const existAppFile = exist('app.ts') || exist('app.js');
 
