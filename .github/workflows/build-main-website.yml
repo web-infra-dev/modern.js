@@ -35,9 +35,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.ref_name }}-
+            turbo-${{ runner.os }}-${{ github.ref_name }}
+            turbo-${{ runner.os }}-
 
       - name: Build Main Doc
         run: cd packages/toolkit/main-doc && npm run build && cd ../../../

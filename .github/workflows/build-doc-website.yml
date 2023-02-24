@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 25
+          fetch-depth: 1
 
       - name: Install Pnpm
         run: npm install -g pnpm@7
@@ -35,9 +35,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.ref_name }}-
+            turbo-${{ runner.os }}-${{ github.ref_name }}
+            turbo-${{ runner.os }}-
 
       - name: Build Dependencies
         run: pnpm turbo run build --filter="@modern-js/doc-tools-doc"

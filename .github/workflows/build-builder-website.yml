@@ -33,9 +33,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.ref_name }}-
+            turbo-${{ runner.os }}-${{ github.ref_name }}
+            turbo-${{ runner.os }}-
+
 
       - name: Build Dependencies
         run: pnpm turbo run build --filter="@modern-js/builder-doc"

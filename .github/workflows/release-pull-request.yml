@@ -23,16 +23,17 @@ jobs:
         uses: actions/checkout@master
         with:
         # This makes Actions fetch only one branch to release
-          fetch-depth: 100
+          fetch-depth: 1
 
       - name: Turbo Cache
         id: turbo-cache
         uses: actions/cache@v3
         with:
           path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-              turbo-${{ github.ref_name }}-
+            turbo-${{ runner.os }}-${{ github.ref_name }}-
+            turbo-${{ runner.os }}-
 
       - name: Create Release Pull Request
         uses: modern-js-dev/actions@main
