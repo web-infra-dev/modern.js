@@ -1,5 +1,5 @@
 ---
-'@modern-js/module-tools': minor
+'@modern-js/builder': minor
 ---
 
 fix(builder): vendor library chunks include sources
