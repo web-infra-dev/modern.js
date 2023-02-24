@@ -184,11 +184,16 @@ export default (): CliPlugin<AppTools> => ({
       },
       modifyEntryExport({ entrypoint, exportStatement }: any) {
         if (ssrConfigMap.get(entrypoint.entryName)) {
+          const bootstrap = 'bootstrap(AppWrapper, context)';
           return {
             entrypoint,
             exportStatement: [
               `export function ${SERVER_RENDER_FUNCTION_NAME}(context) {
-              return bootstrap(AppWrapper, context)
+              return ${
+                entrypoint.customBootstrap
+                  ? `customBootstrap(AppWrapper, () => ${bootstrap});`
+                  : bootstrap
+              }
             }`,
               exportStatement,
             ].join('\n'),
