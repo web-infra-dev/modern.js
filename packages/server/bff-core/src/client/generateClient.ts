@@ -1,5 +1,4 @@
 import * as path from 'path';
-import type { HttpMethodDecider } from '@modern-js/types';
 import { ApiRouter } from '../router';
 import { Result, Ok, Err } from './result';
 
@@ -9,14 +8,12 @@ export type GenClientOptions = {
   resourcePath: string;
   source: string;
   apiDir: string;
-  lambdaDir: string;
   prefix: string;
   port: number;
   requestCreator?: string;
   fetcher?: string;
   target?: string;
   requireResolve?: typeof require.resolve;
-  httpMethodDecider?: HttpMethodDecider;
 };
 
 export const DEFAULT_CLIENT_REQUEST_CREATOR = '@modern-js/create-request';
@@ -24,14 +21,12 @@ export const DEFAULT_CLIENT_REQUEST_CREATOR = '@modern-js/create-request';
 export const generateClient = async ({
   resourcePath,
   apiDir,
-  lambdaDir,
   prefix,
   port,
   target,
   requestCreator,
   fetcher,
   requireResolve = require.resolve,
-  httpMethodDecider,
 }: GenClientOptions): Promise<GenClientResult> => {
   if (!requestCreator) {
     // eslint-disable-next-line no-param-reassign
@@ -53,9 +48,7 @@ export const generateClient = async ({
 
   const apiRouter = new ApiRouter({
     apiDir,
-    lambdaDir,
     prefix,
-    httpMethodDecider,
   });
 
   const handlerInfos = apiRouter.getSingleModuleHandlers(resourcePath);
@@ -75,9 +68,7 @@ export const generateClient = async ({
     const routeName = routePath;
     handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', ${
       process.env.PORT || String(port)
-    }, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ${
-      fetcher ? `, fetch` : ''
-    });
+    }${fetcher ? `, fetch` : ''});
 `;
   }
 

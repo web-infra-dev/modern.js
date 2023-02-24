@@ -58,7 +58,6 @@ export const initAppContext = ({
   options?: {
     metaName?: string;
     srcDir?: string;
-    apiDir?: string;
     distDir?: string;
     sharedDir?: string;
   };
@@ -70,9 +69,9 @@ export const initAppContext = ({
     metaName = 'modern-js',
     srcDir = 'src',
     distDir = '',
-    apiDir = 'api',
     sharedDir = 'shared',
   } = options || {};
+
   return {
     metaName,
     appDirectory,
@@ -83,8 +82,6 @@ export const initAppContext = ({
     port: 0,
     packageName: require(path.resolve(appDirectory, './package.json')).name,
     srcDirectory: path.resolve(appDirectory, srcDir),
-    apiDirectory: path.resolve(appDirectory, apiDir),
-    lambdaDirectory: path.resolve(appDirectory, apiDir, 'lambda'),
     distDirectory: distDir,
     sharedDirectory: path.resolve(appDirectory, sharedDir),
     nodeModulesDirectory: path.resolve(appDirectory, './node_modules'),

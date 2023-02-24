@@ -15,11 +15,9 @@ const setup = () => {
   uped = true;
   const bff_info = (global as any)[bff_info_key];
   const prefix = bff_info?.modernUserConfig?.bff?.prefix;
-  const httpMethodDecider = bff_info?.modernUserConfig?.bff?.httpMethodDecider;
   const apiRouter = new ApiRouter({
     apiDir: path.join(bff_info.appDir, './api'),
     prefix,
-    httpMethodDecider,
   });
   const apiInfos = apiRouter.getApiHandlers();
 

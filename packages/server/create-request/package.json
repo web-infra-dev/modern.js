@@ -59,7 +59,6 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
@@ -71,7 +70,6 @@
     "query-string": "^7.1.1"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",

@@ -2432,7 +2432,6 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/bff-runtime': workspace:*
-      '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2456,7 +2455,6 @@ importers:
       koa-compose: 4.1.0
       reflect-metadata: 0.1.13
     devDependencies:
-      '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
@@ -2526,7 +2524,6 @@ importers:
   packages/server/create-request:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2547,7 +2544,6 @@ importers:
       path-to-regexp: 6.2.1
       query-string: 7.1.1
     devDependencies:
-      '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
