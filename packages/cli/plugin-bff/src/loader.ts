@@ -1,4 +1,5 @@
 import { generateClient, GenClientOptions } from '@modern-js/bff-core';
+import type { HttpMethodDecider } from '@modern-js/types';
 import type { LoaderContext } from 'webpack';
 import { logger } from '@modern-js/utils';
 
@@ -11,6 +12,7 @@ export type APILoaderOptions = {
   fetcher?: string;
   requestCreator?: string;
   target: string;
+  httpMethodDecider?: HttpMethodDecider;
 };
 
 async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
@@ -37,10 +39,12 @@ async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
       ? draftOptions.prefix[0]
       : draftOptions.prefix) as string,
     apiDir: draftOptions.apiDir,
+    lambdaDir: draftOptions.lambdaDir,
     target: draftOptions.target,
     port: Number(draftOptions.port),
     source,
     resourcePath,
+    httpMethodDecider: draftOptions.httpMethodDecider,
   };
 
   const { lambdaDir } = draftOptions;

@@ -16,10 +16,15 @@ const readTsConfigByFile = (tsConfigFile: string) => {
   return { options, fileNames, projectReferences };
 };
 
-const copyFiles = async (from: string, to: string, tsconfigPath: string) => {
+const copyFiles = async (
+  from: string,
+  to: string,
+  appDirectory: string,
+  tsconfigPath: string,
+) => {
   if (await fs.pathExists(from)) {
-    const basename = path.basename(from);
-    const targetDir = path.join(to, basename);
+    const relativePath = path.relative(appDirectory, from);
+    const targetDir = path.join(to, relativePath);
     await fs.copy(from, targetDir, {
       filter: src =>
         !['.ts'].includes(path.extname(src)) && src !== tsconfigPath,
@@ -99,7 +104,7 @@ export const compileByTs: CompileFunc = async (
   }
 
   for (const source of sourceDirs) {
-    await copyFiles(source, distDir, tsconfigPath);
+    await copyFiles(source, distDir, appDirectory, tsconfigPath);
   }
 
   logger.info(`Ts compile succeed`);

@@ -1,8 +1,9 @@
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import 'reflect-metadata';
+import type { HttpMethodDecider } from '@modern-js/types';
 import { HttpMethod, httpMethods, OperatorType, TriggerType } from '../types';
-import { debug } from '../utils';
+import { debug, INPUT_PARAMS_DECIDER } from '../utils';
 import {
   APIMode,
   FRAMEWORK_MODE_LAMBDA_DIR,
@@ -28,6 +29,8 @@ export class ApiRouter {
   // lambdaDir is the dir which equal to the apiDir in function mode, and equal to the api/lambda dir in framework mode
   private existLambdaDir: boolean;
 
+  private httpMethodDecider: HttpMethodDecider;
+
   private lambdaDir: string;
 
   private prefix: string;
@@ -38,17 +41,20 @@ export class ApiRouter {
     apiDir,
     lambdaDir,
     prefix,
+    httpMethodDecider = 'functionName',
   }: {
     apiDir: string;
     lambdaDir?: string;
     prefix?: string;
+    httpMethodDecider?: HttpMethodDecider;
   }) {
     this.validateAbsolute(apiDir, 'apiDir');
     this.validateAbsolute(lambdaDir, 'lambdaDir');
 
     this.prefix = this.initPrefix(prefix);
     this.apiDir = apiDir;
-    this.apiMode = this.getExactApiMode(apiDir);
+    this.httpMethodDecider = httpMethodDecider;
+    this.apiMode = this.getExactApiMode(apiDir, lambdaDir);
     this.lambdaDir = lambdaDir || this.getExactLambdaDir(this.apiDir);
     this.existLambdaDir = fs.existsSync(this.lambdaDir);
   }
@@ -123,7 +129,14 @@ export class ApiRouter {
       }
     }
 
-    const routePath = getPathFromFilename(this.lambdaDir, filename);
+    let routePath = getPathFromFilename(this.lambdaDir, filename);
+    if (this.httpMethodDecider === 'inputParams') {
+      if (routePath.endsWith('/')) {
+        routePath += `${handler?.name}`;
+      } else {
+        routePath += `/${handler?.name}`;
+      }
+    }
     return routePath;
   }
 
@@ -138,33 +151,45 @@ export class ApiRouter {
       }
     }
 
-    const upperName = originHandlerName.toUpperCase();
-    switch (upperName) {
-      case 'GET':
-        return HttpMethod.Get;
-      case 'POST':
-        return HttpMethod.Post;
-      case 'PUT':
-        return HttpMethod.Put;
-      case 'DELETE':
-      case 'DEL':
-        return HttpMethod.Delete;
-      case 'CONNECT':
-        return HttpMethod.Connect;
-      case 'TRACE':
-        return HttpMethod.Trace;
-      case 'PATCH':
-        return HttpMethod.Patch;
-      case 'OPTION':
-        return HttpMethod.Option;
-      case 'DEFAULT': {
-        return HttpMethod.Get;
+    if (this.httpMethodDecider === 'functionName') {
+      const upperName = originHandlerName.toUpperCase();
+      switch (upperName) {
+        case 'GET':
+          return HttpMethod.Get;
+        case 'POST':
+          return HttpMethod.Post;
+        case 'PUT':
+          return HttpMethod.Put;
+        case 'DELETE':
+        case 'DEL':
+          return HttpMethod.Delete;
+        case 'CONNECT':
+          return HttpMethod.Connect;
+        case 'TRACE':
+          return HttpMethod.Trace;
+        case 'PATCH':
+          return HttpMethod.Patch;
+        case 'OPTION':
+          return HttpMethod.Option;
+        case 'DEFAULT': {
+          return HttpMethod.Get;
+        }
+        default:
+          if (process.env.NODE_ENV !== 'test') {
+            logger.warn(
+              `Only api handlers are allowd to be exported, please remove the function ${originHandlerName} from exports`,
+            );
+          }
+          return null;
       }
-      default:
-        logger.warn(
-          `Only api handlers are allowd to be exported, please remove the function ${originHandlerName} from exports`,
-        );
+    } else {
+      if (!handler) {
         return null;
+      }
+      if (typeof handler === 'function' && handler.length > 0) {
+        return HttpMethod.Post;
+      }
+      return HttpMethod.Get;
     }
   }
 
@@ -212,9 +237,11 @@ export class ApiRouter {
     }
   }
 
-  private getExactApiMode = (apiDir: string): APIMode => {
+  private getExactApiMode = (apiDir: string, lambdaDir?: string): APIMode => {
     const exist = this.createExistChecker(apiDir);
-    const existLambdaDir = exist(FRAMEWORK_MODE_LAMBDA_DIR);
+    const existLambdaDir =
+      (lambdaDir && fs.pathExistsSync(lambdaDir)) ||
+      exist(FRAMEWORK_MODE_LAMBDA_DIR);
     const existAppDir = exist(FRAMEWORK_MODE_APP_DIR);
     const existAppFile = exist('app.ts') || exist('app.js');
 
@@ -279,10 +306,16 @@ export class ApiRouter {
 
   private getModuleHandlerInfos(moduleInfo: ModuleInfo): APIHandlerInfo[] {
     const { module, filename } = moduleInfo;
+    const { httpMethodDecider } = this;
     return Object.entries(module)
       .filter(([, handler]) => typeof handler === 'function')
       .map(([key]) => {
         const handler = module[key];
+        if (httpMethodDecider === 'inputParams') {
+          Object.assign(handler, {
+            [INPUT_PARAMS_DECIDER]: true,
+          });
+        }
         const handlerInfo = this.getHandlerInfo(filename, key, handler);
         return handlerInfo;
       })
