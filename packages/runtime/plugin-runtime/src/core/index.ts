@@ -11,4 +11,6 @@ export type { TRuntimeContext, RuntimeContext } from '../runtimeContext';
 export { RuntimeReactContext, ServerRouterContext } from '../runtimeContext';
 export * from './loader';
 
+export type { SSRData, SSRContainer } from './types';
+
 export * from '@modern-js/plugin';

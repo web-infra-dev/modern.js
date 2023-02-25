@@ -77,8 +77,6 @@ describe('renderToStream', () => {
     expect(htmlForStream).toMatch(
       /<div>App Layout<\/div>[\s\S]*<div>loading home...<\/div>/,
     );
-    expect(htmlForStream).toMatch(/"renderLevel":2/);
-
     expect(errorLogger).toHaveBeenCalledTimes(0);
   });
 

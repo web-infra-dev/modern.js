@@ -1,10 +1,5 @@
 import React, { useContext } from 'react';
-import serialize from 'serialize-javascript';
-import {
-  createStaticHandler,
-  StaticHandlerContext,
-  isRouteErrorResponse,
-} from '@remix-run/router';
+import { createStaticHandler } from '@modern-js/utils/remix-router';
 import {
   createStaticRouter,
   StaticRouterProvider,
@@ -66,38 +61,6 @@ export function createFetchHeaders(
 
   return headers;
 }
-/**
- * This function is copy from source found in https://github.com/remix-run/react-router
- *
- * MIT Licensed
- * Copyright (c) React Training 2015-2019 Copyright (c) Remix Software 2020-2022
- * https://github.com/remix-run/react-router/blob/main/LICENSE.md
- */
-function serializeErrors(
-  errors: StaticHandlerContext['errors'],
-): StaticHandlerContext['errors'] {
-  if (!errors) {
-    return null;
-  }
-  const entries = Object.entries(errors);
-  const serialized: StaticHandlerContext['errors'] = {};
-  for (const [key, val] of entries) {
-    // Hey you!  If you change this, please change the corresponding logic in
-    // deserializeErrors in react-router-dom/index.tsx :)
-    if (isRouteErrorResponse(val)) {
-      serialized[key] = { ...val, __type: 'RouteErrorResponse' };
-    } else if (val instanceof Error) {
-      // Do not serialize stack traces from SSR for security reasons
-      serialized[key] = {
-        message: val.message,
-        __type: 'Error',
-      };
-    } else {
-      serialized[key] = val;
-    }
-  }
-  return serialized;
-}
 
 export const routerPlugin = ({
   basename = '',
@@ -115,15 +78,14 @@ export const routerPlugin = ({
             return next({ context });
           }
 
-          const { request }: { request: SSRServerContext['request'] } =
-            context.ssrContext!;
+          const { request, mode: ssrMode } = context.ssrContext!;
           const baseUrl = request.baseUrl as string;
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
           const routes = createRoutes
             ? createRoutes()
-            : createRoutesFromElements(renderRoutes(routesConfig));
+            : createRoutesFromElements(renderRoutes(routesConfig, ssrMode));
 
           const { query } = createStaticHandler(routes, {
             basename: _basename,
@@ -155,27 +117,12 @@ export const routerPlugin = ({
           const getRouteApp = () => {
             return (props => {
               const { router, routerContext } = useContext(RuntimeReactContext);
-              const data = {
-                loaderData: routerContext.loaderData,
-                actionData: routerContext.actionData,
-                errors: serializeErrors(routerContext.errors),
-              };
-              const hydrateScript = `window.__staticRouterHydrationData = ${serialize(
-                data,
-                { isJSON: true },
-              )};`;
               return (
                 <App {...props}>
                   <StaticRouterProvider
                     router={router}
-                    context={routerContext}
+                    context={routerContext!}
                     hydrate={false}
-                  />
-                  <script
-                    suppressHydrationWarning
-                    id="the-nonce"
-                    // eslint-disable-next-line react/no-danger
-                    dangerouslySetInnerHTML={{ __html: hydrateScript }}
                   />
                 </App>
               );

@@ -33,7 +33,7 @@ const provide = createPipeline<
 const client = createAsyncPipeline<
   {
     App: React.ComponentType<any>;
-    readonly context?: RuntimeContext;
+    readonly context: RuntimeContext;
     ModernRender: (App: React.ReactElement) => void;
     ModernHydrate: (App: React.ReactElement, callback?: () => void) => void;
   },
@@ -43,7 +43,7 @@ const client = createAsyncPipeline<
 const server = createAsyncPipeline<
   {
     App: React.ComponentType<any>;
-    readonly context?: RuntimeContext;
+    readonly context: RuntimeContext;
   },
   string
 >();

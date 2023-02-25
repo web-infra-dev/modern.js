@@ -3,9 +3,13 @@ import { Link, Outlet } from '@modern-js/runtime/router';
 export default function Layout() {
   return (
     <div>
-      root layout
-      <Link to="/user">/user</Link>
-      <Link to="/user/profile">/user/profile</Link>
+      Root layout
+      <div>
+        <Link to="/user/1" id="user-btn">Go User 1</Link>
+        <Link to="/about" id="about-btn">Go About</Link>
+        <Link to="/error" id="error-btn">Go Error</Link>
+        <Link to="/redirect" id="redirect-btn">Go Redirect</Link>
+      </div>
       <Outlet />
     </div>
   );

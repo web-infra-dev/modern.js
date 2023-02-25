@@ -38,6 +38,18 @@
       "jsnext:source": "./src/constants.ts",
       "default": "./dist/constants.js"
     },
+    "./serialize": {
+      "jsnext:source": "./src/serialize.ts",
+      "default": "./dist/serialize.js"
+    },
+    "./nestedRoutes": {
+      "jsnext:source": "./src/nestedRoutes.tsx",
+      "default": "./dist/nestedRoutes.js"
+    },
+    "./remix-router": {
+      "jsnext:source": "./src/remix-router.ts",
+      "default": "./dist/remix-router.js"
+    },
     "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
     "./chalk": "./compiled/chalk/index.js",
@@ -71,6 +83,9 @@
       "./format": "./dist/format.js",
       "./logger": "./dist/logger.js",
       "./constants": "./dist/constants.js",
+      "./serialize": "./dist/serialize.js",
+      "./nestedRoutes": "./dist/nestedRoutes.js",
+      "./remix-router": "./dist/remix-router.js",
       "./ajv": "./compiled/ajv/index.js",
       "./glob": "./compiled/glob/index.js",
       "./chalk": "./compiled/chalk/index.js",
@@ -105,6 +120,12 @@
       ],
       "constants": [
         "./dist/constants.d.ts"
+      ],
+      "serialize": [
+        "./dist/serialize.d.ts"
+      ],
+      "nestedRoutes": [
+        "./dist/nestedRoutes.d.ts"
       ],
       "ajv": [
         "./compiled/ajv/types/ajv.d.ts"
@@ -165,6 +186,9 @@
       ],
       "chain-id": [
         "./dist/chainId.d.ts"
+      ],
+      "remix-router": [
+        "./dist/remix-router.d.ts"
       ]
     }
   },
@@ -177,9 +201,19 @@
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001451",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "serialize-javascript": "^6.0.0",
+    "@remix-run/router": "^1.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0",
+    "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0",
+    "react-router-dom": "^6.8.1",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
@@ -187,7 +221,8 @@
     "@types/node": "^14",
     "jest": "^27",
     "typescript": "^4",
-    "webpack": "^5.75.0"
+    "webpack": "^5.75.0",
+    "@types/serialize-javascript": "^5.0.1"
   },
   "sideEffects": false
 }

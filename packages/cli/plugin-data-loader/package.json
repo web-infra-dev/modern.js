@@ -12,6 +12,9 @@
     "modern.js"
   ],
   "version": "2.6.0",
+  "engines": {
+    "node": ">=14.17.6"
+  },
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -24,6 +27,10 @@
     "./server": {
       "jsnext:source": "./src/server/index.ts",
       "default": "./dist/cjs/server/index.js"
+    },
+    "./runtime": {
+      "jsnext:source": "./src/runtime/index.ts",
+      "default": "./dist/esm/runtime/index.js"
     }
   },
   "typesVersions": {
@@ -33,6 +40,9 @@
       ],
       "server": [
         "./dist/types/server/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
       ]
     }
   },
@@ -47,9 +57,9 @@
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
-    "@remix-run/node": "^1.9.0",
+    "@remix-run/node": "^1.12.0",
     "path-to-regexp": "^6.2.0",
-    "react-router-dom": "^6.6.0"
+    "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

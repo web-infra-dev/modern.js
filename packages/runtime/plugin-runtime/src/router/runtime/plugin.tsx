@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { Plugin } from '../../core';
-import { renderRoutes, urlJoin } from './utils';
+import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -72,9 +72,23 @@ export const routerPlugin = ({
               const _basename =
                 baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
+              let hydrationData = window._ROUTER_DATA;
+              if (hydrationData?.errors) {
+                hydrationData = {
+                  ...hydrationData,
+                  errors: deserializeErrors(hydrationData.errors),
+                };
+              }
+
               const router = supportHtml5History
-                ? createBrowserRouter(routes, { basename: _basename })
-                : createHashRouter(routes, { basename: _basename });
+                ? createBrowserRouter(routes, {
+                    basename: _basename,
+                    hydrationData,
+                  })
+                : createHashRouter(routes, {
+                    basename: _basename,
+                    hydrationData,
+                  });
 
               return (
                 <App {...props}>

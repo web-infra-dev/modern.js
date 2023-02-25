@@ -52,7 +52,6 @@ export default (): CliPlugin<AppTools> => ({
         );
 
         runtimeConfigMap.set(entryName, runtimeConfig);
-
         if (runtimeConfig?.router) {
           if (!isV5(userConfig)) {
             imports.push({

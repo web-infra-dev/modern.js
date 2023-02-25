@@ -20,6 +20,11 @@ module.exports = {
             syntax: 'typescript',
             decorators: true,
           },
+          transform: {
+            react: {
+              runtime: 'automatic',
+            },
+          },
         },
       },
     ],

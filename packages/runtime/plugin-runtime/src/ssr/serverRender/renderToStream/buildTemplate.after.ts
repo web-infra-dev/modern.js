@@ -1,9 +1,11 @@
-import serialize from 'serialize-javascript';
+import type { StaticHandlerContext } from '@modern-js/utils/remix-router';
+import { serializeJson } from '@modern-js/utils/serialize';
 import { RenderLevel, SSRServerContext } from '../types';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
 
 type BuildShellAfterTemplateOptions = {
   ssrContext: SSRServerContext;
+  routerContext: StaticHandlerContext;
   renderLevel: RenderLevel;
 };
 export function buildShellAfterTemplate(
@@ -37,9 +39,7 @@ export function buildShellAfterTemplate(
         renderLevel,
       };
       return `
-      <script>window._SSR_DATA = ${serialize(SSRData, {
-        isJSON: true,
-      })}</script>
+      <script>window._SSR_DATA = ${serializeJson(SSRData)}</script>
       `;
     }
   }
