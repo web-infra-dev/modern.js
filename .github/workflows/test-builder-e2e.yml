@@ -29,11 +29,11 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .turbo
-          key: turbo-${{ runner.os }}-${{ github.base_ref }}-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ github.base_ref }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ runner.os }}-${{ github.base_ref }}-${{ github.ref_name }}-
-            turbo-${{ runner.os }}-${{ github.base_ref }}-
-            turbo-${{ runner.os }}-
+            turbo-${{ github.base_ref }}-${{ github.ref_name }}-
+            turbo-${{ github.base_ref }}-
+            turbo-
 
       - name: Install Pnpm
         run: npm install -g pnpm@7

@@ -30,10 +30,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .turbo
-          key: turbo-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ runner.os }}-${{ github.ref_name }}-
-            turbo-${{ runner.os }}-
+            turbo-${{ github.ref_name }}-
+            turbo-
 
       - name: Create Release Pull Request
         uses: modern-js-dev/actions@main
