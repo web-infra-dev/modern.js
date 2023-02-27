@@ -26,13 +26,23 @@ sidebar_position: 4
 
 ## 更多用法
 
-不论是在[自定义 HTML](/guides/basic-features/html) 中，或是在 [`config/public/`](/apis/app/hooks/config/public) 下的任意 HTML 文件中，都可以直接使用 HTML 标签引用 `config/upload/` 目录下的资源：
+在 React 组件中，可以通过[内置环境变量](/guides/basic-features/env-vars.html#asset_prefix)来添加该前缀：
+
+```tsx
+export default () => {
+  return (
+    <img src={`${process.env.ASSET_PREFIX}/upload/banner.png`}></img>
+  );
+};
+```
+
+另外，不论是在[自定义 HTML](/guides/basic-features/html) 中，或是在 [`config/public/`](/apis/app/hooks/config/public) 下的任意 HTML 文件中，都可以直接使用 HTML 标签引用 `config/upload/` 目录下的资源：
 
 ```html
 <script src="/upload/index.js"></script>
 ```
 
-如果设置了 [`output.assetPrefix`](/configure/app/output/asset-prefix) 前缀，也可以直接使用模板语法添加该前缀：
+如果设置了 [`dev.assetPrefix`](/configure/app/dev/asset-prefix) 或 [`output.assetPrefix`](/configure/app/output/asset-prefix) 前缀，也可以直接使用模板语法添加该前缀：
 
 ```html
 <script src="<%=assetPrefix %>/upload/index.js"></script>

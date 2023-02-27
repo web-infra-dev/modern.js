@@ -29,6 +29,7 @@ describe('plugins/define', () => {
               "cov": [Function],
               "import.meta.bar": "{\\"a\\":\\"bar\\",\\"b\\":false,\\"c\\":{\\"d\\":42}}",
               "import.meta.test": false,
+              "process.env.ASSET_PREFIX": "\\"\\"",
               "process.env.NODE_ENV": "\\"test\\"",
               "process.env.foo": "\\"foo\\"",
               "window.baz": "[null,\\"baz\\"]",
