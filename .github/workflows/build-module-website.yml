@@ -36,6 +36,7 @@ jobs:
           key: turbo-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
             turbo-${{ github.ref_name }}-
+            turbo-
 
       - name: Build Dependencies
         run: pnpm turbo run build --filter="@modern-js/module-tools-docs"
