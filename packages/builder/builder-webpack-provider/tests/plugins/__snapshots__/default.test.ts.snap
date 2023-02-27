@@ -758,6 +758,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     },
     DefinePlugin {
       "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"development\\"",
       },
     },
@@ -1654,6 +1655,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     },
     DefinePlugin {
       "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"production\\"",
       },
     },
@@ -2389,6 +2391,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   "plugins": [
     DefinePlugin {
       "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"production\\"",
       },
     },
@@ -3113,6 +3116,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   "plugins": [
     DefinePlugin {
       "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"production\\"",
       },
     },

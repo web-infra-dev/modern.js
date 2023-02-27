@@ -30,6 +30,7 @@ describe('plugins/define', () => {
           "define": {
             "NAME": "\\"Jack\\"",
             "import.meta.bar": "{\\"a\\":\\"bar\\",\\"b\\":false,\\"c\\":{\\"d\\":42}}",
+            "process.env.ASSET_PREFIX": "\\"\\"",
             "process.env.NODE_ENV": "\\"test\\"",
             "process.env.foo": "\\"foo\\"",
             "window.baz": "[null,\\"baz\\"]",

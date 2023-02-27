@@ -13,7 +13,7 @@ export const builderPluginDefine = (): BuilderPlugin => ({
       const builtinVars: NonNullable<SourceConfig['globalVars']> = {
         'process.env.NODE_ENV': process.env.NODE_ENV,
         'process.env.ASSET_PREFIX': removeTailSlash(
-          chain.output.get('publicPath'),
+          chain.output.get('publicPath') || '/',
         ),
       };
 
