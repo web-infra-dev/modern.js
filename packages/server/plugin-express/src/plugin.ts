@@ -68,9 +68,10 @@ export default (): ServerPlugin => ({
   setup: api => ({
     async prepareApiServer({ pwd, config }) {
       let app: Express;
-      const apiDir = path.join(pwd, './api');
       const appContext = api.useAppContext();
       const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
+      const apiDirectory = appContext.apiDirectory as string;
+      const apiDir = apiDirectory || path.join(pwd, './api');
       const mode = appContext.apiMode;
 
       if (mode === 'framework') {

@@ -33,6 +33,8 @@ export class ModernDevServer extends ModernServer {
 
   private readonly dev: DevServerOptions;
 
+  private readonly appContext: ModernDevServerOptions['appContext'];
+
   private readonly devMiddleware: DevMiddleware;
 
   private watcher?: Watcher;
@@ -40,6 +42,7 @@ export class ModernDevServer extends ModernServer {
   constructor(options: ModernDevServerOptions) {
     super(options);
 
+    this.appContext = options.appContext;
     // dev server should work in pwd
     this.workDir = this.pwd;
 
@@ -315,13 +318,15 @@ export class ModernDevServer extends ModernServer {
   }
 
   private startWatcher() {
-    const { pwd, distDir } = this;
+    const { pwd, distDir, appContext } = this;
     const { mock } = AGGRED_DIR;
+    const apiDir = appContext?.apiDirectory || API_DIR;
+    const sharedDir = appContext?.sharedDirectory || SHARED_DIR;
     const defaultWatched = [
       `${mock}/**/*`,
       `${SERVER_DIR}/**/*`,
-      `${API_DIR}/**`,
-      `${SHARED_DIR}/**/*`,
+      `${apiDir}/**`,
+      `${sharedDir}/**/*`,
       `${distDir}/${SERVER_BUNDLE_DIRECTORY}/*-server-loaders.js`,
     ];
 

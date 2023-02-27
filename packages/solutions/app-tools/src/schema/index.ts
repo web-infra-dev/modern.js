@@ -31,6 +31,10 @@ const bff = {
   prefix: {
     type: 'string',
   },
+  httpMethodDecider: {
+    type: 'string',
+    enum: ['functionName', 'inputParams'],
+  },
   proxy: {
     type: 'object',
     additionalProperties: {

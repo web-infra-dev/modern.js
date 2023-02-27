@@ -82,7 +82,7 @@ describe('bff loader', () => {
   });
 
   // TODO: 暂时有问题，先屏蔽这个测试
-  xit('should work well with fetcher', async () => {
+  it.skip('should work well with fetcher', async () => {
     const stats = await compiler(filepath, {
       apiDir,
       lambdaDir: apiDir,

@@ -1,4 +1,4 @@
-import { logger, chalk, isApiOnly } from '@modern-js/utils';
+import { logger, chalk, isApiOnly, getTargetDir } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import server from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
@@ -23,6 +23,23 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const app = await server({
     pwd: appDirectory,
     config: userConfig as any,
+    appContext: {
+      sharedDirectory: getTargetDir(
+        appContext.sharedDirectory,
+        appContext.appDirectory,
+        appContext.distDirectory,
+      ),
+      apiDirectory: getTargetDir(
+        appContext.apiDirectory,
+        appContext.appDirectory,
+        appContext.distDirectory,
+      ),
+      lambdaDirectory: getTargetDir(
+        appContext.lambdaDirectory,
+        appContext.appDirectory,
+        appContext.distDirectory,
+      ),
+    },
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
     apiOnly,
