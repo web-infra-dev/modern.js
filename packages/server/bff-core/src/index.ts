@@ -8,6 +8,8 @@ export {
   getRelativeRuntimePath,
   HANDLER_WITH_META,
   isWithMetaHandler,
+  INPUT_PARAMS_DECIDER,
+  isInputParamsDeciderHandler,
   createStorage,
   registerPaths,
 } from './utils';

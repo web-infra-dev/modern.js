@@ -11,7 +11,7 @@ import 'isomorphic-fetch';
 
 declare const page: Page;
 
-describe('server config in dev', () => {
+describe('bff express in dev', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
@@ -61,7 +61,7 @@ describe('server config in dev', () => {
   });
 });
 
-describe('server config in prod', () => {
+describe('bff express in prod', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';

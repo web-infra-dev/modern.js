@@ -59,6 +59,12 @@ export const dev = async (
       host: normalizedConfig.dev.host,
       ...normalizedConfig.tools?.devServer,
     },
+    appContext: {
+      appDirectory: appContext.appDirectory,
+      sharedDirectory: appContext.sharedDirectory,
+      apiDirectory: appContext.apiDirectory,
+      lambdaDirectory: appContext.lambdaDirectory,
+    },
     pwd: appDirectory,
     config: normalizedConfig,
     serverConfigFile,
