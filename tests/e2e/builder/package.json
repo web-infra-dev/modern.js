@@ -16,6 +16,7 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
+    "playwright": "^1.25.1",
     "@types/node": "^14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
