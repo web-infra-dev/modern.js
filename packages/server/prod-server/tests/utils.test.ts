@@ -82,9 +82,7 @@ describe('test server utils', () => {
       const { NODE_ENV } = process.env;
       process.env.NODE_ENV = 'production';
 
-      const reg = getStaticReg({
-        assetPrefix: '/foo/',
-      });
+      const reg = getStaticReg({}, {}, '/foo/');
       expect(reg.test('/foo/static/a.js')).toBeTruthy();
       expect(reg.test('/foo/static/a.css')).toBeTruthy();
       expect(reg.test('/bar/static/a.css')).toBeFalsy();

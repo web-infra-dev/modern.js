@@ -2,9 +2,7 @@
 import { IncomingMessage } from 'http';
 import serve from 'serve-static';
 import { isString, isRegExp } from '@modern-js/utils';
-import { ServerOptions } from '@modern-js/server-core';
 import type { ModernServerContext } from '@modern-js/types';
-import { useLocalPrefix } from '../utils';
 import { NextFunction, ModernServerHandler } from '../type';
 
 type Rule = {
@@ -13,7 +11,8 @@ type Rule = {
 };
 
 const removedPrefix = (req: IncomingMessage, prefix: string) => {
-  if (useLocalPrefix(prefix)) {
+  const useLocalPrefix = !prefix.includes('.');
+  if (useLocalPrefix) {
     req.url = req.url!.slice(prefix.length);
     return () => {
       req.url = prefix + req.url!;
@@ -35,12 +34,10 @@ export const faviconFallbackHandler: ModernServerHandler = (context, next) => {
 };
 
 export const createStaticFileHandler =
-  (rules: Rule[], output: ServerOptions['output'] = {}) =>
+  (rules: Rule[], assetPrefix = '/') =>
   // eslint-disable-next-line consistent-return
   async (context: ModernServerContext, next: NextFunction) => {
     const { url: requestUrl, req, res } = context;
-    const { assetPrefix = '/' } = output;
-
     const hitRule = rules.find(item => {
       if (isString(item.path) && requestUrl.startsWith(item.path)) {
         return true;
