@@ -93,7 +93,9 @@ const recursiveReadDirLegacy = ({
       const route: RouteLegacy = {
         path: `${basePath}${
           dynamicRouteMatched
-            ? `:${dynamicRouteMatched[1]}${dynamicRouteMatched[2]}`
+            ? `:${dynamicRouteMatched[1].replace(/\$$/, '?')}${
+                dynamicRouteMatched[2]
+              }`
             : filename
         }`,
         _component: alias,
