@@ -1,4 +1,5 @@
 import type nodeFetch from 'node-fetch';
+import type { HttpMethodDecider } from '@modern-js/types';
 
 export type BFFRequestPayload = {
   params?: Record<string, any>;
@@ -20,8 +21,8 @@ export type RequestCreator = (
   path: string,
   method: string,
   port: number,
+  httpMethodDecider: HttpMethodDecider,
   fetch?: Fetch,
-  headerWhiteList?: string[],
 ) => Sender;
 
 export type IOptions<F = Fetch> = {
