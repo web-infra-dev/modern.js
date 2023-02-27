@@ -57,7 +57,7 @@ export const builderPluginSwc = (
           },
         },
         env: pluginConfig.presetEnv || {},
-        extensions: {},
+        extensions: { ...pluginConfig.extensions },
         cwd: rootPath,
       };
 
@@ -99,7 +99,7 @@ export const builderPluginSwc = (
 
       const { extensions } = swc;
 
-      extensions!.lockCorejsVersion = {
+      extensions!.lockCorejsVersion ??= {
         corejs: path.dirname(CORE_JS_PATH),
         swcHelpers: path.dirname(SWC_HELPERS_PATH),
       };
