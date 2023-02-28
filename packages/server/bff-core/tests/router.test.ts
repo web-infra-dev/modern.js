@@ -70,7 +70,7 @@ describe('test api router', () => {
     expect(apiRouter.getHttpMethod('connect')).toBe(HttpMethod.Connect);
     expect(apiRouter.getHttpMethod('trace')).toBe(HttpMethod.Trace);
     expect(apiRouter.getHttpMethod('patch')).toBe(HttpMethod.Patch);
-    expect(apiRouter.getHttpMethod('option')).toBe(HttpMethod.Option);
+    expect(apiRouter.getHttpMethod('options')).toBe(HttpMethod.Options);
   });
 
   test('support get http method from Trigger', () => {
