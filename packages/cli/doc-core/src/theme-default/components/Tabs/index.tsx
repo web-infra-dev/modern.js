@@ -50,7 +50,8 @@ export function Tabs(props: TabsProps): ReactElement {
   }
   const { tabData, setTabData } = useContext(TabDataContext);
   let defaultIndex = 0;
-  if (groupId && tabData[groupId]) {
+  const needSync = groupId && tabData[groupId] !== undefined;
+  if (needSync) {
     defaultIndex = tabData[groupId] as number;
   } else if (defaultValue) {
     defaultIndex = tabValues.findIndex(item => {
@@ -70,7 +71,7 @@ export function Tabs(props: TabsProps): ReactElement {
           setTabData({ ...tabData, [groupId]: index });
         }
       }}
-      selectedIndex={defaultIndex}
+      {...(needSync ? { selectedIndex: defaultIndex } : { defaultIndex })}
     >
       <div className={tabContainerClassName || ''}>
         <HeadlessTab.List className="mt-4 flex w-max min-w-full border-b border-gray-200">
