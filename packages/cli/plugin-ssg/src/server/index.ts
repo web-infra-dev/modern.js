@@ -64,7 +64,7 @@ export const createServer = (
       }
     });
 
-    cp.stderr!.on('data', chunk => {
+    cp.stderr?.on('data', chunk => {
       const str = chunk.toString();
       if (str.includes('Error')) {
         logger.error(str);
@@ -75,7 +75,7 @@ export const createServer = (
       }
     });
 
-    cp.stdout!.on('data', chunk => {
+    cp.stdout?.on('data', chunk => {
       const str = chunk.toString();
       if (str.includes('Error')) {
         logger.error(str);

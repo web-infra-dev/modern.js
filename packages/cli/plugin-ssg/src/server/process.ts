@@ -78,6 +78,7 @@ process.on('message', async (chunk: string) => {
     });
   } catch (e) {
     modernServer?.close();
-    throw e;
+    // throw error will lost the origin error and stack
+    process.stderr.write(e instanceof Error ? e.stack : (e as any).toString());
   }
 });
