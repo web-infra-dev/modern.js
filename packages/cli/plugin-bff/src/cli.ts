@@ -27,7 +27,7 @@ export default (): CliPlugin<AppTools> => ({
       config() {
         return {
           tools: {
-            webpackChain: (chain, { name, CHAIN_ID }) => {
+            webpackChain: (chain, { CHAIN_ID, isServer }) => {
               const { port, apiDirectory, lambdaDirectory } =
                 api.useAppContext();
               const modernConfig = api.useResolvedConfigContext();
@@ -51,6 +51,7 @@ export default (): CliPlugin<AppTools> => ({
                 normalizeOutputPath(`${apiDirectory}${path.sep}.*(.[tj]s)$`),
               );
 
+              const name = isServer ? 'server' : 'client';
               chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(apiRegexp);
               chain.module
                 .rule(CHAIN_ID.RULE.JS_BFF_API)
