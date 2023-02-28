@@ -52,7 +52,7 @@ export const Delete = createHttpOperator(HttpMethod.Delete);
 export const Connect = createHttpOperator(HttpMethod.Connect);
 export const Trace = createHttpOperator(HttpMethod.Trace);
 export const Patch = createHttpOperator(HttpMethod.Patch);
-export const Option = createHttpOperator(HttpMethod.Option);
+export const Options = createHttpOperator(HttpMethod.Options);
 export const Head = createHttpOperator(HttpMethod.Head);
 
 export const Data = <Schema extends z.ZodType>(

@@ -1,3 +1,6 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable @typescript-eslint/no-parameter-properties */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
 import { compatRequire } from '@modern-js/utils';
 import {
@@ -96,7 +99,7 @@ const createController = ({ name, httpMethod, handler }: APIHandlerInfo) => {
       methodDecorator = Delete;
       break;
     }
-    case HttpMethod.Option: {
+    case HttpMethod.Options: {
       methodDecorator = Options;
       break;
     }
