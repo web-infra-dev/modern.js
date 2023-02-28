@@ -67,7 +67,7 @@ export default function Home() {
     },
     {
       title: t('feature5'),
-      href: useUrl('/guides/css/css-in-js'),
+      href: useUrl('/guides/basic-features/css'),
       desc: t('featureDesc5'),
     },
     {
