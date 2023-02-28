@@ -1,6 +1,5 @@
 - **Type:** `boolean`
 - **Default:** `false`
-- **Bundler:** `only support webpack`
 
 Whether to inline output style files (.css files) into HTML with `<style>` tags in production mode.
 

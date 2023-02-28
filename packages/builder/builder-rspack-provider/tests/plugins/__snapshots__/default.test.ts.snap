@@ -1263,6 +1263,20 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "pathinfo": false,
     "publicPath": "/",
   },
+  "plugins": [
+    InlineChunkHtmlPlugin {
+      "distPath": {
+        "css": "static/css",
+        "js": "static/js",
+      },
+      "htmlPlugin": [Function],
+      "inlinedAssets": Set {},
+      "name": "InlineChunkHtmlPlugin",
+      "tests": [
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+    },
+  ],
   "resolve": {
     "extensions": [
       ".ts",

@@ -33,6 +33,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.yaml(),
     plugins.splitChunks(),
     plugins.startUrl(),
+    plugins.inlineChunk(),
     plugins.bundleAnalyzer(),
     import('../plugins/fallback').then(m => m.builderPluginFallback()), // fallback should be the last plugin
   ]);
