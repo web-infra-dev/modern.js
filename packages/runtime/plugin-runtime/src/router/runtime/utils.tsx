@@ -1,85 +1,30 @@
-import React, { Suspense } from 'react';
-import { Route, RouteProps } from 'react-router-dom';
-import type { LoaderFunction, LoaderFunctionArgs } from 'react-router-dom';
-import type { NestedRoute, PageRoute } from '@modern-js/types';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import {
+  type NestedRoute,
+  type PageRoute,
+  type SSRMode,
+} from '@modern-js/types';
+import { renderNestedRoute } from '@modern-js/utils/nestedRoutes';
+import {
+  ErrorResponse,
+  isRouteErrorResponse,
+  type Router,
+  type StaticHandlerContext,
+} from '@modern-js/utils/remix-router';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
-
-const renderNestedRoute = (nestedRoute: NestedRoute, parent?: NestedRoute) => {
-  const { children, index, id, component, isRoot } = nestedRoute;
-  const Component = component as unknown as React.ComponentType<any>;
-
-  const routeProps: Omit<RouteProps, 'children'> = {
-    caseSensitive: nestedRoute.caseSensitive,
-    path: nestedRoute.path,
-    id: nestedRoute.id,
-    loader: createLoader(nestedRoute),
-    action: nestedRoute.action,
-    hasErrorBoundary: nestedRoute.hasErrorBoundary,
-    shouldRevalidate: nestedRoute.shouldRevalidate,
-    handle: nestedRoute.handle,
-    index: nestedRoute.index,
-    element: nestedRoute.element,
-    errorElement: nestedRoute.errorElement,
-  };
-
-  if (nestedRoute.error) {
-    const errorElement = <nestedRoute.error />;
-    routeProps.errorElement = errorElement;
-  }
-
-  let element;
-
-  if (Component) {
-    if (parent?.loading) {
-      const Loading = parent.loading;
-      if (isLoadableComponent(Component)) {
-        element = <Component fallback={<Loading />} />;
-      } else {
-        element = (
-          <Suspense fallback={<Loading />}>
-            <Component />
-          </Suspense>
-        );
-      }
-    } else if (isLoadableComponent(Component) || isRoot) {
-      element = <Component />;
-    } else {
-      element = (
-        <Suspense fallback={null}>
-          <Component />
-        </Suspense>
-      );
-    }
-  } else {
-    // If the component is undefined, it means that the current component is a fake layout component,
-    // and it should inherit the loading of the parent component to make the loading of the parent layout component take effect.
-    // It also means when layout component is undefined, loading component in then same dir should not working.
-    nestedRoute.loading = parent?.loading;
-  }
-
-  if (element) {
-    routeProps.element = element;
-  }
-
-  const childElements = children?.map(childRoute => {
-    return renderNestedRoute(childRoute, nestedRoute);
-  });
-
-  const routeElement = index ? (
-    <Route key={id} {...routeProps} index={true} />
-  ) : (
-    <Route key={id} {...routeProps} index={false}>
-      {childElements}
-    </Route>
-  );
-
-  return routeElement;
-};
+import DeferredDataScripts from './DeferredDataScripts';
 
 export function getRouteComponents(
   routes: (NestedRoute | PageRoute)[],
-  globalApp?: React.ComponentType<any>,
+  {
+    globalApp,
+    ssrMode,
+  }: {
+    globalApp?: React.ComponentType<any>;
+    ssrMode?: SSRMode;
+  },
 ) {
   const Layout = ({ Component, ...props }: any) => {
     const GlobalLayout = globalApp;
@@ -92,7 +37,10 @@ export function getRouteComponents(
   const routeElements: React.ReactElement[] = [];
   for (const route of routes) {
     if (route.type === 'nested') {
-      const routeElement = renderNestedRoute(route);
+      const routeElement = renderNestedRoute(route, {
+        DeferredDataComponent:
+          ssrMode === 'stream' ? DeferredDataScripts : undefined,
+      });
       routeElements.push(routeElement);
     } else {
       const routeElement = (
@@ -109,7 +57,10 @@ export function getRouteComponents(
   return routeElements;
 }
 
-export function renderRoutes(routesConfig: RouterConfig['routesConfig']) {
+export function renderRoutes(
+  routesConfig: RouterConfig['routesConfig'],
+  ssrMode?: SSRMode,
+) {
   if (!routesConfig) {
     return null;
   }
@@ -117,7 +68,7 @@ export function renderRoutes(routesConfig: RouterConfig['routesConfig']) {
   if (!routes) {
     return null;
   }
-  const routeElements = getRouteComponents(routes, globalApp);
+  const routeElements = getRouteComponents(routes, { globalApp, ssrMode });
   return routeElements;
 }
 
@@ -160,30 +111,65 @@ export function standardSlash(str: string) {
   return addr;
 }
 
-function createLoader(route: NestedRoute): LoaderFunction {
-  const { loader } = route;
-  if (loader) {
-    return (args: LoaderFunctionArgs) => {
-      if (typeof route.lazyImport === 'function') {
-        route.lazyImport();
-      }
-      return loader(args);
-    };
-  } else {
-    return () => {
-      if (typeof route.lazyImport === 'function') {
-        route.lazyImport();
-      }
-      return null;
-    };
+/**
+ * forked from https://github.com/remix-run/remix/blob/main/packages/remix-server-runtime/errors.ts
+ * license at https://github.com/remix-run/remix/blob/main/LICENSE.md
+ */
+export function serializeErrors(
+  errors: StaticHandlerContext['errors'],
+): StaticHandlerContext['errors'] {
+  if (!errors) {
+    return null;
   }
+  const entries = Object.entries(errors);
+  const serialized: StaticHandlerContext['errors'] = {};
+  for (const [key, val] of entries) {
+    // Hey you!  If you change this, please change the corresponding logic in
+    // deserializeErrors
+    if (isRouteErrorResponse(val)) {
+      serialized[key] = { ...val, __type: 'RouteErrorResponse' };
+    } else if (val instanceof Error) {
+      serialized[key] = {
+        message: val.message,
+        stack: val.stack,
+        __type: 'Error',
+      };
+    } else {
+      serialized[key] = val;
+    }
+  }
+  return serialized;
 }
 
-function isLoadableComponent(component: React.ComponentType<any>) {
-  return (
-    component &&
-    component.displayName === 'Loadable' &&
-    (component as any).preload &&
-    typeof (component as any).preload === 'function'
-  );
+/**
+ * forked from https://github.com/remix-run/remix/blob/main/packages/remix-react/errors.ts
+ * license at https://github.com/remix-run/remix/blob/main/LICENSE.md
+ */
+export function deserializeErrors(
+  errors: Router['state']['errors'],
+): Router['state']['errors'] {
+  if (!errors) {
+    return null;
+  }
+  const entries = Object.entries(errors);
+  const serialized: Router['state']['errors'] = {};
+  for (const [key, val] of entries) {
+    // Hey you!  If you change this, please change the corresponding logic in
+    // serializeErrors
+    if (val && val.__type === 'RouteErrorResponse') {
+      serialized[key] = new ErrorResponse(
+        val.status,
+        val.statusText,
+        val.data,
+        val.internal === true,
+      );
+    } else if (val && val.__type === 'Error') {
+      const error = new Error(val.message);
+      error.stack = val.stack;
+      serialized[key] = error;
+    } else {
+      serialized[key] = val;
+    }
+  }
+  return serialized;
 }

@@ -107,20 +107,6 @@ function getDefaultConfig(
     process.exit(1);
   }
 
-  // let generatorPlugin = GENERATOR_PLUGIN;
-
-  // if (process.env.CODESMITH_ENV === 'development') {
-  //   generatorPlugin = path.join(
-  //     require.resolve(GENERATOR_PLUGIN),
-  //     '../../../../',
-  //   );
-  // }
-
-  // initialConfig.plugins = [
-  //   ...((initialConfig.plugins as string[]) || []),
-  //   generatorPlugin,
-  // ];
-
   if (process.env.EDENX_NO_INSTALL) {
     initialConfig.noNeedInstall = true;
   }

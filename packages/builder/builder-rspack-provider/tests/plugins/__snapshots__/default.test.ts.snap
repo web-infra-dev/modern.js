@@ -3,8 +3,27 @@
 exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
 {
   "builtins": {
+    "css": {
+      "modules": {
+        "exportsOnly": false,
+        "localIdentName": "[path][name]__[local]--[hash:5]",
+        "localsConvention": "camelCase",
+      },
+    },
+    "decorator": {
+      "legacy": true,
+    },
     "define": {
+      "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"development\\"",
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
     },
     "progress": {
       "prefix": "Client",
@@ -226,159 +245,302 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "test": /\\\\\\.svg\\$/,
       },
       {
+        "oneOf": [
+          {
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+          {
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.css\\$/,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
-            "options": {
-              "modules": {
-                "auto": true,
-                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
-                "localsConvention": "camelCase",
-              },
-              "postcssOptions": {
-                "plugins": [
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                ],
-              },
-              "sourceMap": true,
-            },
-          },
-        ],
       },
       {
+        "oneOf": [
+          {
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "options": {
+                  "implementation": "<ROOT>/compiled/less",
+                  "lessOptions": {
+                    "javascriptEnabled": true,
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+          {
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "options": {
+                  "implementation": "<ROOT>/compiled/less",
+                  "lessOptions": {
+                    "javascriptEnabled": true,
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.less\\$/,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
-            "options": {
-              "modules": {
-                "auto": true,
-                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
-                "localsConvention": "camelCase",
-              },
-              "postcssOptions": {
-                "plugins": [
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                ],
-              },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/@rspack/less-loader",
-            "options": {
-              "implementation": "<ROOT>/compiled/less",
-              "lessOptions": {
-                "javascriptEnabled": true,
-              },
-              "sourceMap": true,
-            },
-          },
-        ],
       },
       {
-        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
-        "type": "css",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
-            "options": {
-              "modules": {
-                "auto": true,
-                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
-                "localsConvention": "camelCase",
-              },
-              "postcssOptions": {
-                "plugins": [
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
                     ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
                   },
-                ],
+                  "sourceMap": true,
+                },
               },
-              "sourceMap": true,
-            },
+              {
+                "loader": "builtin:sass-loader",
+                "options": {
+                  "rspackImporter": true,
+                  "sourceMap": true,
+                },
+              },
+            ],
           },
           {
-            "loader": "builtin:sass-loader",
-            "options": {
-              "rspackImporter": true,
-              "sourceMap": true,
-            },
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "builtin:sass-loader",
+                "options": {
+                  "rspackImporter": true,
+                  "sourceMap": true,
+                },
+              },
+            ],
           },
         ],
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
       },
       {
         "test": /\\\\\\.toml\\$/,
@@ -411,37 +573,37 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "name": "lib-antd",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(antd\\)\\[\\\\\\\\/\\]/,
         },
         "lib-arco": {
           "name": "lib-arco",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(arco-design\\)\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]core-js\\|@babel\\\\/runtime\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(core-js\\|@babel\\\\/runtime\\)\\[\\\\\\\\/\\]/,
         },
         "lib-react": {
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -481,10 +643,29 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
 exports[`applyDefaultPlugins > should apply default plugins correctly when prod 1`] = `
 {
   "builtins": {
+    "css": {
+      "modules": {
+        "exportsOnly": false,
+        "localIdentName": "[hash:5]",
+        "localsConvention": "camelCase",
+      },
+    },
+    "decorator": {
+      "legacy": true,
+    },
     "define": {
+      "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"production\\"",
     },
     "minifyOptions": {},
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
     "progress": {
       "prefix": "Client",
     },
@@ -705,159 +886,302 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "test": /\\\\\\.svg\\$/,
       },
       {
+        "oneOf": [
+          {
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": false,
+                },
+              },
+            ],
+          },
+          {
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": false,
+                },
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.css\\$/,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
-            "options": {
-              "modules": {
-                "auto": true,
-                "generateScopedName": "[hash:base64:5]",
-                "localsConvention": "camelCase",
-              },
-              "postcssOptions": {
-                "plugins": [
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                ],
-              },
-              "sourceMap": false,
-            },
-          },
-        ],
       },
       {
+        "oneOf": [
+          {
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "options": {
+                  "implementation": "<ROOT>/compiled/less",
+                  "lessOptions": {
+                    "javascriptEnabled": true,
+                  },
+                  "sourceMap": false,
+                },
+              },
+            ],
+          },
+          {
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "options": {
+                  "implementation": "<ROOT>/compiled/less",
+                  "lessOptions": {
+                    "javascriptEnabled": true,
+                  },
+                  "sourceMap": false,
+                },
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.less\\$/,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
-            "options": {
-              "modules": {
-                "auto": true,
-                "generateScopedName": "[hash:base64:5]",
-                "localsConvention": "camelCase",
-              },
-              "postcssOptions": {
-                "plugins": [
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                ],
-              },
-              "sourceMap": false,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/@rspack/less-loader",
-            "options": {
-              "implementation": "<ROOT>/compiled/less",
-              "lessOptions": {
-                "javascriptEnabled": true,
-              },
-              "sourceMap": false,
-            },
-          },
-        ],
       },
       {
-        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
-        "type": "css",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
-            "options": {
-              "modules": {
-                "auto": true,
-                "generateScopedName": "[hash:base64:5]",
-                "localsConvention": "camelCase",
-              },
-              "postcssOptions": {
-                "plugins": [
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
                     ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
                   },
-                ],
+                  "sourceMap": false,
+                },
               },
-              "sourceMap": false,
-            },
+              {
+                "loader": "builtin:sass-loader",
+                "options": {
+                  "rspackImporter": true,
+                  "sourceMap": false,
+                },
+              },
+            ],
           },
           {
-            "loader": "builtin:sass-loader",
-            "options": {
-              "rspackImporter": true,
-              "sourceMap": false,
-            },
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": false,
+                },
+              },
+              {
+                "loader": "builtin:sass-loader",
+                "options": {
+                  "rspackImporter": true,
+                  "sourceMap": false,
+                },
+              },
+            ],
           },
         ],
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
       },
       {
         "test": /\\\\\\.toml\\$/,
@@ -890,37 +1214,37 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "name": "lib-antd",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(antd\\)\\[\\\\\\\\/\\]/,
         },
         "lib-arco": {
           "name": "lib-arco",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(arco-design\\)\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]core-js\\|@babel\\\\/runtime\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(core-js\\|@babel\\\\/runtime\\)\\[\\\\\\\\/\\]/,
         },
         "lib-react": {
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -960,8 +1284,27 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
 exports[`tools.rspack > should match snapshot 1`] = `
 {
   "builtins": {
+    "css": {
+      "modules": {
+        "exportsOnly": false,
+        "localIdentName": "[path][name]__[local]--[hash:5]",
+        "localsConvention": "camelCase",
+      },
+    },
+    "decorator": {
+      "legacy": true,
+    },
     "define": {
+      "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"development\\"",
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
     },
     "progress": {
       "prefix": "Client",
@@ -1191,159 +1534,302 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "test": /\\\\\\.svg\\$/,
       },
       {
+        "oneOf": [
+          {
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+          {
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.css\\$/,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
-            "options": {
-              "modules": {
-                "auto": true,
-                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
-                "localsConvention": "camelCase",
-              },
-              "postcssOptions": {
-                "plugins": [
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                ],
-              },
-              "sourceMap": true,
-            },
-          },
-        ],
       },
       {
+        "oneOf": [
+          {
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "options": {
+                  "implementation": "<ROOT>/compiled/less",
+                  "lessOptions": {
+                    "javascriptEnabled": true,
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+          {
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "options": {
+                  "implementation": "<ROOT>/compiled/less",
+                  "lessOptions": {
+                    "javascriptEnabled": true,
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.less\\$/,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
-            "options": {
-              "modules": {
-                "auto": true,
-                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
-                "localsConvention": "camelCase",
-              },
-              "postcssOptions": {
-                "plugins": [
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                ],
-              },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<ROOT>/compiled/@rspack/less-loader",
-            "options": {
-              "implementation": "<ROOT>/compiled/less",
-              "lessOptions": {
-                "javascriptEnabled": true,
-              },
-              "sourceMap": true,
-            },
-          },
-        ],
       },
       {
-        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
-        "type": "css",
-        "use": [
+        "oneOf": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
-            "options": {
-              "modules": {
-                "auto": true,
-                "generateScopedName": "[path][name]__[local]--[hash:base64:5]",
-                "localsConvention": "camelCase",
-              },
-              "postcssOptions": {
-                "plugins": [
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
                     ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
                   },
-                ],
+                  "sourceMap": true,
+                },
               },
-              "sourceMap": true,
-            },
+              {
+                "loader": "builtin:sass-loader",
+                "options": {
+                  "rspackImporter": true,
+                  "sourceMap": true,
+                },
+              },
+            ],
           },
           {
-            "loader": "builtin:sass-loader",
-            "options": {
-              "rspackImporter": true,
-              "sourceMap": true,
-            },
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "builtin:sass-loader",
+                "options": {
+                  "rspackImporter": true,
+                  "sourceMap": true,
+                },
+              },
+            ],
           },
         ],
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
       },
       {
         "test": /\\\\\\.toml\\$/,
@@ -1376,37 +1862,37 @@ exports[`tools.rspack > should match snapshot 1`] = `
           "name": "lib-antd",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(antd\\)\\[\\\\\\\\/\\]/,
         },
         "lib-arco": {
           "name": "lib-arco",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]arco-design\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(arco-design\\)\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]core-js\\|@babel\\\\/runtime\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(core-js\\|@babel\\\\/runtime\\)\\[\\\\\\\\/\\]/,
         },
         "lib-react": {
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",

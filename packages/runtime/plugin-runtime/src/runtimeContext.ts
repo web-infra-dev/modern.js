@@ -1,4 +1,5 @@
 import { Store } from '@modern-js-reduck/store';
+import type { StaticHandlerContext } from '@modern-js/utils/remix-router';
 import { createContext } from 'react';
 import { createLoaderManager } from './core/loader/loaderManager';
 import { runtime } from './core/plugin';
@@ -12,6 +13,7 @@ export interface BaseRuntimeContext {
   ssrContext?: SSRServerContext;
   // state type
   store?: Store;
+  routerContext?: StaticHandlerContext;
 }
 
 export interface RuntimeContext extends BaseRuntimeContext {

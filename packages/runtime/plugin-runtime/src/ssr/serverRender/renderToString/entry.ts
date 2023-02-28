@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
-import serialize from 'serialize-javascript';
+import { serializeJson } from '@modern-js/utils/serialize';
 import ReactHelmet, { HelmetData } from 'react-helmet';
+import { serializeErrors } from '../../../router/runtime/utils';
 import helmetReplace from '../helmet';
 import {
   RenderLevel,
@@ -112,13 +113,21 @@ export default class Entry {
       return '';
     }
 
+    const { routerContext } = context;
+    const routerData = routerContext
+      ? {
+          loaderData: routerContext.loaderData,
+          errors: serializeErrors(routerContext.errors),
+        }
+      : undefined;
+
     let html = '';
     const templateData = buildTemplateData(
       ssrContext,
       prefetchData,
       this.result.renderLevel,
     );
-    const SSRData = this.getSSRDataScript(templateData);
+    const SSRData = this.getSSRDataScript(templateData, routerData);
     for (const fragment of this.fragments) {
       if (fragment.isVariable && fragment.content === 'SSRDataScript') {
         html += fragment.getValue(SSRData);
@@ -186,13 +195,20 @@ export default class Entry {
     return html;
   }
 
-  private getSSRDataScript(templateData: ReturnType<typeof buildTemplateData>) {
+  private getSSRDataScript(
+    templateData: ReturnType<typeof buildTemplateData>,
+    routerData?: Record<string, any>,
+  ) {
+    let ssrDataScripts = `<script>window._SSR_DATA = ${serializeJson(
+      templateData,
+    )}</script>`;
+    if (routerData) {
+      ssrDataScripts += `\n<script>window._ROUTER_DATA = ${serializeJson(
+        routerData,
+      )}</script>`;
+    }
     return {
-      SSRDataScript: `
-        <script>window._SSR_DATA = ${serialize(templateData, {
-          isJSON: true,
-        })}</script>
-      `,
+      SSRDataScript: ssrDataScripts,
     };
   }
 }

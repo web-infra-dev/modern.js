@@ -53,7 +53,8 @@ jobs:
           path: .turbo
           key: turbo-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-              turbo-${{ github.ref_name }}-
+            turbo-${{ github.ref_name }}-
+            turbo-
 
       - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}

@@ -42,6 +42,7 @@ const createRoute = (
   };
 };
 
+// eslint-disable-next-line complexity
 export const walk = async (
   dirname: string,
   rootDir: string,
@@ -72,7 +73,7 @@ export const walk = async (
   routePath = replaceDynamicPath(routePath);
 
   const route: Partial<NestedRoute> = {
-    path: routePath,
+    path: routePath?.replace(/\$$/, '?'),
     children: [],
     isRoot,
   };

@@ -19,7 +19,7 @@ test('should compile CSS modules correctly', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      '.the-a-class{color:red}.EKP4e{color:blue}.D9ohp{color:yellow}.the-d-class{color:green}',
+      '.the-a-class{color:red}.l00wA{color:blue}.WV9bl{color:yellow}.the-d-class{color:green}',
     );
   } else {
     expect(content).toEqual(
@@ -46,7 +46,7 @@ test('should treat normal CSS as CSS modules when disableCssModuleExtension is t
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      '.vTgro{color:red}.EKP4e{color:blue}.D9ohp{color:yellow}.the-d-class{color:green}',
+      '.hX0jA{color:red}.l00wA{color:blue}.WV9bl{color:yellow}.the-d-class{color:green}',
     );
   } else {
     expect(content).toEqual(

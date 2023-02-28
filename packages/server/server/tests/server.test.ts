@@ -15,6 +15,7 @@ function getDefaultConfig() {
     source: {},
     html: {},
     bff: {},
+    dev: {},
   };
 }
 

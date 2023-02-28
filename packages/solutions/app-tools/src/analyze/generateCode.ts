@@ -11,6 +11,7 @@ import type {
   NestedRoute,
   RouteLegacy,
   PageRoute,
+  SSRMode,
 } from '@modern-js/types';
 import {
   AppNormalizedConfig,
@@ -156,11 +157,9 @@ export const generateCode = async (
           packageName,
         );
 
-        let mode: false | 'stream' | 'string';
+        let mode: SSRMode | undefined;
         if (ssr) {
           mode = typeof ssr === 'object' ? ssr.mode || 'string' : 'string';
-        } else {
-          mode = false;
         }
         if (mode === 'stream') {
           const hasPageRoute = routes.some(

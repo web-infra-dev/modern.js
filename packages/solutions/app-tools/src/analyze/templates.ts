@@ -5,6 +5,7 @@ import type {
   PageRoute,
   Route,
   RouteLegacy,
+  SSRMode,
 } from '@modern-js/types';
 import { fs, slash } from '@modern-js/utils';
 import type { RuntimePlugin } from '../types';
@@ -187,7 +188,7 @@ export const fileSystemRoutes = async ({
   internalDirectory,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
-  ssrMode: 'string' | 'stream' | false;
+  ssrMode?: SSRMode;
   nestedRoutesEntry?: string;
   entryName: string;
   internalDirectory: string;
@@ -338,7 +339,6 @@ export const fileSystemRoutes = async ({
 
   let importLoadersCode = '';
 
-  // eslint-disable-next-line max-lines
   for (const [key, loaderInfo] of Object.entries(loadersMap)) {
     if (loaderInfo.inline) {
       importLoadersCode += `import { loader as ${key} } from "${getDataLoaderPath(

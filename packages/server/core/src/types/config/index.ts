@@ -1,4 +1,5 @@
 import { BffNormalizedConfig, BffUserConfig } from './bff';
+import { DevNormalizedConfig, DevUserConfig } from './dev';
 import { HtmlNormalizedConfig, HtmlUserConfig } from './html';
 import { OutputNormalizedConfig, OutputUserConfig } from './output';
 import { ServerNormalizedConfig, ServerUserConfig } from './server';
@@ -25,6 +26,7 @@ export interface UserConfig {
   runtime?: RuntimeUserConfig;
   html?: HtmlUserConfig;
   bff?: BffUserConfig;
+  dev?: DevUserConfig;
 }
 
 export type ServerOptions = {
@@ -35,4 +37,5 @@ export type ServerOptions = {
   runtime: RuntimeNormalizedConfig;
   html: HtmlNormalizedConfig;
   bff: BffNormalizedConfig;
+  dev?: DevNormalizedConfig;
 };

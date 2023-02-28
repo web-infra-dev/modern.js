@@ -1,5 +1,5 @@
 import path from 'path';
-import { Compiler, Compilation } from 'webpack';
+import type { Compiler, Compilation } from 'webpack';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import {
   mergeRegex,
@@ -7,14 +7,11 @@ import {
   TS_REGEX,
   BuilderPlugin,
   getBrowserslistWithDefault,
+  logger,
+  isUsingHMR,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import {
-  chalk,
-  getCoreJsVersion,
-  logger,
-  isBeyondReact17,
-} from '@modern-js/utils';
+import { chalk, getCoreJsVersion, isBeyondReact17 } from '@modern-js/utils';
 import { JsMinifyOptions } from '@modern-js/swc-plugins';
 import { minify } from './binding';
 import { PluginSwcOptions, TransformConfig } from './config';
@@ -39,8 +36,10 @@ export const builderPluginSwc = (
     const SWC_HELPERS_PATH = require.resolve('@swc/helpers/package.json');
 
     // Find if babel & ts loader exists
-    api.modifyWebpackChain(async (chain, { target, CHAIN_ID }) => {
-      const { isProd } = await import('@modern-js/utils');
+    api.modifyWebpackChain(async (chain, utils) => {
+      const { target, CHAIN_ID, isProd } = utils;
+
+      const config = api.getNormalizedConfig();
       const { rootPath } = api.context;
 
       chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
@@ -50,14 +49,23 @@ export const builderPluginSwc = (
       determinePresetReact(rootPath, pluginConfig);
 
       const swc: TransformConfig = {
-        jsc: { transform: {} },
+        jsc: {
+          transform: {
+            react: {
+              refresh: isUsingHMR(config, utils),
+            },
+          },
+        },
         env: pluginConfig.presetEnv || {},
-        extensions: {},
+        extensions: { ...pluginConfig.extensions },
         cwd: rootPath,
       };
 
       if (pluginConfig.presetReact) {
-        swc.jsc!.transform!.react = pluginConfig.presetReact;
+        swc.jsc!.transform!.react = {
+          ...swc.jsc!.transform!.react,
+          ...pluginConfig.presetReact,
+        };
       }
 
       const { polyfill } = builderConfig.output;
@@ -82,9 +90,16 @@ export const builderPluginSwc = (
         );
       }
 
+      /**
+       * SWC can't use latestDecorator in TypeScript file for now
+       */
+      if (builderConfig.output.enableLatestDecorators) {
+        logger.warn('Cannot use latestDecorator in SWC compiler.');
+      }
+
       const { extensions } = swc;
 
-      extensions!.lockCorejsVersion = {
+      extensions!.lockCorejsVersion ??= {
         corejs: path.dirname(CORE_JS_PATH),
         swcHelpers: path.dirname(SWC_HELPERS_PATH),
       };
@@ -116,7 +131,7 @@ export const builderPluginSwc = (
       }
 
       if (
-        isProd() &&
+        isProd &&
         !builderConfig.output.disableMinimize &&
         pluginConfig.jsMinify !== false
       ) {

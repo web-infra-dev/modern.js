@@ -56,6 +56,19 @@ export function builderPluginSass(): BuilderPlugin {
           .loader(`${BUILTIN_LOADER}sass-loader`)
           .options(options);
       });
+
+      api.modifyRspackConfig(async rspackConfig => {
+        const { applyCSSModuleRule } = await import('./css');
+        const config = api.getNormalizedConfig();
+
+        const rules = rspackConfig.module?.rules;
+
+        applyCSSModuleRule(
+          rules,
+          SASS_REGEX,
+          config.output.disableCssModuleExtension,
+        );
+      });
     },
   };
 }

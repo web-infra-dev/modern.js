@@ -91,7 +91,9 @@ const recursiveReadDir = ({
       const route: PageRoute = {
         path: `${basePath}${
           dynamicRouteMatched
-            ? `:${dynamicRouteMatched[1]}${dynamicRouteMatched[2]}`
+            ? `:${dynamicRouteMatched[1].replace(/\$$/, '?')}${
+                dynamicRouteMatched[2]
+              }`
             : filename
         }`,
         _component: alias,

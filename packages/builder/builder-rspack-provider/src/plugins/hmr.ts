@@ -1,19 +1,6 @@
-import type {
-  BuilderPlugin,
-  NormalizedConfig,
-  ModifyRspackConfigUtils,
-} from '../types';
-import { setConfig } from '@modern-js/builder-shared';
+import type { BuilderPlugin } from '../types';
 
-export const isUsingHMR = (
-  config: NormalizedConfig,
-  { isProd, target }: ModifyRspackConfigUtils,
-) =>
-  !isProd &&
-  target !== 'node' &&
-  target !== 'web-worker' &&
-  target !== 'service-worker' &&
-  config.dev.hmr;
+import { setConfig, isUsingHMR } from '@modern-js/builder-shared';
 
 export const builderPluginHMR = (): BuilderPlugin => ({
   name: 'builder-plugin-hmr',

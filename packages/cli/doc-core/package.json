@@ -83,7 +83,7 @@
     "react-dom": "^18.2.0",
     "react-helmet-async": "^1.3.0",
     "react-lazy-with-preload": "^2.2.1",
-    "react-router-dom": "^6.4.4",
+    "react-router-dom": "^6.8.1",
     "rehype-autolink-headings": "6.1.1",
     "rehype-external-links": "^2.0.1",
     "rehype-slug": "^5.1.0",

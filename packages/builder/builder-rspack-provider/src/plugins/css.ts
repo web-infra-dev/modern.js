@@ -1,6 +1,5 @@
 import assert from 'assert';
 import {
-  isLooseCssModules,
   getBrowserslistWithDefault,
   isUseCssSourceMap,
   CSS_REGEX,
@@ -8,8 +7,17 @@ import {
   BundlerChain,
   ModifyBundlerChainUtils,
   getCssSupport,
+  setConfig,
+  CSS_MODULES_REGEX,
+  GLOBAL_CSS_REGEX,
+  NODE_MODULES_REGEX,
 } from '@modern-js/builder-shared';
-import type { BuilderPlugin, NormalizedConfig } from '../types';
+import type {
+  BuilderPlugin,
+  NormalizedConfig,
+  RspackRule,
+  RuleSetRule,
+} from '../types';
 import type { AcceptedPlugin } from 'postcss';
 import { isUseCssExtract, getCompiledPath } from '../shared';
 
@@ -47,23 +55,6 @@ export async function applyBaseCSSRule(
     config,
     target,
   );
-
-  const localIdentName =
-    config.output.cssModuleLocalIdentName ||
-    // Using shorter classname in production to reduce bundle size
-    (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
-
-  /**
-   * postcss-module options.
-   * different with css-loader, postcss-module without exportOnlyLocals option
-   *
-   * TODO: support css-module in rspack
-   */
-  const moduleConfig = {
-    auto: config.output.disableCssModuleExtension ? isLooseCssModules : true,
-    localsConvention: 'camelCase',
-    generateScopedName: localIdentName,
-  };
 
   const getPostcssConfig = () => {
     const extraPlugins: AcceptedPlugin[] = [];
@@ -110,7 +101,6 @@ export async function applyBaseCSSRule(
           ].filter(Boolean),
         },
         sourceMap: enableSourceMap,
-        modules: moduleConfig,
       },
       // postcss-loader will modify config
       config.tools.postcss || {},
@@ -149,7 +139,6 @@ export async function applyBaseCSSRule(
   // }
 
   if (!isServer && !isWebWorker) {
-    // todo: css module (exportOnlyLocals) required in server
     const postcssLoaderOptions = getPostcssConfig();
 
     rule
@@ -159,10 +148,78 @@ export async function applyBaseCSSRule(
       .end();
   }
 
-  // todo: rspack not support sideEffects config
   // CSS imports should always be treated as sideEffects
-  // rule.merge({ sideEffects: true });
+  rule.merge({ sideEffects: true });
 }
+
+/**
+ * Use type: "css/module" rule instead of css-loader modules.auto config
+ *
+ * applyCSSModuleRule in modifyRspackConfig, so that other plugins can easily adjust css rule in Chain.
+ */
+export const applyCSSModuleRule = (
+  rules: RspackRule[] | undefined,
+  ruleTest: RegExp,
+  disableCssModuleExtension: boolean | undefined,
+) => {
+  if (!rules) {
+    return;
+  }
+
+  const ruleIndex = rules.findIndex(r => r !== '...' && r.test === ruleTest);
+
+  if (ruleIndex === -1) {
+    return;
+  }
+
+  const rule = rules[ruleIndex] as RuleSetRule;
+
+  const { test, type, ...rest } = rule;
+
+  if (disableCssModuleExtension) {
+    // Equivalent to css-loader looseCssModules
+    rules[ruleIndex] = {
+      test: ruleTest,
+      oneOf: [
+        {
+          ...rest,
+          test: CSS_MODULES_REGEX,
+          type: 'css/module',
+        },
+        {
+          ...rest,
+          test: NODE_MODULES_REGEX,
+          type: 'css',
+        },
+        {
+          ...rest,
+          test: GLOBAL_CSS_REGEX,
+          type: 'css',
+        },
+        {
+          ...rest,
+          type: 'css/module',
+        },
+      ],
+    };
+  } else {
+    // Equivalent to css-loader modules.auto: true
+    rules[ruleIndex] = {
+      test: ruleTest,
+      oneOf: [
+        {
+          ...rest,
+          test: CSS_MODULES_REGEX,
+          type: 'css/module',
+        },
+        {
+          ...rest,
+          type: 'css',
+        },
+      ],
+    };
+  }
+};
 
 export const builderPluginCss = (): BuilderPlugin => {
   return {
@@ -176,6 +233,32 @@ export const builderPluginCss = (): BuilderPlugin => {
 
         await applyBaseCSSRule(rule, config, api.context, utils);
       });
+      api.modifyRspackConfig(
+        async (rspackConfig, { isProd, isServer, isWebWorker }) => {
+          const config = api.getNormalizedConfig();
+
+          // rspack not support hash:base64:5
+          const localIdentName =
+            config.output.cssModuleLocalIdentName ||
+            // Using shorter classname in production to reduce bundle size
+            (isProd ? '[hash:5]' : '[path][name]__[local]--[hash:5]');
+
+          // need use type: "css/module" rule instead of modules.auto config
+          setConfig(rspackConfig, 'builtins.css.modules', {
+            localsConvention: 'camelCase',
+            localIdentName,
+            exportsOnly: isServer || isWebWorker,
+          });
+
+          const rules = rspackConfig.module?.rules;
+
+          applyCSSModuleRule(
+            rules,
+            CSS_REGEX,
+            config.output.disableCssModuleExtension,
+          );
+        },
+      );
     },
   };
 };

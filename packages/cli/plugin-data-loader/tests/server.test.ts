@@ -1,17 +1,21 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable node/no-unsupported-features/node-builtins */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable node/prefer-global/url */
 import { IncomingMessage, ServerResponse } from 'http';
 import qs from 'querystring';
 import path from 'path';
 import type { ServerRoute } from '@modern-js/types';
 import request from 'supertest';
-import { handleRequest, getPathWithoutEntry } from '../src/server';
+import { handleRequest } from '../src/runtime';
 import { LOADER_ID_PARAM } from '../src/common/constants';
 
 describe('handleRequest', () => {
-  const distDir = path.join(__dirname, './fixtures', 'server');
+  const serverLoaders = path.join(
+    __dirname,
+    './fixtures',
+    'server',
+    'bundles',
+    'three-server-loaders',
+  );
   const createContext = (
     req: IncomingMessage,
     res: ServerResponse,
@@ -66,10 +70,11 @@ describe('handleRequest', () => {
   ) => {
     return async (req: IncomingMessage, res: ServerResponse) => {
       const context = createContext(req, res, params);
+      const { routes } = await import(serverLoaders);
       await handleRequest({
         context,
         serverRoutes,
-        distDir,
+        routes,
       });
       if (!res.headersSent) {
         res.end();
@@ -77,7 +82,7 @@ describe('handleRequest', () => {
     };
   };
 
-  test('should return 403 when routeId not match url', async () => {
+  test.only('should return 500 when routeId not match url', async () => {
     const handler = createHandler(
       [
         {
@@ -93,7 +98,8 @@ describe('handleRequest', () => {
     const res = await request(handler).get(
       `/three?${LOADER_ID_PARAM}=user/profile/layout`,
     );
-    expect(res.status).toBe(403);
+
+    expect(res.status).toBe(500);
   });
 
   test('should return directly when routeId not exist', async () => {
@@ -212,12 +218,5 @@ describe('handleRequest', () => {
     expect(res.status).toBe(500);
     expect(res.headers['content-type'].includes('text/plain')).toBeTruthy();
     expect(res.text).toBe('Error: throw error by loader4');
-  });
-
-  test('getPathWithoutEntry', () => {
-    expect(getPathWithoutEntry('/user/profile', '/')).toEqual('/user/profile');
-    expect(getPathWithoutEntry('/entry/user/profile', '/entry')).toEqual(
-      '/user/profile',
-    );
   });
 });

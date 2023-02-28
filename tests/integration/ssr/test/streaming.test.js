@@ -40,16 +40,55 @@ describe('Streaming SSR', () => {
   });
 
   it(`basic usage`, async () => {
-    const res = await page.goto(`http://localhost:${appPort}/user`, {
+    const res = await page.goto(`http://localhost:${appPort}/about`, {
       waitUntil: ['networkidle0'],
     });
 
     const body = await res.text();
     // css chunks inject correctly
     expect(body).toMatch(
-      /<link href="\/static\/css\/async\/user\/page.css" rel="stylesheet" \/>/,
+      /<link href="\/static\/css\/async\/about\/page.css" rel="stylesheet" \/>/,
     );
 
-    expect(body).toMatch(/<div hidden id="S:1">[\s\S]*<div>About Page<\/div>/);
+    expect(body).toMatch(
+      /<div hidden id="S:0">[\s\S]*<div>About content<\/div>/,
+    );
   });
+
+  it(`deferred data`, async () => {
+    await page.goto(`http://localhost:${appPort}/user/1`, {
+      waitUntil: ['networkidle0'],
+    });
+
+    await expect(page).toMatch(/user1-18/);
+  });
+
+  it(`deferred data in client navigation`, async () => {
+    await page.goto(`http://localhost:${appPort}`, {
+      waitUntil: ['networkidle0'],
+    });
+
+    await page.click('#user-btn');
+    await expect(page).toMatch(/user1-18/);
+  });
+
+  it('error thrown in loader', async () => {
+    const res = await page.goto(`http://localhost:${appPort}/error`, {
+      waitUntil: ['networkidle0'],
+    });
+
+    const body = await res.text();
+    expect(body).toMatch(/error occurs/);
+  });
+
+  // TODO: wait for the next version of react-router to support this case
+  // it('redirect in loader', async () => {
+  //   const res = await page.goto(`http://localhost:${appPort}/redirect`, {
+  //     waitUntil: ['networkidle0'],
+  //   });
+
+  //   const body = await res.text();
+  //   expect(body).toMatch(/Root layout/);
+  //   expect(body).not.toMatch(/Redirect page/);
+  // });
 });

@@ -8,22 +8,10 @@ import {
 } from 'react';
 import invariant from 'invariant';
 import { RuntimeReactContext } from '../../runtimeContext';
-import { Loader, LoaderStatus, LoaderResult } from './loaderManager';
+import { Loader, LoaderStatus } from './loaderManager';
 
-export interface SSRData {
-  loadersData: Record<string, LoaderResult | undefined>;
-  initialData?: Record<string, unknown>;
-  storeState?: any;
-}
-export interface SSRContainer {
-  data?: SSRData;
-}
+type LoaderFn<P = any, T = any> = (context: any, params: P) => Promise<T>;
 
-declare global {
-  interface Window {
-    _SSR_DATA?: SSRContainer;
-  }
-}
 export interface LoaderOptions<
   Params = any,
   TData = any,
@@ -60,9 +48,6 @@ export interface LoaderOptions<
    */
   static?: boolean;
 }
-
-// todo: SSRContext
-type LoaderFn<P = any, T = any> = (context: any, params: P) => Promise<T>;
 
 const useLoader = <TData = any, Params = any, E = any>(
   loaderFn: LoaderFn<Params, TData>,

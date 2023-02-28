@@ -63,4 +63,36 @@ describe('plugins/swc', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should disable react refresh when dev.hmr is false', async () => {
+    process.env.NODE_ENV = 'development';
+    const builder = await createStubBuilder({
+      plugins: [builderPluginSwc()],
+      builderConfig: {
+        dev: {
+          hmr: false,
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config.module).toMatchSnapshot();
+
+    process.env.NODE_ENV = 'test';
+  });
+
+  it('should disable react refresh when target is not web', async () => {
+    process.env.NODE_ENV = 'development';
+
+    const builder = await createStubBuilder({
+      plugins: [builderPluginSwc()],
+      target: ['modern-web', 'node', 'service-worker', 'web', 'web-worker'],
+    });
+    const configs = await builder.unwrapWebpackConfigs();
+
+    for (const config of configs) {
+      expect(config.module).toMatchSnapshot();
+    }
+
+    process.env.NODE_ENV = 'test';
+  });
 });

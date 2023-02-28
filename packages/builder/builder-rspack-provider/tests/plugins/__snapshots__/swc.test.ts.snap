@@ -1,0 +1,127 @@
+// Vitest Snapshot v1
+
+exports[`plugins/swc > should add browserslist 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "chrome 98",
+      ],
+    },
+  },
+  "module": {},
+}
+`;
+
+exports[`plugins/swc > should add browserslist 2`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "chrome 98",
+      ],
+    },
+  },
+  "module": {},
+}
+`;
+
+exports[`plugins/swc > should disable preset_env in target other than web 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "targets": [
+        "node >= 14",
+      ],
+    },
+  },
+  "module": {},
+}
+`;
+
+exports[`plugins/swc > should disable preset_env mode 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "mode": undefined,
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "module": {},
+}
+`;
+
+exports[`plugins/swc > should enable entry mode preset_env 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "module": {},
+}
+`;
+
+exports[`plugins/swc > should enable usage mode preset_env 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "mode": "usage",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "module": {},
+}
+`;
+
+exports[`plugins/swc > should'n override browserslist when target platform is not web 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "module": {},
+}
+`;

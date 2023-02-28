@@ -2,15 +2,14 @@ import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
 import type {
   ArrayOrNot,
   ChainedConfig,
-  SharedToolsConfig,
   FileFilterUtil,
+  SharedToolsConfig,
 } from '@modern-js/builder-shared';
 import type {
   ModifyWebpackChainUtils,
   ModifyWebpackConfigUtils,
 } from '../hooks';
 import type {
-  AutoprefixerOptions,
   BabelConfigUtils,
   BabelTransformOptions,
   CSSExtractOptions,
@@ -55,8 +54,6 @@ export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
 export type ToolsCssExtractConfig =
   | CSSExtractOptions
   | ((options: CSSExtractOptions) => CSSExtractOptions | void);
-
-export type ToolsAutoprefixerConfig = ChainedConfig<AutoprefixerOptions>;
 
 export type ToolsPostCSSLoaderConfig = ChainedConfig<
   PostCSSLoaderOptions,
@@ -154,10 +151,6 @@ export interface ToolsConfig extends SharedToolsConfig {
    * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).
    */
   postcss?: ToolsPostCSSLoaderConfig;
-  /**
-   * Modify the config of [autoprefixer](https://github.com/postcss/autoprefixer)
-   */
-  autoprefixer?: ToolsAutoprefixerConfig;
   /**
    * Configure [webpack](https://webpack.js.org/).
    */
