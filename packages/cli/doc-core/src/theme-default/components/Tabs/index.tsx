@@ -55,7 +55,7 @@ export function Tabs({
   return (
     <HeadlessTab.Group defaultIndex={defaultIndex} onChange={onChange}>
       <div className={tabContainerClassName || ''}>
-        <HeadlessTab.List className="mt-4 flex w-max min-w-full border-b border-gray-200">
+        <HeadlessTab.List className="mt-4 flex w-max min-w-full border-b border-gray-200 dark:border-dark-200">
           {tabValues.map((item, index) => {
             const disabled = Boolean(
               item &&
