@@ -144,8 +144,8 @@ When `performance.chunkSplit.strategy` is `split-by-experience`, `split-by-modul
 ```js
 export default {
   performance: {
-    strategy: 'split-by-experience',
     chunkSplit: {
+      strategy: 'split-by-experience',
       override: {
         cacheGroups: {
           react: {
