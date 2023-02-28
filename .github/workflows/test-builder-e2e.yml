@@ -29,10 +29,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .turbo
-          key: turbo-${{ github.base_ref }}-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.base_ref }}-${{ github.ref_name }}-
-            turbo-${{ github.base_ref }}-
+            turbo-${{ github.ref_name }}-
             turbo-
 
       - name: Install Pnpm
@@ -46,6 +45,9 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install
+
+      - name: Install playwright
+        run: node packages/toolkit/e2e/node_modules/@playwright/test/cli.js install
 
       - name: Test
         run: cd ./tests/e2e/builder && pnpm run test
