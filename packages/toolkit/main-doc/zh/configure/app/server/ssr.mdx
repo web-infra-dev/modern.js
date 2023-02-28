@@ -4,10 +4,12 @@ sidebar_label: ssr
 
 # server.ssr
 
-- **类型：** `boolean`
+- **类型：** `boolean` | `Object`
 - **默认值：** `false`
 
 SSR 开关以及相关设置。
+
+### Boolean 类型
 
 当值类型为 `boolean` 时，表示是否开启 SSR 部署模式，默认 `false` 不开启。
 
@@ -15,6 +17,22 @@ SSR 开关以及相关设置。
 export default defineConfig({
   server: {
     ssr: true,
+  },
+});
+```
+
+### Object 类型
+
+当值类型为 `Object` 时，可以配置如下属性：
+
+- `mode`：`string = 'string'`，默认为使用 `renderToString` 渲染。配置为 'stream' 开启流式渲染。
+- `forceCSR`：`boolean = false`，默认关闭强制 CSR 渲染。配置为 `true` 后，在页面访问时添加 `?csr=true` 即可强制 CSR。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    forceCSR: true,
+    mode: 'stream',
   },
 });
 ```

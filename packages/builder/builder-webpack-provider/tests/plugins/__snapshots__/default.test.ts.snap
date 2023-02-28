@@ -1638,6 +1638,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     "maxEntrypointSize": 3000000,
   },
   "plugins": [
+    InlineChunkHtmlPlugin {
+      "distPath": {
+        "css": "static/css",
+        "js": "static/js",
+      },
+      "htmlPlugin": [Function],
+      "inlinedAssets": Set {},
+      "name": "InlineChunkHtmlPlugin",
+      "tests": [
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+    },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -1696,18 +1708,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
-    },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "htmlWebpackPlugin": [Function],
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "tests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
     },
   ],
   "resolve": {

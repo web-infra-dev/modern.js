@@ -167,8 +167,8 @@ export class ApiRouter {
           return HttpMethod.Trace;
         case 'PATCH':
           return HttpMethod.Patch;
-        case 'OPTION':
-          return HttpMethod.Option;
+        case 'OPTIONS':
+          return HttpMethod.Options;
         case 'DEFAULT': {
           return HttpMethod.Get;
         }

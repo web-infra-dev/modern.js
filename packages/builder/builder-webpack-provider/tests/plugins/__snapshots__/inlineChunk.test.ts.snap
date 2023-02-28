@@ -34,7 +34,7 @@ exports[`plugins/inlineChunk > should add InlineChunkHtmlPlugin properly by defa
         "css": "static/css",
         "js": "static/js",
       },
-      "htmlWebpackPlugin": [Function],
+      "htmlPlugin": [Function],
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
       "tests": [
@@ -79,7 +79,7 @@ exports[`plugins/inlineChunk > should use proper plugin options when disableInli
         "css": "static/css",
         "js": "static/js",
       },
-      "htmlWebpackPlugin": [Function],
+      "htmlPlugin": [Function],
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
       "tests": [],
@@ -122,7 +122,7 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         "css": "static/css",
         "js": "static/js",
       },
-      "htmlWebpackPlugin": [Function],
+      "htmlPlugin": [Function],
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
       "tests": [
@@ -168,7 +168,7 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         "css": "static/css",
         "js": "static/js",
       },
-      "htmlWebpackPlugin": [Function],
+      "htmlPlugin": [Function],
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
       "tests": [
