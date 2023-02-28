@@ -2,8 +2,8 @@ import { throttle } from 'lodash-es';
 import { setupCopyCodeButton } from './copyCode';
 import { inBrowser } from '@/shared/utils';
 
-// The nav height and a part of nav mask
-const DEFAULT_NAV_HEIGHT = 56 + 10;
+// The nav height and the height of nav mask
+const DEFAULT_NAV_HEIGHT = 56 + 30;
 
 export function scrollToTarget(target: HTMLElement, isSmooth: boolean) {
   const targetPadding = parseInt(
