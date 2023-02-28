@@ -1,7 +1,7 @@
 import { BuilderPlugin } from '../types';
 import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
 
-export const applyMinimalPlugins = (plugins: Plugins) =>
+export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     import('../plugins/basic').then(m => m.builderPluginBasic()),
     plugins.entry(),
@@ -22,11 +22,6 @@ export const applyMinimalPlugins = (plugins: Plugins) =>
     import('../plugins/css').then(m => m.builderPluginCss()),
     import('../plugins/less').then(m => m.builderPluginLess()),
     import('../plugins/sass').then(m => m.builderPluginSass()),
-  ]);
-
-export const applyDefaultPlugins = (plugins: Plugins) =>
-  awaitableGetter<BuilderPlugin>([
-    ...applyMinimalPlugins(plugins).promises,
     import('../plugins/minimize').then(m => m.builderPluginMinimize()),
     import('../plugins/rem').then(m => m.builderPluginRem()),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
@@ -39,4 +34,5 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.splitChunks(),
     plugins.startUrl(),
     plugins.bundleAnalyzer(),
+    import('../plugins/fallback').then(m => m.builderPluginFallback()), // fallback should be the last plugin
   ]);

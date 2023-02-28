@@ -1,12 +1,10 @@
 import { join } from 'path';
 import {
-  JS_REGEX,
-  TS_REGEX,
   getDistPath,
   getFilename,
+  resourceRuleFallback,
 } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
-import type { RuleSetRule } from 'webpack';
 
 export const builderPluginFallback = (): BuilderPlugin => ({
   name: 'builder-plugin-fallback',
@@ -32,50 +30,7 @@ export const builderPluginFallback = (): BuilderPlugin => ({
         return;
       }
 
-      const { rules = [] } = config.module;
-
-      const innerRules: Array<RuleSetRule> = [];
-      const outerRules: Array<RuleSetRule | '...'> = [];
-
-      for (const rule of rules) {
-        if (
-          // "..." refers to the webpack defaults
-          rule === '...' ||
-          // this is a special case, put the mjs fullySpecified rule in the outside
-          (rule.resolve && !rule.mimetype)
-        ) {
-          outerRules.push(rule);
-        } else if (
-          rule.oneOf &&
-          !(
-            rule.test ||
-            rule.exclude ||
-            rule.resource ||
-            rule.issuer ||
-            rule.mimetype
-          )
-        ) {
-          rule.oneOf.forEach(r => innerRules.push(r));
-        } else {
-          innerRules.push(rule);
-        }
-      }
-
-      const fileLoader = {
-        exclude: [
-          JS_REGEX,
-          TS_REGEX,
-          // exclude `html` and `json`, they get processed by webpack internal loaders.
-          /\.html$/,
-          /\.json$/,
-        ],
-        type: 'asset/resource',
-      };
-
-      config.module.rules = [
-        ...outerRules,
-        { oneOf: [...innerRules, fileLoader] },
-      ];
+      config.module.rules = resourceRuleFallback(config.module.rules);
     });
   },
 });
