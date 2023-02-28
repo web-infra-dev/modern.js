@@ -1,10 +1,6 @@
 import path from 'path';
 import { fs, getEntryOptions, isRouterV5, logger } from '@modern-js/utils';
-import {
-  IAppContext,
-  PluginAPI,
-  useResolvedConfigContext,
-} from '@modern-js/core';
+import { IAppContext, PluginAPI } from '@modern-js/core';
 import type {
   Entrypoint,
   Route,
@@ -149,7 +145,7 @@ export const generateCode = async (
           routes: initialRoutes,
         });
 
-        const config = useResolvedConfigContext();
+        const config = api.useResolvedConfigContext();
         const ssr = getEntryOptions(
           entryName,
           config.server.ssr,
