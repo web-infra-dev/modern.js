@@ -9,12 +9,30 @@ sidebar_label: ssr
 
 Enalbe SSR configuration.
 
+### Boolean Type
+
 When the value type is `boolean`, it indicates whether to enable SSR deployment mode, and `false` is not enabled by default.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     ssr: true,
+  },
+});
+```
+
+### Object Type
+
+When the value type is `Object`, The following properties can be configured:
+
+- `mode`：`string = 'string'`, use `renderToString` rendering default. onfigure 'stream' to enable streaming rendering.
+- `forceCSR`：`boolean = false`, forced CSR rendering is disable by default. When configured as `true`, add `?csr=true` in URL to force CSR.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    forceCSR: true,
+    mode: 'stream',
   },
 });
 ```
