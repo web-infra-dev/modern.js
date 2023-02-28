@@ -63,7 +63,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/inspector').then(m => m.builderPluginInspector()),
     import('../plugins/sri').then(m => m.builderPluginSRI()),
     plugins.startUrl?.(),
-    import('../plugins/inlineChunk').then(m => m.builderPluginInlineChunk()),
+    plugins.inlineChunk(),
     import('../plugins/assetsRetry').then(m => m.builderPluginAssetsRetry()),
     import('../plugins/externals').then(m => m.builderPluginExternals()),
     import('../plugins/performance').then(m => m.builderPluginPerformance()),

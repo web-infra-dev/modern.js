@@ -7,10 +7,11 @@
  */
 import { join } from 'path';
 import { isString } from '@modern-js/utils';
-import { addTrailingSlash } from '@modern-js/builder-shared';
-import { Compiler, Compilation } from 'webpack';
+import { addTrailingSlash } from '../utils';
+import type { Compiler, Compilation } from 'webpack';
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { HtmlTagObject } from 'html-webpack-plugin';
+import { COMPILATION_PROCESS_STAGE } from './util';
 
 export type InlineChunkHtmlPluginOptions = {
   tests: RegExp[];
@@ -29,17 +30,17 @@ export class InlineChunkHtmlPlugin {
 
   inlinedAssets: Set<string>;
 
-  htmlWebpackPlugin: typeof HtmlWebpackPlugin;
+  htmlPlugin: typeof HtmlWebpackPlugin;
 
   constructor(
-    htmlWebpackPlugin: typeof HtmlWebpackPlugin,
+    htmlPlugin: typeof HtmlWebpackPlugin,
     { tests, distPath }: InlineChunkHtmlPluginOptions,
   ) {
     this.name = 'InlineChunkHtmlPlugin';
     this.tests = tests;
     this.distPath = distPath;
     this.inlinedAssets = new Set();
-    this.htmlWebpackPlugin = htmlWebpackPlugin;
+    this.htmlPlugin = htmlPlugin;
   }
 
   /**
@@ -102,6 +103,7 @@ export class InlineChunkHtmlPlugin {
     }
 
     const source = asset.source().toString();
+
     const ret = {
       tagName: 'script',
       innerHTML: this.updateSourceMappingURL({
@@ -196,7 +198,7 @@ export class InlineChunkHtmlPlugin {
       const tagFunction = (tag: HtmlTagObject) =>
         this.getInlinedTag(publicPath, tag, compilation);
 
-      const hooks = this.htmlWebpackPlugin.getHooks(compilation);
+      const hooks = this.htmlPlugin.getHooks(compilation);
 
       hooks.alterAssetTagGroups.tap(this.name, assets => {
         assets.headTags = assets.headTags.map(tagFunction);
@@ -211,7 +213,7 @@ export class InlineChunkHtmlPlugin {
            * Remove marked inline assets in summarize stage,
            * which should be later than the emitting of html-webpack-plugin
            */
-          stage: Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
+          stage: COMPILATION_PROCESS_STAGE.PROCESS_ASSETS_STAGE_SUMMARIZE,
         },
         () => {
           this.inlinedAssets.forEach(name => {

@@ -19,6 +19,8 @@ export const plugins = {
   svg: () => import('./svg').then(m => m.builderPluginSvg()),
   splitChunks: () =>
     import('./splitChunks').then(m => m.builderPluginSplitChunks()),
+  inlineChunk: () =>
+    import('./inlineChunk').then(m => m.builderPluginInlineChunk()),
   bundleAnalyzer: () =>
     import('./bundleAnalyzer').then(m => m.builderPluginBundleAnalyzer()),
   font: () =>
