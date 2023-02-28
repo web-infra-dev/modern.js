@@ -32,7 +32,7 @@ export enum HttpMethod {
   Connect = 'CONNECT',
   Trace = 'TRACE',
   Patch = 'PATCH',
-  Option = 'OPTION',
+  Options = 'OPTIONS',
   Head = 'HEAD',
 }
 
