@@ -13,6 +13,7 @@ function getDefaultConfig() {
     runtime: {},
     html: {},
     bff: {},
+    dev: {},
   };
 }
 

@@ -26,6 +26,16 @@ If the file ends with `.min.js`, it will not compression.
 
 ## More Usage
 
+In React components, this prefix can be added via [built-in environment variables](/guides/basic-features/env-vars.html#asset_prefix):
+
+```tsx
+export default () => {
+  return (
+    <img src={`${process.env.ASSET_PREFIX}/upload/banner.png`}></img>
+  );
+};
+```
+
 Whether in [custom HTML](/guides/basic-features/html), or in any HTML file under ['config/public/'](/apis/app/hooks/config/public), you can directly use the HTML tag to refer to the resources in the `config/upload/`:
 
 ```html

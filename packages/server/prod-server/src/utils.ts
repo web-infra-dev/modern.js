@@ -78,21 +78,14 @@ export const createMiddlewareCollecter = () => {
   };
 };
 
-export const useLocalPrefix = (url: string) => {
-  return isProd() && !url.includes('.');
-};
-
 export const getStaticReg = (
   output: OutputNormalizedConfig = {},
   html: HtmlNormalizedConfig = {},
+  prefix = '/',
 ) => {
-  const {
-    distPath: { css: cssPath, js: jsPath, media: mediaPath } = {},
-    assetPrefix = '/',
-  } = output;
+  const { distPath: { css: cssPath, js: jsPath, media: mediaPath } = {} } =
+    output;
   const { favicon, faviconByEntries } = html;
-
-  const prefix = useLocalPrefix(assetPrefix) ? assetPrefix : '';
   const favicons = prepareFavicons(favicon, faviconByEntries);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));
 

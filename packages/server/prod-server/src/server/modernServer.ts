@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import path from 'path';
-import { fs, isPromise, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
+import { fs, isProd, isPromise, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
 import {
   Adapter,
   WebAdapter,
@@ -94,8 +94,6 @@ export class ModernServer implements ModernServerInterface {
 
   protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
 
-  private staticFileHandler!: ReturnType<typeof createStaticFileHandler>;
-
   private routeRenderHandler!: ReturnType<typeof createRenderHandler>;
 
   private beforeRouteHandler: BeforeRouteHandler | null = null;
@@ -168,22 +166,6 @@ export class ModernServer implements ModernServerInterface {
     await this.prepareFrameHandler();
     await this.prepareBeforeRouteHandler(usageRoutes, distDir);
 
-    // Only work when without setting `assetPrefix`.
-    // Setting `assetPrefix` means these resources should be uploaded to CDN.
-    const staticPathRegExp = getStaticReg(
-      this.conf.output || {},
-      this.conf.html,
-    );
-    this.staticFileHandler = createStaticFileHandler(
-      [
-        {
-          path: staticPathRegExp,
-          target: distDir,
-        },
-      ],
-      this.conf.output,
-    );
-
     const ssrConfig = this.conf.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
     this.routeRenderHandler = createRenderHandler({
@@ -194,7 +176,9 @@ export class ModernServer implements ModernServerInterface {
 
     await this.setupBeforeProdMiddleware();
 
-    this.addHandler(this.staticFileHandler);
+    // Only work when without setting `assetPrefix`.
+    // Setting `assetPrefix` means these resources should be uploaded to CDN.
+    this.addHandler(this.setupStaticMiddleware(this.conf.output?.assetPrefix));
 
     // execute after staticFileHandler, can rename to staticFallbackHandler if needed.
     this.addHandler(faviconFallbackHandler);
@@ -392,6 +376,24 @@ export class ModernServer implements ModernServerInterface {
     preMiddleware.flat().forEach(mid => {
       this.addHandler(mid);
     });
+  }
+
+  protected setupStaticMiddleware(prefix?: string) {
+    const staticPathRegExp = getStaticReg(
+      this.conf.output,
+      this.conf.html,
+      prefix,
+    );
+
+    return createStaticFileHandler(
+      [
+        {
+          path: staticPathRegExp,
+          target: this.distDir,
+        },
+      ],
+      prefix,
+    );
   }
 
   protected async handleAPI(context: ModernServerContext) {

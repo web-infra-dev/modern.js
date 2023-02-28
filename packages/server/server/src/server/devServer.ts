@@ -282,6 +282,10 @@ export class ModernDevServer extends ModernServer {
     return super.createContext(req, res, { etag: true });
   }
 
+  protected setupStaticMiddleware(_: string) {
+    return super.setupStaticMiddleware(this.conf.dev?.assetPrefix);
+  }
+
   private async setupBeforeDevMiddleware() {
     const { runner, conf, dev } = this;
 
