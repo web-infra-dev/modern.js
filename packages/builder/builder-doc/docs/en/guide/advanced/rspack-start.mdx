@@ -59,12 +59,13 @@ const provider = builderRspackProvider({
 
 Builder aims to eliminate the main differences between different bundlers and help users migrate at a lower cost. However, due to the different capabilities of each bundler, users still need to be aware of some differences.
 
-This article will introduce the differences between webpack and rspack from the perspective of Builder. If you need to understand more in-depth differences, please refer to the [rspack documentation](http://www.rspack.org/guide/migrate-from-webpack.html).
+This article will introduce the differences between webpack and rspack from the perspective of Builder. If you need to know more in-depth differences, please refer to the [rspack documentation](http://www.rspack.org/guide/migrate-from-webpack.html).
 
 ### Configuration differences
 
 Currently, most of configuration options in Builder have been adapted for rspack.
 Throughout this process, Builder's work includes but is not limited to:
+
 - Replace features that rely on webpack loader/plugin (which are not supported in rspack) with alternative solutions provided by rspack. For example, use `css/module` instead of css-loader modules.
 - Validating and encapsulating webpack plugins such as `@svgr/webpack` and `webpack-bundle-analyzer`;
 - Encapsulating rspack built-in features such as `css` and `minify`.
