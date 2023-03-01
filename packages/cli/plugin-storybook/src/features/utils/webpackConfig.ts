@@ -116,20 +116,14 @@ const resolveStorybookWebPackConfig = (
   // sbWebpackConfig.plugins = (_sbWebpackConfig$plug = sbWebpackConfig.plugins) === null || _sbWebpackConfig$plug === void 0 ? void 0 : _sbWebpackConfig$plug.filter(p => p.constructor.name !== 'DefinePlugin');
 };
 
-export const createWebpackBuilder = async (modernConfig: BuilderConfig) => {
+export const createWebpackBuilder = async (builderConfig: BuilderConfig) => {
   const { createBuilder } = await import('@modern-js/builder');
   const { builderWebpackProvider } = await import(
     '@modern-js/builder-webpack-provider'
   );
 
   const webpackProvider = builderWebpackProvider({
-    builderConfig: {
-      ...modernConfig,
-      dev: {
-        // use storybook hmr
-        hmr: false,
-      },
-    },
+    builderConfig,
   });
 
   const builder = await createBuilder(webpackProvider, {
@@ -160,17 +154,31 @@ export const getCustomWebpackConfigHandle = async ({
     ...builderConfig
   } = modernConfig;
 
-  const storybookBuildConfig = dev?.storybook ?? {};
-  const builder =
-    appContext.builder ||
-    (await createWebpackBuilder(
-      mergeBuilderConfig(builderConfig, {
-        tools: {
-          webpack: storybookBuildConfig.webpack,
-          webpackChain: storybookBuildConfig.webpackChain,
+  let { builder } = appContext;
+
+  if (!builder) {
+    const storybookBuildConfig = dev?.storybook ?? {};
+
+    const mergedConfig = mergeBuilderConfig(builderConfig as BuilderConfig, {
+      tools: {
+        webpack: storybookBuildConfig.webpack,
+        webpackChain: storybookBuildConfig.webpackChain,
+        babel(config, { removePlugins }) {
+          // Remove babel-plugin-import when use module-tools
+          // Keep the behavior consistent between storybook and module build
+          if (appContext.toolsType === 'module-tools') {
+            removePlugins('babel-plugin-import');
+          }
         },
-      } as any) as BuilderConfig,
-    ));
+      },
+      dev: {
+        // use storybook hmr
+        hmr: false,
+      },
+    });
+
+    builder = await createWebpackBuilder(mergedConfig);
+  }
 
   const { builderPluginStorybook } = await import('./builderPlugin');
 

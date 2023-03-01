@@ -3,6 +3,7 @@ import { SectionTitleStatus } from '../constants/log';
 export const watchSectionTitle = async (
   str: string,
   status: SectionTitleStatus,
+  detailLog?: string,
 ) => {
   const { chalk } = await import('@modern-js/utils');
   if (status === SectionTitleStatus.Success) {
@@ -15,5 +16,7 @@ export const watchSectionTitle = async (
     )}`;
   }
 
-  return `${chalk.bgWhite.gray.underline(str)} ${chalk.blue.underline('Log')}`;
+  return `${chalk.bgWhite.gray.underline(str)} ${
+    detailLog ? detailLog : chalk.blue.underline('Log')
+  }`;
 };
