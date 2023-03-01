@@ -144,8 +144,8 @@ export default {
 ```js
 export default {
   performance: {
-    strategy: 'split-by-experience',
     chunkSplit: {
+      strategy: 'split-by-experience',
       override: {
         cacheGroups: {
           react: {
