@@ -50,10 +50,13 @@ import { Tab, Tabs } from '@theme';
 interface TabsProps {
   children: React.ReactNode;
   defaultValue?: string;
+  groupId?: string;
 }
 ```
 
 defaultValue 用于设置默认选中的 tab 项，这个值会和 Tab 组件的 value 字段做比较，如果相等则选中该 tab。
+
+groupId 用于设置 tab 项的分组，当你需要多个 Tabs 组件进行联动的时候，可以通过 groupId 来实现。groupId 相同的 Tabs 组件会进行联动。
 
 Tab 组件的 props 类型如下:
 
