@@ -26,7 +26,7 @@ Confirm the modern.js version via package.json or lock file:
   }
 ```
 
-2. Add statement of use
+2. Add statement of use:
 
 ```ts title=modern.config.ts
 import appTools, { defineConfig } from '@modern-js/app-tools';
@@ -55,7 +55,7 @@ const provider = builderRspackProvider({
 });
 ```
 
-## Migrating from webpack to rspack
+## Migrating from webpack to Rspack
 
 Builder aims to eliminate the main differences between different bundlers and help users migrate at a lower cost. However, due to the different capabilities of each bundler, users still need to be aware of some differences.
 
@@ -63,10 +63,10 @@ This article will introduce the differences between webpack and Rspack from the 
 
 ### Configuration differences
 
-Currently, most of configuration options in Builder have been adapted for rspack.
+Currently, most of configuration options in Builder have been adapted for Rspack.
 Throughout this process, Builder's work includes but is not limited to:
 
-- Replace features that rely on webpack loader/plugin (which are not supported in Rspack) with alternative solutions provided by rspack. For example, use `css/module` instead of css-loader modules.
+- Replace features that rely on webpack loader/plugin (which are not supported in Rspack) with alternative solutions provided by Rspack. For example, use `css/module` instead of css-loader modules.
 - Validating and encapsulating webpack plugins such as `@svgr/webpack` and `webpack-bundle-analyzer`;
 - Encapsulating Rspack built-in features such as `css` and `minify`.
 
