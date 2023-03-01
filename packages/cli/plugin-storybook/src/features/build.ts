@@ -52,8 +52,12 @@ export const runBuild = async (
     return;
   }
 
+  const { checkEnableRuntime } = await import('./utils/check');
+  const enableRuntime = await checkEnableRuntime(appContext.internalDirectory);
+
   const configDir = await gen.generateConfig(appDirectory, pluginOption, {
     stories,
+    enableRuntime,
     modernConfig,
   });
 
