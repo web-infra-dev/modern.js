@@ -2,6 +2,7 @@ import {
   getDistPath,
   getFilename,
   applyBuilderOutputPlugin,
+  setConfig,
 } from '@modern-js/builder-shared';
 
 import type { BuilderPlugin } from '../types';
@@ -24,6 +25,10 @@ export const builderPluginOutput = (): BuilderPlugin => ({
 
         rspackConfig.output.cssFilename = `${cssPath}/${cssFilename}`;
         rspackConfig.output.cssChunkFilename = `${cssPath}/async/${cssFilename}`;
+      }
+
+      if (config.output.copy) {
+        setConfig(rspackConfig, 'builtins.copy', config.output.copy);
       }
     });
   },
