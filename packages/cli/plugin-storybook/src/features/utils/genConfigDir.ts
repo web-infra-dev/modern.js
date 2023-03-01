@@ -14,6 +14,7 @@ export type GenerateOptions = {
   modernConfig: ModuleNormalizedConfig;
   stories: string[];
   isTsProject: boolean;
+  enableRuntime: boolean;
 };
 
 const defaultOptions = {
@@ -38,7 +39,12 @@ export const generateConfig = async (
   customOptions: Partial<GenerateOptions> = {},
 ) => {
   const options = { ...defaultOptions, ...customOptions };
-  const { stories, modernConfig = {}, isTsProject } = options;
+  const {
+    stories,
+    modernConfig = {},
+    isTsProject,
+    enableRuntime = false,
+  } = options;
   const userConfigDir = path.resolve(
     appDirectory,
     constants.STORYBOOK_USER_CONFIG_PATH,
@@ -54,6 +60,7 @@ export const generateConfig = async (
     );
   }
   await genMainFile(appDirectory, {
+    enableRuntime,
     configDir,
     stories,
     isTsProject,
@@ -143,12 +150,13 @@ const genMainFile = async (
     configDir: string;
     stories: string[];
     isTsProject: boolean;
+    enableRuntime: boolean;
   },
 ) => {
-  const { configDir, stories, isTsProject = false } = options;
+  const { configDir, stories, isTsProject = false, enableRuntime } = options;
   const mainContent = gen.generateMain({
     appDirectory,
-
+    enableRuntime,
     stories,
     isTsProject,
   });
