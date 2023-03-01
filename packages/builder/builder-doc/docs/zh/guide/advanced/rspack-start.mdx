@@ -15,7 +15,7 @@ Modern.js 框架默认使用 webpack 作为打包工具。如果希望启用 rsp
 1. 安装 rspack-provider（版本号需要与 modern.js 版本号保持一致）。
 
 ```
-pnpm add @modern-js/builder-rspack-provider@2.8.0 -D
+pnpm add @modern-js/builder-rspack-provider -D
 ```
 
 通过 package.json 或 lock 文件，确认 modern.js 版本号:
@@ -171,9 +171,9 @@ export default {
 
 ### 更灵活的修改配置方式
 
-暂未提供类似 webpack-chain 方式来灵活修改 rspack config 的方法。
+Builder 暂未提供类似 webpack-chain 方式来灵活修改 rspack config 的方法。
 
 如需增删插件 / 规则，可使用 [prependPlugins](/api/config-tools.html#prependplugins)、[addRules](/api/config-tools.html#addrules) 等工具方法实现。
 
-如需对已有插件/规则进行修改，推荐优先使用 builder 已有配置项进行修改。
+如需对已有插件/规则进行修改，推荐优先使用 Builder 已有配置项进行修改。
 如，修改 html 相关配置，优先查看 [html config](/api/config-html.html) 下是否存在相应的配置项，html config 不支持的情况下，可使用 [tools.htmlPlugin](/api/config-tools.html#toolshtmlplugin) 配置项。
