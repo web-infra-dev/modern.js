@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import {
   BuilderTarget,
   getBrowserslistWithDefault,
@@ -58,6 +60,8 @@ async function applyDefaultConfig(
       rspackConfig.builtins.presetEnv.mode = undefined;
     } else {
       rspackConfig.builtins.presetEnv.mode = polyfillMode;
+      /* Apply core-js version and path alias */
+      await applyCoreJs(rspackConfig);
     }
   }
 }
@@ -81,4 +85,16 @@ async function setBrowserslist(
 
 function isWebTarget(target: BuilderTarget): boolean {
   return ['modern-web', 'web'].some(t => target === t);
+}
+
+async function applyCoreJs(rspackConfig: RspackConfig) {
+  const { getCoreJsVersion } = await import('@modern-js/utils');
+  const coreJsPath = require.resolve('core-js/package.json');
+  const version = getCoreJsVersion(coreJsPath);
+
+  rspackConfig.builtins!.presetEnv!.coreJs = version;
+
+  rspackConfig.resolve ??= {};
+  rspackConfig.resolve.alias ??= {};
+  rspackConfig.resolve.alias['core-js'] = path.dirname(coreJsPath);
 }
