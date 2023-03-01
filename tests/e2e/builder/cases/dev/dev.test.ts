@@ -132,7 +132,8 @@ allProviderTest('dev.port & output.distPath', async ({ page }) => {
   await fs.remove(join(fixtures, 'basic/dist-1'));
 });
 
-allProviderTest('dev.https', async () => {
+// need devcert
+test.skip('dev.https', async () => {
   const buildOpts = {
     cwd: join(fixtures, 'basic'),
     entry: {

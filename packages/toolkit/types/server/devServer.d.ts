@@ -25,7 +25,8 @@ export type DevServerOptions = {
     protocol?: string;
   };
   devMiddleware?: {
-    writeToDisk: boolean | ((filename: string) => boolean);
+    writeToDisk?: boolean | ((filename: string) => boolean);
+    outputFileSystem?: Record<string, any>;
   };
   proxy?: BffProxyOptions;
   headers?: Record<string, string>;
