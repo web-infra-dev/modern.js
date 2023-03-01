@@ -7,6 +7,7 @@ const appDirectory = '<%= appDirectory %>';
 const internalStories = <%= stories %>;
 const sbConfigDir = '<%= sbConfigDir %>';
 const userMainPath = '<%= userMainPath %>'
+const enableRuntime = <%= enableRuntime %>;
 
 let userMainConfig = {};
 if (fs.existsSync(userMainPath)) {
@@ -23,7 +24,9 @@ module.exports = {
   ...userMainConfig,
   stories: stories.length > 0 ? stories : internalStories.map(storyPath => path.posix.join(path.relative(__dirname, appDirectory).split(path.sep).join(path.posix.sep), storyPath)),
   addons: [
-    process.env.MODERN_CUSTOM_STORYBOOK_ADDON || require.resolve('@modern-js/plugin-storybook/addons/runtime-preset'),
+    ...(enableRuntime ? [
+      process.env.MODERN_CUSTOM_STORYBOOK_ADDON || require.resolve('@modern-js/plugin-storybook/addons/runtime-preset')
+    ] : []),
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     {

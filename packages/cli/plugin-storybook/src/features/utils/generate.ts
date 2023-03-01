@@ -9,13 +9,14 @@ export type MainOptions = {
   appDirectory: string;
   stories: string[];
   isTsProject: boolean;
+  enableRuntime: boolean;
 };
 
 const MAIN_TEMPLATE = path.join(STORYBOOK_TEMPLATE_DIR, 'main.tmpl');
 
 export const generateMain = (options: MainOptions) => {
   const mainTemplate = fs.readFileSync(MAIN_TEMPLATE, 'utf-8');
-  const injects: Record<string, string> = {
+  const injects: Record<string, string | boolean> = {
     appDirectory: normalizeOutputPath(options.appDirectory),
     sbConfigDir: normalizeOutputPath(
       path.resolve(options.appDirectory, 'config/storybook'),
@@ -25,6 +26,7 @@ export const generateMain = (options: MainOptions) => {
     ),
     stories: JSON.stringify(options.stories),
     isTsProject: String(options.isTsProject),
+    enableRuntime: options.enableRuntime,
   };
   const execute = template(mainTemplate, { interpolate: INTERPOLATE_REGEXP });
   return execute(injects);
