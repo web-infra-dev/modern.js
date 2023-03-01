@@ -61,3 +61,10 @@
   color: var(--modern-button-alt-active-text);
   background-color: var(--modern-button-alt-active-bg);
 }
+
+@media (max-width: 768px) {
+  .button.big {
+    font-size: 14px;
+    line-height: 40px;
+  }
+}

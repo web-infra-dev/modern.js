@@ -22,27 +22,20 @@ export function HomeFeature() {
   const gridClass = getGridClass(features?.length);
 
   return (
-    <div
-      className="max-w-1152px overflow-hidden"
-      m="auto"
-      flex="~ wrap"
-      justify="between"
-    >
+    <div className="max-w-1152px overflow-hidden m-auto flex flex-wrap justify-between">
       {features?.map(feature => {
         const { icon, title, details, link } = feature;
         return (
           <div
             key={title}
-            border="rounded-md hover:var(--modern-c-brand)"
-            className={`${gridClass ? styles[gridClass] : 'w-full'}`}
+            className={`${
+              gridClass ? styles[gridClass] : 'w-full'
+            } rounded hover:var(--modern-c-brand)`}
           >
-            <div p="2" className="h-full">
+            <div className="h-full p-2">
               <article
                 key={title}
-                h="full"
-                p="8"
-                className={styles.featureCard}
-                border="rounded-4xl transparent"
+                className={`${styles.featureCard} h-full p-8 rounded-4xl border-transparent`}
                 style={{
                   cursor: link ? 'pointer' : 'auto',
                 }}
@@ -55,10 +48,8 @@ export function HomeFeature() {
                 <div className="flex-center">
                   <div className="w-12 h-12 text-3xl text-center">{icon}</div>
                 </div>
-                <h2 font="bold" text="center">
-                  {title}
-                </h2>
-                <p p="t-2" text="sm text-2" font="medium" className="leading-6">
+                <h2 className="font-bold text-center">{title}</h2>
+                <p className="leading-6 pt-2 text-sm text-text-2 font-medium">
                   {details}
                 </p>
               </article>
