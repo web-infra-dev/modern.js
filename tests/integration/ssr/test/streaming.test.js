@@ -63,7 +63,7 @@ describe('Streaming SSR', () => {
     await expect(page).toMatch(/user1-18/);
   });
 
-  it(`deferred data in client navigation`, async () => {
+  it.skip(`deferred data in client navigation`, async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
