@@ -21,6 +21,7 @@ if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
   // When user preference is auto,the modern theme will change with the system user's operating system theme.
   // eslint-disable-next-line prefer-destructuring
   classList = document.documentElement.classList;
+  updateAppearance();
 }
 
 export const isDarkMode = () => classList?.contains('dark');
