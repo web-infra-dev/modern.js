@@ -2,11 +2,11 @@ import { NavItem } from 'shared/types';
 import { useLocation } from 'react-router-dom';
 import { Search } from '@theme';
 import { useState } from 'react';
-import { useLocaleSiteData } from '../../logic';
+import { getLogoUrl, useLocaleSiteData } from '../../logic';
 import { SwitchAppearance } from '../SwitchAppearance';
 import { NavHamburger } from '../NavHambmger';
 import { SocialLinks } from '../SocialLinks';
-import { getToggle, isDarkMode } from '../../logic/useAppearance';
+import { getToggle } from '../../logic/useAppearance';
 import { NavMenuGroup, NavMenuGroupItem } from './NavMenuGroup';
 import { NavMenuSingleItem } from './NavMenuSingleItem';
 import styles from './index.module.scss';
@@ -22,15 +22,6 @@ interface NavBarTitleProps {
   title: string;
   langRoutePrefix: string;
   logo?: string;
-}
-
-function getLogoUrl(rawLogo: string | { dark: string; light: string }) {
-  // If logo is a string, use it directly
-  if (typeof rawLogo === 'string') {
-    return rawLogo;
-  }
-  // If logo is an object, use dark/light mode logo
-  return isDarkMode() ? rawLogo.dark : rawLogo.light;
 }
 
 const NavBarTitle = ({ title, langRoutePrefix, logo }: NavBarTitleProps) => {

@@ -267,7 +267,7 @@
 
 .modern-doc div[class*='language-'] {
   position: relative;
-  margin: 16px -24px;
+  margin: 16px 0;
   background-color: var(--modern-code-block-bg);
   overflow-x: auto;
   transition: background-color 0.5s;
@@ -540,4 +540,10 @@
 .aside-active:hover {
   color: var(--modern-c-brand-dark);
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .header-anchor {
+    display: none;
+  }
 }
