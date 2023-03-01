@@ -38,9 +38,9 @@ Currently, the following front-end frameworks are already using Builder:
 
 By default, Builder uses webpack 5 as the bundler. Although the compilation speed of webpack is not ideal, it is still the most mature and ecological bundler in the community. Based on webpack, Builder integrates [babel](https://github.com/babel/babel), [postcss](https://github.com/postcss/postcss), [terser](https://github.com/terser/terser) and other tools to transform or minify codes. Builder also supports replacing some compile tools with native tools to improve compilation speed, such as replacing babel/terser with [swc](https://github.com/swc-project/swc) or [esbuild](https://github.com/evanw/esbuild).
 
-Builder also supports switching to **the fast Rust-based web bundler —— rspack**. Rspack is a fast Rust-based web bundler, developed by ByteDance. The core architecture of rspack is aligned with the implementation of webpack, and provides out-of-the-box support for commonly used build features. In the long run, rspack will align the main APIs of webpack and be compatible with the mainstream webpack loaders and plugins to ensure that developers can smoothly migrate from webpack to rspack.
+Builder also supports switching to **the fast Rust-based web bundler —— Rspack**. Rspack is a fast Rust-based web bundler, developed by ByteDance. The core architecture of Rspack is aligned with the implementation of webpack, and provides out-of-the-box support for commonly used build features. In the long run, Rspack will align the main APIs of webpack and be compatible with the mainstream webpack loaders and plugins to ensure that developers can smoothly migrate from webpack to Rspack.
 
-Please refer to [Rspack Start](/guide/advanced/rspack-start) to switch to rspack build mode.
+Please refer to [Rspack Start](/guide/advanced/rspack-start) to switch to Rspack build mode.
 
 ### Deep optimization
 
@@ -67,7 +67,7 @@ Below is the npm package published by Builder.
 | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- | --------------------------------- |
 | [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                             | ![](https://img.shields.io/npm/v/@modern-js/builder?style=flat-square)                       | Core package of Builder           |
 | [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)           | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider?style=flat-square)      | Provides webpack build ability    |
-| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)             | ![](https://img.shields.io/npm/v/@modern-js/builder-rspack-provider?style=flat-square)       | Provides rspack build ability     |
+| [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)             | ![](https://img.shields.io/npm/v/@modern-js/builder-rspack-provider?style=flat-square)       | Provides Rspack build ability     |
 | [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                       | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc?style=flat-square)            | SWC Plugin                        |
 | [@modern-js/builder-plugin-stylus](https://www.npmjs.com/package/@modern-js/builder-plugin-stylus)                 | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-stylus?style=flat-square)         | Stylus Plugin                     |
 | [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)               | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild?style=flat-square)        | Esbuild Plugin                    |

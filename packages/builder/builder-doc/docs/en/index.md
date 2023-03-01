@@ -14,7 +14,7 @@ hero:
 
 features:
   - title: Rust Bundler
-    details: Easily switch to rspack bundler with faster build speed.
+    details: Easily switch to Rspack bundler with faster build speed.
     icon: 🚀
   - title: Deep optimization
     details: Automatically optimize static resources, ensure the performance of production app.
