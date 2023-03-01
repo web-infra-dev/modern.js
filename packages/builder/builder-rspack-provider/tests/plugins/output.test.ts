@@ -51,4 +51,26 @@ describe('plugins/output', () => {
     } = await builder.inspectConfig();
     expect(bundlerConfigs[0]).toMatchSnapshot();
   });
+
+  it('should allow to use copy plugin', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginOutput()],
+      builderConfig: {
+        output: {
+          copy: {
+            patterns: [
+              {
+                from: 'test',
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
 });

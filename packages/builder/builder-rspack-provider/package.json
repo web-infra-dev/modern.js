@@ -44,7 +44,8 @@
     "@rspack/dev-middleware": "0.0.0-3753f5fd2-20230223121636",
     "@rspack/plugin-html": "0.0.0-3753f5fd2-20230223121636",
     "@rspack/postcss-loader": "0.0.0-3753f5fd2-20230223121636",
-    "caniuse-lite": "^1.0.30001451"
+    "caniuse-lite": "^1.0.30001451",
+    "core-js": "^3.26.0"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",
