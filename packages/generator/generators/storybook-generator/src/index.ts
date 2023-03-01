@@ -8,13 +8,11 @@ import {
   getPackageManagerText,
   fs,
   isReact18,
-  getModernPluginVersion,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,
   Language,
-  Solution,
 } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
 
@@ -56,16 +54,6 @@ const handleTemplateFile = async (
         .replace('.handlebars', ``),
     );
   }
-
-  const runtimeDependence =
-    context.config.runtimeDependence || '@modern-js/runtime';
-  const runtimeDependenceVersion =
-    context.config.runtimeDependenceVersion ||
-    `${await getModernPluginVersion(Solution.Module, runtimeDependence, {
-      registry: context.config.registry,
-      distTag: context.config.distTag,
-      cwd: context.materials.default.basePath,
-    })}`;
 
   // adjust react-dom dependence
   const pkg = await fs.readJSON(
@@ -118,7 +106,6 @@ const handleTemplateFile = async (
         ...(context.config.devDependencies || {}),
         ...addReactDomDependence,
         ...addReactDependence,
-        [runtimeDependence]: runtimeDependenceVersion,
       },
     },
   );
