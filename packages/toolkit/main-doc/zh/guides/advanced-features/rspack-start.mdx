@@ -13,9 +13,9 @@ Rspack 通过以下方式来提升编译性能：
 - 充分利用多核优势，整个编译过程充分进行多线程优化。
 - 基于请求的按需编译（Lazy Compilation），减小每次编译的模块数目，以提升冷启动的速度。
 
-## 初始化 rspack 项目
+## 初始化 Rspack 项目
 
-Modern.js 生成器会提供一个可交互的问答界面，只需将构建工具选择为**rspack**，即可创建一个 rspack 项目:
+Modern.js 生成器会提供一个可交互的问答界面，只需将构建工具选择为**rspack**，即可创建一个 Rspack 项目:
 
 ```bash
 $ npx @modern-js/create myapp
@@ -28,7 +28,7 @@ $ npx @modern-js/create myapp
 项目创建完成后，在项目中执行 `pnpm run dev` 即可体验项目。更多项目信息可参考[快速上手](/guides/get-started/quick-start.html)。
 
 :::tip
-使用 rspack 作为打包工具时，以下功能暂不支持使用:
+使用 Rspack 作为打包工具时，以下功能暂不支持使用:
 
 - 服务端渲染（SSR）
 - 静态站点生成（SSG）
@@ -37,17 +37,17 @@ $ npx @modern-js/create myapp
 
 :::
 
-## 从 webpack 迁移至 rspack
+## 从 webpack 迁移至 Rspack
 
-通过执行 `pnpm run new` 可启用 rspack 构建：
+通过执行 `pnpm run new` 可启用 Rspack 构建：
 
 ```bash
 $ pnpm run new
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「rspack 构建」
+? 启用可选功能 启用「Rspack 构建」
 ```
 
-执行命令后，在 modern.config.ts 中开启 rspack 构建：
+执行命令后，在 modern.config.ts 中开启 Rspack 构建：
 
 ```ts title=modern.config.ts
 import appTools, { defineConfig } from '@modern-js/app-tools';
@@ -65,5 +65,5 @@ export default defineConfig<'rspack'>({
 ```
 
 :::tip
-从 webpack 迁移至 rspack，会有一些构建和配置能力上的差异，详情可参考：[配置差异](https://modernjs.dev/builder/guide/advanced/rspack-start.html#从-webpack-迁移到-rspack)
+从 webpack 迁移至 Rspack，会有一些构建和配置能力上的差异，详情可参考：[配置差异](https://modernjs.dev/builder/guide/advanced/rspack-start.html#从-webpack-迁移到-rspack)
 :::
