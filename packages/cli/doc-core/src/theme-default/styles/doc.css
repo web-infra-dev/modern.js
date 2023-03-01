@@ -541,3 +541,9 @@
   color: var(--modern-c-brand-dark);
   font-weight: bold;
 }
+
+@media (max-width: 768px) {
+  .header-anchor {
+    display: none;
+  }
+}
