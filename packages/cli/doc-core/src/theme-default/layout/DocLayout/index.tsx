@@ -1,11 +1,12 @@
 import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import mediumZoom from 'medium-zoom';
 import { Aside } from '../../components/Aside';
 import { DocFooter } from '../../components/DocFooter';
 import { useLocaleSiteData, useSidebarData } from '../../logic';
 import { SideMenu } from '../../components/LocalSideBar';
 import { Overview } from '../../components/Overview';
+import { TabDataContext } from '../../logic/TabDataContext';
 import styles from './index.module.scss';
 import { Content, usePageData, normalizeSlash } from '@/runtime';
 
@@ -21,6 +22,7 @@ export function DocLayout(props: DocLayoutProps) {
   const { beforeDocFooter, beforeDoc, afterDoc, beforeOutline, afterOutline } =
     props;
   const { toc = [], siteData, frontmatter } = usePageData();
+  const [tabData, setTabData] = useState({});
   const headers = toc;
   const { themeConfig } = siteData;
   const localesData = useLocaleSiteData();
@@ -63,7 +65,9 @@ export function DocLayout(props: DocLayoutProps) {
             <Overview />
           ) : (
             <div className="modern-doc">
-              <Content />
+              <TabDataContext.Provider value={{ tabData, setTabData }}>
+                <Content />
+              </TabDataContext.Provider>
               <div>
                 {beforeDocFooter}
                 <DocFooter />

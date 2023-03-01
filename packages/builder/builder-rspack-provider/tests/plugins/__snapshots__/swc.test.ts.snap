@@ -7,6 +7,7 @@ exports[`plugins/swc > should add browserslist 1`] = `
       "legacy": true,
     },
     "presetEnv": {
+      "coreJs": "3.26",
       "mode": "entry",
       "targets": [
         "chrome 98",
@@ -14,6 +15,11 @@ exports[`plugins/swc > should add browserslist 1`] = `
     },
   },
   "module": {},
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
 }
 `;
 
@@ -24,6 +30,7 @@ exports[`plugins/swc > should add browserslist 2`] = `
       "legacy": true,
     },
     "presetEnv": {
+      "coreJs": "3.26",
       "mode": "entry",
       "targets": [
         "chrome 98",
@@ -31,6 +38,11 @@ exports[`plugins/swc > should add browserslist 2`] = `
     },
   },
   "module": {},
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
 }
 `;
 
@@ -76,6 +88,7 @@ exports[`plugins/swc > should enable entry mode preset_env 1`] = `
       "legacy": true,
     },
     "presetEnv": {
+      "coreJs": "3.26",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -85,6 +98,11 @@ exports[`plugins/swc > should enable entry mode preset_env 1`] = `
     },
   },
   "module": {},
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
 }
 `;
 
@@ -95,6 +113,7 @@ exports[`plugins/swc > should enable usage mode preset_env 1`] = `
       "legacy": true,
     },
     "presetEnv": {
+      "coreJs": "3.26",
       "mode": "usage",
       "targets": [
         "> 0.01%",
@@ -104,6 +123,36 @@ exports[`plugins/swc > should enable usage mode preset_env 1`] = `
     },
   },
   "module": {},
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
+}
+`;
+
+exports[`plugins/swc > should has correct core-js 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "coreJs": "3.26",
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "module": {},
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
 }
 `;
 
@@ -114,6 +163,7 @@ exports[`plugins/swc > should'n override browserslist when target platform is no
       "legacy": true,
     },
     "presetEnv": {
+      "coreJs": "3.26",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -123,5 +173,10 @@ exports[`plugins/swc > should'n override browserslist when target platform is no
     },
   },
   "module": {},
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
 }
 `;

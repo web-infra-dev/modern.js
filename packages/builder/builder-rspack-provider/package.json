@@ -39,12 +39,13 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/core": "0.0.0-3753f5fd2-20230223121636",
-    "@rspack/dev-client": "0.0.0-3753f5fd2-20230223121636",
-    "@rspack/dev-middleware": "0.0.0-3753f5fd2-20230223121636",
-    "@rspack/plugin-html": "0.0.0-3753f5fd2-20230223121636",
-    "@rspack/postcss-loader": "0.0.0-3753f5fd2-20230223121636",
-    "caniuse-lite": "^1.0.30001451"
+    "@rspack/core": "0.0.0-488d3bb3ac-20230301031651",
+    "@rspack/dev-client": "0.0.0-488d3bb3ac-20230301031651",
+    "@rspack/dev-middleware": "0.0.0-488d3bb3ac-20230301031651",
+    "@rspack/plugin-html": "0.0.0-488d3bb3ac-20230301031651",
+    "@rspack/postcss-loader": "0.0.0-488d3bb3ac-20230301031651",
+    "caniuse-lite": "^1.0.30001451",
+    "core-js": "^3.26.0"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",

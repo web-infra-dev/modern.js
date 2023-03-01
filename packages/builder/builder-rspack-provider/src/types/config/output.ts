@@ -3,13 +3,13 @@ import type {
   NormalizedSharedOutputConfig,
   RemOptions,
 } from '@modern-js/builder-shared';
+import type { Builtins } from '@rspack/core';
 
 export type OutputConfig = Omit<SharedOutputConfig, 'legalComments'> & {
   /**
    * Copies the specified file or directory to the dist directory.
-   * TODO: not support yet
    */
-  // copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
+  copy?: Builtins['copy'];
   /**
    * Convert px to rem in CSS.
    */

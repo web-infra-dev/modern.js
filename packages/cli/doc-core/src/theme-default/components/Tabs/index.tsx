@@ -1,5 +1,6 @@
-import { ComponentProps, ReactElement, ReactNode } from 'react';
+import { ComponentProps, ReactElement, ReactNode, useContext } from 'react';
 import { Tab as HeadlessTab } from '@headlessui/react';
+import { TabDataContext } from '../../logic/TabDataContext';
 import styles from './index.module.scss';
 
 type TabItem = {
@@ -7,6 +8,15 @@ type TabItem = {
   label?: string;
   disabled?: boolean;
 };
+
+interface TabsProps {
+  values: ReactNode[] | ReadonlyArray<ReactNode> | TabItem[];
+  defaultValue?: string;
+  onChange?: (index: number) => void;
+  children: ReactNode;
+  groupId?: string;
+  tabContainerClassName?: string;
+}
 
 function isTabItem(item: unknown): item is TabItem {
   if (item && typeof item === 'object' && 'label' in item) {
@@ -22,19 +32,15 @@ const renderTab = (item: ReactNode | TabItem) => {
   return item;
 };
 
-export function Tabs({
-  values,
-  defaultValue,
-  onChange,
-  children,
-  tabContainerClassName,
-}: {
-  values: ReactNode[] | ReadonlyArray<ReactNode> | TabItem[];
-  defaultValue?: string;
-  onChange?: (index: number) => void;
-  children: ReactNode;
-  tabContainerClassName?: string;
-}): ReactElement {
+export function Tabs(props: TabsProps): ReactElement {
+  const {
+    values,
+    defaultValue,
+    onChange,
+    children,
+    groupId,
+    tabContainerClassName,
+  } = props;
   let tabValues = values || [];
   if (tabValues.length === 0) {
     tabValues = (children as ReactElement[]).map(child => ({
@@ -42,18 +48,31 @@ export function Tabs({
       value: child.props?.value || child.props?.label,
     }));
   }
-  const defaultIndex = defaultValue
-    ? tabValues.findIndex(item => {
-        if (typeof item === 'string') {
-          return item === defaultValue;
-        } else if (item && typeof item === 'object' && 'value' in item) {
-          return item.value === defaultValue;
-        }
-        return false;
-      })
-    : 0;
+  const { tabData, setTabData } = useContext(TabDataContext);
+  let defaultIndex = 0;
+  const needSync = groupId && tabData[groupId] !== undefined;
+  if (needSync) {
+    defaultIndex = tabData[groupId] as number;
+  } else if (defaultValue) {
+    defaultIndex = tabValues.findIndex(item => {
+      if (typeof item === 'string') {
+        return item === defaultValue;
+      } else if (item && typeof item === 'object' && 'value' in item) {
+        return item.value === defaultValue;
+      }
+      return false;
+    });
+  }
   return (
-    <HeadlessTab.Group defaultIndex={defaultIndex} onChange={onChange}>
+    <HeadlessTab.Group
+      onChange={index => {
+        onChange?.(index);
+        if (groupId) {
+          setTabData({ ...tabData, [groupId]: index });
+        }
+      }}
+      {...(needSync ? { selectedIndex: defaultIndex } : { defaultIndex })}
+    >
       <div className={tabContainerClassName || ''}>
         <HeadlessTab.List className="mt-4 flex w-max min-w-full border-b border-gray-200 dark:border-dark-200">
           {tabValues.map((item, index) => {

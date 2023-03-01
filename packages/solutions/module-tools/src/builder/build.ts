@@ -17,17 +17,17 @@ export const runBuildTask = async (
   },
   api: PluginAPI<ModuleTools>,
 ) => {
-  const { buildConfig, context } = options;
+  const { buildConfig, context, buildCmdOptions } = options;
   const { appDirectory, isTsProject } = context;
+
+  const { copyTask } = await import('./copy');
+  await copyTask(buildConfig, { appDirectory, watch: buildCmdOptions.watch });
 
   if (isTsProject) {
     await buildInTsProject(options, api);
   } else {
     await buildInJsProject(options, api);
   }
-
-  const { copyTask } = await import('./copy');
-  await copyTask(buildConfig, { appDirectory });
 };
 
 export const buildInTsProject = async (
