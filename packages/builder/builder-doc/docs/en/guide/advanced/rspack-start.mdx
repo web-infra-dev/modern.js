@@ -15,14 +15,14 @@ Of course, you can also access it manually by following the steps below:
 1. Install rspack-provider（The version needs to be the same as the modern.js version).
 
 ```
-pnpm add @modern-js/builder-rspack-provider@2.4.0 -D
+pnpm add @modern-js/builder-rspack-provider@2.8.0 -D
 ```
 
 Confirm the modern.js version via package.json or lock file:
 
 ```json title=package.json
   "devDependencies": {
-    "@modern-js/app-tools": "2.4.0"
+    "@modern-js/app-tools": "2.8.0"
   }
 ```
 
@@ -59,10 +59,13 @@ const provider = builderRspackProvider({
 
 Builder aims to eliminate the main differences between different bundlers and help users migrate at a lower cost. However, due to the different capabilities of each bundler, users still need to be aware of some differences.
 
+This article will introduce the differences between webpack and rspack from the perspective of Builder. If you need to understand more in-depth differences, please refer to the [rspack documentation](http://www.rspack.org/guide/migrate-from-webpack.html).
+
 ### Configuration differences
 
 Currently, most of configuration options in Builder have been adapted for rspack.
 Throughout this process, Builder's work includes but is not limited to:
+- Replace features that rely on webpack loader/plugin (which are not supported in rspack) with alternative solutions provided by rspack. For example, use `css/module` instead of css-loader modules.
 - Validating and encapsulating webpack plugins such as `@svgr/webpack` and `webpack-bundle-analyzer`;
 - Encapsulating rspack built-in features such as `css` and `minify`.
 
@@ -123,7 +126,7 @@ Unsupported configurations and capabilities include:
 - [performance.removeMomentLocale](/api/config-performance.html#performanceremovemomentlocale)
 - [performance.buildCache](/api/config-performance.html#performancebuildcache)
 
-##### Tools Config
+#### Tools Config
 
 > Low-level tools configurations in Builder.
 
@@ -165,3 +168,12 @@ export default {
 ```
 
 More information about Rspack, please refer to the [Rspack website](https://www.rspack.org/).
+
+### A more flexible way to modify rspack configuration
+
+A flexible way for modifying rspack config similar to webpack-chain is not currently available.
+
+If there is a need to add or remove plugins/rules, you can use utility methods such as [prependPlugins](/api/config-tools.html#prependplugins) or [addRules](/api/config-tools.html#addrules).
+
+If there is a need to modify existing plugins/rules, it is recommended to use existing configuration options provided by the builder first.
+For example, to modify html configuration, you should first check if there is a corresponding configuration item under [html config](/api/config-html.html). If the html config does not support the required modifications, the [tools.htmlPlugin](/api/config-tools.html#toolshtmlplugin) configuration option can be used.

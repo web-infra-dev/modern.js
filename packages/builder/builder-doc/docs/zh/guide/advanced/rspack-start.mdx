@@ -15,14 +15,14 @@ Modern.js 框架默认使用 webpack 作为打包工具。如果希望启用 rsp
 1. 安装 rspack-provider（版本号需要与 modern.js 版本号保持一致）。
 
 ```
-pnpm add @modern-js/builder-rspack-provider@2.4.0 -D
+pnpm add @modern-js/builder-rspack-provider@2.8.0 -D
 ```
 
 通过 package.json 或 lock 文件，确认 modern.js 版本号:
 
 ```json title=package.json
   "devDependencies": {
-    "@modern-js/app-tools": "2.4.0"
+    "@modern-js/app-tools": "2.8.0"
   }
 ```
 
@@ -59,12 +59,15 @@ const provider = builderRspackProvider({
 
 Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较低成本进行迁移。但由于各个打包工具的能力不同，部分差异仍需用户了解。
 
+本文将从 Builder 的角度介绍 webpack 和 rspack 之间的区别。如果需要了解更深层次的差异，请参考 [rspack 文档](http://www.rspack.org/zh/guide/migrate-from-webpack.html)。
+
 ### 配置差异
 
 目前，Builder 内大部分的配置项已经适配了 rspack。Builder 所做的工作包括不限于：
 
+- 对一些原本使用借助 webpack loader / plugin (在 rspack 中不支持使用) 实现的功能，使用 rspack 替代方案实现。如，通过 `css/module` 替代 css-loader modules 能力。
 - 对 webpack 插件进行验证及封装。如 @svgr/webpack、webpack-bundle-analyzer 等;
-- 对 rspack 内置能力进行封装，如 css、minify 等;
+- 对 rspack 内置能力进行封装。如 css、minify 等;
 
 #### Source Config
 
@@ -84,7 +87,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 > Builder 中与安全有关的配置。
 
-所有 security 下的配置项及能力均不支持在 rspack 内使用。
+所有 security 下的配置项及能力**均不支持**在 rspack 内使用。
 
 #### Dev Config
 
@@ -111,7 +114,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 > Builder 中的一些实验性配置。
 
-所有 experiments 下的配置项及能力均不支持在 rspack 内使用。
+所有 experiments 下的配置项及能力**均不支持**在 rspack 内使用。
 
 #### Performance Config
 
@@ -123,7 +126,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 - [performance.removeMomentLocale](/api/config-performance.html#performanceremovemomentlocale)
 - [performance.buildCache](/api/config-performance.html#performancebuildcache)
 
-##### Tools Config
+#### Tools Config
 
 > Builder 中与底层工具有关的配置。
 
@@ -165,3 +168,12 @@ export default {
 ```
 
 关于 rspack 的详细配置信息，请参考 [rspack 官网](https://rspack.org/)。
+
+### 更灵活的修改配置方式
+
+暂未提供类似 webpack-chain 方式来灵活修改 rspack config 的方法。
+
+如需增删插件 / 规则，可使用 [prependPlugins](/api/config-tools.html#prependplugins)、[addRules](/api/config-tools.html#addrules) 等工具方法实现。
+
+如需对已有插件/规则进行修改，推荐优先使用 builder 已有配置项进行修改。
+如，修改 html 相关配置，优先查看 [html config](/api/config-html.html) 下是否存在相应的配置项，html config 不支持的情况下，可使用 [tools.htmlPlugin](/api/config-tools.html#toolshtmlplugin) 配置项。
