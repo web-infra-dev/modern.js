@@ -44,10 +44,7 @@ export function builderPluginSass(): BuilderPlugin {
             },
             config.tools.sass,
             { addExcludes },
-            (
-              defaults: SassLoaderOptions,
-              userOptions: SassLoaderOptions,
-            ): SassLoaderOptions => {
+            (defaults: SassLoaderOptions, userOptions: SassLoaderOptions) => {
               return {
                 ...defaults,
                 ...userOptions,
