@@ -1,7 +1,6 @@
 import appTools, { defineConfig } from '@modern-js/app-tools';
 import routerPlugin from '@modern-js/plugin-router-v5';
 
-// https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
   runtime: {
     router: {

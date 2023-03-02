@@ -221,6 +221,7 @@ export default defineConfig({
         },
         globalVars: {
           MODERN_JS: 'Modern.js',
+          MODERN_JS_CONFIG: 'modern.config.ts',
         },
       },
       dev: {

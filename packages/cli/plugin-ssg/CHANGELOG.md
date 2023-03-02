@@ -1,5 +1,25 @@
 # @modern-js/plugin-ssg
 
+## 2.7.0
+
+### Minor Changes
+
+- dcad887024: feat: support deferred data for streaming ssr
+  feat: 流式渲染支持 deferred data
+
+### Patch Changes
+
+- 0de9e61292: fix: ssg error reporting inaccuracy problem
+
+  fix: 修复 ssg 报错不准确的问题
+
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/utils@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

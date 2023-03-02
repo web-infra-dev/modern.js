@@ -1,5 +1,37 @@
 # @modern-js/builder-shared
 
+## 2.7.0
+
+### Minor Changes
+
+- 84bfb439b8: feat: support custom apiDir, lambdaDir and style of writing for bff
+  feat: 支持定制 api 目录，lambda 目录，bff 的写法
+
+### Patch Changes
+
+- 206c806efa: fix(rspack-provider): missing tools.autoprefixer type
+
+  fix(rspack-provider): 修复缺少 tools.autoprefixer 类型定义的问题
+
+- 5f899af53a: feat(builder): support output.enableAssetFallback in rspack-provider
+
+  feat(builder): 在 rspack-provider 中支持 output.enableAssetFallback 配置项
+
+- ebe0d2dd6e: hotfix(builder): make devServer.proxy schema check loosely
+
+  hotfix(builder): devServer.proxy 类型检验采用非严格模式
+
+- Updated dependencies [6378e26bf9]
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/server@2.7.0
+  - @modern-js/utils@2.7.0
+  - @modern-js/types@2.7.0
+
 ## 2.6.0
 
 ### Minor Changes

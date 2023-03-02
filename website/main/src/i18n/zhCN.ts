@@ -12,7 +12,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
 
   // Features
   feature1: 'Rust 构建',
-  featureDesc1: '轻松切换到 rspack 构建工具，编译飞快。',
+  featureDesc1: '轻松切换到 Rspack 构建工具，编译飞快。',
   feature2: '一体化开发',
   featureDesc2: '在同一项目中完成 BFF 开发，享受简洁的函数调用。',
   feature3: '嵌套路由',

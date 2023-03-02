@@ -1,5 +1,35 @@
 # @modern-js/server
 
+## 2.7.0
+
+### Minor Changes
+
+- 84bfb439b8: feat: support custom apiDir, lambdaDir and style of writing for bff
+  feat: 支持定制 api 目录，lambda 目录，bff 的写法
+
+### Patch Changes
+
+- 6378e26bf9: fix: modern server not serve static file in developmenet env, dev-server-middleware serve it
+  fix: modern server 在开发环境不再托管静态文件，dev-server-middleware 托管他们
+- 7fff9020e1: chore: make file naming consistent
+
+  chore: 统一文件命名为小驼峰格式
+
+- 1eea234fdd: chore: make test files naming consistent
+
+  chore: 统一测试文件命名为小驼峰格式
+
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/utils@2.7.0
+  - @modern-js/types@2.7.0
+  - @modern-js/prod-server@2.7.0
+  - @modern-js/server-utils@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

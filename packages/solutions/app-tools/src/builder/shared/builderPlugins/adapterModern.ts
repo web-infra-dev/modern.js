@@ -17,8 +17,11 @@ import { ChainIdentifier, getEntryOptions } from '@modern-js/utils';
 import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import type { BuilderOptions } from '../types';
-import { HtmlAsyncChunkPlugin } from '../bundlerPlugins/HtmlAsyncChunkPlugin';
-import { BottomTemplatePlugin } from '../bundlerPlugins/HtmlBottomTemplate';
+import {
+  HtmlAsyncChunkPlugin,
+  BottomTemplatePlugin,
+  RouterPlugin,
+} from '../bundlerPlugins';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -124,6 +127,19 @@ export const builderPluginAdapterModern = <B extends Bundler>(
           .test(bareServerModuleReg)
           .use('server-module-loader')
           .loader(require.resolve('../loaders/serverModuleLoader'));
+      }
+
+      const { entrypoints } = appContext;
+      const existNestedRoutes = entrypoints.some(
+        entrypoint => entrypoint.nestedRoutesEntry,
+      );
+
+      const routerConfig: any = normalizedConfig?.runtime?.router;
+      const routerManifest = Boolean(routerConfig?.manifest);
+
+      // for ssr mode
+      if (existNestedRoutes || routerManifest) {
+        chain.plugin('route-plugin').use(RouterPlugin);
       }
     });
 

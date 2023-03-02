@@ -2,11 +2,11 @@
 - **默认值：** `undefined`
 - **打包工具：** `仅支持 Rspack`
 
-`tools.rspack` 选项用于配置原生的 [Rspack](https://www.rspack.org/)。
+`tools.rspack` 选项用于配置原生的 [Rspack](https://www.rspack.dev/)。
 
 ### Object 类型
 
-你可以配置为一个对象，这个对象将会和原始的 rspack 配置通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 进行合并。比如：
+你可以配置为一个对象，这个对象将会和原始的 Rspack 配置通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 进行合并。比如：
 
 ```js
 export default {
@@ -24,7 +24,7 @@ export default {
 
 ### Function 类型
 
-你也可以配置为一个函数，这个函数接收一个参数，即原始的 rspack 配置，你可以对这个配置进行修改，然后返回一个新的配置。比如：
+你也可以配置为一个函数，这个函数接收一个参数，即原始的 Rspack 配置，你可以对这个配置进行修改，然后返回一个新的配置。比如：
 
 ```js
 export default {
@@ -140,7 +140,7 @@ export default {
 
 - **类型：** `(rules: RuleSetRule | RuleSetRule[]) => void`
 
-添加额外的 [Rspack rules](https://www.rspack.org/config/module.html#modulerules)。
+添加额外的 [Rspack rules](https://www.rspack.dev/config/module.html#modulerules)。
 
 示例：
 
@@ -174,7 +174,7 @@ export default {
 
 - **类型：** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
-在内部 rspack 插件数组头部添加额外的插件，数组头部的插件会优先执行。
+在内部 Rspack 插件数组头部添加额外的插件，数组头部的插件会优先执行。
 
 ```ts
 export default {
@@ -196,7 +196,7 @@ export default {
 
 - **类型：** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
-在内部 rspack 插件数组尾部添加额外的插件，数组尾部的插件会在最后执行。
+在内部 Rspack 插件数组尾部添加额外的插件，数组尾部的插件会在最后执行。
 
 ```ts
 export default {
@@ -218,7 +218,7 @@ export default {
 
 - **类型：** `(name: string) => void`
 
-删除内部的 rspack 插件，参数为该插件的 `constructor.name`。
+删除内部的 Rspack 插件，参数为该插件的 `constructor.name`。
 
 例如，删除内部的 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)：
 
@@ -236,7 +236,7 @@ export default {
 
 - **类型：** `(...configs: RspackConfig[]) => RspackConfig`
 
-用于合并多份 rspack 配置，等价于 [webpack-merge](https://github.com/survivejs/webpack-merge)。
+用于合并多份 Rspack 配置，等价于 [webpack-merge](https://github.com/survivejs/webpack-merge)。
 
 ```ts
 export default {
