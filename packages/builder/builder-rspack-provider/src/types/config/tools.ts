@@ -43,7 +43,6 @@ export type ToolsSassConfig = ChainedConfig<
   { addExcludes: FileFilterUtil }
 >;
 
-// TODO: add more configs
 export interface ToolsConfig extends SharedToolsConfig {
   htmlPlugin?: false | ToolsHtmlPluginConfig;
   postcss?: ToolsPostCSSLoaderConfig;

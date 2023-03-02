@@ -58,7 +58,7 @@ export function builderPluginLess(): BuilderPlugin {
 
         rule
           .use(utils.CHAIN_ID.USE.LESS)
-          .loader(utils.getCompiledPath('@rspack/less-loader'))
+          .loader(utils.getCompiledPath('less-loader'))
           .options(options);
       });
 

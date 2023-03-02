@@ -5,7 +5,6 @@ import {
 } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin } from '../types';
-import { BUILTIN_LOADER } from '../shared';
 
 export function builderPluginSass(): BuilderPlugin {
   return {
@@ -26,7 +25,7 @@ export function builderPluginSass(): BuilderPlugin {
           const mergedOptions = applyOptionsChain(
             {
               sourceMap: isUseCssSourceMap(config),
-              rspackImporter: true,
+              webpackImporter: true,
             },
             config.tools.sass,
             { addExcludes },
@@ -53,7 +52,7 @@ export function builderPluginSass(): BuilderPlugin {
 
         rule
           .use(utils.CHAIN_ID.USE.SASS)
-          .loader(`${BUILTIN_LOADER}sass-loader`)
+          .loader(utils.getCompiledPath('sass-loader'))
           .options(options);
       });
 

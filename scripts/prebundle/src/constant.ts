@@ -517,10 +517,25 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
-        name: '@rspack/less-loader',
+        name: 'less-loader',
         ignoreDts: true,
         externals: {
           less: '../less',
+        },
+      },
+      {
+        name: 'sass',
+        externals: {
+          chokidar: '@modern-js/utils/chokidar',
+        },
+        afterBundle(task) {
+          copySync(join(task.depPath, 'types'), join(task.distPath, 'types'));
+        },
+      },
+      {
+        name: 'sass-loader',
+        externals: {
+          sass: '../sass',
         },
       },
     ],

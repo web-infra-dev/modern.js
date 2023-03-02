@@ -376,7 +376,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -427,7 +427,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -484,10 +484,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": true,
+                  "webpackImporter": true,
                 },
               },
             ],
@@ -532,10 +532,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": true,
+                  "webpackImporter": true,
                 },
               },
             ],
@@ -1021,7 +1021,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -1072,7 +1072,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -1129,10 +1129,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": false,
+                  "webpackImporter": true,
                 },
               },
             ],
@@ -1177,10 +1177,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": false,
+                  "webpackImporter": true,
                 },
               },
             ],
@@ -1687,7 +1687,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -1738,7 +1738,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -1795,10 +1795,10 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": true,
+                  "webpackImporter": true,
                 },
               },
             ],
@@ -1843,10 +1843,10 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": true,
+                  "webpackImporter": true,
                 },
               },
             ],

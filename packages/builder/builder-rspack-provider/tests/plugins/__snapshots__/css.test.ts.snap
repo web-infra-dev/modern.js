@@ -137,7 +137,7 @@ exports[`plugins/less > should add less-loader 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -188,7 +188,7 @@ exports[`plugins/less > should add less-loader 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -257,7 +257,7 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -311,7 +311,7 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -377,7 +377,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -428,7 +428,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/@rspack/less-loader",
+                "loader": "<ROOT>/compiled/less-loader",
                 "options": {
                   "implementation": "<ROOT>/compiled/less",
                   "lessOptions": {
@@ -494,10 +494,10 @@ exports[`plugins/sass > should add sass-loader 1`] = `
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": true,
+                  "webpackImporter": true,
                 },
               },
             ],
@@ -542,10 +542,10 @@ exports[`plugins/sass > should add sass-loader 1`] = `
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": true,
+                  "webpackImporter": true,
                 },
               },
             ],
@@ -608,10 +608,10 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": true,
+                  "webpackImporter": true,
                 },
               },
             ],
@@ -659,10 +659,10 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
                 },
               },
               {
-                "loader": "builtin:sass-loader",
+                "loader": "<ROOT>/compiled/sass-loader",
                 "options": {
-                  "rspackImporter": true,
                   "sourceMap": true,
+                  "webpackImporter": true,
                 },
               },
             ],
