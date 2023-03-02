@@ -176,7 +176,7 @@ export class ModernDevServer extends ModernServer {
     devMiddleware.init(app);
     devMiddleware.on('change', (stats: any) => {
       // Reset only when client compile done
-      if (stats.toJson({ all: false }).name === 'client') {
+      if (stats.toJson({ all: false }).name !== 'server') {
         this.onRepack({ routes: this.getRoutes() });
       }
     });

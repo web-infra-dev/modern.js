@@ -3,7 +3,7 @@ title: Hook
 ---
 # Hook
 
-Used to extend Modern.js built-in Web Server, requests except BFF are handled by these hooks.
+Used to extend Modern.js built-in Web Server, all page requests are handled by these hooks.
 
 :::note
 For more detail, see [Extend Web Server](/guides/advanced-features/web-server).
@@ -63,7 +63,7 @@ type HookContext = {
 function Hook(context: HookContext, next: NextFunction): Promsie<void> | void;
 ```
 
-different Hooks additionally provide different contexts. Currently Modern.js support `AtferMatch` and `AfterRender`.
+different Hooks additionally provide different contexts. Currently Modern.js support `AfterMatch` and `AfterRender`.
 
 ```ts
 type AfterMatchContext = HookContext & {

@@ -3,13 +3,10 @@ title: Middleware
 ---
 # Middleware
 
-用于拓展 Modern.js 内置的 Web Server，只有 SSR 请求会经过这些中间件。
-
-与 [Hook](/apis/app/runtime/web-server/hook) 不同的是，Middleware 可以使用 Server 运行时框架拓展。
+用于拓展 Modern.js 内置的 Web Server，与 [Hook](/apis/app/runtime/web-server/hook) 不同的是，Middleware 可以直接操作 Node 原生的请求、响应对象，并且可以使用框架拓展。
 
 :::note
 更多内容可以查看[自定义 Web Server](/guides/advanced-features/web-server)。
-
 :::
 
 ## 使用姿势
@@ -38,6 +35,11 @@ pnpm run new
 ## 函数签名
 
 ```ts
+type Middleware = (
+  context: MiddlewareContext,
+  next: NextFunction,
+) => Promise<void> | void;
+
 type MiddlewareContext = {
   response: {
     set: (key: string, value: string) => void;
@@ -71,11 +73,6 @@ type MiddlewareContext = {
     res: ServerResponse;
   };
 };
-
-type RequestHandler = (
-  context: Context,
-  next: NextFunction,
-) => Promise<void> | void;
 ```
 
 ### 参数
@@ -85,6 +82,10 @@ type RequestHandler = (
   - `request`：提供一系列获取请求信息的操作
   - `source`：提供 Node.js 原生的 `req` 与 `res` 对象。
 - `next`：执行当前 Hook 的下一个监听函数（不影响整体服务端流程）。
+
+:::warning
+`next` 函数的执行不影响后续内置流程，只控制下一个中间件是否执行。只有当响应被写入时，后续渲染流程才会中断。
+:::
 
 ## 示例
 
@@ -107,5 +108,24 @@ Modern.js 提供了 `res.locals` 属性用来存放当前请求的局部变量�
 export const Middleware = () => async (ctx, next) => {
   ctx.res.locals.id = 'Modern.js';
   ctx.res.locals.rpc = createRpcInstance();
-});
+};
 ```
+
+### 框架拓展
+
+Middleware 还可以和 BFF 一样，使用运行时框架拓展。Modern.js 约定，当使用框架运行时拓展时，类型信息从 `@modern-js/runtime/{namespace}` 下导出，Middleware 可以使用框架语法，例如框架中间件写法，以下是伪代码：
+
+```ts
+import { SomeType } from '@modern-js/runtime/{namespace}';
+
+export const middleware: SomeType = (ctx, next) => {
+  console.log(ctx.url);
+  next();
+};
+```
+
+默认情况下，在安装框架拓展插件后，Web Server 的框架拓展能力是关闭的。如果希望使用框架拓展，可以通过 [`server.enableFrameworkExt`](/configure/app/server/enable-framework-ext.html) 开启。
+
+:::info
+框架拓展导出的类型名不一定为 Middleware，命名由框架拓展插件。
+:::
