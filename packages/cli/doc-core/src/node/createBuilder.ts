@@ -28,10 +28,12 @@ async function createInternalBuildConfig(
   config: UserConfig,
   _isSSR: boolean,
 ): Promise<BuilderConfig> {
+  const cwd = process.cwd();
   const { default: fs } = await import('@modern-js/utils/fs-extra');
   const mdxOptions = await createMDXOptions(userRoot, config);
   const CUSTOM_THEME_DIR =
     config.doc?.themeDir ?? path.join(process.cwd(), 'theme');
+  const outDir = config.doc?.outDir ?? OUTPUT_DIR;
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');
@@ -72,7 +74,8 @@ async function createInternalBuildConfig(
     },
     output: {
       distPath: {
-        root: config.doc?.outDir ?? OUTPUT_DIR,
+        // `root` must be a relative path in Builder
+        root: path.isAbsolute(outDir) ? path.relative(cwd, outDir) : outDir,
       },
       polyfill: 'usage',
       svgDefaultExport: 'component',
@@ -167,7 +170,9 @@ export async function createModernBuilder(
   isSSR = false,
   extraBuilderConfig?: BuilderConfig,
 ): Promise<BuilderInstance<BuilderWebpackProvider>> {
-  const userRoot = path.resolve(rootDir || config.doc?.root || process.cwd());
+  const cwd = process.cwd();
+  const userRoot = path.resolve(rootDir || config.doc?.root || cwd);
+
   const { createBuilder } = await import('@modern-js/builder');
   const { builderWebpackProvider } = await import(
     '@modern-js/builder-webpack-provider'
