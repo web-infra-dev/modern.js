@@ -83,10 +83,10 @@ Web Workers 是一种 JavaScript API，它允许网页在后台线程中执行�
 
 ```js
 const browserslist = [
-  'chrome > 61',
-  'edge > 16',
-  'firefox > 60',
-  'safari > 11',
-  'ios_saf > 11',
+  'chrome >= 61',
+  'edge >= 16',
+  'firefox >= 60',
+  'safari >= 11',
+  'ios_saf >= 11',
 ];
 ```

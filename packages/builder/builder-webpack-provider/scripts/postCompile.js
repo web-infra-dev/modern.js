@@ -15,7 +15,8 @@ async function compileRetryRuntime() {
       [
         '@babel/preset-env',
         {
-          targets: 'iOS 9, Android 4.4, last 2 versions, > 0.2%, not dead',
+          targets:
+            'iOS >= 9, Android >= 4.4, last 2 versions, > 0.2%, not dead',
         },
       ],
     ],
