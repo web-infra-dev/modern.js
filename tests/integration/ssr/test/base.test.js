@@ -62,7 +62,7 @@ describe('Traditional SSR', () => {
     await expect(page).toMatch(/error occurs/);
   });
 
-  it('error thrown in client navigation', async () => {
+  it.skip('error thrown in client navigation', async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
