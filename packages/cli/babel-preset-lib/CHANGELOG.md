@@ -1,5 +1,18 @@
 # @modern-js/babel-preset-lib
 
+## 2.7.0
+
+### Patch Changes
+
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/utils@2.7.0
+  - @modern-js/babel-preset-base@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

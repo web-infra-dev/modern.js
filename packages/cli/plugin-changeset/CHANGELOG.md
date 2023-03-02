@@ -1,5 +1,25 @@
 # @modern-js/plugin-changeset
 
+## 2.7.0
+
+### Patch Changes
+
+- 7fff9020e1: chore: make file naming consistent
+
+  chore: 统一文件命名为小驼峰格式
+
+- 1eea234fdd: chore: make test files naming consistent
+
+  chore: 统一测试文件命名为小驼峰格式
+
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/utils@2.7.0
+  - @modern-js/plugin-i18n@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

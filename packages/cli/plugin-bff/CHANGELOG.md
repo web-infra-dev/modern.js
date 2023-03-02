@@ -1,5 +1,32 @@
 # @modern-js/plugin-bff
 
+## 2.7.0
+
+### Minor Changes
+
+- 84bfb439b8: feat: support custom apiDir, lambdaDir and style of writing for bff
+  feat: 支持定制 api 目录，lambda 目录，bff 的写法
+
+### Patch Changes
+
+- 7bb1554194: fix: remove process.env.PORT from the bff generate client code
+  fix: 从 bff 的 generate client code 中移除 process.env.PORT
+- 1eea234fdd: chore: make test files naming consistent
+
+  chore: 统一测试文件命名为小驼峰格式
+
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7bb1554194]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/utils@2.7.0
+  - @modern-js/bff-core@2.7.0
+  - @modern-js/server-utils@2.7.0
+  - @modern-js/create-request@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

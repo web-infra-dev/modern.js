@@ -5,7 +5,8 @@ import {
   logger,
   ROUTE_MINIFEST_FILE,
 } from '@modern-js/utils';
-import type { Compiler } from 'webpack';
+import type { webpack } from '@modern-js/builder-webpack-provider';
+import type { Rspack } from '@modern-js/builder-rspack-provider';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
 
@@ -17,7 +18,7 @@ interface RouteAssets {
 }
 
 export class RouterPlugin {
-  apply(compiler: Compiler) {
+  apply(compiler: Rspack.Compiler | webpack.Compiler) {
     const { target } = compiler.options;
     if (
       target === 'node' ||
@@ -60,7 +61,7 @@ export class RouterPlugin {
             chunkGroups: true,
             chunks: true,
           });
-          const { publicPath } = stats;
+          const { publicPath, chunks = [] } = stats;
           const routeAssets: RouteAssets = {};
           const { namedChunkGroups, assetsByChunkName } = stats;
 
@@ -92,23 +93,31 @@ export class RouterPlugin {
           `;
 
           const entrypointsArray = Array.from(
-            compilation.entrypoints.entries(),
+            compilation.entrypoints.entries() as IterableIterator<
+              [string, unknown]
+            >,
           );
           const entryChunkIds = entrypointsArray.map(
             entrypoint => entrypoint[0],
           );
-          const entryChunks = [...compilation.chunks].filter(chunk => {
-            return entryChunkIds.includes(chunk.name);
+          const entryChunks = [...chunks].filter(chunk => {
+            return chunk.names?.some(name => entryChunkIds.includes(name));
           });
           const entryChunkFiles = entryChunks.map(
-            chunk => [...chunk.files].find(fname => fname.includes('.js'))!,
+            chunk =>
+              [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
           );
 
           for (const file of entryChunkFiles) {
             const asset = compilation.assets[file];
             const newContent = `${injectedContent}${asset.source().toString()}`;
             newAssetsMap.set(path.join(outputPath, file), newContent);
-            compilation.updateAsset(file, new RawSource(newContent));
+            compilation.updateAsset(
+              file,
+              new RawSource(newContent),
+              // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
+              undefined as any,
+            );
           }
 
           const filename = path.join(outputPath, ROUTE_MINIFEST_FILE);

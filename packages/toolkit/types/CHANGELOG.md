@@ -1,5 +1,14 @@
 # @modern-js/types
 
+## 2.7.0
+
+### Minor Changes
+
+- dcad887024: feat: support deferred data for streaming ssr
+  feat: 流式渲染支持 deferred data
+- 84bfb439b8: feat: support custom apiDir, lambdaDir and style of writing for bff
+  feat: 支持定制 api 目录，lambda 目录，bff 的写法
+
 ## 2.6.0
 
 ### Patch Changes
