@@ -1,5 +1,24 @@
 # @modern-js/utils
 
+## 2.7.0
+
+### Minor Changes
+
+- dcad887024: feat: support deferred data for streaming ssr
+  feat: 流式渲染支持 deferred data
+- 84bfb439b8: feat: support custom apiDir, lambdaDir and style of writing for bff
+  feat: 支持定制 api 目录，lambda 目录，bff 的写法
+
+### Patch Changes
+
+- 0f15fc597c: fix: remove nestedRoutes export
+  fix: 移除 nestedRoutes 导出
+- a4672f7c16: fix: lock @modern-js/utils/ssr by webpack alias
+  fix: 通过 webpack 别名将 @modern-js/utils/ssr 锁到同一版本
+- 7fff9020e1: chore: make file naming consistent
+
+  chore: 统一文件命名为小驼峰格式
+
 ## 2.6.0
 
 ### Patch Changes

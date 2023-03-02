@@ -1,5 +1,34 @@
 # @modern-js/builder-plugin-swc
 
+## 2.7.0
+
+### Patch Changes
+
+- bf5cd628f5: fix: should pass extensions option to loader
+
+  fix: extensions 配置应该传给 loader
+
+- 43f1091819: fix(plugin-swc): webpack magic comment is removed after compilation
+
+  fix(plugin-swc): 修复 webpack magic comment 被错误移除的问题
+
+- 3a942a2472: feat: add Rspack provider swc options, add builder-plugin-swc overrideBrowserslist configuration, report warning when enable latestDecorator in builder-plugin-swc
+
+  feat: 给 Rspack provider 增加 swc 相关配置项，增加 builder-plugin-swc overrideBrowserslist 配置，在 builder-plugin-swc 启用 latestDecorator 后增加 warning 报错
+
+- 9d4da8687a: fix: disable swc react refresh when ssr mode.
+  fix: 当在 SSR 模式时，禁用 swc react refresh.
+- 65c5ff6042: fix(plugin-swc): runtime error when set dev.hmr to false
+
+  fix(plugin-swc): 修复 dev.hmr 设置为 false 时出现运行时错误的问题
+
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/utils@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

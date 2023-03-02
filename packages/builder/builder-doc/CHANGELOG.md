@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.7.0
+
+### Patch Changes
+
+- 54caf43349: fix: performance.chunkSplit.strategy position
+
+  fix: 修复 performance.chunkSplit.strategy 位置错误
+
 ## 2.6.0
 
 ### Minor Changes
