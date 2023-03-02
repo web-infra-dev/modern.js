@@ -137,9 +137,9 @@ exports[`plugins/less > should add less-loader 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -188,9 +188,9 @@ exports[`plugins/less > should add less-loader 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -257,9 +257,9 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -311,9 +311,9 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -377,9 +377,9 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": false,
                   },
@@ -428,9 +428,9 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": false,
                   },
@@ -494,10 +494,10 @@ exports[`plugins/sass > should add sass-loader 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": true,
-                  "webpackImporter": true,
                 },
               },
             ],
@@ -542,10 +542,10 @@ exports[`plugins/sass > should add sass-loader 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": true,
-                  "webpackImporter": true,
                 },
               },
             ],
@@ -608,10 +608,10 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": true,
-                  "webpackImporter": true,
                 },
               },
             ],
@@ -659,10 +659,10 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": true,
-                  "webpackImporter": true,
                 },
               },
             ],

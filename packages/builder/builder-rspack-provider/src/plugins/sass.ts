@@ -1,9 +1,9 @@
 import {
   isUseCssSourceMap,
   SASS_REGEX,
-  FileFilterUtil,
+  getSassLoaderOptions,
+  getSharedPkgCompiledPath,
 } from '@modern-js/builder-shared';
-import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin } from '../types';
 
 export function builderPluginSass(): BuilderPlugin {
@@ -12,32 +12,12 @@ export function builderPluginSass(): BuilderPlugin {
     setup(api) {
       api.modifyBundlerChain(async (chain, utils) => {
         const config = api.getNormalizedConfig();
-        const { applyOptionsChain } = await import('@modern-js/utils');
         const { applyBaseCSSRule } = await import('./css');
 
-        const getSassLoaderOptions = () => {
-          const excludes: (RegExp | string)[] = [];
-
-          const addExcludes: FileFilterUtil = items => {
-            excludes.push(..._.castArray(items));
-          };
-
-          const mergedOptions = applyOptionsChain(
-            {
-              sourceMap: isUseCssSourceMap(config),
-              webpackImporter: true,
-            },
-            config.tools.sass,
-            { addExcludes },
-          );
-
-          return {
-            options: mergedOptions,
-            excludes,
-          };
-        };
-
-        const { excludes, options } = getSassLoaderOptions();
+        const { excludes, options } = await getSassLoaderOptions(
+          config.tools.sass,
+          isUseCssSourceMap(config),
+        );
 
         const rule = chain.module
           .rule(utils.CHAIN_ID.RULE.SASS)
@@ -52,7 +32,7 @@ export function builderPluginSass(): BuilderPlugin {
 
         rule
           .use(utils.CHAIN_ID.USE.SASS)
-          .loader(utils.getCompiledPath('sass-loader'))
+          .loader(getSharedPkgCompiledPath('sass-loader'))
           .options(options);
       });
 

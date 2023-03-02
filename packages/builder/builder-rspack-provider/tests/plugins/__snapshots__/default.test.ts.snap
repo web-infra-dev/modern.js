@@ -376,9 +376,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -427,9 +427,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -484,10 +484,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": true,
-                  "webpackImporter": true,
                 },
               },
             ],
@@ -532,10 +532,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": true,
-                  "webpackImporter": true,
                 },
               },
             ],
@@ -1021,9 +1021,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -1072,9 +1072,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -1129,10 +1129,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": false,
-                  "webpackImporter": true,
                 },
               },
             ],
@@ -1177,10 +1177,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": false,
-                  "webpackImporter": true,
                 },
               },
             ],
@@ -1687,9 +1687,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -1738,9 +1738,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/less-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
                 "options": {
-                  "implementation": "<ROOT>/compiled/less",
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
@@ -1795,10 +1795,10 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": true,
-                  "webpackImporter": true,
                 },
               },
             ],
@@ -1843,10 +1843,10 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 },
               },
               {
-                "loader": "<ROOT>/compiled/sass-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
                   "sourceMap": true,
-                  "webpackImporter": true,
                 },
               },
             ],
