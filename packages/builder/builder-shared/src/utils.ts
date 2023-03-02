@@ -74,4 +74,8 @@ export const getSharedPkgCompiledPath = (
   return join(__dirname, '../compiled', packageName);
 };
 
+// Determine if the string is a URL
+export const isURL = (str: string) =>
+  str.startsWith('http') || str.startsWith('//:');
+
 export * as z from './zod';

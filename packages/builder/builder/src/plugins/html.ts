@@ -1,5 +1,6 @@
 import path from 'path';
 import {
+  isURL,
   isFileExists,
   isHtmlDisabled,
   getDistPath,
@@ -74,9 +75,6 @@ async function getChunks(entryName: string, entryValue: string | string[]) {
 
   return [...dependOn, entryName];
 }
-
-// Determine if the string is a favicon url
-const isFaviconUrl = (str: string) => str.startsWith('http');
 
 export const applyInjectTags = (api: SharedBuilderPluginAPI) => {
   api.modifyBundlerChain(async (chain, { HtmlPlugin, CHAIN_ID }) => {
@@ -172,7 +170,7 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
             };
 
             if (favicon) {
-              if (isFaviconUrl(favicon)) {
+              if (isURL(favicon)) {
                 faviconUrls.push({
                   filename,
                   url: favicon,
