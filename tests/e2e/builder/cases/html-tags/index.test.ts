@@ -15,6 +15,7 @@ test('should inject tags', async () => {
       html: {
         tags: [
           { tag: 'script', attrs: { src: 'foo.js' } },
+          { tag: 'script', attrs: { src: 'https://www.cdn.com/foo.js' } },
           { tag: 'script', attrs: { src: 'bar.js' }, append: false },
           { tag: 'script', attrs: { src: 'baz.js' }, append: false },
           { tag: 'meta', attrs: { name: 'referrer', content: 'origin' } },
@@ -30,5 +31,8 @@ test('should inject tags', async () => {
     files[path.resolve(__dirname, './dist/html/index/index.html')];
 
   expect(isHtmlMatch(indexHtml, /foo\.js/)).toBeTruthy();
+  expect(
+    isHtmlMatch(indexHtml, /src="https:\/\/www\.cdn\.com\/foo\.js/),
+  ).toBeTruthy();
   expect(isHtmlMatch(indexHtml, /content="origin"/)).toBeTruthy();
 });

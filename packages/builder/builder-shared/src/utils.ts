@@ -67,4 +67,8 @@ export const isUseCssSourceMap = (config: SharedNormalizedConfig) => {
   return !disableSourceMap.css;
 };
 
+// Determine if the string is a URL
+export const isURL = (str: string) =>
+  str.startsWith('http') || str.startsWith('//:');
+
 export * as z from './zod';

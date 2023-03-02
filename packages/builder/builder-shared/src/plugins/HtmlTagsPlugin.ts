@@ -7,6 +7,7 @@ import _ from '@modern-js/utils/lodash';
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import type { Compiler } from 'webpack';
+import { isURL } from '../utils';
 
 export interface HtmlTagsPluginOptions {
   hash?: HtmlInjectTag['hash'];
@@ -61,8 +62,12 @@ export const FILE_ATTRS = {
   script: 'src',
 };
 
-const withPublicPath = (url: string, base: string) =>
-  path.posix.join(base, url);
+const withPublicPath = (str: string, base: string) => {
+  if (isURL(str)) {
+    return str;
+  }
+  return path.posix.join(base, str);
+};
 
 const withHash = (url: string, hash: string) => `${url}?${hash}`;
 
@@ -88,6 +93,7 @@ export class HtmlTagsPlugin {
         // skip unmatched file and empty tag list.
         const includesCurrentFile =
           !this.ctx.includes || this.ctx.includes.includes(params.outputName);
+
         if (!includesCurrentFile || !this.ctx.tags?.length) {
           return params;
         }
@@ -109,15 +115,19 @@ export class HtmlTagsPlugin {
           }
           return ret;
         };
+
         const fromInjectTags = (tags: HtmlInjectTag[]) => {
           const ret: HtmlWebpackPlugin.HtmlTagObject[] = [];
+
           for (const tag of tags) {
             // apply publicPath and hash to filename attr.
             const attrs = { ...tag.attrs };
             const filenameTag = FILE_ATTRS[tag.tag as keyof typeof FILE_ATTRS];
             let filename = attrs[filenameTag];
+
             if (typeof filename === 'string') {
               const optPublicPath = tag.publicPath ?? this.ctx.publicPath;
+
               if (typeof optPublicPath === 'function') {
                 filename = optPublicPath(filename, params.publicPath);
               } else if (typeof optPublicPath === 'string') {
@@ -125,7 +135,9 @@ export class HtmlTagsPlugin {
               } else if (optPublicPath !== false) {
                 filename = withPublicPath(filename, params.publicPath);
               }
+
               const optHash = tag.hash ?? this.ctx.hash;
+
               if (typeof optHash === 'function') {
                 compilationHash.length &&
                   (filename = optHash(filename, compilationHash));
@@ -135,8 +147,10 @@ export class HtmlTagsPlugin {
                 compilationHash.length &&
                   (filename = withHash(filename, compilationHash));
               }
+
               attrs[filenameTag] = filename;
             }
+
             ret.push({
               tagName: tag.tag,
               attributes: attrs,
@@ -147,8 +161,10 @@ export class HtmlTagsPlugin {
           }
           return ret;
         };
+
         // create tag list from html-webpack-plugin and options.
         const [handlers, records] = _.partition(this.ctx.tags, _.isFunction);
+
         let tags = [
           ...fromWebpackTags(params.headTags, { head: true }),
           ...fromWebpackTags(params.bodyTags, { head: false }),
@@ -163,6 +179,7 @@ export class HtmlTagsPlugin {
           typeof append === 'boolean' && (priority += append ? 1 : -1);
           return priority;
         });
+
         const utils: HtmlInjectTagUtils = {
           outputName: params.outputName,
           publicPath: params.publicPath,
