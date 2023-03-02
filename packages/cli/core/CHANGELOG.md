@@ -1,5 +1,28 @@
 # @modern-js/core
 
+## 2.7.0
+
+### Minor Changes
+
+- 84bfb439b8: feat: support custom apiDir, lambdaDir and style of writing for bff
+  feat: 支持定制 api 目录，lambda 目录，bff 的写法
+
+### Patch Changes
+
+- 206c806efa: fix(rspack-provider): missing tools.autoprefixer type
+
+  fix(rspack-provider): 修复缺少 tools.autoprefixer 类型定义的问题
+
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/utils@2.7.0
+  - @modern-js/node-bundle-require@2.7.0
+  - @modern-js/plugin@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

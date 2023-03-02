@@ -1,5 +1,26 @@
 # @modern-js/plugin-express
 
+## 2.7.0
+
+### Minor Changes
+
+- 84bfb439b8: feat: support custom apiDir, lambdaDir and style of writing for bff
+  feat: 支持定制 api 目录，lambda 目录，bff 的写法
+
+### Patch Changes
+
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7bb1554194]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/utils@2.7.0
+  - @modern-js/types@2.7.0
+  - @modern-js/bff-core@2.7.0
+  - @modern-js/bff-runtime@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

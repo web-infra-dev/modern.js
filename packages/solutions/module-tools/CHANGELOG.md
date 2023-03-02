@@ -1,5 +1,35 @@
 # @modern-js/module-tools
 
+## 2.7.0
+
+### Patch Changes
+
+- eccfe877b5: fix: add watch mode to copy
+  fix: 为 copy 功能补充 watch 逻辑
+- 7fff9020e1: chore: make file naming consistent
+
+  chore: 统一文件命名为小驼峰格式
+
+- 1eea234fdd: chore: make test files naming consistent
+
+  chore: 统一测试文件命名为小驼峰格式
+
+- Updated dependencies [206c806efa]
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/core@2.7.0
+  - @modern-js/utils@2.7.0
+  - @modern-js/plugin-changeset@2.7.0
+  - @modern-js/plugin-i18n@2.7.0
+  - @modern-js/plugin-lint@2.7.0
+  - @modern-js/new-action@2.7.0
+  - @modern-js/upgrade@2.7.0
+  - @modern-js/plugin@2.7.0
+
 ## 2.6.0
 
 ### Minor Changes
