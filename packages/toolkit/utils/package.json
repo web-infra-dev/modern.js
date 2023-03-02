@@ -210,6 +210,17 @@
     "react-dom": ">=17.0.0",
     "react-router-dom": "^6.8.1"
   },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "react-router-dom": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0",
