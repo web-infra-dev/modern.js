@@ -43,9 +43,12 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 不过，开发者仍然需要关注数据的兜底处理，例如 `null` 值或不符合预期的数据返回。避免在 SSR 时产生 React 渲染错误或是返回凌乱的渲染结果。
 
 :::info 补充信息
-使用 Data Loader 时，数据获取发生在渲染前，Modern.js 也仍然支持在组件渲染时获取数据。更多相关内容可以查看[数据获取](/guides/basic-features/data-fetch)。
+1. 当以客户端路由的方式请求页面时，Modern.js 会发送一个 HTTP 请求，服务端接收到请求后执行页面对应的 Data Loader 函数，然后将执行结果作为请求的响应返回浏览器。
 
+2. 使用 Data Loader 时，数据获取发生在渲染前，Modern.js 也仍然支持在组件渲染时获取数据。更多相关内容可以查看[数据获取](/guides/basic-features/data-fetch)。
 :::
+
+
 
 ## 保持渲染一致
 
@@ -277,7 +280,7 @@ export const loader = () => {
 
 ## 流式渲染
 
-Modern.js 支持了 React 18 的流式渲染，可以通过如下配置修改默认的渲染模式：
+Modern.js 支持了 React 18 的流式渲染，可以通过如下配置启用：
 
 ```json
 {
@@ -289,7 +292,210 @@ Modern.js 支持了 React 18 的流式渲染，可以通过如下配置修改默
 }
 ```
 
-:::note
-目前 Modern.js 内置的数据获取方式还未支持流式渲染，如迫切需要开发者可以按照 React Stream SSR 的 Demo 自建。
+Modern.js 的流式渲染基于 React Router 实现，主要涉及 API 有：
 
+- [`defer`](https://reactrouter.com/en/main/utils/defer)：在 Data Loader 中使用，用于支持异步获取数据。
+- [`Await`](https://reactrouter.com/en/main/components/await)：用于渲染 Data Loader 返回的异步数据。
+- [`useAsyncValue`](https://reactrouter.com/en/main/hooks/use-async-value)：用于从最近的父级 `Await` 组件中获取数据。
+
+
+### 异步获取数据
+
+```ts title='page.loader.ts'
+import { defer, type LoaderFunctionArgs } from '@modern-js/runtime/router';
+
+interface User {
+  name: string;
+  age: number;
+}
+
+export interface Data {
+  data: User;
+}
+
+export default ({ params }: LoaderFunctionArgs) => {
+  const userId = params.id;
+
+  const user = new Promise<User>(resolve => {
+    setTimeout(() => {
+      resolve({
+        name: `user-${userId}`,
+        age: 18,
+      });
+    }, 200);
+  });
+
+  return defer({ data: user });
+};
+
+```
+
+`user` 是一个 Promise 类型的对象，表示需要异步获取的数据，通过 `defer` 处理需要异步获取的 `user`。注意，`defer` 必须接收一个对象类型的参数，
+因此， 传入 `defer` 的参数为 `{data: user}`。
+
+`defer` 还可以同时接收异步数据和同步数据。例如：
+
+```ts title='page.loader.ts'
+
+// 省略部分代码
+
+export default ({ params }: LoaderFunctionArgs) => {
+  const userId = params.id;
+
+  const user = new Promise<User>(resolve => {
+    setTimeout(() => {
+      resolve({
+        name: `user-${userId}`,
+        age: 18,
+      });
+    }, 200);
+  });
+
+  const otherData = new Promise<string>(resolve => {
+    setTimeout(() => {
+      resolve('some sync data');
+    }, 200);
+  });
+
+  return defer({
+    data: user,
+    other: await otherData
+  });
+};
+
+```
+
+`otherData` 前加了 `await`，所以是同步获取的数据，它可以和异步获取的数据 `user` 同时传入 `defer`。
+
+
+### 渲染异步数据
+
+通过 `Await` 组件，可以获取到 Data Loader 中异步返回的数据，然后进行渲染。例如：
+
+```ts title='page.tsx'
+import { Await, useLoaderData } from '@modern-js/runtime/router';
+import { Suspense } from 'react';
+import type { Data } from './page.loader';
+
+const Page = () => {
+  const data = useLoaderData() as Data;
+
+  return (
+    <div>
+      User info:
+      <Suspense fallback={<div id="loading">loading user data ...</div>}>
+        <Await resolve={data.data}>
+          {(user) => {
+            return (
+              <div id="data">
+                name: {user.name}, age: {user.age}
+              </div>
+            );
+          }}
+        </Await>
+      </Suspense>
+    </div>
+  );
+};
+
+export default Page;
+```
+
+`Await` 需要包裹在 `Suspense` 组件内部，`Await` 的 `resolve` 传入的是 Data Loader 异步获取的数据，当数据获取完成后，
+通过 [Render Props](https://reactjs.org/docs/render-props.html) 模式，渲染获取到的数据。在数据的获取阶段，将展示
+`Suspense` 组件 `fallback` 属性设置的内容。
+
+:::warning 注意
+从 Data Loader 文件导入类型时，需要使用 import type 语法，保证只导入类型信息，这样可以避免 Data Loader 的代码打包到前端产物的 bundle 文件中。
+
+所以，这里的导入方式为：`import type { Data } from './page.loader'`;
+:::
+
+也可以通过 `useAsyncValue` 获取 Data Loader 返回的异步数据。例如：
+
+```
+```ts title='page.tsx'
+import { useAsyncValue } from '@modern-js/runtime/router';
+
+// 省略部分代码
+
+const UserInfo = () => {
+  const user = useAsyncValue();
+
+  return (
+     <div>
+      name: {user.name}, age: {user.age}
+    </div>
+  )
+}
+
+const Page = () => {
+  const data = useLoaderData() as Data;
+
+  return (
+    <div>
+      User info:
+      <Suspense fallback={<div id="loading">loading user data ...</div>}>
+        <Await resolve={data.data}>
+          <UserInfo />
+        </Await>
+      </Suspense>
+    </div>
+  );
+};
+
+export default Page;
+```
+
+### 错误处理
+
+`Await` 组件的 `errorElement` 属性，可以用来处理当 Data Loader 执行时，或者子组件渲染时抛出的错误。
+例如，我们故意在 Data Loader 函数中抛出错误：
+
+```ts title='page.loader.ts'
+import { defer } from '@modern-js/runtime/router';
+
+export default () => {
+  const data = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('error occurs'));
+    }, 200);
+  });
+
+  return defer({ data });
+};
+```
+
+然后通过 `useAsyncError` 获取错误，并将用于渲染错误信息的组件赋值给 `Await` 组件的 `errorElement` 属性：
+
+```ts title='page.ts'
+import { Await, useAsyncError, useLoaderData } from '@modern-js/runtime/router';
+import { Suspense } from 'react';
+
+export default function Page() {
+  const data = useLoaderData();
+
+  return (
+    <div>
+      Error page
+      <Suspense fallback={<div>loading ...</div>}>
+        <Await resolve={data.data} errorElement={<ErrorElement />}>
+          {(data: any) => {
+            return <div>never displayed</div>;
+          }}
+        </Await>
+      </Suspense>
+    </div>
+  );
+}
+
+function ErrorElement() {
+  const error = useAsyncError() as Error;
+  return <p>Something went wrong! {error.message}</p>;
+}
+```
+
+:::info 补充信息
+1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)
+2. [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
 :::

@@ -15,36 +15,21 @@ export function HomeHero() {
   const hero = frontmatter?.hero || DEFAULT_HERO;
   const hasImage = hero.image !== undefined;
   return (
-    <div
-      m="auto"
-      p="t-12 x-6 b-12 sm:t-0 sm:x-8 sm:x-16 md:t-20 md:x-16 md:b-16"
-    >
+    <div className="m-auto pt-0 px-6 pb-12 sm:pt-10 sm:px-16 md:pt-20 md:px-16 md:pb-16">
       <div
         className={styles.mask}
         style={{
           left: hasImage ? '75%' : '50%',
         }}
       ></div>
-      <div className="max-w-1152px" m="auto" flex="~ col md:row">
-        <div
-          order="2 md:1"
-          flex="~ col"
-          className={`justify-center text-center max-w-592px sm:max-w-768px m-auto`}
-        >
-          <h1
-            font="bold"
-            text="3xl sm:6xl md:7xl"
-            m="auto md:0"
-            p="md:b-3 lg:b-5"
-            z="10"
-          >
+      <div className="max-w-1152px m-auto flex flex-col md:flex-row">
+        <div className="flex flex-col justify-center text-center max-w-592px sm:max-w-768px m-auto order-2 md:order-1">
+          <h1 className="font-bold text-3xl sm:text-6xl md:text-7xl m-auto sm:m-4 md:m-0 md:pb-3 lg:pb-5 z-10">
             <span className={styles.clip}>{hero.name}</span>
           </h1>
           {hero.text?.length && (
             <p
-              m="x-auto md:0"
-              text="3xl sm:5xl md:6xl"
-              className={`pb-2 font-bold z-10 max-w-392px ${
+              className={`mx-auto md:m-0 text-3xl sm:text-5xl md:text-6xl pb-2 font-bold z-10 max-w-392px ${
                 hasImage ? 'sm:max-w-576px' : 'sm:max-w-768px'
               }`}
               style={{ lineHeight: '1.15' }}
@@ -53,25 +38,12 @@ export function HomeHero() {
             </p>
           )}
 
-          <p
-            p="t-4"
-            m="auto md:0"
-            text="sm sm:xl md:2xl text-2"
-            font="medium"
-            className="whitespace-pre-wrap"
-            z="10"
-          >
+          <p className="whitespace-pre-wrap pt-4 m-auto md:m-0 text-sm sm:tex-xl md:text-2xl text-text-2 font-medium z-10">
             {hero.tagline}
           </p>
-          <div
-            flex="~ wrap"
-            className="justify-center gap-3"
-            m="-1.5"
-            p="t-8"
-            z="10"
-          >
+          <div className="flex flex-wrap justify-center gap-3 m--1.5 pt-8 z-10">
             {hero.actions.map(action => (
-              <div p="1" flex="shrink-0" key={action.link}>
+              <div className="flex flex-shrink-0 p-1" key={action.link}>
                 <Button
                   type="a"
                   text={action.text}
@@ -84,15 +56,7 @@ export function HomeHero() {
         </div>
 
         {hasImage ? (
-          <div
-            w="sm:max-60"
-            h="sm:max-60"
-            flex="md:center"
-            m="auto"
-            order="1 md:2"
-            display="flex sm:flex md:none lg:flex"
-            className="modern-doc-home-hero-image"
-          >
+          <div className="modern-doc-home-hero-image sm:max-w-60 sm:max-h-60 md:flex-center m-auto order-1 md:order-2 sm:flex md:none lg:flex">
             <img src={hero.image?.src} alt={hero.image?.alt} />
           </div>
         ) : null}

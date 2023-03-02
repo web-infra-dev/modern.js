@@ -3,6 +3,7 @@ import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
 
 export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
+    import('../plugins/transition').then(m => m.builderPluginTransition()),
     import('../plugins/basic').then(m => m.builderPluginBasic()),
     plugins.entry(),
     plugins.cache(),

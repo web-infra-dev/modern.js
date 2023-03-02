@@ -10,6 +10,7 @@ import { NavMenuSingleItem } from '../Nav/NavMenuSingleItem';
 import { SwitchAppearance } from '../SwitchAppearance';
 import Translator from '../../assets/translator.svg';
 import { SocialLinks } from '../SocialLinks';
+import { getToggle } from '../../logic/useAppearance';
 import styles from './index.module.scss';
 
 interface Props {
@@ -50,6 +51,7 @@ export function NavScreen(props: Props) {
   const hasSocialLinks = socialLinks.length > 0;
   const langs = localesData.map(item => item.lang || 'zh') || [];
   const { base } = siteData;
+  const toggleAppearance = getToggle();
 
   const translationMenuData = hasMultiLanguage
     ? {
@@ -58,15 +60,18 @@ export function NavScreen(props: Props) {
           text: item.label,
           link: `/${item.lang}`,
         })),
-        activeIndex: localesData.findIndex(
-          item => item.lang === localeData.lang,
-        ),
+        activeValue: localesData.find(item => item.lang === localeData.lang)!
+          .label,
       }
     : null;
   const NavScreenAppearance = () => {
     return (
       <div className={`mt-2 ${styles.navAppearance}`} flex="~" justify="center">
-        <SwitchAppearance />
+        <SwitchAppearance
+          onClick={() => {
+            toggleAppearance();
+          }}
+        />
       </div>
     );
   };
@@ -86,7 +91,10 @@ export function NavScreen(props: Props) {
                 />
               ) : (
                 <div m="x-3" last="mr-0" key={index}>
-                  <NavScreenMenuGroup {...item} />
+                  <NavScreenMenuGroup
+                    {...item}
+                    items={'items' in item ? item.items : item}
+                  />
                 </div>
               )}
             </div>

@@ -216,6 +216,11 @@ button select {
   text-transform: none;
 }
 
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
 .visually-hidden {
   visibility: hidden;
 }

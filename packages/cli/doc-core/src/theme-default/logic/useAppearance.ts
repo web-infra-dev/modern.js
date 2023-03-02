@@ -1,12 +1,12 @@
 import { APPEARANCE_KEY } from '@/shared/utils';
 
-let classList: DOMTokenList;
+let classList: DOMTokenList | undefined;
 // Determine if the theme mode of the user's operating system is dark
 let userPreference: string;
 let query: MediaQueryList;
 
 const setClass = (dark: boolean): void => {
-  classList[dark ? 'add' : 'remove']('dark');
+  classList?.[dark ? 'add' : 'remove']('dark');
 };
 
 const updateAppearance = (): void => {
@@ -21,16 +21,17 @@ if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
   // When user preference is auto,the modern theme will change with the system user's operating system theme.
   // eslint-disable-next-line prefer-destructuring
   classList = document.documentElement.classList;
+  updateAppearance();
 }
 
-export const isDarkMode = () => classList.contains('dark');
+export const isDarkMode = () => classList?.contains('dark');
 
 export const getToggle = () => {
   if (typeof window !== 'undefined') {
     window.addEventListener('storage', updateAppearance);
   }
   return () => {
-    const isDark = classList.contains('dark');
+    const isDark = isDarkMode();
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       setClass(!isDark);
       userPreference = isDark ? 'light' : 'dark';

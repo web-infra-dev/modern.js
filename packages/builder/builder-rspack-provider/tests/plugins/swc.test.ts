@@ -63,6 +63,14 @@ describe('plugins/swc', () => {
     });
   });
 
+  it('should has correct core-js', async () => {
+    await matchConfigSnapshot('web', {
+      output: {
+        polyfill: 'entry',
+      },
+    });
+  });
+
   // TODO wait for tools.modularImports
   // it('should add pluginImport', async () => {
   //   await matchConfigSnapshot('web', {
