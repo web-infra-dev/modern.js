@@ -256,6 +256,43 @@ export const TASKS: TaskConfig[] = [
           'gzip-size': '@modern-js/utils/gzip-size',
         },
       },
+      {
+        name: 'less',
+        externals: {
+          // needle is an optional dependency and no need to bundle it.
+          needle: 'needle',
+        },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
+            content.replace(
+              `declare module "less" {\n    export = less;\n}`,
+              `export = Less;`,
+            ),
+          );
+        },
+      },
+      {
+        name: 'less-loader',
+        ignoreDts: true,
+        externals: {
+          less: '../less',
+        },
+      },
+      {
+        name: 'sass',
+        externals: {
+          chokidar: '@modern-js/utils/chokidar',
+        },
+        afterBundle(task) {
+          copySync(join(task.depPath, 'types'), join(task.distPath, 'types'));
+        },
+      },
+      {
+        name: 'sass-loader',
+        externals: {
+          sass: '../sass',
+        },
+      },
     ],
   },
   {
@@ -388,43 +425,6 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
-        name: 'less',
-        externals: {
-          // needle is an optional dependency and no need to bundle it.
-          needle: 'needle',
-        },
-        afterBundle(task) {
-          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
-            content.replace(
-              `declare module "less" {\n    export = less;\n}`,
-              `export = Less;`,
-            ),
-          );
-        },
-      },
-      {
-        name: 'less-loader',
-        ignoreDts: true,
-        externals: {
-          less: '../less',
-        },
-      },
-      {
-        name: 'sass',
-        externals: {
-          chokidar: '@modern-js/utils/chokidar',
-        },
-        afterBundle(task) {
-          copySync(join(task.depPath, 'types'), join(task.distPath, 'types'));
-        },
-      },
-      {
-        name: 'sass-loader',
-        externals: {
-          sass: '../sass',
-        },
-      },
-      {
         name: 'pug',
         externals: {
           '@babel/types': '../@babel/types',
@@ -499,43 +499,6 @@ export const TASKS: TaskConfig[] = [
         externals: {
           browserslist: '@modern-js/utils/browserslist',
           'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
-      {
-        name: 'less',
-        externals: {
-          // needle is an optional dependency and no need to bundle it.
-          needle: 'needle',
-        },
-        afterBundle(task) {
-          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
-            content.replace(
-              `declare module "less" {\n    export = less;\n}`,
-              `export = Less;`,
-            ),
-          );
-        },
-      },
-      {
-        name: 'less-loader',
-        ignoreDts: true,
-        externals: {
-          less: '../less',
-        },
-      },
-      {
-        name: 'sass',
-        externals: {
-          chokidar: '@modern-js/utils/chokidar',
-        },
-        afterBundle(task) {
-          copySync(join(task.depPath, 'types'), join(task.distPath, 'types'));
-        },
-      },
-      {
-        name: 'sass-loader',
-        externals: {
-          sass: '../sass',
         },
       },
     ],
