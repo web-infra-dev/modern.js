@@ -3,9 +3,7 @@ title: Middleware
 ---
 # Middleware
 
-Used to extend Modern.js built-in Web Server, only SSR requests are handled by these middleware.
-
-Unlike [Hook](/apis/app/runtime/web-server/hook), middleware can be extended using the framework plugin.
+Used to extend the built-in Web Server of Modern.js, unlike [Hook](/apis/app/runtime/web-server/hook), Middleware can directly operate Node's origin request and response, and can be extended using the framework plugin.
 
 :::note
 For more detail, see [Extend Web Server](/guides/advanced-features/web-server).
@@ -38,6 +36,11 @@ pnpm run new
 ## Function Signature
 
 ```ts
+type Middleware = (
+  context: MiddlewareContext,
+  next: NextFunction,
+) => Promise<void> | void;
+
 type MiddlewareContext = {
   response: {
     set: (key: string, value: string) => void;
@@ -70,11 +73,6 @@ type MiddlewareContext = {
     res: ServerResponse;
   };
 };
-
-type RequestHandler = (
-  context: Context,
-  next: NextFunction,
-) => Promise<void> | void;
 ```
 
 ### Input
@@ -84,6 +82,10 @@ type RequestHandler = (
   - `request`: provides a series of methods to get request info.
   - `source`: provides Node.js native `req` and `res` object.
 - `next`: call next listener（not affect the server process, only current hook）.
+
+:::warning
+The execution of the `next` function does not affect built-in processes, only controls whether the next middleware executes. Rendering processes are interrupted only when the response is written.
+:::
 
 ## Example
 
@@ -106,5 +108,27 @@ Modern.js provides `res.locals` to store local variables for the current request
 export const Middleware = () => async (ctx, next) => {
   ctx.res.locals.id = 'Modern.js';
   ctx.res.locals.rpc = createRpcInstance();
-});
+};
 ```
+
+### Framework Extension
+
+Middleware can also use runtime framework extensions like BFF.
+
+When using framework runtime extensions, type information is exported from `@modern-js/runtime/{namespace}`. Middleware can use framework syntax, such as framework middleware writing, the following is pseudo-code:
+
+```ts
+import { SomeType } from '@modern-js/runtime/{namespace}';
+
+export const middleware: SomeType = (ctx, next) => {
+  console.log(ctx.url);
+  next();
+};
+```
+
+By default, the framework extension capability of Web Server is turned off after installing the framework extension plug-in. If you want to use the framework extension, you can turn it on through ['server.enableFrameworkExt'](/configure/app/server/enable-framework-ext.html).
+
+
+:::info
+The type name exported by the framework extension may not 'Middleware', but is named by the framework extension plugin.
+:::

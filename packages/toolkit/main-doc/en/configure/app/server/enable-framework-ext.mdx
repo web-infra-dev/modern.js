@@ -35,7 +35,7 @@ export const middleware: Middleware = (ctx, next) => {
 When enabled, Middleware types will be exported from other namespaces and can the syntax of framework extensions:
 
 ```ts title="server/index.ts"
-import { SomeType } from '@modern-js/runtime/{frameworknName}';
+import { SomeType } from '@modern-js/runtime/{namespace}';
 
 export const middleware: SomeType = (...args) => {
   console.log(args[0].url);

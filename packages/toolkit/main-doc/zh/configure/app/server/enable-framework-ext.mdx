@@ -35,7 +35,7 @@ export const middleware: Middleware = (ctx, next) => {
 开启后，Middleware 类型将从其他命名空间下导出，并且可以使用框架拓展的语法：
 
 ```ts title="server/index.ts"
-import { SomeType } from '@modern-js/runtime/{frameworknName}';
+import { SomeType } from '@modern-js/runtime/{namespace}';
 
 export const middleware: SomeType = (...args) => {
   console.log(args[0].url);
