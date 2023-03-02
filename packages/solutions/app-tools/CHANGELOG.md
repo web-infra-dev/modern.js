@@ -1,5 +1,57 @@
 # @modern-js/app-tools
 
+## 2.7.0
+
+### Minor Changes
+
+- dcad887024: feat: support deferred data for streaming ssr
+  feat: 流式渲染支持 deferred data
+- 84bfb439b8: feat: support custom apiDir, lambdaDir and style of writing for bff
+  feat: 支持定制 api 目录，lambda 目录，bff 的写法
+
+### Patch Changes
+
+- 0644f90567: feat: support optional params in file-based route
+  feat: 约定式路由支持可选参数
+- 6547de8dd4: fix: use api.useResolvedConfigContext instead useResolvedConfigContext from @modern-js/core
+  fix: 使用 api.useResolvedConfigContext 代替从 @modern-js/core 中导出的 useResolvedConfigContext
+- 1eea234fdd: chore: make test files naming consistent
+
+  chore: 统一测试文件命名为小驼峰格式
+
+- Updated dependencies [206c806efa]
+- Updated dependencies [a729b0d366]
+- Updated dependencies [dfece9dc1c]
+- Updated dependencies [6378e26bf9]
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [3a942a2472]
+- Updated dependencies [5f899af53a]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [1b913372b4]
+- Updated dependencies [ebe0d2dd6e]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/builder-rspack-provider@2.7.0
+  - @modern-js/builder-shared@2.7.0
+  - @modern-js/builder-webpack-provider@2.7.0
+  - @modern-js/core@2.7.0
+  - @modern-js/builder@2.7.0
+  - @modern-js/server@2.7.0
+  - @modern-js/utils@2.7.0
+  - @modern-js/plugin-data-loader@2.7.0
+  - @modern-js/types@2.7.0
+  - @modern-js/plugin-i18n@2.7.0
+  - @modern-js/plugin-lint@2.7.0
+  - @modern-js/prod-server@2.7.0
+  - @modern-js/node-bundle-require@2.7.0
+  - @modern-js/builder-plugin-esbuild@2.7.0
+  - @modern-js/builder-plugin-node-polyfill@2.7.0
+  - @modern-js/new-action@2.7.0
+  - @modern-js/upgrade@2.7.0
+  - @modern-js/plugin@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

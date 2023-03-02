@@ -1,5 +1,20 @@
 # @modern-js/generator-common
 
+## 3.0.9
+
+### Patch Changes
+
+- 7fff9020e1: chore: make file naming consistent
+
+  chore: 统一文件命名为小驼峰格式
+
+- 1eea234fdd: chore: make test files naming consistent
+
+  chore: 统一测试文件命名为小驼峰格式
+
+- Updated dependencies [7fff9020e1]
+  - @modern-js/plugin-i18n@2.7.0
+
 ## 3.0.8
 
 ### Patch Changes
