@@ -2,7 +2,7 @@
 
 The target plugin of Modern.js Module Tools.
 
-You can set [target](https://esbuild.github.io/api/#target) instead of module-tools's [`target`](https://edenx.bytedance.net/module-tools/en/api/config/build-config.html#target) api by the plugin.
+You can set [target](https://esbuild.github.io/api/#target) instead of module-tools's [`target`](https://modernjs.dev/module-tools/en/api/config/build-config.html#target) api by the plugin.
 
 **Note: It may not work correctly**
 
