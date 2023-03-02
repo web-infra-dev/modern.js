@@ -3,7 +3,6 @@ import { BuilderPlugin } from '@modern-js/builder-shared';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 
 import { BuilderOptions, createCopyPattern } from '../../shared';
-import { RouterPlugin } from '../webpackPlugins';
 
 /**
  * Provides default configuration consistent with modern.js v1
@@ -36,18 +35,6 @@ export const builderPluginCompatModern = (
             patterns: [...(args[0]?.patterns || []), defaultCopyPattern],
           },
         ]);
-      }
-
-      const { entrypoints } = appContext;
-      const existNestedRoutes = entrypoints.some(
-        entrypoint => entrypoint.nestedRoutesEntry,
-      );
-
-      const routerConfig: any = modernConfig?.runtime?.router;
-      const routerManifest = Boolean(routerConfig?.manifest);
-      // for ssr mode
-      if (existNestedRoutes || routerManifest) {
-        chain.plugin('route-plugin').use(RouterPlugin);
       }
     });
   },
