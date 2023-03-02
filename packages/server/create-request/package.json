@@ -24,10 +24,12 @@
   "exports": {
     ".": {
       "node": "./dist/esm/node.js",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/browser.js"
     },
     "./client": {
       "jsnext:source": "./src/browser.ts",
+      "types": "./dist/types/browser.d.ts",
       "default": "./dist/esm/browser.js"
     },
     "./modern": {
@@ -36,11 +38,8 @@
     },
     "./server": {
       "jsnext:source": "./src/node.ts",
+      "types": "./dist/types/node.d.ts",
       "default": "./dist/cjs/node.js"
-    },
-    "./hook": {
-      "jsnext:source": "./src/hook.ts",
-      "default": "./dist/cjs/hook.js"
     }
   },
   "typesVersions": {
