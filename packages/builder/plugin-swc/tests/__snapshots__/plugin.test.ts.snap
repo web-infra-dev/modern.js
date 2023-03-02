@@ -151,11 +151,11 @@ exports[`plugins/swc > should disable react refresh when target is not web 1`] =
               "coreJs": "3.26",
               "mode": "entry",
               "targets": [
-                "chrome > 61",
-                "edge > 16",
-                "firefox > 60",
-                "safari > 11",
-                "ios_saf > 11",
+                "chrome >= 61",
+                "edge >= 16",
+                "firefox >= 60",
+                "safari >= 11",
+                "ios_saf >= 11",
               ],
             },
             "extensions": {

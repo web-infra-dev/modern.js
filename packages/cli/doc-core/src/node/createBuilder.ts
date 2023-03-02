@@ -51,11 +51,11 @@ async function createInternalBuildConfig(
   const browserslist = {
     web: isProduction()
       ? [
-          'chrome > 61',
-          'edge > 16',
-          'firefox > 60',
-          'safari > 11',
-          'ios_saf > 11',
+          'chrome >= 61',
+          'edge >= 16',
+          'firefox >= 60',
+          'safari >= 11',
+          'ios_saf >= 11',
         ]
       : [
           'last 1 chrome version',

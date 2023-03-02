@@ -3,11 +3,11 @@ import { createBabelChain } from './babel-chain';
 import { IBaseBabelConfigOption } from '.';
 
 const es6BrowserList = [
-  'chrome > 61',
-  'edge > 16',
-  'firefox > 60',
-  'safari > 11',
-  'ios_saf > 11',
+  'chrome >= 61',
+  'edge >= 16',
+  'firefox >= 60',
+  'safari >= 11',
+  'ios_saf >= 11',
 ];
 
 const getPresetOptions = (options: any) =>
