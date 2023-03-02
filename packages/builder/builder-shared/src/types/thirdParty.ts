@@ -1,3 +1,11 @@
+import type {
+  Options as SassOptions,
+  LegacyOptions as LegacySassOptions,
+} from '../../compiled/sass';
+import type * as SassLoader from '../../compiled/sass-loader';
+import type Less from '../../compiled/less';
+import type { LoaderContext } from 'webpack';
+
 export type AutoprefixerOptions = {
   /** environment for `Browserslist` */
   env?: string;
@@ -30,4 +38,29 @@ export type AutoprefixerOptions = {
 
   /** do not raise error on unknown browser version in `Browserslist` config. */
   ignoreUnknownVersions?: boolean;
+};
+
+export type SassLoaderOptions = Omit<SassLoader.Options, 'sassOptions'> &
+  (
+    | {
+        api?: 'legacy';
+        sassOptions?: Partial<LegacySassOptions<'async'>>;
+      }
+    | {
+        api: 'modern';
+        sassOptions?: SassOptions<'async'>;
+      }
+  );
+
+export type LessLoaderOptions = {
+  lessOptions?: Less.Options;
+  additionalData?:
+    | string
+    | ((
+        content: string,
+        loaderContext: LoaderContext<LessLoaderOptions>,
+      ) => string);
+  sourceMap?: boolean;
+  webpackImporter?: boolean;
+  implementation?: unknown;
 };

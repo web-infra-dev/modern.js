@@ -3,10 +3,10 @@ import { pathToFileURL } from 'url';
 import {
   isUseCssSourceMap,
   SASS_REGEX,
-  FileFilterUtil,
+  getSassLoaderOptions,
+  getSharedPkgCompiledPath,
 } from '@modern-js/builder-shared';
-import type { BuilderPlugin, SassLoaderOptions } from '../types';
-import _ from '@modern-js/utils/lodash';
+import type { BuilderPlugin } from '../types';
 
 /** fix issue about dart2js: https://github.com/dart-lang/sdk/issues/27979 */
 export function patchGlobalLocation() {
@@ -23,46 +23,12 @@ export function builderPluginSass(): BuilderPlugin {
       patchGlobalLocation();
       api.modifyBundlerChain(async (chain, utils) => {
         const config = api.getNormalizedConfig();
-        const { applyOptionsChain } = await import('@modern-js/utils');
         const { applyBaseCSSRule } = await import('./css');
-        const { merge: deepMerge } = await import('@modern-js/utils/lodash');
 
-        const getSassLoaderOptions = () => {
-          const excludes: (RegExp | string)[] = [];
-
-          const addExcludes: FileFilterUtil = items => {
-            excludes.push(..._.castArray(items));
-          };
-
-          const mergedOptions = applyOptionsChain<
-            SassLoaderOptions,
-            { addExcludes: FileFilterUtil }
-          >(
-            {
-              sourceMap: isUseCssSourceMap(config),
-              implementation: utils.getCompiledPath('sass'),
-            },
-            config.tools.sass,
-            { addExcludes },
-            (defaults: SassLoaderOptions, userOptions: SassLoaderOptions) => {
-              return {
-                ...defaults,
-                ...userOptions,
-                sassOptions: deepMerge(
-                  defaults.sassOptions,
-                  userOptions.sassOptions,
-                ),
-              };
-            },
-          );
-
-          return {
-            options: mergedOptions,
-            excludes,
-          };
-        };
-
-        const { options, excludes } = getSassLoaderOptions();
+        const { options, excludes } = await getSassLoaderOptions(
+          config.tools.sass,
+          isUseCssSourceMap(config),
+        );
         const rule = chain.module
           .rule(utils.CHAIN_ID.RULE.SASS)
           .test(SASS_REGEX);
@@ -75,7 +41,7 @@ export function builderPluginSass(): BuilderPlugin {
 
         rule
           .use(utils.CHAIN_ID.USE.SASS)
-          .loader(utils.getCompiledPath('sass-loader'))
+          .loader(getSharedPkgCompiledPath('sass-loader'))
           .options(options);
       });
     },

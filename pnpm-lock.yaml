@@ -3645,7 +3645,6 @@ importers:
       '@babel/types': 7.18.4
       '@modern-js/tsconfig': workspace:*
       '@rollup/plugin-json': 4.1.0
-      '@rspack/less-loader': 0.0.0-11afc8e36-20221128093256
       '@scripts/build': workspace:*
       '@types/babel__generator': 7.6.4
       '@types/babel__traverse': 7.18.2
@@ -3769,7 +3768,6 @@ importers:
     dependencies:
       '@babel/core': 7.20.5
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
-      '@rspack/less-loader': 0.0.0-11afc8e36-20221128093256
       '@scripts/build': link:../build
       '@types/node': 14.18.35
       '@vercel/ncc': 0.33.3
@@ -11773,17 +11771,6 @@ packages:
       - webpack-cli
     dev: false
 
-  /@rspack/less-loader/0.0.0-11afc8e36-20221128093256:
-    resolution: {integrity: sha512-hfson6MdyICWiskxoRgouDapZ6RP3Xoeli2K51r2TyIlw1if3sD+ms8zKq07ovJgwWt0qZxtjj7zqcf+gZxXWw==}
-    dependencies:
-      enhanced-resolve: 5.10.0
-      klona: 2.0.5
-      less: 4.1.2
-      tslib: 2.4.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@rspack/plugin-html/0.0.0-488d3bb3ac-20230301031651:
     resolution: {integrity: sha512-6Qb2yiuSfURfLjDCJuuOnVx+YTnTImvJOoYyI0k0gMAvk4SgpMEhIqOkeVLxEpICAMPjQfy4/BjPyAS54V9rTg==}
     dependencies:
@@ -17591,6 +17578,7 @@ packages:
     resolution: {integrity: sha512-1j20GZTsvKNkc4BY3NpMOM8tt///wY3FpIzozTOFO2ffuZcV61nojHXVKIy3WM+7ADCy5FVhdZYHYDdgTU0yJw==}
     dependencies:
       is-what: 3.14.1
+    dev: true
 
   /copy-concurrently/1.0.5:
     resolution: {integrity: sha512-f2domd9fsVDFtaFcbaRZuYXwtdmnzqbADSwhSWYxYB/Q8zsdUUFMXVRwXGDMWmbEzAn1kdRrtI1T/KTFOL4X2A==}
@@ -22966,6 +22954,7 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
     requiresBuild: true
+    dev: true
     optional: true
 
   /immer/9.0.15:
@@ -23598,6 +23587,7 @@ packages:
 
   /is-what/3.14.1:
     resolution: {integrity: sha512-sNxgpk9793nzSs7bA6JQJGeIuRBQhAaNGG77kzYQgMkrID+lS6SlK07K5LaptscDlSaIgH+GPFzf+d75FVxozA==}
+    dev: true
 
   /is-whitespace-character/1.0.4:
     resolution: {integrity: sha512-SDweEzfIZM0SJV0EUga669UTKlmL0Pq8Lno0QDQsPnvECB3IM2aP0gdx5TrU0A01MAPfViaZiI2V1QMZLaKK5w==}
@@ -25011,26 +25001,6 @@ packages:
       less: 4.1.3
       webpack: 5.75.0
     dev: true
-
-  /less/4.1.2:
-    resolution: {integrity: sha512-EoQp/Et7OSOVu0aJknJOtlXZsnr8XE8KwuzTHOLeVSEx8pVWUICc8Q0VYRHgzyjX78nMEyC/oztWFbgyhtNfDA==}
-    engines: {node: '>=6'}
-    hasBin: true
-    dependencies:
-      copy-anything: 2.0.6
-      parse-node-version: 1.0.1
-      tslib: 2.4.0
-    optionalDependencies:
-      errno: 0.1.8
-      graceful-fs: 4.2.10
-      image-size: 0.5.5
-      make-dir: 2.1.0
-      mime: 1.6.0
-      needle: 2.9.1
-      source-map: 0.6.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
 
   /less/4.1.3:
     resolution: {integrity: sha512-w16Xk/Ta9Hhyei0Gpz9m7VS8F28nieJaL/VyShID7cYvP6IL5oHeL6p4TXSDJqZE/lNv0oJ2pGVjJsRkfwm5FA==}
@@ -26616,20 +26586,6 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /needle/2.9.1:
-    resolution: {integrity: sha512-6R9fqJ5Zcmf+uYaFgdIHmLwNldn5HbK8L5ybn7Uz+ylX/rnOsSp1AHcvQSrCaFN+qNM1wpymHqD7mVasEOlHGQ==}
-    engines: {node: '>= 4.4.x'}
-    hasBin: true
-    requiresBuild: true
-    dependencies:
-      debug: 3.2.7
-      iconv-lite: 0.4.24
-      sax: 1.2.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-    optional: true
-
   /needle/3.1.0:
     resolution: {integrity: sha512-gCE9weDhjVGCRqS8dwDR/D3GTAeyXLXuqp7I8EzH6DllZGXSUyxuqqLh+YX9rMAWaaTFyVAg6rHGL25dqvczKw==}
     engines: {node: '>= 4.4.x'}
@@ -27355,6 +27311,7 @@ packages:
   /parse-node-version/1.0.1:
     resolution: {integrity: sha512-3YHlOa/JgH6Mnpr05jP9eDG254US9ek25LyIxZlDItp2iJtwyaXQb57lBYLdT3MowkUFYEV2XXNAYIPlESvJlA==}
     engines: {node: '>= 0.10'}
+    dev: true
 
   /parse-passwd/1.0.0:
     resolution: {integrity: sha512-1Y1A//QUXEZK7YKz+rD9WydcE1+EuPr6ZBgKecAB8tmoW6UFv0NREVJe1p+jRxtThkcbbKkfwIbWJe/IeE6m2Q==}

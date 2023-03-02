@@ -332,9 +332,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/compiled/sass-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
             "options": {
-              "implementation": "<ROOT>/compiled/sass",
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
               "sourceMap": true,
             },
           },
@@ -395,9 +395,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/compiled/less-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
             "options": {
-              "implementation": "<ROOT>/compiled/less",
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
               "lessOptions": {
                 "javascriptEnabled": true,
               },
@@ -1184,9 +1184,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             },
           },
           {
-            "loader": "<ROOT>/compiled/sass-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
             "options": {
-              "implementation": "<ROOT>/compiled/sass",
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
               "sourceMap": false,
             },
           },
@@ -1247,9 +1247,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             },
           },
           {
-            "loader": "<ROOT>/compiled/less-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
             "options": {
-              "implementation": "<ROOT>/compiled/less",
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
               "lessOptions": {
                 "javascriptEnabled": true,
               },
@@ -2016,9 +2016,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             },
           },
           {
-            "loader": "<ROOT>/compiled/sass-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
             "options": {
-              "implementation": "<ROOT>/compiled/sass",
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
               "sourceMap": false,
             },
           },
@@ -2045,9 +2045,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             },
           },
           {
-            "loader": "<ROOT>/compiled/less-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
             "options": {
-              "implementation": "<ROOT>/compiled/less",
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
               "lessOptions": {
                 "javascriptEnabled": true,
               },
@@ -2738,9 +2738,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             },
           },
           {
-            "loader": "<ROOT>/compiled/sass-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
             "options": {
-              "implementation": "<ROOT>/compiled/sass",
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
               "sourceMap": false,
             },
           },
@@ -2767,9 +2767,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             },
           },
           {
-            "loader": "<ROOT>/compiled/less-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
             "options": {
-              "implementation": "<ROOT>/compiled/less",
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
               "lessOptions": {
                 "javascriptEnabled": true,
               },
