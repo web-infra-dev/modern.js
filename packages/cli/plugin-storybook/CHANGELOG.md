@@ -1,5 +1,38 @@
 # @modern-js/plugin-storybook
 
+## 2.7.0
+
+### Patch Changes
+
+- bedf756c8e: fix(plugin-storybook): remove builtin babel-plugin-import when use module-tools
+
+  fix(plugin-storybook): 在 module-tools 内使用时不默认添加 babel-plugin-import
+
+- 7fff9020e1: chore: make file naming consistent
+
+  chore: 统一文件命名为小驼峰格式
+
+- 13792748e5: fix: required dependencies of Storybook on runtime dependency
+  fix: 修复 Storybook 对于 runtime 的必要依赖性
+- Updated dependencies [206c806efa]
+- Updated dependencies [a729b0d366]
+- Updated dependencies [dfece9dc1c]
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [5f899af53a]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [ebe0d2dd6e]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/builder-shared@2.7.0
+  - @modern-js/builder-webpack-provider@2.7.0
+  - @modern-js/builder@2.7.0
+  - @modern-js/utils@2.7.0
+  - @modern-js/plugin-router-v5@2.7.0
+  - @modern-js/runtime@2.7.0
+  - @modern-js/builder-plugin-node-polyfill@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

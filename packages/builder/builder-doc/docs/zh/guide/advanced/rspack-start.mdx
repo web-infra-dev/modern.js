@@ -1,6 +1,6 @@
 # 使用 Rspack
 
-[Rspack](https://www.rspack.org/) 是字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现。目前 rspack-provider 已适配并验证了 Builder 内大部分配置能力。
+[Rspack](https://www.rspack.dev/) 是字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现。目前 rspack-provider 已适配并验证了 Builder 内大部分配置能力。
 
 通过将打包工具切换成 Rspack，可体验更快的编译速度。
 
@@ -167,7 +167,7 @@ export default {
 };
 ```
 
-关于 Rspack 的详细配置信息，请参考 [Rspack 官网](https://rspack.org/)。
+关于 Rspack 的详细配置信息，请参考 [Rspack 官网](https://rspack.dev/)。
 
 ### 更灵活的修改配置方式
 
@@ -177,3 +177,4 @@ Builder 暂未提供类似 webpack-chain 方式来灵活修改 Rspack config 的
 
 如需对已有插件/规则进行修改，推荐优先使用 Builder 已有配置项进行修改。
 如，修改 html 相关配置，优先查看 [html config](/api/config-html.html) 下是否存在相应的配置项，html config 不支持的情况下，可使用 [tools.htmlPlugin](/api/config-tools.html#toolshtmlplugin) 配置项。
+

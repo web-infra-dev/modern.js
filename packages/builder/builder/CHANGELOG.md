@@ -1,5 +1,25 @@
 # @modern-js/builder
 
+## 2.7.0
+
+### Minor Changes
+
+- dfece9dc1c: fix(builder): vendor library chunks include sources
+  fix(builder): 用户源码被划分到第三方库所在 Chunk
+
+### Patch Changes
+
+- Updated dependencies [206c806efa]
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [5f899af53a]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [ebe0d2dd6e]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/builder-shared@2.7.0
+  - @modern-js/utils@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes
