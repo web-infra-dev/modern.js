@@ -28,10 +28,9 @@ In most cases, you don't need to define any Builder config, just use it right ou
 
 When you use a Builder-based upper-level framework, you can define the Builder config directly through the framework's config file, and the upper-level framework will pass the config to the Builder.
 
-For example, in the {MODERN_JS} framework, you can define the Builder's [source.alias](/en/api/config-source.html#sourcealias) config in [modern.config.ts](https://modernjs.dev/docs/apis/app/config/usage) file.
+For example, in the Modern.js framework, you can define the Builder's [source.alias](/en/api/config-source.html#sourcealias) config in [modern.config.ts](https://modernjs.dev/en/configure/app/usage.html) file.
 
-```ts
-// modern.config.ts
+```ts title="modern.config.ts"
 export default {
   source: {
     alias: {
@@ -45,9 +44,9 @@ Commonly used framework config files include:
 
 | Framework | Config File        |
 | --------- | ------------------ |
-| Modern.js | `modern.config.ts` |
-| EdenX     | `edenx.config.ts`  |
-| PIA       | `pia.config.ts`    |
+| {MODERN_JS} | {MODERN_JS_CONFIG} |
+| EdenX     | edenx.config.ts  |
+| PIA       | pia.config.ts    |
 
 ### Using the Node API
 

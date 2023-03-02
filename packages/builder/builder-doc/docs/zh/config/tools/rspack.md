@@ -2,7 +2,7 @@
 - **默认值：** `undefined`
 - **打包工具：** `仅支持 Rspack`
 
-`tools.rspack` 选项用于配置原生的 [Rspack](https://www.rspack.org/)。
+`tools.rspack` 选项用于配置原生的 [Rspack](https://www.rspack.dev/)。
 
 ### Object 类型
 
@@ -140,7 +140,7 @@ export default {
 
 - **类型：** `(rules: RuleSetRule | RuleSetRule[]) => void`
 
-添加额外的 [Rspack rules](https://www.rspack.org/config/module.html#modulerules)。
+添加额外的 [Rspack rules](https://www.rspack.dev/config/module.html#modulerules)。
 
 示例：
 
