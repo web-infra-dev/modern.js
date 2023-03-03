@@ -31,14 +31,14 @@ The following solutions are available within the Modern.js ecosystem:
 
 - 🦄 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
 - 🐧 [Modern.js Builder](https://modernjs.dev/builder/en/): A Build Engine for web development.
-- 🐟 [Garfish](https://github.com/modern-js-dev/garfish): A powerful micro front-end framework.
-- 🐈 [Reduck](https://github.com/modern-js-dev/reduck): A redux-based state management library.
+- 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
+- 🐈 [Reduck](https://github.com/web-infra-dev/reduck): A redux-based state management library.
 
 ## Contributing
 
 > New contributors welcome!
 
-Please read the [Contributing Guide](https://github.com/modern-js-dev/modern.js/blob/main/CONTRIBUTING.md).
+Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).
 
 ## Credits
 
@@ -52,4 +52,4 @@ Some implementations of Modern.js are modified from existing projects, such as [
 
 ## License
 
-Modern.js is [MIT licensed](https://github.com/modern-js-dev/modern.js/blob/main/LICENSE).
+Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).

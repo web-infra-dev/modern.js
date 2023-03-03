@@ -2,7 +2,7 @@
 - **Default:** `undefined`
 - **Bundler:** `only support webpack`
 
-You can enable or configure the [webpack inspector](https://github.com/modern-js-dev/webpack-inspector) through `tools.inspector`.
+You can enable or configure the [webpack inspector](https://github.com/web-infra-dev/webpack-inspector) through `tools.inspector`.
 
 When the configuration is not `undefined`, it means that `webpack-inspector` is enabled, and the type of `tools.inspector` can be `Object` or `Function`.
 

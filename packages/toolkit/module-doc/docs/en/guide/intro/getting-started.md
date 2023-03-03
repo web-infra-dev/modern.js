@@ -46,7 +46,7 @@ If your project has a `src/index.(js|jsx)` file or both `src/index.(ts|tsx)` and
 **If you want to see the complete project using the modular engineering scheme, you can execute the following command**.
 
 ```bash
-git clone https://github.com/modern-js-dev/module-tools-examples
+git clone https://github.com/web-infra-dev/module-tools-examples
 cd module-tools-example/base
 
 ## Execute the build.
