@@ -1,7 +1,18 @@
-import type { BuilderPluginAPI as WebpackBuilderPluginAPI } from '@modern-js/builder-webpack-provider';
-import type { BuilderPluginAPI as RspackBuilderPluginAPI } from '@modern-js/builder-rspack-provider';
-import { BuilderInstance } from '@modern-js/builder-shared';
-import { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
+import type {
+  BuilderPluginAPI as WebpackBuilderPluginAPI,
+  BuilderConfig as WebpackBuilderConfig,
+  NormalizedConfig as WebpackNormalizedConfig,
+} from '@modern-js/builder-webpack-provider';
+import type {
+  BuilderPluginAPI as RspackBuilderPluginAPI,
+  BuilderConfig as RspackBuilderConfig,
+  NormalizedConfig as RspackNormalizedConfig,
+} from '@modern-js/builder-rspack-provider';
+import type {
+  BuilderInstance,
+  DefaultBuilderPluginAPI,
+} from '@modern-js/builder-shared';
+import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 
 type Parameter<T extends (arg: any) => void> = Parameters<T>[0];
 type FnParameter<
@@ -40,3 +51,12 @@ export type ModifyBuilderConfig<B extends Bundler> = (
 export type ModifyBuilderInstance = (
   builder: BuilderInstance,
 ) => Promise<void> | void;
+
+export type BuilderConfig = RspackBuilderConfig | WebpackBuilderConfig;
+export type BuilderNormalizedConfig =
+  | RspackNormalizedConfig
+  | WebpackNormalizedConfig;
+export type BuilderPluginAPI = DefaultBuilderPluginAPI<
+  BuilderConfig,
+  BuilderNormalizedConfig
+>;
