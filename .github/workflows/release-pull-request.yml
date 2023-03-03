@@ -47,6 +47,9 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --ignore-scripts
 
+      - name: Prepare Monorepo-Tools
+        run: pnpm run --filter @modern-js/monorepo-tools... build
+
       - name: Create Release Pull Request
         uses: modern-js-dev/actions@v2
         with:
