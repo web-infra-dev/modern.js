@@ -1,5 +1,20 @@
 # @modern-js/module-tools
 
+## 2.8.0
+
+### Patch Changes
+
+- adf68ec3ed: fix: ignore some tsconfig compileOptions
+  fix: 忽略一些 tsconfig 的 compileOptions 配置
+  - @modern-js/core@2.8.0
+  - @modern-js/plugin-changeset@2.8.0
+  - @modern-js/plugin-i18n@2.8.0
+  - @modern-js/plugin-lint@2.8.0
+  - @modern-js/new-action@2.8.0
+  - @modern-js/plugin@2.8.0
+  - @modern-js/upgrade@2.8.0
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Patch Changes

@@ -1,5 +1,7 @@
 # @modern-js/test-generator
 
+## 3.0.10
+
 ## 3.0.9
 
 ## 3.0.8

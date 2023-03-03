@@ -1,5 +1,22 @@
 # @modern-js/builder-shared
 
+## 2.8.0
+
+### Patch Changes
+
+- bd369a89a4: fix(builder): failed to set CDN URL via html.tags
+
+  fix(builder): 修复 html.tags 无法设置 CDN URL 的问题
+
+- 2c1151271d: fix(builder): fix incorrect browserslist config
+
+  fix(builder): 修复错误的 browserslist 配置
+
+- Updated dependencies [ea7bb41e30]
+  - @modern-js/server@2.8.0
+  - @modern-js/types@2.8.0
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes

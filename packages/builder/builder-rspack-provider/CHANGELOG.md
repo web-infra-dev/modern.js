@@ -1,5 +1,22 @@
 # @modern-js/builder-rspack-provider
 
+## 2.8.0
+
+### Patch Changes
+
+- 457ee832b9: hotfix(builder): use community loader instead of rspack unstable sass & less loader
+
+  hotfix(builder): 使用社区 sass-loader 和 less-loader 替代 rspack 非稳定的 sass 和 less loader
+
+- Updated dependencies [ea7bb41e30]
+- Updated dependencies [bd369a89a4]
+- Updated dependencies [2c1151271d]
+  - @modern-js/server@2.8.0
+  - @modern-js/builder-shared@2.8.0
+  - @modern-js/e2e@2.8.0
+  - @modern-js/types@2.8.0
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Patch Changes

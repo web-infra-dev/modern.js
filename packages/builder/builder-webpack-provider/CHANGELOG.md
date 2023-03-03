@@ -1,5 +1,23 @@
 # @modern-js/builder-webpack-provider
 
+## 2.8.0
+
+### Patch Changes
+
+- 2c1151271d: fix(builder): fix incorrect browserslist config
+
+  fix(builder): 修复错误的 browserslist 配置
+
+- Updated dependencies [ea7bb41e30]
+- Updated dependencies [bd369a89a4]
+- Updated dependencies [2c1151271d]
+  - @modern-js/server@2.8.0
+  - @modern-js/builder-shared@2.8.0
+  - @modern-js/babel-preset-app@2.8.0
+  - @modern-js/e2e@2.8.0
+  - @modern-js/types@2.8.0
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Patch Changes

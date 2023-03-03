@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "always-inline",
-  "version": "1.0.1",
+  "version": "2.8.0",
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "react": "^18",

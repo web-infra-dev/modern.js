@@ -1,5 +1,37 @@
 # @modern-js/app-tools
 
+## 2.8.0
+
+### Minor Changes
+
+- ab1e8065cb: feat: support router-plugin in rspack bundler.
+  feat: 在 rspack bundler 里支持 router-plugin
+
+### Patch Changes
+
+- Updated dependencies [ea7bb41e30]
+- Updated dependencies [bd369a89a4]
+- Updated dependencies [2c1151271d]
+- Updated dependencies [457ee832b9]
+  - @modern-js/server@2.8.0
+  - @modern-js/builder@2.8.0
+  - @modern-js/builder-shared@2.8.0
+  - @modern-js/builder-webpack-provider@2.8.0
+  - @modern-js/builder-rspack-provider@2.8.0
+  - @modern-js/builder-plugin-esbuild@2.8.0
+  - @modern-js/builder-plugin-node-polyfill@2.8.0
+  - @modern-js/core@2.8.0
+  - @modern-js/plugin-data-loader@2.8.0
+  - @modern-js/plugin-i18n@2.8.0
+  - @modern-js/plugin-lint@2.8.0
+  - @modern-js/new-action@2.8.0
+  - @modern-js/prod-server@2.8.0
+  - @modern-js/node-bundle-require@2.8.0
+  - @modern-js/plugin@2.8.0
+  - @modern-js/types@2.8.0
+  - @modern-js/upgrade@2.8.0
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @modern-js/server
 
+## 2.8.0
+
+### Patch Changes
+
+- ea7bb41e30: feat: add custom web server docs
+  feat: 添加自定义 Web Server 文档
+- Updated dependencies [2c1151271d]
+  - @modern-js/server-utils@2.8.0
+  - @modern-js/prod-server@2.8.0
+  - @modern-js/types@2.8.0
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes
