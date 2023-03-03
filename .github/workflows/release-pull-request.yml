@@ -25,6 +25,15 @@ jobs:
         # This makes Actions fetch only one branch to release
           fetch-depth: 1
 
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
+
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: 'pnpm'
+
       - name: Turbo Cache
         id: turbo-cache
         uses: actions/cache@v3
@@ -35,13 +44,17 @@ jobs:
             turbo-${{ github.ref_name }}-
             turbo-
 
+      - name: Install Dependencies
+        run: pnpm install --ignore-scripts
+
       - name: Create Release Pull Request
-        uses: web-infra-dev/actions@main
+        uses: web-infra-dev/actions@v2
         with:
           # this expects you to have a script called release which does a build for your packages and calls changeset publish
           version: ${{ github.event.inputs.version }}
           versionNumber: 'auto'
           type: 'pull request'
+          tools: 'modern'
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
