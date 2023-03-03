@@ -44,7 +44,7 @@ export default defineConfig({
 **如果你想要看看使用了模块工程方案的完整项目，可以执行以下命令**：
 
 ```bash
-git clone https://github.com/modern-js-dev/module-tools-examples
+git clone https://github.com/web-infra-dev/module-tools-examples
 cd module-tools-example/base
 
 ## 执行构建：

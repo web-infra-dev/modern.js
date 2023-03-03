@@ -306,7 +306,7 @@ function minifyWithTimeout(
       `SWC minimize has running for over 180 seconds for a single file: ${filename}\n
 It is likely that you've encountered a ${chalk.red(
         'SWC internal bug',
-      )}, please contact us at https://github.com/modern-js-dev/modern.js/issues`,
+      )}, please contact us at https://github.com/web-infra-dev/modern.js/issues`,
     );
   }, 180_000);
 

@@ -14,7 +14,7 @@ The following are the formats supported by Builder by default:
 - **Fonts**: woff, woff2, eot, ttf, otf, ttc.
 - **Media**: mp4, webm, ogg, mp3, wav, flac, aac, mov.
 
-If you need to import static resources in other formats, please provide feedback through [GitHub Issues](https://github.com/modern-js-dev/modern.js/issues).
+If you need to import static resources in other formats, please provide feedback through [GitHub Issues](https://github.com/web-infra-dev/modern.js/issues).
 
 :::tip SVG images
 SVG image is a special case. Builder support convert SVG to React components, so SVG is processed separately. For details, see [Import SVG Assets](/guide/basic/svg-assets.html).

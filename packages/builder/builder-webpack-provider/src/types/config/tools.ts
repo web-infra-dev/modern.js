@@ -150,7 +150,7 @@ export interface ToolsConfig extends SharedToolsConfig {
    */
   webpackChain?: ToolsWebpackChainConfig;
   /**
-   * Configure the [webpack inspector](https://github.com/modern-js-dev/webpack-inspector).
+   * Configure the [webpack inspector](https://github.com/web-infra-dev/webpack-inspector).
    */
   inspector?: ToolsInspectorPluginOptions;
 }

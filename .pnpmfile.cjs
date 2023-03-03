@@ -6,7 +6,7 @@ function readPackage(pkg, _context) {
   }
 
   // bump cssnano version to fix integration test
-  // see: https://github.com/modern-js-dev/modern.js/pull/1140
+  // see: https://github.com/web-infra-dev/modern.js/pull/1140
   if (pkg.dependencies['cssnano']) {
     pkg.dependencies['cssnano'] = '^5.1.12';
   }

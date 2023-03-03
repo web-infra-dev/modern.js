@@ -232,7 +232,7 @@ export default (): CliPlugin<AppTools> => ({
           tools: {
             htmlPlugin: (options, entry) => {
               // just for reuse the baseParames calculate by builder:
-              // https://github.com/modern-js-dev/modern.js/blob/1abb452a87ae1adbcf8da47d62c05da39cbe4d69/packages/builder/builder-webpack-provider/src/plugins/html.ts#L69-L103
+              // https://github.com/web-infra-dev/modern.js/blob/1abb452a87ae1adbcf8da47d62c05da39cbe4d69/packages/builder/builder-webpack-provider/src/plugins/html.ts#L69-L103
               const hackParameters: Record<string, unknown> =
                 typeof options?.templateParameters === 'function'
                   ? options?.templateParameters(

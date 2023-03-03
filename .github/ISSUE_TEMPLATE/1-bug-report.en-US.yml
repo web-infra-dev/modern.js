@@ -9,8 +9,8 @@ body:
         Thanks for taking the time to report this issue! Before submitting, please note:
 
          - Confirm that your problem cannot be solved by official documentation.
-         - Make sure you searched in the [Issues](https://github.com/modern-js-dev/modern.js/issues) and didn't find the same issue.
-         - If it's not bug report, please post on the [Discussions](https://github.com/modern-js-dev/modern.js/discussions).
+         - Make sure you searched in the [Issues](https://github.com/web-infra-dev/modern.js/issues) and didn't find the same issue.
+         - If it's not bug report, please post on the [Discussions](https://github.com/web-infra-dev/modern.js/discussions).
 
   - type: textarea
     id: versions

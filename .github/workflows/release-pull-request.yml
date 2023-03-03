@@ -36,7 +36,7 @@ jobs:
             turbo-
 
       - name: Create Release Pull Request
-        uses: modern-js-dev/actions@main
+        uses: web-infra-dev/actions@main
         with:
           # this expects you to have a script called release which does a build for your packages and calls changeset publish
           version: ${{ github.event.inputs.version }}
