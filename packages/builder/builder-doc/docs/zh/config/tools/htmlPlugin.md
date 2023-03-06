@@ -21,7 +21,7 @@ const defaultHtmlPluginOptions = {
 };
 ```
 
-通过 `tools.htmlPlugin` 可以修改 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的配置项。
+通过 `tools.htmlPlugin` 可以修改 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 或 [@rspack/plugin-html](https://github.com/web-infra-dev/rspack/tree/main/packages/rspack-plugin-html) 的配置项。
 
 ### Object 类型
 

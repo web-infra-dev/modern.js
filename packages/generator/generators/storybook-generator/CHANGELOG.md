@@ -1,5 +1,12 @@
 # @modern-js/storybook-generator
 
+## 3.0.9
+
+### Patch Changes
+
+- 068816d2b9: feat(generator): remove runtime dep for storybook
+  feat(generator): 移除 Storybook 对于 runtime 的依赖
+
 ## 3.0.8
 
 ## 3.0.7

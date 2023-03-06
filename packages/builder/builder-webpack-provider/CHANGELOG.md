@@ -1,5 +1,46 @@
 # @modern-js/builder-webpack-provider
 
+## 2.7.0
+
+### Patch Changes
+
+- 206c806efa: fix(rspack-provider): missing tools.autoprefixer type
+
+  fix(rspack-provider): 修复缺少 tools.autoprefixer 类型定义的问题
+
+- a729b0d366: fix(builder): tools.sass type should use legacy sass options by default
+
+  fix(builder): tools.sass 默认使用 legacy sass 选项类型
+
+- 5f899af53a: feat(builder): support output.enableAssetFallback in rspack-provider
+
+  feat(builder): 在 rspack-provider 中支持 output.enableAssetFallback 配置项
+
+- 7fff9020e1: chore: make file naming consistent
+
+  chore: 统一文件命名为小驼峰格式
+
+- 1eea234fdd: chore: make test files naming consistent
+
+  chore: 统一测试文件命名为小驼峰格式
+
+- Updated dependencies [206c806efa]
+- Updated dependencies [6378e26bf9]
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [5f899af53a]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [ebe0d2dd6e]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/builder-shared@2.7.0
+  - @modern-js/server@2.7.0
+  - @modern-js/utils@2.7.0
+  - @modern-js/types@2.7.0
+  - @modern-js/babel-preset-app@2.7.0
+  - @modern-js/e2e@2.7.0
+
 ## 2.6.0
 
 ### Minor Changes

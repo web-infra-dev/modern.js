@@ -11,11 +11,11 @@ export const DEFAULT_BROWSERSLIST = {
   'web-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
   'service-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
   'modern-web': [
-    'chrome > 61',
-    'edge > 16',
-    'firefox > 60',
-    'safari > 11',
-    'ios_saf > 11',
+    'chrome >= 61',
+    'edge >= 16',
+    'firefox >= 60',
+    'safari >= 11',
+    'ios_saf >= 11',
   ],
 };
 

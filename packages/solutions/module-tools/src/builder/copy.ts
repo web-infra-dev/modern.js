@@ -1,8 +1,9 @@
 import path from 'path';
-import type { CopyPattern } from '../types/copy';
+import type { CopyOptions, CopyPattern } from '../types/copy';
 import type { BaseBuildConfig } from '../types/config';
 
-// TODO: about copy rules and debug
+const watchMap = new Map<string, string>();
+
 export const runPatterns = async (
   pattern: CopyPattern,
   options: {
@@ -10,6 +11,7 @@ export const runPatterns = async (
     enableCopySync?: boolean;
     outDir: string;
     defaultContext: string;
+    watch?: boolean;
   },
 ) => {
   const { fs, fastGlob, globby } = await import('@modern-js/utils');
@@ -126,6 +128,11 @@ export const runPatterns = async (
     const absoluteTo = path.isAbsolute(filename)
       ? filename
       : path.join(options.outDir, filename);
+
+    if (options.watch) {
+      watchMap.set(absoluteFrom, absoluteTo);
+    }
+
     if (enableCopySync) {
       fs.copySync(absoluteFrom, absoluteTo);
     } else {
@@ -134,10 +141,68 @@ export const runPatterns = async (
   });
 };
 
+export const watchCopyFiles = async (
+  options: {
+    appDirectory: string;
+  },
+  copyConfig: CopyOptions,
+) => {
+  const { watch, fs, logger, createDebugger } = await import(
+    '@modern-js/utils'
+  );
+  const debug = createDebugger('module-tools:copy-watch');
+
+  debug('watchMap', watchMap);
+
+  const { SectionTitleStatus, CopyLogPrefix } = await import(
+    '../constants/log'
+  );
+  const { watchSectionTitle } = await import('../utils/log');
+  const watchList = Array.from(watchMap.keys());
+
+  debug('watchList', watchList);
+
+  watch(watchList, async ({ changedFilePath, changeType }) => {
+    const result = watchMap.get(changedFilePath);
+    if (!result) {
+      return;
+    }
+
+    const formatFilePath = path.relative(options.appDirectory, changedFilePath);
+
+    if (changeType === 'unlink') {
+      fs.remove(result);
+      logger.log(
+        await watchSectionTitle(
+          CopyLogPrefix,
+          SectionTitleStatus.Log,
+          `${formatFilePath} removed`,
+        ),
+      );
+      return;
+    }
+
+    if (copyConfig?.options?.enableCopySync) {
+      fs.copySync(changedFilePath, result);
+    } else {
+      await fs.copy(changedFilePath, result);
+    }
+
+    logger.log(
+      await watchSectionTitle(
+        CopyLogPrefix,
+        SectionTitleStatus.Log,
+        `${formatFilePath} changed`,
+      ),
+    );
+  });
+};
+
 export const copyTask = async (
   buildConfig: BaseBuildConfig,
   options: {
     appDirectory: string;
+    watch?: boolean;
   },
 ) => {
   const copyConfig = buildConfig.copy;
@@ -165,5 +230,8 @@ export const copyTask = async (
     if (e instanceof Error) {
       console.error(`copy error: ${e.message}`);
     }
+  }
+  if (options.watch) {
+    await watchCopyFiles(options, copyConfig);
   }
 };

@@ -31,7 +31,7 @@ export const getHello = Api(
 
 export const getUser = Api(
   Get('/user'),
-  Redirect('https://github.com/modern-js-dev/modern.js'),
+  Redirect('https://github.com/web-infra-dev/modern.js'),
   () => {
     return {
       message: 'hello',

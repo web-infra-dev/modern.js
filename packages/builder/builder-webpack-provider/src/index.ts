@@ -4,6 +4,10 @@ export { webpackBuild } from './core/build';
 export type { WebpackBuildError } from './core/build';
 export { createDefaultConfig } from './config/defaults';
 export type {
+  LessLoaderOptions,
+  SassLoaderOptions,
+} from '@modern-js/builder-shared';
+export type {
   BuilderPlugin,
   BuilderPluginAPI,
 
@@ -31,8 +35,6 @@ export type {
   WebpackConfig,
   CSSLoaderOptions,
   CSSExtractOptions,
-  LessLoaderOptions,
-  SassLoaderOptions,
   HTMLPluginOptions,
   StyleLoaderOptions,
   TerserPluginOptions,

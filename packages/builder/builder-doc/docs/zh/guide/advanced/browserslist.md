@@ -27,8 +27,8 @@ polyfill 是一种用于解决浏览器兼容问题的技术。它用于模拟�
 ```json
 {
   "browserslist": [
-    "iOS 9",
-    "Android 4.4",
+    "iOS >= 9",
+    "Android >= 4.4",
     "last 2 versions",
     "> 0.2%",
     "not dead"
@@ -39,8 +39,8 @@ polyfill 是一种用于解决浏览器兼容问题的技术。它用于模拟�
 通过独立的 `.browserslistrc` 文件设置：
 
 ```
-iOS 9
-Android 4.4
+iOS >= 9
+Android >= 4.4
 last 2 versions
 > 0.2%
 not dead
@@ -54,8 +54,8 @@ not dead
 export default {
   output: {
     overrideBrowserslist: [
-      'iOS 9',
-      'Android 4.4',
+      'iOS >= 9',
+      'Android >= 4.4',
       'last 2 versions',
       '> 0.2%',
       'not dead',
@@ -72,7 +72,7 @@ export default {
 export default {
   output: {
     overrideBrowserslist: {
-      web: ['iOS 9', 'Android 4.4', 'last 2 versions', '> 0.2%', 'not dead'],
+      web: ['iOS >= 9', 'Android >= 4.4', 'last 2 versions', '> 0.2%', 'not dead'],
       node: ['node >= 14'],
     },
   },
@@ -90,23 +90,23 @@ export default {
 移动端 H5 场景主要兼容 `iOS` 和 `Android` 系统，通常我们将 Browserslist 设置为：
 
 ```
-iOS 9
-Android 4.4
+iOS >= 9
+Android >= 4.4
 last 2 versions
-0.2%
+> 0.2%
 not dead
 ```
 
-以上浏览器范围会将代码编译至 ES5 规范，可以兼容市面上绝大多数移动端场景，具体对应的浏览器列表可以查看 [browserslist.dev](https://browserslist.dev/?q=aU9TIDksIEFuZHJvaWQgNC40LCBsYXN0IDIgdmVyc2lvbnMsID4gMC4yJSwgbm90IGRlYWQ%3D)。
+以上浏览器范围会将代码编译至 ES5 规范，可以兼容市面上绝大多数移动端场景，具体对应的浏览器列表可以查看 [browserslist.dev](https://browserslist.dev/?q=aU9TID49IDksIEFuZHJvaWQgPj0gNC40LCBsYXN0IDIgdmVyc2lvbnMsID4gMC4yJSwgbm90IGRlYWQ%3D)。
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/browserslist-dev-1222.png)
 
 你也可以选择在 H5 场景使用 ES6 规范，这样会让页面的性能表现更好，对应的 Browserslist 如下：
 
 ```
-iOS 10
-Chrome 51
-> 0.2%
+iOS >= 10
+Chrome >= 51
+> 0.5%
 not dead
 not op_mini all
 ```
@@ -126,11 +126,11 @@ IE 11
 如果你不需要兼容 IE 11 浏览器，那么可以调整 Browserslist 来获得更高性能的产物，比如设置为支持原生 ES Modules 的浏览器：
 
 ```
-chrome > 61
-edge > 16
-firefox > 60
-safari > 11
-ios_saf > 11
+chrome >= 61
+edge >= 16
+firefox >= 60
+safari >= 11
+ios_saf >= 11
 ```
 
 ## Browserslist 默认值
@@ -172,11 +172,11 @@ not op_mini all
 Modern Web 产物默认最低兼容到支持[原生 ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) 的浏览器。
 
 ```
-chrome > 61
-edge > 16
-firefox > 60
-safari > 11
-ios_saf > 11
+chrome >= 61
+edge >= 16
+firefox >= 60
+safari >= 11
+ios_saf >= 11
 ```
 
 ## 查询浏览器支持情况

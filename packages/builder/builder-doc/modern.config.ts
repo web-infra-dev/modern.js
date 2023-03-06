@@ -187,7 +187,7 @@ export default defineConfig({
           icon: 'github',
           mode: 'link',
           content:
-            'https://github.com/modern-js-dev/modern.js/tree/main/packages/builder',
+            'https://github.com/web-infra-dev/modern.js/tree/main/packages/builder',
         },
       ],
       locales: [
@@ -221,6 +221,7 @@ export default defineConfig({
         },
         globalVars: {
           MODERN_JS: 'Modern.js',
+          MODERN_JS_CONFIG: 'modern.config.ts',
         },
       },
       dev: {

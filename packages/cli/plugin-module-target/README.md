@@ -2,7 +2,7 @@
 
 The target plugin of Modern.js Module Tools.
 
-You can set [target](https://esbuild.github.io/api/#target) instead of module-tools's [`target`](https://edenx.bytedance.net/module-tools/en/api/config/build-config.html#target) api by the plugin.
+You can set [target](https://esbuild.github.io/api/#target) instead of module-tools's [`target`](https://modernjs.dev/module-tools/en/api/config/build-config.html#target) api by the plugin.
 
 **Note: It may not work correctly**
 
@@ -34,8 +34,8 @@ export default defineConfig({
 
 ## Contributing
 
-Please read the [Contributing Guide](https://github.com/modern-js-dev/modern.js/blob/main/CONTRIBUTING.md).
+Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).
 
 ## License
 
-Modern.js is [MIT licensed](https://github.com/modern-js-dev/modern.js/blob/main/LICENSE).
+Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).

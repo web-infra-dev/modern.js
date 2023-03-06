@@ -25,8 +25,8 @@
 export default {
   output: {
     overrideBrowserslist: [
-      'iOS 9',
-      'Android 4.4',
+      'iOS >= 9',
+      'Android >= 4.4',
       'last 2 versions',
       '> 0.2%',
       'not dead',
@@ -47,7 +47,7 @@ export default {
 export default {
   output: {
     overrideBrowserslist: {
-      web: ['iOS 9', 'Android 4.4', 'last 2 versions', '> 0.2%', 'not dead'],
+      web: ['iOS >= 9', 'Android >= 4.4', 'last 2 versions', '> 0.2%', 'not dead'],
       node: ['node >= 14'],
     },
   },

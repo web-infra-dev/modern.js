@@ -1,5 +1,41 @@
 # @modern-js/builder-rspack-provider
 
+## 2.7.0
+
+### Patch Changes
+
+- 206c806efa: fix(rspack-provider): missing tools.autoprefixer type
+
+  fix(rspack-provider): 修复缺少 tools.autoprefixer 类型定义的问题
+
+- 3a942a2472: feat: add Rspack provider swc options, add builder-plugin-swc overrideBrowserslist configuration, report warning when enable latestDecorator in builder-plugin-swc
+
+  feat: 给 Rspack provider 增加 swc 相关配置项，增加 builder-plugin-swc overrideBrowserslist 配置，在 builder-plugin-swc 启用 latestDecorator 后增加 warning 报错
+
+- 5f899af53a: feat(builder): support output.enableAssetFallback in rspack-provider
+
+  feat(builder): 在 rspack-provider 中支持 output.enableAssetFallback 配置项
+
+- 1b913372b4: feat: 增加 copy 配置以及对 core-js path 的 alias
+
+  feat: support copy config and add alias of core-js
+
+- Updated dependencies [206c806efa]
+- Updated dependencies [6378e26bf9]
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [5f899af53a]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [ebe0d2dd6e]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [1eea234fdd]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/builder-shared@2.7.0
+  - @modern-js/server@2.7.0
+  - @modern-js/utils@2.7.0
+  - @modern-js/types@2.7.0
+  - @modern-js/e2e@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

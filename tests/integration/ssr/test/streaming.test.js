@@ -78,7 +78,7 @@ describe('Streaming SSR', () => {
     });
 
     const body = await res.text();
-    expect(body).toMatch(/error occurs/);
+    expect(body).toMatch(/Something went wrong!.*error occurs/);
   });
 
   // TODO: wait for the next version of react-router to support this case

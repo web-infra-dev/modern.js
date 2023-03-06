@@ -4,6 +4,8 @@ import type {
   ChainedConfig,
   FileFilterUtil,
   SharedToolsConfig,
+  ToolsLessConfig,
+  ToolsSassConfig,
 } from '@modern-js/builder-shared';
 import type {
   ModifyWebpackChainUtils,
@@ -18,11 +20,9 @@ import type {
   ForkTSCheckerOptions,
   HTMLPluginOptions,
   InspectorPluginOptions,
-  LessLoaderOptions,
   PostCSSLoaderOptions,
   PostCSSPlugin,
   PugOptions,
-  SassLoaderOptions,
   StyleLoaderOptions,
   TerserPluginOptions,
   TSLoaderOptions,
@@ -61,16 +61,6 @@ export type ToolsPostCSSLoaderConfig = ChainedConfig<
 >;
 
 export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
-
-export type ToolsLessConfig = ChainedConfig<
-  LessLoaderOptions,
-  { addExcludes: FileFilterUtil }
->;
-
-export type ToolsSassConfig = ChainedConfig<
-  SassLoaderOptions,
-  { addExcludes: FileFilterUtil }
->;
 
 export type ToolsTSCheckerConfig = ChainedConfig<ForkTSCheckerOptions>;
 
@@ -160,7 +150,7 @@ export interface ToolsConfig extends SharedToolsConfig {
    */
   webpackChain?: ToolsWebpackChainConfig;
   /**
-   * Configure the [webpack inspector](https://github.com/modern-js-dev/webpack-inspector).
+   * Configure the [webpack inspector](https://github.com/web-infra-dev/webpack-inspector).
    */
   inspector?: ToolsInspectorPluginOptions;
 }

@@ -49,9 +49,18 @@ export const runRollup = async (
   const { default: dtsPlugin } = await import(
     '../../../compiled/rollup-plugin-dts'
   );
+  const { transformUndefineObject } = await import('../../utils/common');
+
   const baseUrl = path.isAbsolute(options.baseUrl || '.')
     ? options.baseUrl
     : path.join(path.dirname(tsconfigPath), options.baseUrl || '.');
+  const ignoreCompileOptions = [
+    'incremental',
+    'tsBuildInfoFile',
+    'sourceMap',
+    'inlineSources',
+  ];
+
   const inputConfig: InputOptions = {
     input,
     external: externals,
@@ -83,6 +92,7 @@ export const runRollup = async (
           checkJs: false,
           // Ensure we can parse the latest code
           target: ts.ScriptTarget.ESNext,
+          ...transformUndefineObject(ignoreCompileOptions),
         },
         tsconfig: tsconfigPath,
       }),

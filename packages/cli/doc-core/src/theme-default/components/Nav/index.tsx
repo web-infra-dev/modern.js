@@ -119,7 +119,7 @@ export function Nav(props: NavProps) {
       <div className="menu" h="14">
         {menuItems.map(item => {
           return 'items' in item || Array.isArray(item) ? (
-            <div m="x-3" last="mr-0">
+            <div m="x-3" last="mr-0" key={item.text}>
               <NavMenuGroup
                 {...item}
                 items={'items' in item ? item.items : item}

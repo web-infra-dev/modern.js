@@ -8,7 +8,7 @@ export default function Page() {
     <div>
       Error page
       <Suspense fallback={<div>loading ...</div>}>
-        <Await resolve={data.data}>
+        <Await resolve={data.data} errorElement={<ErrorElement />}>
           {(data: any) => {
             return <div>never shown</div>;
           }}

@@ -4,6 +4,7 @@ import {
   NODE_MODULES_REGEX,
 } from './constants';
 import type { SharedNormalizedConfig } from './types';
+import { join } from 'path';
 
 export const extendsType =
   <T>() =>
@@ -66,5 +67,15 @@ export const isUseCssSourceMap = (config: SharedNormalizedConfig) => {
 
   return !disableSourceMap.css;
 };
+
+export const getSharedPkgCompiledPath = (
+  packageName: 'sass' | 'less' | 'sass-loader' | 'less-loader',
+) => {
+  return join(__dirname, '../compiled', packageName);
+};
+
+// Determine if the string is a URL
+export const isURL = (str: string) =>
+  str.startsWith('http') || str.startsWith('//:');
 
 export * as z from './zod';

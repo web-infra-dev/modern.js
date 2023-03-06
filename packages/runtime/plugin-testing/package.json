@@ -2,8 +2,8 @@
   "name": "@modern-js/plugin-testing",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
-  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
-  "repository": "modern-js-dev/modern.js",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": "web-infra-dev/modern.js",
   "license": "MIT",
   "keywords": [
     "react",
@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.6.0",
+  "version": "2.7.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/cjs/cli/index.js",
@@ -122,7 +122,7 @@
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17",
-    "@modern-js/runtime": "workspace:^2.6.0"
+    "@modern-js/runtime": "workspace:^2.7.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

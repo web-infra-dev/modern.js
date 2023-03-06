@@ -30,6 +30,18 @@ describe('applyDefaultPlugins', () => {
 
     process.env.NODE_ENV = NODE_ENV;
   });
+
+  it('should apply default plugins correctyly when target = node', async () => {
+    const builder = await createBuilder({
+      target: 'node',
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
 });
 
 describe('tools.rspack', () => {

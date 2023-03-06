@@ -27,8 +27,8 @@ Set via `browserslist` in `package.json`:
 ```json
 {
   "browserslist": [
-    "iOS 9",
-    "Android 4.4",
+    "iOS >= 9",
+    "Android >= 4.4",
     "last 2 versions",
     "> 0.2%",
     "not dead"
@@ -39,8 +39,8 @@ Set via `browserslist` in `package.json`:
 Set via a separate `.browserslistrc` file:
 
 ```
-iOS 9
-Android 4.4
+iOS >= 9
+Android >= 4.4
 last 2 versions
 > 0.2%
 not dead
@@ -54,8 +54,8 @@ In addition to the above standard usage, Builder also provides [output.overrideB
 export default {
   output: {
     overrideBrowserslist: [
-      'iOS 9',
-      'Android 4.4',
+      'iOS >= 9',
+      'Android >= 4.4',
       'last 2 versions',
       '> 0.2%',
       'not dead',
@@ -72,7 +72,7 @@ For example to set different ranges for `web` and `node`:
 export default {
   output: {
     overrideBrowserslist: {
-      web: ['iOS 9', 'Android 4.4', 'last 2 versions', '> 0.2%', 'not dead'],
+      web: ['iOS >= 9', 'Android >= 4.4', 'last 2 versions', '> 0.2%', 'not dead'],
       node: ['node >= 14'],
     },
   },
@@ -90,23 +90,23 @@ The following are some commonly used Browserslist, you can choose according to y
 The mobile H5 scene is mainly compatible with `iOS` and `Android` systems, usually we set Browserslist as:
 
 ```
-iOS 9
-Android 4.4
+iOS >= 9
+Android >= 4.4
 last 2 versions
-0.2%
+> 0.2%
 not dead
 ```
 
-The above Browserslist will compile the code to the ES5 specification, which is compatible with most mobile scenarios on the market. For the detailed browsers list, please check [browserslist.dev](https://browserslist.dev/?q=aU9TIDksIEFuZHJvaWQgNC40LCBsYXN0IDIgdmVyc2lvbnMsID4gMC4yJSwgbm90IGRlYWQ%3D).
+The above Browserslist will compile the code to the ES5 specification, which is compatible with most mobile scenarios on the market. For the detailed browsers list, please check [browserslist.dev](https://browserslist.dev/?q=aU9TID49IDksIEFuZHJvaWQgPj0gNC40LCBsYXN0IDIgdmVyc2lvbnMsID4gMC4yJSwgbm90IGRlYWQ%3D).
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/browserslist-dev-1222.png)
 
 You can also choose to use the ES6 specification in the H5 scene, which will make the performance of the page better. The corresponding Browserslist is as follows:
 
 ```
-iOS 10
-Chrome 51
-> 0.2%
+iOS >= 10
+Chrome >= 51
+> 0.5%
 not dead
 not op_mini all
 ```
@@ -126,11 +126,11 @@ The above Browserslist will compile the code to the ES5 specification. For the s
 If you don't need to be compatible with IE 11 browsers, you can adjust Browserslist to get a more performant output, such as setting it to browsers that supports native ES Modules:
 
 ```
-chrome > 61
-edge > 16
-firefox > 60
-safari > 11
-ios_saf > 11
+chrome >= 61
+edge >= 16
+firefox >= 60
+safari >= 11
+ios_saf >= 11
 ```
 
 ## Default Browserslist
@@ -172,11 +172,11 @@ not op_mini all
 Modern Web target will be compatible with browsers that support [native ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) by default.
 
 ```bash
-chrome > 61
-edge > 16
-firefox > 60
-safari > 11
-ios_saf > 11
+chrome >= 61
+edge >= 16
+firefox >= 60
+safari >= 11
+ios_saf >= 11
 ```
 
 ## Query browser support

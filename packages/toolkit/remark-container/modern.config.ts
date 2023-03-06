@@ -1,4 +1,4 @@
-// https://modernjs.dev/docs/apis/module/config
+// https://modernjs.dev/module-tools/en/api
 export default {
   testing: {
     transformer: 'ts-jest',

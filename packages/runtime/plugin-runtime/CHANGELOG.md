@@ -1,5 +1,33 @@
 # @modern-js/runtime
 
+## 2.7.0
+
+### Minor Changes
+
+- dcad887024: feat: support deferred data for streaming ssr
+  feat: 流式渲染支持 deferred data
+
+### Patch Changes
+
+- a4672f7c16: fix: lock @modern-js/utils/ssr by webpack alias
+  fix: 通过 webpack 别名将 @modern-js/utils/ssr 锁到同一版本
+- 7fff9020e1: chore: make file naming consistent
+
+  chore: 统一文件命名为小驼峰格式
+
+- 1eea234fdd: chore: make test files naming consistent
+
+  chore: 统一测试文件命名为小驼峰格式
+
+- Updated dependencies [0f15fc597c]
+- Updated dependencies [dcad887024]
+- Updated dependencies [a4672f7c16]
+- Updated dependencies [7fff9020e1]
+- Updated dependencies [84bfb439b8]
+  - @modern-js/utils@2.7.0
+  - @modern-js/types@2.7.0
+  - @modern-js/plugin@2.7.0
+
 ## 2.6.0
 
 ### Patch Changes

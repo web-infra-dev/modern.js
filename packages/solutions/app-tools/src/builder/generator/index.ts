@@ -58,8 +58,15 @@ async function applyBuilderPlugins<B extends Bundler>(
   builder: BuilderInstance,
   options: BuilderOptions<B>,
 ) {
-  const { builderPluginAdapterModern } = await import(
-    '../shared/builderPlugins/adapterModern'
-  );
-  builder.addPlugins([builderPluginAdapterModern(options)]);
+  const {
+    builderPluginAdapterBasic,
+    builderPluginAdapterHtml,
+    builderPluginAdapterSSR,
+  } = await import('../shared/builderPlugins');
+
+  builder.addPlugins([
+    builderPluginAdapterBasic(options),
+    builderPluginAdapterSSR(options),
+    builderPluginAdapterHtml(options),
+  ]);
 }

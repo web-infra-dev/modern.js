@@ -17,17 +17,29 @@ on:
         description: 'Release Branch(confirm release branch)'
         required: true
         default: 'main'
+  issue_comment:
+    types: [created]
 
 jobs:
-  release:
-    name: Release
+  issue_commentd:
+    name: Release with commentd
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '!canary')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
         with:
-        # This makes Actions fetch only one branch to release
           fetch-depth: 1
+          ref: refs/pull/${{ github.event.issue.number }}/head
+
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
+
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: 'pnpm'
 
       - name: Turbo Cache
         id: turbo-cache
@@ -37,16 +49,63 @@ jobs:
           key: turbo-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
             turbo-${{ github.ref_name }}-
-            turbo-main-
             turbo-
 
+      - name: Install Dependencies && Build
+        run: pnpm install
+
       - name: Release
-        uses: modern-js-dev/actions@main
+        uses: modern-js-dev/actions@v2
         with:
-          # this expects you to have a script called release which does a build for your packages and calls changeset publish
+          version: "canary"
+          type: "release"
+          branch: ""
+          tools: "modern"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          PULL_REQUEST_NUMBER: ${{ github.event.issue.number }}
+  release:
+    name: Release
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+        # This makes Actions fetch only one branch to release
+          fetch-depth: 1
+
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
+
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: 'pnpm'
+
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+            turbo-
+
+      - name: Install Dependencies && Build
+        run: pnpm install
+
+      - name: Release
+        uses: web-infra-dev/actions@v2
+        with:
           version: ${{ github.event.inputs.version }}
           branch: ${{ github.event.inputs.branch }}
           type: 'release'
+          tools: 'modern'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

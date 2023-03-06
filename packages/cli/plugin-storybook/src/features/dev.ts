@@ -39,10 +39,13 @@ export const runDev = async (
     return;
   }
 
+  const { checkEnableRuntime } = await import('./utils/check');
+  const enableRuntime = await checkEnableRuntime(appContext.internalDirectory);
+
   const configDir = await gen.generateConfig(appDirectory, pluginOption, {
     isTsProject,
     stories,
-    // TODO: 运行runtime相关功能的时候再处理
+    enableRuntime,
     modernConfig,
   });
 
