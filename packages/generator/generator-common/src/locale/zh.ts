@@ -35,7 +35,7 @@ export const ZH_LOCALE = {
       polyfill: '启用「基于 UA 的 Polyfill」功能',
       proxy: '启用「全局代理」',
       swc: '启用「SWC 编译」',
-      rspack: '启用「rspack 构建」',
+      rspack: '启用「Rspack 构建」(实验性)',
     },
     element: {
       self: '创建工程元素',
@@ -90,6 +90,6 @@ export const ZH_LOCALE = {
   buildTools: {
     self: '请选择构建工具',
     webpack: 'webpack',
-    rspack: 'rspack (experimental)',
+    rspack: 'Rspack (实验性)',
   },
 };
