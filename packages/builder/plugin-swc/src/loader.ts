@@ -1,16 +1,12 @@
 import { Options, TransformConfig } from '@modern-js/swc-plugins';
 import { getBrowserslist } from '@modern-js/utils';
-import type { LoaderContext } from 'webpack';
+import type { LoaderContext, LoaderDefinitionFunction } from 'webpack';
 import { Compiler } from './binding';
 
-export function createLoader() {
+export function createLoader(): LoaderDefinitionFunction {
   let compiler: Compiler | null = null;
 
-  return async function SwcLoader(
-    this: LoaderContext<TransformConfig>,
-    code: string,
-    map?: string,
-  ) {
+  return function SwcLoader(code, map) {
     const resolve = this.async();
     const filename = this.resourcePath;
 
@@ -21,12 +17,18 @@ export function createLoader() {
       compiler = new Compiler(options);
     }
 
-    try {
-      const result = await compiler.transform(filename, code, map);
-      resolve(null, result.code, result.map?.toString());
-    } catch (err) {
-      resolve(err as Error);
-    }
+    compiler
+      .transform(
+        filename,
+        code,
+        typeof map === 'object' ? JSON.stringify(map) : map,
+      )
+      .then(result => {
+        resolve(null, result.code, result.map);
+      })
+      .catch(err => {
+        resolve(err as Error);
+      });
   };
 }
 
