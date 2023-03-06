@@ -163,7 +163,7 @@ function ThreeComponent() {
 
 使用 React 的 refs 也可以实现类似效果，其实 `useStaticModel` 内部也使用到了 refs。不过直接 `useStaticModel` 有助于将状态的管理逻辑从组件中解耦，统一收敛到 Model 层。
 
-完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/static-model)查看。
+完整的示例代码可以在[这里](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/static-model)查看。
 
 ### 作为局部状态使用
 
@@ -195,7 +195,7 @@ function LocalCounter() {
 
 ![local-model](https://lf3-static.bytednsdoc.com/obj/eden-cn/eueh7vhojuh/modern/local-model.gif)
 
-完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/local-model)查看。
+完整的示例代码可以在[这里](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/local-model)查看。
 
 ## 在组件外使用
 
@@ -239,7 +239,7 @@ setInterval(() => {
 }, 1000);
 ```
 
-完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react)查看。
+完整的示例代码可以在[这里](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react)查看。
 
 :::info
 如果是通过 [`createStore`](/apis/app/runtime/model/create-store) 手动创建的 Store 对象，无需通过 `useStore` 在组件内获取，即可直接使用。

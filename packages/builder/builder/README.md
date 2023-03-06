@@ -24,4 +24,4 @@ This is the core package of Modern.js Builder.
 
 ## Contributing
 
-- [Contributing Guide](https://github.com/modern-js-dev/modern.js/blob/main/CONTRIBUTING.md)
+- [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md)

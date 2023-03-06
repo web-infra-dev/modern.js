@@ -91,12 +91,12 @@ export default function Home() {
     },
     {
       title: 'Garfish',
-      href: 'https://github.com/modern-js-dev/garfish',
+      href: 'https://github.com/web-infra-dev/garfish',
       desc: t('ecosystemDesc3'),
     },
     {
       title: 'Reduck',
-      href: 'https://github.com/modern-js-dev/reduck',
+      href: 'https://github.com/web-infra-dev/reduck',
       desc: t('ecosystemDesc4'),
     },
   ];

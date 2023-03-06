@@ -100,7 +100,7 @@ jobs:
         run: pnpm install
 
       - name: Release
-        uses: modern-js-dev/actions@v2
+        uses: web-infra-dev/actions@v2
         with:
           version: ${{ github.event.inputs.version }}
           branch: ${{ github.event.inputs.branch }}

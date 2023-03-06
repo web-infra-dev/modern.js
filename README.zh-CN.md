@@ -31,14 +31,14 @@ Modern.js 生态提供了以下解决方案：
 
 - 🦄 [Modern.js Module](https://modernjs.dev/module-tools): 简单、高性能的现代 npm 包开发方案。
 - 🐧 [Modern.js Builder](https://modernjs.dev/builder): 面向 Web 开发场景的构建引擎。
-- 🐟 [Garfish](https://github.com/modern-js-dev/garfish): 一站式微前端解决方案。
-- 🐈 [Reduck](https://github.com/modern-js-dev/reduck): 基于 Redux 的状态管理库。
+- 🐟 [Garfish](https://github.com/web-infra-dev/garfish): 一站式微前端解决方案。
+- 🐈 [Reduck](https://github.com/web-infra-dev/reduck): 基于 Redux 的状态管理库。
 
 ## 参与贡献
 
 > 欢迎参与 Modern.js 贡献！
 
-请阅读 [贡献指南](https://github.com/modern-js-dev/modern.js/blob/main/CONTRIBUTING.md) 来共同参与 Modern.js 的建设。
+请阅读 [贡献指南](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md) 来共同参与 Modern.js 的建设。
 
 ## Credits
 
@@ -52,4 +52,4 @@ Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 
 
 ## License
 
-Modern.js 项目基于 [MIT 协议](https://github.com/modern-js-dev/modern.js/blob/main/LICENSE)，请自由地享受和参与开源。
+Modern.js 项目基于 [MIT 协议](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE)，请自由地享受和参与开源。

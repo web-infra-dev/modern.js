@@ -9,8 +9,8 @@ body:
         Thanks for submitting new feature requests! Before submitting, please note:
 
          - Confirmed that this is a common feature and cannot be implemented through existing APIs.
-         - Make sure you searched in the [Issues](https://github.com/modern-js-dev/modern.js/issues) and didn't find the same request.
-         - You can discuss the feature in [Discussions](https://github.com/modern-js-dev/modern.js/discussions) first.
+         - Make sure you searched in the [Issues](https://github.com/web-infra-dev/modern.js/issues) and didn't find the same request.
+         - You can discuss the feature in [Discussions](https://github.com/web-infra-dev/modern.js/discussions) first.
 
   - type: textarea
     id: description

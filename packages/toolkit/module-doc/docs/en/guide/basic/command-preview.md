@@ -178,7 +178,7 @@ Usage: modern gen-release-note [options]
 Generate Release Note based on current repository changeset information
 
 Options:
-  --repo <repo> The name of the repository to generate the Pull Request link, e.g.: modern-js-dev/modern.js
+  --repo <repo> The name of the repository to generate the Pull Request link, e.g.: web-infra-dev/modern.js
   --custom <cumtom> Custom Release Note generation function
   -h, --help display help for command
 ```

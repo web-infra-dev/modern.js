@@ -34,7 +34,7 @@ export default defineConfig({
         {
           icon: 'github',
           mode: 'link',
-          content: 'https://github.com/modern-js-dev/modern.js',
+          content: 'https://github.com/web-infra-dev/modern.js',
         },
       ],
       locales: [
