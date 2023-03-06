@@ -36,7 +36,8 @@
     "release": "modern release --ignore-scripts",
     "fix:lockfile": "pnpm install --fix-lockfile",
     "update:lockfile": "pnpm install --lockfile-only",
-    "check-changeset": "cd ./scripts/check-changeset && pnpm start"
+    "check-changeset": "cd ./scripts/check-changeset && pnpm start",
+    "update-codesmith": "cd ./scripts/update-codesmith && pnpm start"
   },
   "engines": {
     "node": ">=14.17.6"
