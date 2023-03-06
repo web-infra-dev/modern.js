@@ -48,7 +48,6 @@
   "license": "MIT",
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.1.20",
@@ -62,6 +61,7 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.17.12",
+    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/swc-plugins": "0.0.16",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.4.12",
