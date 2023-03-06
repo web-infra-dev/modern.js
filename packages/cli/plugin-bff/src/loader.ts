@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable @babel/no-invalid-this */
 import { generateClient, GenClientOptions } from '@modern-js/bff-core';
 import type { HttpMethodDecider } from '@modern-js/types';
 import type { LoaderContext } from 'webpack';
@@ -16,15 +18,15 @@ export type APILoaderOptions = {
 };
 
 async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
-  // eslint-disable-next-line @babel/no-invalid-this
   this.cacheable();
-  // eslint-disable-next-line @babel/no-invalid-this
-  const callback = this.async();
-  // eslint-disable-next-line @babel/no-invalid-this
-  const draftOptions = this.getOptions();
 
-  // eslint-disable-next-line @babel/no-invalid-this
   const { resourcePath } = this;
+
+  delete require.cache[resourcePath];
+
+  const callback = this.async();
+
+  const draftOptions = this.getOptions();
 
   const warning = `The file ${resourcePath} is not allowd to be imported in src directory, only API definition files are allowed.`;
 
