@@ -54,6 +54,21 @@ export function isResponse(value: any): value is NodeResponse {
   );
 }
 
+function sortByUrlPath(entries: ServerRoute[]): ServerRoute[] {
+  entries.sort(function (a, b) {
+    const length1 = a.urlPath.length;
+    const length2 = b.urlPath.length;
+    if (length1 < length2) {
+      return 1;
+    }
+    if (length1 > length2) {
+      return -1;
+    }
+    return 0;
+  });
+  return entries;
+}
+
 function convertModernRedirectResponse(headers: Headers, basename: string) {
   const newHeaders = new Headers(headers);
   let redirectUrl = headers.get('Location')!;
@@ -126,6 +141,7 @@ const sendLoaderResponse = async (
 };
 
 export const matchEntry = (pathname: string, entries: ServerRoute[]) => {
+  sortByUrlPath(entries);
   return entries.find(entry => pathname.startsWith(entry.urlPath));
 };
 
