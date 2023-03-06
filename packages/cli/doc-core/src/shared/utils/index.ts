@@ -79,7 +79,12 @@ export function normalizeHref(url?: string) {
   if (!url) {
     return '/';
   }
+  if (externalLinkRE.test(url)) {
+    return url;
+  }
+
   let cleanUrl = url;
+
   if (!cleanUrl.endsWith('.html')) {
     if (cleanUrl.endsWith('/')) {
       cleanUrl += 'index.html';
