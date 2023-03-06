@@ -26,11 +26,13 @@ export const parseToc = (tree: Root) => {
     if (node.type !== 'heading' || !node.depth || !node.children) {
       return;
     }
-    // Collect h2 ~ h5
-    if (node.depth === 1) {
+
+    // Collect h1, use first h1 as title
+    if (node.depth === 1 && title.length === 0) {
       title = node.children[0].value;
     }
 
+    // Collect h2 ~ h5
     if (node.depth > 1 && node.depth < 5) {
       const originText = node.children
         .map((child: ChildNode) => {
