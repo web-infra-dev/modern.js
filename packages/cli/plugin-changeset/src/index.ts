@@ -87,7 +87,9 @@ export default (): CliPlugin => ({
             '--custom <custom>',
             i18n.t(localeKeys.command.gen_release_note.custom),
           )
-          .action((options: any) => genReleaseNote(options));
+          .action(async (options: any) => {
+            await genReleaseNote(options);
+          });
       },
     };
   },
