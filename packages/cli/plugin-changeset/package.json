@@ -22,16 +22,16 @@
         "import": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js"
       },
-      "release-note": {
-        "jsnext:source": "./src/commands/releaseNote.ts",
-        "import": "./dist/esm/commands/releaseNote.js",
-        "require": "./dist/cjs/commands/releaseNote.js"
-      },
       "default": "./dist/cjs/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
+    },
+    "./release-note": {
+      "jsnext:source": "./src/commands/releaseNote.ts",
+      "import": "./dist/esm/commands/releaseNote.js",
+      "require": "./dist/cjs/commands/releaseNote.js"
     }
   },
   "typesVersions": {
