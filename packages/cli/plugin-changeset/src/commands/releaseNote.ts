@@ -123,8 +123,8 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
 
   if (changesets.length === 0) {
     console.warn('No unreleased changesets found.');
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
+
+    return '';
   }
 
   const features: Commit[] = [];
