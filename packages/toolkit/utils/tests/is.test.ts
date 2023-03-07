@@ -5,6 +5,7 @@ import {
   isFastRefresh,
   isProdProfile,
   isUseSSRBundle,
+  isSSGEntry,
 } from '../src/is';
 
 describe('validate', () => {
@@ -104,5 +105,31 @@ describe('validate', () => {
     expect(isTest()).toBeFalsy();
 
     process.env.NODE_ENV = NODE_ENV;
+  });
+
+  it('should detect ssg config correctly', () => {
+    const useSSG = isSSGEntry({ output: {} } as any, 'main', [
+      { entryName: 'main' },
+    ]);
+    expect(useSSG).toBeFalsy();
+
+    const useSSG1 = isSSGEntry({ output: { ssg: true } } as any, 'main', [
+      { entryName: 'main' },
+    ]);
+    expect(useSSG1).toBeTruthy();
+
+    const useSSG2 = isSSGEntry(
+      { output: { ssg: { home: false } } } as any,
+      'home',
+      [{ entryName: 'main' }, { entryName: 'home' }],
+    );
+    expect(useSSG2).toBeFalsy();
+
+    const useSSG3 = isSSGEntry(
+      { output: { ssg: { home: {} } } } as any,
+      'home',
+      [{ entryName: 'main' }, { entryName: 'home' }],
+    );
+    expect(useSSG3).toBeTruthy();
   });
 });

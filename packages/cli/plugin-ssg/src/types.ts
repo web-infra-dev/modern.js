@@ -5,7 +5,7 @@ import {
   SSGRouteOptions,
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
-} from '@modern-js/app-tools';
+} from '@modern-js/types';
 
 export type {
   SSGConfig,
