@@ -52,6 +52,7 @@ export const devCommand = async (
     .option('-e --entry [entry...]', i18n.t(localeKeys.command.dev.entry))
     .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
     .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
+    .option('--web-only', i18n.t(localeKeys.command.dev.webOnly))
     .action(async (options: DevOptions) => {
       const { dev } = await import('./commands/dev');
       await dev(api, options);
