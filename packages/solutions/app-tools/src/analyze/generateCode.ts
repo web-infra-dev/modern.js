@@ -1,5 +1,12 @@
 import path from 'path';
-import { fs, getEntryOptions, isRouterV5, logger } from '@modern-js/utils';
+import {
+  fs,
+  getEntryOptions,
+  isRouterV5,
+  isSSGEntry,
+  isUseSSRBundle,
+  logger,
+} from '@modern-js/utils';
 import { IAppContext, PluginAPI } from '@modern-js/core';
 import type {
   Entrypoint,
@@ -152,6 +159,7 @@ export const generateCode = async (
           config.server.ssrByEntries,
           packageName,
         );
+        const useSSG = isSSGEntry(config, entryName, entrypoints);
 
         let mode: SSRMode | undefined;
         if (ssr) {
@@ -174,7 +182,7 @@ export const generateCode = async (
           entrypoint,
           code: await templates.fileSystemRoutes({
             routes,
-            ssrMode: mode,
+            ssrMode: useSSG ? 'string' : mode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
             internalDirectory,
@@ -182,7 +190,7 @@ export const generateCode = async (
         });
 
         // extract nested router loaders
-        if (entrypoint.nestedRoutesEntry && mode) {
+        if (entrypoint.nestedRoutesEntry && isUseSSRBundle(config)) {
           const routesServerFile = getServerLoadersFile(
             internalDirectory,
             entryName,
