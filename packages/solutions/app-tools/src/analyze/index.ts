@@ -3,16 +3,13 @@ import {
   createDebugger,
   findExists,
   fs,
-  getEntryOptions,
   isApiOnly,
   minimist,
   getCommand,
   isDevCommand,
-  isSSGEntry,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import { createVirtualModule } from '@modern-js/builder-shared';
 import { printInstructions } from '../utils/printInstructions';
 import { generateRoutes } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
@@ -20,12 +17,7 @@ import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools, webpack } from '../types';
 import { initialNormalizedConfig } from '../config';
 import { createBuilderGenerator } from '../builder';
-import {
-  getServerLoadersFile,
-  isPageComponentFile,
-  parseModule,
-  replaceWithAlias,
-} from './utils';
+import { isPageComponentFile, parseModule, replaceWithAlias } from './utils';
 import {
   APP_CONFIG_NAME,
   APP_INIT_EXPORTED,
@@ -226,53 +218,53 @@ export default ({
       watchFiles() {
         return pagesDir;
       },
-      config() {
-        return {
-          tools: {
-            webpackChain: (chain: any, { name }: any) => {
-              const appContext = api.useAppContext();
-              const resolvedConfig = api.useResolvedConfigContext();
-              const { entrypoints, internalDirectory, packageName } =
-                appContext;
-              entrypoints.forEach(entrypoint => {
-                const { entryName } = entrypoint;
-                const ssr = getEntryOptions(
-                  entryName,
-                  resolvedConfig.server.ssr,
-                  resolvedConfig.server.ssrByEntries,
-                  packageName,
-                );
+      // config() {
+      //   return {
+      //     tools: {
+      //       webpackChain: (chain: any, { name }: any) => {
+      //         const appContext = api.useAppContext();
+      //         const resolvedConfig = api.useResolvedConfigContext();
+      //         const { entrypoints, internalDirectory, packageName } =
+      //           appContext;
+      //         entrypoints.forEach(entrypoint => {
+      //           const { entryName } = entrypoint;
+      //           const ssr = getEntryOptions(
+      //             entryName,
+      //             resolvedConfig.server.ssr,
+      //             resolvedConfig.server.ssrByEntries,
+      //             packageName,
+      //           );
 
-                const useSSG = isSSGEntry(
-                  resolvedConfig,
-                  entryName,
-                  entrypoints,
-                );
+      //           const useSSG = isSSGEntry(
+      //             resolvedConfig,
+      //             entryName,
+      //             entrypoints,
+      //           );
 
-                if (
-                  entrypoint.nestedRoutesEntry &&
-                  (ssr || useSSG) &&
-                  name === 'server'
-                ) {
-                  const serverLoaderRuntime = require.resolve(
-                    '@modern-js/plugin-data-loader/runtime',
-                  );
-                  const serverLoadersFile = getServerLoadersFile(
-                    internalDirectory,
-                    entryName,
-                  );
-                  const combinedModule = createVirtualModule(
-                    `export * from "${serverLoaderRuntime}"; export * from "${serverLoadersFile}"`,
-                  );
-                  chain
-                    .entry(`${entryName}-server-loaders`)
-                    .add(combinedModule);
-                }
-              });
-            },
-          },
-        } as any;
-      },
+      //           if (
+      //             entrypoint.nestedRoutesEntry &&
+      //             (ssr || useSSG) &&
+      //             name === 'server'
+      //           ) {
+      //             const serverLoaderRuntime = require.resolve(
+      //               '@modern-js/plugin-data-loader/runtime',
+      //             );
+      //             const serverLoadersFile = getServerLoadersFile(
+      //               internalDirectory,
+      //               entryName,
+      //             );
+      //             const combinedModule = createVirtualModule(
+      //               `export * from "${serverLoaderRuntime}"; export * from "${serverLoadersFile}"`,
+      //             );
+      //             chain
+      //               .entry(`${entryName}-server-loaders`)
+      //               .add(combinedModule);
+      //           }
+      //         });
+      //       },
+      //     },
+      //   } as any;
+      // },
 
       resolvedConfig({ resolved }) {
         const appContext = api.useAppContext();

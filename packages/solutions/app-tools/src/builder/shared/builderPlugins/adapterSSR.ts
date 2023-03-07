@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import {
   BuilderPlugin,
   BundlerChain,
@@ -12,6 +13,7 @@ import type {
 } from '../../../types';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import type { BuilderOptions, BuilderPluginAPI } from '../types';
+import { getServerCombinedModueFile } from '../../../analyze/utils';
 import { isHtmlEnabled } from './adapterHtml';
 
 export const builderPluginAdapterSSR = <B extends Bundler>(
@@ -33,10 +35,14 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
     });
 
     api.modifyBundlerChain(
-      (chain, { target, CHAIN_ID, isProd, HtmlPlugin: HtmlBundlerPlugin }) => {
+      (
+        chain,
+        { target, CHAIN_ID, isProd, HtmlPlugin: HtmlBundlerPlugin, isServer },
+      ) => {
         const builderConfig = api.getNormalizedConfig();
 
         applyRouterPlugin(chain, options);
+        applySSRLoaderEntry(chain, options, isServer);
 
         if (['node', 'service-worker'].includes(target)) {
           applyFilterEntriesBySSRConfig({
@@ -172,6 +178,30 @@ function applyFilterEntriesBySSRConfig({
         (!ssr && !ssrByEntries?.[name]))
     ) {
       chain.entryPoints.delete(name);
+    }
+  });
+}
+
+function applySSRLoaderEntry<B extends Bundler>(
+  chain: BundlerChain,
+  optinos: BuilderOptions<B>,
+  isServer: boolean,
+) {
+  const { appContext } = optinos;
+  const { internalDirectory } = appContext;
+  const { entrypoints } = appContext;
+
+  entrypoints.forEach(entrypoint => {
+    const { entryName } = entrypoint;
+    const serverLoadersFile = getServerCombinedModueFile(
+      internalDirectory,
+      entryName,
+    );
+    // the rspack is not support virtualModule
+    // so we write the combinedModule in filesystem;
+    // then we load it from dist;
+    if (isServer && fs.existsSync(serverLoadersFile)) {
+      chain.entry(`${entryName}-server-loaders`).add(serverLoadersFile);
     }
   });
 }

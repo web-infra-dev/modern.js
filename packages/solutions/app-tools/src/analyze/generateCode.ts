@@ -29,7 +29,11 @@ import {
   ENTRY_POINT_FILE_NAME,
   ENTRY_BOOTSTRAP_FILE_NAME,
 } from './constants';
-import { getDefaultImports, getServerLoadersFile } from './utils';
+import {
+  getDefaultImports,
+  getServerLoadersFile,
+  getServerCombinedModueFile,
+} from './utils';
 import { walk } from './nestedRoutes';
 
 const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
@@ -202,6 +206,21 @@ export const generateCode = async (
 
           await fs.ensureFile(routesServerFile);
           await fs.writeFile(routesServerFile, code);
+        }
+
+        const serverLoaderCombined = templates.ssrLoaderCombinedModule(
+          entrypoints,
+          entrypoint,
+          config,
+          appContext,
+        );
+        if (serverLoaderCombined) {
+          const serverLoaderFile = getServerCombinedModueFile(
+            internalDirectory,
+            entryName,
+          );
+          await fs.ensureFile(serverLoaderFile);
+          await fs.writeFile(serverLoaderFile, serverLoaderCombined);
         }
 
         fs.outputFileSync(
