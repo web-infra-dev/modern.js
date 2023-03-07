@@ -1,7 +1,13 @@
 /* eslint-disable max-lines */
 import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import path from 'path';
-import { fs, isProd, isPromise, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
+import {
+  fs,
+  isPromise,
+  isWebOnly,
+  mime,
+  ROUTE_SPEC_FILE,
+} from '@modern-js/utils';
 import {
   Adapter,
   WebAdapter,
@@ -352,6 +358,13 @@ export class ModernServer implements ModernServerInterface {
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
     const prefix = bff?.prefix || '/api';
+    const webOnly = await isWebOnly();
+    if (webOnly && process.env.NODE_ENV === 'development') {
+      return (req: IncomingMessage, res: ServerResponse) => {
+        res.setHeader('Content-Type', 'text/plain');
+        res.end(JSON.stringify(''));
+      };
+    }
     return runner.prepareApiServer(
       {
         pwd: workDir,

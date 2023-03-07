@@ -10,3 +10,8 @@ export const isApiOnly = async (
   const options = minimist(process.argv.slice(2));
   return !existSrc || Boolean(options['api-only']);
 };
+
+export const isWebOnly = async () => {
+  const options = minimist(process.argv.slice(2));
+  return Boolean(options['web-only']);
+};
