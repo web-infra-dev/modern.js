@@ -67,7 +67,7 @@
     },
     "./model": {
       "jsnext:source": "./src/state/index.ts",
-      "types": "./dist/types/model.d.ts",
+      "types": "./types/model.d.ts",
       "default": "./dist/esm/state/index.js"
     },
     "./cli": {
