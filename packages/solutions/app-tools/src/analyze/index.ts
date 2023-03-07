@@ -8,6 +8,7 @@ import {
   minimist,
   getCommand,
   isDevCommand,
+  isSSGEntry,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
@@ -241,7 +242,18 @@ export default ({
                   resolvedConfig.server.ssrByEntries,
                   packageName,
                 );
-                if (entrypoint.nestedRoutesEntry && ssr && name === 'server') {
+
+                const useSSG = isSSGEntry(
+                  resolvedConfig,
+                  entryName,
+                  entrypoints,
+                );
+
+                if (
+                  entrypoint.nestedRoutesEntry &&
+                  (ssr || useSSG) &&
+                  name === 'server'
+                ) {
                   const serverLoaderRuntime = require.resolve(
                     '@modern-js/plugin-data-loader/runtime',
                   );
