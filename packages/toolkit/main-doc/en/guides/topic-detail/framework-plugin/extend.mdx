@@ -1,24 +1,24 @@
 ---
-title: 扩展插件 Hook
+title: Extending
 sidebar_position: 5
 ---
-# 扩展插件 Hook
+# Extending Plugin Hooks
 
-本小节介绍如何通过动态注册 [Hook 模型](/guides/topic-detail/framework-plugin/hook) 的方式来扩展插件 Hook。
+This section describes how to extend plugin Hooks by dynamically registering [Hook models](/guides/topic-detail/framework-plugin/hook).
 
-## 示例
+## Example
 
-这里我们用一个简单的例子演示一下。假设我们要添加一些管理控制台输出信息的 Hook。
+Here is a simple example to demonstrate how to extend plugin Hooks by adding Hooks that manage console output.
 
-首先我们初始化一个空的项目文件，并添加基础依赖：
+First, we initialize an empty project file and add basic dependencies:
 
 ```bash
 $ npx @modern-js/create modern-js-demo
 ```
 
-### 创建 Hook
+### Creating Hooks
 
-我们先创建一个 Hook 模型：
+First, let's create a Hook model:
 
 ```ts title=config/plugin/myPlugin.ts
 import { createWaterfall } from '@modern-js/plugin';
@@ -26,7 +26,7 @@ import { createWaterfall } from '@modern-js/plugin';
 const message = createWaterfall<string[]>();
 ```
 
-然后注册它：
+then register:
 
 ```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
@@ -40,7 +40,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-添加 Hook 类型：
+add Hook types:
 
 ```ts title=config/plugin/myPlugin.ts
 declare module '@modern-js/core' {
@@ -50,9 +50,9 @@ declare module '@modern-js/core' {
 }
 ```
 
-### 使用 Hook
+### Using Hooks
 
-创建插件，通过 `commands` Hook 函数，添加命令处理逻辑：
+Create a plugin and add command handling logic through the `commands` Hook function:
 
 ```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
@@ -74,7 +74,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-最后 `config/plugin/myPlugin.ts` 的状态是：
+now `config/plugin/myPlugin.ts` is:
 
 ```ts title=config/plugin/myPlugin.ts
 import { createWaterfall } from '@modern-js/plugin';
@@ -109,7 +109,7 @@ declare module '@modern-js/core' {
 }
 ```
 
-然后在 `modern.config.ts` 中添加这个插件：
+Then add this plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -120,9 +120,9 @@ export default defineConfig({
 });
 ```
 
-这时运行 `npx modern message` 就会执行相关逻辑，但由于没有收集到任何信息，所以控制台输出为空。
+Now, run `npx modern message`, and the related logic will be executed, but no information is collected, so the console output is empty.
 
-那这里我们添加一个：
+add:
 
 ```ts title=config/plugin/otherPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
@@ -140,7 +140,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-将它添加到配置中：
+add to config:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -152,7 +152,7 @@ export default defineConfig({
 });
 ```
 
-这时运行 `npx modern message` 就可以在控制台看到信息了：
+run `npx modern message`, then we can get follow in console：
 
 ```bash
 $ modern message
@@ -160,4 +160,5 @@ $ modern message
 [foo] line 1
 ```
 
-以上面这种方式就可以扩展出拥有各种能力的插件 Hook。
+By using the above approach, you can extend plugin Hooks with various capabilities.
+

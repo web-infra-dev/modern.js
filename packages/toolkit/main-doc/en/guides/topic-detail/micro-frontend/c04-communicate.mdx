@@ -1,14 +1,14 @@
 ---
 sidebar_position: 4
-title: 主子应用通信
+title: Communicate
 ---
-# 主子应用通信
+# Communicate
 
-## props 通信
+## Props
 
-Modern.js 中，会将子应用包裹成一个 React 组件，直接通过给 React 组件传递 `props` 即可实现主应用和子应用通信的目的。
+In Modern.js, the sub-application will be wrapped into a React component, and the purpose of communicating between the main application and the sub-application can be achieved directly by passing'props' to the React component.
 
-```tsx title=主应用：App.tsx
+```tsx title=Main：App.tsx
 function App() {
   const { MApp } = useModuleApps();
 
@@ -20,21 +20,21 @@ function App() {
 }
 ```
 
-```tsx title=子应用：App.tsx
+```tsx title=Main：App.tsx
 function App(props) {
   console.log(props);
   return ...
 }
 ```
 
-子应用将会打印 `{count: 0}`，目前尚未支持子应用渲染响应式，及时在主应用上更改 `count` 的数据也不会触发视图更新
+The child application will print `{count: 0}`. Currently, child application rendering responsiveness is not supported. Changing the data of'count 'on the main application in time will not trigger a view update
 
-## channel 通信
+## channel
 
-[Garfish.channel](https://www.garfishjs.org/api/channel) 用于应用间的通信。它是 `EventEmitter2` 的实例
+[Garfish.channel] (https://www.garfishjs.org/api/channel) Used for communication between applications. It is an instance of `EventEmitter2`.
 
 ```ts
-// 子应用监听登录事件
+// sub app listen login event
 const App = () => {
   const handleLogin = userInfo => {
     console.log(`${userInfo.name} has login`);
@@ -48,7 +48,7 @@ const App = () => {
   });
 };
 
-// 主应用触发监听事件
+// main app emit login event
 api.getLoginInfo.then(res => {
   if (res.code === 0) {
     window.Garfish.channel.emit('login', res.data);

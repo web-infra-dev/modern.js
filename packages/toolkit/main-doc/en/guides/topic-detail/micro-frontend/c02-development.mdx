@@ -1,56 +1,56 @@
 ---
 sidebar_position: 2
-title: 体验微前端
+title: development
 ---
-# 体验微前端
 
-通过本章你可以了解到：
+# Experience Micro Frontend
 
-- 如何创建微前端项目的主应用、子应用。
-- 微前端项目开发的基本流程。
+Through this chapter you can learn:
 
-## 创建应用
-目前支持两种路由模式
-- 自控式路由
-- 约定式路由
+- How to create the main application and sub-application of the micro frontend project.
+- Basic process of micro frontend project development.
 
-首先明确主应用的路由模式 [创建约定式路由主应用](#创建约定式路由主应用) 或 [创建自控式路由主应用](#创建自控式路由主应用)
+## Create an app
 
-在本次体验中我们会为主应用创建两个子应用 Table 和 Dashboard (Table 为约定式路由，Dashboard 为自控式路由)
+Currently supports two routing modes
+- Self-controlled routing
+- Conventional routing
 
-### 创建约定式路由主应用
+First, clarify the routing mode of the main application [create a conventional routing main application](#创建约定式路由主应用) or [create a self-controlled routing main application](#创建自控式路由主应用)
 
-通过命令行工具初始化项目：
+In this experience we will create two sub-applications Table and Dashboard for the main application (Table is reduced routing, Dashboard is self-controlled routing)
+
+
+### File-based Routing Main App
+
+Initialize the project with a command line:
 
 ```bash
 mkdir masterApp && cd masterApp
 npx @modern-js/create
 ```
 
-import DefaultMWAGenerate from "@site-docs/components/default-mwa-generate";
-
-<DefaultMWAGenerate />
-
-完成项目创建后我们可以通过 `pnpm run new` 来开启 `微前端` 功能：
+After the project is created, we can enable the `micro frontend` through `pnpm run new`:
 
 ```bash
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
+? Action Enable features
+? Enable features Enable Micro Front-end Feature
 ```
 
-接下来，让我们注册微前端插件并添加开启微前端主应用，并增加子应用列表：
+Next, let's register the micro frontend plugin and add the main micro frontend app and add the list of sub-apps:
 
 import EnableMicroFrontend from "@site-docs/components/enable-micro-frontend";
 
 <EnableMicroFrontend />
 
-然后我们在 routes 文件夹下新建两个目录
-- table (用于加载约定式路由子应用)
-- dashboard (用于加载自控式路由子应用)
+Then we create two new directories in the routes folder
+- table (for loading conventional routing sub-applications)
+- dashboard (for loading self-controlled routing sub-applications)
 
-在这两个目录下我们需要新建一个 `$.tsx` 文件作为主应用约定式路由的入口($ 代表模糊匹配，即 `/table` 和 `/table/test` 都会匹配到这个 `$.tsx` 作为该路由的入口文件，这会保证在微前端场景下正确加载子应用路由)
+In these two directories, we need to create a `$.tsx` file as the entry of the main application convention route ($represents fuzzy match, that is, `/table` and `/table/test` will match this `$.tsx` as the entry file of the route, which will ensure that the sub-application route is loaded correctly in the micro frontend scenario)
 
-#### 加载约定式路由子应用
+#### Load file-base routing sub-app
+
 ```js title="src/routes/table/$.tsx"
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 
@@ -67,7 +67,8 @@ const Index = () => {
 export default Index;
 ```
 
-#### 加载自控式路由子应用
+#### Load self-controlled routing sub-app
+
 ```js title="src/routes/dashboard/$.tsx"
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 
@@ -83,16 +84,18 @@ const Index = () => {
 
 export default Index;
 ```
-#### 路由跳转
-此时主应用配置已经完成，通过路由即可加载子应用，修改主应用的 `layout.tsx` 来跳转路由
+#### route link
+
+At this time, the main application configuration has been completed, and the sub-application can be loaded through the route, and the `layout.tsx` of the main application can be modified to jump to the route:
+
 ```js title="src/route/layout.tsx"
 import { Outlet, Link } from '@modern-js/runtime/router';
 
 const Layout = () => (
   <div>
-    <div><Link to={'/table'}>加载约定式路由子应用</Link></div>
-    <div><Link to={'/dashboard'}>加载自控式路由子应用</Link></div>
-    <div><Link to={'/'}>卸载子应用</Link></div>
+    <div><Link to={'/table'}>Load file-base routing sub-app</Link></div>
+    <div><Link to={'/dashboard'}>Load self-controlled routing sub-app</Link></div>
+    <div><Link to={'/'}>unmount sub-app</Link></div>
     <Outlet />
   </div>
 );
@@ -100,55 +103,51 @@ const Layout = () => (
 export default Layout;
 ```
 
-### 创建自控式路由主应用
+### Self-Controlled Main App
 
-通过命令行工具初始化项目：
+Initialize the project with a command line:
 
 ```bash
 mkdir masterApp && cd masterApp
 npx @modern-js/create
 ```
 
-<DefaultMWAGenerate />
-
-完成项目创建后我们可以通过 `pnpm run new` 来开启 `微前端` 功能：
+After the project is created, we can enable the `micro frontend` function through `pnpm run new`:
 
 ```bash
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
+? Action Enable features
+? Enable features Enable Micro Front-end Feature
 ```
 
-接下来，让我们注册微前端插件并添加开启微前端主应用，并增加子应用列表：
+Next, let's register the micro frontend plugin and add the main micro frontend app and add the list of sub-apps:
 
 <EnableMicroFrontend />
 
-由于是自控式路由，我们删除掉 `routes` 文件夹并在 `src` 目录下增加 `App.tsx` 文件，此处如果使用的 `非 MApp` 组件，需要通过 `React Router v6` 的 `createBrowserRouter` API 来创建路由
-#### 加载子应用
+Since it is a self-controlled route, we delete the `routes/` folder and add the `App.tsx` file in the `src/` directory. If you use a `non-MApp` component here, you need to use the `createBrowserRouter` API of '=React Router v6 to create routes.
+
+#### Load sub-app
+
 import CustomRouterMicroFrontend from "@site-docs/components/custom-router-micro-frontend";
 
 <CustomRouterMicroFrontend />
 
-### 创建约定式路由子应用
+### File-based sub-app
 
-通过命令行工具初始化项目：
+Initialize the project with a command line:
 
 ```bash
 mkdir table && cd table
 npx @modern-js/create
 ```
 
-按照如下选择，生成项目：
-
-<DefaultMWAGenerate/>
-
-我们执行 `pnpm run new` 来开启 `微前端` 功能：
+After create sub-app. We execute `pnpm run new` to enable the `micro frontend` function:
 
 ```bash
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
+? Action Enable features
+? Enable features Enable Micro Front-end Feature
 ```
 
-接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
+Next, let's register the micro frontend plugin and modify `modern.config.ts` to add the configuration of the micro frontend sub-app `deploy.microFrontend`:
 
 ```js title="modern.config.ts"
 import appTools, { defineConfig } from '@modern-js/app-tools';
@@ -169,38 +168,35 @@ export default defineConfig({
 });
 ```
 
-添加 `src/routes/page.tsx` 代码
+add `src/routes/page.tsx`:
+
 ```js title="src/routes/page.tsx"
 const Index = () => {
   return (
-    <div className="container-box">subApp: 约定式路由的子应用的根路由</div>
+    <div className="container-box">subApp</div>
   )
 }
 
 export default Index;
 ```
 
-### 创建自控式路由子应用
+### Self-controlled sub-app
 
-通过命令行工具初始化项目：
+Initialize the project with a command line:
 
 ```bash
-mkdir dashboard && cd dashboard
+mkdir table && cd table
 npx @modern-js/create
 ```
 
-按照如下选择，生成项目：
-
-<DefaultMWAGenerate/>
-
-我们执行 `pnpm run new` 来开启 `微前端`：
+After create sub-app. We execute `pnpm run new` to enable the `micro frontend` function:
 
 ```bash
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
+? Action Enable features
+? Enable features Enable Micro Front-end Feature
 ```
 
-接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
+Next, let's register the micro frontend plugin and modify `modern.config.ts` to add the configuration of the micro frontend sub-app `deploy.microFrontend`:
 
 ```js title="modern.config.ts"
 import appTools, { defineConfig } from '@modern-js/app-tools';
@@ -220,9 +216,10 @@ export default defineConfig({
   plugins: [appTools(), garfishPlugin()],
 });
 ```
-自控式路由需要删除掉 `routes` 文件夹并在 `src` 目录下新建 `App.tsx`
 
-并在 `src/App.tsx` 添加代码，注意需要从 `props` 中解析并传递 `basename` 给 `BrowserRouter`
+Self-controlled routing needs to delete the `routes/` folder and create a new `App.tsx` in the `src/` directory.
+
+And add code in `src/App.tsx`, note that you need to parse from `props` and pass `basename` to `BrowserRouter`.
 
 ```js title="src/App.tsx"
 import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
@@ -233,24 +230,25 @@ export default (props: {basename: string}) => {
   return (
     <BrowserRouter basename={basename}>
       <Routes>
-        <Route index element={<div>自控式路由子应用根路由</div>} />
-        <Route path={'path'} element={<div>自控式路由子应用子路由</div>} />
+        <Route index element={<div>Self-controlled route root</div>} />
+        <Route path={'path'} element={<div>Self-controlled sub route</div>} />
       </Routes>
     </BrowserRouter>
   );
 };
 ```
 
-## 调试
-按顺序在目录执行 `pnpm run dev` 命令启动应用：
-- masterApp 主应用 `http://localhost:8080`
-- table 子应用(约定式路由) `http://localhost:8081`
-- dashboard 子应用(自控式路由) `http://localhost:8082`
+## Debug
 
-访问主应用地址 `http://localhost:8080`
+Start the application by executing the `pnpm run dev` command in the directory in sequence:
+- masterApp `http://localhost:8080`
+- table subapplication (conventional routing) `http://localhost:8081`
+- dashboard subapplication (self-controlled routing) `http://localhost:8082`
 
-在完成了微前端整体开发流程的体验后，你可以进一步了解如何 [开发主应用](/guides/topic-detail/micro-frontend/c03-main-app)
+Access the main application address `http://localhost:8080`
 
-## 常见问题
+After completing the experience of the overall development process of micro frontend, you can learn more about how to [develop the main application](/guides/topic-detail/micro-frontend/c03-main-app).
 
-自查手册: https://www.garfishjs.org/issues/
+## FAQ
+
+Garfish issue: https://www.garfishjs.org/issues/

@@ -1,45 +1,45 @@
 ---
 sidebar_position: 3
-title: 开发主应用
+title: Develop Main App
 ---
-# 开发主应用
+# Develop Main App
 
-在上一章 [体验微前端](/guides/topic-detail/micro-frontend/c02-development) 通过一个示例演示了如何创建和配置微前端子应用，通过本章你可以进一步了解如何开发主应用，以及它的常见配置。
+In the previous [Experience micro frontend](/guides/topic-detail/micro-frontend/c02-development), an example was used to demonstrate how to create and configure micro frontend sub-applications. Through this chapter, you can further understand how to develop the main application, and its common configuration.
 
-在通过 `@modern-js/create` 命令创建应用工程后，可以在项目中执行 `pnpm run new`（实际执行了 `modern new` 命令），在选择了「微前端」模式后，会安装微前端依赖依赖，只需手动注册插件即可。
+After creating an application project through the `@modern-js/create` command, you can execute `pnpm run new` in the project (the `modern new` command is actually executed). After selecting the 「micro frontend」 mode, the micro frontend will be installed. Dependencies, just register the plugin manually.
 
 import EnableMicroFrontend from "@site-docs/components/enable-micro-frontend";
 
 <EnableMicroFrontend />
 
-## 注册子应用信息
+## Register Sub-app
 
-当在 `masterApp` 配置上提供了信息后，将会认为该应用为主应用，目前存在两种子应用信息的配置方式，这两种方式分别应用于不同的场景。
+When the information is provided on the `masterApp` configuration, the application will be considered the main application. At present, there are two configuration methods for sub-app information, and these two methods are applied to different scenarios.
 
-### 直接注册子应用信息
+### Register sub-app info directly
 
-可以直接通过配置注册子应用信息：
+You can register the sub-application information directly through the configuration:
 
 :::tip
-可以通过 API [defineConfig](/apis/app/runtime/app/define-config) 在运行时进行配置。
-当参数为函数时无法被序列化到产物代码，所以在涉及到函数之类的配置时请通过 defineConfig 来进行配置
+It can be configured at runtime via the API [defineConfig](/apis/app/runtime/app/define-config).
 
+When the parameter is a function, it cannot be serialized to the product code, so please configure it through defineConfig when it comes to configuration such as functions
 :::
 
 import MicroRuntimeConfig from "@site-docs/components/micro-runtime-config";
 
 <MicroRuntimeConfig />
 
-### 自定义远程应用列表
+### Custom remote app list
 
-通过该函数可以拉取远程的子应用列表，并将其注册至运行时框架：
+This function allows you to pull a list of remote child applications and register them with the runtime framework:
 
 ```ts title="App.tsx"
 defineConfig(App, {
   masterApp: {
     manifest: {
       getAppList: async () => {
-        // 可以从其他远程接口获取
+        // get from remote api
         return [{
           name: 'Table',
           entry: 'http://localhost:8001',
@@ -55,24 +55,24 @@ defineConfig(App, {
 });
 ```
 
-## 渲染子应用
+## Renderer sub-app
 
-在微前端中分为两种加载子应用的方式：
+There are two ways to load sub-app in micro frontend:
 
-1. **子应用组件** 获取到每个子应用的组件，之后就可以像使用普通的 `React` 组件一样渲染微前端的子应用。
-2. **集中式路由** 通过集中式的路由配置，自动根据当前页面 `pathname` 激活渲染对应的子应用。
+1. **Sub-app component ** Get the components of each sub-app, and then you can render the sub-app of micro frontend just like using ordinary'React 'components.
+2. **Centralized routing** Through centralized routing configuration, the corresponding sub-app of rendering is automatically activated according to the current page `pathname`.
 
-### 子应用组件
+### Sub-app component
 
-开发者使用 `useModuleApps` 方法可以获取到各个子应用的组件。
+Developers can use the `useModuleApps` method to obtain the components of each child application.
 
-再通过 `router` 组件的结合运用，开发者可以自控式的根据不同的路由渲染不同的子应用。
+Through the combined use of the `router` component, developers can autonomously render different sub-applications according to different routes.
 
-假设我们的子应用列表配置如下：
+Suppose our subapp list is configured as follows:
 
 <EnableMicroFrontend />
 
-编辑主应用 `App.tsx` 文件如下：
+`App.tsx` as follow:
 
 ```js title="App.tsx"
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
@@ -81,9 +81,9 @@ import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements, B
 
 const AppLayout = () => (
   <>
-    <div><Link to={'/table'}>加载约定式路由子应用</Link></div>
-    <div><Link to={'/dashboard'}>加载自控式路由子应用</Link></div>
-    <div><Link to={'/'}>卸载子应用</Link></div>
+    <div><Link to={'/table'}>load file-based sub-app</Link></div>
+    <div><Link to={'/dashboard'}>load self-controlled sub-app</Link></div>
+    <div><Link to={'/'}>unmount sub-app</Link></div>
     <Outlet />
   </>
 )
@@ -91,13 +91,13 @@ const AppLayout = () => (
 export default () => {
   const { apps, MApp } = useModuleApps();
 
-  // 使用的不是 MApp 组件，需要使用 createBrowserRouter 来创建路由
+  // Instead of using the MApp component, you need to use createBrowserRouter to create the route
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<AppLayout />}>
         {apps.map(app => {
           const { Component } = app;
-          // 模糊匹配，path 需要写成类似 abc/* 的模式
+          // Fuzzy match, path needs to be written in a pattern similar to abc/*
           return (
             <Route
               key={app.name}
@@ -125,12 +125,12 @@ export default () => {
   );
 
   return (
-    // 方法一：使用 MApp 自动根据配置的 activeWhen 参数加载子应用(本项目配置在 modern.config.ts 中)
+    // Use MApp to automatically load sub-applications according to the configured activeWhen parameters (this project is configured in modern.config.ts)
     // <BrowserRouter>
     //   <MApp />
     // </BrowserRouter>
 
-    // 方法二：手动写 Route 组件方式加载子应用，方便于需要鉴权等需要前置操作的场景
+    // Manually write the Route component to load the sub-application, which is convenient for scenarios that require pre-operation such as authentication
     <>
       <RouterProvider router={router} />
     </>
@@ -138,17 +138,17 @@ export default () => {
 };
 ```
 
-这里通过 `Route` 组件自定义了 **Table** 的激活路由为 **/table**， **Dashboard** 的激活路由为 **/dashboard**。
+Here, the activation route of **Table** is customized as **/table** through the `Route` component, and the activation route of **Dashboard** is **/dashboard**.
 
-### 集中式路由
+### Centralized routing
 
-**集中式路由** 是将子应用的激活路由集中配置的方式。我们给子应用列表信息添加 `activeWhen` 字段来启用 **集中式路由**。
+**Centralized Routing** is a way to centrally configure active routes for subapps. We enable **Centralized Routing** by adding an `activeWhen` field to the subapp list information.
 
 <MicroRuntimeConfig />
 
-然后在主应用中使用 `useModuleApp` 方法获取 `MApp` 组件, 并在主应用渲染 `MApp`。
+Use `useModuleApp` api in Main App, get `MApp` component and then render it
 
-```tsx title=主应用：App.tsx
+```tsx title=Main App：App.tsx
 import { useModuleApp } from '@modern-js/plugin-garfish/runtime';
 
 function App() {
@@ -162,18 +162,22 @@ function App() {
 }
 ```
 
-这样启动应用后，访问 `/table` 路由，会渲染 `Table` 子应用，访问 `/dashboard` 路由，会渲染 `Dashboard` 子应用。
+After starting the application in this way, accessing the '/table' route will render the'Table 'sub-application, and accessing the'/dashboard 'route will render the'Dashboard' sub-application.
 
-### 两种模式混用
 
-当然 **子应用组件** 和 **集中式路由** 是可以混合使用的。
+### Mix Mode
 
-- 一部分子应用作为 **子应用组件** 激活，另外一部分作为 **集中式路由** 激活。
-- 一部分子应用既可以作为 **集中式路由** 激活，也可以作为 **子应用组件** 激活。
 
-### 添加 loading
+Of course, **sub-application components** and **centralized routing** can be mixed.
 
-通过配置 `loadable` 配置，可以为「集中式路由」、「子应用」添加 loading 组件，并可以考虑错误、超时、闪烁等情况的出现，从而为用户提供更好的用户体验。该功能的设计与实现参考至 [react-loadable](https://github.com/jamiebuilds/react-loadable)，基本功能较为相似。
+
+- One molecular application is activated as a **sub-application component**, and the other part is activated as a **centralized routing**.
+- A molecular application can be activated either as a **centralized routing** or as a **sub-application component**.
+
+### Loading
+
+By configuring the `loadable` configuration, loading components can be added for 「centralized routing」 and 「sub-applicati」, and errors, timeouts, flashes, etc. can be considered, so as to provide users with a better user experience. The design and implementation of this function refer to [react-loadable](https://github.com/jamiebuilds/react-loadable), and the basic functions are similar.
+
 
 ```tsx
 function Loading() {
@@ -191,9 +195,9 @@ function App(){
 }
 ```
 
-#### 增加错误状态
+#### Add Error Status
 
-当微前端子应用加载失败或渲染失败时，`loading component` 将会接收 `error` 参数（若没有错误时 error 是 null）
+When the micro-frontend sub-application fails to load or render, the `loading component` will receive the `error` parameter (if there is no error, the error is null).
 
 ```tsx
 function Loading({ error }) {
@@ -205,11 +209,13 @@ function Loading({ error }) {
 }
 ```
 
-#### 避免 loading 闪退
+#### Avoid Loading Flash Back
 
-有时 loading 组件的显示时间可能小于 200ms，这个时候会出现 loading 组件闪退的情况。许多用户研究证明，loading 闪退的情况会导致用户感知加载内容的耗时比实际耗时更长，在 loading 小于 200ms 时，不展示内容，用户会认为它更快。
+Sometimes the display time of the loading component may be less than 200ms, and the loading component will flash back at this time. Many user studies have proved that the loading flash back situation will cause the user to perceive that the loading content takes longer than the actual time.
 
-所以 loading 组件还提供了 `pastDelay` 参数，超过设置的延迟展示时才会为 true，可以通过 `delay` 参数设置延迟的时长
+When loading is less than 200ms, if the content is not displayed, the user will think it is faster.
+
+Therefore, the loading component also provides the `pastDelay` parameter, which will only be true when it exceeds the set delay display. You can set the delay duration through the `delay` parameter.
 
 ```tsx
 function Loading({ error, pastDelay }) {
@@ -223,7 +229,7 @@ function Loading({ error, pastDelay }) {
 }
 ```
 
-`delay` 的默认值为 `200ms`，可以通过 `loadable` 中的 `delay` 来设置延迟展示的时间
+The default value of `delay` is `200ms`, you can set the delay display time through `delay` in `loadable`.
 
 ```tsx
 
@@ -239,11 +245,11 @@ function App(){
 }
 ```
 
-#### 增加超时状态
+#### Add Timeout State
 
-有时因为网络的原因，从而导致微前端子应用加载失败，从而导致一直展示 loading 的状态，这对于用户而言非常糟糕，因为他们不知道合适才会获得具体的响应，他们是否需要刷新页面，通过增加超时状态可以很好的解决该问题。
+Sometimes because of the network, the micro-front-end sub-application fails to load, resulting in the loading state being displayed all the time, which is very bad for users, because they don't know the right response to get a specific response, whether they need to refresh the page, by Increasing the timeout state can solve this problem well.
 
-loading 组件在超时时会获得 `timeOut` 参数，当微前端应用加载超时时将会获得 `timeOut` 属性值为 true
+The loading component will get the `timeOut` parameter when timeout, when the micro frontend application loads timeout, it will get the `timeOut` property value of true.
 
 ```tsx
 function Loading({ error, timeOut, pastDelay }) {
@@ -259,7 +265,7 @@ function Loading({ error, timeOut, pastDelay }) {
 }
 ```
 
-超时状态是关闭的，可以通过在 `loadable` 中设置 `timeout` 参数开启
+The timeout state is off and can be enabled by setting the `timeout` parameter in `loadable`:
 
 ```tsx
 

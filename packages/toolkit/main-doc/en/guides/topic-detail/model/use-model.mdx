@@ -1,18 +1,18 @@
 ---
 sidebar_position: 3
-title: 使用 Model
+title: Use Models
 ---
-# 使用 Model
+# Use Models
 
-## 在组件内使用
+## Using Models in Components
 
-### 作为全局状态使用
+### Using as Global State
 
-通过 `useModel` 可以获取 Model 的 State、Actions 等。当 Model 的 State 通过 Actions 进行修改后，任何其他使用了该 Model 的组件，都会自动重新渲染。
+`useModel` can be used to obtain the State, Actions, and other information of the Model. When the State of the Model is modified by Actions, any other components that use the Model will automatically re-render.
 
-在 [快速上手](/guides/topic-detail/model/quick-start) 的计数器案例中，我们已经演示了 `useModel` 的使用，不再重复。
+In the counter example in [Quick Start](/guides/topic-detail/model/quick-start), we have demonstrated the use of `useModel` and will not repeat it here.
 
-`useModel` 支持传入多个 Model，多个 Model 的 State 和 Actions 会进行合并后作为返回结果。例如：
+`useModel` supports passing multiple Models, and the State and Actions of multiple Models will be merged and returned as the result. For example:
 
 ```ts
 const fooModel = model('foo').define({
@@ -42,7 +42,7 @@ const [state, actions] = useModel([fooModel, barModel]);
 const [state, actions] = useModel(fooModel, barModel);
 ```
 
-`state` 和 `actions` 的值分别为：
+`state` and `actions` value are:
 
 ```ts
 state = {
@@ -60,7 +60,7 @@ actions = {
 };
 ```
 
-`useModel` 还支持对 State 和 Actions 做 selector 操作，实现对 State 和 Actions 的筛选或重命名，例如：
+`useModel` also supports selector operations on State and Actions to filter or rename State and Actions. For example:
 
 ```ts
 const fooModel = model('foo').define({
@@ -95,9 +95,9 @@ const [state, actions] = useModel(
 );
 ```
 
-我们通过 `stateSelector` ，把 `fooModel` 和 `barModel` 中重名的状态做了命名修改，通过 `actionsSelector` ，过滤掉了 `barModel` 的 Actions。
+We use `stateSelector` to rename the states with the same name in `fooModel` and `barModel`. We use `actionsSelector` to filter out the Actions of `barModel`.
 
-如果只需要设置 `actionsSelector`，可以把 `stateSelector` 设置为 `undefined`，作为参数占位。例如：
+If only `actionsSelector` needs to be set, you can set `stateSelector` to `undefined` as a placeholder. For example:
 
 ```ts
 const [state, actions] = useModel(
@@ -107,22 +107,21 @@ const [state, actions] = useModel(
 );
 ```
 
-### 作为静态状态使用
+### Using as Static State
 
-通过 `useStaticModel` 获取 Model ，将 Model 中的状态作为静态状态使用。可以保证组件每次访问到的 Model 的 State 都是最新值，但是 Model 的 State 的变化，并不会引起当前组件的重新渲染。
+`useStaticModel` can be used to obtain the Model and use the state of the Model as a static state. This ensures that the State accessed by the component is always the latest value, but the change of the Model's State does not cause the current component to re-render.
 
 :::info
-`useStaticModel` 的使用方式和 `useModel` 完全一致。
-
+The usage of `useStaticModel` is exactly the same as `useModel`.
 :::
 
-考虑下面一种场景，有一个组件 Input 负责用户输入，另外一个组件 Search 负责根据用户的输入信息，在点击查询按钮后执行查询操作，我们不希望用户输入过程中的状态变化引起 Search 重新渲染，这时候就可以使用 `useStaticModel`：
+Consider the following scenario: there is an Input component responsible for user input, and another Search component responsible for executing a search operation after the user input information is entered and the search button is clicked. We do not want the state changes during the user input process to cause Search to re-render. In this case, `useStaticModel` can be used:
 
 ```ts
 import { useStaticModel } from '@modern-js/runtime/model';
 
 function Search() {
-  // 这里注意不要解构 state
+  // should not be destructured
   const [state] = useStaticModel(searchModel);
 
   return (
@@ -140,41 +139,40 @@ function Search() {
 }
 ```
 
-:::warning 注意
-不要解构 `useStaticModel` 返回的 `state`，例如改成如下写法：
+:::warning Caution
+Do not destructure the `state` returned by `useStaticModel`. For example, changing it to the following code:
 `const [{input}] = useStaticModel(searchModel);`
-将始终获取到 Input 的初始值。
+will always get the initial value of Input.
 
 :::
 
-`useStaticModel` 还适合和 [react-three-fiber](https://github.com/pmndrs/react-three-fiber) 等动画库一起使用，因为在动画组件 UI 里绑定会快速变化的状态，容易引起[性能问题](https:/docs.pmnd.rs/react-three-fiber/advanced/pitfalls#never-bind-fast-state-reactive)。这种情况就可以选择使用 `useStaticModel`，它只会订阅状态，但不会引起视图组件的重新渲染。下面是一个简化示例：
+`useStaticModel` is also suitable for use with animation libraries such as [react-three-fiber](https://github.com/pmndrs/react-three-fiber), because binding fast-changing states in animation component UI can easily cause [performance issues](https:/docs.pmnd.rs/react-three-fiber/advanced/pitfalls#never-bind-fast-state-reactive). In this case, you can choose to use `useStaticModel`, which only subscribes to the State but does not cause the view component to re-render. Here is a simplified example:
 
 ```ts
 function ThreeComponent() {
   const [state, actions] = useStaticModel(modelA);
 
   useFrame(() => {
-    state.value; // 假设初始化为 0
+    state.value;
     actions.setValue(1);
-    state.value; // 这里会得到1
+    state.value;
   });
 }
 ```
 
-使用 React 的 refs 也可以实现类似效果，其实 `useStaticModel` 内部也使用到了 refs。不过直接 `useStaticModel` 有助于将状态的管理逻辑从组件中解耦，统一收敛到 Model 层。
+Using React's refs can also achieve similar effects. In fact, `useStaticModel` also uses refs internally. However, using `useStaticModel` directly helps decouple the state management logic from the component and converge it into the Model layer.
 
-完整的示例代码可以在[这里](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/static-model)查看。
+The complete sample code can be found [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/static-model).
 
-### 作为局部状态使用
+### Using as Local State
 
-通过 `useLocalModel` 获取 Model ，将 Model 中的状态作为局部状态使用。此时 Model State 的变化，只会引起当前组件的重新渲染，但是不会引起其他使用了该 Model 的组件重新渲染。效果和通过 React 的 `useState` 管理状态类似，但是可以将状态的管理逻辑从组件中解耦，统一收敛到 Model 层。
+`useLocalModel` can be used to obtain the Model and use the state of the Model as local state. At this time, the change of the Model State only causes the current component to re-render, but does not cause other components that use the Model to re-render. The effect is similar to managing state through `useState` in React, but it can decouple the state management logic from the component and converge it into the Model layer.
 
 :::info
-`useLocalModel` 的使用方式和 `useModel` 完全一致。
-
+The usage of `useLocalModel` is exactly the same as `useModel`.
 :::
 
-例如，我们修改计数器应用的代码，添加一个有局部状态的计数器组件 `LocalCounter`：
+For example, we modify the code of the counter application and add a counter component `LocalCounter` with local state:
 
 ```ts
 import { useLocalModel } from '@modern-js/runtime/model';
@@ -191,20 +189,20 @@ function LocalCounter() {
 }
 ```
 
-分别点击 `Counter` 和 `LocalCounter` 的 `add` 按钮，两者的状态互不影响：
+Click the `add` button of `Counter` and `LocalCounter` respectively, and the states of the two do not affect each other:
 
 ![local-model](https://lf3-static.bytednsdoc.com/obj/eden-cn/eueh7vhojuh/modern/local-model.gif)
 
-完整的示例代码可以在[这里](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/local-model)查看。
+The complete sample code can be found [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/local-model).
 
-## 在组件外使用
+## Using outside of components
 
-在实际业务场景中，有时候我们需要在 React 组件外使用 Model，例如在工具函数中访问 State、执行 Actions 等。这个时候，我们就需要使用 Store。 Store 是一个底层概念，一般情况下用户接触不到，它负责存储和管理整个应用的状态。Reduck 的 Store 基于 [Redux 的 Store](https://redux.js.org/api/store) 实现，增加了 Reduck 特有的 API，如 `use` 。
+In actual business scenarios, sometimes we need to use Model outside of React components, such as accessing State and executing Actions in utility functions. At this time, we need to use the Store. The Store is a low-level concept that users generally cannot touch. It is responsible for storing and managing the entire application's state. Reduck's Store is based on Redux's Store implementation and adds Reduck-specific APIs, such as `use`.
 
-首先，在组件内调用 `useStore` 获取当前应用使用的 `store` 对象，并挂载到组件外的变量上：
+First, call `useStore` in the component to obtain the `store` object used by the current application and mount it to a variable outside the component:
 
 ```ts
-let store; // 组件外部 `store` 对象的引用
+let store; // Reference to `store` object outside of the component
 function setStore(s) {
   store = s;
 }
@@ -215,7 +213,7 @@ function getStore() {
 function Counter() {
   const [state] = useModel(countModel);
   const store = useStore();
-  // 通过 useMemo 避免不必要的重复设置
+  // Avoid unnecessary duplicate settings through `useMemo`
   useMemo(() => {
     setStore(store);
   }, [store]);
@@ -228,8 +226,7 @@ function Counter() {
 }
 ```
 
-通过 `store.use` 可以获取 Model 对象，`store.use` 的用法同 `useModel` 相同。以计数器应用为例，我们在组件树外，每 1s 对计数器值
-执行自增操作：
+You can obtain the Model object through `store.use`, and the usage of `store.use` is the same as `useModel`. Taking the counter application as an example, we perform an increment operation on the counter value every 1 second outside the component tree:
 
 ```ts
 setInterval(() => {
@@ -239,14 +236,12 @@ setInterval(() => {
 }, 1000);
 ```
 
-完整的示例代码可以在[这里](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react)查看。
+The complete sample code can be found [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react).
 
 :::info
-如果是通过 [`createStore`](/apis/app/runtime/model/create-store) 手动创建的 Store 对象，无需通过 `useStore` 在组件内获取，即可直接使用。
-
+If the Store object is manually created through [`createStore`](/apis/app/runtime/model/create-store), there is no need to obtain it through `useStore` in the component, and it can be used directly.
 :::
 
-:::info 补充信息
-本节涉及的 API 的详细定义，请参考[这里](/apis/app/runtime/model/model_)。
-
+:::info Additional Information
+For detailed API definitions related to this section, please refer to [here](/apis/app/runtime/model/model_).
 :::

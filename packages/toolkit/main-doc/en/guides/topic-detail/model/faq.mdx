@@ -1,24 +1,23 @@
 ---
 sidebar_position: 13
-title: 常见问题
+title: FAQ
 ---
 
-# 常见问题
+# FAQ
 
-## 浏览器兼容性
+## Browser Compatibility
 
-Reduck 的编译构建产物默认使用 ES6 语法，如果你需要支持更低版本的浏览器，请将 `@modern-js-reduck` 命名空间下的所有包加入到应用的编译过程。
+The compiled build artifacts of Reduck use ES6 syntax by default. If you need to support older versions of browsers, please include all packages under the `@modern-js-reduck` namespace in your application's build process.
 
-:::info 补充信息
-Reduck 使用的 [`@babel/preset-env`](https://babeljs.io/docs/en/babel-preset-env) 的详细[配置](https://github.com/web-infra-dev/reduck/blob/main/common/config.js#L10~L17)。
-
+:::info Additional Information
+Reduck uses [`@babel/preset-env`](https://babeljs.io/docs/en/babel-preset-env) with [specific configurations](https://github.com/web-infra-dev/reduck/blob/main/common/config.js#L10~L17).
 :::
 
-## 微前端子应用 Model 访问主应用 Model
+## Accessing the Main Application Model from a Microfrontend Sub-Application Model
 
-微前端子应用 Model 访问主应用 Model 时，如果该 **Model** 在主应用尚未挂载，会自动挂载到子应用上。
+When a microfrontend sub-application model accesses the main application model and the model has not yet been mounted on the main application, it will be automatically mounted on the sub-application.
 
-示例：
+Example:
 
 ```ts
 import { useModel } from '@modern-js/runtime/model';
@@ -31,11 +30,11 @@ function SubModelApp() {
 }
 ```
 
-![微前端通信流程图](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/mf-communicate.svg)
+![Microfrontend Communication Flowchart](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/mf-communicate.svg)
 
-为了避免意外降级挂载，建议将主应用所需要共享的 Model 预先挂载：
+To avoid accidental downgrades, it is recommended to pre-mount the model that the main application needs to share:
 
 ```ts
-// App 是主应用的入口组件，sharedModel1、sharedModel2 是需要共享的 Model。
+// App is the entry component of the main application, and sharedModel1 and sharedModel2 are the models that need to be shared.
 App.models = [sharedModel1, sharedModel2];
 ```
