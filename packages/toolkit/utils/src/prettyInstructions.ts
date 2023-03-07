@@ -1,6 +1,6 @@
 import os from 'os';
 import { chalk } from './compiled';
-import { isDev } from './is';
+import { isDev, isSingleEntry } from './is';
 
 // TODO: type
 interface EntryPoint {
@@ -12,10 +12,6 @@ interface ServerRoute {
   isSSR: boolean;
   urlPath: string;
 }
-
-// TODO: remove hard code 'main'
-export const isSingleEntry = (entrypoints: EntryPoint[]) =>
-  entrypoints.length === 1 && entrypoints[0].entryName === 'main';
 
 const normalizeUrl = (url: string) => url.replace(/([^:]\/)\/+/g, '$1');
 
