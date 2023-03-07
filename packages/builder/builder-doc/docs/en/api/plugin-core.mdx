@@ -82,6 +82,29 @@ export default (): BuilderPlugin<BuilderPluginAPI> => ({
 });
 ```
 
+### Plugins for both webpack-provider and rspack-provider
+
+When developing plugins for both webpack-provider and rspack-provider, please import `DefaultBuilderPlugin` from `@modern-js/builder-shared`.
+
+Note that developing plugins that can support both webpack and Rspack at the same time means that you cannot use any APIs with webpack / Rspack identifiers, such as `modifyWebpackConfig` or `modifyRspackConfig`.
+
+You can use [modifyBundlerChain](/api/plugin-hooks.html#modifybundlerchain-experimental) to modify the configuration that applies to both webpack and Rspack.
+
+```ts
+import type { BuilderPlugin } from '@modern-js/builder';
+import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
+
+export default (): BuilderPlugin<DefaultBuilderPlugin> => ({
+  name: 'builder-plugin-foo',
+
+  setup: api => {
+    api.modifyBundlerChain(chain => {
+      chain.devtool(false);
+    });
+  },
+});
+```
+
 ## api.context
 
 `api.context` is a read-only object that provides some context information.
