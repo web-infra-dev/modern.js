@@ -43,6 +43,7 @@ export type {
   NavigateProps,
   Navigation,
   Navigator,
+  NavLinkProps,
   NonIndexRouteObject,
   OutletProps,
   Params,
