@@ -5,12 +5,11 @@ import {
   LOADABLE_STATS_FILE,
   isUseSSRBundle,
   createRuntimeExportsUtils,
-  isSingleEntry,
+  isSSGEntry,
 } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
   ServerUserConfig,
-  SSGMultiEntryOptions,
   CliPlugin,
   AppTools,
 } from '@modern-js/app-tools';
@@ -153,12 +152,7 @@ export default (): CliPlugin<AppTools> => ({
           }
         }
 
-        const ssgConfig = userConfig.output.ssg;
-        const useSSG = isSingleEntry(entrypoints)
-          ? Boolean(ssgConfig)
-          : ssgConfig === true ||
-            typeof (ssgConfig as Array<unknown>)?.[0] === 'function' ||
-            Boolean((ssgConfig as SSGMultiEntryOptions)?.[entryName]);
+        const useSSG = isSSGEntry(userConfig, entryName, entrypoints);
 
         ssrConfigMap.set(entryName, ssrConfig || useSSG);
         if (ssrConfig || useSSG) {
