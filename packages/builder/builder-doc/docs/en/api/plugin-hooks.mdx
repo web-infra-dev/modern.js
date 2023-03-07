@@ -11,6 +11,7 @@ This section describes the lifetime hooks provided by Builder plugin.
 **Common Hooks**
 
 - `modifyBuilderConfig`: Modify raw config of Builder.
+- `modifyBundlerChain` (experimental): Modify config of webpack or Rspack via the bundler chain api.
 - `modifyWebpackChain`: Modify webpack-chain.
 - `modifyWebpackConfig`: Modify raw config of webpack.
 - `modifyRspackConfig`: Modify raw config of Rspack.
@@ -64,6 +65,53 @@ export default () => ({
       return mergeBuilderConfig(config, {
         source: { preEntry: 'foo.js' }
       });
+    });
+  },
+});
+```
+
+### modifyBundlerChain `experimental`
+
+Modify config of webpack or Rspack via the bundler chain api. Similar to webpack chain, this hook is supported to be called when using webpack-provider / rspack-provider.
+
+This hook only supports modifying the configuration of the non-differentiated parts of webpack and Rspack. For example, modifying the devtool configuration item (webpack and Rspack have the same devtool property value type), or adding an [Rspack-compatible](https://www.rspack.dev/guide/plugin-compat.html) webpack plugin.
+
+- **Type**
+
+```ts
+type ModifyBunlderChainUtils = {
+  env: NodeEnv;
+  isProd: boolean;
+  target: BuilderTarget;
+  isServer: boolean;
+  isWebWorker: boolean;
+  CHAIN_ID: ChainIdentifier;
+  HtmlPlugin: typeof import('html-webpack-plugin');
+};
+
+function ModifyBundlerChain(
+  callback: (
+    chain: BundlerChain,
+    utils: ModifyBunlderChainUtils,
+  ) => Promise<void> | void,
+): void;
+```
+
+- **Example**
+
+```ts
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+
+export default () => ({
+  setup: api => {
+    api.modifyBundlerChain((chain, utils) => {
+      if (utils.env === 'development') {
+        chain.devtool('eval');
+      }
+
+      chain
+        .plugin('bundle-analyze')
+        .use(BundleAnalyzerPlugin);
     });
   },
 });
