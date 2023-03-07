@@ -90,15 +90,15 @@ export default function Footer() {
       items: [
         {
           label: t('changelog'),
-          to: 'https://github.com/modern-js-dev/modern.js/releases',
+          to: 'https://github.com/web-infra-dev/modern.js/releases',
         },
         {
           label: 'GitHub Issues',
-          to: 'https://github.com/modern-js-dev/modern.js/issues',
+          to: 'https://github.com/web-infra-dev/modern.js/issues',
         },
         {
           label: t('githubDiscussion'),
-          to: 'https://github.com/modern-js-dev/modern.js/discussions',
+          to: 'https://github.com/web-infra-dev/modern.js/discussions',
         },
       ],
     },

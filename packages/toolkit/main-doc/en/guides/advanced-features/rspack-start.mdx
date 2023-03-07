@@ -17,13 +17,9 @@ Rspack optimizes compilation performance by:
 
 The Modern.js generator provides an interactive question-and-answer interface to initialize a project. To create an Rspack project, simply select the **rspack** build tool by running:
 
-```bash
-$ npx @modern-js/create myapp
-? Please select the solution you want to create: Web App Solution
-? Development Language: TS
-? Package Management Tool: pnpm
-? Build Tools: rspack
-```
+import InitRspackApp from "@site-docs-en/components/init-rspack-app"
+
+<InitRspackApp />
 
 After the project is created, you can experience the project by running `pnpm run dev`. For more project information, please refer to [Quick Start](/guides/get-started/quick-start.html).
 
@@ -65,5 +61,5 @@ export default defineConfig<'rspack'>({
 ```
 
 :::tip
-Migrating from webpack to Rspack may have some differences in build and configuration capabilities. For more details, please refer to [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack)
+Migrating from webpack to Rspack may have some differences in build and configuration capabilities. For more details, please refer to [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack).
 :::

@@ -178,7 +178,7 @@ Usage: modern gen-release-note [options]
 根据当前仓库 changeset 信息生成 Release Note
 
 Options:
-  --repo <repo>      仓库名称，用于生成 Pull Request 链接， 例如： modern-js-dev/modern.js
+  --repo <repo>      仓库名称，用于生成 Pull Request 链接， 例如： web-infra-dev/modern.js
   --custom <cumtom>  自定义 Release Note 生成函数
   -h, --help         display help for command
 ```

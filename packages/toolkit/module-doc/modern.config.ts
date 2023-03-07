@@ -38,11 +38,11 @@ function getNavbar(lang: 'zh' | 'en'): NavItem[] {
       items: [
         {
           text: getText('更新日志', 'Changelog'),
-          link: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md',
+          link: 'https://github.com/web-infra-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md',
         },
         {
           text: getText('贡献指南', 'Contributing'),
-          link: 'https://github.com/modern-js-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md',
+          link: 'https://github.com/web-infra-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md',
         },
       ],
     },
@@ -91,7 +91,7 @@ export default defineConfig({
           icon: 'github',
           mode: 'link',
           content:
-            'https://github.com/modern-js-dev/modern.js/tree/main/packages/solutions/module-tools',
+            'https://github.com/web-infra-dev/modern.js/tree/main/packages/solutions/module-tools',
         },
       ],
       locales: [

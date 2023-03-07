@@ -2,8 +2,8 @@
   "name": "@modern-js/create-request",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
-  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
-  "repository": "modern-js-dev/modern.js",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": "web-infra-dev/modern.js",
   "license": "MIT",
   "keywords": [
     "react",
@@ -24,10 +24,12 @@
   "exports": {
     ".": {
       "node": "./dist/esm/node.js",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/browser.js"
     },
     "./client": {
       "jsnext:source": "./src/browser.ts",
+      "types": "./dist/types/browser.d.ts",
       "default": "./dist/esm/browser.js"
     },
     "./modern": {
@@ -36,11 +38,8 @@
     },
     "./server": {
       "jsnext:source": "./src/node.ts",
+      "types": "./dist/types/node.d.ts",
       "default": "./dist/cjs/node.js"
-    },
-    "./hook": {
-      "jsnext:source": "./src/hook.ts",
-      "default": "./dist/cjs/hook.js"
     }
   },
   "typesVersions": {

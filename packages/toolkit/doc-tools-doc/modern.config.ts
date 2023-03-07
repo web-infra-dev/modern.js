@@ -15,7 +15,6 @@ export default defineConfig({
   plugins: [docTools()],
   doc: {
     root: path.join(__dirname, 'docs'),
-    outDir: path.join(__dirname, 'dist'),
     title: 'Modern.js Doc',
     description: 'A modern web framework for building document site',
     // 默认英文
@@ -34,7 +33,7 @@ export default defineConfig({
         {
           icon: 'github',
           mode: 'link',
-          content: 'https://github.com/modern-js-dev/modern.js',
+          content: 'https://github.com/web-infra-dev/modern.js',
         },
       ],
       locales: [

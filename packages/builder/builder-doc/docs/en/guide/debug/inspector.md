@@ -1,6 +1,6 @@
 # Using Webpack Inspector
 
-Builder has a built-in [webpack inspector](https://github.com/modern-js-dev/webpack-inspector) to debug webpack.
+Builder has a built-in [webpack inspector](https://github.com/web-infra-dev/webpack-inspector) to debug webpack.
 
 ## Introduction
 
@@ -10,7 +10,7 @@ The internal workflow of webpack is relatively black box, when using webpack, we
 - Each module will be processed by different loaders, and the compilation results of each loader are difficult to perceive.
 - It is difficult to analyze the time cost of each webpack loader (such as babel-loader, ts-loader).
 
-In order to make performance analysis, error investigation and loader development more convenient, we provide the [webpack inspector](https://github.com/modern-js-dev/webpack-inspector) tool in the Builder.
+In order to make performance analysis, error investigation and loader development more convenient, we provide the [webpack inspector](https://github.com/web-infra-dev/webpack-inspector) tool in the Builder.
 
 ## Enable
 

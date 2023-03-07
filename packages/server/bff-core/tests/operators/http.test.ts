@@ -207,7 +207,7 @@ describe('test api function', () => {
 
   test('should set response metadata correctly', async () => {
     const expectedStatusCode = 204;
-    const expectedUrl = 'https://github.com/modern-js-dev/modern.js';
+    const expectedUrl = 'https://github.com/web-infra-dev/modern.js';
     const expectedHeaders = {
       'x-header': 'x-header',
     };
