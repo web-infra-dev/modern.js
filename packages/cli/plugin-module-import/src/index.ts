@@ -6,9 +6,9 @@ export default (options: {
 }): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-module-import',
   setup: () => ({
-    async modifyLibuild(config) {
+    async modifyLibuild(config, next) {
       if (!options.pluginImport || options.pluginImport.length === 0) {
-        return config;
+        return next(config);
       }
 
       const { transformPlugin } = await import('@modern-js/libuild-plugin-swc');
@@ -26,7 +26,8 @@ export default (options: {
           },
         }),
       );
-      return config;
+
+      return next(config);
     },
   }),
 });
