@@ -86,7 +86,7 @@ describe('formatConfig', () => {
 
   it('should convert bundler splitChunks to rspack splitChunks', async () => {
     expect(formatSplitChunks()).not.toBeDefined();
-    expect(formatSplitChunks(false)).not.toBeDefined();
+    expect(formatSplitChunks(false)).toBeFalsy();
 
     expect(
       formatSplitChunks({

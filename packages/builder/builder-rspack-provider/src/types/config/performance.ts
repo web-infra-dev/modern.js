@@ -1,9 +1,8 @@
-import type { SharedPerformanceConfig } from '@modern-js/builder-shared';
-
-// TODO
-export type PerformanceConfig = Pick<
+import type {
   SharedPerformanceConfig,
-  'printFileSize' | 'buildCache' | 'chunkSplit' | 'removeConsole'
->;
+  NormalizedSharedPerformanceConfig,
+} from '@modern-js/builder-shared';
 
-export type NormalizedPerformanceConfig = Required<PerformanceConfig>;
+export type PerformanceConfig = SharedPerformanceConfig;
+
+export type NormalizedPerformanceConfig = NormalizedSharedPerformanceConfig;
