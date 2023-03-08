@@ -345,10 +345,13 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
 exports[`plugins/swc > should set swc minimizer in production 1`] = `
 {
   "minimizer": [
-    SwcWebpackPlugin {
+    SwcMinimizerPlugin {
       "minifyOptions": {
-        "compress": {},
-        "mangle": true,
+        "cssMinify": {},
+        "jsMinify": {
+          "compress": {},
+          "mangle": true,
+        },
       },
     },
   ],

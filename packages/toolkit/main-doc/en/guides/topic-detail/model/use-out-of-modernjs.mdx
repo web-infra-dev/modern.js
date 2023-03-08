@@ -1,47 +1,47 @@
 ---
 sidebar_position: 12
-title: 单独使用 Reduck
+title: Using Reduck Separately
 ---
-# 单独使用 Reduck
+# Using Reduck Separately
 
-在 Modern.js 以外，单独集成 Reduck 使用时，主要需要做以下修改：
+When integrating Reduck separately from Modern.js, the following modifications need to be made:
 
-1. 安装 Reduck 相关包
+1. Install the Reduck related packages
 
-在项目中安装 Reduck 包：`@modern-js-reduck/react`。
+Install the Reduck package in the project: `@modern-js-reduck/react`.
 
-2. API 导入包名
+2. Import package names for API
 
-在 Modern.js 中使用时，Reduck 导出 API 的包名为：`@modern-js/runtime/model`。单独使用 Reduck 时，导出包名为：`@modern-js-reduck/react`。
+When used in Modern.js, the package name for exporting Reduck API is: `@modern-js/runtime/model`. When using Reduck separately, the package name for exporting is: `@modern-js-reduck/react`.
 
-3. 包裹 `Provider` 组件
+3. Wrap the `Provider` component
 
-Modern.js 自动在应用的入口组件上，包裹了用于注入 Reduck 全局 Store 的 [`Provider`](/apis/app/runtime/model/Provider) 组件。单独使用 Reduck 时，需要手动完成。
+Modern.js automatically wraps the [`Provider`](/apis/app/runtime/model/Provider) component used to inject the Reduck global Store on the entry component of the application. When using Reduck separately, this needs to be done manually.
 
-示例：
+Example:
 
 ```tsx
-// 根组件
+// Root Component
 const Root = () => {
   return (
     <Provider>
-      {/* 应用入口组件 */}
+      {/* Entry App */}
       <App />
     </Provider>
   );
 };
 ```
 
-4. 功能配置
+4. Feature configuration
 
-在 Modern.js 中使用时，可以通过 [`runtime.state`](/configure/app/runtime/state) 对 Reduck 功能进行配置。单独使用时，需要通过 [`Provider`](/apis/app/runtime/model/Provider) 的 `config` 或 `store` 参数配置。
+When used in Modern.js, Reduck features can be configured through [`runtime.state`](/configure/app/runtime/state). When used separately, configuration needs to be done through the `config` or `store` parameter of [`Provider`](/apis/app/runtime/model/Provider).
 
-示例：
+Example:
 
 ```tsx
 const Root = () => {
   return (
-    {/* 关闭 Redux DevTools */}
+    {/* Close Redux DevTools */}
     <Provider config={{ devTools: false }}>
       <App />
     </Provider>

@@ -59,6 +59,7 @@ type PluginConfig = {
   presetReact?: ReactConfig;
   presetEnv?: EnvConfig;
   jsMinify?: boolean | JsMinifyOptions;
+  cssMinify?: boolean | CssMinifyOptions;
   extensions?: Extensions;
 };
 ```
@@ -93,6 +94,14 @@ Default option is:
 Default option is: `{ compress: {}, mangle: true }`.
 
 If set it to `false`, then SWC minification will be disabled, if set it to `true` then will it applies default option. If you pass an object, then this object will be merged with default option.
+
+### cssMinify
+
+- **Type:**: `boolean`
+
+- **Default:**: `true`
+
+Whether enable to compress CSS files by SWC. If enabled, it will improve the performance of CSS compression, but the compression ratio will be slightly reduced.
 
 ### extensions
 

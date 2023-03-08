@@ -1,16 +1,16 @@
 ---
 sidebar_position: 8
-title: 性能优化
+title: Performance Optimization
 ---
-# 性能优化
+# Performance Optimization
 
-Reduck 内部已经做了大量性能优化工作，一般情况下不需要考虑性能问题。不过当对性能比较敏感、或者遇到了性能问题，可以考虑从以下 3 个方面，进行更有针对性的性能优化。
+Reduck has already done a lot of performance optimization work internally, so performance issues generally do not need to be considered. However, when performance is more sensitive, or when encountering performance issues, you can consider more targeted performance optimization from the following three aspects.
 
-## Model 拆分
+## Splitting Models
 
-当 `useModel` 返回 Model 对象的完整 State 时，State 任意部分的变化都会导致调用了 `useModel` 的组件重新渲染。
+When `useModel` returns the complete State object of the Model, any change in any part of the State will cause the component that calls `useModel` to be re-rendered.
 
-例如：
+For example:
 
 ```ts
 const fooModel = model('foo').define({
@@ -35,7 +35,7 @@ function ComponentA() {
 }
 ```
 
-组件 `ComponentA` 虽然只需要使用 `a` 状态，但当 `b` 状态发送变化时， `ComponentA` 仍然会重新渲染。这种情况，我们可以考虑把 `fooModel` 拆分，`a`、`b` 分别由不同的 Model 负责管理：
+Although `ComponentA` only needs to use the `a` state, it will still be re-rendered when the `b` state changes. In this case, we can consider splitting `fooModel` into separate Models responsible for managing `a` and `b` respectively:
 
 ```ts
 const fooModel = model('foo').define({
@@ -61,11 +61,11 @@ const barModel = model('bar').define({
 });
 ```
 
-## 状态筛选
+## State Selection
 
-`useModel` 支持传入 selector 函数，对返回给组件的 State 和 Actions 做筛选。我们可以通过 selector 函数，确保返回给组件的 State 是组件直接需要使用的，从而保证组件不会因为其他无关状态的变化而重新渲染。
+`useModel` supports passing in a selector function to filter the returned State and Actions for the component. We can use a selector function to ensure that the State returned to the component is what the component needs directly, thus ensuring that the component is not re-rendered due to changes in other unrelated states.
 
-对于上面同样的例子，我们采用 selector 函数进行性能优化，代码如下：
+For the same example above, we can use a selector function for performance optimization, the code is as follows:
 
 ```ts
 const fooModel = model('foo').define({
@@ -91,11 +91,11 @@ function ComponentA() {
 }
 ```
 
-## 衍生状态缓存
+## Derivative State Caching
 
-当 Model 存在 `computed` 时，每次调用`useModel` 都会执行 `computed` 函数。
+When a Model has `computed` property, the `computed` function will be executed every time `useModel` is called.
 
-考虑如下代码：
+Consider the following code:
 
 ```ts
 const barModel = model('bar').define({
@@ -104,7 +104,7 @@ const barModel = model('bar').define({
   },
   computed: {
     combineA: [
-      fooModel, // fooModel 定义同上
+      fooModel, // fooModel define as above
       (state, fooState) => {
         return state + fooState.a;
       },
@@ -120,18 +120,17 @@ const barModel = model('bar').define({
 function ComponentB() {
   const [state, actions] = useModel(fooModel);
   const [{ combineA }] = useModel(barModel);
-  // 省略
+  // ...
 }
 ```
+Even if the `b` state of `fooModel` changes, the `combineA` function (more precisely, the last function type element of `combineA`) will still be called and executed when the component is re-rendered, although the derivative state `combineA` of `barModel` depends on `barModel` itself and the state `a` of `fooModel`.
 
-`barModel` 的衍生状态 `combineA` 依赖 `barModel` 自身状态 和 `fooModel` 的状态 `a`，但是即使是 `fooModel` 的状态 `b` 发生了变化，组件重新渲染时， `combineA` （更准确的说法是 `combineA` 的最后一个函数类型的元素 ）依然会被调用执行。
-
-一般情况下，`computed` 函数中的逻辑都是非常轻量的，但当 `computed` 函数逻辑比较复杂时，我们可以考虑对计算逻辑做缓存。例如，我们使用 [reselect](https://github.com/reduxjs/reselect) 对 `barModel` 的 `combineA` 做缓存：
+In general, the logic in the `computed` function is usually very lightweight, but when the logic in the `computed` function is relatively complex, we can consider caching the calculation logic. For example, we can use [reselect](https://github.com/reduxjs/reselect) to cache `combineA` of `barModel`:
 
 ```ts
 import 'createSelector' from 'reselect';
 
-// 创建缓存函数
+// create cache function
 const selectCombineA = createSelector(
   (state) => state.bar.value,
   (state) => state.foo.a,
@@ -163,9 +162,9 @@ const barModel = model("bar").define({
 });
 ```
 
-我们创建缓存函数 `createSelector`，仅当 `barModel` 的状态发生改变或 `fooModel` 的 `a` 状态发生改变时，才会重新计算 `combineA` 的值。
+We created a caching function `createSelector`, which only recalculates the value of `combineA` when the state of `barModel` changes or the state `a` of `fooModel` changes.
 
-:::info 补充信息
-本节完整的[示例代码](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/performance-optimization)
-
+:::info Additional Information
+You can find the complete example code of this section [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/performance-optimization).
 :::
+

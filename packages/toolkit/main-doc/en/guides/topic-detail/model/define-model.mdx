@@ -1,12 +1,13 @@
 ---
 sidebar_position: 2
-title: 创建 Model
+title: Define Model
 ---
-# 创建 Model
+# Define a Model
 
-上一节的计数器应用中，我们简单演示了如何创建一个 Model。本节我们将详细介绍 Model 的创建方法。
+In the previous section, we demonstrated how to create a Model for a simple counter application. In this section, we will provide a detailed introduction on how to create a Model.
 
-通过 `model` API 创建 Model，例如，`model('foo')` 表示要创建一个名为 `foo` 的 Model，通过调用 `model('foo')` 返回的 `define` 函数，定义 Model 包含的 State、Actions 等：
+We can create a Model using the `model` API. For example, `model('foo')` creates a Model named `foo`. We can define the State and Actions included in the Model by calling the `define` function returned by `model('foo')`:
+
 
 ```js
 import { model, useModel } from '@modern-js/runtime/model';
@@ -24,14 +25,14 @@ const fooModel = model('foo').define({
 ```
 
 :::info
-- Model 中的 Action 中不能包含有副作用的逻辑，如请求 HTTP 接口，访问 localStorage 等。
-- `setValue` 内部直接修改了入参 State，看起来是违反了纯函数的定义，实际上 Reduck 内部使用 [immer](https://github.com/immerjs/immer) 来修改不可变对象，保证了这种写法不会影响对象的不可变性，所以 `setValue` 仍然是一个纯函数。当然，你也可以直接在 Action 中返回一个新对象，不过这样的写法会更加复杂一些。
+- Actions in the Model cannot contain side-effect logic, such as requesting HTTP interfaces, accessing localStorage, etc.
+- `setValue` directly modifies the input State, which seems to violate the definition of a pure function. However, Reduck uses [immer](https://github.com/immerjs/immer) internally to modify immutable objects, ensuring that this approach does not affect the immutability of the object, so `setValue` is still a pure function. Of course, you can also return a new object directly in the Action, but this approach will be more complex.
 
 :::
 
-`define` 接收的参数，只是对 Model 原始结构的描述：内部定义的 State、Actions 等。`define` 返回值 `fooModel` 才是真正创建得到的 Model 对象。例如，虽然 `setValue`，有 2 个参数，但是当真正调用 `setValue` 这个 Action 时，我们只需要传入 `payload` 一个参数，因为我们调用的是 `fooModel` 上的 Action 方法，而不是 Model 原始结构上描述的 Action 方法。详细参考[使用 Model](/guides/topic-detail/model/use-model)。
+The `define` function only describes the original structure of the Model, including the internally defined State, Actions, and so on. The `fooModel` returned by `define` is the actual Model object that is created. For example, although `setValue` has two parameters, when we call the `setValue` Action, we only need to pass in the `payload` parameter, because we are calling the Action method on `fooModel`, not the one described in the original structure of the Model. For more information, please refer to [Using Models](/guides/topic-detail/model/use-model).
 
-`define` 除了接收对象类型的参数，还可以接收函数类型的参数。例如：
+In addition to object-type parameters, `define` can also receive function-type parameters. For example:
 
 ```js
 import { model, useModel } from '@modern-js/runtime/model';
@@ -50,17 +51,16 @@ const fooModel = model('foo').define((context, utils) => {
 });
 ```
 
-通过函数定义 Model 时，函数内部会自动传入 `context`、`utils` 2 个参数，`context` 是 Reduck 的上下文对象，可以获取到 `store` 对象，`utils` 提供了一组工具函数，方便实现 Model 通信等复杂功能需求。
+When defining a Model using a function, the function automatically receives two parameters: `context` and `utils`. `context` is the context object of Reduck, which can obtain the `store` object, and `utils` provides a set of utility functions to facilitate the implementation of complex features such as Model communication.
 
-Model 支持复制。例如：
+Models support duplication. For example:
 
 ```ts
 const barModel = fooModel('bar');
 ```
 
-barModel 是基于 fooModel 创建出一个的新的 Model 对象，类比面向对象编程语言中的概念，barModel 和 fooModel 是基于同一个类（Class）创建出的 2 个实例对象。当两个模块的状态管理逻辑相同，例如一个页面中的两个 tab 模块，使用的数据的结构和逻辑相同，区别只是从不同的接口获取数据，那么可以通过 Model 复制的方式，创建 2 个不同的 Model 对象。
+`barModel` is a new Model object created based on `fooModel`. Analogous to the concepts in object-oriented programming languages, `barModel` and `fooModel` are two instance objects created based on the same class. When the state management logic of two modules is the same, for example, two tab modules in the same page use the same data structure and logic, but the difference is that they obtain data from different interfaces, then you can create two different Model objects by duplicating the Model.
 
-:::info 补充信息
-本节涉及的 API 的详细定义，请参考[这里](/apis/app/runtime/model/model_)。
-
+:::info Additional Information
+For detailed definitions of the APIs mentioned in this section, please refer to [here](/apis/app/runtime/model/model_).
 :::

@@ -1,26 +1,26 @@
 ---
 sidebar_position: 5
-title: 混合技术栈
+title: Mixed Stack
 ---
-# 混合技术栈
+# Mixed Stack
 
-Modern.js 微前端方案是基于 [Garfish](https://garfishjs.org/) 封装的，提供了一些更开箱即用的使用方式。
+The Modern.js micro frontend scheme is based on the [Garfish](https://garfishjs.org/) package and provides some more out-of-the-box usage.
 
-当你的主应用和子应用不全是 Modern.js 应用的时候，可以参考这篇文档。
+When your main application and sub-application are not all Modern.js applications, you can refer to this document.
 
-1. 子应用是 **Modern.js**，主应用使用的原生 Garfish 微前端。
-2. 主应用是 **Modern.js**，子应用有的是其它技术栈。
+1. The sub-app is **Modern.js**, the native Garfish micro frontend used by the main app.
+2. The main application is **Modern.js**, and some sub-applications have other technology stacks.
 
-## 子应用是 Modern.js
+## Modern.js Sub App
 
-**Modern.js** 子应用编译后会生成标准的 [Garfish 子应用导出](https://www.garfishjs.org/guide/start#2%E5%AF%BC%E5%87%BA-provider-%E5%87%BD%E6%95%B0)。
-所以可以直接接入标准的微前端主应用。
+**Modern.js** subapps compile to generate a standard [Garfish subapp export](https://www.garfishjs.org/guide/start#2%E5%AF%BC%E5%87%BA-provider-%E5%87%BD%E6%95%B0).
+So you can directly access the standard micro frontend main application.
+
 
 :::info
-子应用是 **Modern.js**，主应用使用的原生 Garfish 微前端时，**子应用调试模式** 不可用。
-
+The child application is **Modern.js**, when the main application uses the native Garfish micro frontend, the **child application debugging mode** is not available.
 :::
 
-## 主应用是 Modern.js
+## Modern.js Main App
 
-主应用是 **Modern.js**，子应用用的其它技术栈。子应用按照 [Garfish 子应用标准](https://www.garfishjs.org/guide/demo/react) 开发即可。
+The Main App is **Modern.js**, and other technology stacks used by sub-applications. Sub-App can be developed according to [Garfish Sub-Application Standard](https://www.garfishjs.org/guide/demo/react).

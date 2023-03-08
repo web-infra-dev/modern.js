@@ -1,7 +1,12 @@
 import { Compiler as RawCompiler, Output } from '@modern-js/swc-plugins';
 import { normalizeConfig, TransformConfig } from './config';
 
-export { minify, minifySync } from '@modern-js/swc-plugins';
+export {
+  minify,
+  minifySync,
+  minifyCss,
+  minifyCssSync,
+} from '@modern-js/swc-plugins';
 
 export class Compiler extends RawCompiler {
   config: TransformConfig;

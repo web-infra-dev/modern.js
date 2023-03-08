@@ -1,16 +1,16 @@
 ---
 sidebar_position: 10
-title: TS 最佳实践
+title: TS Best Practices
 ---
-# TS 最佳实践
+# TS Best Practices
 
-Reduck 对 TS 提供了良好的支持，大部分使用场景下，无需任何额外工作，就可以直接获得 API 的 TS 类型提示。本节，将对其他的一些使用场景，做补充介绍。
+Reduck provides excellent support for TypeScript, and in most cases, you can get API type prompts directly without any extra work. In this section, we will provide additional information on other usage scenarios.
 
-## 定义 Model 的 State 类型
+## Defining the State Type of the Model
 
-为 Model 的 State 声明类型信息，是在 TS 中使用 Reduck 的最佳实践。
+Declaring type information for the State of a Model is a best practice when using Reduck in TypeScript.
 
-```ts title="示例"
+```ts
 interface State {
   data: string;
 }
@@ -30,13 +30,14 @@ export const foo = model<State>('foo').define({
 });
 ```
 
-当为 Model 的 State 声明类型信息后，Model 的 `computed`、`actions` 都能获取正确的类型信息。事实上，上面的示例代码中，即使我们不定义 State 类型信息，也会根据 `state` 的初始值信息自动推导出 State 的类型信息。不过，仍然建议你在定义 Model 时，声明 State 的类型信息，因为根据 `state` 的初始值信息推导出的 State 类型信息可能不完整(缺少字段或字段的类型信息缺少)，而且当使用[函数类型](/apis/app/runtime/model/model_#函数类型)定义 Model 时，State 的类型信息也是无法根据 `state` 的初始值信息自动推导的。
+When you declare type information for the State of a Model, the `computed` and `actions` of the Model can get the correct type information. In fact, even if we don't define State type information in the example code above, the type information of State can be automatically inferred based on the initial value information of `state`. However, we still recommend that you declare the type information of State when defining a Model because the type information of State inferred based on the initial value information of `state` may be incomplete (missing fields or field type information), and the type information of State cannot be automatically inferred based on the initial value information of `state` when using [Function Type](/apis/app/runtime/model/model_#函数类型) to define the Model.
 
-## 衍生状态的依赖类型
+## Dependent types of Derived State
 
-当 Model 的衍生状态依赖其他 Model 时，需要手动指定其他 Model 的 State。
+When the derived state of a Model depends on other Models, you need to manually specify the State of the other Models.
 
-```ts title="示例"
+
+```ts
 interface State {
   data: string;
 }
@@ -52,14 +53,14 @@ export const bar = model<State>('bar').define({
 });
 ```
 
-## 获取 Model 类型信息的 Hooks
+## Hooks for Getting Model Type Information
 
-Reduck 提供了一组用于获取 Model 类型信息的工具类型：
+Reduck provides a set of utility types for getting Model type information:
 
-- `GetModelState`： 获取 Model 的 State（包含衍生状态）类型信息。
-- `GetModelActions`：获取 Model 的 Actions（包含 Effects 函数）类型信息。
+- `GetModelState`: Get the type information of the State (including derived state) of the Model.
+- `GetModelActions`: Get the type information of the Actions (including Effects functions) of the Model.
 
-```ts title="示例"
+```ts
 export const foo = model<State2>('foo').define({
   // 省略
 });
