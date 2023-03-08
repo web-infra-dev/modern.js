@@ -1,4 +1,6 @@
 import type { RspackConfig, RspackRule } from '../types';
+import { OptimizationSplitChunksOptions } from '@rspack/core';
+
 import type { BundlerConfig } from '@modern-js/builder-shared';
 import { omitBy, isUndefined } from '@modern-js/utils/lodash';
 
@@ -109,7 +111,7 @@ export const formatSplitChunks = (
   splitChunks?: BundlerSplitChunks,
 ): RspackSplitChunks => {
   if (!splitChunks) {
-    return undefined;
+    return splitChunks;
   }
 
   if (splitChunks.chunks instanceof Function) {
@@ -128,7 +130,7 @@ export const formatSplitChunks = (
       }
     });
 
-    return cacheGroups as NonNullable<RspackSplitChunks>['cacheGroups'];
+    return cacheGroups as Record<string, OptimizationSplitChunksOptions>;
   };
 
   return {
