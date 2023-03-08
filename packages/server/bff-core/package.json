@@ -34,8 +34,6 @@
     "@babel/runtime": "^7.18.0",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "esbuild": "0.15.7",
-    "esbuild-register": "^3.3.3",
     "koa-compose": "^4.1.0",
     "reflect-metadata": "^0.1.13"
   },
@@ -47,12 +45,16 @@
     "@types/koa-compose": "^3.2.5",
     "@types/node": "^14",
     "jest": "^27",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2",
     "type-fest": "2.15.0",
     "typescript": "^4",
     "zod": "^3.17.3"
   },
   "peerDependencies": {
-    "zod": "^3.17.3"
+    "zod": "^3.17.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2"
   },
   "peerDependenciesMeta": {
     "zod": {

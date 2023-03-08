@@ -73,14 +73,25 @@ const enableRegister = (requireFn: (modulePath: string) => HandlerModule) => {
       firstCall = false;
     }
     if (!existTsLoader) {
-      const {
-        register,
-      }: typeof import('esbuild-register/dist/node') = require('esbuild-register/dist/node');
-      const { unregister } = register({
-        extensions: ['.ts'],
+      const projectSearchDir = path.dirname(modulePath);
+      const tsNode: typeof import('ts-node') = require('ts-node');
+      tsNode.register({
+        projectSearchDir,
+        scope: true,
+        transpileOnly: true,
+        ignore: ['(?:^|/)node_modules/'],
       });
+
+      const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
+      const loaderRes = tsConfigPaths.loadConfig(projectSearchDir);
+      if (loaderRes.resultType === 'success') {
+        tsConfigPaths.register({
+          baseUrl: loaderRes.absoluteBaseUrl,
+          paths: loaderRes.paths,
+        });
+      }
+
       const requiredModule = requireFn(modulePath);
-      unregister();
       return requiredModule;
     }
     const requiredModule = requireFn(modulePath);
