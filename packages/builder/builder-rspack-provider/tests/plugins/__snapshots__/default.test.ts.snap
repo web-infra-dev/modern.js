@@ -611,6 +611,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/dist",
+    "pathinfo": false,
     "publicPath": "/",
   },
   "resolve": {
@@ -1246,6 +1247,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/dist",
+    "pathinfo": false,
     "publicPath": "/",
   },
   "plugins": [
@@ -1632,6 +1634,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "hashFunction": "xxhash64",
     "libraryTarget": "commonjs2",
     "path": "<ROOT>/dist",
+    "pathinfo": false,
     "publicPath": "/",
   },
   "resolve": {
@@ -2272,6 +2275,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/dist",
+    "pathinfo": false,
     "publicPath": "/",
   },
   "plugins": [

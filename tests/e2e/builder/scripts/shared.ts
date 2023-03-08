@@ -66,7 +66,7 @@ const updateConfigForTest = (config: BuilderConfig) => {
     };
   }
 
-  // config.dev!.progressBar = config.dev!.progressBar || false;
+  config.dev!.progressBar = config.dev!.progressBar || false;
 
   if (!config.performance?.buildCache) {
     config.performance = {
