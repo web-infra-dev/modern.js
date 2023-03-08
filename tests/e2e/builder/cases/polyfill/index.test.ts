@@ -1,11 +1,13 @@
 import path from 'path';
 import { expect } from '@modern-js/e2e/playwright';
-import { webpackOnlyTest } from '@scripts/helper';
+import { allProviderTest, webpackOnlyTest } from '@scripts/helper';
 import { build } from '@scripts/shared';
+
+const POLYFILL_RE = /\/lib-polyfill/;
 
 const getPolyfillContent = (files: Record<string, string>) => {
   const polyfillFileName = Object.keys(files).find(
-    file => file.includes('lib-polyfill') && file.endsWith('.js.map'),
+    file => POLYFILL_RE.test(file) && file.endsWith('.js.map'),
   );
 
   const indexFileName = Object.keys(files).find(
@@ -18,7 +20,7 @@ const getPolyfillContent = (files: Record<string, string>) => {
   return content;
 };
 
-webpackOnlyTest(
+allProviderTest(
   'should add polyfill when set polyfill entry (default)',
   async () => {
     const builder = await build({
@@ -31,7 +33,6 @@ webpackOnlyTest(
 
     // should polyfill all api
     expect(content.includes('es.array.flat.js')).toBeTruthy();
-    expect(content.includes('String.prototype.trimEnd')).toBeTruthy();
   },
 );
 

@@ -14,6 +14,12 @@ exports[`plugins/swc > should add browserslist 1`] = `
       ],
     },
   },
+  "entry": {
+    "main": [
+      "<ROOT>/node_modules/.cache/polyfill.js",
+      "src/index.js",
+    ],
+  },
   "module": {},
   "resolve": {
     "alias": {
@@ -37,6 +43,12 @@ exports[`plugins/swc > should add browserslist 2`] = `
       ],
     },
   },
+  "entry": {
+    "main": [
+      "<ROOT>/node_modules/.cache/polyfill.js",
+      "src/index.js",
+    ],
+  },
   "module": {},
   "resolve": {
     "alias": {
@@ -58,6 +70,11 @@ exports[`plugins/swc > should disable preset_env in target other than web 1`] = 
       ],
     },
   },
+  "entry": {
+    "main": [
+      "src/index.js",
+    ],
+  },
   "module": {},
 }
 `;
@@ -76,6 +93,11 @@ exports[`plugins/swc > should disable preset_env mode 1`] = `
         "not op_mini all",
       ],
     },
+  },
+  "entry": {
+    "main": [
+      "src/index.js",
+    ],
   },
   "module": {},
 }
@@ -97,30 +119,11 @@ exports[`plugins/swc > should enable entry mode preset_env 1`] = `
       ],
     },
   },
-  "module": {},
-  "resolve": {
-    "alias": {
-      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-    },
-  },
-}
-`;
-
-exports[`plugins/swc > should enable usage mode preset_env 1`] = `
-{
-  "builtins": {
-    "decorator": {
-      "legacy": true,
-    },
-    "presetEnv": {
-      "coreJs": "3.26",
-      "mode": "usage",
-      "targets": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
-    },
+  "entry": {
+    "main": [
+      "<ROOT>/node_modules/.cache/polyfill.js",
+      "src/index.js",
+    ],
   },
   "module": {},
   "resolve": {
@@ -147,6 +150,12 @@ exports[`plugins/swc > should has correct core-js 1`] = `
       ],
     },
   },
+  "entry": {
+    "main": [
+      "<ROOT>/node_modules/.cache/polyfill.js",
+      "src/index.js",
+    ],
+  },
   "module": {},
   "resolve": {
     "alias": {
@@ -171,6 +180,12 @@ exports[`plugins/swc > should'n override browserslist when target platform is no
         "not op_mini all",
       ],
     },
+  },
+  "entry": {
+    "main": [
+      "<ROOT>/node_modules/.cache/polyfill.js",
+      "src/index.js",
+    ],
   },
   "module": {},
   "resolve": {

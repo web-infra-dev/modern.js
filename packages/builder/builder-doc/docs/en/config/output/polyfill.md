@@ -26,5 +26,5 @@ The Polyfill code is dynamically delivered according to the currently requested 
 Polyfill is not injected. When using this option, you need to ensure code compatibility yourself.
 
 :::tip
-When using Rspack as the bundler, the `entry` or `usage` configuration item is not currently supported.
+When using Rspack as the bundler, the `usage` configuration item is not currently supported.
 :::
