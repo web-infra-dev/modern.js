@@ -218,53 +218,6 @@ export default ({
       watchFiles() {
         return pagesDir;
       },
-      // config() {
-      //   return {
-      //     tools: {
-      //       webpackChain: (chain: any, { name }: any) => {
-      //         const appContext = api.useAppContext();
-      //         const resolvedConfig = api.useResolvedConfigContext();
-      //         const { entrypoints, internalDirectory, packageName } =
-      //           appContext;
-      //         entrypoints.forEach(entrypoint => {
-      //           const { entryName } = entrypoint;
-      //           const ssr = getEntryOptions(
-      //             entryName,
-      //             resolvedConfig.server.ssr,
-      //             resolvedConfig.server.ssrByEntries,
-      //             packageName,
-      //           );
-
-      //           const useSSG = isSSGEntry(
-      //             resolvedConfig,
-      //             entryName,
-      //             entrypoints,
-      //           );
-
-      //           if (
-      //             entrypoint.nestedRoutesEntry &&
-      //             (ssr || useSSG) &&
-      //             name === 'server'
-      //           ) {
-      //             const serverLoaderRuntime = require.resolve(
-      //               '@modern-js/plugin-data-loader/runtime',
-      //             );
-      //             const serverLoadersFile = getServerLoadersFile(
-      //               internalDirectory,
-      //               entryName,
-      //             );
-      //             const combinedModule = createVirtualModule(
-      //               `export * from "${serverLoaderRuntime}"; export * from "${serverLoadersFile}"`,
-      //             );
-      //             chain
-      //               .entry(`${entryName}-server-loaders`)
-      //               .add(combinedModule);
-      //           }
-      //         });
-      //       },
-      //     },
-      //   } as any;
-      // },
 
       resolvedConfig({ resolved }) {
         const appContext = api.useAppContext();
