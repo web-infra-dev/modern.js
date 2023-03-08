@@ -356,7 +356,7 @@ function determinePresetReact(root: string, pluginConfig: PluginSwcOptions) {
   const presetReact =
     pluginConfig.presetReact || (pluginConfig.presetReact = {});
 
-  presetReact.runtime = isBeyondReact17(root) ? 'automatic' : 'classic';
+  presetReact.runtime ??= isBeyondReact17(root) ? 'automatic' : 'classic';
 }
 
 function isDebugMode(): boolean {
