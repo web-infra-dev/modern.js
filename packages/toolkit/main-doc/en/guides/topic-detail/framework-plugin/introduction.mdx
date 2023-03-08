@@ -1,16 +1,16 @@
 ---
-title: 介绍
+title: Introduction
 sidebar_position: 1
 ---
-# 介绍
+# Introduction
 
-## Modern.js 插件系统
+## Modern.js Plugin System
 
-Modern.js 用于扩展项目运行、请求、渲染等不同阶段功能的系统，主要分为三个部分：Hook 模型、管理器，上下文共享机制。
+Modern.js is a system used for extending the functionality of a project at different stages such as running, requesting, and rendering. It mainly consists of three parts: the Hook model, the Manager, and the Context Sharing mechanism.
 
-Hook 模型用于确定当前 Hook 的执行方式，不同 Hook 模型的函数拥有不同的执行逻辑。管理器用于控制 Hook 的执行与调度。上下文共享机制用于在不同 Hook 间传递信息。
+The Hook model is used to determine the execution method of the current Hook, and functions with different Hook models have different execution logics. The Manager is used to control the execution and scheduling of Hooks. The Context Sharing mechanism is used to pass information between different Hooks.
 
-目前 Modern.js 提供几种不同的 Hook 模型：
+Currently, Modern.js provides several different Hook models:
 
 - Pipeline
   - Sync
@@ -24,28 +24,27 @@ Hook 模型用于确定当前 Hook 的执行方式，不同 Hook 模型的函数
   - Parallel(Async)
 
 :::note
-后续章节详细介绍各个模型的执行方式。
-
+Subsequent chapters will introduce the execution methods of each model in detail.
 :::
 
-基于 Hook 模型和管理器，Modern.js 暴露了三套插件：CLI、Runtime、Server。
+Based on the Hook model and Manager, Modern.js exposes three sets of plugins: CLI, Runtime, and Server.
 
-其中 CLI 插件是 Modern.js 中主要的运行流程控制模型，Modern.js 中绝大部分功能都是主要通过这一套模型运行的。Runtime 插件主要负责处理 React 组件渲染逻辑。Server 插件主要用于对服务端的生命周期以及用户请求的控制。
+Among them, the CLI plugin is the main running flow control model in Modern.js, and most of the features in Modern.js are mainly run through this set of models. The Runtime plugin is mainly responsible for processing the rendering logic of React components. The Server plugin is mainly used for controlling the server lifecycle and user requests.
 
-## 插件可以做什么
+## What Plugins Can Do
 
-Modern.js 的所有功能都是通过这套插件实现的，这意味着 Modern.js 中的所有能力是都对开发者开放的。开发者可以通过编写插件来扩展更多功能，适配复杂场景，包括但不限于：
+All of Modern.js's features are implemented through this set of plugins, which means that all of Modern.js's capabilities are open to developers. Developers can write plugins to extend more functionality and adapt to complex scenarios, including but not limited to:
 
-- 注册命令
-- 修改 Modern.js 配置、配置校验 Schema
-- 修改编译时的 Webpack/Babel/Less/Sass/Tailwind CSS/... 配置
-- 修改运行时需要渲染的 React 组件、Element
-- 修改页面路由
-- 修改服务器路由
-- 自定义控制台输出
-- 自定义动态 HTML 模版
-- 自定义 Node.js 服务器框架
-- 自定义 React 组件客户端/服务器端渲染
+- Registering commands
+- Modifying Modern.js configuration and validation schema
+- Modifying compilation configurations for Webpack/Babel/Less/Sass/Tailwind CSS/...
+- Modifying the React components/elements to be rendered at runtime
+- Modifying page routing
+- Modifying server routing
+- Customizing console output
+- Customizing dynamic HTML templates
+- Customizing Node.js server frameworks
+- Customizing React component client/server rendering
 - ...
 
-当 Modern.js 暂时没有覆盖到你所需要的功能或场景时，可以开发一个自定义插件，来实现适配特殊场景的相关功能。
+When Modern.js does not currently cover the functionality or scenario that you need, you can develop a custom plugin to implement the related functionality for adapting to special scenarios.

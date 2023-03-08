@@ -7,9 +7,10 @@ import type {
   RouteLegacy,
   SSRMode,
 } from '@modern-js/types';
-import { fs, slash } from '@modern-js/utils';
-import type { RuntimePlugin } from '../types';
+import { fs, getEntryOptions, isSSGEntry, slash } from '@modern-js/utils';
+import type { AppNormalizedConfig, IAppContext, RuntimePlugin } from '../types';
 import { APP_CONFIG_NAME, TEMP_LOADERS_DIR } from './constants';
+import { getServerLoadersFile } from './utils';
 
 export const index = ({
   mountId,
@@ -363,3 +364,35 @@ export const fileSystemRoutes = async ({
     ${routeComponentsCode}
   `;
 };
+
+export function ssrLoaderCombinedModule(
+  entrypoints: Entrypoint[],
+  entrypoint: Entrypoint,
+  config: AppNormalizedConfig<'shared'>,
+  appContext: IAppContext,
+) {
+  const { entryName } = entrypoint;
+  const { packageName, internalDirectory } = appContext;
+
+  const ssr = getEntryOptions(
+    entryName,
+    config.server.ssr,
+    config.server.ssrByEntries,
+    packageName,
+  );
+
+  const ssg = isSSGEntry(config, entryName, entrypoints);
+  if (entrypoint.nestedRoutesEntry && (ssr || ssg)) {
+    const serverLoaderRuntime = require.resolve(
+      '@modern-js/plugin-data-loader/runtime',
+    );
+    const serverLoadersFile = getServerLoadersFile(
+      internalDirectory,
+      entryName,
+    );
+
+    const combinedModule = `export * from "${serverLoaderRuntime}"; export * from "${serverLoadersFile}"`;
+    return combinedModule;
+  }
+  return null;
+}

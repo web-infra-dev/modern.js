@@ -1,10 +1,10 @@
 ---
-title: 插件 API
+title: Plugin API
 sidebar_position: 6
 ---
-# 插件 API
+# Plugin API
 
-插件的 `setup` 函数会接收一个 `api` 入参，你可以调用 api 上提供的一些方法来获取到配置、应用上下文等信息。
+The `setup` function of the plugin will receive an `api` imported parameter, and you can call some methods provided on the api to obtain information such as configuration and application context.
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -13,11 +13,11 @@ export default (): CliPlugin => ({
   name: 'my-plugin',
 
   setup(api) {
-    // 获取应用原始配置
+    // get user config
     const config = api.useConfigContext();
-    // 获取应用运行上下文
+    // get plugin context
     const appContext = api.useAppContext();
-    // 获取解析之后的最终配置
+    // get resolved config
     const resolvedConfig = api.useResolvedConfigContext();
   },
 });
@@ -27,7 +27,7 @@ export default (): CliPlugin => ({
 
 ### useConfigContext
 
-用于获取应用原始配置。
+Used to retrieve the original configuration of the application.
 
 ```ts
 const useConfigContext: () => UserConfig;
@@ -45,11 +45,11 @@ interface UserConfig {
 }
 ```
 
-具体配置字段的意义请参考【[配置](/configure/app/source/alias)】。
+Please refer to [Configuration](/configure/app/usage) for the specific meanings of configuration fields.
 
 ### useAppContext
 
-用于获取应用运行上下文。
+Used to retrieve the runtime context of the application.
 
 ```ts
 const useAppContext: () => IAppContext;
@@ -77,7 +77,7 @@ interface IAppContext {
 
 ### useResolvedConfigContext
 
-用于获取解析之后的最终配置。
+Used to retrieve the final configuration after parsing.
 
 ```ts
 const useResolvedConfigContext: () => NormalizedConfig;
@@ -96,11 +96,11 @@ interface NormalizedConfig {
 }
 ```
 
-具体配置字段的意义请参考【[配置](/configure/app/source/alias)】。
+Please refer to [Configuration](/configure/app/usage) for the specific meanings of configuration fields.
 
 ### useHookRunners
 
-用于获取 Hooks 的执行器，并触发特定的 Hook 执行。
+Used to retrieve the executor of Hooks and trigger the execution of specific Hooks.
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -110,7 +110,7 @@ export default (): CliPlugin => ({
 
   async setup(api) {
     const hookRunners = api.useHookRunners();
-    // 触发 afterBuild Hook
+    // invoke afterBuild Hook
     await hookRunners.afterBuild();
   },
 });

@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable max-lines */
 import path from 'path';
 import type { Compiler, Compilation } from 'webpack';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
@@ -13,8 +15,8 @@ import {
 import { merge } from '@modern-js/utils/lodash';
 import { chalk, getCoreJsVersion, isBeyondReact17 } from '@modern-js/utils';
 import { JsMinifyOptions } from '@modern-js/swc-plugins';
-import { minify } from './binding';
-import { PluginSwcOptions, TransformConfig } from './config';
+import { minify, minifyCss } from './binding';
+import { CssMinifyOptions, PluginSwcOptions, TransformConfig } from './config';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
 const BUILDER_SWC_DEBUG_MODE = 'BUILDER_SWC_DEBUG_MODE';
@@ -133,17 +135,29 @@ export const builderPluginSwc = (
       if (
         isProd &&
         !builderConfig.output.disableMinimize &&
-        pluginConfig.jsMinify !== false
+        (pluginConfig.jsMinify !== false || pluginConfig.cssMinify !== false)
       ) {
         // Insert swc minify plugin
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error webpack-chain missing minimizers type
-        chain.optimization.minimizers
-          .delete(CHAIN_ID.MINIMIZER.JS)
+        const minimizersChain = chain.optimization.minimizers;
+
+        if (pluginConfig.jsMinify !== false) {
+          minimizersChain.delete(CHAIN_ID.MINIMIZER.JS).end();
+        }
+
+        if (pluginConfig.cssMinify !== false) {
+          minimizersChain.delete(CHAIN_ID.MINIMIZER.CSS).end();
+        }
+
+        minimizersChain
           .end()
           .minimizer(CHAIN_ID.MINIMIZER.SWC)
-          .use(SwcWebpackPlugin, [
-            pluginConfig.jsMinify === true ? {} : pluginConfig.jsMinify,
+          .use(SwcMinimizerPlugin, [
+            {
+              jsMinify: pluginConfig.jsMinify,
+              cssMinify: pluginConfig.cssMinify,
+            },
           ]);
       }
     });
@@ -165,12 +179,40 @@ const defaultMinifyOptions: JsMinifyOptions = {
   mangle: true,
 };
 
-const JS_RE = /\.js$/;
-export class SwcWebpackPlugin {
-  private readonly minifyOptions: JsMinifyOptions;
+export interface NormalizedSwcMinifyOption {
+  jsMinify?: JsMinifyOptions;
+  cssMinify?: CssMinifyOptions;
+}
 
-  constructor(options: JsMinifyOptions = {}) {
-    this.minifyOptions = merge(defaultMinifyOptions, options);
+const JS_RE = /\.js$/;
+const CSS_RE = /\.css$/;
+
+const normalize = <T>(
+  v: T | boolean | undefined,
+  defaultValue: T,
+): T | undefined => {
+  if (v === true || v === undefined) {
+    return defaultValue;
+  } else if (v === false) {
+    return undefined;
+  } else {
+    return v;
+  }
+};
+
+export class SwcMinimizerPlugin {
+  private readonly minifyOptions: NormalizedSwcMinifyOption;
+
+  constructor(
+    options: {
+      jsMinify?: boolean | JsMinifyOptions;
+      cssMinify?: boolean | CssMinifyOptions;
+    } = {},
+  ) {
+    this.minifyOptions = {
+      jsMinify: merge(defaultMinifyOptions, normalize(options.jsMinify, {})),
+      cssMinify: normalize(options.cssMinify, {}),
+    };
   }
 
   apply(compiler: Compiler): void {
@@ -182,13 +224,24 @@ export class SwcWebpackPlugin {
     compiler.hooks.compilation.tap(PLUGIN_NAME, async compilation => {
       const { Compilation } = compiler.webpack;
       const { devtool } = compilation.options;
+      const { jsMinify, cssMinify } = this.minifyOptions;
 
-      this.minifyOptions.sourceMap =
+      const enableMinify =
         typeof devtool === 'string'
           ? devtool.includes('source-map')
           : Boolean(devtool);
-      this.minifyOptions.inlineSourcesContent =
+      const inlineSourceContent =
         typeof devtool === 'string' && devtool.includes('inline');
+
+      if (jsMinify) {
+        jsMinify.sourceMap = enableMinify;
+        jsMinify.inlineSourcesContent = inlineSourceContent;
+      }
+
+      if (cssMinify) {
+        cssMinify.sourceMap = enableMinify;
+        cssMinify.inlineSourceContent = inlineSourceContent;
+      }
 
       compilation.hooks.chunkHash.tap(PLUGIN_NAME, (_, hash) =>
         hash.update(meta),
@@ -218,8 +271,11 @@ export class SwcWebpackPlugin {
     const { SourceMapSource, RawSource } = compilation.compiler.webpack.sources;
     const assets = compilation
       .getAssets()
-      // TODO handle css minify
-      .filter(asset => !asset.info.minimized && JS_RE.test(asset.name));
+      .filter(
+        asset =>
+          !asset.info.minimized &&
+          (JS_RE.test(asset.name) || CSS_RE.test(asset.name)),
+      );
 
     const assetsWithCache = await Promise.all(
       assets.map(async ({ name, info, source }) => {
@@ -234,6 +290,7 @@ export class SwcWebpackPlugin {
       }),
     );
 
+    const { cssMinify, jsMinify } = this.minifyOptions;
     return Promise.all(
       assetsWithCache.map(async asset => {
         const cache = await asset.cacheItem.getPromise<{
@@ -246,33 +303,47 @@ export class SwcWebpackPlugin {
 
         if (!minifiedSource) {
           const { source, map } = asset.source.sourceAndMap();
-          const minifyResult = await minifyWithTimeout(
-            asset.name,
-            source.toString(),
-            this.minifyOptions,
-          );
+          let minifyResult: Output | undefined;
+          let needSourceMap = false;
+          const filename = asset.name;
 
-          minifiedSource =
-            this.minifyOptions.sourceMap && minifyResult.map
-              ? new SourceMapSource(
-                  minifyResult.code,
-                  asset.name,
-                  minifyResult.map,
-                  source.toString(),
-                  map,
-                  true,
-                )
-              : new RawSource(minifyResult?.code || '');
+          if (jsMinify && filename.endsWith('.js')) {
+            needSourceMap = jsMinify.sourceMap!;
+            minifyResult = await minifyWithTimeout(filename, () => {
+              return minify(filename, source.toString(), jsMinify);
+            });
+          } else if (cssMinify && filename.endsWith('.css')) {
+            needSourceMap = cssMinify.sourceMap!;
+            minifyResult = await minifyWithTimeout(filename, () => {
+              return minifyCss(filename, source.toString(), cssMinify);
+            });
+          }
+
+          if (minifyResult) {
+            minifiedSource =
+              needSourceMap && minifyResult.map
+                ? new SourceMapSource(
+                    minifyResult.code,
+                    asset.name,
+                    minifyResult.map,
+                    source.toString(),
+                    map,
+                    true,
+                  )
+                : new RawSource(minifyResult.code || '');
+          }
         }
 
-        await asset.cacheItem.storePromise({
-          minifiedSource,
-        });
+        if (minifiedSource) {
+          await asset.cacheItem.storePromise({
+            minifiedSource,
+          });
 
-        compilation.updateAsset(asset.name, minifiedSource, {
-          ...asset.info,
-          minimized: true,
-        });
+          compilation.updateAsset(asset.name, minifiedSource, {
+            ...asset.info,
+            minimized: true,
+          });
+        }
       }),
     );
   }
@@ -298,8 +369,7 @@ function isDebugMode(): boolean {
  */
 function minifyWithTimeout(
   filename: string,
-  code: string,
-  config: JsMinifyOptions,
+  minify: () => Promise<Output>,
 ): Promise<Output> {
   const timer = setTimeout(() => {
     logger.warn(
@@ -310,7 +380,7 @@ It is likely that you've encountered a ${chalk.red(
     );
   }, 180_000);
 
-  const outputPromise = minify(filename, code, config);
+  const outputPromise = minify();
 
   outputPromise.finally(() => {
     clearTimeout(timer);

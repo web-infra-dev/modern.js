@@ -20,8 +20,14 @@ export interface PluginSwcOptions {
   presetEnv?: EnvConfig;
 
   jsMinify?: boolean | JsMinifyOptions;
+  cssMinify?: boolean | CssMinifyOptions;
 
   extensions?: Extensions;
+}
+
+export interface CssMinifyOptions {
+  sourceMap?: boolean;
+  inlineSourceContent?: boolean;
 }
 
 /// default swc configuration

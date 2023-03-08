@@ -1,20 +1,20 @@
 ---
-title: Hook 列表
+title: Hook List
 sidebar_position: 8
 ---
-# Hook 列表
+# Hook List
 
-在 Modern.js 中暴露了三类插件：CLI、Runtime、Server。下面列举下各类中的 Hook：
+Modern.js exposes three types of plugins: CLI, Runtime, and Server.
 
 ## CLI
 
 ### `config`
 
-- 功能：收集配置
-- 执行阶段：解析完 `modern.config.ts` 中的配置之后
-- Hook 模型：ParallelWorkflow
-- 类型：`ParallelWorkflow<void, unknown>`
-- 使用示例：
+- Functionality: Collect configuration
+- Execution phase: After parsing the configuration in `modern.config.ts`
+- Hook model: ParallelWorkflow
+- Type: `ParallelWorkflow<void, unknown>`
+- Example usage:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -32,15 +32,15 @@ export default (): CliPlugin => ({
 });
 ```
 
-这里返回的配置信息，会被收集和统一处理合并。
+The collected configuration information will be collected and processed uniformly.
 
 ### `validateSchema`
 
-- 功能：收集各个插件中配置的用来校验用户配置的 [JSON Schema](https://json-schema.org/)
-- 执行阶段：`config` Hook 运行完之后。
-- Hook 模型：ParallelWorkflow
-- 类型：`ParallelWorkflow<void, unknown>`
-- 使用示例：
+- Functionality: Collect the JSON schema used to validate user configurations in various plugins.
+- Execution phase: After the `config` Hook has run.
+- Hook model: ParallelWorkflow
+- Type: `ParallelWorkflow<void, unknown>`
+- Example usage:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -62,9 +62,9 @@ export default (): CliPlugin => ({
 });
 ```
 
-这里返回的 JSON Schema 会用来校验 `modern.config.js` 中的配置信息。
+The returned JSON Schema here is used to validate the configuration information in `modern.config.js`.
 
-比如这里返回：
+For example, the following JSON Schema is returned:
 
 ```json
 {
@@ -75,7 +75,7 @@ export default (): CliPlugin => ({
 }
 ```
 
-就可以在 `modern.config.ts` 中这样配置：
+You can configure it in `modern.config.ts` like this:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -83,7 +83,7 @@ export default defineConfig({
 });
 ```
 
-如果是别的类型，校验就不通过会报错，比如这样：
+If it is another type, validation will fail and an error will be reported. For example:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -91,7 +91,7 @@ export default defineConfig({
 });
 ```
 
-就会报错：
+then throw error：
 
 ```sh
 $ modern dev
@@ -102,11 +102,11 @@ $ modern dev
 
 ### `prepare`
 
-- 功能：运行主流程的前置准备流程
-- 执行阶段：校验完配置之后
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<void, void>`
-- 使用示例：
+- Functionality: Preparatory process for running the main process.
+- Execution phase: After configuration validation.
+- Hook model: AsyncWorkflow
+- Type: `AsyncWorkflow<void, void>`
+- Example usage:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -146,11 +146,11 @@ export default (): CliPlugin => ({
 
 ### `commands`
 
-- 功能：为 command 添加新的命令
-- 执行阶段：`prepare` Hook 运行完之后
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<{ program: Command; }, void>`
-- 使用示例：
+- Functionality: Add new commands for the command.
+- Execution phase: After the `prepare` Hook has run.
+- Hook model: AsyncWorkflow
+- Type: `AsyncWorkflow<{ program: Command; }, void>`
+- Example usage:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -169,7 +169,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-将上面这个插件添加到 `modern.config.ts` 中：
+Move the plugin to `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import myPlugin from './config/plugin/myPlugin';
@@ -179,7 +179,7 @@ export default defineConfig({
 });
 ```
 
-运行 `modern foo` 就可以看到控制台输出：
+run `modern foo`:
 
 ```sh
 $ modern foo
@@ -188,11 +188,11 @@ foo
 
 ### `beforeExit`
 
-- 功能：在退出进程前，重置一些文件状态
-- 执行阶段：进程退出之前
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<void, void>`
-- 使用示例：
+- Functionality: Reset some file states before exiting the process.
+- Execution phase: Before the process exits.
+- Hook model: AsyncWorkflow
+- Type: `AsyncWorkflow<void, void>`
+- Example usage:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -210,11 +210,11 @@ export default (): CliPlugin => ({
 
 ### `beforeDev`
 
-- 功能：运行 dev 主流程的之前的任务
-- 执行阶段：`dev` 命令运行时，项目开始启动前执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<void, unknown>`
-- 使用示例：
+- Functionality: Tasks before running the main dev process.
+- Execution phase: Before the project starts when the `dev` command is run.
+- Hook model: AsyncWorkflow
+- Type: `AsyncWorkflow<void, unknown>`
+- Example usage:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -232,11 +232,11 @@ export default (): CliPlugin => ({
 
 ### `afterDev`
 
-- 功能：运行 dev 主流程的之后的任务
-- 执行阶段：`dev` 命令运行时，项目启动完成之后执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<void, unknown>`
-- 使用示例：
+- Function: Tasks to be executed after the main process of `dev` command
+- Execution Stage: Executed after the project is started when running the `dev` command
+- Hook Model: AsyncWorkflow
+- Type: `AsyncWorkflow<void, unknown>`
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -254,11 +254,11 @@ export default (): CliPlugin => ({
 
 ### `beforeCreateCompiler`
 
-- 功能：在中间件函数中可以拿到创建 Webpack Compiler 的 Webpack 配置
-- 执行阶段：创建 Webpack Compiler 之前执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<{ webpackConfigs: Configuration[];}, unknown>`
-- 使用示例：
+- Function: Provides access to the Webpack configuration used to create the Webpack Compiler within middleware functions.
+- Execution Stage: Executed before creating the Webpack Compiler.
+- Hook Model: AsyncWorkflow.
+- Type: `AsyncWorkflow<{ webpackConfigs: Configuration[];}, unknown>`.
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -276,11 +276,11 @@ export default (): CliPlugin => ({
 
 ### `afterCreateCompiler`
 
-- 功能：在中间件函数中可以拿到创建的 Webpack Compiler
-- 执行阶段：创建 Webpack Compiler 之后执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<{ compiler: Compiler | MultiCompiler | undefined; }, unknown>`
-- 使用示例：
+- Function: Provides access to the created Webpack Compiler within middleware functions.
+- Execution Stage: Executed after creating the Webpack Compiler.
+- Hook Model: AsyncWorkflow.
+- Type: `AsyncWorkflow<{ compiler: Compiler | MultiCompiler | undefined; }, unknown>`.
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -298,11 +298,11 @@ export default (): CliPlugin => ({
 
 ### `beforePrintInstructions`
 
-- 功能：在中间件函数中可以拿到即将打印的日志信息，并对其进行修改
-- 执行阶段：打印日志信息之前执行
-- Hook 模型：AsyncWaterfall
-- 类型：`AsyncWaterfall<{ instructions: string }>`
-- 使用示例：
+- Function: Provides access to the log information that will be printed within middleware functions and allows modification of the log information.
+- Execution Stage: Executed before printing the log information.
+- Hook Model: AsyncWaterfall.
+- Type: `AsyncWaterfall<{ instructions: string }>`
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -323,11 +323,11 @@ export default (): CliPlugin => ({
 
 ### `beforeBuild`
 
-- 功能：运行 build 主流程的之前的任务，可以拿到构建的 Webpack 配置
-- 执行阶段：`build` 命令运行时，项目构建启动前执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<{ webpackConfigs: Configuration[]; }>`
-- 使用示例：
+- Function: Tasks to be executed before the main process of the `build` command, provides access to the Webpack configuration used for building.
+- Execution Stage: Executed before starting the project build when running the `build` command.
+- Hook Model: AsyncWorkflow.
+- Type: `AsyncWorkflow<{ webpackConfigs: Configuration[]; }>`.
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -345,11 +345,11 @@ export default (): CliPlugin => ({
 
 ### `afterBuild`
 
-- 功能：运行 build 主流程的之后的任务
-- 执行阶段：`build` 命令运行时，项目构建完成之后执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<void, unknown>`
-- 使用示例：
+- Function: Tasks to be executed after the main process of the `build` command.
+- Execution Stage: Executed after the project build is completed when running the `build` command.
+- Hook Model: AsyncWorkflow.
+- Type: `AsyncWorkflow<void, unknown>`.
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -367,11 +367,11 @@ export default (): CliPlugin => ({
 
 ### `modifyEntryImports`
 
-- 功能：用于修改、添加生成入口文件中的 `import` 语句
-- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
-- 类型：`AsyncWaterfall<{ imports: ImportStatement[]; entrypoint: Entrypoint; }>`
-- 使用示例：
+- Function: Used for modifying or adding `import` statements in the generated entry files.
+- Execution Stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
+- Hook Model: AsyncWaterfall.
+- Type: `AsyncWaterfall<{ imports: ImportStatement[]; entrypoint: Entrypoint; }>`
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -380,7 +380,7 @@ export default (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryImports({ entrypoint, imports }) {
-        // 添加 `import React from 'React'`
+        // add `import React from 'React'`
         imports.push({
           value: 'react',
           specifiers: [
@@ -426,11 +426,11 @@ export default (): CliPlugin => ({
 
 ### `modifyEntryRuntimePlugins`
 
-- 功能：用于添加、修改生成入口文件中的 [Runtime 插件](#Runtime)
-- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; plugins: RuntimePlugin[]; }>`
-- 使用示例：
+- Function: Used for adding or modifying [Runtime plugins](#Runtime) in the generated entry files.
+- Execution Stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
+- Hook Model: AsyncWaterfall.
+- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; plugins: RuntimePlugin[]; }>`
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -461,11 +461,11 @@ export default (): CliPlugin => ({
 
 ### `modifyEntryRenderFunction`
 
-- 功能：用于修改生成入口文件中 `render` 函数
-- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
-- 使用示例：
+- Function: Used for modifying the `render` function in the generated entry files.
+- Execution Stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
+- Hook Model: AsyncWaterfall.
+- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -487,11 +487,11 @@ export default (): CliPlugin => ({
 
 ### `modifyFileSystemRoutes`
 
-- 功能：用于修改生成前端页面路由文件中的内容，内容都是需要可序列化的
-- 执行阶段：生成前端路由文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; routes: Route[]; }>`
-- 使用示例：
+- Function: Used for modifying the content of the generated front-end page routing files, which must be serializable.
+- Execution Stage: Executed before generating the front-end routing files, triggered during the [`prepare`](#prepare) stage.
+- Hook Model: AsyncWaterfall.
+- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; routes: Route[]; }>`
+- Usage Example:
 
 ```tsx
 import type { CliPlugin } from '@modern-js/core';
@@ -517,15 +517,15 @@ export default (): CliPlugin => ({
 });
 ```
 
-这样就为前端新增了一个页面路由。
+This adds a new page route for the front-end.
 
 ### `modifyServerRoutes`
 
-- 功能：用于修改生成服务器路由中的内容
-- 执行阶段：生成 Server 路由文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
-- 类型：`AsyncWaterfall<{ routes: ServerRoute[]; }>`
-- 使用示例：
+- Function: Used for modifying the content of the generated server routes.
+- Execution Stage: Executed before generating the server routing files, triggered during the [`prepare`](#prepare) stage.
+- Hook Model: AsyncWaterfall.
+- Type: `AsyncWaterfall<{ routes: ServerRoute[]; }>`
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -554,11 +554,11 @@ export default (): CliPlugin => ({
 
 ### `modifyAsyncEntry`
 
-- 功能：用于修改包裹入口文件的异步模块，参见 [source.enableAsyncEntry](/configure/app/source/enable-async-entry)
-- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
-- 使用示例：
+- Function: Used for modifying the asynchronous module that wraps the entry file, see [source.enableAsyncEntry](/configure/app/source/enable-async-entry).
+- Execution Stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
+- Hook Model: AsyncWaterfall.
+- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -580,11 +580,11 @@ export default (): CliPlugin => ({
 
 ### `htmlPartials`
 
-- 功能：用于定制生成的 HTML 页面模版
-- 执行阶段：[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; partials: HtmlPartials; }>`
-- 使用示例：
+- Function: Used for customizing the generated HTML page template.
+- Execution Stage: Triggered during the [`prepare`](#prepare) stage.
+- Hook Model: AsyncWaterfall.
+- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; partials: HtmlPartials; }>`
+- Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -604,24 +604,24 @@ export default (): CliPlugin => ({
 });
 ```
 
-这样就为 HTML 模版中新增了一个 Script 标签。
+This adds a new Script tag to the HTML template.
 
 ## Server
 
 :::note
-目前 Server 插件还未完全开放，API 不保证稳定，使用需谨慎。
-
+The Server plugin is currently not fully opened, and the API is not guaranteed to be stable. Use with caution.
 :::
 
-应用工程中的 Server 部分也支持了插件。其中的 Hook 将会提供一些特定阶段调用和特殊功能的 Hook。
+Plugins are also supported in the Server section of the application project. The hook will provide hooks for specific stage calls and special functionality.
 
 ### `create`
 
-- 功能：在中间件函数中会拿到 Server 初始化用到的指标测量工具配置 `measureOptions` 和日志工具配置 `loggerOptions`，并返回自定义的指标测量工具 `measure` 和日志工具配置 `logger`
-- 执行阶段：Server 初始化
-- Hook 模型：AsyncPipeline
-- 类型：`AsyncPipeline<ServerInitInput, InitExtension>`
-- 使用示例：
+- Function: In the middleware function, you will get the measurement tool configuration `measureOptions` and log tool configuration `loggerOptions` used for Server initialization, and return a custom measurement tool `measure` and log tool configuration `logger`.
+- Execution Stage: Server initialization.
+- Hook Model: AsyncPipeline.
+- Type: `AsyncPipeline<ServerInitInput, InitExtension>`
+- Usage Example:
+
 
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
@@ -639,11 +639,11 @@ export default (): ServerPlugin => ({
 
 ### `prepareWebServer`
 
-- 功能：设置 Web 路由的处理函数，在中间件函数中可以拿到 Web Server 的前置中间件
-- 执行阶段：在请求到达的时候
-- Hook 模型：AsyncPipeline
-- 类型：`AsyncPipeline<WebServerStartInput, Adapter>`
-- 使用示例：
+- Function: Sets the handling function for the Web route. In the middleware function, you can get the front-end middleware of the Web server.
+- Execution Stage: When the request arrives.
+- Hook Model: AsyncPipeline.
+- Type: `AsyncPipeline<WebServerStartInput, Adapter>`
+- Usage Example:
 
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
@@ -665,11 +665,11 @@ export default (): ServerPlugin => ({
 
 ### `prepareApiServer`
 
-- 功能：设置 API 路由的处理函数，在中间件函数中可以拿到 API Server 的前置中间件
-- 执行阶段：请求到达并且 match bff basename 之后执行
-- Hook 模型：AsyncPipeline
-- 类型：`AsyncPipeline<APIServerStartInput, Adapter>`
-- 使用示例：
+- Function: Sets the handling function for the API route. In the middleware function, you can get the front-end middleware of the API server.
+- Execution Stage: When the request arrives and matches the BFF basename.
+- Hook Model: AsyncPipeline.
+- Type: `AsyncPipeline<APIServerStartInput, Adapter>`
+- Usage Example:
 
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
@@ -692,19 +692,18 @@ export default (): ServerPlugin => ({
 ## Runtime
 
 :::note
-目前 Runtime 插件还未完全开放，API 不保证稳定，使用需谨慎。
-
+The Runtime plugin is currently not fully opened, and the API is not guaranteed to be stable. Use with caution.
 :::
 
-Runtime 插件主要用于开发者修改需要渲染的组件与 Element 和定制服务器端、客户端的渲染过程。
+The Runtime plugin is mainly used for developers to modify the components and elements that need to be rendered, and customize the rendering process on the server and client side.
 
 ### `init`
 
-- 功能：执行 `App.init`
-- 执行阶段：渲染（SSR/CSR）
-- Hook 模型：AsyncPipeline
-- 类型：`AsyncPipeline<{ context: RuntimeContext; }, unknown>`
-- 使用示例：
+- Function: Executes `App.init`.
+- Execution Stage: Rendering (SSR/CSR).
+- Hook Model: AsyncPipeline.
+- Type: `AsyncPipeline<{ context: RuntimeContext; }, unknown>`
+- Usage Example:
 
 ```ts
 import type { Plugin } from '@modern-js/runtime';
@@ -723,11 +722,11 @@ export default (): Plugin => ({
 
 ### `hoc`
 
-- 功能：修改需要渲染的组件
-- 执行阶段：渲染（SSR/CSR）
-- Hook 模型：Pipeline
-- 类型：`Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
-- 使用示例：
+- Function: Modifies the components that need to be rendered.
+- Execution Stage: Rendering (SSR/CSR).
+- Hook Model: Pipeline.
+- Type: `Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
+- Usage Example:
 
 ```ts
 import { createContext } from 'react';
@@ -755,11 +754,11 @@ export default (): Plugin => ({
 
 ### `provide`
 
-- 功能：修改需要渲染的 Element
-- 执行阶段：渲染（SSR/CSR）
-- Hook 模型：Pipeline
-- 类型：`Pipeline<{ element: JSX.Element; props: AppProps; context: RuntimeContext }, JSX.Element>`
-- 使用示例：
+- Function: Modifies the Elements that need to be rendered.
+- Execution Stage: Rendering (SSR/CSR).
+- Hook Model: Pipeline.
+- Type: `Pipeline<{ element: JSX.Element; props: AppProps; context: RuntimeContext }, JSX.Element>`
+- Usage Example:
 
 ```ts
 import { createContext } from 'react';
@@ -778,11 +777,12 @@ export default (): Plugin => ({
 
 ### `client`
 
-- 功能：定制客户端渲染流程
-- 执行阶段：在浏览器客户端渲染
-- Hook 模型：AsyncPipeline
-- 类型：`AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; rootElement: HTMLElement; }, void>`
-- 使用示例：
+- Function: Customizes the client-side rendering process.
+- Execution Stage: Client-side rendering in the browser.
+- Hook Model: AsyncPipeline.
+- Type: `AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; rootElement: HTMLElement; }, void>`
+- Usage Example:
+
 
 ```ts
 import ReactDOM from 'react-dom';
@@ -804,11 +804,12 @@ export default (): Plugin => ({
 
 ### `server`
 
-- 功能：定制服务器端渲染流程
-- 执行阶段：SSR
-- Hook 模型：AsyncPipeline
-- 类型：`AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; }, string>`
-- 使用示例：
+- Function: Customize the server-side rendering process.
+- Execution Phase: SSR
+- Hook Model: AsyncPipeline
+- Type: `AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; }, string>`
+- Usage Example:
+
 
 ```ts
 import ReactDomServer from 'react-dom/server';

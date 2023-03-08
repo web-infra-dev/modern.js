@@ -13,8 +13,13 @@ const getJsFiles = (appDir: string) =>
     /\.js$/.test(filepath),
   );
 
+const getCssFiles = (appDir: string) =>
+  readdirSync(path.resolve(appDir, 'dist/static/css')).filter(filepath =>
+    /\.css$/.test(filepath),
+  );
+
 describe('swc minify', () => {
-  it(`should emitted script files correctly`, async () => {
+  it('should emitted script files correctly', async () => {
     const appDir = path.resolve(fixtures, 'minify-js');
 
     await modernBuild(appDir);
@@ -42,5 +47,14 @@ describe('swc minify', () => {
     expect(cp.exitCode).toBe(null);
 
     cp.kill('SIGTERM');
+  });
+
+  it('should minify css', async () => {
+    const appDir = path.resolve(fixtures, 'minify-css');
+
+    await modernBuild(appDir);
+
+    const cssFile = getCssFiles(appDir)[0];
+    expect(cssFile).toMatchSnapshot('swc minified css');
   });
 });
