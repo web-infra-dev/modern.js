@@ -41,6 +41,7 @@ describe('plugins/swc', () => {
         builderPluginBabel(),
         builderPluginSwc({
           jsMinify: false,
+          cssMinify: false,
         }),
       ],
     });

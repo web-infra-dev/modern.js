@@ -1,4 +1,4 @@
-import { Options, TransformConfig } from '@modern-js/swc-plugins';
+import { type Options, type TransformConfig } from '@modern-js/swc-plugins';
 import { getBrowserslist } from '@modern-js/utils';
 import type { LoaderContext, LoaderDefinitionFunction } from 'webpack';
 import { Compiler } from './binding';

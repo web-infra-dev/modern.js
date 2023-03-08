@@ -59,6 +59,7 @@ type PluginConfig = {
   presetReact?: ReactConfig;
   presetEnv?: EnvConfig;
   jsMinify?: boolean | JsMinifyOptions;
+  cssMinify?: boolean | CssMinifyOptions;
   extensions?: Extensions;
 };
 ```
@@ -93,6 +94,14 @@ type PluginConfig = {
 
 如果配置 `false` 将不会使用 SWC 的压缩能力，配置 `true` 会启用默认压缩配置，如果配置是对象，则会与默认配置进行合并。
 
+### cssMinify
+
+- 类型: `boolean`
+
+默认配置为: `true`。
+
+是否启用 SWC 对 CSS 文件进行压缩，若启用会使得 CSS 压缩性能提高，但压缩率会略微降低。
+
 ### extensions
 
 - 类型: `Object`
@@ -121,7 +130,7 @@ PluginSWC({
     pluginImport: [
       {
         libraryName: 'foo',
-        customName: 'foo/es/{{ member }}'
+        customName: 'foo/es/{{ member }}',
       },
     ],
   },
@@ -134,7 +143,7 @@ PluginSWC({
 import Btn from 'foo/es/MyButton';
 ```
 
-可以看出配置 ```customName: "foo/es/{{ member }}"``` 的效果等同于配置 ```customName: (member) => `foo/es/${member}` ```，但是不会有 Node-API 的调用开销。
+可以看出配置 `customName: "foo/es/{{ member }}"` 的效果等同于配置 `` customName: (member) => `foo/es/${member}`  ``，但是不会有 Node-API 的调用开销。
 
 这里使用到的模版是 [handlebars](https://handlebarsjs.com)，模版配置中还内置了一些有用的辅助工具，还是以上面的导入语句为例，配置成：
 
