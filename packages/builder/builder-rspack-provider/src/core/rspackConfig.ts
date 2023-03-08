@@ -101,6 +101,19 @@ async function getChainUtils(target: BuilderTarget): Promise<ModifyChainUtils> {
   };
 }
 
+export const formatOutput = (output: BundlerConfig['output']) => {
+  return output
+    ? omitBy(
+        {
+          ...output,
+          /** the following config not support in Rspack */
+          pathinfo: undefined,
+          hashFunction: undefined,
+        },
+        isUndefined,
+      )
+    : undefined;
+};
 /**
  * BundlerConfig type is similar to WebpackConfig. need convert
  */
@@ -108,6 +121,7 @@ const convertToRspackConfig = (config: BundlerConfig): RspackConfig => {
   return omitBy(
     {
       ...config,
+      output: formatOutput(config.output),
       plugins: config.plugins as RspackConfig['plugins'],
       optimization: config.optimization
         ? {
