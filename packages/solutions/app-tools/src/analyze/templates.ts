@@ -268,7 +268,6 @@ export const fileSystemRoutes = async ({
         if (route.isRoot) {
           rootLayoutCode = `import RootLayout from '${route._component}'`;
           component = `RootLayout`;
-          // Todo SSG
         } else if (ssrMode === 'string') {
           lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}')`;
           component = `loadable(${lazyImport})`;
