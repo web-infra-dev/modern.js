@@ -72,27 +72,26 @@ const enableRegister = (requireFn: (modulePath: string) => HandlerModule) => {
       existTsLoader = Boolean(require.extensions['.ts']);
       firstCall = false;
     }
-    if (!existTsLoader && process.env.NODE_ENV === 'development') {
-      const projectSearchDir = path.dirname(modulePath);
-      const tsNode: typeof import('ts-node') = require('ts-node');
-      tsNode.register({
-        projectSearchDir,
-        scope: true,
-        transpileOnly: true,
-        ignore: ['(?:^|/)node_modules/'],
-      });
-
-      const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
-      const loaderRes = tsConfigPaths.loadConfig(projectSearchDir);
-      if (loaderRes.resultType === 'success') {
-        tsConfigPaths.register({
-          baseUrl: loaderRes.absoluteBaseUrl,
-          paths: loaderRes.paths,
+    if (!existTsLoader) {
+      try {
+        const projectSearchDir = path.dirname(modulePath);
+        const tsNode: typeof import('ts-node') = require('ts-node');
+        tsNode.register({
+          projectSearchDir,
+          scope: true,
+          transpileOnly: true,
+          ignore: ['(?:^|/)node_modules/'],
         });
-      }
 
-      const requiredModule = requireFn(modulePath);
-      return requiredModule;
+        const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
+        const loaderRes = tsConfigPaths.loadConfig(projectSearchDir);
+        if (loaderRes.resultType === 'success') {
+          tsConfigPaths.register({
+            baseUrl: loaderRes.absoluteBaseUrl,
+            paths: loaderRes.paths,
+          });
+        }
+      } catch (e) {}
     }
     const requiredModule = requireFn(modulePath);
     return requiredModule;
