@@ -30,7 +30,7 @@ export const Layout: React.FC<LayoutProps> = props => {
     afterOutline,
     beforeNavTitle,
     afterNavTitle,
-    announcement,
+    beforeNav,
   } = props;
   const docProps: DocLayoutProps = {
     beforeDocFooter,
@@ -86,7 +86,7 @@ export const Layout: React.FC<LayoutProps> = props => {
       <Nav
         beforeNavTitle={beforeNavTitle}
         afterNavTitle={afterNavTitle}
-        announcement={announcement}
+        beforeNav={beforeNav}
       />
       <section>{getContentLayout()}</section>
       {bottom}

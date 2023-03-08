@@ -14,7 +14,7 @@ import { usePageData, withBase } from '@/runtime';
 import { replaceLang } from '@/shared/utils';
 
 export interface NavProps {
-  announcement?: React.ReactNode;
+  beforeNav?: React.ReactNode;
   beforeNavTitle?: React.ReactNode;
   afterNavTitle?: React.ReactNode;
 }
@@ -75,7 +75,7 @@ const NavTranslations = ({
 };
 
 export function Nav(props: NavProps) {
-  const { beforeNavTitle, afterNavTitle, announcement } = props;
+  const { beforeNavTitle, afterNavTitle, beforeNav } = props;
   const { siteData, lang, pageType } = usePageData();
   const { logo: rawLogo, base } = siteData;
   const [logo, setLogo] = useState(getLogoUrl(rawLogo));
@@ -172,7 +172,7 @@ export function Nav(props: NavProps) {
         background: 'var(--modern-c-bg)',
       }}
     >
-      {pageType === 'home' && announcement}
+      {beforeNav}
       <div
         className={`${styles.mask}
           ${pageType === 'doc' ? styles.docPage : ''}`}
