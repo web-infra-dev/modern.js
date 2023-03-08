@@ -199,7 +199,7 @@ function applySSRLoaderEntry<B extends Bundler>(
     );
     // the rspack is not support virtualModule
     // so we write the combinedModule in filesystem;
-    // then we load it from dist;
+    // then we load it from disk;
     if (isServer && fs.existsSync(serverLoadersFile)) {
       chain.entry(`${entryName}-server-loaders`).add(serverLoadersFile);
     }
