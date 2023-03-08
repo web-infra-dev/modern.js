@@ -219,8 +219,8 @@ export const generateCode = async (
             internalDirectory,
             entryName,
           );
-          await fs.ensureFile(serverLoaderFile);
-          await fs.writeFile(serverLoaderFile, serverLoaderCombined);
+
+          await fs.outputFile(serverLoaderFile, serverLoaderCombined);
         }
 
         fs.outputFileSync(

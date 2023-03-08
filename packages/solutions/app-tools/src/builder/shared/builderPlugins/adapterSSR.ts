@@ -1,10 +1,9 @@
-import * as fs from 'fs';
 import {
   BuilderPlugin,
   BundlerChain,
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
-import { ChainIdentifier } from '@modern-js/utils';
+import { ChainIdentifier, fs } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -200,8 +199,20 @@ function applySSRLoaderEntry<B extends Bundler>(
     // the rspack is not support virtualModule
     // so we write the combinedModule in filesystem;
     // then we load it from disk;
-    if (isServer && fs.existsSync(serverLoadersFile)) {
-      chain.entry(`${entryName}-server-loaders`).add(serverLoadersFile);
+    if (isServer) {
+      // docs: https://nodejs.org/docs/latest-v16.x/api/fs.html#fsaccesspath-mode-callback
+      // In node.js docs, fs.access() is recommended instead of fs.exists().
+      // the one reason is is will occur a race condition, since other processes may change the file's state between the two calls.
+      //
+      // > Using fs.exists() to check for the existence of a file before calling fs.open(), fs.readFile(), or fs.writeFile() is not recommended.
+      // > Doing so introduces a race condition, since other processes may change the file's state between the two calls.
+      // > Instead, user code should open/read/write the file directly and handle the error raised if the file does not exist.
+      fs.access(serverLoadersFile, fs.constants.F_OK, err => {
+        if (err) {
+          return;
+        }
+        chain.entry(`${entryName}-server-loaders`).add(serverLoadersFile);
+      });
     }
   });
 }
