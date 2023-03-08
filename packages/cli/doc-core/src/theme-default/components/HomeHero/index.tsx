@@ -24,8 +24,10 @@ export function HomeHero() {
       ></div>
       <div className="max-w-1152px m-auto flex flex-col md:flex-row">
         <div className="flex flex-col justify-center text-center max-w-592px sm:max-w-768px m-auto order-2 md:order-1">
-          <h1 className="font-bold text-3xl sm:text-6xl md:text-7xl m-auto sm:m-4 md:m-0 md:pb-3 lg:pb-5 z-10">
-            <span className={styles.clip}>{hero.name}</span>
+          <h1 className="font-bold text-3xl sm:text-6xl md:text-7xl m-auto sm:m-4 md:m-0 md:pb-3 lg:pb-5 leading-tight z-10">
+            <span className={styles.clip} style={{ lineHeight: '1.15' }}>
+              {hero.name}
+            </span>
           </h1>
           {hero.text?.length && (
             <p
