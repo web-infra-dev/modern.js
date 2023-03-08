@@ -117,6 +117,16 @@ type DevServer = {
 };
 ```
 
+### builder.context.bundlerType
+
+当前执行构建的构建工具类型。
+
+- **类型**
+
+```ts
+type bundlerType = 'webpack' | 'rspack';
+```
+
 ## builder.build
 
 调用 build 方法时，会执行一次生产环境构建。

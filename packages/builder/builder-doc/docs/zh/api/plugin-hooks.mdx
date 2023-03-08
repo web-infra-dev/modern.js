@@ -11,6 +11,7 @@ extractApiHeaders: [2]
 **通用钩子**
 
 - `modifyBuilderConfig`：修改传递给 Builder 的配置项。
+- `modifyBundlerChain` (experimental)：通过 chain api 修改 webpack / Rspack 配置。
 - `modifyWebpackChain`：修改 webpack chain 配置。
 - `modifyWebpackConfig`：修改最终的 webpack 配置对象。
 - `modifyRspackConfig`：修改最终的 Rspack 配置对象。
@@ -64,6 +65,53 @@ export default () => ({
       return mergeBuilderConfig(config, {
         source: { preEntry: 'foo.js' }
       });
+    });
+  },
+});
+```
+
+### modifyBundlerChain `experimental`
+
+通过 Builder 提供的 bundler chain 来修改 webpack / Rspack 的配置。类 webpack chain，该 hook 支持在使用 webpack-provider / rspack-provider 时调用。
+
+该 hook 只支持修改 webpack 和 Rspack 间无差异部分的配置。如，修改 devtool 配置项(webpack 和 Rspack 的 devtool 属性值类型相同)，或添加一个 [Rspack 兼容](https://www.rspack.dev/guide/plugin-compat.html) 的 webpack 插件。
+
+- **类型**
+
+```ts
+type ModifyBunlderChainUtils = {
+  env: NodeEnv;
+  isProd: boolean;
+  target: BuilderTarget;
+  isServer: boolean;
+  isWebWorker: boolean;
+  CHAIN_ID: ChainIdentifier;
+  HtmlPlugin: typeof import('html-webpack-plugin');
+};
+
+function ModifyBundlerChain(
+  callback: (
+    chain: BundlerChain,
+    utils: ModifyBunlderChainUtils,
+  ) => Promise<void> | void,
+): void;
+```
+
+- **Example**
+
+```ts
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+
+export default () => ({
+  setup: api => {
+    api.modifyBundlerChain((chain, utils) => {
+      if (utils.env === 'development') {
+        chain.devtool('eval');
+      }
+
+      chain
+        .plugin('bundle-analyze')
+        .use(BundleAnalyzerPlugin);
     });
   },
 });

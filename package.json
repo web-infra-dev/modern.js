@@ -15,7 +15,7 @@
   "scripts": {
     "new": "modern new",
     "setup": "npm run reset && pnpm install",
-    "reset": "npx rimraf ./**/node_modules",
+    "reset": "npx rimraf --glob ./**/node_modules",
     "test": "npm run test:ut",
     "test:jest": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=2",
     "test:vitest": "node scripts/vitestRunAll.js",
@@ -36,7 +36,8 @@
     "release": "modern release --ignore-scripts",
     "fix:lockfile": "pnpm install --fix-lockfile",
     "update:lockfile": "pnpm install --lockfile-only",
-    "check-changeset": "cd ./scripts/check-changeset && pnpm start"
+    "check-changeset": "cd ./scripts/check-changeset && pnpm start",
+    "update-codesmith": "cd ./scripts/update-codesmith && pnpm start"
   },
   "engines": {
     "node": ">=14.17.6"

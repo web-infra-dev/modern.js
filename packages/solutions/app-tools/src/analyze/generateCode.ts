@@ -1,5 +1,12 @@
 import path from 'path';
-import { fs, getEntryOptions, isRouterV5, logger } from '@modern-js/utils';
+import {
+  fs,
+  getEntryOptions,
+  isRouterV5,
+  isSSGEntry,
+  isUseSSRBundle,
+  logger,
+} from '@modern-js/utils';
 import { IAppContext, PluginAPI } from '@modern-js/core';
 import type {
   Entrypoint,
@@ -22,7 +29,11 @@ import {
   ENTRY_POINT_FILE_NAME,
   ENTRY_BOOTSTRAP_FILE_NAME,
 } from './constants';
-import { getDefaultImports, getServerLoadersFile } from './utils';
+import {
+  getDefaultImports,
+  getServerLoadersFile,
+  getServerCombinedModueFile,
+} from './utils';
 import { walk } from './nestedRoutes';
 
 const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
@@ -152,6 +163,7 @@ export const generateCode = async (
           config.server.ssrByEntries,
           packageName,
         );
+        const useSSG = isSSGEntry(config, entryName, entrypoints);
 
         let mode: SSRMode | undefined;
         if (ssr) {
@@ -174,7 +186,7 @@ export const generateCode = async (
           entrypoint,
           code: await templates.fileSystemRoutes({
             routes,
-            ssrMode: mode,
+            ssrMode: useSSG ? 'string' : mode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
             internalDirectory,
@@ -182,7 +194,7 @@ export const generateCode = async (
         });
 
         // extract nested router loaders
-        if (entrypoint.nestedRoutesEntry && mode) {
+        if (entrypoint.nestedRoutesEntry && isUseSSRBundle(config)) {
           const routesServerFile = getServerLoadersFile(
             internalDirectory,
             entryName,
@@ -194,6 +206,21 @@ export const generateCode = async (
 
           await fs.ensureFile(routesServerFile);
           await fs.writeFile(routesServerFile, code);
+        }
+
+        const serverLoaderCombined = templates.ssrLoaderCombinedModule(
+          entrypoints,
+          entrypoint,
+          config,
+          appContext,
+        );
+        if (serverLoaderCombined) {
+          const serverLoaderFile = getServerCombinedModueFile(
+            internalDirectory,
+            entryName,
+          );
+
+          await fs.outputFile(serverLoaderFile, serverLoaderCombined);
         }
 
         fs.outputFileSync(

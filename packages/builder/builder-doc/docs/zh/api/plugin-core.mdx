@@ -82,6 +82,29 @@ export default (): BuilderPlugin<BuilderPluginAPI> => ({
 });
 ```
 
+### 同时适用于 webpack-provider 和 rspack-provider 的插件
+
+想要开发同时适用于 webpack-provider 和 rspack-provider 的插件时，请从 `@modern-js/builder-shared` 中引入 `DefaultBuilderPlugin`。
+
+需要注意的是，开发 webpack 和 Rspack 同时支持的插件，意味着不能使用任何带有 webpack 或 Rspack 标识的 api，如 `modifyWebpackConfig` 或 `modifyRspackConfig`。
+
+可通过 [modifyBundlerChain](/api/plugin-hooks.html#modifybundlerchain-experimental) 修改同时适用于 webpack 和 Rspack 的配置。
+
+```ts
+import type { BuilderPlugin } from '@modern-js/builder';
+import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
+
+export default (): BuilderPlugin<DefaultBuilderPlugin> => ({
+  name: 'builder-plugin-foo',
+
+  setup: api => {
+    api.modifyBundlerChain(chain => {
+      chain.devtool(false);
+    });
+  },
+});
+```
+
 ## api.context
 
 `api.context` 是一个只读对象，提供一些上下文信息。
