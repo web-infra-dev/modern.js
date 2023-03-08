@@ -1,53 +1,51 @@
 ---
-title: 如何编写插件
+title: Write Plugins
 sidebar_position: 3
 ---
-# 如何编写插件
+# How to Write Plugins
 
-上一小节介绍了 Modern.js 插件的 Hook 模型，这一小节介绍如何编写插件。
+The previous section introduced the Hook models used by Modern.js plugins, while this section describes how to write plugins.
 
-## 实现插件
+## Implementing a Plugin
 
-Modern.js 插件是一个对象，对象包含以下属性：
+A Modern.js plugin is an object that includes the following properties:
 
-- `name`: 插件的名称，唯一标识符。
-- `setup`: 插件初始化函数，只会执行一次。setup 函数可以返回一个 Hooks 对象，Modern.js 会在特定的时机执行这些 Hooks。
+- `name`: The name of the plugin, a unique identifier.
+- `setup`: The initialization function for the plugin, which only runs once. The `setup` function can return a Hooks object, which Modern.js executes at specific times.
 
 ```ts
 const myPlugin = {
   name: 'my-plugin',
 
   setup() {
-    // 执行一些初始化逻辑
     const foo = '1';
 
-    // 返回一个 Hooks 对象
+    // return hook object
     return {
       afterBuild: () => {
-        // 在构建完成后执行逻辑
       },
     };
   },
 };
 ```
 
-另外，在插件中，允许配置与其他插件的执行顺序。详情可以参考[插件关系](/guides/topic-detail/framework-plugin/relationship)。
+In addition, plugins allow configuration of the execution order with other plugins. For more information, please refer to [Plugin Relationship](/guides/topic-detail/framework-plugin/relationship).
 
-### 插件类型
+### Plugin Types
 
-Modern-js 支持多种工程开发，如应用工程(app-tools), 模块工程(module-tools)等。
+Modern.js supports various types of project development, such as application development (`app-tools`), module development (`module-tools`), etc.
 
-为了兼顾不同工程开发的差异和通性，Modern-js 将插件如下图进行组织:
+To balance the differences and commonalities between various types of project development, Modern.js organizes plugins as shown in the following figure:
 
 ![plugin-relationship](https://lf3-static.bytednsdoc.com/obj/eden-cn/eeeh7uhbepxlpe/modern-website/plugin-relationship.jpg)
 
-从图可以看出，Modern-js 将插件大致分为两类:
+As shown in the figure, Modern.js roughly divides plugins into two categories:
 
-1. 通用插件: 插件只会包含一些基础的 Hooks
+1. Common plugins: Plugins that only include some basic Hooks.
 
-2. 工程插件: 不同的工程开发会在通用插件的基础上扩展出自己的 Hooks, Config 等类型。
+2. Project plugins: Different project developments will extend their own Hooks, Config, etc. on the basis of common plugins.
 
-使用 TypeScript 时，可以引入内置的 `CliPlugin` 等类型，为插件提供正确的类型推导。
+When using TypeScript, you can import built-in types such as `CliPlugin` to provide correct type inference for plugins.
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -60,14 +58,13 @@ const myPlugin: CliPlugin = {
 
     return {
       afterBuild: () => {
-        // 在构建完成后执行逻辑
       },
     };
   },
 };
 ```
 
-上述代码为通用插件，只包含一些基础的 Hooks。 Modern.js 支持通过泛型对插件的定义进行扩展：
+The above code is a general-purpose plugin, containing only some basic Hooks. Modern.js supports extending the definition of plugins through generics:
 
 ```ts
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
@@ -80,14 +77,13 @@ const myPlugin: CliPlugin<AppTools> = {
 
     return {
       afterBuild: () => {
-        // 在构建完成后执行逻辑
       },
     };
   },
 };
 ```
 
-如果仔细观察 `AppTools` 这个类型，可以发现 `AppTools` 由 3 种类型构成.
+If you look closely at the type `AppTools`, you can see that `AppTools` consists of 3 types.
 
 ```ts
 type AppTools = {
@@ -97,10 +93,10 @@ type AppTools = {
 };
 ```
 
-当编写插件时，插件通过泛型扩展在不同的基础上扩展自己的 Hooks 等类型:
+When writing plugins, plugins extend their own types like Hooks on different bases through generic extensions:
 
 ```ts
-// 通用插件上扩展
+// common plugin
 import type { CliPlugin } from '@modern-js/core';
 import type { MyPluginHook } from 'xxx';
 
@@ -108,18 +104,18 @@ const myPlugin: CliPlugin<{ hooks: MyPluginHook }> = {};
 ```
 
 ```ts
-// 在 @modern-js/app-tools 基础上扩展
+// extend from app-tools hook
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import type { MyPluginHook } from 'xxx';
 
 const myPlugin: CliPlugin<AppTools & { hooks: MyPluginHook }> = {};
 ```
 
-详细说明，请参考 [扩展 Hook](/guides/topic-detail/framework-plugin/extend)。
+Please refer to [Extending Hooks](/guides/topic-detail/framework-plugin/extend) for detailed explanations.
 
-### 插件配置项
+### Plugin Configuration
 
-**建议将插件写成函数的形式**，使插件能通过函数入参来接收配置项：
+**It is recommended to write plugins in the form of functions**, so that plugins can receive configuration options through function parameters:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -137,9 +133,10 @@ const myPlugin = (options: MyPluginOptions): CliPlugin => ({
 });
 ```
 
-### 插件 API
+### Plugin API
 
-插件的 `setup` 函数会接收一个 api 入参，你可以调用 api 上提供的一些方法来获取到配置、应用上下文等信息。
+The `setup` function of a plugin receives an `api` parameter, and you can call some methods provided on the `api` to get configuration, application context, and other information.
+
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -148,21 +145,22 @@ export default (): CliPlugin => ({
   name: 'my-plugin',
 
   setup(api) {
-    // 获取应用原始配置
+    // get user set config
     const config = api.useConfigContext();
-    // 获取应用运行上下文
+    // get context
     const appContext = api.useAppContext();
-    // 获取解析之后的最终配置
+    // get final config
     const resolvedConfig = api.useResolvedConfigContext();
   },
 });
 ```
 
-插件 API 的详细说明，请参考 [Plugin API](/guides/topic-detail/framework-plugin/plugin-api)。
+For more detail [Plugin API](/guides/topic-detail/framework-plugin/plugin-api)。
 
-### 异步 setup
+### Async setup
 
-CLI 插件的 setup 可以是一个异步函数，在初始化过程中执行异步逻辑。
+The `setup` function of a CLI plugin can be an asynchronous function, which can execute asynchronous logic during the initialization process.
+
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -176,13 +174,13 @@ export default (): CliPlugin => ({
 });
 ```
 
-## 添加插件
+## Adding Plugins
 
-自定义插件的使用方式可以查看：[plugins (框架插件)](/configure/app/plugins)。下面会介绍 Modern.js 中推荐的插件实现方法。
+Custom plugins can be used by following the instructions in the [plugins](/configure/app/plugins) section of the documentation. Below is the recommended way to implement plugins in Modern.js.
 
-### 开发本地插件
+### Developing Local Plugins
 
-本地插件推荐写在 `config/plugin` 目录下，并通过 `export default` 导出：
+It is recommended to write local plugins in the `config/plugin` directory and export them using `export default`:
 
 ```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
@@ -191,12 +189,12 @@ export default (): CliPlugin => ({
   name: 'my-plugin',
 
   setup() {
-    // 插件初始化
+    // init plugin
   },
 });
 ```
 
-然后在 `modern.config.ts` 中注册对应的插件：
+register plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -207,11 +205,11 @@ export default defineConfig({
 });
 ```
 
-### 在 npm 上发布插件
+### Publishing a Plugin on npm
 
-如果需要将 Modern.js 插件发布到 npm，推荐使用 Modern.js 中的模块工程方案来管理和构建。
+If you want to publish your Modern.js plugin on npm, it's recommended to use the module project solution provided by Modern.js to manage and build the plugin.
 
-首先创建一个空的模块工程方案项目，调整 npm 包名称：
+First, create an empty module project solution and adjust the package name:
 
 ```json
 {
@@ -220,7 +218,7 @@ export default defineConfig({
 }
 ```
 
-然后新建对应的插件文件：
+create plugin main file：
 
 ```ts title=src/index.ts
 import type { CliPlugin } from '@modern-js/core';
@@ -229,12 +227,12 @@ export default (): CliPlugin => ({
   name: 'my-plugin',
 
   setup() {
-    // 插件初始化
+    // plugin init
   },
 });
 ```
 
-发布之后，安装到需要使用的项目 `pnpm add my-plugin`，这里以一个应用项目为例，然后在 `modern.config.ts` 中添加：
+After publishing, install it to the project you need to use `pnpm add my-plugin`, take an application project as an example, and then add it in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -245,4 +243,4 @@ export default defineConfig({
 });
 ```
 
-如果你发现目前 Modern.js 存在无法满足的场景，欢迎通过**编写自定义插件的方式**来一起建设 Modern.js 生态。
+If you find that there are currently unsatisfactory scenarios in Modern.js, welcome to build the Modern.js ecosystem together by **writing custom plugins**.

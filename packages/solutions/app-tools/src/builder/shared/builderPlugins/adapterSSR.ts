@@ -3,7 +3,7 @@ import {
   BundlerChain,
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
-import { ChainIdentifier } from '@modern-js/utils';
+import { ChainIdentifier, fs } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -12,6 +12,7 @@ import type {
 } from '../../../types';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import type { BuilderOptions, BuilderPluginAPI } from '../types';
+import { getServerCombinedModueFile } from '../../../analyze/utils';
 import { isHtmlEnabled } from './adapterHtml';
 
 export const builderPluginAdapterSSR = <B extends Bundler>(
@@ -33,10 +34,14 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
     });
 
     api.modifyBundlerChain(
-      (chain, { target, CHAIN_ID, isProd, HtmlPlugin: HtmlBundlerPlugin }) => {
+      (
+        chain,
+        { target, CHAIN_ID, isProd, HtmlPlugin: HtmlBundlerPlugin, isServer },
+      ) => {
         const builderConfig = api.getNormalizedConfig();
 
         applyRouterPlugin(chain, options);
+        applySSRLoaderEntry(chain, options, isServer);
 
         if (['node', 'service-worker'].includes(target)) {
           applyFilterEntriesBySSRConfig({
@@ -172,6 +177,42 @@ function applyFilterEntriesBySSRConfig({
         (!ssr && !ssrByEntries?.[name]))
     ) {
       chain.entryPoints.delete(name);
+    }
+  });
+}
+
+function applySSRLoaderEntry<B extends Bundler>(
+  chain: BundlerChain,
+  optinos: BuilderOptions<B>,
+  isServer: boolean,
+) {
+  const { appContext } = optinos;
+  const { internalDirectory } = appContext;
+  const { entrypoints } = appContext;
+
+  entrypoints.forEach(entrypoint => {
+    const { entryName } = entrypoint;
+    const serverLoadersFile = getServerCombinedModueFile(
+      internalDirectory,
+      entryName,
+    );
+    // the rspack is not support virtualModule
+    // so we write the combinedModule in filesystem;
+    // then we load it from disk;
+    if (isServer) {
+      // docs: https://nodejs.org/docs/latest-v16.x/api/fs.html#fsaccesspath-mode-callback
+      // In node.js docs, fs.access() is recommended instead of fs.exists().
+      // the one reason is is will occur a race condition, since other processes may change the file's state between the two calls.
+      //
+      // > Using fs.exists() to check for the existence of a file before calling fs.open(), fs.readFile(), or fs.writeFile() is not recommended.
+      // > Doing so introduces a race condition, since other processes may change the file's state between the two calls.
+      // > Instead, user code should open/read/write the file directly and handle the error raised if the file does not exist.
+      fs.access(serverLoadersFile, fs.constants.F_OK, err => {
+        if (err) {
+          return;
+        }
+        chain.entry(`${entryName}-server-loaders`).add(serverLoadersFile);
+      });
     }
   });
 }

@@ -1,29 +1,29 @@
 ---
-title: 插件之间的关系
+title: Relationship
 sidebar_position: 4
 ---
-# 插件之间的关系
+# Relationship between Plugins
 
-Modern.js 的插件配置对象提供了一系列的字段，用于控制插件顺序、互斥等能力，可用的字段如下：
+The plugin configuration object in Modern.js provides a series of fields to control plugin order, mutual exclusion, and other capabilities. The available fields are as follows:
 
-- `name`: `string`，设置当前插件的名称。
-- `pre`: `string[]`，这些插件最终会调整到当前插件前面。
-- `post`: `string[]`，这些插件最终会调整到当前插件后面。
-- `rivals`: `string[]`，互斥插件，遇到这些插件时会报错。
-- `required`: `string[]`，必需插件，插件列表中没有对应的插件时会报错。
-- `usePlugin`: `CliPlugin[]`，注册其他插件。
+- `name`: `string`, sets the name of the current plugin.
+- `pre`: `string[]`, these plugins will be adjusted to be executed before the current plugin.
+- `post`: `string[]`, these plugins will be adjusted to be executed after the current plugin.
+- `rivals`: `string[]`, mutually exclusive plugins, an error will be thrown when encountering these plugins.
+- `required`: `string[]`, required plugins, an error will be thrown when the corresponding plugin is not found in the plugin list.
+- `usePlugin`: `CliPlugin[]`, registers other plugins.
 
-通过以上参数可以实现插件的前置、后置、互斥、必需等逻辑。
+The above parameters can be used to achieve plugin front, back, mutual exclusion, and mandatory logic.
 
-## 插件排序
+## Plugin Sorting
 
-Modern.js 的插件通过 `pre`、`post` 参数来实现了插件排序的功能。
+Modern.js plugins achieve plugin sorting functionality through the `pre` and `post` parameters.
 
-### 前置插件
+### Pre
 
-默认情况下，插件会按照添加顺序依次执行，通过 `pre` 字段可以声明前置执行的插件。
+By default, plugins are executed in the order they are added. You can declare preceding plugins to be executed by using the `pre` field.
 
-比如有下面两个插件：
+For example, there are the following two plugins:
 
 ```ts title=foo.ts
 const foo = {
@@ -38,11 +38,11 @@ const bar = {
 };
 ```
 
-`bar` 插件在 `pre` 字段中配置了 `foo` 插件，因此 `foo` 插件一定会在 `bar` 插件之前执行。
+The `bar` plugin configures the `foo` plugin in the `pre` field, so the'foo' plugin must be executed before the `bar` plugin.
 
-### 后置插件
+### Post
 
-同样的，通过 `post` 字段可以声明后置执行的插件。
+Declare succeeding plugins to be executed by using the `post` field.
 
 ```ts title=foo.ts
 const foo = {
@@ -57,13 +57,13 @@ const bar = {
 };
 ```
 
-`bar` 插件在 `post` 字段中配置了 `foo` 插件，因此 `foo` 插件一定会在 `bar` 插件之后执行。
+If you use the `post` parameter in the `bar` plugin's configuration and set it to `['foo']`, then the `foo` plugin will be executed after the `bar` plugin.
 
-## 互斥插件
+## rivals
 
-通过 `rivals` 字段可以声明插件间的互斥关系。
+The rivals field can be used to declare a mutual exclusion relationship between plugins.
 
-有下面两个插件：
+there are two plugin：
 
 ```ts title=foo.ts
 const foo = {
@@ -78,13 +78,13 @@ const bar = {
 };
 ```
 
-`bar` 插件在 `rivals` 字段中配置了 `foo` 插件，因此同时添加了 `foo` 插件和 `bar` 插件就会报错。
+The `bar` plugin has been configured with the `foo` plugin in the `rivals` field, therefore an error will be thrown if both the `foo` and `bar` plugins are added simultaneously.
 
-## 必需插件
+## required
 
-通过 `required` 字段可以声明插件间的依赖关系。
+The `required` field can be used to declare a dependency relationship between plugins.
 
-有下面两个插件：
+there are two plugin：
 
 ```ts title=foo.ts
 const foo = {
@@ -99,11 +99,11 @@ const bar = {
 };
 ```
 
-`bar` 插件在 `required` 字段中配置了 `foo` 插件，因此使用 `bar` 插件时，如果未配置 `foo` 插件就会报错。
+The `bar` plugin has been configured with the `foo` plugin in the `required` field. Therefore, an error will be thrown when using the `bar` plugin if the `foo` plugin is not configured.
 
-## 注册插件
+## Register Plugin
 
-当插件之间存在依赖关系时，我们也可以在一个插件中通过 `usePlugin` 主动注册另一个插件：
+When there is a dependency relationship between plugins, we can also actively register another plugin in a plugin by using `usePlugin`.
 
 ```ts title=foo.ts
 const foo = () => ({
@@ -116,4 +116,4 @@ const bar = () => ({
 });
 ```
 
-当使用者配置了 `bar` 插件时，`foo` 插件也会自动注册生效，使用者就不需要去额外注册 `foo` 插件了。
+When the user configures the `bar` plugin, the foo plugin will also be automatically registered and activated. The user does not need to register the `foo` plugin separately.

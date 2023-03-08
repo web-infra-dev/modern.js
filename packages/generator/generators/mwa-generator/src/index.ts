@@ -119,7 +119,7 @@ export const handleTemplateFile = async (
 
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
-  const { packageName, packagePath, language } = ans;
+  const { packageName, packagePath, language, packageManager } = ans;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
@@ -146,6 +146,7 @@ export const handleTemplateFile = async (
       name: packageName || dirname,
       isMonorepoSubProject,
       modernVersion,
+      packageManager,
     },
   );
 

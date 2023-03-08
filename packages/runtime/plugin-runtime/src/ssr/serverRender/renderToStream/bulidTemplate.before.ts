@@ -41,7 +41,11 @@ function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
       const { routeAssets } = routeManifest;
       const cssChunks: string[] = [];
 
-      const matches = matchRoutes(routes, routerContext.location);
+      const matches = matchRoutes(
+        routes,
+        routerContext.location,
+        routerContext.basename,
+      );
       matches?.forEach((match, index) => {
         // root layout css chunks should't be loaded
         if (!index) {

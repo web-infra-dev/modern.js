@@ -1,32 +1,32 @@
 ---
 sidebar_position: 4
-title: 衍生状态
+title: Derived State
 ---
-# 衍生状态
 
-一些场景中，组件需要对 Model 中的 State 进行进一步计算，才能在组件中使用，这部分逻辑可以直接写在组件内部，也可以通过 Model 的衍生状态实现。
-衍生状态定义在 Model 中的 `computed` 字段下。根据依赖的 Model 的不同、返回类型的不同，衍生状态的定义方法可以分为以下 3 种。
+# Derived State
 
-## 只依赖自身的 State
+In some scenarios, components need to perform further calculations on the State in Model before they can be used in the components. This logic can be directly written in the component or implemented through derived states in Model. Derived states are defined under the `computed` field in the Model. Depending on the dependencies of the Model and the return type, there are three ways to define derived states.
 
-衍生状态只依赖当前 Model 的 State，State 会作为第一个参数，传入衍生状态的定义函数中。
+## Only Depend on the Model's Own State
 
-例如， todo 应用的 State 有 `items` 和 `filter`，`filter` 用于过滤当前页面显示的 todo 项，所以我们定义了一个 `visibleTodos` 的衍生状态可以直接在组件中使用。示例代码如下：
+The derived state only depends on the current Model's State, which is passed as the first parameter to the derived state's definition function.
+
+For example, the todo application has `items` and `filter` in its State, and `filter` is used to filter the todo items displayed on the current page. Therefore, we define a `visibleTodos` derived state that can be directly used in the component. The sample code is as follows:
 
 ```ts
 /**
- *  假设 todo item 结构如下：
+ *  Assuming the structure of the todo item is as follows:
 {
     id: string;          // id
-    text: string;        // todo 事项
-    completed: boolean;  // 完成状态：0 代表未完成，1 代表完成
+    text: string;        // todo
+    completed: boolean;
 }
 **/
 
 const todoModel = model('todo').define({
   state: {
     items: [],
-    filter: 'ALL', // ALL: 显示全部；COMPLETED：显示完成的事项；ACTIVE：显示未完成的事项
+    filter: 'ALL', // ALL: show all；COMPLETED：show completed；ACTIVE：show active
   },
   computed: {
     visibleTodos: state => {
@@ -45,7 +45,7 @@ const todoModel = model('todo').define({
 });
 ```
 
-衍生状态最终会和 Model 的 State 进行合并，因此，可以通过 Model 的 State 对象访问到衍生状态，例如，`visibleTodos` 在组件内的使用方式如下：
+Derived state will eventually be merged with the Model's State, so the derived state can be accessed through the Model's State object. For example, the `visibleTodos` can be used in the component as follows:
 
 ```ts
 function Todo() {
@@ -63,15 +63,17 @@ function Todo() {
 }
 ```
 
-## 依赖其他 Model 的 State
+## Dependent State from Other Models
 
-除了依赖当前 Model 的 State，衍生状态还依赖其他 Model 的 State，这时候衍生状态的定义格式为：
+In addition to depending on the current model's state, derived states may also depend on the state of other models. In this case, the definition format for the derived state is:
+
 
 ```ts
 [stateKey]: [...depModels, (selfState, ...depModels) => computedState]
 ```
 
-下面的示例，演示了 `barModel` 的衍生状态 `combinedValue` 是如何依赖 `fooModel` 的 State 的。
+The following example demonstrates how the derived state `combinedValue` of `barModel` depends on the state of `fooModel`.
+
 
 ```ts
 const fooModel = model('foo').define({
@@ -93,16 +95,17 @@ const barModel = model('bar').define({
 });
 ```
 
-## 函数类型的衍生状态
+## Derived State with Function Type
 
-衍生状态还可以返回一个函数。这时候衍生状态的定义格式为：
+Derived states can also return a function. In this case, the definition format for the derived state is:
 
 ```ts
-[stateKey]: (state) => (...args) => computedState    // 只依赖自身的 state
-[stateKey]: [...depModels, (selfState, ...depModels) => (...args) => computedState]  // 依赖其他 Model 的 state
+[stateKey]: (state) => (...args) => computedState    // Only relies on its own state
+[stateKey]: [...depModels, (selfState, ...depModels) => (...args) => computedState]  // Relies on the state of other models
 ```
 
-假设，todo 应用的 state 不存储 `filter` 状态，而是直接在组件中使用，那么 `visibleTodos` 可以是一个函数类型的值，这个函数在组件中使用的时候，接收 `filter` 参数。如下所示：
+Assuming the `filter` state is not stored in the state of the todo app, but is instead used directly in the component, `visibleTodos` can be a function type value. This function receives the `filter` parameter when used in the component, as shown below:
+
 
 ```ts
 const todoModel = model('todo').define({
@@ -126,11 +129,11 @@ const todoModel = model('todo').define({
 });
 
 function Todo(props) {
-  // filter 状态通过 props 传入
+  // use props pass filter
   const { filter } = props;
   const [state, actions] = useModel(todoModel);
 
-  // 计算得到最终要显示的 todos
+  // get final todos
   const todos = state.visibleTodos(filter);
 
   return (
@@ -145,7 +148,6 @@ function Todo(props) {
 }
 ```
 
-:::info 更多参考
-[使用 Model](/guides/topic-detail/model/computed-state)
-
+:::info Additional Reference
+[Using Models](/guides/topic-detail/model/computed-state)
 :::
