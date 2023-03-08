@@ -1651,7 +1651,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
   "optimization": {
     "minimize": false,
     "runtimeChunk": undefined,
-    "splitChunks": undefined,
+    "splitChunks": false,
   },
   "output": {
     "chunkFilename": "bundles/[name].js",
