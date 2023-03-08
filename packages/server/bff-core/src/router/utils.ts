@@ -72,7 +72,7 @@ const enableRegister = (requireFn: (modulePath: string) => HandlerModule) => {
       existTsLoader = Boolean(require.extensions['.ts']);
       firstCall = false;
     }
-    if (!existTsLoader) {
+    if (!existTsLoader && process.env.NODE_ENV === 'development') {
       const projectSearchDir = path.dirname(modulePath);
       const tsNode: typeof import('ts-node') = require('ts-node');
       tsNode.register({
