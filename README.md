@@ -1,11 +1,11 @@
 <p align="center">
-  <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="300" alt="Modern.js Logo" /></a>
+  <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="260" alt="Modern.js Logo" /></a>
 </p>
 
 <h1 align="center">Modern.js</h1>
 
 <p align="center">
-  A Progressive React Framework for modern web development.
+  Inspire creativity in Modern web development.
 </p>
 
 <p align="center">
@@ -16,9 +16,21 @@
 
 English | [简体中文](./README.zh-CN.md)
 
+## Introduction
+
+Modern.js is a modern web engineering system, including multiple solutions:
+
+- [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
+- [Modern.js Module](https://modernjs.dev/module-tools): A powerful solution for npm package development.
+- [Modern.js Doc](https://modernjs.dev/doc-tools): A documentation site solution with modern tech stack.
+- [Modern.js Builder](https://modernjs.dev/builder/en/): A Build engine for web development.
+
 ## Getting Started
 
-Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.
+- Use [Modern.js Framework](https://modernjs.dev/en/guides/get-started/quick-start) to develop a web application.
+- Use [Modern.js Module](https://modernjs.dev/module-tools/en/guide/intro/getting-started.html) to develop an npm package.
+- Use [Modern.js Doc](https://modernjs.dev/doc-tools/guide/getting-started.html) to develop a documentation site.
+- Use [Modern.js Builder](https://modernjs.dev/builder/en/guide/quick-start.html) to provide build capabilities for your own web framework.
 
 ## Documentation
 
@@ -29,8 +41,7 @@ Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-sta
 
 The following solutions are available within the Modern.js ecosystem:
 
-- 🦄 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
-- 🐧 [Modern.js Builder](https://modernjs.dev/builder/en/): A Build Engine for web development.
+- 🦀 [Rspack](https://github.com/web-infra-dev/rspack): A fast Rust-based web bundler.
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
 - 🐈 [Reduck](https://github.com/web-infra-dev/reduck): A redux-based state management library.
 

@@ -5,7 +5,7 @@
 <h1 align="center">Modern.js</h1>
 
 <p align="center">
-  基于 React 的渐进式现代 Web 开发框架。
+  Inspire creativity in Modern web development.
 </p>
 
 <p align="center">
@@ -16,9 +16,21 @@
 
 [English](./README.md) | 简体中文
 
+## 介绍
+
+Modern.js 是一个现代 Web 工程体系，包含以下解决方案：
+
+- [Modern.js Framework](https://modernjs.dev/en/): 基于 React 的渐进式 Web 开发框架。
+- [Modern.js Module](https://modernjs.dev/module-tools): 简单、高性能的 npm 包开发方案。
+- [Modern.js Doc](https://modernjs.dev/doc-tools): 现代文档站解决方案。
+- [Modern.js Builder](https://modernjs.dev/builder/en/): 面向 Web 开发场景的构建引擎。
+
 ## 快速上手
 
-请参考 [快速上手](https://modernjs.dev/guides/get-started/quick-start) 来开始使用 Modern.js。
+- 使用 [Modern.js Framework](https://modernjs.dev/en/guides/get-started/quick-start) 来开发一个 Web 应用。
+- 使用 [Modern.js Module](https://modernjs.dev/module-tools/en/guide/intro/getting-started.html) 来开发一个 npm 包。
+- 使用 [Modern.js Doc](https://modernjs.dev/doc-tools/guide/getting-started.html) 来开发一个文件站点。
+- 使用 [Modern.js Builder](https://modernjs.dev/builder/en/guide/quick-start.html) 来为你的 Web 框架提供构建能力。
 
 ## 文档
 
@@ -29,8 +41,7 @@
 
 Modern.js 生态提供了以下解决方案：
 
-- 🦄 [Modern.js Module](https://modernjs.dev/module-tools): 简单、高性能的现代 npm 包开发方案。
-- 🐧 [Modern.js Builder](https://modernjs.dev/builder): 面向 Web 开发场景的构建引擎。
+- 🦀 [Rspack](https://github.com/web-infra-dev/rspack): 基于 Rust 的高性能模块打包工具。
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): 一站式微前端解决方案。
 - 🐈 [Reduck](https://github.com/web-infra-dev/reduck): 基于 Redux 的状态管理库。
 
