@@ -10,7 +10,6 @@ import type { BuilderConfig } from '../types';
 
 const defineDefaultConfig = extendsType<BuilderConfig>();
 
-// TODO: update
 export const createDefaultConfig = () =>
   defineDefaultConfig({
     dev: defaultDevConfig,
