@@ -29,7 +29,7 @@ Modern.js 是一个现代 Web 工程体系，包含以下解决方案：
 
 - 使用 [Modern.js Framework](https://modernjs.dev/guides/get-started/quick-start) 来开发一个 Web 应用。
 - 使用 [Modern.js Module](https://modernjs.dev/module-tools/guide/intro/getting-started.html) 来开发一个 npm 包。
-- 使用 [Modern.js Doc](https://modernjs.dev/doc-tools/zh/guide/getting-started.html) 来开发一个文件站点。
+- 使用 [Modern.js Doc](https://modernjs.dev/doc-tools/zh/guide/getting-started.html) 来开发一个文档站点。
 - 使用 [Modern.js Builder](https://modernjs.dev/builder/guide/quick-start.html) 来为你的 Web 框架提供构建能力。
 
 ## 生态

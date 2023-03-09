@@ -78,26 +78,26 @@ export default function Home() {
   ];
 
   const lang = useLang();
-  const ecosystem = [
+  const solutions = [
+    {
+      title: 'Modern.js Framework',
+      href: useUrl('/guides/get-started/introduction'),
+      desc: t('solutionsDesc1'),
+    },
     {
       title: 'Modern.js Module',
       href: `https://modernjs.dev/module-tools${lang === 'en' ? '/en' : ''}`,
-      desc: t('ecosystemDesc1'),
+      desc: t('solutionsDesc2'),
+    },
+    {
+      title: 'Modern.js Doc',
+      href: `https://modernjs.dev/doc-tools${lang === 'en' ? '' : '/zh'}`,
+      desc: t('solutionsDesc3'),
     },
     {
       title: 'Modern.js Builder',
       href: `https://modernjs.dev/builder${lang === 'en' ? '/en' : ''}`,
-      desc: t('ecosystemDesc2'),
-    },
-    {
-      title: 'Garfish',
-      href: 'https://github.com/web-infra-dev/garfish',
-      desc: t('ecosystemDesc3'),
-    },
-    {
-      title: 'Reduck',
-      href: 'https://github.com/web-infra-dev/reduck',
-      desc: t('ecosystemDesc4'),
+      desc: t('solutionsDesc4'),
     },
   ];
 
@@ -109,9 +109,9 @@ export default function Home() {
       <HomepageHeader />
       <main className={styles['homepage-main']}>
         <FeatureLayout>
-          <SecondaryTitle>{t('features')}</SecondaryTitle>
+          <SecondaryTitle>{t('solutions')}</SecondaryTitle>
           <div className={styles.cardContainer}>
-            {features.map((card, cardIndex) => (
+            {solutions.map((card, cardIndex) => (
               <ContentCard
                 key={cardIndex}
                 title={card.title}
@@ -133,9 +133,9 @@ export default function Home() {
         </FeatureLayout>
 
         <FeatureLayout>
-          <SecondaryTitle>{t('ecosystem')}</SecondaryTitle>
+          <SecondaryTitle>Modern.js Framework</SecondaryTitle>
           <div className={styles.cardContainer}>
-            {ecosystem.map((card, cardIndex) => (
+            {features.map((card, cardIndex) => (
               <ContentCard
                 key={cardIndex}
                 title={card.title}
