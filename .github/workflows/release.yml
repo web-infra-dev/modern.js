@@ -66,6 +66,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           PULL_REQUEST_NUMBER: ${{ github.event.issue.number }}
+          COMMENT: ${{ toJson(github.event.comment) }}
   release:
     name: Release
     if: ${{ github.event_name == 'workflow_dispatch' }}
