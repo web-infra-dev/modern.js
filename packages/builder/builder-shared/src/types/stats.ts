@@ -11,7 +11,7 @@ interface StatsOptionsObj {
   errorsCount?: boolean;
   colors?: boolean;
 
-  /** rspack not support below opts */
+  /** Rspack not support below opts */
   groupAssetsByInfo?: boolean;
   groupAssetsByPath?: boolean;
   groupAssetsByChunk?: boolean;

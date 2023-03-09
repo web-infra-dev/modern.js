@@ -14,7 +14,7 @@ If you need to build a library or UI components, it is recommended to use the [M
 
 ## Will Builder support Turbopack?
 
-Builder is already supporting rspack, and currently Turbopack supports use in Next.js, so there is no plan for Builder to support [Turbopack](https://turbo.build/pack).
+Builder is already supporting Rspack, and currently Turbopack supports use in Next.js, so there is no plan for Builder to support [Turbopack](https://turbo.build/pack).
 
 ## Will Builder support Vite?
 

@@ -86,10 +86,10 @@ async function applyDefaultConfig(
   if (isWebTarget(target)) {
     const polyfillMode = builderConfig.output.polyfill;
 
-    // TODO: remove this when rspack support `usage` mode
+    // TODO: remove this when Rspack support `usage` mode
     if (polyfillMode === 'usage') {
       logger.warn(
-        'Cannot use `usage` mode polyfill for now, rspack will support it soon',
+        'Cannot use `usage` mode polyfill for now, Rspack will support it soon',
       );
       rspackConfig.builtins.presetEnv.mode = undefined;
       return;

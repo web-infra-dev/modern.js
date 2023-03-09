@@ -4,12 +4,12 @@
 <p align="center">
   Modern.js Builder
   <br/>
-  <a href="https://modernjs.dev/builder" target="blank">
+  <a href="https://modernjs.dev/builder/en" target="blank">
     modernjs.dev/builder
   </a>
 </p>
 <p align="center">
-  A Build Engine for web development.
+  A build engine for web development.
 </p>
 
 # @modern-js/builder-doc

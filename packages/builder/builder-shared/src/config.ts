@@ -307,7 +307,7 @@ export const chainStaticAssetRule = ({
   assetType: string;
   issuer?: any;
 }) => {
-  // rspack not support dataUrlCondition function
+  // Rspack not support dataUrlCondition function
   // forceNoInline: "foo.png?__inline=false" or "foo.png?url",
   rule
     .oneOf(`${assetType}-asset-url`)

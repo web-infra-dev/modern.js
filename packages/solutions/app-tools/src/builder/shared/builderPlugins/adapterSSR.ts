@@ -197,7 +197,7 @@ async function applySSRLoaderEntry<B extends Bundler>(
         internalDirectory,
         entryName,
       );
-      // the rspack is not support virtualModule
+      // the Rspack is not support virtualModule
       // so we write the combinedModule in filesystem;
       // then we load it from disk;
       if (isServer) {

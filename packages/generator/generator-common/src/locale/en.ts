@@ -91,6 +91,6 @@ export const EN_LOCALE = {
   buildTools: {
     self: 'Build Tools',
     webpack: 'webpack',
-    rspack: 'rspack (experimental)',
+    rspack: 'Rspack (experimental)',
   },
 };

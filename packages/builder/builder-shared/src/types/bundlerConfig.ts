@@ -81,7 +81,7 @@ type InfrastructureLogging = Overlap<
   RspackInfrastructureLogging
 >;
 
-/** The intersection of webpack and rspack */
+/** The intersection of webpack and Rspack */
 export type BundlerConfig = {
   name?: string;
   entry?: Record<string, string | string[]>;
