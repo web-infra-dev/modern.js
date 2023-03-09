@@ -32,7 +32,7 @@ ${
   }
 :::
 
-import Main from '@modern-js/builder-doc/docs/${lng}/config/${dirname}/${name}.md'
+import Main from '@modern-js/builder-doc/docs/${lng}/config/${dirname}/${name}.md';
 
 <Main />
 `;
