@@ -1,3 +1,4 @@
+import { ensureArray } from '@modern-js/utils';
 import { debug } from './logger';
 import {
   BuilderContext,
@@ -5,6 +6,7 @@ import {
   ModifyBundlerChainUtils,
   ModifyBundlerChainFn,
   BundlerChain,
+  SharedBuilderConfig,
 } from './types';
 
 export async function getBundlerChain() {
@@ -20,6 +22,7 @@ export async function modifyBundlerChain(
     hooks: {
       modifyBundlerChainHook: CreateAsyncHook<ModifyBundlerChainFn>;
     };
+    config: Readonly<SharedBuilderConfig>;
   },
   utils: ModifyBundlerChainUtils,
 ) {
@@ -29,6 +32,12 @@ export async function modifyBundlerChain(
 
   const [modifiedBundlerChain] =
     await context.hooks.modifyBundlerChainHook.call(bundlerChain, utils);
+
+  if (context.config.tools?.bundlerChain) {
+    ensureArray(context.config.tools.bundlerChain).forEach(item => {
+      item(modifiedBundlerChain, utils);
+    });
+  }
 
   debug('modify bundler chain done');
 
