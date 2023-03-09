@@ -20,10 +20,10 @@
 
 Modern.js 是一个现代 Web 工程体系，包含以下解决方案：
 
-- [Modern.js Framework](https://modernjs.dev/): 基于 React 的渐进式 Web 开发框架。
-- [Modern.js Module](https://modernjs.dev/module-tools): 简单、高性能的 npm 包开发方案。
-- [Modern.js Doc](https://modernjs.dev/doc-tools/zh/): 现代文档站解决方案。
-- [Modern.js Builder](https://modernjs.dev/builder/): 面向 Web 开发场景的构建引擎。
+- 🦄 [Modern.js Framework](https://modernjs.dev/): 基于 React 的渐进式 Web 开发框架。
+- 🐧 [Modern.js Module](https://modernjs.dev/module-tools): 简单、高性能的 npm 包开发方案。
+- 🐹 [Modern.js Doc](https://modernjs.dev/doc-tools/zh/): 现代文档站解决方案。
+- 🐱 [Modern.js Builder](https://modernjs.dev/builder/): 面向 Web 开发场景的构建引擎。
 
 ## 快速上手
 
@@ -31,11 +31,6 @@ Modern.js 是一个现代 Web 工程体系，包含以下解决方案：
 - 使用 [Modern.js Module](https://modernjs.dev/module-tools/guide/intro/getting-started.html) 来开发一个 npm 包。
 - 使用 [Modern.js Doc](https://modernjs.dev/doc-tools/zh/guide/getting-started.html) 来开发一个文件站点。
 - 使用 [Modern.js Builder](https://modernjs.dev/builder/guide/quick-start.html) 来为你的 Web 框架提供构建能力。
-
-## 文档
-
-- [中文文档](https://modernjs.dev)
-- [英文文档](https://modernjs.dev/en/)
 
 ## 生态
 

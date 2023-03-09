@@ -20,10 +20,10 @@ English | [简体中文](./README.zh-CN.md)
 
 Modern.js is a modern web engineering system, including multiple solutions:
 
-- [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
-- [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
-- [Modern.js Doc](https://modernjs.dev/doc-tools): A documentation site solution with modern tech stack.
-- [Modern.js Builder](https://modernjs.dev/builder/en/): A Build engine for web development.
+- 🦄 [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
+- 🐧 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
+- 🐹 [Modern.js Doc](https://modernjs.dev/doc-tools): A documentation site solution with modern tech stack.
+- 🐱 [Modern.js Builder](https://modernjs.dev/builder/en/): A Build engine for web development.
 
 ## Getting Started
 
@@ -31,11 +31,6 @@ Modern.js is a modern web engineering system, including multiple solutions:
 - Use [Modern.js Module](https://modernjs.dev/module-tools/en/guide/intro/getting-started.html) to develop an npm package.
 - Use [Modern.js Doc](https://modernjs.dev/doc-tools/guide/getting-started.html) to develop a documentation site.
 - Use [Modern.js Builder](https://modernjs.dev/builder/en/guide/quick-start.html) to provide build capabilities for your own web framework.
-
-## Documentation
-
-- [English Documentation](https://modernjs.dev/en/)
-- [中文文档](https://modernjs.dev)
 
 ## Ecosystem
 
