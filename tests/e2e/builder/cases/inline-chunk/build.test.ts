@@ -4,7 +4,7 @@ import { RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
 import { webpackOnlyTest } from '@scripts/helper';
 import { build } from '@scripts/shared';
 
-// todo: rspack not output RUNTIME_CHUNK_NAME.js.map
+// todo: Rspack not output RUNTIME_CHUNK_NAME.js.map
 const isRuntimeChunkInHtml = (html: string): boolean =>
   Boolean(
     html.match(new RegExp(`static/js/${RUNTIME_CHUNK_NAME}\\.(.+)\\.js\\.map`)),

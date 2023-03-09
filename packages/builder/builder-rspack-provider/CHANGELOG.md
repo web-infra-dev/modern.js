@@ -116,8 +116,8 @@
 
 - a5572b8: feat: more plugin rebase in `builder-shared`
   feat: 更多 plugin 下沉到 `builder-shared`
-- a914be8: feat: modern-js support rspack bundler
-  feat: modern-js 支持 rspack 构建工具
+- a914be8: feat: modern-js support Rspack bundler
+  feat: modern-js 支持 Rspack 构建工具
 
 ### Patch Changes
 
@@ -156,9 +156,9 @@
 
   chore: 在 rspack-provider 和 webpack-provider 间复用 splitChunks plugin
 
-- 4dfe1bf: feat(rspack-builder): add rspack minimize plugin
+- 4dfe1bf: feat(rspack-builder): add Rspack minimize plugin
 
-  feat(rspack-builder): 添加 rspack minimize 插件
+  feat(rspack-builder): 添加 Rspack minimize 插件
 
 - Updated dependencies [fd5a3ed]
 - Updated dependencies [67ba34a]

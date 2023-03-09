@@ -5,7 +5,7 @@
 <h1 align="center">Modern.js</h1>
 
 <p align="center">
-  Inspire creativity in Modern web development.
+  Inspire creativity in modern web development.
 </p>
 
 <p align="center">

@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 
 /**
- * Provide some temporary configurations for rspack early transition
+ * Provide some temporary configurations for Rspack early transition
  */
 export const builderPluginTransition = (): BuilderPlugin => ({
   name: 'builder-plugin-transition',

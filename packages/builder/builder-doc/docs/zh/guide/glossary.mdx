@@ -8,17 +8,9 @@
 
 ## Rspack
 
-字节跳动 Web Infra 团队研发的 Rust Bundler，核心架构对齐 webpack 实现，并对社区常用的构建能力做了开箱即用的支持。从长期来看，Rspack 会对齐 webpack 的主要 API，兼容主流的 webpack loader 与 plugin 生态，以保证开发者可以平滑地从 webpack 迁移到 Rspack。
+Rspack 字节跳动 Web Infra 团队研发的 Rust Bundler，它是一个基于 Rust 的高性能构建引擎， 具备与 Webpack 生态系统的互操作性，可以被 Webpack 项目低成本集成，并提供更好的构建性能。
 
-Rspack 通过以下方式来提升编译性能：
-
-- 高度 LTO 优化的 Native code。
-- 充分利用多核优势，整个编译过程充分进行多线程优化。
-- 基于请求的按需编译（Lazy Compilation），减小每次编译的模块数目，以提升冷启动的速度。
-
-:::tip
-Rspack 目前仍在研发过程中，尚未开源。
-:::
+请查看 [Rspack 官网](https://rspack.dev/) 来了解更多。
 
 ## Builder
 

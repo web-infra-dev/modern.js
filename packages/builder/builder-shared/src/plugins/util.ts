@@ -1,4 +1,4 @@
-/** The intersection of webpack and rspack */
+/** The intersection of webpack and Rspack */
 export const COMPILATION_PROCESS_STAGE = {
   PROCESS_ASSETS_STAGE_ADDITIONAL: -2000,
   PROCESS_ASSETS_STAGE_PRE_PROCESS: -1000,

@@ -118,8 +118,8 @@
 
 - a5572b8: feat: more plugin rebase in `builder-shared`
   feat: 更多 plugin 下沉到 `builder-shared`
-- a914be8: feat: modern-js support rspack bundler
-  feat: modern-js 支持 rspack 构建工具
+- a914be8: feat: modern-js support Rspack bundler
+  feat: modern-js 支持 Rspack 构建工具
 
 ### Patch Changes
 

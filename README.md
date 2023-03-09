@@ -5,7 +5,7 @@
 <h1 align="center">Modern.js</h1>
 
 <p align="center">
-  Inspire creativity in Modern web development.
+  Inspire creativity in modern web development.
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@ Modern.js is a modern web engineering system, including multiple solutions:
 - 🦄 [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
 - 🐹 [Modern.js Doc](https://modernjs.dev/doc-tools): A documentation site solution with modern tech stack.
-- 🐱 [Modern.js Builder](https://modernjs.dev/builder/en/): A Build engine for web development.
+- 🐱 [Modern.js Builder](https://modernjs.dev/builder/en/): A build engine for web development.
 
 ## Getting Started
 

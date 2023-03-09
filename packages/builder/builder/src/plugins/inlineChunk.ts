@@ -24,7 +24,7 @@ export const builderPluginInlineChunk = (): DefaultBuilderPlugin => ({
         const {
           disableInlineRuntimeChunk,
           enableInlineStyles,
-          // todo: not support enableInlineScripts in rspack yet, which will take unknown build error
+          // todo: not support enableInlineScripts in Rspack yet, which will take unknown build error
           enableInlineScripts,
         } = config.output;
 

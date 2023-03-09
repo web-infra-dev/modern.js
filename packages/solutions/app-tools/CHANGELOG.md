@@ -167,8 +167,8 @@
 
 - e84d16b: feat: support catch-all routing
   feat: 支持通配路由
-- a914be8: feat: modern-js support rspack bundler
-  feat: modern-js 支持 rspack 构建工具
+- a914be8: feat: modern-js support Rspack bundler
+  feat: modern-js 支持 Rspack 构建工具
 
 ### Patch Changes
 

@@ -1,3 +1,3 @@
 export const EN_LOCALE = {
-  success: `Enable rspack build capability successful! Please add the following code to`,
+  success: `Enable Rspack build capability successful! Please add the following code to`,
 };
