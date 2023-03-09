@@ -29,7 +29,7 @@ Based on past experience, built-in split groups include:
 - Arco (@arco-design/web-react)
 - Lodash (lodash, lodash-es)
 
-This strategy groups commonly used packages and then splits them into separate chunks. Generally, the number of chunks is not large, which is suitable for most applications and is also our recommended  strategy.
+This strategy groups commonly used packages and then splits them into separate chunks. Generally, the number of chunks is not large, which is suitable for most applications and is also our recommended strategy.
 
 #### config
 
@@ -107,7 +107,6 @@ export default {
 
 Under this strategy, after setting `minSize`, `maxSize` to a fixed value, webpack will automatically split them without extra config.
 
-
 #### config
 
 ```ts
@@ -129,7 +128,7 @@ In addition to using the built-in strategies, you can also customize the splitti
 - Custom group
 - Custom webpack `splitChunks` config
 
-It is worth noting that these two custom capabilities can be used together with the built-in  strategy, that is, you can use the built-in strategy to split commonly used packages, and then use the custom function to split other packages.
+It is worth noting that these two custom capabilities can be used together with the built-in strategy, that is, you can use the built-in strategy to split commonly used packages, and then use the custom function to split other packages.
 
 ### Custom Group
 
@@ -144,9 +143,9 @@ export default {
         // Split lodash into a Chunk
         lodash: [/node_modules\/lodash/, /node_modules\/lodash-es/],
       },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 Through `forceSplitting` config, you can easily split some packages into a Chunk.
@@ -163,10 +162,10 @@ export default {
       override: {
         chunks: 'all',
         minSize: 30000,
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 ```
 
 The config in `override` will be merged with the webpack config. For specific config details, please refer to [webpack official documentation](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks).

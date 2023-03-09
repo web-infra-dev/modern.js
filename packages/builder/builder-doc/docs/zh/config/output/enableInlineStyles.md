@@ -41,7 +41,6 @@ dist/static/js/main.js
       /* content of dist/static/css/style.css */
     </style>
   </head>
-  <body>
-  </body>
+  <body></body>
 </html>
 ```

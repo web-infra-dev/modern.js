@@ -16,7 +16,6 @@ Builder 中包括如下的拆包策略：
 - `single-vendor:` 第三方代码在一个 vendor chunk 中。
 - `split-by-size`: 根据模块大小进行拆分。
 
-
 ### split-by-experience
 
 #### 分包策略
@@ -108,7 +107,6 @@ export default {
 
 该策略下，设置 `minSize`、`maxSize` 为一个固定值后，Webpack 会自动进行拆分，无需干预。
 
-
 #### 配置
 
 ```ts
@@ -145,9 +143,9 @@ export default {
         // 将 lodash 拆分为一个 Chunk
         lodash: [/node_modules\/lodash/, /node_modules\/lodash-es/],
       },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 通过 `forceSplitting` 配置，你可以很方便把某些包拆分为一个 Chunk。
@@ -164,10 +162,10 @@ export default {
       override: {
         chunks: 'all',
         minSize: 30000,
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 ```
 
 其中 `override` 中的配置会和 webpack 的配置进行合并，具体配置项请参考 [webpack 官方文档](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks)。

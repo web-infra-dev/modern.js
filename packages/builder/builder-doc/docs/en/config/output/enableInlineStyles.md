@@ -41,7 +41,6 @@ And `dist/static/css/style.css` will be inlined in `index.html`:
       /* content of dist/static/css/style.css */
     </style>
   </head>
-  <body>
-  </body>
+  <body></body>
 </html>
 ```

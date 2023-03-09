@@ -21,19 +21,19 @@ export interface PluginFooOptions {
   message?: string;
 }
 
-export const builderPluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
+export const builderPluginFoo = (
+  options?: PluginFooOptions,
+): BuilderPlugin => ({
   name: 'plugin-foo',
   setup(api) {
     api.onExit(() => {
       const msg = options.message || 'finish.';
-      console.log(msg)
+      console.log(msg);
     });
-  }
+  },
 });
 
-builder.addPlugins([
-  builderPluginFoo({ message: 'some other message.' })
-]);
+builder.addPlugins([builderPluginFoo({ message: 'some other message.' })]);
 ```
 
 函数形式的插件可以 **接受选项对象** 并 **返回插件实例**，并通过闭包机制管理内部状态。
@@ -81,7 +81,9 @@ export const builderPluginUploadDist = (): BuilderPlugin => ({
       const config = api.getNormalizedConfig();
       if (!config.output.disableMinimize) {
         // 其它插件又启用了压缩则报错
-        throw new Error('You must disable minimize to upload readable dist files.');
+        throw new Error(
+          'You must disable minimize to upload readable dist files.',
+        );
       }
     });
     api.onAfterBuild(() => {
@@ -89,7 +91,7 @@ export const builderPluginUploadDist = (): BuilderPlugin => ({
       const distRoot = config.output.distPath.root;
       // TODO: 上传 `distRoot` 目录下所有产物文件
     });
-  }
+  },
 });
 ```
 
@@ -154,9 +156,7 @@ export const builderPluginTypeScriptExt = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackChain(async chain => {
       // 设置 ts-loader 将更多的文件识别为 typescript 模块
-      chain.module
-        .rule(CHAIN_ID.RULE.TS)
-        .test(/\.(ts|mts|cts|tsx|tss|tsm)$/);
+      chain.module.rule(CHAIN_ID.RULE.TS).test(/\.(ts|mts|cts|tsx|tss|tsm)$/);
     });
   },
 });
@@ -171,9 +171,7 @@ export const builderPluginAdminPanel = (): BuilderPlugin => ({
   name: 'builder-admin-panel',
   setup(api) {
     api.modifyWebpackChain(async chain => {
-      config
-        .entry('admin-panel')
-        .add('src/admin/panel.js');
+      config.entry('admin-panel').add('src/admin/panel.js');
     });
   },
 });

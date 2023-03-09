@@ -12,13 +12,13 @@ We recommend enabling Rspack as the bundler for Modern.js framework through the 
 
 Of course, you can also access it manually by following the steps below:
 
-1. Install rspack-provider（The version needs to be the same as the modern.js version).
+1. Install `@modern-js/builder-rspack-provider`（The version needs to be the same as the Modern.js version).
 
 ```
 pnpm add @modern-js/builder-rspack-provider -D
 ```
 
-Confirm the modern.js version via package.json or lock file:
+Confirm the Modern.js version via package.json or lock file:
 
 ```json title=package.json
   "devDependencies": {
@@ -26,7 +26,7 @@ Confirm the modern.js version via package.json or lock file:
   }
 ```
 
-2. Add statement of use:
+2. Declare the use of Rspack in the Modern.js configuration file:
 
 ```ts title=modern.config.ts
 import appTools, { defineConfig } from '@modern-js/app-tools';
@@ -66,7 +66,7 @@ This article will introduce the differences between webpack and Rspack from the 
 Currently, most of configuration options in Builder have been adapted for Rspack.
 Throughout this process, Builder's work includes but is not limited to:
 
-- Replace features that rely on webpack loader/plugin (which are not supported in Rspack) with alternative solutions provided by Rspack. For example, use `css/module` instead of css-loader modules.
+- Replace features that rely on webpack loader/plugin (which are not supported in Rspack) with alternative solutions provided by Rspack. For example, use `css/module` instead of `css-loader` modules.
 - Validating and encapsulating webpack plugins such as `@svgr/webpack` and `webpack-bundle-analyzer`;
 - Encapsulating Rspack built-in features such as `css` and `minify`.
 

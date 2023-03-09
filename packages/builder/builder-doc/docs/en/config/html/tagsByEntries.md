@@ -12,13 +12,9 @@ The usage is the same as `tags`, and you can use the "entry name" as the key to 
 ```js
 export default {
   html: {
-    tags: [
-      { tag: 'script', attrs: { src: 'a.js' } }
-    ],
+    tags: [{ tag: 'script', attrs: { src: 'a.js' } }],
     tagsByEntries: {
-      foo: [
-        { tag: 'script', attrs: { src: 'b.js' } }
-      ],
+      foo: [{ tag: 'script', attrs: { src: 'b.js' } }],
     },
   },
 };

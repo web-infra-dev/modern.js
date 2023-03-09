@@ -21,14 +21,16 @@ export interface PluginFooOptions {
   message?: string;
 }
 
-export const builderPluginFoo = (options?: PluginFooOptions): BuilderPlugin => ({
+export const builderPluginFoo = (
+  options?: PluginFooOptions,
+): BuilderPlugin => ({
   name: 'plugin-foo',
   setup(api) {
     api.onExit(() => {
       const msg = options.message || 'finish.';
-      console.log(msg)
+      console.log(msg);
     });
-  }
+  },
 });
 
 builder.addPlugins([builderPluginFoo('some other message.')]);
@@ -81,7 +83,9 @@ export const builderPluginUploadDist = (): BuilderPlugin => ({
       const config = api.getNormalizedConfig();
       if (!config.output.disableMinimize) {
         // let it crash when enable minimize.
-        throw new Error('You must disable minimize to upload readable dist files.');
+        throw new Error(
+          'You must disable minimize to upload readable dist files.',
+        );
       }
     });
     api.onAfterBuild(() => {
@@ -89,13 +93,13 @@ export const builderPluginUploadDist = (): BuilderPlugin => ({
       const distRoot = config.output.distPath.root;
       // TODO: upload all files in `distRoot`.
     });
-  }
+  },
 });
 ```
 
 There are 3 ways to use Builder config:
 
-- register callback with `api.modifyBuilderConfig(config => {})`  to modify config.
+- register callback with `api.modifyBuilderConfig(config => {})` to modify config.
 - use `api.getBuilderConfig()` to get Builder config.
 - use `api.getNormalizedConfig()` to get finally normalized config.
 
@@ -121,6 +125,7 @@ type NormalizedConfig = {
   };
 };
 ```
+
 The return value type of `getNormalizedConfig()` is slightly different from that of `BuilderConfig` and is narrowed compared to the types described elsewhere in the documentation.
 You don't need to fill in the defaults when you use it.
 
@@ -157,9 +162,7 @@ export const builderPluginTypeScriptExt = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackChain(async chain => {
       // set ts-loader to recognize more files as typescript modules.
-      chain.module
-        .rule(CHAIN_ID.RULE.TS)
-        .test(/\.(ts|mts|cts|tsx|tss|tsm)$/);
+      chain.module.rule(CHAIN_ID.RULE.TS).test(/\.(ts|mts|cts|tsx|tss|tsm)$/);
     });
   },
 });
@@ -174,9 +177,7 @@ export const builderPluginAdminPanel = (): BuilderPlugin => ({
   name: 'builder-admin-panel',
   setup(api) {
     api.modifyWebpackChain(async chain => {
-      config
-        .entry('admin-panel')
-        .add('src/admin/panel.js');
+      config.entry('admin-panel').add('src/admin/panel.js');
     });
   },
 });

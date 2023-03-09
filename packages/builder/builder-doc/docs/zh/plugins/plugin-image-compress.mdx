@@ -56,11 +56,7 @@ builderPluginImageCompress(['jpeg', 'png', 'ico']);
 ```
 
 ```js
-builderPluginImageCompress([
-  { use: 'jpeg' },
-  { use: 'png' },
-  { use: 'ico' },
-]);
+builderPluginImageCompress([{ use: 'jpeg' }, { use: 'png' }, { use: 'ico' }]);
 ```
 
 通过指定配置项可以覆盖默认配置，例如让 jpeg 压缩器识别新的拓展名并设置 png 压缩器的质量：
