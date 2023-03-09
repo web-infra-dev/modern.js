@@ -57,7 +57,7 @@ export function serveSearchIndexMiddleware(config: UserConfig): RequestHandler {
       path.join(config.doc?.base || '', searchIndexFile),
     );
 
-    if (req.url === searchIndexRequestPath) {
+    if (req.url?.includes(searchIndexRequestPath)) {
       res.setHeader('Content-Type', 'application/json');
       const searchIndex = fs.readFileSync(
         path.join(process.cwd(), OUTPUT_DIR, 'static', searchIndexFile),
