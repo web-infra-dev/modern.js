@@ -34,6 +34,8 @@ const sharedDevServerConfigSchema = z.partialObj({
 
 export const sharedToolsConfigSchema = z.partialObj({
   devServer: sharedDevServerConfigSchema,
+
+  bundlerChain: z.arrayOrNot(z.function()),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

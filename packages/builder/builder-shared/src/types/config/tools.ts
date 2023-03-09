@@ -1,10 +1,12 @@
-import type { ChainedConfig, FileFilterUtil } from '../utils';
+import type { ArrayOrNot, ChainedConfig, FileFilterUtil } from '../utils';
 import type { DevServerOptions } from '@modern-js/types';
 import type {
   AutoprefixerOptions,
   SassLoaderOptions,
   LessLoaderOptions,
 } from '../thirdParty';
+import { BundlerChain } from '../bundlerConfig';
+import { ModifyChainUtils } from '../hooks';
 
 /** html-rspack-plugin is compatible with html-webpack-plugin */
 export type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
@@ -23,7 +25,15 @@ export type ToolsLessConfig = ChainedConfig<
   { addExcludes: FileFilterUtil }
 >;
 
+export type ToolsBundlerChainConfig = ArrayOrNot<
+  (chain: BundlerChain, utils: ModifyChainUtils) => void
+>;
+
 export interface SharedToolsConfig {
+  /**
+   * Configure bundler config base on [webpack-chain](https://github.com/neutrinojs/webpack-chain)
+   */
+  bundlerChain?: ToolsBundlerChainConfig;
   /**
    * Modify the config of [autoprefixer](https://github.com/postcss/autoprefixer)
    */
