@@ -1,5 +1,31 @@
 # @modern-js/builder-webpack-provider
 
+## 2.8.0
+
+### Patch Changes
+
+- 65c56f43b9: fix(builder): missing some type in tools.cssExtract
+
+  fix(builder): 修复 tools.cssExtract 缺少部分类型的问题
+
+- 2c1151271d: fix(builder): fix incorrect browserslist config
+
+  fix(builder): 修复错误的 browserslist 配置
+
+- Updated dependencies [ea7bb41e30]
+- Updated dependencies [bd369a89a4]
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [70d82e1408]
+- Updated dependencies [2c1151271d]
+- Updated dependencies [481461a61d]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/server@2.8.0
+  - @modern-js/builder-shared@2.8.0
+  - @modern-js/utils@2.8.0
+  - @modern-js/types@2.8.0
+  - @modern-js/babel-preset-app@2.8.0
+  - @modern-js/e2e@2.8.0
+
 ## 2.7.0
 
 ### Patch Changes

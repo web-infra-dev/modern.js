@@ -1,5 +1,38 @@
 # @modern-js/builder-rspack-provider
 
+## 2.8.0
+
+### Minor Changes
+
+- 40f5039b17: feat(builder): update rspack to 0.1.0
+
+  feat(builder): 升级 rspack 至 0.1.0
+
+### Patch Changes
+
+- bc943c9b04: fix: specify the resolve.conditionNames when target = node.
+  fix: 当 target = node，指定 resolve.conditionNames
+- 1242f5d8d6: fix(builder-rspack-provider): support entry mode polyfill
+
+  fix(builder-rspack-provider): 支持 entry 模式的 polyfill 注入
+
+- 457ee832b9: hotfix(builder): use community loader instead of Rspack unstable sass & less loader
+
+  hotfix(builder): 使用社区 sass-loader 和 less-loader 替代 Rspack 非稳定的 sass 和 less loader
+
+- Updated dependencies [ea7bb41e30]
+- Updated dependencies [bd369a89a4]
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [70d82e1408]
+- Updated dependencies [2c1151271d]
+- Updated dependencies [481461a61d]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/server@2.8.0
+  - @modern-js/builder-shared@2.8.0
+  - @modern-js/utils@2.8.0
+  - @modern-js/types@2.8.0
+  - @modern-js/e2e@2.8.0
+
 ## 2.7.0
 
 ### Patch Changes

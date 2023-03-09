@@ -5,7 +5,7 @@
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": "web-infra-dev/modern.js",
   "license": "MIT",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "main": "index.js",
   "scripts": {
     "dev": "modern dev",

@@ -1,5 +1,30 @@
 # @modern-js/runtime
 
+## 2.8.0
+
+### Patch Changes
+
+- 3ef832741b: fix: fix types pathname for model field
+  fix: 修复 model 字段对应的 types 路径
+- 9330022f4e: fix: add missing react-router type
+  fix: 添加丢失的 react-router 导出类型
+- 40747e6fdd: fix: fix the order of runtime plugins
+  fix: 修复 runtime plugin 执行顺序
+- 58a1fc64da: fix: pass basename to `matchRoutes`
+  fix: 修复 `matchRoutes` 未传入 basename 参数
+- 4cfea8ce49: fix: remove esbuild from bff-core
+  fix: 从 bff-core 移除 esbuild
+- 1f6ca2c7fb: fix: nested routes in ssg
+  fix: 修复嵌套路由在 SSG 中的问题
+- 9c9ebba6f2: fix: fix duplicate re-exports of reduck
+  fix: 修复从 reduck 重复导出的 API
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [70d82e1408]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/utils@2.8.0
+  - @modern-js/types@2.8.0
+  - @modern-js/plugin@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes

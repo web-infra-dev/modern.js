@@ -3,7 +3,6 @@ import { EN_US } from './enUS';
 export const ZH_CN: Record<keyof typeof EN_US, string> = {
   introduction: '介绍',
   quickStart: '快速上手',
-  features: '特性',
 
   // Slogans
   slogan: '基于 React 的渐进式现代 Web 开发框架',
@@ -24,12 +23,12 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   feature6: '易于配置',
   featureDesc6: '以零配置启动，然后一切皆可配置。',
 
-  // Ecosystem
-  ecosystem: '生态',
-  ecosystemDesc1: '简单、高性能的现代 npm 包开发方案。',
-  ecosystemDesc2: '面向 Web 开发场景的构建引擎。',
-  ecosystemDesc3: '一站式微前端解决方案。',
-  ecosystemDesc4: '基于 Redux 的状态管理库。',
+  // Solutions
+  solutions: '解决方案',
+  solutionsDesc1: '基于 React 的渐进式 Web 开发框架。',
+  solutionsDesc2: '简单、高性能的 npm 包开发方案。',
+  solutionsDesc3: '现代文档站解决方案。',
+  solutionsDesc4: '面向 Web 开发场景的构建引擎。',
 
   // Footer
   guide: '指南',

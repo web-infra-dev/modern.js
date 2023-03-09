@@ -1,5 +1,17 @@
 # @modern-js/babel-preset-base
 
+## 2.8.0
+
+### Patch Changes
+
+- 2c1151271d: fix(builder): fix incorrect browserslist config
+
+  fix(builder): 修复错误的 browserslist 配置
+
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Patch Changes
