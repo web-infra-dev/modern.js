@@ -3,7 +3,7 @@ import '../dist/types/router';
 
 declare module '@modern-js/app-tools' {
   interface RuntimeUserConfig {
-    router?: RouterConfig | boolean;
+    router?: Partial<RouterConfig> | boolean;
   }
 }
 

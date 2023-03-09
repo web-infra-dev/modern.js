@@ -73,7 +73,7 @@ export type MaybeAsync<T> = Promise<T> | T;
 export type ApiRunner<
   Input extends object | void | unknown,
   Output extends MaybeAsync<any>,
-> = (...args: Input extends void ? void : [input: Input]) => Output;
+> = (...args: Input extends void ? [] : [input: Input]) => Output;
 
 export type NonNullable<T> = Exclude<T, null | undefined>;
 
