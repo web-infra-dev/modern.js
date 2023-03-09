@@ -208,7 +208,7 @@ export default defineConfig({
           nav: getNavbar('en'),
           sidebar: getSidebar('en'),
           title: 'Modern.js Builder',
-          description: 'A Build Engine for web development.',
+          description: 'A build engine for web development.',
         },
       ],
     },
