@@ -1,5 +1,15 @@
 # @modern-js/plugin-ssg
 
+## 2.8.0
+
+### Patch Changes
+
+- 1f6ca2c7fb: fix: nested routes in ssg
+  fix: 修复嵌套路由在 SSG 中的问题
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes

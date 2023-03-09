@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.0.10
+
+### Patch Changes
+
+- 2a3f7af59e: feat: update Rspack text
+
+  feat: 更新 Rspack 文案信息
+
+  - @modern-js/plugin-i18n@2.8.0
+
 ## 3.0.9
 
 ### Patch Changes

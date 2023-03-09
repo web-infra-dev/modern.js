@@ -1,5 +1,22 @@
 # @modern-js/plugin-changeset
 
+## 2.8.0
+
+### Patch Changes
+
+- 1e7c2c5a65: feat: bump @changesets/cli version
+
+  feat: 升级 @changesets/cli 版本
+
+- 45d726979b: feat: gen release note support return result
+
+  feat: 生成 ReleaseNote 函数支持返回结果
+
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/utils@2.8.0
+  - @modern-js/plugin-i18n@2.8.0
+
 ## 2.7.0
 
 ### Patch Changes

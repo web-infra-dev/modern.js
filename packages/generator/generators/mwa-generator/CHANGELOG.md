@@ -1,5 +1,17 @@
 # @modern-js/mwa-generator
 
+## 3.0.10
+
+### Patch Changes
+
+- 6d3144b95f: fix: fix web app template
+
+  fix: 修复 web app 模板
+
+- cde9e8df93: fix(generators): update api document link
+
+  fix(generators): 更新 api 文档链接
+
 ## 3.0.9
 
 ## 3.0.8

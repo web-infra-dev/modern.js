@@ -1,5 +1,19 @@
 # @modern-js/builder-doc
 
+## 2.8.0
+
+### Minor Changes
+
+- 9736c6a43d: feat: enable swc css minify
+
+  feat: 启用 swc css 压缩
+
+### Patch Changes
+
+- 2c1151271d: fix(builder): fix incorrect browserslist config
+
+  fix(builder): 修复错误的 browserslist 配置
+
 ## 2.7.0
 
 ### Patch Changes

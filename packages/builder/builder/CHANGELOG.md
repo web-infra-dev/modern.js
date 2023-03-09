@@ -1,5 +1,21 @@
 # @modern-js/builder
 
+## 2.8.0
+
+### Patch Changes
+
+- bd369a89a4: fix(builder): failed to set CDN URL via html.tags
+
+  fix(builder): 修复 html.tags 无法设置 CDN URL 的问题
+
+- Updated dependencies [bd369a89a4]
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [2c1151271d]
+- Updated dependencies [481461a61d]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/builder-shared@2.8.0
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes

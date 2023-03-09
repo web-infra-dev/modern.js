@@ -1,5 +1,18 @@
 # @modern-js/prod-server
 
+## 2.8.0
+
+### Patch Changes
+
+- 1104a9f18b: feat: support start web service only
+  feat: 支持只启动 web 服务
+- 70d82e1408: fix: use mock host instead real url host for url parse, for new URL not support ipv6, and we only need parse url path & search
+  fix: 使用虚拟的域名代替真实的主机名，因为 new URL 不支持解析 ipv6 的域名，并且我们只需要解析 url 的路径和查询字符串
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/utils@2.8.0
+  - @modern-js/server-core@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes

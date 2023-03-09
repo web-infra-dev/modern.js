@@ -1,7 +1,7 @@
 {
   "name": "@cypress-test/garfish-main",
   "private": true,
-  "version": "0.1.0",
+  "version": "2.8.0",
   "scripts": {
     "dev": "DEBUG=modern-js:plugin-garfish modern dev",
     "build": "modern build",

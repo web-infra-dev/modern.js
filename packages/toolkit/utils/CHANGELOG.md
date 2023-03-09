@@ -1,5 +1,14 @@
 # @modern-js/utils
 
+## 2.8.0
+
+### Patch Changes
+
+- 1104a9f18b: feat: support start web service only
+  feat: 支持只启动 web 服务
+- 1f6ca2c7fb: fix: nested routes in ssg
+  fix: 修复嵌套路由在 SSG 中的问题
+
 ## 2.7.0
 
 ### Minor Changes
