@@ -33,8 +33,6 @@ export interface ModernServerContext {
 
   href: string;
 
-  parsedURL: URL;
-
   path: string;
 
   querystring: string;
