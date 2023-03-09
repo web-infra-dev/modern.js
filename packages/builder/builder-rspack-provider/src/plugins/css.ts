@@ -115,7 +115,7 @@ export async function applyBaseCSSRule(
   };
 
   /**
-   * TODO: support style-loader & ignore css (need rspack support inline css first)
+   * TODO: support style-loader & ignore css (need Rspack support inline css first)
    */
   //   if (isServer || isWebWorker) {
   //     const { default: ignoreCssLoader } = await import('../loaders/ignoreCssLoader');
@@ -237,7 +237,7 @@ export const builderPluginCss = (): BuilderPlugin => {
         async (rspackConfig, { isProd, isServer, isWebWorker }) => {
           const config = api.getNormalizedConfig();
 
-          // rspack not support hash:base64:5
+          // Rspack not support hash:base64:5
           const localIdentName =
             config.output.cssModuleLocalIdentName ||
             // Using shorter classname in production to reduce bundle size

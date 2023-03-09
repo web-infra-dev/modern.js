@@ -12,7 +12,7 @@ describe('formatConfig', () => {
     ).toThrowError('exclude only support string or RegExp, but found function');
   });
 
-  it('should convert bundler rule to rspack rule', async () => {
+  it('should convert bundler rule to Rspack rule', async () => {
     expect(formatRule('...')).toBe('...');
 
     expect(
@@ -84,7 +84,7 @@ describe('formatConfig', () => {
     );
   });
 
-  it('should convert bundler splitChunks to rspack splitChunks', async () => {
+  it('should convert bundler splitChunks to Rspack splitChunks', async () => {
     expect(formatSplitChunks()).not.toBeDefined();
     expect(formatSplitChunks(false)).toBeFalsy();
 

@@ -16,7 +16,7 @@ async function modifyRspackConfig(
   rspackConfig: RspackConfig,
   utils: ModifyRspackConfigUtils,
 ) {
-  debug('modify rspack config');
+  debug('modify Rspack config');
   let [modifiedConfig] = await context.hooks.modifyRspackConfigHook.call(
     rspackConfig,
     utils,
@@ -33,7 +33,7 @@ async function modifyRspackConfig(
     );
   }
 
-  debug('modify rspack config done');
+  debug('modify Rspack config done');
   return modifiedConfig;
 }
 
@@ -125,7 +125,7 @@ const convertToRspackConfig = (config: BundlerConfig): RspackConfig => {
         typeof config.cache === 'object' && config.cache.type === 'filesystem'
           ? {
               ...config.cache,
-              /** rspack buildDependencies type is array */
+              /** Rspack buildDependencies type is array */
               buildDependencies: Object.values(
                 config.cache.buildDependencies || [],
               ).flat(),

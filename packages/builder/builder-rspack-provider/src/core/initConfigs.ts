@@ -50,7 +50,7 @@ export async function initConfigs({
     targets.map(target => generateRspackConfig({ target, context })),
   );
 
-  // write builder config and rspack config to disk in debug mode
+  // write builder config and Rspack config to disk in debug mode
   if (isDebug()) {
     const inspect = () => {
       const inspectOptions: InspectConfigOptions = {
