@@ -55,6 +55,12 @@ describe('swc minify', () => {
     await modernBuild(appDir);
 
     const cssFile = getCssFiles(appDir)[0];
-    expect(cssFile).toMatchSnapshot('swc minified css');
+    const content = readFileSync(
+      path.resolve(appDir, `dist/static/css/${cssFile}`),
+      'utf8',
+    );
+    expect(content).toContain(
+      '@charset "UTF-8";:root{--bs-blue:#0d6efd;--bs-indigo:#6610f2;',
+    );
   });
 });

@@ -3371,6 +3371,7 @@ importers:
       '@modern-js/doc-tools': workspace:*
       '@types/fs-extra': ^9
       '@types/node': ^16
+      cross-env: ^7.0.3
       fs-extra: ^10
       ts-node: ^10
       typescript: ^4
@@ -3378,6 +3379,7 @@ importers:
       '@modern-js/doc-tools': link:../../solutions/doc-tools
       '@types/fs-extra': 9.0.13
       '@types/node': 16.18.10
+      cross-env: 7.0.3
       fs-extra: 10.1.0
       ts-node: 10.8.1_dlsrttbneesnknba5tvqdzugca
       typescript: 4.9.5
@@ -17844,6 +17846,14 @@ packages:
     dependencies:
       is-nan: 1.3.2
       moment-timezone: 0.5.34
+    dev: true
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
     dev: true
 
   /cross-fetch/3.1.5:
@@ -33240,7 +33250,7 @@ packages:
     dependencies:
       chalk: 4.1.2
       enhanced-resolve: 5.10.0
-      tsconfig-paths: 4.1.2
+      tsconfig-paths: 4.1.1
     dev: false
 
   /tsconfig-paths/3.14.1:
@@ -33258,7 +33268,6 @@ packages:
       json5: 2.2.1
       minimist: 1.2.6
       strip-bom: 3.0.0
-    dev: true
 
   /tsconfig-paths/4.1.2:
     resolution: {integrity: sha512-uhxiMgnXQp1IR622dUXI+9Ehnws7i/y6xvpZB9IbUVOPy0muvdvgXeZOn88UcGPiT98Vp3rJPTa8bFoalZ3Qhw==}
@@ -33267,6 +33276,7 @@ packages:
       json5: 2.2.3
       minimist: 1.2.6
       strip-bom: 3.0.0
+    dev: true
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}

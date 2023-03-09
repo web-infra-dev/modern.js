@@ -1,7 +1,7 @@
 import path from 'path';
 import { visit } from 'unist-util-visit';
-import ora from 'ora';
 import type { Plugin } from 'unified';
+import { logger } from '@modern-js/utils/logger';
 import { isProduction, withBase } from '@/shared/utils';
 import {
   normalizeRoutePath,
@@ -58,7 +58,9 @@ export const remarkCheckDeadLinks: Plugin<
     });
     // output error info
     if (errorInfos.length > 0) {
-      errorInfos?.forEach(err => ora().fail(err));
+      errorInfos?.forEach(err => {
+        logger.error(err);
+      });
       if (isProduction()) {
         throw new Error('Dead link found');
       }

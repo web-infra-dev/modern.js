@@ -9,13 +9,14 @@ import Document from '../document/cli';
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
   post: [
-    '@modern-js/plugin-router',
     '@modern-js/plugin-ssr',
-    '@modern-js/plugin-document',
     '@modern-js/plugin-state',
+    '@modern-js/plugin-router',
+    '@modern-js/plugin-document',
     '@modern-js/plugin-design-token',
   ],
-  usePlugins: [PluginState(), PluginSSR(), PluginRouter(), Document()],
+  // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
+  usePlugins: [PluginSSR(), PluginState(), PluginRouter(), Document()],
   setup: api => {
     return {
       config() {

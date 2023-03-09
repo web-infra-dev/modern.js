@@ -27,6 +27,7 @@
     "fs-extra": "^10",
     "@types/node": "^16",
     "@types/fs-extra": "^9",
-    "@modern-js/doc-tools": "workspace:*"
+    "@modern-js/doc-tools": "workspace:*",
+    "cross-env": "^7.0.3"
   }
 }

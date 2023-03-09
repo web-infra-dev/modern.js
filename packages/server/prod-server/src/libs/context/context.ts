@@ -7,6 +7,8 @@ import createEtag from 'etag';
 import fresh from 'fresh';
 import { headersWithoutCookie } from '../../utils';
 
+const MOCK_URL_BASE = 'https://modernjs.dev/';
+
 export type ContextOptions = {
   etag?: boolean;
 };
@@ -52,6 +54,12 @@ export class ModernServerContext implements ModernServerContextInterface {
     this.serverData = {};
 
     this.bind();
+  }
+
+  private get parsedURL() {
+    // only for parse url, use mock
+    const url = new URL(this.req.url!, MOCK_URL_BASE);
+    return url;
   }
 
   private bind() {
@@ -166,29 +174,21 @@ export class ModernServerContext implements ModernServerContextInterface {
     return this.origin + this.url;
   }
 
-  public get parsedURL() {
-    const url = new URL(this.req.url!, this.origin);
-    return url;
-  }
-
   public get path() {
     return this.parsedURL.pathname;
   }
 
   public set path(p) {
-    const url = new URL(this.req.url!, this.origin);
     // this should never happened
-    if (!url || !p) {
+    if (!p) {
       return;
     }
 
-    if (url.pathname === p) {
+    if (this.path === p) {
       return;
     }
 
-    url.pathname = p;
-
-    this.url = url.toString();
+    this.url = p + this.parsedURL.search;
   }
 
   public get querystring() {
