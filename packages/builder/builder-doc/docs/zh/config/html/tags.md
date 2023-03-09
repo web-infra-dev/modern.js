@@ -29,7 +29,7 @@ export interface HtmlInjectTag {
 ```js
 export default {
   output: {
-    assetPrefix: '//example.com/'
+    assetPrefix: '//example.com/',
   },
   html: {
     tags: [
@@ -93,7 +93,9 @@ export type HtmlInjectTagHandler = (
 export default {
   html: {
     tags: [
-      tags => { tags.splice(0, 1); },
+      tags => {
+        tags.splice(0, 1);
+      },
       /* ^?
        *   { tag: 'script', attrs: { src: 'b.js' } },
        *   ... some other headTags

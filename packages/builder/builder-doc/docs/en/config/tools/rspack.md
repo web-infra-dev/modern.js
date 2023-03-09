@@ -181,9 +181,7 @@ export default {
   tools: {
     rspack: (config, { prependPlugins }) => {
       // add a single plugin
-      prependPlugins(
-        new PluginA(),
-      );
+      prependPlugins(new PluginA());
 
       // Add multiple plugins
       prependPlugins([new PluginA(), new PluginB()]);
@@ -203,9 +201,7 @@ export default {
   tools: {
     rspack: (config, { appendPlugins }) => {
       // add a single plugin
-      appendPlugins([
-        new PluginA(),
-      ]);
+      appendPlugins([new PluginA()]);
 
       // Add multiple plugins
       appendPlugins([new PluginA(), new PluginB()]);

@@ -272,11 +272,11 @@ So the HTML output built with the above configuration will look like this.
 <html>
   <head>
     <script src="//example.com/b.js"></script>
-    <link href="//example.com/style.css" rel="stylesheet">
-    <link href="page.css" rel="stylesheet">
+    <link href="//example.com/style.css" rel="stylesheet" />
+    <link href="page.css" rel="stylesheet" />
     <!-- some other headTags... -->
     <script src="//example.com/a.js"></script>
-    <meta name="referrer" content="origin">
+    <meta name="referrer" content="origin" />
   </head>
   <body>
     <!-- some other bodyTags... -->
@@ -293,7 +293,9 @@ So the HTML output built with the above configuration will look like this.
 export default {
   html: {
     tags: [
-      tags => { tags.splice(0, 1); },
+      tags => {
+        tags.splice(0, 1);
+      },
       { tag: 'script', attrs: { src: 'a.js' }, head: false },
       { tag: 'script', attrs: { src: 'b.js' }, append: false },
       { tag: 'script', attrs: { src: 'c.js' } },

@@ -12,13 +12,9 @@
 ```js
 export default {
   html: {
-    tags: [
-      { tag: 'script', attrs: { src: 'a.js' } }
-    ],
+    tags: [{ tag: 'script', attrs: { src: 'a.js' } }],
     tagsByEntries: {
-      foo: [
-        { tag: 'script', attrs: { src: 'b.js' } }
-      ],
+      foo: [{ tag: 'script', attrs: { src: 'b.js' } }],
     },
   },
 };

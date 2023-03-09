@@ -181,9 +181,7 @@ export default {
   tools: {
     rspack: (config, { prependPlugins }) => {
       // 添加单个插件
-      prependPlugins(
-        new PluginA(),
-      );
+      prependPlugins(new PluginA());
 
       // 以数组形式添加多个插件
       prependPlugins([new PluginA(), new PluginB()]);
@@ -203,9 +201,7 @@ export default {
   tools: {
     rspack: (config, { appendPlugins }) => {
       // 添加单个插件
-      appendPlugins([
-        new PluginA(),
-      ]);
+      appendPlugins([new PluginA()]);
 
       // 以数组形式添加多个插件
       appendPlugins([new PluginA(), new PluginB()]);

@@ -63,7 +63,7 @@ export default () => ({
       config.html = config.html || {};
       config.html.title = 'Hello World!';
       return mergeBuilderConfig(config, {
-        source: { preEntry: 'foo.js' }
+        source: { preEntry: 'foo.js' },
       });
     });
   },
@@ -109,9 +109,7 @@ export default () => ({
         chain.devtool('eval');
       }
 
-      chain
-        .plugin('bundle-analyze')
-        .use(BundleAnalyzerPlugin);
+      chain.plugin('bundle-analyze').use(BundleAnalyzerPlugin);
     });
   },
 });

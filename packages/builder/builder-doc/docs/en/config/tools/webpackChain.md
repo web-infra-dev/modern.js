@@ -213,7 +213,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `PLUGIN.INSPECTOR`             | correspond to `@modern-js/inspector-webpack-plugin`                                                            |
 | `PLUGIN.SUBRESOURCE_INTEGRITY` | correspond to `webpack-subresource-integrity`                                                                  |
 | `PLUGIN.ASSETS_RETRY`          | correspond to webpack static asset retry plugin in Builder                                                     |
-| `PLUGIN.AUTO_SET_ROOT_SIZE`           | correspond to automatically set root font size plugin in Builder                                               |
+| `PLUGIN.AUTO_SET_ROOT_SIZE`    | correspond to automatically set root font size plugin in Builder                                               |
 
 ### CHAIN_ID.MINIMIZER
 

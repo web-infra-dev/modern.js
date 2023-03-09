@@ -29,7 +29,7 @@ A tag object can be used to describe the tag to be injected and the location of 
 ```js
 export default {
   output: {
-    assetPrefix: '//example.com/'
+    assetPrefix: '//example.com/',
   },
   html: {
     tags: [
@@ -93,7 +93,9 @@ The callback function accepts a tag list as an argument and needs to modify or r
 export default {
   html: {
     tags: [
-      tags => { tags.splice(0, 1); },
+      tags => {
+        tags.splice(0, 1);
+      },
       /* ^?
        *   { tag: 'script', attrs: { src: 'b.js' } },
        *   ... some other headTags
