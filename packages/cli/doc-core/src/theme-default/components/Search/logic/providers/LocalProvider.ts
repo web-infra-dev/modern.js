@@ -30,7 +30,7 @@ export class LocalProvider implements Provider {
     const result = await fetch(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error __ASSET_PREFIX__ is injected by webpack
-      `${__ASSET_PREFIX__}/${SEARCH_INDEX_NAME}.${searchIndexHash}.json`,
+      `${__ASSET_PREFIX__}/static/${SEARCH_INDEX_NAME}.${searchIndexHash}.json`,
     );
     return result.json();
   }
