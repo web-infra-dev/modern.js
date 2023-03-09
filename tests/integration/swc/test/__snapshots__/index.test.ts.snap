@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`swc minify should minify css: swc minified css 1`] = `"main.fa69b7c4.css"`;
