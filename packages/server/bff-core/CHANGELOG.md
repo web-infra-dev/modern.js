@@ -1,5 +1,16 @@
 # @modern-js/bff-core
 
+## 2.8.0
+
+### Patch Changes
+
+- 4cfea8ce49: fix: remove esbuild from bff-core
+  fix: 从 bff-core 移除 esbuild
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/utils@2.8.0
+  - @modern-js/bff-runtime@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes

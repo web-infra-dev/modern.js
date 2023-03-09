@@ -1,5 +1,15 @@
 # @modern-js/create-request
 
+## 2.8.0
+
+### Patch Changes
+
+- 1a8d0ffef0: fix: remove require.cache first when the bff loader execute
+  fix: 当 bff.loader 执行时，移除 require.cache
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes

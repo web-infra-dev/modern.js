@@ -1,5 +1,56 @@
 # @modern-js/app-tools
 
+## 2.8.0
+
+### Minor Changes
+
+- ab1e8065cb: feat: support router-plugin in Rspack bundler.
+  feat: 在 Rspack bundler 里支持 router-plugin
+
+### Patch Changes
+
+- a12b5b4ec8: fix: the adapterSSR builder plugin modifyChain Hooks is not async function
+  fix: adapterSSR builder 插件的 adapterSSR Hooks 不是异步函数
+- 1104a9f18b: feat: support start web service only
+  feat: 支持只启动 web 服务
+- 1f6ca2c7fb: fix: nested routes in ssg
+  fix: 修复嵌套路由在 SSG 中的问题
+- 2b6b1a014c: refactor: app-tools builder
+  refactor: 重构 app-tools builder
+- 250f794c40: fix: move the analyze webpackChain config to app-tools builder shared
+  fix: 将 anylyze 的 `webpackChain` 配置项移植进 app-tools builder shared
+- Updated dependencies [ea7bb41e30]
+- Updated dependencies [65c56f43b9]
+- Updated dependencies [0cf8540ffe]
+- Updated dependencies [bd369a89a4]
+- Updated dependencies [bc943c9b04]
+- Updated dependencies [40f5039b17]
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [70d82e1408]
+- Updated dependencies [2c1151271d]
+- Updated dependencies [481461a61d]
+- Updated dependencies [1242f5d8d6]
+- Updated dependencies [1f6ca2c7fb]
+- Updated dependencies [457ee832b9]
+  - @modern-js/server@2.8.0
+  - @modern-js/builder-webpack-provider@2.8.0
+  - @modern-js/plugin-data-loader@2.8.0
+  - @modern-js/builder@2.8.0
+  - @modern-js/builder-shared@2.8.0
+  - @modern-js/builder-rspack-provider@2.8.0
+  - @modern-js/prod-server@2.8.0
+  - @modern-js/utils@2.8.0
+  - @modern-js/types@2.8.0
+  - @modern-js/builder-plugin-esbuild@2.8.0
+  - @modern-js/builder-plugin-node-polyfill@2.8.0
+  - @modern-js/core@2.8.0
+  - @modern-js/plugin-i18n@2.8.0
+  - @modern-js/plugin-lint@2.8.0
+  - @modern-js/new-action@2.8.0
+  - @modern-js/node-bundle-require@2.8.0
+  - @modern-js/upgrade@2.8.0
+  - @modern-js/plugin@2.8.0
+
 ## 2.7.0
 
 ### Minor Changes

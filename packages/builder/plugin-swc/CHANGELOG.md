@@ -1,5 +1,43 @@
 # @modern-js/builder-plugin-swc
 
+## 2.8.0
+
+### Minor Changes
+
+- 9736c6a43d: feat: enable swc css minify
+
+  feat: 启用 swc css 压缩
+
+### Patch Changes
+
+- 2c1151271d: fix(builder): fix incorrect browserslist config
+
+  fix(builder): 修复错误的 browserslist 配置
+
+- 6379f52a89: fix(builder-plugin-swc): should handle object type sourceMap correctly
+
+  fix(builder-plugin-swc): 正确处理 loader 接收的对象类型 sourceMap
+
+- dd40c95411: fix(builder-plugin-swc): should not override user react runtime
+
+  fix(builder-plugin-swc): 不应该覆盖用户 react runtime 配置
+
+- 05d485286c: test(builder-plugin-swc): add test for builder-plugin-swc loader
+
+  test(builder-plugin-swc): 添加 builder-plugin-swc 的 loader 测试
+
+- 186e029330: fix(plugin-swc): missing @modern-js/builder-shared dependency
+
+  fix(plugin-swc): 修复缺少 @modern-js/builder-shared 依赖的问题
+
+- Updated dependencies [bd369a89a4]
+- Updated dependencies [1104a9f18b]
+- Updated dependencies [2c1151271d]
+- Updated dependencies [481461a61d]
+- Updated dependencies [1f6ca2c7fb]
+  - @modern-js/builder-shared@2.8.0
+  - @modern-js/utils@2.8.0
+
 ## 2.7.0
 
 ### Patch Changes
