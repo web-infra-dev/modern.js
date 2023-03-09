@@ -20,6 +20,7 @@ import { remarkCheckDeadLinks } from './remarkPlugins/checkDeadLink';
 export async function createMDXOptions(
   userRoot: string,
   config: UserConfig,
+  checkDeadLinks: boolean,
 ): Promise<Options> {
   const {
     remarkPlugins: remarkPluginsFromConfig = [],
@@ -33,7 +34,6 @@ export async function createMDXOptions(
     plugin => plugin.markdown?.rehypePlugins || [],
   ) as PluggableList;
   const defaultLang = config.doc?.lang || '';
-  const enableDeadLinksCheck = config.doc?.markdown?.checkDeadLinks ?? false;
   return {
     remarkPlugins: [
       remarkPluginContainer,
@@ -49,7 +49,7 @@ export async function createMDXOptions(
           root: userRoot,
         },
       ],
-      enableDeadLinksCheck && [
+      checkDeadLinks && [
         remarkCheckDeadLinks,
         {
           root: userRoot,

@@ -26,18 +26,19 @@ const require = createRequire(import.meta.url);
 async function createInternalBuildConfig(
   userRoot: string,
   config: UserConfig,
-  _isSSR: boolean,
+  isSSR: boolean,
 ): Promise<BuilderConfig> {
   const cwd = process.cwd();
   const { default: fs } = await import('@modern-js/utils/fs-extra');
-  const mdxOptions = await createMDXOptions(userRoot, config);
   const CUSTOM_THEME_DIR =
     config.doc?.themeDir ?? path.join(process.cwd(), 'theme');
   const outDir = config.doc?.outDir ?? OUTPUT_DIR;
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
     : path.join(PACKAGE_ROOT, 'src', 'theme-default');
-  const checkDeadLinks = config.doc?.markdown?.checkDeadLinks ?? false;
+  const checkDeadLinks =
+    (config.doc?.markdown?.checkDeadLinks && !isSSR) ?? false;
+  const mdxOptions = await createMDXOptions(userRoot, config, checkDeadLinks);
   const base = config.doc?.base ?? '';
 
   const publicDir = path.join(userRoot, 'public');
