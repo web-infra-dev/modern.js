@@ -8,7 +8,6 @@ export const EN_US = {
   secondSlogan2: 'Make innovation happen faster.',
 
   // Features
-  features: 'Features',
   feature1: 'Rust Bundler',
   featureDesc1: 'Easily switch to Rspack bundler with faster build speed.',
   feature2: 'Integrated BFF',
@@ -24,12 +23,12 @@ export const EN_US = {
   featureDesc6:
     'Launch with zero configuration, then everything is configurable.',
 
-  // Ecosystem
-  ecosystem: 'Ecosystem',
-  ecosystemDesc1: 'A powerful solution for npm package development.',
-  ecosystemDesc2: 'A Build Engine for web development.',
-  ecosystemDesc3: 'A powerful micro front-end framework.',
-  ecosystemDesc4: 'A redux-based state management library.',
+  // Solutions
+  solutions: 'Solutions',
+  solutionsDesc1: 'A progressive React framework for web development.',
+  solutionsDesc2: 'A powerful solution for npm package development.',
+  solutionsDesc3: 'A documentation site solution with modern tech stack.',
+  solutionsDesc4: 'A Build Engine for web development.',
 
   // Footer
   guide: 'Guide',

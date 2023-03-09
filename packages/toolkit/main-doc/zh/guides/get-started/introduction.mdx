@@ -5,27 +5,43 @@ sidebar_position: 1
 
 # Modern.js 介绍
 
-**Modern.js** 是基于 React 的渐进式现代 Web 开发框架。
+**Modern.js 是字节跳动 Web 工程体系的开源版本**，它提供多个解决方案，来帮助开发者解决不同研发场景下的问题。
 
-框架内置多种开箱即用的开发工具，拥有极致的构建性能，支持零配置的渲染范式切换，一体化的 API 调用。并从三种工程方案出发（应用工程方案、模块工程方案，Monorepo 工程方案），支持全链路的前端研发。
+目前 Modern.js 包含三个解决方案，分别面向 Web 应用开发场景、npm 包开发场景和文档站开发场景：
 
-Modern.js 是字节跳动的底层前端研发框架，已经直接或间接的服务上千个应用，包括中后台、PC Web、H5 等多种应用场景。框架覆盖完整的生命周期，拥有完善的插件体系，提供高度定制能力。支持通过生成器插件自定义业务线专属的工程方案，定制各种功能扩展和业务需求，帮助开发者更快速的搭建应用。
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/Solutions-0602.png)
 
-## 为什么使用 Modern.js
+作为 Modern.js 工程体系的一部分，以上每个解决方案都可以被单独使用，并且各自部署了独立的文档站点。开发者可以按需选择其中的一个或多个解决方案来使用。
+
+## 关于文档
+
+**当前文档站对应的是 Modern.js 框架**，适用于开发 Web 应用。
+
+- 如果你需要开发一个 npm 包，请移步至 [Modern.js Module](https://modernjs.dev/module-tools) 文档。
+- 如果你需要开发一个文档站点，请移步至 [Modern.js Doc](https://modernjs.dev/doc-tools/zh) 文档。
+- 如果你需要基于 Modern.js 的构建引擎来实现一个 Web 开发框架，请移步至 [Modern.js Builder](https://modernjs.dev/builder) 文档。
+
+:::tip
+由于 Modern.js 框架的使用最为广泛，在本文档站中，我们会省略「框架」，直接称其为 Modern.js。
+:::
+
+## Modern.js 框架
+
+**Modern.js 框架是一个基于 React 的渐进式 Web 开发框架**。在字节跳动内部，我们将 Modern.js 封装为上层框架，并支撑了数千个 Web 应用的研发。
 
 Modern.js 能为开发者提供极致的**开发体验（Development Experience）**，让应用拥有更好的**用户体验（User Experience）**。
 
 在开发 React 应用过程中，开发者通常需要去为某些功能去设计实现方案，或是使用其他的库、框架来解决这些问题。Modern.js 支持 React 应用所需要的所有配置和工具，并内置**额外的功能和优化**。开发者可以使用 React 构建应用的 UI，然后逐步采用 Modern.js 的功能来解决常见的应用需求，如路由、数据获取、状态管理等。
 
-它主要包含以下特点：
+它主要包含以下特性：
 
+- 🚀 **Rust 构建**：提供双构建工具支持，轻松切换到 Rspack 构建工具，编译飞快。
 - 🪜 **渐进式**：使用最精简的模板创建项目，通过生成器逐步开启插件功能，定制解决方案。
 - 🏠 **一体化**：开发与生产环境 Web Server 唯一，CSR 和 SSR 同构开发，函数即接口的 API 服务调用。
 - 📦 **开箱即用**：默认 TS 支持，内置构建、ESLint、调试工具，全功能可测试。
 - 🌏 **周边生态**：自研状态管理、微前端、模块打包、Monorepo 方案等周边需求。
 - 🕸 **多种路由模式**：包含自控路由、基于文件约定的路由（嵌套路由）等。
-- 🚀 **独立构建核心**：支持多种打包工具，深度优化构建产物。
 
 ## 下一步
 
-如果你希望了解如何使用 Modern.js，可以尝试 [创建第一个应用](/tutorials/first-app/c01-start)，或是阅读 [快速上手](/guides/get-started/quick-start)。
+如果你希望了解如何使用 Modern.js 框架，可以尝试 [创建第一个应用](/tutorials/first-app/c01-start)，或是阅读 [快速上手](/guides/get-started/quick-start)。

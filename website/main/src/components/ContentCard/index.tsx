@@ -13,6 +13,7 @@ export interface ContentCardProps {
 const ContentCard: React.FC<ContentCardProps> = ({ title, desc, href }) => (
   <a
     href={withBase(href)}
+    target="_blank"
     style={{ textDecoration: 'none' }}
     className={cl(styles.card)}
   >
