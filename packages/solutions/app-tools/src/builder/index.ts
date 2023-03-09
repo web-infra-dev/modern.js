@@ -5,7 +5,7 @@ export async function createBuilderGenerator(bundler: 'webpack' | 'rspack') {
       return createRspackBuilderForModern;
     } catch (_) {
       throw new Error(
-        'Failed to use rspack, please check if you have `@modern-js/builder-rspack-provider` installed',
+        'Failed to use Rspack, please check if you have `@modern-js/builder-rspack-provider` installed',
       );
     }
   }
