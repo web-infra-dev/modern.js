@@ -162,6 +162,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
       <div
         flex="~"
         justify="between"
+        border="rounded-md"
         items-start="~"
         cursor={collapsible ? 'pointer' : 'none'}
         className={`items-center ${
@@ -188,6 +189,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         {collapsible && (
           <div
             p="2"
+            border="rounded-md"
             className={styles.collapseContainer}
             onClick={toggleCollapse}
           >
