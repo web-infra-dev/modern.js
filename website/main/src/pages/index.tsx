@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 
 const HomepageHeader = () => {
   const t = useI18n();
+
   return (
     <div className={styles.header}>
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
@@ -105,6 +106,15 @@ export default function Home() {
     <div>
       <Helmet>
         <html className="dark"></html>
+        <script>
+          localStorage && localStorage.setItem('modern-theme-appearance',
+          'dark');
+        </script>
+        <style type="text/css">{`
+          .modern-doc-appearance {
+            display: none!important;
+          }
+        `}</style>
       </Helmet>
       <HomepageHeader />
       <main className={styles['homepage-main']}>
