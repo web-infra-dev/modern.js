@@ -19,6 +19,14 @@ export type {
   SubmitOptions,
   URLSearchParamsInit,
   FetcherWithComponents,
+  BrowserRouterProps,
+  HashRouterProps,
+  HistoryRouterProps,
+  LinkProps,
+  NavLinkProps,
+  FormProps,
+  ScrollRestorationProps,
+  SubmitFunction,
 
   // below are react-router exports
   ActionFunction,
@@ -43,7 +51,6 @@ export type {
   NavigateProps,
   Navigation,
   Navigator,
-  NavLinkProps,
   NonIndexRouteObject,
   OutletProps,
   Params,
