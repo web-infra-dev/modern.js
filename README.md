@@ -54,7 +54,7 @@ Some implementations of Modern.js are modified from existing projects, such as [
 - `@modern-js/plugin`: the hooks API is referenced from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
 - `@modern-js/builder`: the moduleScope and fileSize plugins are referenced from [create-react-app](https://github.com/facebook/create-react-app).
 - `@modern-js/plugin-testing`: the jest runner is referenced from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
-- `@modern-js/doc-tools`: some styles are are referenced from [vitepress](https://github.com/vuejs/vitepress).
+- `@modern-js/doc-tools`: some styles are referenced from [vitepress](https://github.com/vuejs/vitepress).
 
 ## License
 
