@@ -71,6 +71,12 @@ describe('plugins/swc', () => {
         polyfill: 'entry',
       },
     });
+
+    await matchConfigSnapshot(['web', 'node'], {
+      output: {
+        polyfill: 'entry',
+      },
+    });
   });
 
   // TODO wait for tools.modularImports
@@ -90,7 +96,7 @@ describe('plugins/swc', () => {
 });
 
 async function matchConfigSnapshot(
-  target: BuilderTarget,
+  target: BuilderTarget | BuilderTarget[],
   builderConfig: BuilderConfig,
 ) {
   const builder = await createBuilder({
@@ -106,5 +112,7 @@ async function matchConfigSnapshot(
     origin: { bundlerConfigs },
   } = await builder.inspectConfig();
 
-  expect(bundlerConfigs[0]).toMatchSnapshot();
+  bundlerConfigs.forEach(bundlerConfig => {
+    expect(bundlerConfig).toMatchSnapshot();
+  });
 }

@@ -165,6 +165,58 @@ exports[`plugins/swc > should has correct core-js 1`] = `
 }
 `;
 
+exports[`plugins/swc > should has correct core-js 2`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "coreJs": "3.26",
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "entry": {
+    "main": [
+      "<ROOT>/node_modules/.cache/polyfill.js",
+      "src/index.js",
+    ],
+  },
+  "module": {},
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
+}
+`;
+
+exports[`plugins/swc > should has correct core-js 3`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "presetEnv": {
+      "targets": [
+        "node >= 14",
+      ],
+    },
+  },
+  "entry": {
+    "main": [
+      "src/index.js",
+    ],
+  },
+  "module": {},
+}
+`;
+
 exports[`plugins/swc > should'n override browserslist when target platform is not web 1`] = `
 {
   "builtins": {

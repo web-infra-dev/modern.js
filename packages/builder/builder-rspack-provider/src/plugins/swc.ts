@@ -4,7 +4,6 @@ import {
   BuilderTarget,
   getBrowserslistWithDefault,
   logger,
-  mergeBuilderConfig,
   setConfig,
 } from '@modern-js/builder-shared';
 import type {
@@ -37,15 +36,15 @@ export const builderPluginSwc = (): BuilderPlugin => ({
       }
     });
 
-    api.modifyBuilderConfig(config => {
+    api.modifyBundlerChain((chain, { target }) => {
+      const config = api.getNormalizedConfig();
       const mode = config?.output?.polyfill ?? 'entry';
-      if (isWebTarget(api.context.target) && mode === 'entry') {
-        return mergeBuilderConfig(config, {
-          source: { preEntry: getPolyfillEntry() },
+      const { entry } = api.context;
+      if (['modern-web', 'web'].includes(target) && mode === 'entry') {
+        Object.keys(entry).forEach(entryName => {
+          chain.entry(entryName).add(getPolyfillEntry());
         });
       }
-
-      return config;
     });
 
     api.modifyRspackConfig(async (rspackConfig, { target }) => {
