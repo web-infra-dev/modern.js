@@ -56,6 +56,7 @@ Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 
 - `@modern-js/plugin-testing`: jest runner 参考了 [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
 - `@modern-js/doc-tools`: 部分样式参考了 [vitepress](https://github.com/vuejs/vitepress)。
 - `@modern-js/plugin-data-loader`: 部分实现参考了 [remix](https://github.com/remix-run/remix)。
+- `@modern-js/utils`: generateMetaTags 函数参考了 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)。
 
 ## License
 
