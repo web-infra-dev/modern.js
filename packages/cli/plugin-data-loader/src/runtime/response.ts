@@ -1,6 +1,6 @@
 /**
  * The following code is modified based on
- * https://github.com/remix-run/remix/blob/2b5e1a72fc628d0408e27cf4d72e537762f1dc5b/packages/remix-react/data.ts
+ * https://github.com/remix-run/remix/blob/2b5e1a72fc628d0408e27cf4d72e537762f1dc5b/packages/remix-server-runtime/responses.ts
  *
  * MIT Licensed
  * Author Michael Jackson
