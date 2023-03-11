@@ -1,4 +1,13 @@
 /**
+ * The following code is modified based on
+ * https://github.com/vuejs/vitepress/blob/9bd940f22cae0ec88dc1670a31fb9ebc015e1f92/src/client/theme-default/styles/components/vp-doc.css
+ *
+ * MIT Licensed
+ * Author Yuxi (Evan) You
+ * Copyright (c) 2019-present, Yuxi (Evan) You
+ * https://github.com/vuejs/vitepress/blob/9bd940f22cae0ec88dc1670a31fb9ebc015e1f92/LICENSE
+ */
+/**
  * Headings
  * -------------------------------------------------------------------------- */
 

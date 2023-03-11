@@ -1,6 +1,11 @@
 /**
- * modified from https://github.com/dividab/tsconfig-paths-webpack-plugin
- * license at https://github.com/dividab/tsconfig-paths-webpack-plugin/blob/master/LICENSE
+ * The following code is modified based on
+ * https://github.com/dividab/tsconfig-paths-webpack-plugin
+ *
+ * MIT Licensed
+ * Author Michael Jackson
+ * Copyright (c) 2016 Jonas Kello
+ * https://github.com/dividab/tsconfig-paths-webpack-plugin/blob/master/LICENSE
  */
 import path from 'path';
 import { logger } from '@modern-js/builder-shared';

@@ -2,8 +2,13 @@
 /* eslint-disable node/prefer-global/text-encoder */
 /* eslint-disable max-depth */
 /**
- * modified from https://github.com/remix-run/remix/blob/main/packages/remix-react/data.ts
- * license at https://github.com/remix-run/remix/blob/main/LICENSE.md
+ * The following code is modified based on
+ * https://github.com/remix-run/remix/blob/2b5e1a72fc628d0408e27cf4d72e537762f1dc5b/packages/remix-react/data.ts
+ *
+ * MIT Licensed
+ * Author Michael Jackson
+ * Copyright 2021 Remix Software Inc.
+ * https://github.com/remix-run/remix/blob/2b5e1a72fc628d0408e27cf4d72e537762f1dc5b/LICENSE.md
  */
 import {
   UNSAFE_DeferredData as DeferredData,
