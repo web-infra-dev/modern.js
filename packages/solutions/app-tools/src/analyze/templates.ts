@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import path from 'path';
 import type {
   Entrypoint,
@@ -391,8 +392,11 @@ export function ssrLoaderCombinedModule(
       entryName,
     );
 
-    const combinedModule = `export * from "${serverLoaderRuntime}"; export * from "${serverLoadersFile}"`;
+    const combinedModule = `export * from "${slash(
+      serverLoaderRuntime,
+    )}"; export * from "${slash(serverLoadersFile)}"`;
     return combinedModule;
   }
   return null;
 }
+/* eslint-enable max-lines */

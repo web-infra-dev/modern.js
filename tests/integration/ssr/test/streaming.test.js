@@ -28,6 +28,7 @@ describe('Streaming SSR', () => {
       args: ['--no-sandbox'],
     });
     page = await browser.newPage();
+    page.setDefaultTimeout(5000);
   });
 
   afterAll(async () => {
@@ -63,7 +64,7 @@ describe('Streaming SSR', () => {
     await expect(page).toMatch(/user1-18/);
   });
 
-  it.skip(`deferred data in client navigation`, async () => {
+  it(`deferred data in client navigation`, async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });

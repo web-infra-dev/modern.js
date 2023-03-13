@@ -75,10 +75,10 @@ Execute `npx @modern-js/create -h` for more command line arguments
 Next, in the issue interaction, follow the options below.
 
 ```bash
-? Please select the type of project you want to create Module
-? Please fill in the project name library
-? Please select the development language TS
-? Please select the package management tool pnpm
+? Please select the type of project you want to create: Npm Module
+? Please fill in the project name: library
+? Please select the development language: TS
+? Please select the package manager: pnpm
 ```
 
 > The project name is the value of the `"name"` field in `package.json`.

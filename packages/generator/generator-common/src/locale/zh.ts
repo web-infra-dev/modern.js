@@ -1,8 +1,8 @@
 export const ZH_LOCALE = {
   solution: {
     self: '请选择你想创建的工程类型',
-    mwa: '应用',
-    module: '模块',
+    mwa: 'Web 应用',
+    module: 'Npm 模块',
     monorepo: 'Monorepo',
     custom: '自定义',
     default: '默认',
@@ -12,10 +12,10 @@ export const ZH_LOCALE = {
   },
   sub_solution: {
     self: '请选择你想创建的工程类型',
-    mwa: '应用',
-    mwa_test: '应用（测试）',
-    module: '模块',
-    inner_module: '模块（内部）',
+    mwa: 'Web 应用',
+    mwa_test: 'Web 应用（测试）',
+    module: 'Npm 模块',
+    inner_module: 'Npm 模块（内部）',
   },
   action: {
     self: '请选择你想要的操作',

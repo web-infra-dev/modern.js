@@ -17,25 +17,25 @@ Different plugin types will ask different questions. You can choose the plugin t
 ### Extension type
 
 ```
-? Please select the solution you want to create Module Solution
-? Please select the scene you want to create 生成器插件
-? Plugin Package Name plugin
-? Development Language TS
-? Package Management Tool pnpm
-? Plugin Type extend
-? Plugin Base Type Web App Solution
+? Please select the solution you want to create: Npm Module
+? Please select the scene you want to create: Generator Plugin
+? Plugin Package Name: plugin
+? Development Language: TS
+? Package Manager: pnpm
+? Plugin Type: extend
+? Plugin Base Type: Web App
 ```
 
 ### Customized type
 
 ```
-? Plugin Package Name plugin
-? Development Language TS
-? Package Management Tool pnpm
-? Plugin Type custom
-? Plugin Key mobile-app
-? Plugin Show Name Mobile App
-? Plugin Base Type Web App Solution
+? Plugin Package Name: plugin
+? Development Language: TS
+? Package Manager: pnpm
+? Plugin Type: custom
+? Plugin Key: mobile-app
+? Plugin Show Name: Mobile App
+? Plugin Base Type: Web App
 ```
 
 After the execution of the create project command is completed, a project for developing the generator plugin will be generated accordingly, and the `meta` information will also be generated according to your selection in the `package.json`.
@@ -57,7 +57,7 @@ A brief introduction to the provided methods, the complete API list viewable [Ge
 
 - addInputBefore
 
-Add input before the default input, such as adding questions before the `Select package management tool` question.
+Add input before the default input, such as adding questions before the `Select package manager` question.
 
 Specific Modern.js configuration viewable for each problem [Project Solution Configuration](/guides/topic-detail/generator/config/common).
 
