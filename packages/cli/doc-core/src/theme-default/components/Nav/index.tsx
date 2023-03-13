@@ -205,6 +205,7 @@ export function Nav(props: NavProps) {
                 localeData={localeData}
                 siteData={siteData}
                 pathname={pathname}
+                setLogo={setLogo}
               />
               <Search />
             </div>
