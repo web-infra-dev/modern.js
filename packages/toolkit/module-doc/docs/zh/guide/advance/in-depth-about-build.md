@@ -25,18 +25,22 @@ sidebar_position: 1
 
 而 Bundleless 则是指对每个源文件单独进行编译构建，但是并不将它们打包在一起。每一个产物文件都可以找到与之相对应的源码文件。**Bundleless 构建的过程，也可以理解为仅对源文件进行代码转换的过程**。
 
+它们有各自的好处：
+
+- Bundle可以减少构建产物的体积，也可以对依赖预打包，减小安装依赖的体积。提前对库进行打包，可以加快应用项目构建的速度。
+- Bundleless则是可以保持原有的文件结构，更有利于调试和tree-shaking。
+
 在 `buildConfig` 中可以通过 [`buildConfig.buildType`](/api/config/build-config#buildtype) 来指定当前构建任务是 Bundle 还是 Bundleless。
 
 ### `input` 与 `sourceDir` 的关系
 
 [`buildConfig.input`](/api/config/build-config#input) 用于指定读取源码的文件路径或者目录路径，其默认值在 Bundle 和 Bundleless 构建过程中有所不同：
 
-- 当 `buildType: 'bundle'` 的时候，`input` 默认值为 `['src/index.ts']`
+- 当 `buildType: 'bundle'` 的时候，`input` 默认值为 `src/index.(j|t)sx?`
 - 当 `buildType: 'bundleless'` 的时候，`input` 默认值为 `['src']`
-  > 实际上，在 `buildType: 'bundle'` 的时候，构建工具会检测是否存在符合 `src/index.(j|t)sx?` 这个名称规则的文件，并将其作为入口文件。
 
 :::warning {title=注意}
-建议不要在 Bundleless 构建过程中指定多个源码文件目录，可能出现不符合预期的结果。目前多个源码目录的 Bundleless 构建还处于不稳定阶段。
+建议不要在 Bundleless 构建过程中指定多个源码文件目录，这可能会导致产物里的相对路径不正确。
 :::
 
 从默认值上我们可以知道：**Bundle 构建一般可以指定文件路径作为构建的入口，而 Bundleless 构建则更期望使用目录路径寻找源文件**。
@@ -70,7 +74,7 @@ export default defineConfig({
 一般来说：
 
 - **在 Bundleless 构建过程中，`sourceDir` 与 `input` 的值要保持一致，它们的默认值都是 `src`**。
-- 在 Bundle 构建过程中，很少需要使用 `sourceDir`。
+- 在 Bundle 构建过程中，无需使用 `sourceDir`。
 
 ### 类型文件
 
