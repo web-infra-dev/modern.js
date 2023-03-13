@@ -28,6 +28,7 @@ describe('Traditional SSR', () => {
       args: ['--no-sandbox'],
     });
     page = await browser.newPage();
+    page.setDefaultTimeout(5000);
   });
 
   afterAll(async () => {
@@ -46,7 +47,7 @@ describe('Traditional SSR', () => {
     await expect(page).toMatch('user1-18');
   });
 
-  it.skip(`client navigation works`, async () => {
+  it(`client navigation works`, async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
@@ -62,7 +63,7 @@ describe('Traditional SSR', () => {
     await expect(page).toMatch(/error occurs/);
   });
 
-  it.skip('error thrown in client navigation', async () => {
+  it('error thrown in client navigation', async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });

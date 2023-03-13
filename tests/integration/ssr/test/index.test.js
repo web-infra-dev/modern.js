@@ -30,6 +30,7 @@ describe('init with SSR', () => {
       args: ['--no-sandbox'],
     });
     page = await browser.newPage();
+    page.setDefaultTimeout(5000);
   });
 
   afterAll(async () => {
