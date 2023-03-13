@@ -47,9 +47,9 @@ By default, `@modern-js/create` will automatically identify the user's system la
 
 Specifies the project default configuration.
 
-By default, `@modern-js/create` will have interaction problems such as language selection and package management tools during execution. When you need to specify these configuration contents in advance, you can pass in this field.
+By default, `@modern-js/create` will have interaction problems such as language selection and package managers during execution. When you need to specify these configuration contents in advance, you can pass in this field.
 
-This field is a JSON character string, for example when running a package management tool:
+This field is a JSON character string, for example when running a package manager:
 
 ```bash
 npx @modern-js/create --config '{"packageManager": "pnpm"}'
@@ -113,6 +113,6 @@ For custom microgenerators, please refer to [Develop Microgenerator](/guides/top
 
 A project is created by specifying a specific package version dependency.
 
-If you need to specify a specific package version when creating a project, you can use this parameter. This parameter will lock the package version number in the `package.json` of the project root directory by configuration `pnpm.overrides` (package management tool selects pnpm) or `resolutions`.
+If you need to specify a specific package version when creating a project, you can use this parameter. This parameter will lock the package version number in the `package.json` of the project root directory by configuration `pnpm.overrides` (package manager selects pnpm) or `resolutions`.
 
 The parameter value is a JSON character string.
