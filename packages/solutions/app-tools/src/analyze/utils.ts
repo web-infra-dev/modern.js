@@ -109,7 +109,15 @@ export const replaceWithAlias = (
   base: string,
   filePath: string,
   alias: string,
-) => normalizeToPosixPath(path.join(alias, path.relative(base, filePath)));
+) => {
+  if (filePath.includes(base)) {
+    return normalizeToPosixPath(
+      path.join(alias, path.relative(base, filePath)),
+    );
+  } else {
+    return filePath;
+  }
+};
 
 export const parseModule = async ({
   source,
