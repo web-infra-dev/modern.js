@@ -25,15 +25,19 @@ A Bundle is a package of build products, which may be a single file or multiple 
 
 Bundleless, on the other hand, means that each source file is compiled and built separately, but not packaged together. Each product file can be found with its corresponding source code file. The process of **Bundleless build can also be understood as the process of code conversion of source files only**.
 
+They have their own benefits.
+
+- Bundle can reduce the size of build products and also pre-package dependencies to reduce the size of installed dependencies. Packaging libraries in advance can speed up application project builds.
+- Bundleless maintains the original file structure and is more conducive to debugging and tree-shaking.
+
 In `buildConfig` you can specify whether the current build task is Bundle or Bundleless by using [`buildConfig.buildType`](/en/api/config/build-config#buildtype).
 
 ### Relationship between `input` and `sourceDir`
 
 [`buildConfig.input`](/en/api/config/build-config#input) is used to specify the file path or directory path where the source code is read, and its default value differs between Bundle and Bundleless builds.
 
-- When `buildType: 'bundle'`, `input` defaults to `['src/index.ts']`
+- When `buildType: 'bundle'`, `input` defaults to `src/index.(j|t)sx?`
 - When `buildType: 'bundleless'`, `input` defaults to `['src']`
-  > In fact, at `buildType: 'bundle'`, the build tool detects the existence of a file matching the name rule `src/index.(j|t)sx?` and uses it as an entry file.
 
 :::warning{title=notes}
 It is recommended that you do not specify multiple source file directories during a Bundleless build, as unintended results may occur. Bundleless builds with multiple source directories are currently in an unstable stage.

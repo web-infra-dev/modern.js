@@ -13,13 +13,16 @@ sidebar_position: 4
 }
 ```
 
-而 `"dependencies"` 下的依赖通常来说是和项目代码以及构建相关的，如果这些第三方依赖声明在 `"devDependencies"` 下，那么在生产环境下就会出现缺失依赖的问题。
+`"dependencies"` 下的依赖通常来说是这个包运行所需的依赖， `"devDependencies"` 则代表着开发依赖。
 
-除了 `"dependencies"` 以外，[`"peerDependencies"`](/guide/basic/before-getting-started#peerdependencies) 也可以声明在生产环境下需要的依赖，不过它更强调项目在运行环境下存在 `"peerDependencies"` 声明的这些依赖，这类似于插件这样的机制。
+除了 `"dependencies"` 以外，[`"peerDependencies"`](/guide/basic/before-getting-started#peerdependencies) 也可以声明在生产环境下运行所需要的依赖，此时会和它的宿主共享一份依赖。
 
 ## 第三方依赖的默认处理
 
-在模块工程里，**默认情况下不会对`"dependencies"` 以及 `"peerDependencies"` 下的第三方依赖进行打包处理**，因此：
+在模块工程里，**默认情况下不会对 `"dependencies"` 以及 `"peerDependencies"` 下的第三方依赖进行打包处理**。这是因为npm包发布出去以后，安装npm包时，npm包的dep也会被安装。
+
+- 不打包 `"dependencies"`，可以减小包产物的体积。
+- 如果需要打包，请将 `"dependencies"` 挪到 `"peerDependencies"` ，相当于对依赖进行 **prebundle** ，减小依赖安装的体积。
 
 <CH.Spotlight>
 
