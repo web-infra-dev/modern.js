@@ -16,9 +16,9 @@ The  current path prefix of resource file, which is a **read-only** environment 
 
 The current execution environment and is a **read-only** environment variable whose have different values under different execution commands:
 
-- `production`：the default value when exec `modern build` or `modern serve`.
-- `test`：the default value when exec `modern test`.
-- `development`：the default value when exec `modern dev`, alse the default value of other case.
+- `production`: the default value when exec `modern build` or `modern serve`.
+- `test`: the default value when exec `modern test`.
+- `development`: the default value when exec `modern dev`, alse the default value of other case.
 
 ### MODERN_ENV
 
@@ -88,8 +88,8 @@ BAR=456
 
 The `.env` file follows the following loading rules:
 
-- `.env`：default.
-- `.env.{ MODERN_ENV | NODE_ENV }`：Setting environment variables for a specific environment overrides the same in `.env`.
+- `.env`: default.
+- `.env.{ MODERN_ENV | NODE_ENV }`: Setting environment variables for a specific environment overrides the same in `.env`.
 
 When you need to use different config according to the environment, you can define environment variables in the `.env` file corresponding to the environment name, and manually set the execution environment when starting the project.
 

@@ -73,11 +73,11 @@ When navigating on the client side, all loader functions under `/user` and `/use
 
 ### `loader` function
 
-The `loader` function has two input parameters：
+The `loader` function has two input parameters:
 
 ##### `Params`
 
-When a routing file is passed through `[]`, it is passed as a [dynamic route](/guides/basic-features/routes#dynamic-route) and the dynamic route fragment is passed as an argument to the loader function：
+When a routing file is passed through `[]`, it is passed as a [dynamic route](/guides/basic-features/routes#dynamic-route) and the dynamic route fragment is passed as an argument to the loader function:
 
 ```tsx
 // routes/user/[id]/page.loader.tsx
@@ -111,7 +111,7 @@ export default async ({ request }: LoaderFunctionArgs) => {
 
 #### Return value
 
-The return value of the `loader` function can be anything serializable, or it can be a [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) instance：
+The return value of the `loader` function can be anything serializable, or it can be a [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) instance:
 
 ```tsx
 const loader = async (): Promise<ProfileData> => {
@@ -138,7 +138,7 @@ const loader = async (): Promise<ProfileData> => {
 
 ### Request API
 
-Modern.js does a polyfill of the `fetch` API to initiate requests, which is consistent with the browser's `fetch` API, but can also be used on the server side to initiate requests, meaning that both CSRs and SSRs can use the unified `fetch` API for data fetching：
+Modern.js does a polyfill of the `fetch` API to initiate requests, which is consistent with the browser's `fetch` API, but can also be used on the server side to initiate requests, meaning that both CSRs and SSRs can use the unified `fetch` API for data fetching:
 
 ```tsx
 function loader() {
