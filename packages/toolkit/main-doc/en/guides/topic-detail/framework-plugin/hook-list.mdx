@@ -2,6 +2,7 @@
 title: Hook List
 sidebar_position: 8
 ---
+
 # Hook List
 
 Modern.js exposes three types of plugins: CLI, Runtime, and Server.
@@ -91,7 +92,7 @@ export default defineConfig({
 });
 ```
 
-then throw error：
+then throw error:
 
 ```sh
 $ modern dev
@@ -124,11 +125,11 @@ export default (): CliPlugin => ({
 
 ### `afterPrepare`
 
-- function：Running tasks after the prepare process
-- Execution Phase：After the prepare process
-- Hook model：AsyncWorkflow
-- type：`AsyncWorkflow<void, void>`
-- Usage：
+- function: Running tasks after the prepare process
+- Execution Phase: After the prepare process
+- Hook model: AsyncWorkflow
+- type: `AsyncWorkflow<void, void>`
+- Usage:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -399,11 +400,11 @@ export default (): CliPlugin => ({
 
 ### `modifyEntryExport`
 
-- 功能：用于修改生成入口文件中的 `export` 语句
-- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; exportStatement: string; }>`
-- 使用示例：
+- Function: used to modify the `export` statement in the generated entry file
+- Execution Stage: Before the entry file is generated, the [`prepare`](#prepare) phase triggers
+- Hook Model: AsyncWaterfall
+- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; exportStatement: string; }>`
+- Example of use:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -622,7 +623,6 @@ Plugins are also supported in the Server section of the application project. The
 - Type: `AsyncPipeline<ServerInitInput, InitExtension>`
 - Usage Example:
 
-
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
@@ -783,7 +783,6 @@ export default (): Plugin => ({
 - Type: `AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; rootElement: HTMLElement; }, void>`
 - Usage Example:
 
-
 ```ts
 import ReactDOM from 'react-dom';
 import type { Plugin } from '@modern-js/runtime';
@@ -809,7 +808,6 @@ export default (): Plugin => ({
 - Hook Model: AsyncPipeline
 - Type: `AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; }, string>`
 - Usage Example:
-
 
 ```ts
 import ReactDomServer from 'react-dom/server';

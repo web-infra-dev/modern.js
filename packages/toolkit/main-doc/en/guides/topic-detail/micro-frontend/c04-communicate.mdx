@@ -8,7 +8,7 @@ title: Communicate
 
 In Modern.js, the sub-application will be wrapped into a React component, and the purpose of communicating between the main application and the sub-application can be achieved directly by passing'props' to the React component.
 
-```tsx title=Main：App.tsx
+```tsx title=Main: App.tsx
 function App() {
   const { MApp } = useModuleApps();
 
@@ -20,7 +20,7 @@ function App() {
 }
 ```
 
-```tsx title=Main：App.tsx
+```tsx title=Main: App.tsx
 function App(props) {
   console.log(props);
   return ...

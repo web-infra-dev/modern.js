@@ -81,7 +81,7 @@ type MiddlewareContext = {
   - `response`: provides a series of methods to process the response.
   - `request`: provides a series of methods to get request info.
   - `source`: provides Node.js native `req` and `res` object.
-- `next`: call next listener（not affect the server process, only current hook）.
+- `next`: call next listener (not affect the server process, only current hook).
 
 :::warning
 The execution of the `next` function does not affect built-in processes, only controls whether the next middleware executes. Rendering processes are interrupted only when the response is written.

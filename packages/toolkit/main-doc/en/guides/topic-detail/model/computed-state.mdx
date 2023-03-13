@@ -26,7 +26,7 @@ For example, the todo application has `items` and `filter` in its State, and `fi
 const todoModel = model('todo').define({
   state: {
     items: [],
-    filter: 'ALL', // ALL: show all；COMPLETED：show completed；ACTIVE：show active
+    filter: 'ALL', // ALL: show all；COMPLETED: show completed；ACTIVE: show active
   },
   computed: {
     visibleTodos: state => {

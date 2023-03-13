@@ -32,13 +32,13 @@ pipeline.run(1); // 4
 pipeline.run(5); // 12
 ```
 
-In this example, a `Pipeline<number, number>` is created on line 3. This means that when you run it, you need to pass in a `number`, and you will get a `number` as a result，the type is：
+In this example, a `Pipeline<number, number>` is created on line 3. This means that when you run it, you need to pass in a `number`, and you will get a `number` as a result，the type is:
 
 ```ts
 (count: number, next: (nextCount: number) => number) => number;
 ```
 
-The reason why there are only `number`s here is because we created a `Pipeline<number, number>`. If we had created a `Pipeline<number, string>`, then when we run it, we would pass in a `number` and get back a `string`. the type is：
+The reason why there are only `number`s here is because we created a `Pipeline<number, number>`. If we had created a `Pipeline<number, string>`, then when we run it, we would pass in a `number` and get back a `string`. the type is:
 
 ```ts
 (count: number, next: (nextCount: number) => string) => string;
@@ -104,7 +104,7 @@ pipeline(
 
 ### Waterfall
 
-This model, as the name suggests, is characterized by the sequential passing of parameters, where the return value of the previous function becomes the input parameter of the next function. Let's look at an example:：
+This model, as the name suggests, is characterized by the sequential passing of parameters, where the return value of the previous function becomes the input parameter of the next function. Let's look at an example::
 
 ```ts
 import { createWaterfall } from '@modern-js/plugin';
@@ -125,7 +125,7 @@ waterfall.run(1); // 4
 waterfall.run(5); // 12
 ```
 
-In this example, a `Waterfall<number>` type is created, which means that the input and output types of this model are the same. In this case, both the input and output types are `number`, the type is：
+In this example, a `Waterfall<number>` type is created, which means that the input and output types of this model are the same. In this case, both the input and output types are `number`, the type is:
 
 ```ts
 (count: number) => number;
