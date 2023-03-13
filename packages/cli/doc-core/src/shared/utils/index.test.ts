@@ -41,6 +41,10 @@ describe('test shared utils', () => {
     expect(normalizeHref('https://example.com/xxx')).toBe(
       'https://example.com/xxx',
     );
+    expect(normalizeHref('mailto:bluth@example.com')).toBe(
+      'mailto:bluth@example.com',
+    );
+    expect(normalizeHref('tel:123456789')).toBe('tel:123456789');
   });
 
   test('replaceLang', () => {

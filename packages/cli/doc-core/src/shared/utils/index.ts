@@ -85,6 +85,11 @@ export function normalizeHref(url?: string) {
 
   let cleanUrl = url;
 
+  // Ignore email and telephone links
+  if (url.startsWith('mailto:') || url.startsWith('tel:')) {
+    return url;
+  }
+
   if (!cleanUrl.endsWith('.html')) {
     if (cleanUrl.endsWith('/')) {
       cleanUrl += 'index.html';

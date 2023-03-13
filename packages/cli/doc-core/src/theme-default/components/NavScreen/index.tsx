@@ -11,6 +11,7 @@ import { SwitchAppearance } from '../SwitchAppearance';
 import Translator from '../../assets/translator.svg';
 import { SocialLinks } from '../SocialLinks';
 import { getToggle } from '../../logic/useAppearance';
+import { getLogoUrl } from '../../logic/utils';
 import styles from './index.module.scss';
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
   localeData: LocaleConfig;
   siteData: SiteData<DefaultThemeConfig>;
   pathname: string;
+  setLogo: (logo: string) => void;
 }
 
 const NavScreenTranslations = ({
@@ -41,7 +43,7 @@ const NavScreenTranslations = ({
 };
 
 export function NavScreen(props: Props) {
-  const { isScreenOpen, localeData, siteData, pathname } = props;
+  const { isScreenOpen, localeData, siteData, pathname, setLogo } = props;
   const screen = useRef<HTMLDivElement | null>(null);
   const localesData = siteData.themeConfig.locales || [];
   const hasMultiLanguage = localesData.length > 1;
@@ -50,7 +52,7 @@ export function NavScreen(props: Props) {
   const socialLinks = siteData?.themeConfig?.socialLinks || [];
   const hasSocialLinks = socialLinks.length > 0;
   const langs = localesData.map(item => item.lang || 'zh') || [];
-  const { base } = siteData;
+  const { base, logo } = siteData;
   const toggleAppearance = getToggle();
 
   const translationMenuData = hasMultiLanguage
@@ -70,6 +72,7 @@ export function NavScreen(props: Props) {
         <SwitchAppearance
           onClick={() => {
             toggleAppearance();
+            setLogo(getLogoUrl(logo));
           }}
         />
       </div>
