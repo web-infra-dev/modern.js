@@ -110,6 +110,10 @@ export class RouterPlugin {
 
           for (const file of entryChunkFiles) {
             const asset = compilation.assets[file];
+            // it may be removed by InlineChunkHtmlPlugin
+            if (!asset) {
+              continue;
+            }
             const newContent = `${injectedContent}${asset.source().toString()}`;
             newAssetsMap.set(path.join(outputPath, file), newContent);
             compilation.updateAsset(
