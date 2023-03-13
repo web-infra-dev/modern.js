@@ -19,7 +19,11 @@ In addition to `"dependencies"`, [`"peerDependencies"`](/en/guide/basic/before-g
 
 ## Default handling of third-party dependencies
 
-By default, third-party dependencies under `"dependencies"` and `"peerDependencies"` are not packaged in the module project\*\*, so:
+In module projects, **by default, third-party dependencies under `"dependencies"` and `"peerDependencies"` are not packaged**. This is because when the npm package is released, the dep for the npm package will be installed when the npm package is installed.
+
+- By not packaging `"dependencies"`, you can reduce the size of the package product.
+- If you need to package, move `"dependencies"` to `"peerDependencies"`, which is equivalent to a **prebundle** of dependencies to reduce the size of the dependency installation.
+
 
 <CH.Spotlight>
 
