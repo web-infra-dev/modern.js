@@ -1,9 +1,9 @@
 export const EN_LOCALE = {
   solution: {
     self: 'Please select the solution you want to create',
-    mwa: 'Web App Solution',
-    module: 'Module Solution',
-    monorepo: 'Monorepo Solution',
+    mwa: 'Web App',
+    module: 'Npm Module',
+    monorepo: 'Monorepo',
     custom: 'Custom Solution',
     default: 'Default',
   },
@@ -12,11 +12,11 @@ export const EN_LOCALE = {
   },
   sub_solution: {
     self: 'Please select the solution you want to create',
-    mwa: 'Web App Solution',
-    mwa_test: 'Web App Solution (Test)',
-    module: 'Module Solution',
-    inner_module: 'Module Solution (Inner)',
-    monorepo: 'Monorepo Solution',
+    mwa: 'Web App',
+    mwa_test: 'Web App (Test)',
+    module: 'Npm Module',
+    inner_module: 'Npm Module (Inner)',
+    monorepo: 'Monorepo',
   },
   action: {
     self: 'Action',
@@ -56,7 +56,7 @@ export const EN_LOCALE = {
     self: 'Development Language',
   },
   packageManager: {
-    self: 'Package Management Tool',
+    self: 'Package Manager',
   },
   packageName: {
     self: 'Package Name',
@@ -89,7 +89,7 @@ export const EN_LOCALE = {
     },
   },
   buildTools: {
-    self: 'Build Tools',
+    self: 'Bundler',
     webpack: 'webpack',
     rspack: 'Rspack (experimental)',
   },

@@ -73,10 +73,10 @@ npx @modern-js/create your-project-dir-name
 接着在问题交互中，按照如下选择：
 
 ```bash
-? 请选择你想创建的工程类型 模块
-? 请填写项目名称 library
-? 请选择开发语言 TS
-? 请选择包管理工具 pnpm
+? 请选择你想创建的工程类型：Npm 模块
+? 请填写项目名称：library
+? 请选择开发语言：TS
+? 请选择包管理工具：pnpm
 ```
 
 > 项目名称为 `package.json` 中的 `"name"` 字段值。
