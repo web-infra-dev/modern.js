@@ -31,7 +31,7 @@ export default {
 
 当 `tools.babel` 的值为 `Object` 类型时，会与默认配置通过 `Object.assign` 浅合并。
 
-:::tip
+:::caution
 `Object.assign` 是浅拷贝，会完全覆盖内置的 `presets` 或 `plugins` 数组，导致内置的 presets 或 plugins 失效，请在明确影响面的情况下再使用这种方式。
 :::
 

@@ -31,7 +31,7 @@ export default {
 
 When `tools.babel`'s type is `Object`, the config will be shallow merged with default config by `Object.assign`.
 
-:::tip
+:::caution
 Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
 :::
 
