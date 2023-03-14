@@ -6,14 +6,14 @@ import { siteDataVMPlugin } from './siteData';
 import { globalUIComponentsVMPlugin } from './globalUIComponents';
 import { globalStylesVMPlugin } from './globalStyles';
 
-type VirtualModuleFactory = (
+type RuntimeModuleFactory = (
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,
   alias: Record<string, string | string[]>,
 ) => RuntimeModulesPlugin | Promise<RuntimeModulesPlugin>;
 
-export const virtualModuleFactoryList: VirtualModuleFactory[] = [
+export const runtimeModuleFactory: RuntimeModuleFactory[] = [
   routeVMPlugin,
   siteDataVMPlugin,
   globalUIComponentsVMPlugin,
@@ -32,7 +32,7 @@ export function builderDocVMPlugin(
         // The order should be sync
         const alias = bundlerChain.resolve.alias.entries();
         let index = 0;
-        for (const factory of virtualModuleFactoryList) {
+        for (const factory of runtimeModuleFactory) {
           bundlerChain
             .plugin(`virtual-module-${index++}`)
             .use(
