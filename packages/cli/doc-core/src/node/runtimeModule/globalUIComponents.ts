@@ -6,11 +6,12 @@ import { UserConfig } from '@/shared/types';
 export function globalUIComponentsVMPlugin(
   _scanDir: string,
   config: UserConfig,
+  _isSSR: boolean,
+  runtimeTempDir: string,
 ) {
   let index = 0;
   const modulePath = join(
-    process.cwd(),
-    'node_modules',
+    runtimeTempDir,
     `${RuntimeModuleID.GlobalComponents}.js`,
   );
   const moduleContent = [

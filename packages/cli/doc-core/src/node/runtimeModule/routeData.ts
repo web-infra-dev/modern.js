@@ -7,25 +7,36 @@ import { addLeadingSlash } from '@/shared/utils';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let routeService: RouteService;
+let initPromise: Promise<void> | null = null;
 
 export const normalizeRoutePath = (routePath: string) => {
   const result = routePath.replace(/\.(.*)?$/, '').replace(/index$/, '');
   return addLeadingSlash(result);
 };
 
-export async function routeVMPlugin(scanDir: string, config: UserConfig) {
-  routeService = new RouteService(scanDir, config);
-  await routeService.init();
-  // client The component of route is lazy loaded
+export async function routeVMPlugin(
+  scanDir: string,
+  config: UserConfig,
+  _isSSR: boolean,
+  runtimeTempDir: string,
+) {
+  if (!routeService) {
+    routeService = new RouteService(scanDir, config);
+    initPromise = routeService.init();
+  }
+
+  if (initPromise) {
+    await initPromise;
+  }
+
+  // client: The components of route is lazy loaded
   const routeModulePathForClient = join(
-    process.cwd(),
-    'node_modules',
+    runtimeTempDir,
     `${RuntimeModuleID.RouteForClient}.js`,
   );
   const routeModulePathForSSR = join(
-    process.cwd(),
-    'node_modules',
-    RuntimeModuleID.RouteForSSR,
+    runtimeTempDir,
+    `${RuntimeModuleID.RouteForSSR}.js`,
   );
   const plugin = new RuntimeModulesPlugin({
     [routeModulePathForClient]: routeService.generateRoutesCode(false),

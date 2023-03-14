@@ -32,15 +32,15 @@ import { MDX_REGEXP, SEARCH_INDEX_NAME, withBase } from '@/shared/utils';
 let pages: PageIndexInfo[] | undefined;
 
 // The concern about future architecture:
-// The `indexHash` will be generated before webpack build so we can wrap it with virtual module in webpack to ensure that client runtime can access it.The process will be like this:
+// The `indexHash` will be generated before Rspack build so we can wrap it with virtual module in rspack to ensure that client runtime can access it.The process will be like this:
 // | ........................ process ........................... |
 //
-// Input -> | Compute index | -> Webpack build ->- Output -> | Append index file to output dir |
+// Input -> | Compute index | -> Rspack build ->- Output -> | Append index file to output dir |
 
-// However, if we generate the search index at internal webpack build process in the future, like this:
+// However, if we generate the search index at internal Rspack build process in the future, like this:
 // | ........................ process ........................... |
 //
-// Input ->- Webpack build ->- Output ->- | Write Index file to output dir |
+// Input ->- Rspack build ->- Output ->- | Write Index file to output dir |
 //                 |
 //          +---------------+
 //          | Compute index |
@@ -48,9 +48,9 @@ let pages: PageIndexInfo[] | undefined;
 // In this way, we can compute index in a custom mdx loader instead of `@mdx-js/loader` and reuse the ast info of mdx files and cache all the compile result of unified processor.In other words, we won't need to compile mdx files twice for search index generation.
 
 // Then there will be a problem: how can we let the client runtime access the `indexHash`?
-// As far as I know, we can only do something after the webpack build process becuase the index hash is generated within webpack build process.There are two ways to do this:
+// As far as I know, we can only do something after the Rspack build process becuase the index hash is generated within Rspack build process.There are two ways to do this:
 // 1. insert window.__INDEX_HASH__ = 'xxx' into the html template manually
-// 2. replace the `__INDEX_HASH__` placeholder in the html template with the real index hash after webpack build
+// 2. replace the `__INDEX_HASH__` placeholder in the html template with the real index hash after Rspack build
 // eslint-disable-next-line import/no-mutable-exports
 export let indexHash = '';
 
@@ -244,13 +244,12 @@ export async function siteDataVMPlugin(
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,
+  runtimeTempDir: string,
   alias: Record<string, string | string[]>,
 ) {
-  const cwd = process.cwd();
-  const entryPath = join(cwd, 'node_modules', `${RuntimeModuleID.SiteData}.js`);
+  const entryPath = join(runtimeTempDir, `${RuntimeModuleID.SiteData}.js`);
   const searchIndexHashPath = join(
-    cwd,
-    'node_modules',
+    runtimeTempDir,
     `${RuntimeModuleID.SearchIndexHash}.js`,
   );
   const userConfig = config.doc;
@@ -298,7 +297,6 @@ export async function siteDataVMPlugin(
   await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
   const stringfiedIndex = JSON.stringify(pages);
   indexHash = createHash(stringfiedIndex);
-  await fs.ensureDir(TEMP_DIR);
   await fs.writeFile(
     path.join(TEMP_DIR, `${SEARCH_INDEX_NAME}.${indexHash}.json`),
     stringfiedIndex,

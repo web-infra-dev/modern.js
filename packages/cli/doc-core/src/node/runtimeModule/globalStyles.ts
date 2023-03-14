@@ -3,12 +3,13 @@ import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { RuntimeModuleID } from '.';
 import { UserConfig } from '@/shared/types';
 
-export function globalStylesVMPlugin(_scanDir: string, config: UserConfig) {
-  const modulePath = join(
-    process.cwd(),
-    'node_modules',
-    `${RuntimeModuleID.GlobalStyles}.js`,
-  );
+export function globalStylesVMPlugin(
+  _scanDir: string,
+  config: UserConfig,
+  _isSSR: boolean,
+  runtimeTempDir: string,
+) {
+  const modulePath = join(runtimeTempDir, `${RuntimeModuleID.GlobalStyles}.js`);
   const moduleContent = [
     config.doc?.globalStyles || '',
     ...(config.doc?.plugins || []).map(plugin => plugin.globalStyles || ''),

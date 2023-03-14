@@ -7,6 +7,7 @@ import type {
   BuilderRspackProvider,
 } from '@modern-js/builder-rspack-provider';
 import sirv from 'sirv';
+import fs from '@modern-js/utils/fs-extra';
 import { removeTrailingSlash } from '../shared/utils';
 import {
   CLIENT_ENTRY,
@@ -14,6 +15,7 @@ import {
   PACKAGE_ROOT,
   OUTPUT_DIR,
   isProduction,
+  TEMP_DIR,
 } from './constants';
 import { createMDXOptions } from './mdx';
 import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
@@ -26,6 +28,7 @@ async function createInternalBuildConfig(
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,
+  runtimeTempDir: string,
 ): Promise<BuilderConfig> {
   const cwd = process.cwd();
   const { default: fs } = await import('@modern-js/utils/fs-extra');
@@ -96,13 +99,14 @@ async function createInternalBuildConfig(
         '@modern-js/doc-core': PACKAGE_ROOT,
         'react-lazy-with-preload': require.resolve('react-lazy-with-preload'),
         ...runtimeModuleIDs.reduce((acc, cur) => {
-          acc[cur] = path.join(cwd, 'node_modules', `${cur}.js`);
+          acc[cur] = path.join(runtimeTempDir, `${cur}.js`);
           return acc;
         }, {} as Record<string, string>),
       },
       include: [PACKAGE_ROOT],
       define: {
         __ASSET_PREFIX__: JSON.stringify(assetPrefix),
+        'process.env.__SSR__': JSON.stringify(isSSR),
       },
     },
     tools: {
@@ -150,6 +154,13 @@ export async function createModernBuilder(
 ): Promise<BuilderInstance<BuilderRspackProvider>> {
   const cwd = process.cwd();
   const userRoot = path.resolve(rootDir || config.doc?.root || cwd);
+  // We use a temp dir to store runtime files, so we can separate client and server build
+  const runtimeTempDir = path.join(
+    TEMP_DIR,
+    isSSR ? 'ssr-runtime' : 'client-runtime',
+  );
+
+  await fs.ensureDir(runtimeTempDir);
 
   const { createBuilder } = await import('@modern-js/builder');
   const { builderRspackProvider } = await import(
@@ -160,6 +171,7 @@ export async function createModernBuilder(
     userRoot,
     config,
     isSSR,
+    runtimeTempDir,
   );
 
   const builderProvider = builderRspackProvider({
@@ -178,7 +190,9 @@ export async function createModernBuilder(
     },
   });
 
-  builder.addPlugins([builderDocVMPlugin(userRoot, config, isSSR)]);
+  builder.addPlugins([
+    builderDocVMPlugin(userRoot, config, isSSR, runtimeTempDir),
+  ]);
 
   return builder;
 }

@@ -25,19 +25,24 @@ export function Link(props: LinkProps) {
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    const { routes } =
-      // Rspack will crush when using dynamic import because of duplicate chunk id
-      require('virtual-routes') as typeof import('virtual-routes');
-    const matchedRoutes = matchRoutes(routes, normalizeRoutePath(withBaseUrl));
-    if (matchedRoutes?.length) {
-      const timer = setTimeout(() => {
-        nprogress.start();
-      }, 200);
-      await matchedRoutes[0].route.preload();
-      clearTimeout(timer);
-      nprogress.done();
+    if (!process.env.__SSR__) {
+      const { routes } =
+        // Rspack will crush when using dynamic import because of duplicate chunk id
+        require('virtual-routes') as typeof import('virtual-routes');
+      const matchedRoutes = matchRoutes(
+        routes,
+        normalizeRoutePath(withBaseUrl),
+      );
+      if (matchedRoutes?.length) {
+        const timer = setTimeout(() => {
+          nprogress.start();
+        }, 200);
+        await matchedRoutes[0].route.preload();
+        clearTimeout(timer);
+        nprogress.done();
+      }
+      navigate(withBaseUrl, { replace: false });
     }
-    navigate(withBaseUrl, { replace: false });
   };
   if (!isExternal) {
     return (

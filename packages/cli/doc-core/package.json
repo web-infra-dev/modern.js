@@ -152,8 +152,7 @@
     "index.html",
     "runtime.ts",
     "theme.ts",
-    "shiki-theme.json",
-    "tsconfig.json"
+    "shiki-theme.json"
   ],
   "publishConfig": {
     "access": "public",

@@ -10,6 +10,7 @@ type RuntimeModuleFactory = (
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,
+  runtimeTempDir: string,
   alias: Record<string, string | string[]>,
 ) => RuntimeModulesPlugin | Promise<RuntimeModulesPlugin>;
 
@@ -24,6 +25,7 @@ export function builderDocVMPlugin(
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,
+  runtimeTempDir: string,
 ): BuilderPlugin {
   return {
     name: 'vmBuilderPlugin',
@@ -34,12 +36,13 @@ export function builderDocVMPlugin(
         let index = 0;
         for (const factory of runtimeModuleFactory) {
           bundlerChain
-            .plugin(`virtual-module-${index++}`)
+            .plugin(`runtime-module-${index++}`)
             .use(
               await factory(
                 userRoot,
                 config,
                 isSSR,
+                runtimeTempDir,
                 alias as Record<string, string[]>,
               ),
             );
