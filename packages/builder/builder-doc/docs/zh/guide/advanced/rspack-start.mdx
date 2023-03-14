@@ -1,8 +1,10 @@
 # 使用 Rspack
 
-[Rspack](https://www.rspack.dev/) 是字节跳动 Web Infra 团队自研的 Rust Bundler，核心架构对齐 webpack 实现。目前 rspack-provider 已适配并验证了 Builder 内大部分配置能力。
+这篇文档会向你介绍如何在 Builder 中开启 Rspack 构建模式。
 
-通过将打包工具切换成 Rspack，可体验更快的编译速度。
+import Rspack from '@zh/shared/rspack.md';
+
+<Rspack />
 
 ## 启用 Rspack
 
@@ -21,20 +23,22 @@ pnpm add @modern-js/builder-rspack-provider -D
 通过 package.json 或 lock 文件，确认 Modern.js 版本号:
 
 ```json title=package.json
+{
   "devDependencies": {
     "@modern-js/app-tools": "2.8.0"
   }
+}
 ```
 
 2. 在 Modern.js 配置文件中声明使用 Rspack:
 
-```ts title=modern.config.ts
+```diff title=modern.config.ts
 import appTools, { defineConfig } from '@modern-js/app-tools';
 
-export default defineConfig<'rspack'>({
++ export default defineConfig<'rspack'>({
   plugins: [
     appTools({
-      bundler: 'experimental-rspack',
++     bundler: 'experimental-rspack',
     }),
   ],
 });
@@ -57,7 +61,7 @@ const provider = builderRspackProvider({
 
 ## 从 webpack 迁移到 Rspack
 
-Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较低成本进行迁移。但由于各个打包工具的能力不同，部分差异仍需用户了解。
+Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较低成本进行迁移。但由于各个打包工具提供的能力不同，你仍需要了解其中的部分差异。
 
 本文将从 Builder 的角度介绍 webpack 和 Rspack 之间的区别。如果需要了解更深层次的差异，请参考 [Rspack 文档](http://rspack.dev/zh/guide/migrate-from-webpack.html)。
 

@@ -18,7 +18,7 @@
 
 ## 介绍
 
-Modern.js 是一个现代 Web 工程体系，包含以下解决方案：
+Modern.js 是一个 Web 工程体系，包含以下解决方案：
 
 - 🦄 [Modern.js Framework](https://modernjs.dev/): 基于 React 的渐进式 Web 开发框架。
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools): 简单、高性能的 npm 包开发方案。
