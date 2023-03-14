@@ -8,12 +8,14 @@ sidebar_position: 3
 
 启用 SSR 非常简单，只需要设置 [`server.ssr`](/configure/app/server/ssr) 为 `true` 即可：
 
-```json
-{
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
   "server": {
-    "ssr": true
-  }
-}
+    "ssr": true,
+  },
+})
 ```
 
 ## SSR 时的数据获取
