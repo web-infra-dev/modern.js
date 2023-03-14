@@ -50,7 +50,19 @@ const getNavbar = (lang: string): NavItem[] => {
       text: `v${version}`,
       items: [
         {
-          text: 'v1',
+          text: 'Modern.js Module',
+          link: 'https://modernjs.dev/module-tools/en/',
+        },
+        {
+          text: 'Modern.js Doc',
+          link: 'https://modernjs.dev/doc-tools/',
+        },
+        {
+          text: 'Modern.js Builder',
+          link: 'https://modernjs.dev/builder/en/',
+        },
+        {
+          text: 'Modern.js v1',
           link: 'https://modernjs.dev/v1/',
         },
       ],
