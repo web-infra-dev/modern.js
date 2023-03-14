@@ -27,8 +27,7 @@ export * from './types';
 
 export * from '@modern-js/plugin';
 
-// TODO: remove export after refactor all plugins
-export { manager, mountHook, createPlugin, registerHook } from './manager';
+export { manager, createPlugin, registerHook } from './manager';
 
 export {
   AppContext,

@@ -9,7 +9,6 @@ export const mergeConfig = <ExtendConfig extends Record<string, any>>(
     // Do not use the following merge logic for source.designSystem and tools.tailwind(css)
     if (
       key === 'designSystem' ||
-      (key === 'tailwind' && typeof source === 'object') ||
       (key === 'tailwindcss' && typeof source === 'object') ||
       key === 'devServer'
     ) {
