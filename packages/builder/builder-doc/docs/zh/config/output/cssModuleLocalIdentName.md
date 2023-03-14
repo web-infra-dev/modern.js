@@ -38,7 +38,7 @@ console.log(styles.header);
 - `[hash:<hashDigest>:<hashDigestLength>]` - 带有哈希设置的哈希。
 
 :::tip
-在使用 Rspack 作为打包工具时, 暂不支持配置 `<hashDigest>`.
+在使用 Rspack 作为打包工具时, 暂不支持配置 `<hashDigest>`。
 :::
 
 ### 示例
