@@ -40,7 +40,8 @@
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start"
   },
   "engines": {
-    "node": ">=14.17.6"
+    "node": ">=14.17.6",
+    "pnpm": ">=7.12.2 <=7.29.1"
   },
   "packageManager": "pnpm@7.12.2",
   "commitlint": {
