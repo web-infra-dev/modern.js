@@ -106,14 +106,12 @@ async function createInternalBuildConfig(
       },
     },
     tools: {
-      postcss: {
-        postcssOptions: {
-          plugins: [
-            require('tailwindcss')({
-              config: createTailwindConfig(themeDir),
-            }),
-          ],
-        },
+      postcss(options) {
+        options.postcssOptions!.plugins!.push(
+          require('tailwindcss')({
+            config: createTailwindConfig(themeDir),
+          }),
+        );
       },
       devServer: {
         // Serve static files
