@@ -282,14 +282,16 @@ export const loader = () => {
 
 Modern.js 支持了 React 18 的流式渲染，可以通过如下配置启用：
 
-```json
-{
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
   "server": {
     "ssr": {
       "mode": "stream",
     },
   },
-}
+})
 ```
 
 Modern.js 的流式渲染基于 React Router 实现，主要涉及 API 有：
