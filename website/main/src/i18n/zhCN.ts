@@ -5,7 +5,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   quickStart: '快速上手',
 
   // Slogans
-  slogan: '基于 React 的渐进式现代 Web 开发框架',
+  slogan: '基于 React 的渐进式 Web 开发框架',
   secondSlogan1: '享受愉悦的开发体验，',
   secondSlogan2: '让创新更快发生。',
 

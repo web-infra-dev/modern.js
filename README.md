@@ -18,7 +18,7 @@ English | [简体中文](./README.zh-CN.md)
 
 ## Introduction
 
-Modern.js is a modern web engineering system, including multiple solutions:
+Modern.js is a web engineering system, including multiple solutions:
 
 - 🦄 [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
