@@ -1,13 +1,13 @@
 import { join } from 'path';
-import VirtualModulesPlugin from 'webpack-virtual-modules';
-import { PACKAGE_ROOT } from '../constants';
+import RuntimeModulesPlugin from './RuntimeModulePlugin';
+import { RuntimeModuleID } from '.';
 import { UserConfig } from '@/shared/types';
 
 export function globalStylesVMPlugin(_scanDir: string, config: UserConfig) {
   const modulePath = join(
-    PACKAGE_ROOT,
+    process.cwd(),
     'node_modules',
-    'virtual-global-styles.js',
+    `${RuntimeModuleID.GlobalStyles}.js`,
   );
   const moduleContent = [
     config.doc?.globalStyles || '',
@@ -17,7 +17,7 @@ export function globalStylesVMPlugin(_scanDir: string, config: UserConfig) {
     .map(source => `import '${source}';`)
     .join('');
 
-  return new VirtualModulesPlugin({
+  return new RuntimeModulesPlugin({
     [modulePath]: moduleContent,
   });
 }

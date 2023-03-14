@@ -8,7 +8,6 @@ import {
   NormalizedSidebarGroup,
   PageIndexInfo,
 } from 'shared/types';
-import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { remark } from 'remark';
 import yamlFront from 'yaml-front-matter';
 import type { Root } from 'hast';
@@ -21,16 +20,13 @@ import { ReplaceRule } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
 import { logger } from '@modern-js/utils/logger';
 import { parseToc } from '../mdx/remarkPlugins/toc';
-import {
-  importStatementRegex,
-  PACKAGE_ROOT,
-  PUBLIC_DIR,
-  TEMP_DIR,
-} from '../constants';
+import { importStatementRegex, PUBLIC_DIR, TEMP_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { createHash } from '../utils';
+import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { routeService } from './routeData';
+import { RuntimeModuleID } from '.';
 import { MDX_REGEXP, SEARCH_INDEX_NAME, withBase } from '@/shared/utils';
 
 let pages: PageIndexInfo[] | undefined;
@@ -250,11 +246,12 @@ export async function siteDataVMPlugin(
   isSSR: boolean,
   alias: Record<string, string | string[]>,
 ) {
-  const entryPath = join(PACKAGE_ROOT, 'node_modules', 'virtual-site-data');
+  const cwd = process.cwd();
+  const entryPath = join(cwd, 'node_modules', `${RuntimeModuleID.SiteData}.js`);
   const searchIndexHashPath = join(
-    PACKAGE_ROOT,
+    cwd,
     'node_modules',
-    'virtual-search-index-hash',
+    `${RuntimeModuleID.SearchIndexHash}.js`,
   );
   const userConfig = config.doc;
   const replaceRules = userConfig?.replaceRules || [];
@@ -307,7 +304,7 @@ export async function siteDataVMPlugin(
     stringfiedIndex,
   );
 
-  const plugin = new VirtualModulesPlugin({
+  const plugin = new RuntimeModulesPlugin({
     [entryPath]: `export default ${JSON.stringify(siteData)}`,
     [searchIndexHashPath]: `export default ${JSON.stringify(indexHash)}`,
   });

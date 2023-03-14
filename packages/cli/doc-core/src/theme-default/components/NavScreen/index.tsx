@@ -29,13 +29,9 @@ const NavScreenTranslations = ({
 }) => {
   return (
     <div
-      className={styles.navTranslations}
-      flex="~"
-      text="sm"
-      font="bold"
-      justify="center"
+      className={`${styles.navTranslations} flex text-sm font-bold justify-center`}
     >
-      <div m="x-1.5 y-1">
+      <div className="mx-1.5 my-1">
         <NavScreenMenuGroup {...translationMenuData} />
       </div>
     </div>
@@ -57,7 +53,14 @@ export function NavScreen(props: Props) {
 
   const translationMenuData = hasMultiLanguage
     ? {
-        text: <Translator w="18px" h="18px" />,
+        text: (
+          <Translator
+            style={{
+              width: '18px',
+              height: '18px',
+            }}
+          />
+        ),
         items: localesData.map(item => ({
           text: item.label,
           link: `/${item.lang}`,
@@ -68,7 +71,7 @@ export function NavScreen(props: Props) {
     : null;
   const NavScreenAppearance = () => {
     return (
-      <div className={`mt-2 ${styles.navAppearance}`} flex="~" justify="center">
+      <div className={`mt-2 ${styles.navAppearance} flex justify-center`}>
         <SwitchAppearance
           onClick={() => {
             toggleAppearance();
@@ -83,7 +86,7 @@ export function NavScreen(props: Props) {
       <div className={styles.navMenu}>
         {menuItems.map((item, index) => {
           return (
-            <div key={index} w="full" className={styles.navMenuItem}>
+            <div key={index} className={`${styles.navMenuItem} w-full`}>
               {'link' in item ? (
                 <NavMenuSingleItem
                   pathname={pathname}
@@ -93,7 +96,7 @@ export function NavScreen(props: Props) {
                   {...item}
                 />
               ) : (
-                <div m="x-3" last="mr-0" key={index}>
+                <div key={index} className="mx-3 last:mr-0">
                   <NavScreenMenuGroup
                     {...item}
                     items={'items' in item ? item.items : item}

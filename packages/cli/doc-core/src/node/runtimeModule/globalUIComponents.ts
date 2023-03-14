@@ -1,6 +1,6 @@
 import { join } from 'path';
-import VirtualModulesPlugin from 'webpack-virtual-modules';
-import { PACKAGE_ROOT } from '../constants';
+import RuntimeModulesPlugin from './RuntimeModulePlugin';
+import { RuntimeModuleID } from '.';
 import { UserConfig } from '@/shared/types';
 
 export function globalUIComponentsVMPlugin(
@@ -9,9 +9,9 @@ export function globalUIComponentsVMPlugin(
 ) {
   let index = 0;
   const modulePath = join(
-    PACKAGE_ROOT,
+    process.cwd(),
     'node_modules',
-    'virtual-global-components.js',
+    `${RuntimeModuleID.GlobalComponents}.js`,
   );
   const moduleContent = [
     ...(config.doc?.globalUIComponents || []),
@@ -28,7 +28,7 @@ export function globalUIComponentsVMPlugin(
     )
     .join('');
 
-  return new VirtualModulesPlugin({
+  return new RuntimeModulesPlugin({
     [modulePath]: moduleContent,
   });
 }

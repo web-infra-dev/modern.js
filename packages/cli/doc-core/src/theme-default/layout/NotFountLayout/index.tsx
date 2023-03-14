@@ -17,35 +17,18 @@ export function NotFoundLayout() {
   } else {
     // The 404 page content
     return (
-      <div
-        m="auto t-50"
-        p="t-16 x-6 b-24 sm:t-24 x-8 b-40"
-        text="center"
-        flex="center col"
-      >
-        <p text="6xl" font="semibold">
-          404
-        </p>
-        <h1 p="t-3" text="xl" className="leading-5" font="bold">
-          PAGE NOT FOUND
-        </h1>
+      <div className="m-auto mt-50 p-16 sm:p-8 sm:pt-24 sm:pb-40 text-center flex-center flex-col">
+        <p className="text-6xl font-semibold">404</p>
+        <h1 className="leading-5 pt-3 text-xl font-bold">PAGE NOT FOUND</h1>
         <div
-          m="t-6 x-auto b-4.5"
-          w="16"
           style={{ height: '1px' }}
-          bg="gray-light-1"
+          className="mt-6 mx-auto mb-4.5 w-16 bg-gray-light-1"
         />
 
-        <div p="t-5">
+        <div className="pt-5">
           <a
-            inline-block="~"
-            border="1px solid brand"
-            className="rounded-2xl"
-            p="y-2 x-4"
-            text="sm brand"
-            font-medium="~"
-            transition="border-color duration-300 color duration-300"
             hover="border-color-brand-dark color-brand-dark"
+            className="py-2 px-4 rounded-2xl inline-block border-solid border-brand text-brand font-medium hover:border-brand-dark hover:text-brand-dark transition-colors duration-300"
             href={siteData.base}
             aria-label="go to home"
           >

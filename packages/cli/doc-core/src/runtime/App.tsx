@@ -1,6 +1,5 @@
 import siteData from 'virtual-site-data';
 import { matchRoutes, useLocation } from 'react-router-dom';
-import { routes } from 'virtual-routes';
 import { HelmetProvider } from 'react-helmet-async';
 import { useContext, useLayoutEffect } from 'react';
 import Theme from '@theme';
@@ -10,8 +9,11 @@ import { PageData } from '@/shared/types';
 import { cleanUrl, omit } from '@/shared/utils';
 
 export async function initPageData(routePath: string): Promise<PageData> {
+  const isSSR = typeof window === 'undefined';
+  const { routes } = isSSR
+    ? (require('virtual-routes-ssr') as typeof import('virtual-routes-ssr'))
+    : (require('virtual-routes') as typeof import('virtual-routes'));
   const matched = matchRoutes(routes, routePath)!;
-
   if (matched) {
     // Preload route component
     const matchedRoute = matched[0].route;

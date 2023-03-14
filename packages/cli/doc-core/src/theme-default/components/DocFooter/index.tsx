@@ -9,9 +9,9 @@ export function DocFooter() {
     useLocaleSiteData();
 
   return (
-    <footer m="t-8">
-      <div flex="~ col sm:row" justify="sm:around" gap="2" p="t-6">
-        <div flex="~ col" className={styles.prev}>
+    <footer className="mt-8">
+      <div className="flex flex-col sm:flex-row sm:justify-around gap-2 pt-6">
+        <div className={`${styles.prev} flex flex-col`}>
           {prevPage ? (
             <Link
               href={normalizeHref(prevPage.link)}
@@ -22,7 +22,7 @@ export function DocFooter() {
             </Link>
           ) : null}
         </div>
-        <div flex="~ col" className={styles.next}>
+        <div className={`${styles.next} flex flex-col`}>
           {nextPage ? (
             <Link
               href={normalizeHref(nextPage.link)}

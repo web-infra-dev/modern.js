@@ -4,10 +4,9 @@ import { UserConfig } from 'shared/types';
 import { BuilderInstance, mergeBuilderConfig } from '@modern-js/builder';
 import type {
   BuilderConfig,
-  BuilderWebpackProvider,
-} from '@modern-js/builder-webpack-provider';
+  BuilderRspackProvider,
+} from '@modern-js/builder-rspack-provider';
 import sirv from 'sirv';
-import WindiCSSWebpackPlugin from 'windicss-webpack-plugin';
 import { removeTrailingSlash } from '../shared/utils';
 import {
   CLIENT_ENTRY,
@@ -17,8 +16,8 @@ import {
   isProduction,
 } from './constants';
 import { createMDXOptions } from './mdx';
-import { builderDocVMPlugin } from './virtualModule';
-import createWindiConfig from './windiOptions';
+import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
+import createTailwindConfig from './tailwindOptions';
 import { serveSearchIndexMiddleware } from './searchIndex';
 
 const require = createRequire(import.meta.url);
@@ -95,6 +94,11 @@ async function createInternalBuildConfig(
         '@/runtime': path.join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts'),
         '@theme': themeDir,
         '@modern-js/doc-core': PACKAGE_ROOT,
+        'react-lazy-with-preload': require.resolve('react-lazy-with-preload'),
+        ...runtimeModuleIDs.reduce((acc, cur) => {
+          acc[cur] = path.join(cwd, 'node_modules', `${cur}.js`);
+          return acc;
+        }, {} as Record<string, string>),
       },
       include: [PACKAGE_ROOT],
       define: {
@@ -102,11 +106,14 @@ async function createInternalBuildConfig(
       },
     },
     tools: {
-      babel(options, { modifyPresetReactOptions }) {
-        modifyPresetReactOptions({
-          runtime: 'automatic',
-        });
-        return options;
+      postcss: {
+        postcssOptions: {
+          plugins: [
+            require('tailwindcss')({
+              config: createTailwindConfig(themeDir),
+            }),
+          ],
+        },
       },
       devServer: {
         // Serve static files
@@ -116,8 +123,7 @@ async function createInternalBuildConfig(
         ],
         historyApiFallback: true,
       },
-      cssExtract: {},
-      webpackChain(chain, { CHAIN_ID, isProd }) {
+      bundlerChain(chain) {
         chain.module
           .rule('MDX')
           .test(/\.mdx?$/)
@@ -132,34 +138,7 @@ async function createInternalBuildConfig(
           .options(mdxOptions)
           .end();
 
-        if (!isProd) {
-          chain.plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH).tap(options => {
-            options[0] = {
-              ...options[0],
-              // Avoid hmr client error in browser
-              esModule: false,
-            };
-            return options;
-          });
-        }
-
         chain.resolve.extensions.prepend('.md').prepend('.mdx');
-      },
-      webpack(webpackConfig) {
-        webpackConfig.plugins!.push(
-          new WindiCSSWebpackPlugin({
-            config: createWindiConfig(themeDir),
-          }),
-        );
-
-        if (checkDeadLinks) {
-          webpackConfig.cache = {
-            // If checkDeadLinks is true, we should use memory cache to avoid skiping mdx-loader when starting dev server again
-            type: 'memory',
-          };
-        }
-
-        return webpackConfig;
       },
     },
   };
@@ -170,13 +149,13 @@ export async function createModernBuilder(
   config: UserConfig,
   isSSR = false,
   extraBuilderConfig?: BuilderConfig,
-): Promise<BuilderInstance<BuilderWebpackProvider>> {
+): Promise<BuilderInstance<BuilderRspackProvider>> {
   const cwd = process.cwd();
   const userRoot = path.resolve(rootDir || config.doc?.root || cwd);
 
   const { createBuilder } = await import('@modern-js/builder');
-  const { builderWebpackProvider } = await import(
-    '@modern-js/builder-webpack-provider'
+  const { builderRspackProvider } = await import(
+    '@modern-js/builder-rspack-provider'
   );
 
   const internalBuilderConfig = await createInternalBuildConfig(
@@ -185,7 +164,7 @@ export async function createModernBuilder(
     isSSR,
   );
 
-  const builderProvider = builderWebpackProvider({
+  const builderProvider = builderRspackProvider({
     builderConfig: mergeBuilderConfig(
       internalBuilderConfig,
       ...(config.doc?.plugins?.map(plugin => plugin.builderConfig ?? {}) || []),

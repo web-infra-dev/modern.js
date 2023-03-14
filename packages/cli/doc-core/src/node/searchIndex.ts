@@ -5,7 +5,7 @@ import { logger } from '@modern-js/utils/logger';
 import { RequestHandler } from '@modern-js/types';
 import fetch from 'node-fetch';
 import { isProduction, OUTPUT_DIR, TEMP_DIR } from './constants';
-import { indexHash } from './virtualModule/siteData';
+import { indexHash } from './runtimeModule/siteData';
 import { UserConfig } from '@/shared/types';
 import { addLeadingSlash, SEARCH_INDEX_NAME } from '@/shared/utils';
 

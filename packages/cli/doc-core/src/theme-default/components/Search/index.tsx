@@ -192,8 +192,13 @@ export function Search() {
     // if no result, show no result
     if (suggestionList.length === 0) {
       return (
-        <div flex="~ center" className="mt-4">
-          <div p="2" font="bold" text="md #2c3e50">
+        <div className="mt-4 flex-center">
+          <div
+            className="p-2 font-bold text-md"
+            style={{
+              color: '#2c3e50',
+            }}
+          >
             No results found
           </div>
         </div>

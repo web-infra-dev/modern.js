@@ -64,7 +64,7 @@ export function SuggestItem({
     );
     const statementSuffix = statement.slice(highlightIndex + query.length);
     return (
-      <div text="sm gray-light" w="full">
+      <div className="text-sm text-gray-light w-full">
         <span>{statementPrefix}</span>
         <span className={styles.mark}>{queryStr}</span>
         <span>{statementSuffix}</span>

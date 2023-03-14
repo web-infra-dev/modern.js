@@ -53,12 +53,10 @@ export function SidebarItemComp(props: SidebarItemProps) {
     return (
       <Link href={normalizeHref(item.link)} className={styles.menuLink}>
         <div
-          m="t-1"
-          p="y-1.5 x-2"
-          block="~"
-          border="rounded-md"
           onMouseEnter={() => props.preloadLink(item.link)}
-          className={active ? styles.menuItemActive : styles.menuItem}
+          className={`${
+            active ? styles.menuItemActive : styles.menuItem
+          } mt-1 py-1.5 px-2 block rounded-md`}
           style={{
             ...textEllipsisStyle,
             // The first level menu item will have the same font size as the sidebar group
@@ -84,8 +82,8 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   const { collapsed, collapsible = true } = item as NormalizedSidebarGroup;
   const collapsibleIcon = (
     <div
-      cursor-pointer="~"
       style={{
+        cursor: 'pointer',
         transition: 'transform 0.2s ease-out',
         transform: collapsed ? 'rotate(0deg)' : 'rotate(90deg)',
       }}
@@ -160,12 +158,10 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   return (
     <section key={id} block="~" className="mt-1">
       <div
-        flex="~"
-        justify="between"
-        border="rounded-md"
-        items-start="~"
-        cursor={collapsible ? 'pointer' : 'none'}
-        className={`items-center ${
+        style={{
+          cursor: collapsible ? 'pointer' : 'none',
+        }}
+        className={`flex justify-between items-center rounded-md ${
           // eslint-disable-next-line no-nested-ternary
           active
             ? styles.menuItemActive
@@ -183,14 +179,15 @@ export function SidebarGroupComp(props: SidebarItemProps) {
           }
         }}
       >
-        <h2 p="y-1 x-2 h-8" text="sm" font="semibold" style={textEllipsisStyle}>
+        <h2
+          className="py-1 px-2 text-sm font-semibold"
+          style={textEllipsisStyle}
+        >
           {item.text}
         </h2>
         {collapsible && (
           <div
-            p="2"
-            border="rounded-md"
-            className={styles.collapseContainer}
+            className={`${styles.collapseContainer} p-2 rounded-md`}
             onClick={toggleCollapse}
           >
             {collapsibleIcon}
@@ -214,7 +211,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         >
           {(item as NormalizedSidebarGroup)?.items?.map((item, index) => (
             // eslint-disable-next-line react/no-array-index-key
-            <div key={index} m="l-4">
+            <div key={index} className="ml-4">
               <SidebarItemComp
                 {...props}
                 item={item}
@@ -300,7 +297,7 @@ export function SideBar(props: Props) {
         isSidebarOpen ? styles.open : ''
       }`}
     >
-      <div m="t-1">
+      <div className="mt-1">
         <nav>
           {sidebarData.map(
             (item: NormalizedSidebarGroup | SidebarItem, index: number) => (
