@@ -19,7 +19,7 @@ sidebar_position: 4
 
 ## 第三方依赖的默认处理
 
-在模块工程里，**默认情况下不会对 `"dependencies"` 以及 `"peerDependencies"` 下的第三方依赖进行打包处理**。这是因为npm包发布出去以后，安装npm包时，npm包的dep也会被安装。
+在模块工程里，**默认情况下不会对 `"dependencies"` 以及 `"peerDependencies"` 下的第三方依赖进行打包处理**。这是因为 npm 包发布出去以后，安装 npm 包时，npm 包的 `"dependencies"` 也会被安装。
 
 - 不打包 `"dependencies"`，可以减小包产物的体积。
 - 如果需要打包，请将 `"dependencies"` 挪到 `"peerDependencies"` ，相当于对依赖进行 **prebundle** ，减小依赖安装的体积。
