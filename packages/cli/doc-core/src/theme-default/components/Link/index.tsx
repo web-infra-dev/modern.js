@@ -1,6 +1,5 @@
 import React from 'react';
 import { matchRoutes, useNavigate } from 'react-router-dom';
-import { routes } from 'virtual-routes';
 import nprogress from 'nprogress';
 import styles from './index.module.scss';
 import { normalizeRoutePath, withBase } from '@/runtime';
@@ -26,25 +25,32 @@ export function Link(props: LinkProps) {
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    const matchedRoutes = matchRoutes(routes, normalizeRoutePath(withBaseUrl));
-    if (matchedRoutes?.length) {
-      const timer = setTimeout(() => {
-        nprogress.start();
-      }, 200);
-      await matchedRoutes[0].route.preload();
-      clearTimeout(timer);
-      nprogress.done();
+    if (!process.env.__SSR__) {
+      const { routes } =
+        // Rspack will crush when using dynamic import because of duplicate chunk id
+        require('virtual-routes') as typeof import('virtual-routes');
+      const matchedRoutes = matchRoutes(
+        routes,
+        normalizeRoutePath(withBaseUrl),
+      );
+      if (matchedRoutes?.length) {
+        const timer = setTimeout(() => {
+          nprogress.start();
+        }, 200);
+        await matchedRoutes[0].route.preload();
+        clearTimeout(timer);
+        nprogress.done();
+      }
+      navigate(withBaseUrl, { replace: false });
     }
-    navigate(withBaseUrl, { replace: false });
   };
   if (!isExternal) {
     return (
       <a
-        className={`${styles.link} ${className}`}
+        className={`${styles.link} ${className} cursor-pointer`}
         rel={rel}
         target={target}
         onClick={handleNavigate}
-        cursor="pointer"
         href={withBaseUrl}
       >
         {children}

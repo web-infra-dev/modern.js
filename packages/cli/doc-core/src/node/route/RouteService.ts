@@ -55,8 +55,6 @@ export class RouteService {
 
   #langs: string[];
 
-  #routeData: Map<string, RouteMeta> = new Map();
-
   #extensions: string[] = [];
 
   #include: string[] = [];
@@ -64,6 +62,8 @@ export class RouteService {
   #exclude: string[] = [];
 
   #base: string = '';
+
+  routeData: Map<string, RouteMeta> = new Map();
 
   constructor(scanDir: string, userConfig: UserConfig) {
     const routeOptions = userConfig.doc?.route || {};
@@ -116,10 +116,10 @@ export class RouteService {
       lang,
     };
 
-    if (this.#routeData.has(routePath)) {
+    if (this.routeData.has(routePath)) {
       // apply the one with the extension listed first in the array and skip the rest.
       const preRouteExtIndex = this.#extensions.indexOf(
-        path.extname(this.#routeData.get(routePath)!.absolutePath).slice(1),
+        path.extname(this.routeData.get(routePath)!.absolutePath).slice(1),
       );
       const currRouteExtIndex = this.#extensions.indexOf(
         path.extname(absolutePath).slice(1),
@@ -129,10 +129,10 @@ export class RouteService {
         currRouteExtIndex !== -1 &&
         (currRouteExtIndex < preRouteExtIndex || preRouteExtIndex === -1)
       ) {
-        this.#routeData.set(routePath, routeInfo);
+        this.routeData.set(routePath, routeInfo);
       }
     } else {
-      this.#routeData.set(routePath, routeInfo);
+      this.routeData.set(routePath, routeInfo);
     }
   }
 
@@ -143,15 +143,19 @@ export class RouteService {
       this.#defaultLang,
       this.#base,
     );
-    this.#routeData.delete(routePath);
+    this.routeData.delete(routePath);
   }
 
   getRoutes() {
-    return Array.from(this.#routeData.values());
+    return Array.from(this.routeData.values());
   }
 
   isExistRoute(routePath: string) {
-    return this.#routeData.get(routePath);
+    return this.routeData.get(routePath);
+  }
+
+  isEmpty() {
+    return this.routeData.size === 0;
   }
 
   generateRoutesCode(isStaticImport?: boolean) {

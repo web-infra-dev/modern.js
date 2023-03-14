@@ -30,21 +30,14 @@ const NavBarTitle = ({ title, langRoutePrefix, logo }: NavBarTitleProps) => {
     <div className={`${styles.navBarTitle}`}>
       <a
         href={withBase(langRoutePrefix)}
-        w="full"
-        h="full"
-        text="1rem"
-        font="semibold"
-        transition="opacity duration-300"
-        hover="opacity-60"
-        className="flex items-center"
+        className="flex items-center w-full h-full text-base font-semibold transition-opacity duration-300 hover:opacity-60"
       >
         {logo ? (
           <img
             src={logo}
             alt="logo"
             id="logo"
-            m="r-4"
-            className="w-24 modern-doc-logo"
+            className="w-24 mr-4 modern-doc-logo"
           />
         ) : (
           <span>{title}</span>
@@ -61,13 +54,9 @@ const NavTranslations = ({
 }) => {
   return (
     <div
-      flex="~"
-      text="sm"
-      font="bold"
-      align="items-center"
-      className={`translation ${styles.menuItem}`}
+      className={`translation ${styles.menuItem} flex text-sm font-bold items-center`}
     >
-      <div m="x-1.5">
+      <div>
         <NavMenuGroup {...translationMenuData} isTranslation />
       </div>
     </div>
@@ -101,10 +90,7 @@ export function Nav(props: NavProps) {
     : null;
   const NavAppearance = () => {
     return (
-      <div
-        className={`${styles.menuItem} modern-doc-appearance`}
-        align-items-center="center"
-      >
+      <div className={`${styles.menuItem} modern-doc-appearance items-center`}>
         <SwitchAppearance
           onClick={() => {
             toggleAppearance();
@@ -117,10 +103,10 @@ export function Nav(props: NavProps) {
 
   const NavMenu = ({ menuItems }: { menuItems: NavItem[] }) => {
     return (
-      <div className="menu" h="14">
+      <div className="menu h-14">
         {menuItems.map(item => {
           return 'items' in item || Array.isArray(item) ? (
-            <div m="x-3" last="mr-0" key={item.text}>
+            <div key={item.text} className="mx-3 last:mr-0">
               <NavMenuGroup
                 {...item}
                 items={'items' in item ? item.items : item}
@@ -149,7 +135,7 @@ export function Nav(props: NavProps) {
     return (
       <div className={styles.rightNav}>
         {hasSearch && (
-          <div flex="~ sm:1" items="center" p="sm:l-4 sm:r-2">
+          <div className="flex sm:flex-1 items-center sm:pl-4 sm:pr-2">
             <Search />
           </div>
         )}
@@ -177,13 +163,9 @@ export function Nav(props: NavProps) {
         className={`${styles.mask}
           ${pageType === 'doc' ? styles.docPage : ''}`}
       ></div>
-      <div className={`${styles.navContainer} modern-doc-nav`} p="x-6">
+      <div className={`${styles.navContainer} modern-doc-nav px-6`}>
         <div
-          flex="~"
-          justify="between"
-          align="items-center"
-          h="full"
-          className={`${styles.container}`}
+          className={`${styles.container} flex justify-between items-center h-full`}
         >
           {beforeNavTitle}
           <NavBarTitle
@@ -193,10 +175,7 @@ export function Nav(props: NavProps) {
           />
           {afterNavTitle}
           <div
-            className={styles.content}
-            flex="~ 1"
-            justify="end"
-            align-items-center="~"
+            className={`${styles.content} flex flex-1 justify-end items-center`}
           >
             {rightNav()}
 

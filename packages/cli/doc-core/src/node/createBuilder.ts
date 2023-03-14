@@ -4,10 +4,10 @@ import { UserConfig } from 'shared/types';
 import { BuilderInstance, mergeBuilderConfig } from '@modern-js/builder';
 import type {
   BuilderConfig,
-  BuilderWebpackProvider,
-} from '@modern-js/builder-webpack-provider';
+  BuilderRspackProvider,
+} from '@modern-js/builder-rspack-provider';
 import sirv from 'sirv';
-import WindiCSSWebpackPlugin from 'windicss-webpack-plugin';
+import fs from '@modern-js/utils/fs-extra';
 import { removeTrailingSlash } from '../shared/utils';
 import {
   CLIENT_ENTRY,
@@ -15,10 +15,11 @@ import {
   PACKAGE_ROOT,
   OUTPUT_DIR,
   isProduction,
+  TEMP_DIR,
 } from './constants';
 import { createMDXOptions } from './mdx';
-import { builderDocVMPlugin } from './virtualModule';
-import createWindiConfig from './windiOptions';
+import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
+import createTailwindConfig from './tailwindOptions';
 import { serveSearchIndexMiddleware } from './searchIndex';
 
 const require = createRequire(import.meta.url);
@@ -27,6 +28,7 @@ async function createInternalBuildConfig(
   userRoot: string,
   config: UserConfig,
   isSSR: boolean,
+  runtimeTempDir: string,
 ): Promise<BuilderConfig> {
   const cwd = process.cwd();
   const { default: fs } = await import('@modern-js/utils/fs-extra');
@@ -95,18 +97,25 @@ async function createInternalBuildConfig(
         '@/runtime': path.join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts'),
         '@theme': themeDir,
         '@modern-js/doc-core': PACKAGE_ROOT,
+        'react-lazy-with-preload': require.resolve('react-lazy-with-preload'),
+        ...runtimeModuleIDs.reduce((acc, cur) => {
+          acc[cur] = path.join(runtimeTempDir, `${cur}.js`);
+          return acc;
+        }, {} as Record<string, string>),
       },
       include: [PACKAGE_ROOT],
       define: {
         __ASSET_PREFIX__: JSON.stringify(assetPrefix),
+        'process.env.__SSR__': JSON.stringify(isSSR),
       },
     },
     tools: {
-      babel(options, { modifyPresetReactOptions }) {
-        modifyPresetReactOptions({
-          runtime: 'automatic',
-        });
-        return options;
+      postcss(options) {
+        options.postcssOptions!.plugins!.push(
+          require('tailwindcss')({
+            config: createTailwindConfig(themeDir),
+          }),
+        );
       },
       devServer: {
         // Serve static files
@@ -116,8 +125,7 @@ async function createInternalBuildConfig(
         ],
         historyApiFallback: true,
       },
-      cssExtract: {},
-      webpackChain(chain, { CHAIN_ID, isProd }) {
+      bundlerChain(chain) {
         chain.module
           .rule('MDX')
           .test(/\.mdx?$/)
@@ -132,34 +140,7 @@ async function createInternalBuildConfig(
           .options(mdxOptions)
           .end();
 
-        if (!isProd) {
-          chain.plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH).tap(options => {
-            options[0] = {
-              ...options[0],
-              // Avoid hmr client error in browser
-              esModule: false,
-            };
-            return options;
-          });
-        }
-
         chain.resolve.extensions.prepend('.md').prepend('.mdx');
-      },
-      webpack(webpackConfig) {
-        webpackConfig.plugins!.push(
-          new WindiCSSWebpackPlugin({
-            config: createWindiConfig(themeDir),
-          }),
-        );
-
-        if (checkDeadLinks) {
-          webpackConfig.cache = {
-            // If checkDeadLinks is true, we should use memory cache to avoid skiping mdx-loader when starting dev server again
-            type: 'memory',
-          };
-        }
-
-        return webpackConfig;
       },
     },
   };
@@ -170,22 +151,30 @@ export async function createModernBuilder(
   config: UserConfig,
   isSSR = false,
   extraBuilderConfig?: BuilderConfig,
-): Promise<BuilderInstance<BuilderWebpackProvider>> {
+): Promise<BuilderInstance<BuilderRspackProvider>> {
   const cwd = process.cwd();
   const userRoot = path.resolve(rootDir || config.doc?.root || cwd);
+  // We use a temp dir to store runtime files, so we can separate client and server build
+  const runtimeTempDir = path.join(
+    TEMP_DIR,
+    isSSR ? 'ssr-runtime' : 'client-runtime',
+  );
+
+  await fs.ensureDir(runtimeTempDir);
 
   const { createBuilder } = await import('@modern-js/builder');
-  const { builderWebpackProvider } = await import(
-    '@modern-js/builder-webpack-provider'
+  const { builderRspackProvider } = await import(
+    '@modern-js/builder-rspack-provider'
   );
 
   const internalBuilderConfig = await createInternalBuildConfig(
     userRoot,
     config,
     isSSR,
+    runtimeTempDir,
   );
 
-  const builderProvider = builderWebpackProvider({
+  const builderProvider = builderRspackProvider({
     builderConfig: mergeBuilderConfig(
       internalBuilderConfig,
       ...(config.doc?.plugins?.map(plugin => plugin.builderConfig ?? {}) || []),
@@ -201,7 +190,9 @@ export async function createModernBuilder(
     },
   });
 
-  builder.addPlugins([builderDocVMPlugin(userRoot, config, isSSR)]);
+  builder.addPlugins([
+    builderDocVMPlugin(userRoot, config, isSSR, runtimeTempDir),
+  ]);
 
   return builder;
 }
