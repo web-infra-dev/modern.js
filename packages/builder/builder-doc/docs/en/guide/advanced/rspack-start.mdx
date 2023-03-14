@@ -1,8 +1,10 @@
-# Rspack Start
+# Using Rspack
 
-[Rspack](https://www.rspack.dev/) is a Rust-based web bundler developed by ByteDance Web Infra team, with core architecture aligned with webpack's implementation. Currently, rspack-provider has adapted and validated most of the configuration capabilities in Builder.
+This document will show you how to enable Rspack build mode in the Builder.
 
-Switching to Rspack as the bundler can provide a faster compilation speed.
+import Rspack from '@en/shared/rspack.md';
+
+<Rspack />
 
 ## Enable Rspack
 
@@ -21,20 +23,22 @@ pnpm add @modern-js/builder-rspack-provider -D
 Confirm the Modern.js version via package.json or lock file:
 
 ```json title=package.json
+{
   "devDependencies": {
     "@modern-js/app-tools": "2.8.0"
   }
+}
 ```
 
 2. Declare the use of Rspack in the Modern.js configuration file:
 
-```ts title=modern.config.ts
+```diff title=modern.config.ts
 import appTools, { defineConfig } from '@modern-js/app-tools';
 
-export default defineConfig<'rspack'>({
++ export default defineConfig<'rspack'>({
   plugins: [
     appTools({
-      bundler: 'experimental-rspack',
++     bundler: 'experimental-rspack',
     }),
   ],
 });
@@ -57,7 +61,7 @@ const provider = builderRspackProvider({
 
 ## Migrating from webpack to Rspack
 
-Builder aims to eliminate the main differences between different bundlers and help users migrate at a lower cost. However, due to the different capabilities of each bundler, users still need to be aware of some differences.
+Builder aims to eliminate the main differences between different bundlers and help users migrate at a lower cost. However, due to the different capabilities of each bundler, you still need to be aware of some differences.
 
 This article will introduce the differences between webpack and Rspack from the perspective of Builder. If you need to know more in-depth differences, please refer to the [Rspack documentation](http://rspack.dev/guide/migrate-from-webpack.html).
 

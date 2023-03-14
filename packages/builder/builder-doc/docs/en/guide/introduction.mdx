@@ -32,15 +32,17 @@ Currently, the following front-end frameworks are already using Builder:
 
 ## Features
 
-### Support Multiple Bundlers
+### Support Rspack Build
 
-**Builder supports using multiple bundlers**, users can use different bundlers according the your needs.
+**Builder supports both webpack and Rspack**, so you can switch between the stable Webpack and the faster Rspack.
+
+import Rspack from '@en/shared/rspack.md';
+
+<Rspack />
 
 By default, Builder uses webpack 5 as the bundler. Although the compilation speed of webpack is not ideal, it is still the most mature and ecological bundler in the community. Based on webpack, Builder integrates [babel](https://github.com/babel/babel), [postcss](https://github.com/postcss/postcss), [terser](https://github.com/terser/terser) and other tools to transform or minify codes. Builder also supports replacing some compile tools with native tools to improve compilation speed, such as replacing babel/terser with [swc](https://github.com/swc-project/swc) or [esbuild](https://github.com/evanw/esbuild).
 
-Builder also supports switching to **the fast Rust-based web bundler —— Rspack**. Rspack is a fast Rust-based web bundler, developed by ByteDance. The core architecture of Rspack is aligned with the implementation of webpack, and provides out-of-the-box support for commonly used build features. In the long run, Rspack will align the main APIs of webpack and be compatible with the mainstream webpack loaders and plugins to ensure that developers can smoothly migrate from webpack to Rspack.
-
-Please refer to [Rspack Start](/guide/advanced/rspack-start) to switch to Rspack build mode.
+If you have higher build performance requirements, you can easily switch to Rspack build mode, see [Using Rspack](/guide/advanced/rspack-start) for more information.
 
 ### Deep optimization
 

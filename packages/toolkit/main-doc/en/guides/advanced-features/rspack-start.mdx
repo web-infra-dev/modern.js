@@ -1,35 +1,32 @@
 ---
-title: Rspack Start
 sidebar_position: 1
 ---
 
-# Rspack Start
+# Using Rspack
 
-[Rspack](https://www.rspack.dev/) is a Rust-based web bundler developed by the ByteDance Web Infra team. The core architecture of Rspack is aligned with the implementation of webpack, and provides out-of-the-box support for commonly used build features.
+import Rspack from '@modern-js/builder-doc/docs/en/shared/rspack.md';
 
-Rspack optimizes compilation performance by:
+<Rspack />
 
-- Highly LTO optimized Native code.
-- Take full advantage of multi-core, and the entire compilation process is fully optimized for multi-threading.
-- On-demand compilation based on request (Lazy Compilation), reducing the number of modules per compilation to improve the speed of cold start.
+**Modern.js provides out-of-the-box Rspack support**, so you can switch between the stable Webpack and the faster Rspack.
+
+This document will show you how to enable Rspack build mode in Modern.js.
 
 ## Initializing an Rspack project
 
 The Modern.js generator provides an interactive question-and-answer interface to initialize a project. To create an Rspack project, simply select the **Rspack** build tool by running:
 
-import InitRspackApp from "@site-docs-en/components/init-rspack-app"
+import InitRspackApp from '@site-docs-en/components/init-rspack-app';
 
 <InitRspackApp />
 
 After the project is created, you can experience the project by running `pnpm run dev`. For more project information, please refer to [Quick Start](/guides/get-started/quick-start.html).
 
 :::tip
-When using Rspack as the bundler, the following features are currently not supported:
+When using Rspack as the bundler, the following Features are temporarily unavailable as some of the capabilities are still under development and we will provide support in the future.
 
-- Server-side rendering (SSR)
-- Static Site Generation (SSG)
-- Micro Frontend.
-- Storybook debugging.
+- Micro Frontend
+- Storybook devtool
 
 :::
 
@@ -45,21 +42,18 @@ $ pnpm run new
 
 After executing the command, enable the Rspack build in `modern.config.ts`:
 
-```ts title=modern.config.ts
+```diff title=modern.config.ts
 import appTools, { defineConfig } from '@modern-js/app-tools';
 
-export default defineConfig<'rspack'>({
-  runtime: {
-    router: true,
-  },
++ export default defineConfig<'rspack'>({
   plugins: [
     appTools({
-      bundler: 'experimental-rspack',
++     bundler: 'experimental-rspack',
     }),
   ],
 });
 ```
 
 :::tip
-Migrating from webpack to Rspack may have some differences in build and configuration capabilities. For more details, please refer to [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack).
+When migrating from webpack to Rspack, there may have some differences in build and configuration capabilities. For more details, please refer to [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack).
 :::
