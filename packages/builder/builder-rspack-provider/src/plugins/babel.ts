@@ -3,11 +3,11 @@ import {
   applyUserBabelConfig,
   mergeRegex,
   getSharedPkgCompiledPath,
-  BundlerChainRule,
-  BuilderContext,
+  applyScriptCondition,
+  JS_REGEX,
+  TS_REGEX,
 } from '@modern-js/builder-shared';
 import { BuilderPlugin, NormalizedConfig } from '../types';
-import { JS_REGEX, TS_REGEX } from '../../../builder-shared/src/constants';
 
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
@@ -74,30 +74,3 @@ export const builderPluginBabel = (): BuilderPlugin => ({
     });
   },
 });
-
-export function applyScriptCondition({
-  rule,
-  config,
-  context,
-  includes,
-  excludes,
-}: {
-  rule: BundlerChainRule;
-  config: NormalizedConfig;
-  context: BuilderContext;
-  includes: (string | RegExp)[];
-  excludes: (string | RegExp)[];
-}) {
-  // compile all folders in app directory, exclude node_modules
-  rule.include.add(context.rootPath);
-
-  rule.exclude.add(/node_modules/);
-
-  [...includes, ...(config.source.include || [])].forEach(condition => {
-    rule.include.add(condition);
-  });
-
-  [...excludes, ...(config.source.exclude || [])].forEach(condition => {
-    rule.exclude.add(condition);
-  });
-}

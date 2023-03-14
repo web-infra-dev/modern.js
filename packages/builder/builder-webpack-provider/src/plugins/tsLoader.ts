@@ -1,7 +1,11 @@
-import { getSharedPkgCompiledPath, TS_REGEX } from '@modern-js/builder-shared';
+import {
+  getSharedPkgCompiledPath,
+  TS_REGEX,
+  applyScriptCondition,
+} from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
 import { BuilderPlugin } from '../types';
-import { getUseBuiltIns, applyScriptCondition } from './babel';
+import { getUseBuiltIns } from './babel';
 
 export const builderPluginTsLoader = (): BuilderPlugin => {
   return {
