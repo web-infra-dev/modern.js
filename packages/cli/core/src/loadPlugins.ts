@@ -17,17 +17,10 @@ import { createPlugin } from './manager';
 
 const debug = createDebugger('load-plugins');
 
-export type TransformPlugin = (
-  plugin: PluginConfig,
-  resolvedConfig: UserConfig,
-  pluginOptions?: any,
-) => PluginConfig;
-
 const resolveCliPlugin = async (
   p: PluginItem,
   userConfig: UserConfig,
   appDirectory: string,
-  transformPlugin?: TransformPlugin,
 ): Promise<CliPlugin> => {
   const pkg = typeof p === 'string' ? p : p[0];
   const pluginOptions = typeof p === 'string' ? undefined : p[1];
@@ -38,9 +31,6 @@ const resolveCliPlugin = async (
   } catch (e) {
     // load esm module
     ({ default: module } = await dynamicImport(path));
-  }
-  if (transformPlugin) {
-    module = transformPlugin(module, userConfig, pluginOptions);
   }
 
   if (typeof module === 'function') {
@@ -64,7 +54,6 @@ export const isOldPluginConfig = (
  * @param appDirectory - Application root directory.
  * @param userConfig - Resolved user config.
  * @param options.internalPlugins - Internal plugins.
- * @param options.transformPlugin - transform plugin before using it. Used for compatible with legacy jupiter plugins.
  * @returns Plugin Objects has been required.
  */
 export const loadPlugins = async (
@@ -73,7 +62,6 @@ export const loadPlugins = async (
   options: {
     internalPlugins?: InternalPlugins;
     autoLoad?: InternalPlugins;
-    transformPlugin?: TransformPlugin;
     forceAutoLoadPlugins?: boolean;
   } = {},
 ) => {
@@ -90,12 +78,7 @@ export const loadPlugins = async (
 
   const loadedPlugins = await Promise.all(
     plugins.map(plugin => {
-      const loadedPlugin = resolveCliPlugin(
-        plugin,
-        userConfig,
-        appDirectory,
-        options.transformPlugin,
-      );
+      const loadedPlugin = resolveCliPlugin(plugin, userConfig, appDirectory);
 
       // server plugins don't support to accept params
       debug(`resolve plugin %s: %s`, plugin, loadedPlugin);

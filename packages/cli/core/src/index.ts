@@ -10,7 +10,7 @@ import {
 import type { ErrorObject } from '@modern-js/utils/ajv';
 import { InternalPlugins } from '@modern-js/types';
 import { initCommandsMap, createFileWatcher } from './utils';
-import { loadPlugins, TransformPlugin } from './loadPlugins';
+import { loadPlugins } from './loadPlugins';
 import {
   AppContext,
   ConfigContext,
@@ -64,7 +64,6 @@ export interface CoreOptions {
     server?: InternalPlugins;
     autoLoad?: InternalPlugins;
   };
-  transformPlugin?: TransformPlugin;
   onSchemaError?: (error: ErrorObject) => void;
   options?: {
     metaName?: string;
@@ -120,7 +119,6 @@ const createCli = () => {
 
     const plugins = await loadPlugins(appDirectory, loaded.config, {
       internalPlugins: mergedOptions?.internalPlugins?.cli,
-      transformPlugin: mergedOptions?.transformPlugin,
       autoLoad: mergedOptions?.internalPlugins?.autoLoad,
       forceAutoLoadPlugins: mergedOptions?.forceAutoLoadPlugins,
     });

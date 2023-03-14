@@ -35,7 +35,7 @@ jobs:
             turbo-
 
       - name: Install Pnpm
-        run: npm install -g pnpm@7
+        run: npm install -g pnpm@7.29.1
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
