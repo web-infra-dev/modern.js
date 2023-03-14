@@ -1,18 +1,29 @@
 import type { Writable } from 'stream';
-import type { RenderToReadableStreamOptions } from 'react-dom/server';
+import type {
+  ReactDOMServerReadableStream,
+  RenderToReadableStreamOptions,
+} from 'react-dom/server';
 import { RenderLevel, RuntimeContext } from '../types';
+import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { getTemplates } from './template';
 
 export type Pipe<T extends Writable> = (output: T) => Promise<T | string>;
+
+enum ShellChunkStatus {
+  IDLE = 0,
+  START = 1,
+  FINIESH = 2,
+}
 
 function renderToPipe(
   rootElement: React.ReactElement,
   context: RuntimeContext,
   options?: RenderToReadableStreamOptions,
 ) {
-  let isShellStream = true;
+  let shellChunkStatus = ShellChunkStatus.IDLE;
+
   const { ssrContext } = context;
-  const forUserPipe: Pipe<Writable> = async stream => {
+  const forUserPipe = async () => {
     let renderToReadableStream;
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -23,17 +34,18 @@ function renderToPipe(
       RenderLevel.SERVER_RENDER,
     );
     try {
-      const readableOriginal = await renderToReadableStream(rootElement, {
-        ...options,
-        onError(error: unknown) {
-          ssrContext!.logger.error(
-            'An error occurs during streaming SSR',
-            error as Error,
-          );
-          ssrContext!.metrics.emitCounter('app.render.streaming.error', 1);
-          options?.onError?.(error);
-        },
-      });
+      const readableOriginal: ReactDOMServerReadableStream =
+        await renderToReadableStream(rootElement, {
+          ...options,
+          onError(error: unknown) {
+            ssrContext!.logger.error(
+              'An error occurs during streaming SSR',
+              error as Error,
+            );
+            ssrContext!.metrics.emitCounter('app.render.streaming.error', 1);
+            options?.onError?.(error);
+          },
+        });
       const reader: ReadableStreamDefaultReader = readableOriginal.getReader();
       const injectableStream = new ReadableStream({
         start(controller) {
@@ -43,11 +55,23 @@ function renderToPipe(
               controller.close();
               return;
             }
-            if (isShellStream) {
-              controller.enqueue(encodeForWebStream(shellBefore));
-              controller.enqueue(value);
-              controller.enqueue(encodeForWebStream(shellAfter));
-              isShellStream = false;
+            if (shellChunkStatus !== ShellChunkStatus.FINIESH) {
+              let concatedChunk = new TextDecoder().decode(value);
+              if (shellChunkStatus === ShellChunkStatus.IDLE) {
+                concatedChunk = `${shellBefore}${concatedChunk}`;
+                shellChunkStatus = ShellChunkStatus.START;
+              }
+              if (
+                shellChunkStatus === ShellChunkStatus.START &&
+                concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)
+              ) {
+                concatedChunk = concatedChunk.replace(
+                  ESCAPED_SHELL_STREAM_END_MARK,
+                  shellAfter!,
+                );
+                shellChunkStatus = ShellChunkStatus.FINIESH;
+              }
+              controller.enqueue(encodeForWebStream(concatedChunk));
             } else {
               controller.enqueue(value);
             }
@@ -56,7 +80,7 @@ function renderToPipe(
           push();
         },
       });
-      return readableOriginal(injectableStream).readableOriginal(stream);
+      return injectableStream;
     } catch (err) {
       // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
       ssrContext!.metrics.emitCounter('app.render.streaming.shell.error', 1);
@@ -69,7 +93,7 @@ function renderToPipe(
     }
   };
 
-  return forUserPipe;
+  return forUserPipe();
 }
 
 let encoder: TextEncoder;
